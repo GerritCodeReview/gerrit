@@ -115,7 +115,7 @@ def _approval_right_to_field(key):
 class AdminProjectForm(BaseForm):
   _template = 'admin_project.html'
 
-  name = forms.CharField(max_length=30)
+  name = forms.CharField()
   comment = forms.CharField(required=False,
                             max_length=10000,
                             widget=forms.Textarea(attrs={'cols': 60}))

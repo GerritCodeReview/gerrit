@@ -1,0 +1,43 @@
+// Copyright 2008 Google Inc.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package codereview.internal;
+option java_package = "com.google.codereview.internal";
+
+message MergeResultItem {
+  enum CodeType {
+    CLEAN_MERGE = 1;        // change merged clean
+    ALREADY_MERGED = 2;     // previously merged into the branch
+    MISSING_DEPENDENCY = 3; // another issue is still required
+    PATH_CONFLICT = 4;      // path level conflict; not trivial
+  }
+  required CodeType status_code = 1;
+
+  // Unique key of the PatchSet to merge
+  //
+  required string patchset_key = 2;
+}
+
+message PostMergeResultRequest {
+  // Unique key of the branch this merge submits into.
+  //
+  required string dest_branch_key = 10;
+
+  // Individual patch set update responses
+  //
+  repeated MergeResultItem change = 1;
+}
+
+message PostMergeResultResponse {
+}

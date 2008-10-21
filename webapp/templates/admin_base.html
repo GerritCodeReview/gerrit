@@ -1,0 +1,21 @@
+{%extends "base.html"%}
+
+{%block mainmenu2%}
+  <div class="left_nav_box">
+  <h4>Admin</h4>
+  <ul>
+  {% if request.user_is_admin %}
+    <li><a href="{%url codereview.people.admin_users%}">Users</a></li>
+    <li><a href="{%url codereview.people.admin_groups%}">Groups</a></li>
+  {% endif %}
+  {% if request.user_is_admin or request.projects_owned_by_user %}
+    <li><a href="{%url codereview.project.project_list%}">Projects</a></li>
+  {% endif %}
+  {% if is_gae_admin %}
+    <li><a href="{%url codereview.views.admin_settings%}">Settings</a></li>
+  {% endif %}
+  </ul>
+  </div><!-- div class="left_nav_box" -->
+{%endblock%}
+
+

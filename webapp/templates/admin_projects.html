@@ -1,0 +1,26 @@
+{%extends "admin_base.html"%}
+{%block title1%}Project{%endblock%}
+{%block body%}
+
+<h2>Projects</h2>
+
+{% if request.user_is_admin %}
+<p><a href="{%url codereview.project.project_new%}">New Project</a></p>
+{% endif %}
+
+<div class="change-list" style="width: inherit;">
+  <table id="queues" style="width: inherit;">
+    <tr>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    {%for project in projects%}
+    <tr>
+        <td><a href="{%url codereview.project.project_edit project.name%}">{{project.name}}</a></td>
+        <td>{{project.comment}}</td>
+    </tr>
+    {%endfor%}
+  </table>
+</div>
+
+{%endblock%}

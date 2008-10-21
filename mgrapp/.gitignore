@@ -1,0 +1,8 @@
+/lib/*_src.zip
+/lib/codereview_proto.jar
+/lib/codereview_manager.jar
+/lib/protobuf.jar
+/lib/jsch.jar
+/lib/jgit.jar
+/out_classes
+/.password-*

@@ -1,0 +1,98 @@
+// Copyright 2008 Google Inc.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package codereview;
+option java_package = "com.google.codereview";
+
+// Uploads a bundle to start a review process.
+//
+
+message UploadBundleRequest {
+  // Name of the project this bundle is applied to.
+  //
+  required string dest_project = 10;
+
+  // Name of the branch the uploader thinks it should
+  // have its tip commit merged into.
+  //
+  required string dest_branch = 11;
+
+  // Set if this is a partial bundle upload.  Remaining
+  // segments can be supplied with UploadBundleContinue.
+  //
+  required bool partial_upload = 12;
+
+  // The unmodified bundle file, including its text based header.
+  //
+  // The bundle must have exactly 1 ref available, but the
+  // name of the ref does not matter.  It only needs to be
+  // a valid ref name ("refs/..." or "HEAD").
+  //
+  // This may be a partial fragment of the bundle, in which
+  // case the partial_upload flag must be set.
+  //
+  required bytes bundle_data = 13;
+
+  // An object id known to be in this bundle.  Typically only
+  // commits and/or annotated tags would be enumerated here.
+  //
+  repeated string contained_object = 1;
+}
+
+message UploadBundleResponse {
+  enum CodeType {
+    RECEIVED = 1;         // the bundle is fully uploaded
+    CONTINUE = 4;         // client should use UploadBundleContinue
+
+    UNAUTHORIZED_USER = 7;  // the user account is not allowed to upload
+
+    UNKNOWN_PROJECT = 2;  // the project is invalid
+    UNKNOWN_BRANCH = 3;   // the branch is invalid
+    UNKNOWN_BUNDLE = 5;   // the bundle id is invalid
+    NOT_BUNDLE_OWNER = 6; // the bundle is not your bundle
+    BUNDLE_CLOSED = 8;    // the bundle is already uploaded
+  }
+  required CodeType status_code = 10;
+
+  // Unique identification of this bundle record.
+  // (RECEIVED, CONTINUE)
+  //
+  optional string bundle_id = 11;
+}
+
+message UploadBundleContinue {
+  // The bundle identifier supplied by UploadBundleResponse
+  //
+  required string bundle_id = 10;
+
+  // The segment number of this segment in the bundle.
+  //
+  // The first segment (created by UploadBundleRequest)
+  // is always 1.  The first UploadBundleContinue should
+  // use a segment_id of 2.
+  //
+  required int32 segment_id = 11;
+
+  // Set if this is a partial bundle upload.  Remaining
+  // segments can be supplied with UploadBundleContinue.
+  //
+  required bool partial_upload = 12;
+
+  // The next data segment for the bundle.
+  //
+  // This may be a partial fragment of the bundle, in which
+  // case the partial_upload flag must be set.
+  //
+  optional bytes bundle_data = 13;
+}

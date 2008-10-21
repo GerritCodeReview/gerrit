@@ -1,0 +1,68 @@
+// Copyright 2008 Google Inc.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package codereview.internal;
+option java_package = "com.google.codereview.internal";
+
+// Update a build entity with the results of the build
+// (status of build, log file)
+//
+message PostBuildResultRequest {
+  // Unique number assigned by a previous SubmitBuildResponse
+  //
+  required int32 build_id = 10;
+
+  enum ResultType {
+    SUCCESS = 1;   // the build (and/or tests) completed normally
+    FAILURE = 2;   // the build (and/or tests) did not pass
+  }
+  required ResultType build_status = 11;
+
+  // Complete output (log file and/or captured stdout/stderr)
+  // This message usually contains embedded newlines and is
+  // the direct output of 'make' or some other process.
+  //
+  optional string build_log = 12;
+}
+
+// Information about a branch that needs to finish merging
+//
+message PostBuildResultResponse {
+  // The repository the merge should take place in
+  //
+  optional string dest_project_name = 10;
+
+  // Unique key for the repository
+  //
+  optional string dest_project_key = 11;
+
+  // The branch the result of the merge goes into
+  //
+  optional string dest_branch_name = 12;
+
+  // Unique key for the branch (and repository).
+  //
+  optional string dest_branch_key = 13;
+
+  // Revision the branch should advance to if the branch
+  // wants to advance based on the build result.
+  //
+  optional string revision_id = 14;
+
+  // Unique keys of the PatchSets which would be added
+  // to the branch if the branch is updated to match
+  // revision_id
+  //
+  repeated string new_change = 1;
+}

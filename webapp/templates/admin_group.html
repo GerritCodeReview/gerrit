@@ -1,0 +1,33 @@
+{%extends "admin_base.html"%}
+{%block title1%}Users{%endblock%}
+{%block body%}
+
+{%if group%}
+<h2>Group {{group.name}}</h2>
+{%else%}
+<h2>New Group</h2>
+{%endif%}
+
+<form
+{%if group%}
+action="{%url codereview.people.admin_group group.name%}"
+{%else%}
+action="{%url codereview.people.admin_group_new%}"
+{%endif%}
+method="post">
+<table>
+{{form}}
+<tr><td><input name="save" type="submit" value="Save"></td></tr>
+</table>
+</form>
+
+{%if group and is_gae_admin%}
+<h2>Delete Group {{group.name}}</h2>
+
+<form action="{{del_url}}" method="post">
+{{del_url|form_xsrf}}
+<input type="submit" value="Delete Group"> There is no undo!
+</form>
+{%endif%}
+
+{%endblock%}

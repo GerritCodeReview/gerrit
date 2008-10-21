@@ -1,0 +1,4 @@
+*.pyc
+/froofle
+/codereview/*_pb2.py
+/codereview/internal/*_pb2.py

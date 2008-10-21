@@ -1,0 +1,32 @@
+{%extends "changes_base.html"%}
+
+{%block title1%}Starred Changes -{%endblock%}
+
+{%block body%}
+
+<script language="JavaScript" type="text/javascript"><!--
+function keyPressIntermediary(evt) {
+  return M_dashboardKeyPress(evt);
+}
+document.onkeypress = keyPressIntermediary;
+-->
+</script>
+
+<h1>Starred Changes</h1>
+
+<table class="change-list">
+  {%include "change_heading.html"%}
+  {%if not changes%}
+    <tr><td colspan="8"><span class="disabled">(None)</span></td></tr>
+  {%else%}
+    {%for change in changes%}
+      {%include "change_row.html"%}
+    {%endfor%}
+  {%endif%}
+</table>
+
+<script language="JavaScript" type="text/javascript"><!--
+var dashboardState = new M_DashboardState(window,'change');
+-->
+</script>
+{%endblock%}

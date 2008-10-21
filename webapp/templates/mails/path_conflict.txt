@@ -1,0 +1,10 @@
+{%autoescape off%}
+Hi.
+
+Your change has not been successfully merged into the git repository.
+
+You need to resolve the following files before it can be submitted:
+
+-Your friendly git merger
+
+{%endautoescape%}

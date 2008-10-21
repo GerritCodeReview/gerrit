@@ -1,0 +1,549 @@
+div {
+}
+
+body {
+  min-width: 600px;
+  margin: 0;
+  padding: 5px 5px 0 5px;
+  border: 0px;
+}
+
+
+/* ****** Common styles ****** */
+
+/* the little gray help text */
+.tips {
+  color: #777;
+  font-size: 12px; 
+}
+
+
+/* ****** The stuff at the top ****** */
+
+#top_nav, #masthead {
+  margin: 0 -5px 0 -5px;
+  padding: 0px 5px 0 5px;
+  border-bottom: 1px solid #b0bdcc;
+}
+
+#top_nav_left {
+  float: left;
+}
+
+#top_nav_right {
+  text-align: right;
+  right: 0;
+}
+
+#masthead {
+  height: 86px;
+}
+
+#masthead_logotype {
+  padding: 0;
+  margin: 7px 0 0 2px;
+  float: left;
+}
+
+#masthead_bugdroid {
+  margin-right: -5px;
+  float: right;
+}
+
+
+/* ****** Left nav bar ****** */
+
+#left_nav, #main_content {
+  float: left;
+}
+
+#left_nav {
+  font-family: Arial,Verdana,sans-serif;
+  font-size: 13px;
+  width: 155px;
+  margin-top: 5px;
+}
+
+.left_nav_box {
+  margin: 10px 0 6px 0;
+  overflow: hidden;
+  border: 1px solid #b0bdcc;
+  background-color: #d4e9a9;
+}
+
+#left_nav h4 {
+  font-weight: bold;
+  margin: 0;
+  padding: 3px 5px 3px 5px;
+  background-color: #a5c639;
+  color: white;
+}
+
+#left_nav ul {
+  list-style: none;
+  margin: 5px;
+  padding: 0;
+}
+
+#left_nav ul li {
+  font-family: Verdana,sans-serif;
+  font-size: 12px;
+}
+
+#left_nav ul a {
+  outline-color: -moz-use-text-color;
+  outline-style: none;
+  outline-width: medium;
+  color: #336600;
+}
+
+#left_nav ul a:visited {
+  color: #551a8b;
+}
+
+#left_nav ul a:hover {
+  color: #551a8b;
+}
+
+/* ****** Right / expandable column ****** */
+#main_content_parent {
+  float: right;
+  position: absolute;
+  margin-top: 8px;
+  left: 180px;
+  right: 25px;
+}
+
+#page_footer {
+  color: #b0bdcc;
+  padding-bottom: 15px;
+  text-align: right;
+  right: 0;
+}
+
+/* ****** Main content ****** */
+
+#main_content {
+  width: 100%;
+  min-width: 435px;
+  font-family: Arial,Verdana,sans-serif;
+  font-size: 11pt;
+  padding: 0 0 20px 0;
+}
+
+h1 {
+  margin: 3px 0 8px 0;
+  padding: 0;
+  font-size: 16pt;
+  font-weight: bold;
+}
+
+/* ****** Changes ****** */
+
+.change-list {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.change-list th {
+  background-color: #d4e9a9;
+}
+
+.change-list .header-columns, .change-list .header-title {
+  border-top: solid 8px white;
+}
+
+.change-list .pagination {
+  font-weight: normal;
+  text-align: right;
+}
+
+.change-list td, .change-list th {
+  text-align: left;
+  padding: 2px 6px 1px 6px;
+  margin: 0;
+}
+
+.change-list .header-columns {
+  font-weight: normal;
+  padding-top: 1px;
+}
+
+.change-list .header-columns {
+  border: 1px solid white;
+}
+
+.change-list td {
+  border-bottom: 1px solid #d4e9a9;
+  border-right: 1px solid #d4e9a9;
+}
+
+.change-list td:first-child {
+  border-bottom: 1px solid #d4e9a9;
+  border-left: 1px solid #d4e9a9;
+}
+
+.change-list td.selection {
+  border-right: hidden;
+  width: 14px;
+}
+
+.change-list td.star {
+  border-bottom: 1px solid #d4e9a9;
+  border-right: hidden;
+}
+
+.change-list .disabled {
+  color: #444;
+}
+
+/* ****** User Info Popup ****** */
+
+.popup {
+  visibility: hidden;
+  background-color: #a5c639;
+  border: 4px solid white;
+  position: absolute;
+}
+
+.popup-name {
+  background-color: #a5c639;
+  color: white;
+  margin: 4px 4px 0 4px;
+  border-left: 2px solid white;
+  border-top: 2px solid white;
+  border-right: 2px solid white;
+  padding: 3px 8px 3px 8px;
+}
+
+.popup-info {
+  background-color: white;
+  margin: 0 4px 4px 4px;
+  padding: 11px;
+}
+
+/* ****** User Info Popup ****** */
+
+.settings {
+  width: 100%;
+  margin-bottom: 20px;
+  border-collapse: collapse;
+  border-spacing: 0;
+  border: 1px solid #b0bdcc;
+}
+
+.settings th, .settings td {
+  border: 2px solid white;
+  text-align: left;
+  vertical-align: top;
+}
+
+.settings thead th {
+  background-color: #a5c639;
+  color: white;
+  padding: 1px 10px 1px 10px;
+}
+
+.settings tbody th, .settings tbody td {
+  background-color: #d4e9a9;
+  padding: 5px 10px 5px 10px;
+  white-space: nowrap;
+}
+
+.settings tbody td {
+  width: 100%;
+}
+
+
+/* ****** User Info Popup ****** */
+
+.project-field {
+  display: block;
+}
+
+
+/* ****** Change page ****** */
+
+.toggled_section {
+  margin: 0 0 20px 0;
+  padding: 0 0 0 15px;
+}
+
+.toggled_section h2 {
+  margin: 0 0 10px 0;
+  padding: 0;
+}
+
+.toggled_section_pointer {
+  margin-left: -15px;
+  padding-left: 15px;
+  background-image: url('/static/closedtriangle.gif');
+  background-position: center left;
+  background-repeat: no-repeat;
+  background-align: left;
+  text-decoration: none;
+  color: black;
+}
+
+.opentriangle {
+  background-image: url('/static/opentriangle.gif');
+}
+
+.change_description {
+  padding: 0;
+  margin: 0;
+}
+
+.change_details th {
+  text-align: left;
+  padding-right: 10px;
+}
+
+table.change_info_table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  border-top: hidden;
+}
+
+table.change_info_table th {
+  border: 2px solid white;
+  font-weight: normal;
+  text-align: left;
+  vertical-align: top;
+  background-color: #d4e9a9;
+  padding: 2px 4px 0px 6px;
+  white-space: nowrap;
+  border-bottom: hidden;
+}
+
+table.change_info_table th.leftmost {
+  border-left: 2px solid #d4e9a9;
+}
+
+table.change_info_table th.rightmost {
+  border-right: 1px solid #d4e9a9;
+}
+
+table.change_info_table td {
+  border: 1px solid #d4e9a9;
+  padding: 2px 6px 1px 6px;
+}
+
+table.change_info_table .score {
+  text-align: center;
+}
+
+table.change_info_table .hint {
+  border: none;
+  background-color: white;
+  color: #444;
+}
+
+.change_actions {
+  margin-top: 5px;
+}
+
+.change_actions .action {
+  padding-right: 30px;
+  vertical-align: top;
+}
+
+.change_status {
+  margin: 5px 0 0 0;
+}
+
+.change_status ul {
+  margin: 0;
+  padding: 0 0 0 20px;
+}
+
+/** messages **/
+
+.message {
+  border: 1px solid #d4e9a9;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.message .header {
+  background-color: #d4e9a9;
+  white-space: nowrap;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.message .message-body {
+  padding: 5px;
+}
+
+.message .message-body pre {
+  margin: 0;
+  padding: 0;
+  font-size: 13px;
+}
+
+.message .message-actions {
+  padding: 0 5px 0 5px;
+  border-top: 1px solid #d4e9a9;
+  font-size: 12px;
+}
+
+.message .message-reply {
+  padding: 5px 5px 5px 5px;
+}
+
+/* ****** Diff page ****** */
+
+.code_diff {
+  margin-top: 90px;
+  margin-left: -100px;
+  width: 100%;
+  display: table;
+  border: 1px solid #b0bdcc;
+}
+
+.code_diff .codenav {
+  background-color: #d4e9a9;
+  padding: 2px 5px 2px 5px;
+  text-align: center;
+}
+
+.code_diff th {
+  padding: 3px 0 3px 0;
+  font-size: 12px;
+  min-width: 450px;
+}
+
+.comment-border textarea {
+  margin: 5px 5px 5px 0;
+  font-size: 12px;
+}
+
+.comment-border {
+  background-color: #d4e9a9;
+  padding: 5px;
+  font-size: 12px;
+}
+
+div.inline-comment-title {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis; /* An IE-only feature */
+  cursor: pointer;
+}
+
+.comment-text {
+  font-family: monospace;
+  font-size: 12px;
+  padding: 5px;
+}
+
+/** begin code **/
+
+/* Old/new styles for replace, delete, insert, equal, blank (no text) */
+.olddark, .newdark, .oldreplace, .olddelete, .oldinsert, .oldequal, .oldblank,
+.oldlight, .newlight, .oldreplace1, .newreplace1,
+.newreplace, .newdelete, .newinsert, .newequal, .newblank,
+.oldmove, .oldchangemove, .oldchangemove1, .oldmove_out, .oldchangemove_out,
+.newmove, .newchangemove, .newchangemove1,
+.udiffadd, .udiffremove, .udiff, .debug-info {
+  white-space: pre;
+  font-family: monospace;
+  font-size: 12px;
+  vertical-align: top;
+}
+
+.oldlight {
+  background-color: #fee;
+  font-size: 100%;
+}
+
+.newlight {
+  background-color: #dfd;
+  font-size: 100%;
+}
+
+.olddark {
+  background-color: #faa;
+  font-size: 100%;
+}
+
+.newdark {
+  background-color: #9f9;
+  font-size: 100%;
+}
+
+.oldblank, .newblank {
+  background-color: #eee;
+}
+
+.oldreplace1 {
+  background-color: #faa;
+}
+
+.newreplace1 {
+  background-color: #9f9;
+}
+
+.newchangemove1 {
+  background-color: #9f9;
+}
+
+.oldreplace {
+  background-color: #fee;
+}
+
+.olddelete {
+  background-color: #faa;
+}
+
+.newreplace {
+  background-color: #dfd;
+}
+
+.newchangemove {
+  background-color: #dfd;
+}
+
+.newinsert {
+  background-color: #9f9;
+}
+
+.oldinsert, newdelete {
+  background-color: #ddd;
+}
+
+.oldequal, .newequal, .newmove {
+  background-color: #fff;
+}
+
+.oldmove, .oldchangemove, .oldchangemove1, .moved_header, .moved_lno {
+  background-color: #ff9;
+}
+
+.oldmove_out, .oldchangemove_out, .moved_out_header {
+  background-color: #fc8;
+}
+
+.movelight {
+  background-color: #ff9;
+  font-size: 100%;
+}
+
+.oldmovedark {
+  background-color: #faa;
+  font-size: 100%;
+}
+
+.newmovedark {
+  background-color: #9f9;
+  font-size: 100%;
+}
+
+#signin-link {
+  margin-top: 20px;
+}
+
+/** end code **/
+

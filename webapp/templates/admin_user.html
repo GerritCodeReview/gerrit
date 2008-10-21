@@ -1,0 +1,79 @@
+{%extends "admin_base.html"%}
+{%block title1%}Users{%endblock%}
+{%block body%}
+
+<h2>User {{email}}</h2>
+
+<form action="{%url codereview.people.admin_user email%}" method="POST">
+{{form.xsrf}}
+{%if form.xsrf.errors%}
+<ul>
+  {%for e in form.xsrf.errors%}
+    <li>{{e}}</li>
+  {%endfor%}
+</ul>
+{%endif%}
+
+{{form.dest}}
+
+<table class="largeform">
+<tr><th class="largeform_field">User Information</th></tr>
+<tr><td class="largeform_field">
+<table>
+  <tr><th>Name:</th>
+      <td>{{form.real_name}}{{form.real_name.errors}}</td>
+  </tr>
+  <tr><th>Preferred Email:</th>
+      <td>{{form.preferred_email}}{{form.preferred_email.errors}}</td>
+  </tr>
+  <tr><th>Mailing address:</th>
+      <td>{{form.mailing_address}}{{form.mailing_address.errors}}</td>
+  </tr>
+  <tr><th>Country:</th>
+      <td>{{form.mailing_address_country}}{{form.mailing_address_country.errors}}</td>
+  </tr>
+  <tr><th>Phone Number:</th>
+      <td>{{form.phone_number}}{{form.phone_number.errors}}</td>
+  </tr>
+  <tr><th>Fax Number:</th>
+      <td>{{form.fax_number}}{{form.fax_number.errors}}</td>
+  </tr>
+</table>
+</table>
+
+<table class="largeform">
+<tr><th class="largeform_field">Groups</th></tr>
+<tr><td class="largeform_field">{{form.groups}}</td></tr>
+</table>
+
+<table class="largeform">
+<tr><th class="largeform_field">Contributor License Agreement</th></tr>
+<tr><td class="largeform_field">
+<table>
+  <tr><th>CLA Verified:</th>
+      <td>{{form.cla_verified}}
+      <font color="#555">Changes to this field are logged.</font>
+      </td>
+  </tr>
+  <tr><th>CLA Verified By:</th>
+      <td>{{form.initial.cla_verified_by}}</td>
+  </tr>
+  <tr><th>CLA First Verified:</th>
+      <td>{{form.initial.cla_verified_timestamp}}</td>
+  </tr>
+  <tr><th>Individual CLA Version:</th>
+      <td>{{form.initial.individual_cla_version}}</td>
+  </tr>
+  <tr><th>Individual CLA Timestamp:</th>
+      <td>{{form.initial.individual_cla_timestamp}}</td>
+  </tr>
+  <tr><th>Comments:</th>
+      <td>{{form.cla_comments}}</td>
+  </tr>
+</table>
+</table>
+
+<input name="save" type="submit" value="Save">
+</form>
+
+{%endblock%}

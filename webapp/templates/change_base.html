@@ -1,0 +1,35 @@
+{%extends "changes_base.html"%}
+
+{%block body%}
+  <h1>
+    {%include "change_star.html"%}
+    <a href="{%url codereview.views.show change.key.id%}"
+               onmouseover="M_showPopUp(this, 'popup-change');">
+            Change {{change.key.id}}</a>:
+    {{change.subject|truncatewords:11}}
+    {%if change.merged %} (Merged)
+    {%else%}{%if change.closed %} (Closed) {%endif%}
+    {%endif%}
+  </h1>
+
+  {%block change_body%}BODY GOES HERE{%endblock%}
+
+{%endblock%}
+
+
+{%block popup%}
+  {%if change%}
+    <div class="popup" id="popup-change">
+      <b>Change {{change.key.id}}: {{change.subject|truncatewords:11}}
+      {%if change.merged %} (Merged)
+      {%else%}{%if change.closed %} (Closed) {%endif%}
+      {%endif%}</b><br/>
+      Created {{change.created|timesince}} ago by {{change.owner|real_name}}<br/>
+      Modified {{change.modified|timesince}} ago<br/>
+      Reviewers: {{change.reviewers|real_names}}<br/>
+      Comments: {{change.num_comments}}
+      {%if change.num_drafts%} <span style="color: red;">+
+	{{change.num_drafts}} drafts</span>{%endif%}
+    </div>
+  {%endif%}
+{%endblock%}

@@ -1,0 +1,203 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+  "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <title>
+    {%if is_dev%}
+      (DEV)
+    {%endif%}
+    {%block title1%}
+      {%if patch%}{{patch.filename}} -{%endif%}
+    {%endblock%}
+    {%block title2%}
+      {%if change%}Change {{change.key.id}}: {{change.subject|truncatewords:11}} -{%endif%}
+    {%endblock%}
+    Code Review
+  </title>
+  <link rel="icon" href="/favicon.ico" />
+  <link type="text/css" rel="stylesheet" href="/static/style.css" />
+  <script type="text/javascript" src="/static/ajax.js"></script>
+  <script type="text/javascript" src="/static/script.js"></script>
+  <script type="text/javascript" src="/static/widgets.js"></script>
+{%if star_url%}
+  <script type="text/javascript"><!--
+  function M_addChangeStar(id) {
+    return M_setChangeStar_(id, '{{star_url}}', '{{star_url|bare_xsrf}}');
+  }
+  function M_removeChangeStar(id) {
+    return M_setChangeStar_(id, '{{unstar_url}}', '{{unstar_url|bare_xsrf}}');
+  }
+  // -->
+  </script>
+{%endif%}
+{%block additionalhead%}{%endblock%}
+</head>
+<body>
+
+<div id="ajax_progress" class="ajax_progress" style="display: none;">
+    Loading
+</div>
+<div id="ajax_error" style="display: none;">
+    There was an error connecting to the server.  Please try again.
+</div>
+
+<!-- Begin help window -->
+<script type="text/javascript"><!--
+var helpDisplayed = false;
+document.onclick = M_clickCommon;
+{%if change%}
+var publish_link = "{%url codereview.views.publish change.key.id%}";
+{%endif%}
+// -->
+</script>
+<div id="help" style="display: none;">
+{%block help%}{%endblock%}
+<div style="font-size: medium; text-align: center;">Keyboard Shortcuts</div>
+<hr />
+<table width="100%">
+
+  <tr valign="top">
+    <td>
+      <table width="100%">
+        <tr>
+          <td></td><th>File</th>
+        </tr>
+        <tr>
+          <td class="shortcut"><span class="letter">u</span> <b>:</b></td><td>up to change</td>
+        </tr>
+        <tr>
+          <td class="shortcut"><span class="letter">m</span> <b>:</b></td><td>publish + mail comments</td>
+        </tr>
+        <tr>
+          <td class="shortcut"><span class="letter">j</span> / <span class="letter">k</span> <b>:</b></td><td>jump to file after / before current file</td>
+        </tr>
+        <tr>
+          <td></td><th>Side-by-side diff</th>
+        </tr>
+        <tr>
+          <td class="shortcut"><span class="letter">i</span> <b>:</b></td><td>toggle intra-line diffs</td>
+        </tr>
+        <tr>
+          <td class="shortcut"><span class="letter">e</span> <b>:</b></td><td>expand all comments</td>
+        </tr>
+        <tr>
+          <td class="shortcut"><span class="letter">c</span> <b>:</b></td><td>collapse all comments</td>
+        </tr>
+        <tr>
+          <td class="shortcut"><span class="letter">s</span> <b>:</b></td><td>toggle showing all comments</td>
+        </tr>
+        <tr>
+          <td class="shortcut"><span class="letter">n</span> / <span class="letter">p</span> <b>:</b></td><td>next / previous diff chunk or comment</td>
+        </tr>
+        <tr>
+          <td class="shortcut"><span class="letter">N</span> / <span class="letter">P</span> <b>:</b></td><td>next / previous comment</td>
+        </tr>
+        <tr>
+          <td class="shortcut"><span class="letter">&lt;Enter&gt;</span> <b>:</b></td><td>respond to / edit current comment</td>
+        </tr>
+      </table>
+    </td>
+    <td>
+      <table width="100%"> 
+        <tr>
+         <td></td><th>Change</th>
+        </tr>
+        <tr>
+          <td class="shortcut"><span class="letter">u</span> <b>:</b></td><td>up to list of changes</td>
+        </tr>
+        <tr>
+          <td class="shortcut"><span class="letter">m</span> <b>:</b></td><td>publish + mail comments</td>
+        </tr>
+        <tr><td>&nbsp;</td></tr>
+        <tr><td></td><th>Change List</th></tr>
+        <tr>
+          <td class="shortcut"><span class="letter">j</span> / <span class="letter">k</span> <b>:</b></td><td>jump to change after / before current change</td>
+        </tr>
+        <tr>
+          <td class="shortcut"><span class="letter">o</span> / <span class="letter">&lt;Enter&gt;</span> <b>:</b></td><td>open current change</td>
+        </tr>
+        <tr><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td></tr>
+        <tr>
+          <td></td><th>Comment editing</th>
+        </tr>
+        <tr>
+          <td class="shortcut"><span class="letter">&lt;Ctrl&gt;</span> + <span class="letter">s</span> <b>:</b></td><td>save comment</td>
+        </tr>
+        <tr>
+          <td class="shortcut"><span class="letter">&lt;Esc&gt;</span> <b>:</b></td><td>cancel edit</td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+
+</table>
+</div>
+<!-- End help window -->
+
+<div id="top_nav">
+<div id="top_nav_left">
+{%if is_dev%}
+  <font style="color:green; font-weight:bold">DEVELOPMENT SERVER</font>
+{%endif%}
+</div>
+
+<div id="top_nav_right">
+{%if user%}
+  <b>{{user.email}} ({{user|real_name:"x"}})</b> |
+  <a class="novisit" href="{%url codereview.settings.settings%}">Settings</a> |
+{%endif%}
+{%if is_dev%}
+  <a class="novisit" target="_blank" href="/_ah/admin">Dev Admin</a> |
+{%endif%}
+{%if user%}
+  <a class="novisit" href="{{sign_out}}">Sign out</a>
+{% else %}
+  <a class="novisit" href="{{sign_in}}">Sign in</a>
+{%endif%}
+</div><!-- top_nav_right -->
+</div><!-- top_nav -->
+
+<div id="masthead">
+<a href="/"><img id="masthead_logotype" src="/static/customLogo.png" border="0" /></a>
+<img id="masthead_bugdroid"  src="/static/android_heart.png"/>
+</div>
+
+<div id="left_nav">
+  {%if user %}
+  <div class="left_nav_box">
+    <h4>Tools</h4>
+    <ul>
+      <li><a href="{%url codereview.views.mine %}">Code Review</a></li>
+      {%if request.show_admin_tab %}
+      <li><a href="{%url codereview.views.admin %}">Admin</a></li>
+      {%endif %}
+    </ul>
+  </div><!-- div class="left_nav_box" -->
+  {%endif %}
+{%block mainmenu2%}{%endblock%}
+</div>
+
+
+<div id="main_content_parent">
+<div id="main_content">
+{%block body%}BODY GOES HERE{%endblock%}
+</div><!-- main_content -->
+<div id="page_footer">
+Gerrit &mdash; {%include "live_revision.html"%}
+</div><!-- page_footer -->
+</div><!-- main_content_parent -->
+{%if analytics%}
+<script type="text/javascript">
+  var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." :
+  "http://www.");
+  document.write(unescape("%3Cscript src='" + gaJsHost +
+  "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+  var pageTracker = _gat._getTracker("{{analytics}}");
+  pageTracker._trackPageview();
+</script>
+{%endif%}
+</body>
+</html>

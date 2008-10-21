@@ -1,0 +1,10 @@
+{%autoescape off%}
+Hi.
+
+Your change has been successfully merged into the git repository.
+
+For more details, see {%autoescape off%}{{url}}{%endautoescape%}
+
+-Your friendly git merger
+
+{%endautoescape%}

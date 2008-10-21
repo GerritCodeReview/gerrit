@@ -1,0 +1,64 @@
+// Copyright 2008 Google Inc.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package codereview.internal;
+option java_package = "com.google.codereview.internal";
+
+// Request for the next available pending merge
+//
+message PendingMergeRequest {
+}
+
+// A single revision needing to be merged
+//
+message PendingMergeItem {
+  // Unique key of the PatchSet to merge
+  //
+  required string patchset_key = 1;
+
+  // Revision in the VCS
+  //
+  required string revision_id = 2;
+}
+
+// A repository+branch pair, and the commits to merge into it
+//
+message PendingMergeResponse {
+  enum CodeType {
+    QUEUE_EMPTY = 1;
+    MERGE_READY = 2;
+  }
+  required CodeType status_code = 10;
+
+  // The repository the merge should take place in
+  //
+  optional string dest_project_name = 11;
+
+  // Unique key for the repository
+  //
+  optional string dest_project_key = 12;
+
+  // The branch the result of the merge goes into
+  //
+  optional string dest_branch_name = 13;
+
+  // Unique key for the branch (and repository).
+  //
+  optional string dest_branch_key = 14;
+
+  // One or more commits to merge into dest_branch
+  // (all commits must be in dest_repository already)
+  //
+  repeated PendingMergeItem change = 1;
+}

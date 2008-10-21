@@ -1,0 +1,38 @@
+{%extends "base.html"%}
+{%block title1%}Settings -{%endblock%}
+{%block body%}
+<h2>Hi!</h2>
+
+<form name="welcome" action="{{post_url}}" method="POST">
+
+{{form.xsrf}}
+{%if form.xsrf.errors%}
+<ul>
+  {%for e in form.xsrf.errors%}
+    <li>{{e}}</li>
+  {%endfor%}
+</ul>
+{%endif%}
+
+{{form.dest}}
+<input type="hidden" name="step" value="1" />
+
+<p>Hi, welcome to Android.  Before we can get going, we need a little bit of
+information from you.</p>
+
+<table>
+<table class="largeform">
+<tr><th class="largeform_field">Your name</th></tr>
+<tr><td class="largeform_field">{{form.real_name}}
+
+<p>We like to maintain a friendly atmosphere here, and we feel that calling people
+by their real name helps that.
+<p><i>Also, we can't accept code submitted without
+knowing who really submitted it.</i>
+</td></tr>
+</table>
+
+<input type="submit" value="Continue">
+</form>
+
+{%endblock%}

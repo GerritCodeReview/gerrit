@@ -1,0 +1,7 @@
+/.java_bin
+/.java_src
+/.jgit_version
+/.protobuf_version
+/config.mak
+/release
+/test

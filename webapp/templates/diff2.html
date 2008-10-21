@@ -1,0 +1,202 @@
+{%extends "change_base.html"%}
+{%block title1%}{{patch_right.filename}} -{%endblock%}
+{%block body%}
+
+<script language="JavaScript" type="text/javascript"><!--
+function keyPressIntermediary(evt) {
+  return M_keyPress(evt);
+}
+document.onkeypress = keyPressIntermediary;
+{%if user%}
+logged_in = true;
+{%else%}
+logged_in = false;
+login_warned = false;
+{%endif%}
+// -->
+</script>
+
+{%if user%}
+<!-- Form used by in-line comment JS; XXX filled in by JS code -->
+<form id="dainlineform" style="display: none;"
+      action="{{inline_draft_url}}" method="post">
+  <div class="comment-border" name="form-container">
+    {{inline_draft_url|form_xsrf}}
+    <input type="hidden" name="snapshot" value="XXX">
+    <input type="hidden" name="lineno" value="XXX">
+    <input type="hidden" name="side" value="XXX">
+    <input type="hidden" name="change" value="{{change.key.id}}">
+    <input type="hidden" name="ps_left" value="{{ps_left.key.id}}">
+    <input type="hidden" name="patch_left" value="{{patch_left.key.id}}">
+    <input type="hidden" name="ps_right" value="{{ps_right.key.id}}">
+    <input type="hidden" name="patch_right" value="{{patch_right.key.id}}">
+    <textarea name="text" cols="60" rows="5"></textarea><br>
+    <input type="submit" name="save" value="Save"
+           onclick="return M_submitInlineComment(this.form);">
+    <input type="reset" name="cancel" value="Cancel"
+           onclick="M_removeTempInlineComment(this.form)">
+  </div>
+  <div class="comment-border" style="padding: 0pt;"></div>
+</form>
+<a id="resizer" style="display:none;cursor:pointer"><img src="/static/zippyplus.gif"></a>
+{%endif%}
+
+<div style="float: left;">
+  <h2 style="margin-bottom: 0em; margin-top: 0em;">Delta Between Two Patch Sets: {{patch_right.filename}}</h2>
+  <div style="margin-top: .2em;">
+    {%include "change_star.html"%}
+    <b>Change <a href="{%url codereview.views.show change.key.id%}" onmouseover="M_showPopUp(this, 'popup-change');" id="upCL">{{change.key.id}}</a>:</b>
+  {{change.subject|truncatewords:11}}
+  {%if change.merged%} (Merged)
+  {%else%}{%if change.closed%} (Closed) {%endif%}
+  {%endif%}
+  </div>
+  <div style="margin-top: .4em;">
+    <b>Left Patch Set: {%if ps_left.message%}{{ps_left.message}}{%endif%}</b>
+    <span class="extra">
+    Created {{ps_left.created|timesince}} ago
+    {%ifnotequal ps_left.owner change.owner%}
+    by <b>{{ps_left.owner|show_user}}</b>{%endifnotequal%}
+    </span>
+  </div>
+  <div style="margin-top: .4em;">
+    <b>Right Patch Set: {%if ps_right.message%}{{ps_right.message}}{%endif%}</b>
+    <span class="extra">
+    Created {{ps_right.created|timesince}} ago
+    {%ifnotequal ps_right.owner change.owner%}
+    by <b>{{ps_right.owner|show_user}}</b>{%endifnotequal%}
+    </span>
+  </div>
+  <div style="margin-top: .4em;" class="help">
+    Use n/p to move between diff chunks;
+    N/P to move between comments.
+    {%if user%}
+    Double-click a line to add a draft in-line comment.
+    <br><span style="color:red">Draft comments are only viewable by you;</span>
+    use <a href="{%url codereview.views.publish change.key.id%}" class="novisit">Publish+Mail Comments</a> ('m') to let others view them.
+    {%else%}
+    Please Sign in to add in-line comments.
+    {%endif%}
+  </div>
+</div>
+<div style="float: right; color: #333333; background-color: #eeeeec; border: 1px solid lightgray; -moz-border-radius: 5px 5px 5px 5px; padding: 5px;">
+  <div>{%include "context_select.html"%}</div>
+  <div>
+    Jump to: <select onchange="M_jumpToPatch(this, {{change.key.id}}, {{patchset.key.id}});">
+      {% for jump_patch in ps_right.patches %}
+        <option value="{{jump_patch.id}}"
+         {%ifequal jump_patch.id patch.id%} selected="selected"{%endifequal%}>{{jump_patch.filename}}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div>
+    Left: <a href="{%url codereview.views.diff change.key.id,ps_left.key.id,patch_left.key.id%}"
+             title="View regular side by side diff">Side by side diff</a>
+          |
+          <a href="{%url codereview.views.download_patch change.key.id,ps_left.key.id,patch_left.key.id%}"
+             title="Download patch for {{patch_left.filename}}">Download</a>
+          <br/>
+    Right: <a href="{%url codereview.views.diff change.key.id,ps_right.key.id,patch_right.key.id%}"
+              title="View regular side by side diff">Side by side diff</a>
+           |
+           <a href="{%url codereview.views.download_patch change.key.id,ps_right.key.id,patch_right.key.id%}"
+             title="Download patch for {{patch_right.filename}}">Download</a>
+    {%if user%}
+  </div>
+  <div style="margin-top: 5px;">
+    <a class="novisit" href="{%url codereview.views.publish change.key.id%}">Publish+Mail
+    Comments</a> ('m')
+    {%endif%}
+  </div>
+</div>
+<div style="clear: both;"></div>
+
+
+<div class="code" style="margin-top: 1.3em; display: table; margin-left: auto; margin-right: auto;">
+<div class="codenav">
+{%comment%}
+For some reason,
+{%url codereview.views.diff change.key.id,patchset.key.id,patch.prev.key.id%}
+doesn't work.  Go figure.  Bleah.  So use absolute URLs.
+{%endcomment%}
+{%if patch_right.prev%}
+<a id="prevFile" 
+   href="/{{change.key.id}}/diff2/{{ps_left.key.id}}:{{ps_right.key.id}}/{{patch_right.prev.key.id}}">
+&laquo; {{patch_right.prev.filename}}</a> ('k'){%else%}
+<span class="disabled">&laquo; no previous file</span>{%endif%}
+|
+{%if patch_right.next%}
+<a id="nextFile"
+   href="/{{change.key.id}}/diff2/{{ps_left.key.id}}:{{ps_right.key.id}}/{{patch_right.next.key.id}}">
+{{patch_right.next.filename}} &raquo;</a> ('j'){%else%}
+<span class="disabled">no next file &raquo;</span>{%endif%}
+|
+<a href="javascript:if (intraLineDiff) intraLineDiff.toggle()">
+Toggle Intra-line Diffs</a> ('i')
+|
+<a href="javascript:M_expandAllInlineComments()">Expand Comments</a> ('e')
+|
+<a href="javascript:M_collapseAllInlineComments()">Collapse Comments</a> ('c')
+|
+<a id="show-all-inline"
+   style="display:none"
+   href="javascript:M_showAllInlineComments()">Show Comments</a>
+<a id="hide-all-inline"
+   href="javascript:M_hideAllInlineComments()">Hide Comments</a> ('s')
+</div>
+<div style="position:relative" id="table-top">
+
+<span id="hook-sel" style="display:none;"></span>
+
+<table border="0" cellpadding="0" cellspacing="0" id="thecode"
+       ondblclick="M_handleTableDblClick(event)">
+
+<tr><th>LEFT</th><th>RIGHT</th></tr>
+
+{%for row in rows%}{{row|safe}}{%endfor%}
+
+<tr><th>LEFT</th><th>RIGHT</th></tr>
+
+</table>
+
+</div>
+
+<div class="codenav">
+{%if patch_right.prev%}
+<a id="prevFile"
+   href="/{{change.key.id}}/diff2/{{ps_left.key.id}}:{{ps_right.key.id}}/{{patch_right.prev.key.id}}">
+&laquo; {{patch_right.prev.filename}}</a> ('k'){%else%}
+<span class="disabled">&laquo; no previous file</span>{%endif%}
+|
+{%if patch_right.next%}
+<a id="nextFile"
+   href="/{{change.key.id}}/diff2/{{ps_left.key.id}}:{{ps_right.key.id}}/{{patch_right.next.key.id}}">
+{{patch_right.next.filename}} &raquo;</a> ('j'){%else%}
+<span class="disabled">no next file &raquo;</span>{%endif%}
+|
+<a href="javascript:if (intraLineDiff) intraLineDiff.toggle()">
+Toggle Intra-line Diffs</a> ('i')
+|
+<a href="javascript:M_expandAllInlineComments()">Expand Comments</a> ('e')
+|
+<a href="javascript:M_collapseAllInlineComments()">Collapse Comments</a> ('c')
+|
+<a href="javascript:M_toggleAllInlineComments()">
+Toggle Comments</a> ('s')
+</div>
+
+</div>
+</script>
+<script language="JavaScript" type="text/javascript"><!--
+var old_snapshot = "new";
+var new_snapshot = "new";
+var intraLineDiff = new M_IntraLineDiff();
+var hookState = new M_HookState(window);
+hookState.updateHooks();
+
+var skipped_lines_url = ('/' + {{change.key.id}} + '/diff2_skipped_lines/' +
+                         {{ps_left.key.id}} + ':' + {{ps_right.key.id}} + '/' +
+                         {{patch_id}} + '/');
+// -->
+</script>
+{%endblock%}

@@ -1,0 +1,14 @@
+<tr name="change">
+  <td class="first" width="14"><img src="/static/closedtriangle.gif" 
+    style="visibility: hidden;" width="12" height="9" /></td>
+  <td width="17" align="center"></td>
+  <td align="right">
+    <div class="subject">{{bundle.key.id}}</div>
+  </td>
+  <td align="left">{{bundle.state}}</td>
+  <td><div class="users">{{bundle.owner|show_user}}</div></td>
+  <td colspan="2" align="left">{{bundle.dest_project.name}}</td>
+  <td colspan="2" align="left">{%if bundle.dest_branch %}{{bundle.dest_branch.short_name}}{%endif %}</td>
+  <td><div class="date">{{bundle.created|timesince}}</div></td>
+  <td><div class="date">{{bundle.modified|timesince}}</div></td>
+</tr>

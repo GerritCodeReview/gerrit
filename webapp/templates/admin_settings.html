@@ -1,0 +1,25 @@
+{%extends "admin_base.html"%}
+{%block title1%}Settings{%endblock%}
+{%block body%}
+
+<h2>Settings</h2>
+
+<h3>Internal API Key:</h3>
+<code>{{settings.internal_api_key}}</code><br/>
+
+<h3>"From" email:</h3>
+<code>{%if settings.from_email %}{{settings.from_email}}{%else%}NONE SET{%endif%}</code>
+<form method="get" action="/admin/settings/from_email" style="margin-left: 30px; display: inline;">
+  <input type="submit" value="Edit"/>
+</form>
+<form method="post" action="/admin/settings/from_email_test"  style="display: inline;">
+  <input type="hidden" name="xsrf" value="{{from_email_test_xsrf}}"/>
+  <input type="submit" value="Test" />
+</form>
+
+<h3>Track code for <a href="http://www.google.com/analytics/">Google Analytics</a>:</h3>
+<form method="get" action="/admin/settings/analytics">
+  <code>{%if settings.analytics %}{{settings.analytics}}{%else%}NONE SET{%endif%}</code>
+  <input type="submit" value="Edit" style="margin-left: 30px;"/>
+</form>
+{%endblock%}

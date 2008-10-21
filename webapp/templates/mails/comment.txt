@@ -1,0 +1,7 @@
+{%autoescape off%}{%if message%}{{message|wordwrap:"72"}}
+
+{%endif%}{%if details%}{{details|wordwrap:"72"}}
+{%endif%}{%endautoescape%}
+--
+To respond, visit {%autoescape off%}{{url}}{%endautoescape%}
+

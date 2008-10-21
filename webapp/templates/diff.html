@@ -1,0 +1,130 @@
+{%extends "change_base.html"%}
+
+{%block change_body%}
+
+<script language="JavaScript" type="text/javascript"><!--
+function keyPressIntermediary(evt) {
+  return M_keyPress(evt);
+}
+document.onkeypress = keyPressIntermediary;
+{%if user%}
+logged_in = true;
+{%else%}
+logged_in = false;
+login_warned = false;
+{%endif%}
+// -->
+</script>
+
+
+{%if user%}
+<!-- Form used by in-line comment JS; XXX filled in by JS code -->
+<form id="dainlineform" style="display: none;"
+      action="{{inline_draft_url}}" method="post">
+  <div class="comment-border" name="form-container">
+    {{inline_draft_url|form_xsrf}}
+    <input type="hidden" name="snapshot" value="XXX">
+    <input type="hidden" name="lineno" value="XXX">
+    <input type="hidden" name="side" value="XXX">
+    <input type="hidden" name="change" value="{{change.key.id}}">
+    <input type="hidden" name="patchset" value="{{patchset.key.id}}">
+    <input type="hidden" name="patch" value="{{patch.id}}">
+    <textarea name="text" cols="60" rows="5"></textarea><br>
+    <input type="submit" name="save" value="Save"
+           onclick="return M_submitInlineComment(this.form);">
+    <input type="reset" name="cancel" value="Cancel"
+           onclick="M_removeTempInlineComment(this.form)">
+  </div>
+  <div class="comment-border" style="padding: 0pt;"></div>
+</form>
+<a id="resizer" style="display:none;cursor:pointer"><img src="/static/zippyplus.gif"></a>
+{%endif%}
+
+
+
+
+<table style="width: 100%; margin-top: 5px;"><tr>
+  {%if user%}
+  <td style="vertical-align: top; padding-right: 50px;">
+    <div>
+      <form method="get" action="{%url codereview.views.publish change.key.id%}">
+        <input type="submit" value="Publish &amp; Mail Comments" />
+      </form>
+    </div>
+    <div class="tips" style="margin-top: 5px;">
+      Double-click a line to add a draft in-line comment.<br/>
+      Use n/p to move between diff chunks.<br/>
+      <span style="color:#f77">Draft comments are only viewable by you.</span>
+      {%else%}
+      Please Sign in to add in-line comments.
+    </div>
+  </td>
+  {%endif%}
+  <td style="vertical-align: top;">
+    <div style="text-align: left;">
+      <div>{%include "context_select.html"%}</div>
+      <div style="margin-top: 5px;">
+        Jump to:
+        <select onchange="M_jumpToPatch(this, {{change.key.id}}, {{patchset.key.id}});">
+          {%for jump_patch in patchset.patches %}
+            <option value="{{jump_patch.id}}"
+              {%ifequal jump_patch.id patch.id%} selected="selected"{%endifequal%}
+              >{{jump_patch.filename}}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div style="margin-top: 3px;">
+        <b>Patch Set: {%if patchset.message%}{{patchset.message}}{%endif%}</b>
+        Uploaded {{patchset.created|timesince}} ago
+        {%ifnotequal patchset.owner change.owner%}
+          by <b>{{patchset.owner|show_user}}</b>
+        {%endifnotequal%}
+      </div>
+    </div>
+
+
+  </td>
+  <td>
+  </td>
+</tr></table>
+
+
+<div class="code_diff">
+{%include "diff_navigation.html"%}
+
+<div style="position:relative;" id="table-top">
+
+<span id="hook-sel" style="display:none;"></span>
+
+<table border="0" cellpadding="0" cellspacing="0" id="thecode" style="width: 100%;"
+       ondblclick="M_handleTableDblClick(event)">
+<colgroup style="width: 50%;">
+<colgroup style="width: 50%;">
+<tr><th>OLD</th><th>NEW</th></tr>
+
+{%for row in rows%}{{row|safe}}{%endfor%}
+
+<tr><th>OLD</th><th>NEW</th></tr>
+
+</table>
+
+</div>
+{%include "diff_navigation.html"%}
+</div>
+
+</script>
+<script language="JavaScript" type="text/javascript"><!--
+var old_snapshot = "old";
+var new_snapshot = "new";
+var intraLineDiff = new M_IntraLineDiff();
+var hookState = new M_HookState(window);
+hookState.updateHooks();
+
+var skipped_lines_url =
+'/{{change.key.id}}/diff_skipped_lines/{{patchset.key.id}}/{{patch.id}}/'
+;
+
+// -->
+</script>
+{%endblock%}
+

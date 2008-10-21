@@ -1,0 +1,163 @@
+{%extends "change_base.html"%}
+{%block body%}
+
+<script language="JavaScript" type="text/javascript"><!--
+function keyPressIntermediary(evt) {
+  return M_keyPress(evt);
+}
+document.onkeypress = keyPressIntermediary;
+{%if user%}
+logged_in = true;
+{%else%}
+logged_in = false;
+login_warned = false;
+{%endif%}
+// -->
+</script>
+
+{%if user%}
+<!-- Form used by in-line comment JS; XXX filled in by JS code -->
+<form id="dainlineform" style="display: none;"
+      action="{{inline_draft_url}}" method="post">
+  <div class="comment-border" name="form-container">
+    {{inline_draft_url|form_xsrf}}
+    <input type="hidden" name="snapshot" value="XXX">
+    <input type="hidden" name="lineno" value="XXX">
+    <input type="hidden" name="side" value="XXX">
+    <input type="hidden" name="change" value="{{change.key.id}}">
+    <input type="hidden" name="patchset" value="{{patchset.key.id}}">
+    <input type="hidden" name="patch" value="{{patch.id}}">
+    <textarea name="text" cols="60" rows="5"></textarea><br>
+    <input type="submit" name="save" value="Save"
+           onclick="return M_submitInlineComment(this.form);">
+    <input type="reset" name="cancel" value="Cancel"
+           onclick="M_removeTempInlineComment(this.form)">
+  </div>
+  <div class="comment-border" style="padding: 0pt;"></div>
+</form>
+<a id="resizer" style="display:none;cursor:pointer"><img src="/static/zippyplus.gif"></a>
+{%endif%}
+
+<div style="float: left;">
+  <h2 style="margin-bottom: 0em; margin-top: 0em;">Unified Diff: {{patch.filename}}</h2>
+  {%ifnotequal patch.nav_type "patch"%}
+    <span style="color:red">Side-by-side diff isn't available for this file because of its large size.</span>
+  {%endifnotequal%}
+  <div style="margin-top: .2em;">{%include "change_star.html"%}
+    <b>Change <a href="{%url codereview.views.show change.key.id%}" onmouseover="M_showPopUp(this, 'popup-change');" id="upCL">{{change.key.id}}</a>:</b>
+  {{change.subject|truncatewords:11}}
+  {%if change.merged%} (Merged)
+  {%else%}{%if change.closed%} (Closed) {%endif%}
+  {%endif%}
+  </div>
+  <div style="margin-top: .4em;">
+    <b>Patch Set: {%if patchset.message%}{{patchset.message}}{%endif%}</b>
+    <span class="extra">
+    Created {{patchset.created|timesince}} ago
+    {%ifnotequal patchset.owner change.owner%}
+    by <b>{{patchset.owner|show_user}}</b>{%endifnotequal%}
+    </span>
+  </div>
+  <div style="margin-top: .4em;" class="help">
+    Use n/p to move between diff chunks;
+    N/P to move between comments.
+    {%if user%}
+    Double-click a line to add a draft in-line comment.
+    <br><span style="color:red">Draft comments are only viewable by you;</span>
+    use <a href="{%url codereview.views.publish change.key.id%}" class="novisit">Publish+Mail Comments</a> ('m') to let others view them.
+    {%else%}
+    Please Sign in to add in-line comments.
+    {%endif%}
+  </div>
+</div>
+<div style="float: right; color: #333333; background-color: #eeeeec; border: 1px solid lightgray; -moz-border-radius: 5px 5px 5px 5px; padding: 5px;">
+  <div>
+    Jump to: <select onchange="M_jumpToPatch(this, {{change.key.id}}, {{patchset.key.id}}, true);">
+      {% for jump_patch in patchset.patch_set %}
+        <option value="{{jump_patch.id}}"
+         {%ifequal jump_patch.id patch.id%} selected="selected"{%endifequal%}>{{jump_patch.filename}}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div style="margin-top: 5px;">
+    <a href="{%url codereview.views.diff change.key.id,patchset.key.id,patch.id%}">
+    View side by-side-diff with in-line comments</a>
+  </div>
+  <div style="margin-top: 5px;">
+    <a href="{%url codereview.views.download_patch change.key.id,patchset.key.id,patch.id%}"
+       title="Download patch for {{patch.filename}}">
+      Download patch
+    </a>
+  </div>
+  {%if user%}
+  <div style="margin-top: 5px;">
+    <a class="novisit" href="{%url codereview.views.publish change.key.id%}">Publish+Mail
+    Comments</a> ('m')
+  </div>
+  {%endif%}
+</div>
+<div style="clear: both;"></div>
+
+<div class="code" style="margin-top: 1.3em; display: table; margin-left: auto; margin-right: auto;">
+
+<div class="codenav">
+{%if patch.prev%}
+<a id="prevFile" 
+   href="{%url codereview.views.patch change.key.id,patchset.key.id,patch.prev.id%}">
+&laquo; {{patch.prev.filename}}</a> ('k'){%else%}
+<span class="disabled">&laquo; no previous file</span>{%endif%}
+|
+{%if patch.next%}
+<a id="nextFile"
+   href="{%url codereview.views.patch change.key.id,patchset.key.id,patch.next.id%}">
+{{patch.next.filename}} &raquo;</a> ('j'){%else%}
+<span class="disabled">no next file &raquo;</span>{%endif%}
+|
+<a href="javascript:M_expandAllInlineComments()">Expand Comments</a> ('e')
+|
+<a href="javascript:M_collapseAllInlineComments()">Collapse Comments</a> ('c')
+|
+<a id="show-all-inline"
+   style="display:none"
+   href="javascript:M_showAllInlineComments()">Show Comments</a>
+<a id="hide-all-inline"
+   href="javascript:M_hideAllInlineComments()">Hide Comments</a> ('s')
+</div>
+
+<div style="position:relative" id="table-top">
+
+<span id="hook-sel" style="display:none;"></span>
+
+<table style="padding: 5px;" cellpadding="0" cellspacing="0" id="thecode"
+       ondblclick="M_handleTableDblClick(event)">
+{%for row in rows%}{{row|safe}}{%endfor%}
+</table>
+
+</div>
+<div class="codenav">
+{%if patch.prev%}
+<a id="prevFile"
+   href="{%url codereview.views.patch change.key.id,patchset.key.id,patch.prev.id%}">
+&laquo; {{patch.prev.filename}}</a> ('k'){%else%}
+<span class="disabled">&laquo; no previous file</span>{%endif%}
+|
+{%if patch.next%}
+<a id="nextFile"
+   href="{%url codereview.views.patch change.key.id,patchset.key.id,patch.next.id%}">
+{{patch.next.filename}} &raquo;</a> ('j'){%else%}
+<span class="disabled">no next file &raquo;</span>{%endif%}
+</div>
+</div>
+
+</script>
+<script language="JavaScript" type="text/javascript"><!--
+var old_snapshot = "old";
+var new_snapshot = "new";
+var intraLineDiff = new M_IntraLineDiff();
+var hookState = new M_HookState(window);
+hookState.updateHooks();
+
+
+// -->
+</script>
+{%endblock%}

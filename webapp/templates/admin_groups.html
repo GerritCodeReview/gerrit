@@ -1,0 +1,23 @@
+{%extends "admin_base.html"%}
+{%block title1%}Groups{%endblock%}
+{%block body%}
+
+<h2>Groups</h2>
+
+<p><a href="{%url codereview.people.admin_group_new%}">New Group</a></p>
+<div class="change-list" style="width: inherit;">
+  <table id="queues" style="width: inherit;">
+    <tr>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    {%for group in groups%}
+    <tr>
+        <td><a href="{%url codereview.people.admin_group group.name%}">{{group.name}}</a></td>
+        <td>{{group.comment}}</td>
+    </tr>
+    {%endfor%}
+  </table>
+</div>
+
+{%endblock%}

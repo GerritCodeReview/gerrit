@@ -1,0 +1,90 @@
+Deploying Gerrit to Google App Engine
+=====================================
+
+To deploy Gerrit to a new (or an upgrade for an existing) Google
+App Engine instance:
+
+----
+	make update APPID=your-application-id ADMIN=your@email
+----
+
+where "your-application-id" is the unique application id you chose
+for the application instance at the time you registered it with
+Google App Engine;
+
+and where "your@email" is a Google Account username that is
+registered as a developer/administrator of the Google App Engine
+instance identified by $APPID.
+
+
+Saving Configuration
+--------------------
+
+If you are frequently deploying via the same user account or to the
+same instance you may want to save your configuration options into
+a local config.mak file:
+
+----
+	$ cat config.mak
+	ADMIN = your@email
+	APPID = your-application
+----
+
+as these parameters can then be left off of the make update
+command line:
+
+----
+	make update
+----
+
+
+Admin Only Lockout
+------------------
+
+When updating a Google App Engine instance Gerrit can be configured
+to only permit admin logins.  This may be useful when setting up
+a testing/development environment, where external users are not
+desired yet.
+
+Simply set ADMIN_ONLY=1 when running the build:
+
+----
+	make update ADMIN_ONLY=1 [other options...]
+----
+
+You may wish to have this configured in your config.mak file:
+
+----
+	$ cat config.mak
+	ifeq ($(APPID),your-private-id)
+		ADMIN_ONLY=1
+	endif
+----
+
+This way the lockout is automatically enabled when you run a build.
+
+To disable the lockout, run "make update" without ADMIN_ONLY set
+(e.g. delete or comment it out from your config.mak file).
+
+
+
+Special Options
+---------------
+
+When deploying to an internal Google App Engine instance you may
+need to set APPCFG_OPTS to point to the internal admin console.
+This is best configured in your config.mak file:
+
+----
+	$ cat config.mak
+	ADMIN = you@google.com
+	APPID = your-application
+
+	ifeq ($(APPID),internal-app-id)
+		APPCFG_OPTS = -s admin-console.some.internal.host.name
+	endif
+----
+
+As a Googler you will need to search the intranet to locate the
+correct hostname for the internal admin-console, or ask someone who
+is involved with Gerrit or the Google App Engine team for the name.

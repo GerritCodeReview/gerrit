@@ -1,0 +1,67 @@
+{%for c in comments%}
+<div class="comment-border{%if c.confidence%} conf{{c.confidence}}{%endif%} {{c.backend}}" name="comment-border">
+<div class="inline-comment-title" onclick="M_switchInlineComment({{forloop.counter0}}, {{lineno}}, '{{side}}')">
+{%if c.draft%}<b>(Draft)</b>{%else%}<b>{{c.author|real_name}}</b>{%endif%}
+{%if c.confidence_text%} <b>(confidence {{c.confidence_text}})</b>{%endif%}
+{{c.date|date:"Y/m/d H:i:s"}}
+<span id="inline-preview-{{forloop.counter0}}-{{lineno}}-{{side}}" 
+  class="extra" name="inline-preview"
+  {%if c.draft%}style="visibility: hidden"{%endif%}>{{c.shorttext}}</span>
+</div>
+<div id="inline-comment-{{forloop.counter0}}-{{lineno}}-{{side}}"
+     class="inline-comment"
+     name="inline-comment"
+     {%if c.draft%}ondblclick="M_editInlineComment({{forloop.counter0}}, {{lineno}}, '{{side}}'); M_stopBubble(window, event);"{%endif%}
+     {%if not c.draft%}style="display: none"{%endif%}>
+{%for bucket in c.buckets%}
+{%if bucket.quoted%}
+<div><a class="comment-hide-link" href="javascript:M_switchQuotedText({{forloop.parentloop.counter0}}, {{forloop.counter0}}, {{lineno}}, '{{side}}')">(Un)hide quoted text</a></div>
+{%endif%}
+<div name="comment-text-{{forloop.parentloop.counter0}}-{{lineno}}-{{side}}"
+id="comment-text-{{forloop.parentloop.counter0}}-{{lineno}}-{{side}}-{{forloop.counter0}}"
+class="{%if bucket.quoted%}comment-text-quoted{%else%}comment-text{%endif%}"
+{%if bucket.quoted%}style="display: none"{%endif%}
+>{{bucket.text|wordwrap:"80"|escape|urlize}}</div>
+{%endfor%}
+{%if c.draft%}
+<a name="comment-reply"
+   id="edit-link-{{forloop.counter0}}-{{lineno}}-{{side}}"
+   href="javascript:M_editInlineComment({{forloop.counter0}}, {{lineno}}, '{{side}}')"><b>Edit</b></a>
+<a name="comment-reply"
+   id="undo-link-{{forloop.counter0}}-{{lineno}}-{{side}}"
+   style="display:none"
+   href="javascript:M_restoreEditInlineComment({{forloop.counter0}}, {{lineno}}, '{{side}}')"><b>Undo cancel</b></a>
+<form id="comment-form-{{forloop.counter0}}-{{lineno}}-{{side}}"
+      name="comment-form-{{forloop.counter0}}-{{lineno}}-{{side}}"
+      style="display:none" action="{{inline_draft_url}}" method = "POST">
+<div name="form-container">
+{{inline_draft_url|form_xsrf}}
+<input type="hidden" name="change" value="{{change.key.id}}">
+<input type="hidden" name="patchset" value="{{patchset.key.id}}">
+<input type="hidden" name="patch" value="{{patch.id}}">
+<input type="hidden" name="snapshot" value="{{snapshot}}">
+<input type="hidden" name="side" value="{{side}}">
+<input type="hidden" name="file" value="{{file.depot_path|escape}}">
+<input type="hidden" name="lineno" value="{{lineno}}">
+<input type="hidden" name="oldtext" value="{{c.text}}">
+{%if c.message_id%}<input type="hidden" name="message_id" value="{{c.message_id}}">{%endif%}
+<textarea name="text" cols="60" rows="5">{{c.text}}</textarea><br>
+<input type="submit" name="save" value="Save" onclick="return M_submitInlineComment(this.form, {{forloop.counter0}}, {{lineno}}, '{{side}}')">
+<input type="reset" name="cancel" value="Cancel" onclick="M_resetAndHideInlineComment(this.form, {{forloop.counter0}}, {{lineno}}, '{{side}}')">
+<input type="submit" name="discard" value="Discard" onclick="return M_removeInlineComment(this.form, {{forloop.counter0}}, {{lineno}}, '{{side}}')">
+</div>
+</form>
+{%else%}
+{%if user%}
+<a name="comment-reply"
+   href="javascript:M_replyToInlineComment('{{c.author|real_name:"x"}}', '{{c.date|date:"Y/m/d H:i:s"}}', {{forloop.counter0}}, {{lineno}}, '{{side}}')"
+><b>Reply</b></a>
+{%if c.backend%}<a href="javascript:M_replyToInlineComment('{{c.author|real_name:"x"}}', '{{c.date|date:"Y/m/d H:i:s"}}', {{forloop.counter0}}, {{lineno}}, '{{side}}', 'Please fix.', true)"><b>Please fix</b></a>
+{%else%}<a href="javascript:M_replyToInlineComment('{{c.author|real_name:"x"}}', '{{c.date|date:"Y/m/d H:i:s"}}', {{forloop.counter0}}, {{lineno}}, '{{side}}', 'Done.', true)"><b>Done</b></a>{%endif%}
+{%ifequal c.backend "bugbot"%} &nbsp; <a target="_blank" href="http://bugbotexp{{file.depot_path|escape}}"><b>&raquo; Suppress</b></a>{%endifequal%}
+{%endif%}
+{%endif%}
+</div>
+</div>
+{%endfor%}
+<div class="comment-border" style="padding: 0"></div>

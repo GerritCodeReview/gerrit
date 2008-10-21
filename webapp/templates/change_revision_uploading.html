@@ -1,0 +1,12 @@
+{%extends "change_base.html"%}
+
+{%block additionalhead%}
+<meta http-equiv="Refresh" content="5; URL=/r/{{hash}}" />
+{%endblock%}
+
+{% block body %}
+<p>The upload of <code>{{hash}}</code> is still being processed.</p>
+<p>Please try again in a few seconds.</p>
+<p>If your browser does not automatically refresh this page,
+<a href="/r/{{hash}}">click here</a>.</p>
+{% endblock %}

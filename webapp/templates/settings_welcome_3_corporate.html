@@ -1,0 +1,69 @@
+{%extends "base.html"%}
+{%block title1%}Settings -{%endblock%}
+{%block body%}
+<h2>Hi!</h2>
+
+<form name="welcome" action="{{post_url}}" method="POST">
+
+{{form.xsrf}}
+{%if form.xsrf.errors%}
+<ul>
+  {%for e in form.xsrf.errors%}
+    <li>{{e}}</li>
+  {%endfor%}
+</ul>
+{%endif%}
+
+{{form.dest}}
+<input type="hidden" name="step" value="3corp" />
+
+<p>Hi, welcome to Android.  Before we can get going, we need a little bit of
+information from you.</p>
+
+<hr/>
+
+<table class="largeform">
+<tr><th class="largeform_field">Contributor License Grant</th></tr>
+<tr><td class="largeform_field">
+Please print out this document:
+<div style="padding-left: 30px; font-family: monospace;"><br/><a href="/static/corp_cla.html" target="_blank">Corporate Contributor License Agreement</a></div>
+
+<p>Next have an authorized person sign it.
+
+<p>Then send it via one of the following methods:
+
+<p>Email a scanned copy to:
+<div style="padding-left: 30px; font-family: monospace;">
+    cla-submissions@google.com
+</div>
+
+<p>Fax to:
+<div style="padding-left: 30px; font-family: monospace;">
+    (650) 887-1625
+</div>
+
+<p>Or via post to:
+
+<div style="padding-left: 30px; font-family: monospace;">
+    Google Inc.<br/>
+    Attn: Open Source Program Office<br/>
+    1600 Amphitheatre Pkwy<br/>
+    Building 43<br/>
+    Mountain View, CA 94043<br/>
+    U.S.A.<br/>
+</div>
+
+<p>We will contact you with further details when we receive your completed paperwork.
+
+</td></tr>
+</table>
+<hr/>
+
+
+<input type="button" name="back" value="Back" onclick="document.welcome.submit();">
+<input type="submit" name="continue" value="Continue">
+
+</form>
+
+{%endblock%}
+

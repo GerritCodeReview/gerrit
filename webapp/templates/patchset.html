@@ -1,0 +1,81 @@
+{%if patchset.n_comments or patchset.n_drafts%}
+  <div>
+    <i>Total comments:</i> {{patchset.n_comments}}
+    {%if patchset.n_drafts%}
+      <span style="color:red">
+        <b>+ {{patchset.n_drafts}} draft{{patchset.n_drafts|pluralize}}</b>
+      </span>
+    {%endif%}
+  </div>
+{%endif%}
+
+<div class="change-list">
+  <div class="pagination">
+    <div style="float: left;">
+      <i>Created:</i> {{patchset.created|timesince}} ago
+      {%ifnotequal patchset.owner change.owner%}
+      by <b>{{patchset.owner|real_name}}</b>{%endifnotequal%}
+    </div>
+    <div style="clear:both;"></div>
+  </div>
+ 
+{%if patchset.freaking_huge%}
+  <div style="margin-top: 5px; float: left;" class="error">
+  Patch Set {{patchset.id}} has too many files.
+  </div>
+  <div style="clear:both;"></div>
+{%else%}
+  <table class="change_info_table" style="clear:both;">
+    <tr align="left">
+      <th class="leftmost"></th>
+      <th>Side-by-side diffs</th>
+      <th>Delta from patch set</th>
+      <th>Comments</th>
+      <th colspan="3" class="rightmost">Unified diffs</th>
+    </tr>
+  {%for patch in patchset.patches%}
+    <tr>
+      <td>{%if patch.status%}{{patch.status}}{%endif%}</td>
+      <td>
+        <a class="noul"
+           href="{%url codereview.views.diff change.key.id,patch.patchset.key.id,patch.id%}"
+          >{{patch.filename}}
+        </a>
+      </td>
+      <td>{%comment%}{%for other in patchsets%}{%ifnotequal other patchset%}{%for opatch in other.patches%}{%ifequal opatch.filename patch.filename%}{%ifnotequal opatch.patch_hash patch.patch_hash%}
+      <a href="/{{change.key.id}}/diff2/{{other.key.id}}:{{patchset.key.id}}/{{patch.id}}" title="Delta from patch set {{forloop.parentloop.counter}}">{{forloop.parentloop.counter}}</a>&nbsp;{%endifnotequal%}{%endifequal%}{%endfor%}{%endifnotequal%}{%endfor%}
+      {%endcomment%}
+      </td>
+      <td>
+        {%if patch.num_comments or patch.num_drafts%}<b>{%endif%}
+          {{patch.num_comments}} comment{{patch.num_comments|pluralize}}
+          {%if patch.num_drafts%}
+          <span style="color:red">+
+            {{patch.num_drafts}} draft{{patch.num_drafts|pluralize}}
+          </span>
+        {%endif%}
+        {%if patch.num_comments or patch.num_drafts%}</b>{%endif%}
+      </td>
+      <td>
+        <a href="{%url codereview.views.patch change.key.id,patch.patchset.key.id,patch.id%}">
+          View
+        </a>
+      </td>
+      <td>
+        <a href="{%url codereview.views.download_patch change.key.id,patch.patchset.key.id,patch.id%}"
+           title="Download patch for {{patch.filename}}">
+          Download
+        </a>
+      </td>
+    </tr>
+  {%endfor%}
+  </table>
+{%endif%}
+
+  {%if not patchset.complete%}
+    <div style="margin-top: 5px; float: left;" class="error">
+    Patch Set {{patchset.id}} is still being uploaded ...
+    </div>
+    <div style="clear:both;"></div>
+  {%endif%}
+</div>

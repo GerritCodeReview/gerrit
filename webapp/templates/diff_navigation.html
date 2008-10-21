@@ -1,0 +1,36 @@
+<div class="tips codenav">
+{%comment%}
+For some reason,
+{%url codereview.views.diff change.key.id,patchset.key.id,patch.prev.key.id%}
+doesn't work.  Go figure.  Bleah.  So use absolute URLs.
+{%endcomment%}
+{%if patch.prev%}
+<a id="prevFile" 
+   href="/{{change.key.id}}/diff/{{patchset.key.id}}/{%spaceless%}
+   {{patch.prev.id}}{%if context%}?context={{context}}{%endif%}
+   {%endspaceless%}">
+&laquo; {{patch.prev.filename}}</a> ('k'){%else%}
+<span class="disabled">&laquo; no previous file</span>{%endif%}
+|
+{%if patch.next%}
+<a id="nextFile"
+   href="/{{change.key.id}}/diff/{{patchset.key.id}}/{%spaceless%}
+   {{patch.next.id}}{%if context %}?context={{context}}{%endif%}
+   {%endspaceless%}">
+{{patch.next.filename}} &raquo;</a> ('j'){%else%}
+<span class="disabled">no next file &raquo;</span>{%endif%}
+|
+
+<a href="javascript:if (intraLineDiff) intraLineDiff.toggle()">
+Toggle Intra-line Diffs</a> ('i')
+|
+<a href="javascript:M_expandAllInlineComments()">Expand Comments</a> ('e')
+|
+<a href="javascript:M_collapseAllInlineComments()">Collapse Comments</a> ('c')
+|
+<a id="show-all-inline"
+   style="display:none"
+   href="javascript:M_showAllInlineComments()">Show Comments</a>
+<a id="hide-all-inline"
+   href="javascript:M_hideAllInlineComments()">Hide Comments</a> ('s')
+</div>

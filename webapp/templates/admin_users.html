@@ -1,0 +1,27 @@
+{%extends "admin_base.html"%}
+{%block title1%}Users{%endblock%}
+{%block body%}
+
+<a href="/admin/users">All Users</a>
+|
+<a href="/admin/users/verify_cla">Users w/ unverified CLA</a>
+
+
+<h2>Users</h2>
+
+<div class="change-list" style="width: inherit;">
+  <table id="queues" style="width: inherit;">
+    <tr>
+        <th>Name</th>
+        <th>Email</th>
+    </tr>
+    {%for user in users%}
+    <tr>
+        <td>{{user.real_name}}</td>
+        <td><a href="{%url codereview.people.admin_user user.email%}">{{user.email}}</a></td>
+    </tr>
+    {%endfor%}
+  </table>
+</div>
+
+{%endblock%}

@@ -1,0 +1,60 @@
+{%extends "base.html"%}
+{%block title1%}Settings -{%endblock%}
+{%block body%}
+<h2>Hi!</h2>
+
+<form name="welcome" action="{{post_url}}" method="POST">
+
+{{form.xsrf}}
+{%if form.xsrf.errors%}
+<ul>
+  {%for e in form.xsrf.errors%}
+    <li>{{e}}</li>
+  {%endfor%}
+</ul>
+{%endif%}
+
+{{form.dest}}
+<input type="hidden" name="step" value="2" />
+
+<p>Hi, welcome to Android.  Before we can get going, we need a little bit of
+information from you.</p>
+
+<table class="largeform">
+<tr><th class="largeform_field">Contributor License Grant</th></tr>
+<tr><td class="largeform_field">
+If you're going to contribute code, we need you to sign a "contributor
+license grant."  This affirms that you are granting the Android Project 
+the right to use the code you contribute.  Please read the agreement for all
+of the details.
+<p>Which one would you like?</p>
+<ul style="list-style: none;">
+  <li><input type="radio" id="id_cla_none" value="none" name="cla"
+      {% ifequal form.initial.cla 'none' %}checked{% endifequal %}
+      /><label
+      for="id_cla_none"> <b>None right now.</b>
+      If you don't want to do this now, you can go to your user settings
+      page and do it later.<br/>
+      </label></li>
+  <li><input type="radio" id="id_cla_individual" value="individual" name="cla"
+      {% ifequal form.initial.cla 'individual' %}checked{% endifequal %}
+      /><label for="id_cla_individual"> <b>Individual.</b>
+      If you are going to be contributing code on your own, this is the one
+      you want.  You can sign this one online.</label></li>
+  <li><input type="radio" id="id_cla_corporate" value="corporate" name="cla"
+      {% ifequal form.initial.cla 'corporate' %}checked{% endifequal %}
+      /><label for="id_cla_corporate"> <b>Corporate.</b>
+      If you are going to be contributing code
+      on behalf of your company, this is the one you want.  We'll give
+      you a form that will need to printed, signed and sent back via
+      post, email or fax.</label></li>
+</ul>
+</table>
+
+<input type="button" name="back" value="Back" onclick="document.welcome.submit();">
+<input type="submit" name="continue" value="Continue">
+
+</form>
+
+{%endblock%}
+

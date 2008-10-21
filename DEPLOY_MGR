@@ -1,0 +1,182 @@
+Deploying Gerrit's Manager Backend
+==================================
+
+The manager backend is a Java process that performs batch operations
+on local Git repositories, based on the metadata recorded into the
+Gerrit instance running on Google App Engine.
+
+To deploy the backend:
+
+----
+	$ make release-mgr
+	$ scp -r release/mgr you@some.server:mgr
+---
+
+
+Running
+-------
+
+To start the backend server process:
+
+----
+	$ ./bin/mgr mgr.config &
+----
+
+where mgr.config is the backend's configuration file (see below
+for details on its format and options).
+
+To stop the backend, send it a SIGINT:
+
+----
+	kill -INT $mgrpid
+----
+
+
+Creating Gerrit Projects and Branches
+-------------------------------------
+
+To create new projects/branches in Gerrit to match those available
+locally in Git run the mgr in the foreground with its sync option:
+
+----
+	$ ./bin/mgr mgr.config sync
+----
+
+The sync subcommand will create a new Gerrit project for any new
+Git repository found under codereview.basedir.  It also creates
+a new branch in Gerrit for any branch in any new or existing Git
+repository.
+
+
+
+Manager Configuration
+---------------------
+
+The manager backend requires a configuration file to designate
+which Git repositories it will have access to, and which Gerrit
+instance it communicates with.
+
+The configuration file is in `git config` format and can thus be
+automatically read/updated via `git config --file=<name>`.  It can
+also be hand-modified.  For more details on the file format, see
+`man git-config`.
+
+----
+	$ cat mgr.config
+	[user]
+	  name = Gerrit Code Review
+	  email = gerrit@localhost
+
+	[codereview]
+	  server = http://androidreview.appspot.com/
+	  basedir = /pub/scm/git
+	  username = role-account@gmail.com
+	  secureconfig = .secure-mgr-config
+	  sleep = 60
+
+	[log]
+	  file = mgr.log
+	  level = debug
+----
+
+A description of the major options follows:
+
+user.name::
+	Author/committer name Gerrit records when creating an
+	automatic merge commit.
+
+user.email::
+	Author/committer email Gerrit records when creating an
+	automatic merge commit.
+
+codereview.server::
+	URL of the Gerrit Google App Engine instance providing
+	database support and web user interface to the code review
+	system.  Presently only HTTP is supported.  Future releases
+	of Gerrit may support HTTPS, if/when Google App Engine ever
+	supports HTTPS.
+
+codereview.basedir::
+	Root directory that all Git repositories are relative to.
+	Repositories in this directory should be bare repositories.
+	The name of a project in Gerrit is appended to this directory
+	to determine the path of the corresponding Git repository
+	where change branches are stored and merges take place.
+
+codereview.username::
+	(Optional) Google Account username to authenticate to
+	codereview.server with.  This option is only required if the
+	Gerrit instance has been set to ADMIN_ONLY=1.  (Normally the
+	manager backend uses a more secure authentication strategy.)
+	If set, make sure codereview.password is also in the secure
+	configuration file.
+
+codereview.secureconfig::
+	Path to the secure configuration file (see below).
+	A relative path is evaluated relative to the main
+	configuration file.
+
+codereview.sleep::
+	Number of seconds between queries when Gerrit says there
+	is nothing waiting to be processed.  This is the maximum
+	latency between when an upload or merge request is first
+	stored in the data store and when the backend can process it.
+
+codereview.memory::
+	Maximum amount of Java heap memory to give to the manager
+	process.  Valid values are in bytes, with standard "m" and
+	"g" suffixes for "megabytes" and "gigabytes".  E.g. "256m"
+	would assign up to 256 megabytes of memory to the manager.
+
+log.file::
+	Path to the log file the server writes messages to.  If not
+	set messages are sent to stdout.
+
+log.level::
+	Set the verbosity of the logging.  Supported values are:
+	fatal, error, warning, info, debug, trace.  Later levels
+	include all messages from all earlier levels.
+
+
+Secure Configuration File
+-------------------------
+
+The secure configuration file stores additional details which
+should never be made public.  This file should be protected with
+filesystem level access controls, e.g. "chmod 0600" on UNIX prior
+to writing any information into it.
+
+----
+	$ cat .secure-mgr-config
+	[codereview]
+	  password = g3rr1t1sc001
+	  internalapikey = somebiglongkeystring
+----
+
+codereview.password::
+	(Optional) Password matching the Google Account listed
+	in codereview.username in the main configuration file.
+	This value is only required if the Gerrit instance is in
+	ADMIN_ONLY=1 mode and thus needs the backend to authenticate
+	with a Google Account.
+
+codereview.internalapikey::
+	The private key used for HMAC authentication between the
+	manager backend and the Gerrit instance running on Google
+	App Engine.  Any application developer/administrator can
+	get this key from http://APPID.appspot.com/admin/settings
+
+
+Parallel Operation Concerns
+---------------------------
+
+The backend uses aggressive caching, and is not yet fully safe to
+run concurrently with command line Git operations such as `git gc`,
+`git repack` or `git pack-refs`.
+
+Until the backend has been fully patched to support concurrent
+operations, do not run Git operations in repositories under
+codereview.basedir while a backend is running on that directory.
+
+In order to repack safely, stop the backend, run the repack activity,
+then start it back up again.

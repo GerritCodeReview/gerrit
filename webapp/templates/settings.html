@@ -1,0 +1,42 @@
+{%extends "base.html"%}
+{%block title1%}Settings -{%endblock%}
+{%block body%}
+<h1>Settings for {{user.email}}</h1>
+
+<form action="{%url codereview.settings.settings%}" method="POST">
+
+{{form.xsrf}}
+{%if form.xsrf.errors%}
+<ul>
+  {%for e in form.xsrf.errors%}
+    <li>{{e}}</li>
+  {%endfor%}
+</ul>
+{%endif%}
+
+<table class="settings">
+<thead>
+<tr><th colspan="2">Display Options</th></tr>
+</thead>
+<tbody>
+<tr><th>Diff context</th>
+    <td>{{form.context}}{{form.context.errors}}</td></tr>
+</td></tr>
+</tbody>
+</table>
+
+
+<table class="settings">
+<thead>
+<tr><th colspan="2">Projects</th></tr>
+</thead>
+<tbody>
+<tr><th>View unclaimed changes<br/>for projects</th>
+    <td>{{form.unclaimed_changes_projects}}</td></tr>
+</tbody>
+</table>
+
+<input type="submit" value="Update Settings">
+</form>
+
+{%endblock%}

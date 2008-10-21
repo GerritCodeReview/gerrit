@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5"/>
+	<classpathentry exported="true" kind="lib" path="lib/codereview_proto.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/protobuf.jar" sourcepath="lib/protobuf_src.zip"/>
+	<classpathentry exported="true" kind="lib" path="lib/jgit.jar" sourcepath="lib/jgit_src.zip"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-httpclient.jar" sourcepath="lib/commons-httpclient_src.zip"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-codec.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-logging.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jsch.jar"/>
+	<classpathentry kind="lib" path="lib/commons-net.jar" sourcepath="lib/commons-net_src.zip"/>
+	<classpathentry kind="output" path="out_classes"/>
+</classpath>

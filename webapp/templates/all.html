@@ -1,0 +1,47 @@
+{%extends "changes_base.html"%}
+
+{%block title1%}Recent Changes -{%endblock%}
+
+{%block body%}
+
+<script language="JavaScript" type="text/javascript"><!--
+function keyPressIntermediary(evt) {
+  return M_dashboardKeyPress(evt);
+}
+document.onkeypress = keyPressIntermediary;
+-->
+</script>
+
+
+<h1>Recent Changes</h1>
+
+<table class="change-list">
+<tr><td colspan="8" class="pagination" style="border: none;">
+  {%if newest%}
+    <a class="novisit" href="{{newest}}">&laquo; Newest</a>
+  {%endif%}
+  {%if prev%}
+    <a class="novisit" href="{{prev}}">&lsaquo; Newer</a>
+  {%endif%}
+  <b>{{first}}{%if last%} - {{last}}{%endif%}</b>
+  {%if next%}<a class="novisit" href="{{next}}">Older &rsaquo;</a>
+  {%else%}<span style="color:gray">Older &rsaquo;</span>{%endif%}
+</td></tr>
+
+{%include "change_heading.html"%}
+
+{%if not changes%}
+  <tr><td colspan="8"><span class="disabled">(None)</span></td></tr>
+{%else%}
+  {%for change in changes%}
+    {%include "change_row.html"%}
+  {%endfor%}
+{%endif%}
+
+</table>
+
+<script language="JavaScript" type="text/javascript"><!--
+var dashboardState = new M_DashboardState(window,'change');
+-->
+</script>
+{%endblock%}

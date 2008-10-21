@@ -1,0 +1,47 @@
+{%extends "admin_base.html"%}
+{%block title1%}Data Store Delete{%endblock%}
+{%block body%}
+
+<h2>Data Store Delete</h2>
+
+<div id="warning-message">
+<p>If you really mean to delete your data
+store enter <code>DELETE EVERYTHING</code>
+into the box below.
+</p>
+
+<p><b><i><font color="rd">
+Once started, there is no going back from this operation.
+</font></i></b></p>
+</div>
+
+<p id="active-message" style="display:none">
+<font color="red"><blink>Deleting... please wait ...</blink></font>
+</p>
+
+<form
+  name="delete_form"
+  method="POST"
+  action="{%url codereview.views.admin_datastore_delete%}">
+<table>
+{{form}}
+<tr><td><input type="submit" value="Delete Everything" /></td></tr>
+</table>
+</form>
+
+<script type="text/javascript"><!--
+if (document.delete_form.really.value == 'DELETE EVERYTHING') {
+  var hide;
+
+  hide = document.getElementById('warning-message');
+  hide.style.display = 'none';
+
+  hide = document.getElementById('active-message');
+  hide.style.display = 'inline';
+
+  setTimeout('document.delete_form.submit()', 500);
+}
+// -->
+</script>
+
+{%endblock%}

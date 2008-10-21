@@ -1,0 +1,8 @@
+{%extends "change_base.html"%}
+{%block title1%}Deleting Change -{%endblock%}
+{%block change_body%}
+<form action="{{del_url}}" method="post">
+<input type="hidden" value="{{del_url|xsrf}}" />
+<input type="submit" value="Continue">
+</form>
+{%endblock%}

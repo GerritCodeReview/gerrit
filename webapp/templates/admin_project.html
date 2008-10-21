@@ -1,0 +1,57 @@
+{%extends "admin_base.html"%}
+{%block title1%}Users{%endblock%}
+{%block body%}
+
+{%if project%}
+<h2>Project {{project.name}}</h2>
+{%else%}
+<h2>New Project</h2>
+{%endif%}
+
+<form
+{%if project%}
+action="{%url codereview.project.project_edit project.name%}"
+{%else%}
+action="{%url codereview.project.project_new%}"
+{%endif%}
+method="post">
+
+{{form.xsrf}}
+{%if form.xsrf.errors%}
+<ul>
+  {%for e in form.xsrf.errors%}
+    <li>{{e}}</li>
+  {%endfor%}
+</ul>
+{%endif%}
+
+<table class="largeform">
+<tr><th class="largeform_field">{{form.name.label_tag}}</th></tr>
+<tr><td class="largeform_field">{{form.name}}</td></tr>
+
+<tr><th class="largeform_field">{{form.comment.label_tag}}</th></tr>
+<tr><td class="largeform_field">{{form.comment}}</td></tr>
+
+<tr><th class="largeform_field">{{form.owners.label_tag}}</th></tr>
+<tr><td class="largeform_field">{{form.owners}}</td></tr>
+
+<tr><th class="largeform_field">Code Review</th></tr>
+<tr><td class="largeform_field">{{form.code_reviews}}</td></tr>
+
+
+<tr><td>
+    <input name="save" type="submit" value="Save">
+</td></tr>
+</table>
+</form>
+
+{%if project and is_gae_admin%}
+<h2>Delete Project {{project.name}}</h2>
+
+<form action="{{del_url}}" method="post">
+{{del_url|form_xsrf}}
+<input type="submit" value="Delete Project"> There is no undo!
+</form>
+{%endif%}
+
+{%endblock%}

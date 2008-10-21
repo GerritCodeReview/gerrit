@@ -1,0 +1,39 @@
+{%extends "change_base.html"%}
+{%block title1%}Publish+Mail -{%endblock%}
+{%block change_body%}
+<h2>Publish + Mail Draft Comments</h2>
+
+<div>
+  <form action="{%url codereview.views.publish change.key.id%}"
+        method="post" id="publish-form">
+  <table>
+  {{form}}
+  <tr>
+    <td></td>
+    <td>
+  {%ifequal user change.owner%}
+      <input type="submit" value="Publish Comments">
+  {%else%}
+      <input type="submit" value="Publish Comments + Approvals">
+  {%endifequal%}
+     </td>
+  </tr>
+  </table>
+  </form>
+
+  <a id="resizer" style="display:none;cursor:pointer">
+  <img src="/static/zippyplus.gif"></a>
+  <script language="JavaScript" type="text/javascript"><!--
+  M_addTextResizer_(document.getElementById("publish-form"));
+  --></script>
+
+</div>
+{%if preview%}
+<div style="margin-top: 3em;">
+  <h3>Unpublished Drafts:</h3>
+  <pre class="description">{{preview|wordwrap:"80"|urlize}}</pre>
+</div>
+{%endif%}
+<div style="clear:both"></div>
+
+{%endblock%}

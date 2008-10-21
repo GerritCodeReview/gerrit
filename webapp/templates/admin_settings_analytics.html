@@ -1,0 +1,12 @@
+{%extends "admin_base.html"%}
+{%block title1%}Settings: Analytics{%endblock%}
+{%block body%}
+
+<form action="/admin/settings/analytics" method="post">
+<table>
+{{form}}
+<tr><td><input name="save" type="submit" value="Save"></td></tr>
+</table>
+</form>
+
+{%endblock%}

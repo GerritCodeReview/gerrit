@@ -1,0 +1,310 @@
+{%extends "change_base.html"%}
+
+{%block change_body%}
+
+{%if last_patchset.draft_count%}
+  <div class="error">
+    You have <b>{{last_patchset.draft_count}} draft</b>
+    comment{{last_patchset.draft_count|pluralize}}. Drafts are not viewable by others;
+    use <a class="novisit" href="{%url codereview.views.publish change.key.id%}">
+    Publish+Mail Comments</a> ('m') to let others view them.
+  </div>
+{%endif%}
+
+
+<div class="toggled_section">
+  <h2><a id="change-description-pointer"
+     href="javascript:M_toggleSection('change-description')"
+     class="toggled_section_pointer opentriangle">
+    Description</a></h2>
+  <div id="change-description">
+  <table width="100%" style=""><tr><td style="vertical-align: top;">
+{%if change.description%}
+    <pre class="change_description">{{change.description|wordwrap:80|urlize}}</pre>
+{%endif%}</td><td style="vertical-align: top;" align="right">
+    <table class="change_details">
+      <tr>
+        <th>Project</th>
+        <td>{{change.dest_project.name}}</td>
+      </tr>
+      <tr>
+        <th>Branch</th>
+        <td>{{change.dest_branch.short_name}}</td>
+      </tr>
+      <tr>
+        <th>Created</th>
+        <td>{{change.created|timesince}} ago by {{change.owner|show_user}}</td>
+      </tr>
+      <tr>
+        <th>Modified</th>
+        <td>{{change.modified|timesince}} ago</td>
+      </tr>
+    </table>
+  </td></tr>
+  </table>
+  </div>
+</div>
+
+<div class="toggled_section">
+  <h2>
+    <a id="ps-dependson-pointer"
+       href="javascript:M_toggleSection('ps-dependson')"
+       class="toggled_section_pointer {%if show_dependencies %}opentriangle{% endif %}">
+        Dependencies
+    </a>
+  </h2>
+  <div id="ps-dependson"
+       style="{%if not show_dependencies %}display:none{% endif %}">
+    <table class="change-list">
+      {%include "change_heading.html"%}
+      <tr><th colspan="8" class="header-title">Depends On</th></tr>
+      {%if not depends_on%}
+        <tr><td colspan="8" class="disabled">(None)</td></tr>
+      {%else%}
+        {%for change in depends_on%}
+          {%include "change_row.html"%}
+        {%endfor%}
+      {%endif%}
+
+      <tr><th colspan="8" class="header-title">Needed By</th></tr>
+      {%if not needed_by%}
+        <tr><td colspan="8" class="disabled">(None)</td></tr>
+      {%else%}
+        {%for change in needed_by%}
+          {%include "change_row.html"%}
+        {%endfor%}
+      {%endif%}
+    </table>
+  </div>
+</div>
+
+<div class="toggled_section">
+  <h2>
+    <a id="ps-approvals-pointer"
+       href="javascript:M_toggleSection('ps-approvals')"
+       class="toggled_section_pointer opentriangle">
+        Approvals
+    </a>
+  </h2>
+  <div id="ps-approvals" style="padding-left:4px;">
+    <table class="change_info_table" cellpadding="0" cellspacing="0" border="0" id="">
+      <tr>
+        <th class="leftmost">Reviewer</th>
+        <th class="score">Verified</th>
+        <th class="score rightmost">Code review</th>
+        <th class="hint"></th>
+      </tr>
+      <tr>
+        <td>{{change.owner|show_user}}</td>
+        <td class="score">{%if author_status.verified %}<img src="/static/check.png">{%endif%}</td>
+        <td class="score">{{author_status.lgtm|review_status_icons}}</td>
+        <td class="hint">{% ifequal author_status.lgtm "lgtm" %}Self approved.{% endifequal %}</td>
+      </tr>
+      {% for rs in review_status %}
+      <tr>
+        <td>{{rs.user|show_user}}</td>
+        <td class="score">{%if rs.verified %}<img src="/static/check.png">{%endif%}</td>
+        <td class="score">{{rs.lgtm|review_status_icons}}</td>
+        <td class="hint">{{rs.lgtm|review_status_text}}</font>
+      </tr>
+      {% endfor %}
+    </table>
+
+    {%if user%}
+    <table class="change_actions"><tr>
+      <td class="action">
+        <form method="get" action="{%url codereview.views.publish change.key.id%}">
+          <input type="submit" value="Publish+Mail Comments" />
+        </form>
+      </td>
+
+      <td class="action">
+        <form action="{{merge_url}}" method="post">
+          {{merge_url|form_xsrf}}
+          <input type="submit"
+            {%if show_submit_button %}{%else%}disabled{%endif%}
+              value="{%if show_submit_button %}Submit Patch Set {{last_patchset.id}}{%else%}Can't Submit{%endif%}"/>
+        </form>
+        <div class="change_status">
+          {%if last_patchset and not last_patchset.complete%}
+            Patch Set Still Uploading
+          {%endif%}
+          {%if change.is_submitted%}
+            {%if change.merged%}
+              Merged
+            {%else%}
+              Merge Pending
+            {%endif%}
+          {%else%}
+            {%if ready_to_submit%}
+              {%if user_can_submit%}
+              {%else%}
+                Ready to submit
+              {%endif%}
+            {%else%}
+              <ul>
+                {%if last_patchset and not last_patchset.complete%}
+                  <li>Patch Set Still Uploading</li>
+                {%endif%}
+                {%if is_rejected %}
+                  <li>Change Rejected</li>
+                {%endif%}
+                {%if not is_approved %}
+                  <li>Needs Code Review</li>
+                {%endif%}
+                {%if not is_verified %}
+                  <li>Needs Verification</li>
+                {%endif%}
+              </ul>
+            {%endif%}
+          {%endif%}
+      </td>
+
+      {%ifequal change.owner user %}
+      <td class="action">
+        <form method="get" action="{%url codereview.views.edit change.key.id%}">
+          <input type="submit" value="Edit Change"/>
+        </form>
+      </td>
+      {%endifequal%}
+    </tr></table>
+    {%endif%}
+  </div>
+</div>
+
+{%for patchset in patchsets%}
+<div class="toggled_section">
+  <h2>
+    <a id="ps-{{patchset.key.id}}-pointer"
+       href="javascript:M_togglePatchSetSection('{{change.key.id}}','{{patchset.key.id}}')"
+       class="toggled_section_pointer {%if forloop.last%}opentriangle{%endif%}">
+      Patch Set {{patchset.id}}
+      {%if patchset.message%}: {{patchset.message}}{%endif%}
+    </a>
+  </h2>
+  {%if forloop.last%}
+    <div id="ps-{{patchset.key.id}}">
+      {%include "patchset.html"%}
+    </div>
+  {%else%}
+    <div id="ps-{{patchset.key.id}}"
+         style="display:none">
+    </div>
+  {%endif%}
+</div>
+{%endfor%}
+
+{%if messages%}
+<div class="toggled_section">
+  <h2>
+    <a id="messages-pointer"
+       href="javascript:M_toggleSection('messages')"
+       class="toggled_section_pointer opentriangle">
+      Messages
+    </a>
+  </h2>
+
+  {%if messages%}<div><i>Total messages: {{messages|length}}</i></div>{%endif%}
+
+  <div id="messages">
+    <div style="margin-bottom: .5em;">
+      <a href="javascript:M_showAllComments('cl', {{messages|length}})">
+        Expand All Messages</a>
+      |
+      <a href="javascript:M_hideAllComments('cl', {{messages|length}})">
+        Collapse All Messages</a>
+    </div>
+ 
+    {%for message in messages%}
+      <div class="message">
+        <div class="header">
+          <table border="0" width="100%" cellspacing="0" cellpadding="0">
+            <tr class="comment_title"
+                onclick="M_switchChangelistComment({{forloop.counter0}})">
+              <td style="padding-left: 5px; white-space: nowrap;">
+                <b>{{message.sender|real_name}}</b>
+              </td>
+              <td>
+                <table style="table-layout:fixed; white-space: nowrap;"
+                       width="100%">
+                  <tr>
+                    <td>
+                      <div style="white-space: nowrap; overflow: hidden;{%if forloop.last%} visibility: hidden;{%endif%}"
+                           class="extra"
+                           id="cl-preview-{{forloop.counter0}}">
+                          {{message.text|truncatewords:15}}
+                       </div>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+              <td align="right" style="white-space: nowrap; padding-right: 5px;">
+                {{message.date|timesince}} ago
+              </td>
+            </tr>
+          </table>
+        </div>
+
+        <div id="cl-comment-{{forloop.counter0}}"
+             {%if forloop.last%}{%else%}style="display: none;"{%endif%}>
+          <div class="message-body">
+            <pre name="cl-message-{{forloop.counter0}}"
+            >{{message.text|wordwrap:80|urlize}}</pre>
+          </div>
+          <div class="message-actions">
+            {%if user%}
+              <a href="javascript:M_replyToMessage('{{forloop.counter0}}', '{{message.date|date:"Y/m/d H:i:s"}}', '{{message.sender|real_name:"x"}}')"
+                 id="message-reply-href-{{forloop.counter0}}">Reply</a>
+              <div class="message-reply" id="message-reply-{{forloop.counter0}}"
+                   style="display:none;"></div>
+            {%else%}
+              <a href="{{sign_in}}">Sign in</a> to reply to this message.
+            {%endif%}
+          </div>
+        </div>
+
+      </div>
+    {%endfor%}
+    
+    
+    <div>
+      <a href="javascript:M_showAllComments('cl', {{messages|length}})">
+      Expand All Messages</a>
+      |
+      <a href="javascript:M_hideAllComments('cl', {{messages|length}})">
+      Collapse All Messages</a>
+    </div>
+
+  </div>
+</div>
+{%endif%}
+
+
+<script language="JavaScript" type="text/javascript">
+  <!--
+    document.onkeypress = function(evt) { return M_changelistKeyPress(evt); }
+  // -->
+</script>
+
+
+{%if user%}
+  <div style="display:none;">
+    <form method="POST" action="{{reply_url}}" id="message-reply-form">
+      <div>
+        <textarea rows="7" cols="70" name="message"></textarea>
+      </div>
+      {{reply_url|form_xsrf}}
+      <input type="hidden" name="message_only" value="1" />
+      <input type="submit" value="Send Message" />
+      <input type="button" value="Discard" name="discard" />
+      <input type="checkbox" name="send_mail" value="1" 
+             id="message-reply-send-mail" checked="checked" />
+      <label>Send mail to reviewers</label>
+    </form>
+  </div>
+  <a id="resizer" class="resizer" style="display:none;cursor:pointer">
+    <img src="/static/zippyplus.gif">
+  </a>
+{%endif%}
+
+{%endblock%}

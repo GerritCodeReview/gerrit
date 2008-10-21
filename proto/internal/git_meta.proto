@@ -1,0 +1,63 @@
+// Copyright 2008 Google Inc.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package codereview.internal;
+option java_package = "com.google.codereview.internal";
+
+message GitPerson {
+  // "Givenname Surname" of the person this identifies.
+  //
+  required string name = 1;
+
+  // "who@example.com"; email address of the person.
+  //
+  required string email = 2;
+
+  // UTC seconds since epoch of the time event
+  //
+  required int32 when = 3;
+
+  // Person's preferred timezone offset, minutes east of UTC.
+  //
+  required int32 tz = 4;
+}
+
+message GitCommit {
+  // Commit hash as a hex string.
+  //
+  required string id = 1;
+
+  // Parent commit(s) this commit depends upon in ancestry.
+  // Formatted as hex strings.
+  //
+  repeated string parent_id = 2;
+
+  // Identity of the author of the commit.
+  //
+  required GitPerson author = 3;
+
+  // Identity of the committer (creator) of the commit.
+  // If not present use author instead (as committer is
+  // identical to author, a very common case).
+  //
+  optional GitPerson committer = 4;
+
+  // Message body of the commit.
+  //
+  optional string message = 5;
+
+  // First line (no LF) of the message.
+  //
+  optional string subject = 6;
+}

@@ -1,0 +1,73 @@
+// Copyright 2008 Google Inc.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package codereview.internal;
+option java_package = "com.google.codereview.internal";
+
+message NextReceivedBundleRequest {
+}
+
+message NextReceivedBundleResponse {
+  enum CodeType {
+    BUNDLE_AVAILABLE = 1;
+    QUEUE_EMPTY = 2;
+  }
+  required CodeType status_code = 1;
+
+  // Unique identification of this bundle record.
+  //
+  optional string bundle_key = 2;
+
+  // Name of the project this bundle is applied to.
+  //
+  optional string dest_project = 3;
+
+  // Key of the project this bundle is applied to.
+  //
+  optional string dest_project_key = 4;
+
+  // Key of the branch the uploader thought the bundle
+  // should be applied to.
+  //
+  optional string dest_branch_key = 5;
+
+  // The unmodified bundle file, including its header.
+  //
+  optional bytes bundle_data = 6;
+
+  // Total number of segments in the bundle.
+  //
+  optional int32 n_segments = 8;
+
+  // Identification key for the owner of the bundle.
+  // Issues created will be tied back to them.
+  //
+  optional string owner = 7;
+}
+
+message BundleSegmentRequest {
+  required string bundle_key = 10;
+  required int32 segment_id = 11;
+}
+
+message BundleSegmentResponse {
+  enum CodeType {
+    DATA = 1;
+
+    UNKNOWN_BUNDLE = 2;
+    UNKNOWN_SEGMENT = 3;
+  }
+  required CodeType status_code = 10;
+  optional bytes bundle_data = 11;
+}

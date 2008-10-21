@@ -1,0 +1,26 @@
+{%extends "base.html"%}
+{%block title1%}Settings -{%endblock%}
+{%block body%}
+<h2>Hi!</h2>
+
+<form name="welcome" action="{{post_url}}" method="POST">
+
+{{form.xsrf}}
+{%if form.xsrf.errors%}
+<ul>
+  {%for e in form.xsrf.errors%}
+    <li>{{e}}</li>
+  {%endfor%}
+</ul>
+{%endif%}
+
+{{form.dest}}
+<input type="hidden" name="step" value="4" />
+
+<p>Thanks!  Happy androiding.</p>
+
+
+<input type="submit" value="Done">
+</form>
+
+{%endblock%}

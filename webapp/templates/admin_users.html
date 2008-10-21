@@ -6,6 +6,17 @@
 |
 <a href="/admin/users/verify_cla">Users w/ unverified CLA</a>
 
+<script>
+function user_button_submit() {
+  var email = document.getElementById('straight_to_user').value;
+  url = '/admin/user/' + email;
+  document.getElementById('straight_to_user_form').action = url;
+}
+</script>
+<form id="straight_to_user_form" style="margin: 15px;" onsubmit="user_button_submit()">
+  <input type="text" id="straight_to_user" />
+  <input type="submit" value="Edit user"/>
+</form>
 
 <h2>Users</h2>
 

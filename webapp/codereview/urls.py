@@ -25,6 +25,7 @@ urlpatterns = patterns(
     (r'^$', 'views.index'),
     (r'^all$', 'views.all'),
     (r'^mine$', 'views.mine'),
+    (r'^all_unclaimed$', 'views.all_unclaimed'),
     (r'^unclaimed$', 'views.unclaimed'),
     (r'^starred$', 'views.starred'),
     (r'^r/([0-9a-f]{4,40})$', 'views.revision_redirect'),

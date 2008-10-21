@@ -178,6 +178,42 @@ def mine(request):
 def unclaimed_project_memcache_key(user):
   return "user_unclaimed_projects:%s" % user.email()
 
+def all_unclaimed(request):
+  flat_changes = models.gql(models.Change,
+                          ' WHERE closed = FALSE'
+                          '   AND claimed = FALSE'
+                          ' ORDER BY dest_project DESC,'
+                          '   modified DESC').fetch(1000)
+  changes = []
+  c_list = []
+  last_project_key = None
+  for c in flat_changes:
+    logging.info("c=" + str(c))
+    k = c.dest_project.key()
+    if k != last_project_key:
+      if c_list:
+        _optimize_draft_counts(c_list)
+        _prefetch_names(c_list)
+        changes.append({
+            'name': c.dest_project.name,
+            'changes': c_list,
+          })
+      last_project_key = k
+      c_list = []
+    c_list.append(c)
+  if c_list:
+    _optimize_draft_counts(c_list)
+    _prefetch_names(c_list)
+    changes.append({
+        'name': c.dest_project.name,
+        'changes': c_list,
+      })
+  vars = {
+      'projects': changes,
+    }
+
+  return respond(request, 'unclaimed.html', vars)
+
 @login_required
 def unclaimed(request):
   """/unclaimed - Show changes with no reviewer listed for user's selected

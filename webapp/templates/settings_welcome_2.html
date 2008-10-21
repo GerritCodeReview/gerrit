@@ -20,15 +20,16 @@
 <p>Hi, welcome to Android.  Before we can get going, we need a little bit of
 information from you.</p>
 
-<table class="largeform">
-<tr><th class="largeform_field">Contributor License Grant</th></tr>
-<tr><td class="largeform_field">
-If you're going to contribute code, we need you to sign a "contributor
+<table class="settings">
+<tbody>
+<tr><th>Contributor License Grant</th></tr>
+<tr><td style="white-space: normal;">
+<p>If you're going to contribute code, we need you to sign a "contributor
 license grant."  This affirms that you are granting the Android Project 
 the right to use the code you contribute.  Please read the agreement for all
 of the details.
 <p>Which one would you like?</p>
-<ul style="list-style: none;">
+<ul style="list-style: none; padding-left: 4em; text-indent: -2em;">
   <li><input type="radio" id="id_cla_none" value="none" name="cla"
       {% ifequal form.initial.cla 'none' %}checked{% endifequal %}
       /><label
@@ -49,6 +50,8 @@ of the details.
       you a form that will need to printed, signed and sent back via
       post, email or fax.</label></li>
 </ul>
+</td></tr>
+</tbody>
 </table>
 
 <input type="button" name="back" value="Back" onclick="document.welcome.submit();">

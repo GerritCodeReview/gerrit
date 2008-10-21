@@ -20,9 +20,9 @@
 <p>Hi, welcome to Android.  Before we can get going, we need a little bit of
 information from you.</p>
 
-<table class="largeform">
-<tr><th class="largeform_field">Individual Contributor License Grant</th></tr>
-<tr><td class="largeform_field">
+<table class="settings">
+<tr><th>Individual Contributor License Grant</th></tr>
+<tr><td style="background-color: white; white-space: normal;">
 
 <p
 {% if form.i_agree.errors %}
@@ -30,8 +30,6 @@ information from you.</p>
 {% endif %}
 >Please read the following, and agree to it by typing the words "I AGREE" in the box below.</p>
 
-
-<hr>
 
 <div style="padding: 0 30px 0 30px;">
 
@@ -135,9 +133,12 @@ in any respect.</p></li></ol></div>
 </div>
 
 <p>I agree: {{form.i_agree}}</p>
-<hr/>
+</td></tr>
+<tr><td height=10></td></tr>
+</table>
+
 <p>We need to collect the following information as well:
-<table>
+<table cellspacing=0 cellpadding=0>
 <tr><td><b>Mailing Address</b></td>
     <td>{{form.mailing_address}}{{form.mailing_address.errors}}</td></tr>
 <tr><td><b>Country</b></td>
@@ -149,8 +150,6 @@ in any respect.</p></li></ol></div>
 </table>
 </p>
 
-</td></tr>
-</table>
 
 <input type="button" name="back" value="Back" onclick="document.welcome.submit();">
 <input type="submit" name="continue" value="Continue">

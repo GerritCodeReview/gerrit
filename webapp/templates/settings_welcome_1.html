@@ -20,18 +20,17 @@
 <p>Hi, welcome to Android.  Before we can get going, we need a little bit of
 information from you.</p>
 
-<table>
-<table class="largeform">
-<tr><th class="largeform_field">Your name</th></tr>
-<tr><td class="largeform_field">{{form.real_name}}
+<table class="settings">
+<tr><th>Your name</th></tr>
+<tr><td>Please enter your real name. 
+This is the name that will be shown to other users on this site.
 
-<p>We like to maintain a friendly atmosphere here, and we feel that calling people
-by their real name helps that.
-<p><i>Also, we can't accept code submitted without
-knowing who really submitted it.</i>
+<p><b style="margin-right: 10px;">Your full name: </b> {{form.real_name}} 
+
+<p><i>Also, we can't accept code submitted without knowing who really submitted it.</i>
+
 </td></tr>
 </table>
-
 <input type="submit" value="Continue">
 </form>
 

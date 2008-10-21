@@ -23,6 +23,7 @@ urlpatterns = patterns(
     (r'^proto/_token$', 'proto_server.token'),
     (r'^proto/([^/]*)/([^/]*)$', 'proto_server.serve'),
     (r'^$', 'views.index'),
+    (r'^hello$', 'views.hello'),
     (r'^all$', 'views.all'),
     (r'^mine$', 'views.mine'),
     (r'^all_unclaimed$', 'views.all_unclaimed'),

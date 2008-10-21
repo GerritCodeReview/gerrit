@@ -88,6 +88,10 @@ def index(request):
   else:
     return mine(request)
 
+def hello(request):
+  """/hello"""
+  return HttpResponseRedirect('/settings/welcome?dest=/')
+  #return respond(request, 'hello.html', {})
 
 DEFAULT_LIMIT = 10
 

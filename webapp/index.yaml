@@ -24,19 +24,19 @@ indexes:
   - name: cla_verified
   - name: individual_cla_version
 
-# Used 504 times in query history.
+# Used 555 times in query history.
 - kind: Branch
   properties:
   - name: status
   - name: merge_submitted
 
-# Used 18 times in query history.
+# Used 28 times in query history.
 - kind: BuildAttempt
   properties:
   - name: success
   - name: started
 
-# Used 2 times in query history.
+# Used 14 times in query history.
 - kind: Change
   properties:
   - name: claimed
@@ -45,7 +45,7 @@ indexes:
   - name: modified
     direction: desc
 
-# Used 9 times in query history.
+# Used 10 times in query history.
 - kind: Change
   properties:
   - name: claimed
@@ -62,7 +62,7 @@ indexes:
   - name: modified
     direction: desc
 
-# Used 38 times in query history.
+# Used 66 times in query history.
 - kind: Change
   properties:
   - name: closed
@@ -70,7 +70,7 @@ indexes:
   - name: modified
     direction: desc
 
-# Used 19 times in query history.
+# Used 33 times in query history.
 - kind: Change
   properties:
   - name: closed
@@ -130,7 +130,7 @@ indexes:
   - name: author
   - name: draft
 
-# Used once in query history.
+# Used 11 times in query history.
 - kind: Message
   properties:
   - name: change
@@ -140,7 +140,7 @@ indexes:
 - kind: Message
   ancestor: yes
 
-# Used once in query history.
+# Used 13 times in query history.
 - kind: Patch
   properties:
   - name: patchset
@@ -150,7 +150,7 @@ indexes:
 - kind: Patch
   ancestor: yes
 
-# Used once in query history.
+# Used 38 times in query history.
 - kind: PatchSet
   properties:
   - name: change
@@ -171,7 +171,7 @@ indexes:
   - name: created
     direction: desc
 
-# Used 557 times in query history.
+# Used 634 times in query history.
 - kind: ReceivedBundle
   properties:
   - name: state
@@ -181,6 +181,6 @@ indexes:
 - kind: ReceivedBundleSegment
   ancestor: yes
 
-# Used once in query history.
+# Used 13 times in query history.
 - kind: ReviewStatus
   ancestor: yes

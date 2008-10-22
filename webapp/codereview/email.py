@@ -113,6 +113,8 @@ def send_change_message(request, change, template, template_args,
 
   # don't send emails without all of these fields
   if not sender_string or not to_strings or not subject or not body:
+    logging.error("sender_string=%s to_strings=%s subject=%s body=%s" %
+        (sender_string, to_strings, subject, body))
     return None
 
   # send the email

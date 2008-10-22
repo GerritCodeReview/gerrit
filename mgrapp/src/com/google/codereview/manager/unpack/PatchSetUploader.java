@@ -38,7 +38,6 @@ import java.io.Writer;
 import java.security.MessageDigest;
 import java.util.zip.Deflater;
 import java.util.zip.DeflaterOutputStream;
-import java.util.zip.InflaterInputStream;
 
 
 class PatchSetUploader implements Runnable {
@@ -179,8 +178,6 @@ class PatchSetUploader implements Runnable {
     req.setFileName(diff.getFilename());
     req.setStatus(diff.getStatus());
 
-    ByteString patchz = deflate(diff.getPatch());
-
     if (!diff.isBinary() && !diff.isTruncated()) {
       final ObjectId baseId = diff.getBaseId();
 
@@ -195,13 +192,12 @@ class PatchSetUploader implements Runnable {
             throw new StopProcessingException("No " + baseId.name());
           }
 
-          final ByteString basez = deflate(ldr.getCachedBytes());
-          if (basez.size() + patchz.size() > MAX_DATA_SIZE) {
+          final byte[] base = ldr.getCachedBytes();
+          if (base.length + diff.getPatchSize() > MAX_DATA_SIZE) {
             diff.truncatePatch();
-            patchz = deflate(diff.getPatch());
           } else {
             req.setBaseId(baseId.name());
-            req.setBaseZ(basez);
+            req.setBaseZ(deflate(base));
           }
         } catch (IOException err) {
           LOG.fatal(logkey() + " cannot read base " + baseId.name(), err);
@@ -219,8 +215,9 @@ class PatchSetUploader implements Runnable {
       }
     }
 
-    req.setPatchZ(patchz);
-    req.setPatchId(hashOfInflated(patchz));
+    final byte[] rawpatch = diff.getPatch();
+    req.setPatchZ(deflate(rawpatch));
+    req.setPatchId(hashOf(rawpatch));
 
     return req.build();
   }
@@ -238,19 +235,9 @@ class PatchSetUploader implements Runnable {
     return r.toByteString();
   }
 
-  private static String hashOfInflated(final ByteString in) {
+  private static String hashOf(final byte[] in) {
     final MessageDigest md = Constants.newMessageDigest();
-    final byte[] tmp = new byte[512];
-    final InflaterInputStream iis = new InflaterInputStream(in.newInput());
-    int cnt;
-    try {
-      while ((cnt = iis.read(tmp)) > 0) {
-        md.update(tmp, 0, cnt);
-      }
-    } catch (IOException err) {
-      // This should not happen.
-      throw new StopProcessingException("Unexpected IO error", err);
-    }
+    md.update(in, 0, in.length);
     return ObjectId.fromRaw(md.digest()).name();
   }
 }

@@ -29,22 +29,27 @@ from codereview import email
 
 def _send_clean_merge_email(http_request, change):
   if not change.emailed_clean_merge:
-    email.send_change_message(http_request, change,
-                              "mails/clean_merge.txt", None)
+    msg = email.send_change_message(http_request, change,
+                              "mails/clean_merge.txt", None, None)
     change.emailed_clean_merge = True
+    return msg
+  return None
   
 def _send_missing_dependency_merge_email(http_request, change):
   if not change.emailed_clean_merge:
-    email.send_change_message(http_request, change,
-                              "mails/missing_dependency.txt", None)
+    msg = email.send_change_message(http_request, change,
+                              "mails/missing_dependency.txt", None, None)
     change.emailed_missing_dependency = True
+    return msg
+  return None
 
 def _send_path_conflict_email(http_request, change):
   if not change.emailed_clean_merge:
-    email.send_change_message(http_request, change,
-                              "mails/path_conflict.txt", None)
+    msg = email.send_change_message(http_request, change,
+                              "mails/path_conflict.txt", None, None)
     change.emailed_path_conflict = True
-
+    return msg
+  return None
 
 class InvalidBranchStatusError(Exception):
   """The branch cannot be updated in this way at this time."""
@@ -115,22 +120,30 @@ class MergeServiceImp(MergeService, InternalAPI):
           change.put()
 
         return True
+
       if db.run_in_transaction(chg_trans, ps.change.key()):
         if sc == MergeResultItem.CLEAN_MERGE:
-          _send_clean_merge_email(self.http_request, ps.change)
+          msg = _send_clean_merge_email(self.http_request, ps.change)
           ps.change.put()
+          if msg:
+            msg.put()
 
         elif sc == MergeResultItem.ALREADY_MERGED:
           success.append(ps)
 
         elif sc == MergeResultItem.MISSING_DEPENDENCY:
-          _send_missing_dependency_merge_email(self.http_request, ps.change)
+          msg = _send_missing_dependency_merge_email(self.http_request,
+                                                     ps.change)
           ps.change.put()
+          if msg:
+            msg.put()
           defer.append(ps)
 
         elif sc == MergeResultItem.PATH_CONFLICT:
-          _send_path_conflict_email(self.http_request, ps.change)
+          msg = _send_path_conflict_email(self.http_request, ps.change)
           ps.change.put()
+          if msg:
+            msg.put()
           fail.append(ps)
       else:
         fail.append(ps)

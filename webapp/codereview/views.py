@@ -1294,20 +1294,7 @@ def _get_draft_details(request, comments):
 def _make_comment_message(request, change, lgtm, verified, message,
                   comments=None, send_mail=False):
   """Helper to create a Message instance and optionally send an email."""
-  # Decide who should receive mail
-  my_email = db.Email(request.user.email())
-  to = [db.Email(change.owner.email())] + change.reviewers
-  cc = change.cc[:]
-  reply_to = to + cc
-  if my_email in to and len(to) > 1:  # send_mail() wants a non-empty to list
-    to.remove(my_email)
-  if my_email in cc:
-    cc.remove(my_email)
-  subject = email.make_change_subject(change)
-  if comments:
-    details = _get_draft_details(request, comments)
-  else:
-    details = ''
+
   prefix = ''
   if lgtm:
     prefix = prefix + [y for (x,y) in models.LGTM_CHOICES
@@ -1316,26 +1303,24 @@ def _make_comment_message(request, change, lgtm, verified, message,
     prefix = prefix + 'Verified.\n'
   if prefix:
     prefix = prefix + '\n'
+
   message = message.replace('\r\n', '\n')
   message = prefix + message
-  text = ((message.strip() + '\n\n' + details.strip())).strip()
-  msg = models.Message(change=change,
-                       subject=subject,
-                       sender=my_email,
-                       recipients=reply_to,
-                       text=db.Text(text),
-                       parent=change)
 
-  if send_mail:
-    to_users = set([change.owner] + change.reviewers + cc)
-    template_args = {
-        'message': message,
-        'details': details,
-      }
-    email.send_change_message(request, change,
-                              'mails/comment.txt', template_args)
+  if comments:
+    details = _get_draft_details(request, comments)
+  else:
+    details = ''
 
-  return msg
+  template_args = {
+      'message': message,
+      'details': details,
+    }
+
+  return email.send_change_message(
+                              request, change,
+                              'mails/comment.txt', template_args, request.user,
+                              send_mail, 'mails/comment-email.txt')
 
 
 @xsrf_required

@@ -2,11 +2,8 @@
 Hi.
 
 Your change could not be merged because of a missing dependency.  As
-soon as change XXX is submitted, your change will be submitted
+soon as its dependencies are submitted, your change will be submitted
 automatically.
-
-Your change: {%autoescape off%}{{url}}{%endautoescape%}
-The missing change: {%autoescape off%}{{url}}{%endautoescape%}
 
 -Your friendly git merger
 

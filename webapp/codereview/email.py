@@ -34,6 +34,8 @@ def _encode_safely(s):
   return s
 
 def _to_email_string(obj):
+  if not obj:
+    return None
   if isinstance(obj, str):
     return obj
   elif isinstance(obj, unicode):
@@ -50,11 +52,17 @@ def _to_email_string(obj):
     result = str(email)
   return _encode_safely(result)
 
+def _make_to_strings(to):
+  return [x for x in [_to_email_string(e) for e in to] if x]
+
+
 def send(sender, to, subject, template, template_args):
   """Sends an email based on a template.
 
   All email address parameters can be: strings, unicode, db.Email users.User
   or models.Account objects.
+
+  Returns a Message object, suitable for keeping in the db.
 
   Args:
     sender:   The From address.  Null if it should be sent from the role acct.
@@ -63,16 +71,16 @@ def send(sender, to, subject, template, template_args):
     template: The name of the template file to use from the mail dir.
     template_args:  A map of args to be pasaed to the template
   """
-  if not sender:
-    sender_string = get_default_sender()
-    if not sender_string:
-      logging.warn('not sending email because there is no from address')
-      return 'not sending email because there is no from address'
-  else:
-    sender_string = _to_email_string(sender)
-  to_string = [_to_email_string(e) for e in to]
+  sender_string = _to_email_string(sender)
+  if not sender_string:
+    return 'no from address'
+  to_strings = _make_to_strings(to)
+  if not to_strings:
+    return 'no to addresses'
   body = django.template.loader.render_to_string(template, template_args)
-  mail.send_mail(sender=sender_string, to=to_string, subject=subject, body=body)
+  mail.send_mail(sender=sender_string, to=to_strings, subject=subject,
+                  body=body)
+
 
 def make_change_subject(change):
   subject = "(%s) %s" % (change.dest_project.name, change.subject)
@@ -80,14 +88,49 @@ def make_change_subject(change):
     subject = 'Re: ' + subject
   return subject
 
-def send_change_message(request, change, template, template_args):
+def send_change_message(request, change, template, template_args,
+                        sender, send_email=True, email_template=None):
+  # sender
+  if not sender:
+    sender = get_default_sender()
+  sender_string = _to_email_string(sender)
+
+  # to
   to_users = set([change.owner] + change.reviewers + change.cc)
+  if sender in to_users:
+    to_users.remove(sender)
+  to_strings = _make_to_strings(to_users)
+  to_emails = [db.Email(s) for s in to_strings]
+
+  # subject
   subject = make_change_subject(change)
-  args = {
-      'url': library.change_url(change)
-    }
-  if template_args:
-    args.update(template_args)
-  email.send(request.user, to_users, subject, template, args)
+
+  # body
+  uri = library.change_url(change)
+  if not email_template:
+    email_template = template
+  body = django.template.loader.render_to_string(email_template, template_args)
+
+  # don't send emails without all of these fields
+  if not sender_string or not to_strings or not subject or not body:
+    return None
+
+  # send the email
+  if send_email:
+    message_body = "%s\n--\n%s\n" % (body, uri)
+    mail.send_mail(sender=sender_string, to=to_strings, subject=subject,
+                    body=message_body)
+  
+  # make and return the email
+  if email_template != template:
+    body = django.template.loader.render_to_string(
+                                          template, template_args)
+  msg = models.Message(change=change,
+                       subject=subject,
+                       sender=sender_string,
+                       recipients=to_emails,
+                       text=db.Text(body),
+                       parent=change)
+  return msg
 
 

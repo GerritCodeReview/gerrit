@@ -44,13 +44,12 @@ class PatchSetUploader implements Runnable {
   private static final Log LOG = LogFactory.getLog(PatchSetUploader.class);
   private static final int MAX_DATA_SIZE = 1022 * 1024; // bytes
   private static final String EMPTY_BLOB_ID;
-  private static final ByteString EMPTY_DEFLATE;
+  private static ByteString EMPTY_DEFLATE;
 
   static {
     final MessageDigest md = Constants.newMessageDigest();
     md.update(Constants.encodeASCII("blob 0\0"));
     EMPTY_BLOB_ID = ObjectId.fromRaw(md.digest()).name();
-    EMPTY_DEFLATE = deflate(new byte[0]);
   }
 
   private final Backend server;
@@ -58,6 +57,7 @@ class PatchSetUploader implements Runnable {
   private final RevCommit commit;
   private final String commitName;
   private final String patchsetKey;
+  private Deflater patchDeflater;
   private ByteString.Output compressedFilenames;
   private Writer filenameOut;
 
@@ -90,12 +90,13 @@ class PatchSetUploader implements Runnable {
       compressedFilenames = ByteString.newOutput();
       filenameOut =
           new OutputStreamWriter(new DeflaterOutputStream(compressedFilenames,
-              new Deflater(Deflater.DEFAULT_COMPRESSION)), "UTF-8");
+              new Deflater(Deflater.BEST_COMPRESSION)), "UTF-8");
     } catch (IOException e) {
       LOG.error(logkey() + " cannot initialize filename compression", e);
       return;
     }
 
+    patchDeflater = new Deflater(Deflater.BEST_COMPRESSION);
     try {
       final DiffReader dr = new DiffReader(db, commit);
       try {
@@ -120,6 +121,8 @@ class PatchSetUploader implements Runnable {
     } catch (IOException err) {
       LOG.error(logkey() + " diff failed", err);
       return;
+    } finally {
+      patchDeflater.end();
     }
 
     final CompletePatchsetRequest.Builder req;
@@ -183,7 +186,7 @@ class PatchSetUploader implements Runnable {
 
       if (baseId == null || ObjectId.equals(baseId, ObjectId.zeroId())) {
         req.setBaseId(EMPTY_BLOB_ID);
-        req.setBaseZ(EMPTY_DEFLATE);
+        req.setBaseZ(getEmptyDeflatedBlob());
       } else {
         try {
           final ObjectLoader ldr = db.openBlob(baseId);
@@ -222,15 +225,28 @@ class PatchSetUploader implements Runnable {
     return req.build();
   }
 
-  private static ByteString deflate(final byte[] buf) {
+  private ByteString getEmptyDeflatedBlob() {
+    synchronized (PatchSetUploader.class) {
+      if (EMPTY_DEFLATE == null) {
+        EMPTY_DEFLATE = deflate(new byte[0]);
+      }
+      return EMPTY_DEFLATE;
+    }
+  }
+
+  private ByteString deflate(final byte[] buf) {
     final ByteString.Output r = ByteString.newOutput();
-    final DeflaterOutputStream out = new DeflaterOutputStream(r);
+    final DeflaterOutputStream out;
+
+    out = new DeflaterOutputStream(r, patchDeflater);
     try {
       out.write(buf);
       out.close();
     } catch (IOException err) {
       // This should not happen.
       throw new StopProcessingException("Unexpected IO error", err);
+    } finally {
+      patchDeflater.reset();
     }
     return r.toByteString();
   }

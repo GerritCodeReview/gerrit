@@ -179,7 +179,7 @@ release: release-web release-mgr release-pyclient
 
 clean:
 	@rm -rf release .java_src .java_bin .proto_out
-	@rm -f .jgit_version .protobuf_version
+	@rm -f .jgit_version
 	@rm -f $(protobuf_jar_src)/com/google/protobuf/DescriptorProtos.java
 	@rm -f $(GEN_JAR)
 	@rm -rf $(WEB_APP)/froofle $(WEB_APP)/froofle+

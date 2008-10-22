@@ -1143,7 +1143,7 @@ class PublishCommentsForm(BaseForm):
     cc = _get_emails(self, 'cc')
     (self.user_can_approve,self.user_can_verify) = project.user_can_approve(
           request.user, change)
-    lgtm = _restrict_lgtm(cd.get('lgtm', ''), self.user_can_approve)
+    lgtm = _restrict_lgtm(cd.get('lgtm', 'abstain'), self.user_can_approve)
     verified = _restrict_verified(cd.get('verified', False),
           self.user_can_verify)
 
@@ -1165,7 +1165,8 @@ class PublishCommentsForm(BaseForm):
                         cd['message'],
                         comments,
                         cd['send_mail'])
-    tbd.append(msg)
+    if msg:
+      tbd.append(msg)
     tbd.append(change)
 
     while tbd:
@@ -1296,7 +1297,7 @@ def _make_comment_message(request, change, lgtm, verified, message,
   """Helper to create a Message instance and optionally send an email."""
 
   prefix = ''
-  if lgtm:
+  if len(lgtm):
     prefix = prefix + [y for (x,y) in models.LGTM_CHOICES
                        if x == lgtm][0] + '\n'
   if verified:

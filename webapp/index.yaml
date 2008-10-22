@@ -88,6 +88,16 @@ indexes:
   - name: modified
     direction: desc
 
+# Unused in query history -- copied from input.
+- kind: Change
+  properties:
+  - name: claimed
+  - name: closed
+  - name: dest_project
+    direction: desc
+  - name: modified
+    direction: desc
+
 # Used 8 times in query history.
 - kind: Comment
   properties:

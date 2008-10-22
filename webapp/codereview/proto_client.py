@@ -167,6 +167,10 @@ class HttpRpc(RpcChannel):
     Returns:
       The authentication token returned by ClientLogin.
     """
+    account_type = 'GOOGLE'
+    if self.host.endswith('.google.com'):
+      account_type = 'HOSTED'
+
     req = self._CreateRequest(
         url="https://www.google.com/accounts/ClientLogin",
         data=urllib.urlencode({
@@ -174,7 +178,7 @@ class HttpRpc(RpcChannel):
             "Passwd": password,
             "service": "ah",
             "source": "gerrit-codereview-client",
-            "accountType": "HOSTED_OR_GOOGLE",
+            "accountType": account_type,
         })
     )
     try:
@@ -214,7 +218,6 @@ class HttpRpc(RpcChannel):
         response.info()["location"] != continue_location):
       raise urllib2.HTTPError(req.get_full_url(), response.code, response.msg,
                               response.headers, response.fp)
-    self.authenticated = True
 
   def _GetXsrfToken(self):
     """Fetches /proto/_token for use in X-XSRF-Token HTTP header.
@@ -253,10 +256,18 @@ class HttpRpc(RpcChannel):
     authentication cookie, it returns a 401 response and directs us to
     authenticate ourselves with ClientLogin.
     """
-    for i in range(3):
-      credentials = self.auth_function()
-      auth_token = self._GetAuthToken(credentials[0], credentials[1])
+    attempts = 0
+    while True:
+      attempts += 1
+      try:
+        cred = self.auth_function()
+        auth_token = self._GetAuthToken(cred[0], cred[1])
+      except ClientLoginError:
+        if attempts < 3:
+          continue
+        raise
       self._GetAuthCookie(auth_token)
+      self.authenticated = True
       if self.cookie_file is not None:
         self.cookie_jar.save()
       return

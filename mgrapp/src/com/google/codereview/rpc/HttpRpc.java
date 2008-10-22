@@ -327,6 +327,11 @@ public class HttpRpc implements RpcChannel {
   }
 
   private String computeAuthToken() throws IOException {
+    String accountType = "GOOGLE";
+    if (server.getHost().endsWith(".google.com")) {
+      accountType = "HOSTED";
+    }
+
     final PostMethod conn = new PostMethod();
     try {
       conn.setDoAuthentication(false);
@@ -336,7 +341,7 @@ public class HttpRpc implements RpcChannel {
           new NameValuePair("Passwd", userPassword),
           new NameValuePair("service", "ah"),
           new NameValuePair("source", "gerrit-codereview-manager"),
-          new NameValuePair("accountType", "HOSTED_OR_GOOGLE")});
+          new NameValuePair("accountType", accountType)});
 
       final int status = http.executeMethod(conn);
       final Map<String, String> rsp =

@@ -100,15 +100,6 @@ def admin_users(request):
   accounts = models.Account.get_all_accounts()
   return respond(request, 'admin_users.html', {'users': accounts})
 
-@admin_required
-def admin_users_verify_cla(request):
-  """/admin/users - list of all users"""
-  accounts = models.Account.gql('WHERE welcomed=True '
-                              + 'AND individual_cla_version != 0'
-                              + 'AND cla_verified=False').fetch(1000)
-  return respond(request, 'admin_users.html', {'users': accounts})
-
-
 def _get_groups_for_account(account):
   return models.gql(models.AccountGroup,
                     'WHERE members = :1',

@@ -172,6 +172,7 @@ class WelcomeForm3Individual(BaseForm):
     account = state['account']
     # NOTE: just using 1 for now, future versions can come later
     account.individual_cla_version = 1
+    account.cla_verified = True
     account.mailing_address = cd['mailing_address']
     account.mailing_address_country = cd['mailing_address_country']
     account.phone_number = cd['phone_number']

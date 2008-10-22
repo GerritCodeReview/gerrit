@@ -20,8 +20,9 @@ from google.appengine.api import users
 
 import django.template
 
-import models
 import email
+import library
+import models
 
 def get_default_sender():
   return models.Settings.get_settings().from_email
@@ -83,7 +84,7 @@ def send_change_message(request, change, template, template_args):
   to_users = set([change.owner] + change.reviewers + change.cc)
   subject = make_change_subject(change)
   args = {
-      'url': request.build_absolute_uri('/%s' % change.key().id()),
+      'url': library.change_url(change)
     }
   if template_args:
     args.update(template_args)

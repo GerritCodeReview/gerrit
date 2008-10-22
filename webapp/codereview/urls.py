@@ -61,6 +61,7 @@ urlpatterns = patterns(
     (r'^admin/settings/analytics$', 'views.admin_settings_analytics'),
     (r'^admin/settings/from_email$', 'views.admin_settings_from_email'),
     (r'^admin/settings/from_email_test$', 'views.admin_settings_from_email_test'),
+    (r'^admin/settings/canonical_url$', 'views.admin_settings_canonical_url'),
     (r'^admin/users$', 'people.admin_users'),
     (r'^admin/people_info$', 'people.admin_people_info'),
     (r'^admin/user/(.+)$', 'people.admin_user'),

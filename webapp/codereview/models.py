@@ -109,6 +109,7 @@ class Settings(BackedUpModel):
   internal_api_key = db.StringProperty()
   xsrf_key = db.StringProperty()
   from_email = db.StringProperty()
+  canonical_url = db.StringProperty(default='')
 
   _Key = MemCacheKey('Settings_Singleton')
 

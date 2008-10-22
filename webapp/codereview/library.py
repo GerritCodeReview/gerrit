@@ -205,3 +205,8 @@ def abbrevtimesince(d, arg=None):
     except KeyError:
       r.append(p)
   return ', '.join(r)
+
+
+def change_url(change):
+  base = models.Settings.get_settings().canonical_url
+  return "%s/%s" % (base, change.key().id())

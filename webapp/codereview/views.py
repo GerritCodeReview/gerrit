@@ -1443,6 +1443,31 @@ def admin_settings_from_email(request):
     return HttpResponseRedirect('/admin/settings')
   return process_form(request, AdminSettingsFromEmailForm, None, done)
 
+class AdminSettingsCanonicalUrlForm(BaseForm):
+  _template = 'admin_settings_canonical_url.html'
+
+  url = forms.CharField(required=True)
+
+  @classmethod
+  def _init(cls, state):
+    settings = models.Settings.get_settings()
+    return {'initial': {
+                'url': settings.canonical_url,
+              }
+            }
+
+  def _save(self, cd, change):
+    settings = models.Settings.get_settings()
+    settings.canonical_url = cd['url']
+    settings.put()
+
+@gae_admin_required
+def admin_settings_canonical_url(request):
+  def done():
+    return HttpResponseRedirect('/admin/settings')
+  return process_form(request, AdminSettingsCanonicalUrlForm, None, done)
+
+
 @gae_admin_required
 def admin_settings_from_email_test(request):
   if request.method == 'POST':

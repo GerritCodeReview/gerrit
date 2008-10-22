@@ -22,4 +22,13 @@
   <code>{%if settings.analytics %}{{settings.analytics}}{%else%}NONE SET{%endif%}</code>
   <input type="submit" value="Edit" style="margin-left: 30px;"/>
 </form>
+
+<h3>Canonical URL</h3>
+(used in emails)<br/>
+<code>{%if settings.canonical_url %}{{settings.canonical_url}}{%else%}NONE SET{%endif%}</code>
+<form method="get" action="/admin/settings/canonical_url" style="margin-left: 30px; display: inline;">
+  <input type="submit" value="Edit"/>
+</form>
+
+
 {%endblock%}

@@ -1,0 +1,15 @@
+{%extends "admin_base.html"%}
+{%block title1%}Settings: From email{%endblock%}
+{%block body%}
+
+<form action="/admin/settings/canonical_url" method="post">
+<table>
+{{form}}
+
+<p>The url should contain the http and should not contain a trailing slash.
+For example: http://review.source.android.com.</p>
+<tr><td><input name="save" type="submit" value="Save"></td></tr>
+</table>
+</form>
+
+{%endblock%}

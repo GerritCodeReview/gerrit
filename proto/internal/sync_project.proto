@@ -15,11 +15,9 @@
 package codereview.internal;
 option java_package = "com.google.codereview.internal";
 
-import "git_meta.proto";
-
 message BranchSync {
   required string branch_name = 1;
-  required GitCommit commit = 2;
+  // field 2 used to be "commit"
 }
 
 message SyncProjectRequest {

@@ -113,7 +113,6 @@ public class ProjectSync {
   private BranchSync toBranch(final Ref r, final RevCommit c) {
     final BranchSync.Builder bs = BranchSync.newBuilder();
     bs.setBranchName(r.getName());
-    bs.setCommit(GitMetaUtil.toGitCommit(c));
     return bs.build();
   }
 

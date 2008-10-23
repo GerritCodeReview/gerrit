@@ -91,12 +91,13 @@ def make_change_subject(change):
 def send_change_message(request, change, template, template_args,
                         sender, send_email=True, email_template=None):
   # sender
+  default = get_default_sender()
   if not sender:
-    sender = get_default_sender()
+    sender = default
   sender_string = _to_email_string(sender)
 
   # to
-  to_users = set([change.owner] + change.reviewers + change.cc)
+  to_users = set([change.owner] + change.reviewers + change.cc + [default])
   if sender in to_users:
     to_users.remove(sender)
   to_strings = _make_to_strings(to_users)

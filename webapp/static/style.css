@@ -33,6 +33,10 @@ body {
 #top_nav_right {
   text-align: right;
   right: 0;
+  font-size: 13px;
+  font-family: Arial, sans-serif;
+  margin-top: -1px;
+  padding-bottom: 5px;
 }
 
 #masthead {

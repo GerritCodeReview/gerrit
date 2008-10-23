@@ -83,7 +83,8 @@ def send(sender, to, subject, template, template_args):
 
 
 def make_change_subject(change):
-  subject = "(%s) %s" % (change.dest_project.name, change.subject)
+  subject = "Change %s: (%s) %s" % (change.key().id(), change.dest_project.name,
+                                    change.subject)
   if change.message_set.count(1) > 0:
     subject = 'Re: ' + subject
   return subject

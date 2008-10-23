@@ -76,10 +76,8 @@ def SplitPatch(data):
     patches.append((filename, ''.join(diff)))
   return patches
 
-
-
 def RenderDiffTableRows(request, old_lines, chunks, patch,
-                        colwidth=80,
+                        colwidth=100,
                         debug=False,
                         context=models.DEFAULT_CONTEXT):
   """Render the HTML table rows for a side-by-side diff for a patch.
@@ -89,7 +87,7 @@ def RenderDiffTableRows(request, old_lines, chunks, patch,
     old_lines: List of lines representing the original file.
     chunks: List of chunks as returned by patching.ParsePatchToChunks().
     patch: A models.Patch instance.
-    colwidth: Optional column width (default 80).
+    colwidth: Optional column width (default 100).
     debug: Optional debugging flag (default False).
     context: Maximum number of rows surrounding a change (default CONTEXT).
 
@@ -104,7 +102,7 @@ def RenderDiffTableRows(request, old_lines, chunks, patch,
 
 
 def RenderDiff2TableRows(request, old_lines, old_patch, new_lines, new_patch,
-                         colwidth=80,
+                         colwidth=100,
                          debug=False,
                          context=models.DEFAULT_CONTEXT):
   """Render the HTML table rows for a side-by-side diff between two patches.
@@ -115,7 +113,7 @@ def RenderDiff2TableRows(request, old_lines, old_patch, new_lines, new_patch,
     old_patch: The models.Patch instance corresponding to old_lines.
     new_lines: List of lines representing the patched file on the right.
     new_patch: The models.Patch instance corresponding to new_lines.
-    colwidth: Optional column width (default 80).
+    colwidth: Optional column width (default 100).
     debug: Optional debugging flag (default False).
     context: Maximum number of visible context lines (default models.DEFAULT_CONTEXT).
 
@@ -204,7 +202,7 @@ def _ShortenBuffer(buffer, context):
 
 
 def _RenderDiff2TableRows(request, old_lines, old_patch, new_lines, new_patch,
-                         colwidth=80, debug=False):
+                         colwidth, debug=False):
   """Internal version of RenderDiff2TableRows().
 
   Args:
@@ -278,7 +276,7 @@ def _GetComments(request):
 
 
 def _RenderDiffTableRows(request, old_lines, chunks, patch,
-                         colwidth=80, debug=False):
+                         colwidth, debug=False):
   """Internal version of RenderDiffTableRows().
 
   Args:
@@ -300,7 +298,7 @@ def _RenderDiffTableRows(request, old_lines, chunks, patch,
 
 def _TableRowGenerator(old_patch, old_dict, old_max, old_snapshot,
                        new_patch, new_dict, new_max, new_snapshot,
-                       triple_iterator, colwidth=80, debug=False):
+                       triple_iterator, colwidth, debug=False):
   """Helper function to render side-by-side table rows.
 
   Args:
@@ -313,7 +311,7 @@ def _TableRowGenerator(old_patch, old_dict, old_max, old_snapshot,
     new_max: Line count of the patch on the right.
     new_snapshot: A tag used in the comments form.
     triple_iterator: Iterator that yields (tag, old, new) triples.
-    colwidth: Optional column width (default 80).
+    colwidth: column width (not optional)
     debug: Optional debugging flag (default False).
 
   Yields:

@@ -1076,7 +1076,7 @@ class PublishCommentsForm(BaseForm):
                             max_length=10000,
                             widget=forms.Textarea(attrs={'cols': 60}))
 
-  lgtm = forms.CharField(label='Code review')
+  lgtm = forms.CharField(required=False, label='Code review')
   verified = forms.BooleanField(required=False,
                                 label='Verified')
 

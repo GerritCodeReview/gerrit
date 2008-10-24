@@ -1093,12 +1093,13 @@ class PublishCommentsForm(BaseForm):
     if is_initial:
       # only show the available lgtm options
       lgtm_field = self.fields.get("lgtm")
-      if self.user_can_approve and not self.user_is_owner:
-        lgtm_field.widget = forms.RadioSelect(choices=models.LGTM_CHOICES)
-      else:
-        lgtm_field.widget = forms.RadioSelect(
-               choices=models.LIMITED_LGTM_CHOICES)
-      
+      if lgtm_field:
+        if self.user_can_approve and not self.user_is_owner:
+          lgtm_field.widget = forms.RadioSelect(choices=models.LGTM_CHOICES)
+        else:
+          lgtm_field.widget = forms.RadioSelect(
+                 choices=models.LIMITED_LGTM_CHOICES)
+
       # only show verified if the user can do it
       if not self.user_can_verify or self.user_is_owner:
         del self.fields['verified']

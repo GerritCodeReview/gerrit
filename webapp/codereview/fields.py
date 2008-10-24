@@ -319,7 +319,10 @@ class ProjectSelectWidget(django.forms.widgets.Widget):
     return "[%s]" % ','.join(map(simplejson.dumps, value))
 
   def value_from_datadict(self, data, files, name):
-    return set([v.strip() for v in data.getlist(name) if len(v.strip()) > 0])
+    return set([v.strip()
+                for v in data.getlist(name)
+                if len(v.strip()) > 0
+                   and v.strip() not in ('--', '--==', 'null')])
 
 class ProjectSelectField(django.forms.fields.Field):
   """A Field that lets a user pick a set of projects."""

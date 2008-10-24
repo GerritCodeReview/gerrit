@@ -195,7 +195,7 @@ def admin_user(request, email):
   """/admin/user/email@address.com - edit this user"""
   account = models.Account.get_account_for_email(email)
   if not account:
-    raise Http404
+    return http.HttpResponseNotFound("No such user")
   referrer = request.META.get('HTTP_REFERER', '/admin/users')
   state = {
       'account': account,

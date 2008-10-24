@@ -2,6 +2,8 @@
 {%block title1%}Users{%endblock%}
 {%block body%}
 
+<h2>Users</h2>
+
 <script>
 function user_button_submit() {
   var email = document.getElementById('straight_to_user').value;
@@ -10,25 +12,9 @@ function user_button_submit() {
 }
 </script>
 <form id="straight_to_user_form" style="margin: 15px;" onsubmit="user_button_submit()">
+  <label for="straight_to_user">Email Address:</label>
   <input type="text" id="straight_to_user" />
-  <input type="submit" value="Edit user"/>
+  <input type="submit" value="Edit User"/>
 </form>
-
-<h2>Users</h2>
-
-<div class="change-list" style="width: inherit;">
-  <table id="queues" style="width: inherit;">
-    <tr>
-        <th>Name</th>
-        <th>Email</th>
-    </tr>
-    {%for user in users%}
-    <tr>
-        <td>{{user.real_name}}</td>
-        <td><a href="{%url codereview.people.admin_user user.email%}">{{user.email}}</a></td>
-    </tr>
-    {%endfor%}
-  </table>
-</div>
 
 {%endblock%}

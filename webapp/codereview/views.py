@@ -794,7 +794,7 @@ def diff(request):
 
   context = _get_context_for_user(request)
   rows = _get_diff_table_rows(request, patch, context)
-  if isinstance(rows, HttpResponseNotFound):
+  if isinstance(rows, HttpResponse):
     return rows
 
   _add_next_prev(patchset, patch)
@@ -809,7 +809,14 @@ def _get_diff_table_rows(request, patch, context):
   chunks = patching.ParsePatchToChunks(patch.patch_lines,
                                        patch.filename)
   if chunks is None:
-    return HttpResponseNotFound('Can\'t parse the patch')
+    # If the patch has nothing in it, try using the
+    # unified diff patch view instead as then we can
+    # at least see the patch in the UI.
+    #
+    return HttpResponseRedirect('/%d/patch/%d/%s' % (
+             patch.patchset.change.key().id(),
+             patch.patchset.key().id(),
+             patch.id))
 
   return list(engine.RenderDiffTableRows(request, patch.old_lines,
                                          chunks, patch,
@@ -824,7 +831,7 @@ def diff_skipped_lines(request, id_before, id_after, where):
 
   # TODO: allow context = None?
   rows = _get_diff_table_rows(request, patch, 10000)
-  if isinstance(rows, HttpResponseNotFound):
+  if isinstance(rows, HttpResponse):
     return rows
   return _get_skipped_lines_response(rows, id_before, id_after, where)
 

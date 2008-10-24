@@ -246,7 +246,7 @@ def _init_form(cls, post):
 def settings_welcome(request):
   if request.method == 'GET':
     state = {
-      'dest': request.GET['dest'],
+      'dest': request.GET.get('dest', '/'),
       'account': models.Account.current_user_account,
     }
     return process_form(request, WelcomeForm1, state, None)

@@ -191,25 +191,26 @@ def all_unclaimed(request):
   changes = []
   c_list = []
   last_project_key = None
+
   for c in flat_changes:
-    logging.info("c=" + str(c))
     k = c.dest_project.key()
     if k != last_project_key:
       if c_list:
         _optimize_draft_counts(c_list)
         _prefetch_names(c_list)
         changes.append({
-            'name': c.dest_project.name,
+            'name': c_list[0].dest_project.name,
             'changes': c_list,
           })
       last_project_key = k
       c_list = []
     c_list.append(c)
+
   if c_list:
     _optimize_draft_counts(c_list)
     _prefetch_names(c_list)
     changes.append({
-        'name': c.dest_project.name,
+        'name': c_list[0].dest_project.name,
         'changes': c_list,
       })
   vars = {

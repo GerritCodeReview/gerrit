@@ -32,7 +32,6 @@ urlpatterns = patterns(
     (r'^r/([0-9a-f]{4,40})$', 'views.revision_redirect'),
     (r'^(\d+)$', 'views.show'),
     (r'^(\d+)/show$', 'views.show'),
-    (r'^(\d+)/edit$', 'views.edit'),
     (r'^(\d+)/delete$', 'views.delete'),
     (r'^(\d+)/publish$', 'views.publish'),
     (r'^(\d+)/merge/(\d+)$', 'views.merge'),

@@ -240,6 +240,15 @@ class Project(BackedUpModel):
   def is_code_reviewed(self):
     return True
 
+  def is_user_lead(self, user):
+    if user in self.owners_users:
+      return True
+    for group_key in self.owners_groups:
+      group = db.AccountGroup.get(group_key)
+      if user in group.members:
+        return True
+    return False
+
   def put(self):
     memcache.flush_all()
     BackedUpModel.put(self)
@@ -719,6 +728,11 @@ class Change(BackedUpModel):
   def set_reviewers(self, reviewers):
     self.reviewers = reviewers
     self.claimed = len(reviewers) != 0
+
+  def user_can_edit(self, user):
+    return (self.owner == user
+            or self.dest_project.is_user_lead(user)
+            or AccountGroup.is_user_admin(user))
 
 
 class PatchSetFilenames(BackedUpModel):

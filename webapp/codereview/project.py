@@ -378,6 +378,9 @@ def ready_to_submit(branch, owner, reviewer_status, files):
   owner_auto_lgtm = False
   owner_auto_verify = False
 
+  real_approvers = set()
+  real_deniers = set()
+  real_verifiers = set()
   lgtm_emails = set([u.email() for u in reviewer_status['lgtm']])
   reject_emails = set([u.email() for u in reviewer_status['reject']])
   verified_by_emails = set([u.email() for u in reviewer_status['verified_by']])
@@ -399,6 +402,12 @@ def ready_to_submit(branch, owner, reviewer_status, files):
       if _check_users(user_sets['verifiers'], [owner_email]):
         owner_auto_verify = True
 
+      real_approvers.update(_match_users(user_sets['approvers'], lgtm_emails))
+      real_deniers.update(_match_users(user_sets['approvers'], reject_emails)) 
+      real_verifiers.update(
+                    _match_users(user_sets['verifiers'], verified_by_emails)) 
+
+
     require_review = False
     approved = ((approved_cnt == len(files_to_approve))
                 or (owner_auto_lgtm
@@ -411,10 +420,6 @@ def ready_to_submit(branch, owner, reviewer_status, files):
     approved = False
     verified = False
     denied = False
-
-  real_approvers = _match_users(user_sets['approvers'], lgtm_emails) 
-  real_deniers = _match_users(user_sets['approvers'], reject_emails) 
-  real_verifiers = _match_users(user_sets['verifiers'], verified_by_emails) 
 
   return {
       'can_submit': approved and verified and (not denied),

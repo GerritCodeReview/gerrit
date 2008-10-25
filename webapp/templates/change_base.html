@@ -6,10 +6,7 @@
     <a href="{%url codereview.views.show change.key.id%}"
                onmouseover="M_showPopUp(this, 'popup-change');">
             Change {{change.key.id}}</a>:
-    {{change.subject|truncatewords:11}}
-    {%if change.merged %} (Merged)
-    {%else%}{%if change.closed %} (Closed) {%endif%}
-    {%endif%}
+    {{change.subject|truncatewords:11}} {{change|closed_label}}
   </h1>
 
   {%block change_body%}BODY GOES HERE{%endblock%}
@@ -21,9 +18,7 @@
   {%if change%}
     <div class="popup" id="popup-change">
       <b>Change {{change.key.id}}: {{change.subject|truncatewords:11}}
-      {%if change.merged %} (Merged)
-      {%else%}{%if change.closed %} (Closed) {%endif%}
-      {%endif%}</b><br/>
+      {{change|closed_label}}</b><br/>
       Created {{change.created|timesince}} ago by {{change.owner|real_name}}<br/>
       Modified {{change.modified|timesince}} ago<br/>
       Reviewers: {{change.reviewers|real_names}}<br/>

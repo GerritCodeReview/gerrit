@@ -58,6 +58,20 @@ function set_error(me, error)
     }
 }
 
+// inline confirmation dialogs
+// =============================================================================
+function show_confirmation_dialog(button, dialog) {
+    document.getElementById(dialog).style.display = 'block';
+    document.getElementById(button).style.display = 'none';
+}
+
+function hide_confirmation_dialog(button, dialog) {
+    document.getElementById(dialog).style.display = 'none';
+    document.getElementById(button).style.display = 'inline';
+}
+
+
+
 // UserGroupField
 // =============================================================================
 

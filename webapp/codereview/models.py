@@ -245,7 +245,7 @@ class Project(BackedUpModel):
     if user in self.owners_users:
       return True
     for group_key in self.owners_groups:
-      group = db.AccountGroup.get(group_key)
+      group = AccountGroup.get(group_key)
       if user in group.members:
         return True
     return False

@@ -221,6 +221,12 @@ def closed_label(change, arg=None):
   else:
     return ''
 
+@register.filter
+def patchset_browse_url(patchset, arg=None):
+  pattern = models.Settings.get_settings().source_browser_url
+  return pattern % {
+            'id': patchset.revision_hash(),
+            'project': patchset.change.dest_project.name,
+            }
 
-  
 

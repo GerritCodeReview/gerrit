@@ -1450,6 +1450,32 @@ def admin_settings_canonical_url(request):
   return process_form(request, AdminSettingsCanonicalUrlForm, None, done)
 
 
+class AdminSettingsSourceBrowserUrlForm(BaseForm):
+  _template = 'admin_settings_source_browser_url.html'
+
+  url = forms.CharField(required=True,
+                        widget=forms.TextInput(attrs={'size': 60}))
+
+  @classmethod
+  def _init(cls, state):
+    settings = models.Settings.get_settings()
+    return {'initial': {
+                'url': settings.source_browser_url,
+              }
+            }
+
+  def _save(self, cd, change):
+    settings = models.Settings.get_settings()
+    settings.source_browser_url = cd['url']
+    settings.put()
+
+@gae_admin_required
+def admin_settings_source_browser_url(request):
+  def done():
+    return HttpResponseRedirect('/admin/settings')
+  return process_form(request, AdminSettingsSourceBrowserUrlForm, None, done)
+
+
 @gae_admin_required
 def admin_settings_from_email_test(request):
   if request.method == 'POST':

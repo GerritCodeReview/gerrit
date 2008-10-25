@@ -30,5 +30,13 @@
   <input type="submit" value="Edit"/>
 </form>
 
+<h3>Source Browser URL</h3>
+<code>{%if settings.source_browser_url %}{{settings.source_browser_url}}{%else%}NONE SET{%endif%}</code>
+<form method="get" action="/admin/settings/source_browser_url"
+    style="margin-left: 30px; display: inline;">
+  <input type="submit" value="Edit"/>
+</form>
+
+
 
 {%endblock%}

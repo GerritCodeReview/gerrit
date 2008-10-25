@@ -196,9 +196,9 @@
     <a id="ps-{{patchset.key.id}}-pointer"
        href="javascript:M_togglePatchSetSection('{{change.key.id}}','{{patchset.key.id}}')"
        class="toggled_section_pointer {%if forloop.last%}opentriangle{%endif%}">
-      Patch Set {{patchset.id}}
-      {%if patchset.message%}: {{patchset.message}}{%endif%}
-    </a>
+      Patch Set {{patchset.id}}</a>
+      <font style="font-weight: normal; font-size: 12px;">
+        <a href="{{patchset|patchset_browse_url}}">{{patchset.revision_hash}}</a></font>
   </h2>
   {%if forloop.last%}
     <div id="ps-{{patchset.key.id}}">

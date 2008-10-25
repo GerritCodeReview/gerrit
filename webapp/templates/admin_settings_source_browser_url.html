@@ -1,0 +1,16 @@
+{%extends "admin_base.html"%}
+{%block title1%}Settings: Source Browser URL{%endblock%}
+{%block body%}
+
+<form action="/admin/settings/source_browser_url" method="post">
+<table>
+{{form}}
+
+<p>The url should contain %(id)s, which will be replaced by the revision id
+and %(project)s, which will be replaced by the project name.</p>
+<tr><td><input name="save" type="submit" value="Save"></td></tr>
+</table>
+</form>
+
+{%endblock%}
+

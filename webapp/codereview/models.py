@@ -110,6 +110,7 @@ class Settings(BackedUpModel):
   xsrf_key = db.StringProperty()
   from_email = db.StringProperty()
   canonical_url = db.StringProperty(default='')
+  source_browser_url = db.StringProperty(default='')
 
   _Key = MemCacheKey('Settings_Singleton')
 
@@ -811,6 +812,9 @@ class PatchSet(BackedUpModel):
         names.append(p.filename)
       last = list[-1].filename
     return names
+
+  def revision_hash(self):
+    return self.revision.id
 
 
 class Message(BackedUpModel):

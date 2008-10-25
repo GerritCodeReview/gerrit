@@ -1,5 +1,4 @@
 <form method="GET" action="">
-  <label for="id_context">Context:</label>
   <select id="context" name="context" 
   onchange="this.form.elements[1].disabled=true; this.form.submit()">
     {%for val in context_values%}
@@ -8,5 +7,5 @@
       {{val}} lines</option>
     {%endfor%}
   </select>
-  <input type="submit" value="Adjust context" />
+  <input type="submit" value="Adjust context" style="display: none;"/>
 </form>

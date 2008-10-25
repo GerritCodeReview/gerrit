@@ -23,7 +23,7 @@
     <pre class="change_description">{{change.description|wordwrap:80|urlize}}</pre>
 {%endif%}</td><td style="vertical-align: top;" align="right">
     <table class="change_details">
-      <tr>
+      <tr class="first">
         <th>Project</th>
         <td>{{change.dest_project.name}}</td>
       </tr>
@@ -32,10 +32,10 @@
         <td>{{change.dest_branch.short_name}}</td>
       </tr>
       <tr>
-        <th>Created</th>
+        <th>Uploaded</th>
         <td>{{change.created|timesince}} ago by {{change.owner|show_user}}</td>
       </tr>
-      <tr>
+      <tr class="last">
         <th>Modified</th>
         <td>{{change.modified|timesince}} ago</td>
       </tr>

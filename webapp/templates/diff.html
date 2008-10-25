@@ -44,44 +44,54 @@ login_warned = false;
 
 
 <table style="width: 100%; margin-top: 5px;"><tr>
-  {%if user%}
   <td style="vertical-align: top; padding-right: 50px;">
+  {%if user%}
     <div>
       <form method="get" action="{%url codereview.views.publish change.key.id%}">
         <input type="submit" value="Publish Comments &amp; Approvals" />
       </form>
     </div>
+    <table class="tips" style="margin-top: 10px;">
+      <tr><th>p</th><td>previous comment</td></tr>
+      <tr><th>n</th><td>next comment</td></tr>
+    </table>
     <div class="tips" style="margin-top: 5px;">
       Double-click a line to add a draft in-line comment.<br/>
-      Use n/p to move between diff chunks.<br/>
       <span style="color:#f77">Draft comments are only viewable by you.</span>
-      {%else%}
-      Please Sign in to add in-line comments.
     </div>
-  </td>
+  {%else%}
+    Please Sign in to add in-line comments.
   {%endif%}
+  </td>
   <td style="vertical-align: top;">
-    <div style="text-align: left;">
-      <div>{%include "context_select.html"%}</div>
-      <div style="margin-top: 5px;">
-        Jump to:
-        <select onchange="M_jumpToPatch(this, {{change.key.id}}, {{patchset.key.id}});">
-          {%for jump_patch in patchset.patches %}
-            <option value="{{jump_patch.id}}"
-              {%ifequal jump_patch.id patch.id%} selected="selected"{%endifequal%}
-              >{{jump_patch.filename}}</option>
-          {% endfor %}
-        </select>
-      </div>
-      <div style="margin-top: 3px;">
-        <b>Patch Set: {%if patchset.message%}{{patchset.message}}{%endif%}</b>
-        Uploaded {{patchset.created|timesince}} ago
-        {%ifnotequal patchset.owner change.owner%}
-          by <b>{{patchset.owner|show_user}}</b>
-        {%endifnotequal%}
-      </div>
-    </div>
-
+    <table class="change_details">
+      <tr class="first">
+        <th>Project</th>
+        <td>{{change.dest_project.name}}</td>
+      </tr>
+      <tr>
+        <th>File</th>
+        <td>
+          <select onchange="M_jumpToPatch(this, {{change.key.id}}, {{patchset.key.id}});">
+            {%for jump_patch in patchset.patches %}
+              <option value="{{jump_patch.id}}"
+                {%ifequal jump_patch.id patch.id%} selected="selected"{%endifequal%}
+                >{{jump_patch.filename}}</option>
+            {% endfor %}
+          </select>
+        </td>
+      </tr>
+      <tr class="last">
+      <tr>
+        <th>Branch</th>
+        <td>{{change.dest_branch.short_name}}</td>
+      </tr>
+      <tr class="spacer"><td></td></tr>
+      <tr class="first last">
+        <th>Diff context</th>
+        <td>{%include "context_select.html"%}</td>
+      </tr>
+    </table>
 
   </td>
   <td>

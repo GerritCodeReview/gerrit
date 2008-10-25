@@ -229,4 +229,9 @@ def patchset_browse_url(patchset, arg=None):
             'project': patchset.change.dest_project.name,
             }
 
+@register.filter
+def file_leaf(filename, arg=None):
+  parts = filename.rsplit('/', 1)
+  return parts[-1]
+
 

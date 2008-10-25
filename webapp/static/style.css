@@ -15,7 +15,19 @@ body {
 .tips {
   color: #777;
   font-size: 12px; 
+  border-collapse: collapse;
 }
+
+.tips td, .tips th {
+  border: 0;
+  padding: 0;
+}
+
+.tips th {
+  padding-right: 5px;
+  font-weight: normal;
+}
+
 
 .disabled {
   color: #444;
@@ -342,9 +354,36 @@ h2 {
   margin: 0;
 }
 
+.change_details {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
 .change_details th {
   text-align: left;
-  padding-right: 10px;
+  padding: 2px 10px 2px 5px;
+  background-color: #d4e9a9;
+  border-bottom: 2px solid white;
+}
+
+.change_details tr.first th {
+  border-top: 2px solid #d4e9a9;
+  padding-top: 0;
+}
+
+.change_details tr.last th {
+  border-bottom: 1px solid #d4e9a9;
+  padding-bottom: 1px;
+}
+
+.change_details td {
+  border: 1px solid #d4e9a9;
+  padding: 2px 10px 2px 5px;
+}
+
+.change_details tr.spacer td {
+  border: none;
+  height: 10px;
 }
 
 table.change_info_table {

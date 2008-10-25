@@ -79,7 +79,7 @@ login_warned = false;
 <div style="float: right; color: #333333; background-color: #eeeeec; border: 1px solid lightgray; -moz-border-radius: 5px 5px 5px 5px; padding: 5px;">
   <div>{%include "context_select.html"%}</div>
   <div>
-    Jump to: <select onchange="M_jumpToPatch(this, {{change.key.id}}, {{patchset.key.id}});">
+    File: <select onchange="M_jumpToPatch(this, {{change.key.id}}, {{patchset.key.id}});">
       {% for jump_patch in ps_right.patches %}
         <option value="{{jump_patch.id}}"
          {%ifequal jump_patch.id patch.id%} selected="selected"{%endifequal%}>{{jump_patch.filename}}</option>

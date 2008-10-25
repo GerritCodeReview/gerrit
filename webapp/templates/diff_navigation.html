@@ -12,6 +12,8 @@ doesn't work.  Go figure.  Bleah.  So use absolute URLs.
 &laquo; {{patch.prev.filename}}</a> ('k'){%else%}
 <span class="disabled">&laquo; no previous file</span>{%endif%}
 |
+<span class="disabled">{{patch.filename|file_leaf}}</span>
+|
 {%if patch.next%}
 <a id="nextFile"
    href="/{{change.key.id}}/diff/{{patchset.key.id}}/{%spaceless%}

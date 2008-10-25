@@ -210,3 +210,17 @@ def abbrevtimesince(d, arg=None):
 def change_url(change):
   base = models.Settings.get_settings().canonical_url
   return "%s/%s" % (base, change.key().id())
+
+@register.filter
+def closed_label(change, arg=None):
+  if change.closed:
+    if change.merged:
+      return '(Merged)'
+    else:
+      return '(Abandoned)'
+  else:
+    return ''
+
+
+  
+

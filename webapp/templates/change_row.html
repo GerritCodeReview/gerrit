@@ -10,10 +10,7 @@
      </div>
   </td>
   <td><a href="{%url codereview.views.show change.key.id%}">
-        {{change.subject|truncatewords:11}}</a>
-      {%if change.merged%} (Merged)
-      {%else%}{%if change.closed and not closed_changes%} (Closed) {%endif%}
-      {%endif%}</td>
+        {{change.subject|truncatewords:11}}</a> {{change|closed_label}}</td>
   <td><div>{{change.owner|show_user}}</div></td>
   <td><div>{{change.reviewers|show_users}}</div></td>
   <td>{%firstof change.num_comments%}

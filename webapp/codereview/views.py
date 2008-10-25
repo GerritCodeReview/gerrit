@@ -1,5 +1,5 @@
 # Copyright 2008 Google Inc.
-#
+#user_is_admin
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -543,6 +543,9 @@ def show(request, form=None):
                         and ready_to_submit
                         and user_can_submit)
 
+  show_more_options = change.user_can_edit(request.user)
+  delete_url = '/%s/delete' % change.key().id()
+
   _prefetch_names([change])
   _prefetch_names(depends_on)
   _prefetch_names(needed_by)
@@ -567,6 +570,8 @@ def show(request, form=None):
                   'reply_url': '/%s/publish' % change.key().id(),
                   'merge_url': '/%s/merge/%s' % (change.key().id(),
                                                  last_patchset.key().id()),
+                  'show_more_options': show_more_options,
+                  'delete_url': delete_url,
                 })
 
 
@@ -622,42 +627,6 @@ def revision_redirect(request, hash):
     return respond(request, 'change_revision_unknown.html',
                    { 'hash': hash },
                    status = 404)
-
-
-class EditChangeForm(BaseForm):
-  _template = 'edit.html'
-
-  reviewers = forms.CharField(required=False,
-                              max_length=1000,
-                              widget=forms.TextInput(attrs={'size': 60}))
-  cc = forms.CharField(required=False,
-                       max_length=1000,
-                       label = 'CC',
-                       widget=forms.TextInput(attrs={'size': 60}))
-  closed = forms.BooleanField(required=False)
-
-  @classmethod
-  def _init(cls, change):
-    return {'initial': {'reviewers': ', '.join(change.reviewers),
-            'cc': ', '.join(change.cc),
-            'closed': change.closed}}
-
-  def _save(self, cd, change):
-    change.closed = cd['closed']
-    change.set_reviewers(_get_emails(self, 'reviewers'))
-    change.cc = _get_emails(self, 'cc')
-    change.put()
-
-@change_owner_required
-def edit(request):
-  """/<change>/edit - Edit a change."""
-  change = request.change
-  id = change.key().id()
-  def done():
-    return HttpResponseRedirect('/%s' % id)
-  return process_form(request, EditChangeForm, change, done,
-                      {'change': change,
-                       'del_url': '/%s/delete' % id})
 
 
 @change_owner_required
@@ -1079,6 +1048,8 @@ class PublishCommentsForm(BaseForm):
   lgtm = forms.CharField(label='Code review')
   verified = forms.BooleanField(required=False,
                                 label='Verified')
+  abandoned = forms.BooleanField(required=False,
+                                label='Abandoned')
 
 
 
@@ -1087,21 +1058,27 @@ class PublishCommentsForm(BaseForm):
     self.user_can_approve = kwargs.pop('user_can_approve', False)
     self.user_can_verify = kwargs.pop('user_can_verify', False)
     self.user_is_owner = kwargs.pop('user_is_owner', False)
+    self.user_can_abandon = kwargs.pop('user_can_abandon', False)
 
     BaseForm.__init__(self, *args, **kwargs)
 
     if is_initial:
       # only show the available lgtm options
       lgtm_field = self.fields.get("lgtm")
-      if self.user_can_approve and not self.user_is_owner:
+      if self.user_can_approve:
         lgtm_field.widget = forms.RadioSelect(choices=models.LGTM_CHOICES)
       else:
         lgtm_field.widget = forms.RadioSelect(
                choices=models.LIMITED_LGTM_CHOICES)
       
       # only show verified if the user can do it
-      if not self.user_can_verify or self.user_is_owner:
+      if not self.user_can_verify:
         del self.fields['verified']
+
+      # disable the abandon button if the user can't change it
+      if not self.user_can_abandon:
+        del self.fields['abandoned']
+      self.is_abandoned = kwargs['initial'].get('is_abandoned', False)
 
   @classmethod
   def _init(cls, state):
@@ -1128,16 +1105,21 @@ class PublishCommentsForm(BaseForm):
       lgtm = 'abstain'
       verified = False
 
+    user_can_abandon = change.user_can_edit(user) and not change.merged
+    is_abandoned = change.closed and not change.merged
+
     return {'initial': {
               'reviewers': ', '.join(reviewers),
               'cc': ', '.join(cc),
               'send_mail': True,
               'lgtm': lgtm,
-              'verified': verified
+              'verified': verified,
+              'abandoned': is_abandoned,
               },
             'user_can_approve': user_can_approve,
             'user_can_verify': user_can_verify,
             'user_is_owner': user == change.owner,
+            'user_can_abandon': user_can_abandon,
             'is_initial': True,
           }
 
@@ -1154,10 +1136,16 @@ class PublishCommentsForm(BaseForm):
     verified = _restrict_verified(cd.get('verified', False),
           self.user_can_verify)
 
+    logging.info("user_can_edit=" + str(change.user_can_edit(user))
+        + " merged=" + str(change.merged) + " field=" + str(cd['abandoned']))
+
+    if change.user_can_edit(user):
+      if not change.merged:
+        change.closed = cd['abandoned']
+
     if user != change.owner:
       # Owners shouldn't have their own review status as it
       # is implied that 'lgtm' and verified by them.
-      #
       review_status = _update_review_status(change,
                                             user,
                                             lgtm,

@@ -1,22 +1,45 @@
 {%extends "change_base.html"%}
-{%block title1%}Publish+Mail -{%endblock%}
+{%block title1%}Publish Comments &amp; Approvals -{%endblock%}
 {%block change_body%}
-<h2>Publish + Mail Draft Comments</h2>
+<h2>Publish Comments &amp; Approvals</h2>
 
 <div>
   <form action="{%url codereview.views.publish change.key.id%}"
         method="post" id="publish-form">
-  <table>
-  {{form}}
-  <tr>
-    <td></td>
+
+{{form.xsrf}}
+{%if form.xsrf.errors%}
+<ul>
+  {%for e in form.xsrf.errors%}
+    <li>{{e}}</li>
+  {%endfor%}
+</ul>
+{%endif%}
+
+  <table class="publish_table">
+  
+  <tr class="first"><th>Reviewers</th><td>{{form.reviewers}}</td></tr>
+  <tr><th>CC</th><td>{{form.cc}}</td></tr>
+  <tr><th>Message</th><td>{{form.message}}</td></tr>
+  <tr><th>Code Review</th><td>{{form.lgtm}}</td></tr>
+  {%if form.verified %}
+  <tr><th></th>
+    <td>{{form.verified}}<label for="id_verified"> Verified</label></td></tr>
+  {%endif%}
+  <tr class="last"><th></th><td>
+    {%if form.abandoned %}
+      {{form.abandoned}}<label for="id_abandoned"> Abandoned</label>
+    {%else%}
+      <input disabled type="checkbox" {%if form.is_abandoned %}checked{%endif%}/>
+      <font class="disabled"> Abandoned</font>
+    {%endif%}
+  </td> </tr>
+  <tr class="buttons"><td></td>
     <td>
-  {%ifequal user change.owner%}
-      <input type="submit" value="Publish Comments">
-  {%else%}
-      <input type="submit" value="Publish Comments + Approvals">
-  {%endifequal%}
-     </td>
+      <input type="submit" value="Publish Comments &amp; Approvals">
+      &nbsp;
+      {{form.send_mail}} Send mail</td>
+    </td>
   </tr>
   </table>
   </form>

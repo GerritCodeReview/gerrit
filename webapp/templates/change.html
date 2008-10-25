@@ -7,7 +7,7 @@
     You have <b>{{last_patchset.draft_count}} draft</b>
     comment{{last_patchset.draft_count|pluralize}}. Drafts are not viewable by others;
     use <a class="novisit" href="{%url codereview.views.publish change.key.id%}">
-    Publish+Mail Comments</a> ('m') to let others view them.
+    Publish Comments &amp; Approvals</a> ('m') to let others view them.
   </div>
 {%endif%}
 
@@ -114,7 +114,7 @@
     <table class="change_actions"><tr>
       <td class="action">
         <form method="get" action="{%url codereview.views.publish change.key.id%}">
-          <input type="submit" value="Publish+Mail Comments" />
+          <input type="submit" value="Publish Comments &amp; Approvals" />
         </form>
       </td>
 
@@ -160,13 +160,31 @@
           {%endif%}
       </td>
 
-      {%ifequal change.owner user %}
       <td class="action">
-        <form method="get" action="{%url codereview.views.edit change.key.id%}">
-          <input type="submit" value="Edit Change"/>
-        </form>
+      {%if show_more_options%}
+        <script type="text/javascript">
+        </script>
+        <input type="button" id="more_options" value="More options..."
+                 onclick="show_confirmation_dialog('more_options', 'more_options_div');" />
+        <table id="more_options_div" style="display: none;" class="more_options_dialog">
+          <tr><th>
+            More options
+          </td></tr>
+          <tr><td>
+            <form action="{{delete_url}}" method="post" style="display: inline;">
+                {{delete_url|form_xsrf}}
+                <input type="submit" value="Delete">
+            </form>
+            Delete this change <b>(there is no undo!)</b>
+            <br/>
+          </td></tr>
+          <tr><td>
+            <input type="button" value="Cancel"
+                    onclick="hide_confirmation_dialog('more_options', 'more_options_div');" />
+          </td></tr>
+        </table>
+      {%endif%}
       </td>
-      {%endifequal%}
     </tr></table>
     {%endif%}
   </div>

@@ -46,10 +46,7 @@ login_warned = false;
   <div style="margin-top: .2em;">
     {%include "change_star.html"%}
     <b>Change <a href="{%url codereview.views.show change.key.id%}" onmouseover="M_showPopUp(this, 'popup-change');" id="upCL">{{change.key.id}}</a>:</b>
-  {{change.subject|truncatewords:11}}
-  {%if change.merged%} (Merged)
-  {%else%}{%if change.closed%} (Closed) {%endif%}
-  {%endif%}
+  {{change.subject|truncatewords:11}} {{change|closed_label}}
   </div>
   <div style="margin-top: .4em;">
     <b>Left Patch Set: {%if ps_left.message%}{{ps_left.message}}{%endif%}</b>
@@ -73,7 +70,7 @@ login_warned = false;
     {%if user%}
     Double-click a line to add a draft in-line comment.
     <br><span style="color:red">Draft comments are only viewable by you;</span>
-    use <a href="{%url codereview.views.publish change.key.id%}" class="novisit">Publish+Mail Comments</a> ('m') to let others view them.
+    use <a href="{%url codereview.views.publish change.key.id%}" class="novisit">Publish Comments &amp; Approvals</a> ('m') to let others view them.
     {%else%}
     Please Sign in to add in-line comments.
     {%endif%}
@@ -104,8 +101,7 @@ login_warned = false;
     {%if user%}
   </div>
   <div style="margin-top: 5px;">
-    <a class="novisit" href="{%url codereview.views.publish change.key.id%}">Publish+Mail
-    Comments</a> ('m')
+    <a class="novisit" href="{%url codereview.views.publish change.key.id%}">Publish Comments &amp; Approvals</a> ('m')
     {%endif%}
   </div>
 </div>

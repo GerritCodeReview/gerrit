@@ -85,27 +85,27 @@ function UserGroupField_add_keydown(ev, me)
     return true;
 }
 
-function UserGroupField_insertEntry(me, entry)
+function UserGroupField_insertEntry(me, data)
 {
-    var type = entry["type"];
-    var key = entry["key"];
-    var display_name;
-    if (type == "user") {
-        display_name = entry["real_name"] + " <" + entry["email"] + ">";
-    } else if (type == "group") {
-        display_name = "Group: " + entry["name"];
+    var entry = new Object();
+    entry.type = data["type"];
+    entry.key = data["key"];
+    if (entry.type == "user") {
+        entry.display_name = data["real_name"] + " <" + data["email"] + ">";
+    } else if (entry.type == "group") {
+        entry.display_name = "Group: " + data["name"];
     }
 
-    var tr = me.table.insertRow(me.table.rows.length-1);
-    var td = tr.insertCell(-1);
-    td.appendChild(document.createTextNode(display_name));
-    var td = tr.insertCell(-1);
+    entry.tr = me.table.insertRow(me.table.rows.length-1);
+    var td = entry.tr.insertCell(-1);
+    td.appendChild(document.createTextNode(entry.display_name));
+    var td = entry.tr.insertCell(-1);
     var input = document.createElement("input");
     var input = add_input(td, "button", null, "delete");
-    input.onclick = function () { UserGroupField_delete(me, tr); };
-    add_input(td, "hidden", me.name + "_keys", key);
+    input.onclick = function () { UserGroupField_delete(me, entry); };
+    add_input(td, "hidden", me.name + "_keys", entry.key);
 
-    me.people[me.people.length] = key;
+    me.people[me.people.length] = entry;
 }
 
 function UserGroupField_insertField(mom, name, allow_users, allow_groups, initial)
@@ -181,7 +181,7 @@ function UserGroupField_add(me)
                 var key = result["key"];
                 var type = result["type"];
                 for (var i=0; i<me.people.length; i++) {
-                    if (me.people[i] == key) {
+                    if (me.people[i].key == key) {
                         if (type == "user") {
                             set_error(me, "That user is already added.");
                         } else {
@@ -200,9 +200,15 @@ function UserGroupField_add(me)
             });
 }
 
-function UserGroupField_delete(me, tr)
+function UserGroupField_delete(me, entry)
 {
-    me.table.deleteRow(tr);
+    for (var i in me.people) {
+        if (me.people[i] == entry) {
+            me.table.deleteRow(me.people[i].tr);
+            me.people.splice(i, 1);
+            break;
+        }
+    }
 }
 
 

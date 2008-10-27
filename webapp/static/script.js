@@ -2109,6 +2109,31 @@ function M_commentTextKeyPress_(evt, src, code, key) {
   return true;
 }
 
+
+/**
+ * Go to the next file (the change page is included in the cycle
+ */
+function M_gotoNextFile() {
+  var nextFile = document.getElementById('nextFile');
+  if (nextFile) {
+    document.location.href = nextFile.href;
+  } else {
+    M_upToChangelist();
+  }
+}
+
+/**
+ * Go to the previous file (the change page is included in the cycle)
+ */
+function M_gotoPrevFile() {
+  var prevFile = document.getElementById('prevFile');
+  if (prevFile) {
+    document.location.href = prevFile.href;
+  } else {
+    M_upToChangelist();
+  }
+}
+
 /**
  * Event handler for the keypress event in the file view.
  * @param {Event} evt The event object that triggered this callback
@@ -2130,21 +2155,12 @@ function M_keyPress(evt) {
       if (hookState) hookState.gotoPrevHook(true);
     } else if (key == 'j') {
       // next file
-      var nextFile = document.getElementById('nextFile');
-      if (nextFile) {
-        document.location.href = nextFile.href;
-      } else {
-        M_upToChangelist();
-      }
+      M_gotoNextFile();
     } else if (key == 'k') {
       // prev file
-      var prevFile = document.getElementById('prevFile');
-      if (prevFile) {
-        document.location.href = prevFile.href;
-      } else {
-        M_upToChangelist();
-      }
+      M_gotoPrevFile();
     } else if (key == 'm') {
+      // publish comments
       document.location.href = publish_link;
     } else if (key == 'u') {
       // up to CL

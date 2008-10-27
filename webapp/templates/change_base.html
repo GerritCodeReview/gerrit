@@ -3,7 +3,7 @@
 {%block body%}
   <h1>
     {%include "change_star.html"%}
-    <a href="{%url codereview.views.show change.key.id%}"
+    <a id="upCL" href="{%url codereview.views.show change.key.id%}"
                onmouseover="M_showPopUp(this, 'popup-change');">
             Change {{change.key.id}}</a>:
     {{change.subject|truncatewords:11}} {{change|closed_label}}

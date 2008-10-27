@@ -479,6 +479,16 @@ table.change_info_table .hint {
   padding: 5px 5px 5px 5px;
 }
 
+/* ****** Selection widget ****** */
+
+#hook-sel {
+  position: absolute;
+  background: #06c;
+  width: 1px;
+  height: 2px;
+  font-size: 0; /* Work-around for an IE bug */
+}
+
 /* ****** Diff page ****** */
 
 .code_diff {

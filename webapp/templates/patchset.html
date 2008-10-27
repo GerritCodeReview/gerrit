@@ -33,7 +33,17 @@
       <th>Comments</th>
       <th colspan="3" class="rightmost">Unified diffs</th>
     </tr>
+
   {%for patch in patchset.patches%}
+    {%if make_next_prev_links %}
+      <!-- These two links are for the javascript j/k and h/l key shortcuts -->
+      {%if forloop.first %}
+        <a style="display:none" id="nextFile" href="" />
+      {%endif%}
+      {%if forloop.last%}
+      <a style="display:none" id="prevFile" href="" />
+      {%endif%}
+    {%endif%}
     <tr>
       <td>{%if patch.status%}{{patch.status}}{%endif%}</td>
       <td>

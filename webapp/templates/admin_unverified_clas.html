@@ -17,6 +17,13 @@
   <td>{{u.created}}</td>
 </tr>
 {%endfor%}
+<tr>
+  <th colspan="3" style="text-align: right;">
+  {%if next_email%}
+    <a href="{%url codereview.people.admin_unverified_clas%}?first={{next_email}}">Next {{next_size}} &gt;</a>
+  {%endif%}
+  </th>
+</tr>
 </table>
 
 {%endblock%}

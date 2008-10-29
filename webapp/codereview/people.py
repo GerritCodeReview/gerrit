@@ -102,12 +102,23 @@ def admin_users(request):
 @admin_required
 def admin_unverified_clas(request):
   """/admin/unverified_clas - list of users who need CLAs"""
+  max = 100
+  first_email = request.GET.get('first', '')
   unverified_users = models.gql(models.Account,
                                 'WHERE welcomed = True'
                                 ' AND cla_verified = False'
-                                ' ORDER BY email').fetch(models.FETCH_MAX)
+                                ' AND email >= :1'
+                                ' ORDER BY email',
+                                first_email).fetch(max + 1)
+  if len(unverified_users) > max:
+    next_email = unverified_users[-1].email
+    unverified_users = unverified_users[:-1]
+  else:
+    next_email = None
   return respond(request, 'admin_unverified_clas.html', {
                  'unverified_users': unverified_users,
+                 'next_email': next_email,
+                 'next_size': max,
                  })
 
 def _get_groups_for_account(account):

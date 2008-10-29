@@ -99,6 +99,17 @@ def admin_users(request):
   """/admin/users - list of all users"""
   return respond(request, 'admin_users.html', {})
 
+@admin_required
+def admin_unverified_clas(request):
+  """/admin/unverified_clas - list of users who need CLAs"""
+  unverified_users = models.gql(models.Account,
+                                'WHERE welcomed = True'
+                                ' AND cla_verified = False'
+                                ' ORDER BY email').fetch(models.FETCH_MAX)
+  return respond(request, 'admin_unverified_clas.html', {
+                 'unverified_users': unverified_users,
+                 })
+
 def _get_groups_for_account(account):
   return models.gql(models.AccountGroup,
                     'WHERE members = :1',

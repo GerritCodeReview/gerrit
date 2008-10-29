@@ -13,16 +13,9 @@ indexes:
 # Unused in query history -- copied from input.
 - kind: Account
   properties:
-  - name: cla_verified
-  - name: welcomed
-  - name: individual_cla_version
-
-# Unused in query history -- copied from input.
-- kind: Account
-  properties:
   - name: welcomed
   - name: cla_verified
-  - name: individual_cla_version
+  - name: email
 
 # Unused in query history -- copied from input.
 - kind: Branch

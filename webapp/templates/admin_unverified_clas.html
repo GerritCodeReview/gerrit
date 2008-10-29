@@ -1,0 +1,22 @@
+{%extends "admin_base.html"%}
+{%block title1%}Unverified CLAs{%endblock%}
+{%block body%}
+
+<h2>Unverified CLAs</h2>
+
+<table class="change-list">
+<tr>
+  <th>Email Address</th>
+  <th>Name</th>
+  <th>Created</th>
+</tr>
+{%for u in unverified_users%}
+<tr>
+  <td><a href="{%url codereview.people.admin_user u.email%}">{{u.email}}</td>
+  <td>{{u.real_name}}</td>
+  <td>{{u.created}}</td>
+</tr>
+{%endfor%}
+</table>
+
+{%endblock%}

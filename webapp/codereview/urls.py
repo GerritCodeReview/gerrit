@@ -66,6 +66,7 @@ urlpatterns = patterns(
                 'views.admin_settings_source_browser_url'),
     (r'^admin/users$', 'people.admin_users'),
     (r'^admin/people_info$', 'people.admin_people_info'),
+    (r'^admin/unverified_clas$', 'people.admin_unverified_clas'),
     (r'^admin/user/(.+)$', 'people.admin_user'),
     (r'^admin/groups$', 'people.admin_groups'),
     (r'^admin/group_new$', 'people.admin_group_new'),

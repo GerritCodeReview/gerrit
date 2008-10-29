@@ -40,6 +40,7 @@ class ClearXsrfKeyMiddleware(object):
     view_util._xsrf_key = None
     view_util._xsrf_now = None
     view_util._xsrf_cache = {}
+    models.Settings._LocalCache = None
     library._user_cache.clear_local()
 
 

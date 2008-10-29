@@ -114,6 +114,7 @@ class Settings(BackedUpModel):
   merge_log_email = db.StringProperty()
 
   _Key = MemCacheKey('Settings_Singleton')
+  _LocalCache = None
 
   @classmethod
   def get_settings(cls):
@@ -123,15 +124,17 @@ class Settings(BackedUpModel):
     normal get().  Only if that fails does it call get_or_insert, because of
     possible contention errors due to get_or_insert's transaction.
     """
-    def read():
-      result = cls.get_by_key_name('settings')
-      if result:
-        return result
-      else:
-        return cls.get_or_insert('settings',
-                                  internal_api_key=_genkey(26),
-                                  xsrf_key=_genkey(26))
-    return Settings._Key.get(read)
+    if Settings._LocalCache is None:
+      def read():
+        result = cls.get_by_key_name('settings')
+        if result:
+          return result
+        else:
+          return cls.get_or_insert('settings',
+                                    internal_api_key=_genkey(26),
+                                    xsrf_key=_genkey(26))
+      Settings._LocalCache = Settings._Key.get(read)
+    return Settings._LocalCache
 
   def put(self):
     BackedUpModel.put(self)

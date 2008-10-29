@@ -89,8 +89,14 @@ def make_change_subject(change):
     subject = 'Re: ' + subject
   return subject
 
-def send_change_message(request, change, template, template_args,
-                        sender, send_email=True, email_template=None):
+def send_change_message(request,
+                        change,
+                        template,
+                        template_args,
+                        sender,
+                        send_email=True,
+                        email_template=None,
+                        additional_to=[]):
   # sender
   default = get_default_sender()
   if not sender:
@@ -98,7 +104,11 @@ def send_change_message(request, change, template, template_args,
   sender_string = _to_email_string(sender)
 
   # to
-  to_users = set([change.owner] + change.reviewers + change.cc + [default])
+  to_users = set(  [change.owner]
+                 + change.reviewers
+                 + change.cc
+                 + [default]
+                 + additional_to)
   if sender in to_users:
     to_users.remove(sender)
   to_strings = _make_to_strings(to_users)
@@ -111,7 +121,8 @@ def send_change_message(request, change, template, template_args,
   uri = library.change_url(change)
   if not email_template:
     email_template = template
-  body = django.template.loader.render_to_string(email_template, template_args)
+  body = django.template.loader.render_to_string(email_template,
+                                                 template_args)
 
   # don't send emails without all of these fields
   if not sender_string or not to_strings or not subject or not body:

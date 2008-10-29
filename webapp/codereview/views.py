@@ -1425,6 +1425,35 @@ def admin_settings_from_email(request):
     return HttpResponseRedirect('/admin/settings')
   return process_form(request, AdminSettingsFromEmailForm, None, done)
 
+class AdminSettingsMergeLogEmailForm(BaseForm):
+  _template = 'admin_settings_merge_log_email.html'
+
+  merge_log_email = forms.CharField(required=False,
+                                    max_length=60,
+                                    widget=forms.TextInput(attrs={'size': 60}))
+
+  @classmethod
+  def _init(cls, state):
+    settings = models.Settings.get_settings()
+    return {'initial': {
+                'merge_log_email': settings.merge_log_email,
+              }
+            }
+
+  def _save(self, cd, change):
+    settings = models.Settings.get_settings()
+    settings.merge_log_email = cd['merge_log_email']
+    settings.put()
+
+@gae_admin_required
+def admin_settings_merge_log_email(request):
+  def done():
+    return HttpResponseRedirect('/admin/settings')
+  return process_form(request,
+                      AdminSettingsMergeLogEmailForm,
+                      None,
+                      done)
+
 class AdminSettingsCanonicalUrlForm(BaseForm):
   _template = 'admin_settings_canonical_url.html'
 

@@ -60,6 +60,7 @@ urlpatterns = patterns(
     (r'^admin/settings/analytics$', 'views.admin_settings_analytics'),
     (r'^admin/settings/from_email$', 'views.admin_settings_from_email'),
     (r'^admin/settings/from_email_test$', 'views.admin_settings_from_email_test'),
+    (r'^admin/settings/merge_log_email$', 'views.admin_settings_merge_log_email'),
     (r'^admin/settings/canonical_url$', 'views.admin_settings_canonical_url'),
     (r'^admin/settings/source_browser_url$',
                 'views.admin_settings_source_browser_url'),

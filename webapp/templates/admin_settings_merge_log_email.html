@@ -1,0 +1,12 @@
+{%extends "admin_base.html"%}
+{%block title1%}Settings: Merge Log Email{%endblock%}
+{%block body%}
+
+<form action="/admin/settings/merge_log_email" method="post">
+<table>
+{{form}}
+<tr><td><input name="save" type="submit" value="Save"></td></tr>
+</table>
+</form>
+
+{%endblock%}

@@ -29,8 +29,17 @@ from codereview import email
 
 def _send_clean_merge_email(http_request, change):
   if not change.emailed_clean_merge:
-    msg = email.send_change_message(http_request, change,
-                              "mails/clean_merge.txt", None, None)
+    additional_to = []
+    settings = models.Settings.get_settings()
+    if settings.merge_log_email:
+      additional_to.append(settings.merge_log_email)
+
+    msg = email.send_change_message(http_request,
+                                    change,
+                                    "mails/clean_merge.txt",
+                                    None,
+                                    None,
+                                    additional_to=additional_to)
     change.emailed_clean_merge = True
     return msg
   return None

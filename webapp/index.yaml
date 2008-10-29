@@ -10,7 +10,7 @@ indexes:
 # automatically uploaded to the admin console when you next deploy
 # your application using appcfg.py.
 
-# Used 4 times in query history.
+# Unused in query history -- copied from input.
 - kind: Account
   properties:
   - name: cla_verified
@@ -24,19 +24,19 @@ indexes:
   - name: cla_verified
   - name: individual_cla_version
 
-# Used 555 times in query history.
+# Unused in query history -- copied from input.
 - kind: Branch
   properties:
   - name: status
   - name: merge_submitted
 
-# Used 28 times in query history.
+# Unused in query history -- copied from input.
 - kind: BuildAttempt
   properties:
   - name: success
   - name: started
 
-# Used 14 times in query history.
+# Unused in query history -- copied from input.
 - kind: Change
   properties:
   - name: claimed
@@ -45,7 +45,7 @@ indexes:
   - name: modified
     direction: desc
 
-# Used 10 times in query history.
+# Unused in query history -- copied from input.
 - kind: Change
   properties:
   - name: claimed
@@ -55,14 +55,14 @@ indexes:
   - name: modified
     direction: desc
 
-# Used 3 times in query history.
+# Used once in query history.
 - kind: Change
   properties:
   - name: closed
   - name: modified
     direction: desc
 
-# Used 66 times in query history.
+# Unused in query history -- copied from input.
 - kind: Change
   properties:
   - name: closed
@@ -70,7 +70,7 @@ indexes:
   - name: modified
     direction: desc
 
-# Used 33 times in query history.
+# Unused in query history -- copied from input.
 - kind: Change
   properties:
   - name: closed
@@ -130,7 +130,7 @@ indexes:
   - name: author
   - name: draft
 
-# Used 11 times in query history.
+# Unused in query history -- copied from input.
 - kind: Message
   properties:
   - name: change
@@ -140,7 +140,7 @@ indexes:
 - kind: Message
   ancestor: yes
 
-# Used 13 times in query history.
+# Unused in query history -- copied from input.
 - kind: Patch
   properties:
   - name: patchset
@@ -150,7 +150,7 @@ indexes:
 - kind: Patch
   ancestor: yes
 
-# Used 38 times in query history.
+# Unused in query history -- copied from input.
 - kind: PatchSet
   properties:
   - name: change
@@ -171,16 +171,16 @@ indexes:
   - name: created
     direction: desc
 
-# Used 634 times in query history.
+# Unused in query history -- copied from input.
 - kind: ReceivedBundle
   properties:
   - name: state
   - name: created
 
-# Used once in query history.
+# Unused in query history -- copied from input.
 - kind: ReceivedBundleSegment
   ancestor: yes
 
-# Used 13 times in query history.
+# Unused in query history -- copied from input.
 - kind: ReviewStatus
   ancestor: yes

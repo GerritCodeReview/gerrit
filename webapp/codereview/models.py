@@ -111,6 +111,7 @@ class Settings(BackedUpModel):
   from_email = db.StringProperty()
   canonical_url = db.StringProperty(default='')
   source_browser_url = db.StringProperty(default='')
+  merge_log_email = db.StringProperty()
 
   _Key = MemCacheKey('Settings_Singleton')
 

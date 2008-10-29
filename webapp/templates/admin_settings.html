@@ -17,6 +17,13 @@
   <input type="submit" value="Test" />
 </form>
 
+<h3>"Merge Log" email:</h3>
+(CC'd on all merge messages)<br />
+<code>{%if settings.merge_log_email %}{{settings.merge_log_email}}{%else%}NONE SET{%endif%}</code>
+<form method="get" action="/admin/settings/merge_log_email" style="margin-left: 30px; display: inline;">
+  <input type="submit" value="Edit"/>
+</form>
+
 <h3>Track code for <a href="http://www.google.com/analytics/">Google Analytics</a>:</h3>
 <form method="get" action="/admin/settings/analytics">
   <code>{%if settings.analytics %}{{settings.analytics}}{%else%}NONE SET{%endif%}</code>

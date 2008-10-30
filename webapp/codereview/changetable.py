@@ -158,11 +158,11 @@ class ChangeTable(object):
     self.sections.append({'title': title, 'changes': changes})
 
   def render(self):
+    column_count = reduce(operator.add,
+                      map(lambda x: x.column_count(), self.fields))
     def _render_none():
       return ("""<tr><td colspan="%d" class="disabled">(None)</td></tr>"""
             % column_count)
-    column_count = reduce(operator.add,
-                      map(lambda x: x.column_count(), self.fields))
     lines = []
     lines.append("""<table class="change-list" id="user-queues">""")
     lines.append("""<tr>""")

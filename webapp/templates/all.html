@@ -15,8 +15,7 @@ document.onkeypress = keyPressIntermediary;
 
 <h1>Recent Changes</h1>
 
-<table class="change-list">
-<tr><td colspan="8" class="pagination" style="border: none;">
+<div>
   {%if newest%}
     <a class="novisit" href="{{newest}}">&laquo; Newest</a>
   {%endif%}
@@ -26,19 +25,9 @@ document.onkeypress = keyPressIntermediary;
   <b>{{first}}{%if last%} - {{last}}{%endif%}</b>
   {%if next%}<a class="novisit" href="{{next}}">Older &rsaquo;</a>
   {%else%}<span style="color:gray">Older &rsaquo;</span>{%endif%}
-</td></tr>
+</div>
 
-{%include "change_heading.html"%}
-
-{%if not changes%}
-  <tr><td colspan="8"><span class="disabled">(None)</span></td></tr>
-{%else%}
-  {%for change in changes%}
-    {%include "change_row.html"%}
-  {%endfor%}
-{%endif%}
-
-</table>
+{{changes}}
 
 <script language="JavaScript" type="text/javascript"><!--
 var dashboardState = new M_DashboardState(window,'change');

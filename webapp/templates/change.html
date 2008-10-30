@@ -56,26 +56,7 @@
   </h2>
   <div id="ps-dependson"
        style="{%if not show_dependencies %}display:none{% endif %}">
-    <table class="change-list">
-      {%include "change_heading.html"%}
-      <tr><th colspan="8" class="header-title">Depends On</th></tr>
-      {%if not depends_on%}
-        <tr><td colspan="8" class="disabled">(None)</td></tr>
-      {%else%}
-        {%for change in depends_on%}
-          {%include "change_row.html"%}
-        {%endfor%}
-      {%endif%}
-
-      <tr><th colspan="8" class="header-title">Needed By</th></tr>
-      {%if not needed_by%}
-        <tr><td colspan="8" class="disabled">(None)</td></tr>
-      {%else%}
-        {%for change in needed_by%}
-          {%include "change_row.html"%}
-        {%endfor%}
-      {%endif%}
-    </table>
+    {{dependencies_table}}
   </div>
 </div>
 

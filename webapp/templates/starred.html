@@ -14,16 +14,7 @@ document.onkeypress = keyPressIntermediary;
 
 <h1>Starred Changes</h1>
 
-<table class="change-list">
-  {%include "change_heading.html"%}
-  {%if not changes%}
-    <tr><td colspan="8"><span class="disabled">(None)</span></td></tr>
-  {%else%}
-    {%for change in changes%}
-      {%include "change_row.html"%}
-    {%endfor%}
-  {%endif%}
-</table>
+{{changes}}
 
 <script language="JavaScript" type="text/javascript"><!--
 var dashboardState = new M_DashboardState(window,'change');

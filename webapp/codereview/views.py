@@ -1,5 +1,5 @@
 # Copyright 2008 Google Inc.
-#user_is_admin
+#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -53,6 +53,7 @@ from django.utils import simplejson
 from django.forms import formsets
 
 # Local imports
+import changetable
 from memcache import Key as MemCacheKey
 import models
 import email
@@ -69,6 +70,22 @@ from view_util import *
 
 MAX_ROWS = 1000
 
+CHANGE_TABLE_FIELDS = (changetable.FIELD_ID,
+          changetable.FIELD_SUBJECT,
+          changetable.FIELD_OWNER,
+          changetable.FIELD_REVIEWERS,
+          changetable.FIELD_PROJECT,
+#            changetable.FIELD_BRANCH,
+          changetable.FIELD_MODIFIED,
+         )
+
+CHANGE_TABLE_FIELDS_NO_PROJECT = (changetable.FIELD_ID,
+          changetable.FIELD_SUBJECT,
+          changetable.FIELD_OWNER,
+          changetable.FIELD_REVIEWERS,
+#            changetable.FIELD_BRANCH,
+          changetable.FIELD_MODIFIED,
+         )
 
 ### Helper functions ###
 
@@ -138,11 +155,19 @@ def all(request):
 
   _optimize_draft_counts(changes)
   _prefetch_names(changes)
-  return respond(request, 'all.html',
-                 {'changes': changes, 'limit': limit,
-                  'newest': newest, 'prev': prev, 'next': next,
-                  'first': offset+1,
-                  'last': len(changes) > 1 and offset+len(changes) or None})
+
+  table = changetable.ChangeTable(request.user, CHANGE_TABLE_FIELDS)
+  table.add_section(None, changes)
+
+  return respond(request, 'all.html', {
+                    'changes': table.render(),
+                    'limit': limit,
+                    'newest': newest,
+                    'prev': prev,
+                    'next': next,
+                    'first': offset+1,
+                    'last': len(changes) > 1 and offset+len(changes) or None
+                  })
 
 
 def _optimize_draft_counts(changes):
@@ -188,7 +213,8 @@ def all_unclaimed(request):
                           '   AND claimed = FALSE'
                           ' ORDER BY dest_project DESC,'
                           '   modified DESC').fetch(1000)
-  changes = []
+  changes = changetable.ChangeTable(request.user,
+      CHANGE_TABLE_FIELDS_NO_PROJECT)
   c_list = []
   last_project_key = None
 
@@ -198,10 +224,7 @@ def all_unclaimed(request):
       if c_list:
         _optimize_draft_counts(c_list)
         _prefetch_names(c_list)
-        changes.append({
-            'name': c_list[0].dest_project.name,
-            'changes': c_list,
-          })
+        changes.add_section(c_list[0].dest_project.name, c_list)
       last_project_key = k
       c_list = []
     c_list.append(c)
@@ -209,12 +232,9 @@ def all_unclaimed(request):
   if c_list:
     _optimize_draft_counts(c_list)
     _prefetch_names(c_list)
-    changes.append({
-        'name': c_list[0].dest_project.name,
-        'changes': c_list,
-      })
+    changes.add_section(c_list[0].dest_project.name, c_list)
   vars = {
-      'projects': changes,
+      'changes': changes.render(),
     }
 
   return respond(request, 'unclaimed.html', vars)
@@ -236,7 +256,8 @@ def unclaimed(request):
     return result
 
   user = request.user
-  changes = []
+  changes = changetable.ChangeTable(request.user,
+      CHANGE_TABLE_FIELDS_NO_PROJECT)
 
   projects = _get_unclaimed_projects(request.user)
   for project in projects:
@@ -246,16 +267,13 @@ def unclaimed(request):
                           '   AND dest_project = :dest_project'
                           ' ORDER BY modified DESC',
                           dest_project=project.key()).fetch(1000)
-    if c:
+    if len(c) > 0:
       _optimize_draft_counts(c)
       _prefetch_names(c)
-      changes.append({
-          'name': project.name,
-          'changes': c,
-        })
+      changes.add_section(project.name, c)
 
   vars = {
-      'projects': changes,
+      'changes': changes.render(),
     }
 
   return respond(request, 'unclaimed.html', vars)
@@ -265,38 +283,20 @@ def unclaimed(request):
 def starred(request):
   """/starred - Show a list of changes starred by the current user."""
   stars = models.Account.current_user_account.stars
-  if not stars:
-    changes = []
-  else:
+  table = changetable.ChangeTable(request.user, CHANGE_TABLE_FIELDS)
+  if stars:
     changes = [change for change in models.Change.get_by_id(stars)
                     if change is not None]
     _optimize_draft_counts(changes)
     _prefetch_names(changes)
-  return respond(request, 'starred.html', {'changes': changes})
+    table.add_section(None, changes)
+  return respond(request, 'starred.html', {'changes': table.render()})
 
 
 @user_key_required
 def show_user(request):
   """/user - Show the user's dashboard"""
   return _show_user(request)
-
-@user_key_required
-def ajax_user_mine(request, offset_str):
-  m = _user_mine(request, request.user_to_show, int(offset_str))
-  return _respond_paged(request,'change_pagedrow.html',
-                        'change', 'mine', m)
-
-@user_key_required
-def ajax_user_review(request, offset_str):
-  m = _user_review(request, request.user_to_show, int(offset_str))
-  return _respond_paged(request,'change_pagedrow.html',
-                        'change', 'review', m)
-
-@user_key_required
-def ajax_user_closed(request, offset_str):
-  m = _user_closed(request, request.user_to_show, int(offset_str))
-  return _respond_paged(request,'change_pagedrow.html',
-                        'change', 'closed', m)
 
 def _respond_paged(request, template, new_pfx, old_pfx, vars):
   return respond(request, template, {
@@ -342,49 +342,53 @@ def _paginate(prefix, n, offset, q):
           prefix + '_next': next}
 
 
-def _user_mine(request, user, offset):
-  r = _paginate('mine', 10, offset,
-    models.gql(models.Change,
+def _user_mine(user):
+  r = models.gql(models.Change,
       'WHERE closed = FALSE AND owner = :1'
       ' ORDER BY modified DESC',
-      user))
-  _optimize_draft_counts(r['mine_list'])
-  _prefetch_names(r['mine_list'])
+      user).fetch(1000)
+  _optimize_draft_counts(r)
+  _prefetch_names(r)
   return r
 
-def _user_review(request, user, offset):
-  r = _paginate('review', 10, offset,
-    models.gql(models.Change,
+def _user_review(user):
+  r = models.gql(models.Change,
       'WHERE closed = FALSE AND reviewers = :1'
       ' ORDER BY modified DESC',
-      user.email()))
-  _optimize_draft_counts(r['review_list'])
-  _prefetch_names(r['review_list'])
+      user.email()).fetch(1000)
+  _optimize_draft_counts(r)
+  _prefetch_names(r)
   return r
 
-def _user_closed(request, user, offset):
-  r =  _paginate('closed', 10, offset,
-    models.gql(models.Change,
+def _user_closed(user):
+  r = models.gql(models.Change,
       'WHERE closed = TRUE AND owner = :1 AND modified > :2'
       ' ORDER BY modified DESC',
       user,
       datetime.datetime.now() - datetime.timedelta(days=7)
-      ))
-  _optimize_draft_counts(r['closed_list'])
-  _prefetch_names(r['closed_list'])
+      ).fetch(15)
+  _optimize_draft_counts(r)
+  _prefetch_names(r)
   return r
 
 def _show_user(request):
   user = request.user_to_show
+  real_name = library.real_name(user)
 
-  mine = _user_mine(request, user, 1)
-  review = _user_review(request, user, 1)
-  closed = _user_closed(request, user, 1)
+  mine = _user_mine(user)
+  review = _user_review(user)
+  closed = _user_closed(user)
 
-  vars = {'email': user.email()}
-  vars.update(mine)
-  vars.update(review)
-  vars.update(closed)
+  changes = changetable.ChangeTable(request.user, CHANGE_TABLE_FIELDS)
+
+  changes.add_section('Changes uploaded by %s' % real_name, mine)
+  changes.add_section('Changes reviewable by %s' % real_name, review)
+  changes.add_section('Recently closed changes', closed)
+  
+  vars = {
+      'email': user.email(),
+      'changes': changes.render(),
+    }
 
   return respond(request, 'user.html', vars)
 
@@ -492,12 +496,16 @@ def show(request, form=None):
   else:
     first_patch = None
 
+  dependencies_table = changetable.ChangeTable(request.user,
+      CHANGE_TABLE_FIELDS_NO_PROJECT)
   depends_on = [ r.patchset.change
                  for r in last_patchset.revision.get_ancestors()
                  if r.patchset ]
+  dependencies_table.add_section("Depends On", depends_on)
   needed_by  = [ r.patchset.change
                  for r in last_patchset.revision.get_children()
                  if r.patchset ]
+  dependencies_table.add_section("Needed By", needed_by)
 
   # approvals
   review_status = change.get_review_status()
@@ -551,6 +559,7 @@ def show(request, form=None):
   _prefetch_names(depends_on)
   _prefetch_names(needed_by)
   library.prefetch_names(map(lambda s: s.user, review_status))
+
   return respond(request, 'change.html', {
                   'change': change,
                   'ready_to_submit': can_submit,
@@ -561,8 +570,7 @@ def show(request, form=None):
                   'is_verified': ready_to_submit['verified'],
                   'author_status': author_status,
                   'review_status': real_review_status,
-                  'depends_on': depends_on,
-                  'needed_by': needed_by,
+                  'dependencies_table': dependencies_table.render(),
                   'show_dependencies': show_dependencies,
                   'patchsets': patchsets,
                   'messages': messages,

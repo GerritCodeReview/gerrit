@@ -184,15 +184,11 @@ h2 {
 
 .change-list th {
   background-color: #d4e9a9;
+  white-space: nowrap;
 }
 
 .change-list .header-columns, .change-list .header-title {
   border-top: solid 8px white;
-}
-
-.change-list .pagination {
-  font-weight: normal;
-  text-align: right;
 }
 
 .change-list td, .change-list th {
@@ -232,6 +228,14 @@ h2 {
 
 .change-list .disabled {
   color: #444;
+}
+
+.change-list th.subject {
+  width: 250px;
+}
+
+.change-list td.modified {
+  white-space: nowrap;
 }
 
 /* ****** User Info Popup ****** */

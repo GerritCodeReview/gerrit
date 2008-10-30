@@ -13,37 +13,13 @@ document.onkeypress = keyPressIntermediary;
 
 
 <h1>Unclaimed changes</h1>
-<table class="change-list">
-  
-{%include "change_heading.html"%}
 
-{% if not projects %}
-<tr>
-  <td colspan="8">
-    <span class="disabled">(None)</span>
-  </td>
-</tr>
-{% endif %}
+{{changes}}
 
-{% for project in projects %}
-<tr>
-  <th colspan="8" class="header-title">Project: {{project.name}}</th>
-</tr>
 
-{%if not project.changes%}
-  <tr>
-    <td colspan="8">
-      <span class="disabled">(None)</span>
-    </td>
-  </tr>
-{%else%}
-  {%for change in project.changes%}
-    {%include "change_row.html"%}
-  {%endfor%}
-{%endif%}
-
-{%endfor%}
-
-</table>
+<script language="JavaScript" type="text/javascript"><!--
+var dashboardState = new M_DashboardState(window,'change');
+-->
+</script>
 
 {%endblock%}

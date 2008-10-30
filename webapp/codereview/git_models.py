@@ -88,9 +88,9 @@ class ReceivedBundle(models.BackedUpModel):
 
     try:
       rb = cls._lock_next_new_imp()
-    except Timeout:
+    except db.Timeout:
       return None
-    except TransactionFailedError:
+    except db.TransactionFailedError:
       return None
 
     if rb is None:

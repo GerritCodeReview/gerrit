@@ -156,13 +156,14 @@ public class Main {
         LOG.info("Shutting down thread pool.");
         pool.shutdown();
 
-        boolean waiting = true;
+        boolean isTerminated;
         do {
           try {
-            waiting = pool.awaitTermination(10, TimeUnit.SECONDS);
+            isTerminated = pool.awaitTermination(10, TimeUnit.SECONDS);
           } catch (InterruptedException ie) {
+            isTerminated = false;
           }
-        } while (waiting);
+        } while (!isTerminated);
         LOG.info("Thread pool shutdown.");
         LogManager.shutdown();
       }

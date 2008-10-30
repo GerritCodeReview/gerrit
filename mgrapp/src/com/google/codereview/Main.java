@@ -25,28 +25,24 @@ import com.google.codereview.rpc.HttpRpc;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Appender;
+import org.apache.log4j.ConsoleAppender;
+import org.apache.log4j.FileAppender;
+import org.apache.log4j.Layout;
+import org.apache.log4j.Level;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PatternLayout;
 import org.spearce.jgit.lib.PersonIdent;
 import org.spearce.jgit.lib.RepositoryConfig;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Formatter;
-import java.util.logging.Handler;
-import java.util.logging.Level;
-import java.util.logging.LogRecord;
-import java.util.logging.Logger;
-import java.util.logging.StreamHandler;
 
 /** Server startup, invoked from the command line. */
 public class Main {
@@ -89,6 +85,7 @@ public class Main {
       } else {
         System.err.println("error: " + cmd + " not recognized");
       }
+      LogManager.shutdown();
     }
   }
 
@@ -167,6 +164,7 @@ public class Main {
           }
         } while (waiting);
         LOG.info("Thread pool shutdown.");
+        LogManager.shutdown();
       }
     });
   }
@@ -197,88 +195,49 @@ public class Main {
 
   private static void configureLogging(final RepositoryConfig config,
       final boolean interactive) {
-    final Logger root = Logger.getLogger("");
-    for (final Handler h : root.getHandlers())
-      root.removeHandler(h);
-
-    OutputStream out = System.out;
     final String logfile = config.getString(SEC_LOG, null, "file");
+    final Layout layout;
+    final Appender out;
+
+    layout = new PatternLayout("%d{yyyyMMdd.HHmmss} %-5p %c - %m%n");
     if (logfile != null && !interactive) {
       try {
-        out = new FileOutputStream(logfile, true);
+        out = new FileAppender(layout, logfile, true);
       } catch (IOException err) {
-        System.err.println("error: Cannot append to " + logfile);
-        System.err.println("error: " + err.toString());
+        System.err.println("fatal: Cannot open log '" + logfile + "': " + err);
         System.exit(1);
         throw new ThreadDeath();
       }
+    } else {
+      out = new ConsoleAppender(layout);
     }
-
-    final StreamHandler ch = new StreamHandler(out, new Formatter() {
-      private final SimpleDateFormat sdf;
-      private final StringWriter stringBuffer = new StringWriter();
-      private final PrintWriter p = new PrintWriter(stringBuffer);
-      {
-        sdf = new SimpleDateFormat("yyyyMMdd.HHmmss");
-      }
-
-      @Override
-      public String format(final LogRecord record) {
-        stringBuffer.getBuffer().setLength(0);
-        final String levelName = record.getLevel().getName();
-        p.print(sdf.format(new Date(record.getMillis())));
-        p.print(' ');
-        p.print(levelName);
-        for (int cnt = "WARNING".length() - levelName.length(); --cnt >= 0;) {
-          p.print(' ');
-        }
-        p.print(' ');
-        p.print(record.getLoggerName());
-        p.print(" - ");
-        p.print(record.getMessage());
-        p.print('\n');
-        if (record.getThrown() != null) {
-          record.getThrown().printStackTrace(p);
-          p.print('\n');
-        }
-        p.flush();
-        return stringBuffer.toString();
-      }
-    }) {
-      @Override
-      public synchronized void publish(final LogRecord record) {
-        super.publish(record);
-        flush();
-      }
-    };
-    root.addHandler(ch);
+    LogManager.getRootLogger().addAppender(out);
 
     final Level levelObj;
     final String levelStr = config.getString(SEC_LOG, null, "level");
     if (levelStr == null || levelStr.length() == 0) {
       levelObj = Level.INFO;
     } else if ("trace".equalsIgnoreCase(levelStr)) {
-      levelObj = Level.FINEST;
+      levelObj = Level.TRACE;
     } else if ("debug".equalsIgnoreCase(levelStr)) {
-      levelObj = Level.FINE;
+      levelObj = Level.DEBUG;
     } else if ("info".equalsIgnoreCase(levelStr)) {
       levelObj = Level.INFO;
     } else if ("warning".equalsIgnoreCase(levelStr)
         || "warn".equalsIgnoreCase(levelStr)) {
-      levelObj = Level.WARNING;
+      levelObj = Level.WARN;
     } else if ("error".equalsIgnoreCase(levelStr)) {
-      levelObj = Level.SEVERE;
+      levelObj = Level.ERROR;
     } else if ("fatal".equalsIgnoreCase(levelStr)) {
-      levelObj = Level.SEVERE;
+      levelObj = Level.FATAL;
     } else {
       System.out.println("warning: Bad " + SEC_LOG + ".level " + levelStr
           + "; assuming info");
       levelObj = Level.INFO;
     }
-    ch.setLevel(levelObj);
-    root.setLevel(levelObj);
+    LogManager.getRootLogger().setLevel(levelObj);
 
-    Logger.getLogger("httpclient").setLevel(Level.WARNING);
-    Logger.getLogger("org.apache.commons.httpclient").setLevel(Level.WARNING);
+    Logger.getLogger("httpclient").setLevel(Level.WARN);
+    Logger.getLogger("org.apache.commons.httpclient").setLevel(Level.WARN);
   }
 }

@@ -21,6 +21,7 @@ import time
 import urllib
 
 from google.appengine.api import users
+from google.appengine.ext import db
 from google.appengine.runtime import DeadlineExceededError
 
 import django
@@ -106,7 +107,11 @@ def devenv_required(func):
 def change_required(func):
   """Decorator that processes the change_id handler argument."""
   def change_wrapper(request, change_id, *args, **kwds):
-    change = models.Change.get_by_id(int(change_id))
+    try:
+      change = models.Change.get_by_id(int(change_id))
+    except db.BadKeyError:
+      return HttpResponseNotFound('No change exists with that id (%s)' %
+                                  change_id)
     if change is None:
       return HttpResponseNotFound('No change exists with that id (%s)' %
                                   change_id)

@@ -30,6 +30,7 @@ import com.google.protobuf.RpcCallback;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.spearce.jgit.errors.IncorrectObjectTypeException;
 import org.spearce.jgit.errors.MissingBundlePrerequisiteException;
 import org.spearce.jgit.lib.NullProgressMonitor;
 import org.spearce.jgit.lib.ObjectId;
@@ -152,6 +153,12 @@ class UnpackBundleOp {
     for (final Ref r : db.getAllRefs().values()) {
       try {
         rw.markUninteresting(rw.parseCommit(r.getObjectId()));
+      } catch (IncorrectObjectTypeException notCommit) {
+        // These happen in some repositories like linux-2.6.git where
+        // there is an annotated tag pointing at a tree, or in git.git
+        // where there is an annotated tag pointing at a blob.
+        //
+        continue;
       } catch (IOException err) {
         final String m = "Local ref is invalid";
         throw new UnpackException(CodeType.SUSPEND_BUNDLE, m, err);

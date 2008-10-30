@@ -22,7 +22,6 @@ import com.google.codereview.manager.prune.BuildPruner;
 import com.google.codereview.manager.prune.BundlePruner;
 import com.google.codereview.manager.unpack.ReceivedBundleUnpacker;
 import com.google.codereview.rpc.HttpRpc;
-import com.google.githacks.BrokenShallowRepositoryCreator;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -87,14 +86,6 @@ public class Main {
       final String cmd = args[1];
       if (cmd.equals("sync")) {
         new ProjectSync(me.backend).sync();
-      } else if (cmd.equals("bsclone")) {
-        try {
-          final File src = new File(args[2]);
-          final File dst = new File(args[3]);
-          BrokenShallowRepositoryCreator.createRecursive(src, dst);
-        } catch (IOException err) {
-          System.err.println("error: " + err);
-        }
       } else {
         System.err.println("error: " + cmd + " not recognized");
       }

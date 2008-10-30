@@ -24,7 +24,6 @@ import com.google.protobuf.RpcChannel;
 import org.spearce.jgit.lib.PersonIdent;
 
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Configuration and state related to a single Gerrit backend process.
@@ -83,7 +82,7 @@ public class Backend {
    *        as soon as a thread is available.
    */
   public void asyncExec(final Runnable task) {
-    executor.schedule(task, 0, TimeUnit.MILLISECONDS);
+    executor.submit(task);
   }
 
   public AdminService getAdminService() {

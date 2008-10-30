@@ -157,7 +157,16 @@ public class Main {
       @Override
       public void run() {
         LOG.info("Shutting down thread pool.");
-        pool.shutdownNow();
+        pool.shutdown();
+
+        boolean waiting = true;
+        do {
+          try {
+            waiting = pool.awaitTermination(10, TimeUnit.SECONDS);
+          } catch (InterruptedException ie) {
+          }
+        } while (waiting);
+        LOG.info("Thread pool shutdown.");
       }
     });
   }

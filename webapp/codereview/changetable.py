@@ -70,7 +70,6 @@ class IdFieldRenderer(BaseFieldRenderer):
     """
 
   def render_contents(self, change, current_user):
-    logging.info("change=" + str(change))
     return """<td class="selection"><img src="/static/closedtriangle.gif" style="visibility: hidden;" width="12" height="9" /></td>
 <td class="star" width="17" align="center">%(star)s</td>
 <td class="id" align="right"><a href="/%(id)d">%(id)d</a></td>""" % {

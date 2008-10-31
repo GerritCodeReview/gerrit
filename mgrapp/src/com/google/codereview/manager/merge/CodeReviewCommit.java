@@ -19,6 +19,8 @@ import com.google.codereview.internal.PostMergeResult.MergeResultItem;
 import org.spearce.jgit.lib.AnyObjectId;
 import org.spearce.jgit.revwalk.RevCommit;
 
+import java.util.List;
+
 /** Extended commit entity with code review specific metadata. */
 class CodeReviewCommit extends RevCommit {
   /**
@@ -44,6 +46,9 @@ class CodeReviewCommit extends RevCommit {
    * Only valid if {@link #patchsetKey} is not null.
    */
   MergeResultItem.CodeType statusCode;
+
+  /** Commits which are missing ancestors of this commit. */
+  List<CodeReviewCommit> missing;
 
   CodeReviewCommit(final AnyObjectId id) {
     super(id);

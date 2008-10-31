@@ -15,6 +15,18 @@
 package codereview.internal;
 option java_package = "com.google.codereview.internal";
 
+message MissingDependencyItem {
+  // Unique key of the PatchSet that is missing; missing
+  // if the patchset is not known but the revision is.
+  //
+  optional string patchset_key = 1;
+
+  // Unique revision id of the revision that is missing,
+  // if patchset_key was not available to the processor.
+  //
+  optional string revision_id = 2;
+}
+
 message MergeResultItem {
   enum CodeType {
     CLEAN_MERGE = 1;        // change merged clean
@@ -27,6 +39,11 @@ message MergeResultItem {
   // Unique key of the PatchSet to merge
   //
   required string patchset_key = 2;
+
+  // If status_code = MISSING_DEPENDENCY this is the list of
+  // ancestors needed to merge this item into the branch.
+  //
+  repeated MissingDependencyItem missing = 3;
 }
 
 message PostMergeResultRequest {

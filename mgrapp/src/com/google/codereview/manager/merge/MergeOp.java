@@ -17,6 +17,7 @@ package com.google.codereview.manager.merge;
 import com.google.codereview.internal.PendingMerge.PendingMergeItem;
 import com.google.codereview.internal.PendingMerge.PendingMergeResponse;
 import com.google.codereview.internal.PostMergeResult.MergeResultItem;
+import com.google.codereview.internal.PostMergeResult.MissingDependencyItem;
 import com.google.codereview.internal.PostMergeResult.PostMergeResultRequest;
 import com.google.codereview.manager.Backend;
 import com.google.codereview.manager.InvalidRepositoryException;
@@ -381,6 +382,21 @@ class MergeOp {
     final MergeResultItem.Builder delay = MergeResultItem.newBuilder();
     delay.setStatusCode(c.statusCode);
     delay.setPatchsetKey(c.patchsetKey);
+
+    if (c.statusCode == MergeResultItem.CodeType.MISSING_DEPENDENCY) {
+      for (final CodeReviewCommit m : c.missing) {
+        final MissingDependencyItem.Builder d;
+
+        d = MissingDependencyItem.newBuilder();
+        if (m.patchsetKey != null) {
+          d.setPatchsetKey(m.patchsetKey);
+        } else {
+          d.setRevisionId(m.getId().name());
+        }
+        delay.addMissing(d);
+      }
+    }
+
     return delay.build();
   }
 }

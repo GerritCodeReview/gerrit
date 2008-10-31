@@ -22,6 +22,7 @@ import org.spearce.jgit.revwalk.RevFlag;
 import org.spearce.jgit.revwalk.RevWalk;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -42,7 +43,7 @@ class MergeSorter {
       throws IOException {
     final Set<CodeReviewCommit> heads = new HashSet<CodeReviewCommit>();
     final Set<CodeReviewCommit> sort = prepareList(incoming);
-    INCOMING: while (!sort.isEmpty()) {
+    while (!sort.isEmpty()) {
       final CodeReviewCommit n = removeOne(sort);
 
       rw.resetRetain(CAN_MERGE);
@@ -58,10 +59,18 @@ class MergeSorter {
           // We cannot merge n as it would bring something we
           // aren't permitted to merge at this time. Drop n.
           //
-          n.statusCode = MergeResultItem.CodeType.MISSING_DEPENDENCY;
-          continue INCOMING;
+          if (n.missing == null) {
+            n.statusCode = MergeResultItem.CodeType.MISSING_DEPENDENCY;
+            n.missing = new ArrayList<CodeReviewCommit>();
+          }
+          n.missing.add((CodeReviewCommit) c);
+        } else {
+          contents.add(c);
         }
-        contents.add(c);
+      }
+
+      if (n.statusCode == MergeResultItem.CodeType.MISSING_DEPENDENCY) {
+        continue;
       }
 
       // Anything reachable through us is better merged by just

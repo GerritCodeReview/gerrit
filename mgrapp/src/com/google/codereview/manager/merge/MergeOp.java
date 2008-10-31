@@ -289,10 +289,12 @@ class MergeOp {
           rw.markUninteresting(mergeTip);
           CodeReviewCommit failed;
           while ((failed = (CodeReviewCommit) rw.next()) != null) {
-            if (failed.patchsetKey != null) {
-              failed.statusCode = MergeResultItem.CodeType.PATH_CONFLICT;
-              updates.add(toResult(failed));
+            if (failed.patchsetKey == null) {
+              continue;
             }
+
+            failed.statusCode = MergeResultItem.CodeType.PATH_CONFLICT;
+            updates.add(toResult(failed));
           }
           LOG.debug("Rejected (path conflict) " + n.name());
         }

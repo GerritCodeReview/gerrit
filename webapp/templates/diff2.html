@@ -89,15 +89,9 @@ login_warned = false;
   <div>
     Left: <a href="{%url codereview.views.diff change.key.id,ps_left.key.id,patch_left.key.id%}"
              title="View regular side by side diff">Side by side diff</a>
-          |
-          <a href="{%url codereview.views.download_patch change.key.id,ps_left.key.id,patch_left.key.id%}"
-             title="Download patch for {{patch_left.filename}}">Download</a>
           <br/>
     Right: <a href="{%url codereview.views.diff change.key.id,ps_right.key.id,patch_right.key.id%}"
               title="View regular side by side diff">Side by side diff</a>
-           |
-           <a href="{%url codereview.views.download_patch change.key.id,ps_right.key.id,patch_right.key.id%}"
-             title="Download patch for {{patch_right.filename}}">Download</a>
     {%if user%}
   </div>
   <div style="margin-top: 5px;">

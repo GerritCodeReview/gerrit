@@ -80,12 +80,6 @@ login_warned = false;
     <a href="{%url codereview.views.diff change.key.id,patchset.key.id,patch.id%}">
     View side by-side-diff with in-line comments</a>
   </div>
-  <div style="margin-top: 5px;">
-    <a href="{%url codereview.views.download_patch change.key.id,patchset.key.id,patch.id%}"
-       title="Download patch for {{patch.filename}}">
-      Download patch
-    </a>
-  </div>
   {%if user%}
   <div style="margin-top: 5px;">
     <a class="novisit" href="{%url codereview.views.publish change.key.id%}">Publish Comments &amp; Approvals</a> ('m')

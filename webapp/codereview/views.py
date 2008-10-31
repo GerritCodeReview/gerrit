@@ -737,12 +737,6 @@ def patch_helper(request, nav_type='patch'):
                   'change': request.change})
 
 
-@patch_required
-def download_patch(request):
-  """/download/change<change>_<patchset>_<patch>.diff - Download patch."""
-  return HttpResponse(request.patch.patch_text, content_type='text/plain')
-
-
 def _get_context_for_user(request):
   """Returns the context setting for a user.
 

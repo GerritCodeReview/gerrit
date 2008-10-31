@@ -36,7 +36,6 @@ urlpatterns = patterns(
     (r'^(\d+)/publish$', 'views.publish'),
     (r'^(\d+)/merge/(\d+)$', 'views.merge'),
     (r'^(\d+)/ajax_patchset/(\d+)$', 'views.ajax_patchset'),
-    (r'^download/change(\d+)_(\d+)_(\d+|z[0-9a-f]{40})\.diff', 'views.download_patch'),
     (r'^download/bundle(\d+)_(\d+)$', 'views.download_bundle'),
     (r'^(\d+)/patch/(\d+)/(\d+|z[0-9a-f]{40})$', 'views.patch'),
     (r'^(\d+)/diff/(\d+)/(\d+|z[0-9a-f]{40})$', 'views.diff'),

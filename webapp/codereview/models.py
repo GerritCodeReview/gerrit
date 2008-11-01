@@ -346,9 +346,9 @@ class Branch(BackedUpModel):
 
     good = []
     torm = []
-    for k, o in zip(keys, objs):
-      if o:
-        good.append(o)
+    for k, ps in zip(keys, objs):
+      if ps and not ps.change.closed:
+        good.append(ps)
       else:
         torm.append(k)
 

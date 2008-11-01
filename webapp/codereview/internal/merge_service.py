@@ -27,8 +27,27 @@ from util import InternalAPI, automatic_retry
 
 from codereview import email
 
-def _send_clean_merge_email(http_request, change):
-  if not change.emailed_clean_merge:
+def _send_once(change, field):
+  """Mark the change's boolean field to True exactly once.
+
+     Used below to ensure we only attempt to email once
+     about something per submission attempt, even if the
+     queues get screwed up and a change goes through more
+     than once.
+  """
+  def trans(key):
+    c = db.get(key)
+    if getattr(c, field):
+      return False
+    else:
+      setattr(c, field, True)
+      c.put()
+      return True
+  return db.run_in_transaction(trans, change.key())
+
+
+def _send_clean_merge(http_request, change):
+  if _send_once(change, 'emailed_clean_merge'):
     additional_to = []
     settings = models.Settings.get_settings()
     if settings.merge_log_email:
@@ -40,25 +59,29 @@ def _send_clean_merge_email(http_request, change):
                                     None,
                                     None,
                                     additional_to=additional_to)
-    change.emailed_clean_merge = True
-    return msg
-  return None
+    if msg:
+      msg.put()
   
-def _send_missing_dependency_merge_email(http_request, change):
-  if not change.emailed_clean_merge:
-    msg = email.send_change_message(http_request, change,
-                              "mails/missing_dependency.txt", None, None)
-    change.emailed_missing_dependency = True
-    return msg
-  return None
+def _send_missing_dependency(http_request, change):
+  if _send_once(change, 'emailed_missing_dependency'):
+    msg = email.send_change_message(http_request,
+                                    change,
+                                    "mails/missing_dependency.txt",
+                                    None,
+                                    None)
+    if msg:
+      msg.put()
 
-def _send_path_conflict_email(http_request, change):
-  if not change.emailed_clean_merge:
-    msg = email.send_change_message(http_request, change,
-                              "mails/path_conflict.txt", None, None)
-    change.emailed_path_conflict = True
-    return msg
-  return None
+def _send_path_conflict(http_request, change):
+  if _send_once(change, 'emailed_path_conflict'):
+    msg = email.send_change_message(http_request,
+                                    change,
+                                    "mails/path_conflict.txt",
+                                    None,
+                                    None)
+    if msg:
+      msg.put()
+
 
 class InvalidBranchStatusError(Exception):
   """The branch cannot be updated in this way at this time."""
@@ -111,7 +134,7 @@ class MergeServiceImp(MergeService, InternalAPI):
       def chg_trans(key):
         change = db.get(key)
         if change.merge_patchset.key() != ps.key():
-          return False
+          return None
 
         if sc == MergeResultItem.CLEAN_MERGE:
           pass
@@ -128,31 +151,22 @@ class MergeServiceImp(MergeService, InternalAPI):
           change.unsubmit_merge()
           change.put()
 
-        return True
+        return change
 
-      if db.run_in_transaction(chg_trans, ps.change.key()):
+      change = db.run_in_transaction(chg_trans, ps.change.key())
+      if change:
         if sc == MergeResultItem.CLEAN_MERGE:
-          msg = _send_clean_merge_email(self.http_request, ps.change)
-          ps.change.put()
-          if msg:
-            msg.put()
+          _send_clean_merge(self.http_request, change)
 
         elif sc == MergeResultItem.ALREADY_MERGED:
           success.append(ps)
 
         elif sc == MergeResultItem.MISSING_DEPENDENCY:
-          msg = _send_missing_dependency_merge_email(self.http_request,
-                                                     ps.change)
-          ps.change.put()
-          if msg:
-            msg.put()
+          _send_missing_dependency(self.http_request, change)
           defer.append(ps)
 
         elif sc == MergeResultItem.PATH_CONFLICT:
-          msg = _send_path_conflict_email(self.http_request, ps.change)
-          ps.change.put()
-          if msg:
-            msg.put()
+          _send_path_conflict(self.http_request, change)
           fail.append(ps)
       else:
         fail.append(ps)

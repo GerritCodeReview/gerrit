@@ -641,6 +641,11 @@ div.inline-comment-title {
   font-size: 100%;
 }
 
+.visualtab {
+	color: red;
+	font-weight: bold;
+}
+
 #signin-link {
   margin-top: 20px;
 }

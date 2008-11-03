@@ -51,8 +51,8 @@ BEGIN_TAG = "<span class=\"%s\">"
 # Tag to end a diff block.
 END_TAG = "</span>"
 # Tag used for visual tab indication
-TAB_TAG = ("<span class=\"visualtab\" title=\"Visual tab indicator. "
-           "Change settings above to hide.\">&raquo;</span>")
+TAB_TAG = '<span class="visualtab" title="Visual tab.">&raquo;</span>'
+
 # Color scheme to govern the display properties of diff blocks and matching
 # blocks. Each value e.g. 'oldlight' corresponds to a CSS style.
 COLOR_SCHEME = {

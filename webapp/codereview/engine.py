@@ -298,7 +298,8 @@ def _RenderDiffTableRows(request, old_lines, chunks, patch,
 
 def _TableRowGenerator(old_patch, old_dict, old_max, old_snapshot,
                        new_patch, new_dict, new_max, new_snapshot,
-                       triple_iterator, colwidth, debug=False):
+                       triple_iterator, colwidth, debug=False,
+                       mark_tabs=True):
   """Helper function to render side-by-side table rows.
 
   Args:
@@ -313,6 +314,7 @@ def _TableRowGenerator(old_patch, old_dict, old_max, old_snapshot,
     triple_iterator: Iterator that yields (tag, old, new) triples.
     colwidth: column width (not optional)
     debug: Optional debugging flag (default False).
+    mark_tabs: Optional flag to show tabs visually (default True).
 
   Yields:
     Tuples (tag, row) where tag is an indication of the row type and
@@ -387,9 +389,11 @@ def _TableRowGenerator(old_patch, old_dict, old_max, old_snapshot,
       else:
         # We render line by line as usual if do_ir_diff is false
         old_intra_diff = intra_region_diff.Fold(
-          old_intra_diff, colwidth + indent, indent, indent)
+          old_intra_diff, colwidth + indent, indent, indent,
+          mark_tabs=mark_tabs)
         new_intra_diff = intra_region_diff.Fold(
-          new_intra_diff, colwidth + indent, indent, indent)
+          new_intra_diff, colwidth + indent, indent, indent,
+          mark_tabs=mark_tabs)
         old_buff_out = [[old_valid, old_lineno,
                          (old_intra_diff, True, None)]]
         new_buff_out = [[new_valid, new_lineno,
@@ -622,7 +626,7 @@ def RenderUnifiedTableRows(request, parsed_lines):
       row1_id = 'id="newcode%d"' % new_line_no
       row2_id = 'id="new-line-%d"' % new_line_no
     rows.append('<tr><td class="udiff" %s>%s</td></tr>' %
-                (row1_id, cgi.escape(line_text)))
+                (row1_id, RenderLineText(line_text)))
 
     frags = []
     if old_line_no in old_dict or new_line_no in new_dict:
@@ -644,6 +648,9 @@ def RenderUnifiedTableRows(request, parsed_lines):
     rows.append(''.join(frags))
   return rows
 
+def RenderLineText(line_text):
+  r = intra_region_diff.TAB_TAG + '\t'
+  return cgi.escape(line_text).replace('\t', r)
 
 def _ComputeLineCounts(old_lines, chunks):
   """Compute the length of the old and new sides of a diff.

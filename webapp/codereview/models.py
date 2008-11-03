@@ -1434,7 +1434,7 @@ class Account(BackedUpModel):
 
 ### Group ###
 
-AUTO_GROUPS = ['admin', 'submitters']
+AUTO_GROUPS = ['admin']
 
 class AccountGroup(BackedUpModel):
   """A set of users.  Permissions are assigned to groups.
@@ -1481,7 +1481,7 @@ class AccountGroup(BackedUpModel):
     db.run_in_transaction(trans, self)
 
   def put(self):
-    if self.name in ['admin', 'submitters']:
+    if self.name in ['admin']:
       memcache.delete('group_members:%s' % self.name)
     BackedUpModel.put(self)
 

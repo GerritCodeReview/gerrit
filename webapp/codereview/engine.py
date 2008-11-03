@@ -690,18 +690,3 @@ def _ExpandTemplate(name, **params):
   For convenience, this takes keyword arguments instead of a dict.
   """
   return loader.render_to_string(name, params)
-
-
-def ToText(text):
-  """Helper to turn a string into a db.Text instance.
-
-  Args:
-    text: a string.
-
-  Returns:
-    A db.Text instance.
-  """
-  try:
-    return db.Text(text, encoding='utf-8')
-  except UnicodeDecodeError:
-    return db.Text(text, encoding='latin-1')

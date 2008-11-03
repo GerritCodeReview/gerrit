@@ -181,12 +181,13 @@ class ApproversWidget(django.forms.widgets.Widget):
   """The widget for ApproversField"""
 
   def __init__(self, allow_users=True, allow_groups=True, attrs=None,
-        approvers=None, verifiers=None):
+        approvers=None, verifiers=None, submitters=None):
     self.attrs = {'cols': '40', 'rows': '10'}
     if attrs:
       self.attrs.update(attrs)
     self.approvers = approvers or UserGroupWidget();
     self.verifiers = verifiers or UserGroupWidget();
+    self.submitters = submitters or UserGroupWidget();
 
   def render(self, name, value, attrs=None):
     if value is None:
@@ -216,6 +217,7 @@ class ApproversWidget(django.forms.widgets.Widget):
       bad_files = v.get("bad_files", [])
       approvers = v["approvers"]
       verifiers = v["verifiers"]
+      submitters = v["submitters"]
       # END DEBUGGING
       entry = {}
       entry["key"] = "initial_%d" % index
@@ -223,6 +225,7 @@ class ApproversWidget(django.forms.widgets.Widget):
       entry["bad_files"] = map(encoding.force_unicode, bad_files)
       entry["approvers"] = people_to_dicts(approvers)
       entry["verifiers"] = people_to_dicts(verifiers)
+      entry["submitters"] = people_to_dicts(submitters)
       data.append(entry)
       index = index + 1
     rows = []
@@ -246,12 +249,15 @@ class ApproversWidget(django.forms.widgets.Widget):
           field_key + "_approvers")
       verifiers = self.verifiers.value_from_datadict(data, files,
           field_key + "_verifiers")
+      submitters = self.submitters.value_from_datadict(data, files,
+          field_key + "_submitters")
       result.append({
               "key": key,
               "files": files,
               "bad_files": bad_files,
               "approvers": approvers,
               "verifiers": verifiers,
+              "submitters": submitters,
           })
     return result
 
@@ -260,8 +266,12 @@ class ApproversField(django.forms.fields.Field):
   """A Field to pick which users/groups can edit which field"""
   approvers = UserGroupField();
   verifiers = UserGroupField();
-  widget = ApproversWidget(approvers=approvers.widget,
-      verifiers=verifiers.widget, attrs={"styles": {
+  submitters = UserGroupField();
+  widget = ApproversWidget(
+      approvers=approvers.widget,
+      verifiers=verifiers.widget,
+      submitters=submitters.widget,
+      attrs={"styles": {
         "approval": "approval"
       }})
 
@@ -277,13 +287,13 @@ class ApproversField(django.forms.fields.Field):
         err = True
       approvers = self.approvers.clean(d["approvers"])
       verifiers = self.verifiers.clean(d["verifiers"])
-      result.append({"files": files, "approvers": approvers,
-          "verifiers": verifiers})
-    if False:
-      for r in result:
-        logging.info("clean: files=" + str(r["files"]))
-        logging.info("   approvers=" + str(r["approvers"]))
-        logging.info("   verifiers=" + str(r["verifiers"]))
+      submitters = self.submitters.clean(d["submitters"])
+      result.append({
+          "files": files,
+          "approvers": approvers,
+          "verifiers": verifiers,
+          "submitters": submitters,
+          })
     super(ApproversField, self).clean(initial or result)
     if err:
         raise forms.ValidationError("invalid files")

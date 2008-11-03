@@ -163,6 +163,8 @@ class ApprovalRight(BackedUpModel):
   approvers_groups = db.ListProperty(db.Key)
   verifiers_users = db.ListProperty(users.User)
   verifiers_groups = db.ListProperty(db.Key)
+  submitters_users = db.ListProperty(users.User)
+  submitters_groups = db.ListProperty(db.Key)
   required = db.BooleanProperty()
 
   def approvers(self):
@@ -174,6 +176,11 @@ class ApprovalRight(BackedUpModel):
     """Returns a set of the users who are verifiers."""
     return _flatten_users_and_groups(self.verifiers_users,
         self.verifiers_groups)
+
+  def submitters(self):
+    """Returns a set of the users who are submitters."""
+    return _flatten_users_and_groups(self.submitters_users,
+        self.submitters_groups)
 
   @classmethod
   def validate_file(cls, file):

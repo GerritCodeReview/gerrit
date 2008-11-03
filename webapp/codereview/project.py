@@ -97,6 +97,8 @@ def _field_to_approval_right(cleaned):
       ) = fields.UserGroupField.get_user_and_group_keys(cleaned["approvers"])
   (result.verifiers_users,result.verifiers_groups
       ) = fields.UserGroupField.get_user_and_group_keys(cleaned["verifiers"])
+  (result.submitters_users,result.submitters_groups
+      ) = fields.UserGroupField.get_user_and_group_keys(cleaned["submitters"])
   result.put()
   return result
 
@@ -110,6 +112,8 @@ def _approval_right_to_field(key):
                       val.approvers_groups),
       'verifiers': _combine_users_and_groups(val.verifiers_users,
                       val.verifiers_groups),
+      'submitters': _combine_users_and_groups(val.submitters_users,
+                      val.submitters_groups),
     }
 
 class AdminProjectForm(BaseForm):
@@ -257,6 +261,7 @@ def _flatten_rule_users(rules):
           'required': approval_right.required,
           'approvers': set([u.email() for u in approval_right.approvers()]),
           'verifiers': set([u.email() for u in approval_right.verifiers()]),
+          'submitters': set([u.email() for u in approval_right.submitters()]),
         }
     return flattened[approval_right]
   return [(regex,pattern,_flatten_approval_right(approval_right))

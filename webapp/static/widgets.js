@@ -221,6 +221,7 @@ function ApproversField_insertEntry(me, entry)
     var key;
     var approvers;
     var verifiers;
+    var submitters;
     var bad_files;
     if (entry) {
         files = entry["files"];
@@ -228,6 +229,7 @@ function ApproversField_insertEntry(me, entry)
         key = entry["key"];
         approvers = entry["approvers"];
         verifiers = entry["verifiers"];
+        submitters = entry["submitters"];
     } else {
         files = "";
         bad_files = "";
@@ -235,6 +237,7 @@ function ApproversField_insertEntry(me, entry)
         me.key_index = me.key_index + 1;
         approvers = [];
         verifiers = [];
+        submitters = [];
     }
     var field_key = me.name + "_" + key;
 
@@ -276,9 +279,15 @@ function ApproversField_insertEntry(me, entry)
     var field_td = document.createElement("th");
     field_tr.appendChild(field_td);
     field_td.appendChild(document.createTextNode("Approvers"));
+
     field_td = document.createElement("th");
     field_tr.appendChild(field_td);
     field_td.appendChild(document.createTextNode("Verifiers"));
+
+    field_td = document.createElement("th");
+    field_tr.appendChild(field_td);
+    field_td.appendChild(document.createTextNode("Submitters"));
+
     var field_tr = field_table.insertRow(-1);
     field_td = field_tr.insertCell(-1);
     UserGroupField_insertField(field_td, field_key + "_approvers", true, true, approvers);
@@ -286,6 +295,8 @@ function ApproversField_insertEntry(me, entry)
     field_td = field_tr.insertCell(-1);
     UserGroupField_insertField(field_td, field_key + "_verifiers", true, true, verifiers);
 
+    field_td = field_tr.insertCell(-1);
+    UserGroupField_insertField(field_td, field_key + "_submitters", true, true, submitters);
     
     var td = tr.insertCell(-1);
     td.vAlign = "top";

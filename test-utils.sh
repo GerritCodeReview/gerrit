@@ -22,8 +22,8 @@
 ##
 ##   gerrit clean
 ##   gerrit reset
-##   gerrit gae
-##   gerrit crm
+##   gerrit web
+##   gerrit mgr
 ##
 ## to setup a local testing environment using the Google App Engine
 ## SDK and a local Java installation.
@@ -80,8 +80,8 @@ function gerrit-reset()
 
   echo
   echo "Finished.  Now you can run:"
-  echo "   gerrit gae   to run the app engine server"
-  echo "   gerrit crm   to run the crm server"
+  echo "   gerrit web   to run webapp/"
+  echo "   gerrit mgr   to run mgrapp/"
   echo
 }
 
@@ -94,15 +94,15 @@ function gerrit-pack-crm-data()
   ( cd $TEST_CRM_DATA_DIR ; tar czf $FULL_CRM_DATA_FILE * )
 }
 
-# run the google app engine dev server
-function gerrit-gae()
+# run webapp on google app engine dev server
+function gerrit-web()
 {
   FULL_GERRIT_DATASTORE_DIR=`pwd`/$TEST_GERRIT_DATASTORE_DIR
   make serve DATASTORE=$FULL_GERRIT_DATASTORE_DIR
 }
 
-# run the crm server
-function gerrit-crm()
+# run mgrapp
+function gerrit-mgr()
 {
   if [ ! -f $TEST_CRM_PASSWORD_FILE ] ; then
     ( curl http://localhost:8080/dev_init > $TEST_CRM_PASSWORD_FILE )
@@ -117,8 +117,8 @@ function gerrit-help()
   echo "  clean"
   echo "  reset"
   echo "  pack-crm-data"
-  echo "  gae"
-  echo "  crm"
+  echo "  web"
+  echo "  mgr"
   echo "  upload"
 }
 
@@ -146,11 +146,11 @@ function gerrit()
     pack-crm-data)
       gerrit-pack-crm-data
       ;;
-    gae)
-      gerrit-gae
+    web|gae)
+      gerrit-web
       ;;
-    crm)
-      gerrit-crm
+    mgr|crm)
+      gerrit-mgr
       ;;
     help)
       gerrit-help

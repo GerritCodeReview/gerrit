@@ -1,23 +1,31 @@
-{%if patchset.n_comments or patchset.n_drafts%}
-  <div>
-    <i>Total comments:</i> {{patchset.n_comments}}
-    {%if patchset.n_drafts%}
-      <span style="color:red">
-        <b>+ {{patchset.n_drafts}} draft{{patchset.n_drafts|pluralize}}</b>
-      </span>
-    {%endif%}
-  </div>
-{%endif%}
-
 <div class="change-list">
-  <div class="pagination">
-    <div style="float: left;">
-      <i>Created:</i> {{patchset.created|timesince}} ago
-      {%ifnotequal patchset.owner change.owner%}
+  <table style="clear:both;padding-bottom: 10px;">
+  {%if patchset.n_comments or patchset.n_drafts%}
+    <tr>
+      <th>Comments:</th>
+      <td>{{patchset.n_comments}}
+      {%if patchset.n_drafts%}
+        <span style="color:red">
+          <b>+ {{patchset.n_drafts}} draft{{patchset.n_drafts|pluralize}}</b>
+        </span>
+      {%endif%}
+      </td>
+    </tr>
+  {%endif%}
+    <tr>
+      <th>Created:</th>
+      <td>{{patchset.created|timesince}} ago
+      {%ifnotequal patchset.owner change.owner%}<br />
       by <b>{{patchset.owner|real_name}}</b>{%endifnotequal%}
-    </div>
-    <div style="clear:both;"></div>
-  </div>
+      </td>
+    </tr>
+    <tr>
+      <th>Download:</th> 
+      <td>
+        <code style="white-space: nowrap">repo download {{patchset.change.dest_project.name}} {{patchset.change.key.id}}/{{patchset.id}}</code>
+      </td>
+    </tr>
+  </table>
  
 {%if patchset.freaking_huge%}
   <div style="margin-top: 5px; float: left;" class="error">

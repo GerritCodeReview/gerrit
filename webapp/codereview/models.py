@@ -1508,7 +1508,3 @@ class AccountGroup(BackedUpModel):
   @classmethod
   def is_user_admin(cls, user):
     return AccountGroup._is_in_cached_group(user, 'admin')
-
-  @classmethod
-  def is_user_submitter(cls, user):
-    return AccountGroup._is_in_cached_group(user, 'submitters')

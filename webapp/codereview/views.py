@@ -514,7 +514,8 @@ def show(request, form=None):
       change.dest_branch,
       change.owner,
       reviewer_status,
-      last_patchset.filenames)
+      last_patchset.filenames,
+      request.user)
 
   # if the owner can lgtm or verify, show her too
   author_status = {
@@ -541,17 +542,7 @@ def show(request, form=None):
       _map_status(rs, real_approvers, real_deniers, real_verifiers)
       for rs in review_status]
 
-  # If the change isn't ready to submit, don't bother with this because
-  # they can't submit it anyway.
-  if can_submit:
-    user_can_submit = models.AccountGroup.is_user_submitter(request.user)
-  else:
-    user_can_submit = False
-
-  show_submit_button = ((not change.is_submitted)
-                        and ready_to_submit
-                        and user_can_submit)
-
+  show_submit_button = (not change.is_submitted) and can_submit
   show_more_options = change.user_can_edit(request.user)
   delete_url = '/%s/delete' % change.key().id()
 
@@ -563,7 +554,6 @@ def show(request, form=None):
   return respond(request, 'change.html', {
                   'change': change,
                   'ready_to_submit': can_submit,
-                  'user_can_submit': user_can_submit,
                   'show_submit_button': show_submit_button,
                   'is_approved': ready_to_submit['approved'],
                   'is_rejected': ready_to_submit['denied'],
@@ -676,20 +666,14 @@ def merge(request):
   patchset = request.patchset
   patchset.patches = list(patchset.patch_set.order('filename'))
 
-  if not models.AccountGroup.is_user_submitter(request.user):
-    # The button shouldn't exist if they can't do it, if they somehow
-    # managed to get here, just send them back to the change
-    # (which ought to have the button gone this time).
-    return HttpResponseRedirect('/%d' % change.key().id())
-
-  # approvals
   reviewer_status = models.Change.get_reviewer_status(
       change.get_review_status())
   ready_to_submit = project.ready_to_submit(
       change.dest_branch,
       change.owner,
       reviewer_status,
-      patchset.filenames)
+      patchset.filenames,
+      request.user)
 
   if not ready_to_submit['can_submit']:
     # Again, the button shouldn't have been there in this case.

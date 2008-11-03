@@ -287,6 +287,8 @@ def _split_files_for_review(project, files):
   for file in files:
     approvers = []
     verifiers = []
+    submitters = []
+
     # check leaf rules -- we want all of those that match
     for (regex,pattern,flat_approval_right) in leaf_rules:
       if _is_leaf_pattern(pattern):
@@ -294,27 +296,41 @@ def _split_files_for_review(project, files):
           user_set = flat_approval_right['approvers']
           if not user_set in approvers:
             approvers.append(user_set)
+
           user_set = flat_approval_right['verifiers']
           if not user_set in verifiers:
             verifiers.append(user_set)
+
+          user_set = flat_approval_right['submitters']
+          if not user_set in submitters:
+            submitters.append(user_set)
+
     # check dir rules -- we want all of those that match
     dir_rule_approvers = set()
     dir_rule_verifiers = set()
+    dir_rule_submitters = set()
+
     for (regex,pattern,flat_approval_right) in reversed(dir_rules):
       if not _is_leaf_pattern(pattern):
         if regex.match(file):
           dir_rule_approvers |= flat_approval_right['approvers']
           dir_rule_verifiers |= flat_approval_right['verifiers']
+          dir_rule_submitters |= flat_approval_right['submitters']
           if flat_approval_right['required']:
             break
+
     if not dir_rule_approvers in approvers:
       approvers.append(dir_rule_approvers)
     if not dir_rule_verifiers in verifiers:
       verifiers.append(dir_rule_verifiers)
+    if not dir_rule_submitters in submitters:
+      submitters.append(dir_rule_submitters)
+
     # save the result
     result[file] = {
           'approvers': approvers,
           'verifiers': verifiers,
+          'submitters': submitters,
         }
 
   return result
@@ -335,7 +351,7 @@ def _match_users(possible, actual):
     matched |= inter
   return matched
 
-def ready_to_submit(branch, owner, reviewer_status, files):
+def ready_to_submit(branch, owner, reviewer_status, files, current_user):
   """Returns whether the supplied change is ready to submit.
 
   These are the rules for whether a change is considered ready to submit:
@@ -351,35 +367,13 @@ def ready_to_submit(branch, owner, reviewer_status, files):
     b. No one who is authorized to say no has done so.
 
   If 'owner' can lgtm or verify a change, she is added to the respective list.
-
-  Args:
-    branch:           The branch that this change is in (a Branch object).
-    owner:            The user that owns the change. (a User object).
-    reviewer_status:  A map as returned by Change.get_reviewer_status()
-    files:            A list of the files that are affected.
-
-  Returns:
-    A tuple containing:
-      0 - whether the change is ready to submit over all,
-      1 - whether it has been approved,
-      2 - whether it has been denied
-      3 - whether it has been verified.
-      4 - A tuple of
-            0 - whether the owner has lgtm rights
-            1 - whether the owner has verification rights
   """
 
-  if branch is None:
-    return (False, False, False, False, (False, False))
   project = branch.project
-  if not project.is_code_reviewed():
-    return (True, True, False, True, (False, False))
-  if not branch.is_code_reviewed():
-    return (True, True, False, True, (False, False))
-
   approved_cnt = 0
   verified_cnt = 0
   denied_cnt = 0
+  submit_cnt = 0
   owner_auto_lgtm = False
   owner_auto_verify = False
 
@@ -391,6 +385,16 @@ def ready_to_submit(branch, owner, reviewer_status, files):
   verified_by_emails = set([u.email() for u in reviewer_status['verified_by']])
   owner_email = owner.email()
 
+  schema_version = models.Settings.get_settings().schema_version
+  if schema_version is None:
+    schema_version = 0
+  if schema_version == 0:
+    user_can_submit = models.AccountGroup._is_in_cached_group(
+      current_user,
+      'submitters')
+  else:
+    user_can_submit = False
+
   files_to_approve = _split_files_for_review(project, files)
   if files_to_approve:
     for (file,user_sets) in files_to_approve.iteritems():
@@ -401,6 +405,12 @@ def ready_to_submit(branch, owner, reviewer_status, files):
         denied_cnt += 1
       if _check_users(user_sets['verifiers'], verified_by_emails):
         verified_cnt += 1
+      if schema_version > 0 \
+         and current_user \
+         and _check_users(user_sets['submitters'],
+                          [current_user.email()]):
+        submit_cnt += 1
+
       # check the owner auto-approve
       if _check_users(user_sets['approvers'], [owner_email]):
         owner_auto_lgtm = True
@@ -421,13 +431,18 @@ def ready_to_submit(branch, owner, reviewer_status, files):
                                or len(reviewer_status['lgtm']) > 0))))
     verified = verified_cnt == len(files_to_approve) or owner_auto_verify
     denied = denied_cnt > 0
+    if schema_version > 0:
+      user_can_submit = submit_cnt == len(files_to_approve)
   else:
     approved = False
     verified = False
     denied = False
 
   return {
-      'can_submit': approved and verified and (not denied),
+      'can_submit': user_can_submit \
+                    and approved \
+                    and verified \
+                    and (not denied),
       'approved': approved,
       'denied': denied,
       'verified': verified,

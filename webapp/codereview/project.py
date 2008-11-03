@@ -119,7 +119,7 @@ class AdminProjectForm(BaseForm):
   comment = forms.CharField(required=False,
                             max_length=10000,
                             widget=forms.Textarea(attrs={'cols': 60}))
-  owners = fields.UserGroupField()
+  owners = fields.UserGroupField(label='Project Lead(s)')
   code_reviews = fields.ApproversField()
 
   @classmethod

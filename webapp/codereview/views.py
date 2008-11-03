@@ -1373,6 +1373,7 @@ def admin_settings(request):
   settings = models.Settings.get_settings()
   return respond(request, 'admin_settings.html', {
             'settings': settings,
+            'CUR_SCHEMA_VERSION': models.CUR_SCHEMA_VERSION,
             'from_email_test_xsrf': xsrf_for('/admin/settings/from_email_test')
           })
 
@@ -1632,11 +1633,75 @@ class AdminDataStoreUpgradeForm(BaseForm):
   _template = 'admin_datastore_upgrade.html'
 
   really = forms.CharField(required=True)
+  stage = forms.IntegerField(widget=forms.HiddenInput(), initial=1)
 
   def _save(self, cd, request):
     if cd['really'] != 'UPGRADE':
       return self
+
+    stage = cd['stage']
+    s = models.Settings.get_settings()
+    name = '_upgrade%d_stage%d' % (s.schema_version, stage)
+    try:
+      f = getattr(self, name)
+    except AttributeError:
+      return http.HttpResponseServerError("no %s" % name)
+
+    if not f():
+      # This stage function needs to run again.
+      #
+      return self
+
+    name = '_upgrade%d_stage%d' % (s.schema_version, stage + 1)
+    if getattr(self, name, None):
+      # There is another stage function in this version.
+      #
+      new_cd = dict(cd)
+      new_cd['stage'] = stage + 1
+      return self.__class__(initial=new_cd)
+
+    # The current schema version is completely upgraded.
+    #
+    s.schema_version += 1
+    s.put()
+
+    name = '_upgrade%d_stage%d' % (s.schema_version, 1)
+    if getattr(self, name, None):
+      # There is another upgrade to execute.
+      #
+      new_cd = dict(cd)
+      new_cd['stage'] = 1
+      return self.__class__(initial=new_cd)
+
+    # There are no further upgrades to process.
+    #
     return None
+
+  def _upgrade0_stage1(self):
+    all = models.gql(models.ApprovalRight,
+                     'WHERE last_backed_up = :1',
+                     0).fetch(25)
+    if not all:
+      return True
+
+    sb = models.AccountGroup.get_group_for_name('submitters')
+    for ar in all:
+      ar.last_backed_up = 1
+      ar.submitters_groups.append(sb.key())
+      ar.put()
+    return False
+
+  def _upgrade0_stage2(self):
+    all = models.gql(models.ApprovalRight,
+                     'WHERE last_backed_up = :1',
+                     1).fetch(25)
+    if not all:
+      return True
+
+    for ar in all:
+      ar.last_backed_up = 0
+      ar.put()
+    return False
 
 @gae_admin_required
 def admin_datastore_upgrade(request):

@@ -33,6 +33,7 @@ from memcache import Key as MemCacheKey
 import patching
 
 
+CUR_SCHEMA_VERSION = 1
 DEFAULT_CONTEXT = 10
 CONTEXT_CHOICES = (3, 10, 25, 50, 75, 100)
 FETCH_MAX = 1000
@@ -112,6 +113,7 @@ class Settings(BackedUpModel):
   canonical_url = db.StringProperty(default='')
   source_browser_url = db.StringProperty(default='')
   merge_log_email = db.StringProperty()
+  schema_version = db.IntegerProperty(default=0)
 
   _Key = MemCacheKey('Settings_Singleton')
   _LocalCache = None
@@ -132,13 +134,15 @@ class Settings(BackedUpModel):
         else:
           return cls.get_or_insert('settings',
                                     internal_api_key=_genkey(26),
-                                    xsrf_key=_genkey(26))
+                                    xsrf_key=_genkey(26),
+                                    schema_version = CUR_SCHEMA_VERSION)
       Settings._LocalCache = Settings._Key.get(read)
     return Settings._LocalCache
 
   def put(self):
     BackedUpModel.put(self)
     self._Key.clear()
+    Settings._LocalCache = None
 
 
 ### Approval rights ###

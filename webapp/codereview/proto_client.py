@@ -20,6 +20,7 @@ import md5
 import os
 import random
 import socket
+import sys
 import time
 import urllib
 import urllib2
@@ -28,6 +29,38 @@ import urlparse
 from froofle.protobuf.service import RpcChannel
 from froofle.protobuf.service import RpcController
 from need_retry_pb2 import RetryRequestLaterResponse;
+
+_cookie_jars = {}
+
+def _open_jar(path):
+  auth = False
+
+  if path is None:
+    c = cookielib.CookieJar()
+  else:
+    c = _cookie_jars.get(path)
+    if c is None:
+      c = cookielib.MozillaCookieJar(path)
+
+      if os.path.exists(path):
+        try:
+          c.load()
+          auth = True
+        except (cookielib.LoadError, IOError):
+          pass
+
+        if auth:
+          print >>sys.stderr, \
+                'Loaded authentication cookies from %s' \
+                % path
+      else:
+        os.close(os.open(path, os.O_CREAT, 0600))
+      os.chmod(path, 0600)
+      _cookie_jars[path] = c
+    else:
+      auth = True
+  return c, auth
+
 
 class ClientLoginError(urllib2.HTTPError):
   """Raised to indicate an error authenticating with ClientLogin."""
@@ -269,6 +302,9 @@ class HttpRpc(RpcChannel):
       self._GetAuthCookie(auth_token)
       self.authenticated = True
       if self.cookie_file is not None:
+        print >>sys.stderr, \
+              'Saving authentication cookies to %s' \
+              % self.cookie_file
         self.cookie_jar.save()
       return
 
@@ -337,24 +373,8 @@ class HttpRpc(RpcChannel):
     opener.add_handler(urllib2.HTTPDefaultErrorHandler())
     opener.add_handler(urllib2.HTTPSHandler())
     opener.add_handler(urllib2.HTTPErrorProcessor())
-    if self.cookie_file is not None:
-      self.cookie_jar = cookielib.MozillaCookieJar(self.cookie_file)
-      if os.path.exists(self.cookie_file):
-        try:
-          self.cookie_jar.load()
-          self.authenticated = True
-        except (cookielib.LoadError, IOError):
-          # Failed to load cookies - just ignore them.
-          pass
-      else:
-        # Create an empty cookie file with mode 600
-        fd = os.open(self.cookie_file, os.O_CREAT, 0600)
-        os.close(fd)
-      # Always chmod the cookie file
-      os.chmod(self.cookie_file, 0600)
-    else:
-      # Don't save cookies across runs of update.py.
-      self.cookie_jar = cookielib.CookieJar()
+
+    self.cookie_jar, \
+    self.authenticated = _open_jar(self.cookie_file)
     opener.add_handler(urllib2.HTTPCookieProcessor(self.cookie_jar))
     return opener
-

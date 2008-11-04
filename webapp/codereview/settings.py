@@ -21,8 +21,6 @@ import datetime
 import logging
 import urllib
 
-from google.appengine.api import memcache
-
 from django import forms
 from django import http
 
@@ -68,7 +66,6 @@ class SettingsForm(BaseForm):
   def _save(self, cd, account):
     account.default_context = cd.get("context")
     account.unclaimed_changes_projects = cd.get("unclaimed_changes_projects")
-    memcache.delete(views.unclaimed_project_memcache_key(account.user))
     account.put()
 
 @login_required

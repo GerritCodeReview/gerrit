@@ -36,7 +36,6 @@ from cStringIO import StringIO
 
 # AppEngine imports
 from google.appengine.api import mail
-from google.appengine.api import memcache
 from google.appengine.api import users
 from google.appengine.ext import db
 from google.appengine.ext.db import djangoforms
@@ -204,9 +203,6 @@ def mine(request):
   request.user_to_show = request.user
   return _show_user(request)
 
-def unclaimed_project_memcache_key(user):
-  return "user_unclaimed_projects:%s" % user.email()
-
 def all_unclaimed(request):
   flat_changes = models.gql(models.Change,
                           ' WHERE closed = FALSE'
@@ -241,26 +237,15 @@ def all_unclaimed(request):
 
 @login_required
 def unclaimed(request):
-  """/unclaimed - Show changes with no reviewer listed for user's selected
-  projects."""
-  def _get_unclaimed_projects(user):
-    memcache_key = unclaimed_project_memcache_key(user)
-    keys = memcache.get(memcache_key)
-    if keys is None:
-      account = models.Account.get_account_for_user(user)
-      keys = account.unclaimed_changes_projects
-      err = memcache.set(memcache_key, keys)
-    result = models.Project.get(keys)
-    if not result:
-      result = []
-    return result
-
-  user = request.user
+  """/unclaimed - Show changes with no reviewer listed for
+     user's selected projects.
+  """
   changes = changetable.ChangeTable(request.user,
       CHANGE_TABLE_FIELDS_NO_PROJECT)
 
-  projects = _get_unclaimed_projects(request.user)
-  for project in projects:
+  for project in db.get(request.account.unclaimed_changes_projects):
+    if project is None:
+      continue
     c = models.gql(models.Change,
                           ' WHERE closed = FALSE'
                           '   AND claimed = FALSE'

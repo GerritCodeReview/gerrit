@@ -253,9 +253,6 @@ class Project(BackedUpModel):
   def get_code_reviews(self):
     return [ApprovalRight.get(key) for key in self.code_reviews]
 
-  def is_code_reviewed(self):
-    return True
-
   def leads(self):
     """Returns a set of the users who are leads."""
     return _flatten_users_and_groups(self.owners_users,
@@ -321,9 +318,6 @@ class Branch(BackedUpModel):
     if self.name.startswith("refs/heads/"):
       return self.name[len("refs/heads/"):]
     return self.name
-
-  def is_code_reviewed(self):
-    return True
 
   def merge_patchset(self, patchset):
     """Add a patchset to the end of the branch's merge queue

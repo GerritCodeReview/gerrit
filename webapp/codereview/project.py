@@ -474,8 +474,6 @@ def user_can_approve(user, change):
   branch = change.dest_branch
   project = branch.project
 
-  if not project.is_code_reviewed():
-    return (True, True)
   files_to_approve = _split_files_for_review(project, files)
   if not files_to_approve:
     return (False, False)

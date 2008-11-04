@@ -467,13 +467,29 @@ def _restrict_verified(verified, can_verify):
   else:
     return False
 
-def _map_status(rs, real_approvers, real_deniers, real_verifiers):
+def _map_status(rs, real_approvers,
+                    real_deniers,
+                    real_verifiers,
+                    known_owners,
+                    known_approvers,
+                    known_verifiers):
   email = rs.user.email()
   lgtm = _restrict_lgtm(rs.lgtm,
       (email in real_approvers) or (email in real_deniers))
   verified = _restrict_verified(rs.verified, email in real_verifiers)
+
+  if email in known_owners:
+    user_type = 'Project Lead'
+  elif email in known_approvers:
+    user_type = 'Approver'
+  elif email in known_verifiers:
+    user_type = 'Verifier'
+  else:
+    user_type = 'Contributor'
+
   return {
       'user': rs.user,
+      'user_type' : user_type,
       'lgtm': lgtm,
       'verified': verified,
     }
@@ -534,12 +550,28 @@ def show(request, form=None):
   if not last_patchset.complete:
     can_submit = False
 
+  project_owners = set([u.email() for u in change.dest_project.leads()])
+  project_approvers = set()
+  project_verifiers = set()
+
+  for ar in change.dest_project.get_code_reviews():
+    for u in ar.approvers():
+      project_approvers.add(u.email())
+    for u in ar.verifiers():
+      project_verifiers.add(u.email())
+
   real_approvers = ready_to_submit['real_approvers']
   real_deniers = ready_to_submit['real_deniers']
   real_verifiers = ready_to_submit['real_verifiers']
 
   real_review_status = [
-      _map_status(rs, real_approvers, real_deniers, real_verifiers)
+      _map_status(rs,
+                  real_approvers,
+                  real_deniers,
+                  real_verifiers,
+                  project_owners,
+                  project_approvers,
+                  project_verifiers)
       for rs in review_status]
 
   show_submit_button = (not change.is_submitted) and can_submit

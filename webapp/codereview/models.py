@@ -256,6 +256,11 @@ class Project(BackedUpModel):
   def is_code_reviewed(self):
     return True
 
+  def leads(self):
+    """Returns a set of the users who are leads."""
+    return _flatten_users_and_groups(self.owners_users,
+                                     self.owners_groups)
+
   def is_user_lead(self, user):
     if user in self.owners_users:
       return True

@@ -71,13 +71,14 @@
   <div id="ps-approvals" style="padding-left:4px;">
     <table class="change_info_table" cellpadding="0" cellspacing="0" border="0" id="">
       <tr>
-        <th class="leftmost">Reviewer</th>
+        <th class="leftmost" colspan="2">Reviewer</th>
         <th class="score">Verified</th>
         <th class="score rightmost">Code review</th>
         <th class="hint"></th>
       </tr>
       <tr>
         <td>{{change.owner|show_user}}</td>
+        <td></td>
         <td class="score">{%if author_status.verified %}<img src="/static/check.png">{%endif%}</td>
         <td class="score">{{author_status.lgtm|review_status_icons}}</td>
         <td class="hint">{% ifequal author_status.lgtm "lgtm" %}Self approved.{% endifequal %}</td>
@@ -85,6 +86,7 @@
       {% for rs in review_status %}
       <tr>
         <td>{{rs.user|show_user}}</td>
+        <td>{{rs.user_type}}</td>
         <td class="score">{%if rs.verified %}<img src="/static/check.png">{%endif%}</td>
         <td class="score">{{rs.lgtm|review_status_icons}}</td>
         <td class="hint">{{rs.lgtm|review_status_text}}</font>

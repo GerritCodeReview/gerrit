@@ -1344,7 +1344,7 @@ class Account(BackedUpModel):
       return None
     return accounts[0].email
 
-  _drafts = None
+  _draft_key = None
 
   @property
   def drafts(self):
@@ -1352,10 +1352,25 @@ class Account(BackedUpModel):
 
     This is cached in memcache.
     """
-    if self._drafts is None:
-      if self._initialize_drafts():
-        self._save_drafts()
-    return self._drafts
+    if self._draft_key is None:
+      self._draft_key = MemCacheKey(
+          key = 'user_drafts:%s' % self.email,
+          incore = True,
+          timeout = 3600)
+
+    def query_store():
+      # We're looking for the Change key id.
+      # The ancestry of comments goes:
+      # Change -> PatchSet -> Patch -> Comment.
+      #
+      change_ids = set(comment.key().parent().parent().parent().id()
+                       for comment
+                       in gql(Comment,
+                              'WHERE author = :1'
+                              ' AND draft = TRUE',
+                              self.user))
+      return list(change_ids)
+    return self._draft_key.get(query_store)
 
   def update_drafts(self, change, have_drafts=None):
     """Update the user's draft status for this change.
@@ -1367,47 +1382,19 @@ class Account(BackedUpModel):
 
     The Account is written to the datastore if necessary.
     """
-    dirty = False
-    if self._drafts is None:
-      dirty = self._initialize_drafts()
+    my_drafts = self.drafts
     id = change.key().id()
     if have_drafts is None:
-      have_drafts = bool(change.num_drafts)  # Beware, this may do a query.
+      have_drafts = bool(change.num_drafts)  # this may do a query
+
     if have_drafts:
-      if id not in self._drafts:
-        self._drafts.append(id)
-        dirty = True
+      if id not in my_drafts:
+        my_drafts.append(id)
+        self._draft_key.set(my_drafts)
     else:
-      if id in self._drafts:
-        self._drafts.remove(id)
-        dirty = True
-    if dirty:
-      self._save_drafts()
-
-  def _initialize_drafts(self):
-    """Initialize self._drafts from scratch.
-
-    This mostly exists as a schema conversion utility.
-
-    Returns:
-      True if the user should call self._save_drafts(), False if not.
-    """
-    drafts = memcache.get('user_drafts:' + self.email)
-    if drafts is not None:
-      self._drafts = drafts
-      return False
-    # We're looking for the Change key id.  The ancestry of comments goes:
-    # Change -> PatchSet -> Patch -> Comment.
-    change_ids = set(comment.key().parent().parent().parent().id()
-                    for comment in gql(Comment,
-                                       'WHERE author = :1 AND draft = TRUE',
-                                       self.user))
-    self._drafts = list(change_ids)
-    return True
-
-  def _save_drafts(self):
-    """Save self._drafts to memcache."""
-    memcache.set('user_drafts:' + self.email, self._drafts, 3600)
+      if id in my_drafts:
+        my_drafts.remove(id)
+        self._draft_key.set(my_drafts)
 
   def can_lgtm(self):
     """Returns whether the user can lgtm a given change.

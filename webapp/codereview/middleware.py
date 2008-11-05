@@ -58,8 +58,9 @@ class AddUserToRequestMiddleware(object):
       request.user_is_admin \
         = request.is_gae_admin or request.account.is_admin
 
+      models.OwnedProjects.clear_local()
       request.projects_owned_by_user \
-        = models.Project.projects_owned_by_user(request.user)
+        = models.OwnedProjects.get(request.user.email())
 
       request.show_admin_tab \
         = (request.user_is_admin \

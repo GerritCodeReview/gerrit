@@ -33,6 +33,7 @@ from cStringIO import StringIO
 
 # AppEngine imports
 from google.appengine.api import mail
+from google.appengine.api import memcache
 from google.appengine.api import users
 from google.appengine.api import urlfetch
 from google.appengine.ext import db
@@ -60,12 +61,14 @@ from view_util import *
 ## Project CRUD ##
 
 def _assert_project_and_owner(request, project):
-  "If the current user is not an owner of this project or an admin, give a 404."
-  if not project:
-    raise http.Http404()
-  if not request.user or not ((project.key() in [
-          p.key() for p in request.projects_owned_by_user])
-      or request.user_is_admin):
+  """If the current user is:
+     - not an admin
+     - not an owner of this project
+     raise a 404.
+  """
+  if not project \
+  or not (request.user_is_admin \
+          or project.key() in request.projects_owned_by_user):
     raise http.Http404()
 
 @project_owner_or_admin_required
@@ -74,8 +77,7 @@ def project_list(request):
   if request.user_is_admin:
     projects = models.Project.get_all_projects()
   else:
-    projects = models.Project.projects_owned_by_user(request.user)
-    logging.info("project_list projects=" + str(projects))
+    projects = db.get(request.projects_owned_by_user)
     if not projects:
       raise http.Http404()
   return respond(request, 'admin_projects.html', {'projects': projects})
@@ -154,6 +156,7 @@ class AdminProjectForm(BaseForm):
       project.set_code_reviews(_keys_for(map(_field_to_approval_right,
                                          cd['code_reviews'])))
       project.put()
+      memcache.flush_all()
 
 def project_edit(request, name):
   """/admin/project/project - edit this project"""

@@ -20,6 +20,8 @@ This requires Django 0.97.pre.
 import datetime
 import logging
 
+from google.appengine.api import memcache
+
 from django import forms
 from django import http
 from django.utils import simplejson
@@ -129,6 +131,7 @@ def _get_groups_for_account(account):
 def _set_groups_for_account(account, groups):
   u = account.user
   existing = _get_groups_for_account(account)
+  changed = False
 
   # remove from the ones that don't have it any more
   group_keys = [g.key() for g in groups]
@@ -139,6 +142,7 @@ def _set_groups_for_account(account, groups):
     if g.key() not in group_keys:
       g.members.remove(u)
       g.put()
+      changed = True
 
   # add to the ones that didn't have it before
   existing_keys = [g.key() for g in existing]
@@ -146,9 +150,13 @@ def _set_groups_for_account(account, groups):
     if g.key() not in existing_keys:
       g.members.append(u)
       g.put()
+      changed = True
     if g.name == 'admin' and not account.is_admin:
       account.is_admin = True
       account.put()
+
+  if changed:
+    memcache.flush_all()
   
 class AdminUserForm(BaseForm):
   _template = 'admin_user.html'
@@ -293,6 +301,7 @@ class AdminGroupForm(BaseForm):
           if not a.is_admin:
             a.is_admin = True
             a.put()
+      memcache.flush_all()
 
 
 @admin_required

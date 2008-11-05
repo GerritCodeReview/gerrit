@@ -161,10 +161,3 @@ class CachedDict(object):
   def clear_local(self):
     self._cache = {}
     self._prefetch = set()
-
-  def clear(self):
-    try:
-      memcache.delete_multi(self._prefix)
-    except DeadlineExceededError:
-      pass
-    self.clear_local()

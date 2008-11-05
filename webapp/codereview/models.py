@@ -25,11 +25,11 @@ import zlib
 
 # AppEngine imports
 from google.appengine.ext import db
-from google.appengine.api import memcache
 from google.appengine.api import users
 
 # Local imports
 from memcache import Key as MemCacheKey
+from memcache import CachedDict
 import patching
 
 
@@ -266,27 +266,21 @@ class Project(BackedUpModel):
         return True
     return False
 
-  def put(self):
-    memcache.flush_all()
-    BackedUpModel.put(self)
+def _get_owned_projects(email):
+  u = users.User(email)
+  projects = set(gql(Project,
+                     'WHERE owners_users = :1',
+                     u).fetch(1000))
 
-  @classmethod
-  def projects_owned_by_user(cls, user):
-    memcache.flush_all()
-    key = "projects_owned_by_user_%s" % user.email()
-    result = memcache.get(key)
-    if result is None:
-      result = set(
-          Project.gql("WHERE owner_users=:user", user=user).fetch(1000))
-      groups = AccountGroup.gql("WHERE members=:user", user=user).fetch(1000)
-      if groups:
-        pr = Project.gql(
-            "WHERE owners_groups IN :groups",
-            groups=[g.key() for g in groups]).fetch(1000)
-        result.update(pr)
-      memcache.set(key, [p.key() for p in result])
-    return result
+  groups = gql(AccountGroup, 'WHERE members = :1', u).fetch(1000)
+  if groups:
+    projects.update(gql(Project,
+                        'WHERE owners_groups IN :1',
+                        [g.key() for g in groups]).fetch(1000))
+  return [p.key() for p in projects]
 
+OwnedProjects = CachedDict(prefix = 'OwnedProject:',
+                           compute_one = _get_owned_projects)
 
 class Branch(BackedUpModel):
   """A branch in a specific Project."""

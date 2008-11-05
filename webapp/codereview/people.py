@@ -227,8 +227,10 @@ def admin_user(request, email):
 @admin_required
 def admin_groups(request):
   """/admin/groups - list of all groups"""
-  models.AccountGroup.create_groups()
   groups = models.AccountGroup.get_all_groups()
+  if not groups:
+    models.AccountGroup.create_groups()
+    groups = models.AccountGroup.get_all_groups()
   return respond(request, 'admin_groups.html', {'groups': groups})
 
 class AdminGroupForm(BaseForm):

@@ -1448,11 +1448,10 @@ class AccountGroup(BackedUpModel):
   def create_groups(cls):
     for group_name in AUTO_GROUPS:
       def trans():
-        g = cls(name=group_name, comment=(
-            'Auto created %s group' % group_name))
+        g = cls(name = group_name,
+                comment = 'Auto created %s group' % group_name)
         g.put()
-      q = cls.gql('WHERE name=:name', name=group_name)
-      if q.get() is None:
+      if not cls.get_group_for_name(group_name):
         db.run_in_transaction(trans)
 
   @classmethod

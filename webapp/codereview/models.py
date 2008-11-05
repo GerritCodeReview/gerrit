@@ -743,22 +743,24 @@ class Change(BackedUpModel):
     self.reviewers = reviewers
     self.claimed = len(reviewers) != 0
 
+  _user_can_edit = None
   def user_can_edit(self):
     """Can the current account edit this change?
     """
-    a = Account.current_user_account
-    if not a:
-      return False
-
-    if a.is_admin:
-      return True
-
-    if self.owner == a.user:
-      return True
-
-    if self.dest_project.is_user_lead(a.user):
-      return True
-    return False
+    if self._user_can_edit is None:
+      a = Account.current_user_account
+      if not a:
+        e = False
+      elif a.is_admin:
+        e = True
+      elif self.owner == a.user:
+        e = True
+      elif self.dest_project.is_user_lead(a.user):
+        e = True
+      else:
+        e = False
+      e = self._user_can_edit
+    return self._user_can_edit
 
 
 class PatchSetFilenames(BackedUpModel):

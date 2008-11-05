@@ -17,6 +17,7 @@ import logging
 from google.appengine.ext import db
 from google.appengine.api import mail
 from google.appengine.api import users
+from google.appengine.runtime import apiproxy_errors
 
 import django.template
 
@@ -78,9 +79,13 @@ def send(sender, to, subject, template, template_args):
   if not to_strings:
     return 'no to addresses'
   body = django.template.loader.render_to_string(template, template_args)
-  mail.send_mail(sender=sender_string, to=to_strings, subject=subject,
-                  body=body)
-
+  try:
+    mail.send_mail(sender=sender_string,
+                   to=to_strings,
+                   subject=subject,
+                   body=body)
+  except apiproxy_errors.OverQuotaError, e:
+    logging.error(str(e), exc_info=True)
 
 def make_change_subject(change):
   subject = "Change %s: (%s) %s" % (change.key().id(), change.dest_project.name,
@@ -131,8 +136,13 @@ def send_change_message(request,
   # send the email
   if send_email:
     message_body = "%s\n--\n%s\n" % (body, uri)
-    mail.send_mail(sender=sender_string, to=to_strings, subject=subject,
-                    body=message_body)
+    try:
+      mail.send_mail(sender=sender_string,
+                     to=to_strings,
+                     subject=subject,
+                     body=message_body)
+    except apiproxy_errors.OverQuotaError, e:
+      logging.error(str(e), exc_info=True)
   
   # make and return the email
   if email_template != template:

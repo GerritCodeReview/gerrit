@@ -16,6 +16,9 @@ package com.google.codereview.manager.merge;
 
 import com.google.codereview.internal.PostMergeResult.MergeResultItem;
 
+import org.spearce.jgit.errors.IncorrectObjectTypeException;
+import org.spearce.jgit.lib.Constants;
+import org.spearce.jgit.lib.Ref;
 import org.spearce.jgit.revwalk.RevCommit;
 import org.spearce.jgit.revwalk.RevCommitList;
 import org.spearce.jgit.revwalk.RevFlag;
@@ -32,11 +35,25 @@ class MergeSorter {
   private final RevWalk rw;
   private final RevCommit base;
   private final RevFlag CAN_MERGE;
+  private final Set<RevCommit> accepted;
 
-  MergeSorter(final RevWalk walk, final RevCommit branchHead) {
+  MergeSorter(final RevWalk walk, final RevCommit branchHead)
+      throws IOException {
     rw = walk;
     CAN_MERGE = rw.newFlag("CAN_MERGE");
     base = branchHead;
+
+    accepted = new HashSet<RevCommit>();
+    for (final Ref r : rw.getRepository().getAllRefs().values()) {
+      if (r.getName().startsWith(Constants.R_HEADS)
+          || r.getName().startsWith(Constants.R_TAGS)) {
+        try {
+          accepted.add(rw.parseCommit(r.getObjectId()));
+        } catch (IncorrectObjectTypeException iote) {
+          // Not a commit? Skip over it.
+        }
+      }
+    }
   }
 
   Collection<CodeReviewCommit> sort(final Collection<CodeReviewCommit> incoming)
@@ -50,6 +67,9 @@ class MergeSorter {
       rw.markStart(n);
       if (base != null) {
         rw.markUninteresting(base);
+      }
+      for (RevCommit c : accepted) {
+        rw.markUninteresting(c);
       }
 
       RevCommit c;

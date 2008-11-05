@@ -744,10 +744,22 @@ class Change(BackedUpModel):
     self.reviewers = reviewers
     self.claimed = len(reviewers) != 0
 
-  def user_can_edit(self, user):
-    return (self.owner == user
-            or self.dest_project.is_user_lead(user)
-            or AccountGroup.is_user_admin(user))
+  def user_can_edit(self):
+    """Can the current account edit this change?
+    """
+    a = Account.current_user_account
+    if not a:
+      return False
+
+    if a.is_admin:
+      return True
+
+    if self.owner == a.user:
+      return True
+
+    if self.dest_project.is_user_lead(a.user):
+      return True
+    return False
 
 
 class PatchSetFilenames(BackedUpModel):
@@ -1251,6 +1263,7 @@ class Account(BackedUpModel):
   created = db.DateTimeProperty(auto_now_add=True)
   modified = db.DateTimeProperty(auto_now=True)
 
+  is_admin = db.BooleanProperty(default=False)
   welcomed = db.BooleanProperty(default=False)
   real_name_entered = db.BooleanProperty(default=False)
   real_name = db.StringProperty()
@@ -1443,32 +1456,3 @@ class AccountGroup(BackedUpModel):
       group.delete()
       # this will do the ON DELETE CASCADE once the users are in there
     db.run_in_transaction(trans, self)
-
-  def put(self):
-    if self.name in ['admin']:
-      memcache.delete('group_members:%s' % self.name)
-    BackedUpModel.put(self)
-
-  @classmethod
-  def _is_in_cached_group(cls, user, group):
-    if not user:
-      return False
-    cache_key = 'group_members:%s' % group
-    users = memcache.get(cache_key)
-    if not users:
-      g = AccountGroup.get_group_for_name(group)
-      if not g:
-        AccountGroup.create_groups()
-        g = AccountGroup.get_group_for_name(group)
-      if len(g.members) == 0:
-        # if there are no users in this group, everyone is in this group
-        # (helps with testing, upgrading and bootstrapping)
-        # In prod this never really happens, so don't bother caching it
-        return True
-      users = [u.email() for u in g.members]
-      memcache.set(cache_key, users)
-    return user.email() in users
-
-  @classmethod
-  def is_user_admin(cls, user):
-    return AccountGroup._is_in_cached_group(user, 'admin')

@@ -129,18 +129,26 @@ def _get_groups_for_account(account):
 def _set_groups_for_account(account, groups):
   u = account.user
   existing = _get_groups_for_account(account)
+
   # remove from the ones that don't have it any more
   group_keys = [g.key() for g in groups]
   for g in existing:
+    if g.name == 'admin' and account.is_admin:
+      account.is_admin = False
+      account.put()
     if g.key() not in group_keys:
       g.members.remove(u)
       g.put()
+
   # add to the ones that didn't have it before
   existing_keys = [g.key() for g in existing]
   for g in groups:
     if g.key() not in existing_keys:
       g.members.append(u)
       g.put()
+    if g.name == 'admin' and not account.is_admin:
+      account.is_admin = True
+      account.put()
   
 class AdminUserForm(BaseForm):
   _template = 'admin_user.html'
@@ -263,10 +271,29 @@ class AdminGroupForm(BaseForm):
       self.errors['name'] = ['Name is already in use']
 
     if self.is_valid():
+      new_members = fields.UserGroupField.get_users(cd['members'])
+      old_members = group.members
+
+      if group.name == 'admin':
+        for u in old_members:
+          if u not in new_members:
+            a = models.Account.get_account_for_user(u)
+            if a.is_admin:
+              a.is_admin = False
+              a.put()
+
       group.name = new_name
       group.comment = cd['comment']
-      group.members = fields.UserGroupField.get_users(cd['members'])
+      group.members = new_members
       group.put()
+
+      if group.name == 'admin':
+        for u in new_members:
+          a = models.Account.get_account_for_user(u)
+          if not a.is_admin:
+            a.is_admin = True
+            a.put()
+
 
 @admin_required
 def admin_group(request, name):

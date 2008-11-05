@@ -560,7 +560,7 @@ def show(request, form=None):
       for rs in review_status]
 
   show_submit_button = (not change.is_submitted) and can_submit
-  show_more_options = change.user_can_edit(request.user)
+  show_more_options = change.user_can_edit()
   delete_url = '/%s/delete' % change.key().id()
 
   _prefetch_names([change])
@@ -1109,7 +1109,7 @@ class PublishCommentsForm(BaseForm):
       lgtm = 'abstain'
       verified = False
 
-    user_can_abandon = change.user_can_edit(user) and not change.merged
+    user_can_abandon = change.user_can_edit() and not change.merged
     is_abandoned = change.closed and not change.merged
 
     return {'initial': {
@@ -1140,10 +1140,7 @@ class PublishCommentsForm(BaseForm):
     verified = _restrict_verified(cd.get('verified', False),
           self.user_can_verify)
 
-    logging.info("user_can_edit=" + str(change.user_can_edit(user))
-        + " merged=" + str(change.merged) + " field=" + str(cd['abandoned']))
-
-    if change.user_can_edit(user):
+    if change.user_can_edit():
       if not change.merged:
         change.closed = cd['abandoned']
 

@@ -51,22 +51,24 @@ class AddUserToRequestMiddleware(object):
     request.user = users.get_current_user()
     if request.user:
       request.is_gae_admin = users.is_current_user_admin()
-      request.user_is_admin = models.AccountGroup.is_user_admin(request.user)
-      request.projects_owned_by_user = models.Project.projects_owned_by_user(
-          request.user)
-      request.show_admin_tab = (request.user_is_admin
-          or len(request.projects_owned_by_user) > 0)
+
+      request.account \
+        = models.Account.get_account_for_user(request.user)
+
+      request.user_is_admin \
+        = request.is_gae_admin or request.account.is_admin
+
+      request.projects_owned_by_user \
+        = models.Project.projects_owned_by_user(request.user)
+
+      request.show_admin_tab \
+        = (request.user_is_admin \
+        or len(request.projects_owned_by_user) > 0)
+
     else:
       request.is_gae_admin = False
       request.user_is_admin = False
-      request.projects_owend_by_user = set()
+      request.projects_owned_by_user = set()
       request.show_admin_tab = False
-
-    # Update the cached value of the current user's Account
-    account = None
-    if request.user is not None:
-      account = models.Account.get_account_for_user(request.user)
-      request.account = account
-    else:
       request.account = None
-    models.Account.current_user_account = account
+    models.Account.current_user_account = request.account

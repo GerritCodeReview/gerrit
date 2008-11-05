@@ -161,7 +161,7 @@ def change_owner_required(func):
   @change_required
   @login_required
   def change_owner_wrapper(request, *args, **kwds):
-    if not request.change.user_can_edit(request.user):
+    if not request.change.user_can_edit():
       return HttpResponseForbidden('You do not own this change')
     return func(request, *args, **kwds)
   return change_owner_wrapper

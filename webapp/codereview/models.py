@@ -753,7 +753,7 @@ class Change(BackedUpModel):
         e = True
       else:
         e = False
-      e = self._user_can_edit
+      self._user_can_edit = e
     return self._user_can_edit
 
 

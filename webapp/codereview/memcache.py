@@ -150,7 +150,7 @@ class CachedDict(object):
     return result
 
   def get(self, key):
-    return get_multi([key])[key]
+    return self.get_multi([key])[key]
 
   def clear_local(self):
     self._cache = {}

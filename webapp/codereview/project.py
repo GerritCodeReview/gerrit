@@ -383,16 +383,7 @@ def ready_to_submit(branch, owner, reviewer_status, files, current_user):
   reject_emails = set([u.email() for u in reviewer_status['reject']])
   verified_by_emails = set([u.email() for u in reviewer_status['verified_by']])
   owner_email = owner.email()
-
-  schema_version = models.Settings.get_settings().schema_version
-  if schema_version is None:
-    schema_version = 0
-  if schema_version == 0:
-    user_can_submit = models.AccountGroup._is_in_cached_group(
-      current_user,
-      'submitters')
-  else:
-    user_can_submit = False
+  user_can_submit = False
 
   files_to_approve = _split_files_for_review(project, files)
   if files_to_approve:
@@ -404,8 +395,7 @@ def ready_to_submit(branch, owner, reviewer_status, files, current_user):
         denied_cnt += 1
       if _check_users(user_sets['verifiers'], verified_by_emails):
         verified_cnt += 1
-      if schema_version > 0 \
-         and current_user \
+      if current_user \
          and _check_users(user_sets['submitters'],
                           [current_user.email()]):
         submit_cnt += 1
@@ -430,8 +420,7 @@ def ready_to_submit(branch, owner, reviewer_status, files, current_user):
                                or len(reviewer_status['lgtm']) > 0))))
     verified = verified_cnt == len(files_to_approve) or owner_auto_verify
     denied = denied_cnt > 0
-    if schema_version > 0:
-      user_can_submit = submit_cnt == len(files_to_approve)
+    user_can_submit = submit_cnt == len(files_to_approve)
   else:
     approved = False
     verified = False

@@ -83,7 +83,7 @@ class CachedDict(object):
   """
   def __init__(self,
                prefix,
-               timeout,
+               timeout = None,
                compute_one = None,
                compute_multi = None):
     self._prefix = prefix
@@ -144,7 +144,13 @@ class CachedDict(object):
 
         if to_cache:
           try:
-            memcache.set_multi(to_cache, self._timeout, self._prefix)
+            if self._timeout is None:
+              memcache.set_multi(to_cache,
+                                 key_prefix = self._prefix)
+            else:
+              memcache.set_multi(to_cache,
+                                 time = self._timeout,
+                                 key_prefix = self._prefix)
           except DeadlineExceededError:
             pass
     return result

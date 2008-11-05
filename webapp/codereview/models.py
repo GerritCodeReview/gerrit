@@ -261,9 +261,8 @@ class Project(BackedUpModel):
   def is_user_lead(self, user):
     if user in self.owners_users:
       return True
-    for group_key in self.owners_groups:
-      group = AccountGroup.get(group_key)
-      if user in group.members:
+    for group in AccountGroup.get(self.owners_groups):
+      if group and user in group.members:
         return True
     return False
 

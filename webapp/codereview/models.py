@@ -1396,13 +1396,6 @@ class Account(BackedUpModel):
         my_drafts.remove(id)
         self._draft_key.set(my_drafts)
 
-  @classmethod
-  def get_all_accounts(cls):
-    """Return all accounts"""
-    all = cls.all()
-    all.order('real_name')
-    return list(all)
-
 
 ### Group ###
 

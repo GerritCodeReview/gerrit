@@ -23,14 +23,19 @@ import zlib
 
 
 class Key(object):
-  def __init__(self, key, timeout=None, compress=False):
+  def __init__(self, key, timeout=None, compress=False, incore=False):
     if compress:
       key += '(z)'
     self._key = key
     self._timeout = timeout
     self._compress = compress
+    self._incore = incore
+    self._value = None
 
   def get(self, compute=None):
+    if self._incore and self._value is not None:
+      return self._value
+
     try:
       r = memcache.get(self._key)
       if r and self._compress:
@@ -38,22 +43,25 @@ class Key(object):
     except DeadlineExceededError:
       r = None
 
-    if r is not None:
-      return r
-
-    if compute is not None:
+    if r is None and compute is not None:
       r = compute()
       if r is not None:
         self.set(r)
+    elif self._incore:
+      self._value = r
     return r
 
   def clear(self):
     try:
+      self._value = None
       memcache.delete(self._key)
     except DeadlineExceededError:
       pass
 
   def set(self, value):
+    if self._incore:
+      self._value = value
+
     try:
       if self._compress:
         buf = cStringIO.StringIO()

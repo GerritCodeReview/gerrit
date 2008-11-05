@@ -1396,20 +1396,6 @@ class Account(BackedUpModel):
         my_drafts.remove(id)
         self._draft_key.set(my_drafts)
 
-  def can_lgtm(self):
-    """Returns whether the user can lgtm a given change.
-    
-    For now returns true and doesn't take the change to check.
-    """
-    return True
-
-  def can_verify(self):
-    """Returns whether the user can verify a given change.
-
-    For now returns true and doesn't take the change to check.
-    """
-    return True
-
   @classmethod
   def get_all_accounts(cls):
     """Return all accounts"""

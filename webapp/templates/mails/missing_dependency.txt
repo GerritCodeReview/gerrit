@@ -1,10 +1,7 @@
 {%autoescape off%}
-Hi.
+Your change could not be merged because of a missing dependency.
 
-Your change could not be merged because of a missing dependency.  As
-soon as its dependencies are submitted, your change will be submitted
-automatically.
-
--Your friendly git merger
+As soon as all dependencies are submitted, your change will be
+resubmitted automatically.
 
 {%endautoescape%}

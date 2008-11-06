@@ -1,8 +1,5 @@
 {%autoescape off%}
-Hi.
-
-Your change has been successfully merged into the git repository.
-
--Your friendly git merger
+Change {{change.key.id}} has been successfully merged into the
+{{change.dest_branch.name}} branch of {{change.dest_project.name}}.
 
 {%endautoescape%}

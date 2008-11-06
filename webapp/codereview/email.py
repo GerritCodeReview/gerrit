@@ -124,6 +124,12 @@ def send_change_message(request,
 
   # body
   uri = library.change_url(change)
+  if template_args is None:
+    template_args = dict()
+  else:
+    template_args = dict(template_args)
+  template_args['change'] = change
+
   if not email_template:
     email_template = template
   body = django.template.loader.render_to_string(email_template,

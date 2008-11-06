@@ -1,9 +1,7 @@
 {%autoescape off%}
-Hi.
+Your change could not been merged due to a path conflict.
 
-Your change has not been successfully merged into the git repository
-because of a path conflict.
-
--Your friendly git merger
+Please merge (or rebase) the change locally and upload the
+resolution for review.
 
 {%endautoescape%}

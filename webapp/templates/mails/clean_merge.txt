@@ -1,5 +1,5 @@
 {%autoescape off%}
 Change {{change.key.id}} has been successfully merged into the
-{{change.dest_branch.name}} branch of {{change.dest_project.name}}.
+{{change.dest_branch.short_name}} branch of {{change.dest_project.name}}.
 
 {%endautoescape%}

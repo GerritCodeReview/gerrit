@@ -105,7 +105,7 @@ class SubjectFieldRenderer(FieldRenderer):
     FieldRenderer.__init__(self, 'subject', 'Subject',
         lambda c: """<a href="/%(id)d">%(subject)s</a> %(closed)s""" % {
             'id': c.key().id(),
-            'subject': defaultfilters.truncatewords(c.subject, 11),
+            'subject': html.escape(defaultfilters.truncatewords(c.subject, 11)),
             'closed': library.closed_label(c),
           })
 
@@ -128,12 +128,12 @@ FIELD_SUBJECT = SubjectFieldRenderer()
 FIELD_OWNER = UserListFieldRenderer('owner', 'Owner', lambda c: [c.owner])
 FIELD_REVIEWERS = UserListFieldRenderer('reviewers', 'Reviewers',
                       lambda c: c.reviewers)
-FIELD_PROJECT = FieldRenderer('project', 'Project', lambda c: c.dest_project.name)
+FIELD_PROJECT = FieldRenderer('project', 'Project', lambda c: html.escape(c.dest_project.name))
 FIELD_MODIFIED = FieldRenderer('modified', 'Last Update',
                       lambda c: library.abbrevtimesince(c.modified))
 
 # this one should be change so that it's what they see in repo
-FIELD_BRANCH = FieldRenderer('branch', 'Branch', lambda c: c.dest_branch.name)
+FIELD_BRANCH = FieldRenderer('branch', 'Branch', lambda c: html.escape(c.dest_branch.short_name))
 
 class ChangeTable(object):
   """An object to help render a list of changes as a table.

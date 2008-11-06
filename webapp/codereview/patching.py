@@ -35,6 +35,19 @@ _CHUNK_RE = re.compile(r"""
   \s+
   @@
 """, re.VERBOSE)
+_MULTI_WAY_CHUNK_RE = re.compile(r"""
+  @@@@*
+  \s+
+  -
+  (?: (\d+) (?: , (\d+) )?)
+  \s+
+  [^@]*
+  \s+
+  \+
+  (?: (\d+) (?: , (\d+) )?)
+  \s+
+  @@@@*
+""", re.VERBOSE)
 
 
 def PatchLines(old_lines, patch_lines, name="<patch>"):
@@ -203,7 +216,7 @@ def ParsePatchToChunks(lines, name="<patch>"):
 
 
 # TODO: can we share some of this code with ParsePatchToChunks?
-def ParsePatchToLines(lines):
+def ParsePatchToLines(lines, multi_way_diff=False):
   """Parses a patch from a list of lines.
 
   Returns None on error, otherwise a list of 3-tuples:
@@ -211,6 +224,11 @@ def ParsePatchToLines(lines):
 
     A line number can be 0 if it doesn't exist in the old/new file.
   """
+  if multi_way_diff:
+    hdr_pat = _MULTI_WAY_CHUNK_RE
+  else:
+    hdr_pat = _CHUNK_RE
+
   result = []
   in_prelude = True
   for line in lines:
@@ -221,7 +239,7 @@ def ParsePatchToLines(lines):
         in_prelude = False
     elif line.startswith("@"):
       result.append((0, 0, line))
-      match = _CHUNK_RE.match(line)
+      match = hdr_pat.match(line)
       if not match:
         logging.warn("ParsePatchToLines match failed on %s", line)
         return None

@@ -27,10 +27,13 @@ import org.spearce.jgit.revwalk.RevCommit;
 import org.spearce.jgit.util.RawParseUtils;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /** Parses 'git diff-tree' output into {@link FileDiff} objects. */
 class DiffReader {
-  private static final byte[] GIT_DIFF = encodeASCII("diff --git a/");
+  private static final byte[] DIFF_GIT = encodeASCII("diff --git a/");
+  private static final byte[] DIFF_CC = encodeASCII("diff --cc ");
   private static final byte[] H_DELETED_FILE = encodeASCII("deleted file ");
   private static final byte[] H_NEW_FILE = encodeASCII("new file ");
   private static final byte[] H_INDEX = encodeASCII("index ");
@@ -58,23 +61,46 @@ class DiffReader {
   private Process proc;
   private RecordInputStream in;
   private FileDiff current;
+  private boolean isMerge;
 
   DiffReader(final Repository db, final RevCommit c) throws IOException {
-    final String baseTree;
-    if (c.getParentCount() > 0) {
-      baseTree = c.getParent(0).getTree().getId().name();
-    } else {
-      baseTree = new ObjectWriter(db).writeTree(new Tree(db)).name();
+    final List<String> args = new ArrayList<String>();
+    args.add("git");
+    args.add("--git-dir=.");
+    args.add("diff-tree");
+
+    if (c.getParentCount() > 1) {
+      args.add("--cc");
+      args.add("-M");
+      args.add("--full-index");
+      args.add(c.getId().name());
+      isMerge = true;
+    } else if (c.getParentCount() == 1) {
+      args.add("--unified=1");
+      args.add("-M");
+      args.add("--full-index");
+      args.add(c.getParent(0).getTree().getId().name());
+      args.add(c.getTree().getId().name());
+    } else if (c.getParentCount() == 0) {
+      args.add("--unified=1");
+      args.add("-M");
+      args.add("--full-index");
+      args.add(new ObjectWriter(db).writeTree(new Tree(db)).name());
+      args.add(c.getTree().getId().name());
     }
-    final String headTree = c.getTree().getId().name();
+
     proc =
-        Runtime.getRuntime().exec(
-            new String[] {"git", "--git-dir=.", "diff-tree", "--unified=1",
-                "-M", "--full-index", baseTree, headTree}, null,
+        Runtime.getRuntime().exec(args.toArray(new String[args.size()]), null,
             db.getDirectory());
     proc.getOutputStream().close();
     proc.getErrorStream().close();
     in = new RecordInputStream(proc.getInputStream());
+    if (isMerge) {
+      // A diff --cc output from diff-tree starts with one line
+      // holding the commit we passed in as an argument.
+      //
+      in.readRecord('\n');
+    }
   }
 
   FileDiff next() throws IOException {
@@ -91,7 +117,8 @@ class DiffReader {
         return prior;
       }
 
-      if (match(GIT_DIFF, hdr, 0)) {
+      if ((isMerge && match(DIFF_CC, hdr, 0))
+          || (!isMerge && match(DIFF_GIT, hdr, 0))) {
         final FileDiff prior = current;
         current = new FileDiff();
         current.appendLine(hdr);
@@ -101,9 +128,14 @@ class DiffReader {
         // just assume nobody uses spaces in filenames.
         //
         final String hdrStr = str(hdr, 0);
-        final int newpos = hdrStr.indexOf(" b/");
-        if (newpos > 0) {
-          current.setFilename(hdrStr.substring(newpos + 3));
+        if (isMerge) {
+          current.setFilename(hdrStr.substring(DIFF_CC.length));
+          current.setMerge(true);
+        } else {
+          final int newpos = hdrStr.indexOf(" b/");
+          if (newpos > 0) {
+            current.setFilename(hdrStr.substring(newpos + 3));
+          }
         }
 
         if (prior != null) {
@@ -113,7 +145,7 @@ class DiffReader {
         }
       }
 
-      if (match(H_INDEX, hdr, 0)) {
+      if (!isMerge && match(H_INDEX, hdr, 0)) {
         current.setBaseId(ObjectId.fromString(hdr, H_INDEX.length));
         current.setFinalId(ObjectId.fromString(hdr, H_INDEX.length
             + Constants.OBJECT_ID_LENGTH * 2 + 2));

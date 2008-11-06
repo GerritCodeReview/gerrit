@@ -133,6 +133,7 @@ class ChangeServiceImp(ChangeService, InternalAPI):
               patchset = patchset,
               filename = u(req.file_name),
               status = status,
+              multi_way_diff = req.multi_way_diff,
               n_comments = 0,
               old_data = old_data,
               new_data = new_data,

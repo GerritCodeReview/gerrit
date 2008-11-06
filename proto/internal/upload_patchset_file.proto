@@ -34,6 +34,7 @@ message UploadPatchsetFileRequest {
     DELETE = 3;
   }
   required StatusType status = 13;
+  optional bool multi_way_diff = 19;
 
   // Deflated base content for the file (pre-image), encoding
   // is not specified, but should be UTF-8.  base_id is the

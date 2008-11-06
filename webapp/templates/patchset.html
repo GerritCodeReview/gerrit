@@ -56,7 +56,11 @@
       <td>{%if patch.status%}{{patch.status}}{%endif%}</td>
       <td>
         <a class="noul"
+         {%if patch.multi_way_diff%}
            href="{%url codereview.views.diff change.key.id,patch.patchset.key.id,patch.id%}"
+         {%else%}
+           href="{%url codereview.views.patch change.key.id,patch.patchset.key.id,patch.id%}"
+         {%endif%}
           >{{patch.filename}}
         </a>
       </td>
@@ -75,9 +79,11 @@
         {%if patch.num_comments or patch.num_drafts%}</b>{%endif%}
       </td>
       <td>
+      {%if not patch.multi_way_diff%}
         <a href="{%url codereview.views.diff change.key.id,patch.patchset.key.id,patch.id%}">
           Side-by-Side
         </a>
+      {%endif%}
       </td>
       <td>
         <a href="{%url codereview.views.patch change.key.id,patch.patchset.key.id,patch.id%}">

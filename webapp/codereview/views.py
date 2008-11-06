@@ -727,7 +727,8 @@ def patch_helper(request, nav_type='patch'):
   """
   _add_next_prev(request.patchset, request.patch)
   request.patch.nav_type = nav_type
-  parsed_lines = patching.ParsePatchToLines(request.patch.patch_lines)
+  parsed_lines = patching.ParsePatchToLines(request.patch.patch_lines,
+                                            request.patch.multi_way_diff)
   if parsed_lines is None:
     return HttpResponseNotFound('Can\'t parse the patch')
   rows = engine.RenderUnifiedTableRows(request, parsed_lines)

@@ -31,6 +31,7 @@ class FileDiff {
   private String filename;
   private boolean binary;
   private boolean truncated;
+  private boolean merge;
   private List<byte[]> lines = new ArrayList<byte[]>();
   private StatusType status = StatusType.MODIFY;
   private int linesSize;
@@ -81,6 +82,14 @@ class FileDiff {
 
   void setTruncated(final boolean b) {
     truncated = b;
+  }
+
+  boolean isMerge() {
+    return merge;
+  }
+
+  void setMerge(final boolean b) {
+    merge = b;
   }
 
   byte[] getPatch() {

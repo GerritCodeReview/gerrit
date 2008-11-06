@@ -1024,6 +1024,7 @@ class Patch(BackedUpModel):
   patchset = db.ReferenceProperty(PatchSet, required=True)  # == parent
   filename = db.StringProperty(required=True)
   status = db.StringProperty(required=True)  # 'A', 'M', 'D'
+  multi_way_diff = db.BooleanProperty(default=False)
   n_comments = db.IntegerProperty()
 
   old_data = db.ReferenceProperty(DeltaContent, collection_name='olddata_set')

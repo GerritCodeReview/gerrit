@@ -180,41 +180,44 @@ class PatchSetUploader implements Runnable {
     req.setPatchsetKey(patchsetKey);
     req.setFileName(diff.getFilename());
     req.setStatus(diff.getStatus());
+    req.setMultiWayDiff(diff.isMerge());
 
-    if (!diff.isBinary() && !diff.isTruncated()) {
-      final ObjectId baseId = diff.getBaseId();
+    if (!diff.isMerge()) {
+      if (!diff.isBinary() && !diff.isTruncated()) {
+        final ObjectId baseId = diff.getBaseId();
 
-      if (baseId == null || ObjectId.equals(baseId, ObjectId.zeroId())) {
-        req.setBaseId(EMPTY_BLOB_ID);
-        req.setBaseZ(getEmptyDeflatedBlob());
-      } else {
-        try {
-          final ObjectLoader ldr = db.openBlob(baseId);
-          if (ldr == null) {
-            LOG.fatal(logkey() + " missing " + baseId.name());
+        if (baseId == null || ObjectId.equals(baseId, ObjectId.zeroId())) {
+          req.setBaseId(EMPTY_BLOB_ID);
+          req.setBaseZ(getEmptyDeflatedBlob());
+        } else {
+          try {
+            final ObjectLoader ldr = db.openBlob(baseId);
+            if (ldr == null) {
+              LOG.fatal(logkey() + " missing " + baseId.name());
+              throw new StopProcessingException("No " + baseId.name());
+            }
+
+            final byte[] base = ldr.getCachedBytes();
+            if (base.length + diff.getPatchSize() > MAX_DATA_SIZE) {
+              diff.truncatePatch();
+            } else {
+              req.setBaseId(baseId.name());
+              req.setBaseZ(deflate(base));
+            }
+          } catch (IOException err) {
+            LOG.fatal(logkey() + " cannot read base " + baseId.name(), err);
             throw new StopProcessingException("No " + baseId.name());
           }
-
-          final byte[] base = ldr.getCachedBytes();
-          if (base.length + diff.getPatchSize() > MAX_DATA_SIZE) {
-            diff.truncatePatch();
-          } else {
-            req.setBaseId(baseId.name());
-            req.setBaseZ(deflate(base));
-          }
-        } catch (IOException err) {
-          LOG.fatal(logkey() + " cannot read base " + baseId.name(), err);
-          throw new StopProcessingException("No " + baseId.name());
         }
       }
-    }
 
-    if (!diff.isBinary() && !diff.isTruncated()) {
-      final ObjectId finalId = diff.getFinalId();
-      if (finalId == null || ObjectId.equals(finalId, ObjectId.zeroId())) {
-        req.setFinalId(EMPTY_BLOB_ID);
-      } else {
-        req.setFinalId(finalId.name());
+      if (!diff.isBinary() && !diff.isTruncated()) {
+        final ObjectId finalId = diff.getFinalId();
+        if (finalId == null || ObjectId.equals(finalId, ObjectId.zeroId())) {
+          req.setFinalId(EMPTY_BLOB_ID);
+        } else {
+          req.setFinalId(finalId.name());
+        }
       }
     }
 

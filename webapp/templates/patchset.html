@@ -57,9 +57,9 @@
       <td>
         <a class="noul"
          {%if patch.multi_way_diff%}
-           href="{%url codereview.views.diff change.key.id,patch.patchset.key.id,patch.id%}"
-         {%else%}
            href="{%url codereview.views.patch change.key.id,patch.patchset.key.id,patch.id%}"
+         {%else%}
+           href="{%url codereview.views.diff change.key.id,patch.patchset.key.id,patch.id%}"
          {%endif%}
           >{{patch.filename}}
         </a>

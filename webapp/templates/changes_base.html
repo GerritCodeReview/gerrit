@@ -8,13 +8,15 @@
     <li><a href="{%url codereview.views.mine %}">My Changes</a></li>
     <li><a href="{%url codereview.views.unclaimed %}">Unclaimed Changes</a></li>
     <li><a href="{%url codereview.views.all_unclaimed %}">All Unclaimed Changes</a></li>
-    <li><a href="{%url codereview.views.all %}">Recent Changes</a></li>
+    <li><a href="{%url codereview.views.open_changes %}">Open Changes</a></li>
+    <li><a href="{%url codereview.views.all_changes %}">All Changes</a></li>
     <li><a href="{%url codereview.views.starred %}">Starred Changes</a></li>
   </ul>
   {%else%}
   <ul>
-    <li><a href="{%url codereview.views.index %}">Recent Changes</a></li>
+    <li><a href="{%url codereview.views.open_changes %}">Open Changes</a></li>
     <li><a href="{%url codereview.views.all_unclaimed %}">All Unclaimed Changes</a></li>
+    <li><a href="{%url codereview.views.all_changes %}">All Changes</a></li>
     <li id="signin-link">
       <a class="novisit" href="{{sign_in}}">Sign in</a> with your
       <a href="https://www.google.com/accounts/NewAccount">Google Account</a>

@@ -100,7 +100,7 @@ def _random_bytes(n):
 def index(request):
   """/ - Show a list of patches."""
   if request.user is None:
-    return all(request)
+    return open_changes(request)
   else:
     return mine(request)
 
@@ -109,10 +109,25 @@ def hello(request):
   return HttpResponseRedirect('/settings/welcome?dest=/')
   #return respond(request, 'hello.html', {})
 
+
+def all_changes(request):
+    """Show all changes"""
+    return _list_changes(request, 'SELECT * FROM Change'
+                      ' ORDER BY modified DESC', 'All Changes')
+
+
+def open_changes(request):
+    """Show open changes"""
+    return _list_changes(request, 'SELECT * FROM Change'
+                      ' WHERE closed = FALSE' 
+                      ' ORDER BY modified DESC', 'Open Changes')
+
 DEFAULT_LIMIT = 10
 
-def all(request):
-  """/all - Show a list of up to DEFAULT_LIMIT recent change."""
+def _list_changes(request,query,title):
+  """Show a list of changes specified by the query.
+     DEFAULT_LIMIT changes are displayed per page unless
+     the limit parameter is passed."""
   offset = request.GET.get('offset')
   if offset:
     try:
@@ -133,24 +148,23 @@ def all(request):
       limit = max(1, min(limit, 100))
   else:
     limit = DEFAULT_LIMIT
-  query = db.GqlQuery('SELECT * FROM Change '
-                      'WHERE closed = FALSE ORDER BY modified DESC')
+  query = db.GqlQuery(query)
   # Fetch one more to see if there should be a 'next' link
   changes = query.fetch(limit+1, offset)
   more = bool(changes[limit:])
   if more:
     del changes[limit:]
   if more:
-    next = '/all?offset=%d&limit=%d' % (offset+limit, limit)
+    next = '?offset=%d&limit=%d' % (offset+limit, limit)
   else:
     next = ''
   if offset > 0:
-    prev = '/all?offset=%d&limit=%d' % (max(0, offset-limit), limit)
+    prev = '?offset=%d&limit=%d' % (max(0, offset-limit), limit)
   else:
     prev = ''
   newest = ''
   if offset > limit:
-    newest = '/all?limit=%d' % limit
+    newest = '?limit=%d' % limit
 
   _optimize_draft_counts(changes)
   _prefetch_names(changes)
@@ -158,8 +172,9 @@ def all(request):
   table = changetable.ChangeTable(request.user, CHANGE_TABLE_FIELDS)
   table.add_section(None, changes)
 
-  return respond(request, 'all.html', {
+  return respond(request, 'list_changes.html', {
                     'changes': table.render(),
+                    'title': title,
                     'limit': limit,
                     'newest': newest,
                     'prev': prev,

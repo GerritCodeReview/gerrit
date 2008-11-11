@@ -424,7 +424,7 @@ def _prepare_show_patchset(user, patchset):
   else:
     drafts = []
 
-  max_rows = 100
+  max_rows = 250
   if len(patchset.filenames) < max_rows:
     files = models.gql(models.Patch,
                        'WHERE patchset = :1 ORDER BY filename',

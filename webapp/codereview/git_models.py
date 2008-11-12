@@ -71,6 +71,7 @@ class ReceivedBundle(models.BackedUpModel):
   # Where does this bundle merge to?
   dest_project = db.ReferenceProperty(models.Project, required=True)
   dest_branch = db.ReferenceProperty(models.Branch, required=True)
+  replaces = db.StringListProperty()
 
   # Who submitted this bundle, and when.
   owner = db.UserProperty(required=True)

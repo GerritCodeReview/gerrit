@@ -43,6 +43,13 @@ class BundleStoreServiceImp(BundleStoreService, InternalAPI):
       rsp.dest_branch_key = str(rb.dest_branch.key())
       rsp.owner = str(rb.owner.email())
       rsp.n_segments = rb.n_segments
+
+      for line in rb.replaces:
+        id, commit = line.split(' ')
+        r = rsp.replace.add()
+        r.change_id = int(id)
+        r.object_id = commit
+
       seg = rb.get_segment(1)
       if seg:
         rsp.bundle_data = seg.bundle_data

@@ -14,9 +14,12 @@
 
 package com.google.codereview.manager.unpack;
 
+import com.google.codereview.internal.AddPatchset.AddPatchSetRequest;
+import com.google.codereview.internal.AddPatchset.AddPatchSetResponse;
 import com.google.codereview.internal.NextReceivedBundle.BundleSegmentRequest;
 import com.google.codereview.internal.NextReceivedBundle.BundleSegmentResponse;
 import com.google.codereview.internal.NextReceivedBundle.NextReceivedBundleResponse;
+import com.google.codereview.internal.NextReceivedBundle.ReplacePatchSet;
 import com.google.codereview.internal.SubmitChange.SubmitChangeRequest;
 import com.google.codereview.internal.SubmitChange.SubmitChangeResponse;
 import com.google.codereview.internal.UpdateReceivedBundle.UpdateReceivedBundleRequest;
@@ -48,7 +51,9 @@ import org.spearce.jgit.transport.URIish;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /** Unpacks a bundle and imports the commits into the code review system. */
 class UnpackBundleOp {
@@ -71,6 +76,7 @@ class UnpackBundleOp {
 
   private final Backend server;
   private final NextReceivedBundleResponse in;
+  private final Map<ObjectId, ReplacePatchSet> replacements;
   private Repository db;
   private ObjectId tip;
   private int changeId;
@@ -80,6 +86,7 @@ class UnpackBundleOp {
   UnpackBundleOp(final Backend be, final NextReceivedBundleResponse bundleInfo) {
     server = be;
     in = bundleInfo;
+    replacements = new HashMap<ObjectId, ReplacePatchSet>();
   }
 
   UpdateReceivedBundleRequest unpack() {
@@ -99,6 +106,9 @@ class UnpackBundleOp {
 
   private void unpackImpl() throws UnpackException {
     LOG.debug("Unpacking bundle " + in.getBundleKey());
+    for (final ReplacePatchSet p : in.getReplaceList()) {
+      replacements.put(ObjectId.fromString(p.getObjectId()), p);
+    }
     openRepository();
     unpackTip();
     createChanges(newCommits());
@@ -187,7 +197,13 @@ class UnpackBundleOp {
   private void createChanges(final List<RevCommit> newCommits)
       throws UnpackException {
     for (final RevCommit c : newCommits) {
-      if (submitChange(c)) {
+      final ReplacePatchSet r = replacements.get(c.getId().copy());
+      if (r != null) {
+        if (addPatchSet(c, r)) {
+          createChangeRef(c);
+          server.asyncExec(new PatchSetUploader(server, db, c, patchsetKey));
+        }
+      } else if (submitChange(c)) {
         createChangeRef(c);
         server.asyncExec(new PatchSetUploader(server, db, c, patchsetKey));
       }
@@ -218,6 +234,47 @@ class UnpackBundleOp {
 
             } else if (sc == SubmitChangeResponse.CodeType.PATCHSET_EXISTS) {
               LOG.debug("Commit " + c.getId().name() + " exists in data store");
+
+            } else {
+              ctrl.setFailed("Unknown status " + sc.name());
+            }
+          }
+        });
+    if (ctrl.failed()) {
+      throw new UnpackException(CodeType.SUSPEND_BUNDLE, ctrl.errorText());
+    }
+    return continueCreation.value;
+  }
+
+  private boolean addPatchSet(final RevCommit c, final ReplacePatchSet replace)
+      throws UnpackException {
+    final AddPatchSetRequest.Builder req = AddPatchSetRequest.newBuilder();
+
+    req.setOwner(in.getOwner());
+    req.setDestBranchKey(in.getDestBranchKey());
+    req.setChangeId(replace.getChangeId());
+    req.setCommit(GitMetaUtil.toGitCommit(c));
+
+    final MutableBoolean continueCreation = new MutableBoolean();
+    final SimpleController ctrl = new SimpleController();
+    server.getChangeService().addPatchSet(ctrl, req.build(),
+        new RpcCallback<AddPatchSetResponse>() {
+          public void run(final AddPatchSetResponse rsp) {
+            final AddPatchSetResponse.CodeType sc = rsp.getStatusCode();
+
+            if (sc == AddPatchSetResponse.CodeType.CREATED) {
+              changeId = replace.getChangeId();
+              patchsetId = rsp.getPatchsetId();
+              patchsetKey = rsp.getPatchsetKey();
+              continueCreation.value = true;
+              LOG.debug("Commit " + c.getId().name() + " is change " + changeId
+                  + " patchset " + patchsetId);
+
+            } else if (sc == AddPatchSetResponse.CodeType.PATCHSET_EXISTS) {
+              LOG.debug("Commit " + c.getId().name() + " exists in data store");
+
+            } else if (sc == AddPatchSetResponse.CodeType.UNKNOWN_CHANGE) {
+              LOG.debug("Change " + req.getChangeId() + " not found");
 
             } else {
               ctrl.setFailed("Unknown status " + sc.name());

@@ -15,6 +15,7 @@
 package codereview.internal;
 option java_package = "com.google.codereview.internal";
 
+import "add_patchset.proto";
 import "complete_patchset.proto";
 import "submit_change.proto";
 import "upload_patchset_file.proto";
@@ -24,6 +25,11 @@ service ChangeService {
   //
   rpc SubmitChange(SubmitChangeRequest)
   returns (SubmitChangeResponse);
+
+  // Add a patch set to a change.
+  //
+  rpc AddPatchSet(AddPatchSetRequest)
+  returns (AddPatchSetResponse);
 
   // Attaches a file to an existing patchset
   //

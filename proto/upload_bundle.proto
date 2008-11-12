@@ -18,6 +18,16 @@ option java_package = "com.google.codereview";
 // Uploads a bundle to start a review process.
 //
 
+message ReplacePatchSet {
+  // Identity of the change to add a replacement patch set to.
+  //
+  required string change_id = 1;
+
+  // Commit within the bundle to use as the replacement patch set.
+  //
+  required string object_id = 2;
+}
+
 message UploadBundleRequest {
   // Name of the project this bundle is applied to.
   //
@@ -48,6 +58,11 @@ message UploadBundleRequest {
   // commits and/or annotated tags would be enumerated here.
   //
   repeated string contained_object = 1;
+
+  // Optional specification of replacement patches for
+  // already existing change records.
+  //
+  repeated ReplacePatchSet replace = 2;
 }
 
 message UploadBundleResponse {
@@ -56,6 +71,8 @@ message UploadBundleResponse {
     CONTINUE = 4;         // client should use UploadBundleContinue
 
     UNAUTHORIZED_USER = 7;  // the user account is not allowed to upload
+    UNKNOWN_CHANGE = 9;     // an invalid replacement was suggested
+    CHANGE_CLOSED =  10;    // an invalid replacement was suggested
 
     UNKNOWN_PROJECT = 2;  // the project is invalid
     UNKNOWN_BRANCH = 3;   // the branch is invalid

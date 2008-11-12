@@ -18,6 +18,16 @@ option java_package = "com.google.codereview.internal";
 message NextReceivedBundleRequest {
 }
 
+message ReplacePatchSet {
+  // Identity of the change to add a replacement patch set to.
+  //
+  required int32 change_id = 1;
+
+  // Commit within the bundle to use as the replacement patch set.
+  //
+  required string object_id = 2;
+}
+
 message NextReceivedBundleResponse {
   enum CodeType {
     BUNDLE_AVAILABLE = 1;
@@ -54,6 +64,8 @@ message NextReceivedBundleResponse {
   // Issues created will be tied back to them.
   //
   optional string owner = 7;
+
+  repeated ReplacePatchSet replace = 9;
 }
 
 message BundleSegmentRequest {

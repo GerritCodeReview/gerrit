@@ -20,6 +20,7 @@ from google.appengine.ext import db
 from codereview import models
 
 from change_pb2 import ChangeService
+from add_patchset_pb2 import *
 from complete_patchset_pb2 import *
 from upload_patchset_file_pb2 import *
 from submit_change_pb2 import *
@@ -72,6 +73,56 @@ class ChangeServiceImp(ChangeService, InternalAPI):
     else:
       db.delete([change, patchset])
       rsp.status_code = SubmitChangeResponse.PATCHSET_EXISTS
+    done(rsp)
+
+  @automatic_retry
+  def AddPatchSet(self, rpc_controller, req, done):
+    rsp = AddPatchSetResponse()
+
+    user = users.User(req.owner)
+    branch = db.get(db.Key(req.dest_branch_key))
+    if not branch:
+      rsp.status_code = AddPatchSetResponse.UNKNOWN_BRANCH
+      done(rsp)
+
+    rev = commit_to_revision(branch.project, req.commit)
+    if rev.patchset:
+      rsp.status_code = AddPatchSetResponse.PATCHSET_EXISTS
+      done(rsp)
+
+    subject = u(req.commit.subject)[0:100]
+
+    def trans():
+      change = models.Change.get_by_id(req.change_id)
+      if not change:
+        return None
+
+      change.subject = subject
+      change.description = u(req.commit.message)
+      change.n_patchsets += 1
+      id = change.n_patchsets
+      change.put()
+
+      patchset = models.PatchSet(
+                   change = change,
+                   owner = user,
+                   parent = change,
+                   revision = rev,
+                   id = id)
+      patchset.put()
+      return patchset
+    patchset = db.run_in_transaction(trans)
+    if not patchset:
+      rsp.status_code = AddPatchSetResponse.UNKNOWN_CHANGE
+      done(rsp)
+
+    if rev.link_patchset(patchset):
+      rsp.status_code = AddPatchSetResponse.CREATED
+      rsp.patchset_id = patchset.id
+      rsp.patchset_key = str(patchset.key())
+    else:
+      db.delete(patchset)
+      rsp.status_code = AddPatchSetResponse.PATCHSET_EXISTS
     done(rsp)
 
   @automatic_retry

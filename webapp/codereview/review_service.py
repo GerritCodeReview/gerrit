@@ -17,7 +17,7 @@ import logging
 from google.appengine.api import users
 from google.appengine.ext import db
 
-from models import gql, Project, Branch, Account
+from models import gql, Project, Branch, Account, Change
 import git_models
 
 from review_pb2 import *
@@ -69,12 +69,31 @@ class ReviewServiceImp(ReviewService):
       done(rsp)
       return
 
+    replaces = list()
+    ids_to_check = list()
+    for p in req.replace:
+      id = int(p.change_id)
+      ids_to_check.append(id)
+      replaces.append('%d %s' % (id, p.object_id))
+
+    if ids_to_check:
+      for id, c in zip(ids_to_check, Change.get_by_id(ids_to_check)):
+        if not c:
+          rsp.status_code = UploadBundleResponse.UNKNOWN_CHANGE
+          done(rsp)
+          return
+        if c.closed:
+          rsp.status_code = UploadBundleResponse.CHANGE_CLOSED
+          done(rsp)
+          return
+
     rb = git_models.ReceivedBundle(
       dest_project = proj,
       dest_branch = brch,
       owner = current_user,
       state = git_models.ReceivedBundle.STATE_UPLOADING,
-      contained_objects = list(req.contained_object))
+      contained_objects = list(req.contained_object),
+      replaces = replaces)
     rb.put()
 
     rsp.bundle_id = str(rb.key().id())

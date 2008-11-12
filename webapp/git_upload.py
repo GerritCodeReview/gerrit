@@ -125,6 +125,9 @@ group.add_option("-B", "--base", action="store", dest="base_commit",
                  default="refs/remotes/origin/master",
                  metavar="COMMIT",
                  help=("Base commit for the bundle."))
+group.add_option('-r', '--replace', action='append', dest='replace',
+                 metavar='CHANGE:COMMIT',
+                 help='Replace a patch set on an existing change')
 
 def GetRpcServer(options):
   """Returns an RpcServer.
@@ -191,6 +194,12 @@ def RealMain(argv, data=None):
                    "^" + options.base_commit,
                    "HEAD").split("\n")
 
+  replace_changes = dict()
+  if options.replace:
+    for line in options.replace:
+      change_id, commit_id = line.split(':')
+      replace_changes[change_id] = commit_id
+
   tmp_fd, tmp_bundle = mkstemp(".bundle", ".gpq", git_dir)
   os.close(tmp_fd)
 
@@ -216,6 +225,10 @@ def RealMain(argv, data=None):
         req.dest_branch = options.dest_branch
         for c in revlist:
           req.contained_object.append(c)
+        for change_id,commit_id in replace_changes.iteritems():
+          r = req.replace.add()
+          r.change_id = change_id
+          r.object_id = commit_id
       else:
         req = UploadBundleContinue()
         req.bundle_id = bundle_id

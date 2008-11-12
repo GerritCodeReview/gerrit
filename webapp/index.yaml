@@ -10,6 +10,13 @@ indexes:
 # automatically uploaded to the admin console when you next deploy
 # your application using appcfg.py.
 
+# Used once in query history.
+- kind: Account
+  properties:
+  - name: cla_verified
+  - name: welcomed
+  - name: email
+
 # Unused in query history -- copied from input.
 - kind: Account
   properties:
@@ -17,19 +24,19 @@ indexes:
   - name: cla_verified
   - name: email
 
-# Unused in query history -- copied from input.
+# Used 325 times in query history.
 - kind: Branch
   properties:
   - name: status
   - name: merge_submitted
 
-# Unused in query history -- copied from input.
+# Used 92 times in query history.
 - kind: BuildAttempt
   properties:
   - name: success
   - name: started
 
-# Unused in query history -- copied from input.
+# Used 3 times in query history.
 - kind: Change
   properties:
   - name: claimed
@@ -38,7 +45,7 @@ indexes:
   - name: modified
     direction: desc
 
-# Unused in query history -- copied from input.
+# Used 4 times in query history.
 - kind: Change
   properties:
   - name: claimed
@@ -48,14 +55,14 @@ indexes:
   - name: modified
     direction: desc
 
-# Used once in query history.
+# Used 49 times in query history.
 - kind: Change
   properties:
   - name: closed
   - name: modified
     direction: desc
 
-# Unused in query history -- copied from input.
+# Used 212 times in query history.
 - kind: Change
   properties:
   - name: closed
@@ -63,7 +70,7 @@ indexes:
   - name: modified
     direction: desc
 
-# Unused in query history -- copied from input.
+# Used 106 times in query history.
 - kind: Change
   properties:
   - name: closed
@@ -71,7 +78,7 @@ indexes:
   - name: modified
     direction: desc
 
-# Unused in query history -- copied from input.
+# Used 3 times in query history.
 - kind: Change
   properties:
   - name: modified
@@ -91,7 +98,7 @@ indexes:
   - name: modified
     direction: desc
 
-# Unused in query history -- copied from input.
+# Used 4 times in query history.
 - kind: Comment
   properties:
   - name: left
@@ -99,20 +106,20 @@ indexes:
   - name: patch
   - name: date
 
-# Unused in query history -- copied from input.
+# Used 14 times in query history.
 - kind: Comment
   properties:
   - name: left
   - name: patch
   - name: date
 
-# Unused in query history -- copied from input.
+# Used 65 times in query history.
 - kind: Comment
   properties:
   - name: patch
   - name: date
 
-# Unused in query history -- copied from input.
+# Used 4 times in query history.
 - kind: Comment
   ancestor: yes
 
@@ -123,37 +130,37 @@ indexes:
   - name: author
   - name: draft
 
-# Unused in query history -- copied from input.
+# Used 119 times in query history.
 - kind: Message
   properties:
   - name: change
   - name: date
 
-# Unused in query history -- copied from input.
+# Used 4 times in query history.
 - kind: Message
   ancestor: yes
 
-# Unused in query history -- copied from input.
+# Used 211 times in query history.
 - kind: Patch
   properties:
   - name: patchset
   - name: filename
 
-# Unused in query history -- copied from input.
+# Used 4 times in query history.
 - kind: Patch
   ancestor: yes
 
-# Unused in query history -- copied from input.
+# Used 161 times in query history.
 - kind: PatchSet
   properties:
   - name: change
   - name: id
 
-# Unused in query history -- copied from input.
+# Used 8 times in query history.
 - kind: PatchSet
   ancestor: yes
 
-# Unused in query history -- copied from input.
+# Used 4 times in query history.
 - kind: PatchSetFilenames
   ancestor: yes
 
@@ -164,16 +171,16 @@ indexes:
   - name: created
     direction: desc
 
-# Unused in query history -- copied from input.
+# Used 609 times in query history.
 - kind: ReceivedBundle
   properties:
   - name: state
   - name: created
 
-# Unused in query history -- copied from input.
+# Used 13 times in query history.
 - kind: ReceivedBundleSegment
   ancestor: yes
 
-# Unused in query history -- copied from input.
+# Used 133 times in query history.
 - kind: ReviewStatus
   ancestor: yes

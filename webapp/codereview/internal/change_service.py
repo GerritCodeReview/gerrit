@@ -180,15 +180,44 @@ class ChangeServiceImp(ChangeService, InternalAPI):
       done(rsp)
       return
 
+    file_name = u(req.file_name)
+    other_versions = []
+    other_patches = []
+
+    if patchset.id > 1:
+      for ps in models.gql(models.PatchSet,
+                           'WHERE change = :1'
+                           ' ORDER BY id',
+                           patchset.change).fetch(1000):
+        if ps.id == patchset.id:
+          continue
+
+        prior = models.Patch.get_patch_by_filename(ps, file_name)
+        if prior and not prior.patch_equals(diff_data):
+          other_versions.append('%d %d %s'
+                                % (ps.key().id(), ps.id, prior.id))
+          other_patches.append(prior)
+
     patch = models.Patch.get_or_insert_patch(
               patchset = patchset,
-              filename = u(req.file_name),
+              filename = file_name,
               status = status,
               multi_way_diff = req.multi_way_diff,
               n_comments = 0,
               old_data = old_data,
               new_data = new_data,
-              diff_data = diff_data)
+              diff_data = diff_data,
+              other_versions = other_versions)
+
+    my_ovstr = '%d %d %s' % (patchset.key().id(),
+                             patchset.id,
+                             patch.id)
+    def trans():
+      for prior in other_patches:
+        p = db.get(prior.key())
+        p.other_versions.append(my_ovstr)
+        p.put()
+    db.run_in_transaction(trans)
 
     if old_data:
       models.CachedDeltaContent.get(old_data.key())

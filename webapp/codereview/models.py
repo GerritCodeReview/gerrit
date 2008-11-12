@@ -1015,6 +1015,14 @@ class DeltaContent(BackedUpModel):
     return self._patch_lines
 
 
+class PatchOtherVersion(object):
+  """A reference to a prior version of a patch
+  """
+  def __init__(self, patchset_id, patchset_name, patch_id):
+    self.patchset_id = patchset_id
+    self.patchset_name = patchset_name
+    self.patch_id = patch_id
+
 class Patch(BackedUpModel):
   """A single patch, i.e. a set of changes to a single file.
 
@@ -1031,6 +1039,11 @@ class Patch(BackedUpModel):
   new_data = db.ReferenceProperty(DeltaContent, collection_name='newdata_set')
   diff_data = db.ReferenceProperty(DeltaContent, collection_name='diffdata_set')
 
+  # Note: Each entry is a triple:
+  #   "${patchset.key().id} ${patchset.id} ${patch.id}"
+  #
+  other_versions = db.StringListProperty()
+
   @classmethod
   def get_or_insert_patch(cls, patchset, filename, **kw):
     """Get or insert the patch for a specific file path.
@@ -1045,6 +1058,13 @@ class Patch(BackedUpModel):
                              patchset = patchset,
                              filename = filename,
                              **kw)
+
+  @classmethod
+  def get_patch_by_filename(cls, parent, filename):
+    m = hashlib.sha1()
+    m.update(filename)
+    key = 'z%s' % m.hexdigest()
+    return cls.get_by_key_name(key, parent=parent);
 
   @classmethod
   def get_patch(cls, parent, id_str):
@@ -1087,6 +1107,14 @@ class Patch(BackedUpModel):
         self._num_drafts = query.count()
     return self._num_drafts
 
+  @property
+  def other_patch_versions(self):
+    return [PatchOtherVersion(*t)
+            for t
+            in [line.split(' ', 3)
+                for line
+                in self.other_versions]]
+
   def _data(self, name):
     prop = '_%s_CachedDeltaContent' % name
     try:
@@ -1108,6 +1136,11 @@ class Patch(BackedUpModel):
         c = None
         setattr(self, prop, c)
     return c
+
+  def patch_equals(self, other_delta):
+    """Does this patch use the given DeltaContent as its patch body?
+    """
+    return self._diff_data == other_delta.key()
 
   @property
   def patch_text(self):

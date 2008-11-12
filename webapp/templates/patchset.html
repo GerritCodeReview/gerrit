@@ -64,9 +64,8 @@
           >{{patch.filename}}
         </a>
       </td>
-      <td>{%comment%}{%for other in patchsets%}{%ifnotequal other patchset%}{%for opatch in other.patches%}{%ifequal opatch.filename patch.filename%}{%ifnotequal opatch.patch_hash patch.patch_hash%}
-      <a href="/{{change.key.id}}/diff2/{{other.key.id}}:{{patchset.key.id}}/{{patch.id}}" title="Delta from patch set {{forloop.parentloop.counter}}">{{forloop.parentloop.counter}}</a>&nbsp;{%endifnotequal%}{%endifequal%}{%endfor%}{%endifnotequal%}{%endfor%}
-      {%endcomment%}
+      <td>
+        {%for other in patch.other_patch_versions%}<a href="/{{change.key.id}}/diff2/{{other.patchset_id}}:{{patchset.key.id}}/{{patch.id}}" title="Delta from patch set {{other.patchset_name}}">{{other.patchset_name}}</a>&nbsp;{%endfor%}
       </td>
       <td>
         {%if patch.num_comments or patch.num_drafts%}<b>{%endif%}

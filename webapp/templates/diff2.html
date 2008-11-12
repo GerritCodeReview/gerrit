@@ -27,9 +27,9 @@ login_warned = false;
     <input type="hidden" name="side" value="XXX">
     <input type="hidden" name="change" value="{{change.key.id}}">
     <input type="hidden" name="ps_left" value="{{ps_left.key.id}}">
-    <input type="hidden" name="patch_left" value="{{patch_left.key.id}}">
+    <input type="hidden" name="patch_left" value="{{patch_left.id}}">
     <input type="hidden" name="ps_right" value="{{ps_right.key.id}}">
-    <input type="hidden" name="patch_right" value="{{patch_right.key.id}}">
+    <input type="hidden" name="patch_right" value="{{patch_right.id}}">
     <textarea name="text" cols="60" rows="5"></textarea><br>
     <input type="submit" name="save" value="Save"
            onclick="return M_submitInlineComment(this.form);">
@@ -42,7 +42,7 @@ login_warned = false;
 {%endif%}
 
 <div style="float: left;">
-  <h2 style="margin-bottom: 0em; margin-top: 0em;">Delta Between Two Patch Sets: {{patch_right.filename}}</h2>
+  <h2 style="margin-bottom: 0em; margin-top: 0em;">Delta Between Patch Sets {{ps_left.id}} and {{ps_right.id}}: {{patch_right.filename}}</h2>
   <div style="margin-top: .2em;">
     {%include "change_star.html"%}
     <b>Change <a href="{%url codereview.views.show change.key.id%}" onmouseover="M_showPopUp(this, 'popup-change');" id="upCL">{{change.key.id}}</a>:</b>
@@ -87,10 +87,10 @@ login_warned = false;
     </select>
   </div>
   <div>
-    Left: <a href="{%url codereview.views.diff change.key.id,ps_left.key.id,patch_left.key.id%}"
+    Left: <a href="{%url codereview.views.diff change.key.id,ps_left.key.id,patch_left.id%}"
              title="View regular side by side diff">Side by side diff</a>
           <br/>
-    Right: <a href="{%url codereview.views.diff change.key.id,ps_right.key.id,patch_right.key.id%}"
+    Right: <a href="{%url codereview.views.diff change.key.id,ps_right.key.id,patch_right.id%}"
               title="View regular side by side diff">Side by side diff</a>
     {%if user%}
   </div>
@@ -111,13 +111,13 @@ doesn't work.  Go figure.  Bleah.  So use absolute URLs.
 {%endcomment%}
 {%if patch_right.prev%}
 <a id="prevFile" 
-   href="/{{change.key.id}}/diff2/{{ps_left.key.id}}:{{ps_right.key.id}}/{{patch_right.prev.key.id}}">
+   href="/{{change.key.id}}/diff2/{{ps_left.key.id}}:{{ps_right.key.id}}/{{patch_right.prev.id}}">
 &laquo; {{patch_right.prev.filename}}</a> ('k'){%else%}
 <span class="disabled">&laquo; no previous file</span>{%endif%}
 |
 {%if patch_right.next%}
 <a id="nextFile"
-   href="/{{change.key.id}}/diff2/{{ps_left.key.id}}:{{ps_right.key.id}}/{{patch_right.next.key.id}}">
+   href="/{{change.key.id}}/diff2/{{ps_left.key.id}}:{{ps_right.key.id}}/{{patch_right.next.id}}">
 {{patch_right.next.filename}} &raquo;</a> ('j'){%else%}
 <span class="disabled">no next file &raquo;</span>{%endif%}
 |
@@ -141,7 +141,7 @@ Toggle Intra-line Diffs</a> ('i')
 <table border="0" cellpadding="0" cellspacing="0" id="thecode"
        ondblclick="M_handleTableDblClick(event)">
 
-<tr><th>LEFT</th><th>RIGHT</th></tr>
+<tr><th>LEFT (Patch Set {{ps_left.id}})</th><th>RIGHT (Patch Set {{ps_right.id}})</th></tr>
 
 {%for row in rows%}{{row|safe}}{%endfor%}
 
@@ -154,13 +154,13 @@ Toggle Intra-line Diffs</a> ('i')
 <div class="codenav">
 {%if patch_right.prev%}
 <a id="prevFile"
-   href="/{{change.key.id}}/diff2/{{ps_left.key.id}}:{{ps_right.key.id}}/{{patch_right.prev.key.id}}">
+   href="/{{change.key.id}}/diff2/{{ps_left.key.id}}:{{ps_right.key.id}}/{{patch_right.prev.id}}">
 &laquo; {{patch_right.prev.filename}}</a> ('k'){%else%}
 <span class="disabled">&laquo; no previous file</span>{%endif%}
 |
 {%if patch_right.next%}
 <a id="nextFile"
-   href="/{{change.key.id}}/diff2/{{ps_left.key.id}}:{{ps_right.key.id}}/{{patch_right.next.key.id}}">
+   href="/{{change.key.id}}/diff2/{{ps_left.key.id}}:{{ps_right.key.id}}/{{patch_right.next.id}}">
 {{patch_right.next.filename}} &raquo;</a> ('j'){%else%}
 <span class="disabled">no next file &raquo;</span>{%endif%}
 |
@@ -186,7 +186,7 @@ hookState.updateHooks();
 
 var skipped_lines_url = ('/' + {{change.key.id}} + '/diff2_skipped_lines/' +
                          {{ps_left.key.id}} + ':' + {{ps_right.key.id}} + '/' +
-                         {{patch_id}} + '/');
+                         '{{patch_right.id}}' + '/');
 // -->
 </script>
 {%endblock%}

@@ -204,7 +204,7 @@ function UserGroupField_delete(me, entry)
 {
     for (var i in me.people) {
         if (me.people[i] == entry) {
-            me.table.deleteRow(me.people[i].tr);
+            me.table.deleteRow(i);
             me.people.splice(i, 1);
             break;
         }

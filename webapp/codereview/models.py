@@ -585,7 +585,7 @@ class Change(BackedUpModel):
     try:
       return self._merge_patchset_obj
     except AttributeError:
-      k_str = self._merge_patchset_key
+      k_str = self.merge_patchset_key
       if k_str:
         self._merge_patchset_obj = db.get(db.Key(k_str))
       else:
@@ -594,10 +594,10 @@ class Change(BackedUpModel):
 
   def _set_merge_patchset(self, p):
     if p is None:
-      self._merge_patchset_key = None
+      self.merge_patchset_key = None
       self._merge_patchset_obj = None
     else:
-      self._merge_patchset_key = str(p.key())
+      self.merge_patchset_key = str(p.key())
       self._merge_patchset_obj = p
   merge_patchset = property(_get_merge_patchset, _set_merge_patchset)
 

@@ -460,7 +460,7 @@ class RevisionId(BackedUpModel):
     try:
       return self._patchset_obj
     except AttributeError:
-      k_str = self._patchset_key
+      k_str = self.patchset_key
       if k_str:
         self._patchset_obj = db.get(db.Key(k_str))
       else:
@@ -469,10 +469,10 @@ class RevisionId(BackedUpModel):
 
   def _set_patchset(self, p):
     if p is None:
-      self._patchset_key = None
+      self.patchset_key = None
       self._patchset_obj = None
     else:
-      self._patchset_key = str(p.key())
+      self.patchset_key = str(p.key())
       self._patchset_obj = p
   patchset = property(_get_patchset, _set_patchset)
 

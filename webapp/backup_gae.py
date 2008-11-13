@@ -432,9 +432,9 @@ class LocalStore(object):
       'default_context': one(obj.default_context),
     })
 
-    for i in obj.stars:
+    for i in set(obj.stars):
       self.insert('account_stars', {'email':email,'change_id':i})
-    for i in obj.unclaimed_changes_projects:
+    for i in set(obj.unclaimed_changes_projects):
       self.insert('account_unclaimed_changes_projects', {'email':email,'project_key':i})
 
   def save_AccountGroup(self, entity, obj):
@@ -446,7 +446,7 @@ class LocalStore(object):
       'comment': one(obj.comment),
     })
 
-    for i in obj.members:
+    for i in set(obj.members):
       self.insert('account_group_users', {'group_name':one(obj.name),'email':i})
 
 def RealMain(argv, data=None):

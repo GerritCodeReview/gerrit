@@ -151,6 +151,11 @@ def parse_dom(dom):
         v = False
     elif t == 'gd:email':
       v = p.getElementsByTagName('gd:email')[0].getAttribute('address')
+      if v and '@' not in v:
+        v += '@gmail.com'
+    elif t == 'user':
+      if v and '@' not in v:
+        v += '@gmail.com'
 
     a = getattr(o, n, [])
     if v != '':
@@ -401,6 +406,8 @@ class LocalStore(object):
       email = email[1:]
     if email.endswith('>'):
       email = email[:-1]
+    if '@' not in email:
+      email += '@gmail.com'
 
     self.delete('accounts', entity)
     self.insert('accounts', {

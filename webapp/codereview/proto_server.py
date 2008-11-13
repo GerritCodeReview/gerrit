@@ -30,6 +30,7 @@ from codereview.models import Account, Settings
 from codereview.internal.util import InternalAPI
 from codereview.view_util import xsrf_for, is_xsrf_ok
 
+from codereview.backup_service import BackupServiceImp
 from codereview.review_service import ReviewServiceImp
 from codereview.internal.admin_service import AdminServiceImp
 from codereview.internal.build_service import BuildServiceImp
@@ -44,6 +45,7 @@ services = {}
 def register_service(s_impl):
   services[s_impl.GetDescriptor().name] = s_impl
 
+register_service(BackupServiceImp())
 register_service(ReviewServiceImp())
 register_service(AdminServiceImp())
 register_service(BuildServiceImp())

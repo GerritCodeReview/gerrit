@@ -1,3 +1,7 @@
+DROP VIEW popular_projects;
+DROP VIEW popular_files;
+DROP VIEW change_totals;
+
 DROP TABLE account_group_users;
 DROP TABLE account_groups;
 

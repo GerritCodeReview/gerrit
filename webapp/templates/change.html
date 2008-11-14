@@ -145,24 +145,58 @@
       </td>
 
       <td class="action">
-      {%if show_more_options%}
+      {%if show_more_options %}
         <script type="text/javascript">
         </script>
         <input type="button" id="more_options" value="More options..."
                  onclick="show_confirmation_dialog('more_options', 'more_options_div');" />
         <table id="more_options_div" style="display: none;" class="more_options_dialog">
-          <tr><th>
+          <tr><th colspan="2">
             More options
           </td></tr>
+          {%if show_edit_reviewers_button %}
+          <tr><td>
+            <form action="{{reviewers_url}}" method="get" style="display: inline;">
+                <input type="submit" value="Edit reviewers...">
+            </form>
+          </td>
+          <td>
+            Edit the reviewers for this change.
+          </td></tr>
+          {% endif %}
+          {%if show_add_reviewers_button %}
+          <tr><td>
+            <form action="{{reviewers_url}}" method="get" style="display: inline;">
+                <input type="submit" value="Add reviewers...">
+            </form>
+          </td>
+          <td>
+            Add reviewers to this change.
+          </td></tr>
+          {% endif %}
+          {%if show_remove_self_button %}
+          <tr><td>
+            <form action="{{remove_self_url}}" method="post" style="display: inline;">
+                {{remove_self_url|form_xsrf}}
+                <input type="submit" value="Remove my review">
+            </form>
+          </td>
+          <td>
+            Remove yourself as a reviewer, will also remove any positive or
+            negative scores.
+          </td></tr>
+          {% endif %}
           <tr><td>
             <form action="{{delete_url}}" method="post" style="display: inline;">
                 {{delete_url|form_xsrf}}
                 <input type="submit" value="Delete">
             </form>
-            Delete this change <b>(there is no undo!)</b>
+          </td>
+          <td>
+            Delete this change<br/><b>(there is no undo!)</b>
             <br/>
           </td></tr>
-          <tr><td>
+          <tr><td colspan=2>
             <input type="button" value="Cancel"
                     onclick="hide_confirmation_dialog('more_options', 'more_options_div');" />
           </td></tr>

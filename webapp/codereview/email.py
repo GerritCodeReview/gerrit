@@ -34,7 +34,7 @@ def _encode_safely(s):
     s = s.encode('utf-8')
   return s
 
-def _to_email_string(obj):
+def to_email_string(obj):
   if not obj:
     return None
   if isinstance(obj, str):
@@ -53,8 +53,8 @@ def _to_email_string(obj):
     result = str(email)
   return _encode_safely(result)
 
-def _make_to_strings(to):
-  return [x for x in [_to_email_string(e) for e in to] if x]
+def make_to_strings(to):
+  return [x for x in [to_email_string(e) for e in to] if x]
 
 
 def send(sender, to, subject, template, template_args):
@@ -72,10 +72,10 @@ def send(sender, to, subject, template, template_args):
     template: The name of the template file to use from the mail dir.
     template_args:  A map of args to be pasaed to the template
   """
-  sender_string = _to_email_string(sender)
+  sender_string = to_email_string(sender)
   if not sender_string:
     return 'no from address'
-  to_strings = _make_to_strings(to)
+  to_strings = make_to_strings(to)
   if not to_strings:
     return 'no to addresses'
   body = django.template.loader.render_to_string(template, template_args)
@@ -106,7 +106,7 @@ def send_change_message(request,
   default = get_default_sender()
   if not sender:
     sender = default
-  sender_string = _to_email_string(sender)
+  sender_string = to_email_string(sender)
 
   # to
   to_users = set(  [change.owner]
@@ -116,7 +116,7 @@ def send_change_message(request,
                  + additional_to)
   if sender in to_users:
     to_users.remove(sender)
-  to_strings = _make_to_strings(to_users)
+  to_strings = make_to_strings(to_users)
   to_emails = [db.Email(s) for s in to_strings]
 
   # subject

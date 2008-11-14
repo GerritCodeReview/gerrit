@@ -49,17 +49,18 @@ def person_to_dict(v):
     entry["name"] = v.name
     entry["sort_key"] = "1/" + unicode(v.name)
   else:
-    raise AssertionError("bad value: " + str(v))
+    raise AssertionError("bad value: " + str(v) + " type: " + str(type(v)))
   return entry
 
-def people_to_dicts(value):
+def people_to_dicts(value, sorted):
   data = []
   for v in value:
     if isinstance(v, list):
       data.extend(people_to_dicts(v))
     elif v:
       data.append(person_to_dict(v))
-  data.sort(lambda a,b: cmp(a["sort_key"], b["sort_key"]))
+  if sorted:
+    data.sort(lambda a,b: cmp(a["sort_key"], b["sort_key"]))
   return data
 
 
@@ -67,31 +68,39 @@ def people_to_dicts(value):
 
 class UserGroupWidget(django.forms.widgets.Widget):
   """The widget that is used with UserGroupField."""
-  def __init__(self, allow_users=True, allow_groups=True, attrs=None):
+  def __init__(self, allow_users=True, allow_groups=True, sorted=True,
+                attrs=None):
     self.attrs = {'cols': '40', 'rows': '10'}
     self.allow_users = allow_users
     self.allow_groups = allow_groups
+    self.read_only = None
+    self.sorted = sorted
     if attrs:
       self.attrs.update(attrs)
 
   def render(self, name, value, attrs=None):
     if value is None:
       value = []
+    read_only = self.read_only
+    if read_only is None:
+      read_only = []
     return safestring.mark_safe(
         u"""
         <div id="%(name)s_mom"></div>
         <script>
           UserGroupField_insertField(document.getElementById('%(name)s_mom'),
-              '%(name)s', %(allow_users)s, %(allow_groups)s, %(initial)s);
+              '%(name)s', %(allow_users)s, %(allow_groups)s, %(initial)s,
+              %(read_only)s);
         </script>
         """ % { "name":name,
                 "initial":self._render_initial_js(value),
+                "read_only":self._render_initial_js(read_only),
                 "allow_users": ("true" if self.allow_users else "false"),
                 "allow_groups": ("true" if self.allow_groups else "false"),
               })
 
   def _render_initial_js(self, value):
-    data = people_to_dicts(value)
+    data = people_to_dicts(value, self.sorted)
     return "[%s]" % ','.join(map(simplejson.dumps, data))
 
   def value_from_datadict(self, data, files, name):
@@ -104,7 +113,9 @@ class UserGroupField(django.forms.fields.Field):
   def __init__(self, *args, **kwargs):
     self.allow_users = kwargs.pop("allow_users", True)
     self.allow_groups = kwargs.pop("allow_groups", True)
-    self.widget = UserGroupWidget(self.allow_users, self.allow_groups)
+    self.sorted = kwargs.pop("sorted", True)
+    self.widget = UserGroupWidget(self.allow_users, self.allow_groups,
+        self.sorted)
     super(UserGroupField, self).__init__(*args, **kwargs)
 
   def clean(self, data, initial=None):
@@ -346,5 +357,27 @@ class ProjectSelectField(django.forms.fields.Field):
     result = [o.key() for o in objects if o]
     super(ProjectSelectField, self).clean(initial or result)
     return result
+
+### Read only text widget ###
+
+class ReadOnlyTextWidget(django.forms.widgets.Widget):
+  """Just some text"""
+  def __init__(self, attrs=None):
+    self.attrs = {}
+    if attrs:
+      self.attrs.update(attrs)
+
+  def render(self, name, value, attrs=None):
+    if value is None:
+      value = ''
+    return safestring.mark_safe(
+        "%(v)s<input type='hidden' name='%(n)s' value='%(v)s' />" % {
+        'n': name,
+        'v': html.escape(value),
+      })
+
+  def value_from_datadict(self, data, files, name):
+    return data[name]
+
 
 

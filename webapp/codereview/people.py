@@ -88,9 +88,9 @@ def get_user_info(request):
           })
   return respond_json(None)
 
-@admin_required
-def admin_people_info(request):
-  """/admin/people_info"""
+@user_required
+def user_info(request):
+  """/user_info/..."""
   op = request.REQUEST.get("op", None)
   if op == "get_user_info":
     return get_user_info(request);

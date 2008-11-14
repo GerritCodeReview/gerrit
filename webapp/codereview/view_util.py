@@ -58,6 +58,18 @@ def login_required(func):
   return login_wrapper
 
 
+def user_required(func):
+  """Decorator that returns a 500 you're not logged in.
+  
+  Good for urls that are only meant for form submission, you should probably
+  pair this with @xsrf_required."""
+  def login_wrapper(request, *args, **kwds):
+    if request.user is None:
+      return http.HttpResponseServerError("error 500: user not logged in")
+    return func(request, *args, **kwds)
+  return login_wrapper
+
+
 def gae_admin_required(func):
   def admin_wrapper(request, *args, **kwds):
     """Decorator that insists that you are a GAE admin/developer.
@@ -337,6 +349,17 @@ class BaseForm(django.forms.Form):
     """
     return {'initial': {}}
 
+  def _post_init(self, state):
+    """Called on the form, after it has been constructed, both in the
+       initial request, and in the post-back.
+
+       Args:
+         state:  state object supplied by the caller of process_form
+       Returns:
+         nothing
+    """
+    pass
+
   def _pre_verify(self, get, post):
     """Gives the form a crack at the raw post data before verification.
 
@@ -390,6 +413,7 @@ def process_form(request, form_cls, state, done, params=None):
     
   if request.method == 'POST':
     form = form_cls(request.POST)
+    form._post_init(state)
 
     if _xsrf_check(request.get_full_path(), request.POST.get('xsrf')):
       result = form._pre_verify(request.GET, request.POST)
@@ -413,6 +437,7 @@ def process_form(request, form_cls, state, done, params=None):
     kwargs = form_cls._init(state)
     kwargs['initial']['xsrf'] = xsrf_for(request.get_full_path())
     form = form_cls(**kwargs)
+    form._post_init(state)
 
   params['form'] = form
   return respond(request, form._template, params)

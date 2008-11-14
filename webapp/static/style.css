@@ -270,6 +270,7 @@ h2 {
   border: 4px solid white;
   position: absolute;
   border-collapse: collapse;
+  max-width: 400px;
 }
 
 .more_options_dialog tr {
@@ -278,13 +279,16 @@ h2 {
 
 .more_options_dialog td {
   padding: 6px 8px 6px 8px;
+  font-size: 13px;
 }
 
 .more_options_dialog th {
   text-align: left;
-  padding: 0px 0px 0px 8px;
+  padding: 3px 0px 3px 8px;
+  background-color: #a5c639;
+  color: white;
+  font-size: 13px;
 }
-
 
 /* ****** Settings ****** */
 
@@ -654,6 +658,7 @@ div.inline-comment-title {
 
 
 /* ****** Publish page ****** */
+/* Also used on Edit/Add reviewers page */
 
 .publish_table {
   border-collapse: collapse;
@@ -700,12 +705,14 @@ div.inline-comment-title {
   border-right: hidden;
 }
 
-
 .publish_table ul {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-
+/* ****** Edit/Add reviewers page ****** */
+#reviewers_mom td {
+  border: none;
+}
 

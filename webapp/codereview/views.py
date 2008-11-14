@@ -48,6 +48,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.http import HttpResponseForbidden, HttpResponseNotFound
 from django.shortcuts import render_to_response
 import django.template
+from django.template import defaultfilters
 from django.utils import simplejson
 from django.forms import formsets
 
@@ -573,10 +574,21 @@ def show(request, form=None):
                   project_approvers,
                   project_verifiers)
       for rs in review_status]
+  reviewers = [rs.user.email() for rs in review_status]
 
   show_submit_button = (not change.is_submitted) and can_submit
-  show_more_options = change.user_can_edit()
+
+  show_edit_reviewers_button = (request.user
+          and (request.user_is_admin or request.user.email() in project_owners))
+  show_add_reviewers_button = request.user and not show_edit_reviewers_button
+  reviewers_url = '/%s/reviewers' % change.key().id()
+  show_remove_self_button = request.user and request.user.email() in reviewers
+  remove_self_url = '/%s/remove_me' % change.key().id()
+  show_delete_button = change.user_can_edit()
   delete_url = '/%s/delete' % change.key().id()
+  show_more_options = (show_remove_self_button or show_delete_button
+                       or show_edit_reviewers_button
+                       or show_add_reviewers_button)
 
   _prefetch_names([change])
   _prefetch_names(depends_on)
@@ -601,8 +613,14 @@ def show(request, form=None):
                   'reply_url': '/%s/publish' % change.key().id(),
                   'merge_url': '/%s/merge/%s' % (change.key().id(),
                                                  last_patchset.key().id()),
-                  'show_more_options': show_more_options,
+                  'show_remove_self_button': show_remove_self_button,
+                  'remove_self_url': remove_self_url,
+                  'show_edit_reviewers_button': show_edit_reviewers_button,
+                  'show_add_reviewers_button': show_add_reviewers_button,
+                  'reviewers_url': reviewers_url,
+                  'show_delete_button': show_delete_button,
                   'delete_url': delete_url,
+                  'show_more_options': show_more_options,
                 })
 
 
@@ -658,6 +676,144 @@ def revision_redirect(request, hash):
     return respond(request, 'change_revision_unknown.html',
                    { 'hash': hash },
                    status = 404)
+
+@user_required
+@change_required
+@xsrf_required
+def remove_me(request):
+  change = request.change
+  change.remove_reviewer(request.user)
+  return HttpResponseRedirect('/%s' % change.key().id())
+
+def _find_review_status_for_user(review_status, user):
+  for rs in review_status:
+    if rs.user == user:
+      return rs
+  return None
+
+def _make_please_review_message(change):
+  description = defaultfilters.wordwrap(change.description, 70)
+  description = '  ' + description.replace('\n', '\n  ')
+  return """Hi,
+
+Could you please review this change:
+
+    %(url)s
+
+The commit message for this change is:
+%(description)s
+""" % { 'url': library.change_url(change),
+        'description': description,
+      }
+
+class ReviewersForm(BaseForm):
+  _template = 'reviewers.html'
+
+  reviewers = fields.UserGroupField(allow_users=True, allow_groups=False,
+                                      sorted=False)
+  message = forms.CharField(required=False,
+                            max_length=10000,
+                            widget=forms.Textarea(attrs={'cols': 60}))
+  send_mail = forms.BooleanField(required=False)
+
+  @classmethod
+  def _get_reviewers(cls, change):
+    rev = [users.User(email) for email in change.reviewers]
+    reviewers = fields.UserGroupField.field_value_for_keys(users=rev)
+    return reviewers
+
+  @classmethod
+  def _init(cls, state):
+    (request,user,change,can_edit) = state
+    if can_edit:
+      reviewers = ReviewersForm._get_reviewers(change)
+    else:
+      reviewers = []
+    return {
+            'initial': {
+              'send_mail': True,
+              'reviewers': reviewers,
+            },
+          }
+
+  def _post_init(self, state):
+    (request,user,change,can_edit) = state
+    read_only = [models.Account.get_account_for_user(change.owner)]
+    if not can_edit:
+      read_only = read_only +  ReviewersForm._get_reviewers(change)
+    self.fields['reviewers'].widget.read_only = read_only
+
+  def _save(self, cd, state):
+    (request,user,change,can_edit) = state
+
+    users = fields.UserGroupField.get_users(cd['reviewers'])
+    old_review_status = change.get_review_status()
+
+    def trans():
+      if can_edit:
+        new_users = set(users)
+      else:
+        new_users = set([rs.user for rs in old_review_status] + users)
+
+      new_review_status = []
+      added_review_status = []
+      deleted_review_status = []
+      for u in new_users:
+        rs = _find_review_status_for_user(old_review_status, u)
+        if not rs:
+          rs = models.ReviewStatus.insert_status(change, u)
+          rs.lgtm = 'abstain'
+          rs.verified = False
+          added_review_status.append(rs)
+        new_review_status.append(rs)
+      for rs in old_review_status:
+        if rs not in new_review_status:
+          deleted_review_status.append(rs)
+      change.set_reviewers([db.Email(rs.user.email()) for rs
+                            in new_review_status])
+
+      for rs in added_review_status:
+        rs.put()
+      for rs in deleted_review_status:
+        rs.delete()
+      change.put()
+
+      return (added_review_status, deleted_review_status, new_review_status)
+
+    (added_review_status,deleted_review_status,new_review_status) = \
+        db.run_in_transaction(trans)
+
+    if cd['send_mail']:
+      to_strings = email.make_to_strings(
+            [rs.user for rs in added_review_status if rs.user != user])
+      if to_strings:
+        sender_string = email.to_email_string(user)
+        subject = email.make_change_subject(change)
+        message_body = _make_please_review_message(change) + '\n' \
+              + cd['message'] + '\n'
+
+        mail.send_mail(sender=sender_string,
+                       to=to_strings,
+                       subject=subject,
+                       body=message_body)
+
+
+@login_required
+@change_required
+def reviewers(request):
+  user = request.user
+  change = request.change
+  def done():
+    return HttpResponseRedirect('/%s' % change.key().id())
+  project_owners = set([u.email() for u in change.dest_project.leads()])
+  can_edit = user and (request.user_is_admin or user.email() in project_owners)
+  fixed_message = _make_please_review_message(change)
+  return process_form(request, ReviewersForm, (request,user,change,can_edit),
+      done, {
+        'change': change,
+        'can_edit': can_edit,
+        'fixed_message': fixed_message,
+      })
 
 
 @change_owner_required
@@ -960,7 +1116,6 @@ def inline_draft(request):
     s = ''
     for k,v in request.POST.iteritems():
       s += '\n%s=%s' % (k, v)
-    logging.exception('Exception in inline_draft processing:%s' % s)
     return HttpResponse('<font color="red">'
                         'Please report error "%s".'
                         '</font>'
@@ -1058,7 +1213,7 @@ class PublishCommentsForm(BaseForm):
 
   reviewers = forms.CharField(required=False,
                               max_length=1000,
-                              widget=forms.TextInput(attrs={'size': 60}))
+                              widget=fields.ReadOnlyTextWidget())
   cc = forms.CharField(required=False,
                        max_length=1000,
                        label = 'CC',
@@ -1108,13 +1263,7 @@ class PublishCommentsForm(BaseForm):
     request, change = state
     user = request.user
 
-    reviewers = list(change.reviewers)
     cc = list(change.cc)
-
-    if user != change.owner and user.email() not in reviewers:
-      reviewers.append(user.email())
-      if user.email() in cc:
-        cc.remove(user.email())
 
     (user_can_approve,user_can_verify) = project.user_can_approve(
           request.user, change)
@@ -1131,13 +1280,15 @@ class PublishCommentsForm(BaseForm):
     user_can_abandon = change.user_can_edit() and not change.merged
     is_abandoned = change.closed and not change.merged
 
+    reviewers = ', '.join(change.reviewers)
+
     return {'initial': {
-              'reviewers': ', '.join(reviewers),
               'cc': ', '.join(cc),
               'send_mail': True,
               'lgtm': lgtm,
               'verified': verified,
               'abandoned': is_abandoned,
+              'reviewers': reviewers,
               },
             'user_can_approve': user_can_approve,
             'user_can_verify': user_can_verify,
@@ -1151,7 +1302,6 @@ class PublishCommentsForm(BaseForm):
     user = request.user
 
     tbd, comments = _get_draft_comments(request, change)
-    reviewers = _get_emails(self, 'reviewers')
     cc = _get_emails(self, 'cc')
     (self.user_can_approve,self.user_can_verify) = project.user_can_approve(
           request.user, change)
@@ -1172,7 +1322,6 @@ class PublishCommentsForm(BaseForm):
                                             verified)
       tbd.append(review_status)
 
-    change.set_reviewers(reviewers)
     change.cc = cc
     change.update_comment_count(len(comments))
 
@@ -1192,6 +1341,7 @@ class PublishCommentsForm(BaseForm):
 @change_required
 @login_required
 def publish(request):
+  
   """ /<change>/publish - Publish draft comments and send mail."""
   change = request.change
 
@@ -1567,7 +1717,6 @@ def user_popup(request):
       return render_to_response('user_popup.html', {'account': account})
     return MemCacheKey('user_popup:' + user.email(), 300).get(gen)
   except Exception, err:
-    logging.exception('Exception in user_popup processing:')
     return HttpResponse(
       '<font color="red">Error: %s; please report!</font>'
       % err.__class__.__name__)

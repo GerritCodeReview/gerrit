@@ -756,6 +756,22 @@ class Change(BackedUpModel):
       self._user_can_edit = e
     return self._user_can_edit
 
+  def remove_reviewer(self, user):
+    """Removes a user from the list of reviewers, and removes the ReviewStatus
+    object."""
+    def trans():
+      email = user.email()
+      reviewers = [e for e in self.reviewers if e != email]
+      self.set_reviewers(reviewers)
+      rs = ReviewStatus.get_status_for_user(self, user)
+      logging.info("self=" + str(self.key()))
+      logging.info("user=" + str(user))
+      logging.info("rs=" + str(rs))
+      rs.delete()
+      self.put()
+    db.run_in_transaction(trans)
+
+
 
 class PatchSetFilenames(BackedUpModel):
   """A list of the file names in a PatchSet.
@@ -1237,10 +1253,15 @@ class ReviewStatus(BackedUpModel):
   @classmethod
   def get_or_insert_status(cls, change, user):
     key = '<%s>' % user.email
-    return cls.get_or_insert(key,
+    return ReviewStatus.get_or_insert(key,
                              change=change,
                              user=user,
                              parent=change)
+
+  @classmethod
+  def insert_status(cls, change, user):
+    key = '<%s>' % user.email
+    return ReviewStatus(key_name=key, change=change, user=user, parent=change)
 
   @classmethod
   def get_status_for_user(cls, change, user):

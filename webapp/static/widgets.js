@@ -85,7 +85,7 @@ function UserGroupField_add_keydown(ev, me)
     return true;
 }
 
-function UserGroupField_insertEntry(me, data)
+function UserGroupField_insertEntry(me, data, read_only)
 {
     var entry = new Object();
     entry.type = data["type"];
@@ -100,21 +100,28 @@ function UserGroupField_insertEntry(me, data)
     var td = entry.tr.insertCell(-1);
     td.appendChild(document.createTextNode(entry.display_name));
     var td = entry.tr.insertCell(-1);
-    var input = document.createElement("input");
-    var input = add_input(td, "button", null, "delete");
-    input.onclick = function () { UserGroupField_delete(me, entry); };
-    add_input(td, "hidden", me.name + "_keys", entry.key);
 
-    me.people[me.people.length] = entry;
+    if (read_only) {
+      me.read_only[me.read_only.length] = entry;
+    } else {
+      var input = document.createElement("input");
+      var input = add_input(td, "button", null, "remove");
+      input.onclick = function () { UserGroupField_remove(me, entry); };
+      add_input(td, "hidden", me.name + "_keys", entry.key);
+
+      me.people[me.people.length] = entry;
+    }
 }
 
-function UserGroupField_insertField(mom, name, allow_users, allow_groups, initial)
+function UserGroupField_insertField(mom, name, allow_users, allow_groups,
+    initial, read_only)
 {
     var me = new Object();
     me.name = name;
     me.allow_users = allow_users;
     me.allow_groups = allow_groups;
     me.people = []; // The users and groups already added
+    me.read_only = []; // the read-only users & groups
 
     // the table
     me.table = document.createElement("table");
@@ -137,11 +144,29 @@ function UserGroupField_insertField(mom, name, allow_users, allow_groups, initia
     me.error_div.style.color = "red"; // TODO(joeo) CSS!
     td.appendChild(me.error_div);
 
+    for (var i=0; i<read_only.length; i++) {
+        UserGroupField_insertEntry(me, read_only[i], true);
+    }
+
     for (var i=0; i<initial.length; i++) {
-        UserGroupField_insertEntry(me, initial[i]);
+        UserGroupField_insertEntry(me, initial[i], false);
     }
 
     mom.appendChild(me.table);
+}
+
+function UserGroupField_userInList(me, key, type, list) {
+    for (var i=0; i<list.length; i++) {
+        if (list[i].key == key) {
+            if (type == "user") {
+                set_error(me, "That user is already added.");
+            } else {
+                set_error(me, "That group is already added.");
+            }
+            return true;
+        }
+    }
+    return false;
 }
 
 function UserGroupField_add(me)
@@ -158,7 +183,7 @@ function UserGroupField_add(me)
         me.add_text.ajaxController.cancel();
     }
     me.add_text.ajaxController = get_json(
-            "/admin/people_info?op=get_user_info&id=" + escape(val)
+            "/user_info?op=get_user_info&id=" + escape(val)
                 + "&allow_users=" + me.allow_users + "&allow_groups=" + me.allow_groups,
             function(success, result) {
                 if (!success) {
@@ -180,19 +205,13 @@ function UserGroupField_add(me)
                 // check to make sure it is not a duplicate
                 var key = result["key"];
                 var type = result["type"];
-                for (var i=0; i<me.people.length; i++) {
-                    if (me.people[i].key == key) {
-                        if (type == "user") {
-                            set_error(me, "That user is already added.");
-                        } else {
-                            set_error(me, "That group is already added.");
-                        }
-                        return;
-                    }
+                if (UserGroupField_userInList(me, key, type, me.people)
+                        || UserGroupField_userInList(me, key, type, me.read_only)) {
+                    return;
                 }
 
                 // add the new row and hidden inputs
-                UserGroupField_insertEntry(me, result);
+                UserGroupField_insertEntry(me, result, false);
 
                 // clear the error and text box
                 set_error(me, null);
@@ -200,11 +219,11 @@ function UserGroupField_add(me)
             });
 }
 
-function UserGroupField_delete(me, entry)
+function UserGroupField_remove(me, entry)
 {
     for (var i in me.people) {
         if (me.people[i] == entry) {
-            me.table.deleteRow(i);
+            entry.tr.parentNode.removeChild(entry.tr)
             me.people.splice(i, 1);
             break;
         }
@@ -290,18 +309,21 @@ function ApproversField_insertEntry(me, entry)
 
     var field_tr = field_table.insertRow(-1);
     field_td = field_tr.insertCell(-1);
-    UserGroupField_insertField(field_td, field_key + "_approvers", true, true, approvers);
+    UserGroupField_insertField(field_td, field_key + "_approvers", true, true,
+            approvers, null);
     
     field_td = field_tr.insertCell(-1);
-    UserGroupField_insertField(field_td, field_key + "_verifiers", true, true, verifiers);
+    UserGroupField_insertField(field_td, field_key + "_verifiers", true, true,
+            verifiers, null);
 
     field_td = field_tr.insertCell(-1);
-    UserGroupField_insertField(field_td, field_key + "_submitters", true, true, submitters);
+    UserGroupField_insertField(field_td, field_key + "_submitters", true, true,
+            submitters, null);
     
     var td = tr.insertCell(-1);
     td.vAlign = "top";
-    var input = add_input(td, "button", null, "delete");
-    input.onclick = function () { ApproversField_delete(me, tr); };
+    var input = add_input(td, "button", null, "remove");
+    input.onclick = function () { ApproversField_remove(me, tr); };
     if (style) {
         td.className = style;
     }
@@ -335,7 +357,7 @@ function ApproversField_add(me)
     ApproversField_insertEntry(me, null);
 }
 
-function ApproversField_delete(me, tr)
+function ApproversField_remove(me, tr)
 {
     me.table.deleteRow(tr);
 }

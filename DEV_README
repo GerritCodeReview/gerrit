@@ -76,6 +76,21 @@ Feature Roadmap
   target Google Gears, and add HTML 5 support once Gerrit 2 is
   mostly functional and/if at least one major browser supports it.
 
+* Federated Instances
+
+  Gerrit 2 instances should be able to forward changes between
+  each other.  This couples with the next item ("No Google") to
+  allow corporate contributors to open source projects to use a
+  Gerrit 2 server internally to review (and scrub protected IP)
+  prior to submitting changes upstream to a public Gerrit server
+  and an established open source project.
+
+* No Google Requirement
+
+  Gerrit 2 must not require any Google services to run.  This makes
+  it suitable for installation inside of corporate firewalls where
+  information security demands certain data stays internal.
+
 * Arbitrary SQL Database
 
   Gerrit 2 should support any standard SQL database, including
@@ -83,3 +98,6 @@ Feature Roadmap
   implementations (H2).  Some commerical servers may wind up being
   supported, but only by virtue of Gerrit 2 sticking to a very small,
   commonly implemented subset of SQL.
+
+  This requirement (and the prior one) means Gerrit 2 won't run on
+  Google App Engine, as GAE does not support arbitrary SQL syntax.

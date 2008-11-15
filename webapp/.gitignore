@@ -1,0 +1,8 @@
+/classes
+/tomcat
+/www
+/gensrc
+/lib/*_src.zip
+/lib/gwtjsonrpc.jar
+/lib/gson.jar
+/lib/commons-codec.jar

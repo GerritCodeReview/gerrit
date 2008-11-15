@@ -1,0 +1,15 @@
+<module>
+  <inherits name='com.google.gwt.user.User'/>
+  <inherits name='com.google.gwt.i18n.I18N'/>
+  <inherits name='com.google.gwtjsonrpc.GWTJSONRPC'/>
+
+  <inherits name='com.google.gwt.user.theme.standard.Standard'/>
+  <!-- <inherits name='com.google.gwt.user.theme.chrome.Chrome'/> -->
+  <!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/>     -->
+
+  <entry-point class='com.google.gerrit.client.Gerrit'/>
+  <stylesheet src='Gerrit.css' />
+
+  <servlet path='/rpc/ChangeListService'
+           class='com.google.gerrit.server.ChangeListServiceImpl'/>
+</module>

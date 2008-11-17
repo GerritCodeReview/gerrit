@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+
+  <remote  name="korg"
+           fetch="git://android.git.kernel.org/"
+           review="localhost" />
+
+  <default revision="master"
+           remote="korg" />
+
+  <project path="gerrit-test"
+           name="tools/repo" />
+
+</manifest>

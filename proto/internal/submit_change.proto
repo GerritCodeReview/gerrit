@@ -31,6 +31,11 @@ message SubmitChangeRequest {
   // Dependencies are inferred by commit.parent_id.
   //
   required GitCommit commit = 12;
+
+  // ID of the original uploaded bundle, so gerrit
+  // can tie in the metadata.
+  //
+  optional string bundle_key = 14;
 }
 
 message SubmitChangeResponse {

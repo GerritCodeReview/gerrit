@@ -78,6 +78,10 @@ class ReceivedBundle(models.BackedUpModel):
   created = db.DateTimeProperty(required=True, auto_now_add=True)
   modified = db.DateTimeProperty(required=True, auto_now=True)
 
+  # Reviewers, for when this is turned into a Change
+  reviewers = db.ListProperty(users.User)
+  cc = db.ListProperty(db.Email)
+
   # How much bundle is there?
   n_segments = db.IntegerProperty(required=True, default=0)
   contained_objects = db.StringListProperty()

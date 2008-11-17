@@ -48,7 +48,6 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.http import HttpResponseForbidden, HttpResponseNotFound
 from django.shortcuts import render_to_response
 import django.template
-from django.template import defaultfilters
 from django.utils import simplejson
 from django.forms import formsets
 
@@ -685,27 +684,6 @@ def remove_me(request):
   change.remove_reviewer(request.user)
   return HttpResponseRedirect('/%s' % change.key().id())
 
-def _find_review_status_for_user(review_status, user):
-  for rs in review_status:
-    if rs.user == user:
-      return rs
-  return None
-
-def _make_please_review_message(change):
-  description = defaultfilters.wordwrap(change.description, 70)
-  description = '  ' + description.replace('\n', '\n  ')
-  return """Hi,
-
-Could you please review this change:
-
-    %(url)s
-
-The commit message for this change is:
-%(description)s
-""" % { 'url': library.change_url(change),
-        'description': description,
-      }
-
 class ReviewersForm(BaseForm):
   _template = 'reviewers.html'
 
@@ -755,22 +733,8 @@ class ReviewersForm(BaseForm):
       else:
         new_users = set([rs.user for rs in old_review_status] + users)
 
-      new_review_status = []
-      added_review_status = []
-      deleted_review_status = []
-      for u in new_users:
-        rs = _find_review_status_for_user(old_review_status, u)
-        if not rs:
-          rs = models.ReviewStatus.insert_status(change, u)
-          rs.lgtm = 'abstain'
-          rs.verified = False
-          added_review_status.append(rs)
-        new_review_status.append(rs)
-      for rs in old_review_status:
-        if rs not in new_review_status:
-          deleted_review_status.append(rs)
-      change.set_reviewers([db.Email(rs.user.email()) for rs
-                            in new_review_status])
+      (added_review_status, deleted_review_status, new_review_status) = \
+          library.update_reviewers(change, old_review_status, new_users)
 
       for rs in added_review_status:
         rs.put()
@@ -784,19 +748,9 @@ class ReviewersForm(BaseForm):
         db.run_in_transaction(trans)
 
     if cd['send_mail']:
-      to_strings = email.make_to_strings(
-            [rs.user for rs in added_review_status if rs.user != user])
-      if to_strings:
-        sender_string = email.to_email_string(user)
-        subject = email.make_change_subject(change)
-        message_body = _make_please_review_message(change) + '\n' \
-              + cd['message'] + '\n'
-
-        mail.send_mail(sender=sender_string,
-                       to=to_strings,
-                       subject=subject,
-                       body=message_body)
-
+      to_users = [rs.user for rs in added_review_status if rs.user != user]
+      library.send_new_change_emails(change, user, to_users, [],
+          cd['message'] + '\n')
 
 @login_required
 @change_required
@@ -807,7 +761,7 @@ def reviewers(request):
     return HttpResponseRedirect('/%s' % change.key().id())
   project_owners = set([u.email() for u in change.dest_project.leads()])
   can_edit = user and (request.user_is_admin or user.email() in project_owners)
-  fixed_message = _make_please_review_message(change)
+  fixed_message = library.make_please_review_message(change)
   return process_form(request, ReviewersForm, (request,user,change,can_edit),
       done, {
         'change': change,

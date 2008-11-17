@@ -33,11 +33,15 @@ TEST_DIR=test
 TEST_CRM_DATA_DIR=$TEST_DIR/crm-data
 TEST_GERRIT_DATASTORE_DIR=$TEST_DIR/gerrit-datastore
 
-TEST_CLIENT0=$TEST_DIR/client0
-TEST_CLIENT1=$TEST_DIR/client1
+REMOTE_TEST_REPOSITORY=git://android.git.kernel.org/tools/test/project0.git
+REMOTE_MANIFEST_REPOSITORY=git://android.git.kernel.org/tools/test/manifest.git
+
+TEST_CLIENT=../../gerrit-test
 TEST_LOCAL_CONFIG=$TEST_DIR/localhost.config
 
 TEST_CRM_PASSWORD_FILE=$TEST_DIR/.crm-password
+
+REPO_CMD=$( cd ../repo ; pwd)/repo
 
 function gerrit-clean()
 {
@@ -46,21 +50,18 @@ function gerrit-clean()
 
 function gerrit-reset()
 {
-  FULL_GIT_BASE=`pwd`/$TEST_CRM_DATA_DIR
-
   # delete the old data
   gerrit-clean
 
   # make the crm data
-  FULL_CRM_DATA_FILE=`pwd`/crm-data.tar.gz
-  mkdir -p $TEST_DIR/crm-data
-  ( cd $TEST_CRM_DATA_DIR ; tar zxf $FULL_CRM_DATA_FILE )
+  FULL_GIT_DIR=`pwd`/$TEST_CRM_DATA_DIR/tools/test/project0
+  mkdir -p $FULL_GIT_DIR
+  git --git-dir=$FULL_GIT_DIR init
+  git --git-dir=$FULL_GIT_DIR fetch $REMOTE_TEST_REPOSITORY refs/heads/master:refs/heads/master
 
-  # make two git clients (should use repo)
-  mkdir -p $TEST_CLIENT0
-  ( cd $TEST_CLIENT0 ; git clone $FULL_GIT_BASE/test.git > /dev/null)
-  mkdir -p $TEST_CLIENT1
-  ( cd $TEST_CLIENT1 ; git clone $FULL_GIT_BASE/test.git > /dev/null)
+  # make a repo client
+  mkdir -p $TEST_CLIENT
+  ( cd $TEST_CLIENT ; $REPO_CMD init -u $REMOTE_MANIFEST_REPOSITORY ; $REPO_CMD sync )
 
   make all
 
@@ -85,14 +86,6 @@ function gerrit-reset()
   echo
 }
 
-
-# pack the git repository into a new crm-data.tar.gz
-function gerrit-pack-crm-data()
-{
-  FULL_CRM_DATA_FILE=`pwd`/crm-data.tar.gz
-  rm -f crm-data.tar.gz
-  ( cd $TEST_CRM_DATA_DIR ; tar czf $FULL_CRM_DATA_FILE * )
-}
 
 # run webapp on google app engine dev server
 function gerrit-web()

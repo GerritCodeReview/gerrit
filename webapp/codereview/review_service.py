@@ -17,6 +17,8 @@ import logging
 from google.appengine.api import users
 from google.appengine.ext import db
 
+from django import forms
+
 from models import gql, Project, Branch, Account, Change
 import git_models
 
@@ -43,6 +45,32 @@ class ReviewServiceImp(ReviewService):
       rsp.status_code = UploadBundleResponse.UNAUTHORIZED_USER
       done(rsp)
       return
+
+    # Validate that we have an Account for everyone in reviewers
+    invalid_reviewers = []
+    reviewers = Account.get_accounts_for_emails([x for x in req.reviewers])
+    for i in range(0, len(reviewers)):
+      if not reviewers[i]:
+        invalid_reviewers.append(req.reviewers[i])
+
+    # Validate all of the email addresses
+    invalid_cc = []
+    for e in req.cc:
+      if not forms.fields.email_re.search(e):
+        invalid_cc.append(e)
+
+    # Return failure if any of that was bad
+    if invalid_reviewers or invalid_cc:
+      rsp.status_code = UploadBundleResponse.UNKNOWN_EMAIL
+      for e in invalid_reviewers:
+        rsp.invalid_reviewers.append(e)
+      for e in invalid_cc:
+        rsp.invalid_cc.append(e)
+      done(rsp)
+      return
+
+    reviewers = [x.user for x in reviewers]
+    cc = [db.Email(x) for x in req.cc]
 
     if not req.dest_project:
       rsp.status_code = UploadBundleResponse.UNKNOWN_PROJECT
@@ -92,6 +120,8 @@ class ReviewServiceImp(ReviewService):
       dest_branch = brch,
       owner = current_user,
       state = git_models.ReceivedBundle.STATE_UPLOADING,
+      reviewers = reviewers,
+      cc = cc,
       contained_objects = list(req.contained_object),
       replaces = replaces)
     rb.put()

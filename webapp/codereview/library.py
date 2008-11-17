@@ -17,14 +17,19 @@
 import cgi
 import logging
 
+from google.appengine.api import mail
 from google.appengine.api import users
+from google.appengine.ext import db
 
 import django.template
 import django.utils.safestring
 from django.utils.safestring import mark_safe
 from django.utils.timesince import timesince
+from django.template import defaultfilters
 
 from memcache import CachedDict
+
+import email
 import models
 import view_util
 
@@ -232,5 +237,79 @@ def patchset_browse_url(patchset, arg=None):
 def file_leaf(filename, arg=None):
   parts = filename.rsplit('/', 1)
   return parts[-1]
+
+def _find_review_status_for_user(review_statuses, user):
+  for rs in review_statuses:
+    if rs.user == user:
+      return rs
+  return None
+
+def update_reviewers(change, old_review_status, new_users):
+  """Update the reviewers for a change
+
+  ****
+  Should be called in a transaction.  You need to call put()
+  for each of the ReviewStatus objects in added_review_status and
+  delete() for each of the ReviewStatus objects in deleted_review_status.
+  ****
+
+  Returns:
+    A tuple of ReviewStatus objects of:
+      0 - the new ones that were added
+      1 - the ones that were deleted
+      2 - the new set of review status objects
+  """
+  new_review_status = []
+  added_review_status = []
+  deleted_review_status = []
+  for u in new_users:
+    rs = _find_review_status_for_user(old_review_status, u)
+    if not rs:
+      rs = models.ReviewStatus.insert_status(change, u)
+      rs.lgtm = 'abstain'
+      rs.verified = False
+      added_review_status.append(rs)
+    new_review_status.append(rs)
+  for rs in old_review_status:
+    if rs not in new_review_status:
+      deleted_review_status.append(rs)
+  change.set_reviewers([db.Email(rs.user.email()) for rs
+                        in new_review_status])
+
+  return (added_review_status, deleted_review_status, new_review_status)
+
+def send_new_change_emails(change, sender_user, to_users, cc_emails,
+                            additional_message = ""):
+  to_strings = email.make_to_strings(to_users)
+  cc_strings = email.make_to_strings(cc_emails)
+  if to_strings or cc_strings:
+    sender_string = email.to_email_string(sender_user)
+    subject = email.make_change_subject(change)
+    message_body = make_please_review_message(change) + '\n' \
+          + additional_message
+
+    email_message = mail.EmailMessage(sender=sender_string,
+                   subject=subject,
+                   body=message_body)
+    if to_strings:
+      email_message.to = to_strings
+    if cc_strings:
+      email_message.cc = cc_strings
+    email_message.send()
+
+def make_please_review_message(change):
+  description = defaultfilters.wordwrap(change.description, 70)
+  description = '  ' + description.replace('\n', '\n  ')
+  return """Hi,
+
+Could you please review this change:
+
+    %(url)s
+
+The commit message for this change is:
+%(description)s
+""" % { 'url': change_url(change),
+        'description': description,
+      }
 
 

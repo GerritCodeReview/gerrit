@@ -17,6 +17,8 @@ import logging
 from google.appengine.api import users
 from google.appengine.ext import db
 
+from codereview import git_models
+from codereview import library
 from codereview import models
 
 from change_pb2 import ChangeService
@@ -45,6 +47,14 @@ class ChangeServiceImp(ChangeService, InternalAPI):
 
     subject = u(req.commit.subject)[0:100]
 
+    reviewers = []
+    cc = []
+    if req.bundle_key:
+      rb = git_models.ReceivedBundle.get(req.bundle_key)
+      if rb:
+        reviewers = [x for x in rb.reviewers if x != user]
+        cc = [x for x in rb.cc if x != user]
+
     def trans():
       change = models.Change(
                  subject = subject,
@@ -53,7 +63,14 @@ class ChangeServiceImp(ChangeService, InternalAPI):
                  dest_project = branch.project,
                  dest_branch = branch,
                  n_patchsets = 1)
+      if cc:
+        change.cc = cc;
       change.put()
+      if reviewers:
+        (added_review_status, deleted_review_status, new_review_status) = \
+            library.update_reviewers(change, [], reviewers)
+        for rs in added_review_status:
+          rs.put()
 
       patchset = models.PatchSet(
                    change = change,
@@ -64,6 +81,8 @@ class ChangeServiceImp(ChangeService, InternalAPI):
       patchset.put()
       return (change, patchset)
     change, patchset = db.run_in_transaction(trans)
+
+    library.send_new_change_emails(change, user, reviewers, cc)
 
     if rev.link_patchset(patchset):
       rsp.status_code = SubmitChangeResponse.CREATED

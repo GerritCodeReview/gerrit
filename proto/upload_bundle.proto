@@ -63,6 +63,18 @@ message UploadBundleRequest {
   // already existing change records.
   //
   repeated ReplacePatchSet replace = 2;
+
+  // The requested reviewers for this change.  If any are 
+  // email addresses that the server doesn't recognize, an
+  // UNKNOWN_EMAIL error will be returned, with the
+  // invalid_reviewers field set to the invalid reviewers.
+  repeated string reviewers = 3;
+
+  // Email addresses to CC for this change.  If any are 
+  // not properly formed, email addresses, an UNKNOWN_EMAIL
+  // error will be returned, with the invalid_cc field see to
+  // the invalid values.
+  repeated string cc = 4;
 }
 
 message UploadBundleResponse {
@@ -73,6 +85,7 @@ message UploadBundleResponse {
     UNAUTHORIZED_USER = 7;  // the user account is not allowed to upload
     UNKNOWN_CHANGE = 9;     // an invalid replacement was suggested
     CHANGE_CLOSED =  10;    // an invalid replacement was suggested
+    UNKNOWN_EMAIL = 11;     // an unknown or invalid email was supplied
 
     UNKNOWN_PROJECT = 2;  // the project is invalid
     UNKNOWN_BRANCH = 3;   // the branch is invalid
@@ -86,6 +99,10 @@ message UploadBundleResponse {
   // (RECEIVED, CONTINUE)
   //
   optional string bundle_id = 11;
+
+  // Set for UNKNOWN_EMAIL errors.
+  repeated string invalid_reviewers = 12;
+  repeated string invalid_cc = 13;
 }
 
 message UploadBundleContinue {

@@ -216,6 +216,7 @@ class UnpackBundleOp {
     req.setOwner(in.getOwner());
     req.setDestBranchKey(in.getDestBranchKey());
     req.setCommit(GitMetaUtil.toGitCommit(c));
+    req.setBundleKey(in.getBundleKey());
 
     final MutableBoolean continueCreation = new MutableBoolean();
     final SimpleController ctrl = new SimpleController();

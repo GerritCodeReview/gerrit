@@ -56,7 +56,7 @@ def people_to_dicts(value, sorted):
   data = []
   for v in value:
     if isinstance(v, list):
-      data.extend(people_to_dicts(v))
+      data.extend(people_to_dicts(v, False))
     elif v:
       data.append(person_to_dict(v))
   if sorted:
@@ -234,9 +234,9 @@ class ApproversWidget(django.forms.widgets.Widget):
       entry["key"] = "initial_%d" % index
       entry["files"] = encoding.force_unicode("\n".join(files))
       entry["bad_files"] = map(encoding.force_unicode, bad_files)
-      entry["approvers"] = people_to_dicts(approvers)
-      entry["verifiers"] = people_to_dicts(verifiers)
-      entry["submitters"] = people_to_dicts(submitters)
+      entry["approvers"] = people_to_dicts(approvers, True)
+      entry["verifiers"] = people_to_dicts(verifiers, True)
+      entry["submitters"] = people_to_dicts(submitters, True)
       data.append(entry)
       index = index + 1
     rows = []

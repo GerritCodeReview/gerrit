@@ -56,9 +56,9 @@ def people_to_dicts(value, sorted):
   data = []
   for v in value:
     if isinstance(v, list):
-      data.extend(people_to_dicts(v))
+      data.extend(people_to_dicts(v, False))
     elif v:
-      data.append(person_to_dict(v))
+      data.append(person_to_dict(v, False))
   if sorted:
     data.sort(lambda a,b: cmp(a["sort_key"], b["sort_key"]))
   return data

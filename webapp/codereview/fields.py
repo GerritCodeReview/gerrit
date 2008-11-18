@@ -56,7 +56,7 @@ def people_to_dicts(value, sorted):
   data = []
   for v in value:
     if isinstance(v, list):
-      data.extend(people_to_dicts(v))
+      data.extend(people_to_dicts(v, False))
     elif v:
       data.append(person_to_dict(v))
   if sorted:

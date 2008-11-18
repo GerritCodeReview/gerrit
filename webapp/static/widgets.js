@@ -144,12 +144,16 @@ function UserGroupField_insertField(mom, name, allow_users, allow_groups,
     me.error_div.style.color = "red"; // TODO(joeo) CSS!
     td.appendChild(me.error_div);
 
-    for (var i=0; i<read_only.length; i++) {
-        UserGroupField_insertEntry(me, read_only[i], true);
+    if (read_only) {
+        for (var i=0; i<read_only.length; i++) {
+            UserGroupField_insertEntry(me, read_only[i], true);
+        }
     }
-
-    for (var i=0; i<initial.length; i++) {
-        UserGroupField_insertEntry(me, initial[i], false);
+  
+    if (initial) {
+        for (var i=0; i<initial.length; i++) {
+            UserGroupField_insertEntry(me, initial[i], false);
+        }
     }
 
     mom.appendChild(me.table);

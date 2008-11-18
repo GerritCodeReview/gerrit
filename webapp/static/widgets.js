@@ -310,15 +310,15 @@ function ApproversField_insertEntry(me, entry)
     var field_tr = field_table.insertRow(-1);
     field_td = field_tr.insertCell(-1);
     UserGroupField_insertField(field_td, field_key + "_approvers", true, true,
-            approvers, null);
+            approvers, []);
     
     field_td = field_tr.insertCell(-1);
     UserGroupField_insertField(field_td, field_key + "_verifiers", true, true,
-            verifiers, null);
+            verifiers, []);
 
     field_td = field_tr.insertCell(-1);
     UserGroupField_insertField(field_td, field_key + "_submitters", true, true,
-            submitters, null);
+            submitters, []);
     
     var td = tr.insertCell(-1);
     td.vAlign = "top";

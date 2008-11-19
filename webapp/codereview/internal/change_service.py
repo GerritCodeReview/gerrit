@@ -82,7 +82,7 @@ class ChangeServiceImp(ChangeService, InternalAPI):
       return (change, patchset)
     change, patchset = db.run_in_transaction(trans)
 
-    library.send_new_change_emails(change, user, reviewers, cc)
+    library.send_new_change_emails(change, change.owner, reviewers, cc)
 
     if rev.link_patchset(patchset):
       rsp.status_code = SubmitChangeResponse.CREATED

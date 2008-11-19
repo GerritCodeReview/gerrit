@@ -761,7 +761,8 @@ def reviewers(request):
     return HttpResponseRedirect('/%s' % change.key().id())
   project_owners = set([u.email() for u in change.dest_project.leads()])
   can_edit = user and (request.user_is_admin or user.email() in project_owners)
-  fixed_message = library.make_please_review_message(change)
+  fixed_message = library.make_please_review_message(change,
+      models.Account.current_user_account)
   return process_form(request, ReviewersForm, (request,user,change,can_edit),
       done, {
         'change': change,

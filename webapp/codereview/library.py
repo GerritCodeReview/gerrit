@@ -280,12 +280,13 @@ def update_reviewers(change, old_review_status, new_users):
 
 def send_new_change_emails(change, sender_user, to_users, cc_emails,
                             additional_message = ""):
-  to_strings = email.make_to_strings(to_users)
-  cc_strings = email.make_to_strings(cc_emails)
-  if to_strings or cc_strings:
-    sender_string = email.to_email_string(sender_user)
+  if to_users or cc_emails:
+    sender_account = models.Account.get_account_for_user(sender_user)
+    sender_string = email.get_default_sender()
+    to_strings = email.make_to_strings(set(to_users + [sender_user]))
+    cc_strings = email.make_to_strings(cc_emails)
     subject = email.make_change_subject(change)
-    message_body = make_please_review_message(change) + '\n' \
+    message_body = make_please_review_message(change, sender_account) + '\n' \
           + additional_message
 
     email_message = mail.EmailMessage(sender=sender_string,
@@ -297,18 +298,25 @@ def send_new_change_emails(change, sender_user, to_users, cc_emails,
       email_message.cc = cc_strings
     email_message.send()
 
-def make_please_review_message(change):
+def make_please_review_message(change, account):
   description = defaultfilters.wordwrap(change.description, 70)
   description = '  ' + description.replace('\n', '\n  ')
+  sentence = defaultfilters.wordwrap(
+      "%(account)s has asked that you review this change." % {
+        'account': account.get_email_formatted(),
+      }, 70)
   return """Hi,
 
-Could you please review this change:
+%(sentence)s
 
     %(url)s
+
+Thanks.
 
 The commit message for this change is:
 %(description)s
 """ % { 'url': change_url(change),
+        'sentence': sentence,
         'description': description,
       }
 

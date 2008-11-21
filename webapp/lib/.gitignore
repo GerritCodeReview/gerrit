@@ -2,3 +2,6 @@
 /gwtjsonrpc.jar
 /gson.jar
 /commons-codec.jar
+/antlr.jar
+/asm.jar
+/gwtorm.jar

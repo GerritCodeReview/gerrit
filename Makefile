@@ -25,7 +25,9 @@ JAVA       = java
 JAVA_ARGS  = -Xmx265m
 GWT_OS     = unknown
 GWT_FLAGS  =
+
 gwtjsonrpc = ../gwtjsonrpc
+gwtorm     = ../gwtorm
 
 ifeq ($(uname_S),Darwin)
 	GWT_OS = mac
@@ -44,8 +46,18 @@ WEB_MAIN = com.google.gerrit.Gerrit
 GWT_CP   = \
 	$(GWT_SDK)/gwt-user.jar \
 	$(GWT_SDK)/gwt-dev-$(GWT_OS).jar \
-	lib/gwtjsonrpc.jar
+	lib/gwtjsonrpc.jar \
+	lib/gwtorm.jar \
 #end GWT_CP
+
+WEB_LIB_GEN = \
+	$(WEBAPP)/lib/gson.jar \
+	$(WEBAPP)/lib/commons-codec.jar \
+	$(WEBAPP)/lib/gwtjsonrpc.jar \
+	$(WEBAPP)/lib/antlr.jar \
+	$(WEBAPP)/lib/asm.jar \
+	$(WEBAPP)/lib/gwtorm.jar \
+#end WEB_LIB_GEN
 
 ifdef GEN_DEBUG
 	GWT_FLAGS += -gen gensrc
@@ -54,9 +66,7 @@ endif
 all: web
 
 clean:
-	rm -f $(WEBAPP)/lib/gwtjsonrpc.jar
-	rm -f $(WEBAPP)/lib/gson.jar
-	rm -f $(WEBAPP)/lib/commons-codec.jar
+	rm -f $(WEB_LIG_GEN)
 	rm -rf $(WEBAPP)/gensrc
 	rm -rf $(WEBAPP)/classes
 	rm -rf $(WEBAPP)/www
@@ -81,10 +91,7 @@ web-shell: web-lib
 		-out www \
 		$(WEB_MAIN)/Gerrit.html
 
-web-lib: \
-	$(WEBAPP)/lib/gson.jar \
-	$(WEBAPP)/lib/commons-codec.jar \
-	$(WEBAPP)/lib/gwtjsonrpc.jar
+web-lib: $(WEB_LIB_GEN)
 
 $(WEBAPP)/lib/gwtjsonrpc.jar: $(gwtjsonrpc)/lib/gwtjsonrpc.jar
 	cp $< $@
@@ -95,6 +102,16 @@ $(WEBAPP)/lib/commons-codec.jar: $(gwtjsonrpc)/lib/commons-codec.jar
 $(gwtjsonrpc)/lib/gwtjsonrpc.jar: make-gwtjsonrpc
 	$(MAKE) -C $(gwtjsonrpc) GWT_SDK=$(GWT_SDK)
 .PHONY: make-gwtjsonrpc
+
+$(WEBAPP)/lib/gwtorm.jar: $(gwtorm)/lib/gwtorm.jar
+	cp $< $@
+$(WEBAPP)/lib/antlr.jar: $(gwtorm)/lib/antlr.jar
+	cp $< $@
+$(WEBAPP)/lib/asm.jar: $(gwtorm)/lib/asm.jar
+	cp $< $@
+$(gwtorm)/lib/gwtorm.jar: make-gwtorm
+	$(MAKE) -C $(gwtorm) GWT_SDK=$(GWT_SDK)
+.PHONY: make-gwtorm
 
 .PHONY: all
 .PHONY: clean

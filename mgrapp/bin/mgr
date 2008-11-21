@@ -61,4 +61,5 @@ do
 done
 export CLASSPATH
 
+umask 0022
 exec java $java_opts com.google.codereview.Main "$config_file" "$@"

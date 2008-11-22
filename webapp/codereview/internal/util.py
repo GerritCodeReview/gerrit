@@ -28,6 +28,8 @@ class InternalAPI(object):
 
 def u(str):
   """Decode the UTF-8 byte sequence into a unicode object."""
+  if isinstance(str,unicode):
+    return str
   return str.decode('utf_8')
 
 def commit_to_revision(proj, commit):

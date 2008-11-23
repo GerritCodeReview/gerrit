@@ -4,10 +4,27 @@
 }
 
 
+/** Widgets **/
+.gerrit-Hyperlink {
+	text-decoration: underline;
+}
+
+
 /** Menu **/
 .gerrit-LeftMenu {
 	padding-left: 10px;
 	padding-right: 10px;
+}
+
+.gerrit-TopMenu {
+	right: 0;
+	padding-bottom: 5px;
+	text-align: right;
+}
+
+.gerrit-TopMenu div {
+  white-space: nowrap;
+  display: inline;
 }
 
 .gerrit-MenuList {

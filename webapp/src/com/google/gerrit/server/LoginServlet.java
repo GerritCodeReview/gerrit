@@ -15,7 +15,11 @@
 package com.google.gerrit.server;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gwtjsonrpc.server.SignedToken;
+import com.google.gwtjsonrpc.server.XsrfException;
+import com.google.gwtorm.client.OrmException;
 
 import com.dyuproject.openid.Constants;
 import com.dyuproject.openid.OpenIdContext;
@@ -26,25 +30,36 @@ import org.mortbay.util.UrlEncoded;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Collections;
 import java.util.Properties;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /** Handles the <code>/login</code> URL for web based single-sign-on. */
 public class LoginServlet extends HttpServlet {
-  private static final String AUTH_COOKIE = Gerrit.AUTH_COOKIE;
-
   private static final String AX_SCHEMA = "http://openid.net/srv/ax/1.0";
 
+  private GerritServer server;
   private RelyingParty relyingParty;
 
   @Override
   public void init(final ServletConfig config) throws ServletException {
     super.init(config);
+
+    try {
+      server = GerritServer.getInstance();
+    } catch (OrmException e) {
+      e.printStackTrace();
+      throw new ServletException("Cannot configure GerritServer", e);
+    } catch (XsrfException e) {
+      e.printStackTrace();
+      throw new ServletException("Cannot configure GerritServer", e);
+    }
 
     String cookieKey = SignedToken.generateRandomKey();
     if (cookieKey.length() > 24) {
@@ -52,9 +67,11 @@ public class LoginServlet extends HttpServlet {
     }
 
     try {
+      final int sessionAge = server.getSessionAge();
       final Properties p = new Properties();
-      p.setProperty("openid.cookie.name", AUTH_COOKIE);
+      p.setProperty("openid.cookie.name", Gerrit.OPENIDUSER_COOKIE);
       p.setProperty("openid.cookie.security.secretKey", cookieKey);
+      p.setProperty("openid.cookie.maxAge", String.valueOf(sessionAge));
 
       relyingParty = RelyingParty.newInstance(p);
 
@@ -78,7 +95,7 @@ public class LoginServlet extends HttpServlet {
       doAuth(req, rsp);
     } catch (Exception e) {
       getServletContext().log("Unexpected error during authentication", e);
-      finishLogin(rsp, false);
+      finishLogin(rsp, null, null);
     }
   }
 
@@ -87,7 +104,7 @@ public class LoginServlet extends HttpServlet {
     if ("cancel".equals(req.getParameter(Constants.OPENID_MODE))) {
       // Provider wants us to cancel the attempt.
       //
-      finishLogin(rsp, false);
+      finishLogin(rsp, null, null);
       return;
     }
 
@@ -102,7 +119,7 @@ public class LoginServlet extends HttpServlet {
     if (user.isAuthenticated()) {
       // User already authenticated.
       //
-      finishLogin(rsp, true);
+      finishLogin(rsp, user, null);
       return;
     }
 
@@ -116,7 +133,6 @@ public class LoginServlet extends HttpServlet {
 
       // Authentication was successful.
       //
-      final String id = user.getIdentity();
       String email = null;
       for (int i = 1;; i++) {
         final String nskey = "openid.ns.ext" + i;
@@ -132,7 +148,7 @@ public class LoginServlet extends HttpServlet {
         }
       }
 
-      finishLogin(rsp, true);
+      finishLogin(rsp, user, email);
       return;
     }
 
@@ -170,8 +186,59 @@ public class LoginServlet extends HttpServlet {
     rsp.sendRedirect(url.toString());
   }
 
-  private void finishLogin(final HttpServletResponse rsp, final boolean success)
-      throws IOException {
+  private void finishLogin(final HttpServletResponse rsp,
+      final OpenIdUser user, final String email) throws IOException {
+    Account account = null;
+    if (user != null) {
+      final Account.OpenId provId = new Account.OpenId(user.getIdentity());
+      try {
+        final ReviewDb d = server.getDatabase().open();
+        try {
+          account = d.accounts().byOpenidIdentity(provId);
+          if (account != null) {
+            // Existing user; double check the email is current.
+            //
+            if (email != null && !email.equals(account.getPreferredEmail())) {
+              account.setPreferredEmail(email);
+              d.accounts().update(Collections.singleton(account));
+            }
+          } else {
+            // New user; create an account entity for them.
+            //
+            account = new Account(provId, new Account.Id(d.nextAccountId()));
+            account.setPreferredEmail(email);
+            d.accounts().insert(Collections.singleton(account));
+          }
+        } finally {
+          d.close();
+        }
+      } catch (OrmException e) {
+        getServletContext().log("Account lookup failed", e);
+        account = null;
+      }
+    }
+
+    rsp.setCharacterEncoding("UTF-8");
+    rsp.setContentType("text/html");
+
+    if (account != null) {
+      try {
+        final String idstr = String.valueOf(account.getId().get());
+        final String tok = server.getAccountToken().newToken(idstr);
+        final Cookie c = new Cookie(Gerrit.ACCOUNT_COOKIE, tok);
+        c.setMaxAge(server.getSessionAge());
+        rsp.addCookie(c);
+      } catch (XsrfException e) {
+        getServletContext().log("Account cookie signature impossible", e);
+        account = null;
+      }
+    }
+
+    final boolean success = account != null;
+    if (!success) {
+      forceLogout(rsp);
+    }
+
     final StringBuilder body = new StringBuilder();
     body.append("<html>");
     body.append("<script><!--\n");
@@ -181,11 +248,22 @@ public class LoginServlet extends HttpServlet {
     body.append("</html>");
 
     final byte[] raw = body.toString().getBytes("UTF-8");
-    rsp.setContentType("text/html; charset=UTF-8");
     rsp.setContentLength(raw.length);
     final OutputStream out = rsp.getOutputStream();
     out.write(raw);
     out.close();
+  }
+
+  public static void forceLogout(final HttpServletResponse rsp) {
+    Cookie c;
+
+    c = new Cookie(Gerrit.ACCOUNT_COOKIE, "");
+    c.setMaxAge(0);
+    rsp.addCookie(c);
+
+    c = new Cookie(Gerrit.OPENIDUSER_COOKIE, "");
+    c.setMaxAge(0);
+    rsp.addCookie(c);
   }
 
   private static String serverUrl(final HttpServletRequest req) {

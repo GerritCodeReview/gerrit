@@ -39,7 +39,8 @@ public class Gerrit implements EntryPoint {
    * 
    * @see #isSignedIn()
    */
-  public static final String AUTH_COOKIE = "GerritAccount";
+  public static final String ACCOUNT_COOKIE = "GerritAccount";
+  public static final String OPENIDUSER_COOKIE = "GerritOpenIdUser";
 
   public static GerritConstants C;
   private static Link linkManager;
@@ -62,7 +63,7 @@ public class Gerrit implements EntryPoint {
 
   /** @return true if the user is currently authenticated */
   public static boolean isSignedIn() {
-    return Cookies.getCookie(AUTH_COOKIE) != null;
+    return Cookies.getCookie(ACCOUNT_COOKIE) != null;
   }
 
   /**
@@ -77,7 +78,8 @@ public class Gerrit implements EntryPoint {
 
   /** Sign the user out of the application (and discard the cookies). */
   public static void doSignOut() {
-    Cookies.removeCookie(AUTH_COOKIE);
+    Cookies.removeCookie(ACCOUNT_COOKIE);
+    Cookies.removeCookie(OPENIDUSER_COOKIE);
     refreshMenus();
   }
 

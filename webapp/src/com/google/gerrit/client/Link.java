@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client;
 
+import com.google.gerrit.client.account.AccountSettings;
 import com.google.gerrit.client.changes.ChangeScreen;
 import com.google.gerrit.client.changes.MineScreen;
 import com.google.gerrit.client.changes.MineStarredScreen;
@@ -50,6 +51,9 @@ public class Link implements HistoryListener {
   private Screen select(final String token) {
     if (token == null)
       return null;
+
+    else if (SETTINGS.equals(token))
+      return new AccountSettings();
 
     else if (MINE.equals(token))
       return new MineScreen();

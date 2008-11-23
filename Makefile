@@ -57,6 +57,7 @@ WEB_LIB_GEN = \
 	$(WEBAPP)/lib/antlr.jar \
 	$(WEBAPP)/lib/asm.jar \
 	$(WEBAPP)/lib/gwtorm.jar \
+	$(WEBAPP)/lib/jdbc-h2.jar \
 #end WEB_LIB_GEN
 
 ifdef GEN_DEBUG
@@ -108,6 +109,8 @@ $(WEBAPP)/lib/gwtorm.jar: $(gwtorm)/lib/gwtorm.jar
 $(WEBAPP)/lib/antlr.jar: $(gwtorm)/lib/antlr.jar
 	cp $< $@
 $(WEBAPP)/lib/asm.jar: $(gwtorm)/lib/asm.jar
+	cp $< $@
+$(WEBAPP)/lib/jdbc-h2.jar: $(gwtorm)/lib/jdbc-h2.jar
 	cp $< $@
 $(gwtorm)/lib/gwtorm.jar: make-gwtorm
 	$(MAKE) -C $(gwtorm) GWT_SDK=$(GWT_SDK)

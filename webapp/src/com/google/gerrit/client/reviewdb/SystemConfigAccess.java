@@ -14,19 +14,13 @@
 
 package com.google.gerrit.client.reviewdb;
 
-import com.google.gwtorm.client.Relation;
-import com.google.gwtorm.client.Schema;
-import com.google.gwtorm.client.Sequence;
+import com.google.gwtorm.client.Access;
+import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.PrimaryKey;
 
-/** The review service database schema. */
-public interface ReviewDb extends Schema {
-  @Relation
-  SystemConfigAccess systemConfig();
-
-  @Relation
-  AccountAccess accounts();
-
-  /** Create the next unique id for an {@link Account}. */
-  @Sequence
-  int nextAccountId();
+/** Access interface for {@link SystemConfig}. */
+public interface SystemConfigAccess extends
+    Access<SystemConfig, SystemConfig.Key> { 
+  @PrimaryKey("singleton")
+  SystemConfig get(SystemConfig.Key key) throws OrmException;
 }

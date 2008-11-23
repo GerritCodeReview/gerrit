@@ -235,7 +235,11 @@ public class LoginServlet extends HttpServlet {
     }
 
     final boolean success = account != null;
-    if (!success) {
+    if (success) {
+      final Cookie c = new Cookie(Gerrit.OPENIDUSER_COOKIE, "");
+      c.setMaxAge(0);
+      rsp.addCookie(c);
+    } else {
       forceLogout(rsp);
     }
 

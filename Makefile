@@ -66,7 +66,7 @@ endif
 all: web
 
 clean:
-	rm -f $(WEB_LIG_GEN)
+	rm -f $(WEB_LIB_GEN)
 	rm -rf $(WEBAPP)/gensrc
 	rm -rf $(WEBAPP)/classes
 	rm -rf $(WEBAPP)/www

@@ -94,7 +94,7 @@ public class LoginServlet extends HttpServlet {
       doAuth(req, rsp);
     } catch (Exception e) {
       getServletContext().log("Unexpected error during authentication", e);
-      finishLogin(rsp, null, null);
+      finishLogin(req, rsp, null, null);
     }
   }
 
@@ -103,7 +103,7 @@ public class LoginServlet extends HttpServlet {
     if ("cancel".equals(req.getParameter(Constants.OPENID_MODE))) {
       // Provider wants us to cancel the attempt.
       //
-      finishLogin(rsp, null, null);
+      finishLogin(req, rsp, null, null);
       return;
     }
 
@@ -118,7 +118,7 @@ public class LoginServlet extends HttpServlet {
     if (user.isAuthenticated()) {
       // User already authenticated.
       //
-      finishLogin(rsp, user, null);
+      finishLogin(req, rsp, user, null);
       return;
     }
 
@@ -147,7 +147,7 @@ public class LoginServlet extends HttpServlet {
         }
       }
 
-      finishLogin(rsp, user, email);
+      finishLogin(req, rsp, user, email);
       return;
     }
 
@@ -175,6 +175,8 @@ public class LoginServlet extends HttpServlet {
 
   private void redirectChooseProvider(final HttpServletRequest req,
       final HttpServletResponse rsp) throws IOException {
+    forceLogout(rsp);
+
     // Hard-code to use the Google Account service.
     //
     final StringBuffer url = req.getRequestURL();
@@ -185,8 +187,9 @@ public class LoginServlet extends HttpServlet {
     rsp.sendRedirect(url.toString());
   }
 
-  private void finishLogin(final HttpServletResponse rsp,
-      final OpenIdUser user, final String email) throws IOException {
+  private void finishLogin(final HttpServletRequest req,
+      final HttpServletResponse rsp, final OpenIdUser user, final String email)
+      throws IOException {
     Account account = null;
     if (user != null) {
       final Account.OpenId provId = new Account.OpenId(user.getIdentity());
@@ -226,6 +229,7 @@ public class LoginServlet extends HttpServlet {
         final String tok = server.getAccountToken().newToken(idstr);
         final Cookie c = new Cookie(Gerrit.ACCOUNT_COOKIE, tok);
         c.setMaxAge(server.getSessionAge());
+        c.setPath(req.getContextPath());
         rsp.addCookie(c);
       } catch (XsrfException e) {
         getServletContext().log("Account cookie signature impossible", e);

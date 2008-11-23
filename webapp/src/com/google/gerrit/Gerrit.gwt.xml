@@ -13,6 +13,8 @@
 
   <servlet path='/login'
            class='com.google.gerrit.server.LoginServlet'/>
+  <servlet path='/rpc/AccountService'
+           class='com.google.gerrit.server.AccountServiceSrv'/>
 
   <servlet path='/rpc/ChangeListService'
            class='com.google.gerrit.server.ChangeListServiceImpl'/>

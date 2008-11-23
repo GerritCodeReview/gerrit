@@ -105,7 +105,7 @@ public class Gerrit implements EntryPoint {
     leftMenu.add(codeReviewMenu, C.leftMenuCodeReviews());
 
     body.add(topMenu, DockPanel.NORTH);
-    body.add(leftMenu, DockPanel.WEST);
+    body.add(leftMenu, DockPanel.LINE_START);
     body.setCellHeight(topMenu, "20px");
     body.setCellWidth(leftMenu, "150px");
     refreshMenus();

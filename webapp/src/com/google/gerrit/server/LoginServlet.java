@@ -17,7 +17,6 @@ package com.google.gerrit.server;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.ReviewDb;
-import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
 
@@ -61,7 +60,7 @@ public class LoginServlet extends HttpServlet {
       throw new ServletException("Cannot configure GerritServer", e);
     }
 
-    String cookieKey = SignedToken.generateRandomKey();
+    String cookieKey = server.getAccountCookieKey();
     if (cookieKey.length() > 24) {
       cookieKey = cookieKey.substring(0, 24);
     }

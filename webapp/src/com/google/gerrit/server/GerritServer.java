@@ -21,6 +21,8 @@ import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.jdbc.Database;
 
+import org.apache.commons.codec.binary.Base64;
+
 import java.io.File;
 import java.util.Collections;
 import java.util.Properties;
@@ -116,5 +118,19 @@ public class GerritServer {
   /** Get the signature support used to protect user identity cookies. */
   public SignedToken getAccountToken() {
     return account;
+  }
+
+  /** A binary string key to encrypt cookies related to account data. */
+  public String getAccountCookieKey() {
+    byte[] r = new byte[config.accountPrivateKey.length()];
+    for (int k = r.length - 1; k >= 0; k--) {
+      r[k] = (byte) config.accountPrivateKey.charAt(k);
+    }
+    r = Base64.decodeBase64(r);
+    final StringBuilder b = new StringBuilder();
+    for (int i = 0; i < r.length; i++) {
+      b.append((char) r[i]);
+    }
+    return b.toString();
   }
 }

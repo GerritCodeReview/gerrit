@@ -9,5 +9,8 @@
 	<classpathentry kind="lib" path="lib/antlr.jar"/>
 	<classpathentry kind="lib" path="lib/asm.jar"/>
 	<classpathentry kind="lib" path="lib/gwtorm.jar"/>
+	<classpathentry kind="lib" path="lib/dyuproject-openid.jar"/>
+	<classpathentry kind="lib" path="lib/dyuproject-util.jar"/>
+	<classpathentry kind="lib" path="lib/jetty-util.jar"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>

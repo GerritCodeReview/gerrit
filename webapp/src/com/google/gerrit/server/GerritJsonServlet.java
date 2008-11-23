@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server;
 
-import com.google.gerrit.client.Gerrit;
-import com.google.gwtjsonrpc.client.CookieAccess;
 import com.google.gwtjsonrpc.server.ActiveCall;
 import com.google.gwtjsonrpc.server.JsonServlet;
 import com.google.gwtjsonrpc.server.SignedToken;
@@ -24,6 +22,8 @@ import com.google.gwtorm.client.OrmException;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Base JSON servlet to ensure the current user is not forged.
@@ -54,22 +54,11 @@ public abstract class GerritJsonServlet extends JsonServlet {
   }
 
   @Override
+  protected ActiveCall createActiveCall(final HttpServletRequest req,
+      final HttpServletResponse resp) {
+    return new GerritCall(server, req, resp);
+  }
+
+  @Override
   protected abstract Object createServiceHandle() throws Exception;
-
-  @Override
-  protected String xsrfUser(final ActiveCall call) {
-    final String idstr = CookieAccess.getTokenText(Gerrit.ACCOUNT_COOKIE);
-    return idstr != null ? "account" + idstr : "anonymous";
-  }
-
-  @Override
-  protected boolean xsrfValidate(final ActiveCall call) throws XsrfException {
-    final String usertok = CookieAccess.get(Gerrit.ACCOUNT_COOKIE);
-    if (usertok == null || server.getAccountToken().checkToken(usertok, null)) {
-      return super.xsrfValidate(call);
-    } else {
-      LoginServlet.forceLogout(call.getHttpServletResponse());
-      return false;
-    }
-  }
 }

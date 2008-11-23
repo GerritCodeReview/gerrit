@@ -20,12 +20,16 @@ import com.google.gerrit.client.data.MineResult;
 import com.google.gerrit.client.data.ProjectIdentity;
 import com.google.gerrit.client.data.UserIdentity;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwtjsonrpc.server.JsonServlet;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-public class ChangeListServiceImpl extends JsonServlet implements ChangeListService {
+public class ChangeListServiceImpl extends GerritJsonServlet implements ChangeListService {
+  @Override
+  protected Object createServiceHandle() throws Exception {
+    return this;
+  }
+
   public void mine(final AsyncCallback<MineResult> callback) {
     final MineResult r = new MineResult();
     r.byMe = new ArrayList<ChangeHeader>();

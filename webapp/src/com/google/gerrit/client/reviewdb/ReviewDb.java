@@ -24,9 +24,19 @@ public interface ReviewDb extends Schema {
   SystemConfigAccess systemConfig();
 
   @Relation
+  ContributorAgreementAccess contributorAgreements();
+
+  @Relation
   AccountAccess accounts();
+
+  @Relation
+  AccountAgreementAccess accountAgreements();
 
   /** Create the next unique id for an {@link Account}. */
   @Sequence
   int nextAccountId();
+
+  /** Create the next unique id for a {@link ContributorAgreement}. */
+  @Sequence
+  int nextContributorAgreementId();
 }

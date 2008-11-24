@@ -39,7 +39,7 @@ public interface ReviewDb extends Schema {
   AccountGroupMemberAccess accountGroupMembers();
 
   /** Create the next unique id for an {@link Account}. */
-  @Sequence
+  @Sequence(startWith = 1000000)
   int nextAccountId();
 
   /** Create the next unique id for a {@link ContributorAgreement}. */

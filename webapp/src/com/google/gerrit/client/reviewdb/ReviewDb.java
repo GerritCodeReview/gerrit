@@ -32,6 +32,12 @@ public interface ReviewDb extends Schema {
   @Relation
   AccountAgreementAccess accountAgreements();
 
+  @Relation
+  AccountGroupAccess accountGroups();
+
+  @Relation
+  AccountGroupMemberAccess accountGroupMembers();
+
   /** Create the next unique id for an {@link Account}. */
   @Sequence
   int nextAccountId();
@@ -39,4 +45,8 @@ public interface ReviewDb extends Schema {
   /** Create the next unique id for a {@link ContributorAgreement}. */
   @Sequence
   int nextContributorAgreementId();
+
+  /** Next unique id for a {@link AccountGroup}. */
+  @Sequence
+  int nextAccountGroupId();
 }

@@ -24,6 +24,7 @@ import django.template
 import email
 import library
 import models
+from internal import util
 
 def get_default_sender():
   return models.Settings.get_settings().from_email
@@ -155,8 +156,8 @@ def send_change_message(request,
     body = django.template.loader.render_to_string(
                                           template, template_args)
   msg = models.Message(change=change,
-                       subject=subject,
-                       sender=sender_string,
+                       subject=util.u(subject),
+                       sender=util.u(sender_string),
                        recipients=to_emails,
                        text=db.Text(body),
                        parent=change)

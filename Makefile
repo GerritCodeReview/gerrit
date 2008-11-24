@@ -73,6 +73,10 @@ clean:
 	rm -rf $(WEBAPP)/www
 	rm -rf $(WEBAPP)/tomcat
 
+clean-h2db:
+	rm -f $(WEBAPP)/ReviewDb.*.db
+.PHONY: clean-h2db
+
 web: web-lib
 	CLASSPATH=src:classes && \
 	$(foreach p,$(GWT_CP),CLASSPATH=$$CLASSPATH:$p &&) \

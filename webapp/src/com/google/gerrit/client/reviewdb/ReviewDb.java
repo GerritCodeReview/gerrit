@@ -50,6 +50,21 @@ public interface ReviewDb extends Schema {
   @Relation
   ProjectLeadGroupAccess projectLeadGroups();
 
+  @Relation
+  ChangeAccess changes();
+
+  @Relation
+  PatchSetAccess patchSets();
+
+  @Relation
+  PatchSetInfoAccess patchSetInfo();
+
+  @Relation
+  PatchAccess patches();
+
+  @Relation
+  PatchLineCommentAccess patchComments();
+
   /** Create the next unique id for an {@link Account}. */
   @Sequence(startWith = 1000000)
   int nextAccountId();

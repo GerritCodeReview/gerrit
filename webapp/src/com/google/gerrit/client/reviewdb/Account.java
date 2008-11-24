@@ -77,6 +77,10 @@ public final class Account {
   @Column(notNull = false)
   protected String preferredEmail;
 
+  /** Non-Internet based contact details for the account's owner. */
+  @Column(notNull = false)
+  protected ContactInformation contact;
+
   protected Account() {
   }
 
@@ -120,5 +124,13 @@ public final class Account {
   /** Get the date and time the user first registered. */
   public Timestamp getRegisteredOn() {
     return registeredOn;
+  }
+
+  public ContactInformation getContactInformation() {
+    return contact;
+  }
+
+  public void setContactInformation(final ContactInformation i) {
+    contact = i;
   }
 }

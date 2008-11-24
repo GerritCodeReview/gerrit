@@ -23,9 +23,9 @@ import com.google.gwtorm.client.SecondaryKey;
 public interface AccountAccess extends Access<Account, Account.OpenId> {
   /** Locate an account by its OpenID provider supplied identifier string */
   @PrimaryKey("openidIdentity")
-  Account byOpenidIdentity(Account.OpenId key) throws OrmException;
+  Account byOpenId(Account.OpenId key) throws OrmException;
 
   /** Locate an account by our locally generated identity. */
-  @SecondaryKey("localId")
-  Account byLocalId(Account.Id key) throws OrmException;
+  @SecondaryKey("accountId")
+  Account byId(Account.Id key) throws OrmException;
 }

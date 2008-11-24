@@ -42,7 +42,7 @@ public final class Account {
 
   /** Key local to Gerrit to identify a user. */
   public static class Id extends IntKey<com.google.gwtorm.client.Key<?>> {
-    @Column(name = "account_id")
+    @Column
     protected int id;
 
     protected Id() {
@@ -59,7 +59,7 @@ public final class Account {
   }
 
   @Column
-  protected Id localId;
+  protected Id accountId;
 
   /** Identity from the OpenID provider the user authenticates through. */
   @Column
@@ -88,13 +88,13 @@ public final class Account {
    */
   public Account(final Account.OpenId identity, final Account.Id newId) {
     openidIdentity = identity;
-    localId = newId;
+    accountId = newId;
     registeredOn = new Timestamp(System.currentTimeMillis());
   }
 
   /** Get local id of this account, to link with in other entities */
   public Account.Id getId() {
-    return localId;
+    return accountId;
   }
 
   /** Get the full name of the user ("Given-name Surname" style). */

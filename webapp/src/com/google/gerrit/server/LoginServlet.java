@@ -196,7 +196,7 @@ public class LoginServlet extends HttpServlet {
       try {
         final ReviewDb d = server.getDatabase().open();
         try {
-          account = d.accounts().byOpenidIdentity(provId);
+          account = d.accounts().byOpenId(provId);
           if (account != null) {
             // Existing user; double check the email is current.
             //

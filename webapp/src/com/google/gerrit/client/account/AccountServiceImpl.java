@@ -39,7 +39,7 @@ public class AccountServiceImpl implements AccountService {
     try {
       final ReviewDb db = schema.open();
       try {
-        callback.onSuccess(db.accounts().byLocalId(new Account.Id(id)));
+        callback.onSuccess(db.accounts().byId(new Account.Id(id)));
       } finally {
         db.close();
       }

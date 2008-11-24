@@ -26,6 +26,8 @@ public final class AccountGroupMember {
     protected AccountGroup.Id groupId;
 
     protected Key() {
+      accountId = new Account.Id();
+      groupId = new AccountGroup.Id();
     }
 
     public Key(final Account.Id a, final AccountGroup.Id g) {

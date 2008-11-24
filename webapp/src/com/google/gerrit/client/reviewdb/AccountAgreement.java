@@ -32,6 +32,8 @@ public final class AccountAgreement {
     protected ContributorAgreement.Id claId;
 
     protected Key() {
+      accountId = new Account.Id();
+      claId = new ContributorAgreement.Id();
     }
 
     public Key(final Account.Id account, final ContributorAgreement.Id cla) {

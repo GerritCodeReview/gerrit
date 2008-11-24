@@ -44,6 +44,12 @@ public interface ReviewDb extends Schema {
   @Relation
   BranchAccess branches();
 
+  @Relation
+  ProjectLeadAccountAccess projectLeadAccounts();
+
+  @Relation
+  ProjectLeadGroupAccess projectLeadGroups();
+
   /** Create the next unique id for an {@link Account}. */
   @Sequence(startWith = 1000000)
   int nextAccountId();

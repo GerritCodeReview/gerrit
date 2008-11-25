@@ -5,4 +5,4 @@
 /antlr.jar
 /asm.jar
 /gwtorm.jar
-/jdbc-h2.jar
+/jdbc-*.jar

@@ -20,10 +20,6 @@ import java.sql.Timestamp;
 
 /** Electronic acceptance of a {@link ContributorAgreement} by {@link Account} */
 public final class AccountAgreement {
-  public static final String STATUS_NEW = "NEW";
-  public static final String STATUS_VERIFIED = "VERIFIED";
-  public static final String STATUS_REJECTED = "REJECTED";
-
   public static class Key implements com.google.gwtorm.client.Key<Account.Id> {
     @Column
     protected Account.Id accountId;
@@ -57,14 +53,44 @@ public final class AccountAgreement {
     }
   }
 
+  protected static final char NEW_CODE = 'n';
+
+  public static enum Status {
+    NEW(NEW_CODE),
+
+    VERIFIED('V'),
+
+    REJECTED('R');
+
+    private final char code;
+
+    private Status(final char c) {
+      code = c;
+    }
+
+    public char getCode() {
+      return code;
+    }
+
+    public static Status forCode(final char c) {
+      for (final Status s : Status.values()) {
+        if (s.code == c) {
+          return s;
+        }
+      }
+      return null;
+    }
+  }
+
+
   @Column(name = Column.NONE)
   protected Key key;
 
   @Column
   protected Timestamp acceptedOn;
 
-  @Column(length = 8)
-  protected String status;
+  @Column
+  protected char status;
 
   @Column(notNull = false)
   protected Account.Id reviewedBy;
@@ -78,15 +104,15 @@ public final class AccountAgreement {
   public AccountAgreement(final AccountAgreement.Key k) {
     key = k;
     acceptedOn = new Timestamp(System.currentTimeMillis());
-    status = STATUS_NEW;
+    status = Status.NEW.getCode();
   }
 
   public Timestamp getAcceptedOn() {
     return acceptedOn;
   }
 
-  public String getStatus() {
-    return status;
+  public Status getStatus() {
+    return Status.forCode(status);
   }
 
   public Timestamp getReviewedOn() {
@@ -97,8 +123,8 @@ public final class AccountAgreement {
     return reviewedBy;
   }
 
-  public void review(final String newStatus, final Account.Id by) {
-    status = newStatus;
+  public void review(final Status newStatus, final Account.Id by) {
+    status = newStatus.getCode();
     reviewedBy = by;
     reviewedOn = new Timestamp(System.currentTimeMillis());
   }

@@ -28,7 +28,7 @@ public interface AccountAgreementAccess extends
   @Query("WHERE key.accountId = ? ORDER BY acceptedOn DESC")
   ResultSet<AccountAgreement> byAccount(Account.Id id) throws OrmException;
 
-  @Query("WHERE status = '" + AccountAgreement.STATUS_NEW
+  @Query("WHERE status = '" + AccountAgreement.NEW_CODE
       + "' ORDER BY acceptedOn DESC")
   ResultSet<AccountAgreement> unreviewed() throws OrmException;
 }

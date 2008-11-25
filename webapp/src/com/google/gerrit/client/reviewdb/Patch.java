@@ -84,6 +84,23 @@ public final class Patch {
   @Column
   protected int nbrComments;
 
+  /** Content which expands out to the old version of the file. */
+  @Column(notNull = false)
+  protected DeltaContent.Key preImage;
+
+  /** Unified style diff between {@link #preImage} and {@link #postImage}. */
+  @Column
+  protected DeltaContent.Key patch;
+
+  /**
+   * Content which expands out to the new version of the file.
+   * <p>
+   * Note that in many cases this is identical to {@link #patch}, as very often
+   * the patch itself can be used to reconstruct the postImage.
+   */
+  @Column(notNull = false)
+  protected DeltaContent.Key postImage;
+
   protected Patch() {
   }
 
@@ -102,5 +119,29 @@ public final class Patch {
 
   public void setChangeType(final ChangeType type) {
     changeType = type.getCode();
+  }
+
+  public DeltaContent.Key getPreImage() {
+    return preImage;
+  }
+
+  public void setPreImage(final DeltaContent.Key p) {
+    preImage = p;
+  }
+
+  public DeltaContent.Key getPatch() {
+    return patch;
+  }
+
+  public void setPatch(final DeltaContent.Key p) {
+    patch = p;
+  }
+
+  public DeltaContent.Key getPostImage() {
+    return postImage;
+  }
+
+  public void setPostImage(final DeltaContent.Key p) {
+    postImage = p;
   }
 }

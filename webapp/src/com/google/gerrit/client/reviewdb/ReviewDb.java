@@ -57,6 +57,9 @@ public interface ReviewDb extends Schema {
   ProjectLeadGroupAccess projectLeadGroups();
 
   @Relation
+  DeltaContentAccess deltaContent();
+
+  @Relation
   ChangeAccess changes();
 
   @Relation

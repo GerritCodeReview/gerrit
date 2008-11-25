@@ -14,16 +14,20 @@
 
 package com.google.gerrit.server;
 
+import com.google.gerrit.client.reviewdb.ApprovalCategory;
+import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.SystemConfig;
 import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.Transaction;
 import com.google.gwtorm.jdbc.Database;
 
 import org.apache.commons.codec.binary.Base64;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Properties;
 
@@ -79,16 +83,59 @@ public class GerritServer {
       final ReviewDb c = db.open();
       try {
         c.createSchema();
-
-        final SystemConfig s = SystemConfig.create();
-        s.xsrfPrivateKey = SignedToken.generateRandomKey();
-        s.accountPrivateKey = SignedToken.generateRandomKey();
-        c.systemConfig().insert(Collections.singleton(s));
+        initSystemConfig(c);
+        initCodeReviewCategory(c);
+        initVerifiedCategory(c);
       } finally {
         c.close();
       }
     }
     return db;
+  }
+
+  private void initSystemConfig(final ReviewDb c) throws OrmException {
+    final SystemConfig s = SystemConfig.create();
+    s.xsrfPrivateKey = SignedToken.generateRandomKey();
+    s.accountPrivateKey = SignedToken.generateRandomKey();
+    c.systemConfig().insert(Collections.singleton(s));
+  }
+
+  private void initCodeReviewCategory(final ReviewDb c) throws OrmException {
+    final Transaction txn = c.beginTransaction();
+    final ApprovalCategory cat;
+    final ArrayList<ApprovalCategoryValue> vals;
+
+    cat = new ApprovalCategory(new ApprovalCategory.Id("CRVW"), "Code Review");
+    vals = new ArrayList<ApprovalCategoryValue>();
+    vals.add(value(cat, 2, "Looks good to me, approved"));
+    vals.add(value(cat, 1, "Looks good to me, but someone else must approve"));
+    vals.add(value(cat, 0, "No score"));
+    vals.add(value(cat, -1, "I would prefer that you didn't submit this"));
+    vals.add(value(cat, -2, "Do not submit"));
+    c.approvalCategories().insert(Collections.singleton(cat), txn);
+    c.approvalCategoryValues().insert(vals);
+    txn.commit();
+  }
+
+  private void initVerifiedCategory(final ReviewDb c) throws OrmException {
+    final Transaction txn = c.beginTransaction();
+    final ApprovalCategory cat;
+    final ArrayList<ApprovalCategoryValue> vals;
+
+    cat = new ApprovalCategory(new ApprovalCategory.Id("VRIF"), "Verified");
+    vals = new ArrayList<ApprovalCategoryValue>();
+    vals.add(value(cat, 1, "Verified"));
+    vals.add(value(cat, 0, "No score"));
+    vals.add(value(cat, -1, "Fails"));
+    c.approvalCategories().insert(Collections.singleton(cat), txn);
+    c.approvalCategoryValues().insert(vals);
+    txn.commit();
+  }
+
+  private static ApprovalCategoryValue value(final ApprovalCategory cat,
+      final int value, final String name) {
+    return new ApprovalCategoryValue(new ApprovalCategoryValue.Key(cat.getId(),
+        (short) value), name);
   }
 
   private SystemConfig readSystemConfig() throws OrmException {

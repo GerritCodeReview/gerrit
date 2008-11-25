@@ -24,6 +24,12 @@ public interface ReviewDb extends Schema {
   SystemConfigAccess systemConfig();
 
   @Relation
+  ApprovalCategoryAccess approvalCategories();
+
+  @Relation
+  ApprovalCategoryValueAccess approvalCategoryValues();
+
+  @Relation
   ContributorAgreementAccess contributorAgreements();
 
   @Relation
@@ -52,6 +58,9 @@ public interface ReviewDb extends Schema {
 
   @Relation
   ChangeAccess changes();
+
+  @Relation
+  ChangeApprovalAccess changeApprovals();
 
   @Relation
   PatchSetAccess patchSets();

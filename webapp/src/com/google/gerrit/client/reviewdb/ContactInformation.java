@@ -24,10 +24,10 @@ public final class ContactInformation {
   @Column(notNull = false, length = 40)
   protected String country;
 
-  @Column(notNull = false, length = 20)
+  @Column(notNull = false, length = 30)
   protected String phoneNbr;
 
-  @Column(notNull = false, length = 20)
+  @Column(notNull = false, length = 30)
   protected String faxNbr;
 
   public ContactInformation() {

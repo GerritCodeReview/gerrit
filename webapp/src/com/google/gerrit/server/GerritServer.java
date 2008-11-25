@@ -26,9 +26,11 @@ import com.google.gwtorm.jdbc.Database;
 
 import org.apache.commons.codec.binary.Base64;
 
-import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Map;
 import java.util.Properties;
 
 /** Global server-side state for Gerrit. */
@@ -71,26 +73,37 @@ public class GerritServer {
   }
 
   private Database<ReviewDb> createDatabase() throws OrmException {
-    final String dbpath = new File("ReviewDb").getAbsolutePath();
-    final boolean isnew = !new File(dbpath + ".data.db").exists();
+    final Properties p = readGerritDataSource();
+    return new Database<ReviewDb>(p, ReviewDb.class);
+  }
 
-    final Properties p = new Properties();
-    p.setProperty("driver", "org.h2.Driver");
-    p.setProperty("url", "jdbc:h2:file:" + dbpath);
+  private Properties readGerritDataSource() throws OrmException {
+    final Properties srvprop = new Properties();
+    final String name = "GerritServer.properties";
+    final InputStream in;
 
-    final Database<ReviewDb> db = new Database<ReviewDb>(p, ReviewDb.class);
-    if (isnew) {
-      final ReviewDb c = db.open();
+    in = getClass().getClassLoader().getResourceAsStream(name);
+    if (in == null) {
+      throw new OrmException("No " + name + " in classpath");
+    }
+    try {
       try {
-        c.createSchema();
-        initSystemConfig(c);
-        initCodeReviewCategory(c);
-        initVerifiedCategory(c);
+        srvprop.load(in);
       } finally {
-        c.close();
+        in.close();
+      }
+    } catch (IOException e) {
+      throw new OrmException("Cannot read " + name, e);
+    }
+
+    final Properties dbprop = new Properties();
+    for (final Map.Entry<Object, Object> e : srvprop.entrySet()) {
+      final String key = (String) e.getKey();
+      if (key.startsWith("database.")) {
+        dbprop.put(key.substring("database.".length()), e.getValue());
       }
     }
-    return db;
+    return dbprop;
   }
 
   private void initSystemConfig(final ReviewDb c) throws OrmException {
@@ -141,7 +154,27 @@ public class GerritServer {
   private SystemConfig readSystemConfig() throws OrmException {
     final ReviewDb c = db.open();
     try {
-      return c.systemConfig().get(new SystemConfig.Key());
+      SystemConfig sysconf;
+      try {
+        sysconf = c.systemConfig().get(new SystemConfig.Key());
+      } catch (OrmException e) {
+        // Assume the schema doesn't exist, and create it.
+        // TODO Implement schema upgrades and/or exporting to a script file.
+        //
+        sysconf = null;
+        c.createSchema();
+      }
+
+      if (sysconf == null) {
+        // Assume the schema is empty and populate it.
+        //
+        initSystemConfig(c);
+        initCodeReviewCategory(c);
+        initVerifiedCategory(c);
+        sysconf = c.systemConfig().get(new SystemConfig.Key());
+      }
+
+      return sysconf;
     } finally {
       c.close();
     }

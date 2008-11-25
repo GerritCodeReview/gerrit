@@ -2,4 +2,5 @@
 /tomcat
 /www
 /gensrc
+/src/GerritServer.properties
 /ReviewDb.*.db

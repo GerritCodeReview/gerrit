@@ -17,6 +17,25 @@ To create a new client workspace:
   echo 'GWT_SDK = path/to/your/gwt' >gerrit/config.mak
 
 
+Setting up the Database
+-----------------------
+
+You'll need to configure your development workspace to use a database
+gwtorm supports (or add the necessary dialect support to gwtorm,
+and then configure your workspace anyway).
+
+  cd webapp/src
+  cp GerritServer.properties_example GerritServer.properties
+
+Now edit GerritServer.properties to uncomment the database you are
+going to use, and possibly update properties such as "user" and
+"password" to reflect the actual connection information used.
+
+In the future gwtorm (and Gerrit 2) should be getting the DataSource
+from the application server, but I don't yet know how to configure
+that in GWT hosted mode.
+
+
 Setting up Eclipse
 ------------------
 

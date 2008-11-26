@@ -93,4 +93,8 @@ public interface ReviewDb extends Schema {
   /** Next unique id for a {@link Branch}. */
   @Sequence
   int nextBranchId();
+
+  /** Next unique id for a {@link Change}. */
+  @Sequence
+  int nextChangeId();
 }

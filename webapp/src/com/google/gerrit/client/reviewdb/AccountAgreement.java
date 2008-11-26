@@ -98,6 +98,9 @@ public final class AccountAgreement {
   @Column(notNull = false)
   protected Timestamp reviewedOn;
 
+  @Column(notNull = false, length = Integer.MAX_VALUE)
+  protected String reviewComments;
+
   protected AccountAgreement() {
   }
 
@@ -121,6 +124,14 @@ public final class AccountAgreement {
 
   public Account.Id getReviewedBy() {
     return reviewedBy;
+  }
+
+  public String getReviewComments() {
+    return reviewComments;
+  }
+
+  public void setReviewComments(final String s) {
+    reviewComments = s;
   }
 
   public void review(final Status newStatus, final Account.Id by) {

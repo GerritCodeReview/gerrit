@@ -45,8 +45,8 @@ public class Gerrit implements EntryPoint {
   public static GerritConstants C;
   private static Link linkManager;
 
+  private static RootPanel topMenu;
   private static DockPanel body;
-  private static Panel topMenu;
   private static StackPanel leftMenu;
   private static FlowPanel codeReviewMenu;
   private static FlowPanel adminMenu;
@@ -88,6 +88,7 @@ public class Gerrit implements EntryPoint {
     linkManager = new Link();
     History.addHistoryListener(linkManager);
 
+    topMenu = RootPanel.get("gerrit_topmenu");
     body = new DockPanel();
     body.setWidth("95%");
     body.setHeight(Window.getClientHeight() + "px");
@@ -98,17 +99,12 @@ public class Gerrit implements EntryPoint {
     });
     RootPanel.get("gerrit_body").add(body);
 
-    topMenu = new FlowPanel();
-    topMenu.addStyleName("gerrit-TopMenu");
-
     codeReviewMenu = createMenuList();
     leftMenu = new StackPanel();
     leftMenu.addStyleName("gerrit-LeftMenu");
     leftMenu.add(codeReviewMenu, C.leftMenuCodeReviews());
 
-    body.add(topMenu, DockPanel.NORTH);
     body.add(leftMenu, DockPanel.LINE_START);
-    body.setCellHeight(topMenu, "20px");
     body.setCellWidth(leftMenu, "150px");
     refreshMenus();
 

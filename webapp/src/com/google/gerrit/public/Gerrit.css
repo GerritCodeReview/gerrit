@@ -3,6 +3,15 @@
   font-size: 11pt;
 }
 
+#gerrit_topmenu {
+  font-family: Arial,Verdana,sans-serif;
+  font-size: 11pt;
+	right: 0;
+	padding-right: 10px;
+  padding-bottom: 5px;
+  text-align: right;
+}
+
 
 /** Widgets **/
 .gerrit-Hyperlink {
@@ -16,13 +25,8 @@
 	padding-right: 10px;
 }
 
-.gerrit-TopMenu {
-	right: 0;
-	padding-bottom: 5px;
-	text-align: right;
-}
 
-.gerrit-TopMenu div {
+#gerrit_topmenu div {
   white-space: nowrap;
   display: inline;
 }

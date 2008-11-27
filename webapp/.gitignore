@@ -3,4 +3,7 @@
 /www
 /gensrc
 /src/GerritServer.properties
+/src/GerritSite.css
+/src/GerritSiteHeader.html
+/src/GerritSiteFooter.html
 /ReviewDb.*.db

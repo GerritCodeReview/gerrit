@@ -39,10 +39,13 @@ public final class Change {
     }
   }
 
-  public static enum Status {
-    NEW('n'),
+  protected static final char STATUS_NEW = 'n';
+  protected static final char STATUS_MERGED = 'M';
 
-    MERGED('M'),
+  public static enum Status {
+    NEW(STATUS_NEW),
+
+    MERGED(STATUS_MERGED),
 
     ABANDONED('A');
 
@@ -132,6 +135,10 @@ public final class Change {
 
   public Branch.NameKey getDest() {
     return dest;
+  }
+
+  public String getSubject() {
+    return subject;
   }
 
   /** Get the id of the most current {@link PatchSet} in this change. */

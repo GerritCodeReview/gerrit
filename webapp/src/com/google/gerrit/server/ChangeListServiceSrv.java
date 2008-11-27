@@ -12,12 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.data;
+package com.google.gerrit.server;
 
-import java.util.List;
+import com.google.gerrit.client.changes.ChangeListServiceImpl;
 
-public class MineResult {
-  public List<ChangeHeader> byMe;
-  public List<ChangeHeader> forReview;
-  public List<ChangeHeader> closed;
+/** Publishes {@link ChangeListServiceImpl} over JSON. */
+public class ChangeListServiceSrv extends GerritJsonServlet {
+  @Override
+  protected Object createServiceHandle() throws Exception {
+    return new ChangeListServiceImpl(GerritServer.getInstance().getDatabase());
+  }
 }

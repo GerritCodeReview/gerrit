@@ -14,15 +14,31 @@
 
 package com.google.gerrit.client.data;
 
-import java.util.Date;
-import java.util.List;
+import com.google.gerrit.client.reviewdb.Account;
 
-public class ChangeHeader {
-  public int id;
-  public String subject;
-  public String status;
-  public UserIdentity owner;
-  public List<UserIdentity> reviewers;
-  public ProjectIdentity project;
-  public Date lastUpdate;
+public class AccountInfo {
+  protected Account.Id id;
+  protected String fullName;
+  protected String preferredEmail;
+
+  protected AccountInfo() {
+  }
+
+  public AccountInfo(final Account a) {
+    id = a.getId();
+    fullName = a.getFullName();
+    preferredEmail = a.getPreferredEmail();
+  }
+
+  public Account.Id getId() {
+    return id;
+  }
+
+  public String getFullName() {
+    return fullName;
+  }
+
+  public String getPreferredEmail() {
+    return preferredEmail;
+  }
 }

@@ -15,7 +15,7 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.Screen;
-import com.google.gerrit.client.data.ChangeHeader;
+import com.google.gerrit.client.data.ChangeInfo;
 
 
 public class ChangeScreen extends Screen {
@@ -23,7 +23,7 @@ public class ChangeScreen extends Screen {
     super("Loading Change " + id);
   }
 
-  public ChangeScreen(final ChangeHeader c) {
-    super(c.subject);
+  public ChangeScreen(final ChangeInfo c) {
+    super(c.getSubject());
   }
 }

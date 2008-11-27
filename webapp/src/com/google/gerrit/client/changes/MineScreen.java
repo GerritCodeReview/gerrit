@@ -15,30 +15,35 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.Screen;
-import com.google.gerrit.client.data.MineResult;
+import com.google.gerrit.client.data.AccountDashboardInfo;
+import com.google.gerrit.client.reviewdb.Account;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 
 public class MineScreen extends Screen {
   private ChangeTable table;
-  private ChangeTable.Section byMe;
+  private ChangeTable.Section byOwner;
   private ChangeTable.Section forReview;
   private ChangeTable.Section closed;
 
   public MineScreen() {
+    this(null);
+  }
+
+  public MineScreen(final Account.Id id) {
     super(Util.C.mineHeading());
 
     table = new ChangeTable();
-    byMe = new ChangeTable.Section(Util.C.mineByMe());
+    byOwner = new ChangeTable.Section(Util.C.mineByMe());
     forReview = new ChangeTable.Section(Util.C.mineForReview());
     closed = new ChangeTable.Section(Util.C.mineClosed());
-    
-    Util.LIST_SVC.mine(new AsyncCallback<MineResult>() {
-      public void onSuccess(final MineResult r) {
-        byMe.display(r.byMe);
-        forReview.display(r.forReview);
-        closed.display(r.closed);
+
+    Util.LIST_SVC.forAccount(id, new AsyncCallback<AccountDashboardInfo>() {
+      public void onSuccess(final AccountDashboardInfo r) {
+        byOwner.display(r.getByOwner());
+        forReview.display(r.getForReview());
+        closed.display(r.getClosed());
       }
 
       public void onFailure(final Throwable caught) {
@@ -46,7 +51,7 @@ public class MineScreen extends Screen {
       }
     });
 
-    table.addSection(byMe);
+    table.addSection(byOwner);
     table.addSection(forReview);
     table.addSection(closed);
 

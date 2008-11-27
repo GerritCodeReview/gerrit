@@ -12,9 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.data;
+package com.google.gerrit.client.changes;
 
-public class UserIdentity {
-  public String fullName;
-  public String emailAddress;
+import com.google.gerrit.client.data.AccountDashboardInfo;
+import com.google.gerrit.client.reviewdb.Account;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwtjsonrpc.client.RemoteJsonService;
+
+public interface ChangeListService extends RemoteJsonService {
+  void forAccount(Account.Id id, AsyncCallback<AccountDashboardInfo> callback);
 }

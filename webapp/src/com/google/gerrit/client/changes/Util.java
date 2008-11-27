@@ -14,7 +14,6 @@
 
 package com.google.gerrit.client.changes;
 
-import com.google.gerrit.client.data.ChangeListService;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 

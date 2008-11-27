@@ -18,7 +18,9 @@ import com.google.gerrit.client.account.AccountSettings;
 import com.google.gerrit.client.changes.ChangeScreen;
 import com.google.gerrit.client.changes.MineScreen;
 import com.google.gerrit.client.changes.MineStarredScreen;
-import com.google.gerrit.client.data.ChangeHeader;
+import com.google.gerrit.client.data.AccountInfo;
+import com.google.gerrit.client.data.ChangeInfo;
+import com.google.gerrit.client.reviewdb.Account;
 import com.google.gwt.user.client.HistoryListener;
 
 public class Link implements HistoryListener {
@@ -35,8 +37,12 @@ public class Link implements HistoryListener {
   public static final String ADMIN_GROUPS = "admin,groups";
   public static final String ADMIN_PROJECTS = "admin,projects";
 
-  public static String toChange(final ChangeHeader c) {
-    return "change," + c.id;
+  public static String toChange(final ChangeInfo c) {
+    return "change," + c.getId().get();
+  }
+
+  public static String toAccountDashboard(final AccountInfo acct) {
+    return "dashboard," + acct.getId().get();
   }
 
   public void onHistoryChanged(final String token) {
@@ -64,6 +70,11 @@ public class Link implements HistoryListener {
     else if (token.matches("^change,\\d+$")) {
       final String id = token.substring("change,".length());
       return new ChangeScreen(Integer.parseInt(id));
+    }
+    
+    else if (token.matches("^dashboard,\\d+$")) {
+      final String id = token.substring("dashboard,".length());
+      return new MineScreen(new Account.Id(Integer.parseInt(id)));
     }
 
     return null;

@@ -14,8 +14,10 @@
 
 package com.google.gerrit.client.changes;
 
-import com.google.gerrit.client.data.ChangeHeader;
+import com.google.gerrit.client.Link;
+import com.google.gerrit.client.data.ChangeInfo;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.Hyperlink;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,19 +64,20 @@ public class ChangeTable extends FlexTable {
     setStyleName(row, C_ID, "gerrit-ChangeTable-ColumnID");
   }
 
-  private void populateChangeRow(final int row, final ChangeHeader c) {
-    setWidget(row, C_ID, new ChangeLink(String.valueOf(c.id), c));
+  private void populateChangeRow(final int row, final ChangeInfo c) {
+    setWidget(row, C_ID, new ChangeLink(String.valueOf(c.getId().get()), c));
 
-    String s = c.subject;
-    if (c.status != null) {
-      s += " (" + c.status + ")";
+    String s = c.getSubject();
+    if (c.getStatus() != null) {
+      s += " (" + c.getStatus().name() + ")";
     }
     setWidget(row, C_SUBJECT, new ChangeLink(s, c));
 
-    setText(row, C_OWNER, c.owner.fullName);
+    setWidget(row, C_OWNER, new Hyperlink(c.getOwner().getFullName(), Link
+        .toAccountDashboard(c.getOwner())));
     setText(row, C_REVIEWERS, "TODO");
-    setText(row, C_PROJECT, c.project.name);
-    setText(row, C_LAST_UPDATE, c.lastUpdate.toString());
+    setText(row, C_PROJECT, c.getProject().getName());
+    setText(row, C_LAST_UPDATE, "TODO");
   }
 
   private void setStyleName(final int row, final int col, final String name) {
@@ -142,7 +145,7 @@ public class ChangeTable extends FlexTable {
       this.titleText = titleText;
     }
 
-    public void display(final List<ChangeHeader> changeList) {
+    public void display(final List<ChangeInfo> changeList) {
       final int sz = changeList != null ? changeList.size() : 0;
       final boolean hadData = rows > 0;
 

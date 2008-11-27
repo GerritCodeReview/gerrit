@@ -17,8 +17,18 @@ package com.google.gerrit.client.reviewdb;
 import com.google.gwtorm.client.Access;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.PrimaryKey;
+import com.google.gwtorm.client.Query;
+import com.google.gwtorm.client.ResultSet;
 
 public interface ChangeAccess extends Access<Change, Change.Id> {
   @PrimaryKey("changeId")
   Change get(Change.Id id) throws OrmException;
+
+  @Query("WHERE owner = ? AND status = '" + Change.STATUS_NEW
+      + "' ORDER BY createdOn DESC")
+  ResultSet<Change> byOwnerOpen(Account.Id id) throws OrmException;
+
+  @Query("WHERE owner = ? AND status = '" + Change.STATUS_MERGED
+      + "' ORDER BY createdOn DESC LIMIT 20")
+  ResultSet<Change> byOwnerMerged(Account.Id id) throws OrmException;
 }

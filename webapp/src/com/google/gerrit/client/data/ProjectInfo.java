@@ -14,9 +14,19 @@
 
 package com.google.gerrit.client.data;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwtjsonrpc.client.RemoteJsonService;
+import com.google.gerrit.client.reviewdb.Project;
 
-public interface ChangeListService extends RemoteJsonService {
-  public void mine(AsyncCallback<MineResult> callback);
+public class ProjectInfo {
+  protected Project.NameKey key;
+
+  protected ProjectInfo() {
+  }
+
+  public ProjectInfo(final Project.NameKey key) {
+    this.key = key;
+  }
+
+  public String getName() {
+    return key.get();
+  }
 }

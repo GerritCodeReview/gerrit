@@ -16,16 +16,16 @@ package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.Link;
-import com.google.gerrit.client.data.ChangeHeader;
+import com.google.gerrit.client.data.ChangeInfo;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Hyperlink;
 
 public class ChangeLink extends Hyperlink {
-  private ChangeHeader change;
+  private ChangeInfo change;
 
-  public ChangeLink(final String text, final ChangeHeader c) {
+  public ChangeLink(final String text, final ChangeInfo c) {
     super(text, Link.toChange(c));
     change = c;
   }

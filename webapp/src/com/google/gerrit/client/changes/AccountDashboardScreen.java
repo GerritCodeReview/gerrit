@@ -17,12 +17,12 @@ package com.google.gerrit.client.changes;
 import com.google.gerrit.client.data.AccountDashboardInfo;
 import com.google.gerrit.client.data.AccountInfo;
 import com.google.gerrit.client.reviewdb.Account;
-import com.google.gerrit.client.ui.AccountScreen;
+import com.google.gerrit.client.ui.Screen;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 
-public class AccountDashboardScreen extends AccountScreen {
+public class AccountDashboardScreen extends Screen {
   private Account.Id ownerId;
   private ChangeTable table;
   private ChangeTable.Section byOwner;
@@ -46,6 +46,10 @@ public class AccountDashboardScreen extends AccountScreen {
     table.addSection(forReview);
     table.addSection(closed);
     add(table);
+
+    if (ownerId == null) {
+      setRequiresSignIn(true);
+    }
   }
 
   @Override

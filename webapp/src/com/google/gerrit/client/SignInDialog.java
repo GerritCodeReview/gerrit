@@ -14,12 +14,14 @@
 
 package com.google.gerrit.client;
 
+import com.google.gerrit.client.reviewdb.Account;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.Frame;
+import com.google.gwtjsonrpc.client.CallbackHandle;
 
 /**
  * Prompts the user to sign in to their account.
@@ -32,15 +34,20 @@ import com.google.gwt.user.client.ui.Frame;
  * Post login the iframe content is expected to execute the JavaScript snippet:
  * 
  * <pre>
- * parent.gerritPostSignIn(success);
+ * $callback(account);
  * </pre>
  * 
- * where success is either <code>true</code> (the user is now signed in) or
- * <code>false</code> (the sign in was aborted/canceled before it completed).
+ * where <code>$callback</code> is the parameter in the initial request and
+ * <code>account</code> is either <code>!= null</code> (the user is now signed
+ * in) or <code>null</code> (the sign in was aborted/canceled before it
+ * completed).
  */
 public class SignInDialog extends DialogBox {
   private static SignInDialog current;
-  private final AsyncCallback<?> callback;
+
+  private final CallbackHandle<Account> signInCallback;
+  private final AsyncCallback<?> appCallback;
+  private final Frame loginFrame;
 
   /**
    * Create a new dialog to handle user sign in.
@@ -51,12 +58,23 @@ public class SignInDialog extends DialogBox {
   public SignInDialog(final AsyncCallback<?> callback) {
     super(/* auto hide */true, /* modal */true);
 
-    this.callback = callback;
+    signInCallback =
+        com.google.gerrit.client.account.Util.LOGIN_SVC
+            .signIn(new AsyncCallback<Account>() {
+              public void onSuccess(final Account result) {
+                onCallback(result);
+              }
 
-    final Frame f = new Frame(GWT.getModuleBaseURL() + "login");
-    f.setWidth("630px");
-    f.setHeight("420px");
-    add(f);
+              public void onFailure(Throwable caught) {
+                GWT.log("Unexpected signIn failure", caught);
+              }
+            });
+    appCallback = callback;
+
+    loginFrame = new Frame();
+    loginFrame.setWidth("630px");
+    loginFrame.setHeight("420px");
+    add(loginFrame);
     setText(Gerrit.C.signInDialogTitle());
   }
 
@@ -69,25 +87,30 @@ public class SignInDialog extends DialogBox {
     super.show();
 
     current = this;
-    exportPostSignIn();
+    signInCallback.install();
+
+    final StringBuffer url = new StringBuffer();
+    url.append(GWT.getModuleBaseURL());
+    url.append("login");
+    url.append("?");
+    url.append("callback=parent." + signInCallback.getFunctionName());
+    loginFrame.setUrl(url.toString());
   }
 
   @Override
   protected void onUnload() {
     if (current == this) {
-      unexportPostSignIn();
+      signInCallback.cancel();
       current = null;
     }
     super.onUnload();
   }
 
-  static void postSignIn(final boolean success) {
-    final SignInDialog d = current;
-    assert d != null;
-    if (success) {
+  private void onCallback(final Account result) {
+    if (result != null) {
       Gerrit.postSignIn();
-      d.hide();
-      final AsyncCallback<?> ac = d.callback;
+      hide();
+      final AsyncCallback<?> ac = appCallback;
       if (ac != null) {
         DeferredCommand.addCommand(new Command() {
           public void execute() {
@@ -96,11 +119,7 @@ public class SignInDialog extends DialogBox {
         });
       }
     } else {
-      d.hide();
+      hide();
     }
   }
-
-  private static final native void unexportPostSignIn()/*-{ delete $wnd.gerritPostSignIn; }-*/;
-
-  private static final native void exportPostSignIn()/*-{ $wnd.gerritPostSignIn = @com.google.gerrit.client.SignInDialog::postSignIn(Z); }-*/;
 }

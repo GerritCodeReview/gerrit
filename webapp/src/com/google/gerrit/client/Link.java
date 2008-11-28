@@ -51,7 +51,7 @@ public class Link implements HistoryListener {
     if (s != null) {
       Gerrit.display(s);
     } else {
-      // TODO on bad URL
+      Gerrit.display(new NotFoundScreen());
     }
   }
 
@@ -72,7 +72,7 @@ public class Link implements HistoryListener {
       final String id = token.substring("change,".length());
       return new ChangeScreen(Integer.parseInt(id));
     }
-    
+
     else if (token.matches("^dashboard,\\d+$")) {
       final String id = token.substring("dashboard,".length());
       return new MineScreen(new Account.Id(Integer.parseInt(id)));

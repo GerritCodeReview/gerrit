@@ -15,11 +15,11 @@
 package com.google.gerrit.client.account;
 
 import com.google.gerrit.client.reviewdb.Account;
-import com.google.gerrit.client.ui.Screen;
+import com.google.gerrit.client.ui.AccountScreen;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-public class AccountSettings extends Screen {
+public class AccountSettings extends AccountScreen {
   public AccountSettings() {
     super(Util.C.accountSettingsHeading());
 

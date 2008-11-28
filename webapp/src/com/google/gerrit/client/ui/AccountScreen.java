@@ -12,23 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.changes;
+package com.google.gerrit.client.ui;
 
-import com.google.gerrit.client.ui.AccountScreen;
-
-
-public class MineStarredScreen extends AccountScreen {
-  private ChangeTable table;
-  private ChangeTable.Section starred;
-
-  public MineStarredScreen() {
-    super(Util.C.starredHeading());
-
-    table = new ChangeTable();
-    starred = new ChangeTable.Section();
-
-    table.addSection(starred);
-
-    add(table);
+/** A screen that requires the user to be signed-into their account. */
+public class AccountScreen extends Screen {
+  public AccountScreen(final String heading) {
+    super(heading);
+    setRequiresSignIn(true);
   }
 }

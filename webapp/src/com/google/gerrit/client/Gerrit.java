@@ -75,6 +75,10 @@ public class Gerrit implements EntryPoint {
     Cookies.removeCookie(ACCOUNT_COOKIE);
     Cookies.removeCookie(OPENIDUSER_COOKIE);
     refreshMenuBar();
+
+    if (currentScreen != null && currentScreen.isRequiresSignIn()) {
+      History.newItem(Link.ALL);
+    }
   }
 
   public void onModuleLoad() {
@@ -96,7 +100,11 @@ public class Gerrit implements EntryPoint {
     refreshMenuBar();
 
     if ("".equals(History.getToken())) {
-      History.newItem(Link.MINE);
+      if (isSignedIn()) {
+        History.newItem(Link.MINE);
+      } else {
+        History.newItem(Link.ALL);
+      }
     } else {
       History.fireCurrentHistoryState();
     }

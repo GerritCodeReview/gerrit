@@ -14,16 +14,29 @@
 
 package com.google.gerrit.client.ui;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 public class Screen extends FlowPanel {
+  private boolean requiresSignIn;
+
   public Screen(final String heading) {
     setStyleName("gerrit-Screen");
 
     final Element h = DOM.createElement("h1");
     DOM.setInnerText(h, heading);
     DOM.appendChild(getElement(), h);
+  }
+
+  /** Set whether or not {@link Gerrit#isSignedIn()} must be true. */
+  public void setRequiresSignIn(final boolean b) {
+    requiresSignIn = b;
+  }
+
+  /** Does {@link Gerrit#isSignedIn()} have to be true to be on this screen? */
+  public boolean isRequiresSignIn() {
+    return requiresSignIn;
   }
 }

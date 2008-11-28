@@ -28,7 +28,6 @@ public class MineStarredScreen extends AccountScreen {
     starred = new ChangeTable.Section();
 
     table.addSection(starred);
-
     add(table);
   }
 }

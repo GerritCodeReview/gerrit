@@ -22,7 +22,11 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 public class AccountSettings extends AccountScreen {
   public AccountSettings() {
     super(Util.C.accountSettingsHeading());
+  }
 
+  @Override
+  public void onLoad() {
+    super.onLoad();
     Util.ACCOUNT_SVC.myAccount(new AsyncCallback<Account>() {
       public void onFailure(Throwable caught) {
         GWT.log("myAccount failed", caught);

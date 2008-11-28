@@ -22,6 +22,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 
 public class MineScreen extends AccountScreen {
+  private Account.Id ownerId;
   private ChangeTable table;
   private ChangeTable.Section byOwner;
   private ChangeTable.Section forReview;
@@ -34,27 +35,33 @@ public class MineScreen extends AccountScreen {
   public MineScreen(final Account.Id id) {
     super(Util.C.mineHeading());
 
+    ownerId = id;
     table = new ChangeTable();
     byOwner = new ChangeTable.Section(Util.C.mineByMe());
     forReview = new ChangeTable.Section(Util.C.mineForReview());
     closed = new ChangeTable.Section(Util.C.mineClosed());
 
-    Util.LIST_SVC.forAccount(id, new AsyncCallback<AccountDashboardInfo>() {
-      public void onSuccess(final AccountDashboardInfo r) {
-        byOwner.display(r.getByOwner());
-        forReview.display(r.getForReview());
-        closed.display(r.getClosed());
-      }
-
-      public void onFailure(final Throwable caught) {
-        GWT.log("Fail", caught);
-      }
-    });
-
     table.addSection(byOwner);
     table.addSection(forReview);
     table.addSection(closed);
-
     add(table);
+  }
+
+  @Override
+  public void onLoad() {
+    super.onLoad();
+
+    Util.LIST_SVC.forAccount(ownerId,
+        new AsyncCallback<AccountDashboardInfo>() {
+          public void onSuccess(final AccountDashboardInfo r) {
+            byOwner.display(r.getByOwner());
+            forReview.display(r.getForReview());
+            closed.display(r.getClosed());
+          }
+
+          public void onFailure(final Throwable caught) {
+            GWT.log("Fail", caught);
+          }
+        });
   }
 }

@@ -11,7 +11,7 @@
   <entry-point class='com.google.gerrit.client.Gerrit'/>
   <stylesheet src='Gerrit.css' />
 
-  <servlet path='/'
+  <servlet path='/Gerrit'
            class='com.google.gerrit.server.HostPageServlet'/>
   <servlet path='/login'
            class='com.google.gerrit.server.LoginServlet'/>

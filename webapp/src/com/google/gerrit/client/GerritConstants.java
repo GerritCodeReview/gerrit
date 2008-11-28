@@ -22,14 +22,16 @@ public interface GerritConstants extends Constants {
   String menuSettings();
   String signInDialogTitle();
 
-  String leftMenuCodeReviews();
-  String menuMyChanges();
-  String menuMyUnclaimedChanges();
+  String menuAll();
   String menuAllUnclaimedChanges();
   String menuAllRecentChanges();
+  
+  String menuMine();
+  String menuMyChanges();
+  String menuMyUnclaimedChanges();
   String menuMyStarredChanges();
 
-  String leftMenuAdmin();
+  String menuAdmin();
   String menuPeople();
   String menuGroups();
   String menuProjects();

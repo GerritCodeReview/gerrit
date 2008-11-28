@@ -14,22 +14,18 @@
 
 package com.google.gerrit.client;
 
+import com.google.gerrit.client.ui.LinkMenuBar;
+import com.google.gerrit.client.ui.LinkMenuItem;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.WindowResizeListener;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.ClickListener;
-import com.google.gwt.user.client.ui.DockPanel;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Hyperlink;
-import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.StackPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 public class Gerrit implements EntryPoint {
   /**
@@ -45,11 +41,8 @@ public class Gerrit implements EntryPoint {
   public static GerritConstants C;
   private static Link linkManager;
 
-  private static RootPanel topMenu;
-  private static DockPanel body;
-  private static StackPanel leftMenu;
-  private static FlowPanel codeReviewMenu;
-  private static FlowPanel adminMenu;
+  private static LinkMenuBar menuBar;
+  private static RootPanel body;
   private static Screen currentScreen;
 
   public static void display(final Screen view) {
@@ -58,7 +51,7 @@ public class Gerrit implements EntryPoint {
     }
 
     currentScreen = view;
-    body.add(currentScreen, DockPanel.CENTER);
+    body.add(currentScreen);
   }
 
   /** @return true if the user is currently authenticated */
@@ -80,7 +73,7 @@ public class Gerrit implements EntryPoint {
   public static void doSignOut() {
     Cookies.removeCookie(ACCOUNT_COOKIE);
     Cookies.removeCookie(OPENIDUSER_COOKIE);
-    refreshMenus();
+    refreshMenuBar();
   }
 
   public void onModuleLoad() {
@@ -88,25 +81,18 @@ public class Gerrit implements EntryPoint {
     linkManager = new Link();
     History.addHistoryListener(linkManager);
 
-    topMenu = RootPanel.get("gerrit_topmenu");
-    body = new DockPanel();
-    body.setWidth("95%");
+    menuBar = new LinkMenuBar();
+    RootPanel.get("gerrit_topmenu").add(menuBar);
+
+    body = RootPanel.get("gerrit_body");
     body.setHeight(Window.getClientHeight() + "px");
     Window.addWindowResizeListener(new WindowResizeListener() {
       public void onWindowResized(final int width, final int height) {
         body.setHeight(height + "px");
       }
     });
-    RootPanel.get("gerrit_body").add(body);
 
-    codeReviewMenu = createMenuList();
-    leftMenu = new StackPanel();
-    leftMenu.addStyleName("gerrit-LeftMenu");
-    leftMenu.add(codeReviewMenu, C.leftMenuCodeReviews());
-
-    body.add(leftMenu, DockPanel.LINE_START);
-    body.setCellWidth(leftMenu, "150px");
-    refreshMenus();
+    refreshMenuBar();
 
     if ("".equals(History.getToken())) {
       History.newItem(Link.MINE);
@@ -117,88 +103,58 @@ public class Gerrit implements EntryPoint {
 
   /** Hook from {@link SignInDialog} to let us know to refresh the UI. */
   static void postSignIn() {
-    refreshMenus();
+    refreshMenuBar();
   }
 
-  private static void refreshMenus() {
-    refreshTopMenu();
-    refreshCodeReviewMenu();
+  private static void refreshMenuBar() {
+    menuBar.clearItems();
 
-    if (isSignedIn()) {
-      if (adminMenu == null) {
-        adminMenu = createAdminMenu();
-        leftMenu.add(adminMenu, C.leftMenuAdmin());
-      }
-    } else {
-      if (adminMenu != null) {
-        leftMenu.remove(adminMenu);
-        adminMenu = null;
-      }
-    }
-  }
-
-  private static void refreshTopMenu() {
-    final Panel m = topMenu;
-    m.clear();
-
-    if (isSignedIn()) {
-      m.add(new Hyperlink(C.menuSettings(), Link.SETTINGS));
-      m.add(new HTML("&nbsp;|&nbsp;"));
-      {
-        final Hyperlink signout = new Hyperlink();
-        signout.setText(C.menuSignOut());
-        signout.addStyleName("gerrit-Hyperlink");
-        signout.addClickListener(new ClickListener() {
-          public void onClick(Widget sender) {
-            doSignOut();
-          }
-        });
-        m.add(signout);
-      }
-    } else {
-      {
-        final Hyperlink signin = new Hyperlink();
-        signin.setText(C.menuSignIn());
-        signin.addStyleName("gerrit-Hyperlink");
-        signin.addClickListener(new ClickListener() {
-          public void onClick(Widget sender) {
-            doSignIn(null);
-          }
-        });
-        m.add(signin);
-      }
-    }
-  }
-
-  private static FlowPanel createMenuList() {
-    final FlowPanel m = new FlowPanel();
-    m.setStyleName("gerrit-MenuList");
-    return m;
-  }
-
-  private static void refreshCodeReviewMenu() {
     final boolean signedIn = isSignedIn();
-    final FlowPanel m = codeReviewMenu;
-    m.clear();
+    MenuBar m;
+
+    m = new MenuBar(true);
+    addLink(m, C.menuAllRecentChanges(), Link.ALL);
+    addLink(m, C.menuAllUnclaimedChanges(), Link.ALL_UNCLAIMED);
+    menuBar.addItem(C.menuAll(), m);
 
     if (signedIn) {
-      m.add(new Hyperlink(C.menuMyChanges(), Link.MINE));
-      m.add(new Hyperlink(C.menuMyUnclaimedChanges(), Link.MINE_UNCLAIMED));
+      m = new MenuBar(true);
+      addLink(m, C.menuMyChanges(), Link.MINE);
+      addLink(m, C.menuMyUnclaimedChanges(), Link.MINE_UNCLAIMED);
+      addLink(m, C.menuMyStarredChanges(), Link.MINE_STARRED);
+      menuBar.addItem(C.menuMine(), m);
     }
-
-    m.add(new Hyperlink(C.menuAllRecentChanges(), Link.ALL));
-    m.add(new Hyperlink(C.menuAllUnclaimedChanges(), Link.ALL_UNCLAIMED));
 
     if (signedIn) {
-      m.add(new Hyperlink(C.menuMyStarredChanges(), Link.MINE_STARRED));
+      m = new MenuBar(true);
+      addLink(m, C.menuPeople(), Link.ADMIN_PEOPLE);
+      addLink(m, C.menuGroups(), Link.ADMIN_GROUPS);
+      addLink(m, C.menuProjects(), Link.ADMIN_PROJECTS);
+      menuBar.addItem(C.menuAdmin(), m);
     }
+
+    menuBar.lastInGroup();
+    menuBar.addGlue();
+
+    if (signedIn) {
+      menuBar.addItem(new LinkMenuItem(C.menuSettings(), Link.SETTINGS));
+      menuBar.addItem(C.menuSignOut(), new Command() {
+        public void execute() {
+          doSignOut();
+        }
+      });
+    } else {
+      menuBar.addItem(C.menuSignIn(), new Command() {
+        public void execute() {
+          doSignIn(null);
+        }
+      });
+    }
+    menuBar.lastInGroup();
   }
 
-  private static FlowPanel createAdminMenu() {
-    final FlowPanel m = createMenuList();
-    m.add(new Hyperlink(C.menuPeople(), Link.ADMIN_PEOPLE));
-    m.add(new Hyperlink(C.menuGroups(), Link.ADMIN_GROUPS));
-    m.add(new Hyperlink(C.menuProjects(), Link.ADMIN_PROJECTS));
-    return m;
+  private static void addLink(final MenuBar m, final String text,
+      final String historyToken) {
+    m.addItem(new LinkMenuItem(text, historyToken));
   }
 }

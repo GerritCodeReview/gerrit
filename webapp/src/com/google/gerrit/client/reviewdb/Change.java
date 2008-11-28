@@ -37,6 +37,11 @@ public final class Change {
     public int get() {
       return id;
     }
+
+    /** Parse a Change.Id out of a string representation. */
+    public static Id fromString(final String str) {
+      return new Id(Integer.parseInt(str));
+    }
   }
 
   protected static final char STATUS_NEW = 'n';

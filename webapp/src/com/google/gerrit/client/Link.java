@@ -15,12 +15,13 @@
 package com.google.gerrit.client;
 
 import com.google.gerrit.client.account.AccountSettings;
-import com.google.gerrit.client.changes.ChangeScreen;
 import com.google.gerrit.client.changes.AccountDashboardScreen;
+import com.google.gerrit.client.changes.ChangeScreen;
 import com.google.gerrit.client.changes.MineStarredScreen;
 import com.google.gerrit.client.data.AccountInfo;
 import com.google.gerrit.client.data.ChangeInfo;
 import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gwt.user.client.HistoryListener;
 
@@ -32,6 +33,7 @@ public class Link implements HistoryListener {
   public static final String MINE_STARRED = "mine,starred";
 
   public static final String ALL = "all";
+  public static final String ALL_OPEN = "all,open";
   public static final String ALL_UNCLAIMED = "all,unclaimed";
 
   public static final String ADMIN_PEOPLE = "admin,people";
@@ -39,11 +41,19 @@ public class Link implements HistoryListener {
   public static final String ADMIN_PROJECTS = "admin,projects";
 
   public static String toChange(final ChangeInfo c) {
-    return "change," + c.getId().get();
+    return toChange(c.getId());
+  }
+
+  public static String toChange(final Change.Id c) {
+    return "change," + c.get();
   }
 
   public static String toAccountDashboard(final AccountInfo acct) {
-    return "dashboard," + acct.getId().get();
+    return toAccountDashboard(acct.getId());
+  }
+
+  public static String toAccountDashboard(final Account.Id acct) {
+    return "dashboard," + acct.get();
   }
 
   public void onHistoryChanged(final String token) {

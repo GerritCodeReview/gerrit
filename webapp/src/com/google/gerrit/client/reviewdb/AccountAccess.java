@@ -17,6 +17,8 @@ package com.google.gerrit.client.reviewdb;
 import com.google.gwtorm.client.Access;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.PrimaryKey;
+import com.google.gwtorm.client.Query;
+import com.google.gwtorm.client.ResultSet;
 import com.google.gwtorm.client.SecondaryKey;
 
 /** Access interface for {@link Account}. */
@@ -28,4 +30,7 @@ public interface AccountAccess extends Access<Account, Account.OpenId> {
   /** Locate an account by our locally generated identity. */
   @SecondaryKey("accountId")
   Account byId(Account.Id key) throws OrmException;
+
+  @Query("WHERE preferredEmail = ? LIMIT 2")
+  ResultSet<Account> byPreferredEmail(String email) throws OrmException;
 }

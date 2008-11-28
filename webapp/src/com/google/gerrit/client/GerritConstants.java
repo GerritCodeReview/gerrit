@@ -38,4 +38,6 @@ public interface GerritConstants extends Constants {
   String menuPeople();
   String menuGroups();
   String menuProjects();
+
+  String rpcStatusLoading();
 }

@@ -51,6 +51,27 @@
 }
 
 
+/** RPC Status **/
+.gerrit-RpcStatusPanel {
+  position: absolute;
+  left: 50%;
+  float: left;
+}
+
+.gerrit-RpcStatus {
+	padding-top: 4px;
+  padding-bottom: 4px;
+	padding-left: 10px;
+	padding-right: 10px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.gerrit-RpcStatus-Loading {
+  background: #FFF1A8;
+}
+
+
 /** Screen **/
 .gerrit-Screen {
 }

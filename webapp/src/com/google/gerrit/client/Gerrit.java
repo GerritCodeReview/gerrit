@@ -27,6 +27,7 @@ import com.google.gwt.user.client.WindowResizeListener;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwtjsonrpc.client.JsonUtil;
 
 public class Gerrit implements EntryPoint {
   /**
@@ -98,8 +99,10 @@ public class Gerrit implements EntryPoint {
     linkManager = new Link();
     History.addHistoryListener(linkManager);
 
+    final RootPanel topMenu = RootPanel.get("gerrit_topmenu");
+    JsonUtil.addRpcStatusListener(new RpcStatus(topMenu));
     menuBar = new LinkMenuBar();
-    RootPanel.get("gerrit_topmenu").add(menuBar);
+    topMenu.add(menuBar);
 
     body = RootPanel.get("gerrit_body");
     body.setHeight(Window.getClientHeight() + "px");

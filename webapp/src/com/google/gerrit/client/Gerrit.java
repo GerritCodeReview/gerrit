@@ -21,6 +21,7 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Cookies;
+import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.WindowResizeListener;
@@ -151,9 +152,13 @@ public class Gerrit implements EntryPoint {
   /** Hook from {@link SignInDialog} to let us know to refresh the UI. */
   static void postSignIn() {
     refreshMenuBar();
-    for (final SignedInListener l : signedInListeners) {
-      l.onSignIn();
-    }
+    DeferredCommand.addCommand(new Command() {
+      public void execute() {
+        for (final SignedInListener l : signedInListeners) {
+          l.onSignIn();
+        }
+      }
+    });
   }
 
   private static void refreshMenuBar() {

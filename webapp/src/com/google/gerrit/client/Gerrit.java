@@ -29,6 +29,8 @@ import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwtjsonrpc.client.JsonUtil;
 
+import java.util.ArrayList;
+
 public class Gerrit implements EntryPoint {
   /**
    * Name of the Cookie our authentication data is stored in.
@@ -41,7 +43,10 @@ public class Gerrit implements EntryPoint {
   public static final String OPENIDUSER_COOKIE = "GerritOpenIdUser";
 
   public static GerritConstants C;
+  public static GerritIcons ICONS;
   private static Link linkManager;
+  private static ArrayList<SignedInListener> signedInListeners =
+      new ArrayList<SignedInListener>();
 
   private static LinkMenuBar menuBar;
   private static RootPanel body;
@@ -87,6 +92,10 @@ public class Gerrit implements EntryPoint {
   public static void doSignOut() {
     Cookies.removeCookie(ACCOUNT_COOKIE);
     Cookies.removeCookie(OPENIDUSER_COOKIE);
+
+    for (final SignedInListener l : signedInListeners) {
+      l.onSignOut();
+    }
     refreshMenuBar();
 
     if (currentScreen != null && currentScreen.isRequiresSignIn()) {
@@ -94,8 +103,22 @@ public class Gerrit implements EntryPoint {
     }
   }
 
+  /** Add a listener to monitor sign-in status. */
+  public static void addSignedInListener(final SignedInListener l) {
+    if (!signedInListeners.contains(l)) {
+      signedInListeners.add(l);
+    }
+  }
+
+  /** Remove a previously added sign in listener. */
+  public static void removeSignedInListener(final SignedInListener l) {
+    signedInListeners.remove(l);
+  }
+
   public void onModuleLoad() {
     C = GWT.create(GerritConstants.class);
+    ICONS = GWT.create(GerritIcons.class);
+
     linkManager = new Link();
     History.addHistoryListener(linkManager);
 
@@ -128,6 +151,9 @@ public class Gerrit implements EntryPoint {
   /** Hook from {@link SignInDialog} to let us know to refresh the UI. */
   static void postSignIn() {
     refreshMenuBar();
+    for (final SignedInListener l : signedInListeners) {
+      l.onSignIn();
+    }
   }
 
   private static void refreshMenuBar() {

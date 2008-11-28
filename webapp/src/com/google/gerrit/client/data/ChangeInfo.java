@@ -23,6 +23,7 @@ public class ChangeInfo {
   protected Change.Status status;
   protected AccountInfo owner;
   protected ProjectInfo project;
+  protected boolean starred;
 
   protected ChangeInfo() {
   }
@@ -54,5 +55,13 @@ public class ChangeInfo {
 
   public ProjectInfo getProject() {
     return project;
+  }
+
+  public boolean isStarred() {
+    return starred;
+  }
+
+  public void setStarred(final boolean s) {
+    starred = s;
   }
 }

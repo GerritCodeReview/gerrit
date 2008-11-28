@@ -19,6 +19,7 @@ import com.google.gerrit.client.data.AccountInfo;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 
@@ -55,7 +56,7 @@ public class AccountDashboardScreen extends Screen {
   @Override
   public void onLoad() {
     super.onLoad();
-
+    table.setSavePointerId(History.getToken());
     Util.LIST_SVC.forAccount(ownerId,
         new AsyncCallback<AccountDashboardInfo>() {
           public void onSuccess(final AccountDashboardInfo r) {
@@ -79,5 +80,6 @@ public class AccountDashboardScreen extends Screen {
     byOwner.display(r.getByOwner());
     forReview.display(r.getForReview());
     closed.display(r.getClosed());
+    table.finishDisplay();
   }
 }

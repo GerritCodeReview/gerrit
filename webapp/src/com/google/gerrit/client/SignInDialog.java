@@ -15,6 +15,8 @@
 package com.google.gerrit.client;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.Frame;
@@ -86,7 +88,11 @@ public class SignInDialog extends DialogBox {
       Gerrit.postSignIn();
       d.hide();
       if (d.callback != null) {
-        d.callback.onSuccess(null);
+        DeferredCommand.addCommand(new Command() {
+          public void execute() {
+            d.callback.onSuccess(null);
+          }
+        });
       }
     } else {
       d.hide();

@@ -17,6 +17,8 @@ package com.google.gerrit.server;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gwt.user.server.rpc.RPCServletUtils;
+import com.google.gwtjsonrpc.server.JsonServlet;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
 
@@ -27,10 +29,13 @@ import com.dyuproject.openid.RelyingParty;
 
 import org.mortbay.util.UrlEncoded;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.StringWriter;
 import java.util.Collections;
 import java.util.Properties;
+import java.util.zip.GZIPOutputStream;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -41,6 +46,8 @@ import javax.servlet.http.HttpServletResponse;
 
 /** Handles the <code>/login</code> URL for web based single-sign-on. */
 public class LoginServlet extends HttpServlet {
+  private static final String DEF_ENC = "UTF-8";
+  private static final String CALLBACK_PARMETER = "callback";
   private static final String AX_SCHEMA = "http://openid.net/srv/ax/1.0";
 
   private GerritServer server;
@@ -161,16 +168,25 @@ public class LoginServlet extends HttpServlet {
     // Authenticate user through his/her OpenID provider
     //
     final String realm = serverUrl(req);
-    final String returnTo = req.getRequestURL().toString();
+    final StringBuffer retTo = req.getRequestURL();
+    retTo.append("?");
+    appendCallbackParameter(req, retTo);
     final StringBuilder auth;
 
-    auth = RelyingParty.getAuthUrlBuffer(user, realm, realm, returnTo);
+    auth = RelyingParty.getAuthUrlBuffer(user, realm, realm, retTo.toString());
     append(auth, "openid.ns.ext1", AX_SCHEMA);
     final String ext1 = "openid.ext1.";
     append(auth, ext1 + "mode", "fetch_request");
     append(auth, ext1 + "type.email", "http://schema.openid.net/contact/email");
     append(auth, ext1 + "required", "email");
     rsp.sendRedirect(auth.toString());
+  }
+
+  private static void appendCallbackParameter(final HttpServletRequest req,
+      final StringBuffer url) {
+    url.append(CALLBACK_PARMETER);
+    url.append("=");
+    url.append(UrlEncoded.encodeString(req.getParameter(CALLBACK_PARMETER)));
   }
 
   private void redirectChooseProvider(final HttpServletRequest req,
@@ -184,6 +200,8 @@ public class LoginServlet extends HttpServlet {
     url.append(RelyingParty.DEFAULT_PARAMETER);
     url.append("=");
     url.append(UrlEncoded.encodeString(GoogleAccountDiscovery.GOOGLE_ACCOUNT));
+    url.append("&");
+    appendCallbackParameter(req, url);
     rsp.sendRedirect(url.toString());
   }
 
@@ -220,8 +238,10 @@ public class LoginServlet extends HttpServlet {
       }
     }
 
-    rsp.setCharacterEncoding("UTF-8");
+    rsp.setCharacterEncoding(DEF_ENC);
     rsp.setContentType("text/html");
+    rsp.setHeader("Cache-Control", "no-cache");
+    rsp.setDateHeader("Expires", System.currentTimeMillis());
 
     if (account != null) {
       try {
@@ -237,8 +257,7 @@ public class LoginServlet extends HttpServlet {
       }
     }
 
-    final boolean success = account != null;
-    if (success) {
+    if (account != null) {
       final Cookie c = new Cookie(Gerrit.OPENIDUSER_COOKIE, "");
       c.setMaxAge(0);
       rsp.addCookie(c);
@@ -246,19 +265,42 @@ public class LoginServlet extends HttpServlet {
       forceLogout(rsp);
     }
 
-    final StringBuilder body = new StringBuilder();
-    body.append("<html>");
-    body.append("<script><!--\n");
-    body.append("parent.gerritPostSignIn(" + success + ");\n");
-    body.append("// -->\n");
-    body.append("</script>");
-    body.append("</html>");
+    final StringWriter body = new StringWriter();
+    body.write("<html>");
+    body.write("<script><!--\n");
+    body.write(req.getParameter(CALLBACK_PARMETER));
+    body.write("(");
+    if (account != null) {
+      JsonServlet.defaultGsonBuilder().create().toJson(account, body);
+    } else {
+      body.write("null");
+    }
+    body.write(");\n");
+    body.write("// -->\n");
+    body.write("</script>");
+    body.write("</html>");
+    
+    final byte[] raw = body.toString().getBytes(DEF_ENC);
+    final byte[] tosend;
+    if (RPCServletUtils.acceptsGzipEncoding(req)) {
+      rsp.setHeader("Content-Encoding", "gzip");
+      final ByteArrayOutputStream compressed = new ByteArrayOutputStream();
+      final GZIPOutputStream gz = new GZIPOutputStream(compressed);
+      gz.write(raw);
+      gz.finish();
+      gz.flush();
+      tosend = compressed.toByteArray();
+    } else {
+      tosend = raw;
+    }
 
-    final byte[] raw = body.toString().getBytes("UTF-8");
-    rsp.setContentLength(raw.length);
+    rsp.setContentLength(tosend.length);
     final OutputStream out = rsp.getOutputStream();
-    out.write(raw);
-    out.close();
+    try {
+      out.write(tosend);
+    } finally {
+      out.close();
+    }
   }
 
   public static void forceLogout(final HttpServletResponse rsp) {

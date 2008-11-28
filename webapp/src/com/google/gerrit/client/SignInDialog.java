@@ -108,12 +108,13 @@ public class SignInDialog extends DialogBox {
 
   private void onCallback(final Account result) {
     if (result != null) {
-      Gerrit.postSignIn();
+      Gerrit.postSignIn(result);
       hide();
-      if (appCallback != null) {
+      final AsyncCallback<?> ac = appCallback;
+      if (ac != null) {
         DeferredCommand.addCommand(new Command() {
           public void execute() {
-            appCallback.onSuccess(null);
+            ac.onSuccess(null);
           }
         });
       }

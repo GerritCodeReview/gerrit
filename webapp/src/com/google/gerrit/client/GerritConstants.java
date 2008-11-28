@@ -40,4 +40,5 @@ public interface GerritConstants extends Constants {
   String menuProjects();
 
   String rpcStatusLoading();
+  String anonymousCoward();
 }

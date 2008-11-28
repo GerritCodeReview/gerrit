@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client;
 
+import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.ui.LinkMenuBar;
 import com.google.gerrit.client.ui.LinkMenuItem;
 import com.google.gerrit.client.ui.Screen;
@@ -27,6 +28,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.WindowResizeListener;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.MenuBar;
+import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwtjsonrpc.client.JsonUtil;
 
@@ -46,6 +48,7 @@ public class Gerrit implements EntryPoint {
   public static GerritConstants C;
   public static GerritIcons ICONS;
   private static Link linkManager;
+  private static Account myAccount;
   private static ArrayList<SignedInListener> signedInListeners =
       new ArrayList<SignedInListener>();
 
@@ -76,7 +79,7 @@ public class Gerrit implements EntryPoint {
 
   /** @return true if the user is currently authenticated */
   public static boolean isSignedIn() {
-    return Cookies.getCookie(ACCOUNT_COOKIE) != null;
+    return myAccount != null;
   }
 
   /**
@@ -91,6 +94,7 @@ public class Gerrit implements EntryPoint {
 
   /** Sign the user out of the application (and discard the cookies). */
   public static void doSignOut() {
+    myAccount = null;
     Cookies.removeCookie(ACCOUNT_COOKIE);
     Cookies.removeCookie(OPENIDUSER_COOKIE);
 
@@ -136,8 +140,35 @@ public class Gerrit implements EntryPoint {
       }
     });
 
-    refreshMenuBar();
+    if (Cookies.getCookie(ACCOUNT_COOKIE) != null) {
+      // If the user is likely to already be signed into their account,
+      // load the account data and update the UI with that.
+      //
+      com.google.gerrit.client.account.Util.ACCOUNT_SVC
+          .myAccount(new AsyncCallback<Account>() {
+            public void onSuccess(final Account result) {
+              if (result != null) {
+                postSignIn(result);
+              } else {
+                Cookies.removeCookie(ACCOUNT_COOKIE);
+                refreshMenuBar();
+              }
+              finishModuleLoad();
+            }
 
+            public void onFailure(final Throwable caught) {
+              GWT.log("Unexpected failure from validating account", caught);
+              refreshMenuBar();
+              finishModuleLoad();
+            }
+          });
+    } else {
+      refreshMenuBar();
+      finishModuleLoad();
+    }
+  }
+
+  private void finishModuleLoad() {
     if ("".equals(History.getToken())) {
       if (isSignedIn()) {
         History.newItem(Link.MINE);
@@ -150,7 +181,8 @@ public class Gerrit implements EntryPoint {
   }
 
   /** Hook from {@link SignInDialog} to let us know to refresh the UI. */
-  static void postSignIn() {
+  static void postSignIn(final Account acct) {
+    myAccount = acct;
     refreshMenuBar();
     DeferredCommand.addCommand(new Command() {
       public void execute() {
@@ -192,6 +224,7 @@ public class Gerrit implements EntryPoint {
     menuBar.addGlue();
 
     if (signedIn) {
+      whoAmI();
       menuBar.addItem(new LinkMenuItem(C.menuSettings(), Link.SETTINGS));
       menuBar.addItem(C.menuSignOut(), new Command() {
         public void execute() {
@@ -206,6 +239,26 @@ public class Gerrit implements EntryPoint {
       });
     }
     menuBar.lastInGroup();
+  }
+
+  private static void whoAmI() {
+    final StringBuilder mystr = new StringBuilder();
+    if (myAccount.getPreferredEmail() != null) {
+      mystr.append(myAccount.getPreferredEmail());
+      if (myAccount.getFullName() != null) {
+        mystr.append(" (");
+        mystr.append(myAccount.getFullName());
+        mystr.append(")");
+      }
+    } else if (myAccount.getFullName() != null) {
+      mystr.append(myAccount.getFullName());
+    } else {
+      mystr.append(C.anonymousCoward());
+    }
+
+    final MenuItem me = menuBar.addItem(mystr.toString(), (Command) null);
+    me.removeStyleName("gwt-MenuItem");
+    me.addStyleName("gerrit-MenuBarUserName");
   }
 
   private static void addLink(final MenuBar m, final String text,

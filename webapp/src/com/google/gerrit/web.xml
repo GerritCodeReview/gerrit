@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app>
+  <resource-ref>
+    <res-ref-name>jdbc/ReviewDb</res-ref-name>
+    <res-type>javax.sql.DataSource</res-type>
+    <res-auth>Container</res-auth>
+  </resource-ref>
+
+  <filter>
+    <filter-name>UrlRewrite</filter-name>
+    <filter-class>com.google.gerrit.server.UrlRewriteFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>UrlRewrite</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <servlet>
+    <servlet-name>Gerrit</servlet-name>
+    <servlet-class>com.google.gerrit.server.HostPageServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Gerrit</servlet-name>
+    <url-pattern>/Gerrit</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>Login</servlet-name>
+    <servlet-class>com.google.gerrit.server.LoginServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Login</servlet-name>
+    <url-pattern>/login</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>AccountService</servlet-name>
+    <servlet-class>com.google.gerrit.server.AccountServiceSrv</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AccountService</servlet-name>
+    <url-pattern>/rpc/AccountService</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>ChangeListService</servlet-name>
+    <servlet-class>com.google.gerrit.server.ChangeListServiceSrv</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ChangeListService</servlet-name>
+    <url-pattern>/rpc/ChangeListService</url-pattern>
+  </servlet-mapping>
+</web-app>

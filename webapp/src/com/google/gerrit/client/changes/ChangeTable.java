@@ -20,12 +20,14 @@ import com.google.gerrit.client.SignedInListener;
 import com.google.gerrit.client.data.ChangeInfo;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.Change.Id;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -40,10 +42,12 @@ import com.google.gwt.user.client.ui.SourcesTableEvents;
 import com.google.gwt.user.client.ui.TableListener;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
+import com.google.gwtjsonrpc.client.VoidCallback;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.Map.Entry;
 
 public class ChangeTable extends Composite implements HasFocus {
@@ -151,13 +155,24 @@ public class ChangeTable extends Composite implements HasFocus {
 
     signedInListener = new SignedInListener() {
       public void onSignIn() {
-        final int max = table.getRowCount();
-        for (int row = 0; row < max; row++) {
-          final ChangeInfo c = getChangeInfo(row);
-          if (c != null) {
-            setStar(row, c);
+        Util.LIST_SVC.myStarredChangeIds(new AsyncCallback<Set<Change.Id>>() {
+          public void onFailure(final Throwable caught) {
+            GWT.log("ChangeTable.onSignIn myStarredChangeIds failed", caught);
           }
-        }
+
+          public void onSuccess(final Set<Change.Id> result) {
+            if (result != null) {
+              final int max = table.getRowCount();
+              for (int row = 0; row < max; row++) {
+                final ChangeInfo c = getChangeInfo(row);
+                if (c != null) {
+                  c.setStarred(result.contains(c.getId()));
+                  setStar(row, c);
+                }
+              }
+            }
+          }
+        });
       }
 
       public void onSignOut() {
@@ -184,6 +199,10 @@ public class ChangeTable extends Composite implements HasFocus {
     if (c != null && Gerrit.isSignedIn()) {
       c.setStarred(!c.isStarred());
       setStar(row, c);
+
+      final ToggleStarRequest req = new ToggleStarRequest();
+      req.toggle(c.getId(), c.isStarred());
+      Util.LIST_SVC.toggleStars(req, VoidCallback.INSTANCE);
     }
   }
 

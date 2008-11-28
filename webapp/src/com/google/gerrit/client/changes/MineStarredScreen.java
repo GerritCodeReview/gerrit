@@ -14,7 +14,13 @@
 
 package com.google.gerrit.client.changes;
 
+import com.google.gerrit.client.data.ChangeInfo;
 import com.google.gerrit.client.ui.AccountScreen;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+
+import java.util.List;
 
 
 public class MineStarredScreen extends AccountScreen {
@@ -29,5 +35,21 @@ public class MineStarredScreen extends AccountScreen {
 
     table.addSection(starred);
     add(table);
+  }
+
+  @Override
+  public void onLoad() {
+    super.onLoad();
+    table.setSavePointerId(History.getToken());
+    Util.LIST_SVC.myStarredChanges(new AsyncCallback<List<ChangeInfo>>() {
+      public void onSuccess(final List<ChangeInfo> result) {
+        starred.display(result);
+        table.finishDisplay();
+      }
+
+      public void onFailure(final Throwable caught) {
+        GWT.log("Fail", caught);
+      }
+    });
   }
 }

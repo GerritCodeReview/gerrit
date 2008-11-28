@@ -15,10 +15,30 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.data.AccountDashboardInfo;
+import com.google.gerrit.client.data.ChangeInfo;
 import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.client.reviewdb.Change;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.RemoteJsonService;
+import com.google.gwtjsonrpc.client.VoidResult;
+
+import java.util.List;
+import java.util.Set;
 
 public interface ChangeListService extends RemoteJsonService {
+  /** Get the data to show {@link AccountDashboardScreen} for an account. */
   void forAccount(Account.Id id, AsyncCallback<AccountDashboardInfo> callback);
+
+  /** Get the changes starred by the caller. */
+  void myStarredChanges(AsyncCallback<List<ChangeInfo>> callback);
+
+  /** Get the ids of all changes starred by the caller. */
+  void myStarredChangeIds(AsyncCallback<Set<Change.Id>> callback);
+
+  /**
+   * Add and/or remove changes from the set of starred changes of the caller.
+   * 
+   * @param req the add and remove cluster.
+   */
+  void toggleStars(ToggleStarRequest req, AsyncCallback<VoidResult> callback);
 }

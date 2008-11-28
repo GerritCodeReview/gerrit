@@ -1,3 +1,5 @@
 /config.mak
 /gerrit2_dump.sql.bz2
+/gerrit-server.jar
+/gerrit.war
 hs_err_pid*.log

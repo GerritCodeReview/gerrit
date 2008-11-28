@@ -22,7 +22,10 @@
 uname_S := $(shell sh -c 'uname -s 2>/dev/null || echo not')
 
 JAVA       = java
+JAVAC      = javac
+JAR        = jar
 JAVA_ARGS  = -Xmx265m
+CPIO       = cpio -pd
 GWT_OS     = unknown
 GWT_FLAGS  =
 
@@ -51,22 +54,44 @@ GWT_CP   = \
 #end GWT_CP
 
 WEB_LIB_GEN = \
-	$(WEBAPP)/lib/gson.jar \
-	$(WEBAPP)/lib/commons-codec.jar \
-	$(WEBAPP)/lib/gwtjsonrpc.jar \
 	$(WEBAPP)/lib/antlr.jar \
 	$(WEBAPP)/lib/asm.jar \
+	$(WEBAPP)/lib/commons-codec.jar \
+	$(WEBAPP)/lib/gson.jar \
+	$(WEBAPP)/lib/gwtjsonrpc.jar \
 	$(WEBAPP)/lib/gwtorm.jar \
 	$(WEBAPP)/lib/jdbc-h2.jar \
 #end WEB_LIB_GEN
+
+ALL_LIB = $(filter-out $(WEBAPP)/lib/jdbc-h2.jar, \
+	$(GWT_SDK)/gwt-servlet.jar \
+	$(WEBAPP)/lib/dyuproject-openid.jar \
+	$(WEBAPP)/lib/dyuproject-util.jar \
+	$(WEBAPP)/lib/jetty-util.jar \
+	$(WEB_LIB_GEN) \
+	)
+#end ALL_LIB
 
 ifdef GEN_DEBUG
 	GWT_FLAGS += -gen gensrc
 endif
 
-all: web
+MY_JAVA := $(shell find $(WEBAPP)/src -name \*.java)
+MY_RSRC := $(shell find $(WEBAPP)/src \
+     -name \*.css \
+  -o -name \*.gif \
+  -o -name \*.png \
+  -o -name \*.properties \
+  )
+MY_JAR  := gerrit-server.jar
+MY_WAR  := gerrit.war
+MY_WXML := $(WEBAPP)/src/com/google/gerrit/web.xml
+MY_NCJS := $(WEBAPP)/www/$(WEB_MAIN)/$(WEB_MAIN).nocache.js
+
+all: $(MY_WAR)
 
 clean:
+	rm -rf $(MY_JAR) $(MY_WAR) .bin
 	rm -f $(WEB_LIB_GEN)
 	rm -rf $(WEBAPP)/gensrc
 	rm -rf $(WEBAPP)/classes
@@ -77,7 +102,42 @@ clean-h2db:
 	rm -f $(WEBAPP)/ReviewDb.*.db
 .PHONY: clean-h2db
 
-web: web-lib
+$(MY_JAR): $(MY_JAVA) $(ALL_LIB)
+	rm -rf .bin
+	mkdir .bin
+	CLASSPATH= && \
+	$(foreach p,$(ALL_LIB) $(GWT_SDK)/gwt-user.jar,CLASSPATH="$$CLASSPATH:$(abspath $p)" &&) \
+	export CLASSPATH && \
+	cd $(WEBAPP)/src && $(JAVAC) \
+		-encoding utf-8 \
+		-source 1.5 \
+		-target 1.5 \
+		-g \
+		-d "$(abspath .bin)" \
+		$(patsubst $(WEBAPP)/src/%,%,$(MY_JAVA))
+	cd .bin && $(JAR) cf ../$(MY_JAR) .
+	rm -rf .bin
+
+$(MY_WAR): $(MY_NCJS) $(ALL_LIB) $(MY_JAR) $(MY_WXML)
+	rm -rf .bin
+	mkdir -p .bin/WEB-INF/lib
+	cd $(WEBAPP)/www/$(WEB_MAIN) && find . | $(CPIO) $(abspath .bin)
+	for p in $$(find .bin -type f); do\
+	  gzip -9c $$p > $$p.gz || exit;\
+	done
+	$(foreach p,$(ALL_LIB) $(MY_JAR),cp $p .bin/WEB-INF/lib &&) :
+	cp $(MY_WXML) .bin/WEB-INF
+	mkdir -p .bin/WEB-INF/classes/com/google/gerrit/public
+	rm .bin/Gerrit.html.gz
+	mv .bin/Gerrit.html .bin/WEB-INF/classes/com/google/gerrit/public
+	cd .bin && $(JAR) cf ../$(MY_WAR) .
+	rm -rf .bin
+
+$(MY_NCJS): \
+		$(MY_JAVA) \
+		$(MY_RSRC) \
+		$(WEBAPP)/src/com/google/gerrit/Gerrit.gwt.xml \
+		$(WEB_LIB_GEN)
 	CLASSPATH=src:classes && \
 	$(foreach p,$(GWT_CP),CLASSPATH=$$CLASSPATH:$p &&) \
 	export CLASSPATH && \
@@ -87,7 +147,7 @@ web: web-lib
 		$(GWT_FLAGS) \
 		$(WEB_MAIN)
 
-web-shell: web-lib
+web-shell: $(WEB_LIB_GEN)
 	CLASSPATH=src:classes && \
 	$(foreach p,$(GWT_CP),CLASSPATH=$$CLASSPATH:$p &&) \
 	export CLASSPATH && \

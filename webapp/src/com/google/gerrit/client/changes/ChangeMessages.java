@@ -14,18 +14,10 @@
 
 package com.google.gerrit.client.changes;
 
-import com.google.gwt.i18n.client.Constants;
+import com.google.gwt.i18n.client.Messages;
 
-public interface ChangeConstants extends Constants {
-  String changesRecentlyClosed();
-
-  String starredHeading();
-
-  String changeTableColumnID();
-  String changeTableColumnSubject();
-  String changeTableColumnOwner();
-  String changeTableColumnReviewers();
-  String changeTableColumnProject();
-  String changeTableColumnLastUpdate();
-  String changeTableNone();
+public interface ChangeMessages extends Messages {
+  String accountDashboardTitle(String fullName);
+  String changesUploadedBy(String fullName);
+  String changesReviewableBy(String fullName);
 }

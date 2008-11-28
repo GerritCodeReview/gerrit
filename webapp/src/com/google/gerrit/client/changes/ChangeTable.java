@@ -16,6 +16,7 @@ package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.Link;
 import com.google.gerrit.client.data.ChangeInfo;
+import com.google.gerrit.client.reviewdb.Change;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Hyperlink;
 
@@ -68,7 +69,7 @@ public class ChangeTable extends FlexTable {
     setWidget(row, C_ID, new ChangeLink(String.valueOf(c.getId().get()), c));
 
     String s = c.getSubject();
-    if (c.getStatus() != null) {
+    if (c.getStatus() != null && c.getStatus() != Change.Status.NEW) {
       s += " (" + c.getStatus().name() + ")";
     }
     setWidget(row, C_SUBJECT, new ChangeLink(s, c));
@@ -133,7 +134,7 @@ public class ChangeTable extends FlexTable {
     String titleText;
 
     ChangeTable table;
-    int titleRow;
+    int titleRow = -1;
     int dataBegin;
     int rows;
 
@@ -142,7 +143,14 @@ public class ChangeTable extends FlexTable {
     }
 
     public Section(final String titleText) {
-      this.titleText = titleText;
+      setTitleText(titleText);
+    }
+
+    public void setTitleText(final String text) {
+      titleText = text;
+      if (titleRow >= 0) {
+        table.setText(titleRow, 0, titleText);
+      }
     }
 
     public void display(final List<ChangeInfo> changeList) {

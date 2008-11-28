@@ -21,13 +21,19 @@ import com.google.gwt.user.client.ui.FlowPanel;
 
 public class Screen extends FlowPanel {
   private boolean requiresSignIn;
+  private Element headerElem;
 
-  public Screen(final String heading) {
+  public Screen(final String headingText) {
     setStyleName("gerrit-Screen");
 
-    final Element h = DOM.createElement("h1");
-    DOM.setInnerText(h, heading);
-    DOM.appendChild(getElement(), h);
+    headerElem = DOM.createElement("h1");
+    DOM.appendChild(getElement(), headerElem);
+
+    setTitleText(headingText);
+  }
+
+  public void setTitleText(final String text) {
+    DOM.setInnerText(headerElem, text);
   }
 
   /** Set whether or not {@link Gerrit#isSignedIn()} must be true. */

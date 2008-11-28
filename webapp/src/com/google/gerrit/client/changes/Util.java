@@ -19,6 +19,7 @@ import com.google.gwt.user.client.rpc.ServiceDefTarget;
 
 public class Util {
   public static final ChangeConstants C = GWT.create(ChangeConstants.class);
+  public static final ChangeMessages M = GWT.create(ChangeMessages.class);
 
   public static final ChangeListService LIST_SVC;
 

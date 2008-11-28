@@ -15,31 +15,32 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.data.AccountDashboardInfo;
+import com.google.gerrit.client.data.AccountInfo;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.ui.AccountScreen;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 
-public class MineScreen extends AccountScreen {
+public class AccountDashboardScreen extends AccountScreen {
   private Account.Id ownerId;
   private ChangeTable table;
   private ChangeTable.Section byOwner;
   private ChangeTable.Section forReview;
   private ChangeTable.Section closed;
 
-  public MineScreen() {
+  public AccountDashboardScreen() {
     this(null);
   }
 
-  public MineScreen(final Account.Id id) {
-    super(Util.C.mineHeading());
+  public AccountDashboardScreen(final Account.Id id) {
+    super("");
 
     ownerId = id;
     table = new ChangeTable();
-    byOwner = new ChangeTable.Section(Util.C.mineByMe());
-    forReview = new ChangeTable.Section(Util.C.mineForReview());
-    closed = new ChangeTable.Section(Util.C.mineClosed());
+    byOwner = new ChangeTable.Section("");
+    forReview = new ChangeTable.Section("");
+    closed = new ChangeTable.Section("");
 
     table.addSection(byOwner);
     table.addSection(forReview);
@@ -54,14 +55,25 @@ public class MineScreen extends AccountScreen {
     Util.LIST_SVC.forAccount(ownerId,
         new AsyncCallback<AccountDashboardInfo>() {
           public void onSuccess(final AccountDashboardInfo r) {
-            byOwner.display(r.getByOwner());
-            forReview.display(r.getForReview());
-            closed.display(r.getClosed());
+            display(r);
           }
 
           public void onFailure(final Throwable caught) {
             GWT.log("Fail", caught);
           }
         });
+  }
+
+  private void display(final AccountDashboardInfo r) {
+    final AccountInfo o = r.getOwner();
+
+    setTitleText(Util.M.accountDashboardTitle(o.getFullName()));
+    byOwner.setTitleText(Util.M.changesUploadedBy(o.getFullName()));
+    forReview.setTitleText(Util.M.changesReviewableBy(o.getFullName()));
+    closed.setTitleText(Util.C.changesRecentlyClosed());
+
+    byOwner.display(r.getByOwner());
+    forReview.display(r.getForReview());
+    closed.display(r.getClosed());
   }
 }

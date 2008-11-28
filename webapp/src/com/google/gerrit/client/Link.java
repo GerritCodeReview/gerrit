@@ -16,7 +16,7 @@ package com.google.gerrit.client;
 
 import com.google.gerrit.client.account.AccountSettings;
 import com.google.gerrit.client.changes.ChangeScreen;
-import com.google.gerrit.client.changes.MineScreen;
+import com.google.gerrit.client.changes.AccountDashboardScreen;
 import com.google.gerrit.client.changes.MineStarredScreen;
 import com.google.gerrit.client.data.AccountInfo;
 import com.google.gerrit.client.data.ChangeInfo;
@@ -63,7 +63,7 @@ public class Link implements HistoryListener {
       return new AccountSettings();
 
     else if (MINE.equals(token))
-      return new MineScreen();
+      return new AccountDashboardScreen();
 
     else if (MINE_STARRED.equals(token))
       return new MineStarredScreen();
@@ -75,7 +75,7 @@ public class Link implements HistoryListener {
 
     else if (token.matches("^dashboard,\\d+$")) {
       final String id = token.substring("dashboard,".length());
-      return new MineScreen(new Account.Id(Integer.parseInt(id)));
+      return new AccountDashboardScreen(new Account.Id(Integer.parseInt(id)));
     }
 
     return null;

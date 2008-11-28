@@ -15,7 +15,7 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.rpc.ServiceDefTarget;
+import com.google.gwtjsonrpc.client.JsonUtil;
 
 public class Util {
   public static final ChangeConstants C = GWT.create(ChangeConstants.class);
@@ -25,7 +25,6 @@ public class Util {
 
   static {
     LIST_SVC = GWT.create(ChangeListService.class);
-    ((ServiceDefTarget) LIST_SVC).setServiceEntryPoint(GWT.getModuleBaseURL()
-        + "rpc/ChangeListService");
+    JsonUtil.bind(LIST_SVC, "rpc/ChangeListService");
   }
 }

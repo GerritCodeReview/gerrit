@@ -47,6 +47,18 @@ public class Gerrit implements EntryPoint {
   private static Screen currentScreen;
 
   public static void display(final Screen view) {
+    if (view.isRequiresSignIn() && !isSignedIn()) {
+      doSignIn(new AsyncCallback<Object>() {
+        public void onSuccess(final Object result) {
+          display(view);
+        }
+
+        public void onFailure(final Throwable caught) {
+        }
+      });
+      return;
+    }
+
     if (currentScreen != null) {
       body.remove(currentScreen);
     }

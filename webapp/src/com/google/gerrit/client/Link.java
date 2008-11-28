@@ -21,6 +21,7 @@ import com.google.gerrit.client.changes.MineStarredScreen;
 import com.google.gerrit.client.data.AccountInfo;
 import com.google.gerrit.client.data.ChangeInfo;
 import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.client.ui.Screen;
 import com.google.gwt.user.client.HistoryListener;
 
 public class Link implements HistoryListener {

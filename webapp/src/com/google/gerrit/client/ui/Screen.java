@@ -12,17 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client;
+package com.google.gerrit.client.ui;
 
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
 
 public class Screen extends FlowPanel {
   public Screen(final String heading) {
     setStyleName("gerrit-Screen");
 
-    final Label hLabel = new Label(heading);
-    hLabel.setStyleName("gerrit-ScreenHeading");
-    add(hLabel);
+    final Element h = DOM.createElement("h1");
+    DOM.setInnerText(h, heading);
+    DOM.appendChild(getElement(), h);
   }
 }

@@ -14,8 +14,8 @@
 
 package com.google.gerrit.client.account;
 
-import com.google.gerrit.client.Screen;
 import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.client.ui.Screen;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 

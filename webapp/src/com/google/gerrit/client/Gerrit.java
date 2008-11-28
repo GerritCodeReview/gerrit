@@ -16,6 +16,7 @@ package com.google.gerrit.client;
 
 import com.google.gerrit.client.ui.LinkMenuBar;
 import com.google.gerrit.client.ui.LinkMenuItem;
+import com.google.gerrit.client.ui.Screen;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Command;

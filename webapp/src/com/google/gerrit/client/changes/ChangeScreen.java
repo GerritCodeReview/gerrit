@@ -14,8 +14,8 @@
 
 package com.google.gerrit.client.changes;
 
-import com.google.gerrit.client.Screen;
 import com.google.gerrit.client.data.ChangeInfo;
+import com.google.gerrit.client.ui.Screen;
 
 
 public class ChangeScreen extends Screen {

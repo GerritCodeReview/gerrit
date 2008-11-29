@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Configure PUBLIC "-//Mort Bay Consulting//DTD Configure//EN" "http://jetty.mortbay.org/configure.dtd">
+<!--
+
+  Jetty configuration to place "gerrit.war" into the root context,
+  so it answers to old-style URLs like "/$changeid" and "/mine".
+
+  * Copy this file to $JETTY_HOME/context/gerrit.xml
+  * Edit User/Password/DatabaseName as necessary below.
+
+  * Copy jdbc-postgresql.jar to $JETTY_HOME/lib/plus/
+  * Copy gerrit.war to $JETTY_HOME/webapps/
+
+  * Make sure you remove $JETTY_HOME/context/test.xml
+
+-->
+<Configure id="wac" class="org.mortbay.jetty.webapp.WebAppContext">
+  <Set name="contextPath">/</Set>
+  <Set name="war"><SystemProperty name="jetty.home" default="."/>/webapps/gerrit.war</Set>
+
+  <Set name="extractWAR">true</Set>
+  <Set name="copyWebDir">true</Set>
+  <Set name="defaultsDescriptor"><SystemProperty name="jetty.home" default="."/>/etc/webdefault.xml</Set>
+
+  <Set name="ConfigurationClasses">
+    <Array type="java.lang.String">
+      <Item>org.mortbay.jetty.webapp.WebInfConfiguration</Item>
+      <Item>org.mortbay.jetty.plus.webapp.EnvConfiguration</Item>
+      <Item>org.mortbay.jetty.plus.webapp.Configuration</Item>
+      <Item>org.mortbay.jetty.webapp.JettyWebXmlConfiguration</Item>
+    </Array>
+  </Set>
+
+  <New id="ReviewDb" class="org.mortbay.jetty.plus.naming.Resource">
+    <Arg></Arg>
+    <Arg>jdbc/ReviewDb</Arg>
+    <Arg>
+      <New class="org.postgresql.ds.PGSimpleDataSource">
+        <Set name="User">gerrit2</Set>
+        <Set name="Password">secretkey</Set>
+        <Set name="DatabaseName">reviewdb</Set>
+        <Set name="ServerName">localhost</Set>
+        <Set name="PortNumber">5432</Set>
+      </New>
+    </Arg>
+  </New>
+</Configure>

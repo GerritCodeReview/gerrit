@@ -23,15 +23,21 @@ import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.Transaction;
 import com.google.gwtorm.jdbc.Database;
+import com.google.gwtorm.jdbc.SimpleDataSource;
 
 import org.apache.commons.codec.binary.Base64;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Properties;
+
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 
 /** Global server-side state for Gerrit. */
 public class GerritServer {
@@ -73,18 +79,35 @@ public class GerritServer {
   }
 
   private Database<ReviewDb> createDatabase() throws OrmException {
-    final Properties p = readGerritDataSource();
-    return new Database<ReviewDb>(p, ReviewDb.class);
+    final String dsName = "java:comp/env/jdbc/ReviewDb";
+    final String pName = "GerritServer.properties";
+    DataSource ds;
+    try {
+      ds = (DataSource) new InitialContext().lookup(dsName);
+    } catch (NamingException namingErr) {
+      final Properties p = readGerritDataSource(pName);
+      if (p == null) {
+        throw new OrmException("No DataSource " + dsName + " and no " + pName
+            + " in CLASSPATH.  GerritServer requires either format.", namingErr);
+      }
+
+      try {
+        ds = new SimpleDataSource(p);
+      } catch (SQLException se) {
+        throw new OrmException("Database in " + pName + " unavailable", se);
+      }
+    }
+    return new Database<ReviewDb>(ds, ReviewDb.class);
   }
 
-  private Properties readGerritDataSource() throws OrmException {
+  private Properties readGerritDataSource(final String name)
+      throws OrmException {
     final Properties srvprop = new Properties();
-    final String name = "GerritServer.properties";
     final InputStream in;
 
     in = getClass().getClassLoader().getResourceAsStream(name);
     if (in == null) {
-      throw new OrmException("No " + name + " in classpath");
+      return null;
     }
     try {
       try {

@@ -1,6 +1,7 @@
 {%extends "changes_base.html"%}
 
 {%block body%}
+  <div class="top_table">
   <h1>
     {%include "change_star.html"%}
     <a id="upCL" href="{%url codereview.views.show change.key.id%}"
@@ -8,6 +9,7 @@
             Change {{change.key.id}}</a>:
     {{change.subject|truncatewords:11}} {{change|closed_label}}
   </h1>
+  </div> <!-- top_table -->
 
   {%block change_body%}BODY GOES HERE{%endblock%}
 
@@ -16,6 +18,7 @@
 
 {%block popup%}
   {%if change%}
+    <div class="top_table">
     <div class="popup" id="popup-change">
       <b>Change {{change.key.id}}: {{change.subject|truncatewords:11}}
       {{change|closed_label}}</b><br/>
@@ -26,5 +29,6 @@
       {%if change.num_drafts%} <span style="color: red;">+
 	{{change.num_drafts}} drafts</span>{%endif%}
     </div>
+    </div> <!-- top_table -->
   {%endif%}
 {%endblock%}

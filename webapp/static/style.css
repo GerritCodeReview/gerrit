@@ -139,8 +139,8 @@ body {
   float: right;
   position: absolute;
   margin-top: 8px;
-  left: 180px;
-  right: 25px;
+  left: 0px;
+  right: 2px;
 }
 
 #page_footer {
@@ -173,6 +173,13 @@ h2 {
   font-size: 13pt;
   font-weight: bold;
 }
+
+/* ***** top-table ***** */
+.top_table {
+  margin-left: 180px;
+}
+
+
 
 /* ****** Changes ****** */
 
@@ -501,7 +508,7 @@ table.change_info_table .hint {
 
 .code_diff {
   margin-top: 90px;
-  margin-left: -100px;
+  margin-left: 0px;
   width: 100%;
   display: table;
   border: 1px solid #b0bdcc;

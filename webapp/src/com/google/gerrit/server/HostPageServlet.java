@@ -220,14 +220,13 @@ public class HostPageServlet extends HttpServlet {
   }
 
   @Override
+  protected long getLastModified(final HttpServletRequest req) {
+    return lastModified;
+  }
+
+  @Override
   protected void doGet(final HttpServletRequest req,
       final HttpServletResponse rsp) throws IOException {
-    final long d = req.getDateHeader("If-Modified-Since");
-    if (timeEq(d, lastModified)) {
-      rsp.setStatus(HttpServletResponse.SC_NOT_MODIFIED);
-      return;
-    }
-
     final byte[] tosend;
     if (RPCServletUtils.acceptsGzipEncoding(req)) {
       rsp.setHeader("Content-Encoding", "gzip");
@@ -248,9 +247,5 @@ public class HostPageServlet extends HttpServlet {
     } finally {
       out.close();
     }
-  }
-
-  private static boolean timeEq(final long a, final long b) {
-    return a / 1000L == b / 1000L;
   }
 }

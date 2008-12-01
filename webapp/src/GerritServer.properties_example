@@ -5,8 +5,6 @@
 #
 #  database.driver :  Class name of the driver to load.
 #  database.url    :  The connection URL
-#  database.dialect:  Name of the gwtorm database dialect to use.
-#                     (optional, auto-sensed off database.url)
 #
 
 # H2

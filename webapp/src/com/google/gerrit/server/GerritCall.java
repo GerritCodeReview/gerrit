@@ -19,6 +19,7 @@ import com.google.gwtjsonrpc.client.CookieAccess;
 import com.google.gwtjsonrpc.server.ActiveCall;
 import com.google.gwtjsonrpc.server.ValidToken;
 import com.google.gwtjsonrpc.server.XsrfException;
+import com.google.gwtorm.client.OrmException;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -33,6 +34,15 @@ public class GerritCall extends ActiveCall {
       final HttpServletResponse o) {
     super(i, o);
     server = gs;
+  }
+
+  @Override
+  public void onFailure(final Throwable error) {
+    if (error instanceof OrmException) {
+      onInternalFailure(error);
+    } else {
+      super.onFailure(error);
+    }
   }
 
   @Override

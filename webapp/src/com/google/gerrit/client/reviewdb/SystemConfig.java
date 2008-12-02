@@ -47,15 +47,15 @@ public final class SystemConfig {
 
   /** Private key to sign XSRF protection tokens. */
   @Column(length = 36)
-  public String xsrfPrivateKey;
+  public transient String xsrfPrivateKey;
 
   /** Private key to sign account identification cookies. */
   @Column(length = 36)
-  public String accountPrivateKey;
+  public transient String accountPrivateKey;
 
   /** Maximum web session age, in seconds. */
   @Column
-  public int maxSessionAge;
+  public transient int maxSessionAge;
 
   protected SystemConfig() {
   }

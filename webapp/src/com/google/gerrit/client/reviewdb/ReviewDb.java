@@ -36,6 +36,9 @@ public interface ReviewDb extends Schema {
   AccountAccess accounts();
 
   @Relation
+  AccountExternalIdAccess accountExternalIds();
+
+  @Relation
   AccountAgreementAccess accountAgreements();
 
   @Relation

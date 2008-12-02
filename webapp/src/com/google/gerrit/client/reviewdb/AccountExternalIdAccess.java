@@ -16,16 +16,18 @@ package com.google.gerrit.client.reviewdb;
 
 import com.google.gwtorm.client.Access;
 import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.PrimaryKey;
 import com.google.gwtorm.client.Query;
 import com.google.gwtorm.client.ResultSet;
-import com.google.gwtorm.client.SecondaryKey;
 
-/** Access interface for {@link Account}. */
-public interface AccountAccess extends Access<Account, Account.Id> {
-  /** Locate an account by our locally generated identity. */
-  @SecondaryKey("accountId")
-  Account byId(Account.Id key) throws OrmException;
+public interface AccountExternalIdAccess extends
+    Access<AccountExternalId, AccountExternalId.Key> {
+  @PrimaryKey("key")
+  AccountExternalId get(AccountExternalId.Key key) throws OrmException;
 
-  @Query("WHERE preferredEmail = ? LIMIT 2")
-  ResultSet<Account> byPreferredEmail(String email) throws OrmException;
+  @Query("WHERE key.externalId = ? LIMIT 2")
+  ResultSet<AccountExternalId> byExternal(String id) throws OrmException;
+
+  @Query("WHERE key.accountId = ?")
+  ResultSet<AccountExternalId> byAccount(Account.Id id) throws OrmException;
 }

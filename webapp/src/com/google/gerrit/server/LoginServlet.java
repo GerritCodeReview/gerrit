@@ -17,12 +17,15 @@ package com.google.gerrit.server;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.account.SignInResult;
 import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.client.reviewdb.AccountExternalId;
+import com.google.gerrit.client.reviewdb.AccountExternalIdAccess;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gwt.user.server.rpc.RPCServletUtils;
 import com.google.gwtjsonrpc.server.JsonServlet;
 import com.google.gwtjsonrpc.server.ValidToken;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.Transaction;
 
 import com.dyuproject.openid.Constants;
 import com.dyuproject.openid.OpenIdContext;
@@ -38,6 +41,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.StringWriter;
 import java.util.Collections;
+import java.util.List;
 import java.util.Properties;
 import java.util.zip.GZIPOutputStream;
 
@@ -216,11 +220,34 @@ public class LoginServlet extends HttpServlet {
       throws IOException {
     Account account = null;
     if (user != null) {
-      final Account.OpenId provId = new Account.OpenId(user.getIdentity());
       try {
         final ReviewDb d = server.getDatabase().open();
         try {
-          account = d.accounts().byOpenId(provId);
+          final AccountExternalIdAccess extAccess = d.accountExternalIds();
+          AccountExternalId acctExt = lookup(extAccess, user.getIdentity());
+
+          if (acctExt == null && email != null && isGoogleAccount(user)) {
+            acctExt = lookup(extAccess, "GoogleAccount/" + email);
+            if (acctExt != null) {
+              // Legacy user from Gerrit 1? Upgrade their account.
+              //
+              final Transaction txn = d.beginTransaction();
+              final AccountExternalId openidExt =
+                  new AccountExternalId(new AccountExternalId.Key(acctExt
+                      .getAccountId(), user.getIdentity()));
+              extAccess.insert(Collections.singleton(openidExt), txn);
+              extAccess.delete(Collections.singleton(acctExt), txn);
+              txn.commit();
+              acctExt = openidExt;
+            }
+          }
+
+          if (acctExt != null) {
+            account = d.accounts().byId(acctExt.getAccountId());
+          } else {
+            account = null;
+          }
+
           if (account != null) {
             // Existing user; double check the email is current.
             //
@@ -231,9 +258,18 @@ public class LoginServlet extends HttpServlet {
           } else {
             // New user; create an account entity for them.
             //
-            account = new Account(provId, new Account.Id(d.nextAccountId()));
+            final Transaction txn = d.beginTransaction();
+            
+            account = new Account(new Account.Id(d.nextAccountId()));
             account.setPreferredEmail(email);
-            d.accounts().insert(Collections.singleton(account));
+
+            acctExt =
+                new AccountExternalId(new AccountExternalId.Key(
+                    account.getId(), user.getIdentity()));
+
+            d.accounts().insert(Collections.singleton(account), txn);
+            extAccess.insert(Collections.singleton(acctExt), txn);
+            txn.commit();
           }
         } finally {
           d.close();
@@ -278,6 +314,24 @@ public class LoginServlet extends HttpServlet {
       append(me, Gerrit.ACCOUNT_COOKIE, tok);
       rsp.sendRedirect(me.toString());
     }
+  }
+
+  private static AccountExternalId lookup(
+      final AccountExternalIdAccess extAccess, final String id)
+      throws OrmException {
+    final List<AccountExternalId> extRes = extAccess.byExternal(id).toList();
+    switch (extRes.size()) {
+      case 0:
+        return null;
+      case 1:
+        return extRes.get(0);
+      default:
+        throw new OrmException("More than one account matches: " + id);
+    }
+  }
+
+  private static boolean isGoogleAccount(final OpenIdUser user) {
+    return user.getIdentity().startsWith(GoogleAccountDiscovery.GOOGLE_ACCOUNT);
   }
 
   private void modeChkSetCookie(final HttpServletRequest req,

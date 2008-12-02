@@ -16,8 +16,7 @@ INSERT INTO accounts
  contact_address,
  contact_country,
  contact_phone_nbr,
- contact_fax_nbr,
- openid_identity
+ contact_fax_nbr
 ) SELECT
  nextval('account_id'),
  a.created,
@@ -26,9 +25,17 @@ INSERT INTO accounts
  a.mailing_address,
  a.mailing_address_country,
  a.phone_number,
- a.fax_number,
- 'GoogleAccount<' || a.user_email || '>'
+ a.fax_number
  FROM gerrit1.accounts a;
+
+DELETE FROM account_external_ids;
+INSERT INTO account_external_ids
+(account_id,
+ external_id) SELECT
+ l.account_id,
+ 'GoogleAccount/' || a.user_email
+ FROM gerrit1.accounts a, accounts l
+ WHERE l.preferred_email = a.user_email;
 
 DELETE FROM contributor_agreements;
 INSERT INTO contributor_agreements
@@ -78,7 +85,7 @@ INSERT INTO account_agreements
  r.account_id,
  a.cla_comments,
  (SELECT m.account_id FROM accounts m
-  WHERE m.openid_identity = 'GoogleAccount<' || a.cla_verified_by || '>'),
+  WHERE m.preferred_email = a.cla_verified_by),
  a.cla_verified_timestamp,
  i.id
  FROM contributor_agreements i,
@@ -86,7 +93,7 @@ INSERT INTO account_agreements
  accounts r
  WHERE i.short_name = 'Individual'
  AND a.individual_cla_version = 1
- AND r.openid_identity = 'GoogleAccount<' || a.user_email || '>';
+ AND r.preferred_email = a.user_email;
 INSERT INTO account_agreements
 (accepted_on,
  status,
@@ -103,7 +110,7 @@ INSERT INTO account_agreements
  r.account_id,
  a.cla_comments,
  (SELECT m.account_id FROM accounts m
-  WHERE m.openid_identity = 'GoogleAccount<' || a.cla_verified_by || '>'),
+  WHERE m.preferred_email = a.cla_verified_by),
  a.cla_verified_timestamp,
  i.id
  FROM contributor_agreements i,
@@ -112,7 +119,7 @@ INSERT INTO account_agreements
  WHERE i.short_name = 'Corporate'
  AND a.individual_cla_version = 0
  AND a.cla_verified = 'Y'
- AND r.openid_identity = 'GoogleAccount<' || a.user_email || '>';
+ AND r.preferred_email = a.user_email;
 
 DELETE FROM account_groups;
 INSERT INTO account_groups
@@ -137,7 +144,7 @@ INSERT INTO account_group_members
  gerrit1.account_group_users o
  WHERE
  o.group_name = g.name
- AND a.openid_identity = 'GoogleAccount<' || o.email || '>';
+ AND a.preferred_email = o.email;
 UPDATE account_group_members SET owner = 'Y'
 WHERE group_id = (SELECT group_id FROM account_groups
                   WHERE name = 'admin');
@@ -173,7 +180,7 @@ INSERT INTO project_lead_accounts
  accounts a,
  gerrit1.project_owner_users o
  WHERE p.project_id = o.project_id
- AND a.openid_identity = 'GoogleAccount<' || o.email || '>';
+ AND a.preferred_email = o.email;
 
 DELETE FROM project_lead_groups;
 INSERT INTO project_lead_groups
@@ -217,7 +224,7 @@ INSERT INTO changes
  gerrit1.projects p,
  gerrit1.branches b
  WHERE 
- a.openid_identity = 'GoogleAccount<' || c.owner || '>'
+ a.preferred_email = c.owner
  AND p.gae_key = c.dest_project_key
  AND b.gae_key = c.dest_branch_key
  ;
@@ -317,7 +324,7 @@ INSERT INTO patch_comments
  WHERE o_p.patchset_key = o_ps.gae_key
  AND o_ps.change_key = o_c.gae_key
  AND o_p.gae_key = c.patch_key
- AND a.openid_identity = 'GoogleAccount<' || c.author || '>';
+ AND a.preferred_email = c.author;
 
 DELETE FROM change_approvals;
 INSERT INTO change_approvals
@@ -335,7 +342,7 @@ INSERT INTO change_approvals
  WHERE
  s.verified = 'Y'
  AND s.change_key = c.gae_key
- AND a.openid_identity = 'GoogleAccount<' || s.email || '>';
+ AND a.preferred_email = s.email;
 INSERT INTO change_approvals
 (value,
  change_id,
@@ -357,7 +364,7 @@ INSERT INTO change_approvals
  WHERE
  s.lgtm IS NOT NULL
  AND s.change_key = c.gae_key
- AND a.openid_identity = 'GoogleAccount<' || s.email || '>';
+ AND a.preferred_email = s.email;
 
 SELECT
  (SELECT COUNT(*) FROM gerrit1.accounts) as accounts_g1,

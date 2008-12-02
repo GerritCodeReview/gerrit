@@ -139,8 +139,8 @@ body {
   float: right;
   position: absolute;
   margin-top: 8px;
-  left: 180px;
-  right: 25px;
+  left: 17%;
+  right: 2.5%;
 }
 
 #page_footer {
@@ -501,8 +501,8 @@ table.change_info_table .hint {
 
 .code_diff {
   margin-top: 90px;
-  margin-left: -100px;
-  width: 100%;
+  margin-left: -21.0%;
+  width: 123.8%;
   display: table;
   border: 1px solid #b0bdcc;
 }

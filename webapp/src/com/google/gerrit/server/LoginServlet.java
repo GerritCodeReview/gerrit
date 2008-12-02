@@ -43,6 +43,7 @@ import java.io.StringWriter;
 import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
+import java.util.regex.Pattern;
 import java.util.zip.GZIPOutputStream;
 
 import javax.servlet.ServletConfig;
@@ -55,6 +56,9 @@ import javax.servlet.http.HttpServletResponse;
 /** Handles the <code>/login</code> URL for web based single-sign-on. */
 public class LoginServlet extends HttpServlet {
   private static final String CALLBACK_PARMETER = "callback";
+  private static final Pattern SAFE_CALLBACK =
+      Pattern.compile("^(parent\\.)?__gwtjsonrpc_callback[0-9]+$");
+
   private static final String AX_SCHEMA = "http://openid.net/srv/ax/1.0";
   private static final String GMODE_CHKCOOKIE = "gerrit_chkcookie";
   private static final String GMODE_SETCOOKIE = "gerrit_setcookie";
@@ -259,7 +263,7 @@ public class LoginServlet extends HttpServlet {
             // New user; create an account entity for them.
             //
             final Transaction txn = d.beginTransaction();
-            
+
             account = new Account(new Account.Id(d.nextAccountId()));
             account.setPreferredEmail(email);
 
@@ -416,15 +420,22 @@ public class LoginServlet extends HttpServlet {
   private void callback(final HttpServletRequest req,
       final HttpServletResponse rsp, final SignInResult result)
       throws IOException {
+    final String cb = req.getParameter(CALLBACK_PARMETER);
     final StringWriter body = new StringWriter();
     body.write("<html>");
-    body.write("<script><!--\n");
-    body.write(req.getParameter(CALLBACK_PARMETER));
-    body.write("(");
-    JsonServlet.defaultGsonBuilder().create().toJson(result, body);
-    body.write(");\n");
-    body.write("// -->\n");
-    body.write("</script>");
+    if (SAFE_CALLBACK.matcher(cb).matches()) {
+      body.write("<script><!--\n");
+      body.write(cb);
+      body.write("(");
+      JsonServlet.defaultGsonBuilder().create().toJson(result, body);
+      body.write(");\n");
+      body.write("// -->\n");
+      body.write("</script>");
+    } else {
+      body.append("<body>");
+      body.append("Unsafe JSON callback requested; refusing to execute it.");
+      body.append("</body>");
+    }
     body.write("</html>");
     sendHtml(req, rsp, body.toString());
   }

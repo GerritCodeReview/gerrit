@@ -39,6 +39,7 @@ public class HostPageServlet extends HttpServlet {
   private static final String CACHE_CTRL =
       "public, max-age=" + (MAX_AGE / 1000L);
 
+  private String canonicalUrl;
   private byte[] hostPageRaw;
   private byte[] hostPageCompressed;
   private long lastModified;
@@ -49,7 +50,9 @@ public class HostPageServlet extends HttpServlet {
 
     final File sitePath;
     try {
-      sitePath = GerritServer.getInstance().getSitePath();
+      final GerritServer srv = GerritServer.getInstance();
+      sitePath = srv.getSitePath();
+      canonicalUrl = srv.getCanonicalURL();
     } catch (OrmException e) {
       throw new ServletException("Cannot load GerritServer", e);
     } catch (XsrfException e) {
@@ -136,6 +139,13 @@ public class HostPageServlet extends HttpServlet {
   @Override
   protected void doGet(final HttpServletRequest req,
       final HttpServletResponse rsp) throws IOException {
+    if (canonicalUrl != null
+        && !canonicalUrl.equals(LoginServlet.serverUrl(req))) {
+      rsp.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
+      rsp.setHeader("Location", canonicalUrl + "Gerrit");
+      return;
+    }
+
     final byte[] tosend;
     if (RPCServletUtils.acceptsGzipEncoding(req)) {
       rsp.setHeader("Content-Encoding", "gzip");

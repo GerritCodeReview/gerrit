@@ -15,16 +15,16 @@
 package com.google.gerrit.server;
 
 import com.google.gwt.user.server.rpc.RPCServletUtils;
+import com.google.gwtjsonrpc.server.XsrfException;
+import com.google.gwtorm.client.OrmException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.StringWriter;
 import java.util.zip.GZIPOutputStream;
 
 import javax.servlet.ServletConfig;
@@ -47,14 +47,23 @@ public class HostPageServlet extends HttpServlet {
   public void init(final ServletConfig config) throws ServletException {
     super.init(config);
 
+    final File sitePath;
+    try {
+      sitePath = GerritServer.getInstance().getSitePath();
+    } catch (OrmException e) {
+      throw new ServletException("Cannot load GerritServer", e);
+    } catch (XsrfException e) {
+      throw new ServletException("Cannot load GerritServer", e);
+    }
+
     final String hostPageName = "com/google/gerrit/public/Gerrit.html";
     final Document hostDoc = HtmlDomUtil.parseFile(hostPageName);
     if (hostDoc == null) {
       throw new ServletException("No " + hostPageName + " in CLASSPATH");
     }
-    injectCssFile(hostDoc, "gerrit_sitecss", "GerritSite.css");
-    injectXmlFile(hostDoc, "gerrit_header", "GerritSiteHeader.html");
-    injectXmlFile(hostDoc, "gerrit_footer", "GerritSiteFooter.html");
+    injectCssFile(hostDoc, "gerrit_sitecss", sitePath, "GerritSite.css");
+    injectXmlFile(hostDoc, "gerrit_header", sitePath, "GerritSiteHeader.html");
+    injectXmlFile(hostDoc, "gerrit_footer", sitePath, "GerritSiteFooter.html");
     try {
       hostPageRaw = HtmlDomUtil.toUTF8(hostDoc);
     } catch (IOException e) {
@@ -65,7 +74,7 @@ public class HostPageServlet extends HttpServlet {
   }
 
   private void injectXmlFile(final Document hostDoc, final String id,
-      final String fileName) throws ServletException {
+      final File sitePath, final String fileName) throws ServletException {
     final Element banner = HtmlDomUtil.find(hostDoc, id);
     if (banner == null) {
       return;
@@ -75,18 +84,18 @@ public class HostPageServlet extends HttpServlet {
       banner.removeChild(banner.getFirstChild());
     }
 
-    final Document bannerHTML = HtmlDomUtil.parseFile(fileName);
-    if (bannerHTML == null) {
+    final Document html = HtmlDomUtil.parseFile(sitePath, fileName);
+    if (html == null) {
       banner.getParentNode().removeChild(banner);
       return;
     }
 
-    final Element content = bannerHTML.getDocumentElement();
+    final Element content = html.getDocumentElement();
     banner.appendChild(hostDoc.importNode(content, true));
   }
 
   private void injectCssFile(final Document hostDoc, final String id,
-      final String fileName) throws ServletException {
+      final File sitePath, final String fileName) throws ServletException {
     final Element banner = HtmlDomUtil.find(hostDoc, id);
     if (banner == null) {
       return;
@@ -96,32 +105,14 @@ public class HostPageServlet extends HttpServlet {
       banner.removeChild(banner.getFirstChild());
     }
 
-    InputStream in = getClass().getClassLoader().getResourceAsStream(fileName);
-    if (in == null) {
+    final String css = HtmlDomUtil.readFile(sitePath, fileName);
+    if (css == null) {
       banner.getParentNode().removeChild(banner);
       return;
     }
 
-    final StringWriter w = new StringWriter();
-    w.write('\n');
-    try {
-      try {
-        final InputStreamReader r = new InputStreamReader(in, HtmlDomUtil.ENC);
-        final char[] buf = new char[512];
-        int n;
-        while ((n = r.read(buf)) > 0) {
-          w.write(buf, 0, n);
-        }
-      } finally {
-        in.close();
-      }
-    } catch (IOException e) {
-      throw new ServletException("Error reading " + fileName, e);
-    }
-    w.write('\n');
-
     banner.removeAttribute("id");
-    banner.appendChild(hostDoc.createCDATASection(w.toString()));
+    banner.appendChild(hostDoc.createCDATASection("\n" + css + "\n"));
   }
 
   private byte[] compress(final byte[] raw) throws ServletException {

@@ -27,6 +27,7 @@ import com.google.gwtorm.jdbc.SimpleDataSource;
 
 import org.apache.commons.codec.binary.Base64;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
@@ -235,5 +236,10 @@ public class GerritServer {
       b.append((char) r[i]);
     }
     return b.toString();
+  }
+
+  /** Local filesystem location of header/footer/CSS configuration files. */
+  public File getSitePath() {
+    return config.sitePath != null ? new File(config.sitePath) : null;
   }
 }

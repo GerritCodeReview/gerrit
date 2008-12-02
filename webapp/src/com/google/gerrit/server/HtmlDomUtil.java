@@ -20,8 +20,12 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.StringWriter;
 
 import javax.servlet.ServletException;
@@ -140,6 +144,61 @@ public class HtmlDomUtil {
       }
     } catch (IOException e) {
       throw new ServletException("Error reading " + name, e);
+    }
+  }
+
+  /** Parse an XHTML file from the local drive and return the instance. */
+  public static Document parseFile(final File parentDir, final String name)
+      throws ServletException {
+    if (parentDir == null) {
+      return null;
+    }
+    final File path = new File(parentDir, name);
+    try {
+      final InputStream in = new FileInputStream(path);
+      try {
+        try {
+          return newBuilder().parse(in);
+        } catch (SAXException e) {
+          throw new ServletException("Error reading " + path, e);
+        } catch (ParserConfigurationException e) {
+          throw new ServletException("Error reading " + path, e);
+        }
+      } finally {
+        in.close();
+      }
+    } catch (FileNotFoundException e) {
+      return null;
+    } catch (IOException e) {
+      throw new ServletException("Error reading " + path, e);
+    }
+  }
+
+  /** Read a UTF-8 text file from the local drive. */
+  public static String readFile(final File parentDir, final String name)
+      throws ServletException {
+    if (parentDir == null) {
+      return null;
+    }
+    final File path = new File(parentDir, name);
+    try {
+      final InputStream in = new FileInputStream(path);
+      try {
+        final StringWriter w = new StringWriter();
+        final InputStreamReader r = new InputStreamReader(in, ENC);
+        final char[] buf = new char[512];
+        int n;
+        while ((n = r.read(buf)) > 0) {
+          w.write(buf, 0, n);
+        }
+        return w.toString();
+      } finally {
+        in.close();
+      }
+    } catch (FileNotFoundException e) {
+      return null;
+    } catch (IOException e) {
+      throw new ServletException("Error reading " + path, e);
     }
   }
 

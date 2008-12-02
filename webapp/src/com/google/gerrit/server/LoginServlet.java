@@ -233,15 +233,12 @@ public class LoginServlet extends HttpServlet {
           if (acctExt == null && email != null && isGoogleAccount(user)) {
             acctExt = lookup(extAccess, "GoogleAccount/" + email);
             if (acctExt != null) {
-              // Legacy user from Gerrit 1? Upgrade their account.
+              // Legacy user from Gerrit 1? Attach the OpenID identity.
               //
-              final Transaction txn = d.beginTransaction();
               final AccountExternalId openidExt =
                   new AccountExternalId(new AccountExternalId.Key(acctExt
                       .getAccountId(), user.getIdentity()));
-              extAccess.insert(Collections.singleton(openidExt), txn);
-              extAccess.delete(Collections.singleton(acctExt), txn);
-              txn.commit();
+              extAccess.insert(Collections.singleton(openidExt));
               acctExt = openidExt;
             }
           }

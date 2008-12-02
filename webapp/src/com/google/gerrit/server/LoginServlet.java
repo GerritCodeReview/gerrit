@@ -64,6 +64,7 @@ public class LoginServlet extends HttpServlet {
   private static final String GMODE_SETCOOKIE = "gerrit_setcookie";
 
   private GerritServer server;
+  private String canonicalUrl;
   private RelyingParty relyingParty;
   private Document pleaseSetCookieDoc;
 
@@ -81,6 +82,7 @@ public class LoginServlet extends HttpServlet {
       throw new ServletException("Cannot configure GerritServer", e);
     }
 
+    canonicalUrl = server.getCanonicalURL();
     String cookieKey = server.getAccountCookieKey();
     if (cookieKey.length() > 24) {
       cookieKey = cookieKey.substring(0, 24);
@@ -210,6 +212,12 @@ public class LoginServlet extends HttpServlet {
 
   private void redirectChooseProvider(final HttpServletRequest req,
       final HttpServletResponse rsp) throws IOException {
+    if (canonicalUrl != null && !canonicalUrl.equals(serverUrl(req))) {
+      rsp.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
+      rsp.setHeader("Location", canonicalUrl + "login");
+      return;
+    }
+
     // Hard-code to use the Google Account service.
     //
     final StringBuilder url = new StringBuilder(req.getRequestURL());
@@ -466,7 +474,7 @@ public class LoginServlet extends HttpServlet {
     }
   }
 
-  private static String serverUrl(final HttpServletRequest req) {
+  static String serverUrl(final HttpServletRequest req) {
     // Assume this servlet is in the context with a simple name like "login"
     // and we were accessed without any path info. Clipping the last part of
     // the name from the URL should generate the web application's root path.

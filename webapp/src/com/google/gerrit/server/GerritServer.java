@@ -242,4 +242,13 @@ public class GerritServer {
   public File getSitePath() {
     return config.sitePath != null ? new File(config.sitePath) : null;
   }
+
+  /** Optional canonical URL for this application. */
+  public String getCanonicalURL() {
+    String u = config.canonicalUrl;
+    if (u != null && !u.endsWith("/")) {
+      u += "/";
+    }
+    return u;
+  }
 }

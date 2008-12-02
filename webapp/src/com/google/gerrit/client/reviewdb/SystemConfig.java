@@ -66,6 +66,10 @@ public final class SystemConfig {
   @Column(notNull = false)
   public String sitePath;
 
+  /** Optional canonical URL for this application. */
+  @Column
+  public String canonicalUrl;
+
   protected SystemConfig() {
   }
 }

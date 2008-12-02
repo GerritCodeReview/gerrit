@@ -16,30 +16,11 @@ package com.google.gerrit.client.reviewdb;
 
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.IntKey;
-import com.google.gwtorm.client.StringKey;
 
 import java.sql.Timestamp;
 
 /** Preferences and information about a single user. */
 public final class Account {
-  /** Globally unique key to identify a user. */
-  public static class OpenId extends StringKey<com.google.gwtorm.client.Key<?>> {
-    @Column
-    protected String openidIdentity;
-
-    protected OpenId() {
-    }
-
-    public OpenId(final String id) {
-      openidIdentity = id;
-    }
-
-    @Override
-    public String get() {
-      return openidIdentity;
-    }
-  }
-
   /** Key local to Gerrit to identify a user. */
   public static class Id extends IntKey<com.google.gwtorm.client.Key<?>> {
     @Column
@@ -60,10 +41,6 @@ public final class Account {
 
   @Column
   protected Id accountId;
-
-  /** Identity from the OpenID provider the user authenticates through. */
-  @Column
-  protected OpenId openidIdentity;
 
   /** Date and time the user registered with the review server. */
   @Column
@@ -87,11 +64,9 @@ public final class Account {
   /**
    * Create a new account.
    * 
-   * @param identity identity assigned by the OpenID provider.
    * @param newId unique id, see {@link ReviewDb#nextAccountId()}.
    */
-  public Account(final Account.OpenId identity, final Account.Id newId) {
-    openidIdentity = identity;
+  public Account(final Account.Id newId) {
     accountId = newId;
     registeredOn = new Timestamp(System.currentTimeMillis());
   }

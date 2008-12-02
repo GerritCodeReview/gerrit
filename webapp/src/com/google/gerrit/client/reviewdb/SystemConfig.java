@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.reviewdb;
 
+import com.google.gerrit.server.HostPageServlet;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.StringKey;
 
@@ -56,6 +57,14 @@ public final class SystemConfig {
   /** Maximum web session age, in seconds. */
   @Column
   public transient int maxSessionAge;
+
+  /**
+   * Local filesystem location of header/footer/CSS configuration files
+   * 
+   * @see HostPageServlet
+   */
+  @Column(notNull = false)
+  public String sitePath;
 
   protected SystemConfig() {
   }

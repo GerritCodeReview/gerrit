@@ -80,6 +80,7 @@ MY_JAVA := $(shell find $(WEBAPP)/src -name \*.java)
 MY_RSRC := $(shell find $(WEBAPP)/src \
      -name \*.css \
   -o -name \*.gif \
+  -o -name \*.html \
   -o -name \*.png \
   -o -name \*.properties \
   )
@@ -128,8 +129,9 @@ $(MY_WAR): $(MY_NCJS) $(ALL_LIB) $(MY_JAR) $(MY_WXML)
 	$(foreach p,$(ALL_LIB) $(MY_JAR),cp $p .bin/WEB-INF/lib &&) :
 	cp $(MY_WXML) .bin/WEB-INF
 	mkdir -p .bin/WEB-INF/classes/com/google/gerrit/public
-	rm .bin/Gerrit.html.gz
-	mv .bin/Gerrit.html .bin/WEB-INF/classes/com/google/gerrit/public
+	$(foreach p,Gerrit.html SetCookie.html,\
+	  rm .bin/$p.gz && \
+	  mv .bin/$p .bin/WEB-INF/classes/com/google/gerrit/public &&) :
 	cd .bin && $(JAR) cf ../$(MY_WAR) .
 	rm -rf .bin
 

@@ -15,10 +15,12 @@
 package com.google.gerrit.server;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.account.SignInResult;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gwt.user.server.rpc.RPCServletUtils;
 import com.google.gwtjsonrpc.server.JsonServlet;
+import com.google.gwtjsonrpc.server.ValidToken;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
 
@@ -28,6 +30,8 @@ import com.dyuproject.openid.OpenIdUser;
 import com.dyuproject.openid.RelyingParty;
 
 import org.mortbay.util.UrlEncoded;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -46,12 +50,14 @@ import javax.servlet.http.HttpServletResponse;
 
 /** Handles the <code>/login</code> URL for web based single-sign-on. */
 public class LoginServlet extends HttpServlet {
-  private static final String DEF_ENC = "UTF-8";
   private static final String CALLBACK_PARMETER = "callback";
   private static final String AX_SCHEMA = "http://openid.net/srv/ax/1.0";
+  private static final String GMODE_CHKCOOKIE = "gerrit_chkcookie";
+  private static final String GMODE_SETCOOKIE = "gerrit_setcookie";
 
   private GerritServer server;
   private RelyingParty relyingParty;
+  private Document pleaseSetCookieDoc;
 
   @Override
   public void init(final ServletConfig config) throws ServletException {
@@ -86,6 +92,12 @@ public class LoginServlet extends HttpServlet {
     } catch (IOException e) {
       throw new ServletException("Cannot setup RelyingParty", e);
     }
+
+    final String scHtmlName = "com/google/gerrit/public/SetCookie.html";
+    pleaseSetCookieDoc = HtmlDomUtil.parseFile(scHtmlName);
+    if (pleaseSetCookieDoc == null) {
+      throw new ServletException("No " + scHtmlName + " in CLASSPATH");
+    }
   }
 
   @Override
@@ -101,16 +113,23 @@ public class LoginServlet extends HttpServlet {
       doAuth(req, rsp);
     } catch (Exception e) {
       getServletContext().log("Unexpected error during authentication", e);
-      finishLogin(req, rsp, null, null);
+      callback(req, rsp, SignInResult.CANCEL);
     }
   }
 
   private void doAuth(final HttpServletRequest req,
       final HttpServletResponse rsp) throws Exception {
-    if ("cancel".equals(req.getParameter(Constants.OPENID_MODE))) {
+    final String mode = req.getParameter(Constants.OPENID_MODE);
+    if ("cancel".equals(mode)) {
       // Provider wants us to cancel the attempt.
       //
-      finishLogin(req, rsp, null, null);
+      callback(req, rsp, SignInResult.CANCEL);
+      return;
+    } else if (GMODE_CHKCOOKIE.equals(mode)) {
+      modeChkSetCookie(req, rsp, true);
+      return;
+    } else if (GMODE_SETCOOKIE.equals(mode)) {
+      modeChkSetCookie(req, rsp, false);
       return;
     }
 
@@ -125,7 +144,7 @@ public class LoginServlet extends HttpServlet {
     if (user.isAuthenticated()) {
       // User already authenticated.
       //
-      finishLogin(req, rsp, user, null);
+      initializeAccount(req, rsp, user, null);
       return;
     }
 
@@ -154,7 +173,7 @@ public class LoginServlet extends HttpServlet {
         }
       }
 
-      finishLogin(req, rsp, user, email);
+      initializeAccount(req, rsp, user, email);
       return;
     }
 
@@ -168,9 +187,8 @@ public class LoginServlet extends HttpServlet {
     // Authenticate user through his/her OpenID provider
     //
     final String realm = serverUrl(req);
-    final StringBuffer retTo = req.getRequestURL();
-    retTo.append("?");
-    appendCallbackParameter(req, retTo);
+    final StringBuilder retTo = new StringBuilder(req.getRequestURL());
+    append(retTo, CALLBACK_PARMETER, req.getParameter(CALLBACK_PARMETER));
     final StringBuilder auth;
 
     auth = RelyingParty.getAuthUrlBuffer(user, realm, realm, retTo.toString());
@@ -182,30 +200,18 @@ public class LoginServlet extends HttpServlet {
     rsp.sendRedirect(auth.toString());
   }
 
-  private static void appendCallbackParameter(final HttpServletRequest req,
-      final StringBuffer url) {
-    url.append(CALLBACK_PARMETER);
-    url.append("=");
-    url.append(UrlEncoded.encodeString(req.getParameter(CALLBACK_PARMETER)));
-  }
-
   private void redirectChooseProvider(final HttpServletRequest req,
       final HttpServletResponse rsp) throws IOException {
-    forceLogout(rsp);
-
     // Hard-code to use the Google Account service.
     //
-    final StringBuffer url = req.getRequestURL();
-    url.append("?");
-    url.append(RelyingParty.DEFAULT_PARAMETER);
-    url.append("=");
-    url.append(UrlEncoded.encodeString(GoogleAccountDiscovery.GOOGLE_ACCOUNT));
-    url.append("&");
-    appendCallbackParameter(req, url);
+    final StringBuilder url = new StringBuilder(req.getRequestURL());
+    append(url, CALLBACK_PARMETER, req.getParameter(CALLBACK_PARMETER));
+    append(url, RelyingParty.DEFAULT_PARAMETER,
+        GoogleAccountDiscovery.GOOGLE_ACCOUNT);
     rsp.sendRedirect(url.toString());
   }
 
-  private void finishLogin(final HttpServletRequest req,
+  private void initializeAccount(final HttpServletRequest req,
       final HttpServletResponse rsp, final OpenIdUser user, final String email)
       throws IOException {
     Account account = null;
@@ -238,49 +244,140 @@ public class LoginServlet extends HttpServlet {
       }
     }
 
-    rsp.setCharacterEncoding(DEF_ENC);
-    rsp.setContentType("text/html");
-    rsp.setHeader("Cache-Control", "no-cache");
-    rsp.setDateHeader("Expires", System.currentTimeMillis());
+    rsp.reset();
 
-    if (account != null) {
-      try {
-        final String idstr = String.valueOf(account.getId().get());
-        final String tok = server.getAccountToken().newToken(idstr);
-        final Cookie c = new Cookie(Gerrit.ACCOUNT_COOKIE, tok);
-        c.setMaxAge(server.getSessionAge());
-        c.setPath(req.getContextPath());
-        rsp.addCookie(c);
-      } catch (XsrfException e) {
-        getServletContext().log("Account cookie signature impossible", e);
-        account = null;
-      }
+    Cookie c;
+    c = new Cookie(Gerrit.OPENIDUSER_COOKIE, "");
+    c.setMaxAge(0);
+    rsp.addCookie(c);
+
+    String tok;
+    try {
+      final String idstr = String.valueOf(account.getId().get());
+      tok = server.getAccountToken().newToken(idstr);
+    } catch (XsrfException e) {
+      getServletContext().log("Account cookie signature impossible", e);
+      account = null;
+      tok = "";
     }
 
-    if (account != null) {
-      final Cookie c = new Cookie(Gerrit.OPENIDUSER_COOKIE, "");
+    c = new Cookie(Gerrit.ACCOUNT_COOKIE, tok);
+    c.setPath(req.getContextPath() + "/");
+
+    if (account == null) {
       c.setMaxAge(0);
       rsp.addCookie(c);
+      callback(req, rsp, SignInResult.CANCEL);
     } else {
-      forceLogout(rsp);
+      c.setMaxAge(server.getSessionAge());
+      rsp.addCookie(c);
+
+      final StringBuilder me = new StringBuilder(req.getRequestURL());
+      append(me, Constants.OPENID_MODE, GMODE_CHKCOOKIE);
+      append(me, CALLBACK_PARMETER, req.getParameter(CALLBACK_PARMETER));
+      append(me, Gerrit.ACCOUNT_COOKIE, tok);
+      rsp.sendRedirect(me.toString());
+    }
+  }
+
+  private void modeChkSetCookie(final HttpServletRequest req,
+      final HttpServletResponse rsp, final boolean isCheck) throws IOException {
+    final String exp = req.getParameter(Gerrit.ACCOUNT_COOKIE);
+    final ValidToken chk;
+    try {
+      chk = server.getAccountToken().checkToken(exp, null);
+    } catch (XsrfException e) {
+      getServletContext().log("Cannot validate cookie token", e);
+      redirectChooseProvider(req, rsp);
+      return;
     }
 
+    final Account.Id id;
+    try {
+      id = new Account.Id(Integer.parseInt(chk.getData()));
+    } catch (NumberFormatException e) {
+      redirectChooseProvider(req, rsp);
+      return;
+    }
+
+    Account account;
+    try {
+      final ReviewDb db = server.getDatabase().open();
+      try {
+        account = db.accounts().byId(id);
+      } finally {
+        db.close();
+      }
+    } catch (OrmException e) {
+      getServletContext().log("Account lookup failed for " + id, e);
+      account = null;
+    }
+    if (account == null) {
+      redirectChooseProvider(req, rsp);
+      return;
+    }
+
+    final String act = getCookie(req, Gerrit.ACCOUNT_COOKIE);
+    if (isCheck && !exp.equals(act)) {
+      // Cookie won't set without "user interaction" (thanks Safari). Lets
+      // send an HTML page to the browser and ask the user to click to let
+      // us set the cookie.
+      //
+      sendSetCookieHtml(req, rsp, exp);
+      return;
+    }
+
+    final Cookie c = new Cookie(Gerrit.ACCOUNT_COOKIE, exp);
+    c.setPath(req.getContextPath() + "/");
+    c.setMaxAge(server.getSessionAge());
+    rsp.addCookie(c);
+    callback(req, rsp, new SignInResult(SignInResult.Status.SUCCESS, account));
+  }
+
+  private void sendSetCookieHtml(final HttpServletRequest req,
+      final HttpServletResponse rsp, final String exp) throws IOException {
+    final Document doc = HtmlDomUtil.clone(pleaseSetCookieDoc);
+    final Element set_form = HtmlDomUtil.find(doc, "set_form");
+    set_form.setAttribute("action", req.getRequestURL().toString());
+    HtmlDomUtil.addHidden(set_form, Constants.OPENID_MODE, GMODE_SETCOOKIE);
+    HtmlDomUtil.addHidden(set_form, Gerrit.ACCOUNT_COOKIE, exp);
+    HtmlDomUtil.addHidden(set_form, CALLBACK_PARMETER, req
+        .getParameter(CALLBACK_PARMETER));
+    sendHtml(req, rsp, HtmlDomUtil.toString(doc));
+  }
+
+  private static String getCookie(final HttpServletRequest req,
+      final String name) {
+    final Cookie[] allCookies = req.getCookies();
+    if (allCookies != null) {
+      for (final Cookie c : allCookies) {
+        if (name.equals(c.getName())) {
+          return c.getValue();
+        }
+      }
+    }
+    return null;
+  }
+
+  private void callback(final HttpServletRequest req,
+      final HttpServletResponse rsp, final SignInResult result)
+      throws IOException {
     final StringWriter body = new StringWriter();
     body.write("<html>");
     body.write("<script><!--\n");
     body.write(req.getParameter(CALLBACK_PARMETER));
     body.write("(");
-    if (account != null) {
-      JsonServlet.defaultGsonBuilder().create().toJson(account, body);
-    } else {
-      body.write("null");
-    }
+    JsonServlet.defaultGsonBuilder().create().toJson(result, body);
     body.write(");\n");
     body.write("// -->\n");
     body.write("</script>");
     body.write("</html>");
-    
-    final byte[] raw = body.toString().getBytes(DEF_ENC);
+    sendHtml(req, rsp, body.toString());
+  }
+
+  private void sendHtml(final HttpServletRequest req,
+      final HttpServletResponse rsp, final String bodystr) throws IOException {
+    final byte[] raw = bodystr.getBytes(HtmlDomUtil.ENC);
     final byte[] tosend;
     if (RPCServletUtils.acceptsGzipEncoding(req)) {
       rsp.setHeader("Content-Encoding", "gzip");
@@ -294,6 +391,10 @@ public class LoginServlet extends HttpServlet {
       tosend = raw;
     }
 
+    rsp.setCharacterEncoding(HtmlDomUtil.ENC);
+    rsp.setContentType("text/html");
+    rsp.setHeader("Cache-Control", "no-cache");
+    rsp.setDateHeader("Expires", System.currentTimeMillis());
     rsp.setContentLength(tosend.length);
     final OutputStream out = rsp.getOutputStream();
     try {
@@ -301,18 +402,6 @@ public class LoginServlet extends HttpServlet {
     } finally {
       out.close();
     }
-  }
-
-  public static void forceLogout(final HttpServletResponse rsp) {
-    Cookie c;
-
-    c = new Cookie(Gerrit.ACCOUNT_COOKIE, "");
-    c.setMaxAge(0);
-    rsp.addCookie(c);
-
-    c = new Cookie(Gerrit.OPENIDUSER_COOKIE, "");
-    c.setMaxAge(0);
-    rsp.addCookie(c);
   }
 
   private static String serverUrl(final HttpServletRequest req) {
@@ -327,7 +416,11 @@ public class LoginServlet extends HttpServlet {
 
   private static void append(final StringBuilder buffer, final String name,
       final String value) {
-    buffer.append('&');
+    if (buffer.indexOf("?") >= 0) {
+      buffer.append('&');
+    } else {
+      buffer.append('?');
+    }
     buffer.append(name);
     buffer.append('=');
     buffer.append(UrlEncoded.encodeString(value));

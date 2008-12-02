@@ -18,9 +18,6 @@ import com.google.gwt.user.server.rpc.RPCServletUtils;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -35,25 +32,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 
 /** Sends the Gerrit host page to clients. */
 public class HostPageServlet extends HttpServlet {
   private static final long MAX_AGE = 5 * 60 * 1000L/* milliseconds */;
   private static final String CACHE_CTRL =
       "public, max-age=" + (MAX_AGE / 1000L);
-  private static final String CT_ENC = "UTF-8";
-  private static final String HTML_STRICT =
-      "-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd";
 
   private byte[] hostPageRaw;
   private byte[] hostPageCompressed;
@@ -64,51 +48,25 @@ public class HostPageServlet extends HttpServlet {
     super.init(config);
 
     final String hostPageName = "com/google/gerrit/public/Gerrit.html";
-    final Document hostDoc = parseFile(hostPageName);
+    final Document hostDoc = HtmlDomUtil.parseFile(hostPageName);
     if (hostDoc == null) {
       throw new ServletException("No " + hostPageName + " in CLASSPATH");
     }
     injectCssFile(hostDoc, "gerrit_sitecss", "GerritSite.css");
     injectXmlFile(hostDoc, "gerrit_header", "GerritSiteHeader.html");
     injectXmlFile(hostDoc, "gerrit_footer", "GerritSiteFooter.html");
-    hostPageRaw = toUTF8(hostDoc);
+    try {
+      hostPageRaw = HtmlDomUtil.toUTF8(hostDoc);
+    } catch (IOException e) {
+      throw new ServletException(e.getMessage(), e);
+    }
     hostPageCompressed = compress(hostPageRaw);
     lastModified = System.currentTimeMillis();
   }
 
-  private Document parseFile(final String name) throws ServletException {
-    final InputStream in;
-
-    in = getClass().getClassLoader().getResourceAsStream(name);
-    if (in == null) {
-      return null;
-    }
-    try {
-      try {
-        try {
-          final DocumentBuilderFactory factory =
-              DocumentBuilderFactory.newInstance();
-          factory.setValidating(false);
-          factory.setExpandEntityReferences(false);
-          factory.setIgnoringComments(true);
-          final DocumentBuilder parser = factory.newDocumentBuilder();
-          return parser.parse(in);
-        } catch (SAXException e) {
-          throw new ServletException("Error reading " + name, e);
-        } catch (ParserConfigurationException e) {
-          throw new ServletException("Error reading " + name, e);
-        }
-      } finally {
-        in.close();
-      }
-    } catch (IOException e) {
-      throw new ServletException("Error reading " + name, e);
-    }
-  }
-
   private void injectXmlFile(final Document hostDoc, final String id,
       final String fileName) throws ServletException {
-    final Element banner = find(hostDoc, id);
+    final Element banner = HtmlDomUtil.find(hostDoc, id);
     if (banner == null) {
       return;
     }
@@ -117,7 +75,7 @@ public class HostPageServlet extends HttpServlet {
       banner.removeChild(banner.getFirstChild());
     }
 
-    final Document bannerHTML = parseFile(fileName);
+    final Document bannerHTML = HtmlDomUtil.parseFile(fileName);
     if (bannerHTML == null) {
       banner.getParentNode().removeChild(banner);
       return;
@@ -129,7 +87,7 @@ public class HostPageServlet extends HttpServlet {
 
   private void injectCssFile(final Document hostDoc, final String id,
       final String fileName) throws ServletException {
-    final Element banner = find(hostDoc, id);
+    final Element banner = HtmlDomUtil.find(hostDoc, id);
     if (banner == null) {
       return;
     }
@@ -148,7 +106,7 @@ public class HostPageServlet extends HttpServlet {
     w.write('\n');
     try {
       try {
-        final InputStreamReader r = new InputStreamReader(in, CT_ENC);
+        final InputStreamReader r = new InputStreamReader(in, HtmlDomUtil.ENC);
         final char[] buf = new char[512];
         int n;
         while ((n = r.read(buf)) > 0) {
@@ -164,46 +122,6 @@ public class HostPageServlet extends HttpServlet {
 
     banner.removeAttribute("id");
     banner.appendChild(hostDoc.createCDATASection(w.toString()));
-  }
-
-  private static Element find(final Node parent, final String name) {
-    final NodeList list = parent.getChildNodes();
-    for (int i = 0; i < list.getLength(); i++) {
-      final Node n = list.item(i);
-      if (n instanceof Element) {
-        final Element e = (Element) n;
-        if (name.equals(e.getAttribute("id"))) {
-          return e;
-        }
-      }
-      final Element r = find(n, name);
-      if (r != null) {
-        return r;
-      }
-    }
-    return null;
-  }
-
-  private byte[] toUTF8(final Document hostDoc) throws ServletException {
-    try {
-      final ByteArrayOutputStream out = new ByteArrayOutputStream();
-      final DOMSource domSource = new DOMSource(hostDoc);
-      final StreamResult streamResult = new StreamResult(out);
-      final TransformerFactory tf = TransformerFactory.newInstance();
-      final Transformer serializer = tf.newTransformer();
-      serializer.setOutputProperty(OutputKeys.ENCODING, CT_ENC);
-      serializer.setOutputProperty(OutputKeys.METHOD, "html");
-      serializer.setOutputProperty(OutputKeys.INDENT, "no");
-      serializer.setOutputProperty(OutputKeys.DOCTYPE_PUBLIC, HTML_STRICT);
-      serializer.transform(domSource, streamResult);
-      return out.toByteArray();
-    } catch (TransformerConfigurationException e) {
-      e.printStackTrace();
-      throw new ServletException("Error transforming host page", e);
-    } catch (TransformerException e) {
-      e.printStackTrace();
-      throw new ServletException("Error transforming host page", e);
-    }
   }
 
   private byte[] compress(final byte[] raw) throws ServletException {
@@ -239,7 +157,7 @@ public class HostPageServlet extends HttpServlet {
     rsp.setDateHeader("Expires", System.currentTimeMillis() + MAX_AGE);
     rsp.setDateHeader("Last-Modified", lastModified);
     rsp.setContentType("text/html");
-    rsp.setCharacterEncoding(CT_ENC);
+    rsp.setCharacterEncoding(HtmlDomUtil.ENC);
     rsp.setContentLength(tosend.length);
     final OutputStream out = rsp.getOutputStream();
     try {

@@ -14,7 +14,8 @@
 
 package com.google.gerrit.client;
 
-import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.client.account.SignInResult;
+import com.google.gerrit.client.account.SignInResult.Status;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DeferredCommand;
@@ -45,9 +46,9 @@ import com.google.gwtjsonrpc.client.CallbackHandle;
 public class SignInDialog extends DialogBox {
   private static SignInDialog current;
 
-  private final CallbackHandle<Account> signInCallback;
+  private final CallbackHandle<SignInResult> signInCallback;
   private final AsyncCallback<?> appCallback;
-  private final Frame loginFrame;
+  private Frame loginFrame;
 
   /**
    * Create a new dialog to handle user sign in.
@@ -60,8 +61,8 @@ public class SignInDialog extends DialogBox {
 
     signInCallback =
         com.google.gerrit.client.account.Util.LOGIN_SVC
-            .signIn(new AsyncCallback<Account>() {
-              public void onSuccess(final Account result) {
+            .signIn(new AsyncCallback<SignInResult>() {
+              public void onSuccess(final SignInResult result) {
                 onCallback(result);
               }
 
@@ -106,20 +107,27 @@ public class SignInDialog extends DialogBox {
     super.onUnload();
   }
 
-  private void onCallback(final Account result) {
-    if (result != null) {
-      Gerrit.postSignIn(result);
+  private void onCallback(final SignInResult result) {
+    final Status rc = result.getStatus();
+    if (rc == SignInResult.Status.CANCEL) {
       hide();
-      final AsyncCallback<?> ac = appCallback;
-      if (ac != null) {
-        DeferredCommand.addCommand(new Command() {
-          public void execute() {
-            ac.onSuccess(null);
-          }
-        });
-      }
+    } else if (rc == SignInResult.Status.SUCCESS) {
+      onSuccess(result);
     } else {
-      hide();
+      GWT.log("Unexpected SignInResult.Status " + rc, null);
+    }
+  }
+
+  private void onSuccess(final SignInResult result) {
+    Gerrit.postSignIn(result.getAccount());
+    hide();
+    final AsyncCallback<?> ac = appCallback;
+    if (ac != null) {
+      DeferredCommand.addCommand(new Command() {
+        public void execute() {
+          ac.onSuccess(null);
+        }
+      });
     }
   }
 }

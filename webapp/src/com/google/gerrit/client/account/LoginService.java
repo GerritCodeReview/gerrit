@@ -14,7 +14,6 @@
 
 package com.google.gerrit.client.account;
 
-import com.google.gerrit.client.reviewdb.Account;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.CallbackHandle;
 import com.google.gwtjsonrpc.client.RemoteJsonService;
@@ -24,9 +23,8 @@ public interface LoginService extends RemoteJsonService {
   /**
    * Create a callback for LoginServlet to call post sign in.
    * <p>
-   * The Account result is null if the sign in was aborted by the user (or
-   * failed too many times); it is non-null and contains the user account
-   * details if the user is signed in successfully.
+   * The LoginResult.getStatus() is {@link SignInResult.Status#CANCEL} is null
+   * if the sign in was aborted by the user (or failed too many times).
    */
-  CallbackHandle<Account> signIn(AsyncCallback<Account> c);
+  CallbackHandle<SignInResult> signIn(AsyncCallback<SignInResult> c);
 }

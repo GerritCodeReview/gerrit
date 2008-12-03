@@ -273,6 +273,18 @@ class MergeOp {
       }
     }
 
+    // If this project only permits fast-forwards, abort everything else.
+    //
+    if ("true".equals(db.getConfig().getString("gerrit", null,
+        "fastforwardonly"))) {
+      while (!toMerge.isEmpty()) {
+        final CodeReviewCommit n = toMerge.remove(0);
+        n.statusCode = MergeResultItem.CodeType.PATH_CONFLICT;
+        updates.add(toResult(n));
+      }
+      return;
+    }
+
     // For every other commit do a pair-wise merge.
     //
     while (!toMerge.isEmpty()) {

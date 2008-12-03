@@ -80,6 +80,28 @@
 }
 
 
+/** Error Dialog **/
+
+.gerrit-ErrorDialog {
+  margin: 10px 10px 10px 10px;
+}
+
+.gerrit-ErrorDialog-ErrorType {
+  font-weight: bold;
+	white-space: nowrap;
+  margin-bottom: 15px;
+}
+
+.gerrit-ErrorDialog-ErrorMessage {
+}
+
+.gerrit-ErrorDialog-Buttons {
+	width: 100%;
+	margin-top: 15px;
+	text-align: right;
+}
+
+
 /** Screen **/
 .gerrit-Screen {
 }

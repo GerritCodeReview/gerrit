@@ -15,9 +15,9 @@
 package com.google.gerrit.client.account;
 
 import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountScreen;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class AccountSettings extends AccountScreen {
   public AccountSettings() {
@@ -27,11 +27,7 @@ public class AccountSettings extends AccountScreen {
   @Override
   public void onLoad() {
     super.onLoad();
-    Util.ACCOUNT_SVC.myAccount(new AsyncCallback<Account>() {
-      public void onFailure(Throwable caught) {
-        GWT.log("myAccount failed", caught);
-      }
-
+    Util.ACCOUNT_SVC.myAccount(new GerritCallback<Account>() {
       public void onSuccess(Account result) {
         GWT.log("yay, i am " + result.getPreferredEmail(), null);
         GWT.log("created on " + result.getRegisteredOn(), null);

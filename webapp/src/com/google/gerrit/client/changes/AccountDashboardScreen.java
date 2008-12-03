@@ -17,10 +17,9 @@ package com.google.gerrit.client.changes;
 import com.google.gerrit.client.data.AccountDashboardInfo;
 import com.google.gerrit.client.data.AccountInfo;
 import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.Screen;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.History;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 
 
 public class AccountDashboardScreen extends Screen {
@@ -58,13 +57,9 @@ public class AccountDashboardScreen extends Screen {
     super.onLoad();
     table.setSavePointerId(History.getToken());
     Util.LIST_SVC.forAccount(ownerId,
-        new AsyncCallback<AccountDashboardInfo>() {
+        new GerritCallback<AccountDashboardInfo>() {
           public void onSuccess(final AccountDashboardInfo r) {
             display(r);
-          }
-
-          public void onFailure(final Throwable caught) {
-            GWT.log("Fail", caught);
           }
         });
   }

@@ -17,6 +17,7 @@ package com.google.gerrit.client.account;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gerrit.client.rpc.NotSignedInException;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.CookieAccess;
 import com.google.gwtorm.client.OrmException;
@@ -32,7 +33,7 @@ public class AccountServiceImpl implements AccountService {
   public void myAccount(final AsyncCallback<Account> callback) {
     final int id = idFromCookie(callback);
     if (id <= 0) {
-      callback.onSuccess(null);
+      callback.onFailure(new NotSignedInException());
       return;
     }
 

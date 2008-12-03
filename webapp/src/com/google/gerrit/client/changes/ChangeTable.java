@@ -20,14 +20,13 @@ import com.google.gerrit.client.SignedInListener;
 import com.google.gerrit.client.data.ChangeInfo;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.Change.Id;
-import com.google.gwt.core.client.GWT;
+import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.History;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -42,7 +41,7 @@ import com.google.gwt.user.client.ui.SourcesTableEvents;
 import com.google.gwt.user.client.ui.TableListener;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
-import com.google.gwtjsonrpc.client.VoidCallback;
+import com.google.gwtjsonrpc.client.VoidResult;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -155,11 +154,7 @@ public class ChangeTable extends Composite implements HasFocus {
 
     signedInListener = new SignedInListener() {
       public void onSignIn() {
-        Util.LIST_SVC.myStarredChangeIds(new AsyncCallback<Set<Change.Id>>() {
-          public void onFailure(final Throwable caught) {
-            GWT.log("ChangeTable.onSignIn myStarredChangeIds failed", caught);
-          }
-
+        Util.LIST_SVC.myStarredChangeIds(new GerritCallback<Set<Change.Id>>() {
           public void onSuccess(final Set<Change.Id> result) {
             if (result != null) {
               final int max = table.getRowCount();
@@ -197,12 +192,23 @@ public class ChangeTable extends Composite implements HasFocus {
   protected void onStarClick(final int row) {
     final ChangeInfo c = getChangeInfo(row);
     if (c != null && Gerrit.isSignedIn()) {
-      c.setStarred(!c.isStarred());
+      final boolean prior = c.isStarred();
+      c.setStarred(!prior);
       setStar(row, c);
 
       final ToggleStarRequest req = new ToggleStarRequest();
       req.toggle(c.getId(), c.isStarred());
-      Util.LIST_SVC.toggleStars(req, VoidCallback.INSTANCE);
+      Util.LIST_SVC.toggleStars(req, new GerritCallback<VoidResult>() {
+        public void onSuccess(final VoidResult result) {
+        }
+
+        @Override
+        public void onFailure(final Throwable caught) {
+          super.onFailure(caught);
+          c.setStarred(prior);
+          setStar(row, c);
+        }
+      });
     }
   }
 

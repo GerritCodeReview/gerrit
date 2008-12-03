@@ -16,6 +16,7 @@ package com.google.gerrit.client;
 
 import com.google.gerrit.client.account.SignInResult;
 import com.google.gerrit.client.account.SignInResult.Status;
+import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DeferredCommand;
@@ -61,13 +62,9 @@ public class SignInDialog extends DialogBox {
 
     signInCallback =
         com.google.gerrit.client.account.Util.LOGIN_SVC
-            .signIn(new AsyncCallback<SignInResult>() {
+            .signIn(new GerritCallback<SignInResult>() {
               public void onSuccess(final SignInResult result) {
                 onCallback(result);
-              }
-
-              public void onFailure(Throwable caught) {
-                GWT.log("Unexpected signIn failure", caught);
               }
             });
     appCallback = callback;

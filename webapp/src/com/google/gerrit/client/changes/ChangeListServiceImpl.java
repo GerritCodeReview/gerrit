@@ -11,6 +11,7 @@ import com.google.gerrit.client.reviewdb.ChangeAccess;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.StarredChange;
 import com.google.gerrit.client.reviewdb.Change.Id;
+import com.google.gerrit.client.rpc.NotSignedInException;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.CookieAccess;
 import com.google.gwtjsonrpc.client.VoidResult;
@@ -77,7 +78,7 @@ public class ChangeListServiceImpl implements ChangeListService {
   public void myStarredChanges(final AsyncCallback<List<ChangeInfo>> callback) {
     final Account.Id me = idFromCookie();
     if (me == null) {
-      callback.onFailure(new IllegalArgumentException("Not signed in"));
+      callback.onFailure(new NotSignedInException());
       return;
     }
     try {
@@ -101,7 +102,7 @@ public class ChangeListServiceImpl implements ChangeListService {
       final AsyncCallback<VoidResult> callback) {
     final Account.Id me = idFromCookie();
     if (me == null) {
-      callback.onFailure(new IllegalArgumentException("Not signed in"));
+      callback.onFailure(new NotSignedInException());
       return;
     }
 
@@ -148,7 +149,7 @@ public class ChangeListServiceImpl implements ChangeListService {
   public void myStarredChangeIds(final AsyncCallback<Set<Id>> callback) {
     final Account.Id me = idFromCookie();
     if (me == null) {
-      callback.onFailure(new IllegalArgumentException("Not signed in"));
+      callback.onFailure(new NotSignedInException());
       return;
     }
 

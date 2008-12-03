@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "z22d02f9c15803abcb5d876b9db1fe99d",
+        "filename": "webapp/codereview/models.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 770,
+      "author": {
+        "id": 1000701
+      },
+      "writtenOn": "2008-12-03T16:11:43Z",
+      "side": 1,
+      "message": "It shouldn\u0027t be, but now that you mention it, there might be some entities from before this change that can do it, so I\u0027ll add a check.",
+      "revId": "83e2da8d007bcf93865243d9fda2c8c23b440ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "z1432db81a052750d6c11af8a310ab804",
         "filename": "webapp/codereview/view_util.py",
         "patchSetId": 1

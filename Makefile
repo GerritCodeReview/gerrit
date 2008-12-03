@@ -251,6 +251,8 @@ release-pyclient: $(PROTO_PY)
 	 | $(CPIO) $(abspath $(R_PYCLIENT))
 	@echo "__version__ = '`./GIT-VERSION-GEN`'" >>$(R_PYCLIENT)/codereview/__init__.py
 
+release-cli: release-pyclient
+	 cp $(WEB_APP)/git_upload.py $(R_PYCLIENT)
 
 ## Manager backend
 ##

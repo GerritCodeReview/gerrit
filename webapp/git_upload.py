@@ -125,6 +125,10 @@ group.add_option("-B", "--base", action="store", dest="base_commit",
                  default="refs/remotes/origin/master",
                  metavar="COMMIT",
                  help=("Base commit for the bundle."))
+group.add_option('-c', '--commit', action='store', dest='src_commit',
+                 default="HEAD",
+                 metavar="COMMIT",
+                 help=("Commit to start uploading from."))
 group.add_option('-r', '--replace', action='append', dest='replace',
                  metavar='CHANGE:COMMIT',
                  help='Replace a patch set on an existing change')
@@ -192,7 +196,7 @@ def RealMain(argv, data=None):
 
   revlist = GitVal("rev-list",
                    "^" + options.base_commit,
-                   "HEAD").split("\n")
+                   options.src_commit).split("\n")
 
   replace_changes = dict()
   if options.replace:
@@ -207,7 +211,7 @@ def RealMain(argv, data=None):
     RunGit("bundle", "create",
            tmp_bundle,
            "^" + options.base_commit,
-           "HEAD")
+           options.src_commit)
     fd = open(tmp_bundle, "rb")
 
     bundle_id = None

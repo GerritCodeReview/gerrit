@@ -50,6 +50,16 @@ import java.util.Set;
 import java.util.Map.Entry;
 
 public class ChangeTable extends Composite implements HasFocus {
+  private static final String MY_STYLE = "gerrit-ChangeTable";
+  private static final String S = MY_STYLE + "-";
+  private static final String S_ICON_HEADER = S + "IconHeader";
+  private static final String S_DATA_HEADER = S + "DataHeader";
+  private static final String S_SECTION_HEADER = S + "SectionHeader";
+  private static final String S_EMPTY_SECTION = S + "EmptySection";
+  private static final String S_ICON_CELL = S + "IconCell";
+  private static final String S_C_ID = S + "C_ID";
+  private static final String S_DATA_CELL = S + "DataCell";
+
   private static final int C_ARROW = 0;
   private static final int C_STAR = 1;
   private static final int C_ID = 2;
@@ -80,6 +90,7 @@ public class ChangeTable extends Composite implements HasFocus {
     sections = new ArrayList<Section>();
     pointer = Gerrit.ICONS.arrowRight().createImage();
     table = new FlexTable();
+    table.addStyleName(MY_STYLE);
     focusy = new FocusPanel(table);
     focusy.addKeyboardListener(new KeyboardListenerAdapter() {
       @Override
@@ -131,18 +142,24 @@ public class ChangeTable extends Composite implements HasFocus {
       }
     });
     initWidget(focusy);
-    addStyleName("gerrit-ChangeTable");
+
+    table.setText(0, C_ARROW, "");
+    table.setText(0, C_STAR, "");
+    table.setText(0, C_ID, Util.C.changeTableColumnID());
+    table.setText(0, C_SUBJECT, Util.C.changeTableColumnSubject());
+    table.setText(0, C_OWNER, Util.C.changeTableColumnOwner());
+    table.setText(0, C_REVIEWERS, Util.C.changeTableColumnReviewers());
+    table.setText(0, C_PROJECT, Util.C.changeTableColumnProject());
+    table.setText(0, C_LAST_UPDATE, Util.C.changeTableColumnLastUpdate());
 
     final FlexCellFormatter fmt = table.getFlexCellFormatter();
-    fmt.setColSpan(0, 0, 3);
-    fmt.addStyleName(0, 0, "gerrit-ChangeTable-ColumnID");
-
-    setColumnHeader(0, Util.C.changeTableColumnID());
-    setColumnHeader(C_SUBJECT - 2, Util.C.changeTableColumnSubject());
-    setColumnHeader(C_OWNER - 2, Util.C.changeTableColumnOwner());
-    setColumnHeader(C_REVIEWERS - 2, Util.C.changeTableColumnReviewers());
-    setColumnHeader(C_PROJECT - 2, Util.C.changeTableColumnProject());
-    setColumnHeader(C_LAST_UPDATE - 2, Util.C.changeTableColumnLastUpdate());
+    fmt.addStyleName(0, C_ID, S_C_ID);
+    for (int i = 0; i < C_ID; i++) {
+      fmt.addStyleName(0, i, S_ICON_HEADER);
+    }
+    for (int i = C_ID; i < COLUMNS; i++) {
+      fmt.addStyleName(0, i, S_DATA_HEADER);
+    }
 
     table.addTableListener(new TableListener() {
       public void onCellClicked(SourcesTableEvents sender, int row, int cell) {
@@ -163,14 +180,13 @@ public class ChangeTable extends Composite implements HasFocus {
 
         Util.LIST_SVC.myStarredChangeIds(new GerritCallback<Set<Change.Id>>() {
           public void onSuccess(final Set<Change.Id> result) {
-            if (result != null) {
-              final int max = table.getRowCount();
-              for (int row = 0; row < max; row++) {
-                final ChangeInfo c = getChangeInfo(row);
-                if (c != null) {
-                  c.setStarred(result.contains(c.getId()));
-                  setStar(row, c);
-                }
+            final FlexCellFormatter fmt = table.getFlexCellFormatter();
+            final int max = table.getRowCount();
+            for (int row = 0; row < max; row++) {
+              final ChangeInfo c = getChangeInfo(row);
+              if (c != null) {
+                c.setStarred(result.contains(c.getId()));
+                setStar(row, c);
               }
             }
           }
@@ -178,6 +194,7 @@ public class ChangeTable extends Composite implements HasFocus {
       }
 
       public void onSignOut() {
+        final FlexCellFormatter fmt = table.getFlexCellFormatter();
         final int max = table.getRowCount();
         for (int row = 0; row < max; row++) {
           if (getChangeInfo(row) != null) {
@@ -308,25 +325,23 @@ public class ChangeTable extends Composite implements HasFocus {
     super.onUnload();
   }
 
-  private void setColumnHeader(final int col, final String text) {
-    table.setText(0, col, text);
-    setStyleName(0, col, "gerrit-ChangeTable-ColumnHeader");
-  }
-
   private void insertNoneRow(final int row) {
     insertRow(row);
     table.setText(row, 0, Util.C.changeTableNone());
-    table.getFlexCellFormatter().setColSpan(row, 0, COLUMNS);
-    setStyleName(row, 0, "gerrit-ChangeTable-EmptySectionRow");
+    final FlexCellFormatter fmt = table.getFlexCellFormatter();
+    fmt.setColSpan(row, 0, COLUMNS);
+    fmt.setStyleName(row, 0, S_EMPTY_SECTION);
   }
 
   private void insertChangeRow(final int row) {
     insertRow(row);
-    setStyleName(row, C_ID, "gerrit-ChangeTable-ColumnID");
     final FlexCellFormatter fmt = table.getFlexCellFormatter();
+    fmt.addStyleName(row, C_ARROW, S_ICON_CELL);
+    fmt.addStyleName(row, C_STAR, S_ICON_CELL);
     for (int i = C_ID; i < COLUMNS; i++) {
-      fmt.addStyleName(row, i, "gerrit-ChangeTable-Cell");
+      fmt.addStyleName(row, i, S_DATA_CELL);
     }
+    fmt.addStyleName(row, C_ID, S_C_ID);
   }
 
   private void populateChangeRow(final int row, final ChangeInfo c) {
@@ -367,18 +382,15 @@ public class ChangeTable extends Composite implements HasFocus {
     }
   }
 
-  private void setStyleName(final int row, final int col, final String name) {
-    table.getFlexCellFormatter().setStyleName(row, col, name);
-  }
-
   public void addSection(final Section s) {
     assert s.parent == null;
 
     if (s.titleText != null) {
       s.titleRow = table.getRowCount();
       table.setText(s.titleRow, 0, s.titleText);
-      table.getFlexCellFormatter().setColSpan(s.titleRow, 0, COLUMNS);
-      setStyleName(s.titleRow, 0, "gerrit-ChangeTable-SectionHeader");
+      final FlexCellFormatter fmt = table.getFlexCellFormatter();
+      fmt.setColSpan(s.titleRow, 0, COLUMNS);
+      fmt.addStyleName(s.titleRow, 0, S_SECTION_HEADER);
     } else {
       s.titleRow = -1;
     }

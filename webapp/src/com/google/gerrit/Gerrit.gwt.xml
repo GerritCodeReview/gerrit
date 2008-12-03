@@ -4,8 +4,8 @@
   <inherits name='com.google.gwtjsonrpc.GWTJSONRPC'/>
   <inherits name='com.google.gwtorm.GWTORM'/>
 
-  <inherits name='com.google.gwt.user.theme.standard.Standard'/>
-  <!-- <inherits name='com.google.gwt.user.theme.chrome.Chrome'/> -->
+  <inherits name='com.google.gwt.user.theme.chrome.Chrome'/>
+  <!-- <inherits name='com.google.gwt.user.theme.standard.Standard'/> -->
   <!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/>     -->
 
   <entry-point class='com.google.gerrit.client.Gerrit'/>

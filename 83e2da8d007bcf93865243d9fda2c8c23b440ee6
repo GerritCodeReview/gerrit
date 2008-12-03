@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "z1432db81a052750d6c11af8a310ab804",
+        "filename": "webapp/codereview/view_util.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000701
+      },
+      "writtenOn": "2008-12-03T16:11:43Z",
+      "side": 1,
+      "message": "bad copy and paste, fixed",
+      "revId": "83e2da8d007bcf93865243d9fda2c8c23b440ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

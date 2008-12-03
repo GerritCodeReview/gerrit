@@ -154,6 +154,13 @@ public class ChangeTable extends Composite implements HasFocus {
 
     signedInListener = new SignedInListener() {
       public void onSignIn() {
+        if (table.getRowCount() <= sections.size()) {
+          // There are no data rows in this table, so star status is
+          // simply not relevant to the caller.
+          //
+          return;
+        }
+
         Util.LIST_SVC.myStarredChangeIds(new GerritCallback<Set<Change.Id>>() {
           public void onSuccess(final Set<Change.Id> result) {
             if (result != null) {

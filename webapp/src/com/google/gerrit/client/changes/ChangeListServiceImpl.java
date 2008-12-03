@@ -1,3 +1,17 @@
+// Copyright 2008 Google Inc.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.data.AccountCache;
@@ -10,6 +24,7 @@ import com.google.gerrit.client.reviewdb.ChangeAccess;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.StarredChange;
 import com.google.gerrit.client.reviewdb.Change.Id;
+import com.google.gerrit.client.rpc.BaseServiceImplementation;
 import com.google.gerrit.client.rpc.RpcUtil;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
@@ -23,88 +38,62 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class ChangeListServiceImpl implements ChangeListService {
-  private final SchemaFactory<ReviewDb> schema;
-
+public class ChangeListServiceImpl extends BaseServiceImplementation implements
+    ChangeListService {
   public ChangeListServiceImpl(final SchemaFactory<ReviewDb> rdf) {
-    schema = rdf;
+    super(rdf);
   }
 
-  public void forAccount(Account.Id id,
-      AsyncCallback<AccountDashboardInfo> callback) {
+  public void forAccount(final Account.Id id,
+      final AsyncCallback<AccountDashboardInfo> callback) {
     final Account.Id me = RpcUtil.getAccountId();
-    if (id == null) {
-      id = me;
-    }
-    if (id == null) {
+    final Account.Id target = id != null ? id : me;
+    if (target == null) {
       callback.onFailure(new IllegalArgumentException("No Account.Id"));
       return;
     }
 
-    try {
-      final ReviewDb db = schema.open();
-      try {
-        final AccountCache accts = new AccountCache(db);
-        final Account user = accts.get(id);
+    run(callback, new Action<AccountDashboardInfo>() {
+      public AccountDashboardInfo run(final ReviewDb db) throws OrmException,
+          Failure {
+        final AccountCache ac = new AccountCache(db);
+        final Account user = ac.get(target);
         if (user == null) {
-          callback.onFailure(new IllegalArgumentException("No such user"));
-          return;
+          throw new Failure(new IllegalArgumentException("No such user"));
         }
 
-        final Set<Change.Id> starred = new HashSet<Change.Id>();
-        if (me != null) {
-          for (final StarredChange sc : db.starredChanges().byAccount(me)) {
-            starred.add(sc.getChangeId());
-          }
-        }
-
+        final Set<Change.Id> stars = starredBy(db, me);
         final ChangeAccess changes = db.changes();
         final AccountDashboardInfo d;
 
         d = new AccountDashboardInfo(new AccountInfo(user));
-        d.setByOwner(list(changes.byOwnerOpen(user.getId()), starred, accts));
-        d.setClosed(list(changes.byOwnerMerged(user.getId()), starred, accts));
-        callback.onSuccess(d);
-      } finally {
-        db.close();
+        d.setByOwner(list(changes.byOwnerOpen(target), stars, ac));
+        d.setClosed(list(changes.byOwnerMerged(target), stars, ac));
+        return d;
       }
-    } catch (OrmException e) {
-      callback.onFailure(e);
-    }
+    });
   }
 
   public void myStarredChanges(final AsyncCallback<List<ChangeInfo>> callback) {
-    final Account.Id me = RpcUtil.getAccountId();
-    try {
-      final ReviewDb db = schema.open();
-      try {
-        final AccountCache accts = new AccountCache(db);
-        final Set<Change.Id> starred = new HashSet<Change.Id>();
-        for (final StarredChange sc : db.starredChanges().byAccount(me)) {
-          starred.add(sc.getChangeId());
-        }
-        callback.onSuccess(list(db.changes().get(starred), starred, accts));
-      } finally {
-        db.close();
+    run(callback, new Action<List<ChangeInfo>>() {
+      public List<ChangeInfo> run(final ReviewDb db) throws OrmException {
+        final Account.Id me = RpcUtil.getAccountId();
+        final AccountCache ac = new AccountCache(db);
+        final Set<Change.Id> starred = starredBy(db, me);
+        return list(db.changes().get(starred), starred, ac);
       }
-    } catch (OrmException e) {
-      callback.onFailure(e);
-    }
+    });
   }
 
   public void toggleStars(final ToggleStarRequest req,
       final AsyncCallback<VoidResult> callback) {
-    final Account.Id me = RpcUtil.getAccountId();
-    try {
-      final ReviewDb db = schema.open();
-      try {
-        final Set<Change.Id> existing = new HashSet<Change.Id>();
-        for (final StarredChange sc : db.starredChanges().byAccount(me)) {
-          existing.add(sc.getChangeId());
-        }
-
+    run(callback, new Action<VoidResult>() {
+      public VoidResult run(final ReviewDb db) throws OrmException {
+        final Account.Id me = RpcUtil.getAccountId();
+        final Set<Change.Id> existing = starredBy(db, me);
         final ArrayList<StarredChange> add = new ArrayList<StarredChange>();
         final ArrayList<StarredChange> remove = new ArrayList<StarredChange>();
+
         if (req.getAddSet() != null) {
           for (final Change.Id id : req.getAddSet()) {
             if (!existing.contains(id)) {
@@ -112,6 +101,7 @@ public class ChangeListServiceImpl implements ChangeListService {
             }
           }
         }
+
         if (req.getRemoveSet() != null) {
           for (final Change.Id id : req.getRemoveSet()) {
             if (existing.contains(id)) {
@@ -126,34 +116,20 @@ public class ChangeListServiceImpl implements ChangeListService {
           db.starredChanges().delete(remove);
           txn.commit();
         }
-        callback.onSuccess(VoidResult.INSTANCE);
-      } finally {
-        db.close();
+        return VoidResult.INSTANCE;
       }
-    } catch (OrmException e) {
-      callback.onFailure(e);
-    }
+    });
   }
 
-  public void myStarredChangeIds(final AsyncCallback<Set<Id>> callback) {
-    final Account.Id me = RpcUtil.getAccountId();
-    try {
-      final ReviewDb db = schema.open();
-      try {
-        final Set<Change.Id> existing = new HashSet<Change.Id>();
-        for (final StarredChange sc : db.starredChanges().byAccount(me)) {
-          existing.add(sc.getChangeId());
-        }
-        callback.onSuccess(existing);
-      } finally {
-        db.close();
+  public void myStarredChangeIds(final AsyncCallback<Set<Change.Id>> callback) {
+    run(callback, new Action<Set<Change.Id>>() {
+      public Set<Id> run(final ReviewDb db) throws OrmException {
+        return starredBy(db, RpcUtil.getAccountId());
       }
-    } catch (OrmException e) {
-      callback.onFailure(e);
-    }
+    });
   }
 
-  private List<ChangeInfo> list(final ResultSet<Change> rs,
+  private static List<ChangeInfo> list(final ResultSet<Change> rs,
       final Set<Change.Id> starred, final AccountCache accts)
       throws OrmException {
     final ArrayList<ChangeInfo> r = new ArrayList<ChangeInfo>();
@@ -163,5 +139,16 @@ public class ChangeListServiceImpl implements ChangeListService {
       r.add(ci);
     }
     return r;
+  }
+
+  private static Set<Change.Id> starredBy(final ReviewDb db, final Account.Id me)
+      throws OrmException {
+    final Set<Change.Id> existing = new HashSet<Change.Id>();
+    if (me != null) {
+      for (final StarredChange sc : db.starredChanges().byAccount(me)) {
+        existing.add(sc.getChangeId());
+      }
+    }
+    return existing;
   }
 }

@@ -16,29 +16,23 @@ package com.google.gerrit.client.account;
 
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gerrit.client.rpc.BaseServiceImplementation;
 import com.google.gerrit.client.rpc.RpcUtil;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 
-public class AccountServiceImpl implements AccountService {
-  private final SchemaFactory<ReviewDb> schema;
-
+public class AccountServiceImpl extends BaseServiceImplementation implements
+    AccountService {
   public AccountServiceImpl(final SchemaFactory<ReviewDb> rdf) {
-    schema = rdf;
+    super(rdf);
   }
 
   public void myAccount(final AsyncCallback<Account> callback) {
-    final Account.Id me = RpcUtil.getAccountId();
-    try {
-      final ReviewDb db = schema.open();
-      try {
-        callback.onSuccess(db.accounts().byId(me));
-      } finally {
-        db.close();
+    run(callback, new Action<Account>() {
+      public Account run(ReviewDb db) throws OrmException {
+        return db.accounts().byId(RpcUtil.getAccountId());
       }
-    } catch (OrmException e) {
-      callback.onFailure(e);
-    }
+    });
   }
 }

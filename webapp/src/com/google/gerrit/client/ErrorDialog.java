@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client;
 
+import com.google.gerrit.client.rpc.RpcUtil;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.DialogBox;
@@ -61,7 +62,7 @@ public class ErrorDialog extends DialogBox {
 
     String cn;
     if (what instanceof RemoteJsonException) {
-      cn = com.google.gerrit.client.rpc.Util.C.errorRemoteJsonException();
+      cn = RpcUtil.C.errorRemoteJsonException();
     } else {
       cn = what.getClass().getName();
       if (cn.startsWith("java.lang.")) {

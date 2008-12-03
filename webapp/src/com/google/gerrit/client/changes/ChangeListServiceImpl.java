@@ -1,6 +1,5 @@
 package com.google.gerrit.client.changes;
 
-import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.data.AccountCache;
 import com.google.gerrit.client.data.AccountDashboardInfo;
 import com.google.gerrit.client.data.AccountInfo;
@@ -12,8 +11,8 @@ import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.StarredChange;
 import com.google.gerrit.client.reviewdb.Change.Id;
 import com.google.gerrit.client.rpc.NotSignedInException;
+import com.google.gerrit.client.rpc.RpcUtil;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwtjsonrpc.client.CookieAccess;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.ResultSet;
@@ -34,7 +33,7 @@ public class ChangeListServiceImpl implements ChangeListService {
 
   public void forAccount(Account.Id id,
       AsyncCallback<AccountDashboardInfo> callback) {
-    final Account.Id me = idFromCookie();
+    final Account.Id me = RpcUtil.getAccountId();
     if (id == null) {
       id = me;
     }
@@ -76,7 +75,7 @@ public class ChangeListServiceImpl implements ChangeListService {
   }
 
   public void myStarredChanges(final AsyncCallback<List<ChangeInfo>> callback) {
-    final Account.Id me = idFromCookie();
+    final Account.Id me = RpcUtil.getAccountId();
     if (me == null) {
       callback.onFailure(new NotSignedInException());
       return;
@@ -100,7 +99,7 @@ public class ChangeListServiceImpl implements ChangeListService {
 
   public void toggleStars(final ToggleStarRequest req,
       final AsyncCallback<VoidResult> callback) {
-    final Account.Id me = idFromCookie();
+    final Account.Id me = RpcUtil.getAccountId();
     if (me == null) {
       callback.onFailure(new NotSignedInException());
       return;
@@ -147,7 +146,7 @@ public class ChangeListServiceImpl implements ChangeListService {
   }
 
   public void myStarredChangeIds(final AsyncCallback<Set<Id>> callback) {
-    final Account.Id me = idFromCookie();
+    final Account.Id me = RpcUtil.getAccountId();
     if (me == null) {
       callback.onFailure(new NotSignedInException());
       return;
@@ -179,16 +178,5 @@ public class ChangeListServiceImpl implements ChangeListService {
       r.add(ci);
     }
     return r;
-  }
-
-  private static Account.Id idFromCookie() {
-    final String myid = CookieAccess.getTokenText(Gerrit.ACCOUNT_COOKIE);
-    if (myid != null && myid.length() > 0) {
-      try {
-        return new Account.Id(Integer.parseInt(myid));
-      } catch (NumberFormatException e) {
-      }
-    }
-    return null;
   }
 }

@@ -15,20 +15,30 @@
 package com.google.gerrit.server;
 
 import com.google.gerrit.client.Gerrit;
-import com.google.gwtjsonrpc.client.CookieAccess;
+import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.client.rpc.RpcUtil;
+import com.google.gerrit.client.rpc.RpcUtil.CurrentAccountImpl;
 import com.google.gwtjsonrpc.server.ActiveCall;
 import com.google.gwtjsonrpc.server.ValidToken;
-import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class GerritCall extends ActiveCall {
+  static {
+    RpcUtil.setCurrentAccountImpl(new CurrentAccountImpl() {
+      public Account.Id getAccountId() {
+        final GerritCall c = (GerritCall) GerritJsonServlet.getCurrentCall();
+        return c != null ? c.getAccountId() : null;
+      }
+    });
+  }
+
   private final GerritServer server;
-  private boolean readAccountCookie;
-  private ValidToken accountCookie;
+  private boolean accountRead;
+  private ValidToken accountInfo;
+  private Account.Id accountId;
 
   public GerritCall(final GerritServer gs, final HttpServletRequest i,
       final HttpServletResponse o) {
@@ -47,27 +57,51 @@ public class GerritCall extends ActiveCall {
 
   @Override
   public String getUser() {
-    if (!readAccountCookie) {
-      readAccountCookie = true;
+    initAccount();
+    return accountInfo != null ? accountInfo.getData() : null;
+  }
 
-      String idstr = CookieAccess.get(Gerrit.ACCOUNT_COOKIE);
-      try {
-        accountCookie = server.getAccountToken().checkToken(idstr, null);
-      } catch (XsrfException e) {
-        accountCookie = null;
-      }
+  public Account.Id getAccountId() {
+    initAccount();
+    return accountId;
+  }
 
-      if (accountCookie != null && accountCookie.needsRefresh()) {
-        try {
-          idstr = server.getAccountToken().newToken(accountCookie.getData());
-          final Cookie c = new Cookie(Gerrit.ACCOUNT_COOKIE, idstr);
-          c.setMaxAge(server.getSessionAge());
-          c.setPath(getHttpServletRequest().getContextPath());
-          getHttpServletResponse().addCookie(c);
-        } catch (XsrfException e) {
-        }
-      }
+  private void initAccount() {
+    if (accountRead) {
+      return;
     }
-    return accountCookie != null ? accountCookie.getData() : null;
+
+    accountRead = true;
+    accountInfo = getCookie(Gerrit.ACCOUNT_COOKIE, server.getAccountToken());
+
+    if (accountInfo == null) {
+      if (getCookie(Gerrit.ACCOUNT_COOKIE) != null) {
+        // The cookie is bogus, but it was sent. Send an expired cookie
+        // back to clear it out of the browser's cookie store.
+        //
+        removeCookie(Gerrit.ACCOUNT_COOKIE);
+      }
+      return;
+    }
+
+    try {
+      accountId = new Account.Id(Integer.parseInt(accountInfo.getData()));
+    } catch (NumberFormatException e) {
+      // Whoa, did we change our cookie format or something? This should
+      // never happen on a valid acocunt token, but discard it anyway.
+      //
+      removeCookie(Gerrit.ACCOUNT_COOKIE);
+      accountInfo = null;
+      accountId = null;
+      return;
+    }
+
+    if (accountInfo.needsRefresh()) {
+      // The cookie is valid, but its getting stale. Update it with a
+      // newer date so it doesn't expire on an active user.
+      //
+      final String idstr = String.valueOf(accountId.get());
+      setCookie(Gerrit.ACCOUNT_COOKIE, idstr, server.getAccountToken());
+    }
   }
 }

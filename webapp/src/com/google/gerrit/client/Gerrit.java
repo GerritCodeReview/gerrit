@@ -77,9 +77,14 @@ public class Gerrit implements EntryPoint {
     body.add(currentScreen);
   }
 
+  /** @return the currently signed in user's account data; null if no account */
+  public static Account getUserAccount() {
+    return myAccount;
+  }
+
   /** @return true if the user is currently authenticated */
   public static boolean isSignedIn() {
-    return myAccount != null;
+    return getUserAccount() != null;
   }
 
   /**

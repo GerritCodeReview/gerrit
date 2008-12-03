@@ -14,12 +14,11 @@
 
 package com.google.gerrit.client.account;
 
-import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.NotSignedInException;
+import com.google.gerrit.client.rpc.RpcUtil;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwtjsonrpc.client.CookieAccess;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 
@@ -31,8 +30,8 @@ public class AccountServiceImpl implements AccountService {
   }
 
   public void myAccount(final AsyncCallback<Account> callback) {
-    final int id = idFromCookie(callback);
-    if (id <= 0) {
+    final Account.Id me = RpcUtil.getAccountId();
+    if (me == null) {
       callback.onFailure(new NotSignedInException());
       return;
     }
@@ -40,23 +39,12 @@ public class AccountServiceImpl implements AccountService {
     try {
       final ReviewDb db = schema.open();
       try {
-        callback.onSuccess(db.accounts().byId(new Account.Id(id)));
+        callback.onSuccess(db.accounts().byId(me));
       } finally {
         db.close();
       }
     } catch (OrmException e) {
       callback.onFailure(e);
     }
-  }
-
-  private static int idFromCookie(final AsyncCallback<Account> callback) {
-    final String myid = CookieAccess.getTokenText(Gerrit.ACCOUNT_COOKIE);
-    if (myid != null && myid.length() > 0) {
-      try {
-        return Integer.parseInt(myid);
-      } catch (NumberFormatException e) {
-      }
-    }
-    return 0;
   }
 }

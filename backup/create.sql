@@ -139,20 +139,21 @@ CREATE TABLE revisions
   message TEXT,
   patchset_key VARCHAR(255),
 
-  PRIMARY KEY (revision_id),
   UNIQUE (gae_key)
 );
+CREATE INDEX revisions_idx1 ON revisions (revision_id);
 
 CREATE TABLE revision_ancestors
 (
+  gae_key VARCHAR(255) NOT NULL,
   child_id CHAR(40) NOT NULL,
   parent_id CHAR(40) NOT NULL,
   position INT NOT NULL,
 
-  PRIMARY KEY (child_id, position),
+  PRIMARY KEY (gae_key, position),
 
-  FOREIGN KEY (child_id)
-  REFERENCES revisions (revision_id)
+  FOREIGN KEY (gae_key)
+  REFERENCES revisions (gae_key)
   ON DELETE CASCADE
 );
 

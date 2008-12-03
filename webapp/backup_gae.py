@@ -26,7 +26,7 @@ import re
 import sys
 from xml.dom.minidom import parseString
 from pyPgSQL import PgSQL
-from pyPgSQL.libpq import PgQuoteBytea
+from pyPgSQL.libpq import PgQuoteBytea, OperationalError
 
 from codereview.proto_client import HttpRpc, Proxy
 from codereview.backup_pb2 import *
@@ -199,7 +199,11 @@ class LocalStore(object):
     s = 'INSERT INTO ' + table_name + '(' + ','.join(dict.keys()) + ')'
     s += 'VALUES(' + ','.join(p) + ')'
     c = self.db.cursor()
-    c.execute(s, dict.values())
+    try:
+      c.execute(s, dict.values())
+    except OperationalError:
+      print 'FAIL %s %s' % (table_name, dict)
+      raise
 
   def save_ApprovalRight(self, entity, obj):
     ar_id = entity.key_id
@@ -281,7 +285,11 @@ class LocalStore(object):
 
     p = 1
     for a in obj.ancestors:
-      self.insert('revision_ancestors', {'child_id': one(obj.id), 'parent_id': a, 'position': p})
+      self.insert('revision_ancestors', {
+        'gae_key': entity.key,
+        'child_id': one(obj.id),
+        'parent_id': a,
+        'position': p})
       p += 1
 
   def save_Change(self, entity, obj):

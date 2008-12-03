@@ -12,14 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.changes;
+package com.google.gerrit.client.rpc;
 
-import com.google.gwt.i18n.client.Messages;
+/** Error indicating the entity requested doesn't exist. */
+public class NoSuchEntityException extends Exception {
+  public static final String MESSAGE = "Not Found";
 
-public interface ChangeMessages extends Messages {
-  String accountDashboardTitle(String fullName);
-  String changesUploadedBy(String fullName);
-  String changesReviewableBy(String fullName);
-
-  String changeScreenTitleId(int id);
+  public NoSuchEntityException() {
+    super(MESSAGE);
+  }
 }

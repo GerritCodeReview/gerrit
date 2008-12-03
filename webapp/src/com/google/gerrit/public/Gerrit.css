@@ -163,3 +163,16 @@
   font-style: italic;
   padding-left: 25px;
 }
+
+
+/** Change **/
+
+.gerrit-ChangeScreen .gwt-DisclosurePanel .header td {
+	font-weight: bold;
+}
+
+.gerrit-ChangeScreen .gwt-DisclosurePanel .description {
+	white-space: pre;
+	font-family: Courier New, Courier, monospace;
+	font-size: small;
+}

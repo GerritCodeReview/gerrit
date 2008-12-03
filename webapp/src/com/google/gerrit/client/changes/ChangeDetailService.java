@@ -14,12 +14,13 @@
 
 package com.google.gerrit.client.changes;
 
-import com.google.gwt.i18n.client.Messages;
+import com.google.gerrit.client.data.ChangeDetail;
+import com.google.gerrit.client.reviewdb.Change;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwtjsonrpc.client.AllowCrossSiteRequest;
+import com.google.gwtjsonrpc.client.RemoteJsonService;
 
-public interface ChangeMessages extends Messages {
-  String accountDashboardTitle(String fullName);
-  String changesUploadedBy(String fullName);
-  String changesReviewableBy(String fullName);
-
-  String changeScreenTitleId(int id);
+public interface ChangeDetailService extends RemoteJsonService {
+  @AllowCrossSiteRequest
+  void changeDetail(Change.Id id, AsyncCallback<ChangeDetail> callback);
 }

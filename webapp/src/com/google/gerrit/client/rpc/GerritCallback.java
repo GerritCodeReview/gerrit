@@ -15,6 +15,7 @@
 package com.google.gerrit.client.rpc;
 
 import com.google.gerrit.client.ErrorDialog;
+import com.google.gerrit.client.Gerrit;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.RemoteJsonException;
@@ -25,6 +26,9 @@ public abstract class GerritCallback<T> implements AsyncCallback<T> {
   public void onFailure(final Throwable caught) {
     if (isNotSignedIn(caught)) {
       new ErrorDialog(RpcUtil.C.errorNotSignedIn()).center();
+
+    } else if (isNoSuchEntity(caught)) {
+      new ErrorDialog(Gerrit.C.notFoundBody()).center();
 
     } else if (caught instanceof ServerUnavailableException) {
       new ErrorDialog(RpcUtil.C.errorServerUnavailable()).center();
@@ -41,5 +45,13 @@ public abstract class GerritCallback<T> implements AsyncCallback<T> {
     }
     return caught instanceof RemoteJsonException
         && caught.getMessage().equals(NotSignedInException.MESSAGE);
+  }
+
+  protected static boolean isNoSuchEntity(final Throwable caught) {
+    if (caught instanceof NoSuchEntityException) {
+      return true;
+    }
+    return caught instanceof RemoteJsonException
+        && caught.getMessage().equals(NoSuchEntityException.MESSAGE);
   }
 }

@@ -25,6 +25,7 @@ import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.StarredChange;
 import com.google.gerrit.client.reviewdb.Change.Id;
 import com.google.gerrit.client.rpc.BaseServiceImplementation;
+import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gerrit.client.rpc.RpcUtil;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
@@ -49,7 +50,7 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
     final Account.Id me = RpcUtil.getAccountId();
     final Account.Id target = id != null ? id : me;
     if (target == null) {
-      callback.onFailure(new IllegalArgumentException("No Account.Id"));
+      callback.onFailure(new NoSuchEntityException());
       return;
     }
 
@@ -59,7 +60,7 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
         final AccountCache ac = new AccountCache(db);
         final Account user = ac.get(target);
         if (user == null) {
-          throw new Failure(new IllegalArgumentException("No such user"));
+          throw new Failure(new NoSuchEntityException());
         }
 
         final Set<Change.Id> stars = starredBy(db, me);

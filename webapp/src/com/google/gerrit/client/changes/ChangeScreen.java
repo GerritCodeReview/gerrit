@@ -14,13 +14,29 @@
 
 package com.google.gerrit.client.changes;
 
+import com.google.gerrit.client.data.ChangeDetail;
 import com.google.gerrit.client.data.ChangeInfo;
 import com.google.gerrit.client.reviewdb.Change;
+import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.Screen;
+import com.google.gwt.i18n.client.LocaleInfo;
+import com.google.gwt.user.client.ui.DisclosurePanel;
+import com.google.gwt.user.client.ui.Label;
 
 
 public class ChangeScreen extends Screen {
   private Change.Id changeId;
+  private ChangeInfo changeInfo;
+
+  private DisclosurePanel descriptionPanel;
+  private Label description;
+
+  private DisclosurePanel dependenciesPanel;
+  private ChangeTable dependencies;
+  private ChangeTable.Section dependsOn;
+  private ChangeTable.Section neededBy;
+
+  private DisclosurePanel approvalsPanel;
 
   public ChangeScreen(final Change.Id toShow) {
     changeId = toShow;
@@ -28,6 +44,7 @@ public class ChangeScreen extends Screen {
 
   public ChangeScreen(final ChangeInfo c) {
     this(c.getId());
+    changeInfo = c;
   }
 
   @Override
@@ -37,12 +54,82 @@ public class ChangeScreen extends Screen {
 
   @Override
   public Screen recycleThis(final Screen newScreen) {
-    changeId = ((ChangeScreen) newScreen).changeId;
+    final ChangeScreen s = (ChangeScreen) newScreen;
+    changeId = s.changeId;
+    changeInfo = s.changeInfo;
     return this;
   }
 
   @Override
   public void onLoad() {
-    setTitleText("Change " + changeId.get());
+    if (descriptionPanel == null) {
+      addStyleName("gerrit-ChangeScreen");
+
+      description = new Label();
+      description.addStyleName("description");
+
+      descriptionPanel = new DisclosurePanel(Util.C.changeScreenDescription());
+      descriptionPanel.setContent(description);
+      descriptionPanel.setWidth("100%");
+      add(descriptionPanel);
+
+      dependencies = new ChangeTable();
+      dependsOn = new ChangeTable.Section(Util.C.changeScreenDependsOn());
+      neededBy = new ChangeTable.Section(Util.C.changeScreenNeededBy());
+      dependencies.addSection(dependsOn);
+      dependencies.addSection(neededBy);
+
+      dependenciesPanel =
+          new DisclosurePanel(Util.C.changeScreenDependencies());
+      dependenciesPanel.setContent(dependencies);
+      dependenciesPanel.setWidth("95%");
+      add(dependenciesPanel);
+
+      approvalsPanel = new DisclosurePanel(Util.C.changeScreenApprovals());
+      dependenciesPanel.setWidth("100%");
+      add(approvalsPanel);
+    }
+
+    displayTitle(changeInfo != null ? changeInfo.getSubject() : null);
+    super.onLoad();
+
+    Util.DETAIL_SVC.changeDetail(changeId,
+        new ScreenLoadCallback<ChangeDetail>() {
+          public void onSuccess(final ChangeDetail r) {
+            // TODO Actually we want to cancel the RPC if detached.
+            if (isAttached()) {
+              display(r);
+            }
+          }
+        });
+  }
+
+  private void displayTitle(final String subject) {
+    final StringBuffer titleBuf = new StringBuffer();
+    if (LocaleInfo.getCurrentLocale().isRTL()) {
+      if (subject != null) {
+        titleBuf.append(subject);
+        titleBuf.append(" :");
+      }
+      titleBuf.append(Util.M.changeScreenTitleId(changeId.get()));
+    } else {
+      titleBuf.append(Util.M.changeScreenTitleId(changeId.get()));
+      if (subject != null) {
+        titleBuf.append(": ");
+        titleBuf.append(subject);
+      }
+    }
+    setTitleText(titleBuf.toString());
+  }
+
+  private void display(final ChangeDetail detail) {
+    if (changeInfo == null) {
+      // We couldn't set the title correctly when we loaded the page
+      // into the browser, update it now that we have the full detail.
+      //
+      displayTitle(detail.getChange().getSubject());
+    }
+    description.setText(detail.getDescription());
+    descriptionPanel.setOpen(true);
   }
 }

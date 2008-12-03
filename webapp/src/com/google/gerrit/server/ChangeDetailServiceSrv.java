@@ -12,14 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.changes;
+package com.google.gerrit.server;
 
-import com.google.gwt.i18n.client.Messages;
+import com.google.gerrit.client.changes.ChangeDetailServiceImpl;
 
-public interface ChangeMessages extends Messages {
-  String accountDashboardTitle(String fullName);
-  String changesUploadedBy(String fullName);
-  String changesReviewableBy(String fullName);
-
-  String changeScreenTitleId(int id);
+/** Publishes {@link ChangeDetailServiceImpl} over JSON. */
+public class ChangeDetailServiceSrv extends GerritJsonServlet {
+  @Override
+  protected Object createServiceHandle() throws Exception {
+    return new ChangeDetailServiceImpl(GerritServer.getInstance().getDatabase());
+  }
 }

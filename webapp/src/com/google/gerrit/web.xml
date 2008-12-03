@@ -52,6 +52,15 @@
   </servlet-mapping>
 
   <servlet>
+    <servlet-name>ChangeDetailService</servlet-name>
+    <servlet-class>com.google.gerrit.server.ChangeDetailServiceSrv</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ChangeDetailService</servlet-name>
+    <url-pattern>/rpc/ChangeDetailService</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
     <servlet-name>ChangeListService</servlet-name>
     <servlet-class>com.google.gerrit.server.ChangeListServiceSrv</servlet-class>
   </servlet>

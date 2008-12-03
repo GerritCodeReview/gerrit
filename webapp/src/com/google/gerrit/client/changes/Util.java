@@ -21,9 +21,13 @@ public class Util {
   public static final ChangeConstants C = GWT.create(ChangeConstants.class);
   public static final ChangeMessages M = GWT.create(ChangeMessages.class);
 
+  public static final ChangeDetailService DETAIL_SVC;
   public static final ChangeListService LIST_SVC;
 
   static {
+    DETAIL_SVC = GWT.create(ChangeDetailService.class);
+    JsonUtil.bind(DETAIL_SVC, "rpc/ChangeDetailService");
+
     LIST_SVC = GWT.create(ChangeListService.class);
     JsonUtil.bind(LIST_SVC, "rpc/ChangeListService");
   }

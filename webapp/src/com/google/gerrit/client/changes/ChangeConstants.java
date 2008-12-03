@@ -28,4 +28,10 @@ public interface ChangeConstants extends Constants {
   String changeTableColumnProject();
   String changeTableColumnLastUpdate();
   String changeTableNone();
+
+  String changeScreenDescription();
+  String changeScreenDependencies();
+  String changeScreenDependsOn();
+  String changeScreenNeededBy();
+  String changeScreenApprovals();
 }

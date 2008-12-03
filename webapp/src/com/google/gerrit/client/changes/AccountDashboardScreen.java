@@ -18,7 +18,7 @@ import com.google.gerrit.client.Link;
 import com.google.gerrit.client.data.AccountDashboardInfo;
 import com.google.gerrit.client.data.AccountInfo;
 import com.google.gerrit.client.reviewdb.Account;
-import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.Screen;
 
 
@@ -60,7 +60,7 @@ public class AccountDashboardScreen extends Screen {
     table.setSavePointerId(Link.toAccountDashboard(ownerId));
     super.onLoad();
     Util.LIST_SVC.forAccount(ownerId,
-        new GerritCallback<AccountDashboardInfo>() {
+        new ScreenLoadCallback<AccountDashboardInfo>() {
           public void onSuccess(final AccountDashboardInfo r) {
             // TODO Actually we want to cancel the RPC if detached.
             if (isAttached()) {

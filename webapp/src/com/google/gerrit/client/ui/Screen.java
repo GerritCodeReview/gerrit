@@ -23,7 +23,11 @@ public class Screen extends FlowPanel {
   private boolean requiresSignIn;
   private Element headerElem;
 
-  public Screen(final String headingText) {
+  protected Screen() {
+    this("");
+  }
+
+  protected Screen(final String headingText) {
     setStyleName("gerrit-Screen");
 
     headerElem = DOM.createElement("h1");
@@ -44,5 +48,30 @@ public class Screen extends FlowPanel {
   /** Does {@link Gerrit#isSignedIn()} have to be true to be on this screen? */
   public boolean isRequiresSignIn() {
     return requiresSignIn;
+  }
+
+  /** Get the token to cache this screen's widget; null if it shouldn't cache. */
+  public Object getScreenCacheToken() {
+    return null;
+  }
+
+  /**
+   * Reconfigure this screen after being recycled.
+   * <p>
+   * This method is invoked on a cached screen instance just before it is
+   * recycled into the UI. The returned screen instance is what will actually be
+   * shown to the user.
+   * 
+   * @param newScreen the screen object created by the Link class (or some other
+   *        form of screen constructor) and that was just passed into
+   *        {@link Gerrit#display(Screen)}. Its {@link #getScreenCacheToken()}
+   *        is equal to <code>this.getScreenCacheToken()</code> but it may have
+   *        other parameter information worth copying.
+   * @return typically <code>this</code> to reuse the cached screen;
+   *         <code>newScreen</code> to discard the cached screen instance and
+   *         use the new one.
+   */
+  public Screen recycleThis(final Screen newScreen) {
+    return this;
   }
 }

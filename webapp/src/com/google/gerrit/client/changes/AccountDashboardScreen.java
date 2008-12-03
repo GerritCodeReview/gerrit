@@ -14,12 +14,12 @@
 
 package com.google.gerrit.client.changes;
 
+import com.google.gerrit.client.Link;
 import com.google.gerrit.client.data.AccountDashboardInfo;
 import com.google.gerrit.client.data.AccountInfo;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.Screen;
-import com.google.gwt.user.client.History;
 
 
 public class AccountDashboardScreen extends Screen {
@@ -29,44 +29,49 @@ public class AccountDashboardScreen extends Screen {
   private ChangeTable.Section forReview;
   private ChangeTable.Section closed;
 
-  public AccountDashboardScreen() {
-    this(null);
+  public AccountDashboardScreen(final Account.Id id) {
+    ownerId = id;
   }
 
-  public AccountDashboardScreen(final Account.Id id) {
-    super("");
+  @Override
+  public Object getScreenCacheToken() {
+    return getClass();
+  }
 
-    ownerId = id;
-    table = new ChangeTable();
-    byOwner = new ChangeTable.Section("");
-    forReview = new ChangeTable.Section("");
-    closed = new ChangeTable.Section("");
-
-    table.addSection(byOwner);
-    table.addSection(forReview);
-    table.addSection(closed);
-    add(table);
-
-    if (ownerId == null) {
-      setRequiresSignIn(true);
-    }
+  @Override
+  public Screen recycleThis(final Screen newScreen) {
+    ownerId = ((AccountDashboardScreen) newScreen).ownerId;
+    return this;
   }
 
   @Override
   public void onLoad() {
+    if (table == null) {
+      table = new ChangeTable();
+      byOwner = new ChangeTable.Section("");
+      forReview = new ChangeTable.Section("");
+      closed = new ChangeTable.Section("");
+
+      table.addSection(byOwner);
+      table.addSection(forReview);
+      table.addSection(closed);
+      add(table);
+    }
+    table.setSavePointerId(Link.toAccountDashboard(ownerId));
     super.onLoad();
-    table.setSavePointerId(History.getToken());
     Util.LIST_SVC.forAccount(ownerId,
         new GerritCallback<AccountDashboardInfo>() {
           public void onSuccess(final AccountDashboardInfo r) {
-            display(r);
+            // TODO Actually we want to cancel the RPC if detached.
+            if (isAttached()) {
+              display(r);
+            }
           }
         });
   }
 
   private void display(final AccountDashboardInfo r) {
     final AccountInfo o = r.getOwner();
-
     setTitleText(Util.M.accountDashboardTitle(o.getFullName()));
     byOwner.setTitleText(Util.M.changesUploadedBy(o.getFullName()));
     forReview.setTitleText(Util.M.changesReviewableBy(o.getFullName()));

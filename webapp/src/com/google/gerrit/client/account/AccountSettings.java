@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.account;
 
+import com.google.gerrit.client.Link;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountScreen;
@@ -22,6 +23,11 @@ import com.google.gwt.core.client.GWT;
 public class AccountSettings extends AccountScreen {
   public AccountSettings() {
     super(Util.C.accountSettingsHeading());
+  }
+
+  @Override
+  public Object getScreenCacheToken() {
+    return Link.SETTINGS;
   }
 
   @Override

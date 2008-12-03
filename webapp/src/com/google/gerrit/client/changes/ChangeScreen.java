@@ -15,15 +15,34 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.data.ChangeInfo;
+import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.ui.Screen;
 
 
 public class ChangeScreen extends Screen {
-  public ChangeScreen(final int id) {
-    super("Loading Change " + id);
+  private Change.Id changeId;
+
+  public ChangeScreen(final Change.Id toShow) {
+    changeId = toShow;
   }
 
   public ChangeScreen(final ChangeInfo c) {
-    super(c.getSubject());
+    this(c.getId());
+  }
+
+  @Override
+  public Object getScreenCacheToken() {
+    return getClass();
+  }
+
+  @Override
+  public Screen recycleThis(final Screen newScreen) {
+    changeId = ((ChangeScreen) newScreen).changeId;
+    return this;
+  }
+
+  @Override
+  public void onLoad() {
+    setTitleText("Change " + changeId.get());
   }
 }

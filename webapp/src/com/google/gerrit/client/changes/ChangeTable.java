@@ -19,7 +19,6 @@ import com.google.gerrit.client.Link;
 import com.google.gerrit.client.SignedInListener;
 import com.google.gerrit.client.data.ChangeInfo;
 import com.google.gerrit.client.reviewdb.Change;
-import com.google.gerrit.client.reviewdb.Change.Id;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
@@ -73,7 +72,7 @@ public class ChangeTable extends Composite implements HasFocus {
   private static final LinkedHashMap<String, Change.Id> savedPositions =
       new LinkedHashMap<String, Change.Id>(10, 0.75f, true) {
         @Override
-        protected boolean removeEldestEntry(Entry<String, Id> eldest) {
+        protected boolean removeEldestEntry(Entry<String, Change.Id> eldest) {
           return size() >= 5;
         }
       };

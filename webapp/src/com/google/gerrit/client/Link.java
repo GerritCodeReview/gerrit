@@ -22,6 +22,7 @@ import com.google.gerrit.client.data.AccountInfo;
 import com.google.gerrit.client.data.ChangeInfo;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.Change;
+import com.google.gerrit.client.rpc.RpcUtil;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gwt.user.client.HistoryListener;
 
@@ -73,14 +74,14 @@ public class Link implements HistoryListener {
       return new AccountSettings();
 
     else if (MINE.equals(token))
-      return new AccountDashboardScreen();
+      return new AccountDashboardScreen(RpcUtil.getAccountId());
 
     else if (MINE_STARRED.equals(token))
       return new MineStarredScreen();
 
     else if (token.matches("^change,\\d+$")) {
       final String id = token.substring("change,".length());
-      return new ChangeScreen(Integer.parseInt(id));
+      return new ChangeScreen(Change.Id.fromString(id));
     }
 
     else if (token.matches("^dashboard,\\d+$")) {

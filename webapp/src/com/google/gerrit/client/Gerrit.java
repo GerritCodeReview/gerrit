@@ -33,6 +33,8 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwtjsonrpc.client.JsonUtil;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map.Entry;
 
 public class Gerrit implements EntryPoint {
   /**
@@ -55,6 +57,13 @@ public class Gerrit implements EntryPoint {
   private static LinkMenuBar menuBar;
   private static RootPanel body;
   private static Screen currentScreen;
+  private static final LinkedHashMap<Object, Screen> priorScreens =
+      new LinkedHashMap<Object, Screen>(10, 0.75f, true) {
+        @Override
+        protected boolean removeEldestEntry(final Entry<Object, Screen> eldest) {
+          return 3 <= size();
+        }
+      };
 
   public static void display(final Screen view) {
     if (view.isRequiresSignIn() && !isSignedIn()) {
@@ -71,9 +80,14 @@ public class Gerrit implements EntryPoint {
 
     if (currentScreen != null) {
       body.remove(currentScreen);
+      final Object sct = currentScreen.getScreenCacheToken();
+      if (sct != null) {
+        priorScreens.put(sct, currentScreen);
+      }
     }
 
-    currentScreen = view;
+    final Screen p = priorScreens.get(view.getScreenCacheToken());
+    currentScreen = p != null ? p.recycleThis(view) : view;
     body.add(currentScreen);
   }
 

@@ -14,10 +14,10 @@
 
 package com.google.gerrit.client.changes;
 
+import com.google.gerrit.client.Link;
 import com.google.gerrit.client.data.ChangeInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountScreen;
-import com.google.gwt.user.client.History;
 
 import java.util.List;
 
@@ -33,13 +33,19 @@ public class MineStarredScreen extends AccountScreen {
     starred = new ChangeTable.Section();
 
     table.addSection(starred);
+    table.setSavePointerId(Link.MINE_STARRED);
+
     add(table);
+  }
+
+  @Override
+  public Object getScreenCacheToken() {
+    return Link.MINE_STARRED;
   }
 
   @Override
   public void onLoad() {
     super.onLoad();
-    table.setSavePointerId(History.getToken());
     Util.LIST_SVC.myStarredChanges(new GerritCallback<List<ChangeInfo>>() {
       public void onSuccess(final List<ChangeInfo> result) {
         starred.display(result);

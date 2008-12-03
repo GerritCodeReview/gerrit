@@ -16,6 +16,40 @@
       "revId": "83e2da8d007bcf93865243d9fda2c8c23b440ee6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "zb3cb35e5e742de1ec5ab4930333af1f6",
+        "filename": "webapp/codereview/view_util.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2008-12-03T16:11:43Z",
+      "side": 1,
+      "message": "the error has nothing to do with the test; shouldn\u0027t this say \"user not signed in\"?",
+      "revId": "83e2da8d007bcf93865243d9fda2c8c23b440ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "zdb919c508783907e24039728416b0067",
+        "filename": "webapp/codereview/view_util.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2008-12-03T16:11:43Z",
+      "side": 1,
+      "message": "given the above return, isn\u0027t this return never reached?",
+      "revId": "83e2da8d007bcf93865243d9fda2c8c23b440ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -16,7 +16,6 @@ package com.google.gerrit.client.account;
 
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.ReviewDb;
-import com.google.gerrit.client.rpc.NotSignedInException;
 import com.google.gerrit.client.rpc.RpcUtil;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtorm.client.OrmException;
@@ -31,11 +30,6 @@ public class AccountServiceImpl implements AccountService {
 
   public void myAccount(final AsyncCallback<Account> callback) {
     final Account.Id me = RpcUtil.getAccountId();
-    if (me == null) {
-      callback.onFailure(new NotSignedInException());
-      return;
-    }
-
     try {
       final ReviewDb db = schema.open();
       try {

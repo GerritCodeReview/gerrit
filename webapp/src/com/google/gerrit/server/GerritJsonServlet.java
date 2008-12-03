@@ -14,7 +14,8 @@
 
 package com.google.gerrit.server;
 
-import com.google.gwtjsonrpc.server.ActiveCall;
+import com.google.gerrit.client.rpc.NotSignedInException;
+import com.google.gerrit.client.rpc.SignInRequired;
 import com.google.gwtjsonrpc.server.JsonServlet;
 import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.gwtjsonrpc.server.XsrfException;
@@ -28,7 +29,12 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Base JSON servlet to ensure the current user is not forged.
  */
-public abstract class GerritJsonServlet extends JsonServlet {
+public abstract class GerritJsonServlet extends JsonServlet<GerritCall> {
+  @SuppressWarnings("unchecked")
+  public static final GerritCall getCurrentCall() {
+    return JsonServlet.<GerritCall> getCurrentCall();
+  }
+
   private GerritServer server;
 
   @Override
@@ -54,9 +60,22 @@ public abstract class GerritJsonServlet extends JsonServlet {
   }
 
   @Override
-  protected ActiveCall createActiveCall(final HttpServletRequest req,
+  protected GerritCall createActiveCall(final HttpServletRequest req,
       final HttpServletResponse resp) {
     return new GerritCall(server, req, resp);
+  }
+
+  @Override
+  protected void preInvoke(final GerritCall call) {
+    super.preInvoke(call);
+    if (!call.isComplete()
+        && call.getMethod().getAnnotation(SignInRequired.class) != null
+        && call.getAccountId() == null) {
+      // If SignInRequired exists on the method and we don't have an
+      // account id in the request, we can't permit this call to finish.
+      //
+      call.onFailure(new NotSignedInException());
+    }
   }
 
   @Override

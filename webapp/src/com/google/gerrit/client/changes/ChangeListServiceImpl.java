@@ -10,7 +10,6 @@ import com.google.gerrit.client.reviewdb.ChangeAccess;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.StarredChange;
 import com.google.gerrit.client.reviewdb.Change.Id;
-import com.google.gerrit.client.rpc.NotSignedInException;
 import com.google.gerrit.client.rpc.RpcUtil;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
@@ -76,10 +75,6 @@ public class ChangeListServiceImpl implements ChangeListService {
 
   public void myStarredChanges(final AsyncCallback<List<ChangeInfo>> callback) {
     final Account.Id me = RpcUtil.getAccountId();
-    if (me == null) {
-      callback.onFailure(new NotSignedInException());
-      return;
-    }
     try {
       final ReviewDb db = schema.open();
       try {
@@ -100,11 +95,6 @@ public class ChangeListServiceImpl implements ChangeListService {
   public void toggleStars(final ToggleStarRequest req,
       final AsyncCallback<VoidResult> callback) {
     final Account.Id me = RpcUtil.getAccountId();
-    if (me == null) {
-      callback.onFailure(new NotSignedInException());
-      return;
-    }
-
     try {
       final ReviewDb db = schema.open();
       try {
@@ -147,11 +137,6 @@ public class ChangeListServiceImpl implements ChangeListService {
 
   public void myStarredChangeIds(final AsyncCallback<Set<Id>> callback) {
     final Account.Id me = RpcUtil.getAccountId();
-    if (me == null) {
-      callback.onFailure(new NotSignedInException());
-      return;
-    }
-
     try {
       final ReviewDb db = schema.open();
       try {

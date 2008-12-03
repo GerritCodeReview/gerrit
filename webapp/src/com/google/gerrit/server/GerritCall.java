@@ -29,7 +29,7 @@ public class GerritCall extends ActiveCall {
   static {
     RpcUtil.setCurrentAccountImpl(new CurrentAccountImpl() {
       public Account.Id getAccountId() {
-        final GerritCall c = (GerritCall) GerritJsonServlet.getCurrentCall();
+        final GerritCall c = GerritJsonServlet.getCurrentCall();
         return c != null ? c.getAccountId() : null;
       }
     });

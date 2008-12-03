@@ -18,6 +18,7 @@ import com.google.gerrit.client.data.AccountDashboardInfo;
 import com.google.gerrit.client.data.ChangeInfo;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.Change;
+import com.google.gerrit.client.rpc.SignInRequired;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.RemoteJsonService;
 import com.google.gwtjsonrpc.client.VoidResult;
@@ -30,9 +31,11 @@ public interface ChangeListService extends RemoteJsonService {
   void forAccount(Account.Id id, AsyncCallback<AccountDashboardInfo> callback);
 
   /** Get the changes starred by the caller. */
+  @SignInRequired
   void myStarredChanges(AsyncCallback<List<ChangeInfo>> callback);
 
   /** Get the ids of all changes starred by the caller. */
+  @SignInRequired
   void myStarredChangeIds(AsyncCallback<Set<Change.Id>> callback);
 
   /**
@@ -40,5 +43,6 @@ public interface ChangeListService extends RemoteJsonService {
    * 
    * @param req the add and remove cluster.
    */
+  @SignInRequired
   void toggleStars(ToggleStarRequest req, AsyncCallback<VoidResult> callback);
 }

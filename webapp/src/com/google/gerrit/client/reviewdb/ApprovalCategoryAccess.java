@@ -29,6 +29,6 @@ public interface ApprovalCategoryAccess extends
   @SecondaryKey("name")
   ApprovalCategory byName(String name) throws OrmException;
 
-  @Query("ORDER BY name")
+  @Query("ORDER BY position, name")
   ResultSet<ApprovalCategory> all() throws OrmException;
 }

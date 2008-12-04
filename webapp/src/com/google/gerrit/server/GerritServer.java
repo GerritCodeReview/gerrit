@@ -140,33 +140,35 @@ public class GerritServer {
     c.systemConfig().insert(Collections.singleton(s));
   }
 
-  private void initCodeReviewCategory(final ReviewDb c) throws OrmException {
-    final Transaction txn = c.beginTransaction();
-    final ApprovalCategory cat;
-    final ArrayList<ApprovalCategoryValue> vals;
-
-    cat = new ApprovalCategory(new ApprovalCategory.Id("CRVW"), "Code Review");
-    vals = new ArrayList<ApprovalCategoryValue>();
-    vals.add(value(cat, 2, "Looks good to me, approved"));
-    vals.add(value(cat, 1, "Looks good to me, but someone else must approve"));
-    vals.add(value(cat, 0, "No score"));
-    vals.add(value(cat, -1, "I would prefer that you didn't submit this"));
-    vals.add(value(cat, -2, "Do not submit"));
-    c.approvalCategories().insert(Collections.singleton(cat), txn);
-    c.approvalCategoryValues().insert(vals);
-    txn.commit();
-  }
-
   private void initVerifiedCategory(final ReviewDb c) throws OrmException {
     final Transaction txn = c.beginTransaction();
     final ApprovalCategory cat;
     final ArrayList<ApprovalCategoryValue> vals;
 
     cat = new ApprovalCategory(new ApprovalCategory.Id("VRIF"), "Verified");
+    cat.setPosition((short) 0);
     vals = new ArrayList<ApprovalCategoryValue>();
     vals.add(value(cat, 1, "Verified"));
     vals.add(value(cat, 0, "No score"));
     vals.add(value(cat, -1, "Fails"));
+    c.approvalCategories().insert(Collections.singleton(cat), txn);
+    c.approvalCategoryValues().insert(vals);
+    txn.commit();
+  }
+
+  private void initCodeReviewCategory(final ReviewDb c) throws OrmException {
+    final Transaction txn = c.beginTransaction();
+    final ApprovalCategory cat;
+    final ArrayList<ApprovalCategoryValue> vals;
+
+    cat = new ApprovalCategory(new ApprovalCategory.Id("CRVW"), "Code Review");
+    cat.setPosition((short) 1);
+    vals = new ArrayList<ApprovalCategoryValue>();
+    vals.add(value(cat, 2, "Looks good to me, approved"));
+    vals.add(value(cat, 1, "Looks good to me, but someone else must approve"));
+    vals.add(value(cat, 0, "No score"));
+    vals.add(value(cat, -1, "I would prefer that you didn't submit this"));
+    vals.add(value(cat, -2, "Do not submit"));
     c.approvalCategories().insert(Collections.singleton(cat), txn);
     c.approvalCategoryValues().insert(vals);
     txn.commit();
@@ -195,8 +197,8 @@ public class GerritServer {
         // Assume the schema is empty and populate it.
         //
         initSystemConfig(c);
-        initCodeReviewCategory(c);
         initVerifiedCategory(c);
+        initCodeReviewCategory(c);
         sConfig = c.systemConfig().get(new SystemConfig.Key());
       }
 

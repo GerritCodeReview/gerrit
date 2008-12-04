@@ -43,6 +43,9 @@ public final class ApprovalCategory {
   @Column(length = 20)
   protected String name;
 
+  @Column
+  protected short position;
+
   protected ApprovalCategory() {
   }
 
@@ -53,5 +56,13 @@ public final class ApprovalCategory {
 
   public ApprovalCategory.Id getId() {
     return categoryId;
+  }
+
+  public short getPosition() {
+    return position;
+  }
+
+  public void setPosition(final short p) {
+    position = p;
   }
 }

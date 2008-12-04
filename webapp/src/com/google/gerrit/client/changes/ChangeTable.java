@@ -17,6 +17,7 @@ package com.google.gerrit.client.changes;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.Link;
 import com.google.gerrit.client.SignedInListener;
+import com.google.gerrit.client.account.AccountDashboardLink;
 import com.google.gerrit.client.data.ChangeInfo;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.rpc.GerritCallback;
@@ -32,7 +33,6 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FocusListener;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HasFocus;
-import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.KeyboardListener;
 import com.google.gwt.user.client.ui.KeyboardListenerAdapter;
@@ -356,9 +356,7 @@ public class ChangeTable extends Composite implements HasFocus {
       s += " (" + c.getStatus().name() + ")";
     }
     table.setWidget(row, C_SUBJECT, new ChangeLink(s, c));
-
-    table.setWidget(row, C_OWNER, new Hyperlink(c.getOwner().getFullName(),
-        Link.toAccountDashboard(c.getOwner())));
+    table.setWidget(row, C_OWNER, new AccountDashboardLink(c.getOwner()));
     table.setText(row, C_REVIEWERS, "TODO");
     table.setText(row, C_PROJECT, c.getProject().getName());
     table.setText(row, C_LAST_UPDATE, "TODO");

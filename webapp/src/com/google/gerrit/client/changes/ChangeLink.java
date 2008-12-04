@@ -14,15 +14,12 @@
 
 package com.google.gerrit.client.changes;
 
-import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.Link;
 import com.google.gerrit.client.data.ChangeInfo;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.History;
-import com.google.gwt.user.client.ui.Hyperlink;
+import com.google.gerrit.client.ui.DirectScreenLink;
+import com.google.gerrit.client.ui.Screen;
 
-public class ChangeLink extends Hyperlink {
+public class ChangeLink extends DirectScreenLink {
   private ChangeInfo change;
 
   public ChangeLink(final String text, final ChangeInfo c) {
@@ -31,11 +28,7 @@ public class ChangeLink extends Hyperlink {
   }
 
   @Override
-  public void onBrowserEvent(final Event event) {
-    if (DOM.eventGetType(event) == Event.ONCLICK) {
-      History.newItem(getTargetHistoryToken(), false);
-      Gerrit.display(new ChangeScreen(change));
-      DOM.eventPreventDefault(event);
-    }
+  protected Screen createScreen() {
+    return new ChangeScreen(change);
   }
 }

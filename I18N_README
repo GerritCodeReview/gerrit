@@ -1,0 +1,35 @@
+Remaining i18n Details
+----------------------
+
+Aside from actually writing translations, there's some issues with
+the way the code produces output.  Most of the UI should support
+right-to-left (RTL) languages.
+
+
+ApprovalCategory
+~~~~~~~~~~~~~~~~
+
+The getName() function produces only a single translation of the
+description string.  This name is set by the Gerrit administrator,
+which may cause problems if the site is translated into multiple
+langauges and different users want different translations.
+
+ApprovalCategoryValue
+~~~~~~~~~~~~~~~~~~~~~
+
+The getName() function produces only a single translation of the
+description string.  This name is set by the Gerrit administrator,
+which may cause problems if the site is translated into multiple
+langauges and different users want different translations.
+
+/login's SetCookie.html
+~~~~~~~~~~~~~~~~~~~~~~~
+
+This page is static HTML, with no translations supported.
+
+/Gerrit Gerrit.html
+~~~~~~~~~~~~~~~~~~~
+
+* The title of the host page is not translated.
+
+* The <noscript> tag is not translated.

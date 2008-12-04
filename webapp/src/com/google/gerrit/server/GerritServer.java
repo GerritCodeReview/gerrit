@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server;
 
+import com.google.gerrit.client.data.ApprovalType;
+import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.client.reviewdb.ReviewDb;
@@ -64,19 +66,20 @@ public class GerritServer {
   }
 
   private final Database<ReviewDb> db;
-  private final SystemConfig config;
+  private SystemConfig sConfig;
+  private GerritConfig gerritConfig;
   private final SignedToken xsrf;
   private final SignedToken account;
 
   private GerritServer() throws OrmException, XsrfException {
     db = createDatabase();
-    config = readSystemConfig();
-    if (config == null) {
+    loadSystemConfig();
+    if (sConfig == null) {
       throw new OrmException("No " + SystemConfig.class.getName() + " found");
     }
 
-    xsrf = new SignedToken(config.maxSessionAge, config.xsrfPrivateKey);
-    account = new SignedToken(config.maxSessionAge, config.accountPrivateKey);
+    xsrf = new SignedToken(sConfig.maxSessionAge, sConfig.xsrfPrivateKey);
+    account = new SignedToken(sConfig.maxSessionAge, sConfig.accountPrivateKey);
   }
 
   private Database<ReviewDb> createDatabase() throws OrmException {
@@ -175,33 +178,44 @@ public class GerritServer {
         (short) value), name);
   }
 
-  private SystemConfig readSystemConfig() throws OrmException {
+  private void loadSystemConfig() throws OrmException {
     final ReviewDb c = db.open();
     try {
-      SystemConfig sysconf;
       try {
-        sysconf = c.systemConfig().get(new SystemConfig.Key());
+        sConfig = c.systemConfig().get(new SystemConfig.Key());
       } catch (OrmException e) {
         // Assume the schema doesn't exist, and create it.
         // TODO Implement schema upgrades and/or exporting to a script file.
         //
-        sysconf = null;
+        sConfig = null;
         c.createSchema();
       }
 
-      if (sysconf == null) {
+      if (sConfig == null) {
         // Assume the schema is empty and populate it.
         //
         initSystemConfig(c);
         initCodeReviewCategory(c);
         initVerifiedCategory(c);
-        sysconf = c.systemConfig().get(new SystemConfig.Key());
+        sConfig = c.systemConfig().get(new SystemConfig.Key());
       }
 
-      return sysconf;
+      loadGerritConfig(c);
     } finally {
       c.close();
     }
+  }
+
+  private void loadGerritConfig(final ReviewDb db) throws OrmException {
+    final GerritConfig r = new GerritConfig();
+    r.setCanonicalUrl(getCanonicalURL());
+
+    for (final ApprovalCategory c : db.approvalCategories().all()) {
+      r.add(new ApprovalType(c, db.approvalCategoryValues().byCategory(
+          c.getId()).toList()));
+    }
+
+    gerritConfig = r;
   }
 
   /** Get the {@link ReviewDb} schema factory for the server. */
@@ -211,7 +225,7 @@ public class GerritServer {
 
   /** Time (in seconds) that user sessions stay "signed in". */
   public int getSessionAge() {
-    return config.maxSessionAge;
+    return sConfig.maxSessionAge;
   }
 
   /** Get the signature support used to protect against XSRF attacks. */
@@ -226,9 +240,9 @@ public class GerritServer {
 
   /** A binary string key to encrypt cookies related to account data. */
   public String getAccountCookieKey() {
-    byte[] r = new byte[config.accountPrivateKey.length()];
+    byte[] r = new byte[sConfig.accountPrivateKey.length()];
     for (int k = r.length - 1; k >= 0; k--) {
-      r[k] = (byte) config.accountPrivateKey.charAt(k);
+      r[k] = (byte) sConfig.accountPrivateKey.charAt(k);
     }
     r = Base64.decodeBase64(r);
     final StringBuilder b = new StringBuilder();
@@ -240,15 +254,20 @@ public class GerritServer {
 
   /** Local filesystem location of header/footer/CSS configuration files. */
   public File getSitePath() {
-    return config.sitePath != null ? new File(config.sitePath) : null;
+    return sConfig.sitePath != null ? new File(sConfig.sitePath) : null;
   }
 
   /** Optional canonical URL for this application. */
   public String getCanonicalURL() {
-    String u = config.canonicalUrl;
+    String u = sConfig.canonicalUrl;
     if (u != null && !u.endsWith("/")) {
       u += "/";
     }
     return u;
+  }
+
+  /** Get the cached configuration data used by the client. */
+  public GerritConfig getGerritConfig() {
+    return gerritConfig;
   }
 }

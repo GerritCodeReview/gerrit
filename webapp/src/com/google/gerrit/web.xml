@@ -68,4 +68,13 @@
     <servlet-name>ChangeListService</servlet-name>
     <url-pattern>/rpc/ChangeListService</url-pattern>
   </servlet-mapping>
+
+  <servlet>
+    <servlet-name>SystemInfoService</servlet-name>
+    <servlet-class>com.google.gerrit.server.SystemInfoServiceSrv</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SystemInfoService</servlet-name>
+    <url-pattern>/rpc/SystemInfoService</url-pattern>
+  </servlet-mapping>
 </web-app>

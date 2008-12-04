@@ -14,7 +14,10 @@
 
 package com.google.gerrit.client;
 
+import com.google.gerrit.client.data.GerritConfig;
+import com.google.gerrit.client.data.SystemInfoService;
 import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.LinkMenuBar;
 import com.google.gerrit.client.ui.LinkMenuItem;
 import com.google.gerrit.client.ui.Screen;
@@ -47,11 +50,13 @@ public class Gerrit implements EntryPoint {
   public static final String ACCOUNT_COOKIE = "GerritAccount";
   public static final String OPENIDUSER_COOKIE = "GerritOpenIdUser";
 
-  public static GerritConstants C;
-  public static GerritIcons ICONS;
-  private static Link linkManager;
+  public static final GerritConstants C = GWT.create(GerritConstants.class);
+  public static final GerritIcons ICONS = GWT.create(GerritIcons.class);
+  public static final SystemInfoService SYSTEM_SVC;
+
+  private static GerritConfig config;
   private static Account myAccount;
-  private static ArrayList<SignedInListener> signedInListeners =
+  private static final ArrayList<SignedInListener> signedInListeners =
       new ArrayList<SignedInListener>();
 
   private static LinkMenuBar menuBar;
@@ -64,6 +69,11 @@ public class Gerrit implements EntryPoint {
           return 3 <= size();
         }
       };
+
+  static {
+    SYSTEM_SVC = GWT.create(SystemInfoService.class);
+    JsonUtil.bind(SYSTEM_SVC, "rpc/SystemInfoService");
+  }
 
   public static void display(final Screen view) {
     if (view.isRequiresSignIn() && !isSignedIn()) {
@@ -89,6 +99,11 @@ public class Gerrit implements EntryPoint {
     final Screen p = priorScreens.get(view.getScreenCacheToken());
     currentScreen = p != null ? p.recycleThis(view) : view;
     body.add(currentScreen);
+  }
+
+  /** Get the public configuration data used by this Gerrit server. */
+  public static GerritConfig getGerritConfig() {
+    return config;
   }
 
   /** @return the currently signed in user's account data; null if no account */
@@ -140,14 +155,7 @@ public class Gerrit implements EntryPoint {
   }
 
   public void onModuleLoad() {
-    C = GWT.create(GerritConstants.class);
-    ICONS = GWT.create(GerritIcons.class);
-
-    linkManager = new Link();
-    History.addHistoryListener(linkManager);
-
     final RootPanel topMenu = RootPanel.get("gerrit_topmenu");
-    JsonUtil.addRpcStatusListener(new RpcStatus(topMenu));
     menuBar = new LinkMenuBar();
     topMenu.add(menuBar);
 
@@ -159,6 +167,16 @@ public class Gerrit implements EntryPoint {
       }
     });
 
+    JsonUtil.addRpcStatusListener(new RpcStatus(topMenu));
+    SYSTEM_SVC.loadGerritConfig(new GerritCallback<GerritConfig>() {
+      public void onSuccess(final GerritConfig result) {
+        config = result;
+        onModuleLoad2();
+      }
+    });
+  }
+
+  private void onModuleLoad2() {
     if (Cookies.getCookie(ACCOUNT_COOKIE) != null) {
       // If the user is likely to already be signed into their account,
       // load the account data and update the UI with that.
@@ -172,22 +190,23 @@ public class Gerrit implements EntryPoint {
                 Cookies.removeCookie(ACCOUNT_COOKIE);
                 refreshMenuBar();
               }
-              finishModuleLoad();
+              showInitialScreen();
             }
 
             public void onFailure(final Throwable caught) {
               GWT.log("Unexpected failure from validating account", caught);
               refreshMenuBar();
-              finishModuleLoad();
+              showInitialScreen();
             }
           });
     } else {
       refreshMenuBar();
-      finishModuleLoad();
+      showInitialScreen();
     }
   }
 
-  private void finishModuleLoad() {
+  private void showInitialScreen() {
+    History.addHistoryListener(new Link());
     if ("".equals(History.getToken())) {
       if (isSignedIn()) {
         History.newItem(Link.MINE);

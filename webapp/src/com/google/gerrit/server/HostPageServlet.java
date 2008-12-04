@@ -25,6 +25,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.StringWriter;
 import java.util.zip.GZIPOutputStream;
 
 import javax.servlet.ServletConfig;
@@ -48,22 +49,24 @@ public class HostPageServlet extends HttpServlet {
   public void init(final ServletConfig config) throws ServletException {
     super.init(config);
 
-    final File sitePath;
+    final GerritServer srv;
     try {
-      final GerritServer srv = GerritServer.getInstance();
-      sitePath = srv.getSitePath();
-      canonicalUrl = srv.getCanonicalURL();
+      srv = GerritServer.getInstance();
     } catch (OrmException e) {
       throw new ServletException("Cannot load GerritServer", e);
     } catch (XsrfException e) {
       throw new ServletException("Cannot load GerritServer", e);
     }
 
+    final File sitePath = srv.getSitePath();
+    canonicalUrl = srv.getCanonicalURL();
+
     final String hostPageName = "com/google/gerrit/public/Gerrit.html";
     final Document hostDoc = HtmlDomUtil.parseFile(hostPageName);
     if (hostDoc == null) {
       throw new ServletException("No " + hostPageName + " in CLASSPATH");
     }
+    injectJson(hostDoc, "gerrit_gerritconfig", srv.getGerritConfig());
     injectCssFile(hostDoc, "gerrit_sitecss", sitePath, "GerritSite.css");
     injectXmlFile(hostDoc, "gerrit_header", sitePath, "GerritSiteHeader.html");
     injectXmlFile(hostDoc, "gerrit_footer", sitePath, "GerritSiteFooter.html");
@@ -116,6 +119,35 @@ public class HostPageServlet extends HttpServlet {
 
     banner.removeAttribute("id");
     banner.appendChild(hostDoc.createCDATASection("\n" + css + "\n"));
+  }
+
+  private void injectJson(final Document hostDoc, final String id,
+      final Object obj) {
+    final Element scriptNode = HtmlDomUtil.find(hostDoc, id);
+    if (scriptNode == null) {
+      return;
+    }
+
+    while (scriptNode.getFirstChild() != null) {
+      scriptNode.removeChild(scriptNode.getFirstChild());
+    }
+
+    if (obj == null) {
+      scriptNode.getParentNode().removeChild(scriptNode);
+      return;
+    }
+
+    final StringWriter w = new StringWriter();
+    w.write("<!--\n");
+    w.write("var ");
+    w.write(id);
+    w.write("=");
+    GerritJsonServlet.defaultGsonBuilder().create().toJson(obj, w);
+    w.write(";\n// -->\n");
+    scriptNode.removeAttribute("id");
+    scriptNode.setAttribute("type", "text/javascript");
+    scriptNode.setAttribute("language", "javascript");
+    scriptNode.appendChild(hostDoc.createCDATASection(w.toString()));
   }
 
   private byte[] compress(final byte[] raw) throws ServletException {

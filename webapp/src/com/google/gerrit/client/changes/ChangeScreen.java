@@ -21,7 +21,9 @@ import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.ui.DisclosurePanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Widget;
 
 
 public class ChangeScreen extends Screen {
@@ -37,6 +39,7 @@ public class ChangeScreen extends Screen {
   private ChangeTable.Section neededBy;
 
   private DisclosurePanel approvalsPanel;
+  private ApprovalTable approvals;
 
   public ChangeScreen(final Change.Id toShow) {
     changeId = toShow;
@@ -66,7 +69,7 @@ public class ChangeScreen extends Screen {
       addStyleName("gerrit-ChangeScreen");
 
       description = new Label();
-      description.addStyleName("description");
+      description.setStyleName("gerrit-ChangeScreen-Description");
 
       descriptionPanel = new DisclosurePanel(Util.C.changeScreenDescription());
       descriptionPanel.setContent(description);
@@ -85,8 +88,10 @@ public class ChangeScreen extends Screen {
       dependenciesPanel.setWidth("95%");
       add(dependenciesPanel);
 
+      approvals = new ApprovalTable();
       approvalsPanel = new DisclosurePanel(Util.C.changeScreenApprovals());
-      dependenciesPanel.setWidth("100%");
+      approvalsPanel.setContent(wrap(approvals));
+      dependenciesPanel.setWidth("95%");
       add(approvalsPanel);
     }
 
@@ -130,6 +135,15 @@ public class ChangeScreen extends Screen {
       displayTitle(detail.getChange().getSubject());
     }
     description.setText(detail.getDescription());
+    approvals.display(detail.getApprovals());
+
     descriptionPanel.setOpen(true);
+    approvalsPanel.setOpen(true);
+  }
+
+  private static FlowPanel wrap(final Widget w) {
+    final FlowPanel p = new FlowPanel();
+    p.add(w);
+    return p;
   }
 }

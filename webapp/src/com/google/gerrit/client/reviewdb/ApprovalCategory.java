@@ -58,6 +58,14 @@ public final class ApprovalCategory {
     return categoryId;
   }
 
+  public String getName() {
+    return name;
+  }
+
+  public void setName(final String n) {
+    name = n;
+  }
+
   public short getPosition() {
     return position;
   }

@@ -171,8 +171,60 @@
 	font-weight: bold;
 }
 
-.gerrit-ChangeScreen .gwt-DisclosurePanel .description {
+.gerrit-ChangeScreen-Description {
 	white-space: pre;
 	font-family: Courier New, Courier, monospace;
 	font-size: small;
+}
+
+.gerrit-InfoTable {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.gerrit-InfoTable td {
+  border-left: 1px solid #d4e9a9;
+  border-bottom: 1px solid #d4e9a9;
+  padding: 2px 6px 1px;
+}
+
+.gerrit-InfoTable td.header {
+  background-color: #d4e9a9;
+  border-left: 1px solid white;
+  font-weight: normal;
+  padding: 2px 4px 0 6px;
+  font-style: italic;
+  text-align: left;
+  vertical-align: top;
+  white-space: nowrap;
+}
+
+.gerrit-InfoTable td.leftmost  {
+}
+
+.gerrit-InfoTable td.rightmost  {
+  border-right: 1px solid #d4e9a9;
+}
+
+.gerrit-InfoTable td.approvalrole {
+	width: 5em;
+	border-left: none;
+  font-style: italic;
+}
+
+.gerrit-InfoTable td.approvalscore {
+	text-align: center;
+}
+.gerrit-InfoTable td.negscore {
+  color: red;
+}
+.gerrit-InfoTable td.posscore {
+	color: #08a400;
+}
+
+.gerrit-InfoTable td.approvalhint {
+  background-left: 1px none;
+  background-bottom: 1px none;
+  border: none;
+  color: #444444;
 }

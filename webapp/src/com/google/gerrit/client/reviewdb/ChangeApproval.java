@@ -116,4 +116,8 @@ public final class ChangeApproval {
     value = v;
     granted = new Timestamp(System.currentTimeMillis());
   }
+
+  public Timestamp getGranted() {
+    return granted;
+  }
 }

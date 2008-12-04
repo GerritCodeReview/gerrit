@@ -23,4 +23,8 @@ public interface GerritIcons extends ImageBundle {
   public AbstractImagePrototype starOpen();
 
   public AbstractImagePrototype starFilled();
+
+  public AbstractImagePrototype greenCheck();
+
+  public AbstractImagePrototype redNot();
 }

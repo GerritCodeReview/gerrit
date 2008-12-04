@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.changes;
 
+import com.google.gerrit.client.data.AccountCache;
 import com.google.gerrit.client.data.ChangeDetail;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.ReviewDb;
@@ -39,7 +40,7 @@ public class ChangeDetailServiceImpl extends BaseServiceImplementation
         }
 
         final ChangeDetail d = new ChangeDetail();
-        d.load(change, db);
+        d.load(db, new AccountCache(db), change);
         return d;
       }
     });

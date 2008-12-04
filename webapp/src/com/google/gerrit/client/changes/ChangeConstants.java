@@ -34,4 +34,6 @@ public interface ChangeConstants extends Constants {
   String changeScreenDependsOn();
   String changeScreenNeededBy();
   String changeScreenApprovals();
+
+  String approvalTableReviewer();
 }

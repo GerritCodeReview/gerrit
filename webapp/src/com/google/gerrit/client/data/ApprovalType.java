@@ -16,13 +16,22 @@ package com.google.gerrit.client.data;
 
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
+import com.google.gerrit.client.reviewdb.ChangeApproval;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ApprovalType {
-  private ApprovalCategory category;
-  private List<ApprovalCategoryValue> values;
+  protected ApprovalCategory category;
+  protected List<ApprovalCategoryValue> values;
+  protected short maxNegative;
+  protected short maxPositive;
+
+  private transient Map<Short, ApprovalCategoryValue> byValue;
 
   protected ApprovalType() {
   }
@@ -31,6 +40,22 @@ public class ApprovalType {
       final List<ApprovalCategoryValue> valueList) {
     category = ac;
     values = new ArrayList<ApprovalCategoryValue>(valueList);
+    Collections.sort(values, new Comparator<ApprovalCategoryValue>() {
+      public int compare(ApprovalCategoryValue o1, ApprovalCategoryValue o2) {
+        return o1.getValue() - o2.getValue();
+      }
+    });
+
+    maxNegative = Short.MIN_VALUE;
+    maxPositive = Short.MAX_VALUE;
+    if (values.size() > 0) {
+      if (values.get(0).getValue() < 0) {
+        maxNegative = values.get(0).getValue();
+      }
+      if (values.get(values.size() - 1).getValue() > 0) {
+        maxPositive = values.get(values.size() - 1).getValue();
+      }
+    }
   }
 
   public ApprovalCategory getCategory() {
@@ -39,5 +64,23 @@ public class ApprovalType {
 
   public List<ApprovalCategoryValue> getValues() {
     return values;
+  }
+
+  public boolean isMaxNegative(final ChangeApproval ca) {
+    return maxNegative == ca.getValue();
+  }
+
+  public boolean isMaxPositive(final ChangeApproval ca) {
+    return maxPositive == ca.getValue();
+  }
+
+  public ApprovalCategoryValue getValue(final ChangeApproval ca) {
+    if (byValue == null) {
+      byValue = new HashMap<Short, ApprovalCategoryValue>();
+      for (final ApprovalCategoryValue acv : values) {
+        byValue.put(acv.getValue(), acv);
+      }
+    }
+    return byValue.get(ca.getValue());
   }
 }

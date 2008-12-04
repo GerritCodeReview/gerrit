@@ -22,4 +22,6 @@ public interface ChangeMessages extends Messages {
   String changesReviewableBy(String fullName);
 
   String changeScreenTitleId(int id);
+  String patchSetHeader(int id);
+  String repoDownload(String project, int change, int ps);
 }

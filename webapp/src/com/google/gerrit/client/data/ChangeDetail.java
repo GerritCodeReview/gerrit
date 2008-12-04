@@ -33,8 +33,11 @@ import java.util.List;
 public class ChangeDetail {
   protected Change change;
   protected AccountInfo owner;
+  protected List<ChangeInfo> dependsOn;
+  protected List<ChangeInfo> neededBy;
+  protected List<PatchSet> patchSets;
   protected List<ApprovalDetail> approvals;
-  protected PatchSet currentPatchSet;
+  protected PatchSet.Id currentPatchSetId;
   protected PatchSetInfo currentPatchSetInfo;
 
   public ChangeDetail() {
@@ -44,6 +47,7 @@ public class ChangeDetail {
       throws OrmException {
     change = c;
     owner = new AccountInfo(acc.get(change.getOwner()));
+    patchSets = db.patchSets().byChange(change.getKey()).toList();
 
     final HashMap<Account.Id, ApprovalDetail> ad =
         new HashMap<Account.Id, ApprovalDetail>();
@@ -67,10 +71,9 @@ public class ChangeDetail {
       }
     });
 
-    final PatchSet.Id ps = change.currentPatchSetId();
-    if (ps != null) {
-      currentPatchSet = db.patchSets().get(ps);
-      currentPatchSetInfo = db.patchSetInfo().get(ps);
+    currentPatchSetId = change.currentPatchSetId();
+    if (currentPatchSetId != null) {
+      currentPatchSetInfo = db.patchSetInfo().get(currentPatchSetId);      
     }
   }
 
@@ -82,12 +85,35 @@ public class ChangeDetail {
     return owner;
   }
 
+  public List<ChangeInfo> getDependsOn() {
+    return dependsOn;
+  }
+
+  public List<ChangeInfo> getNeededBy() {
+    return neededBy;
+  }
+
+  public List<PatchSet> getPatchSets() {
+    return patchSets;
+  }
+
   public List<ApprovalDetail> getApprovals() {
     return approvals;
   }
 
   public PatchSet getCurrentPatchSet() {
-    return currentPatchSet;
+    if (currentPatchSetId != null) {
+      // We search through the list backwards because its *very* likely
+      // that the current patch set is also the last patch set.
+      //
+      for (int i = patchSets.size() - 1; i >= 0; i--) {
+        final PatchSet ps = patchSets.get(i);
+        if (ps.getKey().equals(currentPatchSetId)) {
+          return ps;
+        }
+      }
+    }
+    return null;
   }
 
   public PatchSetInfo getCurrentPatchSetInfo() {

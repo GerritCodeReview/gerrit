@@ -21,6 +21,7 @@ import com.google.gerrit.client.reviewdb.Change;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 
 public class ChangeInfoBlock extends Composite {
   private static final int R_OWNER = 0;
@@ -28,7 +29,8 @@ public class ChangeInfoBlock extends Composite {
   private static final int R_BRANCH = 2;
   private static final int R_UPLOADED = 3;
   private static final int R_STATUS = 4;
-  private static final int R_CNT = 5;
+  private static final int R_PERMALINK = 5;
+  private static final int R_CNT = 6;
   private static final DateTimeFormat dtfmt =
       DateTimeFormat.getMediumDateTimeFormat();
 
@@ -44,9 +46,12 @@ public class ChangeInfoBlock extends Composite {
     initRow(R_UPLOADED, Util.C.changeInfoBlockUploaded());
     initRow(R_STATUS, Util.C.changeInfoBlockStatus());
 
-    table.getCellFormatter().addStyleName(0, 0, "topmost");
-    table.getCellFormatter().addStyleName(0, 1, "topmost");
-    table.getCellFormatter().addStyleName(R_CNT - 1, 0, "bottomheader");
+    final CellFormatter fmt = table.getCellFormatter();
+    fmt.addStyleName(0, 0, "topmost");
+    fmt.addStyleName(0, 1, "topmost");
+    fmt.addStyleName(R_CNT - 2, 0, "bottomheader");
+    fmt.addStyleName(R_PERMALINK, 0, "permalink");
+    fmt.addStyleName(R_PERMALINK, 1, "permalink");
 
     initWidget(table);
   }
@@ -70,5 +75,8 @@ public class ChangeInfoBlock extends Composite {
     } else {
       table.getCellFormatter().removeStyleName(R_STATUS, 1, "closedstate");
     }
+
+    table.setWidget(R_PERMALINK, 1, new ChangeLink(Util.C.changePermalink(),
+        chg.getKey()));
   }
 }

@@ -16,19 +16,30 @@ package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.Link;
 import com.google.gerrit.client.data.ChangeInfo;
+import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.ui.DirectScreenLink;
 import com.google.gerrit.client.ui.Screen;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.DOM;
 
 public class ChangeLink extends DirectScreenLink {
-  private ChangeInfo change;
+  private Change.Id id;
+  private ChangeInfo info;
+
+  public ChangeLink(final String text, final Change.Id c) {
+    super(text, Link.toChange(c));
+    final String plink = GWT.getModuleBaseURL() + c.get();
+    DOM.setElementProperty(DOM.getFirstChild(getElement()), "href", plink);
+    id = c;
+  }
 
   public ChangeLink(final String text, final ChangeInfo c) {
-    super(text, Link.toChange(c));
-    change = c;
+    this(text, c.getId());
+    info = c;
   }
 
   @Override
   protected Screen createScreen() {
-    return new ChangeScreen(change);
+    return info != null ? new ChangeScreen(info) : new ChangeScreen(id);
   }
 }

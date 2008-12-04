@@ -19,17 +19,26 @@ import java.util.List;
 
 public class GerritConfig {
   private String canonicalUrl;
+  private GitwebLink gitweb;
   private List<ApprovalType> approvalTypes;
 
   public GerritConfig() {
+  }
+
+  public String getCanonicalUrl() {
+    return canonicalUrl;
   }
 
   public void setCanonicalUrl(final String u) {
     canonicalUrl = u;
   }
 
-  public String getCanonicalUrl() {
-    return canonicalUrl;
+  public GitwebLink getGitwebLink() {
+    return gitweb;
+  }
+
+  public void setGitwebLink(final GitwebLink w) {
+    gitweb = w;
   }
 
   public void add(final ApprovalType t) {

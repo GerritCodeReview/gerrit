@@ -46,4 +46,7 @@ public interface ChangeConstants extends Constants {
   String changeInfoBlockBranch();
   String changeInfoBlockUploaded();
   String changeInfoBlockStatus();
+  String changePermalink();
+
+  String patchSetInfoDownload();
 }

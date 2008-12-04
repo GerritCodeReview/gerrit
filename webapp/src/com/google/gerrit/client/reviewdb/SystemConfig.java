@@ -67,8 +67,12 @@ public final class SystemConfig {
   public String sitePath;
 
   /** Optional canonical URL for this application. */
-  @Column
+  @Column(notNull = false)
   public String canonicalUrl;
+
+  /** Optional URL of a gitweb installation to also view changes through. */
+  @Column(notNull = false)
+  public String gitwebUrl;
 
   protected SystemConfig() {
   }

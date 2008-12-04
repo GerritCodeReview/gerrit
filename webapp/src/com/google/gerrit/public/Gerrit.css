@@ -262,3 +262,19 @@
 .gerrit-ChangeInfoBlock td.closedstate {
 	font-weight: bold;
 }
+
+.gerrit-ChangeInfoBlock td.permalink {
+  border-right: 1px none;
+	border-bottom: 1px none;
+	text-align: right;
+}
+
+.gerrit-ChangeInfoBlock td.command {
+  white-space: pre;
+  font-family: Courier New, Courier, monospace;
+}
+
+.gerrit-PatchSetLink {
+	padding-left: 20px;
+  font-size: 8pt;
+}

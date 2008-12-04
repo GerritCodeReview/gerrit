@@ -16,6 +16,7 @@ package com.google.gerrit.server;
 
 import com.google.gerrit.client.data.ApprovalType;
 import com.google.gerrit.client.data.GerritConfig;
+import com.google.gerrit.client.data.GitwebLink;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.client.reviewdb.ReviewDb;
@@ -211,6 +212,9 @@ public class GerritServer {
   private void loadGerritConfig(final ReviewDb db) throws OrmException {
     final GerritConfig r = new GerritConfig();
     r.setCanonicalUrl(getCanonicalURL());
+    if (sConfig.gitwebUrl != null) {
+      r.setGitwebLink(new GitwebLink(sConfig.gitwebUrl));
+    }
 
     for (final ApprovalCategory c : db.approvalCategories().all()) {
       r.add(new ApprovalType(c, db.approvalCategoryValues().byCategory(

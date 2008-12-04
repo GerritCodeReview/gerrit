@@ -14,16 +14,24 @@
 
 package com.google.gerrit.client.changes;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.data.ChangeDetail;
 import com.google.gerrit.client.data.ChangeInfo;
+import com.google.gerrit.client.data.GitwebLink;
 import com.google.gerrit.client.reviewdb.Change;
+import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
+import com.google.gerrit.client.ui.ComplexDisclosurePanel;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gwt.i18n.client.LocaleInfo;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ChangeScreen extends Screen {
@@ -41,6 +49,8 @@ public class ChangeScreen extends Screen {
 
   private DisclosurePanel approvalsPanel;
   private ApprovalTable approvals;
+
+  private List<ComplexDisclosurePanel> patchSetPanels;
 
   public ChangeScreen(final Change.Id toShow) {
     changeId = toShow;
@@ -97,6 +107,8 @@ public class ChangeScreen extends Screen {
       approvalsPanel.setContent(wrap(approvals));
       dependenciesPanel.setWidth("95%");
       add(approvalsPanel);
+
+      patchSetPanels = new ArrayList<ComplexDisclosurePanel>();
     }
 
     displayTitle(changeInfo != null ? changeInfo.getSubject() : null);
@@ -138,9 +150,42 @@ public class ChangeScreen extends Screen {
       //
       displayTitle(detail.getChange().getSubject());
     }
+
     infoBlock.display(detail);
     description.setText(detail.getDescription());
+    dependsOn.display(detail.getDependsOn());
+    neededBy.display(detail.getNeededBy());
     approvals.display(detail.getApprovals());
+
+    final PatchSet currps = detail.getCurrentPatchSet();
+    for (final ComplexDisclosurePanel p : patchSetPanels) {
+      remove(p);
+    }
+    patchSetPanels.clear();
+    final GitwebLink gw = Gerrit.getGerritConfig().getGitwebLink();
+    for (final PatchSet ps : detail.getPatchSets()) {
+      final ComplexDisclosurePanel panel =
+          new ComplexDisclosurePanel(Util.M.patchSetHeader(ps.getId()),
+              ps == currps);
+      final PatchSetPanel psp = new PatchSetPanel(detail, ps);
+      panel.setContent(psp);
+
+      if (gw != null) {
+        final Anchor revlink =
+            new Anchor(ps.getRevision(), false, gw.toRevision(detail
+                .getChange().getDest().getParentKey(), ps));
+        panel.getHeader().add(revlink);
+        panel.getHeader().addStyleName("gerrit-PatchSetLink");
+      }
+
+      if (ps == currps) {
+        psp.ensureLoaded();
+      } else {
+        panel.addEventHandler(psp);
+      }
+      add(panel);
+      patchSetPanels.add(panel);
+    }
 
     descriptionPanel.setOpen(true);
     approvalsPanel.setOpen(true);

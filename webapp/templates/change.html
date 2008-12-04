@@ -287,16 +287,6 @@
             <pre name="cl-message-{{forloop.counter0}}"
             >{{message.text|wordwrap:80|urlize}}</pre>
           </div>
-          <div class="message-actions">
-            {%if user%}
-              <a href="javascript:M_replyToMessage('{{forloop.counter0}}', '{{message.date|date:"Y/m/d H:i:s"}}', '{{message.sender|real_name:"x"}}')"
-                 id="message-reply-href-{{forloop.counter0}}">Reply</a>
-              <div class="message-reply" id="message-reply-{{forloop.counter0}}"
-                   style="display:none;"></div>
-            {%else%}
-              <a href="{{sign_in}}">Sign in</a> to reply to this message.
-            {%endif%}
-          </div>
         </div>
 
       </div>

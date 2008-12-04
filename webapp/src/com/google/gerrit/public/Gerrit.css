@@ -228,3 +228,37 @@
   border: none;
   color: #444444;
 }
+
+.gerrit-ChangeInfoBlock {
+	float: right;
+	clear: right;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.gerrit-ChangeInfoBlock td {
+	padding: 2px 4px 2px 6px;
+  border-right: 1px solid #d4e9a9;
+  border-bottom: 1px solid #d4e9a9;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.gerrit-ChangeInfoBlock td.topmost {
+  border-top: 1px solid #d4e9a9;
+}
+
+.gerrit-ChangeInfoBlock td.header {
+  border-bottom: 1px solid white;
+  background-color: #d4e9a9;
+  font-style: italic;
+  text-align: right;
+}
+
+.gerrit-ChangeInfoBlock td.bottomheader {
+  border-bottom: 1px solid #d4e9a9;
+}
+
+.gerrit-ChangeInfoBlock td.closedstate {
+	font-weight: bold;
+}

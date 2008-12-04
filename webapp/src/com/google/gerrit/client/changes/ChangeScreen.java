@@ -30,6 +30,7 @@ public class ChangeScreen extends Screen {
   private Change.Id changeId;
   private ChangeInfo changeInfo;
 
+  private ChangeInfoBlock infoBlock;
   private DisclosurePanel descriptionPanel;
   private Label description;
 
@@ -67,6 +68,9 @@ public class ChangeScreen extends Screen {
   public void onLoad() {
     if (descriptionPanel == null) {
       addStyleName("gerrit-ChangeScreen");
+
+      infoBlock = new ChangeInfoBlock();
+      add(infoBlock);
 
       description = new Label();
       description.setStyleName("gerrit-ChangeScreen-Description");
@@ -134,6 +138,7 @@ public class ChangeScreen extends Screen {
       //
       displayTitle(detail.getChange().getSubject());
     }
+    infoBlock.display(detail);
     description.setText(detail.getDescription());
     approvals.display(detail.getApprovals());
 

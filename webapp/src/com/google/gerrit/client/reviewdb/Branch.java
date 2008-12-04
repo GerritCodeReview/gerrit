@@ -46,6 +46,18 @@ public final class Branch {
     public Project.NameKey getParentKey() {
       return projectName;
     }
+
+    public String getShortName() {
+      final String n = get();
+
+      // Git style branches will tend to start with "refs/heads/".
+      // 
+      if (n.startsWith("refs/heads/")) {
+        return n.substring("refs/heads/".length());
+      }
+
+      return n;
+    }
   }
 
   /** Synthetic key to link to within the database */
@@ -89,14 +101,6 @@ public final class Branch {
   }
 
   public String getShortName() {
-    final String n = getName();
-
-    // Git style branches will tend to start with "refs/heads/".
-    // 
-    if (n.startsWith("refs/heads/")) {
-      return n.substring("refs/heads/".length());
-    }
-
-    return n;
+    return name.getShortName();
   }
 }

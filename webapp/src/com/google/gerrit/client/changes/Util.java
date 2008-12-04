@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.changes;
 
+import com.google.gerrit.client.reviewdb.Change;
 import com.google.gwt.core.client.GWT;
 import com.google.gwtjsonrpc.client.JsonUtil;
 
@@ -30,5 +31,19 @@ public class Util {
 
     LIST_SVC = GWT.create(ChangeListService.class);
     JsonUtil.bind(LIST_SVC, "rpc/ChangeListService");
+  }
+
+  public static String toLongString(final Change.Status status) {
+    if (status == null) {
+      return "";
+    } else if (status == Change.Status.NEW) {
+      return C.statusLongNew();
+    } else if (status == Change.Status.MERGED) {
+      return C.statusLongMerged();
+    } else if (status == Change.Status.ABANDONED) {
+      return C.statusLongAbandoned();
+    } else {
+      return status.name();
+    }
   }
 }

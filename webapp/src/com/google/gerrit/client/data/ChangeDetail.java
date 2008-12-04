@@ -78,6 +78,10 @@ public class ChangeDetail {
     return change;
   }
 
+  public AccountInfo getOwner() {
+    return owner;
+  }
+
   public List<ApprovalDetail> getApprovals() {
     return approvals;
   }

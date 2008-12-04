@@ -17,6 +17,10 @@ package com.google.gerrit.client.changes;
 import com.google.gwt.i18n.client.Constants;
 
 public interface ChangeConstants extends Constants {
+  String statusLongNew();
+  String statusLongMerged();
+  String statusLongAbandoned();
+
   String changesRecentlyClosed();
 
   String starredHeading();
@@ -36,4 +40,10 @@ public interface ChangeConstants extends Constants {
   String changeScreenApprovals();
 
   String approvalTableReviewer();
+
+  String changeInfoBlockOwner();
+  String changeInfoBlockProject();
+  String changeInfoBlockBranch();
+  String changeInfoBlockUploaded();
+  String changeInfoBlockStatus();
 }

@@ -48,20 +48,26 @@ public final class Change {
   protected static final char STATUS_MERGED = 'M';
 
   public static enum Status {
-    NEW(STATUS_NEW),
+    NEW(STATUS_NEW, false),
 
-    MERGED(STATUS_MERGED),
+    MERGED(STATUS_MERGED, true),
 
-    ABANDONED('A');
+    ABANDONED('A', true);
 
     private final char code;
+    private final boolean closed;
 
-    private Status(final char c) {
+    private Status(final char c, final boolean o) {
       code = c;
+      closed = o;
     }
 
     public char getCode() {
       return code;
+    }
+
+    public boolean isClosed() {
+      return closed;
     }
 
     public static Status forCode(final char c) {

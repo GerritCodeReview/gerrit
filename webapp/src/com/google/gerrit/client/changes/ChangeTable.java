@@ -22,45 +22,26 @@ import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountDashboardLink;
 import com.google.gerrit.client.ui.ChangeLink;
-import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.DeferredCommand;
-import com.google.gwt.user.client.Element;
-import com.google.gwt.user.client.Event;
+import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.FocusListener;
-import com.google.gwt.user.client.ui.FocusPanel;
-import com.google.gwt.user.client.ui.HasFocus;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.KeyboardListener;
-import com.google.gwt.user.client.ui.KeyboardListenerAdapter;
 import com.google.gwt.user.client.ui.SourcesTableEvents;
 import com.google.gwt.user.client.ui.TableListener;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
+import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwtjsonrpc.client.VoidResult;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
-import java.util.Map.Entry;
 
-public class ChangeTable extends Composite implements HasFocus {
-  private static final String MY_STYLE = "gerrit-ChangeTable";
-  private static final String S = MY_STYLE + "-";
-  private static final String S_ICON_HEADER = S + "IconHeader";
-  private static final String S_DATA_HEADER = S + "DataHeader";
-  private static final String S_SECTION_HEADER = S + "SectionHeader";
-  private static final String S_EMPTY_SECTION = S + "EmptySection";
-  private static final String S_ICON_CELL = S + "IconCell";
-  private static final String S_C_ID = S + "C_ID";
-  private static final String S_DATA_CELL = S + "DataCell";
+public class ChangeTable extends FancyFlexTable<ChangeInfo> {
+  private static final String S_C_ID = "C_ID";
+  private static final String S_SECTION_HEADER = "SectionHeader";
+  private static final String S_EMPTY_SECTION = "EmptySection";
 
-  private static final int C_ARROW = 0;
   private static final int C_STAR = 1;
   private static final int C_ID = 2;
   private static final int C_SUBJECT = 3;
@@ -70,80 +51,11 @@ public class ChangeTable extends Composite implements HasFocus {
   private static final int C_LAST_UPDATE = 7;
   private static final int COLUMNS = 8;
 
-  private static final LinkedHashMap<String, Change.Id> savedPositions =
-      new LinkedHashMap<String, Change.Id>(10, 0.75f, true) {
-        @Override
-        protected boolean removeEldestEntry(Entry<String, Change.Id> eldest) {
-          return size() >= 5;
-        }
-      };
-
   private final List<Section> sections;
-  private final FlexTable table;
-  private final FocusPanel focusy;
-  private final Image pointer;
   private final SignedInListener signedInListener;
-  private String saveId;
-  private int currentRow = -1;
 
   public ChangeTable() {
     sections = new ArrayList<Section>();
-    pointer = Gerrit.ICONS.arrowRight().createImage();
-    table = new FlexTable();
-    table.addStyleName(MY_STYLE);
-    focusy = new FocusPanel(table);
-    focusy.addKeyboardListener(new KeyboardListenerAdapter() {
-      @Override
-      public void onKeyPress(Widget sender, char keyCode, int modifiers) {
-        boolean consume = false;
-        if (modifiers == 0) {
-          switch (keyCode) {
-            case 'k':
-            case KeyboardListener.KEY_UP:
-              consume = true;
-              onUp();
-              break;
-
-            case 'j':
-            case KeyboardListener.KEY_DOWN:
-              consume = true;
-              onDown();
-              break;
-
-            case 'o':
-            case KeyboardListener.KEY_ENTER:
-              consume = true;
-              onEnter();
-              break;
-
-            case 's':
-              if (currentRow >= 0) {
-                consume = true;
-                onStarClick(currentRow);
-              }
-              break;
-          }
-        }
-        if (consume) {
-          final Event event = DOM.eventGetCurrentEvent();
-          DOM.eventCancelBubble(event, true);
-          DOM.eventPreventDefault(event);
-        }
-      }
-    });
-    focusy.addFocusListener(new FocusListener() {
-      public void onFocus(final Widget sender) {
-        if (currentRow < 0) {
-          onDown();
-        }
-      }
-
-      public void onLostFocus(final Widget sender) {
-      }
-    });
-    initWidget(focusy);
-
-    table.setText(0, C_ARROW, "");
     table.setText(0, C_STAR, "");
     table.setText(0, C_ID, Util.C.changeTableColumnID());
     table.setText(0, C_SUBJECT, Util.C.changeTableColumnSubject());
@@ -153,10 +65,8 @@ public class ChangeTable extends Composite implements HasFocus {
     table.setText(0, C_LAST_UPDATE, Util.C.changeTableColumnLastUpdate());
 
     final FlexCellFormatter fmt = table.getFlexCellFormatter();
+    fmt.addStyleName(0, C_STAR, S_ICON_HEADER);
     fmt.addStyleName(0, C_ID, S_C_ID);
-    for (int i = 0; i < C_ID; i++) {
-      fmt.addStyleName(0, i, S_ICON_HEADER);
-    }
     for (int i = C_ID; i < COLUMNS; i++) {
       fmt.addStyleName(0, i, S_DATA_HEADER);
     }
@@ -183,7 +93,7 @@ public class ChangeTable extends Composite implements HasFocus {
             final FlexCellFormatter fmt = table.getFlexCellFormatter();
             final int max = table.getRowCount();
             for (int row = 0; row < max; row++) {
-              final ChangeInfo c = getChangeInfo(row);
+              final ChangeInfo c = getRowItem(row);
               if (c != null) {
                 c.setStarred(result.contains(c.getId()));
                 setStar(row, c);
@@ -197,7 +107,7 @@ public class ChangeTable extends Composite implements HasFocus {
         final FlexCellFormatter fmt = table.getFlexCellFormatter();
         final int max = table.getRowCount();
         for (int row = 0; row < max; row++) {
-          if (getChangeInfo(row) != null) {
+          if (getRowItem(row) != null) {
             table.clearCell(row, C_STAR);
           }
         }
@@ -205,16 +115,8 @@ public class ChangeTable extends Composite implements HasFocus {
     };
   }
 
-  private void setChangeInfo(final int row, final ChangeInfo c) {
-    setChangeInfo(table.getCellFormatter().getElement(row, C_ARROW), c);
-  }
-
-  protected ChangeInfo getChangeInfo(final int row) {
-    return getChangeInfo(table.getCellFormatter().getElement(row, C_ARROW));
-  }
-
   protected void onStarClick(final int row) {
-    final ChangeInfo c = getChangeInfo(row);
+    final ChangeInfo c = getRowItem(row);
     if (c != null && Gerrit.isSignedIn()) {
       final boolean prior = c.isStarred();
       c.setStarred(!prior);
@@ -236,75 +138,30 @@ public class ChangeTable extends Composite implements HasFocus {
     }
   }
 
-  protected void onUp() {
-    for (int row = currentRow - 1; row >= 0; row--) {
-      if (getChangeInfo(row) != null) {
-        movePointerTo(row);
-        break;
+  @Override
+  protected Object getRowItemKey(final ChangeInfo item) {
+    return item.getId();
+  }
+
+  @Override
+  protected boolean onKeyPress(final char keyCode, final int modifiers) {
+    if (super.onKeyPress(keyCode, modifiers)) {
+      return true;
+    }
+    if (modifiers == 0) {
+      switch (keyCode) {
+        case 's':
+          onStarClick(getCurrentRow());
+          return true;
       }
     }
+    return false;
   }
 
-  protected void onDown() {
-    final int max = table.getRowCount();
-    for (int row = currentRow + 1; row < max; row++) {
-      if (getChangeInfo(row) != null) {
-        movePointerTo(row);
-        break;
-      }
-    }
-  }
-
-  protected void onEnter() {
-    if (currentRow >= 0) {
-      final ChangeInfo c = getChangeInfo(currentRow);
-      if (c != null) {
-        History.newItem(Link.toChange(c), false);
-        Gerrit.display(new ChangeScreen(c));
-      }
-    }
-  }
-
-  protected void movePointerTo(final int newRow) {
-    if (newRow >= 0) {
-      table.setWidget(newRow, C_ARROW, pointer);
-      table.getCellFormatter().getElement(newRow, C_ARROW).scrollIntoView();
-    } else if (currentRow >= 0) {
-      table.setWidget(currentRow, C_ARROW, null);
-    }
-    currentRow = newRow;
-  }
-
-  public void finishDisplay() {
-    if (saveId != null) {
-      final Change.Id oldId = savedPositions.get(saveId);
-      if (oldId != null) {
-        final int max = table.getRowCount();
-        for (int row = 0; row < max; row++) {
-          final ChangeInfo c = getChangeInfo(row);
-          if (c != null && oldId.equals(c.getId())) {
-            movePointerTo(row);
-            break;
-          }
-        }
-      }
-    }
-
-    if (currentRow < 0) {
-      onDown();
-    }
-
-    if (currentRow >= 0) {
-      DeferredCommand.addCommand(new Command() {
-        public void execute() {
-          setFocus(true);
-        }
-      });
-    }
-  }
-
-  public void setSavePointerId(final String id) {
-    saveId = id;
+  @Override
+  protected void onOpenItem(final ChangeInfo c) {
+    History.newItem(Link.toChange(c), false);
+    Gerrit.display(new ChangeScreen(c));
   }
 
   @Override
@@ -315,12 +172,6 @@ public class ChangeTable extends Composite implements HasFocus {
 
   @Override
   public void onUnload() {
-    if (saveId != null && currentRow >= 0) {
-      final ChangeInfo c = getChangeInfo(currentRow);
-      if (c != null) {
-        savedPositions.put(saveId, c.getId());
-      }
-    }
     Gerrit.removeSignedInListener(signedInListener);
     super.onUnload();
   }
@@ -335,8 +186,13 @@ public class ChangeTable extends Composite implements HasFocus {
 
   private void insertChangeRow(final int row) {
     insertRow(row);
-    final FlexCellFormatter fmt = table.getFlexCellFormatter();
-    fmt.addStyleName(row, C_ARROW, S_ICON_CELL);
+    applyDataRowStyle(row);
+  }
+
+  @Override
+  protected void applyDataRowStyle(final int row) {
+    super.applyDataRowStyle(row);
+    final CellFormatter fmt = table.getCellFormatter();
     fmt.addStyleName(row, C_STAR, S_ICON_CELL);
     for (int i = C_ID; i < COLUMNS; i++) {
       fmt.addStyleName(row, i, S_DATA_CELL);
@@ -361,7 +217,7 @@ public class ChangeTable extends Composite implements HasFocus {
     table.setText(row, C_REVIEWERS, "TODO");
     table.setText(row, C_PROJECT, c.getProject().getName());
     table.setText(row, C_LAST_UPDATE, "TODO");
-    setChangeInfo(row, c);
+    setRowItem(row, c);
   }
 
   private void setStar(final int row, final ChangeInfo c) {
@@ -424,38 +280,6 @@ public class ChangeTable extends Composite implements HasFocus {
     table.removeRow(row);
   }
 
-  public int getTabIndex() {
-    return focusy.getTabIndex();
-  }
-
-  public void setAccessKey(char key) {
-    focusy.setAccessKey(key);
-  }
-
-  public void setFocus(boolean focused) {
-    focusy.setFocus(focused);
-  }
-
-  public void setTabIndex(int index) {
-    focusy.setTabIndex(index);
-  }
-
-  public void addFocusListener(FocusListener listener) {
-    focusy.addFocusListener(listener);
-  }
-
-  public void addKeyboardListener(KeyboardListener listener) {
-    focusy.addKeyboardListener(listener);
-  }
-
-  public void removeFocusListener(FocusListener listener) {
-    focusy.removeFocusListener(listener);
-  }
-
-  public void removeKeyboardListener(KeyboardListener listener) {
-    focusy.removeKeyboardListener(listener);
-  }
-
   public static class Section {
     String titleText;
 
@@ -509,8 +333,4 @@ public class ChangeTable extends Composite implements HasFocus {
       }
     }
   }
-
-  private static final native void setChangeInfo(Element td, ChangeInfo c)/*-{ td["__gerritChangeInfo"] = c; }-*/;
-
-  private static final native ChangeInfo getChangeInfo(Element td)/*-{ return td["__gerritChangeInfo"]; }-*/;
 }

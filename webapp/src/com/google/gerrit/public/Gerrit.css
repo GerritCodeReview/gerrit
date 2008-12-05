@@ -116,32 +116,32 @@
   border-spacing: 0;
 }
 
-.gerrit-ChangeTable-IconCell {
+.gerrit-ChangeTable .IconCell {
   width: 1px;
   padding: 0px;
   vertical-align: center;
   border-bottom: 1px solid #d4e9a9;
 }
 
-.gerrit-ChangeTable-DataCell {
+.gerrit-ChangeTable .DataCell {
   padding-left: 5px;
   padding-right: 5px;
   border-right: 1px solid #d4e9a9;
   border-bottom: 1px solid #d4e9a9;
 }
 
-.gerrit-ChangeTable-C_ID {
+.gerrit-ChangeTable .C_ID {
 	width: 3.5em;
   text-align: right;
 }
 
-.gerrit-ChangeTable-IconHeader {
+.gerrit-ChangeTable .IconHeader {
   border-top: 1px solid white;
   border-bottom: 1px solid white;
   background-color: #d4e9a9;
 }
 
-.gerrit-ChangeTable-DataHeader {
+.gerrit-ChangeTable .DataHeader {
   border: 1px solid white;
   padding: 2px 6px 1px;
   background-color: #d4e9a9;
@@ -149,7 +149,7 @@
   white-space: nowrap;
 }
 
-.gerrit-ChangeTable-SectionHeader {
+.gerrit-ChangeTable .SectionHeader {
   border-top: 8px solid white;
   padding: 2px 6px 1px;
   background-color: #d4e9a9;
@@ -157,7 +157,7 @@
   font-weight: bold;
 }
 
-.gerrit-ChangeTable-EmptySection {
+.gerrit-ChangeTable .EmptySection {
   border-right: 1px solid #d4e9a9;
   border-bottom: 1px solid #d4e9a9;
   font-style: italic;

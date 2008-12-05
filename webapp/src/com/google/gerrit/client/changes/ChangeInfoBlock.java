@@ -14,10 +14,11 @@
 
 package com.google.gerrit.client.changes;
 
-import com.google.gerrit.client.account.AccountDashboardLink;
 import com.google.gerrit.client.data.ChangeDetail;
 import com.google.gerrit.client.reviewdb.Branch;
 import com.google.gerrit.client.reviewdb.Change;
+import com.google.gerrit.client.ui.AccountDashboardLink;
+import com.google.gerrit.client.ui.ChangeLink;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Grid;

@@ -15,12 +15,12 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.account.AccountDashboardLink;
 import com.google.gerrit.client.data.ApprovalDetail;
 import com.google.gerrit.client.data.ApprovalType;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.client.reviewdb.ChangeApproval;
+import com.google.gerrit.client.ui.AccountDashboardLink;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;

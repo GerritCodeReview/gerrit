@@ -12,13 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.changes;
+package com.google.gerrit.client.ui;
 
 import com.google.gerrit.client.Link;
+import com.google.gerrit.client.changes.ChangeScreen;
 import com.google.gerrit.client.data.ChangeInfo;
 import com.google.gerrit.client.reviewdb.Change;
-import com.google.gerrit.client.ui.DirectScreenLink;
-import com.google.gerrit.client.ui.Screen;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.DOM;
 

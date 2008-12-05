@@ -124,7 +124,10 @@ $(MY_WAR): $(MY_NCJS) $(ALL_LIB) $(MY_JAR) $(MY_WXML)
 	mkdir -p .bin/WEB-INF/lib
 	cd $(WEBAPP)/www/$(WEB_MAIN) && find . | $(CPIO) $(abspath .bin)
 	for p in $$(find .bin -type f); do\
-	  gzip -9c $$p > $$p.gz || exit;\
+	  case $$p in\
+	  *.png) : skip ;;\
+	  *) gzip -9c $$p > $$p.gz || exit ;;\
+	  esac;\
 	done
 	$(foreach p,$(ALL_LIB) $(MY_JAR),cp $p .bin/WEB-INF/lib &&) :
 	cp $(MY_WXML) .bin/WEB-INF

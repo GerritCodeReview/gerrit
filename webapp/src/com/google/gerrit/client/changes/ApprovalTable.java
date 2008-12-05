@@ -61,6 +61,7 @@ public class ApprovalTable extends Composite {
   private void applyEdgeStyles(final int row) {
     final CellFormatter fmt = table.getCellFormatter();
     fmt.addStyleName(row, 0, "leftmost");
+    fmt.addStyleName(row, 0, "reviewer");
     fmt.addStyleName(row, 1, "approvalrole");
     fmt.addStyleName(row, 1 + types.size(), "rightmost");
     fmt.addStyleName(row, 2 + types.size(), "approvalhint");

@@ -63,13 +63,20 @@ public class PatchTable extends FancyFlexTable<Patch> {
     super.applyDataRowStyle(row);
     final CellFormatter fmt = table.getCellFormatter();
     fmt.addStyleName(row, C_TYPE, "ChangeTypeCell");
+
     fmt.addStyleName(row, C_NAME, S_DATA_CELL);
-    fmt.addStyleName(row, C_NAME, "NoWrap");
+    fmt.addStyleName(row, C_NAME, "FilePathCell");
+
     fmt.addStyleName(row, C_DELTA, S_DATA_CELL);
+
     fmt.addStyleName(row, C_COMMENTS, S_DATA_CELL);
     fmt.addStyleName(row, C_COMMENTS, "CommentCell");
+
     fmt.addStyleName(row, C_DIFF + 0, S_DATA_CELL);
+    fmt.addStyleName(row, C_DIFF + 0, "DiffLinkCell");
+
     fmt.addStyleName(row, C_DIFF + 1, S_DATA_CELL);
+    fmt.addStyleName(row, C_DIFF + 1, "DiffLinkCell");
   }
 
   public void display(final List<Patch> list) {

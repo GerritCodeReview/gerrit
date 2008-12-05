@@ -71,7 +71,7 @@ public class SignInDialog extends DialogBox {
 
     loginFrame = new Frame();
     loginFrame.setWidth("630px");
-    loginFrame.setHeight("420px");
+    loginFrame.setHeight("440px");
     add(loginFrame);
     setText(Gerrit.C.signInDialogTitle());
   }

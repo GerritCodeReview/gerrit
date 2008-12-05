@@ -137,8 +137,12 @@
   white-space: nowrap;
 }
 
-.gerrit-ChangeTable .NoWrap {
-	white-space: nowrap;
+.gerrit-ChangeTable .FilePathCell {
+  white-space: nowrap;
+}
+
+.gerrit-ChangeTable .DiffLinkCell {
+  white-space: nowrap;
 }
 
 .gerrit-ChangeTable .DataCell {
@@ -189,6 +193,10 @@
 	font-weight: bold;
 }
 
+.gerrit-ChangeScreen .gwt-DisclosurePanel .content {
+	margin-bottom: 10px;
+}
+
 .gerrit-ChangeScreen-Description {
 	white-space: pre;
 	font-family: Courier New, Courier, monospace;
@@ -224,10 +232,15 @@
   border-right: 1px solid #d4e9a9;
 }
 
+.gerrit-InfoTable td.reviewer {
+  white-space: nowrap;
+}
+
 .gerrit-InfoTable td.approvalrole {
 	width: 5em;
 	border-left: none;
   font-style: italic;
+  white-space: nowrap;
 }
 
 .gerrit-InfoTable td.approvalscore {
@@ -241,6 +254,7 @@
 }
 
 .gerrit-InfoTable td.approvalhint {
+  white-space: nowrap;
   background-left: 1px none;
   background-bottom: 1px none;
   border: none;
@@ -248,8 +262,6 @@
 }
 
 .gerrit-ChangeInfoBlock {
-	float: right;
-	clear: right;
 }
 
 .gerrit-InfoBlock {

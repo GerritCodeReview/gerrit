@@ -27,6 +27,7 @@ import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -80,15 +81,23 @@ public class ChangeScreen extends Screen {
       addStyleName("gerrit-ChangeScreen");
 
       infoBlock = new ChangeInfoBlock();
-      add(infoBlock);
 
       description = new Label();
       description.setStyleName("gerrit-ChangeScreen-Description");
 
       descriptionPanel = new DisclosurePanel(Util.C.changeScreenDescription());
-      descriptionPanel.setContent(description);
-      descriptionPanel.setWidth("100%");
-      add(descriptionPanel);
+      {
+        final Label glue = new Label();
+        final HorizontalPanel hp = new HorizontalPanel();
+        hp.add(description);
+        hp.add(glue);
+        hp.add(infoBlock);
+        hp.setCellWidth(glue, "100%");
+        add(hp);
+        descriptionPanel.setContent(hp);
+        descriptionPanel.setWidth("100%");
+        add(descriptionPanel);
+      }
 
       dependencies = new ChangeTable();
       dependsOn = new ChangeTable.Section(Util.C.changeScreenDependsOn());

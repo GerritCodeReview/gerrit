@@ -19,7 +19,6 @@ import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.ChangeApproval;
 import com.google.gerrit.client.reviewdb.PatchSet;
-import com.google.gerrit.client.reviewdb.PatchSetInfo;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gwtorm.client.OrmException;
 
@@ -38,7 +37,7 @@ public class ChangeDetail {
   protected List<PatchSet> patchSets;
   protected List<ApprovalDetail> approvals;
   protected PatchSet.Id currentPatchSetId;
-  protected PatchSetInfo currentPatchSetInfo;
+  protected PatchSetDetail currentDetail;
 
   public ChangeDetail() {
   }
@@ -73,7 +72,8 @@ public class ChangeDetail {
 
     currentPatchSetId = change.currentPatchSetId();
     if (currentPatchSetId != null) {
-      currentPatchSetInfo = db.patchSetInfo().get(currentPatchSetId);      
+      currentDetail = new PatchSetDetail();
+      currentDetail.load(db, getCurrentPatchSet());
     }
   }
 
@@ -116,11 +116,11 @@ public class ChangeDetail {
     return null;
   }
 
-  public PatchSetInfo getCurrentPatchSetInfo() {
-    return currentPatchSetInfo;
+  public PatchSetDetail getCurrentPatchSetDetail() {
+    return currentDetail;
   }
 
   public String getDescription() {
-    return currentPatchSetInfo != null ? currentPatchSetInfo.getMessage() : "";
+    return currentDetail != null ? currentDetail.getInfo().getMessage() : "";
   }
 }

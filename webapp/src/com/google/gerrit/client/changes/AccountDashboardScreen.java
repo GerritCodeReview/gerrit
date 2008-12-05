@@ -80,6 +80,6 @@ public class AccountDashboardScreen extends Screen {
     byOwner.display(r.getByOwner());
     forReview.display(r.getForReview());
     closed.display(r.getClosed());
-    table.finishDisplay();
+    table.finishDisplay(true);
   }
 }

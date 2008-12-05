@@ -16,7 +16,9 @@ package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.data.AccountCache;
 import com.google.gerrit.client.data.ChangeDetail;
+import com.google.gerrit.client.data.PatchSetDetail;
 import com.google.gerrit.client.reviewdb.Change;
+import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.BaseServiceImplementation;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
@@ -41,6 +43,22 @@ public class ChangeDetailServiceImpl extends BaseServiceImplementation
 
         final ChangeDetail d = new ChangeDetail();
         d.load(db, new AccountCache(db), change);
+        return d;
+      }
+    });
+  }
+
+  public void patchSetDetail(final PatchSet.Id id,
+      final AsyncCallback<PatchSetDetail> callback) {
+    run(callback, new Action<PatchSetDetail>() {
+      public PatchSetDetail run(final ReviewDb db) throws OrmException, Failure {
+        final PatchSet ps = db.patchSets().get(id);
+        if (ps == null) {
+          throw new Failure(new NoSuchEntityException());
+        }
+
+        final PatchSetDetail d = new PatchSetDetail();
+        d.load(db, ps);
         return d;
       }
     });

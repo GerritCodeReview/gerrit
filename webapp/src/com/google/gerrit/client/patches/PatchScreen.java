@@ -12,18 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.changes;
+package com.google.gerrit.client.patches;
 
-import com.google.gwt.i18n.client.Messages;
+import com.google.gerrit.client.reviewdb.Patch;
+import com.google.gerrit.client.ui.Screen;
 
-public interface ChangeMessages extends Messages {
-  String accountDashboardTitle(String fullName);
-  String changesUploadedBy(String fullName);
-  String changesReviewableBy(String fullName);
+public class PatchScreen extends Screen {
+  protected final Patch.Id patchId;
 
-  String changeScreenTitleId(int id);
-  String patchSetHeader(int id);
-  String repoDownload(String project, int change, int ps);
-  
-  String patchTableComments(@PluralCount int count);
+  public PatchScreen(final Patch.Id id) {
+    patchId = id;
+    setTitleText(id.get());
+  }
 }

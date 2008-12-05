@@ -33,6 +33,13 @@ public interface ChangeConstants extends Constants {
   String changeTableColumnLastUpdate();
   String changeTableNone();
 
+  String patchTableColumnName();
+  String patchTableColumnDelta();
+  String patchTableColumnComments();
+  String patchTableColumnDiff();
+  String patchTableDiffSideBySide();
+  String patchTableDiffUnified();
+
   String changeScreenDescription();
   String changeScreenDependencies();
   String changeScreenDependsOn();

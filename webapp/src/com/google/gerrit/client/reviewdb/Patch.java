@@ -92,6 +92,10 @@ public final class Patch {
     setChangeType(type);
   }
 
+  public Patch.Id getKey() {
+    return key;
+  }
+
   public int getCommentCount() {
     return nbrComments;
   }

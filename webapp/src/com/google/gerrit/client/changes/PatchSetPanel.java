@@ -15,7 +15,9 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.data.ChangeDetail;
+import com.google.gerrit.client.data.PatchSetDetail;
 import com.google.gerrit.client.reviewdb.PatchSet;
+import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DisclosureEvent;
 import com.google.gwt.user.client.ui.DisclosureHandler;
@@ -32,6 +34,7 @@ class PatchSetPanel extends Composite implements DisclosureHandler {
   private final FlowPanel body;
 
   private Grid infoTable;
+  private PatchTable patchTable;
 
   PatchSetPanel(final ChangeDetail detail, final PatchSet ps) {
     changeDetail = detail;
@@ -40,9 +43,10 @@ class PatchSetPanel extends Composite implements DisclosureHandler {
     initWidget(body);
   }
 
-  public void ensureLoaded() {
+  public void ensureLoaded(final PatchSetDetail detail) {
     infoTable = new Grid(R_CNT, 2);
-    infoTable.setStyleName("gerrit-ChangeInfoBlock");
+    infoTable.setStyleName("gerrit-InfoBlock");
+    infoTable.addStyleName("gerrit-PatchSetInfoBlock");
 
     initRow(R_DOWNLOAD, Util.C.patchSetInfoDownload());
 
@@ -51,16 +55,29 @@ class PatchSetPanel extends Composite implements DisclosureHandler {
     itfmt.addStyleName(0, 1, "topmost");
     itfmt.addStyleName(R_CNT - 1, 0, "bottomheader");
     itfmt.addStyleName(R_DOWNLOAD, 1, "command");
-    body.add(infoTable);
 
     infoTable.setText(R_DOWNLOAD, 1, Util.M.repoDownload(changeDetail
         .getChange().getDest().getParentKey().get(), changeDetail.getChange()
         .getId(), patchSet.getId()));
+
+    patchTable = new PatchTable();
+    patchTable.setSavePointerId("patchTable "
+        + changeDetail.getChange().getId() + " " + patchSet.getId());
+    patchTable.display(detail.getPatches());
+    patchTable.finishDisplay(false);
+
+    body.add(infoTable);
+    body.add(patchTable);
   }
 
   public void onOpen(final DisclosureEvent event) {
     if (infoTable == null) {
-      ensureLoaded();
+      Util.DETAIL_SVC.patchSetDetail(patchSet.getKey(),
+          new GerritCallback<PatchSetDetail>() {
+            public void onSuccess(final PatchSetDetail result) {
+              ensureLoaded(result);
+            }
+          });
     }
   }
 

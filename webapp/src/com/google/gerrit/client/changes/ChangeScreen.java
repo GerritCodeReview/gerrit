@@ -179,7 +179,7 @@ public class ChangeScreen extends Screen {
       }
 
       if (ps == currps) {
-        psp.ensureLoaded();
+        psp.ensureLoaded(detail.getCurrentPatchSetDetail());
       } else {
         panel.addEventHandler(psp);
       }

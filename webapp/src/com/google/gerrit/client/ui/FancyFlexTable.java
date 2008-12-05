@@ -29,7 +29,6 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.KeyboardListener;
 import com.google.gwt.user.client.ui.KeyboardListenerAdapter;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
@@ -85,13 +84,13 @@ public abstract class FancyFlexTable<RowItem> extends Composite implements
     });
     initWidget(focusy);
 
-    final FlexCellFormatter fmt = table.getFlexCellFormatter();
     table.setText(0, C_ARROW, "");
-    fmt.addStyleName(0, C_ARROW, S_ICON_HEADER);
+    table.getCellFormatter().addStyleName(0, C_ARROW, S_ICON_HEADER);
   }
 
   protected RowItem getRowItem(final int row) {
-    return getRowItem(table.getCellFormatter().getElement(row, 0));
+    return FancyFlexTable.<RowItem> getRowItem(table.getCellFormatter()
+        .getElement(row, 0));
   }
 
   protected void setRowItem(final int row, final RowItem item) {
@@ -171,7 +170,7 @@ public abstract class FancyFlexTable<RowItem> extends Composite implements
     table.getCellFormatter().addStyleName(newRow, C_ARROW, S_ICON_CELL);
   }
 
-  public void finishDisplay() {
+  public void finishDisplay(final boolean requestFocus) {
     if (saveId != null) {
       final Object oldId = savedPositions.get(saveId);
       if (oldId != null) {
@@ -190,7 +189,7 @@ public abstract class FancyFlexTable<RowItem> extends Composite implements
       onDown();
     }
 
-    if (currentRow >= 0) {
+    if (requestFocus && currentRow >= 0) {
       DeferredCommand.addCommand(new Command() {
         public void execute() {
           setFocus(true);

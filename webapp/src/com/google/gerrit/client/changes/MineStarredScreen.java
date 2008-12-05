@@ -49,7 +49,7 @@ public class MineStarredScreen extends AccountScreen {
     Util.LIST_SVC.myStarredChanges(new GerritCallback<List<ChangeInfo>>() {
       public void onSuccess(final List<ChangeInfo> result) {
         starred.display(result);
-        table.finishDisplay();
+        table.finishDisplay(true);
       }
     });
   }

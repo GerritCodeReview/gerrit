@@ -39,7 +39,8 @@ public class ChangeInfoBlock extends Composite {
 
   public ChangeInfoBlock() {
     table = new Grid(R_CNT, 2);
-    table.setStyleName("gerrit-ChangeInfoBlock");
+    table.setStyleName("gerrit-InfoBlock");
+    table.addStyleName("gerrit-ChangeInfoBlock");
 
     initRow(R_OWNER, Util.C.changeInfoBlockOwner());
     initRow(R_PROJECT, Util.C.changeInfoBlockProject());

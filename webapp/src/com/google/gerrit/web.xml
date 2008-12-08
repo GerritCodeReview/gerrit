@@ -27,6 +27,7 @@
   <servlet>
     <servlet-name>Gerrit</servlet-name>
     <servlet-class>com.google.gerrit.server.HostPageServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
   </servlet>
   <servlet-mapping>
     <servlet-name>Gerrit</servlet-name>
@@ -36,6 +37,7 @@
   <servlet>
     <servlet-name>Login</servlet-name>
     <servlet-class>com.google.gerrit.server.LoginServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
   </servlet>
   <servlet-mapping>
     <servlet-name>Login</servlet-name>
@@ -45,6 +47,7 @@
   <servlet>
     <servlet-name>AccountService</servlet-name>
     <servlet-class>com.google.gerrit.server.AccountServiceSrv</servlet-class>
+    <load-on-startup>1</load-on-startup>
   </servlet>
   <servlet-mapping>
     <servlet-name>AccountService</servlet-name>
@@ -54,6 +57,7 @@
   <servlet>
     <servlet-name>ChangeDetailService</servlet-name>
     <servlet-class>com.google.gerrit.server.ChangeDetailServiceSrv</servlet-class>
+    <load-on-startup>1</load-on-startup>
   </servlet>
   <servlet-mapping>
     <servlet-name>ChangeDetailService</servlet-name>
@@ -63,6 +67,7 @@
   <servlet>
     <servlet-name>ChangeListService</servlet-name>
     <servlet-class>com.google.gerrit.server.ChangeListServiceSrv</servlet-class>
+    <load-on-startup>1</load-on-startup>
   </servlet>
   <servlet-mapping>
     <servlet-name>ChangeListService</servlet-name>
@@ -72,6 +77,7 @@
   <servlet>
     <servlet-name>SystemInfoService</servlet-name>
     <servlet-class>com.google.gerrit.server.SystemInfoServiceSrv</servlet-class>
+    <load-on-startup>1</load-on-startup>
   </servlet>
   <servlet-mapping>
     <servlet-name>SystemInfoService</servlet-name>

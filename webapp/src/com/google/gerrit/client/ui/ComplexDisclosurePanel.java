@@ -30,25 +30,27 @@ public class ComplexDisclosurePanel extends Composite implements
   private final Panel header;
 
   public ComplexDisclosurePanel(final String text, final boolean isOpen) {
+    // Ick. GWT's DisclosurePanel won't let us subclass it, or do any
+    // other modification of its header. We're stuck with injecting
+    // into the DOM directly.
+    //
     main = new DisclosurePanel(text, isOpen);
-    final Element cell2;
+    final Element headerParent;
     {
-      // Ick. GWT's DisclosurePanel won't let us subclass it, or do any
-      // other modification of its header. We're stuck with injecting
-      // into the DOM directly.
-      //
       final Element table = main.getElement();
       final Element tbody = DOM.getFirstChild(table);
       final Element tr1 = DOM.getChild(tbody, 0);
       final Element tr2 = DOM.getChild(tbody, 1);
-      cell2 = DOM.createTD();
 
+      DOM.setElementProperty(DOM.getChild(tr1, 0), "width", "20px");
       DOM.setElementPropertyInt(DOM.getChild(tr2, 0), "colSpan", 2);
-      DOM.appendChild(tr1, cell2);
+      headerParent = tr1;
     }
+
     header = new ComplexPanel() {
       {
-        setElement(cell2);
+        setElement(DOM.createTD());
+        DOM.setInnerHTML(getElement(), "&nbsp;");
       }
 
       @Override
@@ -56,7 +58,17 @@ public class ComplexDisclosurePanel extends Composite implements
         add(w, getElement());
       }
     };
-    initWidget(main);
+
+    initWidget(new ComplexPanel() {
+      {
+        final DisclosurePanel main = ComplexDisclosurePanel.this.main;
+        setElement(main.getElement());
+        getChildren().add(main);
+        adopt(main);
+
+        add(ComplexDisclosurePanel.this.header, headerParent);
+      }
+    });
   }
 
   public Panel getHeader() {

@@ -191,6 +191,7 @@
 
 .gerrit-ChangeScreen .gwt-DisclosurePanel .header td {
 	font-weight: bold;
+	white-space: nowrap;
 }
 
 .gerrit-ChangeScreen .gwt-DisclosurePanel .content {

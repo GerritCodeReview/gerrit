@@ -254,7 +254,7 @@ INSERT INTO patch_set_info
  committer_when,
  committer_tz,
  change_id,
- patch_set_id) SELECT
+ patch_set_id) SELECT DISTINCT
  (SELECT c.subject FROM changes c
   WHERE c.change_id = p.change_id
   AND c.current_patch_set_id = p.patch_set_id),

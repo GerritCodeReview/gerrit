@@ -38,6 +38,7 @@ public class AccountDashboardLink extends DirectScreenLink {
 
   public AccountDashboardLink(final String text, final AccountInfo ai) {
     super(text, Link.toAccountDashboard(ai));
+    addStyleName("gerrit-AccountName");
     account = ai;
   }
 

@@ -24,6 +24,10 @@
   text-decoration: underline;
 }
 
+.gerrit-AccountName {
+	white-space: nowrap;
+}
+
 
 /** Menu **/
 .gerrit-LinkMenuBar .gwt-MenuItem {
@@ -255,10 +259,6 @@
 
 .gerrit-InfoTable td.rightmost  {
   border-right: 1px solid #d4e9a9;
-}
-
-.gerrit-InfoTable td.reviewer {
-  white-space: nowrap;
 }
 
 .gerrit-InfoTable td.approvalrole {

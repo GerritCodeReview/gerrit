@@ -31,7 +31,7 @@ public class GitwebLink {
   }
 
   public String toRevision(final Project.NameKey project, final PatchSet ps) {
-    final StringBuffer r = new StringBuffer();
+    final StringBuilder r = new StringBuilder();
     p(r, project);
     h(r, ps);
     return baseUrl + r;
@@ -39,21 +39,21 @@ public class GitwebLink {
 
 
   public String toProject(final Project.NameKey project) {
-    final StringBuffer r = new StringBuffer();
+    final StringBuilder r = new StringBuilder();
     p(r, project);
     a(r, "summary");
     return baseUrl + r;
   }
 
   public String toBranch(final Branch.NameKey branch) {
-    final StringBuffer r = new StringBuffer();
+    final StringBuilder r = new StringBuilder();
     p(r, branch.getParentKey());
     h(r, branch);
     a(r, "shortlog");
     return baseUrl + r;
   }
 
-  private static void p(final StringBuffer r, final Project.NameKey project) {
+  private static void p(final StringBuilder r, final Project.NameKey project) {
     String n = project.get();
     if (!n.endsWith(".git")) {
       n += ".git";
@@ -61,19 +61,19 @@ public class GitwebLink {
     var(r, "p", n);
   }
 
-  private static void h(final StringBuffer r, final PatchSet ps) {
+  private static void h(final StringBuilder r, final PatchSet ps) {
     var(r, "h", ps.getRevision());
   }
 
-  private static void h(final StringBuffer r, final Branch.NameKey branch) {
+  private static void h(final StringBuilder r, final Branch.NameKey branch) {
     var(r, "h", branch.get());
   }
 
-  private static void a(final StringBuffer r, final String where) {
+  private static void a(final StringBuilder r, final String where) {
     var(r, "a", where);
   }
 
-  private static void var(final StringBuffer r, final String n, final String v) {
+  private static void var(final StringBuilder r, final String n, final String v) {
     if (r.length() > 0) {
       r.append(";");
     }

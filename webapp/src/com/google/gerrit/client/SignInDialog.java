@@ -87,7 +87,7 @@ public class SignInDialog extends DialogBox {
     current = this;
     signInCallback.install();
 
-    final StringBuffer url = new StringBuffer();
+    final StringBuilder url = new StringBuilder();
     url.append(GWT.getModuleBaseURL());
     url.append("login");
     url.append("?");

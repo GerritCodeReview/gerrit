@@ -194,7 +194,10 @@ public class Gerrit implements EntryPoint {
             }
 
             public void onFailure(final Throwable caught) {
-              GWT.log("Unexpected failure from validating account", caught);
+              if (!GWT.isScript() && !GerritCallback.isNotSignedIn(caught)) {
+                GWT.log("Unexpected failure from validating account", caught);
+              }
+              Cookies.removeCookie(ACCOUNT_COOKIE);
               refreshMenuBar();
               showInitialScreen();
             }

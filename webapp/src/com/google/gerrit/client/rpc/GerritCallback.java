@@ -39,7 +39,7 @@ public abstract class GerritCallback<T> implements AsyncCallback<T> {
     }
   }
 
-  private static boolean isNotSignedIn(final Throwable caught) {
+  public static boolean isNotSignedIn(final Throwable caught) {
     if (caught instanceof NotSignedInException) {
       return true;
     }
@@ -47,7 +47,7 @@ public abstract class GerritCallback<T> implements AsyncCallback<T> {
         && caught.getMessage().equals(NotSignedInException.MESSAGE);
   }
 
-  protected static boolean isNoSuchEntity(final Throwable caught) {
+  public static boolean isNoSuchEntity(final Throwable caught) {
     if (caught instanceof NoSuchEntityException) {
       return true;
     }

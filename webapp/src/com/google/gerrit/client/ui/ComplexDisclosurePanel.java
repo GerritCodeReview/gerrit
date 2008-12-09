@@ -51,6 +51,7 @@ public class ComplexDisclosurePanel extends Composite implements
       {
         setElement(DOM.createTD());
         DOM.setInnerHTML(getElement(), "&nbsp;");
+        addStyleName("complexHeader");
       }
 
       @Override
@@ -79,11 +80,24 @@ public class ComplexDisclosurePanel extends Composite implements
     main.setContent(w);
   }
 
+  public Widget getContent() {
+    return main.getContent();
+  }
+
   public void addEventHandler(final DisclosureHandler handler) {
     main.addEventHandler(handler);
   }
 
   public void removeEventHandler(final DisclosureHandler handler) {
     main.removeEventHandler(handler);
+  }
+
+  /**
+   * Changes the visible state of this panel's content.
+   * 
+   * @param isOpen <code>true</code> to open, <code>false</code> to close
+   */
+  public void setOpen(final boolean isOpen) {
+    main.setOpen(isOpen);
   }
 }

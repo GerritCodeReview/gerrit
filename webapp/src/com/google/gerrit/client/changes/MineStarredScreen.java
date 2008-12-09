@@ -15,11 +15,9 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.Link;
-import com.google.gerrit.client.data.ChangeInfo;
+import com.google.gerrit.client.data.MineStarredInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountScreen;
-
-import java.util.List;
 
 
 public class MineStarredScreen extends AccountScreen {
@@ -46,9 +44,10 @@ public class MineStarredScreen extends AccountScreen {
   @Override
   public void onLoad() {
     super.onLoad();
-    Util.LIST_SVC.myStarredChanges(new GerritCallback<List<ChangeInfo>>() {
-      public void onSuccess(final List<ChangeInfo> result) {
-        starred.display(result);
+    Util.LIST_SVC.myStarredChanges(new GerritCallback<MineStarredInfo>() {
+      public void onSuccess(final MineStarredInfo result) {
+        table.setAccountInfoCache(result.getAccounts());
+        starred.display(result.getStarred());
         table.finishDisplay(true);
       }
     });

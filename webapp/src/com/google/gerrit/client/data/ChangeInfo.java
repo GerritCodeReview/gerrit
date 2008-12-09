@@ -14,31 +14,34 @@
 
 package com.google.gerrit.client.data;
 
+import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.Change;
-import com.google.gwtorm.client.OrmException;
 
 public class ChangeInfo {
   protected Change.Id id;
+  protected Account.Id owner;
   protected String subject;
   protected Change.Status status;
-  protected AccountInfo owner;
   protected ProjectInfo project;
   protected boolean starred;
 
   protected ChangeInfo() {
   }
 
-  public ChangeInfo(final Change c, final AccountCache accounts)
-      throws OrmException {
+  public ChangeInfo(final Change c) {
     id = c.getKey();
+    owner = c.getOwner();
     subject = c.getSubject();
     status = c.getStatus();
-    owner = new AccountInfo(accounts.get(c.getOwner()));
     project = new ProjectInfo(c.getDest().getParentKey());
   }
 
   public Change.Id getId() {
     return id;
+  }
+
+  public Account.Id getOwner() {
+    return owner;
   }
 
   public String getSubject() {
@@ -47,10 +50,6 @@ public class ChangeInfo {
 
   public Change.Status getStatus() {
     return status;
-  }
-
-  public AccountInfo getOwner() {
-    return owner;
   }
 
   public ProjectInfo getProject() {

@@ -45,6 +45,7 @@ public interface ChangeConstants extends Constants {
   String changeScreenDependsOn();
   String changeScreenNeededBy();
   String changeScreenApprovals();
+  String changeScreenMessages();
 
   String approvalTableReviewer();
 
@@ -54,6 +55,11 @@ public interface ChangeConstants extends Constants {
   String changeInfoBlockUploaded();
   String changeInfoBlockStatus();
   String changePermalink();
+
+  String messageNoAuthor();
+  String messageExpandRecent();
+  String messageExpandAll();
+  String messageCollapseAll();
 
   String patchSetInfoDownload();
 }

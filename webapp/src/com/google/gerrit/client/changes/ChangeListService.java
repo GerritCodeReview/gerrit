@@ -15,7 +15,7 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.data.AccountDashboardInfo;
-import com.google.gerrit.client.data.ChangeInfo;
+import com.google.gerrit.client.data.MineStarredInfo;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.rpc.SignInRequired;
@@ -23,7 +23,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.RemoteJsonService;
 import com.google.gwtjsonrpc.client.VoidResult;
 
-import java.util.List;
 import java.util.Set;
 
 public interface ChangeListService extends RemoteJsonService {
@@ -32,7 +31,7 @@ public interface ChangeListService extends RemoteJsonService {
 
   /** Get the changes starred by the caller. */
   @SignInRequired
-  void myStarredChanges(AsyncCallback<List<ChangeInfo>> callback);
+  void myStarredChanges(AsyncCallback<MineStarredInfo> callback);
 
   /** Get the ids of all changes starred by the caller. */
   @SignInRequired

@@ -14,18 +14,16 @@
 
 package com.google.gerrit.client.changes;
 
-import com.google.gwt.i18n.client.Messages;
+import com.google.gerrit.client.reviewdb.ChangeMessage;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.Label;
 
-public interface ChangeMessages extends Messages {
-  String accountDashboardTitle(String fullName);
-  String changesUploadedBy(String fullName);
-  String changesReviewableBy(String fullName);
+public class MessagePanel extends Composite {
+  boolean isRecent;
 
-  String changeScreenTitleId(int id);
-  String patchSetHeader(int id);
-  String repoDownload(String project, int change, int ps);
-  
-  String patchTableComments(@PluralCount int count);
-
-  String messageWrittenOn(String date);
+  public MessagePanel(final ChangeMessage msg) {
+    final Label l = new Label(msg.getMessage().trim());
+    l.setStyleName("gerrit-ChangeMessage-Message");
+    initWidget(l);
+  }
 }

@@ -14,23 +14,21 @@
 
 package com.google.gerrit.client.data;
 
-import com.google.gerrit.client.changes.AccountDashboardScreen;
+import com.google.gerrit.client.changes.MineStarredScreen;
 import com.google.gerrit.client.reviewdb.Account;
 
 import java.util.List;
 
-/** Summary information needed for {@link AccountDashboardScreen}. */
-public class AccountDashboardInfo {
+/** Summary information needed for {@link MineStarredScreen}. */
+public class MineStarredInfo {
   protected AccountInfoCache accounts;
   protected Account.Id owner;
-  protected List<ChangeInfo> byOwner;
-  protected List<ChangeInfo> forReview;
-  protected List<ChangeInfo> closed;
+  protected List<ChangeInfo> starred;
 
-  protected AccountDashboardInfo() {
+  protected MineStarredInfo() {
   }
 
-  public AccountDashboardInfo(final Account.Id forUser) {
+  public MineStarredInfo(final Account.Id forUser) {
     owner = forUser;
   }
 
@@ -46,27 +44,11 @@ public class AccountDashboardInfo {
     return owner;
   }
 
-  public List<ChangeInfo> getByOwner() {
-    return byOwner;
+  public List<ChangeInfo> getStarred() {
+    return starred;
   }
 
-  public void setByOwner(List<ChangeInfo> c) {
-    byOwner = c;
-  }
-
-  public List<ChangeInfo> getForReview() {
-    return forReview;
-  }
-
-  public void setForReview(List<ChangeInfo> c) {
-    forReview = c;
-  }
-
-  public List<ChangeInfo> getClosed() {
-    return closed;
-  }
-
-  public void setClosed(List<ChangeInfo> c) {
-    closed = c;
+  public void setStarred(List<ChangeInfo> c) {
+    starred = c;
   }
 }

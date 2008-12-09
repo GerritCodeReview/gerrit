@@ -108,8 +108,8 @@ public final class PatchLineComment {
   protected int lineNbr;
 
   /** Who wrote this comment. */
-  @Column
-  protected Account.Id authorId;
+  @Column(name = "author_id")
+  protected Account.Id author;
 
   /** When this comment was drafted. */
   @Column
@@ -131,10 +131,10 @@ public final class PatchLineComment {
   }
 
   public PatchLineComment(final PatchLineComment.Id id, final int line,
-      final Account.Id author) {
+      final Account.Id a) {
     key = id;
     lineNbr = line;
-    authorId = author;
+    author = a;
     writtenOn = new Timestamp(System.currentTimeMillis());
     setStatus(Status.DRAFT);
     setSide(Side.POST_IMAGE);
@@ -148,8 +148,8 @@ public final class PatchLineComment {
     return lineNbr;
   }
 
-  public Account.Id getAuthorId() {
-    return authorId;
+  public Account.Id getAuthor() {
+    return author;
   }
 
   public Timestamp getWrittenOn() {

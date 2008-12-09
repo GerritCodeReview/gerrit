@@ -15,8 +15,10 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.data.AccountInfoCache;
 import com.google.gerrit.client.data.ApprovalDetail;
 import com.google.gerrit.client.data.ApprovalType;
+import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.client.reviewdb.ChangeApproval;
@@ -32,6 +34,7 @@ import java.util.Map;
 public class ApprovalTable extends Composite {
   private final List<ApprovalType> types;
   private final Grid table;
+  private AccountInfoCache accountCache = AccountInfoCache.empty();
 
   public ApprovalTable() {
     types = Gerrit.getGerritConfig().getApprovalTypes();
@@ -74,6 +77,15 @@ public class ApprovalTable extends Composite {
     }
   }
 
+  public void setAccountInfoCache(final AccountInfoCache aic) {
+    assert aic != null;
+    accountCache = aic;
+  }
+
+  private AccountDashboardLink link(final Account.Id id) {
+    return AccountDashboardLink.link(accountCache, id);
+  }
+
   public void display(final List<ApprovalDetail> rows) {
     final int oldcnt = table.getRowCount();
     table.resizeRows(1 + rows.size());
@@ -94,7 +106,7 @@ public class ApprovalTable extends Composite {
     final Map<ApprovalCategory.Id, ChangeApproval> am = ad.getApprovalMap();
     final StringBuilder hint = new StringBuilder();
     int col = 0;
-    table.setWidget(row, col++, new AccountDashboardLink(ad.getAccount()));
+    table.setWidget(row, col++, link(ad.getAccount()));
     table.clearCell(row, col++); // TODO populate the account role
 
     for (final ApprovalType type : types) {

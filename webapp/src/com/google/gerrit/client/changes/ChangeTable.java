@@ -17,7 +17,9 @@ package com.google.gerrit.client.changes;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.Link;
 import com.google.gerrit.client.SignedInListener;
+import com.google.gerrit.client.data.AccountInfoCache;
 import com.google.gerrit.client.data.ChangeInfo;
+import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountDashboardLink;
@@ -53,6 +55,7 @@ public class ChangeTable extends FancyFlexTable<ChangeInfo> {
 
   private final List<Section> sections;
   private final SignedInListener signedInListener;
+  private AccountInfoCache accountCache = AccountInfoCache.empty();
 
   public ChangeTable() {
     sections = new ArrayList<Section>();
@@ -213,11 +216,15 @@ public class ChangeTable extends FancyFlexTable<ChangeInfo> {
       s += " (" + c.getStatus().name() + ")";
     }
     table.setWidget(row, C_SUBJECT, new ChangeLink(s, c));
-    table.setWidget(row, C_OWNER, new AccountDashboardLink(c.getOwner()));
+    table.setWidget(row, C_OWNER, link(c.getOwner()));
     table.setText(row, C_REVIEWERS, "TODO");
     table.setText(row, C_PROJECT, c.getProject().getName());
     table.setText(row, C_LAST_UPDATE, "TODO");
     setRowItem(row, c);
+  }
+
+  private AccountDashboardLink link(final Account.Id id) {
+    return AccountDashboardLink.link(accountCache, id);
   }
 
   private void setStar(final int row, final ChangeInfo c) {
@@ -253,6 +260,11 @@ public class ChangeTable extends FancyFlexTable<ChangeInfo> {
     s.dataBegin = table.getRowCount();
     insertNoneRow(s.dataBegin);
     sections.add(s);
+  }
+
+  public void setAccountInfoCache(final AccountInfoCache aic) {
+    assert aic != null;
+    accountCache = aic;
   }
 
   private int insertRow(final int beforeRow) {

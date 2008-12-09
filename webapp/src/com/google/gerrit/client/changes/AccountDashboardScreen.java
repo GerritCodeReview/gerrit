@@ -71,7 +71,9 @@ public class AccountDashboardScreen extends Screen {
   }
 
   private void display(final AccountDashboardInfo r) {
-    final AccountInfo o = r.getOwner();
+    table.setAccountInfoCache(r.getAccounts());
+
+    final AccountInfo o = r.getAccounts().get(r.getOwner());
     setTitleText(Util.M.accountDashboardTitle(o.getFullName()));
     byOwner.setTitleText(Util.M.changesUploadedBy(o.getFullName()));
     forReview.setTitleText(Util.M.changesReviewableBy(o.getFullName()));

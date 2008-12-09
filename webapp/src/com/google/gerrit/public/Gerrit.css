@@ -194,6 +194,15 @@
 	white-space: nowrap;
 }
 
+.gerrit-ChangeScreen .gwt-DisclosurePanel .complexHeader {
+  white-space: nowrap;
+}
+
+.gerrit-ChangeScreen .gwt-DisclosurePanel .complexHeader .gerrit-PatchSetLink {
+  padding-left: 20px;
+  font-size: 8pt;
+}
+
 .gerrit-ChangeScreen .gwt-DisclosurePanel .content {
 	margin-bottom: 10px;
 }
@@ -201,6 +210,21 @@
 .gerrit-ChangeScreen-Description {
 	white-space: pre;
 	font-family: Courier New, Courier, monospace;
+	font-size: small;
+}
+
+.gerrit-ChangeScreen .gerrit-ChangeMessages .header {
+	width: 35em;
+}
+.gerrit-ChangeScreen .gerrit-ChangeMessages .complexHeader {
+  width: 5em;
+}
+.gerrit-ChangeScreen .gerrit-ChangeMessages .content {
+	border-top: 3px solid #e3e3e3;
+}
+
+.gerrit-ChangeMessage-Message {
+	white-space: pre;
 	font-size: small;
 }
 
@@ -310,9 +334,4 @@
 
 .gerrit-PatchSetInfoBlock {
 	margin-bottom: 10px;
-}
-
-.gerrit-PatchSetLink {
-	padding-left: 20px;
-  font-size: 8pt;
 }

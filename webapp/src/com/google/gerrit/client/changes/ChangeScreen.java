@@ -14,24 +14,31 @@
 
 package com.google.gerrit.client.changes;
 
+import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.data.AccountInfoCache;
 import com.google.gerrit.client.data.ChangeDetail;
 import com.google.gerrit.client.data.ChangeInfo;
 import com.google.gerrit.client.data.GitwebLink;
 import com.google.gerrit.client.reviewdb.Change;
+import com.google.gerrit.client.reviewdb.ChangeMessage;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.ComplexDisclosurePanel;
+import com.google.gerrit.client.ui.ExpandAllCommand;
+import com.google.gerrit.client.ui.LinkMenuBar;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
-import java.util.ArrayList;
+import java.sql.Timestamp;
 import java.util.List;
 
 
@@ -51,7 +58,10 @@ public class ChangeScreen extends Screen {
   private DisclosurePanel approvalsPanel;
   private ApprovalTable approvals;
 
-  private List<ComplexDisclosurePanel> patchSetPanels;
+  private FlowPanel patchSetPanels;
+
+  private DisclosurePanel messagesPanel;
+  private Panel messagesContent;
 
   public ChangeScreen(final Change.Id toShow) {
     changeId = toShow;
@@ -78,46 +88,7 @@ public class ChangeScreen extends Screen {
   @Override
   public void onLoad() {
     if (descriptionPanel == null) {
-      addStyleName("gerrit-ChangeScreen");
-
-      infoBlock = new ChangeInfoBlock();
-
-      description = new Label();
-      description.setStyleName("gerrit-ChangeScreen-Description");
-
-      descriptionPanel = new DisclosurePanel(Util.C.changeScreenDescription());
-      {
-        final Label glue = new Label();
-        final HorizontalPanel hp = new HorizontalPanel();
-        hp.add(description);
-        hp.add(glue);
-        hp.add(infoBlock);
-        hp.setCellWidth(glue, "100%");
-        add(hp);
-        descriptionPanel.setContent(hp);
-        descriptionPanel.setWidth("100%");
-        add(descriptionPanel);
-      }
-
-      dependencies = new ChangeTable();
-      dependsOn = new ChangeTable.Section(Util.C.changeScreenDependsOn());
-      neededBy = new ChangeTable.Section(Util.C.changeScreenNeededBy());
-      dependencies.addSection(dependsOn);
-      dependencies.addSection(neededBy);
-
-      dependenciesPanel =
-          new DisclosurePanel(Util.C.changeScreenDependencies());
-      dependenciesPanel.setContent(dependencies);
-      dependenciesPanel.setWidth("95%");
-      add(dependenciesPanel);
-
-      approvals = new ApprovalTable();
-      approvalsPanel = new DisclosurePanel(Util.C.changeScreenApprovals());
-      approvalsPanel.setContent(wrap(approvals));
-      dependenciesPanel.setWidth("95%");
-      add(approvalsPanel);
-
-      patchSetPanels = new ArrayList<ComplexDisclosurePanel>();
+      initUI();
     }
 
     displayTitle(changeInfo != null ? changeInfo.getSubject() : null);
@@ -132,6 +103,54 @@ public class ChangeScreen extends Screen {
             }
           }
         });
+  }
+
+  private void initUI() {
+    addStyleName("gerrit-ChangeScreen");
+
+    infoBlock = new ChangeInfoBlock();
+
+    description = newDescriptionLabel();
+
+    descriptionPanel = new DisclosurePanel(Util.C.changeScreenDescription());
+    {
+      final Label glue = new Label();
+      final HorizontalPanel hp = new HorizontalPanel();
+      hp.add(description);
+      hp.add(glue);
+      hp.add(infoBlock);
+      hp.setCellWidth(glue, "100%");
+      add(hp);
+      descriptionPanel.setContent(hp);
+      descriptionPanel.setWidth("100%");
+      add(descriptionPanel);
+    }
+
+    dependencies = new ChangeTable();
+    dependsOn = new ChangeTable.Section(Util.C.changeScreenDependsOn());
+    neededBy = new ChangeTable.Section(Util.C.changeScreenNeededBy());
+    dependencies.addSection(dependsOn);
+    dependencies.addSection(neededBy);
+
+    dependenciesPanel = new DisclosurePanel(Util.C.changeScreenDependencies());
+    dependenciesPanel.setContent(dependencies);
+    dependenciesPanel.setWidth("95%");
+    add(dependenciesPanel);
+
+    approvals = new ApprovalTable();
+    approvalsPanel = new DisclosurePanel(Util.C.changeScreenApprovals());
+    approvalsPanel.setContent(wrap(approvals));
+    dependenciesPanel.setWidth("95%");
+    add(approvalsPanel);
+
+    patchSetPanels = new FlowPanel();
+    add(patchSetPanels);
+
+    messagesContent = new FlowPanel();
+    messagesContent.setStyleName("gerrit-ChangeMessages");
+    messagesPanel = new DisclosurePanel(Util.C.changeScreenMessages());
+    messagesPanel.setContent(messagesContent);
+    add(messagesPanel);
   }
 
   private void displayTitle(final String subject) {
@@ -160,17 +179,26 @@ public class ChangeScreen extends Screen {
       displayTitle(detail.getChange().getSubject());
     }
 
+    dependencies.setAccountInfoCache(detail.getAccounts());
+    approvals.setAccountInfoCache(detail.getAccounts());
+
     infoBlock.display(detail);
     description.setText(detail.getDescription());
     dependsOn.display(detail.getDependsOn());
     neededBy.display(detail.getNeededBy());
     approvals.display(detail.getApprovals());
 
-    final PatchSet currps = detail.getCurrentPatchSet();
-    for (final ComplexDisclosurePanel p : patchSetPanels) {
-      remove(p);
-    }
+    addPatchSets(detail);
+    addMessages(detail);
+
+    descriptionPanel.setOpen(true);
+    approvalsPanel.setOpen(true);
+  }
+
+  private void addPatchSets(final ChangeDetail detail) {
     patchSetPanels.clear();
+
+    final PatchSet currps = detail.getCurrentPatchSet();
     final GitwebLink gw = Gerrit.getGerritConfig().getGitwebLink();
     for (final PatchSet ps : detail.getPatchSets()) {
       final ComplexDisclosurePanel panel =
@@ -183,8 +211,8 @@ public class ChangeScreen extends Screen {
         final Anchor revlink =
             new Anchor(ps.getRevision(), false, gw.toRevision(detail
                 .getChange().getDest().getParentKey(), ps));
+        revlink.addStyleName("gerrit-PatchSetLink");
         panel.getHeader().add(revlink);
-        panel.getHeader().addStyleName("gerrit-PatchSetLink");
       }
 
       if (ps == currps) {
@@ -195,14 +223,78 @@ public class ChangeScreen extends Screen {
       add(panel);
       patchSetPanels.add(panel);
     }
+  }
 
-    descriptionPanel.setOpen(true);
-    approvalsPanel.setOpen(true);
+  private void addMessages(final ChangeDetail detail) {
+    messagesContent.clear();
+
+    final AccountInfoCache accts = detail.getAccounts();
+    final List<ChangeMessage> msgList = detail.getMessages();
+    if (msgList.size() > 1) {
+      messagesContent.add(messagesMenuBar());
+    }
+
+    final long AGE = 7 * 24 * 60 * 60 * 1000L;
+    final Timestamp aged = new Timestamp(System.currentTimeMillis() - AGE);
+
+    for (int i = 0; i < msgList.size(); i++) {
+      final ChangeMessage msg = msgList.get(i);
+      final MessagePanel mp = new MessagePanel(msg);
+      final String panelHeader;
+      final ComplexDisclosurePanel panel;
+
+      if (msg.getAuthor() != null) {
+        panelHeader = FormatUtil.nameEmail(accts.get(msg.getAuthor()));
+      } else {
+        panelHeader = Util.C.messageNoAuthor();
+      }
+
+      if (i == msgList.size() - 1) {
+        mp.isRecent = true;
+      } else {
+        // TODO Instead of opening messages by strict age, do it by "unread"?
+        mp.isRecent = msg.getWrittenOn().after(aged);
+      }
+
+      panel = new ComplexDisclosurePanel(panelHeader, mp.isRecent);
+      panel.getHeader().add(
+          new InlineLabel(Util.M.messageWrittenOn(FormatUtil.mediumFormat(msg
+              .getWrittenOn()))));
+      panel.setContent(mp);
+      messagesContent.add(panel);
+    }
+
+    if (msgList.size() > 1) {
+      messagesContent.add(messagesMenuBar());
+    }
+    messagesPanel.setOpen(msgList.size() > 0);
+  }
+
+  private LinkMenuBar messagesMenuBar() {
+    final Panel c = messagesContent;
+    final LinkMenuBar m = new LinkMenuBar();
+    m.addItem(Util.C.messageExpandRecent(), new ExpandAllCommand(c, true) {
+      @Override
+      protected void expand(final ComplexDisclosurePanel w) {
+        final MessagePanel mp = (MessagePanel) w.getContent();
+        w.setOpen(mp.isRecent);
+      }
+    });
+    m.addItem(Util.C.messageExpandAll(), new ExpandAllCommand(c, true));
+    m.addItem(Util.C.messageCollapseAll(), new ExpandAllCommand(c, false));
+    m.lastInGroup();
+    return m;
   }
 
   private static FlowPanel wrap(final Widget w) {
     final FlowPanel p = new FlowPanel();
     p.add(w);
     return p;
+  }
+
+  private static Label newDescriptionLabel() {
+    final Label d = new Label();
+    d.setStyleName("gerrit-ChangeScreen-Description");
+    return d;
   }
 }

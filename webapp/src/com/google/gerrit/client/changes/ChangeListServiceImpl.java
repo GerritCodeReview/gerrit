@@ -14,10 +14,10 @@
 
 package com.google.gerrit.client.changes;
 
-import com.google.gerrit.client.data.AccountCache;
 import com.google.gerrit.client.data.AccountDashboardInfo;
-import com.google.gerrit.client.data.AccountInfo;
+import com.google.gerrit.client.data.AccountInfoCacheFactory;
 import com.google.gerrit.client.data.ChangeInfo;
+import com.google.gerrit.client.data.MineStarredInfo;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.ChangeAccess;
@@ -35,6 +35,8 @@ import com.google.gwtorm.client.SchemaFactory;
 import com.google.gwtorm.client.Transaction;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -57,7 +59,7 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
     run(callback, new Action<AccountDashboardInfo>() {
       public AccountDashboardInfo run(final ReviewDb db) throws OrmException,
           Failure {
-        final AccountCache ac = new AccountCache(db);
+        final AccountInfoCacheFactory ac = new AccountInfoCacheFactory(db);
         final Account user = ac.get(target);
         if (user == null) {
           throw new Failure(new NoSuchEntityException());
@@ -67,21 +69,37 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
         final ChangeAccess changes = db.changes();
         final AccountDashboardInfo d;
 
-        d = new AccountDashboardInfo(new AccountInfo(user));
+        d = new AccountDashboardInfo(target);
         d.setByOwner(list(changes.byOwnerOpen(target), stars, ac));
         d.setClosed(list(changes.byOwnerMerged(target), stars, ac));
+        d.setAccounts(ac.create());
         return d;
       }
     });
   }
 
-  public void myStarredChanges(final AsyncCallback<List<ChangeInfo>> callback) {
-    run(callback, new Action<List<ChangeInfo>>() {
-      public List<ChangeInfo> run(final ReviewDb db) throws OrmException {
+  public void myStarredChanges(final AsyncCallback<MineStarredInfo> callback) {
+    run(callback, new Action<MineStarredInfo>() {
+      public MineStarredInfo run(final ReviewDb db) throws OrmException,
+          Failure {
         final Account.Id me = RpcUtil.getAccountId();
-        final AccountCache ac = new AccountCache(db);
+        final AccountInfoCacheFactory ac = new AccountInfoCacheFactory(db);
+        final Account user = ac.get(me);
+        if (user == null) {
+          throw new Failure(new NoSuchEntityException());
+        }
+
+        final MineStarredInfo d = new MineStarredInfo(me);
         final Set<Change.Id> starred = starredBy(db, me);
-        return list(db.changes().get(starred), starred, ac);
+        d.setStarred(list(db.changes().get(starred), starred, ac));
+        Collections.sort(d.getStarred(), new Comparator<ChangeInfo>() {
+          public int compare(final ChangeInfo o1, final ChangeInfo o2) {
+            // TODO Sort starred changes by something other than just Id
+            return o1.getId().get() - o2.getId().get();
+          }
+        });
+        d.setAccounts(ac.create());
+        return d;
       }
     });
   }
@@ -131,12 +149,12 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
   }
 
   private static List<ChangeInfo> list(final ResultSet<Change> rs,
-      final Set<Change.Id> starred, final AccountCache accts)
-      throws OrmException {
+      final Set<Change.Id> starred, final AccountInfoCacheFactory accts) {
     final ArrayList<ChangeInfo> r = new ArrayList<ChangeInfo>();
     for (final Change c : rs) {
-      final ChangeInfo ci = new ChangeInfo(c, accts);
+      final ChangeInfo ci = new ChangeInfo(c);
       ci.setStarred(starred.contains(ci.getId()));
+      accts.want(c.getOwner());
       r.add(ci);
     }
     return r;

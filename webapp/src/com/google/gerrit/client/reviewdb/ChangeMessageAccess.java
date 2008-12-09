@@ -12,29 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.data;
+package com.google.gerrit.client.reviewdb;
 
-import com.google.gerrit.client.reviewdb.Account;
-import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gwtorm.client.Access;
 import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.PrimaryKey;
+import com.google.gwtorm.client.Query;
+import com.google.gwtorm.client.ResultSet;
 
-import java.util.HashMap;
+public interface ChangeMessageAccess extends
+    Access<ChangeMessage, ChangeMessage.Id> {
+  @PrimaryKey("key")
+  ChangeMessage get(ChangeMessage.Id id) throws OrmException;
 
-public class AccountCache {
-  private final ReviewDb db;
-  private final HashMap<Account.Id, Account> cache;
-
-  public AccountCache(final ReviewDb schema) {
-    db = schema;
-    cache = new HashMap<Account.Id, Account>();
-  }
-
-  public Account get(final Account.Id id) throws OrmException {
-    Account a = cache.get(id);
-    if (a == null) {
-      a = db.accounts().byId(id);
-      cache.put(id, a);
-    }
-    return a;
-  }
+  @Query("WHERE key.changeId = ? ORDER BY writtenOn")
+  ResultSet<ChangeMessage> byChange(Change.Id id) throws OrmException;
 }

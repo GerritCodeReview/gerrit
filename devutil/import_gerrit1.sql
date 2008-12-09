@@ -229,6 +229,32 @@ INSERT INTO changes
  AND b.gae_key = c.dest_branch_key
  ;
 
+UPDATE gerrit1.messages
+SET sender = substring(sender from '<(.*)>')
+WHERE sender LIKE '%<%>';
+
+UPDATE gerrit1.messages
+SET sender = NULL
+WHERE sender = 'code-review@android.com';
+
+DELETE FROM change_messages;
+INSERT INTO change_messages
+(change_id,
+ uuid,
+ author_id,
+ written_on,
+ message) SELECT
+ c.change_id,
+ substr(m.gae_key, length(m.change_key) + length('wLEgdNZXNzYWdlG')),
+ a.account_id,
+ m.date_sent,
+ m.body
+ FROM gerrit1.messages m
+ LEFT OUTER JOIN accounts a ON a.preferred_email = m.sender,
+ gerrit1.changes c
+ WHERE
+ c.gae_key = m.change_key;
+
 DELETE FROM patch_sets;
 INSERT INTO patch_sets
 (revision,
@@ -379,6 +405,13 @@ SELECT
 WHERE 
   (SELECT COUNT(*) FROM gerrit1.changes)
 !=(SELECT COUNT(*) FROM changes);
+
+SELECT
+ (SELECT COUNT(*) FROM gerrit1.messages) as messages_g1,
+ (SELECT COUNT(*) FROM change_messages) as messages_g2
+WHERE 
+  (SELECT COUNT(*) FROM gerrit1.messages)
+!=(SELECT COUNT(*) FROM change_messages);
 
 SELECT
  (SELECT COUNT(*) FROM gerrit1.patch_sets) as patch_sets_g1,

@@ -14,12 +14,12 @@
 
 package com.google.gerrit.client.changes;
 
+import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.data.ChangeDetail;
 import com.google.gerrit.client.reviewdb.Branch;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.ui.AccountDashboardLink;
 import com.google.gerrit.client.ui.ChangeLink;
-import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
@@ -32,8 +32,6 @@ public class ChangeInfoBlock extends Composite {
   private static final int R_STATUS = 4;
   private static final int R_PERMALINK = 5;
   private static final int R_CNT = 6;
-  private static final DateTimeFormat dtfmt =
-      DateTimeFormat.getMediumDateTimeFormat();
 
   private final Grid table;
 
@@ -66,10 +64,11 @@ public class ChangeInfoBlock extends Composite {
   public void display(final ChangeDetail detail) {
     final Change chg = detail.getChange();
     final Branch.NameKey dst = chg.getDest();
-    table.setWidget(R_OWNER, 1, new AccountDashboardLink(detail.getOwner()));
+    table.setWidget(R_OWNER, 1, AccountDashboardLink.link(detail.getAccounts(),
+        detail.getChange().getOwner()));
     table.setText(R_PROJECT, 1, dst.getParentKey().get());
     table.setText(R_BRANCH, 1, dst.getShortName());
-    table.setText(R_UPLOADED, 1, dtfmt.format(chg.getCreatedOn()));
+    table.setText(R_UPLOADED, 1, FormatUtil.mediumFormat(chg.getCreatedOn()));
     table.setText(R_STATUS, 1, Util.toLongString(chg.getStatus()));
 
     if (chg.getStatus().isClosed()) {

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.data;
 
+import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ChangeApproval;
 
@@ -27,7 +28,7 @@ public class ApprovalDetail {
   static final Timestamp EG_0 = new Timestamp(0);
   static final Timestamp EG_D = new Timestamp(Long.MAX_VALUE);
 
-  protected AccountInfo account;
+  protected Account.Id account;
   protected List<ChangeApproval> approvals;
 
   transient Timestamp sortOrder = EG_D;
@@ -35,12 +36,12 @@ public class ApprovalDetail {
   protected ApprovalDetail() {
   }
 
-  public ApprovalDetail(final AccountInfo ai) {
-    account = ai;
+  public ApprovalDetail(final Account.Id id) {
+    account = id;
     approvals = new ArrayList<ChangeApproval>();
   }
 
-  public AccountInfo getAccount() {
+  public Account.Id getAccount() {
     return account;
   }
 

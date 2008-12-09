@@ -18,6 +18,7 @@ import com.google.gerrit.client.changes.ChangeScreen;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.ChangeApproval;
+import com.google.gerrit.client.reviewdb.ChangeMessage;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gwtorm.client.OrmException;
@@ -30,39 +31,47 @@ import java.util.List;
 
 /** Detail necessary to display{@link ChangeScreen}. */
 public class ChangeDetail {
+  protected AccountInfoCache accounts;
   protected Change change;
-  protected AccountInfo owner;
   protected List<ChangeInfo> dependsOn;
   protected List<ChangeInfo> neededBy;
   protected List<PatchSet> patchSets;
   protected List<ApprovalDetail> approvals;
+  protected List<ChangeMessage> messages;
   protected PatchSet.Id currentPatchSetId;
   protected PatchSetDetail currentDetail;
 
   public ChangeDetail() {
   }
 
-  public void load(final ReviewDb db, final AccountCache acc, final Change c)
-      throws OrmException {
+  public void load(final ReviewDb db, final AccountInfoCacheFactory acc,
+      final Change c) throws OrmException {
     change = c;
-    owner = new AccountInfo(acc.get(change.getOwner()));
+    acc.want(change.getOwner());
+
     patchSets = db.patchSets().byChange(change.getKey()).toList();
+    messages = db.changeMessages().byChange(change.getKey()).toList();
+    for (final ChangeMessage m : messages) {
+      acc.want(m.getAuthor());
+    }
 
     final HashMap<Account.Id, ApprovalDetail> ad =
         new HashMap<Account.Id, ApprovalDetail>();
     {
-      final ApprovalDetail d = new ApprovalDetail(owner);
+      final ApprovalDetail d = new ApprovalDetail(change.getOwner());
       d.sortOrder = ApprovalDetail.EG_0;
-      ad.put(change.getOwner(), d);
+      // TODO Mark self-approved, self-verified if permitted.
+      ad.put(d.getAccount(), d);
     }
     for (ChangeApproval ca : db.changeApprovals().byChange(change.getKey())) {
       ApprovalDetail d = ad.get(ca.getAccountId());
       if (d == null) {
-        d = new ApprovalDetail(new AccountInfo(acc.get(ca.getAccountId())));
-        ad.put(ca.getAccountId(), d);
+        d = new ApprovalDetail(ca.getAccountId());
+        ad.put(d.getAccount(), d);
       }
       d.add(ca);
     }
+    acc.want(ad.keySet());
     approvals = new ArrayList<ApprovalDetail>(ad.values());
     Collections.sort(approvals, new Comparator<ApprovalDetail>() {
       public int compare(final ApprovalDetail o1, final ApprovalDetail o2) {
@@ -75,14 +84,16 @@ public class ChangeDetail {
       currentDetail = new PatchSetDetail();
       currentDetail.load(db, getCurrentPatchSet());
     }
+
+    accounts = acc.create();
+  }
+
+  public AccountInfoCache getAccounts() {
+    return accounts;
   }
 
   public Change getChange() {
     return change;
-  }
-
-  public AccountInfo getOwner() {
-    return owner;
   }
 
   public List<ChangeInfo> getDependsOn() {
@@ -91,6 +102,10 @@ public class ChangeDetail {
 
   public List<ChangeInfo> getNeededBy() {
     return neededBy;
+  }
+
+  public List<ChangeMessage> getMessages() {
+    return messages;
   }
 
   public List<PatchSet> getPatchSets() {

@@ -14,27 +14,26 @@
 
 package com.google.gerrit.client.ui;
 
-import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Link;
 import com.google.gerrit.client.changes.AccountDashboardScreen;
 import com.google.gerrit.client.data.AccountInfo;
+import com.google.gerrit.client.data.AccountInfoCache;
+import com.google.gerrit.client.reviewdb.Account;
 
 /** Link to any user's account dashboard. */
-public class AccountDashboardLink extends DirectScreenLink {
-  private static String name(final AccountInfo ai) {
-    if (ai.getFullName() != null) {
-      return ai.getFullName();
-    }
-    if (ai.getPreferredEmail() != null) {
-      return ai.getPreferredEmail();
-    }
-    return Gerrit.C.anonymousCoward();
+public class AccountDashboardLink extends DirectScreenLink { 
+  /** Create a link after locating account details from an active cache. */
+  public static AccountDashboardLink link(final AccountInfoCache cache,
+      final Account.Id id) {
+    final AccountInfo ai = cache.get(id);
+    return ai != null ? new AccountDashboardLink(ai) : null;
   }
 
   private AccountInfo account;
 
   public AccountDashboardLink(final AccountInfo ai) {
-    this(name(ai), ai);
+    this(FormatUtil.name(ai), ai);
   }
 
   public AccountDashboardLink(final String text, final AccountInfo ai) {

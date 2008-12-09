@@ -280,9 +280,8 @@ public class Gerrit implements EntryPoint {
   }
 
   private static void whoAmI() {
-    final MenuItem me;
-
-    me = menuBar.addItem(FormatUtil.nameEmail(getUserAccount()), (Command) null);
+    final String name = FormatUtil.nameEmail(getUserAccount());
+    final MenuItem me = menuBar.addItem(name, (Command) null);
     me.removeStyleName("gwt-MenuItem");
     me.addStyleName("gerrit-MenuBarUserName");
   }

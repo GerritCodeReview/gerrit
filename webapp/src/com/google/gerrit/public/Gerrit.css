@@ -108,6 +108,8 @@
   white-space: nowrap;
   font-size: 16pt;
   margin: 3px 0 8px;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 
@@ -157,6 +159,12 @@
 .gerrit-ChangeTable .C_ID {
 	width: 3.5em;
   text-align: right;
+}
+
+.gerrit-ChangeTable .C_SUBJECT {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .gerrit-ChangeTable .IconHeader {

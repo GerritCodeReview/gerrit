@@ -154,7 +154,7 @@ public class ChangeScreen extends Screen {
   }
 
   private void displayTitle(final String subject) {
-    final StringBuffer titleBuf = new StringBuffer();
+    final StringBuilder titleBuf = new StringBuilder();
     if (LocaleInfo.getCurrentLocale().isRTL()) {
       if (subject != null) {
         titleBuf.append(subject);

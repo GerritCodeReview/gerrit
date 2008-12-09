@@ -80,7 +80,6 @@
 
 
 /** Error Dialog **/
-
 .gerrit-ErrorDialog {
   margin: 10px 10px 10px 10px;
 }
@@ -113,7 +112,6 @@
 
 
 /** ChangeTable **/
-
 .gerrit-ChangeTable {
   width: 100%;
   border-collapse: separate;
@@ -192,7 +190,6 @@
 
 
 /** Change **/
-
 .gerrit-ChangeScreen .gwt-DisclosurePanel .header td {
 	font-weight: bold;
 	white-space: nowrap;

@@ -78,6 +78,9 @@ public interface ReviewDb extends Schema {
   PatchSetInfoAccess patchSetInfo();
 
   @Relation
+  PatchSetAncestorAccess patchSetAncestors();
+
+  @Relation
   PatchAccess patches();
 
   @Relation

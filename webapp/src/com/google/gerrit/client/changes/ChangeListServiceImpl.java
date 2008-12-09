@@ -152,9 +152,8 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
       final Set<Change.Id> starred, final AccountInfoCacheFactory accts) {
     final ArrayList<ChangeInfo> r = new ArrayList<ChangeInfo>();
     for (final Change c : rs) {
-      final ChangeInfo ci = new ChangeInfo(c);
+      final ChangeInfo ci = new ChangeInfo(c, accts);
       ci.setStarred(starred.contains(ci.getId()));
-      accts.want(c.getOwner());
       r.add(ci);
     }
     return r;

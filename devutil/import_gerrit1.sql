@@ -298,6 +298,21 @@ INSERT INTO patch_set_info
  FROM gerrit1.revisions r, patch_sets p
  WHERE r.revision_id = p.revision;
 
+DELETE FROM patch_set_ancestors;
+INSERT INTO patch_set_ancestors
+(ancestor_revision,
+change_id,
+patch_set_id,
+position
+) SELECT DISTINCT
+ p.parent_id,
+ ps.change_id,
+ ps.patch_set_id,
+ p.position
+ FROM gerrit1.revision_ancestors p,
+ patch_sets ps
+ WHERE ps.revision = p.child_id;
+
 DELETE FROM patches;
 INSERT INTO patches
 (change_type,

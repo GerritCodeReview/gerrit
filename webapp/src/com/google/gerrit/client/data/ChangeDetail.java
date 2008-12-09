@@ -20,6 +20,7 @@ import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.ChangeApproval;
 import com.google.gerrit.client.reviewdb.ChangeMessage;
 import com.google.gerrit.client.reviewdb.PatchSet;
+import com.google.gerrit.client.reviewdb.PatchSetAncestor;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gwtorm.client.OrmException;
 
@@ -27,7 +28,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 /** Detail necessary to display{@link ChangeScreen}. */
 public class ChangeDetail {
@@ -83,6 +86,51 @@ public class ChangeDetail {
     if (currentPatchSetId != null) {
       currentDetail = new PatchSetDetail();
       currentDetail.load(db, getCurrentPatchSet());
+
+      final HashSet<Change.Id> changesToGet = new HashSet<Change.Id>();
+      final List<Change.Id> ancestorOrder = new ArrayList<Change.Id>();
+      for (final PatchSetAncestor a : db.patchSetAncestors().ancestorsOf(
+          currentPatchSetId).toList()) {
+        for (PatchSet p : db.patchSets().byRevision(a.getAncestorRevision())) {
+          final Change.Id ck = p.getKey().getParentKey();
+          if (changesToGet.add(ck)) {
+            ancestorOrder.add(ck);
+          }
+        }
+      }
+
+      final String cprev = getCurrentPatchSet().getRevision();
+      final List<PatchSetAncestor> descendants =
+          cprev != null ? db.patchSetAncestors().descendantsOf(cprev).toList()
+              : Collections.<PatchSetAncestor> emptyList();
+      for (final PatchSetAncestor a : descendants) {
+        changesToGet.add(a.getPatchSet().getParentKey());
+      }
+      final Map<Change.Id, Change> m =
+          db.changes().toMap(db.changes().get(changesToGet));
+
+      dependsOn = new ArrayList<ChangeInfo>();
+      for (final Change.Id a : ancestorOrder) {
+        final Change ac = m.get(a);
+        if (ac != null) {
+          dependsOn.add(new ChangeInfo(ac, acc));
+        }
+      }
+
+      neededBy = new ArrayList<ChangeInfo>();
+      for (final PatchSetAncestor a : descendants) {
+        final Change ac = m.get(a.getPatchSet().getParentKey());
+        if (ac != null) {
+          neededBy.add(new ChangeInfo(ac, acc));
+        }
+      }
+
+      Collections.sort(neededBy, new Comparator<ChangeInfo>() {
+        public int compare(final ChangeInfo o1, final ChangeInfo o2) {
+          // TODO sort neededBy by something more reasonable than Id
+          return o1.getId().get() - o2.getId().get();
+        }
+      });
     }
 
     accounts = acc.create();

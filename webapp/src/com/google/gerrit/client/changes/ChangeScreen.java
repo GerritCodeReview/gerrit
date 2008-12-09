@@ -191,7 +191,21 @@ public class ChangeScreen extends Screen {
     addPatchSets(detail);
     addMessages(detail);
 
+    // If any dependency change is still open, show our dependency list.
+    //
+    boolean depsOpen = false;
+    if (!detail.getChange().getStatus().isClosed()
+        && detail.getDependsOn() != null) {
+      for (final ChangeInfo ci : detail.getDependsOn()) {
+        if (ci.getStatus() != Change.Status.MERGED) {
+          depsOpen = true;
+          break;
+        }
+      }
+    }
+
     descriptionPanel.setOpen(true);
+    dependenciesPanel.setOpen(depsOpen);
     approvalsPanel.setOpen(true);
   }
 

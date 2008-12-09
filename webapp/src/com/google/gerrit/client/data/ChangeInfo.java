@@ -28,12 +28,14 @@ public class ChangeInfo {
   protected ChangeInfo() {
   }
 
-  public ChangeInfo(final Change c) {
+  public ChangeInfo(final Change c, final AccountInfoCacheFactory acc) {
     id = c.getKey();
     owner = c.getOwner();
     subject = c.getSubject();
     status = c.getStatus();
     project = new ProjectInfo(c.getDest().getParentKey());
+
+    acc.want(owner);
   }
 
   public Change.Id getId() {

@@ -44,13 +44,12 @@ endif
 
 -include config.mak
 
-WEBAPP   = webapp
-WEB_MAIN = com.google.gerrit.Gerrit
+WEBAPP   := $(abspath webapp)
+GWT_SDK  := $(abspath $(GWT_SDK))
+WEB_MAIN := com.google.gerrit.Gerrit
 GWT_CP   = \
 	$(GWT_SDK)/gwt-user.jar \
 	$(GWT_SDK)/gwt-dev-$(GWT_OS).jar \
-	lib/gwtjsonrpc.jar \
-	lib/gwtorm.jar \
 #end GWT_CP
 
 WEB_LIB_GEN = \
@@ -107,7 +106,7 @@ $(MY_JAR): $(MY_JAVA) $(ALL_LIB)
 	rm -rf .bin
 	mkdir .bin
 	CLASSPATH= && \
-	$(foreach p,$(ALL_LIB) $(GWT_SDK)/gwt-user.jar,CLASSPATH="$$CLASSPATH:$(abspath $p)" &&) \
+	$(foreach p,$(ALL_LIB) $(GWT_SDK)/gwt-user.jar,CLASSPATH="$$CLASSPATH:$p" &&) \
 	export CLASSPATH && \
 	cd $(WEBAPP)/src && $(JAVAC) \
 		-encoding utf-8 \
@@ -139,12 +138,12 @@ $(MY_WAR): $(MY_NCJS) $(ALL_LIB) $(MY_JAR) $(MY_WXML)
 	rm -rf .bin
 
 $(MY_NCJS): \
+		$(MY_JAR) \
 		$(MY_JAVA) \
 		$(MY_RSRC) \
-		$(WEBAPP)/src/com/google/gerrit/Gerrit.gwt.xml \
-		$(WEB_LIB_GEN)
-	CLASSPATH=src:classes && \
-	$(foreach p,$(GWT_CP),CLASSPATH=$$CLASSPATH:$p &&) \
+		$(WEBAPP)/src/com/google/gerrit/Gerrit.gwt.xml
+	CLASSPATH=src:$(abspath $(MY_JAR)) && \
+	$(foreach p,$(GWT_CP) $(ALL_LIB),CLASSPATH=$$CLASSPATH:$p &&) \
 	export CLASSPATH && \
 	cd $(WEBAPP) && $(JAVA) $(JAVA_ARGS) \
 		com.google.gwt.dev.GWTCompiler \
@@ -152,9 +151,9 @@ $(MY_NCJS): \
 		$(GWT_FLAGS) \
 		$(WEB_MAIN)
 
-web-shell: $(WEB_LIB_GEN)
-	CLASSPATH=src:classes && \
-	$(foreach p,$(GWT_CP),CLASSPATH=$$CLASSPATH:$p &&) \
+web-shell: $(MY_JAR) web-lib
+	CLASSPATH=src:$(abspath $(MY_JAR)) && \
+	$(foreach p,$(GWT_CP) (ALL_LIB),CLASSPATH=$$CLASSPATH:$p &&) \
 	export CLASSPATH && \
 	cd $(WEBAPP) && $(JAVA) $(JAVA_ARGS) \
 		com.google.gwt.dev.GWTShell \

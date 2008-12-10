@@ -71,6 +71,8 @@ ALL_LIB = $(filter-out $(WEBAPP)/lib/jdbc-h2.jar, \
 	)
 #end ALL_LIB
 
+ALL_JDBC = $(wildcard $(WEBAPP)/lib/jdbc-*.jar)
+
 ifdef GEN_DEBUG
 	GWT_FLAGS += -gen gensrc
 endif
@@ -153,7 +155,7 @@ $(MY_NCJS): \
 
 web-shell: $(MY_JAR) web-lib
 	CLASSPATH=src:$(abspath $(MY_JAR)) && \
-	$(foreach p,$(GWT_CP) (ALL_LIB),CLASSPATH=$$CLASSPATH:$p &&) \
+	$(foreach p,$(GWT_CP) $(ALL_LIB) $(ALL_JDBC),CLASSPATH=$$CLASSPATH:$p &&) \
 	export CLASSPATH && \
 	cd $(WEBAPP) && $(JAVA) $(JAVA_ARGS) \
 		com.google.gwt.dev.GWTShell \

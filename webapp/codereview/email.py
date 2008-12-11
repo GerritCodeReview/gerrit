@@ -49,7 +49,7 @@ def to_email_string(obj):
   elif isinstance(obj, models.Account):
     account = obj
   if account:
-    result = account.get_email_formatted()
+    result = account.get_email()
   else:
     result = str(email)
   return _encode_safely(result)

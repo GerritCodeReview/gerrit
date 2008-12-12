@@ -223,7 +223,7 @@ public class ChangeScreen extends Screen {
 
       if (gw != null) {
         final Anchor revlink =
-            new Anchor(ps.getRevision(), false, gw.toRevision(detail
+            new Anchor(ps.getRevision().get(), false, gw.toRevision(detail
                 .getChange().getDest().getParentKey(), ps));
         revlink.addStyleName("gerrit-PatchSetLink");
         panel.getHeader().add(revlink);

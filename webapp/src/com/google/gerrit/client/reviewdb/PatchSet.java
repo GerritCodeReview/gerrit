@@ -49,8 +49,8 @@ public final class PatchSet {
   @Column(name = Column.NONE)
   protected Id key;
 
-  @Column(length = 40, notNull = false)
-  protected String revision;
+  @Column(notNull = false)
+  protected RevId revision;
 
   protected PatchSet() {
   }
@@ -59,7 +59,7 @@ public final class PatchSet {
     key = k;
   }
 
-  public PatchSet(final PatchSet.Id k, final String rev) {
+  public PatchSet(final PatchSet.Id k, final RevId rev) {
     this(k);
     revision = rev;
   }
@@ -72,7 +72,7 @@ public final class PatchSet {
     return key.get();
   }
 
-  public String getRevision() {
+  public RevId getRevision() {
     return revision;
   }
 }

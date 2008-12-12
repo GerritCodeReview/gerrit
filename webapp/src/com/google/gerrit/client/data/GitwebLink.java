@@ -62,7 +62,7 @@ public class GitwebLink {
   }
 
   private static void h(final StringBuilder r, final PatchSet ps) {
-    var(r, "h", ps.getRevision());
+    var(r, "h", ps.getRevision().get());
   }
 
   private static void h(final StringBuilder r, final Branch.NameKey branch) {

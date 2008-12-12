@@ -21,6 +21,7 @@ import com.google.gerrit.client.reviewdb.ChangeApproval;
 import com.google.gerrit.client.reviewdb.ChangeMessage;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.PatchSetAncestor;
+import com.google.gerrit.client.reviewdb.RevId;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gwtorm.client.OrmException;
 
@@ -99,7 +100,7 @@ public class ChangeDetail {
         }
       }
 
-      final String cprev = getCurrentPatchSet().getRevision();
+      final RevId cprev = getCurrentPatchSet().getRevision();
       final List<PatchSetAncestor> descendants =
           cprev != null ? db.patchSetAncestors().descendantsOf(cprev).toList()
               : Collections.<PatchSetAncestor> emptyList();

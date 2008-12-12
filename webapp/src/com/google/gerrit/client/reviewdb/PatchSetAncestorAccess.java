@@ -29,6 +29,6 @@ public interface PatchSetAncestorAccess extends
   ResultSet<PatchSetAncestor> ancestorsOf(PatchSet.Id id) throws OrmException;
 
   @Query("WHERE ancestorRevision = ?")
-  ResultSet<PatchSetAncestor> descendantsOf(String revision)
+  ResultSet<PatchSetAncestor> descendantsOf(RevId revision)
       throws OrmException;
 }

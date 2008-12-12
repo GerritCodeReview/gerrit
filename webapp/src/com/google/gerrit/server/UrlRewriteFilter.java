@@ -18,6 +18,7 @@ import com.google.gerrit.client.Link;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.PatchSet;
+import com.google.gerrit.client.reviewdb.RevId;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
@@ -42,10 +43,9 @@ import javax.servlet.http.HttpServletResponse;
 
 /** Rewrites Gerrit 1 style URLs to Gerrit 2 style URLs. */
 public class UrlRewriteFilter implements Filter {
-  private static final int REV_ID_LEN = 40;
   private static final Pattern CHANGE_ID = Pattern.compile("^/(\\d+)/?$");
   private static final Pattern REV_ID =
-      Pattern.compile("^/r/([0-9a-fA-F]{4," + REV_ID_LEN + "})/?$");
+      Pattern.compile("^/r/([0-9a-fA-F]{4," + RevId.LEN + "})/?$");
   private static final Pattern USER_PAGE = Pattern.compile("^/user/(.*)/?$");
   private static final Map<String, String> staticLinks;
   private static final Set<String> staticExtensions;
@@ -173,25 +173,20 @@ public class UrlRewriteFilter implements Filter {
     }
 
     final String rev = m.group(1).toLowerCase();
-    if (rev.length() > REV_ID_LEN) {
+    if (rev.length() > RevId.LEN) {
       rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
       return true;
     }
 
+    final RevId id = new RevId(rev);
     final List<PatchSet> patches;
     try {
       final ReviewDb db = server.getDatabase().open();
       try {
-        if (rev.length() == REV_ID_LEN) {
-          patches = db.patchSets().byRevision(rev).toList();
+        if (id.isComplete()) {
+          patches = db.patchSets().byRevision(id).toList();
         } else {
-          final StringBuilder revEnd = new StringBuilder(REV_ID_LEN);
-          revEnd.append(rev);
-          while (revEnd.length() < REV_ID_LEN) {
-            revEnd.append('z');
-          }
-          patches =
-              db.patchSets().byRevisionRange(rev, revEnd.toString()).toList();
+          patches = db.patchSets().byRevisionRange(id, id.max()).toList();
         }
       } finally {
         db.close();

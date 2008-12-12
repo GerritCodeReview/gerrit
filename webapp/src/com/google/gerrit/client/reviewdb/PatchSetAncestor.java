@@ -49,13 +49,13 @@ public final class PatchSetAncestor {
   @Column(name = Column.NONE)
   protected Key key;
 
-  @Column(length = 40)
-  protected String ancestorRevision;
+  @Column
+  protected RevId ancestorRevision;
 
   protected PatchSetAncestor() {
   }
 
-  public PatchSetAncestor(final PatchSetAncestor.Key k, final String rev) {
+  public PatchSetAncestor(final PatchSetAncestor.Key k, final RevId rev) {
     key = k;
     ancestorRevision = rev;
   }
@@ -72,7 +72,7 @@ public final class PatchSetAncestor {
     return key.position;
   }
 
-  public String getAncestorRevision() {
+  public RevId getAncestorRevision() {
     return ancestorRevision;
   }
 }

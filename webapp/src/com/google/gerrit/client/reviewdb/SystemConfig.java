@@ -74,6 +74,10 @@ public final class SystemConfig {
   @Column(notNull = false)
   public String gitwebUrl;
 
+  /** Local filesystem loction all projects reside within. */
+  @Column(notNull = false)
+  public String gitBasePath;
+
   protected SystemConfig() {
   }
 }

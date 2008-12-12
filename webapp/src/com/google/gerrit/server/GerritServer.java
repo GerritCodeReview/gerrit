@@ -21,6 +21,7 @@ import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.SystemConfig;
+import com.google.gerrit.git.RepositoryCache;
 import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
@@ -71,6 +72,7 @@ public class GerritServer {
   private GerritConfig gerritConfig;
   private final SignedToken xsrf;
   private final SignedToken account;
+  private final RepositoryCache repositories;
 
   private GerritServer() throws OrmException, XsrfException {
     db = createDatabase();
@@ -81,6 +83,12 @@ public class GerritServer {
 
     xsrf = new SignedToken(sConfig.maxSessionAge, sConfig.xsrfPrivateKey);
     account = new SignedToken(sConfig.maxSessionAge, sConfig.accountPrivateKey);
+
+    if (sConfig.gitBasePath != null) {
+      repositories = new RepositoryCache(new File(sConfig.gitBasePath));
+    } else {
+      repositories = null;
+    }
   }
 
   private Database<ReviewDb> createDatabase() throws OrmException {
@@ -275,5 +283,10 @@ public class GerritServer {
   /** Get the cached configuration data used by the client. */
   public GerritConfig getGerritConfig() {
     return gerritConfig;
+  }
+
+  /** Get the repositories maintained by this server. */
+  public RepositoryCache getRepositoryCache() {
+    return repositories;
   }
 }

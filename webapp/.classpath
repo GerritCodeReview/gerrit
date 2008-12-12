@@ -14,5 +14,7 @@
 	<classpathentry kind="lib" path="lib/jetty-util.jar"/>
 	<classpathentry kind="lib" path="lib/jdbc-h2.jar"/>
 	<classpathentry kind="lib" path="lib/jdbc-postgresql.jar"/>
+	<classpathentry kind="lib" path="lib/jgit.jar" sourcepath="lib/jgit_src.zip"/>
+	<classpathentry kind="lib" path="lib/jsch.jar"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>

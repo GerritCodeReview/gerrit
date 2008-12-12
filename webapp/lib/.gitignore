@@ -5,4 +5,6 @@
 /antlr.jar
 /asm.jar
 /gwtorm.jar
+/jgit.jar
+/jsch.jar
 /jdbc-*.jar

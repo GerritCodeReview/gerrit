@@ -31,6 +31,7 @@ GWT_FLAGS  =
 
 gwtjsonrpc = ../gwtjsonrpc
 gwtorm     = ../gwtorm
+jgit       = ../jgit
 
 ifeq ($(uname_S),Darwin)
 	GWT_OS = mac
@@ -60,6 +61,8 @@ WEB_LIB_GEN = \
 	$(WEBAPP)/lib/gwtjsonrpc.jar \
 	$(WEBAPP)/lib/gwtorm.jar \
 	$(WEBAPP)/lib/jdbc-h2.jar \
+    $(WEBAPP)/lib/jgit.jar \
+    $(WEBAPP)/lib/jsch.jar \
 #end WEB_LIB_GEN
 
 ALL_LIB = $(filter-out $(WEBAPP)/lib/jdbc-h2.jar, \
@@ -95,6 +98,7 @@ all: $(MY_WAR)
 clean:
 	rm -rf $(MY_JAR) $(MY_WAR) .bin
 	rm -f $(WEB_LIB_GEN)
+	rm -f .jgit_version
 	rm -rf $(WEBAPP)/gensrc
 	rm -rf $(WEBAPP)/classes
 	rm -rf $(WEBAPP)/www
@@ -185,6 +189,22 @@ $(WEBAPP)/lib/jdbc-h2.jar: $(gwtorm)/lib/jdbc-h2.jar
 $(gwtorm)/lib/gwtorm.jar: make-gwtorm
 	$(MAKE) -C $(gwtorm) GWT_SDK=$(GWT_SDK)
 .PHONY: make-gwtorm
+
+$(WEBAPP)/lib/jsch.jar: $(jgit)/org.spearce.jgit/lib/jsch-0.1.37.jar
+	cp $< $@
+$(WEBAPP)/lib/jgit.jar: .jgit_version
+	rm -f $@ $(basename $@)_src.zip
+	cd $(jgit) && $(SHELL) ./make_jgit.sh
+	cp $(jgit)/jgit.jar $@
+	chmod 644 $@
+	cp $(jgit)/jgit_src.zip $(basename $@)_src.zip
+
+.jgit_version: jgit_phony
+	@a=`git --git-dir=$(jgit)/.git rev-parse HEAD 2>/dev/null`; \
+	 b=`cat .jgit_version 2>/dev/null`; \
+	 if test z$$a = z$$b; then : up to date; \
+	 else echo $$a >$@; fi
+.PHONY: jgit_phony
 
 .PHONY: all
 .PHONY: clean

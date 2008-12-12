@@ -51,7 +51,11 @@ public final class Patch {
 
     MODIFIED('M'),
 
-    DELETED('D');
+    DELETED('D'),
+
+    RENAMED('R'),
+
+    COPIED('C');
 
     private final char code;
 
@@ -73,6 +77,33 @@ public final class Patch {
     }
   }
 
+  public static enum PatchType {
+    UNIFIED('U'),
+
+    BINARY('B'),
+
+    N_WAY('N');
+
+    private final char code;
+
+    private PatchType(final char c) {
+      code = c;
+    }
+
+    public char getCode() {
+      return code;
+    }
+
+    public static PatchType forCode(final char c) {
+      for (final PatchType s : PatchType.values()) {
+        if (s.code == c) {
+          return s;
+        }
+      }
+      return null;
+    }
+  }
+
   @Column(name = Column.NONE)
   protected Id key;
 
@@ -80,16 +111,28 @@ public final class Patch {
   @Column
   protected char changeType;
 
+  /** What type of patch is this; see {@link PatchType}. */
+  @Column
+  protected char patchType;
+
   /** Number of published comments on this patch. */
   @Column
   protected int nbrComments;
 
+  /**
+   * Original if {@link #changeType} is {@link ChangeType#COPIED} or
+   * {@link ChangeType#RENAMED}.
+   */
+  @Column(notNull = false)
+  protected String sourceFileName;
+
   protected Patch() {
   }
 
-  public Patch(final Patch.Id newId, final ChangeType type) {
+  public Patch(final Patch.Id newId, final ChangeType ct, final PatchType pt) {
     key = newId;
-    setChangeType(type);
+    setChangeType(ct);
+    setPatchType(pt);
   }
 
   public Patch.Id getKey() {
@@ -106,5 +149,25 @@ public final class Patch {
 
   public void setChangeType(final ChangeType type) {
     changeType = type.getCode();
+  }
+
+  public PatchType getPatchType() {
+    return PatchType.forCode(patchType);
+  }
+
+  public void setPatchType(final PatchType type) {
+    patchType = type.getCode();
+  }
+
+  public String getFileName() {
+    return key.fileName;
+  }
+
+  public String getSourceFileName() {
+    return sourceFileName;
+  }
+
+  public void setSourceFileName(final String n) {
+    sourceFileName = n;
   }
 }

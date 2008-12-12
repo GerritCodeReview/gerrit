@@ -316,11 +316,15 @@ position
 DELETE FROM patches;
 INSERT INTO patches
 (change_type,
+ patch_type,
  nbr_comments,
  change_id,
  patch_set_id,
  file_name) SELECT
  p.status,
+ CASE WHEN p.multi_way_diff = 'Y' THEN 'N'
+      ELSE 'U'
+ END,
  p.n_comments,
  c.change_id,
  ps.patchset_id,

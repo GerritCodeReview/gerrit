@@ -101,7 +101,11 @@ public class PatchTable extends FancyFlexTable<Patch> {
     table.setText(row, C_TYPE, "" + patch.getChangeType().getCode());
 
     final PatchLink nameLink;
-    nameLink = new PatchLink.SideBySide(patch.getKey().get(), patch.getKey());
+    if (patch.getPatchType() == Patch.PatchType.UNIFIED) {
+      nameLink = new PatchLink.SideBySide(patch.getKey().get(), patch.getKey());
+    } else {
+      nameLink = new PatchLink.Unified(patch.getKey().get(), patch.getKey());
+    }
     table.setWidget(row, C_NAME, nameLink);
 
     table.clearCell(row, C_DELTA);
@@ -113,8 +117,12 @@ public class PatchTable extends FancyFlexTable<Patch> {
       table.setText(row, C_COMMENTS, Util.M.patchTableComments(cnt));
     }
 
-    table.setWidget(row, C_DIFF + 0, new PatchLink.SideBySide(Util.C
-        .patchTableDiffSideBySide(), patch.getKey()));
+    if (patch.getPatchType() == Patch.PatchType.UNIFIED) {
+      table.setWidget(row, C_DIFF + 0, new PatchLink.SideBySide(Util.C
+          .patchTableDiffSideBySide(), patch.getKey()));
+    } else {
+      table.clearCell(row, C_DIFF + 0);
+    }
     table.setWidget(row, C_DIFF + 1, new PatchLink.Unified(Util.C
         .patchTableDiffUnified(), patch.getKey()));
 

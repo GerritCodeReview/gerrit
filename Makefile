@@ -25,6 +25,7 @@ JAVA       = java
 JAVAC      = javac
 JAR        = jar
 JAVA_ARGS  = -Xmx265m
+CPIO       = cpio -pud
 GWT_OS     = unknown
 GWT_FLAGS  =
 

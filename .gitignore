@@ -3,4 +3,5 @@
 /gerrit2_dump.sql.bz2
 /gerrit-server.jar
 /gerrit.war
+/release
 hs_err_pid*.log

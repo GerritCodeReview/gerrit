@@ -25,7 +25,6 @@ JAVA       = java
 JAVAC      = javac
 JAR        = jar
 JAVA_ARGS  = -Xmx265m
-CPIO       = cpio -pd
 GWT_OS     = unknown
 GWT_FLAGS  =
 
@@ -103,6 +102,15 @@ clean:
 	rm -rf $(WEBAPP)/classes
 	rm -rf $(WEBAPP)/www
 	rm -rf $(WEBAPP)/tomcat
+	rm -rf release
+
+release: $(ALL_LIB) $(MY_JAR)
+	rm -rf release
+	mkdir -p release/bin release/lib
+	$(foreach p,$(ALL_LIB) $(MY_JAR) $(ALL_JDBC),cp $p release/lib &&) :
+	$(foreach p,$(wildcard bin/*),\
+	  cp $p release/$p && \
+	  chmod 555 release/$p &&) :
 
 clean-h2db:
 	rm -f $(WEBAPP)/ReviewDb.*.db
@@ -208,4 +216,5 @@ $(WEBAPP)/lib/jgit.jar: .jgit_version
 
 .PHONY: all
 .PHONY: clean
-.PHONY: web web-shell web-lib
+.PHONY: release
+.PHONY: web-shell web-lib

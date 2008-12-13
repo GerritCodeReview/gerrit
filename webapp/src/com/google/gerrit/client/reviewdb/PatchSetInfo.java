@@ -58,7 +58,11 @@ public final class PatchSetInfo {
   }
 
   public void setSubject(final String s) {
-    subject = s;
+    if (s != null && s.length() > 255) {
+      subject = s.substring(0, 255);
+    } else {
+      subject = s;
+    }
   }
 
   public String getMessage() {

@@ -1,10 +1,25 @@
 -- PostgreSQL conversion from Gerrit 1 -> Gerrit 2
 --
--- Execute this manually:
+-- Execute this from your shell:
 --
 --  psql -c 'ALTER SCHEMA public RENAME TO gerrit1' $srcdb
---  pg_dump $srcdb >D
---  psql -f D $dstdb
+--  pg_dump $srcdb | psql $dstdb
+--  psql -f devutil/import_gerrit1.sql $dstdb
+--
+-- Run the ALTER commands displayed in a psql prompt.
+--
+-- Ensure the Git repositories are where git_base_path in the
+-- system_config table says they should be.
+--
+-- Create a GerritServer.properties file for your database.
+--
+-- Run this from your shell:
+--
+--  make release
+--  psql $dstdb -tAc 'select change_id,patch_set_id from patch_sets' \
+--  | release/bin/gerrit2.sh \
+--    --config=GerritServer.properties \
+--    ReimportPatchSets
 --
 
 DELETE FROM accounts;

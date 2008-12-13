@@ -132,10 +132,10 @@ public final class Patch {
   protected Patch() {
   }
 
-  public Patch(final Patch.Id newId, final ChangeType ct, final PatchType pt) {
+  public Patch(final Patch.Id newId) {
     key = newId;
-    setChangeType(ct);
-    setPatchType(pt);
+    setChangeType(ChangeType.MODIFIED);
+    setPatchType(PatchType.UNIFIED);
   }
 
   public Patch.Id getKey() {

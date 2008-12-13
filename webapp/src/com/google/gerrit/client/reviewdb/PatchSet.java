@@ -59,11 +59,6 @@ public final class PatchSet {
     key = k;
   }
 
-  public PatchSet(final PatchSet.Id k, final RevId rev) {
-    this(k);
-    revision = rev;
-  }
-
   public PatchSet.Id getKey() {
     return key;
   }
@@ -74,5 +69,9 @@ public final class PatchSet {
 
   public RevId getRevision() {
     return revision;
+  }
+
+  public void setRevision(final RevId i) {
+    revision = i;
   }
 }

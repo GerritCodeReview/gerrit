@@ -15,16 +15,16 @@
 package com.google.gerrit.client;
 
 import com.google.gerrit.client.rpc.RpcUtil;
+import com.google.gerrit.client.ui.AutoCenterDialogBox;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ClickListener;
-import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtjsonrpc.client.RemoteJsonException;
 
 /** A dialog box showing an error message, when bad things happen. */
-public class ErrorDialog extends DialogBox {
+public class ErrorDialog extends AutoCenterDialogBox {
   private final FlowPanel body;
 
   protected ErrorDialog() {
@@ -73,7 +73,7 @@ public class ErrorDialog extends DialogBox {
     body.add(label(cn, "gerrit-ErrorDialog-ErrorType"));
     body.add(label(what.getMessage(), "gerrit-ErrorDialog-ErrorMessage"));
   }
-
+  
   private static Label label(final String what, final String style) {
     final Label r = new Label(what);
     r.setStyleName(style);

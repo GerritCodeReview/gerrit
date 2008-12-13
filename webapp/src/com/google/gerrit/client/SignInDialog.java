@@ -17,11 +17,12 @@ package com.google.gerrit.client;
 import com.google.gerrit.client.account.SignInResult;
 import com.google.gerrit.client.account.SignInResult.Status;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.ui.AutoCenterDialogBox;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DeferredCommand;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.Frame;
 import com.google.gwtjsonrpc.client.CallbackHandle;
 
@@ -44,12 +45,12 @@ import com.google.gwtjsonrpc.client.CallbackHandle;
  * in) or <code>null</code> (the sign in was aborted/canceled before it
  * completed).
  */
-public class SignInDialog extends DialogBox {
+public class SignInDialog extends AutoCenterDialogBox {
   private static SignInDialog current;
 
   private final CallbackHandle<SignInResult> signInCallback;
   private final AsyncCallback<?> appCallback;
-  private Frame loginFrame;
+  private final Frame loginFrame;
 
   /**
    * Create a new dialog to handle user sign in.
@@ -70,10 +71,22 @@ public class SignInDialog extends DialogBox {
     appCallback = callback;
 
     loginFrame = new Frame();
-    loginFrame.setWidth("630px");
-    loginFrame.setHeight("440px");
+    onResize(Window.getClientWidth(), Window.getClientHeight());
     add(loginFrame);
     setText(Gerrit.C.signInDialogTitle());
+  }
+
+  @Override
+  protected void onResize(final int width, final int height) {
+    resizeFrame(width, height);
+    super.onResize(width, height);
+  }
+
+  private void resizeFrame(final int width, final int height) {
+    final int w = Math.min(630, width - 15);
+    final int h = Math.min(440, height - 60);
+    loginFrame.setWidth(w + "px");
+    loginFrame.setHeight(h + "px");
   }
 
   @Override

@@ -84,6 +84,9 @@ public interface ReviewDb extends Schema {
   PatchAccess patches();
 
   @Relation
+  PatchContentAccess patchContents();
+
+  @Relation
   PatchLineCommentAccess patchComments();
 
   /** Create the next unique id for an {@link Account}. */

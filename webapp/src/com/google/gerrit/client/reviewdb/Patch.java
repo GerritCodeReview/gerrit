@@ -115,6 +115,9 @@ public final class Patch {
   @Column
   protected char patchType;
 
+  @Column(notNull = false)
+  protected PatchContent.Key contentSha1;
+
   /** Number of published comments on this patch. */
   @Column
   protected int nbrComments;
@@ -161,6 +164,14 @@ public final class Patch {
 
   public String getFileName() {
     return key.fileName;
+  }
+
+  public PatchContent.Key getContent() {
+    return contentSha1;
+  }
+
+  public void setContent(final PatchContent.Key k) {
+    contentSha1 = k;
   }
 
   public String getSourceFileName() {

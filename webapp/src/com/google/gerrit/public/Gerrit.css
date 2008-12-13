@@ -37,6 +37,8 @@
   padding-left: 5px;
   padding-right: 5px;
   white-space: nowrap;
+  cursor: pointer;
+  cursor: hand;
 }
 .gerrit-LinkMenuBar .gwt-MenuItem-NormalItem {
   border-right: 1px solid black;

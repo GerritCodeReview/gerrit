@@ -459,8 +459,9 @@ public class LoginServlet extends HttpServlet {
 
     rsp.setCharacterEncoding(HtmlDomUtil.ENC);
     rsp.setContentType("text/html");
-    rsp.setHeader("Cache-Control", "no-cache");
-    rsp.setDateHeader("Expires", System.currentTimeMillis());
+    rsp.setHeader("Expires", "Fri, 01 Jan 1980 00:00:00 GMT");
+    rsp.setHeader("Pragma", "no-cache");
+    rsp.setHeader("Cache-Control", "no-cache, must-revalidate");
     rsp.setContentLength(tosend.length);
     final OutputStream out = rsp.getOutputStream();
     try {

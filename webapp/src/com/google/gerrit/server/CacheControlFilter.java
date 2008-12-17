@@ -51,8 +51,9 @@ public class CacheControlFilter implements Filter {
       rsp.setHeader("Cache-Control", "max-age=31536000,public");
       rsp.setDateHeader("Expires", System.currentTimeMillis() + 31536000000L);
     } else if (nocache(pathInfo)) {
-      rsp.setHeader("Cache-Control", "no-cache");
-      rsp.setDateHeader("Expires", System.currentTimeMillis());
+      rsp.setHeader("Expires", "Fri, 01 Jan 1980 00:00:00 GMT");
+      rsp.setHeader("Pragma", "no-cache");
+      rsp.setHeader("Cache-Control", "no-cache, must-revalidate");
     }
 
     chain.doFilter(req, rsp);

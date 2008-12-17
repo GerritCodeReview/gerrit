@@ -19,6 +19,9 @@ import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.client.ui.PatchLink;
 import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.InlineLabel;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 
@@ -100,11 +103,31 @@ public class PatchTable extends FancyFlexTable<Patch> {
     table.setWidget(row, C_ARROW, null);
     table.setText(row, C_TYPE, "" + patch.getChangeType().getCode());
 
-    final PatchLink nameLink;
+    Widget nameLink;
     if (patch.getPatchType() == Patch.PatchType.UNIFIED) {
       nameLink = new PatchLink.SideBySide(patch.getKey().get(), patch.getKey());
     } else {
       nameLink = new PatchLink.Unified(patch.getKey().get(), patch.getKey());
+    }
+    if (patch.getSourceFileName() != null) {
+      final String secondLine;
+      if (patch.getChangeType() == Patch.ChangeType.RENAMED) {
+        secondLine = Util.M.renamedFrom(patch.getSourceFileName());
+
+      } else if (patch.getChangeType() == Patch.ChangeType.COPIED) {
+        secondLine = Util.M.copiedFrom(patch.getSourceFileName());
+
+      } else {
+        secondLine = Util.M.otherFrom(patch.getSourceFileName());
+      }
+
+      final InlineLabel secondLineLabel = new InlineLabel(secondLine);
+      secondLineLabel.setStyleName("SourceFilePath");
+
+      final FlowPanel fp = new FlowPanel();
+      fp.add(nameLink);
+      fp.add(secondLineLabel);
+      nameLink = fp;
     }
     table.setWidget(row, C_NAME, nameLink);
 

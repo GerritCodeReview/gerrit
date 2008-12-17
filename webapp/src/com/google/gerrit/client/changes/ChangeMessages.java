@@ -28,4 +28,8 @@ public interface ChangeMessages extends Messages {
   String patchTableComments(@PluralCount int count);
 
   String messageWrittenOn(String date);
+
+  String renamedFrom(String sourcePath);
+  String copiedFrom(String sourcePath);
+  String otherFrom(String sourcePath);
 }

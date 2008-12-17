@@ -147,6 +147,11 @@
   white-space: nowrap;
 }
 
+.gerrit-ChangeTable .FilePathCell .SourceFilePath {
+  font-style: italic;
+  font-size: 9pt;
+}
+
 .gerrit-ChangeTable .DiffLinkCell {
   white-space: nowrap;
 }

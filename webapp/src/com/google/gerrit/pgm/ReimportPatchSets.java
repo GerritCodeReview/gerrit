@@ -24,7 +24,9 @@ import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
 
 import org.spearce.jgit.lib.ObjectId;
+import org.spearce.jgit.lib.ProgressMonitor;
 import org.spearce.jgit.lib.Repository;
+import org.spearce.jgit.lib.TextProgressMonitor;
 import org.spearce.jgit.revwalk.RevCommit;
 import org.spearce.jgit.revwalk.RevWalk;
 
@@ -62,25 +64,23 @@ public class ReimportPatchSets {
 
     final GerritServer gs = GerritServer.getInstance();
     final ReviewDb db = gs.getDatabase().open();
+    final ProgressMonitor pm = new TextProgressMonitor();
     try {
+      pm.start(1);
+      pm.beginTask("Import patch sets", todo.size());
       for (int i = 0; i < todo.size(); i++) {
-        System.out.print("\rImport " + (i + 1) + " of " + todo.size() + " ...");
-        System.out.flush();
-
         final PatchSet.Id psid = todo.get(i);
         final PatchSet ps = db.patchSets().get(psid);
         if (ps == null) {
-          System.out.println();
+          System.err.println();
           System.err.println("NotFound " + psid);
-          System.err.flush();
           continue;
         }
 
         final Change c = db.changes().get(ps.getKey().getParentKey());
         if (c == null) {
-          System.out.println();
+          System.err.println();
           System.err.println("Orphan " + psid);
-          System.err.flush();
           continue;
         }
 
@@ -89,10 +89,9 @@ public class ReimportPatchSets {
         try {
           repo = gs.getRepositoryCache().get(projectName);
         } catch (InvalidRepositoryException ie) {
-          System.out.println();
+          System.err.println();
           System.err.println("NoProject " + psid);
           System.err.println("NoProject " + ie.getMessage());
-          System.err.flush();
           continue;
         }
 
@@ -100,8 +99,10 @@ public class ReimportPatchSets {
         final RevCommit src =
             rw.parseCommit(ObjectId.fromString(ps.getRevision().get()));
         new PatchSetImporter(db, repo, src, ps, false).run();
+        pm.update(1);
       }
     } catch (OrmException e) {
+      System.err.println();
       e.printStackTrace();
       if (e.getCause() instanceof SQLException) {
         final SQLException e2 = (SQLException) e.getCause();
@@ -110,7 +111,7 @@ public class ReimportPatchSets {
         }
       }
     } finally {
-      System.out.println();
+      pm.endTask();
       db.close();
     }
   }

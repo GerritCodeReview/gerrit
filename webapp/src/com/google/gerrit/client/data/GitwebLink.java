@@ -37,7 +37,6 @@ public class GitwebLink {
     return baseUrl + r;
   }
 
-
   public String toProject(final Project.NameKey project) {
     final StringBuilder r = new StringBuilder();
     p(r, project);

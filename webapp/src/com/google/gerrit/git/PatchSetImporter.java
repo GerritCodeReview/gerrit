@@ -17,6 +17,7 @@ package com.google.gerrit.git;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchContent;
 import com.google.gerrit.client.reviewdb.PatchSet;
+import com.google.gerrit.client.reviewdb.PatchSetAncestor;
 import com.google.gerrit.client.reviewdb.PatchSetInfo;
 import com.google.gerrit.client.reviewdb.RevId;
 import com.google.gerrit.client.reviewdb.ReviewDb;
@@ -66,6 +67,13 @@ public class PatchSetImporter {
   private final Map<PatchContent.Key, String> content =
       new HashMap<PatchContent.Key, String>();
 
+  private final Map<Integer, PatchSetAncestor> ancestorExisting =
+      new HashMap<Integer, PatchSetAncestor>();
+  private final List<PatchSetAncestor> ancestorInsert =
+      new ArrayList<PatchSetAncestor>();
+  private final List<PatchSetAncestor> ancestorUpdate =
+      new ArrayList<PatchSetAncestor>();
+
   public PatchSetImporter(final ReviewDb dstDb, final Repository srcRepo,
       final RevCommit srcCommit, final PatchSet dstPatchSet,
       final boolean isNewPatchSet) {
@@ -79,7 +87,7 @@ public class PatchSetImporter {
   public void run() throws IOException, OrmException {
     gitpatch = readGitPatch();
 
-    dst.setRevision(new RevId(src.getId().name()));
+    dst.setRevision(toRevId(src));
 
     if (!isNew) {
       // If we aren't a new patch set then we need to load the existing
@@ -88,6 +96,10 @@ public class PatchSetImporter {
       info = db.patchSetInfo().get(dst.getKey());
       for (final Patch p : db.patches().byPatchSet(dst.getKey())) {
         patchExisting.put(p.getFileName(), p);
+      }
+      for (final PatchSetAncestor a : db.patchSetAncestors().ancestorsOf(
+          dst.getKey())) {
+        ancestorExisting.put(a.getPosition(), a);
       }
     }
 
@@ -110,9 +122,13 @@ public class PatchSetImporter {
       db.patchSetInfo().update(Collections.singleton(info));
     }
     db.patches().insert(patchInsert, txn);
+    db.patchSetAncestors().insert(ancestorInsert, txn);
     if (!isNew) {
       db.patches().update(patchUpdate, txn);
       db.patches().delete(patchExisting.values(), txn);
+
+      db.patchSetAncestors().update(ancestorUpdate, txn);
+      db.patchSetAncestors().delete(ancestorExisting.values(), txn);
     }
     txn.commit();
   }
@@ -127,6 +143,17 @@ public class PatchSetImporter {
     info.setMessage(src.getFullMessage());
     info.setAuthor(toUserIdentity(src.getAuthorIdent()));
     info.setCommitter(toUserIdentity(src.getCommitterIdent()));
+
+    for (int p = 0; p < src.getParentCount(); p++) {
+      PatchSetAncestor a = ancestorExisting.remove(p + 1);
+      if (a == null) {
+        a = new PatchSetAncestor(new PatchSetAncestor.Key(dst.getKey(), p + 1));
+        ancestorInsert.add(a);
+      } else {
+        ancestorUpdate.add(a);
+      }
+      a.setAncestorRevision(toRevId(src.getParent(p)));
+    }
   }
 
   private UserIdentity toUserIdentity(final PersonIdent who) {
@@ -225,6 +252,10 @@ public class PatchSetImporter {
     if (!content.isEmpty() && contentPutError != null) {
       throw contentPutError;
     }
+  }
+
+  private static RevId toRevId(final RevCommit src) {
+    return new RevId(src.getId().name());
   }
 
   private org.spearce.jgit.patch.Patch readGitPatch() throws IOException {

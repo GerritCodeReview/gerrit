@@ -55,9 +55,8 @@ public final class PatchSetAncestor {
   protected PatchSetAncestor() {
   }
 
-  public PatchSetAncestor(final PatchSetAncestor.Key k, final RevId rev) {
+  public PatchSetAncestor(final PatchSetAncestor.Key k) {
     key = k;
-    ancestorRevision = rev;
   }
 
   public PatchSetAncestor.Key getKey() {
@@ -74,5 +73,9 @@ public final class PatchSetAncestor {
 
   public RevId getAncestorRevision() {
     return ancestorRevision;
+  }
+
+  public void setAncestorRevision(final RevId id) {
+    ancestorRevision = id;
   }
 }

@@ -33,7 +33,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
-/** Detail necessary to display{@link ChangeScreen}. */
+/** Detail necessary to display {@link ChangeScreen}. */
 public class ChangeDetail {
   protected AccountInfoCache accounts;
   protected Change change;

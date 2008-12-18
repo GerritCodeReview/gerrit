@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.patches;
 
+import com.google.gerrit.client.ui.DomUtil;
 import com.google.gwt.core.client.GWT;
 import com.google.gwtjsonrpc.client.JsonUtil;
 
@@ -25,4 +26,13 @@ public class PatchUtil {
     DETAIL_SVC = GWT.create(PatchDetailService.class);
     JsonUtil.bind(DETAIL_SVC, "rpc/PatchDetailService");
   }
+
+  public static String lineToHTML(final String src) {
+    String html = DomUtil.escape(src);
+    html = expandTabs(html);
+    return html;
+  }
+
+  private native static String expandTabs(String src)
+  /*-{ return src.replace(/\t/g, '<span title="Visual Tab" class="gerrit-visualtab">&raquo;</span>\t'); }-*/;
 }

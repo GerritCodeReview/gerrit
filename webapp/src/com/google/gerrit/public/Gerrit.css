@@ -28,6 +28,12 @@
 	white-space: nowrap;
 }
 
+.gerrit-visualtab {
+  color: red;
+  font-weight: bold;
+  font-size: 8pt;
+}
+
 
 /** Menu **/
 .gerrit-LinkMenuBar .gwt-MenuItem {

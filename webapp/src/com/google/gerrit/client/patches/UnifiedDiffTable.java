@@ -88,7 +88,7 @@ public class UnifiedDiffTable extends FancyFlexTable<Object> {
   private void populate(final int row, final PatchLine line) {
     final CellFormatter fmt = table.getCellFormatter();
     table.setWidget(row, C_ARROW, null);
-    table.setText(row, 1, line.getText());
+    table.setHTML(row, 1, PatchUtil.lineToHTML(line.getText()));
     fmt.setStyleName(row, 1, "DiffText-" + line.getType().name());
     fmt.addStyleName(row, 1, "DiffText");
     setRowItem(row, line);

@@ -40,6 +40,15 @@ public class UnifiedDiffTable extends FancyFlexTable<Object> {
     return null;
   }
 
+  @Override
+  protected void onOpenItem(final Object item) {
+    if (item instanceof PatchLineComment) {
+      final ComplexDisclosurePanel p =
+          (ComplexDisclosurePanel) table.getWidget(getCurrentRow(), 1);
+      p.setOpen(!p.isOpen());
+    }
+  }
+
   public void setAccountInfoCache(final AccountInfoCache aic) {
     assert aic != null;
     accountCache = aic;

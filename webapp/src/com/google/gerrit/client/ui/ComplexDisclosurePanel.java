@@ -92,6 +92,11 @@ public class ComplexDisclosurePanel extends Composite implements
     main.removeEventHandler(handler);
   }
 
+  /** @return true if the panel's content is visible. */
+  public boolean isOpen() {
+    return main.isOpen();
+  }
+
   /**
    * Changes the visible state of this panel's content.
    * 

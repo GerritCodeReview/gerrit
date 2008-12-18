@@ -240,6 +240,25 @@
   color: #00a000;
 }
 
+.gerrit-UnifiedDiffTable .Comment .header {
+  width: 35em;
+}
+.gerrit-UnifiedDiffTable .gwt-DisclosurePanel .header td {
+  white-space: nowrap;
+}
+.gerrit-UnifiedDiffTable .Comment .complexHeader {
+  white-space: nowrap;
+  width: 5em;
+}
+.gerrit-UnifiedDiffTable .Comment .content {
+  border-top: 3px solid #e3e3e3;
+}
+.gerrit-UnifiedDiffTable .CommentIsDraftFlag {
+	font-weight: bold;
+	margin-left: 0.5em;
+	margin-right: 0.5em;
+}
+
 
 /** Change **/
 .gerrit-ChangeScreen .gwt-DisclosurePanel .header td {

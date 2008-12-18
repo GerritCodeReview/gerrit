@@ -14,20 +14,35 @@
 
 package com.google.gerrit.client.patches;
 
+import com.google.gerrit.client.FormatUtil;
+import com.google.gerrit.client.changes.Util;
+import com.google.gerrit.client.data.AccountInfoCache;
 import com.google.gerrit.client.data.PatchLine;
+import com.google.gerrit.client.reviewdb.PatchLineComment;
+import com.google.gerrit.client.ui.ComplexDisclosurePanel;
 import com.google.gerrit.client.ui.FancyFlexTable;
+import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 
+import java.sql.Timestamp;
+import java.util.Iterator;
 import java.util.List;
 
-public class UnifiedDiffTable extends FancyFlexTable<PatchLine> {
+public class UnifiedDiffTable extends FancyFlexTable<Object> {
+  private AccountInfoCache accountCache = AccountInfoCache.empty();
+
   public UnifiedDiffTable() {
     table.setStyleName("gerrit-UnifiedDiffTable");
   }
 
   @Override
-  protected Object getRowItemKey(final PatchLine item) {
+  protected Object getRowItemKey(final Object item) {
     return null;
+  }
+
+  public void setAccountInfoCache(final AccountInfoCache aic) {
+    assert aic != null;
+    accountCache = aic;
   }
 
   public void display(final List<PatchLine> list) {
@@ -38,20 +53,27 @@ public class UnifiedDiffTable extends FancyFlexTable<PatchLine> {
       dataRows--;
     }
 
-    for (int i = 0; i < sz; i++) {
-      if (dataRows <= i) {
+    int row = 0;
+    for (final PatchLine pLine : list) {
+      if (dataRows <= row) {
         table.insertRow(++dataRows);
-        applyDataRowStyle(i + 1);
+        applyDataRowStyle(row);
       }
-      populate(i + 1, list.get(i));
-    }
-  }
+      populate(row++, pLine);
 
-  @Override
-  protected void applyDataRowStyle(final int row) {
-    super.applyDataRowStyle(row);
-    final CellFormatter fmt = table.getCellFormatter();
-    fmt.addStyleName(row, 1, "DiffText");
+      final List<PatchLineComment> comments = pLine.getComments();
+      if (comments != null) {
+        for (final Iterator<PatchLineComment> ci = comments.iterator(); ci
+            .hasNext();) {
+          final PatchLineComment c = ci.next();
+          if (dataRows <= row) {
+            table.insertRow(++dataRows);
+            applyDataRowStyle(row);
+          }
+          populate(row++, c, !ci.hasNext());
+        }
+      }
+    }
   }
 
   private void populate(final int row, final PatchLine line) {
@@ -60,6 +82,46 @@ public class UnifiedDiffTable extends FancyFlexTable<PatchLine> {
     table.setText(row, 1, line.getText());
     fmt.setStyleName(row, 1, "DiffText-" + line.getType().name());
     fmt.addStyleName(row, 1, "DiffText");
+    setRowItem(row, line);
+  }
+
+  private void populate(final int row, final PatchLineComment line,
+      final boolean isLast) {
+    final long AGE = 7 * 24 * 60 * 60 * 1000L;
+    final Timestamp aged = new Timestamp(System.currentTimeMillis() - AGE);
+
+    final LineCommentPanel mp = new LineCommentPanel(line);
+    String panelHeader;
+    final ComplexDisclosurePanel panel;
+
+    if (line.getAuthor() != null) {
+      panelHeader = FormatUtil.nameEmail(accountCache.get(line.getAuthor()));
+    } else {
+      panelHeader = Util.C.messageNoAuthor();
+    }
+
+    if (isLast) {
+      mp.isRecent = true;
+    } else {
+      // TODO Instead of opening messages by strict age, do it by "unread"?
+      mp.isRecent = line.getWrittenOn().after(aged);
+    }
+
+    panel = new ComplexDisclosurePanel(panelHeader, mp.isRecent);
+    panel.getHeader().add(
+        new InlineLabel(Util.M.messageWrittenOn(FormatUtil.mediumFormat(line
+            .getWrittenOn()))));
+    if (line.getStatus() == PatchLineComment.Status.DRAFT) {
+      final InlineLabel d = new InlineLabel(PatchUtil.C.draft());
+      d.setStyleName("CommentIsDraftFlag");
+      panel.getHeader().add(d);
+    }
+    panel.setContent(mp);
+    table.setWidget(row, C_ARROW, null);
+    table.setWidget(row, 1, panel);
+
+    final CellFormatter fmt = table.getCellFormatter();
+    fmt.setStyleName(row, 1, "Comment");
     setRowItem(row, line);
   }
 }

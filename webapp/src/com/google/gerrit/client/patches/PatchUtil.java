@@ -17,7 +17,8 @@ package com.google.gerrit.client.patches;
 import com.google.gwt.core.client.GWT;
 import com.google.gwtjsonrpc.client.JsonUtil;
 
-public class Util {
+public class PatchUtil {
+  public static final PatchConstants C = GWT.create(PatchConstants.class);
   public static final PatchDetailService DETAIL_SVC;
 
   static {

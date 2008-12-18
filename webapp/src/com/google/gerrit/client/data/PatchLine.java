@@ -14,6 +14,11 @@
 
 package com.google.gerrit.client.data;
 
+import com.google.gerrit.client.reviewdb.PatchLineComment;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /** A single line of a 2-way patch file. */
 public class PatchLine {
   public static enum Type {
@@ -32,12 +37,13 @@ public class PatchLine {
   protected int newLineNumber;
   protected PatchLine.Type type;
   protected String text;
+  protected List<PatchLineComment> comments;
 
   protected PatchLine() {
   }
 
-  public PatchLine(final int oLine, final int nLine,
-      final PatchLine.Type t, final String s) {
+  public PatchLine(final int oLine, final int nLine, final PatchLine.Type t,
+      final String s) {
     oldLineNumber = oLine;
     newLineNumber = nLine;
     type = t;
@@ -58,5 +64,16 @@ public class PatchLine {
 
   public String getText() {
     return text;
+  }
+
+  public List<PatchLineComment> getComments() {
+    return comments;
+  }
+
+  public void addComment(final PatchLineComment plc) {
+    if (comments == null) {
+      comments = new ArrayList<PatchLineComment>(4);
+    }
+    comments.add(plc);
   }
 }

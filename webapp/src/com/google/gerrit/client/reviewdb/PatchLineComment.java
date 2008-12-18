@@ -48,10 +48,11 @@ public final class PatchLineComment {
     }
   }
 
+  protected static final char STATUS_DRAFT = 'd';
   protected static final char STATUS_PUBLISHED = 'P';
 
   public static enum Status {
-    DRAFT('d'),
+    DRAFT(STATUS_DRAFT),
 
     PUBLISHED(STATUS_PUBLISHED);
 

@@ -368,8 +368,8 @@ INSERT INTO patch_comments
  CASE WHEN c.draft = 'Y' THEN 'd'
       ELSE 'P'
  END,
- CASE WHEN c.is_left = 'Y' THEN 'o'
-      ELSE 'n'
+ CASE WHEN c.is_left = 'Y' THEN 0
+      ELSE 1
  END,
  c.body,
  o_c.change_id,

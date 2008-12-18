@@ -75,31 +75,6 @@ public final class PatchLineComment {
     }
   }
 
-  public static enum Side {
-    PRE_IMAGE('o'),
-
-    POST_IMAGE('n');
-
-    private final char code;
-
-    private Side(final char c) {
-      code = c;
-    }
-
-    public char getCode() {
-      return code;
-    }
-
-    public static Side forCode(final char c) {
-      for (final Side s : Side.values()) {
-        if (s.code == c) {
-          return s;
-        }
-      }
-      return null;
-    }
-  }
-
   @Column(name = Column.NONE)
   protected Id key;
 
@@ -119,9 +94,9 @@ public final class PatchLineComment {
   @Column
   protected char status;
 
-  /** Which version of the file is this comment on (old vs. new). */
+  /** Which file is this comment; 0 is ancestor, 1 is new version. */
   @Column
-  protected char side;
+  protected short side;
 
   /** The text left by the user. */
   @Column(notNull = false, length = Integer.MAX_VALUE)
@@ -137,7 +112,7 @@ public final class PatchLineComment {
     author = a;
     writtenOn = new Timestamp(System.currentTimeMillis());
     setStatus(Status.DRAFT);
-    setSide(Side.POST_IMAGE);
+    setSide((short) 1);
   }
 
   public PatchLineComment.Id getKey() {
@@ -164,12 +139,12 @@ public final class PatchLineComment {
     status = s.getCode();
   }
 
-  public Side getSide() {
-    return Side.forCode(side);
+  public short getSide() {
+    return side;
   }
 
-  public void setSide(final Side s) {
-    side = s.getCode();
+  public void setSide(final short s) {
+    side = s;
   }
 
   public String getMessage() {

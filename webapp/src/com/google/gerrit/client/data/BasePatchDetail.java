@@ -14,27 +14,27 @@
 
 package com.google.gerrit.client.data;
 
-import com.google.gerrit.client.patches.PatchUnifiedScreen;
+import com.google.gerrit.client.patches.PatchScreen;
 import com.google.gerrit.client.reviewdb.Patch;
 
-import java.util.List;
+/** Detail necessary to display {@link PatchScreen}. */
+public abstract class BasePatchDetail {
+  protected AccountInfoCache accounts;
+  protected Patch patch;
 
-/** Detail necessary to display {@link PatchUnifiedScreen}. */
-public class UnifiedPatchDetail extends BasePatchDetail {
-  protected List<PatchLine> lines;
-
-  protected UnifiedPatchDetail() {
+  protected BasePatchDetail() {
   }
 
-  public UnifiedPatchDetail(final Patch p, final AccountInfoCache aic) {
-    super(p, aic);
+  public BasePatchDetail(final Patch p, final AccountInfoCache aic) {
+    patch = p;
+    accounts = aic;
   }
 
-  public List<PatchLine> getLines() {
-    return lines;
+  public AccountInfoCache getAccounts() {
+    return accounts;
   }
 
-  public void setLines(final List<PatchLine> in) {
-    lines = in;
+  public Patch getPatch() {
+    return patch;
   }
 }

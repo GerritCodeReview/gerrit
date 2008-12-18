@@ -14,10 +14,42 @@
 
 package com.google.gerrit.client.patches;
 
+import com.google.gerrit.client.data.UnifiedPatchDetail;
 import com.google.gerrit.client.reviewdb.Patch;
+import com.google.gerrit.client.rpc.ScreenLoadCallback;
 
 public class PatchUnifiedScreen extends PatchScreen {
+  private UnifiedDiffTable diffTable;
+
   public PatchUnifiedScreen(final Patch.Id id) {
     super(id);
+  }
+
+  @Override
+  public void onLoad() {
+    if (diffTable == null) {
+      initUI();
+    }
+
+    super.onLoad();
+
+    Util.DETAIL_SVC.unifiedPatchDetail(patchId,
+        new ScreenLoadCallback<UnifiedPatchDetail>() {
+          public void onSuccess(final UnifiedPatchDetail r) {
+            // TODO Actually we want to cancel the RPC if detached.
+            if (isAttached()) {
+              display(r);
+            }
+          }
+        });
+  }
+
+  private void initUI() {
+    diffTable = new UnifiedDiffTable();
+    add(diffTable);
+  }
+
+  private void display(final UnifiedPatchDetail detail) {
+    diffTable.display(detail.getLines());
   }
 }

@@ -21,6 +21,8 @@
            class='com.google.gerrit.server.ChangeDetailServiceSrv'/>
   <servlet path='/rpc/ChangeListService'
            class='com.google.gerrit.server.ChangeListServiceSrv'/>
+  <servlet path='/rpc/PatchDetailService'
+           class='com.google.gerrit.server.PatchDetailServiceSrv'/>
   <servlet path='/rpc/SystemInfoService'
            class='com.google.gerrit.server.SystemInfoServiceSrv'/>
 </module>

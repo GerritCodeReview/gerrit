@@ -204,6 +204,43 @@
 }
 
 
+/** UnifiedDiffTable **/
+.gerrit-UnifiedDiffTable {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.gerrit-UnifiedDiffTable .IconCell {
+  width: 1px;
+  padding: 0px;
+  vertical-align: center;
+}
+
+.gerrit-UnifiedDiffTable .DiffText {
+  white-space: pre;
+  font-family: Courier New, Courier, monospace;
+  font-size: small;
+}
+
+.gerrit-UnifiedDiffTable .DiffText-FILE_HEADER {
+	color: grey;
+	font-weight: bold;
+}
+.gerrit-UnifiedDiffTable .DiffText-HUNK_HEADER {
+  color: blue;
+}
+.gerrit-UnifiedDiffTable .DiffText-PRE_IMAGE {
+  color: red;
+}
+.gerrit-UnifiedDiffTable .DiffText-CONTEXT {
+  color: grey;
+}
+.gerrit-UnifiedDiffTable .DiffText-POST_IMAGE {
+  color: #00a000;
+}
+
+
 /** Change **/
 .gerrit-ChangeScreen .gwt-DisclosurePanel .header td {
 	font-weight: bold;

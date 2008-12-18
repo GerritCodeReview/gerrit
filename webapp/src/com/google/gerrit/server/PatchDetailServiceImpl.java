@@ -17,26 +17,34 @@ package com.google.gerrit.server;
 import static org.spearce.jgit.util.RawParseUtils.decode;
 import static org.spearce.jgit.util.RawParseUtils.nextLF;
 
+import com.google.gerrit.client.data.AccountInfoCacheFactory;
 import com.google.gerrit.client.data.PatchLine;
 import com.google.gerrit.client.data.UnifiedPatchDetail;
 import com.google.gerrit.client.data.PatchLine.Type;
 import com.google.gerrit.client.patches.PatchDetailService;
+import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchContent;
+import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.BaseServiceImplementation;
 import com.google.gerrit.client.rpc.CorruptEntityException;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
+import com.google.gerrit.client.rpc.RpcUtil;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.ResultSet;
 import com.google.gwtorm.client.SchemaFactory;
 
 import org.spearce.jgit.lib.Constants;
+import org.spearce.jgit.patch.CombinedFileHeader;
 import org.spearce.jgit.patch.FileHeader;
 import org.spearce.jgit.patch.FormatError;
 import org.spearce.jgit.patch.HunkHeader;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class PatchDetailServiceImpl extends BaseServiceImplementation implements
     PatchDetailService {
@@ -55,6 +63,33 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
         }
 
         final FileHeader fh = parse(patch, read(db, patch));
+        final int fileCnt;
+        if (fh instanceof CombinedFileHeader) {
+          fileCnt = ((CombinedFileHeader) fh).getParentCount() + 1;
+        } else {
+          fileCnt = 2;
+        }
+
+        final AccountInfoCacheFactory acc = new AccountInfoCacheFactory(db);
+        final HashMap<Integer, List<PatchLineComment>> published[];
+        published = new HashMap[fileCnt];
+        for (int n = 0; n < fileCnt; n++) {
+          published[n] = new HashMap<Integer, List<PatchLineComment>>();
+        }
+        indexComments(published, db.patchComments().published(key));
+
+        final Account.Id me = RpcUtil.getAccountId();
+        final HashMap<Integer, List<PatchLineComment>> drafted[];
+        if (me != null) {
+          drafted = new HashMap[fileCnt];
+          for (int n = 0; n < fileCnt; n++) {
+            drafted[n] = new HashMap<Integer, List<PatchLineComment>>();
+          }
+          indexComments(drafted, db.patchComments().draft(key, me));
+        } else {
+          drafted = null;
+        }
+
         final byte[] buf = fh.getBuffer();
         int ptr = fh.getStartOffset();
         final int end = fh.getEndOffset();
@@ -113,16 +148,56 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
               default:
                 break SCAN;
             }
-            lines.add(new PatchLine(oldLine, newLine, type, decode(
-                Constants.CHARSET, buf, ptr, eol)));
+
+            final PatchLine pLine =
+                new PatchLine(oldLine, newLine, type, decode(Constants.CHARSET,
+                    buf, ptr, eol));
+            addComments(acc, pLine, published, 0, oldLine);
+            addComments(acc, pLine, published, 1, newLine);
+            if (drafted != null) {
+              addComments(acc, pLine, drafted, 0, oldLine);
+              addComments(acc, pLine, drafted, 1, newLine);
+            }
+            lines.add(pLine);
           }
         }
 
-        final UnifiedPatchDetail d = new UnifiedPatchDetail(patch);
+        final UnifiedPatchDetail d;
+        d = new UnifiedPatchDetail(patch, acc.create());
         d.setLines(lines);
         return d;
       }
+
     });
+  }
+
+  private static void indexComments(
+      final HashMap<Integer, List<PatchLineComment>>[] out,
+      final ResultSet<PatchLineComment> comments) {
+    for (final PatchLineComment c : comments) {
+      if (0 <= c.getSide() && c.getSide() < out.length) {
+        final HashMap<Integer, List<PatchLineComment>> m = out[c.getSide()];
+        List<PatchLineComment> l = m.get(c.getLine());
+        if (l == null) {
+          l = new ArrayList<PatchLineComment>(4);
+          m.put(c.getLine(), l);
+        }
+        l.add(c);
+      }
+    }
+  }
+
+  private static void addComments(final AccountInfoCacheFactory accountInfo,
+      final PatchLine pLine,
+      final HashMap<Integer, List<PatchLineComment>>[] cache, final int side,
+      final int line) {
+    List<PatchLineComment> l = cache[side].get(line);
+    if (l != null) {
+      for (final PatchLineComment c : l) {
+        pLine.addComment(c);
+        accountInfo.want(c.getAuthor());
+      }
+    }
   }
 
   private static String read(final ReviewDb db, final Patch patch)

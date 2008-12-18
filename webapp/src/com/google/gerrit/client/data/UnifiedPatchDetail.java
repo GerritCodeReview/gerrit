@@ -21,14 +21,20 @@ import java.util.List;
 
 /** Detail necessary to display {@link PatchUnifiedScreen}. */
 public class UnifiedPatchDetail {
+  protected AccountInfoCache accounts;
   protected Patch patch;
   protected List<PatchLine> lines;
-  
+
   protected UnifiedPatchDetail() {
   }
 
-  public UnifiedPatchDetail(final Patch p) {
+  public UnifiedPatchDetail(final Patch p, final AccountInfoCache aic) {
     patch = p;
+    accounts = aic;
+  }
+
+  public AccountInfoCache getAccounts() {
+    return accounts;
   }
 
   public Patch getPatch() {

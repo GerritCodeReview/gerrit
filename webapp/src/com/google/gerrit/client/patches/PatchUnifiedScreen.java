@@ -33,7 +33,7 @@ public class PatchUnifiedScreen extends PatchScreen {
 
     super.onLoad();
 
-    Util.DETAIL_SVC.unifiedPatchDetail(patchId,
+    PatchUtil.DETAIL_SVC.unifiedPatchDetail(patchId,
         new ScreenLoadCallback<UnifiedPatchDetail>() {
           public void onSuccess(final UnifiedPatchDetail r) {
             // TODO Actually we want to cancel the RPC if detached.
@@ -50,6 +50,7 @@ public class PatchUnifiedScreen extends PatchScreen {
   }
 
   private void display(final UnifiedPatchDetail detail) {
+    diffTable.setAccountInfoCache(detail.getAccounts());
     diffTable.display(detail.getLines());
   }
 }

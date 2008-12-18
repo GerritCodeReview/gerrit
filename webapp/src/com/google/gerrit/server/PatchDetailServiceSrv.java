@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server;
 
+import com.google.gerrit.server.patch.PatchDetailServiceImpl;
+
 /** Publishes {@link PatchDetailServiceImpl} over JSON. */
 public class PatchDetailServiceSrv extends GerritJsonServlet {
   @Override

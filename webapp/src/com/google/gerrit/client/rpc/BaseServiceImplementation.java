@@ -58,14 +58,14 @@ public class BaseServiceImplementation {
   }
 
   /** Exception whose cause is passed into onFailure. */
-  protected static class Failure extends Exception {
+  public static class Failure extends Exception {
     public Failure(final Throwable why) {
       super(why);
     }
   }
 
   /** Arbitrary action to run with a database connection. */
-  protected static interface Action<T> {
+  public static interface Action<T> {
     /**
      * Perform this action, returning the onSuccess value.
      * 

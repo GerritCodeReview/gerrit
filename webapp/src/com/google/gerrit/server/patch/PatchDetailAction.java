@@ -16,17 +16,22 @@ package com.google.gerrit.server.patch;
 
 import com.google.gerrit.client.data.AccountInfoCacheFactory;
 import com.google.gerrit.client.data.PatchLine;
+import com.google.gerrit.client.data.UnifiedPatchDetail;
+import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchContent;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.CorruptEntityException;
+import com.google.gerrit.client.rpc.NoSuchEntityException;
+import com.google.gerrit.client.rpc.RpcUtil;
 import com.google.gerrit.client.rpc.BaseServiceImplementation.Action;
 import com.google.gerrit.client.rpc.BaseServiceImplementation.Failure;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.ResultSet;
 
 import org.spearce.jgit.lib.Constants;
+import org.spearce.jgit.patch.CombinedFileHeader;
 import org.spearce.jgit.patch.FileHeader;
 import org.spearce.jgit.patch.FormatError;
 
@@ -37,9 +42,48 @@ import java.util.List;
 
 abstract class PatchDetailAction<T> implements Action<T> {
   protected final Patch.Id key;
+  protected Patch patch;
+  protected FileHeader file;
+  protected int fileCnt;
+  protected AccountInfoCacheFactory accountInfo;
+  protected Account.Id me;
+
+  protected HashMap<Integer, List<PatchLineComment>> published[];
+  protected HashMap<Integer, List<PatchLineComment>> drafted[];
 
   PatchDetailAction(Patch.Id key) {
     this.key = key;
+  }
+
+  protected void init(final ReviewDb db) throws OrmException, Failure {
+    patch = db.patches().get(key);
+    if (patch == null) {
+      throw new Failure(new NoSuchEntityException());
+    }
+
+    FileHeader file = parse(patch, read(db, patch));
+    if (file instanceof CombinedFileHeader) {
+      fileCnt = ((CombinedFileHeader) file).getParentCount() + 1;
+    } else {
+      fileCnt = 2;
+    }
+
+    accountInfo = new AccountInfoCacheFactory(db);
+    me = RpcUtil.getAccountId();
+
+    published = new HashMap[fileCnt];
+    for (int n = 0; n < fileCnt; n++) {
+      published[n] = new HashMap<Integer, List<PatchLineComment>>();
+    }
+    indexComments(published, db.patchComments().published(key));
+
+    if (me != null) {
+      drafted = new HashMap[fileCnt];
+      for (int n = 0; n < fileCnt; n++) {
+        drafted[n] = new HashMap<Integer, List<PatchLineComment>>();
+      }
+      indexComments(drafted, db.patchComments().draft(key, me));
+    }
   }
 
   protected static void indexComments(
@@ -58,8 +102,7 @@ abstract class PatchDetailAction<T> implements Action<T> {
     }
   }
 
-  protected static void addComments(final AccountInfoCacheFactory accountInfo,
-      final PatchLine pLine,
+  protected void addComments(final PatchLine pLine,
       final HashMap<Integer, List<PatchLineComment>>[] cache, final int side,
       final int line) {
     List<PatchLineComment> l = cache[side].get(line);

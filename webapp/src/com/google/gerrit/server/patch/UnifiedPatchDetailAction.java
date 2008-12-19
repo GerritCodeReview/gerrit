@@ -70,8 +70,9 @@ class UnifiedPatchDetailAction extends PatchDetailAction<UnifiedPatchDetail> {
             buf, ptr, eol)));
         ptr = eol;
       }
-      int oldLine = h.getOldImage().getStartLine();
-      int newLine = h.getNewStartLine();
+
+      int oldLine = h.getOldImage().getStartLine() - 1;
+      int newLine = h.getNewStartLine() - 1;
       SCAN: for (; ptr < hunkEnd; ptr = eol) {
         eol = nextLF(buf, ptr);
         final PatchLine.Type type;

@@ -60,7 +60,7 @@ public abstract class FancyFlexTable<RowItem> extends Composite implements
 
   protected FancyFlexTable() {
     pointer = Gerrit.ICONS.arrowRight().createImage();
-    table = new MyFlexTable();
+    table = createFlexTable();
     table.addStyleName(MY_STYLE);
     focusy = new FocusPanel(table);
     focusy.addKeyboardListener(new KeyboardListenerAdapter() {
@@ -87,6 +87,10 @@ public abstract class FancyFlexTable<RowItem> extends Composite implements
 
     table.setText(0, C_ARROW, "");
     table.getCellFormatter().addStyleName(0, C_ARROW, S_ICON_HEADER);
+  }
+
+  protected MyFlexTable createFlexTable() {
+    return new MyFlexTable();
   }
 
   protected RowItem getRowItem(final int row) {

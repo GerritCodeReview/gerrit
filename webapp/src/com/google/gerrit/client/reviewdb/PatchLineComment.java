@@ -113,7 +113,6 @@ public final class PatchLineComment {
     author = a;
     writtenOn = new Timestamp(System.currentTimeMillis());
     setStatus(Status.DRAFT);
-    setSide((short) 1);
   }
 
   public PatchLineComment.Id getKey() {

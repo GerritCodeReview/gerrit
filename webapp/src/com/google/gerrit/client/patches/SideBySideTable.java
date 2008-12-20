@@ -28,8 +28,26 @@ public class SideBySideTable extends AbstractPatchContentTable {
   private int fileCnt;
   private int maxLineNumber;
 
+  @Override
+  protected void onCellDoubleClick(final int row, final int column) {
+    if (column > 1 && getRowItem(row) instanceof SideBySideLineList) {
+      final SideBySideLineList pl = (SideBySideLineList) getRowItem(row);
+      final short file = (short) ((column - 1) / 2);
+      final SideBySideLine line = pl.lines.get(file);
+      switch (line.getType()) {
+        case DELETE:
+        case EQUAL:
+        case INSERT: {
+          createCommentEditor(row + 1, column, line.getLineNumber(), file);
+          break;
+        }
+      }
+    }
+  }
+
   public void display(final SideBySidePatchDetail detail) {
     setAccountInfoCache(detail.getAccounts());
+    setPatchKey(detail.getPatch().getKey());
     fileCnt = detail.getFileCount();
     maxLineNumber = detail.getLineCount();
 
@@ -67,7 +85,7 @@ public class SideBySideTable extends AbstractPatchContentTable {
       }
       prior = pLine;
 
-      setRowItem(row, pLine);
+      setRowItem(row, new SideBySideLineList(pLine));
 
       int nextComment = row;
       int lastComment = row;
@@ -225,5 +243,13 @@ public class SideBySideTable extends AbstractPatchContentTable {
     }
 
     nc.append("</tr>");
+  }
+
+  private static class SideBySideLineList {
+    final List<SideBySideLine> lines;
+
+    SideBySideLineList(final List<SideBySideLine> a) {
+      lines = a;
+    }
   }
 }

@@ -21,6 +21,22 @@ import java.util.Iterator;
 import java.util.List;
 
 public class UnifiedDiffTable extends AbstractPatchContentTable {
+  @Override
+  protected void onCellDoubleClick(final int row, final int column) {
+    if (column == 1 && getRowItem(row) instanceof PatchLine) {
+      final PatchLine pl = (PatchLine) getRowItem(row);
+      switch (pl.getType()) {
+        case PRE_IMAGE:
+        case CONTEXT:
+          createCommentEditor(row + 1, column, pl.getOldLineNumber(), (short) 0);
+          break;
+        case POST_IMAGE:
+          createCommentEditor(row + 1, column, pl.getOldLineNumber(), (short) 1);
+          break;
+      }
+    }
+  }
+
   public void display(final List<PatchLine> list) {
     final StringBuilder nc = new StringBuilder();
     for (final PatchLine pLine : list) {

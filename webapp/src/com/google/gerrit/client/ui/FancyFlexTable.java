@@ -30,6 +30,7 @@ import com.google.gwt.user.client.ui.KeyboardListener;
 import com.google.gwt.user.client.ui.KeyboardListenerAdapter;
 import com.google.gwt.user.client.ui.Widget;
 
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 
@@ -98,6 +99,10 @@ public abstract class FancyFlexTable<RowItem> extends Composite implements
   }
 
   protected void resetHtml(final String body) {
+    for (final Iterator<Widget> i = table.iterator(); i.hasNext();) {
+      i.next();
+      i.remove();
+    }
     DOM.setInnerHTML(table.getBodyElement(), body);
   }
 

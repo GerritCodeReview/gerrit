@@ -28,10 +28,6 @@ public class SideBySideTable extends AbstractPatchContentTable {
   private int fileCnt;
   private int maxLineNumber;
 
-  public SideBySideTable() {
-    table.setStyleName("gerrit-SideBySideTable");
-  }
-
   public void display(final SideBySidePatchDetail detail) {
     setAccountInfoCache(detail.getAccounts());
     fileCnt = detail.getFileCount();
@@ -214,7 +210,7 @@ public class SideBySideTable extends AbstractPatchContentTable {
         nc.append((int) s.getLineNumber());
         nc.append("</td>");
 
-        nc.append("<td class=\"DiffText DiffText-");
+        nc.append("<td class=\"FileLine FileLine-");
         nc.append(s.getType().name());
         nc.append("\">");
         if (!"".equals(s.getText()))
@@ -224,7 +220,7 @@ public class SideBySideTable extends AbstractPatchContentTable {
         nc.append("</td>");
       } else {
         nc.append("<td class=\"LineNumber\">&nbsp;</td>");
-        nc.append("<td class=\"NoLineDiffText\">&nbsp;</td>");
+        nc.append("<td class=\"FileLine FileLineNone\">&nbsp;</td>");
       }
     }
 

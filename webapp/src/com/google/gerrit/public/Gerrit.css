@@ -25,7 +25,7 @@
 }
 
 .gerrit-AccountName {
-	white-space: nowrap;
+  white-space: nowrap;
 }
 
 .gerrit-visualtab {
@@ -144,8 +144,8 @@
 }
 
 .gerrit-ChangeTable .CommentCell {
-	text-align: right;
-	font-weight: bold;
+  text-align: right;
+  font-weight: bold;
   white-space: nowrap;
 }
 
@@ -170,7 +170,7 @@
 }
 
 .gerrit-ChangeTable .C_ID {
-	width: 3.5em;
+  width: 3.5em;
   text-align: right;
 }
 
@@ -210,82 +210,68 @@
 }
 
 
-/** UnifiedDiffTable **/
-.gerrit-UnifiedDiffTable {
+/** PatchContentTable **/
+.gerrit-PatchContentTable {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
 }
 
-.gerrit-UnifiedDiffTable .IconCell {
+.gerrit-PatchContentTable .IconCell {
   width: 1px;
   padding: 0px;
   vertical-align: center;
 }
 
-.gerrit-UnifiedDiffTable .DiffText {
+.gerrit-PatchContentTable .DiffText {
   white-space: pre;
   font-family: Courier New, Courier, monospace;
   font-size: small;
 }
 
-.gerrit-UnifiedDiffTable .DiffText-FILE_HEADER {
-	color: grey;
-	font-weight: bold;
+.gerrit-PatchContentTable .DiffText-FILE_HEADER {
+  color: grey;
+  font-weight: bold;
 }
-.gerrit-UnifiedDiffTable .DiffText-HUNK_HEADER {
+.gerrit-PatchContentTable .DiffText-HUNK_HEADER {
   color: blue;
 }
-.gerrit-UnifiedDiffTable .DiffText-PRE_IMAGE {
+.gerrit-PatchContentTable .DiffText-PRE_IMAGE {
   color: red;
 }
-.gerrit-UnifiedDiffTable .DiffText-CONTEXT {
+.gerrit-PatchContentTable .DiffText-CONTEXT {
   color: grey;
 }
-.gerrit-UnifiedDiffTable .DiffText-POST_IMAGE {
+.gerrit-PatchContentTable .DiffText-POST_IMAGE {
   color: #00a000;
 }
 
-.gerrit-UnifiedDiffTable .Comment .header {
+.gerrit-PatchContentTable .Comment .header {
   width: 35em;
 }
-.gerrit-UnifiedDiffTable .gwt-DisclosurePanel .header td {
+.gerrit-PatchContentTable .gwt-DisclosurePanel .header td {
   white-space: nowrap;
 }
-.gerrit-UnifiedDiffTable .Comment .complexHeader {
+.gerrit-PatchContentTable .Comment .complexHeader {
   white-space: nowrap;
   width: 5em;
 }
-.gerrit-UnifiedDiffTable .Comment .content {
+.gerrit-PatchContentTable .Comment .content {
   border-top: 3px solid #e3e3e3;
 }
-.gerrit-UnifiedDiffTable .CommentIsDraftFlag {
-	font-weight: bold;
-	margin-left: 0.5em;
-	margin-right: 0.5em;
+.gerrit-PatchContentTable .CommentIsDraftFlag {
+  font-weight: bold;
+  margin-left: 0.5em;
+  margin-right: 0.5em;
 }
 
-
-/** SideBySideTable **/
-.gerrit-SideBySideTable {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
+.gerrit-PatchContentTable .FileColumnHeader {
+  background: #d4e9a9;
+  font-weight: bold;
+  text-align: center;
 }
 
-.gerrit-SideBySideTable .FileColumnHeader {
-	background: #d4e9a9;
-	font-weight: bold;
-	text-align: center;
-}
-
-.gerrit-SideBySideTable .IconCell {
-  width: 1px;
-  padding: 0px;
-  vertical-align: center;
-}
-
-.gerrit-SideBySideTable .LineNumber {
+.gerrit-PatchContentTable .LineNumber {
   font-family: Courier New, Courier, monospace;
   width: 3.5em;
   padding: 0px;
@@ -295,67 +281,47 @@
   padding-right: 0.2em;
 }
 
-.gerrit-SideBySideTable .NoLineLineNumber {
+.gerrit-PatchContentTable .NoLineLineNumber {
   font-family: Courier New, Courier, monospace;
   width: 3.5em;
   padding-left: 0.2em;
   padding-right: 0.2em;
 }
 
-.gerrit-SideBySideTable .NoLineDiffText {
-	background: #eeeeee;
-}
-
-.gerrit-SideBySideTable .DiffText {
+.gerrit-PatchContentTable .FileLine {
   padding-left: 0.2em;
-	white-space: pre;
+  white-space: pre;
   font-family: Courier New, Courier, monospace;
   font-size: small;
   padding-right: 0.2em;
 }
 
-.gerrit-SideBySideTable .DiffText-DELETE {
+.gerrit-PatchContentTable .FileLineNone {
+  background: #eeeeee;
+}
+.gerrit-PatchContentTable .FileLine-DELETE {
   background: #ffeeee;
 }
-.gerrit-SideBySideTable .DiffText-EQUAL {
+.gerrit-PatchContentTable .FileLine-EQUAL {
 }
-.gerrit-SideBySideTable .DiffText-INSERT {
+.gerrit-PatchContentTable .FileLine-INSERT {
   background: #ddffdd;
 }
 
-.gerrit-SideBySideTable .SkipLine {
-	text-align: center;
-	font-style: italic;
-	background: lightblue;
+.gerrit-PatchContentTable .SkipLine {
+  text-align: center;
+  font-style: italic;
+  background: lightblue;
 }
-.gerrit-SideBySideTable .SkipLine div {
-	display: inline;
-}
-
-.gerrit-SideBySideTable .Comment .header {
-  width: 35em;
-}
-.gerrit-SideBySideTable .gwt-DisclosurePanel .header td {
-  white-space: nowrap;
-}
-.gerrit-SideBySideTable .Comment .complexHeader {
-  white-space: nowrap;
-  width: 5em;
-}
-.gerrit-SideBySideTable .Comment .content {
-  border-top: 3px solid #e3e3e3;
-}
-.gerrit-SideBySideTable .CommentIsDraftFlag {
-  font-weight: bold;
-  margin-left: 0.5em;
-  margin-right: 0.5em;
+.gerrit-PatchContentTable .SkipLine div {
+  display: inline;
 }
 
 
 /** Change **/
 .gerrit-ChangeScreen .gwt-DisclosurePanel .header td {
-	font-weight: bold;
-	white-space: nowrap;
+  font-weight: bold;
+  white-space: nowrap;
 }
 
 .gerrit-ChangeScreen .gwt-DisclosurePanel .complexHeader {
@@ -368,28 +334,28 @@
 }
 
 .gerrit-ChangeScreen .gwt-DisclosurePanel .content {
-	margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 .gerrit-ChangeScreen-Description {
-	white-space: pre;
-	font-family: Courier New, Courier, monospace;
-	font-size: small;
+  white-space: pre;
+  font-family: Courier New, Courier, monospace;
+  font-size: small;
 }
 
 .gerrit-ChangeScreen .gerrit-ChangeMessages .header {
-	width: 35em;
+  width: 35em;
 }
 .gerrit-ChangeScreen .gerrit-ChangeMessages .complexHeader {
   width: 5em;
 }
 .gerrit-ChangeScreen .gerrit-ChangeMessages .content {
-	border-top: 3px solid #e3e3e3;
+  border-top: 3px solid #e3e3e3;
 }
 
 .gerrit-ChangeMessage-Message {
-	white-space: pre;
-	font-size: small;
+  white-space: pre;
+  font-size: small;
 }
 
 .gerrit-InfoTable {
@@ -422,20 +388,20 @@
 }
 
 .gerrit-InfoTable td.approvalrole {
-	width: 5em;
-	border-left: none;
+  width: 5em;
+  border-left: none;
   font-style: italic;
   white-space: nowrap;
 }
 
 .gerrit-InfoTable td.approvalscore {
-	text-align: center;
+  text-align: center;
 }
 .gerrit-InfoTable td.negscore {
   color: red;
 }
 .gerrit-InfoTable td.posscore {
-	color: #08a400;
+  color: #08a400;
 }
 
 .gerrit-InfoTable td.approvalhint {
@@ -455,7 +421,7 @@
 }
 
 .gerrit-InfoBlock td {
-	padding: 2px 4px 2px 6px;
+  padding: 2px 4px 2px 6px;
   border-right: 1px solid #d4e9a9;
   border-bottom: 1px solid #d4e9a9;
   text-align: left;
@@ -478,13 +444,13 @@
 }
 
 .gerrit-InfoBlock td.closedstate {
-	font-weight: bold;
+  font-weight: bold;
 }
 
 .gerrit-InfoBlock td.permalink {
   border-right: 1px none;
-	border-bottom: 1px none;
-	text-align: right;
+  border-bottom: 1px none;
+  text-align: right;
 }
 
 .gerrit-InfoBlock td.command {
@@ -493,17 +459,17 @@
 }
 
 .gerrit-PatchSetInfoBlock {
-	margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 
 /** SideBySideScreen */
 .gerrit-SideBySideScreen-SideBySideTable {
-	width: 100%;
+  width: 100%;
   border: 1px solid #B0BDCC;
   display: table;
 }
 
 .gerrit-PatchLineComment {
-	font-size: small;
+  font-size: small;
 }

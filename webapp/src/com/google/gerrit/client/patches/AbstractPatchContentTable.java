@@ -31,6 +31,10 @@ public abstract class AbstractPatchContentTable extends FancyFlexTable<Object> {
   private final Timestamp aged =
       new Timestamp(System.currentTimeMillis() - AGE);
 
+  protected AbstractPatchContentTable() {
+    table.setStyleName("gerrit-PatchContentTable");
+  }
+
   @Override
   protected Object getRowItemKey(final Object item) {
     return null;

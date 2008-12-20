@@ -21,10 +21,6 @@ import java.util.Iterator;
 import java.util.List;
 
 public class UnifiedDiffTable extends AbstractPatchContentTable {
-  public UnifiedDiffTable() {
-    table.setStyleName("gerrit-UnifiedDiffTable");
-  }
-
   public void display(final List<PatchLine> list) {
     final StringBuilder nc = new StringBuilder();
     for (final PatchLine pLine : list) {

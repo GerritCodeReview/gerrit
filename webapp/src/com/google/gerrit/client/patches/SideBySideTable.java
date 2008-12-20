@@ -14,25 +14,17 @@
 
 package com.google.gerrit.client.patches;
 
-import com.google.gerrit.client.FormatUtil;
-import com.google.gerrit.client.changes.Util;
-import com.google.gerrit.client.data.AccountInfoCache;
 import com.google.gerrit.client.data.SideBySideLine;
 import com.google.gerrit.client.data.SideBySidePatchDetail;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
-import com.google.gerrit.client.ui.ComplexDisclosurePanel;
 import com.google.gerrit.client.ui.DomUtil;
-import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.InlineLabel;
-import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 
-import java.sql.Timestamp;
 import java.util.Iterator;
 import java.util.List;
 
-public class SideBySideTable extends FancyFlexTable<Object> {
-  private AccountInfoCache accountCache = AccountInfoCache.empty();
+public class SideBySideTable extends AbstractPatchContentTable {
   private int fileCnt;
   private int maxLineNumber;
 
@@ -40,27 +32,8 @@ public class SideBySideTable extends FancyFlexTable<Object> {
     table.setStyleName("gerrit-SideBySideTable");
   }
 
-  @Override
-  protected Object getRowItemKey(final Object item) {
-    return null;
-  }
-
-  @Override
-  protected void onOpenItem(final Object item) {
-    if (item instanceof PatchLineComment) {
-      final ComplexDisclosurePanel p =
-          (ComplexDisclosurePanel) table.getWidget(getCurrentRow(), 1);
-      p.setOpen(!p.isOpen());
-    }
-  }
-
-  public void setAccountInfoCache(final AccountInfoCache aic) {
-    assert aic != null;
-    accountCache = aic;
-  }
-
   public void display(final SideBySidePatchDetail detail) {
-    accountCache = detail.getAccounts();
+    setAccountInfoCache(detail.getAccounts());
     fileCnt = detail.getFileCount();
     maxLineNumber = detail.getLineCount();
 
@@ -256,44 +229,5 @@ public class SideBySideTable extends FancyFlexTable<Object> {
     }
 
     nc.append("</tr>");
-  }
-
-  private void bindComment(final int row, final int col,
-      final PatchLineComment line, final boolean isLast) {
-    final long AGE = 7 * 24 * 60 * 60 * 1000L;
-    final Timestamp aged = new Timestamp(System.currentTimeMillis() - AGE);
-
-    final LineCommentPanel mp = new LineCommentPanel(line);
-    String panelHeader;
-    final ComplexDisclosurePanel panel;
-
-    if (line.getAuthor() != null) {
-      panelHeader = FormatUtil.nameEmail(accountCache.get(line.getAuthor()));
-    } else {
-      panelHeader = Util.C.messageNoAuthor();
-    }
-
-    if (isLast) {
-      mp.isRecent = true;
-    } else {
-      // TODO Instead of opening messages by strict age, do it by "unread"?
-      mp.isRecent = line.getWrittenOn().after(aged);
-    }
-
-    panel = new ComplexDisclosurePanel(panelHeader, mp.isRecent);
-    panel.getHeader().add(
-        new InlineLabel(Util.M.messageWrittenOn(FormatUtil.mediumFormat(line
-            .getWrittenOn()))));
-    if (line.getStatus() == PatchLineComment.Status.DRAFT) {
-      final InlineLabel d = new InlineLabel(PatchUtil.C.draft());
-      d.setStyleName("CommentIsDraftFlag");
-      panel.getHeader().add(d);
-    }
-    panel.setContent(mp);
-    table.setWidget(row, col, panel);
-
-    final FlexCellFormatter fmt = table.getFlexCellFormatter();
-    fmt.setStyleName(row, col, "Comment");
-    setRowItem(row, line);
   }
 }

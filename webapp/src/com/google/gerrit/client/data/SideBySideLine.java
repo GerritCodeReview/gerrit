@@ -14,45 +14,31 @@
 
 package com.google.gerrit.client.data;
 
-/** A single line of a 2-way patch file. */
-public class PatchLine extends LineWithComments {
+/** A line of a file in a side-by-side view. */
+public class SideBySideLine extends LineWithComments {
   public static enum Type {
-    FILE_HEADER,
-
-    HUNK_HEADER,
-
-    PRE_IMAGE,
-
-    CONTEXT,
-
-    POST_IMAGE;
+    DELETE, INSERT, EQUAL;
   }
 
-  protected int oldLineNumber;
-  protected int newLineNumber;
-  protected PatchLine.Type type;
+  protected int lineNumber;
+  protected SideBySideLine.Type type;
   protected String text;
 
-  protected PatchLine() {
+  protected SideBySideLine() {
   }
 
-  public PatchLine(final int oLine, final int nLine, final PatchLine.Type t,
+  public SideBySideLine(final int line, final SideBySideLine.Type t,
       final String s) {
-    oldLineNumber = oLine;
-    newLineNumber = nLine;
+    lineNumber = line;
     type = t;
     text = s;
   }
 
-  public int getOldLineNumber() {
-    return oldLineNumber;
+  public int getLineNumber() {
+    return lineNumber;
   }
 
-  public int getNewLineNumber() {
-    return newLineNumber;
-  }
-
-  public PatchLine.Type getType() {
+  public SideBySideLine.Type getType() {
     return type;
   }
 

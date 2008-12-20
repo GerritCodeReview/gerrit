@@ -20,6 +20,7 @@ import com.google.gwtjsonrpc.client.JsonUtil;
 
 public class PatchUtil {
   public static final PatchConstants C = GWT.create(PatchConstants.class);
+  public static final PatchMessages M = GWT.create(PatchMessages.class);
   public static final PatchDetailService DETAIL_SVC;
 
   static {

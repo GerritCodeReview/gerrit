@@ -51,7 +51,7 @@ public abstract class FancyFlexTable<RowItem> extends Composite implements
         }
       };
 
-  protected final FlexTable table;
+  protected final MyFlexTable table;
   private final FocusPanel focusy;
   private final Image pointer;
   private String saveId;
@@ -59,7 +59,7 @@ public abstract class FancyFlexTable<RowItem> extends Composite implements
 
   protected FancyFlexTable() {
     pointer = Gerrit.ICONS.arrowRight().createImage();
-    table = new FlexTable();
+    table = new MyFlexTable();
     table.addStyleName(MY_STYLE);
     focusy = new FocusPanel(table);
     focusy.addKeyboardListener(new KeyboardListenerAdapter() {
@@ -95,6 +95,10 @@ public abstract class FancyFlexTable<RowItem> extends Composite implements
 
   protected void setRowItem(final int row, final RowItem item) {
     setRowItem(table.getCellFormatter().getElement(row, 0), item);
+  }
+
+  protected void resetHtml(final String body) {
+    DOM.setInnerHTML(table.getBodyElement(), body);
   }
 
   protected boolean onKeyPress(final char keyCode, final int modifiers) {
@@ -243,6 +247,13 @@ public abstract class FancyFlexTable<RowItem> extends Composite implements
 
   public void removeKeyboardListener(KeyboardListener listener) {
     focusy.removeKeyboardListener(listener);
+  }
+
+  protected static class MyFlexTable extends FlexTable {
+    @Override
+    public Element getBodyElement() {
+      return super.getBodyElement();
+    }
   }
 
   private static final native <ItemType> void setRowItem(Element td, ItemType c)/*-{ td["__gerritRowItem"] = c; }-*/;

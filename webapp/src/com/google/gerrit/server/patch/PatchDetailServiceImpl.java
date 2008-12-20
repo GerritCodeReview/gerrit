@@ -14,18 +14,32 @@
 
 package com.google.gerrit.server.patch;
 
+import com.google.gerrit.client.data.SideBySidePatchDetail;
 import com.google.gerrit.client.data.UnifiedPatchDetail;
 import com.google.gerrit.client.patches.PatchDetailService;
 import com.google.gerrit.client.reviewdb.Patch;
-import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.BaseServiceImplementation;
+import com.google.gerrit.git.RepositoryCache;
+import com.google.gerrit.server.GerritServer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwtorm.client.SchemaFactory;
 
 public class PatchDetailServiceImpl extends BaseServiceImplementation implements
     PatchDetailService {
-  public PatchDetailServiceImpl(final SchemaFactory<ReviewDb> rdf) {
-    super(rdf);
+  private final GerritServer server;
+
+  public PatchDetailServiceImpl(final GerritServer gs) {
+    super(gs.getDatabase());
+    server = gs;
+  }
+
+  public void sideBySidePatchDetail(final Patch.Id key,
+      final AsyncCallback<SideBySidePatchDetail> callback) {
+    final RepositoryCache rc = server.getRepositoryCache();
+    if (rc == null) {
+      callback.onFailure(new Exception("No Repository Cache configured"));
+      return;
+    }
+    run(callback, new SideBySidePatchDetailAction(rc, key));
   }
 
   public void unifiedPatchDetail(final Patch.Id key,

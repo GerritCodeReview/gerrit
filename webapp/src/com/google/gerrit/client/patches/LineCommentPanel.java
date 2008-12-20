@@ -25,7 +25,7 @@ public class LineCommentPanel extends Composite {
   public LineCommentPanel(final PatchLineComment msg) {
     comment = msg;
     final Label l = new Label(comment.getMessage().trim());
-    l.setStyleName("gerrit-ChangeMessage-Message");
+    l.setStyleName("gerrit-PatchLineComment");
     initWidget(l);
   }
 }

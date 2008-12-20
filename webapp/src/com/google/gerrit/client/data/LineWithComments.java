@@ -12,14 +12,27 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server;
+package com.google.gerrit.client.data;
 
-import com.google.gerrit.server.patch.PatchDetailServiceImpl;
+import com.google.gerrit.client.reviewdb.PatchLineComment;
 
-/** Publishes {@link PatchDetailServiceImpl} over JSON. */
-public class PatchDetailServiceSrv extends GerritJsonServlet {
-  @Override
-  protected Object createServiceHandle() throws Exception {
-    return new PatchDetailServiceImpl(GerritServer.getInstance());
+import java.util.ArrayList;
+import java.util.List;
+
+public abstract class LineWithComments {
+  protected List<PatchLineComment> comments;
+
+  protected LineWithComments() {
+  }
+
+  public List<PatchLineComment> getComments() {
+    return comments;
+  }
+
+  public void addComment(final PatchLineComment plc) {
+    if (comments == null) {
+      comments = new ArrayList<PatchLineComment>(4);
+    }
+    comments.add(plc);
   }
 }

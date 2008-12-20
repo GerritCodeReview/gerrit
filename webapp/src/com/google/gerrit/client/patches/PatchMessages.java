@@ -12,14 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server;
+package com.google.gerrit.client.patches;
 
-import com.google.gerrit.server.patch.PatchDetailServiceImpl;
+import com.google.gwt.i18n.client.Messages;
 
-/** Publishes {@link PatchDetailServiceImpl} over JSON. */
-public class PatchDetailServiceSrv extends GerritJsonServlet {
-  @Override
-  protected Object createServiceHandle() throws Exception {
-    return new PatchDetailServiceImpl(GerritServer.getInstance());
-  }
+public interface PatchMessages extends Messages {
+  String patchHeaderAncestor(int id);
+  String patchSkipRegion(@PluralCount int lineCnt);
 }

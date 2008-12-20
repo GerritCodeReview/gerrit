@@ -266,6 +266,92 @@
 }
 
 
+/** SideBySideTable **/
+.gerrit-SideBySideTable {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.gerrit-SideBySideTable .FileColumnHeader {
+	background: #d4e9a9;
+	font-weight: bold;
+	text-align: center;
+}
+
+.gerrit-SideBySideTable .IconCell {
+  width: 1px;
+  padding: 0px;
+  vertical-align: center;
+}
+
+.gerrit-SideBySideTable .LineNumber {
+  font-family: Courier New, Courier, monospace;
+  width: 3.5em;
+  padding: 0px;
+  text-align: right;
+  border-right: thin solid #b0bdcc;
+  padding-left: 0.2em;
+  padding-right: 0.2em;
+}
+
+.gerrit-SideBySideTable .NoLineLineNumber {
+  font-family: Courier New, Courier, monospace;
+  width: 3.5em;
+  padding-left: 0.2em;
+  padding-right: 0.2em;
+}
+
+.gerrit-SideBySideTable .NoLineDiffText {
+	background: #eeeeee;
+}
+
+.gerrit-SideBySideTable .DiffText {
+  padding-left: 0.2em;
+	white-space: pre;
+  font-family: Courier New, Courier, monospace;
+  font-size: small;
+  padding-right: 0.2em;
+}
+
+.gerrit-SideBySideTable .DiffText-DELETE {
+  background: #ffeeee;
+}
+.gerrit-SideBySideTable .DiffText-EQUAL {
+}
+.gerrit-SideBySideTable .DiffText-INSERT {
+  background: #ddffdd;
+}
+
+.gerrit-SideBySideTable .SkipLine {
+	text-align: center;
+	font-style: italic;
+	background: lightblue;
+}
+.gerrit-SideBySideTable .SkipLine div {
+	display: inline;
+}
+
+.gerrit-SideBySideTable .Comment .header {
+  width: 35em;
+}
+.gerrit-SideBySideTable .gwt-DisclosurePanel .header td {
+  white-space: nowrap;
+}
+.gerrit-SideBySideTable .Comment .complexHeader {
+  white-space: nowrap;
+  width: 5em;
+}
+.gerrit-SideBySideTable .Comment .content {
+  border-top: 3px solid #e3e3e3;
+}
+.gerrit-SideBySideTable .CommentIsDraftFlag {
+  font-weight: bold;
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+}
+
+
 /** Change **/
 .gerrit-ChangeScreen .gwt-DisclosurePanel .header td {
 	font-weight: bold;
@@ -408,4 +494,16 @@
 
 .gerrit-PatchSetInfoBlock {
 	margin-bottom: 10px;
+}
+
+
+/** SideBySideScreen */
+.gerrit-SideBySideScreen-SideBySideTable {
+	width: 100%;
+  border: 1px solid #B0BDCC;
+  display: table;
+}
+
+.gerrit-PatchLineComment {
+	font-size: small;
 }

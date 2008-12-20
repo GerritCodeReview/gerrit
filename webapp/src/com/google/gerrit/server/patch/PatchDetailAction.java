@@ -15,8 +15,7 @@
 package com.google.gerrit.server.patch;
 
 import com.google.gerrit.client.data.AccountInfoCacheFactory;
-import com.google.gerrit.client.data.PatchLine;
-import com.google.gerrit.client.data.UnifiedPatchDetail;
+import com.google.gerrit.client.data.LineWithComments;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchContent;
@@ -30,17 +29,25 @@ import com.google.gerrit.client.rpc.BaseServiceImplementation.Failure;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.ResultSet;
 
+import org.spearce.jgit.errors.IncorrectObjectTypeException;
+import org.spearce.jgit.lib.AnyObjectId;
 import org.spearce.jgit.lib.Constants;
+import org.spearce.jgit.lib.ObjectId;
+import org.spearce.jgit.lib.ObjectLoader;
+import org.spearce.jgit.lib.Repository;
 import org.spearce.jgit.patch.CombinedFileHeader;
 import org.spearce.jgit.patch.FileHeader;
 import org.spearce.jgit.patch.FormatError;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 
 abstract class PatchDetailAction<T> implements Action<T> {
+  protected static final byte[] EMPTY_FILE = {};
+
   protected final Patch.Id key;
   protected Patch patch;
   protected FileHeader file;
@@ -51,7 +58,7 @@ abstract class PatchDetailAction<T> implements Action<T> {
   protected HashMap<Integer, List<PatchLineComment>> published[];
   protected HashMap<Integer, List<PatchLineComment>> drafted[];
 
-  PatchDetailAction(Patch.Id key) {
+  PatchDetailAction(final Patch.Id key) {
     this.key = key;
   }
 
@@ -61,7 +68,7 @@ abstract class PatchDetailAction<T> implements Action<T> {
       throw new Failure(new NoSuchEntityException());
     }
 
-    FileHeader file = parse(patch, read(db, patch));
+    file = parse(patch, read(db, patch));
     if (file instanceof CombinedFileHeader) {
       fileCnt = ((CombinedFileHeader) file).getParentCount() + 1;
     } else {
@@ -102,7 +109,7 @@ abstract class PatchDetailAction<T> implements Action<T> {
     }
   }
 
-  protected void addComments(final PatchLine pLine,
+  protected void addComments(final LineWithComments pLine,
       final HashMap<Integer, List<PatchLineComment>>[] cache, final int side,
       final int line) {
     List<PatchLineComment> l = cache[side].get(line);
@@ -111,6 +118,27 @@ abstract class PatchDetailAction<T> implements Action<T> {
         pLine.addComment(c);
         accountInfo.want(c.getAuthor());
       }
+    }
+  }
+
+  protected byte[] read(final Repository repo, final AnyObjectId id)
+      throws Failure {
+    if (id == null || ObjectId.zeroId().equals(id)) {
+      return EMPTY_FILE;
+    }
+    try {
+      final ObjectLoader ldr = repo.openObject(id);
+      if (ldr == null) {
+        throw new Failure(new CorruptEntityException(patch.getKey()));
+      }
+      final byte[] content = ldr.getCachedBytes();
+      if (ldr.getType() != Constants.OBJ_BLOB) {
+        throw new Failure(new IncorrectObjectTypeException(id.toObjectId(),
+            Constants.TYPE_BLOB));
+      }
+      return content;
+    } catch (IOException err) {
+      throw new Failure(err);
     }
   }
 

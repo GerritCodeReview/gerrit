@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.patches;
 
+import com.google.gerrit.client.data.SideBySidePatchDetail;
 import com.google.gerrit.client.data.UnifiedPatchDetail;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -22,5 +23,10 @@ import com.google.gwtjsonrpc.client.RemoteJsonService;
 
 public interface PatchDetailService extends RemoteJsonService {
   @AllowCrossSiteRequest
-  void unifiedPatchDetail(Patch.Id key, AsyncCallback<UnifiedPatchDetail> callback);
+  void sideBySidePatchDetail(Patch.Id key,
+      AsyncCallback<SideBySidePatchDetail> callback);
+
+  @AllowCrossSiteRequest
+  void unifiedPatchDetail(Patch.Id key,
+      AsyncCallback<UnifiedPatchDetail> callback);
 }

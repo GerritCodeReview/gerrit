@@ -24,6 +24,8 @@ import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class AbstractPatchContentTable extends FancyFlexTable<Object> {
   private static final long AGE = 7 * 24 * 60 * 60 * 1000L;
@@ -42,10 +44,10 @@ public abstract class AbstractPatchContentTable extends FancyFlexTable<Object> {
 
   @Override
   protected void onOpenItem(final Object item) {
-    if (item instanceof PatchLineComment) {
-      final ComplexDisclosurePanel p =
-          (ComplexDisclosurePanel) table.getWidget(getCurrentRow(), 1);
-      p.setOpen(!p.isOpen());
+    if (item instanceof CommentList) {
+      for (final ComplexDisclosurePanel p : ((CommentList) item).panels) {
+        p.setOpen(!p.isOpen());
+      }
     }
   }
 
@@ -87,6 +89,19 @@ public abstract class AbstractPatchContentTable extends FancyFlexTable<Object> {
 
     final FlexCellFormatter fmt = table.getFlexCellFormatter();
     fmt.setStyleName(row, col, "Comment");
-    setRowItem(row, line);
+
+    CommentList l = (CommentList) getRowItem(row);
+    if (l == null) {
+      l = new CommentList();
+      setRowItem(row, l);
+    }
+    l.comments.add(line);
+    l.panels.add(panel);
+  }
+
+  protected static class CommentList {
+    final List<PatchLineComment> comments = new ArrayList<PatchLineComment>();
+    final List<ComplexDisclosurePanel> panels =
+        new ArrayList<ComplexDisclosurePanel>();
   }
 }

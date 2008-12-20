@@ -5,6 +5,10 @@ You will need to have the GWT (Google Web Toolkit) SDK installed on
 your system.  A Java 5 or later SDK is also required to run GWT's
 compiler and runtime.
 
+GWT requires the Sun JDK (or OpenJDK).  The GWT "hosted mode"
+environment (Eclipse debugger or "make web-shell") does not work
+under libgcj.
+
 To create a new client workspace:
 
   mkdir gerrit2

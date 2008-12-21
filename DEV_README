@@ -17,6 +17,17 @@ To create a new client workspace:
     -u git://android.git.kernel.org/tools/manifest.git \
     -b gerrit2
 
+
+Apache MINA SSHD
+----------------
+
+You'll need to download and build SSHD yourself:
+
+  svn checkout http://svn.apache.org/repos/asf/mina/sshd/trunk mina_sshd
+  cd mina_sshd
+  mvn install
+
+
 Setting up the Database
 -----------------------
 

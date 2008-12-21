@@ -304,6 +304,27 @@ limitations under the License.
     </dependency>
 
     <dependency>
+      <groupId>org.apache.sshd</groupId>
+      <artifactId>sshd</artifactId>
+      <version>1.0-SNAPSHOT</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+      <version>1.4.3</version>
+      <scope>runtime</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>bouncycastle</groupId>
+      <artifactId>bcprov-jdk15</artifactId>
+      <version>140</version>
+      <scope>runtime</scope>
+    </dependency>
+
+    <dependency>
       <groupId>org.spearce</groupId>
       <artifactId>jgit</artifactId>
       <version>0.4-SNAPSHOT</version>

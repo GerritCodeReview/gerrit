@@ -1,0 +1,40 @@
+<assembly>
+  <id>bin</id>
+
+  <formats>
+    <format>dir</format>
+    <format>tar.bz2</format>
+  </formats>
+
+  <moduleSets>
+    <moduleSet>
+      <includes>
+        <include>gerrit:gerrit-appjar</include>
+      </includes>
+      <binaries>
+        <outputDirectory>lib</outputDirectory>
+        <unpack>false</unpack>
+      </binaries>
+    </moduleSet>
+
+    <moduleSet>
+      <includes>
+        <include>gerrit:gerrit-appwar</include>
+      </includes>
+      <binaries>
+        <outputDirectory>www</outputDirectory>
+        <unpack>false</unpack>
+        <includeDependencies>false</includeDependencies>
+      </binaries>
+    </moduleSet>
+  </moduleSets>
+
+  <fileSets>
+    <fileSet>
+      <directory>src/main/bin</directory>
+      <outputDirectory>bin</outputDirectory>
+      <lineEnding>unix</lineEnding>
+      <fileMode>755</fileMode>
+    </fileSet>
+  </fileSets>
+</assembly>

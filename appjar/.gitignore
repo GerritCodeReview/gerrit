@@ -1,0 +1,6 @@
+/target
+/.classpath
+/.project
+/.settings/org.maven.ide.eclipse.prefs
+/gwt_www
+/tomcat

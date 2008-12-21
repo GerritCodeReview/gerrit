@@ -17,10 +17,6 @@ To create a new client workspace:
     -u git://android.git.kernel.org/tools/manifest.git \
     -b gerrit2
 
-  echo 'GWT_SDK = path/to/your/gwt' >gwtjsonrpc/config.mak
-  echo 'GWT_SDK = path/to/your/gwt' >gerrit/config.mak
-
-
 Setting up the Database
 -----------------------
 
@@ -28,28 +24,18 @@ You'll need to configure your development workspace to use a database
 gwtorm supports (or add the necessary dialect support to gwtorm,
 and then configure your workspace anyway).
 
-  cd webapp/src
+  cd devdb
   cp GerritServer.properties_example GerritServer.properties
 
 Now edit GerritServer.properties to uncomment the database you are
 going to use, and possibly update properties such as "user" and
 "password" to reflect the actual connection information used.
 
-In the future gwtorm (and Gerrit 2) should be getting the DataSource
-from the application server, but I don't yet know how to configure
-that in GWT hosted mode.
-
 
 Setting up Eclipse
 ------------------
 
-Bootstrap the build by compiling the libraries:
-
-  make -C gerrit web-lib
-
-Setup the "GWT" user library (see gerrit/README_ECLIPSE).
-
-Import the 'Gerrit-webapp' project from "gerrit/webapp/".
+see gerrit/README_ECLIPSE
 
 
 Debugging the Application
@@ -57,11 +43,21 @@ Debugging the Application
 
 From Eclipse:
 
-  Use the "Gerrit-webapp" launch profile.
+  Use "gerrit_debug" launch profile (all platforms).
+
+  Use "gerrit_macos" launch profile (Mac OS X systems).
+
+
+Building
+--------
 
 From the command line:
 
-  make -C gerrit web-shell
+  (cd appdist && mvn package)
+
+Output packages will be in:
+
+  appdst/target/gerrit-*-bin.*
 
 
 Client-Server RPC

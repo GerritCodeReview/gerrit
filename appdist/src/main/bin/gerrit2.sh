@@ -27,12 +27,6 @@ then
 	exit 1
 fi
 
-if ! [ -f "$GERRIT2_HOME/lib/gerrit-server.jar" ]
-then
-	echo >&2 "error: $GERRIT2_HOME does not have lib/gerrit-server.jar"
-	exit 1
-fi
-
 if [ -z "$GERRIT2_JAVA" ]
 then
 	GERRIT2_JAVA=java
@@ -71,17 +65,24 @@ shift
 if [ -n "$config_dir" ]
 then
 	CLASSPATH=$config_dir
+	for j in $config_dir/jdbc-*.jar
+	do
+		[ -f "$j" ] && CLASSPATH=$CLASSPATH:$j
+	done
 else
 	CLASSPATH=
 fi
 
 for j in $GERRIT2_HOME/lib/*.jar
 do
-	if [ -z "$CLASSPATH" ]
+	if [ -f "$j" ]
 	then
-		CLASSPATH=$j
-	else
-		CLASSPATH=$CLASSPATH:$j
+        if [ -z "$CLASSPATH" ]
+		then
+			CLASSPATH=$j
+		else
+			CLASSPATH=$CLASSPATH:$j
+        fi
 	fi
 done
 export CLASSPATH

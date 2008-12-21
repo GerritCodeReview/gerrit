@@ -4,3 +4,4 @@
 /.settings/org.maven.ide.eclipse.prefs
 /gwt_www
 /tomcat
+/hs_err_pid*.log

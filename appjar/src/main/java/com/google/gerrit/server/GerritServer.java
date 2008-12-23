@@ -146,6 +146,7 @@ public class GerritServer {
     final SystemConfig s = SystemConfig.create();
     s.xsrfPrivateKey = SignedToken.generateRandomKey();
     s.accountPrivateKey = SignedToken.generateRandomKey();
+    s.sshdPort = 29418;
     c.systemConfig().insert(Collections.singleton(s));
   }
 
@@ -220,6 +221,7 @@ public class GerritServer {
   private void loadGerritConfig(final ReviewDb db) throws OrmException {
     final GerritConfig r = new GerritConfig();
     r.setCanonicalUrl(getCanonicalURL());
+    r.setSshdPort(sConfig.sshdPort);
     if (sConfig.gitwebUrl != null) {
       r.setGitwebLink(new GitwebLink(sConfig.gitwebUrl));
     }

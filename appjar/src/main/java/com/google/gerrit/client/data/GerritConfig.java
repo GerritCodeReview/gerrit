@@ -18,9 +18,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GerritConfig {
-  private String canonicalUrl;
-  private GitwebLink gitweb;
-  private List<ApprovalType> approvalTypes;
+  protected String canonicalUrl;
+  protected GitwebLink gitweb;
+  protected List<ApprovalType> approvalTypes;
+  protected int sshdPort;
 
   public GerritConfig() {
   }
@@ -55,5 +56,13 @@ public class GerritConfig {
     if (approvalTypes == null) {
       approvalTypes = new ArrayList<ApprovalType>();
     }
+  }
+
+  public int getSshdPort() {
+    return sshdPort;
+  }
+
+  public void setSshdPort(final int p) {
+    sshdPort = p;
   }
 }

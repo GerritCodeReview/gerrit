@@ -15,6 +15,9 @@
            class='com.google.gerrit.server.HostPageServlet'/>
   <servlet path='/login'
            class='com.google.gerrit.server.LoginServlet'/>
+  <servlet path='/ssh_info'
+           class='com.google.gerrit.server.ssh.SshServlet'/>
+
   <servlet path='/rpc/AccountService'
            class='com.google.gerrit.server.AccountServiceSrv'/>
   <servlet path='/rpc/ChangeDetailService'

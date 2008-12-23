@@ -78,6 +78,10 @@ public final class SystemConfig {
   @Column(notNull = false)
   public String gitBasePath;
 
+  /** Local TCP port number the embedded SSHD server binds onto. */
+  @Column
+  public int sshdPort;
+
   protected SystemConfig() {
   }
 }

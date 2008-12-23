@@ -45,6 +45,16 @@
   </servlet-mapping>
 
   <servlet>
+    <servlet-name>ssh</servlet-name>
+    <servlet-class>com.google.gerrit.server.ssh.SshServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ssh</servlet-name>
+    <url-pattern>/ssh_info</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
     <servlet-name>AccountService</servlet-name>
     <servlet-class>com.google.gerrit.server.AccountServiceSrv</servlet-class>
     <load-on-startup>1</load-on-startup>

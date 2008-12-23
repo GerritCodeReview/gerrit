@@ -47,6 +47,10 @@ class GerritCommandFactory implements CommandFactory {
   }
 
   private AbstractCommand create(final String cmd) {
+    if ("git-receive-pack".equals(cmd) || "gerrit-receive-pack".equals(cmd)) {
+      return new Receive();
+    }
+
     return new AbstractCommand() {
       @Override
       protected void run(final String[] argv) throws Failure {

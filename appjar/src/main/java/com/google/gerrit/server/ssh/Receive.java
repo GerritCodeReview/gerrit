@@ -16,13 +16,10 @@ package com.google.gerrit.server.ssh;
 
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.Change;
-import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
-import com.google.gerrit.git.InvalidRepositoryException;
 import com.google.gwtorm.client.OrmException;
 
 import org.spearce.jgit.lib.ObjectId;
-import org.spearce.jgit.lib.Repository;
 import org.spearce.jgit.transport.PreReceiveHook;
 import org.spearce.jgit.transport.ReceiveCommand;
 import org.spearce.jgit.transport.ReceivePack;
@@ -38,10 +35,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /** Receives change upload over SSH using the Git receive-pack protocol. */
-class Receive extends AbstractCommand {
+class Receive extends AbstractGitCommand {
   private static final String NEW_CHANGE = "refs/changes/new";
   private static final Pattern NEW_PATCHSET =
-      Pattern.compile("^refs/changes/([0-9][0-9])/([0-9]*\\1)/new$");
+      Pattern.compile("^refs/changes/(?:[0-9][0-9]/)?([1-9][0-9]*)/new$");
 
   private final Set<String> reviewerEmail = new HashSet<String>();
   private final Set<String> ccEmail = new HashSet<String>();
@@ -57,78 +54,34 @@ class Receive extends AbstractCommand {
   private final Map<Change.Id, Change> changeCache =
       new HashMap<Change.Id, Change>();
 
-  private Repository repo;
-  private Project proj;
-
-  private boolean isGerrit() {
-    return getName().startsWith("gerrit-");
-  }
-
   @Override
-  protected void run(final String[] args) throws IOException, Failure {
-    final String reqName = parseCommandLine(args);
-    String projectName = reqName;
-    if (projectName.endsWith(".git")) {
-      // Be nice and drop the trailing ".git" suffix, which we never keep
-      // in our database, but clients might mistakenly provide anyway.
-      //
-      projectName = projectName.substring(0, projectName.length() - 4);
-    }
-    if (projectName.startsWith("/")) {
-      // Be nice and drop the leading "/" if supplied by an absolute path.
-      // We don't have a file system hierarchy, just a flat namespace in
-      // the database's Project entities. We never encode these with a
-      // leading '/' but users might accidentally include them in Git URLs.
-      //
-      projectName = projectName.substring(1);
-    }
+  protected void runImpl() throws IOException, Failure {
+    lookup(db, reviewerId, "reviewer", reviewerEmail);
+    lookup(db, ccId, "cc", ccEmail);
 
-    final ReviewDb db = openReviewDb();
-    try {
-      try {
-        proj = db.projects().byName(new Project.NameKey(projectName));
-      } catch (OrmException e) {
-        throw new Failure(1, "fatal: cannot query project database");
-      }
-      if (proj == null) {
-        throw new Failure(1, "fatal: '" + reqName + "': not a Gerrit project");
-      }
+    // TODO verify user has signed a CLA for this project
 
-      try {
-        repo = getRepositoryCache().get(proj.getName());
-      } catch (InvalidRepositoryException e) {
-        throw new Failure(1, "fatal: '" + reqName + "': not a git archive");
-      }
+    final ReceivePack rp = new ReceivePack(repo);
+    rp.setAllowCreates(true);
+    rp.setAllowDeletes(false);
+    rp.setAllowNonFastForwards(false);
+    rp.setCheckReceivedObjects(true);
+    rp.setPreReceiveHook(new PreReceiveHook() {
+      public void onPreReceive(final ReceivePack arg0,
+          final Collection<ReceiveCommand> commands) {
+        parseCommands(db, commands);
 
-      lookup(db, reviewerId, "reviewer", reviewerEmail);
-      lookup(db, ccId, "cc", ccEmail);
-
-      // TODO verify user has signed a CLA for this project
-
-      final ReceivePack rp = new ReceivePack(repo);
-      rp.setAllowCreates(true);
-      rp.setAllowDeletes(false);
-      rp.setAllowNonFastForwards(false);
-      rp.setCheckReceivedObjects(true);
-      rp.setPreReceiveHook(new PreReceiveHook() {
-        public void onPreReceive(final ReceivePack arg0,
-            final Collection<ReceiveCommand> commands) {
-          parseCommands(db, commands);
-
-          if (newChange != null) {
-            // TODO create new change records
-            newChange.setResult(ReceiveCommand.Result.OK);
-          }
-          for (Map.Entry<Change.Id, ReceiveCommand> e : addByChange.entrySet()) {
-            // TODO Append new commits to existing changes
-            e.getValue().setResult(ReceiveCommand.Result.OK);
-          }
+        if (newChange != null) {
+          // TODO create new change records
+          newChange.setResult(ReceiveCommand.Result.OK);
         }
-      });
-      rp.receive(in, out, err);
-    } finally {
-      db.close();
-    }
+        for (Map.Entry<Change.Id, ReceiveCommand> e : addByChange.entrySet()) {
+          // TODO Append new commits to existing changes
+          e.getValue().setResult(ReceiveCommand.Result.OK);
+        }
+      }
+    });
+    rp.receive(in, out, err);
   }
 
   private void lookup(final ReviewDb db, final Set<Account.Id> accountIds,
@@ -156,7 +109,8 @@ class Receive extends AbstractCommand {
     }
   }
 
-  private String parseCommandLine(final String[] args) throws Failure {
+  @Override
+  protected String parseCommandLine(final String[] args) throws Failure {
     int argi = 0;
     if (isGerrit()) {
       for (; argi < args.length - 1; argi++) {
@@ -231,7 +185,7 @@ class Receive extends AbstractCommand {
       if (m.matches()) {
         // The referenced change must exist and must still be open.
         //
-        final Change.Id changeId = Change.Id.fromString(m.group(2));
+        final Change.Id changeId = Change.Id.fromString(m.group(1));
         final Change changeEnt;
         try {
           changeEnt = db.changes().get(changeId);

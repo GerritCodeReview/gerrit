@@ -47,6 +47,10 @@ class GerritCommandFactory implements CommandFactory {
   }
 
   private AbstractCommand create(final String cmd) {
+    if ("git-upload-pack".equals(cmd) || "gerrit-upload-pack".equals(cmd)) {
+      return new Upload();
+    }
+
     if ("git-receive-pack".equals(cmd) || "gerrit-receive-pack".equals(cmd)) {
       return new Receive();
     }

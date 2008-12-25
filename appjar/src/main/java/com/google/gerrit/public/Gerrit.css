@@ -463,7 +463,7 @@
 }
 
 
-/** SideBySideScreen */
+/** SideBySideScreen **/
 .gerrit-SideBySideScreen-SideBySideTable {
   width: 100%;
   border: 1px solid #B0BDCC;
@@ -472,4 +472,13 @@
 
 .gerrit-PatchLineComment {
   font-size: small;
+}
+
+
+/** AccountSettings  **/
+.gerrit-SshKeyPanel-EncodedKey {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  font-family: Courier New, Courier, monospace;
 }

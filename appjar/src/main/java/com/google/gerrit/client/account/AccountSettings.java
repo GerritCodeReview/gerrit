@@ -14,30 +14,91 @@
 
 package com.google.gerrit.client.account;
 
-import com.google.gerrit.client.Link;
+import com.google.gerrit.client.FormatUtil;
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountScreen;
-import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.TabPanel;
+import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 
 public class AccountSettings extends AccountScreen {
+  private final Grid info;
+
+  private TabPanel tabs;
+
+  private Panel prefsPanel;
+  private Panel agreementsPanel;
+  private SshKeyPanel keysPanel;
+
   public AccountSettings() {
     super(Util.C.accountSettingsHeading());
+
+    info = new Grid(3, 2);
+    info.setStyleName("gerrit-InfoBlock");
+    add(info);
+
+    infoRow(0, "Full Name");
+    infoRow(1, "Email Address");
+    infoRow(2, "Registered");
+
+    final CellFormatter fmt = info.getCellFormatter();
+    fmt.addStyleName(0, 0, "topmost");
+    fmt.addStyleName(0, 1, "topmost");
+    fmt.addStyleName(2, 0, "bottomheader");
+
+    prefsPanel = new FlowPanel();
+    prefsPanel.add(new Label("Not Implemented"));
+
+    keysPanel = new SshKeyPanel();
+
+    agreementsPanel = new FlowPanel();
+    agreementsPanel.add(new Label("Not Implemented"));
+
+    tabs = new TabPanel();
+    tabs.setWidth("100%");
+    tabs.add(prefsPanel, "Preferences");
+    tabs.add(keysPanel, "SSH Keys");
+    tabs.add(agreementsPanel, "Agreements");
+
+    add(tabs);
+    tabs.selectTab(0);
+
+    final Account a = Gerrit.getUserAccount();
+    if (a != null) {
+      display(a);
+    }
+  }
+
+  private void infoRow(final int row, final String name) {
+    info.setText(row, 0, name);
+    info.getCellFormatter().addStyleName(row, 0, "header");
   }
 
   @Override
   public Object getScreenCacheToken() {
-    return Link.SETTINGS;
+    return this;// Link.SETTINGS;
   }
 
   @Override
   public void onLoad() {
     super.onLoad();
     Util.ACCOUNT_SVC.myAccount(new GerritCallback<Account>() {
-      public void onSuccess(Account result) {
-        GWT.log("yay, i am " + result.getPreferredEmail(), null);
-        GWT.log("created on " + result.getRegisteredOn(), null);
+      public void onSuccess(final Account result) {
+        if (isAttached()) {
+          display(result);
+        }
       }
     });
+  }
+
+  void display(final Account account) {
+    info.setText(0, 1, account.getFullName());
+    info.setText(1, 1, account.getPreferredEmail());
+    info.setText(2, 1, FormatUtil.mediumFormat(account.getRegisteredOn()));
   }
 }

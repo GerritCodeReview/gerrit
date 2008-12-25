@@ -97,7 +97,7 @@ public class SshUtil {
           // TODO log accounts with duplicate emails
           return Collections.<AccountSshKey> emptyList();
         }
-        kl = db.accountSshKeys().byAccount(matches.get(0).getId()).toList();
+        kl = db.accountSshKeys().valid(matches.get(0).getId()).toList();
       } finally {
         db.close();
       }

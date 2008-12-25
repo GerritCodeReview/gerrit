@@ -25,6 +25,9 @@ public interface AccountSshKeyAccess extends
   @PrimaryKey("id")
   AccountSshKey get(AccountSshKey.Id id) throws OrmException;
 
-  @Query("WHERE id.accountId = ? AND valid = true ORDER BY storedOn DESC")
+  @Query("WHERE id.accountId = ? ORDER BY storedOn DESC")
   ResultSet<AccountSshKey> byAccount(Account.Id id) throws OrmException;
+
+  @Query("WHERE id.accountId = ? AND valid = true ORDER BY storedOn DESC")
+  ResultSet<AccountSshKey> valid(Account.Id id) throws OrmException;
 }

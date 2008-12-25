@@ -27,7 +27,7 @@ public class FormatUtil {
 
   /** Format a date using the locale's medium length format. */
   public static String mediumFormat(final Date dt) {
-    return dtfmt.format(dt);
+    return dt != null ? dtfmt.format(dt) : "";
   }
 
   /** Format an account as a name and email address. */

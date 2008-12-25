@@ -117,7 +117,7 @@ public final class AccountSshKey {
     if (parts.length < 3) {
       return "";
     }
-    return parts[3];
+    return parts[2];
   }
 
   public Timestamp getStoredOn() {

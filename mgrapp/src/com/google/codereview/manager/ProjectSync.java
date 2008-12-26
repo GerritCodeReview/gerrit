@@ -100,6 +100,14 @@ public class ProjectSync {
           } catch (IncorrectObjectTypeException e) {
             continue;
           }
+
+          final String branchName =
+              ref.getName().substring(Constants.R_HEADS.length());
+          if ("true".equals(db.getConfig().getString("branch", branchName,
+              "denygerrit"))) {
+            continue;
+          }
+
           req.addBranch(toBranch(ref, c));
         }
       }

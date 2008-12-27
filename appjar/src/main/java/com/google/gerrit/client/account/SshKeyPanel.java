@@ -236,7 +236,7 @@ public class SshKeyPanel extends Composite {
 
     String elide(final String s) {
       if (s == null || s.length() < 40) {
-        return null;
+        return s;
       }
       return s.substring(0, 30) + "..." + s.substring(s.length() - 10);
     }

@@ -113,7 +113,7 @@ public final class AccountSshKey {
       return "";
     }
 
-    final String[] parts = s.split(" ");
+    final String[] parts = s.split(" ", 3);
     if (parts.length < 3) {
       return "";
     }

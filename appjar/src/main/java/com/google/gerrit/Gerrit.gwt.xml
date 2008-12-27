@@ -20,6 +20,8 @@
 
   <servlet path='/rpc/AccountService'
            class='com.google.gerrit.server.AccountServiceSrv'/>
+  <servlet path='/rpc/AccountSecurity'
+           class='com.google.gerrit.server.AccountSecuritySrv'/>
   <servlet path='/rpc/ChangeDetailService'
            class='com.google.gerrit.server.ChangeDetailServiceSrv'/>
   <servlet path='/rpc/ChangeListService'

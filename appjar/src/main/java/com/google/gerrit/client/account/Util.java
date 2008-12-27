@@ -20,11 +20,15 @@ import com.google.gwtjsonrpc.client.JsonUtil;
 public class Util {
   public static final AccountConstants C = GWT.create(AccountConstants.class);
   public static final AccountService ACCOUNT_SVC;
+  public static final AccountSecurity ACCOUNT_SEC;
   public static final LoginService LOGIN_SVC;
 
   static {
     ACCOUNT_SVC = GWT.create(AccountService.class);
     JsonUtil.bind(ACCOUNT_SVC, "rpc/AccountService");
+
+    ACCOUNT_SEC = GWT.create(AccountSecurity.class);
+    JsonUtil.bind(ACCOUNT_SEC, "rpc/AccountSecurity");
 
     LOGIN_SVC = GWT.create(LoginService.class);
   }

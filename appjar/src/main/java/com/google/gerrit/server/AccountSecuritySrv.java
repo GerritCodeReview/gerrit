@@ -12,19 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.account;
+package com.google.gerrit.server;
 
-import com.google.gerrit.client.reviewdb.Account;
-import com.google.gerrit.client.reviewdb.AccountSshKey;
-import com.google.gerrit.client.rpc.SignInRequired;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwtjsonrpc.client.RemoteJsonService;
-import com.google.gwtjsonrpc.client.VoidResult;
 
-import java.util.List;
-import java.util.Set;
-
-public interface AccountService extends RemoteJsonService {
-  @SignInRequired
-  void myAccount(AsyncCallback<Account> callback);
+/** Publishes {@link AccountSecurityImpl} over JSON. */
+public class AccountSecuritySrv extends GerritJsonServlet {
+  @Override
+  protected Object createServiceHandle() throws Exception {
+    return new AccountSecurityImpl(GerritServer.getInstance().getDatabase());
+  }
 }

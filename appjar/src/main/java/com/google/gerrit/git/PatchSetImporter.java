@@ -55,6 +55,7 @@ public class PatchSetImporter {
   private final RevCommit src;
   private final PatchSet dst;
   private final boolean isNew;
+  private Transaction txn;
   private org.spearce.jgit.patch.Patch gitpatch;
 
   private PatchSetInfo info;
@@ -82,6 +83,14 @@ public class PatchSetImporter {
     src = srcCommit;
     dst = dstPatchSet;
     isNew = isNewPatchSet;
+  }
+
+  public void setTransaction(final Transaction t) {
+    txn = t;
+  }
+
+  public PatchSetInfo getPatchSetInfo() {
+    return info;
   }
 
   public void run() throws IOException, OrmException {
@@ -112,7 +121,10 @@ public class PatchSetImporter {
     //
     putPatchContent();
 
-    final Transaction txn = db.beginTransaction();
+    final boolean auto = txn == null;
+    if (auto) {
+      txn = db.beginTransaction();
+    }
     if (isNew) {
       db.patchSets().insert(Collections.singleton(dst));
     }
@@ -130,7 +142,10 @@ public class PatchSetImporter {
       db.patchSetAncestors().update(ancestorUpdate, txn);
       db.patchSetAncestors().delete(ancestorExisting.values(), txn);
     }
-    txn.commit();
+    if (auto) {
+      txn.commit();
+      txn = null;
+    }
   }
 
   private void importInfo() {

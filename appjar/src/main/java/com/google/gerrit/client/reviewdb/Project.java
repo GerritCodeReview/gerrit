@@ -78,6 +78,10 @@ public final class Project {
     return projectId;
   }
 
+  public Project.NameKey getNameKey() {
+    return name;
+  }
+
   public String getName() {
     return name.get();
   }

@@ -74,4 +74,20 @@ public final class PatchSet {
   public void setRevision(final RevId i) {
     revision = i;
   }
+
+  public String getRefName() {
+    final StringBuilder r = new StringBuilder();
+    r.append("refs/changes/");
+    final int changeId = key.getParentKey().get();
+    final int m = changeId % 100;
+    if (m < 10) {
+      r.append('0');
+    }
+    r.append(m);
+    r.append('/');
+    r.append(changeId);
+    r.append('/');
+    r.append(key.get());
+    return r.toString();
+  }
 }

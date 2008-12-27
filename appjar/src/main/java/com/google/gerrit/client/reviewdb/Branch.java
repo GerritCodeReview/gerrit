@@ -96,6 +96,10 @@ public final class Branch {
     return branchId;
   }
 
+  public Branch.NameKey getNameKey() {
+    return name;
+  }
+
   public String getName() {
     return name.get();
   }

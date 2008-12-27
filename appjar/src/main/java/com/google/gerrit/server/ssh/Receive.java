@@ -15,17 +15,29 @@
 package com.google.gerrit.server.ssh;
 
 import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.client.reviewdb.Branch;
 import com.google.gerrit.client.reviewdb.Change;
-import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gerrit.client.reviewdb.PatchSet;
+import com.google.gerrit.git.PatchSetImporter;
 import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.Transaction;
 
+import org.spearce.jgit.lib.Constants;
 import org.spearce.jgit.lib.ObjectId;
+import org.spearce.jgit.lib.Ref;
+import org.spearce.jgit.lib.RefUpdate;
+import org.spearce.jgit.revwalk.RevCommit;
+import org.spearce.jgit.revwalk.RevSort;
+import org.spearce.jgit.revwalk.RevWalk;
 import org.spearce.jgit.transport.PreReceiveHook;
 import org.spearce.jgit.transport.ReceiveCommand;
 import org.spearce.jgit.transport.ReceivePack;
+import org.spearce.jgit.transport.ReceiveCommand.Result;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -36,9 +48,9 @@ import java.util.regex.Pattern;
 
 /** Receives change upload over SSH using the Git receive-pack protocol. */
 class Receive extends AbstractGitCommand {
-  private static final String NEW_CHANGE = "refs/changes/new";
+  private static final String NEW_CHANGE = "refs/for/";
   private static final Pattern NEW_PATCHSET =
-      Pattern.compile("^refs/changes/(?:[0-9][0-9]/)?([1-9][0-9]*)/new$");
+      Pattern.compile("^refs/changes/(?:[0-9][0-9]/)?([1-9][0-9]*)(?:/new)$");
 
   private final Set<String> reviewerEmail = new HashSet<String>();
   private final Set<String> ccEmail = new HashSet<String>();
@@ -47,6 +59,7 @@ class Receive extends AbstractGitCommand {
   private final Set<Account.Id> ccId = new HashSet<Account.Id>();
 
   private ReceiveCommand newChange;
+  private Branch destBranch;
   private final Map<Change.Id, ReceiveCommand> addByChange =
       new HashMap<Change.Id, ReceiveCommand>();
   private final Map<ObjectId, Change> addByCommit =
@@ -56,35 +69,28 @@ class Receive extends AbstractGitCommand {
 
   @Override
   protected void runImpl() throws IOException, Failure {
-    lookup(db, reviewerId, "reviewer", reviewerEmail);
-    lookup(db, ccId, "cc", ccEmail);
+    lookup(reviewerId, "reviewer", reviewerEmail);
+    lookup(ccId, "cc", ccEmail);
 
     // TODO verify user has signed a CLA for this project
 
     final ReceivePack rp = new ReceivePack(repo);
     rp.setAllowCreates(true);
-    rp.setAllowDeletes(false);
-    rp.setAllowNonFastForwards(false);
+    rp.setAllowDeletes(true);
+    rp.setAllowNonFastForwards(true);
     rp.setCheckReceivedObjects(true);
     rp.setPreReceiveHook(new PreReceiveHook() {
       public void onPreReceive(final ReceivePack arg0,
           final Collection<ReceiveCommand> commands) {
-        parseCommands(db, commands);
-
-        if (newChange != null) {
-          // TODO create new change records
-          newChange.setResult(ReceiveCommand.Result.OK);
-        }
-        for (Map.Entry<Change.Id, ReceiveCommand> e : addByChange.entrySet()) {
-          // TODO Append new commits to existing changes
-          e.getValue().setResult(ReceiveCommand.Result.OK);
-        }
+        parseCommands(commands);
+        createNewChanges(rp);
+        appendPatchSets(rp.getRevWalk());
       }
     });
     rp.receive(in, out, err);
   }
 
-  private void lookup(final ReviewDb db, final Set<Account.Id> accountIds,
+  private void lookup(final Set<Account.Id> accountIds,
       final String addressType, final Set<String> emails) throws Failure {
     final StringBuilder errors = new StringBuilder();
     try {
@@ -153,8 +159,7 @@ class Receive extends AbstractGitCommand {
     return new Failure(1, m.toString());
   }
 
-  private void parseCommands(final ReviewDb db,
-      final Collection<ReceiveCommand> commands) {
+  private void parseCommands(final Collection<ReceiveCommand> commands) {
     for (final ReceiveCommand cmd : commands) {
       if (cmd.getResult() != ReceiveCommand.Result.NOT_ATTEMPTED) {
         // Already rejected by the core receive process.
@@ -162,22 +167,8 @@ class Receive extends AbstractGitCommand {
         continue;
       }
 
-      if (cmd.getType() != ReceiveCommand.Type.CREATE) {
-        // We only permit creates for refs which don't exist.
-        //
-        reject(cmd);
-        continue;
-      }
-
-      if (NEW_CHANGE.equals(cmd.getRefName())) {
-        // Permit exactly one new change request per push.
-        //
-        if (newChange != null) {
-          reject(cmd, "duplicate request");
-          continue;
-        }
-
-        newChange = cmd;
+      if (cmd.getRefName().startsWith(NEW_CHANGE)) {
+        parseNewChangeCommand(cmd);
         continue;
       }
 
@@ -186,34 +177,7 @@ class Receive extends AbstractGitCommand {
         // The referenced change must exist and must still be open.
         //
         final Change.Id changeId = Change.Id.fromString(m.group(1));
-        final Change changeEnt;
-        try {
-          changeEnt = db.changes().get(changeId);
-        } catch (OrmException e) {
-          reject(cmd, "database error");
-          continue;
-        }
-        if (changeEnt == null) {
-          reject(cmd, "change " + changeId.get() + " not found");
-          continue;
-        }
-        if (changeEnt.getStatus().isClosed()) {
-          reject(cmd, "change " + changeId.get() + " closed");
-          continue;
-        }
-
-        if (addByChange.containsKey(changeId)) {
-          reject(cmd, "duplicate request");
-          continue;
-        }
-        if (addByCommit.containsKey(cmd.getNewId())) {
-          reject(cmd, "duplicate request");
-          continue;
-        }
-
-        addByChange.put(changeId, cmd);
-        addByCommit.put(cmd.getNewId(), changeEnt);
-        changeCache.put(changeId, changeEnt);
+        parseNewPatchSetCommand(cmd, changeId);
         continue;
       }
 
@@ -221,6 +185,176 @@ class Receive extends AbstractGitCommand {
       //
       reject(cmd);
     }
+  }
+
+  private void parseNewChangeCommand(final ReceiveCommand cmd) {
+    // Permit exactly one new change request per push.
+    //
+    if (newChange != null) {
+      reject(cmd, "duplicate request");
+      return;
+    }
+
+    newChange = cmd;
+    String destBranchName = cmd.getRefName().substring(NEW_CHANGE.length());
+    if (!destBranchName.startsWith(Constants.R_REFS)) {
+      destBranchName = Constants.R_HEADS + destBranchName;
+    }
+
+    try {
+      destBranch =
+          db.branches().byName(
+              new Branch.NameKey(proj.getNameKey(), destBranchName));
+    } catch (OrmException e) {
+      reject(cmd, "database error");
+      return;
+    }
+    if (destBranch == null) {
+      String n = destBranchName;
+      if (n.startsWith(Constants.R_HEADS))
+        n = n.substring(Constants.R_HEADS.length());
+      reject(cmd, "branch " + n + " not found");
+      return;
+    }
+  }
+
+  private void parseNewPatchSetCommand(final ReceiveCommand cmd,
+      final Change.Id changeId) {
+    final Change changeEnt;
+    try {
+      changeEnt = db.changes().get(changeId);
+    } catch (OrmException e) {
+      reject(cmd, "database error");
+      return;
+    }
+    if (changeEnt == null) {
+      reject(cmd, "change " + changeId.get() + " not found");
+      return;
+    }
+    if (changeEnt.getStatus().isClosed()) {
+      reject(cmd, "change " + changeId.get() + " closed");
+      return;
+    }
+
+    if (addByChange.containsKey(changeId)) {
+      reject(cmd, "duplicate request");
+      return;
+    }
+    if (addByCommit.containsKey(cmd.getNewId())) {
+      reject(cmd, "duplicate request");
+      return;
+    }
+
+    addByChange.put(changeId, cmd);
+    addByCommit.put(cmd.getNewId(), changeEnt);
+    changeCache.put(changeId, changeEnt);
+  }
+
+  private void createNewChanges(final ReceivePack rp) {
+    if (newChange == null) {
+      return;
+    }
+
+    final List<RevCommit> toCreate = new ArrayList<RevCommit>();
+    final RevWalk walk = rp.getRevWalk();
+    walk.reset();
+    walk.sort(RevSort.TOPO);
+    walk.sort(RevSort.REVERSE, true);
+    try {
+      walk.markStart(walk.parseCommit(newChange.getNewId()));
+      for (final Ref r : rp.getAdvertisedRefs().values()) {
+        try {
+          walk.markUninteresting(walk.parseCommit(r.getObjectId()));
+        } catch (IOException e) {
+          continue;
+        }
+      }
+
+      for (;;) {
+        final RevCommit c = walk.next();
+        if (c == null) {
+          break;
+        }
+        if (addByCommit.containsKey(c.copy())) {
+          // This commit is slated to replace an existing PatchSet.
+          //
+          continue;
+        }
+        toCreate.add(c);
+      }
+    } catch (IOException e) {
+      // Should never happen, the core receive process would have
+      // identified the missing object earlier before we got control.
+      //
+      newChange.setResult(Result.REJECTED_MISSING_OBJECT);
+    }
+
+    try {
+      for (final RevCommit c : toCreate) {
+        createChange(walk, c);
+      }
+      newChange.setResult(ReceiveCommand.Result.OK);
+    } catch (IOException e) {
+      reject(newChange, "diff error");
+    } catch (OrmException e) {
+      reject(newChange, "database error");
+    }
+  }
+
+  private void createChange(final RevWalk walk, final RevCommit c)
+      throws OrmException, IOException {
+    final Transaction txn = db.beginTransaction();
+    final Change change =
+        new Change(new Change.Id(db.nextChangeId()), userAccount.getId(),
+            destBranch.getNameKey());
+    final PatchSet ps = new PatchSet(new PatchSet.Id(change.getKey(), 1));
+    final PatchSetImporter imp = new PatchSetImporter(db, repo, c, ps, true);
+    imp.setTransaction(txn);
+    imp.run();
+    change.setCurrentPatchSet(imp.getPatchSetInfo());
+    db.changes().insert(Collections.singleton(change));
+    txn.commit();
+
+    final RefUpdate ru = repo.updateRef(ps.getRefName());
+    ru.setForceUpdate(true);
+    ru.setNewObjectId(c);
+    ru.update(walk);
+    
+    // TODO list the new change id
+  }
+
+  private void appendPatchSets(final RevWalk walk) {
+    for (Map.Entry<Change.Id, ReceiveCommand> e : addByChange.entrySet()) {
+      final ReceiveCommand cmd = e.getValue();
+      final Change.Id changeId = e.getKey();
+      final Change change = changeCache.get(changeId);
+      try {
+        appendPatchSet(walk, change, cmd);
+        cmd.setResult(ReceiveCommand.Result.OK);
+      } catch (IOException err) {
+        reject(cmd, "diff error");
+      } catch (OrmException err) {
+        reject(cmd, "database error");
+      }
+    }
+  }
+
+  private void appendPatchSet(final RevWalk walk, final Change change,
+      final ReceiveCommand cmd) throws IOException, OrmException {
+    final RevCommit c = walk.parseCommit(cmd.getNewId());
+    final Transaction txn = db.beginTransaction();
+    final PatchSet ps = new PatchSet(change.newPatchSetId());
+    final PatchSetImporter imp = new PatchSetImporter(db, repo, c, ps, true);
+    imp.setTransaction(txn);
+    imp.run();
+    change.setCurrentPatchSet(imp.getPatchSetInfo());
+    db.changes().update(Collections.singleton(change));
+    txn.commit();
+
+    final RefUpdate ru = repo.updateRef(ps.getRefName());
+    ru.setForceUpdate(true);
+    ru.setNewObjectId(c);
+    ru.update(walk);
   }
 
   private static void reject(final ReceiveCommand cmd) {

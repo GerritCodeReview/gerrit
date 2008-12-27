@@ -24,6 +24,8 @@ class Upload extends AbstractGitCommand {
   protected void runImpl() throws IOException {
     closeDb();
 
+    // TODO Verify the user can access this project.
+
     final UploadPack up = new UploadPack(repo);
     up.upload(in, out, err);
   }

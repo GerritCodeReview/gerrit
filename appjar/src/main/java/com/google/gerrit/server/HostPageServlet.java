@@ -141,7 +141,7 @@ public class HostPageServlet extends HttpServlet {
     w.write("<!--\n");
     w.write("var ");
     w.write(id);
-    w.write("=");
+    w.write("_obj=");
     GerritJsonServlet.defaultGsonBuilder().create().toJson(obj, w);
     w.write(";\n// -->\n");
     scriptNode.removeAttribute("id");

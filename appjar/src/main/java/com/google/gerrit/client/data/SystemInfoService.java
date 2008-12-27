@@ -21,6 +21,6 @@ import com.google.gwtjsonrpc.client.RemoteJsonService;
 
 public interface SystemInfoService extends RemoteJsonService {
   @AllowCrossSiteRequest
-  @HostPageCache(name = "gerrit_gerritconfig", once = true)
+  @HostPageCache(name = "gerrit_gerritconfig_obj", once = true)
   void loadGerritConfig(AsyncCallback<GerritConfig> callback);
 }

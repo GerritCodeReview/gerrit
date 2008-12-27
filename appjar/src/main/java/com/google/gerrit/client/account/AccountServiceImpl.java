@@ -24,8 +24,11 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
+import com.google.gwtorm.client.Transaction;
 
 import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 
 public class AccountServiceImpl extends BaseServiceImplementation implements
     AccountService {
@@ -41,11 +44,10 @@ public class AccountServiceImpl extends BaseServiceImplementation implements
     });
   }
 
-  public void mySshKeys(final AsyncCallback<SshKeyList> callback) {
-    run(callback, new Action<SshKeyList>() {
-      public SshKeyList run(ReviewDb db) throws OrmException {
-        return new SshKeyList(db.accountSshKeys().byAccount(
-            RpcUtil.getAccountId()).toList());
+  public void mySshKeys(final AsyncCallback<List<AccountSshKey>> callback) {
+    run(callback, new Action<List<AccountSshKey>>() {
+      public List<AccountSshKey> run(ReviewDb db) throws OrmException {
+        return db.accountSshKeys().byAccount(RpcUtil.getAccountId()).toList();
       }
     });
   }
@@ -68,16 +70,22 @@ public class AccountServiceImpl extends BaseServiceImplementation implements
     });
   }
 
-  public void deleteSshKey(final AccountSshKey.Id id,
+  public void deleteSshKeys(final Set<AccountSshKey.Id> ids,
       final AsyncCallback<VoidResult> callback) {
     run(callback, new Action<VoidResult>() {
       public VoidResult run(final ReviewDb db) throws OrmException, Failure {
         final Account.Id me = RpcUtil.getAccountId();
-        if (!me.equals(id.getParentKey()))
-          throw new Failure(new NoSuchEntityException());
+        for (final AccountSshKey.Id keyId : ids) {
+          if (!me.equals(keyId.getParentKey()))
+            throw new Failure(new NoSuchEntityException());
+        }
 
-        final AccountSshKey k = db.accountSshKeys().get(id);
-        if (k != null) db.accountSshKeys().delete(Collections.singleton(k));
+        final List<AccountSshKey> k = db.accountSshKeys().get(ids).toList();
+        if (!k.isEmpty()) {
+          final Transaction txn = db.beginTransaction();
+          db.accountSshKeys().delete(k, txn);
+          txn.commit();
+        }
 
         return VoidResult.INSTANCE;
       }

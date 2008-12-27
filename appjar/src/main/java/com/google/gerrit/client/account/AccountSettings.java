@@ -40,11 +40,12 @@ public class AccountSettings extends AccountScreen {
 
     info = new Grid(3, 2);
     info.setStyleName("gerrit-InfoBlock");
+    info.addStyleName("gerrit-AccountInfoBlock");
     add(info);
 
-    infoRow(0, "Full Name");
-    infoRow(1, "Email Address");
-    infoRow(2, "Registered");
+    infoRow(0, Util.C.fullName());
+    infoRow(1, Util.C.preferredEmail());
+    infoRow(2, Util.C.registeredOn());
 
     final CellFormatter fmt = info.getCellFormatter();
     fmt.addStyleName(0, 0, "topmost");
@@ -61,9 +62,9 @@ public class AccountSettings extends AccountScreen {
 
     tabs = new TabPanel();
     tabs.setWidth("100%");
-    tabs.add(prefsPanel, "Preferences");
-    tabs.add(keysPanel, "SSH Keys");
-    tabs.add(agreementsPanel, "Agreements");
+    tabs.add(prefsPanel, Util.C.tabPreferences());
+    tabs.add(keysPanel, Util.C.tabSshKeys());
+    tabs.add(agreementsPanel, Util.C.tabAgreements());
 
     add(tabs);
     tabs.selectTab(0);

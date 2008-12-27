@@ -18,4 +18,23 @@ import com.google.gwt.i18n.client.Constants;
 
 public interface AccountConstants extends Constants {
   String accountSettingsHeading();
+
+  String fullName();
+  String preferredEmail();
+  String registeredOn();
+
+  String tabPreferences();
+  String tabSshKeys();
+  String tabAgreements();
+
+  String buttonDeleteSshKey();
+  String buttonAddSshKey();
+
+  String sshKeyAlgorithm();
+  String sshKeyKey();
+  String sshKeyComment();
+  String sshKeyLastUsed();
+  String sshKeyStored();
+
+  String addSshKeyPanelHeader();
 }

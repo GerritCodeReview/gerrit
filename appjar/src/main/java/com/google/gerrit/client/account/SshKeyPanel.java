@@ -19,16 +19,20 @@ import com.google.gerrit.client.reviewdb.AccountSshKey;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SourcesTableEvents;
 import com.google.gwt.user.client.ui.TableListener;
 import com.google.gwt.user.client.ui.TextArea;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwtjsonrpc.client.VoidResult;
 
+import java.util.HashSet;
 import java.util.List;
 
 public class SshKeyPanel extends Composite {
@@ -45,11 +49,10 @@ public class SshKeyPanel extends Composite {
     body.add(keys);
     {
       final FlowPanel fp = new FlowPanel();
-      delSel = new Button("Delete");
-      delSel.setEnabled(false);
+      delSel = new Button(Util.C.buttonDeleteSshKey());
       delSel.addClickListener(new ClickListener() {
         public void onClick(final Widget sender) {
-          keys.deleteCurrent();
+          keys.deleteChecked();
         }
       });
       fp.add(delSel);
@@ -57,13 +60,16 @@ public class SshKeyPanel extends Composite {
     }
 
     {
-      final FlowPanel fp = new FlowPanel();
+      final VerticalPanel fp = new VerticalPanel();
+      fp.setStyleName("gerrit-AddSshKeyPanel");
+      fp.add(new Label(Util.C.addSshKeyPanelHeader()));
+
       addTxt = new TextArea();
-      addTxt.setVisibleLines(3);
-      addTxt.setCharacterWidth(60);
+      addTxt.setVisibleLines(12);
+      addTxt.setCharacterWidth(80);
       fp.add(addTxt);
 
-      addNew = new Button("Add ...");
+      addNew = new Button(Util.C.buttonAddSshKey());
       addNew.addClickListener(new ClickListener() {
         public void onClick(final Widget sender) {
           doAddNew();
@@ -105,9 +111,9 @@ public class SshKeyPanel extends Composite {
   }
 
   public void update() {
-    Util.ACCOUNT_SVC.mySshKeys(new GerritCallback<SshKeyList>() {
-      public void onSuccess(final SshKeyList result) {
-        keys.display(result.keys);
+    Util.ACCOUNT_SVC.mySshKeys(new GerritCallback<List<AccountSshKey>>() {
+      public void onSuccess(final List<AccountSshKey> result) {
+        keys.display(result);
         keys.finishDisplay(true);
       }
     });
@@ -115,36 +121,26 @@ public class SshKeyPanel extends Composite {
 
   private class SshKeyTable extends FancyFlexTable<AccountSshKey> {
     SshKeyTable() {
-      table.setText(0, 1, "Algorithm");
-      table.setText(0, 2, "Key");
-      table.setText(0, 3, "Comment");
-      table.setText(0, 4, "Last Used");
-      table.setText(0, 5, "Stored");
+      table.setText(0, 2, Util.C.sshKeyAlgorithm());
+      table.setText(0, 3, Util.C.sshKeyKey());
+      table.setText(0, 4, Util.C.sshKeyComment());
+      table.setText(0, 5, Util.C.sshKeyLastUsed());
+      table.setText(0, 6, Util.C.sshKeyStored());
       table.addTableListener(new TableListener() {
         public void onCellClicked(SourcesTableEvents sender, int row, int cell) {
-          if (getRowItem(row) != null) {
+          if (cell != 1 && getRowItem(row) != null) {
             movePointerTo(row);
           }
         }
       });
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
-      fmt.addStyleName(0, 1, S_DATA_HEADER);
+      fmt.addStyleName(0, 1, S_ICON_HEADER);
       fmt.addStyleName(0, 2, S_DATA_HEADER);
       fmt.addStyleName(0, 3, S_DATA_HEADER);
       fmt.addStyleName(0, 4, S_DATA_HEADER);
       fmt.addStyleName(0, 5, S_DATA_HEADER);
-    }
-
-    @Override
-    protected void movePointerTo(final int newRow) {
-      super.movePointerTo(newRow);
-      if (0 <= newRow && newRow < table.getRowCount()
-          && getRowItem(newRow) != null) {
-        delSel.setEnabled(true);
-      } else {
-        delSel.setEnabled(false);
-      }
+      fmt.addStyleName(0, 6, S_DATA_HEADER);
     }
 
     @Override
@@ -152,27 +148,53 @@ public class SshKeyPanel extends Composite {
       return item.getKey();
     }
 
-    void deleteCurrent() {
-      final int row = getCurrentRow();
-      if (0 <= row && row < table.getRowCount()) {
-        final AccountSshKey k = getRowItem(row);
-        if (k != null) {
-          Util.ACCOUNT_SVC.deleteSshKey(k.getKey(),
-              new GerritCallback<VoidResult>() {
-                public void onSuccess(final VoidResult result) {
-                  int jumpTo = -1;
-                  for (int i = 0; i < table.getRowCount(); i++) {
-                    if (getRowItem(i) == k) {
-                      table.removeRow(i);
-                      movePointerTo(jumpTo);
-                      break;
-                    } else if (getRowItem(i) != null) {
-                      jumpTo = i;
-                    }
-                  }
-                }
-              });
+    @Override
+    protected boolean onKeyPress(final char keyCode, final int modifiers) {
+      if (super.onKeyPress(keyCode, modifiers)) {
+        return true;
+      }
+      if (modifiers == 0) {
+        switch (keyCode) {
+          case 's':
+          case 'c':
+            toggleCurrentRow();
+            return true;
         }
+      }
+      return false;
+    }
+
+    @Override
+    protected void onOpenItem(final AccountSshKey item) {
+      toggleCurrentRow();
+    }
+
+    private void toggleCurrentRow() {
+      final CheckBox cb = (CheckBox) table.getWidget(getCurrentRow(), 1);
+      cb.setChecked(!cb.isChecked());
+    }
+
+    void deleteChecked() {
+      final HashSet<AccountSshKey.Id> ids = new HashSet<AccountSshKey.Id>();
+      for (int row = 1; row < table.getRowCount(); row++) {
+        final AccountSshKey k = getRowItem(row);
+        if (k != null && ((CheckBox) table.getWidget(row, 1)).isChecked()) {
+          ids.add(k.getKey());
+        }
+      }
+      if (!ids.isEmpty()) {
+        Util.ACCOUNT_SVC.deleteSshKeys(ids, new GerritCallback<VoidResult>() {
+          public void onSuccess(final VoidResult result) {
+            for (int row = 1; row < table.getRowCount();) {
+              final AccountSshKey k = getRowItem(row);
+              if (k != null && ids.contains(k.getKey())) {
+                table.removeRow(row);
+              } else {
+                row++;
+              }
+            }
+          }
+        });
       }
     }
 
@@ -189,14 +211,19 @@ public class SshKeyPanel extends Composite {
       final int row = table.getRowCount();
       table.insertRow(row);
 
-      table.setText(row, 1, k.getAlgorithm());
-      table.setText(row, 2, elide(k.getEncodedKey()));
-      table.setText(row, 3, k.getComment());
-      table.setText(row, 4, FormatUtil.mediumFormat(k.getLastUsedOn()));
-      table.setText(row, 5, FormatUtil.mediumFormat(k.getStoredOn()));
+      table.setWidget(row, 1, new CheckBox());
+      table.setText(row, 2, k.getAlgorithm());
+      table.setText(row, 3, elide(k.getEncodedKey()));
+      table.setText(row, 4, k.getComment());
+      table.setText(row, 5, FormatUtil.mediumFormat(k.getLastUsedOn()));
+      table.setText(row, 6, FormatUtil.mediumFormat(k.getStoredOn()));
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
-      fmt.addStyleName(row, 2, "gerrit-SshKeyPanel-EncodedKey");
+      fmt.addStyleName(row, 1, S_ICON_CELL);
+      fmt.addStyleName(row, 3, "gerrit-SshKeyPanel-EncodedKey");
+      for (int c = 2; c <= 6; c++) {
+        fmt.addStyleName(row, c, S_DATA_CELL);
+      }
 
       setRowItem(row, k);
     }

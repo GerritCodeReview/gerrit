@@ -21,16 +21,20 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.RemoteJsonService;
 import com.google.gwtjsonrpc.client.VoidResult;
 
+import java.util.List;
+import java.util.Set;
+
 public interface AccountService extends RemoteJsonService {
   @SignInRequired
   void myAccount(AsyncCallback<Account> callback);
 
   @SignInRequired
-  void mySshKeys(AsyncCallback<SshKeyList> callback);
+  void mySshKeys(AsyncCallback<List<AccountSshKey>> callback);
 
   @SignInRequired
   void addSshKey(String keyText, AsyncCallback<AccountSshKey> callback);
 
   @SignInRequired
-  void deleteSshKey(AccountSshKey.Id id, AsyncCallback<VoidResult> callback);
+  void deleteSshKeys(Set<AccountSshKey.Id> ids,
+      AsyncCallback<VoidResult> callback);
 }

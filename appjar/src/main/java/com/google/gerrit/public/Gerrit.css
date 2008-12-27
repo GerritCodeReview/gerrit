@@ -482,3 +482,16 @@
   overflow: hidden;
   font-family: Courier New, Courier, monospace;
 }
+
+.gerrit-AccountInfoBlock {
+  margin-bottom: 10px;
+}
+
+.gerrit-AddSshKeyPanel {
+  margin-top: 10px;
+  background-color: #d4e9a9;
+  padding: 5px 5px 5px 5px;
+}
+.gerrit-AddSshKeyPanel .gwt-Label {
+  font-weight: bold;
+}

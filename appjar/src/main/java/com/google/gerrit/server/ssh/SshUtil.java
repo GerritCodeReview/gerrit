@@ -48,12 +48,16 @@ public class SshUtil {
   public static PublicKey parse(final AccountSshKey key)
       throws NoSuchAlgorithmException, InvalidKeySpecException,
       NoSuchProviderException {
-    final String s = key.getEncodedKey();
-    if (s == null) {
-      throw new InvalidKeySpecException("No key string");
+    try {
+      final String s = key.getEncodedKey();
+      if (s == null) {
+        throw new InvalidKeySpecException("No key string");
+      }
+      final byte[] bin = Base64.decodeBase64(Constants.encodeASCII(s));
+      return new Buffer(bin).getPublicKey();
+    } catch (RuntimeException re) {
+      throw new InvalidKeySpecException("Cannot parse key", re);
     }
-    final byte[] bin = Base64.decodeBase64(Constants.encodeASCII(s));
-    return new Buffer(bin).getPublicKey();
   }
 
   private static final Map<String, List<AccountSshKey>> keys;

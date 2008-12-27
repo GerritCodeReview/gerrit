@@ -15,6 +15,7 @@
 package com.google.gerrit.client.account;
 
 import com.google.gerrit.client.FormatUtil;
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.reviewdb.AccountSshKey;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.FancyFlexTable;
@@ -86,7 +87,7 @@ public class SshKeyPanel extends Composite {
     final String txt = addTxt.getText();
     if (txt != null && txt.length() > 0) {
       addNew.setEnabled(false);
-      Util.ACCOUNT_SVC.addSshKey(txt, new GerritCallback<AccountSshKey>() {
+      Util.ACCOUNT_SEC.addSshKey(txt, new GerritCallback<AccountSshKey>() {
         public void onSuccess(final AccountSshKey result) {
           addNew.setEnabled(true);
           addTxt.setText("");
@@ -111,7 +112,7 @@ public class SshKeyPanel extends Composite {
   }
 
   public void update() {
-    Util.ACCOUNT_SVC.mySshKeys(new GerritCallback<List<AccountSshKey>>() {
+    Util.ACCOUNT_SEC.mySshKeys(new GerritCallback<List<AccountSshKey>>() {
       public void onSuccess(final List<AccountSshKey> result) {
         keys.display(result);
         keys.finishDisplay(true);
@@ -121,11 +122,11 @@ public class SshKeyPanel extends Composite {
 
   private class SshKeyTable extends FancyFlexTable<AccountSshKey> {
     SshKeyTable() {
-      table.setText(0, 2, Util.C.sshKeyAlgorithm());
-      table.setText(0, 3, Util.C.sshKeyKey());
-      table.setText(0, 4, Util.C.sshKeyComment());
-      table.setText(0, 5, Util.C.sshKeyLastUsed());
-      table.setText(0, 6, Util.C.sshKeyStored());
+      table.setText(0, 3, Util.C.sshKeyAlgorithm());
+      table.setText(0, 4, Util.C.sshKeyKey());
+      table.setText(0, 5, Util.C.sshKeyComment());
+      table.setText(0, 6, Util.C.sshKeyLastUsed());
+      table.setText(0, 7, Util.C.sshKeyStored());
       table.addTableListener(new TableListener() {
         public void onCellClicked(SourcesTableEvents sender, int row, int cell) {
           if (cell != 1 && getRowItem(row) != null) {
@@ -136,11 +137,13 @@ public class SshKeyPanel extends Composite {
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
       fmt.addStyleName(0, 1, S_ICON_HEADER);
-      fmt.addStyleName(0, 2, S_DATA_HEADER);
+      fmt.addStyleName(0, 2, S_ICON_HEADER);
+
       fmt.addStyleName(0, 3, S_DATA_HEADER);
       fmt.addStyleName(0, 4, S_DATA_HEADER);
       fmt.addStyleName(0, 5, S_DATA_HEADER);
       fmt.addStyleName(0, 6, S_DATA_HEADER);
+      fmt.addStyleName(0, 7, S_DATA_HEADER);
     }
 
     @Override
@@ -183,7 +186,7 @@ public class SshKeyPanel extends Composite {
         }
       }
       if (!ids.isEmpty()) {
-        Util.ACCOUNT_SVC.deleteSshKeys(ids, new GerritCallback<VoidResult>() {
+        Util.ACCOUNT_SEC.deleteSshKeys(ids, new GerritCallback<VoidResult>() {
           public void onSuccess(final VoidResult result) {
             for (int row = 1; row < table.getRowCount();) {
               final AccountSshKey k = getRowItem(row);
@@ -212,16 +215,19 @@ public class SshKeyPanel extends Composite {
       table.insertRow(row);
 
       table.setWidget(row, 1, new CheckBox());
-      table.setText(row, 2, k.getAlgorithm());
-      table.setText(row, 3, elide(k.getEncodedKey()));
-      table.setText(row, 4, k.getComment());
-      table.setText(row, 5, FormatUtil.mediumFormat(k.getLastUsedOn()));
-      table.setText(row, 6, FormatUtil.mediumFormat(k.getStoredOn()));
+      table.setWidget(row, 2, k.isValid() ? Gerrit.ICONS.greenCheck()
+          .createImage() : Gerrit.ICONS.redNot().createImage());
+      table.setText(row, 3, k.getAlgorithm());
+      table.setText(row, 4, elide(k.getEncodedKey()));
+      table.setText(row, 5, k.getComment());
+      table.setText(row, 6, FormatUtil.mediumFormat(k.getLastUsedOn()));
+      table.setText(row, 7, FormatUtil.mediumFormat(k.getStoredOn()));
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
       fmt.addStyleName(row, 1, S_ICON_CELL);
-      fmt.addStyleName(row, 3, "gerrit-SshKeyPanel-EncodedKey");
-      for (int c = 2; c <= 6; c++) {
+      fmt.addStyleName(row, 2, S_ICON_CELL);
+      fmt.addStyleName(row, 4, "gerrit-SshKeyPanel-EncodedKey");
+      for (int c = 3; c <= 7; c++) {
         fmt.addStyleName(row, c, S_DATA_CELL);
       }
 

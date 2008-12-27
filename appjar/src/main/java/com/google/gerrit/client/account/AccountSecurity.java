@@ -14,7 +14,6 @@
 
 package com.google.gerrit.client.account;
 
-import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountSshKey;
 import com.google.gerrit.client.rpc.SignInRequired;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -24,7 +23,14 @@ import com.google.gwtjsonrpc.client.VoidResult;
 import java.util.List;
 import java.util.Set;
 
-public interface AccountService extends RemoteJsonService {
+public interface AccountSecurity extends RemoteJsonService {
   @SignInRequired
-  void myAccount(AsyncCallback<Account> callback);
+  void mySshKeys(AsyncCallback<List<AccountSshKey>> callback);
+
+  @SignInRequired
+  void addSshKey(String keyText, AsyncCallback<AccountSshKey> callback);
+
+  @SignInRequired
+  void deleteSshKeys(Set<AccountSshKey.Id> ids,
+      AsyncCallback<VoidResult> callback);
 }

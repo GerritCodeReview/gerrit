@@ -65,6 +65,16 @@
   </servlet-mapping>
 
   <servlet>
+    <servlet-name>AccountSecurity</servlet-name>
+    <servlet-class>com.google.gerrit.server.AccountSecuritySrv</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AccountSecurity</servlet-name>
+    <url-pattern>/rpc/AccountSecurity</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
     <servlet-name>ChangeDetailService</servlet-name>
     <servlet-class>com.google.gerrit.server.ChangeDetailServiceSrv</servlet-class>
     <load-on-startup>1</load-on-startup>

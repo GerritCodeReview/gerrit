@@ -64,7 +64,7 @@ public final class SystemConfig {
    * @see HostPageServlet
    */
   @Column(notNull = false)
-  public String sitePath;
+  public transient String sitePath;
 
   /** Optional canonical URL for this application. */
   @Column(notNull = false)
@@ -76,7 +76,7 @@ public final class SystemConfig {
 
   /** Local filesystem loction all projects reside within. */
   @Column(notNull = false)
-  public String gitBasePath;
+  public transient String gitBasePath;
 
   /** Local TCP port number the embedded SSHD server binds onto. */
   @Column

@@ -499,6 +499,16 @@ WHERE EXISTS (SELECT 1 FROM temp_dates m
 DROP TABLE temp_dates;
 
 
+-- Fix patches.nbr_comments
+--
+UPDATE patches
+SET nbr_comments = (SELECT COUNT(*)
+                    FROM patch_comments c
+                    WHERE c.status = 'P'
+                    AND c.change_id = patches.change_id
+                    AND c.patch_set_id = patches.patch_set_id
+                    AND c.file_name = patches.file_name);
+
 SELECT
  (SELECT COUNT(*) FROM gerrit1.accounts) as accounts_g1,
  (SELECT COUNT(*) FROM accounts) as accounts_g1

@@ -563,6 +563,11 @@ WHERE
   (SELECT COUNT(*) FROM gerrit1.comments)
 !=(SELECT COUNT(*) FROM patch_comments);
 
+-- Reset sequences
 --
-SELECT 'ALTER SEQUENCE project_id RESTART WITH ' || (SELECT MAX(project_id) + 1 FROM projects) || ';' AS run_this;
-SELECT 'ALTER SEQUENCE change_id RESTART WITH ' || (SELECT MAX(change_id) + 1 FROM changes) || ';' AS run_this;
+-- account_group_id (above)
+-- account_id (above)
+-- branch_id (above)
+SELECT setval('change_id',(SELECT MAX(change_id) FROM changes));
+-- contributor_agreement_id (above)
+SELECT setval('project_id',(SELECT MAX(project_id) FROM projects));

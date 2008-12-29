@@ -15,11 +15,11 @@
 package com.google.gerrit.client.reviewdb;
 
 import com.google.gwtorm.client.Column;
+import com.google.gwtorm.client.CompoundKey;
 
 /** Single {@link Account} as owner/manager of a project. */
 public final class ProjectLeadAccount {
-  public static class Key implements
-      com.google.gwtorm.client.Key<Project.NameKey> {
+  public static class Key extends CompoundKey<Project.NameKey> {
     @Column
     protected Project.NameKey projectName;
 
@@ -36,19 +36,14 @@ public final class ProjectLeadAccount {
       accountId = a;
     }
 
+    @Override
     public Project.NameKey getParentKey() {
       return projectName;
     }
 
     @Override
-    public int hashCode() {
-      return projectName.hashCode() * 31 + accountId.hashCode();
-    }
-
-    @Override
-    public boolean equals(final Object o) {
-      return o instanceof Key && ((Key) o).projectName.equals(projectName)
-          && ((Key) o).accountId.equals(accountId);
+    public com.google.gwtorm.client.Key<?>[] members() {
+      return new com.google.gwtorm.client.Key<?>[] {accountId};
     }
   }
 

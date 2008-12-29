@@ -15,6 +15,7 @@
 package com.google.gerrit.client.reviewdb;
 
 import com.google.gwtorm.client.Column;
+import com.google.gwtorm.client.KeyUtil;
 
 /** Content of a single patch file */
 public final class PatchContent {
@@ -37,7 +38,12 @@ public final class PatchContent {
 
     @Override
     public boolean equals(final Object o) {
-      return o instanceof Key && sha1.equals(((Key) o).sha1);
+      return getClass() == o.getClass() && sha1.equals(((Key) o).sha1);
+    }
+
+    @Override
+    public String toString() {
+      return KeyUtil.encode(sha1);
     }
 
     public com.google.gwtorm.client.Key<?> getParentKey() {

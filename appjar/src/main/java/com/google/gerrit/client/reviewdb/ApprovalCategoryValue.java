@@ -15,11 +15,11 @@
 package com.google.gerrit.client.reviewdb;
 
 import com.google.gwtorm.client.Column;
+import com.google.gwtorm.client.ShortKey;
 
 /** Valid value for a {@link ApprovalCategory}. */
 public final class ApprovalCategoryValue {
-  public static class Key implements
-      com.google.gwtorm.client.Key<ApprovalCategory.Id> {
+  public static class Key extends ShortKey<ApprovalCategory.Id> {
     @Column
     protected ApprovalCategory.Id categoryId;
 
@@ -35,19 +35,14 @@ public final class ApprovalCategoryValue {
       value = v;
     }
 
+    @Override
     public ApprovalCategory.Id getParentKey() {
       return categoryId;
     }
 
     @Override
-    public int hashCode() {
-      return categoryId.hashCode() * 31 + value;
-    }
-
-    @Override
-    public boolean equals(final Object o) {
-      return o instanceof Key && ((Key) o).categoryId.equals(categoryId)
-          && ((Key) o).value == value;
+    public short get() {
+      return value;
     }
   }
 

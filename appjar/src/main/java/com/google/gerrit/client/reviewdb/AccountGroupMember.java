@@ -15,10 +15,11 @@
 package com.google.gerrit.client.reviewdb;
 
 import com.google.gwtorm.client.Column;
+import com.google.gwtorm.client.CompoundKey;
 
 /** Membership of an {@link Account} in an {@link AccountGroup}. */
 public final class AccountGroupMember {
-  public static class Key implements com.google.gwtorm.client.Key<Account.Id> {
+  public static class Key extends CompoundKey<Account.Id> {
     @Column
     protected Account.Id accountId;
 
@@ -35,19 +36,14 @@ public final class AccountGroupMember {
       groupId = g;
     }
 
+    @Override
     public Account.Id getParentKey() {
       return accountId;
     }
 
     @Override
-    public int hashCode() {
-      return accountId.hashCode() * 31 + groupId.hashCode();
-    }
-
-    @Override
-    public boolean equals(final Object o) {
-      return o instanceof Key && ((Key) o).accountId.equals(accountId)
-          && ((Key) o).groupId.equals(groupId);
+    public com.google.gwtorm.client.Key<?>[] members() {
+      return new com.google.gwtorm.client.Key<?>[] {groupId};
     }
   }
 

@@ -15,10 +15,11 @@
 package com.google.gerrit.client.reviewdb;
 
 import com.google.gwtorm.client.Column;
+import com.google.gwtorm.client.StringKey;
 
 /** Association of an external account identifier to a local {@link Account}. */
 public final class AccountExternalId {
-  public static class Key implements com.google.gwtorm.client.Key<Account.Id> {
+  public static class Key extends StringKey<Account.Id> {
     @Column
     protected Account.Id accountId;
 
@@ -34,19 +35,14 @@ public final class AccountExternalId {
       externalId = e;
     }
 
+    @Override
     public Account.Id getParentKey() {
       return accountId;
     }
 
     @Override
-    public int hashCode() {
-      return accountId.hashCode() * 31 + externalId.hashCode();
-    }
-
-    @Override
-    public boolean equals(final Object o) {
-      return o instanceof Key && ((Key) o).accountId.equals(accountId)
-          && ((Key) o).externalId.equals(externalId);
+    public String get() {
+      return externalId;
     }
   }
 

@@ -15,12 +15,13 @@
 package com.google.gerrit.client.reviewdb;
 
 import com.google.gwtorm.client.Column;
+import com.google.gwtorm.client.CompoundKey;
 
 import java.sql.Timestamp;
 
 /** An approval (or negative approval) on a change. */
 public final class ChangeApproval {
-  public static class Key implements com.google.gwtorm.client.Key<Change.Id> {
+  public static class Key extends CompoundKey<Change.Id> {
     @Column
     protected Change.Id changeId;
 
@@ -43,25 +44,14 @@ public final class ChangeApproval {
       this.categoryId = c;
     }
 
+    @Override
     public Change.Id getParentKey() {
       return changeId;
     }
 
     @Override
-    public int hashCode() {
-      int h = changeId.hashCode();
-      h *= 31;
-      h += accountId.hashCode();
-      h *= 31;
-      h += categoryId.hashCode();
-      return h;
-    }
-
-    @Override
-    public boolean equals(final Object o) {
-      return o instanceof Key && ((Key) o).changeId.equals(changeId)
-          && ((Key) o).accountId.equals(accountId)
-          && ((Key) o).categoryId.equals(categoryId);
+    public com.google.gwtorm.client.Key<?>[] members() {
+      return new com.google.gwtorm.client.Key<?>[] {accountId, categoryId};
     }
   }
 

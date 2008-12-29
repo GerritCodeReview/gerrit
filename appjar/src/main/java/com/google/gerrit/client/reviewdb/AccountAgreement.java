@@ -15,12 +15,13 @@
 package com.google.gerrit.client.reviewdb;
 
 import com.google.gwtorm.client.Column;
+import com.google.gwtorm.client.CompoundKey;
 
 import java.sql.Timestamp;
 
 /** Electronic acceptance of a {@link ContributorAgreement} by {@link Account} */
 public final class AccountAgreement {
-  public static class Key implements com.google.gwtorm.client.Key<Account.Id> {
+  public static class Key extends CompoundKey<Account.Id> {
     @Column
     protected Account.Id accountId;
 
@@ -37,19 +38,14 @@ public final class AccountAgreement {
       this.claId = cla;
     }
 
+    @Override
     public Account.Id getParentKey() {
       return accountId;
     }
 
     @Override
-    public int hashCode() {
-      return accountId.hashCode() * 31 + claId.hashCode();
-    }
-
-    @Override
-    public boolean equals(final Object o) {
-      return o instanceof Key && ((Key) o).accountId.equals(accountId)
-          && ((Key) o).claId.equals(claId);
+    public com.google.gwtorm.client.Key<?>[] members() {
+      return new com.google.gwtorm.client.Key<?>[] {claId};
     }
   }
 

@@ -37,6 +37,11 @@ public final class AccountGroup {
     public String get() {
       return name;
     }
+
+    @Override
+    protected void set(String newValue) {
+      name = newValue;
+    }
   }
 
   /** Synthetic key to link to within the database */
@@ -54,6 +59,11 @@ public final class AccountGroup {
     @Override
     public int get() {
       return id;
+    }
+
+    @Override
+    protected void set(int newValue) {
+      id = newValue;
     }
   }
 

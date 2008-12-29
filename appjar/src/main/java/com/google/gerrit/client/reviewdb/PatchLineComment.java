@@ -46,6 +46,11 @@ public final class PatchLineComment {
     public String get() {
       return uuid;
     }
+
+    @Override
+    protected void set(String newValue) {
+      uuid = newValue;
+    }
   }
 
   protected static final char STATUS_DRAFT = 'd';

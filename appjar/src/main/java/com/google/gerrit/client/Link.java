@@ -25,10 +25,9 @@ import com.google.gerrit.client.patches.PatchUnifiedScreen;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.Patch;
-import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.rpc.RpcUtil;
 import com.google.gerrit.client.ui.Screen;
-import com.google.gwt.http.client.URL;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.HistoryListener;
 
 public class Link implements HistoryListener {
@@ -51,7 +50,7 @@ public class Link implements HistoryListener {
   }
 
   public static String toChange(final Change.Id c) {
-    return "change," + c.get();
+    return "change," + c.toString();
   }
 
   public static String toAccountDashboard(final AccountInfo acct) {
@@ -59,7 +58,7 @@ public class Link implements HistoryListener {
   }
 
   public static String toAccountDashboard(final Account.Id acct) {
-    return "dashboard," + acct.get();
+    return "dashboard," + acct.toString();
   }
 
   public static String toPatchSideBySide(final Patch.Id id) {
@@ -71,14 +70,18 @@ public class Link implements HistoryListener {
   }
 
   public static String toPatch(final String type, final Patch.Id id) {
-    final PatchSet.Id psId = id.getParentKey();
-    final Change.Id chId = psId.getParentKey();
-    final String encp = encodePath(id.get());
-    return "patch," + type + "," + chId.get() + "," + psId.get() + "," + encp;
+    return "patch," + type + "," + id.toString();
   }
 
   public void onHistoryChanged(final String token) {
-    final Screen s = select(token);
+    Screen s;
+    try {
+      s = select(token);
+    } catch (RuntimeException err) {
+      GWT.log("Error parsing history token: " + token, err);
+      s = null;
+    }
+
     if (s != null) {
       Gerrit.display(s);
     } else {
@@ -87,44 +90,44 @@ public class Link implements HistoryListener {
   }
 
   private Screen select(final String token) {
-    if (token == null)
+    String p;
+
+    if (token == null) {
       return null;
+    }
 
-    else if (SETTINGS.equals(token))
+    if (SETTINGS.equals(token)) {
       return new AccountSettings();
+    }
 
-    else if (MINE.equals(token))
+    if (MINE.equals(token)) {
       return new AccountDashboardScreen(RpcUtil.getAccountId());
+    }
 
-    else if (MINE_STARRED.equals(token))
+    if (MINE_STARRED.equals(token)) {
       return new MineStarredScreen();
-
-    else if (token.startsWith("patch,sidebyside,"))
-      return new PatchSideBySideScreen(patchId(token));
-
-    else if (token.startsWith("patch,unified,"))
-      return new PatchUnifiedScreen(patchId(token));
-
-    else if (token.matches("^change,\\d+$")) {
-      final String id = token.substring("change,".length());
-      return new ChangeScreen(Change.Id.fromString(id));
     }
 
-    else if (token.matches("^dashboard,\\d+$")) {
-      final String id = token.substring("dashboard,".length());
-      return new AccountDashboardScreen(new Account.Id(Integer.parseInt(id)));
+    p = "patch,sidebyside,";
+    if (token.startsWith(p))
+      return new PatchSideBySideScreen(Patch.Id.parse(skip(p, token)));
 
-    }
+    p = "patch,unified,";
+    if (token.startsWith(p))
+      return new PatchUnifiedScreen(Patch.Id.parse(skip(p, token)));
+
+    p = "change,";
+    if (token.startsWith(p))
+      return new ChangeScreen(Change.Id.parse(skip(p, token)));
+
+    p = "dashboard,";
+    if (token.matches(p))
+      return new AccountDashboardScreen(Account.Id.parse(skip(p, token)));
 
     return null;
   }
 
-  private static Patch.Id patchId(final String token) {
-    final String[] p = token.split(",");
-    final Change.Id cId = Change.Id.fromString(p[2]);
-    final PatchSet.Id psId = new PatchSet.Id(cId, Integer.parseInt(p[3]));
-    return new Patch.Id(psId, URL.decodeComponent(p[4]));
+  private static String skip(final String prefix, final String in) {
+    return in.substring(prefix.length());
   }
-
-  private static native String encodePath(String path) /*-{ return encodeURIComponent(path).replace(/%20/g, "+").replace(/%2F/g, "/"); }-*/;
 }

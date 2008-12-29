@@ -44,6 +44,11 @@ public final class AccountExternalId {
     public String get() {
       return externalId;
     }
+
+    @Override
+    protected void set(String newValue) {
+      externalId = newValue;
+    }
   }
 
   @Column(name = Column.NONE)

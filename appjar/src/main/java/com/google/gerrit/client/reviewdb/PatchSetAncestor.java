@@ -44,6 +44,11 @@ public final class PatchSetAncestor {
     public int get() {
       return position;
     }
+
+    @Override
+    protected void set(int newValue) {
+      position = newValue;
+    }
   }
 
   @Column(name = Column.NONE)

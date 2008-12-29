@@ -46,6 +46,10 @@ public final class PatchContent {
       return KeyUtil.encode(sha1);
     }
 
+    public void fromString(final String in) {
+      sha1 = KeyUtil.decode(in);
+    }
+
     public com.google.gwtorm.client.Key<?> getParentKey() {
       return null;
     }

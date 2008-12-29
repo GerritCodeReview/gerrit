@@ -46,6 +46,11 @@ public final class AccountSshKey {
     public int get() {
       return seq;
     }
+
+    @Override
+    protected void set(int newValue) {
+      seq = newValue;
+    }
   }
 
   @Column(name = Column.NONE)

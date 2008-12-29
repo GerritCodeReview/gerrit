@@ -156,7 +156,7 @@ public class UrlRewriteFilter implements Filter {
       return false;
     }
 
-    final Change.Id id = Change.Id.fromString(m.group(1));
+    final Change.Id id = Change.Id.parse(m.group(1));
     final StringBuffer url = toGerrit(req);
     url.append('#');
     url.append(Link.toChange(id));

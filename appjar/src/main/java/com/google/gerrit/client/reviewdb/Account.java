@@ -37,6 +37,18 @@ public final class Account {
     public int get() {
       return id;
     }
+
+    @Override
+    protected void set(int newValue) {
+      id = newValue;
+    }
+
+    /** Parse an Account.Id out of a string representation. */
+    public static Id parse(final String str) {
+      final Id r = new Id();
+      r.fromString(str);
+      return r;
+    }
   }
 
   @Column

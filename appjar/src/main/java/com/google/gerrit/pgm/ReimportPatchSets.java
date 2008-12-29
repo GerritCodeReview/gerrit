@@ -39,8 +39,9 @@ import java.util.ArrayList;
 /**
  * Recreates PatchSet and Patch entities for the changes supplied.
  * <p>
- * Takes on input strings of the form <code>change_id|patch_set_id</code>, such
- * as might be created by the following PostgreSQL database dump:
+ * Takes on input strings of the form <code>change_id|patch_set_id</code> or
+ * <code>change_id,patch_set_id</code>, such as might be created by the
+ * following PostgreSQL database dump:
  * 
  * <pre>
  *  psql reviewdb -tAc 'select change_id,patch_set_id from patch_sets'
@@ -52,17 +53,15 @@ import java.util.ArrayList;
 public class ReimportPatchSets {
   public static void main(final String[] argv) throws OrmException,
       XsrfException, IOException {
+    final GerritServer gs = GerritServer.getInstance();
     final ArrayList<PatchSet.Id> todo = new ArrayList<PatchSet.Id>();
     final BufferedReader br =
         new BufferedReader(new InputStreamReader(System.in));
     String line;
     while ((line = br.readLine()) != null) {
-      final String[] idstr = line.split("\\|");
-      todo.add(new PatchSet.Id(Change.Id.fromString(idstr[0]), Integer
-          .parseInt(idstr[1])));
+      todo.add(PatchSet.Id.parse(line.replace('|', ',')));
     }
 
-    final GerritServer gs = GerritServer.getInstance();
     final ReviewDb db = gs.getDatabase().open();
     final ProgressMonitor pm = new TextProgressMonitor();
     try {

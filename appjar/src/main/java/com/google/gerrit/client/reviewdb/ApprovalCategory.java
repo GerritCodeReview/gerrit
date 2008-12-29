@@ -35,6 +35,11 @@ public final class ApprovalCategory {
     public String get() {
       return id;
     }
+
+    @Override
+    protected void set(String newValue) {
+      id = newValue;
+    }
   }
 
   @Column

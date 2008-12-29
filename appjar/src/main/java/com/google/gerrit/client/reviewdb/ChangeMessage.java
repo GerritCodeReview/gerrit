@@ -46,6 +46,11 @@ public final class ChangeMessage {
     public String get() {
       return uuid;
     }
+
+    @Override
+    protected void set(String newValue) {
+      uuid = newValue;
+    }
   }
 
   @Column(name = Column.NONE)

@@ -181,7 +181,7 @@ class Receive extends AbstractGitCommand {
       if (m.matches()) {
         // The referenced change must exist and must still be open.
         //
-        final Change.Id changeId = Change.Id.fromString(m.group(1));
+        final Change.Id changeId = Change.Id.parse(m.group(1));
         parseNewPatchSetCommand(cmd, changeId);
         continue;
       }

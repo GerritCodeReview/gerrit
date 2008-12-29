@@ -44,6 +44,11 @@ public final class ApprovalCategoryValue {
     public short get() {
       return value;
     }
+
+    @Override
+    protected void set(short newValue) {
+      value = newValue;
+    }
   }
 
   @Column(name = Column.NONE)

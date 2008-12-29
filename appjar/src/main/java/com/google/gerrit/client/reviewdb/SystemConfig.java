@@ -34,6 +34,11 @@ public final class SystemConfig {
     public String get() {
       return VALUE;
     }
+
+    @Override
+    protected void set(final String newValue) {
+      assert get().equals(newValue);
+    }
   }
 
   public static SystemConfig create() {

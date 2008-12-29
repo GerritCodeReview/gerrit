@@ -38,6 +38,11 @@ public final class ContributorAgreement {
     public int get() {
       return id;
     }
+
+    @Override
+    protected void set(int newValue) {
+      id = newValue;
+    }
   }
 
   @Column

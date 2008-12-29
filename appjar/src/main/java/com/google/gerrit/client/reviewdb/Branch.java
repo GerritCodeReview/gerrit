@@ -43,6 +43,11 @@ public final class Branch {
     }
 
     @Override
+    protected void set(String newValue) {
+      branchName = newValue;
+    }
+
+    @Override
     public Project.NameKey getParentKey() {
       return projectName;
     }
@@ -75,6 +80,11 @@ public final class Branch {
     @Override
     public int get() {
       return id;
+    }
+
+    @Override
+    protected void set(int newValue) {
+      id = newValue;
     }
   }
 

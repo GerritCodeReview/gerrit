@@ -38,9 +38,16 @@ public final class Change {
       return id;
     }
 
+    @Override
+    protected void set(int newValue) {
+      id = newValue;
+    }
+
     /** Parse a Change.Id out of a string representation. */
-    public static Id fromString(final String str) {
-      return new Id(Integer.parseInt(str));
+    public static Id parse(final String str) {
+      final Id r = new Id();
+      r.fromString(str);
+      return r;
     }
   }
 

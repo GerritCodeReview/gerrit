@@ -461,6 +461,18 @@ INSERT INTO change_approvals
  AND s.change_key = c.gae_key
  AND a.preferred_email = s.email;
 
+DELETE FROM starred_changes;
+INSERT INTO starred_changes
+(account_id,
+ change_id) SELECT
+ a.account_id,
+ c.change_id
+FROM gerrit1.account_stars s,
+     accounts a,
+     changes c
+WHERE a.preferred_email = s.email
+      AND c.change_id = s.change_id;
+
 
 -- Fix change.nbr_patch_sets
 --

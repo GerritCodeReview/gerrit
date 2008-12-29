@@ -14,11 +14,13 @@
 
 package com.google.gerrit.client.account;
 
-import com.google.gerrit.client.FormatUtil;
+import static com.google.gerrit.client.FormatUtil.mediumFormat;
+
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountScreen;
+import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
@@ -27,16 +29,25 @@ import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 
 public class AccountSettings extends AccountScreen {
+  private final int labelIdx, fieldIdx;
   private final Grid info;
 
   private TabPanel tabs;
 
-  private Panel prefsPanel;
+  private PreferencePanel prefsPanel;
   private Panel agreementsPanel;
   private SshKeyPanel keysPanel;
 
   public AccountSettings() {
     super(Util.C.accountSettingsHeading());
+
+    if (LocaleInfo.getCurrentLocale().isRTL()) {
+      labelIdx = 1;
+      fieldIdx = 0;
+    } else {
+      labelIdx = 0;
+      fieldIdx = 1;
+    }
 
     info = new Grid(3, 2);
     info.setStyleName("gerrit-InfoBlock");
@@ -52,9 +63,7 @@ public class AccountSettings extends AccountScreen {
     fmt.addStyleName(0, 1, "topmost");
     fmt.addStyleName(2, 0, "bottomheader");
 
-    prefsPanel = new FlowPanel();
-    prefsPanel.add(new Label("Not Implemented"));
-
+    prefsPanel = new PreferencePanel();
     keysPanel = new SshKeyPanel();
 
     agreementsPanel = new FlowPanel();
@@ -76,7 +85,7 @@ public class AccountSettings extends AccountScreen {
   }
 
   private void infoRow(final int row, final String name) {
-    info.setText(row, 0, name);
+    info.setText(row, labelIdx, name);
     info.getCellFormatter().addStyleName(row, 0, "header");
   }
 
@@ -98,8 +107,9 @@ public class AccountSettings extends AccountScreen {
   }
 
   void display(final Account account) {
-    info.setText(0, 1, account.getFullName());
-    info.setText(1, 1, account.getPreferredEmail());
-    info.setText(2, 1, FormatUtil.mediumFormat(account.getRegisteredOn()));
+    info.setText(0, fieldIdx, account.getFullName());
+    info.setText(1, fieldIdx, account.getPreferredEmail());
+    info.setText(2, fieldIdx, mediumFormat(account.getRegisteredOn()));
+    prefsPanel.display(account);
   }
 }

@@ -19,6 +19,7 @@ import com.google.gwtjsonrpc.client.JsonUtil;
 
 public class Util {
   public static final AccountConstants C = GWT.create(AccountConstants.class);
+  public static final AccountMessages M = GWT.create(AccountMessages.class);
   public static final AccountService ACCOUNT_SVC;
   public static final AccountSecurity ACCOUNT_SEC;
   public static final LoginService LOGIN_SVC;

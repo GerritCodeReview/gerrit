@@ -31,7 +31,8 @@ INSERT INTO accounts
  contact_address,
  contact_country,
  contact_phone_nbr,
- contact_fax_nbr
+ contact_fax_nbr,
+ default_context
 ) SELECT
  nextval('account_id'),
  a.created,
@@ -40,7 +41,8 @@ INSERT INTO accounts
  a.mailing_address,
  a.mailing_address_country,
  a.phone_number,
- a.fax_number
+ a.fax_number,
+ a.default_context
  FROM gerrit1.accounts a;
 
 DELETE FROM account_external_ids;

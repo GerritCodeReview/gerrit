@@ -22,6 +22,7 @@ public interface AccountConstants extends Constants {
   String fullName();
   String preferredEmail();
   String registeredOn();
+  String defaultContext();
 
   String tabPreferences();
   String tabSshKeys();

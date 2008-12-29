@@ -19,8 +19,11 @@ import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.BaseServiceImplementation;
 import com.google.gerrit.client.rpc.RpcUtil;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
+
+import java.util.Collections;
 
 public class AccountServiceImpl extends BaseServiceImplementation implements
     AccountService {
@@ -32,6 +35,18 @@ public class AccountServiceImpl extends BaseServiceImplementation implements
     run(callback, new Action<Account>() {
       public Account run(ReviewDb db) throws OrmException {
         return db.accounts().get(RpcUtil.getAccountId());
+      }
+    });
+  }
+
+  public void changeDefaultContext(final short newSetting,
+      final AsyncCallback<VoidResult> callback) {
+    run(callback, new Action<VoidResult>() {
+      public VoidResult run(final ReviewDb db) throws OrmException {
+        final Account a = db.accounts().get(RpcUtil.getAccountId());
+        a.setDefaultContext(newSetting);
+        db.accounts().update(Collections.singleton(a));
+        return VoidResult.INSTANCE;
       }
     });
   }

@@ -14,16 +14,8 @@
 
 package com.google.gerrit.client.account;
 
-import com.google.gerrit.client.reviewdb.Account;
-import com.google.gerrit.client.rpc.SignInRequired;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwtjsonrpc.client.RemoteJsonService;
-import com.google.gwtjsonrpc.client.VoidResult;
+import com.google.gwt.i18n.client.Messages;
 
-public interface AccountService extends RemoteJsonService {
-  @SignInRequired
-  void myAccount(AsyncCallback<Account> callback);
-
-  @SignInRequired
-  void changeDefaultContext(short newSetting, AsyncCallback<VoidResult> callback);
+public interface AccountMessages extends Messages {
+  String lines(short cnt);
 }

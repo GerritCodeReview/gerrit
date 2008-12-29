@@ -21,6 +21,12 @@ import java.sql.Timestamp;
 
 /** Preferences and information about a single user. */
 public final class Account {
+  /** Default number of lines of context. */
+  public static final short DEFAULT_CONTEXT = 10;
+
+  /** Typical valid choices for the default context setting. */
+  public static final short[] CONTEXT_CHOICES = {3, 10, 25, 50, 75, 100};
+
   /** Key local to Gerrit to identify a user. */
   public static class Id extends IntKey<com.google.gwtorm.client.Key<?>> {
     @Column
@@ -66,6 +72,10 @@ public final class Account {
   @Column(notNull = false)
   protected String preferredEmail;
 
+  /** Default number of lines of context when viewing a patch. */
+  @Column
+  protected short defaultContext;
+
   /** Non-Internet based contact details for the account's owner. */
   @Column(notNull = false)
   protected ContactInformation contact;
@@ -81,6 +91,7 @@ public final class Account {
   public Account(final Account.Id newId) {
     accountId = newId;
     registeredOn = new Timestamp(System.currentTimeMillis());
+    defaultContext = DEFAULT_CONTEXT;
   }
 
   /** Get local id of this account, to link with in other entities */
@@ -111,6 +122,16 @@ public final class Account {
   /** Get the date and time the user first registered. */
   public Timestamp getRegisteredOn() {
     return registeredOn;
+  }
+
+  /** Get the default number of lines of context when viewing a patch. */
+  public short getDefaultContext() {
+    return defaultContext;
+  }
+
+  /** Set the number of lines of context when viewing a patch. */
+  public void setDefaultContext(final short s) {
+    defaultContext = s;
   }
 
   public ContactInformation getContactInformation() {

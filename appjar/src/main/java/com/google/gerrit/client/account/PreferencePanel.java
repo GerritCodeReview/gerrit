@@ -22,15 +22,17 @@ import com.google.gwt.user.client.ui.ChangeListener;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtjsonrpc.client.VoidResult;
 
-public class PreferencePanel extends Composite {
+class PreferencePanel extends Composite {
   private ListBox defaultContext;
   private short oldDefaultContext;
+  private ProjectWatchPanel watchPanel;
 
-  public PreferencePanel() {
+  PreferencePanel() {
     final FlowPanel body = new FlowPanel();
 
     defaultContext = new ListBox();
@@ -79,6 +81,19 @@ public class PreferencePanel extends Composite {
     formGrid.setWidget(0, fieldIdx, defaultContext);
 
     body.add(formGrid);
+
+    {
+      final FlowPanel fp = new FlowPanel();
+      fp.setStyleName("gerrit-WatchedProjectPanel");
+
+      final Label hdr = new Label(Util.C.watchedProjects());
+      hdr.setStyleName("gerrit-SmallHeading");
+      fp.add(hdr);
+
+      watchPanel = new ProjectWatchPanel();
+      fp.add(watchPanel);
+      body.add(fp);
+    }
 
     initWidget(body);
   }

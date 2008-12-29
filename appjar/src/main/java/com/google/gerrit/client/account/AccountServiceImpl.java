@@ -15,15 +15,23 @@
 package com.google.gerrit.client.account;
 
 import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.client.reviewdb.AccountProjectWatch;
+import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.BaseServiceImplementation;
+import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gerrit.client.rpc.RpcUtil;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
+import com.google.gwtorm.client.Transaction;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Set;
 
 public class AccountServiceImpl extends BaseServiceImplementation implements
     AccountService {
@@ -46,6 +54,76 @@ public class AccountServiceImpl extends BaseServiceImplementation implements
         final Account a = db.accounts().get(RpcUtil.getAccountId());
         a.setDefaultContext(newSetting);
         db.accounts().update(Collections.singleton(a));
+        return VoidResult.INSTANCE;
+      }
+    });
+  }
+
+  public void myProjectWatch(
+      final AsyncCallback<List<AccountProjectWatchInfo>> callback) {
+    run(callback, new Action<List<AccountProjectWatchInfo>>() {
+      public List<AccountProjectWatchInfo> run(ReviewDb db) throws OrmException {
+        final List<AccountProjectWatchInfo> r =
+            new ArrayList<AccountProjectWatchInfo>();
+
+        for (final AccountProjectWatch w : db.accountProjectWatches()
+            .byAccount(RpcUtil.getAccountId()).toList()) {
+          final Project p = db.projects().get(w.getProjectId());
+          if (p == null) {
+            db.accountProjectWatches().delete(Collections.singleton(w));
+            continue;
+          }
+          r.add(new AccountProjectWatchInfo(w, p));
+        }
+        Collections.sort(r, new Comparator<AccountProjectWatchInfo>() {
+          public int compare(final AccountProjectWatchInfo a,
+              final AccountProjectWatchInfo b) {
+            return a.getProject().getName().compareTo(b.getProject().getName());
+          }
+        });
+        return r;
+      }
+    });
+  }
+
+  public void addProjectWatch(final String projectName,
+      final AsyncCallback<AccountProjectWatchInfo> callback) {
+    run(callback, new Action<AccountProjectWatchInfo>() {
+      public AccountProjectWatchInfo run(ReviewDb db) throws OrmException,
+          Failure {
+        final Project project =
+            db.projects().get(new Project.NameKey(projectName));
+        if (project == null) {
+          throw new Failure(new NoSuchEntityException());
+        }
+
+        final AccountProjectWatch watch =
+            new AccountProjectWatch(new AccountProjectWatch.Key(RpcUtil
+                .getAccountId(), project.getId()));
+        db.accountProjectWatches().insert(Collections.singleton(watch));
+        return new AccountProjectWatchInfo(watch, project);
+      }
+    });
+  }
+
+  public void deleteProjectWatches(final Set<AccountProjectWatch.Key> keys,
+      final AsyncCallback<VoidResult> callback) {
+    run(callback, new Action<VoidResult>() {
+      public VoidResult run(final ReviewDb db) throws OrmException, Failure {
+        final Account.Id me = RpcUtil.getAccountId();
+        for (final AccountProjectWatch.Key keyId : keys) {
+          if (!me.equals(keyId.getParentKey()))
+            throw new Failure(new NoSuchEntityException());
+        }
+
+        final List<AccountProjectWatch> k =
+            db.accountProjectWatches().get(keys).toList();
+        if (!k.isEmpty()) {
+          final Transaction txn = db.beginTransaction();
+          db.accountProjectWatches().delete(k, txn);
+          txn.commit();
+        }
+
         return VoidResult.INSTANCE;
       }
     });

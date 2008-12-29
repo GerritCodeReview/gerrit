@@ -176,6 +176,18 @@ INSERT INTO projects
  p.name
  FROM gerrit1.projects p;
 
+DELETE FROM account_project_watches;
+INSERT INTO account_project_watches
+(account_id,
+ project_id) SELECT
+ a.account_id,
+ p.project_id
+ FROM gerrit1.projects p
+ accounts a,
+ gerrit1.account_unclaimed_changes_projects q
+ WHERE a.preferred_email = q.email
+ AND p.gae_key = q.project_key;
+
 DELETE FROM branches;
 INSERT INTO branches
 (branch_id,

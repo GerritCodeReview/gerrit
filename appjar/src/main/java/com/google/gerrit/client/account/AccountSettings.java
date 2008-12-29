@@ -20,6 +20,7 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountScreen;
+import com.google.gerrit.client.ui.LazyTabChild;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
@@ -36,7 +37,6 @@ public class AccountSettings extends AccountScreen {
 
   private PreferencePanel prefsPanel;
   private Panel agreementsPanel;
-  private SshKeyPanel keysPanel;
 
   public AccountSettings() {
     super(Util.C.accountSettingsHeading());
@@ -64,15 +64,18 @@ public class AccountSettings extends AccountScreen {
     fmt.addStyleName(2, 0, "bottomheader");
 
     prefsPanel = new PreferencePanel();
-    keysPanel = new SshKeyPanel();
-
     agreementsPanel = new FlowPanel();
     agreementsPanel.add(new Label("Not Implemented"));
 
     tabs = new TabPanel();
-    tabs.setWidth("100%");
+    tabs.setWidth("98%");
     tabs.add(prefsPanel, Util.C.tabPreferences());
-    tabs.add(keysPanel, Util.C.tabSshKeys());
+    tabs.add(new LazyTabChild<SshKeyPanel>() {
+      @Override
+      protected SshKeyPanel create() {
+        return new SshKeyPanel();
+      }
+    }, Util.C.tabSshKeys());
     tabs.add(agreementsPanel, Util.C.tabAgreements());
 
     add(tabs);

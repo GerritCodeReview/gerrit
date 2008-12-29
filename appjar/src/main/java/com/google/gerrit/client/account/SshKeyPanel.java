@@ -24,6 +24,7 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SourcesTableEvents;
 import com.google.gwt.user.client.ui.TableListener;
@@ -36,14 +37,14 @@ import com.google.gwtjsonrpc.client.VoidResult;
 import java.util.HashSet;
 import java.util.List;
 
-public class SshKeyPanel extends Composite {
+class SshKeyPanel extends Composite {
   private SshKeyTable keys;
 
   private Button addNew;
   private TextArea addTxt;
   private Button delSel;
 
-  public SshKeyPanel() {
+  SshKeyPanel() {
     final FlowPanel body = new FlowPanel();
 
     keys = new SshKeyTable();
@@ -63,7 +64,10 @@ public class SshKeyPanel extends Composite {
     {
       final VerticalPanel fp = new VerticalPanel();
       fp.setStyleName("gerrit-AddSshKeyPanel");
-      fp.add(new Label(Util.C.addSshKeyPanelHeader()));
+      final Label hdr = new Label(Util.C.addSshKeyPanelHeader());
+      hdr.setStyleName("gerrit-SmallHeading");
+      fp.add(hdr);
+      fp.add(new HTML(Util.C.addSshKeyHelp()));
 
       addTxt = new TextArea();
       addTxt.setVisibleLines(12);
@@ -104,14 +108,8 @@ public class SshKeyPanel extends Composite {
   }
 
   @Override
-  public void setVisible(final boolean visible) {
-    if (!isVisible()) {
-      update();
-    }
-    super.setVisible(visible);
-  }
-
-  public void update() {
+  public void onLoad() {
+    super.onLoad();
     Util.ACCOUNT_SEC.mySshKeys(new GerritCallback<List<AccountSshKey>>() {
       public void onSuccess(final List<AccountSshKey> result) {
         keys.display(result);
@@ -230,6 +228,8 @@ public class SshKeyPanel extends Composite {
       for (int c = 3; c <= 7; c++) {
         fmt.addStyleName(row, c, S_DATA_CELL);
       }
+      fmt.addStyleName(row, 6, "C_LAST_UPDATE");
+      fmt.addStyleName(row, 7, "C_LAST_UPDATE");
 
       setRowItem(row, k);
     }

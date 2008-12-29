@@ -20,7 +20,19 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwtjsonrpc.client.RpcStatusListener;
 
-class RpcStatus implements RpcStatusListener {
+public class RpcStatus implements RpcStatusListener {
+  private static int hideDepth;
+
+  /** Execute code, hiding the RPCs they execute from being shown visually. */
+  public static void hide(final Runnable run) {
+    try {
+      hideDepth++;
+      run.run();
+    } finally {
+      hideDepth--;
+    }
+  }
+
   private final Label loading;
   private int activeCalls;
 
@@ -39,7 +51,9 @@ class RpcStatus implements RpcStatusListener {
 
   public void onCallStart() {
     if (++activeCalls == 1) {
-      loading.setVisible(true);
+      if (hideDepth == 0) {
+        loading.setVisible(true);
+      }
     }
   }
 

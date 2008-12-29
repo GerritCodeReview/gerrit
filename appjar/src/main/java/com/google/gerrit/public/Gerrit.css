@@ -34,6 +34,14 @@
   font-size: 8pt;
 }
 
+.gerrit-InputFieldTypeHint {
+	color: grey;
+}
+
+.gerrit-SmallHeading {
+  font-weight: bold;
+}
+
 
 /** Menu **/
 .gerrit-LinkMenuBar .gwt-MenuItem {
@@ -71,6 +79,7 @@
   position: absolute;
   left: 50%;
   float: left;
+  top: 6px;
 }
 
 .gerrit-RpcStatus {
@@ -496,6 +505,10 @@
   background-color: #d4e9a9;
   padding: 5px 5px 5px 5px;
 }
-.gerrit-AddSshKeyPanel .gwt-Label {
-  font-weight: bold;
+
+.gerrit-WatchedProjectPanel {
+	margin-top: 10px;
+	padding: 5px 5px 5px 5px;
+	display: table;
+  border: 1px solid #B0BDCC;
 }

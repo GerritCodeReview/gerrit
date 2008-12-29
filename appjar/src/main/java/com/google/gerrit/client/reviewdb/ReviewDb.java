@@ -54,6 +54,9 @@ public interface ReviewDb extends Schema {
   StarredChangeAccess starredChanges();
 
   @Relation
+  AccountProjectWatchAccess accountProjectWatches();
+
+  @Relation
   ProjectAccess projects();
 
   @Relation

@@ -105,6 +105,16 @@
   </servlet-mapping>
 
   <servlet>
+    <servlet-name>SuggestService</servlet-name>
+    <servlet-class>com.google.gerrit.server.SuggestServiceSrv</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SuggestService</servlet-name>
+    <url-pattern>/rpc/SuggestService</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
     <servlet-name>SystemInfoService</servlet-name>
     <servlet-class>com.google.gerrit.server.SystemInfoServiceSrv</servlet-class>
     <load-on-startup>1</load-on-startup>

@@ -15,10 +15,14 @@
 package com.google.gerrit.client.account;
 
 import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.client.reviewdb.AccountProjectWatch;
 import com.google.gerrit.client.rpc.SignInRequired;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.RemoteJsonService;
 import com.google.gwtjsonrpc.client.VoidResult;
+
+import java.util.List;
+import java.util.Set;
 
 public interface AccountService extends RemoteJsonService {
   @SignInRequired
@@ -26,4 +30,15 @@ public interface AccountService extends RemoteJsonService {
 
   @SignInRequired
   void changeDefaultContext(short newSetting, AsyncCallback<VoidResult> callback);
+
+  @SignInRequired
+  void myProjectWatch(AsyncCallback<List<AccountProjectWatchInfo>> callback);
+
+  @SignInRequired
+  void addProjectWatch(String projectName,
+      AsyncCallback<AccountProjectWatchInfo> callback);
+
+  @SignInRequired
+  void deleteProjectWatches(Set<AccountProjectWatch.Key> keys,
+      AsyncCallback<VoidResult> callback);
 }

@@ -38,4 +38,9 @@ public interface AccountConstants extends Constants {
   String sshKeyStored();
 
   String addSshKeyPanelHeader();
+  String addSshKeyHelp();
+
+  String watchedProjects();
+  String buttonWatchProject();
+  String defaultProjectName();
 }

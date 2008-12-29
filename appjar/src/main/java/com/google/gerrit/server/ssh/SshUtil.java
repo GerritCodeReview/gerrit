@@ -139,8 +139,10 @@ public class SshUtil {
 
   /** Invalidate all cached keys for the given account. */
   public static void invalidate(final Account acct) {
-    synchronized (keys) {
-      keys.remove(acct.getPreferredEmail());
+    if (acct != null) {
+      synchronized (keys) {
+        keys.remove(acct.getPreferredEmail());
+      }
     }
   }
 

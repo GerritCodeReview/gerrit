@@ -76,6 +76,7 @@ public class AccountSecurityImpl extends BaseServiceImplementation implements
           newKey.setInvalid();
         }
         db.accountSshKeys().insert(Collections.singleton(newKey));
+        SshUtil.invalidate(db.accounts().get(me));
         return newKey;
       }
     });
@@ -96,6 +97,7 @@ public class AccountSecurityImpl extends BaseServiceImplementation implements
           final Transaction txn = db.beginTransaction();
           db.accountSshKeys().delete(k, txn);
           txn.commit();
+          SshUtil.invalidate(db.accounts().get(me));
         }
 
         return VoidResult.INSTANCE;

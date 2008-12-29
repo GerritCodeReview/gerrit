@@ -58,8 +58,10 @@ class Receive extends AbstractGitCommand {
   private final Set<Account.Id> reviewerId = new HashSet<Account.Id>();
   private final Set<Account.Id> ccId = new HashSet<Account.Id>();
 
+  private ReceivePack rp;
   private ReceiveCommand newChange;
   private Branch destBranch;
+
   private final Map<Change.Id, ReceiveCommand> addByChange =
       new HashMap<Change.Id, ReceiveCommand>();
   private final Map<ObjectId, Change> addByCommit =
@@ -74,7 +76,7 @@ class Receive extends AbstractGitCommand {
 
     // TODO verify user has signed a CLA for this project
 
-    final ReceivePack rp = new ReceivePack(repo);
+    rp = new ReceivePack(repo);
     rp.setAllowCreates(true);
     rp.setAllowDeletes(true);
     rp.setAllowNonFastForwards(true);
@@ -83,8 +85,8 @@ class Receive extends AbstractGitCommand {
       public void onPreReceive(final ReceivePack arg0,
           final Collection<ReceiveCommand> commands) {
         parseCommands(commands);
-        createNewChanges(rp);
-        appendPatchSets(rp.getRevWalk());
+        createNewChanges();
+        appendPatchSets();
       }
     });
     rp.receive(in, out, err);
@@ -250,7 +252,7 @@ class Receive extends AbstractGitCommand {
     changeCache.put(changeId, changeEnt);
   }
 
-  private void createNewChanges(final ReceivePack rp) {
+  private void createNewChanges() {
     if (newChange == null) {
       return;
     }
@@ -319,17 +321,17 @@ class Receive extends AbstractGitCommand {
     ru.setForceUpdate(true);
     ru.setNewObjectId(c);
     ru.update(walk);
-    
+
     // TODO list the new change id
   }
 
-  private void appendPatchSets(final RevWalk walk) {
+  private void appendPatchSets() {
     for (Map.Entry<Change.Id, ReceiveCommand> e : addByChange.entrySet()) {
       final ReceiveCommand cmd = e.getValue();
       final Change.Id changeId = e.getKey();
       final Change change = changeCache.get(changeId);
       try {
-        appendPatchSet(walk, change, cmd);
+        appendPatchSet(change, cmd);
         cmd.setResult(ReceiveCommand.Result.OK);
       } catch (IOException err) {
         reject(cmd, "diff error");
@@ -339,9 +341,9 @@ class Receive extends AbstractGitCommand {
     }
   }
 
-  private void appendPatchSet(final RevWalk walk, final Change change,
-      final ReceiveCommand cmd) throws IOException, OrmException {
-    final RevCommit c = walk.parseCommit(cmd.getNewId());
+  private void appendPatchSet(final Change change, final ReceiveCommand cmd)
+      throws IOException, OrmException {
+    final RevCommit c = rp.getRevWalk().parseCommit(cmd.getNewId());
     final Transaction txn = db.beginTransaction();
     final PatchSet ps = new PatchSet(change.newPatchSetId());
     final PatchSetImporter imp = new PatchSetImporter(db, repo, c, ps, true);
@@ -354,7 +356,7 @@ class Receive extends AbstractGitCommand {
     final RefUpdate ru = repo.updateRef(ps.getRefName());
     ru.setForceUpdate(true);
     ru.setNewObjectId(c);
-    ru.update(walk);
+    ru.update(rp.getRevWalk());
   }
 
   private static void reject(final ReceiveCommand cmd) {

@@ -76,7 +76,7 @@ public class AccountInfoCacheFactory {
     Account a = cache.get(id);
     if (a == null) {
       if (toFetch.isEmpty()) {
-        a = db.accounts().byId(id);
+        a = db.accounts().get(id);
         if (a != null) {
           cache.put(id, a);
         }

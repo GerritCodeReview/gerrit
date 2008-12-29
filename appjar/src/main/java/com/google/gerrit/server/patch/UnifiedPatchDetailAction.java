@@ -31,7 +31,7 @@ import org.spearce.jgit.patch.HunkHeader;
 import java.util.ArrayList;
 
 class UnifiedPatchDetailAction extends PatchDetailAction<UnifiedPatchDetail> {
-  UnifiedPatchDetailAction(final Patch.Id key) {
+  UnifiedPatchDetailAction(final Patch.Key key) {
     super(key);
   }
 

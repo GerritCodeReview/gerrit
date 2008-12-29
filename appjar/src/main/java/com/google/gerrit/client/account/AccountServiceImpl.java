@@ -31,7 +31,7 @@ public class AccountServiceImpl extends BaseServiceImplementation implements
   public void myAccount(final AsyncCallback<Account> callback) {
     run(callback, new Action<Account>() {
       public Account run(ReviewDb db) throws OrmException {
-        return db.accounts().byId(RpcUtil.getAccountId());
+        return db.accounts().get(RpcUtil.getAccountId());
       }
     });
   }

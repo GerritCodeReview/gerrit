@@ -71,7 +71,7 @@ abstract class AbstractGitCommand extends AbstractCommand {
       }
 
       try {
-        proj = db.projects().byName(new Project.NameKey(projectName));
+        proj = db.projects().get(new Project.NameKey(projectName));
       } catch (OrmException e) {
         throw new Failure(1, "fatal: cannot query project database");
       }

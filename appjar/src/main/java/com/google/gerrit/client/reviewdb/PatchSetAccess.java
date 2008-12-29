@@ -21,10 +21,10 @@ import com.google.gwtorm.client.Query;
 import com.google.gwtorm.client.ResultSet;
 
 public interface PatchSetAccess extends Access<PatchSet, PatchSet.Id> {
-  @PrimaryKey("key")
+  @PrimaryKey("id")
   PatchSet get(PatchSet.Id id) throws OrmException;
 
-  @Query("WHERE key.changeId = ? ORDER BY key.patchSetId")
+  @Query("WHERE id.changeId = ? ORDER BY id.patchSetId")
   ResultSet<PatchSet> byChange(Change.Id id) throws OrmException;
 
   @Query("WHERE revision = ? LIMIT 2")

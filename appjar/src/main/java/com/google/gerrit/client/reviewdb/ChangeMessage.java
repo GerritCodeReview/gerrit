@@ -21,18 +21,18 @@ import java.sql.Timestamp;
 
 /** A message attached to a {@link Change}. */
 public final class ChangeMessage {
-  public static class Id extends StringKey<Change.Id> {
+  public static class Key extends StringKey<Change.Id> {
     @Column
     protected Change.Id changeId;
 
     @Column(length = 40)
     protected String uuid;
 
-    protected Id() {
+    protected Key() {
       changeId = new Change.Id();
     }
 
-    public Id(final Change.Id change, final String uuid) {
+    public Key(final Change.Id change, final String uuid) {
       this.changeId = change;
       this.uuid = uuid;
     }
@@ -54,7 +54,7 @@ public final class ChangeMessage {
   }
 
   @Column(name = Column.NONE)
-  protected Id key;
+  protected Key key;
 
   /** Who wrote this comment; null if it was written by the Gerrit system. */
   @Column(name = "author_id", notNull = false)
@@ -71,13 +71,13 @@ public final class ChangeMessage {
   protected ChangeMessage() {
   }
 
-  public ChangeMessage(final ChangeMessage.Id k, final Account.Id a) {
+  public ChangeMessage(final ChangeMessage.Key k, final Account.Id a) {
     key = k;
     author = a;
     writtenOn = new Timestamp(System.currentTimeMillis());
   }
 
-  public ChangeMessage.Id getKey() {
+  public ChangeMessage.Key getKey() {
     return key;
   }
 

@@ -48,7 +48,7 @@ import java.util.List;
 abstract class PatchDetailAction<T> implements Action<T> {
   protected static final byte[] EMPTY_FILE = {};
 
-  protected final Patch.Id key;
+  protected final Patch.Key key;
   protected Patch patch;
   protected FileHeader file;
   protected int fileCnt;
@@ -58,7 +58,7 @@ abstract class PatchDetailAction<T> implements Action<T> {
   protected HashMap<Integer, List<PatchLineComment>> published[];
   protected HashMap<Integer, List<PatchLineComment>> drafted[];
 
-  PatchDetailAction(final Patch.Id key) {
+  PatchDetailAction(final Patch.Key key) {
     this.key = key;
   }
 

@@ -82,6 +82,6 @@ public class ChangeInfoBlock extends Composite {
     }
 
     table.setWidget(R_PERMALINK, 1, new ChangeLink(Util.C.changePermalink(),
-        chg.getKey()));
+        chg.getId()));
   }
 }

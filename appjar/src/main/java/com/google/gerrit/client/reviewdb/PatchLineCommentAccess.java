@@ -21,16 +21,17 @@ import com.google.gwtorm.client.Query;
 import com.google.gwtorm.client.ResultSet;
 
 public interface PatchLineCommentAccess extends
-    Access<PatchLineComment, PatchLineComment.Id> {
+    Access<PatchLineComment, PatchLineComment.Key> {
   @PrimaryKey("key")
-  PatchLineComment get(PatchLineComment.Id id) throws OrmException;
+  PatchLineComment get(PatchLineComment.Key id) throws OrmException;
 
-  @Query("WHERE key.patchId = ? AND status = '"
+  @Query("WHERE key.patchKey = ? AND status = '"
       + PatchLineComment.STATUS_PUBLISHED + "' ORDER BY lineNbr,writtenOn")
-  ResultSet<PatchLineComment> published(Patch.Id id) throws OrmException;
+  ResultSet<PatchLineComment> published(Patch.Key patch) throws OrmException;
 
-  @Query("WHERE key.patchId = ? AND status = '" + PatchLineComment.STATUS_DRAFT
+  @Query("WHERE key.patchKey = ? AND status = '"
+      + PatchLineComment.STATUS_DRAFT
       + "' AND author = ? ORDER BY lineNbr,writtenOn")
-  ResultSet<PatchLineComment> draft(Patch.Id patch, Account.Id author)
+  ResultSet<PatchLineComment> draft(Patch.Key patch, Account.Id author)
       throws OrmException;
 }

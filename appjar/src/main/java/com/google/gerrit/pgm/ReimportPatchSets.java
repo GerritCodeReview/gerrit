@@ -76,7 +76,7 @@ public class ReimportPatchSets {
           continue;
         }
 
-        final Change c = db.changes().get(ps.getKey().getParentKey());
+        final Change c = db.changes().get(ps.getId().getParentKey());
         if (c == null) {
           System.err.println();
           System.err.println("Orphan " + psid);

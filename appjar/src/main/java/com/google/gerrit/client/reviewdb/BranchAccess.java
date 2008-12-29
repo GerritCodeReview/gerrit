@@ -23,10 +23,10 @@ import com.google.gwtorm.client.SecondaryKey;
 
 public interface BranchAccess extends Access<Branch, Branch.NameKey> {
   @PrimaryKey("name")
-  Branch byName(Branch.NameKey name) throws OrmException;
+  Branch get(Branch.NameKey name) throws OrmException;
 
   @SecondaryKey("branchId")
-  Branch byId(Branch.Id id) throws OrmException;
+  Branch get(Branch.Id id) throws OrmException;
 
   @Query("WHERE name.projectName = ? ORDER BY name.branchName")
   ResultSet<Branch> byProject(Project.NameKey key) throws OrmException;

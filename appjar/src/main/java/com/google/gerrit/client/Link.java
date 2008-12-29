@@ -61,15 +61,15 @@ public class Link implements HistoryListener {
     return "dashboard," + acct.toString();
   }
 
-  public static String toPatchSideBySide(final Patch.Id id) {
+  public static String toPatchSideBySide(final Patch.Key id) {
     return toPatch("sidebyside", id);
   }
 
-  public static String toPatchUnified(final Patch.Id id) {
+  public static String toPatchUnified(final Patch.Key id) {
     return toPatch("unified", id);
   }
 
-  public static String toPatch(final String type, final Patch.Id id) {
+  public static String toPatch(final String type, final Patch.Key id) {
     return "patch," + type + "," + id.toString();
   }
 
@@ -110,11 +110,11 @@ public class Link implements HistoryListener {
 
     p = "patch,sidebyside,";
     if (token.startsWith(p))
-      return new PatchSideBySideScreen(Patch.Id.parse(skip(p, token)));
+      return new PatchSideBySideScreen(Patch.Key.parse(skip(p, token)));
 
     p = "patch,unified,";
     if (token.startsWith(p))
-      return new PatchUnifiedScreen(Patch.Id.parse(skip(p, token)));
+      return new PatchUnifiedScreen(Patch.Key.parse(skip(p, token)));
 
     p = "change,";
     if (token.startsWith(p))

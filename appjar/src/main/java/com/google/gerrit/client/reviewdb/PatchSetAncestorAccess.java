@@ -21,9 +21,9 @@ import com.google.gwtorm.client.Query;
 import com.google.gwtorm.client.ResultSet;
 
 public interface PatchSetAncestorAccess extends
-    Access<PatchSetAncestor, PatchSetAncestor.Key> {
+    Access<PatchSetAncestor, PatchSetAncestor.Id> {
   @PrimaryKey("key")
-  PatchSetAncestor get(PatchSetAncestor.Key key) throws OrmException;
+  PatchSetAncestor get(PatchSetAncestor.Id key) throws OrmException;
 
   @Query("WHERE key.patchSetId = ? ORDER BY key.position")
   ResultSet<PatchSetAncestor> ancestorsOf(PatchSet.Id id) throws OrmException;

@@ -22,7 +22,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 public class PatchSideBySideScreen extends PatchScreen {
   private SideBySideTable sbsTable;
 
-  public PatchSideBySideScreen(final Patch.Id id) {
+  public PatchSideBySideScreen(final Patch.Key id) {
     super(id);
   }
 

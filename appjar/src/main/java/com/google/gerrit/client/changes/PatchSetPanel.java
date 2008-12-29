@@ -58,11 +58,11 @@ class PatchSetPanel extends Composite implements DisclosureHandler {
 
     infoTable.setText(R_DOWNLOAD, 1, Util.M.repoDownload(changeDetail
         .getChange().getDest().getParentKey().get(), changeDetail.getChange()
-        .getId(), patchSet.getId()));
+        .getChangeId(), patchSet.getPatchSetId()));
 
     patchTable = new PatchTable();
     patchTable.setSavePointerId("patchTable "
-        + changeDetail.getChange().getId() + " " + patchSet.getId());
+        + changeDetail.getChange().getChangeId() + " " + patchSet.getPatchSetId());
     patchTable.display(detail.getPatches());
     patchTable.finishDisplay(false);
 
@@ -72,7 +72,7 @@ class PatchSetPanel extends Composite implements DisclosureHandler {
 
   public void onOpen(final DisclosureEvent event) {
     if (infoTable == null) {
-      Util.DETAIL_SVC.patchSetDetail(patchSet.getKey(),
+      Util.DETAIL_SVC.patchSetDetail(patchSet.getId(),
           new GerritCallback<PatchSetDetail>() {
             public void onSuccess(final PatchSetDetail result) {
               ensureLoaded(result);

@@ -19,18 +19,18 @@ import com.google.gwtorm.client.StringKey;
 
 /** A single modified file in a {@link PatchSet}. */
 public final class Patch {
-  public static class Id extends StringKey<PatchSet.Id> {
+  public static class Key extends StringKey<PatchSet.Id> {
     @Column(name = Column.NONE)
     protected PatchSet.Id patchSetId;
 
     @Column
     protected String fileName;
 
-    protected Id() {
+    protected Key() {
       patchSetId = new PatchSet.Id();
     }
 
-    public Id(final PatchSet.Id ps, final String name) {
+    public Key(final PatchSet.Id ps, final String name) {
       this.patchSetId = ps;
       this.fileName = name;
     }
@@ -51,8 +51,8 @@ public final class Patch {
     }
 
     /** Parse a Patch.Id out of a string representation. */
-    public static Id parse(final String str) {
-      final Id r = new Id();
+    public static Key parse(final String str) {
+      final Key r = new Key();
       r.fromString(str);
       return r;
     }
@@ -117,7 +117,7 @@ public final class Patch {
   }
 
   @Column(name = Column.NONE)
-  protected Id key;
+  protected Key key;
 
   /** What sort of change is this to the path; see {@link ChangeType}. */
   @Column
@@ -144,13 +144,13 @@ public final class Patch {
   protected Patch() {
   }
 
-  public Patch(final Patch.Id newId) {
+  public Patch(final Patch.Key newId) {
     key = newId;
     setChangeType(ChangeType.MODIFIED);
     setPatchType(PatchType.UNIFIED);
   }
 
-  public Patch.Id getKey() {
+  public Patch.Key getKey() {
     return key;
   }
 

@@ -59,7 +59,7 @@ public final class PatchSet {
   }
 
   @Column(name = Column.NONE)
-  protected Id key;
+  protected Id id;
 
   @Column(notNull = false)
   protected RevId revision;
@@ -68,15 +68,15 @@ public final class PatchSet {
   }
 
   public PatchSet(final PatchSet.Id k) {
-    key = k;
+    id = k;
   }
 
-  public PatchSet.Id getKey() {
-    return key;
+  public PatchSet.Id getId() {
+    return id;
   }
 
-  public int getId() {
-    return key.get();
+  public int getPatchSetId() {
+    return id.get();
   }
 
   public RevId getRevision() {
@@ -90,7 +90,7 @@ public final class PatchSet {
   public String getRefName() {
     final StringBuilder r = new StringBuilder();
     r.append("refs/changes/");
-    final int changeId = key.getParentKey().get();
+    final int changeId = id.getParentKey().get();
     final int m = changeId % 100;
     if (m < 10) {
       r.append('0');
@@ -99,7 +99,7 @@ public final class PatchSet {
     r.append('/');
     r.append(changeId);
     r.append('/');
-    r.append(key.get());
+    r.append(id.get());
     return r.toString();
   }
 }

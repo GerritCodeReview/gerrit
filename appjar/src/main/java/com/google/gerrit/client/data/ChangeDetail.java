@@ -53,8 +53,8 @@ public class ChangeDetail {
     change = c;
     acc.want(change.getOwner());
 
-    patchSets = db.patchSets().byChange(change.getKey()).toList();
-    messages = db.changeMessages().byChange(change.getKey()).toList();
+    patchSets = db.patchSets().byChange(change.getId()).toList();
+    messages = db.changeMessages().byChange(change.getId()).toList();
     for (final ChangeMessage m : messages) {
       acc.want(m.getAuthor());
     }
@@ -67,7 +67,7 @@ public class ChangeDetail {
       // TODO Mark self-approved, self-verified if permitted.
       ad.put(d.getAccount(), d);
     }
-    for (ChangeApproval ca : db.changeApprovals().byChange(change.getKey())) {
+    for (ChangeApproval ca : db.changeApprovals().byChange(change.getId())) {
       ApprovalDetail d = ad.get(ca.getAccountId());
       if (d == null) {
         d = new ApprovalDetail(ca.getAccountId());
@@ -93,7 +93,7 @@ public class ChangeDetail {
       for (final PatchSetAncestor a : db.patchSetAncestors().ancestorsOf(
           currentPatchSetId).toList()) {
         for (PatchSet p : db.patchSets().byRevision(a.getAncestorRevision())) {
-          final Change.Id ck = p.getKey().getParentKey();
+          final Change.Id ck = p.getId().getParentKey();
           if (changesToGet.add(ck)) {
             ancestorOrder.add(ck);
           }
@@ -172,7 +172,7 @@ public class ChangeDetail {
       //
       for (int i = patchSets.size() - 1; i >= 0; i--) {
         final PatchSet ps = patchSets.get(i);
-        if (ps.getKey().equals(currentPatchSetId)) {
+        if (ps.getId().equals(currentPatchSetId)) {
           return ps;
         }
       }

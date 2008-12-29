@@ -21,25 +21,25 @@ import java.sql.Timestamp;
 
 /** A comment left by a user on a specific line of a {@link Patch}. */
 public final class PatchLineComment {
-  public static class Id extends StringKey<Patch.Id> {
+  public static class Key extends StringKey<Patch.Key> {
     @Column(name = Column.NONE)
-    protected Patch.Id patchId;
+    protected Patch.Key patchKey;
 
     @Column(length = 40)
     protected String uuid;
 
-    protected Id() {
-      patchId = new Patch.Id();
+    protected Key() {
+      patchKey = new Patch.Key();
     }
 
-    public Id(final Patch.Id p, final String uuid) {
-      this.patchId = p;
+    public Key(final Patch.Key p, final String uuid) {
+      this.patchKey = p;
       this.uuid = uuid;
     }
 
     @Override
-    public Patch.Id getParentKey() {
-      return patchId;
+    public Patch.Key getParentKey() {
+      return patchKey;
     }
 
     @Override
@@ -82,7 +82,7 @@ public final class PatchLineComment {
   }
 
   @Column(name = Column.NONE)
-  protected Id key;
+  protected Key key;
 
   /** Line number this comment applies to; it should display after the line. */
   @Column
@@ -111,7 +111,7 @@ public final class PatchLineComment {
   protected PatchLineComment() {
   }
 
-  public PatchLineComment(final PatchLineComment.Id id, final int line,
+  public PatchLineComment(final PatchLineComment.Key id, final int line,
       final Account.Id a) {
     key = id;
     lineNbr = line;
@@ -120,7 +120,7 @@ public final class PatchLineComment {
     setStatus(Status.DRAFT);
   }
 
-  public PatchLineComment.Id getKey() {
+  public PatchLineComment.Key getKey() {
     return key;
   }
 

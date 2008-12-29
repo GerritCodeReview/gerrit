@@ -208,7 +208,7 @@ class Receive extends AbstractGitCommand {
 
     try {
       destBranch =
-          db.branches().byName(
+          db.branches().get(
               new Branch.NameKey(proj.getNameKey(), destBranchName));
     } catch (OrmException e) {
       reject(cmd, "database error");
@@ -312,7 +312,7 @@ class Receive extends AbstractGitCommand {
     final Change change =
         new Change(new Change.Id(db.nextChangeId()), userAccount.getId(),
             destBranch.getNameKey());
-    final PatchSet ps = new PatchSet(new PatchSet.Id(change.getKey(), 1));
+    final PatchSet ps = new PatchSet(new PatchSet.Id(change.getId(), 1));
     final PatchSetImporter imp = new PatchSetImporter(db, repo, c, ps, true);
     imp.setTransaction(txn);
     imp.run();
@@ -327,7 +327,7 @@ class Receive extends AbstractGitCommand {
 
     final String url = server.getCanonicalURL();
     if (url != null) {
-      rp.sendMessage("New change: " + url + change.getId());
+      rp.sendMessage("New change: " + url + change.getChangeId());
     }
   }
 

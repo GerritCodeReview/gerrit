@@ -248,7 +248,7 @@ public class LoginServlet extends HttpServlet {
           }
 
           if (acctExt != null) {
-            account = d.accounts().byId(acctExt.getAccountId());
+            account = d.accounts().get(acctExt.getAccountId());
           } else {
             account = null;
           }
@@ -363,7 +363,7 @@ public class LoginServlet extends HttpServlet {
     try {
       final ReviewDb db = server.getDatabase().open();
       try {
-        account = db.accounts().byId(id);
+        account = db.accounts().get(id);
       } finally {
         db.close();
       }

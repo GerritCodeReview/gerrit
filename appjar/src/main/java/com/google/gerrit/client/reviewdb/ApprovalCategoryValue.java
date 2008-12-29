@@ -19,18 +19,18 @@ import com.google.gwtorm.client.ShortKey;
 
 /** Valid value for a {@link ApprovalCategory}. */
 public final class ApprovalCategoryValue {
-  public static class Key extends ShortKey<ApprovalCategory.Id> {
+  public static class Id extends ShortKey<ApprovalCategory.Id> {
     @Column
     protected ApprovalCategory.Id categoryId;
 
     @Column
     protected short value;
 
-    protected Key() {
+    protected Id() {
       categoryId = new ApprovalCategory.Id();
     }
 
-    public Key(final ApprovalCategory.Id cat, final short v) {
+    public Id(final ApprovalCategory.Id cat, final short v) {
       categoryId = cat;
       value = v;
     }
@@ -52,7 +52,7 @@ public final class ApprovalCategoryValue {
   }
 
   @Column(name = Column.NONE)
-  protected Key key;
+  protected Id key;
 
   @Column(length = 50)
   protected String name;
@@ -60,7 +60,7 @@ public final class ApprovalCategoryValue {
   protected ApprovalCategoryValue() {
   }
 
-  public ApprovalCategoryValue(final ApprovalCategoryValue.Key id,
+  public ApprovalCategoryValue(final ApprovalCategoryValue.Id id,
       final String name) {
     this.key = id;
     this.name = name;

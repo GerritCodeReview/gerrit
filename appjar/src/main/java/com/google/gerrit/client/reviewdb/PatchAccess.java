@@ -20,9 +20,9 @@ import com.google.gwtorm.client.PrimaryKey;
 import com.google.gwtorm.client.Query;
 import com.google.gwtorm.client.ResultSet;
 
-public interface PatchAccess extends Access<Patch, Patch.Id> {
+public interface PatchAccess extends Access<Patch, Patch.Key> {
   @PrimaryKey("key")
-  Patch get(Patch.Id id) throws OrmException;
+  Patch get(Patch.Key id) throws OrmException;
 
   @Query("WHERE key.patchSetId = ? ORDER BY key.fileName")
   ResultSet<Patch> byPatchSet(PatchSet.Id ps) throws OrmException;

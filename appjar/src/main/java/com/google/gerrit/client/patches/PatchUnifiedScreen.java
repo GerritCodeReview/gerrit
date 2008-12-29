@@ -21,7 +21,7 @@ import com.google.gerrit.client.rpc.ScreenLoadCallback;
 public class PatchUnifiedScreen extends PatchScreen {
   private UnifiedDiffTable diffTable;
 
-  public PatchUnifiedScreen(final Patch.Id id) {
+  public PatchUnifiedScreen(final Patch.Key id) {
     super(id);
   }
 

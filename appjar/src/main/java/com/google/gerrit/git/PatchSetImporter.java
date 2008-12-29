@@ -102,12 +102,12 @@ public class PatchSetImporter {
       // If we aren't a new patch set then we need to load the existing
       // files so we can update or delete them if there are corrections.
       //
-      info = db.patchSetInfo().get(dst.getKey());
-      for (final Patch p : db.patches().byPatchSet(dst.getKey())) {
+      info = db.patchSetInfo().get(dst.getId());
+      for (final Patch p : db.patches().byPatchSet(dst.getId())) {
         patchExisting.put(p.getFileName(), p);
       }
       for (final PatchSetAncestor a : db.patchSetAncestors().ancestorsOf(
-          dst.getKey())) {
+          dst.getId())) {
         ancestorExisting.put(a.getPosition(), a);
       }
     }
@@ -150,7 +150,7 @@ public class PatchSetImporter {
 
   private void importInfo() {
     if (info == null) {
-      info = new PatchSetInfo(dst.getKey());
+      info = new PatchSetInfo(dst.getId());
       infoIsNew = true;
     }
 
@@ -162,7 +162,7 @@ public class PatchSetImporter {
     for (int p = 0; p < src.getParentCount(); p++) {
       PatchSetAncestor a = ancestorExisting.remove(p + 1);
       if (a == null) {
-        a = new PatchSetAncestor(new PatchSetAncestor.Key(dst.getKey(), p + 1));
+        a = new PatchSetAncestor(new PatchSetAncestor.Id(dst.getId(), p + 1));
         ancestorInsert.add(a);
       } else {
         ancestorUpdate.add(a);
@@ -191,7 +191,7 @@ public class PatchSetImporter {
 
     Patch p = patchExisting.remove(path);
     if (p == null) {
-      p = new Patch(new Patch.Id(dst.getKey(), path));
+      p = new Patch(new Patch.Key(dst.getId(), path));
       patchInsert.add(p);
     } else {
       p.setSourceFileName(null);

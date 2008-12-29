@@ -19,18 +19,18 @@ import com.google.gwtorm.client.IntKey;
 
 /** Ancestors of a {@link PatchSet} that the PatchSet depends upon. */
 public final class PatchSetAncestor {
-  public static class Key extends IntKey<PatchSet.Id> {
+  public static class Id extends IntKey<PatchSet.Id> {
     @Column(name = Column.NONE)
     protected PatchSet.Id patchSetId;
 
     @Column
     protected int position;
 
-    protected Key() {
+    protected Id() {
       patchSetId = new PatchSet.Id();
     }
 
-    public Key(final PatchSet.Id psId, final int pos) {
+    public Id(final PatchSet.Id psId, final int pos) {
       this.patchSetId = psId;
       this.position = pos;
     }
@@ -52,7 +52,7 @@ public final class PatchSetAncestor {
   }
 
   @Column(name = Column.NONE)
-  protected Key key;
+  protected Id key;
 
   @Column
   protected RevId ancestorRevision;
@@ -60,11 +60,11 @@ public final class PatchSetAncestor {
   protected PatchSetAncestor() {
   }
 
-  public PatchSetAncestor(final PatchSetAncestor.Key k) {
+  public PatchSetAncestor(final PatchSetAncestor.Id k) {
     key = k;
   }
 
-  public PatchSetAncestor.Key getKey() {
+  public PatchSetAncestor.Id getId() {
     return key;
   }
 

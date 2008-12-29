@@ -32,7 +32,7 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
     server = gs;
   }
 
-  public void sideBySidePatchDetail(final Patch.Id key,
+  public void sideBySidePatchDetail(final Patch.Key key,
       final AsyncCallback<SideBySidePatchDetail> callback) {
     final RepositoryCache rc = server.getRepositoryCache();
     if (rc == null) {
@@ -42,7 +42,7 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
     run(callback, new SideBySidePatchDetailAction(rc, key));
   }
 
-  public void unifiedPatchDetail(final Patch.Id key,
+  public void unifiedPatchDetail(final Patch.Key key,
       final AsyncCallback<UnifiedPatchDetail> callback) {
     run(callback, new UnifiedPatchDetailAction(key));
   }

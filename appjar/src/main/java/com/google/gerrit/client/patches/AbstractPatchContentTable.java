@@ -37,7 +37,7 @@ import java.util.List;
 public abstract class AbstractPatchContentTable extends FancyFlexTable<Object> {
   private static final long AGE = 7 * 24 * 60 * 60 * 1000L;
   protected AccountInfoCache accountCache = AccountInfoCache.empty();
-  protected Patch.Id patchKey;
+  protected Patch.Key patchKey;
   private final Timestamp aged =
       new Timestamp(System.currentTimeMillis() - AGE);
 
@@ -60,7 +60,7 @@ public abstract class AbstractPatchContentTable extends FancyFlexTable<Object> {
 
   protected PatchLineComment newComment(final int line, final short side) {
     final PatchLineComment r =
-        new PatchLineComment(new PatchLineComment.Id(patchKey, "blargh"), line,
+        new PatchLineComment(new PatchLineComment.Key(patchKey, "blargh"), line,
             Gerrit.getUserAccount().getId());
     r.setSide(side);
     r.setMessage("");
@@ -112,7 +112,7 @@ public abstract class AbstractPatchContentTable extends FancyFlexTable<Object> {
     accountCache = aic;
   }
 
-  public void setPatchKey(final Patch.Id id) {
+  public void setPatchKey(final Patch.Key id) {
     patchKey = id;
   }
 

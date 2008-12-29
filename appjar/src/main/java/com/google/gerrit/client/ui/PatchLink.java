@@ -20,32 +20,32 @@ import com.google.gerrit.client.patches.PatchUnifiedScreen;
 import com.google.gerrit.client.reviewdb.Patch;
 
 public abstract class PatchLink extends DirectScreenLink {
-  protected Patch.Id id;
+  protected Patch.Key key;
 
-  public PatchLink(final String text, final Patch.Id p, final String token) {
+  public PatchLink(final String text, final Patch.Key p, final String token) {
     super(text, token);
-    id = p;
+    key = p;
   }
 
   public static class SideBySide extends PatchLink {
-    public SideBySide(final String text, final Patch.Id p) {
+    public SideBySide(final String text, final Patch.Key p) {
       super(text, p, Link.toPatchSideBySide(p));
     }
 
     @Override
     protected Screen createScreen() {
-      return new PatchSideBySideScreen(id);
+      return new PatchSideBySideScreen(key);
     }
   }
 
   public static class Unified extends PatchLink {
-    public Unified(final String text, final Patch.Id p) {
+    public Unified(final String text, final Patch.Key p) {
       super(text, p, Link.toPatchUnified(p));
     }
 
     @Override
     protected Screen createScreen() {
-      return new PatchUnifiedScreen(id);
+      return new PatchUnifiedScreen(key);
     }
   }
 }

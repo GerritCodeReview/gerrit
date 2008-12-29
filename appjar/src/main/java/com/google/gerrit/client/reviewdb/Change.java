@@ -144,11 +144,11 @@ public final class Change {
     setStatus(Status.NEW);
   }
 
-  public Change.Id getKey() {
+  public Change.Id getId() {
     return changeId;
   }
 
-  public int getId() {
+  public int getChangeId() {
     return changeId.get();
   }
 

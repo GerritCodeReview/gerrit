@@ -62,7 +62,12 @@ public class GerritServer {
   public static synchronized GerritServer getInstance() throws OrmException,
       XsrfException {
     if (impl == null) {
-      impl = new GerritServer();
+      try {
+        impl = new GerritServer();
+      } catch (OrmException e) {
+        e.printStackTrace();
+        throw e;
+      }
     }
     return impl;
   }
@@ -186,7 +191,7 @@ public class GerritServer {
 
   private static ApprovalCategoryValue value(final ApprovalCategory cat,
       final int value, final String name) {
-    return new ApprovalCategoryValue(new ApprovalCategoryValue.Key(cat.getId(),
+    return new ApprovalCategoryValue(new ApprovalCategoryValue.Id(cat.getId(),
         (short) value), name);
   }
 

@@ -23,10 +23,10 @@ import com.google.gwtjsonrpc.client.RemoteJsonService;
 
 public interface PatchDetailService extends RemoteJsonService {
   @AllowCrossSiteRequest
-  void sideBySidePatchDetail(Patch.Id key,
+  void sideBySidePatchDetail(Patch.Key key,
       AsyncCallback<SideBySidePatchDetail> callback);
 
   @AllowCrossSiteRequest
-  void unifiedPatchDetail(Patch.Id key,
+  void unifiedPatchDetail(Patch.Key key,
       AsyncCallback<UnifiedPatchDetail> callback);
 }

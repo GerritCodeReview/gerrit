@@ -24,7 +24,7 @@ import com.google.gwtorm.client.ResultSet;
 public interface AccountAccess extends Access<Account, Account.Id> {
   /** Locate an account by our locally generated identity. */
   @PrimaryKey("accountId")
-  Account byId(Account.Id key) throws OrmException;
+  Account get(Account.Id key) throws OrmException;
 
   @Query("WHERE preferredEmail = ? LIMIT 2")
   ResultSet<Account> byPreferredEmail(String email) throws OrmException;

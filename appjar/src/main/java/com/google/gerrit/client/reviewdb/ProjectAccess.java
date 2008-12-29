@@ -23,10 +23,10 @@ import com.google.gwtorm.client.SecondaryKey;
 
 public interface ProjectAccess extends Access<Project, Project.NameKey> {
   @PrimaryKey("name")
-  Project byName(Project.NameKey name) throws OrmException;
+  Project get(Project.NameKey name) throws OrmException;
 
   @SecondaryKey("projectId")
-  Project byId(Project.Id id) throws OrmException;
+  Project get(Project.Id id) throws OrmException;
 
   @Query("ORDER BY name")
   ResultSet<Project> all() throws OrmException;

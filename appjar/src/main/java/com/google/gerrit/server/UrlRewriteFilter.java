@@ -202,7 +202,7 @@ public class UrlRewriteFilter implements Filter {
     } else if (patches.size() == 1) {
       final StringBuffer url = toGerrit(req);
       url.append('#');
-      url.append(Link.toChange(patches.get(0).getKey().getParentKey()));
+      url.append(Link.toChange(patches.get(0).getId().getParentKey()));
       rsp.sendRedirect(url.toString());
     } else {
       // TODO Someday this should be a menu of choices.

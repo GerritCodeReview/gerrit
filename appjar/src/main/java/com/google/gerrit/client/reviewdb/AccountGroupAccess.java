@@ -25,5 +25,5 @@ public interface AccountGroupAccess extends
   AccountGroup get(AccountGroup.NameKey name) throws OrmException;
 
   @SecondaryKey("groupId")
-  AccountGroup byGroupId(AccountGroup.Id id) throws OrmException;
+  AccountGroup get(AccountGroup.Id id) throws OrmException;
 }

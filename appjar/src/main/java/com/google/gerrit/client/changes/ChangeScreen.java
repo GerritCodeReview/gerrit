@@ -216,7 +216,7 @@ public class ChangeScreen extends Screen {
     final GitwebLink gw = Gerrit.getGerritConfig().getGitwebLink();
     for (final PatchSet ps : detail.getPatchSets()) {
       final ComplexDisclosurePanel panel =
-          new ComplexDisclosurePanel(Util.M.patchSetHeader(ps.getId()),
+          new ComplexDisclosurePanel(Util.M.patchSetHeader(ps.getPatchSetId()),
               ps == currps);
       final PatchSetPanel psp = new PatchSetPanel(detail, ps);
       panel.setContent(psp);

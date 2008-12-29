@@ -21,9 +21,9 @@ import com.google.gwtorm.client.Query;
 import com.google.gwtorm.client.ResultSet;
 
 public interface ChangeMessageAccess extends
-    Access<ChangeMessage, ChangeMessage.Id> {
+    Access<ChangeMessage, ChangeMessage.Key> {
   @PrimaryKey("key")
-  ChangeMessage get(ChangeMessage.Id id) throws OrmException;
+  ChangeMessage get(ChangeMessage.Key id) throws OrmException;
 
   @Query("WHERE key.changeId = ? ORDER BY writtenOn")
   ResultSet<ChangeMessage> byChange(Change.Id id) throws OrmException;

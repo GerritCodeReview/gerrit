@@ -48,7 +48,7 @@ class SideBySidePatchDetailAction extends
   private byte[][] fileContents;
   private IntList[] lineIndex;
 
-  SideBySidePatchDetailAction(final RepositoryCache rc, final Patch.Id key) {
+  SideBySidePatchDetailAction(final RepositoryCache rc, final Patch.Key key) {
     super(key);
     repoCache = rc;
   }

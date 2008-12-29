@@ -18,9 +18,9 @@ import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.ui.Screen;
 
 public class PatchScreen extends Screen {
-  protected final Patch.Id patchId;
+  protected final Patch.Key patchId;
 
-  public PatchScreen(final Patch.Id id) {
+  public PatchScreen(final Patch.Key id) {
     patchId = id;
     setTitleText(id.get());
   }

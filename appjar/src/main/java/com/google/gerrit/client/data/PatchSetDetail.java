@@ -32,8 +32,8 @@ public class PatchSetDetail {
 
   public void load(final ReviewDb db, final PatchSet ps) throws OrmException {
     patchSet = ps;
-    info = db.patchSetInfo().get(patchSet.getKey());
-    patches = db.patches().byPatchSet(patchSet.getKey()).toList();
+    info = db.patchSetInfo().get(patchSet.getId());
+    patches = db.patches().byPatchSet(patchSet.getId()).toList();
   }
 
   public PatchSet getPatchSet() {

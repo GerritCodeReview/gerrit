@@ -21,9 +21,9 @@ import com.google.gwtorm.client.Query;
 import com.google.gwtorm.client.ResultSet;
 
 public interface ApprovalCategoryValueAccess extends
-    Access<ApprovalCategoryValue, ApprovalCategoryValue.Key> {
+    Access<ApprovalCategoryValue, ApprovalCategoryValue.Id> {
   @PrimaryKey("key")
-  ApprovalCategoryValue get(ApprovalCategoryValue.Key key) throws OrmException;
+  ApprovalCategoryValue get(ApprovalCategoryValue.Id key) throws OrmException;
 
   @Query("WHERE key.categoryId = ? ORDER BY key.value")
   ResultSet<ApprovalCategoryValue> byCategory(ApprovalCategory.Id id)

@@ -33,7 +33,7 @@ public class ChangeInfo {
   }
 
   public ChangeInfo(final Change c, final AccountInfoCacheFactory acc) {
-    id = c.getKey();
+    id = c.getId();
     owner = c.getOwner();
     subject = c.getSubject();
     status = c.getStatus();

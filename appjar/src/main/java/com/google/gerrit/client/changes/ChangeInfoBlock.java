@@ -14,7 +14,8 @@
 
 package com.google.gerrit.client.changes;
 
-import com.google.gerrit.client.FormatUtil;
+import static com.google.gerrit.client.FormatUtil.mediumFormat;
+
 import com.google.gerrit.client.data.ChangeDetail;
 import com.google.gerrit.client.reviewdb.Branch;
 import com.google.gerrit.client.reviewdb.Change;
@@ -29,9 +30,10 @@ public class ChangeInfoBlock extends Composite {
   private static final int R_PROJECT = 1;
   private static final int R_BRANCH = 2;
   private static final int R_UPLOADED = 3;
-  private static final int R_STATUS = 4;
-  private static final int R_PERMALINK = 5;
-  private static final int R_CNT = 6;
+  private static final int R_UPDATED = 4;
+  private static final int R_STATUS = 5;
+  private static final int R_PERMALINK = 6;
+  private static final int R_CNT = 7;
 
   private final Grid table;
 
@@ -44,6 +46,7 @@ public class ChangeInfoBlock extends Composite {
     initRow(R_PROJECT, Util.C.changeInfoBlockProject());
     initRow(R_BRANCH, Util.C.changeInfoBlockBranch());
     initRow(R_UPLOADED, Util.C.changeInfoBlockUploaded());
+    initRow(R_UPDATED, Util.C.changeInfoBlockUpdated());
     initRow(R_STATUS, Util.C.changeInfoBlockStatus());
 
     final CellFormatter fmt = table.getCellFormatter();
@@ -68,7 +71,8 @@ public class ChangeInfoBlock extends Composite {
         detail.getChange().getOwner()));
     table.setText(R_PROJECT, 1, dst.getParentKey().get());
     table.setText(R_BRANCH, 1, dst.getShortName());
-    table.setText(R_UPLOADED, 1, FormatUtil.mediumFormat(chg.getCreatedOn()));
+    table.setText(R_UPLOADED, 1, mediumFormat(chg.getCreatedOn()));
+    table.setText(R_UPDATED, 1, mediumFormat(chg.getLastUpdatedOn()));
     table.setText(R_STATUS, 1, Util.toLongString(chg.getStatus()));
 
     if (chg.getStatus().isClosed()) {

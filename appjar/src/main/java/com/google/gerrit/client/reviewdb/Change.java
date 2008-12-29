@@ -93,6 +93,14 @@ public final class Change {
   @Column
   protected Timestamp createdOn;
 
+  /**
+   * When was a meaningful modification last made to this record's data
+   * <p>
+   * Note, this update timestamp includes its children.
+   */
+  @Column
+  protected Timestamp lastUpdatedOn;
+
   @Column(name = "owner_account_id")
   protected Account.Id owner;
 
@@ -123,6 +131,7 @@ public final class Change {
       final Branch.NameKey forBranch) {
     changeId = newId;
     createdOn = new Timestamp(System.currentTimeMillis());
+    lastUpdatedOn = createdOn;
     owner = ownedBy;
     dest = forBranch;
     setStatus(Status.NEW);
@@ -138,6 +147,14 @@ public final class Change {
 
   public Timestamp getCreatedOn() {
     return createdOn;
+  }
+
+  public Timestamp getLastUpdatedOn() {
+    return lastUpdatedOn;
+  }
+
+  public void updated() {
+    lastUpdatedOn = new Timestamp(System.currentTimeMillis());
   }
 
   public Account.Id getOwner() {

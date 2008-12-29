@@ -214,6 +214,7 @@ INSERT INTO project_lead_groups
 DELETE FROM changes;
 INSERT INTO changes
 (created_on,
+ last_updated_on,
  owner_account_id,
  dest_project_name,
  dest_branch_name,
@@ -223,6 +224,7 @@ INSERT INTO changes
  subject,
  change_id) SELECT
  c.created,
+ CURRENT_TIMESTAMP,
  a.account_id,
  p.name,
  b.name,
@@ -425,6 +427,44 @@ INSERT INTO change_approvals
  s.lgtm IS NOT NULL
  AND s.change_key = c.gae_key
  AND a.preferred_email = s.email;
+
+
+-- Fix change.nbr_patch_sets
+--
+UPDATE changes
+SET nbr_patch_sets = (SELECT MAX(p.patch_set_id)
+                      FROM patch_sets p
+                      WHERE p.change_id = changes.change_id);
+
+-- Fix change.last_updated_on
+--
+DROP TABLE temp_dates;
+CREATE TABLE temp_dates (
+change_id INT NOT NULL,
+dt TIMESTAMP NOT NULL);
+
+INSERT INTO temp_dates
+SELECT change_id,written_on
+FROM patch_comments
+WHERE status = 'P';
+
+INSERT INTO temp_dates
+SELECT change_id,written_on FROM change_messages;
+
+INSERT INTO temp_dates
+SELECT change_id,merge_submitted
+FROM gerrit1.changes
+WHERE merge_submitted IS NOT NULL
+AND merged = 'Y';
+
+UPDATE changes
+SET last_updated_on = (SELECT MAX(m.dt)
+                       FROM temp_dates m
+                       WHERE m.change_id = changes.change_id)
+WHERE EXISTS (SELECT 1 FROM temp_dates m
+              WHERE m.change_id = changes.change_id);
+DROP TABLE temp_dates;
+
 
 SELECT
  (SELECT COUNT(*) FROM gerrit1.accounts) as accounts_g1,

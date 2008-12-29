@@ -14,6 +14,8 @@
 
 package com.google.gerrit.client.changes;
 
+import static com.google.gerrit.client.FormatUtil.mediumFormat;
+
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.Link;
 import com.google.gerrit.client.SignedInListener;
@@ -42,6 +44,7 @@ import java.util.Set;
 public class ChangeTable extends FancyFlexTable<ChangeInfo> {
   private static final String S_C_ID = "C_ID";
   private static final String S_C_SUBJECT = "C_SUBJECT";
+  private static final String S_C_LAST_UPDATE = "C_LAST_UPDATE";
   private static final String S_SECTION_HEADER = "SectionHeader";
   private static final String S_EMPTY_SECTION = "EmptySection";
 
@@ -203,6 +206,7 @@ public class ChangeTable extends FancyFlexTable<ChangeInfo> {
     }
     fmt.addStyleName(row, C_ID, S_C_ID);
     fmt.addStyleName(row, C_SUBJECT, S_C_SUBJECT);
+    fmt.addStyleName(row, C_LAST_UPDATE, S_C_LAST_UPDATE);
   }
 
   private void populateChangeRow(final int row, final ChangeInfo c) {
@@ -221,7 +225,7 @@ public class ChangeTable extends FancyFlexTable<ChangeInfo> {
     table.setWidget(row, C_OWNER, link(c.getOwner()));
     table.setText(row, C_REVIEWERS, "TODO");
     table.setText(row, C_PROJECT, c.getProject().getName());
-    table.setText(row, C_LAST_UPDATE, "TODO");
+    table.setText(row, C_LAST_UPDATE, mediumFormat(c.getLastUpdatedOn()));
     setRowItem(row, c);
   }
 

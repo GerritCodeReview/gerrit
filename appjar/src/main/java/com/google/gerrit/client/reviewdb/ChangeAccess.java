@@ -25,10 +25,10 @@ public interface ChangeAccess extends Access<Change, Change.Id> {
   Change get(Change.Id id) throws OrmException;
 
   @Query("WHERE owner = ? AND status = '" + Change.STATUS_NEW
-      + "' ORDER BY createdOn DESC")
+      + "' ORDER BY lastUpdatedOn DESC")
   ResultSet<Change> byOwnerOpen(Account.Id id) throws OrmException;
 
   @Query("WHERE owner = ? AND status = '" + Change.STATUS_MERGED
-      + "' ORDER BY createdOn DESC LIMIT 20")
+      + "' ORDER BY lastUpdatedOn DESC LIMIT 20")
   ResultSet<Change> byOwnerMerged(Account.Id id) throws OrmException;
 }

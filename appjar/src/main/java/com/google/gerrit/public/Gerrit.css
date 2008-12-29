@@ -180,6 +180,10 @@
   white-space: nowrap;
 }
 
+.gerrit-ChangeTable .C_LAST_UPDATE {
+  white-space: nowrap;
+}
+
 .gerrit-ChangeTable .IconHeader {
   border-top: 1px solid white;
   border-bottom: 1px solid white;

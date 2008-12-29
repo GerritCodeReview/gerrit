@@ -356,6 +356,7 @@ class Receive extends AbstractGitCommand {
     imp.setTransaction(txn);
     imp.run();
     change.setCurrentPatchSet(imp.getPatchSetInfo());
+    change.updated();
     db.changes().update(Collections.singleton(change));
     txn.commit();
 

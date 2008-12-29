@@ -28,18 +28,8 @@ import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.gwtorm.client.Transaction;
 
-import org.apache.commons.codec.binary.Base64;
-import org.apache.sshd.common.KeyPairProvider;
-import org.apache.sshd.common.util.Buffer;
-import org.spearce.jgit.lib.Constants;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.StringReader;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
-import java.security.interfaces.DSAPublicKey;
-import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Collections;
 import java.util.List;

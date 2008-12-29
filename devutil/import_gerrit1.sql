@@ -254,6 +254,39 @@ UPDATE gerrit1.messages
 SET sender = NULL
 WHERE sender = 'code-review@android.com';
 
+UPDATE gerrit1.messages
+SET body = 'Change has been successfully merged into the git repository.'
+WHERE body LIKE '
+Hi.
+
+Your change has been successfully merged into the git repository.
+
+-Your friendly git merger%'
+AND sender IS NULL;
+
+UPDATE gerrit1.messages
+SET body = 'Change could not be merged because of a missing dependency.  As
+soon as its dependencies are submitted, the change will be submitted.'
+WHERE body LIKE '
+Hi.
+
+Your change could not be merged because of a missing dependency.%
+
+-Your friendly git merger%'
+AND sender IS NULL;
+
+UPDATE gerrit1.messages
+SET body = 'Change cannot be merged because of a path conflict.'
+WHERE body LIKE '
+Hi.
+
+Your change has not been successfully merged into the git repository
+because of a path conflict.
+
+-Your friendly git merger%'
+AND sender is NULL;
+
+
 DELETE FROM change_messages;
 INSERT INTO change_messages
 (change_id,

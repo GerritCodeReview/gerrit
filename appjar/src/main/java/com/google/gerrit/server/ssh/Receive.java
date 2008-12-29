@@ -19,6 +19,7 @@ import com.google.gerrit.client.reviewdb.Branch;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.git.PatchSetImporter;
+import com.google.gerrit.server.GerritServer;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.Transaction;
 
@@ -58,6 +59,7 @@ class Receive extends AbstractGitCommand {
   private final Set<Account.Id> reviewerId = new HashSet<Account.Id>();
   private final Set<Account.Id> ccId = new HashSet<Account.Id>();
 
+  private GerritServer server;
   private ReceivePack rp;
   private ReceiveCommand newChange;
   private Branch destBranch;
@@ -71,6 +73,7 @@ class Receive extends AbstractGitCommand {
 
   @Override
   protected void runImpl() throws IOException, Failure {
+    server = getGerritServer();
     lookup(reviewerId, "reviewer", reviewerEmail);
     lookup(ccId, "cc", ccEmail);
 
@@ -322,7 +325,10 @@ class Receive extends AbstractGitCommand {
     ru.setNewObjectId(c);
     ru.update(walk);
 
-    // TODO list the new change id
+    final String url = server.getCanonicalURL();
+    if (url != null) {
+      rp.sendMessage("New change: " + url + change.getId());
+    }
   }
 
   private void appendPatchSets() {

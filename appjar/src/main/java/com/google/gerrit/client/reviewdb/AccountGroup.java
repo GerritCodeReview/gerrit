@@ -65,6 +65,13 @@ public final class AccountGroup {
     protected void set(int newValue) {
       id = newValue;
     }
+
+    /** Parse an AccountGroup.Id out of a string representation. */
+    public static Id parse(final String str) {
+      final Id r = new Id();
+      r.fromString(str);
+      return r;
+    }
   }
 
   @Column

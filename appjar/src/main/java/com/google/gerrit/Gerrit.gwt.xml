@@ -22,6 +22,8 @@
            class='com.google.gerrit.server.AccountServiceSrv'/>
   <servlet path='/rpc/AccountSecurity'
            class='com.google.gerrit.server.AccountSecuritySrv'/>
+  <servlet path='/rpc/AdminService'
+           class='com.google.gerrit.server.AdminServiceSrv'/>
   <servlet path='/rpc/ChangeDetailService'
            class='com.google.gerrit.server.ChangeDetailServiceSrv'/>
   <servlet path='/rpc/ChangeListService'

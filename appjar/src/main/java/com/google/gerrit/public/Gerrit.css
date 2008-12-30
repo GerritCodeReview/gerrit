@@ -35,10 +35,11 @@
 }
 
 .gerrit-InputFieldTypeHint {
-	color: grey;
+  color: grey;
 }
 
 .gerrit-SmallHeading {
+  margin-top: 5px;
   font-weight: bold;
 }
 
@@ -176,6 +177,10 @@
   padding-right: 5px;
   border-right: 1px solid #d4e9a9;
   border-bottom: 1px solid #d4e9a9;
+}
+
+.gerrit-ChangeTable td.ActiveRow {
+  background: #ecffc0;
 }
 
 .gerrit-ChangeTable .C_ID {
@@ -507,8 +512,8 @@
 }
 
 .gerrit-WatchedProjectPanel {
-	margin-top: 10px;
-	padding: 5px 5px 5px 5px;
-	display: table;
+  margin-top: 10px;
+  padding: 5px 5px 5px 5px;
+  display: table;
   border: 1px solid #B0BDCC;
 }

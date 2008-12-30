@@ -41,6 +41,10 @@ public final class AccountGroupMember {
       return accountId;
     }
 
+    public AccountGroup.Id getAccountGroupId(){
+      return groupId;
+    }
+
     @Override
     public com.google.gwtorm.client.Key<?>[] members() {
       return new com.google.gwtorm.client.Key<?>[] {groupId};
@@ -59,6 +63,10 @@ public final class AccountGroupMember {
 
   public AccountGroupMember(final AccountGroupMember.Key k) {
     key = k;
+  }
+
+  public AccountGroupMember.Key getKey() {
+    return key;
   }
 
   public Account.Id getAccountId() {

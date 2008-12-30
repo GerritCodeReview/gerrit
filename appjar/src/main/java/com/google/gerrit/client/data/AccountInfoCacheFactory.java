@@ -89,6 +89,12 @@ public class AccountInfoCacheFactory {
     return a;
   }
 
+  /** Remember one account that was previously loaded. */
+  public void put(final Account a) {
+    toFetch.remove(a.getId());
+    cache.put(a.getId(), a);
+  }
+
   /**
    * Create an AccountInfoCache with the currently loaded Account entities.
    * <p>

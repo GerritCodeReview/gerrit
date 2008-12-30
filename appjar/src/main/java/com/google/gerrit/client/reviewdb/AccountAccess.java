@@ -28,4 +28,12 @@ public interface AccountAccess extends Access<Account, Account.Id> {
 
   @Query("WHERE preferredEmail = ? LIMIT 2")
   ResultSet<Account> byPreferredEmail(String email) throws OrmException;
+
+  @Query("WHERE fullName >= ? AND fullName <= ? ORDER BY fullName LIMIT ?")
+  ResultSet<Account> suggestByFullName(String nameA, String nameB, int limit)
+      throws OrmException;
+
+  @Query("WHERE preferredEmail >= ? AND preferredEmail <= ? ORDER BY preferredEmail LIMIT ?")
+  ResultSet<Account> suggestByPreferredEmail(String nameA, String nameB,
+      int limit) throws OrmException;
 }

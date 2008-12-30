@@ -29,6 +29,7 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.KeyboardListener;
 import com.google.gwt.user.client.ui.KeyboardListenerAdapter;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -36,6 +37,7 @@ import java.util.Map.Entry;
 
 public abstract class FancyFlexTable<RowItem> extends Composite implements
     HasFocus {
+  protected static final String S_ACTIVE_ROW = "ActiveRow";
   protected static final String MY_STYLE = "gerrit-ChangeTable";
   protected static final String S_ICON_HEADER = "IconHeader";
   protected static final String S_DATA_HEADER = "DataHeader";
@@ -170,9 +172,20 @@ public abstract class FancyFlexTable<RowItem> extends Composite implements
   }
 
   protected void movePointerTo(final int newRow) {
+    final CellFormatter fmt = table.getCellFormatter();
+    if (currentRow >= 0) {
+      final int n = table.getCellCount(currentRow);
+      for (int cell = 0; cell < n; cell++) {
+        fmt.removeStyleName(currentRow, cell, S_ACTIVE_ROW);
+      }
+    }
     if (newRow >= 0) {
       table.setWidget(newRow, C_ARROW, pointer);
-      table.getCellFormatter().getElement(newRow, C_ARROW).scrollIntoView();
+      final int n = table.getCellCount(newRow);
+      for (int cell = 0; cell < n; cell++) {
+        fmt.addStyleName(newRow, cell, S_ACTIVE_ROW);
+      }
+      fmt.getElement(newRow, C_ARROW).scrollIntoView();
     } else if (currentRow >= 0) {
       table.setWidget(currentRow, C_ARROW, null);
     }

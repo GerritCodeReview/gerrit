@@ -15,6 +15,7 @@
 package com.google.gerrit.client;
 
 import com.google.gerrit.client.account.AccountSettings;
+import com.google.gerrit.client.admin.AccountGroupScreen;
 import com.google.gerrit.client.changes.AccountDashboardScreen;
 import com.google.gerrit.client.changes.ChangeScreen;
 import com.google.gerrit.client.changes.MineStarredScreen;
@@ -23,6 +24,7 @@ import com.google.gerrit.client.data.ChangeInfo;
 import com.google.gerrit.client.patches.PatchSideBySideScreen;
 import com.google.gerrit.client.patches.PatchUnifiedScreen;
 import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.rpc.RpcUtil;
@@ -123,6 +125,10 @@ public class Link implements HistoryListener {
     p = "dashboard,";
     if (token.startsWith(p))
       return new AccountDashboardScreen(Account.Id.parse(skip(p, token)));
+
+    p = "admin,group,";
+    if (token.startsWith(p))
+      return new AccountGroupScreen(AccountGroup.Id.parse(skip(p, token)));
 
     return null;
   }

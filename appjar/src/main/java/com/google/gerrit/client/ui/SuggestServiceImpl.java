@@ -14,6 +14,8 @@
 
 package com.google.gerrit.client.ui;
 
+import com.google.gerrit.client.data.AccountInfo;
+import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.BaseServiceImplementation;
@@ -42,6 +44,30 @@ public class SuggestServiceImpl extends BaseServiceImplementation implements
         final List<Project.NameKey> r = new ArrayList<Project.NameKey>();
         for (final Project p : db.projects().suggestByName(a, b, n)) {
           r.add(p.getNameKey());
+        }
+        return r;
+      }
+    });
+  }
+
+  public void suggestAccount(final String query, final int limit,
+      final AsyncCallback<List<AccountInfo>> callback) {
+    run(callback, new Action<List<AccountInfo>>() {
+      public List<AccountInfo> run(final ReviewDb db) throws OrmException {
+        final String a = query;
+        final String b = a + "\uffff";
+        final int max = 10;
+        final int n = limit <= 0 ? max : Math.min(limit, max);
+
+        final List<AccountInfo> r = new ArrayList<AccountInfo>();
+        for (final Account p : db.accounts().suggestByFullName(a, b, n)) {
+          r.add(new AccountInfo(p));
+        }
+        if (r.size() < n) {
+          for (final Account p : db.accounts().suggestByPreferredEmail(a, b,
+              n - r.size())) {
+            r.add(new AccountInfo(p));
+          }
         }
         return r;
       }

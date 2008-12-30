@@ -16,8 +16,11 @@ package com.google.gerrit.client.reviewdb;
 
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.IntKey;
+import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.ResultSet;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 /** Preferences and information about a single user. */
 public final class Account {
@@ -26,6 +29,37 @@ public final class Account {
 
   /** Typical valid choices for the default context setting. */
   public static final short[] CONTEXT_CHOICES = {3, 10, 25, 50, 75, 100};
+
+  /**
+   * Locate exactly one account matching the name or name/email string.
+   * 
+   * @param db open database handle to use for the query.
+   * @param nameOrEmail a string of the format
+   *        "Full Name &lt;email@example&gt;", or just the preferred email
+   *        address ("email@example"), or a full name.
+   * @return the single account that matches; null if no account matches or
+   *         there are multiple candidates.
+   */
+  public static Account find(final ReviewDb db, final String nameOrEmail)
+      throws OrmException {
+    final int lt = nameOrEmail.indexOf('<');
+    final int gt = nameOrEmail.indexOf('>');
+    if (lt >= 0 && gt > lt) {
+      final String email = nameOrEmail.substring(lt + 1, gt);
+      return one(db.accounts().byPreferredEmail(email));
+    }
+
+    if (nameOrEmail.contains("@")) {
+      return one(db.accounts().byPreferredEmail(nameOrEmail));
+    }
+
+    return one(db.accounts().suggestByFullName(nameOrEmail, nameOrEmail, 2));
+  }
+
+  private static Account one(final ResultSet<Account> rs) {
+    final List<Account> r = rs.toList();
+    return r.size() == 1 ? r.get(0) : null;
+  }
 
   /** Key local to Gerrit to identify a user. */
   public static class Id extends IntKey<com.google.gwtorm.client.Key<?>> {

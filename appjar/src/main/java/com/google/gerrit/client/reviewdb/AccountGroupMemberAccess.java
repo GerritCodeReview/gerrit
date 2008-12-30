@@ -28,6 +28,9 @@ public interface AccountGroupMemberAccess extends
   @Query("WHERE key.accountId = ?")
   ResultSet<AccountGroupMember> byAccount(Account.Id id) throws OrmException;
 
+  @Query("WHERE key.accountId = ? AND owner = 'Y'")
+  ResultSet<AccountGroupMember> owned(Account.Id id) throws OrmException;
+
   @Query("WHERE key.groupId = ?")
   ResultSet<AccountGroupMember> byGroup(AccountGroup.Id id) throws OrmException;
 }

@@ -70,4 +70,10 @@ public class AccountInfoCache {
     }
     return r;
   }
+
+  /** Merge the information from another cache into this one. */
+  public void merge(final AccountInfoCache other) {
+    assert this != EMPTY;
+    accounts.putAll(other.accounts);
+  }
 }

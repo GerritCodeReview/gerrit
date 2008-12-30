@@ -48,8 +48,12 @@ public class AccountGroupScreen extends Screen {
   private AccountInfoCache accounts = AccountInfoCache.empty();
   private MemberTable members;
 
+  private TextBox groupNameTxt;
+  private Button saveName;
+
   private TextArea descTxt;
   private Button saveDesc;
+
   private Button addMember;
   private TextBox nameTxtBox;
   private SuggestBox nameTxt;
@@ -66,6 +70,7 @@ public class AccountGroupScreen extends Screen {
     }
 
     enableForm(false);
+    saveName.setEnabled(false);
     saveDesc.setEnabled(false);
     super.onLoad();
 
@@ -73,6 +78,7 @@ public class AccountGroupScreen extends Screen {
         new GerritCallback<AccountGroupDetail>() {
           public void onSuccess(final AccountGroupDetail result) {
             enableForm(true);
+            saveName.setEnabled(false);
             saveDesc.setEnabled(false);
             display(result);
           }
@@ -80,6 +86,7 @@ public class AccountGroupScreen extends Screen {
   }
 
   private void enableForm(final boolean on) {
+    groupNameTxt.setEnabled(on);
     descTxt.setEnabled(on);
     addMember.setEnabled(on);
     nameTxtBox.setEnabled(on);
@@ -87,95 +94,123 @@ public class AccountGroupScreen extends Screen {
   }
 
   private void initUI() {
-    {
-      final VerticalPanel vp = new VerticalPanel();
-      final Label descHdr = new Label(Util.C.headingDescription());
-      descHdr.setStyleName("gerrit-SmallHeading");
-      vp.add(descHdr);
+    initName();
+    initDescription();
+    initMemberList();
+  }
 
-      descTxt = new TextArea();
-      descTxt.setVisibleLines(6);
-      descTxt.setCharacterWidth(60);
-      new TextSaveButtonListener(descTxt, saveDesc);
-      vp.add(descTxt);
+  private void initName() {
+    final VerticalPanel vp = new VerticalPanel();
 
-      saveDesc = new Button(Util.C.buttonSaveDescription());
-      saveDesc.addClickListener(new ClickListener() {
-        public void onClick(Widget sender) {
-          final String txt = descTxt.getText().trim();
-          Util.GROUP_SVC.changeGroupDescription(groupId, txt,
-              new GerritCallback<VoidResult>() {
-                public void onSuccess(final VoidResult result) {
-                  saveDesc.setEnabled(false);
-                }
-              });
+    groupNameTxt = new TextBox();
+    groupNameTxt.setVisibleLength(60);
+    vp.add(groupNameTxt);
+
+    saveName = new Button(Util.C.buttonRenameGroup());
+    saveName.addClickListener(new ClickListener() {
+      public void onClick(Widget sender) {
+        final String newName = groupNameTxt.getText().trim();
+        Util.GROUP_SVC.renameGroup(groupId, newName,
+            new GerritCallback<VoidResult>() {
+              public void onSuccess(final VoidResult result) {
+                saveName.setEnabled(false);
+                setTitleText(Util.M.group(newName));
+              }
+            });
+      }
+    });
+    vp.add(saveName);
+    add(vp);
+
+    new TextSaveButtonListener(groupNameTxt, saveName);
+  }
+
+  private void initDescription() {
+    final VerticalPanel vp = new VerticalPanel();
+    final Label descHdr = new Label(Util.C.headingDescription());
+    descHdr.setStyleName("gerrit-SmallHeading");
+    vp.add(descHdr);
+
+    descTxt = new TextArea();
+    descTxt.setVisibleLines(6);
+    descTxt.setCharacterWidth(60);
+    vp.add(descTxt);
+
+    saveDesc = new Button(Util.C.buttonSaveDescription());
+    saveDesc.addClickListener(new ClickListener() {
+      public void onClick(Widget sender) {
+        final String txt = descTxt.getText().trim();
+        Util.GROUP_SVC.changeGroupDescription(groupId, txt,
+            new GerritCallback<VoidResult>() {
+              public void onSuccess(final VoidResult result) {
+                saveDesc.setEnabled(false);
+              }
+            });
+      }
+    });
+    vp.add(saveDesc);
+    add(vp);
+
+    new TextSaveButtonListener(descTxt, saveDesc);
+  }
+
+  private void initMemberList() {
+    final Label memberHdr = new Label(Util.C.headingMembers());
+    memberHdr.setStyleName("gerrit-SmallHeading");
+
+    final FlowPanel addPanel = new FlowPanel();
+    addPanel.setStyleName("gerrit-ProjectWatchPanel-AddPanel");
+
+    nameTxtBox = new TextBox();
+    nameTxt = new SuggestBox(new AccountSuggestOracle(), nameTxtBox);
+    nameTxtBox.setVisibleLength(50);
+    nameTxtBox.setText(Util.C.defaultAccountName());
+    nameTxtBox.addStyleName("gerrit-InputFieldTypeHint");
+    nameTxtBox.addFocusListener(new FocusListenerAdapter() {
+      @Override
+      public void onFocus(Widget sender) {
+        if (Util.C.defaultAccountName().equals(nameTxtBox.getText())) {
+          nameTxtBox.setText("");
+          nameTxtBox.removeStyleName("gerrit-InputFieldTypeHint");
         }
-      });
-      vp.add(saveDesc);
-      add(vp);
-    }
+      }
 
-    {
-      final Label memberHdr = new Label(Util.C.headingMembers());
-      memberHdr.setStyleName("gerrit-SmallHeading");
-      add(memberHdr);
-    }
-
-    {
-      final FlowPanel fp = new FlowPanel();
-      fp.setStyleName("gerrit-ProjectWatchPanel-AddPanel");
-
-      nameTxtBox = new TextBox();
-      nameTxt = new SuggestBox(new AccountSuggestOracle(), nameTxtBox);
-      nameTxtBox.setVisibleLength(50);
-      nameTxtBox.setText(Util.C.defaultAccountName());
-      nameTxtBox.addStyleName("gerrit-InputFieldTypeHint");
-      nameTxtBox.addFocusListener(new FocusListenerAdapter() {
-        @Override
-        public void onFocus(Widget sender) {
-          if (Util.C.defaultAccountName().equals(nameTxtBox.getText())) {
-            nameTxtBox.setText("");
-            nameTxtBox.removeStyleName("gerrit-InputFieldTypeHint");
-          }
+      @Override
+      public void onLostFocus(Widget sender) {
+        if ("".equals(nameTxtBox.getText())) {
+          nameTxtBox.setText(Util.C.defaultAccountName());
+          nameTxtBox.addStyleName("gerrit-InputFieldTypeHint");
         }
+      }
+    });
+    addPanel.add(nameTxt);
 
-        @Override
-        public void onLostFocus(Widget sender) {
-          if ("".equals(nameTxtBox.getText())) {
-            nameTxtBox.setText(Util.C.defaultAccountName());
-            nameTxtBox.addStyleName("gerrit-InputFieldTypeHint");
-          }
-        }
-      });
-      fp.add(nameTxt);
-
-      addMember = new Button(Util.C.buttonAddGroupMember());
-      addMember.addClickListener(new ClickListener() {
-        public void onClick(final Widget sender) {
-          doAddNew();
-        }
-      });
-      fp.add(addMember);
-      add(fp);
-    }
+    addMember = new Button(Util.C.buttonAddGroupMember());
+    addMember.addClickListener(new ClickListener() {
+      public void onClick(final Widget sender) {
+        doAddNew();
+      }
+    });
+    addPanel.add(addMember);
 
     members = new MemberTable();
+
+    delMember = new Button(Util.C.buttonDeleteGroupMembers());
+    delMember.addClickListener(new ClickListener() {
+      public void onClick(final Widget sender) {
+        members.deleteChecked();
+      }
+    });
+
+    add(memberHdr);
+    add(addPanel);
     add(members);
-    {
-      final FlowPanel fp = new FlowPanel();
-      delMember = new Button(Util.C.buttonDeleteGroupMembers());
-      delMember.addClickListener(new ClickListener() {
-        public void onClick(final Widget sender) {
-          members.deleteChecked();
-        }
-      });
-      fp.add(delMember);
-      add(fp);
-    }
+    add(delMember);
   }
 
   private void display(final AccountGroupDetail result) {
     setTitleText(Util.M.group(result.group.getName()));
+    groupNameTxt.setText(result.group.getName());
     descTxt.setText(result.group.getDescription());
     accounts = result.accounts;
     members.display(result.members);

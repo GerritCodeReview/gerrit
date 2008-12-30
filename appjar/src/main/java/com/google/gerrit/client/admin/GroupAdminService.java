@@ -33,6 +33,10 @@ public interface GroupAdminService extends RemoteJsonService {
       AsyncCallback<VoidResult> callback);
 
   @SignInRequired
+  void renameGroup(AccountGroup.Id groupId, String newName,
+      AsyncCallback<VoidResult> callback);
+
+  @SignInRequired
   void addGroupMember(AccountGroup.Id groupId, String nameOrEmail,
       AsyncCallback<AccountGroupDetail> callback);
 

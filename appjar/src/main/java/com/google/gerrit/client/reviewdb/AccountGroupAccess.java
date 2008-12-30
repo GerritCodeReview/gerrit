@@ -20,10 +20,10 @@ import com.google.gwtorm.client.PrimaryKey;
 import com.google.gwtorm.client.SecondaryKey;
 
 public interface AccountGroupAccess extends
-    Access<AccountGroup, AccountGroup.NameKey> {
-  @PrimaryKey("name")
-  AccountGroup get(AccountGroup.NameKey name) throws OrmException;
-
-  @SecondaryKey("groupId")
+    Access<AccountGroup, AccountGroup.Id> {
+  @PrimaryKey("groupId")
   AccountGroup get(AccountGroup.Id id) throws OrmException;
+
+  @SecondaryKey("name")
+  AccountGroup get(AccountGroup.NameKey name) throws OrmException;
 }

@@ -20,6 +20,7 @@ import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.AccountGroupMember;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.BaseServiceImplementation;
+import com.google.gerrit.client.rpc.NameAlreadyUsedException;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gerrit.client.rpc.RpcUtil;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -65,6 +66,28 @@ public class GroupAdminServiceImpl extends BaseServiceImplementation implements
         }
         group.setDescription(description);
         db.accountGroups().update(Collections.singleton(group));
+        return VoidResult.INSTANCE;
+      }
+    });
+  }
+
+  public void renameGroup(final AccountGroup.Id groupId, final String newName,
+      final AsyncCallback<VoidResult> callback) {
+    run(callback, new Action<VoidResult>() {
+      public VoidResult run(final ReviewDb db) throws OrmException, Failure {
+        assertAmGroupOwner(db, groupId);
+        final AccountGroup group = db.accountGroups().get(groupId);
+        if (group == null) {
+          throw new Failure(new NoSuchEntityException());
+        }
+        final AccountGroup.NameKey nameKey = new AccountGroup.NameKey(newName);
+        if (!nameKey.equals(group.getNameKey())) {
+          if (db.accountGroups().get(nameKey) != null) {
+            throw new Failure(new NameAlreadyUsedException());
+          }
+          group.setNameKey(nameKey);
+          db.accountGroups().update(Collections.singleton(group));
+        }
         return VoidResult.INSTANCE;
       }
     });

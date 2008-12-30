@@ -12,22 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.admin;
+package com.google.gerrit.client.rpc;
 
-import com.google.gwt.i18n.client.Constants;
+/** Error indicating entity name is already taken by another entity. */
+public class NameAlreadyUsedException extends Exception {
+  public static final String MESSAGE = "Name Already Used";
 
-public interface AdminConstants extends Constants {
-  String defaultAccountName();
-
-  String buttonDeleteGroupMembers();
-  String buttonAddGroupMember();
-  String buttonSaveDescription();
-  String buttonRenameGroup();
-
-  String headingDescription();
-  String headingMembers();
-
-  String columnMember();
-  String columnEmailAddress();
-  String columnOwner();
+  public NameAlreadyUsedException() {
+    super(MESSAGE);
+  }
 }

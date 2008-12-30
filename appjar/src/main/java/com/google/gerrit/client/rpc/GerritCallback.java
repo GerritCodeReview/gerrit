@@ -30,6 +30,9 @@ public abstract class GerritCallback<T> implements AsyncCallback<T> {
     } else if (isNoSuchEntity(caught)) {
       new ErrorDialog(Gerrit.C.notFoundBody()).center();
 
+    } else if (isNameAlreadyUsed(caught)) {
+      new ErrorDialog(Gerrit.C.nameAlreadyUsedBody()).center();
+
     } else if (caught instanceof ServerUnavailableException) {
       new ErrorDialog(RpcUtil.C.errorServerUnavailable()).center();
 
@@ -53,5 +56,13 @@ public abstract class GerritCallback<T> implements AsyncCallback<T> {
     }
     return caught instanceof RemoteJsonException
         && caught.getMessage().equals(NoSuchEntityException.MESSAGE);
+  }
+
+  public static boolean isNameAlreadyUsed(final Throwable caught) {
+    if (caught instanceof NameAlreadyUsedException) {
+      return true;
+    }
+    return caught instanceof RemoteJsonException
+        && caught.getMessage().equals(NameAlreadyUsedException.MESSAGE);
   }
 }

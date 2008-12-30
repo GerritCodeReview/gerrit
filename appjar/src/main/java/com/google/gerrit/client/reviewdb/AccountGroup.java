@@ -100,6 +100,14 @@ public final class AccountGroup {
     return name.get();
   }
 
+  public AccountGroup.NameKey getNameKey() {
+    return name;
+  }
+
+  public void setNameKey(final AccountGroup.NameKey nameKey) {
+    name = nameKey;
+  }
+
   public String getDescription() {
     return description;
   }

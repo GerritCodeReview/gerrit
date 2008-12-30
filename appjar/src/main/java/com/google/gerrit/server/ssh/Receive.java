@@ -51,7 +51,7 @@ import java.util.regex.Pattern;
 class Receive extends AbstractGitCommand {
   private static final String NEW_CHANGE = "refs/for/";
   private static final Pattern NEW_PATCHSET =
-      Pattern.compile("^refs/changes/(?:[0-9][0-9]/)?([1-9][0-9]*)(?:/new)$");
+      Pattern.compile("^refs/changes/(?:[0-9][0-9]/)?([1-9][0-9]*)(?:/new)?$");
 
   private final Set<String> reviewerEmail = new HashSet<String>();
   private final Set<String> ccEmail = new HashSet<String>();

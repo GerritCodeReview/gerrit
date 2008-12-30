@@ -121,7 +121,7 @@ public class Link implements HistoryListener {
       return new ChangeScreen(Change.Id.parse(skip(p, token)));
 
     p = "dashboard,";
-    if (token.matches(p))
+    if (token.startsWith(p))
       return new AccountDashboardScreen(Account.Id.parse(skip(p, token)));
 
     return null;

@@ -22,12 +22,12 @@
            class='com.google.gerrit.server.AccountServiceSrv'/>
   <servlet path='/rpc/AccountSecurity'
            class='com.google.gerrit.server.AccountSecuritySrv'/>
-  <servlet path='/rpc/AdminService'
-           class='com.google.gerrit.server.AdminServiceSrv'/>
   <servlet path='/rpc/ChangeDetailService'
            class='com.google.gerrit.server.ChangeDetailServiceSrv'/>
   <servlet path='/rpc/ChangeListService'
            class='com.google.gerrit.server.ChangeListServiceSrv'/>
+  <servlet path='/rpc/GroupAdminService'
+           class='com.google.gerrit.server.GroupAdminServiceSrv'/>
   <servlet path='/rpc/PatchDetailService'
            class='com.google.gerrit.server.PatchDetailServiceSrv'/>
   <servlet path='/rpc/SuggestService'

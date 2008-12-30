@@ -20,10 +20,10 @@ import com.google.gwtjsonrpc.client.JsonUtil;
 public class Util {
   public static final AdminConstants C = GWT.create(AdminConstants.class);
   public static final AdminMessages M = GWT.create(AdminMessages.class);
-  public static final AdminService ADMIN_SVC;
+  public static final GroupAdminService GROUP_SVC;
 
   static {
-    ADMIN_SVC = GWT.create(AdminService.class);
-    JsonUtil.bind(ADMIN_SVC, "rpc/AdminService");
+    GROUP_SVC = GWT.create(GroupAdminService.class);
+    JsonUtil.bind(GROUP_SVC, "rpc/GroupAdminService");
   }
 }

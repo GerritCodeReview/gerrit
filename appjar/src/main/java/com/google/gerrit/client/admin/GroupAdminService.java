@@ -23,7 +23,7 @@ import com.google.gwtjsonrpc.client.VoidResult;
 
 import java.util.Set;
 
-public interface AdminService extends RemoteJsonService {
+public interface GroupAdminService extends RemoteJsonService {
   @SignInRequired
   void groupDetail(AccountGroup.Id groupId,
       AsyncCallback<AccountGroupDetail> callback);

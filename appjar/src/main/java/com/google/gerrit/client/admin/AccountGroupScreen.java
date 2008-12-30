@@ -69,7 +69,7 @@ public class AccountGroupScreen extends Screen {
     saveDesc.setEnabled(false);
     super.onLoad();
 
-    Util.ADMIN_SVC.groupDetail(groupId,
+    Util.GROUP_SVC.groupDetail(groupId,
         new GerritCallback<AccountGroupDetail>() {
           public void onSuccess(final AccountGroupDetail result) {
             enableForm(true);
@@ -103,7 +103,7 @@ public class AccountGroupScreen extends Screen {
       saveDesc.addClickListener(new ClickListener() {
         public void onClick(Widget sender) {
           final String txt = descTxt.getText().trim();
-          Util.ADMIN_SVC.changeGroupDescription(groupId, txt,
+          Util.GROUP_SVC.changeGroupDescription(groupId, txt,
               new GerritCallback<VoidResult>() {
                 public void onSuccess(final VoidResult result) {
                   saveDesc.setEnabled(false);
@@ -189,7 +189,7 @@ public class AccountGroupScreen extends Screen {
     }
 
     addMember.setEnabled(false);
-    Util.ADMIN_SVC.addGroupMember(groupId, nameEmail,
+    Util.GROUP_SVC.addGroupMember(groupId, nameEmail,
         new GerritCallback<AccountGroupDetail>() {
           public void onSuccess(final AccountGroupDetail result) {
             addMember.setEnabled(true);
@@ -271,7 +271,7 @@ public class AccountGroupScreen extends Screen {
         }
       }
       if (!ids.isEmpty()) {
-        Util.ADMIN_SVC.deleteGroupMembers(ids,
+        Util.GROUP_SVC.deleteGroupMembers(ids,
             new GerritCallback<VoidResult>() {
               public void onSuccess(final VoidResult result) {
                 for (int row = 1; row < table.getRowCount();) {
@@ -316,7 +316,7 @@ public class AccountGroupScreen extends Screen {
         public void onClick(Widget sender) {
           final boolean oldValue = k.isGroupOwner();
           final boolean newValue = owner.isChecked();
-          Util.ADMIN_SVC.changeGroupOwner(k.getKey(), newValue,
+          Util.GROUP_SVC.changeGroupOwner(k.getKey(), newValue,
               new GerritCallback<VoidResult>() {
                 public void onSuccess(final VoidResult result) {
                   k.setGroupOwner(newValue);

@@ -31,9 +31,9 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-public class AdminServiceImpl extends BaseServiceImplementation implements
-    AdminService {
-  public AdminServiceImpl(final SchemaFactory<ReviewDb> rdf) {
+public class GroupAdminServiceImpl extends BaseServiceImplementation implements
+    GroupAdminService {
+  public GroupAdminServiceImpl(final SchemaFactory<ReviewDb> rdf) {
     super(rdf);
   }
 

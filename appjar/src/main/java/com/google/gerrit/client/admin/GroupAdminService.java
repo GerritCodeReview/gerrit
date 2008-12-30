@@ -25,6 +25,9 @@ import java.util.List;
 import java.util.Set;
 
 public interface GroupAdminService extends RemoteJsonService {
+  /** Special group, which must not be renamed as its "blessed". */
+  public static final AccountGroup.NameKey ADMIN_GROUP = new AccountGroup.NameKey("admin"); 
+
   @SignInRequired
   void ownedGroups(AsyncCallback<List<AccountGroup>> callback);
 

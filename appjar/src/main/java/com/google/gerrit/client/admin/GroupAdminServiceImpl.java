@@ -184,8 +184,7 @@ public class GroupAdminServiceImpl extends BaseServiceImplementation implements
   }
 
   private static boolean amAdmin(final ReviewDb db) throws OrmException {
-    final AccountGroup admin =
-        db.accountGroups().get(new AccountGroup.NameKey("admin"));
+    final AccountGroup admin = db.accountGroups().get(ADMIN_GROUP);
     if (admin == null) {
       return false;
     }

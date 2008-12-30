@@ -14,9 +14,11 @@
 
 package com.google.gerrit.server;
 
+import com.google.gerrit.client.admin.GroupAdminService;
 import com.google.gerrit.client.data.ApprovalType;
 import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.client.data.GitwebLink;
+import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.client.reviewdb.ReviewDb;
@@ -153,6 +155,11 @@ public class GerritServer {
     s.accountPrivateKey = SignedToken.generateRandomKey();
     s.sshdPort = 29418;
     c.systemConfig().insert(Collections.singleton(s));
+
+    final AccountGroup admin =
+        new AccountGroup(GroupAdminService.ADMIN_GROUP, new AccountGroup.Id(c
+            .nextAccountGroupId()));
+    c.accountGroups().insert(Collections.singleton(admin));
   }
 
   private void initVerifiedCategory(final ReviewDb c) throws OrmException {

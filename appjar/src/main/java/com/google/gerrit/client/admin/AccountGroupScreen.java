@@ -184,7 +184,8 @@ public class AccountGroupScreen extends Screen {
 
   void doAddNew() {
     final String nameEmail = nameTxt.getText();
-    if (nameEmail == null || nameEmail.length() == 0) {
+    if (nameEmail == null || nameEmail.length() == 0
+        || Util.C.defaultAccountName().equals(nameEmail)) {
       return;
     }
 

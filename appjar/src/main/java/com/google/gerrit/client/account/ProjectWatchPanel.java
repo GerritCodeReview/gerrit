@@ -102,7 +102,8 @@ class ProjectWatchPanel extends Composite {
 
   void doAddNew() {
     final String projectName = nameTxt.getText();
-    if (projectName == null || projectName.length() == 0) {
+    if (projectName == null || projectName.length() == 0
+        || Util.C.defaultProjectName().equals(projectName)) {
       return;
     }
 

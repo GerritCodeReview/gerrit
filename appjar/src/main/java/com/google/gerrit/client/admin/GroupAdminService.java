@@ -21,9 +21,13 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.RemoteJsonService;
 import com.google.gwtjsonrpc.client.VoidResult;
 
+import java.util.List;
 import java.util.Set;
 
 public interface GroupAdminService extends RemoteJsonService {
+  @SignInRequired
+  void ownedGroups(AsyncCallback<List<AccountGroup>> callback);
+
   @SignInRequired
   void groupDetail(AccountGroup.Id groupId,
       AsyncCallback<AccountGroupDetail> callback);

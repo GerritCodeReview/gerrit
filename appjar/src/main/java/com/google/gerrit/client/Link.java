@@ -16,6 +16,7 @@ package com.google.gerrit.client;
 
 import com.google.gerrit.client.account.AccountSettings;
 import com.google.gerrit.client.admin.AccountGroupScreen;
+import com.google.gerrit.client.admin.GroupListScreen;
 import com.google.gerrit.client.changes.AccountDashboardScreen;
 import com.google.gerrit.client.changes.ChangeScreen;
 import com.google.gerrit.client.changes.MineStarredScreen;
@@ -75,6 +76,10 @@ public class Link implements HistoryListener {
     return "patch," + type + "," + id.toString();
   }
 
+  public static String toAccountGroup(final AccountGroup.Id id) {
+    return "admin,group," + id.toString();
+  }
+
   public void onHistoryChanged(final String token) {
     Screen s;
     try {
@@ -110,13 +115,15 @@ public class Link implements HistoryListener {
       return new MineStarredScreen();
     }
 
-    p = "patch,sidebyside,";
-    if (token.startsWith(p))
-      return new PatchSideBySideScreen(Patch.Key.parse(skip(p, token)));
+    if (token.startsWith("patch,")) {
+      p = "patch,sidebyside,";
+      if (token.startsWith(p))
+        return new PatchSideBySideScreen(Patch.Key.parse(skip(p, token)));
 
-    p = "patch,unified,";
-    if (token.startsWith(p))
-      return new PatchUnifiedScreen(Patch.Key.parse(skip(p, token)));
+      p = "patch,unified,";
+      if (token.startsWith(p))
+        return new PatchUnifiedScreen(Patch.Key.parse(skip(p, token)));
+    }
 
     p = "change,";
     if (token.startsWith(p))
@@ -126,9 +133,15 @@ public class Link implements HistoryListener {
     if (token.startsWith(p))
       return new AccountDashboardScreen(Account.Id.parse(skip(p, token)));
 
-    p = "admin,group,";
-    if (token.startsWith(p))
-      return new AccountGroupScreen(AccountGroup.Id.parse(skip(p, token)));
+    if (token.startsWith("admin,")) {
+      p = "admin,group,";
+      if (token.startsWith(p))
+        return new AccountGroupScreen(AccountGroup.Id.parse(skip(p, token)));
+
+      if (ADMIN_GROUPS.equals(token)) {
+        return new GroupListScreen();
+      }
+    }
 
     return null;
   }

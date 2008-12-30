@@ -30,4 +30,8 @@ public interface AdminConstants extends Constants {
   String columnMember();
   String columnEmailAddress();
   String columnOwner();
+  String columnGroupName();
+  String columnGroupDescription();
+
+  String groupListTitle();
 }

@@ -28,14 +28,38 @@ import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class GroupAdminServiceImpl extends BaseServiceImplementation implements
     GroupAdminService {
   public GroupAdminServiceImpl(final SchemaFactory<ReviewDb> rdf) {
     super(rdf);
+  }
+
+  public void ownedGroups(final AsyncCallback<List<AccountGroup>> callback) {
+    run(callback, new Action<List<AccountGroup>>() {
+      public List<AccountGroup> run(ReviewDb db) throws OrmException {
+        final List<AccountGroup> result;
+        if (amAdmin(db)) {
+          result = db.accountGroups().all().toList();
+        } else {
+          final Set<AccountGroup.Id> mine = myOwnedGroups(db);
+          result =
+              new ArrayList<AccountGroup>(db.accountGroups().get(mine).toList());
+          Collections.sort(result, new Comparator<AccountGroup>() {
+            public int compare(final AccountGroup a, final AccountGroup b) {
+              return a.getName().compareTo(b.getName());
+            }
+          });
+        }
+        return result;
+      }
+    });
   }
 
   public void groupDetail(final AccountGroup.Id groupId,

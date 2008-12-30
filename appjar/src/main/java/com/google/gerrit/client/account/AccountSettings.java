@@ -76,6 +76,12 @@ public class AccountSettings extends AccountScreen {
         return new SshKeyPanel();
       }
     }, Util.C.tabSshKeys());
+    tabs.add(new LazyTabChild<ExternalIdPanel>() {
+      @Override
+      protected ExternalIdPanel create() {
+        return new ExternalIdPanel();
+      }
+    }, Util.C.tabWebIdentities());
     tabs.add(agreementsPanel, Util.C.tabAgreements());
 
     add(tabs);

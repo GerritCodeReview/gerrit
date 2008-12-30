@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.account;
 
+import com.google.gerrit.client.reviewdb.AccountExternalId;
 import com.google.gerrit.client.reviewdb.AccountSshKey;
 import com.google.gerrit.client.rpc.SignInRequired;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -33,4 +34,7 @@ public interface AccountSecurity extends RemoteJsonService {
   @SignInRequired
   void deleteSshKeys(Set<AccountSshKey.Id> ids,
       AsyncCallback<VoidResult> callback);
+
+  @SignInRequired
+  void myExternalIds(AsyncCallback<List<AccountExternalId>> callback);
 }

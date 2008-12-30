@@ -16,6 +16,7 @@ package com.google.gerrit.server;
 
 import com.google.gerrit.client.account.AccountSecurity;
 import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.client.reviewdb.AccountExternalId;
 import com.google.gerrit.client.reviewdb.AccountSshKey;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.BaseServiceImplementation;
@@ -101,6 +102,15 @@ public class AccountSecurityImpl extends BaseServiceImplementation implements
         }
 
         return VoidResult.INSTANCE;
+      }
+    });
+  }
+
+  public void myExternalIds(AsyncCallback<List<AccountExternalId>> callback) {
+    run(callback, new Action<List<AccountExternalId>>() {
+      public List<AccountExternalId> run(ReviewDb db) throws OrmException {
+        final Account.Id me = RpcUtil.getAccountId();
+        return db.accountExternalIds().byAccount(me).toList();
       }
     });
   }

@@ -15,6 +15,8 @@
 package com.google.gerrit.server;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.SignInDialog;
+import com.google.gerrit.client.SignInDialog.Mode;
 import com.google.gerrit.client.account.SignInResult;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountExternalId;
@@ -54,6 +56,8 @@ import javax.servlet.http.HttpServletResponse;
 
 /** Handles the <code>/login</code> URL for web based single-sign-on. */
 public class LoginServlet extends HttpServlet {
+  private static final String SIGNIN_MODE_PARAMETER =
+      SignInDialog.SIGNIN_MODE_PARAM;
   private static final String CALLBACK_PARMETER = "callback";
   private static final String AX_SCHEMA = "http://openid.net/srv/ax/1.0";
   private static final String GMODE_CHKCOOKIE = "gerrit_chkcookie";
@@ -195,6 +199,7 @@ public class LoginServlet extends HttpServlet {
     final String realm = serverUrl(req);
     final StringBuilder retTo = new StringBuilder(req.getRequestURL());
     append(retTo, CALLBACK_PARMETER, req.getParameter(CALLBACK_PARMETER));
+    append(retTo, SIGNIN_MODE_PARAMETER, signInMode(req).name());
     final StringBuilder auth;
 
     auth = RelyingParty.getAuthUrlBuffer(user, realm, realm, retTo.toString());
@@ -218,6 +223,7 @@ public class LoginServlet extends HttpServlet {
     //
     final StringBuilder url = new StringBuilder(req.getRequestURL());
     append(url, CALLBACK_PARMETER, req.getParameter(CALLBACK_PARMETER));
+    append(url, SIGNIN_MODE_PARAMETER, signInMode(req).name());
     append(url, RelyingParty.DEFAULT_PARAMETER,
         GoogleAccountDiscovery.GOOGLE_ACCOUNT);
     rsp.sendRedirect(url.toString());
@@ -226,55 +232,19 @@ public class LoginServlet extends HttpServlet {
   private void initializeAccount(final HttpServletRequest req,
       final HttpServletResponse rsp, final OpenIdUser user, final String email)
       throws IOException {
+    final SignInDialog.Mode mode = signInMode(req);
     Account account = null;
     if (user != null) {
       try {
         final ReviewDb d = server.getDatabase().open();
         try {
-          final AccountExternalIdAccess extAccess = d.accountExternalIds();
-          AccountExternalId acctExt = lookup(extAccess, user.getIdentity());
-
-          if (acctExt == null && email != null && isGoogleAccount(user)) {
-            acctExt = lookup(extAccess, "GoogleAccount/" + email);
-            if (acctExt != null) {
-              // Legacy user from Gerrit 1? Attach the OpenID identity.
-              //
-              final AccountExternalId openidExt =
-                  new AccountExternalId(new AccountExternalId.Key(acctExt
-                      .getAccountId(), user.getIdentity()));
-              extAccess.insert(Collections.singleton(openidExt));
-              acctExt = openidExt;
-            }
-          }
-
-          if (acctExt != null) {
-            account = d.accounts().get(acctExt.getAccountId());
-          } else {
-            account = null;
-          }
-
-          if (account != null) {
-            // Existing user; double check the email is current.
-            //
-            if (email != null && !email.equals(account.getPreferredEmail())) {
-              account.setPreferredEmail(email);
-              d.accounts().update(Collections.singleton(account));
-            }
-          } else {
-            // New user; create an account entity for them.
-            //
-            final Transaction txn = d.beginTransaction();
-
-            account = new Account(new Account.Id(d.nextAccountId()));
-            account.setPreferredEmail(email);
-
-            acctExt =
-                new AccountExternalId(new AccountExternalId.Key(
-                    account.getId(), user.getIdentity()));
-
-            d.accounts().insert(Collections.singleton(account), txn);
-            extAccess.insert(Collections.singleton(acctExt), txn);
-            txn.commit();
+          switch (mode) {
+            case SIGN_IN:
+              account = openAccount(d, user, email);
+              break;
+            case LINK_IDENTIY:
+              account = linkAccount(req, d, user, email);
+              break;
           }
         } finally {
           d.close();
@@ -306,8 +276,10 @@ public class LoginServlet extends HttpServlet {
     c.setPath(req.getContextPath() + "/");
 
     if (account == null) {
-      c.setMaxAge(0);
-      rsp.addCookie(c);
+      if (mode == SignInDialog.Mode.SIGN_IN) {
+        c.setMaxAge(0);
+        rsp.addCookie(c);
+      }
       callback(req, rsp, SignInResult.CANCEL);
     } else {
       c.setMaxAge(server.getSessionAge());
@@ -317,7 +289,124 @@ public class LoginServlet extends HttpServlet {
       append(me, Constants.OPENID_MODE, GMODE_CHKCOOKIE);
       append(me, CALLBACK_PARMETER, req.getParameter(CALLBACK_PARMETER));
       append(me, Gerrit.ACCOUNT_COOKIE, tok);
+      append(me, SIGNIN_MODE_PARAMETER, mode.name());
       rsp.sendRedirect(me.toString());
+    }
+  }
+
+  private Account openAccount(final ReviewDb db, final OpenIdUser user,
+      final String email) throws OrmException {
+    Account account;
+    final AccountExternalIdAccess extAccess = db.accountExternalIds();
+    AccountExternalId acctExt = lookup(extAccess, user.getIdentity());
+
+    if (acctExt == null && email != null && isGoogleAccount(user)) {
+      acctExt = lookup(extAccess, "GoogleAccount/" + email);
+      if (acctExt != null) {
+        // Legacy user from Gerrit 1? Attach the OpenID identity.
+        //
+        final AccountExternalId openidExt =
+            new AccountExternalId(new AccountExternalId.Key(acctExt
+                .getAccountId(), user.getIdentity()));
+        extAccess.insert(Collections.singleton(openidExt));
+        acctExt = openidExt;
+      }
+    }
+
+    if (acctExt != null) {
+      // Existing user; double check the email is current.
+      //
+      if (email != null && !email.equals(acctExt.getEmailAddress())) {
+        acctExt.setEmailAddress(email);
+      }
+      acctExt.setLastUsedOn();
+      extAccess.update(Collections.singleton(acctExt));
+      account = db.accounts().get(acctExt.getAccountId());
+    } else {
+      account = null;
+    }
+
+    if (account == null) {
+      // New user; create an account entity for them.
+      //
+      final Transaction txn = db.beginTransaction();
+
+      account = new Account(new Account.Id(db.nextAccountId()));
+      account.setPreferredEmail(email);
+
+      acctExt =
+          new AccountExternalId(new AccountExternalId.Key(account.getId(), user
+              .getIdentity()));
+      acctExt.setLastUsedOn();
+      acctExt.setEmailAddress(email);
+
+      db.accounts().insert(Collections.singleton(account), txn);
+      extAccess.insert(Collections.singleton(acctExt), txn);
+      txn.commit();
+    }
+    return account;
+  }
+
+  private Account linkAccount(final HttpServletRequest req, final ReviewDb db,
+      final OpenIdUser user, final String email) throws OrmException {
+    final Cookie[] cookies = req.getCookies();
+    if (cookies == null) {
+      return null;
+    }
+    Account.Id me = null;
+    for (final Cookie c : cookies) {
+      if (Gerrit.ACCOUNT_COOKIE.equals(c.getName())) {
+        try {
+          final ValidToken tok =
+              server.getAccountToken().checkToken(c.getValue(), null);
+          if (tok == null) {
+            return null;
+          }
+          me = Account.Id.parse(tok.getData());
+          break;
+        } catch (XsrfException e) {
+          return null;
+        } catch (RuntimeException e) {
+          return null;
+        }
+      }
+    }
+    if (me == null) {
+      return null;
+    }
+
+    final Account account = db.accounts().get(me);
+    if (account == null) {
+      return null;
+    }
+
+    final AccountExternalId.Key idKey =
+        new AccountExternalId.Key(account.getId(), user.getIdentity());
+    AccountExternalId id = db.accountExternalIds().get(idKey);
+    if (id == null) {
+      id = new AccountExternalId(idKey);
+      id.setLastUsedOn();
+      id.setEmailAddress(email);
+      db.accountExternalIds().insert(Collections.singleton(id));
+    } else {
+      if (email != null && !email.equals(id.getEmailAddress())) {
+        id.setEmailAddress(email);
+      }
+      id.setLastUsedOn();
+      db.accountExternalIds().update(Collections.singleton(id));
+    }
+    return account;
+  }
+
+  private static Mode signInMode(final HttpServletRequest req) {
+    final String p = req.getParameter(SIGNIN_MODE_PARAMETER);
+    if (p == null || p.length() == 0) {
+      return SignInDialog.Mode.SIGN_IN;
+    }
+    try {
+      return SignInDialog.Mode.valueOf(p);
+    } catch (RuntimeException e) {
+      return SignInDialog.Mode.SIGN_IN;
     }
   }
 
@@ -402,6 +491,8 @@ public class LoginServlet extends HttpServlet {
     HtmlDomUtil.addHidden(set_form, Gerrit.ACCOUNT_COOKIE, exp);
     HtmlDomUtil.addHidden(set_form, CALLBACK_PARMETER, req
         .getParameter(CALLBACK_PARMETER));
+    HtmlDomUtil.addHidden(set_form, SIGNIN_MODE_PARAMETER, signInMode(req)
+        .name());
     sendHtml(req, rsp, HtmlDomUtil.toString(doc));
   }
 

@@ -48,9 +48,11 @@ INSERT INTO accounts
 DELETE FROM account_external_ids;
 INSERT INTO account_external_ids
 (account_id,
- external_id) SELECT
+ external_id,
+ email_address) SELECT
  l.account_id,
- 'GoogleAccount/' || a.user_email
+ 'GoogleAccount/' || a.user_email,
+ a.user_email
  FROM gerrit1.accounts a, accounts l
  WHERE l.preferred_email = a.user_email;
 

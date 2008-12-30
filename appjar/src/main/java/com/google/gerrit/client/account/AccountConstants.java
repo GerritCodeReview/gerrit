@@ -26,6 +26,7 @@ public interface AccountConstants extends Constants {
 
   String tabPreferences();
   String tabSshKeys();
+  String tabWebIdentities();
   String tabAgreements();
 
   String buttonDeleteSshKey();
@@ -39,6 +40,11 @@ public interface AccountConstants extends Constants {
 
   String addSshKeyPanelHeader();
   String addSshKeyHelp();
+
+  String webIdLastUsed();
+  String webIdEmail();
+  String webIdIdentity();
+  String buttonLinkIdentity();
 
   String watchedProjects();
   String buttonWatchProject();

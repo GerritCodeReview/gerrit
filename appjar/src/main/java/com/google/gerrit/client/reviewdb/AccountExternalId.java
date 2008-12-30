@@ -17,6 +17,8 @@ package com.google.gerrit.client.reviewdb;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.StringKey;
 
+import java.sql.Timestamp;
+
 /** Association of an external account identifier to a local {@link Account}. */
 public final class AccountExternalId {
   public static class Key extends StringKey<Account.Id> {
@@ -54,6 +56,12 @@ public final class AccountExternalId {
   @Column(name = Column.NONE)
   protected Key key;
 
+  @Column(notNull = false)
+  protected String emailAddress;
+
+  @Column(notNull = false)
+  protected Timestamp lastUsedOn;
+
   protected AccountExternalId() {
   }
 
@@ -66,8 +74,32 @@ public final class AccountExternalId {
     key = k;
   }
 
+  public AccountExternalId.Key getKey() {
+    return key;
+  }
+
   /** Get local id of this account, to link with in other entities */
   public Account.Id getAccountId() {
     return key.accountId;
+  }
+
+  public String getExternalId() {
+    return key.externalId;
+  }
+
+  public String getEmailAddress() {
+    return emailAddress;
+  }
+
+  public void setEmailAddress(final String e) {
+    emailAddress = e;
+  }
+
+  public Timestamp getLastUsedOn() {
+    return lastUsedOn;
+  }
+
+  public void setLastUsedOn() {
+    lastUsedOn = new Timestamp(System.currentTimeMillis());
   }
 }

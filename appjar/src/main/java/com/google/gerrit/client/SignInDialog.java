@@ -46,8 +46,15 @@ import com.google.gwtjsonrpc.client.CallbackHandle;
  * completed).
  */
 public class SignInDialog extends AutoCenterDialogBox {
+  public static final String SIGNIN_MODE_PARAM = "gerrit.signin_mode";
+
+  public static enum Mode {
+    SIGN_IN, LINK_IDENTIY;
+  }
+
   private static SignInDialog current;
 
+  private Mode mode = Mode.SIGN_IN;
   private final CallbackHandle<SignInResult> signInCallback;
   private final AsyncCallback<?> appCallback;
   private final Frame loginFrame;
@@ -74,6 +81,10 @@ public class SignInDialog extends AutoCenterDialogBox {
     onResize(Window.getClientWidth(), Window.getClientHeight());
     add(loginFrame);
     setText(Gerrit.C.signInDialogTitle());
+  }
+
+  public void setMode(final Mode m) {
+    mode = m;
   }
 
   @Override
@@ -105,6 +116,10 @@ public class SignInDialog extends AutoCenterDialogBox {
     url.append("login");
     url.append("?");
     url.append("callback=parent." + signInCallback.getFunctionName());
+    url.append("&");
+    url.append(SIGNIN_MODE_PARAM);
+    url.append("=");
+    url.append(mode.name());
     loginFrame.setUrl(url.toString());
   }
 

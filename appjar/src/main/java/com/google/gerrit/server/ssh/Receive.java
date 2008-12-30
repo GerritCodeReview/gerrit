@@ -294,6 +294,11 @@ class Receive extends AbstractGitCommand {
       newChange.setResult(Result.REJECTED_MISSING_OBJECT);
     }
 
+    if (toCreate.isEmpty()) {
+      reject(newChange, "no new changes");
+      return;
+    }
+
     try {
       for (final RevCommit c : toCreate) {
         createChange(walk, c);

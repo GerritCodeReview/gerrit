@@ -30,6 +30,7 @@ import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusListenerAdapter;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SourcesTableEvents;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.TableListener;
@@ -48,6 +49,7 @@ public class AccountGroupScreen extends AccountScreen {
   private AccountInfoCache accounts = AccountInfoCache.empty();
   private MemberTable members;
 
+  private Panel groupNamePanel; 
   private TextBox groupNameTxt;
   private Button saveName;
 
@@ -100,11 +102,10 @@ public class AccountGroupScreen extends AccountScreen {
   }
 
   private void initName() {
-    final VerticalPanel vp = new VerticalPanel();
-
+    groupNamePanel = new VerticalPanel();
     groupNameTxt = new TextBox();
     groupNameTxt.setVisibleLength(60);
-    vp.add(groupNameTxt);
+    groupNamePanel.add(groupNameTxt);
 
     saveName = new Button(Util.C.buttonRenameGroup());
     saveName.addClickListener(new ClickListener() {
@@ -119,8 +120,8 @@ public class AccountGroupScreen extends AccountScreen {
             });
       }
     });
-    vp.add(saveName);
-    add(vp);
+    groupNamePanel.add(saveName);
+    add(groupNamePanel);
 
     new TextSaveButtonListener(groupNameTxt, saveName);
   }
@@ -209,6 +210,13 @@ public class AccountGroupScreen extends AccountScreen {
   }
 
   private void display(final AccountGroupDetail result) {
+    if (GroupAdminService.ADMIN_GROUP.equals(result.group.getNameKey())) {
+      groupNameTxt.setEnabled(false);
+      groupNamePanel.setVisible(false);
+    } else {
+      groupNamePanel.setVisible(true);
+    }
+    
     setTitleText(Util.M.group(result.group.getName()));
     groupNameTxt.setText(result.group.getName());
     descTxt.setText(result.group.getDescription());

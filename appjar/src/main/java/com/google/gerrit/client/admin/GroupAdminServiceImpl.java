@@ -104,7 +104,15 @@ public class GroupAdminServiceImpl extends BaseServiceImplementation implements
         if (group == null) {
           throw new Failure(new NoSuchEntityException());
         }
+
         final AccountGroup.NameKey nameKey = new AccountGroup.NameKey(newName);
+        if (group.getName().equals(ADMIN_GROUP) || nameKey.equals(ADMIN_GROUP)) {
+          // Forbid renaming the admin group, its highly special because it
+          // has near root level access to the server, based upon its name.
+          //
+          throw new Failure(new NameAlreadyUsedException());
+        }
+
         if (!nameKey.equals(group.getNameKey())) {
           if (db.accountGroups().get(nameKey) != null) {
             throw new Failure(new NameAlreadyUsedException());

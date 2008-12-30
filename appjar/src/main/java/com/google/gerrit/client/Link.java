@@ -38,7 +38,7 @@ public class Link implements HistoryListener {
   public static final String SETTINGS_SSHKEYS = "settings,ssh-keys";
   public static final String SETTINGS_WEBIDENT = "settings,web-identities";
   public static final String SETTINGS_AGREEMENTS = "settings,agreements";
-  public static final String SETTINGS_CONTACT = "settings,contact-information";
+  public static final String SETTINGS_CONTACT = "settings,contact";
 
   public static final String MINE = "mine";
   public static final String MINE_UNCLAIMED = "mine,unclaimed";

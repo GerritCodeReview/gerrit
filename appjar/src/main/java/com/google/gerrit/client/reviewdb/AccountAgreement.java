@@ -106,6 +106,10 @@ public final class AccountAgreement {
     status = Status.NEW.getCode();
   }
 
+  public ContributorAgreement.Id getAgreementId() {
+    return key.claId;
+  }
+
   public Timestamp getAcceptedOn() {
     return acceptedOn;
   }

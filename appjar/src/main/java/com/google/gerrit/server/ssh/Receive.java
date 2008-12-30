@@ -16,8 +16,11 @@ package com.google.gerrit.server.ssh;
 
 import com.google.gerrit.client.Link;
 import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.client.reviewdb.AccountAgreement;
 import com.google.gerrit.client.reviewdb.Branch;
 import com.google.gerrit.client.reviewdb.Change;
+import com.google.gerrit.client.reviewdb.ContactInformation;
+import com.google.gerrit.client.reviewdb.ContributorAgreement;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.git.PatchSetImporter;
 import com.google.gerrit.server.GerritServer;
@@ -78,10 +81,9 @@ class Receive extends AbstractGitCommand {
   @Override
   protected void runImpl() throws IOException, Failure {
     server = getGerritServer();
+    verifyActiveContributorAgreement();
     lookup(reviewerId, "reviewer", reviewerEmail);
     lookup(ccId, "cc", ccEmail);
-
-    // TODO verify user has signed a CLA for this project
 
     rp = new ReceivePack(repo);
     rp.setAllowCreates(true);
@@ -114,6 +116,92 @@ class Receive extends AbstractGitCommand {
       msg.write('\n');
       msg.flush();
     }
+  }
+
+  private void verifyActiveContributorAgreement() throws Failure {
+    AccountAgreement bestAgreement = null;
+    ContributorAgreement bestCla = null;
+    try {
+      for (final AccountAgreement a : db.accountAgreements().byAccount(
+          userAccount.getId()).toList()) {
+        final ContributorAgreement cla =
+            db.contributorAgreements().get(a.getAgreementId());
+        if (cla == null || !cla.isActive()) {
+          continue;
+        }
+
+        if (bestAgreement == null
+            || bestAgreement.getStatus() != AccountAgreement.Status.VERIFIED) {
+          bestAgreement = a;
+          bestCla = cla;
+        }
+        if (bestAgreement.getStatus() == AccountAgreement.Status.VERIFIED) {
+          break;
+        }
+      }
+    } catch (OrmException e) {
+      throw new Failure(1, "database error");
+    }
+
+    if (bestCla != null && bestCla.isRequireContactInformation()) {
+      final ContactInformation info = userAccount.getContactInformation();
+      boolean fail = false;
+      fail |= missing(userAccount.getFullName());
+      fail |= missing(userAccount.getPreferredEmail());
+      fail |= info == null || missing(info.getAddress());
+
+      if (fail) {
+        final StringBuilder msg = new StringBuilder();
+        msg.append("\nfatal: ");
+        msg.append(bestCla.getShortName());
+        msg.append(" contributor agreement requires");
+        msg.append(" current contact information.\n");
+        if (server.getCanonicalURL() != null) {
+          msg.append("\nPlease review your contact information");
+          msg.append(":\n\n  ");
+          msg.append(server.getCanonicalURL());
+          msg.append("Gerrit#");
+          msg.append(Link.SETTINGS_CONTACT);
+          msg.append("\n");
+        }
+        msg.append("\n");
+        throw new Failure(1, msg.toString());
+      }
+    }
+
+    if (bestAgreement != null) {
+      switch (bestAgreement.getStatus()) {
+        case VERIFIED:
+          return;
+        case REJECTED:
+          throw new Failure(1, "\nfatal: " + bestCla.getShortName()
+              + " contributor agreement was rejected."
+              + "\n       (rejected on " + bestAgreement.getReviewedOn()
+              + ")\n");
+        case NEW:
+          throw new Failure(1, "\nfatal: " + bestCla.getShortName()
+              + " contributor agreement is still pending review.\n");
+      }
+    }
+
+    final StringBuilder msg = new StringBuilder();
+    msg.append("\nfatal: A Contributor Agreement"
+        + " must be completed before uploading");
+    if (server.getCanonicalURL() != null) {
+      msg.append(":\n\n  ");
+      msg.append(server.getCanonicalURL());
+      msg.append("Gerrit#");
+      msg.append(Link.SETTINGS_AGREEMENTS);
+      msg.append("\n");
+    } else {
+      msg.append(".");
+    }
+    msg.append("\n");
+    throw new Failure(1, msg.toString());
+  }
+
+  private static boolean missing(final String value) {
+    return value == null || value.trim().equals("");
   }
 
   private void lookup(final Set<Account.Id> accountIds,

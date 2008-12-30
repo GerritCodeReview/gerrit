@@ -31,4 +31,12 @@ public interface AccountGroupAccess extends
 
   @Query("ORDER BY name")
   ResultSet<AccountGroup> all() throws OrmException;
+
+  @Query("WHERE ownerGroupId = ?")
+  ResultSet<AccountGroup> ownedByGroup(AccountGroup.Id groupId)
+      throws OrmException;
+
+  @Query("WHERE name.name >= ? AND name.name <= ? ORDER BY name LIMIT ?")
+  ResultSet<AccountGroup> suggestByName(String nameA, String nameB, int limit)
+      throws OrmException;
 }

@@ -30,6 +30,7 @@ import com.google.gwtorm.client.SchemaFactory;
 import com.google.gwtorm.client.Transaction;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -49,9 +50,7 @@ public class GroupAdminServiceImpl extends BaseServiceImplementation implements
         if (amAdmin(db)) {
           result = db.accountGroups().all().toList();
         } else {
-          final Set<AccountGroup.Id> mine = myOwnedGroups(db);
-          result =
-              new ArrayList<AccountGroup>(db.accountGroups().get(mine).toList());
+          result = myOwnedGroups(db);
           Collections.sort(result, new Comparator<AccountGroup>() {
             public int compare(final AccountGroup a, final AccountGroup b) {
               return a.getName().compareTo(b.getName());
@@ -89,7 +88,6 @@ public class GroupAdminServiceImpl extends BaseServiceImplementation implements
         final AccountGroupMember m =
             new AccountGroupMember(new AccountGroupMember.Key(RpcUtil
                 .getAccountId(), group.getId()));
-        m.setGroupOwner(true);
 
         final Transaction txn = db.beginTransaction();
         db.accountGroups().insert(Collections.singleton(group), txn);
@@ -127,6 +125,29 @@ public class GroupAdminServiceImpl extends BaseServiceImplementation implements
           throw new Failure(new NoSuchEntityException());
         }
         group.setDescription(description);
+        db.accountGroups().update(Collections.singleton(group));
+        return VoidResult.INSTANCE;
+      }
+    });
+  }
+
+  public void changeGroupOwner(final AccountGroup.Id groupId,
+      final String newOwnerName, final AsyncCallback<VoidResult> callback) {
+    run(callback, new Action<VoidResult>() {
+      public VoidResult run(final ReviewDb db) throws OrmException, Failure {
+        assertAmGroupOwner(db, groupId);
+        final AccountGroup group = db.accountGroups().get(groupId);
+        if (group == null) {
+          throw new Failure(new NoSuchEntityException());
+        }
+
+        final AccountGroup owner =
+            db.accountGroups().get(new AccountGroup.NameKey(newOwnerName));
+        if (owner == null) {
+          throw new Failure(new NoSuchEntityException());
+        }
+
+        group.setOwnerGroupId(owner.getId());
         db.accountGroups().update(Collections.singleton(group));
         return VoidResult.INSTANCE;
       }
@@ -188,7 +209,7 @@ public class GroupAdminServiceImpl extends BaseServiceImplementation implements
       final AsyncCallback<VoidResult> callback) {
     run(callback, new Action<VoidResult>() {
       public VoidResult run(final ReviewDb db) throws OrmException, Failure {
-        final Set<AccountGroup.Id> owned = myOwnedGroups(db);
+        final Set<AccountGroup.Id> owned = ids(myOwnedGroups(db));
         Boolean amAdmin = null;
         for (final AccountGroupMember.Key k : keys) {
           if (!owned.contains(k.getAccountGroupId())) {
@@ -211,51 +232,48 @@ public class GroupAdminServiceImpl extends BaseServiceImplementation implements
     });
   }
 
-  public void changeGroupOwner(final AccountGroupMember.Key key,
-      final boolean owner, final AsyncCallback<VoidResult> callback) {
-    run(callback, new Action<VoidResult>() {
-      public VoidResult run(final ReviewDb db) throws OrmException, Failure {
-        assertAmGroupOwner(db, key.getAccountGroupId());
-        final AccountGroupMember m = db.accountGroupMembers().get(key);
-        if (m == null) {
-          throw new Failure(new NoSuchEntityException());
-        }
-        if (m.isGroupOwner() != owner) {
-          m.setGroupOwner(owner);
-          db.accountGroupMembers().update(Collections.singleton(m));
-        }
-        return VoidResult.INSTANCE;
-      }
-    });
+  private static boolean amInGroup(final ReviewDb db,
+      final AccountGroup.Id groupId) throws OrmException {
+    return db.accountGroupMembers().get(
+        new AccountGroupMember.Key(RpcUtil.getAccountId(), groupId)) != null;
   }
 
   private static boolean amAdmin(final ReviewDb db) throws OrmException {
     final AccountGroup admin = db.accountGroups().get(ADMIN_GROUP);
-    if (admin == null) {
-      return false;
-    }
-    return db.accountGroupMembers().get(
-        new AccountGroupMember.Key(RpcUtil.getAccountId(), admin.getId())) != null;
+    return admin != null && amInGroup(db, admin.getId());
   }
 
   private static void assertAmGroupOwner(final ReviewDb db,
       final AccountGroup.Id groupId) throws OrmException, Failure {
-    final AccountGroupMember m =
-        db.accountGroupMembers().get(
-            new AccountGroupMember.Key(RpcUtil.getAccountId(), groupId));
-    if ((m == null || !m.isGroupOwner()) && !amAdmin(db)) {
+    final AccountGroup group = db.accountGroups().get(groupId);
+    if (group == null) {
+      throw new Failure(new NoSuchEntityException());
+    }
+    if (!amInGroup(db, group.getOwnerGroupId()) && !amAdmin(db)) {
       throw new Failure(new NoSuchEntityException());
     }
   }
 
-  private static Set<AccountGroup.Id> myOwnedGroups(final ReviewDb db)
-      throws OrmException {
+  private static Set<AccountGroup.Id> ids(
+      final Collection<AccountGroup> groupList) {
     final HashSet<AccountGroup.Id> r = new HashSet<AccountGroup.Id>();
-    for (final AccountGroupMember m : db.accountGroupMembers().owned(
-        RpcUtil.getAccountId())) {
-      r.add(m.getAccountGroupId());
+    for (final AccountGroup group : groupList) {
+      r.add(group.getId());
     }
     return r;
+  }
+
+  private static List<AccountGroup> myOwnedGroups(final ReviewDb db)
+      throws OrmException {
+    final List<AccountGroup> own = new ArrayList<AccountGroup>();
+    for (final AccountGroupMember m : db.accountGroupMembers().byAccount(
+        RpcUtil.getAccountId()).toList()) {
+      for (final AccountGroup g : db.accountGroups().ownedByGroup(
+          m.getAccountGroupId())) {
+        own.add(g);
+      }
+    }
+    return own;
   }
 
   private static Account findAccount(final ReviewDb db, final String nameOrEmail)

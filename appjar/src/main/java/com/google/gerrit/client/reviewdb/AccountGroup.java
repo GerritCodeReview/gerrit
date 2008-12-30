@@ -74,12 +74,23 @@ public final class AccountGroup {
     }
   }
 
+  /** Unique name of this group within the system. */
   @Column
   protected NameKey name;
 
+  /** Unique identity, to link entities as {@link #name} can change. */
   @Column
   protected Id groupId;
 
+  /**
+   * Identity of the group whose members can manage this group.
+   * <p>
+   * This can be a self-reference to indicate the group's members manage itself.
+   */
+  @Column
+  protected Id ownerGroupId;
+
+  /** A textual description of the group's purpose. */
   @Column(length = Integer.MAX_VALUE, notNull = false)
   protected String description;
 
@@ -90,6 +101,7 @@ public final class AccountGroup {
       final AccountGroup.Id newId) {
     name = newName;
     groupId = newId;
+    ownerGroupId = groupId;
   }
 
   public AccountGroup.Id getId() {
@@ -114,5 +126,13 @@ public final class AccountGroup {
 
   public void setDescription(final String d) {
     description = d;
+  }
+
+  public AccountGroup.Id getOwnerGroupId() {
+    return ownerGroupId;
+  }
+
+  public void setOwnerGroupId(final AccountGroup.Id id) {
+    ownerGroupId = id;
   }
 }

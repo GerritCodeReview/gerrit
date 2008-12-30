@@ -24,14 +24,15 @@ public interface AdminConstants extends Constants {
   String buttonSaveDescription();
   String buttonRenameGroup();
   String buttonCreateGroup();
+  String buttonChangeGroupOwner();
 
+  String headingOwner();
   String headingDescription();
   String headingMembers();
   String headingCreateGroup();
 
   String columnMember();
   String columnEmailAddress();
-  String columnOwner();
   String columnGroupName();
   String columnGroupDescription();
 

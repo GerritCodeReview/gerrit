@@ -16,6 +16,7 @@ package com.google.gerrit.client.ui;
 
 import com.google.gerrit.client.data.AccountInfo;
 import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.BaseServiceImplementation;
@@ -70,6 +71,19 @@ public class SuggestServiceImpl extends BaseServiceImplementation implements
           }
         }
         return r;
+      }
+    });
+  }
+
+  public void suggestAccountGroup(final String query, final int limit,
+      final AsyncCallback<List<AccountGroup>> callback) {
+    run(callback, new Action<List<AccountGroup>>() {
+      public List<AccountGroup> run(final ReviewDb db) throws OrmException {
+        final String a = query;
+        final String b = a + "\uffff";
+        final int max = 10;
+        final int n = limit <= 0 ? max : Math.min(limit, max);
+        return db.accountGroups().suggestByName(a, b, n).toList();
       }
     });
   }

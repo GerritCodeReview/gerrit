@@ -20,6 +20,7 @@ import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.AccountGroupMember;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountDashboardLink;
+import com.google.gerrit.client.ui.AccountGroupSuggestOracle;
 import com.google.gerrit.client.ui.AccountScreen;
 import com.google.gerrit.client.ui.AccountSuggestOracle;
 import com.google.gerrit.client.ui.FancyFlexTable;
@@ -49,9 +50,14 @@ public class AccountGroupScreen extends AccountScreen {
   private AccountInfoCache accounts = AccountInfoCache.empty();
   private MemberTable members;
 
-  private Panel groupNamePanel; 
+  private Panel groupNamePanel;
   private TextBox groupNameTxt;
   private Button saveName;
+
+  private Panel ownerPanel;
+  private TextBox ownerTxtBox;
+  private SuggestBox ownerTxt;
+  private Button saveOwner;
 
   private TextArea descTxt;
   private Button saveDesc;
@@ -73,6 +79,7 @@ public class AccountGroupScreen extends AccountScreen {
 
     enableForm(false);
     saveName.setEnabled(false);
+    saveOwner.setEnabled(false);
     saveDesc.setEnabled(false);
     super.onLoad();
 
@@ -81,6 +88,7 @@ public class AccountGroupScreen extends AccountScreen {
           public void onSuccess(final AccountGroupDetail result) {
             enableForm(true);
             saveName.setEnabled(false);
+            saveOwner.setEnabled(false);
             saveDesc.setEnabled(false);
             display(result);
           }
@@ -88,6 +96,7 @@ public class AccountGroupScreen extends AccountScreen {
   }
 
   private void enableForm(final boolean on) {
+    ownerTxtBox.setEnabled(on);
     groupNameTxt.setEnabled(on);
     descTxt.setEnabled(on);
     addMember.setEnabled(on);
@@ -97,6 +106,7 @@ public class AccountGroupScreen extends AccountScreen {
 
   private void initUI() {
     initName();
+    initOwner();
     initDescription();
     initMemberList();
   }
@@ -124,6 +134,37 @@ public class AccountGroupScreen extends AccountScreen {
     add(groupNamePanel);
 
     new TextSaveButtonListener(groupNameTxt, saveName);
+  }
+
+  private void initOwner() {
+    ownerPanel = new VerticalPanel();
+    final Label ownerHdr = new Label(Util.C.headingOwner());
+    ownerHdr.setStyleName("gerrit-SmallHeading");
+    ownerPanel.add(ownerHdr);
+
+    ownerTxtBox = new TextBox();
+    ownerTxtBox.setVisibleLength(60);
+    ownerTxt = new SuggestBox(new AccountGroupSuggestOracle(), ownerTxtBox);
+    ownerPanel.add(ownerTxt);
+
+    saveOwner = new Button(Util.C.buttonChangeGroupOwner());
+    saveOwner.addClickListener(new ClickListener() {
+      public void onClick(Widget sender) {
+        final String newOwner = ownerTxt.getText().trim();
+        if (newOwner.length() > 0) {
+          Util.GROUP_SVC.changeGroupOwner(groupId, newOwner,
+              new GerritCallback<VoidResult>() {
+                public void onSuccess(final VoidResult result) {
+                  saveOwner.setEnabled(false);
+                }
+              });
+        }
+      }
+    });
+    ownerPanel.add(saveOwner);
+    add(ownerPanel);
+
+    new TextSaveButtonListener(ownerTxtBox, saveOwner);
   }
 
   private void initDescription() {
@@ -211,14 +252,19 @@ public class AccountGroupScreen extends AccountScreen {
 
   private void display(final AccountGroupDetail result) {
     if (GroupAdminService.ADMIN_GROUP.equals(result.group.getNameKey())) {
+      ownerTxtBox.setEnabled(false);
+      ownerPanel.setVisible(false);
+
       groupNameTxt.setEnabled(false);
       groupNamePanel.setVisible(false);
     } else {
+      ownerPanel.setVisible(true);
       groupNamePanel.setVisible(true);
     }
-    
+
     setTitleText(Util.M.group(result.group.getName()));
     groupNameTxt.setText(result.group.getName());
+    ownerTxt.setText(result.ownerGroup.getName());
     descTxt.setText(result.group.getDescription());
     accounts = result.accounts;
     members.display(result.members);
@@ -258,7 +304,6 @@ public class AccountGroupScreen extends AccountScreen {
     MemberTable() {
       table.setText(0, 2, Util.C.columnMember());
       table.setText(0, 3, Util.C.columnEmailAddress());
-      table.setText(0, 4, Util.C.columnOwner());
       table.addTableListener(new TableListener() {
         public void onCellClicked(SourcesTableEvents sender, int row, int cell) {
           if (cell != 1 && getRowItem(row) != null) {
@@ -271,7 +316,6 @@ public class AccountGroupScreen extends AccountScreen {
       fmt.addStyleName(0, 1, S_ICON_HEADER);
       fmt.addStyleName(0, 2, S_DATA_HEADER);
       fmt.addStyleName(0, 3, S_DATA_HEADER);
-      fmt.addStyleName(0, 4, S_ICON_HEADER);
     }
 
     @Override
@@ -354,34 +398,10 @@ public class AccountGroupScreen extends AccountScreen {
       table.setWidget(row, 2, AccountDashboardLink.link(accounts, accountId));
       table.setText(row, 3, accounts.get(accountId).getPreferredEmail());
 
-      final CheckBox owner = new CheckBox();
-      owner.setChecked(k.isGroupOwner());
-      owner.addClickListener(new ClickListener() {
-        public void onClick(Widget sender) {
-          final boolean oldValue = k.isGroupOwner();
-          final boolean newValue = owner.isChecked();
-          Util.GROUP_SVC.changeGroupOwner(k.getKey(), newValue,
-              new GerritCallback<VoidResult>() {
-                public void onSuccess(final VoidResult result) {
-                  k.setGroupOwner(newValue);
-                }
-
-                @Override
-                public void onFailure(final Throwable caught) {
-                  owner.setChecked(oldValue);
-                  k.setGroupOwner(oldValue);
-                  super.onFailure(caught);
-                }
-              });
-        }
-      });
-      table.setWidget(row, 4, owner);
-
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
       fmt.addStyleName(row, 1, S_ICON_CELL);
       fmt.addStyleName(row, 2, S_DATA_CELL);
       fmt.addStyleName(row, 3, S_DATA_CELL);
-      fmt.addStyleName(row, 4, S_ICON_CELL);
 
       setRowItem(row, k);
     }

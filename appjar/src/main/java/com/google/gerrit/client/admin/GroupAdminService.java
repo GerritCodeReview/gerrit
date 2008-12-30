@@ -44,6 +44,10 @@ public interface GroupAdminService extends RemoteJsonService {
       AsyncCallback<VoidResult> callback);
 
   @SignInRequired
+  void changeGroupOwner(AccountGroup.Id groupId, String newOwnerName,
+      AsyncCallback<VoidResult> callback);
+
+  @SignInRequired
   void renameGroup(AccountGroup.Id groupId, String newName,
       AsyncCallback<VoidResult> callback);
 
@@ -53,9 +57,5 @@ public interface GroupAdminService extends RemoteJsonService {
 
   @SignInRequired
   void deleteGroupMembers(Set<AccountGroupMember.Key> keys,
-      AsyncCallback<VoidResult> callback);
-
-  @SignInRequired
-  void changeGroupOwner(AccountGroupMember.Key key, boolean owner,
       AsyncCallback<VoidResult> callback);
 }

@@ -41,7 +41,7 @@ public final class AccountGroupMember {
       return accountId;
     }
 
-    public AccountGroup.Id getAccountGroupId(){
+    public AccountGroup.Id getAccountGroupId() {
       return groupId;
     }
 
@@ -53,10 +53,6 @@ public final class AccountGroupMember {
 
   @Column(name = Column.NONE)
   protected Key key;
-
-  /** If true, this user owns this group and can edit the membership. */
-  @Column
-  protected boolean owner;
 
   protected AccountGroupMember() {
   }
@@ -75,13 +71,5 @@ public final class AccountGroupMember {
 
   public AccountGroup.Id getAccountGroupId() {
     return key.groupId;
-  }
-
-  public boolean isGroupOwner() {
-    return owner;
-  }
-
-  public void setGroupOwner(final boolean o) {
-    owner = o;
   }
 }

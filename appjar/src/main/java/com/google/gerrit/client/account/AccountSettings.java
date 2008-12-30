@@ -17,30 +17,74 @@ package com.google.gerrit.client.account;
 import static com.google.gerrit.client.FormatUtil.mediumFormat;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.Link;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountScreen;
 import com.google.gerrit.client.ui.LazyTabChild;
+import com.google.gerrit.client.ui.Screen;
 import com.google.gwt.i18n.client.LocaleInfo;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.SourcesTabEvents;
+import com.google.gwt.user.client.ui.TabListener;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 
-public class AccountSettings extends AccountScreen {
-  private final int labelIdx, fieldIdx;
-  private final Grid info;
+import java.util.ArrayList;
+import java.util.List;
 
+public class AccountSettings extends AccountScreen {
+  private String initialTabToken;
+  private int labelIdx, fieldIdx;
+  private Grid info;
+
+  private List<String> tabTokens;
   private TabPanel tabs;
 
   private PreferencePanel prefsPanel;
   private Panel agreementsPanel;
 
-  public AccountSettings() {
+  public AccountSettings(final String tabToken) {
     super(Util.C.accountSettingsHeading());
+    initialTabToken = tabToken;
+  }
 
+  @Override
+  public Object getScreenCacheToken() {
+    return getClass();
+  }
+
+  @Override
+  public Screen recycleThis(final Screen newScreen) {
+    final AccountSettings s = (AccountSettings) newScreen;
+    initialTabToken = s.initialTabToken;
+    return this;
+  }
+
+  @Override
+  public void onLoad() {
+    if (info == null) {
+      initUI();
+    }
+
+    super.onLoad();
+    display(Gerrit.getUserAccount());
+    tabs.selectTab(tabTokens.indexOf(initialTabToken));
+
+    Util.ACCOUNT_SVC.myAccount(new GerritCallback<Account>() {
+      public void onSuccess(final Account result) {
+        if (isAttached()) {
+          display(result);
+        }
+      }
+    });
+  }
+
+  private void initUI() {
     if (LocaleInfo.getCurrentLocale().isRTL()) {
       labelIdx = 1;
       fieldIdx = 0;
@@ -67,30 +111,42 @@ public class AccountSettings extends AccountScreen {
     agreementsPanel = new FlowPanel();
     agreementsPanel.add(new Label("Not Implemented"));
 
+    tabTokens = new ArrayList<String>();
     tabs = new TabPanel();
     tabs.setWidth("98%");
+    add(tabs);
+
     tabs.add(prefsPanel, Util.C.tabPreferences());
+    tabTokens.add(Link.SETTINGS);
+
     tabs.add(new LazyTabChild<SshKeyPanel>() {
       @Override
       protected SshKeyPanel create() {
         return new SshKeyPanel();
       }
     }, Util.C.tabSshKeys());
+    tabTokens.add(Link.SETTINGS_SSHKEYS);
+
     tabs.add(new LazyTabChild<ExternalIdPanel>() {
       @Override
       protected ExternalIdPanel create() {
         return new ExternalIdPanel();
       }
     }, Util.C.tabWebIdentities());
+    tabTokens.add(Link.SETTINGS_WEBIDENT);
+
     tabs.add(agreementsPanel, Util.C.tabAgreements());
+    tabTokens.add(Link.SETTINGS_AGREEMENTS);
 
-    add(tabs);
-    tabs.selectTab(0);
+    tabs.addTabListener(new TabListener() {
+      public boolean onBeforeTabSelected(SourcesTabEvents sender, int tabIndex) {
+        return true;
+      }
 
-    final Account a = Gerrit.getUserAccount();
-    if (a != null) {
-      display(a);
-    }
+      public void onTabSelected(SourcesTabEvents sender, int tabIndex) {
+        History.newItem(tabTokens.get(tabIndex), false);
+      }
+    });
   }
 
   private void infoRow(final int row, final String name) {
@@ -98,24 +154,7 @@ public class AccountSettings extends AccountScreen {
     info.getCellFormatter().addStyleName(row, 0, "header");
   }
 
-  @Override
-  public Object getScreenCacheToken() {
-    return this;// Link.SETTINGS;
-  }
-
-  @Override
-  public void onLoad() {
-    super.onLoad();
-    Util.ACCOUNT_SVC.myAccount(new GerritCallback<Account>() {
-      public void onSuccess(final Account result) {
-        if (isAttached()) {
-          display(result);
-        }
-      }
-    });
-  }
-
-  void display(final Account account) {
+  private void display(final Account account) {
     info.setText(0, fieldIdx, account.getFullName());
     info.setText(1, fieldIdx, account.getPreferredEmail());
     info.setText(2, fieldIdx, mediumFormat(account.getRegisteredOn()));

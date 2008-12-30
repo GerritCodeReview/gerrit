@@ -35,6 +35,9 @@ import com.google.gwt.user.client.HistoryListener;
 
 public class Link implements HistoryListener {
   public static final String SETTINGS = "settings";
+  public static final String SETTINGS_SSHKEYS = "settings,ssh-keys";
+  public static final String SETTINGS_WEBIDENT = "settings,web-identities";
+  public static final String SETTINGS_AGREEMENTS = "settings,agreements";
 
   public static final String MINE = "mine";
   public static final String MINE_UNCLAIMED = "mine,unclaimed";
@@ -103,8 +106,8 @@ public class Link implements HistoryListener {
       return null;
     }
 
-    if (SETTINGS.equals(token)) {
-      return new AccountSettings();
+    if (SETTINGS.equals(token) || token.startsWith("settings,")) {
+      return new AccountSettings(token);
     }
 
     if (MINE.equals(token)) {

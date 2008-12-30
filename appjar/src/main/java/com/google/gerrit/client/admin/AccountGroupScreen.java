@@ -20,9 +20,9 @@ import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.AccountGroupMember;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountDashboardLink;
+import com.google.gerrit.client.ui.AccountScreen;
 import com.google.gerrit.client.ui.AccountSuggestOracle;
 import com.google.gerrit.client.ui.FancyFlexTable;
-import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.client.ui.TextSaveButtonListener;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -43,7 +43,7 @@ import com.google.gwtjsonrpc.client.VoidResult;
 import java.util.HashSet;
 import java.util.List;
 
-public class AccountGroupScreen extends Screen {
+public class AccountGroupScreen extends AccountScreen {
   private AccountGroup.Id groupId;
   private AccountInfoCache accounts = AccountInfoCache.empty();
   private MemberTable members;

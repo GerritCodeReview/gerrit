@@ -20,4 +20,8 @@ public class AccountScreen extends Screen {
     super(heading);
     setRequiresSignIn(true);
   }
+
+  public AccountScreen() {
+    this("");
+  }
 }

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.ssh;
 
+import com.google.gerrit.client.Link;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.Branch;
 import com.google.gerrit.client.reviewdb.Change;
@@ -36,6 +37,7 @@ import org.spearce.jgit.transport.ReceivePack;
 import org.spearce.jgit.transport.ReceiveCommand.Result;
 
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -63,6 +65,8 @@ class Receive extends AbstractGitCommand {
   private ReceivePack rp;
   private ReceiveCommand newChange;
   private Branch destBranch;
+
+  private final List<Change.Id> allNewChanges = new ArrayList<Change.Id>();
 
   private final Map<Change.Id, ReceiveCommand> addByChange =
       new HashMap<Change.Id, ReceiveCommand>();
@@ -93,6 +97,23 @@ class Receive extends AbstractGitCommand {
       }
     });
     rp.receive(in, out, err);
+
+    if (!allNewChanges.isEmpty() && server.getCanonicalURL() != null) {
+      // Make sure there isn't anything buffered; we want to give the
+      // push client a chance to display its status report before we
+      // show our own messages on standard error.
+      //
+      out.flush();
+
+      final String url = server.getCanonicalURL();
+      final OutputStreamWriter msg = new OutputStreamWriter(err, "UTF-8");
+      msg.write("\nNew Changes:\n");
+      for (final Change.Id c : allNewChanges) {
+        msg.write("  " + url + "Gerrit#" + Link.toChange(c) + "\n");
+      }
+      msg.write('\n');
+      msg.flush();
+    }
   }
 
   private void lookup(final Set<Account.Id> accountIds,
@@ -317,7 +338,7 @@ class Receive extends AbstractGitCommand {
     final Change change =
         new Change(new Change.Id(db.nextChangeId()), userAccount.getId(),
             destBranch.getNameKey());
-    final PatchSet ps = new PatchSet(new PatchSet.Id(change.getId(), 1));
+    final PatchSet ps = new PatchSet(change.newPatchSetId());
     final PatchSetImporter imp = new PatchSetImporter(db, repo, c, ps, true);
     imp.setTransaction(txn);
     imp.run();
@@ -330,10 +351,7 @@ class Receive extends AbstractGitCommand {
     ru.setNewObjectId(c);
     ru.update(walk);
 
-    final String url = server.getCanonicalURL();
-    if (url != null) {
-      rp.sendMessage("New change: " + url + change.getChangeId());
-    }
+    allNewChanges.add(change.getId());
   }
 
   private void appendPatchSets() {

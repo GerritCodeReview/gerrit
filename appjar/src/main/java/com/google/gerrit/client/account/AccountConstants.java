@@ -25,6 +25,7 @@ public interface AccountConstants extends Constants {
   String defaultContext();
 
   String tabPreferences();
+  String tabContactInformation();
   String tabSshKeys();
   String tabWebIdentities();
   String tabAgreements();
@@ -49,4 +50,12 @@ public interface AccountConstants extends Constants {
   String watchedProjects();
   String buttonWatchProject();
   String defaultProjectName();
+
+  String contactFieldFullName();
+  String contactFieldEmail();
+  String contactFieldAddress();
+  String contactFieldCountry();
+  String contactFieldPhone();
+  String contactFieldFax();
+  String buttonSaveContact();
 }

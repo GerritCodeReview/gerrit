@@ -119,6 +119,14 @@ public class AccountSettings extends AccountScreen {
     tabs.add(prefsPanel, Util.C.tabPreferences());
     tabTokens.add(Link.SETTINGS);
 
+    tabs.add(new LazyTabChild<ContactPanel>() {
+      @Override
+      protected ContactPanel create() {
+        return new ContactPanel(AccountSettings.this);
+      }
+    }, Util.C.tabContactInformation());
+    tabTokens.add(Link.SETTINGS_CONTACT);
+
     tabs.add(new LazyTabChild<SshKeyPanel>() {
       @Override
       protected SshKeyPanel create() {
@@ -154,7 +162,7 @@ public class AccountSettings extends AccountScreen {
     info.getCellFormatter().addStyleName(row, 0, "header");
   }
 
-  private void display(final Account account) {
+  void display(final Account account) {
     info.setText(0, fieldIdx, account.getFullName());
     info.setText(1, fieldIdx, account.getPreferredEmail());
     info.setText(2, fieldIdx, mediumFormat(account.getRegisteredOn()));

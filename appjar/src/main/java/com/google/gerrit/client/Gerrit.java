@@ -234,7 +234,7 @@ public class Gerrit implements EntryPoint {
     });
   }
 
-  private static void refreshMenuBar() {
+  public static void refreshMenuBar() {
     menuBar.clearItems();
 
     final boolean signedIn = isSignedIn();

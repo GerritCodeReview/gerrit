@@ -21,14 +21,15 @@ import com.google.gwt.user.client.ui.Widget;
 
 /** Enables an action (e.g. a Button) if the text box is modified. */
 public class TextSaveButtonListener extends KeyboardListenerAdapter {
-  private final TextBoxBase descText;
   private final FocusWidget descAction;
 
-  public TextSaveButtonListener(final TextBoxBase text, final FocusWidget action) {
-    descText = text;
+  public TextSaveButtonListener(final FocusWidget action) {
     descAction = action;
+  }
 
-    descText.addKeyboardListener(this);
+  public TextSaveButtonListener(final TextBoxBase text, final FocusWidget action) {
+    this(action);
+    text.addKeyboardListener(this);
   }
 
   @Override
@@ -48,9 +49,15 @@ public class TextSaveButtonListener extends KeyboardListenerAdapter {
         case KEY_SHIFT:
           break;
         default:
-          descAction.setEnabled(descText.isEnabled());
+          on(sender);
           break;
       }
+    } else if ((mod & MODIFIER_CTRL) != 0 && (key == 'v' || key == 'x')) {
+      on(sender);
     }
+  }
+
+  private void on(final Widget sender) {
+    descAction.setEnabled(((TextBoxBase) sender).isEnabled());
   }
 }

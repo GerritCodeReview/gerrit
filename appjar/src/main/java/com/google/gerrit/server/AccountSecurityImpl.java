@@ -18,6 +18,7 @@ import com.google.gerrit.client.account.AccountSecurity;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountExternalId;
 import com.google.gerrit.client.reviewdb.AccountSshKey;
+import com.google.gerrit.client.reviewdb.ContactInformation;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.BaseServiceImplementation;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
@@ -111,6 +112,20 @@ public class AccountSecurityImpl extends BaseServiceImplementation implements
       public List<AccountExternalId> run(ReviewDb db) throws OrmException {
         final Account.Id me = RpcUtil.getAccountId();
         return db.accountExternalIds().byAccount(me).toList();
+      }
+    });
+  }
+
+  public void updateContact(final String fullName, final String emailAddr,
+      final ContactInformation info, final AsyncCallback<VoidResult> callback) {
+    run(callback, new Action<VoidResult>() {
+      public VoidResult run(ReviewDb db) throws OrmException {
+        final Account me = db.accounts().get(RpcUtil.getAccountId());
+        me.setFullName(fullName);
+        me.setPreferredEmail(emailAddr);
+        me.setContactInformation(info);
+        db.accounts().update(Collections.singleton(me));
+        return VoidResult.INSTANCE;
       }
     });
   }

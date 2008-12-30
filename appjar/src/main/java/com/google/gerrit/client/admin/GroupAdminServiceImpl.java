@@ -27,6 +27,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
+import com.google.gwtorm.client.Transaction;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -58,6 +59,43 @@ public class GroupAdminServiceImpl extends BaseServiceImplementation implements
           });
         }
         return result;
+      }
+    });
+  }
+
+  public void createGroup(final String newName,
+      final AsyncCallback<AccountGroup.Id> callback) {
+    run(callback, new Action<AccountGroup.Id>() {
+      public AccountGroup.Id run(final ReviewDb db) throws OrmException,
+          Failure {
+        final AccountGroup.NameKey nameKey = new AccountGroup.NameKey(newName);
+        if (nameKey.equals(ADMIN_GROUP)) {
+          // Forbid creating the admin group, its highly special because it
+          // has near root level access to the server, based upon its name.
+          //
+          throw new Failure(new NameAlreadyUsedException());
+        }
+
+        if (db.accountGroups().get(nameKey) != null) {
+          throw new Failure(new NameAlreadyUsedException());
+        }
+
+        final AccountGroup group =
+            new AccountGroup(nameKey, new AccountGroup.Id(db
+                .nextAccountGroupId()));
+        group.setNameKey(nameKey);
+        group.setDescription("");
+
+        final AccountGroupMember m =
+            new AccountGroupMember(new AccountGroupMember.Key(RpcUtil
+                .getAccountId(), group.getId()));
+        m.setGroupOwner(true);
+
+        final Transaction txn = db.beginTransaction();
+        db.accountGroups().insert(Collections.singleton(group), txn);
+        db.accountGroupMembers().insert(Collections.singleton(m), txn);
+        txn.commit();
+        return group.getId();
       }
     });
   }

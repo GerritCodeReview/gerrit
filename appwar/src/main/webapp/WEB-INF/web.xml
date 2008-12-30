@@ -75,16 +75,6 @@
   </servlet-mapping>
 
   <servlet>
-    <servlet-name>AdminService</servlet-name>
-    <servlet-class>com.google.gerrit.server.AdminServiceSrv</servlet-class>
-    <load-on-startup>1</load-on-startup>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>AdminService</servlet-name>
-    <url-pattern>/rpc/AdminService</url-pattern>
-  </servlet-mapping>
-
-  <servlet>
     <servlet-name>GroupAdminService</servlet-name>
     <servlet-class>com.google.gerrit.server.GroupAdminServiceSrv</servlet-class>
     <load-on-startup>1</load-on-startup>

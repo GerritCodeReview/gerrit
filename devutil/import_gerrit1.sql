@@ -189,7 +189,7 @@ INSERT INTO account_project_watches
  project_id) SELECT
  a.account_id,
  p.project_id
- FROM gerrit1.projects p
+ FROM gerrit1.projects p,
  accounts a,
  gerrit1.account_unclaimed_changes_projects q
  WHERE a.preferred_email = q.email

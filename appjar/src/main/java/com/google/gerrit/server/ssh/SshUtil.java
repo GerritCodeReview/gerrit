@@ -146,15 +146,15 @@ public class SshUtil {
   /** Invalidate all cached keys for the given account. */
   public static void invalidate(final Account acct) {
     if (acct != null) {
-      invalidate(acct.getPreferredEmail());
+      invalidate(acct.getSshUserName());
     }
   }
 
   /** Invalidate all cached keys for the given account. */
-  public static void invalidate(final String username){
+  public static void invalidate(final String username) {
     synchronized (keys) {
       keys.remove(username);
-    }    
+    }
   }
 
   /** Locate keys for the requested account whose email matches the name given. */
@@ -172,7 +172,7 @@ public class SshUtil {
       final ReviewDb db = rdf.open();
       try {
         final List<Account> matches =
-            db.accounts().byPreferredEmail(username).toList();
+            db.accounts().bySshUserName(username).toList();
         if (matches.isEmpty()) {
           return Collections.<AccountSshKey> emptyList();
         }

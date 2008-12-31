@@ -88,14 +88,15 @@ public class AccountSettings extends AccountScreen {
       fieldIdx = 1;
     }
 
-    info = new Grid(3, 2);
+    info = new Grid(4, 2);
     info.setStyleName("gerrit-InfoBlock");
     info.addStyleName("gerrit-AccountInfoBlock");
     add(info);
 
     infoRow(0, Util.C.fullName());
     infoRow(1, Util.C.preferredEmail());
-    infoRow(2, Util.C.registeredOn());
+    infoRow(2, Util.C.sshUserName());
+    infoRow(3, Util.C.registeredOn());
 
     final CellFormatter fmt = info.getCellFormatter();
     fmt.addStyleName(0, 0, "topmost");
@@ -163,7 +164,8 @@ public class AccountSettings extends AccountScreen {
   void display(final Account account) {
     info.setText(0, fieldIdx, account.getFullName());
     info.setText(1, fieldIdx, account.getPreferredEmail());
-    info.setText(2, fieldIdx, mediumFormat(account.getRegisteredOn()));
+    info.setText(2, fieldIdx, account.getSshUserName());
+    info.setText(3, fieldIdx, mediumFormat(account.getRegisteredOn()));
     prefsPanel.display(account);
   }
 }

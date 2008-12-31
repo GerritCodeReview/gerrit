@@ -106,6 +106,14 @@ public final class Account {
   @Column(notNull = false)
   protected String preferredEmail;
 
+  /**
+   * Username to authenticate as through SSH connections.
+   * <p>
+   * Note that this property tracks {@link #preferredEmail}.
+   */
+  @Column(notNull = false)
+  protected String sshUserName;
+
   /** Default number of lines of context when viewing a patch. */
   @Column
   protected short defaultContext;
@@ -150,7 +158,17 @@ public final class Account {
 
   /** Set the email address the user prefers to be contacted through. */
   public void setPreferredEmail(final String addr) {
+    if (addr != null && addr.contains("@")) {
+      sshUserName = addr.substring(0, addr.indexOf('@')).toLowerCase();
+    } else {
+      sshUserName = null;
+    }
     preferredEmail = addr;
+  }
+
+  /** Get the name the user logins as through SSH. */
+  public String getSshUserName() {
+    return sshUserName;
   }
 
   /** Get the date and time the user first registered. */

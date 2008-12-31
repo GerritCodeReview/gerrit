@@ -28,6 +28,7 @@ INSERT INTO accounts
  registered_on,
  full_name,
  preferred_email,
+ ssh_user_name,
  contact_address,
  contact_country,
  contact_phone_nbr,
@@ -38,6 +39,10 @@ INSERT INTO accounts
  a.created,
  a.real_name,
  a.user_email,
+ CASE WHEN a.user_email LIKE '%@%'
+      THEN lower(substring(a.user_email from '^(.*)@.*$'))
+      ELSE NULL
+ END,
  a.mailing_address,
  a.mailing_address_country,
  a.phone_number,

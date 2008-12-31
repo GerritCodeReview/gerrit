@@ -19,6 +19,7 @@ import com.google.gerrit.client.reviewdb.AccountProjectWatch;
 import com.google.gerrit.client.reviewdb.ContributorAgreement;
 import com.google.gerrit.client.rpc.SignInRequired;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwtjsonrpc.client.AllowCrossSiteRequest;
 import com.google.gwtjsonrpc.client.RemoteJsonService;
 import com.google.gwtjsonrpc.client.VoidResult;
 
@@ -27,12 +28,14 @@ import java.util.Set;
 
 public interface AccountService extends RemoteJsonService {
   @SignInRequired
+  @AllowCrossSiteRequest
   void myAccount(AsyncCallback<Account> callback);
 
   @SignInRequired
   void changeDefaultContext(short newSetting, AsyncCallback<VoidResult> callback);
 
   @SignInRequired
+  @AllowCrossSiteRequest
   void myProjectWatch(AsyncCallback<List<AccountProjectWatchInfo>> callback);
 
   @SignInRequired
@@ -44,6 +47,7 @@ public interface AccountService extends RemoteJsonService {
       AsyncCallback<VoidResult> callback);
 
   @SignInRequired
+  @AllowCrossSiteRequest
   void myAgreements(AsyncCallback<AgreementInfo> callback);
 
   @SignInRequired

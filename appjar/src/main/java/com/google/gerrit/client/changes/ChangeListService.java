@@ -20,6 +20,7 @@ import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.rpc.SignInRequired;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwtjsonrpc.client.AllowCrossSiteRequest;
 import com.google.gwtjsonrpc.client.RemoteJsonService;
 import com.google.gwtjsonrpc.client.VoidResult;
 
@@ -27,13 +28,16 @@ import java.util.Set;
 
 public interface ChangeListService extends RemoteJsonService {
   /** Get the data to show {@link AccountDashboardScreen} for an account. */
+  @AllowCrossSiteRequest
   void forAccount(Account.Id id, AsyncCallback<AccountDashboardInfo> callback);
 
   /** Get the changes starred by the caller. */
+  @AllowCrossSiteRequest
   @SignInRequired
   void myStarredChanges(AsyncCallback<MineStarredInfo> callback);
 
   /** Get the ids of all changes starred by the caller. */
+  @AllowCrossSiteRequest
   @SignInRequired
   void myStarredChangeIds(AsyncCallback<Set<Change.Id>> callback);
 

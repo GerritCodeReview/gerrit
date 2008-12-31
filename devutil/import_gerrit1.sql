@@ -570,10 +570,12 @@ WHERE
 !=(SELECT COUNT(*) FROM patch_sets);
 
 SELECT
- (SELECT COUNT(*) FROM gerrit1.patches) as patches_g1,
+ (SELECT COUNT(*) FROM gerrit1.patches g, gerrit1.patch_sets p
+  WHERE g.patchset_key = p.gae_key) as patches_g1,
  (SELECT COUNT(*) FROM patches) as patches_g2
 WHERE
-  (SELECT COUNT(*) FROM gerrit1.patches)
+  (SELECT COUNT(*) FROM gerrit1.patches g, gerrit1.patch_sets p
+   WHERE g.patchset_key = p.gae_key)
 !=(SELECT COUNT(*) FROM patches);
 
 SELECT

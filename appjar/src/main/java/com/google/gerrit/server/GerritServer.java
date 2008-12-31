@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server;
 
-import com.google.gerrit.client.admin.GroupAdminService;
 import com.google.gerrit.client.data.ApprovalType;
 import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.client.data.GitwebLink;
@@ -150,16 +149,17 @@ public class GerritServer {
   }
 
   private void initSystemConfig(final ReviewDb c) throws OrmException {
+    final AccountGroup admin =
+        new AccountGroup(new AccountGroup.NameKey("Administrators"),
+            new AccountGroup.Id(c.nextAccountGroupId()));
+    c.accountGroups().insert(Collections.singleton(admin));
+
     final SystemConfig s = SystemConfig.create();
     s.xsrfPrivateKey = SignedToken.generateRandomKey();
     s.accountPrivateKey = SignedToken.generateRandomKey();
     s.sshdPort = 29418;
+    s.adminGroupId = admin.getId();
     c.systemConfig().insert(Collections.singleton(s));
-
-    final AccountGroup admin =
-        new AccountGroup(GroupAdminService.ADMIN_GROUP, new AccountGroup.Id(c
-            .nextAccountGroupId()));
-    c.accountGroups().insert(Collections.singleton(admin));
   }
 
   private void initVerifiedCategory(final ReviewDb c) throws OrmException {
@@ -302,5 +302,10 @@ public class GerritServer {
   /** Get the repositories maintained by this server. */
   public RepositoryCache getRepositoryCache() {
     return repositories;
+  }
+
+  /** Get the group whose members have full access to manage the site. */
+  public AccountGroup.Id getAdminGroupId() {
+    return sConfig.adminGroupId;
   }
 }

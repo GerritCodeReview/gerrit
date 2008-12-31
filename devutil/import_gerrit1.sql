@@ -155,11 +155,6 @@ INSERT INTO account_groups
  g.name
  FROM gerrit1.account_groups g;
 
-UPDATE account_groups
-SET owner_group_id = (SELECT group_id
-                      FROM account_groups
-                      WHERE name = 'admin');
-
 DELETE FROM account_group_members;
 INSERT INTO account_group_members
 (account_id,
@@ -172,6 +167,18 @@ INSERT INTO account_group_members
  WHERE
  o.group_name = g.name
  AND a.preferred_email = o.email;
+
+UPDATE account_groups
+SET name = 'Administrators'
+WHERE name = 'admin';
+
+UPDATE system_config
+SET admin_group_id = (SELECT group_id
+                      FROM account_groups
+                      WHERE name = 'Administrators');
+
+UPDATE account_groups
+SET owner_group_id = (SELECT admin_group_id FROM system_config);
 
 DELETE FROM projects;
 INSERT INTO projects

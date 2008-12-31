@@ -31,7 +31,6 @@ import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusListenerAdapter;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SourcesTableEvents;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.TableListener;
@@ -50,11 +49,9 @@ public class AccountGroupScreen extends AccountScreen {
   private AccountInfoCache accounts = AccountInfoCache.empty();
   private MemberTable members;
 
-  private Panel groupNamePanel;
   private TextBox groupNameTxt;
   private Button saveName;
 
-  private Panel ownerPanel;
   private TextBox ownerTxtBox;
   private SuggestBox ownerTxt;
   private Button saveOwner;
@@ -112,7 +109,7 @@ public class AccountGroupScreen extends AccountScreen {
   }
 
   private void initName() {
-    groupNamePanel = new VerticalPanel();
+    final VerticalPanel groupNamePanel = new VerticalPanel();
     groupNameTxt = new TextBox();
     groupNameTxt.setVisibleLength(60);
     groupNamePanel.add(groupNameTxt);
@@ -137,7 +134,7 @@ public class AccountGroupScreen extends AccountScreen {
   }
 
   private void initOwner() {
-    ownerPanel = new VerticalPanel();
+    final VerticalPanel ownerPanel = new VerticalPanel();
     final Label ownerHdr = new Label(Util.C.headingOwner());
     ownerHdr.setStyleName("gerrit-SmallHeading");
     ownerPanel.add(ownerHdr);
@@ -251,17 +248,6 @@ public class AccountGroupScreen extends AccountScreen {
   }
 
   private void display(final AccountGroupDetail result) {
-    if (GroupAdminService.ADMIN_GROUP.equals(result.group.getNameKey())) {
-      ownerTxtBox.setEnabled(false);
-      ownerPanel.setVisible(false);
-
-      groupNameTxt.setEnabled(false);
-      groupNamePanel.setVisible(false);
-    } else {
-      ownerPanel.setVisible(true);
-      groupNamePanel.setVisible(true);
-    }
-
     setTitleText(Util.M.group(result.group.getName()));
     groupNameTxt.setText(result.group.getName());
     ownerTxt.setText(result.ownerGroup.getName());

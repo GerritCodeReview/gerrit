@@ -12,8 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.admin;
+package com.google.gerrit.server;
 
+import com.google.gerrit.client.admin.AccountGroupDetail;
+import com.google.gerrit.client.admin.GroupAdminService;
 import com.google.gerrit.client.data.AccountInfoCacheFactory;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountGroup;
@@ -26,7 +28,6 @@ import com.google.gerrit.client.rpc.RpcUtil;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.SchemaFactory;
 import com.google.gwtorm.client.Transaction;
 
 import java.util.ArrayList;
@@ -39,8 +40,11 @@ import java.util.Set;
 
 public class GroupAdminServiceImpl extends BaseServiceImplementation implements
     GroupAdminService {
-  public GroupAdminServiceImpl(final SchemaFactory<ReviewDb> rdf) {
-    super(rdf);
+  private final AccountGroup.Id adminId;
+
+  public GroupAdminServiceImpl(final GerritServer server) {
+    super(server.getDatabase());
+    adminId = server.getAdminGroupId();
   }
 
   public void ownedGroups(final AsyncCallback<List<AccountGroup>> callback) {
@@ -68,13 +72,6 @@ public class GroupAdminServiceImpl extends BaseServiceImplementation implements
       public AccountGroup.Id run(final ReviewDb db) throws OrmException,
           Failure {
         final AccountGroup.NameKey nameKey = new AccountGroup.NameKey(newName);
-        if (nameKey.equals(ADMIN_GROUP)) {
-          // Forbid creating the admin group, its highly special because it
-          // has near root level access to the server, based upon its name.
-          //
-          throw new Failure(new NameAlreadyUsedException());
-        }
-
         if (db.accountGroups().get(nameKey) != null) {
           throw new Failure(new NameAlreadyUsedException());
         }
@@ -165,13 +162,6 @@ public class GroupAdminServiceImpl extends BaseServiceImplementation implements
         }
 
         final AccountGroup.NameKey nameKey = new AccountGroup.NameKey(newName);
-        if (group.getName().equals(ADMIN_GROUP) || nameKey.equals(ADMIN_GROUP)) {
-          // Forbid renaming the admin group, its highly special because it
-          // has near root level access to the server, based upon its name.
-          //
-          throw new Failure(new NameAlreadyUsedException());
-        }
-
         if (!nameKey.equals(group.getNameKey())) {
           if (db.accountGroups().get(nameKey) != null) {
             throw new Failure(new NameAlreadyUsedException());
@@ -238,12 +228,11 @@ public class GroupAdminServiceImpl extends BaseServiceImplementation implements
         new AccountGroupMember.Key(RpcUtil.getAccountId(), groupId)) != null;
   }
 
-  private static boolean amAdmin(final ReviewDb db) throws OrmException {
-    final AccountGroup admin = db.accountGroups().get(ADMIN_GROUP);
-    return admin != null && amInGroup(db, admin.getId());
+  private boolean amAdmin(final ReviewDb db) throws OrmException {
+    return adminId != null && amInGroup(db, adminId);
   }
 
-  private static void assertAmGroupOwner(final ReviewDb db,
+  private void assertAmGroupOwner(final ReviewDb db,
       final AccountGroup.Id groupId) throws OrmException, Failure {
     final AccountGroup group = db.accountGroups().get(groupId);
     if (group == null) {

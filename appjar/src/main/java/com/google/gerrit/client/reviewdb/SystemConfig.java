@@ -87,6 +87,10 @@ public final class SystemConfig {
   @Column
   public int sshdPort;
 
+  /** Identity of the administration group; those with full access. */
+  @Column
+  public AccountGroup.Id adminGroupId;
+
   protected SystemConfig() {
   }
 }

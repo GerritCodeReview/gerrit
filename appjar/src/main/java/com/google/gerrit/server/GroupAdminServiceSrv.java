@@ -14,12 +14,11 @@
 
 package com.google.gerrit.server;
 
-import com.google.gerrit.client.admin.GroupAdminServiceImpl;
 
 /** Publishes {@link GroupAdminServiceImpl} over JSON. */
 public class GroupAdminServiceSrv extends GerritJsonServlet {
   @Override
   protected Object createServiceHandle() throws Exception {
-    return new GroupAdminServiceImpl(GerritServer.getInstance().getDatabase());
+    return new GroupAdminServiceImpl(GerritServer.getInstance());
   }
 }

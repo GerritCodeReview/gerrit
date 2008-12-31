@@ -16,6 +16,7 @@ package com.google.gerrit.client.ui;
 
 import com.google.gerrit.client.data.AccountInfo;
 import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.client.reviewdb.AccountExternalId;
 import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
@@ -25,6 +26,7 @@ import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 public class SuggestServiceImpl extends BaseServiceImplementation implements
@@ -60,17 +62,29 @@ public class SuggestServiceImpl extends BaseServiceImplementation implements
         final int max = 10;
         final int n = limit <= 0 ? max : Math.min(limit, max);
 
-        final List<AccountInfo> r = new ArrayList<AccountInfo>();
+        final LinkedHashMap<Account.Id, AccountInfo> r =
+            new LinkedHashMap<Account.Id, AccountInfo>();
         for (final Account p : db.accounts().suggestByFullName(a, b, n)) {
-          r.add(new AccountInfo(p));
+          r.put(p.getId(), new AccountInfo(p));
         }
         if (r.size() < n) {
           for (final Account p : db.accounts().suggestByPreferredEmail(a, b,
               n - r.size())) {
-            r.add(new AccountInfo(p));
+            r.put(p.getId(), new AccountInfo(p));
           }
         }
-        return r;
+        if (r.size() < n) {
+          for (final AccountExternalId e : db.accountExternalIds()
+              .suggestByEmailAddress(a, b, n - r.size())) {
+            if (!r.containsKey(e.getAccountId())) {
+              final Account p = db.accounts().get(e.getAccountId());
+              if (p != null) {
+                r.put(e.getAccountId(), new AccountInfo(p));
+              }
+            }
+          }
+        }
+        return new ArrayList<AccountInfo>(r.values());
       }
     });
   }

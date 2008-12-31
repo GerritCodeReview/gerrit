@@ -22,6 +22,7 @@ import com.google.gwtorm.client.SchemaFactory;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.sshd.common.KeyPairProvider;
+import org.apache.sshd.common.session.AttributeKey;
 import org.apache.sshd.common.util.Buffer;
 import org.spearce.jgit.lib.Constants;
 
@@ -42,6 +43,10 @@ import java.util.Map.Entry;
 
 /** Utilities to support SSH operations. */
 public class SshUtil {
+  /** Server session attribute holding the {@link Account.Id}. */
+  static final AttributeKey<Account.Id> CURRENT_ACCOUNT =
+      new AttributeKey<Account.Id>();
+
   /**
    * Parse a public key into its Java type.
    * 

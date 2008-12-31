@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.ssh;
 
+import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.git.RepositoryCache;
 import com.google.gerrit.server.GerritServer;
@@ -87,6 +88,10 @@ abstract class AbstractCommand implements Command, SessionAware {
     }
   }
 
+  protected Account.Id getAccountId() {
+    return session.getAttribute(SshUtil.CURRENT_ACCOUNT);
+  }
+
   protected String getName() {
     return name;
   }
@@ -129,7 +134,8 @@ abstract class AbstractCommand implements Command, SessionAware {
   }
 
   public void start() {
-    new Thread("Execute " + getName() + " [" + session.getUsername() + "]") {
+    final String who = session.getUsername() + "," + getAccountId();
+    new Thread("Execute " + getName() + " [" + who + "]") {
       @Override
       public void run() {
         runImp();

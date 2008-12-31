@@ -20,6 +20,7 @@ import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 
 import org.apache.sshd.server.PublickeyAuthenticator;
+import org.apache.sshd.server.session.ServerSession;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
@@ -42,12 +43,14 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
     schema = rdf;
   }
 
-  public boolean hasKey(final String username, final PublicKey inkey) {
+  public boolean hasKey(final String username, final PublicKey inkey,
+      final ServerSession session) {
     final List<AccountSshKey> keyList = SshUtil.keysFor(schema, username);
     for (final AccountSshKey k : keyList) {
       try {
         if (SshUtil.parse(k).equals(inkey)) {
           updateLastUsed(k);
+          session.setAttribute(SshUtil.CURRENT_ACCOUNT, k.getAccount());
           return true;
         }
       } catch (NoSuchAlgorithmException e) {

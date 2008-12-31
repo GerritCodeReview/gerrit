@@ -78,6 +78,10 @@ public final class AccountSshKey {
     valid = true; // We can assume it is fine.
   }
 
+  public Account.Id getAccount() {
+    return id.accountId;
+  }
+
   public AccountSshKey.Id getKey() {
     return id;
   }

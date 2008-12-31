@@ -23,7 +23,6 @@ import com.google.gwtorm.client.OrmException;
 import org.spearce.jgit.lib.Repository;
 
 import java.io.IOException;
-import java.util.List;
 
 abstract class AbstractGitCommand extends AbstractCommand {
   protected Repository repo;
@@ -57,15 +56,7 @@ abstract class AbstractGitCommand extends AbstractCommand {
     db = openReviewDb();
     try {
       try {
-        final List<Account> matches =
-            db.accounts().byPreferredEmail(session.getUsername()).toList();
-        if (matches.isEmpty()) {
-          throw new Failure(1, "fatal: you do not exist");
-        }
-        if (matches.size() > 1) {
-          throw new Failure(1, "fatal: there is more than one of you");
-        }
-        userAccount = matches.get(0);
+        userAccount = db.accounts().get(getAccountId());
       } catch (OrmException e) {
         throw new Failure(1, "fatal: cannot query user database");
       }

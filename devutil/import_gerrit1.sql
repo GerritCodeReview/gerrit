@@ -504,8 +504,7 @@ SET nbr_patch_sets = (SELECT MAX(p.patch_set_id)
 
 -- Fix change.last_updated_on
 --
-DROP TABLE temp_dates;
-CREATE TABLE temp_dates (
+CREATE TEMPORARY TABLE temp_dates (
 change_id INT NOT NULL,
 dt TIMESTAMP NOT NULL);
 

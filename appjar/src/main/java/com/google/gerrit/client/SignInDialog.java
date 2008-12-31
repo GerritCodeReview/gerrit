@@ -54,7 +54,7 @@ public class SignInDialog extends AutoCenterDialogBox {
 
   private static SignInDialog current;
 
-  private Mode mode = Mode.SIGN_IN;
+  private final Mode mode;
   private final CallbackHandle<SignInResult> signInCallback;
   private final AsyncCallback<?> appCallback;
   private final Frame loginFrame;
@@ -66,8 +66,20 @@ public class SignInDialog extends AutoCenterDialogBox {
    *        This can be used to trigger sending an RPC or some other action.
    */
   public SignInDialog(final AsyncCallback<?> callback) {
+    this(Mode.SIGN_IN, callback);
+  }
+
+  /**
+   * Create a new dialog to handle user sign in.
+   * 
+   * @param signInMode type of mode the login will perform.
+   * @param callback optional; onSuccess will be called if sign is completed.
+   *        This can be used to trigger sending an RPC or some other action.
+   */
+  public SignInDialog(final Mode signInMode, final AsyncCallback<?> callback) {
     super(/* auto hide */true, /* modal */true);
 
+    mode = signInMode;
     signInCallback =
         com.google.gerrit.client.account.Util.LOGIN_SVC
             .signIn(new GerritCallback<SignInResult>() {
@@ -80,11 +92,14 @@ public class SignInDialog extends AutoCenterDialogBox {
     loginFrame = new Frame();
     onResize(Window.getClientWidth(), Window.getClientHeight());
     add(loginFrame);
-    setText(Gerrit.C.signInDialogTitle());
-  }
-
-  public void setMode(final Mode m) {
-    mode = m;
+    switch (mode) {
+      case LINK_IDENTIY:
+        setText(Gerrit.C.linkIdentityDialogTitle());
+        break;
+      default:
+        setText(Gerrit.C.signInDialogTitle());
+        break;
+    }
   }
 
   @Override

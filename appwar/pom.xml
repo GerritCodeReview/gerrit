@@ -288,14 +288,24 @@ limitations under the License.
             <phase>process-classes</phase>
             <configuration>
               <tasks>
-                <move todir="${basedir}/target/${project.name}-${project.version}">
-                  <fileset dir="${basedir}/target/${project.name}-${project.version}/com.google.gerrit.Gerrit">
+                <property name="d" location="${basedir}/target/${project.name}-${project.version}"/>
+                <move todir="${d}">
+                  <fileset dir="${d}/com.google.gerrit.Gerrit">
                     <exclude name="Gerrit.html" />
                     <exclude name="SetCookie.html" />
                     <exclude name="hosted.html" />
                   </fileset>
                 </move>
-                <delete dir="${basedir}/target/${project.name}-${project.version}/com.google.gerrit.Gerrit" />
+                <delete dir="${d}/com.google.gerrit.Gerrit" />
+                <apply executable="gzip" addsourcefile="false">
+                  <arg value="-9"/> 
+                  <fileset dir="${d}"
+                           includes="**/*.html,**/*.css"/>
+                  <redirector>
+                    <inputmapper type="glob" from="*" to="${d}/*"/>
+                    <outputmapper type="glob" from="*" to="${d}/*.gz"/>
+                  </redirector>
+                </apply>
               </tasks>
             </configuration>
             <goals>

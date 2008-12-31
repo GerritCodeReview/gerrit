@@ -63,14 +63,14 @@ INSERT INTO contributor_agreements
  require_contact_information,
  short_name,
  short_description,
- agreement_html,
+ agreement_url,
  id) VALUES (
  'Y',
  'N',
  'Y',
  'Individual',
  'If you are going to be contributing code on your own, this is the one you want. You can sign this one online.',
- 'REPLACE ME',
+ 'static/cla_individual.html',
  nextval('contributor_agreement_id'));
 INSERT INTO contributor_agreements
 (active,
@@ -78,14 +78,14 @@ INSERT INTO contributor_agreements
  require_contact_information,
  short_name,
  short_description,
- agreement_html,
+ agreement_url,
  id) VALUES (
  'Y',
  'Y',
  'N',
  'Corporate',
  'If you are going to be contributing code on behalf of your company, this is the one you want. We\'ll give you a form that will need to printed, signed and sent back via post, email or fax.',
- 'REPLACE ME',
+ 'static/cla_corporate.html',
  nextval('contributor_agreement_id'));
 
 DELETE FROM account_agreements;

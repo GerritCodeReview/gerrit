@@ -15,7 +15,9 @@
 package com.google.gerrit.client.account;
 
 import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.client.reviewdb.AccountAgreement;
 import com.google.gerrit.client.reviewdb.AccountProjectWatch;
+import com.google.gerrit.client.reviewdb.ContributorAgreement;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.BaseServiceImplementation;
@@ -124,6 +126,29 @@ public class AccountServiceImpl extends BaseServiceImplementation implements
           txn.commit();
         }
 
+        return VoidResult.INSTANCE;
+      }
+    });
+  }
+
+  public void myAgreements(final AsyncCallback<AgreementInfo> callback) {
+    run(callback, new Action<AgreementInfo>() {
+      public AgreementInfo run(final ReviewDb db) throws OrmException {
+        final AgreementInfo i = new AgreementInfo();
+        i.load(RpcUtil.getAccountId(), db);
+        return i;
+      }
+    });
+  }
+
+  public void enterAgreement(final ContributorAgreement.Id id,
+      final AsyncCallback<VoidResult> callback) {
+    run(callback, new Action<VoidResult>() {
+      public VoidResult run(final ReviewDb db) throws OrmException {
+        final AccountAgreement a =
+            new AccountAgreement(new AccountAgreement.Key(RpcUtil
+                .getAccountId(), id));
+        db.accountAgreements().insert(Collections.singleton(a));
         return VoidResult.INSTANCE;
       }
     });

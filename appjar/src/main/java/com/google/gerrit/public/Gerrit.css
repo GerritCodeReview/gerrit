@@ -515,5 +515,31 @@
   margin-top: 10px;
   padding: 5px 5px 5px 5px;
   display: table;
-  border: 1px solid #B0BDCC;
+  border: 1px solid #b0bdcc;
+}
+
+.gerrit-ContributorAgreement-Button {
+	font-weight: bold;
+}
+
+.gerrit-ContributorAgreement-ShortDescription {
+	margin-left: 20px;
+	margin-right: 20px;
+	margin-bottom: 10px;
+  padding: 5px 5px 5px 5px;
+	border: 1px solid #b0bdcc;
+}
+
+.gerrit-ContributorAgreement-AlreadySubmitted {
+  margin-left: 20px;
+  margin-right: 20px;
+  padding: 5px 5px 5px 5px;
+  color: red;
+}
+
+.gerrit-ContributorAgreement-Legal {
+  margin-left: 20px;
+  margin-right: 20px;
+  padding: 5px 5px 5px 5px;
+  border: 1px solid #b0bdcc;
 }

@@ -55,6 +55,10 @@ class ContactPanel extends Composite {
   private TextBox faxTxt;
   private Button save;
 
+  ContactPanel() {
+    this(null);
+  }
+
   ContactPanel(final AccountSettings parent) {
     parentScreen = parent;
 
@@ -127,6 +131,10 @@ class ContactPanel extends Composite {
     faxTxt.addKeyboardListener(sbl);
 
     initWidget(body);
+  }
+
+  void hideSaveButton() {
+    save.setVisible(false);
   }
 
   @Override
@@ -214,7 +222,7 @@ class ContactPanel extends Composite {
     save.setEnabled(false);
   }
 
-  private void doSave() {
+  void doSave() {
     final String newName = nameTxt.getText();
     final String newEmail;
     if (emailPick.isEnabled() && emailPick.getSelectedIndex() >= 0) {
@@ -238,7 +246,9 @@ class ContactPanel extends Composite {
             me.setPreferredEmail(newEmail);
             me.setContactInformation(info);
             Gerrit.refreshMenuBar();
-            parentScreen.display(me);
+            if (parentScreen != null) {
+              parentScreen.display(me);
+            }
           }
         });
   }

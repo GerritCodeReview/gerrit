@@ -15,6 +15,7 @@
 package com.google.gerrit.client;
 
 import com.google.gerrit.client.account.AccountSettings;
+import com.google.gerrit.client.account.NewAgreementScreen;
 import com.google.gerrit.client.admin.AccountGroupScreen;
 import com.google.gerrit.client.admin.GroupListScreen;
 import com.google.gerrit.client.changes.AccountDashboardScreen;
@@ -39,6 +40,7 @@ public class Link implements HistoryListener {
   public static final String SETTINGS_WEBIDENT = "settings,web-identities";
   public static final String SETTINGS_AGREEMENTS = "settings,agreements";
   public static final String SETTINGS_CONTACT = "settings,contact";
+  public static final String SETTINGS_NEW_AGREEMENT = "settings,new-agreement";
 
   public static final String MINE = "mine";
   public static final String MINE_UNCLAIMED = "mine,unclaimed";
@@ -108,6 +110,9 @@ public class Link implements HistoryListener {
     }
 
     if (SETTINGS.equals(token) || token.startsWith("settings,")) {
+      if (SETTINGS_NEW_AGREEMENT.equals(token)) {
+        return new NewAgreementScreen();
+      }
       return new AccountSettings(token);
     }
 

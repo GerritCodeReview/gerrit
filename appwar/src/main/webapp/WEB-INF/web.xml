@@ -55,6 +55,16 @@
   </servlet-mapping>
 
   <servlet>
+    <servlet-name>Static</servlet-name>
+    <servlet-class>com.google.gerrit.server.StaticServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Static</servlet-name>
+    <url-pattern>/static/*</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
     <servlet-name>AccountService</servlet-name>
     <servlet-class>com.google.gerrit.server.AccountServiceSrv</servlet-class>
     <load-on-startup>1</load-on-startup>

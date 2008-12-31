@@ -58,4 +58,23 @@ public interface AccountConstants extends Constants {
   String contactFieldPhone();
   String contactFieldFax();
   String buttonSaveContact();
+
+  String newAgreement();
+  String agreementStatus();
+  String agreementName();
+  String agreementDescription();
+  String agreementAccepted();
+  String agreementStatus_EXPIRED();
+  String agreementStatus_NEW();
+  String agreementStatus_REJECTED();
+  String agreementStatus_VERIFIED();
+
+  String newAgreementSelectTypeHeading();
+  String newAgreementNoneAvailable();
+  String newAgreementReviewLegalHeading();
+  String newAgreementReviewContactHeading();
+  String newAgreementCompleteHeading();
+  String newAgreementIAGREE();
+  String newAgreementAlreadySubmitted();
+  String buttonSubmitNewAgreement();
 }

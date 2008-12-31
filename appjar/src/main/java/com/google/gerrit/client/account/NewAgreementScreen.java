@@ -1,0 +1,277 @@
+// Copyright 2008 Google Inc.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package com.google.gerrit.client.account;
+
+import com.google.gerrit.client.ErrorDialog;
+import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.Link;
+import com.google.gerrit.client.reviewdb.AccountAgreement;
+import com.google.gerrit.client.reviewdb.ContributorAgreement;
+import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.ui.AccountScreen;
+import com.google.gerrit.client.ui.TextSaveButtonListener;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.http.client.Request;
+import com.google.gwt.http.client.RequestBuilder;
+import com.google.gwt.http.client.RequestCallback;
+import com.google.gwt.http.client.RequestException;
+import com.google.gwt.http.client.Response;
+import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.ClickListener;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.FormPanel;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.InlineLabel;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.RadioButton;
+import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
+import com.google.gwtjsonrpc.client.VoidResult;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+public class NewAgreementScreen extends AccountScreen {
+  private Set<ContributorAgreement.Id> mySigned;
+  private List<ContributorAgreement> available;
+  private ContributorAgreement current;
+
+  private VerticalPanel radios;
+
+  private Panel agreementGroup;
+  private HTML agreementHtml;
+
+  private Panel contactGroup;
+  private ContactPanel contactPanel;
+
+  private Panel finalGroup;
+  private TextBox yesIAgreeBox;
+  private Button submit;
+
+  public NewAgreementScreen() {
+    super(Util.C.newAgreement());
+  }
+
+  @Override
+  public void onLoad() {
+    if (radios == null) {
+      initUI();
+    }
+
+    mySigned = null;
+    available = null;
+    current = null;
+
+    agreementGroup.setVisible(false);
+    contactGroup.setVisible(false);
+    finalGroup.setVisible(false);
+    super.onLoad();
+
+    Util.ACCOUNT_SVC.myAgreements(new GerritCallback<AgreementInfo>() {
+      public void onSuccess(AgreementInfo result) {
+        if (isAttached()) {
+          mySigned = new HashSet<ContributorAgreement.Id>();
+          for (AccountAgreement a : result.accepted) {
+            mySigned.add(a.getAgreementId());
+          }
+          postRPC();
+        }
+      }
+    });
+    Gerrit.SYSTEM_SVC
+        .contributorAgreements(new GerritCallback<List<ContributorAgreement>>() {
+          public void onSuccess(final List<ContributorAgreement> result) {
+            if (isAttached()) {
+              available = result;
+              postRPC();
+            }
+          }
+        });
+  }
+
+  private void initUI() {
+    Label hdr;
+    final FlowPanel formBody = new FlowPanel();
+    radios = new VerticalPanel();
+    formBody.add(radios);
+
+    agreementGroup = new FlowPanel();
+    hdr = new Label(Util.C.newAgreementReviewLegalHeading());
+    hdr.setStyleName("gerrit-SmallHeading");
+    agreementGroup.add(hdr);
+
+    agreementHtml = new HTML();
+    agreementHtml.setStyleName("gerrit-ContributorAgreement-Legal");
+    agreementGroup.add(agreementHtml);
+    formBody.add(agreementGroup);
+
+    contactGroup = new FlowPanel();
+    hdr = new Label(Util.C.newAgreementReviewContactHeading());
+    hdr.setStyleName("gerrit-SmallHeading");
+    contactGroup.add(hdr);
+    formBody.add(contactGroup);
+
+    finalGroup = new VerticalPanel();
+    hdr = new Label(Util.C.newAgreementCompleteHeading());
+    hdr.setStyleName("gerrit-SmallHeading");
+    finalGroup.add(hdr);
+    final FlowPanel fp = new FlowPanel();
+    yesIAgreeBox = new TextBox();
+    yesIAgreeBox.setVisibleLength(Util.C.newAgreementIAGREE().length() + 8);
+    yesIAgreeBox.setMaxLength(Util.C.newAgreementIAGREE().length());
+    fp.add(yesIAgreeBox);
+    fp.add(new InlineLabel(Util.M.enterIAGREE(Util.C.newAgreementIAGREE())));
+    finalGroup.add(fp);
+    submit = new Button(Util.C.buttonSubmitNewAgreement());
+    submit.addClickListener(new ClickListener() {
+      public void onClick(final Widget sender) {
+        doSign();
+      }
+    });
+    finalGroup.add(submit);
+    formBody.add(finalGroup);
+    new TextSaveButtonListener(yesIAgreeBox, submit);
+
+    final FormPanel form = new FormPanel();
+    form.add(formBody);
+    add(form);
+  }
+
+  private void postRPC() {
+    if (mySigned != null && available != null) {
+      display();
+    }
+  }
+
+  private void display() {
+    current = null;
+    agreementGroup.setVisible(false);
+    contactGroup.setVisible(false);
+    finalGroup.setVisible(false);
+    radios.clear();
+
+    final Label hdr;
+    if (available.isEmpty()) {
+      hdr = new Label(Util.C.newAgreementNoneAvailable());
+    } else {
+      hdr = new Label(Util.C.newAgreementSelectTypeHeading());
+    }
+    hdr.setStyleName("gerrit-SmallHeading");
+    radios.add(hdr);
+
+    for (final ContributorAgreement cla : available) {
+      final RadioButton r = new RadioButton("cla_id", cla.getShortName());
+      r.addStyleName("gerrit-ContributorAgreement-Button");
+      radios.add(r);
+
+      if (mySigned.contains(cla.getId())) {
+        r.setEnabled(false);
+        final Label l = new Label(Util.C.newAgreementAlreadySubmitted());
+        l.setStyleName("gerrit-ContributorAgreement-AlreadySubmitted");
+        radios.add(l);
+      } else {
+        r.addClickListener(new ClickListener() {
+          public void onClick(final Widget sender) {
+            showCLA(cla);
+          }
+        });
+      }
+
+      if (cla.getShortDescription() != null
+          && !cla.getShortDescription().equals("")) {
+        final Label l = new Label(cla.getShortDescription());
+        l.setStyleName("gerrit-ContributorAgreement-ShortDescription");
+        radios.add(l);
+      }
+    }
+  }
+
+  private void doSign() {
+    submit.setEnabled(false);
+
+    if (current == null
+        || !Util.C.newAgreementIAGREE()
+            .equalsIgnoreCase(yesIAgreeBox.getText())) {
+      yesIAgreeBox.setText("");
+      yesIAgreeBox.setFocus(true);
+      return;
+    }
+
+    if (contactGroup.isVisible()) {
+      contactPanel.doSave();
+    }
+    Util.ACCOUNT_SVC.enterAgreement(current.getId(),
+        new GerritCallback<VoidResult>() {
+          public void onSuccess(final VoidResult result) {
+            History.newItem(Link.SETTINGS_AGREEMENTS);
+          }
+
+          @Override
+          public void onFailure(final Throwable caught) {
+            yesIAgreeBox.setText("");
+            super.onFailure(caught);
+          }
+        });
+  }
+
+  private void showCLA(final ContributorAgreement cla) {
+    current = cla;
+    String url = cla.getAgreementUrl();
+    if (url != null && url.length() > 0) {
+      agreementGroup.setVisible(true);
+      agreementHtml.setText(Gerrit.C.rpcStatusLoading());
+      if (!url.startsWith("http:") && !url.startsWith("https:")) {
+        url = GWT.getModuleBaseURL() + url;
+      }
+      final RequestBuilder rb = new RequestBuilder(RequestBuilder.GET, url);
+      rb.setCallback(new RequestCallback() {
+        public void onError(Request request, Throwable exception) {
+          new ErrorDialog(exception).center();
+        }
+
+        public void onResponseReceived(Request request, Response response) {
+          final String ct = response.getHeader("Content-Type");
+          if (response.getStatusCode() == 200 && ct != null
+              && (ct.equals("text/html") || ct.startsWith("text/html;"))) {
+            agreementHtml.setHTML(response.getText());
+          } else {
+            new ErrorDialog(response.getStatusText()).center();
+          }
+        }
+      });
+      try {
+        rb.send();
+      } catch (RequestException e) {
+        new ErrorDialog(e).show();
+      }
+    } else {
+      agreementGroup.setVisible(false);
+    }
+
+    if (contactPanel == null && cla.isRequireContactInformation()) {
+      contactPanel = new ContactPanel();
+      contactPanel.hideSaveButton();
+      contactGroup.add(contactPanel);
+    }
+    contactGroup.setVisible(cla.isRequireContactInformation());
+    finalGroup.setVisible(true);
+    yesIAgreeBox.setText("");
+    submit.setEnabled(false);
+  }
+}

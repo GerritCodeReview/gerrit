@@ -25,10 +25,7 @@ import com.google.gerrit.client.ui.LazyTabChild;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.History;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SourcesTabEvents;
 import com.google.gwt.user.client.ui.TabListener;
 import com.google.gwt.user.client.ui.TabPanel;
@@ -44,9 +41,7 @@ public class AccountSettings extends AccountScreen {
 
   private List<String> tabTokens;
   private TabPanel tabs;
-
   private PreferencePanel prefsPanel;
-  private Panel agreementsPanel;
 
   public AccountSettings(final String tabToken) {
     super(Util.C.accountSettingsHeading());
@@ -108,8 +103,6 @@ public class AccountSettings extends AccountScreen {
     fmt.addStyleName(2, 0, "bottomheader");
 
     prefsPanel = new PreferencePanel();
-    agreementsPanel = new FlowPanel();
-    agreementsPanel.add(new Label("Not Implemented"));
 
     tabTokens = new ArrayList<String>();
     tabs = new TabPanel();
@@ -143,7 +136,12 @@ public class AccountSettings extends AccountScreen {
     }, Util.C.tabWebIdentities());
     tabTokens.add(Link.SETTINGS_WEBIDENT);
 
-    tabs.add(agreementsPanel, Util.C.tabAgreements());
+    tabs.add(new LazyTabChild<AgreementPanel>() {
+      @Override
+      protected AgreementPanel create() {
+        return new AgreementPanel();
+      }
+    }, Util.C.tabAgreements());
     tabTokens.add(Link.SETTINGS_AGREEMENTS);
 
     tabs.addTabListener(new TabListener() {

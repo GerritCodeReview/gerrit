@@ -59,7 +59,7 @@ class ExternalIdPanel extends Composite {
       }
     });
     d.setMode(SignInDialog.Mode.LINK_IDENTIY);
-    d.show();
+    d.center();
   }
 
   @Override

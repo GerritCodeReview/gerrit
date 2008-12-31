@@ -14,13 +14,20 @@
 
 package com.google.gerrit.client.data;
 
+import com.google.gerrit.client.reviewdb.ContributorAgreement;
+import com.google.gerrit.client.rpc.SignInRequired;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.AllowCrossSiteRequest;
 import com.google.gwtjsonrpc.client.HostPageCache;
 import com.google.gwtjsonrpc.client.RemoteJsonService;
 
+import java.util.List;
+
 public interface SystemInfoService extends RemoteJsonService {
   @AllowCrossSiteRequest
   @HostPageCache(name = "gerrit_gerritconfig_obj", once = true)
   void loadGerritConfig(AsyncCallback<GerritConfig> callback);
+
+  @SignInRequired
+  void contributorAgreements(AsyncCallback<List<ContributorAgreement>> callback);
 }

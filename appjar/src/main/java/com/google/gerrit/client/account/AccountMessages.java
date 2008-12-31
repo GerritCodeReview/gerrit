@@ -18,4 +18,5 @@ import com.google.gwt.i18n.client.Messages;
 
 public interface AccountMessages extends Messages {
   String lines(short cnt);
+  String enterIAGREE(String iagree);
 }

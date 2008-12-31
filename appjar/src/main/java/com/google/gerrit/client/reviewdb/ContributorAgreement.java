@@ -68,9 +68,9 @@ public final class ContributorAgreement {
   @Column(notNull = false)
   protected String shortDescription;
 
-  /** Text of the agreement, in formatted HTML */
-  @Column(length = Integer.MAX_VALUE)
-  protected String agreementHtml;
+  /** Web address of the agreement documentation. */
+  @Column
+  protected String agreementUrl;
 
   protected ContributorAgreement() {
   }
@@ -127,11 +127,11 @@ public final class ContributorAgreement {
     shortDescription = d;
   }
 
-  public String getAgreementHtml() {
-    return agreementHtml;
+  public String getAgreementUrl() {
+    return agreementUrl;
   }
 
-  public void setAgreementHtml(final String h) {
-    agreementHtml = h;
+  public void setAgreementUrl(final String h) {
+    agreementUrl = h;
   }
 }

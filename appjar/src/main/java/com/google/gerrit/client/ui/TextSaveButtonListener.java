@@ -34,7 +34,7 @@ public class TextSaveButtonListener extends KeyboardListenerAdapter {
 
   @Override
   public void onKeyPress(final Widget sender, final char key, final int mod) {
-    if (mod == 0) {
+    if ((mod & (MODIFIER_CTRL | MODIFIER_ALT | MODIFIER_META)) == 0) {
       switch (key) {
         case KEY_UP:
         case KEY_DOWN:

@@ -36,7 +36,9 @@ import com.google.gwtjsonrpc.client.VoidResult;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 class ContactPanel extends Composite {
   private final AccountSettings parentScreen;
@@ -164,13 +166,14 @@ class ContactPanel extends Composite {
             if (!isAttached()) {
               return;
             }
-            final List<String> addrs = new ArrayList<String>();
+            final Set<String> emails = new HashSet<String>();
             for (final AccountExternalId i : result) {
               if (i.getEmailAddress() != null
                   && i.getEmailAddress().length() > 0) {
-                addrs.add(i.getEmailAddress());
+                emails.add(i.getEmailAddress());
               }
             }
+            final List<String> addrs = new ArrayList<String>(emails);
             Collections.sort(addrs);
             for (String s : addrs) {
               emailPick.addItem(s);

@@ -146,10 +146,15 @@ public class SshUtil {
   /** Invalidate all cached keys for the given account. */
   public static void invalidate(final Account acct) {
     if (acct != null) {
-      synchronized (keys) {
-        keys.remove(acct.getPreferredEmail());
-      }
+      invalidate(acct.getPreferredEmail());
     }
+  }
+
+  /** Invalidate all cached keys for the given account. */
+  public static void invalidate(final String username){
+    synchronized (keys) {
+      keys.remove(username);
+    }    
   }
 
   /** Locate keys for the requested account whose email matches the name given. */

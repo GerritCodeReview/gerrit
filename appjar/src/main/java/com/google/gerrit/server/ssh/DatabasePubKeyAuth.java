@@ -27,7 +27,6 @@ import java.security.NoSuchProviderException;
 import java.security.PublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Collections;
-import java.util.List;
 
 /**
  * Authenticates by public key through {@link AccountSshKey} entities.
@@ -45,28 +44,53 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
 
   public boolean hasKey(final String username, final PublicKey inkey,
       final ServerSession session) {
-    final List<AccountSshKey> keyList = SshUtil.keysFor(schema, username);
-    for (final AccountSshKey k : keyList) {
-      try {
-        if (SshUtil.parse(k).equals(inkey)) {
-          updateLastUsed(k);
-          session.setAttribute(SshUtil.CURRENT_ACCOUNT, k.getAccount());
-          return true;
+    AccountSshKey matched = null;
+
+    for (final AccountSshKey k : SshUtil.keysFor(schema, username)) {
+      if (match(username, k, inkey)) {
+        if (matched == null) {
+          matched = k;
+
+        } else if (!matched.getAccount().equals(k.getAccount())) {
+          // Don't permit keys to authenticate to different accounts
+          // that have the same username and public key.
+          //
+          // We'd have to pick one at random, yielding unpredictable
+          // behavior for the end-user.
+          //
+          return false;
         }
-      } catch (NoSuchAlgorithmException e) {
-        markInvalid(k);
-      } catch (InvalidKeySpecException e) {
-        markInvalid(k);
-      } catch (NoSuchProviderException e) {
-        markInvalid(k);
-      } catch (RuntimeException e) {
-        markInvalid(k);
       }
+    }
+
+    if (matched != null) {
+      updateLastUsed(matched);
+      session.setAttribute(SshUtil.CURRENT_ACCOUNT, matched.getAccount());
+      return true;
     }
     return false;
   }
 
-  private void markInvalid(final AccountSshKey k) {
+  private boolean match(final String username, final AccountSshKey k,
+      final PublicKey inkey) {
+    try {
+      return SshUtil.parse(k).equals(inkey);
+    } catch (NoSuchAlgorithmException e) {
+      markInvalid(username, k);
+      return false;
+    } catch (InvalidKeySpecException e) {
+      markInvalid(username, k);
+      return false;
+    } catch (NoSuchProviderException e) {
+      markInvalid(username, k);
+      return false;
+    } catch (RuntimeException e) {
+      markInvalid(username, k);
+      return false;
+    }
+  }
+
+  private void markInvalid(final String username, final AccountSshKey k) {
     try {
       final ReviewDb db = schema.open();
       try {
@@ -77,6 +101,8 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
       }
     } catch (OrmException e) {
       // TODO log mark invalid failure
+    } finally {
+      SshUtil.invalidate(username);
     }
   }
 

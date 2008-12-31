@@ -209,16 +209,12 @@ class Receive extends AbstractGitCommand {
     final StringBuilder errors = new StringBuilder();
     try {
       for (final String email : emails) {
-        final List<Account> who =
-            db.accounts().byPreferredEmail(email).toList();
-        if (who.size() == 1) {
-          accountIds.add(who.get(0).getId());
-        } else if (who.size() == 0) {
-          errors.append("fatal: " + addressType + " " + email
-              + " is not registered on Gerrit\n");
+        final Account who = Account.find(db, email);
+        if (who != null) {
+          accountIds.add(who.getId());
         } else {
           errors.append("fatal: " + addressType + " " + email
-              + " matches more than one account on Gerrit\n");
+              + " is not registered on Gerrit\n");
         }
       }
     } catch (OrmException err) {

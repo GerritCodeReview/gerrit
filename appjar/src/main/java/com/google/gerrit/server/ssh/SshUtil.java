@@ -35,6 +35,7 @@ import java.security.PublicKey;
 import java.security.interfaces.DSAPublicKey;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -169,11 +170,14 @@ public class SshUtil {
             db.accounts().byPreferredEmail(username).toList();
         if (matches.isEmpty()) {
           return Collections.<AccountSshKey> emptyList();
-        } else if (matches.size() > 1) {
-          // TODO log accounts with duplicate emails
-          return Collections.<AccountSshKey> emptyList();
         }
-        kl = db.accountSshKeys().valid(matches.get(0).getId()).toList();
+
+        kl = new ArrayList<AccountSshKey>();
+        for (final Account a : matches) {
+          for (final AccountSshKey k : db.accountSshKeys().valid(a.getId())) {
+            kl.add(k);
+          }
+        }
       } finally {
         db.close();
       }

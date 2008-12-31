@@ -301,7 +301,7 @@ public class LoginServlet extends HttpServlet {
     AccountExternalId acctExt = lookup(extAccess, user.getIdentity());
 
     if (acctExt == null && email != null && isGoogleAccount(user)) {
-      acctExt = lookup(extAccess, "GoogleAccount/" + email);
+      acctExt = lookupGoogleAccount(extAccess, email);
       if (acctExt != null) {
         // Legacy user from Gerrit 1? Attach the OpenID identity.
         //
@@ -426,6 +426,21 @@ public class LoginServlet extends HttpServlet {
 
   private static boolean isGoogleAccount(final OpenIdUser user) {
     return user.getIdentity().startsWith(GoogleAccountDiscovery.GOOGLE_ACCOUNT);
+  }
+
+  private static boolean isGoogleAccount(final AccountExternalId user) {
+    return user.getExternalId().startsWith(GoogleAccountDiscovery.GOOGLE_ACCOUNT);
+  }
+
+  private static AccountExternalId lookupGoogleAccount(
+      final AccountExternalIdAccess extAccess, final String email)
+      throws OrmException {
+    for (final AccountExternalId e : extAccess.byEmailAddress(email)) {
+      if (isGoogleAccount(e)) {
+        return e;
+      }
+    }
+    return null;
   }
 
   private void modeChkSetCookie(final HttpServletRequest req,

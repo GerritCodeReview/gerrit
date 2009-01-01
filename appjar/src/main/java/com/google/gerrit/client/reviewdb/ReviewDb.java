@@ -63,12 +63,6 @@ public interface ReviewDb extends Schema {
   BranchAccess branches();
 
   @Relation
-  ProjectLeadAccountAccess projectLeadAccounts();
-
-  @Relation
-  ProjectLeadGroupAccess projectLeadGroups();
-
-  @Relation
   ChangeAccess changes();
 
   @Relation

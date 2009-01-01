@@ -168,14 +168,10 @@ INSERT INTO account_group_members
  o.group_name = g.name
  AND a.preferred_email = o.email;
 
-UPDATE account_groups
-SET name = 'Administrators'
-WHERE name = 'admin';
-
 UPDATE system_config
 SET admin_group_id = (SELECT group_id
                       FROM account_groups
-                      WHERE name = 'Administrators');
+                      WHERE name = 'admin');
 
 UPDATE account_groups
 SET owner_group_id = (SELECT admin_group_id FROM system_config);
@@ -184,10 +180,12 @@ DELETE FROM projects;
 INSERT INTO projects
 (project_id,
  description,
- name) SELECT
+ name,
+ owner_group_id) SELECT
  p.project_id,
  p.comment,
- p.name
+ p.name,
+ (SELECT admin_group_id FROM system_config)
  FROM gerrit1.projects p;
 
 DELETE FROM account_project_watches;
@@ -213,31 +211,98 @@ INSERT INTO branches
  FROM gerrit1.branches b, gerrit1.projects p
  WHERE p.gae_key = b.project_key;
 
-DELETE FROM project_lead_accounts;
-INSERT INTO project_lead_accounts
-(project_name,
- account_id) SELECT
- p.name,
- a.account_id
- FROM projects p,
- accounts a,
- gerrit1.project_owner_users o
+CREATE TEMPORARY TABLE need_groups (project_id INT NOT NULL);
+INSERT INTO need_groups
+ SELECT p.project_id
+ FROM projects p, gerrit1.project_owner_groups o
  WHERE p.project_id = o.project_id
+ GROUP BY p.project_id
+ HAVING COUNT(*) > 1;
+INSERT INTO need_groups
+ SELECT p.project_id
+ FROM projects p
+ WHERE EXISTS (SELECT 1 FROM gerrit1.project_owner_users u
+               WHERE u.project_id = p.project_id)
+ AND NOT EXISTS (SELECT 1 FROM need_groups n
+                 WHERE n.project_id = p.project_id);
+
+INSERT INTO account_groups
+(group_id,
+ owner_group_id,
+ description,
+ name) SELECT
+ nextval('account_group_id'),
+ (SELECT admin_group_id FROM system_config),
+ p.name || ' maintainers',
+ substring(p.name from '^.*/([^/]*)$') || '_' || p.project_id || '-owners'
+ FROM projects p, need_groups g
+ WHERE p.project_id = g.project_id;
+
+UPDATE account_groups
+SET owner_group_id = group_id
+WHERE name IN (SELECT
+ substring(p.name from '^.*/([^/]*)$') || '_' || p.project_id || '-owners'
+ FROM projects p, need_groups g
+ WHERE p.project_id = g.project_id);
+
+UPDATE projects
+SET owner_group_id = (SELECT group_id
+FROM account_groups
+WHERE name = substring(projects.name
+from '^.*/([^/]*)$') || '_' || projects.project_id || '-owners')
+WHERE project_id IN (SELECT project_id FROM need_groups);
+
+INSERT INTO account_group_members
+(account_id,
+ group_id) SELECT DISTINCT
+ q.account_id,
+ p.owner_group_id
+ FROM projects p,
+ need_groups n,
+ gerrit1.account_groups og,
+ gerrit1.project_owner_groups o,
+ account_groups g,
+ account_group_members q
+ WHERE
+ n.project_id = p.project_id
+ AND o.project_id = p.project_id
+ AND og.gae_key = o.group_key
+ AND g.name = og.name
+ AND q.group_id = g.group_id
+ UNION
+ SELECT
+ a.account_id,
+ p.owner_group_id
+ FROM accounts a,
+ projects p,
+ need_groups n,
+ gerrit1.project_owner_users o
+ WHERE
+ n.project_id = p.project_id
+ AND o.project_id = p.project_id
  AND a.preferred_email = o.email;
 
-DELETE FROM project_lead_groups;
-INSERT INTO project_lead_groups
-(project_name,
- group_id) SELECT
- p.name,
- g.group_id
- FROM projects p,
- account_groups g,
+UPDATE projects
+SET owner_group_id = (
+ SELECT g.group_id
+ FROM account_groups g,
  gerrit1.project_owner_groups o,
  gerrit1.account_groups og
- WHERE p.project_id = o.project_id
+ WHERE projects.project_id = o.project_id
  AND og.gae_key = o.group_key
- AND g.name = og.name;
+ AND g.name = og.name)
+WHERE project_id NOT IN (SELECT project_id FROM need_groups)
+AND EXISTS (
+ SELECT g.group_id
+ FROM account_groups g,
+ gerrit1.project_owner_groups o,
+ gerrit1.account_groups og
+ WHERE projects.project_id = o.project_id
+ AND og.gae_key = o.group_key
+ AND g.name = og.name);
+
+DROP TABLE need_groups;
+ 
 
 DELETE FROM changes;
 INSERT INTO changes
@@ -501,6 +566,9 @@ FROM gerrit1.account_stars s,
 WHERE a.preferred_email = s.email
       AND c.change_id = s.change_id;
 
+UPDATE account_groups
+SET name = 'Administrators'
+WHERE name = 'admin';
 
 -- Fix change.nbr_patch_sets
 --

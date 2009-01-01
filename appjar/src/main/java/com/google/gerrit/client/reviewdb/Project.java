@@ -76,6 +76,9 @@ public final class Project {
   @Column(length = Integer.MAX_VALUE, notNull = false)
   protected String description;
 
+  @Column
+  protected AccountGroup.Id ownerGroupId;
+  
   protected Project() {
   }
 
@@ -102,5 +105,13 @@ public final class Project {
 
   public void setDescription(final String d) {
     description = d;
+  }
+
+  public AccountGroup.Id getOwnerGroupId() {
+    return ownerGroupId;
+  }
+
+  public void setOwnerGroupId(final AccountGroup.Id id) {
+    ownerGroupId = id;
   }
 }

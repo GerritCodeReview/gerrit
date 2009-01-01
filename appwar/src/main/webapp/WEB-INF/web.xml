@@ -122,6 +122,16 @@
   <servlet-mapping>
     <servlet-name>PatchDetailService</servlet-name>
     <url-pattern>/rpc/PatchDetailService</url-pattern>
+
+  <servlet>
+    <servlet-name>ProjectAdminService</servlet-name>
+    <servlet-class>com.google.gerrit.server.ProjectAdminServiceSrv</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ProjectAdminService</servlet-name>
+    <url-pattern>/rpc/ProjectAdminService</url-pattern>
+  </servlet-mapping>
   </servlet-mapping>
 
   <servlet>

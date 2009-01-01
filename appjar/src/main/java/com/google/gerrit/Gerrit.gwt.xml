@@ -30,6 +30,8 @@
            class='com.google.gerrit.server.GroupAdminServiceSrv'/>
   <servlet path='/rpc/PatchDetailService'
            class='com.google.gerrit.server.PatchDetailServiceSrv'/>
+  <servlet path='/rpc/ProjectAdminService'
+           class='com.google.gerrit.server.ProjectAdminServiceSrv'/>
   <servlet path='/rpc/SuggestService'
            class='com.google.gerrit.server.SuggestServiceSrv'/>
   <servlet path='/rpc/SystemInfoService'

@@ -18,6 +18,7 @@ import com.google.gerrit.client.account.AccountSettings;
 import com.google.gerrit.client.account.NewAgreementScreen;
 import com.google.gerrit.client.admin.AccountGroupScreen;
 import com.google.gerrit.client.admin.GroupListScreen;
+import com.google.gerrit.client.admin.ProjectListScreen;
 import com.google.gerrit.client.changes.AccountDashboardScreen;
 import com.google.gerrit.client.changes.ChangeScreen;
 import com.google.gerrit.client.changes.MineStarredScreen;
@@ -29,6 +30,7 @@ import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.Patch;
+import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.rpc.RpcUtil;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gwt.core.client.GWT;
@@ -84,6 +86,10 @@ public class Link implements HistoryListener {
 
   public static String toAccountGroup(final AccountGroup.Id id) {
     return "admin,group," + id.toString();
+  }
+
+  public static String toProjectAdmin(final Project.Id id) {
+    return "admin,project," + id.toString();
   }
 
   public void onHistoryChanged(final String token) {
@@ -149,6 +155,10 @@ public class Link implements HistoryListener {
 
       if (ADMIN_GROUPS.equals(token)) {
         return new GroupListScreen();
+      }
+
+      if (ADMIN_PROJECTS.equals(token)) {
+        return new ProjectListScreen();
       }
     }
 

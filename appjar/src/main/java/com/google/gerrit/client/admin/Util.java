@@ -21,9 +21,13 @@ public class Util {
   public static final AdminConstants C = GWT.create(AdminConstants.class);
   public static final AdminMessages M = GWT.create(AdminMessages.class);
   public static final GroupAdminService GROUP_SVC;
+  public static final ProjectAdminService PROJECT_SVC;
 
   static {
     GROUP_SVC = GWT.create(GroupAdminService.class);
     JsonUtil.bind(GROUP_SVC, "rpc/GroupAdminService");
+
+    PROJECT_SVC = GWT.create(ProjectAdminService.class);
+    JsonUtil.bind(PROJECT_SVC, "rpc/ProjectAdminService");
   }
 }

@@ -14,28 +14,20 @@
 
 package com.google.gerrit.client.admin;
 
-import com.google.gwt.i18n.client.Constants;
+import com.google.gerrit.client.reviewdb.AccountGroup;
+import com.google.gerrit.client.reviewdb.Project;
+import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gwtorm.client.OrmException;
 
-public interface AdminConstants extends Constants {
-  String defaultAccountName();
+public class ProjectDetail {
+  protected Project project;
+  protected AccountGroup ownerGroup;
 
-  String buttonDeleteGroupMembers();
-  String buttonAddGroupMember();
-  String buttonSaveDescription();
-  String buttonRenameGroup();
-  String buttonCreateGroup();
-  String buttonChangeGroupOwner();
+  public ProjectDetail() {
+  }
 
-  String headingOwner();
-  String headingDescription();
-  String headingMembers();
-  String headingCreateGroup();
-
-  String columnMember();
-  String columnEmailAddress();
-  String columnGroupName();
-  String columnGroupDescription();
-
-  String groupListTitle();
-  String projectListTitle();
+  public void load(final ReviewDb db, final Project g) throws OrmException {
+    project = g;
+    ownerGroup = db.accountGroups().get(project.getOwnerGroupId());
+  }
 }

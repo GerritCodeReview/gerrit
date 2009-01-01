@@ -18,6 +18,7 @@ import com.google.gerrit.client.account.AccountSettings;
 import com.google.gerrit.client.account.NewAgreementScreen;
 import com.google.gerrit.client.admin.AccountGroupScreen;
 import com.google.gerrit.client.admin.GroupListScreen;
+import com.google.gerrit.client.admin.ProjectAdminScreen;
 import com.google.gerrit.client.admin.ProjectListScreen;
 import com.google.gerrit.client.changes.AccountDashboardScreen;
 import com.google.gerrit.client.changes.ChangeScreen;
@@ -152,6 +153,10 @@ public class Link implements HistoryListener {
       p = "admin,group,";
       if (token.startsWith(p))
         return new AccountGroupScreen(AccountGroup.Id.parse(skip(p, token)));
+
+      p = "admin,project,";
+      if (token.startsWith(p))
+        return new ProjectAdminScreen(Project.Id.parse(skip(p, token)));
 
       if (ADMIN_GROUPS.equals(token)) {
         return new GroupListScreen();

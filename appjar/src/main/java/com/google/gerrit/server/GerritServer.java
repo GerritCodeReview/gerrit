@@ -152,6 +152,7 @@ public class GerritServer {
     final AccountGroup admin =
         new AccountGroup(new AccountGroup.NameKey("Administrators"),
             new AccountGroup.Id(c.nextAccountGroupId()));
+    admin.setDescription("Gerrit Site Administrators");
     c.accountGroups().insert(Collections.singleton(admin));
 
     final SystemConfig s = SystemConfig.create();

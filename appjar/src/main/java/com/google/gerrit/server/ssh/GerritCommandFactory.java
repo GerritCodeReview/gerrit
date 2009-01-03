@@ -60,6 +60,9 @@ class GerritCommandFactory implements CommandFactory {
       args = "";
     }
 
+    // Support newer-style "git receive-pack" requests by converting
+    // to the older-style "git-receive-pack".
+    //
     if ("git".equals(cmd) || "gerrit".equals(cmd)) {
       cmd += "-";
       final int sp2 = args.indexOf(' ');

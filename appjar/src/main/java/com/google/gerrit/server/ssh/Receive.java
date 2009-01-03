@@ -126,21 +126,33 @@ class Receive extends AbstractGitCommand {
           userAccount.getId()).toList()) {
         final ContributorAgreement cla =
             db.contributorAgreements().get(a.getAgreementId());
-        if (cla == null || !cla.isActive()) {
+        if (cla == null) {
           continue;
         }
 
-        if (bestAgreement == null
-            || bestAgreement.getStatus() != AccountAgreement.Status.VERIFIED) {
-          bestAgreement = a;
-          bestCla = cla;
-        }
-        if (bestAgreement.getStatus() == AccountAgreement.Status.VERIFIED) {
-          break;
-        }
+        bestAgreement = a;
+        bestCla = cla;
+        break;
       }
     } catch (OrmException e) {
       throw new Failure(1, "database error");
+    }
+
+    if (bestCla != null && !bestCla.isActive()) {
+      final StringBuilder msg = new StringBuilder();
+      msg.append("\nfatal: ");
+      msg.append(bestCla.getShortName());
+      msg.append(" contributor agreement is expired.\n");
+      if (server.getCanonicalURL() != null) {
+        msg.append("\nPlease complete a new agreement");
+        msg.append(":\n\n  ");
+        msg.append(server.getCanonicalURL());
+        msg.append("Gerrit#");
+        msg.append(Link.SETTINGS_AGREEMENTS);
+        msg.append("\n");
+      }
+      msg.append("\n");
+      throw new Failure(1, msg.toString());
     }
 
     if (bestCla != null && bestCla.isRequireContactInformation()) {

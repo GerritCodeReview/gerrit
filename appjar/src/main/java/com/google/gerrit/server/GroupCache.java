@@ -193,4 +193,11 @@ public class GroupCache {
     }
     return m;
   }
+
+  /** Force the entire group cache to flush from memory and recompute. */
+  public void flush() {
+    synchronized (byAccount) {
+      byAccount.clear();
+    }
+  }
 }

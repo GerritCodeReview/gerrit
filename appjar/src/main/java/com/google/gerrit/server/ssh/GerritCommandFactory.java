@@ -55,6 +55,10 @@ class GerritCommandFactory implements CommandFactory {
       return new Receive();
     }
 
+    if ("gerrit-flush-group-cache".equals(cmd)) {
+      return new AdminFlushGroupCache();
+    }
+
     return new AbstractCommand() {
       @Override
       protected void run(final String[] argv) throws Failure {

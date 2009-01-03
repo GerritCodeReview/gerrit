@@ -79,6 +79,7 @@ public class GerritServer {
   private final SignedToken xsrf;
   private final SignedToken account;
   private final RepositoryCache repositories;
+  private final GroupCache groupCache;
 
   private GerritServer() throws OrmException, XsrfException {
     db = createDatabase();
@@ -95,6 +96,8 @@ public class GerritServer {
     } else {
       repositories = null;
     }
+
+    groupCache = new GroupCache(db, sConfig);
   }
 
   private Database<ReviewDb> createDatabase() throws OrmException {
@@ -305,8 +308,8 @@ public class GerritServer {
     return repositories;
   }
 
-  /** Get the group whose members have full access to manage the site. */
-  public AccountGroup.Id getAdminGroupId() {
-    return sConfig.adminGroupId;
+  /** Get the group membership cache. */
+  public GroupCache getGroupCache() {
+    return groupCache;
   }
 }

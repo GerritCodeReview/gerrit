@@ -16,8 +16,8 @@ package com.google.gerrit.server;
 
 import com.google.gerrit.client.admin.ProjectAdminService;
 import com.google.gerrit.client.admin.ProjectDetail;
+import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountGroup;
-import com.google.gerrit.client.reviewdb.AccountGroupMember;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.BaseServiceImplementation;
@@ -34,18 +34,18 @@ import java.util.List;
 
 public class ProjectAdminServiceImpl extends BaseServiceImplementation
     implements ProjectAdminService {
-  private final AccountGroup.Id adminId;
+  private final GroupCache groupCache;
 
   public ProjectAdminServiceImpl(final GerritServer server) {
     super(server.getDatabase());
-    adminId = server.getAdminGroupId();
+    groupCache = server.getGroupCache();
   }
 
   public void ownedProjects(final AsyncCallback<List<Project>> callback) {
     run(callback, new Action<List<Project>>() {
       public List<Project> run(ReviewDb db) throws OrmException {
         final List<Project> result;
-        if (amAdmin(db)) {
+        if (groupCache.isAdministrator(RpcUtil.getAccountId())) {
           result = db.projects().all().toList();
         } else {
           result = myOwnedProjects(db);
@@ -116,33 +116,24 @@ public class ProjectAdminServiceImpl extends BaseServiceImplementation
     });
   }
 
-  private static boolean amInGroup(final ReviewDb db,
-      final AccountGroup.Id groupId) throws OrmException {
-    return db.accountGroupMembers().get(
-        new AccountGroupMember.Key(RpcUtil.getAccountId(), groupId)) != null;
-  }
-
-  private boolean amAdmin(final ReviewDb db) throws OrmException {
-    return adminId != null && amInGroup(db, adminId);
-  }
-
   private void assertAmProjectOwner(final ReviewDb db,
       final Project.Id projectId) throws OrmException, Failure {
     final Project project = db.projects().get(projectId);
     if (project == null) {
       throw new Failure(new NoSuchEntityException());
     }
-    if (!amInGroup(db, project.getOwnerGroupId()) && !amAdmin(db)) {
+    final Account.Id me = RpcUtil.getAccountId();
+    if (!groupCache.isInGroup(me, project.getOwnerGroupId())
+        && !groupCache.isAdministrator(me)) {
       throw new Failure(new NoSuchEntityException());
     }
   }
 
-  private static List<Project> myOwnedProjects(final ReviewDb db)
-      throws OrmException {
+  private List<Project> myOwnedProjects(final ReviewDb db) throws OrmException {
+    final Account.Id me = RpcUtil.getAccountId();
     final List<Project> own = new ArrayList<Project>();
-    for (final AccountGroupMember m : db.accountGroupMembers().byAccount(
-        RpcUtil.getAccountId()).toList()) {
-      for (final Project g : db.projects().ownedByGroup(m.getAccountGroupId())) {
+    for (final AccountGroup.Id groupId : groupCache.getGroups(me)) {
+      for (final Project g : db.projects().ownedByGroup(groupId)) {
         own.add(g);
       }
     }

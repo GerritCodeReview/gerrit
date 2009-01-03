@@ -40,18 +40,18 @@ import java.util.Set;
 
 public class GroupAdminServiceImpl extends BaseServiceImplementation implements
     GroupAdminService {
-  private final AccountGroup.Id adminId;
+  private final GroupCache groupCache;
 
   public GroupAdminServiceImpl(final GerritServer server) {
     super(server.getDatabase());
-    adminId = server.getAdminGroupId();
+    groupCache = server.getGroupCache();
   }
 
   public void ownedGroups(final AsyncCallback<List<AccountGroup>> callback) {
     run(callback, new Action<List<AccountGroup>>() {
       public List<AccountGroup> run(ReviewDb db) throws OrmException {
         final List<AccountGroup> result;
-        if (amAdmin(db)) {
+        if (groupCache.isAdministrator(RpcUtil.getAccountId())) {
           result = db.accountGroups().all().toList();
         } else {
           result = myOwnedGroups(db);
@@ -90,6 +90,8 @@ public class GroupAdminServiceImpl extends BaseServiceImplementation implements
         db.accountGroups().insert(Collections.singleton(group), txn);
         db.accountGroupMembers().insert(Collections.singleton(m), txn);
         txn.commit();
+        groupCache.notifyGroupAdd(m);
+
         return group.getId();
       }
     });
@@ -188,6 +190,8 @@ public class GroupAdminServiceImpl extends BaseServiceImplementation implements
 
         final AccountGroupMember m = new AccountGroupMember(key);
         db.accountGroupMembers().insert(Collections.singleton(m));
+        groupCache.notifyGroupAdd(m);
+
         final AccountGroupDetail d = new AccountGroupDetail();
         d.loadOneMember(db, a, m);
         return d;
@@ -204,7 +208,7 @@ public class GroupAdminServiceImpl extends BaseServiceImplementation implements
         for (final AccountGroupMember.Key k : keys) {
           if (!owned.contains(k.getAccountGroupId())) {
             if (amAdmin == null) {
-              amAdmin = amAdmin(db);
+              amAdmin = groupCache.isAdministrator(RpcUtil.getAccountId());
             }
             if (!amAdmin) {
               throw new Failure(new NoSuchEntityException());
@@ -215,21 +219,12 @@ public class GroupAdminServiceImpl extends BaseServiceImplementation implements
           final AccountGroupMember m = db.accountGroupMembers().get(k);
           if (m != null) {
             db.accountGroupMembers().delete(Collections.singleton(m));
+            groupCache.notifyGroupDelete(m);
           }
         }
         return VoidResult.INSTANCE;
       }
     });
-  }
-
-  private static boolean amInGroup(final ReviewDb db,
-      final AccountGroup.Id groupId) throws OrmException {
-    return db.accountGroupMembers().get(
-        new AccountGroupMember.Key(RpcUtil.getAccountId(), groupId)) != null;
-  }
-
-  private boolean amAdmin(final ReviewDb db) throws OrmException {
-    return adminId != null && amInGroup(db, adminId);
   }
 
   private void assertAmGroupOwner(final ReviewDb db,
@@ -238,7 +233,9 @@ public class GroupAdminServiceImpl extends BaseServiceImplementation implements
     if (group == null) {
       throw new Failure(new NoSuchEntityException());
     }
-    if (!amInGroup(db, group.getOwnerGroupId()) && !amAdmin(db)) {
+    final Account.Id me = RpcUtil.getAccountId();
+    if (!groupCache.isInGroup(me, group.getOwnerGroupId())
+        && !groupCache.isAdministrator(me)) {
       throw new Failure(new NoSuchEntityException());
     }
   }
@@ -252,13 +249,12 @@ public class GroupAdminServiceImpl extends BaseServiceImplementation implements
     return r;
   }
 
-  private static List<AccountGroup> myOwnedGroups(final ReviewDb db)
+  private List<AccountGroup> myOwnedGroups(final ReviewDb db)
       throws OrmException {
+    final Account.Id me = RpcUtil.getAccountId();
     final List<AccountGroup> own = new ArrayList<AccountGroup>();
-    for (final AccountGroupMember m : db.accountGroupMembers().byAccount(
-        RpcUtil.getAccountId()).toList()) {
-      for (final AccountGroup g : db.accountGroups().ownedByGroup(
-          m.getAccountGroupId())) {
+    for (final AccountGroup.Id groupId : groupCache.getGroups(me)) {
+      for (final AccountGroup g : db.accountGroups().ownedByGroup(groupId)) {
         own.add(g);
       }
     }

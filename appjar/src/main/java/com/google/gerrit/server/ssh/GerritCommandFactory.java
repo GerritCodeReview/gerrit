@@ -16,8 +16,39 @@ package com.google.gerrit.server.ssh;
 
 import org.apache.sshd.server.CommandFactory;
 
+import java.util.HashMap;
+
 /** Creates a command implementation based on the client input. */
 class GerritCommandFactory implements CommandFactory {
+  private final HashMap<String, Factory> commands;
+
+  GerritCommandFactory() {
+    commands = new HashMap<String, Factory>();
+
+    commands.put("gerrit-upload-pack", new Factory() {
+      public AbstractCommand create() {
+        return new Upload();
+      }
+    });
+    commands.put("gerrit-receive-pack", new Factory() {
+      public AbstractCommand create() {
+        return new Receive();
+      }
+    });
+    commands.put("gerrit-flush-group-cache", new Factory() {
+      public AbstractCommand create() {
+        return new AdminFlushGroupCache();
+      }
+    });
+
+    alias("gerrit-upload-pack", "git-upload-pack");
+    alias("gerrit-receive-pack", "git-receive-pack");
+  }
+
+  private void alias(final String from, final String to) {
+    commands.put(to, commands.get(from));
+  }
+
   public Command createCommand(final String commandLine) {
     final int sp1 = commandLine.indexOf(' ');
     String cmd, args;
@@ -47,23 +78,19 @@ class GerritCommandFactory implements CommandFactory {
   }
 
   private AbstractCommand create(final String cmd) {
-    if ("git-upload-pack".equals(cmd) || "gerrit-upload-pack".equals(cmd)) {
-      return new Upload();
+    final Factory f = commands.get(cmd);
+    if (f != null) {
+      return f.create();
     }
-
-    if ("git-receive-pack".equals(cmd) || "gerrit-receive-pack".equals(cmd)) {
-      return new Receive();
-    }
-
-    if ("gerrit-flush-group-cache".equals(cmd)) {
-      return new AdminFlushGroupCache();
-    }
-
     return new AbstractCommand() {
       @Override
       protected void run(final String[] argv) throws Failure {
         throw new Failure(127, "gerrit: " + getName() + ": not found");
       }
     };
+  }
+
+  protected static interface Factory {
+    AbstractCommand create();
   }
 }

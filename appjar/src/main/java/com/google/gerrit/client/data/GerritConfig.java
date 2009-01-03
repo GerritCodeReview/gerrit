@@ -21,6 +21,7 @@ public class GerritConfig {
   protected String canonicalUrl;
   protected GitwebLink gitweb;
   protected List<ApprovalType> approvalTypes;
+  protected List<ApprovalType> actionTypes;
   protected int sshdPort;
 
   public GerritConfig() {
@@ -43,8 +44,13 @@ public class GerritConfig {
   }
 
   public void add(final ApprovalType t) {
-    initApprovalTypes();
-    approvalTypes.add(t);
+    if (0 <= t.getCategory().getPosition()) {
+      initApprovalTypes();
+      approvalTypes.add(t);
+    } else {
+      initActionTypes();
+      actionTypes.add(t);
+    }
   }
 
   public List<ApprovalType> getApprovalTypes() {
@@ -55,6 +61,17 @@ public class GerritConfig {
   private void initApprovalTypes() {
     if (approvalTypes == null) {
       approvalTypes = new ArrayList<ApprovalType>();
+    }
+  }
+
+  public List<ApprovalType> getActionTypes() {
+    initActionTypes();
+    return actionTypes;
+  }
+
+  private void initActionTypes() {
+    if (actionTypes == null) {
+      actionTypes = new ArrayList<ApprovalType>();
     }
   }
 

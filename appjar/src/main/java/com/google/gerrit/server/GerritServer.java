@@ -216,6 +216,20 @@ public class GerritServer {
     txn.commit();
   }
 
+  private void initSubmitCategory(final ReviewDb c) throws OrmException {
+    final Transaction txn = c.beginTransaction();
+    final ApprovalCategory cat;
+    final ArrayList<ApprovalCategoryValue> vals;
+
+    cat = new ApprovalCategory(new ApprovalCategory.Id("SUBM"), "Submit");
+    cat.setPosition((short) -1);
+    vals = new ArrayList<ApprovalCategoryValue>();
+    vals.add(value(cat, 1, "Submit"));
+    c.approvalCategories().insert(Collections.singleton(cat), txn);
+    c.approvalCategoryValues().insert(vals);
+    txn.commit();
+  }
+
   private static ApprovalCategoryValue value(final ApprovalCategory cat,
       final int value, final String name) {
     return new ApprovalCategoryValue(new ApprovalCategoryValue.Id(cat.getId(),
@@ -241,6 +255,7 @@ public class GerritServer {
         initSystemConfig(c);
         initVerifiedCategory(c);
         initCodeReviewCategory(c);
+        initSubmitCategory(c);
         sConfig = c.systemConfig().get(new SystemConfig.Key());
       }
 

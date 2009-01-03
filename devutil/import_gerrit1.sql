@@ -6,20 +6,24 @@
 --  pg_dump $srcdb | psql $dstdb
 --  psql -f devutil/import_gerrit1.sql $dstdb
 --
--- Run the ALTER commands displayed in a psql prompt.
+-- Launch Gerrit 2 once to create the database schema.
+-- Terminate it once the schema has constructed.
 --
 -- Ensure the Git repositories are where git_base_path in the
 -- system_config table says they should be.
 --
 -- Create a GerritServer.properties file for your database.
 --
--- Run this from your shell:
+-- Ensure the GRANTs at the end of this script were run for
+-- the user listed in GerritServer.properties.
 --
---  make release
---  psql $dstdb -tAc 'select change_id,patch_set_id from patch_sets' \
---  | release/bin/gerrit2.sh \
+-- Execute this from your shell:
+--
+--  cd appdist && \
+--  mvn package && \
+--  target/gerrit-2.*/gerrit-2.*/bin/gerrit2.sh \
 --    --config=GerritServer.properties \
---    ReimportPatchSets
+--    ImportGerrit1
 --
 
 DELETE FROM accounts;
@@ -691,3 +695,11 @@ WHERE
 SELECT setval('change_id',(SELECT MAX(change_id) FROM changes));
 -- contributor_agreement_id (above)
 SELECT setval('project_id',(SELECT MAX(project_id) FROM projects));
+
+-- Grant access to read tables needed for import
+--
+GRANT SELECT ON gerrit1.project_code_reviews TO gerrit2;
+GRANT SELECT ON gerrit1.approval_right_groups TO gerrit2;
+GRANT SELECT ON gerrit1.approval_right_users TO gerrit2;
+GRANT SELECT ON gerrit1.approval_rights TO gerrit2;
+GRANT SELECT ON gerrit1.account_groups TO gerrit2;

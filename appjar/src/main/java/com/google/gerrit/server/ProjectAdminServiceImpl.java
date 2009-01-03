@@ -18,6 +18,8 @@ import com.google.gerrit.client.admin.ProjectAdminService;
 import com.google.gerrit.client.admin.ProjectDetail;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountGroup;
+import com.google.gerrit.client.reviewdb.ApprovalCategory;
+import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.client.reviewdb.ReviewDb;
@@ -143,6 +145,60 @@ public class ProjectAdminServiceImpl extends BaseServiceImplementation
           }
         }
         return VoidResult.INSTANCE;
+      }
+    });
+  }
+
+  public void addRight(final Project.Id projectId,
+      final ApprovalCategory.Id categoryId, final String groupName,
+      final short min, final short max,
+      final AsyncCallback<ProjectDetail> callback) {
+    run(callback, new Action<ProjectDetail>() {
+      public ProjectDetail run(ReviewDb db) throws OrmException, Failure {
+        assertAmProjectOwner(db, projectId);
+        final Project proj = db.projects().get(projectId);
+        if (proj == null) {
+          throw new Failure(new NoSuchEntityException());
+        }
+
+        final ApprovalCategory cat = db.approvalCategories().get(categoryId);
+        if (cat == null) {
+          throw new Failure(new NoSuchEntityException());
+        }
+
+        if (db.approvalCategoryValues().get(
+            new ApprovalCategoryValue.Id(categoryId, min)) == null) {
+          throw new Failure(new NoSuchEntityException());
+        }
+
+        if (db.approvalCategoryValues().get(
+            new ApprovalCategoryValue.Id(categoryId, max)) == null) {
+          throw new Failure(new NoSuchEntityException());
+        }
+
+        final AccountGroup group =
+            db.accountGroups().get(new AccountGroup.NameKey(groupName));
+        if (group == null) {
+          throw new Failure(new NoSuchEntityException());
+        }
+
+        final ProjectRight.Key key =
+            new ProjectRight.Key(projectId, categoryId, group.getId());
+        ProjectRight pr = db.projectRights().get(key);
+        if (pr == null) {
+          pr = new ProjectRight(key);
+          pr.setMinValue(min);
+          pr.setMaxValue(max);
+          db.projectRights().insert(Collections.singleton(pr));
+        } else {
+          pr.setMinValue(min);
+          pr.setMaxValue(max);
+          db.projectRights().update(Collections.singleton(pr));
+        }
+
+        final ProjectDetail d = new ProjectDetail();
+        d.load(db, proj);
+        return d;
       }
     });
   }

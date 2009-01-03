@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.admin;
 
+import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.client.rpc.SignInRequired;
@@ -41,4 +42,9 @@ public interface ProjectAdminService extends RemoteJsonService {
 
   @SignInRequired
   void deleteRight(Set<ProjectRight.Key> ids, AsyncCallback<VoidResult> callback);
+
+  @SignInRequired
+  void addRight(Project.Id projectId, ApprovalCategory.Id categoryId,
+      String groupName, short min, short max,
+      AsyncCallback<ProjectDetail> callback);
 }

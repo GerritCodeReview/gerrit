@@ -18,6 +18,7 @@ import com.google.gwt.i18n.client.Constants;
 
 public interface AdminConstants extends Constants {
   String defaultAccountName();
+  String defaultAccountGroupName();
 
   String buttonDeleteGroupMembers();
   String buttonAddGroupMember();
@@ -25,6 +26,7 @@ public interface AdminConstants extends Constants {
   String buttonRenameGroup();
   String buttonCreateGroup();
   String buttonChangeGroupOwner();
+  String buttonAddProjectRight();
 
   String headingOwner();
   String headingDescription();

@@ -18,6 +18,7 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.data.ApprovalType;
 import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.client.reviewdb.AccountGroup;
+import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ProjectRight;
@@ -28,9 +29,14 @@ import com.google.gerrit.client.ui.DomUtil;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.client.ui.TextSaveButtonListener;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.ChangeListener;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.ClickListener;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.FocusListenerAdapter;
+import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.SourcesTableEvents;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.TableListener;
@@ -57,6 +63,12 @@ public class ProjectAdminScreen extends AccountScreen {
 
   private RightsTable rights;
   private Button delRight;
+  private Button addRight;
+  private ListBox catBox;
+  private ListBox rangeMinBox;
+  private ListBox rangeMaxBox;
+  private TextBox nameTxtBox;
+  private SuggestBox nameTxt;
 
   public ProjectAdminScreen(final Project.Id toShow) {
     projectId = toShow;
@@ -88,6 +100,13 @@ public class ProjectAdminScreen extends AccountScreen {
     ownerTxtBox.setEnabled(on);
     descTxt.setEnabled(on);
     delRight.setEnabled(on);
+
+    final boolean canAdd = on && catBox.getItemCount() > 0;
+    addRight.setEnabled(canAdd);
+    nameTxtBox.setEnabled(canAdd);
+    catBox.setEnabled(canAdd);
+    rangeMinBox.setEnabled(canAdd);
+    rangeMaxBox.setEnabled(canAdd);
   }
 
   private void initUI() {
@@ -160,6 +179,76 @@ public class ProjectAdminScreen extends AccountScreen {
     final Label rightsHdr = new Label(Util.C.headingAccessRights());
     rightsHdr.setStyleName("gerrit-SmallHeading");
 
+    final FlowPanel addPanel = new FlowPanel();
+    addPanel.setStyleName("gerrit-AddSshKeyPanel");
+
+    final Grid addGrid = new Grid(4, 2);
+
+    catBox = new ListBox();
+    rangeMinBox = new ListBox();
+    rangeMaxBox = new ListBox();
+
+    catBox.addChangeListener(new ChangeListener() {
+      public void onChange(Widget sender) {
+        populateRangeBoxes();
+      }
+    });
+    for (final ApprovalType at : Gerrit.getGerritConfig().getApprovalTypes()) {
+      final ApprovalCategory c = at.getCategory();
+      catBox.addItem(c.getName(), c.getId().get());
+    }
+    for (final ApprovalType at : Gerrit.getGerritConfig().getActionTypes()) {
+      final ApprovalCategory c = at.getCategory();
+      catBox.addItem(c.getName(), c.getId().get());
+    }
+    if (catBox.getItemCount() > 0) {
+      catBox.setSelectedIndex(0);
+      populateRangeBoxes();
+    }
+
+    addGrid.setText(0, 0, Util.C.columnApprovalCategory() + ":");
+    addGrid.setWidget(0, 1, catBox);
+
+    nameTxtBox = new TextBox();
+    nameTxt = new SuggestBox(new AccountGroupSuggestOracle(), nameTxtBox);
+    nameTxtBox.setVisibleLength(50);
+    nameTxtBox.setText(Util.C.defaultAccountGroupName());
+    nameTxtBox.addStyleName("gerrit-InputFieldTypeHint");
+    nameTxtBox.addFocusListener(new FocusListenerAdapter() {
+      @Override
+      public void onFocus(Widget sender) {
+        if (Util.C.defaultAccountGroupName().equals(nameTxtBox.getText())) {
+          nameTxtBox.setText("");
+          nameTxtBox.removeStyleName("gerrit-InputFieldTypeHint");
+        }
+      }
+
+      @Override
+      public void onLostFocus(Widget sender) {
+        if ("".equals(nameTxtBox.getText())) {
+          nameTxtBox.setText(Util.C.defaultAccountGroupName());
+          nameTxtBox.addStyleName("gerrit-InputFieldTypeHint");
+        }
+      }
+    });
+    addGrid.setText(1, 0, Util.C.columnGroupName() + ":");
+    addGrid.setWidget(1, 1, nameTxt);
+
+    addGrid.setText(2, 0, Util.C.columnRightRange() + ":");
+    addGrid.setWidget(2, 1, rangeMinBox);
+
+    addGrid.setText(3, 0, "");
+    addGrid.setWidget(3, 1, rangeMaxBox);
+
+    addRight = new Button(Util.C.buttonAddProjectRight());
+    addRight.addClickListener(new ClickListener() {
+      public void onClick(final Widget sender) {
+        doAddNewRight();
+      }
+    });
+    addPanel.add(addGrid);
+    addPanel.add(addRight);
+
     rights = new RightsTable();
 
     delRight = new Button(Util.C.buttonDeleteGroupMembers());
@@ -172,6 +261,7 @@ public class ProjectAdminScreen extends AccountScreen {
     add(rightsHdr);
     add(rights);
     add(delRight);
+    add(addPanel);
   }
 
   private void display(final ProjectDetail result) {
@@ -185,6 +275,89 @@ public class ProjectAdminScreen extends AccountScreen {
     }
     descTxt.setText(project.getDescription());
     rights.display(result.groups, result.rights);
+  }
+
+  private void doAddNewRight() {
+    int idx = catBox.getSelectedIndex();
+    final ApprovalType at;
+    final ApprovalCategoryValue min, max;
+    if (idx < 0) {
+      return;
+    }
+    at =
+        Gerrit.getGerritConfig().getApprovalType(
+            new ApprovalCategory.Id(catBox.getValue(idx)));
+    if (at == null) {
+      return;
+    }
+
+    idx = rangeMinBox.getSelectedIndex();
+    if (idx < 0) {
+      return;
+    }
+    min = at.getValue(Short.parseShort(rangeMinBox.getValue(idx)));
+    if (min == null) {
+      return;
+    }
+
+    idx = rangeMaxBox.getSelectedIndex();
+    if (idx < 0) {
+      return;
+    }
+    max = at.getValue(Short.parseShort(rangeMaxBox.getValue(idx)));
+    if (max == null) {
+      return;
+    }
+
+    final String groupName = nameTxt.getText();
+    if ("".equals(groupName)
+        || Util.C.defaultAccountGroupName().equals(groupName)) {
+      return;
+    }
+
+    addRight.setEnabled(false);
+    Util.PROJECT_SVC.addRight(projectId, at.getCategory().getId(), groupName,
+        min.getValue(), max.getValue(), new GerritCallback<ProjectDetail>() {
+          public void onSuccess(final ProjectDetail result) {
+            addRight.setEnabled(true);
+            nameTxt.setText("");
+            display(result);
+          }
+
+          @Override
+          public void onFailure(final Throwable caught) {
+            addRight.setEnabled(true);
+            super.onFailure(caught);
+          }
+        });
+  }
+
+  private void populateRangeBoxes() {
+    final int idx = catBox.getSelectedIndex();
+    final ApprovalType at;
+    if (idx >= 0) {
+      at =
+          Gerrit.getGerritConfig().getApprovalType(
+              new ApprovalCategory.Id(catBox.getValue(idx)));
+    } else {
+      at = null;
+    }
+
+    if (at != null) {
+      rangeMinBox.clear();
+      rangeMaxBox.clear();
+      for (final ApprovalCategoryValue v : at.getValues()) {
+        rangeMinBox.addItem(v.getName(), String.valueOf(v.getValue()));
+        rangeMaxBox.addItem(v.getName(), String.valueOf(v.getValue()));
+      }
+      if (rangeMaxBox.getItemCount() > 0) {
+        rangeMinBox.setSelectedIndex(0);
+        rangeMaxBox.setSelectedIndex(rangeMaxBox.getItemCount() - 1);
+      }
+    } else {
+      rangeMinBox.setEnabled(false);
+      rangeMaxBox.setEnabled(false);
+    }
   }
 
   private class RightsTable extends FancyFlexTable<ProjectRight> {

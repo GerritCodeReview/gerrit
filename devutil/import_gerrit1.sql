@@ -155,6 +155,23 @@ INSERT INTO account_groups
  g.name
  FROM gerrit1.account_groups g;
 
+INSERT INTO account_groups
+(group_id,
+ description,
+ name) VALUES
+(nextval('account_group_id'),
+'Any user, signed-in or not',
+'Anonymous Users');
+
+INSERT INTO account_groups
+(group_id,
+ description,
+ name) VALUES
+(nextval('account_group_id'),
+'Any signed-in user',
+'Registered Users');
+
+
 DELETE FROM account_group_members;
 INSERT INTO account_group_members
 (account_id,
@@ -171,7 +188,13 @@ INSERT INTO account_group_members
 UPDATE system_config
 SET admin_group_id = (SELECT group_id
                       FROM account_groups
-                      WHERE name = 'admin');
+                      WHERE name = 'admin')
+,anonymous_group_id = (SELECT group_id
+                      FROM account_groups
+                      WHERE name = 'Anonymous Users')
+,registered_group_id = (SELECT group_id
+                      FROM account_groups
+                      WHERE name = 'Registered Users');
 
 UPDATE account_groups
 SET owner_group_id = (SELECT admin_group_id FROM system_config);

@@ -31,6 +31,7 @@ import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusListenerAdapter;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SourcesTableEvents;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.TableListener;
@@ -59,6 +60,7 @@ public class AccountGroupScreen extends AccountScreen {
   private TextArea descTxt;
   private Button saveDesc;
 
+  private Panel memberPanel;
   private Button addMember;
   private TextBox nameTxtBox;
   private SuggestBox nameTxt;
@@ -241,10 +243,12 @@ public class AccountGroupScreen extends AccountScreen {
       }
     });
 
-    add(memberHdr);
-    add(addPanel);
-    add(members);
-    add(delMember);
+    memberPanel = new FlowPanel();
+    memberPanel.add(memberHdr);
+    memberPanel.add(addPanel);
+    memberPanel.add(members);
+    memberPanel.add(delMember);
+    add(memberPanel);
   }
 
   private void display(final AccountGroupDetail result) {
@@ -252,9 +256,14 @@ public class AccountGroupScreen extends AccountScreen {
     groupNameTxt.setText(result.group.getName());
     ownerTxt.setText(result.ownerGroup.getName());
     descTxt.setText(result.group.getDescription());
-    accounts = result.accounts;
-    members.display(result.members);
-    members.finishDisplay(true);
+    if (result.autoGroup) {
+      memberPanel.setVisible(false);
+    } else {
+      memberPanel.setVisible(true);
+      accounts = result.accounts;
+      members.display(result.members);
+      members.finishDisplay(true);
+    }
   }
 
   void doAddNew() {

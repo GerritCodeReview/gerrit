@@ -32,6 +32,8 @@ import java.util.Set;
 public class GroupCache {
   private final SchemaFactory<ReviewDb> schema;
   private AccountGroup.Id adminGroupId;
+  private AccountGroup.Id anonymousGroupId;
+  private AccountGroup.Id registeredGroupId;
 
   private final LinkedHashMap<Account.Id, Set<AccountGroup.Id>> byAccount =
       new LinkedHashMap<Account.Id, Set<AccountGroup.Id>>(16, 0.75f, true) {
@@ -45,6 +47,39 @@ public class GroupCache {
   protected GroupCache(final SchemaFactory<ReviewDb> rdf, final SystemConfig cfg) {
     schema = rdf;
     adminGroupId = cfg.adminGroupId;
+    anonymousGroupId = cfg.anonymousGroupId;
+    registeredGroupId = cfg.registeredGroupId;
+  }
+
+  /**
+   * Is this group membership managed automatically by Gerrit?
+   * 
+   * @param groupId the group to test.
+   * @return true if Gerrit handles this group membership automatically; false
+   *         if it can be manually managed.
+   */
+  public boolean isAutoGroup(final AccountGroup.Id groupId) {
+    return isAnonymousUsers(groupId) || isRegisteredUsers(groupId);
+  }
+
+  /**
+   * Does this group designate the magical 'Anonymous Users' group?
+   * 
+   * @param groupId the group to test.
+   * @return true if this is the magical 'Anonymous' group; false otherwise.
+   */
+  public boolean isAnonymousUsers(final AccountGroup.Id groupId) {
+    return anonymousGroupId.equals(groupId);
+  }
+
+  /**
+   * Does this group designate the magical 'Registered Users' group?
+   * 
+   * @param groupId the group to test.
+   * @return true if this is the magical 'Registered' group; false otherwise.
+   */
+  public boolean isRegisteredUsers(final AccountGroup.Id groupId) {
+    return registeredGroupId.equals(groupId);
   }
 
   /**
@@ -67,8 +102,10 @@ public class GroupCache {
    */
   public boolean isInGroup(final Account.Id accountId,
       final AccountGroup.Id groupId) {
-    final Set<AccountGroup.Id> m = getGroups(accountId);
-    return m.contains(groupId);
+    if (isAnonymousUsers(groupId) || isRegisteredUsers(groupId)) {
+      return true;
+    }
+    return getGroups(accountId).contains(groupId);
   }
 
   /**
@@ -88,6 +125,9 @@ public class GroupCache {
    * @param m the account-group pairing that was just inserted.
    */
   public void notifyGroupAdd(final AccountGroupMember m) {
+    if (isAutoGroup(m.getAccountGroupId())) {
+      return;
+    }
     synchronized (byAccount) {
       final Set<AccountGroup.Id> e = byAccount.get(m.getAccountId());
       if (e != null) {
@@ -104,6 +144,9 @@ public class GroupCache {
    * @param m the account-group pairing that was just deleted.
    */
   public void notifyGroupDelete(final AccountGroupMember m) {
+    if (isAutoGroup(m.getAccountGroupId())) {
+      return;
+    }
     synchronized (byAccount) {
       final Set<AccountGroup.Id> e = byAccount.get(m.getAccountId());
       if (e != null) {
@@ -137,15 +180,16 @@ public class GroupCache {
             accountId)) {
           m.add(g.getAccountGroupId());
         }
-        m = Collections.unmodifiableSet(m);
       } finally {
         db.close();
       }
     } catch (OrmException e) {
-      m = Collections.emptySet();
+      m.clear();
     }
+    m.add(anonymousGroupId);
+    m.add(registeredGroupId);
     synchronized (byAccount) {
-      byAccount.put(accountId, m);
+      byAccount.put(accountId, Collections.unmodifiableSet(m));
     }
     return m;
   }

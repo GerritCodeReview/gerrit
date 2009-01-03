@@ -33,19 +33,28 @@ public class AccountGroupDetail {
   protected AccountGroup group;
   protected List<AccountGroupMember> members;
   protected AccountGroup ownerGroup;
+  protected boolean autoGroup;
 
   public AccountGroupDetail() {
   }
 
   public void load(final ReviewDb db, final AccountInfoCacheFactory acc,
-      final AccountGroup g) throws OrmException {
+      final AccountGroup g, final boolean isAuto) throws OrmException {
     group = g;
     if (group.getId().equals(group.getOwnerGroupId())) {
       ownerGroup = group;
     } else {
       ownerGroup = db.accountGroups().get(group.getOwnerGroupId());
     }
+    autoGroup = isAuto;
 
+    if (!autoGroup) {
+      loadMembers(db, acc);
+    }
+  }
+
+  private void loadMembers(final ReviewDb db, final AccountInfoCacheFactory acc)
+      throws OrmException {
     members = db.accountGroupMembers().byGroup(group.getId()).toList();
     for (final AccountGroupMember m : members) {
       acc.want(m.getAccountId());

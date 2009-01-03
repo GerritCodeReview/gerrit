@@ -108,7 +108,8 @@ public class GroupAdminServiceImpl extends BaseServiceImplementation implements
         }
 
         final AccountGroupDetail d = new AccountGroupDetail();
-        d.load(db, new AccountInfoCacheFactory(db), group);
+        final boolean isAuto = groupCache.isAutoGroup(group.getId());
+        d.load(db, new AccountInfoCacheFactory(db), group, isAuto);
         return d;
       }
     });
@@ -181,6 +182,9 @@ public class GroupAdminServiceImpl extends BaseServiceImplementation implements
     run(callback, new Action<AccountGroupDetail>() {
       public AccountGroupDetail run(ReviewDb db) throws OrmException, Failure {
         assertAmGroupOwner(db, groupId);
+        if (groupCache.isAutoGroup(groupId)) {
+          throw new Failure(new NameAlreadyUsedException());
+        }
         final Account a = findAccount(db, nameOrEmail);
         final AccountGroupMember.Key key =
             new AccountGroupMember.Key(a.getId(), groupId);

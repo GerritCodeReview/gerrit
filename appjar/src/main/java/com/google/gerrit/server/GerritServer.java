@@ -158,11 +158,27 @@ public class GerritServer {
     admin.setDescription("Gerrit Site Administrators");
     c.accountGroups().insert(Collections.singleton(admin));
 
+    final AccountGroup anonymous =
+        new AccountGroup(new AccountGroup.NameKey("Anonymous Users"),
+            new AccountGroup.Id(c.nextAccountGroupId()));
+    anonymous.setDescription("Any user, signed-in or not");
+    anonymous.setOwnerGroupId(admin.getId());
+    c.accountGroups().insert(Collections.singleton(anonymous));
+
+    final AccountGroup registered =
+        new AccountGroup(new AccountGroup.NameKey("Registered Users"),
+            new AccountGroup.Id(c.nextAccountGroupId()));
+    registered.setDescription("Any signed-in user");
+    registered.setOwnerGroupId(admin.getId());
+    c.accountGroups().insert(Collections.singleton(registered));
+
     final SystemConfig s = SystemConfig.create();
     s.xsrfPrivateKey = SignedToken.generateRandomKey();
     s.accountPrivateKey = SignedToken.generateRandomKey();
     s.sshdPort = 29418;
     s.adminGroupId = admin.getId();
+    s.anonymousGroupId = anonymous.getId();
+    s.registeredGroupId = registered.getId();
     c.systemConfig().insert(Collections.singleton(s));
   }
 

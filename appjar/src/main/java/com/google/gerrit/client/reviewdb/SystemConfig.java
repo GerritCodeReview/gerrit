@@ -91,6 +91,14 @@ public final class SystemConfig {
   @Column
   public AccountGroup.Id adminGroupId;
 
+  /** Identity of the anonymous group, which permits anyone. */
+  @Column
+  public AccountGroup.Id anonymousGroupId;
+
+  /** Identity of the registered users group, which permits anyone. */
+  @Column
+  public AccountGroup.Id registeredGroupId;
+
   protected SystemConfig() {
   }
 }

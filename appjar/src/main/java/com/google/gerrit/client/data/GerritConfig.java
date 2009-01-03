@@ -14,8 +14,12 @@
 
 package com.google.gerrit.client.data;
 
+import com.google.gerrit.client.reviewdb.ApprovalCategory;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class GerritConfig {
   protected String canonicalUrl;
@@ -23,6 +27,7 @@ public class GerritConfig {
   protected List<ApprovalType> approvalTypes;
   protected List<ApprovalType> actionTypes;
   protected int sshdPort;
+  private transient Map<ApprovalCategory.Id, ApprovalType> byCategoryId;
 
   public GerritConfig() {
   }
@@ -81,5 +86,23 @@ public class GerritConfig {
 
   public void setSshdPort(final int p) {
     sshdPort = p;
+  }
+
+  public ApprovalType getApprovalType(final ApprovalCategory.Id id) {
+    if (byCategoryId == null) {
+      byCategoryId = new HashMap<ApprovalCategory.Id, ApprovalType>();
+      if (actionTypes != null) {
+        for (final ApprovalType t : actionTypes) {
+          byCategoryId.put(t.getCategory().getId(), t);
+        }
+      }
+
+      if (approvalTypes != null) {
+        for (final ApprovalType t : approvalTypes) {
+          byCategoryId.put(t.getCategory().getId(), t);
+        }
+      }
+    }
+    return byCategoryId.get(id);
   }
 }

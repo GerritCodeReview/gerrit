@@ -252,10 +252,15 @@ public class AccountGroupScreen extends AccountScreen {
   }
 
   private void display(final AccountGroupDetail result) {
-    setTitleText(Util.M.group(result.group.getName()));
-    groupNameTxt.setText(result.group.getName());
-    ownerTxt.setText(result.ownerGroup.getName());
-    descTxt.setText(result.group.getDescription());
+    final AccountGroup group = result.group;
+    setTitleText(Util.M.group(group.getName()));
+    groupNameTxt.setText(group.getName());
+    if (result.ownerGroup != null) {
+      ownerTxt.setText(result.ownerGroup.getName());
+    } else {
+      ownerTxt.setText(Util.M.deletedGroup(group.getOwnerGroupId().get()));
+    }
+    descTxt.setText(group.getDescription());
     if (result.autoGroup) {
       memberPanel.setVisible(false);
     } else {

@@ -15,12 +15,14 @@
 package com.google.gerrit.client.admin;
 
 import com.google.gerrit.client.reviewdb.Project;
+import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.client.rpc.SignInRequired;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.RemoteJsonService;
 import com.google.gwtjsonrpc.client.VoidResult;
 
 import java.util.List;
+import java.util.Set;
 
 public interface ProjectAdminService extends RemoteJsonService {
   @SignInRequired
@@ -36,4 +38,7 @@ public interface ProjectAdminService extends RemoteJsonService {
   @SignInRequired
   void changeProjectOwner(Project.Id projectId, String newOwnerName,
       AsyncCallback<VoidResult> callback);
+
+  @SignInRequired
+  void deleteRight(Set<ProjectRight.Key> ids, AsyncCallback<VoidResult> callback);
 }

@@ -203,8 +203,18 @@ public class ImportGerrit1 {
     final ProjectRight.Key key =
         new ProjectRight.Key(proj.getId(), category.getId(), groupId);
     final ProjectRight pr = new ProjectRight(key);
-    pr.setMinValue(Short.MIN_VALUE);
-    pr.setMaxValue(Short.MAX_VALUE);
+    if (category == approveCategory) {
+      pr.setMinValue((short) -2);
+      pr.setMaxValue((short) 2);
+    } else if (category == verifyCategory) {
+      pr.setMinValue((short) -1);
+      pr.setMaxValue((short) 1);
+    } else if (category == submitCategory) {
+      pr.setMinValue((short) 1);
+      pr.setMaxValue((short) 1);
+    } else {
+      throw new OrmException("Cannot import category " + category.getId());
+    }
     db.projectRights().insert(Collections.singleton(pr));
   }
 

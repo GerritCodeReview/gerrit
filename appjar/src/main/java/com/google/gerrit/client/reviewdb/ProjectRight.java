@@ -50,6 +50,10 @@ public final class ProjectRight {
       return projectId;
     }
 
+    public Project.Id getProjectId() {
+      return projectId;
+    }
+
     @Override
     public com.google.gwtorm.client.Key<?>[] members() {
       return new com.google.gwtorm.client.Key<?>[] {categoryId, groupId};
@@ -74,6 +78,18 @@ public final class ProjectRight {
 
   public ProjectRight.Key getKey() {
     return key;
+  }
+
+  public Project.Id getProjectId() {
+    return key.projectId;
+  }
+
+  public ApprovalCategory.Id getApprovalCategoryId() {
+    return key.categoryId;
+  }
+
+  public AccountGroup.Id getAccountGroupId() {
+    return key.groupId;
   }
 
   public short getMinValue() {

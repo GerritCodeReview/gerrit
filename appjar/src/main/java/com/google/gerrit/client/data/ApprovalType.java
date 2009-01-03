@@ -74,13 +74,22 @@ public class ApprovalType {
     return maxPositive == ca.getValue();
   }
 
+  public ApprovalCategoryValue getValue(final short value) {
+    initByValue();
+    return byValue.get(value);
+  }
+
   public ApprovalCategoryValue getValue(final ChangeApproval ca) {
+    initByValue();
+    return byValue.get(ca.getValue());
+  }
+
+  private void initByValue() {
     if (byValue == null) {
       byValue = new HashMap<Short, ApprovalCategoryValue>();
       for (final ApprovalCategoryValue acv : values) {
         byValue.put(acv.getValue(), acv);
       }
     }
-    return byValue.get(ca.getValue());
   }
 }

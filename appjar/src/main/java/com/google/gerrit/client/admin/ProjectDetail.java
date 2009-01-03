@@ -16,18 +16,53 @@ package com.google.gerrit.client.admin;
 
 import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.Project;
+import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.ResultSet;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ProjectDetail {
   protected Project project;
-  protected AccountGroup ownerGroup;
+  protected Map<AccountGroup.Id, AccountGroup> groups;
+  protected List<ProjectRight> rights;
 
   public ProjectDetail() {
   }
 
   public void load(final ReviewDb db, final Project g) throws OrmException {
     project = g;
-    ownerGroup = db.accountGroups().get(project.getOwnerGroupId());
+    groups = new HashMap<AccountGroup.Id, AccountGroup>();
+    wantGroup(g.getOwnerGroupId());
+
+    rights = new ArrayList<ProjectRight>();
+    loadRights(db, project.getId());
+    loadRights(db, ProjectRight.WILD_PROJECT);
+
+    loadGroups(db);
+  }
+
+  private void loadRights(final ReviewDb db, final Project.Id projectId)
+      throws OrmException {
+    for (final ProjectRight p : db.projectRights().byProject(projectId)) {
+      rights.add(p);
+      wantGroup(p.getAccountGroupId());
+    }
+  }
+
+  private void wantGroup(final AccountGroup.Id id) {
+    groups.put(id, null);
+  }
+
+  private void loadGroups(final ReviewDb db) throws OrmException {
+    final ResultSet<AccountGroup> r = db.accountGroups().get(groups.keySet());
+    groups.clear();
+    for (final AccountGroup g : r) {
+      groups.put(g.getId(), g);
+    }
   }
 }

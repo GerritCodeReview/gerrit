@@ -19,4 +19,5 @@ import com.google.gwt.i18n.client.Messages;
 public interface AdminMessages extends Messages {
   String group(String name);
   String project(String name);
+  String deletedGroup(int id);
 }

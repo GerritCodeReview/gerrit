@@ -543,3 +543,10 @@
   padding: 5px 5px 5px 5px;
   border: 1px solid #b0bdcc;
 }
+
+.gerrit-ProjectAdmin-ApprovalCategoryRangeLine {
+  white-space: nowrap;
+}
+.gerrit-ProjectAdmin-ApprovalCategoryValue {
+  font-family: Courier New, Courier, monospace;
+}

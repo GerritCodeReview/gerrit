@@ -71,8 +71,8 @@ public class ProjectListScreen extends AccountScreen {
 
   private class ProjectTable extends FancyFlexTable<Project> {
     ProjectTable() {
-      table.setText(0, 1, Util.C.columnGroupName());
-      table.setText(0, 2, Util.C.columnGroupDescription());
+      table.setText(0, 1, Util.C.columnProjectName());
+      table.setText(0, 2, Util.C.columnProjectDescription());
       table.addTableListener(new TableListener() {
         public void onCellClicked(SourcesTableEvents sender, int row, int cell) {
           if (cell != 1 && getRowItem(row) != null) {

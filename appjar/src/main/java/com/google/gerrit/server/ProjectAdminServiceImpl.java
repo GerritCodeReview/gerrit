@@ -19,6 +19,7 @@ import com.google.gerrit.client.admin.ProjectDetail;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.Project;
+import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.BaseServiceImplementation;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
@@ -28,9 +29,12 @@ import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ProjectAdminServiceImpl extends BaseServiceImplementation
     implements ProjectAdminService {
@@ -116,6 +120,33 @@ public class ProjectAdminServiceImpl extends BaseServiceImplementation
     });
   }
 
+  public void deleteRight(final Set<ProjectRight.Key> keys,
+      final AsyncCallback<VoidResult> callback) {
+    run(callback, new Action<VoidResult>() {
+      public VoidResult run(final ReviewDb db) throws OrmException, Failure {
+        final Set<Project.Id> owned = ids(myOwnedProjects(db));
+        Boolean amAdmin = null;
+        for (final ProjectRight.Key k : keys) {
+          if (!owned.contains(k.getProjectId())) {
+            if (amAdmin == null) {
+              amAdmin = groupCache.isAdministrator(RpcUtil.getAccountId());
+            }
+            if (!amAdmin) {
+              throw new Failure(new NoSuchEntityException());
+            }
+          }
+        }
+        for (final ProjectRight.Key k : keys) {
+          final ProjectRight m = db.projectRights().get(k);
+          if (m != null) {
+            db.projectRights().delete(Collections.singleton(m));
+          }
+        }
+        return VoidResult.INSTANCE;
+      }
+    });
+  }
+
   private void assertAmProjectOwner(final ReviewDb db,
       final Project.Id projectId) throws OrmException, Failure {
     final Project project = db.projects().get(projectId);
@@ -138,5 +169,13 @@ public class ProjectAdminServiceImpl extends BaseServiceImplementation
       }
     }
     return own;
+  }
+
+  private static Set<Project.Id> ids(final Collection<Project> projectList) {
+    final HashSet<Project.Id> r = new HashSet<Project.Id>();
+    for (final Project project : projectList) {
+      r.add(project.getId());
+    }
+    return r;
   }
 }

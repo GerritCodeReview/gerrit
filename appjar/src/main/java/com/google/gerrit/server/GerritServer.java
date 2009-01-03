@@ -20,6 +20,7 @@ import com.google.gerrit.client.data.GitwebLink;
 import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
+import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.SystemConfig;
 import com.google.gerrit.git.RepositoryCache;
@@ -214,6 +215,13 @@ public class GerritServer {
     c.approvalCategories().insert(Collections.singleton(cat), txn);
     c.approvalCategoryValues().insert(vals);
     txn.commit();
+
+    final ProjectRight approve =
+        new ProjectRight(new ProjectRight.Key(ProjectRight.WILD_PROJECT, cat
+            .getId(), sConfig.registeredGroupId));
+    approve.setMaxValue((short) 1);
+    approve.setMinValue((short) -1);
+    c.projectRights().insert(Collections.singleton(approve));
   }
 
   private void initSubmitCategory(final ReviewDb c) throws OrmException {
@@ -253,10 +261,10 @@ public class GerritServer {
         // Assume the schema is empty and populate it.
         //
         initSystemConfig(c);
+        sConfig = c.systemConfig().get(new SystemConfig.Key());
         initVerifiedCategory(c);
         initCodeReviewCategory(c);
         initSubmitCategory(c);
-        sConfig = c.systemConfig().get(new SystemConfig.Key());
       }
 
       loadGerritConfig(c);

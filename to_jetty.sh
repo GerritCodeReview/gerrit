@@ -17,7 +17,7 @@ fi
 out=appdist/target/gerrit-*-bin.dir &&
 ctx="$jetty/contexts/gerrit.xml" &&
 
-(cd appdist && mvn package) &&
+(cd appdist && mvn clean package) &&
 
 cp devdb/jdbc-postgresql.jar "$jetty/lib/plus" &&
 cp $out/gerrit-*/www/gerrit-*.war "$jetty/webapps/gerrit.war" &&

@@ -17,6 +17,7 @@ package com.google.gerrit.server.ssh;
 import com.google.gerrit.client.Link;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountAgreement;
+import com.google.gerrit.client.reviewdb.AccountExternalId;
 import com.google.gerrit.client.reviewdb.Branch;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.ContactInformation;
@@ -29,6 +30,7 @@ import com.google.gwtorm.client.Transaction;
 
 import org.spearce.jgit.lib.Constants;
 import org.spearce.jgit.lib.ObjectId;
+import org.spearce.jgit.lib.PersonIdent;
 import org.spearce.jgit.lib.Ref;
 import org.spearce.jgit.lib.RefUpdate;
 import org.spearce.jgit.revwalk.RevCommit;
@@ -69,6 +71,7 @@ class Receive extends AbstractGitCommand {
   private ReceiveCommand newChange;
   private Branch destBranch;
 
+  private final Set<String> myEmails = new HashSet<String>();
   private final List<Change.Id> allNewChanges = new ArrayList<Change.Id>();
 
   private final Map<Change.Id, ReceiveCommand> addByChange =
@@ -82,6 +85,7 @@ class Receive extends AbstractGitCommand {
   protected void runImpl() throws IOException, Failure {
     server = getGerritServer();
     verifyActiveContributorAgreement();
+    loadMyEmails();
     lookup(reviewerId, "reviewer", reviewerEmail);
     lookup(ccId, "cc", ccEmail);
 
@@ -214,6 +218,19 @@ class Receive extends AbstractGitCommand {
 
   private static boolean missing(final String value) {
     return value == null || value.trim().equals("");
+  }
+
+  private void loadMyEmails() throws Failure {
+    try {
+      for (final AccountExternalId id : db.accountExternalIds().byAccount(
+          userAccount.getId())) {
+        if (id.getEmailAddress() != null && id.getEmailAddress().length() > 0) {
+          myEmails.add(id.getEmailAddress());
+        }
+      }
+    } catch (OrmException e) {
+      throw new Failure(1, "database error");
+    }
   }
 
   private void lookup(final Set<Account.Id> accountIds,
@@ -402,6 +419,9 @@ class Receive extends AbstractGitCommand {
           //
           continue;
         }
+        if (!validCommitter(newChange, c)) {
+          return;
+        }
         toCreate.add(c);
       }
     } catch (IOException e) {
@@ -457,7 +477,10 @@ class Receive extends AbstractGitCommand {
       final Change change = changeCache.get(changeId);
       try {
         appendPatchSet(change, cmd);
-        cmd.setResult(ReceiveCommand.Result.OK);
+
+        if (cmd.getResult() == ReceiveCommand.Result.NOT_ATTEMPTED) {
+          cmd.setResult(ReceiveCommand.Result.OK);
+        }
       } catch (IOException err) {
         reject(cmd, "diff error");
       } catch (OrmException err) {
@@ -469,6 +492,9 @@ class Receive extends AbstractGitCommand {
   private void appendPatchSet(final Change change, final ReceiveCommand cmd)
       throws IOException, OrmException {
     final RevCommit c = rp.getRevWalk().parseCommit(cmd.getNewId());
+    if (!validCommitter(cmd, c)) {
+      return;
+    }
     final Transaction txn = db.beginTransaction();
     final PatchSet ps = new PatchSet(change.newPatchSetId());
     final PatchSetImporter imp = new PatchSetImporter(db, repo, c, ps, true);
@@ -483,6 +509,18 @@ class Receive extends AbstractGitCommand {
     ru.setForceUpdate(true);
     ru.setNewObjectId(c);
     ru.update(rp.getRevWalk());
+  }
+
+  private boolean validCommitter(final ReceiveCommand cmd, final RevCommit c) {
+    // Require that committer matches the uploader.
+    final PersonIdent committer = c.getCommitterIdent();
+    final String email = committer.getEmailAddress();
+    if (myEmails.contains(email)) {
+      return true;
+    } else {
+      reject(cmd, "invalid committer " + email);
+      return false;
+    }
   }
 
   private static void reject(final ReceiveCommand cmd) {

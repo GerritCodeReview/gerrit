@@ -36,5 +36,12 @@
       <lineEnding>unix</lineEnding>
       <fileMode>755</fileMode>
     </fileSet>
+
+    <fileSet>
+      <directory>src/main/sql</directory>
+      <outputDirectory>sql</outputDirectory>
+      <lineEnding>unix</lineEnding>
+      <fileMode>644</fileMode>
+    </fileSet>
   </fileSets>
 </assembly>

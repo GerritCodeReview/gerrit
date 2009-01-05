@@ -9,6 +9,7 @@
   * Edit User/Password/DatabaseName as necessary below.
 
   * Copy jdbc-postgresql.jar to $JETTY_HOME/lib/plus/
+  * Copy c3p0-0.9.1.2.jar    to $JETTY_HOME/lib/plus/
   * Copy gerrit.war to $JETTY_HOME/webapps/
 
   * Make sure you remove $JETTY_HOME/context/test.xml
@@ -35,12 +36,11 @@
     <Arg></Arg>
     <Arg>jdbc/ReviewDb</Arg>
     <Arg>
-      <New class="org.postgresql.ds.PGSimpleDataSource">
+      <New class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <Set name="driverClass">org.postgresql.Driver</Set>
+        <Set name="jdbcUrl">jdbc:postgresql:reviewdb</Set>
         <Set name="User">gerrit2</Set>
         <Set name="Password">secretkey</Set>
-        <Set name="DatabaseName">reviewdb</Set>
-        <Set name="ServerName">localhost</Set>
-        <Set name="PortNumber">5432</Set>
       </New>
     </Arg>
   </New>

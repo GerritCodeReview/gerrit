@@ -216,7 +216,7 @@ public class NewAgreementScreen extends AccountScreen {
     if (contactGroup.isVisible()) {
       contactPanel.doSave();
     }
-    Util.ACCOUNT_SVC.enterAgreement(current.getId(),
+    Util.ACCOUNT_SEC.enterAgreement(current.getId(),
         new GerritCallback<VoidResult>() {
           public void onSuccess(final VoidResult result) {
             History.newItem(Link.SETTINGS_AGREEMENTS);

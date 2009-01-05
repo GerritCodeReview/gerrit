@@ -16,9 +16,11 @@ package com.google.gerrit.server;
 
 import com.google.gerrit.client.account.AccountSecurity;
 import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.client.reviewdb.AccountAgreement;
 import com.google.gerrit.client.reviewdb.AccountExternalId;
 import com.google.gerrit.client.reviewdb.AccountSshKey;
 import com.google.gerrit.client.reviewdb.ContactInformation;
+import com.google.gerrit.client.reviewdb.ContributorAgreement;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.BaseServiceImplementation;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
@@ -125,6 +127,27 @@ public class AccountSecurityImpl extends BaseServiceImplementation implements
         me.setPreferredEmail(emailAddr);
         me.setContactInformation(info);
         db.accounts().update(Collections.singleton(me));
+        return VoidResult.INSTANCE;
+      }
+    });
+  }
+
+  public void enterAgreement(final ContributorAgreement.Id id,
+      final AsyncCallback<VoidResult> callback) {
+    run(callback, new Action<VoidResult>() {
+      public VoidResult run(final ReviewDb db) throws OrmException, Failure {
+        final ContributorAgreement cla = db.contributorAgreements().get(id);
+        if (cla == null || !cla.isActive()) {
+          throw new Failure(new NoSuchEntityException());
+        }
+
+        final AccountAgreement a =
+            new AccountAgreement(new AccountAgreement.Key(RpcUtil
+                .getAccountId(), id));
+        if (cla.isAutoVerify()) {
+          a.review(AccountAgreement.Status.VERIFIED, null);
+        }
+        db.accountAgreements().insert(Collections.singleton(a));
         return VoidResult.INSTANCE;
       }
     });

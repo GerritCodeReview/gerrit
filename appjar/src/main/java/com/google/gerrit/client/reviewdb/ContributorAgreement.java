@@ -60,6 +60,10 @@ public final class ContributorAgreement {
   @Column
   protected boolean requireContactInformation;
 
+  /** Does this agreement automatically verify new accounts? */
+  @Column
+  protected boolean autoVerify;
+
   /** A short name for the agreement. */
   @Column(length = 40)
   protected String shortName;
@@ -105,6 +109,14 @@ public final class ContributorAgreement {
 
   public void setGroupAgreement(final boolean g) {
     groupAgreement = g;
+  }
+
+  public boolean isAutoVerify() {
+    return autoVerify;
+  }
+
+  public void setAutoVerify(final boolean g) {
+    autoVerify = g;
   }
 
   public boolean isRequireContactInformation() {

@@ -122,6 +122,7 @@
   <servlet-mapping>
     <servlet-name>PatchDetailService</servlet-name>
     <url-pattern>/rpc/PatchDetailService</url-pattern>
+  </servlet-mapping>
 
   <servlet>
     <servlet-name>ProjectAdminService</servlet-name>
@@ -131,7 +132,6 @@
   <servlet-mapping>
     <servlet-name>ProjectAdminService</servlet-name>
     <url-pattern>/rpc/ProjectAdminService</url-pattern>
-  </servlet-mapping>
   </servlet-mapping>
 
   <servlet>

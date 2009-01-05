@@ -5,7 +5,7 @@
   Jetty configuration to place "gerrit.war" into the root context,
   so it answers to old-style URLs like "/$changeid" and "/mine".
 
-  * Copy this file to $JETTY_HOME/context/gerrit.xml
+  * Copy this file to $JETTY_HOME/contexts/gerrit.xml
   * Edit User/Password/DatabaseName as necessary below.
 
   * Copy jdbc-postgresql.jar to $JETTY_HOME/lib/plus/

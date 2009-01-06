@@ -108,11 +108,24 @@ public class StaticServlet extends HttpServlet {
 
   private File local(final HttpServletRequest req) {
     final String name = req.getPathInfo();
-    if (name.startsWith("/") && name.length() > 1 && name.indexOf('/', 1) < 0) {
-      final File p = new File(staticBase, name.substring(1));
-      return p.isFile() ? p : null;
+    if (name.length() < 2 || !name.startsWith("/")) {
+      // Too short to be a valid file name, or doesn't start with
+      // the path info separator like we expected.
+      //
+      return null;
     }
-    return null;
+
+    if (name.indexOf('/', 1) > 0 || name.indexOf('\\', 1) > 0) {
+      // Contains a path separator. Don't serve it as the client
+      // might be trying something evil like "/../../etc/passwd".
+      // This static servlet is just meant to facilitate simple
+      // assets like banner images.
+      //
+      return null;
+    }
+
+    final File p = new File(staticBase, name.substring(1));
+    return p.isFile() ? p : null;
   }
 
   @Override

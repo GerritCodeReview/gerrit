@@ -81,9 +81,9 @@ public final class ChangeApproval {
   protected ChangeApproval() {
   }
 
-  public ChangeApproval(final ChangeApproval.Key k) {
+  public ChangeApproval(final ChangeApproval.Key k, final short v) {
     key = k;
-    setValue((short) 0);
+    setValue(v);
   }
 
   public Change.Id getChangeId() {
@@ -105,6 +105,10 @@ public final class ChangeApproval {
   public void setValue(final short v) {
     value = v;
     granted = new Timestamp(System.currentTimeMillis());
+  }
+
+  public void clear() {
+    value = 0;
   }
 
   public Timestamp getGranted() {

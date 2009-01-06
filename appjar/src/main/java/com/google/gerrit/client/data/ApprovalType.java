@@ -66,6 +66,14 @@ public class ApprovalType {
     return values;
   }
 
+  public ApprovalCategoryValue getMax() {
+    if (values.isEmpty()) {
+      return null;
+    }
+    final ApprovalCategoryValue v = values.get(values.size() - 1);
+    return v.getValue() > 0 ? v : null;
+  }
+
   public boolean isMaxNegative(final ChangeApproval ca) {
     return maxNegative == ca.getValue();
   }

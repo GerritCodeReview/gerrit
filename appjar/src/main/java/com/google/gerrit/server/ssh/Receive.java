@@ -15,9 +15,12 @@
 package com.google.gerrit.server.ssh;
 
 import com.google.gerrit.client.Link;
+import com.google.gerrit.client.data.ApprovalType;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountAgreement;
 import com.google.gerrit.client.reviewdb.AccountExternalId;
+import com.google.gerrit.client.reviewdb.ApprovalCategory;
+import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.client.reviewdb.Branch;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.ChangeApproval;
@@ -462,6 +465,16 @@ class Receive extends AbstractGitCommand {
     imp.run();
     change.setCurrentPatchSet(imp.getPatchSetInfo());
     db.changes().insert(Collections.singleton(change));
+
+    for (final ApprovalType t : server.getGerritConfig().getApprovalTypes()) {
+      final ApprovalCategoryValue v = t.getMax();
+      if (v != null) {
+        db.changeApprovals().insert(
+            Collections.singleton(new ChangeApproval(new ChangeApproval.Key(
+                change.getId(), userAccount.getId(), v.getCategoryId()), v
+                .getValue())));
+      }
+    }
     txn.commit();
 
     final RefUpdate ru = repo.updateRef(ps.getRefName());
@@ -503,13 +516,25 @@ class Receive extends AbstractGitCommand {
     imp.setTransaction(txn);
     imp.run();
 
+    final Set<ApprovalCategory.Id> have = new HashSet<ApprovalCategory.Id>();
     for (final ChangeApproval a : db.changeApprovals().byChange(change.getId())) {
       if (userAccount.getId().equals(a.getAccountId())) {
         // Leave my own approvals alone.
+        //
+        have.add(a.getCategoryId());
 
       } else if (a.getValue() > 0) {
         a.clear();
         db.changeApprovals().update(Collections.singleton(a));
+      }
+    }
+    for (final ApprovalType t : server.getGerritConfig().getApprovalTypes()) {
+      final ApprovalCategoryValue v = t.getMax();
+      if (!have.contains(t.getCategory().getId()) && v != null) {
+        db.changeApprovals().insert(
+            Collections.singleton(new ChangeApproval(new ChangeApproval.Key(
+                change.getId(), userAccount.getId(), v.getCategoryId()), v
+                .getValue())));
       }
     }
 

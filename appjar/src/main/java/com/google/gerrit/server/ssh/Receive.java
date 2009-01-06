@@ -20,6 +20,7 @@ import com.google.gerrit.client.reviewdb.AccountAgreement;
 import com.google.gerrit.client.reviewdb.AccountExternalId;
 import com.google.gerrit.client.reviewdb.Branch;
 import com.google.gerrit.client.reviewdb.Change;
+import com.google.gerrit.client.reviewdb.ChangeApproval;
 import com.google.gerrit.client.reviewdb.ContactInformation;
 import com.google.gerrit.client.reviewdb.ContributorAgreement;
 import com.google.gerrit.client.reviewdb.PatchSet;
@@ -501,6 +502,17 @@ class Receive extends AbstractGitCommand {
     final PatchSetImporter imp = new PatchSetImporter(db, repo, c, ps, true);
     imp.setTransaction(txn);
     imp.run();
+
+    for (final ChangeApproval a : db.changeApprovals().byChange(change.getId())) {
+      if (userAccount.getId().equals(a.getAccountId())) {
+        // Leave my own approvals alone.
+
+      } else if (a.getValue() > 0) {
+        a.clear();
+        db.changeApprovals().update(Collections.singleton(a));
+      }
+    }
+
     change.setCurrentPatchSet(imp.getPatchSetInfo());
     change.updated();
     db.changes().update(Collections.singleton(change));

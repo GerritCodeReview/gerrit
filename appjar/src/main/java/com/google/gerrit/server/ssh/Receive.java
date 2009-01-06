@@ -390,7 +390,8 @@ class Receive extends AbstractGitCommand {
   }
 
   private void createNewChanges() {
-    if (newChange == null) {
+    if (newChange == null
+        || newChange.getResult() != ReceiveCommand.Result.NOT_ATTEMPTED) {
       return;
     }
 

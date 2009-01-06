@@ -17,6 +17,7 @@ package com.google.gerrit.server;
 import com.google.gerrit.client.admin.AccountGroupDetail;
 import com.google.gerrit.client.admin.GroupAdminService;
 import com.google.gerrit.client.data.AccountInfoCacheFactory;
+import com.google.gerrit.client.data.GroupCache;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.AccountGroupMember;

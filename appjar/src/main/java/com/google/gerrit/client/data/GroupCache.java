@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server;
+package com.google.gerrit.client.data;
 
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountGroup;
@@ -44,7 +44,7 @@ public class GroupCache {
         }
       };
 
-  protected GroupCache(final SchemaFactory<ReviewDb> rdf, final SystemConfig cfg) {
+  public GroupCache(final SchemaFactory<ReviewDb> rdf, final SystemConfig cfg) {
     schema = rdf;
     adminGroupId = cfg.adminGroupId;
     anonymousGroupId = cfg.anonymousGroupId;
@@ -164,6 +164,10 @@ public class GroupCache {
    * @return unmodifiable set listing the groups the account is a member of.
    */
   public Set<AccountGroup.Id> getGroups(final Account.Id accountId) {
+    if (accountId == null) {
+      return Collections.emptySet();
+    }
+
     Set<AccountGroup.Id> m;
     synchronized (byAccount) {
       m = byAccount.get(accountId);

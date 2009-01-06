@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.ssh;
 
-import com.google.gerrit.server.GroupCache;
+import com.google.gerrit.client.data.GroupCache;
 
 /** Causes the {@link GroupCache} to purge all entries and reload. */
 class AdminFlushGroupCache extends AbstractCommand {

@@ -16,6 +16,7 @@ package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.data.AccountInfoCacheFactory;
 import com.google.gerrit.client.data.ChangeDetail;
+import com.google.gerrit.client.data.GroupCache;
 import com.google.gerrit.client.data.PatchSetDetail;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.PatchSet;
@@ -28,8 +29,12 @@ import com.google.gwtorm.client.SchemaFactory;
 
 public class ChangeDetailServiceImpl extends BaseServiceImplementation
     implements ChangeDetailService {
-  public ChangeDetailServiceImpl(final SchemaFactory<ReviewDb> rdf) {
+  private final GroupCache groupCache;
+
+  public ChangeDetailServiceImpl(final SchemaFactory<ReviewDb> rdf,
+      final GroupCache groups) {
     super(rdf);
+    groupCache = groups;
   }
 
   public void changeDetail(final Change.Id id,

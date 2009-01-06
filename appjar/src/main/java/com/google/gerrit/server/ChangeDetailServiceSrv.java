@@ -20,6 +20,7 @@ import com.google.gerrit.client.changes.ChangeDetailServiceImpl;
 public class ChangeDetailServiceSrv extends GerritJsonServlet {
   @Override
   protected Object createServiceHandle() throws Exception {
-    return new ChangeDetailServiceImpl(GerritServer.getInstance().getDatabase());
+    final GerritServer gs = GerritServer.getInstance();
+    return new ChangeDetailServiceImpl(gs.getDatabase(), gs.getGroupCache());
   }
 }

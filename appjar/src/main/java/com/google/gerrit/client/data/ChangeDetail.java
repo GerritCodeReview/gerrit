@@ -16,6 +16,7 @@ package com.google.gerrit.client.data;
 
 import com.google.gerrit.client.changes.ChangeScreen;
 import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.ChangeApproval;
 import com.google.gerrit.client.reviewdb.ChangeMessage;
@@ -23,6 +24,7 @@ import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.PatchSetAncestor;
 import com.google.gerrit.client.reviewdb.RevId;
 import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gerrit.client.workflow.RightRule;
 import com.google.gwtorm.client.OrmException;
 
 import java.util.ArrayList;
@@ -32,6 +34,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /** Detail necessary to display {@link ChangeScreen}. */
 public class ChangeDetail {
@@ -41,6 +44,7 @@ public class ChangeDetail {
   protected List<ChangeInfo> neededBy;
   protected List<PatchSet> patchSets;
   protected List<ApprovalDetail> approvals;
+  protected Set<ApprovalCategory.Id> missingApprovals;
   protected List<ChangeMessage> messages;
   protected PatchSet.Id currentPatchSetId;
   protected PatchSetDetail currentDetail;
@@ -49,9 +53,10 @@ public class ChangeDetail {
   }
 
   public void load(final ReviewDb db, final AccountInfoCacheFactory acc,
-      final Change c) throws OrmException {
+      final RightRule rules, final Change c) throws OrmException {
     change = c;
-    acc.want(change.getOwner());
+    final Account.Id owner = change.getOwner();
+    acc.want(owner);
 
     patchSets = db.patchSets().byChange(change.getId()).toList();
     messages = db.changeMessages().byChange(change.getId()).toList();
@@ -59,15 +64,15 @@ public class ChangeDetail {
       acc.want(m.getAuthor());
     }
 
+    final List<ChangeApproval> allApprovals =
+        db.changeApprovals().byChange(change.getId()).toList();
+    if (!change.getStatus().isClosed()) {
+      missingApprovals =
+          rules.apply(change.getDest().getParentKey(), allApprovals);
+    }
     final HashMap<Account.Id, ApprovalDetail> ad =
         new HashMap<Account.Id, ApprovalDetail>();
-    {
-      final ApprovalDetail d = new ApprovalDetail(change.getOwner());
-      d.sortOrder = ApprovalDetail.EG_0;
-      // TODO Mark self-approved, self-verified if permitted.
-      ad.put(d.getAccount(), d);
-    }
-    for (ChangeApproval ca : db.changeApprovals().byChange(change.getId())) {
+    for (ChangeApproval ca : allApprovals) {
       ApprovalDetail d = ad.get(ca.getAccountId());
       if (d == null) {
         d = new ApprovalDetail(ca.getAccountId());
@@ -163,6 +168,10 @@ public class ChangeDetail {
 
   public List<ApprovalDetail> getApprovals() {
     return approvals;
+  }
+
+  public Set<ApprovalCategory.Id> getMissingApprovals() {
+    return missingApprovals;
   }
 
   public PatchSet getCurrentPatchSet() {

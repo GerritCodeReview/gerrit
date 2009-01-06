@@ -480,6 +480,15 @@
   margin-bottom: 10px;
 }
 
+.gerrit-Change-MissingApprovalList {
+	margin-top: 5px;
+}
+.gerrit-Change-MissingApproval {
+	margin-left: 10px;
+	font-weight: bold;
+	white-space: nowrap;
+}
+
 
 /** SideBySideScreen **/
 .gerrit-SideBySideScreen-SideBySideTable {

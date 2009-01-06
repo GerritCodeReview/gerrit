@@ -186,7 +186,7 @@ public class ChangeScreen extends Screen {
     description.setText(detail.getDescription());
     dependsOn.display(detail.getDependsOn());
     neededBy.display(detail.getNeededBy());
-    approvals.display(detail.getApprovals());
+    approvals.display(detail.getMissingApprovals(), detail.getApprovals());
 
     addPatchSets(detail);
     addMessages(detail);

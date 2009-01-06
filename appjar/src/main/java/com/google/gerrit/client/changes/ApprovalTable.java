@@ -24,25 +24,37 @@ import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.client.reviewdb.ChangeApproval;
 import com.google.gerrit.client.ui.AccountDashboardLink;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /** Displays a table of {@link ApprovalDetail} objects for a change record. */
 public class ApprovalTable extends Composite {
   private final List<ApprovalType> types;
   private final Grid table;
+  private final Panel missing;
   private AccountInfoCache accountCache = AccountInfoCache.empty();
 
   public ApprovalTable() {
+
     types = Gerrit.getGerritConfig().getApprovalTypes();
     table = new Grid(1, 3 + types.size());
     table.addStyleName("gerrit-InfoTable");
     displayHeader();
 
-    initWidget(table);
+    missing = new FlowPanel();
+    missing.setStyleName("gerrit-Change-MissingApprovalList");
+
+    final FlowPanel fp = new FlowPanel();
+    fp.add(table);
+    fp.add(missing);
+    initWidget(fp);
   }
 
   private void displayHeader() {
@@ -86,7 +98,8 @@ public class ApprovalTable extends Composite {
     return AccountDashboardLink.link(accountCache, id);
   }
 
-  public void display(final List<ApprovalDetail> rows) {
+  public void display(final Set<ApprovalCategory.Id> need,
+      final List<ApprovalDetail> rows) {
     final int oldcnt = table.getRowCount();
     table.resizeRows(1 + rows.size());
     if (oldcnt < 1 + rows.size()) {
@@ -98,6 +111,20 @@ public class ApprovalTable extends Composite {
 
     for (int i = 0; i < rows.size(); i++) {
       displayRow(i + 1, rows.get(i));
+    }
+
+    missing.clear();
+    missing.setVisible(false);
+    if (need != null) {
+      for (final ApprovalType at : types) {
+        if (need.contains(at.getCategory().getId())) {
+          final Label l =
+              new Label(Util.M.needApproval(at.getCategory().getName()));
+          l.setStyleName("gerrit-Change-MissingApproval");
+          missing.add(l);
+          missing.setVisible(true);
+        }
+      }
     }
   }
 

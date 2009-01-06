@@ -16,6 +16,7 @@ package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.data.AccountInfoCacheFactory;
 import com.google.gerrit.client.data.ChangeDetail;
+import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.client.data.GroupCache;
 import com.google.gerrit.client.data.PatchSetDetail;
 import com.google.gerrit.client.reviewdb.Change;
@@ -23,6 +24,7 @@ import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.BaseServiceImplementation;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
+import com.google.gerrit.client.workflow.RightRule;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
@@ -30,11 +32,13 @@ import com.google.gwtorm.client.SchemaFactory;
 public class ChangeDetailServiceImpl extends BaseServiceImplementation
     implements ChangeDetailService {
   private final GroupCache groupCache;
+  private final GerritConfig config;
 
   public ChangeDetailServiceImpl(final SchemaFactory<ReviewDb> rdf,
-      final GroupCache groups) {
+      final GroupCache groups, final GerritConfig c) {
     super(rdf);
     groupCache = groups;
+    config = c;
   }
 
   public void changeDetail(final Change.Id id,
@@ -46,8 +50,9 @@ public class ChangeDetailServiceImpl extends BaseServiceImplementation
           throw new Failure(new NoSuchEntityException());
         }
 
+        final RightRule rules = new RightRule(config, groupCache, db);
         final ChangeDetail d = new ChangeDetail();
-        d.load(db, new AccountInfoCacheFactory(db), change);
+        d.load(db, new AccountInfoCacheFactory(db), rules, change);
         return d;
       }
     });

@@ -15,14 +15,18 @@
 package com.google.gerrit.client.data;
 
 import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ChangeApproval;
+import com.google.gerrit.client.reviewdb.ProjectRight;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class ApprovalDetail {
   static final Timestamp EG_0 = new Timestamp(0);
@@ -60,6 +64,29 @@ public class ApprovalDetail {
     final Timestamp g = ca.getGranted();
     if (g != null && g.compareTo(sortOrder) < 0) {
       sortOrder = g;
+    }
+  }
+
+  void applyProjectRights(final GroupCache groupCache,
+      final Map<ApprovalCategory.Id, Collection<ProjectRight>> rights) {
+    final Set<AccountGroup.Id> groups = groupCache.getGroups(account);
+    for (final ChangeApproval a : approvals) {
+      Collection<ProjectRight> l = rights.get(a.getCategoryId());
+      short min = 0, max = 0;
+      if (l != null) {
+        for (final ProjectRight r : l) {
+          if (groups.contains(r.getAccountGroupId())) {
+            min = (short) Math.min(min, r.getMinValue());
+            max = (short) Math.max(max, r.getMaxValue());
+          }
+        }
+      }
+
+      if (a.getValue() < min) {
+        a.setValue(min);
+      } else if (a.getValue() > max) {
+        a.setValue(max);
+      }
     }
   }
 }

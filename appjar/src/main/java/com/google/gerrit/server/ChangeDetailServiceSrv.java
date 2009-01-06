@@ -15,12 +15,19 @@
 package com.google.gerrit.server;
 
 import com.google.gerrit.client.changes.ChangeDetailServiceImpl;
+import com.google.gerrit.client.data.GerritConfig;
+import com.google.gerrit.client.data.GroupCache;
+import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gwtorm.client.SchemaFactory;
 
 /** Publishes {@link ChangeDetailServiceImpl} over JSON. */
 public class ChangeDetailServiceSrv extends GerritJsonServlet {
   @Override
   protected Object createServiceHandle() throws Exception {
     final GerritServer gs = GerritServer.getInstance();
-    return new ChangeDetailServiceImpl(gs.getDatabase(), gs.getGroupCache());
+    final SchemaFactory<ReviewDb> rdf = gs.getDatabase();
+    final GroupCache groups = gs.getGroupCache();
+    final GerritConfig config = gs.getGerritConfig();
+    return new ChangeDetailServiceImpl(rdf, groups, config);
   }
 }

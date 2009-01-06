@@ -32,4 +32,6 @@ public interface ChangeMessages extends Messages {
   String renamedFrom(String sourcePath);
   String copiedFrom(String sourcePath);
   String otherFrom(String sourcePath);
+
+  String needApproval(String categoryName);
 }

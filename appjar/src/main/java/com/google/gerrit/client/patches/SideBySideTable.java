@@ -225,7 +225,7 @@ public class SideBySideTable extends AbstractPatchContentTable {
       final SideBySideLine s = line.get(fileId);
       if (s != null) {
         nc.append("<td class=\"LineNumber\">");
-        nc.append((int) s.getLineNumber());
+        nc.append(s.getLineNumber());
         nc.append("</td>");
 
         nc.append("<td class=\"FileLine FileLine-");

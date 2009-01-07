@@ -38,7 +38,19 @@ Gerrit 2 - Installation
     createdb -E UTF-8 -O gerrit2 reviewdb
 
 
-- Start the application once to create the tables.
+- Create the Gerrit 2 tables:
+
+  Either run CreateSchema from the command line (requires writing
+  a GerritServer.properties, see GerritServer.properties_example
+  under devdb/src/main/config):
+
+    appdist/target/gerrit-*-bin.dir/gerrit-*/bin/gerrit2.sh \
+      --config=GerritServer.properties \
+      CreateSchema
+
+  Or run the application once in a container to force it to
+  initialize the database schema before accessing it.
+
 
 - Apply table indexes by executing
 

@@ -24,10 +24,12 @@ import com.google.gerrit.client.ui.LinkMenuItem;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.HistoryListener;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.WindowResizeListener;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -73,6 +75,21 @@ public class Gerrit implements EntryPoint {
   static {
     SYSTEM_SVC = GWT.create(SystemInfoService.class);
     JsonUtil.bind(SYSTEM_SVC, "rpc/SystemInfoService");
+  }
+
+  public static void display(final String historyToken, final boolean go) {
+    History.newItem(historyToken, go);
+    if (!go && historyHooks != null) {
+      dispatchHistoryHooks(historyToken);
+    }
+  }
+
+  public static void display(final String historyToken, final Screen view) {
+    History.newItem(historyToken, false);
+    display(view);
+    if (historyHooks != null) {
+      dispatchHistoryHooks(historyToken);
+    }
   }
 
   public static void display(final Screen view) {
@@ -150,6 +167,8 @@ public class Gerrit implements EntryPoint {
   }
 
   public void onModuleLoad() {
+    initHistoryHooks();
+
     final RootPanel topMenu = RootPanel.get("gerrit_topmenu");
     menuBar = new LinkMenuBar();
     topMenu.add(menuBar);
@@ -169,6 +188,33 @@ public class Gerrit implements EntryPoint {
         onModuleLoad2();
       }
     });
+  }
+
+  private static ArrayList<JavaScriptObject> historyHooks;
+
+  private static native void initHistoryHooks()
+  /*-{ $wnd['gerrit_addHistoryHook'] = function(h) { @com.google.gerrit.client.Gerrit::addHistoryHook(Lcom/google/gwt/core/client/JavaScriptObject;)(h); }; }-*/;
+
+  static void addHistoryHook(final JavaScriptObject hook) {
+    if (historyHooks == null) {
+      historyHooks = new ArrayList<JavaScriptObject>();
+      History.addHistoryListener(new HistoryListener() {
+        public void onHistoryChanged(final String historyToken) {
+          dispatchHistoryHooks(historyToken);
+        }
+      });
+    }
+    historyHooks.add(hook);
+  }
+
+  private static native void callHistoryHook(JavaScriptObject hook, String url)
+  /*-{ hook(url); }-*/;
+
+  private static void dispatchHistoryHooks(final String historyToken) {
+    final String url = Window.Location.getPath() + "#" + historyToken;
+    for (final JavaScriptObject hook : historyHooks) {
+      callHistoryHook(hook, url);
+    }
   }
 
   private void onModuleLoad2() {

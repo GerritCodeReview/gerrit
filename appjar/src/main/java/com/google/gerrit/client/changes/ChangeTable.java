@@ -170,8 +170,7 @@ public class ChangeTable extends FancyFlexTable<ChangeInfo> {
 
   @Override
   protected void onOpenItem(final ChangeInfo c) {
-    History.newItem(Link.toChange(c), false);
-    Gerrit.display(new ChangeScreen(c));
+    Gerrit.display(Link.toChange(c), new ChangeScreen(c));
   }
 
   @Override

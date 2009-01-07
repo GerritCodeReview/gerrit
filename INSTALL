@@ -149,3 +149,34 @@ explicitly forbidden from being served from this location.
 Assets from $site_path/static are served with a 5 minute expire;
 permitting some (limited) caching.
 
+
+Optional - Google Analytics Integration
+---------------------------------------
+
+To fully connect Gerrit to Google Analytics add the following into
+GerritSiteFooter.html:
+
+  <div>
+    <!-- standard google analytics tracking setup -->
+
+    <script type="text/javascript"><!--
+      window.onload = function() {
+        gerrit_addHistoryHook(function (s) {
+          pageTracker._trackPageview(s)
+        });
+      };
+      //-->
+    </script>
+  </div>
+
+The global function gerrit_addHistoryHook accepts functions that
+accept a string parameter.  These functions are put into a list
+and invoked any time Gerrit shifts URLs.  You'll see the page
+names like '/Gerrit#change,123' be passed to these functions,
+which in turn are handed off to Analytics for tracking.
+
+The window.onload callback is necessary to ensure that the
+gerrit_addHistoryHook function has actually been defined.
+Because GWT loads the module asynchronously your <script>
+block will execute before Gerrit is ready to receive the
+hook callback.

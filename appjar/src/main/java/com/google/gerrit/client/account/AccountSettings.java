@@ -154,7 +154,7 @@ public class AccountSettings extends AccountScreen {
       }
 
       public void onTabSelected(SourcesTabEvents sender, int tabIndex) {
-        History.newItem(tabTokens.get(tabIndex), false);
+        Gerrit.display(tabTokens.get(tabIndex), false);
       }
     });
   }

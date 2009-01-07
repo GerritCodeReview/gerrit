@@ -17,7 +17,6 @@ package com.google.gerrit.client.ui;
 import com.google.gerrit.client.Gerrit;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Hyperlink;
 
 /**
@@ -48,8 +47,7 @@ public abstract class DirectScreenLink extends Hyperlink {
   }
 
   protected void onClick(final Event event) {
-    History.newItem(getTargetHistoryToken(), false);
-    Gerrit.display(createScreen());
+    Gerrit.display(getTargetHistoryToken(), createScreen());
     DOM.eventPreventDefault(event);
   }
 

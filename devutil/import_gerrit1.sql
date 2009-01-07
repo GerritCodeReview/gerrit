@@ -208,10 +208,12 @@ INSERT INTO projects
 (project_id,
  description,
  name,
+ use_contributor_agreements,
  owner_group_id) SELECT
  p.project_id,
  p.comment,
  p.name,
+ 'Y',
  (SELECT admin_group_id FROM system_config)
  FROM gerrit1.projects p;
 

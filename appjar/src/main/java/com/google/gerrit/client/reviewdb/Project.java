@@ -85,13 +85,17 @@ public final class Project {
 
   @Column
   protected AccountGroup.Id ownerGroupId;
-  
+
+  @Column
+  protected boolean useContributorAgreements;
+
   protected Project() {
   }
 
   public Project(final Project.NameKey newName, final Project.Id newId) {
     name = newName;
     projectId = newId;
+    useContributorAgreements = true;
   }
 
   public Project.Id getId() {
@@ -120,5 +124,13 @@ public final class Project {
 
   public void setOwnerGroupId(final AccountGroup.Id id) {
     ownerGroupId = id;
+  }
+
+  public boolean isUseContributorAgreements() {
+    return useContributorAgreements;
+  }
+
+  public void setUseContributorAgreements(final boolean u) {
+    useContributorAgreements = u;
   }
 }

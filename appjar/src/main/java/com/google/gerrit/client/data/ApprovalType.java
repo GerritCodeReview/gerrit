@@ -66,6 +66,13 @@ public class ApprovalType {
     return values;
   }
 
+  public ApprovalCategoryValue getMin() {
+    if (values.isEmpty()) {
+      return null;
+    }
+    return values.get(0);
+  }
+
   public ApprovalCategoryValue getMax() {
     if (values.isEmpty()) {
       return null;

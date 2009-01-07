@@ -25,7 +25,7 @@ import com.google.gerrit.client.reviewdb.PatchSetAncestor;
 import com.google.gerrit.client.reviewdb.RevId;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
-import com.google.gerrit.client.workflow.RightRule;
+import com.google.gerrit.client.workflow.FunctionState;
 import com.google.gwtorm.client.OrmException;
 
 import java.util.ArrayList;
@@ -54,7 +54,7 @@ public class ChangeDetail {
   }
 
   public void load(final ReviewDb db, final AccountInfoCacheFactory acc,
-      final RightRule rules, final Change c) throws OrmException {
+      final Change c) throws OrmException {
     change = c;
     final Account.Id owner = change.getOwner();
     acc.want(owner);
@@ -68,10 +68,18 @@ public class ChangeDetail {
     final List<ChangeApproval> allApprovals =
         db.changeApprovals().byChange(change.getId()).toList();
     if (!change.getStatus().isClosed()) {
-      missingApprovals =
-          rules.apply(Common.getProjectCache().get(
+      final FunctionState fs =
+          new FunctionState(Common.getProjectCache().get(
               change.getDest().getParentKey()), allApprovals);
+      missingApprovals = new HashSet<ApprovalCategory.Id>();
+      for (final ApprovalType at : Common.getGerritConfig().getApprovalTypes()) {
+        at.getCategory().getFunction().run(at, fs);
+        if (!fs.isValid(at)) {
+          missingApprovals.add(at.getCategory().getId());
+        }
+      }
     }
+
     final HashMap<Account.Id, ApprovalDetail> ad =
         new HashMap<Account.Id, ApprovalDetail>();
     for (ChangeApproval ca : allApprovals) {

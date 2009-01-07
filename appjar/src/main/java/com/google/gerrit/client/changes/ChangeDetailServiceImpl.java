@@ -22,7 +22,6 @@ import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.BaseServiceImplementation;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
-import com.google.gerrit.client.workflow.RightRule;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtorm.client.OrmException;
 
@@ -37,9 +36,8 @@ public class ChangeDetailServiceImpl extends BaseServiceImplementation
           throw new Failure(new NoSuchEntityException());
         }
 
-        final RightRule rules = new RightRule();
         final ChangeDetail d = new ChangeDetail();
-        d.load(db, new AccountInfoCacheFactory(db), rules, change);
+        d.load(db, new AccountInfoCacheFactory(db), change);
         return d;
       }
     });

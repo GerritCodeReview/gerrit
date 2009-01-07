@@ -26,6 +26,7 @@ import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.SystemConfig;
 import com.google.gerrit.client.rpc.Common;
+import com.google.gerrit.client.workflow.AllValid;
 import com.google.gerrit.git.RepositoryCache;
 import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.gwtjsonrpc.server.XsrfException;
@@ -234,6 +235,7 @@ public class GerritServer {
 
     cat = new ApprovalCategory(ApprovalCategory.SUBMIT, "Submit");
     cat.setPosition((short) -1);
+    cat.setFunctionName(AllValid.NAME);
     vals = new ArrayList<ApprovalCategoryValue>();
     vals.add(value(cat, 1, "Submit"));
     c.approvalCategories().insert(Collections.singleton(cat), txn);

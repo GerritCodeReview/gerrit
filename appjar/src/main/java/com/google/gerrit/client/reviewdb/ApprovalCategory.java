@@ -14,6 +14,8 @@
 
 package com.google.gerrit.client.reviewdb;
 
+import com.google.gerrit.client.workflow.CategoryFunction;
+import com.google.gerrit.client.workflow.MaxWithBlock;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.Key;
 import com.google.gwtorm.client.StringKey;
@@ -67,12 +69,17 @@ public final class ApprovalCategory {
   @Column
   protected short position;
 
+  /** Identity of the function used to aggregate the category's value. */
+  @Column
+  protected String functionName;
+
   protected ApprovalCategory() {
   }
 
   public ApprovalCategory(final ApprovalCategory.Id id, final String name) {
     this.categoryId = id;
     this.name = name;
+    this.functionName = MaxWithBlock.NAME;
   }
 
   public ApprovalCategory.Id getId() {
@@ -97,5 +104,17 @@ public final class ApprovalCategory {
 
   public boolean isAction() {
     return position < 0;
+  }
+
+  public String getFunctionName() {
+    return functionName;
+  }
+
+  public void setFunctionName(final String name) {
+    functionName = name;
+  }
+
+  public CategoryFunction getFunction() {
+    return CategoryFunction.forName(functionName);
   }
 }

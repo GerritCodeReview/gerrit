@@ -1,29 +1,42 @@
 -- PostgreSQL conversion from Gerrit 1 -> Gerrit 2
 --
--- Execute this from your shell:
+-- If this is the first time the Gerrit1 schema has been used it
+-- needs to be renamed.
 --
 --  psql -c 'ALTER SCHEMA public RENAME TO gerrit1' $srcdb
---  pg_dump $srcdb | psql $dstdb
+--
+--
+-- Create an empty database:
+--
+--  createdb -E UTF-8 -O $gerrituser $dstdb
+--
+-- Launch Gerrit 2 to create the database schema.
+-- Terminate it after the schema has constructed.
+--
+-- Execute:
+--
+--  pg_restore -d $srcdb gerrit1.dump
 --  psql -f devutil/import_gerrit1.sql $dstdb
 --
--- Launch Gerrit 2 once to create the database schema.
--- Terminate it once the schema has constructed.
+-- Ensure the GRANTs at the end of this script were run for
+-- the user listed in GerritServer.properties.  You may need
+-- to modify these if your user isn't 'gerrit2'.
 --
 -- Ensure the Git repositories are where git_base_path in the
 -- system_config table says they should be.
 --
 -- Create a GerritServer.properties file for your database.
 --
--- Ensure the GRANTs at the end of this script were run for
--- the user listed in GerritServer.properties.
---
 -- Execute this from your shell:
 --
 --  cd appdist && \
---  mvn package && \
+--  mvn install && \
 --  target/gerrit-2.*/gerrit-2.*/bin/gerrit2.sh \
---    --config=GerritServer.properties \
+--    --config=../devdb/src/main/config/GerritServer.properties \
 --    ImportGerrit1
+--  psql -c 'DROP SCHEMA gerrit1 CASCADE' $dstdb
+--
+-- Restart Gerrit 2's web interface (or hosted mode debugger).
 --
 
 DELETE FROM accounts;

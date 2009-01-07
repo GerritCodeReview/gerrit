@@ -43,10 +43,14 @@ public abstract class DirectScreenLink extends Hyperlink {
   @Override
   public void onBrowserEvent(final Event event) {
     if (DOM.eventGetType(event) == Event.ONCLICK) {
-      History.newItem(getTargetHistoryToken(), false);
-      Gerrit.display(createScreen());
-      DOM.eventPreventDefault(event);
+      onClick(event);
     }
+  }
+
+  protected void onClick(final Event event) {
+    History.newItem(getTargetHistoryToken(), false);
+    Gerrit.display(createScreen());
+    DOM.eventPreventDefault(event);
   }
 
   /** Create the screen this link wants to display. */

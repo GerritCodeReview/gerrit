@@ -193,6 +193,19 @@ public abstract class FancyFlexTable<RowItem> extends Composite implements
     currentRow = newRow;
   }
 
+  protected void movePointerTo(final Object oldId) {
+    if (oldId != null) {
+      final int max = table.getRowCount();
+      for (int row = 0; row < max; row++) {
+        final RowItem c = getRowItem(row);
+        if (c != null && oldId.equals(getRowItemKey(c))) {
+          movePointerTo(row);
+          break;
+        }
+      }
+    }
+  }
+
   protected void applyDataRowStyle(final int newRow) {
     table.getCellFormatter().addStyleName(newRow, C_ARROW, S_ICON_CELL);
     table.getCellFormatter().addStyleName(newRow, C_ARROW, S_LEFT_MOST_CELL);
@@ -201,16 +214,7 @@ public abstract class FancyFlexTable<RowItem> extends Composite implements
   public void finishDisplay(final boolean requestFocus) {
     if (saveId != null) {
       final Object oldId = savedPositions.get(saveId);
-      if (oldId != null) {
-        final int max = table.getRowCount();
-        for (int row = 0; row < max; row++) {
-          final RowItem c = getRowItem(row);
-          if (c != null && oldId.equals(getRowItemKey(c))) {
-            movePointerTo(row);
-            break;
-          }
-        }
-      }
+      movePointerTo(oldId);
     }
 
     if (currentRow < 0) {

@@ -22,7 +22,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.DOM;
 
 public class ChangeLink extends DirectScreenLink {
-  private Change.Id id;
+  protected Change.Id id;
   private ChangeInfo info;
 
   public ChangeLink(final String text, final Change.Id c) {

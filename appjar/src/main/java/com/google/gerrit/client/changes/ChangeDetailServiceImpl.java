@@ -37,7 +37,7 @@ public class ChangeDetailServiceImpl extends BaseServiceImplementation
           throw new Failure(new NoSuchEntityException());
         }
 
-        final RightRule rules = new RightRule(db);
+        final RightRule rules = new RightRule();
         final ChangeDetail d = new ChangeDetail();
         d.load(db, new AccountInfoCacheFactory(db), rules, change);
         return d;

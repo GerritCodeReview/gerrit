@@ -36,12 +36,6 @@ import java.util.Map;
 import java.util.Set;
 
 public class RightRule {
-  private final ReviewDb db;
-
-  public RightRule(final ReviewDb d) {
-    db = d;
-  }
-
   public Set<ApprovalCategory.Id> apply(final ProjectCache.Entry project,
       final Collection<ChangeApproval> approvals) {
     final Map<ApprovalCategory.Id, Collection<ProjectRight>> rights;
@@ -69,8 +63,8 @@ public class RightRule {
   }
 
   public void normalize(final ProjectCache.Entry project,
-      final Collection<ChangeApproval> approvals, final Transaction txn)
-      throws OrmException {
+      final Collection<ChangeApproval> approvals, final ReviewDb db,
+      final Transaction txn) throws OrmException {
     final Map<ApprovalCategory.Id, Collection<ProjectRight>> rights;
 
     rights = loadRights(project);

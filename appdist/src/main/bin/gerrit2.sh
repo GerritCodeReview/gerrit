@@ -54,26 +54,17 @@ case "$1" in
 	;;
 esac
 
-if [ $# = 0 ]
+if [ -z "$config_dir" ] || [ $# = 0 ]
 then
-	echo >&2 "usage: $0 [--config=gs.prop] AppName [args]"
-	exit 1
+    echo >&2 "usage: $0 --config=gs.prop AppName [args]"
+    exit 1
 fi
+
 app=$1
 shift
 
-if [ -n "$config_dir" ]
-then
-	CLASSPATH=$config_dir
-	for j in $config_dir/jdbc-*.jar
-	do
-		[ -f "$j" ] && CLASSPATH=$CLASSPATH:$j
-	done
-else
-	CLASSPATH=
-fi
-
-for j in $GERRIT2_HOME/lib/*.jar
+CLASSPATH=$config_dir
+for j in $GERRIT2_HOME/lib/*.jar $GERRIT2_HOME/jdbc/*.jar
 do
 	if [ -f "$j" ]
 	then

@@ -28,6 +28,7 @@ import com.google.gwt.user.client.ui.HasFocus;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.KeyboardListener;
 import com.google.gwt.user.client.ui.KeyboardListenerAdapter;
+import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 
@@ -175,18 +176,14 @@ public abstract class FancyFlexTable<RowItem> extends Composite implements
   protected void movePointerTo(final int newRow) {
     final CellFormatter fmt = table.getCellFormatter();
     if (currentRow >= 0) {
-      final int n = table.getCellCount(currentRow);
-      for (int cell = 0; cell < n; cell++) {
-        fmt.removeStyleName(currentRow, cell, S_ACTIVE_ROW);
-      }
+      final Element tr = DOM.getParent(fmt.getElement(currentRow, C_ARROW));
+      UIObject.setStyleName(tr, S_ACTIVE_ROW, false);
     }
     if (newRow >= 0) {
       table.setWidget(newRow, C_ARROW, pointer);
-      final int n = table.getCellCount(newRow);
-      for (int cell = 0; cell < n; cell++) {
-        fmt.addStyleName(newRow, cell, S_ACTIVE_ROW);
-      }
-      fmt.getElement(newRow, C_ARROW).scrollIntoView();
+      final Element tr = DOM.getParent(fmt.getElement(newRow, C_ARROW));
+      UIObject.setStyleName(tr, S_ACTIVE_ROW, true);
+      tr.scrollIntoView();
     } else if (currentRow >= 0) {
       table.setWidget(currentRow, C_ARROW, null);
     }

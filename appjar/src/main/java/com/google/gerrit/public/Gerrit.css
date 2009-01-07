@@ -183,8 +183,8 @@
   border-bottom: 1px solid #d4e9a9;
 }
 
-.gerrit-ChangeTable td.ActiveRow {
-  background: #ecffc0;
+.gerrit-ChangeTable .ActiveRow {
+  background: #ffffcc;
 }
 
 .gerrit-ChangeTable .C_ID {

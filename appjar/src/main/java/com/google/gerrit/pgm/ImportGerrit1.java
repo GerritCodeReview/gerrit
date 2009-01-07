@@ -77,7 +77,7 @@ public class ImportGerrit1 {
     try {
       verifyCategory = db.approvalCategories().byName("Verified");
       approveCategory = db.approvalCategories().byName("Code Review");
-      submitCategory = db.approvalCategories().byName("Submit");
+      submitCategory = db.approvalCategories().get(ApprovalCategory.SUBMIT);
 
       final Statement query = sql.createStatement();
       java.sql.ResultSet srcs;

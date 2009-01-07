@@ -232,7 +232,7 @@ public class GerritServer {
     final ApprovalCategory cat;
     final ArrayList<ApprovalCategoryValue> vals;
 
-    cat = new ApprovalCategory(new ApprovalCategory.Id("SUBM"), "Submit");
+    cat = new ApprovalCategory(ApprovalCategory.SUBMIT, "Submit");
     cat.setPosition((short) -1);
     vals = new ArrayList<ApprovalCategoryValue>();
     vals.add(value(cat, 1, "Submit"));

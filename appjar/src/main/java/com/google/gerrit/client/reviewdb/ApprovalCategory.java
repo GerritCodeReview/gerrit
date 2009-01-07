@@ -20,6 +20,10 @@ import com.google.gwtorm.client.StringKey;
 
 /** Types of approvals that can be associated with a {@link Change}. */
 public final class ApprovalCategory {
+  /** Id of the special "Submit" action (and category). */
+  public static final ApprovalCategory.Id SUBMIT =
+      new ApprovalCategory.Id("SUBM");
+
   public static class Id extends StringKey<Key<?>> {
     @Column(length = 4)
     protected String id;

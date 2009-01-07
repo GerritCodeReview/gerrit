@@ -22,8 +22,12 @@ import java.util.Date;
 
 /** Misc. formatting functions. */
 public class FormatUtil {
+  private static final DateTimeFormat sTime =
+      DateTimeFormat.getShortTimeFormat();
+  private static final DateTimeFormat mDate =
+      DateTimeFormat.getMediumDateFormat();
   private static final DateTimeFormat dtfmt =
-      DateTimeFormat.getMediumDateTimeFormat();
+      DateTimeFormat.getFormat(mDate.getPattern() + " " + sTime.getPattern());
 
   /** Format a date using the locale's medium length format. */
   public static String mediumFormat(final Date dt) {

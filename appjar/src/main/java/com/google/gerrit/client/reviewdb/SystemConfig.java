@@ -83,6 +83,10 @@ public final class SystemConfig {
   @Column(notNull = false)
   public transient String gitBasePath;
 
+  /** Is a verified {@link AccountAgreement} required to upload changes? */
+  @Column
+  public boolean useContributorAgreements;
+
   /** Local TCP port number the embedded SSHD server binds onto. */
   @Column
   public int sshdPort;

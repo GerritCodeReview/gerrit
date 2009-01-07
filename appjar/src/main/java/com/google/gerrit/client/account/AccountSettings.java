@@ -19,6 +19,7 @@ import static com.google.gerrit.client.FormatUtil.mediumFormat;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.Link;
 import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountScreen;
 import com.google.gerrit.client.ui.LazyTabChild;
@@ -137,13 +138,15 @@ public class AccountSettings extends AccountScreen {
     }, Util.C.tabWebIdentities());
     tabTokens.add(Link.SETTINGS_WEBIDENT);
 
-    tabs.add(new LazyTabChild<AgreementPanel>() {
-      @Override
-      protected AgreementPanel create() {
-        return new AgreementPanel();
-      }
-    }, Util.C.tabAgreements());
-    tabTokens.add(Link.SETTINGS_AGREEMENTS);
+    if (Common.getGerritConfig().isUseContributorAgreements()) {
+      tabs.add(new LazyTabChild<AgreementPanel>() {
+        @Override
+        protected AgreementPanel create() {
+          return new AgreementPanel();
+        }
+      }, Util.C.tabAgreements());
+      tabTokens.add(Link.SETTINGS_AGREEMENTS);
+    }
 
     tabs.addTabListener(new TabListener() {
       public boolean onBeforeTabSelected(SourcesTabEvents sender, int tabIndex) {

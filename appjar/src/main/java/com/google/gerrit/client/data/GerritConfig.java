@@ -27,6 +27,7 @@ public class GerritConfig {
   protected List<ApprovalType> approvalTypes;
   protected List<ApprovalType> actionTypes;
   protected int sshdPort;
+  protected boolean useContributorAgreements;
   private transient Map<ApprovalCategory.Id, ApprovalType> byCategoryId;
 
   public GerritConfig() {
@@ -86,6 +87,14 @@ public class GerritConfig {
 
   public void setSshdPort(final int p) {
     sshdPort = p;
+  }
+
+  public boolean isUseContributorAgreements() {
+    return useContributorAgreements;
+  }
+
+  public void setUseContributorAgreements(final boolean r) {
+    useContributorAgreements = r;
   }
 
   public ApprovalType getApprovalType(final ApprovalCategory.Id id) {

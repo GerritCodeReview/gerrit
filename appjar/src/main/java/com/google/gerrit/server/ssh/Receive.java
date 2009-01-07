@@ -89,7 +89,9 @@ class Receive extends AbstractGitCommand {
   @Override
   protected void runImpl() throws IOException, Failure {
     server = getGerritServer();
-    verifyActiveContributorAgreement();
+    if (Common.getGerritConfig().isUseContributorAgreements()) {
+      verifyActiveContributorAgreement();
+    }
     loadMyEmails();
     lookup(reviewerId, "reviewer", reviewerEmail);
     lookup(ccId, "cc", ccEmail);

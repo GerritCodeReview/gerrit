@@ -16,6 +16,7 @@ package com.google.gerrit.server;
 
 import com.google.gerrit.client.admin.ProjectAdminService;
 import com.google.gerrit.client.admin.ProjectDetail;
+import com.google.gerrit.client.data.ProjectCache;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
@@ -64,13 +65,13 @@ public class ProjectAdminServiceImpl extends BaseServiceImplementation
     run(callback, new Action<ProjectDetail>() {
       public ProjectDetail run(ReviewDb db) throws OrmException, Failure {
         assertAmProjectOwner(db, projectId);
-        final Project proj = db.projects().get(projectId);
-        if (proj == null) {
+        final ProjectCache.Entry p = Common.getProjectCache().get(projectId);
+        if (p == null) {
           throw new Failure(new NoSuchEntityException());
         }
 
         final ProjectDetail d = new ProjectDetail();
-        d.load(db, proj);
+        d.load(db, p);
         return d;
       }
     });
@@ -87,6 +88,7 @@ public class ProjectAdminServiceImpl extends BaseServiceImplementation
         }
         proj.setDescription(description);
         db.projects().update(Collections.singleton(proj));
+        Common.getProjectCache().invalidate(proj);
         return VoidResult.INSTANCE;
       }
     });
@@ -110,6 +112,7 @@ public class ProjectAdminServiceImpl extends BaseServiceImplementation
 
         project.setOwnerGroupId(owner.getId());
         db.projects().update(Collections.singleton(project));
+        Common.getProjectCache().invalidate(project);
         return VoidResult.INSTANCE;
       }
     });
@@ -136,6 +139,7 @@ public class ProjectAdminServiceImpl extends BaseServiceImplementation
           final ProjectRight m = db.projectRights().get(k);
           if (m != null) {
             db.projectRights().delete(Collections.singleton(m));
+            Common.getProjectCache().invalidate(k.getProjectId());
           }
         }
         return VoidResult.INSTANCE;
@@ -190,21 +194,22 @@ public class ProjectAdminServiceImpl extends BaseServiceImplementation
           db.projectRights().update(Collections.singleton(pr));
         }
 
+        Common.getProjectCache().invalidate(proj);
         final ProjectDetail d = new ProjectDetail();
-        d.load(db, proj);
+        d.load(db, Common.getProjectCache().get(projectId));
         return d;
       }
     });
   }
 
   private void assertAmProjectOwner(final ReviewDb db,
-      final Project.Id projectId) throws OrmException, Failure {
-    final Project project = db.projects().get(projectId);
-    if (project == null) {
+      final Project.Id projectId) throws Failure {
+    final ProjectCache.Entry p = Common.getProjectCache().get(projectId);
+    if (p == null) {
       throw new Failure(new NoSuchEntityException());
     }
     final Account.Id me = Common.getAccountId();
-    if (!Common.getGroupCache().isInGroup(me, project.getOwnerGroupId())
+    if (!Common.getGroupCache().isInGroup(me, p.getProject().getOwnerGroupId())
         && !Common.getGroupCache().isAdministrator(me)) {
       throw new Failure(new NoSuchEntityException());
     }

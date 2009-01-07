@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.account;
 
+import com.google.gerrit.client.data.ProjectCache;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountProjectWatch;
 import com.google.gerrit.client.reviewdb.Project;
@@ -86,17 +87,17 @@ public class AccountServiceImpl extends BaseServiceImplementation implements
     run(callback, new Action<AccountProjectWatchInfo>() {
       public AccountProjectWatchInfo run(ReviewDb db) throws OrmException,
           Failure {
-        final Project project =
-            db.projects().get(new Project.NameKey(projectName));
+        final ProjectCache.Entry project =
+            Common.getProjectCache().get(new Project.NameKey(projectName));
         if (project == null) {
           throw new Failure(new NoSuchEntityException());
         }
 
         final AccountProjectWatch watch =
             new AccountProjectWatch(new AccountProjectWatch.Key(Common
-                .getAccountId(), project.getId()));
+                .getAccountId(), project.getProject().getId()));
         db.accountProjectWatches().insert(Collections.singleton(watch));
-        return new AccountProjectWatchInfo(watch, project);
+        return new AccountProjectWatchInfo(watch, project.getProject());
       }
     });
   }

@@ -24,6 +24,7 @@ class AdminFlushGroupCache extends AbstractCommand {
     final GroupCache gc = Common.getGroupCache();
     if (gc.isAdministrator(getAccountId())) {
       gc.flush();
+      Common.getProjectCache().flush();
     } else {
       throw new Failure(1, "fatal: Not a Gerrit administrator");
     }

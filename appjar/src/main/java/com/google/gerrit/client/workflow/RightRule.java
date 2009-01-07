@@ -16,11 +16,11 @@
 package com.google.gerrit.client.workflow;
 
 import com.google.gerrit.client.data.ApprovalType;
+import com.google.gerrit.client.data.ProjectCache;
 import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.client.reviewdb.ChangeApproval;
-import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
@@ -42,19 +42,12 @@ public class RightRule {
     db = d;
   }
 
-  public Set<ApprovalCategory.Id> apply(final Project.NameKey projectName,
-      final Collection<ChangeApproval> approvals) throws OrmException {
-    final Project project = db.projects().get(projectName);
-    final Project.Id projectId = project != null ? project.getId() : null;
-    return apply(projectId, approvals);
-  }
-
-  public Set<ApprovalCategory.Id> apply(final Project.Id projectId,
-      final Collection<ChangeApproval> approvals) throws OrmException {
+  public Set<ApprovalCategory.Id> apply(final ProjectCache.Entry project,
+      final Collection<ChangeApproval> approvals) {
     final Map<ApprovalCategory.Id, Collection<ProjectRight>> rights;
     final Map<ApprovalCategory.Id, ChangeApproval> max;
 
-    rights = loadRights(projectId);
+    rights = loadRights(project);
     max = new HashMap<ApprovalCategory.Id, ChangeApproval>();
     for (final ChangeApproval a : approvals) {
       normalize(rights, a);
@@ -75,20 +68,12 @@ public class RightRule {
     return missing;
   }
 
-  public void normalize(final Project.NameKey projectName,
-      final Collection<ChangeApproval> approvals, final Transaction txn)
-      throws OrmException {
-    final Project project = db.projects().get(projectName);
-    final Project.Id projectId = project != null ? project.getId() : null;
-    normalize(projectId, approvals, txn);
-  }
-
-  public void normalize(final Project.Id projectId,
+  public void normalize(final ProjectCache.Entry project,
       final Collection<ChangeApproval> approvals, final Transaction txn)
       throws OrmException {
     final Map<ApprovalCategory.Id, Collection<ProjectRight>> rights;
 
-    rights = loadRights(projectId);
+    rights = loadRights(project);
     for (final ChangeApproval a : approvals) {
       if (normalize(rights, a)) {
         db.changeApprovals().update(Collections.singleton(a), txn);
@@ -123,20 +108,20 @@ public class RightRule {
   }
 
   private Map<ApprovalCategory.Id, Collection<ProjectRight>> loadRights(
-      final Project.Id projectId) throws OrmException {
-    final Map<ApprovalCategory.Id, Collection<ProjectRight>> rights =
-        new HashMap<ApprovalCategory.Id, Collection<ProjectRight>>();
-    if (projectId != null) {
-      loadRights(rights, projectId);
+      final ProjectCache.Entry e) {
+    final Map<ApprovalCategory.Id, Collection<ProjectRight>> r;
+    r = new HashMap<ApprovalCategory.Id, Collection<ProjectRight>>();
+    if (e != null) {
+      loadRights(r, e.getRights());
     }
-    loadRights(rights, ProjectRight.WILD_PROJECT);
-    return rights;
+    loadRights(r, Common.getProjectCache().getWildcardRights());
+    return r;
   }
 
   private void loadRights(
       final Map<ApprovalCategory.Id, Collection<ProjectRight>> rights,
-      final Project.Id projectId) throws OrmException {
-    for (final ProjectRight p : db.projectRights().byProject(projectId)) {
+      final Collection<ProjectRight> avail) {
+    for (final ProjectRight p : avail) {
       Collection<ProjectRight> l = rights.get(p.getApprovalCategoryId());
       if (l == null) {
         l = new ArrayList<ProjectRight>();

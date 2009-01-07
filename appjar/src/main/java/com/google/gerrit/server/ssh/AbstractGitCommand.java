@@ -14,9 +14,11 @@
 
 package com.google.gerrit.server.ssh;
 
+import com.google.gerrit.client.data.ProjectCache;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.git.InvalidRepositoryException;
 import com.google.gwtorm.client.OrmException;
 
@@ -53,27 +55,25 @@ abstract class AbstractGitCommand extends AbstractCommand {
       projectName = projectName.substring(1);
     }
 
+    final ProjectCache.Entry cachedProj =
+        Common.getProjectCache().get(new Project.NameKey(projectName));
+    if (cachedProj == null) {
+      throw new Failure(1, "fatal: '" + reqName + "': not a Gerrit project");
+    }
+
+    proj = cachedProj.getProject();
+    try {
+      repo = getRepositoryCache().get(proj.getName());
+    } catch (InvalidRepositoryException e) {
+      throw new Failure(1, "fatal: '" + reqName + "': not a git archive");
+    }
+
     db = openReviewDb();
     try {
       try {
         userAccount = db.accounts().get(getAccountId());
       } catch (OrmException e) {
         throw new Failure(1, "fatal: cannot query user database");
-      }
-
-      try {
-        proj = db.projects().get(new Project.NameKey(projectName));
-      } catch (OrmException e) {
-        throw new Failure(1, "fatal: cannot query project database");
-      }
-      if (proj == null) {
-        throw new Failure(1, "fatal: '" + reqName + "': not a Gerrit project");
-      }
-
-      try {
-        repo = getRepositoryCache().get(proj.getName());
-      } catch (InvalidRepositoryException e) {
-        throw new Failure(1, "fatal: '" + reqName + "': not a git archive");
       }
 
       runImpl();

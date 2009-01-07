@@ -18,6 +18,7 @@ import com.google.gerrit.client.data.ApprovalType;
 import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.client.data.GitwebLink;
 import com.google.gerrit.client.data.GroupCache;
+import com.google.gerrit.client.data.ProjectCache;
 import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
@@ -99,6 +100,7 @@ public class GerritServer {
     }
 
     Common.setSchemaFactory(db);
+    Common.setProjectCache(new ProjectCache());
     Common.setGroupCache(new GroupCache(sConfig));
   }
 

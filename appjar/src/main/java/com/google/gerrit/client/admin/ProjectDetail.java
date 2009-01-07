@@ -14,10 +14,12 @@
 
 package com.google.gerrit.client.admin;
 
+import com.google.gerrit.client.data.ProjectCache;
 import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gerrit.client.rpc.Common;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.ResultSet;
 
@@ -34,24 +36,22 @@ public class ProjectDetail {
   public ProjectDetail() {
   }
 
-  public void load(final ReviewDb db, final Project g) throws OrmException {
-    project = g;
+  public void load(final ReviewDb db, final ProjectCache.Entry g)
+      throws OrmException {
+    project = g.getProject();
     groups = new HashMap<AccountGroup.Id, AccountGroup>();
-    wantGroup(g.getOwnerGroupId());
+    wantGroup(project.getOwnerGroupId());
 
     rights = new ArrayList<ProjectRight>();
-    loadRights(db, project.getId());
-    loadRights(db, ProjectRight.WILD_PROJECT);
-
-    loadGroups(db);
-  }
-
-  private void loadRights(final ReviewDb db, final Project.Id projectId)
-      throws OrmException {
-    for (final ProjectRight p : db.projectRights().byProject(projectId)) {
+    for (final ProjectRight p : g.getRights()) {
+      rights.add(p);
+      wantGroup(p.getAccountGroupId());
+    }for (final ProjectRight p : Common.getProjectCache().getWildcardRights()) {
       rights.add(p);
       wantGroup(p.getAccountGroupId());
     }
+
+    loadGroups(db);
   }
 
   private void wantGroup(final AccountGroup.Id id) {

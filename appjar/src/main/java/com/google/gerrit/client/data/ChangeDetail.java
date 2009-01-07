@@ -24,6 +24,7 @@ import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.PatchSetAncestor;
 import com.google.gerrit.client.reviewdb.RevId;
 import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.workflow.RightRule;
 import com.google.gwtorm.client.OrmException;
 
@@ -68,7 +69,8 @@ public class ChangeDetail {
         db.changeApprovals().byChange(change.getId()).toList();
     if (!change.getStatus().isClosed()) {
       missingApprovals =
-          rules.apply(change.getDest().getParentKey(), allApprovals);
+          rules.apply(Common.getProjectCache().get(
+              change.getDest().getParentKey()), allApprovals);
     }
     final HashMap<Account.Id, ApprovalDetail> ad =
         new HashMap<Account.Id, ApprovalDetail>();

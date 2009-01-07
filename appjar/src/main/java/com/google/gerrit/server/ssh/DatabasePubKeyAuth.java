@@ -16,8 +16,8 @@ package com.google.gerrit.server.ssh;
 
 import com.google.gerrit.client.reviewdb.AccountSshKey;
 import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gerrit.client.rpc.Common;
 import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.SchemaFactory;
 
 import org.apache.sshd.server.PublickeyAuthenticator;
 import org.apache.sshd.server.session.ServerSession;
@@ -36,17 +36,11 @@ import java.util.Collections;
  * account as authorized keys are permitted to access the account.
  */
 class DatabasePubKeyAuth implements PublickeyAuthenticator {
-  private final SchemaFactory<ReviewDb> schema;
-
-  DatabasePubKeyAuth(final SchemaFactory<ReviewDb> rdf) {
-    schema = rdf;
-  }
-
   public boolean hasKey(final String username, final PublicKey inkey,
       final ServerSession session) {
     AccountSshKey matched = null;
 
-    for (final AccountSshKey k : SshUtil.keysFor(schema, username)) {
+    for (final AccountSshKey k : SshUtil.keysFor(username)) {
       if (match(username, k, inkey)) {
         if (matched == null) {
           matched = k;
@@ -92,7 +86,7 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
 
   private void markInvalid(final String username, final AccountSshKey k) {
     try {
-      final ReviewDb db = schema.open();
+      final ReviewDb db = Common.getSchemaFactory().open();
       try {
         k.setInvalid();
         db.accountSshKeys().update(Collections.singleton(k));
@@ -108,7 +102,7 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
 
   private void updateLastUsed(final AccountSshKey k) {
     try {
-      final ReviewDb db = schema.open();
+      final ReviewDb db = Common.getSchemaFactory().open();
       try {
         k.setLastUsedOn();
         db.accountSshKeys().update(Collections.singleton(k));

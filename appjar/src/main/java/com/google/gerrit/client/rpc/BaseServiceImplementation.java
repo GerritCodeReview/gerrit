@@ -17,16 +17,9 @@ package com.google.gerrit.client.rpc;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.SchemaFactory;
 
 /** Support for services which require a {@link ReviewDb} instance. */
 public class BaseServiceImplementation {
-  protected final SchemaFactory<ReviewDb> schema;
-
-  protected BaseServiceImplementation(final SchemaFactory<ReviewDb> rdf) {
-    schema = rdf;
-  }
-
   /**
    * Executes <code>action.run</code> with an active ReviewDb connection.
    * <p>
@@ -40,7 +33,7 @@ public class BaseServiceImplementation {
    */
   protected <T> void run(final AsyncCallback<T> callback, final Action<T> action) {
     try {
-      final ReviewDb db = schema.open();
+      final ReviewDb db = Common.getSchemaFactory().open();
       final T r;
       try {
         r = action.run(db);

@@ -40,10 +40,6 @@ import java.util.Set;
 
 public class ProjectAdminServiceImpl extends BaseServiceImplementation
     implements ProjectAdminService {
-  public ProjectAdminServiceImpl(final GerritServer server) {
-    super(server.getDatabase());
-  }
-
   public void ownedProjects(final AsyncCallback<List<Project>> callback) {
     run(callback, new Action<List<Project>>() {
       public List<Project> run(ReviewDb db) throws OrmException {

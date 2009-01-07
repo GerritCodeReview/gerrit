@@ -17,8 +17,8 @@ package com.google.gerrit.server.ssh;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountSshKey;
 import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gerrit.client.rpc.Common;
 import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.SchemaFactory;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.sshd.common.KeyPairProvider;
@@ -158,8 +158,7 @@ public class SshUtil {
   }
 
   /** Locate keys for the requested account whose email matches the name given. */
-  public static List<AccountSshKey> keysFor(final SchemaFactory<ReviewDb> rdf,
-      final String username) {
+  public static List<AccountSshKey> keysFor(final String username) {
     synchronized (keys) {
       final List<AccountSshKey> r = keys.get(username);
       if (r != null) {
@@ -169,7 +168,7 @@ public class SshUtil {
 
     List<AccountSshKey> kl;
     try {
-      final ReviewDb db = rdf.open();
+      final ReviewDb db = Common.getSchemaFactory().open();
       try {
         final List<Account> matches =
             db.accounts().bySshUserName(username).toList();

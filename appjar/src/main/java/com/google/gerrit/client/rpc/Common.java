@@ -18,11 +18,14 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.client.data.GroupCache;
 import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gwt.core.client.GWT;
+import com.google.gwtorm.client.SchemaFactory;
 
 public class Common {
   public static final RpcConstants C;
   private static GerritConfig config;
+  private static SchemaFactory<ReviewDb> schema;
   private static GroupCache groupCache;
   private static CurrentAccountImpl caImpl;
 
@@ -60,6 +63,19 @@ public class Common {
 
   public static void setGroupCache(final GroupCache imp) {
     groupCache = imp;
+  }
+
+  /**
+   * Get the schema factory for this instance.
+   * <p>
+   * <b>Note: this is likely only available on the server side.</b>
+   */
+  public static SchemaFactory<ReviewDb> getSchemaFactory() {
+    return schema;
+  }
+
+  public static void setSchemaFactory(final SchemaFactory<ReviewDb> imp) {
+    schema = imp;
   }
 
   /** Get the unique id for this account; null if there is no account. */

@@ -26,14 +26,9 @@ import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gerrit.client.workflow.RightRule;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.SchemaFactory;
 
 public class ChangeDetailServiceImpl extends BaseServiceImplementation
     implements ChangeDetailService {
-  public ChangeDetailServiceImpl(final SchemaFactory<ReviewDb> rdf) {
-    super(rdf);
-  }
-
   public void changeDetail(final Change.Id id,
       final AsyncCallback<ChangeDetail> callback) {
     run(callback, new Action<ChangeDetail>() {

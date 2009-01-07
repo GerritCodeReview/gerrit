@@ -19,8 +19,8 @@ import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.AccountGroupMember;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.SystemConfig;
+import com.google.gerrit.client.rpc.Common;
 import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.SchemaFactory;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -30,7 +30,6 @@ import java.util.Set;
 
 /** Cache of group information, including account memberships. */
 public class GroupCache {
-  private final SchemaFactory<ReviewDb> schema;
   private AccountGroup.Id adminGroupId;
   private AccountGroup.Id anonymousGroupId;
   private AccountGroup.Id registeredGroupId;
@@ -44,8 +43,7 @@ public class GroupCache {
         }
       };
 
-  public GroupCache(final SchemaFactory<ReviewDb> rdf, final SystemConfig cfg) {
-    schema = rdf;
+  public GroupCache(final SystemConfig cfg) {
     adminGroupId = cfg.adminGroupId;
     anonymousGroupId = cfg.anonymousGroupId;
     registeredGroupId = cfg.registeredGroupId;
@@ -178,7 +176,7 @@ public class GroupCache {
 
     m = new HashSet<AccountGroup.Id>();
     try {
-      final ReviewDb db = schema.open();
+      final ReviewDb db = Common.getSchemaFactory().open();
       try {
         for (final AccountGroupMember g : db.accountGroupMembers().byAccount(
             accountId)) {

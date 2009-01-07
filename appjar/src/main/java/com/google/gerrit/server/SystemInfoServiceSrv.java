@@ -19,6 +19,6 @@ package com.google.gerrit.server;
 public class SystemInfoServiceSrv extends GerritJsonServlet {
   @Override
   protected Object createServiceHandle() throws Exception {
-    return new SystemInfoServiceImpl(GerritServer.getInstance());
+    return new SystemInfoServiceImpl();
   }
 }

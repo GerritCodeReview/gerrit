@@ -16,6 +16,7 @@ package com.google.gerrit.server.ssh;
 
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.git.RepositoryCache;
 import com.google.gerrit.server.GerritServer;
 import com.google.gwtjsonrpc.server.XsrfException;
@@ -82,7 +83,7 @@ abstract class AbstractCommand implements Command, SessionAware {
 
   protected ReviewDb openReviewDb() throws Failure {
     try {
-      return getGerritServer().getDatabase().open();
+      return Common.getSchemaFactory().open();
     } catch (OrmException e) {
       throw new Failure(1, "fatal: Gerrit database is offline");
     }

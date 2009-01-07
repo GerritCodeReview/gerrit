@@ -20,6 +20,6 @@ import com.google.gerrit.client.changes.ChangeListServiceImpl;
 public class ChangeListServiceSrv extends GerritJsonServlet {
   @Override
   protected Object createServiceHandle() throws Exception {
-    return new ChangeListServiceImpl(GerritServer.getInstance().getDatabase());
+    return new ChangeListServiceImpl();
   }
 }

@@ -31,7 +31,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.ResultSet;
-import com.google.gwtorm.client.SchemaFactory;
 import com.google.gwtorm.client.Transaction;
 
 import java.util.ArrayList;
@@ -43,10 +42,6 @@ import java.util.Set;
 
 public class ChangeListServiceImpl extends BaseServiceImplementation implements
     ChangeListService {
-  public ChangeListServiceImpl(final SchemaFactory<ReviewDb> rdf) {
-    super(rdf);
-  }
-
   public void forAccount(final Account.Id id,
       final AsyncCallback<AccountDashboardInfo> callback) {
     final Account.Id me = Common.getAccountId();

@@ -25,12 +25,6 @@ import com.google.gwtorm.client.OrmException;
 import java.util.List;
 
 public class SystemInfoServiceImpl implements SystemInfoService {
-  private final GerritServer server;
-
-  public SystemInfoServiceImpl(final GerritServer server) {
-    this.server = server;
-  }
-
   public void loadGerritConfig(final AsyncCallback<GerritConfig> callback) {
     callback.onSuccess(Common.getGerritConfig());
   }
@@ -38,7 +32,7 @@ public class SystemInfoServiceImpl implements SystemInfoService {
   public void contributorAgreements(
       final AsyncCallback<List<ContributorAgreement>> callback) {
     try {
-      final ReviewDb db = server.getDatabase().open();
+      final ReviewDb db = Common.getSchemaFactory().open();
       try {
         callback.onSuccess(db.contributorAgreements().active().toList());
       } finally {

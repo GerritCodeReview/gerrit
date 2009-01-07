@@ -76,7 +76,7 @@ public class SshServlet extends HttpServlet {
         new File(srv.getSitePath(), "ssh_host_dsa_key").getAbsolutePath()}));
     sshd.setUserAuthFactories(Arrays
         .<NamedFactory<UserAuth>> asList(new UserAuthPublicKey.Factory()));
-    sshd.setPublickeyAuthenticator(new DatabasePubKeyAuth(srv.getDatabase()));
+    sshd.setPublickeyAuthenticator(new DatabasePubKeyAuth());
     sshd.setCommandFactory(new GerritCommandFactory());
     sshd.setShellFactory(new NoShell());
 

@@ -29,7 +29,6 @@ import com.google.gerrit.server.ssh.SshUtil;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.SchemaFactory;
 import com.google.gwtorm.client.Transaction;
 
 import java.security.NoSuchAlgorithmException;
@@ -41,10 +40,6 @@ import java.util.Set;
 
 public class AccountSecurityImpl extends BaseServiceImplementation implements
     AccountSecurity {
-  public AccountSecurityImpl(final SchemaFactory<ReviewDb> rdf) {
-    super(rdf);
-  }
-
   public void mySshKeys(final AsyncCallback<List<AccountSshKey>> callback) {
     run(callback, new Action<List<AccountSshKey>>() {
       public List<AccountSshKey> run(ReviewDb db) throws OrmException {

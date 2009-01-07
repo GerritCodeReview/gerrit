@@ -22,6 +22,7 @@ import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountExternalId;
 import com.google.gerrit.client.reviewdb.AccountExternalIdAccess;
 import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gerrit.client.rpc.Common;
 import com.google.gwt.user.server.rpc.RPCServletUtils;
 import com.google.gwtjsonrpc.server.JsonServlet;
 import com.google.gwtjsonrpc.server.ValidToken;
@@ -236,7 +237,7 @@ public class LoginServlet extends HttpServlet {
     Account account = null;
     if (user != null) {
       try {
-        final ReviewDb d = server.getDatabase().open();
+        final ReviewDb d = Common.getSchemaFactory().open();
         try {
           switch (mode) {
             case SIGN_IN:
@@ -465,7 +466,7 @@ public class LoginServlet extends HttpServlet {
 
     Account account;
     try {
-      final ReviewDb db = server.getDatabase().open();
+      final ReviewDb db = Common.getSchemaFactory().open();
       try {
         account = db.accounts().get(id);
       } finally {

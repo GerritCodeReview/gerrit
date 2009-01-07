@@ -40,10 +40,6 @@ import java.util.Set;
 
 public class GroupAdminServiceImpl extends BaseServiceImplementation implements
     GroupAdminService {
-  public GroupAdminServiceImpl(final GerritServer server) {
-    super(server.getDatabase());
-  }
-
   public void ownedGroups(final AsyncCallback<List<AccountGroup>> callback) {
     run(callback, new Action<List<AccountGroup>>() {
       public List<AccountGroup> run(ReviewDb db) throws OrmException {

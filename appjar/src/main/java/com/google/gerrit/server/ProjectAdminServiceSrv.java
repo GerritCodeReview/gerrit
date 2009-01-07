@@ -19,6 +19,6 @@ package com.google.gerrit.server;
 public class ProjectAdminServiceSrv extends GerritJsonServlet {
   @Override
   protected Object createServiceHandle() throws Exception {
-    return new ProjectAdminServiceImpl(GerritServer.getInstance());
+    return new ProjectAdminServiceImpl();
   }
 }

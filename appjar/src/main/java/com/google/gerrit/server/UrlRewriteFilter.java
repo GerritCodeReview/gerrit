@@ -20,6 +20,7 @@ import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.RevId;
 import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gerrit.client.rpc.Common;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
 
@@ -72,12 +73,11 @@ public class UrlRewriteFilter implements Filter {
   }
 
   private FilterConfig config;
-  private GerritServer server;
 
   public void init(final FilterConfig config) throws ServletException {
     this.config = config;
     try {
-      server = GerritServer.getInstance();
+      GerritServer.getInstance();
     } catch (OrmException e) {
       throw new ServletException("Cannot initialize GerritServer", e);
     } catch (XsrfException e) {
@@ -181,7 +181,7 @@ public class UrlRewriteFilter implements Filter {
     final RevId id = new RevId(rev);
     final List<PatchSet> patches;
     try {
-      final ReviewDb db = server.getDatabase().open();
+      final ReviewDb db = Common.getSchemaFactory().open();
       try {
         if (id.isComplete()) {
           patches = db.patchSets().byRevision(id).toList();
@@ -222,7 +222,7 @@ public class UrlRewriteFilter implements Filter {
     final String email = cleanEmail(m.group(1));
     final List<Account> people;
     try {
-      final ReviewDb db = server.getDatabase().open();
+      final ReviewDb db = Common.getSchemaFactory().open();
       try {
         people = db.accounts().byPreferredEmail(email).toList();
       } finally {

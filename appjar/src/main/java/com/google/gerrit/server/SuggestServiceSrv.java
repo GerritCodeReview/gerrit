@@ -20,6 +20,6 @@ import com.google.gerrit.client.ui.SuggestServiceImpl;
 public class SuggestServiceSrv extends GerritJsonServlet {
   @Override
   protected Object createServiceHandle() throws Exception {
-    return new SuggestServiceImpl(GerritServer.getInstance().getDatabase());
+    return new SuggestServiceImpl();
   }
 }

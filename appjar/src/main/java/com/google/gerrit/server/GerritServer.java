@@ -98,7 +98,8 @@ public class GerritServer {
       repositories = null;
     }
 
-    Common.setGroupCache(new GroupCache(db, sConfig));
+    Common.setSchemaFactory(db);
+    Common.setGroupCache(new GroupCache(sConfig));
   }
 
   private Database<ReviewDb> createDatabase() throws OrmException {
@@ -287,11 +288,6 @@ public class GerritServer {
     }
 
     Common.setGerritConfig(r);
-  }
-
-  /** Get the {@link ReviewDb} schema factory for the server. */
-  public Database<ReviewDb> getDatabase() {
-    return db;
   }
 
   /** Time (in seconds) that user sessions stay "signed in". */

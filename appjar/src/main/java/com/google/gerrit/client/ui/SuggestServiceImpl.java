@@ -23,7 +23,6 @@ import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.BaseServiceImplementation;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.SchemaFactory;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -31,10 +30,6 @@ import java.util.List;
 
 public class SuggestServiceImpl extends BaseServiceImplementation implements
     SuggestService {
-  public SuggestServiceImpl(final SchemaFactory<ReviewDb> rdf) {
-    super(rdf);
-  }
-
   public void suggestProjectNameKey(final String query, final int limit,
       final AsyncCallback<List<Project.NameKey>> callback) {
     run(callback, new Action<List<Project.NameKey>>() {

@@ -17,6 +17,7 @@ package com.google.gerrit.pgm;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.git.InvalidRepositoryException;
 import com.google.gerrit.git.PatchSetImporter;
 import com.google.gerrit.server.GerritServer;
@@ -62,7 +63,7 @@ public class ReimportPatchSets {
       todo.add(PatchSet.Id.parse(line.replace('|', ',')));
     }
 
-    final ReviewDb db = gs.getDatabase().open();
+    final ReviewDb db = Common.getSchemaFactory().open();
     final ProgressMonitor pm = new TextProgressMonitor();
     try {
       pm.start(1);

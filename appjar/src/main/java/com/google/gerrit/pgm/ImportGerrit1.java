@@ -72,7 +72,7 @@ public class ImportGerrit1 {
       XsrfException, SQLException, IOException, InvalidRepositoryException {
     final ProgressMonitor pm = new TextProgressMonitor();
     gs = GerritServer.getInstance();
-    db = gs.getDatabase().open();
+    db = Common.getSchemaFactory().open();
     sql = ((JdbcSchema) db).getConnection();
     try {
       verifyCategory = db.approvalCategories().byName("Verified");

@@ -19,6 +19,6 @@ package com.google.gerrit.server;
 public class AccountSecuritySrv extends GerritJsonServlet {
   @Override
   protected Object createServiceHandle() throws Exception {
-    return new AccountSecurityImpl(GerritServer.getInstance().getDatabase());
+    return new AccountSecurityImpl();
   }
 }

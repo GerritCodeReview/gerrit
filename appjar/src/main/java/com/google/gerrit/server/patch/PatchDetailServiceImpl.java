@@ -28,7 +28,6 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
   private final GerritServer server;
 
   public PatchDetailServiceImpl(final GerritServer gs) {
-    super(gs.getDatabase());
     server = gs;
   }
 

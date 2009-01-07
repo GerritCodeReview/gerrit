@@ -24,7 +24,6 @@ import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.SchemaFactory;
 import com.google.gwtorm.client.Transaction;
 
 import java.util.ArrayList;
@@ -35,10 +34,6 @@ import java.util.Set;
 
 public class AccountServiceImpl extends BaseServiceImplementation implements
     AccountService {
-  public AccountServiceImpl(final SchemaFactory<ReviewDb> rdf) {
-    super(rdf);
-  }
-
   public void myAccount(final AsyncCallback<Account> callback) {
     run(callback, new Action<Account>() {
       public Account run(ReviewDb db) throws OrmException {

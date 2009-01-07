@@ -20,6 +20,6 @@ import com.google.gerrit.client.account.AccountServiceImpl;
 public class AccountServiceSrv extends GerritJsonServlet {
   @Override
   protected Object createServiceHandle() throws Exception {
-    return new AccountServiceImpl(GerritServer.getInstance().getDatabase());
+    return new AccountServiceImpl();
   }
 }

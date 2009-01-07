@@ -81,7 +81,6 @@ public class GerritServer {
   private final SignedToken xsrf;
   private final SignedToken account;
   private final RepositoryCache repositories;
-  private final GroupCache groupCache;
 
   private GerritServer() throws OrmException, XsrfException {
     db = createDatabase();
@@ -99,7 +98,7 @@ public class GerritServer {
       repositories = null;
     }
 
-    groupCache = new GroupCache(db, sConfig);
+    Common.setGroupCache(new GroupCache(db, sConfig));
   }
 
   private Database<ReviewDb> createDatabase() throws OrmException {
@@ -341,10 +340,5 @@ public class GerritServer {
   /** Get the repositories maintained by this server. */
   public RepositoryCache getRepositoryCache() {
     return repositories;
-  }
-
-  /** Get the group membership cache. */
-  public GroupCache getGroupCache() {
-    return groupCache;
   }
 }

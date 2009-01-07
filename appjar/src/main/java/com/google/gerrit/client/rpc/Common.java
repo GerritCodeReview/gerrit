@@ -16,12 +16,14 @@ package com.google.gerrit.client.rpc;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.data.GerritConfig;
+import com.google.gerrit.client.data.GroupCache;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gwt.core.client.GWT;
 
 public class Common {
   public static final RpcConstants C;
   private static GerritConfig config;
+  private static GroupCache groupCache;
   private static CurrentAccountImpl caImpl;
 
   static {
@@ -45,6 +47,19 @@ public class Common {
 
   public static void setGerritConfig(final GerritConfig imp) {
     config = imp;
+  }
+
+  /**
+   * Get the active GroupCache instance.
+   * <p>
+   * <b>Note: this is likely only available on the server side.</b>
+   */
+  public static GroupCache getGroupCache() {
+    return groupCache;
+  }
+
+  public static void setGroupCache(final GroupCache imp) {
+    groupCache = imp;
   }
 
   /** Get the unique id for this account; null if there is no account. */

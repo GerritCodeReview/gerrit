@@ -15,12 +15,13 @@
 package com.google.gerrit.server.ssh;
 
 import com.google.gerrit.client.data.GroupCache;
+import com.google.gerrit.client.rpc.Common;
 
 /** Causes the {@link GroupCache} to purge all entries and reload. */
 class AdminFlushGroupCache extends AbstractCommand {
   @Override
   protected void run(String[] args) throws Failure {
-    final GroupCache gc = getGerritServer().getGroupCache();
+    final GroupCache gc = Common.getGroupCache();
     if (gc.isAdministrator(getAccountId())) {
       gc.flush();
     } else {

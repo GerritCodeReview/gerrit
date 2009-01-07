@@ -16,7 +16,6 @@ package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.data.AccountInfoCacheFactory;
 import com.google.gerrit.client.data.ChangeDetail;
-import com.google.gerrit.client.data.GroupCache;
 import com.google.gerrit.client.data.PatchSetDetail;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.PatchSet;
@@ -31,12 +30,8 @@ import com.google.gwtorm.client.SchemaFactory;
 
 public class ChangeDetailServiceImpl extends BaseServiceImplementation
     implements ChangeDetailService {
-  private final GroupCache groupCache;
-
-  public ChangeDetailServiceImpl(final SchemaFactory<ReviewDb> rdf,
-      final GroupCache groups) {
+  public ChangeDetailServiceImpl(final SchemaFactory<ReviewDb> rdf) {
     super(rdf);
-    groupCache = groups;
   }
 
   public void changeDetail(final Change.Id id,
@@ -49,7 +44,7 @@ public class ChangeDetailServiceImpl extends BaseServiceImplementation
         }
 
         final RightRule rules =
-            new RightRule(Common.getGerritConfig(), groupCache, db);
+            new RightRule(Common.getGerritConfig(), Common.getGroupCache(), db);
         final ChangeDetail d = new ChangeDetail();
         d.load(db, new AccountInfoCacheFactory(db), rules, change);
         return d;

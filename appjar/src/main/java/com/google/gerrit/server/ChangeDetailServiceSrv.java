@@ -15,7 +15,6 @@
 package com.google.gerrit.server;
 
 import com.google.gerrit.client.changes.ChangeDetailServiceImpl;
-import com.google.gerrit.client.data.GroupCache;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gwtorm.client.SchemaFactory;
 
@@ -25,7 +24,6 @@ public class ChangeDetailServiceSrv extends GerritJsonServlet {
   protected Object createServiceHandle() throws Exception {
     final GerritServer gs = GerritServer.getInstance();
     final SchemaFactory<ReviewDb> rdf = gs.getDatabase();
-    final GroupCache groups = gs.getGroupCache();
-    return new ChangeDetailServiceImpl(rdf, groups);
+    return new ChangeDetailServiceImpl(rdf);
   }
 }

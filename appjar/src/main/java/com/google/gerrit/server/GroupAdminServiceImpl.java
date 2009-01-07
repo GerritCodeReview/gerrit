@@ -17,7 +17,6 @@ package com.google.gerrit.server;
 import com.google.gerrit.client.admin.AccountGroupDetail;
 import com.google.gerrit.client.admin.GroupAdminService;
 import com.google.gerrit.client.data.AccountInfoCacheFactory;
-import com.google.gerrit.client.data.GroupCache;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.AccountGroupMember;
@@ -41,18 +40,15 @@ import java.util.Set;
 
 public class GroupAdminServiceImpl extends BaseServiceImplementation implements
     GroupAdminService {
-  private final GroupCache groupCache;
-
   public GroupAdminServiceImpl(final GerritServer server) {
     super(server.getDatabase());
-    groupCache = server.getGroupCache();
   }
 
   public void ownedGroups(final AsyncCallback<List<AccountGroup>> callback) {
     run(callback, new Action<List<AccountGroup>>() {
       public List<AccountGroup> run(ReviewDb db) throws OrmException {
         final List<AccountGroup> result;
-        if (groupCache.isAdministrator(Common.getAccountId())) {
+        if (Common.getGroupCache().isAdministrator(Common.getAccountId())) {
           result = db.accountGroups().all().toList();
         } else {
           result = myOwnedGroups(db);
@@ -91,7 +87,7 @@ public class GroupAdminServiceImpl extends BaseServiceImplementation implements
         db.accountGroups().insert(Collections.singleton(group), txn);
         db.accountGroupMembers().insert(Collections.singleton(m), txn);
         txn.commit();
-        groupCache.notifyGroupAdd(m);
+        Common.getGroupCache().notifyGroupAdd(m);
 
         return group.getId();
       }
@@ -109,8 +105,8 @@ public class GroupAdminServiceImpl extends BaseServiceImplementation implements
         }
 
         final AccountGroupDetail d = new AccountGroupDetail();
-        final boolean isAuto = groupCache.isAutoGroup(group.getId());
-        d.load(db, new AccountInfoCacheFactory(db), group, isAuto);
+        final boolean auto = Common.getGroupCache().isAutoGroup(group.getId());
+        d.load(db, new AccountInfoCacheFactory(db), group, auto);
         return d;
       }
     });
@@ -183,7 +179,7 @@ public class GroupAdminServiceImpl extends BaseServiceImplementation implements
     run(callback, new Action<AccountGroupDetail>() {
       public AccountGroupDetail run(ReviewDb db) throws OrmException, Failure {
         assertAmGroupOwner(db, groupId);
-        if (groupCache.isAutoGroup(groupId)) {
+        if (Common.getGroupCache().isAutoGroup(groupId)) {
           throw new Failure(new NameAlreadyUsedException());
         }
         final Account a = findAccount(db, nameOrEmail);
@@ -195,7 +191,7 @@ public class GroupAdminServiceImpl extends BaseServiceImplementation implements
 
         final AccountGroupMember m = new AccountGroupMember(key);
         db.accountGroupMembers().insert(Collections.singleton(m));
-        groupCache.notifyGroupAdd(m);
+        Common.getGroupCache().notifyGroupAdd(m);
 
         final AccountGroupDetail d = new AccountGroupDetail();
         d.loadOneMember(db, a, m);
@@ -213,7 +209,8 @@ public class GroupAdminServiceImpl extends BaseServiceImplementation implements
         for (final AccountGroupMember.Key k : keys) {
           if (!owned.contains(k.getAccountGroupId())) {
             if (amAdmin == null) {
-              amAdmin = groupCache.isAdministrator(Common.getAccountId());
+              amAdmin =
+                  Common.getGroupCache().isAdministrator(Common.getAccountId());
             }
             if (!amAdmin) {
               throw new Failure(new NoSuchEntityException());
@@ -224,7 +221,7 @@ public class GroupAdminServiceImpl extends BaseServiceImplementation implements
           final AccountGroupMember m = db.accountGroupMembers().get(k);
           if (m != null) {
             db.accountGroupMembers().delete(Collections.singleton(m));
-            groupCache.notifyGroupDelete(m);
+            Common.getGroupCache().notifyGroupDelete(m);
           }
         }
         return VoidResult.INSTANCE;
@@ -239,8 +236,8 @@ public class GroupAdminServiceImpl extends BaseServiceImplementation implements
       throw new Failure(new NoSuchEntityException());
     }
     final Account.Id me = Common.getAccountId();
-    if (!groupCache.isInGroup(me, group.getOwnerGroupId())
-        && !groupCache.isAdministrator(me)) {
+    if (!Common.getGroupCache().isInGroup(me, group.getOwnerGroupId())
+        && !Common.getGroupCache().isAdministrator(me)) {
       throw new Failure(new NoSuchEntityException());
     }
   }
@@ -258,7 +255,7 @@ public class GroupAdminServiceImpl extends BaseServiceImplementation implements
       throws OrmException {
     final Account.Id me = Common.getAccountId();
     final List<AccountGroup> own = new ArrayList<AccountGroup>();
-    for (final AccountGroup.Id groupId : groupCache.getGroups(me)) {
+    for (final AccountGroup.Id groupId : Common.getGroupCache().getGroups(me)) {
       for (final AccountGroup g : db.accountGroups().ownedByGroup(groupId)) {
         own.add(g);
       }

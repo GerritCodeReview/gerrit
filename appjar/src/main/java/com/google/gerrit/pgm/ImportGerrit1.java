@@ -24,6 +24,7 @@ import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.SystemConfig;
+import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.git.InvalidRepositoryException;
 import com.google.gerrit.git.PatchSetImporter;
 import com.google.gerrit.server.GerritServer;
@@ -173,7 +174,7 @@ public class ImportGerrit1 {
     for (final AccountGroup.Id groupId : groups) {
       insertRight(proj, category, groupId);
       for (final Iterator<Account.Id> i = needGroup.iterator(); i.hasNext();) {
-        if (gs.getGroupCache().isInGroup(i.next(), groupId)) {
+        if (Common.getGroupCache().isInGroup(i.next(), groupId)) {
           i.remove();
         }
       }

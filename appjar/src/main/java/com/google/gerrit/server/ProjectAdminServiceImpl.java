@@ -16,7 +16,6 @@ package com.google.gerrit.server;
 
 import com.google.gerrit.client.admin.ProjectAdminService;
 import com.google.gerrit.client.admin.ProjectDetail;
-import com.google.gerrit.client.data.GroupCache;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
@@ -41,18 +40,15 @@ import java.util.Set;
 
 public class ProjectAdminServiceImpl extends BaseServiceImplementation
     implements ProjectAdminService {
-  private final GroupCache groupCache;
-
   public ProjectAdminServiceImpl(final GerritServer server) {
     super(server.getDatabase());
-    groupCache = server.getGroupCache();
   }
 
   public void ownedProjects(final AsyncCallback<List<Project>> callback) {
     run(callback, new Action<List<Project>>() {
       public List<Project> run(ReviewDb db) throws OrmException {
         final List<Project> result;
-        if (groupCache.isAdministrator(Common.getAccountId())) {
+        if (Common.getGroupCache().isAdministrator(Common.getAccountId())) {
           result = db.projects().all().toList();
         } else {
           result = myOwnedProjects(db);
@@ -132,7 +128,8 @@ public class ProjectAdminServiceImpl extends BaseServiceImplementation
         for (final ProjectRight.Key k : keys) {
           if (!owned.contains(k.getProjectId())) {
             if (amAdmin == null) {
-              amAdmin = groupCache.isAdministrator(Common.getAccountId());
+              amAdmin =
+                  Common.getGroupCache().isAdministrator(Common.getAccountId());
             }
             if (!amAdmin) {
               throw new Failure(new NoSuchEntityException());
@@ -211,8 +208,8 @@ public class ProjectAdminServiceImpl extends BaseServiceImplementation
       throw new Failure(new NoSuchEntityException());
     }
     final Account.Id me = Common.getAccountId();
-    if (!groupCache.isInGroup(me, project.getOwnerGroupId())
-        && !groupCache.isAdministrator(me)) {
+    if (!Common.getGroupCache().isInGroup(me, project.getOwnerGroupId())
+        && !Common.getGroupCache().isAdministrator(me)) {
       throw new Failure(new NoSuchEntityException());
     }
   }
@@ -220,7 +217,7 @@ public class ProjectAdminServiceImpl extends BaseServiceImplementation
   private List<Project> myOwnedProjects(final ReviewDb db) throws OrmException {
     final Account.Id me = Common.getAccountId();
     final List<Project> own = new ArrayList<Project>();
-    for (final AccountGroup.Id groupId : groupCache.getGroups(me)) {
+    for (final AccountGroup.Id groupId : Common.getGroupCache().getGroups(me)) {
       for (final Project g : db.projects().ownedByGroup(groupId)) {
         own.add(g);
       }

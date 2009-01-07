@@ -211,6 +211,7 @@ class SshKeyPanel extends Composite {
     void addOneKey(final AccountSshKey k) {
       final int row = table.getRowCount();
       table.insertRow(row);
+      applyDataRowStyle(row);
 
       table.setWidget(row, 1, new CheckBox());
       table.setWidget(row, 2, k.isValid() ? Gerrit.ICONS.greenCheck()

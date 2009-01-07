@@ -103,6 +103,7 @@ public class ProjectListScreen extends AccountScreen {
       for (final Project k : result) {
         final int row = table.getRowCount();
         table.insertRow(row);
+        applyDataRowStyle(row);
         populate(row, k);
       }
     }

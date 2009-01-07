@@ -378,6 +378,7 @@ public class AccountGroupScreen extends AccountScreen {
     void insertMember(final AccountGroupMember k) {
       final int row = table.getRowCount();
       table.insertRow(row);
+      applyDataRowStyle(row);
       populate(row, k);
     }
 
@@ -388,6 +389,7 @@ public class AccountGroupScreen extends AccountScreen {
       for (final AccountGroupMember k : result) {
         final int row = table.getRowCount();
         table.insertRow(row);
+        applyDataRowStyle(row);
         populate(row, k);
       }
     }

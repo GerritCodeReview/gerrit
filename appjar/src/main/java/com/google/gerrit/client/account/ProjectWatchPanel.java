@@ -237,6 +237,7 @@ class ProjectWatchPanel extends Composite {
       }
 
       table.insertRow(row);
+      applyDataRowStyle(row);
       populate(row, k);
     }
 
@@ -247,6 +248,7 @@ class ProjectWatchPanel extends Composite {
       for (final AccountProjectWatchInfo k : result) {
         final int row = table.getRowCount();
         table.insertRow(row);
+        applyDataRowStyle(row);
         populate(row, k);
       }
     }

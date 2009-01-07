@@ -90,6 +90,7 @@ class AgreementPanel extends Composite {
     void addOne(final AgreementInfo info, final AccountAgreement k) {
       final int row = table.getRowCount();
       table.insertRow(row);
+      applyDataRowStyle(row);
 
       final ContributorAgreement cla = info.agreements.get(k.getAgreementId());
       final String statusName;

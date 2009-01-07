@@ -172,6 +172,10 @@
   white-space: nowrap;
 }
 
+.gerrit-ChangeTable .LeftMostCell {
+  border-left: 1px solid #d4e9a9;
+}
+
 .gerrit-ChangeTable .DataCell {
   padding-left: 5px;
   padding-right: 5px;
@@ -221,6 +225,7 @@
 }
 
 .gerrit-ChangeTable .EmptySection {
+  border-left: 1px solid #d4e9a9;
   border-right: 1px solid #d4e9a9;
   border-bottom: 1px solid #d4e9a9;
   font-style: italic;

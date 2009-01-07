@@ -136,6 +136,7 @@ public class GroupListScreen extends AccountScreen {
       for (final AccountGroup k : result) {
         final int row = table.getRowCount();
         table.insertRow(row);
+        applyDataRowStyle(row);
         populate(row, k);
       }
     }

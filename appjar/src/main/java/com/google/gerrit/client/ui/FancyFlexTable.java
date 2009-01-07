@@ -37,12 +37,13 @@ import java.util.Map.Entry;
 
 public abstract class FancyFlexTable<RowItem> extends Composite implements
     HasFocus {
-  protected static final String S_ACTIVE_ROW = "ActiveRow";
   protected static final String MY_STYLE = "gerrit-ChangeTable";
   protected static final String S_ICON_HEADER = "IconHeader";
   protected static final String S_DATA_HEADER = "DataHeader";
   protected static final String S_ICON_CELL = "IconCell";
   protected static final String S_DATA_CELL = "DataCell";
+  protected static final String S_LEFT_MOST_CELL = "LeftMostCell";
+  protected static final String S_ACTIVE_ROW = "ActiveRow";
 
   protected static final int C_ARROW = 0;
 
@@ -194,6 +195,7 @@ public abstract class FancyFlexTable<RowItem> extends Composite implements
 
   protected void applyDataRowStyle(final int newRow) {
     table.getCellFormatter().addStyleName(newRow, C_ARROW, S_ICON_CELL);
+    table.getCellFormatter().addStyleName(newRow, C_ARROW, S_LEFT_MOST_CELL);
   }
 
   public void finishDisplay(final boolean requestFocus) {

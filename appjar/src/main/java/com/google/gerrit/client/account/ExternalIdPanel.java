@@ -113,6 +113,7 @@ class ExternalIdPanel extends Composite {
     void addOneId(final AccountExternalId k) {
       final int row = table.getRowCount();
       table.insertRow(row);
+      applyDataRowStyle(row);
 
       table.setText(row, 1, FormatUtil.mediumFormat(k.getLastUsedOn()));
       table.setText(row, 2, k.getEmailAddress());

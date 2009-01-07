@@ -444,6 +444,7 @@ public class ProjectAdminScreen extends AccountScreen {
       for (final ProjectRight k : result) {
         final int row = table.getRowCount();
         table.insertRow(row);
+        applyDataRowStyle(row);
         populate(row, groups, k);
       }
     }

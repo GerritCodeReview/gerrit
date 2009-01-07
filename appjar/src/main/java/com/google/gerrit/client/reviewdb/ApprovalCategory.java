@@ -42,12 +42,24 @@ public final class ApprovalCategory {
     }
   }
 
+  /** Internal short unique identifier for this category. */
   @Column
   protected Id categoryId;
 
+  /** Unique name for this category, shown in the web interface to users. */
   @Column(length = 20)
   protected String name;
 
+  /**
+   * Order of this category within the Approvals table when presented.
+   * <p>
+   * If < 0 (e.g. -1) this category is not shown in the Approvals table but is
+   * instead considered to be an action that the user might be able to perform,
+   * e.g. "Submit".
+   * <p>
+   * If >= 0 this category is shown in the Approvals table, sorted along with
+   * its siblings by <code>position, name</code>.
+   */
   @Column
   protected short position;
 
@@ -77,5 +89,9 @@ public final class ApprovalCategory {
 
   public void setPosition(final short p) {
     position = p;
+  }
+
+  public boolean isAction() {
+    return position < 0;
   }
 }

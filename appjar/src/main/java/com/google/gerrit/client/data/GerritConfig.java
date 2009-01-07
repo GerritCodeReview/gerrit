@@ -50,12 +50,12 @@ public class GerritConfig {
   }
 
   public void add(final ApprovalType t) {
-    if (0 <= t.getCategory().getPosition()) {
-      initApprovalTypes();
-      approvalTypes.add(t);
-    } else {
+    if (t.getCategory().isAction()) {
       initActionTypes();
       actionTypes.add(t);
+    } else {
+      initApprovalTypes();
+      approvalTypes.add(t);
     }
   }
 

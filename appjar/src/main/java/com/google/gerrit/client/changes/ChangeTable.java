@@ -28,7 +28,6 @@ import com.google.gerrit.client.ui.AccountDashboardLink;
 import com.google.gerrit.client.ui.ChangeLink;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.SourcesTableEvents;
@@ -83,6 +82,8 @@ public class ChangeTable extends FancyFlexTable<ChangeInfo> {
       public void onCellClicked(SourcesTableEvents sender, int row, int cell) {
         if (cell == C_STAR) {
           onStarClick(row);
+        } else if (cell == C_OWNER || cell == C_REVIEWERS) {
+          // Don't do anything.
         } else if (getRowItem(row) != null) {
           movePointerTo(row);
         }

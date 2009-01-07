@@ -25,7 +25,6 @@ import com.google.gerrit.client.ui.AccountScreen;
 import com.google.gerrit.client.ui.LazyTabChild;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gwt.i18n.client.LocaleInfo;
-import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.SourcesTabEvents;
 import com.google.gwt.user.client.ui.TabListener;

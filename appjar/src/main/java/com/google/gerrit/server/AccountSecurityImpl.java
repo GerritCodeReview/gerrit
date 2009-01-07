@@ -75,7 +75,7 @@ public class AccountSecurityImpl extends BaseServiceImplementation implements
           newKey.setInvalid();
         }
         db.accountSshKeys().insert(Collections.singleton(newKey));
-        SshUtil.invalidate(db.accounts().get(me));
+        SshUtil.invalidate(Common.getAccountCache().get(me, db));
         return newKey;
       }
     });
@@ -96,7 +96,7 @@ public class AccountSecurityImpl extends BaseServiceImplementation implements
           final Transaction txn = db.beginTransaction();
           db.accountSshKeys().delete(k, txn);
           txn.commit();
-          SshUtil.invalidate(db.accounts().get(me));
+          SshUtil.invalidate(Common.getAccountCache().get(me, db));
         }
 
         return VoidResult.INSTANCE;
@@ -122,6 +122,7 @@ public class AccountSecurityImpl extends BaseServiceImplementation implements
         me.setPreferredEmail(emailAddr);
         me.setContactInformation(info);
         db.accounts().update(Collections.singleton(me));
+        Common.getAccountCache().invalidate(me.getId());
         return VoidResult.INSTANCE;
       }
     });
@@ -137,8 +138,8 @@ public class AccountSecurityImpl extends BaseServiceImplementation implements
         }
 
         final AccountAgreement a =
-            new AccountAgreement(new AccountAgreement.Key(Common
-                .getAccountId(), id));
+            new AccountAgreement(new AccountAgreement.Key(
+                Common.getAccountId(), id));
         if (cla.isAutoVerify()) {
           a.review(AccountAgreement.Status.VERIFIED, null);
         }

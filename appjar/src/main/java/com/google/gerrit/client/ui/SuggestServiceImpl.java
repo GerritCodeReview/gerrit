@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.ui;
 
+import com.google.gerrit.client.data.AccountCache;
 import com.google.gerrit.client.data.AccountInfo;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountExternalId;
@@ -21,6 +22,7 @@ import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.BaseServiceImplementation;
+import com.google.gerrit.client.rpc.Common;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtorm.client.OrmException;
 
@@ -69,10 +71,11 @@ public class SuggestServiceImpl extends BaseServiceImplementation implements
           }
         }
         if (r.size() < n) {
+          final AccountCache ac = Common.getAccountCache();
           for (final AccountExternalId e : db.accountExternalIds()
               .suggestByEmailAddress(a, b, n - r.size())) {
             if (!r.containsKey(e.getAccountId())) {
-              final Account p = db.accounts().get(e.getAccountId());
+              final Account p = ac.get(e.getAccountId(), db);
               if (p != null) {
                 r.put(e.getAccountId(), new AccountInfo(p));
               }

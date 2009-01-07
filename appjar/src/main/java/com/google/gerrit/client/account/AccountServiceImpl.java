@@ -37,8 +37,13 @@ public class AccountServiceImpl extends BaseServiceImplementation implements
     AccountService {
   public void myAccount(final AsyncCallback<Account> callback) {
     run(callback, new Action<Account>() {
-      public Account run(ReviewDb db) throws OrmException {
-        return db.accounts().get(Common.getAccountId());
+      public Account run(ReviewDb db) throws Failure {
+        final Account a =
+            Common.getAccountCache().get(Common.getAccountId(), db);
+        if (a == null) {
+          throw new Failure(new NoSuchEntityException());
+        }
+        return a;
       }
     });
   }
@@ -50,6 +55,7 @@ public class AccountServiceImpl extends BaseServiceImplementation implements
         final Account a = db.accounts().get(Common.getAccountId());
         a.setDefaultContext(newSetting);
         db.accounts().update(Collections.singleton(a));
+        Common.getAccountCache().invalidate(a.getId());
         return VoidResult.INSTANCE;
       }
     });

@@ -16,7 +16,7 @@ package com.google.gerrit.client.data;
 
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.ReviewDb;
-import com.google.gwtorm.client.OrmException;
+import com.google.gerrit.client.rpc.Common;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -58,9 +58,9 @@ public class AccountInfoCacheFactory {
   }
 
   /** Fetch all accounts previously queued by {@link #want(Account.Id)} */
-  public void fetch() throws OrmException {
+  public void fetch() {
     if (!toFetch.isEmpty()) {
-      for (final Account a : db.accounts().get(toFetch)) {
+      for (final Account a : Common.getAccountCache().get(toFetch, db)) {
         cache.put(a.getId(), a);
       }
       toFetch.clear();
@@ -68,7 +68,7 @@ public class AccountInfoCacheFactory {
   }
 
   /** Load one account entity, reusing a cached instance if already loaded. */
-  public Account get(final Account.Id id) throws OrmException {
+  public Account get(final Account.Id id) {
     if (id == null) {
       return null;
     }
@@ -76,7 +76,7 @@ public class AccountInfoCacheFactory {
     Account a = cache.get(id);
     if (a == null) {
       if (toFetch.isEmpty()) {
-        a = db.accounts().get(id);
+        a = Common.getAccountCache().get(id, db);
         if (a != null) {
           cache.put(id, a);
         }
@@ -101,7 +101,7 @@ public class AccountInfoCacheFactory {
    * Implicitly invokes {@link #fetch()} prior to creating the cache, ensuring
    * any previously enqueued entities will be included in the result.
    * */
-  public AccountInfoCache create() throws OrmException {
+  public AccountInfoCache create() {
     fetch();
     final List<AccountInfo> r = new ArrayList<AccountInfo>(cache.size());
     for (final Account a : cache.values()) {

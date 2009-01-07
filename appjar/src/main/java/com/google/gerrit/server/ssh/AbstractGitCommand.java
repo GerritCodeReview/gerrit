@@ -20,7 +20,6 @@ import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.git.InvalidRepositoryException;
-import com.google.gwtorm.client.OrmException;
 
 import org.spearce.jgit.lib.Repository;
 
@@ -70,9 +69,8 @@ abstract class AbstractGitCommand extends AbstractCommand {
 
     db = openReviewDb();
     try {
-      try {
-        userAccount = db.accounts().get(getAccountId());
-      } catch (OrmException e) {
+      userAccount = Common.getAccountCache().get(getAccountId(), db);
+      if (userAccount == null) {
         throw new Failure(1, "fatal: cannot query user database");
       }
 

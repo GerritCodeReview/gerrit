@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server;
 
+import com.google.gerrit.client.data.AccountCache;
 import com.google.gerrit.client.data.ApprovalType;
 import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.client.data.GitwebLink;
@@ -102,6 +103,7 @@ public class GerritServer {
 
     Common.setSchemaFactory(db);
     Common.setProjectCache(new ProjectCache());
+    Common.setAccountCache(new AccountCache());
     Common.setGroupCache(new GroupCache(sConfig));
   }
 

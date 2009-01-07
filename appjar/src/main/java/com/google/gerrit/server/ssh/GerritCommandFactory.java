@@ -35,9 +35,9 @@ class GerritCommandFactory implements CommandFactory {
         return new Receive();
       }
     });
-    commands.put("gerrit-flush-group-cache", new Factory() {
+    commands.put("gerrit-flush-caches", new Factory() {
       public AbstractCommand create() {
-        return new AdminFlushGroupCache();
+        return new AdminFlushCaches();
       }
     });
 

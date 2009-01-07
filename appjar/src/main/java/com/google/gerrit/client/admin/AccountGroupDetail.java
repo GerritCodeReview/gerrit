@@ -86,7 +86,7 @@ public class AccountGroupDetail {
   }
 
   public void loadOneMember(final ReviewDb db, final Account a,
-      final AccountGroupMember m) throws OrmException {
+      final AccountGroupMember m) {
     final AccountInfoCacheFactory acc = new AccountInfoCacheFactory(db);
     acc.put(a);
     acc.want(m.getAccountId());

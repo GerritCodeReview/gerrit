@@ -322,7 +322,7 @@ public class LoginServlet extends HttpServlet {
       }
       acctExt.setLastUsedOn();
       extAccess.update(Collections.singleton(acctExt));
-      account = db.accounts().get(acctExt.getAccountId());
+      account = Common.getAccountCache().get(acctExt.getAccountId(), db);
     } else {
       account = null;
     }
@@ -376,7 +376,7 @@ public class LoginServlet extends HttpServlet {
       return null;
     }
 
-    final Account account = db.accounts().get(me);
+    final Account account = Common.getAccountCache().get(me, db);
     if (account == null) {
       return null;
     }
@@ -430,7 +430,8 @@ public class LoginServlet extends HttpServlet {
   }
 
   private static boolean isGoogleAccount(final AccountExternalId user) {
-    return user.getExternalId().startsWith(GoogleAccountDiscovery.GOOGLE_ACCOUNT);
+    return user.getExternalId().startsWith(
+        GoogleAccountDiscovery.GOOGLE_ACCOUNT);
   }
 
   private static AccountExternalId lookupGoogleAccount(
@@ -464,18 +465,7 @@ public class LoginServlet extends HttpServlet {
       return;
     }
 
-    Account account;
-    try {
-      final ReviewDb db = Common.getSchemaFactory().open();
-      try {
-        account = db.accounts().get(id);
-      } finally {
-        db.close();
-      }
-    } catch (OrmException e) {
-      getServletContext().log("Account lookup failed for " + id, e);
-      account = null;
-    }
+    final Account account = Common.getAccountCache().get(id);
     if (account == null) {
       redirectChooseProvider(req, rsp);
       return;

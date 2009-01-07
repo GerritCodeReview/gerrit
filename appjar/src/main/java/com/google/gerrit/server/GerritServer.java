@@ -24,6 +24,7 @@ import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.SystemConfig;
+import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.git.RepositoryCache;
 import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.gwtjsonrpc.server.XsrfException;
@@ -77,7 +78,6 @@ public class GerritServer {
 
   private final Database<ReviewDb> db;
   private SystemConfig sConfig;
-  private GerritConfig gerritConfig;
   private final SignedToken xsrf;
   private final SignedToken account;
   private final RepositoryCache repositories;
@@ -287,7 +287,7 @@ public class GerritServer {
           c.getId()).toList()));
     }
 
-    gerritConfig = r;
+    Common.setGerritConfig(r);
   }
 
   /** Get the {@link ReviewDb} schema factory for the server. */
@@ -336,11 +336,6 @@ public class GerritServer {
       u += "/";
     }
     return u;
-  }
-
-  /** Get the cached configuration data used by the client. */
-  public GerritConfig getGerritConfig() {
-    return gerritConfig;
   }
 
   /** Get the repositories maintained by this server. */

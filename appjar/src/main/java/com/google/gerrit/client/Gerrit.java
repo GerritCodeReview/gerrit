@@ -17,6 +17,7 @@ package com.google.gerrit.client;
 import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.client.data.SystemInfoService;
 import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.LinkMenuBar;
 import com.google.gerrit.client.ui.LinkMenuItem;
@@ -54,7 +55,6 @@ public class Gerrit implements EntryPoint {
   public static final GerritIcons ICONS = GWT.create(GerritIcons.class);
   public static final SystemInfoService SYSTEM_SVC;
 
-  private static GerritConfig config;
   private static Account myAccount;
   private static final ArrayList<SignedInListener> signedInListeners =
       new ArrayList<SignedInListener>();
@@ -99,11 +99,6 @@ public class Gerrit implements EntryPoint {
     final Screen p = priorScreens.get(view.getScreenCacheToken());
     currentScreen = p != null ? p.recycleThis(view) : view;
     body.add(currentScreen);
-  }
-
-  /** Get the public configuration data used by this Gerrit server. */
-  public static GerritConfig getGerritConfig() {
-    return config;
   }
 
   /** @return the currently signed in user's account data; null if no account */
@@ -170,7 +165,7 @@ public class Gerrit implements EntryPoint {
     JsonUtil.addRpcStatusListener(new RpcStatus(topMenu));
     SYSTEM_SVC.loadGerritConfig(new GerritCallback<GerritConfig>() {
       public void onSuccess(final GerritConfig result) {
-        config = result;
+        Common.setGerritConfig(result);
         onModuleLoad2();
       }
     });

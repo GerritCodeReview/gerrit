@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.ssh;
 
+import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.server.GerritServer;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
@@ -67,7 +68,7 @@ public class SshServlet extends HttpServlet {
       throw new ServletException("Cannot load GerritServer", e);
     }
 
-    final int myPort = srv.getGerritConfig().getSshdPort();
+    final int myPort = Common.getGerritConfig().getSshdPort();
     sshd = SshServer.setUpDefaultServer();
     sshd.setPort(myPort);
     sshd.setKeyPairProvider(new FileKeyPairProvider(new String[] {

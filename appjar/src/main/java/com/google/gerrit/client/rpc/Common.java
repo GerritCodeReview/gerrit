@@ -15,11 +15,13 @@
 package com.google.gerrit.client.rpc;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gwt.core.client.GWT;
 
 public class Common {
   public static final RpcConstants C;
+  private static GerritConfig config;
   private static CurrentAccountImpl caImpl;
 
   static {
@@ -34,6 +36,15 @@ public class Common {
     } else {
       C = null;
     }
+  }
+
+  /** Get the public configuration data used by this Gerrit instance. */
+  public static GerritConfig getGerritConfig() {
+    return config;
+  }
+
+  public static void setGerritConfig(final GerritConfig imp) {
+    config = imp;
   }
 
   /** Get the unique id for this account; null if there is no account. */

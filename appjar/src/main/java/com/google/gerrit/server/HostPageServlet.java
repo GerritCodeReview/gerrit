@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server;
 
+import com.google.gerrit.client.rpc.Common;
 import com.google.gwt.user.server.rpc.RPCServletUtils;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
@@ -66,7 +67,7 @@ public class HostPageServlet extends HttpServlet {
     if (hostDoc == null) {
       throw new ServletException("No " + hostPageName + " in CLASSPATH");
     }
-    injectJson(hostDoc, "gerrit_gerritconfig", srv.getGerritConfig());
+    injectJson(hostDoc, "gerrit_gerritconfig", Common.getGerritConfig());
     injectCssFile(hostDoc, "gerrit_sitecss", sitePath, "GerritSite.css");
     injectXmlFile(hostDoc, "gerrit_header", sitePath, "GerritSiteHeader.html");
     injectXmlFile(hostDoc, "gerrit_footer", sitePath, "GerritSiteFooter.html");

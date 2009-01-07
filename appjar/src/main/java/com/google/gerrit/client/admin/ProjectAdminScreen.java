@@ -14,7 +14,6 @@
 
 package com.google.gerrit.client.admin;
 
-import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.data.ApprovalType;
 import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.client.reviewdb.AccountGroup;
@@ -22,6 +21,7 @@ import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ProjectRight;
+import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountGroupSuggestOracle;
 import com.google.gerrit.client.ui.AccountScreen;
@@ -193,11 +193,11 @@ public class ProjectAdminScreen extends AccountScreen {
         populateRangeBoxes();
       }
     });
-    for (final ApprovalType at : Gerrit.getGerritConfig().getApprovalTypes()) {
+    for (final ApprovalType at : Common.getGerritConfig().getApprovalTypes()) {
       final ApprovalCategory c = at.getCategory();
       catBox.addItem(c.getName(), c.getId().get());
     }
-    for (final ApprovalType at : Gerrit.getGerritConfig().getActionTypes()) {
+    for (final ApprovalType at : Common.getGerritConfig().getActionTypes()) {
       final ApprovalCategory c = at.getCategory();
       catBox.addItem(c.getName(), c.getId().get());
     }
@@ -285,7 +285,7 @@ public class ProjectAdminScreen extends AccountScreen {
       return;
     }
     at =
-        Gerrit.getGerritConfig().getApprovalType(
+        Common.getGerritConfig().getApprovalType(
             new ApprovalCategory.Id(catBox.getValue(idx)));
     if (at == null) {
       return;
@@ -337,7 +337,7 @@ public class ProjectAdminScreen extends AccountScreen {
     final ApprovalType at;
     if (idx >= 0) {
       at =
-          Gerrit.getGerritConfig().getApprovalType(
+          Common.getGerritConfig().getApprovalType(
               new ApprovalCategory.Id(catBox.getValue(idx)));
     } else {
       at = null;
@@ -450,7 +450,7 @@ public class ProjectAdminScreen extends AccountScreen {
 
     void populate(final int row,
         final Map<AccountGroup.Id, AccountGroup> groups, final ProjectRight k) {
-      final GerritConfig config = Gerrit.getGerritConfig();
+      final GerritConfig config = Common.getGerritConfig();
       final ApprovalType ar = config.getApprovalType(k.getApprovalCategoryId());
       final AccountGroup group = groups.get(k.getAccountGroupId());
 

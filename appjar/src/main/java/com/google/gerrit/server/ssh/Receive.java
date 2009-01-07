@@ -27,6 +27,7 @@ import com.google.gerrit.client.reviewdb.ChangeApproval;
 import com.google.gerrit.client.reviewdb.ContactInformation;
 import com.google.gerrit.client.reviewdb.ContributorAgreement;
 import com.google.gerrit.client.reviewdb.PatchSet;
+import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.git.PatchSetImporter;
 import com.google.gerrit.server.GerritServer;
 import com.google.gwtorm.client.OrmException;
@@ -466,7 +467,7 @@ class Receive extends AbstractGitCommand {
     change.setCurrentPatchSet(imp.getPatchSetInfo());
     db.changes().insert(Collections.singleton(change));
 
-    for (final ApprovalType t : server.getGerritConfig().getApprovalTypes()) {
+    for (final ApprovalType t : Common.getGerritConfig().getApprovalTypes()) {
       final ApprovalCategoryValue v = t.getMax();
       if (v != null) {
         db.changeApprovals().insert(
@@ -528,7 +529,7 @@ class Receive extends AbstractGitCommand {
         db.changeApprovals().update(Collections.singleton(a));
       }
     }
-    for (final ApprovalType t : server.getGerritConfig().getApprovalTypes()) {
+    for (final ApprovalType t : Common.getGerritConfig().getApprovalTypes()) {
       final ApprovalCategoryValue v = t.getMax();
       if (!have.contains(t.getCategory().getId()) && v != null) {
         db.changeApprovals().insert(

@@ -18,6 +18,7 @@ import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.client.data.SystemInfoService;
 import com.google.gerrit.client.reviewdb.ContributorAgreement;
 import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gerrit.client.rpc.Common;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtorm.client.OrmException;
 
@@ -31,7 +32,7 @@ public class SystemInfoServiceImpl implements SystemInfoService {
   }
 
   public void loadGerritConfig(final AsyncCallback<GerritConfig> callback) {
-    callback.onSuccess(server.getGerritConfig());
+    callback.onSuccess(Common.getGerritConfig());
   }
 
   public void contributorAgreements(

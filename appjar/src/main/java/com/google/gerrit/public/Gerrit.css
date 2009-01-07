@@ -243,7 +243,7 @@
 
 .gerrit-PatchContentTable .DiffText {
   white-space: pre;
-  font-family: Courier New, Courier, monospace;
+  font-family: monospace;
   font-size: small;
 }
 
@@ -290,7 +290,8 @@
 }
 
 .gerrit-PatchContentTable .LineNumber {
-  font-family: Courier New, Courier, monospace;
+  font-family: monospace;
+  font-size: small;
   width: 3.5em;
   padding: 0px;
   text-align: right;
@@ -300,7 +301,8 @@
 }
 
 .gerrit-PatchContentTable .NoLineLineNumber {
-  font-family: Courier New, Courier, monospace;
+  font-family: monospace;
+  font-size: small;
   width: 3.5em;
   padding-left: 0.2em;
   padding-right: 0.2em;
@@ -309,7 +311,7 @@
 .gerrit-PatchContentTable .FileLine {
   padding-left: 0.2em;
   white-space: pre;
-  font-family: Courier New, Courier, monospace;
+  font-family: monospace;
   font-size: small;
   padding-right: 0.2em;
 }
@@ -357,7 +359,7 @@
 
 .gerrit-ChangeScreen-Description {
   white-space: pre;
-  font-family: Courier New, Courier, monospace;
+  font-family: monospace;
   font-size: small;
 }
 
@@ -473,7 +475,8 @@
 
 .gerrit-InfoBlock td.command {
   white-space: pre;
-  font-family: Courier New, Courier, monospace;
+  font-family: monospace;
+  font-size: small;
 }
 
 .gerrit-PatchSetInfoBlock {
@@ -507,7 +510,8 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
-  font-family: Courier New, Courier, monospace;
+  font-family: monospace;
+  font-size: small;
 }
 
 .gerrit-AccountInfoBlock {
@@ -557,5 +561,6 @@
   white-space: nowrap;
 }
 .gerrit-ProjectAdmin-ApprovalCategoryValue {
-  font-family: Courier New, Courier, monospace;
+  font-family: monospace;
+  font-size: small;
 }

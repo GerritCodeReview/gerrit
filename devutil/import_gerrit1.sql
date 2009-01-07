@@ -68,7 +68,6 @@ INSERT INTO account_external_ids
 DELETE FROM contributor_agreements;
 INSERT INTO contributor_agreements
 (active,
- group_agreement,
  require_contact_information,
  auto_verify,
  short_name,
@@ -76,7 +75,6 @@ INSERT INTO contributor_agreements
  agreement_url,
  id) VALUES (
  'Y',
- 'N',
  'Y',
  'Y',
  'Individual',
@@ -85,14 +83,12 @@ INSERT INTO contributor_agreements
  nextval('contributor_agreement_id'));
 INSERT INTO contributor_agreements
 (active,
- group_agreement,
  require_contact_information,
  auto_verify,
  short_name,
  short_description,
  agreement_url,
  id) VALUES (
- 'Y',
  'Y',
  'N',
  'N',

@@ -52,10 +52,6 @@ public final class ContributorAgreement {
   @Column
   protected boolean active;
 
-  /** Is this agreement one that covers a group of people? */
-  @Column
-  protected boolean groupAgreement;
-
   /** Does this agreement require the {@link Account} to have contact details? */
   @Column
   protected boolean requireContactInformation;
@@ -101,14 +97,6 @@ public final class ContributorAgreement {
 
   public void setActive(final boolean a) {
     active = a;
-  }
-
-  public boolean isGroupAgreement() {
-    return groupAgreement;
-  }
-
-  public void setGroupAgreement(final boolean g) {
-    groupAgreement = g;
   }
 
   public boolean isAutoVerify() {

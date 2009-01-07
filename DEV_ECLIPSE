@@ -1,0 +1,73 @@
+Eclipse Setup
+=============
+
+This setup is about installing Gerrit into an Eclipse workspace
+for development and debugging, especially with the GWT hosted
+mode debugger.
+
+
+User Library
+------------
+
+  Window > Preferences
+  Java > Build Path > User Libraries
+
+Create a User Library called "GWT":
+
+  New
+
+  Name: GWT
+  Add JARs...
+
+  * Select gwt-user.jar from the $(GWT_SDK) directory.
+  * Select gwt-dev-$(GWT_OS).jar from the $(GWT_SDK) directory.
+
+
+Maven Plugin
+------------
+
+- Install the Maven Integration plugins:
+
+  http://m2eclipse.codehaus.org/
+
+
+Pre-Build
+---------
+
+- Ensure jgit has been installed in your maven repository:
+
+  (cd ../jgit/jgit-maven/jgit/ && mvn install)
+
+
+Import Projects
+---------------
+
+- Import appdist using General -> Maven Projects
+
+  Uncheck "jgit".  You don't want to import it.  The Maven project
+  is configured in a non-standard way and the Eclipse plugin can't
+  import it correctly.
+
+- Right click on gwtorm, Maven -> Update Project Configuration to
+  force a compile of the generted ANTLR sources.  This fixes the
+  compile errors identified after import.
+
+
+Configure Database
+------------------
+
+- Open gerrit-devdb/src/main/config
+
+- Copy GerritServer.properties_example to GerritServer.properties
+
+- Configure your database for debugging in hosted mode.
+
+
+Launch
+------
+
+- Open Run->Debug Configurations... 
+
+- Under Java Application find "gerrit_debug" (not Mac OS X)
+  or "gerrit_macos" (Mac OS X only) to start the GWT hosted
+  mode browser and debug through Eclipse.

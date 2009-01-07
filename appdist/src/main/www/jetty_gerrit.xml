@@ -6,11 +6,11 @@
   so it answers to old-style URLs like "/$changeid" and "/mine".
 
   * Copy this file to $JETTY_HOME/contexts/gerrit.xml
-  * Edit User/Password/DatabaseName as necessary below.
+  * Edit user, password, jdbcUrl as necessary below.
 
-  * Copy jdbc-postgresql.jar to $JETTY_HOME/lib/plus/
-  * Copy c3p0-0.9.1.2.jar    to $JETTY_HOME/lib/plus/
-  * Copy gerrit.war to $JETTY_HOME/webapps/
+  * Copy jdbc/c3p0-0.9.1.2.jar       to $JETTY_HOME/lib/plus/
+  * Copy jdbc/postgresql-*.jdbc*.jar to $JETTY_HOME/lib/plus/
+  * Copy www/gerrit-*.war            to $JETTY_HOME/webapps/gerrit.war
 
   * Make sure you remove $JETTY_HOME/context/test.xml
 
@@ -39,8 +39,8 @@
       <New class="com.mchange.v2.c3p0.ComboPooledDataSource">
         <Set name="driverClass">org.postgresql.Driver</Set>
         <Set name="jdbcUrl">jdbc:postgresql:reviewdb</Set>
-        <Set name="User">gerrit2</Set>
-        <Set name="Password">secretkey</Set>
+        <Set name="user">gerrit2</Set>
+        <Set name="password">secretkey</Set>
       </New>
     </Arg>
   </New>

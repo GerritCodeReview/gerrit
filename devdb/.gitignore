@@ -1,3 +1,5 @@
+/target
+/.classpath
+/.project
 /.settings
-/jdbc-*.jar
-/GerritServer.properties
+/src/main/config/GerritServer.properties

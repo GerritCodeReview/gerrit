@@ -27,6 +27,16 @@
         <includeDependencies>false</includeDependencies>
       </binaries>
     </moduleSet>
+
+    <moduleSet>
+      <includes>
+        <include>gerrit:gerrit-devdb</include>
+      </includes>
+      <binaries>
+        <outputDirectory>jdbc</outputDirectory>
+        <unpack>false</unpack>
+      </binaries>
+    </moduleSet>
   </moduleSets>
 
   <fileSets>
@@ -40,6 +50,13 @@
     <fileSet>
       <directory>src/main/sql</directory>
       <outputDirectory>sql</outputDirectory>
+      <lineEnding>unix</lineEnding>
+      <fileMode>644</fileMode>
+    </fileSet>
+
+    <fileSet>
+      <directory>src/main/www</directory>
+      <outputDirectory>www</outputDirectory>
       <lineEnding>unix</lineEnding>
       <fileMode>644</fileMode>
     </fileSet>

@@ -14,18 +14,21 @@ then
 	exit 1
 fi
 
-out=appdist/target/gerrit-*-bin.dir &&
+out=$(cd appdist/target/gerrit-*-bin.dir/gerrit-* && pwd) &&
 ctx="$jetty/contexts/gerrit.xml" &&
 
-(cd appdist && mvn clean package) &&
+(cd appdist && mvn clean install) &&
 
-cp devdb/jdbc-postgresql.jar "$jetty/lib/plus" &&
-cp $out/gerrit-*/www/gerrit-*.war "$jetty/webapps/gerrit.war" &&
+cp $out/www/gerrit-*.war "$jetty/webapps/gerrit.war" &&
 
 if [ -f "$ctx" ]
 then
 	touch "$ctx"
 else
-	cp jetty_gerrit.xml "$ctx" &&
+	cp $out/jdbc/c3p0-*.jar "$jetty/lib/plus" &&
+	cp $out/jdbc/postgresql-*jdbc*.jar "$jetty/lib/plus" &&
+
+	rm -f "$jetty/contexts/test.xml" &&
+	cp $out/www/jetty_gerrit.xml "$ctx" &&
 	echo "You need to edit and configure $ctx"
 fi

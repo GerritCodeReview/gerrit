@@ -14,10 +14,10 @@ then
 	exit 1
 fi
 
+(cd appdist && mvn clean install) &&
+
 out=$(cd appdist/target/gerrit-*-bin.dir/gerrit-* && pwd) &&
 ctx="$jetty/contexts/gerrit.xml" &&
-
-(cd appdist && mvn clean install) &&
 
 cp $out/www/gerrit-*.war "$jetty/webapps/gerrit.war" &&
 

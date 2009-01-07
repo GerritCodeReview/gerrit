@@ -16,8 +16,6 @@
 package com.google.gerrit.client.workflow;
 
 import com.google.gerrit.client.data.ApprovalType;
-import com.google.gerrit.client.data.GerritConfig;
-import com.google.gerrit.client.data.GroupCache;
 import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
@@ -25,6 +23,7 @@ import com.google.gerrit.client.reviewdb.ChangeApproval;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gerrit.client.rpc.Common;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.Transaction;
 
@@ -37,13 +36,9 @@ import java.util.Map;
 import java.util.Set;
 
 public class RightRule {
-  private final GerritConfig config;
-  private final GroupCache groupCache;
   private final ReviewDb db;
 
-  public RightRule(final GerritConfig c, final GroupCache gc, final ReviewDb d) {
-    config = c;
-    groupCache = gc;
+  public RightRule(final ReviewDb d) {
     db = d;
   }
 
@@ -70,7 +65,7 @@ public class RightRule {
     }
 
     final Set<ApprovalCategory.Id> missing = new HashSet<ApprovalCategory.Id>();
-    for (final ApprovalType at : config.getApprovalTypes()) {
+    for (final ApprovalType at : Common.getGerritConfig().getApprovalTypes()) {
       final ChangeApproval m = max.get(at.getCategory().getId());
       final ApprovalCategoryValue n = at.getMax();
       if (m == null || n == null || m.getValue() < n.getValue()) {
@@ -107,7 +102,8 @@ public class RightRule {
     short min = 0, max = 0;
     final Collection<ProjectRight> l = rights.get(a.getCategoryId());
     if (l != null) {
-      final Set<AccountGroup.Id> gs = groupCache.getGroups(a.getAccountId());
+      final Set<AccountGroup.Id> gs =
+          Common.getGroupCache().getGroups(a.getAccountId());
       for (final ProjectRight r : l) {
         if (gs.contains(r.getAccountGroupId())) {
           min = (short) Math.min(min, r.getMinValue());

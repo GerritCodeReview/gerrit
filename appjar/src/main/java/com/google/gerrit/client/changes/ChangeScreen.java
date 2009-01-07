@@ -25,6 +25,7 @@ import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.ComplexDisclosurePanel;
+import com.google.gerrit.client.ui.DomUtil;
 import com.google.gerrit.client.ui.ExpandAllCommand;
 import com.google.gerrit.client.ui.LinkMenuBar;
 import com.google.gerrit.client.ui.Screen;
@@ -32,6 +33,7 @@ import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Label;
@@ -48,7 +50,7 @@ public class ChangeScreen extends Screen {
 
   private ChangeInfoBlock infoBlock;
   private DisclosurePanel descriptionPanel;
-  private Label description;
+  private HTML description;
 
   private DisclosurePanel dependenciesPanel;
   private ChangeTable dependencies;
@@ -183,7 +185,8 @@ public class ChangeScreen extends Screen {
     approvals.setAccountInfoCache(detail.getAccounts());
 
     infoBlock.display(detail);
-    description.setText(detail.getDescription());
+    description.setHTML(DomUtil
+        .linkify(DomUtil.escape(detail.getDescription())));
     dependsOn.display(detail.getDependsOn());
     neededBy.display(detail.getNeededBy());
     approvals.display(detail.getMissingApprovals(), detail.getApprovals());
@@ -306,8 +309,8 @@ public class ChangeScreen extends Screen {
     return p;
   }
 
-  private static Label newDescriptionLabel() {
-    final Label d = new Label();
+  private static HTML newDescriptionLabel() {
+    final HTML d = new HTML();
     d.setStyleName("gerrit-ChangeScreen-Description");
     return d;
   }

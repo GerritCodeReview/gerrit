@@ -15,14 +15,16 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.reviewdb.ChangeMessage;
+import com.google.gerrit.client.ui.DomUtil;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.HTML;
 
 public class MessagePanel extends Composite {
   boolean isRecent;
 
   public MessagePanel(final ChangeMessage msg) {
-    final Label l = new Label(msg.getMessage().trim());
+    final HTML l =
+        new HTML(DomUtil.linkify(DomUtil.escape(msg.getMessage().trim())));
     l.setStyleName("gerrit-ChangeMessage-Message");
     initWidget(l);
   }

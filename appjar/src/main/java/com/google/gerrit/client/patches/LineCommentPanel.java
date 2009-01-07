@@ -15,8 +15,9 @@
 package com.google.gerrit.client.patches;
 
 import com.google.gerrit.client.reviewdb.PatchLineComment;
+import com.google.gerrit.client.ui.DomUtil;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.HTML;
 
 public class LineCommentPanel extends Composite {
   PatchLineComment comment;
@@ -24,7 +25,8 @@ public class LineCommentPanel extends Composite {
 
   public LineCommentPanel(final PatchLineComment msg) {
     comment = msg;
-    final Label l = new Label(comment.getMessage().trim());
+    final HTML l =
+        new HTML(DomUtil.linkify(DomUtil.escape(comment.getMessage().trim())));
     l.setStyleName("gerrit-PatchLineComment");
     initWidget(l);
   }

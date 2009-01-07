@@ -32,11 +32,20 @@ public abstract class DomUtil {
     return INSTANCE.escape(in);
   }
 
+  /** Convert bare URLs into &lt;a href&gt; tags. */
+  public static String linkify(final String in) {
+    return INSTANCE.linkify(in);
+  }
+
   private DomUtil() {
   }
 
   private static abstract class Impl {
     abstract String escape(String in);
+
+    String linkify(String in) {
+      return in.replaceAll("(https?://[^ \n\r\t]*)", "<a href=\"$1\">$1</a>");
+    }
   }
 
   private static class ClientImpl extends Impl {

@@ -24,7 +24,7 @@ import com.google.gerrit.client.reviewdb.ContributorAgreement;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.BaseServiceImplementation;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
-import com.google.gerrit.client.rpc.RpcUtil;
+import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.server.ssh.SshUtil;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
@@ -48,7 +48,7 @@ public class AccountSecurityImpl extends BaseServiceImplementation implements
   public void mySshKeys(final AsyncCallback<List<AccountSshKey>> callback) {
     run(callback, new Action<List<AccountSshKey>>() {
       public List<AccountSshKey> run(ReviewDb db) throws OrmException {
-        return db.accountSshKeys().byAccount(RpcUtil.getAccountId()).toList();
+        return db.accountSshKeys().byAccount(Common.getAccountId()).toList();
       }
     });
   }
@@ -58,7 +58,7 @@ public class AccountSecurityImpl extends BaseServiceImplementation implements
     run(callback, new Action<AccountSshKey>() {
       public AccountSshKey run(final ReviewDb db) throws OrmException {
         int max = 0;
-        final Account.Id me = RpcUtil.getAccountId();
+        final Account.Id me = Common.getAccountId();
         for (final AccountSshKey k : db.accountSshKeys().byAccount(me)) {
           max = Math.max(max, k.getKey().get());
         }
@@ -90,7 +90,7 @@ public class AccountSecurityImpl extends BaseServiceImplementation implements
       final AsyncCallback<VoidResult> callback) {
     run(callback, new Action<VoidResult>() {
       public VoidResult run(final ReviewDb db) throws OrmException, Failure {
-        final Account.Id me = RpcUtil.getAccountId();
+        final Account.Id me = Common.getAccountId();
         for (final AccountSshKey.Id keyId : ids) {
           if (!me.equals(keyId.getParentKey()))
             throw new Failure(new NoSuchEntityException());
@@ -112,7 +112,7 @@ public class AccountSecurityImpl extends BaseServiceImplementation implements
   public void myExternalIds(AsyncCallback<List<AccountExternalId>> callback) {
     run(callback, new Action<List<AccountExternalId>>() {
       public List<AccountExternalId> run(ReviewDb db) throws OrmException {
-        final Account.Id me = RpcUtil.getAccountId();
+        final Account.Id me = Common.getAccountId();
         return db.accountExternalIds().byAccount(me).toList();
       }
     });
@@ -122,7 +122,7 @@ public class AccountSecurityImpl extends BaseServiceImplementation implements
       final ContactInformation info, final AsyncCallback<VoidResult> callback) {
     run(callback, new Action<VoidResult>() {
       public VoidResult run(ReviewDb db) throws OrmException {
-        final Account me = db.accounts().get(RpcUtil.getAccountId());
+        final Account me = db.accounts().get(Common.getAccountId());
         me.setFullName(fullName);
         me.setPreferredEmail(emailAddr);
         me.setContactInformation(info);
@@ -142,7 +142,7 @@ public class AccountSecurityImpl extends BaseServiceImplementation implements
         }
 
         final AccountAgreement a =
-            new AccountAgreement(new AccountAgreement.Key(RpcUtil
+            new AccountAgreement(new AccountAgreement.Key(Common
                 .getAccountId(), id));
         if (cla.isAutoVerify()) {
           a.review(AccountAgreement.Status.VERIFIED, null);

@@ -16,8 +16,8 @@ package com.google.gerrit.server;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.reviewdb.Account;
-import com.google.gerrit.client.rpc.RpcUtil;
-import com.google.gerrit.client.rpc.RpcUtil.CurrentAccountImpl;
+import com.google.gerrit.client.rpc.Common;
+import com.google.gerrit.client.rpc.Common.CurrentAccountImpl;
 import com.google.gwtjsonrpc.server.ActiveCall;
 import com.google.gwtjsonrpc.server.ValidToken;
 import com.google.gwtorm.client.OrmException;
@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public class GerritCall extends ActiveCall {
   static {
-    RpcUtil.setCurrentAccountImpl(new CurrentAccountImpl() {
+    Common.setCurrentAccountImpl(new CurrentAccountImpl() {
       public Account.Id getAccountId() {
         final GerritCall c = GerritJsonServlet.getCurrentCall();
         return c != null ? c.getAccountId() : null;

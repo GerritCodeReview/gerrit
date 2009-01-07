@@ -23,7 +23,7 @@ import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.CorruptEntityException;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
-import com.google.gerrit.client.rpc.RpcUtil;
+import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.BaseServiceImplementation.Action;
 import com.google.gerrit.client.rpc.BaseServiceImplementation.Failure;
 import com.google.gwtorm.client.OrmException;
@@ -76,7 +76,7 @@ abstract class PatchDetailAction<T> implements Action<T> {
     }
 
     accountInfo = new AccountInfoCacheFactory(db);
-    me = RpcUtil.getAccountId();
+    me = Common.getAccountId();
 
     published = new HashMap[fileCnt];
     for (int n = 0; n < fileCnt; n++) {

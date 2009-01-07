@@ -18,7 +18,7 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gwt.core.client.GWT;
 
-public class RpcUtil {
+public class Common {
   public static final RpcConstants C;
   private static CurrentAccountImpl caImpl;
 

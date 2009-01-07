@@ -32,7 +32,7 @@ import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.Project;
-import com.google.gerrit.client.rpc.RpcUtil;
+import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.HistoryListener;
@@ -124,7 +124,7 @@ public class Link implements HistoryListener {
     }
 
     if (MINE.equals(token)) {
-      return new AccountDashboardScreen(RpcUtil.getAccountId());
+      return new AccountDashboardScreen(Common.getAccountId());
     }
 
     if (MINE_STARRED.equals(token)) {

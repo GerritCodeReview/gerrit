@@ -25,7 +25,7 @@ import com.google.gwtjsonrpc.client.ServerUnavailableException;
 public abstract class GerritCallback<T> implements AsyncCallback<T> {
   public void onFailure(final Throwable caught) {
     if (isNotSignedIn(caught)) {
-      new ErrorDialog(RpcUtil.C.errorNotSignedIn()).center();
+      new ErrorDialog(Common.C.errorNotSignedIn()).center();
 
     } else if (isNoSuchEntity(caught)) {
       new ErrorDialog(Gerrit.C.notFoundBody()).center();
@@ -34,7 +34,7 @@ public abstract class GerritCallback<T> implements AsyncCallback<T> {
       new ErrorDialog(Gerrit.C.nameAlreadyUsedBody()).center();
 
     } else if (caught instanceof ServerUnavailableException) {
-      new ErrorDialog(RpcUtil.C.errorServerUnavailable()).center();
+      new ErrorDialog(Common.C.errorServerUnavailable()).center();
 
     } else {
       GWT.log(getClass().getName() + " caught " + caught, caught);

@@ -26,7 +26,7 @@ import com.google.gerrit.client.reviewdb.StarredChange;
 import com.google.gerrit.client.reviewdb.Change.Id;
 import com.google.gerrit.client.rpc.BaseServiceImplementation;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
-import com.google.gerrit.client.rpc.RpcUtil;
+import com.google.gerrit.client.rpc.Common;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
@@ -49,7 +49,7 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
 
   public void forAccount(final Account.Id id,
       final AsyncCallback<AccountDashboardInfo> callback) {
-    final Account.Id me = RpcUtil.getAccountId();
+    final Account.Id me = Common.getAccountId();
     final Account.Id target = id != null ? id : me;
     if (target == null) {
       callback.onFailure(new NoSuchEntityException());
@@ -82,7 +82,7 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
     run(callback, new Action<MineStarredInfo>() {
       public MineStarredInfo run(final ReviewDb db) throws OrmException,
           Failure {
-        final Account.Id me = RpcUtil.getAccountId();
+        final Account.Id me = Common.getAccountId();
         final AccountInfoCacheFactory ac = new AccountInfoCacheFactory(db);
         final Account user = ac.get(me);
         if (user == null) {
@@ -108,7 +108,7 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
       final AsyncCallback<VoidResult> callback) {
     run(callback, new Action<VoidResult>() {
       public VoidResult run(final ReviewDb db) throws OrmException {
-        final Account.Id me = RpcUtil.getAccountId();
+        final Account.Id me = Common.getAccountId();
         final Set<Change.Id> existing = starredBy(db, me);
         final ArrayList<StarredChange> add = new ArrayList<StarredChange>();
         final ArrayList<StarredChange> remove = new ArrayList<StarredChange>();
@@ -143,7 +143,7 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
   public void myStarredChangeIds(final AsyncCallback<Set<Change.Id>> callback) {
     run(callback, new Action<Set<Change.Id>>() {
       public Set<Id> run(final ReviewDb db) throws OrmException {
-        return starredBy(db, RpcUtil.getAccountId());
+        return starredBy(db, Common.getAccountId());
       }
     });
   }

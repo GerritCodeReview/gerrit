@@ -25,7 +25,7 @@ import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.BaseServiceImplementation;
 import com.google.gerrit.client.rpc.NameAlreadyUsedException;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
-import com.google.gerrit.client.rpc.RpcUtil;
+import com.google.gerrit.client.rpc.Common;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
@@ -52,7 +52,7 @@ public class GroupAdminServiceImpl extends BaseServiceImplementation implements
     run(callback, new Action<List<AccountGroup>>() {
       public List<AccountGroup> run(ReviewDb db) throws OrmException {
         final List<AccountGroup> result;
-        if (groupCache.isAdministrator(RpcUtil.getAccountId())) {
+        if (groupCache.isAdministrator(Common.getAccountId())) {
           result = db.accountGroups().all().toList();
         } else {
           result = myOwnedGroups(db);
@@ -84,7 +84,7 @@ public class GroupAdminServiceImpl extends BaseServiceImplementation implements
         group.setDescription("");
 
         final AccountGroupMember m =
-            new AccountGroupMember(new AccountGroupMember.Key(RpcUtil
+            new AccountGroupMember(new AccountGroupMember.Key(Common
                 .getAccountId(), group.getId()));
 
         final Transaction txn = db.beginTransaction();
@@ -213,7 +213,7 @@ public class GroupAdminServiceImpl extends BaseServiceImplementation implements
         for (final AccountGroupMember.Key k : keys) {
           if (!owned.contains(k.getAccountGroupId())) {
             if (amAdmin == null) {
-              amAdmin = groupCache.isAdministrator(RpcUtil.getAccountId());
+              amAdmin = groupCache.isAdministrator(Common.getAccountId());
             }
             if (!amAdmin) {
               throw new Failure(new NoSuchEntityException());
@@ -238,7 +238,7 @@ public class GroupAdminServiceImpl extends BaseServiceImplementation implements
     if (group == null) {
       throw new Failure(new NoSuchEntityException());
     }
-    final Account.Id me = RpcUtil.getAccountId();
+    final Account.Id me = Common.getAccountId();
     if (!groupCache.isInGroup(me, group.getOwnerGroupId())
         && !groupCache.isAdministrator(me)) {
       throw new Failure(new NoSuchEntityException());
@@ -256,7 +256,7 @@ public class GroupAdminServiceImpl extends BaseServiceImplementation implements
 
   private List<AccountGroup> myOwnedGroups(final ReviewDb db)
       throws OrmException {
-    final Account.Id me = RpcUtil.getAccountId();
+    final Account.Id me = Common.getAccountId();
     final List<AccountGroup> own = new ArrayList<AccountGroup>();
     for (final AccountGroup.Id groupId : groupCache.getGroups(me)) {
       for (final AccountGroup g : db.accountGroups().ownedByGroup(groupId)) {

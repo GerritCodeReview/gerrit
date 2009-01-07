@@ -20,7 +20,7 @@ import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.BaseServiceImplementation;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
-import com.google.gerrit.client.rpc.RpcUtil;
+import com.google.gerrit.client.rpc.Common;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
@@ -42,7 +42,7 @@ public class AccountServiceImpl extends BaseServiceImplementation implements
   public void myAccount(final AsyncCallback<Account> callback) {
     run(callback, new Action<Account>() {
       public Account run(ReviewDb db) throws OrmException {
-        return db.accounts().get(RpcUtil.getAccountId());
+        return db.accounts().get(Common.getAccountId());
       }
     });
   }
@@ -51,7 +51,7 @@ public class AccountServiceImpl extends BaseServiceImplementation implements
       final AsyncCallback<VoidResult> callback) {
     run(callback, new Action<VoidResult>() {
       public VoidResult run(final ReviewDb db) throws OrmException {
-        final Account a = db.accounts().get(RpcUtil.getAccountId());
+        final Account a = db.accounts().get(Common.getAccountId());
         a.setDefaultContext(newSetting);
         db.accounts().update(Collections.singleton(a));
         return VoidResult.INSTANCE;
@@ -67,7 +67,7 @@ public class AccountServiceImpl extends BaseServiceImplementation implements
             new ArrayList<AccountProjectWatchInfo>();
 
         for (final AccountProjectWatch w : db.accountProjectWatches()
-            .byAccount(RpcUtil.getAccountId()).toList()) {
+            .byAccount(Common.getAccountId()).toList()) {
           final Project p = db.projects().get(w.getProjectId());
           if (p == null) {
             db.accountProjectWatches().delete(Collections.singleton(w));
@@ -98,7 +98,7 @@ public class AccountServiceImpl extends BaseServiceImplementation implements
         }
 
         final AccountProjectWatch watch =
-            new AccountProjectWatch(new AccountProjectWatch.Key(RpcUtil
+            new AccountProjectWatch(new AccountProjectWatch.Key(Common
                 .getAccountId(), project.getId()));
         db.accountProjectWatches().insert(Collections.singleton(watch));
         return new AccountProjectWatchInfo(watch, project);
@@ -110,7 +110,7 @@ public class AccountServiceImpl extends BaseServiceImplementation implements
       final AsyncCallback<VoidResult> callback) {
     run(callback, new Action<VoidResult>() {
       public VoidResult run(final ReviewDb db) throws OrmException, Failure {
-        final Account.Id me = RpcUtil.getAccountId();
+        final Account.Id me = Common.getAccountId();
         for (final AccountProjectWatch.Key keyId : keys) {
           if (!me.equals(keyId.getParentKey()))
             throw new Failure(new NoSuchEntityException());
@@ -133,7 +133,7 @@ public class AccountServiceImpl extends BaseServiceImplementation implements
     run(callback, new Action<AgreementInfo>() {
       public AgreementInfo run(final ReviewDb db) throws OrmException {
         final AgreementInfo i = new AgreementInfo();
-        i.load(RpcUtil.getAccountId(), db);
+        i.load(Common.getAccountId(), db);
         return i;
       }
     });

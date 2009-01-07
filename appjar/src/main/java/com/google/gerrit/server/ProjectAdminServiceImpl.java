@@ -26,7 +26,7 @@ import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.BaseServiceImplementation;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
-import com.google.gerrit.client.rpc.RpcUtil;
+import com.google.gerrit.client.rpc.Common;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
@@ -52,7 +52,7 @@ public class ProjectAdminServiceImpl extends BaseServiceImplementation
     run(callback, new Action<List<Project>>() {
       public List<Project> run(ReviewDb db) throws OrmException {
         final List<Project> result;
-        if (groupCache.isAdministrator(RpcUtil.getAccountId())) {
+        if (groupCache.isAdministrator(Common.getAccountId())) {
           result = db.projects().all().toList();
         } else {
           result = myOwnedProjects(db);
@@ -132,7 +132,7 @@ public class ProjectAdminServiceImpl extends BaseServiceImplementation
         for (final ProjectRight.Key k : keys) {
           if (!owned.contains(k.getProjectId())) {
             if (amAdmin == null) {
-              amAdmin = groupCache.isAdministrator(RpcUtil.getAccountId());
+              amAdmin = groupCache.isAdministrator(Common.getAccountId());
             }
             if (!amAdmin) {
               throw new Failure(new NoSuchEntityException());
@@ -210,7 +210,7 @@ public class ProjectAdminServiceImpl extends BaseServiceImplementation
     if (project == null) {
       throw new Failure(new NoSuchEntityException());
     }
-    final Account.Id me = RpcUtil.getAccountId();
+    final Account.Id me = Common.getAccountId();
     if (!groupCache.isInGroup(me, project.getOwnerGroupId())
         && !groupCache.isAdministrator(me)) {
       throw new Failure(new NoSuchEntityException());
@@ -218,7 +218,7 @@ public class ProjectAdminServiceImpl extends BaseServiceImplementation
   }
 
   private List<Project> myOwnedProjects(final ReviewDb db) throws OrmException {
-    final Account.Id me = RpcUtil.getAccountId();
+    final Account.Id me = Common.getAccountId();
     final List<Project> own = new ArrayList<Project>();
     for (final AccountGroup.Id groupId : groupCache.getGroups(me)) {
       for (final Project g : db.projects().ownedByGroup(groupId)) {

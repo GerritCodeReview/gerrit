@@ -178,9 +178,11 @@ INSERT INTO account_group_members
  AND a.preferred_email = o.email;
 
 UPDATE system_config
-SET admin_group_id = (SELECT group_id
-                      FROM account_groups
-                      WHERE name = 'admin')
+SET
+ use_contributor_agreements = 'Y'
+,admin_group_id = (SELECT group_id
+                  FROM account_groups
+                  WHERE name = 'admin')
 ,anonymous_group_id = (SELECT group_id
                       FROM account_groups
                       WHERE name = 'Anonymous Users')

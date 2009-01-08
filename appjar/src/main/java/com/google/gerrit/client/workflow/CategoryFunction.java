@@ -15,8 +15,10 @@
 package com.google.gerrit.client.workflow;
 
 import com.google.gerrit.client.data.ApprovalType;
+import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ChangeApproval;
+import com.google.gerrit.client.reviewdb.ProjectRight;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -71,4 +73,15 @@ public abstract class CategoryFunction {
    *        the valid status into.
    */
   public abstract void run(ApprovalType at, FunctionState state);
+
+  public boolean isValid(final Account.Id accountId, final ApprovalType at,
+      final FunctionState state) {
+    for (final ProjectRight pr : state.getAllRights(at)) {
+      if (state.isMember(accountId, pr.getAccountGroupId())
+          && (pr.getMinValue() < 0 || pr.getMaxValue() > 0)) {
+        return true;
+      }
+    }
+    return false;
+  }
 }

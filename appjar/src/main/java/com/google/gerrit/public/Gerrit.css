@@ -488,6 +488,10 @@
   margin-bottom: 10px;
 }
 
+.gerrit-PatchSetActions {
+	margin-bottom: 10px;
+}
+
 .gerrit-Change-MissingApprovalList {
 	margin-top: 5px;
 }

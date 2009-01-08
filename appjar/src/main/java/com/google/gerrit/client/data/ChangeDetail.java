@@ -49,6 +49,7 @@ public class ChangeDetail {
   protected List<ChangeMessage> messages;
   protected PatchSet.Id currentPatchSetId;
   protected PatchSetDetail currentDetail;
+  protected Set<ApprovalCategory.Id> currentActions;
 
   public ChangeDetail() {
   }
@@ -68,14 +69,21 @@ public class ChangeDetail {
     final List<ChangeApproval> allApprovals =
         db.changeApprovals().byChange(change.getId()).toList();
     if (!change.getStatus().isClosed()) {
+      final Account.Id me = Common.getAccountId();
       final FunctionState fs =
           new FunctionState(Common.getProjectCache().get(
               change.getDest().getParentKey()), allApprovals);
       missingApprovals = new HashSet<ApprovalCategory.Id>();
+      currentActions = new HashSet<ApprovalCategory.Id>();
       for (final ApprovalType at : Common.getGerritConfig().getApprovalTypes()) {
         at.getCategory().getFunction().run(at, fs);
         if (!fs.isValid(at)) {
           missingApprovals.add(at.getCategory().getId());
+        }
+      }
+      for (final ApprovalType at : Common.getGerritConfig().getActionTypes()) {
+        if (at.getCategory().getFunction().isValid(me, at, fs)) {
+          currentActions.add(at.getCategory().getId());
         }
       }
     }
@@ -182,6 +190,15 @@ public class ChangeDetail {
 
   public Set<ApprovalCategory.Id> getMissingApprovals() {
     return missingApprovals;
+  }
+
+  public Set<ApprovalCategory.Id> getCurrentActions() {
+    return currentActions;
+  }
+
+  public boolean isCurrentPatchSet(final PatchSetDetail detail) {
+    return currentPatchSetId != null
+        && detail.getPatchSet().getId().equals(currentPatchSetId);
   }
 
   public PatchSet getCurrentPatchSet() {

@@ -23,8 +23,9 @@ public interface ChangeMessages extends Messages {
 
   String changeScreenTitleId(int id);
   String patchSetHeader(int id);
+  String patchSetAction(String action, int id);
   String repoDownload(String project, int change, int ps);
-  
+
   String patchTableComments(@PluralCount int count);
 
   String messageWrittenOn(String date);

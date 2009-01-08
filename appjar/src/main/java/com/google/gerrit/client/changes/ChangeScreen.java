@@ -47,6 +47,7 @@ import java.util.List;
 public class ChangeScreen extends Screen {
   private Change.Id changeId;
   private ChangeInfo changeInfo;
+  private boolean refreshOnSignIn;
 
   private ChangeInfoBlock infoBlock;
   private DisclosurePanel descriptionPanel;
@@ -88,6 +89,17 @@ public class ChangeScreen extends Screen {
   }
 
   @Override
+  public void onSignIn() {
+    if (refreshOnSignIn) {
+      refresh();
+    }
+  }
+
+  @Override
+  public void onSignOut() {
+  }
+
+  @Override
   public void onLoad() {
     if (descriptionPanel == null) {
       initUI();
@@ -96,6 +108,10 @@ public class ChangeScreen extends Screen {
     displayTitle(changeInfo != null ? changeInfo.getSubject() : null);
     super.onLoad();
 
+    refresh();
+  }
+
+  public void refresh() {
     Util.DETAIL_SVC.changeDetail(changeId,
         new ScreenLoadCallback<ChangeDetail>() {
           public void onSuccess(final ChangeDetail r) {
@@ -174,13 +190,9 @@ public class ChangeScreen extends Screen {
   }
 
   private void display(final ChangeDetail detail) {
-    if (changeInfo == null) {
-      // We couldn't set the title correctly when we loaded the page
-      // into the browser, update it now that we have the full detail.
-      //
-      displayTitle(detail.getChange().getSubject());
-    }
+    displayTitle(detail.getChange().getSubject());
 
+    refreshOnSignIn = !detail.getChange().getStatus().isClosed();
     dependencies.setAccountInfoCache(detail.getAccounts());
     approvals.setAccountInfoCache(detail.getAccounts());
 

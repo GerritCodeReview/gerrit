@@ -14,15 +14,22 @@
 
 package com.google.gerrit.client.changes;
 
+import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.SignedInListener;
+import com.google.gerrit.client.data.ApprovalType;
 import com.google.gerrit.client.data.ChangeDetail;
 import com.google.gerrit.client.data.PatchSetDetail;
 import com.google.gerrit.client.reviewdb.PatchSet;
+import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DisclosureEvent;
 import com.google.gwt.user.client.ui.DisclosureHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 
 class PatchSetPanel extends Composite implements DisclosureHandler {
@@ -34,13 +41,31 @@ class PatchSetPanel extends Composite implements DisclosureHandler {
   private final FlowPanel body;
 
   private Grid infoTable;
+  private Panel actionsPanel;
   private PatchTable patchTable;
+  private SignedInListener signedInListener;
 
   PatchSetPanel(final ChangeDetail detail, final PatchSet ps) {
     changeDetail = detail;
     patchSet = ps;
     body = new FlowPanel();
     initWidget(body);
+  }
+
+  @Override
+  protected void onLoad() {
+    super.onLoad();
+    if (signedInListener != null) {
+      Gerrit.addSignedInListener(signedInListener);
+    }
+  }
+
+  @Override
+  protected void onUnload() {
+    if (signedInListener != null) {
+      Gerrit.removeSignedInListener(signedInListener);
+    }
+    super.onUnload();
   }
 
   public void ensureLoaded(final PatchSetDetail detail) {
@@ -60,14 +85,47 @@ class PatchSetPanel extends Composite implements DisclosureHandler {
         .getChange().getDest().getParentKey().get(), changeDetail.getChange()
         .getChangeId(), patchSet.getPatchSetId()));
 
+
     patchTable = new PatchTable();
     patchTable.setSavePointerId("patchTable "
-        + changeDetail.getChange().getChangeId() + " " + patchSet.getPatchSetId());
+        + changeDetail.getChange().getChangeId() + " "
+        + patchSet.getPatchSetId());
     patchTable.display(detail.getPatches());
     patchTable.finishDisplay(false);
 
     body.add(infoTable);
+    if (!changeDetail.getChange().getStatus().isClosed()
+        && changeDetail.isCurrentPatchSet(detail)) {
+      actionsPanel = new FlowPanel();
+      actionsPanel.setStyleName("gerrit-PatchSetActions");
+      signedInListener = new SignedInListener() {
+        public void onSignIn() {
+        }
+
+        public void onSignOut() {
+          actionsPanel.clear();
+          actionsPanel.setVisible(false);
+        }
+      };
+      Gerrit.addSignedInListener(signedInListener);
+      body.add(actionsPanel);
+      populateActions(detail);
+    }
     body.add(patchTable);
+  }
+
+  private void populateActions(final PatchSetDetail detail) {
+    if (changeDetail.getCurrentActions() != null
+        && !changeDetail.getCurrentActions().isEmpty()) {
+      for (final ApprovalType at : Common.getGerritConfig().getActionTypes()) {
+        if (changeDetail.getCurrentActions().contains(at.getCategory().getId())) {
+          final Button b =
+              new Button(Util.M.patchSetAction(at.getCategory().getName(),
+                  detail.getPatchSet().getPatchSetId()));
+          actionsPanel.add(b);
+        }
+      }
+    }
   }
 
   public void onOpen(final DisclosureEvent event) {

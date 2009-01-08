@@ -15,7 +15,9 @@
 package com.google.gerrit.client.workflow;
 
 import com.google.gerrit.client.data.ApprovalType;
+import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
+import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.client.rpc.Common;
 
 /**
@@ -33,12 +35,29 @@ public class AllValid extends CategoryFunction {
 
   @Override
   public void run(final ApprovalType at, final FunctionState state) {
-    for (final ApprovalType t : Common.getGerritConfig().getApprovalTypes()) {
-      if (!state.isValid(t)) {
-        state.valid(at, false);
-        return;
+    state.valid(at, valid(at, state));
+  }
+
+  @Override
+  public boolean isValid(final Account.Id accountId, final ApprovalType at,
+      final FunctionState state) {
+    if (valid(at, state)) {
+      for (final ProjectRight pr : state.getAllRights(at)) {
+        if (state.isMember(accountId, pr.getAccountGroupId())
+            && pr.getMaxValue() > 0) {
+          return true;
+        }
       }
     }
-    state.valid(at, true);
+    return false;
+  }
+
+  private static boolean valid(final ApprovalType at, final FunctionState state) {
+    for (final ApprovalType t : Common.getGerritConfig().getApprovalTypes()) {
+      if (!state.isValid(t)) {
+        return false;
+      }
+    }
+    return true;
   }
 }

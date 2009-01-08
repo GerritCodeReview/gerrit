@@ -33,6 +33,8 @@ public class GroupCache {
   private AccountGroup.Id adminGroupId;
   private AccountGroup.Id anonymousGroupId;
   private AccountGroup.Id registeredGroupId;
+  private Set<AccountGroup.Id> anonOnly;
+
 
   private final LinkedHashMap<Account.Id, Set<AccountGroup.Id>> byAccount =
       new LinkedHashMap<Account.Id, Set<AccountGroup.Id>>(16, 0.75f, true) {
@@ -47,6 +49,9 @@ public class GroupCache {
     adminGroupId = cfg.adminGroupId;
     anonymousGroupId = cfg.anonymousGroupId;
     registeredGroupId = cfg.registeredGroupId;
+
+    anonOnly =
+        Collections.unmodifiableSet(Collections.singleton(anonymousGroupId));
   }
 
   /**
@@ -163,7 +168,7 @@ public class GroupCache {
    */
   public Set<AccountGroup.Id> getGroups(final Account.Id accountId) {
     if (accountId == null) {
-      return Collections.emptySet();
+      return anonOnly;
     }
 
     Set<AccountGroup.Id> m;

@@ -248,23 +248,6 @@ CREATE TABLE message_recipients
   ON DELETE CASCADE
 );
 
--- class DeltaContent
-
-CREATE TABLE delta_content
-(
-  last_backed_up INT NOT NULL DEFAULT 0,
-  gae_key VARCHAR(255) NOT NULL,
-
-  type VARCHAR(8) NOT NULL CHECK (type IN ('patch','content')),
-  hash CHAR(40) NOT NULL,
-  data_z BYTEA NOT NULL,
-  depth INT NOT NULL,
-  base_key VARCHAR(255),
-
-  PRIMARY KEY (type, hash),
-  UNIQUE (gae_key)
-);
-
 -- class Patch
 
 CREATE TABLE patches

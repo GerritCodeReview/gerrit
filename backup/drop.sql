@@ -15,8 +15,6 @@ DROP TABLE comments;
 
 DROP TABLE patches;
 
-DROP TABLE delta_content;
-
 DROP TABLE message_recipients;
 DROP TABLE messages;
 

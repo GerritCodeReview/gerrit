@@ -149,8 +149,8 @@ public class Gerrit implements EntryPoint {
     }
     refreshMenuBar();
 
-    if (currentScreen != null && currentScreen.isRequiresSignIn()) {
-      History.newItem(Link.ALL);
+    if (currentScreen != null) {
+      currentScreen.onSignOut();
     }
   }
 
@@ -270,6 +270,9 @@ public class Gerrit implements EntryPoint {
       public void execute() {
         for (final SignedInListener l : signedInListeners) {
           l.onSignIn();
+        }
+        if (currentScreen != null) {
+          currentScreen.onSignIn();
         }
       }
     });

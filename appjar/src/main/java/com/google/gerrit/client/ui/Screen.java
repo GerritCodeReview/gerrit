@@ -15,8 +15,10 @@
 package com.google.gerrit.client.ui;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.Link;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 public class Screen extends FlowPanel {
@@ -48,6 +50,17 @@ public class Screen extends FlowPanel {
   /** Does {@link Gerrit#isSignedIn()} have to be true to be on this screen? */
   public boolean isRequiresSignIn() {
     return requiresSignIn;
+  }
+
+  /** Invoked if this screen is the current screen and the user signs out. */
+  public void onSignOut() {
+    if (isRequiresSignIn()) {
+      History.newItem(Link.ALL);
+    }
+  }
+
+  /** Invoked if this screen is the current screen and the user signs in. */
+  public void onSignIn() {
   }
 
   /** Get the token to cache this screen's widget; null if it shouldn't cache. */

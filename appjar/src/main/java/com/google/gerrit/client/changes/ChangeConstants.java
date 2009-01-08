@@ -18,6 +18,7 @@ import com.google.gwt.i18n.client.Constants;
 
 public interface ChangeConstants extends Constants {
   String statusLongNew();
+  String statusLongSubmitted();
   String statusLongMerged();
   String statusLongAbandoned();
 

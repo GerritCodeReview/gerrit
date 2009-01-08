@@ -40,14 +40,18 @@ public class Util {
   public static String toLongString(final Change.Status status) {
     if (status == null) {
       return "";
-    } else if (status == Change.Status.NEW) {
-      return C.statusLongNew();
-    } else if (status == Change.Status.MERGED) {
-      return C.statusLongMerged();
-    } else if (status == Change.Status.ABANDONED) {
-      return C.statusLongAbandoned();
-    } else {
-      return status.name();
+    }
+    switch (status) {
+      case NEW:
+        return C.statusLongNew();
+      case SUBMITTED:
+        return C.statusLongSubmitted();
+      case MERGED:
+        return C.statusLongMerged();
+      case ABANDONED:
+        return C.statusLongAbandoned();
+      default:
+        return status.name();
     }
   }
 }

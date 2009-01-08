@@ -39,7 +39,6 @@ KINDS = [
   "Change",
   "PatchSet",
   "Message",
-  "DeltaContent",
   "Patch",
   "Comment",
   "ReviewStatus",
@@ -47,6 +46,7 @@ KINDS = [
   "AccountGroup",
 ]
 [
+  "DeltaContent",
   "Settings",
   "BuildAttempt",
   "PatchSetFilenames",

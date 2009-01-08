@@ -89,8 +89,7 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
         d.setStarred(list(db.changes().get(starred), starred, ac));
         Collections.sort(d.getStarred(), new Comparator<ChangeInfo>() {
           public int compare(final ChangeInfo o1, final ChangeInfo o2) {
-            // TODO Sort starred changes by something other than just Id
-            return o1.getId().get() - o2.getId().get();
+            return o1.getLastUpdatedOn().compareTo(o2.getLastUpdatedOn());
           }
         });
         d.setAccounts(ac.create());

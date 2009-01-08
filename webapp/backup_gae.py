@@ -158,7 +158,7 @@ class LocalStore(object):
       if isinstance(a, db.Key):
         a = str(a)
       if isinstance(a, datetime):
-        a = a.isoformat(' ')
+        a = a.isoformat(' ') + ' +00:00'
       if isinstance(a, unicode):
         a = a.encode('utf-8')
       v.append(a)

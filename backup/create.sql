@@ -128,12 +128,12 @@ CREATE TABLE revisions
 
   author_name VARCHAR(255),
   author_email VARCHAR(255),
-  author_when TIMESTAMP,
+  author_when TIMESTAMP WITH TIME ZONE,
   author_tz INT,
 
   committer_name VARCHAR(255),
   committer_email VARCHAR(255),
-  committer_when TIMESTAMP,
+  committer_when TIMESTAMP WITH TIME ZONE,
   committer_tz INT,
 
   message TEXT,
@@ -168,15 +168,15 @@ CREATE TABLE changes
   subject VARCHAR(255) NOT NULL,
   description TEXT,
   owner VARCHAR(255) NOT NULL,
-  created TIMESTAMP NOT NULL,
-  modified TIMESTAMP NOT NULL,
+  created TIMESTAMP WITH TIME ZONE NOT NULL,
+  modified TIMESTAMP WITH TIME ZONE NOT NULL,
   claimed CHAR(1) NOT NULL DEFAULT 'N' CHECK (claimed IN ('Y','N')),
   closed CHAR(1) NOT NULL DEFAULT 'N' CHECK (closed IN ('Y','N')),
   n_comments INT,
   n_patchsets INT,
   dest_project_key VARCHAR(255) NOT NULL,
   dest_branch_key VARCHAR(255) NOT NULL,
-  merge_submitted TIMESTAMP,
+  merge_submitted TIMESTAMP WITH TIME ZONE,
   merged CHAR(1) NOT NULL DEFAULT 'N' CHECK (merged IN ('Y','N')),
   emailed_clean_merge CHAR(1) NOT NULL DEFAULT 'N' CHECK (emailed_clean_merge IN ('Y','N')),
   emailed_missing_dependency CHAR(1) NOT NULL DEFAULT 'N' CHECK (emailed_missing_dependency IN ('Y','N')),
@@ -211,8 +211,8 @@ CREATE TABLE patch_sets
   change_key VARCHAR(255) NOT NULL,
   message VARCHAR(255),
   owner VARCHAR(255) NOT NULL,
-  created TIMESTAMP NOT NULL,
-  modified TIMESTAMP NOT NULL,
+  created TIMESTAMP WITH TIME ZONE NOT NULL,
+  modified TIMESTAMP WITH TIME ZONE NOT NULL,
   revision_key VARCHAR(255) NOT NULL,
   complete CHAR(1) NOT NULL DEFAULT 'N' CHECK (complete IN ('Y','N')),
 
@@ -230,7 +230,7 @@ CREATE TABLE messages
   change_key VARCHAR(255) NOT NULL,
   subject VARCHAR(255),
   sender VARCHAR(255),
-  date_sent TIMESTAMP,
+  date_sent TIMESTAMP WITH TIME ZONE,
   body TEXT,
 
   PRIMARY KEY (gae_key)
@@ -278,7 +278,7 @@ CREATE TABLE comments
   patch_key VARCHAR(255) NOT NULL,
   message_id VARCHAR(255) NOT NULL,
   author VARCHAR(255),
-  written TIMESTAMP,
+  written TIMESTAMP WITH TIME ZONE,
   lineno INT,
   body TEXT,
   is_left CHAR(1) NOT NULL DEFAULT 'N' CHECK (is_left IN ('Y','N')),
@@ -318,8 +318,8 @@ CREATE TABLE accounts
   email VARCHAR(255) NOT NULL,
   preferred_email VARCHAR(255),
 
-  created TIMESTAMP,
-  modified TIMESTAMP,
+  created TIMESTAMP WITH TIME ZONE,
+  modified TIMESTAMP WITH TIME ZONE,
 
   is_admin CHAR(1) NOT NULL DEFAULT 'N' CHECK (is_admin IN ('Y','N')),
   welcomed CHAR(1) NOT NULL DEFAULT 'N' CHECK (welcomed IN ('Y','N')),
@@ -332,9 +332,9 @@ CREATE TABLE accounts
 
   cla_verified CHAR(1) NOT NULL DEFAULT 'N' CHECK (cla_verified IN ('Y','N')),
   cla_verified_by VARCHAR(255),
-  cla_verified_timestamp TIMESTAMP,
+  cla_verified_timestamp TIMESTAMP WITH TIME ZONE,
   individual_cla_version INT,
-  individual_cla_timestamp TIMESTAMP,
+  individual_cla_timestamp TIMESTAMP WITH TIME ZONE,
   cla_comments TEXT,
 
   default_context INT,

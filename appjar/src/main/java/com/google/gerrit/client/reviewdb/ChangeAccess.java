@@ -24,8 +24,8 @@ public interface ChangeAccess extends Access<Change, Change.Id> {
   @PrimaryKey("changeId")
   Change get(Change.Id id) throws OrmException;
 
-  @Query("WHERE owner = ? AND status = '" + Change.STATUS_NEW
-      + "' ORDER BY lastUpdatedOn DESC")
+  @Query("WHERE owner = ? AND status >= '" + Change.MIN_OPEN
+      + "' AND status <= '" + Change.MAX_OPEN + "' ORDER BY lastUpdatedOn DESC")
   ResultSet<Change> byOwnerOpen(Account.Id id) throws OrmException;
 
   @Query("WHERE owner = ? AND status = '" + Change.STATUS_MERGED

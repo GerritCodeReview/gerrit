@@ -87,6 +87,10 @@ public final class ChangeApproval {
     setGranted();
   }
 
+  public ChangeApproval.Key getKey() {
+    return key;
+  }
+
   public Change.Id getChangeId() {
     return key.changeId;
   }

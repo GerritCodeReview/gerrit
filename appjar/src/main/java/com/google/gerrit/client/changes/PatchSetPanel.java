@@ -19,18 +19,24 @@ import com.google.gerrit.client.SignedInListener;
 import com.google.gerrit.client.data.ApprovalType;
 import com.google.gerrit.client.data.ChangeDetail;
 import com.google.gerrit.client.data.PatchSetDetail;
+import com.google.gerrit.client.reviewdb.ApprovalCategory;
+import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.GerritCallback;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DisclosureEvent;
 import com.google.gwt.user.client.ui.DisclosureHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
+import com.google.gwtjsonrpc.client.VoidResult;
+
+import java.util.Set;
 
 class PatchSetPanel extends Composite implements DisclosureHandler {
   private static final int R_DOWNLOAD = 0;
@@ -115,16 +121,38 @@ class PatchSetPanel extends Composite implements DisclosureHandler {
   }
 
   private void populateActions(final PatchSetDetail detail) {
-    if (changeDetail.getCurrentActions() != null
-        && !changeDetail.getCurrentActions().isEmpty()) {
-      for (final ApprovalType at : Common.getGerritConfig().getActionTypes()) {
-        if (changeDetail.getCurrentActions().contains(at.getCategory().getId())) {
-          final Button b =
-              new Button(Util.M.patchSetAction(at.getCategory().getName(),
-                  detail.getPatchSet().getPatchSetId()));
-          actionsPanel.add(b);
-        }
+    final Set<ApprovalCategory.Id> allowed = changeDetail.getCurrentActions();
+    if (allowed == null) {
+      // No set of actions, perhaps the user is not signed in?
+      return;
+    }
+
+    for (final ApprovalType at : Common.getGerritConfig().getActionTypes()) {
+      final ApprovalCategoryValue max = at.getMax();
+      if (max == null || max.getValue() <= 0) {
+        // No positive assertion, don't draw a button.
+        continue;
       }
+      if (!allowed.contains(at.getCategory().getId())) {
+        // User isn't permitted to invoke this.
+        continue;
+      }
+
+      final Button b =
+          new Button(Util.M.patchSetAction(at.getCategory().getName(), detail
+              .getPatchSet().getPatchSetId()));
+      b.addClickListener(new ClickListener() {
+        public void onClick(Widget sender) {
+          Util.MANAGE_SVC.patchSetAction(max.getId(), patchSet.getId(),
+              new GerritCallback<VoidResult>() {
+                public void onSuccess(VoidResult result) {
+                  // TODO refresh change screen
+                  actionsPanel.remove(b);
+                }
+              });
+        }
+      });
+      actionsPanel.add(b);
     }
   }
 

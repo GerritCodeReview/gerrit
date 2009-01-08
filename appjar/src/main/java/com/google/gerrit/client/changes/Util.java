@@ -24,6 +24,7 @@ public class Util {
 
   public static final ChangeDetailService DETAIL_SVC;
   public static final ChangeListService LIST_SVC;
+  public static final ChangeManageService MANAGE_SVC;
 
   static {
     DETAIL_SVC = GWT.create(ChangeDetailService.class);
@@ -31,6 +32,9 @@ public class Util {
 
     LIST_SVC = GWT.create(ChangeListService.class);
     JsonUtil.bind(LIST_SVC, "rpc/ChangeListService");
+
+    MANAGE_SVC = GWT.create(ChangeManageService.class);
+    JsonUtil.bind(MANAGE_SVC, "rpc/ChangeManageService");
   }
 
   public static String toLongString(final Change.Status status) {

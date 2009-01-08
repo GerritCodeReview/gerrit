@@ -66,6 +66,10 @@ public final class ApprovalCategoryValue {
     this.name = name;
   }
 
+  public ApprovalCategoryValue.Id getId() {
+    return key;
+  }
+
   public ApprovalCategory.Id getCategoryId() {
     return key.categoryId;
   }

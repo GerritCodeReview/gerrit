@@ -115,6 +115,16 @@
   </servlet-mapping>
 
   <servlet>
+    <servlet-name>ChangeManageService</servlet-name>
+    <servlet-class>com.google.gerrit.server.ChangeManageServiceSrv</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ChangeManageService</servlet-name>
+    <url-pattern>/rpc/ChangeManageService</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
     <servlet-name>PatchDetailService</servlet-name>
     <servlet-class>com.google.gerrit.server.PatchDetailServiceSrv</servlet-class>
     <load-on-startup>1</load-on-startup>

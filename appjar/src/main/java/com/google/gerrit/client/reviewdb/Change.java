@@ -51,11 +51,17 @@ public final class Change {
     }
   }
 
+  protected static final char MIN_OPEN = 'a';
   protected static final char STATUS_NEW = 'n';
+  protected static final char STATUS_SUBMITTED = 's';
+  protected static final char MAX_OPEN = 'z';
+
   protected static final char STATUS_MERGED = 'M';
 
   public static enum Status {
     NEW(STATUS_NEW, false),
+
+    SUBMITTED(STATUS_SUBMITTED, false),
 
     MERGED(STATUS_MERGED, true),
 

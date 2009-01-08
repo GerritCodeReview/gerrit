@@ -542,6 +542,7 @@ class Receive extends AbstractGitCommand {
       }
     }
 
+    change.setStatus(Change.Status.NEW);
     change.setCurrentPatchSet(imp.getPatchSetInfo());
     change.updated();
     db.changes().update(Collections.singleton(change));

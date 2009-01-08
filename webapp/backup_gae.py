@@ -347,7 +347,7 @@ class LocalStore(object):
       'body': one(obj.text),
     })
 
-    for u in obj.recipients:
+    for u in set(obj.recipients):
       self.insert('message_recipients', {'message_key':entity.key,'email':u})
 
   def save_DeltaContent(self, entity, obj):

@@ -110,8 +110,13 @@ public class ApprovalTable extends Composite {
       }
     }
 
-    for (int i = 0; i < rows.size(); i++) {
-      displayRow(i + 1, rows.get(i));
+    if (rows.isEmpty()) {
+      table.setVisible(false);
+    } else {
+      table.setVisible(true);
+      for (int i = 0; i < rows.size(); i++) {
+        displayRow(i + 1, rows.get(i));
+      }
     }
 
     missing.clear();

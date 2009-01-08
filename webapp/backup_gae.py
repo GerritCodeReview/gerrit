@@ -78,9 +78,6 @@ group.add_option("--no_cookies", action="store_false",
                  help="Do not save authentication cookies to local disk.")
 
 group = parser.add_option_group("Backup database options")
-group.add_option('-v', action='store', dest='last_backed_up',
-                 default=0,
-                 help='Value for last_backed_up query')
 group.add_option("-d", action="store", dest="dbname",
                  metavar="DBNAME",
                  help="PostgreSQL database name")
@@ -476,25 +473,23 @@ def RealMain(argv, data=None):
   db.cursor().execute("set client_encoding to unicode")
 
   store = LocalStore(db)
-  last_backed_up = int(options.last_backed_up)
 
-  print 'BEGIN BACKUP %d' % last_backed_up
+  print 'BEGIN BACKUP'
   for kind_name in KINDS:
     sys.stdout.write('\n')
     cnt = 0
+    last_key = ''
 
     while True:
       sys.stdout.write('\r%-18s ... ' % kind_name)
       r = NextChunkRequest()
       r.kind = kind_name
-      r.last_backed_up = last_backed_up
+      r.last_key = last_key
       
       r = backup.NextChunk(r)
       if not r.entity:
         break
 
-      ack = AckChunkRequest()
-      ack.last_backed_up = last_backed_up + 1
       for entity in r.entity:
         cnt += 1
         sys.stdout.write('\r%-18s ... %5d ' % (kind_name, cnt))
@@ -506,14 +501,11 @@ def RealMain(argv, data=None):
           '</root>'
           % entity.xml))
         getattr(store, 'save_%s' % kind_name)(entity, o)
-        a = ack.entity.add()
-        a.key = entity.key
-        a.last_backed_up = entity.last_backed_up
+        last_key = entity.key
       db.commit()
-      backup.AckChunk(ack)
 
   sys.stdout.write('\n')
-  print 'BACKUP %d DONE' % last_backed_up
+  print 'BACKUP DONE'
   db.commit()
   db.close()
 

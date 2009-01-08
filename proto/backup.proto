@@ -17,7 +17,7 @@ option java_package = "com.google.codereview";
 
 message NextChunkRequest {
   required string kind = 1;
-  required int32 last_backed_up = 2;
+  required string last_key = 2;
 }
 
 message EntityXml {
@@ -34,21 +34,9 @@ message NextChunkResponse {
 
 message EntityAck {
   required string key = 1;
-  required int32 last_backed_up = 2;
-}
-
-message AckChunkRequest {
-  repeated EntityAck entity = 1;
-  required int32 last_backed_up = 2;
-}
-
-message AckChunkResponse {
 }
 
 service BackupService {
   rpc NextChunk (NextChunkRequest)
   returns (NextChunkResponse);
-
-  rpc AckChunk (AckChunkRequest)
-  returns (AckChunkResponse);
 }

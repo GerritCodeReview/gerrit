@@ -57,10 +57,15 @@ class BackupServiceImp(BackupService):
       done(rsp)
       return
 
+    if req.last_key:
+      q = models.gql(cls,
+                     'WHERE __key__ > :1 ORDER BY __key__',
+                      db.Key(req.last_key))
+    else:
+      q = models.gql(cls, 'ORDER BY __key__')
+
     sz = 20
-    for o in models.gql(cls,
-                        'WHERE last_backed_up <= :1',
-                        req.last_backed_up).fetch(sz):
+    for o in q.fetch(sz):
       e = rsp.entity.add()
       if o.key().id() is not None:
         e.key_id = o.key().id()
@@ -73,20 +78,4 @@ class BackupServiceImp(BackupService):
         o.text_z = base64.b64encode(o.text_z)
 
       e.xml = o.to_xml().encode('utf_8')
-    done(rsp)
-
-  @automatic_retry
-  def AckChunk(self, rpc_controller, req, done):
-    if not self.http_request.user_is_admin:
-      raise GetLostError()
-
-    for i in req.entity:
-      def t():
-        o = db.get(i.key)
-        if o.last_backed_up == i.last_backed_up:
-          o.last_backed_up = req.last_backed_up
-          o.put()
-      db.run_in_transaction(t)
-
-    rsp = AckChunkResponse()
     done(rsp)

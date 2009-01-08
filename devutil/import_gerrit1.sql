@@ -336,7 +336,7 @@ INSERT INTO changes
  subject,
  change_id) SELECT
  c.created,
- CURRENT_TIMESTAMP,
+ c.modified,
  a.account_id,
  p.name,
  b.name,

@@ -46,5 +46,6 @@ echo >&2 "  ignore failures unless on a production system"
 psql -f $out/sql/query_index.sql $dstdb
 echo >&2
 
+psql -c 'DROP SCHEMA gerrit1 CASCADE' $dstdb
 echo "CONVERT Gerrit 1 -> Gerrit 2 SUCCESSFUL"
 

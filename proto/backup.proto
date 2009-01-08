@@ -20,20 +20,16 @@ message NextChunkRequest {
   required string last_key = 2;
 }
 
-message EntityXml {
+message EntityData {
   optional int32 key_id = 1;
   optional string key_name = 2;
   required string key = 3;
   required int32 last_backed_up = 4;
-  required bytes xml = 5;
+  required bytes data = 5;
 }
 
 message NextChunkResponse {
-  repeated EntityXml entity = 1;
-}
-
-message EntityAck {
-  required string key = 1;
+  repeated EntityData entity = 1;
 }
 
 service BackupService {

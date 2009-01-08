@@ -14,22 +14,25 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import binascii
-import base64
-import sha
-import zlib
+import sys
+sys.path.insert(0, '../../google_appengine/')
+
+from datetime import datetime
+import cStringIO
+import pickle
 import getpass
 import logging
 import optparse
 import os
-import re
 import sys
-from xml.dom.minidom import parseString
 from pyPgSQL import PgSQL
-from pyPgSQL.libpq import PgQuoteBytea, OperationalError
+from pyPgSQL.libpq import OperationalError
 
+from google.appengine.ext import db
+from google.appengine.api import users
 from codereview.proto_client import HttpRpc, Proxy
 from codereview.backup_pb2 import *
+from codereview import models
 
 KINDS = [
   "ApprovalRight",
@@ -115,52 +118,9 @@ def GetRpcServer(options):
                  host_override=options.host,
                  cookie_file=cookie_file)
 
-def getText(nodelist):
-  rc = ""
-  for node in nodelist:
-    if node.nodeType == node.TEXT_NODE:
-      rc = rc + node.data
-  return rc
-
-key_re = re.compile(r'^tag:.*\[(.*)\]$')
-
-def parse_dom(dom):
-  class AnyObject(object):
-    def __getattr__(self, name):
-      return []
-
-  o = AnyObject()
-  for p in dom.getElementsByTagName('property'):
-    n = p.getAttribute('name')
-    v = getText(p.childNodes)
-    t = p.getAttribute('type')
-    if t == 'null':
-      continue
-
-    if t == 'key':
-      v = key_re.match(v).group(1)
-    elif t == 'int':
-      v = int(v)
-    elif t == 'bool':
-      if v == 'True':
-        v = True
-      elif v == 'False':
-        v = False
-    elif t == 'gd:email':
-      v = p.getElementsByTagName('gd:email')[0].getAttribute('address')
-      if v and '@' not in v:
-        v += '@gmail.com'
-    elif t == 'user':
-      if v and '@' not in v:
-        v += '@gmail.com'
-
-    a = getattr(o, n, [])
-    if v != '':
-      a.append(v)
-    setattr(o, n, a)
-  return o
-
 def one(v):
+  if not isinstance(v, list):
+    return v
   if len(v) == 1:
     return v[0]
   return None
@@ -171,6 +131,8 @@ def yn(v):
   return 'N'
 
 def yn_null(v):
+  if not isinstance(v, list):
+    v = [v]
   if len(v) == 1 and v[0] is not None:
     return yn(v)
   return None
@@ -185,21 +147,32 @@ class LocalStore(object):
     c.execute('DELETE FROM ' + table_name + ' WHERE gae_key=%s',
               (entity.key))
 
-  def insert(self, table_name, dict, base64_keys=[]):
+  def insert(self, table_name, dict):
     p = []
+    v = []
     for u in dict.keys():
-      if u in base64_keys:
-        p.append("decode(%s,'base64')")
-      else:
-        p.append('%s')
+      p.append('%s')
+      a = dict[u]
+      if isinstance(a, users.User):
+        a = a.email()
+      if isinstance(a, db.Key):
+        a = str(a)
+      if isinstance(a, datetime):
+        a = a.isoformat(' ')
+      if isinstance(a, unicode):
+        a = a.encode('utf-8')
+      v.append(a)
 
     s = 'INSERT INTO ' + table_name + '(' + ','.join(dict.keys()) + ')'
     s += 'VALUES(' + ','.join(p) + ')'
     c = self.db.cursor()
     try:
-      c.execute(s, dict.values())
+      c.execute(s, v)
     except OperationalError:
-      print 'FAIL %s %s' % (table_name, dict)
+      print
+      print 'FAIL %s' % table_name
+      print 'SQL  %s' % s
+      print 'DATA %s' % dict
       raise
 
   def save_ApprovalRight(self, entity, obj):
@@ -254,7 +227,7 @@ class LocalStore(object):
     self.insert('branches', {
       'gae_key': entity.key,
       'last_backed_up': one(obj.last_backed_up),
-      'project_key': one(obj.project),
+      'project_key': models.Branch.project.get_value_for_datastore(obj),
       'name': one(obj.name),
     })
 
@@ -264,7 +237,7 @@ class LocalStore(object):
       'revision_id': one(obj.id),
       'gae_key': entity.key,
       'last_backed_up': one(obj.last_backed_up),
-      'project_key': one(obj.project),
+      'project_key': models.RevisionId.project.get_value_for_datastore(obj),
 
       'author_name': one(obj.author_name),
       'author_email': one(obj.author_email),
@@ -305,8 +278,8 @@ class LocalStore(object):
       'closed': yn(obj.closed),
       'n_comments': one(obj.n_comments),
       'n_patchsets': one(obj.n_patchsets),
-      'dest_project_key': one(obj.dest_project),
-      'dest_branch_key': one(obj.dest_branch),
+      'dest_project_key': models.Change.dest_project.get_value_for_datastore(obj),
+      'dest_branch_key': models.Change.dest_branch.get_value_for_datastore(obj),
       'merge_submitted': one(obj.merge_submitted),
       'merged': yn(obj.merged),
       'emailed_clean_merge': yn(obj.emailed_clean_merge),
@@ -326,12 +299,12 @@ class LocalStore(object):
       'gae_key': entity.key,
       'last_backed_up': one(obj.last_backed_up),
       'patchset_id': one(obj.id),
-      'change_key': one(obj.change),
+      'change_key': models.PatchSet.change.get_value_for_datastore(obj),
       'message': one(obj.message),
       'owner': one(obj.owner),
       'created': one(obj.created),
       'modified': one(obj.modified),
-      'revision_key': one(obj.revision),
+      'revision_key': models.PatchSet.revision.get_value_for_datastore(obj),
       'complete': yn(obj.complete),
     })
 
@@ -340,7 +313,7 @@ class LocalStore(object):
     self.insert('messages', {
       'gae_key': entity.key,
       'last_backed_up': one(obj.last_backed_up),
-      'change_key': one(obj.change),
+      'change_key': models.Message.change.get_value_for_datastore(obj),
       'subject': one(obj.subject),
       'sender': one(obj.sender),
       'date_sent': one(obj.date),
@@ -350,33 +323,19 @@ class LocalStore(object):
     for u in set(obj.recipients):
       self.insert('message_recipients', {'message_key':entity.key,'email':u})
 
-  def save_DeltaContent(self, entity, obj):
-    type, hash = entity.key_name.split(':')
-
-    self.delete('delta_content', entity)
-    self.insert('delta_content', {
-      'gae_key': entity.key,
-      'last_backed_up': one(obj.last_backed_up),
-      'type': type,
-      'hash': hash,
-      'data_z': one(obj.text_z),
-      'depth': one(obj.depth),
-      'base_key': one(obj.base),
-    }, set(['data_z']))
-
   def save_Patch(self, entity, obj):
     self.delete('patches', entity)
     self.insert('patches', {
       'gae_key': entity.key,
       'last_backed_up': one(obj.last_backed_up),
-      'patchset_key': one(obj.patchset),
+      'patchset_key': models.Patch.patchset.get_value_for_datastore(obj),
       'filename': one(obj.filename),
       'status': one(obj.status),
       'multi_way_diff': yn(obj.multi_way_diff),
       'n_comments': one(obj.n_comments),
-      'old_data_key': one(obj.old_data),
-      'new_data_key': one(obj.new_data),
-      'diff_data_key': one(obj.diff_data),
+      'old_data_key': models.Patch.old_data.get_value_for_datastore(obj),
+      'new_data_key': models.Patch.new_data.get_value_for_datastore(obj),
+      'diff_data_key': models.Patch.diff_data.get_value_for_datastore(obj),
     })
 
   def save_Comment(self, entity, obj):
@@ -384,7 +343,7 @@ class LocalStore(object):
     self.insert('comments', {
       'gae_key': entity.key,
       'last_backed_up': one(obj.last_backed_up),
-      'patch_key': one(obj.patch),
+      'patch_key': models.Comment.patch.get_value_for_datastore(obj),
       'message_id': one(obj.message_id),
       'author': one(obj.author),
       'written': one(obj.date),
@@ -395,11 +354,13 @@ class LocalStore(object):
     })
 
   def save_ReviewStatus(self, entity, obj):
+    if obj.lgtm == '':
+      obj.lgtm = 'abstain'
     self.delete('review_status', entity)
     self.insert('review_status', {
       'gae_key': entity.key,
       'last_backed_up': one(obj.last_backed_up),
-      'change_key': one(obj.change),
+      'change_key': models.ReviewStatus.change.get_value_for_datastore(obj),
       'email': one(obj.user),
       'lgtm': one(obj.lgtm),
       'verified': yn_null(obj.verified),
@@ -494,12 +455,7 @@ def RealMain(argv, data=None):
         cnt += 1
         sys.stdout.write('\r%-18s ... %5d ' % (kind_name, cnt))
 
-        o = parse_dom(parseString(
-          '<?xml version="1.0" encoding="utf-8"?>'
-          '<root xmlns:gd="http://www.google.com/">'
-          '%s'
-          '</root>'
-          % entity.xml))
+        o = pickle.load(cStringIO.StringIO(entity.data))
         getattr(store, 'save_%s' % kind_name)(entity, o)
         last_key = entity.key
       db.commit()

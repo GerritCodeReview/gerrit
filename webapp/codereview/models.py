@@ -17,7 +17,10 @@
 # Python imports
 import base64
 import datetime
-import hashlib
+try:
+  import hashlib
+except ImportError:
+  pass
 import logging
 import random
 import re

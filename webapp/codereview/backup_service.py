@@ -14,6 +14,8 @@
 
 import base64
 import logging
+import cStringIO
+import pickle
 
 from google.appengine.ext import db
 
@@ -74,8 +76,7 @@ class BackupServiceImp(BackupService):
       e.key = str(o.key())
       e.last_backed_up = o.last_backed_up
 
-      if isinstance(o, models.DeltaContent):
-        o.text_z = base64.b64encode(o.text_z)
-
-      e.xml = o.to_xml().encode('utf_8')
+      buf = cStringIO.StringIO()
+      pickle.dump(o, buf, -1)
+      e.data = buf.getvalue()
     done(rsp)

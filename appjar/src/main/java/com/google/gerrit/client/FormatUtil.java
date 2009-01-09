@@ -29,16 +29,12 @@ public class FormatUtil {
   private static final DateTimeFormat dtfmt =
       DateTimeFormat.getFormat(mDate.getPattern() + " " + sTime.getPattern());
 
-  private static native int guessTimeZone()
-  /*-{ return new Date().getTimezoneOffset() }-*/;
-
   /** Format a date using the locale's medium length format. */
   public static String mediumFormat(final Date dt) {
     if (dt == null) {
       return "";
     }
-    final long tzOffset = -guessTimeZone() * 60 * 1000L;
-    return dtfmt.format(new Date(dt.getTime() + tzOffset));
+    return dtfmt.format(new Date(dt.getTime()));
   }
 
   /** Format an account as a name and email address. */

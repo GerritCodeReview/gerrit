@@ -20,7 +20,9 @@ import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
+import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.ChangeApproval;
+import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.client.reviewdb.ApprovalCategory.Id;
 import com.google.gerrit.client.rpc.Common;
@@ -41,6 +43,7 @@ public class FunctionState {
       new HashMap<ApprovalCategory.Id, Collection<ChangeApproval>>();
   private final Map<ApprovalCategory.Id, Boolean> valid =
       new HashMap<ApprovalCategory.Id, Boolean>();
+  private final Change change;
   private final ProjectCache.Entry project;
   private final Map<ApprovalCategory.Id, Collection<ProjectRight>> allRights =
       new HashMap<ApprovalCategory.Id, Collection<ProjectRight>>();
@@ -48,9 +51,9 @@ public class FunctionState {
   private Map<ApprovalCategory.Id, Collection<ProjectRight>> wildcardRights;
   private Set<ChangeApproval> modified;
 
-  public FunctionState(final ProjectCache.Entry p,
-      final Collection<ChangeApproval> all) {
-    project = p;
+  public FunctionState(final Change c, final Collection<ChangeApproval> all) {
+    change = c;
+    project = Common.getProjectCache().get(change.getDest().getParentKey());
 
     for (final ChangeApproval ca : all) {
       Collection<ChangeApproval> l = approvals.get(ca.getCategoryId());
@@ -60,6 +63,14 @@ public class FunctionState {
       }
       l.add(ca);
     }
+  }
+
+  public Change getChange() {
+    return change;
+  }
+
+  public Project getProject() {
+    return project.getProject();
   }
 
   public void valid(final ApprovalType at, final boolean v) {

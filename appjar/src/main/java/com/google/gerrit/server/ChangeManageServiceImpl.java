@@ -88,9 +88,7 @@ public class ChangeManageServiceImpl extends BaseServiceImplementation
               + " not an action"));
         }
 
-        final FunctionState fs =
-            new FunctionState(Common.getProjectCache().get(
-                change.getDest().getParentKey()), allApprovals);
+        final FunctionState fs = new FunctionState(change, allApprovals);
         for (ApprovalType c : Common.getGerritConfig().getApprovalTypes()) {
           c.getCategory().getFunction().run(c, fs);
         }

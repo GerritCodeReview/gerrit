@@ -28,7 +28,7 @@ public abstract class CategoryFunction {
   private static Map<String, CategoryFunction> all =
       new HashMap<String, CategoryFunction>();
   static {
-    all.put(AllValid.NAME, new AllValid());
+    all.put(SubmitFunction.NAME, new SubmitFunction());
     all.put(MaxWithBlock.NAME, new MaxWithBlock());
   }
 

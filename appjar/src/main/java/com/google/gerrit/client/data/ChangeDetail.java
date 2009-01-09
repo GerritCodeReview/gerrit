@@ -70,9 +70,7 @@ public class ChangeDetail {
         db.changeApprovals().byChange(change.getId()).toList();
     if (!change.getStatus().isClosed()) {
       final Account.Id me = Common.getAccountId();
-      final FunctionState fs =
-          new FunctionState(Common.getProjectCache().get(
-              change.getDest().getParentKey()), allApprovals);
+      final FunctionState fs = new FunctionState(change, allApprovals);
       missingApprovals = new HashSet<ApprovalCategory.Id>();
       currentActions = new HashSet<ApprovalCategory.Id>();
       for (final ApprovalType at : Common.getGerritConfig().getApprovalTypes()) {

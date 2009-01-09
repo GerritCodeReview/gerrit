@@ -17,21 +17,22 @@ package com.google.gerrit.client.workflow;
 import com.google.gerrit.client.data.ApprovalType;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
+import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.client.rpc.Common;
 
 /**
- * Computes an {@link ApprovalCategory} by requiring all others to be valid.
+ * Computes if the submit function can be used.
  * <p>
  * In order to be considered "approved" this function requires that all approval
  * categories with a position >= 0 (that is any whose
- * {@link ApprovalCategory#isAction()} method returns false) is valid in the
- * state.
+ * {@link ApprovalCategory#isAction()} method returns false) is valid and that
+ * the change state be {@link Change.Status#NEW}.
  * <p>
  * This is mostly useful for actions, like {@link ApprovalCategory#SUBMIT}.
  */
-public class AllValid extends CategoryFunction {
-  public static String NAME = "AllValid";
+public class SubmitFunction extends CategoryFunction {
+  public static String NAME = "Submit";
 
   @Override
   public void run(final ApprovalType at, final FunctionState state) {
@@ -53,6 +54,9 @@ public class AllValid extends CategoryFunction {
   }
 
   private static boolean valid(final ApprovalType at, final FunctionState state) {
+    if (state.getChange().getStatus() != Change.Status.NEW) {
+      return false;
+    }
     for (final ApprovalType t : Common.getGerritConfig().getApprovalTypes()) {
       if (!state.isValid(t)) {
         return false;

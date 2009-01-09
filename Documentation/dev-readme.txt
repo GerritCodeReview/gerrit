@@ -40,8 +40,10 @@ You'll need to configure your development workspace to use a database
 gwtorm supports (or add the necessary dialect support to gwtorm,
 and then configure your workspace anyway).
 
+====
   cd devdb/src/main/config/
   cp GerritServer.properties_example GerritServer.properties
+====
 
 Now edit GerritServer.properties to uncomment the database you are
 going to use, and possibly update properties such as "user" and

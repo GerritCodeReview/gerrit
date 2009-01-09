@@ -43,7 +43,9 @@ public class SuggestServiceImpl extends BaseServiceImplementation implements
 
         final List<Project.NameKey> r = new ArrayList<Project.NameKey>();
         for (final Project p : db.projects().suggestByName(a, b, n)) {
-          r.add(p.getNameKey());
+          if (canRead(p.getNameKey())) {
+            r.add(p.getNameKey());
+          }
         }
         return r;
       }

@@ -65,8 +65,8 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
         final AccountDashboardInfo d;
 
         d = new AccountDashboardInfo(target);
-        d.setByOwner(list(changes.byOwnerOpen(target), stars, ac));
-        d.setClosed(list(changes.byOwnerMerged(target), stars, ac));
+        d.setByOwner(filter(changes.byOwnerOpen(target), stars, ac));
+        d.setClosed(filter(changes.byOwnerMerged(target), stars, ac));
         d.setAccounts(ac.create());
         return d;
       }
@@ -86,7 +86,7 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
 
         final MineStarredInfo d = new MineStarredInfo(me);
         final Set<Change.Id> starred = starredBy(db, me);
-        d.setStarred(list(db.changes().get(starred), starred, ac));
+        d.setStarred(filter(db.changes().get(starred), starred, ac));
         Collections.sort(d.getStarred(), new Comparator<ChangeInfo>() {
           public int compare(final ChangeInfo o1, final ChangeInfo o2) {
             return o1.getLastUpdatedOn().compareTo(o2.getLastUpdatedOn());
@@ -142,13 +142,15 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
     });
   }
 
-  private static List<ChangeInfo> list(final ResultSet<Change> rs,
+  private static List<ChangeInfo> filter(final ResultSet<Change> rs,
       final Set<Change.Id> starred, final AccountInfoCacheFactory accts) {
     final ArrayList<ChangeInfo> r = new ArrayList<ChangeInfo>();
     for (final Change c : rs) {
-      final ChangeInfo ci = new ChangeInfo(c, accts);
-      ci.setStarred(starred.contains(ci.getId()));
-      r.add(ci);
+      if (canRead(c)) {
+        final ChangeInfo ci = new ChangeInfo(c, accts);
+        ci.setStarred(starred.contains(ci.getId()));
+        r.add(ci);
+      }
     }
     return r;
   }

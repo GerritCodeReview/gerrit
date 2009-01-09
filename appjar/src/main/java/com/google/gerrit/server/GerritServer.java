@@ -28,6 +28,7 @@ import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.SystemConfig;
 import com.google.gerrit.client.rpc.Common;
+import com.google.gerrit.client.workflow.NoOpFunction;
 import com.google.gerrit.client.workflow.SubmitFunction;
 import com.google.gerrit.git.RepositoryCache;
 import com.google.gwtjsonrpc.server.SignedToken;
@@ -243,6 +244,38 @@ public class GerritServer {
     c.projectRights().insert(Collections.singleton(approve));
   }
 
+  private void initReadCategory(final ReviewDb c) throws OrmException {
+    final Transaction txn = c.beginTransaction();
+    final ApprovalCategory cat;
+    final ArrayList<ApprovalCategoryValue> vals;
+
+    cat = new ApprovalCategory(ApprovalCategory.READ, "Read Access");
+    cat.setPosition((short) -1);
+    cat.setFunctionName(NoOpFunction.NAME);
+    vals = new ArrayList<ApprovalCategoryValue>();
+    vals.add(value(cat, 1, "Read access"));
+    vals.add(value(cat, -1, "No access"));
+    c.approvalCategories().insert(Collections.singleton(cat), txn);
+    c.approvalCategoryValues().insert(vals);
+    txn.commit();
+    {
+      final ProjectRight read =
+          new ProjectRight(new ProjectRight.Key(ProjectRight.WILD_PROJECT, cat
+              .getId(), sConfig.anonymousGroupId));
+      read.setMaxValue((short) 1);
+      read.setMinValue((short) 0);
+      c.projectRights().insert(Collections.singleton(read));
+    }
+    {
+      final ProjectRight read =
+          new ProjectRight(new ProjectRight.Key(ProjectRight.WILD_PROJECT, cat
+              .getId(), sConfig.adminGroupId));
+      read.setMaxValue((short) 1);
+      read.setMinValue((short) 0);
+      c.projectRights().insert(Collections.singleton(read));
+    }
+  }
+
   private void initSubmitCategory(final ReviewDb c) throws OrmException {
     final Transaction txn = c.beginTransaction();
     final ApprovalCategory cat;
@@ -283,6 +316,7 @@ public class GerritServer {
         initSystemConfig(c);
         sConfig = c.systemConfig().get(new SystemConfig.Key());
         initWildCardProject(c);
+        initReadCategory(c);
         initVerifiedCategory(c);
         initCodeReviewCategory(c);
         initSubmitCategory(c);

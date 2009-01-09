@@ -17,10 +17,12 @@ package com.google.gerrit.server.patch;
 import com.google.gerrit.client.data.AccountInfoCacheFactory;
 import com.google.gerrit.client.data.LineWithComments;
 import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchContent;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gerrit.client.rpc.BaseServiceImplementation;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.CorruptEntityException;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
@@ -49,6 +51,7 @@ abstract class PatchDetailAction<T> implements Action<T> {
   protected static final byte[] EMPTY_FILE = {};
 
   protected final Patch.Key key;
+  protected Change change;
   protected Patch patch;
   protected FileHeader file;
   protected int fileCnt;
@@ -67,6 +70,8 @@ abstract class PatchDetailAction<T> implements Action<T> {
     if (patch == null) {
       throw new Failure(new NoSuchEntityException());
     }
+    change = db.changes().get(patch.getKey().getParentKey().getParentKey());
+    BaseServiceImplementation.assertCanRead(change);
 
     file = parse(patch, read(db, patch));
     if (file instanceof CombinedFileHeader) {

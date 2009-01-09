@@ -35,6 +35,7 @@ public class ChangeDetailServiceImpl extends BaseServiceImplementation
         if (change == null) {
           throw new Failure(new NoSuchEntityException());
         }
+        assertCanRead(change);
 
         final ChangeDetail d = new ChangeDetail();
         d.load(db, new AccountInfoCacheFactory(db), change);
@@ -51,6 +52,7 @@ public class ChangeDetailServiceImpl extends BaseServiceImplementation
         if (ps == null) {
           throw new Failure(new NoSuchEntityException());
         }
+        assertCanRead(db.changes().get(ps.getId().getParentKey()));
 
         final PatchSetDetail d = new PatchSetDetail();
         d.load(db, ps);

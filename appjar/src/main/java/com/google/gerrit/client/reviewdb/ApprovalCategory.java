@@ -26,6 +26,10 @@ public final class ApprovalCategory {
   public static final ApprovalCategory.Id SUBMIT =
       new ApprovalCategory.Id("SUBM");
 
+  /** Id of the special "Read" action (and category). */
+  public static final ApprovalCategory.Id READ =
+      new ApprovalCategory.Id("READ");
+
   public static class Id extends StringKey<Key<?>> {
     @Column(length = 4)
     protected String id;

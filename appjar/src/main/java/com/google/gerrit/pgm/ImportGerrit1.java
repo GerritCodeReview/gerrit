@@ -88,6 +88,7 @@ public class ImportGerrit1 {
       pm.beginTask("Import project rights", ProgressMonitor.UNKNOWN);
       query.executeUpdate("DELETE FROM project_rights");
       insertApprovalWildCard();
+      insertAccessWildCard();
       srcs =
           query.executeQuery("SELECT p.project_id, r.ar_key"
               + " FROM gerrit1.project_code_reviews r, projects p"
@@ -142,6 +143,16 @@ public class ImportGerrit1 {
                 new SystemConfig.Key()).registeredGroupId);
     final ProjectRight pr = new ProjectRight(key);
     pr.setMinValue((short) -1);
+    pr.setMaxValue((short) 1);
+    db.projectRights().insert(Collections.singleton(pr));
+  }
+
+  private static void insertAccessWildCard() throws OrmException {
+    final ProjectRight.Key key =
+        new ProjectRight.Key(ProjectRight.WILD_PROJECT, ApprovalCategory.READ,
+            db.systemConfig().get(new SystemConfig.Key()).anonymousGroupId);
+    final ProjectRight pr = new ProjectRight(key);
+    pr.setMinValue((short) 1);
     pr.setMaxValue((short) 1);
     db.projectRights().insert(Collections.singleton(pr));
   }

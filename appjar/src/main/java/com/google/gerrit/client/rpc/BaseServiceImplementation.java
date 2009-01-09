@@ -14,9 +14,17 @@
 
 package com.google.gerrit.client.rpc;
 
+import com.google.gerrit.client.data.ProjectCache;
+import com.google.gerrit.client.reviewdb.AccountGroup;
+import com.google.gerrit.client.reviewdb.ApprovalCategory;
+import com.google.gerrit.client.reviewdb.Change;
+import com.google.gerrit.client.reviewdb.Project;
+import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtorm.client.OrmException;
+
+import java.util.Set;
 
 /** Support for services which require a {@link ReviewDb} instance. */
 public class BaseServiceImplementation {
@@ -48,6 +56,73 @@ public class BaseServiceImplementation {
     } catch (Failure e) {
       callback.onFailure(e.getCause());
     }
+  }
+
+  /** Throws NoSuchEntityException if the caller cannot access the project. */
+  public static void assertCanRead(final Change change) throws Failure {
+    if (!canRead(change)) {
+      throw new Failure(new NoSuchEntityException());
+    }
+  }
+
+  /** Throws NoSuchEntityException if the caller cannot access the project. */
+  public static void assertCanRead(final Project.NameKey projectKey)
+      throws Failure {
+    if (!canRead(projectKey)) {
+      throw new Failure(new NoSuchEntityException());
+    }
+  }
+
+  /** Return true if the current user can read this change's project. */
+  public static boolean canRead(final Change change) {
+    return change != null && canRead(change.getDest().getParentKey());
+  }
+
+  /** Return true if the current user can read this project, and its contents. */
+  public static boolean canRead(final Project.NameKey projectKey) {
+    final ProjectCache.Entry e = Common.getProjectCache().get(projectKey);
+    if (e == null) {
+      // Unexpected, a project disappearing. But claim its not available.
+      //
+      return false;
+    }
+
+    final Set<AccountGroup.Id> myGroups =
+        Common.getGroupCache().getGroups(Common.getAccountId());
+    if (myGroups.contains(e.getProject().getOwnerGroupId())) {
+      // Ownership implies full access.
+      //
+      return true;
+    }
+
+    int val = Integer.MIN_VALUE;
+    for (final ProjectRight pr : e.getRights()) {
+      if (ApprovalCategory.READ.equals(pr.getApprovalCategoryId())
+          && myGroups.contains(pr.getAccountGroupId())) {
+        if (val < 0 && pr.getMaxValue() > 0) {
+          // If one of the user's groups had denied them access, but
+          // this group grants them access, prefer the grant over
+          // the denial. We have to break the tie somehow and we
+          // prefer being "more open" to being "more closed".
+          //
+          val = pr.getMaxValue();
+        } else {
+          // Otherwise we use the largest value we can get.
+          //
+          val = Math.max(pr.getMaxValue(), val);
+        }
+      }
+    }
+    if (val == Integer.MIN_VALUE) {
+      for (final ProjectRight pr : Common.getProjectCache().getWildcardRights()) {
+        if (ApprovalCategory.READ.equals(pr.getApprovalCategoryId())
+            && myGroups.contains(pr.getAccountGroupId())) {
+          val = Math.max(pr.getMaxValue(), val);
+        }
+      }
+    }
+
+    return val > 0;
   }
 
   /** Exception whose cause is passed into onFailure. */

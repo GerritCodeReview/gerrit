@@ -12,26 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.ssh;
+package com.google.gerrit.client.workflow;
 
-import org.spearce.jgit.transport.UploadPack;
+import com.google.gerrit.client.data.ApprovalType;
+import com.google.gerrit.client.reviewdb.Account;
 
-import java.io.IOException;
+/** A function that does nothing. */
+public class NoOpFunction extends CategoryFunction {
+  public static String NAME = "NoOp";
 
-/** Publishes Git repositories over SSH using the Git upload-pack protocol. */
-class Upload extends AbstractGitCommand {
   @Override
-  protected void runImpl() throws IOException {
-    closeDb();
-
-    final UploadPack up = new UploadPack(repo);
-    up.upload(in, out, err);
+  public void run(final ApprovalType at, final FunctionState state) {
   }
 
   @Override
-  protected String parseCommandLine(final String[] args) throws Failure {
-    if (args.length != 1)
-      throw new Failure(1, "usage: " + getName() + " '/project.git'");
-    return args[0];
+  public boolean isValid(final Account.Id accountId, final ApprovalType at,
+      final FunctionState state) {
+    return false;
   }
 }

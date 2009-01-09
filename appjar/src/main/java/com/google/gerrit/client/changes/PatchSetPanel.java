@@ -24,6 +24,7 @@ import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.ui.RefreshListener;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Composite;
@@ -36,6 +37,8 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwtjsonrpc.client.VoidResult;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 class PatchSetPanel extends Composite implements DisclosureHandler {
@@ -45,6 +48,7 @@ class PatchSetPanel extends Composite implements DisclosureHandler {
   private final ChangeDetail changeDetail;
   private final PatchSet patchSet;
   private final FlowPanel body;
+  private List<RefreshListener> refreshListeners;
 
   private Grid infoTable;
   private Panel actionsPanel;
@@ -56,6 +60,29 @@ class PatchSetPanel extends Composite implements DisclosureHandler {
     patchSet = ps;
     body = new FlowPanel();
     initWidget(body);
+  }
+
+  public void addRefreshListener(final RefreshListener r) {
+    if (refreshListeners == null) {
+      refreshListeners = new ArrayList<RefreshListener>();
+    }
+    if (!refreshListeners.contains(r)) {
+      refreshListeners.add(r);
+    }
+  }
+
+  public void removeRefreshListener(final RefreshListener r) {
+    if (refreshListeners != null) {
+      refreshListeners.remove(r);
+    }
+  }
+
+  protected void fireOnSuggestRefresh() {
+    if (refreshListeners != null) {
+      for (final RefreshListener r : refreshListeners) {
+        r.onSuggestRefresh();
+      }
+    }
   }
 
   @Override
@@ -143,11 +170,18 @@ class PatchSetPanel extends Composite implements DisclosureHandler {
               .getPatchSet().getPatchSetId()));
       b.addClickListener(new ClickListener() {
         public void onClick(Widget sender) {
+          b.setEnabled(false);
           Util.MANAGE_SVC.patchSetAction(max.getId(), patchSet.getId(),
               new GerritCallback<VoidResult>() {
                 public void onSuccess(VoidResult result) {
-                  // TODO refresh change screen
                   actionsPanel.remove(b);
+                  fireOnSuggestRefresh();
+                }
+
+                @Override
+                public void onFailure(Throwable caught) {
+                  b.setEnabled(true);
+                  super.onFailure(caught);
                 }
               });
         }

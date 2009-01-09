@@ -28,6 +28,7 @@ import com.google.gerrit.client.ui.ComplexDisclosurePanel;
 import com.google.gerrit.client.ui.DomUtil;
 import com.google.gerrit.client.ui.ExpandAllCommand;
 import com.google.gerrit.client.ui.LinkMenuBar;
+import com.google.gerrit.client.ui.RefreshListener;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.ui.Anchor;
@@ -246,6 +247,11 @@ public class ChangeScreen extends Screen {
 
       if (ps == currps) {
         psp.ensureLoaded(detail.getCurrentPatchSetDetail());
+        psp.addRefreshListener(new RefreshListener() {
+          public void onSuggestRefresh() {
+            refresh();
+          }
+        });
       } else {
         panel.addEventHandler(psp);
       }

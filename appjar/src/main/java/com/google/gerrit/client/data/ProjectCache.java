@@ -43,34 +43,10 @@ public class ProjectCache {
           return 1024 <= size();
         }
       };
-  private Collection<ProjectRight> wildcardRights;
 
   /** Get the rights which are applied to all projects in the system. */
   public Collection<ProjectRight> getWildcardRights() {
-    synchronized (this) {
-      if (wildcardRights != null) {
-        return wildcardRights;
-      }
-    }
-
-    Collection<ProjectRight> m;
-    try {
-      final ReviewDb db = Common.getSchemaFactory().open();
-      try {
-        m =
-            Collections.unmodifiableCollection(db.projectRights().byProject(
-                ProjectRight.WILD_PROJECT).toList());
-      } finally {
-        db.close();
-      }
-    } catch (OrmException e) {
-      return null;
-    }
-
-    synchronized (this) {
-      wildcardRights = m;
-    }
-    return m;
+    return get(ProjectRight.WILD_PROJECT).getRights();
   }
 
   /** Invalidate the cached information about the given project. */
@@ -188,9 +164,6 @@ public class ProjectCache {
 
   /** Force the entire cache to flush from memory and recompute. */
   public void flush() {
-    synchronized (this) {
-      wildcardRights = null;
-    }
     synchronized (byId) {
       byId.clear();
     }

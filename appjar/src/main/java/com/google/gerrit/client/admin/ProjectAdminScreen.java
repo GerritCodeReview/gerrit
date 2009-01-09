@@ -37,6 +37,7 @@ import com.google.gwt.user.client.ui.FocusListenerAdapter;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SourcesTableEvents;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.TableListener;
@@ -54,6 +55,7 @@ import java.util.Map;
 public class ProjectAdminScreen extends AccountScreen {
   private Project.Id projectId;
 
+  private Panel ownerPanel;
   private TextBox ownerTxtBox;
   private SuggestBox ownerTxt;
   private Button saveOwner;
@@ -116,7 +118,7 @@ public class ProjectAdminScreen extends AccountScreen {
   }
 
   private void initOwner() {
-    final VerticalPanel ownerPanel = new VerticalPanel();
+    ownerPanel = new VerticalPanel();
     final Label ownerHdr = new Label(Util.C.headingOwner());
     ownerHdr.setStyleName("gerrit-SmallHeading");
     ownerPanel.add(ownerHdr);
@@ -273,6 +275,13 @@ public class ProjectAdminScreen extends AccountScreen {
     } else {
       ownerTxt.setText(Util.M.deletedGroup(project.getOwnerGroupId().get()));
     }
+
+    if (ProjectRight.WILD_PROJECT.equals(project.getId())) {
+      ownerPanel.setVisible(false);
+    } else {
+      ownerPanel.setVisible(true);
+    }
+
     descTxt.setText(project.getDescription());
     rights.display(result.groups, result.rights);
   }
@@ -455,7 +464,8 @@ public class ProjectAdminScreen extends AccountScreen {
       final ApprovalType ar = config.getApprovalType(k.getApprovalCategoryId());
       final AccountGroup group = groups.get(k.getAccountGroupId());
 
-      if (ProjectRight.WILD_PROJECT.equals(k.getProjectId())) {
+      if (ProjectRight.WILD_PROJECT.equals(k.getProjectId())
+          && !ProjectRight.WILD_PROJECT.equals(projectId)) {
         table.setText(row, 1, "");
       } else {
         table.setWidget(row, 1, new CheckBox());

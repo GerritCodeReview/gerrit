@@ -193,7 +193,7 @@ SET
 UPDATE account_groups
 SET owner_group_id = (SELECT admin_group_id FROM system_config);
 
-DELETE FROM projects;
+DELETE FROM projects WHERE project_id <> 0;
 INSERT INTO projects
 (project_id,
  description,

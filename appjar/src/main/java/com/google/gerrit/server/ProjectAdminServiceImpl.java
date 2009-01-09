@@ -103,6 +103,11 @@ public class ProjectAdminServiceImpl extends BaseServiceImplementation
         if (project == null) {
           throw new Failure(new NoSuchEntityException());
         }
+        if (ProjectRight.WILD_PROJECT.equals(projectId)) {
+          // This is *not* a good idea to change away from administrators.
+          //
+          throw new Failure(new NoSuchEntityException());
+        }
 
         final AccountGroup owner =
             db.accountGroups().get(new AccountGroup.NameKey(newOwnerName));

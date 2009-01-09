@@ -23,6 +23,7 @@ import com.google.gerrit.client.data.ProjectCache;
 import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
+import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.SystemConfig;
@@ -189,6 +190,18 @@ public class GerritServer {
     c.systemConfig().insert(Collections.singleton(s));
   }
 
+  private void initWildCardProject(final ReviewDb c) throws OrmException {
+    final Project proj;
+
+    proj =
+        new Project(new Project.NameKey("-- All Projects --"),
+            ProjectRight.WILD_PROJECT);
+    proj.setDescription("Rights inherited by all other projects");
+    proj.setOwnerGroupId(sConfig.adminGroupId);
+    proj.setUseContributorAgreements(false);
+    c.projects().insert(Collections.singleton(proj));
+  }
+
   private void initVerifiedCategory(final ReviewDb c) throws OrmException {
     final Transaction txn = c.beginTransaction();
     final ApprovalCategory cat;
@@ -269,6 +282,7 @@ public class GerritServer {
         //
         initSystemConfig(c);
         sConfig = c.systemConfig().get(new SystemConfig.Key());
+        initWildCardProject(c);
         initVerifiedCategory(c);
         initCodeReviewCategory(c);
         initSubmitCategory(c);

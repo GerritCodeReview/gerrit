@@ -17,6 +17,7 @@ package com.google.gerrit.server.ssh;
 import com.google.gerrit.client.data.ProjectCache;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.Project;
+import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.git.InvalidRepositoryException;
@@ -61,6 +62,10 @@ abstract class AbstractGitCommand extends AbstractCommand {
     }
 
     proj = cachedProj.getProject();
+    if (ProjectRight.WILD_PROJECT.equals(proj.getId())) {
+      throw new Failure(1, "fatal: '" + reqName + "': not a valid project");
+    }
+
     try {
       repo = getRepositoryCache().get(proj.getName());
     } catch (InvalidRepositoryException e) {

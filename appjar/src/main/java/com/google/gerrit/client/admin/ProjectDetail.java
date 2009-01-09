@@ -46,9 +46,12 @@ public class ProjectDetail {
     for (final ProjectRight p : g.getRights()) {
       rights.add(p);
       wantGroup(p.getAccountGroupId());
-    }for (final ProjectRight p : Common.getProjectCache().getWildcardRights()) {
-      rights.add(p);
-      wantGroup(p.getAccountGroupId());
+    }
+    if (!ProjectRight.WILD_PROJECT.equals(project.getId())) {
+      for (final ProjectRight p : Common.getProjectCache().getWildcardRights()) {
+        rights.add(p);
+        wantGroup(p.getAccountGroupId());
+      }
     }
 
     loadGroups(db);

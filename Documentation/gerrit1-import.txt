@@ -106,3 +106,16 @@ process:
   sh devutil/1-to-2.sh yourapp.dump config.sql
 ====
 
+
+Fixup Groups
+------------
+
+During the Gerrit1 to Gerrit2 schema conversion process some
+additional groups may have been created.  This was necessary
+to enforce the same permissions within a project while moving
+to a system that assigns permissions only to groups, and not
+to individual users.
+
+You may want to browse #admin,groups once logged in through
+the web UI and cleanup any group names that were generated
+automatically by the import process.

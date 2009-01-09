@@ -1,0 +1,81 @@
+Gerrit2 - Project Configuration
+===============================
+
+All Git repositories under `site_path` must be registered in the
+Gerrit database in order to be accessed through SSH, or through
+the web interface.
+
+Create Git Repository
+---------------------
+
+Create a Git repository under `git_base_path`:
+
+====
+  git --git-dir=$git_base_pathgit/new/project.git init
+====
+
+[TIP]
+By tradition the project name should have a `.git` suffix.
+
+To also make this repository available over the anonymous git://
+protocol, don't forget the git-daemon-export-ok file:
+
+====
+  touch $git_base_pathgit/new/project.git/git-daemon-export-ok
+====
+
+Register Project
+----------------
+
+At least two inserts are needed to register a project with Gerrit:
+one to define the project exists, and another to define a branch
+that changes can be uploaded to.  Additional branches may be
+defined if desired.
+
+[NOTE]
+Note that the `.git` suffix is not typically included in the
+project name, as it looks cleaner in the web when not shown.
+Gerrit automatically assumes that `project.git` is the Git repository
+for a project name `project`.
+
+====
+  psql reviewdb
+  INSERT INTO projects
+  (project_id
+   ,use_contributor_agreements
+   ,owner_group_id
+   ,name)
+  VALUES
+  (nextval('project_id')
+  ,'Y'
+  ,(SELECT admin_group_id FROM system_config)
+  ,'new/project');
+
+  INSERT INTO branches
+  (branch_id
+  ,branch_name
+  ,project_name)
+  VALUES
+  (nextval('branch_id)
+  ,'refs/heads/master'
+  ,'new/project');
+====
+
+Register Branch
+---------------
+
+To register additional branches beyond `master`, run the "INSERT
+INTO branches" statement for each branch, ensuring to use the
+`refs/heads/` prefix:
+
+====
+  INSERT INTO branches
+  (branch_id
+  ,branch_name
+  ,project_name)
+  VALUES
+  (nextval('branch_id)
+  ,'refs/heads/stable'
+  ,'new/project');
+====
+

@@ -1,0 +1,109 @@
+Gerrit2 - Site Customization
+============================
+
+Gerrit2 supports some customization of the HTML it sends to
+the browser, allowing organizations to alter the look and
+feel of the application to fit with their general scheme.
+
+HTML Header/Footer
+------------------
+
+At startup Gerrit reads the following files (if they exist) and
+uses them to customize the HTML page it sends to clients:
+
+* `$site_path/GerritSiteHeader.html`
++
+HTML is inserted below the menu bar, but above any page content.
+This is a good location for an organizational logo, or links to
+other systems like bug tracking.
+
+* `$site_path/GerritSiteFooter.html`
++
+HTML is inserted at the bottom of the page, below all other
+content.  If in the future Gerrit adds a version tag footer,
+this content would be just above that version tag.
+
+* `$site_path/GerritSite.css`
++
+The CSS rules are inlined into the top of the HTML page, inside
+of a `<style>` tag.  These rules can be used to support styling
+the elements within either the header or the footer.
+
+If any of these files are created, deleted or modified you need to
+restart the web application to make the changes take effect.
+
+The *.html files must be valid XHTML, with one root element,
+typically a single `<div>` tag.  The server parses it as XML, and
+then inserts the root element into the host page.  If a file has
+more than one root level element, Gerrit will not start.
+
+Static Images
+-------------
+
+Static image files can also be served from `$site_path/static`,
+and may be referenced in `GerritSite{Header,Footer}.html`
+or `GerritSite.css` by the relative URL `static/$name`
+(e.g. `static/logo.png`).
+
+To simplify security management, only files are served from
+`$site_path/static`.  Subdirectories are explicitly forbidden from
+being served from this location by enforcing the rule that file names
+cannot contain `/` or `\`.  (Client requests for `static/foo/bar`
+will result in 404 Not Found responses.)
+
+HTTP Caching
+------------
+
+Assets under `$site_path` are always served with a 5 minute expire,
+permitting some (limited) caching.  It may take up to 5 minutes
+after Gerrit restart before clients see the changes.
+
+Google Analytics Integration
+----------------------------
+
+To connect Gerrit to Google Analytics add the following to your
+`GerritSiteFooter.html`:
+
+====
+  <div>
+  <!-- standard analytics code -->
+    <script type="text/javascript">
+      var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+      document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+      var pageTracker = _gat._getTracker("UA-nnnnnnn-n");
+      pageTracker._trackPageview();
+    </script>
+  <!-- /standard analytics code -->
+
+  <script type="text/javascript">
+    window.onload = function() {
+      gerrit_addHistoryHook(function (s) {
+        pageTracker._trackPageview(s)
+      });
+    };
+  </script>
+  </div>
+====
+
+Please consult the Google Analytics documentation for the correct
+setup code (the first two script tags).  The above is shown only
+as a reference example.
+
+If your footer is otherwise empty, ensure you wrap all of the script
+tags in a single `<div>` tag to ensure it is a well-formed XHTML
+document file.
+
+The global function `gerrit_addHistoryHook` accepts functions that
+accept a string parameter.  These functions are put into a list and
+invoked any time Gerrit shifts URLs.  You'll see page names like
+`/Gerrit#change,123` be passed to these functions, which in turn
+are handed off to Google Analytics for tracking.
+
+The `window.onload` callback is necessary to ensure that the
+`gerrit_addHistoryHook` function has actually been defined by the
+page.  Because GWT loads the module asynchronously any `<script>`
+block in the header or footer will execute before Gerrit has defined
+the function and is ready to register the hook callback.
+

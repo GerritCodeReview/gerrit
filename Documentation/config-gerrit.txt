@@ -1,0 +1,155 @@
+Gerrit2 - Configuration
+=======================
+
+Several columns in the `system_config` table may be set to control
+how Gerrit behaves.
+
+[NOTE]
+The contents of the `system_config` table are cached at startup
+by Gerrit.  If you modify any columns in this table, Gerrit needs
+to be restarted before it will use the new values.
+
+Configurable Parameters
+-----------------------
+
+max_session_age
+~~~~~~~~~~~~~~~
+
+Maximum number of seconds that an XSRF token or a session cookie
+is permitted to be valid for.
+
+By default this is 43200 seconds, or 12 hours.  Any browser session
+which has not been used in this time span will ask the user to
+login again.
+
+Administrators may increase (or decrease) this setting to control
+how long an idle session is allowed to remain alive.
+
+site_path
+~~~~~~~~~
+
+Local filesystem directory holding the site customization assets.
+Placing this directory under version control and/or backup is a
+good idea.
+
+SSH keys (`ssh_host_rsa_key`, `ssh_host_dsa_key`) in this directory
+provide the host keys for the internal SSH daemon.
+
+Other files support site customization.
+
+* link:config-headerfooter.html[Site Header/Footer]
+
+canonical_url
+~~~~~~~~~~~~~
+
+The default URL for Gerrit to be accessed through.
+
+Typically this would be set to "http://review.example.com/" or
+"http://example.com/gerrit/" so Gerrit can output links that point
+back to itself.
+
+Setting this is highly recommended, as its necessary for the upload
+code invoked by "git push" or "repo upload" to output hyperlinks
+to the newly uploaded changes.
+
+use_contributor_agreements
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Controls whether or not the contributor agreement features are
+enabled for the Gerrit site.  If enabled a user must complete a
+contributor agreement before they can upload changes.
+
+If enabled, the admin must also insert one or more rows into
+`contributor_agreements` and create agreement files under
+`$site_path/static`, so users can actually complete one or
+more agreements. 
+
+By default this is `N` (no agreements are used).
+
+sshd_port
+~~~~~~~~~
+
+Port number the internal SSHD listens for connections on.
+
+Gerrit receives new change submissions through this port by
+"git push ssh://you@example.com:$sshd_port/$project.git ...".
+
+By default this is 29418.
+
+
+Not User Serviceable
+--------------------
+
+These fields generally shouldn't be modified.
+
+xsrf_private_key
+~~~~~~~~~~~~~~~~
+
+A private key used to sign the XSRF (cross site request forgey)
+protection tokens.  All RPC calls which can potentially modify
+data require that the client obtain, and then later present an XSRF
+token to Gerrit.  The tokens are signed with this private key.
+
+This column is automatically generated when the database is
+initialized.  Changing it to a new value would cause all current
+XSRF tokens to be invalidated, forcing clients to either fail or
+retry any requests in progress.
+
+Changing it is not recommended.
+
+account_private_key
+~~~~~~~~~~~~~~~~~~~
+
+Like xsrf_private_key, but used to sign the cookie that tells Gerrit
+what account the end-user has signed into.  The key signs the cookie,
+preventing a client from spoofing another account.
+
+This column is automatically generated when the database is
+initialized.  Changing it to a new value would cause all current
+cookies to be invalidated, forcing clients to fail their current
+requests and require the user to sign in again.
+
+Changing it is not recommended.
+
+admin_group_id
+~~~~~~~~~~~~~~
+
+Unique identity of the group with full privileges.  Any user who
+is a member of this group may manage any other group, any project,
+and other system settings over the web.
+
+This is initialized by Gerrit to be the "Administrators" group.
+
+Changing it is not recommended.
+
+anonymous_group_id
+~~~~~~~~~~~~~~~~~~
+
+Unique identity of the group for anonymous (not authenticated) users.
+
+All users are a member of this group, whether or not they are
+actually signed in to Gerrit.  Any access rights assigned to
+this group are inherited by all users.
+
+This is initialized by Gerrit to be the "Anonymous Users" group.
+
+Changing it is not recommended.
+
+registered_group_id
+~~~~~~~~~~~~~~~~~~~
+
+Unique identity of the group for all authenticated users.
+
+All signed-in users are a member of this group.  Any access rights
+assigned to this group are inherited by all users once they have
+authenticated to Gerrit.
+
+Since account registration is open and fairly easy to obtain,
+moving from the "Anonymous Users" group to this group is not
+very difficult.  Caution should be taken when assigning any
+permissions to this group.
+
+This is initialized by Gerrit to be the "Registered Users" group.
+
+Changing it is not recommended.
+

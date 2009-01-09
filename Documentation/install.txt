@@ -1,0 +1,301 @@
+Gerrit2 - Installation
+======================
+
+You need Apache Maven to compile the code, and a SQL database
+to house the Gerrit2 metadata.  PostgreSQL is currently the only
+supported database.
+
+Important Links
+---------------
+
+Apache Maven:
+
+* http://maven.apache.org/download.html[Download]
+* http://maven.apache.org/run-maven/index.html[Running Maven]
+
+PostgreSQL:
+
+* http://www.postgresql.org/docs/[Documentation]
+
+Build Gerrit
+------------
+
+Build the application distribution:
+
+====
+  cd appdist
+  mvn clean install
+  cd appdist/target/gerrit-*-bin.dir/gerrit-*
+====
+
+The first build may take a while as dependencies are searched
+for and downloaded from Maven distribution repositories.
+
+Unfortunately you need to install to your local Maven repository
+(typically under `~/.m2`) in order to fully build all of the source
+based dependencies.  Core dependencies for Gerrit are still under
+active development and have not made final releases yet.
+
+Setting up the Database
+-----------------------
+
+Currently PostgreSQL is the only supported database.  H2 may also
+work, but hasn't been tested in a while.  The primary concern is
+having support for the database in the gworm project.
+
+PostgreSQL
+~~~~~~~~~~
+
+Create a Gerrit specific user as a normal user (no superuser access)
+and assign it an encrypted password:
+
+====
+  createuser -A -D -P -E gerrit2
+====
+
+Create the database to store the Gerrit metadata, and set the user
+you just created as the owner of that database:
+
+====
+  createdb -E UTF-8 -O gerrit2 reviewdb
+====
+
+Initialize the Schema
+---------------------
+
+Create the Gerrit 2 Tables
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Either run CreateSchema from the command line (requires writing
+a `GerritServer.properties`, see `GerritServer.properties_example`
+under `devdb/src/main/config`):
+
+====
+  bin/gerrit2.sh --config=GerritServer.properties CreateSchema
+====
+
+Or, run the application once in a container to force it to initialize
+the database schema before accessing it.  (See below for deployment
+setup documentation.)  If you use this approach, it is recommended
+that you stop the application before continuing with the setup.
+
+Add Indexes
+~~~~~~~~~~~
+
+A script should be run to create the query indexes, so Gerrit
+can avoid table scans when looking up information.  Run the
+`sql/query_index.sql` script through your database's query tool.
+
+e.g. with PostgreSQL:
+
+====
+  psql -f sql/query_index.sql reviewdb
+====
+
+Configure site_path
+~~~~~~~~~~~~~~~~~~~
+
+This directory holds server-specific configuration files and
+assets used to customize the deployment.  Gerrit needs read
+access (but not write access) to the directory.  The path
+is stored in `system_config.site_path`, so you will need to
+update the database with this value.
+
+====
+  mkdir /home/gerrit/cfg
+  cd /home/gerrit/cfg
+
+  ssh-keygen -t rsa -P '' -f ssh_host_rsa_key
+  ssh-keygen -t dsa -P '' -f ssh_host_dsa_key
+
+  psql -c "UPDATE system_config SET site_path='/home/gerrit/cfg'" reviewdb
+====
+
+The SSH keys generated here are used as the host keys for the
+internal SSH daemon run by Gerrit.  You may wish to backup these
+key files to ensure they can be restored in the event of a disaster.
+
+The private key files (`ssh_host_rsa_key`, `ssh_host_dsa_key`) should
+be readable *only* by the account that is executing Gerrit2's web
+application container.  It is a security risk to make these files
+readable by anyone else.
+
+Create Git Repository Base
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This directory holds the Git repositories that Gerrit knows about
+and can service.  Gerrit needs write access to this directory and
+any Git repository stored within it.
+
+====
+  mkdir /srv/git
+  psql -c "UPDATE system_config SET git_base_path='/srv/git'" reviewdb
+====
+
+You may wish to consider also exporting this directory over the
+anonymous git:// protocol, as it is more efficient than Gerrit's
+internal ssh daemon.  See the `git-daemon` documentation for details
+on how to configure this if anonymous access is desired.
+
+* http://www.kernel.org/pub/software/scm/git/docs/git-daemon.html[man git-daemon]
+
+Futher Configuration
+~~~~~~~~~~~~~~~~~~~~
+
+Gerrit2 supports some site-specific customizations.  These are
+optional and are not required to run a server, but may be desired.
+
+* link:config-headerfooter.html[Site Header/Footer]
+* link:config-gitweb.html[Gitweb Integration]
+* link:config-gerrit.html[Other system_config Settings]
+
+Application Deployment
+-----------------------
+
+Jetty
+~~~~~
+
+These directions will configure Gerrit as the default web
+application, allowing URLs like `http://example.com/4543` to
+jump directly to change 4543.
+
+Download and unzip a release version of Jetty.  From here on we
+call the unpacked directory `$JETTY_HOME`.
+
+* http://dist.codehaus.org/jetty/[Jetty Downloads]
+
+Copy Gerrit into the deployment:
+====
+  cp jdbc/c3p0-*.jar $JETTY_HOME/lib/plus/
+  cp jdbc/postgresql-*.jdbc*.jar $JETTY_HOME/lib/plus/
+  cp www/jetty_gerrit.xml $JETTY_HOME/contexts/gerrit.xml
+  cp www/gerrit-*.war $JETTY_HOME/webapps/gerrit.war
+
+  rm -f $JETTY_HOME/context/test.xml
+====
+
+Edit `$JETTY_HOME/contexts/gerrit.xml` to correctly configure the
+database connection, especially the user and password fields.
+
+To start automatically when the system boots, consider a start
+script such as the following in `/etc/init.d/gerrit2-jetty`
+
+====
+  #!/bin/sh
+  
+  export JETTY_HOST=127.0.0.1
+  export JETTY_PORT=8081
+  export JETTY_USER=gerrit2
+  export JETTY_PID=/var/run/jetty$JETTY_PORT.pid
+  export JETTY_HOME=/home/$JETTY_USER/jetty
+  export JAVA_HOME=/usr/lib/jvm/java-6-sun-1.6.0.07/jre
+  
+  JAVA_OPTIONS=""
+  JAVA_OPTIONS="$JAVA_OPTIONS -Djetty.host=$JETTY_HOST"
+  export JAVA_OPTIONS
+  
+  exec $JETTY_HOME/bin/jetty.sh "$@"
+====
+
+To deploy on port 80, or to use SSL, you should configure Jetty
+to listen on another port, such as 127.0.0.1:8081 (like the start
+script above does) and then follow the <<apache2,reverse proxy>>
+section below.
+
+[TIP]
+Under Jetty, restarting the web application (e.g. after modifying
+`system_config`) is as simple as touching the config file:
+`$JETTY_HOME/contexts/gerrit.xml`
+
+Other Servlet Containers
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Deploy the `www/gerrit-*.war` file to your application server as
+`gerrit.war`.
+
+Configure the JNDI DataSource `jdbc/ReviewDb` for the Gerrit web
+application context to point to the database you just created.
+Don't forget to ensure your JNDI configuration can load the
+necessary JDBC drivers.
+
+[[apache2]]
+Apache2 Reverse Proxy
+~~~~~~~~~~~~~~~~~~~~~
+
+Enable the necessary Apache2 modules:
+
+====
+  a2enmod proxy_http
+  a2enmod disk_cache   ; # optional, but helps performance
+====
+
+then setup a VirtualHost to proxy to Gerrit's servlet container,
+setting the `ProxyPass` line to use the port number you configured
+in your servlet container's configuration:
+
+=======================================
+	<VirtualHost *>
+	  ServerName review.example.com
+	#
+	  ProxyRequests Off
+	  ProxyVia Off
+	  ProxyPreserveHost On
+	#
+	  <Proxy *>
+		Order deny,allow
+		Allow from all
+	  </Proxy>
+	  ProxyPass / http://127.0.0.1:8081/
+	#
+	  <IfModule mod_disk_cache.c>
+		CacheEnable disk /
+		CacheIgnoreHeaders Set-Cookie
+	  </IfModule>
+	</VirtualHost>
+=======================================
+
+To enable SSL, see the Apache server documentation.
+
+
+Administrator Setup
+-------------------
+
+Login to Gerrit through the web interface, so that a user account
+is initialized for you.
+
+Add your newly created account to the "Administrators" group,
+so that you can manage the site through the web interface:
+
+====
+  psql reviewdb
+  INSERT INTO account_group_members
+    (account_id, group_id)
+  VALUES (
+    (SELECT account_id FROM accounts
+     WHERE preferred_email='you@example.com'),
+    (SELECT admin_group_id FROM system_config)
+  );
+====
+
+Group memberships are cached, so you need to either restart Gerrit,
+or try flushing the caches over SSH.
+
+Since SSH cache flushing requires being in the "Administrators"
+group you may run into a chicken-and-egg problem, where you cannot
+flush the cache to make yourself an administrator because you are
+not yet an administrator.  Therefore, restarting the application
+is the recommended bootstrap technique.
+
+To flush the server's caches over SSH, ensure you have an SSH key
+(you can add one through the web UI under Settings, SSH Keys),
+and then run:
+
+====
+  ssh -p 29418 you@example.com gerrit flush-caches
+====
+
+Project Setup
+-------------
+
+See link:project-setup.html[Project Setup] for further details on
+how to register a project with Gerrit.

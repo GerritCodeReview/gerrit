@@ -29,6 +29,6 @@ public interface ChangeAccess extends Access<Change, Change.Id> {
   ResultSet<Change> byOwnerOpen(Account.Id id) throws OrmException;
 
   @Query("WHERE owner = ? AND status = '" + Change.STATUS_MERGED
-      + "' ORDER BY lastUpdatedOn DESC LIMIT 20")
+      + "' ORDER BY lastUpdatedOn DESC LIMIT 5")
   ResultSet<Change> byOwnerMerged(Account.Id id) throws OrmException;
 }

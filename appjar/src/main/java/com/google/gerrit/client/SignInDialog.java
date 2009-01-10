@@ -19,8 +19,10 @@ import com.google.gerrit.client.account.SignInResult.Status;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AutoCenterDialogBox;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DeferredCommand;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Frame;
@@ -47,6 +49,7 @@ import com.google.gwtjsonrpc.client.CallbackHandle;
  */
 public class SignInDialog extends AutoCenterDialogBox {
   public static final String SIGNIN_MODE_PARAM = "gerrit.signin_mode";
+  public static final String GERRIT_TOKEN = "gerrit.token";
 
   public static enum Mode {
     SIGN_IN, LINK_IDENTIY;
@@ -129,12 +132,19 @@ public class SignInDialog extends AutoCenterDialogBox {
     final StringBuilder url = new StringBuilder();
     url.append(GWT.getModuleBaseURL());
     url.append("login");
-    url.append("?");
-    url.append("callback=parent." + signInCallback.getFunctionName());
+    url.append("?openid.mode=gerrit.chooseProvider");
+    url.append("&callback=parent." + signInCallback.getFunctionName());
+
     url.append("&");
     url.append(SIGNIN_MODE_PARAM);
     url.append("=");
     url.append(mode.name());
+
+    url.append("&");
+    url.append(GERRIT_TOKEN);
+    url.append("=");
+    url.append(URL.encodeComponent(History.getToken()));
+
     loginFrame.setUrl(url.toString());
   }
 

@@ -23,6 +23,8 @@ import com.google.gerrit.client.reviewdb.AccountExternalId;
 import com.google.gerrit.client.reviewdb.AccountExternalIdAccess;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
+import com.google.gson.JsonNull;
+import com.google.gson.JsonPrimitive;
 import com.google.gwt.user.server.rpc.RPCServletUtils;
 import com.google.gwtjsonrpc.server.JsonServlet;
 import com.google.gwtjsonrpc.server.ValidToken;
@@ -44,6 +46,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.StringWriter;
 import java.util.Collections;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Properties;
 import java.util.zip.GZIPOutputStream;
@@ -142,13 +145,16 @@ public class LoginServlet extends HttpServlet {
     } else if (GMODE_SETCOOKIE.equals(mode)) {
       modeChkSetCookie(req, rsp, false);
       return;
+    } else if ("gerrit.chooseProvider".equals(mode)) {
+      chooseProvider(req, rsp);
+      return;
     }
 
     final OpenIdUser user = relyingParty.discover(req);
     if (user == null) {
       // User isn't known, no provider is known.
       //
-      redirectChooseProvider(req, rsp);
+      chooseProvider(req, rsp);
       return;
     }
 
@@ -163,7 +169,7 @@ public class LoginServlet extends HttpServlet {
       if (!relyingParty.verifyAuth(user, req, rsp)) {
         // Failed verification... re-authenticate.
         //
-        redirectChooseProvider(req, rsp);
+        chooseProvider(req, rsp);
         return;
       }
 
@@ -191,7 +197,7 @@ public class LoginServlet extends HttpServlet {
     if (!relyingParty.associate(user, req, rsp)) {
       // Failed association. Try again.
       //
-      redirectChooseProvider(req, rsp);
+      chooseProvider(req, rsp);
       return;
     }
 
@@ -212,22 +218,64 @@ public class LoginServlet extends HttpServlet {
     rsp.sendRedirect(auth.toString());
   }
 
-  private void redirectChooseProvider(final HttpServletRequest req,
+  private void chooseProvider(final HttpServletRequest req,
       final HttpServletResponse rsp) throws IOException {
+    Cookie c;
+    c = new Cookie(Gerrit.OPENIDUSER_COOKIE, "");
+    c.setMaxAge(0);
+    rsp.addCookie(c);
+
     if (canonicalUrl != null && !canonicalUrl.equals(serverUrl(req))) {
+      // Try to make the entry URL match what we expect it to be, in
+      // case the OpenID provider relies on this to generate tokens
+      // (some do, like Google Accounts).
+      //
       rsp.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
       rsp.setHeader("Location", canonicalUrl + "login");
       return;
     }
 
-    // Hard-code to use the Google Account service.
-    //
-    final StringBuilder url = new StringBuilder(req.getRequestURL());
-    append(url, CALLBACK_PARMETER, req.getParameter(CALLBACK_PARMETER));
-    append(url, SIGNIN_MODE_PARAMETER, signInMode(req).name());
-    append(url, RelyingParty.DEFAULT_PARAMETER,
-        GoogleAccountDiscovery.GOOGLE_ACCOUNT);
-    rsp.sendRedirect(url.toString());
+    // TODO Should be in init so we can cache.
+    final Document loginDoc;
+    try {
+      final String loginPageName = "com/google/gerrit/public/Login.html";
+      loginDoc = HtmlDomUtil.parseFile(loginPageName);
+      if (loginDoc == null) {
+        throw new ServletException("No " + loginPageName + " in CLASSPATH");
+      }
+    } catch (ServletException e) {
+      throw new IOException("bad");
+    }
+
+    final Document doc = HtmlDomUtil.clone(loginDoc);
+
+    final Element scriptNode = HtmlDomUtil.find(doc, "gerrit_oldLoginData");
+    final StringWriter w = new StringWriter();
+    w.write("<!--\n");
+    w.write("var gerrit_openid_identifier=");
+    final String idUrl = req.getParameter(RelyingParty.DEFAULT_PARAMETER);
+    GerritJsonServlet.defaultGsonBuilder().create().toJson(
+        idUrl != null ? new JsonPrimitive(idUrl) : new JsonNull(), w);
+    w.write(";\n// -->\n");
+    scriptNode.removeAttribute("id");
+    scriptNode.setAttribute("type", "text/javascript");
+    scriptNode.setAttribute("language", "javascript");
+    scriptNode.appendChild(doc.createCDATASection(w.toString()));
+
+    final Element set_form = HtmlDomUtil.find(doc, "login_form");
+    set_form.setAttribute("action", req.getRequestURL().toString());
+
+    final Element in_callback = HtmlDomUtil.find(doc, "in_callback");
+    in_callback.setAttribute("name", CALLBACK_PARMETER);
+    in_callback.setAttribute("value", req.getParameter(CALLBACK_PARMETER));
+
+    final Element in_token = HtmlDomUtil.find(doc, "in_token");
+    final String token = req.getParameter("gerrit.token");
+    in_token.setAttribute("value", token != null ? token : "");
+
+    HtmlDomUtil.addHidden(set_form, SIGNIN_MODE_PARAMETER, signInMode(req)
+        .name());
+    sendHtml(req, rsp, HtmlDomUtil.toString(doc));
   }
 
   private void initializeAccount(final HttpServletRequest req,
@@ -453,7 +501,7 @@ public class LoginServlet extends HttpServlet {
       chk = server.getAccountToken().checkToken(exp, null);
     } catch (XsrfException e) {
       getServletContext().log("Cannot validate cookie token", e);
-      redirectChooseProvider(req, rsp);
+      chooseProvider(req, rsp);
       return;
     }
 
@@ -461,13 +509,13 @@ public class LoginServlet extends HttpServlet {
     try {
       id = new Account.Id(Integer.parseInt(chk.getData()));
     } catch (NumberFormatException e) {
-      redirectChooseProvider(req, rsp);
+      chooseProvider(req, rsp);
       return;
     }
 
     final Account account = Common.getAccountCache().get(id);
     if (account == null) {
-      redirectChooseProvider(req, rsp);
+      chooseProvider(req, rsp);
       return;
     }
 
@@ -519,6 +567,16 @@ public class LoginServlet extends HttpServlet {
       final HttpServletResponse rsp, final SignInResult result)
       throws IOException {
     final String cb = req.getParameter(CALLBACK_PARMETER);
+    if (cb != null && cb.startsWith("history:")) {
+      final StringBuffer rdr = req.getRequestURL();
+      rdr.setLength(rdr.lastIndexOf("/"));
+      rdr.append("/Gerrit");
+      rdr.append('#');
+      rdr.append(cb.substring("history:".length()));
+      rsp.sendRedirect(rdr.toString());
+      return;
+    }
+
     final StringWriter body = new StringWriter();
     body.write("<html>");
     if (JsonServlet.SAFE_CALLBACK.matcher(cb).matches()) {

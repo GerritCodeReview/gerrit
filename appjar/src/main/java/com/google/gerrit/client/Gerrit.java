@@ -16,6 +16,7 @@ package com.google.gerrit.client;
 
 import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.client.data.SystemInfoService;
+import com.google.gerrit.client.openid.Login;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.GerritCallback;
@@ -167,6 +168,11 @@ public class Gerrit implements EntryPoint {
   }
 
   public void onModuleLoad() {
+    if (RootPanel.get("gerrit_login") != null) {
+      new Login().onModuleLoad();
+      return;
+    }
+
     initHistoryHooks();
 
     final RootPanel topMenu = RootPanel.get("gerrit_topmenu");

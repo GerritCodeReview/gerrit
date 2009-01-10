@@ -35,9 +35,8 @@ import javax.servlet.http.HttpServletResponse;
 
 /** Sends the Gerrit host page to clients. */
 public class HostPageServlet extends HttpServlet {
-  private static final long MAX_AGE = 5 * 60 * 1000L/* milliseconds */;
-  private static final String CACHE_CTRL =
-      "public, max-age=" + (MAX_AGE / 1000L);
+  static final long MAX_AGE = 5 * 60 * 1000L/* milliseconds */;
+  static final String CACHE_CTRL = "public, max-age=" + (MAX_AGE / 1000L);
 
   private String canonicalUrl;
   private byte[] hostPageRaw;

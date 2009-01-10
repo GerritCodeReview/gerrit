@@ -1,4 +1,4 @@
-#gerrit_body {
+.gerrit_body {
   font-size: 11pt;
   padding-left: 5px;
   padding-right: 5px;
@@ -42,7 +42,6 @@
   margin-top: 5px;
   font-weight: bold;
 }
-
 
 /** Menu **/
 .gerrit-LinkMenuBar .gwt-MenuItem {
@@ -572,4 +571,55 @@
 .gerrit-ProjectAdmin-ApprovalCategoryValue {
   font-family: monospace;
   font-size: small;
+}
+
+
+/** Login.html **/
+#gerrit_loginpage {
+  margin: 0px auto;
+}
+
+#login_form {
+	margin-left: 10px;
+}
+
+.gerrit-OpenID-logobox {
+	width: 98%;
+	text-align: right;
+}
+
+.gerrit-OpenID-loginline {
+	margin-bottom: 10px;
+}
+
+.gerrit-OpenID-openid_identifier {
+  background: #FFFFFF url(openidLoginBackground.gif) no-repeat scroll 5px 50%;
+  padding-left: 25px;
+  border: 1px solid #999999;
+  margin-right: 5px;
+}
+
+.gerrit-OpenID-directlink {
+  vertical-align: center;
+  margin-right: 5px;
+  color: blue;
+}
+.gerrit-OpenID-directlink:hover {
+  text-decoration: underline;
+}
+.gerrit-OpenID-directlink img {
+	margin-right: 3px;
+  border: 0 none;
+}
+
+.gerrit-OpenID-errorline {
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+.gerrit-OpenID-errorline span {
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 10px;
+  padding-right: 10px;
+  background: #FFF1A8;
 }

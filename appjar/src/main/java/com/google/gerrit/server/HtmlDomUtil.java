@@ -20,6 +20,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -27,6 +28,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringWriter;
+import java.util.zip.GZIPOutputStream;
 
 import javax.servlet.ServletException;
 import javax.xml.parsers.DocumentBuilder;
@@ -52,6 +54,16 @@ public class HtmlDomUtil {
   /** Convert a document to a UTF-8 byte sequence. */
   public static byte[] toUTF8(final Document hostDoc) throws IOException {
     return toString(hostDoc).getBytes(ENC);
+  }
+
+  /** Compress the document. */
+  public static byte[] compress(final byte[] raw) throws IOException {
+    final ByteArrayOutputStream out = new ByteArrayOutputStream();
+    final GZIPOutputStream gz = new GZIPOutputStream(out);
+    gz.write(raw);
+    gz.finish();
+    gz.flush();
+    return out.toByteArray();
   }
 
   /** Convert a document to a String, assuming later encoding to UTF-8. */

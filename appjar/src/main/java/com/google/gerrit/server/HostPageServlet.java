@@ -22,12 +22,10 @@ import com.google.gwtorm.client.OrmException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.StringWriter;
-import java.util.zip.GZIPOutputStream;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -73,10 +71,10 @@ public class HostPageServlet extends HttpServlet {
     injectXmlFile(hostDoc, "gerrit_footer", sitePath, "GerritSiteFooter.html");
     try {
       hostPageRaw = HtmlDomUtil.toUTF8(hostDoc);
+      hostPageCompressed = HtmlDomUtil.compress(hostPageRaw);
     } catch (IOException e) {
       throw new ServletException(e.getMessage(), e);
     }
-    hostPageCompressed = compress(hostPageRaw);
     lastModified = System.currentTimeMillis();
   }
 
@@ -149,19 +147,6 @@ public class HostPageServlet extends HttpServlet {
     scriptNode.setAttribute("type", "text/javascript");
     scriptNode.setAttribute("language", "javascript");
     scriptNode.appendChild(hostDoc.createCDATASection(w.toString()));
-  }
-
-  private byte[] compress(final byte[] raw) throws ServletException {
-    try {
-      final ByteArrayOutputStream out = new ByteArrayOutputStream();
-      final GZIPOutputStream gz = new GZIPOutputStream(out);
-      gz.write(raw);
-      gz.finish();
-      gz.flush();
-      return out.toByteArray();
-    } catch (IOException e) {
-      throw new ServletException("Cannot compress host page", e);
-    }
   }
 
   @Override

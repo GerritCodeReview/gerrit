@@ -56,6 +56,8 @@ public class AutoCenterDialogBox extends DialogBox {
   }
 
   protected void onResize(final int width, final int height) {
-    center();
+    if (isAttached()) {
+      center();
+    }
   }
 }

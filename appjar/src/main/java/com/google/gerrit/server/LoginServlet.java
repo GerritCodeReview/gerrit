@@ -71,6 +71,7 @@ public class LoginServlet extends HttpServlet {
   private String canonicalUrl;
   private RelyingParty relyingParty;
   private Document pleaseSetCookieDoc;
+  private Document loginDoc;
 
   @Override
   public void init(final ServletConfig config) throws ServletException {
@@ -105,6 +106,12 @@ public class LoginServlet extends HttpServlet {
       ctx.setDiscovery(new GoogleAccountDiscovery(ctx.getDiscovery()));
     } catch (IOException e) {
       throw new ServletException("Cannot setup RelyingParty", e);
+    }
+
+    final String loginPageName = "com/google/gerrit/public/Login.html";
+    loginDoc = HtmlDomUtil.parseFile(loginPageName);
+    if (loginDoc == null) {
+      throw new ServletException("No " + loginPageName + " in CLASSPATH");
     }
 
     final String scHtmlName = "com/google/gerrit/public/SetCookie.html";
@@ -244,18 +251,6 @@ public class LoginServlet extends HttpServlet {
       rsp.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
       rsp.setHeader("Location", canonicalUrl + "login");
       return;
-    }
-
-    // TODO Should be in init so we can cache.
-    final Document loginDoc;
-    try {
-      final String loginPageName = "com/google/gerrit/public/Login.html";
-      loginDoc = HtmlDomUtil.parseFile(loginPageName);
-      if (loginDoc == null) {
-        throw new ServletException("No " + loginPageName + " in CLASSPATH");
-      }
-    } catch (ServletException e) {
-      throw new IOException("bad");
     }
 
     final Document doc = HtmlDomUtil.clone(loginDoc);

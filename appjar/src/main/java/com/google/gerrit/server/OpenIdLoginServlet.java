@@ -59,7 +59,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /** Handles the <code>/login</code> URL for web based single-sign-on. */
-public class LoginServlet extends HttpServlet {
+public class OpenIdLoginServlet extends HttpServlet {
   private static final String SIGNIN_MODE_PARAMETER =
       SignInDialog.SIGNIN_MODE_PARAM;
   private static final String CALLBACK_PARMETER = "callback";

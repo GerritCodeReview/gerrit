@@ -36,7 +36,7 @@
 
   <servlet>
     <servlet-name>Login</servlet-name>
-    <servlet-class>com.google.gerrit.server.LoginServlet</servlet-class>
+    <servlet-class>com.google.gerrit.server.OpenIdLoginServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
   </servlet>
   <servlet-mapping>

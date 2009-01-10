@@ -157,7 +157,7 @@ public class HostPageServlet extends HttpServlet {
   protected void doGet(final HttpServletRequest req,
       final HttpServletResponse rsp) throws IOException {
     if (canonicalUrl != null
-        && !canonicalUrl.equals(LoginServlet.serverUrl(req))) {
+        && !canonicalUrl.equals(OpenIdLoginServlet.serverUrl(req))) {
       rsp.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
       rsp.setHeader("Location", canonicalUrl + "Gerrit");
       return;

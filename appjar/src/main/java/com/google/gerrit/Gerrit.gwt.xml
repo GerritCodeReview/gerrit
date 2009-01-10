@@ -14,7 +14,7 @@
   <servlet path='/Gerrit'
            class='com.google.gerrit.server.HostPageServlet'/>
   <servlet path='/login'
-           class='com.google.gerrit.server.LoginServlet'/>
+           class='com.google.gerrit.server.OpenIdLoginServlet'/>
   <servlet path='/ssh_info'
            class='com.google.gerrit.server.ssh.SshServlet'/>
 

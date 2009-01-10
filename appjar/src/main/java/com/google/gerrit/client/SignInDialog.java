@@ -16,16 +16,14 @@ package com.google.gerrit.client;
 
 import com.google.gerrit.client.account.SignInResult;
 import com.google.gerrit.client.account.SignInResult.Status;
+import com.google.gerrit.client.openid.OpenIdLoginPanel;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AutoCenterDialogBox;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DeferredCommand;
-import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Frame;
 import com.google.gwtjsonrpc.client.CallbackHandle;
 
 /**
@@ -48,19 +46,15 @@ import com.google.gwtjsonrpc.client.CallbackHandle;
  * completed).
  */
 public class SignInDialog extends AutoCenterDialogBox {
-  public static final String SIGNIN_MODE_PARAM = "gerrit.signin_mode";
-  public static final String GERRIT_TOKEN = "gerrit.token";
-
   public static enum Mode {
     SIGN_IN, LINK_IDENTIY;
   }
 
   private static SignInDialog current;
 
-  private final Mode mode;
   private final CallbackHandle<SignInResult> signInCallback;
   private final AsyncCallback<?> appCallback;
-  private final Frame loginFrame;
+  private OpenIdLoginPanel panel;
 
   /**
    * Create a new dialog to handle user sign in.
@@ -82,7 +76,6 @@ public class SignInDialog extends AutoCenterDialogBox {
   public SignInDialog(final Mode signInMode, final AsyncCallback<?> callback) {
     super(/* auto hide */true, /* modal */true);
 
-    mode = signInMode;
     signInCallback =
         com.google.gerrit.client.account.Util.LOGIN_SVC
             .signIn(new GerritCallback<SignInResult>() {
@@ -92,10 +85,11 @@ public class SignInDialog extends AutoCenterDialogBox {
             });
     appCallback = callback;
 
-    loginFrame = new Frame();
+    panel = new OpenIdLoginPanel(signInMode, signInCallback);
+    add(panel);
     onResize(Window.getClientWidth(), Window.getClientHeight());
-    add(loginFrame);
-    switch (mode) {
+
+    switch (signInMode) {
       case LINK_IDENTIY:
         setText(Gerrit.C.linkIdentityDialogTitle());
         break;
@@ -114,8 +108,8 @@ public class SignInDialog extends AutoCenterDialogBox {
   private void resizeFrame(final int width, final int height) {
     final int w = Math.min(630, width - 15);
     final int h = Math.min(440, height - 60);
-    loginFrame.setWidth(w + "px");
-    loginFrame.setHeight(h + "px");
+    panel.setWidth(w + "px");
+    panel.setHeight(h + "px");
   }
 
   @Override
@@ -128,24 +122,7 @@ public class SignInDialog extends AutoCenterDialogBox {
 
     current = this;
     signInCallback.install();
-
-    final StringBuilder url = new StringBuilder();
-    url.append(GWT.getModuleBaseURL());
-    url.append("login");
-    url.append("?openid.mode=gerrit.chooseProvider");
-    url.append("&callback=parent." + signInCallback.getFunctionName());
-
-    url.append("&");
-    url.append(SIGNIN_MODE_PARAM);
-    url.append("=");
-    url.append(mode.name());
-
-    url.append("&");
-    url.append(GERRIT_TOKEN);
-    url.append("=");
-    url.append(URL.encodeComponent(History.getToken()));
-
-    loginFrame.setUrl(url.toString());
+    panel.setFocus(true);
   }
 
   @Override

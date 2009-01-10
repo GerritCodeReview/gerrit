@@ -18,5 +18,8 @@ import com.google.gwt.i18n.client.Messages;
 
 public interface LoginMessages extends Messages {
   String signInAt(String hostname);
-  String notSupported(String url);
+  String linkAt(String hostname);
+
+  String signInWith(String who);
+  String linkWith(String who);
 }

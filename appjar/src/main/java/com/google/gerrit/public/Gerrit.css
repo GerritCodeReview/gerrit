@@ -575,11 +575,7 @@
 
 
 /** Login.html **/
-#gerrit_loginpage {
-  margin: 0px auto;
-}
-
-#login_form {
+.gerrit-OpenID-loginform {
 	margin-left: 10px;
 }
 
@@ -593,7 +589,7 @@
 }
 
 .gerrit-OpenID-openid_identifier {
-  background: #FFFFFF url(openidLoginBackground.gif) no-repeat scroll 5px 50%;
+  background: #ffffff url(openidlogin_bg1.cache.gif) no-repeat scroll 5px 50%;
   padding-left: 25px;
   border: 1px solid #999999;
   margin-right: 5px;
@@ -621,5 +617,5 @@
   padding-bottom: 4px;
   padding-left: 10px;
   padding-right: 10px;
-  background: #FFF1A8;
+  background: #fff1a8;
 }

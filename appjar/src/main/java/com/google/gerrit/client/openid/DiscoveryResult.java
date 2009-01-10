@@ -14,9 +14,19 @@
 
 package com.google.gerrit.client.openid;
 
-import com.google.gwt.core.client.GWT;
+public final class DiscoveryResult {
+  public boolean validProvider;
+  public String redirectUrl;
 
-public class Util {
-  public static final LoginConstants C = GWT.create(LoginConstants.class);
-  public static final LoginMessages M = GWT.create(LoginMessages.class);
+  protected DiscoveryResult() {
+  }
+
+  public DiscoveryResult(final boolean valid, final String redirect) {
+    validProvider = valid;
+    redirectUrl = redirect;
+  }
+
+  public DiscoveryResult(final boolean fail) {
+    this(false, null);
+  }
 }

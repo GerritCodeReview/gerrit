@@ -14,16 +14,19 @@
 
 package com.google.gerrit.client.openid;
 
-import com.google.gwt.i18n.client.Constants;
+class AllowFrameImpl {
+  boolean permit(final String url) {
+    if (OpenIdUtil.URL_GOOGLE.equals(url)
+        || url.startsWith(OpenIdUtil.URL_GOOGLE + "?")) {
+      return true;
+    }
+    if (is_claimID(url)) {
+      return true;
+    }
+    return false;
+  }
 
-public interface LoginConstants extends Constants {
-  String buttonSignIn();
-  String buttonLinkId();
-  String rememberMe();
-  String notSupported();
-
-  String nameGoogle();
-  String nameYahoo();
-
-  String whatIsOpenIDHtml();
+  protected static boolean is_claimID(final String url) {
+    return url.contains(".claimid.com/");
+  }
 }

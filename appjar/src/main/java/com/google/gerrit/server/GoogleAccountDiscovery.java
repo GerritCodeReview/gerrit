@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server;
 
+import com.google.gerrit.client.openid.OpenIdUtil;
+
 import com.dyuproject.openid.Discovery;
 import com.dyuproject.openid.OpenIdContext;
 import com.dyuproject.openid.OpenIdUser;
@@ -24,8 +26,7 @@ import java.util.Map;
 /** Discovery support for Google Accounts and other standard OpenID providers */
 public class GoogleAccountDiscovery implements Discovery {
   /** OpenID discovery end-point for Google Accounts */
-  public static final String GOOGLE_ACCOUNT =
-      "https://www.google.com/accounts/o8/id";
+  public static final String GOOGLE_ACCOUNT = OpenIdUtil.URL_GOOGLE;
 
   private final Discovery base;
 
@@ -35,7 +36,8 @@ public class GoogleAccountDiscovery implements Discovery {
 
   public OpenIdUser discover(final String claimedId, final OpenIdContext context)
       throws Exception {
-    if (GOOGLE_ACCOUNT.equals(claimedId)) {
+    if (GOOGLE_ACCOUNT.equals(claimedId)
+        || claimedId.startsWith(GOOGLE_ACCOUNT + "?")) {
       // TODO We shouldn't hard-code the XRDS discovery result.
       //
       final Map<String, String> m = new HashMap<String, String>();

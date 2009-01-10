@@ -18,13 +18,13 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.SignInDialog;
 import com.google.gerrit.client.SignInDialog.Mode;
 import com.google.gerrit.client.account.SignInResult;
+import com.google.gerrit.client.openid.DiscoveryResult;
+import com.google.gerrit.client.openid.OpenIdUtil;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountExternalId;
 import com.google.gerrit.client.reviewdb.AccountExternalIdAccess;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
-import com.google.gson.JsonNull;
-import com.google.gson.JsonPrimitive;
 import com.google.gwt.user.server.rpc.RPCServletUtils;
 import com.google.gwtjsonrpc.server.JsonServlet;
 import com.google.gwtjsonrpc.server.ValidToken;
@@ -33,9 +33,12 @@ import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.Transaction;
 
 import com.dyuproject.openid.Constants;
+import com.dyuproject.openid.DefaultDiscovery;
+import com.dyuproject.openid.DiffieHellmanAssociation;
 import com.dyuproject.openid.OpenIdContext;
 import com.dyuproject.openid.OpenIdUser;
 import com.dyuproject.openid.RelyingParty;
+import com.dyuproject.openid.SimpleHttpConnector;
 
 import org.mortbay.util.UrlEncoded;
 import org.w3c.dom.Document;
@@ -48,7 +51,6 @@ import java.io.StringWriter;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.Properties;
 import java.util.zip.GZIPOutputStream;
 
 import javax.servlet.ServletConfig;
@@ -60,18 +62,15 @@ import javax.servlet.http.HttpServletResponse;
 
 /** Handles the <code>/login</code> URL for web based single-sign-on. */
 public class OpenIdLoginServlet extends HttpServlet {
-  private static final String SIGNIN_MODE_PARAMETER =
-      SignInDialog.SIGNIN_MODE_PARAM;
-  private static final String CALLBACK_PARMETER = "callback";
+  private static final int LASTID_AGE = 365 * 24 * 60 * 60; // seconds
   private static final String AX_SCHEMA = "http://openid.net/srv/ax/1.0";
-  private static final String GMODE_CHKCOOKIE = "gerrit_chkcookie";
-  private static final String GMODE_SETCOOKIE = "gerrit_setcookie";
+  private static final String OMODE_CANCEL = "cancel";
+  private static final String GMODE_CHKCOOKIE = "gerrit.chkcookie";
+  private static final String GMODE_SETCOOKIE = "gerrit.setcookie";
 
-  private GerritServer server;
-  private String canonicalUrl;
   private RelyingParty relyingParty;
+  private GerritServer server;
   private Document pleaseSetCookieDoc;
-  private Document loginDoc;
 
   @Override
   public void init(final ServletConfig config) throws ServletException {
@@ -87,31 +86,15 @@ public class OpenIdLoginServlet extends HttpServlet {
       throw new ServletException("Cannot configure GerritServer", e);
     }
 
-    canonicalUrl = server.getCanonicalURL();
-    String cookieKey = server.getAccountCookieKey();
-    if (cookieKey.length() > 24) {
-      cookieKey = cookieKey.substring(0, 24);
-    }
-
     try {
-      final int sessionAge = server.getSessionAge();
-      final Properties p = new Properties();
-      p.setProperty("openid.cookie.name", Gerrit.OPENIDUSER_COOKIE);
-      p.setProperty("openid.cookie.security.secretKey", cookieKey);
-      p.setProperty("openid.cookie.maxAge", String.valueOf(sessionAge));
-
-      relyingParty = RelyingParty.newInstance(p);
-
-      final OpenIdContext ctx = relyingParty.getOpenIdContext();
-      ctx.setDiscovery(new GoogleAccountDiscovery(ctx.getDiscovery()));
-    } catch (IOException e) {
-      throw new ServletException("Cannot setup RelyingParty", e);
-    }
-
-    final String loginPageName = "com/google/gerrit/public/Login.html";
-    loginDoc = HtmlDomUtil.parseFile(loginPageName);
-    if (loginDoc == null) {
-      throw new ServletException("No " + loginPageName + " in CLASSPATH");
+      final OpenIdContext context = new OpenIdContext();
+      context.setAssociation(new DiffieHellmanAssociation());
+      context.setDiscovery(new GoogleAccountDiscovery(new DefaultDiscovery()));
+      context.setHttpConnector(new SimpleHttpConnector());
+      relyingParty = new RelyingParty(context, new GerritOpenIdUserManager());
+    } catch (Throwable e) {
+      e.printStackTrace();
+      throw new RuntimeException("Cannot setup RelyingParty", e);
     }
 
     final String scHtmlName = "com/google/gerrit/public/SetCookie.html";
@@ -152,7 +135,7 @@ public class OpenIdLoginServlet extends HttpServlet {
     }
 
     final String mode = req.getParameter(Constants.OPENID_MODE);
-    if ("cancel".equals(mode)) {
+    if (OMODE_CANCEL.equals(mode)) {
       // Provider wants us to cancel the attempt.
       //
       callback(req, rsp, SignInResult.CANCEL);
@@ -163,23 +146,13 @@ public class OpenIdLoginServlet extends HttpServlet {
     } else if (GMODE_SETCOOKIE.equals(mode)) {
       modeChkSetCookie(req, rsp, false);
       return;
-    } else if ("gerrit.chooseProvider".equals(mode)) {
-      chooseProvider(req, rsp);
-      return;
     }
 
     final OpenIdUser user = relyingParty.discover(req);
     if (user == null) {
       // User isn't known, no provider is known.
       //
-      chooseProvider(req, rsp);
-      return;
-    }
-
-    if (user.isAuthenticated()) {
-      // User already authenticated.
-      //
-      initializeAccount(req, rsp, user, null);
+      callback(req, rsp, SignInResult.CANCEL);
       return;
     }
 
@@ -187,13 +160,14 @@ public class OpenIdLoginServlet extends HttpServlet {
       if (!relyingParty.verifyAuth(user, req, rsp)) {
         // Failed verification... re-authenticate.
         //
-        chooseProvider(req, rsp);
+        callback(req, rsp, SignInResult.CANCEL);
         return;
       }
 
       // Authentication was successful.
       //
-      String email = null;
+      String fullname = req.getParameter("openid.sreg.fullname");
+      String email = req.getParameter("openid.sreg.email");
       for (int i = 1;; i++) {
         final String nskey = "openid.ns.ext" + i;
         final String nsval = req.getParameter(nskey);
@@ -204,18 +178,26 @@ public class OpenIdLoginServlet extends HttpServlet {
         final String ext = "openid.ext" + i + ".";
         if (AX_SCHEMA.equals(nsval)
             && "fetch_response".equals(req.getParameter(ext + "mode"))) {
-          email = req.getParameter(ext + "value.email");
+          final String ax_fname = req.getParameter(ext + "value.fname");
+          final String ax_email = req.getParameter(ext + "value.email");
+          if (fullname == null && ax_fname != null) {
+            fullname = ax_fname;
+          }
+          if (email == null && ax_email != null) {
+            email = ax_email;
+          }
+          break;
         }
       }
 
-      initializeAccount(req, rsp, user, email);
+      initializeAccount(req, rsp, user, fullname, email);
       return;
     }
 
     if (!relyingParty.associate(user, req, rsp)) {
       // Failed association. Try again.
       //
-      chooseProvider(req, rsp);
+      callback(req, rsp, SignInResult.CANCEL);
       return;
     }
 
@@ -223,70 +205,37 @@ public class OpenIdLoginServlet extends HttpServlet {
     //
     final String realm = serverUrl(req);
     final StringBuilder retTo = new StringBuilder(req.getRequestURL());
-    append(retTo, CALLBACK_PARMETER, req.getParameter(CALLBACK_PARMETER));
-    append(retTo, SIGNIN_MODE_PARAMETER, signInMode(req).name());
+    save(retTo, req, OpenIdUtil.P_SIGNIN_CB);
+    save(retTo, req, OpenIdUtil.P_SIGNIN_MODE);
+    save(retTo, req, OpenIdUtil.P_REMEMBERID);
     final StringBuilder auth;
 
     auth = RelyingParty.getAuthUrlBuffer(user, realm, realm, retTo.toString());
     append(auth, "openid.ns.ext1", AX_SCHEMA);
     final String ext1 = "openid.ext1.";
     append(auth, ext1 + "mode", "fetch_request");
+    append(auth, ext1 + "type.fname", "http://example.com/schema/fullname");
     append(auth, ext1 + "type.email", "http://schema.openid.net/contact/email");
     append(auth, ext1 + "required", "email");
-    rsp.sendRedirect(auth.toString());
+    append(auth, ext1 + "if_available", "fname");
+
+    append(auth, "openid.sreg.optional", "fullname,email");
+    append(auth, "openid.ns.sreg", "http://openid.net/extensions/sreg/1.1");
+
+    sendJson(req, rsp, new DiscoveryResult(true, auth.toString()), req
+        .getParameter(OpenIdUtil.P_DISCOVERY_CB));
   }
 
-  private void chooseProvider(final HttpServletRequest req,
-      final HttpServletResponse rsp) throws IOException {
-    Cookie c;
-    c = new Cookie(Gerrit.OPENIDUSER_COOKIE, "");
-    c.setMaxAge(0);
-    rsp.addCookie(c);
-
-    if (canonicalUrl != null && !canonicalUrl.equals(serverUrl(req))) {
-      // Try to make the entry URL match what we expect it to be, in
-      // case the OpenID provider relies on this to generate tokens
-      // (some do, like Google Accounts).
-      //
-      rsp.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
-      rsp.setHeader("Location", canonicalUrl + "login");
-      return;
+  private static void save(StringBuilder b, HttpServletRequest r, String n) {
+    final String v = r.getParameter(n);
+    if (v != null) {
+      append(b, n, v);
     }
-
-    final Document doc = HtmlDomUtil.clone(loginDoc);
-
-    final Element scriptNode = HtmlDomUtil.find(doc, "gerrit_oldLoginData");
-    final StringWriter w = new StringWriter();
-    w.write("<!--\n");
-    w.write("var gerrit_openid_identifier=");
-    final String idUrl = req.getParameter(RelyingParty.DEFAULT_PARAMETER);
-    GerritJsonServlet.defaultGsonBuilder().create().toJson(
-        idUrl != null ? new JsonPrimitive(idUrl) : new JsonNull(), w);
-    w.write(";\n// -->\n");
-    scriptNode.removeAttribute("id");
-    scriptNode.setAttribute("type", "text/javascript");
-    scriptNode.setAttribute("language", "javascript");
-    scriptNode.appendChild(doc.createCDATASection(w.toString()));
-
-    final Element set_form = HtmlDomUtil.find(doc, "login_form");
-    set_form.setAttribute("action", req.getRequestURL().toString());
-
-    final Element in_callback = HtmlDomUtil.find(doc, "in_callback");
-    in_callback.setAttribute("name", CALLBACK_PARMETER);
-    in_callback.setAttribute("value", req.getParameter(CALLBACK_PARMETER));
-
-    final Element in_token = HtmlDomUtil.find(doc, "in_token");
-    final String token = req.getParameter("gerrit.token");
-    in_token.setAttribute("value", token != null ? token : "");
-
-    HtmlDomUtil.addHidden(set_form, SIGNIN_MODE_PARAMETER, signInMode(req)
-        .name());
-    sendHtml(req, rsp, HtmlDomUtil.toString(doc));
   }
 
   private void initializeAccount(final HttpServletRequest req,
-      final HttpServletResponse rsp, final OpenIdUser user, final String email)
-      throws IOException {
+      final HttpServletResponse rsp, final OpenIdUser user,
+      final String fullname, final String email) throws IOException {
     final SignInDialog.Mode mode = signInMode(req);
     Account account = null;
     if (user != null) {
@@ -295,7 +244,7 @@ public class OpenIdLoginServlet extends HttpServlet {
         try {
           switch (mode) {
             case SIGN_IN:
-              account = openAccount(d, user, email);
+              account = openAccount(d, user, fullname, email);
               break;
             case LINK_IDENTIY:
               account = linkAccount(req, d, user, email);
@@ -312,11 +261,6 @@ public class OpenIdLoginServlet extends HttpServlet {
 
     rsp.reset();
 
-    Cookie c;
-    c = new Cookie(Gerrit.OPENIDUSER_COOKIE, "");
-    c.setMaxAge(0);
-    rsp.addCookie(c);
-
     String tok;
     try {
       final String idstr = String.valueOf(account.getId().get());
@@ -327,7 +271,7 @@ public class OpenIdLoginServlet extends HttpServlet {
       tok = "";
     }
 
-    c = new Cookie(Gerrit.ACCOUNT_COOKIE, tok);
+    Cookie c = new Cookie(Gerrit.ACCOUNT_COOKIE, tok);
     c.setPath(req.getContextPath() + "/");
 
     if (account == null) {
@@ -342,15 +286,34 @@ public class OpenIdLoginServlet extends HttpServlet {
 
       final StringBuilder me = new StringBuilder(req.getRequestURL());
       append(me, Constants.OPENID_MODE, GMODE_CHKCOOKIE);
-      append(me, CALLBACK_PARMETER, req.getParameter(CALLBACK_PARMETER));
       append(me, Gerrit.ACCOUNT_COOKIE, tok);
-      append(me, SIGNIN_MODE_PARAMETER, mode.name());
+      save(me, req, OpenIdUtil.P_SIGNIN_CB);
+      save(me, req, OpenIdUtil.P_SIGNIN_MODE);
+      if ("on".equals(req.getParameter(OpenIdUtil.P_REMEMBERID))) {
+        final String ident = saveLastId(req, rsp, user.getIdentity());
+        append(me, OpenIdUtil.LASTID_COOKIE, ident);
+        save(me, req, OpenIdUtil.P_REMEMBERID);
+      } else {
+        c = new Cookie(OpenIdUtil.LASTID_COOKIE, "");
+        c.setPath(req.getContextPath() + "/");
+        c.setMaxAge(0);
+        rsp.addCookie(c);
+      }
       rsp.sendRedirect(me.toString());
     }
   }
 
+  private String saveLastId(final HttpServletRequest req,
+      final HttpServletResponse rsp, String ident) {
+    final Cookie c = new Cookie(OpenIdUtil.LASTID_COOKIE, ident);
+    c.setPath(req.getContextPath() + "/");
+    c.setMaxAge(LASTID_AGE);
+    rsp.addCookie(c);
+    return ident;
+  }
+
   private Account openAccount(final ReviewDb db, final OpenIdUser user,
-      final String email) throws OrmException {
+      final String fullname, final String email) throws OrmException {
     Account account;
     final AccountExternalIdAccess extAccess = db.accountExternalIds();
     AccountExternalId acctExt = lookup(extAccess, user.getIdentity());
@@ -387,6 +350,7 @@ public class OpenIdLoginServlet extends HttpServlet {
       final Transaction txn = db.beginTransaction();
 
       account = new Account(new Account.Id(db.nextAccountId()));
+      account.setFullName(fullname);
       account.setPreferredEmail(email);
 
       acctExt =
@@ -454,7 +418,7 @@ public class OpenIdLoginServlet extends HttpServlet {
   }
 
   private static Mode signInMode(final HttpServletRequest req) {
-    final String p = req.getParameter(SIGNIN_MODE_PARAMETER);
+    final String p = req.getParameter(OpenIdUtil.P_SIGNIN_MODE);
     if (p == null || p.length() == 0) {
       return SignInDialog.Mode.SIGN_IN;
     }
@@ -507,7 +471,7 @@ public class OpenIdLoginServlet extends HttpServlet {
       chk = server.getAccountToken().checkToken(exp, null);
     } catch (XsrfException e) {
       getServletContext().log("Cannot validate cookie token", e);
-      chooseProvider(req, rsp);
+      callback(req, rsp, SignInResult.CANCEL);
       return;
     }
 
@@ -515,13 +479,13 @@ public class OpenIdLoginServlet extends HttpServlet {
     try {
       id = new Account.Id(Integer.parseInt(chk.getData()));
     } catch (NumberFormatException e) {
-      chooseProvider(req, rsp);
+      callback(req, rsp, SignInResult.CANCEL);
       return;
     }
 
     final Account account = Common.getAccountCache().get(id);
     if (account == null) {
-      chooseProvider(req, rsp);
+      callback(req, rsp, SignInResult.CANCEL);
       return;
     }
 
@@ -535,10 +499,19 @@ public class OpenIdLoginServlet extends HttpServlet {
       return;
     }
 
-    final Cookie c = new Cookie(Gerrit.ACCOUNT_COOKIE, exp);
+    Cookie c = new Cookie(Gerrit.ACCOUNT_COOKIE, exp);
     c.setPath(req.getContextPath() + "/");
     c.setMaxAge(server.getSessionAge());
     rsp.addCookie(c);
+
+    if ("on".equals(req.getParameter(OpenIdUtil.P_REMEMBERID))) {
+      saveLastId(req, rsp, req.getParameter(OpenIdUtil.LASTID_COOKIE));
+    } else {
+      c = new Cookie(OpenIdUtil.LASTID_COOKIE, "");
+      c.setPath(req.getContextPath() + "/");
+      c.setMaxAge(0);
+      rsp.addCookie(c);
+    }
     callback(req, rsp, new SignInResult(SignInResult.Status.SUCCESS, account));
   }
 
@@ -549,11 +522,18 @@ public class OpenIdLoginServlet extends HttpServlet {
     set_form.setAttribute("action", req.getRequestURL().toString());
     HtmlDomUtil.addHidden(set_form, Constants.OPENID_MODE, GMODE_SETCOOKIE);
     HtmlDomUtil.addHidden(set_form, Gerrit.ACCOUNT_COOKIE, exp);
-    HtmlDomUtil.addHidden(set_form, CALLBACK_PARMETER, req
-        .getParameter(CALLBACK_PARMETER));
-    HtmlDomUtil.addHidden(set_form, SIGNIN_MODE_PARAMETER, signInMode(req)
-        .name());
+    save(set_form, req, OpenIdUtil.LASTID_COOKIE);
+    save(set_form, req, OpenIdUtil.P_REMEMBERID);
+    save(set_form, req, OpenIdUtil.P_SIGNIN_CB);
+    save(set_form, req, OpenIdUtil.P_SIGNIN_MODE);
     sendHtml(req, rsp, HtmlDomUtil.toString(doc));
+  }
+
+  private static void save(Element f, HttpServletRequest r, String n) {
+    final String v = r.getParameter(n);
+    if (v != null) {
+      HtmlDomUtil.addHidden(f, n, v);
+    }
   }
 
   private static String getCookie(final HttpServletRequest req,
@@ -572,7 +552,21 @@ public class OpenIdLoginServlet extends HttpServlet {
   private void callback(final HttpServletRequest req,
       final HttpServletResponse rsp, final SignInResult result)
       throws IOException {
-    final String cb = req.getParameter(CALLBACK_PARMETER);
+    final String dcb = req.getParameter(OpenIdUtil.P_DISCOVERY_CB);
+    if (dcb != null) {
+      // We're in the middle of a discovery request; we need to use
+      // the discovery request callback and not the sign in callback.
+      //
+      sendJson(req, rsp, new DiscoveryResult(false), dcb);
+      return;
+    }
+
+    // We're not in an OpenID transaction so try to clear out the
+    // OpenID management cookie.
+    //
+    relyingParty.getOpenIdUserManager().invalidate(rsp);
+
+    final String cb = req.getParameter(OpenIdUtil.P_SIGNIN_CB);
     if (cb != null && cb.startsWith("history:")) {
       final StringBuffer rdr = req.getRequestURL();
       rdr.setLength(rdr.lastIndexOf("/"));
@@ -582,9 +576,15 @@ public class OpenIdLoginServlet extends HttpServlet {
       rsp.sendRedirect(rdr.toString());
       return;
     }
+    sendJson(req, rsp, result, cb);
+  }
 
+  private void sendJson(final HttpServletRequest req,
+      final HttpServletResponse rsp, final Object result, final String cb)
+      throws IOException {
     final StringWriter body = new StringWriter();
     body.write("<html>");
+    body.append("<body>");
     if (JsonServlet.SAFE_CALLBACK.matcher(cb).matches()) {
       body.write("<script><!--\n");
       body.write(cb);
@@ -593,11 +593,11 @@ public class OpenIdLoginServlet extends HttpServlet {
       body.write(");\n");
       body.write("// -->\n");
       body.write("</script>");
+      body.write("<p>Loading ...</p>");
     } else {
-      body.append("<body>");
       body.append("Unsafe JSON callback requested; refusing to execute it.");
-      body.append("</body>");
     }
+    body.append("</body>");
     body.write("</html>");
     sendHtml(req, rsp, body.toString());
   }

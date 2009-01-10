@@ -14,16 +14,13 @@
 
 package com.google.gerrit.client.openid;
 
-import com.google.gwt.i18n.client.Constants;
+class AllowFrameImplSafari extends AllowFrameImpl {
+  @Override
+  boolean permit(final String url) {
+    if (is_claimID(url)) {
+      return false;
+    }
 
-public interface LoginConstants extends Constants {
-  String buttonSignIn();
-  String buttonLinkId();
-  String rememberMe();
-  String notSupported();
-
-  String nameGoogle();
-  String nameYahoo();
-
-  String whatIsOpenIDHtml();
+    return super.permit(url);
+  }
 }

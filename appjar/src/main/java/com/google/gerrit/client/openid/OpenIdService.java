@@ -14,16 +14,13 @@
 
 package com.google.gerrit.client.openid;
 
-import com.google.gwt.i18n.client.Constants;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwtjsonrpc.client.AllowCrossSiteRequest;
+import com.google.gwtjsonrpc.client.CallbackHandle;
+import com.google.gwtjsonrpc.client.RemoteJsonService;
 
-public interface LoginConstants extends Constants {
-  String buttonSignIn();
-  String buttonLinkId();
-  String rememberMe();
-  String notSupported();
-
-  String nameGoogle();
-  String nameYahoo();
-
-  String whatIsOpenIDHtml();
+public interface OpenIdService extends RemoteJsonService {
+  @AllowCrossSiteRequest
+  CallbackHandle<DiscoveryResult> discover(
+      AsyncCallback<DiscoveryResult> callback);
 }

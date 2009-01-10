@@ -16,7 +16,6 @@ package com.google.gerrit.client;
 
 import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.client.data.SystemInfoService;
-import com.google.gerrit.client.openid.Login;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.GerritCallback;
@@ -52,7 +51,6 @@ public class Gerrit implements EntryPoint {
    * @see #isSignedIn()
    */
   public static final String ACCOUNT_COOKIE = "GerritAccount";
-  public static final String OPENIDUSER_COOKIE = "GerritOpenIdUser";
 
   public static final GerritConstants C = GWT.create(GerritConstants.class);
   public static final GerritIcons ICONS = GWT.create(GerritIcons.class);
@@ -143,7 +141,6 @@ public class Gerrit implements EntryPoint {
   public static void doSignOut() {
     myAccount = null;
     Cookies.removeCookie(ACCOUNT_COOKIE);
-    Cookies.removeCookie(OPENIDUSER_COOKIE);
 
     for (final SignedInListener l : signedInListeners) {
       l.onSignOut();
@@ -168,11 +165,6 @@ public class Gerrit implements EntryPoint {
   }
 
   public void onModuleLoad() {
-    if (RootPanel.get("gerrit_login") != null) {
-      new Login().onModuleLoad();
-      return;
-    }
-
     initHistoryHooks();
 
     final RootPanel topMenu = RootPanel.get("gerrit_topmenu");

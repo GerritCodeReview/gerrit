@@ -8,6 +8,18 @@
   <!-- <inherits name='com.google.gwt.user.theme.standard.Standard'/> -->
   <!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/>     -->
 
+  <!-- openid.AllowFrameImpl -->
+	  <replace-with class="com.google.gerrit.client.openid.AllowFrameImpl">
+	    <when-type-is class="com.google.gerrit.client.openid.AllowFrameImpl"/>
+	  </replace-with>
+	  <replace-with class="com.google.gerrit.client.openid.AllowFrameImplSafari">
+	    <when-type-is class="com.google.gerrit.client.openid.AllowFrameImpl" />
+	    <any>
+	      <when-property-is name="user.agent" value="safari"/>
+	    </any>
+	  </replace-with>
+  <!-- /openid.AllowFrameImpl -->
+
   <entry-point class='com.google.gerrit.client.Gerrit'/>
   <stylesheet src='Gerrit.css' />
 

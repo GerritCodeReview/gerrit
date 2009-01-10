@@ -133,6 +133,17 @@ public class LoginServlet extends HttpServlet {
 
   private void doAuth(final HttpServletRequest req,
       final HttpServletResponse rsp) throws Exception {
+    if (false) {
+      System.out.println(req.getMethod() + " /login");
+      for (final Enumeration e = req.getParameterNames(); e.hasMoreElements();) {
+        final String n = (String) e.nextElement();
+        for (final String v : req.getParameterValues(n)) {
+          System.out.println("  " + n + "=" + v);
+        }
+      }
+      System.out.println();
+    }
+
     final String mode = req.getParameter(Constants.OPENID_MODE);
     if ("cancel".equals(mode)) {
       // Provider wants us to cancel the attempt.

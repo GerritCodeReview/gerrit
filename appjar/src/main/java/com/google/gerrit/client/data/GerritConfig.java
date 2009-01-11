@@ -15,6 +15,7 @@
 package com.google.gerrit.client.data;
 
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
+import com.google.gerrit.client.reviewdb.SystemConfig;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,6 +29,7 @@ public class GerritConfig {
   protected List<ApprovalType> actionTypes;
   protected int sshdPort;
   protected boolean useContributorAgreements;
+  protected SystemConfig.LoginType loginType;
   private transient Map<ApprovalCategory.Id, ApprovalType> byCategoryId;
 
   public GerritConfig() {
@@ -39,6 +41,14 @@ public class GerritConfig {
 
   public void setCanonicalUrl(final String u) {
     canonicalUrl = u;
+  }
+
+  public SystemConfig.LoginType getLoginType() {
+    return loginType;
+  }
+
+  public void setLoginType(final SystemConfig.LoginType t) {
+    loginType = t;
   }
 
   public GitwebLink getGitwebLink() {

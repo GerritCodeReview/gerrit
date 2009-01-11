@@ -41,6 +41,20 @@ public final class SystemConfig {
     }
   }
 
+  public static enum LoginType {
+    /** Login relies upon the OpenID standard: {@link "http://openid.net/"} */
+    OPENID,
+
+    /**
+     * Login relies upon the container/web server security.
+     * <p>
+     * The container or web server must populate an HTTP header with the some
+     * user token. Gerrit will implicitly trust the value of this header to
+     * supply the unique identity.
+     */
+    HTTP;
+  }
+
   public static SystemConfig create() {
     final SystemConfig r = new SystemConfig();
     r.singleton = new SystemConfig.Key();
@@ -83,6 +97,18 @@ public final class SystemConfig {
   @Column(notNull = false)
   public transient String gitBasePath;
 
+  /** Type of login access used by this instance. */
+  @Column(length = 16)
+  protected String loginType;
+
+  /** HTTP header to use for the user identity if loginType is HTTP. */
+  @Column(length = 30, notNull = false)
+  public transient String loginHttpHeader;
+
+  /** Format to generate email address from a login names */
+  @Column(length = 30, notNull = false)
+  public transient String emailFormat;
+
   /** Is a verified {@link AccountAgreement} required to upload changes? */
   @Column
   public boolean useContributorAgreements;
@@ -102,6 +128,14 @@ public final class SystemConfig {
   /** Identity of the registered users group, which permits anyone. */
   @Column
   public AccountGroup.Id registeredGroupId;
+
+  public LoginType getLoginType() {
+    return loginType != null ? LoginType.valueOf(loginType) : null;
+  }
+
+  public void setLoginType(final LoginType t) {
+    loginType = t.name();
+  }
 
   protected SystemConfig() {
   }

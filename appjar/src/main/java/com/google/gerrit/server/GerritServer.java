@@ -95,7 +95,18 @@ public class GerritServer {
     }
 
     xsrf = new SignedToken(sConfig.maxSessionAge, sConfig.xsrfPrivateKey);
-    account = new SignedToken(sConfig.maxSessionAge, sConfig.accountPrivateKey);
+
+    final int accountCookieAge;
+    switch (sConfig.getLoginType()) {
+      case HTTP:
+        accountCookieAge = -1; // expire when the browser closes
+        break;
+      case OPENID:
+      default:
+        accountCookieAge = sConfig.maxSessionAge;
+        break;
+    }
+    account = new SignedToken(accountCookieAge, sConfig.accountPrivateKey);
 
     if (sConfig.gitBasePath != null) {
       repositories = new RepositoryCache(new File(sConfig.gitBasePath));
@@ -188,6 +199,7 @@ public class GerritServer {
     s.adminGroupId = admin.getId();
     s.anonymousGroupId = anonymous.getId();
     s.registeredGroupId = registered.getId();
+    s.setLoginType(SystemConfig.LoginType.OPENID);
     c.systemConfig().insert(Collections.singleton(s));
   }
 
@@ -333,6 +345,7 @@ public class GerritServer {
     r.setCanonicalUrl(getCanonicalURL());
     r.setSshdPort(sConfig.sshdPort);
     r.setUseContributorAgreements(sConfig.useContributorAgreements);
+    r.setLoginType(sConfig.getLoginType());
     if (sConfig.gitwebUrl != null) {
       r.setGitwebLink(new GitwebLink(sConfig.gitwebUrl));
     }
@@ -358,6 +371,14 @@ public class GerritServer {
   /** Get the signature support used to protect user identity cookies. */
   public SignedToken getAccountToken() {
     return account;
+  }
+
+  public String getLoginHttpHeader() {
+    return sConfig.loginHttpHeader;
+  }
+
+  public String getEmailFormat() {
+    return sConfig.emailFormat;
   }
 
   /** A binary string key to encrypt cookies related to account data. */

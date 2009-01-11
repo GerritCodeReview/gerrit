@@ -16,11 +16,20 @@ package com.google.gerrit.server;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.client.reviewdb.AccountExternalId;
+import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.Common.CurrentAccountImpl;
 import com.google.gwtjsonrpc.server.ActiveCall;
 import com.google.gwtjsonrpc.server.ValidToken;
 import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.Transaction;
+
+import org.spearce.jgit.util.Base64;
+
+import java.text.MessageFormat;
+import java.util.Collections;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,7 +46,6 @@ public class GerritCall extends ActiveCall {
 
   private final GerritServer server;
   private boolean accountRead;
-  private ValidToken accountInfo;
   private Account.Id accountId;
 
   public GerritCall(final GerritServer gs, final HttpServletRequest i,
@@ -58,7 +66,7 @@ public class GerritCall extends ActiveCall {
   @Override
   public String getUser() {
     initAccount();
-    return accountInfo != null ? accountInfo.getData() : null;
+    return accountId != null ? accountId.toString() : null;
   }
 
   public Account.Id getAccountId() {
@@ -72,9 +80,18 @@ public class GerritCall extends ActiveCall {
     }
 
     accountRead = true;
+    ValidToken accountInfo;
     accountInfo = getCookie(Gerrit.ACCOUNT_COOKIE, server.getAccountToken());
 
     if (accountInfo == null) {
+      switch (Common.getGerritConfig().getLoginType()) {
+        case HTTP:
+          if (assumeHttp()) {
+            return;
+          }
+          break;
+      }
+
       if (getCookie(Gerrit.ACCOUNT_COOKIE) != null) {
         // The cookie is bogus, but it was sent. Send an expired cookie
         // back to clear it out of the browser's cookie store.
@@ -85,8 +102,8 @@ public class GerritCall extends ActiveCall {
     }
 
     try {
-      accountId = new Account.Id(Integer.parseInt(accountInfo.getData()));
-    } catch (NumberFormatException e) {
+      accountId = Account.Id.parse(accountInfo.getData());
+    } catch (RuntimeException e) {
       // Whoa, did we change our cookie format or something? This should
       // never happen on a valid acocunt token, but discard it anyway.
       //
@@ -100,8 +117,93 @@ public class GerritCall extends ActiveCall {
       // The cookie is valid, but its getting stale. Update it with a
       // newer date so it doesn't expire on an active user.
       //
-      final String idstr = String.valueOf(accountId.get());
+      final String idstr = accountId.toString();
       setCookie(Gerrit.ACCOUNT_COOKIE, idstr, server.getAccountToken());
     }
+  }
+
+  private boolean assumeHttp() {
+    final String hdr = server.getLoginHttpHeader();
+    String user;
+    if (hdr != null && !"".equals(hdr)
+        && !"Authorization".equalsIgnoreCase(hdr)) {
+      user = getHttpServletRequest().getHeader(hdr);
+    } else {
+      user = getHttpServletRequest().getRemoteUser();
+      if (user == null) {
+        // If the container didn't do the authentication we might
+        // have done it in the front-end web server. Try to split
+        // the identity out of the Authorization header and honor it.
+        //
+        user = getHttpServletRequest().getHeader("Authorization");
+        if (user != null && user.startsWith("Basic ")) {
+          user = new String(Base64.decode(user.substring("Basic ".length())));
+          if (user.indexOf(':') >= 0) {
+            user = user.substring(0, user.indexOf(':'));
+          }
+        } else if (user != null && user.startsWith("Digest ")
+            && user.contains("username=\"")) {
+          user = user.substring(user.indexOf("username=\"") + 10);
+          user = user.substring(0, user.indexOf('"'));
+        } else {
+          user = null;
+        }
+      }
+    }
+    if (user == null) {
+      return false;
+    }
+
+    try {
+      final ReviewDb db = Common.getSchemaFactory().open();
+      try {
+        final String eid = "gerrit:" + user;
+        final List<AccountExternalId> matches =
+            db.accountExternalIds().byExternal(eid).toList();
+
+        if (matches.size() == 1) {
+          // Account exists, connect to it again.
+          //
+          final AccountExternalId e = matches.get(0);
+          e.setLastUsedOn();
+          db.accountExternalIds().update(Collections.singleton(e));
+
+          accountId = e.getAccountId();
+          setCookie(Gerrit.ACCOUNT_COOKIE, accountId.toString(), server
+              .getAccountToken());
+          return true;
+        }
+
+        if (matches.size() == 0) {
+          // No account, automatically initialize a new one.
+          //
+          final Transaction txn = db.beginTransaction();
+          final Account.Id nid = new Account.Id(db.nextAccountId());
+          final Account a = new Account(nid);
+          a.setFullName(user);
+          final String efmt = server.getEmailFormat();
+          if (efmt != null && efmt.contains("{0}")) {
+            a.setPreferredEmail(MessageFormat.format(efmt, user));
+          }
+
+          final AccountExternalId e =
+              new AccountExternalId(new AccountExternalId.Key(nid, eid));
+          e.setEmailAddress(a.getPreferredEmail());
+          e.setLastUsedOn();
+          db.accounts().insert(Collections.singleton(a), txn);
+          db.accountExternalIds().insert(Collections.singleton(e), txn);
+          txn.commit();
+
+          accountId = nid;
+          setCookie(Gerrit.ACCOUNT_COOKIE, accountId.toString(), server
+              .getAccountToken());
+          return true;
+        }
+      } finally {
+        db.close();
+      }
+    } catch (OrmException e) {
+    }
+    return false;
   }
 }

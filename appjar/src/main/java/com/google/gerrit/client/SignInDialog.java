@@ -17,6 +17,7 @@ package com.google.gerrit.client;
 import com.google.gerrit.client.account.SignInResult;
 import com.google.gerrit.client.account.SignInResult.Status;
 import com.google.gerrit.client.openid.OpenIdLoginPanel;
+import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AutoCenterDialogBox;
 import com.google.gwt.core.client.GWT;
@@ -24,6 +25,9 @@ import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtjsonrpc.client.CallbackHandle;
 
 /**
@@ -54,7 +58,7 @@ public class SignInDialog extends AutoCenterDialogBox {
 
   private final CallbackHandle<SignInResult> signInCallback;
   private final AsyncCallback<?> appCallback;
-  private OpenIdLoginPanel panel;
+  private Widget panel;
 
   /**
    * Create a new dialog to handle user sign in.
@@ -85,7 +89,18 @@ public class SignInDialog extends AutoCenterDialogBox {
             });
     appCallback = callback;
 
-    panel = new OpenIdLoginPanel(signInMode, signInCallback);
+    switch (Common.getGerritConfig().getLoginType()) {
+      case OPENID:
+        panel = new OpenIdLoginPanel(signInMode, signInCallback);
+        break;
+
+      default: {
+        final FlowPanel fp = new FlowPanel();
+        fp.add(new Label(Gerrit.C.loginTypeUnsupported()));
+        panel = fp;
+        break;
+      }
+    }
     add(panel);
     onResize(Window.getClientWidth(), Window.getClientHeight());
 
@@ -122,7 +137,10 @@ public class SignInDialog extends AutoCenterDialogBox {
 
     current = this;
     signInCallback.install();
-    panel.setFocus(true);
+
+    if (panel instanceof OpenIdLoginPanel) {
+      ((OpenIdLoginPanel) panel).setFocus(true);
+    }
   }
 
   @Override

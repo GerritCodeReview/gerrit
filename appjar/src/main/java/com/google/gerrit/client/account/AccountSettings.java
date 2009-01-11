@@ -129,13 +129,17 @@ public class AccountSettings extends AccountScreen {
     }, Util.C.tabSshKeys());
     tabTokens.add(Link.SETTINGS_SSHKEYS);
 
-    tabs.add(new LazyTabChild<ExternalIdPanel>() {
-      @Override
-      protected ExternalIdPanel create() {
-        return new ExternalIdPanel();
-      }
-    }, Util.C.tabWebIdentities());
-    tabTokens.add(Link.SETTINGS_WEBIDENT);
+    switch (Common.getGerritConfig().getLoginType()) {
+      case OPENID:
+        tabs.add(new LazyTabChild<ExternalIdPanel>() {
+          @Override
+          protected ExternalIdPanel create() {
+            return new ExternalIdPanel();
+          }
+        }, Util.C.tabWebIdentities());
+        tabTokens.add(Link.SETTINGS_WEBIDENT);
+        break;
+    }
 
     if (Common.getGerritConfig().isUseContributorAgreements()) {
       tabs.add(new LazyTabChild<AgreementPanel>() {

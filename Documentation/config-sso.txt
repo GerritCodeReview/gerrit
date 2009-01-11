@@ -1,0 +1,129 @@
+Gerrit2 - Single Sign-On Security
+=================================
+
+Gerrit2 supports integration with some types of single sign-on
+security solutions, making it possible for end-users to setup
+and manage accounts, without administrator involvement.
+
+OpenID
+------
+
+By default a new Gerrit installation relies upon OpenID to perform
+user authentication services.  To enable OpenID, the `system_config`
+table needs `login_type` set to `OPENID`:
+
+====
+  UPDATE system_config SET login_type = 'OPENID';
+====
+
+As this is the default setting for new installations there is
+nothing required from the site administrator to make use of the
+OpenID authentication services.
+
+* http://openid.net/[openid.net]
+
+Database Schema
+~~~~~~~~~~~~~~~
+
+User identities obtained from OpenID providers are stored into the
+`account_external_ids` table.  Users may link more than one OpenID
+identity to the same Gerrit account (use Settings, Web Identities
+to manage this linking), making it easier for their browser to sign
+in to Gerrit if they are frequently switching between different
+unique OpenID accounts.
+
+
+HTTP Basic/Digest Authentication
+--------------------------------
+
+When using HTTP authentication, Gerrit assumes that the servlet
+container or the frontend web server has performed all user
+authentication prior to handing the request off to Gerrit.
+
+As a result of this assumption, Gerrit can assume that any and
+all requests have already been authenticated.  The "Sign In" and
+"Sign Out" links are therefore not displayed in the web UI.
+
+To enable this form of authentication, update `system_config`:
+
+====
+  UPDATE system_config
+  SET
+   login_type='HTTP'
+  ,login_http_header=NULL
+  ,email_format='{0}@example.com';
+====
+
+The `login_type` must always be `HTTP`, indicating the user identity
+will be obtained from the HTTP authorization data.
+
+The `login_http_header` must always be `NULL`.  If non-null then
+Gerrit won't correctly honor the `Authorization` HTTP header.
+
+The `email_format` field ('optional') sets the preferred email
+address during first login.  Gerrit will replace `\{0\}` with the
+username, as obtained from the Authorization header.  A format such
+as shown in the example would be typical, to add the domain name
+of the organization.
+
+Database Schema
+~~~~~~~~~~~~~~~
+
+User identities are stored in the `account_external_ids` table.
+The user string obtained from the authorization header has the prefix
+"gerrit:" and is stored in the `external_id` field.  For example,
+if a username was "foo" then the external_id field would be populated
+with "gerrit:foo".
+
+
+Computer Associates Siteminder
+------------------------------
+
+Siteminder is a commercial single sign on solution marketed by
+Computer Associates.  It is very common in larger enterprise
+environments.
+
+When using Siteminder, Gerrit assumes it has been installed in a
+servlet container which is running behind an Apache web server,
+and that the Siteminder authentication module has been configured
+within Apache to protect the entire Gerrit application.  In this
+configuration all users must authenticate with Siteminder before
+they can access any resource on Gerrit.
+
+As a result of this assumption, Gerrit can assume that any and
+all requests have already been authenticated.  The "Sign In" and
+"Sign Out" links are therefore not displayed in the web UI.
+
+To enable this form of authentication, update `system_config`:
+
+====
+  UPDATE system_config
+  SET
+   login_type='HTTP'
+  ,login_http_header='SM_USER'
+  ,email_format='{0}@example.com';
+====
+
+The `login_type` must always be `HTTP`, indicating the user identity
+will be obtained from an HTTP header.
+
+The `login_http_header` indicates which HTTP header field the
+Siteminder product has stored the username.  Usually this is
+"SM_USER", but may differ in your environment.  Please refer to
+your organization's single sign-on or security group to ensure the
+setting is correct.
+
+The `email_format` field ('optional') sets the user's preferred email
+address when they first login.  Gerrit will replace `\{0\}` with the
+username, as supplied by Siteminder.  A format such as shown in the
+example would be typical, to add the domain name of the organization.
+
+Database Schema
+~~~~~~~~~~~~~~~
+
+User identities are stored in the `account_external_ids` table.
+The user string obtained from Siteminder (e.g. the value in the
+"SM_USER" HTTP header) has the prefix "gerrit:" and is stored in the
+`external_id` field.  For example, if a Siteminder username was "foo"
+then the external_id field would be populated with "gerrit:foo".
+

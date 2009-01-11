@@ -76,6 +76,45 @@ Gerrit receives new change submissions through this port by
 
 By default this is 29418.
 
+login_type
+~~~~~~~~~~
+
+Type of user authentication employed by Gerrit.  This setting has
+two supported values:
+
+* `OPENID`
++
+The default setting.  Gerrit uses any valid OpenID
+provider chosen by the end-user.  For more information see
+http://openid.net/[openid.net]
+
+* `HTTP`
++
+Gerrit relies upon data in the HTTP request, such as the HTTP basic
+authentication, or some types of commerical single-sign-on solutions.
+For more information see link:config-sso.html[SSO configuration].
+
+login_http_header
+~~~~~~~~~~~~~~~~~
+
+HTTP header to trust the username from, or NULL to select HTTP
+basic or digest authentication.  Only used if `login_type = HTTP`.
+
+For more information see link:config-sso.html[SSO configuration].
+
+email_format
+~~~~~~~~~~~~
+
+Optional format string to construct user email addresses out of
+user login names.  Only used if `login_type = HTTP`.
+
+This value can be set to a format string, where `\{0\}` is replaced
+with the login name.  E.g. "\{0\}+gerrit@example.com" with a user
+login name of "foo" will produce "foo+gerrit@example.com" during
+the first time user "foo" registers.
+
+For more information see link:config-sso.html[SSO configuration].
+
 
 Not User Serviceable
 --------------------

@@ -17,6 +17,7 @@ package com.google.gerrit.client;
 import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.client.data.SystemInfoService;
 import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.client.reviewdb.SystemConfig;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.LinkMenuBar;
@@ -216,7 +217,8 @@ public class Gerrit implements EntryPoint {
   }
 
   private void onModuleLoad2() {
-    if (Cookies.getCookie(ACCOUNT_COOKIE) != null) {
+    if (Cookies.getCookie(ACCOUNT_COOKIE) != null
+        || Common.getGerritConfig().getLoginType() == SystemConfig.LoginType.HTTP) {
       // If the user is likely to already be signed into their account,
       // load the account data and update the UI with that.
       //
@@ -309,17 +311,33 @@ public class Gerrit implements EntryPoint {
     if (signedIn) {
       whoAmI();
       menuBar.addItem(new LinkMenuItem(C.menuSettings(), Link.SETTINGS));
-      menuBar.addItem(C.menuSignOut(), new Command() {
-        public void execute() {
-          doSignOut();
-        }
-      });
+      switch (Common.getGerritConfig().getLoginType()) {
+        case HTTP:
+          break;
+
+        case OPENID:
+        default:
+          menuBar.addItem(C.menuSignOut(), new Command() {
+            public void execute() {
+              doSignOut();
+            }
+          });
+          break;
+      }
     } else {
-      menuBar.addItem(C.menuSignIn(), new Command() {
-        public void execute() {
-          doSignIn(null);
-        }
-      });
+      switch (Common.getGerritConfig().getLoginType()) {
+        case HTTP:
+          break;
+
+        case OPENID:
+        default:
+          menuBar.addItem(C.menuSignIn(), new Command() {
+            public void execute() {
+              doSignIn(null);
+            }
+          });
+          break;
+      }
     }
     menuBar.lastInGroup();
   }

@@ -42,13 +42,16 @@ INSERT INTO accounts
  a.default_context
  FROM gerrit1.accounts a;
 
+UPDATE system_config
+SET allow_google_account_upgrade = 'Y';
+
 DELETE FROM account_external_ids;
 INSERT INTO account_external_ids
 (account_id,
  external_id,
  email_address) SELECT
  l.account_id,
- 'https://www.google.com/accounts/o8/id?',
+ 'https://www.google.com/accounts/o8/id',
  a.user_email
  FROM gerrit1.accounts a, accounts l
  WHERE l.preferred_email = a.user_email;

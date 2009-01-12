@@ -115,6 +115,28 @@ the first time user "foo" registers.
 
 For more information see link:config-sso.html[SSO configuration].
 
+allow_google_account_upgrade
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Allow old Gerrit1 users to seamlessly upgrade from Google Accounts
+on Google App Engine to OpenID authentication.  This should only be
+set to true on a Gerrit2 database that was imported from a Gerrit1
+database run on Google App Engine.  Having it enabled incurs an
+extra database query when new Google Account users register with
+the Gerrit2 server.
+
+Its strongly encouraged to set this to 'N' once the following
+query drops to 0, or close to 0:
+
+====
+  SELECT COUNT(*) FROM account_external_ids e
+  WHERE e.external_id = 'https://www.google.com/accounts/o8/id'
+  AND NOT EXISTS (SELECT 1
+    FROM account_external_ids o
+    WHERE o.account_id = e.account_id
+	AND o.external_id LIKE '%/id?id=%');
+====
+
 
 Not User Serviceable
 --------------------

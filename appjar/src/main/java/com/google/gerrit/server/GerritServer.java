@@ -413,4 +413,8 @@ public class GerritServer {
   public RepositoryCache getRepositoryCache() {
     return repositories;
   }
+
+  public boolean isAllowGoogleAccountUpgrade() {
+    return sConfig.allowGoogleAccountUpgrade;
+  }
 }

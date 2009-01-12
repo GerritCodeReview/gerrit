@@ -48,6 +48,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
@@ -318,7 +319,8 @@ public class OpenIdLoginServlet extends HttpServlet {
     final AccountExternalIdAccess extAccess = db.accountExternalIds();
     AccountExternalId acctExt = lookup(extAccess, user.getIdentity());
 
-    if (acctExt == null && email != null && isGoogleAccount(user)) {
+    if (acctExt == null && email != null
+        && server.isAllowGoogleAccountUpgrade() && isGoogleAccount(user)) {
       acctExt = lookupGoogleAccount(extAccess, email);
       if (acctExt != null) {
         // Legacy user from Gerrit 1? Attach the OpenID identity.
@@ -444,23 +446,27 @@ public class OpenIdLoginServlet extends HttpServlet {
   }
 
   private static boolean isGoogleAccount(final OpenIdUser user) {
-    return user.getIdentity().startsWith(GoogleAccountDiscovery.GOOGLE_ACCOUNT);
-  }
-
-  private static boolean isGoogleAccount(final AccountExternalId user) {
-    return user.getExternalId().startsWith(
-        GoogleAccountDiscovery.GOOGLE_ACCOUNT);
+    return user.getIdentity().startsWith(OpenIdUtil.URL_GOOGLE + "?");
   }
 
   private static AccountExternalId lookupGoogleAccount(
       final AccountExternalIdAccess extAccess, final String email)
       throws OrmException {
+    // We may have multiple records which match the email address, but
+    // all under the same account. This happens when the user does a
+    // login through different server hostnames, as Google issues
+    // unique OpenID tokens per server.
+    //
+    // Match to an existing account only if there is exactly one record
+    // for this email using the generic Google URL.
+    //
+    final List<AccountExternalId> m = new ArrayList<AccountExternalId>();
     for (final AccountExternalId e : extAccess.byEmailAddress(email)) {
-      if (isGoogleAccount(e)) {
-        return e;
+      if (e.getExternalId().equals(OpenIdUtil.URL_GOOGLE)) {
+        m.add(e);
       }
     }
-    return null;
+    return m.size() == 1 ? m.get(0) : null;
   }
 
   private void modeChkSetCookie(final HttpServletRequest req,

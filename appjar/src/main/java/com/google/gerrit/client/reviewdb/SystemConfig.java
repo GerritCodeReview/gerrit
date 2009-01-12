@@ -109,6 +109,17 @@ public final class SystemConfig {
   @Column(length = 30, notNull = false)
   public transient String emailFormat;
 
+  /**
+   * Can user accounts from Gerrit1 upgrade to use OpenID?
+   * <p>
+   * This setting should only be true if this server is an upgraded database
+   * from Gerrit1, and if there are still outstanding accounts which need to be
+   * upgraded to Gerrit2's OpenID authentication scheme. Any other system should
+   * leave this setting false.
+   */
+  @Column
+  public transient boolean allowGoogleAccountUpgrade;
+
   /** Is a verified {@link AccountAgreement} required to upload changes? */
   @Column
   public boolean useContributorAgreements;

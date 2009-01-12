@@ -119,3 +119,28 @@ to individual users.
 You may want to browse #admin,groups once logged in through
 the web UI and cleanup any group names that were generated
 automatically by the import process.
+
+
+User Account Migration
+----------------------
+
+After import `system_config.allow_google_account_upgrade` will be
+set to `Y` to permit users to upgrade their account from a Google
+Account in Google App Engine to an OpenID based Google Account.
+
+Its strongly encouraged for administrators to set this flag to 'N'
+once the following query drops to 0, or close to 0:
+
+====
+  SELECT COUNT(*) FROM account_external_ids e
+  WHERE e.external_id = 'https://www.google.com/accounts/o8/id'
+  AND NOT EXISTS (SELECT 1
+    FROM account_external_ids o
+    WHERE o.account_id = e.account_id
+	AND o.external_id LIKE '%/id?id=%');
+====
+
+the above query lists all users who have not yet converted their
+accounts to the OpenID authentication scheme.  Unfortunately the
+conversion must be done by each individual user logging in, as the
+OpenID token is per-user, and per-site.

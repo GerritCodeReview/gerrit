@@ -39,10 +39,13 @@ import com.google.gwtorm.jdbc.Database;
 import com.google.gwtorm.jdbc.SimpleDataSource;
 
 import org.apache.commons.codec.binary.Base64;
+import org.spearce.jgit.lib.PersonIdent;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -83,6 +86,7 @@ public class GerritServer {
 
   private final Database<ReviewDb> db;
   private SystemConfig sConfig;
+  private PersonIdent gerritPersonIdentTemplate;
   private final SignedToken xsrf;
   private final SignedToken account;
   private final RepositoryCache repositories;
@@ -113,6 +117,16 @@ public class GerritServer {
     } else {
       repositories = null;
     }
+
+    String email = sConfig.gerritGitEmail;
+    if (email == null || email.length() == 0) {
+      try {
+        email = "gerrit@" + InetAddress.getLocalHost().getCanonicalHostName();
+      } catch (UnknownHostException e) {
+        email = "gerrit@localhost";
+      }
+    }
+    gerritPersonIdentTemplate = new PersonIdent(sConfig.gerritGitName, email);
 
     Common.setSchemaFactory(db);
     Common.setProjectCache(new ProjectCache());
@@ -199,6 +213,7 @@ public class GerritServer {
     s.adminGroupId = admin.getId();
     s.anonymousGroupId = anonymous.getId();
     s.registeredGroupId = registered.getId();
+    s.gerritGitName = "Gerrit Code Review";
     s.setLoginType(SystemConfig.LoginType.OPENID);
     c.systemConfig().insert(Collections.singleton(s));
   }
@@ -414,7 +429,13 @@ public class GerritServer {
     return repositories;
   }
 
+  /** Get a new identity representing this Gerrit server in Git. */
+  public PersonIdent newGerritPersonIdent() {
+    return new PersonIdent(gerritPersonIdentTemplate);
+  }
+
   public boolean isAllowGoogleAccountUpgrade() {
     return sConfig.allowGoogleAccountUpgrade;
   }
+
 }

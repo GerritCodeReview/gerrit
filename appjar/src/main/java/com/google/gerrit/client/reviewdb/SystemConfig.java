@@ -97,6 +97,14 @@ public final class SystemConfig {
   @Column(notNull = false)
   public transient String gitBasePath;
 
+  /** Name this Gerrit instance calls itself when it makes changes in Git. */
+  @Column
+  public String gerritGitName;
+
+  /** Email this Gerrit instance calls itself when it makes changes in Git. */
+  @Column(notNull = false)
+  public String gerritGitEmail;
+
   /** Type of login access used by this instance. */
   @Column(length = 16)
   protected String loginType;

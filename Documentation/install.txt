@@ -176,7 +176,8 @@ Copy Gerrit into the deployment:
 ====
 
 Edit `$JETTY_HOME/contexts/gerrit.xml` to correctly configure the
-database connection, especially the user and password fields.
+database and outgoing SMTP connections, especially the user and
+password fields.
 
 To start automatically when the system boots, consider a start
 script such as the following in `/etc/init.d/gerrit2-jetty`
@@ -218,6 +219,13 @@ Configure the JNDI DataSource `jdbc/ReviewDb` for the Gerrit web
 application context to point to the database you just created.
 Don't forget to ensure your JNDI configuration can load the
 necessary JDBC drivers.
+
+('Optional') Configure the JNDI name `mail/Outgoing` for the web
+application context to be a factory for a `javax.mail.Session`,
+with the connection information necessary to send outgoing emails.
+You may need to download and install the Java Mail JARs in your
+container's classpath.  If this is not configured, Gerrit will
+function, but will not be able to send email.
 
 [[apache2]]
 Apache2 Reverse Proxy

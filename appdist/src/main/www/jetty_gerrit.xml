@@ -6,7 +6,8 @@
   so it answers to old-style URLs like "/$changeid" and "/mine".
 
   * Copy this file to $JETTY_HOME/contexts/gerrit.xml
-  * Edit user, password, jdbcUrl as necessary below.
+  * Edit user, password, jdbcUrl as necessary below for database.
+  * Edit mail.smtp.host, user, password as necessary for outgoing SMTP.
 
   * Copy jdbc/c3p0-0.9.1.2.jar       to $JETTY_HOME/lib/plus/
   * Copy jdbc/postgresql-*.jdbc*.jar to $JETTY_HOME/lib/plus/
@@ -41,6 +42,25 @@
         <Set name="jdbcUrl">jdbc:postgresql:reviewdb</Set>
         <Set name="user">gerrit2</Set>
         <Set name="password">secretkey</Set>
+      </New>
+    </Arg>
+  </New>
+
+  <New id="OutgoingSmtp" class="org.mortbay.jetty.plus.naming.Resource">
+    <Arg></Arg>
+    <Arg>mail/Outgoing</Arg>
+    <Arg>
+      <New class="org.mortbay.naming.factories.MailSessionReference">
+        <Set name="properties">
+          <New class="java.util.Properties">
+            <Put name="mail.smtp.host">localhost</Put>
+            <Put name="mail.smtp.port">25</Put>
+          </New>
+        </Set>
+        <!-- Uncomment if you need to authenticate to your SMTP server.
+        <Set name="user">gerrit2</Set>
+        <Set name="password">secretkey</Set>
+             /Uncomment -->
       </New>
     </Arg>
   </New>

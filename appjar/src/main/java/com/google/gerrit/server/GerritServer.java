@@ -86,10 +86,11 @@ public class GerritServer {
 
   private final Database<ReviewDb> db;
   private SystemConfig sConfig;
-  private PersonIdent gerritPersonIdentTemplate;
+  private final PersonIdent gerritPersonIdentTemplate;
   private final SignedToken xsrf;
   private final SignedToken account;
   private final RepositoryCache repositories;
+  private final javax.mail.Session outgoingMail;
 
   private GerritServer() throws OrmException, XsrfException {
     db = createDatabase();
@@ -127,7 +128,8 @@ public class GerritServer {
       }
     }
     gerritPersonIdentTemplate = new PersonIdent(sConfig.gerritGitName, email);
-
+    outgoingMail = createOutgoingMail();
+    
     Common.setSchemaFactory(db);
     Common.setProjectCache(new ProjectCache());
     Common.setAccountCache(new AccountCache());
@@ -373,6 +375,15 @@ public class GerritServer {
     Common.setGerritConfig(r);
   }
 
+  private javax.mail.Session createOutgoingMail() {
+    final String dsName = "java:comp/env/mail/Outgoing";
+    try {
+      return (javax.mail.Session) new InitialContext().lookup(dsName);
+    } catch (NamingException namingErr) {
+      return null;
+    }
+  }
+
   /** Time (in seconds) that user sessions stay "signed in". */
   public int getSessionAge() {
     return sConfig.maxSessionAge;
@@ -429,6 +440,11 @@ public class GerritServer {
     return repositories;
   }
 
+  /** The mail session used to send messages; null if not configured. */
+  public javax.mail.Session getOutgoingMail() {
+    return outgoingMail;
+  }
+
   /** Get a new identity representing this Gerrit server in Git. */
   public PersonIdent newGerritPersonIdent() {
     return new PersonIdent(gerritPersonIdentTemplate);
@@ -437,5 +453,4 @@ public class GerritServer {
   public boolean isAllowGoogleAccountUpgrade() {
     return sConfig.allowGoogleAccountUpgrade;
   }
-
 }

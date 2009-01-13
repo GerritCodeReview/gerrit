@@ -380,15 +380,19 @@ Your change has been successfully merged into the git repository.
 AND sender IS NULL;
 
 UPDATE gerrit1.messages
-SET body = 'Change could not be merged because of a missing dependency.  As
-soon as its dependencies are submitted, the change will be submitted.'
-WHERE body LIKE '
+SET body = 'Change could not be merged because of a missing dependency.  As soon as its dependencies are submitted, the change will be submitted.'
+WHERE (body LIKE '
 Hi.
 
 Your change could not be merged because of a missing dependency.%
 
 -Your friendly git merger%'
-AND sender IS NULL;
+OR body LIKE '
+Your change could not be merged because of a missing dependency.
+
+As soon as all dependencies are submitted, your change will be
+resubmitted automatically.%'
+) AND sender IS NULL;
 
 UPDATE gerrit1.messages
 SET body = 'Change cannot be merged because of a path conflict.'
@@ -401,6 +405,9 @@ because of a path conflict.
 -Your friendly git merger%'
 AND sender is NULL;
 
+UPDATE gerrit1.messages
+SET body = TRIM(both '
+' FROM body);
 
 DELETE FROM change_messages;
 INSERT INTO change_messages

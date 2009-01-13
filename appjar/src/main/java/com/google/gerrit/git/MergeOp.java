@@ -411,10 +411,22 @@ public class MergeOp {
         }
 
         case MISSING_DEPENDENCY: {
-          // TODO Don't write this message on every attempt.
           try {
             final String txt =
                 "Change could not be merged because of a missing dependency.  As soon as its dependencies are submitted, the change will be submitted.";
+            final List<ChangeMessage> msgList =
+                schema.changeMessages().byChange(c.getId()).toList();
+            if (msgList.size() > 0) {
+              final ChangeMessage last = msgList.get(msgList.size() - 1);
+              if (last.getAuthor() == null && txt.equals(last.getMessage())) {
+                // The last message was written by us, and it said this
+                // same message already. Its unlikely anything has changed
+                // that would cause us to need to repeat ourselves.
+                //
+                break;
+              }
+            }
+
             schema.changeMessages().insert(
                 Collections.singleton(message(c, txt)));
           } catch (OrmException e) {

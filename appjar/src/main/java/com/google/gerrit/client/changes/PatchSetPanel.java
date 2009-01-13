@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.changes;
 
+import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.SignedInListener;
 import com.google.gerrit.client.data.ApprovalType;
@@ -22,6 +23,7 @@ import com.google.gerrit.client.data.PatchSetDetail;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.client.reviewdb.PatchSet;
+import com.google.gerrit.client.reviewdb.UserIdentity;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.RefreshListener;
@@ -42,8 +44,10 @@ import java.util.List;
 import java.util.Set;
 
 class PatchSetPanel extends Composite implements DisclosureHandler {
-  private static final int R_DOWNLOAD = 0;
-  private static final int R_CNT = 1;
+  private static final int R_AUTHOR = 0;
+  private static final int R_COMMITTER = 1;
+  private static final int R_DOWNLOAD = 2;
+  private static final int R_CNT = 3;
 
   private final ChangeDetail changeDetail;
   private final PatchSet patchSet;
@@ -106,14 +110,20 @@ class PatchSetPanel extends Composite implements DisclosureHandler {
     infoTable.setStyleName("gerrit-InfoBlock");
     infoTable.addStyleName("gerrit-PatchSetInfoBlock");
 
+    initRow(R_AUTHOR, Util.C.patchSetInfoAuthor());
+    initRow(R_COMMITTER, Util.C.patchSetInfoCommitter());
     initRow(R_DOWNLOAD, Util.C.patchSetInfoDownload());
 
     final CellFormatter itfmt = infoTable.getCellFormatter();
     itfmt.addStyleName(0, 0, "topmost");
     itfmt.addStyleName(0, 1, "topmost");
     itfmt.addStyleName(R_CNT - 1, 0, "bottomheader");
+    itfmt.addStyleName(R_AUTHOR, 1, "useridentity");
+    itfmt.addStyleName(R_COMMITTER, 1, "useridentity");
     itfmt.addStyleName(R_DOWNLOAD, 1, "command");
 
+    infoTable.setText(R_AUTHOR, 1, format(detail.getInfo().getAuthor()));
+    infoTable.setText(R_COMMITTER, 1, format(detail.getInfo().getCommitter()));
     infoTable.setText(R_DOWNLOAD, 1, Util.M.repoDownload(changeDetail
         .getChange().getDest().getParentKey().get(), changeDetail.getChange()
         .getChangeId(), patchSet.getPatchSetId()));
@@ -145,6 +155,28 @@ class PatchSetPanel extends Composite implements DisclosureHandler {
       populateActions(detail);
     }
     body.add(patchTable);
+  }
+
+  private String format(final UserIdentity who) {
+    final StringBuilder r = new StringBuilder();
+    if (who.getName() != null) {
+      r.append(who.getName());
+    }
+    if (who.getEmail() != null) {
+      if (r.length() > 0) {
+        r.append(' ');
+      }
+      r.append('<');
+      r.append(who.getEmail());
+      r.append('>');
+    }
+    if (who.getDate() != null) {
+      if (r.length() > 0) {
+        r.append(' ');
+      }
+      r.append(FormatUtil.mediumFormat(who.getDate()));
+    }
+    return r.toString();
   }
 
   private void populateActions(final PatchSetDetail detail) {

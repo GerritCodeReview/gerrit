@@ -483,6 +483,10 @@
   font-size: small;
 }
 
+.gerrit-InfoBlock td.useridentity {
+  white-space: nowrap;
+}
+
 .gerrit-PatchSetInfoBlock {
   margin-bottom: 10px;
 }

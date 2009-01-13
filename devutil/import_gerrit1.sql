@@ -334,6 +334,7 @@ INSERT INTO changes
  dest_project_name,
  dest_branch_name,
  status,
+ open,
  nbr_patch_sets,
  current_patch_set_id,
  subject,
@@ -346,6 +347,10 @@ INSERT INTO changes
  CASE WHEN c.merged = 'Y' THEN 'M'
       WHEN c.closed = 'Y' THEN 'A'
       ELSE 'n'
+ END,
+ CASE WHEN c.merged = 'Y' THEN 'N'
+      WHEN c.closed = 'Y' THEN 'N'
+      ELSE 'Y'
  END,
  c.n_patchsets,
  c.n_patchsets,

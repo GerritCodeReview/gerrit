@@ -66,7 +66,7 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
 
         d = new AccountDashboardInfo(target);
         d.setByOwner(filter(changes.byOwnerOpen(target), stars, ac));
-        d.setClosed(filter(changes.byOwnerMerged(target), stars, ac));
+        d.setClosed(filter(changes.byOwnerClosed(target), stars, ac));
         d.setAccounts(ac.create());
         return d;
       }

@@ -51,32 +51,36 @@ public final class Change {
     }
   }
 
-  protected static final char MIN_OPEN = 'a';
+  private static final char MIN_OPEN = 'a';
   protected static final char STATUS_NEW = 'n';
   protected static final char STATUS_SUBMITTED = 's';
-  protected static final char MAX_OPEN = 'z';
+  private static final char MAX_OPEN = 'z';
 
   protected static final char STATUS_MERGED = 'M';
 
   public static enum Status {
-    NEW(STATUS_NEW, false),
+    NEW(STATUS_NEW),
 
-    SUBMITTED(STATUS_SUBMITTED, false),
+    SUBMITTED(STATUS_SUBMITTED),
 
-    MERGED(STATUS_MERGED, true),
+    MERGED(STATUS_MERGED),
 
-    ABANDONED('A', true);
+    ABANDONED('A');
 
     private final char code;
     private final boolean closed;
 
-    private Status(final char c, final boolean o) {
+    private Status(final char c) {
       code = c;
-      closed = o;
+      closed = !(MIN_OPEN <= c && c <= MAX_OPEN);
     }
 
     public char getCode() {
       return code;
+    }
+
+    public boolean isOpen() {
+      return !closed;
     }
 
     public boolean isClosed() {
@@ -120,6 +124,10 @@ public final class Change {
   /** The branch (and project) this change merges into. */
   @Column
   protected Branch.NameKey dest;
+
+  /** Is the change currently open? Set to {@link #status}.isOpen(). */
+  @Column
+  protected boolean open;
 
   /** Current state code; see {@link Status}. */
   @Column
@@ -209,6 +217,7 @@ public final class Change {
   }
 
   public void setStatus(final Status newStatus) {
+    open = newStatus.isOpen();
     status = newStatus.getCode();
   }
 }

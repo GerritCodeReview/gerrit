@@ -34,6 +34,8 @@ import com.google.gwtorm.jdbc.JdbcSchema;
 
 import org.spearce.jgit.lib.ObjectId;
 import org.spearce.jgit.lib.ProgressMonitor;
+import org.spearce.jgit.lib.Ref;
+import org.spearce.jgit.lib.RefUpdate;
 import org.spearce.jgit.lib.Repository;
 import org.spearce.jgit.lib.TextProgressMonitor;
 import org.spearce.jgit.revwalk.RevCommit;
@@ -46,8 +48,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -117,6 +122,8 @@ public class ImportGerrit1 {
       }
       query.close();
 
+      final Map<String, Set<String>> validRefs =
+          new HashMap<String, Set<String>>();
       pm.start(1);
       pm.beginTask("Import patch sets", psToDo.size());
       for (final PatchSet.Id psId : psToDo) {
@@ -128,12 +135,61 @@ public class ImportGerrit1 {
         final RevCommit src =
             rw.parseCommit(ObjectId.fromString(ps.getRevision().get()));
         new PatchSetImporter(db, repo, src, ps, false).run();
+        Set<String> s = validRefs.get(projectName);
+        if (s == null) {
+          s = new HashSet<String>();
+          validRefs.put(projectName, s);
+        }
+        s.add(ps.getRefName());
         pm.update(1);
       }
       pm.endTask();
+
+      pruneProjectRefs(pm, validRefs);
     } finally {
       db.close();
     }
+  }
+
+  private static void pruneProjectRefs(final ProgressMonitor pm,
+      final Map<String, Set<String>> validRefs) throws OrmException,
+      IOException {
+    final List<Project> pToClean = db.projects().all().toList();
+    pm.start(1);
+    pm.beginTask("Prune old refs", pToClean.size());
+    for (final Project p : pToClean) {
+      final Repository repo;
+      try {
+        repo = gs.getRepositoryCache().get(p.getName());
+      } catch (InvalidRepositoryException e) {
+        pm.update(1);
+        continue;
+      }
+
+      Set<String> valid = validRefs.get(p.getName());
+      if (valid == null) {
+        valid = Collections.emptySet();
+      }
+
+      final RevWalk rw = new RevWalk(repo);
+      for (final Ref r : repo.getAllRefs().values()) {
+        boolean delete = false;
+        if (r.getName().startsWith("refs/merges/")) {
+          delete = true;
+        }
+        if (r.getName().startsWith("refs/changes/")
+            && !valid.contains(r.getName())) {
+          delete = true;
+        }
+        if (delete) {
+          final RefUpdate u = repo.updateRef(r.getName());
+          u.setForceUpdate(true);
+          u.delete(rw);
+        }
+      }
+      pm.update(1);
+    }
+    pm.endTask();
   }
 
   private static void insertApprovalWildCard() throws OrmException {

@@ -58,9 +58,14 @@
 }
 
 /** Menu **/
+.gwt-MenuItem a,
+.gwt-MenuItem a:visited,
+.gwt-MenuItem a:hover {
+  color: #2a5db0;
+}
 .gerrit-LinkMenuBar .gwt-MenuItem {
   font-size: 9pt;
-  color: #0000AA;
+  color: #2a5db0;
   text-decoration: underline;
   padding-left: 5px;
   padding-right: 5px;

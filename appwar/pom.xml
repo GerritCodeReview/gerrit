@@ -280,7 +280,7 @@ limitations under the License.
         </executions>
       </plugin>
 
-      <plugin>                                
+      <plugin>
         <artifactId>maven-antrun-plugin</artifactId>
         <executions>
           <execution>

@@ -2,6 +2,8 @@
 /.classpath
 /.project
 /.settings/org.maven.ide.eclipse.prefs
+/src/main/java/com/google/gerrit/client/GerritVersion.properties
+/src/main/java/com/google/gerrit/client/GerritVersion_*.properties
 /gwt_www
 /tomcat
 /hs_err_pid*.log

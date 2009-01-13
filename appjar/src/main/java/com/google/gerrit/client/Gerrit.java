@@ -32,8 +32,8 @@ import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.HistoryListener;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.WindowResizeListener;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -54,6 +54,7 @@ public class Gerrit implements EntryPoint {
   public static final String ACCOUNT_COOKIE = "GerritAccount";
 
   public static final GerritConstants C = GWT.create(GerritConstants.class);
+  public static final GerritMessages M = GWT.create(GerritMessages.class);
   public static final GerritIcons ICONS = GWT.create(GerritIcons.class);
   public static final SystemInfoService SYSTEM_SVC;
 
@@ -167,19 +168,13 @@ public class Gerrit implements EntryPoint {
 
   public void onModuleLoad() {
     initHistoryHooks();
+    populateBottomMenu();
 
     final RootPanel topMenu = RootPanel.get("gerrit_topmenu");
     menuBar = new LinkMenuBar();
     topMenu.add(menuBar);
 
     body = RootPanel.get("gerrit_body");
-    body.setHeight(Window.getClientHeight() + "px");
-    Window.addWindowResizeListener(new WindowResizeListener() {
-      public void onWindowResized(final int width, final int height) {
-        body.setHeight(height + "px");
-      }
-    });
-
     JsonUtil.addRpcStatusListener(new RpcStatus(topMenu));
     SYSTEM_SVC.loadGerritConfig(new GerritCallback<GerritConfig>() {
       public void onSuccess(final GerritConfig result) {
@@ -214,6 +209,20 @@ public class Gerrit implements EntryPoint {
     for (final JavaScriptObject hook : historyHooks) {
       callHistoryHook(hook, url);
     }
+  }
+
+  private static void populateBottomMenu() {
+    final RootPanel btmmenu = RootPanel.get("gerrit_btmmenu");
+    final String vs;
+    if (GWT.isScript()) {
+      final GerritVersion v = GWT.create(GerritVersion.class);
+      vs = v.version();
+    } else {
+      vs = "dev";
+    }
+    final HTML version = new HTML(M.poweredBy(vs));
+    version.setStyleName("gerrit-version");
+    btmmenu.add(version);
   }
 
   private void onModuleLoad2() {

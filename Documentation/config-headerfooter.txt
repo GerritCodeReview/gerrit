@@ -19,9 +19,9 @@ other systems like bug tracking.
 
 * `$site_path/GerritSiteFooter.html`
 +
-HTML is inserted at the bottom of the page, below all other
-content.  If in the future Gerrit adds a version tag footer,
-this content would be just above that version tag.
+HTML is inserted at the bottom of the page, below all other content,
+but just above the footer rule and the "Powered by Gerrit Code
+Review (v....)" message shown at the extreme bottom.
 
 * `$site_path/GerritSite.css`
 +

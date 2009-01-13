@@ -1,10 +1,3 @@
-.gerrit_body {
-  font-size: 11pt;
-  padding-left: 5px;
-  padding-right: 5px;
-  width: 98%;
-}
-
 #gerrit_topmenu {
   font-size: 9pt;
   padding-top: 5px;
@@ -16,6 +9,27 @@
   clear: both;
   height: 5px;
   border-bottom: 1px solid #B0BDCC;
+}
+#gerrit_body {
+  font-size: 11pt;
+  padding-left: 5px;
+  padding-right: 5px;
+  width: 98%;
+}
+#gerrit_pagefooter {
+  clear: both;
+  margin-top: 15px;
+  padding-top: 2px;
+  margin-bottom: 15px;
+}
+#gerrit_btmmenu {
+	clear: both;
+}
+#gerrit_btmmenu .gerrit-version {
+  color: #a0adcc;
+  right: 0;
+  padding-right: 10px;
+  text-align: right;
 }
 
 

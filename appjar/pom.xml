@@ -278,6 +278,29 @@ limitations under the License.
           <encoding>UTF-8</encoding>
         </configuration>
       </plugin>
+
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>generate-version</id>
+            <phase>process-classes</phase>
+            <configuration>
+              <tasks>
+                <property name="s" location="${basedir}/src/main/java/"/>
+                <exec executable="git" outputproperty="v">
+                  <arg value="describe"/>
+                  <arg value="HEAD"/>
+                </exec>
+                <echo file="${s}/com/google/gerrit/client/GerritVersion.properties">version=${v}</echo>
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 

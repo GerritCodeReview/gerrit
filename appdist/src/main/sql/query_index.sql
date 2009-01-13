@@ -78,6 +78,10 @@ ON account_group_members (group_id);
 CREATE INDEX changes_byOwnerStatus
 ON changes (owner_account_id, open, last_updated_on DESC);
 
+--    covers:             submitted
+CREATE INDEX changes_submitted
+ON changes (dest_project_name, dest_branch_name, status, last_updated_on);
+
 
 -- *********************************************************************
 -- ChangeApprovalAccess

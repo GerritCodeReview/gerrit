@@ -529,7 +529,7 @@ class Receive extends AbstractGitCommand {
 
       } else if (a.getValue() > 0) {
         a.clear();
-        db.changeApprovals().update(Collections.singleton(a));
+        db.changeApprovals().update(Collections.singleton(a), txn);
       }
     }
     for (final ApprovalType t : Common.getGerritConfig().getApprovalTypes()) {
@@ -538,14 +538,14 @@ class Receive extends AbstractGitCommand {
         db.changeApprovals().insert(
             Collections.singleton(new ChangeApproval(new ChangeApproval.Key(
                 change.getId(), userAccount.getId(), v.getCategoryId()), v
-                .getValue())));
+                .getValue())), txn);
       }
     }
 
     change.setStatus(Change.Status.NEW);
     change.setCurrentPatchSet(imp.getPatchSetInfo());
     change.updated();
-    db.changes().update(Collections.singleton(change));
+    db.changes().update(Collections.singleton(change), txn);
     txn.commit();
 
     final RefUpdate ru = repo.updateRef(ps.getRefName());

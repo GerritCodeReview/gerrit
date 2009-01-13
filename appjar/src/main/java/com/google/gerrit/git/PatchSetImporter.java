@@ -126,12 +126,12 @@ public class PatchSetImporter {
       txn = db.beginTransaction();
     }
     if (isNew) {
-      db.patchSets().insert(Collections.singleton(dst));
+      db.patchSets().insert(Collections.singleton(dst), txn);
     }
     if (infoIsNew) {
-      db.patchSetInfo().insert(Collections.singleton(info));
+      db.patchSetInfo().insert(Collections.singleton(info), txn);
     } else {
-      db.patchSetInfo().update(Collections.singleton(info));
+      db.patchSetInfo().update(Collections.singleton(info), txn);
     }
     db.patches().insert(patchInsert, txn);
     db.patchSetAncestors().insert(ancestorInsert, txn);

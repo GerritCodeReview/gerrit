@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.reviewdb;
 
+import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.Relation;
 import com.google.gwtorm.client.Schema;
 import com.google.gwtorm.client.Sequence;
@@ -94,28 +95,28 @@ public interface ReviewDb extends Schema {
 
   /** Create the next unique id for an {@link Account}. */
   @Sequence(startWith = 1000000)
-  int nextAccountId();
+  int nextAccountId() throws OrmException;
 
   /** Create the next unique id for a {@link ContributorAgreement}. */
   @Sequence
-  int nextContributorAgreementId();
+  int nextContributorAgreementId() throws OrmException;
 
   /** Next unique id for a {@link AccountGroup}. */
   @Sequence
-  int nextAccountGroupId();
+  int nextAccountGroupId() throws OrmException;
 
   /** Next unique id for a {@link Project}. */
   @Sequence
-  int nextProjectId();
+  int nextProjectId() throws OrmException;
 
   /** Next unique id for a {@link Branch}. */
   @Sequence
-  int nextBranchId();
+  int nextBranchId() throws OrmException;
 
   /** Next unique id for a {@link Change}. */
   @Sequence
-  int nextChangeId();
+  int nextChangeId() throws OrmException;
 
   @Sequence
-  int nextChangeMessageId();
+  int nextChangeMessageId() throws OrmException;
 }

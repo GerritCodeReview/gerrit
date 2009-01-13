@@ -27,6 +27,7 @@ import com.google.gerrit.client.rpc.BaseServiceImplementation;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gerrit.client.workflow.FunctionState;
+import com.google.gerrit.git.MergeQueue;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
@@ -126,6 +127,10 @@ public class ChangeManageServiceImpl extends BaseServiceImplementation
           db.changeApprovals().update(Collections.singleton(myAction), txn);
         }
         txn.commit();
+
+        if (change.getStatus() == Change.Status.SUBMITTED) {
+          MergeQueue.merge(change.getDest());
+        }
 
         return VoidResult.INSTANCE;
       }

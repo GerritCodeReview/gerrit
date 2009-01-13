@@ -16,6 +16,7 @@ package com.google.gerrit.server;
 
 import com.google.gerrit.client.rpc.NotSignedInException;
 import com.google.gerrit.client.rpc.SignInRequired;
+import com.google.gerrit.git.MergeQueue;
 import com.google.gwtjsonrpc.server.JsonServlet;
 import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.gwtjsonrpc.server.XsrfException;
@@ -48,6 +49,12 @@ public abstract class GerritJsonServlet extends JsonServlet<GerritCall> {
     } catch (XsrfException e) {
       throw new ServletException("Cannot configure GerritServer", e);
     }
+  }
+
+  @Override
+  public void destroy() {
+    MergeQueue.terminate();
+    super.destroy();
   }
 
   @Override

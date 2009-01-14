@@ -75,13 +75,24 @@ public abstract class GerritJsonServlet extends JsonServlet<GerritCall> {
   @Override
   protected void preInvoke(final GerritCall call) {
     super.preInvoke(call);
-    if (!call.isComplete()
-        && call.getMethod().getAnnotation(SignInRequired.class) != null
-        && call.getAccountId() == null) {
-      // If SignInRequired exists on the method and we don't have an
-      // account id in the request, we can't permit this call to finish.
+
+    if (call.isComplete()) {
+      return;
+    }
+
+    if (call.getMethod().getAnnotation(SignInRequired.class) != null) {
+      // If SignInRequired is set on this method we must have both a
+      // valid XSRF token *and* have the user signed in. Doing these
+      // checks also validates that they agree on the user identity.
       //
-      call.onFailure(new NotSignedInException());
+      if (!call.requireXsrfValid()) {
+        return;
+      }
+
+      if (call.getAccountId() == null) {
+        call.onFailure(new NotSignedInException());
+        return;
+      }
     }
   }
 

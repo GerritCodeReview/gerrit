@@ -30,6 +30,7 @@ import com.google.gerrit.client.reviewdb.ContributorAgreement;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.git.PatchSetImporter;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritServer;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.Transaction;
@@ -46,8 +47,6 @@ import org.spearce.jgit.transport.PreReceiveHook;
 import org.spearce.jgit.transport.ReceiveCommand;
 import org.spearce.jgit.transport.ReceivePack;
 import org.spearce.jgit.transport.ReceiveCommand.Result;
-import org.spearce.jgit.util.Base64;
-import org.spearce.jgit.util.NB;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -545,12 +544,9 @@ class Receive extends AbstractGitCommand {
       }
     }
 
-    final byte[] raw = new byte[4];
-    NB.encodeInt32(raw, 0, db.nextChangeMessageId());
-    final String uuid = Base64.encodeBytes(raw);
     final ChangeMessage m =
-        new ChangeMessage(new ChangeMessage.Key(change.getId(), uuid),
-            getAccountId());
+        new ChangeMessage(new ChangeMessage.Key(change.getId(), ChangeUtil
+            .messageUUID(db)), getAccountId());
     m.setMessage("Uploaded patch set " + ps.getPatchSetId() + ".");
     db.changeMessages().insert(Collections.singleton(m), txn);
 

@@ -18,31 +18,8 @@ import org.spearce.jgit.lib.Repository;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Random;
 
 public class GitMetaUtil {
-  private static final int SLEEP_MIN = 100; // milliseconds
-  private static final int SLEEP_MAX = 2 * 60 * 1000; // milliseconds
-  private static final ThreadLocal<Random> SLEEP_RNG =
-      new ThreadLocal<Random>() {
-        @Override
-        protected Random initialValue() {
-          return new Random();
-        }
-      };
-
-  private static int waitTime() {
-    return SLEEP_MIN + SLEEP_RNG.get().nextInt(SLEEP_MAX - SLEEP_MIN);
-  }
-
-  public static void randomSleep() {
-    try {
-      Thread.sleep(waitTime());
-    } catch (InterruptedException ie) {
-      // Just let the thread continue anyway.
-    }
-  }
-
   public static boolean isGitRepository(final File gitdir) {
     return new File(gitdir, "config").isFile()
         && new File(gitdir, "HEAD").isFile()

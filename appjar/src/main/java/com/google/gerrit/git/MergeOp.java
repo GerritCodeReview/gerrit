@@ -20,6 +20,7 @@ import com.google.gerrit.client.reviewdb.ChangeMessage;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritServer;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.Transaction;
@@ -39,8 +40,6 @@ import org.spearce.jgit.merge.Merger;
 import org.spearce.jgit.revwalk.RevCommit;
 import org.spearce.jgit.revwalk.RevSort;
 import org.spearce.jgit.revwalk.RevWalk;
-import org.spearce.jgit.util.Base64;
-import org.spearce.jgit.util.NB;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -442,9 +441,12 @@ public class MergeOp {
   }
 
   private ChangeMessage message(final Change c, final String body) {
-    final byte[] raw = new byte[4];
-    NB.encodeInt32(raw, 0, schema.nextChangeMessageId());
-    final String uuid = Base64.encodeBytes(raw);
+    final String uuid;
+    try {
+      uuid = ChangeUtil.messageUUID(schema);
+    } catch (OrmException e) {
+      return null;
+    }
     final ChangeMessage m =
         new ChangeMessage(new ChangeMessage.Key(c.getId(), uuid), null);
     m.setMessage(body);
@@ -486,7 +488,9 @@ public class MergeOp {
       try {
         final Transaction txn = schema.beginTransaction();
         schema.changes().update(Collections.singleton(c), txn);
-        schema.changeMessages().insert(Collections.singleton(msg), txn);
+        if (msg != null) {
+          schema.changeMessages().insert(Collections.singleton(msg), txn);
+        }
         txn.commit();
         break;
       } catch (OrmException e) {

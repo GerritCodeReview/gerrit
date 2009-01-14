@@ -14,7 +14,6 @@
 
 package com.google.gerrit.client.account;
 
-import com.google.gerrit.client.reviewdb.Account;
 
 /** Result from a sign-in attempt via the LoginServlet. */
 public class SignInResult {
@@ -24,32 +23,28 @@ public class SignInResult {
     CANCEL,
 
     /** The sign-in was successful and we have the account data */
-    SUCCESS,
+    @SuppressWarnings("hiding")
+    SUCCESS;
   }
 
   /** Singleton representing {@link Status#CANCEL}. */
-  public static final SignInResult CANCEL =
-      new SignInResult(Status.CANCEL, null);
+  public static final SignInResult CANCEL = new SignInResult(Status.CANCEL);
+
+  /** Singleton representing {@link Status#CANCEL}. */
+  public static final SignInResult SUCCESS = new SignInResult(Status.SUCCESS);
 
   protected Status status;
-  protected Account account;
 
   protected SignInResult() {
   }
 
   /** Create a new result. */
-  public SignInResult(final Status s, final Account a) {
+  public SignInResult(final Status s) {
     status = s;
-    account = a;
   }
 
   /** The status of the login attempt */
   public Status getStatus() {
     return status;
-  }
-
-  /** The account data; only if {@link #getStatus()} is {@link Status#SUCCESS} */
-  public Account getAccount() {
-    return account;
   }
 }

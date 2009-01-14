@@ -17,6 +17,7 @@ package com.google.gerrit.client;
 import com.google.gerrit.client.account.SignInResult;
 import com.google.gerrit.client.account.SignInResult.Status;
 import com.google.gerrit.client.openid.OpenIdLoginPanel;
+import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AutoCenterDialogBox;
@@ -56,6 +57,7 @@ public class SignInDialog extends AutoCenterDialogBox {
 
   private static SignInDialog current;
 
+  private final Mode mode;
   private final CallbackHandle<SignInResult> signInCallback;
   private final AsyncCallback<?> appCallback;
   private Widget panel;
@@ -80,6 +82,7 @@ public class SignInDialog extends AutoCenterDialogBox {
   public SignInDialog(final Mode signInMode, final AsyncCallback<?> callback) {
     super(/* auto hide */true, /* modal */true);
 
+    mode = signInMode;
     signInCallback =
         com.google.gerrit.client.account.Util.LOGIN_SVC
             .signIn(new GerritCallback<SignInResult>() {
@@ -164,15 +167,38 @@ public class SignInDialog extends AutoCenterDialogBox {
   }
 
   private void onSuccess(final SignInResult result) {
-    Gerrit.postSignIn(result.getAccount());
-    hide();
     final AsyncCallback<?> ac = appCallback;
-    if (ac != null) {
-      DeferredCommand.addCommand(new Command() {
-        public void execute() {
-          ac.onSuccess(null);
+    switch (mode) {
+      default:
+      case LINK_IDENTIY:
+        hide();
+        if (ac != null) {
+          DeferredCommand.addCommand(new Command() {
+            public void execute() {
+              ac.onSuccess(null);
+            }
+          });
         }
-      });
+        break;
+
+      case SIGN_IN:
+        com.google.gerrit.client.account.Util.ACCOUNT_SVC
+            .myAccount(new GerritCallback<Account>() {
+              public void onSuccess(final Account result) {
+                Gerrit.postSignIn(result);
+                hide();
+                if (ac != null) {
+                  ac.onSuccess(null);
+                }
+              }
+
+              @Override
+              public void onFailure(final Throwable caught) {
+                hide();
+                super.onFailure(caught);
+              }
+            });
+        break;
     }
   }
 }

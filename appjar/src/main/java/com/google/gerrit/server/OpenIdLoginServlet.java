@@ -489,12 +489,6 @@ public class OpenIdLoginServlet extends HttpServlet {
       return;
     }
 
-    final Account account = Common.getAccountCache().get(id);
-    if (account == null) {
-      callback(req, rsp, SignInResult.CANCEL);
-      return;
-    }
-
     final String act = getCookie(req, Gerrit.ACCOUNT_COOKIE);
     if (isCheck && !exp.equals(act)) {
       // Cookie won't set without "user interaction" (thanks Safari). Lets
@@ -518,7 +512,7 @@ public class OpenIdLoginServlet extends HttpServlet {
       c.setMaxAge(0);
       rsp.addCookie(c);
     }
-    callback(req, rsp, new SignInResult(SignInResult.Status.SUCCESS, account));
+    callback(req, rsp, new SignInResult(SignInResult.Status.SUCCESS));
   }
 
   private void sendSetCookieHtml(final HttpServletRequest req,

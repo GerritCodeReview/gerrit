@@ -22,6 +22,7 @@ import com.google.gerrit.client.reviewdb.PatchSetInfo;
 import com.google.gerrit.client.reviewdb.RevId;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.UserIdentity;
+import com.google.gwtorm.client.OrmDuplicateKeyException;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.Transaction;
 
@@ -49,7 +50,6 @@ import java.util.Map;
 
 /** Imports a {@link PatchSet} from a {@link Commit}. */
 public class PatchSetImporter {
-  private static final int MAX_TRIES = 10;
   private final ReviewDb db;
   private final Repository repo;
   private final RevCommit src;
@@ -242,30 +242,16 @@ public class PatchSetImporter {
   }
 
   private void putPatchContent() throws OrmException {
-    OrmException contentPutError = null;
-    for (int attempts = 0; !content.isEmpty() && ++attempts < MAX_TRIES;) {
-      for (final PatchContent pc : db.patchContents().get(content.keySet())) {
-        content.remove(pc.getKey());
+    for (final Iterator<Map.Entry<PatchContent.Key, String>> i =
+        content.entrySet().iterator(); i.hasNext();) {
+      final Map.Entry<PatchContent.Key, String> e = i.next();
+      final PatchContent pc = new PatchContent(e.getKey(), e.getValue());
+      try {
+        db.patchContents().insert(Collections.singleton(pc));
+      } catch (OrmDuplicateKeyException err) {
+        // Should be fine; someone else beat us to the insertion.
       }
-
-      for (final Iterator<Map.Entry<PatchContent.Key, String>> i =
-          content.entrySet().iterator(); i.hasNext();) {
-        final Map.Entry<PatchContent.Key, String> e = i.next();
-        final PatchContent pc = new PatchContent(e.getKey(), e.getValue());
-        try {
-          db.patchContents().insert(Collections.singleton(pc));
-          i.remove();
-        } catch (OrmException err) {
-          contentPutError = err;
-        }
-      }
-
-      if (!content.isEmpty()) {
-        GitMetaUtil.randomSleep();
-      }
-    }
-    if (!content.isEmpty() && contentPutError != null) {
-      throw contentPutError;
+      i.remove();
     }
   }
 

@@ -22,7 +22,7 @@ import com.google.gerrit.client.data.AccountInfoCache;
 import com.google.gerrit.client.reviewdb.Account;
 
 /** Link to any user's account dashboard. */
-public class AccountDashboardLink extends DirectScreenLink { 
+public class AccountDashboardLink extends DirectScreenLink {
   /** Create a link after locating account details from an active cache. */
   public static AccountDashboardLink link(final AccountInfoCache cache,
       final Account.Id id) {
@@ -39,6 +39,7 @@ public class AccountDashboardLink extends DirectScreenLink {
   public AccountDashboardLink(final String text, final AccountInfo ai) {
     super(text, Link.toAccountDashboard(ai));
     addStyleName("gerrit-AccountName");
+    setTitle(FormatUtil.nameEmail(ai));
     account = ai;
   }
 

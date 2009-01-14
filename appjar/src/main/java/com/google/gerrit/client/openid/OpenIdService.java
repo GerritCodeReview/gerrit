@@ -15,12 +15,10 @@
 package com.google.gerrit.client.openid;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwtjsonrpc.client.AllowCrossSiteRequest;
 import com.google.gwtjsonrpc.client.CallbackHandle;
 import com.google.gwtjsonrpc.client.RemoteJsonService;
 
 public interface OpenIdService extends RemoteJsonService {
-  @AllowCrossSiteRequest
   CallbackHandle<DiscoveryResult> discover(
       AsyncCallback<DiscoveryResult> callback);
 }

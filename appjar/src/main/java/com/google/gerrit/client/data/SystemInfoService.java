@@ -29,6 +29,5 @@ public interface SystemInfoService extends RemoteJsonService {
   void loadGerritConfig(AsyncCallback<GerritConfig> callback);
 
   @SignInRequired
-  @AllowCrossSiteRequest
   void contributorAgreements(AsyncCallback<List<ContributorAgreement>> callback);
 }

@@ -18,21 +18,17 @@ import com.google.gerrit.client.data.AccountInfo;
 import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwtjsonrpc.client.AllowCrossSiteRequest;
 import com.google.gwtjsonrpc.client.RemoteJsonService;
 
 import java.util.List;
 
 public interface SuggestService extends RemoteJsonService {
-  @AllowCrossSiteRequest
   void suggestProjectNameKey(String query, int limit,
       AsyncCallback<List<Project.NameKey>> callback);
 
-  @AllowCrossSiteRequest
   void suggestAccount(String query, int limit,
       AsyncCallback<List<AccountInfo>> callback);
 
-  @AllowCrossSiteRequest
   void suggestAccountGroup(String query, int limit,
       AsyncCallback<List<AccountGroup>> callback);
 }

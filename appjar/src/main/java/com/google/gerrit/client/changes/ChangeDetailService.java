@@ -19,13 +19,10 @@ import com.google.gerrit.client.data.PatchSetDetail;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwtjsonrpc.client.AllowCrossSiteRequest;
 import com.google.gwtjsonrpc.client.RemoteJsonService;
 
 public interface ChangeDetailService extends RemoteJsonService {
-  @AllowCrossSiteRequest
   void changeDetail(Change.Id id, AsyncCallback<ChangeDetail> callback);
 
-  @AllowCrossSiteRequest
   void patchSetDetail(PatchSet.Id key, AsyncCallback<PatchSetDetail> callback);
 }

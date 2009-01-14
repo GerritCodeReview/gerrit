@@ -18,15 +18,12 @@ import com.google.gerrit.client.data.SideBySidePatchDetail;
 import com.google.gerrit.client.data.UnifiedPatchDetail;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwtjsonrpc.client.AllowCrossSiteRequest;
 import com.google.gwtjsonrpc.client.RemoteJsonService;
 
 public interface PatchDetailService extends RemoteJsonService {
-  @AllowCrossSiteRequest
   void sideBySidePatchDetail(Patch.Key key,
       AsyncCallback<SideBySidePatchDetail> callback);
 
-  @AllowCrossSiteRequest
   void unifiedPatchDetail(Patch.Key key,
       AsyncCallback<UnifiedPatchDetail> callback);
 }

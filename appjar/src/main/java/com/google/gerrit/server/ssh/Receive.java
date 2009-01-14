@@ -28,11 +28,13 @@ import com.google.gerrit.client.reviewdb.ChangeMessage;
 import com.google.gerrit.client.reviewdb.ContactInformation;
 import com.google.gerrit.client.reviewdb.ContributorAgreement;
 import com.google.gerrit.client.reviewdb.PatchSet;
+import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.git.PatchSetImporter;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritServer;
 import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.OrmRunnable;
 import com.google.gwtorm.client.Transaction;
 
 import org.spearce.jgit.lib.Constants;
@@ -495,71 +497,101 @@ class Receive extends AbstractGitCommand {
     for (Map.Entry<Change.Id, ReceiveCommand> e : addByChange.entrySet()) {
       final ReceiveCommand cmd = e.getValue();
       final Change.Id changeId = e.getKey();
-      final Change change = changeCache.get(changeId);
       try {
-        appendPatchSet(change, cmd);
-
-        if (cmd.getResult() == ReceiveCommand.Result.NOT_ATTEMPTED) {
-          cmd.setResult(ReceiveCommand.Result.OK);
-        }
+        appendPatchSet(changeId, cmd);
       } catch (IOException err) {
         reject(cmd, "diff error");
       } catch (OrmException err) {
         reject(cmd, "database error");
       }
+      if (cmd.getResult() == ReceiveCommand.Result.NOT_ATTEMPTED) {
+        reject(cmd, "internal error");
+      }
     }
   }
 
-  private void appendPatchSet(final Change change, final ReceiveCommand cmd)
+  private void appendPatchSet(final Change.Id changeId, final ReceiveCommand cmd)
       throws IOException, OrmException {
     final RevCommit c = rp.getRevWalk().parseCommit(cmd.getNewId());
     if (!validCommitter(cmd, c)) {
       return;
     }
-    final Transaction txn = db.beginTransaction();
-    final PatchSet ps = new PatchSet(change.newPatchSetId());
-    final PatchSetImporter imp = new PatchSetImporter(db, repo, c, ps, true);
-    imp.setTransaction(txn);
-    imp.run();
 
-    final Set<ApprovalCategory.Id> have = new HashSet<ApprovalCategory.Id>();
-    for (final ChangeApproval a : db.changeApprovals().byChange(change.getId())) {
-      if (userAccount.getId().equals(a.getAccountId())) {
-        // Leave my own approvals alone.
-        //
-        have.add(a.getCategoryId());
+    final Account.Id me = userAccount.getId();
+    final PatchSet ps = db.run(new OrmRunnable<PatchSet, ReviewDb>() {
+      public PatchSet run(final ReviewDb db, final Transaction txn,
+          final boolean isRetry) throws OrmException {
+        final Change change;
+        if (isRetry) {
+          change = db.changes().get(changeId);
+          if (change == null) {
+            reject(cmd, "change " + changeId.get() + " not found");
+            return null;
+          }
+          if (change.getStatus().isClosed()) {
+            reject(cmd, "change " + changeId.get() + " closed");
+            return null;
+          }
+        } else {
+          change = changeCache.get(changeId);
+        }
 
-      } else if (a.getValue() > 0) {
-        a.clear();
-        db.changeApprovals().update(Collections.singleton(a), txn);
+        final PatchSet ps = new PatchSet(change.newPatchSetId());
+        PatchSetImporter imp = new PatchSetImporter(db, repo, c, ps, true);
+        imp.setTransaction(txn);
+        try {
+          imp.run();
+        } catch (IOException e) {
+          throw new OrmException(e);
+        }
+
+        Set<ApprovalCategory.Id> have = new HashSet<ApprovalCategory.Id>();
+        for (ChangeApproval a : db.changeApprovals().byChange(change.getId())) {
+          if (me.equals(a.getAccountId())) {
+            // Leave my own approvals alone.
+            //
+            have.add(a.getCategoryId());
+
+          } else if (a.getValue() > 0) {
+            a.clear();
+            db.changeApprovals().update(Collections.singleton(a), txn);
+          }
+        }
+        for (final ApprovalType t : Common.getGerritConfig().getApprovalTypes()) {
+          final ApprovalCategoryValue max = t.getMax();
+          final ApprovalCategory.Id catId = t.getCategory().getId();
+          if (!have.contains(catId) && max != null) {
+            // Insert any approval I haven't earlier recorded, using the
+            // absolute maximum value, ignoring permissions. It truncates
+            // at display time and when the issue is closed.
+            //
+            db.changeApprovals().insert(
+                Collections.singleton(new ChangeApproval(
+                    new ChangeApproval.Key(change.getId(), me, catId), max
+                        .getValue())), txn);
+          }
+        }
+
+        final ChangeMessage msg =
+            new ChangeMessage(new ChangeMessage.Key(change.getId(), ChangeUtil
+                .messageUUID(db)), me);
+        msg.setMessage("Uploaded patch set " + ps.getPatchSetId() + ".");
+        db.changeMessages().insert(Collections.singleton(msg), txn);
+
+        change.setStatus(Change.Status.NEW);
+        change.setCurrentPatchSet(imp.getPatchSetInfo());
+        change.updated();
+        db.changes().update(Collections.singleton(change), txn);
+        return ps;
       }
+    });
+    if (ps != null) {
+      final RefUpdate ru = repo.updateRef(ps.getRefName());
+      ru.setForceUpdate(true);
+      ru.setNewObjectId(c);
+      ru.update(rp.getRevWalk());
+      cmd.setResult(ReceiveCommand.Result.OK);
     }
-    for (final ApprovalType t : Common.getGerritConfig().getApprovalTypes()) {
-      final ApprovalCategoryValue v = t.getMax();
-      if (!have.contains(t.getCategory().getId()) && v != null) {
-        db.changeApprovals().insert(
-            Collections.singleton(new ChangeApproval(new ChangeApproval.Key(
-                change.getId(), userAccount.getId(), v.getCategoryId()), v
-                .getValue())), txn);
-      }
-    }
-
-    final ChangeMessage m =
-        new ChangeMessage(new ChangeMessage.Key(change.getId(), ChangeUtil
-            .messageUUID(db)), getAccountId());
-    m.setMessage("Uploaded patch set " + ps.getPatchSetId() + ".");
-    db.changeMessages().insert(Collections.singleton(m), txn);
-
-    change.setStatus(Change.Status.NEW);
-    change.setCurrentPatchSet(imp.getPatchSetInfo());
-    change.updated();
-    db.changes().update(Collections.singleton(change), txn);
-    txn.commit();
-
-    final RefUpdate ru = repo.updateRef(ps.getRefName());
-    ru.setForceUpdate(true);
-    ru.setNewObjectId(c);
-    ru.update(rp.getRevWalk());
   }
 
   private boolean validCommitter(final ReceiveCommand cmd, final RevCommit c) {

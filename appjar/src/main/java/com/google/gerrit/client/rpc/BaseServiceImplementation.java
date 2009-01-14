@@ -52,7 +52,18 @@ public class BaseServiceImplementation {
         callback.onSuccess(r);
       }
     } catch (OrmException e) {
-      callback.onFailure(e);
+      if (e.getCause() instanceof Failure) {
+        callback.onFailure(e.getCause().getCause());
+
+      } else if (e.getCause() instanceof CorruptEntityException) {
+        callback.onFailure(e.getCause());
+
+      } else if (e.getCause() instanceof NoSuchEntityException) {
+        callback.onFailure(e.getCause());
+
+      } else {
+        callback.onFailure(e);
+      }
     } catch (Failure e) {
       callback.onFailure(e.getCause());
     }

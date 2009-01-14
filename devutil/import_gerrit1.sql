@@ -51,7 +51,7 @@ INSERT INTO account_external_ids
  external_id,
  email_address) SELECT
  l.account_id,
- 'https://www.google.com/accounts/o8/id',
+ 'Google Account ' || a.user_email,
  a.user_email
  FROM gerrit1.accounts a, accounts l
  WHERE l.preferred_email = a.user_email;

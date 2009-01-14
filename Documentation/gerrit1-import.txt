@@ -133,11 +133,11 @@ once the following query drops to 0, or close to 0:
 
 ====
   SELECT COUNT(*) FROM account_external_ids e
-  WHERE e.external_id = 'https://www.google.com/accounts/o8/id'
+  WHERE e.external_id LIKE 'Google Account %'
   AND NOT EXISTS (SELECT 1
     FROM account_external_ids o
     WHERE o.account_id = e.account_id
-	AND o.external_id LIKE '%/id?id=%');
+	AND o.external_id LIKE '%.google.com%/id?id=%');
 ====
 
 the above query lists all users who have not yet converted their

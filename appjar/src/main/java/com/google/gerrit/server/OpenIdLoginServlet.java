@@ -458,11 +458,11 @@ public class OpenIdLoginServlet extends HttpServlet {
     // unique OpenID tokens per server.
     //
     // Match to an existing account only if there is exactly one record
-    // for this email using the generic Google URL.
+    // for this email using the generic Google identity.
     //
     final List<AccountExternalId> m = new ArrayList<AccountExternalId>();
     for (final AccountExternalId e : extAccess.byEmailAddress(email)) {
-      if (e.getExternalId().equals(OpenIdUtil.URL_GOOGLE)) {
+      if (e.getExternalId().equals("Google Account " + email)) {
         m.add(e);
       }
     }

@@ -56,5 +56,6 @@ public class PatchSideBySideScreen extends PatchScreen {
   private void display(final SideBySidePatchDetail detail) {
     sbsTable.setAccountInfoCache(detail.getAccounts());
     sbsTable.display(detail);
+    sbsTable.finishDisplay(true);
   }
 }

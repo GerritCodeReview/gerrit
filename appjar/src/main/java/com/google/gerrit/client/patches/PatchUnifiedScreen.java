@@ -53,5 +53,6 @@ public class PatchUnifiedScreen extends PatchScreen {
     diffTable.setPatchKey(detail.getPatch().getKey());
     diffTable.setAccountInfoCache(detail.getAccounts());
     diffTable.display(detail.getLines());
+    diffTable.finishDisplay(true);
   }
 }

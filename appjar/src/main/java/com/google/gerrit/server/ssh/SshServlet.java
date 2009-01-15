@@ -84,7 +84,7 @@ public class SshServlet extends HttpServlet {
       sshd.start();
     } catch (IOException e) {
       sshd = null;
-      throw new ServletException("Cannot start sshd on " + sshd.getPort(), e);
+      throw new ServletException("Cannot start sshd on " + myPort, e);
     }
   }
 

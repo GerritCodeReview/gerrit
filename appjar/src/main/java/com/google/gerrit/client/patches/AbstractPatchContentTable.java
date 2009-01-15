@@ -58,17 +58,22 @@ public abstract class AbstractPatchContentTable extends FancyFlexTable<Object> {
   /** Invoked when the user clicks on a table cell. */
   protected abstract void onCellDoubleClick(int row, int column);
 
-  protected PatchLineComment newComment(final int line, final short side) {
-    final PatchLineComment r =
-        new PatchLineComment(new PatchLineComment.Key(patchKey, "blargh"), line,
-            Gerrit.getUserAccount().getId());
-    r.setSide(side);
-    r.setMessage("");
-    return r;
-  }
-
-  protected void createCommentEditor(final int row, final int column,
+  protected void createCommentEditor(int suggestRow, final int column,
       final int line, final short side) {
+    while (getRowItem(suggestRow) instanceof CommentList) {
+      // Skip over any current comment panels, so we add onto the end.
+      //
+      suggestRow++;
+    }
+    if (table.getWidget(suggestRow, column) instanceof CommentEditorPanel) {
+      // Don't insert two editors on the same position, it doesn't make
+      // any sense to the user.
+      //
+      ((CommentEditorPanel) table.getWidget(suggestRow, column)).setFocus(true);
+      return;
+    }
+
+    final int row = suggestRow;
     if (!Gerrit.isSignedIn()) {
       Gerrit.doSignIn(new AsyncCallback<VoidResult>() {
         public void onSuccess(final VoidResult result) {
@@ -81,21 +86,26 @@ public abstract class AbstractPatchContentTable extends FancyFlexTable<Object> {
       return;
     }
 
-    final PatchLineComment newComment = newComment(line, side);
+    final PatchLineComment newComment =
+        new PatchLineComment(new PatchLineComment.Key(patchKey, null), line,
+            Gerrit.getUserAccount().getId());
+    newComment.setSide(side);
+    newComment.setMessage("");
+
+    final CommentEditorPanel ed = new CommentEditorPanel(newComment);
     table.insertRow(row);
-    table.setWidget(row, column, new CommentEditorPanel(newComment) {
-      @Override
-      void onCancel() {
-        final int n = table.getRowCount();
-        for (int i = 0; i < n; i++) {
-          if (column < table.getCellCount(i)
-              && table.getWidget(i, column) == this) {
-            table.removeRow(i);
-            break;
-          }
-        }
+    table.setWidget(row, column, ed);
+
+    for (int r = row - 1; r > 0; r--) {
+      if (getRowItem(r) instanceof CommentList) {
+        continue;
+      } else if (getRowItem(r) != null) {
+        movePointerTo(r);
+        break;
       }
-    });
+    }
+
+    ed.setFocus(true);
   }
 
   @Override
@@ -118,6 +128,11 @@ public abstract class AbstractPatchContentTable extends FancyFlexTable<Object> {
 
   protected void bindComment(final int row, final int col,
       final PatchLineComment line, final boolean isLast) {
+    if (line.getStatus() == PatchLineComment.Status.DRAFT) {
+      table.setWidget(row, col, new CommentEditorPanel(line));
+      return;
+    }
+
     final LineCommentPanel mp = new LineCommentPanel(line);
     String panelHeader;
     final ComplexDisclosurePanel panel;
@@ -139,11 +154,6 @@ public abstract class AbstractPatchContentTable extends FancyFlexTable<Object> {
     panel.getHeader().add(
         new InlineLabel(Util.M.messageWrittenOn(FormatUtil.mediumFormat(line
             .getWrittenOn()))));
-    if (line.getStatus() == PatchLineComment.Status.DRAFT) {
-      final InlineLabel d = new InlineLabel(PatchUtil.C.draft());
-      d.setStyleName("CommentIsDraftFlag");
-      panel.getHeader().add(d);
-    }
     panel.setContent(mp);
     table.setWidget(row, col, panel);
 
@@ -167,12 +177,27 @@ public abstract class AbstractPatchContentTable extends FancyFlexTable<Object> {
 
   protected class DoubleClickFlexTable extends MyFlexTable {
     public DoubleClickFlexTable() {
-      sinkEvents(Event.ONDBLCLICK);
+      sinkEvents(Event.ONDBLCLICK | Event.ONCLICK);
     }
 
     @Override
     public void onBrowserEvent(final Event event) {
       switch (DOM.eventGetType(event)) {
+        case Event.ONCLICK: {
+          // Find out which cell was actually clicked.
+          final Element td = getEventTargetCell(event);
+          if (td == null) {
+            break;
+          }
+          final Element tr = DOM.getParent(td);
+          final Element body = DOM.getParent(tr);
+          final int row = DOM.getChildIndex(body, tr);
+          if (getRowItem(row) != null) {
+            movePointerTo(row);
+            return;
+          }
+          break;
+        }
         case Event.ONDBLCLICK: {
           // Find out which cell was actually clicked.
           Element td = getEventTargetCell(event);
@@ -184,11 +209,10 @@ public abstract class AbstractPatchContentTable extends FancyFlexTable<Object> {
           int row = DOM.getChildIndex(body, tr);
           int column = DOM.getChildIndex(tr, td);
           onCellDoubleClick(row, column);
-          break;
+          return;
         }
-        default:
-          super.onBrowserEvent(event);
       }
+      super.onBrowserEvent(event);
     }
   }
 }

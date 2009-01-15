@@ -19,6 +19,10 @@ import com.google.gwt.i18n.client.Constants;
 public interface PatchConstants extends Constants {
   String draft();
 
+  String buttonSave();
+  String buttonDiscard();
+  String confirmDiscard();
+
   String patchHeaderOld();
   String patchHeaderNew();
 }

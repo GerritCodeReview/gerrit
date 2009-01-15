@@ -45,6 +45,21 @@ public class SideBySideTable extends AbstractPatchContentTable {
     }
   }
 
+  @Override
+  protected void onOpenItem(final Object item) {
+    if (item instanceof SideBySideLineList) {
+      final SideBySideLineList pl = (SideBySideLineList) item;
+      final short file = (short) (pl.lines.size() - 1);
+      final int row = getCurrentRow();
+      final int column = 1 + file * 2 + 1;
+      final SideBySideLine line = pl.lines.get(file);
+      createCommentEditor(row + 1, column, line.getLineNumber(), file);
+      return;
+    }
+
+    super.onOpenItem(item);
+  }
+
   public void display(final SideBySidePatchDetail detail) {
     setAccountInfoCache(detail.getAccounts());
     setPatchKey(detail.getPatch().getKey());

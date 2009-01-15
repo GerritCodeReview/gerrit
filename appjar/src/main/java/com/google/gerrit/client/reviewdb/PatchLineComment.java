@@ -116,8 +116,8 @@ public final class PatchLineComment {
     key = id;
     lineNbr = line;
     author = a;
-    writtenOn = new Timestamp(System.currentTimeMillis());
     setStatus(Status.DRAFT);
+    updated();
   }
 
   public PatchLineComment.Key getKey() {
@@ -158,5 +158,9 @@ public final class PatchLineComment {
 
   public void setMessage(final String s) {
     message = s;
+  }
+
+  public void updated() {
+    writtenOn = new Timestamp(System.currentTimeMillis());
   }
 }

@@ -17,8 +17,11 @@ package com.google.gerrit.client.patches;
 import com.google.gerrit.client.data.SideBySidePatchDetail;
 import com.google.gerrit.client.data.UnifiedPatchDetail;
 import com.google.gerrit.client.reviewdb.Patch;
+import com.google.gerrit.client.reviewdb.PatchLineComment;
+import com.google.gerrit.client.rpc.SignInRequired;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.RemoteJsonService;
+import com.google.gwtjsonrpc.client.VoidResult;
 
 public interface PatchDetailService extends RemoteJsonService {
   void sideBySidePatchDetail(Patch.Key key,
@@ -26,4 +29,11 @@ public interface PatchDetailService extends RemoteJsonService {
 
   void unifiedPatchDetail(Patch.Key key,
       AsyncCallback<UnifiedPatchDetail> callback);
+
+  @SignInRequired
+  void saveDraft(PatchLineComment comment,
+      AsyncCallback<PatchLineComment> callback);
+
+  @SignInRequired
+  void deleteDraft(PatchLineComment.Key key, AsyncCallback<VoidResult> callback);
 }

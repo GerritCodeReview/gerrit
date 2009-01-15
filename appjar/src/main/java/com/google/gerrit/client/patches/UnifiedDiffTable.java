@@ -57,6 +57,24 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
     super.onOpenItem(item);
   }
 
+  @Override
+  protected void bindDrafts(final List<PatchLineComment> drafts) {
+    int row = 0;
+    for (final PatchLineComment c : drafts) {
+      while (row < table.getRowCount()) {
+        if (getRowItem(row) instanceof PatchLine) {
+          final PatchLine pl = (PatchLine) getRowItem(row);
+          if (pl.getOldLineNumber() >= c.getLine()) {
+            break;
+          }
+        }
+        row++;
+      }
+      table.insertRow(row + 1);
+      bindComment(row + 1, 1, c, true);
+    }
+  }
+
   public void display(final List<PatchLine> list) {
     final StringBuilder nc = new StringBuilder();
     for (final PatchLine pLine : list) {

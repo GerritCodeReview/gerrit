@@ -16,10 +16,12 @@ package com.google.gerrit.client.patches;
 
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.SignedInListener;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.data.AccountInfoCache;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
+import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.ComplexDisclosurePanel;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gwt.user.client.DOM;
@@ -40,9 +42,56 @@ public abstract class AbstractPatchContentTable extends FancyFlexTable<Object> {
   protected Patch.Key patchKey;
   private final Timestamp aged =
       new Timestamp(System.currentTimeMillis() - AGE);
+  private final SignedInListener signedInListener = new SignedInListener() {
+    public void onSignIn() {
+      if (patchKey != null) {
+        PatchUtil.DETAIL_SVC.myDrafts(patchKey,
+            new GerritCallback<List<PatchLineComment>>() {
+              public void onSuccess(final List<PatchLineComment> result) {
+                if (!result.isEmpty()) {
+                  bindDrafts(result);
+                }
+              }
+            });
+      }
+    }
+
+    public void onSignOut() {
+      // TODO we should probably confirm with the user before sign out starts
+      // that its OK to sign out if any of our editors are unsaved.
+      // (bug GERRIT-16)
+      //
+      int nRows = table.getRowCount();
+      for (int row = 0; row < nRows;) {
+        final int nCells = table.getCellCount(row);
+        int inc = 1;
+        for (int cell = 0; cell < nCells; cell++) {
+          if (table.getWidget(row, cell) instanceof CommentEditorPanel) {
+            table.removeRow(row);
+            nRows--;
+            inc = 0;
+            break;
+          }
+        }
+        row += inc;
+      }
+    }
+  };
 
   protected AbstractPatchContentTable() {
     table.setStyleName("gerrit-PatchContentTable");
+  }
+
+  @Override
+  public void onLoad() {
+    super.onLoad();
+    Gerrit.addSignedInListener(signedInListener);
+  }
+
+  @Override
+  public void onUnload() {
+    Gerrit.removeSignedInListener(signedInListener);
+    super.onUnload();
   }
 
   @Override
@@ -57,6 +106,8 @@ public abstract class AbstractPatchContentTable extends FancyFlexTable<Object> {
 
   /** Invoked when the user clicks on a table cell. */
   protected abstract void onCellDoubleClick(int row, int column);
+
+  protected abstract void bindDrafts(List<PatchLineComment> drafts);
 
   protected void createCommentEditor(int suggestRow, final int column,
       final int line, final short side) {

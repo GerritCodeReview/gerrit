@@ -60,6 +60,25 @@ public class SideBySideTable extends AbstractPatchContentTable {
     super.onOpenItem(item);
   }
 
+  @Override
+  protected void bindDrafts(final List<PatchLineComment> drafts) {
+    int row = 0;
+    for (final PatchLineComment c : drafts) {
+      while (row < table.getRowCount()) {
+        if (getRowItem(row) instanceof SideBySideLineList) {
+          final SideBySideLineList pl = (SideBySideLineList) getRowItem(row);
+          final SideBySideLine line = pl.lines.get(c.getSide());
+          if (line != null && line.getLineNumber() >= c.getLine()) {
+            break;
+          }
+        }
+        row++;
+      }
+      table.insertRow(row + 1);
+      bindComment(row + 1, 1 + c.getSide() * 2 + 1, c, true);
+    }
+  }
+
   public void display(final SideBySidePatchDetail detail) {
     setAccountInfoCache(detail.getAccounts());
     setPatchKey(detail.getPatch().getKey());

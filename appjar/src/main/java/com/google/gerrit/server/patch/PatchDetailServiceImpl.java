@@ -33,6 +33,7 @@ import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
 
 import java.util.Collections;
+import java.util.List;
 
 public class PatchDetailServiceImpl extends BaseServiceImplementation implements
     PatchDetailService {
@@ -55,6 +56,15 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
   public void unifiedPatchDetail(final Patch.Key key,
       final AsyncCallback<UnifiedPatchDetail> callback) {
     run(callback, new UnifiedPatchDetailAction(key));
+  }
+
+  public void myDrafts(final Patch.Key key,
+      final AsyncCallback<List<PatchLineComment>> callback) {
+    run(callback, new Action<List<PatchLineComment>>() {
+      public List<PatchLineComment> run(ReviewDb db) throws OrmException {
+        return db.patchComments().draft(key, Common.getAccountId()).toList();
+      }
+    });
   }
 
   public void saveDraft(final PatchLineComment comment,

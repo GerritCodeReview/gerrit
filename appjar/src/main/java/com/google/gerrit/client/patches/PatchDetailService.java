@@ -23,12 +23,17 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.RemoteJsonService;
 import com.google.gwtjsonrpc.client.VoidResult;
 
+import java.util.List;
+
 public interface PatchDetailService extends RemoteJsonService {
   void sideBySidePatchDetail(Patch.Key key,
       AsyncCallback<SideBySidePatchDetail> callback);
 
   void unifiedPatchDetail(Patch.Key key,
       AsyncCallback<UnifiedPatchDetail> callback);
+
+  @SignInRequired
+  void myDrafts(Patch.Key key, AsyncCallback<List<PatchLineComment>> callback);
 
   @SignInRequired
   void saveDraft(PatchLineComment comment,

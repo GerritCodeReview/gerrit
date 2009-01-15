@@ -44,6 +44,7 @@ class CommentEditorPanel extends Composite implements ClickListener {
         DOM.eventCancelBubble(DOM.eventGetCurrentEvent(), true);
 
         if (kc == KEY_ESCAPE && mod == 0 && isNew()) {
+          DOM.eventPreventDefault(DOM.eventGetCurrentEvent());
           onDiscard();
           return;
         }
@@ -51,12 +52,14 @@ class CommentEditorPanel extends Composite implements ClickListener {
         if ((mod & MODIFIER_CTRL) == MODIFIER_CTRL) {
           switch (kc) {
             case 's':
+              DOM.eventPreventDefault(DOM.eventGetCurrentEvent());
               onSave();
               return;
 
             case 'd':
             case KEY_BACKSPACE:
             case KEY_DELETE:
+              DOM.eventPreventDefault(DOM.eventGetCurrentEvent());
               if (isNew()) {
                 onDiscard();
               } else if (Window.confirm(PatchUtil.C.confirmDiscard())) {

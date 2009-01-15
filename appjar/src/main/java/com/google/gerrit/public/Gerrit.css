@@ -264,6 +264,7 @@
 .gerrit-PatchContentTable .ActiveRow td.Comment {
   background: #ffffff;
 }
+.gerrit-PatchContentTable .ActiveRow td.IconCell,
 .gerrit-PatchContentTable .ActiveRow td.LineNumber,
 .gerrit-PatchContentTable .ActiveRow td.FileLine {
   border-top: 1px solid blue;

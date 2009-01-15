@@ -59,6 +59,10 @@ public interface AccountConstants extends Constants {
   String contactFieldPhone();
   String contactFieldFax();
   String buttonSaveContact();
+  String buttonOpenRegisterNewEmail();
+  String buttonSendRegisterNewEmail();
+  String titleRegisterNewEmail();
+  String descRegisterNewEmail();
 
   String newAgreement();
   String agreementStatus();

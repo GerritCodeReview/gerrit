@@ -89,6 +89,7 @@ public class GerritServer {
   private final PersonIdent gerritPersonIdentTemplate;
   private final SignedToken xsrf;
   private final SignedToken account;
+  private final SignedToken emailReg;
   private final RepositoryCache repositories;
   private final javax.mail.Session outgoingMail;
 
@@ -112,6 +113,7 @@ public class GerritServer {
         break;
     }
     account = new SignedToken(accountCookieAge, sConfig.accountPrivateKey);
+    emailReg = new SignedToken(5 * 24 * 60 * 60, sConfig.accountPrivateKey);
 
     if (sConfig.gitBasePath != null) {
       repositories = new RepositoryCache(new File(sConfig.gitBasePath));
@@ -129,7 +131,7 @@ public class GerritServer {
     }
     gerritPersonIdentTemplate = new PersonIdent(sConfig.gerritGitName, email);
     outgoingMail = createOutgoingMail();
-    
+
     Common.setSchemaFactory(db);
     Common.setProjectCache(new ProjectCache());
     Common.setAccountCache(new AccountCache());
@@ -397,6 +399,11 @@ public class GerritServer {
   /** Get the signature support used to protect user identity cookies. */
   public SignedToken getAccountToken() {
     return account;
+  }
+
+  /** Get the signature used for email registration/validation links. */
+  public SignedToken getEmailRegistrationToken() {
+    return emailReg;
   }
 
   public String getLoginHttpHeader() {

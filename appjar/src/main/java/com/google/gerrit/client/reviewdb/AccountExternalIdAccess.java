@@ -31,6 +31,10 @@ public interface AccountExternalIdAccess extends
   @Query("WHERE key.accountId = ?")
   ResultSet<AccountExternalId> byAccount(Account.Id id) throws OrmException;
 
+  @Query("WHERE key.accountId = ? AND emailAddress = ?")
+  ResultSet<AccountExternalId> byAccountEmail(Account.Id id, String email)
+      throws OrmException;
+
   @Query("WHERE emailAddress = ?")
   ResultSet<AccountExternalId> byEmailAddress(String email) throws OrmException;
 

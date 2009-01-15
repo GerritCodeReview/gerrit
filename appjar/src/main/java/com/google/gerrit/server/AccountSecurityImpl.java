@@ -28,18 +28,39 @@ import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gerrit.server.ssh.SshUtil;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
+import com.google.gwtjsonrpc.server.ValidToken;
+import com.google.gwtjsonrpc.server.XsrfException;
+import com.google.gwtorm.client.OrmDuplicateKeyException;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.Transaction;
 
+import org.spearce.jgit.lib.PersonIdent;
+import org.spearce.jgit.util.Base64;
+
+import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-public class AccountSecurityImpl extends BaseServiceImplementation implements
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
+
+class AccountSecurityImpl extends BaseServiceImplementation implements
     AccountSecurity {
+  private final GerritServer server;
+
+  AccountSecurityImpl(final GerritServer gs) {
+    server = gs;
+  }
+
   public void mySshKeys(final AsyncCallback<List<AccountSshKey>> callback) {
     run(callback, new Action<List<AccountSshKey>>() {
       public List<AccountSshKey> run(ReviewDb db) throws OrmException {
@@ -144,6 +165,129 @@ public class AccountSecurityImpl extends BaseServiceImplementation implements
           a.review(AccountAgreement.Status.VERIFIED, null);
         }
         db.accountAgreements().insert(Collections.singleton(a));
+        return VoidResult.INSTANCE;
+      }
+    });
+  }
+
+  public void registerEmail(final String address,
+      final AsyncCallback<VoidResult> cb) {
+    final PersonIdent gi = server.newGerritPersonIdent();
+    final HttpServletRequest req =
+        GerritJsonServlet.getCurrentCall().getHttpServletRequest();
+    final StringBuffer url = req.getRequestURL();
+    final StringBuilder m = new StringBuilder();
+
+    url.setLength(url.lastIndexOf("/")); // cut "AccountSecurity"
+    url.setLength(url.lastIndexOf("/")); // cut "rpc"
+    url.append("/Gerrit#VE,");
+
+    try {
+      url.append(server.getEmailRegistrationToken().newToken(
+          Base64.encodeBytes(address.getBytes("UTF-8"))));
+    } catch (XsrfException e) {
+      cb.onFailure(e);
+      return;
+    } catch (UnsupportedEncodingException e) {
+      cb.onFailure(e);
+      return;
+    }
+
+    m.append("Welcome to Gerrit Code Review at ");
+    m.append(req.getServerName());
+    m.append(".\n");
+
+    m.append("\n");
+    m.append("To add a verified email address to your user account, please\n");
+    m.append("click on the following link:\n");
+    m.append("\n");
+    m.append(url);
+    m.append("\n");
+
+    m.append("\n");
+    m.append("If you have received this mail in error,"
+        + " you do not need to take any\n");
+    m.append("action to cancel the account."
+        + " The account will not be activated, and\n");
+    m.append("you will not receive any further emails.\n");
+
+    m.append("\n");
+    m.append("If clicking the link above does not work,"
+        + " copy and paste the URL in a\n");
+    m.append("new browser window instead.\n");
+
+    m.append("\n");
+    m.append("This is a send-only email address."
+        + "  Replies to this message will not\n");
+    m.append("be read or answered.\n");
+
+    final javax.mail.Session out = server.getOutgoingMail();
+    if (out == null) {
+      cb.onFailure(new IllegalStateException("Outgoing mail is disabled"));
+      return;
+    }
+    try {
+      final MimeMessage msg = new MimeMessage(out);
+      msg.setFrom(new InternetAddress(gi.getEmailAddress(), gi.getName()));
+      msg.setRecipients(Message.RecipientType.TO, address);
+      msg.setSubject("[Gerrit Code Review] Email Verification");
+      msg.setSentDate(new Date());
+      msg.setText(m.toString());
+      Transport.send(msg);
+      cb.onSuccess(VoidResult.INSTANCE);
+    } catch (MessagingException e) {
+      cb.onFailure(e);
+    } catch (UnsupportedEncodingException e) {
+      cb.onFailure(e);
+    }
+  }
+
+  public void validateEmail(final String token,
+      final AsyncCallback<VoidResult> callback) {
+    final String address;
+    try {
+      final ValidToken t =
+          server.getEmailRegistrationToken().checkToken(token, null);
+      if (t == null || t.getData() == null || "".equals(t.getData())) {
+        callback.onFailure(new IllegalStateException("Invalid token"));
+        return;
+      }
+      address = new String(Base64.decode(t.getData()), "UTF-8");
+      if (!address.contains("@")) {
+        callback.onFailure(new IllegalStateException("Invalid token"));
+        return;
+      }
+    } catch (XsrfException e) {
+      callback.onFailure(e);
+      return;
+    } catch (UnsupportedEncodingException e) {
+      callback.onFailure(e);
+      return;
+    }
+
+    run(callback, new Action<VoidResult>() {
+      public VoidResult run(ReviewDb db) throws OrmException {
+        final Account.Id me = Common.getAccountId();
+        final List<AccountExternalId> exists =
+            db.accountExternalIds().byAccountEmail(me, address).toList();
+        if (!exists.isEmpty()) {
+          return VoidResult.INSTANCE;
+        }
+
+        try {
+          final AccountExternalId id =
+              new AccountExternalId(new AccountExternalId.Key(me, "mailto:"
+                  + address));
+          id.setEmailAddress(address);
+          db.accountExternalIds().insert(Collections.singleton(id));
+        } catch (OrmDuplicateKeyException e) {
+          // Ignore a duplicate registration
+        }
+
+        final Account a = db.accounts().get(me);
+        a.setPreferredEmail(address);
+        db.accounts().update(Collections.singleton(a));
+        Common.getAccountCache().invalidate(me);
         return VoidResult.INSTANCE;
       }
     });

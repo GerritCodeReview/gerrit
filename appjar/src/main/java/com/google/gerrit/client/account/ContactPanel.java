@@ -19,6 +19,7 @@ import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountExternalId;
 import com.google.gerrit.client.reviewdb.ContactInformation;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.ui.AutoCenterDialogBox;
 import com.google.gerrit.client.ui.TextSaveButtonListener;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.ui.Button;
@@ -26,10 +27,16 @@ import com.google.gwt.user.client.ui.ChangeListener;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.FormHandler;
+import com.google.gwt.user.client.ui.FormPanel;
+import com.google.gwt.user.client.ui.FormSubmitCompleteEvent;
+import com.google.gwt.user.client.ui.FormSubmitEvent;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwtjsonrpc.client.VoidResult;
@@ -51,6 +58,7 @@ class ContactPanel extends Composite {
 
   private TextBox nameTxt;
   private ListBox emailPick;
+  private Button registerNewEmail;
   private TextArea addressTxt;
   private TextBox countryTxt;
   private TextBox phoneTxt;
@@ -99,8 +107,19 @@ class ContactPanel extends Composite {
     info.addStyleName("gerrit-AccountInfoBlock");
     body.add(info);
 
+    registerNewEmail = new Button(Util.C.buttonOpenRegisterNewEmail());
+    registerNewEmail.setEnabled(false);
+    registerNewEmail.addClickListener(new ClickListener() {
+      public void onClick(final Widget sender) {
+        doRegisterNewEmail();
+      }
+    });
+    final FlowPanel emailLine = new FlowPanel();
+    emailLine.add(emailPick);
+    emailLine.add(registerNewEmail);
+
     row(0, Util.C.contactFieldFullName(), nameTxt);
-    row(1, Util.C.contactFieldEmail(), emailPick);
+    row(1, Util.C.contactFieldEmail(), emailLine);
     row(2, Util.C.contactFieldAddress(), addressTxt);
     row(3, Util.C.contactFieldCountry(), countryTxt);
     row(4, Util.C.contactFieldPhone(), phoneTxt);
@@ -124,7 +143,17 @@ class ContactPanel extends Composite {
     nameTxt.addKeyboardListener(sbl);
     emailPick.addChangeListener(new ChangeListener() {
       public void onChange(Widget sender) {
-        save.setEnabled(true);
+        final int idx = emailPick.getSelectedIndex();
+        final String v = 0 <= idx ? emailPick.getValue(idx) : null;
+        if (Util.C.buttonOpenRegisterNewEmail().equals(v)) {
+          for (int i = 0; i < emailPick.getItemCount(); i++) {
+            if (currentEmail.equals(emailPick.getValue(i))) {
+              emailPick.setSelectedIndex(i);
+              break;
+            }
+          }
+          doRegisterNewEmail();
+        }
       }
     });
     addressTxt.addKeyboardListener(sbl);
@@ -146,6 +175,7 @@ class ContactPanel extends Composite {
 
     emailPick.clear();
     emailPick.setEnabled(false);
+    registerNewEmail.setEnabled(false);
 
     haveAccount = false;
     haveEmails = false;
@@ -200,7 +230,15 @@ class ContactPanel extends Composite {
           emailPick.setSelectedIndex(emailPick.getItemCount() - 1);
         }
       }
-      emailPick.setEnabled(true);
+      if (emailPick.getItemCount() > 0) {
+        emailPick.setVisible(true);
+        emailPick.setEnabled(true);
+        emailPick.addItem("... " + Util.C.buttonOpenRegisterNewEmail()
+            + "  ", Util.C.buttonOpenRegisterNewEmail());
+      } else {
+        emailPick.setVisible(false);
+      }
+      registerNewEmail.setEnabled(true);
     }
   }
 
@@ -225,11 +263,69 @@ class ContactPanel extends Composite {
     save.setEnabled(false);
   }
 
+  private void doRegisterNewEmail() {
+    final AutoCenterDialogBox box = new AutoCenterDialogBox(true, true);
+    final VerticalPanel body = new VerticalPanel();
+
+    final TextBox inEmail = new TextBox();
+    inEmail.setVisibleLength(60);
+
+    final Button register = new Button(Util.C.buttonSendRegisterNewEmail());
+    final FormPanel form = new FormPanel();
+    form.addFormHandler(new FormHandler() {
+      public void onSubmit(final FormSubmitEvent event) {
+        event.setCancelled(true);
+        final String addr = inEmail.getText().trim();
+        if (!addr.contains("@")) {
+          return;
+        }
+
+        inEmail.setEnabled(false);
+        register.setEnabled(false);
+        Util.ACCOUNT_SEC.registerEmail(addr, new GerritCallback<VoidResult>() {
+          public void onSuccess(VoidResult result) {
+            box.hide();
+          }
+
+          @Override
+          public void onFailure(final Throwable caught) {
+            inEmail.setEnabled(true);
+            register.setEnabled(true);
+            super.onFailure(caught);
+          }
+        });
+      }
+
+      public void onSubmitComplete(final FormSubmitCompleteEvent event) {
+      }
+    });
+    form.setWidget(body);
+
+    register.addClickListener(new ClickListener() {
+      public void onClick(Widget sender) {
+        form.submit();
+      }
+    });
+    body.add(new HTML(Util.C.descRegisterNewEmail()));
+    body.add(inEmail);
+    body.add(register);
+
+    box.setText(Util.C.titleRegisterNewEmail());
+    box.setWidget(form);
+    box.center();
+    inEmail.setFocus(true);
+  }
+
   void doSave() {
     final String newName = nameTxt.getText();
     final String newEmail;
     if (emailPick.isEnabled() && emailPick.getSelectedIndex() >= 0) {
-      newEmail = emailPick.getValue(emailPick.getSelectedIndex());
+      final String v = emailPick.getValue(emailPick.getSelectedIndex());
+      if (Util.C.buttonOpenRegisterNewEmail().equals(v)) {
+        newEmail = currentEmail;
+      } else {
+        newEmail = v;
+      }
     } else {
       newEmail = currentEmail;
     }
@@ -239,11 +335,13 @@ class ContactPanel extends Composite {
     info.setCountry(countryTxt.getText());
     info.setPhoneNumber(phoneTxt.getText());
     info.setFaxNumber(faxTxt.getText());
+    save.setEnabled(false);
+    registerNewEmail.setEnabled(false);
 
     Util.ACCOUNT_SEC.updateContact(newName, newEmail, info,
         new GerritCallback<VoidResult>() {
           public void onSuccess(final VoidResult result) {
-            save.setEnabled(false);
+            registerNewEmail.setEnabled(false);
             final Account me = Gerrit.getUserAccount();
             me.setFullName(newName);
             me.setPreferredEmail(newEmail);
@@ -252,6 +350,13 @@ class ContactPanel extends Composite {
             if (parentScreen != null) {
               parentScreen.display(me);
             }
+          }
+
+          @Override
+          public void onFailure(final Throwable caught) {
+            save.setEnabled(true);
+            registerNewEmail.setEnabled(true);
+            super.onFailure(caught);
           }
         });
   }

@@ -16,6 +16,7 @@ package com.google.gerrit.client;
 
 import com.google.gerrit.client.account.AccountSettings;
 import com.google.gerrit.client.account.NewAgreementScreen;
+import com.google.gerrit.client.account.ValidateEmailScreen;
 import com.google.gerrit.client.admin.AccountGroupScreen;
 import com.google.gerrit.client.admin.GroupListScreen;
 import com.google.gerrit.client.admin.ProjectAdminScreen;
@@ -165,6 +166,11 @@ public class Link implements HistoryListener {
       if (ADMIN_PROJECTS.equals(token)) {
         return new ProjectListScreen();
       }
+    }
+
+    p = "VE,";
+    if (token.startsWith(p)) {
+      return new ValidateEmailScreen(skip(p, token));
     }
 
     return null;

@@ -17,9 +17,11 @@ package com.google.gerrit.client.patches;
 import com.google.gerrit.client.data.SideBySideLine;
 import com.google.gerrit.client.data.SideBySidePatchDetail;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
+import com.google.gerrit.client.ui.ComplexDisclosurePanel;
 import com.google.gerrit.client.ui.DomUtil;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.InlineLabel;
+import com.google.gwt.user.client.ui.Widget;
 
 import java.util.Iterator;
 import java.util.List;
@@ -62,20 +64,36 @@ public class SideBySideTable extends AbstractPatchContentTable {
 
   @Override
   protected void bindDrafts(final List<PatchLineComment> drafts) {
-    int row = 0;
+    int[] rows = new int[fileCnt];
     for (final PatchLineComment c : drafts) {
+      final short side = c.getSide();
+      int row = rows[side];
       while (row < table.getRowCount()) {
         if (getRowItem(row) instanceof SideBySideLineList) {
           final SideBySideLineList pl = (SideBySideLineList) getRowItem(row);
-          final SideBySideLine line = pl.lines.get(c.getSide());
+          final SideBySideLine line = pl.lines.get(side);
           if (line != null && line.getLineNumber() >= c.getLine()) {
             break;
           }
         }
         row++;
       }
-      table.insertRow(row + 1);
-      bindComment(row + 1, 1 + c.getSide() * 2 + 1, c, true);
+      row++;
+      boolean needInsert = true;
+      for (int cell = 0; cell < table.getCellCount(row); cell++) {
+        final Widget w = table.getWidget(row, cell);
+        if (w instanceof CommentEditorPanel
+            || w instanceof ComplexDisclosurePanel) {
+          needInsert = false;
+          break;
+        }
+      }
+      if (needInsert) {
+        table.insertRow(row);
+        table.getCellFormatter().setStyleName(row, 0, S_ICON_CELL);
+      }
+      bindComment(row, 1 + side * 2 + 1, c, true);
+      rows[side] = row + 1;
     }
   }
 
@@ -121,8 +139,7 @@ public class SideBySideTable extends AbstractPatchContentTable {
 
       setRowItem(row, new SideBySideLineList(pLine));
 
-      int nextComment = row;
-      int lastComment = row;
+      final int lineRow = row;
       for (int fileId = 0; fileId < fileCnt; fileId++) {
         final SideBySideLine s = pLine.get(fileId);
         if (s == null) {
@@ -134,20 +151,29 @@ public class SideBySideTable extends AbstractPatchContentTable {
           continue;
         }
 
+        int commentRow = lineRow + 1;
         for (Iterator<PatchLineComment> ci = comments.iterator(); ci.hasNext();) {
           final PatchLineComment c = ci.next();
-          if (nextComment == lastComment) {
-            lastComment++;
-            table.insertRow(lastComment);
-            table.getCellFormatter().setStyleName(lastComment, 0, S_ICON_CELL);
+          boolean needInsert = true;
+          for (int cell = 0; cell < table.getCellCount(commentRow); cell++) {
+            final Widget w = table.getWidget(commentRow, cell);
+            if (w instanceof CommentEditorPanel
+                || w instanceof ComplexDisclosurePanel) {
+              needInsert = false;
+              break;
+            }
           }
-          nextComment++;
-          table.setWidget(nextComment, 1 + 2 * fileId, null);
-          bindComment(nextComment, 1 + 2 * fileId + 1, c, !ci.hasNext());
+          if (needInsert) {
+            table.insertRow(commentRow);
+            table.getCellFormatter().setStyleName(commentRow, 0, S_ICON_CELL);
+          }
+          table.setWidget(commentRow, 1 + 2 * fileId, null);
+          bindComment(commentRow, 1 + 2 * fileId + 1, c, !ci.hasNext());
+          commentRow++;
         }
+        row = Math.max(row, commentRow-1);
       }
-
-      row = lastComment + 1;
+      row++;
     }
     final int skipCnt = skipped(prior, null);
     if (skipCnt > 0) {

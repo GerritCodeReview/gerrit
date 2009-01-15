@@ -71,6 +71,7 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
         row++;
       }
       table.insertRow(row + 1);
+      table.getCellFormatter().setStyleName(row + 1, 0, S_ICON_CELL);
       bindComment(row + 1, 1, c, true);
     }
   }
@@ -93,6 +94,7 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
             .hasNext();) {
           final PatchLineComment c = ci.next();
           table.insertRow(row);
+          table.getCellFormatter().setStyleName(row, 0, S_ICON_CELL);
           bindComment(row, 1, c, !ci.hasNext());
           row++;
         }

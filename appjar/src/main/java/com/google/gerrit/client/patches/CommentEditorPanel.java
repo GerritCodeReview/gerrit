@@ -43,7 +43,7 @@ class CommentEditorPanel extends Composite implements ClickListener {
       public void onKeyPress(final Widget sender, final char kc, final int mod) {
         DOM.eventCancelBubble(DOM.eventGetCurrentEvent(), true);
 
-        if (kc == KEY_ESCAPE && mod == 0 && !exists()) {
+        if (kc == KEY_ESCAPE && mod == 0 && isNew()) {
           onDiscard();
           return;
         }
@@ -57,7 +57,7 @@ class CommentEditorPanel extends Composite implements ClickListener {
             case 'd':
             case KEY_BACKSPACE:
             case KEY_DELETE:
-              if (!exists()) {
+              if (isNew()) {
                 onDiscard();
               } else if (Window.confirm(PatchUtil.C.confirmDiscard())) {
                 onDiscard();
@@ -88,7 +88,7 @@ class CommentEditorPanel extends Composite implements ClickListener {
     buttons.add(discard);
 
     savedAt = new InlineLabel();
-    if (exists()) {
+    if (!isNew()) {
       updateSavedAt();
     }
     buttons.add(savedAt);
@@ -105,8 +105,8 @@ class CommentEditorPanel extends Composite implements ClickListener {
     text.setFocus(take);
   }
 
-  private boolean exists() {
-    return comment.getKey().get() != null;
+  boolean isNew() {
+    return comment.getKey().get() == null;
   }
 
   public void onClick(Widget sender) {
@@ -148,7 +148,7 @@ class CommentEditorPanel extends Composite implements ClickListener {
   }
 
   private void onDiscard() {
-    if (!exists()) {
+    if (isNew()) {
       removeUI();
       return;
     }
@@ -181,8 +181,7 @@ class CommentEditorPanel extends Composite implements ClickListener {
       final int nCells = table.getCellCount(row);
       for (int cell = 0; cell < nCells; cell++) {
         if (table.getWidget(row, cell) == this) {
-          table.removeRow(row);
-
+          AbstractPatchContentTable.destroyEditor(table, row, cell);
           Widget p = table;
           while (p != null) {
             if (p instanceof HasFocus) {

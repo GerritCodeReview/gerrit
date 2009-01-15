@@ -28,8 +28,9 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.InlineLabel;
-import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtjsonrpc.client.VoidResult;
 
 import java.sql.Timestamp;
@@ -61,16 +62,13 @@ public abstract class AbstractPatchContentTable extends FancyFlexTable<Object> {
       // that its OK to sign out if any of our editors are unsaved.
       // (bug GERRIT-16)
       //
-      int nRows = table.getRowCount();
-      for (int row = 0; row < nRows;) {
+      for (int row = 0; row < table.getRowCount();) {
         final int nCells = table.getCellCount(row);
         int inc = 1;
         for (int cell = 0; cell < nCells; cell++) {
           if (table.getWidget(row, cell) instanceof CommentEditorPanel) {
-            table.removeRow(row);
-            nRows--;
+            destroyEditor(table, row, cell);
             inc = 0;
-            break;
           }
         }
         row += inc;
@@ -109,26 +107,39 @@ public abstract class AbstractPatchContentTable extends FancyFlexTable<Object> {
 
   protected abstract void bindDrafts(List<PatchLineComment> drafts);
 
-  protected void createCommentEditor(int suggestRow, final int column,
+  protected void createCommentEditor(final int suggestRow, final int column,
       final int line, final short side) {
-    while (getRowItem(suggestRow) instanceof CommentList) {
-      // Skip over any current comment panels, so we add onto the end.
-      //
-      suggestRow++;
+    int row = suggestRow;
+    int spans[] = new int[column + 1];
+    OUTER: while (row < table.getRowCount()) {
+      int col = 0;
+      for (int cell = 0; cell < table.getCellCount(row); cell++) {
+        while (col < column && 0 < spans[col]) {
+          spans[col++]--;
+        }
+        spans[col] = table.getFlexCellFormatter().getRowSpan(row, cell);
+        if (col == column) {
+          if (table.getWidget(row, cell) instanceof ComplexDisclosurePanel) {
+            row++;
+          } else {
+            break OUTER;
+          }
+        }
+      }
     }
-    if (table.getWidget(suggestRow, column) instanceof CommentEditorPanel) {
+    if (column < table.getCellCount(row)
+        && table.getWidget(row, column) instanceof CommentEditorPanel) {
       // Don't insert two editors on the same position, it doesn't make
       // any sense to the user.
       //
-      ((CommentEditorPanel) table.getWidget(suggestRow, column)).setFocus(true);
+      ((CommentEditorPanel) table.getWidget(row, column)).setFocus(true);
       return;
     }
 
-    final int row = suggestRow;
     if (!Gerrit.isSignedIn()) {
       Gerrit.doSignIn(new AsyncCallback<VoidResult>() {
         public void onSuccess(final VoidResult result) {
-          createCommentEditor(row, column, line, side);
+          createCommentEditor(suggestRow, column, line, side);
         }
 
         public void onFailure(Throwable caught) {
@@ -144,8 +155,43 @@ public abstract class AbstractPatchContentTable extends FancyFlexTable<Object> {
     newComment.setMessage("");
 
     final CommentEditorPanel ed = new CommentEditorPanel(newComment);
-    table.insertRow(row);
+    boolean needInsert = true;
+    for (int cell = 0; cell < table.getCellCount(row); cell++) {
+      final Widget w = table.getWidget(row, cell);
+      if (w instanceof CommentEditorPanel
+          || w instanceof ComplexDisclosurePanel) {
+        needInsert = false;
+        break;
+      }
+    }
+    if (needInsert) {
+      table.insertRow(row);
+      table.getCellFormatter().setStyleName(row, 0, S_ICON_CELL);
+    }
     table.setWidget(row, column, ed);
+    table.getFlexCellFormatter().setStyleName(row, column, "Comment");
+
+    int span = 1;
+    for (int r = row + 1; r < table.getRowCount(); r++) {
+      boolean hasComment = false;
+      for (int c = 0; c < table.getCellCount(r); c++) {
+        final Widget w = table.getWidget(r, c);
+        if (w instanceof ComplexDisclosurePanel
+            || w instanceof CommentEditorPanel) {
+          hasComment = true;
+          break;
+        }
+      }
+      if (hasComment) {
+        table.removeCell(r, column);
+        span++;
+      } else {
+        break;
+      }
+    }
+    if (span > 1) {
+      table.getFlexCellFormatter().setRowSpan(row, column, span);
+    }
 
     for (int r = row - 1; r > 0; r--) {
       if (getRowItem(r) instanceof CommentList) {
@@ -177,10 +223,61 @@ public abstract class AbstractPatchContentTable extends FancyFlexTable<Object> {
     patchKey = id;
   }
 
+  static void destroyEditor(final FlexTable table, final int row, final int col) {
+    table.clearCell(row, col);
+    final int span = table.getFlexCellFormatter().getRowSpan(row, col);
+    boolean removeRow = true;
+    final int nCells = table.getCellCount(row);
+    for (int cell = 0; cell < nCells; cell++) {
+      if (table.getWidget(row, cell) != null) {
+        removeRow = false;
+        break;
+      }
+    }
+    if (removeRow) {
+      for (int r = row - 1; 0 <= r; r--) {
+        boolean data = false;
+        for (int c = 0; c < table.getCellCount(r); c++) {
+          data |= table.getWidget(r, c) != null;
+          final int s = table.getFlexCellFormatter().getRowSpan(r, c) - 1;
+          if (r + s == row) {
+            table.getFlexCellFormatter().setRowSpan(r, c, s);
+          }
+        }
+        if (!data) {
+          break;
+        }
+      }
+      table.removeRow(row);
+    } else if (span != 1) {
+      table.getFlexCellFormatter().setRowSpan(row, col, 1);
+      for (int r = row + 1; r < row + span; r++) {
+        table.insertCell(r, col + 1);
+      }
+    }
+  }
+
   protected void bindComment(final int row, final int col,
       final PatchLineComment line, final boolean isLast) {
     if (line.getStatus() == PatchLineComment.Status.DRAFT) {
-      table.setWidget(row, col, new CommentEditorPanel(line));
+      boolean takeFocus = false;
+      if (row + 1 < table.getRowCount() && col < table.getCellCount(row + 1)
+          && table.getWidget(row + 1, col) instanceof CommentEditorPanel
+          && ((CommentEditorPanel) table.getWidget(row + 1, col)).isNew()) {
+        // Assume the second panel is a new one created while logging in;
+        // this line is from the myDrafts callback and we discovered we
+        // already have a draft at this location. We want to destroy the
+        // dummy editor and keep the real one.
+        //
+        destroyEditor(table, row + 1, col);
+        takeFocus = true;
+      }
+      final CommentEditorPanel plc = new CommentEditorPanel(line);
+      table.setWidget(row, col, plc);
+      table.getFlexCellFormatter().setStyleName(row, col, "Comment");
+      if (takeFocus) {
+        plc.setFocus(true);
+      }
       return;
     }
 
@@ -207,9 +304,7 @@ public abstract class AbstractPatchContentTable extends FancyFlexTable<Object> {
             .getWrittenOn()))));
     panel.setContent(mp);
     table.setWidget(row, col, panel);
-
-    final FlexCellFormatter fmt = table.getFlexCellFormatter();
-    fmt.setStyleName(row, col, "Comment");
+    table.getFlexCellFormatter().setStyleName(row, col, "Comment");
 
     CommentList l = (CommentList) getRowItem(row);
     if (l == null) {

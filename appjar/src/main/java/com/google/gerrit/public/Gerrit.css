@@ -261,6 +261,9 @@
 .gerrit-PatchContentTable .ActiveRow {
   background: #ffffcc;
 }
+.gerrit-PatchContentTable .ActiveRow td.Comment {
+  background: #ffffff;
+}
 .gerrit-PatchContentTable .ActiveRow td.LineNumber,
 .gerrit-PatchContentTable .ActiveRow td.FileLine {
   border-top: 1px solid blue;
@@ -296,6 +299,9 @@
   color: #00a000;
 }
 
+.gerrit-PatchContentTable td.Comment {
+  vertical-align: top;
+}
 .gerrit-PatchContentTable .Comment .header {
   width: 35em;
 }

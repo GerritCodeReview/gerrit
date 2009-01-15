@@ -303,6 +303,7 @@ public class ChangeScreen extends Screen {
       messagesContent.add(messagesMenuBar());
     }
     messagesPanel.setOpen(msgList.size() > 0);
+    messagesPanel.setVisible(msgList.size() > 0);
   }
 
   private LinkMenuBar messagesMenuBar() {

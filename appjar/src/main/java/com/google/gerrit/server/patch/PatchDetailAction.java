@@ -117,7 +117,7 @@ abstract class PatchDetailAction<T> implements Action<T> {
   protected void addComments(final LineWithComments pLine,
       final HashMap<Integer, List<PatchLineComment>>[] cache, final int side,
       final int line) {
-    List<PatchLineComment> l = cache[side].get(line);
+    List<PatchLineComment> l = cache[side].remove(line);
     if (l != null) {
       for (final PatchLineComment c : l) {
         pLine.addComment(c);

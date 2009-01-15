@@ -74,13 +74,20 @@ ON account_group_members (group_id);
 
 -- *********************************************************************
 -- ChangeAccess
---    covers:             byOwnerOpen, byOwnerClosed
-CREATE INDEX changes_byOwnerStatus
-ON changes (owner_account_id, open, last_updated_on DESC);
+--    covers:             byOwnerOpen
+CREATE INDEX changes_byOwnerOpen
+ON changes (owner_account_id, created_on, change_id)
+WHERE open = 'Y';
+
+--    covers:             byOwnerClosed
+CREATE INDEX changes_byOwnerClosed
+ON changes (owner_account_id, last_updated_on DESC)
+WHERE open = 'N';
 
 --    covers:             submitted
 CREATE INDEX changes_submitted
-ON changes (dest_project_name, dest_branch_name, status, last_updated_on);
+ON changes (dest_project_name, dest_branch_name, last_updated_on)
+WHERE status = 's';
 
 
 -- *********************************************************************

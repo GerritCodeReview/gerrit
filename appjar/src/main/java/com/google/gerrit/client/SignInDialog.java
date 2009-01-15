@@ -185,11 +185,12 @@ public class SignInDialog extends AutoCenterDialogBox {
         com.google.gerrit.client.account.Util.ACCOUNT_SVC
             .myAccount(new GerritCallback<Account>() {
               public void onSuccess(final Account result) {
-                Gerrit.postSignIn(result);
-                hide();
-                if (ac != null) {
-                  ac.onSuccess(null);
-                }
+                DeferredCommand.addCommand(new Command() {
+                  public void execute() {
+                    hide();
+                    Gerrit.postSignIn(result, ac);
+                  }
+                });
               }
 
               @Override

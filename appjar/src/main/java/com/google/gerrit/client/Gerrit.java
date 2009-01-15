@@ -28,7 +28,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Cookies;
-import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.HistoryListener;
 import com.google.gwt.user.client.Window;
@@ -235,7 +234,7 @@ public class Gerrit implements EntryPoint {
           .myAccount(new AsyncCallback<Account>() {
             public void onSuccess(final Account result) {
               if (result != null) {
-                postSignIn(result);
+                postSignIn(result, null);
               } else {
                 Cookies.removeCookie(ACCOUNT_COOKIE);
                 refreshMenuBar();
@@ -272,19 +271,20 @@ public class Gerrit implements EntryPoint {
   }
 
   /** Hook from {@link SignInDialog} to let us know to refresh the UI. */
-  static void postSignIn(final Account acct) {
+  static void postSignIn(final Account acct, final AsyncCallback<?> ac) {
     myAccount = acct;
     refreshMenuBar();
-    DeferredCommand.addCommand(new Command() {
-      public void execute() {
-        for (final SignedInListener l : signedInListeners) {
-          l.onSignIn();
-        }
-        if (currentScreen != null) {
-          currentScreen.onSignIn();
-        }
-      }
-    });
+
+    for (final SignedInListener l : signedInListeners) {
+      l.onSignIn();
+    }
+
+    if (currentScreen != null) {
+      currentScreen.onSignIn();
+    }
+    if (ac != null) {
+      ac.onSuccess(null);
+    }
   }
 
   public static void refreshMenuBar() {

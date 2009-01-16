@@ -25,7 +25,6 @@ import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.ComplexDisclosurePanel;
-import com.google.gerrit.client.ui.DomUtil;
 import com.google.gerrit.client.ui.ExpandAllCommand;
 import com.google.gerrit.client.ui.LinkMenuBar;
 import com.google.gerrit.client.ui.RefreshListener;
@@ -34,10 +33,7 @@ import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.InlineLabel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -50,10 +46,7 @@ public class ChangeScreen extends Screen {
   private ChangeInfo changeInfo;
   private boolean refreshOnSignIn;
 
-  private ChangeInfoBlock infoBlock;
-  private DisclosurePanel descriptionPanel;
-  private HTML description;
-
+  private ChangeDescriptionBlock descriptionBlock;
   private DisclosurePanel dependenciesPanel;
   private ChangeTable dependencies;
   private ChangeTable.Section dependsOn;
@@ -102,7 +95,7 @@ public class ChangeScreen extends Screen {
 
   @Override
   public void onLoad() {
-    if (descriptionPanel == null) {
+    if (descriptionBlock == null) {
       initUI();
     }
 
@@ -127,23 +120,8 @@ public class ChangeScreen extends Screen {
   private void initUI() {
     addStyleName("gerrit-ChangeScreen");
 
-    infoBlock = new ChangeInfoBlock();
-
-    description = newDescriptionLabel();
-
-    descriptionPanel = new DisclosurePanel(Util.C.changeScreenDescription());
-    {
-      final Label glue = new Label();
-      final HorizontalPanel hp = new HorizontalPanel();
-      hp.add(description);
-      hp.add(glue);
-      hp.add(infoBlock);
-      hp.setCellWidth(glue, "100%");
-      add(hp);
-      descriptionPanel.setContent(hp);
-      descriptionPanel.setWidth("100%");
-      add(descriptionPanel);
-    }
+    descriptionBlock = new ChangeDescriptionBlock();
+    add(descriptionBlock);
 
     dependencies = new ChangeTable();
     dependsOn = new ChangeTable.Section(Util.C.changeScreenDependsOn());
@@ -198,9 +176,7 @@ public class ChangeScreen extends Screen {
     dependencies.setAccountInfoCache(detail.getAccounts());
     approvals.setAccountInfoCache(detail.getAccounts());
 
-    infoBlock.display(detail);
-    description.setHTML(DomUtil
-        .linkify(DomUtil.escape(detail.getDescription())));
+    descriptionBlock.display(detail);
     dependsOn.display(detail.getDependsOn());
     neededBy.display(detail.getNeededBy());
     approvals.display(detail.getMissingApprovals(), detail.getApprovals());
@@ -221,7 +197,6 @@ public class ChangeScreen extends Screen {
       }
     }
 
-    descriptionPanel.setOpen(true);
     dependenciesPanel.setOpen(depsOpen);
     approvalsPanel.setOpen(true);
   }
@@ -328,11 +303,5 @@ public class ChangeScreen extends Screen {
     final FlowPanel p = new FlowPanel();
     p.add(w);
     return p;
-  }
-
-  private static HTML newDescriptionLabel() {
-    final HTML d = new HTML();
-    d.setStyleName("gerrit-ChangeScreen-Description");
-    return d;
   }
 }

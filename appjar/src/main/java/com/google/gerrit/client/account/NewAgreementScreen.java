@@ -21,6 +21,7 @@ import com.google.gerrit.client.reviewdb.AccountAgreement;
 import com.google.gerrit.client.reviewdb.ContributorAgreement;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountScreen;
+import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.client.ui.TextSaveButtonListener;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.http.client.Request;
@@ -106,15 +107,13 @@ public class NewAgreementScreen extends AccountScreen {
   }
 
   private void initUI() {
-    Label hdr;
     final FlowPanel formBody = new FlowPanel();
     radios = new VerticalPanel();
     formBody.add(radios);
 
     agreementGroup = new FlowPanel();
-    hdr = new Label(Util.C.newAgreementReviewLegalHeading());
-    hdr.setStyleName("gerrit-SmallHeading");
-    agreementGroup.add(hdr);
+    agreementGroup
+        .add(new SmallHeading(Util.C.newAgreementReviewLegalHeading()));
 
     agreementHtml = new HTML();
     agreementHtml.setStyleName("gerrit-ContributorAgreement-Legal");
@@ -122,15 +121,12 @@ public class NewAgreementScreen extends AccountScreen {
     formBody.add(agreementGroup);
 
     contactGroup = new FlowPanel();
-    hdr = new Label(Util.C.newAgreementReviewContactHeading());
-    hdr.setStyleName("gerrit-SmallHeading");
-    contactGroup.add(hdr);
+    contactGroup
+        .add(new SmallHeading(Util.C.newAgreementReviewContactHeading()));
     formBody.add(contactGroup);
 
     finalGroup = new VerticalPanel();
-    hdr = new Label(Util.C.newAgreementCompleteHeading());
-    hdr.setStyleName("gerrit-SmallHeading");
-    finalGroup.add(hdr);
+    finalGroup.add(new SmallHeading(Util.C.newAgreementCompleteHeading()));
     final FlowPanel fp = new FlowPanel();
     yesIAgreeBox = new TextBox();
     yesIAgreeBox.setVisibleLength(Util.C.newAgreementIAGREE().length() + 8);
@@ -166,13 +162,12 @@ public class NewAgreementScreen extends AccountScreen {
     finalGroup.setVisible(false);
     radios.clear();
 
-    final Label hdr;
+    final SmallHeading hdr = new SmallHeading();
     if (available.isEmpty()) {
-      hdr = new Label(Util.C.newAgreementNoneAvailable());
+      hdr.setText(Util.C.newAgreementNoneAvailable());
     } else {
-      hdr = new Label(Util.C.newAgreementSelectTypeHeading());
+      hdr.setText(Util.C.newAgreementSelectTypeHeading());
     }
-    hdr.setStyleName("gerrit-SmallHeading");
     radios.add(hdr);
 
     for (final ContributorAgreement cla : available) {

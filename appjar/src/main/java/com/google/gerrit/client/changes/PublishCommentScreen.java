@@ -28,6 +28,7 @@ import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountScreen;
 import com.google.gerrit.client.ui.PatchLink;
+import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.Button;
@@ -120,9 +121,7 @@ public class PublishCommentScreen extends AccountScreen {
   }
 
   private void initMessage(final Panel body) {
-    final Label hdr = new Label(Util.C.headingCoverMessage());
-    hdr.setStyleName("gerrit-SmallHeading");
-    body.add(hdr);
+    body.add(new SmallHeading(Util.C.headingCoverMessage()));
 
     final VerticalPanel mwrap = new VerticalPanel();
     mwrap.setStyleName("gerrit-CoverMessage");
@@ -145,9 +144,7 @@ public class PublishCommentScreen extends AccountScreen {
 
   private void initApprovalType(final PatchSetPublishDetail r,
       final Panel body, final ApprovalType ct) {
-    final Label hdr = new Label(ct.getCategory().getName() + ":");
-    hdr.setStyleName("gerrit-SmallHeading");
-    body.add(hdr);
+    body.add(new SmallHeading(ct.getCategory().getName() + ":"));
 
     final VerticalPanel vp = new VerticalPanel();
     vp.setStyleName("gerrit-ApprovalCategoryList");
@@ -194,9 +191,7 @@ public class PublishCommentScreen extends AccountScreen {
 
     draftsPanel.clear();
     if (!r.getDrafts().isEmpty()) {
-      final Label hdr = new Label(Util.C.headingPatchComments());
-      hdr.setStyleName("gerrit-SmallHeading");
-      draftsPanel.add(hdr);
+      draftsPanel.add(new SmallHeading(Util.C.headingPatchComments()));
 
       Panel panel = null;
       String priorFile = "";

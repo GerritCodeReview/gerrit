@@ -27,6 +27,7 @@ import com.google.gerrit.client.ui.AccountGroupSuggestOracle;
 import com.google.gerrit.client.ui.AccountScreen;
 import com.google.gerrit.client.ui.DomUtil;
 import com.google.gerrit.client.ui.FancyFlexTable;
+import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.client.ui.TextSaveButtonListener;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ChangeListener;
@@ -35,7 +36,6 @@ import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusListenerAdapter;
 import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SourcesTableEvents;
@@ -119,9 +119,7 @@ public class ProjectAdminScreen extends AccountScreen {
 
   private void initOwner() {
     ownerPanel = new VerticalPanel();
-    final Label ownerHdr = new Label(Util.C.headingOwner());
-    ownerHdr.setStyleName("gerrit-SmallHeading");
-    ownerPanel.add(ownerHdr);
+    ownerPanel.add(new SmallHeading(Util.C.headingOwner()));
 
     ownerTxtBox = new TextBox();
     ownerTxtBox.setVisibleLength(60);
@@ -150,9 +148,7 @@ public class ProjectAdminScreen extends AccountScreen {
 
   private void initDescription() {
     final VerticalPanel vp = new VerticalPanel();
-    final Label descHdr = new Label(Util.C.headingDescription());
-    descHdr.setStyleName("gerrit-SmallHeading");
-    vp.add(descHdr);
+    vp.add(new SmallHeading(Util.C.headingDescription()));
 
     descTxt = new TextArea();
     descTxt.setVisibleLines(6);
@@ -178,9 +174,6 @@ public class ProjectAdminScreen extends AccountScreen {
   }
 
   private void initRights() {
-    final Label rightsHdr = new Label(Util.C.headingAccessRights());
-    rightsHdr.setStyleName("gerrit-SmallHeading");
-
     final FlowPanel addPanel = new FlowPanel();
     addPanel.setStyleName("gerrit-AddSshKeyPanel");
 
@@ -260,7 +253,7 @@ public class ProjectAdminScreen extends AccountScreen {
       }
     });
 
-    add(rightsHdr);
+    add(new SmallHeading(Util.C.headingAccessRights()));
     add(rights);
     add(delRight);
     add(addPanel);

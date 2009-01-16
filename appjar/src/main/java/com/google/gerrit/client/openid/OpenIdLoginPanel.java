@@ -16,6 +16,7 @@ package com.google.gerrit.client.openid;
 
 import com.google.gerrit.client.SignInDialog;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Cookies;
@@ -40,7 +41,6 @@ import com.google.gwt.user.client.ui.Hidden;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.KeyboardListenerAdapter;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.NamedFrame;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
@@ -130,7 +130,7 @@ public class OpenIdLoginPanel extends Composite implements FormHandler {
   private void createHeaderText() {
     final FlowPanel headerText = new FlowPanel();
     final String me = Window.Location.getHostName();
-    final Label headerLabel = new Label();
+    final SmallHeading headerLabel = new SmallHeading();
     switch (mode) {
       case LINK_IDENTIY:
         headerLabel.setText(OpenIdUtil.M.linkAt(me));
@@ -140,7 +140,6 @@ public class OpenIdLoginPanel extends Composite implements FormHandler {
         headerLabel.setText(OpenIdUtil.M.signInAt(me));
         break;
     }
-    headerLabel.setStyleName("gerrit-SmallHeading");
     headerText.add(headerLabel);
     formBody.add(headerText);
   }

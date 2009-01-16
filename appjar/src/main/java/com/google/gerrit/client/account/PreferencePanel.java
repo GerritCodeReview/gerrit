@@ -17,12 +17,12 @@ package com.google.gerrit.client.account;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.ui.ChangeListener;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtjsonrpc.client.VoidResult;
@@ -85,10 +85,7 @@ class PreferencePanel extends Composite {
     {
       final FlowPanel fp = new FlowPanel();
       fp.setStyleName("gerrit-WatchedProjectPanel");
-
-      final Label hdr = new Label(Util.C.watchedProjects());
-      hdr.setStyleName("gerrit-SmallHeading");
-      fp.add(hdr);
+      fp.add(new SmallHeading(Util.C.watchedProjects()));
 
       watchPanel = new ProjectWatchPanel();
       fp.add(watchPanel);

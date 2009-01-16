@@ -19,9 +19,9 @@ import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountScreen;
 import com.google.gerrit.client.ui.FancyFlexTable;
+import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Hyperlink;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SourcesTableEvents;
 import com.google.gwt.user.client.ui.TableListener;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -64,9 +64,7 @@ public class ProjectListScreen extends AccountScreen {
 
     final VerticalPanel fp = new VerticalPanel();
     fp.setStyleName("gerrit-AddSshKeyPanel");
-    final Label hdr = new Label(Util.C.headingCreateGroup());
-    hdr.setStyleName("gerrit-SmallHeading");
-    fp.add(hdr);
+    fp.add(new SmallHeading(Util.C.headingCreateGroup()));
   }
 
   private class ProjectTable extends FancyFlexTable<Project> {

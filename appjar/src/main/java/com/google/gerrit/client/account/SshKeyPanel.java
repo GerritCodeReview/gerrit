@@ -19,13 +19,13 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.reviewdb.AccountSshKey;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.FancyFlexTable;
+import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SourcesTableEvents;
 import com.google.gwt.user.client.ui.TableListener;
 import com.google.gwt.user.client.ui.TextArea;
@@ -64,9 +64,7 @@ class SshKeyPanel extends Composite {
     {
       final VerticalPanel fp = new VerticalPanel();
       fp.setStyleName("gerrit-AddSshKeyPanel");
-      final Label hdr = new Label(Util.C.addSshKeyPanelHeader());
-      hdr.setStyleName("gerrit-SmallHeading");
-      fp.add(hdr);
+      fp.add(new SmallHeading(Util.C.addSshKeyPanelHeader()));
       fp.add(new HTML(Util.C.addSshKeyHelp()));
 
       addTxt = new TextArea();

@@ -24,6 +24,7 @@ import com.google.gerrit.client.ui.AccountGroupSuggestOracle;
 import com.google.gerrit.client.ui.AccountScreen;
 import com.google.gerrit.client.ui.AccountSuggestOracle;
 import com.google.gerrit.client.ui.FancyFlexTable;
+import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.client.ui.TextSaveButtonListener;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -137,9 +138,7 @@ public class AccountGroupScreen extends AccountScreen {
 
   private void initOwner() {
     final VerticalPanel ownerPanel = new VerticalPanel();
-    final Label ownerHdr = new Label(Util.C.headingOwner());
-    ownerHdr.setStyleName("gerrit-SmallHeading");
-    ownerPanel.add(ownerHdr);
+    ownerPanel.add(new SmallHeading(Util.C.headingOwner()));
 
     ownerTxtBox = new TextBox();
     ownerTxtBox.setVisibleLength(60);
@@ -168,9 +167,8 @@ public class AccountGroupScreen extends AccountScreen {
 
   private void initDescription() {
     final VerticalPanel vp = new VerticalPanel();
-    final Label descHdr = new Label(Util.C.headingDescription());
-    descHdr.setStyleName("gerrit-SmallHeading");
-    vp.add(descHdr);
+    final Label descHdr = new Label();
+    vp.add(new SmallHeading(Util.C.headingDescription()));
 
     descTxt = new TextArea();
     descTxt.setVisibleLines(6);
@@ -196,9 +194,6 @@ public class AccountGroupScreen extends AccountScreen {
   }
 
   private void initMemberList() {
-    final Label memberHdr = new Label(Util.C.headingMembers());
-    memberHdr.setStyleName("gerrit-SmallHeading");
-
     final FlowPanel addPanel = new FlowPanel();
     addPanel.setStyleName("gerrit-ProjectWatchPanel-AddPanel");
 
@@ -244,7 +239,7 @@ public class AccountGroupScreen extends AccountScreen {
     });
 
     memberPanel = new FlowPanel();
-    memberPanel.add(memberHdr);
+    memberPanel.add(new SmallHeading(Util.C.headingMembers()));
     memberPanel.add(addPanel);
     memberPanel.add(members);
     memberPanel.add(delMember);

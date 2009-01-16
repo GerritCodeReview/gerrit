@@ -23,7 +23,7 @@
   margin-bottom: 15px;
 }
 #gerrit_btmmenu {
-	clear: both;
+ clear: both;
 }
 #gerrit_btmmenu .gerrit-version {
   color: #a0adcc;
@@ -530,7 +530,7 @@
 }
 
 .gerrit-PatchSetActions {
-	margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 .gerrit-PatchSetActions .gwt-Button {
   margin-right: 5px;
@@ -538,12 +538,12 @@
 }
 
 .gerrit-Change-MissingApprovalList {
-	margin-top: 5px;
+  margin-top: 5px;
 }
 .gerrit-Change-MissingApproval {
-	margin-left: 10px;
-	font-weight: bold;
-	white-space: nowrap;
+  margin-left: 10px;
+  font-weight: bold;
+  white-space: nowrap;
 }
 
 
@@ -559,17 +559,17 @@
 }
 
 .gerrit-CommentEditor {
-	background: lightgrey;
-	padding-left: 5px;
-	padding-right: 5px;
-	padding-top: 5px;
-	padding-bottom: 5px;
+  background: lightgrey;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 .gerrit-CommentEditor textarea {
   font-size: small;
 }
 .gerrit-CommentEditor-Buttons {
-	margin-top: 5px;
+  margin-top: 5px;
 }
 .gerrit-CommentEditor-Buttons .gwt-Button {
   margin-right: 5px;
@@ -604,15 +604,15 @@
 }
 
 .gerrit-ContributorAgreement-Button {
-	font-weight: bold;
+  font-weight: bold;
 }
 
 .gerrit-ContributorAgreement-ShortDescription {
-	margin-left: 20px;
-	margin-right: 20px;
-	margin-bottom: 10px;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom: 10px;
   padding: 5px 5px 5px 5px;
-	border: 1px solid #b0bdcc;
+  border: 1px solid #b0bdcc;
 }
 
 .gerrit-ContributorAgreement-AlreadySubmitted {
@@ -697,16 +697,16 @@
 
 /** OpenIdLoginPanel **/
 .gerrit-OpenID-loginform {
-	margin-left: 10px;
+  margin-left: 10px;
 }
 
 .gerrit-OpenID-logobox {
-	width: 98%;
-	text-align: right;
+  width: 98%;
+  text-align: right;
 }
 
 .gerrit-OpenID-loginline {
-	margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 .gerrit-OpenID-openid_identifier {
@@ -725,13 +725,13 @@
   text-decoration: underline;
 }
 .gerrit-OpenID-directlink img {
-	margin-right: 3px;
+  margin-right: 3px;
   border: 0 none;
 }
 
 .gerrit-OpenID-errorline {
-	padding-top: 5px;
-	padding-bottom: 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 .gerrit-OpenID-errorline span {
   padding-top: 4px;

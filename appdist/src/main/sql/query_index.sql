@@ -81,7 +81,7 @@ WHERE open = 'Y';
 
 --    covers:             byOwnerClosed
 CREATE INDEX changes_byOwnerClosed
-ON changes (owner_account_id, last_updated_on DESC)
+ON changes (owner_account_id, last_updated_on)
 WHERE open = 'N';
 
 --    covers:             submitted

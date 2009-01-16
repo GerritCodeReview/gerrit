@@ -113,6 +113,11 @@ ON contributor_agreements (active, short_name);
 
 
 -- *********************************************************************
+-- PatchLineCommentAccess
+--    @PrimaryKey covers: published, draft
+
+
+-- *********************************************************************
 -- PatchSetAncestorAccess
 --    @PrimaryKey covers: ancestorsOf
 --    covers:             descendantsOf

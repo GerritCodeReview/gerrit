@@ -31,6 +31,11 @@
   padding-right: 10px;
   text-align: right;
 }
+#gerrit_btmmenu .gerrit-version a,
+#gerrit_btmmenu .gerrit-version a:visited,
+#gerrit_btmmenu .gerrit-version a:hover {
+  color: #2a5db0;
+}
 
 
 /** Widgets **/

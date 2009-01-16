@@ -1,1 +1,3 @@
 *.html
+/release-gae
+/config.mak

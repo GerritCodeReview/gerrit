@@ -14,22 +14,14 @@
 
 package com.google.gerrit.client.data;
 
-import com.google.gerrit.client.changes.MineStarredScreen;
-import com.google.gerrit.client.reviewdb.Account;
-
 import java.util.List;
 
-/** Summary information needed for {@link MineStarredScreen}. */
-public class MineStarredInfo {
+/** Summary information needed for screens showing a single list of changes}. */
+public class SingleListChangeInfo {
   protected AccountInfoCache accounts;
-  protected Account.Id owner;
-  protected List<ChangeInfo> starred;
+  protected List<ChangeInfo> changes;
 
-  protected MineStarredInfo() {
-  }
-
-  public MineStarredInfo(final Account.Id forUser) {
-    owner = forUser;
+  public SingleListChangeInfo() {
   }
 
   public AccountInfoCache getAccounts() {
@@ -40,15 +32,11 @@ public class MineStarredInfo {
     accounts = ac;
   }
 
-  public Account.Id getOwner() {
-    return owner;
+  public List<ChangeInfo> getChanges() {
+    return changes;
   }
 
-  public List<ChangeInfo> getStarred() {
-    return starred;
-  }
-
-  public void setStarred(List<ChangeInfo> c) {
-    starred = c;
+  public void setChanges(List<ChangeInfo> c) {
+    changes = c;
   }
 }

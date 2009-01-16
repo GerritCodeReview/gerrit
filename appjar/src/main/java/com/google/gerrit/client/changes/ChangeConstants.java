@@ -25,6 +25,7 @@ public interface ChangeConstants extends Constants {
   String changesRecentlyClosed();
 
   String starredHeading();
+  String draftsHeading();
 
   String changeTableColumnID();
   String changeTableColumnSubject();

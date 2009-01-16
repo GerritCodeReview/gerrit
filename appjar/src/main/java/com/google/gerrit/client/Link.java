@@ -23,6 +23,7 @@ import com.google.gerrit.client.admin.ProjectAdminScreen;
 import com.google.gerrit.client.admin.ProjectListScreen;
 import com.google.gerrit.client.changes.AccountDashboardScreen;
 import com.google.gerrit.client.changes.ChangeScreen;
+import com.google.gerrit.client.changes.MineDraftsScreen;
 import com.google.gerrit.client.changes.MineStarredScreen;
 import com.google.gerrit.client.changes.PublishCommentScreen;
 import com.google.gerrit.client.data.AccountInfo;
@@ -51,6 +52,7 @@ public class Link implements HistoryListener {
   public static final String MINE = "mine";
   public static final String MINE_UNCLAIMED = "mine,unclaimed";
   public static final String MINE_STARRED = "mine,starred";
+  public static final String MINE_DRAFTS = "mine,drafts";
 
   public static final String ALL = "all";
   public static final String ALL_OPEN = "all,open";
@@ -129,9 +131,13 @@ public class Link implements HistoryListener {
     if (MINE.equals(token)) {
       return new AccountDashboardScreen(Common.getAccountId());
     }
-
-    if (MINE_STARRED.equals(token)) {
-      return new MineStarredScreen();
+    if (token.startsWith("mine,")) {
+      if (MINE_STARRED.equals(token)) {
+        return new MineStarredScreen();
+      }
+      if (MINE_DRAFTS.equals(token)) {
+        return new MineDraftsScreen();
+      }
     }
 
     if (token.startsWith("patch,")) {

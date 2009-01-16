@@ -17,10 +17,11 @@ package com.google.gerrit.client.changes;
 import com.google.gerrit.client.data.AccountDashboardInfo;
 import com.google.gerrit.client.data.AccountInfoCacheFactory;
 import com.google.gerrit.client.data.ChangeInfo;
-import com.google.gerrit.client.data.MineStarredInfo;
+import com.google.gerrit.client.data.SingleListChangeInfo;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.ChangeAccess;
+import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.StarredChange;
 import com.google.gerrit.client.reviewdb.Change.Id;
@@ -73,10 +74,11 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
     });
   }
 
-  public void myStarredChanges(final AsyncCallback<MineStarredInfo> callback) {
-    run(callback, new Action<MineStarredInfo>() {
-      public MineStarredInfo run(final ReviewDb db) throws OrmException,
-          Failure {
+  public void myStarredChanges(
+      final AsyncCallback<SingleListChangeInfo> callback) {
+    run(callback, new Action<SingleListChangeInfo>() {
+      public SingleListChangeInfo run(final ReviewDb db)
+          throws OrmException, Failure {
         final Account.Id me = Common.getAccountId();
         final AccountInfoCacheFactory ac = new AccountInfoCacheFactory(db);
         final Account user = ac.get(me);
@@ -84,10 +86,37 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
           throw new Failure(new NoSuchEntityException());
         }
 
-        final MineStarredInfo d = new MineStarredInfo(me);
+        final SingleListChangeInfo d = new SingleListChangeInfo();
         final Set<Change.Id> starred = starredBy(db, me);
-        d.setStarred(filter(db.changes().get(starred), starred, ac));
-        Collections.sort(d.getStarred(), new Comparator<ChangeInfo>() {
+        d.setChanges(filter(db.changes().get(starred), starred, ac));
+        Collections.sort(d.getChanges(), new Comparator<ChangeInfo>() {
+          public int compare(final ChangeInfo o1, final ChangeInfo o2) {
+            return o1.getLastUpdatedOn().compareTo(o2.getLastUpdatedOn());
+          }
+        });
+        d.setAccounts(ac.create());
+        return d;
+      }
+    });
+  }
+
+  public void myDraftChanges(
+      final AsyncCallback<SingleListChangeInfo> callback) {
+    run(callback, new Action<SingleListChangeInfo>() {
+      public SingleListChangeInfo run(final ReviewDb db)
+          throws OrmException, Failure {
+        final Account.Id me = Common.getAccountId();
+        final AccountInfoCacheFactory ac = new AccountInfoCacheFactory(db);
+        final Account user = ac.get(me);
+        if (user == null) {
+          throw new Failure(new NoSuchEntityException());
+        }
+
+        final SingleListChangeInfo d = new SingleListChangeInfo();
+        final Set<Change.Id> starred = starredBy(db, me);
+        final Set<Change.Id> drafted = draftedBy(db, me);
+        d.setChanges(filter(db.changes().get(drafted), starred, ac));
+        Collections.sort(d.getChanges(), new Comparator<ChangeInfo>() {
           public int compare(final ChangeInfo o1, final ChangeInfo o2) {
             return o1.getLastUpdatedOn().compareTo(o2.getLastUpdatedOn());
           }
@@ -161,6 +190,19 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
     if (me != null) {
       for (final StarredChange sc : db.starredChanges().byAccount(me)) {
         existing.add(sc.getChangeId());
+      }
+    }
+    return existing;
+  }
+
+  private static Set<Change.Id> draftedBy(final ReviewDb db, final Account.Id me)
+      throws OrmException {
+    final Set<Change.Id> existing = new HashSet<Change.Id>();
+    if (me != null) {
+      for (final PatchLineComment sc : db.patchComments().draftByAuthor(me)) {
+        final Change.Id c =
+            sc.getKey().getParentKey().getParentKey().getParentKey();
+        existing.add(c);
       }
     }
     return existing;

@@ -40,4 +40,9 @@ public interface PatchLineCommentAccess extends
       + "' AND author = ? ORDER BY lineNbr,writtenOn")
   ResultSet<PatchLineComment> draft(Patch.Key patch, Account.Id author)
       throws OrmException;
+
+  @Query("WHERE status = '" + PatchLineComment.STATUS_DRAFT
+      + "' AND author = ?")
+  ResultSet<PatchLineComment> draftByAuthor(Account.Id author)
+      throws OrmException;
 }

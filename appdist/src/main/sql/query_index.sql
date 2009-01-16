@@ -115,6 +115,9 @@ ON contributor_agreements (active, short_name);
 -- *********************************************************************
 -- PatchLineCommentAccess
 --    @PrimaryKey covers: published, draft
+CREATE INDEX patch_comment_drafts
+ON patch_comments (author)
+WHERE status = 'd';
 
 
 -- *********************************************************************

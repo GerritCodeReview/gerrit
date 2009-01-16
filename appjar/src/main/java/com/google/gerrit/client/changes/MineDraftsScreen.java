@@ -19,16 +19,16 @@ import com.google.gerrit.client.data.SingleListChangeInfo;
 import com.google.gerrit.client.rpc.GerritCallback;
 
 
-public class MineStarredScreen extends MineSingleListScreen {
-  public MineStarredScreen() {
-    super(Util.C.starredHeading(), Link.MINE_STARRED);
+public class MineDraftsScreen extends MineSingleListScreen {
+  public MineDraftsScreen() {
+    super(Util.C.draftsHeading(), Link.MINE_DRAFTS);
   }
 
   @Override
   public void onLoad() {
     super.onLoad();
     Util.LIST_SVC
-        .myStarredChanges(new GerritCallback<SingleListChangeInfo>() {
+        .myDraftChanges(new GerritCallback<SingleListChangeInfo>() {
           public void onSuccess(final SingleListChangeInfo result) {
             display(result);
           }

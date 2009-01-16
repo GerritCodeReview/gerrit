@@ -15,7 +15,7 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.data.AccountDashboardInfo;
-import com.google.gerrit.client.data.MineStarredInfo;
+import com.google.gerrit.client.data.SingleListChangeInfo;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.rpc.SignInRequired;
@@ -31,7 +31,11 @@ public interface ChangeListService extends RemoteJsonService {
 
   /** Get the changes starred by the caller. */
   @SignInRequired
-  void myStarredChanges(AsyncCallback<MineStarredInfo> callback);
+  void myStarredChanges(AsyncCallback<SingleListChangeInfo> callback);
+
+  /** Get the changes with unpublished drafts by the caller. */
+  @SignInRequired
+  void myDraftChanges(AsyncCallback<SingleListChangeInfo> callback);
 
   /** Get the ids of all changes starred by the caller. */
   @SignInRequired

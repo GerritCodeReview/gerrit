@@ -305,6 +305,7 @@ public class Gerrit implements EntryPoint {
     if (signedIn) {
       m = new MenuBar(true);
       addLink(m, C.menuMyChanges(), Link.MINE);
+      addLink(m, C.menyMyDrafts(), Link.MINE_DRAFTS);
       addLink(m, C.menuMyUnclaimedChanges(), Link.MINE_UNCLAIMED);
       addLink(m, C.menuMyStarredChanges(), Link.MINE_STARRED);
       menuBar.addItem(C.menuMine(), m);

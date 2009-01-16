@@ -22,6 +22,7 @@ import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.ChangeApproval;
+import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.rpc.Common;
@@ -31,6 +32,8 @@ import com.google.gerrit.client.ui.PatchLink;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
+import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -205,23 +208,26 @@ public class PublishCommentScreen extends AccountScreen implements
       Panel panel = null;
       String priorFile = "";
       for (final PatchLineComment c : r.getDrafts()) {
-        final String fn = c.getKey().getParentKey().get();
+        final Patch.Key patchKey = c.getKey().getParentKey();
+        final String fn = patchKey.get();
         if (!fn.equals(priorFile)) {
           panel = new FlowPanel();
           panel.addStyleName("gerrit-PatchComments");
           draftsPanel.add(panel);
 
-          panel.add(new PatchLink.SideBySide(fn, c.getKey().getParentKey()));
+          panel.add(new PatchLink.SideBySide(fn, patchKey));
           priorFile = fn;
         }
 
         Label m;
 
-        m = new Label(Util.M.lineHeader(c.getLine()));
+        m = new DoubleClickLinkLabel(patchKey);
+        m.setText(Util.M.lineHeader(c.getLine()));
         m.setStyleName("gerrit-LineHeader");
         panel.add(m);
 
-        m = new Label(c.getMessage());
+        m = new DoubleClickLinkLabel(patchKey);
+        m.setText(c.getMessage());
         m.setStyleName("gerrit-LineComment");
         panel.add(m);
       }
@@ -261,6 +267,25 @@ public class PublishCommentScreen extends AccountScreen implements
 
   private static native ApprovalCategoryValue getValue(Element rbutton)
   /*-{ return rbutton["__gerritValue"]; }-*/;
+
+  private static class DoubleClickLinkLabel extends Label {
+    private final Patch.Key patchKey;
+
+    DoubleClickLinkLabel(final Patch.Key p) {
+      patchKey = p;
+      sinkEvents(Event.ONDBLCLICK);
+    }
+
+    @Override
+    public void onBrowserEvent(final Event event) {
+      switch (DOM.eventGetType(event)) {
+        case Event.ONDBLCLICK:
+          History.newItem(Link.toPatchSideBySide(patchKey), true);
+          break;
+      }
+      super.onBrowserEvent(event);
+    }
+  }
 
   private static final class ScreenCacheToken {
     private final PatchSet.Id patchSetId;

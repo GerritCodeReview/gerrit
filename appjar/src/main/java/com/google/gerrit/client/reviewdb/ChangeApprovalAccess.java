@@ -27,4 +27,8 @@ public interface ChangeApprovalAccess extends
 
   @Query("WHERE key.changeId = ?")
   ResultSet<ChangeApproval> byChange(Change.Id id) throws OrmException;
+
+  @Query("WHERE key.changeId = ? AND key.accountId = ?")
+  ResultSet<ChangeApproval> byChangeUser(Change.Id change, Account.Id account)
+      throws OrmException;
 }

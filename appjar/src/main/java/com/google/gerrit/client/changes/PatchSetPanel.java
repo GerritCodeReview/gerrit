@@ -137,22 +137,23 @@ class PatchSetPanel extends Composite implements DisclosureHandler {
     patchTable.finishDisplay(false);
 
     body.add(infoTable);
-    if (!changeDetail.getChange().getStatus().isClosed()
-        && changeDetail.isCurrentPatchSet(detail)) {
-      actionsPanel = new FlowPanel();
-      actionsPanel.setStyleName("gerrit-PatchSetActions");
-      signedInListener = new SignedInListener() {
-        public void onSignIn() {
-        }
 
-        public void onSignOut() {
-          actionsPanel.clear();
-          actionsPanel.setVisible(false);
-        }
-      };
-      Gerrit.addSignedInListener(signedInListener);
-      body.add(actionsPanel);
+    actionsPanel = new FlowPanel();
+    actionsPanel.setStyleName("gerrit-PatchSetActions");
+    body.add(actionsPanel);
+    signedInListener = new SignedInListener() {
+      public void onSignIn() {
+      }
+
+      public void onSignOut() {
+        actionsPanel.clear();
+        actionsPanel.setVisible(false);
+      }
+    };
+    Gerrit.addSignedInListener(signedInListener);
+    if (Gerrit.isSignedIn() && changeDetail.isCurrentPatchSet(detail)) {
       populateActions(detail);
+      populateCommentAction();
     }
     body.add(patchTable);
   }
@@ -180,6 +181,12 @@ class PatchSetPanel extends Composite implements DisclosureHandler {
   }
 
   private void populateActions(final PatchSetDetail detail) {
+    if (changeDetail.getChange().getStatus().isClosed()) {
+      // Generic actions aren't allowed on closed changes.
+      //
+      return;
+    }
+
     final Set<ApprovalCategory.Id> allowed = changeDetail.getCurrentActions();
     if (allowed == null) {
       // No set of actions, perhaps the user is not signed in?
@@ -220,6 +227,17 @@ class PatchSetPanel extends Composite implements DisclosureHandler {
       });
       actionsPanel.add(b);
     }
+  }
+
+  private void populateCommentAction() {
+    final Button b = new Button(Util.C.buttonPublishCommentsBegin());
+    b.addClickListener(new ClickListener() {
+      public void onClick(Widget sender) {
+        Gerrit.display("change,publish," + patchSet.getId().toString(),
+            new PublishCommentScreen(patchSet.getId()));
+      }
+    });
+    actionsPanel.add(b);
   }
 
   public void onOpen(final DisclosureEvent event) {

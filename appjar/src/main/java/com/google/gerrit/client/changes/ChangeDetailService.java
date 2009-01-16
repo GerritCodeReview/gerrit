@@ -18,6 +18,7 @@ import com.google.gerrit.client.data.ChangeDetail;
 import com.google.gerrit.client.data.PatchSetDetail;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.PatchSet;
+import com.google.gerrit.client.rpc.SignInRequired;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.RemoteJsonService;
 
@@ -25,4 +26,8 @@ public interface ChangeDetailService extends RemoteJsonService {
   void changeDetail(Change.Id id, AsyncCallback<ChangeDetail> callback);
 
   void patchSetDetail(PatchSet.Id key, AsyncCallback<PatchSetDetail> callback);
+
+  @SignInRequired
+  void patchSetPublishDetail(PatchSet.Id key,
+      AsyncCallback<PatchSetPublishDetail> callback);
 }

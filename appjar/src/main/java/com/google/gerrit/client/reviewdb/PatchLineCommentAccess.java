@@ -29,6 +29,12 @@ public interface PatchLineCommentAccess extends
       + PatchLineComment.STATUS_PUBLISHED + "' ORDER BY lineNbr,writtenOn")
   ResultSet<PatchLineComment> published(Patch.Key patch) throws OrmException;
 
+  @Query("WHERE key.patchKey.patchSetId = ? AND status = '"
+      + PatchLineComment.STATUS_DRAFT
+      + "' AND author = ? ORDER BY key.patchKey,lineNbr,writtenOn")
+  ResultSet<PatchLineComment> draft(PatchSet.Id patchset, Account.Id author)
+      throws OrmException;
+
   @Query("WHERE key.patchKey = ? AND status = '"
       + PatchLineComment.STATUS_DRAFT
       + "' AND author = ? ORDER BY lineNbr,writtenOn")

@@ -14,7 +14,9 @@
 
 package com.google.gerrit.client.changes;
 
-import com.google.gerrit.client.data.ChangeDetail;
+import com.google.gerrit.client.data.AccountInfoCache;
+import com.google.gerrit.client.reviewdb.Change;
+import com.google.gerrit.client.reviewdb.PatchSetInfo;
 import com.google.gerrit.client.ui.DomUtil;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DisclosurePanel;
@@ -45,10 +47,10 @@ public class ChangeDescriptionBlock extends Composite {
     initWidget(descriptionPanel);
   }
 
-  public void display(final ChangeDetail detail) {
-    infoBlock.display(detail);
-    description.setHTML(DomUtil
-        .linkify(DomUtil.escape(detail.getDescription())));
+  public void display(final Change chg, final PatchSetInfo info,
+      final AccountInfoCache acc) {
+    infoBlock.display(chg, acc);
+    description.setHTML(DomUtil.linkify(DomUtil.escape(info.getMessage())));
     descriptionPanel.setOpen(true);
   }
 }

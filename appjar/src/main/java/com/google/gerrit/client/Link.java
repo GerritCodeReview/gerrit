@@ -24,6 +24,7 @@ import com.google.gerrit.client.admin.ProjectListScreen;
 import com.google.gerrit.client.changes.AccountDashboardScreen;
 import com.google.gerrit.client.changes.ChangeScreen;
 import com.google.gerrit.client.changes.MineStarredScreen;
+import com.google.gerrit.client.changes.PublishCommentScreen;
 import com.google.gerrit.client.data.AccountInfo;
 import com.google.gerrit.client.data.ChangeInfo;
 import com.google.gerrit.client.patches.PatchSideBySideScreen;
@@ -32,6 +33,7 @@ import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.Patch;
+import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.ui.Screen;
@@ -141,6 +143,10 @@ public class Link implements HistoryListener {
       if (token.startsWith(p))
         return new PatchUnifiedScreen(Patch.Key.parse(skip(p, token)));
     }
+
+    p = "change,publish,";
+    if (token.startsWith(p))
+      return new PublishCommentScreen(PatchSet.Id.parse(skip(p, token)));
 
     p = "change,";
     if (token.startsWith(p))

@@ -16,7 +16,7 @@ package com.google.gerrit.client.changes;
 
 import static com.google.gerrit.client.FormatUtil.mediumFormat;
 
-import com.google.gerrit.client.data.ChangeDetail;
+import com.google.gerrit.client.data.AccountInfoCache;
 import com.google.gerrit.client.reviewdb.Branch;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.ui.AccountDashboardLink;
@@ -64,11 +64,9 @@ public class ChangeInfoBlock extends Composite {
     table.getCellFormatter().addStyleName(row, 0, "header");
   }
 
-  public void display(final ChangeDetail detail) {
-    final Change chg = detail.getChange();
+  public void display(final Change chg, final AccountInfoCache acc) {
     final Branch.NameKey dst = chg.getDest();
-    table.setWidget(R_OWNER, 1, AccountDashboardLink.link(detail.getAccounts(),
-        detail.getChange().getOwner()));
+    table.setWidget(R_OWNER, 1, AccountDashboardLink.link(acc, chg.getOwner()));
     table.setText(R_PROJECT, 1, dst.getParentKey().get());
     table.setText(R_BRANCH, 1, dst.getShortName());
     table.setText(R_UPLOADED, 1, mediumFormat(chg.getCreatedOn()));

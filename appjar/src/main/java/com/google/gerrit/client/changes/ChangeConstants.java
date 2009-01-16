@@ -65,5 +65,10 @@ public interface ChangeConstants extends Constants {
 
   String patchSetInfoAuthor();
   String patchSetInfoCommitter();
-  String patchSetInfoDownload();  
+  String patchSetInfoDownload();
+  String buttonPublishCommentsBegin();
+  String buttonPublishCommentsSend();
+  String buttonPublishCommentsCancel();
+  String headingCoverMessage();
+  String headingPatchComments();
 }

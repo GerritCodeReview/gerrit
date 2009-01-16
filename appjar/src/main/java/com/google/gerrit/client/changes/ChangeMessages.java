@@ -35,4 +35,6 @@ public interface ChangeMessages extends Messages {
   String otherFrom(String sourcePath);
 
   String needApproval(String categoryName);
+  String publishComments(int change, int ps);
+  String lineHeader(int line);
 }

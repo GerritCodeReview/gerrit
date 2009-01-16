@@ -524,6 +524,10 @@
 .gerrit-PatchSetActions {
 	margin-bottom: 10px;
 }
+.gerrit-PatchSetActions .gwt-Button {
+  margin-right: 5px;
+  font-size: 8pt;
+}
 
 .gerrit-Change-MissingApprovalList {
 	margin-top: 5px;
@@ -626,7 +630,64 @@
 }
 
 
-/** Login.html **/
+/** PublishCommentsScreen **/
+
+.gerrit-PublishCommentsScreen .gwt-DisclosurePanel .header td {
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.gerrit-PublishCommentsScreen .gerrit-SmallHeading {
+  font-size: small;
+  font-weight: bold;
+  white-space: nowrap;
+}
+.gerrit-PublishCommentsScreen .gerrit-ApprovalCategoryList {
+  margin-bottom: 10px;
+  margin-left: 10px;
+  background: #d4e9a9;
+  width: 25em;
+  white-space: nowrap;
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+.gerrit-PublishCommentsScreen .gerrit-CoverMessage {
+  margin-left: 10px;
+  background: #d4e9a9;
+  padding: 5px 5px 5px 5px;
+}
+.gerrit-PublishCommentsScreen .gerrit-CoverMessage textarea {
+  font-size: small;
+}
+.gerrit-PublishCommentsScreen .gerrit-ApprovalCategoryList .gwt-RadioButton {
+  font-size: smaller;
+}
+.gerrit-PublishCommentsScreen .gerrit-PatchComments {
+  margin-bottom: 10px;
+  margin-left: 10px;
+}
+.gerrit-PublishCommentsScreen .gerrit-PatchLink {
+  white-space: nowrap;
+  font-size: small;
+}
+.gerrit-PublishCommentsScreen .gerrit-LineHeader {
+  white-space: nowrap;
+  font-family: monospace;
+  font-size: small;
+  font-style: italic;
+  border-left: 3px solid #e3e3e3;
+  padding-left: 3px;
+}
+.gerrit-PublishCommentsScreen .gerrit-LineComment {
+  white-space: pre;
+  font-family: monospace;
+  font-size: small;
+  border-left: 3px solid #e3e3e3;
+  padding-left: 6px;
+}
+
+
+/** OpenIdLoginPanel **/
 .gerrit-OpenID-loginform {
 	margin-left: 10px;
 }

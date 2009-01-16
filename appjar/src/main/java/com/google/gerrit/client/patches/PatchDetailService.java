@@ -16,14 +16,17 @@ package com.google.gerrit.client.patches;
 
 import com.google.gerrit.client.data.SideBySidePatchDetail;
 import com.google.gerrit.client.data.UnifiedPatchDetail;
+import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
+import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.rpc.SignInRequired;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.RemoteJsonService;
 import com.google.gwtjsonrpc.client.VoidResult;
 
 import java.util.List;
+import java.util.Set;
 
 public interface PatchDetailService extends RemoteJsonService {
   void sideBySidePatchDetail(Patch.Key key,
@@ -41,4 +44,9 @@ public interface PatchDetailService extends RemoteJsonService {
 
   @SignInRequired
   void deleteDraft(PatchLineComment.Key key, AsyncCallback<VoidResult> callback);
+
+  @SignInRequired
+  void publishComments(PatchSet.Id psid, String message,
+      Set<ApprovalCategoryValue.Id> approvals,
+      AsyncCallback<VoidResult> callback);
 }

@@ -176,7 +176,8 @@ public class ChangeScreen extends Screen {
     dependencies.setAccountInfoCache(detail.getAccounts());
     approvals.setAccountInfoCache(detail.getAccounts());
 
-    descriptionBlock.display(detail);
+    descriptionBlock.display(detail.getChange(), detail
+        .getCurrentPatchSetDetail().getInfo(), detail.getAccounts());
     dependsOn.display(detail.getDependsOn());
     neededBy.display(detail.getNeededBy());
     approvals.display(detail.getMissingApprovals(), detail.getApprovals());

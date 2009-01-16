@@ -671,7 +671,7 @@
   margin-bottom: 10px;
   margin-left: 10px;
 }
-.gerrit-PublishCommentsScreen .gerrit-PatchLink {
+.gerrit-PublishCommentsScreen .gwt-Hyperlink {
   white-space: nowrap;
   font-size: small;
 }

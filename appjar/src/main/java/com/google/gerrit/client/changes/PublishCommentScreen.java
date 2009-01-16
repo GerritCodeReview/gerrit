@@ -27,13 +27,13 @@ import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountScreen;
+import com.google.gerrit.client.ui.PatchLink;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FormPanel;
-import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RadioButton;
@@ -207,11 +207,7 @@ public class PublishCommentScreen extends AccountScreen {
           panel.addStyleName("gerrit-PatchComments");
           draftsPanel.add(panel);
 
-          final Hyperlink link =
-              new Hyperlink(fn, Link.toPatchSideBySide(c.getKey()
-                  .getParentKey()));
-          link.addStyleName("gerrit-PatchLink");
-          panel.add(link);
+          panel.add(new PatchLink.SideBySide(fn, c.getKey().getParentKey()));
           priorFile = fn;
         }
 

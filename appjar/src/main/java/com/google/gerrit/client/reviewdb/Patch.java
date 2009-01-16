@@ -158,6 +158,10 @@ public final class Patch {
     return nbrComments;
   }
 
+  public void setCommentCount(final int n) {
+    nbrComments = n;
+  }
+
   public ChangeType getChangeType() {
     return ChangeType.forCode(changeType);
   }

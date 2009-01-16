@@ -313,10 +313,21 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
     }
 
     r.comments = db.patchComments().draft(psid, me).toList();
+    final Set<Patch.Key> patchKeys = new HashSet<Patch.Key>();
     for (final PatchLineComment c : r.comments) {
+      patchKeys.add(c.getKey().getParentKey());
+    }
+    final Map<Patch.Key, Patch> patches =
+        db.patches().toMap(db.patches().get(patchKeys));
+    for (final PatchLineComment c : r.comments) {
+      final Patch p = patches.get(c.getKey().getParentKey());
+      if (p != null) {
+        p.setCommentCount(p.getCommentCount() + 1);
+      }
       c.setStatus(PatchLineComment.Status.PUBLISHED);
       c.updated();
     }
+    db.patches().update(patches.values(), txn);
     db.patchComments().update(r.comments, txn);
 
     final StringBuilder msgbuf = new StringBuilder();

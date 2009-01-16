@@ -23,8 +23,7 @@ public class MessagePanel extends Composite {
   boolean isRecent;
 
   public MessagePanel(final ChangeMessage msg) {
-    final HTML l =
-        new HTML(DomUtil.linkify(DomUtil.escape(msg.getMessage().trim())));
+    final HTML l = new HTML(DomUtil.wikify(msg.getMessage().trim()));
     l.setStyleName("gerrit-ChangeMessage-Message");
     initWidget(l);
   }

@@ -20,13 +20,16 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 
 public class LineCommentPanel extends Composite {
+  public static String toHTML(final PatchLineComment comment) {
+    return DomUtil.wikify(comment.getMessage().trim());
+  }
+
   PatchLineComment comment;
   boolean isRecent;
 
   public LineCommentPanel(final PatchLineComment msg) {
     comment = msg;
-    final HTML l =
-        new HTML(DomUtil.linkify(DomUtil.escape(comment.getMessage().trim())));
+    final HTML l = new HTML(toHTML(comment));
     l.setStyleName("gerrit-PatchLineComment");
     initWidget(l);
   }

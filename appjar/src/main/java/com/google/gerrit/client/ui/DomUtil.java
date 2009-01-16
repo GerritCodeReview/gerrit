@@ -37,11 +37,25 @@ public abstract class DomUtil {
     return INSTANCE.linkify(in);
   }
 
+  /** Do wiki style formatting to make it pretty */
+  public static String wikify(String in) {
+    in = INSTANCE.escape(in);
+    in = INSTANCE.linkify(in);
+    in = INSTANCE.wikify(in);
+    return in;
+  }
+
   private DomUtil() {
   }
 
   private static abstract class Impl {
     abstract String escape(String in);
+
+    String wikify(String s) {
+      s = s.replaceAll("(^|\n)([ \t][^\n]*)", "$1<span class=\"gerrit-preformat\">$2</span><br />");
+      s = s.replaceAll("\n\n", "<p>\n");
+      return s;
+    }
 
     String linkify(String in) {
       return in.replaceAll("(https?://[^ \n\r\t]*)", "<a href=\"$1\">$1</a>");

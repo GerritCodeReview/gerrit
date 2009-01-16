@@ -147,7 +147,6 @@ public class ChangeScreen extends Screen {
     messagesContent.setStyleName("gerrit-ChangeMessages");
     messagesPanel = new DisclosurePanel(Util.C.changeScreenMessages());
     messagesPanel.setContent(messagesContent);
-    messagesPanel.setWidth("95%");
     add(messagesPanel);
   }
 
@@ -273,7 +272,6 @@ public class ChangeScreen extends Screen {
           new InlineLabel(Util.M.messageWrittenOn(FormatUtil.mediumFormat(msg
               .getWrittenOn()))));
       panel.setContent(mp);
-      panel.setWidth("98%");
       messagesContent.add(panel);
     }
 

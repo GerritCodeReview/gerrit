@@ -17,6 +17,7 @@ package com.google.gerrit.client.changes;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.Link;
 import com.google.gerrit.client.data.ApprovalType;
+import com.google.gerrit.client.patches.LineCommentPanel;
 import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
@@ -227,8 +228,8 @@ public class PublishCommentScreen extends AccountScreen implements
         panel.add(m);
 
         m = new DoubleClickLinkLabel(patchKey);
-        m.setText(c.getMessage());
-        m.setStyleName("gerrit-LineComment");
+        DOM.setInnerHTML(m.getElement(), LineCommentPanel.toHTML(c));
+        m.setStyleName("gerrit-PatchLineComment");
         panel.add(m);
       }
     }

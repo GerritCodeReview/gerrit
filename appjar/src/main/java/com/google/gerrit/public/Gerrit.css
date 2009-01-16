@@ -53,6 +53,12 @@
   font-size: 8pt;
 }
 
+.gerrit-preformat {
+	white-space: pre;
+  font-family: monospace;
+  font-size: small;
+}
+
 .gerrit-InputFieldTypeHint {
   color: grey;
 }
@@ -314,10 +320,12 @@
 .gerrit-PatchContentTable .Comment .header {
   width: 35em;
 }
-.gerrit-PatchContentTable .gwt-DisclosurePanel .header td {
+.gerrit-PatchContentTable .Comment .gwt-DisclosurePanel .header td {
+  font-size: smaller;
   white-space: nowrap;
 }
 .gerrit-PatchContentTable .Comment .complexHeader {
+  font-size: smaller;
   white-space: nowrap;
   width: 5em;
 }
@@ -416,7 +424,6 @@
 }
 
 .gerrit-ChangeMessage-Message {
-  white-space: pre;
   font-size: small;
 }
 
@@ -555,7 +562,7 @@
 }
 
 .gerrit-PatchLineComment {
-  font-size: small;
+  font-size: smaller;
 }
 
 .gerrit-CommentEditor {
@@ -686,10 +693,7 @@
   border-left: 3px solid #e3e3e3;
   padding-left: 3px;
 }
-.gerrit-PublishCommentsScreen .gerrit-LineComment {
-  white-space: pre;
-  font-family: monospace;
-  font-size: small;
+.gerrit-PublishCommentsScreen .gerrit-PatchLineComment {
   border-left: 3px solid #e3e3e3;
   padding-left: 6px;
 }

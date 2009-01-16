@@ -181,6 +181,9 @@
   font-weight: bold;
   white-space: nowrap;
 }
+.gerrit-ChangeTable .CommentCell span.Drafts {
+  color: #ff5555;
+}
 
 .gerrit-ChangeTable .FilePathCell {
   white-space: nowrap;

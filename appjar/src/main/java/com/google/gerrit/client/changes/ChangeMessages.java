@@ -27,6 +27,7 @@ public interface ChangeMessages extends Messages {
   String repoDownload(String project, int change, int ps);
 
   String patchTableComments(@PluralCount int count);
+  String patchTableDrafts(@PluralCount int count);
 
   String messageWrittenOn(String date);
 

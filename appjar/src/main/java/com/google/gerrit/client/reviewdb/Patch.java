@@ -134,6 +134,9 @@ public final class Patch {
   @Column
   protected int nbrComments;
 
+  /** Number of drafts by the current user; not persisted in the datastore. */
+  protected int nbrDrafts;
+
   /**
    * Original if {@link #changeType} is {@link ChangeType#COPIED} or
    * {@link ChangeType#RENAMED}.
@@ -160,6 +163,14 @@ public final class Patch {
 
   public void setCommentCount(final int n) {
     nbrComments = n;
+  }
+
+  public int getDraftCount() {
+    return nbrDrafts;
+  }
+
+  public void setDraftCount(final int n) {
+    nbrDrafts = n;
   }
 
   public ChangeType getChangeType() {

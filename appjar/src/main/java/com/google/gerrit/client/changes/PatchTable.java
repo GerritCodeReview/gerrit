@@ -142,12 +142,19 @@ public class PatchTable extends FancyFlexTable<Patch> {
 
     table.clearCell(row, C_DELTA);
 
-    final int cnt = patch.getCommentCount();
-    if (cnt == 0) {
-      table.clearCell(row, C_COMMENTS);
-    } else {
-      table.setText(row, C_COMMENTS, Util.M.patchTableComments(cnt));
+    final StringBuilder commentStr = new StringBuilder();
+    if (patch.getCommentCount() > 0) {
+      commentStr.append(Util.M.patchTableComments(patch.getCommentCount()));
     }
+    if (patch.getDraftCount() > 0) {
+      if (commentStr.length() > 0) {
+        commentStr.append(", ");
+      }
+      commentStr.append("<span class=\"Drafts\">");
+      commentStr.append(Util.M.patchTableDrafts(patch.getDraftCount()));
+      commentStr.append("</span>");
+    }
+    table.setHTML(row, C_COMMENTS, commentStr.toString());
 
     if (patch.getPatchType() == Patch.PatchType.UNIFIED) {
       table.setWidget(row, C_DIFF + 0, new SideBySide(Util.C

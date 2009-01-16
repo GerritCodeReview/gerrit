@@ -118,6 +118,10 @@ public class Gerrit implements EntryPoint {
     body.add(currentScreen);
   }
 
+  public static void uncache(final Screen view) {
+    priorScreens.remove(view.getScreenCacheToken());
+  }
+
   /** @return the currently signed in user's account data; null if no account */
   public static Account getUserAccount() {
     return myAccount;

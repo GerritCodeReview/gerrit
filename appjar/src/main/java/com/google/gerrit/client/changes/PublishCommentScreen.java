@@ -52,7 +52,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class PublishCommentScreen extends AccountScreen {
+public class PublishCommentScreen extends AccountScreen implements
+    ClickListener {
   private final PatchSet.Id patchSetId;
   private Collection<RadioButton> approvalButtons;
   private ChangeDescriptionBlock descBlock;
@@ -60,11 +61,18 @@ public class PublishCommentScreen extends AccountScreen {
   private TextArea message;
   private Panel draftsPanel;
   private Button send;
+  private Button cancel;
+  private boolean displayedOnce;
 
   public PublishCommentScreen(final PatchSet.Id psi) {
     super(Util.M.publishComments(psi.getParentKey().get(), psi.get()));
     addStyleName("gerrit-PublishCommentsScreen");
     patchSetId = psi;
+  }
+
+  @Override
+  public Object getScreenCacheToken() {
+    return new ScreenCacheToken(patchSetId);
   }
 
   @Override
@@ -91,19 +99,11 @@ public class PublishCommentScreen extends AccountScreen {
       body.add(buttonRow);
 
       send = new Button(Util.C.buttonPublishCommentsSend());
-      send.addClickListener(new ClickListener() {
-        public void onClick(Widget sender) {
-          onSend();
-        }
-      });
+      send.addClickListener(this);
       buttonRow.add(send);
 
       final Button cancel = new Button(Util.C.buttonPublishCommentsCancel());
-      cancel.addClickListener(new ClickListener() {
-        public void onClick(Widget sender) {
-          goChange();
-        }
-      });
+      cancel.addClickListener(this);
       buttonRow.add(cancel);
     }
 
@@ -118,6 +118,15 @@ public class PublishCommentScreen extends AccountScreen {
             display(result);
           }
         });
+  }
+
+  public void onClick(final Widget sender) {
+    if (send == sender) {
+      onSend();
+    } else if (cancel == sender) {
+      Gerrit.uncache(this);
+      goChange();
+    }
   }
 
   private void initMessage(final Panel body) {
@@ -183,10 +192,10 @@ public class PublishCommentScreen extends AccountScreen {
   private void display(final PatchSetPublishDetail r) {
     descBlock.display(r.getChange(), r.getPatchSetInfo(), r.getAccounts());
 
-    approvalPanel.clear();
-    approvalButtons.clear();
-    if (r.getChange().getStatus().isOpen()) {
-      initApprovals(r, approvalPanel);
+    if (!displayedOnce) {
+      if (r.getChange().getStatus().isOpen()) {
+        initApprovals(r, approvalPanel);
+      }
     }
 
     draftsPanel.clear();
@@ -217,6 +226,8 @@ public class PublishCommentScreen extends AccountScreen {
         panel.add(m);
       }
     }
+
+    displayedOnce = true;
   }
 
   private void onSend() {
@@ -250,4 +261,26 @@ public class PublishCommentScreen extends AccountScreen {
 
   private static native ApprovalCategoryValue getValue(Element rbutton)
   /*-{ return rbutton["__gerritValue"]; }-*/;
+
+  private static final class ScreenCacheToken {
+    private final PatchSet.Id patchSetId;
+
+    ScreenCacheToken(final PatchSet.Id psi) {
+      patchSetId = psi;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+      if (obj instanceof ScreenCacheToken) {
+        final ScreenCacheToken c = (ScreenCacheToken) obj;
+        return patchSetId.equals(c.patchSetId);
+      }
+      return false;
+    }
+
+    @Override
+    public int hashCode() {
+      return patchSetId.hashCode();
+    }
+  }
 }

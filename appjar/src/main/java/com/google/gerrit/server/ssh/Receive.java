@@ -472,6 +472,7 @@ class Receive extends AbstractGitCommand {
     imp.setTransaction(txn);
     imp.run();
     change.setCurrentPatchSet(imp.getPatchSetInfo());
+    ChangeUtil.updated(change);
     db.changes().insert(Collections.singleton(change));
 
     for (final ApprovalType t : Common.getGerritConfig().getApprovalTypes()) {

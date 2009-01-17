@@ -27,6 +27,7 @@ import com.google.gerrit.client.reviewdb.SystemConfig;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.git.InvalidRepositoryException;
 import com.google.gerrit.git.PatchSetImporter;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritServer;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
@@ -105,6 +106,25 @@ public class ImportGerrit1 {
         pm.update(1);
       }
       srcs.close();
+      pm.endTask();
+
+      // Compute the sort keys for change entities
+      //
+      srcs = query.executeQuery("SELECT change_id FROM changes");
+      final ArrayList<Change.Id> changesToDo = new ArrayList<Change.Id>();
+      while (srcs.next()) {
+        final Change.Id changeId = new Change.Id(srcs.getInt(1));
+        changesToDo.add(changeId);
+      }
+      srcs.close();
+      pm.start(1);
+      pm.beginTask("Compute sort keys", changesToDo.size());
+      for (final Change.Id changeId : changesToDo) {
+        final Change c = db.changes().get(changeId);
+        ChangeUtil.computeSortKey(c);
+        db.changes().update(Collections.singleton(c));
+        pm.update(1);
+      }
       pm.endTask();
 
       // Rebuild the cached PatchSet information directly from Git.

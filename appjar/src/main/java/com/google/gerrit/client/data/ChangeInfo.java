@@ -18,7 +18,6 @@ import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.Change;
 
 import java.sql.Timestamp;
-import java.util.Date;
 
 public class ChangeInfo {
   protected Change.Id id;
@@ -28,6 +27,7 @@ public class ChangeInfo {
   protected ProjectInfo project;
   protected boolean starred;
   protected Timestamp lastUpdatedOn;
+  protected String sortKey;
 
   protected ChangeInfo() {
   }
@@ -39,6 +39,7 @@ public class ChangeInfo {
     status = c.getStatus();
     project = new ProjectInfo(c.getDest().getParentKey());
     lastUpdatedOn = c.getLastUpdatedOn();
+    sortKey = c.getSortKey();
 
     acc.want(owner);
   }
@@ -71,7 +72,11 @@ public class ChangeInfo {
     starred = s;
   }
 
-  public Date getLastUpdatedOn() {
+  public java.sql.Timestamp getLastUpdatedOn() {
     return lastUpdatedOn;
+  }
+
+  public String getSortKey() {
+    return sortKey;
   }
 }

@@ -264,6 +264,19 @@
   padding-left: 25px;
 }
 
+.gerrit-ChangeTable-PrevNextLinks {
+	float: right;
+	padding-right: 5px;
+}
+.gerrit-ChangeTable-PrevNextLinks td {
+	width: 5em;
+	text-align: right;
+}
+.gerrit-ChangeTable-PrevNextLinks .gwt-Hyperlink {
+  font-size: 9pt;
+  color: #2a5db0;
+}
+
 
 /** PatchContentTable **/
 .gerrit-PatchContentTable {

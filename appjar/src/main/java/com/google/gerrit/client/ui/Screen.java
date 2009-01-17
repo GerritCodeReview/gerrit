@@ -55,7 +55,7 @@ public class Screen extends FlowPanel {
   /** Invoked if this screen is the current screen and the user signs out. */
   public void onSignOut() {
     if (isRequiresSignIn()) {
-      History.newItem(Link.ALL);
+      History.newItem(Link.ALL_OPEN);
     }
   }
 

@@ -22,6 +22,9 @@ import com.google.gerrit.client.admin.GroupListScreen;
 import com.google.gerrit.client.admin.ProjectAdminScreen;
 import com.google.gerrit.client.admin.ProjectListScreen;
 import com.google.gerrit.client.changes.AccountDashboardScreen;
+import com.google.gerrit.client.changes.AllAbandonedChangesScreen;
+import com.google.gerrit.client.changes.AllMergedChangesScreen;
+import com.google.gerrit.client.changes.AllOpenChangesScreen;
 import com.google.gerrit.client.changes.ChangeScreen;
 import com.google.gerrit.client.changes.MineDraftsScreen;
 import com.google.gerrit.client.changes.MineStarredScreen;
@@ -54,8 +57,9 @@ public class Link implements HistoryListener {
   public static final String MINE_STARRED = "mine,starred";
   public static final String MINE_DRAFTS = "mine,drafts";
 
-  public static final String ALL = "all";
-  public static final String ALL_OPEN = "all,open";
+  public static final String ALL_ABANDONED = "all,abandoned,n,z";
+  public static final String ALL_MERGED = "all,merged,n,z";
+  public static final String ALL_OPEN = "all,open,n,z";
   public static final String ALL_UNCLAIMED = "all,unclaimed";
 
   public static final String ADMIN_PEOPLE = "admin,people";
@@ -137,6 +141,23 @@ public class Link implements HistoryListener {
       }
       if (MINE_DRAFTS.equals(token)) {
         return new MineDraftsScreen();
+      }
+    }
+
+    if (token.startsWith("all,")) {
+      p = "all,abandoned,";
+      if (token.startsWith(p)) {
+        return new AllAbandonedChangesScreen(skip(p, token));
+      }
+
+      p = "all,merged,";
+      if (token.startsWith(p)) {
+        return new AllMergedChangesScreen(skip(p, token));
+      }
+
+      p = "all,open,";
+      if (token.startsWith(p)) {
+        return new AllOpenChangesScreen(skip(p, token));
       }
     }
 

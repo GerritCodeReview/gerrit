@@ -43,6 +43,56 @@ import java.util.Set;
 
 public class ChangeListServiceImpl extends BaseServiceImplementation implements
     ChangeListService {
+  private static final int MAX_PER_PAGE = 50;
+
+  private static int safePageSize(final int pageSize) {
+    return 0 < pageSize && pageSize <= MAX_PER_PAGE ? pageSize : MAX_PER_PAGE;
+  }
+
+  public void allOpenPrev(final String pos, final int pageSize,
+      final AsyncCallback<SingleListChangeInfo> callback) {
+    run(callback, new QueryPrev(pageSize, pos) {
+      @Override
+      ResultSet<Change> query(ReviewDb db, int slim, String sortKey)
+          throws OrmException {
+        return db.changes().allOpenPrev(sortKey, slim);
+      }
+    });
+  }
+
+  public void allOpenNext(final String pos, final int pageSize,
+      final AsyncCallback<SingleListChangeInfo> callback) {
+    run(callback, new QueryNext(pageSize, pos) {
+      @Override
+      ResultSet<Change> query(ReviewDb db, int slim, String sortKey)
+          throws OrmException {
+        return db.changes().allOpenNext(sortKey, slim);
+      }
+    });
+  }
+
+  public void allClosedPrev(final Change.Status s, final String pos,
+      final int pageSize, final AsyncCallback<SingleListChangeInfo> callback) {
+    run(callback, new QueryPrev(pageSize, pos) {
+      @Override
+      ResultSet<Change> query(ReviewDb db, int lim, String key)
+          throws OrmException {
+        return db.changes().allClosedPrev(s.getCode(), key, lim);
+      }
+    });
+  }
+
+  public void allClosedNext(final Change.Status s, final String pos,
+      final int pageSize, final AsyncCallback<SingleListChangeInfo> callback) {
+    run(callback, new QueryNext(pageSize, pos) {
+      @Override
+      ResultSet<Change> query(ReviewDb db, int lim, String key)
+          throws OrmException {
+        return db.changes().allClosedNext(s.getCode(), key, lim);
+      }
+    });
+  }
+
   public void forAccount(final Account.Id id,
       final AsyncCallback<AccountDashboardInfo> callback) {
     final Account.Id me = Common.getAccountId();
@@ -77,15 +127,9 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
   public void myStarredChanges(
       final AsyncCallback<SingleListChangeInfo> callback) {
     run(callback, new Action<SingleListChangeInfo>() {
-      public SingleListChangeInfo run(final ReviewDb db)
-          throws OrmException, Failure {
+      public SingleListChangeInfo run(final ReviewDb db) throws OrmException {
         final Account.Id me = Common.getAccountId();
         final AccountInfoCacheFactory ac = new AccountInfoCacheFactory(db);
-        final Account user = ac.get(me);
-        if (user == null) {
-          throw new Failure(new NoSuchEntityException());
-        }
-
         final SingleListChangeInfo d = new SingleListChangeInfo();
         final Set<Change.Id> starred = starredBy(db, me);
         d.setChanges(filter(db.changes().get(starred), starred, ac));
@@ -100,18 +144,11 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
     });
   }
 
-  public void myDraftChanges(
-      final AsyncCallback<SingleListChangeInfo> callback) {
+  public void myDraftChanges(final AsyncCallback<SingleListChangeInfo> callback) {
     run(callback, new Action<SingleListChangeInfo>() {
-      public SingleListChangeInfo run(final ReviewDb db)
-          throws OrmException, Failure {
+      public SingleListChangeInfo run(final ReviewDb db) throws OrmException {
         final Account.Id me = Common.getAccountId();
         final AccountInfoCacheFactory ac = new AccountInfoCacheFactory(db);
-        final Account user = ac.get(me);
-        if (user == null) {
-          throw new Failure(new NoSuchEntityException());
-        }
-
         final SingleListChangeInfo d = new SingleListChangeInfo();
         final Set<Change.Id> starred = starredBy(db, me);
         final Set<Change.Id> drafted = draftedBy(db, me);
@@ -206,5 +243,74 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
       }
     }
     return existing;
+  }
+
+  private abstract class QueryNext implements Action<SingleListChangeInfo> {
+    protected final String pos;
+    protected final int limit;
+    protected final int slim;
+
+    QueryNext(final int pageSize, final String pos) {
+      this.pos = pos;
+      this.limit = safePageSize(pageSize);
+      this.slim = limit + 1;
+    }
+
+    public SingleListChangeInfo run(final ReviewDb db) throws OrmException {
+      final Account.Id me = Common.getAccountId();
+      final AccountInfoCacheFactory ac = new AccountInfoCacheFactory(db);
+      final SingleListChangeInfo d = new SingleListChangeInfo();
+      final Set<Change.Id> starred = starredBy(db, me);
+
+      boolean results = true;
+      String sortKey = pos;
+      final ArrayList<ChangeInfo> list = new ArrayList<ChangeInfo>();
+      while (results && list.size() < slim) {
+        results = false;
+        final ResultSet<Change> rs = query(db, slim, sortKey);
+        for (final Change c : rs) {
+          results = true;
+          if (canRead(c)) {
+            final ChangeInfo ci = new ChangeInfo(c, ac);
+            ci.setStarred(starred.contains(ci.getId()));
+            list.add(ci);
+            if (list.size() == slim) {
+              rs.close();
+              break;
+            }
+          }
+          sortKey = c.getSortKey();
+        }
+      }
+
+      final boolean atEnd = finish(list);
+      d.setChanges(list, atEnd);
+      d.setAccounts(ac.create());
+      return d;
+    }
+
+    boolean finish(final ArrayList<ChangeInfo> list) {
+      final boolean atEnd = list.size() <= limit;
+      if (list.size() == slim) {
+        list.remove(limit);
+      }
+      return atEnd;
+    }
+
+    abstract ResultSet<Change> query(final ReviewDb db, final int slim,
+        String sortKey) throws OrmException;
+  }
+
+  private abstract class QueryPrev extends QueryNext {
+    QueryPrev(int pageSize, String pos) {
+      super(pageSize, pos);
+    }
+
+    @Override
+    boolean finish(final ArrayList<ChangeInfo> list) {
+      final boolean atEnd = super.finish(list);
+      Collections.reverse(list);
+      return atEnd;
+    }
   }
 }

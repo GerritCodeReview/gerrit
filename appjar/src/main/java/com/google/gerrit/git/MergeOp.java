@@ -457,7 +457,7 @@ public class MergeOp {
     final PatchSet.Id merged = c.currentPatchSetId();
     for (int attempts = 0; attempts < 10; attempts++) {
       c.setStatus(Change.Status.MERGED);
-      c.updated();
+      ChangeUtil.updated(c);
       try {
         final Transaction txn = schema.beginTransaction();
         schema.changes().update(Collections.singleton(c), txn);
@@ -484,7 +484,7 @@ public class MergeOp {
   private void setNew(Change c, ChangeMessage msg) {
     for (int attempts = 0; attempts < 10; attempts++) {
       c.setStatus(Change.Status.NEW);
-      c.updated();
+      ChangeUtil.updated(c);
       try {
         final Transaction txn = schema.beginTransaction();
         schema.changes().update(Collections.singleton(c), txn);

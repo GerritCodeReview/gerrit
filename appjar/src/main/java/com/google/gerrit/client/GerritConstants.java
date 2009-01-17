@@ -32,8 +32,9 @@ public interface GerritConstants extends Constants {
   String nameAlreadyUsedBody();
 
   String menuAll();
-  String menuAllUnclaimedChanges();
-  String menuAllRecentChanges();
+  String menuAllOpen();
+  String menuAllMerged();
+  String menuAllAbandoned();
 
   String menuMine();
   String menuMyChanges();

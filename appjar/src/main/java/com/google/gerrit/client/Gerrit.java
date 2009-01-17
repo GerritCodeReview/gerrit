@@ -267,7 +267,7 @@ public class Gerrit implements EntryPoint {
       if (isSignedIn()) {
         History.newItem(Link.MINE);
       } else {
-        History.newItem(Link.ALL);
+        History.newItem(Link.ALL_OPEN);
       }
     } else {
       History.fireCurrentHistoryState();
@@ -298,8 +298,9 @@ public class Gerrit implements EntryPoint {
     MenuBar m;
 
     m = new MenuBar(true);
-    addLink(m, C.menuAllRecentChanges(), Link.ALL);
-    addLink(m, C.menuAllUnclaimedChanges(), Link.ALL_UNCLAIMED);
+    addLink(m, C.menuAllOpen(), Link.ALL_OPEN);
+    addLink(m, C.menuAllMerged(), Link.ALL_MERGED);
+    addLink(m, C.menuAllAbandoned(), Link.ALL_ABANDONED);
     menuBar.addItem(C.menuAll(), m);
 
     if (signedIn) {

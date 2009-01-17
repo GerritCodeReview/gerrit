@@ -89,6 +89,16 @@ CREATE INDEX changes_submitted
 ON changes (dest_project_name, dest_branch_name, last_updated_on)
 WHERE status = 's';
 
+--    covers:             allOpenPrev, allOpenNext
+CREATE INDEX changes_allOpen
+ON changes (sort_key)
+WHERE open = 'Y';
+
+--    covers:             allClosedPrev, allClosedNext
+CREATE INDEX changes_allClosed
+ON changes (status, sort_key)
+WHERE open = 'N';
+
 
 -- *********************************************************************
 -- ChangeApprovalAccess

@@ -60,8 +60,8 @@ public class UrlRewriteFilter implements Filter {
     staticLinks.put("/unclaimed", Link.MINE_UNCLAIMED);
     staticLinks.put("/starred", Link.MINE_STARRED);
 
-    staticLinks.put("/all", Link.ALL);
     staticLinks.put("/all_unclaimed", Link.ALL_UNCLAIMED);
+    staticLinks.put("/all", Link.ALL_MERGED);
     staticLinks.put("/open", Link.ALL_OPEN);
 
     staticExtensions = new HashSet<String>();

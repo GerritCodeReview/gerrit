@@ -20,6 +20,7 @@ import java.util.List;
 public class SingleListChangeInfo {
   protected AccountInfoCache accounts;
   protected List<ChangeInfo> changes;
+  protected boolean atEnd;
 
   public SingleListChangeInfo() {
   }
@@ -36,7 +37,16 @@ public class SingleListChangeInfo {
     return changes;
   }
 
+  public boolean isAtEnd() {
+    return atEnd;
+  }
+
   public void setChanges(List<ChangeInfo> c) {
+    setChanges(c, true);
+  }
+
+  public void setChanges(List<ChangeInfo> c, boolean end) {
     changes = c;
+    atEnd = end;
   }
 }

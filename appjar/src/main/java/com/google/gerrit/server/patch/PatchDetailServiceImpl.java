@@ -390,7 +390,7 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
       db.changeMessages().insert(Collections.singleton(r.message), txn);
     }
 
-    r.change.updated();
+    ChangeUtil.updated(r.change);
     db.changes().update(Collections.singleton(r.change), txn);
     return r;
   }

@@ -108,7 +108,7 @@ public class ChangeManageServiceImpl extends BaseServiceImplementation
         if (ApprovalCategory.SUBMIT.equals(actionType.getCategory().getId())) {
           if (change.getStatus() == Change.Status.NEW) {
             change.setStatus(Change.Status.SUBMITTED);
-            change.updated();
+            ChangeUtil.updated(change);
           }
         } else {
           throw new Failure(new IllegalArgumentException(actionType

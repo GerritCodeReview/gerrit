@@ -118,6 +118,10 @@ public final class Change {
   @Column
   protected Timestamp lastUpdatedOn;
 
+  /** A {@link #lastUpdatedOn} ASC,{@link #changeId} ASC for sorting. */
+  @Column(length = 16)
+  protected String sortKey;
+
   @Column(name = "owner_account_id")
   protected Account.Id owner;
 
@@ -174,8 +178,16 @@ public final class Change {
     return lastUpdatedOn;
   }
 
-  public void updated() {
+  public void resetLastUpdatedOn() {
     lastUpdatedOn = new Timestamp(System.currentTimeMillis());
+  }
+
+  public String getSortKey() {
+    return sortKey;
+  }
+
+  public void setSortKey(final String newSortKey) {
+    sortKey = newSortKey;
   }
 
   public Account.Id getOwner() {

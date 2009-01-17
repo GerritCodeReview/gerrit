@@ -26,6 +26,9 @@ public interface ChangeConstants extends Constants {
 
   String starredHeading();
   String draftsHeading();
+  String allOpenChanges();
+  String allAbandonedChanges();
+  String allMergedChanges();
 
   String changeTableColumnID();
   String changeTableColumnSubject();
@@ -72,4 +75,7 @@ public interface ChangeConstants extends Constants {
   String buttonPublishCommentsCancel();
   String headingCoverMessage();
   String headingPatchComments();
+
+  String pagedChangeListPrev();
+  String pagedChangeListNext();
 }

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server;
 
+import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gwtorm.client.OrmException;
 
@@ -46,5 +47,38 @@ public class ChangeUtil {
     }
     NB.encodeInt32(raw, 0, uuidPrefix);
     NB.encodeInt32(raw, 4, uuidSeq--);
+  }
+
+  public static void updated(final Change c) {
+    c.resetLastUpdatedOn();
+    computeSortKey(c);
+  }
+
+  public static void computeSortKey(final Change c) {
+    // The encoding uses minutes since Wed Oct 1 00:00:00 2008 UTC.
+    // We overrun approximately 4,085 years later, so ~6093.
+    //
+    final long lastUpdatedOn =
+        (c.getLastUpdatedOn().getTime() / 1000L) - 1222819200L;
+    final StringBuilder r = new StringBuilder(16);
+    r.setLength(16);
+    formatHexInt(r, 0, (int) (lastUpdatedOn / 60));
+    formatHexInt(r, 8, c.getId().get());
+    c.setSortKey(r.toString());
+  }
+
+  private static final char[] hexchar =
+      {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', // 
+          'a', 'b', 'c', 'd', 'e', 'f'};
+
+  private static void formatHexInt(final StringBuilder dst, final int p, int w) {
+    int o = p + 7;
+    while (o >= p && w != 0) {
+      dst.setCharAt(o--, hexchar[w & 0xf]);
+      w >>>= 4;
+    }
+    while (o >= p) {
+      dst.setCharAt(o--, '0');
+    }
   }
 }

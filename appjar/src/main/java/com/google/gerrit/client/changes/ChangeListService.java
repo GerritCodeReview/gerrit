@@ -26,6 +26,22 @@ import com.google.gwtjsonrpc.client.VoidResult;
 import java.util.Set;
 
 public interface ChangeListService extends RemoteJsonService {
+  /** Get all open changes more recent than pos, fetching at most limit rows. */
+  void allOpenPrev(String pos, int limit,
+      AsyncCallback<SingleListChangeInfo> callback);
+
+  /** Get all open changes older than pos, fetching at most limit rows. */
+  void allOpenNext(String pos, int limit,
+      AsyncCallback<SingleListChangeInfo> callback);
+
+  /** Get all closed changes more recent than pos, fetching at most limit rows. */
+  void allClosedPrev(Change.Status status, String pos, int limit,
+      AsyncCallback<SingleListChangeInfo> callback);
+
+  /** Get all closed changes older than pos, fetching at most limit rows. */
+  void allClosedNext(Change.Status status, String pos, int limit,
+      AsyncCallback<SingleListChangeInfo> callback);
+
   /** Get the data to show {@link AccountDashboardScreen} for an account. */
   void forAccount(Account.Id id, AsyncCallback<AccountDashboardInfo> callback);
 

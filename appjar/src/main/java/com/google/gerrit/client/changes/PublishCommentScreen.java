@@ -106,7 +106,7 @@ public class PublishCommentScreen extends AccountScreen implements
       send.addClickListener(this);
       buttonRow.add(send);
 
-      final Button cancel = new Button(Util.C.buttonPublishCommentsCancel());
+      cancel = new Button(Util.C.buttonPublishCommentsCancel());
       cancel.addClickListener(this);
       buttonRow.add(cancel);
     }

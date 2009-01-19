@@ -55,10 +55,10 @@ public final class SystemConfig {
     HTTP;
   }
 
+  /** Construct a new, unconfigured instance. */
   public static SystemConfig create() {
     final SystemConfig r = new SystemConfig();
     r.singleton = new SystemConfig.Key();
-    r.maxSessionAge = 12 * 60 * 60 /* seconds */;
     return r;
   }
 

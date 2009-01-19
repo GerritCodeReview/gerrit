@@ -211,6 +211,7 @@ public class GerritServer {
     c.accountGroups().insert(Collections.singleton(registered));
 
     final SystemConfig s = SystemConfig.create();
+    s.maxSessionAge = 12 * 60 * 60 /* seconds */;
     s.xsrfPrivateKey = SignedToken.generateRandomKey();
     s.accountPrivateKey = SignedToken.generateRandomKey();
     s.sshdPort = 29418;

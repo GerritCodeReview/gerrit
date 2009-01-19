@@ -6,7 +6,7 @@ ALTER TABLE change_messages CLUSTER ON change_messages_pkey;
 ALTER TABLE patch_comments CLUSTER ON patch_comments_pkey;
 ALTER TABLE change_approvals CLUSTER ON change_approvals_pkey;
 
-ALTER TABLE account_groups CLUSTER ON account_group_members_pkey;
+ALTER TABLE account_group_members CLUSTER ON account_group_members_pkey;
 ALTER TABLE starred_changes CLUSTER ON starred_changes_pkey;
 CLUSTER;
 
@@ -139,7 +139,7 @@ ON contributor_agreements (active, short_name);
 -- PatchLineCommentAccess
 --    @PrimaryKey covers: published, draft
 CREATE INDEX patch_comment_drafts
-ON patch_comments (author)
+ON patch_comments (author_id)
 WHERE status = 'd';
 
 

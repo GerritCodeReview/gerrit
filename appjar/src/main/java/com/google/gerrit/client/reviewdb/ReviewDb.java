@@ -22,6 +22,9 @@ import com.google.gwtorm.client.Sequence;
 /** The review service database schema. */
 public interface ReviewDb extends Schema {
   @Relation
+  SchemaVersionAccess schemaVersion();
+
+  @Relation
   SystemConfigAccess systemConfig();
 
   @Relation

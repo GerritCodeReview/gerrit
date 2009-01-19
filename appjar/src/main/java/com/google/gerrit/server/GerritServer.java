@@ -26,6 +26,7 @@ import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gerrit.client.reviewdb.SchemaVersion;
 import com.google.gerrit.client.reviewdb.SystemConfig;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.workflow.NoOpFunction;
@@ -332,19 +333,23 @@ public class GerritServer {
   private void loadSystemConfig() throws OrmException {
     final ReviewDb c = db.open();
     try {
+      SchemaVersion sVer;
       try {
-        sConfig = c.systemConfig().get(new SystemConfig.Key());
+        sVer = c.schemaVersion().get(new SchemaVersion.Key());
       } catch (OrmException e) {
-        // Assume the schema doesn't exist, and create it.
-        // TODO Implement schema upgrades and/or exporting to a script file.
+        // Assume the schema doesn't exist.
         //
-        sConfig = null;
-        c.createSchema();
+        sVer = null;
       }
 
-      if (sConfig == null) {
+      if (sVer == null) {
         // Assume the schema is empty and populate it.
         //
+        c.createSchema();
+        sVer = SchemaVersion.create();
+        sVer.versionNbr = 2;
+        c.schemaVersion().insert(Collections.singleton(sVer));
+
         initSystemConfig(c);
         sConfig = c.systemConfig().get(new SystemConfig.Key());
         initWildCardProject(c);
@@ -352,6 +357,12 @@ public class GerritServer {
         initVerifiedCategory(c);
         initCodeReviewCategory(c);
         initSubmitCategory(c);
+
+      } else if (sVer.versionNbr == 2) {
+        sConfig = c.systemConfig().get(new SystemConfig.Key());
+
+      } else {
+        throw new OrmException("Unsupported schema version " + sVer.versionNbr);
       }
 
       loadGerritConfig(c);

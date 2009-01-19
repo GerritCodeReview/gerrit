@@ -39,8 +39,8 @@ import com.dyuproject.openid.OpenIdContext;
 import com.dyuproject.openid.OpenIdUser;
 import com.dyuproject.openid.RelyingParty;
 import com.dyuproject.openid.SimpleHttpConnector;
+import com.dyuproject.openid.UrlEncodedParameterMap;
 
-import org.mortbay.util.UrlEncoded;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -90,7 +90,7 @@ public class OpenIdLoginServlet extends HttpServlet {
     try {
       final OpenIdContext context = new OpenIdContext();
       context.setAssociation(new DiffieHellmanAssociation());
-      context.setDiscovery(new GoogleAccountDiscovery(new DefaultDiscovery()));
+      context.setDiscovery(new DefaultDiscovery());
       context.setHttpConnector(new SimpleHttpConnector());
       relyingParty = new RelyingParty(context, new GerritOpenIdUserManager());
     } catch (Throwable e) {
@@ -195,7 +195,8 @@ public class OpenIdLoginServlet extends HttpServlet {
       return;
     }
 
-    if (!relyingParty.associate(user, req, rsp)) {
+    if (!relyingParty.getOpenIdContext().getAssociation().associate(user,
+        relyingParty.getOpenIdContext())) {
       // Failed association. Try again.
       //
       callback(req, rsp, SignInResult.CANCEL);
@@ -205,32 +206,35 @@ public class OpenIdLoginServlet extends HttpServlet {
     // Authenticate user through his/her OpenID provider
     //
     final String realm = serverUrl(req);
-    final StringBuilder retTo = new StringBuilder(req.getRequestURL());
+    final UrlEncodedParameterMap retTo =
+        new UrlEncodedParameterMap(req.getRequestURL().toString());
     save(retTo, req, OpenIdUtil.P_SIGNIN_CB);
     save(retTo, req, OpenIdUtil.P_SIGNIN_MODE);
     save(retTo, req, OpenIdUtil.P_REMEMBERID);
-    final StringBuilder auth;
+    final UrlEncodedParameterMap auth;
 
-    auth = RelyingParty.getAuthUrlBuffer(user, realm, realm, retTo.toString());
-    append(auth, "openid.ns.ext1", AX_SCHEMA);
+    auth = RelyingParty.getAuthUrlMap(user, realm, realm, retTo.toString());
+    auth.put("openid.ns.ext1", AX_SCHEMA);
     final String ext1 = "openid.ext1.";
-    append(auth, ext1 + "mode", "fetch_request");
-    append(auth, ext1 + "type.fname", "http://example.com/schema/fullname");
-    append(auth, ext1 + "type.email", "http://schema.openid.net/contact/email");
-    append(auth, ext1 + "required", "email");
-    append(auth, ext1 + "if_available", "fname");
+    auth.put(ext1 + "mode", "fetch_request");
+    auth.put(ext1 + "type.fname", "http://example.com/schema/fullname");
+    auth.put(ext1 + "type.email", "http://schema.openid.net/contact/email");
+    auth.put(ext1 + "required", "email");
+    auth.put(ext1 + "if_available", "fname");
 
-    append(auth, "openid.sreg.optional", "fullname,email");
-    append(auth, "openid.ns.sreg", "http://openid.net/extensions/sreg/1.1");
+    auth.put("openid.sreg.optional", "fullname,email");
+    auth.put("openid.ns.sreg", "http://openid.net/extensions/sreg/1.1");
 
+    relyingParty.getOpenIdUserManager().saveUser(user, req, rsp);
     sendJson(req, rsp, new DiscoveryResult(true, auth.toString()), req
         .getParameter(OpenIdUtil.P_DISCOVERY_CB));
   }
 
-  private static void save(StringBuilder b, HttpServletRequest r, String n) {
+  private static void save(UrlEncodedParameterMap b, HttpServletRequest r,
+      String n) {
     final String v = r.getParameter(n);
     if (v != null) {
-      append(b, n, v);
+      b.put(n, v);
     }
   }
 
@@ -285,14 +289,15 @@ public class OpenIdLoginServlet extends HttpServlet {
       c.setMaxAge(server.getSessionAge());
       rsp.addCookie(c);
 
-      final StringBuilder me = new StringBuilder(req.getRequestURL());
-      append(me, Constants.OPENID_MODE, GMODE_CHKCOOKIE);
-      append(me, Gerrit.ACCOUNT_COOKIE, tok);
+      final UrlEncodedParameterMap me =
+          new UrlEncodedParameterMap(req.getRequestURL().toString());
+      me.put(Constants.OPENID_MODE, GMODE_CHKCOOKIE);
+      me.put(Gerrit.ACCOUNT_COOKIE, tok);
       save(me, req, OpenIdUtil.P_SIGNIN_CB);
       save(me, req, OpenIdUtil.P_SIGNIN_MODE);
       if ("on".equals(req.getParameter(OpenIdUtil.P_REMEMBERID))) {
         final String ident = saveLastId(req, rsp, user.getIdentity());
-        append(me, OpenIdUtil.LASTID_COOKIE, ident);
+        me.put(OpenIdUtil.LASTID_COOKIE, ident);
         save(me, req, OpenIdUtil.P_REMEMBERID);
       } else {
         c = new Cookie(OpenIdUtil.LASTID_COOKIE, "");
@@ -564,7 +569,7 @@ public class OpenIdLoginServlet extends HttpServlet {
     // We're not in an OpenID transaction so try to clear out the
     // OpenID management cookie.
     //
-    relyingParty.getOpenIdUserManager().invalidate(rsp);
+    relyingParty.getOpenIdUserManager().invalidate(req, rsp);
 
     final String cb = req.getParameter(OpenIdUtil.P_SIGNIN_CB);
     if (cb != null && cb.startsWith("history:")) {
@@ -640,17 +645,5 @@ public class OpenIdLoginServlet extends HttpServlet {
     final String uri = req.getRequestURL().toString();
     final int s = uri.lastIndexOf('/');
     return s >= 0 ? uri.substring(0, s + 1) : uri;
-  }
-
-  private static void append(final StringBuilder buffer, final String name,
-      final String value) {
-    if (buffer.indexOf("?") >= 0) {
-      buffer.append('&');
-    } else {
-      buffer.append('?');
-    }
-    buffer.append(name);
-    buffer.append('=');
-    buffer.append(UrlEncoded.encodeString(value));
   }
 }

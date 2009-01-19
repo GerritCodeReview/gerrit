@@ -15,29 +15,33 @@
 package com.google.gerrit.server;
 
 import com.dyuproject.openid.OpenIdUser;
-import com.dyuproject.openid.OpenIdUserManager;
 import com.dyuproject.openid.RelyingParty;
+import com.dyuproject.openid.manager.CookieBasedUserManager;
 
 import java.io.IOException;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class GerritOpenIdUserManager extends OpenIdUserManager {
+public class GerritOpenIdUserManager extends CookieBasedUserManager {
   public GerritOpenIdUserManager() {
+    final int age = 2 * 60/* seconds */;
+
     setCookieName("gerrit_openid");
     setSecretKey("gerrit_openid");
-    setMaxAge(120);
+    setMaxAge(age);
+    setLoginTimeout(age);
     setEncrypted(true);
   }
 
+  @Override
   public void init(Properties properties) {
   }
 
   @Override
   public OpenIdUser getUser(final HttpServletRequest request)
       throws IOException {
-    if (request.getParameter(RelyingParty.DEFAULT_PARAMETER) != null) {
+    if (request.getParameter(RelyingParty.DEFAULT_IDENTIFIER_PARAMETER) != null) {
       return null;
     }
     return super.getUser(request);

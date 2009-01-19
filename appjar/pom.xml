@@ -329,7 +329,7 @@ limitations under the License.
     <dependency>
       <groupId>com.dyuproject</groupId>
       <artifactId>dyuproject-openid</artifactId>
-      <version>1.1.0</version>
+      <version>1.1.1</version>
       <scope>compile</scope>
     </dependency>
 

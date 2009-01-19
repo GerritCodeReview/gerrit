@@ -27,6 +27,6 @@ class AllowFrameImpl {
   }
 
   protected static boolean is_claimID(final String url) {
-    return url.contains(".claimid.com/");
+    return url.contains(".claimid.com/") || url.contains("://claimid.com/");
   }
 }

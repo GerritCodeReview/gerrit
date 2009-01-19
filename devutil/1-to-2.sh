@@ -47,5 +47,6 @@ psql -f $out/sql/query_index.sql $dstdb
 echo >&2
 
 psql -c 'DROP SCHEMA gerrit1 CASCADE' $dstdb
+psql -c 'VACUUM FULL VERBOSE ANALYZE' $dstdb
 echo "CONVERT Gerrit 1 -> Gerrit 2 SUCCESSFUL"
 

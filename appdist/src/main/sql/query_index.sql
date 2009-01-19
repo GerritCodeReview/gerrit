@@ -1,3 +1,16 @@
+-- Cluster hot tables by their primary method of access
+--
+ALTER TABLE patch_sets CLUSTER ON patch_sets_pkey;
+ALTER TABLE patches CLUSTER ON patches_pkey;
+ALTER TABLE change_messages CLUSTER ON change_messages_pkey;
+ALTER TABLE patch_comments CLUSTER ON patch_comments_pkey;
+ALTER TABLE change_approvals CLUSTER ON change_approvals_pkey;
+
+ALTER TABLE account_groups CLUSTER ON account_group_members_pkey;
+ALTER TABLE starred_changes CLUSTER ON starred_changes_pkey;
+CLUSTER;
+
+
 -- Indexes to support @Query
 --
 

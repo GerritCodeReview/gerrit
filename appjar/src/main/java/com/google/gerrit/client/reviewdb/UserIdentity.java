@@ -35,6 +35,10 @@ public final class UserIdentity {
   @Column
   protected int tz;
 
+  /** If the user has a Gerrit account, their account identity. */
+  @Column(notNull = false)
+  protected Account.Id accountId;
+
   public String getName() {
     return name;
   }
@@ -65,5 +69,13 @@ public final class UserIdentity {
 
   public void setTimeZone(final int offset) {
     tz = offset;
+  }
+
+  public Account.Id getAccount() {
+    return accountId;
+  }
+
+  public void setAccount(final Account.Id id) {
+    accountId = id;
   }
 }

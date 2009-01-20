@@ -14,6 +14,8 @@
 
 package com.google.gerrit.git;
 
+import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.client.reviewdb.AccountExternalId;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchContent;
 import com.google.gerrit.client.reviewdb.PatchSet;
@@ -44,9 +46,11 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /** Imports a {@link PatchSet} from a {@link Commit}. */
 public class PatchSetImporter {
@@ -148,7 +152,7 @@ public class PatchSetImporter {
     }
   }
 
-  private void importInfo() {
+  private void importInfo() throws OrmException {
     if (info == null) {
       info = new PatchSetInfo(dst.getId());
       infoIsNew = true;
@@ -171,12 +175,28 @@ public class PatchSetImporter {
     }
   }
 
-  private UserIdentity toUserIdentity(final PersonIdent who) {
+  private UserIdentity toUserIdentity(final PersonIdent who)
+      throws OrmException {
     final UserIdentity u = new UserIdentity();
     u.setName(who.getName());
     u.setEmail(who.getEmailAddress());
     u.setDate(new Timestamp(who.getWhen().getTime()));
     u.setTimeZone(who.getTimeZoneOffset());
+
+    if (u.getEmail() != null) {
+      // If only one account has access to this email address, select it
+      // as the identity of the user.
+      //
+      final Set<Account.Id> a = new HashSet<Account.Id>();
+      for (final AccountExternalId e : db.accountExternalIds().byEmailAddress(
+          u.getEmail())) {
+        a.add(e.getAccountId());
+      }
+      if (a.size() == 1) {
+        u.setAccount(a.iterator().next());
+      }
+    }
+
     return u;
   }
 

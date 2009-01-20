@@ -16,16 +16,20 @@ package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.Link;
 import com.google.gerrit.client.SignedInListener;
 import com.google.gerrit.client.data.ApprovalType;
 import com.google.gerrit.client.data.ChangeDetail;
 import com.google.gerrit.client.data.PatchSetDetail;
+import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.client.reviewdb.PatchSet;
+import com.google.gerrit.client.reviewdb.PatchSetInfo;
 import com.google.gerrit.client.reviewdb.UserIdentity;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.ui.DomUtil;
 import com.google.gerrit.client.ui.RefreshListener;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ClickListener;
@@ -122,8 +126,9 @@ class PatchSetPanel extends Composite implements DisclosureHandler {
     itfmt.addStyleName(R_COMMITTER, 1, "useridentity");
     itfmt.addStyleName(R_DOWNLOAD, 1, "command");
 
-    infoTable.setText(R_AUTHOR, 1, format(detail.getInfo().getAuthor()));
-    infoTable.setText(R_COMMITTER, 1, format(detail.getInfo().getCommitter()));
+    final PatchSetInfo info = detail.getInfo();
+    displayUserIdentity(R_AUTHOR, info.getAuthor());
+    displayUserIdentity(R_COMMITTER, info.getCommitter());
     infoTable.setText(R_DOWNLOAD, 1, Util.M.repoDownload(changeDetail
         .getChange().getDest().getParentKey().get(), changeDetail.getChange()
         .getChangeId(), patchSet.getPatchSetId()));
@@ -158,26 +163,44 @@ class PatchSetPanel extends Composite implements DisclosureHandler {
     body.add(patchTable);
   }
 
-  private String format(final UserIdentity who) {
-    final StringBuilder r = new StringBuilder();
-    if (who.getName() != null) {
-      r.append(who.getName());
+  private void displayUserIdentity(final int row, final UserIdentity who) {
+    if (who == null) {
+      infoTable.clearCell(row, 1);
+      return;
     }
+
+    final StringBuilder r = new StringBuilder();
+
+    if (who.getName() != null) {
+      final Account.Id aId = who.getAccount();
+      if (aId != null) {
+        r.append("<a href=\"#");
+        r.append(Link.toAccountDashboard(aId));
+        r.append("\">");
+      }
+      r.append(DomUtil.escape(who.getName()));
+      if (aId != null) {
+        r.append("</a>");
+      }
+    }
+
     if (who.getEmail() != null) {
       if (r.length() > 0) {
         r.append(' ');
       }
-      r.append('<');
-      r.append(who.getEmail());
-      r.append('>');
+      r.append("&lt;");
+      r.append(DomUtil.escape(who.getEmail()));
+      r.append("&gt;");
     }
+
     if (who.getDate() != null) {
       if (r.length() > 0) {
         r.append(' ');
       }
-      r.append(FormatUtil.mediumFormat(who.getDate()));
+      r.append(DomUtil.escape(FormatUtil.mediumFormat(who.getDate())));
     }
-    return r.toString();
+
+    infoTable.setHTML(row, 1, r.toString());
   }
 
   private void populateActions(final PatchSetDetail detail) {

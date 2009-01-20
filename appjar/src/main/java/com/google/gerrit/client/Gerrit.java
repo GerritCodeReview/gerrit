@@ -309,6 +309,7 @@ public class Gerrit implements EntryPoint {
       addLink(m, C.menyMyDrafts(), Link.MINE_DRAFTS);
       addLink(m, C.menuMyUnclaimedChanges(), Link.MINE_UNCLAIMED);
       addLink(m, C.menuMyStarredChanges(), Link.MINE_STARRED);
+      addLink(m, C.menuSettings(), Link.SETTINGS);
       menuBar.addItem(C.menuMine(), m);
     }
 

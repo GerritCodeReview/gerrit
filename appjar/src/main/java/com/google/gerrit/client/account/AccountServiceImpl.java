@@ -70,12 +70,13 @@ public class AccountServiceImpl extends BaseServiceImplementation implements
 
         for (final AccountProjectWatch w : db.accountProjectWatches()
             .byAccount(Common.getAccountId()).toList()) {
-          final Project p = db.projects().get(w.getProjectId());
-          if (p == null) {
+          final ProjectCache.Entry project =
+              Common.getProjectCache().get(w.getProjectId());
+          if (project == null) {
             db.accountProjectWatches().delete(Collections.singleton(w));
             continue;
           }
-          r.add(new AccountProjectWatchInfo(w, p));
+          r.add(new AccountProjectWatchInfo(w, project.getProject()));
         }
         Collections.sort(r, new Comparator<AccountProjectWatchInfo>() {
           public int compare(final AccountProjectWatchInfo a,

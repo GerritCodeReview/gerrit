@@ -347,7 +347,7 @@ public class GerritServer {
         //
         c.createSchema();
         sVer = SchemaVersion.create();
-        sVer.versionNbr = 2;
+        sVer.versionNbr = ReviewDb.VERSION;
         c.schemaVersion().insert(Collections.singleton(sVer));
 
         initSystemConfig(c);
@@ -358,7 +358,7 @@ public class GerritServer {
         initCodeReviewCategory(c);
         initSubmitCategory(c);
 
-      } else if (sVer.versionNbr == 2) {
+      } else if (sVer.versionNbr == ReviewDb.VERSION) {
         sConfig = c.systemConfig().get(new SystemConfig.Key());
 
       } else {

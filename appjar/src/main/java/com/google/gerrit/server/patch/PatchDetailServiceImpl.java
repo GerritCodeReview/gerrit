@@ -27,7 +27,9 @@ import com.google.gerrit.client.reviewdb.ChangeMessage;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.reviewdb.PatchSet;
+import com.google.gerrit.client.reviewdb.PatchSetInfo;
 import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gerrit.client.reviewdb.UserIdentity;
 import com.google.gerrit.client.rpc.BaseServiceImplementation;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
@@ -260,9 +262,13 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
           final MimeMessage msg = new MimeMessage(out);
           msg.setFrom(myAddr);
 
-          // Always to the owner.
+          // Always to the owner/uploader/author/committer. These people
+          // have a vested interest in the change and any remarks made onit.
+          //
           sendTo(RecipientType.TO, r.change.getOwner(), rcpt, msg);
-
+          sendTo(RecipientType.TO, r.patchSet.getUploader(), rcpt, msg);
+          sendTo(RecipientType.TO, r.info.getAuthor(), rcpt, msg);
+          sendTo(RecipientType.TO, r.info.getCommitter(), rcpt, msg);
 
           if (rcpt.add(myEmail)) {
             // Always CC anything we send on behalf of the user, unless
@@ -271,6 +277,7 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
             //
             msg.addRecipient(Message.RecipientType.CC, myAddr);
           }
+
           // CC anyone else who has posted an approval mark on this change
           //
           for (final ChangeApproval ap : db.changeApprovals().byChange(
@@ -298,6 +305,8 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
 
   private static class PublishResult {
     Change change;
+    PatchSet patchSet;
+    PatchSetInfo info;
     ChangeMessage message;
     List<PatchLineComment> comments;
   }
@@ -308,7 +317,9 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
     final PublishResult r = new PublishResult();
     final Account.Id me = Common.getAccountId();
     r.change = db.changes().get(psid.getParentKey());
-    if (r.change == null) {
+    r.patchSet = db.patchSets().get(psid);
+    r.info = db.patchSetInfo().get(psid);
+    if (r.change == null || r.patchSet == null || r.info == null) {
       throw new OrmException(new NoSuchEntityException());
     }
 
@@ -399,6 +410,14 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
     ChangeUtil.updated(r.change);
     db.changes().update(Collections.singleton(r.change), txn);
     return r;
+  }
+
+  private static void sendTo(final RecipientType rt, final UserIdentity who,
+      final HashSet<String> rcpt, final MimeMessage msg)
+      throws MessagingException {
+    if (who != null && who.getAccount() != null) {
+      sendTo(rt, who.getAccount(), rcpt, msg);
+    }
   }
 
   private static void sendTo(final RecipientType rt, final Account.Id to,

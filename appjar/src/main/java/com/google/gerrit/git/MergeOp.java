@@ -14,12 +14,15 @@
 
 package com.google.gerrit.git;
 
+import com.google.gerrit.client.data.ApprovalType;
 import com.google.gerrit.client.reviewdb.Branch;
 import com.google.gerrit.client.reviewdb.Change;
+import com.google.gerrit.client.reviewdb.ChangeApproval;
 import com.google.gerrit.client.reviewdb.ChangeMessage;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
+import com.google.gerrit.client.workflow.FunctionState;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritServer;
 import com.google.gwtorm.client.OrmException;
@@ -460,10 +463,31 @@ public class MergeOp {
       ChangeUtil.updated(c);
       try {
         final Transaction txn = schema.beginTransaction();
-        schema.changes().update(Collections.singleton(c), txn);
+
+        // Flatten out all existing approvals based upon the current
+        // permissions. Once the change is closed the approvals are
+        // not updated at presentation view time, so we need to make.
+        // sure they are accurate now. This way if permissions get
+        // modified in the future, historical records stay accurate.
+        //
+        final FunctionState fs =
+            new FunctionState(c, schema.changeApprovals().byChange(c.getId())
+                .toList());
+        for (ApprovalType at : Common.getGerritConfig().getApprovalTypes()) {
+          at.getCategory().getFunction().run(at, fs);
+        }
+        for (final ChangeApproval a : fs.getDirtyChangeApprovals()) {
+          if (a.getValue() == 0) {
+            schema.changeApprovals().delete(Collections.singleton(a), txn);
+          } else {
+            schema.changeApprovals().update(Collections.singleton(a), txn);
+          }
+        }
+
         if (msg != null) {
           schema.changeMessages().insert(Collections.singleton(msg), txn);
         }
+        schema.changes().update(Collections.singleton(c), txn);
         txn.commit();
         break;
       } catch (OrmException e) {

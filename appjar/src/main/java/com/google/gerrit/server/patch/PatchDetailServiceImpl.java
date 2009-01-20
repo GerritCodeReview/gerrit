@@ -334,7 +334,13 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
     final Map<ApprovalCategory.Id, ApprovalCategoryValue.Id> values =
         new HashMap<ApprovalCategory.Id, ApprovalCategoryValue.Id>();
     for (final ApprovalCategoryValue.Id v : approvals) {
-      values.put(v.getParentKey(), v);
+      // If we bypass a '0' value then it will be removed from the
+      // database (if it exists), or won't be inserted if it would
+      // have been new. Clients shouldn't send us 0 values anyway.
+      //
+      if (v.get() != 0) {
+        values.put(v.getParentKey(), v);
+      }
     }
 
     final Map<ApprovalCategory.Id, ChangeApproval> have =

@@ -42,7 +42,7 @@ public class PatchSetDetail {
     final Account.Id me = Common.getAccountId();
     if (me != null) {
       // If we are signed in, compute the number of draft comments by the
-      // current user on each of these patch files. This way the can more
+      // current user on each of these patch files. This way they can more
       // quickly locate where they have pending drafts, and review them.
       //
       final List<PatchLineComment> comments =

@@ -72,9 +72,14 @@ public final class ChangeMessage {
   }
 
   public ChangeMessage(final ChangeMessage.Key k, final Account.Id a) {
+    this(k, a, new Timestamp(System.currentTimeMillis()));
+  }
+
+  public ChangeMessage(final ChangeMessage.Key k, final Account.Id a,
+      final Timestamp wo) {
     key = k;
     author = a;
-    writtenOn = new Timestamp(System.currentTimeMillis());
+    writtenOn = wo;
   }
 
   public ChangeMessage.Key getKey() {

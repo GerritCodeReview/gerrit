@@ -436,11 +436,16 @@ DELETE FROM patch_sets;
 INSERT INTO patch_sets
 (revision,
  change_id,
- patch_set_id) SELECT
+ patch_set_id,
+ created_on,
+ uploader_account_id) SELECT
  r.revision_id,
  c.change_id,
- p.patchset_id
+ p.patchset_id,
+ p.created,
+ a.account_id
  FROM gerrit1.patch_sets p
+ JOIN accounts a ON a.preferred_email = p.owner
  JOIN gerrit1.changes c ON p.change_key = c.gae_key
  LEFT OUTER JOIN gerrit1.revisions r ON r.gae_key = p.revision_key;
 

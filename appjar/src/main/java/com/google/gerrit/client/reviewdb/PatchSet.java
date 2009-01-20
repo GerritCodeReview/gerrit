@@ -17,6 +17,8 @@ package com.google.gerrit.client.reviewdb;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.IntKey;
 
+import java.sql.Timestamp;
+
 /** A single revision of a {@link Change}. */
 public final class PatchSet {
   public static class Id extends IntKey<Change.Id> {
@@ -64,6 +66,13 @@ public final class PatchSet {
   @Column(notNull = false)
   protected RevId revision;
 
+  @Column(name = "uploader_account_id")
+  protected Account.Id uploader;
+
+  /** When this patch set was first introduced onto the change. */
+  @Column
+  protected Timestamp createdOn;
+
   protected PatchSet() {
   }
 
@@ -85,6 +94,22 @@ public final class PatchSet {
 
   public void setRevision(final RevId i) {
     revision = i;
+  }
+
+  public Account.Id getUploader() {
+    return uploader;
+  }
+
+  public void setUploader(final Account.Id who) {
+    uploader = who;
+  }
+
+  public Timestamp getCreatedOn() {
+    return createdOn;
+  }
+
+  public void setCreatedOn(final Timestamp ts) {
+    createdOn = ts;
   }
 
   public String getRefName() {

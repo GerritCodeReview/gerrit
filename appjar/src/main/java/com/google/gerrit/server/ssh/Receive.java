@@ -52,6 +52,7 @@ import org.spearce.jgit.transport.ReceiveCommand.Result;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -468,6 +469,8 @@ class Receive extends AbstractGitCommand {
         new Change(new Change.Id(db.nextChangeId()), userAccount.getId(),
             destBranch.getNameKey());
     final PatchSet ps = new PatchSet(change.newPatchSetId());
+    ps.setCreatedOn(change.getCreatedOn());
+    ps.setUploader(userAccount.getId());
     final PatchSetImporter imp = new PatchSetImporter(db, repo, c, ps, true);
     imp.setTransaction(txn);
     imp.run();
@@ -538,6 +541,8 @@ class Receive extends AbstractGitCommand {
         }
 
         final PatchSet ps = new PatchSet(change.newPatchSetId());
+        ps.setCreatedOn(new Timestamp(System.currentTimeMillis()));
+        ps.setUploader(userAccount.getId());
         PatchSetImporter imp = new PatchSetImporter(db, repo, c, ps, true);
         imp.setTransaction(txn);
         try {
@@ -575,7 +580,7 @@ class Receive extends AbstractGitCommand {
 
         final ChangeMessage msg =
             new ChangeMessage(new ChangeMessage.Key(change.getId(), ChangeUtil
-                .messageUUID(db)), me);
+                .messageUUID(db)), me, ps.getCreatedOn());
         msg.setMessage("Uploaded patch set " + ps.getPatchSetId() + ".");
         db.changeMessages().insert(Collections.singleton(msg), txn);
 

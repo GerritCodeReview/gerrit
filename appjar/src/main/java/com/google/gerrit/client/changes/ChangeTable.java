@@ -52,10 +52,9 @@ public class ChangeTable extends FancyFlexTable<ChangeInfo> {
   private static final int C_ID = 2;
   private static final int C_SUBJECT = 3;
   private static final int C_OWNER = 4;
-  private static final int C_REVIEWERS = 5;
-  private static final int C_PROJECT = 6;
-  private static final int C_LAST_UPDATE = 7;
-  private static final int COLUMNS = 8;
+  private static final int C_PROJECT = 5;
+  private static final int C_LAST_UPDATE = 6;
+  private static final int COLUMNS = 7;
 
   private final List<Section> sections;
   private final SignedInListener signedInListener;
@@ -67,7 +66,6 @@ public class ChangeTable extends FancyFlexTable<ChangeInfo> {
     table.setText(0, C_ID, Util.C.changeTableColumnID());
     table.setText(0, C_SUBJECT, Util.C.changeTableColumnSubject());
     table.setText(0, C_OWNER, Util.C.changeTableColumnOwner());
-    table.setText(0, C_REVIEWERS, Util.C.changeTableColumnReviewers());
     table.setText(0, C_PROJECT, Util.C.changeTableColumnProject());
     table.setText(0, C_LAST_UPDATE, Util.C.changeTableColumnLastUpdate());
 
@@ -82,7 +80,7 @@ public class ChangeTable extends FancyFlexTable<ChangeInfo> {
       public void onCellClicked(SourcesTableEvents sender, int row, int cell) {
         if (cell == C_STAR) {
           onStarClick(row);
-        } else if (cell == C_OWNER || cell == C_REVIEWERS) {
+        } else if (cell == C_OWNER) {
           // Don't do anything.
         } else if (getRowItem(row) != null) {
           movePointerTo(row);
@@ -226,7 +224,6 @@ public class ChangeTable extends FancyFlexTable<ChangeInfo> {
     }
     table.setWidget(row, C_SUBJECT, new TableChangeLink(s, c));
     table.setWidget(row, C_OWNER, link(c.getOwner()));
-    table.setText(row, C_REVIEWERS, "TODO");
     table.setText(row, C_PROJECT, c.getProject().getName());
     table.setText(row, C_LAST_UPDATE, mediumFormat(c.getLastUpdatedOn()));
     setRowItem(row, c);

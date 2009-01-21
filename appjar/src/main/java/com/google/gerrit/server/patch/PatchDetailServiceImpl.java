@@ -219,6 +219,7 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
       values.put(v.getParentKey(), v);
     }
 
+    final boolean open = r.change.getStatus().isOpen();
     final Map<ApprovalCategory.Id, ChangeApproval> have =
         new HashMap<ApprovalCategory.Id, ChangeApproval>();
     for (final ChangeApproval a : db.changeApprovals().byChangeUser(
@@ -242,25 +243,33 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
           msgbuf.append("; ");
         }
         msgbuf.append(val.getName());
-        mycatpp =
-            new ChangeApproval(new ChangeApproval.Key(r.change.getId(), me, v
-                .getParentKey()), v.get());
-        db.changeApprovals().insert(Collections.singleton(mycatpp), txn);
+        if (open) {
+          mycatpp =
+              new ChangeApproval(new ChangeApproval.Key(r.change.getId(), me, v
+                  .getParentKey()), v.get());
+          db.changeApprovals().insert(Collections.singleton(mycatpp), txn);
+        }
+
       } else if (mycatpp.getValue() != v.get()) {
         if (msgbuf.length() > 0) {
           msgbuf.append("; ");
         }
         msgbuf.append(val.getName());
-        mycatpp.setValue(v.get());
-        mycatpp.setGranted();
-        db.changeApprovals().update(Collections.singleton(mycatpp), txn);
+        if (open) {
+          mycatpp.setValue(v.get());
+          mycatpp.setGranted();
+          db.changeApprovals().update(Collections.singleton(mycatpp), txn);
+        }
       }
     }
+    if (open) {
+      db.changeApprovals().delete(have.values(), txn);
+    }
+
     if (msgbuf.length() > 0) {
       msgbuf.insert(0, "Patch Set " + psid.get() + ": ");
       msgbuf.append("\n");
     }
-    db.changeApprovals().delete(have.values(), txn);
     if (messageText != null) {
       msgbuf.append(messageText);
     }

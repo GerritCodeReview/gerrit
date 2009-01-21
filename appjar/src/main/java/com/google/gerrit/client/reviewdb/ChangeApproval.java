@@ -78,11 +78,20 @@ public final class ChangeApproval {
   @Column
   protected Timestamp granted;
 
+  /** <i>Cached copy of Change.open.</i> */
+  @Column
+  protected boolean changeOpen;
+
+  /** <i>Cached copy of Change.sortKey</i>; only if {@link #changeOpen} = false */
+  @Column(length = 16, notNull = false)
+  protected String changeSortKey;
+
   protected ChangeApproval() {
   }
 
   public ChangeApproval(final ChangeApproval.Key k, final short v) {
     key = k;
+    changeOpen = true;
     setValue(v);
     setGranted();
   }
@@ -121,5 +130,10 @@ public final class ChangeApproval {
 
   public void setGranted() {
     granted = new Timestamp(System.currentTimeMillis());
+  }
+
+  public void cache(final Change c) {
+    changeOpen = c.open;
+    changeSortKey = c.sortKey;
   }
 }

@@ -124,7 +124,16 @@ WHERE open = 'N';
 
 -- *********************************************************************
 -- ChangeApprovalAccess
---    @PrimaryKey covers: byChange
+--    @PrimaryKey covers: byChange, byChangeUser
+--    covers:             openByUser
+CREATE INDEX change_approvals_openByUser
+ON change_approvals (account_id)
+WHERE change_open = 'Y';
+
+--    covers:             closedByUser
+CREATE INDEX change_approvals_closedByUser
+ON change_approvals (account_id, change_sort_key)
+WHERE change_open = 'N';
 
 
 -- *********************************************************************

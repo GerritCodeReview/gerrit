@@ -31,4 +31,12 @@ public interface ChangeApprovalAccess extends
   @Query("WHERE key.changeId = ? AND key.accountId = ?")
   ResultSet<ChangeApproval> byChangeUser(Change.Id change, Account.Id account)
       throws OrmException;
+
+  @Query("WHERE changeOpen = true AND key.accountId = ?")
+  ResultSet<ChangeApproval> openByUser(Account.Id account) throws OrmException;
+
+  @Query("WHERE changeOpen = false AND key.accountId = ?"
+      + " ORDER BY changeSortKey DESC LIMIT 10")
+  ResultSet<ChangeApproval> closedByUser(Account.Id account)
+      throws OrmException;
 }

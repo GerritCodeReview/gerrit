@@ -470,15 +470,17 @@ public class MergeOp {
         // sure they are accurate now. This way if permissions get
         // modified in the future, historical records stay accurate.
         //
+        final List<ChangeApproval> approvals =
+            schema.changeApprovals().byChange(c.getId()).toList();
         final FunctionState fs =
-            new FunctionState(c, schema.changeApprovals().byChange(c.getId())
-                .toList());
+            new FunctionState(c, approvals);
         for (ApprovalType at : Common.getGerritConfig().getApprovalTypes()) {
           at.getCategory().getFunction().run(at, fs);
         }
-        for (final ChangeApproval a : fs.getDirtyChangeApprovals()) {
-          schema.changeApprovals().update(Collections.singleton(a), txn);
+        for (ChangeApproval a : approvals) {
+          a.cache(c);
         }
+        schema.changeApprovals().update(approvals, txn);
 
         if (msg != null) {
           schema.changeMessages().insert(Collections.singleton(msg), txn);

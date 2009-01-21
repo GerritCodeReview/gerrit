@@ -19,6 +19,7 @@ import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.AccountGroupMember;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.Change;
+import com.google.gerrit.client.reviewdb.ChangeApproval;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ProjectRight;
@@ -122,6 +123,12 @@ public class ImportGerrit1 {
       for (final Change.Id changeId : changesToDo) {
         final Change c = db.changes().get(changeId);
         ChangeUtil.computeSortKey(c);
+        final List<ChangeApproval> approvals =
+            db.changeApprovals().byChange(changeId).toList();
+        for (final ChangeApproval a : approvals) {
+          a.cache(c);
+        }
+        db.changeApprovals().update(approvals);
         db.changes().update(Collections.singleton(c));
         pm.update(1);
       }

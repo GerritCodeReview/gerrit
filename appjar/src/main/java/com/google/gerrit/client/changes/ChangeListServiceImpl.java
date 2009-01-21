@@ -21,6 +21,7 @@ import com.google.gerrit.client.data.SingleListChangeInfo;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.ChangeAccess;
+import com.google.gerrit.client.reviewdb.ChangeApproval;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.StarredChange;
@@ -43,6 +44,19 @@ import java.util.Set;
 
 public class ChangeListServiceImpl extends BaseServiceImplementation implements
     ChangeListService {
+  private static final Comparator<ChangeInfo> ID_COMP =
+      new Comparator<ChangeInfo>() {
+        public int compare(final ChangeInfo o1, final ChangeInfo o2) {
+          return o1.getId().get() - o2.getId().get();
+        }
+      };
+  private static final Comparator<ChangeInfo> SORT_KEY_COMP =
+      new Comparator<ChangeInfo>() {
+        public int compare(final ChangeInfo o1, final ChangeInfo o2) {
+          return o2.getSortKey().compareTo(o1.getSortKey());
+        }
+      };
+
   private static final int MAX_PER_PAGE = 50;
 
   private static int safePageSize(final int pageSize) {
@@ -115,9 +129,33 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
         final ChangeAccess changes = db.changes();
         final AccountDashboardInfo d;
 
+        final Set<Change.Id> openReviews = new HashSet<Change.Id>();
+        final Set<Change.Id> closedReviews = new HashSet<Change.Id>();
+        for (final ChangeApproval ca : db.changeApprovals().openByUser(id)) {
+          openReviews.add(ca.getChangeId());
+        }
+        for (final ChangeApproval ca : db.changeApprovals().closedByUser(id)) {
+          closedReviews.add(ca.getChangeId());
+        }
+
         d = new AccountDashboardInfo(target);
         d.setByOwner(filter(changes.byOwnerOpen(target), stars, ac));
         d.setClosed(filter(changes.byOwnerClosed(target), stars, ac));
+
+        for (final ChangeInfo c : d.getByOwner()) {
+          openReviews.remove(c.getId());
+        }
+        d.setForReview(filter(changes.get(openReviews), stars, ac));
+        Collections.sort(d.getForReview(), ID_COMP);
+
+        for (final ChangeInfo c : d.getClosed()) {
+          closedReviews.remove(c.getId());
+        }
+        if (!closedReviews.isEmpty()) {
+          d.getClosed().addAll(filter(changes.get(closedReviews), stars, ac));
+          Collections.sort(d.getClosed(), SORT_KEY_COMP);
+        }
+
         d.setAccounts(ac.create());
         return d;
       }

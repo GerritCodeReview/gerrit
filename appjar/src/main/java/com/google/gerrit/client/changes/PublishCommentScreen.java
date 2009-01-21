@@ -241,10 +241,7 @@ public class PublishCommentScreen extends AccountScreen implements
         new HashMap<ApprovalCategory.Id, ApprovalCategoryValue.Id>();
     for (final ValueRadioButton b : approvalButtons) {
       if (b.isChecked()) {
-        final ApprovalCategoryValue v = b.value;
-        if (v.getValue() != 0) {
-          values.put(v.getCategoryId(), v.getId());
-        }
+        values.put(b.value.getCategoryId(), b.value.getId());
       }
     }
 

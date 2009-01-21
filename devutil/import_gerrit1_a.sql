@@ -609,13 +609,6 @@ UPDATE account_groups
 SET name = 'Administrators'
 WHERE name = 'admin';
 
--- Purge any no-op approvals on closed changes
---
-DELETE FROM change_approvals
-WHERE value = 0
-  AND EXISTS (SELECT 1 FROM changes c
-              WHERE c.open = 'N'
-                AND c.change_id = change_approvals.change_id);
 
 -- Fix change.nbr_patch_sets
 --

@@ -96,11 +96,21 @@ public class ChangeDetail {
       }
       d.add(ca);
     }
+    if (ad.containsKey(owner)) {
+      // Ensure the owner always sorts to the top of the table
+      //
+      final ApprovalDetail d = ad.get(owner);
+      d.hasNonZero = 1;
+      d.sortOrder = ApprovalDetail.EG_0;
+    }
     acc.want(ad.keySet());
     approvals = new ArrayList<ApprovalDetail>(ad.values());
     Collections.sort(approvals, new Comparator<ApprovalDetail>() {
       public int compare(final ApprovalDetail o1, final ApprovalDetail o2) {
-        return o2.sortOrder.compareTo(o1.sortOrder);
+        int cmp;
+        cmp = o2.hasNonZero - o1.hasNonZero;
+        if (cmp != 0) return cmp;
+        return o1.sortOrder.compareTo(o2.sortOrder);
       }
     });
 

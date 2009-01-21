@@ -35,6 +35,7 @@ public class ApprovalDetail {
   protected Account.Id account;
   protected List<ChangeApproval> approvals;
 
+  transient int hasNonZero;
   transient Timestamp sortOrder = EG_D;
 
   protected ApprovalDetail() {
@@ -64,6 +65,9 @@ public class ApprovalDetail {
     final Timestamp g = ca.getGranted();
     if (g != null && g.compareTo(sortOrder) < 0) {
       sortOrder = g;
+    }
+    if (ca.getValue() != 0) {
+      hasNonZero = 1;
     }
   }
 

@@ -477,11 +477,7 @@ public class MergeOp {
           at.getCategory().getFunction().run(at, fs);
         }
         for (final ChangeApproval a : fs.getDirtyChangeApprovals()) {
-          if (a.getValue() == 0) {
-            schema.changeApprovals().delete(Collections.singleton(a), txn);
-          } else {
-            schema.changeApprovals().update(Collections.singleton(a), txn);
-          }
+          schema.changeApprovals().update(Collections.singleton(a), txn);
         }
 
         if (msg != null) {

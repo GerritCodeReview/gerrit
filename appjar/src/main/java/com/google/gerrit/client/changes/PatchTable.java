@@ -33,22 +33,19 @@ import java.util.List;
 public class PatchTable extends FancyFlexTable<Patch> {
   private static final int C_TYPE = 1;
   private static final int C_NAME = 2;
-  private static final int C_DELTA = 3;
-  private static final int C_COMMENTS = 4;
-  private static final int C_DIFF = 5;
+  private static final int C_COMMENTS = 3;
+  private static final int C_DIFF = 4;
   private static final int N_DIFF = 2;
 
   public PatchTable() {
     table.setText(0, C_TYPE, "");
     table.setText(0, C_NAME, Util.C.patchTableColumnName());
-    table.setText(0, C_DELTA, Util.C.patchTableColumnDelta());
     table.setText(0, C_COMMENTS, Util.C.patchTableColumnComments());
     table.setText(0, C_DIFF, Util.C.patchTableColumnDiff());
 
     final FlexCellFormatter fmt = table.getFlexCellFormatter();
     fmt.addStyleName(0, C_TYPE, S_ICON_HEADER);
     fmt.addStyleName(0, C_NAME, S_DATA_HEADER);
-    fmt.addStyleName(0, C_DELTA, S_DATA_HEADER);
     fmt.addStyleName(0, C_COMMENTS, S_DATA_HEADER);
     fmt.addStyleName(0, C_DIFF, S_DATA_HEADER);
     fmt.setColSpan(0, C_DIFF, N_DIFF);
@@ -78,8 +75,6 @@ public class PatchTable extends FancyFlexTable<Patch> {
 
     fmt.addStyleName(row, C_NAME, S_DATA_CELL);
     fmt.addStyleName(row, C_NAME, "FilePathCell");
-
-    fmt.addStyleName(row, C_DELTA, S_DATA_CELL);
 
     fmt.addStyleName(row, C_COMMENTS, S_DATA_CELL);
     fmt.addStyleName(row, C_COMMENTS, "CommentCell");
@@ -139,8 +134,6 @@ public class PatchTable extends FancyFlexTable<Patch> {
       nameLink = fp;
     }
     table.setWidget(row, C_NAME, nameLink);
-
-    table.clearCell(row, C_DELTA);
 
     final StringBuilder commentStr = new StringBuilder();
     if (patch.getCommentCount() > 0) {

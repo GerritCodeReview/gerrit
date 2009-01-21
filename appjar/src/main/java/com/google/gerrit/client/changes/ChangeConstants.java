@@ -39,7 +39,6 @@ public interface ChangeConstants extends Constants {
   String changeTableNone();
 
   String patchTableColumnName();
-  String patchTableColumnDelta();
   String patchTableColumnComments();
   String patchTableColumnDiff();
   String patchTableDiffSideBySide();

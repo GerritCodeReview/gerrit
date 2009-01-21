@@ -16,10 +16,12 @@ package com.google.gerrit.server;
 
 import com.google.gerrit.client.data.ProjectCache;
 import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.client.reviewdb.AccountGroupMember;
 import com.google.gerrit.client.reviewdb.AccountProjectWatch;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.ChangeApproval;
 import com.google.gerrit.client.reviewdb.ChangeMessage;
+import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.PatchSetInfo;
@@ -36,10 +38,12 @@ import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.UnknownHostException;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.mail.Address;
 import javax.mail.MessagingException;
@@ -47,7 +51,6 @@ import javax.mail.Transport;
 import javax.mail.Message.RecipientType;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 
 public class ChangeMail {
@@ -58,6 +61,7 @@ public class ChangeMail {
   private final HashSet<Account.Id> rcptTo = new HashSet<Account.Id>();
   private MimeMessage msg;
   private StringBuilder body;
+  private boolean inFooter;
 
   private String myUrl;
   private Account.Id fromId;
@@ -65,6 +69,8 @@ public class ChangeMail {
   private PatchSetInfo patchSetInfo;
   private ChangeMessage message;
   private List<PatchLineComment> comments = Collections.emptyList();
+  private final Set<Account.Id> reviewers = new HashSet<Account.Id>();
+  private final Set<Account.Id> extraCC = new HashSet<Account.Id>();
   private ReviewDb db;
 
   public ChangeMail(final GerritServer gs, final Change c) {
@@ -103,8 +109,93 @@ public class ChangeMail {
     comments = plc;
   }
 
+  public void addReviewers(final Collection<Account.Id> cc) {
+    reviewers.addAll(cc);
+  }
+
+  public void addExtraCC(final Collection<Account.Id> cc) {
+    extraCC.addAll(cc);
+  }
+
   public void setReviewDb(final ReviewDb d) {
     db = d;
+  }
+
+  public void sendNewChange() throws MessagingException {
+    if (begin("newchange")) {
+      add(RecipientType.TO, reviewers);
+      add(RecipientType.CC, extraCC);
+      if (patchSetInfo != null) {
+        // Make sure the author/committer get notice of a change that
+        // they will be blamed later on for writing.
+        //
+        add(RecipientType.CC, patchSetInfo.getAuthor());
+        add(RecipientType.CC, patchSetInfo.getCommitter());
+      }
+      newChangeTo();
+      if (!haveRcptTo()) {
+        // No destinations at this point makes it very moot to mail,
+        // nobody was interested in the change or was told to look
+        // at it by the caller.
+        //
+        return;
+      }
+
+      // CC the owner/uploader, but in truth these should always match
+      // the sender too. add will strip duplicates (if any).
+      //
+      add(RecipientType.CC, change.getOwner());
+      if (patchSet != null) {
+        add(RecipientType.CC, patchSet.getUploader());
+      }
+      ccSender();
+
+      body.append("New change ");
+      body.append(change.getChangeId());
+      body.append(" for ");
+      body.append(change.getDest().getShortName());
+      body.append(":\n\n");
+
+      if (changeUrl() != null) {
+        body.append("  ");
+        body.append(changeUrl());
+        body.append("\n\n");
+      }
+
+      if (patchSetInfo != null) {
+        body.append(patchSetInfo.getMessage().trim());
+        body.append("\n\n");
+      } else {
+        body.append(change.getSubject().trim());
+        body.append("\n\n");
+      }
+
+      if (db != null && patchSet != null) {
+        body.append("---\n");
+        try {
+          for (Patch p : db.patches().byPatchSet(patchSet.getId())) {
+            body.append(p.getChangeType().getCode());
+            body.append(' ');
+            body.append(p.getFileName());
+            body.append('\n');
+          }
+        } catch (OrmException e) {
+          // Don't bother including the files if we get a failure,
+          // ensure we at least send the notification message.
+        }
+        body.append("\n");
+      }
+
+      openFooter();
+      if (changeUrl() != null) {
+        body.append("View this change at ");
+        body.append(changeUrl());
+        body.append("\n");
+      }
+
+      msg.setMessageID(changeMessageThreadId());
+      send();
+    }
   }
 
   public void sendComment() throws MessagingException {
@@ -146,15 +237,65 @@ public class ChangeMail {
       }
 
       openFooter();
-      body.append("To respond visit ");
-      body.append(changeUrl());
-      body.append("\n");
+      if (changeUrl() != null) {
+        body.append("To respond visit ");
+        body.append(changeUrl());
+        body.append("\n");
+      }
+
+      initInReplyToChange();
       commentTo();
       send();
     }
   }
 
+  private void newChangeTo() throws MessagingException {
+    final ProjectCache.Entry cacheEntry =
+        Common.getProjectCache().get(change.getDest().getParentKey());
+    if (cacheEntry == null) {
+      return;
+    }
+    try {
+      // Try to mark interested owners with a TO and not a BCC line.
+      //
+      final Set<Account.Id> toNotBCC = new HashSet<Account.Id>();
+      for (AccountGroupMember m : db.accountGroupMembers().byGroup(
+          cacheEntry.getProject().getOwnerGroupId())) {
+        toNotBCC.add(m.getAccountId());
+      }
+
+      // BCC anyone who has interest in this project's changes
+      //
+      for (AccountProjectWatch w : db.accountProjectWatches().notifyNewChanges(
+          cacheEntry.getProject().getId())) {
+        if (toNotBCC.contains(w.getAccountId())) {
+          add(RecipientType.TO, w.getAccountId());
+        } else {
+          add(RecipientType.BCC, w.getAccountId());
+        }
+      }
+    } catch (OrmException err) {
+      // Just don't CC everyone. Better to send a partial message to those
+      // we already have queued up then to fail deliver entirely to people
+      // who have a lower interest in the change.
+    }
+  }
+
   private void commentTo() throws MessagingException {
+    // Always to the owner/uploader/author/committer. These people
+    // have a vested interest in the change and any remarks made.
+    //
+    add(RecipientType.TO, change.getOwner());
+    if (patchSet != null) {
+      add(RecipientType.TO, patchSet.getUploader());
+    }
+    if (patchSetInfo != null) {
+      add(RecipientType.TO, patchSetInfo.getAuthor());
+      add(RecipientType.TO, patchSetInfo.getCommitter());
+    }
+    add(RecipientType.CC, reviewers);
+    add(RecipientType.CC, extraCC);
+
     if (db == null) {
       // We need a database handle to fetch the interest list.
       //
@@ -197,8 +338,8 @@ public class ChangeMail {
       initListId(messageClass);
       initChangeUrl();
       initSubject();
-      defaultTo();
       body = new StringBuilder();
+      inFooter = false;
       return true;
     }
     return false;
@@ -237,10 +378,22 @@ public class ChangeMail {
     final String listidStr = listid.toString();
     msg.setHeader("Mailing-List", "list " + listidStr);
     msg.setHeader("List-Id", "<" + listidStr.replace('@', '.') + ">");
+    if (settingsUrl() != null) {
+      msg.setHeader("List-Unsubscribe", "<" + settingsUrl() + ">");
+    }
   }
 
   private void initChangeUrl() throws MessagingException {
-    msg.setHeader("X-Gerrit-ChangeURL", changeUrl());
+    final String u = changeUrl();
+    if (u != null) {
+      msg.setHeader("X-Gerrit-ChangeURL", "<" + u + ">");
+    }
+  }
+
+  private void initInReplyToChange() throws MessagingException {
+    final String id = changeMessageThreadId();
+    msg.setHeader("In-Reply-To", id);
+    msg.setHeader("References", id);
   }
 
   private void initSubject() throws MessagingException {
@@ -257,28 +410,6 @@ public class ChangeMail {
       subj.append(change.getSubject());
     }
     msg.setSubject(subj.toString());
-  }
-
-  private void defaultTo() throws MessagingException {
-    // Always to the owner/uploader/author/committer. These people
-    // have a vested interest in the change and any remarks made onit.
-    //
-    add(RecipientType.TO, change.getOwner());
-    if (patchSet != null) {
-      add(RecipientType.TO, patchSet.getUploader());
-    }
-    if (patchSetInfo != null) {
-      add(RecipientType.TO, patchSetInfo.getAuthor());
-      add(RecipientType.TO, patchSetInfo.getCommitter());
-    }
-
-    if (fromId != null) {
-      // If we are impersonating a user, make sure they receive a CC of
-      // this message so they can always review and audit what we sent
-      // on their behalf to others.
-      //
-      add(RecipientType.CC, fromId);
-    }
   }
 
   private String gerritHost() {
@@ -309,40 +440,86 @@ public class ChangeMail {
     }
   }
 
-  private void openFooter() {
-    body.append("--\n");
+  private String changeUrl() {
+    if (gerritUrl() != null) {
+      final StringBuilder r = new StringBuilder();
+      r.append(gerritUrl());
+      r.append(change.getChangeId());
+      return r.toString();
+    }
+    return null;
   }
 
-  private String changeUrl() {
-    final StringBuilder r = new StringBuilder();
-    if (server.getCanonicalURL() != null) {
-      r.append(server.getCanonicalURL());
-    } else {
-      r.append(myUrl);
+  private String settingsUrl() {
+    if (gerritUrl() != null) {
+      final StringBuilder r = new StringBuilder();
+      r.append(gerritUrl());
+      r.append("settings");
+      return r.toString();
     }
+    return null;
+  }
+
+  private String gerritUrl() {
+    if (server.getCanonicalURL() != null) {
+      return server.getCanonicalURL();
+    }
+    return myUrl;
+  }
+
+  private String changeMessageThreadId() {
+    final StringBuilder r = new StringBuilder();
+    r.append('<');
+    r.append("gerrit");
+    r.append('.');
+    r.append(change.getCreatedOn().getTime());
+    r.append('.');
     r.append(change.getChangeId());
+    if (fromId != null) {
+      r.append('.');
+      r.append(fromId.get());
+    }
+    r.append('@');
+    r.append(gerritHost());
+    r.append('>');
     return r.toString();
   }
 
+  private void openFooter() {
+    if (!inFooter) {
+      inFooter = true;
+      body.append("-- \n");
+    }
+  }
+
   private void send() throws MessagingException {
+    if (haveRcptTo()) {
+      ccSender();
+      openFooter();
+      body.append("To unsubscribe, visit ");
+      body.append(settingsUrl());
+      body.append("\n");
+      msg.setText(body.toString(), "UTF-8");
+      Transport.send(msg);
+    }
+  }
+
+  private boolean haveRcptTo() {
     if (rcptTo.isEmpty()) {
       // If we have nobody to send this message to, then all of our
       // selection filters previously for this type of message were
       // unable to match a destination. Don't bother sending it.
       //
-      return;
+      return false;
     }
 
     if (rcptTo.size() == 1 && rcptTo.contains(fromId)) {
-      // If the only recipient is because we CC'd the user we are sending
-      // from, this message isn't very worthwhile. Users shouldn't use
-      // us in order to email themselves.
+      // If the only recipient is also the sender, don't bother.
       //
-      return;
+      return false;
     }
 
-    msg.setText(body.toString(), "UTF-8");
-    Transport.send(msg);
+    return true;
   }
 
   private Project.Id projectId() {
@@ -350,6 +527,23 @@ public class ChangeMail {
 
     r = Common.getProjectCache().get(change.getDest().getParentKey());
     return r != null ? r.getProject().getId() : null;
+  }
+
+  private void ccSender() throws MessagingException {
+    if (fromId != null) {
+      // If we are impersonating a user, make sure they receive a CC of
+      // this message so they can always review and audit what we sent
+      // on their behalf to others.
+      //
+      add(RecipientType.CC, fromId);
+    }
+  }
+
+  private void add(final RecipientType rt, final Collection<Account.Id> list)
+      throws MessagingException {
+    for (final Account.Id id : list) {
+      add(rt, id);
+    }
   }
 
   private void add(final RecipientType rt, final UserIdentity who)

@@ -31,6 +31,7 @@ import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.git.PatchSetImporter;
+import com.google.gerrit.server.ChangeMail;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritServer;
 import com.google.gwtorm.client.OrmException;
@@ -63,6 +64,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.mail.MessagingException;
 
 /** Receives change upload over SSH using the Git receive-pack protocol. */
 class Receive extends AbstractGitCommand {
@@ -495,6 +498,18 @@ class Receive extends AbstractGitCommand {
     ru.update(walk);
 
     allNewChanges.add(change.getId());
+
+    try {
+      final ChangeMail cm = new ChangeMail(server, change);
+      cm.setFrom(userAccount.getId());
+      cm.setPatchSet(ps, imp.getPatchSetInfo());
+      cm.setReviewDb(db);
+      cm.addReviewers(reviewerId);
+      cm.addExtraCC(ccId);
+      cm.sendNewChange();
+    } catch (MessagingException e) {
+      // TODO Log (like everything else) email send failures
+    }
   }
 
   private void appendPatchSets() {

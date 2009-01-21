@@ -109,6 +109,21 @@ public class AccountServiceImpl extends BaseServiceImplementation implements
     });
   }
 
+  public void updateProjectWatch(final AccountProjectWatch watch,
+      final AsyncCallback<VoidResult> callback) {
+    if (!Common.getAccountId().equals(watch.getAccountId())) {
+      callback.onFailure(new NoSuchEntityException());
+      return;
+    }
+
+    run(callback, new Action<VoidResult>() {
+      public VoidResult run(ReviewDb db) throws OrmException {
+        db.accountProjectWatches().update(Collections.singleton(watch));
+        return VoidResult.INSTANCE;
+      }
+    });
+  }
+
   public void deleteProjectWatches(final Set<AccountProjectWatch.Key> keys,
       final AsyncCallback<VoidResult> callback) {
     run(callback, new Action<VoidResult>() {

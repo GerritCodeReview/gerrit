@@ -50,6 +50,14 @@ public final class AccountProjectWatch {
   @Column(name = Column.NONE)
   protected Key key;
 
+  /** Automatically send email notifications of new changes? */
+  @Column
+  protected boolean notifyNewChanges;
+
+  /** Automatically receive comments published to this project */
+  @Column
+  protected boolean notifyAllComments;
+
   protected AccountProjectWatch() {
   }
 
@@ -67,5 +75,21 @@ public final class AccountProjectWatch {
 
   public Project.Id getProjectId() {
     return key.projectId;
+  }
+
+  public boolean isNotifyNewChanges() {
+    return notifyNewChanges;
+  }
+
+  public void setNotifyNewChanges(final boolean a) {
+    notifyNewChanges = a;
+  }
+
+  public boolean isNotifyAllComments() {
+    return notifyAllComments;
+  }
+
+  public void setNotifyAllComments(final boolean a) {
+    notifyAllComments = a;
   }
 }

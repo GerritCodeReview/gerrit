@@ -18,6 +18,7 @@ import com.google.gerrit.client.reviewdb.AccountProjectWatch;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.client.ui.ProjectNameSuggestOracle;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.ClickListener;
@@ -143,12 +144,23 @@ class ProjectWatchPanel extends Composite {
 
   private class WatchTable extends FancyFlexTable<AccountProjectWatchInfo> {
     WatchTable() {
+      table.insertRow(1);
       table.setText(0, 2, com.google.gerrit.client.changes.Util.C
           .changeTableColumnProject());
+      table.setText(0, 3, Util.C.watchedProjectColumnEmailNotifications());
       table.addTableListener(new TableListener() {
         public void onCellClicked(SourcesTableEvents sender, int row, int cell) {
-          if (cell != 1 && getRowItem(row) != null) {
-            movePointerTo(row);
+          switch (cell) {
+            case 1:
+            case 3:
+              // Don't do anything, these cells also contain check boxes.
+              break;
+
+            default:
+              if (getRowItem(row) != null) {
+                movePointerTo(row);
+              }
+              break;
           }
         }
       });
@@ -156,6 +168,17 @@ class ProjectWatchPanel extends Composite {
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
       fmt.addStyleName(0, 1, S_ICON_HEADER);
       fmt.addStyleName(0, 2, S_DATA_HEADER);
+      fmt.addStyleName(0, 3, S_DATA_HEADER);
+      fmt.setRowSpan(0, 0, 2);
+      fmt.setRowSpan(0, 1, 2);
+      fmt.setRowSpan(0, 2, 2);
+      DOM.setElementProperty(fmt.getElement(0, 3), "align", "center");
+
+      fmt.setColSpan(0, 3, 2);
+      table.setText(1, 0, Util.C.watchedProjectColumnNewChanges());
+      table.setText(1, 1, Util.C.watchedProjectColumnAllComments());
+      fmt.addStyleName(1, 0, S_DATA_HEADER);
+      fmt.addStyleName(1, 1, S_DATA_HEADER);
     }
 
     @Override
@@ -242,7 +265,7 @@ class ProjectWatchPanel extends Composite {
     }
 
     void display(final List<AccountProjectWatchInfo> result) {
-      while (1 < table.getRowCount())
+      while (2 < table.getRowCount())
         table.removeRow(table.getRowCount() - 1);
 
       for (final AccountProjectWatchInfo k : result) {
@@ -256,10 +279,58 @@ class ProjectWatchPanel extends Composite {
     void populate(final int row, final AccountProjectWatchInfo k) {
       table.setWidget(row, 1, new CheckBox());
       table.setText(row, 2, k.getProject().getName());
+      {
+        final CheckBox notifyNewChanges = new CheckBox();
+        notifyNewChanges.addClickListener(new ClickListener() {
+          public void onClick(final Widget sender) {
+            final boolean oldVal = k.getWatch().isNotifyNewChanges();
+            k.getWatch().setNotifyNewChanges(notifyNewChanges.isChecked());
+            Util.ACCOUNT_SVC.updateProjectWatch(k.getWatch(),
+                new GerritCallback<VoidResult>() {
+                  public void onSuccess(final VoidResult result) {
+                  }
+
+                  @Override
+                  public void onFailure(final Throwable caught) {
+                    k.getWatch().setNotifyNewChanges(oldVal);
+                    notifyNewChanges.setChecked(oldVal);
+                    super.onFailure(caught);
+                  }
+                });
+          }
+        });
+        notifyNewChanges.setChecked(k.getWatch().isNotifyNewChanges());
+        table.setWidget(row, 3, notifyNewChanges);
+      }
+      {
+        final CheckBox notifyAllComments = new CheckBox();
+        notifyAllComments.addClickListener(new ClickListener() {
+          public void onClick(final Widget sender) {
+            final boolean oldVal = k.getWatch().isNotifyAllComments();
+            k.getWatch().setNotifyAllComments(notifyAllComments.isChecked());
+            Util.ACCOUNT_SVC.updateProjectWatch(k.getWatch(),
+                new GerritCallback<VoidResult>() {
+                  public void onSuccess(final VoidResult result) {
+                  }
+
+                  @Override
+                  public void onFailure(final Throwable caught) {
+                    k.getWatch().setNotifyAllComments(oldVal);
+                    notifyAllComments.setChecked(oldVal);
+                    super.onFailure(caught);
+                  }
+                });
+          }
+        });
+        notifyAllComments.setChecked(k.getWatch().isNotifyAllComments());
+        table.setWidget(row, 4, notifyAllComments);
+      }
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
       fmt.addStyleName(row, 1, S_ICON_CELL);
       fmt.addStyleName(row, 2, S_DATA_CELL);
+      fmt.addStyleName(row, 3, S_DATA_CELL);
+      fmt.addStyleName(row, 4, S_DATA_CELL);
 
       setRowItem(row, k);
     }

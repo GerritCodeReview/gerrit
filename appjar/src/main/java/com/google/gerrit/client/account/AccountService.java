@@ -39,6 +39,10 @@ public interface AccountService extends RemoteJsonService {
       AsyncCallback<AccountProjectWatchInfo> callback);
 
   @SignInRequired
+  void updateProjectWatch(AccountProjectWatch watch,
+      AsyncCallback<VoidResult> callback);
+
+  @SignInRequired
   void deleteProjectWatches(Set<AccountProjectWatch.Key> keys,
       AsyncCallback<VoidResult> callback);
 

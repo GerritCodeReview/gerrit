@@ -36,9 +36,10 @@ dropdb $dstdb
 createdb -E UTF-8 -O $user $dstdb || exit
 pg_restore -O -d $dstdb $v1data || exit
 $g2 CreateSchema || exit
-psql -f devutil/import_gerrit1.sql $dstdb || exit
+psql -f devutil/import_gerrit1_a.sql $dstdb || exit
 psql -f $cfgsql $dstdb || exit
 $g2 ImportGerrit1 || exit
+psql -f devutil/import_gerrit1_b.sql $dstdb || exit
 
 echo >&2
 echo >&2 "Creating secondary indexes..."

@@ -18,7 +18,7 @@ import com.google.gwt.i18n.client.Messages;
 
 public interface ChangeMessages extends Messages {
   String accountDashboardTitle(String fullName);
-  String changesUploadedBy(String fullName);
+  String changesStartedBy(String fullName);
   String changesReviewableBy(String fullName);
 
   String changeScreenTitleId(int id);

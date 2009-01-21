@@ -66,7 +66,7 @@ abstract class AbstractGitCommand extends AbstractCommand {
     if (ProjectRight.WILD_PROJECT.equals(proj.getId())) {
       throw new Failure(1, "fatal: '" + reqName + "': not a valid project");
     }
-    if (!BaseServiceImplementation.canRead(proj.getNameKey())) {
+    if (!BaseServiceImplementation.canRead(getAccountId(), proj.getNameKey())) {
       throw new Failure(1, "fatal: '" + reqName + "': not a Gerrit project");
     }
 

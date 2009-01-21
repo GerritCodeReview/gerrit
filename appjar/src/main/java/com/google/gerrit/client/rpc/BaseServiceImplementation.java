@@ -15,6 +15,7 @@
 package com.google.gerrit.client.rpc;
 
 import com.google.gerrit.client.data.ProjectCache;
+import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.Change;
@@ -91,6 +92,11 @@ public class BaseServiceImplementation {
 
   /** Return true if the current user can read this project, and its contents. */
   public static boolean canRead(final Project.NameKey projectKey) {
+    return canRead(Common.getAccountId(), projectKey);
+  }
+
+  public static boolean canRead(final Account.Id who,
+      final Project.NameKey projectKey) {
     final ProjectCache.Entry e = Common.getProjectCache().get(projectKey);
     if (e == null) {
       // Unexpected, a project disappearing. But claim its not available.
@@ -98,8 +104,7 @@ public class BaseServiceImplementation {
       return false;
     }
 
-    final Set<AccountGroup.Id> myGroups =
-        Common.getGroupCache().getGroups(Common.getAccountId());
+    final Set<AccountGroup.Id> myGroups = Common.getGroupCache().getGroups(who);
     if (myGroups.contains(e.getProject().getOwnerGroupId())) {
       // Ownership implies full access.
       //

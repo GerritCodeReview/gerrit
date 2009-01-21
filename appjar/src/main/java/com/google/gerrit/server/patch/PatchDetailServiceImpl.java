@@ -15,12 +15,10 @@
 package com.google.gerrit.server.patch;
 
 import com.google.gerrit.client.data.ApprovalType;
-import com.google.gerrit.client.data.ProjectCache;
 import com.google.gerrit.client.data.SideBySidePatchDetail;
 import com.google.gerrit.client.data.UnifiedPatchDetail;
 import com.google.gerrit.client.patches.PatchDetailService;
 import com.google.gerrit.client.reviewdb.Account;
-import com.google.gerrit.client.reviewdb.AccountProjectWatch;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.client.reviewdb.Change;
@@ -30,13 +28,12 @@ import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.PatchSetInfo;
-import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
-import com.google.gerrit.client.reviewdb.UserIdentity;
 import com.google.gerrit.client.rpc.BaseServiceImplementation;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gerrit.git.RepositoryCache;
+import com.google.gerrit.server.ChangeMail;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritJsonServlet;
 import com.google.gerrit.server.GerritServer;
@@ -46,24 +43,14 @@ import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.OrmRunnable;
 import com.google.gwtorm.client.Transaction;
 
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.Transport;
-import javax.mail.Message.RecipientType;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import javax.servlet.http.HttpServletRequest;
 
 public class PatchDetailServiceImpl extends BaseServiceImplementation implements
     PatchDetailService {
@@ -169,148 +156,17 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
           }
         });
 
-        final javax.mail.Session out = server.getOutgoingMail();
-        if (out == null) {
-          return VoidResult.INSTANCE;
-        }
-
-        final HttpServletRequest req =
-            GerritJsonServlet.getCurrentCall().getHttpServletRequest();
-        String gerritHost = null;
-        if (server.getCanonicalURL() != null) {
-          try {
-            gerritHost = new URL(server.getCanonicalURL()).getHost();
-          } catch (MalformedURLException e) {
-            gerritHost = null;
-          }
-        }
-        if (gerritHost == null) {
-          gerritHost = req.getServerName();
-        }
-
-        final StringBuilder listid = new StringBuilder();
-        final StringBuilder subj = new StringBuilder();
-        final StringBuilder body = new StringBuilder();
-
-        final Account myAcct =
-            Common.getAccountCache().get(Common.getAccountId());
-        final String myEmail = myAcct.getPreferredEmail();
-        final ProjectCache.Entry cachedProject =
-            Common.getProjectCache().get(r.change.getDest().getParentKey());
-        final Project project = cachedProject.getProject();
-        final String projName = r.change.getDest().getParentKey().get();
-
-        listid.append("gerrit-comment-");
-        listid.append(projName.replace('/', '-'));
-        listid.append("@");
-        listid.append(gerritHost);
-
-        subj.append("Change ");
-        subj.append(r.change.getChangeId());
-        subj.append(": (");
-        subj.append(projName);
-        subj.append(") ");
-        subj.append(r.change.getSubject());
-
-        if (r.message != null) {
-          body.append(r.message.getMessage().trim());
-          body.append("\n\n");
-        }
-
-        if (!r.comments.isEmpty()) {
-          body.append("Comments on Patch Set ");
-          body.append(psid.get());
-          body.append(":\n\n");
-        }
-
-        String priorFile = "";
-        for (final PatchLineComment c : r.comments) {
-          final String fn = c.getKey().getParentKey().get();
-          if (!fn.equals(priorFile)) {
-            body.append("..................................................\n");
-            body.append("File ");
-            body.append(fn);
-            body.append("\n");
-            priorFile = fn;
-          }
-          body.append("Line ");
-          body.append(c.getLine());
-          body.append("\n");
-          body.append(c.getMessage().trim());
-          body.append("\n\n");
-        }
-
-        if (body.length() == 0) {
-          // We have no meaningful content in the body; don't send email.
-          //
-          return VoidResult.INSTANCE;
-        }
-
-        body.append("--\n");
-        body.append("To respond visit ");
-        if (server.getCanonicalURL() != null) {
-          body.append(server.getCanonicalURL());
-        } else {
-          final StringBuffer url = req.getRequestURL();
-          url.setLength(url.lastIndexOf("/")); // cut "PatchDetailService"
-          url.setLength(url.lastIndexOf("/")); // cut "rpc"
-          body.append(url);
-          body.append("/");
-        }
-        body.append(r.change.getChangeId());
-        body.append("\n");
-
         try {
-          final InternetAddress myAddr =
-              new InternetAddress(myEmail, myAcct.getFullName());
-          final String listidStr = listid.toString();
-          final HashSet<String> rcpt = new HashSet<String>();
-          final MimeMessage msg = new MimeMessage(out);
-          msg.setFrom(myAddr);
-
-          // Always to the owner/uploader/author/committer. These people
-          // have a vested interest in the change and any remarks made onit.
-          //
-          sendTo(RecipientType.TO, r.change.getOwner(), rcpt, msg);
-          sendTo(RecipientType.TO, r.patchSet.getUploader(), rcpt, msg);
-          sendTo(RecipientType.TO, r.info.getAuthor(), rcpt, msg);
-          sendTo(RecipientType.TO, r.info.getCommitter(), rcpt, msg);
-
-          if (rcpt.add(myEmail)) {
-            // Always CC anything we send on behalf of the user, unless
-            // the user is already in the destination list because they
-            // are the owner and are replying to themselves
-            //
-            msg.addRecipient(Message.RecipientType.CC, myAddr);
-          }
-
-          // CC anyone else who has posted an approval mark on this change
-          //
-          for (final ChangeApproval ap : db.changeApprovals().byChange(
-              r.change.getId())) {
-            sendTo(RecipientType.CC, ap.getAccountId(), rcpt, msg);
-          }
-
-          // BCC anyone else who has interest in this project's changes
-          //
-          if (project != null) {
-            for (final AccountProjectWatch w : db.accountProjectWatches()
-                .notifyAllComments(project.getId())) {
-              sendTo(RecipientType.BCC, w.getAccountId(), rcpt, msg);
-            }
-          }
-
-          // Set a reasonable list id to filters can sort messages
-          //
-          msg.addHeader("Mailing-List", "list " + listidStr);
-          msg.addHeader("List-Id", "<" + listidStr.replace('@', '.') + ">");
-          msg.setSubject(subj.toString());
-          msg.setSentDate(new Date());
-          msg.setText(body.toString());
-          Transport.send(msg);
+          final ChangeMail cm = new ChangeMail(server, r.change);
+          cm.setFrom(Common.getAccountId());
+          cm.setPatchSet(r.patchSet, r.info);
+          cm.setChangeMessage(r.message);
+          cm.setPatchLineComments(r.comments);
+          cm.setReviewDb(db);
+          cm.setHttpServletRequest(GerritJsonServlet.getCurrentCall()
+              .getHttpServletRequest());
+          cm.sendComment();
         } catch (MessagingException e) {
-          throw new Failure(e);
-        } catch (UnsupportedEncodingException e) {
           throw new Failure(e);
         }
         return VoidResult.INSTANCE;
@@ -425,32 +281,5 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
     ChangeUtil.updated(r.change);
     db.changes().update(Collections.singleton(r.change), txn);
     return r;
-  }
-
-  private static void sendTo(final RecipientType rt, final UserIdentity who,
-      final HashSet<String> rcpt, final MimeMessage msg)
-      throws MessagingException {
-    if (who != null && who.getAccount() != null) {
-      sendTo(rt, who.getAccount(), rcpt, msg);
-    }
-  }
-
-  private static void sendTo(final RecipientType rt, final Account.Id to,
-      final HashSet<String> rcpt, final MimeMessage msg)
-      throws MessagingException {
-    final Account a = Common.getAccountCache().get(to);
-    if (a == null) {
-      return;
-    }
-
-    final String e = a.getPreferredEmail();
-    if (e != null && rcpt.add(e)) {
-      try {
-        final String an = a.getFullName();
-        msg.addRecipient(rt, new InternetAddress(e, an));
-      } catch (UnsupportedEncodingException e1) {
-        msg.addRecipient(rt, new InternetAddress(e));
-      }
-    }
   }
 }

@@ -15,10 +15,12 @@
 package com.google.gerrit.server.patch;
 
 import com.google.gerrit.client.data.ApprovalType;
+import com.google.gerrit.client.data.ProjectCache;
 import com.google.gerrit.client.data.SideBySidePatchDetail;
 import com.google.gerrit.client.data.UnifiedPatchDetail;
 import com.google.gerrit.client.patches.PatchDetailService;
 import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.client.reviewdb.AccountProjectWatch;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.client.reviewdb.Change;
@@ -28,6 +30,7 @@ import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.PatchSetInfo;
+import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.UserIdentity;
 import com.google.gerrit.client.rpc.BaseServiceImplementation;
@@ -192,6 +195,9 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
         final Account myAcct =
             Common.getAccountCache().get(Common.getAccountId());
         final String myEmail = myAcct.getPreferredEmail();
+        final ProjectCache.Entry cachedProject =
+            Common.getProjectCache().get(r.change.getDest().getParentKey());
+        final Project project = cachedProject.getProject();
         final String projName = r.change.getDest().getParentKey().get();
 
         listid.append("gerrit-comment-");
@@ -283,6 +289,15 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
           for (final ChangeApproval ap : db.changeApprovals().byChange(
               r.change.getId())) {
             sendTo(RecipientType.CC, ap.getAccountId(), rcpt, msg);
+          }
+
+          // BCC anyone else who has interest in this project's changes
+          //
+          if (project != null) {
+            for (final AccountProjectWatch w : db.accountProjectWatches()
+                .notifyAllComments(project.getId())) {
+              sendTo(RecipientType.BCC, w.getAccountId(), rcpt, msg);
+            }
           }
 
           // Set a reasonable list id to filters can sort messages

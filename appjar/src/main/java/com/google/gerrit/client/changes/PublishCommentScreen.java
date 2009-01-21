@@ -32,7 +32,6 @@ import com.google.gerrit.client.ui.AccountScreen;
 import com.google.gerrit.client.ui.PatchLink;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Button;
@@ -59,7 +58,7 @@ import java.util.Set;
 public class PublishCommentScreen extends AccountScreen implements
     ClickListener {
   private final PatchSet.Id patchSetId;
-  private Collection<RadioButton> approvalButtons;
+  private Collection<ValueRadioButton> approvalButtons;
   private ChangeDescriptionBlock descBlock;
   private Panel approvalPanel;
   private TextArea message;
@@ -82,7 +81,7 @@ public class PublishCommentScreen extends AccountScreen implements
   @Override
   public void onLoad() {
     if (message == null) {
-      approvalButtons = new ArrayList<RadioButton>();
+      approvalButtons = new ArrayList<ValueRadioButton>();
       descBlock = new ChangeDescriptionBlock();
       add(descBlock);
 
@@ -173,7 +172,8 @@ public class PublishCommentScreen extends AccountScreen implements
         continue;
       }
 
-      final RadioButton b = new RadioButton(ct.getCategory().getName());
+      final ValueRadioButton b =
+          new ValueRadioButton(buttonValue, ct.getCategory().getName());
       final StringBuilder m = new StringBuilder();
       if (buttonValue.getValue() == 0) {
         m.append(' ');
@@ -186,7 +186,6 @@ public class PublishCommentScreen extends AccountScreen implements
       b.setText(m.toString());
       b.setChecked(prior != null ? buttonValue.getValue() == prior.getValue()
           : buttonValue.getValue() == 0);
-      setValue(b.getElement(), buttonValue);
       approvalButtons.add(b);
       vp.add(b);
     }
@@ -240,9 +239,9 @@ public class PublishCommentScreen extends AccountScreen implements
   private void onSend() {
     final Map<ApprovalCategory.Id, ApprovalCategoryValue.Id> values =
         new HashMap<ApprovalCategory.Id, ApprovalCategoryValue.Id>();
-    for (final RadioButton b : approvalButtons) {
+    for (final ValueRadioButton b : approvalButtons) {
       if (b.isChecked()) {
-        final ApprovalCategoryValue v = getValue(b.getElement());
+        final ApprovalCategoryValue v = b.value;
         if (v.getValue() != 0) {
           values.put(v.getCategoryId(), v.getId());
         }
@@ -263,11 +262,14 @@ public class PublishCommentScreen extends AccountScreen implements
     Gerrit.display(Link.toChange(ck), new ChangeScreen(ck));
   }
 
-  private static native void setValue(Element rbutton, ApprovalCategoryValue val)
-  /*-{ rbutton["__gerritValue"] = val; }-*/;
+  private static class ValueRadioButton extends RadioButton {
+    final ApprovalCategoryValue value;
 
-  private static native ApprovalCategoryValue getValue(Element rbutton)
-  /*-{ return rbutton["__gerritValue"]; }-*/;
+    ValueRadioButton(final ApprovalCategoryValue v, final String label) {
+      super(label);
+      value = v;
+    }
+  }
 
   private static class DoubleClickLinkLabel extends Label {
     private final Patch.Key patchKey;

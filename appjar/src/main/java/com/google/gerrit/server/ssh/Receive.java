@@ -479,7 +479,7 @@ class Receive extends AbstractGitCommand {
     imp.run();
     change.setCurrentPatchSet(imp.getPatchSetInfo());
     ChangeUtil.updated(change);
-    db.changes().insert(Collections.singleton(change));
+    db.changes().insert(Collections.singleton(change), txn);
 
     for (final ApprovalType t : Common.getGerritConfig().getApprovalTypes()) {
       final ApprovalCategoryValue v = t.getMax();
@@ -487,7 +487,7 @@ class Receive extends AbstractGitCommand {
         db.changeApprovals().insert(
             Collections.singleton(new ChangeApproval(new ChangeApproval.Key(
                 change.getId(), userAccount.getId(), v.getCategoryId()), v
-                .getValue())));
+                .getValue())), txn);
       }
     }
     txn.commit();

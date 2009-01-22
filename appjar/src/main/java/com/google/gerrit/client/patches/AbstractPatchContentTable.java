@@ -21,6 +21,7 @@ import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.data.AccountInfoCache;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
+import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.ComplexDisclosurePanel;
 import com.google.gerrit.client.ui.FancyFlexTable;
@@ -41,6 +42,7 @@ public abstract class AbstractPatchContentTable extends FancyFlexTable<Object> {
   private static final long AGE = 7 * 24 * 60 * 60 * 1000L;
   protected AccountInfoCache accountCache = AccountInfoCache.empty();
   protected Patch.Key patchKey;
+  protected List<PatchSet.Id> versions;
   private final Timestamp aged =
       new Timestamp(System.currentTimeMillis() - AGE);
   private final SignedInListener signedInListener = new SignedInListener() {
@@ -107,8 +109,46 @@ public abstract class AbstractPatchContentTable extends FancyFlexTable<Object> {
 
   protected abstract void bindDrafts(List<PatchLineComment> drafts);
 
+  protected void initVersions(int fileCnt) {
+    if (versions == null) {
+      versions = new ArrayList<PatchSet.Id>();
+      for (int file = 0; file < fileCnt - 1; file++) {
+        versions.add(PatchSet.BASE);
+      }
+      versions.add(patchKey.getParentKey());
+    }
+  }
+
+  protected List<PatchSet.Id> getVersions() {
+    return versions;
+  }
+
+  protected PatchSet.Id getVersion(final int fileId) {
+    return versions.get(fileId);
+  }
+
+  protected void setVersion(final int fileId, final PatchSet.Id v) {
+    versions.set(fileId, v);
+  }
+
+  protected int fileFor(final PatchLineComment c) {
+    int fileId;
+    for (fileId = 0; fileId < versions.size(); fileId++) {
+      final PatchSet.Id i = versions.get(fileId);
+      if (PatchSet.BASE.equals(i) && c.getSide() == fileId
+          && patchKey.equals(c.getKey().getParentKey())) {
+        break;
+      }
+      if (c.getSide() == versions.size() - 1
+          && i.equals(c.getKey().getParentKey().getParentKey())) {
+        break;
+      }
+    }
+    return fileId;
+  }
+
   protected void createCommentEditor(final int suggestRow, final int column,
-      final int line, final short side) {
+      final int line, final short file) {
     int row = suggestRow;
     int spans[] = new int[column + 1];
     OUTER: while (row < table.getRowCount()) {
@@ -139,7 +179,7 @@ public abstract class AbstractPatchContentTable extends FancyFlexTable<Object> {
     if (!Gerrit.isSignedIn()) {
       Gerrit.doSignIn(new AsyncCallback<VoidResult>() {
         public void onSuccess(final VoidResult result) {
-          createCommentEditor(suggestRow, column, line, side);
+          createCommentEditor(suggestRow, column, line, file);
         }
 
         public void onFailure(Throwable caught) {
@@ -148,8 +188,17 @@ public abstract class AbstractPatchContentTable extends FancyFlexTable<Object> {
       return;
     }
 
+    final Patch.Key parentKey;
+    final short side;
+    if (PatchSet.BASE.equals(getVersion(file))) {
+      parentKey = patchKey;
+      side = file;
+    } else {
+      parentKey = new Patch.Key(getVersion(file), patchKey.get());
+      side = (short) 1;
+    }
     final PatchLineComment newComment =
-        new PatchLineComment(new PatchLineComment.Key(patchKey, null), line,
+        new PatchLineComment(new PatchLineComment.Key(parentKey, null), line,
             Gerrit.getUserAccount().getId());
     newComment.setSide(side);
     newComment.setMessage("");

@@ -17,10 +17,13 @@ package com.google.gerrit.client.data;
 import com.google.gerrit.client.patches.PatchScreen;
 import com.google.gerrit.client.reviewdb.Patch;
 
+import java.util.List;
+
 /** Detail necessary to display {@link PatchScreen}. */
 public abstract class BasePatchDetail {
   protected AccountInfoCache accounts;
   protected Patch patch;
+  protected List<Patch> history;
 
   protected BasePatchDetail() {
   }
@@ -36,5 +39,13 @@ public abstract class BasePatchDetail {
 
   public Patch getPatch() {
     return patch;
+  }
+
+  public List<Patch> getHistory() {
+    return history;
+  }
+
+  public void setHistory(final List<Patch> ids) {
+    history = ids;
   }
 }

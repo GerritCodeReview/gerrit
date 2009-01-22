@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Set;
 
 public interface PatchDetailService extends RemoteJsonService {
-  void sideBySidePatchDetail(Patch.Key key,
+  void sideBySidePatchDetail(Patch.Key key, List<PatchSet.Id> versions,
       AsyncCallback<SideBySidePatchDetail> callback);
 
   void unifiedPatchDetail(Patch.Key key,

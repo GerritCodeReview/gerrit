@@ -26,4 +26,8 @@ public interface PatchAccess extends Access<Patch, Patch.Key> {
 
   @Query("WHERE key.patchSetId = ? ORDER BY key.fileName")
   ResultSet<Patch> byPatchSet(PatchSet.Id ps) throws OrmException;
+
+  @Query("WHERE key.patchSetId.changeId = ?"
+      + " AND key.fileName = ? ORDER BY key.patchSetId")
+  ResultSet<Patch> history(Change.Id c, String fileName) throws OrmException;
 }

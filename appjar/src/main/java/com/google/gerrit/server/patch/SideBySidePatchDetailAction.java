@@ -19,12 +19,11 @@ import static org.spearce.jgit.util.RawParseUtils.nextLF;
 
 import com.google.gerrit.client.data.SideBySideLine;
 import com.google.gerrit.client.data.SideBySidePatchDetail;
-import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.Patch;
+import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.CorruptEntityException;
 import com.google.gerrit.client.rpc.BaseServiceImplementation.Failure;
-import com.google.gerrit.git.InvalidRepositoryException;
 import com.google.gerrit.git.RepositoryCache;
 import com.google.gwtorm.client.OrmException;
 
@@ -43,14 +42,13 @@ import java.util.List;
 
 class SideBySidePatchDetailAction extends
     PatchDetailAction<SideBySidePatchDetail> {
-  private final RepositoryCache repoCache;
   private int fileCount;
   private byte[][] fileContents;
   private IntList[] lineIndex;
 
-  SideBySidePatchDetailAction(final RepositoryCache rc, final Patch.Key key) {
-    super(key);
-    repoCache = rc;
+  SideBySidePatchDetailAction(final RepositoryCache rc, final Patch.Key key,
+      final List<PatchSet.Id> fileVersions) {
+    super(rc, key, fileVersions);
   }
 
   public SideBySidePatchDetail run(final ReviewDb db) throws OrmException,
@@ -58,10 +56,10 @@ class SideBySidePatchDetailAction extends
     init(db);
 
     if (file.getHunks().isEmpty()) {
-      throw new Failure(new CorruptEntityException(key));
+      throw new Failure(new CorruptEntityException(patchKey));
     }
 
-    openContents(db);
+    openContents();
 
     final ArrayList<List<SideBySideLine>> lines =
         new ArrayList<List<SideBySideLine>>();
@@ -151,22 +149,12 @@ class SideBySidePatchDetailAction extends
     final SideBySidePatchDetail d;
     d = new SideBySidePatchDetail(patch, accountInfo.create());
     d.setLines(fileCount, maxLine, lines);
+    d.setHistory(history(db));
     return d;
   }
 
-  private void openContents(final ReviewDb db) throws Failure, OrmException {
-    final Change.Id changeId = key.getParentKey().getParentKey();
-    final Change change = db.changes().get(changeId);
-    if (change == null || change.getDest() == null) {
-      throw new Failure(new CorruptEntityException(changeId));
-    }
-
-    final Repository repo;
-    try {
-      repo = repoCache.get(change.getDest().getParentKey().get());
-    } catch (InvalidRepositoryException err) {
-      throw new Failure(err);
-    }
+  private void openContents() throws Failure {
+    final Repository repo = openRepository();
 
     if (file instanceof CombinedFileHeader) {
       final CombinedFileHeader ch = (CombinedFileHeader) file;
@@ -176,14 +164,14 @@ class SideBySidePatchDetailAction extends
       for (int i = 0; i < ch.getParentCount(); i++) {
         final AbbreviatedObjectId old = ch.getOldId(i);
         if (old == null || !old.isComplete()) {
-          throw new Failure(new CorruptEntityException(key));
+          throw new Failure(new CorruptEntityException(patchKey));
         }
         fileContents[i] = read(repo, old.toObjectId());
       }
 
     } else {
       if (file.getOldId() == null || !file.getOldId().isComplete()) {
-        throw new Failure(new CorruptEntityException(key));
+        throw new Failure(new CorruptEntityException(patchKey));
       }
 
       fileCount = 2;
@@ -192,7 +180,7 @@ class SideBySidePatchDetailAction extends
     }
 
     if (file.getNewId() == null || !file.getNewId().isComplete()) {
-      throw new Failure(new CorruptEntityException(key));
+      throw new Failure(new CorruptEntityException(patchKey));
     }
     fileContents[fileCount - 1] = read(repo, file.getNewId().toObjectId());
 

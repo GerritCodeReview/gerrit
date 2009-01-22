@@ -597,6 +597,17 @@
 }
 
 
+/** Patch History Table **/
+.gerrit-PatchHistoryTable {
+	width: auto;
+	margin-bottom: 10px;
+}
+
+.gerrit-PatchHistoryTable .DataCell {
+	white-space: nowrap;
+}
+
+
 /** AccountSettings  **/
 .gerrit-SshKeyPanel-EncodedKey {
   white-space: nowrap;

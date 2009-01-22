@@ -32,7 +32,7 @@ import java.util.ArrayList;
 
 class UnifiedPatchDetailAction extends PatchDetailAction<UnifiedPatchDetail> {
   UnifiedPatchDetailAction(final Patch.Key key) {
-    super(key);
+    super(null, key, null);
   }
 
   public UnifiedPatchDetail run(final ReviewDb db) throws OrmException, Failure {

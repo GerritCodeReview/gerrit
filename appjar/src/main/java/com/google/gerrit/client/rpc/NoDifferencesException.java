@@ -12,19 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.patches;
+package com.google.gerrit.client.rpc;
 
-import com.google.gwt.i18n.client.Constants;
+/** Error indicating there are no differences in selected files. */
+public class NoDifferencesException extends Exception {
+  public static final String MESSAGE = "No Differences";
 
-public interface PatchConstants extends Constants {
-  String draft();
-
-  String buttonSave();
-  String buttonDiscard();
-  String confirmDiscard();
-
-  String patchHeaderOld();
-  String patchHeaderNew();
-
-  String patchHistoryTitle();
+  public NoDifferencesException() {
+    super(MESSAGE);
+  }
 }

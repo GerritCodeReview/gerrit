@@ -14,12 +14,33 @@
 
 package com.google.gerrit.client.patches;
 
+import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.data.SideBySidePatchDetail;
 import com.google.gerrit.client.reviewdb.Patch;
+import com.google.gerrit.client.reviewdb.PatchSet;
+import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.NoDifferencesException;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
+import com.google.gerrit.client.ui.DomUtil;
+import com.google.gerrit.client.ui.FancyFlexTable;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.RadioButton;
+import com.google.gwt.user.client.ui.SourcesTableEvents;
+import com.google.gwt.user.client.ui.TableListener;
+import com.google.gwt.user.client.ui.Widget;
+import com.google.gwtjsonrpc.client.RemoteJsonException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PatchSideBySideScreen extends PatchScreen {
+  private DisclosurePanel historyPanel;
+  private HistoryTable historyTable;
+  private FlowPanel sbsPanel;
   private SideBySideTable sbsTable;
 
   public PatchSideBySideScreen(final Patch.Key id) {
@@ -34,7 +55,7 @@ public class PatchSideBySideScreen extends PatchScreen {
 
     super.onLoad();
 
-    PatchUtil.DETAIL_SVC.sideBySidePatchDetail(patchId,
+    PatchUtil.DETAIL_SVC.sideBySidePatchDetail(patchId, null,
         new ScreenLoadCallback<SideBySidePatchDetail>() {
           public void onSuccess(final SideBySidePatchDetail r) {
             // TODO Actually we want to cancel the RPC if detached.
@@ -46,7 +67,13 @@ public class PatchSideBySideScreen extends PatchScreen {
   }
 
   private void initUI() {
-    final FlowPanel sbsPanel = new FlowPanel();
+    historyTable = new HistoryTable();
+    historyPanel = new DisclosurePanel(PatchUtil.C.patchHistoryTitle());
+    historyPanel.setContent(historyTable);
+    historyPanel.setVisible(false);
+    add(historyPanel);
+
+    sbsPanel = new FlowPanel();
     sbsPanel.setStyleName("gerrit-SideBySideScreen-SideBySideTable");
     sbsTable = new SideBySideTable();
     sbsPanel.add(sbsTable);
@@ -54,8 +81,235 @@ public class PatchSideBySideScreen extends PatchScreen {
   }
 
   private void display(final SideBySidePatchDetail detail) {
-    sbsTable.setAccountInfoCache(detail.getAccounts());
-    sbsTable.display(detail);
+    showSideBySide(detail);
+    if (detail.getHistory() != null && detail.getHistory().size() > 1) {
+      historyTable.display(detail.getHistory());
+      historyPanel.setOpen(false);
+      historyPanel.setVisible(true);
+    } else {
+      historyPanel.setVisible(false);
+    }
+  }
+
+  private void showSideBySide(final SideBySidePatchDetail r) {
+    sbsTable.setAccountInfoCache(r.getAccounts());
+    sbsTable.display(r);
     sbsTable.finishDisplay(true);
+  }
+
+  private class HistoryTable extends FancyFlexTable<Patch> {
+    final List<HistoryRadio> all = new ArrayList<HistoryRadio>();
+
+    HistoryTable() {
+      table.addStyleName("gerrit-PatchHistoryTable");
+      table.addTableListener(new TableListener() {
+        public void onCellClicked(SourcesTableEvents sender, int row, int cell) {
+          if (row > 0) {
+            movePointerTo(row);
+          }
+        }
+      });
+    }
+
+    @Override
+    protected Object getRowItemKey(final Patch item) {
+      return item.getKey();
+    }
+
+    @Override
+    protected boolean onKeyPress(final char keyCode, final int modifiers) {
+      if (super.onKeyPress(keyCode, modifiers)) {
+        return true;
+      }
+      if (modifiers == 0 && getCurrentRow() > 0) {
+        switch (keyCode) {
+          case 'o':
+          case 'l': {
+            final Widget w = table.getWidget(getCurrentRow(), radioCell(0));
+            if (w != null) {
+              fakeClick((HistoryRadio) w);
+            }
+            break;
+          }
+
+          case 'r':
+          case 'n': {
+            final int fileCnt = sbsTable.getFileCount();
+            final Widget w =
+                table.getWidget(getCurrentRow(), radioCell(fileCnt - 1));
+            if (w != null) {
+              fakeClick((HistoryRadio) w);
+            }
+            break;
+          }
+        }
+      }
+      return false;
+    }
+
+    private void fakeClick(final HistoryRadio b) {
+      if (!b.isChecked() && b.isEnabled()) {
+        for (final HistoryRadio a : all) {
+          if (a.isChecked() && a.getName().equals(b.getName())) {
+            a.setChecked(false);
+            break;
+          }
+        }
+        b.setChecked(true);
+        onClick(b);
+      }
+    }
+
+    public void onClick(final HistoryRadio b) {
+      sbsTable.setVersion(b.file, b.patchSetId);
+      boolean diff = false;
+      PatchSet.Id last = sbsTable.getVersion(0);
+      for (int i = 1; i < sbsTable.getFileCount(); i++) {
+        if (!last.equals(sbsTable.getVersion(i))) {
+          diff = true;
+        }
+      }
+
+      enable(false);
+      PatchUtil.DETAIL_SVC.sideBySidePatchDetail(patchId, sbsTable
+          .getVersions(), new GerritCallback<SideBySidePatchDetail>() {
+        public void onSuccess(final SideBySidePatchDetail r) {
+          enable(true);
+          sbsPanel.setVisible(true);
+          showSideBySide(r);
+        }
+
+        @Override
+        public void onFailure(final Throwable caught) {
+          enable(true);
+          if (isNoDifferences(caught)) {
+            sbsPanel.setVisible(false);
+          } else {
+            super.onFailure(caught);
+          }
+        }
+
+        boolean isNoDifferences(final Throwable caught) {
+          if (caught instanceof NoDifferencesException) {
+            return true;
+          }
+          return caught instanceof RemoteJsonException
+              && caught.getMessage().equals(NoDifferencesException.MESSAGE);
+        }
+      });
+    }
+
+    private void enable(final boolean on) {
+      for (final HistoryRadio a : all) {
+        a.setEnabled(on);
+      }
+    }
+
+    void display(final List<Patch> result) {
+      all.clear();
+
+      final StringBuilder nc = new StringBuilder();
+      appendHeader(nc);
+      for (int p = result.size() - 1; p >= 0; p--) {
+        final Patch k = result.get(p);
+        appendRow(nc, k);
+      }
+      appendRow(nc, null);
+      resetHtml(nc.toString());
+
+      final int fileCnt = sbsTable.getFileCount();
+      int row = 1;
+      for (int p = result.size() - 1; p >= 0; p--, row++) {
+        final Patch k = result.get(p);
+        setRowItem(row, k);
+        for (int file = 0; file < fileCnt; file++) {
+          final PatchSet.Id psid = k.getKey().getParentKey();
+          final HistoryRadio b = new HistoryRadio(psid, file);
+          b.setChecked(psid.equals(sbsTable.getVersion(file)));
+          installRadio(row, file, b);
+        }
+      }
+      for (int file = 0; file < fileCnt - 1; file++) {
+        setRowItem(row, new Patch(new Patch.Key(PatchSet.BASE, "")));
+        final HistoryRadio b = new HistoryRadio(PatchSet.BASE, file);
+        b.setChecked(b.patchSetId.equals(sbsTable.getVersion(file)));
+        installRadio(row, file, b);
+      }
+    }
+
+    private void installRadio(final int row, final int file,
+        final HistoryRadio b) {
+      final int cell = radioCell(file);
+      table.setWidget(row, cell, b);
+      table.getCellFormatter().setHorizontalAlignment(row, cell,
+          HasHorizontalAlignment.ALIGN_CENTER);
+      all.add(b);
+    }
+
+    private int radioCell(final int file) {
+      return 2 + file;
+    }
+
+    private void appendHeader(final StringBuilder nc) {
+      nc.append("<tr>");
+      nc.append("<td class=\"" + S_ICON_HEADER + " LeftMostCell\">&nbsp;</td>");
+      nc.append("<td class=\"" + S_DATA_HEADER + "\">&nbsp;</td>");
+      for (int file = 0; file < sbsTable.getFileCount(); file++) {
+        nc.append("<td class=\"" + S_DATA_HEADER + "\">");
+        nc.append(DomUtil.escape(sbsTable.getFileTitle(file)));
+        nc.append("</td>");
+      }
+      nc.append("<td class=\"" + S_DATA_HEADER + "\">");
+      nc.append(DomUtil.escape("Comments"));
+      nc.append("</td>");
+      nc.append("</tr>");
+    }
+
+    private void appendRow(final StringBuilder nc, final Patch k) {
+      nc.append("<tr>");
+      nc.append("<td class=\"" + S_ICON_CELL + " LeftMostCell\">&nbsp;</td>");
+      nc.append("<td class=\"" + S_DATA_CELL + "\" align=\"right\">");
+      if (k != null) {
+        final PatchSet.Id psId = k.getKey().getParentKey();
+        nc.append(Util.M.patchSetHeader(psId.get()));
+      } else {
+        nc.append("Base");
+      }
+      nc.append("</td>");
+      for (int file = 0; file < sbsTable.getFileCount(); file++) {
+        nc.append("<td class=\"" + S_DATA_CELL + "\">&nbsp;</td>");
+      }
+      nc.append("<td class=\"" + S_DATA_CELL + "\">");
+      if (k != null && k.getCommentCount() > 0) {
+        nc.append(Util.M.patchTableComments(k.getCommentCount()));
+      } else {
+        nc.append("&nbsp;");
+      }
+      nc.append("</td>");
+      nc.append("</tr>");
+    }
+
+    private class HistoryRadio extends RadioButton {
+      final PatchSet.Id patchSetId;
+      final int file;
+
+      HistoryRadio(final PatchSet.Id ps, final int f) {
+        super(String.valueOf(f));
+        sinkEvents(Event.ONCLICK);
+        patchSetId = ps;
+        file = f;
+      }
+
+      @Override
+      public void onBrowserEvent(final Event event) {
+        switch (DOM.eventGetType(event)) {
+          case Event.ONCLICK:
+            onClick(this);
+            break;
+          default:
+            super.onBrowserEvent(event);
+        }
+      }
+    }
   }
 }

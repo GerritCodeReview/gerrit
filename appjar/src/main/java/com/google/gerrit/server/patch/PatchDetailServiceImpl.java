@@ -61,13 +61,14 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
   }
 
   public void sideBySidePatchDetail(final Patch.Key key,
+      final List<PatchSet.Id> versions,
       final AsyncCallback<SideBySidePatchDetail> callback) {
     final RepositoryCache rc = server.getRepositoryCache();
     if (rc == null) {
       callback.onFailure(new Exception("No Repository Cache configured"));
       return;
     }
-    run(callback, new SideBySidePatchDetailAction(rc, key));
+    run(callback, new SideBySidePatchDetailAction(rc, key, versions));
   }
 
   public void unifiedPatchDetail(final Patch.Key key,

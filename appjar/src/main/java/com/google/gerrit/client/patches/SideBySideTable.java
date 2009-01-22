@@ -30,6 +30,14 @@ public class SideBySideTable extends AbstractPatchContentTable {
   private int fileCnt;
   private int maxLineNumber;
 
+  protected int getFileCount() {
+    return fileCnt;
+  }
+
+  protected String getFileTitle(int file) {
+    return table.getText(0, 1 + file * 2 + 1);
+  }
+
   @Override
   protected void onCellDoubleClick(final int row, final int column) {
     if (column > 1 && getRowItem(row) instanceof SideBySideLineList) {
@@ -66,7 +74,13 @@ public class SideBySideTable extends AbstractPatchContentTable {
   protected void bindDrafts(final List<PatchLineComment> drafts) {
     int[] rows = new int[fileCnt];
     for (final PatchLineComment c : drafts) {
-      final short side = c.getSide();
+      final int side = fileFor(c);
+      if (side < 0 || fileCnt <= side) {
+        // We shouldn't have been given this draft; it doesn't display
+        // in our current UI layout.
+        //
+        continue;
+      }
       int row = rows[side];
       while (row < table.getRowCount()) {
         if (getRowItem(row) instanceof SideBySideLineList) {
@@ -98,8 +112,9 @@ public class SideBySideTable extends AbstractPatchContentTable {
   }
 
   public void display(final SideBySidePatchDetail detail) {
-    setAccountInfoCache(detail.getAccounts());
     setPatchKey(detail.getPatch().getKey());
+    initVersions(detail.getFileCount());
+    setAccountInfoCache(detail.getAccounts());
     fileCnt = detail.getFileCount();
     maxLineNumber = detail.getLineCount();
 
@@ -171,7 +186,7 @@ public class SideBySideTable extends AbstractPatchContentTable {
           bindComment(commentRow, 1 + 2 * fileId + 1, c, !ci.hasNext());
           commentRow++;
         }
-        row = Math.max(row, commentRow-1);
+        row = Math.max(row, commentRow - 1);
       }
       row++;
     }

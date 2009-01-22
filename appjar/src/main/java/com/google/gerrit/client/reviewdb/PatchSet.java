@@ -21,6 +21,8 @@ import java.sql.Timestamp;
 
 /** A single revision of a {@link Change}. */
 public final class PatchSet {
+  public static final PatchSet.Id BASE = new PatchSet.Id(new Change.Id(-1), -1);
+
   public static class Id extends IntKey<Change.Id> {
     @Column
     protected Change.Id changeId;

@@ -37,7 +37,10 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.FormHandler;
 import com.google.gwt.user.client.ui.FormPanel;
+import com.google.gwt.user.client.ui.FormSubmitCompleteEvent;
+import com.google.gwt.user.client.ui.FormSubmitEvent;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RadioButton;
@@ -88,6 +91,14 @@ public class PublishCommentScreen extends AccountScreen implements
       final FormPanel form = new FormPanel();
       final FlowPanel body = new FlowPanel();
       form.setWidget(body);
+      form.addFormHandler(new FormHandler() {
+        public void onSubmit(FormSubmitEvent event) {
+          event.setCancelled(true);
+        }
+
+        public void onSubmitComplete(FormSubmitCompleteEvent event) {
+        }
+      });
       add(form);
 
       approvalPanel = new FlowPanel();

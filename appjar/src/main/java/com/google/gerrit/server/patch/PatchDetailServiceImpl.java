@@ -43,6 +43,9 @@ import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.OrmRunnable;
 import com.google.gwtorm.client.Transaction;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -54,6 +57,7 @@ import javax.mail.MessagingException;
 
 public class PatchDetailServiceImpl extends BaseServiceImplementation implements
     PatchDetailService {
+  private final Logger log = LoggerFactory.getLogger(getClass());
   private final GerritServer server;
 
   public PatchDetailServiceImpl(final GerritServer gs) {
@@ -168,6 +172,7 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
               .getHttpServletRequest());
           cm.sendComment();
         } catch (MessagingException e) {
+          log.error("Cannot send comments by email for patch set " + psid, e);
           throw new Failure(e);
         }
         return VoidResult.INSTANCE;

@@ -17,12 +17,16 @@ package com.google.gerrit.git;
 import com.google.gerrit.client.reviewdb.Branch;
 import com.google.gerrit.server.GerritServer;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 public class MergeQueue {
+  private static final Logger log = LoggerFactory.getLogger(MergeQueue.class);
   private static ScheduledThreadPoolExecutor pool;
   private static final Map<Branch.NameKey, MergeEntry> active =
       new HashMap<Branch.NameKey, MergeEntry>();
@@ -123,8 +127,7 @@ public class MergeQueue {
     try {
       new MergeOp(GerritServer.getInstance(), branch).merge();
     } catch (Throwable e) {
-      // TODO we should have better logging than stderr
-      e.printStackTrace();
+      log.error("Merge attempt for " + branch + " failed", e);
     }
   }
 

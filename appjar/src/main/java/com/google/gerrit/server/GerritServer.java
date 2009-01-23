@@ -40,6 +40,8 @@ import com.google.gwtorm.jdbc.Database;
 import com.google.gwtorm.jdbc.SimpleDataSource;
 
 import org.apache.commons.codec.binary.Base64;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.spearce.jgit.lib.PersonIdent;
 
 import java.io.File;
@@ -59,6 +61,7 @@ import javax.sql.DataSource;
 
 /** Global server-side state for Gerrit. */
 public class GerritServer {
+  private static final Logger log = LoggerFactory.getLogger(GerritServer.class);
   private static GerritServer impl;
 
   /**
@@ -78,7 +81,10 @@ public class GerritServer {
       try {
         impl = new GerritServer();
       } catch (OrmException e) {
-        e.printStackTrace();
+        log.error("GerritServer ORM is unavailable", e);
+        throw e;
+      } catch (XsrfException e) {
+        log.error("GerritServer XSRF support failed to initailize", e);
         throw e;
       }
     }

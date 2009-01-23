@@ -34,6 +34,8 @@ import com.google.gwtorm.client.OrmDuplicateKeyException;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.Transaction;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.spearce.jgit.lib.PersonIdent;
 import org.spearce.jgit.util.Base64;
 
@@ -55,6 +57,7 @@ import javax.servlet.http.HttpServletRequest;
 
 class AccountSecurityImpl extends BaseServiceImplementation implements
     AccountSecurity {
+  private final Logger log = LoggerFactory.getLogger(getClass());
   private final GerritServer server;
 
   AccountSecurityImpl(final GerritServer gs) {
@@ -236,8 +239,10 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
       Transport.send(msg);
       cb.onSuccess(VoidResult.INSTANCE);
     } catch (MessagingException e) {
+      log.error("Cannot send email verification message to " + address, e);
       cb.onFailure(e);
     } catch (UnsupportedEncodingException e) {
+      log.error("Cannot send email verification message to " + address, e);
       cb.onFailure(e);
     }
   }

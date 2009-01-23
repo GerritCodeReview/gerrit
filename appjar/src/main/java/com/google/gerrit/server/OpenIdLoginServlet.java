@@ -41,6 +41,8 @@ import com.dyuproject.openid.RelyingParty;
 import com.dyuproject.openid.SimpleHttpConnector;
 import com.dyuproject.openid.UrlEncodedParameterMap;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -63,6 +65,8 @@ import javax.servlet.http.HttpServletResponse;
 
 /** Handles the <code>/login</code> URL for web based single-sign-on. */
 public class OpenIdLoginServlet extends HttpServlet {
+  private static final Logger log =
+      LoggerFactory.getLogger(OpenIdLoginServlet.class);
   private static final int LASTID_AGE = 365 * 24 * 60 * 60; // seconds
   private static final String AX_SCHEMA = "http://openid.net/srv/ax/1.0";
   private static final String OMODE_CANCEL = "cancel";
@@ -80,11 +84,9 @@ public class OpenIdLoginServlet extends HttpServlet {
     try {
       server = GerritServer.getInstance();
     } catch (OrmException e) {
-      e.printStackTrace();
-      throw new ServletException("Cannot configure GerritServer", e);
+      throw new ServletException("Cannot load GerritServer", e);
     } catch (XsrfException e) {
-      e.printStackTrace();
-      throw new ServletException("Cannot configure GerritServer", e);
+      throw new ServletException("Cannot load GerritServer", e);
     }
 
     try {
@@ -94,13 +96,14 @@ public class OpenIdLoginServlet extends HttpServlet {
       context.setHttpConnector(new SimpleHttpConnector());
       relyingParty = new RelyingParty(context, new GerritOpenIdUserManager());
     } catch (Throwable e) {
-      e.printStackTrace();
-      throw new RuntimeException("Cannot setup RelyingParty", e);
+      log.error("Cannot setup RelyingParty", e);
+      throw new ServletException("Cannot setup RelyingParty", e);
     }
 
     final String scHtmlName = "com/google/gerrit/public/SetCookie.html";
     pleaseSetCookieDoc = HtmlDomUtil.parseFile(scHtmlName);
     if (pleaseSetCookieDoc == null) {
+      log.error("No " + scHtmlName + " in CLASSPATH");
       throw new ServletException("No " + scHtmlName + " in CLASSPATH");
     }
   }

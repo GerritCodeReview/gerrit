@@ -38,6 +38,8 @@ import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.OrmRunnable;
 import com.google.gwtorm.client.Transaction;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.spearce.jgit.lib.Constants;
 import org.spearce.jgit.lib.ObjectId;
 import org.spearce.jgit.lib.PersonIdent;
@@ -69,6 +71,8 @@ import javax.mail.MessagingException;
 
 /** Receives change upload over SSH using the Git receive-pack protocol. */
 class Receive extends AbstractGitCommand {
+  private static final Logger log = LoggerFactory.getLogger(Receive.class);
+
   private static final String NEW_CHANGE = "refs/for/";
   private static final Pattern NEW_PATCHSET =
       Pattern.compile("^refs/changes/(?:[0-9][0-9]/)?([1-9][0-9]*)(?:/new)?$");
@@ -361,6 +365,7 @@ class Receive extends AbstractGitCommand {
           db.branches().get(
               new Branch.NameKey(proj.getNameKey(), destBranchName));
     } catch (OrmException e) {
+      log.error("Cannot lookup branch " + proj + " " + destBranchName, e);
       reject(cmd, "database error");
       return;
     }
@@ -379,6 +384,7 @@ class Receive extends AbstractGitCommand {
     try {
       changeEnt = db.changes().get(changeId);
     } catch (OrmException e) {
+      log.error("Cannot lookup existing change " + changeId, e);
       reject(cmd, "database error");
       return;
     }
@@ -446,6 +452,7 @@ class Receive extends AbstractGitCommand {
       // identified the missing object earlier before we got control.
       //
       newChange.setResult(Result.REJECTED_MISSING_OBJECT);
+      log.error("Invalid pack upload; one or more objects weren't sent", e);
     }
 
     if (toCreate.isEmpty()) {
@@ -453,16 +460,18 @@ class Receive extends AbstractGitCommand {
       return;
     }
 
-    try {
-      for (final RevCommit c : toCreate) {
+    for (final RevCommit c : toCreate) {
+      try {
         createChange(walk, c);
+      } catch (IOException e) {
+        log.error("Error computing patch of commit " + c.name(), e);
+        reject(newChange, "diff error");
+      } catch (OrmException e) {
+        log.error("Error creating change for commit " + c.name(), e);
+        reject(newChange, "database error");
       }
-      newChange.setResult(ReceiveCommand.Result.OK);
-    } catch (IOException e) {
-      reject(newChange, "diff error");
-    } catch (OrmException e) {
-      reject(newChange, "database error");
     }
+    newChange.setResult(ReceiveCommand.Result.OK);
   }
 
   private void createChange(final RevWalk walk, final RevCommit c)
@@ -532,7 +541,7 @@ class Receive extends AbstractGitCommand {
       cm.addExtraCC(ccId);
       cm.sendNewChange();
     } catch (MessagingException e) {
-      // TODO Log (like everything else) email send failures
+      log.error("Cannot send email for new change " + change.getId(), e);
     }
   }
 
@@ -543,11 +552,18 @@ class Receive extends AbstractGitCommand {
       try {
         appendPatchSet(changeId, cmd);
       } catch (IOException err) {
+        log.error("Error computing replacement patch for change " + changeId
+            + ", commit " + cmd.getNewId().name(), e);
         reject(cmd, "diff error");
       } catch (OrmException err) {
+        log.error("Error storing replacement patch for change " + changeId
+            + ", commit " + cmd.getNewId().name(), e);
         reject(cmd, "database error");
       }
       if (cmd.getResult() == ReceiveCommand.Result.NOT_ATTEMPTED) {
+        log.error("Replacement patch for change " + changeId + ", commit "
+            + cmd.getNewId().name() + " wasn't attempted."
+            + "  This is a bug in the receive process implementation.");
         reject(cmd, "internal error");
       }
     }

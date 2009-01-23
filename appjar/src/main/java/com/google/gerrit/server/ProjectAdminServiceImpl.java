@@ -27,10 +27,19 @@ import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.BaseServiceImplementation;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
+import com.google.gerrit.git.InvalidRepositoryException;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.spearce.jgit.lib.Constants;
+import org.spearce.jgit.lib.LockFile;
+import org.spearce.jgit.lib.Repository;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -41,6 +50,13 @@ import java.util.Set;
 
 public class ProjectAdminServiceImpl extends BaseServiceImplementation
     implements ProjectAdminService {
+  private final Logger log = LoggerFactory.getLogger(getClass());
+  private final GerritServer server;
+
+  ProjectAdminServiceImpl(final GerritServer gs) {
+    server = gs;
+  }
+
   public void ownedProjects(final AsyncCallback<List<Project>> callback) {
     run(callback, new Action<List<Project>>() {
       public List<Project> run(ReviewDb db) throws OrmException {
@@ -89,6 +105,33 @@ public class ProjectAdminServiceImpl extends BaseServiceImplementation
         proj.setDescription(description);
         db.projects().update(Collections.singleton(proj));
         Common.getProjectCache().invalidate(proj);
+
+        if (!ProjectRight.WILD_PROJECT.equals(projectId)) {
+          // Update git's description file, in case gitweb is being used
+          //
+          try {
+            final Repository e;
+            final LockFile f;
+
+            e = server.getRepositoryCache().get(proj.getName());
+            f = new LockFile(new File(e.getDirectory(), "description"));
+            if (f.lock()) {
+              String d = proj.getDescription();
+              if (d != null) {
+                d = d.trim() + "\n";
+              } else {
+                d = "";
+              }
+              f.write(Constants.encode(d));
+              f.commit();
+            }
+          } catch (IOException e) {
+            log.error("Cannot update description for " + proj.getName(), e);
+          } catch (InvalidRepositoryException e) {
+            log.error("Cannot update description for " + proj.getName(), e);
+          }
+        }
+
         return VoidResult.INSTANCE;
       }
     });

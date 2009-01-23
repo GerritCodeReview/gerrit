@@ -34,6 +34,8 @@ import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.jdbc.JdbcSchema;
 
+import org.spearce.jgit.lib.Constants;
+import org.spearce.jgit.lib.LockFile;
 import org.spearce.jgit.lib.ObjectId;
 import org.spearce.jgit.lib.ProgressMonitor;
 import org.spearce.jgit.lib.Ref;
@@ -43,6 +45,7 @@ import org.spearce.jgit.lib.TextProgressMonitor;
 import org.spearce.jgit.revwalk.RevCommit;
 import org.spearce.jgit.revwalk.RevWalk;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -88,6 +91,39 @@ public class ImportGerrit1 {
 
       final Statement query = sql.createStatement();
       java.sql.ResultSet srcs;
+
+      // Set project descriptions back into git
+      //
+      pm.start(1);
+      pm.beginTask("Export project descriptions", ProgressMonitor.UNKNOWN);
+      srcs = query.executeQuery("SELECT p.project_id FROM projects p");
+      while (srcs.next()) {
+        final Project.Id projectId = new Project.Id(srcs.getInt(1));
+        if (ProjectRight.WILD_PROJECT.equals(projectId)) {
+          continue;
+        }
+        final Project proj = db.projects().get(projectId);
+        final Repository e;
+        final LockFile f;
+
+        e = gs.getRepositoryCache().get(proj.getName());
+        f = new LockFile(new File(e.getDirectory(), "description"));
+        if (f.lock()) {
+          String d = proj.getDescription();
+          if (d != null) {
+            d = d.trim() + "\n";
+          } else {
+            d = "";
+          }
+          f.write(Constants.encode(d));
+          f.commit();
+        } else {
+          throw new IOException("Cannot set description for " + proj.getName());
+        }
+        pm.update(1);
+      }
+      srcs.close();
+      pm.endTask();
 
       // Convert the approval right data from projects.
       //

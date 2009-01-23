@@ -167,6 +167,13 @@ public class PatchTable extends FancyFlexTable<Patch> {
 
     @SuppressWarnings("fallthrough")
     public boolean execute() {
+      if (!isAttached()) {
+        // If the user navigated away, we aren't in the DOM anymore.
+        // Don't continue to render.
+        //
+        return false;
+      }
+
       start = System.currentTimeMillis();
       switch (stage) {
         case 0:

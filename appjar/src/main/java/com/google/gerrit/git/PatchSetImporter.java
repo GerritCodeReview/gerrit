@@ -250,9 +250,29 @@ public class PatchSetImporter {
       p.setPatchType(Patch.PatchType.BINARY);
     }
 
+    String contentStr = fh.getScriptText();
+    if (p.getPatchType() != Patch.PatchType.BINARY
+        && contentStr.indexOf('\0') >= 0) {
+      // Its really binary, but Git couldn't see the nul early enough
+      // to realize its binary, and instead produced the diff. Some
+      // databases (PostgreSQL) won't allow us to store a nul into a
+      // text field. Force it to be a binary; it really should have
+      // been that in the first place.
+      //
+      p.setPatchType(Patch.PatchType.BINARY);
+      final int lfatat = contentStr.indexOf("\n@@");
+      final StringBuilder b = new StringBuilder();
+      b.append(contentStr.substring(0, lfatat + 1));
+      b.append("Binary files ");
+      b.append(path);
+      b.append(" and ");
+      b.append(path);
+      b.append(" differ\n");
+      contentStr = b.toString();
+    }
+
     // Hash the content.
     //
-    final String contentStr = fh.getScriptText();
     contentmd.reset();
     contentmd.update(contentStr.getBytes("UTF-8"));
     final PatchContent.Key contentKey =

@@ -26,6 +26,8 @@ import org.apache.sshd.server.CommandFactory.Command;
 import org.apache.sshd.server.CommandFactory.ExitCallback;
 import org.apache.sshd.server.CommandFactory.SessionAware;
 import org.apache.sshd.server.session.ServerSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,6 +37,9 @@ import java.util.List;
 
 /** Basic command implementation invoked by {@link GerritCommandFactory}. */
 abstract class AbstractCommand implements Command, SessionAware {
+  private static final Logger log =
+      LoggerFactory.getLogger(AbstractCommand.class);
+
   protected InputStream in;
   protected OutputStream out;
   protected OutputStream err;
@@ -67,16 +72,17 @@ abstract class AbstractCommand implements Command, SessionAware {
     try {
       return GerritServer.getInstance();
     } catch (OrmException e) {
-      throw new Failure(128, "fatal: Gerrit is not available");
+      throw new Failure(128, "fatal: Gerrit is not available", e);
     } catch (XsrfException e) {
-      throw new Failure(128, "fatal: Gerrit is not available");
+      throw new Failure(128, "fatal: Gerrit is not available", e);
     }
   }
 
   protected RepositoryCache getRepositoryCache() throws Failure {
     final RepositoryCache rc = getGerritServer().getRepositoryCache();
     if (rc == null) {
-      throw new Failure(128, "fatal: Gerrit repositories are not available");
+      throw new Failure(128, "fatal: Gerrit repositories are not available",
+          new IllegalStateException("git_base_path not set in system_config"));
     }
     return rc;
   }
@@ -85,7 +91,7 @@ abstract class AbstractCommand implements Command, SessionAware {
     try {
       return Common.getSchemaFactory().open();
     } catch (OrmException e) {
-      throw new Failure(1, "fatal: Gerrit database is offline");
+      throw new Failure(1, "fatal: Gerrit database is offline", e);
     }
   }
 
@@ -148,10 +154,24 @@ abstract class AbstractCommand implements Command, SessionAware {
     int rc = 0;
     try {
       try {
-        run(args);
-      } catch (IOException e) {
-        rc = 1;
+        try {
+          run(args);
+        } catch (IOException e) {
+          throw new Failure(128, "fatal: unexpected IO error", e);
+        } catch (RuntimeException e) {
+          throw new Failure(128, "fatal: internal server error", e);
+        } catch (Error e) {
+          throw new Failure(128, "fatal: internal server error", e);
+        }
       } catch (Failure e) {
+        final StringBuilder logmsg = beginLogMessage();
+        logmsg.append(": ");
+        logmsg.append(e.getMessage());
+        if (e.getCause() != null)
+          log.error(logmsg.toString(), e.getCause());
+        else
+          log.error(logmsg.toString());
+
         rc = e.exitCode;
         try {
           err.write((e.getMessage() + '\n').getBytes("UTF-8"));
@@ -179,13 +199,30 @@ abstract class AbstractCommand implements Command, SessionAware {
     }
   }
 
+  private StringBuilder beginLogMessage() {
+    final StringBuilder logmsg = new StringBuilder();
+    logmsg.append("sshd error (account ");
+    logmsg.append(getAccountId());
+    logmsg.append("): ");
+    logmsg.append(name);
+    for (final String a : args) {
+      logmsg.append(' ');
+      logmsg.append(a);
+    }
+    return logmsg;
+  }
+
   protected abstract void run(final String args[]) throws IOException, Failure;
 
   public static class Failure extends Exception {
     final int exitCode;
 
-    public Failure(final int exitCode, final String why) {
-      super(why);
+    public Failure(final int exitCode, final String msg) {
+      this(exitCode, msg, null);
+    }
+
+    public Failure(final int exitCode, final String msg, final Throwable why) {
+      super(msg, why);
       this.exitCode = exitCode;
     }
   }

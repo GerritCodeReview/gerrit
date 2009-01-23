@@ -155,7 +155,7 @@ class Receive extends AbstractGitCommand {
         break;
       }
     } catch (OrmException e) {
-      throw new Failure(1, "database error");
+      throw new Failure(1, "fatal: database error", e);
     }
 
     if (bestCla != null && !bestCla.isActive()) {
@@ -245,7 +245,7 @@ class Receive extends AbstractGitCommand {
         }
       }
     } catch (OrmException e) {
-      throw new Failure(1, "database error");
+      throw new Failure(1, "fatal: database error", e);
     }
   }
 
@@ -262,8 +262,8 @@ class Receive extends AbstractGitCommand {
               + " is not registered on Gerrit\n");
         }
       }
-    } catch (OrmException err) {
-      throw new Failure(1, "fatal: cannot lookup reviewers, database is down");
+    } catch (OrmException e) {
+      throw new Failure(1, "fatal: database is down", e);
     }
     if (errors.length() > 0) {
       throw new Failure(1, errors.toString());

@@ -64,23 +64,26 @@ abstract class AbstractGitCommand extends AbstractCommand {
 
     proj = cachedProj.getProject();
     if (ProjectRight.WILD_PROJECT.equals(proj.getId())) {
-      throw new Failure(1, "fatal: '" + reqName + "': not a valid project");
+      throw new Failure(1, "fatal: '" + reqName + "': not a valid project",
+          new IllegalArgumentException("Cannot access the wildcard project"));
     }
     if (!BaseServiceImplementation.canRead(getAccountId(), proj.getNameKey())) {
-      throw new Failure(1, "fatal: '" + reqName + "': not a Gerrit project");
+      throw new Failure(1, "fatal: '" + reqName + "': not a Gerrit project",
+          new SecurityException("Account lacks Read permission"));
     }
 
     try {
       repo = getRepositoryCache().get(proj.getName());
     } catch (InvalidRepositoryException e) {
-      throw new Failure(1, "fatal: '" + reqName + "': not a git archive");
+      throw new Failure(1, "fatal: '" + reqName + "': not a git archive", e);
     }
 
     db = openReviewDb();
     try {
       userAccount = Common.getAccountCache().get(getAccountId(), db);
       if (userAccount == null) {
-        throw new Failure(1, "fatal: cannot query user database");
+        throw new Failure(1, "fatal: cannot query user database",
+            new IllegalStateException("Account record no longer in database"));
       }
 
       runImpl();

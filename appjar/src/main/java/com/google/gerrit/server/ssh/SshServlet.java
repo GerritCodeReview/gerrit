@@ -24,6 +24,8 @@ import org.apache.sshd.common.NamedFactory;
 import org.apache.sshd.common.keyprovider.FileKeyPairProvider;
 import org.apache.sshd.server.UserAuth;
 import org.apache.sshd.server.auth.UserAuthPublicKey;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -57,6 +59,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class SshServlet extends HttpServlet {
   private static SshServer sshd;
+  private static final Logger log = LoggerFactory.getLogger(SshServlet.class);
 
   public static synchronized void startSshd() throws ServletException {
     final GerritServer srv;
@@ -82,7 +85,9 @@ public class SshServlet extends HttpServlet {
 
     try {
       sshd.start();
+      log.info("Started Gerrit SSHD on 0.0.0.0:" + myPort);
     } catch (IOException e) {
+      log.error("Cannot start Gerrit SSHD on 0.0.0.0:" + myPort, e);
       sshd = null;
       throw new ServletException("Cannot start sshd on " + myPort, e);
     }
@@ -92,6 +97,7 @@ public class SshServlet extends HttpServlet {
     if (sshd != null) {
       try {
         sshd.stop();
+        log.info("Stopped Gerrit SSHD on 0.0.0.0:" + sshd.getPort());
       } finally {
         sshd = null;
       }

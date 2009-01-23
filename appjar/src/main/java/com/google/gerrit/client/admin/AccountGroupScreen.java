@@ -23,6 +23,7 @@ import com.google.gerrit.client.ui.AccountDashboardLink;
 import com.google.gerrit.client.ui.AccountGroupSuggestOracle;
 import com.google.gerrit.client.ui.AccountScreen;
 import com.google.gerrit.client.ui.AccountSuggestOracle;
+import com.google.gerrit.client.ui.AddMemberBox;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.client.ui.TextSaveButtonListener;
@@ -62,9 +63,7 @@ public class AccountGroupScreen extends AccountScreen {
   private Button saveDesc;
 
   private Panel memberPanel;
-  private Button addMember;
-  private TextBox nameTxtBox;
-  private SuggestBox nameTxt;
+  private AddMemberBox addMemberBox;
   private Button delMember;
 
   public AccountGroupScreen(final AccountGroup.Id toShow) {
@@ -99,8 +98,7 @@ public class AccountGroupScreen extends AccountScreen {
     ownerTxtBox.setEnabled(on);
     groupNameTxt.setEnabled(on);
     descTxt.setEnabled(on);
-    addMember.setEnabled(on);
-    nameTxtBox.setEnabled(on);
+    addMemberBox.setEnabled(on);
     delMember.setEnabled(on);
   }
 
@@ -194,40 +192,13 @@ public class AccountGroupScreen extends AccountScreen {
   }
 
   private void initMemberList() {
-    final FlowPanel addPanel = new FlowPanel();
-    addPanel.setStyleName("gerrit-ProjectWatchPanel-AddPanel");
-
-    nameTxtBox = new TextBox();
-    nameTxt = new SuggestBox(new AccountSuggestOracle(), nameTxtBox);
-    nameTxtBox.setVisibleLength(50);
-    nameTxtBox.setText(Util.C.defaultAccountName());
-    nameTxtBox.addStyleName("gerrit-InputFieldTypeHint");
-    nameTxtBox.addFocusListener(new FocusListenerAdapter() {
-      @Override
-      public void onFocus(Widget sender) {
-        if (Util.C.defaultAccountName().equals(nameTxtBox.getText())) {
-          nameTxtBox.setText("");
-          nameTxtBox.removeStyleName("gerrit-InputFieldTypeHint");
-        }
-      }
-
-      @Override
-      public void onLostFocus(Widget sender) {
-        if ("".equals(nameTxtBox.getText())) {
-          nameTxtBox.setText(Util.C.defaultAccountName());
-          nameTxtBox.addStyleName("gerrit-InputFieldTypeHint");
-        }
-      }
-    });
-    addPanel.add(nameTxt);
-
-    addMember = new Button(Util.C.buttonAddGroupMember());
-    addMember.addClickListener(new ClickListener() {
+    addMemberBox = new AddMemberBox();
+    
+    addMemberBox.addClickListener(new ClickListener() {
       public void onClick(final Widget sender) {
         doAddNew();
       }
     });
-    addPanel.add(addMember);
 
     members = new MemberTable();
 
@@ -240,7 +211,7 @@ public class AccountGroupScreen extends AccountScreen {
 
     memberPanel = new FlowPanel();
     memberPanel.add(new SmallHeading(Util.C.headingMembers()));
-    memberPanel.add(addPanel);
+    memberPanel.add(addMemberBox);
     memberPanel.add(members);
     memberPanel.add(delMember);
     add(memberPanel);
@@ -267,18 +238,18 @@ public class AccountGroupScreen extends AccountScreen {
   }
 
   void doAddNew() {
-    final String nameEmail = nameTxt.getText();
+    final String nameEmail = addMemberBox.getText();
     if (nameEmail == null || nameEmail.length() == 0
         || Util.C.defaultAccountName().equals(nameEmail)) {
       return;
     }
 
-    addMember.setEnabled(false);
+    addMemberBox.setEnabled(false);
     Util.GROUP_SVC.addGroupMember(groupId, nameEmail,
         new GerritCallback<AccountGroupDetail>() {
           public void onSuccess(final AccountGroupDetail result) {
-            addMember.setEnabled(true);
-            nameTxt.setText("");
+            addMemberBox.setEnabled(true);
+            addMemberBox.setText("");
             if (result.accounts != null && result.members != null) {
               accounts.merge(result.accounts);
               for (final AccountGroupMember m : result.members) {
@@ -289,7 +260,7 @@ public class AccountGroupScreen extends AccountScreen {
 
           @Override
           public void onFailure(final Throwable caught) {
-            addMember.setEnabled(true);
+            addMemberBox.setEnabled(true);
             super.onFailure(caught);
           }
         });

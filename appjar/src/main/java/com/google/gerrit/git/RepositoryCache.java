@@ -22,13 +22,9 @@ import java.lang.ref.Reference;
 import java.lang.ref.SoftReference;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 /** Cache of active Git repositories being used by the manager. */
 public class RepositoryCache {
-  private static final Pattern REPO_NAME =
-      Pattern.compile("^[A-Za-z][A-Za-z0-9/_-]+$");
-
   private final File base;
 
   private final Map<String, Reference<Repository>> cache;
@@ -65,13 +61,12 @@ public class RepositoryCache {
       name = name.substring(0, name.length() - 4);
     }
 
-    if (!REPO_NAME.matcher(name).matches()) {
-      throw new InvalidRepositoryException(name);
-    }
-
     final Reference<Repository> ref = cache.get(name);
     Repository db = ref != null ? ref.get() : null;
     if (db == null) {
+      if (isUnreasonableName(name)) {
+        throw new InvalidRepositoryException(name);
+      }
       try {
         db = GitMetaUtil.open(new File(base, name));
         if (db == null) {
@@ -83,5 +78,20 @@ public class RepositoryCache {
       cache.put(name, new SoftReference<Repository>(db));
     }
     return db;
+  }
+
+  private boolean isUnreasonableName(final String name) {
+    if (name.length() == 0) return true; // no empty paths
+
+    if (name.indexOf('\\') >= 0) return true; // no windows/dos stlye paths
+    if (name.charAt(0) == '/') return true; // no absolute paths
+    if (new File(name).isAbsolute()) return true; // no absolute paths
+
+    if (name.startsWith("../")) return true; // no "l../etc/passwd"
+    if (name.contains("/../")) return true; // no "foo/../etc/passwd"
+    if (name.contains("/./")) return true; // "foo/./foo" is insane to ask
+    if (name.contains("//")) return true; // windows UNC path can be "//..."
+
+    return false; // is a reasonable name
   }
 }

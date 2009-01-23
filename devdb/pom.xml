@@ -32,7 +32,6 @@ limitations under the License.
         <directory>src/main/config</directory>
         <includes>
           <include>GerritServer.properties</include>
-          <include>log4j.properties</include>
         </includes>
       </testResource>
     </testResources>

@@ -472,8 +472,7 @@ public class MergeOp {
         //
         final List<ChangeApproval> approvals =
             schema.changeApprovals().byChange(c.getId()).toList();
-        final FunctionState fs =
-            new FunctionState(c, approvals);
+        final FunctionState fs = new FunctionState(c, approvals);
         for (ApprovalType at : Common.getGerritConfig().getApprovalTypes()) {
           at.getCategory().getFunction().run(at, fs);
         }

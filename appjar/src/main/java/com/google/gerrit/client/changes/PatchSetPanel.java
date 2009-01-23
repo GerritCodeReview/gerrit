@@ -138,8 +138,7 @@ class PatchSetPanel extends Composite implements DisclosureHandler {
     patchTable.setSavePointerId("patchTable "
         + changeDetail.getChange().getChangeId() + " "
         + patchSet.getPatchSetId());
-    patchTable.display(detail.getPatches());
-    patchTable.finishDisplay(false);
+    patchTable.display(info.getKey(), detail.getPatches());
 
     body.add(infoTable);
 

@@ -16,15 +16,21 @@ package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.Link;
 import com.google.gerrit.client.reviewdb.Patch;
+import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.ui.DomUtil;
 import com.google.gerrit.client.ui.FancyFlexTable;
+import com.google.gerrit.client.ui.ProgressMeter;
+import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.IncrementalCommand;
 import com.google.gwt.user.client.ui.SourcesTableEvents;
 import com.google.gwt.user.client.ui.TableListener;
 
 import java.util.List;
 
 public class PatchTable extends FancyFlexTable<Patch> {
+  private PatchSet.Id psid;
+
   public PatchTable() {
     table.addTableListener(new TableListener() {
       public void onCellClicked(SourcesTableEvents sender, int row, int cell) {
@@ -35,18 +41,12 @@ public class PatchTable extends FancyFlexTable<Patch> {
     });
   }
 
-  public void display(final List<Patch> list) {
-    final StringBuilder nc = new StringBuilder();
-    appendHeader(nc);
-    for (final Patch p : list) {
-      appendRow(nc, p);
-    }
-    appendRow(nc, null);
-    resetHtml(nc.toString());
-
-    int row = 1;
-    for (final Patch p : list) {
-      setRowItem(row++, p);
+  public void display(final PatchSet.Id id, final List<Patch> list) {
+    psid = id;
+    final DisplayCommand cmd = new DisplayCommand(list);
+    if (cmd.execute()) {
+      cmd.initMeter();
+      DeferredCommand.addCommand(cmd);
     }
   }
 
@@ -151,5 +151,71 @@ public class PatchTable extends FancyFlexTable<Patch> {
   @Override
   protected void onOpenItem(final Patch item) {
     History.newItem(Link.toPatchSideBySide(item.getKey()));
+  }
+
+  private final class DisplayCommand implements IncrementalCommand {
+    private final List<Patch> list;
+    private StringBuilder nc = new StringBuilder();
+    private int stage;
+    private int row;
+    private double start;
+    private ProgressMeter meter;
+
+    private DisplayCommand(final List<Patch> list) {
+      this.list = list;
+    }
+
+    @SuppressWarnings("fallthrough")
+    public boolean execute() {
+      start = System.currentTimeMillis();
+      switch (stage) {
+        case 0:
+          if (row == 0) {
+            appendHeader(nc);
+          }
+          while (row < list.size()) {
+            appendRow(nc, list.get(row));
+            if ((++row % 10) == 0 && longRunning()) {
+              updateMeter();
+              return true;
+            }
+          }
+          resetHtml(nc.toString());
+          nc = null;
+          meter = null;
+
+          stage = 1;
+          row = 0;
+
+        case 1:
+          while (row < list.size()) {
+            setRowItem(row + 1, list.get(row));
+            if ((++row % 10) == 0 && longRunning()) {
+              return true;
+            }
+          }
+          finishDisplay(false);
+      }
+      return false;
+    }
+
+    void initMeter() {
+      if (meter == null) {
+        resetHtml("<tr><td></td></tr>");
+        meter = new ProgressMeter(Util.M.loadingPatchSet(psid.get()));
+        table.setWidget(0, 0, meter);
+      }
+      updateMeter();
+    }
+
+    void updateMeter() {
+      if (meter != null) {
+        meter.setValue((100 * row / list.size()));
+      }
+    }
+
+    private boolean longRunning() {
+      return System.currentTimeMillis() - start > 200;
+    }
   }
 }

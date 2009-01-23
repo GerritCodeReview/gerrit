@@ -68,6 +68,34 @@
   font-weight: bold;
 }
 
+.gerrit-ProgressMeter {
+  position: relative;
+  border: 1px solid #6B90DA;
+  height: 20px;
+  width: 200px;
+}
+.gerrit-ProgressMeterText {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
+  width: 200px;
+  padding-bottom: 3px;
+  text-align: center;
+  font-weight: bold;
+  font-style: italic;
+  font-size: smaller;
+}
+.gerrit-ProgressMeterBar {
+  background: #F0F7F9;
+  border-right: 1px solid #D0D7D9;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 20px;
+}
+
+
 /** Menu **/
 .gwt-MenuItem a,
 .gwt-MenuItem a:visited,

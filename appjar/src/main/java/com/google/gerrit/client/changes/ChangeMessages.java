@@ -23,6 +23,7 @@ public interface ChangeMessages extends Messages {
 
   String changeScreenTitleId(int id);
   String patchSetHeader(int id);
+  String loadingPatchSet(int id);
   String patchSetAction(String action, int id);
   String repoDownload(String project, int change, int ps);
 

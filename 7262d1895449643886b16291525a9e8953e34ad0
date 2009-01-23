@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "zc5bee87acb938ed168d5feaa975aa760",
+        "filename": "appjar/src/main/java/com/google/gerrit/client/ui/AddMemberBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-01-23T16:48:05Z",
+      "side": 1,
+      "message": "Missing a copyright header.  Not a major problem.",
+      "revId": "7262d1895449643886b16291525a9e8953e34ad0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "z53576473319bebbec7824f5b54407f4a",
+        "filename": "appjar/src/main/java/com/google/gerrit/client/ui/AddMemberBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-01-23T16:48:05Z",
+      "side": 1,
+      "message": "Unnecessary blank line.",
+      "revId": "7262d1895449643886b16291525a9e8953e34ad0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

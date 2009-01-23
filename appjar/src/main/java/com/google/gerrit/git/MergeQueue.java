@@ -22,38 +22,12 @@ import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 public class MergeQueue {
   private static final Logger log = LoggerFactory.getLogger(MergeQueue.class);
-  private static ScheduledThreadPoolExecutor pool;
   private static final Map<Branch.NameKey, MergeEntry> active =
       new HashMap<Branch.NameKey, MergeEntry>();
-
-  public static void terminate() {
-    final ScheduledThreadPoolExecutor p = shutdown();
-    if (p != null) {
-      boolean isTerminated;
-      do {
-        try {
-          isTerminated = p.awaitTermination(10, TimeUnit.SECONDS);
-        } catch (InterruptedException ie) {
-          isTerminated = false;
-        }
-      } while (!isTerminated);
-    }
-  }
-
-  private static synchronized ScheduledThreadPoolExecutor shutdown() {
-    final ScheduledThreadPoolExecutor p = pool;
-    if (p != null) {
-      p.shutdown();
-      pool = null;
-      return p;
-    }
-    return null;
-  }
 
   public static void merge(final Branch.NameKey branch) {
     if (start(branch)) {
@@ -100,12 +74,8 @@ public class MergeQueue {
       // No job has been scheduled to execute this branch, but it needs
       // to run a merge again.
       //
-      if (pool == null) {
-        pool = new ScheduledThreadPoolExecutor(1);
-      }
-
       e.jobScheduled = true;
-      pool.schedule(new Runnable() {
+      WorkQueue.schedule(new Runnable() {
         public void run() {
           unschedule(e);
           try {

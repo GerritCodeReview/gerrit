@@ -57,7 +57,6 @@ public class UrlRewriteFilter implements Filter {
     staticLinks.put("/", "");
 
     staticLinks.put("/mine", Link.MINE);
-    staticLinks.put("/unclaimed", Link.MINE_UNCLAIMED);
     staticLinks.put("/starred", Link.MINE_STARRED);
     staticLinks.put("/settings", Link.SETTINGS);
 

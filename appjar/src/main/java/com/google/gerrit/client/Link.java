@@ -53,7 +53,6 @@ public class Link implements HistoryListener {
   public static final String SETTINGS_NEW_AGREEMENT = "settings,new-agreement";
 
   public static final String MINE = "mine";
-  public static final String MINE_UNCLAIMED = "mine,unclaimed";
   public static final String MINE_STARRED = "mine,starred";
   public static final String MINE_DRAFTS = "mine,drafts";
 

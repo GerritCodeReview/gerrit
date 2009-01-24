@@ -155,6 +155,7 @@ public class PatchTable extends FancyFlexTable<Patch> {
 
   private final class DisplayCommand implements IncrementalCommand {
     private final List<Patch> list;
+    private boolean attached;
     private StringBuilder nc = new StringBuilder();
     private int stage;
     private int row;
@@ -167,7 +168,13 @@ public class PatchTable extends FancyFlexTable<Patch> {
 
     @SuppressWarnings("fallthrough")
     public boolean execute() {
-      if (!isAttached()) {
+      final boolean attachedNow = isAttached();
+      if(!attached && attachedNow){
+        // Remember that we have been attached at least once. If
+        // later we find we aren't attached we should stop running.
+        //
+        attached = true;
+      } else if (attached && !attachedNow) {
         // If the user navigated away, we aren't in the DOM anymore.
         // Don't continue to render.
         //

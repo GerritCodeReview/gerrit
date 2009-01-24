@@ -312,30 +312,21 @@
   border-collapse: separate;
   border-spacing: 0;
 }
-
-.gerrit-PatchContentTable .ActiveRow {
-  background: #ffffcc;
-}
-.gerrit-PatchContentTable .ActiveRow td.Comment {
-  background: #ffffff;
-}
-.gerrit-PatchContentTable .ActiveRow td.IconCell,
-.gerrit-PatchContentTable .ActiveRow td.LineNumber,
-.gerrit-PatchContentTable .ActiveRow td.FileLine {
-  border-top: 1px solid blue;
-  border-bottom: 1px solid blue;
+.gerrit-PatchContentTable td {  
+  font-size: 8pt;
+  font-family: monospace;
 }
 
 .gerrit-PatchContentTable .IconCell {
   width: 1px;
   padding: 0px;
   vertical-align: center;
+  border-top: 1px solid transparent;
+  border-bottom: 1px solid transparent;
 }
 
 .gerrit-PatchContentTable .DiffText {
   white-space: pre;
-  font-family: monospace;
-  font-size: small;
 }
 
 .gerrit-PatchContentTable .DiffText-FILE_HEADER {
@@ -355,6 +346,17 @@
   color: #00a000;
 }
 
+.gerrit-PatchContentTable .Comment {
+  padding: 0px;
+}
+.gerrit-PatchContentTable .Comment table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+.gerrit-PatchContentTable .Comment td {
+  font-family: Arial Unicode MS,Arial,sans-serif;
+  font-size: 8pt;
+}
 .gerrit-PatchContentTable td.Comment {
   vertical-align: top;
 }
@@ -362,11 +364,9 @@
   width: 35em;
 }
 .gerrit-PatchContentTable .Comment .gwt-DisclosurePanel .header td {
-  font-size: smaller;
   white-space: nowrap;
 }
 .gerrit-PatchContentTable .Comment .complexHeader {
-  font-size: smaller;
   white-space: nowrap;
   width: 5em;
 }
@@ -376,24 +376,24 @@
 
 .gerrit-PatchContentTable .FileColumnHeader {
   background: #d4e9a9;
+  font-family: Arial Unicode MS,Arial,sans-serif;
   font-weight: bold;
   text-align: center;
 }
 
 .gerrit-PatchContentTable .LineNumber {
-  font-family: monospace;
-  font-size: small;
+  padding-left: 0.2em;
+  white-space: pre;
   width: 3.5em;
-  padding: 0px;
   text-align: right;
   border-right: thin solid #b0bdcc;
-  padding-left: 0.2em;
   padding-right: 0.2em;
+  border-top: 1px solid transparent;
+  border-bottom: 1px solid transparent;
 }
 
 .gerrit-PatchContentTable .NoLineLineNumber {
   font-family: monospace;
-  font-size: small;
   width: 3.5em;
   padding-left: 0.2em;
   padding-right: 0.2em;
@@ -402,9 +402,9 @@
 .gerrit-PatchContentTable .FileLine {
   padding-left: 0.2em;
   white-space: pre;
-  font-family: monospace;
-  font-size: small;
   padding-right: 0.2em;
+  border-top: 1px solid transparent;
+  border-bottom: 1px solid transparent;
 }
 
 .gerrit-PatchContentTable .FileLineNone {
@@ -420,12 +420,26 @@
 }
 
 .gerrit-PatchContentTable .SkipLine {
+  font-family: Arial Unicode MS,Arial,sans-serif;
   text-align: center;
   font-style: italic;
   background: lightblue;
 }
 .gerrit-PatchContentTable .SkipLine div {
   display: inline;
+}
+
+.gerrit-PatchContentTable .ActiveRow {
+  background: #ffffcc;
+}
+.gerrit-PatchContentTable .ActiveRow td.Comment {
+  background: #ffffff;
+}
+.gerrit-PatchContentTable .ActiveRow td.IconCell,
+.gerrit-PatchContentTable .ActiveRow td.LineNumber,
+.gerrit-PatchContentTable .ActiveRow td.FileLine {
+  border-top: 1px solid blue;
+  border-bottom: 1px solid blue;
 }
 
 

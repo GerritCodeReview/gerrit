@@ -337,13 +337,13 @@
   color: blue;
 }
 .gerrit-PatchContentTable .DiffText-PRE_IMAGE {
-  color: red;
+  color: #a00000;
 }
 .gerrit-PatchContentTable .DiffText-CONTEXT {
   color: grey;
 }
 .gerrit-PatchContentTable .DiffText-POST_IMAGE {
-  color: #00a000;
+  color: #006000;
 }
 
 .gerrit-PatchContentTable .Comment {

@@ -146,6 +146,7 @@ Gerrit2 supports some site-specific customizations.  These are
 optional and are not required to run a server, but may be desired.
 
 * link:config-sso.html[Single Sign-On Systems]
+* link:config-replication.html[Git Replication/Mirroring]
 * link:config-headerfooter.html[Site Header/Footer]
 * link:config-gitweb.html[Gitweb Integration]
 * link:config-gerrit.html[Other system_config Settings]

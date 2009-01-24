@@ -31,6 +31,7 @@ import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.git.PatchSetImporter;
+import com.google.gerrit.git.PushQueue;
 import com.google.gerrit.server.ChangeMail;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritServer;
@@ -529,6 +530,7 @@ class Receive extends AbstractGitCommand {
     ru.setForceUpdate(true);
     ru.setNewObjectId(c);
     ru.update(walk);
+    PushQueue.scheduleUpdate(proj.getNameKey(), ru.getName());
 
     allNewChanges.add(change.getId());
 
@@ -687,6 +689,7 @@ class Receive extends AbstractGitCommand {
       ru.setForceUpdate(true);
       ru.setNewObjectId(c);
       ru.update(rp.getRevWalk());
+      PushQueue.scheduleUpdate(proj.getNameKey(), ru.getName());
       cmd.setResult(ReceiveCommand.Result.OK);
     }
   }

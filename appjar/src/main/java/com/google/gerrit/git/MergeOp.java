@@ -370,6 +370,8 @@ public class MergeOp {
         switch (branchUpdate.update(rw)) {
           case NEW:
           case FAST_FORWARD:
+            PushQueue.scheduleUpdate(destBranch.getParentKey(), branchUpdate
+                .getName());
             break;
 
           default:

@@ -10,9 +10,7 @@ To create a new client workspace:
 ====
   mkdir gerrit2
   cd gerrit2
-  repo init \
--u git://android.git.kernel.org/tools/manifest.git \
--b gerrit2
+  repo init -u git://android.git.kernel.org/tools/manifest.git
 ====
 
 Important Links

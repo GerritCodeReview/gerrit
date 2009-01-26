@@ -493,6 +493,7 @@ class Receive extends AbstractGitCommand {
     ChangeUtil.updated(change);
     db.changes().insert(Collections.singleton(change), txn);
 
+    final Set<Account.Id> haveApprovals = new HashSet<Account.Id>();
     final List<ApprovalType> allTypes =
         Common.getGerritConfig().getApprovalTypes();
     for (final ApprovalType t : allTypes) {
@@ -503,6 +504,7 @@ class Receive extends AbstractGitCommand {
                 change.getId(), me, v.getCategoryId()), v.getValue())), txn);
       }
     }
+    haveApprovals.add(me);
 
     if (allTypes.size() > 0) {
       final Account.Id authorId =
@@ -513,15 +515,22 @@ class Receive extends AbstractGitCommand {
               .getCommitter().getAccount() : null;
       final ApprovalCategory.Id catId =
           allTypes.get(allTypes.size() - 1).getCategory().getId();
-      if (authorId != null && !me.equals(authorId)) {
+      if (authorId != null && haveApprovals.add(authorId)) {
         db.changeApprovals().insert(
             Collections.singleton(new ChangeApproval(new ChangeApproval.Key(
                 change.getId(), authorId, catId), (short) 0)), txn);
       }
-      if (committerId != null && !me.equals(committerId)) {
+      if (committerId != null && haveApprovals.add(committerId)) {
         db.changeApprovals().insert(
             Collections.singleton(new ChangeApproval(new ChangeApproval.Key(
                 change.getId(), committerId, catId), (short) 0)), txn);
+      }
+      for (final Account.Id reviewer : reviewerId) {
+        if (haveApprovals.add(reviewer)) {
+          db.changeApprovals().insert(
+              Collections.singleton(new ChangeApproval(new ChangeApproval.Key(
+                  change.getId(), reviewer, catId), (short) 0)), txn);
+        }
       }
     }
 

@@ -531,10 +531,12 @@ public class ChangeMail {
   private void send() throws MessagingException {
     if (haveRcptTo()) {
       ccSender();
-      openFooter();
-      body.append("To unsubscribe, visit ");
-      body.append(settingsUrl());
-      body.append("\n");
+      if (settingsUrl() != null) {
+        openFooter();
+        body.append("To unsubscribe, visit ");
+        body.append(settingsUrl());
+        body.append("\n");
+      }
       msg.setText(body.toString(), "UTF-8");
       Transport.send(msg);
     }

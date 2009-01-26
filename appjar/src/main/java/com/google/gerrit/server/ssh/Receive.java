@@ -28,6 +28,7 @@ import com.google.gerrit.client.reviewdb.ChangeMessage;
 import com.google.gerrit.client.reviewdb.ContactInformation;
 import com.google.gerrit.client.reviewdb.ContributorAgreement;
 import com.google.gerrit.client.reviewdb.PatchSet;
+import com.google.gerrit.client.reviewdb.RevId;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.git.PatchSetImporter;
@@ -595,6 +596,14 @@ class Receive extends AbstractGitCommand {
           }
         } else {
           change = changeCache.get(changeId);
+        }
+
+        // Don't allow the same commit to appear twice on the same change
+        //
+        if (!db.patchSets().byChangeRevision(changeId,
+            new RevId(cmd.getNewId().name())).toList().isEmpty()) {
+          reject(cmd, "patch set exists");
+          return null;
         }
 
         final PatchSet ps = new PatchSet(change.newPatchSetId());

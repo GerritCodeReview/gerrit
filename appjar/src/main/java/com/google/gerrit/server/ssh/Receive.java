@@ -456,7 +456,7 @@ class Receive extends AbstractGitCommand {
       log.error("Invalid pack upload; one or more objects weren't sent", e);
     }
 
-    if (toCreate.isEmpty()) {
+    if (toCreate.isEmpty() && addByChange.isEmpty()) {
       reject(newChange, "no new changes");
       return;
     }

@@ -1,31 +1,45 @@
 Gerrit2 - Installation
 ======================
 
-You need Apache Maven to compile the code, and a SQL database
-to house the Gerrit2 metadata.  PostgreSQL is currently the only
-supported database.
+You need a SQL database to house the Gerrit2 metadata.  Currently
+PostgreSQL is the only supported database.
 
 Important Links
 ---------------
-
-Apache Maven:
-
-* http://maven.apache.org/download.html[Download]
-* http://maven.apache.org/run-maven/index.html[Running Maven]
 
 PostgreSQL:
 
 * http://www.postgresql.org/docs/[Documentation]
 
-Build Gerrit
-------------
+Downloading Gerrit
+------------------
 
-Build the application distribution:
+Current and past binary releases of Gerrit can be obtained from
+the downloads page at the project site:
+
+* http://code.google.com/p/gerrit/downloads/list[Gerrit Downloads]
+
+Download a `*.bin.tar.bz2` package and untar it locally with
+`tar jtf gerrit-2.0.bin.tar.bz2` (or whatever the downloaded
+file was).
+
+Building Gerrit From Source
+---------------------------
+
+Alternatively, you can build the application distribution using
+Maven from a source download obtained directly from Git:
 
 ====
+  mkdir gerrit2
+  cd gerrit2
+  repo init -u git://android.git.kernel.org/tools/manifest.git
+
+  (cd jgit/jgit-maven/jgit && mvn install)
+  (cd mina_sshd && mvn install)
+
   cd appdist
   mvn clean install
-  cd appdist/target/gerrit-*-bin.dir/gerrit-*
+  cd target/gerrit-*-bin.dir/gerrit-*
 ====
 
 The first build may take a while as dependencies are searched
@@ -33,8 +47,13 @@ for and downloaded from Maven distribution repositories.
 
 Unfortunately you need to install to your local Maven repository
 (typically under `~/.m2`) in order to fully build all of the source
-based dependencies.  Core dependencies for Gerrit are still under
-active development and have not made final releases yet.
+based dependencies.  Some core dependencies for Gerrit are still
+under active development and have not made final releases yet.
+
+Apache Maven:
+
+* http://maven.apache.org/download.html[Download]
+* http://maven.apache.org/run-maven/index.html[Running Maven]
 
 Setting up the Database
 -----------------------

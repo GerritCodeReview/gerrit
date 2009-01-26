@@ -46,19 +46,32 @@ Ensure jgit has been installed in your maven repository:
   (cd ../jgit/jgit-maven/jgit/ && mvn install)
 ====
 
+Ensure mina_sshd has been installed in your maven repository:
+
+====
+  (cd ../mina_sshd/ && mvn install)
+====
+
 
 Import Projects
 ---------------
 
 Import appdist using General -> Maven Projects
 
-Uncheck `jgit`.  You don't want to import it.  The Maven project
-is configured in a non-standard way and the Eclipse plugin can't
-import it correctly.
+If you also want source projects for gwtorm, gwtjsonrpc or mina_sshd,
+import their top-level directories the same way.  Note that you
+may need to edit the pom.xmls under gerrit to ensure your snapshot
+builds are used.
 
-Right click on `gwtorm`, Maven -> Update Project Configuration to
-force a compile of the generted ANTLR sources.  This fixes the
-compile errors identified after import.
+[NOTE]
+If you import gwtorm, you also need to right click on `gwtorm`,
+Maven -> Update Project Configuration to force a compile of
+the generted ANTLR sources.  This should fix the compile errors
+identified after import.
+
+If you also want a source project for JGit, import the top level
+jgit directory using General -> Existing Projects, selecting only
+the `org.spearce.jgit` and `org.spearce.jgit.test` projects.
 
 
 Configure Database

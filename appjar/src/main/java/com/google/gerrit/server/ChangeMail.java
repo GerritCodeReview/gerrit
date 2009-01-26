@@ -180,8 +180,8 @@ public class ChangeMail {
   }
 
   private void newChangeFooter() {
-    openFooter();
     if (changeUrl() != null) {
+      openFooter();
       body.append("View this change at ");
       body.append(changeUrl());
       body.append("\n");
@@ -251,8 +251,8 @@ public class ChangeMail {
         return;
       }
 
-      openFooter();
       if (changeUrl() != null) {
+        openFooter();
         body.append("To respond visit ");
         body.append(changeUrl());
         body.append("\n");

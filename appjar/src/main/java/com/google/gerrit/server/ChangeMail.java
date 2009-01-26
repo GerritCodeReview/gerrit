@@ -123,15 +123,6 @@ public class ChangeMail {
 
   public void sendNewChange() throws MessagingException {
     if (begin("newchange")) {
-      add(RecipientType.TO, reviewers);
-      add(RecipientType.CC, extraCC);
-      if (patchSetInfo != null) {
-        // Make sure the author/committer get notice of a change that
-        // they will be blamed later on for writing.
-        //
-        add(RecipientType.CC, patchSetInfo.getAuthor());
-        add(RecipientType.CC, patchSetInfo.getCommitter());
-      }
       newChangeTo();
       if (!haveRcptTo()) {
         // No destinations at this point makes it very moot to mail,
@@ -140,15 +131,7 @@ public class ChangeMail {
         //
         return;
       }
-
-      // CC the owner/uploader, but in truth these should always match
-      // the sender too. add will strip duplicates (if any).
-      //
-      add(RecipientType.CC, change.getOwner());
-      if (patchSet != null) {
-        add(RecipientType.CC, patchSet.getUploader());
-      }
-      ccSender();
+      newChangeCc();
 
       body.append("New change ");
       body.append(change.getChangeId());
@@ -156,44 +139,76 @@ public class ChangeMail {
       body.append(change.getDest().getShortName());
       body.append(":\n\n");
 
-      if (changeUrl() != null) {
-        body.append("  ");
-        body.append(changeUrl());
-        body.append("\n\n");
-      }
-
-      if (patchSetInfo != null) {
-        body.append(patchSetInfo.getMessage().trim());
-        body.append("\n\n");
-      } else {
-        body.append(change.getSubject().trim());
-        body.append("\n\n");
-      }
-
-      if (db != null && patchSet != null) {
-        body.append("---\n");
-        try {
-          for (Patch p : db.patches().byPatchSet(patchSet.getId())) {
-            body.append(p.getChangeType().getCode());
-            body.append(' ');
-            body.append(p.getFileName());
-            body.append('\n');
-          }
-        } catch (OrmException e) {
-          // Don't bother including the files if we get a failure,
-          // ensure we at least send the notification message.
-        }
-        body.append("\n");
-      }
-
-      openFooter();
-      if (changeUrl() != null) {
-        body.append("View this change at ");
-        body.append(changeUrl());
-        body.append("\n");
-      }
+      newChangePatchSetInfo();
+      newChangeFooter();
 
       msg.setMessageID(changeMessageThreadId());
+      send();
+    }
+  }
+
+  private void newChangePatchSetInfo() {
+    if (changeUrl() != null) {
+      body.append("  ");
+      body.append(changeUrl());
+      body.append("\n\n");
+    }
+
+    if (patchSetInfo != null) {
+      body.append(patchSetInfo.getMessage().trim());
+      body.append("\n\n");
+    } else {
+      body.append(change.getSubject().trim());
+      body.append("\n\n");
+    }
+
+    if (db != null && patchSet != null) {
+      body.append("---\n");
+      try {
+        for (Patch p : db.patches().byPatchSet(patchSet.getId())) {
+          body.append(p.getChangeType().getCode());
+          body.append(' ');
+          body.append(p.getFileName());
+          body.append('\n');
+        }
+      } catch (OrmException e) {
+        // Don't bother including the files if we get a failure,
+        // ensure we at least send the notification message.
+      }
+      body.append("\n");
+    }
+  }
+
+  private void newChangeFooter() {
+    openFooter();
+    if (changeUrl() != null) {
+      body.append("View this change at ");
+      body.append(changeUrl());
+      body.append("\n");
+    }
+  }
+
+  public void sendNewPatchSet() throws MessagingException {
+    if (begin("newpatchset")) {
+      newChangeTo();
+      if (!haveRcptTo()) {
+        // No destinations at this point makes it very moot to mail,
+        // nobody was interested in the change or was told to look
+        // at it by the caller.
+        //
+        return;
+      }
+      newChangeCc();
+
+      body.append("Uploaded replacement patch set ");
+      body.append(patchSet.getPatchSetId());
+      body.append(" for change ");
+      body.append(change.getChangeId());
+      body.append(":\n\n");
+
+      newChangePatchSetInfo();
+      newChangeFooter();
+      initInReplyToChange();
       send();
     }
   }
@@ -250,6 +265,16 @@ public class ChangeMail {
   }
 
   private void newChangeTo() throws MessagingException {
+    add(RecipientType.TO, reviewers);
+    add(RecipientType.CC, extraCC);
+    if (patchSetInfo != null) {
+      // Make sure the author/committer get notice of a change that
+      // they will be blamed later on for writing.
+      //
+      add(RecipientType.CC, patchSetInfo.getAuthor());
+      add(RecipientType.CC, patchSetInfo.getCommitter());
+    }
+
     final ProjectCache.Entry cacheEntry =
         Common.getProjectCache().get(change.getDest().getParentKey());
     if (cacheEntry == null) {
@@ -279,6 +304,17 @@ public class ChangeMail {
       // we already have queued up then to fail deliver entirely to people
       // who have a lower interest in the change.
     }
+  }
+
+  private void newChangeCc() throws MessagingException {
+    // CC the owner/uploader, but in truth these should always match
+    // the sender too. add will strip duplicates (if any).
+    //
+    add(RecipientType.CC, change.getOwner());
+    if (patchSet != null) {
+      add(RecipientType.CC, patchSet.getUploader());
+    }
+    ccSender();
   }
 
   private void commentTo() throws MessagingException {

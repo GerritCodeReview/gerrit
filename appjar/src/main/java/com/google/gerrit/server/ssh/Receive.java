@@ -28,6 +28,7 @@ import com.google.gerrit.client.reviewdb.ChangeMessage;
 import com.google.gerrit.client.reviewdb.ContactInformation;
 import com.google.gerrit.client.reviewdb.ContributorAgreement;
 import com.google.gerrit.client.reviewdb.PatchSet;
+import com.google.gerrit.client.reviewdb.PatchSetInfo;
 import com.google.gerrit.client.reviewdb.RevId;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
@@ -589,8 +590,10 @@ class Receive extends AbstractGitCommand {
     }
 
     final Account.Id me = userAccount.getId();
-    final PatchSet ps = db.run(new OrmRunnable<PatchSet, ReviewDb>() {
-      public PatchSet run(final ReviewDb db, final Transaction txn,
+    final ReplaceResult result;
+
+    result = db.run(new OrmRunnable<ReplaceResult, ReviewDb>() {
+      public ReplaceResult run(final ReviewDb db, final Transaction txn,
           final boolean isRetry) throws OrmException {
         final Change change;
         if (isRetry) {
@@ -712,17 +715,44 @@ class Receive extends AbstractGitCommand {
         change.setCurrentPatchSet(imp.getPatchSetInfo());
         ChangeUtil.updated(change);
         db.changes().update(Collections.singleton(change), txn);
-        return ps;
+        
+        final ReplaceResult result = new ReplaceResult();
+        result.change = change;
+        result.patchSet = ps;
+        result.info = imp.getPatchSetInfo();
+        result.msg = msg;
+        return result;
       }
     });
-    if (ps != null) {
+    if (result != null) {
+      final PatchSet ps = result.patchSet;
       final RefUpdate ru = repo.updateRef(ps.getRefName());
       ru.setForceUpdate(true);
       ru.setNewObjectId(c);
       ru.update(rp.getRevWalk());
       PushQueue.scheduleUpdate(proj.getNameKey(), ru.getName());
       cmd.setResult(ReceiveCommand.Result.OK);
+
+      try {
+        final ChangeMail cm = new ChangeMail(server, result.change);
+        cm.setFrom(me);
+        cm.setPatchSet(ps, result.info);
+        cm.setChangeMessage(result.msg);
+        cm.setReviewDb(db);
+        cm.addReviewers(reviewerId);
+        cm.addExtraCC(ccId);
+        cm.sendNewPatchSet();
+      } catch (MessagingException e) {
+        log.error("Cannot send email for new patch set " + ps.getId(), e);
+      }
     }
+  }
+
+  private static class ReplaceResult {
+    Change change;
+    PatchSet patchSet;
+    PatchSetInfo info;
+    ChangeMessage msg;
   }
 
   private boolean validCommitter(final ReceiveCommand cmd, final RevCommit c) {

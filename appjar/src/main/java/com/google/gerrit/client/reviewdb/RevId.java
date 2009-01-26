@@ -41,19 +41,17 @@ public final class RevId {
   }
 
   /**
-   * @return if {@link #isComplete()}, <code>this</code>. Otherwise a new RevId
-   *         with '~' appended on the end until {@link #LEN} is reached.
+   * @return if {@link #isComplete()}, <code>this</code>; otherwise a new RevId
+   *         with 'z' appended on the end.
    */
   public RevId max() {
     if (isComplete()) {
       return this;
     }
 
-    final StringBuilder revEnd = new StringBuilder(LEN);
+    final StringBuilder revEnd = new StringBuilder(get().length() + 1);
     revEnd.append(get());
-    while (revEnd.length() < LEN) {
-      revEnd.append('~');
-    }
+    revEnd.append('z');
     return new RevId(revEnd.toString());
   }
 }

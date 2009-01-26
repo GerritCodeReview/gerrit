@@ -635,8 +635,11 @@ class Receive extends AbstractGitCommand {
 
         boolean haveAuthor = false;
         boolean haveCommitter = false;
-        Set<ApprovalCategory.Id> have = new HashSet<ApprovalCategory.Id>();
+        final Set<Account.Id> haveApprovals = new HashSet<Account.Id>();
+        final Set<ApprovalCategory.Id> myApprovals =
+            new HashSet<ApprovalCategory.Id>();
         for (ChangeApproval a : db.changeApprovals().byChange(change.getId())) {
+          haveApprovals.add(a.getAccountId());
           if (!haveAuthor && authorId != null
               && a.getAccountId().equals(authorId)) {
             haveAuthor = true;
@@ -649,23 +652,25 @@ class Receive extends AbstractGitCommand {
           if (me.equals(a.getAccountId())) {
             // Leave my own approvals alone.
             //
-            have.add(a.getCategoryId());
+            myApprovals.add(a.getCategoryId());
 
           } else if (a.getValue() > 0) {
             a.clear();
             db.changeApprovals().update(Collections.singleton(a), txn);
           }
         }
+
         final List<ApprovalType> allTypes =
             Common.getGerritConfig().getApprovalTypes();
         for (final ApprovalType t : allTypes) {
           final ApprovalCategoryValue max = t.getMax();
           final ApprovalCategory.Id catId = t.getCategory().getId();
-          if (!have.contains(catId) && max != null) {
+          if (!myApprovals.contains(catId) && max != null) {
             // Insert any approval I haven't earlier recorded, using the
             // absolute maximum value, ignoring permissions. It truncates
             // at display time and when the issue is closed.
             //
+            haveApprovals.add(me);
             db.changeApprovals().insert(
                 Collections.singleton(new ChangeApproval(
                     new ChangeApproval.Key(change.getId(), me, catId), max
@@ -675,17 +680,25 @@ class Receive extends AbstractGitCommand {
         if (allTypes.size() > 0) {
           final ApprovalCategory.Id catId =
               allTypes.get(allTypes.size() - 1).getCategory().getId();
-          if (!haveAuthor && authorId != null && !me.equals(authorId)) {
+          if (authorId != null && haveApprovals.add(authorId)) {
             db.changeApprovals().insert(
                 Collections.singleton(new ChangeApproval(
                     new ChangeApproval.Key(change.getId(), authorId, catId),
                     (short) 0)), txn);
           }
-          if (!haveCommitter && committerId != null && !me.equals(committerId)) {
+          if (committerId != null && haveApprovals.add(committerId)) {
             db.changeApprovals().insert(
                 Collections.singleton(new ChangeApproval(
                     new ChangeApproval.Key(change.getId(), committerId, catId),
                     (short) 0)), txn);
+          }
+          for (final Account.Id reviewer : reviewerId) {
+            if (haveApprovals.add(reviewer)) {
+              db.changeApprovals().insert(
+                  Collections.singleton(new ChangeApproval(
+                      new ChangeApproval.Key(change.getId(), reviewer, catId),
+                      (short) 0)), txn);
+            }
           }
         }
 

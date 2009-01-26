@@ -316,14 +316,14 @@ limitations under the License.
     <dependency>
       <groupId>gwtorm</groupId>
       <artifactId>gwtorm</artifactId>
-      <version>0.1-SNAPSHOT</version>
+      <version>1.0</version>
       <scope>compile</scope>
     </dependency>
 
     <dependency>
       <groupId>gwtjsonrpc</groupId>
       <artifactId>gwtjsonrpc</artifactId>
-      <version>0.1-SNAPSHOT</version>
+      <version>1.0</version>
       <scope>compile</scope>
     </dependency>
 
@@ -447,6 +447,11 @@ limitations under the License.
     <repository>
       <id>jgit-snapshot-repository</id>
       <url>http://egit.googlecode.com/svn/maven/snapshot-repository/</url>
+    </repository>
+
+    <repository>
+      <id>gerrit-maven-repository</id>
+      <url>http://gerrit.googlecode.com/svn/mavenrepo/</url>
     </repository>
 
     <repository>

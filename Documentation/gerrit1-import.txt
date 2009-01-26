@@ -5,6 +5,16 @@ To switch from Google App Engine running Gerrit1 to a Gerrit2 based
 system, you need to export all of the data from the GAE data store
 and load it into PostgreSQL, converting the schema in the process.
 
+[NOTE]
+You must be using a source build of both Gerrit1 and Gerrit2.
+The Gerrit2 binary packages do not include the conversion tools
+necessary to upgrade from Gerrit1.
+
+[NOTE]
+To get a source build of Gerrit1, use the version immediately before
+it merged into Gerrit2: `git checkout v2.0-rc0^2`
+
+
 GAE Backup
 ----------
 

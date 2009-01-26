@@ -253,10 +253,6 @@ limitations under the License.
   </licenses>
 
   <modules>
-    <module>../../jgit/jgit-maven/jgit</module>
-    <module>../../mina_sshd</module>
-    <module>../../gwtorm</module>
-    <module>../../gwtjsonrpc</module>
     <module>../devdb</module>
     <module>../appjar</module>
     <module>../appwar</module>

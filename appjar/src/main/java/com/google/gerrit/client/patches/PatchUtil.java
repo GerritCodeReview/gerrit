@@ -22,18 +22,63 @@ public class PatchUtil {
   public static final PatchConstants C = GWT.create(PatchConstants.class);
   public static final PatchMessages M = GWT.create(PatchMessages.class);
   public static final PatchDetailService DETAIL_SVC;
+  public static final int DEFAULT_LINE_LENGTH = 100;
 
   static {
     DETAIL_SVC = GWT.create(PatchDetailService.class);
     JsonUtil.bind(DETAIL_SVC, "rpc/PatchDetailService");
   }
 
-  public static String lineToHTML(final String src) {
-    String html = DomUtil.escape(src);
-    html = expandTabs(html);
+  public static String lineToHTML(final String src, final int lineLength) {
+    final boolean hasTab = src.indexOf('\t') >= 0;
+    String brokenSrc = wrapLines(src, hasTab, lineLength);
+    String html = DomUtil.escape(brokenSrc);
+    if (brokenSrc != src) {
+      // If we had line breaks inserted into the source text we need
+      // to expand the line breaks into <br> tags in HTML, so the
+      // line will wrap around.
+      //
+      html = expandLFs(html);
+    }
+    if (hasTab) {
+      // We had at least one horizontal tab, so we should expand it out.
+      //
+      html = expandTabs(html);
+    }
     return html;
+  }
+
+  private static String wrapLines(final String src, final boolean hasTabs,
+      final int lineLength) {
+    if (lineLength <= 0) {
+      // Caller didn't request for line wrapping; use it unmodified.
+      //
+      return src;
+    }
+    if (src.length() < lineLength && !hasTabs) {
+      // We're too short and there are no horizontal tabs, line is fine
+      // as-is so bypass the longer line wrapping code below.
+      return src;
+    }
+
+    final StringBuilder r = new StringBuilder();
+    int lineLen = 0;
+    for (int i = 0; i < src.length(); i++) {
+      final char c = src.charAt(i);
+      final int cLen = c == '\t' ? 8 : 1;
+      if (lineLen >= lineLength) {
+        r.append('\n');
+        lineLen = 0;
+      }
+      r.append(c);
+      lineLen += cLen;
+    }
+    return r.toString();
   }
 
   private native static String expandTabs(String src)
   /*-{ return src.replace(/\t/g, '<span title="Visual Tab" class="gerrit-visualtab">&raquo;</span>\t'); }-*/;
+
+  private native static String expandLFs(String src)
+  /*-{ return src.replace(/\n/g, '<br>'); }-*/;
 }

@@ -293,7 +293,7 @@ public class SideBySideTable extends AbstractPatchContentTable {
 
   private void appendFileLine(final StringBuilder nc,
       final List<SideBySideLine> line) {
-    nc.append("<tr>");
+    nc.append("<tr valign=\"top\">");
     nc.append("<td class=\"" + S_ICON_CELL + "\">&nbsp;</td>");
 
     for (int fileId = 0; fileId < fileCnt; fileId++) {
@@ -306,10 +306,12 @@ public class SideBySideTable extends AbstractPatchContentTable {
         nc.append("<td class=\"FileLine FileLine-");
         nc.append(s.getType().name());
         nc.append("\">");
-        if (!"".equals(s.getText()))
-          nc.append(PatchUtil.lineToHTML(s.getText()));
-        else
+        if (!"".equals(s.getText())) {
+          nc.append(PatchUtil.lineToHTML(s.getText(),
+              PatchUtil.DEFAULT_LINE_LENGTH));
+        } else {
           nc.append("&nbsp;");
+        }
         nc.append("</td>");
       } else {
         nc.append("<td class=\"LineNumber\">&nbsp;</td>");

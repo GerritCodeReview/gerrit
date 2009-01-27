@@ -109,10 +109,11 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
     nc.append("<td class=\"DiffText DiffText-");
     nc.append(line.getType().name());
     nc.append("\">");
-    if (!"".equals(line.getText()))
-      nc.append(PatchUtil.lineToHTML(line.getText()));
-    else
+    if (!"".equals(line.getText())) {
+      nc.append(PatchUtil.lineToHTML(line.getText(), 0));
+    } else {
       nc.append("&nbsp;");
+    }
     nc.append("</td>");
 
     nc.append("</tr>");

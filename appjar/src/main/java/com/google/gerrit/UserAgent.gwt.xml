@@ -1,0 +1,37 @@
+<module>
+  <define-property name="extUserAgent" values="mobile"/>
+  <property-provider name="extUserAgent"><![CDATA[
+    var ua = navigator.userAgent.toLowerCase();
+
+    if (ua.indexOf("safari") != -1) {
+	    if (ua.indexOf("iphone") != -1)
+	      return "mobile";
+	    if (ua.indexOf("ipod") != -1)
+	      return "mobile";
+	    if (ua.indexOf("android") != -1)
+	      return "mobile";
+    }
+    return "unknown";
+  ]]></property-provider>
+
+  <!-- openid.AllowFrameImpl -->
+    <replace-with class="com.google.gerrit.client.openid.AllowFrameImplMobile">
+      <when-type-is class="com.google.gerrit.client.openid.AllowFrameImpl" />
+      <any>
+        <when-property-is name="user.agent" value="safari"/>
+        <when-property-is name="extUserAgent" value="mobile"/>
+      </any>
+    </replace-with>
+
+    <replace-with class="com.google.gerrit.client.openid.AllowFrameImplSafari">
+      <when-type-is class="com.google.gerrit.client.openid.AllowFrameImpl" />
+      <any>
+        <when-property-is name="user.agent" value="safari"/>
+      </any>
+    </replace-with>
+
+    <replace-with class="com.google.gerrit.client.openid.AllowFrameImpl">
+      <when-type-is class="com.google.gerrit.client.openid.AllowFrameImpl"/>
+    </replace-with>
+  <!-- /openid.AllowFrameImpl -->
+</module>

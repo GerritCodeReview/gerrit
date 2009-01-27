@@ -299,7 +299,7 @@ public class OpenIdLoginServlet extends HttpServlet {
       save(me, req, OpenIdUtil.P_SIGNIN_CB);
       save(me, req, OpenIdUtil.P_SIGNIN_MODE);
       if ("on".equals(req.getParameter(OpenIdUtil.P_REMEMBERID))) {
-        final String ident = saveLastId(req, rsp, user.getIdentity());
+        final String ident = saveLastId(req, rsp, user.getClaimedId());
         me.put(OpenIdUtil.LASTID_COOKIE, ident);
         save(me, req, OpenIdUtil.P_REMEMBERID);
       } else {
@@ -325,7 +325,7 @@ public class OpenIdLoginServlet extends HttpServlet {
       final String fullname, final String email) throws OrmException {
     Account account;
     final AccountExternalIdAccess extAccess = db.accountExternalIds();
-    AccountExternalId acctExt = lookup(extAccess, user.getIdentity());
+    AccountExternalId acctExt = lookup(extAccess, user.getClaimedId());
 
     if (acctExt == null && email != null
         && server.isAllowGoogleAccountUpgrade() && isGoogleAccount(user)) {
@@ -335,7 +335,7 @@ public class OpenIdLoginServlet extends HttpServlet {
         //
         final AccountExternalId openidExt =
             new AccountExternalId(new AccountExternalId.Key(acctExt
-                .getAccountId(), user.getIdentity()));
+                .getAccountId(), user.getClaimedId()));
         extAccess.insert(Collections.singleton(openidExt));
         acctExt = openidExt;
       }
@@ -365,7 +365,7 @@ public class OpenIdLoginServlet extends HttpServlet {
 
       acctExt =
           new AccountExternalId(new AccountExternalId.Key(account.getId(), user
-              .getIdentity()));
+              .getClaimedId()));
       acctExt.setLastUsedOn();
       acctExt.setEmailAddress(email);
 
@@ -410,7 +410,7 @@ public class OpenIdLoginServlet extends HttpServlet {
     }
 
     final AccountExternalId.Key idKey =
-        new AccountExternalId.Key(account.getId(), user.getIdentity());
+        new AccountExternalId.Key(account.getId(), user.getClaimedId());
     AccountExternalId id = db.accountExternalIds().get(idKey);
     if (id == null) {
       id = new AccountExternalId(idKey);
@@ -454,7 +454,7 @@ public class OpenIdLoginServlet extends HttpServlet {
   }
 
   private static boolean isGoogleAccount(final OpenIdUser user) {
-    return user.getIdentity().startsWith(OpenIdUtil.URL_GOOGLE + "?");
+    return user.getClaimedId().startsWith(OpenIdUtil.URL_GOOGLE + "?");
   }
 
   private static AccountExternalId lookupGoogleAccount(

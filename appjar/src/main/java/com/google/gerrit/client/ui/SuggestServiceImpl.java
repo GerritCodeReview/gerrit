@@ -32,12 +32,14 @@ import java.util.List;
 
 public class SuggestServiceImpl extends BaseServiceImplementation implements
     SuggestService {
+  private static final String MAX_SUFFIX = "\u9fa5";
+
   public void suggestProjectNameKey(final String query, final int limit,
       final AsyncCallback<List<Project.NameKey>> callback) {
     run(callback, new Action<List<Project.NameKey>>() {
       public List<Project.NameKey> run(final ReviewDb db) throws OrmException {
         final String a = query;
-        final String b = a + "\uffff";
+        final String b = a + MAX_SUFFIX;
         final int max = 10;
         final int n = limit <= 0 ? max : Math.min(limit, max);
 
@@ -57,7 +59,7 @@ public class SuggestServiceImpl extends BaseServiceImplementation implements
     run(callback, new Action<List<AccountInfo>>() {
       public List<AccountInfo> run(final ReviewDb db) throws OrmException {
         final String a = query;
-        final String b = a + "\uffff";
+        final String b = a + MAX_SUFFIX;
         final int max = 10;
         final int n = limit <= 0 ? max : Math.min(limit, max);
 
@@ -94,7 +96,7 @@ public class SuggestServiceImpl extends BaseServiceImplementation implements
     run(callback, new Action<List<AccountGroup>>() {
       public List<AccountGroup> run(final ReviewDb db) throws OrmException {
         final String a = query;
-        final String b = a + "\uffff";
+        final String b = a + MAX_SUFFIX;
         final int max = 10;
         final int n = limit <= 0 ? max : Math.min(limit, max);
         return db.accountGroups().suggestByName(a, b, n).toList();

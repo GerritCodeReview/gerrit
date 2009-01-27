@@ -156,6 +156,27 @@ public class HostPageServlet extends HttpServlet {
   @Override
   protected void doGet(final HttpServletRequest req,
       final HttpServletResponse rsp) throws IOException {
+
+    // If we get a request for "/Gerrit/change,1" rewrite it the way
+    // it should have been, as "/Gerrit#change,1". This may happen
+    // coming out of Google Analytics, where its common to replace
+    // the anchor mark ('#') with '/' so it logs independent pages.
+    //
+    final String screen = req.getPathInfo();
+    if (screen != null && screen.length() > 1 && screen.startsWith("/")) {
+      final StringBuilder r = new StringBuilder();
+      if (canonicalUrl != null) {
+        r.append(canonicalUrl);
+      } else {
+        r.append(OpenIdLoginServlet.serverUrl(req));
+      }
+      r.append("Gerrit#");
+      r.append(screen.substring(1));
+      rsp.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
+      rsp.setHeader("Location", r.toString());
+      return;
+    }
+
     if (canonicalUrl != null
         && !canonicalUrl.equals(OpenIdLoginServlet.serverUrl(req))) {
       rsp.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);

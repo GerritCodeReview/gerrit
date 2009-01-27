@@ -80,7 +80,7 @@ To connect Gerrit to Google Analytics add the following to your
   <script type="text/javascript">
     window.onload = function() {
       gerrit_addHistoryHook(function (s) {
-        pageTracker._trackPageview(s)
+        pageTracker._trackPageview(s.replace(/#/, '/'))
       });
     };
   </script>
@@ -99,7 +99,8 @@ The global function `gerrit_addHistoryHook` accepts functions that
 accept a string parameter.  These functions are put into a list and
 invoked any time Gerrit shifts URLs.  You'll see page names like
 `/Gerrit#change,123` be passed to these functions, which in turn
-are handed off to Google Analytics for tracking.
+are handed off to Google Analytics for tracking.  Our example hook
+above replaces '#' with '/' because Analytics won't track anchors.
 
 The `window.onload` callback is necessary to ensure that the
 `gerrit_addHistoryHook` function has actually been defined by the

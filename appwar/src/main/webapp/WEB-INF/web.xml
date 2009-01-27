@@ -39,6 +39,10 @@
     <servlet-name>Gerrit</servlet-name>
     <url-pattern>/Gerrit</url-pattern>
   </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Gerrit</servlet-name>
+    <url-pattern>/Gerrit/*</url-pattern>
+  </servlet-mapping>
 
   <servlet>
     <servlet-name>Login</servlet-name>

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.changes;
 
+import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Link;
 import com.google.gerrit.client.data.AccountDashboardInfo;
 import com.google.gerrit.client.data.AccountInfo;
@@ -74,9 +75,10 @@ public class AccountDashboardScreen extends Screen {
     table.setAccountInfoCache(r.getAccounts());
 
     final AccountInfo o = r.getAccounts().get(r.getOwner());
-    setTitleText(Util.M.accountDashboardTitle(o.getFullName()));
-    byOwner.setTitleText(Util.M.changesStartedBy(o.getFullName()));
-    forReview.setTitleText(Util.M.changesReviewableBy(o.getFullName()));
+    final String name = FormatUtil.name(o);
+    setTitleText(Util.M.accountDashboardTitle(name));
+    byOwner.setTitleText(Util.M.changesStartedBy(name));
+    forReview.setTitleText(Util.M.changesReviewableBy(name));
     closed.setTitleText(Util.C.changesRecentlyClosed());
 
     byOwner.display(r.getByOwner());

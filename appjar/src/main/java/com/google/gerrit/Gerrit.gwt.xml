@@ -1,6 +1,5 @@
 <module>
   <inherits name='com.google.gwt.user.User'/>
-  <inherits name='com.google.gwt.i18n.I18N'/>
   <inherits name='com.google.gwtjsonrpc.GWTJSONRPC'/>
   <inherits name='com.google.gwtorm.GWTORM'/>
   <inherits name='com.google.gwt.user.theme.chrome.Chrome'/>

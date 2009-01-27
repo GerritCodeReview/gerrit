@@ -262,7 +262,7 @@ limitations under the License.
         <directory>src/main/java</directory>
         <includes>
           <include>log4j.properties</include>
-          <include>com/google/gerrit/Gerrit.gwt.xml</include>
+          <include>com/google/gerrit/*.gwt.xml</include>
           <include>com/google/gerrit/public/**</include>
           <include>com/google/gerrit/client/**</include>
         </includes>

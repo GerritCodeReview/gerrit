@@ -30,6 +30,17 @@ public final class ApprovalCategory {
   public static final ApprovalCategory.Id READ =
       new ApprovalCategory.Id("READ");
 
+  /** Id of the special "Push Annotated Tag" action (and category). */
+  public static final ApprovalCategory.Id PUSH_TAG =
+      new ApprovalCategory.Id("pTAG");
+
+  /** Id of the special "Push Branch" action (and category). */
+  public static final ApprovalCategory.Id PUSH_HEAD =
+      new ApprovalCategory.Id("pHD");
+  public static final short PUSH_HEAD_UPDATE = 1;
+  public static final short PUSH_HEAD_CREATE = 2;
+  public static final short PUSH_HEAD_REPLACE = 3;
+
   public static class Id extends StringKey<Key<?>> {
     @Column(length = 4)
     protected String id;

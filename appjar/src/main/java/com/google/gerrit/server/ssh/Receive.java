@@ -14,6 +14,12 @@
 
 package com.google.gerrit.server.ssh;
 
+import static com.google.gerrit.client.reviewdb.ApprovalCategory.PUSH_HEAD;
+import static com.google.gerrit.client.reviewdb.ApprovalCategory.PUSH_HEAD_UPDATE;
+import static com.google.gerrit.client.reviewdb.ApprovalCategory.PUSH_HEAD_CREATE;
+import static com.google.gerrit.client.reviewdb.ApprovalCategory.PUSH_HEAD_REPLACE;
+import static com.google.gerrit.client.reviewdb.ApprovalCategory.PUSH_TAG;
+
 import com.google.gerrit.client.Link;
 import com.google.gerrit.client.data.ApprovalType;
 import com.google.gerrit.client.reviewdb.Account;
@@ -49,12 +55,16 @@ import org.spearce.jgit.lib.PersonIdent;
 import org.spearce.jgit.lib.Ref;
 import org.spearce.jgit.lib.RefUpdate;
 import org.spearce.jgit.revwalk.RevCommit;
+import org.spearce.jgit.revwalk.RevObject;
 import org.spearce.jgit.revwalk.RevSort;
+import org.spearce.jgit.revwalk.RevTag;
 import org.spearce.jgit.revwalk.RevWalk;
+import org.spearce.jgit.transport.PostReceiveHook;
 import org.spearce.jgit.transport.PreReceiveHook;
 import org.spearce.jgit.transport.ReceiveCommand;
 import org.spearce.jgit.transport.ReceivePack;
 import org.spearce.jgit.transport.ReceiveCommand.Result;
+import org.spearce.jgit.transport.ReceiveCommand.Type;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -123,6 +133,34 @@ class Receive extends AbstractGitCommand {
         parseCommands(commands);
         createNewChanges();
         appendPatchSets();
+      }
+    });
+    rp.setPostReceiveHook(new PostReceiveHook() {
+      public void onPostReceive(final ReceivePack arg0,
+          final Collection<ReceiveCommand> commands) {
+        for (final ReceiveCommand c : commands) {
+          if (c.getResult() == Result.OK) {
+            if (isHead(c)) {
+              // Make sure the branch table matches the repository
+              //
+              switch (c.getType()) {
+                case CREATE:
+                  insertBranchEntity(c);
+                  break;
+                case DELETE:
+                  deleteBranchEntity(c);
+                  break;
+              }
+            }
+
+            if (isHead(c) || isTag(c)) {
+              // We only schedule heads and tags for replication.
+              // Change refs are scheduled when they are created.
+              //
+              PushQueue.scheduleUpdate(proj.getNameKey(), c.getRefName());
+            }
+          }
+        }
       }
     });
     rp.receive(in, out, err);
@@ -343,8 +381,84 @@ class Receive extends AbstractGitCommand {
         continue;
       }
 
+      switch (cmd.getType()) {
+        case CREATE:
+          parseCreate(cmd);
+          continue;
+
+        case UPDATE:
+          parseUpdate(cmd);
+          continue;
+
+        case DELETE:
+        case UPDATE_NONFASTFORWARD:
+          parseRewindOrDelete(cmd);
+          continue;
+      }
+
       // Everything else is bogus as far as we are concerned.
       //
+      reject(cmd);
+    }
+  }
+
+  private void parseCreate(final ReceiveCommand cmd) {
+    if (isHead(cmd) && canPerform(PUSH_HEAD, PUSH_HEAD_CREATE)) {
+      // Let the core receive process handle it
+
+    } else if (isTag(cmd) && canPerform(PUSH_TAG, (short) 1)) {
+      parseCreateTag(cmd);
+
+    } else {
+      reject(cmd);
+    }
+  }
+
+  private void parseCreateTag(final ReceiveCommand cmd) {
+    try {
+      final RevObject obj = rp.getRevWalk().parseAny(cmd.getNewId());
+      if (!(obj instanceof RevTag)) {
+        reject(cmd, "not annotated tag");
+        return;
+      }
+
+      final RevTag tag = (RevTag) obj;
+      final PersonIdent tagger = tag.getTaggerIdent();
+      if (tagger == null) {
+        reject(cmd, "no tagger");
+        return;
+      }
+
+      final String email = tagger.getEmailAddress();
+      if (!myEmails.contains(email)) {
+        reject(cmd, "invalid tagger " + email);
+        return;
+      }
+
+      // Let the core receive process handle it
+      //
+    } catch (IOException e) {
+      log.error("Bad tag " + cmd.getRefName() + " " + cmd.getNewId().name(), e);
+      reject(cmd, "invalid object");
+    }
+  }
+
+  private void parseUpdate(final ReceiveCommand cmd) {
+    if (isHead(cmd) && canPerform(PUSH_HEAD, PUSH_HEAD_UPDATE)) {
+      // Let the core receive process handle it
+    } else {
+      reject(cmd);
+    }
+  }
+
+  private void parseRewindOrDelete(final ReceiveCommand cmd) {
+    if (isHead(cmd) && canPerform(PUSH_HEAD, PUSH_HEAD_REPLACE)) {
+      // Let the core receive process handle it
+
+    } else if (isHead(cmd) && cmd.getType() == Type.UPDATE_NONFASTFORWARD) {
+      cmd.setResult(ReceiveCommand.Result.REJECTED_NONFASTFORWARD);
+
+    } else {
       reject(cmd);
     }
   }
@@ -715,7 +829,7 @@ class Receive extends AbstractGitCommand {
         change.setCurrentPatchSet(imp.getPatchSetInfo());
         ChangeUtil.updated(change);
         db.changes().update(Collections.singleton(change), txn);
-        
+
         final ReplaceResult result = new ReplaceResult();
         result.change = change;
         result.patchSet = ps;
@@ -767,11 +881,60 @@ class Receive extends AbstractGitCommand {
     }
   }
 
+  private void insertBranchEntity(final ReceiveCommand c) {
+    try {
+      final Branch.NameKey nameKey =
+          new Branch.NameKey(proj.getNameKey(), c.getRefName());
+      final Branch.Id idKey = new Branch.Id(db.nextBranchId());
+      final Branch b = new Branch(nameKey, idKey);
+      db.branches().insert(Collections.singleton(b));
+    } catch (OrmException e) {
+      final String msg = "database failure creating " + c.getRefName();
+      log.error(msg, e);
+
+      try {
+        err.write(("remote error: " + msg + "\n").getBytes("UTF-8"));
+        err.flush();
+      } catch (IOException e2) {
+        // Ignore errors writing to the client
+      }
+    }
+  }
+
+  private void deleteBranchEntity(final ReceiveCommand c) {
+    try {
+      final Branch.NameKey nameKey =
+          new Branch.NameKey(proj.getNameKey(), c.getRefName());
+      final Branch b = db.branches().get(nameKey);
+      if (b != null) {
+        db.branches().delete(Collections.singleton(b));
+      }
+    } catch (OrmException e) {
+      final String msg = "database failure deleting " + c.getRefName();
+      log.error(msg, e);
+
+      try {
+        err.write(("remote error: " + msg + "\n").getBytes("UTF-8"));
+        err.flush();
+      } catch (IOException e2) {
+        // Ignore errors writing to the client
+      }
+    }
+  }
+
   private static void reject(final ReceiveCommand cmd) {
     reject(cmd, "prohibited by Gerrit");
   }
 
   private static void reject(final ReceiveCommand cmd, final String why) {
     cmd.setResult(ReceiveCommand.Result.REJECTED_OTHER_REASON, why);
+  }
+
+  private static boolean isTag(final ReceiveCommand cmd) {
+    return cmd.getRefName().startsWith(Constants.R_TAGS);
+  }
+
+  private static boolean isHead(final ReceiveCommand cmd) {
+    return cmd.getRefName().startsWith(Constants.R_HEADS);
   }
 }

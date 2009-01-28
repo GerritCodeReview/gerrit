@@ -330,6 +330,40 @@ public class GerritServer {
     txn.commit();
   }
 
+  private void initPushTagCategory(final ReviewDb c) throws OrmException {
+    final Transaction txn = c.beginTransaction();
+    final ApprovalCategory cat;
+    final ArrayList<ApprovalCategoryValue> vals;
+
+    cat = new ApprovalCategory(ApprovalCategory.PUSH_TAG, "Push Annotated Tag");
+    cat.setPosition((short) -1);
+    cat.setFunctionName(NoOpFunction.NAME);
+    vals = new ArrayList<ApprovalCategoryValue>();
+    vals.add(value(cat, 1, "Create Tag"));
+    c.approvalCategories().insert(Collections.singleton(cat), txn);
+    c.approvalCategoryValues().insert(vals, txn);
+    txn.commit();
+  }
+
+  private void initPushUpdateBranchCategory(final ReviewDb c)
+      throws OrmException {
+    final Transaction txn = c.beginTransaction();
+    final ApprovalCategory cat;
+    final ArrayList<ApprovalCategoryValue> vals;
+
+    cat = new ApprovalCategory(ApprovalCategory.PUSH_HEAD, "Push Branch");
+    cat.setPosition((short) -1);
+    cat.setFunctionName(NoOpFunction.NAME);
+    vals = new ArrayList<ApprovalCategoryValue>();
+    vals.add(value(cat, ApprovalCategory.PUSH_HEAD_UPDATE, "Update Branch"));
+    vals.add(value(cat, ApprovalCategory.PUSH_HEAD_CREATE, "Create Branch"));
+    vals.add(value(cat, ApprovalCategory.PUSH_HEAD_REPLACE,
+        "Force Push Branch; Delete Branch"));
+    c.approvalCategories().insert(Collections.singleton(cat), txn);
+    c.approvalCategoryValues().insert(vals, txn);
+    txn.commit();
+  }
+
   private static ApprovalCategoryValue value(final ApprovalCategory cat,
       final int value, final String name) {
     return new ApprovalCategoryValue(new ApprovalCategoryValue.Id(cat.getId(),
@@ -363,8 +397,19 @@ public class GerritServer {
         initVerifiedCategory(c);
         initCodeReviewCategory(c);
         initSubmitCategory(c);
+        initPushTagCategory(c);
+        initPushUpdateBranchCategory(c);
+      }
 
-      } else if (sVer.versionNbr == ReviewDb.VERSION) {
+      if (sVer.versionNbr == 2) {
+        initPushTagCategory(c);
+        initPushUpdateBranchCategory(c);
+
+        sVer.versionNbr = 3;
+        c.schemaVersion().update(Collections.singleton(sVer));
+      }
+
+      if (sVer.versionNbr == ReviewDb.VERSION) {
         sConfig = c.systemConfig().get(new SystemConfig.Key());
 
       } else {

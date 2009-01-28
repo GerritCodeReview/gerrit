@@ -16,6 +16,7 @@ package com.google.gerrit.client.reviewdb;
 
 import com.google.gerrit.client.workflow.CategoryFunction;
 import com.google.gerrit.client.workflow.MaxWithBlock;
+import com.google.gerrit.client.workflow.NoOpFunction;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.Key;
 import com.google.gwtorm.client.StringKey;
@@ -130,6 +131,7 @@ public final class ApprovalCategory {
   }
 
   public CategoryFunction getFunction() {
-    return CategoryFunction.forName(functionName);
+    final CategoryFunction r = CategoryFunction.forName(functionName);
+    return r != null ? r : new NoOpFunction();
   }
 }

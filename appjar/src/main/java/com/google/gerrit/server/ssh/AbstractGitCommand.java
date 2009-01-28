@@ -16,6 +16,8 @@ package com.google.gerrit.server.ssh;
 
 import com.google.gerrit.client.data.ProjectCache;
 import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.client.reviewdb.AccountGroup;
+import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.client.reviewdb.ReviewDb;
@@ -26,9 +28,12 @@ import com.google.gerrit.git.InvalidRepositoryException;
 import org.spearce.jgit.lib.Repository;
 
 import java.io.IOException;
+import java.util.Set;
 
 abstract class AbstractGitCommand extends AbstractCommand {
   protected Repository repo;
+  protected Set<AccountGroup.Id> userGroups;
+  protected ProjectCache.Entry cachedProj;
   protected Project proj;
   protected Account userAccount;
   protected ReviewDb db;
@@ -56,8 +61,8 @@ abstract class AbstractGitCommand extends AbstractCommand {
       projectName = projectName.substring(1);
     }
 
-    final ProjectCache.Entry cachedProj =
-        Common.getProjectCache().get(new Project.NameKey(projectName));
+    userGroups = Common.getGroupCache().getGroups(getAccountId());
+    cachedProj = Common.getProjectCache().get(new Project.NameKey(projectName));
     if (cachedProj == null) {
       throw new Failure(1, "fatal: '" + reqName + "': not a Gerrit project");
     }
@@ -67,7 +72,7 @@ abstract class AbstractGitCommand extends AbstractCommand {
       throw new Failure(1, "fatal: '" + reqName + "': not a valid project",
           new IllegalArgumentException("Cannot access the wildcard project"));
     }
-    if (!BaseServiceImplementation.canRead(getAccountId(), proj.getNameKey())) {
+    if (!canPerform(ApprovalCategory.READ, (short) 1)) {
       throw new Failure(1, "fatal: '" + reqName + "': not a Gerrit project",
           new SecurityException("Account lacks Read permission"));
     }
@@ -97,6 +102,12 @@ abstract class AbstractGitCommand extends AbstractCommand {
       db.close();
       db = null;
     }
+  }
+
+  protected boolean canPerform(final ApprovalCategory.Id actionId,
+      final short val) {
+    return BaseServiceImplementation.canPerform(userGroups, cachedProj,
+        actionId, val, false);
   }
 
   protected abstract void runImpl() throws IOException, Failure;

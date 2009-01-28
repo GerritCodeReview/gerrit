@@ -106,9 +106,14 @@ public class BaseServiceImplementation {
       //
       return false;
     }
-
     final Set<AccountGroup.Id> myGroups = Common.getGroupCache().getGroups(who);
-    if (myGroups.contains(e.getProject().getOwnerGroupId())) {
+    return canPerform(myGroups, e, ApprovalCategory.READ, (short) 1, true);
+  }
+
+  public static boolean canPerform(final Set<AccountGroup.Id> myGroups,
+      final ProjectCache.Entry e, final ApprovalCategory.Id actionId,
+      final short requireValue, final boolean assumeOwner) {
+    if (assumeOwner && myGroups.contains(e.getProject().getOwnerGroupId())) {
       // Ownership implies full access.
       //
       return true;
@@ -116,7 +121,7 @@ public class BaseServiceImplementation {
 
     int val = Integer.MIN_VALUE;
     for (final ProjectRight pr : e.getRights()) {
-      if (ApprovalCategory.READ.equals(pr.getApprovalCategoryId())
+      if (actionId.equals(pr.getApprovalCategoryId())
           && myGroups.contains(pr.getAccountGroupId())) {
         if (val < 0 && pr.getMaxValue() > 0) {
           // If one of the user's groups had denied them access, but
@@ -134,14 +139,14 @@ public class BaseServiceImplementation {
     }
     if (val == Integer.MIN_VALUE) {
       for (final ProjectRight pr : Common.getProjectCache().getWildcardRights()) {
-        if (ApprovalCategory.READ.equals(pr.getApprovalCategoryId())
+        if (actionId.equals(pr.getApprovalCategoryId())
             && myGroups.contains(pr.getAccountGroupId())) {
           val = Math.max(pr.getMaxValue(), val);
         }
       }
     }
 
-    return val > 0;
+    return val >= requireValue;
   }
 
   /** Exception whose cause is passed into onFailure. */

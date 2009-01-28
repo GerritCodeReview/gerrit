@@ -14,8 +14,12 @@
 
 package com.google.gerrit.server.ssh;
 
+import com.google.gerrit.client.data.ProjectCache;
 import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.client.reviewdb.AccountGroup;
+import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gerrit.client.rpc.BaseServiceImplementation;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.git.RepositoryCache;
 import com.google.gerrit.server.GerritServer;
@@ -34,6 +38,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /** Basic command implementation invoked by {@link GerritCommandFactory}. */
 abstract class AbstractCommand implements Command, SessionAware {
@@ -47,6 +52,7 @@ abstract class AbstractCommand implements Command, SessionAware {
   protected ServerSession session;
   private String name;
   private String[] args;
+  private Set<AccountGroup.Id> userGroups;
 
   public void setInputStream(final InputStream in) {
     this.in = in;
@@ -97,6 +103,23 @@ abstract class AbstractCommand implements Command, SessionAware {
 
   protected Account.Id getAccountId() {
     return session.getAttribute(SshUtil.CURRENT_ACCOUNT);
+  }
+
+  protected Set<AccountGroup.Id> getGroups() {
+    if (userGroups == null) {
+      userGroups = Common.getGroupCache().getGroups(getAccountId());
+    }
+    return userGroups;
+  }
+
+  protected boolean canRead(final ProjectCache.Entry project) {
+    return canPerform(project, ApprovalCategory.READ, (short) 1);
+  }
+
+  protected boolean canPerform(final ProjectCache.Entry project,
+      final ApprovalCategory.Id actionId, final short val) {
+    return BaseServiceImplementation.canPerform(getGroups(), project, actionId,
+        val, false);
   }
 
   protected String getName() {

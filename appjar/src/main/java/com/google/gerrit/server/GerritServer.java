@@ -254,7 +254,7 @@ public class GerritServer {
     vals.add(value(cat, 0, "No score"));
     vals.add(value(cat, -1, "Fails"));
     c.approvalCategories().insert(Collections.singleton(cat), txn);
-    c.approvalCategoryValues().insert(vals);
+    c.approvalCategoryValues().insert(vals, txn);
     txn.commit();
   }
 
@@ -272,7 +272,7 @@ public class GerritServer {
     vals.add(value(cat, -1, "I would prefer that you didn't submit this"));
     vals.add(value(cat, -2, "Do not submit"));
     c.approvalCategories().insert(Collections.singleton(cat), txn);
-    c.approvalCategoryValues().insert(vals);
+    c.approvalCategoryValues().insert(vals, txn);
     txn.commit();
 
     final ProjectRight approve =
@@ -295,7 +295,7 @@ public class GerritServer {
     vals.add(value(cat, 1, "Read access"));
     vals.add(value(cat, -1, "No access"));
     c.approvalCategories().insert(Collections.singleton(cat), txn);
-    c.approvalCategoryValues().insert(vals);
+    c.approvalCategoryValues().insert(vals, txn);
     txn.commit();
     {
       final ProjectRight read =
@@ -326,7 +326,7 @@ public class GerritServer {
     vals = new ArrayList<ApprovalCategoryValue>();
     vals.add(value(cat, 1, "Submit"));
     c.approvalCategories().insert(Collections.singleton(cat), txn);
-    c.approvalCategoryValues().insert(vals);
+    c.approvalCategoryValues().insert(vals, txn);
     txn.commit();
   }
 

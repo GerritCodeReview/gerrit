@@ -285,7 +285,7 @@ limitations under the License.
         <executions>
           <execution>
             <id>generate-version</id>
-            <phase>process-classes</phase>
+            <phase>generate-resources</phase>
             <configuration>
               <tasks>
                 <property name="s" location="${basedir}/src/main/java/"/>

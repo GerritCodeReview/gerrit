@@ -127,9 +127,12 @@ public class PushQueue {
           continue;
         }
 
+        // If the ref still exists locally, send it, else delete it.
+        //
+        final String srcexp = db.resolve(src) != null ? src : null;
         final String dst = spec.getDestination();
         final boolean force = spec.isForceUpdate();
-        cmds.add(new RemoteRefUpdate(db, src, dst, force, null, null));
+        cmds.add(new RemoteRefUpdate(db, srcexp, dst, force, null, null));
       }
     } catch (IOException e) {
       log.error("Cannot replicate " + op.projectName, e);

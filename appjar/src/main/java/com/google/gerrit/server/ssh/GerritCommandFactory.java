@@ -40,6 +40,11 @@ class GerritCommandFactory implements CommandFactory {
         return new AdminFlushCaches();
       }
     });
+    commands.put("gerrit-ls-projects", new Factory() {
+      public AbstractCommand create() {
+        return new ListProjects();
+      }
+    });
 
     alias("gerrit-upload-pack", "git-upload-pack");
     alias("gerrit-receive-pack", "git-receive-pack");

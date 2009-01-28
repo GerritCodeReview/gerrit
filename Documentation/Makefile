@@ -1,35 +1,40 @@
-ifeq ($(shell uname),Darwin)
-	SDK = /usr/local/bin
-else
-	SDK = $(HOME)/google_appengine
-endif
-
 DOC_HTML       = $(patsubst %.txt,%.html,$(wildcard *.txt))
 ASCIIDOC       = asciidoc
 ASCIIDOC_EXTRA =
-PYSDK          = python2.5
-APPCFG         = $(PYSDK) $(SDK)/appcfg.py $(APPCFG_OPTS) -e '$(ADMIN)'
-R_WEB          = release-gae
-APPID          = gerrit-documentation
+SVN            = svn
+PUB_ROOT       = https://gerrit.googlecode.com/svn/documentation
+LOCAL_ROOT     = .published
 
--include config.mak
+DOC_VERS      := $(shell git describe HEAD)
+DOC_VMM       := $(shell sh -c "echo $(DOC_VERS) | perl -pe 's,^v(\d+\.\d+)[\.-].*\$$,\$$1,'")
+PUB_DIR        = $(PUB_ROOT)/$(DOC_VMM)
 
 all: html
 
 html: $(DOC_HTML)
 
 update: html
-	@rm -rf $(R_WEB)
-	@mkdir -p $(R_WEB)/Documentation
-	cp app.yaml redirect.py $(R_WEB)
-	cp ../appjar/src/main/java/com/google/gerrit/public/favicon.ico $(R_WEB)
-	cp *.html $(R_WEB)/Documentation
-	git describe HEAD >$(R_WEB)/application_version
-	perl -pi -e 's/(application:).*/$$1 $(APPID)/' $(R_WEB)/app.yaml
-	$(APPCFG) update $(R_WEB)
+	-rm -rf $(LOCAL_ROOT)
+	$(SVN) checkout $(PUB_DIR) $(LOCAL_ROOT)
+	rm -f $(LOCAL_ROOT)/*.html
+	cp *.html $(LOCAL_ROOT)
+	cd $(LOCAL_ROOT) && \
+	  r=`$(SVN) status | perl -ne 'print if s/^!  *//' ` && \
+	  if [ -n "$$r" ]; then $(SVN) rm $$r; fi && \
+	  a=`$(SVN) status | perl -ne 'print if s/^\?  *//' ` && \
+	  if [ -n "$$a" ]; then \
+	    $(SVN) add $$r && \
+	    $(SVN) propset svn:mime-type text/html $$r ; \
+	    fi && \
+	  $(SVN) commit -m "Updated documentation $(DOC_VMM) to $(DOC_VERS)"
+	-rm -rf $(LOCAL_ROOT)
+
+new-docs:
+	$(SVN) mkdir -m "Create documentation $(DOC_VMM)" $(PUB_DIR)
 
 clean:
-	rm -f *.html $(R_WEB)
+	rm -f *.html
+	rm -rf $(LOCAL_ROOT)
 
 $(DOC_HTML): %.html : %.txt
 	rm -f $@+ $@

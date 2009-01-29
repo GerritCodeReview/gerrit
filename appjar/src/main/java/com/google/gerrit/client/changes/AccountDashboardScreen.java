@@ -19,6 +19,7 @@ import com.google.gerrit.client.Link;
 import com.google.gerrit.client.data.AccountDashboardInfo;
 import com.google.gerrit.client.data.AccountInfo;
 import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.Screen;
 
@@ -32,6 +33,7 @@ public class AccountDashboardScreen extends Screen {
 
   public AccountDashboardScreen(final Account.Id id) {
     ownerId = id;
+    setRequiresSignIn(ownerId == null);
   }
 
   @Override
@@ -42,11 +44,15 @@ public class AccountDashboardScreen extends Screen {
   @Override
   public Screen recycleThis(final Screen newScreen) {
     ownerId = ((AccountDashboardScreen) newScreen).ownerId;
+    setRequiresSignIn(ownerId == null);
     return this;
   }
 
   @Override
   public void onLoad() {
+    if (ownerId == null) {
+      ownerId = Common.getAccountId();
+    }
     if (table == null) {
       table = new ChangeTable();
       byOwner = new ChangeTable.Section("");

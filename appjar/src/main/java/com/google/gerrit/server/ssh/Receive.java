@@ -216,7 +216,7 @@ class Receive extends AbstractGitCommand {
         msg.append("\n");
       }
       msg.append("\n");
-      throw new Failure(1, msg.toString());
+      throw new UnloggedFailure(1, msg.toString());
     }
 
     if (bestCla != null && bestCla.isRequireContactInformation()) {
@@ -241,7 +241,7 @@ class Receive extends AbstractGitCommand {
           msg.append("\n");
         }
         msg.append("\n");
-        throw new Failure(1, msg.toString());
+        throw new UnloggedFailure(1, msg.toString());
       }
     }
 
@@ -250,12 +250,12 @@ class Receive extends AbstractGitCommand {
         case VERIFIED:
           return;
         case REJECTED:
-          throw new Failure(1, "\nfatal: " + bestCla.getShortName()
+          throw new UnloggedFailure(1, "\nfatal: " + bestCla.getShortName()
               + " contributor agreement was rejected."
               + "\n       (rejected on " + bestAgreement.getReviewedOn()
               + ")\n");
         case NEW:
-          throw new Failure(1, "\nfatal: " + bestCla.getShortName()
+          throw new UnloggedFailure(1, "\nfatal: " + bestCla.getShortName()
               + " contributor agreement is still pending review.\n");
       }
     }
@@ -273,7 +273,7 @@ class Receive extends AbstractGitCommand {
       msg.append(".");
     }
     msg.append("\n");
-    throw new Failure(1, msg.toString());
+    throw new UnloggedFailure(1, msg.toString());
   }
 
   private static boolean missing(final String value) {

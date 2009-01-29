@@ -187,13 +187,15 @@ abstract class AbstractCommand implements Command, SessionAware {
           throw new Failure(128, "fatal: internal server error", e);
         }
       } catch (Failure e) {
-        final StringBuilder logmsg = beginLogMessage();
-        logmsg.append(": ");
-        logmsg.append(e.getMessage());
-        if (e.getCause() != null)
-          log.error(logmsg.toString(), e.getCause());
-        else
-          log.error(logmsg.toString());
+        if (!(e instanceof UnloggedFailure)) {
+          final StringBuilder logmsg = beginLogMessage();
+          logmsg.append(": ");
+          logmsg.append(e.getMessage());
+          if (e.getCause() != null)
+            log.error(logmsg.toString(), e.getCause());
+          else
+            log.error(logmsg.toString());
+        }
 
         rc = e.exitCode;
         try {
@@ -247,6 +249,17 @@ abstract class AbstractCommand implements Command, SessionAware {
     public Failure(final int exitCode, final String msg, final Throwable why) {
       super(msg, why);
       this.exitCode = exitCode;
+    }
+  }
+
+  public static class UnloggedFailure extends Failure {
+    public UnloggedFailure(final int exitCode, final String msg) {
+      this(exitCode, msg, null);
+    }
+
+    public UnloggedFailure(final int exitCode, final String msg,
+        final Throwable why) {
+      super(exitCode, msg, why);
     }
   }
 }

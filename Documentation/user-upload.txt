@@ -1,0 +1,319 @@
+Gerrit2 - Uploading Changes
+===========================
+
+Gerrit supports three methods of uploading changes for review:
+
+* Use `repo upload`, to create changes for review
+* Use `git push`, to create changes for review
+* Use `git push`, and bypass code review
+
+All three methods use SSH public key authentication, which must
+first be configured by the uploading user.
+
+SSH Authentication
+------------------
+
+Each user uploading changes to Gerrit must configure one or
+more SSH public keys.  The per-user SSH key list can be accessed
+over the web within Gerrit by `My` > `Settings` (or by visting
+`http://'hostname'/settings`) then accessing the `SSH Keys` tab.
+
+To register a new SSH key for use with Gerrit, paste the contents
+of your `id_rsa.pub` or `id_dsa.pub` file into the text box and
+click the add button.
+
+[NOTE]
+Gerrit only understands SSH version 2 public keys.  Keys may be
+supplied in either the OpenSSH format (key starts with `ssh-rsa`
+or `ssh-dss`) or the RFC 4716 format (file starts with `---- BEGIN
+SSH2 PUBLIC KEY ----`).
+
+Typically your SSH keys are stored in your home directory, under
+`~/.ssh`.  If you don't have any keys yet, you can create a new
+one and protect it with a passphrase:
+
+====
+  ssh-keygen -t rsa
+====
+
+Then copy the content of the public key file onto your clipboard,
+and paste it into Gerrit's web interface:
+
+====
+  cat ~/.ssh/id_rsa.pub
+====
+
+[TIP]
+Users who frequently use Gerrit to upload changes will also want
+to consider starting a `ssh-agent`, and adding their key to the
+list managed by the agent, to reduce the frequency of entering the
+key's passphrase.  Consult `man ssh-agent`, or your SSH client's
+documentation, for more details on configuration of the agent
+process and how to add the private key.
+
+Testing Your SSH Connection
+---------------------------
+
+To verify your SSH key is working correctly, try using an SSH client
+to connect to Gerrit's SSHD port.  By default Gerrit is running on
+port 29418, using the same hostname as the web server:
+
+====
+  $ ssh -p 29418 sshusername@hostname
+  gerrit: no shell available
+  Connection to hostname closed.
+====
+
+In the command above, `sshusername` is always the local part of your
+preferred email address (the text before the `@` sign).  The exact
+value chosen by Gerrit can be confirmed by visting `My` > `Settings`,
+and copying the `SSH Username` field.  For example, a user who
+has selected a preferred email address of `john.doe@example.com`
+would be assigned `john.doe` as their SSH username.  For many
+users, this may also be identical to their local username.
+
+To determine the port number Gerrit is running on, visit the special
+information URL `http://'hostname'/ssh_info`, and copy the port
+number from the second field:
+
+====
+  $ curl http://hostname/ssh_info
+  hostname 29418
+====
+
+[TIP]
+If you are developing an automated tool to perform uploads to Gerrit,
+let the user supply the hostname or the web address for Gerrit,
+and obtain the port number on the fly from the `/ssh_info` URL.
+The returned output from this URL is always `'hostname' SP 'port'`,
+or `NOT_AVAILABLE` if the SSHD server isn't running.
+
+
+repo upload: Create Changes
+---------------------------
+
+To upload changes to a project using `repo`, ensure the manifest's
+review field has been configured to point to the Gerrit server.
+Only the hostname or the web address needs to be given in the
+manifest file. During upload `repo` will automatically determine the
+correct port number by reading `http://'reviewhostname'/ssh_info`
+when its invoked.
+
+Each new commit uploaded by `repo upload` will be converted into
+a change record on the server.  Other users (e.g. project owners)
+who have configured Gerrit to notify them of new changes will be
+automatically sent an email message.  Additional notifications can
+be sent through command line options.
+
+For more details on using `repo upload`, see `repo help upload`.
+
+
+git push: Create Changes
+------------------------
+
+To create new changes for review, simply push into the project's
+magical `refs/for/'branch'` ref using any Git client tool:
+
+====
+  git push ssh://sshusername@hostname:29418/projectname HEAD:refs/for/branchname
+====
+
+E.g. `john.doe` can use git push to upload new changes for the
+`experimental` branch of project `kernel/common`, hosted at the
+`git.example.com` Gerrit server:
+
+====
+  git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/experimental
+====
+
+Each new commit uploaded by the `git push` client will be
+converted into a change record on the server.  The remote ref
+`refs/for/experimental` is not actually created by Gerrit, even
+though the client's status messages may say otherwise.
+
+Other users (e.g. project owners) who have configured Gerrit to
+notify them of new changes will be automatically sent an email
+message when the push is completed.
+
+If you are frequently uploading changes to the same Gerrit server,
+consider adding an SSH host block in `~/.ssh/config` to remember
+your username, hostname and port number.  This permits the use of
+shorter URLs on the command line, such as:
+
+====
+  $ cat ~/.ssh/config
+  ...
+  Host tr
+    Hostname git.example.com
+    Port 29418
+    User john.doe
+
+  $ git push tr:kernel/common HEAD:refs/for/experimental
+====
+
+Specific reviewers can be requested and/or additional ``carbon
+copies'' of the notification message may be sent by including these
+as arguments to `gerrit receive-pack`:
+
+====
+  git push --receive-pack='gerrit receive-pack --reviewer=a@a.com --cc=b@o.com' tr:kernel/common HEAD:refs/for/experimental
+====
+
+The `\--reviewer='email'` and `\--cc='email'` options may be
+specified as many times as necessary to cover all interested
+parties.  Gerrit will automatically avoid sending duplicate email
+notifications, such as if one of the specified reviewers or CC
+addresses had also requested to receive all new change notifications.
+
+If you are frequently sending changes to the same parties and/or
+branches, consider adding a custom remote block to your project's
+`.git/config` file:
+
+====
+  $ cat .git/config
+  ...
+  [remote "for-a-exp"]
+    url = tr:kernel/common
+    receivepack = gerrit receive-pack --reviewer=a@a.com --cc=b@o.com
+    push = HEAD:refs/for/experimental
+
+  $ git push for-a-exp
+====
+
+
+git push: Replace Changes
+-------------------------
+
+To add an additional patch set to a change, replacing it with an
+updated version of the same logical modification, send the new
+commit to the change's ref.  For example, to add the commit whose
+SHA-1 starts with `c0ffee` as a new patch set for change number
+`1979`, use the push refspec `c0ffee:refs/changes/1979` as below:
+
+====
+  git push ssh://sshusername@hostname:29418/projectname c0ffee:refs/changes/1979
+====
+
+This form can be combined together with `refs/for/'branchname'`
+(above) to simultaneously create new changes and replace changes
+during one network transaction.
+
+For example, consider the following sequence of events:
+
+====
+  $ git commit -m A                    ; # create 3 commits
+  $ git commit -m B
+  $ git commit -m C
+
+  $ git push ... HEAD:refs/for/master  ; # upload for review
+  ... A is 1500 ...
+  ... B is 1501 ...
+  ... C is 1502 ...
+
+  $ git rebase -i HEAD~3               ; # edit "A", insert D before B
+                                       ; # now series is A'-D-B'-C'
+  $ git push ... 
+      HEAD:refs/for/master 
+      HEAD~3:refs/changes/1500 
+      HEAD~1:refs/changes/1501 
+      HEAD~0:refs/changes/1502         ; # upload replacements
+====
+
+At the final step during the push Gerrit will attach A' as a new
+patch set on change 1500; B' as a new patch set on change 1501; C'
+as a new patch set on 1502; and D will be created as a new change.
+
+Ensuring D is created as a new change requires passing the refspec
+`HEAD:refs/for/branchname`, otherwise Gerrit will ignore D and
+won't do anything with it.  For this reason it is a good idea to
+always include the create change refspec when uploading replacements.
+
+
+git push: Bypass Review
+-----------------------
+
+Changes (and annotated tags) can be pushed directly into a
+repository, bypassing the review process.  This is primarily useful
+for a project owner to create new branches, create annotated tags
+for releases, or to force-update a branch whose history needed to
+be rewritten.
+
+Gerrit restricts direct pushes that bypass review to:
+
+* `refs/heads/*`: any branch can be updated, created, deleted,
+or rewritten by the pusher.
+* `refs/tags/*`: annotated tag objects pointing to any other type
+of Git object can be created.  Tags cannot be updated or deleted.
+
+To push branches, the `Push Branch` project right must be granted
+to one (or more) of the user's groups.  The allowed levels within
+this category are:
+
+* Update: Any existing branch can be fast-forwarded to a new commit.
+This is the safest mode as commits cannot be discarded.  Creation
+of new branches is rejected.
+* Create: Implies Update, but also allows creation of a new branch
+if the name does not not already designate an existing branch name.
+* Delete: Implies Create and Update, but also allows an existing
+branch to be deleted.  Since a force push is effectively a delete
+followed by a create, but performed atomically on the server and
+logged, this also permits forced push updates to branches.
+
+To push annotated tags, the `Push Annotated Tag` project right must
+be granted to one (or more) of the user's groups.  There is only
+one level of access in this category.
+
+Project owners may wish to grant themselves `Push Annotated Tag`
+only at times when a new release is being prepared, and otherwise
+grant nothing at all.  This ensures that accidental pushes don't
+make undesired changes to the public repository.
+
+
+Gritty Details
+--------------
+
+Gerrit requires that the tuple `('username', 'public_key')`
+be unique.  When it gets a login request it scans all accounts
+whose SSH Username matches the name requested by the client, to
+see if any of them have the public key presented by the client.
+
+What this means is, say there's "john.doe@example.com" (me) and
+"john.doe@evil.com" (someone else - not me).  Gerrit will consider
+both accounts' public keys when I login, but only binds the session
+to the account whose key was presented.  If multiple accounts match
+the same key and same username, it denies the login.
+
+Given that most local names will be unique across a single Gerrit
+server, that means in practice most people will only be considering
+their own keys.  Since SSH keys (in theory) are globally unique,
+even if two people have the same local name, they still can't access
+each other's accounts.  But, if two people both used Debian's broken
+ssh-keygen and they have the same local name, they effectively lock
+each other out of Gerrit until one (or both) changes their key(s)
+to a more secure one.
+
+As Gerrit implements the entire SSH and Git server stack within its
+own process space, Gerrit maintains complete control over how the
+repository is updated, and what responses are sent to the `git push`
+client invoked by the end-user, or by `repo upload`.  This allows
+Gerrit to provide magical refs, such as `refs/for/\*` for new
+change submission and `refs/changes/\*` for change replacement.
+When a push request is received to create a ref in one of these
+namespaces Gerrit performs its own logic to update the database,
+and then lies to the client about the result of the operation.
+A successful result causes the client to believe that Gerrit has
+created the ref, but in reality Gerrit hasn't created the ref at all.
+
+By implementing the entire server stack, Gerrit is also able to
+perform project level access control checks (to verify the end-user
+is permitted to access a project) prior to advertising the available
+refs, and potentially leaking information to a snooping client.
+Clients cannot tell the difference between 'project not found' and
+'project exists, but access is denied'.
+
+Gerrit can also ensure users have completed a valid Contributor
+Agreement prior to accepting any transferred objects, and if an
+agreement is required, but not completed, it aborts the network
+connection before data is sent.  This ensures that project owners
+can be certain any object available in their repository has been
+supplied under at least one valid agreement.

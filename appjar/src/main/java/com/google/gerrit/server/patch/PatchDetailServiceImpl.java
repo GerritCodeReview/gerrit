@@ -274,7 +274,7 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
 
     if (msgbuf.length() > 0) {
       msgbuf.insert(0, "Patch Set " + psid.get() + ": ");
-      msgbuf.append("\n");
+      msgbuf.append("\n\n");
     }
     if (messageText != null) {
       msgbuf.append(messageText);

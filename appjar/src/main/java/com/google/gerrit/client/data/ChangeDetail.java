@@ -159,7 +159,6 @@ public class ChangeDetail {
 
       Collections.sort(neededBy, new Comparator<ChangeInfo>() {
         public int compare(final ChangeInfo o1, final ChangeInfo o2) {
-          // TODO sort neededBy by something more reasonable than Id
           return o1.getId().get() - o2.getId().get();
         }
       });

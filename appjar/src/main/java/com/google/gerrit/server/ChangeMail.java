@@ -371,8 +371,9 @@ public class ChangeMail {
       }
       initFrom();
       initUserAgent();
-      initListId(messageClass);
+      initListId();
       initChangeUrl();
+      initMessageType(messageClass);
       initSubject();
       body = new StringBuilder();
       inFooter = false;
@@ -400,13 +401,11 @@ public class ChangeMail {
     msg.setHeader("User-Agent", "Gerrit/2");
   }
 
-  private void initListId(final String messageClass) throws MessagingException {
+  private void initListId() throws MessagingException {
     // Set a reasonable list id so that filters can be used to sort messages
     //
     final StringBuilder listid = new StringBuilder();
     listid.append("gerrit-");
-    listid.append(messageClass);
-    listid.append("-");
     listid.append(projectName.replace('/', '-'));
     listid.append("@");
     listid.append(gerritHost());
@@ -424,6 +423,11 @@ public class ChangeMail {
     if (u != null) {
       msg.setHeader("X-Gerrit-ChangeURL", "<" + u + ">");
     }
+  }
+
+  private void initMessageType(final String messageClass)
+      throws MessagingException {
+    msg.setHeader("X-Gerrit-MessageType", messageClass);
   }
 
   private void initInReplyToChange() throws MessagingException {

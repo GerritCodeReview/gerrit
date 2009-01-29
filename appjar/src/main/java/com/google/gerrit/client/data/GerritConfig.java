@@ -30,6 +30,8 @@ public class GerritConfig {
   protected int sshdPort;
   protected boolean useContributorAgreements;
   protected SystemConfig.LoginType loginType;
+  protected boolean useRepoDownload;
+  protected String gitDaemonUrl;
   private transient Map<ApprovalCategory.Id, ApprovalType> byCategoryId;
 
   public GerritConfig() {
@@ -123,5 +125,24 @@ public class GerritConfig {
       }
     }
     return byCategoryId.get(id);
+  }
+
+  public boolean isUseRepoDownload() {
+    return useRepoDownload;
+  }
+
+  public void setUseRepoDownload(final boolean r) {
+    useRepoDownload = r;
+  }
+
+  public String getGitDaemonUrl() {
+    return gitDaemonUrl;
+  }
+
+  public void setGitDaemonUrl(String url) {
+    if (url != null && !url.endsWith("/")) {
+      url += "/";
+    }
+    gitDaemonUrl = url;
   }
 }

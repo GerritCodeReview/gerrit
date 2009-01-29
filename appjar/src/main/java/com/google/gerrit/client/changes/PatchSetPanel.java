@@ -24,13 +24,16 @@ import com.google.gerrit.client.data.PatchSetDetail;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
+import com.google.gerrit.client.reviewdb.Branch;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.PatchSetInfo;
+import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.UserIdentity;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.DomUtil;
 import com.google.gerrit.client.ui.RefreshListener;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Composite;
@@ -129,9 +132,7 @@ class PatchSetPanel extends Composite implements DisclosureHandler {
     final PatchSetInfo info = detail.getInfo();
     displayUserIdentity(R_AUTHOR, info.getAuthor());
     displayUserIdentity(R_COMMITTER, info.getCommitter());
-    infoTable.setText(R_DOWNLOAD, 1, Util.M.repoDownload(changeDetail
-        .getChange().getDest().getParentKey().get(), changeDetail.getChange()
-        .getChangeId(), patchSet.getPatchSetId()));
+    displayDownload();
 
 
     patchTable = new PatchTable();
@@ -160,6 +161,67 @@ class PatchSetPanel extends Composite implements DisclosureHandler {
       populateCommentAction();
     }
     body.add(patchTable);
+  }
+
+  private void displayDownload() {
+    final Branch.NameKey branchKey = changeDetail.getChange().getDest();
+    final Project.NameKey projectKey = branchKey.getParentKey();
+    final String projectName = projectKey.get();
+
+    final StringBuilder r = new StringBuilder();
+
+    if (Common.getGerritConfig().isUseRepoDownload()) {
+      // This site prefers usage of the 'repo' tool, so suggest
+      // that for easy fetch.
+      //
+      if (r.length() > 0) {
+        r.append("\n");
+      }
+      r.append("repo download ");
+      r.append(projectName);
+      r.append(" ");
+      r.append(changeDetail.getChange().getChangeId());
+      r.append("/");
+      r.append(patchSet.getPatchSetId());
+    }
+
+    if (changeDetail.isAllowsAnonymous()
+        && Common.getGerritConfig().getGitDaemonUrl() != null) {
+      // Anonymous Git is claimed to be available, and this project
+      // isn't secured. The anonymous Git daemon will be much more
+      // efficient than our own SSH daemon, so prefer offering it.
+      //
+      if (r.length() > 0) {
+        r.append("\n");
+      }
+      r.append("git pull ");
+      r.append(Common.getGerritConfig().getGitDaemonUrl());
+      r.append(projectName);
+      r.append(" ");
+      r.append(patchSet.getRefName());
+    } else if (Gerrit.isSignedIn() && Gerrit.getUserAccount() != null
+        && Gerrit.getUserAccount().getSshUserName() != null
+        && Gerrit.getUserAccount().getSshUserName().length() > 0) {
+      // The user is signed in and anonymous access isn't allowed.
+      // Use our SSH daemon URL as its the only way they can get
+      // to the project (that we know of anyway).
+      //
+      if (r.length() > 0) {
+        r.append("\n");
+      }
+      r.append("git pull ssh://");
+      r.append(Gerrit.getUserAccount().getSshUserName());
+      r.append("@");
+      r.append(Window.Location.getHostName());
+      r.append(":");
+      r.append(Common.getGerritConfig().getSshdPort());
+      r.append("/");
+      r.append(projectName);
+      r.append(" ");
+      r.append(patchSet.getRefName());
+    }
+
+    infoTable.setText(R_DOWNLOAD, 1, r.toString());
   }
 
   private void displayUserIdentity(final int row, final UserIdentity who) {

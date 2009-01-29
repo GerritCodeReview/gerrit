@@ -21,6 +21,7 @@ import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.BaseServiceImplementation;
+import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtorm.client.OrmException;
@@ -37,8 +38,19 @@ public class ChangeDetailServiceImpl extends BaseServiceImplementation
         }
         assertCanRead(change);
 
+        final boolean anon;
+        if (Common.getAccountId() == null) {
+          // Safe assumption, this wouldn't be allowed if it wasn't.
+          //
+          anon = true;
+        } else {
+          // Ask if the anonymous user can read this project; even if
+          // we can that doesn't mean the anonymous user could.
+          //
+          anon = canRead(null, change.getDest().getParentKey());
+        }
         final ChangeDetail d = new ChangeDetail();
-        d.load(db, new AccountInfoCacheFactory(db), change);
+        d.load(db, new AccountInfoCacheFactory(db), change, anon);
         return d;
       }
     });

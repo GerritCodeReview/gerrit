@@ -47,6 +47,34 @@ Gerrit knows about and can process changes for.  A project
 entity in Gerrit maps to a local Git repository by creating
 the path string "${git_pase_path}/${project_name}.git".
 
+gitweb_url
+~~~~~~~~~~
+
+Optional URL of an affiliated gitweb service.
+
+* link:config-gitweb.html[Gitweb Integration]
+
+git_daemon_url
+~~~~~~~~~~~~~~
+
+Optional base URL for repositories available over the anonymous git
+protocol.  For example, set this to `git://mirror.example.com/base/`
+to have Gerrit display patch set download URLs in the UI.  Gerrit
+automatically appends the project name onto the end of the URL.
+
+By default NULL, as the git daemon must be configured externally
+by the system administrator, and might not even be running on the
+same host as Gerrit.
+
+use_repo_download
+~~~~~~~~~~~~~~~~~
+
+If set to `Y`, Gerrit advertises patch set downloads with the
+`repo download` command, assuming that all projects managed by this
+instance are generally worked on with the repo multi-repository tool.
+
+By default, `N`, as not all instances will deploy repo.
+
 gerrit_git_name
 ~~~~~~~~~~~~~~~
 

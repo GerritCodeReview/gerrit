@@ -93,6 +93,14 @@ public final class SystemConfig {
   @Column(notNull = false)
   public String gitwebUrl;
 
+  /**
+   * Optional URL of the anonymous git daemon for project access.
+   * <p>
+   * For example: <code>git://host/base/</code>
+   */
+  @Column(notNull = false)
+  public String gitDaemonUrl;
+
   /** Local filesystem location all projects reside within. */
   @Column(notNull = false)
   public transient String gitBasePath;
@@ -135,6 +143,10 @@ public final class SystemConfig {
   /** Local TCP port number the embedded SSHD server binds onto. */
   @Column
   public int sshdPort;
+
+  /** Should Gerrit advertise 'repo download' for patch sets? */
+  @Column
+  public boolean useRepoDownload;
 
   /** Identity of the administration group; those with full access. */
   @Column

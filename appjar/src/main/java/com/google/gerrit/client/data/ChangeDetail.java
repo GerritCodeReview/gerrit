@@ -40,6 +40,7 @@ import java.util.Set;
 /** Detail necessary to display {@link ChangeScreen}. */
 public class ChangeDetail {
   protected AccountInfoCache accounts;
+  protected boolean allowsAnonymous;
   protected Change change;
   protected List<ChangeInfo> dependsOn;
   protected List<ChangeInfo> neededBy;
@@ -55,11 +56,12 @@ public class ChangeDetail {
   }
 
   public void load(final ReviewDb db, final AccountInfoCacheFactory acc,
-      final Change c) throws OrmException {
+      final Change c, final boolean allowAnon) throws OrmException {
     change = c;
     final Account.Id owner = change.getOwner();
     acc.want(owner);
 
+    allowsAnonymous = allowAnon;
     patchSets = db.patchSets().byChange(change.getId()).toList();
     messages = db.changeMessages().byChange(change.getId()).toList();
     for (final ChangeMessage m : messages) {
@@ -169,6 +171,10 @@ public class ChangeDetail {
 
   public AccountInfoCache getAccounts() {
     return accounts;
+  }
+
+  public boolean isAllowsAnonymous() {
+    return allowsAnonymous;
   }
 
   public Change getChange() {

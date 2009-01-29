@@ -427,6 +427,8 @@ public class GerritServer {
     r.setCanonicalUrl(getCanonicalURL());
     r.setSshdPort(sConfig.sshdPort);
     r.setUseContributorAgreements(sConfig.useContributorAgreements);
+    r.setGitDaemonUrl(sConfig.gitDaemonUrl);
+    r.setUseRepoDownload(sConfig.useRepoDownload);
     r.setLoginType(sConfig.getLoginType());
     if (sConfig.gitwebUrl != null) {
       r.setGitwebLink(new GitwebLink(sConfig.gitwebUrl));

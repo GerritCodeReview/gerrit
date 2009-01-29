@@ -93,7 +93,7 @@ public final class SystemConfig {
   @Column(notNull = false)
   public String gitwebUrl;
 
-  /** Local filesystem loction all projects reside within. */
+  /** Local filesystem location all projects reside within. */
   @Column(notNull = false)
   public transient String gitBasePath;
 

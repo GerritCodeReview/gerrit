@@ -118,6 +118,10 @@ public final class Account {
   @Column
   protected short defaultContext;
 
+  /** Should the site header be displayed when logged in ? */
+  @Column
+  protected boolean showSiteHeader;
+
   /** Non-Internet based contact details for the account's owner. */
   @Column(notNull = false)
   protected ContactInformation contact;
@@ -134,6 +138,7 @@ public final class Account {
     accountId = newId;
     registeredOn = new Timestamp(System.currentTimeMillis());
     defaultContext = DEFAULT_CONTEXT;
+    showSiteHeader = true;
   }
 
   /** Get local id of this account, to link with in other entities */
@@ -184,6 +189,14 @@ public final class Account {
   /** Set the number of lines of context when viewing a patch. */
   public void setDefaultContext(final short s) {
     defaultContext = s;
+  }
+
+  public boolean isShowSiteHeader() {
+    return showSiteHeader;
+  }
+
+  public void setShowSiteHeader(final boolean b) {
+    showSiteHeader = b;
   }
 
   public ContactInformation getContactInformation() {

@@ -48,6 +48,19 @@ public class AccountServiceImpl extends BaseServiceImplementation implements
     });
   }
 
+  public void changeShowSiteHeader(final boolean newSetting,
+      final AsyncCallback<VoidResult> callback) {
+    run(callback, new Action<VoidResult>() {
+      public VoidResult run(final ReviewDb db) throws OrmException {
+        final Account a = db.accounts().get(Common.getAccountId());
+        a.setShowSiteHeader(newSetting);
+        db.accounts().update(Collections.singleton(a));
+        Common.getAccountCache().invalidate(a.getId());
+        return VoidResult.INSTANCE;
+      }
+    });
+  }
+
   public void changeDefaultContext(final short newSetting,
       final AsyncCallback<VoidResult> callback) {
     run(callback, new Action<VoidResult>() {

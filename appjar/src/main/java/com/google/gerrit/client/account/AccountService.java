@@ -29,6 +29,10 @@ public interface AccountService extends RemoteJsonService {
   void myAccount(AsyncCallback<Account> callback);
 
   @SignInRequired
+  void changeShowSiteHeader(boolean show,
+      AsyncCallback<VoidResult> gerritCallback);
+
+  @SignInRequired
   void changeDefaultContext(short newSetting, AsyncCallback<VoidResult> callback);
 
   @SignInRequired

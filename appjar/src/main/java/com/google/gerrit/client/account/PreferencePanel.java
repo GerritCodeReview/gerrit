@@ -20,6 +20,8 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.ui.ChangeListener;
+import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
@@ -28,12 +30,33 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtjsonrpc.client.VoidResult;
 
 class PreferencePanel extends Composite {
+  private CheckBox showSiteHeader;
   private ListBox defaultContext;
   private short oldDefaultContext;
   private ProjectWatchPanel watchPanel;
 
   PreferencePanel() {
     final FlowPanel body = new FlowPanel();
+
+    showSiteHeader = new CheckBox(Util.C.showSiteHeader());
+    showSiteHeader.addClickListener(new ClickListener() {
+      public void onClick(final Widget sender) {
+        final boolean val = showSiteHeader.isChecked();
+        Util.ACCOUNT_SVC.changeShowSiteHeader(val,
+            new GerritCallback<VoidResult>() {
+              public void onSuccess(final VoidResult result) {
+                Gerrit.getUserAccount().setShowSiteHeader(val);
+                Gerrit.refreshMenuBar();
+              }
+
+              @Override
+              public void onFailure(final Throwable caught) {
+                showSiteHeader.setChecked(!val);
+                super.onFailure(caught);
+              }
+            });
+      }
+    });
 
     defaultContext = new ListBox();
     for (final short v : Account.CONTEXT_CHOICES) {
@@ -75,10 +98,13 @@ class PreferencePanel extends Composite {
       labelIdx = 0;
       fieldIdx = 1;
     }
-    final Grid formGrid = new Grid(1, 2);
+    final Grid formGrid = new Grid(2, 2);
 
-    formGrid.setText(0, labelIdx, Util.C.defaultContext());
-    formGrid.setWidget(0, fieldIdx, defaultContext);
+    formGrid.setText(0, labelIdx, "");
+    formGrid.setWidget(0, fieldIdx, showSiteHeader);
+
+    formGrid.setText(1, labelIdx, Util.C.defaultContext());
+    formGrid.setWidget(1, fieldIdx, defaultContext);
 
     body.add(formGrid);
 
@@ -96,6 +122,7 @@ class PreferencePanel extends Composite {
   }
 
   void display(final Account account) {
+    showSiteHeader.setChecked(account.isShowSiteHeader());
     setDefaultContext(account.getDefaultContext());
   }
 

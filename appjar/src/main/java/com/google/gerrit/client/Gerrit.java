@@ -62,6 +62,8 @@ public class Gerrit implements EntryPoint {
       new ArrayList<SignedInListener>();
 
   private static LinkMenuBar menuBar;
+  private static RootPanel siteHeader;
+  private static RootPanel siteFooter;
   private static RootPanel body;
   private static Screen currentScreen;
   private static final LinkedHashMap<Object, Screen> priorScreens =
@@ -177,7 +179,10 @@ public class Gerrit implements EntryPoint {
     menuBar = new LinkMenuBar();
     topMenu.add(menuBar);
 
+    siteHeader = RootPanel.get("gerrit_header");
     body = RootPanel.get("gerrit_body");
+    siteFooter = RootPanel.get("gerrit_footer");
+
     JsonUtil.addRpcStatusListener(new RpcStatus(topMenu));
     SYSTEM_SVC.loadGerritConfig(new GerritCallback<GerritConfig>() {
       public void onSuccess(final GerritConfig result) {
@@ -354,6 +359,14 @@ public class Gerrit implements EntryPoint {
       }
     }
     menuBar.lastInGroup();
+
+    final boolean view = myAccount == null || myAccount.isShowSiteHeader();
+    if (siteHeader != null) {
+      siteHeader.setVisible(view);
+    }
+    if (siteFooter != null) {
+      siteFooter.setVisible(view);
+    }
   }
 
   private static void whoAmI() {

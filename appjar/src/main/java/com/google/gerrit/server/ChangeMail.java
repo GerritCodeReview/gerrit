@@ -373,6 +373,8 @@ public class ChangeMail {
       initUserAgent();
       initListId();
       initChangeUrl();
+      initChangeId();
+      initCommitId();
       initMessageType(messageClass);
       initSubject();
       body = new StringBuilder();
@@ -422,6 +424,18 @@ public class ChangeMail {
     final String u = changeUrl();
     if (u != null) {
       msg.setHeader("X-Gerrit-ChangeURL", "<" + u + ">");
+    }
+  }
+
+  private void initChangeId() throws MessagingException {
+    msg.setHeader("X-Gerrit-ChangeId", "" + change.getChangeId());
+  }
+
+  private void initCommitId() throws MessagingException {
+    if (patchSet != null && patchSet.getRevision() != null
+        && patchSet.getRevision().get() != null
+        && patchSet.getRevision().get().length() > 0) {
+      msg.setHeader("X-Gerrit-Commit", patchSet.getRevision().get());
     }
   }
 

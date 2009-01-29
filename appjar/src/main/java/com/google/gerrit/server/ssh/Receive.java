@@ -15,9 +15,9 @@
 package com.google.gerrit.server.ssh;
 
 import static com.google.gerrit.client.reviewdb.ApprovalCategory.PUSH_HEAD;
-import static com.google.gerrit.client.reviewdb.ApprovalCategory.PUSH_HEAD_UPDATE;
 import static com.google.gerrit.client.reviewdb.ApprovalCategory.PUSH_HEAD_CREATE;
 import static com.google.gerrit.client.reviewdb.ApprovalCategory.PUSH_HEAD_REPLACE;
+import static com.google.gerrit.client.reviewdb.ApprovalCategory.PUSH_HEAD_UPDATE;
 import static com.google.gerrit.client.reviewdb.ApprovalCategory.PUSH_TAG;
 
 import com.google.gerrit.client.Link;
@@ -26,7 +26,6 @@ import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountAgreement;
 import com.google.gerrit.client.reviewdb.AccountExternalId;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
-import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.client.reviewdb.Branch;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.ChangeApproval;
@@ -611,14 +610,6 @@ class Receive extends AbstractGitCommand {
     final Set<Account.Id> haveApprovals = new HashSet<Account.Id>();
     final List<ApprovalType> allTypes =
         Common.getGerritConfig().getApprovalTypes();
-    for (final ApprovalType t : allTypes) {
-      final ApprovalCategoryValue v = t.getMax();
-      if (v != null) {
-        db.changeApprovals().insert(
-            Collections.singleton(new ChangeApproval(new ChangeApproval.Key(
-                change.getId(), me, v.getCategoryId()), v.getValue())), txn);
-      }
-    }
     haveApprovals.add(me);
 
     if (allTypes.size() > 0) {
@@ -753,8 +744,6 @@ class Receive extends AbstractGitCommand {
         boolean haveAuthor = false;
         boolean haveCommitter = false;
         final Set<Account.Id> haveApprovals = new HashSet<Account.Id>();
-        final Set<ApprovalCategory.Id> myApprovals =
-            new HashSet<ApprovalCategory.Id>();
         for (ChangeApproval a : db.changeApprovals().byChange(change.getId())) {
           haveApprovals.add(a.getAccountId());
           if (!haveAuthor && authorId != null
@@ -769,7 +758,6 @@ class Receive extends AbstractGitCommand {
           if (me.equals(a.getAccountId())) {
             // Leave my own approvals alone.
             //
-            myApprovals.add(a.getCategoryId());
 
           } else if (a.getValue() > 0) {
             a.clear();
@@ -779,21 +767,6 @@ class Receive extends AbstractGitCommand {
 
         final List<ApprovalType> allTypes =
             Common.getGerritConfig().getApprovalTypes();
-        for (final ApprovalType t : allTypes) {
-          final ApprovalCategoryValue max = t.getMax();
-          final ApprovalCategory.Id catId = t.getCategory().getId();
-          if (!myApprovals.contains(catId) && max != null) {
-            // Insert any approval I haven't earlier recorded, using the
-            // absolute maximum value, ignoring permissions. It truncates
-            // at display time and when the issue is closed.
-            //
-            haveApprovals.add(me);
-            db.changeApprovals().insert(
-                Collections.singleton(new ChangeApproval(
-                    new ChangeApproval.Key(change.getId(), me, catId), max
-                        .getValue())), txn);
-          }
-        }
         if (allTypes.size() > 0) {
           final ApprovalCategory.Id catId =
               allTypes.get(allTypes.size() - 1).getCategory().getId();

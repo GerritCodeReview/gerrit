@@ -252,7 +252,7 @@
   text-align: right;
 }
 
-.gerrit-ChangeTable .C_SUBJECT {
+.gerrit-ChangeTable .C_SUBJECT div {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;

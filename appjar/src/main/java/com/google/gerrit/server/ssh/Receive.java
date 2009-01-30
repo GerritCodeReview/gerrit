@@ -175,7 +175,7 @@ class Receive extends AbstractGitCommand {
       final OutputStreamWriter msg = new OutputStreamWriter(err, "UTF-8");
       msg.write("\nNew Changes:\n");
       for (final Change.Id c : allNewChanges) {
-        msg.write("  " + url + "Gerrit#" + Link.toChange(c) + "\n");
+        msg.write("  " + url + c.get() + "\n");
       }
       msg.write('\n');
       msg.flush();

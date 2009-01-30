@@ -50,6 +50,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.StringWriter;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -152,7 +153,16 @@ public class OpenIdLoginServlet extends HttpServlet {
       return;
     }
 
-    final OpenIdUser user = relyingParty.discover(req);
+    final OpenIdUser user;
+    try {
+      user = relyingParty.discover(req);
+    } catch (UnknownHostException u) {
+      // The remote host described in the OpenID doesn't exist, so we
+      // can't try to perform discovery against it.
+      //
+      callback(req, rsp, SignInResult.CANCEL);
+      return;
+    }
     if (user == null) {
       // User isn't known, no provider is known.
       //

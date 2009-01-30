@@ -39,10 +39,14 @@ public class SideBySideTable extends AbstractPatchContentTable {
   }
 
   @Override
-  protected void onCellDoubleClick(final int row, final int column) {
-    if (column > 1 && getRowItem(row) instanceof SideBySideLineList) {
+  protected void onCellDoubleClick(final int row, int column) {
+    if (column > 0 && getRowItem(row) instanceof SideBySideLineList) {
       final SideBySideLineList pl = (SideBySideLineList) getRowItem(row);
       final short file = (short) ((column - 1) / 2);
+      if (column < (1 + file * 2 + 1)) {
+        column++;
+      }
+
       final SideBySideLine line = pl.lines.get(file);
       switch (line.getType()) {
         case DELETE:

@@ -153,6 +153,8 @@ class ContactPanel extends Composite {
             }
           }
           doRegisterNewEmail();
+        } else {
+          save.setEnabled(true);
         }
       }
     });

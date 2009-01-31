@@ -26,6 +26,10 @@ public class ProjectInfo {
     this.key = key;
   }
 
+  public Project.NameKey getKey() {
+    return key;
+  }
+
   public String getName() {
     return key.get();
   }

@@ -18,6 +18,7 @@ import com.google.gerrit.client.reviewdb.AccountProjectWatch;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.client.ui.ProjectNameSuggestOracle;
+import com.google.gerrit.client.ui.ProjectOpenLink;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -278,7 +279,7 @@ class ProjectWatchPanel extends Composite {
 
     void populate(final int row, final AccountProjectWatchInfo k) {
       table.setWidget(row, 1, new CheckBox());
-      table.setText(row, 2, k.getProject().getName());
+      table.setWidget(row, 2, new ProjectOpenLink(k.getProject().getNameKey()));
       {
         final CheckBox notifyNewChanges = new CheckBox();
         notifyNewChanges.addClickListener(new ClickListener() {

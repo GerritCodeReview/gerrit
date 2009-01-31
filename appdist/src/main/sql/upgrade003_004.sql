@@ -13,3 +13,7 @@ ALTER TABLE accounts ALTER COLUMN show_site_header SET DEFAULT 'N';
 ALTER TABLE accounts ALTER COLUMN show_site_header SET NOT NULL;
 
 UPDATE schema_version SET version_nbr = 4;
+
+CREATE INDEX changes_byProjectOpen
+ON changes (dest_project_name, sort_key)
+WHERE open = 'Y';

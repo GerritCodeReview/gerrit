@@ -116,6 +116,11 @@ CREATE INDEX changes_allOpen
 ON changes (sort_key)
 WHERE open = 'Y';
 
+--    covers:             byProjectOpenPrev, byProjectOpenNext
+CREATE INDEX changes_byProjectOpen
+ON changes (dest_project_name, sort_key)
+WHERE open = 'Y';
+
 --    covers:             allClosedPrev, allClosedNext
 CREATE INDEX changes_allClosed
 ON changes (status, sort_key)

@@ -23,6 +23,7 @@ import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.ChangeAccess;
 import com.google.gerrit.client.reviewdb.ChangeApproval;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
+import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.StarredChange;
 import com.google.gerrit.client.reviewdb.Change.Id;
@@ -81,6 +82,30 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
       ResultSet<Change> query(ReviewDb db, int slim, String sortKey)
           throws OrmException {
         return db.changes().allOpenNext(sortKey, slim);
+      }
+    });
+  }
+
+  public void byProjectOpenPrev(final Project.NameKey project,
+      final String pos, final int pageSize,
+      final AsyncCallback<SingleListChangeInfo> callback) {
+    run(callback, new QueryPrev(pageSize, pos) {
+      @Override
+      ResultSet<Change> query(ReviewDb db, int slim, String sortKey)
+          throws OrmException {
+        return db.changes().byProjectOpenPrev(project, sortKey, slim);
+      }
+    });
+  }
+
+  public void byProjectOpenNext(final Project.NameKey project,
+      final String pos, final int pageSize,
+      final AsyncCallback<SingleListChangeInfo> callback) {
+    run(callback, new QueryNext(pageSize, pos) {
+      @Override
+      ResultSet<Change> query(ReviewDb db, int slim, String sortKey)
+          throws OrmException {
+        return db.changes().byProjectOpenNext(project, sortKey, slim);
       }
     });
   }

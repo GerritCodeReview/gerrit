@@ -42,6 +42,13 @@ public final class Project {
     protected void set(String newValue) {
       name = newValue;
     }
+
+    /** Parse a Project.NameKey out of a string representation. */
+    public static NameKey parse(final String str) {
+      final NameKey r = new NameKey();
+      r.fromString(str);
+      return r;
+    }
   }
 
   /** Synthetic key to link to within the database */

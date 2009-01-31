@@ -20,6 +20,7 @@ public interface ChangeMessages extends Messages {
   String accountDashboardTitle(String fullName);
   String changesStartedBy(String fullName);
   String changesReviewableBy(String fullName);
+  String changesOpenInProject(String string);
 
   String changeScreenTitleId(int id);
   String patchSetHeader(int id);

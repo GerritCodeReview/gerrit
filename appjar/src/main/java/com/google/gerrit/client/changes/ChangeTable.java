@@ -27,6 +27,7 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountDashboardLink;
 import com.google.gerrit.client.ui.ChangeLink;
 import com.google.gerrit.client.ui.FancyFlexTable;
+import com.google.gerrit.client.ui.ProjectOpenLink;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.Image;
@@ -224,7 +225,8 @@ public class ChangeTable extends FancyFlexTable<ChangeInfo> {
     }
     table.setWidget(row, C_SUBJECT, new TableChangeLink(s, c));
     table.setWidget(row, C_OWNER, link(c.getOwner()));
-    table.setText(row, C_PROJECT, c.getProject().getName());
+    table.setWidget(row, C_PROJECT,
+        new ProjectOpenLink(c.getProject().getKey()));
     table.setText(row, C_LAST_UPDATE, mediumFormat(c.getLastUpdatedOn()));
     setRowItem(row, c);
   }

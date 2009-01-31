@@ -40,6 +40,16 @@ public interface ChangeAccess extends Access<Change, Change.Id> {
   @Query("WHERE open = true AND sortKey < ? ORDER BY sortKey DESC LIMIT ?")
   ResultSet<Change> allOpenNext(String sortKey, int limit) throws OrmException;
 
+  @Query("WHERE open = true AND dest.projectName = ? AND sortKey > ?"
+      + " ORDER BY sortKey LIMIT ?")
+  ResultSet<Change> byProjectOpenPrev(Project.NameKey p, String sortKey,
+      int limit) throws OrmException;
+
+  @Query("WHERE open = true AND dest.projectName = ? AND sortKey < ?"
+      + " ORDER BY sortKey DESC LIMIT ?")
+  ResultSet<Change> byProjectOpenNext(Project.NameKey p, String sortKey,
+      int limit) throws OrmException;
+
   @Query("WHERE open = false AND status = ? AND sortKey > ? ORDER BY sortKey LIMIT ?")
   ResultSet<Change> allClosedPrev(char status, String sortKey, int limit)
       throws OrmException;

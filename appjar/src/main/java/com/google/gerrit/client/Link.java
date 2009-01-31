@@ -25,6 +25,7 @@ import com.google.gerrit.client.changes.AccountDashboardScreen;
 import com.google.gerrit.client.changes.AllAbandonedChangesScreen;
 import com.google.gerrit.client.changes.AllMergedChangesScreen;
 import com.google.gerrit.client.changes.AllOpenChangesScreen;
+import com.google.gerrit.client.changes.ByProjectOpenChangesScreen;
 import com.google.gerrit.client.changes.ChangeScreen;
 import com.google.gerrit.client.changes.MineDraftsScreen;
 import com.google.gerrit.client.changes.MineStarredScreen;
@@ -101,6 +102,10 @@ public class Link implements HistoryListener {
     return "admin,project," + id.toString();
   }
 
+  public static String toProjectOpen(final Project.NameKey proj) {
+    return "project,open," + proj.toString() + ",n,z";
+  }
+
   public void onHistoryChanged(final String token) {
     Screen s;
     try {
@@ -157,6 +162,16 @@ public class Link implements HistoryListener {
       p = "all,open,";
       if (token.startsWith(p)) {
         return new AllOpenChangesScreen(skip(p, token));
+      }
+    }
+
+    if (token.startsWith("project,")) {
+      p = "project,open,";
+      if (token.startsWith(p)) {
+        final String s = skip(p, token);
+        final int c = s.indexOf(',');
+        return new ByProjectOpenChangesScreen(Project.NameKey.parse(s
+            .substring(0, c)), s.substring(c + 1));
       }
     }
 

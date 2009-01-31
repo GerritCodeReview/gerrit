@@ -18,6 +18,7 @@ import com.google.gerrit.client.data.AccountDashboardInfo;
 import com.google.gerrit.client.data.SingleListChangeInfo;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.Change;
+import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.rpc.SignInRequired;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.RemoteJsonService;
@@ -34,6 +35,14 @@ public interface ChangeListService extends RemoteJsonService {
   void allOpenNext(String pos, int limit,
       AsyncCallback<SingleListChangeInfo> callback);
 
+  /** Get all open changes more recent than pos, fetching at most limit rows. */
+  void byProjectOpenPrev(Project.NameKey project, String pos, int limit,
+      AsyncCallback<SingleListChangeInfo> callback);
+
+  /** Get all open changes older than pos, fetching at most limit rows. */
+  void byProjectOpenNext(Project.NameKey project, String pos, int limit,
+      AsyncCallback<SingleListChangeInfo> callback);
+  
   /** Get all closed changes more recent than pos, fetching at most limit rows. */
   void allClosedPrev(Change.Status status, String pos, int limit,
       AsyncCallback<SingleListChangeInfo> callback);

@@ -235,8 +235,8 @@ class ContactPanel extends Composite {
       if (emailPick.getItemCount() > 0) {
         emailPick.setVisible(true);
         emailPick.setEnabled(true);
-        emailPick.addItem("... " + Util.C.buttonOpenRegisterNewEmail()
-            + "  ", Util.C.buttonOpenRegisterNewEmail());
+        emailPick.addItem("... " + Util.C.buttonOpenRegisterNewEmail() + "  ",
+            Util.C.buttonOpenRegisterNewEmail());
       } else {
         emailPick.setVisible(false);
       }

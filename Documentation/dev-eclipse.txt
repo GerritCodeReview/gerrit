@@ -56,7 +56,7 @@ Ensure mina_sshd has been installed in your maven repository:
 Import Projects
 ---------------
 
-Import appdist using General -> Maven Projects
+Import appjar using General -> Maven Projects
 
 If you also want source projects for gwtorm, gwtjsonrpc or mina_sshd,
 import their top-level directories the same way.  Note that you
@@ -80,15 +80,9 @@ Configure Database
 You may have already done this step earlier, based on the
 instructions in link:dev-readme.html[Developer Setup].
 
-* Open gerrit-devdb/src/main/config
+* Open gerrit-appjar/src/main/java
 * Copy `GerritServer.properties_example` to `GerritServer.properties`
 * Configure your database for debugging in hosted mode.
-
-Sometimes Eclipse doesn't correctly update gerrit-devdb after you
-create or make changes to GerritServer.properties.  Its a good
-idea to use Project -> Clean... to clean this project, and also
-right click Refresh to ensure Eclipse has fully updated the runtime
-location with the most current property file.
 
 
 Launch Gerrit

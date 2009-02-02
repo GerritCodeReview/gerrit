@@ -83,8 +83,7 @@ the database name *must* be the default of `reviewdb`, unless you
 modify `devutil/1-to-2.sh`.
 
 ====
-  cd devdb/src/main/config/
-  cp GerritServer.properties_example GerritServer.properties
+  ./gerrit.war --cat extra/GerritServer.properties_example >GerritServer.properties
 ====
 
 Make sure the user exists in PostgreSQL:

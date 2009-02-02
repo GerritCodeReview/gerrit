@@ -19,9 +19,8 @@ the downloads page at the project site:
 
 * http://code.google.com/p/gerrit/downloads/list[Gerrit Downloads]
 
-Download a `*.bin.tar.bz2` package and untar it locally with
-`tar jtf gerrit-2.0.bin.tar.bz2` (or whatever the downloaded
-file was).
+Download any current `*.war` package.
+
 
 Building Gerrit From Source
 ---------------------------
@@ -37,18 +36,17 @@ Maven from a source download obtained directly from Git:
   (cd jgit/jgit-maven/jgit && mvn install)
   (cd mina_sshd && mvn install)
 
-  cd appdist
-  mvn clean install
-  cd target/gerrit-*-bin.dir/gerrit-*
+  (cd appjar && mvn clean package)
+  cp appjar/target/gerrit-*.war ...YOUR.DEST.../gerrit.war
 ====
 
 The first build may take a while as dependencies are searched
 for and downloaded from Maven distribution repositories.
 
-Unfortunately you need to install to your local Maven repository
-(typically under `~/.m2`) in order to fully build all of the source
-based dependencies.  Some core dependencies for Gerrit are still
-under active development and have not made final releases yet.
+Unfortunately you need to install snapshots of both JGit and MINA
+SSHD to your local Maven repository (typically under `~/.m2`).
+These core dependencies are still under active development and have
+not made final releases yet.
 
 Apache Maven:
 
@@ -85,12 +83,13 @@ Initialize the Schema
 Create the Gerrit 2 Tables
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Either run CreateSchema from the command line (requires writing
-a `GerritServer.properties`, see `GerritServer.properties_example`
-under `devdb/src/main/config`):
+Either run CreateSchema from the command line:
 
 ====
-  bin/gerrit2.sh --config=GerritServer.properties CreateSchema
+  java -jar gerrit.war --cat extra/GerritServer.properties_example >GerritServer.properties
+  edit GerritServer.properties
+
+  java -jar gerrit.war CreateSchema
 ====
 
 Or, run the application once in a container to force it to initialize
@@ -108,7 +107,7 @@ can avoid table scans when looking up information.  Run the
 e.g. with PostgreSQL:
 
 ====
-  psql -f sql/query_index.sql reviewdb
+  java -jar gerrit.war --cat sql/query_index.sql | psql reviewdb
 ====
 
 Configure site_path
@@ -185,12 +184,17 @@ call the unpacked directory `$JETTY_HOME`.
 
 * http://dist.codehaus.org/jetty/[Jetty Downloads]
 
+Install the JDBC drivers, using either the ones that come embedded
+with Gerrit, or by downloading them yourself from their mirrors:
+====
+  java -jar gerrit.war --cat lib/c3p0-0.9.1.2.jar >$JETTY_HOME/lib/plus/c3p0-0.9.1.2.jar
+  java -jar gerrit.war --cat lib/postgresql-8.3-603.jdbc3.jar >$JETTY_HOME/lib/plus/postgresql-8.3-603.jdbc3.jar
+====
+
 Copy Gerrit into the deployment:
 ====
-  cp jdbc/c3p0-*.jar $JETTY_HOME/lib/plus/
-  cp jdbc/postgresql-*.jdbc*.jar $JETTY_HOME/lib/plus/
-  cp www/jetty_gerrit.xml $JETTY_HOME/contexts/gerrit.xml
-  cp www/gerrit-*.war $JETTY_HOME/webapps/gerrit.war
+  java -jar gerrit.war --cat extra/jetty_gerrit.xml >$JETTY_HOME/contexts/gerrit.xml
+  cp gerrit.war $JETTY_HOME/webapps/gerrit.war
 
   rm -f $JETTY_HOME/context/test.xml
 ====
@@ -232,7 +236,7 @@ Under Jetty, restarting the web application (e.g. after modifying
 Other Servlet Containers
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-Deploy the `www/gerrit-*.war` file to your application server as
+Deploy the `gerrit-*.war` file to your application server as
 `gerrit.war`.
 
 Configure the JNDI DataSource `jdbc/ReviewDb` for the Gerrit web

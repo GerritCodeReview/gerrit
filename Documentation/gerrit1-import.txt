@@ -80,7 +80,7 @@ Gerrit2 Database Setup
 Tell Gerrit about your database connection information.  Note that
 the username you use here *must* be the default of `gerrit2` and
 the database name *must* be the default of `reviewdb`, unless you
-modify `devutil/1-to-2.sh`.
+modify `gerrit1_import/1-to-2.sh`.
 
 ====
   ./gerrit.war --cat extra/GerritServer.properties_example >GerritServer.properties
@@ -112,7 +112,7 @@ In the Gerrit2 source tree use `1-to-2.sh` to finish the conversion
 process:
 
 ====
-  sh devutil/1-to-2.sh yourapp.dump config.sql
+  sh gerrit1_import/1-to-2.sh yourapp.dump config.sql
 ====
 
 

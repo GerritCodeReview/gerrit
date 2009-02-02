@@ -39,7 +39,7 @@ gwtorm supports (or add the necessary dialect support to gwtorm,
 and then configure your workspace anyway).
 
 ====
-  cd appjar/src/main/java
+  cd src/main/java
   cp GerritServer.properties_example GerritServer.properties
 ====
 
@@ -100,13 +100,13 @@ Building
 From the command line:
 
 ====
-  (cd appjar && mvn package)
+  mvn package
 ====
 
 Output WAR will be placed in:
 
 ====
-  appjar/target/gerrit-*.war
+  target/gerrit-*.war
 ====
 
 

@@ -25,10 +25,10 @@ user=gerrit2
 
 if [ -z "$nobuild" ]
 then
-	(cd appjar && mvn package) || exit
+	mvn package || exit
 fi
 
-out=appjar/target/gerrit-*.war
+out=target/gerrit-*.war
 g2="java -jar $out"
 
 dropdb $dstdb

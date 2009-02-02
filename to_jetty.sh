@@ -16,8 +16,8 @@ fi
 
 ctx="$jetty/contexts/gerrit.xml" &&
 
-(cd appjar && mvn package) &&
-war=appjar/target/gerrit-*.war &&
+mvn package &&
+war=target/gerrit-*.war &&
 
 cp $war "$jetty/webapps/gerrit.war" &&
 if [ -f "$ctx" ]

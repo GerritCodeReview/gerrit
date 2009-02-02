@@ -36,8 +36,8 @@ Maven from a source download obtained directly from Git:
   (cd jgit/jgit-maven/jgit && mvn install)
   (cd mina_sshd && mvn install)
 
-  (cd appjar && mvn clean package)
-  cp appjar/target/gerrit-*.war ...YOUR.DEST.../gerrit.war
+  mvn clean package
+  cp target/gerrit-*.war ...YOUR.DEST.../gerrit.war
 ====
 
 The first build may take a while as dependencies are searched

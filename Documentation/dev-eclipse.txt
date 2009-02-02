@@ -56,11 +56,11 @@ Ensure mina_sshd has been installed in your maven repository:
 Import Projects
 ---------------
 
-Import appjar using General -> Maven Projects
+Import pom.xml using General -> Maven Projects
 
 If you also want source projects for gwtorm, gwtjsonrpc or mina_sshd,
 import their top-level directories the same way.  Note that you
-may need to edit the pom.xmls under gerrit to ensure your snapshot
+may need to edit the pom.xml under gerrit to ensure your snapshot
 builds are used.
 
 [NOTE]
@@ -80,7 +80,7 @@ Configure Database
 You may have already done this step earlier, based on the
 instructions in link:dev-readme.html[Developer Setup].
 
-* Open gerrit-appjar/src/main/java
+* Open gerrit-webapp/src/main/java
 * Copy `GerritServer.properties_example` to `GerritServer.properties`
 * Configure your database for debugging in hosted mode.
 

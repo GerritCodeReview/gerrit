@@ -20,7 +20,7 @@ limitations under the License.
   <modelVersion>4.0.0</modelVersion>
   <groupId>gerrit</groupId>
   <artifactId>gerrit-appjar</artifactId>
-  <packaging>jar</packaging>
+  <packaging>war</packaging>
   <version>2.0.1-SNAPSHOT</version>
   <name>gerrit-appjar</name>
   <description>Gerrit - Web Based Code Review</description>
@@ -281,6 +281,70 @@ limitations under the License.
       </plugin>
 
       <plugin>
+        <groupId>com.totsp.gwt</groupId>
+        <artifactId>maven-googlewebtoolkit2-plugin</artifactId>
+        <version>2.0-beta26</version>
+        <configuration>
+          <compileTargets>
+            <value>com.google.gerrit.Gerrit</value>
+          </compileTargets>
+          <runTarget>com.google.gerrit.Gerrit/Gerrit.html</runTarget>
+          <noServer>false</noServer>
+          <extraJvmArgs>-Xmx512m</extraJvmArgs>
+          <gwtVersion>${gwtVersion}</gwtVersion>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>compile</goal>                    
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <configuration>
+          <warSourceExcludes>.gwt-tmp/**</warSourceExcludes>
+          <archiveClasses>true</archiveClasses>
+          <archive>
+            <manifest>
+              <mainClass>ExecutableWarMain</mainClass>
+            </manifest>
+            <manifestEntries>
+              <Executable-War-Package>com.google.gerrit.pgm</Executable-War-Package>
+            </manifestEntries>
+          </archive>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>make-executable</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>gerrit</groupId>
+                  <artifactId>executablewar</artifactId>
+                  <overWrite>true</overWrite>
+                  <outputDirectory>${project.build.directory}/executablewar</outputDirectory>
+                  <includes>**/*.class</includes>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
         <artifactId>maven-antrun-plugin</artifactId>
         <executions>
           <execution>
@@ -300,19 +364,53 @@ limitations under the License.
               <goal>run</goal>
             </goals>
           </execution>
+
+          <execution>
+            <id>fix-output</id>
+            <phase>process-classes</phase>
+            <configuration>
+              <tasks>
+                <property name="d" location="${basedir}/target/${project.name}-${project.version}"/>
+
+                <copy todir="${d}">
+                  <fileset dir="${basedir}/target/executablewar" includes="**/*"/>
+                </copy>
+
+                <copy todir="${d}/WEB-INF/extra">
+	                <fileset dir="${basedir}/src/main/java">
+		                <include name="GerritServer.properties_example"/>
+	                </fileset>
+                </copy>
+
+                <move todir="${d}">
+                  <fileset dir="${d}/com.google.gerrit.Gerrit">
+                    <exclude name="Gerrit.html" />
+                    <exclude name="SetCookie.html" />
+                    <exclude name="hosted.html" />
+                  </fileset>
+                </move>
+                <delete dir="${d}/com.google.gerrit.Gerrit" />
+                <apply executable="gzip" addsourcefile="false">
+                  <arg value="-9"/> 
+                  <fileset dir="${d}"
+                           includes="**/*.html,**/*.css"/>
+                  <redirector>
+                    <inputmapper type="glob" from="*" to="${d}/*"/>
+                    <outputmapper type="glob" from="*" to="${d}/*.gz"/>
+                  </redirector>
+                </apply>
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
         </executions>
       </plugin>
     </plugins>
   </build>
 
   <dependencies>
-    <dependency>
-      <groupId>gerrit</groupId>
-      <artifactId>gerrit-devdb</artifactId>
-      <version>2.0.1-SNAPSHOT</version>
-      <scope>test</scope>
-    </dependency>
-
     <dependency>
       <groupId>gwtorm</groupId>
       <artifactId>gwtorm</artifactId>
@@ -325,6 +423,13 @@ limitations under the License.
       <artifactId>gwtjsonrpc</artifactId>
       <version>1.0.1</version>
       <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>gerrit</groupId>
+      <artifactId>executablewar</artifactId>
+      <version>1.0</version>
+      <scope>provided</scope>
     </dependency>
 
     <dependency>
@@ -367,6 +472,27 @@ limitations under the License.
       <artifactId>jgit</artifactId>
       <version>0.4-SNAPSHOT</version>
       <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <version>8.3-603.jdbc3</version>
+      <scope>runtime</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+      <version>1.1.106</version>
+      <scope>runtime</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>c3p0</groupId>
+      <artifactId>c3p0</artifactId>
+      <version>0.9.1.2</version>
+      <scope>runtime</scope>
     </dependency>
 
     <!-- GWT -->

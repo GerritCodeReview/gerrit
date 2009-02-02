@@ -22,15 +22,14 @@ fi
 
 dstdb=reviewdb
 user=gerrit2
-gscfg=devdb/src/main/config/GerritServer.properties
 
 if [ -z "$nobuild" ]
 then
-	(cd appdist && mvn install) || exit
+	(cd appjar && mvn package) || exit
 fi
 
-out=$(cd appdist/target/gerrit-*-bin.dir/gerrit-* && pwd)
-g2="$out/bin/gerrit2.sh --config=$gscfg"
+out=appjar/target/gerrit-*.war
+g2="java -jar $out"
 
 dropdb $dstdb
 createdb -E UTF-8 -O $user $dstdb || exit
@@ -44,7 +43,7 @@ psql -f devutil/import_gerrit1_b.sql $dstdb || exit
 echo >&2
 echo >&2 "Creating secondary indexes..."
 echo >&2 "  ignore failures unless on a production system"
-psql -f $out/sql/query_index.sql $dstdb
+$g2 --cat sql/query_index.sql | psql $dstdb
 echo >&2
 
 psql -c 'DROP SCHEMA gerrit1 CASCADE' $dstdb

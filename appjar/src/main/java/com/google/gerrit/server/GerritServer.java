@@ -45,6 +45,7 @@ import org.slf4j.LoggerFactory;
 import org.spearce.jgit.lib.PersonIdent;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
@@ -147,36 +148,34 @@ public class GerritServer {
 
   private Database<ReviewDb> createDatabase() throws OrmException {
     final String dsName = "java:comp/env/jdbc/ReviewDb";
-    final String pName = "GerritServer.properties";
     DataSource ds;
     try {
       ds = (DataSource) new InitialContext().lookup(dsName);
     } catch (NamingException namingErr) {
-      final Properties p = readGerritDataSource(pName);
+      final Properties p = readGerritDataSource();
       if (p == null) {
-        throw new OrmException("No DataSource " + dsName + " and no " + pName
-            + " in CLASSPATH.  GerritServer requires either format.", namingErr);
+        throw new OrmException("Initialization error:\n" + "  * No DataSource "
+            + dsName + "\n" + "  * No -DGerritServer=GerritServer.properties"
+            + " on Java command line", namingErr);
       }
 
       try {
         ds = new SimpleDataSource(p);
       } catch (SQLException se) {
-        throw new OrmException("Database in " + pName + " unavailable", se);
+        throw new OrmException("Database unavailable", se);
       }
     }
     return new Database<ReviewDb>(ds, ReviewDb.class);
   }
 
-  private Properties readGerritDataSource(final String name)
-      throws OrmException {
+  private Properties readGerritDataSource() throws OrmException {
     final Properties srvprop = new Properties();
-    final InputStream in;
-
-    in = getClass().getClassLoader().getResourceAsStream(name);
-    if (in == null) {
-      return null;
+    String name = System.getProperty("GerritServer");
+    if (name == null) {
+      name = "GerritServer.properties";
     }
     try {
+      final InputStream in = new FileInputStream(name);
       try {
         srvprop.load(in);
       } finally {

@@ -63,9 +63,9 @@ import java.util.Set;
 /**
  * Imports data from Gerrit 1 into Gerrit 2.
  * <p>
- * The tool assumes that <code>devutil/import_gerrit1.sql</code> has already
- * been executed on this schema. All existing ProjectRight entities are wiped
- * from the database and generated from scratch.
+ * The tool assumes that <code>gerrit1_import/import_gerrit1.sql</code> has
+ * already been executed on this schema. All existing ProjectRight entities are
+ * wiped from the database and generated from scratch.
  * <p>
  * The tool requires Gerrit 1 tables (<code>gerrit1.$table_name</code>) through
  * the same database connection as the ReviewDb schema is on.

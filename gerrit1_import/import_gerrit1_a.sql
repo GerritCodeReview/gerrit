@@ -11,7 +11,7 @@
 -- some config.sql script.  At least git_base_path must be set.
 --
 -- Execute the conversion script:
---     devutil/1-to-2.sh gerrit1.dump config.sql
+--     gerrit1_import/1-to-2.sh gerrit1.dump config.sql
 --
 
 DELETE FROM accounts;

@@ -316,7 +316,7 @@ limitations under the License.
     <dependency>
       <groupId>gwtorm</groupId>
       <artifactId>gwtorm</artifactId>
-      <version>1.0</version>
+      <version>1.0.1</version>
       <scope>compile</scope>
     </dependency>
 

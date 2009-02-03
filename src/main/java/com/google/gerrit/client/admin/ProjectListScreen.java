@@ -91,7 +91,11 @@ public class ProjectListScreen extends AccountScreen {
 
     @Override
     protected void onOpenItem(final Project item) {
-      History.newItem(Link.toProjectAdmin(item.getId()));
+      History.newItem(link(item));
+    }
+
+    private String link(final Project item) {
+      return Link.toProjectAdmin(item.getId(), ProjectAdminScreen.INFO_TAB);
     }
 
     void display(final List<Project> result) {
@@ -107,8 +111,7 @@ public class ProjectListScreen extends AccountScreen {
     }
 
     void populate(final int row, final Project k) {
-      table.setWidget(row, 1, new Hyperlink(k.getName(), Link.toProjectAdmin(k
-          .getId())));
+      table.setWidget(row, 1, new Hyperlink(k.getName(), link(k)));
       table.setText(row, 2, k.getDescription());
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();

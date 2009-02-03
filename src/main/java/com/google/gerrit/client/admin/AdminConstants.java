@@ -45,4 +45,6 @@ public interface AdminConstants extends Constants {
 
   String groupListTitle();
   String projectListTitle();
+  String projectAdminTabGeneral();
+  String projectAdminTabAccess();
 }

@@ -98,8 +98,8 @@ public class Link implements HistoryListener {
     return "admin,group," + id.toString();
   }
 
-  public static String toProjectAdmin(final Project.Id id) {
-    return "admin,project," + id.toString();
+  public static String toProjectAdmin(final Project.Id id, final String tab) {
+    return "admin,project," + id.toString() + "," + tab;
   }
 
   public static String toProjectOpen(final Project.NameKey proj) {
@@ -203,8 +203,12 @@ public class Link implements HistoryListener {
         return new AccountGroupScreen(AccountGroup.Id.parse(skip(p, token)));
 
       p = "admin,project,";
-      if (token.startsWith(p))
-        return new ProjectAdminScreen(Project.Id.parse(skip(p, token)));
+      if (token.startsWith(p)) {
+        p = skip(p, token);
+        final int c = p.indexOf(',');
+        final String idstr = p.substring(0, c);
+        return new ProjectAdminScreen(Project.Id.parse(idstr), token);
+      }
 
       if (ADMIN_GROUPS.equals(token)) {
         return new GroupListScreen();

@@ -157,8 +157,8 @@ class PatchSetPanel extends Composite implements DisclosureHandler {
     };
     Gerrit.addSignedInListener(signedInListener);
     if (Gerrit.isSignedIn() && changeDetail.isCurrentPatchSet(detail)) {
-      populateActions(detail);
       populateCommentAction();
+      populateActions(detail);
     }
     body.add(patchTable);
   }

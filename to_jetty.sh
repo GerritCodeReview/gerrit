@@ -26,11 +26,11 @@ then
 else
 	for f in postgresql-8.3-603.jdbc3.jar c3p0-0.9.1.2.jar
 	do
-		$war --cat lib/$f >"$jetty/lib/plus/$f"
+		java -jar $war --cat lib/$f >"$jetty/lib/plus/$f"
 	done
 
 	rm -f "$jetty/contexts/test.xml" &&
-	$war --cat extra/jetty_gerrit.xml >"$ctx" &&
+	java -jar $war --cat extra/jetty_gerrit.xml >"$ctx" &&
 
 	echo >&2 &&
 	echo >&2 "You need to edit and configure $ctx"

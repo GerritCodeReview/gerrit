@@ -493,6 +493,10 @@ public class OpenIdLoginServlet extends HttpServlet {
     final ValidToken chk;
     try {
       chk = server.getAccountToken().checkToken(exp, null);
+      if (chk == null) {
+        callback(req, rsp, SignInResult.CANCEL);
+        return;
+      }
     } catch (XsrfException e) {
       getServletContext().log("Cannot validate cookie token", e);
       callback(req, rsp, SignInResult.CANCEL);

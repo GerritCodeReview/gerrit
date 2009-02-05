@@ -200,23 +200,17 @@ abstract class AbstractCommand implements Command, SessionAware {
         rc = e.exitCode;
         try {
           err.write((e.getMessage() + '\n').getBytes("UTF-8"));
-          err.flush();
         } catch (IOException err) {
         }
       }
     } finally {
       try {
-        in.close();
+        out.flush();
       } catch (IOException err) {
       }
 
       try {
-        out.close();
-      } catch (IOException err) {
-      }
-
-      try {
-        err.close();
+        err.flush();
       } catch (IOException err) {
       }
 

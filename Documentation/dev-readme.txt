@@ -13,6 +13,9 @@ To create a new client workspace:
   repo init -u git://android.git.kernel.org/tools/manifest.git
 ====
 
+Also, you'll need to download and install Apache SSHD from source
+(execute `mvn install` in the top level of the source folder).
+
 Important Links
 ---------------
 
@@ -25,6 +28,10 @@ Apache Maven:
 
 * http://maven.apache.org/download.html[Download]
 * http://maven.apache.org/run-maven/index.html[Running Maven]
+
+Apache SSHD:
+
+* http://mina.apache.org/sshd/[Apache SSHD]
 
 PostgreSQL:
 
@@ -90,7 +97,7 @@ release versions of them.
 
 ====
   (cd ../jgit/jgit-maven/jgit && mvn clean install)
-  (cd ../mina_sshd && mvn clean install)
+  (cd ../sshd && mvn clean install)
 ====
 
 

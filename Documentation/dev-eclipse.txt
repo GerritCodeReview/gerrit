@@ -46,10 +46,10 @@ Ensure jgit has been installed in your maven repository:
   (cd ../jgit/jgit-maven/jgit/ && mvn install)
 ====
 
-Ensure mina_sshd has been installed in your maven repository:
+Ensure sshd has been installed in your maven repository:
 
 ====
-  (cd ../mina_sshd/ && mvn install)
+  (cd ../sshd/ && mvn install)
 ====
 
 
@@ -58,7 +58,7 @@ Import Projects
 
 Import pom.xml using General -> Maven Projects
 
-If you also want source projects for gwtorm, gwtjsonrpc or mina_sshd,
+If you also want source projects for gwtorm, gwtjsonrpc or sshd,
 import their top-level directories the same way.  Note that you
 may need to edit the pom.xml under gerrit to ensure your snapshot
 builds are used.

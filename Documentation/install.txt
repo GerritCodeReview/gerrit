@@ -349,6 +349,10 @@ so that you can manage the site through the web interface:
   );
 ====
 
+You can also get your `account_id` from the web UI, under Settings,
+if you don't want to use a SELECT subquery above, or your email
+address wasn't prefilled automatically.
+
 Group memberships are cached, so you need to either restart Gerrit,
 or try flushing the caches over SSH.
 

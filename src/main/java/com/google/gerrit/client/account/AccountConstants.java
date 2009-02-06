@@ -23,6 +23,7 @@ public interface AccountConstants extends Constants {
   String preferredEmail();
   String sshUserName();
   String registeredOn();
+  String accountId();
   String defaultContext();
   String showSiteHeader();
 

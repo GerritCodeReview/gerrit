@@ -22,8 +22,10 @@ import com.google.gwtorm.client.OrmException;
 import org.apache.sshd.SshServer;
 import org.apache.sshd.common.NamedFactory;
 import org.apache.sshd.common.keyprovider.FileKeyPairProvider;
+import org.apache.sshd.common.util.SecurityUtils;
 import org.apache.sshd.server.UserAuth;
 import org.apache.sshd.server.auth.UserAuthPublicKey;
+import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -74,9 +76,20 @@ public class SshServlet extends HttpServlet {
     final int myPort = Common.getGerritConfig().getSshdPort();
     sshd = SshServer.setUpDefaultServer();
     sshd.setPort(myPort);
-    sshd.setKeyPairProvider(new FileKeyPairProvider(new String[] {
-        new File(srv.getSitePath(), "ssh_host_rsa_key").getAbsolutePath(),
-        new File(srv.getSitePath(), "ssh_host_dsa_key").getAbsolutePath()}));
+
+    final File sitePath = srv.getSitePath();
+    if (SecurityUtils.isBouncyCastleRegistered()) {
+      sshd.setKeyPairProvider(new FileKeyPairProvider(new String[] {
+          new File(sitePath, "ssh_host_rsa_key").getAbsolutePath(),
+          new File(sitePath, "ssh_host_dsa_key").getAbsolutePath()}));
+    } else {
+      final SimpleGeneratorHostKeyProvider keyp;
+
+      keyp = new SimpleGeneratorHostKeyProvider();
+      keyp.setPath(new File(sitePath, "ssh_host_key").getAbsolutePath());
+      sshd.setKeyPairProvider(keyp);
+    }
+
     sshd.setUserAuthFactories(Arrays
         .<NamedFactory<UserAuth>> asList(new UserAuthPublicKey.Factory()));
     sshd.setPublickeyAuthenticator(new DatabasePubKeyAuth());

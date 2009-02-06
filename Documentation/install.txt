@@ -130,20 +130,32 @@ update the database with this value.
   mkdir /home/gerrit/cfg
   cd /home/gerrit/cfg
 
-  ssh-keygen -t rsa -P '' -f ssh_host_rsa_key
-  ssh-keygen -t dsa -P '' -f ssh_host_dsa_key
-
   psql -c "UPDATE system_config SET site_path='/home/gerrit/cfg'" reviewdb
 ====
 
-The SSH keys generated here are used as the host keys for the
-internal SSH daemon run by Gerrit.  You may wish to backup these
-key files to ensure they can be restored in the event of a disaster.
+SSH Host Keys
+~~~~~~~~~~~~~
+
+If you choose to install the Bouncy Castle Crypto APIs (see below)
+you must create RSA and DSA host keys for the daemon:
+====
+  ssh-keygen -t rsa -P '' -f ssh_host_rsa_key
+  ssh-keygen -t dsa -P '' -f ssh_host_dsa_key
+====
+
+These keys are used as the host keys for the internal SSH daemon
+run by Gerrit.  You may wish to backup these key files to ensure
+they can be restored in the event of a disaster.
 
 The private key files (`ssh_host_rsa_key`, `ssh_host_dsa_key`) should
 be readable *only* by the account that is executing Gerrit2's web
 application container.  It is a security risk to make these files
 readable by anyone else.
+
+If you don't install Bouncy Castle, Gerrit will automatically
+create a host key and save a copy to `'site_path'/ssh_host_key`
+during first startup.  For this to work correctly, Gerrit will
+require write access to the directory.
 
 Create Git Repository Base
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -190,13 +202,22 @@ jump directly to change 4543.
 Download and unzip a release version of Jetty.  From here on we
 call the unpacked directory `$JETTY_HOME`.
 
-* http://dist.codehaus.org/jetty/[Jetty Downloads]
+* link:http://dist.codehaus.org/jetty/[Jetty Downloads]
 
 Install the JDBC drivers, using either the ones that come embedded
 with Gerrit, or by downloading them yourself from their mirrors:
 ====
   java -jar gerrit.war --cat lib/c3p0-0.9.1.2.jar >$JETTY_HOME/lib/plus/c3p0-0.9.1.2.jar
   java -jar gerrit.war --cat lib/postgresql-8.3-603.jdbc3.jar >$JETTY_HOME/lib/plus/postgresql-8.3-603.jdbc3.jar
+====
+
+Consider installing Bouncy Castle Cypto APIs.  Some of their
+implementations are faster than then ones that come in the JRE,
+and they may support additional algorithms:
+
+* link:http://www.bouncycastle.org/java.html[Bouncy Castle]
+====
+  cp bcprov-*.jar $JETTY_HOME/lib/plus/
 ====
 
 Copy Gerrit into the deployment:

@@ -23,8 +23,8 @@ update: html
 	  if [ -n "$$r" ]; then $(SVN) rm $$r; fi && \
 	  a=`$(SVN) status | perl -ne 'print if s/^\?  *//' ` && \
 	  if [ -n "$$a" ]; then \
-	    $(SVN) add $$r && \
-	    $(SVN) propset svn:mime-type text/html $$r ; \
+	    $(SVN) add $$a && \
+	    $(SVN) propset svn:mime-type text/html $$a ; \
 	    fi && \
 	  $(SVN) commit -m "Updated documentation $(DOC_VMM) to $(DOC_VERS)"
 	-rm -rf $(LOCAL_ROOT)

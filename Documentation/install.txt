@@ -11,6 +11,7 @@ PostgreSQL:
 
 * http://www.postgresql.org/docs/[Documentation]
 
+
 Downloading Gerrit
 ------------------
 
@@ -81,6 +82,7 @@ you just created as the owner of that database:
 ====
   createdb -E UTF-8 -O gerrit2 reviewdb
 ====
+
 
 Initialize the Schema
 ---------------------
@@ -173,6 +175,7 @@ optional and are not required to run a server, but may be desired.
 * link:config-headerfooter.html[Site Header/Footer]
 * link:config-gitweb.html[Gitweb Integration]
 * link:config-gerrit.html[Other system_config Settings]
+
 
 Application Deployment
 -----------------------
@@ -331,6 +334,7 @@ and then run:
 ====
   ssh -p 29418 you@example.com gerrit flush-caches
 ====
+
 
 Project Setup
 -------------

@@ -11,6 +11,13 @@ PostgreSQL:
 
 * http://www.postgresql.org/docs/[Documentation]
 
+Optional Libraries:
+
+* link:http://jdbc.postgresql.org/download.html[PostgreSQL JDBC Driver]
+* link:http://sourceforge.net/project/showfiles.php?group_id=25357[c3p0 JDBC Driver]
+* link:http://www.bouncycastle.org/java.html[Bouncy Castle Crypto API]
+* link:http://java.sun.com/products/javamail/downloads/index.html[JavaMail]
+
 
 Downloading Gerrit
 ------------------
@@ -64,7 +71,7 @@ Setting up the Database
 
 Currently PostgreSQL is the only supported database.  H2 may also
 work, but hasn't been tested in a while.  The primary concern is
-having support for the database in the gworm project.
+having support for the database in the gwtorm project.
 
 PostgreSQL
 ~~~~~~~~~~
@@ -204,21 +211,19 @@ call the unpacked directory `$JETTY_HOME`.
 
 * link:http://dist.codehaus.org/jetty/[Jetty Downloads]
 
-Install the JDBC drivers, using either the ones that come embedded
-with Gerrit, or by downloading them yourself from their mirrors:
-====
-  java -jar gerrit.war --cat lib/c3p0-0.9.1.2.jar >$JETTY_HOME/lib/plus/c3p0-0.9.1.2.jar
-  java -jar gerrit.war --cat lib/postgresql-8.3-603.jdbc3.jar >$JETTY_HOME/lib/plus/postgresql-8.3-603.jdbc3.jar
-====
+Install the required JDBC drivers by copying them into the
+`'$JETTY_HOME'/lib/plus` directory.  Drivers can be obtained from
+their source projects:
 
-Consider installing Bouncy Castle Cypto APIs.  Some of their
+* link:http://jdbc.postgresql.org/download.html[PostgreSQL JDBC Driver]
+* link:http://sourceforge.net/project/showfiles.php?group_id=25357[c3p0 JDBC Driver]
+
+Consider installing Bouncy Castle Cypto APIs into the
+`'$JETTY_HOME'/lib/plus` directory.  Some of the Bouncy Castle
 implementations are faster than then ones that come in the JRE,
-and they may support additional algorithms:
+and they may support additional encryption algorithms:
 
-* link:http://www.bouncycastle.org/java.html[Bouncy Castle]
-====
-  cp bcprov-*.jar $JETTY_HOME/lib/plus/
-====
+* link:http://www.bouncycastle.org/java.html[Bouncy Castle Crypto API]
 
 Copy Gerrit into the deployment:
 ====
@@ -272,6 +277,11 @@ Configure the JNDI DataSource `jdbc/ReviewDb` for the Gerrit web
 application context to point to the database you just created.
 Don't forget to ensure your JNDI configuration can load the
 necessary JDBC drivers.
+
+('Optional') Add Bouncy Castle Crypto API to the web application's
+classpath.  Usually its best to load this library from the servlet
+container's extensions directory, but gerrit.war could also be
+modified to include it.
 
 ('Optional') Configure the JNDI name `mail/Outgoing` for the web
 application context to be a factory for a `javax.mail.Session`,

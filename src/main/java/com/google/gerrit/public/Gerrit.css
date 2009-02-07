@@ -262,6 +262,10 @@
   white-space: nowrap;
 }
 
+.gerrit-ChangeTable .C_PROJECT {
+  white-space: nowrap;
+}
+
 .gerrit-ChangeTable .C_LAST_UPDATE {
   white-space: nowrap;
 }

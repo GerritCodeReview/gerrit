@@ -45,6 +45,7 @@ import java.util.Set;
 public class ChangeTable extends FancyFlexTable<ChangeInfo> {
   private static final String S_C_ID = "C_ID";
   private static final String S_C_SUBJECT = "C_SUBJECT";
+  private static final String S_C_PROJECT = "C_PROJECT";
   private static final String S_C_LAST_UPDATE = "C_LAST_UPDATE";
   private static final String S_SECTION_HEADER = "SectionHeader";
   private static final String S_EMPTY_SECTION = "EmptySection";
@@ -208,6 +209,7 @@ public class ChangeTable extends FancyFlexTable<ChangeInfo> {
     }
     fmt.addStyleName(row, C_ID, S_C_ID);
     fmt.addStyleName(row, C_SUBJECT, S_C_SUBJECT);
+    fmt.addStyleName(row, C_PROJECT, S_C_PROJECT);
     fmt.addStyleName(row, C_LAST_UPDATE, S_C_LAST_UPDATE);
   }
 

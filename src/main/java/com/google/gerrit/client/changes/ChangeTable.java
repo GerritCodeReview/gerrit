@@ -222,6 +222,9 @@ public class ChangeTable extends FancyFlexTable<ChangeInfo> {
     table.setWidget(row, C_ID, new TableChangeLink(idstr, c));
 
     String s = c.getSubject();
+    if (s.length() > 80) {
+      s = s.substring(0, 80);
+    }
     if (c.getStatus() != null && c.getStatus() != Change.Status.NEW) {
       s += " (" + c.getStatus().name() + ")";
     }

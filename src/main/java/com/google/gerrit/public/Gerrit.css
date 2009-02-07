@@ -58,7 +58,7 @@
 }
 
 .gerrit-preformat {
-	white-space: pre;
+  white-space: pre;
   font-family: monospace;
   font-size: small;
 }
@@ -297,12 +297,12 @@
 }
 
 .gerrit-ChangeTable-PrevNextLinks {
-	float: right;
-	padding-right: 5px;
+  float: right;
+  padding-right: 5px;
 }
 .gerrit-ChangeTable-PrevNextLinks td {
-	width: 5em;
-	text-align: right;
+  width: 5em;
+  text-align: right;
 }
 .gerrit-ChangeTable-PrevNextLinks .gwt-Hyperlink {
   font-size: 9pt;
@@ -645,12 +645,12 @@
 
 /** Patch History Table **/
 .gerrit-PatchHistoryTable {
-	width: auto;
-	margin-bottom: 10px;
+  width: auto;
+  margin-bottom: 10px;
 }
 
 .gerrit-PatchHistoryTable .DataCell {
-	white-space: nowrap;
+  white-space: nowrap;
 }
 
 

@@ -29,10 +29,15 @@ public class PatchUtil {
     JsonUtil.bind(DETAIL_SVC, "rpc/PatchDetailService");
   }
 
-  public static String lineToHTML(final String src, final int lineLength) {
+  public static String lineToHTML(final String src, final int lineLength,
+      final boolean showWhiteSpaceErrors) {
     final boolean hasTab = src.indexOf('\t') >= 0;
     String brokenSrc = wrapLines(src, hasTab, lineLength);
     String html = DomUtil.escape(brokenSrc);
+    if (showWhiteSpaceErrors) {
+      html = showTabAfterSpace(html);
+      html = showTrailingWhitespace(html);
+    }
     if (brokenSrc != src) {
       // If we had line breaks inserted into the source text we need
       // to expand the line breaks into <br> tags in HTML, so the
@@ -81,4 +86,10 @@ public class PatchUtil {
 
   private native static String expandLFs(String src)
   /*-{ return src.replace(/\n/g, '<br>'); }-*/;
+
+  private native static String showTabAfterSpace(String src)
+  /*-{ return src.replace(/^(  *\t)/, '<span class="gerrit-whitespaceerror">$1</span>'); }-*/;
+
+  private native static String showTrailingWhitespace(String src)
+  /*-{ return src.replace(/([ \t][ \t]*)(\r?\n?)$/, '<span class="gerrit-whitespaceerror">$1</span>$2'); }-*/;
 }

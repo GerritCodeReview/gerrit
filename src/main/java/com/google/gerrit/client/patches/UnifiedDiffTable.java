@@ -110,7 +110,15 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
     nc.append(line.getType().name());
     nc.append("\">");
     if (!"".equals(line.getText())) {
-      nc.append(PatchUtil.lineToHTML(line.getText(), 0));
+      boolean showWhitespaceErrors = false;
+      switch (line.getType()) {
+        case POST_IMAGE:
+          // Only show whitespace errors if the error was introduced.
+          //
+          showWhitespaceErrors = true;
+          break;
+      }
+      nc.append(PatchUtil.lineToHTML(line.getText(), 0, showWhitespaceErrors));
     } else {
       nc.append("&nbsp;");
     }

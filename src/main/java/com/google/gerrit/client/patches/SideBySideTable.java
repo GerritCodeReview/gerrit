@@ -311,8 +311,16 @@ public class SideBySideTable extends AbstractPatchContentTable {
         nc.append(s.getType().name());
         nc.append("\">");
         if (!"".equals(s.getText())) {
+          boolean showWhitespaceErrors = false;
+          if (fileId == fileCnt - 1
+              && s.getType() == SideBySideLine.Type.INSERT) {
+            // Only show whitespace errors in the last column, and
+            // only if the line is introduced here.
+            //
+            showWhitespaceErrors = true;
+          }
           nc.append(PatchUtil.lineToHTML(s.getText(),
-              PatchUtil.DEFAULT_LINE_LENGTH));
+              PatchUtil.DEFAULT_LINE_LENGTH, showWhitespaceErrors));
         } else {
           nc.append("&nbsp;");
         }

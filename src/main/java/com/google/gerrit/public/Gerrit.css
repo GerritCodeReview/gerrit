@@ -53,6 +53,10 @@
   font-size: 8pt;
 }
 
+.gerrit-whitespaceerror {
+  background: red;
+}
+
 .gerrit-preformat {
 	white-space: pre;
   font-family: monospace;

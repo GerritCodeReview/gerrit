@@ -97,6 +97,7 @@ class Receive extends AbstractGitCommand {
 
   private GerritServer server;
   private ReceivePack rp;
+  private PersonIdent refLogIdent;
   private ReceiveCommand newChange;
   private Branch destBranch;
 
@@ -120,12 +121,14 @@ class Receive extends AbstractGitCommand {
     loadMyEmails();
     lookup(reviewerId, "reviewer", reviewerEmail);
     lookup(ccId, "cc", ccEmail);
+    refLogIdent = createRefLogIdent();
 
     rp = new ReceivePack(repo);
     rp.setAllowCreates(true);
     rp.setAllowDeletes(true);
     rp.setAllowNonFastForwards(true);
     rp.setCheckReceivedObjects(true);
+    rp.setRefLogIdent(refLogIdent);
     rp.setPreReceiveHook(new PreReceiveHook() {
       public void onPreReceive(final ReceivePack arg0,
           final Collection<ReceiveCommand> commands) {
@@ -180,6 +183,20 @@ class Receive extends AbstractGitCommand {
       msg.write('\n');
       msg.flush();
     }
+  }
+
+  private PersonIdent createRefLogIdent() {
+    String name = userAccount.getFullName();
+    if (name == null) {
+      name = userAccount.getPreferredEmail();
+    }
+    if (name == null) {
+      name = "Anonymous Coward";
+    }
+
+    String user = "account-" + userAccount.getId().toString();
+    String host = "unknown";
+    return new PersonIdent(name, user + "@" + host);
   }
 
   private void verifyActiveContributorAgreement() throws Failure {
@@ -645,6 +662,8 @@ class Receive extends AbstractGitCommand {
     final RefUpdate ru = repo.updateRef(ps.getRefName());
     ru.setForceUpdate(true);
     ru.setNewObjectId(c);
+    ru.setRefLogIdent(refLogIdent);
+    ru.setRefLogMessage("uploaded", false);
     ru.update(walk);
     PushQueue.scheduleUpdate(proj.getNameKey(), ru.getName());
 
@@ -816,6 +835,8 @@ class Receive extends AbstractGitCommand {
       final RefUpdate ru = repo.updateRef(ps.getRefName());
       ru.setForceUpdate(true);
       ru.setNewObjectId(c);
+      ru.setRefLogIdent(refLogIdent);
+      ru.setRefLogMessage("uploaded", false);
       ru.update(rp.getRevWalk());
       PushQueue.scheduleUpdate(proj.getNameKey(), ru.getName());
       cmd.setResult(ReceiveCommand.Result.OK);

@@ -63,7 +63,24 @@ import javax.sql.DataSource;
 /** Global server-side state for Gerrit. */
 public class GerritServer {
   private static final Logger log = LoggerFactory.getLogger(GerritServer.class);
+  private static DataSource datasource;
   private static GerritServer impl;
+
+  static void closeDataSource() {
+    if (datasource != null) {
+      try {
+        try {
+          Class.forName("com.mchange.v2.c3p0.DataSources").getMethod("destroy",
+              DataSource.class).invoke(null, datasource);
+        } catch (Throwable bad) {
+          // Oh well, its not a c3p0 pooled connection. Too bad its
+          // not standardized how "good applications cleanup".
+        }
+      } finally {
+        datasource = null;
+      }
+    }
+  }
 
   /**
    * Obtain the singleton server instance for this web application.
@@ -82,9 +99,11 @@ public class GerritServer {
       try {
         impl = new GerritServer();
       } catch (OrmException e) {
+        closeDataSource();
         log.error("GerritServer ORM is unavailable", e);
         throw e;
       } catch (XsrfException e) {
+        closeDataSource();
         log.error("GerritServer XSRF support failed to initailize", e);
         throw e;
       }
@@ -148,9 +167,8 @@ public class GerritServer {
 
   private Database<ReviewDb> createDatabase() throws OrmException {
     final String dsName = "java:comp/env/jdbc/ReviewDb";
-    DataSource ds;
     try {
-      ds = (DataSource) new InitialContext().lookup(dsName);
+      datasource = (DataSource) new InitialContext().lookup(dsName);
     } catch (NamingException namingErr) {
       final Properties p = readGerritDataSource();
       if (p == null) {
@@ -160,12 +178,12 @@ public class GerritServer {
       }
 
       try {
-        ds = new SimpleDataSource(p);
+        datasource = new SimpleDataSource(p);
       } catch (SQLException se) {
         throw new OrmException("Database unavailable", se);
       }
     }
-    return new Database<ReviewDb>(ds, ReviewDb.class);
+    return new Database<ReviewDb>(datasource, ReviewDb.class);
   }
 
   private Properties readGerritDataSource() throws OrmException {

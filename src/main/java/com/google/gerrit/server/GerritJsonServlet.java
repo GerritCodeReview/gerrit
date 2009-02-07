@@ -54,6 +54,7 @@ public abstract class GerritJsonServlet extends JsonServlet<GerritCall> {
   @Override
   public void destroy() {
     WorkQueue.terminate();
+    GerritServer.closeDataSource();
     super.destroy();
   }
 

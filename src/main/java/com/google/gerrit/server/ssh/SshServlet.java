@@ -20,7 +20,9 @@ import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
 
 import org.apache.sshd.SshServer;
+import org.apache.sshd.common.Compression;
 import org.apache.sshd.common.NamedFactory;
+import org.apache.sshd.common.compression.CompressionNone;
 import org.apache.sshd.common.keyprovider.FileKeyPairProvider;
 import org.apache.sshd.common.util.SecurityUtils;
 import org.apache.sshd.server.UserAuth;
@@ -89,6 +91,13 @@ public class SshServlet extends HttpServlet {
       keyp.setPath(new File(sitePath, "ssh_host_key").getAbsolutePath());
       sshd.setKeyPairProvider(keyp);
     }
+
+    // Always disable transparent compression. The majority of our data
+    // transfer is highly compressed Git pack files. We cannot make them
+    // any smaller than they already are.
+    //
+    sshd.setCompressionFactories(Arrays
+        .<NamedFactory<Compression>> asList(new CompressionNone.Factory()));
 
     sshd.setUserAuthFactories(Arrays
         .<NamedFactory<UserAuth>> asList(new UserAuthPublicKey.Factory()));

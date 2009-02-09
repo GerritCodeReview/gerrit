@@ -80,7 +80,7 @@ Configure Database
 You may have already done this step earlier, based on the
 instructions in link:dev-readme.html[Developer Setup].
 
-* Open gerrit-webapp/src/main/java
+* Open gerrit/src/main/java
 * Copy `GerritServer.properties_example` to `GerritServer.properties`
 * Configure your database for debugging in hosted mode.
 

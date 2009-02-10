@@ -55,6 +55,16 @@ public class MergeQueue {
     }
   }
 
+  public static synchronized void schedule(final Branch.NameKey branch) {
+    MergeEntry e = active.get(branch);
+    if (e == null) {
+      e = new MergeEntry(branch);
+      active.put(branch, e);
+    }
+    e.needMerge = true;
+    scheduleJobImp(e);
+  }
+
   public static synchronized void finish(final Branch.NameKey branch) {
     final MergeEntry e = active.get(branch);
     if (e == null) {
@@ -70,6 +80,10 @@ public class MergeQueue {
       return;
     }
 
+    scheduleJobImp(e);
+  }
+
+  private static void scheduleJobImp(final MergeEntry e) {
     if (!e.jobScheduled) {
       // No job has been scheduled to execute this branch, but it needs
       // to run a merge again.

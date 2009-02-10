@@ -106,7 +106,7 @@ CREATE INDEX changes_byOwnerClosed
 ON changes (owner_account_id, last_updated_on)
 WHERE open = 'N';
 
---    covers:             submitted
+--    covers:             submitted, allSubmitted
 CREATE INDEX changes_submitted
 ON changes (dest_project_name, dest_branch_name, last_updated_on)
 WHERE status = 's';

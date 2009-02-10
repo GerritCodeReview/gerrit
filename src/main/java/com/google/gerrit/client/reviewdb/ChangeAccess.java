@@ -34,6 +34,9 @@ public interface ChangeAccess extends Access<Change, Change.Id> {
       + "' ORDER BY lastUpdatedOn")
   ResultSet<Change> submitted(Branch.NameKey dest) throws OrmException;
 
+  @Query("WHERE status = '" + Change.STATUS_SUBMITTED + "'")
+  ResultSet<Change> allSubmitted() throws OrmException;
+
   @Query("WHERE open = true AND sortKey > ? ORDER BY sortKey LIMIT ?")
   ResultSet<Change> allOpenPrev(String sortKey, int limit) throws OrmException;
 

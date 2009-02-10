@@ -23,6 +23,8 @@ import com.google.gerrit.client.data.ProjectCache;
 import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
+import com.google.gerrit.client.reviewdb.Branch;
+import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.client.reviewdb.ReviewDb;
@@ -31,7 +33,9 @@ import com.google.gerrit.client.reviewdb.SystemConfig;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.workflow.NoOpFunction;
 import com.google.gerrit.client.workflow.SubmitFunction;
+import com.google.gerrit.git.MergeQueue;
 import com.google.gerrit.git.RepositoryCache;
+import com.google.gerrit.git.WorkQueue;
 import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
@@ -53,8 +57,10 @@ import java.net.UnknownHostException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.TimeUnit;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -98,6 +104,7 @@ public class GerritServer {
     if (impl == null) {
       try {
         impl = new GerritServer();
+        impl.reloadMergeQueue();
       } catch (OrmException e) {
         closeDataSource();
         log.error("GerritServer ORM is unavailable", e);
@@ -466,6 +473,30 @@ public class GerritServer {
     } catch (NamingException namingErr) {
       return null;
     }
+  }
+
+  private void reloadMergeQueue() {
+    WorkQueue.schedule(new Runnable() {
+      public void run() {
+        final HashSet<Branch.NameKey> pending = new HashSet<Branch.NameKey>();
+        try {
+          final ReviewDb c = db.open();
+          try {
+            for (final Change change : c.changes().allSubmitted()) {
+              pending.add(change.getDest());
+            }
+          } finally {
+            c.close();
+          }
+        } catch (OrmException e) {
+          log.error("Cannot reload MergeQueue", e);
+        }
+
+        for (final Branch.NameKey branch : pending) {
+          MergeQueue.schedule(branch);
+        }
+      }
+    }, 0, TimeUnit.SECONDS);
   }
 
   /** Time (in seconds) that user sessions stay "signed in". */

@@ -17,6 +17,7 @@ package com.google.gerrit.client.admin;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.Link;
 import com.google.gerrit.client.reviewdb.Project;
+import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountScreen;
 import com.google.gerrit.client.ui.LazyTabChild;
@@ -29,6 +30,7 @@ import java.util.List;
 
 public class ProjectAdminScreen extends AccountScreen {
   static final String INFO_TAB = "info";
+  static final String BRANCH_TAB = "branches";
   static final String ACCESS_TAB = "access";
 
   private String initialTabToken;
@@ -72,6 +74,16 @@ public class ProjectAdminScreen extends AccountScreen {
       }
     }, Util.C.projectAdminTabGeneral());
     tabTokens.add(Link.toProjectAdmin(projectId, INFO_TAB));
+
+    if (!ProjectRight.WILD_PROJECT.equals(projectId)) {
+      tabs.add(new LazyTabChild<ProjectBranchesPanel>() {
+        @Override
+        protected ProjectBranchesPanel create() {
+          return new ProjectBranchesPanel(projectId);
+        }
+      }, Util.C.projectAdminTabBranches());
+      tabTokens.add(Link.toProjectAdmin(projectId, BRANCH_TAB));
+    }
 
     tabs.add(new LazyTabChild<ProjectRightsPanel>() {
       @Override

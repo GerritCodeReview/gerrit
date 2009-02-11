@@ -19,6 +19,8 @@ import com.google.gwt.i18n.client.Constants;
 public interface AdminConstants extends Constants {
   String defaultAccountName();
   String defaultAccountGroupName();
+  String defaultBranchName();
+  String defaultRevisionSpec();
 
   String buttonDeleteGroupMembers();
   String buttonAddGroupMember();
@@ -43,8 +45,14 @@ public interface AdminConstants extends Constants {
   String columnApprovalCategory();
   String columnRightRange();
 
+  String columnBranchName();
+  String initialRevision();
+  String buttonAddBranch();
+  String buttonDeleteBranch();
+
   String groupListTitle();
   String projectListTitle();
   String projectAdminTabGeneral();
+  String projectAdminTabBranches();
   String projectAdminTabAccess();
 }

@@ -20,6 +20,9 @@ import com.google.gwtorm.client.StringKey;
 
 /** Registered line of development within a {@link Project}. */
 public final class Branch {
+  public static final String R_HEADS = "refs/heads/";
+  public static final String R_REFS = "refs/";
+
   /** Branch name key */
   public static class NameKey extends StringKey<Project.NameKey> {
     @Column
@@ -57,8 +60,8 @@ public final class Branch {
 
       // Git style branches will tend to start with "refs/heads/".
       // 
-      if (n.startsWith("refs/heads/")) {
-        return n.substring("refs/heads/".length());
+      if (n.startsWith(R_HEADS)) {
+        return n.substring(R_HEADS.length());
       }
 
       return n;

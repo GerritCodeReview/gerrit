@@ -14,10 +14,12 @@
 
 package com.google.gerrit.server;
 
+import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gwtorm.client.OrmException;
 
+import org.spearce.jgit.lib.PersonIdent;
 import org.spearce.jgit.util.Base64;
 import org.spearce.jgit.util.NB;
 
@@ -37,6 +39,20 @@ public class ChangeUtil {
     final byte[] raw = new byte[8];
     fill(raw, db);
     return Base64.encodeBytes(raw);
+  }
+
+  public static PersonIdent toPersonIdent(final Account userAccount) {
+    String name = userAccount.getFullName();
+    if (name == null) {
+      name = userAccount.getPreferredEmail();
+    }
+    if (name == null) {
+      name = "Anonymous Coward";
+    }
+
+    String user = "account-" + userAccount.getId().toString();
+    String host = "unknown";
+    return new PersonIdent(name, user + "@" + host);
   }
 
   private static synchronized void fill(byte[] raw, ReviewDb db)

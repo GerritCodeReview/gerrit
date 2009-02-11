@@ -121,7 +121,7 @@ class Receive extends AbstractGitCommand {
     loadMyEmails();
     lookup(reviewerId, "reviewer", reviewerEmail);
     lookup(ccId, "cc", ccEmail);
-    refLogIdent = createRefLogIdent();
+    refLogIdent = ChangeUtil.toPersonIdent(userAccount);
 
     rp = new ReceivePack(repo);
     rp.setAllowCreates(true);
@@ -183,20 +183,6 @@ class Receive extends AbstractGitCommand {
       msg.write('\n');
       msg.flush();
     }
-  }
-
-  private PersonIdent createRefLogIdent() {
-    String name = userAccount.getFullName();
-    if (name == null) {
-      name = userAccount.getPreferredEmail();
-    }
-    if (name == null) {
-      name = "Anonymous Coward";
-    }
-
-    String user = "account-" + userAccount.getId().toString();
-    String host = "unknown";
-    return new PersonIdent(name, user + "@" + host);
   }
 
   private void verifyActiveContributorAgreement() throws Failure {

@@ -18,6 +18,7 @@ Features
 Installation
 ------------
 
+* link:licenses.html[Licenses and Notices]
 * link:install.html[Installing Gerrit2]
 * link:project-setup.html[Project Setup]
 

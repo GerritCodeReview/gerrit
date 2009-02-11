@@ -36,7 +36,7 @@ defined if desired.
 Note that the `.git` suffix is not typically included in the
 project name, as it looks cleaner in the web when not shown.
 Gerrit automatically assumes that `project.git` is the Git repository
-for a project name `project`.
+for a project named `project`.
 
 ====
   psql reviewdb

@@ -3,6 +3,8 @@ Gerrit2
 
 Web based code review and project management for Git based projects.
 
+* link:http://code.google.com/p/gerrit/[Gerrit Homepage]
+
 User Guide
 ----------
 

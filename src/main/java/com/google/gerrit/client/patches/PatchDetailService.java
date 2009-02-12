@@ -17,6 +17,7 @@ package com.google.gerrit.client.patches;
 import com.google.gerrit.client.data.SideBySidePatchDetail;
 import com.google.gerrit.client.data.UnifiedPatchDetail;
 import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
+import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.reviewdb.PatchSet;
@@ -48,5 +49,9 @@ public interface PatchDetailService extends RemoteJsonService {
   @SignInRequired
   void publishComments(PatchSet.Id psid, String message,
       Set<ApprovalCategoryValue.Id> approvals,
+      AsyncCallback<VoidResult> callback);
+
+  @SignInRequired
+  void addReviewers(Change.Id id, List<String> reviewers,
       AsyncCallback<VoidResult> callback);
 }

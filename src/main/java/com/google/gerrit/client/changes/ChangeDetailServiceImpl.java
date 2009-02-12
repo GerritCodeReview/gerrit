@@ -28,6 +28,7 @@ import com.google.gwtorm.client.OrmException;
 
 public class ChangeDetailServiceImpl extends BaseServiceImplementation
     implements ChangeDetailService {
+
   public void changeDetail(final Change.Id id,
       final AsyncCallback<ChangeDetail> callback) {
     run(callback, new Action<ChangeDetail>() {

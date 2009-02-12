@@ -240,6 +240,23 @@
     },
     {
       "key": {
+        "uuid": "AAAAEX///6o\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ApprovalTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-02-12T23:51:27Z",
+      "side": 1,
+      "message": "Doh.  I see it now.  I\u0027m blind as a bat sometimes!",
+      "revId": "81db9a403fdd1f449612ed0570c2befbbfa85c65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAEH///7w\u003d",
         "filename": "src/main/java/com/google/gerrit/client/changes/ChangeDetailServiceImpl.java",
         "patchSetId": 1

@@ -29,6 +29,7 @@ import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.PatchSetInfo;
 import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gerrit.client.reviewdb.Account.Id;
 import com.google.gerrit.client.rpc.BaseServiceImplementation;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
@@ -290,5 +291,68 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
     ChangeUtil.updated(r.change);
     db.changes().update(Collections.singleton(r.change), txn);
     return r;
+  }
+
+  public void addReviewers(final Change.Id id, final List<String> reviewers,
+      final AsyncCallback<VoidResult> callback) {
+    run(callback, new Action<VoidResult>() {
+      public VoidResult run(ReviewDb db) throws OrmException, Failure {
+        final Set<Account.Id> reviewerIds = new HashSet<Account.Id>();
+        final Change change = db.changes().get(id);
+        if (change == null) {
+          throw new Failure(new NoSuchEntityException());
+        }
+
+        for (final String email : reviewers) {
+          final Account who = Account.find(db, email);
+          if (who != null) {
+            reviewerIds.add(who.getId());
+          }
+        }
+
+        // Add the reviewer to the database
+        db.run(new OrmRunnable<VoidResult, ReviewDb>() {
+          public VoidResult run(ReviewDb db, Transaction txn, boolean retry)
+              throws OrmException {
+            return doAddReviewers(reviewerIds, id, db, txn);
+          }
+        });
+
+        // Email the reviewer
+        try {
+          final ChangeMail cm = new ChangeMail(server, change);
+          cm.setFrom(Common.getAccountId());
+          cm.setReviewDb(db);
+          cm.addReviewers(reviewerIds);
+          cm.setHttpServletRequest(GerritJsonServlet.getCurrentCall()
+              .getHttpServletRequest());
+          cm.sendRequestReview();
+        } catch (MessagingException e) {
+          log.error("Cannot send review request to new reviewer for change " + id, e);
+          throw new Failure(e);
+        }
+        return VoidResult.INSTANCE;
+      }
+    });
+  }
+
+  private VoidResult doAddReviewers(final Set<Id> reviewerIds,
+      final Change.Id id, final ReviewDb db, final Transaction txn)
+      throws OrmException {
+    final List<ApprovalType> allTypes =
+        Common.getGerritConfig().getApprovalTypes();
+    final ApprovalCategory.Id ac =
+        allTypes.get(allTypes.size() - 1).getCategory().getId();
+
+    for (Account.Id reviewer : reviewerIds) {
+      if (!db.changeApprovals().byChangeUser(id, reviewer).iterator().hasNext()) {
+        // This reviewer has not entered an approval for this change yet.
+        ChangeApproval myca =
+            new ChangeApproval(new ChangeApproval.Key(id, reviewer, ac),
+                (short) 0);
+        db.changeApprovals().insert(Collections.singleton(myca), txn);
+      }
+    }
+    return VoidResult.INSTANCE;
   }
 }

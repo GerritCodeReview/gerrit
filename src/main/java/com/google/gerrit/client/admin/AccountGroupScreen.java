@@ -22,7 +22,6 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountDashboardLink;
 import com.google.gerrit.client.ui.AccountGroupSuggestOracle;
 import com.google.gerrit.client.ui.AccountScreen;
-import com.google.gerrit.client.ui.AccountSuggestOracle;
 import com.google.gerrit.client.ui.AddMemberBox;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.client.ui.SmallHeading;
@@ -31,8 +30,6 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.FocusListenerAdapter;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SourcesTableEvents;
 import com.google.gwt.user.client.ui.SuggestBox;
@@ -165,7 +162,6 @@ public class AccountGroupScreen extends AccountScreen {
 
   private void initDescription() {
     final VerticalPanel vp = new VerticalPanel();
-    final Label descHdr = new Label();
     vp.add(new SmallHeading(Util.C.headingDescription()));
 
     descTxt = new TextArea();
@@ -193,7 +189,7 @@ public class AccountGroupScreen extends AccountScreen {
 
   private void initMemberList() {
     addMemberBox = new AddMemberBox();
-    
+
     addMemberBox.addClickListener(new ClickListener() {
       public void onClick(final Widget sender) {
         doAddNew();
@@ -238,21 +234,23 @@ public class AccountGroupScreen extends AccountScreen {
   }
 
   void doAddNew() {
-    final String nameEmail = addMemberBox.getText();
-    if (nameEmail.length() == 0) {
+    final List<String> namesEmails = addMemberBox.getNamesOrEmails();
+    if (namesEmails == null || namesEmails.size() == 0) {
       return;
     }
 
     addMemberBox.setEnabled(false);
-    Util.GROUP_SVC.addGroupMember(groupId, nameEmail,
-        new GerritCallback<AccountGroupDetail>() {
-          public void onSuccess(final AccountGroupDetail result) {
+    Util.GROUP_SVC.addGroupMembers(groupId, namesEmails,
+        new GerritCallback<List<AccountGroupDetail>>() {
+          public void onSuccess(final List<AccountGroupDetail> results) {
             addMemberBox.setEnabled(true);
             addMemberBox.setText("");
-            if (result.accounts != null && result.members != null) {
-              accounts.merge(result.accounts);
-              for (final AccountGroupMember m : result.members) {
-                members.insertMember(m);
+            for (AccountGroupDetail result : results) {
+              if (result.accounts != null && result.members != null) {
+                accounts.merge(result.accounts);
+                for (final AccountGroupMember m : result.members) {
+                  members.insertMember(m);
+                }
               }
             }
           }

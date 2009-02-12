@@ -48,8 +48,8 @@ public interface GroupAdminService extends RemoteJsonService {
       AsyncCallback<VoidResult> callback);
 
   @SignInRequired
-  void addGroupMember(AccountGroup.Id groupId, String nameOrEmail,
-      AsyncCallback<AccountGroupDetail> callback);
+  void addGroupMembers(AccountGroup.Id groupId, List<String> namesOrEmails,
+      AsyncCallback<List<AccountGroupDetail>> callback);
 
   @SignInRequired
   void deleteGroupMembers(Set<AccountGroupMember.Key> keys,

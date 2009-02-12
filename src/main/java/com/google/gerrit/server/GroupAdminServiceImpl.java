@@ -170,28 +170,36 @@ public class GroupAdminServiceImpl extends BaseServiceImplementation implements
     });
   }
 
-  public void addGroupMember(final AccountGroup.Id groupId,
-      final String nameOrEmail, final AsyncCallback<AccountGroupDetail> callback) {
-    run(callback, new Action<AccountGroupDetail>() {
-      public AccountGroupDetail run(ReviewDb db) throws OrmException, Failure {
+  public void addGroupMembers(final AccountGroup.Id groupId,
+      final List<String> namesOrEmails,
+      final AsyncCallback<List<AccountGroupDetail>> callback) {
+    run(callback, new Action<List<AccountGroupDetail>>() {
+      public List<AccountGroupDetail> run(ReviewDb db) throws OrmException,
+          Failure {
         assertAmGroupOwner(db, groupId);
         if (Common.getGroupCache().isAutoGroup(groupId)) {
           throw new Failure(new NameAlreadyUsedException());
         }
-        final Account a = findAccount(db, nameOrEmail);
-        final AccountGroupMember.Key key =
-            new AccountGroupMember.Key(a.getId(), groupId);
-        if (db.accountGroupMembers().get(key) != null) {
-          return new AccountGroupDetail();
+        final List<AccountGroupDetail> agdList =
+            new ArrayList<AccountGroupDetail>();
+        for (String nameOrEmail : namesOrEmails) {
+          final Account a = findAccount(db, nameOrEmail);
+          final AccountGroupMember.Key key =
+              new AccountGroupMember.Key(a.getId(), groupId);
+          if (db.accountGroupMembers().get(key) != null) {
+            agdList.add(new AccountGroupDetail());
+            continue;
+          }
+
+          final AccountGroupMember m = new AccountGroupMember(key);
+          db.accountGroupMembers().insert(Collections.singleton(m));
+          Common.getGroupCache().notifyGroupAdd(m);
+
+          final AccountGroupDetail d = new AccountGroupDetail();
+          d.loadOneMember(db, a, m);
+          agdList.add(d);
         }
-
-        final AccountGroupMember m = new AccountGroupMember(key);
-        db.accountGroupMembers().insert(Collections.singleton(m));
-        Common.getGroupCache().notifyGroupAdd(m);
-
-        final AccountGroupDetail d = new AccountGroupDetail();
-        d.loadOneMember(db, a, m);
-        return d;
+        return agdList;
       }
     });
   }

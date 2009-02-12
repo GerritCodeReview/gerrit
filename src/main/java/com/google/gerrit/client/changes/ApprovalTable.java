@@ -15,22 +15,31 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.SignedInListener;
 import com.google.gerrit.client.data.AccountInfoCache;
 import com.google.gerrit.client.data.ApprovalDetail;
 import com.google.gerrit.client.data.ApprovalType;
+import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
+import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.ChangeApproval;
 import com.google.gerrit.client.rpc.Common;
+import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountDashboardLink;
+import com.google.gerrit.client.ui.AddMemberBox;
+import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
+import com.google.gwtjsonrpc.client.VoidResult;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -40,10 +49,13 @@ public class ApprovalTable extends Composite {
   private final List<ApprovalType> types;
   private final Grid table;
   private final Panel missing;
+  private final Panel addReviewer;
+  private final AddMemberBox addMemberBox;
+  private final SignedInListener signedInListener;
+  private Change.Id changeId;
   private AccountInfoCache accountCache = AccountInfoCache.empty();
 
   public ApprovalTable() {
-
     types = Common.getGerritConfig().getApprovalTypes();
     table = new Grid(1, 3 + types.size());
     table.addStyleName("gerrit-InfoTable");
@@ -52,10 +64,47 @@ public class ApprovalTable extends Composite {
     missing = new FlowPanel();
     missing.setStyleName("gerrit-Change-MissingApprovalList");
 
+    addReviewer = new FlowPanel();
+    addReviewer.setStyleName("gerrit-Change-AddReviewer");
+    addMemberBox = new AddMemberBox();
+    addMemberBox.addClickListener(new ClickListener() {
+      public void onClick(final Widget sender) {
+        doAddReviewer();
+      }
+    });
+    final Label l = new Label(Util.C.approvalTableAddReviewer());
+    l.setStyleName("gerrit-Change-AddReviewerLabel");
+    addReviewer.add(l);
+    addReviewer.add(addMemberBox);
+    addReviewer.setVisible(false);
+
     final FlowPanel fp = new FlowPanel();
     fp.add(table);
     fp.add(missing);
+    fp.add(addReviewer);
     initWidget(fp);
+
+    signedInListener = new SignedInListener() {
+      public void onSignIn() {
+        addReviewer.setVisible(true);
+      }
+
+      public void onSignOut() {
+        addReviewer.setVisible(false);
+      }
+    };
+  }
+
+  @Override
+  protected void onLoad() {
+    Gerrit.addSignedInListener(signedInListener);
+    super.onLoad();
+  }
+
+  @Override
+  protected void onUnload() {
+    Gerrit.removeSignedInListener(signedInListener);
+    super.onUnload();
   }
 
   private void displayHeader() {
@@ -99,8 +148,10 @@ public class ApprovalTable extends Composite {
     return AccountDashboardLink.link(accountCache, id);
   }
 
-  public void display(final Set<ApprovalCategory.Id> need,
+  public void display(final Change change, final Set<ApprovalCategory.Id> need,
       final List<ApprovalDetail> rows) {
+    changeId = change.getId();
+
     final int oldcnt = table.getRowCount();
     table.resizeRows(1 + rows.size());
     if (oldcnt < 1 + rows.size()) {
@@ -132,6 +183,31 @@ public class ApprovalTable extends Composite {
         }
       }
     }
+
+    addReviewer.setVisible(Gerrit.isSignedIn() && change.getStatus().isOpen());
+  }
+
+  private void doAddReviewer() {
+    final List<String> reviewers = addMemberBox.getNamesOrEmails();
+    if( reviewers == null || reviewers.size() == 0 ) {
+      return;
+    }
+
+    addMemberBox.setEnabled(false);
+
+    PatchUtil.DETAIL_SVC.addReviewers(changeId, reviewers,
+        new GerritCallback<VoidResult>() {
+          public void onSuccess(final VoidResult result) {
+            addMemberBox.setEnabled(true);
+            addMemberBox.setText("");
+          }
+
+          @Override
+          public void onFailure(final Throwable caught) {
+            addMemberBox.setEnabled(true);
+            super.onFailure(caught);
+          }
+        });
   }
 
   private void displayRow(final int row, final ApprovalDetail ad) {

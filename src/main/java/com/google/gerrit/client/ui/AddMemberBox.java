@@ -10,19 +10,22 @@ import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class AddMemberBox extends Composite {
-  
+
   private final FlowPanel addPanel;
   private final Button addMember;
   private final TextBox nameTxtBox;
   private final SuggestBox nameTxt;
-  
+
   public AddMemberBox() {
     addPanel = new FlowPanel();
     addMember = new Button(Util.C.buttonAddGroupMember());
     nameTxtBox = new TextBox();
     nameTxt = new SuggestBox(new AccountSuggestOracle(), nameTxtBox);
-    
+
     nameTxtBox.setVisibleLength(50);
     nameTxtBox.setText(Util.C.defaultAccountName());
     nameTxtBox.addStyleName("gerrit-InputFieldTypeHint");
@@ -43,31 +46,31 @@ public class AddMemberBox extends Composite {
         }
       }
     });
-    
+
     addPanel.setStyleName("gerrit-ProjectWatchPanel-AddPanel");
     addPanel.add(nameTxt);
     addPanel.add(addMember);
-    
+
     initWidget(addPanel);
   }
-  
+
   public void addClickListener(ClickListener listener) {
     addMember.addClickListener(listener);
   }
-  
-  public String getText() {
+
+  public List<String> getNamesOrEmails() {
     String s = nameTxtBox.getText();
     if (s == null || s.equals(Util.C.defaultAccountName())) {
       s = "";
     }
-    return s;
+    return Arrays.asList(s.split(";"));
   }
-  
+
   public void setEnabled(boolean enabled) {
     addMember.setEnabled(enabled);
     nameTxtBox.setEnabled(enabled);
   }
-  
+
   public void setText(String text) {
     nameTxtBox.setText(text);
   }

@@ -52,6 +52,7 @@ public interface ChangeConstants extends Constants {
   String changeScreenMessages();
 
   String approvalTableReviewer();
+  String approvalTableAddReviewer();
 
   String changeInfoBlockOwner();
   String changeInfoBlockProject();

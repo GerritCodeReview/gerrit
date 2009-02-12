@@ -36,6 +36,23 @@
     },
     {
       "key": {
+        "uuid": "AAAAEX///+Q\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ApprovalTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2009-02-12T23:48:22Z",
+      "side": 1,
+      "message": "That makes perfect sense",
+      "revId": "81db9a403fdd1f449612ed0570c2befbbfa85c65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAEH///7Q\u003d",
         "filename": "src/main/java/com/google/gerrit/client/changes/ApprovalTable.java",
         "patchSetId": 1
@@ -64,6 +81,23 @@
       "writtenOn": "2009-02-12T01:11:28Z",
       "side": 1,
       "message": "I think you\u0027d want to setVisible(true) for addReviewer here.",
+      "revId": "81db9a403fdd1f449612ed0570c2befbbfa85c65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAEX///6w\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ApprovalTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2009-02-12T23:48:22Z",
+      "side": 1,
+      "message": "I based this code on PatchSetPanel.java, but I agree using setVisible() is cleaner.  I\u0027ll go with that.",
       "revId": "81db9a403fdd1f449612ed0570c2befbbfa85c65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -155,6 +189,23 @@
     },
     {
       "key": {
+        "uuid": "AAAAEX///+U\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ApprovalTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2009-02-12T23:48:22Z",
+      "side": 1,
+      "message": "Yeah I considered doing the same, but couldn\u0027t decide if it belonged in getText() or some other hasText() method.  Thanks for taking care of that one!",
+      "revId": "81db9a403fdd1f449612ed0570c2befbbfa85c65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAEH///60\u003d",
         "filename": "src/main/java/com/google/gerrit/client/changes/ApprovalTable.java",
         "patchSetId": 1
@@ -166,6 +217,23 @@
       "writtenOn": "2009-02-12T01:11:28Z",
       "side": 1,
       "message": "I think you should do addMemberBox.setEnabled(false) here.  We usually disable the UI widgets that start an RPC while that RPC is happening.",
+      "revId": "81db9a403fdd1f449612ed0570c2befbbfa85c65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAEX///+Y\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ApprovalTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2009-02-12T23:48:22Z",
+      "side": 1,
+      "message": "Yep... you missed it by a couple lines ;)",
       "revId": "81db9a403fdd1f449612ed0570c2befbbfa85c65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -206,6 +274,23 @@
     },
     {
       "key": {
+        "uuid": "AAAAEX///+M\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeDetailServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2009-02-12T23:48:22Z",
+      "side": 1,
+      "message": "Yeah I agree... I\u0027ll make that change",
+      "revId": "81db9a403fdd1f449612ed0570c2befbbfa85c65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAEH///7o\u003d",
         "filename": "src/main/java/com/google/gerrit/client/changes/ChangeDetailServiceImpl.java",
         "patchSetId": 1
@@ -217,6 +302,23 @@
       "writtenOn": "2009-02-12T01:11:28Z",
       "side": 1,
       "message": "IMHO, it would be better to do this get up front, before we even did the Account.find() calls.  And do something like:\n\n  final Change change \u003d db.changes().get(id);\n  if (change \u003d\u003d null) {\n    throw new Failure(new NoSuchEntityException());\n  }\n\nThat way the client gets a reasonable explanation that the change it supplied is bogus.",
+      "revId": "81db9a403fdd1f449612ed0570c2befbbfa85c65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAEX///+I\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeDetailServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2009-02-12T23:48:22Z",
+      "side": 1,
+      "message": "That would be cleaner",
       "revId": "81db9a403fdd1f449612ed0570c2befbbfa85c65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -251,6 +353,23 @@
       "writtenOn": "2009-02-12T01:11:28Z",
       "side": 1,
       "message": "Should we be concerned about races where someone else has already inserted a record matching ChangeApproval.Key while the user was looking at the web UI, and their client is stale?\n\nUsually what we do here is scan the ChangeApprovals and only do the insert if there isn\u0027t one already recorded for this user account on this change.  Makes it slightly less likely to run into a duplicate key insertion error.",
+      "revId": "81db9a403fdd1f449612ed0570c2befbbfa85c65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAEX///60\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeDetailServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2009-02-12T23:48:22Z",
+      "side": 1,
+      "message": "I agree this is a concern.  I\u0027ll add a check.",
       "revId": "81db9a403fdd1f449612ed0570c2befbbfa85c65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

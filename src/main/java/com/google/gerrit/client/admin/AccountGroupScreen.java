@@ -239,8 +239,7 @@ public class AccountGroupScreen extends AccountScreen {
 
   void doAddNew() {
     final String nameEmail = addMemberBox.getText();
-    if (nameEmail == null || nameEmail.length() == 0
-        || Util.C.defaultAccountName().equals(nameEmail)) {
+    if (nameEmail.length() == 0) {
       return;
     }
 

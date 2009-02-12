@@ -56,7 +56,11 @@ public class AddMemberBox extends Composite {
   }
   
   public String getText() {
-    return nameTxtBox.getText();
+    String s = nameTxtBox.getText();
+    if (s == null || s.equals(Util.C.defaultAccountName())) {
+      s = "";
+    }
+    return s;
   }
   
   public void setEnabled(boolean enabled) {

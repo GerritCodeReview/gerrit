@@ -264,6 +264,34 @@ public class ChangeMail {
     }
   }
 
+  public void sendRequestReview() throws MessagingException {
+    if (begin("requestReview")) {
+      final Account a = Common.getAccountCache().get(fromId);
+      if (a == null) {
+        body.append("A Gerrit user");
+      } else {
+        final String e = a.getFullName();
+        body.append(e);
+      }
+      body.append(" has requested that you review a change\n\n");
+
+      if (changeUrl() != null) {
+        openFooter();
+        body.append("To respond visit ");
+        body.append(changeUrl());
+        body.append("\n");
+      }
+
+      initInReplyToChange();
+      add(RecipientType.TO, reviewers);
+      add(RecipientType.CC, extraCC);
+      if (fromId != null) {
+        add(RecipientType.CC, fromId);
+      }
+      send();
+    }
+  }
+
   private void newChangeTo() throws MessagingException {
     add(RecipientType.TO, reviewers);
     add(RecipientType.CC, extraCC);

@@ -17,17 +17,44 @@ package com.google.gerrit.client.changes;
 import com.google.gerrit.client.data.AccountInfoCacheFactory;
 import com.google.gerrit.client.data.ChangeDetail;
 import com.google.gerrit.client.data.PatchSetDetail;
+import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.Change;
+import com.google.gerrit.client.reviewdb.ChangeApproval;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gerrit.client.reviewdb.Account.Id;
 import com.google.gerrit.client.rpc.BaseServiceImplementation;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
+import com.google.gerrit.server.ChangeMail;
+import com.google.gerrit.server.GerritJsonServlet;
+import com.google.gerrit.server.GerritServer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.OrmRunnable;
+import com.google.gwtorm.client.Transaction;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.mail.MessagingException;
 
 public class ChangeDetailServiceImpl extends BaseServiceImplementation
     implements ChangeDetailService {
+  private final Logger log = LoggerFactory.getLogger(getClass());
+  private final GerritServer server;
+
+  public ChangeDetailServiceImpl() throws Exception {
+    server = GerritServer.getInstance();
+  }
+
   public void changeDetail(final Change.Id id,
       final AsyncCallback<ChangeDetail> callback) {
     run(callback, new Action<ChangeDetail>() {
@@ -90,5 +117,56 @@ public class ChangeDetailServiceImpl extends BaseServiceImplementation
         return d;
       }
     });
+  }
+
+  public void addReviewers(final List<String> reviewers, final Change.Id id,
+      final AsyncCallback<VoidResult> callback) {
+    run(callback, new Action<VoidResult>() {
+      public VoidResult run(ReviewDb db) throws OrmException, Failure {
+        final Set<Account.Id> reviewerIds = new HashSet<Account.Id>();
+
+        for (final String email : reviewers) {
+          final Account who = Account.find(db, email);
+          if (who != null) {
+            reviewerIds.add(who.getId());
+          }
+        }
+
+        // Add the reviewer to the database
+        db.run(new OrmRunnable<VoidResult, ReviewDb>() {
+          public VoidResult run(ReviewDb db, Transaction txn, boolean retry)
+              throws OrmException {
+            return doAddReviewers(reviewerIds, id, db, txn);
+          }
+        });
+
+        // Email the reviewer
+        try {
+          final ChangeMail cm = new ChangeMail(server, db.changes().get(id));
+          cm.setFrom(Common.getAccountId());
+          cm.setReviewDb(db);
+          cm.addReviewers(reviewerIds);
+          cm.setHttpServletRequest(GerritJsonServlet.getCurrentCall()
+              .getHttpServletRequest());
+          cm.sendRequestReview();
+        } catch (MessagingException e) {
+          log.error("Cannot send comments by email for change " + id, e);
+          throw new Failure(e);
+        }
+        return VoidResult.INSTANCE;
+      }
+    });
+  }
+
+  private VoidResult doAddReviewers(final Set<Id> reviewerIds,
+      final Change.Id id, final ReviewDb db, final Transaction txn)
+      throws OrmException {
+    for (Id reviewer : reviewerIds) {
+      ChangeApproval myca =
+          new ChangeApproval(new ChangeApproval.Key(id, reviewer,
+              new ApprovalCategory.Id("CRVW")), (short) 0);
+      db.changeApprovals().insert(Collections.singleton(myca), txn);
+    }
+    return VoidResult.INSTANCE;
   }
 }

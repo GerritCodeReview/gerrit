@@ -134,7 +134,7 @@ public class ChangeScreen extends Screen {
     dependenciesPanel.setWidth("95%");
     add(dependenciesPanel);
 
-    approvals = new ApprovalTable();
+    approvals = new ApprovalTable(changeId);
     approvalsPanel = new DisclosurePanel(Util.C.changeScreenApprovals());
     approvalsPanel.setContent(wrap(approvals));
     dependenciesPanel.setWidth("95%");

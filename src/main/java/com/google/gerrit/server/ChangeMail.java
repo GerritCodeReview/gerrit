@@ -529,10 +529,6 @@ public class ChangeMail {
     r.append(change.getCreatedOn().getTime());
     r.append('.');
     r.append(change.getChangeId());
-    if (fromId != null) {
-      r.append('.');
-      r.append(fromId.get());
-    }
     r.append('@');
     r.append(gerritHost());
     r.append('>');

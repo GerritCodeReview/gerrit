@@ -1,0 +1,310 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAEH///6o\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ApprovalTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-02-12T01:11:28Z",
+      "side": 1,
+      "message": "Mark non-final (see below for why, about caching).",
+      "revId": "81db9a403fdd1f449612ed0570c2befbbfa85c65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAEH///6s\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ApprovalTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-02-12T01:11:28Z",
+      "side": 1,
+      "message": "This needs to be obtained during display() due to the ApprovalTable object being cached within the ChangeScreen, which can be recycled to show multiple changes.",
+      "revId": "81db9a403fdd1f449612ed0570c2befbbfa85c65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAEH///7Q\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ApprovalTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-02-12T01:11:28Z",
+      "side": 1,
+      "message": "This style name isn\u0027t defined in Gerrit.css.  Did you forget to declare a style for this, or is this just left over copy-n-paste sort of cruft?",
+      "revId": "81db9a403fdd1f449612ed0570c2befbbfa85c65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAEH///7A\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ApprovalTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-02-12T01:11:28Z",
+      "side": 1,
+      "message": "I think you\u0027d want to setVisible(true) for addReviewer here.",
+      "revId": "81db9a403fdd1f449612ed0570c2befbbfa85c65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAEH///7E\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ApprovalTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-02-12T01:11:28Z",
+      "side": 1,
+      "message": "If you switch to setVisible() (see my comments below), we\u0027d want setVisible(false) here.",
+      "revId": "81db9a403fdd1f449612ed0570c2befbbfa85c65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAEH///68\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ApprovalTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-02-12T01:11:28Z",
+      "side": 1,
+      "message": "I don\u0027t know why this is predicated around need !\u003d null.  Shouldn\u0027t we always be able to add a reviewer if the change isn\u0027t closed yet?\n\nSadly, we don\u0027t have the change state.  Just add it to this class\u0027s display() method.  There is only one caller in ChangeScreen that should be easy to update.",
+      "revId": "81db9a403fdd1f449612ed0570c2befbbfa85c65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAEH///7M\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ApprovalTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-02-12T01:11:28Z",
+      "side": 1,
+      "message": "No style declared in Gerrit.css; copy-n-paste left over?",
+      "revId": "81db9a403fdd1f449612ed0570c2befbbfa85c65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAEH///7I\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ApprovalTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-02-12T01:11:28Z",
+      "side": 1,
+      "message": "Since addReviewer is always added to the parent, wouldn\u0027t it just be easier to always add these widgets during the constructor, when addMemberBox is created, and then use setVisible(false) to hide addReviewer and setVisible(true) here to show it?",
+      "revId": "81db9a403fdd1f449612ed0570c2befbbfa85c65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAEH///64\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ApprovalTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-02-12T01:11:28Z",
+      "side": 1,
+      "message": "Ick.  That tells me I failed you on the AddMemberBox review.  We should really move this detail about the defaultAccountName() inside AddMemberBox and have its getText() method return \"\" when its the defaultAccountName().  That would probably simplify a number of callers.  I\u0027ll work up that patch myself.",
+      "revId": "81db9a403fdd1f449612ed0570c2befbbfa85c65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAEH///60\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ApprovalTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-02-12T01:11:28Z",
+      "side": 1,
+      "message": "I think you should do addMemberBox.setEnabled(false) here.  We usually disable the UI widgets that start an RPC while that RPC is happening.",
+      "revId": "81db9a403fdd1f449612ed0570c2befbbfa85c65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAEH///7w\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeDetailServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-02-12T01:11:28Z",
+      "side": 1,
+      "message": "I didn\u0027t think this would compile under GWT.  You can\u0027t drag in GerritServer in a client.* package as not all of the source code and/or types referenced from GerritServer can be compiled to JavaScript.\n\nYup, I just ran \"mvn package\u0027 and its really quite angry about it.  This code has to be move out to something that lives under server.*.  If that means making a completely new service implementation and a new servlet to handle its methods, then that\u0027s what we\u0027ll need to do.",
+      "revId": "81db9a403fdd1f449612ed0570c2befbbfa85c65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAEH///7g\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeDetailServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-02-12T01:11:28Z",
+      "side": 1,
+      "message": "Personally, I would have put the Change.Id as the first parameter, and the List\u003cString\u003e second.  That\u0027s more typical of the style in other remote service methods.",
+      "revId": "81db9a403fdd1f449612ed0570c2befbbfa85c65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAEH///7o\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeDetailServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-02-12T01:11:28Z",
+      "side": 1,
+      "message": "IMHO, it would be better to do this get up front, before we even did the Account.find() calls.  And do something like:\n\n  final Change change \u003d db.changes().get(id);\n  if (change \u003d\u003d null) {\n    throw new Failure(new NoSuchEntityException());\n  }\n\nThat way the client gets a reasonable explanation that the change it supplied is bogus.",
+      "revId": "81db9a403fdd1f449612ed0570c2befbbfa85c65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAEH///7Y\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeDetailServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-02-12T01:11:28Z",
+      "side": 1,
+      "message": "We try not to hardcode the review category names.  Receive.java (what runs the server side of repo upload) actually uses code like this to pick a category for this 0 level approval:\n\n  final List\u003cApprovalType\u003e allTypes \u003d Common.getGerritConfig().getApprovalTypes();\n  allTypes.get(allTypes.size() - 1).getCategory().getId()",
+      "revId": "81db9a403fdd1f449612ed0570c2befbbfa85c65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAEH///7U\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeDetailServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-02-12T01:11:28Z",
+      "side": 1,
+      "message": "Should we be concerned about races where someone else has already inserted a record matching ChangeApproval.Key while the user was looking at the web UI, and their client is stale?\n\nUsually what we do here is scan the ChangeApprovals and only do the insert if there isn\u0027t one already recorded for this user account on this change.  Makes it slightly less likely to run into a duplicate key insertion error.",
+      "revId": "81db9a403fdd1f449612ed0570c2befbbfa85c65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAEH///6w\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-02-12T01:11:28Z",
+      "side": 1,
+      "message": "I don\u0027t think we can really do that.  ChangeScreen instances can be recycled across changes, like when you navigate from the All Open screen to the first change, back, and then to the second screen.  As you go to the second screen we reuse the existing ChangeScreen instance but update its displayed data.",
+      "revId": "81db9a403fdd1f449612ed0570c2befbbfa85c65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAEH///74\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ChangeMail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-02-12T01:11:28Z",
+      "side": 1,
+      "message": "Its possible for getFullName() to be null or empty string here, like if a user didn\u0027t setup one up.  We call them \"Anonymous Coward\u0027 usually.\n\nI\u0027d suggest adding tests for those somehow and have those also report as \"A Gerrit user\" when getFullName is null/empty.",
+      "revId": "81db9a403fdd1f449612ed0570c2befbbfa85c65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAEH///70\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ChangeMail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-02-12T01:11:28Z",
+      "side": 1,
+      "message": "I think we should include at least change.getChangeId() in the message, like we do in sendNewChange().",
+      "revId": "81db9a403fdd1f449612ed0570c2befbbfa85c65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -155,7 +155,7 @@ public abstract class FancyFlexTable<RowItem> extends Composite implements
     }
   }
 
-  private void onOpen() {
+  protected void onOpen() {
     if (0 <= currentRow && currentRow < table.getRowCount()) {
       final RowItem item = getRowItem(currentRow);
       if (item != null) {

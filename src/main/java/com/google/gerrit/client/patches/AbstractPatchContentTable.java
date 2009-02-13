@@ -107,6 +107,17 @@ public abstract class AbstractPatchContentTable extends FancyFlexTable<Object> {
         case KeyboardListener.KEY_UP:
         case KeyboardListener.KEY_DOWN:
           return false;
+
+        case 'c':
+        case 'r':
+          for (int row = getCurrentRow(); 0 <= row; row--) {
+            final Object item = getRowItem(row);
+            if (!(item instanceof CommentList) && item != null) {
+              onOpenItem(item);
+              break;
+            }
+          }
+          return true;
       }
     }
     return super.onKeyPress(keyCode, modifiers);

@@ -31,6 +31,7 @@ import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.InlineLabel;
+import com.google.gwt.user.client.ui.KeyboardListener;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtjsonrpc.client.VoidResult;
 
@@ -97,6 +98,18 @@ public abstract class AbstractPatchContentTable extends FancyFlexTable<Object> {
   @Override
   protected MyFlexTable createFlexTable() {
     return new DoubleClickFlexTable();
+  }
+
+  @Override
+  protected boolean onKeyPress(final char keyCode, final int modifiers) {
+    if (modifiers == 0) {
+      switch (keyCode) {
+        case KeyboardListener.KEY_UP:
+        case KeyboardListener.KEY_DOWN:
+          return false;
+      }
+    }
+    return super.onKeyPress(keyCode, modifiers);
   }
 
   @Override

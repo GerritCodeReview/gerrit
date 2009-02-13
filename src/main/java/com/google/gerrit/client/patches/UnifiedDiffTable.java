@@ -31,7 +31,7 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
           createCommentEditor(row + 1, column, pl.getOldLineNumber(), (short) 0);
           break;
         case POST_IMAGE:
-          createCommentEditor(row + 1, column, pl.getOldLineNumber(), (short) 1);
+          createCommentEditor(row + 1, column, pl.getNewLineNumber(), (short) 1);
           break;
       }
     }

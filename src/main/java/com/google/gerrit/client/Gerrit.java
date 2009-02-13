@@ -172,6 +172,11 @@ public class Gerrit implements EntryPoint {
   }
 
   public void onModuleLoad() {
+    if (GWT.isScript() && amInsideIFrame()) {
+      bustOutOfIFrame(Window.Location.getHref());
+      return;
+    }
+
     initHistoryHooks();
     populateBottomMenu();
 
@@ -191,6 +196,12 @@ public class Gerrit implements EntryPoint {
       }
     });
   }
+
+  private static native boolean amInsideIFrame()
+  /*-{ return top.location != $wnd.location; }-*/;
+
+  private static native void bustOutOfIFrame(String newloc)
+  /*-{ top.location.href = newloc }-*/;
 
   private static ArrayList<JavaScriptObject> historyHooks;
 

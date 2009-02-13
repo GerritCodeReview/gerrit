@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAEn////U\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/ui/AddMemberBox.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-02-13T15:52:56Z",
+      "side": 1,
+      "message": "Ok, now you are really digging yourself into a hole.\n\nIn my humble opinion, making this widget and its callers support multiple addresses in a single input box is *unrelated* to the functionality of adding an additional reviewer to a change.\n\nBy combining all of this into a single change you have made it very difficult for me to comment on the parts that need work.  You also are slowing down acceptance of what was already pretty close to being good as-is, which is the new reviewer feature.\n\nPlease, lets do this \"multiple people in one input box\" work in a different change, after we get the basic add one reviewer working.\n\nGo back to patch set 2.  Fix the couple of items there, including deleting split call that I was objecting to being in that patch.  Lets merge that, then do this work as a follow-on improvement.",
+      "revId": "189fbc0a7cabf4e5de19d4859f40545092f8126f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

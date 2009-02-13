@@ -21,17 +21,19 @@ import java.util.Iterator;
 import java.util.List;
 
 public class UnifiedDiffTable extends AbstractPatchContentTable {
+  private static final int PC = 3;
+
   @Override
   protected void onCellDoubleClick(final int row, final int column) {
-    if (column == 1 && getRowItem(row) instanceof PatchLine) {
+    if (getRowItem(row) instanceof PatchLine) {
       final PatchLine pl = (PatchLine) getRowItem(row);
       switch (pl.getType()) {
         case PRE_IMAGE:
         case CONTEXT:
-          createCommentEditor(row + 1, column, pl.getOldLineNumber(), (short) 0);
+          createCommentEditor(row + 1, PC, pl.getOldLineNumber(), (short) 0);
           break;
         case POST_IMAGE:
-          createCommentEditor(row + 1, column, pl.getNewLineNumber(), (short) 1);
+          createCommentEditor(row + 1, PC, pl.getNewLineNumber(), (short) 1);
           break;
       }
     }
@@ -45,10 +47,10 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
       switch (pl.getType()) {
         case PRE_IMAGE:
         case CONTEXT:
-          createCommentEditor(row + 1, 1, pl.getOldLineNumber(), (short) 0);
+          createCommentEditor(row + 1, PC, pl.getOldLineNumber(), (short) 0);
           break;
         case POST_IMAGE:
-          createCommentEditor(row + 1, 1, pl.getOldLineNumber(), (short) 1);
+          createCommentEditor(row + 1, PC, pl.getOldLineNumber(), (short) 1);
           break;
       }
       return;
@@ -72,7 +74,7 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
       }
       table.insertRow(row + 1);
       table.getCellFormatter().setStyleName(row + 1, 0, S_ICON_CELL);
-      bindComment(row + 1, 1, c, true);
+      bindComment(row + 1, PC, c, true);
     }
   }
 
@@ -97,7 +99,7 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
           final PatchLineComment c = ci.next();
           table.insertRow(row);
           table.getCellFormatter().setStyleName(row, 0, S_ICON_CELL);
-          bindComment(row, 1, c, !ci.hasNext());
+          bindComment(row, PC, c, !ci.hasNext());
           row++;
         }
       }
@@ -107,6 +109,34 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
   private void appendLine(final StringBuilder nc, final PatchLine line) {
     nc.append("<tr>");
     nc.append("<td class=\"" + S_ICON_CELL + "\">&nbsp;</td>");
+
+
+    switch (line.getType()) {
+      case FILE_HEADER:
+      case HUNK_HEADER:
+        nc.append("<td class=\"LineNumber\">&nbsp;</td>");
+        nc.append("<td class=\"LineNumber\">&nbsp;</td>");
+        break;
+      default:
+        nc.append("<td class=\"LineNumber\">");
+        if (line.getOldLineNumber() != 0
+            && (line.getType() == PatchLine.Type.CONTEXT || line.getType() == PatchLine.Type.PRE_IMAGE)) {
+          nc.append(line.getOldLineNumber());
+        } else {
+          nc.append("&nbsp;");
+        }
+        nc.append("</td>");
+
+        nc.append("<td class=\"LineNumber\">");
+        if (line.getNewLineNumber() != 0
+            && (line.getType() == PatchLine.Type.CONTEXT || line.getType() == PatchLine.Type.POST_IMAGE)) {
+          nc.append(line.getNewLineNumber());
+        } else {
+          nc.append("&nbsp;");
+        }
+        nc.append("</td>");
+        break;
+    }
 
     nc.append("<td class=\"DiffText DiffText-");
     nc.append(line.getType().name());

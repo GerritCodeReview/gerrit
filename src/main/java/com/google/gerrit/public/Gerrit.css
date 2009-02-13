@@ -335,6 +335,7 @@
 
 .gerrit-PatchContentTable .DiffText {
   white-space: pre;
+  padding-left: 0.2em;
 }
 
 .gerrit-PatchContentTable .DiffText-FILE_HEADER {
@@ -440,12 +441,10 @@
 .gerrit-PatchContentTable .ActiveRow {
   background: #ffffcc;
 }
-.gerrit-PatchContentTable .ActiveRow td.Comment {
-  background: #ffffff;
-}
 .gerrit-PatchContentTable .ActiveRow td.IconCell,
 .gerrit-PatchContentTable .ActiveRow td.LineNumber,
-.gerrit-PatchContentTable .ActiveRow td.FileLine {
+.gerrit-PatchContentTable .ActiveRow td.FileLine,
+.gerrit-PatchContentTable .ActiveRow td.DiffText {
   border-top: 1px solid blue;
   border-bottom: 1px solid blue;
 }

@@ -202,7 +202,7 @@
 .gerrit-ChangeTable .IconCell {
   width: 1px;
   padding: 0px;
-  vertical-align: center;
+  vertical-align: middle;
   border-bottom: 1px solid #d4e9a9;
 }
 
@@ -328,7 +328,7 @@
 .gerrit-PatchContentTable .IconCell {
   width: 1px;
   padding: 0px;
-  vertical-align: center;
+  vertical-align: middle;
   border-top: 1px solid transparent;
   border-bottom: 1px solid transparent;
 }
@@ -795,7 +795,7 @@
 }
 
 .gerrit-OpenID-directlink {
-  vertical-align: center;
+  vertical-align: middle;
   margin-right: 5px;
   color: blue;
 }

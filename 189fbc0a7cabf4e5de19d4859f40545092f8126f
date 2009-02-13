@@ -16,6 +16,23 @@
       "revId": "189fbc0a7cabf4e5de19d4859f40545092f8126f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAEn////M\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/ui/AddMemberBox.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2009-02-13T17:49:06Z",
+      "side": 1,
+      "message": "Yeah understandable.  I was pushing for the \u0027multiple people\u0027 thing because I wanted to avoid changing method signatures for RPC stuff later for the AddReviewer, but we\u0027ll have to change them anyway for adding a user to a group.  I\u0027ll pull out the change for now.  Thanks for your patience on this.",
+      "revId": "189fbc0a7cabf4e5de19d4859f40545092f8126f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

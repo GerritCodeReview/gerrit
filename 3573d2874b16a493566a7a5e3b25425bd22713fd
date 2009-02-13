@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAAEX///6Y\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ApprovalTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-02-13T00:32:34Z",
+      "side": 1,
+      "message": "Can\u0027t we just say:\n\naddReviewer.setVisible(Gerrit.isSignedIn() \u0026\u0026 change.getStatus().isOpen());\n\nand save a lot of code?",
+      "revId": "3573d2874b16a493566a7a5e3b25425bd22713fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAEX///6U\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ApprovalTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-02-13T00:32:34Z",
+      "side": 1,
+      "message": "Cute.  We don\u0027t support this anywhere else.  Either whack the line, or make a different change which adds multiple name support to AddMemberBox so we can use it in the group management code too.",
+      "revId": "3573d2874b16a493566a7a5e3b25425bd22713fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAEX///6g\u003d",
         "filename": "src/main/java/com/google/gerrit/client/changes/ChangeDetailServiceImpl.java",
         "patchSetId": 2
@@ -13,6 +47,57 @@
       "writtenOn": "2009-02-13T00:19:34Z",
       "side": 1,
       "message": "arg... how did this slip through...",
+      "revId": "3573d2874b16a493566a7a5e3b25425bd22713fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAEX///6c\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeDetailServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-02-13T00:32:34Z",
+      "side": 1,
+      "message": "whoops.  please upload a replacement that doesn\u0027t modify this file",
+      "revId": "3573d2874b16a493566a7a5e3b25425bd22713fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAEX///6Q\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/patch/PatchDetailServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-02-13T00:32:34Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we say \"Cannot send change invite to new reviewer\u0027?  We aren\u0027t publishing comments in this block, the error might mislead someone when trying to debug a problem.",
+      "revId": "3573d2874b16a493566a7a5e3b25425bd22713fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAEX///6M\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/patch/PatchDetailServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-02-13T00:32:34Z",
+      "side": 1,
+      "message": "Minor nit, but isn\u0027t \"!\" in front easier to type and read than \" \u003d\u003d false\" on the end?",
       "revId": "3573d2874b16a493566a7a5e3b25425bd22713fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

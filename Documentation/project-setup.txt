@@ -56,7 +56,7 @@ for a project named `project`.
   ,branch_name
   ,project_name)
   VALUES
-  (nextval('branch_id)
+  (nextval('branch_id')
   ,'refs/heads/master'
   ,'new/project');
 ====
@@ -74,7 +74,7 @@ INTO branches" statement for each branch, ensuring to use the
   ,branch_name
   ,project_name)
   VALUES
-  (nextval('branch_id)
+  (nextval('branch_id')
   ,'refs/heads/stable'
   ,'new/project');
 ====

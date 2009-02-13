@@ -368,6 +368,11 @@
 }
 .gerrit-PatchContentTable td.Comment {
   vertical-align: top;
+  border-left: 5px solid orange;
+}
+.gerrit-PatchContentTable .gwt-DisclosurePanel {
+  background: #fef8cb;
+  padding-right: 5px;
 }
 .gerrit-PatchContentTable .Comment .header {
   width: 35em;
@@ -623,8 +628,11 @@
   display: table;
 }
 
-.gerrit-PatchLineComment {
-  font-size: smaller;
+.gerrit-SideBySideScreen-SideBySideTable td.Comment {
+  border-left: 5px solid orange;
+  border-right: 5px solid orange;
+  padding-right: 5px;
+  background: #fef8cb;
 }
 
 .gerrit-CommentEditor {

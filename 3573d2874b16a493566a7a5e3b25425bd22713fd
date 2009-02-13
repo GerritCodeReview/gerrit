@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAEX///6g\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeDetailServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2009-02-13T00:19:34Z",
+      "side": 1,
+      "message": "arg... how did this slip through...",
+      "revId": "3573d2874b16a493566a7a5e3b25425bd22713fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

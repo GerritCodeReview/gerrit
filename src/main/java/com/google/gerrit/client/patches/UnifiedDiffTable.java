@@ -77,6 +77,8 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
   }
 
   public void display(final List<PatchLine> list) {
+    initVersions(2);
+
     final StringBuilder nc = new StringBuilder();
     for (final PatchLine pLine : list) {
       appendLine(nc, pLine);

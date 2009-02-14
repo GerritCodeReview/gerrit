@@ -19,6 +19,7 @@ import com.google.gerrit.client.SignedInListener;
 import com.google.gerrit.client.data.AccountInfoCache;
 import com.google.gerrit.client.data.ApprovalDetail;
 import com.google.gerrit.client.data.ApprovalType;
+import com.google.gerrit.client.data.ChangeDetail;
 import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
@@ -27,6 +28,7 @@ import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.ChangeApproval;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.AccountDashboardLink;
 import com.google.gerrit.client.ui.AddMemberBox;
 import com.google.gwt.user.client.ui.ClickListener;
@@ -204,6 +206,16 @@ public class ApprovalTable extends Composite {
           public void onSuccess(final VoidResult result) {
             addMemberBox.setEnabled(true);
             addMemberBox.setText("");
+            Util.DETAIL_SVC.changeDetail(changeId,
+                new ScreenLoadCallback<ChangeDetail>() {
+                  public void onSuccess(final ChangeDetail r) {
+                    if (isAttached()) {
+                      setAccountInfoCache(r.getAccounts());
+                      display(r.getChange(), r.getMissingApprovals(), r
+                          .getApprovals());
+                    }
+                  }
+                });
           }
 
           @Override

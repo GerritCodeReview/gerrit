@@ -585,9 +585,11 @@ class Receive extends AbstractGitCommand {
       } catch (IOException e) {
         log.error("Error computing patch of commit " + c.name(), e);
         reject(newChange, "diff error");
+        return;
       } catch (OrmException e) {
         log.error("Error creating change for commit " + c.name(), e);
         reject(newChange, "database error");
+        return;
       }
     }
     newChange.setResult(ReceiveCommand.Result.OK);

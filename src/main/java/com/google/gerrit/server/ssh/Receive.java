@@ -652,7 +652,10 @@ class Receive extends AbstractGitCommand {
     ru.setNewObjectId(c);
     ru.setRefLogIdent(refLogIdent);
     ru.setRefLogMessage("uploaded", false);
-    ru.update(walk);
+    if (ru.update(walk) != RefUpdate.Result.NEW) {
+      throw new IOException("Failed to create ref " + ps.getRefName() + " in "
+          + repo.getDirectory() + ": " + ru.getResult());
+    }
     PushQueue.scheduleUpdate(proj.getNameKey(), ru.getName());
 
     allNewChanges.add(change.getId());
@@ -825,7 +828,10 @@ class Receive extends AbstractGitCommand {
       ru.setNewObjectId(c);
       ru.setRefLogIdent(refLogIdent);
       ru.setRefLogMessage("uploaded", false);
-      ru.update(rp.getRevWalk());
+      if (ru.update(rp.getRevWalk()) != RefUpdate.Result.NEW) {
+        throw new IOException("Failed to create ref " + ps.getRefName()
+            + " in " + repo.getDirectory() + ": " + ru.getResult());
+      }
       PushQueue.scheduleUpdate(proj.getNameKey(), ru.getName());
       cmd.setResult(ReceiveCommand.Result.OK);
 

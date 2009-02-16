@@ -42,6 +42,7 @@ import java.util.List;
 class SshKeyPanel extends Composite {
   private SshKeyTable keys;
 
+  private Button clearNew;
   private Button addNew;
   private TextArea addTxt;
   private Button delSel;
@@ -74,13 +75,25 @@ class SshKeyPanel extends Composite {
       addTxt.setCharacterWidth(80);
       fp.add(addTxt);
 
+      final FlowPanel buttons = new FlowPanel();
+      fp.add(buttons);
+
+      clearNew = new Button(Util.C.buttonClearSshKeyInput());
+      clearNew.addClickListener(new ClickListener() {
+        public void onClick(final Widget sender) {
+          addTxt.setText("");
+          addTxt.setFocus(true);
+        }
+      });
+      buttons.add(clearNew);
+
       addNew = new Button(Util.C.buttonAddSshKey());
       addNew.addClickListener(new ClickListener() {
         public void onClick(final Widget sender) {
           doAddNew();
         }
       });
-      fp.add(addNew);
+      buttons.add(addNew);
       body.add(fp);
     }
 

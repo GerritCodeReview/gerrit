@@ -69,6 +69,9 @@ public class CacheControlFilter implements Filter {
     if (pathInfo.endsWith(".cache.png")) {
       return true;
     }
+    if (pathInfo.endsWith(".cache.jar")) {
+      return true;
+    }
     return false;
   }
 

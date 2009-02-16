@@ -24,6 +24,7 @@ import com.google.gerrit.client.reviewdb.ContributorAgreement;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.BaseServiceImplementation;
 import com.google.gerrit.client.rpc.Common;
+import com.google.gerrit.client.rpc.InvalidSshKeyException;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gerrit.server.ssh.SshUtil;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -75,7 +76,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
   public void addSshKey(final String keyText,
       final AsyncCallback<AccountSshKey> callback) {
     run(callback, new Action<AccountSshKey>() {
-      public AccountSshKey run(final ReviewDb db) throws OrmException {
+      public AccountSshKey run(final ReviewDb db) throws OrmException, Failure {
         int max = 0;
         final Account.Id me = Common.getAccountId();
         for (final AccountSshKey k : db.accountSshKeys().byAccount(me)) {
@@ -92,11 +93,12 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
         try {
           SshUtil.parse(newKey);
         } catch (NoSuchAlgorithmException e) {
-          newKey.setInvalid();
+          throw new Failure(new InvalidSshKeyException());
         } catch (InvalidKeySpecException e) {
-          newKey.setInvalid();
+          throw new Failure(new InvalidSshKeyException());
         } catch (NoSuchProviderException e) {
-          newKey.setInvalid();
+          log.error("Cannot parse SSH key", e);
+          throw new Failure(new InvalidSshKeyException());
         }
         db.accountSshKeys().insert(Collections.singleton(newKey));
         SshUtil.invalidate(Common.getAccountCache().get(me, db));

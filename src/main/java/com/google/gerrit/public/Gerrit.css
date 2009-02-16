@@ -677,6 +677,11 @@
   font-family: monospace;
   font-size: small;
 }
+.gerrit-SshKeyPanel-Invalid {
+  white-space: nowrap;
+  color: red;
+  font-weight: bold;
+}
 
 .gerrit-AccountInfoBlock {
   margin-bottom: 10px;

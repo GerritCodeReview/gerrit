@@ -35,6 +35,7 @@ public interface AccountConstants extends Constants {
 
   String buttonDeleteSshKey();
   String buttonClearSshKeyInput();
+  String buttonOpenSshKey();
   String buttonAddSshKey();
 
   String sshKeyInvalid();
@@ -46,6 +47,7 @@ public interface AccountConstants extends Constants {
 
   String addSshKeyPanelHeader();
   String addSshKeyHelp();
+  String sshJavaAppletNotAvailable();
   String invalidSshKeyError();
 
   String webIdLastUsed();

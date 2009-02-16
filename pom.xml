@@ -338,6 +338,13 @@ limitations under the License.
                   <outputDirectory>${project.build.directory}/executablewar</outputDirectory>
                   <includes>**/*.class</includes>
                 </artifactItem>
+                <artifactItem>
+                  <groupId>gerrit</groupId>
+                  <artifactId>gerrit-keyapplet</artifactId>
+                  <overWrite>true</overWrite>
+                  <outputDirectory>${project.build.directory}/gerrit-keyapplet</outputDirectory>
+                  <includes>**/*</includes>
+                </artifactItem>
               </artifactItems>
             </configuration>
           </execution>
@@ -371,6 +378,7 @@ limitations under the License.
             <configuration>
               <tasks>
                 <property name="d" location="${basedir}/target/${project.name}-${project.version}"/>
+                <property name="keyapplet" location="${basedir}/target/gerrit-keyapplet"/>
 
                 <copy todir="${d}">
                   <fileset dir="${basedir}/target/executablewar" includes="**/*"/>
@@ -399,6 +407,12 @@ limitations under the License.
                     <outputmapper type="glob" from="*" to="${d}/*.gz"/>
                   </redirector>
                 </apply>
+
+                <zip
+                    destfile="${d}/gerrit-keyapplet.cache.jar"
+                    compress="true">
+                  <fileset dir="${keyapplet}" includes="**/*"/>
+                </zip>
               </tasks>
             </configuration>
             <goals>
@@ -430,6 +444,13 @@ limitations under the License.
       <artifactId>executablewar</artifactId>
       <version>1.0</version>
       <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>gerrit</groupId>
+      <artifactId>gerrit-keyapplet</artifactId>
+      <version>1.0</version>
+      <scope>test</scope>
     </dependency>
 
     <dependency>

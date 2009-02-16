@@ -16,17 +16,24 @@ package com.google.gerrit.client.account;
 
 import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.FormatUtil;
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.reviewdb.AccountSshKey;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.InvalidSshKeyException;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.client.ui.SmallHeading;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SourcesTableEvents;
 import com.google.gwt.user.client.ui.TableListener;
 import com.google.gwt.user.client.ui.TextArea;
@@ -40,10 +47,16 @@ import java.util.HashSet;
 import java.util.List;
 
 class SshKeyPanel extends Composite {
+  private static boolean loadedApplet;
+  private static Element applet;
+  private static String appletErrorInvalidKey;
+  private static String appletErrorSecurity;
+
   private SshKeyTable keys;
 
   private Button clearNew;
   private Button addNew;
+  private Button browse;
   private TextArea addTxt;
   private Button delSel;
 
@@ -87,6 +100,15 @@ class SshKeyPanel extends Composite {
       });
       buttons.add(clearNew);
 
+      browse = new Button(Util.C.buttonOpenSshKey());
+      browse.addClickListener(new ClickListener() {
+        public void onClick(final Widget sender) {
+          doBrowse();
+        }
+      });
+      browse.setVisible(GWT.isScript() && (!loadedApplet || applet != null));
+      buttons.add(browse);
+
       addNew = new Button(Util.C.buttonAddSshKey());
       addNew.addClickListener(new ClickListener() {
         public void onClick(final Widget sender) {
@@ -99,6 +121,91 @@ class SshKeyPanel extends Composite {
 
     initWidget(body);
   }
+
+  void doBrowse() {
+    browse.setEnabled(false);
+    if (!loadedApplet) {
+      applet = DOM.createElement("applet");
+      applet.setAttribute("code",
+          "com.google.gerrit.keyapplet.ReadPublicKey.class");
+      applet.setAttribute("archive", GWT.getModuleBaseURL()
+          + "gerrit-keyapplet.cache.jar?v=" + Gerrit.getVersion());
+      applet.setAttribute("mayscript", "true");
+      applet.setAttribute("width", "0");
+      applet.setAttribute("height", "0");
+      RootPanel.getBodyElement().appendChild(applet);
+      loadedApplet = true;
+
+      // We have to defer to allow the event loop time to setup that
+      // new applet tag we just created above, and actually load the
+      // applet into the runtime.
+      //
+      DeferredCommand.addCommand(new Command() {
+        public void execute() {
+          doBrowse();
+        }
+      });
+      return;
+    }
+    if (applet == null) {
+      // If the applet element is null, the applet was determined
+      // to have failed to load, and we are dead. Hide the button.
+      //
+      noBrowse();
+      return;
+    }
+
+    String txt;
+    try {
+      txt = openPublicKey(applet);
+    } catch (RuntimeException re) {
+      // If this call fails, the applet is dead. It is most likely
+      // not loading due to Java support being disabled.
+      //
+      noBrowse();
+      return;
+    }
+    if (txt == null) {
+      txt = "";
+    }
+
+    browse.setEnabled(true);
+
+    if (appletErrorInvalidKey == null) {
+      appletErrorInvalidKey = getErrorInvalidKey(applet);
+      appletErrorSecurity = getErrorSecurity(applet);
+    }
+
+    if (appletErrorInvalidKey.equals(txt)) {
+      new ErrorDialog(Util.C.invalidSshKeyError()).center();
+      return;
+    }
+    if (appletErrorSecurity.equals(txt)) {
+      new ErrorDialog(Util.C.invalidSshKeyError()).center();
+      return;
+    }
+
+    addTxt.setText(txt);
+    addNew.setFocus(true);
+  }
+
+  private void noBrowse() {
+    if (applet != null) {
+      applet.getParentElement().removeChild(applet);
+      applet = null;
+    }
+    browse.setVisible(false);
+    new ErrorDialog(Util.C.sshJavaAppletNotAvailable()).center();
+  }
+
+  private static native String openPublicKey(Element keyapp)
+  /*-{ var r = keyapp.openPublicKey(); return r == null ? null : ''+r; }-*/;
+
+  private static native String getErrorInvalidKey(Element keyapp)
+  /*-{ return ''+keyapp.getErrorInvalidKey(); }-*/;
+
+  private static native String getErrorSecurity(Element keyapp)
+  /*-{ return ''+keyapp.getErrorSecurity(); }-*/;
 
   void doAddNew() {
     final String txt = addTxt.getText();

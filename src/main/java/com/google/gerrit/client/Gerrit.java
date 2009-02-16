@@ -278,6 +278,9 @@ public class Gerrit implements EntryPoint {
   }
 
   private void showInitialScreen() {
+    final RootPanel sg = RootPanel.get("gerrit_startinggerrit");
+    sg.getElement().getParentElement().removeChild(sg.getElement());
+
     History.addHistoryListener(new Link());
     if ("".equals(History.getToken())) {
       if (isSignedIn()) {

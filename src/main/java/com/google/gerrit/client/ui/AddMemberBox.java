@@ -50,7 +50,11 @@ public class AddMemberBox extends Composite {
     
     initWidget(addPanel);
   }
-  
+
+  public void setAddButtonText(final String text) {
+    addMember.setText(text);
+  }
+
   public void addClickListener(ClickListener listener) {
     addMember.addClickListener(listener);
   }

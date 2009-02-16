@@ -615,18 +615,12 @@
   margin-top: 5px;
 }
 .gerrit-Change-MissingApproval {
-  margin-left: 10px;
   font-weight: bold;
   white-space: nowrap;
 }
 
 .gerrit-Change-AddReviewer {
   margin-top: 5px;
-}
-
-.gerrit-Change-AddReviewerLabel {
-  margin-left: 10px;
-  font-weight: bold;
   white-space: nowrap;
 }
 

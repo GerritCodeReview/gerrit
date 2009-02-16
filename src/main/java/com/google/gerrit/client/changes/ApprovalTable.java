@@ -70,14 +70,12 @@ public class ApprovalTable extends Composite {
     addReviewer = new FlowPanel();
     addReviewer.setStyleName("gerrit-Change-AddReviewer");
     addMemberBox = new AddMemberBox();
+    addMemberBox.setAddButtonText(Util.C.approvalTableAddReviewer());
     addMemberBox.addClickListener(new ClickListener() {
       public void onClick(final Widget sender) {
         doAddReviewer();
       }
     });
-    final Label l = new Label(Util.C.approvalTableAddReviewer());
-    l.setStyleName("gerrit-Change-AddReviewerLabel");
-    addReviewer.add(l);
     addReviewer.add(addMemberBox);
     addReviewer.setVisible(false);
 

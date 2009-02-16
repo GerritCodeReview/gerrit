@@ -33,6 +33,7 @@ public class GitwebLink {
   public String toRevision(final Project.NameKey project, final PatchSet ps) {
     final StringBuilder r = new StringBuilder();
     p(r, project);
+    a(r, "commit");
     h(r, ps);
     return baseUrl + r;
   }

@@ -14,9 +14,11 @@
 
 package com.google.gerrit.client.account;
 
+import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.reviewdb.AccountSshKey;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.InvalidSshKeyException;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gwt.user.client.ui.Button;
@@ -31,6 +33,7 @@ import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
+import com.google.gwtjsonrpc.client.RemoteJsonException;
 import com.google.gwtjsonrpc.client.VoidResult;
 
 import java.util.HashSet;
@@ -98,7 +101,21 @@ class SshKeyPanel extends Composite {
         @Override
         public void onFailure(final Throwable caught) {
           addNew.setEnabled(true);
-          super.onFailure(caught);
+
+          if (isInvalidSshKey(caught)) {
+            new ErrorDialog(Util.C.invalidSshKeyError()).center();
+
+          } else {
+            super.onFailure(caught);
+          }
+        }
+
+        private boolean isInvalidSshKey(final Throwable caught) {
+          if (caught instanceof InvalidSshKeyException) {
+            return true;
+          }
+          return caught instanceof RemoteJsonException
+              && InvalidSshKeyException.MESSAGE.equals(caught.getMessage());
         }
       });
     }

@@ -45,6 +45,7 @@ public interface AccountConstants extends Constants {
 
   String addSshKeyPanelHeader();
   String addSshKeyHelp();
+  String invalidSshKeyError();
 
   String webIdLastUsed();
   String webIdEmail();

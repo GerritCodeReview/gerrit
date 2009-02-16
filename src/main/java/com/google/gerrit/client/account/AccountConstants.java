@@ -36,6 +36,7 @@ public interface AccountConstants extends Constants {
   String buttonDeleteSshKey();
   String buttonAddSshKey();
 
+  String sshKeyInvalid();
   String sshKeyAlgorithm();
   String sshKeyKey();
   String sshKeyComment();

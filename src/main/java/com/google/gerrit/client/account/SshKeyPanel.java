@@ -15,7 +15,6 @@
 package com.google.gerrit.client.account;
 
 import com.google.gerrit.client.FormatUtil;
-import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.reviewdb.AccountSshKey;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.FancyFlexTable;
@@ -117,6 +116,8 @@ class SshKeyPanel extends Composite {
   }
 
   private class SshKeyTable extends FancyFlexTable<AccountSshKey> {
+    private static final String S_INVALID = "gerrit-SshKeyPanel-Invalid";
+
     SshKeyTable() {
       table.setText(0, 3, Util.C.sshKeyAlgorithm());
       table.setText(0, 4, Util.C.sshKeyKey());
@@ -133,8 +134,7 @@ class SshKeyPanel extends Composite {
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
       fmt.addStyleName(0, 1, S_ICON_HEADER);
-      fmt.addStyleName(0, 2, S_ICON_HEADER);
-
+      fmt.addStyleName(0, 2, S_DATA_HEADER);
       fmt.addStyleName(0, 3, S_DATA_HEADER);
       fmt.addStyleName(0, 4, S_DATA_HEADER);
       fmt.addStyleName(0, 5, S_DATA_HEADER);
@@ -207,20 +207,25 @@ class SshKeyPanel extends Composite {
     }
 
     void addOneKey(final AccountSshKey k) {
+      final FlexCellFormatter fmt = table.getFlexCellFormatter();
       final int row = table.getRowCount();
       table.insertRow(row);
       applyDataRowStyle(row);
 
       table.setWidget(row, 1, new CheckBox());
-      table.setWidget(row, 2, k.isValid() ? Gerrit.ICONS.greenCheck()
-          .createImage() : Gerrit.ICONS.redNot().createImage());
+      if (k.isValid()) {
+        table.setText(row, 2, "");
+        fmt.removeStyleName(row, 2, S_INVALID);
+      } else {
+        table.setText(row, 2, Util.C.sshKeyInvalid());
+        fmt.addStyleName(row, 2, S_INVALID);
+      }
       table.setText(row, 3, k.getAlgorithm());
       table.setText(row, 4, elide(k.getEncodedKey()));
       table.setText(row, 5, k.getComment());
       table.setText(row, 6, FormatUtil.mediumFormat(k.getLastUsedOn()));
       table.setText(row, 7, FormatUtil.mediumFormat(k.getStoredOn()));
 
-      final FlexCellFormatter fmt = table.getFlexCellFormatter();
       fmt.addStyleName(row, 1, S_ICON_CELL);
       fmt.addStyleName(row, 2, S_ICON_CELL);
       fmt.addStyleName(row, 4, "gerrit-SshKeyPanel-EncodedKey");

@@ -57,6 +57,7 @@ public class Gerrit implements EntryPoint {
   public static final GerritIcons ICONS = GWT.create(GerritIcons.class);
   public static final SystemInfoService SYSTEM_SVC;
 
+  private static String myVersion;
   private static Account myAccount;
   private static final ArrayList<SignedInListener> signedInListeners =
       new ArrayList<SignedInListener>();
@@ -232,16 +233,23 @@ public class Gerrit implements EntryPoint {
 
   private static void populateBottomMenu() {
     final RootPanel btmmenu = RootPanel.get("gerrit_btmmenu");
-    final String vs;
-    if (GWT.isScript()) {
-      final GerritVersion v = GWT.create(GerritVersion.class);
-      vs = v.version();
-    } else {
-      vs = "dev";
-    }
+    final String vs = getVersion();
     final HTML version = new HTML(M.poweredBy(vs));
     version.setStyleName("gerrit-version");
     btmmenu.add(version);
+  }
+
+  /** @return version number of the Gerrit application software */
+  public static String getVersion() {
+    if (myVersion == null) {
+      if (GWT.isScript()) {
+        final GerritVersion v = GWT.create(GerritVersion.class);
+        myVersion = v.version();
+      } else {
+        myVersion = "dev";
+      }
+    }
+    return myVersion;
   }
 
   private void onModuleLoad2() {

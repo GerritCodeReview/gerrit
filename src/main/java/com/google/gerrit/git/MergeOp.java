@@ -407,7 +407,7 @@ public class MergeOp {
 
         case PATH_CONFLICT: {
           final String txt =
-              "Your change could not been merged due to a path conflict.\n"
+              "Your change could not be merged due to a path conflict.\n"
                   + "\n"
                   + "Please merge (or rebase) the change locally and upload the resolution for review.";
           setNew(c, message(c, txt));

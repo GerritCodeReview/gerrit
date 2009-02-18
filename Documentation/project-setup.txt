@@ -61,21 +61,19 @@ for a project named `project`.
   ,'new/project');
 ====
 
-Register Branch
----------------
+Registering Additional Branches
+-------------------------------
 
-To register additional branches beyond `master`, run the "INSERT
-INTO branches" statement for each branch, ensuring to use the
-`refs/heads/` prefix:
+Branches can be created over the SSH port by any `git push` client,
+if the user has been granted the `Push Branch` > `Create Branch`
+(or higher) access right.
 
-====
-  INSERT INTO branches
-  (branch_id
-  ,branch_name
-  ,project_name)
-  VALUES
-  (nextval('branch_id')
-  ,'refs/heads/stable'
-  ,'new/project');
-====
-
+Additional branches can also be created through the web UI, assuming
+at least one commit already exists in the project repository.
+A project owner can create additional branches under `Admin` >
+`Projects` > `Branches`.  Enter the new branch name, and the
+starting Git revision.  Branch names that don't start with `refs/`
+will automatically have `refs/heads/` prefixed to ensure they are
+a standard Git branch name.  Almost any valid SHA-1 expression can
+be used to specify the starting revision, so long as it resolves
+to a commit object.  Abbreviated SHA-1s are not supported.

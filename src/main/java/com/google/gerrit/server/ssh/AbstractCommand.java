@@ -180,11 +180,23 @@ abstract class AbstractCommand implements Command, SessionAware {
         try {
           run(args);
         } catch (IOException e) {
+          if (e.getClass() == IOException.class
+              && "Pipe closed".equals(e.getMessage())) {
+            // This is sshd telling us the client just dropped off while
+            // we were waiting for a read or a write to complete. Either
+            // way its not really a fatal error. Don't log it.
+            //
+            throw new UnloggedFailure(127, "error: client went away", e);
+          }
+
           throw new Failure(128, "fatal: unexpected IO error", e);
+
         } catch (RuntimeException e) {
           throw new Failure(128, "fatal: internal server error", e);
+
         } catch (Error e) {
           throw new Failure(128, "fatal: internal server error", e);
+
         }
       } catch (Failure e) {
         if (!(e instanceof UnloggedFailure)) {

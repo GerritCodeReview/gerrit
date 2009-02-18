@@ -56,6 +56,18 @@ engineers have a background of working with Mondrian at Google,
 there is a strong desire to have the same (or better) feature set
 available for Git and AOSP.
 
+Gerrit Code Review started as a simple set of patches to Rietveld,
+and was originally built to service AOSP. This quickly turned
+into a fork as we added access control features that Guido van
+Rossum did not want to see complicating the Rietveld code base. As
+the functionality and code were starting to become drastically
+different, a different name was needed. Gerrit calls back to the
+original namesake of Rietveld, Gerrit Rietveld, a Dutch architect.
+
+Gerrit2 is a complete rewrite of the Gerrit fork, completely changing
+the implementation from Python on Google App Engine, to Java on a
+J2EE servlet container and a SQL database.
+
 * link:http://video.google.com/videoplay?docid=-8502904076440714866[Mondrian Code Review On The Web]
 * link:http://code.google.com/p/rietveld/[Rietveld - Code Review for Subversion]
 * link:http://eagain.net/gitweb/?p=gitosis.git;a=blob;f=README.rst;hb=HEAD[Gitosis README]

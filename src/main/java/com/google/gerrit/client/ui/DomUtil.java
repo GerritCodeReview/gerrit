@@ -64,7 +64,13 @@ public abstract class DomUtil {
 
   private static class ClientImpl extends Impl {
     @Override
-    native String escape(String src)/*-{ return src.replace(/&/g,'&amp;').replace(/>/g,'&gt;').replace(/</g,'&lt;').replace(/"/g,'&quot;'); }-*/;
+    native String escape(String src)
+    /*-{ return src.replace(/&/g,'&amp;')
+                   .replace(/>/g,'&gt;')
+                   .replace(/</g,'&lt;')
+                   .replace(/"/g,'&quot;')
+                   .replace(/'/g,'&#39;')
+                   ; }-*/;
   }
 
   private static class JavaImpl extends Impl {
@@ -85,6 +91,9 @@ public abstract class DomUtil {
             break;
           case '"':
             r.append("&quot;");
+            break;
+          case '\'':
+            r.append("&#39;");
             break;
           default:
             r.append(c);

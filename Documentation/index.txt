@@ -9,6 +9,7 @@ User Guide
 ----------
 
 * link:user-upload.html[Uploading Changes]
+* link:access-control.html[Access Controls]
 
 Features
 --------

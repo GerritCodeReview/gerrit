@@ -686,6 +686,18 @@
 .gerrit-AccountInfoBlock {
   margin-bottom: 10px;
 }
+.gerrit-AccountContactPrivacyDetails {
+  margin-left: 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  width: 40em;
+}
+.gerrit-AccountContactOnFile {
+  margin-left: 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
 
 .gerrit-AddSshKeyPanel {
   margin-top: 10px;

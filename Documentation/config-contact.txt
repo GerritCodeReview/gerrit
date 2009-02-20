@@ -1,0 +1,54 @@
+Gerrit2 - Contact Information
+=============================
+
+Create the a public/private key pair for data encryption.  Do this
+on a highly protected system, where the resulting private key is
+unlikely to fall into the wrong hands.
+
+====
+  mkdir -m 700 contact_private
+  GNUPGHOME=contact_private gpg --gen-key
+====
+
+Select to use a `DSA and Elgamal (default)` key type, as the public
+key will be used for data encryption.
+
+The information chosen for name, email and comment fields can be
+anything reasonable which would identify the contact information
+store for this Gerrit instance.  It is probably a good idea
+to not use a real person's name here, but instead some sort of
+organizational role account.
+
+Chose a fairly long expiration period, such as 20 years.  For most
+servers, contact data will be written once, and rarely if ever, read.
+
+Export the public key for Gerrit.  The public key file must be called
+`contact_information.pub` and reside inside of the `site_config`
+directory.  Armoring it in ASCII makes it easier to transport
+between systems, as you can safely copy-and-paste the text.
+
+====
+  GNUPGHOME=contact_private gpg --export --armor EMAIL >$site_config/contact_information.pub
+====
+
+
+Upgrading
+---------
+
+To upgrade from schema 4 to schema 5, which uses the encrypted
+contact information format, run the following sequence.  You will
+need to replace `APPID` with your Google App Engine application id,
+and `APPSEC` with the value you compiled into the application when
+you built it.
+
+Use of Google App Engine isn't required, you could also write your
+own web service to receive the application data, and point the URL
+at that instead.  See above for more details.
+
+====
+  java -jar gerrit.war --cat sql/upgrade004_005_part1.sql | psql reviewdb
+  psql -c "UPDATE system_config SET contact_store_url = 'https://APPID.appspot.com/store'" reviewdb
+  psql -c "UPDATE system_config SET contact_store_appsec = 'APPSEC'" reviewdb
+  java -DGerritServer=GerritServer.properties -cp bcprov-jdk15-141.jar:bcpg-jdk15-141.jar:gerrit.war ExecutableWarMain EncryptContactInfo
+  java -jar gerrit.war --cat sql/upgrade004_005_part2.sql | psql reviewdb
+====

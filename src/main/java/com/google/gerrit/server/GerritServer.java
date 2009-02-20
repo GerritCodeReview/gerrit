@@ -453,6 +453,7 @@ public class GerritServer {
     r.setUseContributorAgreements(sConfig.useContributorAgreements);
     r.setGitDaemonUrl(sConfig.gitDaemonUrl);
     r.setUseRepoDownload(sConfig.useRepoDownload);
+    r.setUseContactInfo(sConfig.contactStoreURL != null);
     r.setLoginType(sConfig.getLoginType());
     if (sConfig.gitwebUrl != null) {
       r.setGitwebLink(new GitwebLink(sConfig.gitwebUrl));
@@ -525,6 +526,14 @@ public class GerritServer {
 
   public String getEmailFormat() {
     return sConfig.emailFormat;
+  }
+
+  public String getContactStoreURL() {
+    return sConfig.contactStoreURL;
+  }
+
+  public String getContactStoreAPPSEC() {
+    return sConfig.contactStoreAPPSEC;
   }
 
   /** A binary string key to encrypt cookies related to account data. */

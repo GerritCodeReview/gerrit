@@ -28,6 +28,7 @@ Configuration
 -------------
 
 * link:config-gerrit.html[system_config Settings]
+* link:config-contact.html[User Contact Information]
 * link:config-replication.html[Git Replication/Mirroring]
 * link:config-gitweb.html[Gitweb Integration]
 * link:config-headerfooter.html[Site Header/Footer]

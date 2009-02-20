@@ -29,6 +29,7 @@ public class GerritConfig {
   protected List<ApprovalType> actionTypes;
   protected int sshdPort;
   protected boolean useContributorAgreements;
+  protected boolean useContactInfo;
   protected SystemConfig.LoginType loginType;
   protected boolean useRepoDownload;
   protected String gitDaemonUrl;
@@ -107,6 +108,14 @@ public class GerritConfig {
 
   public void setUseContributorAgreements(final boolean r) {
     useContributorAgreements = r;
+  }
+
+  public boolean isUseContactInfo() {
+    return useContactInfo;
+  }
+
+  public void setUseContactInfo(final boolean r) {
+    useContactInfo = r;
   }
 
   public ApprovalType getApprovalType(final ApprovalCategory.Id id) {

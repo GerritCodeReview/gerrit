@@ -121,6 +121,16 @@ more agreements.
 
 By default this is `N` (no agreements are used).
 
+contact_store_url, contact_store_appsec
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+URL and shared secret of the web based contact store Gerrit will
+send any offline contact information to when it collects the data
+from users as part of a contributor agreement.
+
+* link:config-contact.html[Contact Information]
+
+
 sshd_port
 ~~~~~~~~~
 

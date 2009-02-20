@@ -64,4 +64,22 @@ public final class ContactInformation {
   public void setFaxNumber(final String f) {
     faxNbr = f;
   }
+
+  public static boolean hasData(final ContactInformation contactInformation) {
+    if (contactInformation == null) {
+      return false;
+    }
+    return hasData(contactInformation.address)
+        || hasData(contactInformation.country)
+        || hasData(contactInformation.phoneNbr)
+        || hasData(contactInformation.faxNbr);
+  }
+
+  public static boolean hasAddress(final ContactInformation contactInformation) {
+    return contactInformation != null && hasData(contactInformation.address);
+  }
+
+  private static boolean hasData(final String s) {
+    return s != null && s.trim().length() > 0;
+  }
 }

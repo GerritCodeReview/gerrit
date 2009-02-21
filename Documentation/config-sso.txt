@@ -147,6 +147,14 @@ example would be typical, to add the domain name of the organization.
 If Apache HTTPd is being used, see the section above to configure
 the `/ssh_info` URL to be available to `repo upload`.
 
+If Jetty is being used, you may need to increase the header buffer
+size parameter, due to very long header lines.  Add the following
+to `jetty.xml` under `org.mortbay.jetty.nio.SelectChannelConnector`:
+
+====
+  <Set name="headerBufferSize">16384</Set>
+====
+
 
 Database Schema
 ~~~~~~~~~~~~~~~

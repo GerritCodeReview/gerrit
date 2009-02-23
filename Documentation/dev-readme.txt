@@ -13,9 +13,6 @@ To create a new client workspace:
   repo init -u git://android.git.kernel.org/tools/manifest.git
 ====
 
-Also, you'll need to download and install Apache SSHD from source
-(execute `mvn install` in the top level of the source folder).
-
 Important Links
 ---------------
 

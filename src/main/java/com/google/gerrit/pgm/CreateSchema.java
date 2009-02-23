@@ -15,6 +15,7 @@
 package com.google.gerrit.pgm;
 
 import com.google.gerrit.client.rpc.Common;
+import com.google.gerrit.git.WorkQueue;
 import com.google.gerrit.server.GerritServer;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
@@ -24,6 +25,15 @@ import com.google.gwtorm.client.OrmException;
  */
 public class CreateSchema {
   public static void main(final String[] argv) throws OrmException,
+      XsrfException {
+    try {
+      mainImpl(argv);
+    } finally {
+      WorkQueue.terminate();
+    }
+  }
+
+  private static void mainImpl(final String[] argv) throws OrmException,
       XsrfException {
     GerritServer.getInstance();
     Common.getSchemaFactory().open().close();

@@ -28,6 +28,7 @@ import com.google.gerrit.client.reviewdb.SystemConfig;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.git.InvalidRepositoryException;
 import com.google.gerrit.git.PatchSetImporter;
+import com.google.gerrit.git.WorkQueue;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritServer;
 import com.google.gwtjsonrpc.server.XsrfException;
@@ -79,7 +80,16 @@ public class ImportGerrit1 {
   private static ApprovalCategory submitCategory;
 
   public static void main(final String[] argv) throws OrmException,
-      XsrfException, SQLException, IOException, InvalidRepositoryException {
+      XsrfException, IOException, SQLException, InvalidRepositoryException {
+    try {
+      mainImpl(argv);
+    } finally {
+      WorkQueue.terminate();
+    }
+  }
+
+  private static void mainImpl(final String[] argv) throws OrmException,
+      XsrfException, IOException, SQLException, InvalidRepositoryException {
     final ProgressMonitor pm = new TextProgressMonitor();
     gs = GerritServer.getInstance();
     db = Common.getSchemaFactory().open();

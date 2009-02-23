@@ -20,6 +20,7 @@ import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.git.InvalidRepositoryException;
 import com.google.gerrit.git.PatchSetImporter;
+import com.google.gerrit.git.WorkQueue;
 import com.google.gerrit.server.GerritServer;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
@@ -53,6 +54,15 @@ import java.util.ArrayList;
  */
 public class ReimportPatchSets {
   public static void main(final String[] argv) throws OrmException,
+      XsrfException, IOException {
+    try {
+      mainImpl(argv);
+    } finally {
+      WorkQueue.terminate();
+    }
+  }
+
+  private static void mainImpl(final String[] argv) throws OrmException,
       XsrfException, IOException {
     final GerritServer gs = GerritServer.getInstance();
     final ArrayList<PatchSet.Id> todo = new ArrayList<PatchSet.Id>();

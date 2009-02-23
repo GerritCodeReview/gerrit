@@ -160,6 +160,14 @@ public final class SystemConfig {
   @Column
   public AccountGroup.Id registeredGroupId;
 
+  /** Optional URL of the contact information store. */
+  @Column(notNull = false)
+  public transient String contactStoreURL;
+
+  /** APPSEC token to get into {@link #contactStoreURL}. */
+  @Column(notNull = false)
+  public transient String contactStoreAPPSEC;
+
   public LoginType getLoginType() {
     return loginType != null ? LoginType.valueOf(loginType) : null;
   }

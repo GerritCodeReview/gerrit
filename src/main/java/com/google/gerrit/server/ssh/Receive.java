@@ -30,7 +30,6 @@ import com.google.gerrit.client.reviewdb.Branch;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.ChangeApproval;
 import com.google.gerrit.client.reviewdb.ChangeMessage;
-import com.google.gerrit.client.reviewdb.ContactInformation;
 import com.google.gerrit.client.reviewdb.ContributorAgreement;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.PatchSetInfo;
@@ -223,11 +222,10 @@ class Receive extends AbstractGitCommand {
     }
 
     if (bestCla != null && bestCla.isRequireContactInformation()) {
-      final ContactInformation info = userAccount.getContactInformation();
       boolean fail = false;
       fail |= missing(userAccount.getFullName());
       fail |= missing(userAccount.getPreferredEmail());
-      fail |= info == null || missing(info.getAddress());
+      fail |= !userAccount.isContactFiled();
 
       if (fail) {
         final StringBuilder msg = new StringBuilder();

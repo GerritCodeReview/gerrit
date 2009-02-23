@@ -1,0 +1,172 @@
+Gerrit2 - Contact Information
+=============================
+
+To help ensure contributor privacy, but still support gathering of
+contributor agreements as necessary, Gerrit encrypts all offline
+contact information gathered from users.  This data is shipped to
+another server, typically at a different location, to make it more
+difficult for an attacker to obtain.
+
+This feature is optional.  If the crypto APIs aren't installed
+and the `contact_store_url` column in `system_config` is left
+NULL, Gerrit will not collect contact information from users.
+
+
+Setup
+-----
+
+Ensure Bouncy Castle Crypto API is available in the web application's
+CLASSPATH (e.g. in `'JETTY_HOME'/lib/plus` for Jetty).  Gerrit needs
+both `bcprov-jdk\*-*.jar` and `bcpg-jdk\*-*.jar` to be provided
+for the contact encryption to work.
+
+* link:http://www.bouncycastle.org/latest_releases.html[Bouncy Castle Crypto API]
+
+Ensure a proper JCE policy file is installed.  By default most
+JRE installations forbid the use of a strong key, resulting in
+SecurityException messages when trying to encrypt the contact data.
+You need to obtain a strong JCE policy file and install it by hand.
+Look for the 'Unlimited Strength Jurisdiction Policy' download.
+
+* link:http://java.sun.com/javase/downloads/index.jsp[Java SE Downloads]
+
+Create a public/private key pair for contact data handling.
+Generate the keys on a protected system, where the resulting
+private key is unlikely to fall into the wrong hands.
+
+====
+  gpg --gen-key
+====
+
+Select to use a `DSA and Elgamal` key type, as the public key will
+be used for data encryption.
+
+The information chosen for name, email and comment fields can be
+anything reasonable which would identify the contact store of this
+Gerrit instance.  It is probably a good idea to not use a real
+person's name here, but instead some sort of organizational role.
+The actual values chosen don't matter later, and are only to help
+document the purpose of the key.
+
+Chose a fairly long expiration period, such as 20 years.  For most
+Gerrit instances, contact data will be written once, and rarely,
+if ever, read back.
+
+Export the public key for Gerrit to use during encryption.  The
+public key must be stored in a file called `contact_information.pub`
+and reside inside of the `site_config` directory.  Armoring it
+during export makes it easier to transport between systems, as
+you can easily copy-and-paste the text.  Gerrit can read both the
+armored and unarmored formats.
+
+====
+  gpg --export --armor KEYEMAIL >$site_config/contact_information.pub
+====
+
+Consider storing the private key with some sort of key escrow
+service within your organization.  Without the private key it
+is impossible to recover contact records.
+
+Install a contact store implementation somewhere to receive
+the contact records.  To be really paranoid, Gerrit always
+ships the data to another HTTP server, preferrably over HTTPS.
+Existing open-source server implementations can be found in the
+gerrit-contactstore project.
+
+* link:http://android.git.kernel.org/?p=tools/gerrit-contactstore.git[gerrit-contactstore]
+
+Configure the `system_config` table with the contact store's URL
+(in field `contact_store_url`), and if needed, APPSEC value (in
+field `contact_store_appsec`).
+
+
+Contact Store Protocol
+----------------------
+
+To implement a new contact store, the following details are useful.
+
+Gerrit connects to the contact store by sending a standard
+HTTP POST request to the store URL (the exact URL that is in
+`contact_store_url` in the `system_config` table), with the
+following form parameters in the body:
+
+* APPSEC
++
+A shared secret "password" that should be known only to Gerrit
+and the contact store.  The contact store should test this value to
+deter spamming of the contact store by outside parties.  Gerrit reads
+this from `system_config` in the `contact_store_appsec` field.
+
+* account_id
++
+Unique account_id value from the Gerrit database for the account
+the contact information belongs to.  Base 10 integer.
+
+* email
++
+Preferred email address of the account.  May facilitate lookups in
+the contact store at a future date.  May be omitted or the empty
+string if the user hasn't chosen a preferred email.
+
+* filed
++
+Seconds since the UNIX epoch of when the contact information
+was filed.  May be omitted or the empty string if the application
+doesn't think the supplied contact information is valid enough.
+
+* data
++
+Encrypted account data as an armored ASCII blob.  This is usually
+several KB of text data as a single string, with embedded newlines
+to break the lines at about 70-75 characters.  Data can be decoded
+using GnuPG with the correct private key.
+
+Upon successful store, the contact store application should respond
+with HTTP status code `200` and a body consisting only of `OK`
+(or `OK\n`).  Any other response code or body is considered to be
+a failure by Gerrit.
+
+Using `https://` for the store URL is *highly* encouraged, as it
+prevents man-in-the-middle attacks from reading the shared secret
+APPSEC token, or messing with the data field.
+
+
+
+[[upgrade_203]]
+Upgrading From Gerrit 2.0.3 (or Earlier)
+----------------------------------------
+
+To upgrade from schema 4 (Gerrit 2.0.3 and earlier) to schema 5
+(Gerrit 2.0.4 and later), run the following sequence.
+
+Replace `your-appid` with the Google App Engine application id of
+your contact store application, and `APPSEC` with the value compiled
+into the application when it was uploaded.
+
+The use of Google App Engine isn't required.  It is relatively easy
+to create another web service to receive the application data,
+and point the `contact_store_url` at that server.  See above for
+more details about the form data posted.
+
+====
+  git clone git://android.git.kernel.org/tools/gerrit-contactstore.git
+  cd gerrit-contactstore/google_appengine
+  make update APPID=your-appid
+
+  gpg --export --armor KEYEMAIL >$site_config/contact_information.pub
+
+  java -jar gerrit.war --cat sql/upgrade004_005_part1.sql | psql reviewdb
+  psql -c "UPDATE system_config SET contact_store_url = 'https://your-appid.appspot.com/store'" reviewdb
+  psql -c "UPDATE system_config SET contact_store_appsec = 'APPSEC'" reviewdb
+  java -DGerritServer=GerritServer.properties -cp bcprov-jdk15-141.jar:bcpg-jdk15-141.jar:gerrit.war ExecutableWarMain EncryptContactInfo
+====
+
+It may be a good idea to delay part2.sql until after the existing
+contact information has been archived and has been verified to be
+readable.  The part2 script simply drops the old contact columns
+from the `accounts` table.
+
+====
+  java -jar gerrit.war --cat sql/upgrade004_005_part2.sql | psql reviewdb
+====
+

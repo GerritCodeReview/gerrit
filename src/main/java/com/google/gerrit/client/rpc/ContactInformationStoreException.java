@@ -1,4 +1,4 @@
-// Copyright 2008 Google Inc.
+// Copyright 2009 Google Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,14 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.account;
+package com.google.gerrit.client.rpc;
 
-import com.google.gwt.i18n.client.Messages;
+/** Error indicating the server cannot store contact information. */
+public class ContactInformationStoreException extends Exception {
+  public static final String MESSAGE = "Cannot store contact information";
 
-import java.util.Date;
+  public ContactInformationStoreException() {
+    super(MESSAGE);
+  }
 
-public interface AccountMessages extends Messages {
-  String lines(short cnt);
-  String enterIAGREE(String iagree);
-  String contactOnFile(Date lastDate);
+  public ContactInformationStoreException(final Throwable why) {
+    super(MESSAGE, why);
+  }
 }

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.account;
 
+import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountExternalId;
 import com.google.gerrit.client.reviewdb.AccountSshKey;
 import com.google.gerrit.client.reviewdb.ContactInformation;
@@ -42,7 +43,7 @@ public interface AccountSecurity extends RemoteJsonService {
 
   @SignInRequired
   void updateContact(String fullName, String emailAddr,
-      ContactInformation info, AsyncCallback<VoidResult> callback);
+      ContactInformation info, AsyncCallback<Account> callback);
 
   @SignInRequired
   void enterAgreement(ContributorAgreement.Id id,

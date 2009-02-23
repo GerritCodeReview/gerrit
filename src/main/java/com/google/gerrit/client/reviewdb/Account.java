@@ -122,9 +122,9 @@ public final class Account {
   @Column
   protected boolean showSiteHeader;
 
-  /** Non-Internet based contact details for the account's owner. */
+  /** When did the user last give us contact information? Null if never. */
   @Column(notNull = false)
-  protected ContactInformation contact;
+  protected Timestamp contactFiledOn;
 
   protected Account() {
   }
@@ -199,11 +199,15 @@ public final class Account {
     showSiteHeader = b;
   }
 
-  public ContactInformation getContactInformation() {
-    return contact;
+  public boolean isContactFiled() {
+    return contactFiledOn != null;
   }
 
-  public void setContactInformation(final ContactInformation i) {
-    contact = i;
+  public Timestamp getContactFiledOn() {
+    return contactFiledOn;
+  }
+
+  public void setContactFiled() {
+    contactFiledOn = new Timestamp(System.currentTimeMillis());
   }
 }

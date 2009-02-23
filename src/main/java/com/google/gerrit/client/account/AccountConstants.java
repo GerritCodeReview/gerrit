@@ -64,6 +64,7 @@ public interface AccountConstants extends Constants {
 
   String contactFieldFullName();
   String contactFieldEmail();
+  String contactPrivacyDetailsHtml();
   String contactFieldAddress();
   String contactFieldCountry();
   String contactFieldPhone();

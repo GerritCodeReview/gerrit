@@ -24,6 +24,7 @@ import com.google.gerrit.client.reviewdb.ContributorAgreement;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.BaseServiceImplementation;
 import com.google.gerrit.client.rpc.Common;
+import com.google.gerrit.client.rpc.ContactInformationStoreException;
 import com.google.gerrit.client.rpc.InvalidSshKeyException;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gerrit.server.ssh.SshUtil;
@@ -140,16 +141,28 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
   }
 
   public void updateContact(final String fullName, final String emailAddr,
-      final ContactInformation info, final AsyncCallback<VoidResult> callback) {
-    run(callback, new Action<VoidResult>() {
-      public VoidResult run(ReviewDb db) throws OrmException {
+      final ContactInformation info, final AsyncCallback<Account> callback) {
+    run(callback, new Action<Account>() {
+      public Account run(ReviewDb db) throws OrmException, Failure {
         final Account me = db.accounts().get(Common.getAccountId());
         me.setFullName(fullName);
         me.setPreferredEmail(emailAddr);
-        me.setContactInformation(info);
+        if (Common.getGerritConfig().isUseContactInfo()) {
+          if (ContactInformation.hasAddress(info)
+              || (me.isContactFiled() && ContactInformation.hasData(info))) {
+            me.setContactFiled();
+          }
+          if (ContactInformation.hasData(info)) {
+            try {
+              EncryptedContactStore.store(me, info);
+            } catch (ContactInformationStoreException e) {
+              throw new Failure(e);
+            }
+          }
+        }
         db.accounts().update(Collections.singleton(me));
         Common.getAccountCache().invalidate(me.getId());
-        return VoidResult.INSTANCE;
+        return me;
       }
     });
   }

@@ -24,15 +24,16 @@ Google Web Toolkit:
 Apache Maven:
 
 * http://maven.apache.org/download.html[Download]
-* http://maven.apache.org/run-maven/index.html[Running Maven]
-
-Apache SSHD:
-
-* http://mina.apache.org/sshd/[Apache SSHD]
+* http://maven.apache.org/run-maven/index.html[Running]
 
 PostgreSQL:
 
+* http://www.postgresql.org/download/[Download]
 * http://www.postgresql.org/docs/[Documentation]
+
+Apache SSHD:
+
+* http://mina.apache.org/sshd/[SSHD]
 
 
 Setting up the Database

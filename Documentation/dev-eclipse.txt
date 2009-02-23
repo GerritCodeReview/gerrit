@@ -37,22 +37,6 @@ Install the Maven Integration plugins:
 http://m2eclipse.codehaus.org/[m2eclipse]
 
 
-Pre-Build
----------
-
-Ensure jgit has been installed in your maven repository:
-
-====
-  (cd ../jgit/jgit-maven/jgit/ && mvn install)
-====
-
-Ensure sshd has been installed in your maven repository:
-
-====
-  (cd ../sshd/ && mvn install)
-====
-
-
 Import Projects
 ---------------
 

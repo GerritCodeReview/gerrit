@@ -41,20 +41,12 @@ Maven from a source download obtained directly from Git:
   cd gerrit2
   repo init -u git://android.git.kernel.org/tools/manifest.git
 
-  (cd jgit/jgit-maven/jgit && mvn install)
-  (cd sshd && mvn install)
-
   mvn clean package
   cp target/gerrit-*.war ...YOUR.DEST.../gerrit.war
 ====
 
 The first build may take a while as dependencies are searched
 for and downloaded from Maven distribution repositories.
-
-Unfortunately you need to install snapshots of both JGit and
-SSHD to your local Maven repository (typically under `~/.m2`).
-These core dependencies are still under active development and have
-not made final releases yet.
 
 Apache Maven:
 

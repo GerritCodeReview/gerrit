@@ -463,7 +463,7 @@ limitations under the License.
     <dependency>
       <groupId>org.apache.sshd</groupId>
       <artifactId>sshd</artifactId>
-      <version>1.0-SNAPSHOT</version>
+      <version>1.0-r742884</version>
       <scope>compile</scope>
     </dependency>
 
@@ -491,7 +491,7 @@ limitations under the License.
     <dependency>
       <groupId>org.spearce</groupId>
       <artifactId>jgit</artifactId>
-      <version>0.4-SNAPSHOT</version>
+      <version>0.4.0-204-g0aae0d8</version>
       <scope>compile</scope>
     </dependency>
 
@@ -578,8 +578,8 @@ limitations under the License.
     </repository>
 
     <repository>
-      <id>jgit-snapshot-repository</id>
-      <url>http://egit.googlecode.com/svn/maven/snapshot-repository/</url>
+      <id>jgit-repository</id>
+      <url>http://egit.googlecode.com/svn/maven/</url>
     </repository>
 
     <repository>

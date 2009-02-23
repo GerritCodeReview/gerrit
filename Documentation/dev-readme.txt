@@ -88,19 +88,6 @@ see link:dev-eclipse.html[Eclipse Setup] for more details on how
 to configure your workspace.
 
 
-Dependencies
-------------
-
-You need to ensure all dependencies have been installed into your
-local maven repository if Gerrit is relying on snapshots and not
-release versions of them.
-
-====
-  (cd ../jgit/jgit-maven/jgit && mvn clean install)
-  (cd ../sshd && mvn clean install)
-====
-
-
 Building
 --------
 

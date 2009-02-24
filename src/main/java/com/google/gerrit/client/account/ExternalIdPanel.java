@@ -17,6 +17,7 @@ package com.google.gerrit.client.account;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.SignInDialog;
 import com.google.gerrit.client.reviewdb.AccountExternalId;
+import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gwt.user.client.ui.Button;
@@ -33,21 +34,24 @@ import java.util.List;
 class ExternalIdPanel extends Composite {
   private IdTable identites;
 
-  private Button linkIdentity;
-
   ExternalIdPanel() {
     final FlowPanel body = new FlowPanel();
 
     identites = new IdTable();
     body.add(identites);
 
-    linkIdentity = new Button(Util.C.buttonLinkIdentity());
-    linkIdentity.addClickListener(new ClickListener() {
-      public void onClick(final Widget sender) {
-        doLinkIdentity();
+    switch (Common.getGerritConfig().getLoginType()) {
+      case OPENID: {
+        final Button linkIdentity = new Button(Util.C.buttonLinkIdentity());
+        linkIdentity.addClickListener(new ClickListener() {
+          public void onClick(final Widget sender) {
+            doLinkIdentity();
+          }
+        });
+        body.add(linkIdentity);
+        break;
       }
-    });
-    body.add(linkIdentity);
+    }
 
     initWidget(body);
   }

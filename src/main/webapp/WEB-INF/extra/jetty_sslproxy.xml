@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Configure PUBLIC "-//Mort Bay Consulting//DTD Configure//EN" "http://jetty.mortbay.org/configure.dtd">
+<!--
+
+  Jetty configuration to correctly handle SSL/HTTPS traffic when
+  Apache is handling the SSL and proxying over plain HTTP to us.
+
+  Requires Jetty 6.1.12 (or later) or 7.0.0pre3 (or later).
+
+  * Copy this file to $JETTY_HOME/etc/jetty_sslproxy.xml
+  * Add jetty_sslproxy to your start line:
+
+      $JETTY_HOME/bin/jetty.sh start jetty-logging jetty jetty_sslproxy
+
+  * Configure Apache to set X-Forwarded-Scheme on requests:
+
+      RequestHeader set X-Forwarded-Scheme https
+
+-->
+<Configure id="Server" class="org.mortbay.jetty.Server">
+  <Get id="oldHandler" name="handler"/>
+  <Set name="handler">
+    <New class="org.mortbay.jetty.handler.rewrite.RewriteHandler">
+      <Set name="handler"><Ref id="oldHandler"/></Set>
+      <Set name="rules">
+        <Array type="org.mortbay.jetty.handler.rewrite.Rule">
+          <Item>
+            <New class="org.mortbay.jetty.handler.rewrite.ForwardedSchemeHeaderRule">
+              <Set name="header">X-Forwarded-Scheme</Set>
+              <Set name="headerValue">https</Set>
+              <Set name="scheme">https</Set>
+            </New>
+          </Item>
+        </Array>
+      </Set>
+    </New>
+  </Set>
+</Configure>

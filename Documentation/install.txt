@@ -249,19 +249,47 @@ script such as the following in `/etc/init.d/gerrit2-jetty`
   JAVA_OPTIONS=""
   JAVA_OPTIONS="$JAVA_OPTIONS -Djetty.host=$JETTY_HOST"
   export JAVA_OPTIONS
-  
-  exec $JETTY_HOME/bin/jetty.sh "$@"
-====
 
-To deploy on port 80, or to use SSL, you should configure Jetty
-to listen on another port, such as 127.0.0.1:8081 (like the start
-script above does) and then follow the <<apache2,reverse proxy>>
-section below.
+  C="jetty-logging jetty"
+  [ -f "$JETTY_HOME/etc/jetty_sslproxy.xml" ] && C="$C jetty_sslproxy"
+  
+  exec $JETTY_HOME/bin/jetty.sh "$@" $C
+====
 
 [TIP]
 Under Jetty, restarting the web application (e.g. after modifying
 `system_config`) is as simple as touching the config file:
 `$JETTY_HOME/contexts/gerrit.xml`
+
+Port 80
+^^^^^^^
+
+To deploy on port 80, you should configure Jetty to listen on another
+port, such as 127.0.0.1:8081 (like the start script above does)
+and then follow the <<apache2,reverse proxy>> section below.
+
+Port 443 (HTTPS / SSL)
+^^^^^^^^^^^^^^^^^^^^^^
+
+To deploy on port 443 with SSL enabled, unpack the SSL proxy handling
+rule into `$JETTY_HOME`:
+====
+  java -jar gerrit.war --cat extra/jetty_sslproxy.xml >$JETTY_HOME/etc/jetty_sslproxy.xml
+====
+
+Create a start script like the one above, configuring Jetty to
+listen on another port, such as 127.0.0.1:8081.
+
+Set `canonical_url` in `system_config` to an `https://` style URL
+for your application, so that non-SSL connections are automatically
+upgraded to SSL by issuing a redirect.  Gerrit does not currently
+support a dual http/https usage on the same site as it doesn't
+know when to upgrade a non-secure connection to a secure one if
+data needs to be protected.
+
+Follow the <<apache2,reverse proxy>> section below to setup an
+Apache2 server to handle SSL for Jetty.
+
 
 Other Servlet Containers
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -286,6 +314,7 @@ You may need to download and install the Java Mail JARs in your
 container's classpath.  If this is not configured, Gerrit will
 function, but will not be able to send email.
 
+
 [[apache2]]
 Apache2 Reverse Proxy
 ~~~~~~~~~~~~~~~~~~~~~
@@ -295,6 +324,9 @@ Enable the necessary Apache2 modules:
 ====
   a2enmod proxy_http
   a2enmod disk_cache   ; # optional, but helps performance
+
+  a2enmod ssl          ; # optional, needed for HTTPS / SSL
+  a2enmod headers      ; # optional, needed for HTTPS / SSL
 ====
 
 then setup a VirtualHost to proxy to Gerrit's servlet container,
@@ -322,7 +354,36 @@ in your servlet container's configuration:
 	</VirtualHost>
 =======================================
 
-To enable SSL, see the Apache server documentation.
+if you are using SSL with a Jetty container:
+
+====
+	<VirtualHost *:443>
+	  ServerName review.example.com
+	#
+	  SSLEngine on
+	  SSLCertificateFile    conf/server.crt
+	  SSLCertificateKeyFile conf/server.key
+	#
+	  ProxyRequests Off
+	  ProxyVia Off
+	  ProxyPreserveHost On
+	  ProxyPass / http://127.0.0.1:8081/
+	  RequestHeader set X-Forwarded-Scheme https
+	#
+	  <IfModule mod_disk_cache.c>
+		CacheEnable disk /
+		CacheIgnoreHeaders Set-Cookie
+	  </IfModule>
+	</VirtualHost>
+====
+
+See the Apache `mod_ssl` documentation for more details on how to
+configure SSL within the server, like controlling how strong of an
+encryption algorithm is required.
+
+For Gerrit, the only difference between plain HTTP and HTTPS is
+adding the "`RequestHeader set X-Forwarded-Scheme https`" line
+within the SSL enabled virtual host.
 
 
 Administrator Setup

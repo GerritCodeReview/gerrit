@@ -101,6 +101,15 @@ Output WAR will be placed in:
   target/gerrit-*.war
 ====
 
+When debugging browser specific issues use gwtStyle `DETAILED` so
+the resulting JavaScript more closely matches the Java sources.
+For example, this can help narrow down what code line 30,400 in
+the JavaScript happens to be.
+
+====
+  mvn package -DgwtStyle=DETAILED
+====
+
 
 Client-Server RPC
 -----------------

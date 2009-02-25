@@ -254,6 +254,7 @@ limitations under the License.
 
   <properties>
     <gwtVersion>1.5.3</gwtVersion>
+    <gwtStyle>OBF</gwtStyle>
   </properties>
 
   <build>
@@ -292,6 +293,7 @@ limitations under the License.
           <noServer>false</noServer>
           <extraJvmArgs>-Xmx512m</extraJvmArgs>
           <gwtVersion>${gwtVersion}</gwtVersion>
+          <style>${gwtStyle}</style>
         </configuration>
         <executions>
           <execution>

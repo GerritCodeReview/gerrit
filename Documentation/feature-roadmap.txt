@@ -4,7 +4,7 @@ Gerrit2 Feature Roadmap
 Aside from the items listed here, see also the main issue tracker
 for Gerrit:
 
-* link:http://jira.source.android.com/jira/browse/GERRIT[Issue Tracking]
+* link:http://code.google.com/p/gerrit/wiki/Issues?tm=3[Issue Tracking]
 
 Offline Support
 ---------------

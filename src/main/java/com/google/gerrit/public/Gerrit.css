@@ -682,6 +682,11 @@
   color: red;
   font-weight: bold;
 }
+.gerrit-Identity-UntrustedExternalId {
+  white-space: nowrap;
+  color: red;
+  font-weight: bold;
+}
 
 .gerrit-AccountInfoBlock {
   margin-bottom: 10px;

@@ -51,8 +51,10 @@ public interface AccountConstants extends Constants {
   String invalidSshKeyError();
 
   String webIdLastUsed();
+  String webIdStatus();
   String webIdEmail();
   String webIdIdentity();
+  String untrustedProvider();
   String buttonDeleteIdentity();
   String buttonLinkIdentity();
 

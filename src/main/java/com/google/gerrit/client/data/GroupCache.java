@@ -222,13 +222,13 @@ public class GroupCache {
       default:
         // Validate against the trusted provider list
         //
-        return TrustedExternalId.isIdentityTrustable(getTrustedIds(db), db
-            .accountExternalIds().byAccount(accountId));
+        return TrustedExternalId.isIdentityTrustable(getTrustedExternalIds(db),
+            db.accountExternalIds().byAccount(accountId));
     }
   }
 
-  private synchronized List<TrustedExternalId> getTrustedIds(final ReviewDb db)
-      throws OrmException {
+  public synchronized List<TrustedExternalId> getTrustedExternalIds(
+      final ReviewDb db) throws OrmException {
     if (trustedIds == null) {
       trustedIds =
           Collections.unmodifiableList(db.trustedExternalIds().all().toList());

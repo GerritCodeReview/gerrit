@@ -53,7 +53,7 @@ public final class TrustedExternalId {
     return true;
   }
 
-  private static boolean isTrusted(final AccountExternalId id,
+  public static boolean isTrusted(final AccountExternalId id,
       final Collection<TrustedExternalId> trusted) {
     if (id.getExternalId().startsWith("Google Account ")) {
       // Assume this is a trusted token, its a legacy import from

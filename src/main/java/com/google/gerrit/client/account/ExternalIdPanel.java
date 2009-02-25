@@ -31,7 +31,6 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 class ExternalIdPanel extends Composite {
@@ -86,20 +85,20 @@ class ExternalIdPanel extends Composite {
   }
 
   private void refresh() {
-    Util.ACCOUNT_SEC
-        .myExternalIds(new GerritCallback<List<AccountExternalId>>() {
-          public void onSuccess(final List<AccountExternalId> result) {
-            identites.display(result);
-            identites.finishDisplay(true);
-          }
-        });
+    Util.ACCOUNT_SEC.myExternalIds(new GerritCallback<ExternalIdDetail>() {
+      public void onSuccess(final ExternalIdDetail result) {
+        identites.display(result);
+        identites.finishDisplay(true);
+      }
+    });
   }
 
   private class IdTable extends FancyFlexTable<AccountExternalId> {
     IdTable() {
       table.setText(0, 2, Util.C.webIdLastUsed());
-      table.setText(0, 3, Util.C.webIdEmail());
-      table.setText(0, 4, Util.C.webIdIdentity());
+      table.setText(0, 3, Util.C.webIdStatus());
+      table.setText(0, 4, Util.C.webIdEmail());
+      table.setText(0, 5, Util.C.webIdIdentity());
       table.addTableListener(new TableListener() {
         public void onCellClicked(SourcesTableEvents sender, int row, int cell) {
           if (cell != 1 && getRowItem(row) != null) {
@@ -113,6 +112,7 @@ class ExternalIdPanel extends Composite {
       fmt.addStyleName(0, 2, S_DATA_HEADER);
       fmt.addStyleName(0, 3, S_DATA_HEADER);
       fmt.addStyleName(0, 4, S_DATA_HEADER);
+      fmt.addStyleName(0, 5, S_DATA_HEADER);
     }
 
     @Override
@@ -189,15 +189,16 @@ class ExternalIdPanel extends Composite {
       }
     }
 
-    void display(final List<AccountExternalId> result) {
+    void display(final ExternalIdDetail result) {
       while (1 < table.getRowCount())
         table.removeRow(table.getRowCount() - 1);
 
-      for (final AccountExternalId k : result) {
-        addOneId(k);
+      for (final AccountExternalId k : result.getIds()) {
+        addOneId(k, result);
       }
 
-      final AccountExternalId mostRecent = AccountExternalId.mostRecent(result);
+      final AccountExternalId mostRecent =
+          AccountExternalId.mostRecent(result.getIds());
       if (mostRecent != null) {
         for (int row = 1; row < table.getRowCount(); row++) {
           if (getRowItem(row) == mostRecent) {
@@ -212,7 +213,8 @@ class ExternalIdPanel extends Composite {
       }
     }
 
-    void addOneId(final AccountExternalId k) {
+    void addOneId(final AccountExternalId k, final ExternalIdDetail detail) {
+      final FlexCellFormatter fmt = table.getFlexCellFormatter();
       final int row = table.getRowCount();
       table.insertRow(row);
       applyDataRowStyle(row);
@@ -227,15 +229,21 @@ class ExternalIdPanel extends Composite {
       } else {
         table.setHTML(row, 2, "&nbsp;");
       }
-      table.setText(row, 3, k.getEmailAddress());
-      table.setText(row, 4, k.getExternalId());
+      if (detail.isTrusted(k)) {
+        table.setHTML(row, 3, "&nbsp;");
+      } else {
+        table.setText(row, 3, Util.C.untrustedProvider());
+        fmt.addStyleName(row, 3, "gerrit-Identity-UntrustedExternalId");
+      }
+      table.setText(row, 4, k.getEmailAddress());
+      table.setText(row, 5, k.getExternalId());
 
-      final FlexCellFormatter fmt = table.getFlexCellFormatter();
       fmt.addStyleName(row, 1, S_ICON_CELL);
       fmt.addStyleName(row, 2, S_DATA_CELL);
-      fmt.addStyleName(row, 2, "C_LAST_UPDATE");
       fmt.addStyleName(row, 3, S_DATA_CELL);
+      fmt.addStyleName(row, 3, "C_LAST_UPDATE");
       fmt.addStyleName(row, 4, S_DATA_CELL);
+      fmt.addStyleName(row, 5, S_DATA_CELL);
 
       setRowItem(row, k);
     }

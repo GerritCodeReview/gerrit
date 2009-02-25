@@ -15,6 +15,7 @@
 package com.google.gerrit.server;
 
 import com.google.gerrit.client.account.AccountSecurity;
+import com.google.gerrit.client.account.ExternalIdDetail;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountAgreement;
 import com.google.gerrit.client.reviewdb.AccountExternalId;
@@ -23,6 +24,7 @@ import com.google.gerrit.client.reviewdb.ContactInformation;
 import com.google.gerrit.client.reviewdb.ContributorAgreement;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.SystemConfig;
+import com.google.gerrit.client.reviewdb.TrustedExternalId;
 import com.google.gerrit.client.rpc.BaseServiceImplementation;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.ContactInformationStoreException;
@@ -135,11 +137,15 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
     });
   }
 
-  public void myExternalIds(AsyncCallback<List<AccountExternalId>> callback) {
-    run(callback, new Action<List<AccountExternalId>>() {
-      public List<AccountExternalId> run(ReviewDb db) throws OrmException {
+  public void myExternalIds(AsyncCallback<ExternalIdDetail> callback) {
+    run(callback, new Action<ExternalIdDetail>() {
+      public ExternalIdDetail run(ReviewDb db) throws OrmException {
         final Account.Id me = Common.getAccountId();
-        return db.accountExternalIds().byAccount(me).toList();
+        final List<TrustedExternalId> trusted =
+            Common.getGroupCache().getTrustedExternalIds(db);
+        final List<AccountExternalId> myIds =
+            db.accountExternalIds().byAccount(me).toList();
+        return new ExternalIdDetail(myIds, trusted);
       }
     });
   }

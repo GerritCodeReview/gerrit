@@ -217,11 +217,12 @@ class ContactPanel extends Composite {
       }
     });
     Util.ACCOUNT_SEC
-        .myExternalIds(new GerritCallback<List<AccountExternalId>>() {
-          public void onSuccess(final List<AccountExternalId> result) {
+        .myExternalIds(new GerritCallback<ExternalIdDetail>() {
+          public void onSuccess(final ExternalIdDetail detail) {
             if (!isAttached()) {
               return;
             }
+            final List<AccountExternalId> result = detail.ids;
             final Set<String> emails = new HashSet<String>();
             for (final AccountExternalId i : result) {
               if (i.getEmailAddress() != null

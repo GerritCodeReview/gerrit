@@ -15,6 +15,7 @@
 package com.google.gerrit.client.ui;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.DeferredCommand;
@@ -38,6 +39,9 @@ import java.util.Map.Entry;
 
 public abstract class FancyFlexTable<RowItem> extends Composite implements
     HasFocus {
+  private static final FancyFlexTableImpl impl =
+      GWT.create(FancyFlexTableImpl.class);
+
   protected static final String MY_STYLE = "gerrit-ChangeTable";
   protected static final String S_ICON_HEADER = "IconHeader";
   protected static final String S_DATA_HEADER = "DataHeader";
@@ -111,7 +115,7 @@ public abstract class FancyFlexTable<RowItem> extends Composite implements
       i.next();
       i.remove();
     }
-    DOM.setInnerHTML(table.getBodyElement(), body);
+    impl.resetHtml(table, body);
   }
 
   protected boolean onKeyPress(final char keyCode, final int modifiers) {
@@ -276,10 +280,6 @@ public abstract class FancyFlexTable<RowItem> extends Composite implements
   }
 
   protected static class MyFlexTable extends FlexTable {
-    @Override
-    public Element getBodyElement() {
-      return super.getBodyElement();
-    }
   }
 
   private static final native <ItemType> void setRowItem(Element td, ItemType c)/*-{ td["__gerritRowItem"] = c; }-*/;

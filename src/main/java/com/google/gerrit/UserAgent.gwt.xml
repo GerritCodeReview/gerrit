@@ -1,14 +1,15 @@
 <module>
-  <!-- openid.AllowFrameImpl -->
-    <replace-with class="com.google.gerrit.client.openid.AllowFrameImplSafari">
-      <when-type-is class="com.google.gerrit.client.openid.AllowFrameImpl" />
-      <any>
-        <when-property-is name="user.agent" value="safari"/>
-      </any>
-    </replace-with>
+   <replace-with class="com.google.gerrit.client.openid.AllowFrameImplSafari">
+     <when-type-is class="com.google.gerrit.client.openid.AllowFrameImpl" />
+     <any>
+       <when-property-is name="user.agent" value="safari"/>
+     </any>
+   </replace-with>
 
-    <replace-with class="com.google.gerrit.client.openid.AllowFrameImpl">
-      <when-type-is class="com.google.gerrit.client.openid.AllowFrameImpl"/>
-    </replace-with>
-  <!-- /openid.AllowFrameImpl -->
+   <replace-with class="com.google.gerrit.client.ui.FancyFlexTableImplIE6">
+     <when-type-is class="com.google.gerrit.client.ui.FancyFlexTableImpl" />
+     <any>
+       <when-property-is name="user.agent" value="ie6"/>
+     </any>
+   </replace-with>
 </module>

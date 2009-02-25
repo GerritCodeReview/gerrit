@@ -14,10 +14,12 @@
 
 package com.google.gerrit.client.reviewdb;
 
+import com.google.gerrit.client.rpc.Common;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.StringKey;
 
 import java.sql.Timestamp;
+import java.util.Collection;
 
 /** Association of an external account identifier to a local {@link Account}. */
 public final class AccountExternalId {
@@ -51,6 +53,37 @@ public final class AccountExternalId {
     protected void set(String newValue) {
       externalId = newValue;
     }
+  }
+
+  /**
+   * Select the most recently used identity from a list of identities.
+   * 
+   * @param all all known identities
+   * @return most recently used login identity; null if none matches.
+   */
+  public static AccountExternalId mostRecent(Collection<AccountExternalId> all) {
+    AccountExternalId mostRecent = null;
+    for (final AccountExternalId e : all) {
+      final Timestamp lastUsed = e.getLastUsedOn();
+      if (lastUsed == null) {
+        // Identities without logins have never been used, so
+        // they can't be the most recent.
+        //
+        continue;
+      }
+
+      if (e.getExternalId().startsWith("mailto:")) {
+        // Don't ever consider an email address as a "recent login"
+        //
+        continue;
+      }
+
+      if (mostRecent == null
+          || lastUsed.getTime() > mostRecent.getLastUsedOn().getTime()) {
+        mostRecent = e;
+      }
+    }
+    return mostRecent;
   }
 
   @Column(name = Column.NONE)
@@ -101,5 +134,29 @@ public final class AccountExternalId {
 
   public void setLastUsedOn() {
     lastUsedOn = new Timestamp(System.currentTimeMillis());
+  }
+
+  public boolean canUserDelete() {
+    switch (Common.getGerritConfig().getLoginType()) {
+      case OPENID:
+        if (getExternalId().startsWith("Google Account ")) {
+          // Don't allow users to delete legacy google account tokens.
+          // Administrators will do it when cleaning the database.
+          //
+          return false;
+        }
+        break;
+
+      case HTTP:
+        if (getExternalId().startsWith("gerrit:")) {
+          // Don't allow users to delete a gerrit: token, as this is
+          // a Gerrit generated value for single-sign-on configurations
+          // not using OpenID.
+          //
+          return false;
+        }
+        break;
+    }
+    return true;
   }
 }

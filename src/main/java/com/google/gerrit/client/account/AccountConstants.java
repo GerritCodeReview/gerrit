@@ -53,6 +53,7 @@ public interface AccountConstants extends Constants {
   String webIdLastUsed();
   String webIdEmail();
   String webIdIdentity();
+  String buttonDeleteIdentity();
   String buttonLinkIdentity();
 
   String watchedProjects();

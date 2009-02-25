@@ -22,6 +22,7 @@ import com.google.gerrit.client.reviewdb.AccountSshKey;
 import com.google.gerrit.client.reviewdb.ContactInformation;
 import com.google.gerrit.client.reviewdb.ContributorAgreement;
 import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gerrit.client.reviewdb.SystemConfig;
 import com.google.gerrit.client.rpc.BaseServiceImplementation;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.ContactInformationStoreException;
@@ -45,9 +46,12 @@ import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.mail.Message;
@@ -136,6 +140,62 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
       public List<AccountExternalId> run(ReviewDb db) throws OrmException {
         final Account.Id me = Common.getAccountId();
         return db.accountExternalIds().byAccount(me).toList();
+      }
+    });
+  }
+
+  public void deleteExternalIds(final Set<AccountExternalId.Key> keys,
+      final AsyncCallback<Set<AccountExternalId.Key>> callback) {
+    run(callback, new Action<Set<AccountExternalId.Key>>() {
+      public Set<AccountExternalId.Key> run(final ReviewDb db)
+          throws OrmException, Failure {
+        // Don't permit deletes unless they are for our own account
+        //
+        final Account.Id me = Common.getAccountId();
+        for (final AccountExternalId.Key keyId : keys) {
+          if (!me.equals(keyId.getParentKey()))
+            throw new Failure(new NoSuchEntityException());
+        }
+
+        // Determine the records we will allow the user to remove.
+        //
+        final Map<AccountExternalId.Key, AccountExternalId> all =
+            db.accountExternalIds()
+                .toMap(db.accountExternalIds().byAccount(me));
+        final AccountExternalId mostRecent =
+            AccountExternalId.mostRecent(all.values());
+        final SystemConfig.LoginType loginType =
+            Common.getGerritConfig().getLoginType();
+        final Set<AccountExternalId.Key> removed =
+            new HashSet<AccountExternalId.Key>();
+        final List<AccountExternalId> toDelete =
+            new ArrayList<AccountExternalId>();
+        for (final AccountExternalId.Key k : keys) {
+          final AccountExternalId e = all.get(k);
+          if (e == null) {
+            // Its already gone, tell the client its gone
+            //
+            removed.add(k);
+
+          } else if (e == mostRecent) {
+            // Don't delete the most recently accessed identity; the
+            // user might lock themselves out of the account.
+            //
+            continue;
+
+          } else if (e.canUserDelete()) {
+            toDelete.add(e);
+            removed.add(e.getKey());
+          }
+        }
+
+        if (!toDelete.isEmpty()) {
+          final Transaction txn = db.beginTransaction();
+          db.accountExternalIds().delete(toDelete, txn);
+          txn.commit();
+        }
+
+        return removed;
       }
     });
   }

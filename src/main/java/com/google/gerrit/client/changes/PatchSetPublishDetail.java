@@ -72,7 +72,7 @@ public class PatchSetPublishDetail {
 
   private void computeAllowed() {
     final Account.Id me = Common.getAccountId();
-    final Set<AccountGroup.Id> am = Common.getGroupCache().getGroups(me);
+    final Set<AccountGroup.Id> am = Common.getGroupCache().getEffectiveGroups(me);
     final ProjectCache.Entry pe =
         Common.getProjectCache().get(change.getDest().getParentKey());
     computeAllowed(am, pe.getRights());

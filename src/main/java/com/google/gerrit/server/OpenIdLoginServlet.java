@@ -427,6 +427,7 @@ public class OpenIdLoginServlet extends HttpServlet {
       id.setLastUsedOn();
       id.setEmailAddress(email);
       db.accountExternalIds().insert(Collections.singleton(id));
+      Common.getGroupCache().invalidate(account.getId());
     } else {
       if (email != null && !email.equals(id.getEmailAddress())) {
         id.setEmailAddress(email);

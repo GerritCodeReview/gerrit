@@ -73,7 +73,7 @@ public class ApprovalDetail {
 
   void applyProjectRights(final GroupCache groupCache,
       final Map<ApprovalCategory.Id, Collection<ProjectRight>> rights) {
-    final Set<AccountGroup.Id> groups = groupCache.getGroups(account);
+    final Set<AccountGroup.Id> groups = groupCache.getEffectiveGroups(account);
     for (final ChangeApproval a : approvals) {
       Collection<ProjectRight> l = rights.get(a.getCategoryId());
       short min = 0, max = 0;

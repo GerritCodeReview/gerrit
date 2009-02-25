@@ -107,7 +107,7 @@ abstract class AbstractCommand implements Command, SessionAware {
 
   protected Set<AccountGroup.Id> getGroups() {
     if (userGroups == null) {
-      userGroups = Common.getGroupCache().getGroups(getAccountId());
+      userGroups = Common.getGroupCache().getEffectiveGroups(getAccountId());
     }
     return userGroups;
   }

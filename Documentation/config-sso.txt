@@ -22,6 +22,36 @@ OpenID authentication services.
 
 * http://openid.net/[openid.net]
 
+In order to use permissions beyond those granted to the
+`Anonymous Users` and `Registered Users` groups, an account
+must only have OpenIDs which match at least one pattern from the
+`trusted_external_ids` table.  Patterns may be either a regular
+expression (must start with `^` and end with `$`) or be a simple
+prefix (any other string).
+
+Out of the box Gerrit is configured to trust three patterns:
+
+* `http://` -- trust all OpenID providers using the HTTP protocol
+* `https://` -- trust all OpenID providers using the HTTPS protocol
+* `https://www.google.com/accounts/o8/id?id=` -- trust Google Accounts
+
+The first two patterns trust all OpenID providers on the Internet.
+The Google specific pattern is obviously also implied by the second
+pattern (`https://`), but is inserted by default in order to permit
+securing Gerrit to trust only Google Accounts easier:
+
+====
+  DELETE FROM trusted_external_ids
+  WHERE external_id IN ('http://', 'https://');
+====
+
+After making changes to `trusted_external_ids`, either restart
+Gerrit, or force a cache flush over SSH:
+
+====
+  ssh -p 29418 review.example.com gerrit flush-caches
+====
+
 Database Schema
 ~~~~~~~~~~~~~~~
 

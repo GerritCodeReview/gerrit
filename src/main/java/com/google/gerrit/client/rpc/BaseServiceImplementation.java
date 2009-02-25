@@ -106,7 +106,7 @@ public class BaseServiceImplementation {
       //
       return false;
     }
-    final Set<AccountGroup.Id> myGroups = Common.getGroupCache().getGroups(who);
+    final Set<AccountGroup.Id> myGroups = Common.getGroupCache().getEffectiveGroups(who);
     return canPerform(myGroups, e, ApprovalCategory.READ, (short) 1, true);
   }
 

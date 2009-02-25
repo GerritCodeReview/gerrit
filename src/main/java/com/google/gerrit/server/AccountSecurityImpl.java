@@ -193,6 +193,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
           final Transaction txn = db.beginTransaction();
           db.accountExternalIds().delete(toDelete, txn);
           txn.commit();
+          Common.getGroupCache().invalidate(me);
         }
 
         return removed;

@@ -177,7 +177,7 @@ public class FunctionState {
   public Set<AccountGroup.Id> getGroups(final Account.Id id) {
     Set<AccountGroup.Id> g = groupCache.get(id);
     if (g == null) {
-      g = Common.getGroupCache().getGroups(id);
+      g = Common.getGroupCache().getEffectiveGroups(id);
       groupCache.put(id, g);
     }
     return g;

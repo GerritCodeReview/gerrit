@@ -19,12 +19,14 @@ import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.AccountGroupMember;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.SystemConfig;
+import com.google.gerrit.client.reviewdb.TrustedExternalId;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gwtorm.client.OrmException;
 
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -34,7 +36,7 @@ public class GroupCache {
   private AccountGroup.Id anonymousGroupId;
   private AccountGroup.Id registeredGroupId;
   private Set<AccountGroup.Id> anonOnly;
-
+  private List<TrustedExternalId> trustedIds;
 
   private final LinkedHashMap<Account.Id, Set<AccountGroup.Id>> byAccount =
       new LinkedHashMap<Account.Id, Set<AccountGroup.Id>>(16, 0.75f, true) {
@@ -108,7 +110,7 @@ public class GroupCache {
     if (isAnonymousUsers(groupId) || isRegisteredUsers(groupId)) {
       return true;
     }
-    return getGroups(accountId).contains(groupId);
+    return getEffectiveGroups(accountId).contains(groupId);
   }
 
   /**
@@ -162,11 +164,15 @@ public class GroupCache {
 
   /**
    * Get the groups a specific account is a member of.
+   * <p>
+   * A user is only a member of groups beyond {@link #anonymousGroupId} and
+   * {@link #registeredGroupId} if their account is using only
+   * {@link TrustedExternalId}s.
    * 
    * @param accountId the account to obtain the group list for.
    * @return unmodifiable set listing the groups the account is a member of.
    */
-  public Set<AccountGroup.Id> getGroups(final Account.Id accountId) {
+  public Set<AccountGroup.Id> getEffectiveGroups(final Account.Id accountId) {
     if (accountId == null) {
       return anonOnly;
     }
@@ -183,9 +189,11 @@ public class GroupCache {
     try {
       final ReviewDb db = Common.getSchemaFactory().open();
       try {
-        for (final AccountGroupMember g : db.accountGroupMembers().byAccount(
-            accountId)) {
-          m.add(g.getAccountGroupId());
+        if (isIdentityTrustable(db, accountId)) {
+          for (final AccountGroupMember g : db.accountGroupMembers().byAccount(
+              accountId)) {
+            m.add(g.getAccountGroupId());
+          }
         }
       } finally {
         db.close();
@@ -201,10 +209,40 @@ public class GroupCache {
     return m;
   }
 
+  private boolean isIdentityTrustable(final ReviewDb db,
+      final Account.Id accountId) throws OrmException {
+    switch (Common.getGerritConfig().getLoginType()) {
+      case HTTP:
+        // Its safe to assume yes for an HTTP authentication type, as the
+        // only way in is through some external system that the admin trusts
+        //
+        return true;
+
+      case OPENID:
+      default:
+        // Validate against the trusted provider list
+        //
+        return TrustedExternalId.isIdentityTrustable(getTrustedIds(db), db
+            .accountExternalIds().byAccount(accountId));
+    }
+  }
+
+  private synchronized List<TrustedExternalId> getTrustedIds(final ReviewDb db)
+      throws OrmException {
+    if (trustedIds == null) {
+      trustedIds =
+          Collections.unmodifiableList(db.trustedExternalIds().all().toList());
+    }
+    return trustedIds;
+  }
+
   /** Force the entire group cache to flush from memory and recompute. */
   public void flush() {
     synchronized (byAccount) {
       byAccount.clear();
+    }
+    synchronized (this) {
+      trustedIds = null;
     }
   }
 }

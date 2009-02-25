@@ -251,7 +251,7 @@ public class GroupAdminServiceImpl extends BaseServiceImplementation implements
       throws OrmException {
     final Account.Id me = Common.getAccountId();
     final List<AccountGroup> own = new ArrayList<AccountGroup>();
-    for (final AccountGroup.Id groupId : Common.getGroupCache().getGroups(me)) {
+    for (final AccountGroup.Id groupId : Common.getGroupCache().getEffectiveGroups(me)) {
       for (final AccountGroup g : db.accountGroups().ownedByGroup(groupId)) {
         own.add(g);
       }

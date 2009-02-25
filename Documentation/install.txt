@@ -37,11 +37,9 @@ Alternatively, you can build the application distribution using
 Maven from a source download obtained directly from Git:
 
 ====
-  mkdir gerrit2
-  cd gerrit2
-  repo init -u git://android.git.kernel.org/tools/manifest.git
-
-  mvn clean package
+  git clone git://android.git.kernel.org/tools/gerrit.git
+  cd gerrit
+  mvn package
   cp target/gerrit-*.war ...YOUR.DEST.../gerrit.war
 ====
 
@@ -52,10 +50,6 @@ Apache Maven:
 
 * http://maven.apache.org/download.html[Download]
 * http://maven.apache.org/run-maven/index.html[Running Maven]
-
-Apache SSHD:
-
-* http://mina.apache.org/sshd/[Apache SSHD]
 
 
 Setting up the Database

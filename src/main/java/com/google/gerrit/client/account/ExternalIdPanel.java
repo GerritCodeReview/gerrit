@@ -235,7 +235,11 @@ class ExternalIdPanel extends Composite {
         table.setText(row, 3, Util.C.untrustedProvider());
         fmt.addStyleName(row, 3, "gerrit-Identity-UntrustedExternalId");
       }
-      table.setText(row, 4, k.getEmailAddress());
+      if (k.getEmailAddress() != null && k.getEmailAddress().length() > 0) {
+        table.setText(row, 4, k.getEmailAddress());
+      } else {
+        table.setHTML(row, 4, "&nbsp;");
+      }
       table.setText(row, 5, k.getExternalId());
 
       fmt.addStyleName(row, 1, S_ICON_CELL);

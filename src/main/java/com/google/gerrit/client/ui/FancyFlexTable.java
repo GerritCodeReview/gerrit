@@ -175,7 +175,8 @@ public abstract class FancyFlexTable<RowItem> extends Composite implements
 
   protected void movePointerTo(final int newRow) {
     final CellFormatter fmt = table.getCellFormatter();
-    if (currentRow >= 0) {
+    final boolean clear = 0 <= currentRow && currentRow < table.getRowCount();
+    if (clear) {
       final Element tr = DOM.getParent(fmt.getElement(currentRow, C_ARROW));
       UIObject.setStyleName(tr, S_ACTIVE_ROW, false);
     }
@@ -184,7 +185,7 @@ public abstract class FancyFlexTable<RowItem> extends Composite implements
       final Element tr = DOM.getParent(fmt.getElement(newRow, C_ARROW));
       UIObject.setStyleName(tr, S_ACTIVE_ROW, true);
       tr.scrollIntoView();
-    } else if (currentRow >= 0) {
+    } else if (clear) {
       table.setWidget(currentRow, C_ARROW, null);
     }
     currentRow = newRow;

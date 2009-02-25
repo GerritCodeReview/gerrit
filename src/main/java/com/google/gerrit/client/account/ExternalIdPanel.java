@@ -205,7 +205,7 @@ class ExternalIdPanel extends Composite {
             // the user from trying to delete the identity they last used
             // to login, possibly locking themselves out of the account.
             //
-            table.setText(row, 1, "");
+            table.setHTML(row, 1, "&nbsp;");
             break;
           }
         }
@@ -220,14 +220,19 @@ class ExternalIdPanel extends Composite {
       if (k.canUserDelete()) {
         table.setWidget(row, 1, new CheckBox());
       } else {
-        table.setText(row, 1, "");
+        table.setHTML(row, 1, "&nbsp;");
       }
-      table.setText(row, 2, FormatUtil.mediumFormat(k.getLastUsedOn()));
+      if (k.getLastUsedOn() != null) {
+        table.setText(row, 2, FormatUtil.mediumFormat(k.getLastUsedOn()));
+      } else {
+        table.setHTML(row, 2, "&nbsp;");
+      }
       table.setText(row, 3, k.getEmailAddress());
       table.setText(row, 4, k.getExternalId());
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
       fmt.addStyleName(row, 1, S_ICON_CELL);
+      fmt.addStyleName(row, 2, S_DATA_CELL);
       fmt.addStyleName(row, 2, "C_LAST_UPDATE");
       fmt.addStyleName(row, 3, S_DATA_CELL);
       fmt.addStyleName(row, 4, S_DATA_CELL);

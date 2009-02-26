@@ -497,6 +497,11 @@ class Receive extends AbstractGitCommand {
 
   private void parseNewPatchSetCommand(final ReceiveCommand cmd,
       final Change.Id changeId) {
+    if (cmd.getType() != ReceiveCommand.Type.CREATE) {
+      reject(cmd, "invalid usage");
+      return;
+    }
+
     final Change changeEnt;
     try {
       changeEnt = db.changes().get(changeId);

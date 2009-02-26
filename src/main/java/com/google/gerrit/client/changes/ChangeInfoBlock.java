@@ -21,8 +21,10 @@ import com.google.gerrit.client.reviewdb.Branch;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.ui.AccountDashboardLink;
 import com.google.gerrit.client.ui.ChangeLink;
+import com.google.gerrit.client.ui.CopyableText;
 import com.google.gerrit.client.ui.ProjectOpenLink;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 
@@ -80,7 +82,9 @@ public class ChangeInfoBlock extends Composite {
       table.getCellFormatter().removeStyleName(R_STATUS, 1, "closedstate");
     }
 
-    table.setWidget(R_PERMALINK, 1, new ChangeLink(Util.C.changePermalink(),
-        chg.getId()));
+    final FlowPanel fp = new FlowPanel();
+    fp.add(new ChangeLink(Util.C.changePermalink(), chg.getId()));
+    fp.add(new CopyableText(ChangeLink.permalink(chg.getId()), false));
+    table.setWidget(R_PERMALINK, 1, fp);
   }
 }

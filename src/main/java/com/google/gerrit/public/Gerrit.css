@@ -102,9 +102,10 @@
 .gerrit-CopyableText {
 }
 .gerrit-CopyableText-Label {
-  display: inline;
-  margin-right: 5px;
   vertical-align: top;
+}
+.gerrit-CopyableText-SWF {
+  margin-left: 5px;
 }
 
 
@@ -595,6 +596,9 @@
   border-right: 1px none;
   border-bottom: 1px none;
   text-align: right;
+}
+.gerrit-InfoBlock td.permalink div div {
+  display: inline;
 }
 
 .gerrit-InfoBlock td.command {

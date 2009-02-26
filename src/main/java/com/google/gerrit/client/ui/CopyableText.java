@@ -26,16 +26,23 @@ public class CopyableText extends Widget {
       GWT.getModuleBaseURL() + "clippy1.cache.swf";
 
   public CopyableText(final String str) {
+    this(str, true);
+  }
+
+  public CopyableText(final String str, final boolean showLabel) {
     setElement(DOM.createDiv());
     setStyleName("gerrit-CopyableText");
 
     final String flashVars = "text=" + URL.encodeComponent(str);
     final StringBuilder html = new StringBuilder();
 
-    html.append("<span class=\"gerrit-CopyableText-Label\">");
-    html.append(DomUtil.escape(str));
-    html.append("</span>");
+    if (showLabel) {
+      html.append("<span class=\"gerrit-CopyableText-Label\">");
+      html.append(DomUtil.escape(str));
+      html.append("</span>");
+    }
 
+    html.append("<span class=\"gerrit-CopyableText-SWF\">");
     html.append("<object");
     html.append(" classid=\"clsid:d27cdb6e-ae6d-11cf-96b8-444553540000\"");
     html.append(" width=\"" + SWF_WIDTH + "\"");
@@ -53,6 +60,7 @@ public class CopyableText extends Widget {
     html.append("/>");
 
     html.append("</object>");
+    html.append("</span>");
 
     DOM.setInnerHTML(getElement(), html.toString());
   }

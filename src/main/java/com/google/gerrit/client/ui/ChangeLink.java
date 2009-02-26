@@ -22,13 +22,17 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.DOM;
 
 public class ChangeLink extends DirectScreenLink {
+  public static String permalink(final Change.Id c) {
+    return GWT.getModuleBaseURL() + c.get();
+  }
+
   protected Change.Id id;
   private ChangeInfo info;
 
   public ChangeLink(final String text, final Change.Id c) {
     super(text, Link.toChange(c));
-    final String plink = GWT.getModuleBaseURL() + c.get();
-    DOM.setElementProperty(DOM.getFirstChild(getElement()), "href", plink);
+    final String href = permalink(c);
+    DOM.setElementProperty(DOM.getFirstChild(getElement()), "href", href);
     id = c;
   }
 

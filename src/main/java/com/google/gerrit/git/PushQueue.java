@@ -158,7 +158,11 @@ public class PushQueue {
       log.error("Cannot replicate to " + op.uri, e);
       return;
     } finally {
-      tn.close();
+      try {
+        tn.close();
+      } catch (Throwable e2){
+        log.warn("Unexpected error while closing " + op.uri, e2);
+      }
     }
 
     for (final RemoteRefUpdate u : res.getRemoteUpdates()) {

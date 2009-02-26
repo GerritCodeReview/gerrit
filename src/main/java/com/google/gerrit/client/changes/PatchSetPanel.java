@@ -31,6 +31,7 @@ import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.UserIdentity;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.ui.CopyableText;
 import com.google.gerrit.client.ui.DomUtil;
 import com.google.gerrit.client.ui.RefreshListener;
 import com.google.gwt.user.client.Window;
@@ -167,22 +168,20 @@ class PatchSetPanel extends Composite implements DisclosureHandler {
     final Branch.NameKey branchKey = changeDetail.getChange().getDest();
     final Project.NameKey projectKey = branchKey.getParentKey();
     final String projectName = projectKey.get();
-
-    final StringBuilder r = new StringBuilder();
+    final FlowPanel downloads = new FlowPanel();
 
     if (Common.getGerritConfig().isUseRepoDownload()) {
       // This site prefers usage of the 'repo' tool, so suggest
       // that for easy fetch.
       //
-      if (r.length() > 0) {
-        r.append("\n");
-      }
+      final StringBuilder r = new StringBuilder();
       r.append("repo download ");
       r.append(projectName);
       r.append(" ");
       r.append(changeDetail.getChange().getChangeId());
       r.append("/");
       r.append(patchSet.getPatchSetId());
+      downloads.add(new CopyableText(r.toString()));
     }
 
     if (changeDetail.isAllowsAnonymous()
@@ -191,14 +190,14 @@ class PatchSetPanel extends Composite implements DisclosureHandler {
       // isn't secured. The anonymous Git daemon will be much more
       // efficient than our own SSH daemon, so prefer offering it.
       //
-      if (r.length() > 0) {
-        r.append("\n");
-      }
+      final StringBuilder r = new StringBuilder();
       r.append("git pull ");
       r.append(Common.getGerritConfig().getGitDaemonUrl());
       r.append(projectName);
       r.append(" ");
       r.append(patchSet.getRefName());
+      downloads.add(new CopyableText(r.toString()));
+
     } else if (Gerrit.isSignedIn() && Gerrit.getUserAccount() != null
         && Gerrit.getUserAccount().getSshUserName() != null
         && Gerrit.getUserAccount().getSshUserName().length() > 0) {
@@ -206,9 +205,7 @@ class PatchSetPanel extends Composite implements DisclosureHandler {
       // Use our SSH daemon URL as its the only way they can get
       // to the project (that we know of anyway).
       //
-      if (r.length() > 0) {
-        r.append("\n");
-      }
+      final StringBuilder r = new StringBuilder();
       r.append("git pull ssh://");
       r.append(Gerrit.getUserAccount().getSshUserName());
       r.append("@");
@@ -219,9 +216,10 @@ class PatchSetPanel extends Composite implements DisclosureHandler {
       r.append(projectName);
       r.append(" ");
       r.append(patchSet.getRefName());
+      downloads.add(new CopyableText(r.toString()));
     }
 
-    infoTable.setText(R_DOWNLOAD, 1, r.toString());
+    infoTable.setWidget(R_DOWNLOAD, 1, downloads);
   }
 
   private void displayUserIdentity(final int row, final UserIdentity who) {

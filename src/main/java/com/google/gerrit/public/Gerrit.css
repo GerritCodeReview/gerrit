@@ -99,6 +99,14 @@
   height: 20px;
 }
 
+.gerrit-CopyableText {
+}
+.gerrit-CopyableText-Label {
+  display: inline;
+  margin-right: 5px;
+  vertical-align: top;
+}
+
 
 /** Menu **/
 .gwt-MenuItem a,
@@ -592,7 +600,7 @@
 .gerrit-InfoBlock td.command {
   white-space: pre;
   font-family: monospace;
-  font-size: small;
+  font-size: 12px;
 }
 
 .gerrit-InfoBlock td.useridentity {

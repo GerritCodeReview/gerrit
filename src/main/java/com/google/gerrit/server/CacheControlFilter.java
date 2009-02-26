@@ -72,6 +72,9 @@ public class CacheControlFilter implements Filter {
     if (pathInfo.endsWith(".cache.jar")) {
       return true;
     }
+    if (pathInfo.endsWith(".cache.swf")) {
+      return true;
+    }
     return false;
   }
 

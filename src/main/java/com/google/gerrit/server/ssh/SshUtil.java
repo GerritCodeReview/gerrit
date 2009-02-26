@@ -157,6 +157,13 @@ public class SshUtil {
     }
   }
 
+  /** Invalidate all cached keys. */
+  public static void flush() {
+    synchronized (keys) {
+      keys.clear();
+    }
+  }
+
   /** Locate keys for the requested account whose email matches the name given. */
   public static List<AccountSshKey> keysFor(final String username) {
     synchronized (keys) {

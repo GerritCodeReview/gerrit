@@ -26,6 +26,7 @@ class AdminFlushCaches extends AbstractCommand {
       gc.flush();
       Common.getProjectCache().flush();
       Common.getAccountCache().flush();
+      SshUtil.flush();
     } else {
       throw new Failure(1, "fatal: Not a Gerrit administrator");
     }

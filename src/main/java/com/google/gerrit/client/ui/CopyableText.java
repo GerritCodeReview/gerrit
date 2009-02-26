@@ -15,11 +15,8 @@
 package com.google.gerrit.client.ui;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.DeferredCommand;
-import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -31,12 +28,11 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
 public class CopyableText extends Composite implements ClickListener {
-  private static final int SWF_WIDTH = 110;
-  private static final int SWF_HEIGHT = 14;
-  private static final String swfUrl =
-      GWT.getModuleBaseURL() + "clippy1.cache.swf";
+  private static final CopyableTextImpl impl =
+      GWT.create(CopyableTextImpl.class);
 
   private final FlowPanel content;
+  private final String text;
   private Label textLabel;
   private TextBox textBox;
 
@@ -49,38 +45,18 @@ public class CopyableText extends Composite implements ClickListener {
     content.setStyleName("gerrit-CopyableText");
     initWidget(content);
 
-    final String flashVars = "text=" + URL.encodeComponent(str);
-    final StringBuilder html = new StringBuilder();
-
+    text = str;
     if (showLabel) {
-      textLabel = new InlineLabel(str);
+      textLabel = new InlineLabel(getText());
       textLabel.setStyleName("gerrit-CopyableText-Label");
       textLabel.addClickListener(this);
       content.add(textLabel);
     }
+    impl.inject(this);
+  }
 
-    final Element span = DOM.createSpan();
-    setStyleName(span, "gerrit-CopyableText-SWF");
-    html.append("<object");
-    html.append(" classid=\"clsid:d27cdb6e-ae6d-11cf-96b8-444553540000\"");
-    html.append(" width=\"" + SWF_WIDTH + "\"");
-    html.append(" height=\"" + SWF_HEIGHT + "\"");
-    html.append(">");
-    param(html, "movie", swfUrl);
-    param(html, "FlashVars", flashVars);
-
-    html.append("<embed ");
-    html.append(" type=\"application/x-shockwave-flash\"");
-    html.append(" width=\"" + SWF_WIDTH + "\"");
-    html.append(" height=\"" + SWF_HEIGHT + "\"");
-    attribute(html, "src", swfUrl);
-    attribute(html, "FlashVars", flashVars);
-    html.append("/>");
-
-    html.append("</object>");
-
-    DOM.setInnerHTML(span, html.toString());
-    DOM.appendChild(content.getElement(), span);
+  public String getText() {
+    return text;
   }
 
   public void onClick(final Widget source) {
@@ -92,8 +68,8 @@ public class CopyableText extends Composite implements ClickListener {
   private void showTextBox() {
     if (textBox == null) {
       textBox = new TextBox();
-      textBox.setText(textLabel.getText());
-      textBox.setVisibleLength(textBox.getText().length());
+      textBox.setText(getText());
+      textBox.setVisibleLength(getText().length());
       textBox.addKeyboardListener(new KeyboardListenerAdapter() {
         @Override
         public void onKeyPress(final Widget sender, final char kc, final int mod) {
@@ -131,25 +107,9 @@ public class CopyableText extends Composite implements ClickListener {
 
   private void hideTextBox() {
     if (textBox != null) {
-      textBox.setText(textLabel.getText());
       textBox.removeFromParent();
       textBox = null;
     }
     textLabel.setVisible(true);
-  }
-
-  private static void param(StringBuilder html, String name, String value) {
-    html.append("<param");
-    attribute(html, "name", name);
-    attribute(html, "value", value);
-    html.append("/>");
-  }
-
-  private static void attribute(StringBuilder html, String name, String value) {
-    html.append(" ");
-    html.append(name);
-    html.append("=\"");
-    html.append(DomUtil.escape(value));
-    html.append("\"");
   }
 }

@@ -1,15 +1,40 @@
 <module>
-   <replace-with class="com.google.gerrit.client.openid.AllowFrameImplSafari">
-     <when-type-is class="com.google.gerrit.client.openid.AllowFrameImpl" />
-     <any>
-       <when-property-is name="user.agent" value="safari"/>
-     </any>
-   </replace-with>
+  <define-property name="user.agent.flash" values="flash,noflash"/>
+  <property-provider name="user.agent.flash"><![CDATA[
+    if (navigator.plugins && navigator.plugins.length) {
+      if (navigator.plugins['Shockwave Flash'])     return 'flash';
+      if (navigator.plugins['Shockwave Flash 2.0']) return 'flash';
+  
+    } else if (navigator.mimeTypes && navigator.mimeTypes.length) {
+      var mimeType = navigator.mimeTypes['application/x-shockwave-flash'];
+      if (mimeType && mimeType.enabledPlugin) return 'flash';
+  
+    } else {
+      try { new ActiveXObject('ShockwaveFlash.ShockwaveFlash.7'); return 'flash'; } catch (e) {}
+      try { new ActiveXObject('ShockwaveFlash.ShockwaveFlash.6'); return 'flash'; } catch (e) {}
+      try { new ActiveXObject('ShockwaveFlash.ShockwaveFlash');   return 'flash'; } catch (e) {}
+    }
+    return 'noflash';
+  ]]></property-provider>
 
-   <replace-with class="com.google.gerrit.client.ui.FancyFlexTableImplIE6">
-     <when-type-is class="com.google.gerrit.client.ui.FancyFlexTableImpl" />
-     <any>
-       <when-property-is name="user.agent" value="ie6"/>
-     </any>
-   </replace-with>
+  <replace-with class="com.google.gerrit.client.openid.AllowFrameImplSafari">
+    <when-type-is class="com.google.gerrit.client.openid.AllowFrameImpl" />
+    <any>
+      <when-property-is name="user.agent" value="safari"/>
+    </any>
+  </replace-with>
+
+  <replace-with class="com.google.gerrit.client.ui.FancyFlexTableImplIE6">
+    <when-type-is class="com.google.gerrit.client.ui.FancyFlexTableImpl" />
+    <any>
+      <when-property-is name="user.agent" value="ie6"/>
+    </any>
+  </replace-with>
+
+  <replace-with class="com.google.gerrit.client.ui.CopyableTextImplFlash">
+    <when-type-is class="com.google.gerrit.client.ui.CopyableTextImpl" />
+    <any>
+      <when-property-is name="user.agent.flash" value="flash"/>
+    </any>
+  </replace-with>
 </module>

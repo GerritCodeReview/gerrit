@@ -20,7 +20,6 @@ import com.google.gerrit.client.reviewdb.AccountExternalId;
 import com.google.gerrit.client.reviewdb.ContactInformation;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.GerritCallback;
-import com.google.gerrit.client.ui.AutoCenterDialogBox;
 import com.google.gerrit.client.ui.TextSaveButtonListener;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.ui.Button;
@@ -40,6 +39,7 @@ import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwtexpui.user.client.AutoCenterDialogBox;
 import com.google.gwtjsonrpc.client.VoidResult;
 
 import java.sql.Timestamp;

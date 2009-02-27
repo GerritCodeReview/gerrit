@@ -19,12 +19,12 @@ import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.ui.DomUtil;
 import com.google.gerrit.client.ui.FancyFlexTable;
-import com.google.gerrit.client.ui.ProgressMeter;
 import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.IncrementalCommand;
 import com.google.gwt.user.client.ui.SourcesTableEvents;
 import com.google.gwt.user.client.ui.TableListener;
+import com.google.gwtexpui.progress.client.ProgressBar;
 
 import java.util.List;
 
@@ -160,7 +160,7 @@ public class PatchTable extends FancyFlexTable<Patch> {
     private int stage;
     private int row;
     private double start;
-    private ProgressMeter meter;
+    private ProgressBar meter;
 
     private DisplayCommand(final List<Patch> list) {
       this.list = list;
@@ -216,7 +216,7 @@ public class PatchTable extends FancyFlexTable<Patch> {
     void initMeter() {
       if (meter == null) {
         resetHtml("<tr><td></td></tr>");
-        meter = new ProgressMeter(Util.M.loadingPatchSet(psid.get()));
+        meter = new ProgressBar(Util.M.loadingPatchSet(psid.get()));
         table.setWidget(0, 0, meter);
       }
       updateMeter();

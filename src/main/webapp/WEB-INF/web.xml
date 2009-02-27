@@ -23,7 +23,7 @@
 
   <filter>
     <filter-name>CacheControl</filter-name>
-    <filter-class>com.google.gerrit.server.CacheControlFilter</filter-class>
+    <filter-class>com.google.gwtexpui.server.CacheControlFilter</filter-class>
   </filter>
   <filter-mapping>
     <filter-name>CacheControl</filter-name>

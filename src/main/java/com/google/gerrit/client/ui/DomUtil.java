@@ -14,92 +14,29 @@
 
 package com.google.gerrit.client.ui;
 
-import com.google.gwt.core.client.GWT;
+import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 /** Utilities for dealing with the DOM. */
 public abstract class DomUtil {
-  private static final Impl INSTANCE;
-
-  static {
-    if (GWT.isClient())
-      INSTANCE = new ClientImpl();
-    else
-      INSTANCE = new JavaImpl();
-  }
-
   /** Escape XML/HTML special characters in the input string. */
   public static String escape(final String in) {
-    return INSTANCE.escape(in);
+    return new SafeHtmlBuilder().append(in).asString();
   }
 
   /** Convert bare URLs into &lt;a href&gt; tags. */
   public static String linkify(final String in) {
-    return INSTANCE.linkify(in);
+    return in.replaceAll("(https?://[^ \n\r\t]*)", "<a href=\"$1\">$1</a>");
   }
 
   /** Do wiki style formatting to make it pretty */
   public static String wikify(String in) {
-    in = INSTANCE.escape(in);
-    in = INSTANCE.linkify(in);
-    in = INSTANCE.wikify(in);
+    in = escape(in);
+    in = linkify(in);
+    in = in.replaceAll("(^|\n)([ \t][^\n]*)", "$1<span class=\"gerrit-preformat\">$2</span><br />");
+    in = in.replaceAll("\n\n", "<p>\n");
     return in;
   }
 
   private DomUtil() {
-  }
-
-  private static abstract class Impl {
-    abstract String escape(String in);
-
-    String wikify(String s) {
-      s = s.replaceAll("(^|\n)([ \t][^\n]*)", "$1<span class=\"gerrit-preformat\">$2</span><br />");
-      s = s.replaceAll("\n\n", "<p>\n");
-      return s;
-    }
-
-    String linkify(String in) {
-      return in.replaceAll("(https?://[^ \n\r\t]*)", "<a href=\"$1\">$1</a>");
-    }
-  }
-
-  private static class ClientImpl extends Impl {
-    @Override
-    native String escape(String src)
-    /*-{ return src.replace(/&/g,'&amp;')
-                   .replace(/>/g,'&gt;')
-                   .replace(/</g,'&lt;')
-                   .replace(/"/g,'&quot;')
-                   .replace(/'/g,'&#39;')
-                   ; }-*/;
-  }
-
-  private static class JavaImpl extends Impl {
-    @Override
-    String escape(final String in) {
-      final StringBuilder r = new StringBuilder(in.length());
-      for (int i = 0; i < in.length(); i++) {
-        final char c = in.charAt(i);
-        switch (c) {
-          case '&':
-            r.append("&amp;");
-            break;
-          case '>':
-            r.append("&gt;");
-            break;
-          case '<':
-            r.append("&lt;");
-            break;
-          case '"':
-            r.append("&quot;");
-            break;
-          case '\'':
-            r.append("&#39;");
-            break;
-          default:
-            r.append(c);
-        }
-      }
-      return r.toString();
-    }
   }
 }

@@ -442,6 +442,13 @@ limitations under the License.
     </dependency>
 
     <dependency>
+      <groupId>gwtexpui</groupId>
+      <artifactId>gwtexpui</artifactId>
+      <version>1.0-SNAPSHOT</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
       <groupId>gerrit</groupId>
       <artifactId>executablewar</artifactId>
       <version>1.0</version>

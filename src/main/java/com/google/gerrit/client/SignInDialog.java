@@ -20,7 +20,6 @@ import com.google.gerrit.client.openid.OpenIdLoginPanel;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.GerritCallback;
-import com.google.gerrit.client.ui.AutoCenterDialogBox;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DeferredCommand;
@@ -29,6 +28,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwtexpui.user.client.AutoCenterDialogBox;
 import com.google.gwtjsonrpc.client.CallbackHandle;
 
 /**

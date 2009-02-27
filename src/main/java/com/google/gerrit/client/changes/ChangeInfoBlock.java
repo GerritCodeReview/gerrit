@@ -21,12 +21,12 @@ import com.google.gerrit.client.reviewdb.Branch;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.ui.AccountDashboardLink;
 import com.google.gerrit.client.ui.ChangeLink;
-import com.google.gerrit.client.ui.CopyableText;
 import com.google.gerrit.client.ui.ProjectOpenLink;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
+import com.google.gwtexpui.clippy.client.CopyableLabel;
 
 public class ChangeInfoBlock extends Composite {
   private static final int R_OWNER = 0;
@@ -84,7 +84,7 @@ public class ChangeInfoBlock extends Composite {
 
     final FlowPanel fp = new FlowPanel();
     fp.add(new ChangeLink(Util.C.changePermalink(), chg.getId()));
-    fp.add(new CopyableText(ChangeLink.permalink(chg.getId()), false));
+    fp.add(new CopyableLabel(ChangeLink.permalink(chg.getId()), false));
     table.setWidget(R_PERMALINK, 1, fp);
   }
 }

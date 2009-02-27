@@ -15,12 +15,12 @@
 package com.google.gerrit.client;
 
 import com.google.gerrit.client.rpc.Common;
-import com.google.gerrit.client.ui.AutoCenterDialogBox;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwtexpui.user.client.AutoCenterDialogBox;
 import com.google.gwtjsonrpc.client.RemoteJsonException;
 
 /** A dialog box showing an error message, when bad things happen. */

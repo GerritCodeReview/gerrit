@@ -31,7 +31,6 @@ import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.UserIdentity;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.GerritCallback;
-import com.google.gerrit.client.ui.CopyableText;
 import com.google.gerrit.client.ui.DomUtil;
 import com.google.gerrit.client.ui.RefreshListener;
 import com.google.gwt.user.client.Window;
@@ -45,6 +44,7 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
+import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtjsonrpc.client.VoidResult;
 
 import java.util.ArrayList;
@@ -181,7 +181,7 @@ class PatchSetPanel extends Composite implements DisclosureHandler {
       r.append(changeDetail.getChange().getChangeId());
       r.append("/");
       r.append(patchSet.getPatchSetId());
-      downloads.add(new CopyableText(r.toString()));
+      downloads.add(new CopyableLabel(r.toString()));
     }
 
     if (changeDetail.isAllowsAnonymous()
@@ -196,7 +196,7 @@ class PatchSetPanel extends Composite implements DisclosureHandler {
       r.append(projectName);
       r.append(" ");
       r.append(patchSet.getRefName());
-      downloads.add(new CopyableText(r.toString()));
+      downloads.add(new CopyableLabel(r.toString()));
 
     } else if (Gerrit.isSignedIn() && Gerrit.getUserAccount() != null
         && Gerrit.getUserAccount().getSshUserName() != null
@@ -216,7 +216,7 @@ class PatchSetPanel extends Composite implements DisclosureHandler {
       r.append(projectName);
       r.append(" ");
       r.append(patchSet.getRefName());
-      downloads.add(new CopyableText(r.toString()));
+      downloads.add(new CopyableLabel(r.toString()));
     }
 
     infoTable.setWidget(R_DOWNLOAD, 1, downloads);

@@ -102,7 +102,7 @@ public class AccountSettings extends AccountScreen {
     final CellFormatter fmt = info.getCellFormatter();
     fmt.addStyleName(0, 0, "topmost");
     fmt.addStyleName(0, 1, "topmost");
-    fmt.addStyleName(5, 0, "bottomheader");
+    fmt.addStyleName(4, 0, "bottomheader");
 
     prefsPanel = new PreferencePanel();
 

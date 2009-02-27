@@ -16,17 +16,17 @@ package com.google.gwtexpui.user.client;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.WindowResizeListener;
-import com.google.gwt.user.client.ui.DialogBox;
 
 /** A DialogBox that automatically re-centers itself if the window changes */
-public class AutoCenterDialogBox extends DialogBox {
+public class AutoCenterDialogBox extends PluginSafeDialogBox {
   private WindowResizeListener recenter;
 
   public AutoCenterDialogBox() {
+    this(false);
   }
 
   public AutoCenterDialogBox(final boolean autoHide) {
-    super(autoHide);
+    this(autoHide, true);
   }
 
   public AutoCenterDialogBox(final boolean autoHide, final boolean modal) {

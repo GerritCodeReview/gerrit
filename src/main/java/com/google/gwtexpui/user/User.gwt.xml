@@ -15,4 +15,13 @@
 -->
 <module>
   <inherits name="com.google.gwt.user.User"/>
+
+  <replace-with class="com.google.gwtexpui.user.client.PluginSafeDialogBoxImplAutoHide">
+    <when-type-is class="com.google.gwtexpui.user.client.PluginSafeDialogBoxImpl" />
+    <any>
+      <when-property-is name="user.agent" value="safari"/>
+      <when-property-is name="user.agent" value="gecko"/>
+      <when-property-is name="user.agent" value="gecko1_8"/>
+    </any>
+  </replace-with>
 </module>

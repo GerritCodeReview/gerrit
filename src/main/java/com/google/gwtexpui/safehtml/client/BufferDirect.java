@@ -14,7 +14,7 @@
 
 package com.google.gwtexpui.safehtml.client;
 
-class BufferDirect implements Buffer {
+final class BufferDirect implements Buffer {
   private final StringBuilder strbuf = new StringBuilder();
 
   public void append(final boolean v) {

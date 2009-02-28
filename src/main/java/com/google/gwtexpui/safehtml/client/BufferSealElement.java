@@ -14,7 +14,7 @@
 
 package com.google.gwtexpui.safehtml.client;
 
-class BufferSealElement implements Buffer {
+final class BufferSealElement implements Buffer {
   private final SafeHtmlBuilder shb;
 
   BufferSealElement(final SafeHtmlBuilder safeHtmlBuilder) {

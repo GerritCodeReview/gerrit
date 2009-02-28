@@ -15,4 +15,5 @@
 -->
 <module>
   <inherits name="com.google.gwt.user.User"/>
+  <stylesheet src="gwtexpui_safehtml1.cache.css" />
 </module>

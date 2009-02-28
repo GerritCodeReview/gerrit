@@ -40,6 +40,16 @@ public class SafeHtmlBuilder extends SafeHtml {
     cb = dBuf = new BufferDirect();
   }
 
+  /** @return true if this builder has not had an append occur yet. */
+  public boolean isEmpty() {
+    return dBuf.isEmpty();
+  }
+
+  /** @return true if this builder has content appended into it. */
+  public boolean hasContent() {
+    return !isEmpty();
+  }
+
   public SafeHtmlBuilder append(final boolean in) {
     cb.append(in);
     return this;

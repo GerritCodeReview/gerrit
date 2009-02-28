@@ -17,6 +17,10 @@ package com.google.gwtexpui.safehtml.client;
 final class BufferDirect implements Buffer {
   private final StringBuilder strbuf = new StringBuilder();
 
+  boolean isEmpty() {
+    return strbuf.length() == 0;
+  }
+
   public void append(final boolean v) {
     strbuf.append(v);
   }

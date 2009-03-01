@@ -15,13 +15,13 @@
 package com.google.gerrit.client.ui;
 
 import com.google.gerrit.client.ui.FancyFlexTable.MyFlexTable;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.HTMLTable;
+import com.google.gwtexpui.safehtml.client.SafeHtml;
 
 public class FancyFlexTableImpl {
-  public void resetHtml(final MyFlexTable myTable, final String body) {
-    DOM.setInnerHTML(getBodyElement(myTable), body);
+  public void resetHtml(final MyFlexTable myTable, final SafeHtml body) {
+    SafeHtml.set(getBodyElement(myTable), body);
   }
 
   protected static native Element getBodyElement(HTMLTable myTable)

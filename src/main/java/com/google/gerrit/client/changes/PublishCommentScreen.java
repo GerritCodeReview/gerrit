@@ -47,6 +47,7 @@ import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtjsonrpc.client.VoidResult;
 
 import java.util.ArrayList;
@@ -238,7 +239,7 @@ public class PublishCommentScreen extends AccountScreen implements
         panel.add(m);
 
         m = new DoubleClickLinkLabel(patchKey);
-        DOM.setInnerHTML(m.getElement(), LineCommentPanel.toHTML(c));
+        SafeHtml.set(m.getElement(), LineCommentPanel.toSafeHtml(c));
         m.setStyleName("gerrit-PatchLineComment");
         panel.add(m);
       }

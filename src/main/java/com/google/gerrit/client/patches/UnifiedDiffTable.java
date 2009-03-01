@@ -16,6 +16,7 @@ package com.google.gerrit.client.patches;
 
 import com.google.gerrit.client.data.PatchLine;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
+import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 import java.util.Iterator;
 import java.util.List;
@@ -81,11 +82,11 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
   public void display(final List<PatchLine> list) {
     initVersions(2);
 
-    final StringBuilder nc = new StringBuilder();
+    final SafeHtmlBuilder nc = new SafeHtmlBuilder();
     for (final PatchLine pLine : list) {
       appendLine(nc, pLine);
     }
-    resetHtml(nc.toString());
+    resetHtml(nc);
 
     int row = 0;
     for (final PatchLine pLine : list) {
@@ -106,41 +107,54 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
     }
   }
 
-  private void appendLine(final StringBuilder nc, final PatchLine line) {
-    nc.append("<tr>");
-    nc.append("<td class=\"" + S_ICON_CELL + "\">&nbsp;</td>");
+  private void appendLine(final SafeHtmlBuilder m, final PatchLine line) {
+    m.openTr();
 
+    m.openTd();
+    m.setStyleName(S_ICON_CELL);
+    m.nbsp();
+    m.closeTd();
 
     switch (line.getType()) {
       case FILE_HEADER:
       case HUNK_HEADER:
-        nc.append("<td class=\"LineNumber\">&nbsp;</td>");
-        nc.append("<td class=\"LineNumber\">&nbsp;</td>");
+        m.openTd();
+        m.setStyleName("LineNumber");
+        m.nbsp();
+        m.closeTd();
+
+        m.openTd();
+        m.setStyleName("LineNumber");
+        m.nbsp();
+        m.closeTd();
         break;
+
       default:
-        nc.append("<td class=\"LineNumber\">");
+        m.openTd();
+        m.setStyleName("LineNumber");
         if (line.getOldLineNumber() != 0
             && (line.getType() == PatchLine.Type.CONTEXT || line.getType() == PatchLine.Type.PRE_IMAGE)) {
-          nc.append(line.getOldLineNumber());
+          m.append(line.getOldLineNumber());
         } else {
-          nc.append("&nbsp;");
+          m.nbsp();
         }
-        nc.append("</td>");
+        m.closeTd();
 
-        nc.append("<td class=\"LineNumber\">");
+        m.openTd();
+        m.setStyleName("LineNumber");
         if (line.getNewLineNumber() != 0
             && (line.getType() == PatchLine.Type.CONTEXT || line.getType() == PatchLine.Type.POST_IMAGE)) {
-          nc.append(line.getNewLineNumber());
+          m.append(line.getNewLineNumber());
         } else {
-          nc.append("&nbsp;");
+          m.nbsp();
         }
-        nc.append("</td>");
+        m.closeTd();
         break;
     }
 
-    nc.append("<td class=\"DiffText DiffText-");
-    nc.append(line.getType().name());
-    nc.append("\">");
+    m.openTd();
+    m.addStyleName("DiffText");
+    m.addStyleName("DiffText-" + line.getType().name());
     if (!"".equals(line.getText())) {
       boolean showWhitespaceErrors = false;
       switch (line.getType()) {
@@ -150,12 +164,12 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
           showWhitespaceErrors = true;
           break;
       }
-      nc.append(PatchUtil.lineToHTML(line.getText(), 0, showWhitespaceErrors));
+      m.append(PatchUtil.lineToSafeHtml(line.getText(), 0, showWhitespaceErrors));
     } else {
-      nc.append("&nbsp;");
+      m.nbsp();
     }
-    nc.append("</td>");
+    m.closeTd();
 
-    nc.append("</tr>");
+    m.closeTr();
   }
 }

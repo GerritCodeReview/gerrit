@@ -24,7 +24,6 @@ import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountGroupSuggestOracle;
-import com.google.gerrit.client.ui.DomUtil;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gwt.user.client.ui.Button;
@@ -43,6 +42,8 @@ import com.google.gwt.user.client.ui.TableListener;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
+import com.google.gwtexpui.safehtml.client.SafeHtml;
+import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 import com.google.gwtjsonrpc.client.VoidResult;
 
 import java.util.HashSet;
@@ -383,17 +384,17 @@ public class ProjectRightsPanel extends Composite {
       }
 
       {
-        final StringBuilder m = new StringBuilder();
+        final SafeHtmlBuilder m = new SafeHtmlBuilder();
         final ApprovalCategoryValue min, max;
         min = ar != null ? ar.getValue(k.getMinValue()) : null;
         max = ar != null ? ar.getValue(k.getMaxValue()) : null;
 
         formatValue(m, k.getMinValue(), min);
         if (k.getMinValue() != k.getMaxValue()) {
-          m.append("<br>");
+          m.br();
           formatValue(m, k.getMaxValue(), max);
         }
-        table.setHTML(row, 4, m.toString());
+        SafeHtml.set(table, row, 4, m);
       }
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
@@ -406,19 +407,20 @@ public class ProjectRightsPanel extends Composite {
       setRowItem(row, k);
     }
 
-    private void formatValue(final StringBuilder m, final short v,
+    private void formatValue(final SafeHtmlBuilder m, final short v,
         final ApprovalCategoryValue e) {
-      m.append("<span class=\"gerrit-ProjectAdmin-ApprovalCategoryValue\">");
+      m.openSpan();
+      m.setStyleName("gerrit-ProjectAdmin-ApprovalCategoryValue");
       if (v == 0) {
         m.append(' ');
       } else if (v > 0) {
         m.append('+');
       }
       m.append(v);
-      m.append("</span>");
+      m.closeSpan();
       if (e != null) {
         m.append(": ");
-        m.append(DomUtil.escape(e.getName()));
+        m.append(e.getName());
       }
     }
   }

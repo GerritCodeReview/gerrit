@@ -14,8 +14,9 @@
 
 package com.google.gerrit.client.patches;
 
-import com.google.gerrit.client.ui.DomUtil;
 import com.google.gwt.core.client.GWT;
+import com.google.gwtexpui.safehtml.client.SafeHtml;
+import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 import com.google.gwtjsonrpc.client.JsonUtil;
 
 public class PatchUtil {
@@ -29,11 +30,11 @@ public class PatchUtil {
     JsonUtil.bind(DETAIL_SVC, "rpc/PatchDetailService");
   }
 
-  public static String lineToHTML(final String src, final int lineLength,
+  public static SafeHtml lineToSafeHtml(final String src, final int lineLength,
       final boolean showWhiteSpaceErrors) {
     final boolean hasTab = src.indexOf('\t') >= 0;
     String brokenSrc = wrapLines(src, hasTab, lineLength);
-    String html = DomUtil.escape(brokenSrc);
+    SafeHtml html = new SafeHtmlBuilder().append(brokenSrc);
     if (showWhiteSpaceErrors) {
       html = showTabAfterSpace(html);
       html = showTrailingWhitespace(html);
@@ -81,15 +82,23 @@ public class PatchUtil {
     return r.toString();
   }
 
-  private native static String expandTabs(String src)
-  /*-{ return src.replace(/\t/g, '<span title="Visual Tab" class="gerrit-visualtab">&raquo;</span>\t'); }-*/;
+  private static SafeHtml expandTabs(SafeHtml src) {
+    return src
+        .replaceAll("\t",
+            "<span title=\"Visual Tab\" class=\"gerrit-visualtab\">&raquo;</span>\t");
+  }
 
-  private native static String expandLFs(String src)
-  /*-{ return src.replace(/\n/g, '<br>'); }-*/;
+  private static SafeHtml expandLFs(SafeHtml src) {
+    return src.replaceAll("\n", "<br />");
+  }
 
-  private native static String showTabAfterSpace(String src)
-  /*-{ return src.replace(/^(  *\t)/, '<span class="gerrit-whitespaceerror">$1</span>'); }-*/;
+  private static SafeHtml showTabAfterSpace(SafeHtml src) {
+    return src.replaceFirst("^(  *\t)",
+        "<span class=\"gerrit-whitespaceerror\">$1</span>");
+  }
 
-  private native static String showTrailingWhitespace(String src)
-  /*-{ return src.replace(/([ \t][ \t]*)(\r?\n?)$/, '<span class="gerrit-whitespaceerror">$1</span>$2'); }-*/;
+  private static SafeHtml showTrailingWhitespace(SafeHtml src) {
+    return src.replaceFirst("([ \t][ \t]*)(\r?\n?)$",
+        "<span class=\"gerrit-whitespaceerror\">$1</span>$2");
+  }
 }

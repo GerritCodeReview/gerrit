@@ -27,6 +27,8 @@ import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.SourcesTableEvents;
 import com.google.gwt.user.client.ui.TableListener;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
+import com.google.gwtexpui.safehtml.client.SafeHtml;
+import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 class AgreementPanel extends Composite {
   private AgreementTable agreements;
@@ -127,8 +129,12 @@ class AgreementPanel extends Composite {
         }
         table.setText(row, 3, cla.getShortDescription());
       }
-      table.setHTML(row, 4, FormatUtil.mediumFormat(k.getAcceptedOn())
-          + "<br>\n" + FormatUtil.mediumFormat(k.getReviewedOn()));
+
+      final SafeHtmlBuilder b = new SafeHtmlBuilder();
+      b.append(FormatUtil.mediumFormat(k.getAcceptedOn()));
+      b.br();
+      b.append(FormatUtil.mediumFormat(k.getReviewedOn()));
+      SafeHtml.set(table, row, 4, b);
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
       for (int c = 1; c <= 4; c++) {

@@ -17,7 +17,6 @@ package com.google.gerrit.client.changes;
 import com.google.gerrit.client.Link;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchSet;
-import com.google.gerrit.client.ui.DomUtil;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.History;
@@ -25,6 +24,7 @@ import com.google.gwt.user.client.IncrementalCommand;
 import com.google.gwt.user.client.ui.SourcesTableEvents;
 import com.google.gwt.user.client.ui.TableListener;
 import com.google.gwtexpui.progress.client.ProgressBar;
+import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 import java.util.List;
 
@@ -50,44 +50,66 @@ public class PatchTable extends FancyFlexTable<Patch> {
     }
   }
 
-  private void appendHeader(final StringBuilder nc) {
-    nc.append("<tr>");
-    nc.append("<td class=\"" + S_ICON_HEADER + " LeftMostCell\">&nbsp;</td>");
-    nc.append("<td class=\"" + S_ICON_HEADER + "\">&nbsp;</td>");
+  private void appendHeader(final SafeHtmlBuilder m) {
+    m.openTr();
 
-    nc.append("<td class=\"" + S_DATA_HEADER + "\">");
-    nc.append(Util.C.patchTableColumnName());
-    nc.append("</td>");
+    m.openTd();
+    m.addStyleName(S_ICON_HEADER);
+    m.addStyleName("LeftMostCell");
+    m.nbsp();
+    m.closeTd();
 
-    nc.append("<td class=\"" + S_DATA_HEADER + "\">");
-    nc.append(Util.C.patchTableColumnComments());
-    nc.append("</td>");
+    m.openTd();
+    m.setStyleName(S_ICON_HEADER);
+    m.nbsp();
+    m.closeTd();
 
-    nc.append("<td class=\"" + S_DATA_HEADER + "\" colspan=\"2\">");
-    nc.append(Util.C.patchTableColumnDiff());
-    nc.append("</td>");
+    m.openTd();
+    m.setStyleName(S_DATA_HEADER);
+    m.append(Util.C.patchTableColumnName());
+    m.closeTd();
 
-    nc.append("</tr>");
+    m.openTd();
+    m.setStyleName(S_DATA_HEADER);
+    m.append(Util.C.patchTableColumnComments());
+    m.closeTd();
+
+    m.openTd();
+    m.setStyleName(S_DATA_HEADER);
+    m.setAttribute("colspan", 2);
+    m.append(Util.C.patchTableColumnDiff());
+    m.closeTd();
+
+    m.closeTr();
   }
 
-  private void appendRow(final StringBuilder nc, final Patch p) {
-    nc.append("<tr>");
-    nc.append("<td class=\"" + S_ICON_CELL + " LeftMostCell\">&nbsp;</td>");
+  private void appendRow(final SafeHtmlBuilder m, final Patch p) {
+    m.openTr();
 
-    nc.append("<td class=\"ChangeTypeCell\">");
-    nc.append(p.getChangeType().getCode());
-    nc.append("</td>");
+    m.openTd();
+    m.addStyleName(S_ICON_CELL);
+    m.addStyleName("LeftMostCell");
+    m.nbsp();
+    m.closeTd();
 
-    nc.append("<td class=\"" + S_DATA_CELL + " FilePathCell\">");
-    nc.append("<a href=\"#");
+    m.openTd();
+    m.setStyleName("ChangeTypeCell");
+    m.append(p.getChangeType().getCode());
+    m.closeTd();
+
+    m.openTd();
+    m.addStyleName(S_DATA_CELL);
+    m.addStyleName("FilePathCell");
+
+    m.openAnchor();
     if (p.getPatchType() == Patch.PatchType.UNIFIED) {
-      nc.append(Link.toPatchSideBySide(p.getKey()));
+      m.setAttribute("href", "#" + Link.toPatchSideBySide(p.getKey()));
     } else {
-      nc.append(Link.toPatchUnified(p.getKey()));
+      m.setAttribute("href", "#" + Link.toPatchUnified(p.getKey()));
     }
-    nc.append("\">");
-    nc.append(DomUtil.escape(p.getFileName()));
-    nc.append("</a>");
+    m.append(p.getFileName());
+    m.closeAnchor();
+
     if (p.getSourceFileName() != null) {
       final String secondLine;
       if (p.getChangeType() == Patch.ChangeType.RENAMED) {
@@ -99,48 +121,54 @@ public class PatchTable extends FancyFlexTable<Patch> {
       } else {
         secondLine = Util.M.otherFrom(p.getSourceFileName());
       }
-      nc.append("<br>");
-      nc.append("<span class=\"SourceFilePath\">");
-      nc.append(DomUtil.escape(secondLine));
-      nc.append("</span>");
+      m.br();
+      m.openSpan();
+      m.setStyleName("SourceFilePath");
+      m.append(secondLine);
+      m.closeSpan();
     }
-    nc.append("</td>");
+    m.closeTd();
 
-    nc.append("<td class=\"" + S_DATA_CELL + " CommentCell\">");
+    m.openTd();
+    m.addStyleName(S_DATA_CELL);
+    m.addStyleName("CommentCell");
     if (p.getCommentCount() > 0) {
-      nc.append(Util.M.patchTableComments(p.getCommentCount()));
+      m.append(Util.M.patchTableComments(p.getCommentCount()));
     }
     if (p.getDraftCount() > 0) {
       if (p.getCommentCount() > 0) {
-        nc.append(", ");
+        m.append(", ");
       }
-      nc.append("<span class=\"Drafts\">");
-      nc.append(Util.M.patchTableDrafts(p.getDraftCount()));
-      nc.append("</span>");
+      m.openSpan();
+      m.setStyleName("Drafts");
+      m.append(Util.M.patchTableDrafts(p.getDraftCount()));
+      m.closeSpan();
     }
-    nc.append("</td>");
+    m.closeTd();
 
-    nc.append("<td class=\"" + S_DATA_CELL + " DiffLinkCell\">");
+    m.openTd();
+    m.addStyleName(S_DATA_CELL);
+    m.addStyleName("DiffLinkCell");
     if (p.getPatchType() == Patch.PatchType.UNIFIED) {
-      nc.append("<a href=\"#");
-      nc.append(Link.toPatchSideBySide(p.getKey()));
-      nc.append("\">");
-      nc.append(Util.C.patchTableDiffSideBySide());
-      nc.append("</a>");
+      m.openAnchor();
+      m.setAttribute("href", "#" + Link.toPatchSideBySide(p.getKey()));
+      m.append(Util.C.patchTableDiffSideBySide());
+      m.closeAnchor();
     } else {
-      nc.append("&nbsp;");
+      m.nbsp();
     }
-    nc.append("</td>");
+    m.closeTd();
 
-    nc.append("<td class=\"" + S_DATA_CELL + " DiffLinkCell\">");
-    nc.append("<a href=\"#");
-    nc.append(Link.toPatchUnified(p.getKey()));
-    nc.append("\">");
-    nc.append(Util.C.patchTableDiffUnified());
-    nc.append("</a>");
-    nc.append("</td>");
+    m.openTd();
+    m.addStyleName(S_DATA_CELL);
+    m.addStyleName("DiffLinkCell");
+    m.openAnchor();
+    m.setAttribute("href", "#" + Link.toPatchUnified(p.getKey()));
+    m.append(Util.C.patchTableDiffUnified());
+    m.closeAnchor();
+    m.closeTd();
 
-    nc.append("</tr>");
+    m.closeTr();
   }
 
   @Override
@@ -156,7 +184,7 @@ public class PatchTable extends FancyFlexTable<Patch> {
   private final class DisplayCommand implements IncrementalCommand {
     private final List<Patch> list;
     private boolean attached;
-    private StringBuilder nc = new StringBuilder();
+    private SafeHtmlBuilder nc = new SafeHtmlBuilder();
     private int stage;
     private int row;
     private double start;
@@ -169,7 +197,7 @@ public class PatchTable extends FancyFlexTable<Patch> {
     @SuppressWarnings("fallthrough")
     public boolean execute() {
       final boolean attachedNow = isAttached();
-      if(!attached && attachedNow){
+      if (!attached && attachedNow) {
         // Remember that we have been attached at least once. If
         // later we find we aren't attached we should stop running.
         //
@@ -194,7 +222,7 @@ public class PatchTable extends FancyFlexTable<Patch> {
               return true;
             }
           }
-          resetHtml(nc.toString());
+          resetHtml(nc);
           nc = null;
           meter = null;
 
@@ -215,7 +243,13 @@ public class PatchTable extends FancyFlexTable<Patch> {
 
     void initMeter() {
       if (meter == null) {
-        resetHtml("<tr><td></td></tr>");
+        final SafeHtmlBuilder b = new SafeHtmlBuilder();
+        b.openTr();
+        b.openTd();
+        b.closeTd();
+        b.closeTr();
+        resetHtml(b);
+
         meter = new ProgressBar(Util.M.loadingPatchSet(psid.get()));
         table.setWidget(0, 0, meter);
       }

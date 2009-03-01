@@ -15,13 +15,14 @@
 package com.google.gerrit.client.patches;
 
 import com.google.gerrit.client.reviewdb.PatchLineComment;
-import com.google.gerrit.client.ui.DomUtil;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Widget;
+import com.google.gwtexpui.safehtml.client.SafeHtml;
+import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 public class LineCommentPanel extends Composite {
-  public static String toHTML(final PatchLineComment comment) {
-    return DomUtil.wikify(comment.getMessage().trim());
+  public static SafeHtml toSafeHtml(final PatchLineComment msg) {
+    return new SafeHtmlBuilder().append(msg.getMessage().trim()).wikify();
   }
 
   PatchLineComment comment;
@@ -29,7 +30,7 @@ public class LineCommentPanel extends Composite {
 
   public LineCommentPanel(final PatchLineComment msg) {
     comment = msg;
-    final HTML l = new HTML(toHTML(comment));
+    final Widget l = toSafeHtml(msg).toBlockWidget();
     l.setStyleName("gerrit-PatchLineComment");
     initWidget(l);
   }

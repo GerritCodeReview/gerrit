@@ -18,10 +18,12 @@ import com.google.gerrit.client.ui.FancyFlexTable.MyFlexTable;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.HTMLTable;
+import com.google.gwtexpui.safehtml.client.SafeHtml;
+import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 public class FancyFlexTableImplIE6 extends FancyFlexTableImpl {
   @Override
-  public void resetHtml(final MyFlexTable myTable, final String bodyHtml) {
+  public void resetHtml(final MyFlexTable myTable, final SafeHtml bodyHtml) {
     final Element oldBody = getBodyElement(myTable);
     final Element newBody = parseBody(bodyHtml);
     assert newBody != null;
@@ -32,11 +34,13 @@ public class FancyFlexTableImplIE6 extends FancyFlexTableImpl {
     DOM.appendChild(tableElem, newBody);
   }
 
-  private static Element parseBody(final String body) {
-    final Element div = DOM.createDiv();
-    DOM.setInnerHTML(div, "<table>" + body + "</table>");
+  private static Element parseBody(final SafeHtml body) {
+    final SafeHtmlBuilder b = new SafeHtmlBuilder();
+    b.openElement("table");
+    b.append(body);
+    b.closeElement("table");
 
-    final Element newTable = DOM.getChild(div, 0);
+    final Element newTable = SafeHtml.parse(b);
     for (Element e = DOM.getFirstChild(newTable); e != null; e =
         DOM.getNextSibling(e)) {
       if ("tbody".equals(e.getTagName().toLowerCase())) {

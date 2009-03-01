@@ -32,6 +32,7 @@ import com.google.gwt.user.client.ui.KeyboardListenerAdapter;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
+import com.google.gwtexpui.safehtml.client.SafeHtml;
 
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -110,7 +111,7 @@ public abstract class FancyFlexTable<RowItem> extends Composite implements
     setRowItem(table.getCellFormatter().getElement(row, 0), item);
   }
 
-  protected void resetHtml(final String body) {
+  protected void resetHtml(final SafeHtml body) {
     for (final Iterator<Widget> i = table.iterator(); i.hasNext();) {
       i.next();
       i.remove();

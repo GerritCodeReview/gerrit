@@ -31,7 +31,6 @@ import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.UserIdentity;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.GerritCallback;
-import com.google.gerrit.client.ui.DomUtil;
 import com.google.gerrit.client.ui.RefreshListener;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
@@ -45,6 +44,8 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
+import com.google.gwtexpui.safehtml.client.SafeHtml;
+import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 import com.google.gwtjsonrpc.client.VoidResult;
 
 import java.util.ArrayList;
@@ -228,38 +229,37 @@ class PatchSetPanel extends Composite implements DisclosureHandler {
       return;
     }
 
-    final StringBuilder r = new StringBuilder();
+    final SafeHtmlBuilder m = new SafeHtmlBuilder();
 
     if (who.getName() != null) {
       final Account.Id aId = who.getAccount();
       if (aId != null) {
-        r.append("<a href=\"#");
-        r.append(Link.toAccountDashboard(aId));
-        r.append("\">");
+        m.openAnchor();
+        m.setAttribute("href", "#" + Link.toAccountDashboard(aId));
       }
-      r.append(DomUtil.escape(who.getName()));
+      m.append(who.getName());
       if (aId != null) {
-        r.append("</a>");
+        m.closeAnchor();
       }
     }
 
     if (who.getEmail() != null) {
-      if (r.length() > 0) {
-        r.append(' ');
+      if (m.hasContent()) {
+        m.append(' ');
       }
-      r.append("&lt;");
-      r.append(DomUtil.escape(who.getEmail()));
-      r.append("&gt;");
+      m.append('<');
+      m.append(who.getEmail());
+      m.append('>');
     }
 
     if (who.getDate() != null) {
-      if (r.length() > 0) {
-        r.append(' ');
+      if (m.hasContent()) {
+        m.append(' ');
       }
-      r.append(DomUtil.escape(FormatUtil.mediumFormat(who.getDate())));
+      m.append(FormatUtil.mediumFormat(who.getDate()));
     }
 
-    infoTable.setHTML(row, 1, r.toString());
+    SafeHtml.set(infoTable, row, 1, m);
   }
 
   private void populateActions(final PatchSetDetail detail) {

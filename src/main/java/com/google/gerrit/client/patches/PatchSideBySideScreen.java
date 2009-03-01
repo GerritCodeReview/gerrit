@@ -21,7 +21,6 @@ import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.NoDifferencesException;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
-import com.google.gerrit.client.ui.DomUtil;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
@@ -32,6 +31,7 @@ import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.SourcesTableEvents;
 import com.google.gwt.user.client.ui.TableListener;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 import com.google.gwtjsonrpc.client.RemoteJsonException;
 
 import java.util.ArrayList;
@@ -208,14 +208,14 @@ public class PatchSideBySideScreen extends PatchScreen {
     void display(final List<Patch> result) {
       all.clear();
 
-      final StringBuilder nc = new StringBuilder();
+      final SafeHtmlBuilder nc = new SafeHtmlBuilder();
       appendHeader(nc);
       for (int p = result.size() - 1; p >= 0; p--) {
         final Patch k = result.get(p);
         appendRow(nc, k);
       }
       appendRow(nc, null);
-      resetHtml(nc.toString());
+      resetHtml(nc);
 
       final int fileCnt = sbsTable.getFileCount();
       int row = 1;
@@ -250,43 +250,72 @@ public class PatchSideBySideScreen extends PatchScreen {
       return 2 + file;
     }
 
-    private void appendHeader(final StringBuilder nc) {
-      nc.append("<tr>");
-      nc.append("<td class=\"" + S_ICON_HEADER + " LeftMostCell\">&nbsp;</td>");
-      nc.append("<td class=\"" + S_DATA_HEADER + "\">&nbsp;</td>");
+    private void appendHeader(final SafeHtmlBuilder m) {
+      m.openTr();
+
+      m.openTd();
+      m.addStyleName(S_ICON_HEADER);
+      m.addStyleName("LeftMostCell");
+      m.nbsp();
+      m.closeTd();
+
+      m.openTd();
+      m.setStyleName(S_DATA_HEADER);
+      m.nbsp();
+      m.closeTd();
+
       for (int file = 0; file < sbsTable.getFileCount(); file++) {
-        nc.append("<td class=\"" + S_DATA_HEADER + "\">");
-        nc.append(DomUtil.escape(sbsTable.getFileTitle(file)));
-        nc.append("</td>");
+        m.openTd();
+        m.setStyleName(S_DATA_HEADER);
+        m.append(sbsTable.getFileTitle(file));
+        m.closeTd();
       }
-      nc.append("<td class=\"" + S_DATA_HEADER + "\">");
-      nc.append(DomUtil.escape("Comments"));
-      nc.append("</td>");
-      nc.append("</tr>");
+
+      m.openTd();
+      m.setStyleName(S_DATA_HEADER);
+      m.append(Util.C.patchTableColumnComments());
+      m.closeTd();
+
+      m.closeTr();
     }
 
-    private void appendRow(final StringBuilder nc, final Patch k) {
-      nc.append("<tr>");
-      nc.append("<td class=\"" + S_ICON_CELL + " LeftMostCell\">&nbsp;</td>");
-      nc.append("<td class=\"" + S_DATA_CELL + "\" align=\"right\">");
+    private void appendRow(final SafeHtmlBuilder m, final Patch k) {
+      m.openTr();
+
+      m.openTd();
+      m.addStyleName(S_ICON_CELL);
+      m.addStyleName("LeftMostCell");
+      m.nbsp();
+      m.closeTd();
+
+      m.openTd();
+      m.setStyleName(S_DATA_CELL);
+      m.setAttribute("align", "right");
       if (k != null) {
         final PatchSet.Id psId = k.getKey().getParentKey();
-        nc.append(Util.M.patchSetHeader(psId.get()));
+        m.append(Util.M.patchSetHeader(psId.get()));
       } else {
-        nc.append("Base");
+        m.append("Base");
       }
-      nc.append("</td>");
+      m.closeTd();
+
       for (int file = 0; file < sbsTable.getFileCount(); file++) {
-        nc.append("<td class=\"" + S_DATA_CELL + "\">&nbsp;</td>");
+        m.openTd();
+        m.setStyleName(S_DATA_CELL);
+        m.nbsp();
+        m.closeTd();
       }
-      nc.append("<td class=\"" + S_DATA_CELL + "\">");
+
+      m.openTd();
+      m.setStyleName(S_DATA_CELL);
       if (k != null && k.getCommentCount() > 0) {
-        nc.append(Util.M.patchTableComments(k.getCommentCount()));
+        m.append(Util.M.patchTableComments(k.getCommentCount()));
       } else {
-        nc.append("&nbsp;");
+        m.nbsp();
       }
-      nc.append("</td>");
-      nc.append("</tr>");
+      m.closeTd();
+
+      m.closeTr();
     }
 
     private class HistoryRadio extends RadioButton {

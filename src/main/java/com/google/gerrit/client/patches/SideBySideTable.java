@@ -18,10 +18,10 @@ import com.google.gerrit.client.data.SideBySideLine;
 import com.google.gerrit.client.data.SideBySidePatchDetail;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.ui.ComplexDisclosurePanel;
-import com.google.gerrit.client.ui.DomUtil;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 import java.util.Iterator;
 import java.util.List;
@@ -128,7 +128,7 @@ public class SideBySideTable extends AbstractPatchContentTable {
     // This pass does not include the line comments; they need full
     // GWT widgets and are relatively infrequent. We do them later.
     //
-    final StringBuilder nc = new StringBuilder();
+    final SafeHtmlBuilder nc = new SafeHtmlBuilder();
     appendHeader(nc);
     for (final List<SideBySideLine> pLine : detail.getLines()) {
       if (skipped(prior, pLine) > 0) {
@@ -140,7 +140,7 @@ public class SideBySideTable extends AbstractPatchContentTable {
     if (skipped(prior, null) > 0) {
       appendSkipLine(nc);
     }
-    resetHtml(nc.toString());
+    resetHtml(nc);
 
     // Insert the comment widgets now that the table DOM has been
     // parsed out of the HTML by the browser. We also bind each
@@ -201,37 +201,57 @@ public class SideBySideTable extends AbstractPatchContentTable {
     }
   }
 
-  private void appendHeader(final StringBuilder nc) {
+  private void appendHeader(final SafeHtmlBuilder m) {
     final String width = (100 / fileCnt) + "%";
-    nc.append("<tr>");
-    nc.append("<td class=\"FileColumnHeader " + S_ICON_CELL + "\">&nbsp;</td>");
+    m.openTr();
+
+    m.openTd();
+    m.addStyleName(S_ICON_CELL);
+    m.addStyleName("FileColumnHeader");
+    m.nbsp();
+    m.closeTd();
 
     if (fileCnt == 2) {
-      nc.append("<td class=\"FileColumnHeader LineNumber\">&nbsp;</td>");
-      nc.append("<td class=\"FileColumnHeader\" width=\"");
-      nc.append(width);
-      nc.append("\">");
-      nc.append(DomUtil.escape(PatchUtil.C.patchHeaderOld()));
-      nc.append("</td>");
+      m.openTd();
+      m.addStyleName("FileColumnHeader");
+      m.addStyleName("LineNumber");
+      m.nbsp();
+      m.closeTd();
+
+      m.openTd();
+      m.setStyleName("FileColumnHeader");
+      m.setAttribute("width", width);
+      m.append(PatchUtil.C.patchHeaderOld());
+      m.closeTd();
     } else {
       for (int fileId = 0; fileId < fileCnt - 1; fileId++) {
-        nc.append("<td class=\"FileColumnHeader LineNumber\">&nbsp;</td>");
-        nc.append("<td class=\"FileColumnHeader\" width=\"");
-        nc.append(width);
-        nc.append("\">");
-        nc.append(DomUtil.escape(PatchUtil.M.patchHeaderAncestor(fileId + 1)));
-        nc.append("</td>");
+        m.openTd();
+        m.addStyleName("FileColumnHeader");
+        m.addStyleName("LineNumber");
+        m.nbsp();
+        m.closeTd();
+
+        m.openTd();
+        m.setStyleName("FileColumnHeader");
+        m.setAttribute("width", width);
+        m.append(PatchUtil.M.patchHeaderAncestor(fileId + 1));
+        m.closeTd();
       }
     }
 
-    nc.append("<td class=\"FileColumnHeader LineNumber\">&nbsp;</td>");
-    nc.append("<td class=\"FileColumnHeader\" width=\"");
-    nc.append(width);
-    nc.append("\">");
-    nc.append(DomUtil.escape(PatchUtil.C.patchHeaderNew()));
-    nc.append("</td>");
+    m.openTd();
+    m.addStyleName("FileColumnHeader");
+    m.addStyleName("LineNumber");
+    m.nbsp();
+    m.closeTd();
 
-    nc.append("</tr>");
+    m.openTd();
+    m.setStyleName("FileColumnHeader");
+    m.setAttribute("width", width);
+    m.append(PatchUtil.C.patchHeaderNew());
+    m.closeTd();
+
+    m.closeTr();
   }
 
   private int skipped(List<SideBySideLine> prior,
@@ -279,14 +299,19 @@ public class SideBySideTable extends AbstractPatchContentTable {
     return existCnt == gapCnt ? lines : 0;
   }
 
-  private void appendSkipLine(final StringBuilder body) {
-    body.append("<tr>");
-    body.append("<td class=\"" + S_ICON_CELL + "\">&nbsp;</td>");
-    body.append("<td class=\"SkipLine\" colspan=\"");
-    body.append(fileCnt * 2);
-    body.append("\">");
-    body.append("</td>");
-    body.append("</tr>");
+  private void appendSkipLine(final SafeHtmlBuilder m) {
+    m.openTr();
+
+    m.openTd();
+    m.setStyleName(S_ICON_CELL);
+    m.nbsp();
+    m.closeTd();
+
+    m.openTd();
+    m.setStyleName("SkipLine");
+    m.setAttribute("colspan", fileCnt * 2);
+    m.closeTd();
+    m.closeTr();
   }
 
   private void bindSkipLine(int row, final int skipCnt) {
@@ -295,21 +320,27 @@ public class SideBySideTable extends AbstractPatchContentTable {
     table.setWidget(row, 1, skipPanel);
   }
 
-  private void appendFileLine(final StringBuilder nc,
+  private void appendFileLine(final SafeHtmlBuilder m,
       final List<SideBySideLine> line) {
-    nc.append("<tr valign=\"top\">");
-    nc.append("<td class=\"" + S_ICON_CELL + "\">&nbsp;</td>");
+    m.openTr();
+    m.setAttribute("valign", "top");
+
+    m.openTd();
+    m.setStyleName(S_ICON_CELL);
+    m.nbsp();
+    m.closeTd();
 
     for (int fileId = 0; fileId < fileCnt; fileId++) {
       final SideBySideLine s = line.get(fileId);
       if (s != null) {
-        nc.append("<td class=\"LineNumber\">");
-        nc.append(s.getLineNumber());
-        nc.append("</td>");
+        m.openTd();
+        m.setStyleName("LineNumber");
+        m.append(s.getLineNumber());
+        m.closeTd();
 
-        nc.append("<td class=\"FileLine FileLine-");
-        nc.append(s.getType().name());
-        nc.append("\">");
+        m.openTd();
+        m.addStyleName("FileLine");
+        m.addStyleName("FileLine-" + s.getType().name());
         if (!"".equals(s.getText())) {
           boolean showWhitespaceErrors = false;
           if (fileId == fileCnt - 1
@@ -319,19 +350,27 @@ public class SideBySideTable extends AbstractPatchContentTable {
             //
             showWhitespaceErrors = true;
           }
-          nc.append(PatchUtil.lineToHTML(s.getText(),
+          m.append(PatchUtil.lineToSafeHtml(s.getText(),
               PatchUtil.DEFAULT_LINE_LENGTH, showWhitespaceErrors));
         } else {
-          nc.append("&nbsp;");
+          m.nbsp();
         }
-        nc.append("</td>");
+        m.closeTd();
       } else {
-        nc.append("<td class=\"LineNumber\">&nbsp;</td>");
-        nc.append("<td class=\"FileLine FileLineNone\">&nbsp;</td>");
+        m.openTd();
+        m.setStyleName("LineNumber");
+        m.nbsp();
+        m.closeTd();
+
+        m.openTd();
+        m.addStyleName("FileLine");
+        m.addStyleName("FileLineNone");
+        m.nbsp();
+        m.closeTd();
       }
     }
 
-    nc.append("</tr>");
+    m.closeTr();
   }
 
   private static class SideBySideLineList {

@@ -17,12 +17,13 @@ package com.google.gerrit.client.changes;
 import com.google.gerrit.client.data.AccountInfoCache;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.PatchSetInfo;
-import com.google.gerrit.client.ui.DomUtil;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwtexpui.safehtml.client.SafeHtml;
+import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 public class ChangeDescriptionBlock extends Composite {
   private final DisclosurePanel descriptionPanel;
@@ -50,7 +51,8 @@ public class ChangeDescriptionBlock extends Composite {
   public void display(final Change chg, final PatchSetInfo info,
       final AccountInfoCache acc) {
     infoBlock.display(chg, acc);
-    description.setHTML(DomUtil.linkify(DomUtil.escape(info.getMessage())));
+    SafeHtml.set(description, new SafeHtmlBuilder().append(info.getMessage())
+        .linkify());
     descriptionPanel.setOpen(true);
   }
 }

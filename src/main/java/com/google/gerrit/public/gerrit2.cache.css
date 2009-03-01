@@ -57,12 +57,6 @@
   background: red;
 }
 
-.gerrit-preformat {
-  white-space: pre;
-  font-family: monospace;
-  font-size: small;
-}
-
 .gerrit-InputFieldTypeHint {
   color: grey;
 }
@@ -185,6 +179,7 @@
   padding-right: 5px;
   border-right: 1px solid #d4e9a9;
   border-bottom: 1px solid #d4e9a9;
+  vertical-align: top;
 }
 
 .gerrit-ChangeTable .CommentCell {

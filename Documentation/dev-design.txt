@@ -359,10 +359,10 @@ Gerrit stores the following information per user account:
 
 * Full Name
 * Preferred Email Address
-* Mailing Address '(Optional)'
-* Country '(Optional)'
-* Phone Number '(Optional)'
-* Fax Number '(Optional)'
+* Mailing Address '(Optional, Encrypted)'
+* Country '(Optional, Encrypted)'
+* Phone Number '(Optional, Encrypted)'
+* Fax Number '(Optional, Encrypted)'
 
 The full name and preferred email address fields are shown to any
 site visitor viewing a page containing a change uploaded by the
@@ -385,17 +385,24 @@ to cull email addresses from published Gerrit comments.  In most
 cases these same addresses would be more easily obtained from the
 project's mailing list archives.
 
+The user's name and email address is stored unencrypted in the
+Gerrit metadata store, typically a PostgreSQL database.
+
 The snail-mail mailing address, country, and phone and fax numbers
 are gathered to help project leads contact the user should there
 be a legal question regarding any change they have uploaded.
-This data is only visible to the account owner and to the Gerrit
-site administrator.  It is expected that the information would only
-be revealed with a valid court subpoena, but this is really left
-to the discretion of the Gerrit site administrator as to when it
-is reasonable to reveal this information to a 3rd party.
 
-All user account information is stored unencrypted in the Gerrit
-metadata store, typically a PostgreSQL database.
+These sensitive fields are immediately encrypted upon receipt with
+a GnuPG public key, and stored "off site" in another data store,
+isolated from the main Gerrit change data.  Gerrit does not have
+access to the matching private key, and as such cannot decrypt the
+information.  Therefore these fields are write-once in Gerrit, as not
+even the account owner can recover the values they previously stored.
+
+It is expected that the address information would only need to be
+decrypted and revealed with a valid court subpoena, but this is
+really left to the discretion of the Gerrit site administrator as
+to when it is reasonable to reveal this information to a 3rd party.
 
 
 Spam and Abuse Considerations

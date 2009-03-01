@@ -295,6 +295,16 @@ a Google Account" link on its sign-in screen.  Gerrit also supports
 a shorthand sign in link for Yahoo!.  Other providers may also be
 supported more directly in the future.
 
+Site administrators may limit the range of OpenID providers to
+a subset of "reliable providers".  Users may continue to use
+any OpenID provider to publish comments, but granted privileges
+are only available to a user if the only entry point to their
+account is through the defined set of "reliable OpenID providers".
+This permits site administrators to require HTTPS for OpenID,
+and to use only large main-stream providers that are trustworthy,
+or to require users to only use a custom OpenID provider installed
+alongside Gerrit Code Review.
+
 Gerrit integrates with some types of corporate single-sign-on (SSO)
 solutions, typically by having the SSO authentication be performed
 in a reverse proxy web server and then blindly trusting that all

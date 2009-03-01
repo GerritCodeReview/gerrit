@@ -22,7 +22,7 @@ class SafeHtmlString extends SafeHtml {
   }
 
   @Override
-  public String asString() {
+  String asString() {
     return html;
   }
 }

@@ -115,5 +115,5 @@ public abstract class SafeHtml {
   }
 
   /** @return a clean HTML string safe for inclusion in any context. */
-  public abstract String asString();
+  abstract String asString();
 }

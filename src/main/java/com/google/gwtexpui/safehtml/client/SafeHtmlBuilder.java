@@ -361,7 +361,7 @@ public class SafeHtmlBuilder extends SafeHtml {
   }
 
   @Override
-  public String asString() {
+  String asString() {
     return cb.toString();
   }
 

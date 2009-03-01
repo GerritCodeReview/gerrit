@@ -36,6 +36,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwtexpui.user.client.UserAgent;
 import com.google.gwtjsonrpc.client.JsonUtil;
 
 import java.util.ArrayList;
@@ -173,11 +174,7 @@ public class Gerrit implements EntryPoint {
   }
 
   public void onModuleLoad() {
-    if (GWT.isScript() && amInsideIFrame()) {
-      bustOutOfIFrame(Window.Location.getHref());
-      return;
-    }
-
+    UserAgent.assertNotInIFrame();
     initHistoryHooks();
     populateBottomMenu();
 
@@ -197,12 +194,6 @@ public class Gerrit implements EntryPoint {
       }
     });
   }
-
-  private static native boolean amInsideIFrame()
-  /*-{ return top.location != $wnd.location; }-*/;
-
-  private static native void bustOutOfIFrame(String newloc)
-  /*-{ top.location.href = newloc }-*/;
 
   private static ArrayList<JavaScriptObject> historyHooks;
 

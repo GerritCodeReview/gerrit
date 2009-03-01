@@ -14,6 +14,9 @@
 
 package com.google.gwtexpui.user.client;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.Window;
+
 /**
  * User agent feature tests we don't create permutations for.
  * <p>
@@ -44,6 +47,34 @@ public class UserAgent {
     }
     return false;
   }-*/;
+
+  /**
+   * Test for and disallow running this application in an &lt;iframe&gt;.
+   * <p>
+   * If the application is running within an iframe this method requests a
+   * browser generated redirect to pop the application out of the iframe into
+   * the top level window, and then aborts execution by throwing an exception.
+   * This is call should be placed early within the module's onLoad() method,
+   * before any real UI can be initialized that an attacking site could try to
+   * snip out and present in a confusing context.
+   * <p>
+   * If the break out works, execution will restart automatically in a proper
+   * top level window, where the script has full control over the display. If
+   * the break out fails, execution will abort and stop immediately, preventing
+   * UI widgets from being created, leaving the user with an empty frame.
+   */
+  public static void assertNotInIFrame() {
+    if (GWT.isScript() && amInsideIFrame()) {
+      bustOutOfIFrame(Window.Location.getHref());
+      throw new RuntimeException();
+    }
+  }
+
+  private static native boolean amInsideIFrame()
+  /*-{ return top.location != $wnd.location; }-*/;
+
+  private static native void bustOutOfIFrame(String newloc)
+  /*-{ top.location.href = newloc }-*/;
 
   private UserAgent() {
   }

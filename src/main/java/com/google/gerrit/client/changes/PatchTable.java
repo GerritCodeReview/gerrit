@@ -242,7 +242,7 @@ public class PatchTable extends FancyFlexTable<Patch> {
     }
 
     void initMeter() {
-      if (meter == null) {
+      if (stage == 0 && meter == null) {
         final SafeHtmlBuilder b = new SafeHtmlBuilder();
         b.openTr();
         b.openTd();

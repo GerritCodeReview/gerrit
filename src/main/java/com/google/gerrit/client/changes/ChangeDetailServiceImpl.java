@@ -17,8 +17,11 @@ package com.google.gerrit.client.changes;
 import com.google.gerrit.client.data.AccountInfoCacheFactory;
 import com.google.gerrit.client.data.ChangeDetail;
 import com.google.gerrit.client.data.PatchSetDetail;
+import com.google.gerrit.client.data.ProjectCache;
+import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.PatchSet;
+import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.BaseServiceImplementation;
 import com.google.gerrit.client.rpc.Common;
@@ -32,14 +35,23 @@ public class ChangeDetailServiceImpl extends BaseServiceImplementation
       final AsyncCallback<ChangeDetail> callback) {
     run(callback, new Action<ChangeDetail>() {
       public ChangeDetail run(final ReviewDb db) throws OrmException, Failure {
+        final Account.Id me = Common.getAccountId();
         final Change change = db.changes().get(id);
         if (change == null) {
           throw new Failure(new NoSuchEntityException());
         }
+        final PatchSet patch = db.patchSets().get(change.currentPatchSetId());
+        final ProjectCache.Entry projEnt =
+            Common.getProjectCache().get(change.getDest().getParentKey());
+        if (patch == null || projEnt == null) {
+          throw new Failure(new NoSuchEntityException());
+        }
+        final Project proj = projEnt.getProject();
         assertCanRead(change);
 
         final boolean anon;
-        if (Common.getAccountId() == null) {
+        boolean canAbandon = false;
+        if (me == null) {
           // Safe assumption, this wouldn't be allowed if it wasn't.
           //
           anon = true;
@@ -48,9 +60,20 @@ public class ChangeDetailServiceImpl extends BaseServiceImplementation
           // we can that doesn't mean the anonymous user could.
           //
           anon = canRead(null, change.getDest().getParentKey());
+
+          // The change owner, current patchset uploader, Gerrit administrator,
+          // and project administrator can mark the change as abandoned.
+          //
+          canAbandon =
+              me.equals(change.getOwner())
+                  || me.equals(patch.getUploader())
+                  || Common.getGroupCache().isAdministrator(me)
+                  || Common.getGroupCache().isInGroup(me,
+                      proj.getOwnerGroupId());
         }
         final ChangeDetail d = new ChangeDetail();
-        d.load(db, new AccountInfoCacheFactory(db), change, anon);
+
+        d.load(db, new AccountInfoCacheFactory(db), change, anon, canAbandon);
         return d;
       }
     });

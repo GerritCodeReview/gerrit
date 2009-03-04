@@ -28,11 +28,13 @@ import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.PatchSetInfo;
+import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.Account.Id;
 import com.google.gerrit.client.rpc.BaseServiceImplementation;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
+import com.google.gerrit.client.rpc.BaseServiceImplementation.Failure;
 import com.google.gerrit.git.RepositoryCache;
 import com.google.gerrit.server.ChangeMail;
 import com.google.gerrit.server.ChangeUtil;
@@ -353,6 +355,78 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
         db.changeApprovals().insert(Collections.singleton(myca), txn);
       }
     }
+    return VoidResult.INSTANCE;
+  }
+
+  public void abandonChange(final String message, final PatchSet.Id patchSetId,
+      final AsyncCallback<VoidResult> callback) {
+    run(callback, new Action<VoidResult>() {
+      public VoidResult run(final ReviewDb db) throws OrmException, Failure {
+        final Account.Id me = Common.getAccountId();
+        final Change change = db.changes().get(patchSetId.getParentKey());
+        final PatchSet patch = db.patchSets().get(change.currentPatchSetId());
+        final Project proj = db.projects().get(change.getDest().getParentKey());
+        if (me == null || change == null || patch == null || proj == null) {
+          throw new Failure(new NoSuchEntityException());
+        }
+
+        if (!me.equals(change.getOwner()) && !me.equals(patch.getUploader())
+            && !Common.getGroupCache().isAdministrator(me)
+            && !Common.getGroupCache().isInGroup(me, proj.getOwnerGroupId())) {
+          // The user doesn't have permission to abandon the change
+          throw new Failure(new NoSuchEntityException());
+        }
+
+        final ChangeMessage cmsg =
+            new ChangeMessage(new ChangeMessage.Key(change.getId(), ChangeUtil
+                .messageUUID(db)), me);
+        final StringBuilder msgBuf =
+            new StringBuilder("Patch Set " + change.currentPatchSetId().get()
+                + ": Abandoned");
+        if (message != null && message.length() > 0) {
+          msgBuf.append("\n\n");
+          msgBuf.append(message);
+        }
+        cmsg.setMessage(msgBuf.toString());
+
+        db.run(new OrmRunnable<VoidResult, ReviewDb>() {
+          public VoidResult run(ReviewDb db, Transaction txn, boolean retry)
+              throws OrmException {
+            return doAbandonChange(message, change, cmsg, db, txn);
+          }
+        });
+
+        // Email the reviewers
+        try {
+          final ChangeMail cm = new ChangeMail(server, change);
+          cm.setFrom(Common.getAccountId());
+          cm.setReviewDb(db);
+          cm.setChangeMessage(cmsg);
+          cm.setHttpServletRequest(GerritJsonServlet.getCurrentCall()
+              .getHttpServletRequest());
+          cm.sendAbandoned();
+        } catch (MessagingException e) {
+          log.error("Cannot send abandon change email for change "
+              + change.getChangeId(), e);
+          throw new Failure(e);
+        }
+
+        return VoidResult.INSTANCE;
+      }
+    });
+  }
+
+  private VoidResult doAbandonChange(final String message, final Change change,
+      final ChangeMessage cm, final ReviewDb db, final Transaction txn)
+      throws OrmException {
+    if (change.getStatus() == Change.Status.NEW) {
+      change.setStatus(Change.Status.ABANDONED);
+      ChangeUtil.updated(change);
+    }
+
+    db.changeMessages().insert(Collections.singleton(cm), txn);
+    db.changes().update(Collections.singleton(change), txn);
+
     return VoidResult.INSTANCE;
   }
 }

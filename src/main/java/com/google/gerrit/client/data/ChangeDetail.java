@@ -41,6 +41,7 @@ import java.util.Set;
 public class ChangeDetail {
   protected AccountInfoCache accounts;
   protected boolean allowsAnonymous;
+  protected boolean canAbandon;
   protected Change change;
   protected List<ChangeInfo> dependsOn;
   protected List<ChangeInfo> neededBy;
@@ -56,12 +57,14 @@ public class ChangeDetail {
   }
 
   public void load(final ReviewDb db, final AccountInfoCacheFactory acc,
-      final Change c, final boolean allowAnon) throws OrmException {
+      final Change c, final boolean allowAnon, final boolean canAbdn)
+      throws OrmException {
     change = c;
     final Account.Id owner = change.getOwner();
     acc.want(owner);
 
     allowsAnonymous = allowAnon;
+    canAbandon = canAbdn;
     patchSets = db.patchSets().byChange(change.getId()).toList();
     messages = db.changeMessages().byChange(change.getId()).toList();
     for (final ChangeMessage m : messages) {
@@ -175,6 +178,10 @@ public class ChangeDetail {
 
   public boolean isAllowsAnonymous() {
     return allowsAnonymous;
+  }
+
+  public boolean canAbandon() {
+    return canAbandon;
   }
 
   public Change getChange() {

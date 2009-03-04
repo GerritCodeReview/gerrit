@@ -18,14 +18,15 @@ import com.google.gerrit.client.RpcStatus;
 import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gwt.user.client.ui.SuggestOracle;
+import com.google.gwtexpui.safehtml.client.HighlightSuggestOracle;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /** Suggestion Oracle for AccountGroup entities. */
-public class AccountGroupSuggestOracle extends SuggestOracle {
+public class AccountGroupSuggestOracle extends HighlightSuggestOracle {
   @Override
-  public void requestSuggestions(final Request req, final Callback callback) {
+  public void onRequestSuggestions(final Request req, final Callback callback) {
     RpcStatus.hide(new Runnable() {
       public void run() {
         SuggestUtil.SVC.suggestAccountGroup(req.getQuery(), req.getLimit(),

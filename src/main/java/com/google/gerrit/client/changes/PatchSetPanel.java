@@ -33,6 +33,7 @@ import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.RefreshListener;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Composite;
@@ -161,6 +162,9 @@ class PatchSetPanel extends Composite implements DisclosureHandler {
     if (Gerrit.isSignedIn() && changeDetail.isCurrentPatchSet(detail)) {
       populateCommentAction();
       populateActions(detail);
+      if (changeDetail.canAbandon()) {
+        populateAbandonAction();
+      }
     }
     body.add(patchTable);
   }
@@ -309,6 +313,24 @@ class PatchSetPanel extends Composite implements DisclosureHandler {
       });
       actionsPanel.add(b);
     }
+  }
+
+  private void populateAbandonAction() {
+    final Button b = new Button(Util.C.buttonAbandonChangeBegin());
+    b.addClickListener(new ClickListener() {
+      public void onClick(Widget sender) {
+        new AbandonChangeDialog(patchSet.getId(), new AsyncCallback<Object>() {
+          public void onSuccess(Object result) {
+            actionsPanel.remove(b);
+            fireOnSuggestRefresh();
+          }
+
+          public void onFailure(Throwable caught) {
+          }
+        }).center();
+      }
+    });
+    actionsPanel.add(b);
   }
 
   private void populateCommentAction() {

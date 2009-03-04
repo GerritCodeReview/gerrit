@@ -22,6 +22,15 @@ OpenID authentication services.
 
 * http://openid.net/[openid.net]
 
+If Jetty is being used, you may need to increase the header
+buffer size parameter, due to very long header lines.
+Add the following to `$JETTY_HOME/etc/jetty.xml` under
+`org.mortbay.jetty.nio.SelectChannelConnector`:
+
+====
+  <Set name="headerBufferSize">16384</Set>
+====
+
 In order to use permissions beyond those granted to the
 `Anonymous Users` and `Registered Users` groups, an account
 must only have OpenIDs which match at least one pattern from the
@@ -177,9 +186,10 @@ example would be typical, to add the domain name of the organization.
 If Apache HTTPd is being used, see the section above to configure
 the `/ssh_info` URL to be available to `repo upload`.
 
-If Jetty is being used, you may need to increase the header buffer
-size parameter, due to very long header lines.  Add the following
-to `jetty.xml` under `org.mortbay.jetty.nio.SelectChannelConnector`:
+If Jetty is being used, you may need to increase the header
+buffer size parameter, due to very long header lines.
+Add the following to `$JETTY_HOME/etc/jetty.xml` under
+`org.mortbay.jetty.nio.SelectChannelConnector`:
 
 ====
   <Set name="headerBufferSize">16384</Set>

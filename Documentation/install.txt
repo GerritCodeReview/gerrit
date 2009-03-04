@@ -227,6 +227,15 @@ Edit `$JETTY_HOME/contexts/gerrit.xml` to correctly configure the
 database and outgoing SMTP connections, especially the user and
 password fields.
 
+If OpenID authentication is being used, you may need to increase
+the header buffer size parameter, due to very long header
+lines.  Add the following to `$JETTY_HOME/etc/jetty.xml` under
+`org.mortbay.jetty.nio.SelectChannelConnector`:
+
+====
+  <Set name="headerBufferSize">16384</Set>
+====
+
 To start automatically when the system boots, consider a start
 script such as the following in `/etc/init.d/gerrit2-jetty`
 

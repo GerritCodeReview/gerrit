@@ -464,7 +464,8 @@ public class ProjectAdminServiceImpl extends BaseServiceImplementation
   private List<Project> myOwnedProjects(final ReviewDb db) throws OrmException {
     final Account.Id me = Common.getAccountId();
     final List<Project> own = new ArrayList<Project>();
-    for (final AccountGroup.Id groupId : Common.getGroupCache().getEffectiveGroups(me)) {
+    for (final AccountGroup.Id groupId : Common.getGroupCache()
+        .getEffectiveGroups(me)) {
       for (final Project g : db.projects().ownedByGroup(groupId)) {
         own.add(g);
       }

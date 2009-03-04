@@ -88,7 +88,7 @@ public class OpenIdLoginPanel extends Composite implements FormHandler {
     formBody.add(discoveryCbField = new Hidden(OpenIdUtil.P_DISCOVERY_CB));
     formBody.add(new Hidden(OpenIdUtil.P_SIGNIN_MODE, mode.name()));
 
-    providerFrame = new NamedFrame("openid_provider");
+    providerFrame = new NamedFrame(DOM.createUniqueId());
     providerFrame.setVisible(false);
 
     form = new FormPanel(providerFrame);

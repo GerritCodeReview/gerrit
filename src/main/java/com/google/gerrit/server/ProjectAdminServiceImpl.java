@@ -31,6 +31,7 @@ import com.google.gerrit.client.rpc.InvalidNameException;
 import com.google.gerrit.client.rpc.InvalidRevisionException;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gerrit.git.InvalidRepositoryException;
+import com.google.gerrit.git.PushQueue;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
@@ -321,13 +322,15 @@ public class ProjectAdminServiceImpl extends BaseServiceImplementation
             continue;
           }
 
+          final Branch.NameKey mKey = m.getNameKey();
           switch (result) {
             case NEW:
             case NO_CHANGE:
             case FAST_FORWARD:
             case FORCED:
               db.branches().delete(Collections.singleton(m));
-              deleted.add(m.getNameKey());
+              deleted.add(mKey);
+              PushQueue.scheduleUpdate(mKey.getParentKey(), m.getName());
               break;
 
             case REJECTED_CURRENT_BRANCH:
@@ -430,6 +433,7 @@ public class ProjectAdminServiceImpl extends BaseServiceImplementation
             case FAST_FORWARD:
             case NEW:
             case NO_CHANGE:
+              PushQueue.scheduleUpdate(name.getParentKey(), refname);
               break;
             default:
               log.error("Cannot create branch " + name + ": " + result.name());

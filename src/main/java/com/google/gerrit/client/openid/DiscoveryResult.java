@@ -14,19 +14,24 @@
 
 package com.google.gerrit.client.openid;
 
+import java.util.Map;
+
 public final class DiscoveryResult {
   public boolean validProvider;
-  public String redirectUrl;
+  public String providerUrl;
+  public Map<String, String> providerArgs;
 
   protected DiscoveryResult() {
   }
 
-  public DiscoveryResult(final boolean valid, final String redirect) {
+  public DiscoveryResult(final boolean valid, final String redirect,
+      final Map<String, String> args) {
     validProvider = valid;
-    redirectUrl = redirect;
+    providerUrl = redirect;
+    providerArgs = args;
   }
 
   public DiscoveryResult(final boolean fail) {
-    this(false, null);
+    this(false, null, null);
   }
 }

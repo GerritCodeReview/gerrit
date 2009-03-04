@@ -239,7 +239,7 @@ public class OpenIdLoginServlet extends HttpServlet {
     auth.put("openid.ns.sreg", "http://openid.net/extensions/sreg/1.1");
 
     relyingParty.getOpenIdUserManager().saveUser(user, req, rsp);
-    sendJson(req, rsp, new DiscoveryResult(true, auth.toString()), req
+    sendJson(req, rsp, new DiscoveryResult(true, auth.getUrl(), auth), req
         .getParameter(OpenIdUtil.P_DISCOVERY_CB));
   }
 

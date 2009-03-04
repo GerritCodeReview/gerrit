@@ -18,6 +18,7 @@ import com.google.gerrit.client.SignInDialog;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.FormElement;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.DOM;
@@ -46,6 +47,8 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtjsonrpc.client.CallbackHandle;
 
+import java.util.Map;
+
 public class OpenIdLoginPanel extends Composite implements FormHandler {
   private final SignInDialog.Mode mode;
   private final CallbackHandle<?> discoveryCallback;
@@ -59,6 +62,9 @@ public class OpenIdLoginPanel extends Composite implements FormHandler {
   private final Hidden discoveryCbField;
   private final Hidden signInCbField;
   private final Hidden providerField;
+
+  private final FormPanel redirectForm;
+  private final FlowPanel redirectBody;
 
   private FlowPanel errorLine;
   private InlineLabel errorMsg;
@@ -92,13 +98,19 @@ public class OpenIdLoginPanel extends Composite implements FormHandler {
     providerFrame.setVisible(false);
 
     form = new FormPanel(providerFrame);
-    form.setMethod("GET");
+    form.setMethod(FormPanel.METHOD_GET);
     form.setAction(GWT.getModuleBaseURL() + "login");
     form.addFormHandler(this);
     form.add(formBody);
 
+    redirectBody = new FlowPanel();
+    redirectBody.setVisible(false);
+    redirectForm = new FormPanel();
+    redirectForm.add(redirectBody);
+
     panelWidget = new FlowPanel();
     panelWidget.add(form);
+    panelWidget.add(redirectForm);
     panelWidget.add(providerFrame);
     initWidget(panelWidget);
 
@@ -264,8 +276,19 @@ public class OpenIdLoginPanel extends Composite implements FormHandler {
 
     if (result.validProvider) {
       final String url = providerId.getText();
+
+      redirectForm.setMethod(FormPanel.METHOD_POST);
+      redirectForm.setAction(result.providerUrl);
+      redirectBody.clear();
+      for (final Map.Entry<String, String> e : result.providerArgs.entrySet()) {
+        redirectBody.add(new Hidden(e.getKey(), e.getValue()));
+      }
+
+      final FormElement fe = FormElement.as(redirectForm.getElement());
       if (allowFrame.permit(url)) {
-        providerFrame.setUrl(result.redirectUrl);
+        // The provider will work OK inside an IFRAME, so use it.
+        //
+        fe.setTarget(providerFrame.getName());
 
         // The provider page needs time to load. It won't load as fast as
         // we can update the DOM so we delay our DOM update for just long
@@ -284,8 +307,9 @@ public class OpenIdLoginPanel extends Composite implements FormHandler {
         // the browser won't update anything until its started to load
         // the provider's page.
         //
-        Window.Location.assign(result.redirectUrl);
+        fe.setTarget("_top");
       }
+      redirectForm.submit();
 
     } else {
       // We failed discovery. We have to use a deferred command here

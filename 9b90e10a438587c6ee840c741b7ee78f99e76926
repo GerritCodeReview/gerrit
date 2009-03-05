@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAJn///64\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/AbandonChangeDialog.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2009-03-05T23:17:27Z",
+      "side": 1,
+      "message": "Let me know if you\u0027d prefer for this work to be done in onLoad() instead.  None of it is cached at the moment, so I thought the constructor made sense.\n\nAlso, this dialog is a little bland.  If you have any thoughts on improvements please share.",
+      "revId": "9b90e10a438587c6ee840c741b7ee78f99e76926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAJn///7A\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/AbandonChangeDialog.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2009-03-05T23:17:27Z",
+      "side": 1,
+      "message": "ugh...",
+      "revId": "9b90e10a438587c6ee840c741b7ee78f99e76926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAJn///6o\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/PatchSetPanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2009-03-05T23:17:27Z",
+      "side": 1,
+      "message": "I use onFailure() from a pop-up if the user hits cancel, to re-enable the button.  Let me know if this seems non-standard or should be changed.",
+      "revId": "9b90e10a438587c6ee840c741b7ee78f99e76926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAJn///6k\u003d",
+        "filename": "src/main/java/com/google/gerrit/public/gerrit2.cache.css",
+        "patchSetId": 1
+      },
+      "lineNbr": 780,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2009-03-05T23:17:27Z",
+      "side": 1,
+      "message": "These were mostly copied from the comment-on-a-patch page",
+      "revId": "9b90e10a438587c6ee840c741b7ee78f99e76926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAJn///6U\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ChangeMail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2009-03-05T23:17:27Z",
+      "side": 1,
+      "message": "Let me know if this function should be renamed... I thought it would be best to email all of the reviewers of the change, so this worked perfectly.",
+      "revId": "9b90e10a438587c6ee840c741b7ee78f99e76926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAJn///6M\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/patch/PatchDetailServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2009-03-05T23:17:27Z",
+      "side": 1,
+      "message": "I saw some Admin code which used NoSuchEntityException for login problems, but let me know if I should throw something else instead.",
+      "revId": "9b90e10a438587c6ee840c741b7ee78f99e76926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAJn///6E\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/patch/PatchDetailServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2009-03-05T23:17:27Z",
+      "side": 1,
+      "message": "I\u0027m reasonably sure this is correct, and it works as expected on my box, but please look it over closely :)",
+      "revId": "9b90e10a438587c6ee840c741b7ee78f99e76926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

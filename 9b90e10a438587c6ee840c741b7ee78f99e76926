@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAAJn///68\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/AbandonChangeDialog.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-03-05T23:32:53Z",
+      "side": 1,
+      "message": "Probably not, eh?",
+      "revId": "9b90e10a438587c6ee840c741b7ee78f99e76926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAJn///6w\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/AbandonChangeDialog.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-03-05T23:32:53Z",
+      "side": 1,
+      "message": "Either document, or remove.  I haven\u0027t documented much (if any) UI code myself so I can\u0027t blame you for not writing a class doc comment.",
+      "revId": "9b90e10a438587c6ee840c741b7ee78f99e76926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAJn///64\u003d",
         "filename": "src/main/java/com/google/gerrit/client/changes/AbandonChangeDialog.java",
         "patchSetId": 1
@@ -13,6 +47,23 @@
       "writtenOn": "2009-03-05T23:17:27Z",
       "side": 1,
       "message": "Let me know if you\u0027d prefer for this work to be done in onLoad() instead.  None of it is cached at the moment, so I thought the constructor made sense.\n\nAlso, this dialog is a little bland.  If you have any thoughts on improvements please share.",
+      "revId": "9b90e10a438587c6ee840c741b7ee78f99e76926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAJn///58\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/AbandonChangeDialog.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-03-05T23:32:53Z",
+      "side": 1,
+      "message": "doing it in the constructor is fine",
       "revId": "9b90e10a438587c6ee840c741b7ee78f99e76926",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -36,6 +87,108 @@
     },
     {
       "key": {
+        "uuid": "AAAAJn///60\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/AbandonChangeDialog.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-03-05T23:32:53Z",
+      "side": 1,
+      "message": "Unnecessary trailing whitespace on the line.",
+      "revId": "9b90e10a438587c6ee840c741b7ee78f99e76926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAJn///6s\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/AbandonChangeDialog.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-03-05T23:32:53Z",
+      "side": 1,
+      "message": "if this only has one child, use FlowPanel instead.  FlowPanel maps directly to a single \u003cdiv\u003e element; VerticalPanel maps to a table with one column and one row per object added.  and fwiw in many contexts you can use a FlowPanel where a VerticalPanel is desired due to the \u003cdiv\u003e and standard block layout behavior in the browser.",
+      "revId": "9b90e10a438587c6ee840c741b7ee78f99e76926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAJn///6g\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/AbandonChangeDialog.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-03-05T23:32:53Z",
+      "side": 1,
+      "message": "normally we just don\u0027t call the callback at all on cancel.  i think calling onFailure(null) here is bad form.  if you need to notify the callback of the dialog being cancelled, i think you should use a different callback interface that is more explicit about the events being sent to it.",
+      "revId": "9b90e10a438587c6ee840c741b7ee78f99e76926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAJn///6Q\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeConstants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-03-05T23:32:53Z",
+      "side": 1,
+      "message": "can you put a blank line around this block?  normally i try to group messages string methods by location of use.",
+      "revId": "9b90e10a438587c6ee840c741b7ee78f99e76926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAJn///6Y\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeConstants.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-03-05T23:32:53Z",
+      "side": 1,
+      "message": "see remark in the interface about grouping",
+      "revId": "9b90e10a438587c6ee840c741b7ee78f99e76926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAJn///6I\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeDetailServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-03-05T23:32:53Z",
+      "side": 1,
+      "message": "change\u003d\u003dnull test is pointless, line 39 above NPE\u0027d if change was null when getting the current patch set",
+      "revId": "9b90e10a438587c6ee840c741b7ee78f99e76926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAJn///6o\u003d",
         "filename": "src/main/java/com/google/gerrit/client/changes/PatchSetPanel.java",
         "patchSetId": 1
@@ -47,6 +200,40 @@
       "writtenOn": "2009-03-05T23:17:27Z",
       "side": 1,
       "message": "I use onFailure() from a pop-up if the user hits cancel, to re-enable the button.  Let me know if this seems non-standard or should be changed.",
+      "revId": "9b90e10a438587c6ee840c741b7ee78f99e76926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAJn///5w\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/PatchSetPanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-03-05T23:32:53Z",
+      "side": 1,
+      "message": "it is non-standard.  and the dialog should be modal, taking up the ui, so the user can\u0027t interact with the button anyway while it is open.  so i don\u0027t see any value in disabling the button while the dialog is open.\n\nwe usually only disable buttons during an rpc, where we are waiting for the server to respond and the rest of the ui is still live.",
+      "revId": "9b90e10a438587c6ee840c741b7ee78f99e76926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAJn///5s\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/patches/PatchDetailService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-03-05T23:32:53Z",
+      "side": 1,
+      "message": "i would prefer to flip the order of the arguments the other way around, entity affected first, then parameters to the operation.",
       "revId": "9b90e10a438587c6ee840c741b7ee78f99e76926",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -70,6 +257,40 @@
     },
     {
       "key": {
+        "uuid": "AAAAJn///50\u003d",
+        "filename": "src/main/java/com/google/gerrit/public/gerrit2.cache.css",
+        "patchSetId": 1
+      },
+      "lineNbr": 781,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-03-05T23:32:53Z",
+      "side": 1,
+      "message": "due to gerrit telling browsers to cache *.cache.css for 1 year, if you modify the file, you have to also rename it.  bump the version number +1 (gerrit3.cache.css).\n\nalso make sure you edit Gerrit.gwt.xml to update the current CSS name there too.",
+      "revId": "9b90e10a438587c6ee840c741b7ee78f99e76926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAJn///5o\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ChangeMail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-03-05T23:32:53Z",
+      "side": 1,
+      "message": "i would drop \" a \", just say what change",
+      "revId": "9b90e10a438587c6ee840c741b7ee78f99e76926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAJn///6U\u003d",
         "filename": "src/main/java/com/google/gerrit/server/ChangeMail.java",
         "patchSetId": 1
@@ -81,6 +302,40 @@
       "writtenOn": "2009-03-05T23:17:27Z",
       "side": 1,
       "message": "Let me know if this function should be renamed... I thought it would be best to email all of the reviewers of the change, so this worked perfectly.",
+      "revId": "9b90e10a438587c6ee840c741b7ee78f99e76926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAJn///5k\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ChangeMail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-03-05T23:32:53Z",
+      "side": 1,
+      "message": "nope, this is correct, commentTo to send to everyone intersted",
+      "revId": "9b90e10a438587c6ee840c741b7ee78f99e76926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAJn///5g\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/patch/PatchDetailServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-03-05T23:32:53Z",
+      "side": 1,
+      "message": "change \u003d\u003d null test is pointless, it NPEs on line 367",
       "revId": "9b90e10a438587c6ee840c741b7ee78f99e76926",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -104,6 +359,57 @@
     },
     {
       "key": {
+        "uuid": "AAAAJn///5c\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/patch/PatchDetailServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-03-05T23:32:53Z",
+      "side": 1,
+      "message": "yea, we\u0027re sort of bad about this.  usually we just say NoSuchEntityException when you don\u0027t have access.  its partly on the \"i\u0027m a lazy bastard and didn\u0027t make a new type\" and partly \"don\u0027t leak information to the user about what exists if they can\u0027t see it in the first place\".\n\nhere the user probably can see the change, or they guessed the sequential number, but they aren\u0027t allowed to do the abandon.  a more meaningful error might be helpful to troubleshoot problems, but see my remark about being a lazy bastard.  :)",
+      "revId": "9b90e10a438587c6ee840c741b7ee78f99e76926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAJn///5I\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/patch/PatchDetailServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-03-05T23:32:53Z",
+      "side": 1,
+      "message": "don\u0027t send email if we didn\u0027t actually do the abandon in the db.run().  you probably want to change db.run() to return a Boolean so you can tell the difference.",
+      "revId": "9b90e10a438587c6ee840c741b7ee78f99e76926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAJn///5U\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/patch/PatchDetailServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-03-05T23:32:53Z",
+      "side": 1,
+      "message": "can\u0027t you just say \"me\" here?",
+      "revId": "9b90e10a438587c6ee840c741b7ee78f99e76926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAJn///6E\u003d",
         "filename": "src/main/java/com/google/gerrit/server/patch/PatchDetailServiceImpl.java",
         "patchSetId": 1
@@ -115,6 +421,57 @@
       "writtenOn": "2009-03-05T23:17:27Z",
       "side": 1,
       "message": "I\u0027m reasonably sure this is correct, and it works as expected on my box, but please look it over closely :)",
+      "revId": "9b90e10a438587c6ee840c741b7ee78f99e76926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAJn///5E\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/patch/PatchDetailServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-03-05T23:32:53Z",
+      "side": 1,
+      "message": "like i said above, you probably want to return a Boolean from this method.",
+      "revId": "9b90e10a438587c6ee840c741b7ee78f99e76926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAJn///5M\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/patch/PatchDetailServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-03-05T23:32:53Z",
+      "side": 1,
+      "message": "please validate that change.currentPatchSetId() equals patchsetId.  If they don\u0027t then the change was modified while the user was looking at it with an upload --replace and maybe they shouldn\u0027t abandon it just yet.\n\ndb.run() can call us multiple times if there is a concurrent edit.  we should eventually succeed without throwing an exception, but maybe we shouldn\u0027t abandon just yet.",
+      "revId": "9b90e10a438587c6ee840c741b7ee78f99e76926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAJn///5Q\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/patch/PatchDetailServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-03-05T23:32:53Z",
+      "side": 1,
+      "message": "move the database updates under conditional block so we only do the message insert and record update if the record actually was safe to abandon.",
       "revId": "9b90e10a438587c6ee840c741b7ee78f99e76926",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

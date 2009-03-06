@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAJ3///+w\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/ui/AddMemberBox.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-03-06T18:52:30Z",
+      "side": 1,
+      "message": "Brad, I would in particular appreciate a +1 review vote for this particular change, as you were the person who introduced this particular file to the project (albeit by refactoring it out of other code I wrote).",
+      "revId": "6ac154e96a62e022cf30bf58aa73a6d934042b10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

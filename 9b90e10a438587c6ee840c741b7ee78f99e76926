@@ -36,6 +36,23 @@
     },
     {
       "key": {
+        "uuid": "AAAAJ3////E\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/AbandonChangeDialog.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-03-06T18:25:05Z",
+      "side": 1,
+      "message": "How about:\n\n\"Copyright (C) 2009 The Android Open Source Project\"\n\nrepo\u0027s headers appear this way.  All of Android appears this way.  I can change all of the headers in Gerrit to match.\n\nAOSP doesn\u0027t exist as a legal entity.  The CLA says copyright stays with the original author.  Claiming copyright just require that notice be given, or so sayeth the lawyer sorts we consulted with when setting up the AOSP headers.\n\nIn other words, it was actually a mistake to use \"Google Inc.\" in the existing Gerrit headers.",
+      "revId": "9b90e10a438587c6ee840c741b7ee78f99e76926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAJn///6w\u003d",
         "filename": "src/main/java/com/google/gerrit/client/changes/AbandonChangeDialog.java",
         "patchSetId": 1
@@ -376,6 +393,23 @@
     },
     {
       "key": {
+        "uuid": "AAAAJ3////A\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ChangeMail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-03-06T18:25:05Z",
+      "side": 1,
+      "message": "Ah, in that case, initInReplyToChange() is still correct, we want this abandon message to be threaded with the rest of the messages for this change within a threaded mail reader.  Otherwise it might be shown disconnected, which is annoying to the user of a threaded mail reader.",
+      "revId": "9b90e10a438587c6ee840c741b7ee78f99e76926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAJn///5g\u003d",
         "filename": "src/main/java/com/google/gerrit/server/patch/PatchDetailServiceImpl.java",
         "patchSetId": 1
@@ -404,6 +438,23 @@
       "writtenOn": "2009-03-06T18:17:49Z",
       "side": 1,
       "message": "Good catch... I\u0027ve moved the change \u003d\u003d null test up to just below change \u003d db.... to avoid the NPE.  Is this the best solution?",
+      "revId": "9b90e10a438587c6ee840c741b7ee78f99e76926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAJ3///+4\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/patch/PatchDetailServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-03-06T18:25:05Z",
+      "side": 1,
+      "message": "only one i can think of.  the other would be to add something like \"patch \u003d change !\u003d null ? db.patchSets()... : null\", which is about as ugly as doing the if (... null) { throw new Failure()} several times, once for each variable.\n\ni\u0027m fine with the code either way.  both suck, but it is necessary to catch the condition with a reasonable error.",
       "revId": "9b90e10a438587c6ee840c741b7ee78f99e76926",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -540,6 +591,23 @@
       "writtenOn": "2009-03-06T18:17:49Z",
       "side": 1,
       "message": "I think I understand... How should I delay this until I know that the call will succeed?",
+      "revId": "9b90e10a438587c6ee840c741b7ee78f99e76926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAJ3///+8\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/patch/PatchDetailServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-03-06T18:25:05Z",
+      "side": 1,
+      "message": "the call is synchronous.  db.run() won\u0027t return until either the method ran successfully, or an exception was thrown, or db.run() gave up.  in the latter two cases it throws an exception instead of returning.",
       "revId": "9b90e10a438587c6ee840c741b7ee78f99e76926",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "AAAAJ3////g\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/AbandonChangeDialog.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2009-03-06T18:17:49Z",
+      "side": 1,
+      "message": "Well... I don\u0027t think you want Copyright 2008 me...?\nShould I just remove this line and leave the rest?",
+      "revId": "9b90e10a438587c6ee840c741b7ee78f99e76926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAJn///6w\u003d",
         "filename": "src/main/java/com/google/gerrit/client/changes/AbandonChangeDialog.java",
         "patchSetId": 1
@@ -30,6 +47,23 @@
       "writtenOn": "2009-03-05T23:32:53Z",
       "side": 1,
       "message": "Either document, or remove.  I haven\u0027t documented much (if any) UI code myself so I can\u0027t blame you for not writing a class doc comment.",
+      "revId": "9b90e10a438587c6ee840c741b7ee78f99e76926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAJ3////c\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/AbandonChangeDialog.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2009-03-06T18:17:49Z",
+      "side": 1,
+      "message": "Ah this slipped through... I\u0027ll just remove it",
       "revId": "9b90e10a438587c6ee840c741b7ee78f99e76926",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -325,6 +359,23 @@
     },
     {
       "key": {
+        "uuid": "AAAAJ3////U\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ChangeMail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2009-03-06T18:17:49Z",
+      "side": 1,
+      "message": "Sorry... I was referring to initInReplyToChange() above.",
+      "revId": "9b90e10a438587c6ee840c741b7ee78f99e76926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAJn///5g\u003d",
         "filename": "src/main/java/com/google/gerrit/server/patch/PatchDetailServiceImpl.java",
         "patchSetId": 1
@@ -336,6 +387,23 @@
       "writtenOn": "2009-03-05T23:32:53Z",
       "side": 1,
       "message": "change \u003d\u003d null test is pointless, it NPEs on line 367",
+      "revId": "9b90e10a438587c6ee840c741b7ee78f99e76926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAJ3////Q\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/patch/PatchDetailServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2009-03-06T18:17:49Z",
+      "side": 1,
+      "message": "Good catch... I\u0027ve moved the change \u003d\u003d null test up to just below change \u003d db.... to avoid the NPE.  Is this the best solution?",
       "revId": "9b90e10a438587c6ee840c741b7ee78f99e76926",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -455,6 +523,23 @@
       "writtenOn": "2009-03-05T23:32:53Z",
       "side": 1,
       "message": "please validate that change.currentPatchSetId() equals patchsetId.  If they don\u0027t then the change was modified while the user was looking at it with an upload --replace and maybe they shouldn\u0027t abandon it just yet.\n\ndb.run() can call us multiple times if there is a concurrent edit.  we should eventually succeed without throwing an exception, but maybe we shouldn\u0027t abandon just yet.",
+      "revId": "9b90e10a438587c6ee840c741b7ee78f99e76926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAJ3////M\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/patch/PatchDetailServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2009-03-06T18:17:49Z",
+      "side": 1,
+      "message": "I think I understand... How should I delay this until I know that the call will succeed?",
       "revId": "9b90e10a438587c6ee840c741b7ee78f99e76926",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAJ3///+E\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/patch/PatchDetailServiceImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2009-03-06T19:51:30Z",
+      "side": 1,
+      "message": "I think this is what you had in mind for this section... but I wasn\u0027t sure about line 429.",
+      "revId": "789a9a64c6a8c87b29d56f330966fd2b4c08be95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

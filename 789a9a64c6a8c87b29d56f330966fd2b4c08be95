@@ -2,6 +2,74 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAAJ3///9Y\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/AbandonChangeDialog.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-03-07T02:04:12Z",
+      "side": 1,
+      "message": "fwiw, its 2009 now man... :-)",
+      "revId": "789a9a64c6a8c87b29d56f330966fd2b4c08be95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAJ3///9Q\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeDetailServiceImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-03-07T02:04:12Z",
+      "side": 1,
+      "message": "damn.  Common.getProjectCache().get(change.getDest().getParentKey()) is faster here (avoids a database query), but its not promised if the client were offline.  maybe we should just promise it will be there if we ever get offline support implemented.",
+      "revId": "789a9a64c6a8c87b29d56f330966fd2b4c08be95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAJ3///9M\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeDetailServiceImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-03-07T02:04:12Z",
+      "side": 1,
+      "message": "oh, we already are relying on the group cache, which is also only currently promised on the server, so we might as well just assume the project cache too above.  there isn\u0027t any other sane way to write this code except to use it.",
+      "revId": "789a9a64c6a8c87b29d56f330966fd2b4c08be95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAJ3///9U\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/patch/PatchDetailServiceImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-03-07T02:04:12Z",
+      "side": 1,
+      "message": "Common.getProjectCache().get(change.getDest().getParentKey()) is faster here.",
+      "revId": "789a9a64c6a8c87b29d56f330966fd2b4c08be95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAJ3///+E\u003d",
         "filename": "src/main/java/com/google/gerrit/server/patch/PatchDetailServiceImpl.java",
         "patchSetId": 3
@@ -13,6 +81,57 @@
       "writtenOn": "2009-03-06T19:51:30Z",
       "side": 1,
       "message": "I think this is what you had in mind for this section... but I wasn\u0027t sure about line 429.",
+      "revId": "789a9a64c6a8c87b29d56f330966fd2b4c08be95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAJ3///9E\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/patch/PatchDetailServiceImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-03-07T02:04:12Z",
+      "side": 1,
+      "message": "yup, looks right",
+      "revId": "789a9a64c6a8c87b29d56f330966fd2b4c08be95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAJ3///9I\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/patch/PatchDetailServiceImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-03-07T02:04:12Z",
+      "side": 1,
+      "message": "you should do this.  its important to call to correct the sort key field in the change record",
+      "revId": "789a9a64c6a8c87b29d56f330966fd2b4c08be95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAJ3///9A\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/patch/PatchDetailServiceImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-03-07T02:04:12Z",
+      "side": 1,
+      "message": "we also missed updating the change approvals to have change_open \u003d \u0027N\u0027.  see MergeOp.java line 481-484:\n\n        for (ChangeApproval a : approvals) {\n          a.cache(c);\n        }\n        schema.changeApprovals().update(approvals, txn);\n\nsorry.  the database is denormalized right here to make displaying a user\u0027s dashboard more efficient.  at the rare (few) locations where a change is modified from an open state to a close state we also have to go through all ChangeApproval entities for that Change and recall cache, *after* the setStatus call, and update them as well.",
       "revId": "789a9a64c6a8c87b29d56f330966fd2b4c08be95",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

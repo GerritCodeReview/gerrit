@@ -1,4 +1,5 @@
 /target
+/GerritServer.properties
 /.classpath
 /.project
 /.settings/org.maven.ide.eclipse.prefs

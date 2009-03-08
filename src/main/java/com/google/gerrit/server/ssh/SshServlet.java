@@ -14,27 +14,15 @@
 
 package com.google.gerrit.server.ssh;
 
-import com.google.gerrit.client.rpc.Common;
-import com.google.gerrit.server.GerritServer;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
 
-import org.apache.sshd.SshServer;
-import org.apache.sshd.common.Compression;
-import org.apache.sshd.common.NamedFactory;
-import org.apache.sshd.common.compression.CompressionNone;
-import org.apache.sshd.common.keyprovider.FileKeyPairProvider;
-import org.apache.sshd.common.util.SecurityUtils;
-import org.apache.sshd.server.UserAuth;
-import org.apache.sshd.server.auth.UserAuthPublicKey;
-import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Arrays;
+import java.net.SocketException;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -62,83 +50,25 @@ import javax.servlet.http.HttpServletResponse;
  * </pre>
  */
 public class SshServlet extends HttpServlet {
-  private static SshServer sshd;
   private static final Logger log = LoggerFactory.getLogger(SshServlet.class);
-
-  public static synchronized void startSshd() throws ServletException {
-    final GerritServer srv;
-    try {
-      srv = GerritServer.getInstance();
-    } catch (OrmException e) {
-      throw new ServletException("Cannot load GerritServer", e);
-    } catch (XsrfException e) {
-      throw new ServletException("Cannot load GerritServer", e);
-    }
-
-    final int myPort = Common.getGerritConfig().getSshdPort();
-    sshd = SshServer.setUpDefaultServer();
-    sshd.setPort(myPort);
-
-    final File sitePath = srv.getSitePath();
-    if (SecurityUtils.isBouncyCastleRegistered()) {
-      sshd.setKeyPairProvider(new FileKeyPairProvider(new String[] {
-          new File(sitePath, "ssh_host_rsa_key").getAbsolutePath(),
-          new File(sitePath, "ssh_host_dsa_key").getAbsolutePath()}));
-    } else {
-      final SimpleGeneratorHostKeyProvider keyp;
-
-      keyp = new SimpleGeneratorHostKeyProvider();
-      keyp.setPath(new File(sitePath, "ssh_host_key").getAbsolutePath());
-      sshd.setKeyPairProvider(keyp);
-    }
-
-    // Always disable transparent compression. The majority of our data
-    // transfer is highly compressed Git pack files. We cannot make them
-    // any smaller than they already are.
-    //
-    sshd.setCompressionFactories(Arrays
-        .<NamedFactory<Compression>> asList(new CompressionNone.Factory()));
-
-    sshd.setUserAuthFactories(Arrays
-        .<NamedFactory<UserAuth>> asList(new UserAuthPublicKey.Factory()));
-    sshd.setPublickeyAuthenticator(new DatabasePubKeyAuth());
-    sshd.setCommandFactory(new GerritCommandFactory());
-    sshd.setShellFactory(new NoShell());
-
-    try {
-      sshd.start();
-      log.info("Started Gerrit SSHD on 0.0.0.0:" + myPort);
-    } catch (IOException e) {
-      log.error("Cannot start Gerrit SSHD on 0.0.0.0:" + myPort, e);
-      sshd = null;
-      throw new ServletException("Cannot start sshd on " + myPort, e);
-    }
-  }
-
-  public static synchronized void stopSshd() {
-    if (sshd != null) {
-      try {
-        sshd.stop();
-        log.info("Stopped Gerrit SSHD on 0.0.0.0:" + sshd.getPort());
-      } finally {
-        sshd = null;
-      }
-    }
-  }
-
-  public static synchronized int getSshdPort() {
-    return sshd != null ? sshd.getPort() : 0;
-  }
 
   @Override
   public void init(final ServletConfig config) throws ServletException {
     super.init(config);
-    startSshd();
+    try {
+      GerritSshDaemon.startSshd();
+    } catch (SocketException e) {
+      throw new ServletException(e);
+    } catch (OrmException e) {
+      throw new ServletException(e);
+    } catch (XsrfException e) {
+      throw new ServletException(e);
+    }
   }
 
   @Override
   public void destroy() {
-    stopSshd();
+    GerritSshDaemon.stopSshd();
     super.destroy();
   }
 
@@ -149,7 +79,7 @@ public class SshServlet extends HttpServlet {
     rsp.setHeader("Pragma", "no-cache");
     rsp.setHeader("Cache-Control", "no-cache, must-revalidate");
 
-    final int port = getSshdPort();
+    final int port = GerritSshDaemon.getSshdPort();
     final String out;
     if (0 < port) {
       out = req.getServerName() + " " + port;

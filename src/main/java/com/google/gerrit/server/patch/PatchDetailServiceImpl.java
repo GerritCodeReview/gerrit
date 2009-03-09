@@ -429,7 +429,7 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
 
     // Check to make sure the change status and current patchset ID haven't
     // changed while the user was typing an abandon message
-    if (change.getStatus() == Change.Status.NEW
+    if (change.getStatus().isOpen()
         && change.currentPatchSetId().equals(psid)) {
       change.setStatus(Change.Status.ABANDONED);
       ChangeUtil.updated(change);

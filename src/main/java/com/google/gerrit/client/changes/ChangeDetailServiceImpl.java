@@ -64,7 +64,8 @@ public class ChangeDetailServiceImpl extends BaseServiceImplementation
           // The change owner, current patchset uploader, Gerrit administrator,
           // and project administrator can mark the change as abandoned.
           //
-          canAbandon =
+          canAbandon = change.getStatus().isOpen();
+          canAbandon &=
               me.equals(change.getOwner())
                   || me.equals(patch.getUploader())
                   || Common.getGroupCache().isAdministrator(me)

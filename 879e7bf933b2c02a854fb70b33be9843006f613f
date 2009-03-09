@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAJ3///7w\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeDetailServiceImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-03-09T17:26:07Z",
+      "side": 1,
+      "message": "if the project doesn\u0027t exist, get() returns null, so we NPE during getProject() before we can get to the null test one line below.\n\nsadly, if you want to do this proj \u003d\u003d null test, you need to store the ProjectCache.Entry result, test for null, and only then can you do getProject() to obtain back the project entity.",
+      "revId": "879e7bf933b2c02a854fb70b33be9843006f613f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAJ3///7o\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/patch/PatchDetailServiceImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-03-09T17:26:07Z",
+      "side": 1,
+      "message": "again, same remark about get() returning null as before",
+      "revId": "879e7bf933b2c02a854fb70b33be9843006f613f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAJ3///7k\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/patch/PatchDetailServiceImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-03-09T17:26:07Z",
+      "side": 1,
+      "message": "whoa, you already have a database connection handle passed into you as \"db\", why are you opening a new connection handle?",
+      "revId": "879e7bf933b2c02a854fb70b33be9843006f613f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

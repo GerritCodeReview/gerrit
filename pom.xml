@@ -500,7 +500,7 @@ limitations under the License.
     <dependency>
       <groupId>org.spearce</groupId>
       <artifactId>jgit</artifactId>
-      <version>0.4.0-209-g9c26a41</version>
+      <version>0.4.0-212-g9057f1b</version>
       <scope>compile</scope>
     </dependency>
 

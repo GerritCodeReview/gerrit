@@ -288,7 +288,7 @@
   border-collapse: separate;
   border-spacing: 0;
 }
-.gerrit-PatchContentTable td {  
+.gerrit-PatchContentTable td {
   font-size: 8pt;
   font-family: monospace;
 }
@@ -774,6 +774,32 @@
 .gerrit-PublishCommentsScreen .gerrit-PatchLineComment {
   border-left: 3px solid #e3e3e3;
   padding-left: 6px;
+}
+
+
+/** AbandonChangeDialog **/
+
+.gerrit-AbandonChangeDialog .gwt-DisclosurePanel .header td {
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.gerrit-AbandonChangeDialog .gerrit-SmallHeading {
+  font-size: small;
+  font-weight: bold;
+  white-space: nowrap;
+}
+.gerrit-AbandonChangeDialog .gerrit-AbandonMessage {
+  margin-left: 10px;
+  background: #d4e9a9;
+  padding: 5px 5px 5px 5px;
+}
+.gerrit-AbandonChangeDialog .gerrit-AbandonMessage textarea {
+  font-size: small;
+}
+.gerrit-AbandonChangeDialog .gwt-Hyperlink {
+  white-space: nowrap;
+  font-size: small;
 }
 
 

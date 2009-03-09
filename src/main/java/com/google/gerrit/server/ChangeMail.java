@@ -295,6 +295,41 @@ public class ChangeMail {
     }
   }
 
+  public void sendAbandoned() throws MessagingException {
+    if (begin("abandon")) {
+      final Account a = Common.getAccountCache().get(fromId);
+      if (a == null || a.getFullName() == null || a.getFullName().length() == 0) {
+        body.append("A Gerrit user");
+      } else {
+        body.append(a.getFullName());
+      }
+
+      body.append(" has abandoned a change:\n\n");
+      body.append(change.getChangeId());
+      body.append(" - ");
+      body.append(change.getSubject());
+      body.append("\n\n");
+
+      if (message != null) {
+        body.append(message.getMessage().trim());
+        if (body.length() > 0) {
+          body.append("\n\n");
+        }
+      }
+
+      if (changeUrl() != null) {
+        openFooter();
+        body.append("To view visit ");
+        body.append(changeUrl());
+        body.append("\n");
+      }
+
+      initInReplyToChange();
+      commentTo();
+      send();
+    }
+  }
+
   private void newChangeTo() throws MessagingException {
     add(RecipientType.TO, reviewers);
     add(RecipientType.CC, extraCC);

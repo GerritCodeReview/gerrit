@@ -125,7 +125,7 @@ public class SignInDialog extends AutoCenterDialogBox {
 
   private void resizeFrame(final int width, final int height) {
     final int w = Math.min(630, width - 15);
-    final int h = Math.min(440, height - 60);
+    final int h = Math.min(460, height - 60);
     panel.setWidth(w + "px");
     panel.setHeight(h + "px");
   }

@@ -36,7 +36,6 @@ import org.bouncycastle.openpgp.PGPPublicKey;
 import org.bouncycastle.openpgp.PGPPublicKeyRing;
 import org.bouncycastle.openpgp.PGPPublicKeyRingCollection;
 import org.bouncycastle.openpgp.PGPUtil;
-import org.mortbay.util.UrlEncoded;
 import org.spearce.jgit.util.NB;
 
 import java.io.ByteArrayOutputStream;
@@ -161,17 +160,17 @@ public class EncryptedContactStore {
       final Timestamp filedOn = account.getContactFiledOn();
       final UrlEncoded u = new UrlEncoded();
       if (storeAPPSEC != null) {
-        u.add("APPSEC", storeAPPSEC);
+        u.put("APPSEC", storeAPPSEC);
       }
       if (account.getPreferredEmail() != null) {
-        u.add("email", account.getPreferredEmail());
+        u.put("email", account.getPreferredEmail());
       }
       if (filedOn != null) {
-        u.add("filed", String.valueOf(filedOn.getTime() / 1000L));
+        u.put("filed", String.valueOf(filedOn.getTime() / 1000L));
       }
-      u.add("account_id", String.valueOf(account.getId().get()));
-      u.add("data", encStr);
-      final byte[] body = u.encode().getBytes("UTF-8");
+      u.put("account_id", String.valueOf(account.getId().get()));
+      u.put("data", encStr);
+      final byte[] body = u.toString().getBytes("UTF-8");
 
       final HttpURLConnection c = (HttpURLConnection) storeUrl.openConnection();
       c.setRequestMethod("POST");

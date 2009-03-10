@@ -463,9 +463,9 @@ limitations under the License.
     </dependency>
 
     <dependency>
-      <groupId>com.dyuproject</groupId>
-      <artifactId>dyuproject-openid</artifactId>
-      <version>1.1.1</version>
+      <groupId>org.openid4java</groupId>
+      <artifactId>openid4java-consumer</artifactId>
+      <version>0.9.5-SNAPSHOT</version>
       <scope>compile</scope>
     </dependency>
 
@@ -582,8 +582,8 @@ limitations under the License.
 
   <repositories>
     <repository>
-      <id>dyuproject-repo</id>
-      <url>http://dyuproject.googlecode.com/svn/repos/maven2/</url>
+      <id>openid4java-repo</id>
+      <url>http://openid4java.googlecode.com/svn/maven-repo/</url>
     </repository>
 
     <repository>

@@ -24,6 +24,7 @@ import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountExternalId;
 import com.google.gerrit.client.reviewdb.AccountExternalIdAccess;
 import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gerrit.client.reviewdb.SystemConfig;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gwt.user.server.rpc.RPCServletUtils;
 import com.google.gwtjsonrpc.server.JsonServlet;
@@ -32,15 +33,21 @@ import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.Transaction;
 
-import com.dyuproject.openid.Constants;
-import com.dyuproject.openid.DefaultDiscovery;
-import com.dyuproject.openid.DiffieHellmanAssociation;
-import com.dyuproject.openid.OpenIdContext;
-import com.dyuproject.openid.OpenIdUser;
-import com.dyuproject.openid.RelyingParty;
-import com.dyuproject.openid.SimpleHttpConnector;
-import com.dyuproject.openid.UrlEncodedParameterMap;
-
+import org.openid4java.consumer.ConsumerException;
+import org.openid4java.consumer.ConsumerManager;
+import org.openid4java.consumer.VerificationResult;
+import org.openid4java.discovery.DiscoveryInformation;
+import org.openid4java.discovery.Identifier;
+import org.openid4java.message.AuthRequest;
+import org.openid4java.message.Message;
+import org.openid4java.message.MessageExtension;
+import org.openid4java.message.ParameterList;
+import org.openid4java.message.ax.AxMessage;
+import org.openid4java.message.ax.FetchRequest;
+import org.openid4java.message.ax.FetchResponse;
+import org.openid4java.message.sreg.SRegMessage;
+import org.openid4java.message.sreg.SRegRequest;
+import org.openid4java.message.sreg.SRegResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -50,7 +57,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.StringWriter;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -69,12 +75,19 @@ public class OpenIdLoginServlet extends HttpServlet {
   private static final Logger log =
       LoggerFactory.getLogger(OpenIdLoginServlet.class);
   private static final int LASTID_AGE = 365 * 24 * 60 * 60; // seconds
-  private static final String AX_SCHEMA = "http://openid.net/srv/ax/1.0";
+  private static final String OPENID_MODE = "openid.mode";
+  private static final String SCHEMA_EMAIL =
+      "http://schema.openid.net/contact/email";
+  private static final String FR_FIRSTNAME =
+      "http://schema.openid.net/namePerson/first";
+  private static final String SCHEMA_LASTNAME =
+      "http://schema.openid.net/namePerson/last";
+
   private static final String OMODE_CANCEL = "cancel";
   private static final String GMODE_CHKCOOKIE = "gerrit.chkcookie";
   private static final String GMODE_SETCOOKIE = "gerrit.setcookie";
 
-  private RelyingParty relyingParty;
+  private ConsumerManager manager;
   private GerritServer server;
   private Document pleaseSetCookieDoc;
 
@@ -90,15 +103,15 @@ public class OpenIdLoginServlet extends HttpServlet {
       throw new ServletException("Cannot load GerritServer", e);
     }
 
+    if (Common.getGerritConfig().getLoginType() != SystemConfig.LoginType.OPENID) {
+      return;
+    }
+
     try {
-      final OpenIdContext context = new OpenIdContext();
-      context.setAssociation(new DiffieHellmanAssociation());
-      context.setDiscovery(new DefaultDiscovery());
-      context.setHttpConnector(new SimpleHttpConnector());
-      relyingParty = new RelyingParty(context, new GerritOpenIdUserManager());
-    } catch (Throwable e) {
-      log.error("Cannot setup RelyingParty", e);
-      throw new ServletException("Cannot setup RelyingParty", e);
+      manager = new ConsumerManager();
+    } catch (ConsumerException e) {
+      log.error("ConsumerManager failed", e);
+      throw new ServletException("Cannot create a ConsumerManager", e);
     }
 
     final String scHtmlName = "com/google/gerrit/public/SetCookie.html";
@@ -118,6 +131,11 @@ public class OpenIdLoginServlet extends HttpServlet {
   @Override
   public void doPost(final HttpServletRequest req, final HttpServletResponse rsp)
       throws IOException {
+    if (manager == null) {
+      callback(req, rsp, SignInResult.CANCEL);
+      return;
+    }
+
     try {
       doAuth(req, rsp);
     } catch (Exception e) {
@@ -129,17 +147,17 @@ public class OpenIdLoginServlet extends HttpServlet {
   private void doAuth(final HttpServletRequest req,
       final HttpServletResponse rsp) throws Exception {
     if (false) {
-      System.out.println(req.getMethod() + " /login");
+      System.err.println(req.getMethod() + " /login");
       for (final Enumeration e = req.getParameterNames(); e.hasMoreElements();) {
         final String n = (String) e.nextElement();
         for (final String v : req.getParameterValues(n)) {
-          System.out.println("  " + n + "=" + v);
+          System.err.println("  " + n + "=" + v);
         }
       }
-      System.out.println();
+      System.err.println();
     }
 
-    final String mode = req.getParameter(Constants.OPENID_MODE);
+    final String mode = req.getParameter(OPENID_MODE);
     if (OMODE_CANCEL.equals(mode)) {
       // Provider wants us to cancel the attempt.
       //
@@ -153,98 +171,101 @@ public class OpenIdLoginServlet extends HttpServlet {
       return;
     }
 
-    final OpenIdUser user;
-    try {
-      user = relyingParty.discover(req);
-    } catch (UnknownHostException u) {
-      // The remote host described in the OpenID doesn't exist, so we
-      // can't try to perform discovery against it.
-      //
-      callback(req, rsp, SignInResult.CANCEL);
-      return;
-    }
-    if (user == null) {
-      // User isn't known, no provider is known.
-      //
-      callback(req, rsp, SignInResult.CANCEL);
-      return;
-    }
-
-    if (user.isAssociated() && RelyingParty.isAuthResponse(req)) {
-      if (!relyingParty.verifyAuth(user, req, rsp)) {
-        // Failed verification... re-authenticate.
-        //
-        callback(req, rsp, SignInResult.CANCEL);
-        return;
-      }
-
-      // Authentication was successful.
-      //
-      String fullname = req.getParameter("openid.sreg.fullname");
-      String email = req.getParameter("openid.sreg.email");
-      for (int i = 1;; i++) {
-        final String nskey = "openid.ns.ext" + i;
-        final String nsval = req.getParameter(nskey);
-        if (nsval == null) {
-          break;
-        }
-
-        final String ext = "openid.ext" + i + ".";
-        if (AX_SCHEMA.equals(nsval)
-            && "fetch_response".equals(req.getParameter(ext + "mode"))) {
-          final String ax_fname = req.getParameter(ext + "value.fname");
-          final String ax_email = req.getParameter(ext + "value.email");
-          if (fullname == null && ax_fname != null) {
-            fullname = ax_fname;
-          }
-          if (email == null && ax_email != null) {
-            email = ax_email;
-          }
-          break;
-        }
-      }
-
-      initializeAccount(req, rsp, user, fullname, email);
-      return;
-    }
-
-    if (!relyingParty.getOpenIdContext().getAssociation().associate(user,
-        relyingParty.getOpenIdContext())) {
-      // Failed association. Try again.
-      //
-      callback(req, rsp, SignInResult.CANCEL);
-      return;
-    }
-
-    // Authenticate user through his/her OpenID provider
-    //
-    final String realm = serverUrl(req);
-    final UrlEncodedParameterMap retTo =
-        new UrlEncodedParameterMap(req.getRequestURL().toString());
+    final DiscoveryInformation discovered =
+        manager.associate(manager.discover(req
+            .getParameter(OpenIdUtil.OPENID_IDENTIFIER)));
+    final UrlEncoded retTo = new UrlEncoded(req.getRequestURL().toString());
     save(retTo, req, OpenIdUtil.P_SIGNIN_CB);
     save(retTo, req, OpenIdUtil.P_SIGNIN_MODE);
     save(retTo, req, OpenIdUtil.P_REMEMBERID);
-    final UrlEncodedParameterMap auth;
+    save(retTo, req, OpenIdUtil.OPENID_IDENTIFIER);
 
-    auth = RelyingParty.getAuthUrlMap(user, realm, realm, retTo.toString());
-    auth.put("openid.ns.ext1", AX_SCHEMA);
-    final String ext1 = "openid.ext1.";
-    auth.put(ext1 + "mode", "fetch_request");
-    auth.put(ext1 + "type.fname", "http://example.com/schema/fullname");
-    auth.put(ext1 + "type.email", "http://schema.openid.net/contact/email");
-    auth.put(ext1 + "required", "email");
-    auth.put(ext1 + "if_available", "fname");
+    if (mode == null) {
+      // Authenticate user through his/her OpenID provider
+      //
+      final AuthRequest authReq =
+          manager.authenticate(discovered, retTo.toString());
+      authReq.setRealm(serverUrl(req));
 
-    auth.put("openid.sreg.optional", "fullname,email");
-    auth.put("openid.ns.sreg", "http://openid.net/extensions/sreg/1.1");
+      final SRegRequest sregReq = SRegRequest.createFetchRequest();
+      sregReq.addAttribute("fullname", true);
+      sregReq.addAttribute("email", true);
+      authReq.addExtension(sregReq);
 
-    relyingParty.getOpenIdUserManager().saveUser(user, req, rsp);
-    sendJson(req, rsp, new DiscoveryResult(true, auth.getUrl(), auth), req
-        .getParameter(OpenIdUtil.P_DISCOVERY_CB));
+      final FetchRequest fetch = FetchRequest.createFetchRequest();
+      fetch.addAttribute("FirstName", FR_FIRSTNAME, true);
+      fetch.addAttribute("LastName", SCHEMA_LASTNAME, true);
+      fetch.addAttribute("Email", SCHEMA_EMAIL, true);
+      authReq.addExtension(fetch);
+
+      sendJson(req, rsp, new DiscoveryResult(true, authReq
+          .getDestinationUrl(false), authReq.getParameterMap()), req
+          .getParameter(OpenIdUtil.P_DISCOVERY_CB));
+
+    } else {
+      // Process the authentication response.
+      //
+      if (req.getParameter("openid.return_to").contains("openid.rpnonce=")) {
+        // Some providers (claimid.com) seem to embed these request
+        // parameters into our return_to URL, and then give us them
+        // in the return_to request parameter. But not all.
+        //
+        retTo.put("openid.rpnonce", req.getParameter("openid.rpnonce"));
+        retTo.put("openid.rpsig", req.getParameter("openid.rpsig"));
+      }
+
+      final VerificationResult result =
+          manager.verify(retTo.toString(), new ParameterList(req
+              .getParameterMap()), discovered);
+      final Identifier user = result.getVerifiedId();
+      if (user == null) {
+        // Authentication failed.
+        //
+        callback(req, rsp, SignInResult.CANCEL);
+
+      } else {
+        // Authentication was successful.
+        //
+        final Message authRsp = result.getAuthResponse();
+        SRegResponse sregRsp = null;
+        FetchResponse fetchRsp = null;
+
+        if (authRsp.hasExtension(SRegMessage.OPENID_NS_SREG)) {
+          final MessageExtension ext =
+              authRsp.getExtension(SRegMessage.OPENID_NS_SREG);
+          if (ext instanceof SRegResponse) {
+            sregRsp = (SRegResponse) ext;
+          }
+        }
+
+        if (authRsp.hasExtension(AxMessage.OPENID_NS_AX)) {
+          final MessageExtension ext =
+              authRsp.getExtension(AxMessage.OPENID_NS_AX);
+          if (ext instanceof FetchResponse) {
+            fetchRsp = (FetchResponse) ext;
+          }
+        }
+
+        String fullname = null;
+        String email = null;
+
+        if (sregRsp != null) {
+          fullname = sregRsp.getAttributeValue("fullname");
+          email = sregRsp.getAttributeValue("email");
+
+        } else if (fetchRsp != null) {
+          final String firstName = fetchRsp.getAttributeValue("FirstName");
+          final String lastName = fetchRsp.getAttributeValue("LastName");
+          fullname = firstName + " " + lastName;
+          email = fetchRsp.getAttributeValue("Email");
+        }
+
+        initializeAccount(req, rsp, user, fullname, email);
+      }
+    }
   }
 
-  private static void save(UrlEncodedParameterMap b, HttpServletRequest r,
-      String n) {
+  private static void save(UrlEncoded b, HttpServletRequest r, String n) {
     final String v = r.getParameter(n);
     if (v != null) {
       b.put(n, v);
@@ -252,7 +273,7 @@ public class OpenIdLoginServlet extends HttpServlet {
   }
 
   private void initializeAccount(final HttpServletRequest req,
-      final HttpServletResponse rsp, final OpenIdUser user,
+      final HttpServletResponse rsp, final Identifier user,
       final String fullname, final String email) throws IOException {
     final SignInDialog.Mode mode = signInMode(req);
     Account account = null;
@@ -302,14 +323,13 @@ public class OpenIdLoginServlet extends HttpServlet {
       c.setMaxAge(server.getSessionAge());
       rsp.addCookie(c);
 
-      final UrlEncodedParameterMap me =
-          new UrlEncodedParameterMap(req.getRequestURL().toString());
-      me.put(Constants.OPENID_MODE, GMODE_CHKCOOKIE);
+      final UrlEncoded me = new UrlEncoded(req.getRequestURL().toString());
+      me.put(OPENID_MODE, GMODE_CHKCOOKIE);
       me.put(Gerrit.ACCOUNT_COOKIE, tok);
       save(me, req, OpenIdUtil.P_SIGNIN_CB);
       save(me, req, OpenIdUtil.P_SIGNIN_MODE);
       if ("on".equals(req.getParameter(OpenIdUtil.P_REMEMBERID))) {
-        final String ident = saveLastId(req, rsp, user.getClaimedId());
+        final String ident = saveLastId(req, rsp, user.getIdentifier());
         me.put(OpenIdUtil.LASTID_COOKIE, ident);
         save(me, req, OpenIdUtil.P_REMEMBERID);
       } else {
@@ -331,11 +351,11 @@ public class OpenIdLoginServlet extends HttpServlet {
     return ident;
   }
 
-  private Account openAccount(final ReviewDb db, final OpenIdUser user,
+  private Account openAccount(final ReviewDb db, final Identifier user,
       final String fullname, final String email) throws OrmException {
     Account account;
     final AccountExternalIdAccess extAccess = db.accountExternalIds();
-    AccountExternalId acctExt = lookup(extAccess, user.getClaimedId());
+    AccountExternalId acctExt = lookup(extAccess, user.getIdentifier());
 
     if (acctExt == null && email != null
         && server.isAllowGoogleAccountUpgrade() && isGoogleAccount(user)) {
@@ -345,7 +365,7 @@ public class OpenIdLoginServlet extends HttpServlet {
         //
         final AccountExternalId openidExt =
             new AccountExternalId(new AccountExternalId.Key(acctExt
-                .getAccountId(), user.getClaimedId()));
+                .getAccountId(), user.getIdentifier()));
         extAccess.insert(Collections.singleton(openidExt));
         acctExt = openidExt;
       }
@@ -375,7 +395,7 @@ public class OpenIdLoginServlet extends HttpServlet {
 
       acctExt =
           new AccountExternalId(new AccountExternalId.Key(account.getId(), user
-              .getClaimedId()));
+              .getIdentifier()));
       acctExt.setLastUsedOn();
       acctExt.setEmailAddress(email);
 
@@ -387,7 +407,7 @@ public class OpenIdLoginServlet extends HttpServlet {
   }
 
   private Account linkAccount(final HttpServletRequest req, final ReviewDb db,
-      final OpenIdUser user, final String email) throws OrmException {
+      final Identifier user, final String email) throws OrmException {
     final Cookie[] cookies = req.getCookies();
     if (cookies == null) {
       return null;
@@ -420,7 +440,7 @@ public class OpenIdLoginServlet extends HttpServlet {
     }
 
     final AccountExternalId.Key idKey =
-        new AccountExternalId.Key(account.getId(), user.getClaimedId());
+        new AccountExternalId.Key(account.getId(), user.getIdentifier());
     AccountExternalId id = db.accountExternalIds().get(idKey);
     if (id == null) {
       id = new AccountExternalId(idKey);
@@ -464,8 +484,8 @@ public class OpenIdLoginServlet extends HttpServlet {
     }
   }
 
-  private static boolean isGoogleAccount(final OpenIdUser user) {
-    return user.getClaimedId().startsWith(OpenIdUtil.URL_GOOGLE + "?");
+  private static boolean isGoogleAccount(final Identifier user) {
+    return user.getIdentifier().startsWith(OpenIdUtil.URL_GOOGLE + "?");
   }
 
   private static AccountExternalId lookupGoogleAccount(
@@ -543,7 +563,7 @@ public class OpenIdLoginServlet extends HttpServlet {
     final Document doc = HtmlDomUtil.clone(pleaseSetCookieDoc);
     final Element set_form = HtmlDomUtil.find(doc, "set_form");
     set_form.setAttribute("action", req.getRequestURL().toString());
-    HtmlDomUtil.addHidden(set_form, Constants.OPENID_MODE, GMODE_SETCOOKIE);
+    HtmlDomUtil.addHidden(set_form, OPENID_MODE, GMODE_SETCOOKIE);
     HtmlDomUtil.addHidden(set_form, Gerrit.ACCOUNT_COOKIE, exp);
     save(set_form, req, OpenIdUtil.LASTID_COOKIE);
     save(set_form, req, OpenIdUtil.P_REMEMBERID);
@@ -583,11 +603,6 @@ public class OpenIdLoginServlet extends HttpServlet {
       sendJson(req, rsp, new DiscoveryResult(false), dcb);
       return;
     }
-
-    // We're not in an OpenID transaction so try to clear out the
-    // OpenID management cookie.
-    //
-    relyingParty.getOpenIdUserManager().invalidate(req, rsp);
 
     final String cb = req.getParameter(OpenIdUtil.P_SIGNIN_CB);
     if (cb != null && cb.startsWith("history:")) {

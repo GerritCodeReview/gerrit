@@ -21,6 +21,8 @@ public class OpenIdUtil {
   public static final LoginMessages M;
   public static final OpenIdService SVC;
 
+  public static final String OPENID_IDENTIFIER = "openid_identifier";
+
   public static final String LASTID_COOKIE = "gerrit.last_openid";
   public static final String P_SIGNIN_MODE = "gerrit.signin_mode";
   public static final String P_SIGNIN_CB = "gerrit.signin_cb";

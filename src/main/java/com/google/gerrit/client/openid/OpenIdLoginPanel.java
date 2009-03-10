@@ -89,7 +89,7 @@ public class OpenIdLoginPanel extends Composite implements FormHandler {
 
     formBody = new FlowPanel();
     formBody.setStyleName("gerrit-OpenID-loginform");
-    formBody.add(providerField = new Hidden("openid_identifier"));
+    formBody.add(providerField = new Hidden(OpenIdUtil.OPENID_IDENTIFIER));
     formBody.add(signInCbField = new Hidden(OpenIdUtil.P_SIGNIN_CB));
     formBody.add(discoveryCbField = new Hidden(OpenIdUtil.P_DISCOVERY_CB));
     formBody.add(new Hidden(OpenIdUtil.P_SIGNIN_MODE, mode.name()));

@@ -86,6 +86,7 @@ class SshKeyPanel extends Composite {
       addTxt = new TextArea();
       addTxt.setVisibleLines(12);
       addTxt.setCharacterWidth(80);
+      DOM.setElementPropertyBoolean(addTxt.getElement(), "spellcheck", false);
       fp.add(addTxt);
 
       final FlowPanel buttons = new FlowPanel();

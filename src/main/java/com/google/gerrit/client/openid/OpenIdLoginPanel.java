@@ -25,7 +25,6 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.History;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.Button;
@@ -52,9 +51,7 @@ import java.util.Map;
 public class OpenIdLoginPanel extends Composite implements FormHandler {
   private final SignInDialog.Mode mode;
   private final CallbackHandle<?> discoveryCallback;
-  private final CallbackHandle<?> signInCallback;
   private final LoginIcons icons;
-  private final AllowFrameImpl allowFrame;
   private final FlowPanel panelWidget;
   private final FormPanel form;
   private final FlowPanel formBody;
@@ -76,7 +73,6 @@ public class OpenIdLoginPanel extends Composite implements FormHandler {
 
   public OpenIdLoginPanel(final SignInDialog.Mode m, final CallbackHandle<?> sc) {
     mode = m;
-    signInCallback = sc;
 
     discoveryCallback =
         OpenIdUtil.SVC.discover(new GerritCallback<DiscoveryResult>() {
@@ -85,7 +81,6 @@ public class OpenIdLoginPanel extends Composite implements FormHandler {
           }
         });
     icons = GWT.create(LoginIcons.class);
-    allowFrame = GWT.create(AllowFrameImpl.class);
 
     formBody = new FlowPanel();
     formBody.setStyleName("gerrit-OpenID-loginform");
@@ -97,7 +92,7 @@ public class OpenIdLoginPanel extends Composite implements FormHandler {
     providerFrame = new NamedFrame(DOM.createUniqueId());
     providerFrame.setVisible(false);
 
-    form = new FormPanel(providerFrame);
+    form = new FormPanel();
     form.setMethod(FormPanel.METHOD_GET);
     form.setAction(GWT.getModuleBaseURL() + "login");
     form.addFormHandler(this);
@@ -284,31 +279,12 @@ public class OpenIdLoginPanel extends Composite implements FormHandler {
         redirectBody.add(new Hidden(e.getKey(), e.getValue()));
       }
 
-      final FormElement fe = FormElement.as(redirectForm.getElement());
-      if (allowFrame.permit(url)) {
-        // The provider will work OK inside an IFRAME, so use it.
-        //
-        fe.setTarget(providerFrame.getName());
-
-        // The provider page needs time to load. It won't load as fast as
-        // we can update the DOM so we delay our DOM update for just long
-        // enough that the provider is likely to be loaded.
-        //
-        new Timer() {
-          @Override
-          public void run() {
-            panelWidget.remove(form);
-            providerFrame.setVisible(true);
-          }
-        }.schedule(250);
-      } else {
-        // The provider won't support operation inside an IFRAME, so we
-        // replace our entire application. No fancy waits are needed,
-        // the browser won't update anything until its started to load
-        // the provider's page.
-        //
-        fe.setTarget("_top");
-      }
+      // The provider won't support operation inside an IFRAME, so we
+      // replace our entire application. No fancy waits are needed,
+      // the browser won't update anything until its started to load
+      // the provider's page.
+      //
+      FormElement.as(redirectForm.getElement()).setTarget("_top");
       redirectForm.submit();
 
     } else {
@@ -348,28 +324,7 @@ public class OpenIdLoginPanel extends Composite implements FormHandler {
     discoveryCallback.install();
     discoveryCbField.setValue("parent." + discoveryCallback.getFunctionName());
     providerField.setValue(url);
-
-    if (allowFrame.permit(url)) {
-      signInCbField.setValue("parent." + signInCallback.getFunctionName());
-    } else {
-      // The provider won't work right inside of an IFRAME (or likely isn't
-      // going to work within the IFRAME) so we need to replace the whole
-      // application and then redirect back to this location.
-      //
-      signInCbField.setValue("history:" + History.getToken());
-    }
-  }
-
-  @Override
-  public void setWidth(final String width) {
-    providerFrame.setWidth(width);
-    super.setWidth(width);
-  }
-
-  @Override
-  public void setHeight(final String height) {
-    providerFrame.setHeight(height);
-    super.setHeight(height);
+    signInCbField.setValue("history:" + History.getToken());
   }
 
   public void onSubmitComplete(final FormSubmitCompleteEvent event) {

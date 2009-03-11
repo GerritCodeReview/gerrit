@@ -56,8 +56,8 @@ import org.w3c.dom.Document;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Enumeration;
 import java.util.List;
+import java.util.TreeMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -161,8 +161,8 @@ class OpenIdServiceImpl implements OpenIdService {
       throws Exception {
     if (false) {
       System.err.println(req.getMethod() + " /login");
-      for (final Enumeration e = req.getParameterNames(); e.hasMoreElements();) {
-        final String n = (String) e.nextElement();
+      for (final String n : new TreeMap<String, Object>(req.getParameterMap())
+          .keySet()) {
         for (final String v : req.getParameterValues(n)) {
           System.err.println("  " + n + "=" + v);
         }

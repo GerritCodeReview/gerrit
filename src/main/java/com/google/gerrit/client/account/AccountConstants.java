@@ -33,6 +33,8 @@ public interface AccountConstants extends Constants {
   String tabWebIdentities();
   String tabAgreements();
 
+  String buttonShowAddSshKey();
+  String buttonCloseAddSshKey();
   String buttonDeleteSshKey();
   String buttonClearSshKeyInput();
   String buttonOpenSshKey();

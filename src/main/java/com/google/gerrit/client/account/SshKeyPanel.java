@@ -33,6 +33,9 @@ import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SourcesTableEvents;
 import com.google.gwt.user.client.ui.TableListener;
@@ -54,6 +57,9 @@ class SshKeyPanel extends Composite {
 
   private SshKeyTable keys;
 
+  private Button showAddKeyBlock;
+  private Panel addKeyBlock;
+  private Button closeAddKeyBlock;
   private Button clearNew;
   private Button addNew;
   private Button browse;
@@ -62,6 +68,13 @@ class SshKeyPanel extends Composite {
 
   SshKeyPanel() {
     final FlowPanel body = new FlowPanel();
+
+    showAddKeyBlock = new Button(Util.C.buttonShowAddSshKey());
+    showAddKeyBlock.addClickListener(new ClickListener() {
+      public void onClick(Widget sender) {
+        showAddKeyBlock(true);
+      }
+    });
 
     keys = new SshKeyTable();
     body.add(keys);
@@ -74,51 +87,63 @@ class SshKeyPanel extends Composite {
         }
       });
       fp.add(delSel);
+      fp.add(showAddKeyBlock);
       body.add(fp);
     }
 
-    {
-      final VerticalPanel fp = new VerticalPanel();
-      fp.setStyleName("gerrit-AddSshKeyPanel");
-      fp.add(new SmallHeading(Util.C.addSshKeyPanelHeader()));
-      fp.add(new HTML(Util.C.addSshKeyHelp()));
+    addKeyBlock = new VerticalPanel();
+    addKeyBlock.setVisible(false);
+    addKeyBlock.setStyleName("gerrit-AddSshKeyPanel");
+    addKeyBlock.add(new SmallHeading(Util.C.addSshKeyPanelHeader()));
+    addKeyBlock.add(new HTML(Util.C.addSshKeyHelp()));
 
-      addTxt = new TextArea();
-      addTxt.setVisibleLines(12);
-      addTxt.setCharacterWidth(80);
-      DOM.setElementPropertyBoolean(addTxt.getElement(), "spellcheck", false);
-      fp.add(addTxt);
+    addTxt = new TextArea();
+    addTxt.setVisibleLines(12);
+    addTxt.setCharacterWidth(80);
+    DOM.setElementPropertyBoolean(addTxt.getElement(), "spellcheck", false);
+    addKeyBlock.add(addTxt);
 
-      final FlowPanel buttons = new FlowPanel();
-      fp.add(buttons);
+    final HorizontalPanel buttons = new HorizontalPanel();
+    addKeyBlock.add(buttons);
 
-      clearNew = new Button(Util.C.buttonClearSshKeyInput());
-      clearNew.addClickListener(new ClickListener() {
-        public void onClick(final Widget sender) {
-          addTxt.setText("");
-          addTxt.setFocus(true);
-        }
-      });
-      buttons.add(clearNew);
+    clearNew = new Button(Util.C.buttonClearSshKeyInput());
+    clearNew.addClickListener(new ClickListener() {
+      public void onClick(final Widget sender) {
+        addTxt.setText("");
+        addTxt.setFocus(true);
+      }
+    });
+    buttons.add(clearNew);
 
-      browse = new Button(Util.C.buttonOpenSshKey());
-      browse.addClickListener(new ClickListener() {
-        public void onClick(final Widget sender) {
-          doBrowse();
-        }
-      });
-      browse.setVisible(GWT.isScript() && (!loadedApplet || applet != null));
-      buttons.add(browse);
+    browse = new Button(Util.C.buttonOpenSshKey());
+    browse.addClickListener(new ClickListener() {
+      public void onClick(final Widget sender) {
+        doBrowse();
+      }
+    });
+    browse.setVisible(GWT.isScript() && (!loadedApplet || applet != null));
+    buttons.add(browse);
 
-      addNew = new Button(Util.C.buttonAddSshKey());
-      addNew.addClickListener(new ClickListener() {
-        public void onClick(final Widget sender) {
-          doAddNew();
-        }
-      });
-      buttons.add(addNew);
-      body.add(fp);
-    }
+    addNew = new Button(Util.C.buttonAddSshKey());
+    addNew.addClickListener(new ClickListener() {
+      public void onClick(final Widget sender) {
+        doAddNew();
+      }
+    });
+    buttons.add(addNew);
+
+    closeAddKeyBlock = new Button(Util.C.buttonCloseAddSshKey());
+    closeAddKeyBlock.addClickListener(new ClickListener() {
+      public void onClick(final Widget sender) {
+        showAddKeyBlock(false);
+      }
+    });
+    buttons.add(closeAddKeyBlock);
+    buttons.setCellWidth(closeAddKeyBlock, "100%");
+    buttons.setCellHorizontalAlignment(closeAddKeyBlock,
+        HasHorizontalAlignment.ALIGN_RIGHT);
+
+    body.add(addKeyBlock);
 
     initWidget(body);
   }
@@ -249,8 +274,16 @@ class SshKeyPanel extends Composite {
       public void onSuccess(final List<AccountSshKey> result) {
         keys.display(result);
         keys.finishDisplay(true);
+        if (result.isEmpty()) {
+          showAddKeyBlock(true);
+        }
       }
     });
+  }
+
+  private void showAddKeyBlock(final boolean show) {
+    showAddKeyBlock.setVisible(!show);
+    addKeyBlock.setVisible(show);
   }
 
   private class SshKeyTable extends FancyFlexTable<AccountSshKey> {
@@ -329,6 +362,9 @@ class SshKeyPanel extends Composite {
               } else {
                 row++;
               }
+            }
+            if (table.getRowCount() == 1) {
+              showAddKeyBlock(true);
             }
           }
         });

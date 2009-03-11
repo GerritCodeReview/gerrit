@@ -68,7 +68,6 @@ class OpenIdServiceImpl implements OpenIdService {
   private static final Logger log =
       LoggerFactory.getLogger(OpenIdServiceImpl.class);
 
-  private static final String P_IDENT = "gerrit.ident";
   private static final String P_MODE = "gerrit.mode";
   private static final String P_TOKEN = "gerrit.token";
   private static final String P_REMEMBER = "gerrit.remember";
@@ -178,7 +177,7 @@ class OpenIdServiceImpl implements OpenIdService {
       // Process the authentication response.
       //
       final SignInDialog.Mode mode = signInMode(req);
-      final String openidIdentifier = req.getParameter(P_IDENT);
+      final String openidIdentifier = req.getParameter("openid.identity");
       final String returnToken = req.getParameter(P_TOKEN);
       final boolean remember = "1".equals(req.getParameter(P_REMEMBER));
       final State state;
@@ -501,7 +500,6 @@ class OpenIdServiceImpl implements OpenIdService {
     final String contextUrl = GerritServer.serverUrl(httpReq);
     final DiscoveryInformation discovered = manager.associate(servers);
     final UrlEncoded retTo = new UrlEncoded(contextUrl + "login");
-    retTo.put(P_IDENT, openidIdentifier);
     retTo.put(P_MODE, mode.name());
     if (returnToken != null && returnToken.length() > 0) {
       retTo.put(P_TOKEN, returnToken);

@@ -135,6 +135,16 @@
   </servlet-mapping>
 
   <servlet>
+    <servlet-name>OpenIdService</servlet-name>
+    <servlet-class>com.google.gerrit.server.OpenIdServiceSrv</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>OpenIdService</servlet-name>
+    <url-pattern>/rpc/OpenIdService</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
     <servlet-name>PatchDetailService</servlet-name>
     <servlet-class>com.google.gerrit.server.PatchDetailServiceSrv</servlet-class>
     <load-on-startup>1</load-on-startup>

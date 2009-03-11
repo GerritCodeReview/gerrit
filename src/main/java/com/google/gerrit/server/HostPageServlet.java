@@ -168,7 +168,7 @@ public class HostPageServlet extends HttpServlet {
       if (canonicalUrl != null) {
         r.append(canonicalUrl);
       } else {
-        r.append(OpenIdLoginServlet.serverUrl(req));
+        r.append(GerritServer.serverUrl(req));
       }
       r.append("Gerrit#");
       r.append(screen.substring(1));
@@ -178,7 +178,7 @@ public class HostPageServlet extends HttpServlet {
     }
 
     if (canonicalUrl != null
-        && !canonicalUrl.equals(OpenIdLoginServlet.serverUrl(req))) {
+        && !canonicalUrl.equals(GerritServer.serverUrl(req))) {
       rsp.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
       rsp.setHeader("Location", canonicalUrl + "Gerrit");
       return;

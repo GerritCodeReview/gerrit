@@ -19,10 +19,8 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.FormElement;
-import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
@@ -41,7 +39,6 @@ import com.google.gwt.user.client.ui.Hidden;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.KeyboardListenerAdapter;
-import com.google.gwt.user.client.ui.NamedFrame;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtjsonrpc.client.CallbackHandle;
@@ -50,16 +47,10 @@ import java.util.Map;
 
 public class OpenIdLoginPanel extends Composite implements FormHandler {
   private final SignInDialog.Mode mode;
-  private final CallbackHandle<?> discoveryCallback;
   private final LoginIcons icons;
   private final FlowPanel panelWidget;
   private final FormPanel form;
   private final FlowPanel formBody;
-  private final NamedFrame providerFrame;
-  private final Hidden discoveryCbField;
-  private final Hidden signInCbField;
-  private final Hidden providerField;
-
   private final FormPanel redirectForm;
   private final FlowPanel redirectBody;
 
@@ -74,27 +65,13 @@ public class OpenIdLoginPanel extends Composite implements FormHandler {
   public OpenIdLoginPanel(final SignInDialog.Mode m, final CallbackHandle<?> sc) {
     mode = m;
 
-    discoveryCallback =
-        OpenIdUtil.SVC.discover(new GerritCallback<DiscoveryResult>() {
-          public void onSuccess(final DiscoveryResult result) {
-            onDiscovery(result);
-          }
-        });
     icons = GWT.create(LoginIcons.class);
 
     formBody = new FlowPanel();
     formBody.setStyleName("gerrit-OpenID-loginform");
-    formBody.add(providerField = new Hidden(OpenIdUtil.OPENID_IDENTIFIER));
-    formBody.add(signInCbField = new Hidden(OpenIdUtil.P_SIGNIN_CB));
-    formBody.add(discoveryCbField = new Hidden(OpenIdUtil.P_DISCOVERY_CB));
-    formBody.add(new Hidden(OpenIdUtil.P_SIGNIN_MODE, mode.name()));
-
-    providerFrame = new NamedFrame(DOM.createUniqueId());
-    providerFrame.setVisible(false);
 
     form = new FormPanel();
     form.setMethod(FormPanel.METHOD_GET);
-    form.setAction(GWT.getModuleBaseURL() + "login");
     form.addFormHandler(this);
     form.add(formBody);
 
@@ -106,7 +83,6 @@ public class OpenIdLoginPanel extends Composite implements FormHandler {
     panelWidget = new FlowPanel();
     panelWidget.add(form);
     panelWidget.add(redirectForm);
-    panelWidget.add(providerFrame);
     initWidget(panelWidget);
 
     createHeaderLogo();
@@ -213,7 +189,6 @@ public class OpenIdLoginPanel extends Composite implements FormHandler {
 
     if (mode == SignInDialog.Mode.SIGN_IN) {
       rememberId = new CheckBox(OpenIdUtil.C.rememberMe());
-      rememberId.setName(OpenIdUtil.P_REMEMBERID);
       rememberId.setTabIndex(1);
       group.add(rememberId);
 
@@ -292,28 +267,23 @@ public class OpenIdLoginPanel extends Composite implements FormHandler {
       // as we are being called from within an invisible IFRAME. Jump
       // back to the main event loop in the parent window.
       //
-      DeferredCommand.addCommand(new Command() {
-        public void execute() {
-          showError();
-          enable(true);
-          providerId.selectAll();
-          providerId.setFocus(true);
-        }
-      });
+      onDiscoveryFailure();
     }
   }
 
-  @Override
-  protected void onUnload() {
-    discoveryCallback.cancel();
-    super.onUnload();
+  private void onDiscoveryFailure() {
+    showError();
+    enable(true);
+    providerId.selectAll();
+    providerId.setFocus(true);
   }
 
   public void onSubmit(final FormSubmitEvent event) {
-    final String url = providerId.getText();
-    if (url == null || url.equals("")) {
+    event.setCancelled(true);
+
+    final String openidIdentifier = providerId.getText();
+    if (openidIdentifier == null || openidIdentifier.equals("")) {
       enable(true);
-      event.setCancelled(true);
       return;
     }
 
@@ -321,10 +291,20 @@ public class OpenIdLoginPanel extends Composite implements FormHandler {
     enable(false);
     hideError();
 
-    discoveryCallback.install();
-    discoveryCbField.setValue("parent." + discoveryCallback.getFunctionName());
-    providerField.setValue(url);
-    signInCbField.setValue("history:" + History.getToken());
+    final boolean remember = rememberId != null && rememberId.isChecked();
+    final String token = History.getToken();
+    OpenIdUtil.SVC.discover(openidIdentifier, mode, remember, token,
+        new GerritCallback<DiscoveryResult>() {
+          public void onSuccess(final DiscoveryResult result) {
+            onDiscovery(result);
+          }
+
+          @Override
+          public void onFailure(final Throwable caught) {
+            super.onFailure(caught);
+            onDiscoveryFailure();
+          }
+        });
   }
 
   public void onSubmitComplete(final FormSubmitCompleteEvent event) {

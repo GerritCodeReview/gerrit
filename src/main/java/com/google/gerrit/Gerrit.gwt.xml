@@ -33,6 +33,8 @@
            class='com.google.gerrit.server.ChangeManageServiceSrv'/>
   <servlet path='/rpc/GroupAdminService'
            class='com.google.gerrit.server.GroupAdminServiceSrv'/>
+  <servlet path='/rpc/OpenIdService'
+           class='com.google.gerrit.server.OpenIdServiceSrv'/>
   <servlet path='/rpc/PatchDetailService'
            class='com.google.gerrit.server.PatchDetailServiceSrv'/>
   <servlet path='/rpc/ProjectAdminService'

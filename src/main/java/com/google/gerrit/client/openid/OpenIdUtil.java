@@ -15,6 +15,7 @@
 package com.google.gerrit.client.openid;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwtjsonrpc.client.JsonUtil;
 
 public class OpenIdUtil {
   public static final LoginConstants C;
@@ -22,12 +23,7 @@ public class OpenIdUtil {
   public static final OpenIdService SVC;
 
   public static final String OPENID_IDENTIFIER = "openid_identifier";
-
   public static final String LASTID_COOKIE = "gerrit.last_openid";
-  public static final String P_SIGNIN_MODE = "gerrit.signin_mode";
-  public static final String P_SIGNIN_CB = "gerrit.signin_cb";
-  public static final String P_DISCOVERY_CB = "gerrit.discovery_cb";
-  public static final String P_REMEMBERID = "gerrit.rememberid";
 
   public static final String URL_YAHOO = "https://me.yahoo.com";
   public static final String URL_GOOGLE =
@@ -38,6 +34,7 @@ public class OpenIdUtil {
       C = GWT.create(LoginConstants.class);
       M = GWT.create(LoginMessages.class);
       SVC = GWT.create(OpenIdService.class);
+      JsonUtil.bind(SVC, "rpc/OpenIdService");
     } else {
       C = null;
       M = null;

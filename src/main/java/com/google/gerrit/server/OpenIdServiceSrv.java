@@ -12,16 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.openid;
+package com.google.gerrit.server;
 
-import com.google.gerrit.client.SignInDialog;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwtjsonrpc.client.AllowCrossSiteRequest;
-import com.google.gwtjsonrpc.client.RemoteJsonService;
 
-public interface OpenIdService extends RemoteJsonService {
-  @AllowCrossSiteRequest
-  void discover(String openidIdentifier, SignInDialog.Mode mode,
-      boolean remember, String returnToken,
-      AsyncCallback<DiscoveryResult> callback);
+/** Publishes {@link OpenIdServiceImpl} over JSON. */
+public class OpenIdServiceSrv extends GerritJsonServlet {
+  @Override
+  protected Object createServiceHandle() throws Exception {
+    return OpenIdServiceImpl.getInstance();
+  }
 }

@@ -65,6 +65,7 @@ import java.util.concurrent.TimeUnit;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
 
 /** Global server-side state for Gerrit. */
@@ -117,6 +118,24 @@ public class GerritServer {
       }
     }
     return impl;
+  }
+
+  static String serverUrl(final HttpServletRequest req) {
+    // Assume this servlet is in the context with a simple name like "login"
+    // and we were accessed without any path info. Clipping the last part of
+    // the name from the URL should generate the web application's root path.
+    //
+    String uri = req.getRequestURL().toString();
+    final int s = uri.lastIndexOf('/');
+    if (s >= 0) {
+      uri = uri.substring(0, s + 1);
+    }
+    if (uri.endsWith("/rpc/")) {
+      // Nope, it was one of our RPC servlets. Drop the /rpc/ part too.
+      //
+      uri = uri.substring(0, uri.length() - 4);
+    }
+    return uri;
   }
 
   private final Database<ReviewDb> db;

@@ -51,7 +51,6 @@ import org.openid4java.message.sreg.SRegRequest;
 import org.openid4java.message.sreg.SRegResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.w3c.dom.Document;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -59,7 +58,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.TreeMap;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -86,7 +84,7 @@ class OpenIdServiceImpl implements OpenIdService {
   private static OpenIdServiceImpl INSTANCE;
 
   static synchronized OpenIdServiceImpl getInstance() throws ConsumerException,
-      OrmException, XsrfException, ServletException {
+      OrmException, XsrfException {
     if (INSTANCE == null) {
       INSTANCE = new OpenIdServiceImpl();
     }
@@ -95,19 +93,11 @@ class OpenIdServiceImpl implements OpenIdService {
 
   private final GerritServer server;
   private final ConsumerManager manager;
-  private final Document pleaseSetCookieDoc;
 
   private OpenIdServiceImpl() throws ConsumerException, OrmException,
-      XsrfException, ServletException {
+      XsrfException {
     server = GerritServer.getInstance();
     manager = new ConsumerManager();
-
-    final String scHtmlName = "com/google/gerrit/public/SetCookie.html";
-    pleaseSetCookieDoc = HtmlDomUtil.parseFile(scHtmlName);
-    if (pleaseSetCookieDoc == null) {
-      log.error("No " + scHtmlName + " in CLASSPATH");
-      throw new ServletException("No " + scHtmlName + " in CLASSPATH");
-    }
   }
 
   public void discover(final String openidIdentifier,

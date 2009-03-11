@@ -22,11 +22,6 @@ description string.  This name is set by the Gerrit administrator,
 which may cause problems if the site is translated into multiple
 langauges and different users want different translations.
 
-/login's SetCookie.html
------------------------
-
-This page is static HTML, with no translations supported.
-
 /Gerrit Gerrit.html
 -------------------
 

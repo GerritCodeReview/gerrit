@@ -395,7 +395,6 @@ limitations under the License.
                 <move todir="${d}">
                   <fileset dir="${d}/com.google.gerrit.Gerrit">
                     <exclude name="Gerrit.html" />
-                    <exclude name="SetCookie.html" />
                     <exclude name="hosted.html" />
                   </fileset>
                 </move>

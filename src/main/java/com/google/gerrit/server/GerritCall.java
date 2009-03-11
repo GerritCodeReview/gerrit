@@ -22,6 +22,7 @@ import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.Common.CurrentAccountImpl;
 import com.google.gwtjsonrpc.server.ActiveCall;
 import com.google.gwtjsonrpc.server.ValidToken;
+import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.Transaction;
 
@@ -47,6 +48,7 @@ public class GerritCall extends ActiveCall {
   private final GerritServer server;
   private boolean accountRead;
   private Account.Id accountId;
+  private boolean rememberAccount;
 
   public GerritCall(final GerritServer gs, final HttpServletRequest i,
       final HttpServletResponse o) {
@@ -102,7 +104,9 @@ public class GerritCall extends ActiveCall {
     }
 
     try {
-      accountId = Account.Id.parse(accountInfo.getData());
+      final AccountCookie cookie = AccountCookie.parse(accountInfo);
+      accountId = cookie.getAccountId();
+      rememberAccount = cookie.isRemember();
     } catch (RuntimeException e) {
       // Whoa, did we change our cookie format or something? This should
       // never happen on a valid acocunt token, but discard it anyway.
@@ -117,8 +121,7 @@ public class GerritCall extends ActiveCall {
       // The cookie is valid, but its getting stale. Update it with a
       // newer date so it doesn't expire on an active user.
       //
-      final String idstr = accountId.toString();
-      setCookie(Gerrit.ACCOUNT_COOKIE, idstr, server.getAccountToken());
+      setAccountCookie();
     }
   }
 
@@ -169,8 +172,8 @@ public class GerritCall extends ActiveCall {
           db.accountExternalIds().update(Collections.singleton(e));
 
           accountId = e.getAccountId();
-          setCookie(Gerrit.ACCOUNT_COOKIE, accountId.toString(), server
-              .getAccountToken());
+          rememberAccount = false;
+          setAccountCookie();
           return true;
         }
 
@@ -195,8 +198,8 @@ public class GerritCall extends ActiveCall {
           txn.commit();
 
           accountId = nid;
-          setCookie(Gerrit.ACCOUNT_COOKIE, accountId.toString(), server
-              .getAccountToken());
+          rememberAccount = false;
+          setAccountCookie();
           return true;
         }
       } finally {
@@ -205,5 +208,19 @@ public class GerritCall extends ActiveCall {
     } catch (OrmException e) {
     }
     return false;
+  }
+
+  private void setAccountCookie() {
+    final AccountCookie ac = new AccountCookie(accountId, rememberAccount);
+    String val;
+    int age;
+    try {
+      val = server.getAccountToken().newToken(ac.toString());
+      age = ac.isRemember() ? server.getSessionAge() : -1;
+    } catch (XsrfException e) {
+      val = "";
+      age = 0;
+    }
+    setCookie(Gerrit.ACCOUNT_COOKIE, val, age);
   }
 }

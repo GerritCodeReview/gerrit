@@ -271,17 +271,7 @@ class OpenIdServiceImpl implements OpenIdService {
       }
     }
 
-    String tok;
-    try {
-      final String idstr = String.valueOf(account.getId().get());
-      tok = server.getAccountToken().newToken(idstr);
-    } catch (XsrfException e) {
-      log.error("Account cookie signature impossible", e);
-      account = null;
-      tok = "";
-    }
-
-    Cookie c = new Cookie(Gerrit.ACCOUNT_COOKIE, tok);
+    Cookie c = new Cookie(Gerrit.ACCOUNT_COOKIE, "");
     c.setPath(req.getContextPath() + "/");
 
     if (account == null) {
@@ -292,15 +282,16 @@ class OpenIdServiceImpl implements OpenIdService {
       cancel(req, rsp);
 
     } else if (mode == SignInDialog.Mode.SIGN_IN) {
-      c.setMaxAge(server.getSessionAge());
+      final boolean remember = "1".equals(req.getParameter(P_REMEMBER));
+
+      new AccountCookie(account.getId(), remember).set(c, server);
       rsp.addCookie(c);
 
-      final boolean remember = "1".equals(req.getParameter(P_REMEMBER));
       c = new Cookie(OpenIdUtil.LASTID_COOKIE, "");
       c.setPath(req.getContextPath() + "/");
       if (remember) {
-        c.setMaxAge(LASTID_AGE);
         c.setValue(user.getIdentifier());
+        c.setMaxAge(LASTID_AGE);
       } else {
         c.setMaxAge(0);
       }
@@ -383,7 +374,7 @@ class OpenIdServiceImpl implements OpenIdService {
           if (tok == null) {
             return null;
           }
-          me = Account.Id.parse(tok.getData());
+          me = AccountCookie.parse(tok).getAccountId();
           break;
         } catch (XsrfException e) {
           return null;

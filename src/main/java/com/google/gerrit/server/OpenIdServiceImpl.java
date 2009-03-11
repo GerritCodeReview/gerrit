@@ -30,6 +30,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.server.ValidToken;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.ResultSet;
 import com.google.gwtorm.client.Transaction;
 
 import org.openid4java.consumer.ConsumerException;
@@ -122,17 +123,18 @@ class OpenIdServiceImpl implements OpenIdService {
       aReq = manager.authenticate(state.discovered, state.retTo.toString());
       aReq.setRealm(state.contextUrl);
 
-      final SRegRequest sregReq = SRegRequest.createFetchRequest();
-      sregReq.addAttribute("fullname", true);
-      sregReq.addAttribute("email", true);
-      aReq.addExtension(sregReq);
+      if (requestRegistration(aReq)) {
+        final SRegRequest sregReq = SRegRequest.createFetchRequest();
+        sregReq.addAttribute("fullname", true);
+        sregReq.addAttribute("email", true);
+        aReq.addExtension(sregReq);
 
-      final FetchRequest fetch = FetchRequest.createFetchRequest();
-      fetch.addAttribute("FirstName", SCHEMA_FIRSTNAME, true);
-      fetch.addAttribute("LastName", SCHEMA_LASTNAME, true);
-      fetch.addAttribute("Email", SCHEMA_EMAIL, true);
-      aReq.addExtension(fetch);
-
+        final FetchRequest fetch = FetchRequest.createFetchRequest();
+        fetch.addAttribute("FirstName", SCHEMA_FIRSTNAME, true);
+        fetch.addAttribute("LastName", SCHEMA_LASTNAME, true);
+        fetch.addAttribute("Email", SCHEMA_EMAIL, true);
+        aReq.addExtension(fetch);
+      }
     } catch (MessageException e) {
       callback.onSuccess(new DiscoveryResult(false));
       return;
@@ -143,6 +145,43 @@ class OpenIdServiceImpl implements OpenIdService {
 
     callback.onSuccess(new DiscoveryResult(true, aReq.getDestinationUrl(false),
         aReq.getParameterMap()));
+  }
+
+  private boolean requestRegistration(final AuthRequest aReq) {
+    if (AuthRequest.SELECT_ID.equals(aReq.getIdentity())) {
+      // We don't know anything about the identity, as the provider
+      // will offer the user a way to indicate their identity. Skip
+      // any database query operation and assume we must ask for the
+      // registration information, in case the identity is new to us.
+      //
+      return true;
+    }
+
+    // We might already have this account on file. Look for it.
+    //
+    try {
+      final ReviewDb db = Common.getSchemaFactory().open();
+      try {
+        final ResultSet<AccountExternalId> ae =
+            db.accountExternalIds().byExternal(aReq.getIdentity());
+        if (ae.iterator().hasNext()) {
+          // We already have it. Don't bother asking for the
+          // registration information, we have what we need.
+          //
+          return false;
+        }
+      } finally {
+        db.close();
+      }
+    } catch (OrmException e) {
+      log.warn("Failed looking for existing account", e);
+    }
+
+    // We don't have this account on file, or our query failed. Assume
+    // we should ask for registration information in case the account
+    // turns out to be new.
+    //
+    return true;
   }
 
   /** Called by {@link OpenIdLoginServlet} doGet, doPost */

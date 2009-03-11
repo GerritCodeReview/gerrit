@@ -681,6 +681,35 @@
   padding: 5px 5px 5px 5px;
 }
 
+.gerrit-SshHostKeyPanel {
+  margin-top: 10px;
+  border: 1px solid #d4e9a9;
+  padding: 5px 5px 5px 5px;
+}
+.gerrit-SshHostKeyPanel-Heading {
+  white-space: nowrap;
+  margin-top: 5px;
+  margin-left: 1em;
+}
+.gerrit-SshHostKeyPanel-FingerprintData {
+  margin-left: 2em;
+  white-space: nowrap;
+  font-family: monospace;
+  font-size: small;
+}
+.gerrit-SshHostKeyPanel-KnownHostEntry {
+  margin-left: 2em;
+  white-space: nowrap;
+  font-family: monospace;
+  font-size: small;
+  overflow: hidden;
+}
+.gerrit-SshHostKeyPanel-KnownHostEntry .gwtexpui-Clippy-Control {
+  display: block;
+  margin-left: 0px;
+  margin-top: 2px;
+}
+
 .gerrit-WatchedProjectPanel {
   margin-top: 10px;
   padding: 5px 5px 5px 5px;

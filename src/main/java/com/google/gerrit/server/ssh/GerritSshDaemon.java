@@ -21,6 +21,7 @@ import com.google.gwtorm.client.OrmException;
 
 import org.apache.sshd.SshServer;
 import org.apache.sshd.common.Compression;
+import org.apache.sshd.common.KeyPairProvider;
 import org.apache.sshd.common.NamedFactory;
 import org.apache.sshd.common.compression.CompressionNone;
 import org.apache.sshd.common.keyprovider.FileKeyPairProvider;
@@ -34,7 +35,13 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.net.SocketException;
+import java.security.KeyPair;
+import java.security.PublicKey;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * SSH daemon to communicate with Gerrit.
@@ -54,11 +61,14 @@ import java.util.Arrays;
  * </pre>
  */
 public class GerritSshDaemon {
+  private static final Logger log =
+      LoggerFactory.getLogger(GerritSshDaemon.class);
+
   private static SshServer sshd;
-  private static final Logger log = LoggerFactory.getLogger(GerritSshDaemon.class);
+  private static Collection<PublicKey> hostKeys = Collections.emptyList();
 
   public static synchronized void startSshd() throws OrmException,
-      XsrfException,SocketException {
+      XsrfException, SocketException {
     final GerritServer srv = GerritServer.getInstance();
     final int myPort = Common.getGerritConfig().getSshdPort();
     sshd = SshServer.setUpDefaultServer();
@@ -92,14 +102,32 @@ public class GerritSshDaemon {
 
     try {
       sshd.start();
+      hostKeys = computeHostKeys();
       log.info("Started Gerrit SSHD on 0.0.0.0:" + myPort);
     } catch (IOException e) {
       log.error("Cannot start Gerrit SSHD on 0.0.0.0:" + myPort, e);
       sshd = null;
+      hostKeys = Collections.emptyList();
       final SocketException e2;
       e2 = new SocketException("Cannot start sshd on " + myPort);
       e2.initCause(e);
       throw e2;
+    }
+  }
+
+  private static Collection<PublicKey> computeHostKeys() {
+    final KeyPairProvider p = sshd.getKeyPairProvider();
+    final List<PublicKey> keys = new ArrayList<PublicKey>(2);
+    addPublicKey(keys, p, KeyPairProvider.SSH_DSS);
+    addPublicKey(keys, p, KeyPairProvider.SSH_RSA);
+    return Collections.unmodifiableList(keys);
+  }
+
+  private static void addPublicKey(final Collection<PublicKey> out,
+      final KeyPairProvider p, final String type) {
+    final KeyPair pair = p.loadKey(type);
+    if (pair != null && pair.getPublic() != null) {
+      out.add(pair.getPublic());
     }
   }
 
@@ -110,11 +138,16 @@ public class GerritSshDaemon {
         log.info("Stopped Gerrit SSHD on 0.0.0.0:" + sshd.getPort());
       } finally {
         sshd = null;
+        hostKeys = Collections.emptyList();
       }
     }
   }
 
   public static synchronized int getSshdPort() {
     return sshd != null ? sshd.getPort() : 0;
+  }
+
+  public static synchronized Collection<PublicKey> getHostKeys() {
+    return hostKeys;
   }
 }

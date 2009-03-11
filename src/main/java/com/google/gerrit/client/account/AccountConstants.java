@@ -52,6 +52,10 @@ public interface AccountConstants extends Constants {
   String sshJavaAppletNotAvailable();
   String invalidSshKeyError();
 
+  String sshHostKeyTitle();
+  String sshHostKeyFingerprint();
+  String sshHostKeyKnownHostEntry();
+
   String webIdLastUsed();
   String webIdStatus();
   String webIdEmail();

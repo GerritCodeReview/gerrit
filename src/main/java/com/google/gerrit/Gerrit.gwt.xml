@@ -12,7 +12,7 @@
 
 
   <entry-point class='com.google.gerrit.client.Gerrit'/>
-  <stylesheet src='gerrit3.cache.css' />
+  <stylesheet src='gerrit4.cache.css' />
 
   <servlet path='/Gerrit'
            class='com.google.gerrit.server.HostPageServlet'/>

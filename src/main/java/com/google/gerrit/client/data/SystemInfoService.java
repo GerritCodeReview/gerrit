@@ -28,6 +28,9 @@ public interface SystemInfoService extends RemoteJsonService {
   @HostPageCache(name = "gerrit_gerritconfig_obj", once = true)
   void loadGerritConfig(AsyncCallback<GerritConfig> callback);
 
+  @AllowCrossSiteRequest
+  void daemonHostKeys(AsyncCallback<List<SshHostKey>> callback);
+
   @SignInRequired
   void contributorAgreements(AsyncCallback<List<ContributorAgreement>> callback);
 }

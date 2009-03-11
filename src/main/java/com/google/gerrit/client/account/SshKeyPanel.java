@@ -17,6 +17,7 @@ package com.google.gerrit.client.account;
 import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.data.SshHostKey;
 import com.google.gerrit.client.reviewdb.AccountSshKey;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.InvalidSshKeyException;
@@ -65,6 +66,8 @@ class SshKeyPanel extends Composite {
   private Button browse;
   private TextArea addTxt;
   private Button delSel;
+
+  private Panel serverKeys;  
 
   SshKeyPanel() {
     final FlowPanel body = new FlowPanel();
@@ -144,6 +147,9 @@ class SshKeyPanel extends Composite {
         HasHorizontalAlignment.ALIGN_RIGHT);
 
     body.add(addKeyBlock);
+
+    serverKeys = new FlowPanel();
+    body.add(serverKeys);
 
     initWidget(body);
   }
@@ -276,6 +282,15 @@ class SshKeyPanel extends Composite {
         keys.finishDisplay(true);
         if (result.isEmpty()) {
           showAddKeyBlock(true);
+        }
+      }
+    });
+
+    serverKeys.clear();
+    Gerrit.SYSTEM_SVC.daemonHostKeys(new GerritCallback<List<SshHostKey>>() {
+      public void onSuccess(final List<SshHostKey> result) {
+        for (final SshHostKey keyInfo : result) {
+          serverKeys.add(new SshHostKeyPanel(keyInfo));
         }
       }
     });

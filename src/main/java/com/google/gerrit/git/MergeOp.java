@@ -133,6 +133,7 @@ public class MergeOp {
         return new CodeReviewCommit(id);
       }
     };
+    rw.sort(RevSort.TOPO);
   }
 
   private void openBranch() throws MergeException {
@@ -332,7 +333,8 @@ public class MergeOp {
   private void markCleanMerges() throws MergeException {
     try {
       rw.reset();
-      rw.sort(RevSort.REVERSE);
+      rw.sort(RevSort.TOPO);
+      rw.sort(RevSort.REVERSE, true);
       rw.markStart(mergeTip);
       if (branchTip != null) {
         rw.markUninteresting(branchTip);

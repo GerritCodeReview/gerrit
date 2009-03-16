@@ -212,6 +212,13 @@ class OpenIdServiceImpl implements OpenIdService {
       final State state;
 
       state = init(req, openidIdentifier, mode, remember, returnToken);
+      if (state == null) {
+        // Re-discovery must have failed, we can't run a login.
+        //
+        cancel(req, rsp);
+        return;
+      }
+
       final String returnTo = req.getParameter("openid.return_to");
       if (returnTo != null && returnTo.contains("openid.rpnonce=")) {
         // Some providers (claimid.com) seem to embed these request

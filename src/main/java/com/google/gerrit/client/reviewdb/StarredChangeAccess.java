@@ -27,4 +27,7 @@ public interface StarredChangeAccess extends
 
   @Query("WHERE key.accountId = ?")
   ResultSet<StarredChange> byAccount(Account.Id id) throws OrmException;
+
+  @Query("WHERE key.changeId = ?")
+  ResultSet<StarredChange> byChange(Change.Id id) throws OrmException;
 }

@@ -27,6 +27,7 @@ import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.PatchSetInfo;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gerrit.client.reviewdb.StarredChange;
 import com.google.gerrit.client.reviewdb.UserIdentity;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gwtorm.client.OrmException;
@@ -199,6 +200,7 @@ public class ChangeMail {
         return;
       }
       newChangeCc();
+      starredTo();
 
       body.append("Uploaded replacement patch set ");
       body.append(patchSet.getPatchSetId());
@@ -260,6 +262,7 @@ public class ChangeMail {
 
       initInReplyToChange();
       commentTo();
+      starredTo();
       send();
     }
   }
@@ -320,6 +323,7 @@ public class ChangeMail {
 
       initInReplyToChange();
       submittedTo();
+      starredTo();
       send();
     }
   }
@@ -355,6 +359,7 @@ public class ChangeMail {
 
       initInReplyToChange();
       commentTo();
+      starredTo();
       send();
     }
   }
@@ -500,6 +505,20 @@ public class ChangeMail {
     }
   }
 
+  private void starredTo() throws MessagingException {
+    try {
+      // BCC anyone else who has starred this change.
+      //
+      for (StarredChange w : db.starredChanges().byChange(change.getId())) {
+        add(RecipientType.BCC, w.getAccountId());
+      }
+    } catch (OrmException err) {
+      // Just don't CC everyone. Better to send a partial message to those
+      // we already have queued up then to fail deliver entirely to people
+      // who have a lower interest in the change.
+    }
+  }
+  
   private boolean begin(final String messageClass) throws MessagingException {
     if (transport != null) {
       msg = new MimeMessage(transport);

@@ -17,5 +17,7 @@ CREATE INDEX account_project_watches_ntSub
 ON account_project_watches (project_id)
 WHERE notify_submitted_changes = 'Y';
 
+CREATE INDEX starred_changes_byChange
+ON starred_changes (change_id);
 
 UPDATE schema_version SET version_nbr = 7;

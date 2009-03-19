@@ -202,3 +202,6 @@ ON project_rights (category_id);
 -- *********************************************************************
 -- StarredChangeAccess
 --    @PrimaryKey covers: byAccount
+
+CREATE INDEX starred_changes_byChange
+ON starred_changes (change_id);

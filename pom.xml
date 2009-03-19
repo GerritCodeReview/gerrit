@@ -483,7 +483,7 @@ limitations under the License.
     <dependency>
       <groupId>org.apache.sshd</groupId>
       <artifactId>sshd</artifactId>
-      <version>1.0-r742884</version>
+      <version>1.0-r755651</version>
       <scope>compile</scope>
     </dependency>
 

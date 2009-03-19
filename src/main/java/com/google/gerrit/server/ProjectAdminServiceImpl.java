@@ -51,6 +51,7 @@ import org.spearce.jgit.revwalk.RevCommit;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -58,6 +59,8 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
 
 public class ProjectAdminServiceImpl extends BaseServiceImplementation
     implements ProjectAdminService {
@@ -420,13 +423,16 @@ public class ProjectAdminServiceImpl extends BaseServiceImplementation
           throw new Failure(new InvalidRevisionException());
         }
 
+        final HttpServletRequest hreq =
+            GerritJsonServlet.getCurrentCall().getHttpServletRequest();
         final Branch.NameKey name =
             new Branch.NameKey(pce.getProject().getNameKey(), refname);
         try {
           final RefUpdate u = repo.updateRef(refname);
           u.setExpectedOldObjectId(ObjectId.zeroId());
           u.setNewObjectId(revid);
-          u.setRefLogIdent(ChangeUtil.toPersonIdent(me));
+          u.setRefLogIdent(ChangeUtil.toReflogIdent(me, new InetSocketAddress(
+              hreq.getRemoteHost(), hreq.getRemotePort())));
           u.setRefLogMessage("created via web", true);
           final RefUpdate.Result result = u.update(rw);
           switch (result) {

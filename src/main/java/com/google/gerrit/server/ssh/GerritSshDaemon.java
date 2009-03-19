@@ -19,13 +19,16 @@ import com.google.gerrit.server.GerritServer;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
 
+import org.apache.mina.core.session.IoSession;
 import org.apache.sshd.SshServer;
 import org.apache.sshd.common.Compression;
 import org.apache.sshd.common.KeyPairProvider;
 import org.apache.sshd.common.NamedFactory;
 import org.apache.sshd.common.compression.CompressionNone;
 import org.apache.sshd.common.keyprovider.FileKeyPairProvider;
+import org.apache.sshd.common.session.AbstractSession;
 import org.apache.sshd.common.util.SecurityUtils;
+import org.apache.sshd.server.SessionFactory;
 import org.apache.sshd.server.UserAuth;
 import org.apache.sshd.server.auth.UserAuthPublicKey;
 import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
@@ -73,6 +76,15 @@ public class GerritSshDaemon {
     final int myPort = Common.getGerritConfig().getSshdPort();
     sshd = SshServer.setUpDefaultServer();
     sshd.setPort(myPort);
+    sshd.setSessionFactory(new SessionFactory() {
+      @Override
+      protected AbstractSession createSession(final IoSession ioSession)
+          throws Exception {
+        final AbstractSession s = super.createSession(ioSession);
+        s.setAttribute(SshUtil.REMOTE_PEER, ioSession.getRemoteAddress());
+        return s;
+      }
+    });
 
     final File sitePath = srv.getSitePath();
     if (SecurityUtils.isBouncyCastleRegistered()) {

@@ -120,7 +120,7 @@ class Receive extends AbstractGitCommand {
     loadMyEmails();
     lookup(reviewerId, "reviewer", reviewerEmail);
     lookup(ccId, "cc", ccEmail);
-    refLogIdent = ChangeUtil.toPersonIdent(userAccount);
+    refLogIdent = ChangeUtil.toReflogIdent(userAccount, getRemoteAddress());
 
     rp = new ReceivePack(repo);
     rp.setAllowCreates(true);

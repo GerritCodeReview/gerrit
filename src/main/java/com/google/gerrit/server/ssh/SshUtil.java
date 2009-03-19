@@ -29,6 +29,7 @@ import org.spearce.jgit.lib.Constants;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
+import java.net.SocketAddress;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.PublicKey;
@@ -47,6 +48,10 @@ public class SshUtil {
   /** Server session attribute holding the {@link Account.Id}. */
   static final AttributeKey<Account.Id> CURRENT_ACCOUNT =
       new AttributeKey<Account.Id>();
+
+  /** Server session attribute holding the remote {@link SocketAddress}. */
+  static final AttributeKey<SocketAddress> REMOTE_PEER =
+      new AttributeKey<SocketAddress>();
 
   /**
    * Parse a public key into its Java type.

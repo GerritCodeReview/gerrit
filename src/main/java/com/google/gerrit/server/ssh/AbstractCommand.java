@@ -36,6 +36,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.SocketAddress;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -103,6 +104,10 @@ abstract class AbstractCommand implements Command, SessionAware {
 
   protected Account.Id getAccountId() {
     return session.getAttribute(SshUtil.CURRENT_ACCOUNT);
+  }
+
+  protected SocketAddress getRemoteAddress() {
+    return session.getAttribute(SshUtil.REMOTE_PEER);
   }
 
   protected Set<AccountGroup.Id> getGroups() {

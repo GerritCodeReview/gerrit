@@ -23,6 +23,10 @@ import org.spearce.jgit.lib.PersonIdent;
 import org.spearce.jgit.util.Base64;
 import org.spearce.jgit.util.NB;
 
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.SocketAddress;
+
 public class ChangeUtil {
   private static int uuidPrefix;
   private static int uuidSeq;
@@ -52,6 +56,41 @@ public class ChangeUtil {
 
     String user = "account-" + userAccount.getId().toString();
     String host = "unknown";
+    return new PersonIdent(name, user + "@" + host);
+  }
+
+  public static PersonIdent toReflogIdent(final Account userAccount,
+      final SocketAddress remotePeer) {
+    String name = userAccount.getFullName();
+    if (name == null) {
+      name = userAccount.getPreferredEmail();
+    }
+    if (name == null) {
+      name = "Anonymous Coward";
+    }
+
+    final String userId = "account-" + userAccount.getId().toString();
+    final String user;
+    if (userAccount.getSshUserName() != null) {
+      user = userAccount.getSshUserName() + "|" + userId;
+    } else {
+      user = userId;
+    }
+
+    String host = null;
+    if (remotePeer instanceof InetSocketAddress) {
+      final InetSocketAddress sa = (InetSocketAddress) remotePeer;
+      final InetAddress in = sa.getAddress();
+      if (in != null) {
+        host = in.getCanonicalHostName();
+      } else {
+        host = sa.getHostName();
+      }
+    }
+    if (host == null) {
+      host = "unknown";
+    }
+
     return new PersonIdent(name, user + "@" + host);
   }
 

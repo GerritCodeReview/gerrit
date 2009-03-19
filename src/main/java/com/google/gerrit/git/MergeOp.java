@@ -15,6 +15,7 @@
 package com.google.gerrit.git;
 
 import com.google.gerrit.client.data.ApprovalType;
+import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.Branch;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.ChangeApproval;
@@ -23,11 +24,14 @@ import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.workflow.FunctionState;
+import com.google.gerrit.server.ChangeMail;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritServer;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.Transaction;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.spearce.jgit.errors.IncorrectObjectTypeException;
 import org.spearce.jgit.errors.MissingObjectException;
 import org.spearce.jgit.lib.AnyObjectId;
@@ -56,6 +60,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.mail.MessagingException;
+
 /**
  * Merges changes in submission order into a single branch.
  * <p>
@@ -71,6 +77,9 @@ import java.util.Set;
  * be merged cleanly.
  */
 public class MergeOp {
+  private static final Logger log =
+    LoggerFactory.getLogger(MergeOp.class);
+
   private final GerritServer server;
   private final PersonIdent myIdent;
   private final Branch.NameKey destBranch;
@@ -462,6 +471,7 @@ public class MergeOp {
 
   private void setMerged(Change c, ChangeMessage msg) {
     final PatchSet.Id merged = c.currentPatchSetId();
+    ChangeApproval submitter=null;
     for (int attempts = 0; attempts < 10; attempts++) {
       c.setStatus(Change.Status.MERGED);
       ChangeUtil.updated(c);
@@ -481,6 +491,12 @@ public class MergeOp {
           at.getCategory().getFunction().run(at, fs);
         }
         for (ChangeApproval a : approvals) {
+          if (ApprovalCategory.SUBMIT.equals(a.getCategoryId())) {
+            if (submitter == null
+                || a.getGranted().compareTo(submitter.getGranted()) > 0) {
+              submitter = a;
+            }
+          }
           a.cache(c);
         }
         schema.changeApprovals().update(approvals, txn);
@@ -503,6 +519,21 @@ public class MergeOp {
         } catch (OrmException e2) {
         }
       }
+    }
+
+    try {
+      final ChangeMail cm = new ChangeMail(server, c);
+      if (submitter != null) {
+        cm.setFrom(submitter.getAccountId());
+      }
+      cm.setReviewDb(schema);
+      cm.setPatchSet(schema.patchSets().get(c.currentPatchSetId()), schema
+          .patchSetInfo().get(c.currentPatchSetId()));
+      cm.sendMerged();
+    } catch (OrmException e){
+      log.error("Cannot send email for submitted patch set " + c.getId(), e);
+    } catch (MessagingException e){
+      log.error("Cannot send email for submitted patch set " + c.getId(), e);
     }
   }
 

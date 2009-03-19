@@ -70,6 +70,7 @@ public interface AccountConstants extends Constants {
   String watchedProjectColumnEmailNotifications();
   String watchedProjectColumnNewChanges();
   String watchedProjectColumnAllComments();
+  String watchedProjectColumnSubmittedChanges();
 
   String contactFieldFullName();
   String contactFieldEmail();

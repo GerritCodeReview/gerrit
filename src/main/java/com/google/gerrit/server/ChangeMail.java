@@ -295,6 +295,35 @@ public class ChangeMail {
     }
   }
 
+  public void sendMerged() throws MessagingException {
+    if (begin("merged")) {
+      final Account a = Common.getAccountCache().get(fromId);
+      if (a == null || a.getFullName() == null || a.getFullName().length() == 0) {
+        body.append("A Gerrit user");
+      } else {
+        body.append(a.getFullName());
+      }
+
+      body.append(" has submitted change ");
+      body.append(change.getChangeId());
+      body.append(" to ");
+      body.append(change.getDest().getShortName());
+      body.append(":\n\n");
+      newChangePatchSetInfo();
+
+      if (changeUrl() != null) {
+        openFooter();
+        body.append("To view visit ");
+        body.append(changeUrl());
+        body.append("\n");
+      }
+
+      initInReplyToChange();
+      submittedTo();
+      send();
+    }
+  }
+
   public void sendAbandoned() throws MessagingException {
     if (begin("abandon")) {
       final Account a = Common.getAccountCache().get(fromId);
@@ -417,6 +446,50 @@ public class ChangeMail {
       if (projectId != null) {
         for (AccountProjectWatch w : db.accountProjectWatches()
             .notifyAllComments(projectId)) {
+          add(RecipientType.BCC, w.getAccountId());
+        }
+      }
+    } catch (OrmException err) {
+      // Just don't CC everyone. Better to send a partial message to those
+      // we already have queued up then to fail deliver entirely to people
+      // who have a lower interest in the change.
+    }
+  }
+
+  private void submittedTo() throws MessagingException {
+    // Always to the owner/uploader/author/committer. These people
+    // have a vested interest in the change.
+    //
+    add(RecipientType.TO, change.getOwner());
+    if (patchSet != null) {
+      add(RecipientType.TO, patchSet.getUploader());
+    }
+    if (patchSetInfo != null) {
+      add(RecipientType.TO, patchSetInfo.getAuthor());
+      add(RecipientType.TO, patchSetInfo.getCommitter());
+    }
+    add(RecipientType.CC, reviewers);
+    add(RecipientType.CC, extraCC);
+
+    if (db == null) {
+      // We need a database handle to fetch the interest list.
+      //
+      return;
+    }
+
+    try {
+      // CC anyone else who has posted an approval mark on this change
+      //
+      for (ChangeApproval ap : db.changeApprovals().byChange(change.getId())) {
+        add(RecipientType.CC, ap.getAccountId());
+      }
+
+      // BCC anyone else who has interest in this project's changes
+      //
+      final Project.Id projectId = projectId();
+      if (projectId != null) {
+        for (AccountProjectWatch w : db.accountProjectWatches()
+            .notifySubmittedChanges(projectId)) {
           add(RecipientType.BCC, w.getAccountId());
         }
       }

@@ -58,6 +58,10 @@ public final class AccountProjectWatch {
   @Column
   protected boolean notifyAllComments;
 
+  /** Automatically receive changes submitted to this project */
+  @Column
+  protected boolean notifySubmittedChanges;
+
   protected AccountProjectWatch() {
   }
 
@@ -91,5 +95,13 @@ public final class AccountProjectWatch {
 
   public void setNotifyAllComments(final boolean a) {
     notifyAllComments = a;
+  }
+
+  public boolean isNotifySubmittedChanges() {
+    return notifySubmittedChanges;
+  }
+
+  public void setNotifySubmittedChanges(final boolean a) {
+    notifySubmittedChanges = a;
   }
 }

@@ -73,6 +73,11 @@ CREATE INDEX account_project_watches_ntCmt
 ON account_project_watches (project_id)
 WHERE notify_all_comments = 'Y';
 
+--    covers:             notifySubmittedChanges
+CREATE INDEX account_project_watches_ntSub
+ON account_project_watches (project_id)
+WHERE notify_submitted_changes = 'Y';
+
 
 -- *********************************************************************
 -- AccountSshKeyAccess

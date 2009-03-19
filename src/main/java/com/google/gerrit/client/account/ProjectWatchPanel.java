@@ -175,11 +175,13 @@ class ProjectWatchPanel extends Composite {
       fmt.setRowSpan(0, 2, 2);
       DOM.setElementProperty(fmt.getElement(0, 3), "align", "center");
 
-      fmt.setColSpan(0, 3, 2);
+      fmt.setColSpan(0, 3, 3);
       table.setText(1, 0, Util.C.watchedProjectColumnNewChanges());
       table.setText(1, 1, Util.C.watchedProjectColumnAllComments());
+      table.setText(1, 2, Util.C.watchedProjectColumnSubmittedChanges());
       fmt.addStyleName(1, 0, S_DATA_HEADER);
       fmt.addStyleName(1, 1, S_DATA_HEADER);
+      fmt.addStyleName(1, 2, S_DATA_HEADER);
     }
 
     @Override
@@ -326,12 +328,36 @@ class ProjectWatchPanel extends Composite {
         notifyAllComments.setChecked(k.getWatch().isNotifyAllComments());
         table.setWidget(row, 4, notifyAllComments);
       }
+      {
+        final CheckBox notifySubmittedChanges = new CheckBox();
+        notifySubmittedChanges.addClickListener(new ClickListener() {
+          public void onClick(final Widget sender) {
+            final boolean oldVal = k.getWatch().isNotifySubmittedChanges();
+            k.getWatch().setNotifySubmittedChanges(notifySubmittedChanges.isChecked());
+            Util.ACCOUNT_SVC.updateProjectWatch(k.getWatch(),
+                new GerritCallback<VoidResult>() {
+                  public void onSuccess(final VoidResult result) {
+                  }
+
+                  @Override
+                  public void onFailure(final Throwable caught) {
+                    k.getWatch().setNotifySubmittedChanges(oldVal);
+                    notifySubmittedChanges.setChecked(oldVal);
+                    super.onFailure(caught);
+                  }
+                });
+          }
+        });
+        notifySubmittedChanges.setChecked(k.getWatch().isNotifySubmittedChanges());
+        table.setWidget(row, 5, notifySubmittedChanges);
+      }
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
       fmt.addStyleName(row, 1, S_ICON_CELL);
       fmt.addStyleName(row, 2, S_DATA_CELL);
       fmt.addStyleName(row, 3, S_DATA_CELL);
       fmt.addStyleName(row, 4, S_DATA_CELL);
+      fmt.addStyleName(row, 5, S_DATA_CELL);
 
       setRowItem(row, k);
     }

@@ -433,7 +433,7 @@ public class ProjectAdminServiceImpl extends BaseServiceImplementation
           u.setNewObjectId(revid);
           u.setRefLogIdent(ChangeUtil.toReflogIdent(me, new InetSocketAddress(
               hreq.getRemoteHost(), hreq.getRemotePort())));
-          u.setRefLogMessage("created via web", true);
+          u.setRefLogMessage("created via web from " + startingRevision, false);
           final RefUpdate.Result result = u.update(rw);
           switch (result) {
             case FAST_FORWARD:

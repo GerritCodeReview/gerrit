@@ -518,7 +518,7 @@ public class ChangeMail {
       // who have a lower interest in the change.
     }
   }
-  
+
   private boolean begin(final String messageClass) throws MessagingException {
     if (transport != null) {
       msg = new MimeMessage(transport);

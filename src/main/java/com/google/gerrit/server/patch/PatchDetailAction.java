@@ -156,7 +156,8 @@ abstract class PatchDetailAction<T> implements Action<T> {
       } else if (psi.equals(PatchSet.BASE)) {
         final PatchSet p = psMap.get(patchKey.getParentKey());
         if (p == null || p.getRevision() == null
-            || p.getRevision().get() == null) {
+            || p.getRevision().get() == null
+            || !ObjectId.isId(p.getRevision().get())) {
           throw new Failure(new NoSuchEntityException());
         }
         args.add(p.getRevision().get() + "^" + (i + 1));
@@ -164,7 +165,8 @@ abstract class PatchDetailAction<T> implements Action<T> {
       } else {
         final PatchSet p = psMap.get(psi);
         if (p == null || p.getRevision() == null
-            || p.getRevision().get() == null) {
+            || p.getRevision().get() == null
+            || !ObjectId.isId(p.getRevision().get())) {
           throw new Failure(new NoSuchEntityException());
         }
         args.add(p.getRevision().get());

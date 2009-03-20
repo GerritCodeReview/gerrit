@@ -22,34 +22,53 @@ import com.google.gerrit.client.data.UnifiedPatchDetail;
 import com.google.gerrit.client.data.PatchLine.Type;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gerrit.client.rpc.CorruptEntityException;
+import com.google.gerrit.client.rpc.NoDifferencesException;
+import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gerrit.client.rpc.BaseServiceImplementation.Failure;
+import com.google.gerrit.git.RepositoryCache;
 import com.google.gwtorm.client.OrmException;
 
 import org.spearce.jgit.lib.Constants;
+import org.spearce.jgit.patch.FileHeader;
 import org.spearce.jgit.patch.HunkHeader;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 class UnifiedPatchDetailAction extends PatchDetailAction<UnifiedPatchDetail> {
-  UnifiedPatchDetailAction(final Patch.Key key) {
-    super(null, key, null);
+  UnifiedPatchDetailAction(final RepositoryCache rc, final Patch.Key key) {
+    super(rc, key, null);
   }
 
   public UnifiedPatchDetail run(final ReviewDb db) throws OrmException, Failure {
     init(db);
 
-    final byte[] buf = file.getBuffer();
-    int ptr = file.getStartOffset();
-    final int end = file.getEndOffset();
+    final FileHeader fh;
+    try {
+      fh = file.getFileHeader();
+    } catch (CorruptEntityException e) {
+      throw new Failure(e);
+    } catch (NoSuchEntityException e) {
+      throw new Failure(e);
+    } catch (IOException e) {
+      throw new Failure(e);
+    } catch (NoDifferencesException e) {
+      throw new Failure(e);
+    }
+
+    final byte[] buf = fh.getBuffer();
+    int ptr = fh.getStartOffset();
+    final int end = fh.getEndOffset();
     final int hdrEnd;
     final ArrayList<PatchLine> lines = new ArrayList<PatchLine>();
 
-    if (file.getHunks().size() > 0) {
-      hdrEnd = file.getHunks().get(0).getStartOffset();
-    } else if (file.getForwardBinaryHunk() != null) {
-      hdrEnd = file.getForwardBinaryHunk().getStartOffset();
-    } else if (file.getReverseBinaryHunk() != null) {
-      hdrEnd = file.getReverseBinaryHunk().getStartOffset();
+    if (fh.getHunks().size() > 0) {
+      hdrEnd = fh.getHunks().get(0).getStartOffset();
+    } else if (fh.getForwardBinaryHunk() != null) {
+      hdrEnd = fh.getForwardBinaryHunk().getStartOffset();
+    } else if (fh.getReverseBinaryHunk() != null) {
+      hdrEnd = fh.getReverseBinaryHunk().getStartOffset();
     } else {
       hdrEnd = end;
     }
@@ -61,7 +80,7 @@ class UnifiedPatchDetailAction extends PatchDetailAction<UnifiedPatchDetail> {
           buf, ptr, eol)));
     }
 
-    for (final HunkHeader h : file.getHunks()) {
+    for (final HunkHeader h : fh.getHunks()) {
       final int hunkEnd = h.getEndOffset();
       if (ptr < hunkEnd) {
         eol = nextLF(buf, ptr);

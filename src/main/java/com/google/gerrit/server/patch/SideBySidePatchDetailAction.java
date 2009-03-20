@@ -23,29 +23,25 @@ import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.CorruptEntityException;
+import com.google.gerrit.client.rpc.NoDifferencesException;
+import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gerrit.client.rpc.BaseServiceImplementation.Failure;
 import com.google.gerrit.git.RepositoryCache;
 import com.google.gwtorm.client.OrmException;
 
-import org.spearce.jgit.lib.AbbreviatedObjectId;
 import org.spearce.jgit.lib.Constants;
-import org.spearce.jgit.lib.Repository;
 import org.spearce.jgit.patch.CombinedFileHeader;
 import org.spearce.jgit.patch.CombinedHunkHeader;
+import org.spearce.jgit.patch.FileHeader;
 import org.spearce.jgit.patch.HunkHeader;
-import org.spearce.jgit.util.IntList;
-import org.spearce.jgit.util.RawParseUtils;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 class SideBySidePatchDetailAction extends
     PatchDetailAction<SideBySidePatchDetail> {
-  private int fileCount;
-  private byte[][] fileContents;
-  private IntList[] lineIndex;
-
   SideBySidePatchDetailAction(final RepositoryCache rc, final Patch.Key key,
       final List<PatchSet.Id> fileVersions) {
     super(rc, key, fileVersions);
@@ -55,20 +51,36 @@ class SideBySidePatchDetailAction extends
       Failure {
     init(db);
 
-    if (file.getHunks().isEmpty()) {
-      throw new Failure(new CorruptEntityException(patchKey));
+    final FileHeader fh;
+    final int fileCount;
+    int maxLine = 0;
+    try {
+      fh = file.getFileHeader();
+      if (fh.getHunks().isEmpty()) {
+        throw new Failure(new CorruptEntityException(patchKey));
+      }
+      fileCount = file.getFileCount();
+      for (int i = 0; i < fileCount; i++) {
+        maxLine = Math.max(maxLine, file.getLineCount(i));
+      }
+    } catch (CorruptEntityException e) {
+      throw new Failure(e);
+    } catch (NoSuchEntityException e) {
+      throw new Failure(e);
+    } catch (IOException e) {
+      throw new Failure(e);
+    } catch (NoDifferencesException e) {
+      throw new Failure(e);
     }
-
-    openContents();
 
     final ArrayList<List<SideBySideLine>> lines =
         new ArrayList<List<SideBySideLine>>();
-    if (file instanceof CombinedFileHeader) {
-      for (final CombinedHunkHeader h : ((CombinedFileHeader) file).getHunks()) {
+    if (fh instanceof CombinedFileHeader) {
+      for (final CombinedHunkHeader h : ((CombinedFileHeader) fh).getHunks()) {
       }
 
     } else {
-      for (final HunkHeader h : file.getHunks()) {
+      for (final HunkHeader h : fh.getHunks()) {
         int oldLine = h.getOldImage().getStartLine();
         int newLine = h.getNewStartLine();
 
@@ -141,53 +153,10 @@ class SideBySidePatchDetailAction extends
       }
     }
 
-    int maxLine = 0;
-    for (int i = 0; i < fileCount; i++) {
-      maxLine = Math.max(maxLine, lineIndex[i].size());
-    }
-
     final SideBySidePatchDetail d;
     d = new SideBySidePatchDetail(patch, accountInfo.create());
     d.setLines(fileCount, maxLine, lines);
     d.setHistory(history(db));
     return d;
-  }
-
-  private void openContents() throws Failure {
-    final Repository repo = openRepository();
-
-    if (file instanceof CombinedFileHeader) {
-      final CombinedFileHeader ch = (CombinedFileHeader) file;
-
-      fileCount = ch.getParentCount() + 1;
-      fileContents = new byte[fileCount][];
-      for (int i = 0; i < ch.getParentCount(); i++) {
-        final AbbreviatedObjectId old = ch.getOldId(i);
-        if (old == null || !old.isComplete()) {
-          throw new Failure(new CorruptEntityException(patchKey));
-        }
-        fileContents[i] = read(repo, old.toObjectId());
-      }
-
-    } else {
-      if (file.getOldId() == null || !file.getOldId().isComplete()) {
-        throw new Failure(new CorruptEntityException(patchKey));
-      }
-
-      fileCount = 2;
-      fileContents = new byte[fileCount][];
-      fileContents[0] = read(repo, file.getOldId().toObjectId());
-    }
-
-    if (file.getNewId() == null || !file.getNewId().isComplete()) {
-      throw new Failure(new CorruptEntityException(patchKey));
-    }
-    fileContents[fileCount - 1] = read(repo, file.getNewId().toObjectId());
-
-    lineIndex = new IntList[fileCount];
-    for (int i = 0; i < fileCount; i++) {
-      final byte[] c = fileContents[i];
-      lineIndex[i] = RawParseUtils.lineMap(c, 0, c.length);
-    }
   }
 }

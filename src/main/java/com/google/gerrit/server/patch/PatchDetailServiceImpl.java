@@ -80,7 +80,12 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
 
   public void unifiedPatchDetail(final Patch.Key key,
       final AsyncCallback<UnifiedPatchDetail> callback) {
-    run(callback, new UnifiedPatchDetailAction(key));
+    final RepositoryCache rc = server.getRepositoryCache();
+    if (rc == null) {
+      callback.onFailure(new Exception("No Repository Cache configured"));
+      return;
+    }
+    run(callback, new UnifiedPatchDetailAction(rc, key));
   }
 
   public void myDrafts(final Patch.Key key,

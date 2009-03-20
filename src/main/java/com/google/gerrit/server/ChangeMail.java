@@ -30,9 +30,12 @@ import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.StarredChange;
 import com.google.gerrit.client.reviewdb.UserIdentity;
 import com.google.gerrit.client.rpc.Common;
+import com.google.gerrit.git.InvalidRepositoryException;
+import com.google.gerrit.server.patch.PatchFile;
 import com.google.gwtorm.client.OrmException;
 
 import org.spearce.jgit.lib.PersonIdent;
+import org.spearce.jgit.lib.Repository;
 
 import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
@@ -44,6 +47,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.mail.Address;
@@ -224,25 +228,64 @@ public class ChangeMail {
         }
       }
 
+      Map<Patch.Key, Patch> patches = Collections.emptyMap();
+      Repository repo = null;
+
       if (!comments.isEmpty()) {
+        try {
+          final PatchSet.Id psId = patchSet.getId();
+          patches = db.patches().toMap(db.patches().byPatchSet(psId));
+        } catch (OrmException e) {
+          // Can't read the patch table? Don't quote file lines.
+          patches = Collections.emptyMap();
+        }
+        try {
+          repo = server.getRepositoryCache().get(projectName);
+        } catch (InvalidRepositoryException e) {
+          repo = null;
+          patches = Collections.emptyMap();
+        }
+
         body.append("Comments on Patch Set ");
         body.append(patchSet.getPatchSetId());
         body.append(":\n\n");
       }
 
-      String priorFile = "";
+      Patch.Key currentFile = null;
+      PatchFile file = null;
       for (final PatchLineComment c : comments) {
-        final String fn = c.getKey().getParentKey().get();
-        if (!fn.equals(priorFile)) {
+        final Patch.Key pk = c.getKey().getParentKey();
+        final int lineNbr = c.getLine();
+        final short side = c.getSide();
+
+        if (!pk.equals(currentFile)) {
           body.append("....................................................\n");
           body.append("File ");
-          body.append(fn);
+          body.append(pk.get());
           body.append("\n");
-          priorFile = fn;
+          currentFile = pk;
+
+          final Patch p = patches.get(pk);
+          if (p != null && repo != null) {
+            file = new PatchFile(repo, db, p);
+          } else {
+            file = null;
+          }
         }
+
         body.append("Line ");
-        body.append(c.getLine());
+        body.append(lineNbr);
+        if (file != null) {
+          try {
+            final String lineStr = file.getLine(side, lineNbr);
+            body.append(": ");
+            body.append(lineStr);
+          } catch (Throwable cce) {
+            // Don't quote the line if we can't safely convert it.
+          }
+        }
         body.append("\n");
+
         body.append(c.getMessage().trim());
         body.append("\n\n");
       }

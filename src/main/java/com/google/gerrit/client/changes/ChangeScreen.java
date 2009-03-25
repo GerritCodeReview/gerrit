@@ -214,10 +214,13 @@ public class ChangeScreen extends Screen {
       final PatchSetPanel psp = new PatchSetPanel(detail, ps);
       panel.setContent(psp);
 
+      final InlineLabel revtxt = new InlineLabel(ps.getRevision().get());
+      revtxt.addStyleName("gerrit-PatchSetRevision");
+      panel.getHeader().add(revtxt);
       if (gw != null) {
         final Anchor revlink =
-            new Anchor(ps.getRevision().get(), false, gw.toRevision(detail
-                .getChange().getDest().getParentKey(), ps));
+            new Anchor("(gitweb)", false, gw.toRevision(detail.getChange()
+                .getDest().getParentKey(), ps));
         revlink.addStyleName("gerrit-PatchSetLink");
         panel.getHeader().add(revlink);
       }

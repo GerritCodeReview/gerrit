@@ -433,8 +433,12 @@
   white-space: nowrap;
 }
 
-.gerrit-ChangeScreen .gwt-DisclosurePanel .complexHeader .gerrit-PatchSetLink {
+.gerrit-PatchSetRevision {
   padding-left: 20px;
+  font-size: 8pt;
+}
+.gerrit-PatchSetLink {
+  padding-left: 0.5em;
   font-size: 8pt;
 }
 

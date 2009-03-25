@@ -79,6 +79,8 @@ import javax.mail.MessagingException;
 public class MergeOp {
   private static final Logger log =
     LoggerFactory.getLogger(MergeOp.class);
+  private static final String R_HEADS_MASTER =
+    Constants.R_HEADS + Constants.MASTER;
 
   private final GerritServer server;
   private final PersonIdent myIdent;
@@ -143,6 +145,7 @@ public class MergeOp {
       }
     };
     rw.sort(RevSort.TOPO);
+    rw.sort(RevSort.COMMIT_TIME_DESC, true);
   }
 
   private void openBranch() throws MergeException {
@@ -328,12 +331,60 @@ public class MergeOp {
 
   private void writeMergeCommit(final Merger m, final CodeReviewCommit n)
       throws IOException, MissingObjectException, IncorrectObjectTypeException {
+    final List<CodeReviewCommit> merged = new ArrayList<CodeReviewCommit>();
+    rw.reset();
+    rw.markStart(n);
+    rw.markUninteresting(mergeTip);
+    for (final RevCommit c : rw) {
+      final CodeReviewCommit crc = (CodeReviewCommit)c;
+      if(crc.patchsetId!=null){
+      merged.add(crc);}
+    }
+
+    final StringBuilder msgbuf = new StringBuilder();
+    if (merged.size() == 1) {
+      final CodeReviewCommit c = merged.get(0);
+      final Change.Id changeId = c.patchsetId.getParentKey();
+      msgbuf.append("Merge change ");
+      msgbuf.append(changeId);
+    } else {
+      final ArrayList<CodeReviewCommit> o;
+      o = new ArrayList<CodeReviewCommit>(merged);
+      Collections.sort(o, new Comparator<CodeReviewCommit>() {
+        public int compare(final CodeReviewCommit a, final CodeReviewCommit b) {
+          final Change.Id aId = a.patchsetId.getParentKey();
+          final Change.Id bId = b.patchsetId.getParentKey();
+          return aId.get() - bId.get();
+        }
+      });
+
+      msgbuf.append("Merge changes ");
+      for (final Iterator<CodeReviewCommit> i = o.iterator(); i.hasNext();) {
+        final Change.Id id = i.next().patchsetId.getParentKey();
+        msgbuf.append(id);
+        if (i.hasNext()) {
+          msgbuf.append(',');
+        }
+      }
+    }
+
+    if (!R_HEADS_MASTER.equals(destBranch.get())) {
+      msgbuf.append(" into ");
+      msgbuf.append(destBranch.getShortName());
+    }
+    msgbuf.append("\n\n* changes:\n");
+    for (final CodeReviewCommit c : merged) {
+      msgbuf.append("  ");
+      msgbuf.append(c.getShortMessage());
+      msgbuf.append("\n");
+    }
+
     final Commit mergeCommit = new Commit(db);
     mergeCommit.setTreeId(m.getResultTreeId());
     mergeCommit.setParentIds(new ObjectId[] {mergeTip, n});
     mergeCommit.setAuthor(myIdent);
     mergeCommit.setCommitter(mergeCommit.getAuthor());
-    mergeCommit.setMessage("Merge");
+    mergeCommit.setMessage(msgbuf.toString());
 
     final ObjectId id = m.getObjectWriter().writeCommit(mergeCommit);
     mergeTip = (CodeReviewCommit) rw.parseCommit(id);

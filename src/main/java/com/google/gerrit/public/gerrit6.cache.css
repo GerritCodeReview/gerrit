@@ -424,6 +424,10 @@
 
 
 /** Change **/
+.gerrit-ChangeScreen-StarIcon {
+  margin-right: 5px;
+}
+
 .gerrit-ChangeScreen .gwt-DisclosurePanel .header td {
   font-weight: bold;
   white-space: nowrap;

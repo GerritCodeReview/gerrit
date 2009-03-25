@@ -43,6 +43,7 @@ public class ChangeDetail {
   protected boolean allowsAnonymous;
   protected boolean canAbandon;
   protected Change change;
+  protected boolean starred;
   protected List<ChangeInfo> dependsOn;
   protected List<ChangeInfo> neededBy;
   protected List<PatchSet> patchSets;
@@ -57,9 +58,11 @@ public class ChangeDetail {
   }
 
   public void load(final ReviewDb db, final AccountInfoCacheFactory acc,
-      final Change c, final boolean allowAnon, final boolean canAbdn)
+      final Change c, final boolean allowAnon, final boolean canAbdn,
+      final boolean isStarred)
       throws OrmException {
     change = c;
+    starred = isStarred;
     final Account.Id owner = change.getOwner();
     acc.want(owner);
 
@@ -186,6 +189,10 @@ public class ChangeDetail {
 
   public Change getChange() {
     return change;
+  }
+
+  public boolean isStarred() {
+    return starred;
   }
 
   public List<ChangeInfo> getDependsOn() {

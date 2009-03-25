@@ -20,10 +20,12 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 public class Screen extends FlowPanel {
   private boolean requiresSignIn;
-  private Element headerElem;
+  private final Element headerElem;
+  private Element headerText;
 
   protected Screen() {
     this("");
@@ -33,13 +35,23 @@ public class Screen extends FlowPanel {
     setStyleName("gerrit-Screen");
 
     headerElem = DOM.createElement("h1");
+    headerText = headerElem;
     DOM.appendChild(getElement(), headerElem);
 
     setTitleText(headingText);
   }
 
   public void setTitleText(final String text) {
-    DOM.setInnerText(headerElem, text);
+    DOM.setInnerText(headerText, text);
+  }
+
+  protected void insertTitleWidget(final Widget w) {
+    if (headerText == headerElem) {
+      headerText = DOM.createElement("span");
+      DOM.setInnerText(headerText, DOM.getInnerText(headerElem));
+      DOM.appendChild(headerElem, headerText);
+    }
+    insert(w, headerElem, 0, true);
   }
 
   /** Set whether or not {@link Gerrit#isSignedIn()} must be true. */

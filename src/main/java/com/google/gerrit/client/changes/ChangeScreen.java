@@ -15,6 +15,7 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.FormatUtil;
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.data.AccountInfoCache;
 import com.google.gerrit.client.data.ChangeDetail;
 import com.google.gerrit.client.data.ChangeInfo;
@@ -23,6 +24,7 @@ import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.ChangeMessage;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.rpc.Common;
+import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.ComplexDisclosurePanel;
 import com.google.gerrit.client.ui.ExpandAllCommand;
@@ -31,11 +33,14 @@ import com.google.gerrit.client.ui.RefreshListener;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwtjsonrpc.client.VoidResult;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -46,6 +51,8 @@ public class ChangeScreen extends Screen {
   private ChangeInfo changeInfo;
   private boolean refreshOnSignIn;
 
+  private Image starChange;
+  private boolean starred;
   private ChangeDescriptionBlock descriptionBlock;
   private DisclosurePanel dependenciesPanel;
   private ChangeTable dependencies;
@@ -67,6 +74,7 @@ public class ChangeScreen extends Screen {
   public ChangeScreen(final ChangeInfo c) {
     this(c.getId());
     changeInfo = c;
+    starred = c.isStarred();
   }
 
   @Override
@@ -79,6 +87,7 @@ public class ChangeScreen extends Screen {
     final ChangeScreen s = (ChangeScreen) newScreen;
     changeId = s.changeId;
     changeInfo = s.changeInfo;
+    starred = s.starred;
     return this;
   }
 
@@ -87,10 +96,16 @@ public class ChangeScreen extends Screen {
     if (refreshOnSignIn) {
       refresh();
     }
+    if (starChange != null) {
+      starChange.setVisible(true);
+    }
   }
 
   @Override
   public void onSignOut() {
+    if (starChange != null) {
+      starChange.setVisible(false);
+    }
   }
 
   @Override
@@ -111,14 +126,48 @@ public class ChangeScreen extends Screen {
           public void onSuccess(final ChangeDetail r) {
             // TODO Actually we want to cancel the RPC if detached.
             if (isAttached()) {
+              setStarred(r.isStarred());
               display(r);
             }
           }
         });
   }
 
+  private void setStarred(final boolean s) {
+    if (s) {
+      Gerrit.ICONS.starFilled().applyTo(starChange);
+    } else {
+      Gerrit.ICONS.starOpen().applyTo(starChange);
+    }
+    starred = s;
+  }
+
   private void initUI() {
     addStyleName("gerrit-ChangeScreen");
+
+    starChange = Gerrit.ICONS.starOpen().createImage();
+    starChange.setStyleName("gerrit-ChangeScreen-StarIcon");
+    starChange.setVisible(Gerrit.isSignedIn());
+    starChange.addClickListener(new ClickListener() {
+      public void onClick(Widget sender) {
+        final boolean prior = starred;
+        setStarred(!prior);
+
+        final ToggleStarRequest req = new ToggleStarRequest();
+        req.toggle(changeId, starred);
+        Util.LIST_SVC.toggleStars(req, new GerritCallback<VoidResult>() {
+          public void onSuccess(final VoidResult result) {
+          }
+
+          @Override
+          public void onFailure(final Throwable caught) {
+            super.onFailure(caught);
+            setStarred(prior);
+          }
+        });
+      }
+    });
+    insertTitleWidget(starChange);
 
     descriptionBlock = new ChangeDescriptionBlock();
     add(descriptionBlock);

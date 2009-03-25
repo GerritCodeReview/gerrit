@@ -74,7 +74,8 @@ public class ChangeDetailServiceImpl extends BaseServiceImplementation
         }
         final ChangeDetail d = new ChangeDetail();
 
-        d.load(db, new AccountInfoCacheFactory(db), change, anon, canAbandon);
+        d.load(db, new AccountInfoCacheFactory(db), change, anon, canAbandon,
+            ChangeListServiceImpl.starredBy(db, me).contains(id));
         return d;
       }
     });

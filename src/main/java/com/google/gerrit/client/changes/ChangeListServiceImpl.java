@@ -284,7 +284,7 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
     return r;
   }
 
-  private static Set<Change.Id> starredBy(final ReviewDb db, final Account.Id me)
+  static Set<Change.Id> starredBy(final ReviewDb db, final Account.Id me)
       throws OrmException {
     final Set<Change.Id> existing = new HashSet<Change.Id>();
     if (me != null) {

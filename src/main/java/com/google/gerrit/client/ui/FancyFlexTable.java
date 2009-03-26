@@ -33,6 +33,7 @@ import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
+import com.google.gwtexpui.user.client.UserAgent;
 
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -71,28 +72,30 @@ public abstract class FancyFlexTable<RowItem> extends Composite implements
     pointer = Gerrit.ICONS.arrowRight().createImage();
     table = createFlexTable();
     table.addStyleName(MY_STYLE);
-    focusy = new FocusPanel(table);
-    focusy.addKeyboardListener(new KeyboardListenerAdapter() {
-      @Override
-      public void onKeyPress(Widget sender, char keyCode, int modifiers) {
-        if (FancyFlexTable.this.onKeyPress(keyCode, modifiers)) {
-          final Event event = DOM.eventGetCurrentEvent();
-          DOM.eventCancelBubble(event, true);
-          DOM.eventPreventDefault(event);
+    focusy = UserAgent.wrapFocusPanel(table);
+    if (focusy != null) {
+      focusy.addKeyboardListener(new KeyboardListenerAdapter() {
+        @Override
+        public void onKeyPress(Widget sender, char keyCode, int modifiers) {
+          if (FancyFlexTable.this.onKeyPress(keyCode, modifiers)) {
+            final Event event = DOM.eventGetCurrentEvent();
+            DOM.eventCancelBubble(event, true);
+            DOM.eventPreventDefault(event);
+          }
         }
-      }
-    });
-    focusy.addFocusListener(new FocusListener() {
-      public void onFocus(final Widget sender) {
-        if (currentRow < 0) {
-          onDown();
+      });
+      focusy.addFocusListener(new FocusListener() {
+        public void onFocus(final Widget sender) {
+          if (currentRow < 0) {
+            onDown();
+          }
         }
-      }
 
-      public void onLostFocus(final Widget sender) {
-      }
-    });
-    initWidget(focusy);
+        public void onLostFocus(final Widget sender) {
+        }
+      });
+    }
+    initWidget(focusy != null ? focusy : table);
 
     table.setText(0, C_ARROW, "");
     table.getCellFormatter().addStyleName(0, C_ARROW, S_ICON_HEADER);
@@ -249,35 +252,49 @@ public abstract class FancyFlexTable<RowItem> extends Composite implements
   }
 
   public int getTabIndex() {
-    return focusy.getTabIndex();
+    return focusy != null ? focusy.getTabIndex() : 0;
   }
 
   public void setAccessKey(char key) {
-    focusy.setAccessKey(key);
+    if (focusy != null) {
+      focusy.setAccessKey(key);
+    }
   }
 
   public void setFocus(boolean focused) {
-    focusy.setFocus(focused);
+    if (focusy != null) {
+      focusy.setFocus(focused);
+    }
   }
 
   public void setTabIndex(int index) {
-    focusy.setTabIndex(index);
+    if (focusy != null) {
+      focusy.setTabIndex(index);
+    }
   }
 
   public void addFocusListener(FocusListener listener) {
-    focusy.addFocusListener(listener);
+    if (focusy != null) {
+      focusy.addFocusListener(listener);
+    }
   }
 
   public void addKeyboardListener(KeyboardListener listener) {
-    focusy.addKeyboardListener(listener);
+    if (focusy != null) {
+      focusy.addKeyboardListener(listener);
+    }
   }
 
   public void removeFocusListener(FocusListener listener) {
-    focusy.removeFocusListener(listener);
+    if (focusy != null) {
+      focusy.removeFocusListener(listener);
+    }
   }
 
   public void removeKeyboardListener(KeyboardListener listener) {
-    focusy.removeKeyboardListener(listener);
+    if (focusy != null) {
+      focusy.removeKeyboardListener(listener);
+    }
   }
 
   protected static class MyFlexTable extends FlexTable {

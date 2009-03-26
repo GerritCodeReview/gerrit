@@ -24,4 +24,11 @@
       <when-property-is name="user.agent" value="gecko1_8"/>
     </any>
   </replace-with>
+
+  <replace-with class="com.google.gwtexpui.user.client.FocusPanelFactorySafari">
+    <when-type-is class="com.google.gwtexpui.user.client.FocusPanelFactory" />
+    <any>
+      <when-property-is name="user.agent" value="safari"/>
+    </any>
+  </replace-with>
 </module>

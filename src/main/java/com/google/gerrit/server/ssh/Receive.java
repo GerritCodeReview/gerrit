@@ -19,6 +19,8 @@ import static com.google.gerrit.client.reviewdb.ApprovalCategory.PUSH_HEAD_CREAT
 import static com.google.gerrit.client.reviewdb.ApprovalCategory.PUSH_HEAD_REPLACE;
 import static com.google.gerrit.client.reviewdb.ApprovalCategory.PUSH_HEAD_UPDATE;
 import static com.google.gerrit.client.reviewdb.ApprovalCategory.PUSH_TAG;
+import static com.google.gerrit.client.reviewdb.ApprovalCategory.PUSH_TAG_ANNOTATED;
+import static com.google.gerrit.client.reviewdb.ApprovalCategory.PUSH_TAG_ANY;
 
 import com.google.gerrit.client.Link;
 import com.google.gerrit.client.data.ApprovalType;
@@ -422,6 +424,12 @@ class Receive extends AbstractGitCommand {
         return;
       }
 
+      if (canPerform(PUSH_TAG, PUSH_TAG_ANY)) {
+        // If we can push any tag, validation is sufficient at this point.
+        //
+        return;
+      }
+
       final RevTag tag = (RevTag) obj;
       final PersonIdent tagger = tag.getTaggerIdent();
       if (tagger == null) {
@@ -432,6 +440,19 @@ class Receive extends AbstractGitCommand {
       final String email = tagger.getEmailAddress();
       if (!myEmails.contains(email)) {
         reject(cmd, "invalid tagger " + email);
+        return;
+      }
+
+      if (tag.getFullMessage().contains("-----BEGIN PGP SIGNATURE-----\n")) {
+        // Signed tags are currently assumed valid, as we don't have a GnuPG
+        // key ring to validate them against, and we might be missing the
+        // necessary (but currently optional) BouncyCastle Crypto libraries.
+        //
+      } else if (canPerform(PUSH_TAG, PUSH_TAG_ANNOTATED)) {
+        // User is permitted to push an unsigned annotated tag.
+        //
+      } else {
+        reject(cmd, "must be signed");
         return;
       }
 

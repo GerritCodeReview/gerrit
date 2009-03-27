@@ -233,6 +233,25 @@ are not permitted.
 This category is intended to be used to publish tags when a project
 reaches a stable release point worth remembering in history.
 
+The range of values is:
+
+* +1 Create Signed Tag
++
+A new signed tag may be created.  The tagger email address must be
+verified for the current user.
+
+* +2 Create Annotated Tag
++
+A new annotated (unsigned) tag may be created.  The tagger email
+address must be verified for the current user.
+
+* +3 Create Any Tag
++
+Any new annotated tag may be created.  A PGP signature is optional,
+and any tagger email address may be used.  This level is primarily
+useful for mirroring tags made by an upstream maintainer, outside
+of Gerrit.
+
 [[category_pHD]]
 Push Branch
 ~~~~~~~~~~~

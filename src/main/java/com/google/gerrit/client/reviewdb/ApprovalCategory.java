@@ -34,6 +34,9 @@ public final class ApprovalCategory {
   /** Id of the special "Push Annotated Tag" action (and category). */
   public static final ApprovalCategory.Id PUSH_TAG =
       new ApprovalCategory.Id("pTAG");
+  public static final short PUSH_TAG_SIGNED = 1;
+  public static final short PUSH_TAG_ANNOTATED = 2;
+  public static final short PUSH_TAG_ANY = 3;
 
   /** Id of the special "Push Branch" action (and category). */
   public static final ApprovalCategory.Id PUSH_HEAD =

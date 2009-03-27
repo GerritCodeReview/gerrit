@@ -396,7 +396,10 @@ public class GerritServer {
     cat.setPosition((short) -1);
     cat.setFunctionName(NoOpFunction.NAME);
     vals = new ArrayList<ApprovalCategoryValue>();
-    vals.add(value(cat, 1, "Create Tag"));
+    vals.add(value(cat, ApprovalCategory.PUSH_TAG_SIGNED, "Create Signed Tag"));
+    vals.add(value(cat, ApprovalCategory.PUSH_TAG_ANNOTATED,
+        "Create Annotated Tag"));
+    vals.add(value(cat, ApprovalCategory.PUSH_TAG_ANY, "Create Any Tag"));
     c.approvalCategories().insert(Collections.singleton(cat), txn);
     c.approvalCategoryValues().insert(vals, txn);
     txn.commit();

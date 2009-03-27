@@ -262,17 +262,30 @@ public class ProjectRightsPanel extends Composite {
       at = null;
     }
 
-    if (at != null) {
+    if (at != null && !at.getValues().isEmpty()) {
+      int curIndex = 0, minIndex = -1, maxIndex = -1;
       rangeMinBox.clear();
       rangeMaxBox.clear();
       for (final ApprovalCategoryValue v : at.getValues()) {
         rangeMinBox.addItem(v.getName(), String.valueOf(v.getValue()));
         rangeMaxBox.addItem(v.getName(), String.valueOf(v.getValue()));
+
+        if (v.getValue() < 0) {
+          minIndex = curIndex;
+        }
+        if (maxIndex < 0 && v.getValue() > 0) {
+          maxIndex = curIndex;
+        }
+
+        curIndex++;
       }
-      if (rangeMaxBox.getItemCount() > 0) {
-        rangeMinBox.setSelectedIndex(0);
-        rangeMaxBox.setSelectedIndex(rangeMaxBox.getItemCount() - 1);
+      if (ApprovalCategory.READ.equals(at.getCategory().getId())) {
+        // Special case; for READ the most logical range is just
+        // +1 READ, so assume that as the default for both.
+        minIndex = maxIndex;
       }
+      rangeMinBox.setSelectedIndex(minIndex >= 0 ? minIndex : 0);
+      rangeMaxBox.setSelectedIndex(maxIndex >= 0 ? maxIndex : curIndex - 1);
     } else {
       rangeMinBox.setEnabled(false);
       rangeMaxBox.setEnabled(false);

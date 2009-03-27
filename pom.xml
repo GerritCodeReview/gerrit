@@ -386,6 +386,9 @@ limitations under the License.
                   <fileset dir="${basedir}/target/executablewar" includes="**/*"/>
                 </copy>
 
+                <copy tofile="${d}/LICENSES.txt"
+                      file="${basedir}/Documentation/licenses.txt"
+                      overwrite="true"/>
                 <copy todir="${d}/WEB-INF/extra">
                   <fileset dir="${basedir}/src/main/java">
                     <include name="GerritServer.properties_example"/>

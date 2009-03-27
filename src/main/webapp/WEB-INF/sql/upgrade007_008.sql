@@ -20,4 +20,8 @@ SET max_value = 2
 WHERE max_value = 1
   AND category_id = 'pTAG'; 
 
+UPDATE project_rights
+SET min_value = max_value, max_value = min_value
+WHERE max_value < min_value;
+
 UPDATE schema_version SET version_nbr = 8;

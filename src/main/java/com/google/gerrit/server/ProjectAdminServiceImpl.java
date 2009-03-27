@@ -211,8 +211,17 @@ public class ProjectAdminServiceImpl extends BaseServiceImplementation
 
   public void addRight(final Project.Id projectId,
       final ApprovalCategory.Id categoryId, final String groupName,
-      final short min, final short max,
+      final short amin, final short amax,
       final AsyncCallback<ProjectDetail> callback) {
+    final short min, max;
+    if (amin <= amax) {
+      min = amin;
+      max = amax;
+    } else {
+      min = amax;
+      max = amin;
+    }
+
     run(callback, new Action<ProjectDetail>() {
       public ProjectDetail run(ReviewDb db) throws OrmException, Failure {
         assertAmProjectOwner(db, projectId);

@@ -43,11 +43,13 @@ for a project named `project`.
   INSERT INTO projects
   (project_id
    ,use_contributor_agreements
+   ,submit_type
    ,owner_group_id
    ,name)
   VALUES
   (nextval('project_id')
   ,'Y'
+  ,'M'
   ,(SELECT admin_group_id FROM system_config)
   ,'new/project');
 

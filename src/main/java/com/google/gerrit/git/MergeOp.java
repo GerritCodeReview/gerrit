@@ -15,12 +15,14 @@
 package com.google.gerrit.git;
 
 import com.google.gerrit.client.data.ApprovalType;
+import com.google.gerrit.client.data.ProjectCache;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.Branch;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.ChangeApproval;
 import com.google.gerrit.client.reviewdb.ChangeMessage;
 import com.google.gerrit.client.reviewdb.PatchSet;
+import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.workflow.FunctionState;
@@ -84,6 +86,7 @@ public class MergeOp {
   private final GerritServer server;
   private final PersonIdent myIdent;
   private final Branch.NameKey destBranch;
+  private Project destProject;
   private final List<CodeReviewCommit> toMerge;
   private List<Change> submitted;
   private final Map<Change.Id, CommitMergeStatus> status;
@@ -103,6 +106,13 @@ public class MergeOp {
   }
 
   public void merge() throws MergeException {
+    final ProjectCache.Entry pe =
+        Common.getProjectCache().get(destBranch.getParentKey());
+    if (pe == null) {
+      throw new MergeException("No such project: " + destBranch.getParentKey());
+    }
+    destProject = pe.getProject();
+
     try {
       schema = Common.getSchemaFactory().open();
     } catch (OrmException e) {
@@ -274,23 +284,24 @@ public class MergeOp {
 
     // Take the first fast-forward available, if any is available in the set.
     //
-    for (final Iterator<CodeReviewCommit> i = toMerge.iterator(); i.hasNext();) {
-      try {
-        final CodeReviewCommit n = i.next();
-        if (mergeTip == null || rw.isMergedInto(mergeTip, n)) {
-          mergeTip = n;
-          i.remove();
-          break;
+    if (destProject.getSubmitType() != Project.SubmitType.MERGE_ALWAYS) {
+      for (final Iterator<CodeReviewCommit> i = toMerge.iterator(); i.hasNext();) {
+        try {
+          final CodeReviewCommit n = i.next();
+          if (mergeTip == null || rw.isMergedInto(mergeTip, n)) {
+            mergeTip = n;
+            i.remove();
+            break;
+          }
+        } catch (IOException e) {
+          throw new MergeException("Cannot fast-forward test during merge", e);
         }
-      } catch (IOException e) {
-        throw new MergeException("Cannot fast-forward test during merge", e);
       }
     }
 
     // If this project only permits fast-forwards, abort everything else.
     //
-    if ("true".equals(db.getConfig().getString("gerrit", null,
-        "fastforwardonly"))) {
+    if (destProject.getSubmitType() == Project.SubmitType.FAST_FORWARD_ONLY) {
       while (!toMerge.isEmpty()) {
         final CodeReviewCommit n = toMerge.remove(0);
         n.statusCode = CommitMergeStatus.PATH_CONFLICT;

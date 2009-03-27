@@ -189,7 +189,7 @@ public class ProjectRightsPanel extends Composite {
   private void doAddNewRight() {
     int idx = catBox.getSelectedIndex();
     final ApprovalType at;
-    final ApprovalCategoryValue min, max;
+    ApprovalCategoryValue min, max;
     if (idx < 0) {
       return;
     }
@@ -222,6 +222,16 @@ public class ProjectRightsPanel extends Composite {
     if ("".equals(groupName)
         || Util.C.defaultAccountGroupName().equals(groupName)) {
       return;
+    }
+
+    if (min.getValue() > max.getValue()) {
+      // If the user selects it backwards in the web UI, help them out
+      // by reversing the order to what we would expect.
+      //
+      final ApprovalCategoryValue newMin = max;
+      final ApprovalCategoryValue newMax = min;
+      min = newMin;
+      max = newMax;
     }
 
     addRight.setEnabled(false);

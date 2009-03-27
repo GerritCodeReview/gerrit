@@ -267,8 +267,14 @@ public class ProjectRightsPanel extends Composite {
       rangeMinBox.clear();
       rangeMaxBox.clear();
       for (final ApprovalCategoryValue v : at.getValues()) {
-        rangeMinBox.addItem(v.getName(), String.valueOf(v.getValue()));
-        rangeMaxBox.addItem(v.getName(), String.valueOf(v.getValue()));
+        final String vStr = String.valueOf(v.getValue());
+        String nStr = vStr + ": " + v.getName();
+        if (v.getValue() > 0) {
+          nStr = "+" + nStr;
+        }
+
+        rangeMinBox.addItem(nStr, vStr);
+        rangeMaxBox.addItem(nStr, vStr);
 
         if (v.getValue() < 0) {
           minIndex = curIndex;

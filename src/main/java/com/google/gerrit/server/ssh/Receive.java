@@ -43,6 +43,7 @@ import com.google.gerrit.git.PushQueue;
 import com.google.gerrit.server.ChangeMail;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritServer;
+import com.google.gerrit.server.EventQueue;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.OrmRunnable;
 import com.google.gwtorm.client.Transaction;
@@ -681,6 +682,8 @@ class Receive extends AbstractGitCommand {
           + repo.getDirectory() + ": " + ru.getResult());
     }
     PushQueue.scheduleUpdate(proj.getNameKey(), ru.getName());
+
+    EventQueue.scheduleNewChangeEvent(proj.getNameKey(), change);
 
     allNewChanges.add(change.getId());
 

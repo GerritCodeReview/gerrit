@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAN3////0\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/EventQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-03-27T23:04:20Z",
+      "side": 1,
+      "message": "Please insert our standard copyright header, see for example Receive.java (which you also modified).",
+      "revId": "03b0baa613bbee3916c9e4127f27de58ef024596",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAN3////k\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/EventQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-03-27T23:04:20Z",
+      "side": 1,
+      "message": "This assignment is unnecessary.",
+      "revId": "03b0baa613bbee3916c9e4127f27de58ef024596",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAN3////w\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/EventQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-03-27T23:04:20Z",
+      "side": 1,
+      "message": "I wonder if we shouldn\u0027t run these with the current directory set to the Git repository the event is against, so the hook can use GIT_DIR\u003d. to perform inspection against the repository, without needing to know system_config.git_base_path.\n\nWe may also want to consider setting up a canonical environment array, which might include setting GIT_DIR to the repository directory so the hook doesn\u0027t have to set it itself.",
+      "revId": "03b0baa613bbee3916c9e4127f27de58ef024596",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAN3////s\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/EventQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-03-27T23:04:20Z",
+      "side": 1,
+      "message": "I\u0027m concerned about deadlock if the hook produces output to stdout or stderr, or tries to read stdin.\n\nWe should at least \"ps.getOutputStream().close()\" so stdin EOFs for the hook.\n\nWe should either also close getInputStream/getErrorStream(), or capture them and write them into the \"log\" (our Logger above).",
+      "revId": "03b0baa613bbee3916c9e4127f27de58ef024596",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAN3////o\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/EventQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-03-27T23:04:20Z",
+      "side": 1,
+      "message": "Why not just catch Throwable here and remove the RuntimeException and Error cases?",
+      "revId": "03b0baa613bbee3916c9e4127f27de58ef024596",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAN3////g\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/EventQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-03-27T23:04:20Z",
+      "side": 1,
+      "message": "Can\u0027t we simplify this loop like this:\n\n  final File[] allHooks \u003d hooksPath.listFiles();\n  if (allHooks !\u003d null) {\n    for (final File f : allHooks) {\n      hooks.put(f.getName(), f);\n    }\n  }\n\n?  The hook is always looked up in the Map by its name, all we are doing here is trying to make an efficient catalog of the hooks that existed during the first read, so its cheaper to test if the hook exists and should be added to the work queue.",
+      "revId": "03b0baa613bbee3916c9e4127f27de58ef024596",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAN3////4\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/Receive.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 686,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-03-27T23:04:20Z",
+      "side": 1,
+      "message": "minor style nit; I would remove the blank line above, scheduling these two async events logically goes together, so I\u0027d position them together in the code.",
+      "revId": "03b0baa613bbee3916c9e4127f27de58ef024596",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

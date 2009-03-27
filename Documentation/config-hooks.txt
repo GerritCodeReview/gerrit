@@ -1,0 +1,31 @@
+Gerrit2 - Hooks
+===============
+
+Gerrit does not run any of the standard git hooks in the repositories
+it works with, but it does have its own hook mechanism included. Gerrit
+looks in `$\{site_path\}/hooks/` for executables with names listed below.
+
+The environment will have GIT_DIR set to the full path of the affected
+git repository so that git commands can be easily run.
+
+Make sure your hook scripts are executable if running on *nix.
+
+new-change
+~~~~~~~~~~
+
+This hook will be called for every new change review after it is created.
+It is called with the following parameters:
+
+====
+  new-change <project name> <change id>
+====
+
+update-change
+~~~~~~~~~~~~~
+
+(NOT IMPLEMENTED YET) This hook is called every time a change
+review is updated. It is called with these parameters:
+
+====
+  update-change <project name> <change id>
+====

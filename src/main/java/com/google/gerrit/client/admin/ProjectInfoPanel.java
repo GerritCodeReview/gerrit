@@ -22,9 +22,11 @@ import com.google.gerrit.client.ui.AccountGroupSuggestOracle;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.client.ui.TextSaveButtonListener;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.ChangeListener;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.TextArea;
@@ -41,6 +43,10 @@ public class ProjectInfoPanel extends Composite {
   private SuggestBox ownerTxt;
   private Button saveOwner;
 
+  private Panel submitTypePanel;
+  private ListBox submitType;
+  private Project.SubmitType currentSubmitType;
+
   private TextArea descTxt;
   private Button saveDesc;
 
@@ -48,6 +54,7 @@ public class ProjectInfoPanel extends Composite {
     final FlowPanel body = new FlowPanel();
     initOwner(body);
     initDescription(body);
+    initSubmitType(body);
     initWidget(body);
 
     projectId = toShow;
@@ -72,6 +79,7 @@ public class ProjectInfoPanel extends Composite {
   }
 
   private void enableForm(final boolean on) {
+    submitType.setEnabled(on);
     ownerTxtBox.setEnabled(on);
     descTxt.setEnabled(on);
   }
@@ -132,6 +140,56 @@ public class ProjectInfoPanel extends Composite {
     new TextSaveButtonListener(descTxt, saveDesc);
   }
 
+  private void initSubmitType(final Panel body) {
+    submitTypePanel = new VerticalPanel();
+    submitTypePanel.add(new SmallHeading(Util.C.headingSubmitType()));
+
+    submitType = new ListBox();
+    for (final Project.SubmitType type : Project.SubmitType.values()) {
+      submitType.addItem(Util.toLongString(type), type.name());
+    }
+    submitType.addChangeListener(new ChangeListener() {
+      public void onChange(Widget sender) {
+        final int i = submitType.getSelectedIndex();
+        if (i < 0) {
+          return;
+        }
+        final Project.SubmitType newSubmitType =
+            Project.SubmitType.valueOf(submitType.getValue(i));
+        submitType.setEnabled(false);
+        Util.PROJECT_SVC.changeProjectSubmitType(projectId, newSubmitType,
+            new GerritCallback<VoidResult>() {
+              public void onSuccess(final VoidResult result) {
+                currentSubmitType = newSubmitType;
+                submitType.setEnabled(true);
+              }
+
+              @Override
+              public void onFailure(final Throwable caught) {
+                submitType.setEnabled(false);
+                setSubmitType(currentSubmitType);
+                super.onFailure(caught);
+              }
+            });
+      }
+    });
+    submitTypePanel.add(submitType);
+    body.add(submitTypePanel);
+  }
+
+  private void setSubmitType(final Project.SubmitType newSubmitType) {
+    currentSubmitType = newSubmitType;
+    if (submitType != null) {
+      for (int i = 0; i < submitType.getItemCount(); i++) {
+        if (newSubmitType.name().equals(submitType.getValue(i))) {
+          submitType.setSelectedIndex(i);
+          return;
+        }
+      }
+      submitType.setSelectedIndex(-1);
+    }
+  }
+
   void display(final ProjectDetail result) {
     final Project project = result.project;
     final AccountGroup owner = result.groups.get(project.getOwnerGroupId());
@@ -143,10 +201,13 @@ public class ProjectInfoPanel extends Composite {
 
     if (ProjectRight.WILD_PROJECT.equals(project.getId())) {
       ownerPanel.setVisible(false);
+      submitTypePanel.setVisible(false);
     } else {
       ownerPanel.setVisible(true);
+      submitTypePanel.setVisible(true);
     }
 
     descTxt.setText(project.getDescription());
+    setSubmitType(project.getSubmitType());
   }
 }

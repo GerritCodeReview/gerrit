@@ -43,11 +43,13 @@ for a project named `project`.
   INSERT INTO projects
   (project_id
    ,use_contributor_agreements
+   ,submit_type
    ,owner_group_id
    ,name)
   VALUES
   (nextval('project_id')
   ,'Y'
+  ,'M'
   ,(SELECT admin_group_id FROM system_config)
   ,'new/project');
 
@@ -60,6 +62,40 @@ for a project named `project`.
   ,'refs/heads/master'
   ,'new/project');
 ====
+
+Change Submit Action
+--------------------
+
+The method Gerrit uses to submit a change to a project can be
+modified by any project owner through the project console, `Admin` >
+`Projects`.  The following methods are supported:
+
+* Fast Forward Only
++
+This method produces a strictly linear history.  All merges must
+be handled on the client, prior to uploading to Gerrit for review.
++
+To submit a change, the change must be a strict superset of the
+destination branch.  That is, the change must already contain the
+tip of the destination branch at submit time.
+
+* Merge If Necessary
++
+This is the default for a new project (and why `\'M'` is suggested
+above in the insert statement).
++
+If the change being submitted is a strict superset of the destination
+branch, then the branch is fast-forwarded to the change.  If not,
+then a merge commit is automatically created.  This is identical
+to the classical `git merge` behavior, or `git merge \--ff`.
+
+* Always Merge
++
+Always produce a merge commit, even if the change is a strict
+superset of the destination branch.  This is identical to the
+behavior of `git merge \--no-ff`, and may be useful if the
+project needs to follow submits with `git log \--first-parent`.
+
 
 Registering Additional Branches
 -------------------------------

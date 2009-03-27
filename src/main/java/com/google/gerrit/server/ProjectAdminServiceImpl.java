@@ -180,6 +180,24 @@ public class ProjectAdminServiceImpl extends BaseServiceImplementation
     });
   }
 
+  public void changeProjectSubmitType(final Project.Id projectId,
+      final Project.SubmitType newSubmitType,
+      final AsyncCallback<VoidResult> callback) {
+    run(callback, new Action<VoidResult>() {
+      public VoidResult run(final ReviewDb db) throws OrmException, Failure {
+        assertAmProjectOwner(db, projectId);
+        final Project project = db.projects().get(projectId);
+        if (project == null) {
+          throw new Failure(new NoSuchEntityException());
+        }
+        project.setSubmitType(newSubmitType);
+        db.projects().update(Collections.singleton(project));
+        Common.getProjectCache().invalidate(project);
+        return VoidResult.INSTANCE;
+      }
+    });
+  }
+
   public void deleteRight(final Set<ProjectRight.Key> keys,
       final AsyncCallback<VoidResult> callback) {
     run(callback, new Action<VoidResult>() {

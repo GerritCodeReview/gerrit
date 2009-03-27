@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.admin;
 
+import com.google.gerrit.client.reviewdb.Project;
 import com.google.gwt.core.client.GWT;
 import com.google.gwtjsonrpc.client.JsonUtil;
 
@@ -29,5 +30,21 @@ public class Util {
 
     PROJECT_SVC = GWT.create(ProjectAdminService.class);
     JsonUtil.bind(PROJECT_SVC, "rpc/ProjectAdminService");
+  }
+
+  public static String toLongString(final Project.SubmitType type) {
+    if (type == null) {
+      return "";
+    }
+    switch (type) {
+      case FAST_FORWARD_ONLY:
+        return C.projectSubmitType_FAST_FORWARD_ONLY();
+      case MERGE_IF_NECESSARY:
+        return C.projectSubmitType_MERGE_IF_NECESSARY();
+      case MERGE_ALWAYS:
+        return C.projectSubmitType_MERGE_ALWAYS();
+      default:
+        return type.name();
+    }
   }
 }

@@ -32,9 +32,14 @@ public interface AdminConstants extends Constants {
 
   String headingOwner();
   String headingDescription();
+  String headingSubmitType();
   String headingMembers();
   String headingCreateGroup();
   String headingAccessRights();
+
+  String projectSubmitType_FAST_FORWARD_ONLY();
+  String projectSubmitType_MERGE_ALWAYS();
+  String projectSubmitType_MERGE_IF_NECESSARY();
 
   String columnMember();
   String columnEmailAddress();

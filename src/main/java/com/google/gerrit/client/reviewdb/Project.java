@@ -81,6 +81,33 @@ public final class Project {
     }
   }
 
+  public static enum SubmitType {
+    FAST_FORWARD_ONLY('F'),
+
+    MERGE_IF_NECESSARY('M'),
+
+    MERGE_ALWAYS('A');
+
+    private final char code;
+
+    private SubmitType(final char c) {
+      code = c;
+    }
+
+    public char getCode() {
+      return code;
+    }
+
+    public static SubmitType forCode(final char c) {
+      for (final SubmitType s : SubmitType.values()) {
+        if (s.code == c) {
+          return s;
+        }
+      }
+      return null;
+    }
+  }
+
   @Column
   protected NameKey name;
 
@@ -96,6 +123,9 @@ public final class Project {
   @Column
   protected boolean useContributorAgreements;
 
+  @Column
+  protected char submitType;
+
   protected Project() {
   }
 
@@ -103,6 +133,7 @@ public final class Project {
     name = newName;
     projectId = newId;
     useContributorAgreements = true;
+    setSubmitType(SubmitType.MERGE_IF_NECESSARY);
   }
 
   public Project.Id getId() {
@@ -139,5 +170,13 @@ public final class Project {
 
   public void setUseContributorAgreements(final boolean u) {
     useContributorAgreements = u;
+  }
+
+  public SubmitType getSubmitType() {
+    return SubmitType.forCode(submitType);
+  }
+
+  public void setSubmitType(final SubmitType type) {
+    submitType = type.getCode();
   }
 }

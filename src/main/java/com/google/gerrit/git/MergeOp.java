@@ -77,10 +77,9 @@ import javax.mail.MessagingException;
  * be merged cleanly.
  */
 public class MergeOp {
-  private static final Logger log =
-    LoggerFactory.getLogger(MergeOp.class);
+  private static final Logger log = LoggerFactory.getLogger(MergeOp.class);
   private static final String R_HEADS_MASTER =
-    Constants.R_HEADS + Constants.MASTER;
+      Constants.R_HEADS + Constants.MASTER;
 
   private final GerritServer server;
   private final PersonIdent myIdent;
@@ -336,9 +335,10 @@ public class MergeOp {
     rw.markStart(n);
     rw.markUninteresting(mergeTip);
     for (final RevCommit c : rw) {
-      final CodeReviewCommit crc = (CodeReviewCommit)c;
-      if(crc.patchsetId!=null){
-      merged.add(crc);}
+      final CodeReviewCommit crc = (CodeReviewCommit) c;
+      if (crc.patchsetId != null) {
+        merged.add(crc);
+      }
     }
 
     final StringBuilder msgbuf = new StringBuilder();
@@ -522,7 +522,7 @@ public class MergeOp {
 
   private void setMerged(Change c, ChangeMessage msg) {
     final PatchSet.Id merged = c.currentPatchSetId();
-    ChangeApproval submitter=null;
+    ChangeApproval submitter = null;
     for (int attempts = 0; attempts < 10; attempts++) {
       c.setStatus(Change.Status.MERGED);
       ChangeUtil.updated(c);
@@ -581,9 +581,9 @@ public class MergeOp {
       cm.setPatchSet(schema.patchSets().get(c.currentPatchSetId()), schema
           .patchSetInfo().get(c.currentPatchSetId()));
       cm.sendMerged();
-    } catch (OrmException e){
+    } catch (OrmException e) {
       log.error("Cannot send email for submitted patch set " + c.getId(), e);
-    } catch (MessagingException e){
+    } catch (MessagingException e) {
       log.error("Cannot send email for submitted patch set " + c.getId(), e);
     }
   }

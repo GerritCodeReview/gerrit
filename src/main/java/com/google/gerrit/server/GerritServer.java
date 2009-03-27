@@ -359,7 +359,7 @@ public class GerritServer {
           new ProjectRight(new ProjectRight.Key(ProjectRight.WILD_PROJECT, cat
               .getId(), sConfig.anonymousGroupId));
       read.setMaxValue((short) 1);
-      read.setMinValue((short) 0);
+      read.setMinValue((short) 1);
       c.projectRights().insert(Collections.singleton(read));
     }
     {
@@ -367,7 +367,7 @@ public class GerritServer {
           new ProjectRight(new ProjectRight.Key(ProjectRight.WILD_PROJECT, cat
               .getId(), sConfig.adminGroupId));
       read.setMaxValue((short) 1);
-      read.setMinValue((short) 0);
+      read.setMinValue((short) 1);
       c.projectRights().insert(Collections.singleton(read));
     }
   }

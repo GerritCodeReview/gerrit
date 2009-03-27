@@ -387,9 +387,9 @@ limitations under the License.
                 </copy>
 
                 <copy todir="${d}/WEB-INF/extra">
-	                <fileset dir="${basedir}/src/main/java">
-		                <include name="GerritServer.properties_example"/>
-	                </fileset>
+                  <fileset dir="${basedir}/src/main/java">
+                    <include name="GerritServer.properties_example"/>
+                  </fileset>
                 </copy>
 
                 <move todir="${d}">

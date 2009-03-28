@@ -790,9 +790,14 @@ class Receive extends AbstractGitCommand {
           }
 
           if (me.equals(a.getAccountId())) {
-            // Leave my own approvals alone.
-            //
-
+            if (a.getValue() > 0
+                && ApprovalCategory.SUBMIT.equals(a.getCategoryId())) {
+              a.clear();
+              db.changeApprovals().update(Collections.singleton(a), txn);
+            } else {
+              // Leave my own approvals alone.
+              //
+            }
           } else if (a.getValue() > 0) {
             a.clear();
             db.changeApprovals().update(Collections.singleton(a), txn);

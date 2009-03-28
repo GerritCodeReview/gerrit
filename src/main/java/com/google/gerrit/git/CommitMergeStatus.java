@@ -19,6 +19,9 @@ enum CommitMergeStatus {
   CLEAN_MERGE,
 
   /** */
+  CLEAN_PICK,
+
+  /** */
   ALREADY_MERGED,
 
   /** */

@@ -86,7 +86,9 @@ public final class Project {
 
     MERGE_IF_NECESSARY('M'),
 
-    MERGE_ALWAYS('A');
+    MERGE_ALWAYS('A'),
+
+    CHERRY_PICK('C');
 
     private final char code;
 

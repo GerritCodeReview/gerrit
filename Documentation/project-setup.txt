@@ -96,6 +96,18 @@ superset of the destination branch.  This is identical to the
 behavior of `git merge \--no-ff`, and may be useful if the
 project needs to follow submits with `git log \--first-parent`.
 
+* Cherry Pick
++
+Always cherry pick the patch set, ignoring the parent lineage
+and instead creating a brand new commit on top of the current
+branch head.
++
+When cherry picking a change, Gerrit automatically appends onto the
+end of the commit message a short summary of the change's approvals,
+and a URL link back to the change on the web.  The committer header
+is also set to the submitter, while the author header retains the
+original patch set author.
+
 
 Registering Additional Branches
 -------------------------------

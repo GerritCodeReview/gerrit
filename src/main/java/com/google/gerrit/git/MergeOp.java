@@ -16,6 +16,7 @@ package com.google.gerrit.git;
 
 import com.google.gerrit.client.data.ApprovalType;
 import com.google.gerrit.client.data.ProjectCache;
+import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.Branch;
 import com.google.gerrit.client.reviewdb.Change;
@@ -46,6 +47,7 @@ import org.spearce.jgit.lib.RefUpdate;
 import org.spearce.jgit.lib.Repository;
 import org.spearce.jgit.merge.MergeStrategy;
 import org.spearce.jgit.merge.Merger;
+import org.spearce.jgit.merge.ThreeWayMerger;
 import org.spearce.jgit.revwalk.RevCommit;
 import org.spearce.jgit.revwalk.RevSort;
 import org.spearce.jgit.revwalk.RevWalk;
@@ -82,6 +84,10 @@ public class MergeOp {
   private static final Logger log = LoggerFactory.getLogger(MergeOp.class);
   private static final String R_HEADS_MASTER =
       Constants.R_HEADS + Constants.MASTER;
+  private static final ApprovalCategory.Id CRVW =
+      new ApprovalCategory.Id("CRVW");
+  private static final ApprovalCategory.Id VRIF =
+      new ApprovalCategory.Id("VRIF");
 
   private final GerritServer server;
   private final PersonIdent myIdent;
@@ -90,6 +96,7 @@ public class MergeOp {
   private final List<CodeReviewCommit> toMerge;
   private List<Change> submitted;
   private final Map<Change.Id, CommitMergeStatus> status;
+  private final Map<Change.Id, CodeReviewCommit> newCommits;
   private ReviewDb schema;
   private Repository db;
   private RevWalk rw;
@@ -103,6 +110,7 @@ public class MergeOp {
     destBranch = branch;
     toMerge = new ArrayList<CodeReviewCommit>();
     status = new HashMap<Change.Id, CommitMergeStatus>();
+    newCommits = new HashMap<Change.Id, CodeReviewCommit>();
   }
 
   public void merge() throws MergeException {
@@ -131,9 +139,21 @@ public class MergeOp {
     openBranch();
     listPendingSubmits();
     validateChangeList();
-    reduceToMinimalMerge();
-    mergeTopics();
-    markCleanMerges();
+    mergeTip = branchTip;
+    switch (destProject.getSubmitType()) {
+      case CHERRY_PICK:
+        cherryPickChanges();
+        break;
+
+      case FAST_FORWARD_ONLY:
+      case MERGE_ALWAYS:
+      case MERGE_IF_NECESSARY:
+      default:
+        reduceToMinimalMerge();
+        mergeTopics();
+        markCleanMerges();
+        break;
+    }
     updateBranch();
     updateChangeStatus();
   }
@@ -280,8 +300,6 @@ public class MergeOp {
   }
 
   private void mergeTopics() throws MergeException {
-    mergeTip = branchTip;
-
     // Take the first fast-forward available, if any is available in the set.
     //
     if (destProject.getSubmitType() != Project.SubmitType.MERGE_ALWAYS) {
@@ -434,6 +452,169 @@ public class MergeOp {
     }
   }
 
+  private void cherryPickChanges() throws MergeException {
+    while (!toMerge.isEmpty()) {
+      final CodeReviewCommit n = toMerge.remove(0);
+      final ThreeWayMerger m;
+
+      m = MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.newMerger(db);
+      try {
+        if (n.getParentCount() != 1) {
+          // We don't support cherry-picking a merge commit.
+          //
+          n.statusCode = CommitMergeStatus.PATH_CONFLICT;
+          status.put(n.patchsetId.getParentKey(), n.statusCode);
+          continue;
+        }
+
+        m.setBase(n.getParent(0));
+        if (m.merge(mergeTip, n)) {
+          writeCherryPickCommit(m, n);
+
+        } else {
+          n.statusCode = CommitMergeStatus.PATH_CONFLICT;
+          status.put(n.patchsetId.getParentKey(), n.statusCode);
+        }
+      } catch (IOException e) {
+        throw new MergeException("Cannot merge " + n.name(), e);
+      }
+    }
+  }
+
+  private void writeCherryPickCommit(final Merger m, final CodeReviewCommit n)
+      throws IOException {
+    final StringBuilder msgbuf = new StringBuilder();
+    msgbuf.append(n.getFullMessage());
+
+    if (msgbuf.length() == 0) {
+      // WTF, an empty commit message?
+      msgbuf.append("<no commit message provided>");
+    }
+    if (msgbuf.charAt(msgbuf.length() - 1) != '\n') {
+      // Missing a trailing LF? Correct it (perhaps the editor was broken).
+      msgbuf.append('\n');
+    }
+    if (!msgbuf.toString().matches("^(\n|.)*\n[A-Za-z0-9-]{1,}: [^\n]{1,}\n$")) {
+      // Doesn't end in a "Signed-off-by: ..." style line? Add another line
+      // break to start a new paragraph for the reviewed-by tag lines.
+      //
+      msgbuf.append('\n');
+    }
+
+    if (server.getCanonicalURL() != null) {
+      msgbuf.append("Reviewed-on: ");
+      msgbuf.append(server.getCanonicalURL());
+      msgbuf.append(n.patchsetId.getParentKey().get());
+      msgbuf.append('\n');
+    }
+
+    ChangeApproval submitAudit = null;
+    try {
+      final List<ChangeApproval> approvalList =
+          schema.changeApprovals().byChange(n.patchsetId.getParentKey())
+              .toList();
+      Collections.sort(approvalList, new Comparator<ChangeApproval>() {
+        public int compare(final ChangeApproval a, final ChangeApproval b) {
+          return a.getGranted().compareTo(b.getGranted());
+        }
+      });
+
+      for (final ChangeApproval a : approvalList) {
+        if (a.getValue() <= 0) {
+          // Negative votes aren't counted.
+          continue;
+        }
+
+        if (ApprovalCategory.SUBMIT.equals(a.getCategoryId())) {
+          // Submit is treated specially, below (becomes committer)
+          //
+          if (submitAudit == null
+              || a.getGranted().compareTo(submitAudit.getGranted()) > 0) {
+            submitAudit = a;
+          }
+          continue;
+        }
+
+        final Account acc = Common.getAccountCache().get(a.getAccountId());
+        if (acc == null) {
+          // No record of user, WTF?
+          continue;
+        }
+
+        final StringBuilder identbuf = new StringBuilder();
+        if (acc.getFullName() != null && acc.getFullName().length() > 0) {
+          identbuf.append(' ');
+          identbuf.append(acc.getFullName());
+        }
+        if (acc.getPreferredEmail() != null
+            && acc.getPreferredEmail().length() > 0) {
+          identbuf.append(' ');
+          identbuf.append('<');
+          identbuf.append(acc.getPreferredEmail());
+          identbuf.append('>');
+        }
+        if (identbuf.length() == 0) {
+          // Nothing reasonable to describe them by? Ignore them.
+          continue;
+        }
+
+        final String tag;
+        if (CRVW.equals(a.getCategoryId())) {
+          tag = "Reviewed-by";
+        } else if (VRIF.equals(a.getCategoryId())) {
+          tag = "Verified-by";
+        } else {
+          final ApprovalType at =
+              Common.getGerritConfig().getApprovalType(a.getCategoryId());
+          if (at == null) {
+            // A deprecated/deleted approval type, ignore it.
+            continue;
+          }
+          tag = at.getCategory().getName().replace(' ', '-');
+        }
+        msgbuf.append(tag);
+        msgbuf.append(':');
+        msgbuf.append(identbuf);
+        msgbuf.append('\n');
+      }
+    } catch (OrmException e) {
+      log.error("Can't read approval records for " + n.patchsetId, e);
+    }
+
+    Account submitterAcct = null;
+    if (submitAudit != null) {
+      submitterAcct = Common.getAccountCache().get(submitAudit.getAccountId());
+    }
+
+    final Commit mergeCommit = new Commit(db);
+    mergeCommit.setTreeId(m.getResultTreeId());
+    mergeCommit.setParentIds(new ObjectId[] {mergeTip});
+    mergeCommit.setAuthor(n.getAuthorIdent());
+    if (submitterAcct != null) {
+      String name = submitterAcct.getFullName();
+      if (name == null || name.length() == 0) {
+        name = "Anonymous Coward";
+      }
+
+      String email = submitterAcct.getPreferredEmail();
+      if (email == null || email.length() == 0) {
+        email = "account-" + submitterAcct.getId().get() + "@localhost";
+      }
+
+      mergeCommit.setCommitter(new PersonIdent(name, email, submitAudit
+          .getGranted(), myIdent.getTimeZone()));
+    } else {
+      mergeCommit.setCommitter(myIdent);
+    }
+    mergeCommit.setMessage(msgbuf.toString());
+
+    final ObjectId id = m.getObjectWriter().writeCommit(mergeCommit);
+    mergeTip = (CodeReviewCommit) rw.parseCommit(id);
+    n.statusCode = CommitMergeStatus.CLEAN_PICK;
+    status.put(n.patchsetId.getParentKey(), n.statusCode);
+    newCommits.put(n.patchsetId.getParentKey(), mergeTip);
+  }
+
   private void updateBranch() throws MergeException {
     if (branchTip == null || branchTip != mergeTip) {
       branchUpdate.setForceUpdate(false);
@@ -470,6 +651,15 @@ public class MergeOp {
         case CLEAN_MERGE: {
           final String txt =
               "Change has been successfully merged into the git repository.";
+          setMerged(c, message(c, txt));
+          break;
+        }
+
+        case CLEAN_PICK: {
+          final CodeReviewCommit commit = newCommits.get(c.getId());
+          final String txt =
+              "Change has been successfully cherry-picked as " + commit.name()
+                  + ".";
           setMerged(c, message(c, txt));
           break;
         }

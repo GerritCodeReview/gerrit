@@ -46,8 +46,3 @@ Gerrit resources:
 
 * link:http://code.google.com/p/gerrit/[Project Site]
 * link:http://code.google.com/p/gerrit/wiki/Issues?tm=3[Issue Tracking]
-
-Upgrading
----------
-
-* link:gerrit1-import.html[From Gerrit1]

@@ -91,6 +91,13 @@ public final class ChangeMessage {
     return author;
   }
 
+  public void setAuthor(final Account.Id accountId) {
+    if (author != null) {
+      throw new IllegalStateException("Cannot modify author once assigned");
+    }
+    author = accountId;
+  }
+
   public Timestamp getWrittenOn() {
     return writtenOn;
   }

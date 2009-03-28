@@ -565,6 +565,9 @@ public class MergeOp {
         schema.changeApprovals().update(approvals, txn);
 
         if (msg != null) {
+          if (submitter != null && msg.getAuthor() == null) {
+            msg.setAuthor(submitter.getAccountId());
+          }
           schema.changeMessages().insert(Collections.singleton(msg), txn);
         }
         schema.changes().update(Collections.singleton(c), txn);

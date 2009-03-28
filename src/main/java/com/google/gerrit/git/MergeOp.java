@@ -553,7 +553,8 @@ public class MergeOp {
           at.getCategory().getFunction().run(at, fs);
         }
         for (ChangeApproval a : approvals) {
-          if (ApprovalCategory.SUBMIT.equals(a.getCategoryId())) {
+          if (a.getValue() > 0
+              && ApprovalCategory.SUBMIT.equals(a.getCategoryId())) {
             if (submitter == null
                 || a.getGranted().compareTo(submitter.getGranted()) > 0) {
               submitter = a;

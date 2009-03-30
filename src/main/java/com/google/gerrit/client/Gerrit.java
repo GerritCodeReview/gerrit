@@ -175,6 +175,7 @@ public class Gerrit implements EntryPoint {
 
   public void onModuleLoad() {
     UserAgent.assertNotInIFrame();
+    loadCSS();
     initHistoryHooks();
     populateBottomMenu();
 
@@ -193,6 +194,11 @@ public class Gerrit implements EntryPoint {
         onModuleLoad2();
       }
     });
+  }
+
+  private static void loadCSS() {
+    final GerritCss css = GWT.create(GerritCss.class);
+    css.load().inject();
   }
 
   private static ArrayList<JavaScriptObject> historyHooks;

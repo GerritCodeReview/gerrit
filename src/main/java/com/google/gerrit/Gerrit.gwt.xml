@@ -22,12 +22,11 @@
   <inherits name='com.google.gwtexpui.safehtml.SafeHtml'/>
 
   <inherits name='com.google.gwt.user.theme.chrome.Chrome'/>
+  <inherits name='com.google.gerrit.CssBundle'/>
   <inherits name='com.google.gerrit.UserAgent'/>
   <extend-property name="locale" values="en"/>
 
-
   <entry-point class='com.google.gerrit.client.Gerrit'/>
-  <stylesheet src='gerrit6.cache.css' />
 
   <servlet path='/Gerrit'
            class='com.google.gerrit.server.HostPageServlet'/>

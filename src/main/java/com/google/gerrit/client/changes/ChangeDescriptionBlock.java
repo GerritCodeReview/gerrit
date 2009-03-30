@@ -21,7 +21,6 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
@@ -36,14 +35,10 @@ public class ChangeDescriptionBlock extends Composite {
     description.setStyleName("gerrit-ChangeScreen-Description");
     descriptionPanel = new DisclosurePanel(Util.C.changeScreenDescription());
     {
-      final Label glue = new Label();
       final HorizontalPanel hp = new HorizontalPanel();
-      hp.add(description);
-      hp.add(glue);
       hp.add(infoBlock);
-      hp.setCellWidth(glue, "15px;");
+      hp.add(description);
       descriptionPanel.setContent(hp);
-      descriptionPanel.setWidth("100%");
     }
     initWidget(descriptionPanel);
   }

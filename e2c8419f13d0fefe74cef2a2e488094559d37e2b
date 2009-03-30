@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAOH///+Y\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/EventQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-03-30T03:42:28Z",
+      "side": 1,
+      "message": "Its 2009.",
+      "revId": "e2c8419f13d0fefe74cef2a2e488094559d37e2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAOH///+A\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/EventQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-03-30T03:42:28Z",
+      "side": 1,
+      "message": "I\u0027d prefer to do this lookup only once, in case the code changes in the future to permit the getHooks() result to change between invocations.\n\nMove this line to above the if, and change the if to test for \"if (hook !\u003d null) {\" as the map would return null if the hook wasn\u0027t defined.  Thus we only hit the map once and avoid any future race conditions.",
+      "revId": "e2c8419f13d0fefe74cef2a2e488094559d37e2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAOH///+I\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/EventQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-03-30T03:42:28Z",
+      "side": 1,
+      "message": "This is a problem, as you destroyed PATH, and maybe other relevant variables like TZ.  We should at least carry PATH down into the child so it can find \"git\".",
+      "revId": "e2c8419f13d0fefe74cef2a2e488094559d37e2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAOH///+Q\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/EventQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-03-30T03:42:28Z",
+      "side": 1,
+      "message": "Probably just GIT_DIR.",
+      "revId": "e2c8419f13d0fefe74cef2a2e488094559d37e2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAOH///+M\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/EventQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-03-30T03:42:28Z",
+      "side": 1,
+      "message": "Maybe wrap the InputStream in a BufferedReader and use readLine() ?\n\n  BufferedReader br \u003d new BufferedReader(new InputStreamReader(ps.getInputStream());\n  while ((line \u003d br.readLine()) !\u003d null) {\n    log.info(\"hook output: \" + line);\n  }",
+      "revId": "e2c8419f13d0fefe74cef2a2e488094559d37e2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAOH///+E\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/EventQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-03-30T03:42:28Z",
+      "side": 1,
+      "message": "I\u0027m now worried about a broken pipe causing an IOException from the read code, and the ps.waitFor() being bypassed, possibly leaving a zombie hook behind.  Maybe:\n\n  BufferedReader br \u003d new BufferedReader(new InputStreamReader(ps.getInputStream());  \n  try {\n     ... read loop ...\n  } finally {\n    try { br.close(); } catch (IOException e2} {}\n    ps.waitFor();\n  }\n\nso we have a better chance at causing the hook to terminate, and be reaped by the parent?",
+      "revId": "e2c8419f13d0fefe74cef2a2e488094559d37e2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

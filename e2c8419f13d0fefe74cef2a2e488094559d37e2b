@@ -70,6 +70,23 @@
     },
     {
       "key": {
+        "uuid": "AAAAOH///9s\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/EventQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-03-30T04:17:49Z",
+      "side": 1,
+      "message": "Oh, yea, that makes sense.  Then we should clear the environment to be consistent, but we should make sure PATH is either inherited, or something reasonable, like \"$(dirname $(which git)):/usr/bin/bin\".",
+      "revId": "e2c8419f13d0fefe74cef2a2e488094559d37e2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAOH///+Q\u003d",
         "filename": "src/main/java/com/google/gerrit/server/EventQueue.java",
         "patchSetId": 2

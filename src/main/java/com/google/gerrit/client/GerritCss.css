@@ -352,6 +352,9 @@
   white-space: nowrap;
   width: 5em;
 }
+.gerrit-PatchContentTable .Comment .complexHeader span {
+  white-space: nowrap;
+}
 .gerrit-PatchContentTable .Comment .content {
   border-top: 3px solid #e3e3e3;
 }
@@ -434,6 +437,9 @@
 }
 
 .gerrit-ChangeScreen .gwt-DisclosurePanel .complexHeader {
+  white-space: nowrap;
+}
+.gerrit-ChangeScreen .gwt-DisclosurePanel .complexHeader span {
   white-space: nowrap;
 }
 

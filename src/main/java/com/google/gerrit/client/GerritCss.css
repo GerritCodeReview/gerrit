@@ -455,6 +455,10 @@
   font-family: monospace;
   font-size: small;
 }
+.gerrit-ChangeScreen-Description p {
+  margin-top: 0px;
+  padding-top: 0.5em;
+}
 
 .gerrit-ChangeScreen .gerrit-ChangeMessages .header {
   width: 35em;

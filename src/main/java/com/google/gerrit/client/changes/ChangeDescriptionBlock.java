@@ -46,8 +46,13 @@ public class ChangeDescriptionBlock extends Composite {
   public void display(final Change chg, final PatchSetInfo info,
       final AccountInfoCache acc) {
     infoBlock.display(chg, acc);
-    SafeHtml.set(description, new SafeHtmlBuilder().append(info.getMessage())
-        .linkify());
+
+    SafeHtml msg = new SafeHtmlBuilder().append(info.getMessage());
+    msg = msg.linkify();
+    msg = msg.replaceAll("\n\n", "<p />");
+    msg = msg.replaceAll("\n", "<br />");
+    SafeHtml.set(description, msg);
+
     descriptionPanel.setOpen(true);
   }
 }

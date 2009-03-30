@@ -19,13 +19,17 @@ import com.google.gwt.user.server.rpc.RPCServletUtils;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
 
+import org.spearce.jgit.lib.Constants;
+import org.spearce.jgit.lib.ObjectId;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.StringWriter;
+import java.security.MessageDigest;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -35,9 +39,6 @@ import javax.servlet.http.HttpServletResponse;
 
 /** Sends the Gerrit host page to clients. */
 public class HostPageServlet extends HttpServlet {
-  static final long MAX_AGE = 5 * 60 * 1000L/* milliseconds */;
-  static final String CACHE_CTRL = "public, max-age=" + (MAX_AGE / 1000L);
-
   private String canonicalUrl;
   private byte[] hostPageRaw;
   private byte[] hostPageCompressed;
@@ -64,6 +65,7 @@ public class HostPageServlet extends HttpServlet {
     if (hostDoc == null) {
       throw new ServletException("No " + hostPageName + " in CLASSPATH");
     }
+    fixModuleReference(hostDoc);
     injectJson(hostDoc, "gerrit_gerritconfig", Common.getGerritConfig());
     injectCssFile(hostDoc, "gerrit_sitecss", sitePath, "GerritSite.css");
     injectXmlFile(hostDoc, "gerrit_header", sitePath, "GerritSiteHeader.html");
@@ -148,6 +150,39 @@ public class HostPageServlet extends HttpServlet {
     scriptNode.appendChild(hostDoc.createCDATASection(w.toString()));
   }
 
+  private void fixModuleReference(final Document hostDoc)
+      throws ServletException {
+    final Element scriptNode = HtmlDomUtil.find(hostDoc, "gerrit_module");
+    if (scriptNode == null) {
+      throw new ServletException("No gerrit_module to rewrite in host document");
+    }
+
+    final String src = scriptNode.getAttribute("src");
+    final InputStream in = getServletContext().getResourceAsStream("/" + src);
+    if (in == null) {
+      throw new ServletException("No " + src + " in webapp root");
+    }
+
+    final MessageDigest md = Constants.newMessageDigest();
+    try {
+      try {
+        final byte[] buf = new byte[1024];
+        int n;
+        while ((n = in.read(buf)) > 0) {
+          md.update(buf, 0, n);
+        }
+      } finally {
+        in.close();
+      }
+    } catch (IOException e) {
+      throw new ServletException("Failed reading " + src, e);
+    }
+
+    final String vstr = ObjectId.fromRaw(md.digest()).name();
+    scriptNode.removeAttribute("id");
+    scriptNode.setAttribute("src", src + "?content=" + vstr);
+  }
+
   @Override
   protected long getLastModified(final HttpServletRequest req) {
     return lastModified;
@@ -192,8 +227,9 @@ public class HostPageServlet extends HttpServlet {
       tosend = hostPageRaw;
     }
 
-    rsp.setHeader("Cache-Control", CACHE_CTRL);
-    rsp.setDateHeader("Expires", System.currentTimeMillis() + MAX_AGE);
+    rsp.setHeader("Pragma", "no-cache");
+    rsp.setHeader("Cache-Control", "no-cache, must-revalidate");
+    rsp.setDateHeader("Expires", 0L);
     rsp.setDateHeader("Last-Modified", lastModified);
     rsp.setContentType("text/html");
     rsp.setCharacterEncoding(HtmlDomUtil.ENC);

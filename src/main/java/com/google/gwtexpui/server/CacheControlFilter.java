@@ -60,7 +60,7 @@ public class CacheControlFilter implements Filter {
     final HttpServletResponse rsp = (HttpServletResponse) srsp;
     final String pathInfo = pathInfo(req);
 
-    if (cacheForever(pathInfo)) {
+    if (cacheForever(pathInfo, req)) {
       final long now = System.currentTimeMillis();
       rsp.setHeader("Cache-Control", "max-age=31536000,public");
       rsp.setDateHeader("Expires", now + 31536000000L);
@@ -76,7 +76,8 @@ public class CacheControlFilter implements Filter {
     chain.doFilter(req, rsp);
   }
 
-  private static boolean cacheForever(final String pathInfo) {
+  private static boolean cacheForever(final String pathInfo,
+      final HttpServletRequest req) {
     if (pathInfo.endsWith(".cache.html")) {
       return true;
     } else if (pathInfo.endsWith(".cache.gif")) {
@@ -89,6 +90,9 @@ public class CacheControlFilter implements Filter {
       return true;
     } else if (pathInfo.endsWith(".cache.swf")) {
       return true;
+    } else if (pathInfo.endsWith(".nocache.js")) {
+      final String v = req.getParameter("content");
+      return v != null && v.length() > 20;
     }
     return false;
   }

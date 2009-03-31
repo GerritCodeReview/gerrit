@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAOn///+8\u003d",
+        "filename": "Documentation/config-hooks.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-03-31T15:05:23Z",
+      "side": 1,
+      "message": "Should be \"-------\" not \"~~~~~~~~\" for this level header.",
+      "revId": "4012b37c1fae7c80f781e3b3810777254f7609a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAOn///+4\u003d",
+        "filename": "Documentation/config-hooks.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-03-31T15:05:23Z",
+      "side": 1,
+      "message": "Should be \"-------\" not \"~~~~~~~~\" for this level header.",
+      "revId": "4012b37c1fae7c80f781e3b3810777254f7609a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

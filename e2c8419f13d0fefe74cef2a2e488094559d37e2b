@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "AAAAOn////c\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/EventQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001792
+      },
+      "writtenOn": "2009-03-31T03:27:14Z",
+      "side": 1,
+      "message": "D\u0027oh",
+      "revId": "e2c8419f13d0fefe74cef2a2e488094559d37e2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAOH///+A\u003d",
         "filename": "src/main/java/com/google/gerrit/server/EventQueue.java",
         "patchSetId": 2
@@ -30,6 +47,23 @@
       "writtenOn": "2009-03-30T03:42:28Z",
       "side": 1,
       "message": "I\u0027d prefer to do this lookup only once, in case the code changes in the future to permit the getHooks() result to change between invocations.\n\nMove this line to above the if, and change the if to test for \"if (hook !\u003d null) {\" as the map would return null if the hook wasn\u0027t defined.  Thus we only hit the map once and avoid any future race conditions.",
+      "revId": "e2c8419f13d0fefe74cef2a2e488094559d37e2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAOn////Y\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/EventQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1001792
+      },
+      "writtenOn": "2009-03-31T03:27:14Z",
+      "side": 1,
+      "message": "+1 defensive programming",
       "revId": "e2c8419f13d0fefe74cef2a2e488094559d37e2b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -81,6 +115,23 @@
       "writtenOn": "2009-03-30T04:17:49Z",
       "side": 1,
       "message": "Oh, yea, that makes sense.  Then we should clear the environment to be consistent, but we should make sure PATH is either inherited, or something reasonable, like \"$(dirname $(which git)):/usr/bin/bin\".",
+      "revId": "e2c8419f13d0fefe74cef2a2e488094559d37e2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAOn////g\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/EventQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1001792
+      },
+      "writtenOn": "2009-03-31T03:27:14Z",
+      "side": 1,
+      "message": "I checked, and git does not clear the environment to run hooks. I also can\u0027t find subversion\u0027s reasoning around clearing it, so barring finding out that there\u0027s a good reason to, I think I\u0027ll just remove this line.",
       "revId": "e2c8419f13d0fefe74cef2a2e488094559d37e2b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -149,6 +200,23 @@
       "writtenOn": "2009-03-30T03:42:28Z",
       "side": 1,
       "message": "I\u0027m now worried about a broken pipe causing an IOException from the read code, and the ps.waitFor() being bypassed, possibly leaving a zombie hook behind.  Maybe:\n\n  BufferedReader br \u003d new BufferedReader(new InputStreamReader(ps.getInputStream());  \n  try {\n     ... read loop ...\n  } finally {\n    try { br.close(); } catch (IOException e2} {}\n    ps.waitFor();\n  }\n\nso we have a better chance at causing the hook to terminate, and be reaped by the parent?",
+      "revId": "e2c8419f13d0fefe74cef2a2e488094559d37e2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAOn////U\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/EventQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1001792
+      },
+      "writtenOn": "2009-03-31T03:27:14Z",
+      "side": 1,
+      "message": "Sounds reasonable.",
       "revId": "e2c8419f13d0fefe74cef2a2e488094559d37e2b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

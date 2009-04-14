@@ -39,6 +39,10 @@
 
 
 /** Widgets **/
+.gwt-Button {
+  white-space: nowrap;
+}
+
 .gerrit-Hyperlink {
   text-decoration: underline;
 }

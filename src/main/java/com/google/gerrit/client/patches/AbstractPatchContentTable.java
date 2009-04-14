@@ -189,7 +189,7 @@ public abstract class AbstractPatchContentTable extends FancyFlexTable<Object> {
         }
       }
     }
-    if (column < table.getCellCount(row)
+    if (row < table.getRowCount() && column < table.getCellCount(row)
         && table.getWidget(row, column) instanceof CommentEditorPanel) {
       // Don't insert two editors on the same position, it doesn't make
       // any sense to the user.
@@ -220,12 +220,14 @@ public abstract class AbstractPatchContentTable extends FancyFlexTable<Object> {
 
     final CommentEditorPanel ed = new CommentEditorPanel(newComment);
     boolean needInsert = true;
-    for (int cell = 0; cell < table.getCellCount(row); cell++) {
-      final Widget w = table.getWidget(row, cell);
-      if (w instanceof CommentEditorPanel
-          || w instanceof ComplexDisclosurePanel) {
-        needInsert = false;
-        break;
+    if (row < table.getRowCount()) {
+      for (int cell = 0; cell < table.getCellCount(row); cell++) {
+        final Widget w = table.getWidget(row, cell);
+        if (w instanceof CommentEditorPanel
+            || w instanceof ComplexDisclosurePanel) {
+          needInsert = false;
+          break;
+        }
       }
     }
     if (needInsert) {

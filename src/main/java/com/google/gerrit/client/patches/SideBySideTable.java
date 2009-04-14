@@ -174,12 +174,14 @@ public class SideBySideTable extends AbstractPatchContentTable {
         for (Iterator<PatchLineComment> ci = comments.iterator(); ci.hasNext();) {
           final PatchLineComment c = ci.next();
           boolean needInsert = true;
-          for (int cell = 0; cell < table.getCellCount(commentRow); cell++) {
-            final Widget w = table.getWidget(commentRow, cell);
-            if (w instanceof CommentEditorPanel
-                || w instanceof ComplexDisclosurePanel) {
-              needInsert = false;
-              break;
+          if (commentRow < table.getRowCount()) {
+            for (int cell = 0; cell < table.getCellCount(commentRow); cell++) {
+              final Widget w = table.getWidget(commentRow, cell);
+              if (w instanceof CommentEditorPanel
+                  || w instanceof ComplexDisclosurePanel) {
+                needInsert = false;
+                break;
+              }
             }
           }
           if (needInsert) {

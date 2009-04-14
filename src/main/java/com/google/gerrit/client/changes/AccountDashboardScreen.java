@@ -37,18 +37,6 @@ public class AccountDashboardScreen extends Screen {
   }
 
   @Override
-  public Object getScreenCacheToken() {
-    return getClass();
-  }
-
-  @Override
-  public Screen recycleThis(final Screen newScreen) {
-    ownerId = ((AccountDashboardScreen) newScreen).ownerId;
-    setRequiresSignIn(ownerId == null);
-    return this;
-  }
-
-  @Override
   public void onLoad() {
     if (ownerId == null) {
       ownerId = Common.getAccountId();
@@ -67,12 +55,10 @@ public class AccountDashboardScreen extends Screen {
     table.setSavePointerId(Link.toAccountDashboard(ownerId));
     super.onLoad();
     Util.LIST_SVC.forAccount(ownerId,
-        new ScreenLoadCallback<AccountDashboardInfo>() {
-          public void onSuccess(final AccountDashboardInfo r) {
-            // TODO Actually we want to cancel the RPC if detached.
-            if (isAttached()) {
-              display(r);
-            }
+        new ScreenLoadCallback<AccountDashboardInfo>(this) {
+          @Override
+          protected void preDisplay(final AccountDashboardInfo r) {
+            display(r);
           }
         });
   }

@@ -16,7 +16,7 @@ package com.google.gerrit.client.admin;
 
 import com.google.gerrit.client.Link;
 import com.google.gerrit.client.reviewdb.Project;
-import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.AccountScreen;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.client.ui.SmallHeading;
@@ -37,22 +37,16 @@ public class ProjectListScreen extends AccountScreen {
   }
 
   @Override
-  public Object getScreenCacheToken() {
-    return getClass();
-  }
-
-  @Override
   public void onLoad() {
     if (projects == null) {
       initUI();
     }
 
-    Util.PROJECT_SVC.ownedProjects(new GerritCallback<List<Project>>() {
-      public void onSuccess(final List<Project> result) {
-        if (isAttached()) {
-          projects.display(result);
-          projects.finishDisplay(true);
-        }
+    Util.PROJECT_SVC.ownedProjects(new ScreenLoadCallback<List<Project>>(this) {
+      @Override
+      protected void preDisplay(final List<Project> result) {
+        projects.display(result);
+        projects.finishDisplay(true);
       }
     });
   }

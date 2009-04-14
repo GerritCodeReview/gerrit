@@ -34,12 +34,10 @@ public class PatchUnifiedScreen extends PatchScreen {
     super.onLoad();
 
     PatchUtil.DETAIL_SVC.unifiedPatchDetail(patchId,
-        new ScreenLoadCallback<UnifiedPatchDetail>() {
-          public void onSuccess(final UnifiedPatchDetail r) {
-            // TODO Actually we want to cancel the RPC if detached.
-            if (isAttached()) {
-              display(r);
-            }
+        new ScreenLoadCallback<UnifiedPatchDetail>(this) {
+          @Override
+          protected void preDisplay(final UnifiedPatchDetail r) {
+            display(r);
           }
         });
   }

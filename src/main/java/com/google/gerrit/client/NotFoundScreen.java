@@ -27,4 +27,10 @@ public class NotFoundScreen extends Screen {
     DOM.setInnerText(body, Gerrit.C.notFoundBody());
     DOM.appendChild(getElement(), body);
   }
+
+  @Override
+  protected void onLoad() {
+    super.onLoad();
+    display();
+  }
 }

@@ -16,9 +16,29 @@ package com.google.gerrit.client.rpc;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.NotFoundScreen;
+import com.google.gerrit.client.ui.Screen;
 
 /** Callback switching {@link NoSuchEntityException} to {@link NotFoundScreen} */
 public abstract class ScreenLoadCallback<T> extends GerritCallback<T> {
+  private final Screen screen;
+
+  public ScreenLoadCallback(final Screen s) {
+    screen = s;
+  }
+
+  public final void onSuccess(final T result) {
+    if (screen.isAttached()) {
+      preDisplay(result);
+      screen.display();
+      postDisplay();
+    }
+  }
+
+  protected abstract void preDisplay(T result);
+
+  protected void postDisplay() {
+  }
+
   @Override
   public void onFailure(final Throwable caught) {
     if (isNoSuchEntity(caught)) {

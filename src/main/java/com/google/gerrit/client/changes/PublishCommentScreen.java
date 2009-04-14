@@ -28,6 +28,7 @@ import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.AccountScreen;
 import com.google.gerrit.client.ui.PatchLink;
 import com.google.gerrit.client.ui.SmallHeading;
@@ -61,6 +62,8 @@ import java.util.Set;
 
 public class PublishCommentScreen extends AccountScreen implements
     ClickListener {
+  private static SavedState lastState;
+
   private final PatchSet.Id patchSetId;
   private Collection<ValueRadioButton> approvalButtons;
   private ChangeDescriptionBlock descBlock;
@@ -69,7 +72,7 @@ public class PublishCommentScreen extends AccountScreen implements
   private Panel draftsPanel;
   private Button send;
   private Button cancel;
-  private boolean displayedOnce;
+  private boolean saveStateOnUnload = true;
 
   public PublishCommentScreen(final PatchSet.Id psi) {
     super(Util.M.publishComments(psi.getParentKey().get(), psi.get()));
@@ -78,12 +81,7 @@ public class PublishCommentScreen extends AccountScreen implements
   }
 
   @Override
-  public Object getScreenCacheToken() {
-    return new ScreenCacheToken(patchSetId);
-  }
-
-  @Override
-  public void onLoad() {
+  protected void onLoad() {
     if (message == null) {
       approvalButtons = new ArrayList<ValueRadioButton>();
       descBlock = new ChangeDescriptionBlock();
@@ -123,23 +121,38 @@ public class PublishCommentScreen extends AccountScreen implements
     }
 
     super.onLoad();
-    message.setFocus(true);
 
     send.setEnabled(false);
     Util.DETAIL_SVC.patchSetPublishDetail(patchSetId,
-        new GerritCallback<PatchSetPublishDetail>() {
-          public void onSuccess(final PatchSetPublishDetail result) {
+        new ScreenLoadCallback<PatchSetPublishDetail>(this) {
+          @Override
+          protected void preDisplay(final PatchSetPublishDetail result) {
             send.setEnabled(true);
             display(result);
+          }
+
+          @Override
+          protected void postDisplay() {
+            message.setFocus(true);
           }
         });
   }
 
+  @Override
+  protected void onUnload() {
+    super.onUnload();
+    if (saveStateOnUnload) {
+      lastState = new SavedState(this);
+    }
+  }
+
   public void onClick(final Widget sender) {
     if (send == sender) {
+      lastState = null;
       onSend();
     } else if (cancel == sender) {
-      Gerrit.uncache(this);
+      lastState = null;
+      saveStateOnUnload = false;
       goChange();
     }
   }
@@ -196,8 +209,16 @@ public class PublishCommentScreen extends AccountScreen implements
       m.append(' ');
       m.append(buttonValue.getName());
       b.setText(m.toString());
-      b.setChecked(prior != null ? buttonValue.getValue() == prior.getValue()
-          : buttonValue.getValue() == 0);
+
+      if (lastState != null && patchSetId.equals(lastState.patchSetId)
+          && lastState.approvals.containsKey(buttonValue.getCategoryId())) {
+        b.setChecked(lastState.approvals.get(buttonValue.getCategoryId())
+            .equals(buttonValue));
+      } else {
+        b.setChecked(prior != null ? buttonValue.getValue() == prior.getValue()
+            : buttonValue.getValue() == 0);
+      }
+
       approvalButtons.add(b);
       vp.add(b);
     }
@@ -207,10 +228,11 @@ public class PublishCommentScreen extends AccountScreen implements
   private void display(final PatchSetPublishDetail r) {
     descBlock.display(r.getChange(), r.getPatchSetInfo(), r.getAccounts());
 
-    if (!displayedOnce) {
-      if (r.getChange().getStatus().isOpen()) {
-        initApprovals(r, approvalPanel);
-      }
+    if (r.getChange().getStatus().isOpen()) {
+      initApprovals(r, approvalPanel);
+    }
+    if (lastState != null && patchSetId.equals(lastState.patchSetId)) {
+      message.setText(lastState.message);
     }
 
     draftsPanel.clear();
@@ -244,8 +266,6 @@ public class PublishCommentScreen extends AccountScreen implements
         panel.add(m);
       }
     }
-
-    displayedOnce = true;
   }
 
   private void onSend() {
@@ -299,25 +319,20 @@ public class PublishCommentScreen extends AccountScreen implements
     }
   }
 
-  private static final class ScreenCacheToken {
-    private final PatchSet.Id patchSetId;
+  private static class SavedState {
+    final PatchSet.Id patchSetId;
+    final String message;
+    final Map<ApprovalCategory.Id, ApprovalCategoryValue> approvals;
 
-    ScreenCacheToken(final PatchSet.Id psi) {
-      patchSetId = psi;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-      if (obj instanceof ScreenCacheToken) {
-        final ScreenCacheToken c = (ScreenCacheToken) obj;
-        return patchSetId.equals(c.patchSetId);
+    SavedState(final PublishCommentScreen p) {
+      patchSetId = p.patchSetId;
+      message = p.message.getText();
+      approvals = new HashMap<ApprovalCategory.Id, ApprovalCategoryValue>();
+      for (final ValueRadioButton b : p.approvalButtons) {
+        if (b.isChecked()) {
+          approvals.put(b.value.getCategoryId(), b.value);
+        }
       }
-      return false;
-    }
-
-    @Override
-    public int hashCode() {
-      return patchSetId.hashCode();
     }
   }
 }

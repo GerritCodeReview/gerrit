@@ -56,12 +56,10 @@ public class PatchSideBySideScreen extends PatchScreen {
     super.onLoad();
 
     PatchUtil.DETAIL_SVC.sideBySidePatchDetail(patchId, null,
-        new ScreenLoadCallback<SideBySidePatchDetail>() {
-          public void onSuccess(final SideBySidePatchDetail r) {
-            // TODO Actually we want to cancel the RPC if detached.
-            if (isAttached()) {
-              display(r);
-            }
+        new ScreenLoadCallback<SideBySidePatchDetail>(this) {
+          @Override
+          protected void preDisplay(final SideBySidePatchDetail r) {
+            display(r);
           }
         });
   }

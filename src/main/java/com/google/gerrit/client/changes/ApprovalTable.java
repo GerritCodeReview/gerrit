@@ -28,7 +28,6 @@ import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.ChangeApproval;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.GerritCallback;
-import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.AccountDashboardLink;
 import com.google.gerrit.client.ui.AddMemberBox;
 import com.google.gwt.user.client.ui.ClickListener;
@@ -205,7 +204,7 @@ public class ApprovalTable extends Composite {
             addMemberBox.setEnabled(true);
             addMemberBox.setText("");
             Util.DETAIL_SVC.changeDetail(changeId,
-                new ScreenLoadCallback<ChangeDetail>() {
+                new GerritCallback<ChangeDetail>() {
                   public void onSuccess(final ChangeDetail r) {
                     if (isAttached()) {
                       setAccountInfoCache(r.getAccounts());

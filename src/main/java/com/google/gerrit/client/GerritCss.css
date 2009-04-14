@@ -150,7 +150,7 @@
 .gerrit-Screen {
 }
 
-.gerrit-Screen h1 {
+.gerrit-ScreenHeader {
   white-space: nowrap;
   font-size: 16pt;
   margin: 3px 0 8px;

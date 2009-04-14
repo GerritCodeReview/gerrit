@@ -20,10 +20,9 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.Link;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.rpc.Common;
-import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.AccountScreen;
 import com.google.gerrit.client.ui.LazyTabChild;
-import com.google.gerrit.client.ui.Screen;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.SourcesTabEvents;
@@ -49,18 +48,6 @@ public class AccountSettings extends AccountScreen {
   }
 
   @Override
-  public Object getScreenCacheToken() {
-    return getClass();
-  }
-
-  @Override
-  public Screen recycleThis(final Screen newScreen) {
-    final AccountSettings s = (AccountSettings) newScreen;
-    initialTabToken = s.initialTabToken;
-    return this;
-  }
-
-  @Override
   public void onLoad() {
     if (info == null) {
       initUI();
@@ -70,11 +57,10 @@ public class AccountSettings extends AccountScreen {
     display(Gerrit.getUserAccount());
     tabs.selectTab(tabTokens.indexOf(initialTabToken));
 
-    Util.ACCOUNT_SVC.myAccount(new GerritCallback<Account>() {
-      public void onSuccess(final Account result) {
-        if (isAttached()) {
-          display(result);
-        }
+    Util.ACCOUNT_SVC.myAccount(new ScreenLoadCallback<Account>(this) {
+      @Override
+      protected void preDisplay(final Account result) {
+        display(result);
       }
     });
   }

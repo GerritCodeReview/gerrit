@@ -151,11 +151,12 @@ public class NewAgreementScreen extends AccountScreen {
 
   private void postRPC() {
     if (mySigned != null && available != null) {
+      renderSelf();
       display();
     }
   }
 
-  private void display() {
+  private void renderSelf() {
     current = null;
     agreementGroup.setVisible(false);
     contactGroup.setVisible(false);

@@ -15,8 +15,6 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.Link;
-import com.google.gerrit.client.data.SingleListChangeInfo;
-import com.google.gerrit.client.rpc.GerritCallback;
 
 
 public class MineDraftsScreen extends MineSingleListScreen {
@@ -27,11 +25,6 @@ public class MineDraftsScreen extends MineSingleListScreen {
   @Override
   public void onLoad() {
     super.onLoad();
-    Util.LIST_SVC
-        .myDraftChanges(new GerritCallback<SingleListChangeInfo>() {
-          public void onSuccess(final SingleListChangeInfo result) {
-            display(result);
-          }
-        });
+    Util.LIST_SVC.myDraftChanges(loadCallback());
   }
 }

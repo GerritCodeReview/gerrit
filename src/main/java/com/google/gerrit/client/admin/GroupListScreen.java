@@ -17,6 +17,7 @@ package com.google.gerrit.client.admin;
 import com.google.gerrit.client.Link;
 import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.AccountScreen;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.client.ui.SmallHeading;
@@ -44,24 +45,19 @@ public class GroupListScreen extends AccountScreen {
   }
 
   @Override
-  public Object getScreenCacheToken() {
-    return getClass();
-  }
-
-  @Override
   public void onLoad() {
     if (groups == null) {
       initUI();
     }
 
-    Util.GROUP_SVC.ownedGroups(new GerritCallback<List<AccountGroup>>() {
-      public void onSuccess(final List<AccountGroup> result) {
-        if (isAttached()) {
-          groups.display(result);
-          groups.finishDisplay(true);
-        }
-      }
-    });
+    Util.GROUP_SVC
+        .ownedGroups(new ScreenLoadCallback<List<AccountGroup>>(this) {
+          @Override
+          protected void preDisplay(final List<AccountGroup> result) {
+            groups.display(result);
+            groups.finishDisplay(true);
+          }
+        });
   }
 
   private void initUI() {

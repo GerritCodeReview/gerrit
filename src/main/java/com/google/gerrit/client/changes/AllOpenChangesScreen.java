@@ -14,8 +14,6 @@
 
 package com.google.gerrit.client.changes;
 
-import com.google.gerrit.client.data.SingleListChangeInfo;
-import com.google.gerrit.client.rpc.GerritCallback;
 
 
 public class AllOpenChangesScreen extends AllSingleListScreen {
@@ -25,21 +23,11 @@ public class AllOpenChangesScreen extends AllSingleListScreen {
 
   @Override
   protected void loadPrev() {
-    Util.LIST_SVC.allOpenPrev(pos, pageSize,
-        new GerritCallback<SingleListChangeInfo>() {
-          public void onSuccess(final SingleListChangeInfo result) {
-            display(result);
-          }
-        });
+    Util.LIST_SVC.allOpenPrev(pos, pageSize, loadCallback());
   }
 
   @Override
   protected void loadNext() {
-    Util.LIST_SVC.allOpenNext(pos, pageSize,
-        new GerritCallback<SingleListChangeInfo>() {
-          public void onSuccess(final SingleListChangeInfo result) {
-            display(result);
-          }
-        });
+    Util.LIST_SVC.allOpenNext(pos, pageSize, loadCallback());
   }
 }

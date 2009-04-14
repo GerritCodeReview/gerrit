@@ -15,7 +15,9 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.data.SingleListChangeInfo;
+import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.AccountScreen;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
 
 public class MineSingleListScreen extends AccountScreen {
@@ -36,12 +38,16 @@ public class MineSingleListScreen extends AccountScreen {
     add(table);
   }
 
-  @Override
-  public Object getScreenCacheToken() {
-    return anchor;
+  protected AsyncCallback<SingleListChangeInfo> loadCallback() {
+    return new ScreenLoadCallback<SingleListChangeInfo>(this) {
+      @Override
+      protected void preDisplay(final SingleListChangeInfo result) {
+        display(result);
+      }
+    };
   }
 
-  protected void display(final SingleListChangeInfo result) {
+  private void display(final SingleListChangeInfo result) {
     table.setAccountInfoCache(result.getAccounts());
     drafts.display(result.getChanges());
     table.finishDisplay(true);

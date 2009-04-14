@@ -37,11 +37,10 @@ import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwtexpui.user.client.UserAgent;
+import com.google.gwtexpui.user.client.ViewSite;
 import com.google.gwtjsonrpc.client.JsonUtil;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.Map.Entry;
 
 public class Gerrit implements EntryPoint {
   /**
@@ -66,15 +65,7 @@ public class Gerrit implements EntryPoint {
   private static LinkMenuBar menuBar;
   private static RootPanel siteHeader;
   private static RootPanel siteFooter;
-  private static RootPanel body;
-  private static Screen currentScreen;
-  private static final LinkedHashMap<Object, Screen> priorScreens =
-      new LinkedHashMap<Object, Screen>(10, 0.75f, true) {
-        @Override
-        protected boolean removeEldestEntry(final Entry<Object, Screen> eldest) {
-          return 3 <= size();
-        }
-      };
+  private static ViewSite<Screen> body;
 
   static {
     SYSTEM_SVC = GWT.create(SystemInfoService.class);
@@ -99,24 +90,9 @@ public class Gerrit implements EntryPoint {
   public static void display(final Screen view) {
     if (view.isRequiresSignIn() && !isSignedIn()) {
       doSignIn();
-      return;
+    } else {
+      body.setView(view);
     }
-
-    if (currentScreen != null) {
-      body.remove(currentScreen);
-      final Object sct = currentScreen.getScreenCacheToken();
-      if (sct != null) {
-        priorScreens.put(sct, currentScreen);
-      }
-    }
-
-    final Screen p = priorScreens.get(view.getScreenCacheToken());
-    currentScreen = p != null ? p.recycleThis(view) : view;
-    body.add(currentScreen);
-  }
-
-  public static void uncache(final Screen view) {
-    priorScreens.remove(view.getScreenCacheToken());
   }
 
   /** @return the currently signed in user's account data; null if no account */
@@ -146,8 +122,9 @@ public class Gerrit implements EntryPoint {
     }
     refreshMenuBar();
 
-    if (currentScreen != null) {
-      currentScreen.onSignOut();
+    final Screen cs = body.getView();
+    if (cs != null) {
+      cs.onSignOut();
     }
   }
 
@@ -174,8 +151,10 @@ public class Gerrit implements EntryPoint {
     topMenu.add(menuBar);
 
     siteHeader = RootPanel.get("gerrit_header");
-    body = RootPanel.get("gerrit_body");
     siteFooter = RootPanel.get("gerrit_footer");
+
+    body = new ViewSite<Screen>();
+    RootPanel.get("gerrit_body").add(body);
 
     JsonUtil.addRpcStatusListener(new RpcStatus(topMenu));
     SYSTEM_SVC.loadGerritConfig(new GerritCallback<GerritConfig>() {
@@ -298,8 +277,9 @@ public class Gerrit implements EntryPoint {
       l.onSignIn();
     }
 
-    if (currentScreen != null) {
-      currentScreen.onSignIn();
+    final Screen cs = body.getView();
+    if (cs != null) {
+      cs.onSignIn();
     }
     if (ac != null) {
       ac.onSuccess(null);

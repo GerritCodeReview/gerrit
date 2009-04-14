@@ -722,6 +722,7 @@
   font-family: monospace;
   font-size: small;
   overflow: hidden;
+  width: 80em;
 }
 .gerrit-SshHostKeyPanel-KnownHostEntry .gwtexpui-Clippy-Control {
   display: block;

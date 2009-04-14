@@ -64,6 +64,15 @@ public class ViewSite<V extends View> extends Composite {
     next.add(view);
   }
 
+  /**
+   * Invoked after the view becomes the current view and has been made visible.
+   * 
+   * @param view the view being displayed.
+   */
+  protected void onShowView(final V view) {
+  }
+
+  @SuppressWarnings("unchecked")
   final void swap(final View v) {
     if (next != null && next.getWidget() == v) {
       if (current != null) {
@@ -72,6 +81,7 @@ public class ViewSite<V extends View> extends Composite {
       current = next;
       next = null;
       current.setVisible(true);
+      onShowView((V) v);
     }
   }
 }

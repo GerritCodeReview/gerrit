@@ -61,7 +61,7 @@ public class AccountSettings extends AccountScreen {
   @Override
   protected void onInitUI() {
     super.onInitUI();
-    setTitleText(Util.C.accountSettingsHeading());
+    setPageTitle(Util.C.accountSettingsHeading());
 
     if (LocaleInfo.getCurrentLocale().isRTL()) {
       labelIdx = 1;

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.patches;
 
+import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.ui.Screen;
 
@@ -27,6 +28,16 @@ public abstract class PatchScreen extends Screen {
   @Override
   protected void onInitUI() {
     super.onInitUI();
-    setTitleText(patchId.get());
+
+    final Change.Id changeId = patchId.getParentKey().getParentKey();
+    final String path = patchId.get();
+    String fileName = path;
+    final int last = fileName.lastIndexOf('/');
+    if (last >= 0) {
+      fileName = fileName.substring(last + 1);
+    }
+
+    setWindowTitle(PatchUtil.M.patchWindowTitle(changeId.get(), fileName));
+    setPageTitle(PatchUtil.M.patchPageTitle(changeId.get(), path));
   }
 }

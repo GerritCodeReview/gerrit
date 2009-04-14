@@ -27,6 +27,7 @@ public abstract class Screen extends View {
   private InlineLabel headerText;
   private FlowPanel body;
   private boolean requiresSignIn;
+  private String windowTitle;
 
   protected Screen() {
     initWidget(new FlowPanel());
@@ -50,8 +51,17 @@ public abstract class Screen extends View {
     header.add(headerText = new InlineLabel());
   }
 
-  protected void setTitleText(final String text) {
+  protected void setWindowTitle(final String text) {
+    windowTitle = text;
+    Gerrit.setWindowTitle(this, text);
+  }
+
+  protected void setPageTitle(final String text) {
+    final String old = headerText.getText();
     headerText.setText(text);
+    if (windowTitle == null || windowTitle == old) {
+      setWindowTitle(text);
+    }
   }
 
   protected void insertTitleWidget(final Widget w) {
@@ -81,5 +91,11 @@ public abstract class Screen extends View {
 
   /** Invoked if this screen is the current screen and the user signs in. */
   public void onSignIn() {
+  }
+
+  public void onShowView() {
+    if (windowTitle != null) {
+      Gerrit.setWindowTitle(this, windowTitle);
+    }
   }
 }

@@ -105,7 +105,7 @@ public class AccountGroupScreen extends AccountScreen {
             new GerritCallback<VoidResult>() {
               public void onSuccess(final VoidResult result) {
                 saveName.setEnabled(false);
-                setTitleText(Util.M.group(newName));
+                setPageTitle(Util.M.group(newName));
               }
             });
       }
@@ -203,7 +203,7 @@ public class AccountGroupScreen extends AccountScreen {
 
   private void display(final AccountGroupDetail result) {
     final AccountGroup group = result.group;
-    setTitleText(Util.M.group(group.getName()));
+    setPageTitle(Util.M.group(group.getName()));
     groupNameTxt.setText(group.getName());
     if (result.ownerGroup != null) {
       ownerTxt.setText(result.ownerGroup.getName());

@@ -17,5 +17,7 @@ package com.google.gerrit.client;
 import com.google.gwt.i18n.client.Messages;
 
 public interface GerritMessages extends Messages {
+  String windowTitle1(String hostname);
+  String windowTitle2(String section, String hostname);
   String poweredBy(String version);
 }

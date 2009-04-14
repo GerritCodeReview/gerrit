@@ -68,7 +68,8 @@ public class AccountDashboardScreen extends Screen {
 
     final AccountInfo o = r.getAccounts().get(r.getOwner());
     final String name = FormatUtil.name(o);
-    setTitleText(Util.M.accountDashboardTitle(name));
+    setWindowTitle(name);
+    setPageTitle(Util.M.accountDashboardTitle(name));
     byOwner.setTitleText(Util.M.changesStartedBy(name));
     forReview.setTitleText(Util.M.changesReviewableBy(name));
     closed.setTitleText(Util.C.changesRecentlyClosed());

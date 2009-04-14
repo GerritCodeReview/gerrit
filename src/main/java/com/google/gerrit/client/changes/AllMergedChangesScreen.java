@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.changes;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.reviewdb.Change;
 
 
@@ -25,7 +26,8 @@ public class AllMergedChangesScreen extends AllSingleListScreen {
   @Override
   protected void onInitUI() {
     super.onInitUI();
-    setTitleText(Util.C.allMergedChanges());
+    setWindowTitle(Gerrit.C.menuAllMerged());
+    setPageTitle(Util.C.allMergedChanges());
   }
 
   @Override

@@ -82,7 +82,7 @@ public class PublishCommentScreen extends AccountScreen implements
   protected void onInitUI() {
     super.onInitUI();
     addStyleName("gerrit-PublishCommentsScreen");
-    setTitleText(Util.M.publishComments(patchSetId.getParentKey().get(),
+    setPageTitle(Util.M.publishComments(patchSetId.getParentKey().get(),
         patchSetId.get()));
 
     approvalButtons = new ArrayList<ValueRadioButton>();

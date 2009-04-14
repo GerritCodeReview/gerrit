@@ -56,7 +56,7 @@ public class GroupListScreen extends AccountScreen {
   @Override
   protected void onInitUI() {
     super.onInitUI();
-    setTitleText(Util.C.groupListTitle());
+    setPageTitle(Util.C.groupListTitle());
     groups = new GroupTable();
     groups.setSavePointerId(Link.ADMIN_GROUPS);
     add(groups);

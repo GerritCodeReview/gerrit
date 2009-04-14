@@ -30,7 +30,7 @@ public class ValidateEmailScreen extends AccountScreen {
   @Override
   protected void onInitUI() {
     super.onInitUI();
-    setTitleText(Util.C.accountSettingsHeading());
+    setPageTitle(Util.C.accountSettingsHeading());
   }
 
   @Override

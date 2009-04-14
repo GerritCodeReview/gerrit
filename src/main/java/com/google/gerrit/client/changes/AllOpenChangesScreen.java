@@ -14,6 +14,8 @@
 
 package com.google.gerrit.client.changes;
 
+import com.google.gerrit.client.Gerrit;
+
 
 
 public class AllOpenChangesScreen extends AllSingleListScreen {
@@ -24,7 +26,8 @@ public class AllOpenChangesScreen extends AllSingleListScreen {
   @Override
   protected void onInitUI() {
     super.onInitUI();
-    setTitleText(Util.C.allOpenChanges());
+    setWindowTitle(Gerrit.C.menuAllOpen());
+    setPageTitle(Util.C.allOpenChanges());
   }
 
   @Override

@@ -105,6 +105,6 @@ public class ProjectAdminScreen extends AccountScreen {
 
   private void display(final ProjectDetail result) {
     final Project project = result.project;
-    setTitleText(Util.M.project(project.getName()));
+    setPageTitle(Util.M.project(project.getName()));
   }
 }

@@ -193,7 +193,7 @@ public class ChangeScreen extends Screen {
         titleBuf.append(subject);
       }
     }
-    setTitleText(titleBuf.toString());
+    setPageTitle(titleBuf.toString());
   }
 
   private void display(final ChangeDetail detail) {

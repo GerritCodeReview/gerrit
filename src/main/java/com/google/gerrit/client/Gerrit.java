@@ -57,6 +57,7 @@ public class Gerrit implements EntryPoint {
   public static final GerritIcons ICONS = GWT.create(GerritIcons.class);
   public static final SystemInfoService SYSTEM_SVC;
 
+  private static String myHost;
   private static String myVersion;
   private static Account myAccount;
   private static final ArrayList<SignedInListener> signedInListeners =
@@ -92,6 +93,16 @@ public class Gerrit implements EntryPoint {
       doSignIn();
     } else {
       body.setView(view);
+    }
+  }
+
+  public static void setWindowTitle(final Screen screen, final String text) {
+    if (screen == body.getView()) {
+      if (text == null || text.length() == 0) {
+        Window.setTitle(M.windowTitle1(myHost));
+      } else {
+        Window.setTitle(M.windowTitle2(text, myHost));
+      }
     }
   }
 
@@ -142,6 +153,8 @@ public class Gerrit implements EntryPoint {
 
   public void onModuleLoad() {
     UserAgent.assertNotInIFrame();
+    initHostname();
+    Window.setTitle(M.windowTitle1(myHost));
     loadCSS();
     initHistoryHooks();
     populateBottomMenu();
@@ -153,7 +166,13 @@ public class Gerrit implements EntryPoint {
     siteHeader = RootPanel.get("gerrit_header");
     siteFooter = RootPanel.get("gerrit_footer");
 
-    body = new ViewSite<Screen>();
+    body = new ViewSite<Screen>() {
+      @Override
+      protected void onShowView(Screen view) {
+        super.onShowView(view);
+        view.onShowView();
+      }
+    };
     RootPanel.get("gerrit_body").add(body);
 
     JsonUtil.addRpcStatusListener(new RpcStatus(topMenu));
@@ -163,6 +182,18 @@ public class Gerrit implements EntryPoint {
         onModuleLoad2();
       }
     });
+  }
+
+  private static void initHostname() {
+    myHost = Window.Location.getHostName();
+    final int d1 = myHost.indexOf('.');
+    if (d1 < 0) {
+      return;
+    }
+    final int d2 = myHost.indexOf('.', d1 + 1);
+    if (d2 >= 0) {
+      myHost = myHost.substring(0, d2);
+    }
   }
 
   private static void loadCSS() {

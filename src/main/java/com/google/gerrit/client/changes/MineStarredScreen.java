@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.changes;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.Link;
 
 
@@ -25,7 +26,8 @@ public class MineStarredScreen extends MineSingleListScreen {
   @Override
   protected void onInitUI() {
     super.onInitUI();
-    setTitleText(Util.C.starredHeading());
+    setWindowTitle(Gerrit.C.menuMyStarredChanges());
+    setPageTitle(Util.C.starredHeading());
   }
 
   @Override

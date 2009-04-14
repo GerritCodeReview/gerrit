@@ -29,7 +29,7 @@ public class ByProjectOpenChangesScreen extends AllSingleListScreen {
   @Override
   protected void onInitUI() {
     super.onInitUI();
-    setTitleText(Util.M.changesOpenInProject(projectKey.get()));
+    setPageTitle(Util.M.changesOpenInProject(projectKey.get()));
   }
 
   @Override

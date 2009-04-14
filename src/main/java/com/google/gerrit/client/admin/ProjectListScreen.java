@@ -47,7 +47,7 @@ public class ProjectListScreen extends AccountScreen {
   @Override
   protected void onInitUI() {
     super.onInitUI();
-    setTitleText(Util.C.projectListTitle());
+    setPageTitle(Util.C.projectListTitle());
 
     projects = new ProjectTable();
     projects.setSavePointerId(Link.ADMIN_PROJECTS);

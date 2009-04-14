@@ -22,7 +22,7 @@ public class NotFoundScreen extends Screen {
   @Override
   protected void onInitUI() {
     super.onInitUI();
-    setTitleText(Gerrit.C.notFoundTitle());
+    setPageTitle(Gerrit.C.notFoundTitle());
     add(new Label(Gerrit.C.notFoundBody()));
   }
 

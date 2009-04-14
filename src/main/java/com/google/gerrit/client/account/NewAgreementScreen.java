@@ -93,7 +93,7 @@ public class NewAgreementScreen extends AccountScreen {
   @Override
   protected void onInitUI() {
     super.onInitUI();
-    setTitleText(Util.C.newAgreement());
+    setPageTitle(Util.C.newAgreement());
 
     final FlowPanel formBody = new FlowPanel();
     radios = new VerticalPanel();

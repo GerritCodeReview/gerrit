@@ -28,6 +28,7 @@ import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.AccountScreen;
 import com.google.gerrit.client.ui.PatchLink;
 import com.google.gerrit.client.ui.SmallHeading;
@@ -78,11 +79,6 @@ public class PublishCommentScreen extends AccountScreen implements
   }
 
   @Override
-  public Object getScreenCacheToken() {
-    return new ScreenCacheToken(patchSetId);
-  }
-
-  @Override
   public void onLoad() {
     if (message == null) {
       approvalButtons = new ArrayList<ValueRadioButton>();
@@ -127,8 +123,9 @@ public class PublishCommentScreen extends AccountScreen implements
 
     send.setEnabled(false);
     Util.DETAIL_SVC.patchSetPublishDetail(patchSetId,
-        new GerritCallback<PatchSetPublishDetail>() {
-          public void onSuccess(final PatchSetPublishDetail result) {
+        new ScreenLoadCallback<PatchSetPublishDetail>(this) {
+          @Override
+          protected void prepare(final PatchSetPublishDetail result) {
             send.setEnabled(true);
             display(result);
           }
@@ -139,7 +136,6 @@ public class PublishCommentScreen extends AccountScreen implements
     if (send == sender) {
       onSend();
     } else if (cancel == sender) {
-      Gerrit.uncache(this);
       goChange();
     }
   }

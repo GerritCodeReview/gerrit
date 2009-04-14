@@ -36,11 +36,6 @@ public class MineSingleListScreen extends AccountScreen {
     add(table);
   }
 
-  @Override
-  public Object getScreenCacheToken() {
-    return anchor;
-  }
-
   protected void display(final SingleListChangeInfo result) {
     table.setAccountInfoCache(result.getAccounts());
     drafts.display(result.getChanges());

@@ -15,7 +15,7 @@
 package com.google.gerrit.client.account;
 
 import com.google.gerrit.client.Link;
-import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.AccountScreen;
 import com.google.gwt.user.client.History;
 import com.google.gwtjsonrpc.client.VoidResult;
@@ -32,8 +32,9 @@ public class ValidateEmailScreen extends AccountScreen {
   public void onLoad() {
     super.onLoad();
     Util.ACCOUNT_SEC.validateEmail(magicToken,
-        new GerritCallback<VoidResult>() {
-          public void onSuccess(final VoidResult result) {
+        new ScreenLoadCallback<VoidResult>(this) {
+          @Override
+          protected void prepare(final VoidResult result) {
             History.newItem(Link.SETTINGS_CONTACT, true);
           }
         });

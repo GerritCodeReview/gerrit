@@ -16,7 +16,9 @@ package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.data.ChangeInfo;
 import com.google.gerrit.client.data.SingleListChangeInfo;
+import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.Screen;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Hyperlink;
 
@@ -44,19 +46,6 @@ public abstract class AllSingleListScreen extends Screen {
     anchorPrefix = anchorToken;
     useLoadPrev = positionToken.startsWith("p,");
     pos = positionToken.substring(2);
-  }
-
-  @Override
-  public Object getScreenCacheToken() {
-    return anchorPrefix;
-  }
-
-  @Override
-  public Screen recycleThis(final Screen newScreen) {
-    final AllSingleListScreen o = (AllSingleListScreen) newScreen;
-    useLoadPrev = o.useLoadPrev;
-    pos = o.pos;
-    return this;
   }
 
   @Override
@@ -95,7 +84,16 @@ public abstract class AllSingleListScreen extends Screen {
 
   protected abstract void loadNext();
 
-  protected void display(final SingleListChangeInfo result) {
+  protected AsyncCallback<SingleListChangeInfo> loadCallback() {
+    return new ScreenLoadCallback<SingleListChangeInfo>(this) {
+      @Override
+      protected void prepare(final SingleListChangeInfo result) {
+        display(result);
+      }
+    };
+  }
+
+  private void display(final SingleListChangeInfo result) {
     changes = result.getChanges();
 
     if (!changes.isEmpty()) {

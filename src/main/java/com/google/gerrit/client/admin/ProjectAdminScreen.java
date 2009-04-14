@@ -18,7 +18,7 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.Link;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ProjectRight;
-import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.AccountScreen;
 import com.google.gerrit.client.ui.LazyTabChild;
 import com.google.gwt.user.client.ui.SourcesTabEvents;
@@ -54,8 +54,9 @@ public class ProjectAdminScreen extends AccountScreen {
     tabs.selectTab(tabTokens.indexOf(initialTabToken));
 
     Util.PROJECT_SVC.projectDetail(projectId,
-        new GerritCallback<ProjectDetail>() {
-          public void onSuccess(final ProjectDetail result) {
+        new ScreenLoadCallback<ProjectDetail>(this) {
+          @Override
+          protected void prepare(final ProjectDetail result) {
             display(result);
           }
         });

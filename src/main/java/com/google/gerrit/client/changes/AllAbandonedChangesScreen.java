@@ -14,9 +14,7 @@
 
 package com.google.gerrit.client.changes;
 
-import com.google.gerrit.client.data.SingleListChangeInfo;
 import com.google.gerrit.client.reviewdb.Change;
-import com.google.gerrit.client.rpc.GerritCallback;
 
 
 public class AllAbandonedChangesScreen extends AllSingleListScreen {
@@ -27,20 +25,12 @@ public class AllAbandonedChangesScreen extends AllSingleListScreen {
   @Override
   protected void loadPrev() {
     Util.LIST_SVC.allClosedPrev(Change.Status.ABANDONED, pos, pageSize,
-        new GerritCallback<SingleListChangeInfo>() {
-          public void onSuccess(final SingleListChangeInfo result) {
-            display(result);
-          }
-        });
+        loadCallback());
   }
 
   @Override
   protected void loadNext() {
     Util.LIST_SVC.allClosedNext(Change.Status.ABANDONED, pos, pageSize,
-        new GerritCallback<SingleListChangeInfo>() {
-          public void onSuccess(final SingleListChangeInfo result) {
-            display(result);
-          }
-        });
+        loadCallback());
   }
 }

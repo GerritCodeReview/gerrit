@@ -16,7 +16,7 @@ package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.Link;
 import com.google.gerrit.client.data.SingleListChangeInfo;
-import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.ScreenLoadCallback;
 
 
 public class MineStarredScreen extends MineSingleListScreen {
@@ -28,8 +28,9 @@ public class MineStarredScreen extends MineSingleListScreen {
   public void onLoad() {
     super.onLoad();
     Util.LIST_SVC
-        .myStarredChanges(new GerritCallback<SingleListChangeInfo>() {
-          public void onSuccess(final SingleListChangeInfo result) {
+        .myStarredChanges(new ScreenLoadCallback<SingleListChangeInfo>(this) {
+          @Override
+          protected void prepare(final SingleListChangeInfo result) {
             display(result);
           }
         });

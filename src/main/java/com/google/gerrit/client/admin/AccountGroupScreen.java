@@ -19,6 +19,7 @@ import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.AccountGroupMember;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.AccountDashboardLink;
 import com.google.gerrit.client.ui.AccountGroupSuggestOracle;
 import com.google.gerrit.client.ui.AccountScreen;
@@ -81,8 +82,9 @@ public class AccountGroupScreen extends AccountScreen {
     super.onLoad();
 
     Util.GROUP_SVC.groupDetail(groupId,
-        new GerritCallback<AccountGroupDetail>() {
-          public void onSuccess(final AccountGroupDetail result) {
+        new ScreenLoadCallback<AccountGroupDetail>(this) {
+          @Override
+          protected void prepare(final AccountGroupDetail result) {
             enableForm(true);
             saveName.setEnabled(false);
             saveOwner.setEnabled(false);

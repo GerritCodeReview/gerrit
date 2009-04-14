@@ -16,42 +16,44 @@ package com.google.gerrit.client.ui;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.Link;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwtexpui.user.client.View;
 
-public class Screen extends FlowPanel {
+public class Screen extends View {
+  private final FlowPanel header;
+  private final InlineLabel headerText;
+  private final FlowPanel body;
   private boolean requiresSignIn;
-  private final Element headerElem;
-  private Element headerText;
 
   protected Screen() {
     this("");
   }
 
   protected Screen(final String headingText) {
+    final FlowPanel me = new FlowPanel();
+    initWidget(me);
     setStyleName("gerrit-Screen");
 
-    headerElem = DOM.createElement("h1");
-    headerText = headerElem;
-    DOM.appendChild(getElement(), headerElem);
+    me.add(header = new FlowPanel());
+    me.add(body = new FlowPanel());
 
-    setTitleText(headingText);
+    header.setStyleName("gerrit-ScreenHeader");
+    header.add(headerText = new InlineLabel(headingText));
   }
 
   public void setTitleText(final String text) {
-    DOM.setInnerText(headerText, text);
+    headerText.setText(text);
   }
 
   protected void insertTitleWidget(final Widget w) {
-    if (headerText == headerElem) {
-      headerText = DOM.createElement("span");
-      DOM.setInnerText(headerText, DOM.getInnerText(headerElem));
-      DOM.appendChild(headerElem, headerText);
-    }
-    insert(w, headerElem, 0, true);
+    header.insert(w, 0);
+  }
+
+  protected final void add(final Widget w) {
+    body.add(w);
   }
 
   /** Set whether or not {@link Gerrit#isSignedIn()} must be true. */
@@ -73,30 +75,5 @@ public class Screen extends FlowPanel {
 
   /** Invoked if this screen is the current screen and the user signs in. */
   public void onSignIn() {
-  }
-
-  /** Get the token to cache this screen's widget; null if it shouldn't cache. */
-  public Object getScreenCacheToken() {
-    return null;
-  }
-
-  /**
-   * Reconfigure this screen after being recycled.
-   * <p>
-   * This method is invoked on a cached screen instance just before it is
-   * recycled into the UI. The returned screen instance is what will actually be
-   * shown to the user.
-   * 
-   * @param newScreen the screen object created by the Link class (or some other
-   *        form of screen constructor) and that was just passed into
-   *        {@link Gerrit#display(Screen)}. Its {@link #getScreenCacheToken()}
-   *        is equal to <code>this.getScreenCacheToken()</code> but it may have
-   *        other parameter information worth copying.
-   * @return typically <code>this</code> to reuse the cached screen;
-   *         <code>newScreen</code> to discard the cached screen instance and
-   *         use the new one.
-   */
-  public Screen recycleThis(final Screen newScreen) {
-    return this;
   }
 }

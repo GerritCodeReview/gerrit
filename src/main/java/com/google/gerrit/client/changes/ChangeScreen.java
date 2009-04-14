@@ -78,20 +78,6 @@ public class ChangeScreen extends Screen {
   }
 
   @Override
-  public Object getScreenCacheToken() {
-    return getClass();
-  }
-
-  @Override
-  public Screen recycleThis(final Screen newScreen) {
-    final ChangeScreen s = (ChangeScreen) newScreen;
-    changeId = s.changeId;
-    changeInfo = s.changeInfo;
-    starred = s.starred;
-    return this;
-  }
-
-  @Override
   public void onSignIn() {
     super.onSignIn();
     if (refreshOnSignIn) {
@@ -124,13 +110,11 @@ public class ChangeScreen extends Screen {
 
   public void refresh() {
     Util.DETAIL_SVC.changeDetail(changeId,
-        new ScreenLoadCallback<ChangeDetail>() {
-          public void onSuccess(final ChangeDetail r) {
-            // TODO Actually we want to cancel the RPC if detached.
-            if (isAttached()) {
-              setStarred(r.isStarred());
-              display(r);
-            }
+        new ScreenLoadCallback<ChangeDetail>(this) {
+          @Override
+          protected void prepare(final ChangeDetail r) {
+            setStarred(r.isStarred());
+            display(r);
           }
         });
   }

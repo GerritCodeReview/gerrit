@@ -22,29 +22,35 @@ import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.user.client.View;
 
-public class Screen extends View {
-  private final FlowPanel header;
-  private final InlineLabel headerText;
-  private final FlowPanel body;
+public abstract class Screen extends View {
+  private FlowPanel header;
+  private InlineLabel headerText;
+  private FlowPanel body;
   private boolean requiresSignIn;
 
   protected Screen() {
-    this("");
+    initWidget(new FlowPanel());
+    setStyleName("gerrit-Screen");
   }
 
-  protected Screen(final String headingText) {
-    final FlowPanel me = new FlowPanel();
-    initWidget(me);
-    setStyleName("gerrit-Screen");
+  @Override
+  protected void onLoad() {
+    super.onLoad();
+    if (header == null) {
+      onInitUI();
+    }
+  }
 
+  protected void onInitUI() {
+    final FlowPanel me = (FlowPanel) getWidget();
     me.add(header = new FlowPanel());
     me.add(body = new FlowPanel());
 
     header.setStyleName("gerrit-ScreenHeader");
-    header.add(headerText = new InlineLabel(headingText));
+    header.add(headerText = new InlineLabel());
   }
 
-  public void setTitleText(final String text) {
+  protected void setTitleText(final String text) {
     headerText.setText(text);
   }
 
@@ -57,12 +63,12 @@ public class Screen extends View {
   }
 
   /** Set whether or not {@link Gerrit#isSignedIn()} must be true. */
-  public void setRequiresSignIn(final boolean b) {
+  public final void setRequiresSignIn(final boolean b) {
     requiresSignIn = b;
   }
 
   /** Does {@link Gerrit#isSignedIn()} have to be true to be on this screen? */
-  public boolean isRequiresSignIn() {
+  public final boolean isRequiresSignIn() {
     return requiresSignIn;
   }
 

@@ -75,54 +75,56 @@ public class PublishCommentScreen extends AccountScreen implements
   private boolean saveStateOnUnload = true;
 
   public PublishCommentScreen(final PatchSet.Id psi) {
-    super(Util.M.publishComments(psi.getParentKey().get(), psi.get()));
-    addStyleName("gerrit-PublishCommentsScreen");
     patchSetId = psi;
   }
 
   @Override
+  protected void onInitUI() {
+    super.onInitUI();
+    addStyleName("gerrit-PublishCommentsScreen");
+    setTitleText(Util.M.publishComments(patchSetId.getParentKey().get(),
+        patchSetId.get()));
+
+    approvalButtons = new ArrayList<ValueRadioButton>();
+    descBlock = new ChangeDescriptionBlock();
+    add(descBlock);
+
+    final FormPanel form = new FormPanel();
+    final FlowPanel body = new FlowPanel();
+    form.setWidget(body);
+    form.addFormHandler(new FormHandler() {
+      public void onSubmit(FormSubmitEvent event) {
+        event.setCancelled(true);
+      }
+
+      public void onSubmitComplete(FormSubmitCompleteEvent event) {
+      }
+    });
+    add(form);
+
+    approvalPanel = new FlowPanel();
+    body.add(approvalPanel);
+    initMessage(body);
+
+    draftsPanel = new FlowPanel();
+    body.add(draftsPanel);
+
+    final FlowPanel buttonRow = new FlowPanel();
+    buttonRow.setStyleName("gerrit-CommentEditor-Buttons");
+    body.add(buttonRow);
+
+    send = new Button(Util.C.buttonPublishCommentsSend());
+    send.addClickListener(this);
+    buttonRow.add(send);
+
+    cancel = new Button(Util.C.buttonPublishCommentsCancel());
+    cancel.addClickListener(this);
+    buttonRow.add(cancel);
+  }
+
+  @Override
   protected void onLoad() {
-    if (message == null) {
-      approvalButtons = new ArrayList<ValueRadioButton>();
-      descBlock = new ChangeDescriptionBlock();
-      add(descBlock);
-
-      final FormPanel form = new FormPanel();
-      final FlowPanel body = new FlowPanel();
-      form.setWidget(body);
-      form.addFormHandler(new FormHandler() {
-        public void onSubmit(FormSubmitEvent event) {
-          event.setCancelled(true);
-        }
-
-        public void onSubmitComplete(FormSubmitCompleteEvent event) {
-        }
-      });
-      add(form);
-
-      approvalPanel = new FlowPanel();
-      body.add(approvalPanel);
-      initMessage(body);
-
-      draftsPanel = new FlowPanel();
-      body.add(draftsPanel);
-
-      final FlowPanel buttonRow = new FlowPanel();
-      buttonRow.setStyleName("gerrit-CommentEditor-Buttons");
-      body.add(buttonRow);
-
-      send = new Button(Util.C.buttonPublishCommentsSend());
-      send.addClickListener(this);
-      buttonRow.add(send);
-
-      cancel = new Button(Util.C.buttonPublishCommentsCancel());
-      cancel.addClickListener(this);
-      buttonRow.add(cancel);
-    }
-
     super.onLoad();
-
-    send.setEnabled(false);
     Util.DETAIL_SVC.patchSetPublishDetail(patchSetId,
         new ScreenLoadCallback<PatchSetPublishDetail>(this) {
           @Override

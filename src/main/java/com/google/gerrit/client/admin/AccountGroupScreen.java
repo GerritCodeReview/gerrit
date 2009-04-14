@@ -47,7 +47,7 @@ import java.util.HashSet;
 import java.util.List;
 
 public class AccountGroupScreen extends AccountScreen {
-  private AccountGroup.Id groupId;
+  private final AccountGroup.Id groupId;
   private AccountInfoCache accounts = AccountInfoCache.empty();
   private MemberTable members;
 
@@ -70,39 +70,20 @@ public class AccountGroupScreen extends AccountScreen {
   }
 
   @Override
-  public void onLoad() {
-    if (members == null) {
-      initUI();
-    }
-
-    enableForm(false);
-    saveName.setEnabled(false);
-    saveOwner.setEnabled(false);
-    saveDesc.setEnabled(false);
+  public void onLoad() {   
     super.onLoad();
-
     Util.GROUP_SVC.groupDetail(groupId,
         new ScreenLoadCallback<AccountGroupDetail>(this) {
           @Override
           protected void preDisplay(final AccountGroupDetail result) {
-            enableForm(true);
-            saveName.setEnabled(false);
-            saveOwner.setEnabled(false);
-            saveDesc.setEnabled(false);
             display(result);
           }
         });
   }
 
-  private void enableForm(final boolean on) {
-    ownerTxtBox.setEnabled(on);
-    groupNameTxt.setEnabled(on);
-    descTxt.setEnabled(on);
-    addMemberBox.setEnabled(on);
-    delMember.setEnabled(on);
-  }
-
-  private void initUI() {
+  @Override
+  protected void onInitUI() {
+    super.onInitUI();
     initName();
     initOwner();
     initDescription();
@@ -116,6 +97,7 @@ public class AccountGroupScreen extends AccountScreen {
     groupNamePanel.add(groupNameTxt);
 
     saveName = new Button(Util.C.buttonRenameGroup());
+    saveName.setEnabled(false);
     saveName.addClickListener(new ClickListener() {
       public void onClick(Widget sender) {
         final String newName = groupNameTxt.getText().trim();
@@ -144,6 +126,7 @@ public class AccountGroupScreen extends AccountScreen {
     ownerPanel.add(ownerTxt);
 
     saveOwner = new Button(Util.C.buttonChangeGroupOwner());
+    saveOwner.setEnabled(false);
     saveOwner.addClickListener(new ClickListener() {
       public void onClick(Widget sender) {
         final String newOwner = ownerTxt.getText().trim();
@@ -174,6 +157,7 @@ public class AccountGroupScreen extends AccountScreen {
     vp.add(descTxt);
 
     saveDesc = new Button(Util.C.buttonSaveDescription());
+    saveDesc.setEnabled(false);
     saveDesc.addClickListener(new ClickListener() {
       public void onClick(Widget sender) {
         final String txt = descTxt.getText().trim();

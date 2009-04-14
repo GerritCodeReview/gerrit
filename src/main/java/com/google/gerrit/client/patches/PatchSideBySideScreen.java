@@ -49,12 +49,7 @@ public class PatchSideBySideScreen extends PatchScreen {
 
   @Override
   public void onLoad() {
-    if (sbsTable == null) {
-      initUI();
-    }
-
     super.onLoad();
-
     PatchUtil.DETAIL_SVC.sideBySidePatchDetail(patchId, null,
         new ScreenLoadCallback<SideBySidePatchDetail>(this) {
           @Override
@@ -64,7 +59,9 @@ public class PatchSideBySideScreen extends PatchScreen {
         });
   }
 
-  private void initUI() {
+  @Override
+  protected void onInitUI() {
+    super.onInitUI();
     historyTable = new HistoryTable();
     historyPanel = new DisclosurePanel(PatchUtil.C.patchHistoryTitle());
     historyPanel.setContent(historyTable);

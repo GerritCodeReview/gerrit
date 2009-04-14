@@ -40,16 +40,9 @@ public class GroupListScreen extends AccountScreen {
   private TextBox addTxt;
   private Button addNew;
 
-  public GroupListScreen() {
-    super(Util.C.groupListTitle());
-  }
-
   @Override
   public void onLoad() {
-    if (groups == null) {
-      initUI();
-    }
-
+    super.onLoad();
     Util.GROUP_SVC
         .ownedGroups(new ScreenLoadCallback<List<AccountGroup>>(this) {
           @Override
@@ -60,7 +53,10 @@ public class GroupListScreen extends AccountScreen {
         });
   }
 
-  private void initUI() {
+  @Override
+  protected void onInitUI() {
+    super.onInitUI();
+    setTitleText(Util.C.groupListTitle());
     groups = new GroupTable();
     groups.setSavePointerId(Link.ADMIN_GROUPS);
     add(groups);

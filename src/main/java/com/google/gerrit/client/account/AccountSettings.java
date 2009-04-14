@@ -34,7 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AccountSettings extends AccountScreen {
-  private String initialTabToken;
+  private final String initialTabToken;
   private int labelIdx, fieldIdx;
   private Grid info;
 
@@ -43,29 +43,26 @@ public class AccountSettings extends AccountScreen {
   private PreferencePanel prefsPanel;
 
   public AccountSettings(final String tabToken) {
-    super(Util.C.accountSettingsHeading());
     initialTabToken = tabToken;
   }
 
   @Override
   public void onLoad() {
-    if (info == null) {
-      initUI();
-    }
-
     super.onLoad();
-    display(Gerrit.getUserAccount());
-    tabs.selectTab(tabTokens.indexOf(initialTabToken));
-
     Util.ACCOUNT_SVC.myAccount(new ScreenLoadCallback<Account>(this) {
       @Override
       protected void preDisplay(final Account result) {
         display(result);
+        tabs.selectTab(tabTokens.indexOf(initialTabToken));
       }
     });
   }
 
-  private void initUI() {
+  @Override
+  protected void onInitUI() {
+    super.onInitUI();
+    setTitleText(Util.C.accountSettingsHeading());
+
     if (LocaleInfo.getCurrentLocale().isRTL()) {
       labelIdx = 1;
       fieldIdx = 0;

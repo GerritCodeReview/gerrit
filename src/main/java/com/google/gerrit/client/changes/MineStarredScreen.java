@@ -19,7 +19,13 @@ import com.google.gerrit.client.Link;
 
 public class MineStarredScreen extends MineSingleListScreen {
   public MineStarredScreen() {
-    super(Util.C.starredHeading(), Link.MINE_STARRED);
+    super(Link.MINE_STARRED);
+  }
+
+  @Override
+  protected void onInitUI() {
+    super.onInitUI();
+    setTitleText(Util.C.starredHeading());
   }
 
   @Override

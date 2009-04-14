@@ -65,25 +65,9 @@ public class NewAgreementScreen extends AccountScreen {
   private TextBox yesIAgreeBox;
   private Button submit;
 
-  public NewAgreementScreen() {
-    super(Util.C.newAgreement());
-  }
-
   @Override
   public void onLoad() {
-    if (radios == null) {
-      initUI();
-    }
-
-    mySigned = null;
-    available = null;
-    current = null;
-
-    agreementGroup.setVisible(false);
-    contactGroup.setVisible(false);
-    finalGroup.setVisible(false);
     super.onLoad();
-
     Util.ACCOUNT_SVC.myAgreements(new GerritCallback<AgreementInfo>() {
       public void onSuccess(AgreementInfo result) {
         if (isAttached()) {
@@ -106,7 +90,11 @@ public class NewAgreementScreen extends AccountScreen {
         });
   }
 
-  private void initUI() {
+  @Override
+  protected void onInitUI() {
+    super.onInitUI();
+    setTitleText(Util.C.newAgreement());
+
     final FlowPanel formBody = new FlowPanel();
     radios = new VerticalPanel();
     formBody.add(radios);

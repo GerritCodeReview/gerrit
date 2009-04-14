@@ -40,39 +40,39 @@ public abstract class AllSingleListScreen extends Screen {
   protected boolean useLoadPrev;
   protected String pos;
 
-  public AllSingleListScreen(final String title, final String anchorToken,
+  protected AllSingleListScreen(final String anchorToken,
       final String positionToken) {
-    super(title);
     anchorPrefix = anchorToken;
     useLoadPrev = positionToken.startsWith("p,");
     pos = positionToken.substring(2);
   }
 
   @Override
+  protected void onInitUI() {
+    super.onInitUI();
+    table = new ChangeTable();
+    section = new ChangeTable.Section();
+
+    table.addSection(section);
+    table.setSavePointerId(anchorPrefix);
+    add(table);
+
+    prev = new Hyperlink(Util.C.pagedChangeListPrev(), true, "");
+    prev.setVisible(false);
+
+    next = new Hyperlink(Util.C.pagedChangeListNext(), true, "");
+    next.setVisible(false);
+
+    final HorizontalPanel buttons = new HorizontalPanel();
+    buttons.setStyleName("gerrit-ChangeTable-PrevNextLinks");
+    buttons.add(prev);
+    buttons.add(next);
+    add(buttons);
+  }
+
+  @Override
   public void onLoad() {
-    if (table == null) {
-      table = new ChangeTable();
-      section = new ChangeTable.Section();
-
-      table.addSection(section);
-      table.setSavePointerId(anchorPrefix);
-      add(table);
-
-      prev = new Hyperlink(Util.C.pagedChangeListPrev(), true, "");
-      prev.setVisible(false);
-
-      next = new Hyperlink(Util.C.pagedChangeListNext(), true, "");
-      next.setVisible(false);
-
-      final HorizontalPanel buttons = new HorizontalPanel();
-      buttons.setStyleName("gerrit-ChangeTable-PrevNextLinks");
-      buttons.add(prev);
-      buttons.add(next);
-      add(buttons);
-    }
-
     super.onLoad();
-
     if (useLoadPrev) {
       loadPrev();
     } else {

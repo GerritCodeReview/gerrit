@@ -19,7 +19,13 @@ import com.google.gerrit.client.reviewdb.Change;
 
 public class AllAbandonedChangesScreen extends AllSingleListScreen {
   public AllAbandonedChangesScreen(final String positionToken) {
-    super(Util.C.allAbandonedChanges(), "all,abandoned", positionToken);
+    super("all,abandoned", positionToken);
+  }
+
+  @Override
+  protected void onInitUI() {
+    super.onInitUI();
+    setTitleText(Util.C.allAbandonedChanges());
   }
 
   @Override

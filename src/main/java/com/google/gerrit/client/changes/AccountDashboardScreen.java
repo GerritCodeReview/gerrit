@@ -25,34 +25,34 @@ import com.google.gerrit.client.ui.Screen;
 
 
 public class AccountDashboardScreen extends Screen {
-  private Account.Id ownerId;
+  private final Account.Id ownerId;
   private ChangeTable table;
   private ChangeTable.Section byOwner;
   private ChangeTable.Section forReview;
   private ChangeTable.Section closed;
 
   public AccountDashboardScreen(final Account.Id id) {
-    ownerId = id;
+    ownerId = id != null ? id : Common.getAccountId();
     setRequiresSignIn(ownerId == null);
   }
 
   @Override
-  public void onLoad() {
-    if (ownerId == null) {
-      ownerId = Common.getAccountId();
-    }
-    if (table == null) {
-      table = new ChangeTable();
-      byOwner = new ChangeTable.Section("");
-      forReview = new ChangeTable.Section("");
-      closed = new ChangeTable.Section("");
+  protected void onInitUI() {
+    super.onInitUI();
+    table = new ChangeTable();
+    byOwner = new ChangeTable.Section("");
+    forReview = new ChangeTable.Section("");
+    closed = new ChangeTable.Section("");
 
-      table.addSection(byOwner);
-      table.addSection(forReview);
-      table.addSection(closed);
-      add(table);
-    }
+    table.addSection(byOwner);
+    table.addSection(forReview);
+    table.addSection(closed);
+    add(table);
     table.setSavePointerId(Link.toAccountDashboard(ownerId));
+  }
+
+  @Override
+  protected void onLoad() {
     super.onLoad();
     Util.LIST_SVC.forAccount(ownerId,
         new ScreenLoadCallback<AccountDashboardInfo>(this) {

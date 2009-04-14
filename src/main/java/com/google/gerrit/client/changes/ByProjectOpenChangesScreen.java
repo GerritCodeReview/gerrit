@@ -22,9 +22,14 @@ public class ByProjectOpenChangesScreen extends AllSingleListScreen {
 
   public ByProjectOpenChangesScreen(final Project.NameKey proj,
       final String positionToken) {
-    super(Util.M.changesOpenInProject(proj.get()), "project,open,"
-        + proj.toString(), positionToken);
+    super("project,open," + proj.toString(), positionToken);
     projectKey = proj;
+  }
+
+  @Override
+  protected void onInitUI() {
+    super.onInitUI();
+    setTitleText(Util.M.changesOpenInProject(projectKey.get()));
   }
 
   @Override

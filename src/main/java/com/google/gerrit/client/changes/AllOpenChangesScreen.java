@@ -18,7 +18,13 @@ package com.google.gerrit.client.changes;
 
 public class AllOpenChangesScreen extends AllSingleListScreen {
   public AllOpenChangesScreen(final String positionToken) {
-    super(Util.C.allOpenChanges(), "all,open", positionToken);
+    super("all,open", positionToken);
+  }
+
+  @Override
+  protected void onInitUI() {
+    super.onInitUI();
+    setTitleText(Util.C.allOpenChanges());
   }
 
   @Override

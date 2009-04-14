@@ -24,8 +24,13 @@ public class ValidateEmailScreen extends AccountScreen {
   private final String magicToken;
 
   public ValidateEmailScreen(final String magicToken) {
-    super(Util.C.accountSettingsHeading());
     this.magicToken = magicToken;
+  }
+
+  @Override
+  protected void onInitUI() {
+    super.onInitUI();
+    setTitleText(Util.C.accountSettingsHeading());
   }
 
   @Override

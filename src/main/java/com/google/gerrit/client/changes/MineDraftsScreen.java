@@ -19,7 +19,13 @@ import com.google.gerrit.client.Link;
 
 public class MineDraftsScreen extends MineSingleListScreen {
   public MineDraftsScreen() {
-    super(Util.C.draftsHeading(), Link.MINE_DRAFTS);
+    super(Link.MINE_DRAFTS);
+  }
+
+  @Override
+  protected void onInitUI() {
+    super.onInitUI();
+    setTitleText(Util.C.draftsHeading());
   }
 
   @Override

@@ -27,12 +27,7 @@ public class PatchUnifiedScreen extends PatchScreen {
 
   @Override
   public void onLoad() {
-    if (diffTable == null) {
-      initUI();
-    }
-
     super.onLoad();
-
     PatchUtil.DETAIL_SVC.unifiedPatchDetail(patchId,
         new ScreenLoadCallback<UnifiedPatchDetail>(this) {
           @Override
@@ -42,7 +37,9 @@ public class PatchUnifiedScreen extends PatchScreen {
         });
   }
 
-  private void initUI() {
+  @Override
+  protected void onInitUI() {
+    super.onInitUI();
     diffTable = new UnifiedDiffTable();
     add(diffTable);
   }

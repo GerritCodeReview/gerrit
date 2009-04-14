@@ -32,16 +32,9 @@ import java.util.List;
 public class ProjectListScreen extends AccountScreen {
   private ProjectTable projects;
 
-  public ProjectListScreen() {
-    super(Util.C.projectListTitle());
-  }
-
   @Override
   public void onLoad() {
-    if (projects == null) {
-      initUI();
-    }
-
+    super.onLoad();
     Util.PROJECT_SVC.ownedProjects(new ScreenLoadCallback<List<Project>>(this) {
       @Override
       protected void preDisplay(final List<Project> result) {
@@ -51,7 +44,11 @@ public class ProjectListScreen extends AccountScreen {
     });
   }
 
-  private void initUI() {
+  @Override
+  protected void onInitUI() {
+    super.onInitUI();
+    setTitleText(Util.C.projectListTitle());
+
     projects = new ProjectTable();
     projects.setSavePointerId(Link.ADMIN_PROJECTS);
     add(projects);

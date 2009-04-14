@@ -33,8 +33,8 @@ public class ProjectAdminScreen extends AccountScreen {
   static final String BRANCH_TAB = "branches";
   static final String ACCESS_TAB = "access";
 
-  private String initialTabToken;
-  private Project.Id projectId;
+  private final Project.Id projectId;
+  private final String initialTabToken;
 
   private List<String> tabTokens;
   private TabPanel tabs;
@@ -46,23 +46,20 @@ public class ProjectAdminScreen extends AccountScreen {
 
   @Override
   public void onLoad() {
-    if (tabs == null) {
-      initUI();
-    }
-
     super.onLoad();
-    tabs.selectTab(tabTokens.indexOf(initialTabToken));
-
     Util.PROJECT_SVC.projectDetail(projectId,
         new ScreenLoadCallback<ProjectDetail>(this) {
           @Override
           protected void preDisplay(final ProjectDetail result) {
             display(result);
+            tabs.selectTab(tabTokens.indexOf(initialTabToken));
           }
         });
   }
 
-  private void initUI() {
+  @Override
+  protected void onInitUI() {
+    super.onInitUI();
     tabTokens = new ArrayList<String>();
     tabs = new TabPanel();
     tabs.setWidth("98%");

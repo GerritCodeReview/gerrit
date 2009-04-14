@@ -20,15 +20,18 @@ import com.google.gerrit.client.ui.AccountScreen;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 
-public class MineSingleListScreen extends AccountScreen {
+public abstract class MineSingleListScreen extends AccountScreen {
   private final String anchor;
   private ChangeTable table;
   private ChangeTable.Section drafts;
 
-  public MineSingleListScreen(final String title, final String historyToken) {
-    super(title);
+  protected MineSingleListScreen(final String historyToken) {
     anchor = historyToken;
+  }
 
+  @Override
+  protected void onInitUI() {
+    super.onInitUI();
     table = new ChangeTable();
     drafts = new ChangeTable.Section();
 

@@ -17,11 +17,16 @@ package com.google.gerrit.client.patches;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.ui.Screen;
 
-public class PatchScreen extends Screen {
+public abstract class PatchScreen extends Screen {
   protected final Patch.Key patchId;
 
-  public PatchScreen(final Patch.Key id) {
+  protected PatchScreen(final Patch.Key id) {
     patchId = id;
-    setTitleText(id.get());
+  }
+
+  @Override
+  protected void onInitUI() {
+    super.onInitUI();
+    setTitleText(patchId.get());
   }
 }

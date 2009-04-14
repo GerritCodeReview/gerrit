@@ -47,8 +47,7 @@ import java.util.List;
 
 
 public class ChangeScreen extends Screen {
-  private Change.Id changeId;
-  private ChangeInfo changeInfo;
+  private final Change.Id changeId;
   private boolean refreshOnSignIn;
 
   private Image starChange;
@@ -73,8 +72,6 @@ public class ChangeScreen extends Screen {
 
   public ChangeScreen(final ChangeInfo c) {
     this(c.getId());
-    changeInfo = c;
-    starred = c.isStarred();
   }
 
   @Override
@@ -98,13 +95,7 @@ public class ChangeScreen extends Screen {
 
   @Override
   public void onLoad() {
-    if (descriptionBlock == null) {
-      initUI();
-    }
-
-    displayTitle(changeInfo != null ? changeInfo.getSubject() : null);
     super.onLoad();
-
     refresh();
   }
 
@@ -128,7 +119,9 @@ public class ChangeScreen extends Screen {
     starred = s;
   }
 
-  private void initUI() {
+  @Override
+  protected void onInitUI() {
+    super.onInitUI();
     addStyleName("gerrit-ChangeScreen");
 
     starChange = Gerrit.ICONS.starOpen().createImage();

@@ -19,7 +19,13 @@ import com.google.gerrit.client.reviewdb.Change;
 
 public class AllMergedChangesScreen extends AllSingleListScreen {
   public AllMergedChangesScreen(final String positionToken) {
-    super(Util.C.allMergedChanges(), "all,merged", positionToken);
+    super("all,merged", positionToken);
+  }
+
+  @Override
+  protected void onInitUI() {
+    super.onInitUI();
+    setTitleText(Util.C.allMergedChanges());
   }
 
   @Override

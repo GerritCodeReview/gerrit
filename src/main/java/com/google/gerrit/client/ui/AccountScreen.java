@@ -15,13 +15,8 @@
 package com.google.gerrit.client.ui;
 
 /** A screen that requires the user to be signed-into their account. */
-public class AccountScreen extends Screen {
-  public AccountScreen(final String heading) {
-    super(heading);
+public abstract class AccountScreen extends Screen {
+  protected AccountScreen() {
     setRequiresSignIn(true);
-  }
-
-  public AccountScreen() {
-    this("");
   }
 }

@@ -98,14 +98,7 @@ public class Gerrit implements EntryPoint {
 
   public static void display(final Screen view) {
     if (view.isRequiresSignIn() && !isSignedIn()) {
-      doSignIn(new AsyncCallback<Object>() {
-        public void onSuccess(final Object result) {
-          display(view);
-        }
-
-        public void onFailure(final Throwable caught) {
-        }
-      });
+      doSignIn();
       return;
     }
 
@@ -138,12 +131,9 @@ public class Gerrit implements EntryPoint {
 
   /**
    * Sign the user into the application.
-   * 
-   * @param callback optional; if sign in is successful the onSuccess method
-   *        will be called.
    */
-  public static void doSignIn(final AsyncCallback<?> callback) {
-    new SignInDialog(callback).center();
+  public static void doSignIn() {
+    new SignInDialog().center();
   }
 
   /** Sign the user out of the application (and discard the cookies). */
@@ -372,7 +362,7 @@ public class Gerrit implements EntryPoint {
         default:
           menuBar.addItem(C.menuSignIn(), new Command() {
             public void execute() {
-              doSignIn(null);
+              doSignIn();
             }
           });
           break;

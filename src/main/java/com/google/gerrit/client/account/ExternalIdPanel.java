@@ -68,13 +68,7 @@ class ExternalIdPanel extends Composite {
   }
 
   void doLinkIdentity() {
-    final SignInDialog d =
-        new SignInDialog(SignInDialog.Mode.LINK_IDENTIY,
-            new GerritCallback<Object>() {
-              public void onSuccess(final Object result) {
-                refresh();
-              }
-            });
+    final SignInDialog d = new SignInDialog(SignInDialog.Mode.LINK_IDENTIY);
     d.center();
   }
 

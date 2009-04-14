@@ -41,7 +41,6 @@ import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.KeyboardListenerAdapter;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwtjsonrpc.client.CallbackHandle;
 
 import java.util.Map;
 
@@ -62,7 +61,7 @@ public class OpenIdLoginPanel extends Composite implements FormHandler {
   private CheckBox rememberId;
   private boolean discovering;
 
-  public OpenIdLoginPanel(final SignInDialog.Mode m, final CallbackHandle<?> sc) {
+  public OpenIdLoginPanel(final SignInDialog.Mode m) {
     mode = m;
 
     icons = GWT.create(LoginIcons.class);

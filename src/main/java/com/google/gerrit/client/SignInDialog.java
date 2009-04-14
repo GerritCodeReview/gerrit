@@ -14,22 +14,13 @@
 
 package com.google.gerrit.client;
 
-import com.google.gerrit.client.account.SignInResult;
-import com.google.gerrit.client.account.SignInResult.Status;
 import com.google.gerrit.client.openid.OpenIdLoginPanel;
-import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.rpc.Common;
-import com.google.gerrit.client.rpc.GerritCallback;
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.user.client.AutoCenterDialogBox;
-import com.google.gwtjsonrpc.client.CallbackHandle;
 
 /**
  * Prompts the user to sign in to their account.
@@ -55,46 +46,26 @@ public class SignInDialog extends AutoCenterDialogBox {
     SIGN_IN, LINK_IDENTIY;
   }
 
-  private static SignInDialog current;
-
-  private final Mode mode;
-  private final CallbackHandle<SignInResult> signInCallback;
-  private final AsyncCallback<?> appCallback;
   private Widget panel;
 
   /**
    * Create a new dialog to handle user sign in.
-   * 
-   * @param callback optional; onSuccess will be called if sign is completed.
-   *        This can be used to trigger sending an RPC or some other action.
    */
-  public SignInDialog(final AsyncCallback<?> callback) {
-    this(Mode.SIGN_IN, callback);
+  public SignInDialog() {
+    this(Mode.SIGN_IN);
   }
 
   /**
    * Create a new dialog to handle user sign in.
    * 
    * @param signInMode type of mode the login will perform.
-   * @param callback optional; onSuccess will be called if sign is completed.
-   *        This can be used to trigger sending an RPC or some other action.
    */
-  public SignInDialog(final Mode signInMode, final AsyncCallback<?> callback) {
+  public SignInDialog(final Mode signInMode) {
     super(/* auto hide */true, /* modal */true);
-
-    mode = signInMode;
-    signInCallback =
-        com.google.gerrit.client.account.Util.LOGIN_SVC
-            .signIn(new GerritCallback<SignInResult>() {
-              public void onSuccess(final SignInResult result) {
-                onCallback(result);
-              }
-            });
-    appCallback = callback;
 
     switch (Common.getGerritConfig().getLoginType()) {
       case OPENID:
-        panel = new OpenIdLoginPanel(signInMode, signInCallback);
+        panel = new OpenIdLoginPanel(signInMode);
         break;
 
       default: {
@@ -132,74 +103,9 @@ public class SignInDialog extends AutoCenterDialogBox {
 
   @Override
   public void show() {
-    if (current != null) {
-      current.hide();
-    }
-
     super.show();
-
-    current = this;
-    signInCallback.install();
-
     if (panel instanceof OpenIdLoginPanel) {
       ((OpenIdLoginPanel) panel).setFocus(true);
-    }
-  }
-
-  @Override
-  protected void onUnload() {
-    if (current == this) {
-      signInCallback.cancel();
-      current = null;
-    }
-    super.onUnload();
-  }
-
-  private void onCallback(final SignInResult result) {
-    final Status rc = result.getStatus();
-    if (rc == SignInResult.Status.CANCEL) {
-      hide();
-    } else if (rc == SignInResult.Status.SUCCESS) {
-      onSuccess(result);
-    } else {
-      GWT.log("Unexpected SignInResult.Status " + rc, null);
-    }
-  }
-
-  private void onSuccess(final SignInResult result) {
-    final AsyncCallback<?> ac = appCallback;
-    switch (mode) {
-      default:
-      case LINK_IDENTIY:
-        hide();
-        if (ac != null) {
-          DeferredCommand.addCommand(new Command() {
-            public void execute() {
-              ac.onSuccess(null);
-            }
-          });
-        }
-        break;
-
-      case SIGN_IN:
-        com.google.gerrit.client.account.Util.ACCOUNT_SVC
-            .myAccount(new GerritCallback<Account>() {
-              public void onSuccess(final Account result) {
-                DeferredCommand.addCommand(new Command() {
-                  public void execute() {
-                    hide();
-                    Gerrit.postSignIn(result, ac);
-                  }
-                });
-              }
-
-              @Override
-              public void onFailure(final Throwable caught) {
-                hide();
-                super.onFailure(caught);
-              }
-            });
-        break;
     }
   }
 }

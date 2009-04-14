@@ -57,4 +57,8 @@
            class='com.google.gerrit.server.SuggestServiceSrv'/>
   <servlet path='/rpc/SystemInfoService'
            class='com.google.gerrit.server.SystemInfoServiceSrv'/>
+
+  <!-- Hosted mode debugging ONLY -->
+  <servlet path='/__BecomeAnyAccount'
+           class='com.google.gerrit.server.BecomeAnyAccountLoginServlet'/>
 </module>

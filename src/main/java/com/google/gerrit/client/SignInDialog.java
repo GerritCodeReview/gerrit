@@ -16,7 +16,6 @@ package com.google.gerrit.client;
 
 import com.google.gerrit.client.openid.OpenIdLoginPanel;
 import com.google.gerrit.client.rpc.Common;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
@@ -76,7 +75,6 @@ public class SignInDialog extends AutoCenterDialogBox {
       }
     }
     add(panel);
-    onResize(Window.getClientWidth(), Window.getClientHeight());
 
     switch (signInMode) {
       case LINK_IDENTIY:
@@ -86,19 +84,6 @@ public class SignInDialog extends AutoCenterDialogBox {
         setText(Gerrit.C.signInDialogTitle());
         break;
     }
-  }
-
-  @Override
-  protected void onResize(final int width, final int height) {
-    resizeFrame(width, height);
-    super.onResize(width, height);
-  }
-
-  private void resizeFrame(final int width, final int height) {
-    final int w = Math.min(630, width - 15);
-    final int h = Math.min(460, height - 60);
-    panel.setWidth(w + "px");
-    panel.setHeight(h + "px");
   }
 
   @Override

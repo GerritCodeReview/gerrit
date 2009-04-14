@@ -859,6 +859,7 @@
 /** OpenIdLoginPanel **/
 .gerrit-OpenID-loginform {
   margin-left: 10px;
+  margin-right: 10px;
 }
 
 .gerrit-OpenID-logobox {
@@ -868,6 +869,9 @@
 
 .gerrit-OpenID-loginline {
   margin-bottom: 10px;
+}
+.gerrit-OpenID-loginline div {
+  white-space: nowrap;
 }
 
 .gerrit-OpenID-openid_identifier {

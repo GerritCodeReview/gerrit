@@ -49,7 +49,8 @@ public class ChangeDescriptionBlock extends Composite {
 
     SafeHtml msg = new SafeHtmlBuilder().append(info.getMessage());
     msg = msg.linkify();
-    msg = msg.replaceAll("\n\n", "<p />");
+    msg = new SafeHtmlBuilder().openElement("p").append(msg).closeElement("p");
+    msg = msg.replaceAll("\n\n", "</p><p>");
     msg = msg.replaceAll("\n", "<br />");
     SafeHtml.set(description, msg);
 

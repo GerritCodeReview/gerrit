@@ -35,7 +35,6 @@ import com.google.gerrit.client.reviewdb.ChangeMessage;
 import com.google.gerrit.client.reviewdb.ContributorAgreement;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.PatchSetInfo;
-import com.google.gerrit.client.reviewdb.RevId;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.git.PatchSetImporter;
@@ -749,12 +748,29 @@ class Receive extends AbstractGitCommand {
           change = changeCache.get(changeId);
         }
 
+        final HashSet<String> existingRevisions = new HashSet<String>();
+        for (final PatchSet ps : db.patchSets().byChange(changeId)) {
+          if (ps.getRevision() != null) {
+            existingRevisions.add(ps.getRevision().get());
+          }
+        }
+
         // Don't allow the same commit to appear twice on the same change
         //
-        if (!db.patchSets().byChangeRevision(changeId,
-            new RevId(cmd.getNewId().name())).toList().isEmpty()) {
+        if (existingRevisions.contains(c.name())) {
           reject(cmd, "patch set exists");
           return null;
+        }
+
+        // Don't allow a change to directly depend upon itself. This is a
+        // very common error due to users making a new commit rather than
+        // amending when trying to address review comments.
+        //
+        for (final RevCommit p : c.getParents()) {
+          if (existingRevisions.contains(p.name())) {
+            reject(cmd, "squash commits first");
+            return null;
+          }
         }
 
         final PatchSet ps = new PatchSet(change.newPatchSetId());

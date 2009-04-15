@@ -334,7 +334,8 @@
   border-collapse: separate;
   border-spacing: 0;
 }
-.gerrit-PatchContentTable .Comment td {
+.gerrit-PatchContentTable .Comment td,
+.gerrit-PatchLineComment {
   font-family: Arial Unicode MS,Arial,sans-serif;
   font-size: 8pt;
 }
@@ -629,7 +630,6 @@
 .gerrit-SideBySideScreen-SideBySideTable td.Comment {
   border-left: 5px solid orange;
   border-right: 5px solid orange;
-  padding-right: 5px;
   background: #fef8cb;
 }
 
@@ -648,6 +648,11 @@
 }
 .gerrit-CommentEditor-Buttons .gwt-Button {
   margin-right: 5px;
+  font-size: 8pt;
+}
+.gerrit-CommentEditor-SavedDraft {
+  padding-left: 5em;
+  font-family: Arial Unicode MS,Arial,sans-serif;
   font-size: 8pt;
 }
 

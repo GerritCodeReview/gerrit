@@ -18,6 +18,7 @@ import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.TextSaveButtonListener;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ClickListener;
@@ -36,8 +37,11 @@ import java.sql.Timestamp;
 
 class CommentEditorPanel extends Composite implements ClickListener {
   private PatchLineComment comment;
+  private final LineCommentPanel renderedPanel;
   private final TextArea text;
+  private final Button edit;
   private final Button save;
+  private final Button cancel;
   private final Button discard;
   private final Label savedAt;
 
@@ -45,7 +49,25 @@ class CommentEditorPanel extends Composite implements ClickListener {
     comment = plc;
 
     final FlowPanel body = new FlowPanel();
-    body.setStyleName("gerrit-CommentEditor");
+    initWidget(body);
+    setStyleName("gerrit-CommentEditor");
+
+    renderedPanel = new LineCommentPanel(comment) {
+      {
+        sinkEvents(Event.ONDBLCLICK);
+      }
+
+      @Override
+      public void onBrowserEvent(final Event event) {
+        switch (DOM.eventGetType(event)) {
+          case Event.ONDBLCLICK:
+            edit();
+            break;
+        }
+        super.onBrowserEvent(event);
+      }
+    };
+    body.add(renderedPanel);
 
     text = new TextArea();
     text.setText(comment.getMessage());
@@ -92,6 +114,11 @@ class CommentEditorPanel extends Composite implements ClickListener {
     buttons.setStyleName("gerrit-CommentEditor-Buttons");
     body.add(buttons);
 
+    edit = new Button();
+    edit.setText(PatchUtil.C.buttonEdit());
+    edit.addClickListener(this);
+    buttons.add(edit);
+
     save = new Button();
     save.setText(PatchUtil.C.buttonSave());
     save.addClickListener(this);
@@ -99,23 +126,48 @@ class CommentEditorPanel extends Composite implements ClickListener {
     save.setEnabled(false);
     buttons.add(save);
 
+    cancel = new Button();
+    cancel.setText(PatchUtil.C.buttonCancel());
+    cancel.addClickListener(this);
+    buttons.add(cancel);
+
     discard = new Button();
     discard.setText(PatchUtil.C.buttonDiscard());
     discard.addClickListener(this);
     buttons.add(discard);
 
     savedAt = new InlineLabel();
-    if (!isNew()) {
-      updateSavedAt();
-    }
+    savedAt.setStyleName("gerrit-CommentEditor-SavedDraft");
     buttons.add(savedAt);
 
-    initWidget(body);
+    if (isNew()) {
+      edit();
+    } else {
+      render();
+    }
   }
 
-  private void updateSavedAt() {
+  private void edit() {
+    text.setText(comment.getMessage());
+    stateEdit(true);
+    text.setFocus(true);
+  }
+
+  private void render() {
     final Timestamp on = comment.getWrittenOn();
     savedAt.setText(PatchUtil.M.draftSaved(new java.util.Date(on.getTime())));
+    renderedPanel.update(comment);
+    stateEdit(false);
+  }
+
+  private void stateEdit(final boolean inEdit) {
+    renderedPanel.setVisible(!inEdit);
+    edit.setVisible(!inEdit);
+
+    text.setVisible(inEdit);
+    save.setVisible(inEdit);
+    cancel.setVisible(inEdit && !isNew());
+    discard.setVisible(inEdit);
   }
 
   void setFocus(final boolean take) {
@@ -127,8 +179,15 @@ class CommentEditorPanel extends Composite implements ClickListener {
   }
 
   public void onClick(Widget sender) {
-    if (sender == save) {
+    if (sender == edit) {
+      edit();
+
+    } else if (sender == save) {
       onSave();
+
+    } else if (sender == cancel) {
+      render();
+
     } else if (sender == discard) {
       onDiscard();
     }
@@ -143,6 +202,7 @@ class CommentEditorPanel extends Composite implements ClickListener {
     comment.setMessage(txt);
     text.setReadOnly(true);
     save.setEnabled(false);
+    cancel.setEnabled(false);
     discard.setEnabled(false);
 
     PatchUtil.DETAIL_SVC.saveDraft(comment,
@@ -150,14 +210,16 @@ class CommentEditorPanel extends Composite implements ClickListener {
           public void onSuccess(final PatchLineComment result) {
             comment = result;
             text.setReadOnly(false);
+            cancel.setEnabled(true);
             discard.setEnabled(true);
-            updateSavedAt();
+            render();
           }
 
           @Override
           public void onFailure(final Throwable caught) {
             text.setReadOnly(false);
             save.setEnabled(true);
+            cancel.setEnabled(true);
             discard.setEnabled(true);
             super.onFailure(caught);
           }
@@ -173,6 +235,7 @@ class CommentEditorPanel extends Composite implements ClickListener {
     final boolean saveOn = save.isEnabled();
     text.setReadOnly(true);
     save.setEnabled(false);
+    cancel.setEnabled(false);
     discard.setEnabled(false);
 
     PatchUtil.DETAIL_SVC.deleteDraft(comment.getKey(),
@@ -185,6 +248,7 @@ class CommentEditorPanel extends Composite implements ClickListener {
           public void onFailure(final Throwable caught) {
             text.setReadOnly(false);
             save.setEnabled(saveOn);
+            cancel.setEnabled(true);
             discard.setEnabled(true);
             super.onFailure(caught);
           }

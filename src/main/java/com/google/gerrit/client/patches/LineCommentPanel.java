@@ -34,4 +34,9 @@ public class LineCommentPanel extends Composite {
     l.setStyleName("gerrit-PatchLineComment");
     initWidget(l);
   }
+
+  void update(final PatchLineComment msg) {
+    comment = msg;
+    SafeHtml.set(getElement(), toSafeHtml(comment));
+  }
 }

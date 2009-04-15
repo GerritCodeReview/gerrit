@@ -65,6 +65,16 @@
   </servlet-mapping>
 
   <servlet>
+    <servlet-name>cat</servlet-name>
+    <servlet-class>com.google.gerrit.server.CatServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>cat</servlet-name>
+    <url-pattern>/cat/*</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
     <servlet-name>Static</servlet-name>
     <servlet-class>com.google.gerrit.server.StaticServlet</servlet-class>
     <load-on-startup>1</load-on-startup>

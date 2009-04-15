@@ -19,6 +19,7 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.TextSaveButtonListener;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ClickListener;
@@ -36,6 +37,9 @@ import com.google.gwtjsonrpc.client.VoidResult;
 import java.sql.Timestamp;
 
 class CommentEditorPanel extends Composite implements ClickListener {
+  private static final int INITIAL_COLS = 60;
+  private static final int INITIAL_LINES = 5;
+  private static final int MAX_LINES = 30;
   private PatchLineComment comment;
   private final LineCommentPanel renderedPanel;
   private final TextArea text;
@@ -44,6 +48,7 @@ class CommentEditorPanel extends Composite implements ClickListener {
   private final Button cancel;
   private final Button discard;
   private final Label savedAt;
+  private final Timer expandTimer;
 
   CommentEditorPanel(final PatchLineComment plc) {
     comment = plc;
@@ -69,10 +74,16 @@ class CommentEditorPanel extends Composite implements ClickListener {
     };
     body.add(renderedPanel);
 
+    expandTimer = new Timer() {
+      @Override
+      public void run() {
+        expandText();
+      }
+    };
     text = new TextArea();
     text.setText(comment.getMessage());
-    text.setCharacterWidth(60);
-    text.setVisibleLines(5);
+    text.setCharacterWidth(INITIAL_COLS);
+    text.setVisibleLines(INITIAL_LINES);
     DOM.setElementPropertyBoolean(text.getElement(), "spellcheck", true);
     text.addKeyboardListener(new KeyboardListenerAdapter() {
       @Override
@@ -106,6 +117,8 @@ class CommentEditorPanel extends Composite implements ClickListener {
               return;
           }
         }
+
+        expandTimer.schedule(250);
       }
     });
     body.add(text);
@@ -147,8 +160,21 @@ class CommentEditorPanel extends Composite implements ClickListener {
     }
   }
 
+  private void expandText() {
+    final double cols = text.getCharacterWidth();
+    int rows = 2;
+    for (final String line : text.getText().split("\n")) {
+      rows += Math.ceil((1.0 + line.length()) / cols);
+    }
+    rows = Math.max(INITIAL_LINES, Math.min(rows, MAX_LINES));
+    if (text.getVisibleLines() != rows) {
+      text.setVisibleLines(rows);
+    }
+  }
+
   private void edit() {
     text.setText(comment.getMessage());
+    expandText();
     stateEdit(true);
     text.setFocus(true);
   }
@@ -161,6 +187,7 @@ class CommentEditorPanel extends Composite implements ClickListener {
   }
 
   private void stateEdit(final boolean inEdit) {
+    expandTimer.cancel();
     renderedPanel.setVisible(!inEdit);
     edit.setVisible(!inEdit);
 
@@ -194,6 +221,7 @@ class CommentEditorPanel extends Composite implements ClickListener {
   }
 
   private void onSave() {
+    expandTimer.cancel();
     final String txt = text.getText().trim();
     if ("".equals(txt)) {
       return;
@@ -227,6 +255,7 @@ class CommentEditorPanel extends Composite implements ClickListener {
   }
 
   private void onDiscard() {
+    expandTimer.cancel();
     if (isNew()) {
       removeUI();
       return;

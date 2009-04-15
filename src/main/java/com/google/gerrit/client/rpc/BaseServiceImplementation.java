@@ -101,6 +101,10 @@ public class BaseServiceImplementation {
   public static boolean canRead(final Account.Id who,
       final Project.NameKey projectKey) {
     final ProjectCache.Entry e = Common.getProjectCache().get(projectKey);
+    return canRead(who, e);
+  }
+
+  public static boolean canRead(final Account.Id who, final ProjectCache.Entry e) {
     if (e == null) {
       // Unexpected, a project disappearing. But claim its not available.
       //

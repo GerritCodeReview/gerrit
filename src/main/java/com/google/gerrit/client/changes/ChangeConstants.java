@@ -43,6 +43,8 @@ public interface ChangeConstants extends Constants {
   String patchTableColumnDiff();
   String patchTableDiffSideBySide();
   String patchTableDiffUnified();
+  String patchTableDownloadPreImage();
+  String patchTableDownloadPostImage();
 
   String changeScreenDescription();
   String changeScreenDependencies();

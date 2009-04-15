@@ -66,10 +66,49 @@ public abstract class SafeHtml {
    * </pre>
    */
   public SafeHtml wikify() {
-    SafeHtml s = linkify();
-    s = s.replaceAll("(^|\n)([ \t][^\n]*)", "$1<span class=\"gwtexpui-SafeHtml-WikiPreFormat\">$2</span><br />");
-    s = s.replaceAll("\n\n", "\n<p />\n");
-    return s;
+    final SafeHtmlBuilder r = new SafeHtmlBuilder();
+    for (final String p : linkify().asString().split("\n\n")) {
+      if (isPreFormat(p)) {
+        r.openElement("p");
+        for (final String line : p.split("\n")) {
+          r.openSpan();
+          r.setStyleName("gwtexpui-SafeHtml-WikiPreFormat");
+          r.append(new SafeHtmlString(line));
+          r.closeSpan();
+          r.br();
+        }
+        r.closeElement("p");
+        
+      } else if (isList(p)) {
+        r.openElement("ul");
+        r.setStyleName("gwtexpui-SafeHtml-WikiList");
+        for (String line : p.split("\n")) {
+          if (line.startsWith("-") || line.startsWith("*")) {
+            line = line.substring(1).trim();
+          }
+          r.openElement("li");
+          r.append(new SafeHtmlString(line));
+          r.closeElement("li");
+        }
+        r.closeElement("ul");
+        
+      } else {
+        r.openElement("p");
+        r.append(new SafeHtmlString(p));
+        r.closeElement("p");
+      }
+    }
+    return r.toSafeHtml();
+  }
+
+  private static boolean isPreFormat(final String p) {
+    return p.contains("\n ") || p.contains("\n\t") || p.startsWith(" ")
+        || p.startsWith("\t");
+  }
+
+  private static boolean isList(final String p) {
+    return p.contains("\n- ") || p.contains("\n* ") || p.startsWith("- ")
+        || p.startsWith("* ");
   }
 
   /**

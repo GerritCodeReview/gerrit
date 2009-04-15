@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server;
 
+import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gwt.user.server.rpc.RPCServletUtils;
 import com.google.gwtjsonrpc.server.XsrfException;
@@ -39,29 +40,29 @@ import javax.servlet.http.HttpServletResponse;
 
 /** Sends the Gerrit host page to clients. */
 public class HostPageServlet extends HttpServlet {
+  private GerritServer server;
   private String canonicalUrl;
   private byte[] hostPageRaw;
   private byte[] hostPageCompressed;
-  private long lastModified;
+  private Document hostDoc;
 
   @Override
   public void init(final ServletConfig config) throws ServletException {
     super.init(config);
 
-    final GerritServer srv;
     try {
-      srv = GerritServer.getInstance();
+      server = GerritServer.getInstance();
     } catch (OrmException e) {
       throw new ServletException("Cannot load GerritServer", e);
     } catch (XsrfException e) {
       throw new ServletException("Cannot load GerritServer", e);
     }
 
-    final File sitePath = srv.getSitePath();
-    canonicalUrl = srv.getCanonicalURL();
+    final File sitePath = server.getSitePath();
+    canonicalUrl = server.getCanonicalURL();
 
     final String hostPageName = "com/google/gerrit/public/Gerrit.html";
-    final Document hostDoc = HtmlDomUtil.parseFile(hostPageName);
+    hostDoc = HtmlDomUtil.parseFile(hostPageName);
     if (hostDoc == null) {
       throw new ServletException("No " + hostPageName + " in CLASSPATH");
     }
@@ -70,13 +71,15 @@ public class HostPageServlet extends HttpServlet {
     injectCssFile(hostDoc, "gerrit_sitecss", sitePath, "GerritSite.css");
     injectXmlFile(hostDoc, "gerrit_header", sitePath, "GerritSiteHeader.html");
     injectXmlFile(hostDoc, "gerrit_footer", sitePath, "GerritSiteFooter.html");
+
     try {
-      hostPageRaw = HtmlDomUtil.toUTF8(hostDoc);
+      final Document anon = HtmlDomUtil.clone(hostDoc);
+      injectJson(anon, "gerrit_myaccount", null);
+      hostPageRaw = HtmlDomUtil.toUTF8(anon);
       hostPageCompressed = HtmlDomUtil.compress(hostPageRaw);
     } catch (IOException e) {
       throw new ServletException(e.getMessage(), e);
     }
-    lastModified = System.currentTimeMillis();
   }
 
   private void injectXmlFile(final Document hostDoc, final String id,
@@ -184,11 +187,6 @@ public class HostPageServlet extends HttpServlet {
   }
 
   @Override
-  protected long getLastModified(final HttpServletRequest req) {
-    return lastModified;
-  }
-
-  @Override
   protected void doGet(final HttpServletRequest req,
       final HttpServletResponse rsp) throws IOException {
 
@@ -219,18 +217,37 @@ public class HostPageServlet extends HttpServlet {
       return;
     }
 
+    final Account.Id me = new GerritCall(server, req, rsp).getAccountId();
+    final Account account = Common.getAccountCache().get(me);
     final byte[] tosend;
-    if (RPCServletUtils.acceptsGzipEncoding(req)) {
-      rsp.setHeader("Content-Encoding", "gzip");
-      tosend = hostPageCompressed;
+    if (account != null) {
+      // We know who the user is; embed their account data into the host
+      // page to avoid an RPC during module loading.
+      //
+      final Document peruser = HtmlDomUtil.clone(hostDoc);
+      injectJson(peruser, "gerrit_myaccount", account);
+      final byte[] raw = HtmlDomUtil.toUTF8(peruser);
+      if (RPCServletUtils.acceptsGzipEncoding(req)) {
+        rsp.setHeader("Content-Encoding", "gzip");
+        tosend = HtmlDomUtil.compress(raw);
+      } else {
+        tosend = raw;
+      }
+
     } else {
-      tosend = hostPageRaw;
+      // User is anonymous (hasn't authenticated with us).
+      //
+      if (RPCServletUtils.acceptsGzipEncoding(req)) {
+        rsp.setHeader("Content-Encoding", "gzip");
+        tosend = hostPageCompressed;
+      } else {
+        tosend = hostPageRaw;
+      }
     }
 
+    rsp.setHeader("Expires", "Fri, 01 Jan 1980 00:00:00 GMT");
     rsp.setHeader("Pragma", "no-cache");
     rsp.setHeader("Cache-Control", "no-cache, must-revalidate");
-    rsp.setDateHeader("Expires", 0L);
-    rsp.setDateHeader("Last-Modified", lastModified);
     rsp.setContentType("text/html");
     rsp.setCharacterEncoding(HtmlDomUtil.ENC);
     rsp.setContentLength(tosend.length);

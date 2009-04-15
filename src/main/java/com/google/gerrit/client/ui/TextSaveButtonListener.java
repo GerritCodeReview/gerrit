@@ -34,7 +34,8 @@ public class TextSaveButtonListener extends KeyboardListenerAdapter {
 
   @Override
   public void onKeyPress(final Widget sender, final char key, final int mod) {
-    if ((mod & (MODIFIER_CTRL | MODIFIER_ALT | MODIFIER_META)) == 0) {
+    boolean hasm = (mod & (MODIFIER_CTRL | MODIFIER_ALT | MODIFIER_META)) != 0;
+    if (!hasm) {
       switch (key) {
         case KEY_UP:
         case KEY_DOWN:
@@ -52,7 +53,7 @@ public class TextSaveButtonListener extends KeyboardListenerAdapter {
           on(sender);
           break;
       }
-    } else if ((mod & MODIFIER_CTRL) != 0 && (key == 'v' || key == 'x')) {
+    } else if (hasm && (key == 'v' || key == 'x')) {
       on(sender);
     }
   }

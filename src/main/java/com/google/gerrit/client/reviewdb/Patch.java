@@ -59,7 +59,7 @@ public final class Patch {
   }
 
   public static enum ChangeType {
-    ADD('A'),
+    ADDED('A'),
 
     MODIFIED('M'),
 

@@ -221,7 +221,7 @@ public class PatchSetImporter {
     // Convert the ChangeType
     //
     if (fh.getChangeType() == FileHeader.ChangeType.ADD) {
-      p.setChangeType(Patch.ChangeType.ADD);
+      p.setChangeType(Patch.ChangeType.ADDED);
 
     } else if (fh.getChangeType() == FileHeader.ChangeType.MODIFY) {
       p.setChangeType(Patch.ChangeType.MODIFIED);

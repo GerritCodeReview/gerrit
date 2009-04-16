@@ -343,18 +343,17 @@ public class ChangeMail {
 
   public void sendMerged() throws MessagingException {
     if (begin("merged")) {
-      final Account a = Common.getAccountCache().get(fromId);
-      if (a == null || a.getFullName() == null || a.getFullName().length() == 0) {
-        body.append("A Gerrit user");
-      } else {
-        body.append(a.getFullName());
-      }
-
-      body.append(" has submitted change ");
+      body.append("Change ");
       body.append(change.getChangeId());
-      body.append(" to ");
+      if (patchSetInfo != null && patchSetInfo.getAuthor() != null
+          && patchSetInfo.getAuthor().getName() != null) {
+        body.append(" by ");
+        body.append(patchSetInfo.getAuthor().getName());
+      }
+      body.append(" submitted to ");
       body.append(change.getDest().getShortName());
-      body.append(":\n\n");
+      body.append(".\n\n");
+
       newChangePatchSetInfo();
 
       if (changeUrl() != null) {

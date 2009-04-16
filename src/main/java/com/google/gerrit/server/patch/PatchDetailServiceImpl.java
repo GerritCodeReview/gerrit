@@ -208,6 +208,7 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
       throw new OrmException(new NoSuchEntityException());
     }
 
+    final boolean iscurrent = psid.equals(r.change.currentPatchSetId());
     r.comments = db.patchComments().draft(psid, me).toList();
     final Set<Patch.Key> patchKeys = new HashSet<Patch.Key>();
     for (final PatchLineComment c : r.comments) {
@@ -233,7 +234,7 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
       values.put(v.getParentKey(), v);
     }
 
-    final boolean open = r.change.getStatus().isOpen();
+    final boolean applyApprovals = iscurrent && r.change.getStatus().isOpen();
     final Map<ApprovalCategory.Id, ChangeApproval> have =
         new HashMap<ApprovalCategory.Id, ChangeApproval>();
     for (final ChangeApproval a : db.changeApprovals().byChangeUser(
@@ -257,7 +258,7 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
           msgbuf.append("; ");
         }
         msgbuf.append(val.getName());
-        if (open) {
+        if (applyApprovals) {
           mycatpp =
               new ChangeApproval(new ChangeApproval.Key(r.change.getId(), me, v
                   .getParentKey()), v.get());
@@ -269,20 +270,22 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
           msgbuf.append("; ");
         }
         msgbuf.append(val.getName());
-        if (open) {
+        if (applyApprovals) {
           mycatpp.setValue(v.get());
           mycatpp.setGranted();
           db.changeApprovals().update(Collections.singleton(mycatpp), txn);
         }
       }
     }
-    if (open) {
+    if (applyApprovals) {
       db.changeApprovals().delete(have.values(), txn);
     }
 
     if (msgbuf.length() > 0) {
       msgbuf.insert(0, "Patch Set " + psid.get() + ": ");
       msgbuf.append("\n\n");
+    } else if (!iscurrent) {
+      msgbuf.append("Patch Set " + psid.get() + ":\n\n");
     }
     if (messageText != null) {
       msgbuf.append(messageText);
@@ -434,8 +437,7 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
 
     // Check to make sure the change status and current patchset ID haven't
     // changed while the user was typing an abandon message
-    if (change.getStatus().isOpen()
-        && change.currentPatchSetId().equals(psid)) {
+    if (change.getStatus().isOpen() && change.currentPatchSetId().equals(psid)) {
       change.setStatus(Change.Status.ABANDONED);
       ChangeUtil.updated(change);
 

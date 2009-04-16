@@ -58,7 +58,7 @@ public class PatchSetPublishDetail {
 
     allowed = new HashMap<ApprovalCategory.Id, Set<ApprovalCategoryValue.Id>>();
     given = new HashMap<ApprovalCategory.Id, ChangeApproval>();
-    if (change.getStatus().isOpen()) {
+    if (change.getStatus().isOpen() && psi.equals(change.currentPatchSetId())) {
       computeAllowed();
       for (final ChangeApproval a : db.changeApprovals().byChangeUser(
           c.getId(), me)) {

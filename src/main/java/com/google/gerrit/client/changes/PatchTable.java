@@ -18,6 +18,7 @@ import com.google.gerrit.client.Link;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.ui.FancyFlexTable;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.IncrementalCommand;
@@ -28,6 +29,7 @@ import com.google.gwt.user.client.ui.TableListener;
 import com.google.gwtexpui.progress.client.ProgressBar;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
+import com.google.gwtorm.client.KeyUtil;
 
 import java.util.List;
 
@@ -104,7 +106,7 @@ public class PatchTable extends Composite {
 
       m.openTd();
       m.setStyleName(S_DATA_HEADER);
-      m.setAttribute("colspan", 2);
+      m.setAttribute("colspan", 3);
       m.append(Util.C.patchTableColumnDiff());
       m.closeTd();
 
@@ -174,29 +176,77 @@ public class PatchTable extends Composite {
       }
       m.closeTd();
 
-      m.openTd();
-      m.addStyleName(S_DATA_CELL);
-      m.addStyleName("DiffLinkCell");
-      if (p.getPatchType() == Patch.PatchType.UNIFIED) {
-        m.openAnchor();
-        m.setAttribute("href", "#" + Link.toPatchSideBySide(p.getKey()));
-        m.append(Util.C.patchTableDiffSideBySide());
-        m.closeAnchor();
-      } else {
-        m.nbsp();
-      }
-      m.closeTd();
+      switch (p.getPatchType()) {
+        case UNIFIED:
+          openlink(m, 2);
+          m.setAttribute("href", "#" + Link.toPatchSideBySide(p.getKey()));
+          m.append(Util.C.patchTableDiffSideBySide());
+          closelink(m);
+          break;
 
-      m.openTd();
-      m.addStyleName(S_DATA_CELL);
-      m.addStyleName("DiffLinkCell");
-      m.openAnchor();
+        case BINARY: {
+          String base = GWT.getModuleBaseURL();
+          base += "cat/" + KeyUtil.encode(p.getKey().toString());
+          switch (p.getChangeType()) {
+            case DELETED:
+            case MODIFIED:
+              openlink(m, 1);
+              m.setAttribute("href", base + "^1");
+              m.append(Util.C.patchTableDownloadPreImage());
+              closelink(m);
+              break;
+            default:
+              emptycell(m, 1);
+              break;
+          }
+          switch (p.getChangeType()) {
+            case MODIFIED:
+            case ADDED:
+              openlink(m, 1);
+              m.setAttribute("href", base + "^0");
+              m.append(Util.C.patchTableDownloadPostImage());
+              closelink(m);
+              break;
+            default:
+              emptycell(m, 1);
+              break;
+          }
+          break;
+        }
+
+        default:
+          emptycell(m, 2);
+          break;
+      }
+
+      openlink(m, 1);
       m.setAttribute("href", "#" + Link.toPatchUnified(p.getKey()));
       m.append(Util.C.patchTableDiffUnified());
-      m.closeAnchor();
-      m.closeTd();
+      closelink(m);
 
       m.closeTr();
+    }
+
+    private void openlink(final SafeHtmlBuilder m, final int colspan) {
+      m.openTd();
+      m.addStyleName(S_DATA_CELL);
+      m.addStyleName("DiffLinkCell");
+      m.setAttribute("colspan", colspan);
+      m.openAnchor();
+    }
+
+    private void closelink(final SafeHtmlBuilder m) {
+      m.closeAnchor();
+      m.closeTd();
+    }
+
+    private void emptycell(final SafeHtmlBuilder m, final int colspan) {
+      m.openTd();
+      m.addStyleName(S_DATA_CELL);
+      m.addStyleName("DiffLinkCell");
+      m.setAttribute("colspan", colspan);
+      m.nbsp();
+      m.closeTd();
     }
 
     @Override

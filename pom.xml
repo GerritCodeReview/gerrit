@@ -446,7 +446,7 @@ limitations under the License.
     <dependency>
       <groupId>gwtexpui</groupId>
       <artifactId>gwtexpui</artifactId>
-      <version>1.0.4-SNAPSHOT</version>
+      <version>1.0.4</version>
       <scope>compile</scope>
     </dependency>
 

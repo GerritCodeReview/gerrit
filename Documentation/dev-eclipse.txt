@@ -37,6 +37,16 @@ Install the Maven Integration plugins:
 http://m2eclipse.codehaus.org/[m2eclipse]
 
 
+Code Formatter Settings
+-----------------------
+
+Import GoogleFormat.xml using Window -> Preferences -> Java ->
+Code Style -> Formatter -> Import...
+
+This will define the 'Google Format' profile, which the project
+settings prefer when formatting source code.
+
+
 Import Projects
 ---------------
 

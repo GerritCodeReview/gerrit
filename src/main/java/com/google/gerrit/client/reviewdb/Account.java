@@ -27,8 +27,12 @@ public final class Account {
   /** Default number of lines of context. */
   public static final short DEFAULT_CONTEXT = 10;
 
+  /** Context setting to display the entire file. */
+  public static final short WHOLE_FILE_CONTEXT = -1;
+
   /** Typical valid choices for the default context setting. */
-  public static final short[] CONTEXT_CHOICES = {3, 10, 25, 50, 75, 100};
+  public static final short[] CONTEXT_CHOICES =
+      {3, 10, 25, 50, 75, 100, WHOLE_FILE_CONTEXT};
 
   /**
    * Locate exactly one account matching the name or name/email string.

@@ -25,6 +25,7 @@ public interface AccountConstants extends Constants {
   String registeredOn();
   String accountId();
   String defaultContext();
+  String contextWholeFile();
   String showSiteHeader();
 
   String tabPreferences();

@@ -60,7 +60,13 @@ class PreferencePanel extends Composite {
 
     defaultContext = new ListBox();
     for (final short v : Account.CONTEXT_CHOICES) {
-      defaultContext.addItem(Util.M.lines(v), String.valueOf(v));
+      final String label;
+      if (v == Account.WHOLE_FILE_CONTEXT) {
+        label = Util.C.contextWholeFile();
+      } else {
+        label = Util.M.lines(v);
+      }
+      defaultContext.addItem(label, String.valueOf(v));
     }
     defaultContext.addChangeListener(new ChangeListener() {
       public void onChange(Widget sender) {

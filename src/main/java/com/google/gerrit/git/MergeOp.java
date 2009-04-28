@@ -678,6 +678,7 @@ public class MergeOp {
         }
 
         case MISSING_DEPENDENCY: {
+          ChangeMessage msg = null;
           try {
             final String txt =
                 "Change could not be merged because of a missing dependency.  As soon as its dependencies are submitted, the change will be submitted.";
@@ -694,10 +695,26 @@ public class MergeOp {
               }
             }
 
+            msg = message(c, txt);
             schema.changeMessages().insert(
-                Collections.singleton(message(c, txt)));
+                Collections.singleton(msg));
           } catch (OrmException e) {
           }
+
+          try {
+            final ChangeMail cm = new ChangeMail(server, c);
+            cm.setFrom(getSubmitter(c));
+            cm.setReviewDb(schema);
+            cm.setPatchSet(schema.patchSets().get(c.currentPatchSetId()), schema
+                .patchSetInfo().get(c.currentPatchSetId()));
+            cm.setChangeMessage(msg);
+            cm.sendMergeFailed();
+          } catch (OrmException e) {
+            log.error("Cannot submit patch set for Change " + c.getId() + " due to a missing dependency.", e);
+          } catch (MessagingException e) {
+            log.error("Cannot submit patch set for Change " + c.getId() + " due to a missing dependency.", e);
+          }
+
           break;
         }
 
@@ -719,6 +736,25 @@ public class MergeOp {
         new ChangeMessage(new ChangeMessage.Key(c.getId(), uuid), null);
     m.setMessage(body);
     return m;
+  }
+
+  private Account.Id getSubmitter(Change c) {
+    ChangeApproval submitter = null;
+    try {
+      final List<ChangeApproval> approvals =
+          schema.changeApprovals().byChange(c.getId()).toList();
+      for (ChangeApproval a : approvals) {
+        if (a.getValue() > 0
+            && ApprovalCategory.SUBMIT.equals(a.getCategoryId())) {
+          if (submitter == null
+              || a.getGranted().compareTo(submitter.getGranted()) > 0) {
+            submitter = a;
+          }
+        }
+      }
+    } catch (OrmException e) {
+    }
+    return submitter != null ? submitter.getAccountId() : null;
   }
 
   private void setMerged(Change c, ChangeMessage msg) {
@@ -817,6 +853,20 @@ public class MergeOp {
         } catch (OrmException e2) {
         }
       }
+    }
+
+    try {
+      final ChangeMail cm = new ChangeMail(server, c);
+      cm.setFrom(getSubmitter(c));
+      cm.setReviewDb(schema);
+      cm.setPatchSet(schema.patchSets().get(c.currentPatchSetId()), schema
+          .patchSetInfo().get(c.currentPatchSetId()));
+      cm.setChangeMessage(msg);
+      cm.sendMergeFailed();
+    } catch (OrmException e) {
+      log.error("Cannot submit patch set for Change " + c.getId() + " due to a path conflict.", e);
+    } catch (MessagingException e) {
+      log.error("Cannot submit patch set for Change " + c.getId() + " due to a path conflict.", e);
     }
   }
 }

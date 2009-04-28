@@ -652,6 +652,9 @@ public class ChangeMail {
 
   private void initSubject() throws MessagingException {
     final StringBuilder subj = new StringBuilder();
+    subj.append("[");
+    subj.append(change.getDest().getShortName());
+    subj.append("] ");
     subj.append("Change ");
     subj.append(change.getChangeId());
     subj.append(": (");

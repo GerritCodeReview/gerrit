@@ -698,6 +698,20 @@ public class MergeOp {
                 Collections.singleton(message(c, txt)));
           } catch (OrmException e) {
           }
+
+          try {
+            final ChangeMail cm = new ChangeMail(server, c);
+            cm.setFrom(getSubmitter(c));
+            cm.setReviewDb(schema);
+            cm.setPatchSet(schema.patchSets().get(c.currentPatchSetId()), schema
+                .patchSetInfo().get(c.currentPatchSetId()));
+            cm.sendMergeFailed("missing dependency");
+          } catch (OrmException e) {
+            log.error("Cannot send email for submitted patch set " + c.getId(), e);
+          } catch (MessagingException e) {
+            log.error("Cannot send email for submitted patch set " + c.getId(), e);
+          }
+
           break;
         }
 
@@ -719,6 +733,26 @@ public class MergeOp {
         new ChangeMessage(new ChangeMessage.Key(c.getId(), uuid), null);
     m.setMessage(body);
     return m;
+  }
+
+  private Account.Id getSubmitter(Change c) {
+    ChangeApproval submitter = null;
+    try {
+      final List<ChangeApproval> approvals =
+          schema.changeApprovals().byChange(c.getId()).toList();
+      final FunctionState fs = new FunctionState(c, approvals);
+      for (ChangeApproval a : approvals) {
+        if (a.getValue() > 0
+            && ApprovalCategory.SUBMIT.equals(a.getCategoryId())) {
+          if (submitter == null
+              || a.getGranted().compareTo(submitter.getGranted()) > 0) {
+            submitter = a;
+          }
+        }
+      }
+    } catch (OrmException e) {
+    }
+    return submitter != null ? submitter.getAccountId() : null;
   }
 
   private void setMerged(Change c, ChangeMessage msg) {
@@ -818,5 +852,22 @@ public class MergeOp {
         }
       }
     }
+
+    try {
+      final ChangeMail cm = new ChangeMail(server, c);
+      cm.setFrom(getSubmitter(c));        //I don't know how to know who clicked the submit button
+      cm.setReviewDb(schema);
+      cm.setPatchSet(schema.patchSets().get(c.currentPatchSetId()), schema
+          .patchSetInfo().get(c.currentPatchSetId()));
+      if (msg.getMessage().indexOf("path conflict") == -1) {
+        cm.sendMergeFailed(null);
+      } else {
+        cm.sendMergeFailed("path conflict");
+      }
+    } catch (OrmException e) {
+      log.error("Cannot send email for submitted patch set " + c.getId(), e);
+    } catch (MessagingException e) {
+      log.error("Cannot send email for submitted patch set " + c.getId(), e);
+    } 
   }
 }

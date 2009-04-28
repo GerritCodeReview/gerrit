@@ -36,6 +36,23 @@
     },
     {
       "key": {
+        "uuid": "AAAAQX///uI\u003d",
+        "filename": "src/main/java/com/google/gerrit/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 712,
+      "author": {
+        "id": 1001936
+      },
+      "writtenOn": "2009-04-28T17:40:06Z",
+      "side": 1,
+      "message": "Shouldn\u0027t it be an e-mail error because it\u0027s a MessagingException?",
+      "revId": "fa30e9ba5dd816af27e131a5e20ffccfce1f6447",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAQX///uQ\u003d",
         "filename": "src/main/java/com/google/gerrit/git/MergeOp.java",
         "patchSetId": 1
@@ -115,6 +132,23 @@
       "writtenOn": "2009-04-28T17:27:05Z",
       "side": 1,
       "message": "This log message is wrong; its a patch conflict error.",
+      "revId": "fa30e9ba5dd816af27e131a5e20ffccfce1f6447",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAQX///uE\u003d",
+        "filename": "src/main/java/com/google/gerrit/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 870,
+      "author": {
+        "id": 1001936
+      },
+      "writtenOn": "2009-04-28T17:40:06Z",
+      "side": 1,
+      "message": "Shouldn\u0027t it be an e-mail error because it\u0027s a MessagingException?",
       "revId": "fa30e9ba5dd816af27e131a5e20ffccfce1f6447",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

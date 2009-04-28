@@ -370,6 +370,42 @@ public class ChangeMail {
     }
   }
 
+  public void sendMergeFailed() throws MessagingException {
+    if (begin("comment")) {
+      body.append("Change ");
+      body.append(change.getChangeId());
+      if (patchSetInfo != null && patchSetInfo.getAuthor() != null
+          && patchSetInfo.getAuthor().getName() != null) {
+        body.append(" by ");
+        body.append(patchSetInfo.getAuthor().getName());
+      }
+      body.append(" FAILED to submit to ");
+      body.append(change.getDest().getShortName());
+      body.append(".\n\n");
+
+      if (message != null) {
+        body.append("Error message:\n");
+        body.append("....................................................\n");
+        body.append(message.getMessage().trim());
+        if (body.length() > 0) {
+          body.append("\n\n");
+        }
+      }
+
+      if (changeUrl() != null) {
+        openFooter();
+        body.append("To view visit ");
+        body.append(changeUrl());
+        body.append("\n");
+      }
+
+      initInReplyToChange();
+      submittedTo();
+      starredTo();
+      send();
+    }
+  }
+
   public void sendAbandoned() throws MessagingException {
     if (begin("abandon")) {
       final Account a = Common.getAccountCache().get(fromId);

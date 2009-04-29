@@ -223,13 +223,11 @@ public class PatchFile {
    */
   public int getLineCount(final int file) throws CorruptEntityException,
       OrmException, IOException, NoSuchEntityException, NoDifferencesException {
-    final byte[] c = getFileContent(file);
-    final IntList m = getLineMap(file);
-    final int n = m.size();
-    if (n > 0 && m.get(n - 1) == c.length) {
-      return n - 1;
-    }
-    return n;
+    // The line map is always 2 entries larger than the number of lines in
+    // the file. Index 0 is padded out/unused. The last index is the total
+    // length of the buffer, and acts as a sentinel to find the end of a line.
+    //
+    return getLineMap(file).size() - 2;
   }
 
   /**

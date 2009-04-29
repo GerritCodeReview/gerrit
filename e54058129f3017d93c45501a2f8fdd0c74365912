@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAQn////Q\u003d",
+        "filename": "src/main/java/com/google/gerrit/git/MergeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 867,
+      "author": {
+        "id": 1001936
+      },
+      "writtenOn": "2009-04-29T12:53:49Z",
+      "side": 1,
+      "message": "setNew() may also be called when \"unspecified merge failure\" occurs, should I just say it\u0027s a patch conflict problem?",
+      "revId": "e54058129f3017d93c45501a2f8fdd0c74365912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

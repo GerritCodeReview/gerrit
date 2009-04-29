@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAAQn////A\u003d",
+        "filename": "src/main/java/com/google/gerrit/git/MergeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 700,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-04-29T15:10:51Z",
+      "side": 1,
+      "message": "Eh, I\u0027d prefer it if you fix the line wrapping here and move this up onto the prior line.  It looks like it would fit within the 80 column limit we usually try to break lines at.",
+      "revId": "e54058129f3017d93c45501a2f8fdd0c74365912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAQn////Q\u003d",
         "filename": "src/main/java/com/google/gerrit/git/MergeOp.java",
         "patchSetId": 2
@@ -13,6 +30,23 @@
       "writtenOn": "2009-04-29T12:53:49Z",
       "side": 1,
       "message": "setNew() may also be called when \"unspecified merge failure\" occurs, should I just say it\u0027s a patch conflict problem?",
+      "revId": "e54058129f3017d93c45501a2f8fdd0c74365912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAQn///+8\u003d",
+        "filename": "src/main/java/com/google/gerrit/git/MergeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 867,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-04-29T15:10:51Z",
+      "side": 1,
+      "message": "Yea, this is fine.",
       "revId": "e54058129f3017d93c45501a2f8fdd0c74365912",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

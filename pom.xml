@@ -484,6 +484,12 @@ limitations under the License.
     </dependency>
 
     <dependency>
+      <groupId>org.jsecurity</groupId>
+      <artifactId>jsecurity</artifactId>
+      <version>0.9.0</version>
+    </dependency>
+
+    <dependency>
       <groupId>org.apache.sshd</groupId>
       <artifactId>sshd</artifactId>
       <version>1.0-r766258_M5</version>

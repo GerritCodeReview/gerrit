@@ -20,6 +20,7 @@ import com.google.gwt.user.server.rpc.RPCServletUtils;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
 
+import org.jsecurity.web.WebUtils;
 import org.spearce.jgit.lib.Constants;
 import org.spearce.jgit.lib.ObjectId;
 import org.w3c.dom.Document;
@@ -184,6 +185,19 @@ public class HostPageServlet extends HttpServlet {
     final String vstr = ObjectId.fromRaw(md.digest()).name();
     scriptNode.removeAttribute("id");
     scriptNode.setAttribute("src", src + "?content=" + vstr);
+  }
+
+  @Override
+  protected void service(final HttpServletRequest req,
+      final HttpServletResponse rsp) throws IOException, ServletException {
+    try {
+      WebUtils.bind(req);
+      WebUtils.bind(rsp);
+      super.service(req, rsp);
+    } finally {
+      WebUtils.unbindServletRequest();
+      WebUtils.unbindServletResponse();
+    }
   }
 
   @Override

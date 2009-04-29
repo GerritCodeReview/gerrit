@@ -28,6 +28,7 @@ import com.google.gerrit.git.InvalidRepositoryException;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
 
+import org.jsecurity.web.WebUtils;
 import org.spearce.jgit.lib.Constants;
 import org.spearce.jgit.lib.ObjectId;
 import org.spearce.jgit.lib.Repository;
@@ -76,6 +77,19 @@ public class CatServlet extends HttpServlet {
       throw new ServletException("Cannot load GerritServer", e);
     }
     rng = new SecureRandom();
+  }
+
+  @Override
+  protected void service(final HttpServletRequest req,
+      final HttpServletResponse rsp) throws IOException, ServletException {
+    try {
+      WebUtils.bind(req);
+      WebUtils.bind(rsp);
+      super.service(req, rsp);
+    } finally {
+      WebUtils.unbindServletRequest();
+      WebUtils.unbindServletResponse();
+    }
   }
 
   @Override

@@ -22,6 +22,10 @@ import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
 
+import org.jsecurity.web.WebUtils;
+
+import java.io.IOException;
+
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -64,6 +68,19 @@ public abstract class GerritJsonServlet extends JsonServlet<GerritCall> {
       return GerritServer.getInstance().getXsrfToken();
     } catch (OrmException e) {
       throw new XsrfException("Cannot configure GerritServer", e);
+    }
+  }
+
+  @Override
+  protected void service(final HttpServletRequest req,
+      final HttpServletResponse rsp) throws IOException {
+    try {
+      WebUtils.bind(req);
+      WebUtils.bind(rsp);
+      super.service(req, rsp);
+    } finally {
+      WebUtils.unbindServletRequest();
+      WebUtils.unbindServletResponse();
     }
   }
 

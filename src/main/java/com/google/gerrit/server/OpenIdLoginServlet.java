@@ -17,6 +17,7 @@ package com.google.gerrit.server;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
 
+import org.jsecurity.web.WebUtils;
 import org.openid4java.consumer.ConsumerException;
 
 import java.io.IOException;
@@ -43,6 +44,19 @@ public class OpenIdLoginServlet extends HttpServlet {
       throw new ServletException("Cannot load GerritServer", e);
     } catch (ConsumerException e) {
       throw new ServletException("Cannot load OpenId consumer", e);
+    }
+  }
+
+  @Override
+  protected void service(final HttpServletRequest req,
+      final HttpServletResponse rsp) throws IOException, ServletException {
+    try {
+      WebUtils.bind(req);
+      WebUtils.bind(rsp);
+      super.service(req, rsp);
+    } finally {
+      WebUtils.unbindServletRequest();
+      WebUtils.unbindServletResponse();
     }
   }
 

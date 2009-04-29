@@ -14,12 +14,14 @@
 
 package com.google.gerrit.server;
 
-import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
+
+import org.jsecurity.SecurityUtils;
+import org.jsecurity.web.WebUtils;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -28,7 +30,6 @@ import java.util.List;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -52,6 +53,19 @@ public class BecomeAnyAccountLoginServlet extends HttpServlet {
       throw new ServletException("Cannot load GerritServer", e);
     } catch (XsrfException e) {
       throw new ServletException("Cannot load GerritServer", e);
+    }
+  }
+
+  @Override
+  protected void service(final HttpServletRequest req,
+      final HttpServletResponse rsp) throws IOException, ServletException {
+    try {
+      WebUtils.bind(req);
+      WebUtils.bind(rsp);
+      super.service(req, rsp);
+    } finally {
+      WebUtils.unbindServletRequest();
+      WebUtils.unbindServletResponse();
     }
   }
 
@@ -103,11 +117,8 @@ public class BecomeAnyAccountLoginServlet extends HttpServlet {
 
     if (accounts.size() == 1) {
       final Account account = accounts.get(0);
-      final Cookie c = new Cookie(Gerrit.ACCOUNT_COOKIE, "");
-      c.setPath(req.getContextPath() + "/");
-      new AccountCookie(account.getId(), false).set(c, server);
-      rsp.addCookie(c);
-      rsp.sendRedirect("Gerrit.html");
+      final Account.Id id = account.getId();
+      SecurityUtils.getSubject().login(new AccountIdAuthenticationToken(id));
 
     } else {
       rsp.sendError(HttpServletResponse.SC_NOT_FOUND);

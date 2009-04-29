@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server;
 
-import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.SignInDialog;
 import com.google.gerrit.client.SignInDialog.Mode;
 import com.google.gerrit.client.openid.DiscoveryResult;
@@ -27,12 +26,13 @@ import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.SystemConfig;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwtjsonrpc.server.ValidToken;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.ResultSet;
 import com.google.gwtorm.client.Transaction;
 
+import org.jsecurity.SecurityUtils;
+import org.jsecurity.subject.Subject;
 import org.openid4java.consumer.ConsumerException;
 import org.openid4java.consumer.ConsumerManager;
 import org.openid4java.consumer.VerificationResult;
@@ -307,23 +307,18 @@ class OpenIdServiceImpl implements OpenIdService {
       }
     }
 
-    Cookie c = new Cookie(Gerrit.ACCOUNT_COOKIE, "");
-    c.setPath(req.getContextPath() + "/");
-
     if (account == null) {
       if (mode == SignInDialog.Mode.SIGN_IN) {
-        c.setMaxAge(0);
-        rsp.addCookie(c);
+        SecurityUtils.getSubject().logout();
       }
       cancel(req, rsp);
 
     } else if (mode == SignInDialog.Mode.SIGN_IN) {
+      final Account.Id id = account.getId();
+      SecurityUtils.getSubject().login(new AccountIdAuthenticationToken(id));
+
       final boolean remember = "1".equals(req.getParameter(P_REMEMBER));
-
-      new AccountCookie(account.getId(), remember).set(c, server);
-      rsp.addCookie(c);
-
-      c = new Cookie(OpenIdUtil.LASTID_COOKIE, "");
+      final Cookie c = new Cookie(OpenIdUtil.LASTID_COOKIE, "");
       c.setPath(req.getContextPath() + "/");
       if (remember) {
         c.setValue(user.getIdentifier());
@@ -397,32 +392,11 @@ class OpenIdServiceImpl implements OpenIdService {
 
   private Account linkAccount(final HttpServletRequest req, final ReviewDb db,
       final Identifier user, final String email) throws OrmException {
-    final Cookie[] cookies = req.getCookies();
-    if (cookies == null) {
+    final Subject subject = SecurityUtils.getSubject();
+    if (!subject.isAuthenticated()) {
       return null;
     }
-    Account.Id me = null;
-    for (final Cookie c : cookies) {
-      if (Gerrit.ACCOUNT_COOKIE.equals(c.getName())) {
-        try {
-          final ValidToken tok =
-              server.getAccountToken().checkToken(c.getValue(), null);
-          if (tok == null) {
-            return null;
-          }
-          me = AccountCookie.parse(tok).getAccountId();
-          break;
-        } catch (XsrfException e) {
-          return null;
-        } catch (RuntimeException e) {
-          return null;
-        }
-      }
-    }
-    if (me == null) {
-      return null;
-    }
-
+    final Account.Id me = (Account.Id) subject.getPrincipal();
     final Account account = Common.getAccountCache().get(me, db);
     if (account == null) {
       return null;

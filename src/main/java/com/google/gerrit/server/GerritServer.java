@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.data.AccountCache;
 import com.google.gerrit.client.data.ApprovalType;
 import com.google.gerrit.client.data.GerritConfig;
@@ -45,6 +46,8 @@ import com.google.gwtorm.jdbc.Database;
 import com.google.gwtorm.jdbc.SimpleDataSource;
 
 import org.apache.commons.codec.binary.Base64;
+import org.jsecurity.SecurityUtils;
+import org.jsecurity.web.DefaultWebSecurityManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spearce.jgit.lib.PersonIdent;
@@ -185,6 +188,8 @@ public class GerritServer {
     }
     gerritPersonIdentTemplate = new PersonIdent(sConfig.gerritGitName, email);
     outgoingMail = createOutgoingMail();
+
+    initJSecurity();
 
     Common.setSchemaFactory(db);
     Common.setProjectCache(new ProjectCache());
@@ -510,6 +515,15 @@ public class GerritServer {
     } catch (NamingException namingErr) {
       return null;
     }
+  }
+
+  private void initJSecurity() {
+    final DefaultWebSecurityManager mgr = new DefaultWebSecurityManager();
+    mgr.setSessionMode(DefaultWebSecurityManager.JSECURITY_SESSION_MODE);
+    mgr.setSessionIdCookieName(Gerrit.ACCOUNT_COOKIE);
+    mgr.setSessionIdCookieMaxAge(getSessionAge());
+    mgr.setSessionIdCookiePath("/");
+    SecurityUtils.setSecurityManager(mgr);
   }
 
   private void reloadMergeQueue() {

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.patch;
 
+import static com.google.gerrit.client.reviewdb.Account.WHOLE_FILE_CONTEXT;
 import static org.spearce.jgit.util.RawParseUtils.decode;
 import static org.spearce.jgit.util.RawParseUtils.nextLF;
 
@@ -80,14 +81,46 @@ class SideBySidePatchDetailAction extends
       }
 
     } else {
+      final int wantContext = getContextSetting();
       for (final HunkHeader h : fh.getHunks()) {
         int oldLine = h.getOldImage().getStartLine();
         int newLine = h.getNewStartLine();
 
+        final int leadingContext = leadingContext(h);
         final byte[] buf = h.getBuffer();
         final int hunkEnd = h.getEndOffset();
         int ptr = h.getStartOffset();
         int eol = nextLF(buf, ptr);
+
+        if (wantContext == WHOLE_FILE_CONTEXT) {
+          // Cover any gaps between the last line we added and the next line.
+          //
+          expandContext(lines, oldLine, newLine, Integer.MAX_VALUE);
+
+        } else if (leadingContext < wantContext) {
+          // Not enough context is inherit in the patch. Expand it out.
+          //
+          expandContext(lines, oldLine, newLine, wantContext - leadingContext);
+
+        } else if (leadingContext > wantContext) {
+          // Actually, we have too much context in this hunk.
+          //
+          int extra = leadingContext - wantContext;
+          SCAN: for (ptr = eol; ptr < hunkEnd && 0 < extra; ptr = eol) {
+            eol = nextLF(buf, ptr);
+            switch (buf[ptr]) {
+              case ' ':
+              case '\n':
+                extra--;
+                oldLine++;
+                newLine++;
+                continue;
+              default:
+                break SCAN;
+            }
+          }
+        }
+
         SCAN: for (ptr = eol; ptr < hunkEnd; ptr = eol) {
           eol = nextLF(buf, ptr);
 
@@ -136,8 +169,36 @@ class SideBySidePatchDetailAction extends
             default:
               break SCAN;
           }
+
           lines.add(Arrays.asList(new SideBySideLine[] {o, n}));
         }
+
+        final int trailingContext = trailingContext(lines);
+        if (wantContext == WHOLE_FILE_CONTEXT) {
+          // Don't do anything here.  The next hunk will copy in whatever it
+          // requires, or we'll handle it below if this is the last hunk.
+          //
+        } else if (trailingContext < wantContext) {
+          // We don't have enough context.  Add more.
+          //
+          final int extra = wantContext - trailingContext;
+          expandContext(lines, oldLine + extra, newLine + extra, extra);
+
+        } else if (trailingContext > wantContext) {
+          // We copied in too many lines of context.  Drop them off the tail
+          // end of the collection.
+          //
+          int toRemove = trailingContext - wantContext;
+          while (toRemove-- > 0) {
+            lines.remove(lines.size() - 1);
+          }
+        }
+      }
+
+      if (wantContext == WHOLE_FILE_CONTEXT) {
+        // User wants the full file, expand the context to the end.
+        //
+        expandContext(lines, maxLine + 1, maxLine + 1, Integer.MAX_VALUE);
       }
     }
 
@@ -158,5 +219,110 @@ class SideBySidePatchDetailAction extends
     d.setLines(fileCount, maxLine, lines);
     d.setHistory(history(db));
     return d;
+  }
+
+  private void expandContext(final List<List<SideBySideLine>> lines,
+      final int oldLine, final int newLine, final int want) throws Failure,
+      OrmException {
+    try {
+      int lastOld = lastLine(lines, 0);
+      int lastNew = lastLine(lines, 1);
+
+      if (want < oldLine - lastOld && want < newLine - lastNew) {
+        final int skip = (oldLine - lastOld) - want;
+        lastOld += skip;
+        lastNew += skip;
+      }
+
+      final int maxOld = file.getLineCount(0);
+      final int maxNew = file.getLineCount(1);
+
+      while (lastOld < oldLine || lastNew < newLine) {
+        final SideBySideLine o, n;
+
+        if (lastOld <= maxOld) {
+          final String text = file.getLine(0, lastOld);
+          o = new SideBySideLine(lastOld, SideBySideLine.Type.EQUAL, text);
+        } else {
+          o = null;
+        }
+
+        if (lastNew <= maxNew) {
+          final String text;
+          if (o != null) {
+            text = o.getText();
+          } else {
+            text = file.getLine(1, lastNew);
+          }
+          n = new SideBySideLine(lastNew, SideBySideLine.Type.EQUAL, text);
+        } else {
+          n = null;
+        }
+
+        if (o == null && n == null) {
+          break;
+        }
+
+        lines.add(Arrays.asList(new SideBySideLine[] {o, n}));
+        lastOld++;
+        lastNew++;
+      }
+    } catch (CorruptEntityException e) {
+      throw new Failure(e);
+    } catch (IOException e) {
+      throw new Failure(e);
+    } catch (NoSuchEntityException e) {
+      throw new Failure(e);
+    } catch (NoDifferencesException e) {
+      throw new Failure(e);
+    }
+  }
+
+  private static int lastLine(final List<List<SideBySideLine>> lines,
+      final int side) {
+    int p = lines.size() - 1;
+    while (0 <= p && lines.get(p).get(side) == null) {
+      p--;
+    }
+    return 0 <= p ? lines.get(p).get(side).getLineNumber() : 1;
+  }
+
+  private static int leadingContext(final HunkHeader h) {
+    final byte[] buf = h.getBuffer();
+    final int hunkEnd = h.getEndOffset();
+    int ptr = h.getStartOffset();
+    int eol = nextLF(buf, ptr);
+    int context = 0;
+    SCAN: for (ptr = eol; ptr < hunkEnd; ptr = eol) {
+      eol = nextLF(buf, ptr);
+      switch (buf[ptr]) {
+        case ' ':
+        case '\n':
+          context++;
+          continue;
+        default:
+          break SCAN;
+      }
+    }
+    return context;
+  }
+
+  private static int trailingContext(final List<List<SideBySideLine>> lines) {
+    int p = lines.size() - 1;
+    int context = 0;
+    SCAN: while (0 <= p) {
+      for (final SideBySideLine s : lines.get(p--)) {
+        if (s != null) {
+          switch (s.getType()) {
+            case EQUAL:
+              context++;
+              continue SCAN;
+            default:
+              break SCAN;
+          }
+        }
+      }
+    }
+    return context;
   }
 }

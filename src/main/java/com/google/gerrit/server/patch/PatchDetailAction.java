@@ -50,6 +50,7 @@ abstract class PatchDetailAction<T> implements Action<T> {
   protected PatchFile file;
   protected AccountInfoCacheFactory accountInfo;
   protected Account.Id me;
+  protected Account myAccount;
 
   protected HashMap<Integer, List<PatchLineComment>> published[];
   protected HashMap<Integer, List<PatchLineComment>> drafted[];
@@ -94,6 +95,7 @@ abstract class PatchDetailAction<T> implements Action<T> {
 
     accountInfo = new AccountInfoCacheFactory(db);
     me = Common.getAccountId();
+    myAccount = accountInfo.get(me);
 
     final int fileCnt;
     try {
@@ -123,6 +125,11 @@ abstract class PatchDetailAction<T> implements Action<T> {
       indexComments(drafted, direct ? db.patchComments().draft(patchKey, me)
           : db.patchComments().draft(change.getId(), patchKey.get(), me));
     }
+  }
+
+  protected short getContextSetting() {
+    return myAccount != null ? myAccount.getDefaultContext()
+        : Account.DEFAULT_CONTEXT;
   }
 
   protected List<Patch> history(final ReviewDb db) throws OrmException {

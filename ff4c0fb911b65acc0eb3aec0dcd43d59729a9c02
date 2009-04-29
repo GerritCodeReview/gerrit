@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAQn////I\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/PublishCommentScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-04-29T15:07:42Z",
+      "side": 1,
+      "message": "Heh.\n\nI was going to take a very different approach to this.\n\nBasically, I am planning on embedding a small secure scripting language into Gerrit.  And then I was going to move a lot of these decision points out of pure Java and into calls to the scripting language, with overrides possible at the branch, project and server level.  This way the site administrator or even project owner could modify the decision logic any way they chose.",
+      "revId": "ff4c0fb911b65acc0eb3aec0dcd43d59729a9c02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

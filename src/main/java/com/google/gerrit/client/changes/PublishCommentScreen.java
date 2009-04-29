@@ -19,6 +19,7 @@ import com.google.gerrit.client.Link;
 import com.google.gerrit.client.data.ApprovalType;
 import com.google.gerrit.client.patches.LineCommentPanel;
 import com.google.gerrit.client.patches.PatchUtil;
+import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.client.reviewdb.Change;
@@ -65,6 +66,7 @@ public class PublishCommentScreen extends AccountScreen implements
   private static SavedState lastState;
 
   private final PatchSet.Id patchSetId;
+  private Account.Id changeOwner;
   private Collection<ValueRadioButton> approvalButtons;
   private ChangeDescriptionBlock descBlock;
   private Panel approvalPanel;
@@ -130,6 +132,7 @@ public class PublishCommentScreen extends AccountScreen implements
           @Override
           protected void preDisplay(final PatchSetPublishDetail result) {
             send.setEnabled(true);
+            changeOwner = result.getChange().getOwner();
             display(result);
           }
 
@@ -174,6 +177,10 @@ public class PublishCommentScreen extends AccountScreen implements
   }
 
   private void initApprovals(final PatchSetPublishDetail r, final Panel body) {
+    //TODO: read settings from database to determine whether to return
+    if (changeOwner.get() == Gerrit.getUserAccount().getId().get()) {
+      return;
+    }
     for (final ApprovalType ct : Common.getGerritConfig().getApprovalTypes()) {
       if (r.isAllowed(ct.getCategory().getId())) {
         initApprovalType(r, body, ct);

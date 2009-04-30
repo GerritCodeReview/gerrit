@@ -16,6 +16,23 @@
       "revId": "ff4c0fb911b65acc0eb3aec0dcd43d59729a9c02",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAQn///9w\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/PublishCommentScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1001936
+      },
+      "writtenOn": "2009-04-30T09:22:24Z",
+      "side": 1,
+      "message": "Got it. I\u0027ll keep this for my personal use.",
+      "revId": "ff4c0fb911b65acc0eb3aec0dcd43d59729a9c02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

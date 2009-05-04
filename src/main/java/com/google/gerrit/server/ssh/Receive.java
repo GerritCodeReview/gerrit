@@ -68,6 +68,7 @@ import org.spearce.jgit.transport.ReceiveCommand.Type;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.sql.Timestamp;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -297,10 +298,15 @@ class Receive extends AbstractGitCommand {
 
   private void lookup(final Set<Account.Id> accountIds,
       final String addressType, final Set<String> emails) throws Failure {
+    final String efmt = server.getEmailFormat();
     final StringBuilder errors = new StringBuilder();
     try {
       for (final String email : emails) {
-        final Account who = Account.find(db, email);
+        Account who = Account.find(db, email);
+        if (who == null && !email.contains("@") && !email.contains(" ")
+            && efmt != null && efmt.contains("{0}")) {
+          who = Account.find(db, MessageFormat.format(efmt, email));
+        }
         if (who != null) {
           accountIds.add(who.getId());
         } else {

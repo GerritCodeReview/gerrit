@@ -36,6 +36,23 @@
     },
     {
       "key": {
+        "uuid": "AAAAQn///4s\u003d",
+        "filename": "src/main/java/com/google/gerrit/git/MergeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 700,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-05-05T01:51:11Z",
+      "side": 1,
+      "message": "No, what I meant was, delete the LF from line 699 so that this line reads:\n\n  schema.changeMessages().insert(Collections.singleton(msg));\n\nbecause even with the leading indentation it looks like this should fit within the 80 column line width we normally target.\n\nIts a minor style/formatting nit.  I guess I really could just merge the patch as-is at this point.  It just slightly bothers me when I read code like this where it could be 1 line shorter right here.",
+      "revId": "e54058129f3017d93c45501a2f8fdd0c74365912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAQn////Q\u003d",
         "filename": "src/main/java/com/google/gerrit/git/MergeOp.java",
         "patchSetId": 2

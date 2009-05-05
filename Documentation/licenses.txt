@@ -27,6 +27,7 @@ Apache XML Security         <<apache2,Apache License 2.0>>
 OpenID4Java                 <<apache2,Apache License 2.0>>
 OpenXRI                     <<apache2,Apache License 2.0>>
 Neko HTML                   <<apache2,Apache License 2.0>>
+Ehcache                     <<apache2,Apache License 2.0>>
 ICU4J                       <<icu4j,ICU4J License>>
 JGit                        <<jgit,New-Style BSD>>
 JSch                        <<sshd,New-Style BSD>>

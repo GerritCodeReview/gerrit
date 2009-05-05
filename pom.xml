@@ -253,6 +253,7 @@ limitations under the License.
   </licenses>
 
   <properties>
+    <jgitVersion>0.4.0-310-g3da8761</jgitVersion>
     <gwtVersion>1.5.3</gwtVersion>
     <gwtStyle>OBF</gwtStyle>
   </properties>
@@ -514,8 +515,16 @@ limitations under the License.
     <dependency>
       <groupId>org.spearce</groupId>
       <artifactId>jgit</artifactId>
-      <version>0.4.0-310-g3da8761</version>
+      <version>${jgitVersion}</version>
       <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.spearce</groupId>
+      <artifactId>jgit</artifactId>
+      <version>${jgitVersion}</version>
+      <classifier>sources</classifier>
+      <scope>provided</scope>
+      <type>jar</type>
     </dependency>
 
     <dependency>

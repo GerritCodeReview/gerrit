@@ -254,6 +254,9 @@ limitations under the License.
 
   <properties>
     <jgitVersion>0.4.0-310-g3da8761</jgitVersion>
+    <gwtormVersion>1.0.2</gwtormVersion>
+    <gwtjsonrpcVersion>1.0.5</gwtjsonrpcVersion>
+    <gwtexpuiVersion>1.0.5</gwtexpuiVersion>
     <gwtVersion>1.5.3</gwtVersion>
     <gwtStyle>OBF</gwtStyle>
   </properties>
@@ -264,9 +267,8 @@ limitations under the License.
         <directory>src/main/java</directory>
         <includes>
           <include>log4j.properties</include>
-          <include>com/google/gerrit/*.gwt.xml</include>
-          <include>com/google/gerrit/public/**</include>
-          <include>com/google/gerrit/client/**</include>
+          <include>com/google/gerrit/client/GerritVersion.properties</include>
+          <include>com/google/gerrit/public/Gerrit.html</include>
         </includes>
       </resource>
     </resources>
@@ -433,22 +435,46 @@ limitations under the License.
     <dependency>
       <groupId>gwtorm</groupId>
       <artifactId>gwtorm</artifactId>
-      <version>1.0.1</version>
+      <version>${gwtormVersion}</version>
       <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>gwtorm</groupId>
+      <artifactId>gwtorm</artifactId>
+      <version>${gwtormVersion}</version>
+      <classifier>sources</classifier>
+      <scope>provided</scope>
+      <type>jar</type>
     </dependency>
 
     <dependency>
       <groupId>gwtjsonrpc</groupId>
       <artifactId>gwtjsonrpc</artifactId>
-      <version>1.0.3</version>
+      <version>${gwtjsonrpcVersion}</version>
       <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>gwtjsonrpc</groupId>
+      <artifactId>gwtjsonrpc</artifactId>
+      <version>${gwtjsonrpcVersion}</version>
+      <classifier>sources</classifier>
+      <scope>provided</scope>
+      <type>jar</type>
     </dependency>
 
     <dependency>
       <groupId>gwtexpui</groupId>
       <artifactId>gwtexpui</artifactId>
-      <version>1.0.4</version>
+      <version>${gwtexpuiVersion}</version>
       <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>gwtexpui</groupId>
+      <artifactId>gwtexpui</artifactId>
+      <version>${gwtexpuiVersion}</version>
+      <classifier>sources</classifier>
+      <scope>provided</scope>
+      <type>jar</type>
     </dependency>
 
     <dependency>

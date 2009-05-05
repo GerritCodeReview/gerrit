@@ -48,9 +48,13 @@ import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spearce.jgit.lib.PersonIdent;
+import org.spearce.jgit.lib.RepositoryConfig;
+import org.spearce.jgit.lib.WindowCache;
+import org.spearce.jgit.lib.WindowCacheConfig;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
@@ -139,6 +143,7 @@ public class GerritServer {
   }
 
   private final Database<ReviewDb> db;
+  private final RepositoryConfig gerritConfigFile;
   private SystemConfig sConfig;
   private final PersonIdent gerritPersonIdentTemplate;
   private final SignedToken xsrf;
@@ -153,6 +158,17 @@ public class GerritServer {
     if (sConfig == null) {
       throw new OrmException("No " + SystemConfig.class.getName() + " found");
     }
+
+    final File cfgLoc = new File(getSitePath(), "gerrit.config");
+    gerritConfigFile = new RepositoryConfig(null, cfgLoc);
+    try {
+      gerritConfigFile.load();
+    } catch (FileNotFoundException e) {
+      log.info("No " + cfgLoc.getAbsolutePath() + "; assuming defaults");
+    } catch (IOException e) {
+      throw new OrmException("Cannot read " + cfgLoc.getAbsolutePath(), e);
+    }
+    reconfigureWindowCache();
 
     xsrf = new SignedToken(sConfig.maxSessionAge, sConfig.xsrfPrivateKey);
 
@@ -510,6 +526,12 @@ public class GerritServer {
     } catch (NamingException namingErr) {
       return null;
     }
+  }
+
+  private void reconfigureWindowCache() {
+    final WindowCacheConfig c = new WindowCacheConfig();
+    c.fromConfig(gerritConfigFile);
+    WindowCache.reconfigure(c);
   }
 
   private void reloadMergeQueue() {

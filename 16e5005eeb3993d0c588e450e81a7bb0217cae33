@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAQn///4U\u003d",
+        "filename": "src/main/java/com/google/gerrit/git/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 1001936
+      },
+      "writtenOn": "2009-05-05T06:49:39Z",
+      "side": 1,
+      "message": "remove an extra blank before \"As\"",
+      "revId": "16e5005eeb3993d0c588e450e81a7bb0217cae33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

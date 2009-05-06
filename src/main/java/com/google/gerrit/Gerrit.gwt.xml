@@ -24,6 +24,7 @@
   <inherits name='com.google.gwt.user.theme.chrome.Chrome'/>
   <inherits name='com.google.gerrit.CssBundle'/>
   <inherits name='com.google.gerrit.UserAgent'/>
+  <inherits name='org.spearce.jgit.JGit'/>
   <extend-property name="locale" values="en"/>
 
   <entry-point class='com.google.gerrit.client.Gerrit'/>

@@ -46,6 +46,7 @@ import com.google.gwtorm.jdbc.SimpleDataSource;
 
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
+import net.sf.ehcache.Ehcache;
 import net.sf.ehcache.config.CacheConfiguration;
 import net.sf.ehcache.config.Configuration;
 import net.sf.ehcache.config.DiskStoreConfiguration;
@@ -68,6 +69,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
@@ -731,6 +733,17 @@ public class GerritServer {
   /** Get the repositories maintained by this server. */
   public RepositoryCache getRepositoryCache() {
     return repositories;
+  }
+
+  /** Get all registered caches. */
+  public Ehcache[] getAllCaches() {
+    final String[] cacheNames = cacheMgr.getCacheNames();
+    Arrays.sort(cacheNames);
+    final Ehcache[] r = new Ehcache[cacheNames.length];
+    for (int i = 0; i < cacheNames.length; i++) {
+      r[i] = cacheMgr.getEhcache(cacheNames[i]);
+    }
+    return r;
   }
 
   /** Get any existing cache by name. */

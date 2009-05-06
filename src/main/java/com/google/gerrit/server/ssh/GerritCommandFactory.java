@@ -45,6 +45,11 @@ class GerritCommandFactory implements CommandFactory {
         return new ListProjects();
       }
     });
+    commands.put("gerrit-show-caches", new Factory() {
+      public AbstractCommand create() {
+        return new AdminShowCaches();
+      }
+    });
 
     alias("gerrit-upload-pack", "git-upload-pack");
     alias("gerrit-receive-pack", "git-receive-pack");

@@ -34,6 +34,15 @@ class AdminFlushCaches extends AbstractCommand {
       if (Common.getGerritConfig().getLoginType() == LoginType.OPENID) {
         flushCache("openid");
       }
+
+      try {
+        getGerritServer().getDiffCache().flush();
+      } catch (Throwable e1) {
+        try {
+          err.write(("warning: " + err.toString()).getBytes("UTF-8"));
+        } catch (IOException e2) {
+        }
+      }
     } else {
       throw new Failure(1, "fatal: Not a Gerrit administrator");
     }

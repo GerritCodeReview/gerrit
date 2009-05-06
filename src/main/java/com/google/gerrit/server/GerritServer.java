@@ -38,6 +38,7 @@ import com.google.gerrit.client.workflow.SubmitFunction;
 import com.google.gerrit.git.MergeQueue;
 import com.google.gerrit.git.RepositoryCache;
 import com.google.gerrit.git.WorkQueue;
+import com.google.gerrit.server.patch.DiffCacheEntryFactory;
 import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
@@ -51,6 +52,7 @@ import net.sf.ehcache.Ehcache;
 import net.sf.ehcache.config.CacheConfiguration;
 import net.sf.ehcache.config.Configuration;
 import net.sf.ehcache.config.DiskStoreConfiguration;
+import net.sf.ehcache.constructs.blocking.SelfPopulatingCache;
 import net.sf.ehcache.store.MemoryStoreEvictionPolicy;
 
 import org.apache.commons.codec.binary.Base64;
@@ -171,6 +173,7 @@ public class GerritServer {
   private final SignedToken emailReg;
   private final RepositoryCache repositories;
   private final javax.mail.Session outgoingMail;
+  private final SelfPopulatingCache diffCache;
 
   private GerritServer() throws OrmException, XsrfException {
     db = createDatabase();
@@ -228,6 +231,7 @@ public class GerritServer {
     Common.setGroupCache(new GroupCache(sConfig));
 
     cacheMgr = new CacheManager(createCacheConfiguration());
+    diffCache = startCacheDiff();
   }
 
   private Configuration createCacheConfiguration() {
@@ -242,6 +246,7 @@ public class GerritServer {
       mgrCfg.addCache(c);
     }
 
+    mgrCfg.addCache(configureNamedCache(mgrCfg, "diff", true, 0));
     return mgrCfg;
   }
 
@@ -323,6 +328,15 @@ public class GerritServer {
     }
 
     return cfg;
+  }
+
+  private SelfPopulatingCache startCacheDiff() {
+    final Cache dc = cacheMgr.getCache("diff");
+    final SelfPopulatingCache r;
+
+    r = new SelfPopulatingCache(dc, new DiffCacheEntryFactory(this));
+    cacheMgr.replaceCacheWithDecoratedCache(dc, r);
+    return r;
   }
 
   private Database<ReviewDb> createDatabase() throws OrmException {
@@ -758,6 +772,11 @@ public class GerritServer {
   /** Get any existing cache by name. */
   public Cache getCache(final String name) {
     return cacheMgr.getCache(name);
+  }
+
+  /** Get the self-populating cache of DiffCacheContent entities. */
+  public SelfPopulatingCache getDiffCache() {
+    return diffCache;
   }
 
   /** The mail session used to send messages; null if not configured. */

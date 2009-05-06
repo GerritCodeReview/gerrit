@@ -33,6 +33,10 @@ import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.ResultSet;
 import com.google.gwtorm.client.Transaction;
 
+import net.sf.ehcache.Element;
+import net.sf.ehcache.constructs.blocking.CacheEntryFactory;
+import net.sf.ehcache.constructs.blocking.SelfPopulatingCache;
+
 import org.openid4java.consumer.ConsumerException;
 import org.openid4java.consumer.ConsumerManager;
 import org.openid4java.consumer.VerificationResult;
@@ -84,6 +88,10 @@ class OpenIdServiceImpl implements OpenIdService {
 
   private static OpenIdServiceImpl INSTANCE;
 
+  private static boolean useOpenID() {
+    return Common.getGerritConfig().getLoginType() == SystemConfig.LoginType.OPENID;
+  }
+
   static synchronized OpenIdServiceImpl getInstance() throws ConsumerException,
       OrmException, XsrfException {
     if (INSTANCE == null) {
@@ -94,17 +102,34 @@ class OpenIdServiceImpl implements OpenIdService {
 
   private final GerritServer server;
   private final ConsumerManager manager;
+  private final SelfPopulatingCache discoveryCache;
 
   private OpenIdServiceImpl() throws ConsumerException, OrmException,
       XsrfException {
     server = GerritServer.getInstance();
     manager = new ConsumerManager();
+    if (useOpenID()) {
+      discoveryCache =
+          new SelfPopulatingCache(server.getCache("openid"),
+              new CacheEntryFactory() {
+                public Object createEntry(final Object objKey) throws Exception {
+                  try {
+                    final List<?> list = manager.discover((String) objKey);
+                    return list != null && !list.isEmpty() ? list : null;
+                  } catch (DiscoveryException e) {
+                    return null;
+                  }
+                }
+              });
+    } else {
+      discoveryCache = null;
+    }
   }
 
   public void discover(final String openidIdentifier,
       final SignInDialog.Mode mode, final boolean remember,
       final String returnToken, final AsyncCallback<DiscoveryResult> callback) {
-    if (Common.getGerritConfig().getLoginType() != SystemConfig.LoginType.OPENID) {
+    if (!useOpenID()) {
       callback.onFailure(new IllegalStateException("OpenID not enabled"));
       return;
     }
@@ -514,18 +539,18 @@ class OpenIdServiceImpl implements OpenIdService {
   private State init(final HttpServletRequest httpReq,
       final String openidIdentifier, final SignInDialog.Mode mode,
       final boolean remember, final String returnToken) {
-    List<?> servers;
-    try {
-      servers = manager.discover(openidIdentifier);
-    } catch (DiscoveryException de) {
-      servers = null;
+    final Element serverCache = discoveryCache.get(openidIdentifier);
+    if (serverCache == null) {
+      return null;
     }
-    if (servers == null || servers.isEmpty()) {
+
+    final List<?> list = (List<?>) serverCache.getObjectValue();
+    if (list == null || list.isEmpty()) {
       return null;
     }
 
     final String contextUrl = GerritServer.serverUrl(httpReq);
-    final DiscoveryInformation discovered = manager.associate(servers);
+    final DiscoveryInformation discovered = manager.associate(list);
     final UrlEncoded retTo = new UrlEncoded(contextUrl + "login");
     retTo.put(P_MODE, mode.name());
     if (returnToken != null && returnToken.length() > 0) {

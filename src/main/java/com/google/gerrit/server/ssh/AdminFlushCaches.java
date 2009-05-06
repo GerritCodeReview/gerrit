@@ -15,7 +15,10 @@
 package com.google.gerrit.server.ssh;
 
 import com.google.gerrit.client.data.GroupCache;
+import com.google.gerrit.client.reviewdb.SystemConfig.LoginType;
 import com.google.gerrit.client.rpc.Common;
+
+import java.io.IOException;
 
 /** Causes the caches to purge all entries and reload. */
 class AdminFlushCaches extends AbstractCommand {
@@ -27,8 +30,24 @@ class AdminFlushCaches extends AbstractCommand {
       Common.getProjectCache().flush();
       Common.getAccountCache().flush();
       SshUtil.flush();
+
+      if (Common.getGerritConfig().getLoginType() == LoginType.OPENID) {
+        flushCache("openid");
+      }
     } else {
       throw new Failure(1, "fatal: Not a Gerrit administrator");
+    }
+  }
+
+  private void flushCache(final String name) {
+    try {
+      getGerritServer().getCache(name).removeAll();
+    } catch (Throwable e1) {
+      try {
+        err.write(("warning: cannot flush cache " + name + ": " + err
+            .toString()).getBytes("UTF-8"));
+      } catch (IOException e2) {
+      }
     }
   }
 }

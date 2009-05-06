@@ -31,6 +31,7 @@ import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.SchemaVersion;
 import com.google.gerrit.client.reviewdb.SystemConfig;
 import com.google.gerrit.client.reviewdb.TrustedExternalId;
+import com.google.gerrit.client.reviewdb.SystemConfig.LoginType;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.workflow.NoOpFunction;
 import com.google.gerrit.client.workflow.SubmitFunction;
@@ -233,6 +234,14 @@ public class GerritServer {
     final Configuration mgrCfg = new Configuration();
     configureDiskStore(mgrCfg);
     configureDefaultCache(mgrCfg);
+
+    if (sConfig.getLoginType() == LoginType.OPENID) {
+      final CacheConfiguration c;
+      c = configureNamedCache(mgrCfg, "openid", false, 5);
+      c.setTimeToLiveSeconds(c.getTimeToIdleSeconds());
+      mgrCfg.addCache(c);
+    }
+
     return mgrCfg;
   }
 

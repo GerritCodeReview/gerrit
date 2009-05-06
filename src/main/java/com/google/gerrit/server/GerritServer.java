@@ -44,6 +44,13 @@ import com.google.gwtorm.client.Transaction;
 import com.google.gwtorm.jdbc.Database;
 import com.google.gwtorm.jdbc.SimpleDataSource;
 
+import net.sf.ehcache.Cache;
+import net.sf.ehcache.CacheManager;
+import net.sf.ehcache.config.CacheConfiguration;
+import net.sf.ehcache.config.Configuration;
+import net.sf.ehcache.config.DiskStoreConfiguration;
+import net.sf.ehcache.store.MemoryStoreEvictionPolicy;
+
 import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,6 +84,7 @@ public class GerritServer {
   private static final Logger log = LoggerFactory.getLogger(GerritServer.class);
   private static DataSource datasource;
   private static GerritServer impl;
+  private static CacheManager cacheMgr;
 
   static void closeDataSource() {
     if (datasource != null) {
@@ -90,6 +98,15 @@ public class GerritServer {
         }
       } finally {
         datasource = null;
+      }
+    }
+
+    if (cacheMgr != null) {
+      try {
+        cacheMgr.shutdown();
+      } catch (Throwable bad) {
+      } finally {
+        cacheMgr = null;
       }
     }
   }
@@ -206,6 +223,95 @@ public class GerritServer {
     Common.setProjectCache(new ProjectCache());
     Common.setAccountCache(new AccountCache());
     Common.setGroupCache(new GroupCache(sConfig));
+
+    cacheMgr = new CacheManager(createCacheConfiguration());
+  }
+
+  private Configuration createCacheConfiguration() {
+    final Configuration mgrCfg = new Configuration();
+    configureDiskStore(mgrCfg);
+    configureDefaultCache(mgrCfg);
+    return mgrCfg;
+  }
+
+  private void configureDiskStore(final Configuration mgrCfg) {
+    String path = gerritConfigFile.getString("cache", null, "directory");
+    if (path == null || path.length() == 0) {
+      path = "disk_cache";
+    }
+
+    final File loc = new File(getSitePath(), path);
+    if (loc.exists() || loc.mkdirs()) {
+      final DiskStoreConfiguration c = new DiskStoreConfiguration();
+      c.setPath(loc.getAbsolutePath());
+      mgrCfg.addDiskStore(c);
+      log.info("Enabling disk cache " + loc.getAbsolutePath());
+
+    } else {
+      log.warn("Can't create disk cache: " + loc.getAbsolutePath());
+    }
+  }
+
+  private void configureDefaultCache(final Configuration mgrCfg) {
+    final RepositoryConfig i = gerritConfigFile;
+    final CacheConfiguration c = new CacheConfiguration();
+
+    c.setMaxElementsInMemory(i.getInt("cache", "memorylimit", 1024));
+    c.setMemoryStoreEvictionPolicyFromObject(MemoryStoreEvictionPolicy.LFU);
+
+    c.setTimeToLiveSeconds(0);
+    final int oneday = 24 * 60;
+    c.setTimeToIdleSeconds(i.getInt("cache", "maxage", 3 * 30 * oneday) * 60);
+    c.setEternal(c.getTimeToIdleSeconds() == 0);
+
+    if (mgrCfg.getDiskStoreConfiguration() != null) {
+      c.setMaxElementsOnDisk(i.getInt("cache", "disklimit", 16384));
+      c.setOverflowToDisk(false);
+      c.setDiskPersistent(false);
+
+      int diskbuffer = i.getInt("cache", "diskbuffer", 5 * 1024 * 1024);
+      diskbuffer /= 1024 * 1024;
+      c.setDiskSpoolBufferSizeMB(Math.max(1, diskbuffer));
+      c.setDiskExpiryThreadIntervalSeconds(60 * 60);
+    }
+
+    mgrCfg.setDefaultCacheConfiguration(c);
+  }
+
+  private CacheConfiguration configureNamedCache(final Configuration mgrCfg,
+      final String name, final boolean disk, final int defaultAge) {
+    final RepositoryConfig i = gerritConfigFile;
+    final CacheConfiguration def = mgrCfg.getDefaultCacheConfiguration();
+    final CacheConfiguration cfg;
+    try {
+      cfg = def.clone();
+    } catch (CloneNotSupportedException e) {
+      throw new RuntimeException("Cannot configure cache " + name, e);
+    }
+    cfg.setName(name);
+
+    cfg.setMaxElementsInMemory(i.getInt("cache", name, "memorylimit", def
+        .getMaxElementsInMemory()));
+
+    cfg.setTimeToIdleSeconds(i.getInt("cache", name, "maxage", defaultAge > 0
+        ? defaultAge : (int) (def.getTimeToIdleSeconds() / 60)) * 60);
+    cfg.setEternal(cfg.getTimeToIdleSeconds() == 0);
+
+    if (disk && mgrCfg.getDiskStoreConfiguration() != null) {
+      cfg.setMaxElementsOnDisk(i.getInt("cache", name, "disklimit", def
+          .getMaxElementsOnDisk()));
+
+      final int m = 1024 * 1024;
+      final int diskbuffer =
+          i.getInt("cache", name, "diskbuffer", def.getDiskSpoolBufferSizeMB()
+              * m)
+              / m;
+      cfg.setDiskSpoolBufferSizeMB(Math.max(1, diskbuffer));
+      cfg.setOverflowToDisk(true);
+      cfg.setDiskPersistent(true);
+    }
+
+    return cfg;
   }
 
   private Database<ReviewDb> createDatabase() throws OrmException {
@@ -625,6 +731,11 @@ public class GerritServer {
   /** Get the repositories maintained by this server. */
   public RepositoryCache getRepositoryCache() {
     return repositories;
+  }
+
+  /** Get any existing cache by name. */
+  public Cache getCache(final String name) {
+    return cacheMgr.getCache(name);
   }
 
   /** The mail session used to send messages; null if not configured. */

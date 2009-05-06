@@ -634,9 +634,12 @@ class Receive extends AbstractGitCommand {
     final PatchSet ps = new PatchSet(change.newPatchSetId());
     ps.setCreatedOn(change.getCreatedOn());
     ps.setUploader(me);
-    final PatchSetImporter imp = new PatchSetImporter(db, repo, c, ps, true);
+
+    final PatchSetImporter imp =
+        new PatchSetImporter(server, db, proj.getNameKey(), repo, c, ps, true);
     imp.setTransaction(txn);
     imp.run();
+
     change.setCurrentPatchSet(imp.getPatchSetInfo());
     ChangeUtil.updated(change);
     db.changes().insert(Collections.singleton(change), txn);
@@ -782,7 +785,10 @@ class Receive extends AbstractGitCommand {
         final PatchSet ps = new PatchSet(change.newPatchSetId());
         ps.setCreatedOn(new Timestamp(System.currentTimeMillis()));
         ps.setUploader(userAccount.getId());
-        PatchSetImporter imp = new PatchSetImporter(db, repo, c, ps, true);
+
+        final PatchSetImporter imp =
+            new PatchSetImporter(server, db, proj.getNameKey(), repo, c, ps,
+                true);
         imp.setTransaction(txn);
         try {
           imp.run();

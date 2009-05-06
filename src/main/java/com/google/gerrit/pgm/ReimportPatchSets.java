@@ -16,6 +16,7 @@ package com.google.gerrit.pgm;
 
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.PatchSet;
+import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.git.InvalidRepositoryException;
@@ -94,7 +95,8 @@ public class ReimportPatchSets {
           continue;
         }
 
-        final String projectName = c.getDest().getParentKey().get();
+        final Project.NameKey projectKey = c.getDest().getParentKey();
+        final String projectName = projectKey.get();
         final Repository repo;
         try {
           repo = gs.getRepositoryCache().get(projectName);
@@ -108,7 +110,7 @@ public class ReimportPatchSets {
         final RevWalk rw = new RevWalk(repo);
         final RevCommit src =
             rw.parseCommit(ObjectId.fromString(ps.getRevision().get()));
-        new PatchSetImporter(db, repo, src, ps, false).run();
+        new PatchSetImporter(gs, db, projectKey, repo, src, ps, false).run();
         pm.update(1);
       }
     } catch (OrmException e) {

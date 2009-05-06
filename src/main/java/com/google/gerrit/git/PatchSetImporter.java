@@ -21,12 +21,19 @@ import com.google.gerrit.client.reviewdb.PatchContent;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.PatchSetAncestor;
 import com.google.gerrit.client.reviewdb.PatchSetInfo;
+import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.RevId;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.UserIdentity;
+import com.google.gerrit.server.GerritServer;
+import com.google.gerrit.server.patch.DiffCacheContent;
+import com.google.gerrit.server.patch.DiffCacheKey;
 import com.google.gwtorm.client.OrmDuplicateKeyException;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.Transaction;
+
+import net.sf.ehcache.Element;
+import net.sf.ehcache.constructs.blocking.SelfPopulatingCache;
 
 import org.spearce.jgit.lib.Commit;
 import org.spearce.jgit.lib.Constants;
@@ -34,7 +41,6 @@ import org.spearce.jgit.lib.ObjectId;
 import org.spearce.jgit.lib.ObjectWriter;
 import org.spearce.jgit.lib.PersonIdent;
 import org.spearce.jgit.lib.Repository;
-import org.spearce.jgit.lib.Tree;
 import org.spearce.jgit.patch.CombinedFileHeader;
 import org.spearce.jgit.patch.FileHeader;
 import org.spearce.jgit.revwalk.RevCommit;
@@ -54,7 +60,9 @@ import java.util.Set;
 
 /** Imports a {@link PatchSet} from a {@link Commit}. */
 public class PatchSetImporter {
+  private final SelfPopulatingCache diffCache;
   private final ReviewDb db;
+  private final Project.NameKey projectKey;
   private final Repository repo;
   private final RevCommit src;
   private final PatchSet dst;
@@ -79,10 +87,13 @@ public class PatchSetImporter {
   private final List<PatchSetAncestor> ancestorUpdate =
       new ArrayList<PatchSetAncestor>();
 
-  public PatchSetImporter(final ReviewDb dstDb, final Repository srcRepo,
+  public PatchSetImporter(final GerritServer gs, final ReviewDb dstDb,
+      final Project.NameKey proj, final Repository srcRepo,
       final RevCommit srcCommit, final PatchSet dstPatchSet,
       final boolean isNewPatchSet) {
+    diffCache = gs.getDiffCache();
     db = dstDb;
+    projectKey = proj;
     repo = srcRepo;
     src = srcCommit;
     dst = dstPatchSet;
@@ -307,33 +318,39 @@ public class PatchSetImporter {
     args.add("-M");
     args.add("--full-index");
 
+    final ObjectId a, b;
     switch (src.getParentCount()) {
       case 0:
         args.add("--unified=5");
-        args.add(new ObjectWriter(repo).writeTree(new Tree(repo)).name());
-        args.add(src.getTree().getId().name());
+        a = emptyTree();
+        b = src.getId();
         break;
       case 1:
         args.add("--unified=5");
-        args.add(src.getParent(0).getId().name());
-        args.add(src.getId().name());
+        a = src.getParent(0).getId();
+        b = src.getId();
         break;
       default:
         args.add("--cc");
-        args.add(src.getId().name());
+        a = null;
+        b = src.getId();
         break;
     }
+    if (a != null) {
+      args.add(a.name());
+    }
+    args.add(b.name());
 
     final Process proc =
         Runtime.getRuntime().exec(args.toArray(new String[args.size()]), null,
             repo.getDirectory());
+    final org.spearce.jgit.patch.Patch p;
     try {
-      final org.spearce.jgit.patch.Patch p = new org.spearce.jgit.patch.Patch();
+      p = new org.spearce.jgit.patch.Patch();
       proc.getOutputStream().close();
       proc.getErrorStream().close();
       p.parse(proc.getInputStream());
       proc.getInputStream().close();
-      return p;
     } finally {
       try {
         if (proc.waitFor() != 0) {
@@ -342,5 +359,26 @@ public class PatchSetImporter {
       } catch (InterruptedException ie) {
       }
     }
+
+    for (final FileHeader fh : p.getFiles()) {
+      final DiffCacheKey k;
+
+      String srcName = null;
+      switch (fh.getChangeType()) {
+        case RENAME:
+        case COPY:
+          srcName = fh.getOldName();
+          break;
+      }
+
+      k = new DiffCacheKey(projectKey, a, b, fh.getNewName(), srcName);
+      diffCache.put(new Element(k, DiffCacheContent.create(repo, k, fh)));
+    }
+
+    return p;
+  }
+
+  private ObjectId emptyTree() throws IOException {
+    return new ObjectWriter(repo).writeCanonicalTree(new byte[0]);
   }
 }

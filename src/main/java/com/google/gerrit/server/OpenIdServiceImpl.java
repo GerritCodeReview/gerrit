@@ -297,7 +297,17 @@ class OpenIdServiceImpl implements OpenIdService {
         } else if (fetchRsp != null) {
           final String firstName = fetchRsp.getAttributeValue("FirstName");
           final String lastName = fetchRsp.getAttributeValue("LastName");
-          fullname = firstName + " " + lastName;
+          final StringBuilder n = new StringBuilder();
+          if (firstName != null && firstName.length() > 0) {
+            n.append(firstName);
+          }
+          if (lastName != null && lastName.length() > 0) {
+            if (n.length() > 0) {
+              n.append(' ');
+            }
+            n.append(lastName);
+          }
+          fullname = n.length() > 0 ? n.toString() : null;
           email = fetchRsp.getAttributeValue("Email");
         }
 

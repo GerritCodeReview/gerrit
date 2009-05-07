@@ -14,8 +14,7 @@
 
 package com.google.gerrit.client.patches;
 
-import com.google.gerrit.client.data.SideBySidePatchDetail;
-import com.google.gerrit.client.data.UnifiedPatchDetail;
+import com.google.gerrit.client.data.PatchScript;
 import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.Patch;
@@ -30,14 +29,11 @@ import java.util.List;
 import java.util.Set;
 
 public interface PatchDetailService extends RemoteJsonService {
-  void sideBySidePatchDetail(Patch.Key key, List<PatchSet.Id> versions,
-      AsyncCallback<SideBySidePatchDetail> callback);
+  void patchScript(Patch.Key key, PatchSet.Id a, PatchSet.Id b, int context,
+      AsyncCallback<PatchScript> callback);
 
-  void unifiedPatchDetail(Patch.Key key,
-      AsyncCallback<UnifiedPatchDetail> callback);
-
-  @SignInRequired
-  void myDrafts(Patch.Key key, AsyncCallback<List<PatchLineComment>> callback);
+  void patchComments(Patch.Key key, PatchSet.Id a, PatchSet.Id b,
+      AsyncCallback<CommentDetail> callback);
 
   @SignInRequired
   void saveDraft(PatchLineComment comment,

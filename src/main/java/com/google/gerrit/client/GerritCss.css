@@ -314,16 +314,20 @@
   color: grey;
   font-weight: bold;
 }
+.gerrit-PatchContentTable .DiffText-NO_LF {
+  color: grey;
+  font-weight: bold;
+}
 .gerrit-PatchContentTable .DiffText-HUNK_HEADER {
   color: blue;
 }
-.gerrit-PatchContentTable .DiffText-PRE_IMAGE {
+.gerrit-PatchContentTable .DiffText-DELETE {
   color: #a00000;
 }
 .gerrit-PatchContentTable .DiffText-CONTEXT {
   color: grey;
 }
-.gerrit-PatchContentTable .DiffText-POST_IMAGE {
+.gerrit-PatchContentTable .DiffText-INSERT {
   color: #006000;
 }
 
@@ -403,7 +407,7 @@
 .gerrit-PatchContentTable .FileLine-DELETE {
   background: #ffeeee;
 }
-.gerrit-PatchContentTable .FileLine-EQUAL {
+.gerrit-PatchContentTable .FileLine-CONTEXT {
 }
 .gerrit-PatchContentTable .FileLine-INSERT {
   background: #ddffdd;
@@ -656,6 +660,13 @@
   font-size: 8pt;
 }
 
+.gerrit-PatchNoDifference {
+  margin-top: 1em;
+  margin-bottom: 2em;
+  margin-left: 1em;
+  margin-right: 5em;
+  font-weight: bold;
+}
 
 /** Patch History Table **/
 .gerrit-PatchHistoryTable {

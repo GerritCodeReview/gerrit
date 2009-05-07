@@ -15,9 +15,9 @@
 package com.google.gerrit.server.patch;
 
 import com.google.gerrit.client.data.ApprovalType;
+import com.google.gerrit.client.data.PatchScript;
 import com.google.gerrit.client.data.ProjectCache;
-import com.google.gerrit.client.data.SideBySidePatchDetail;
-import com.google.gerrit.client.data.UnifiedPatchDetail;
+import com.google.gerrit.client.patches.CommentDetail;
 import com.google.gerrit.client.patches.PatchDetailService;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
@@ -67,34 +67,28 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
     server = gs;
   }
 
-  public void sideBySidePatchDetail(final Patch.Key key,
-      final List<PatchSet.Id> versions,
-      final AsyncCallback<SideBySidePatchDetail> callback) {
+  public void patchScript(final Patch.Key patchKey, final PatchSet.Id psa,
+      final PatchSet.Id psb, final int ctx,
+      final AsyncCallback<PatchScript> callback) {
+    if (psb == null) {
+      callback.onFailure(new NoSuchEntityException());
+      return;
+    }
     final RepositoryCache rc = server.getRepositoryCache();
     if (rc == null) {
       callback.onFailure(new Exception("No Repository Cache configured"));
       return;
     }
-    run(callback, new SideBySidePatchDetailAction(rc, key, versions));
+    run(callback, new PatchScriptAction(server, rc, patchKey, psa, psb, ctx));
   }
 
-  public void unifiedPatchDetail(final Patch.Key key,
-      final AsyncCallback<UnifiedPatchDetail> callback) {
-    final RepositoryCache rc = server.getRepositoryCache();
-    if (rc == null) {
-      callback.onFailure(new Exception("No Repository Cache configured"));
+  public void patchComments(final Patch.Key patchKey, final PatchSet.Id psa,
+      final PatchSet.Id psb, final AsyncCallback<CommentDetail> callback) {
+    if (psb == null) {
+      callback.onFailure(new NoSuchEntityException());
       return;
     }
-    run(callback, new UnifiedPatchDetailAction(rc, key));
-  }
-
-  public void myDrafts(final Patch.Key key,
-      final AsyncCallback<List<PatchLineComment>> callback) {
-    run(callback, new Action<List<PatchLineComment>>() {
-      public List<PatchLineComment> run(ReviewDb db) throws OrmException {
-        return db.patchComments().draft(key, Common.getAccountId()).toList();
-      }
-    });
+    run(callback, new PatchCommentAction(patchKey, psa, psb));
   }
 
   public void saveDraft(final PatchLineComment comment,

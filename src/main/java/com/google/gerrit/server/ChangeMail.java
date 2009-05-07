@@ -267,7 +267,11 @@ public class ChangeMail {
 
           final Patch p = patches.get(pk);
           if (p != null && repo != null) {
-            file = new PatchFile(repo, db, p);
+            try {
+              file = new PatchFile(repo, patchSet.getRevision(), p);
+            } catch (Throwable e) {
+              // Don't quote the line if we can't load it.
+            }
           } else {
             file = null;
           }

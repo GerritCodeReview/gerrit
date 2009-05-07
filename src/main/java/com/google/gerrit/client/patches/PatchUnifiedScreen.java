@@ -14,40 +14,15 @@
 
 package com.google.gerrit.client.patches;
 
-import com.google.gerrit.client.data.UnifiedPatchDetail;
 import com.google.gerrit.client.reviewdb.Patch;
-import com.google.gerrit.client.rpc.ScreenLoadCallback;
 
 public class PatchUnifiedScreen extends PatchScreen {
-  private UnifiedDiffTable diffTable;
-
   public PatchUnifiedScreen(final Patch.Key id) {
     super(id);
   }
 
   @Override
-  public void onLoad() {
-    super.onLoad();
-    PatchUtil.DETAIL_SVC.unifiedPatchDetail(patchId,
-        new ScreenLoadCallback<UnifiedPatchDetail>(this) {
-          @Override
-          protected void preDisplay(final UnifiedPatchDetail r) {
-            display(r);
-          }
-        });
-  }
-
-  @Override
-  protected void onInitUI() {
-    super.onInitUI();
-    diffTable = new UnifiedDiffTable();
-    add(diffTable);
-  }
-
-  private void display(final UnifiedPatchDetail detail) {
-    diffTable.setPatchKey(detail.getPatch().getKey());
-    diffTable.setAccountInfoCache(detail.getAccounts());
-    diffTable.display(detail.getLines());
-    diffTable.finishDisplay(true);
+  protected UnifiedDiffTable createPatchTable() {
+    return new UnifiedDiffTable();
   }
 }

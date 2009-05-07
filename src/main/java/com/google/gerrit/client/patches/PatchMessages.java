@@ -21,7 +21,6 @@ import java.util.Date;
 public interface PatchMessages extends Messages {
   String patchWindowTitle(int id, String file);
   String patchPageTitle(int id, String path);
-  String patchHeaderAncestor(int id);
   String patchSkipRegion(@PluralCount int lineCnt);
   String draftSaved(Date when);
 }

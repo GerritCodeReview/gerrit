@@ -12,27 +12,32 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.data;
+package com.google.gerrit.client.patches;
 
-import com.google.gerrit.client.reviewdb.PatchLineComment;
-
-import java.util.ArrayList;
-import java.util.List;
-
-public abstract class LineWithComments {
-  protected List<PatchLineComment> comments;
-
-  protected LineWithComments() {
+class PatchLine {
+  static enum Type {
+    DELETE, INSERT, REPLACE, CONTEXT;
   }
 
-  public List<PatchLineComment> getComments() {
-    return comments;
+  private PatchLine.Type type;
+  private int lineA;
+  private int lineB;
+
+  PatchLine(final PatchLine.Type t, final int a, final int b) {
+    type = t;
+    lineA = a;
+    lineB = b;
   }
 
-  public void addComment(final PatchLineComment plc) {
-    if (comments == null) {
-      comments = new ArrayList<PatchLineComment>(4);
-    }
-    comments.add(plc);
+  PatchLine.Type getType() {
+    return type;
+  }
+
+  int getLineA() {
+    return lineA;
+  }
+
+  int getLineB() {
+    return lineB;
   }
 }

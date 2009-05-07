@@ -14,60 +14,49 @@
 
 package com.google.gerrit.client.patches;
 
-import com.google.gerrit.client.data.SideBySideLine;
-import com.google.gerrit.client.data.SideBySidePatchDetail;
+import static com.google.gerrit.client.patches.PatchLine.Type.CONTEXT;
+import static com.google.gerrit.client.patches.PatchLine.Type.DELETE;
+import static com.google.gerrit.client.patches.PatchLine.Type.INSERT;
+import static com.google.gerrit.client.patches.PatchLine.Type.REPLACE;
+
+import com.google.gerrit.client.data.PatchScript;
+import com.google.gerrit.client.data.SparseFileContent;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
-import com.google.gerrit.client.ui.ComplexDisclosurePanel;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.InlineLabel;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 public class SideBySideTable extends AbstractPatchContentTable {
-  private int fileCnt;
-  private int maxLineNumber;
-
-  protected int getFileCount() {
-    return fileCnt;
-  }
-
-  protected String getFileTitle(int file) {
-    return table.getText(0, 1 + file * 2 + 1);
-  }
+  private static final int COL_A = 2;
+  private static final int COL_B = 4;
 
   @Override
   protected void onCellDoubleClick(final int row, int column) {
-    if (column > 0 && getRowItem(row) instanceof SideBySideLineList) {
-      final SideBySideLineList pl = (SideBySideLineList) getRowItem(row);
+    if (column > 0 && getRowItem(row) instanceof PatchLine) {
+      final PatchLine line = (PatchLine) getRowItem(row);
       final short file = (short) ((column - 1) / 2);
       if (column < (1 + file * 2 + 1)) {
         column++;
       }
-
-      final SideBySideLine line = pl.lines.get(file);
-      switch (line.getType()) {
-        case DELETE:
-        case EQUAL:
-        case INSERT: {
-          createCommentEditor(row + 1, column, line.getLineNumber(), file);
+      switch (file) {
+        case 0:
+          createCommentEditor(row + 1, column, line.getLineA(), file);
           break;
-        }
+        case 1:
+          createCommentEditor(row + 1, column, line.getLineB(), file);
+          break;
       }
     }
   }
 
   @Override
   protected void onOpenItem(final Object item) {
-    if (item instanceof SideBySideLineList) {
-      final SideBySideLineList pl = (SideBySideLineList) item;
-      final short file = (short) (pl.lines.size() - 1);
+    if (item instanceof PatchLine) {
+      final PatchLine line = (PatchLine) item;
       final int row = getCurrentRow();
-      final int column = 1 + file * 2 + 1;
-      final SideBySideLine line = pl.lines.get(file);
-      createCommentEditor(row + 1, column, line.getLineNumber(), file);
+      createCommentEditor(row + 1, 4, line.getLineB(), (short) 1);
       return;
     }
 
@@ -75,136 +64,122 @@ public class SideBySideTable extends AbstractPatchContentTable {
   }
 
   @Override
-  protected void bindDrafts(final List<PatchLineComment> drafts) {
-    int[] rows = new int[fileCnt];
-    for (final PatchLineComment c : drafts) {
-      final int side = fileFor(c);
-      if (side < 0 || fileCnt <= side) {
-        // We shouldn't have been given this draft; it doesn't display
-        // in our current UI layout.
-        //
-        continue;
+  protected void render(final PatchScript script) {
+    final SparseFileContent a = script.getA();
+    final SparseFileContent b = script.getB();
+    final ArrayList<PatchLine> lines = new ArrayList<PatchLine>();
+    final SafeHtmlBuilder nc = new SafeHtmlBuilder();
+
+    appendHeader(nc);
+    lines.add(null);
+
+    int lastB = 0;
+    for (final PatchScript.Hunk hunk : script.getHunks()) {
+      if (!hunk.isStartOfFile()) {
+        appendSkipLine(nc, hunk.getCurB() - lastB);
+        lines.add(null);
       }
-      int row = rows[side];
-      while (row < table.getRowCount()) {
-        if (getRowItem(row) instanceof SideBySideLineList) {
-          final SideBySideLineList pl = (SideBySideLineList) getRowItem(row);
-          final SideBySideLine line = pl.lines.get(side);
-          if (line != null && line.getLineNumber() >= c.getLine()) {
-            break;
+
+      while (hunk.hasNextLine()) {
+        if (hunk.isContextLine()) {
+          openLine(nc);
+          appendLineText(nc, hunk.getCurA(), CONTEXT, a, hunk.getCurA());
+          appendLineText(nc, hunk.getCurB(), CONTEXT, a, hunk.getCurA());
+          closeLine(nc);
+          hunk.incBoth();
+          lines.add(new PatchLine(CONTEXT, hunk.getCurA(), hunk.getCurB()));
+
+        } else if (hunk.isModifiedLine()) {
+          final boolean del = hunk.isDeletedA();
+          final boolean ins = hunk.isInsertedB();
+          openLine(nc);
+
+          if (del) {
+            appendLineText(nc, hunk.getCurA(), DELETE, a, hunk.getCurA());
+            hunk.incA();
+          } else {
+            appendLineNone(nc);
+          }
+
+          if (ins) {
+            appendLineText(nc, hunk.getCurB(), INSERT, b, hunk.getCurB());
+            hunk.incB();
+          } else {
+            appendLineNone(nc);
+          }
+
+          closeLine(nc);
+
+          if (del && ins) {
+            lines.add(new PatchLine(REPLACE, hunk.getCurA(), hunk.getCurB()));
+          } else if (del) {
+            lines.add(new PatchLine(DELETE, hunk.getCurA(), 0));
+          } else if (ins) {
+            lines.add(new PatchLine(INSERT, 0, hunk.getCurB()));
           }
         }
-        row++;
+
+        hunk.next();
       }
-      row++;
-      boolean needInsert = true;
-      for (int cell = 0; cell < table.getCellCount(row); cell++) {
-        final Widget w = table.getWidget(row, cell);
-        if (w instanceof CommentEditorPanel
-            || w instanceof ComplexDisclosurePanel) {
-          needInsert = false;
-          break;
-        }
-      }
-      if (needInsert) {
-        table.insertRow(row);
-        table.getCellFormatter().setStyleName(row, 0, S_ICON_CELL);
-      }
-      bindComment(row, 1 + side * 2 + 1, c, true);
-      rows[side] = row + 1;
+      lastB = hunk.getCurB();
     }
-  }
-
-  public void display(final SideBySidePatchDetail detail) {
-    setPatchKey(detail.getPatch().getKey());
-    initVersions(detail.getFileCount());
-    setAccountInfoCache(detail.getAccounts());
-    fileCnt = detail.getFileCount();
-    maxLineNumber = detail.getLineCount();
-
-    List<SideBySideLine> prior = null;
-
-    // Generate the table in HTML, because its quicker than by DOM.
-    // This pass does not include the line comments; they need full
-    // GWT widgets and are relatively infrequent. We do them later.
-    //
-    final SafeHtmlBuilder nc = new SafeHtmlBuilder();
-    appendHeader(nc);
-    for (final List<SideBySideLine> pLine : detail.getLines()) {
-      if (skipped(prior, pLine) > 0) {
-        appendSkipLine(nc);
-      }
-      prior = pLine;
-      appendFileLine(nc, pLine);
-    }
-    if (skipped(prior, null) > 0) {
-      appendSkipLine(nc);
+    if (lastB != b.size()) {
+      appendSkipLine(nc, b.size() - lastB);
     }
     resetHtml(nc);
 
-    // Insert the comment widgets now that the table DOM has been
-    // parsed out of the HTML by the browser. We also bind each
-    // of the row item objects.
-    //
-    int row = 1;
-    prior = null;
-    for (final List<SideBySideLine> pLine : detail.getLines()) {
-      final int skipCnt = skipped(prior, pLine);
-      if (skipCnt > 0) {
-        bindSkipLine(row, skipCnt);
-        row++;
-      }
-      prior = pLine;
-
-      setRowItem(row, new SideBySideLineList(pLine));
-
-      final int lineRow = row;
-      for (int fileId = 0; fileId < fileCnt; fileId++) {
-        final SideBySideLine s = pLine.get(fileId);
-        if (s == null) {
-          continue;
-        }
-
-        final List<PatchLineComment> comments = s.getComments();
-        if (comments == null) {
-          continue;
-        }
-
-        int commentRow = lineRow + 1;
-        for (Iterator<PatchLineComment> ci = comments.iterator(); ci.hasNext();) {
-          final PatchLineComment c = ci.next();
-          boolean needInsert = true;
-          if (commentRow < table.getRowCount()) {
-            for (int cell = 0; cell < table.getCellCount(commentRow); cell++) {
-              final Widget w = table.getWidget(commentRow, cell);
-              if (w instanceof CommentEditorPanel
-                  || w instanceof ComplexDisclosurePanel) {
-                needInsert = false;
-                break;
-              }
-            }
-          }
-          if (needInsert) {
-            table.insertRow(commentRow);
-            table.getCellFormatter().setStyleName(commentRow, 0, S_ICON_CELL);
-          }
-          table.setWidget(commentRow, 1 + 2 * fileId, null);
-          bindComment(commentRow, 1 + 2 * fileId + 1, c, !ci.hasNext());
-          commentRow++;
-        }
-        row = Math.max(row, commentRow - 1);
-      }
-      row++;
-    }
-    final int skipCnt = skipped(prior, null);
-    if (skipCnt > 0) {
-      bindSkipLine(row, skipCnt);
-      row++;
+    for (int row = 0; row < lines.size(); row++) {
+      setRowItem(row, lines.get(row));
     }
   }
 
+  @Override
+  public void display(final CommentDetail cd) {
+    if (cd.isEmpty()) {
+      return;
+    }
+    setAccountInfoCache(cd.getAccounts());
+
+    for (int row = 0; row < table.getRowCount();) {
+      if (getRowItem(row) instanceof PatchLine) {
+        final PatchLine pLine = (PatchLine) getRowItem(row);
+        final List<PatchLineComment> fora = cd.getForA(pLine.getLineA());
+        final List<PatchLineComment> forb = cd.getForB(pLine.getLineB());
+        row++;
+
+        final Iterator<PatchLineComment> ai = fora.iterator();
+        final Iterator<PatchLineComment> bi = forb.iterator();
+        while (ai.hasNext() && bi.hasNext()) {
+          final PatchLineComment ac = ai.next();
+          final PatchLineComment bc = bi.next();
+          table.insertRow(row);
+          table.getCellFormatter().setStyleName(row, 0, S_ICON_CELL);
+          bindComment(row, COL_A, ac, !ai.hasNext());
+          bindComment(row, COL_B, bc, !bi.hasNext());
+          row++;
+        }
+
+        row = finish(ai, row, COL_A);
+        row = finish(bi, row, COL_B);
+      } else {
+        row++;
+      }
+    }
+  }
+
+  private int finish(final Iterator<PatchLineComment> i, int row, final int col) {
+    while (i.hasNext()) {
+      final PatchLineComment c = i.next();
+      table.insertRow(row);
+      table.getCellFormatter().setStyleName(row, 0, S_ICON_CELL);
+      bindComment(row, col, c, !i.hasNext());
+      row++;
+    }
+    return row;
+  }
+
+
   private void appendHeader(final SafeHtmlBuilder m) {
-    final String width = (100 / fileCnt) + "%";
     m.openTr();
 
     m.openTd();
@@ -212,34 +187,6 @@ public class SideBySideTable extends AbstractPatchContentTable {
     m.addStyleName("FileColumnHeader");
     m.nbsp();
     m.closeTd();
-
-    if (fileCnt == 2) {
-      m.openTd();
-      m.addStyleName("FileColumnHeader");
-      m.addStyleName("LineNumber");
-      m.nbsp();
-      m.closeTd();
-
-      m.openTd();
-      m.setStyleName("FileColumnHeader");
-      m.setAttribute("width", width);
-      m.append(PatchUtil.C.patchHeaderOld());
-      m.closeTd();
-    } else {
-      for (int fileId = 0; fileId < fileCnt - 1; fileId++) {
-        m.openTd();
-        m.addStyleName("FileColumnHeader");
-        m.addStyleName("LineNumber");
-        m.nbsp();
-        m.closeTd();
-
-        m.openTd();
-        m.setStyleName("FileColumnHeader");
-        m.setAttribute("width", width);
-        m.append(PatchUtil.M.patchHeaderAncestor(fileId + 1));
-        m.closeTd();
-      }
-    }
 
     m.openTd();
     m.addStyleName("FileColumnHeader");
@@ -249,59 +196,26 @@ public class SideBySideTable extends AbstractPatchContentTable {
 
     m.openTd();
     m.setStyleName("FileColumnHeader");
-    m.setAttribute("width", width);
+    m.setAttribute("width", "50%");
+    m.append(PatchUtil.C.patchHeaderOld());
+    m.closeTd();
+
+    m.openTd();
+    m.addStyleName("FileColumnHeader");
+    m.addStyleName("LineNumber");
+    m.nbsp();
+    m.closeTd();
+
+    m.openTd();
+    m.setStyleName("FileColumnHeader");
+    m.setAttribute("width", "50%");
     m.append(PatchUtil.C.patchHeaderNew());
     m.closeTd();
 
     m.closeTr();
   }
 
-  private int skipped(List<SideBySideLine> prior,
-      final List<SideBySideLine> pLine) {
-    int existCnt = 0;
-    int gapCnt = 0;
-    int lines = 0;
-
-    if (prior != null && pLine != null) {
-      for (int i = 0; i < fileCnt; i++) {
-        final SideBySideLine ps = prior.get(i);
-        final SideBySideLine cs = pLine.get(i);
-        if (ps != null && cs != null) {
-          existCnt++;
-          if (ps.getLineNumber() + 1 != cs.getLineNumber()) {
-            lines =
-                Math.max(lines, cs.getLineNumber() - ps.getLineNumber() - 1);
-            gapCnt++;
-          }
-        }
-      }
-    } else if (prior != null) {
-      for (int i = 0; i < fileCnt; i++) {
-        final SideBySideLine ps = prior.get(i);
-        if (ps != null) {
-          existCnt++;
-          if (ps.getLineNumber() < maxLineNumber) {
-            lines = Math.max(lines, maxLineNumber - ps.getLineNumber() - 1);
-            gapCnt++;
-          }
-        }
-      }
-    } else {
-      for (int i = 0; i < fileCnt; i++) {
-        final SideBySideLine cs = pLine.get(i);
-        if (cs != null) {
-          existCnt++;
-          if (1 != cs.getLineNumber()) {
-            lines = Math.max(lines, cs.getLineNumber() - 1);
-            gapCnt++;
-          }
-        }
-      }
-    }
-    return existCnt == gapCnt ? lines : 0;
-  }
-
-  private void appendSkipLine(final SafeHtmlBuilder m) {
+  private void appendSkipLine(final SafeHtmlBuilder m, final int skipCnt) {
     m.openTr();
 
     m.openTd();
@@ -311,19 +225,13 @@ public class SideBySideTable extends AbstractPatchContentTable {
 
     m.openTd();
     m.setStyleName("SkipLine");
-    m.setAttribute("colspan", fileCnt * 2);
+    m.setAttribute("colspan", 4);
+    m.append(PatchUtil.M.patchSkipRegion(skipCnt));
     m.closeTd();
     m.closeTr();
   }
 
-  private void bindSkipLine(int row, final int skipCnt) {
-    final FlowPanel skipPanel = new FlowPanel();
-    skipPanel.add(new InlineLabel(PatchUtil.M.patchSkipRegion(skipCnt)));
-    table.setWidget(row, 1, skipPanel);
-  }
-
-  private void appendFileLine(final SafeHtmlBuilder m,
-      final List<SideBySideLine> line) {
+  private void openLine(final SafeHtmlBuilder m) {
     m.openTr();
     m.setAttribute("valign", "top");
 
@@ -331,55 +239,44 @@ public class SideBySideTable extends AbstractPatchContentTable {
     m.setStyleName(S_ICON_CELL);
     m.nbsp();
     m.closeTd();
-
-    for (int fileId = 0; fileId < fileCnt; fileId++) {
-      final SideBySideLine s = line.get(fileId);
-      if (s != null) {
-        m.openTd();
-        m.setStyleName("LineNumber");
-        m.append(s.getLineNumber());
-        m.closeTd();
-
-        m.openTd();
-        m.addStyleName("FileLine");
-        m.addStyleName("FileLine-" + s.getType().name());
-        if (!"".equals(s.getText())) {
-          boolean showWhitespaceErrors = false;
-          if (fileId == fileCnt - 1
-              && s.getType() == SideBySideLine.Type.INSERT) {
-            // Only show whitespace errors in the last column, and
-            // only if the line is introduced here.
-            //
-            showWhitespaceErrors = true;
-          }
-          m.append(PatchUtil.lineToSafeHtml(s.getText(),
-              PatchUtil.DEFAULT_LINE_LENGTH, showWhitespaceErrors));
-        } else {
-          m.nbsp();
-        }
-        m.closeTd();
-      } else {
-        m.openTd();
-        m.setStyleName("LineNumber");
-        m.nbsp();
-        m.closeTd();
-
-        m.openTd();
-        m.addStyleName("FileLine");
-        m.addStyleName("FileLineNone");
-        m.nbsp();
-        m.closeTd();
-      }
-    }
-
-    m.closeTr();
   }
 
-  private static class SideBySideLineList {
-    final List<SideBySideLine> lines;
+  private void appendLineText(final SafeHtmlBuilder m,
+      final int lineNumberMinusOne, final PatchLine.Type type,
+      final SparseFileContent src, final int i) {
+    m.openTd();
+    m.setStyleName("LineNumber");
+    m.append(lineNumberMinusOne + 1);
+    m.closeTd();
 
-    SideBySideLineList(final List<SideBySideLine> a) {
-      lines = a;
+    m.openTd();
+    m.addStyleName("FileLine");
+    m.addStyleName("FileLine-" + type.name());
+    final String text = src.get(i);
+    if ("".equals(text)) {
+      m.nbsp();
+    } else {
+      final boolean ws = type == INSERT;
+      m.append(PatchUtil
+          .lineToSafeHtml(text, PatchUtil.DEFAULT_LINE_LENGTH, ws));
     }
+    m.closeTd();
+  }
+
+  private void appendLineNone(final SafeHtmlBuilder m) {
+    m.openTd();
+    m.setStyleName("LineNumber");
+    m.nbsp();
+    m.closeTd();
+
+    m.openTd();
+    m.addStyleName("FileLine");
+    m.addStyleName("FileLineNone");
+    m.nbsp();
+    m.closeTd();
+  }
+
+  private void closeLine(final SafeHtmlBuilder m) {
+    m.closeTr();
   }
 }

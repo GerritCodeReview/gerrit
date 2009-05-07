@@ -19,10 +19,10 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.SignedInListener;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.data.AccountInfoCache;
+import com.google.gerrit.client.data.PatchScript;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.reviewdb.PatchSet;
-import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.ComplexDisclosurePanel;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gwt.user.client.DOM;
@@ -41,21 +41,13 @@ public abstract class AbstractPatchContentTable extends FancyFlexTable<Object> {
   private static final long AGE = 7 * 24 * 60 * 60 * 1000L;
   protected AccountInfoCache accountCache = AccountInfoCache.empty();
   protected Patch.Key patchKey;
-  protected List<PatchSet.Id> versions;
+  protected PatchSet.Id idSideA;
+  protected PatchSet.Id idSideB;
+
   private final Timestamp aged =
       new Timestamp(System.currentTimeMillis() - AGE);
   private final SignedInListener signedInListener = new SignedInListener() {
     public void onSignIn() {
-      if (patchKey != null) {
-        PatchUtil.DETAIL_SVC.myDrafts(patchKey,
-            new GerritCallback<List<PatchLineComment>>() {
-              public void onSuccess(final List<PatchLineComment> result) {
-                if (!result.isEmpty()) {
-                  bindDrafts(result);
-                }
-              }
-            });
-      }
     }
 
     public void onSignOut() {
@@ -93,6 +85,18 @@ public abstract class AbstractPatchContentTable extends FancyFlexTable<Object> {
     super.onUnload();
   }
 
+  public void display(final Patch.Key k, final PatchSet.Id a,
+      final PatchSet.Id b, final PatchScript s) {
+    patchKey = k;
+    idSideA = a;
+    idSideB = b;
+    render(s);
+  }
+
+  protected abstract void render(PatchScript script);
+
+  public abstract void display(CommentDetail comments);
+
   @Override
   protected MyFlexTable createFlexTable() {
     return new DoubleClickFlexTable();
@@ -128,46 +132,6 @@ public abstract class AbstractPatchContentTable extends FancyFlexTable<Object> {
 
   /** Invoked when the user clicks on a table cell. */
   protected abstract void onCellDoubleClick(int row, int column);
-
-  protected abstract void bindDrafts(List<PatchLineComment> drafts);
-
-  protected void initVersions(int fileCnt) {
-    if (versions == null) {
-      versions = new ArrayList<PatchSet.Id>();
-      for (int file = 0; file < fileCnt - 1; file++) {
-        versions.add(PatchSet.BASE);
-      }
-      versions.add(patchKey.getParentKey());
-    }
-  }
-
-  protected List<PatchSet.Id> getVersions() {
-    return versions;
-  }
-
-  protected PatchSet.Id getVersion(final int fileId) {
-    return versions.get(fileId);
-  }
-
-  protected void setVersion(final int fileId, final PatchSet.Id v) {
-    versions.set(fileId, v);
-  }
-
-  protected int fileFor(final PatchLineComment c) {
-    int fileId;
-    for (fileId = 0; fileId < versions.size(); fileId++) {
-      final PatchSet.Id i = versions.get(fileId);
-      if (PatchSet.BASE.equals(i) && c.getSide() == fileId
-          && patchKey.equals(c.getKey().getParentKey())) {
-        break;
-      }
-      if (c.getSide() == versions.size() - 1
-          && i.equals(c.getKey().getParentKey().getParentKey())) {
-        break;
-      }
-    }
-    return fileId;
-  }
 
   protected void createCommentEditor(final int suggestRow, final int column,
       final int line, final short file) {
@@ -205,13 +169,24 @@ public abstract class AbstractPatchContentTable extends FancyFlexTable<Object> {
 
     final Patch.Key parentKey;
     final short side;
-    if (PatchSet.BASE.equals(getVersion(file))) {
-      parentKey = patchKey;
-      side = file;
-    } else {
-      parentKey = new Patch.Key(getVersion(file), patchKey.get());
-      side = (short) 1;
+    switch (file) {
+      case 0:
+        if (idSideA == null) {
+          parentKey = new Patch.Key(idSideB, patchKey.get());
+          side = (short) 0;
+        } else {
+          parentKey = new Patch.Key(idSideA, patchKey.get());
+          side = (short) 1;
+        }
+        break;
+      case 1:
+        parentKey = new Patch.Key(idSideB, patchKey.get());
+        side = (short) 1;
+        break;
+      default:
+        throw new RuntimeException("unexpected file id " + file);
     }
+
     final PatchLineComment newComment =
         new PatchLineComment(new PatchLineComment.Key(parentKey, null), line,
             Gerrit.getUserAccount().getId());
@@ -285,10 +260,6 @@ public abstract class AbstractPatchContentTable extends FancyFlexTable<Object> {
     accountCache = aic;
   }
 
-  public void setPatchKey(final Patch.Key id) {
-    patchKey = id;
-  }
-
   static void destroyEditor(final FlexTable table, final int row, final int col) {
     table.clearCell(row, col);
     final int span = table.getFlexCellFormatter().getRowSpan(row, col);
@@ -326,24 +297,9 @@ public abstract class AbstractPatchContentTable extends FancyFlexTable<Object> {
   protected void bindComment(final int row, final int col,
       final PatchLineComment line, final boolean isLast) {
     if (line.getStatus() == PatchLineComment.Status.DRAFT) {
-      boolean takeFocus = false;
-      if (row + 1 < table.getRowCount() && col < table.getCellCount(row + 1)
-          && table.getWidget(row + 1, col) instanceof CommentEditorPanel
-          && ((CommentEditorPanel) table.getWidget(row + 1, col)).isNew()) {
-        // Assume the second panel is a new one created while logging in;
-        // this line is from the myDrafts callback and we discovered we
-        // already have a draft at this location. We want to destroy the
-        // dummy editor and keep the real one.
-        //
-        destroyEditor(table, row + 1, col);
-        takeFocus = true;
-      }
       final CommentEditorPanel plc = new CommentEditorPanel(line);
       table.setWidget(row, col, plc);
       table.getFlexCellFormatter().setStyleName(row, col, "Comment");
-      if (takeFocus) {
-        plc.setFocus(true);
-      }
       return;
     }
 

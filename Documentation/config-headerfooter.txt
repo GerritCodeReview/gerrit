@@ -54,9 +54,31 @@ will result in 404 Not Found responses.)
 HTTP Caching
 ------------
 
-Assets under `$site_path` are always served with a 5 minute expire,
-permitting some (limited) caching.  It may take up to 5 minutes
-after Gerrit restart before clients see the changes.
+The header, footer, and CSS files are inlined into the host page,
+which is always sent with a no-cache header.  Clients will see any
+changes immediately after the Gerrit server has been restarted.
+
+Assets under `$site_path/static` whose file name matches one of the
+following patterns are served with a 1 year expiration, permitting
+very aggressive caching by clients and edge-proxies:
+
+ * `*.cache.html`
+ * `*.cache.gif`
+ * `*.cache.png`
+ * `*.cache.css`
+ * `*.cache.jar`
+ * `*.cache.swf`
+
+All other assets under `$site_path/static` are served with a 5
+minute expire, permitting some (limited) caching.  It may take up
+to 5 minutes after Gerrit restart before clients see the changes.
+
+It is recommended that static images used in the site header
+or footer be named with a unique caching file name, for example
+`my_logo1.cache.png`, to allow browsers to take advantage of their
+disk cache.  If the image needs to be modified, create a new file,
+`my_logo2.cache.png` and update the header (or footer) HTML to
+reference the new image path.
 
 Google Analytics Integration
 ----------------------------

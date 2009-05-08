@@ -113,9 +113,9 @@ Please consult the Google Analytics documentation for the correct
 setup code (the first two script tags).  The above is shown only
 as a reference example.
 
-If your footer is otherwise empty, ensure you wrap all of the script
-tags in a single `<div>` tag to ensure it is a well-formed XHTML
-document file.
+If your footer is otherwise empty, wrap all of the script tags into
+a single `<div>` tag (like above) to ensure it is a well-formed
+XHTML document file.
 
 The global function `gerrit_addHistoryHook` accepts functions that
 accept a string parameter.  These functions are put into a list and

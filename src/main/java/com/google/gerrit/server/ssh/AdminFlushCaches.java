@@ -14,8 +14,10 @@
 
 package com.google.gerrit.server.ssh;
 
-import com.google.gerrit.client.reviewdb.SystemConfig.LoginType;
 import com.google.gerrit.client.rpc.Common;
+
+import net.sf.ehcache.Ehcache;
+import net.sf.ehcache.constructs.blocking.SelfPopulatingCache;
 
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
@@ -30,29 +32,35 @@ class AdminFlushCaches extends AbstractCommand {
     assertIsAdministrator();
     p = toPrintWriter(err);
     try {
+      final SelfPopulatingCache diffCache = getGerritServer().getDiffCache();
+
       Common.getGroupCache().flush();
       Common.getProjectCache().flush();
       Common.getAccountCache().flush();
 
-      if (Common.getGerritConfig().getLoginType() == LoginType.OPENID) {
-        flushCache("openid");
+      for (final Ehcache c : getGerritServer().getAllCaches()) {
+        final String name = c.getName();
+        if (diffCache.getName().equals(name)) {
+          continue;
+        }
+        try {
+          c.removeAll();
+        } catch (Throwable e) {
+          p.println("error: cannot flush cache \"" + name + "\": " + e);
+        }
       }
 
-      try {
-        getGerritServer().getDiffCache().flush();
-      } catch (Throwable e1) {
-        p.println("warning: cannot flush cache \"diff\": " + e1);
-      }
+      saveToDisk(diffCache);
     } finally {
       p.flush();
     }
   }
 
-  private void flushCache(final String name) {
+  private void saveToDisk(final Ehcache c) {
     try {
-      getGerritServer().getCache(name).removeAll();
-    } catch (Throwable e1) {
-      p.println("warning: cannot flush cache \"" + name + "\": " + e1);
+      c.flush();
+    } catch (Throwable e) {
+      p.println("warning: cannot save cache \"" + c.getName() + "\": " + e);
     }
   }
 }

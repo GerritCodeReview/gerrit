@@ -32,12 +32,14 @@ Local filesystem directory holding the site customization assets.
 Placing this directory under version control and/or backup is a
 good idea.
 
-SSH keys (`ssh_host_rsa_key`, `ssh_host_dsa_key`) in this directory
-provide the host keys for the internal SSH daemon.
+SSH key files (`ssh_host_rsa_key` and `ssh_host_dsa_key` or
+`ssh_host_key`) in this directory provide the host keys for the
+internal SSH daemon.
 
 Other files support site customization.
 
 * link:config-headerfooter.html[Site Header/Footer]
+* link:config-replication.html[Git Replication/Mirroring]
 
 git_base_path
 ~~~~~~~~~~~~~

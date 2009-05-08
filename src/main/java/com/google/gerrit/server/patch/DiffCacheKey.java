@@ -18,8 +18,8 @@ import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.Project;
 
 import org.spearce.jgit.lib.AnyObjectId;
-import org.spearce.jgit.lib.Constants;
 import org.spearce.jgit.lib.ObjectId;
+import org.spearce.jgit.lib.ObjectIdSerialization;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -27,7 +27,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 public final class DiffCacheKey implements Serializable {
-  private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 2L;
 
   private transient Project.NameKey projectKey;
   private transient ObjectId oldId;
@@ -107,7 +107,7 @@ public final class DiffCacheKey implements Serializable {
     if (a == null && b == null) {
       return true;
     }
-    return a != null && b != null ? a.equals(b) : false;
+    return a != null && b != null && AnyObjectId.equals(a, b);
   }
 
   private static boolean eq(final String a, final String b) {
@@ -139,36 +139,17 @@ public final class DiffCacheKey implements Serializable {
   }
 
   private void writeObject(final ObjectOutputStream out) throws IOException {
-    final byte[] idBuf = new byte[Constants.OBJECT_ID_LENGTH];
-
     out.writeUTF(projectKey.get());
-
-    out.writeBoolean(oldId != null);
-    if (oldId != null) {
-      oldId.copyRawTo(idBuf, 0);
-      out.write(idBuf);
-    }
-
-    newId.copyRawTo(idBuf, 0);
-    out.write(idBuf);
-
+    ObjectIdSerialization.write(out, oldId);
+    ObjectIdSerialization.write(out, newId);
     writeString(out, fileName);
     writeString(out, sourceFileName);
   }
 
   private void readObject(final ObjectInputStream in) throws IOException {
-    final byte[] idBuf = new byte[Constants.OBJECT_ID_LENGTH];
-
     projectKey = new Project.NameKey(in.readUTF());
-
-    if (in.readBoolean()) {
-      in.readFully(idBuf);
-      oldId = ObjectId.fromRaw(idBuf);
-    }
-
-    in.readFully(idBuf);
-    newId = ObjectId.fromRaw(idBuf);
-
+    oldId = ObjectIdSerialization.read(in);
+    newId = ObjectIdSerialization.read(in);
     fileName = readString(in);
     sourceFileName = readString(in);
   }

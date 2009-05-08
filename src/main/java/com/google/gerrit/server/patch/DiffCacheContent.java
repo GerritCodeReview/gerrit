@@ -18,8 +18,8 @@ import org.spearce.jgit.diff.Edit;
 import org.spearce.jgit.errors.IncorrectObjectTypeException;
 import org.spearce.jgit.errors.MissingObjectException;
 import org.spearce.jgit.lib.AbbreviatedObjectId;
-import org.spearce.jgit.lib.Constants;
 import org.spearce.jgit.lib.ObjectId;
+import org.spearce.jgit.lib.ObjectIdSerialization;
 import org.spearce.jgit.lib.Repository;
 import org.spearce.jgit.patch.CombinedFileHeader;
 import org.spearce.jgit.patch.FileHeader;
@@ -37,7 +37,7 @@ import java.util.Collections;
 import java.util.List;
 
 public final class DiffCacheContent implements Serializable {
-  private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 2L;
 
   public static DiffCacheContent create(final Repository db,
       final DiffCacheKey key, final FileHeader file)
@@ -130,8 +130,8 @@ public final class DiffCacheContent implements Serializable {
       return;
     }
 
-    writeId(out, oldId);
-    writeId(out, newId);
+    ObjectIdSerialization.write(out, oldId);
+    ObjectIdSerialization.write(out, newId);
 
     final int len = end(header) - header.getStartOffset();
     out.writeInt(len);
@@ -146,24 +146,14 @@ public final class DiffCacheContent implements Serializable {
     }
   }
 
-  private static void writeId(final ObjectOutputStream out, final ObjectId o)
-      throws IOException {
-    final byte[] idBuf = new byte[Constants.OBJECT_ID_LENGTH];
-    out.writeBoolean(o != null);
-    if (o != null) {
-      o.copyRawTo(idBuf, 0);
-      out.write(idBuf);
-    }
-  }
-
   private void readObject(final ObjectInputStream in) throws IOException {
     noDifference = in.readBoolean();
     if (noDifference) {
       return;
     }
 
-    oldId = readId(in);
-    newId = readId(in);
+    oldId = ObjectIdSerialization.read(in);
+    newId = ObjectIdSerialization.read(in);
 
     final byte[] buf = new byte[in.readInt()];
     in.readFully(buf);
@@ -178,15 +168,6 @@ public final class DiffCacheContent implements Serializable {
       final int endB = in.readInt();
       edits.add(new Edit(beginA, endA, beginB, endB));
     }
-  }
-
-  private static ObjectId readId(final ObjectInputStream in) throws IOException {
-    if (in.readBoolean()) {
-      final byte[] idBuf = new byte[Constants.OBJECT_ID_LENGTH];
-      in.readFully(idBuf);
-      return ObjectId.fromRaw(idBuf);
-    }
-    return null;
   }
 
   private static FileHeader parse(final byte[] buf) {

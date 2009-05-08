@@ -82,5 +82,10 @@ SSH authentication must be by passwordless public key, as there is
 no facility to read passphases on startup or passwords during the
 SSH connection setup.
 
+Host keys for any destination SSH servers must appear in the user's
+`~/.ssh/known_hosts` file, and must be added in advance, before
+Gerrit starts.  If a host key is not listed, Gerrit will be unable to
+connect to that destination, and replication to that URL will fail.
+
 Make sure you are replicating to a standard Git daemon or SSH
 daemon, and not to another Gerrit's internal SSHD.

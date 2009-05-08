@@ -127,6 +127,12 @@ abstract class AbstractCommand implements Command, SessionAware {
         val, false);
   }
 
+  protected void assertIsAdministrator() throws Failure {
+    if (!Common.getGroupCache().isAdministrator(getAccountId())) {
+      throw new Failure(1, "fatal: Not a Gerrit administrator");
+    }
+  }
+
   protected String getName() {
     return name;
   }

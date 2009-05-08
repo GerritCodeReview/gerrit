@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.ssh;
 
-import com.google.gerrit.client.data.GroupCache;
 import com.google.gerrit.client.reviewdb.SystemConfig.LoginType;
 import com.google.gerrit.client.rpc.Common;
 
@@ -24,27 +23,23 @@ import java.io.IOException;
 class AdminFlushCaches extends AbstractCommand {
   @Override
   protected void run(String[] args) throws Failure {
-    final GroupCache gc = Common.getGroupCache();
-    if (gc.isAdministrator(getAccountId())) {
-      gc.flush();
-      Common.getProjectCache().flush();
-      Common.getAccountCache().flush();
-      SshUtil.flush();
+    assertIsAdministrator();
 
-      if (Common.getGerritConfig().getLoginType() == LoginType.OPENID) {
-        flushCache("openid");
-      }
+    Common.getGroupCache().flush();
+    Common.getProjectCache().flush();
+    Common.getAccountCache().flush();
 
+    if (Common.getGerritConfig().getLoginType() == LoginType.OPENID) {
+      flushCache("openid");
+    }
+
+    try {
+      getGerritServer().getDiffCache().flush();
+    } catch (Throwable e1) {
       try {
-        getGerritServer().getDiffCache().flush();
-      } catch (Throwable e1) {
-        try {
-          err.write(("warning: " + err.toString()).getBytes("UTF-8"));
-        } catch (IOException e2) {
-        }
+        err.write(("warning: " + err.toString()).getBytes("UTF-8"));
+      } catch (IOException e2) {
       }
-    } else {
-      throw new Failure(1, "fatal: Not a Gerrit administrator");
     }
   }
 

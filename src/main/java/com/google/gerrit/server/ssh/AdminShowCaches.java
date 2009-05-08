@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.ssh;
 
-import com.google.gerrit.client.rpc.Common;
-
 import net.sf.ehcache.Ehcache;
 import net.sf.ehcache.Statistics;
 import net.sf.ehcache.config.CacheConfiguration;
@@ -32,9 +30,7 @@ class AdminShowCaches extends AbstractCommand {
 
   @Override
   protected void run(String[] args) throws Failure {
-    if (!Common.getGroupCache().isAdministrator(getAccountId())) {
-      throw new Failure(1, "fatal: Not a Gerrit administrator");
-    }
+    assertIsAdministrator();
 
     p = new PrintWriter(new BufferedWriter(new OutputStreamWriter(out)));
 

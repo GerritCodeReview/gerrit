@@ -15,10 +15,11 @@ Create a Git repository under `git_base_path`:
 ====
 
 [TIP]
-By tradition the project name should have a `.git` suffix.
+By tradition the repository directory name should have a `.git`
+suffix.
 
 To also make this repository available over the anonymous git://
-protocol, don't forget the git-daemon-export-ok file:
+protocol, don't forget to create a `git-daemon-export-ok` file:
 
 ====
   touch $git_base_path/new/project.git/git-daemon-export-ok
@@ -29,8 +30,8 @@ Register Project
 
 At least two inserts are needed to register a project with Gerrit:
 one to define the project exists, and another to define a branch
-that changes can be uploaded to.  Additional branches may be
-defined if desired.
+that changes can be uploaded to for code review.  Additional branches
+may be defined if desired.
 
 [NOTE]
 Note that the `.git` suffix is not typically included in the
@@ -63,8 +64,8 @@ for a project named `project`.
   ,'new/project');
 ====
 
-Change Submit Action
---------------------
+Change Submit Action (submit_type)
+----------------------------------
 
 The method Gerrit uses to submit a change to a project can be
 modified by any project owner through the project console, `Admin` >

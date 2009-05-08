@@ -17,7 +17,6 @@ package com.google.gerrit.git;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountExternalId;
 import com.google.gerrit.client.reviewdb.Patch;
-import com.google.gerrit.client.reviewdb.PatchContent;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.PatchSetAncestor;
 import com.google.gerrit.client.reviewdb.PatchSetInfo;
@@ -28,7 +27,6 @@ import com.google.gerrit.client.reviewdb.UserIdentity;
 import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.patch.DiffCacheContent;
 import com.google.gerrit.server.patch.DiffCacheKey;
-import com.google.gwtorm.client.OrmDuplicateKeyException;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.Transaction;
 
@@ -36,7 +34,6 @@ import net.sf.ehcache.Element;
 import net.sf.ehcache.constructs.blocking.SelfPopulatingCache;
 
 import org.spearce.jgit.lib.Commit;
-import org.spearce.jgit.lib.Constants;
 import org.spearce.jgit.lib.ObjectId;
 import org.spearce.jgit.lib.ObjectWriter;
 import org.spearce.jgit.lib.PersonIdent;
@@ -46,14 +43,11 @@ import org.spearce.jgit.patch.FileHeader;
 import org.spearce.jgit.revwalk.RevCommit;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -73,12 +67,9 @@ public class PatchSetImporter {
   private PatchSetInfo info;
   private boolean infoIsNew;
 
-  private final MessageDigest contentmd = Constants.newMessageDigest();
   private final Map<String, Patch> patchExisting = new HashMap<String, Patch>();
   private final List<Patch> patchInsert = new ArrayList<Patch>();
   private final List<Patch> patchUpdate = new ArrayList<Patch>();
-  private final Map<PatchContent.Key, String> content =
-      new HashMap<PatchContent.Key, String>();
 
   private final Map<Integer, PatchSetAncestor> ancestorExisting =
       new HashMap<Integer, PatchSetAncestor>();
@@ -131,10 +122,6 @@ public class PatchSetImporter {
     for (final FileHeader fh : gitpatch.getFiles()) {
       importFile(fh);
     }
-
-    // Ensure all content entities exist
-    //
-    putPatchContent();
 
     final boolean auto = txn == null;
     if (auto) {
@@ -211,8 +198,7 @@ public class PatchSetImporter {
     return u;
   }
 
-  private void importFile(final FileHeader fh)
-      throws UnsupportedEncodingException {
+  private void importFile(final FileHeader fh) {
     final String path;
     if (fh.getChangeType() == FileHeader.ChangeType.DELETE) {
       path = fh.getOldName();
@@ -261,48 +247,19 @@ public class PatchSetImporter {
       p.setPatchType(Patch.PatchType.BINARY);
     }
 
-    String contentStr = fh.getScriptText();
-    if (p.getPatchType() != Patch.PatchType.BINARY
-        && contentStr.indexOf('\0') >= 0) {
-      // Its really binary, but Git couldn't see the nul early enough
-      // to realize its binary, and instead produced the diff. Some
-      // databases (PostgreSQL) won't allow us to store a nul into a
-      // text field. Force it to be a binary; it really should have
-      // been that in the first place.
-      //
-      p.setPatchType(Patch.PatchType.BINARY);
-      final int lfatat = contentStr.indexOf("\n@@");
-      final StringBuilder b = new StringBuilder();
-      b.append(contentStr.substring(0, lfatat + 1));
-      b.append("Binary files ");
-      b.append(path);
-      b.append(" and ");
-      b.append(path);
-      b.append(" differ\n");
-      contentStr = b.toString();
-    }
-
-    // Hash the content.
-    //
-    contentmd.reset();
-    contentmd.update(contentStr.getBytes("UTF-8"));
-    final PatchContent.Key contentKey =
-        new PatchContent.Key(ObjectId.fromRaw(contentmd.digest()).name());
-    content.put(contentKey, contentStr);
-    p.setContent(contentKey);
-  }
-
-  private void putPatchContent() throws OrmException {
-    for (final Iterator<Map.Entry<PatchContent.Key, String>> i =
-        content.entrySet().iterator(); i.hasNext();) {
-      final Map.Entry<PatchContent.Key, String> e = i.next();
-      final PatchContent pc = new PatchContent(e.getKey(), e.getValue());
-      try {
-        db.patchContents().insert(Collections.singleton(pc));
-      } catch (OrmDuplicateKeyException err) {
-        // Should be fine; someone else beat us to the insertion.
+    if (p.getPatchType() != Patch.PatchType.BINARY) {
+      final byte[] buf = fh.getBuffer();
+      for (int ptr = fh.getStartOffset(); ptr < fh.getEndOffset(); ptr++) {
+        if (buf[ptr] == '\0') {
+          // Its really binary, but Git couldn't see the nul early enough
+          // to realize its binary, and instead produced the diff.
+          //
+          // Force it to be a binary; it really should have been that.
+          //
+          p.setPatchType(Patch.PatchType.BINARY);
+          break;
+        }
       }
-      i.remove();
     }
   }
 
@@ -321,12 +278,12 @@ public class PatchSetImporter {
     final ObjectId a, b;
     switch (src.getParentCount()) {
       case 0:
-        args.add("--unified=5");
+        args.add("--unified=1");
         a = emptyTree();
         b = src.getId();
         break;
       case 1:
-        args.add("--unified=5");
+        args.add("--unified=1");
         a = src.getParent(0).getId();
         b = src.getId();
         break;

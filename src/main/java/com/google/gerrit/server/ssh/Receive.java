@@ -284,15 +284,20 @@ class Receive extends AbstractGitCommand {
   }
 
   private void loadMyEmails() throws Failure {
+    addEmail(userAccount.getPreferredEmail());
     try {
       for (final AccountExternalId id : db.accountExternalIds().byAccount(
           userAccount.getId())) {
-        if (id.getEmailAddress() != null && id.getEmailAddress().length() > 0) {
-          myEmails.add(id.getEmailAddress());
-        }
+        addEmail(id.getEmailAddress());
       }
     } catch (OrmException e) {
       throw new Failure(1, "fatal: database error", e);
+    }
+  }
+
+  private void addEmail(final String email) {
+    if (email != null && email.length() > 0) {
+      myEmails.add(email);
     }
   }
 

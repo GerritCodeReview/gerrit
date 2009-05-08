@@ -215,6 +215,8 @@ and they may support additional encryption algorithms:
 
 * link:http://www.bouncycastle.org/java.html[Bouncy Castle Crypto API]
 
+Jetty comes with JavaMail, so there is no need to install it.
+
 Copy Gerrit into the deployment:
 ====
   java -jar gerrit.war --cat extra/jetty_gerrit.xml >$JETTY_HOME/contexts/gerrit.xml
@@ -223,13 +225,13 @@ Copy Gerrit into the deployment:
   rm -f $JETTY_HOME/context/test.xml
 ====
 
-Edit `$JETTY_HOME/contexts/gerrit.xml` to correctly configure the
-database and outgoing SMTP connections, especially the user and
-password fields.
+Edit `'$JETTY_HOME'/contexts/gerrit.xml` to correctly configure
+the database and outgoing SMTP connections, especially the user
+and password fields.
 
 If OpenID authentication is being used, you may need to increase
-the header buffer size parameter, due to very long header
-lines.  Add the following to `$JETTY_HOME/etc/jetty.xml` under
+the header buffer size parameter, due to very long header lines.
+Add the following to `'$JETTY_HOME'/etc/jetty.xml` under
 `org.mortbay.jetty.nio.SelectChannelConnector`:
 
 ====
@@ -261,8 +263,8 @@ script such as the following in `/etc/init.d/gerrit2-jetty`
 
 [TIP]
 Under Jetty, restarting the web application (e.g. after modifying
-`system_config`) is as simple as touching the config file:
-`$JETTY_HOME/contexts/gerrit.xml`
+`system_config`) is as simple as touching the context config file:
+`'$JETTY_HOME'/contexts/gerrit.xml`
 
 Port 80
 ^^^^^^^
@@ -275,7 +277,7 @@ Port 443 (HTTPS / SSL)
 ^^^^^^^^^^^^^^^^^^^^^^
 
 To deploy on port 443 with SSL enabled, unpack the SSL proxy handling
-rule into `$JETTY_HOME`:
+rule into `'$JETTY_HOME'/etc`:
 ====
   java -jar gerrit.war --cat extra/jetty_sslproxy.xml >$JETTY_HOME/etc/jetty_sslproxy.xml
 ====
@@ -308,7 +310,7 @@ necessary JDBC drivers.
 ('Optional') Add Bouncy Castle Crypto API to the web application's
 classpath.  Usually its best to load this library from the servlet
 container's extensions directory, but gerrit.war could also be
-modified to include it.
+manually repacked to include it.
 
 ('Optional') Configure the JNDI name `mail/Outgoing` for the web
 application context to be a factory for a `javax.mail.Session`,

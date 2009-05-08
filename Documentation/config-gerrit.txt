@@ -18,7 +18,7 @@ max_session_age
 Maximum number of seconds that an XSRF token or a session cookie
 is permitted to be valid for.
 
-By default this is 43200 seconds, or 12 hours.  Any browser session
+By default this is 43200 seconds (12 hours).  Any browser session
 which has not been used in this time span will ask the user to
 login again.
 

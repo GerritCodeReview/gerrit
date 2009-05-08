@@ -16,9 +16,6 @@ package com.google.gerrit.server.ssh;
 
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountSshKey;
-import com.google.gerrit.client.reviewdb.ReviewDb;
-import com.google.gerrit.client.rpc.Common;
-import com.google.gwtorm.client.OrmException;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.sshd.common.KeyPairProvider;
@@ -36,12 +33,6 @@ import java.security.PublicKey;
 import java.security.interfaces.DSAPublicKey;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 /** Utilities to support SSH operations. */
 public class SshUtil {
@@ -134,78 +125,5 @@ public class SshUtil {
     } catch (NoSuchProviderException e) {
       return keyStr;
     }
-  }
-
-  private static final Map<String, List<AccountSshKey>> keys;
-
-  static {
-    keys = new LinkedHashMap<String, List<AccountSshKey>>(16, 0.75f, true) {
-      @Override
-      protected boolean removeEldestEntry(
-          final Entry<String, List<AccountSshKey>> eldest) {
-        return 256 <= size();
-      }
-    };
-  }
-
-  /** Invalidate all cached keys for the given account. */
-  public static void invalidate(final Account acct) {
-    if (acct != null) {
-      invalidate(acct.getSshUserName());
-    }
-  }
-
-  /** Invalidate all cached keys for the given account. */
-  public static void invalidate(final String username) {
-    synchronized (keys) {
-      keys.remove(username);
-    }
-  }
-
-  /** Invalidate all cached keys. */
-  public static void flush() {
-    synchronized (keys) {
-      keys.clear();
-    }
-  }
-
-  /** Locate keys for the requested account whose email matches the name given. */
-  public static List<AccountSshKey> keysFor(final String username) {
-    synchronized (keys) {
-      final List<AccountSshKey> r = keys.get(username);
-      if (r != null) {
-        return r;
-      }
-    }
-
-    List<AccountSshKey> kl;
-    try {
-      final ReviewDb db = Common.getSchemaFactory().open();
-      try {
-        final List<Account> matches =
-            db.accounts().bySshUserName(username).toList();
-        if (matches.isEmpty()) {
-          return Collections.<AccountSshKey> emptyList();
-        }
-
-        kl = new ArrayList<AccountSshKey>();
-        for (final Account a : matches) {
-          for (final AccountSshKey k : db.accountSshKeys().valid(a.getId())) {
-            kl.add(k);
-          }
-        }
-      } finally {
-        db.close();
-      }
-    } catch (OrmException err) {
-      // TODO log database query error
-      return Collections.<AccountSshKey> emptyList();
-    }
-
-    kl = Collections.unmodifiableList(kl);
-    synchronized (keys) {
-      keys.put(username, kl);
-    }
-    return kl;
   }
 }

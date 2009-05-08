@@ -39,6 +39,8 @@ import com.google.gwtorm.client.OrmDuplicateKeyException;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.Transaction;
 
+import net.sf.ehcache.constructs.blocking.SelfPopulatingCache;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spearce.jgit.lib.PersonIdent;
@@ -108,7 +110,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
           throw new Failure(new InvalidSshKeyException());
         }
         db.accountSshKeys().insert(Collections.singleton(newKey));
-        SshUtil.invalidate(Common.getAccountCache().get(me, db));
+        uncacheSshKeys(me, db);
         return newKey;
       }
     });
@@ -129,12 +131,20 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
           final Transaction txn = db.beginTransaction();
           db.accountSshKeys().delete(k, txn);
           txn.commit();
-          SshUtil.invalidate(Common.getAccountCache().get(me, db));
+          uncacheSshKeys(me, db);
         }
 
         return VoidResult.INSTANCE;
       }
     });
+  }
+
+  private void uncacheSshKeys(final Account.Id me, final ReviewDb db) {
+    final SelfPopulatingCache c = server.getSshKeysCache();
+    final Account a = Common.getAccountCache().get(me, db);
+    if (a != null && a.getSshUserName() != null) {
+      c.remove(a.getSshUserName());
+    }
   }
 
   public void myExternalIds(AsyncCallback<ExternalIdDetail> callback) {

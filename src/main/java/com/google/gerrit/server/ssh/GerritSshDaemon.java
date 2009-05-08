@@ -108,7 +108,7 @@ public class GerritSshDaemon {
 
     sshd.setUserAuthFactories(Arrays
         .<NamedFactory<UserAuth>> asList(new UserAuthPublicKey.Factory()));
-    sshd.setPublickeyAuthenticator(new DatabasePubKeyAuth());
+    sshd.setPublickeyAuthenticator(new DatabasePubKeyAuth(srv));
     sshd.setCommandFactory(new GerritCommandFactory());
     sshd.setShellFactory(new NoShell());
 

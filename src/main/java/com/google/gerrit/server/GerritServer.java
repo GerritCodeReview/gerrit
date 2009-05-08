@@ -39,6 +39,7 @@ import com.google.gerrit.git.MergeQueue;
 import com.google.gerrit.git.RepositoryCache;
 import com.google.gerrit.git.WorkQueue;
 import com.google.gerrit.server.patch.DiffCacheEntryFactory;
+import com.google.gerrit.server.ssh.SshKeyCacheEntryFactory;
 import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
@@ -174,6 +175,7 @@ public class GerritServer {
   private final RepositoryCache repositories;
   private final javax.mail.Session outgoingMail;
   private final SelfPopulatingCache diffCache;
+  private final SelfPopulatingCache sshKeysCache;
 
   private GerritServer() throws OrmException, XsrfException {
     db = createDatabase();
@@ -232,6 +234,7 @@ public class GerritServer {
 
     cacheMgr = new CacheManager(createCacheConfiguration());
     diffCache = startCacheDiff();
+    sshKeysCache = startCacheSshKeys();
   }
 
   private Configuration createCacheConfiguration() {
@@ -247,6 +250,7 @@ public class GerritServer {
     }
 
     mgrCfg.addCache(configureNamedCache(mgrCfg, "diff", true, 0));
+    mgrCfg.addCache(configureNamedCache(mgrCfg, "sshkeys", false, 0));
     return mgrCfg;
   }
 
@@ -335,6 +339,15 @@ public class GerritServer {
     final SelfPopulatingCache r;
 
     r = new SelfPopulatingCache(dc, new DiffCacheEntryFactory(this));
+    cacheMgr.replaceCacheWithDecoratedCache(dc, r);
+    return r;
+  }
+
+  private SelfPopulatingCache startCacheSshKeys() {
+    final Cache dc = cacheMgr.getCache("sshkeys");
+    final SelfPopulatingCache r;
+
+    r = new SelfPopulatingCache(dc, new SshKeyCacheEntryFactory());
     cacheMgr.replaceCacheWithDecoratedCache(dc, r);
     return r;
   }
@@ -777,6 +790,11 @@ public class GerritServer {
   /** Get the self-populating cache of DiffCacheContent entities. */
   public SelfPopulatingCache getDiffCache() {
     return diffCache;
+  }
+
+  /** Get the self-populating cache of user SSH keys. */
+  public SelfPopulatingCache getSshKeysCache() {
+    return sshKeysCache;
   }
 
   /** The mail session used to send messages; null if not configured. */

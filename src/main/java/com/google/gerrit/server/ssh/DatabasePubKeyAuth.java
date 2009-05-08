@@ -15,17 +15,17 @@
 package com.google.gerrit.server.ssh;
 
 import com.google.gerrit.client.reviewdb.AccountSshKey;
-import com.google.gerrit.client.reviewdb.ReviewDb;
-import com.google.gerrit.client.rpc.Common;
-import com.google.gwtorm.client.OrmException;
+import com.google.gerrit.server.GerritServer;
+
+import net.sf.ehcache.Element;
+import net.sf.ehcache.constructs.blocking.SelfPopulatingCache;
 
 import org.apache.sshd.server.PublickeyAuthenticator;
 import org.apache.sshd.server.session.ServerSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
 import java.security.PublicKey;
-import java.security.spec.InvalidKeySpecException;
 import java.util.Collections;
 
 /**
@@ -36,12 +36,19 @@ import java.util.Collections;
  * account as authorized keys are permitted to access the account.
  */
 class DatabasePubKeyAuth implements PublickeyAuthenticator {
+  private final Logger log = LoggerFactory.getLogger(getClass());
+  private final SelfPopulatingCache sshKeysCache;
+
+  DatabasePubKeyAuth(final GerritServer gs) {
+    sshKeysCache = gs.getSshKeysCache();
+  }
+
   public boolean hasKey(final String username, final PublicKey inkey,
       final ServerSession session) {
-    AccountSshKey matched = null;
+    SshKeyCacheEntry matched = null;
 
-    for (final AccountSshKey k : SshUtil.keysFor(username)) {
-      if (match(username, k, inkey)) {
+    for (final SshKeyCacheEntry k : get(username)) {
+      if (k.match(inkey)) {
         if (matched == null) {
           matched = k;
 
@@ -58,59 +65,25 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
     }
 
     if (matched != null) {
-      updateLastUsed(matched);
+      matched.updateLastUsed();
       session.setAttribute(SshUtil.CURRENT_ACCOUNT, matched.getAccount());
       return true;
     }
     return false;
   }
 
-  private boolean match(final String username, final AccountSshKey k,
-      final PublicKey inkey) {
+  @SuppressWarnings("unchecked")
+  private Iterable<SshKeyCacheEntry> get(final String username) {
     try {
-      return SshUtil.parse(k).equals(inkey);
-    } catch (NoSuchAlgorithmException e) {
-      markInvalid(username, k);
-      return false;
-    } catch (InvalidKeySpecException e) {
-      markInvalid(username, k);
-      return false;
-    } catch (NoSuchProviderException e) {
-      markInvalid(username, k);
-      return false;
+      final Element e = sshKeysCache.get(username);
+      if (e == null || e.getObjectValue() == null) {
+        log.warn("Can't get SSH keys for \"" + username + "\" from cache.");
+        return Collections.emptyList();
+      }
+      return (Iterable<SshKeyCacheEntry>) e.getObjectValue();
     } catch (RuntimeException e) {
-      markInvalid(username, k);
-      return false;
-    }
-  }
-
-  private void markInvalid(final String username, final AccountSshKey k) {
-    try {
-      final ReviewDb db = Common.getSchemaFactory().open();
-      try {
-        k.setInvalid();
-        db.accountSshKeys().update(Collections.singleton(k));
-      } finally {
-        db.close();
-      }
-    } catch (OrmException e) {
-      // TODO log mark invalid failure
-    } finally {
-      SshUtil.invalidate(username);
-    }
-  }
-
-  private void updateLastUsed(final AccountSshKey k) {
-    try {
-      final ReviewDb db = Common.getSchemaFactory().open();
-      try {
-        k.setLastUsedOn();
-        db.accountSshKeys().update(Collections.singleton(k));
-      } finally {
-        db.close();
-      }
-    } catch (OrmException e) {
-      // TODO log update last used failure
+      log.error("Can't get SSH keys for \"" + username + "\" from cache.", e);
+      return Collections.emptyList();
     }
   }
 }

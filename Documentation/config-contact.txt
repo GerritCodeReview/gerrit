@@ -86,9 +86,9 @@ Contact Store Protocol
 To implement a new contact store, the following details are useful.
 
 Gerrit connects to the contact store by sending a standard
-HTTP POST request to the store URL (the exact URL that is in
-`contact_store_url` in the `system_config` table), with the
-following form parameters in the body:
+`application/x-www-form-urlencoded` within an HTTP POST request sent
+to the store URL (the exact URL that is in `contact_store_url` in the
+`system_config` table), with the following form fields in the body:
 
 * APPSEC
 +
@@ -111,15 +111,15 @@ string if the user hasn't chosen a preferred email.
 * filed
 +
 Seconds since the UNIX epoch of when the contact information
-was filed.  May be omitted or the empty string if the application
+was filed.  May be omitted or the empty string if Gerrit
 doesn't think the supplied contact information is valid enough.
 
 * data
 +
 Encrypted account data as an armored ASCII blob.  This is usually
 several KB of text data as a single string, with embedded newlines
-to break the lines at about 70-75 characters.  Data can be decoded
-using GnuPG with the correct private key.
+to break the lines at about 70-75 characters per line.  Data can
+be decoded using GnuPG with the correct private key.
 
 Upon successful store, the contact store application should respond
 with HTTP status code `200` and a body consisting only of `OK`
@@ -129,3 +129,79 @@ a failure by Gerrit.
 Using `https://` for the store URL is *highly* encouraged, as it
 prevents man-in-the-middle attacks from reading the shared secret
 APPSEC token, or messing with the data field.
+
+Data Format
+~~~~~~~~~~~
+
+Once decrypted the `data` field looks something like the following:
+
+----
+Account-Id: 1001240
+Date: 2009-02-23 20:32:32.852 UTC
+Full-Name: John Doe
+Preferred-Email: jdoe@example.com
+Identity: jd15@some-isp.com
+Identity: jdoe@example.com <https://www.google.com/accounts/o8/id?id=AIt18axxafvda821aQZaHDF1k8akbalk218sak>
+Identity: jdoe@example.com <http://jdoe.blogger.com/>
+Address:
+	123 Any Street
+	Any Town, Somewhere
+Country: USA
+Phone-Number: +1 (555) 555-1212
+Fax-Number: 555.1200
+----
+
+The fields are as follows:
+
+* `Account-Id`
++
+Value of the `account_id` field in the metadata database.  This is
+a unique key for this account, and links all data records to it.
+
+* `Date`
++
+Date and time of when this contact record was submitted by the user.
+Written in an ISO formatted date/time string (`YYYY-MM-DD hh:mm:ss`),
+in the UTC timezone.
+
+* `Full-Name`
++
+The `full_name` field of the account record when the user submitted
+the contact information.  This should be the user's given name and
+family name.
+
+* `Preferred-Email`
++
+The `preferred_email` field of the account record when the user
+submitted the contact information.  This should be one of the emails
+listed in the `Identity` field.
+
+* `Identity`
++
+This field occurs once for each `account_external_id` record
+in the database for this account.  The email address is listed,
+and if the user is using OpenID authentication, the OpenID claimed
+identity follows in brackets (`<...>`).  Identity lines without an
+OpenID identity are usually created by sending an email containing
+a unique hyperlink that the user must visit to setup the identity.
+
+* `Address`
++
+Free form text, as entered by the user.  This should describe some
+location that physical documents could be sent to, but it is not
+verified, so users can enter pretty much anything here.  Each line
+is prefixed with a single TAB character, but is otherwise exactly
+as entered.
+
+* `Country`
++
+Free form text, as entered by the user.  This should be some sort
+of country name or ISO country abbreviation, but it is not verified,
+so it can be pretty much anything.
+
+* `Phone-Number`, `Fax-Number`
++
+Free form text, as entered by the user.  The format here can be
+anything, and as the example shows, may not even be consistent in
+the same record.
+

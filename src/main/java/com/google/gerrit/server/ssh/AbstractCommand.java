@@ -33,9 +33,13 @@ import org.apache.sshd.server.session.ServerSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.SocketAddress;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +47,8 @@ import java.util.Set;
 
 /** Basic command implementation invoked by {@link GerritCommandFactory}. */
 abstract class AbstractCommand implements Command, SessionAware {
+  private static final String ENC = "UTF-8";
+
   private static final Logger log =
       LoggerFactory.getLogger(AbstractCommand.class);
 
@@ -73,6 +79,11 @@ abstract class AbstractCommand implements Command, SessionAware {
 
   public void setSession(final ServerSession session) {
     this.session = session;
+  }
+
+  protected PrintWriter toPrintWriter(final OutputStream o)
+      throws UnsupportedEncodingException {
+    return new PrintWriter(new BufferedWriter(new OutputStreamWriter(o, ENC)));
   }
 
   protected GerritServer getGerritServer() throws Failure {
@@ -222,7 +233,7 @@ abstract class AbstractCommand implements Command, SessionAware {
 
         rc = e.exitCode;
         try {
-          err.write((e.getMessage() + '\n').getBytes("UTF-8"));
+          err.write((e.getMessage() + '\n').getBytes(ENC));
         } catch (IOException err) {
         }
       }

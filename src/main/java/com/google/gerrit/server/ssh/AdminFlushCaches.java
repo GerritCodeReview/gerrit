@@ -17,29 +17,34 @@ package com.google.gerrit.server.ssh;
 import com.google.gerrit.client.reviewdb.SystemConfig.LoginType;
 import com.google.gerrit.client.rpc.Common;
 
-import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 
 /** Causes the caches to purge all entries and reload. */
 class AdminFlushCaches extends AbstractCommand {
+  PrintWriter p;
+
   @Override
-  protected void run(String[] args) throws Failure {
+  protected void run(String[] args) throws Failure,
+      UnsupportedEncodingException {
     assertIsAdministrator();
-
-    Common.getGroupCache().flush();
-    Common.getProjectCache().flush();
-    Common.getAccountCache().flush();
-
-    if (Common.getGerritConfig().getLoginType() == LoginType.OPENID) {
-      flushCache("openid");
-    }
-
+    p = toPrintWriter(err);
     try {
-      getGerritServer().getDiffCache().flush();
-    } catch (Throwable e1) {
-      try {
-        err.write(("warning: " + err.toString()).getBytes("UTF-8"));
-      } catch (IOException e2) {
+      Common.getGroupCache().flush();
+      Common.getProjectCache().flush();
+      Common.getAccountCache().flush();
+
+      if (Common.getGerritConfig().getLoginType() == LoginType.OPENID) {
+        flushCache("openid");
       }
+
+      try {
+        getGerritServer().getDiffCache().flush();
+      } catch (Throwable e1) {
+        p.println("warning: cannot flush cache \"diff\": " + e1);
+      }
+    } finally {
+      p.flush();
     }
   }
 
@@ -47,11 +52,7 @@ class AdminFlushCaches extends AbstractCommand {
     try {
       getGerritServer().getCache(name).removeAll();
     } catch (Throwable e1) {
-      try {
-        err.write(("warning: cannot flush cache " + name + ": " + err
-            .toString()).getBytes("UTF-8"));
-      } catch (IOException e2) {
-      }
+      p.println("warning: cannot flush cache \"" + name + "\": " + e1);
     }
   }
 }

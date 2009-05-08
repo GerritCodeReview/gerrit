@@ -20,19 +20,18 @@ import net.sf.ehcache.config.CacheConfiguration;
 
 import org.spearce.jgit.lib.WindowCacheStatAccessor;
 
-import java.io.BufferedWriter;
-import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 
 /** Show the current cache states. */
 class AdminShowCaches extends AbstractCommand {
   PrintWriter p;
 
   @Override
-  protected void run(String[] args) throws Failure {
+  protected void run(String[] args) throws Failure,
+      UnsupportedEncodingException {
     assertIsAdministrator();
-
-    p = new PrintWriter(new BufferedWriter(new OutputStreamWriter(out)));
+    p = toPrintWriter(out);
 
     for (final Ehcache cache : getGerritServer().getAllCaches()) {
       final CacheConfiguration cfg = cache.getCacheConfiguration();

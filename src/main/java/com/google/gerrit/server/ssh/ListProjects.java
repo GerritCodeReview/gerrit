@@ -21,9 +21,7 @@ import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gwtorm.client.OrmException;
 
-import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
 class ListProjects extends AbstractCommand {
@@ -33,9 +31,7 @@ class ListProjects extends AbstractCommand {
       throw new Failure(1, "usage: " + getName());
     }
 
-    final PrintWriter stdout =
-        new PrintWriter(
-            new BufferedWriter(new OutputStreamWriter(out, "UTF-8")));
+    final PrintWriter stdout = toPrintWriter(out);
     final ReviewDb db = openReviewDb();
     try {
       final ProjectCache cache = Common.getProjectCache();
@@ -55,8 +51,8 @@ class ListProjects extends AbstractCommand {
     } catch (OrmException e) {
       throw new Failure(1, "fatal: database error", e);
     } finally {
+      stdout.flush();
       db.close();
     }
-    stdout.flush();
   }
 }

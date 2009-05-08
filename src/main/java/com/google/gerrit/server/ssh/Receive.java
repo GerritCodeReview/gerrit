@@ -66,7 +66,7 @@ import org.spearce.jgit.transport.ReceiveCommand.Result;
 import org.spearce.jgit.transport.ReceiveCommand.Type;
 
 import java.io.IOException;
-import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -176,7 +176,7 @@ class Receive extends AbstractGitCommand {
       out.flush();
 
       final String url = server.getCanonicalURL();
-      final OutputStreamWriter msg = new OutputStreamWriter(err, "UTF-8");
+      final PrintWriter msg = toPrintWriter(err);
       msg.write("\nNew Changes:\n");
       for (final Change.Id c : allNewChanges) {
         msg.write("  " + url + c.get() + "\n");

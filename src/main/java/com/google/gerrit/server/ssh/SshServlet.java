@@ -50,8 +50,6 @@ import javax.servlet.http.HttpServletResponse;
  * </pre>
  */
 public class SshServlet extends HttpServlet {
-  private static final Logger log = LoggerFactory.getLogger(SshServlet.class);
-
   @Override
   public void init(final ServletConfig config) throws ServletException {
     super.init(config);

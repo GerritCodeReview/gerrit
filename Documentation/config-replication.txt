@@ -80,7 +80,7 @@ Most (but not all) SSH options are honored:
 
 SSH authentication must be by passwordless public key, as there is
 no facility to read passphases on startup or passwords during the
-SSH connection setup.
+SSH connection setup, and SSH agents are not supported from Java.
 
 Host keys for any destination SSH servers must appear in the user's
 `~/.ssh/known_hosts` file, and must be added in advance, before

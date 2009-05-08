@@ -18,8 +18,14 @@ mirror, so the `refs/changes/*` namespace is available.
 After updating `system_config`, the Gerrit server must be restarted
 and clients must reload the host page to see the change.
 
+Configurable Parameters
+-----------------------
+
+Some columns in the `system_config` table may be set to control
+how Gerrit interacts with gitweb.
+
 gitweb_url
-----------
+~~~~~~~~~~
 
 Defines the web location where a `gitweb.cgi` is installed to browse
 `git_base_path` and the repositories it contains.

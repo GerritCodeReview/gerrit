@@ -76,6 +76,7 @@ Most (but not all) SSH options are honored:
  * IdentityFile
  * PreferredAuthentications
  * BatchMode
+ * StrictHostKeyChecking
 
 SSH authentication must be by passwordless public key, as there is
 no facility to read passphases on startup or passwords during the

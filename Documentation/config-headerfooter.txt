@@ -11,19 +11,19 @@ HTML Header/Footer
 At startup Gerrit reads the following files (if they exist) and
 uses them to customize the HTML page it sends to clients:
 
-* `$site_path/GerritSiteHeader.html`
+* `'$site_path'/GerritSiteHeader.html`
 +
 HTML is inserted below the menu bar, but above any page content.
 This is a good location for an organizational logo, or links to
 other systems like bug tracking.
 
-* `$site_path/GerritSiteFooter.html`
+* `'$site_path'/GerritSiteFooter.html`
 +
 HTML is inserted at the bottom of the page, below all other content,
 but just above the footer rule and the "Powered by Gerrit Code
 Review (v....)" message shown at the extreme bottom.
 
-* `$site_path/GerritSite.css`
+* `'$site_path'/GerritSite.css`
 +
 The CSS rules are inlined into the top of the HTML page, inside
 of a `<style>` tag.  These rules can be used to support styling
@@ -40,13 +40,13 @@ more than one root level element, Gerrit will not start.
 Static Images
 -------------
 
-Static image files can also be served from `$site_path/static`,
+Static image files can also be served from `'$site_path'/static`,
 and may be referenced in `GerritSite{Header,Footer}.html`
 or `GerritSite.css` by the relative URL `static/$name`
 (e.g. `static/logo.png`).
 
 To simplify security management, only files are served from
-`$site_path/static`.  Subdirectories are explicitly forbidden from
+`'$site_path'/static`.  Subdirectories are explicitly forbidden from
 being served from this location by enforcing the rule that file names
 cannot contain `/` or `\`.  (Client requests for `static/foo/bar`
 will result in 404 Not Found responses.)
@@ -58,7 +58,7 @@ The header, footer, and CSS files are inlined into the host page,
 which is always sent with a no-cache header.  Clients will see any
 changes immediately after the Gerrit server has been restarted.
 
-Assets under `$site_path/static` whose file name matches one of the
+Assets under `'$site_path'/static` whose file name matches one of the
 following patterns are served with a 1 year expiration, permitting
 very aggressive caching by clients and edge-proxies:
 
@@ -69,7 +69,7 @@ very aggressive caching by clients and edge-proxies:
  * `*.cache.jar`
  * `*.cache.swf`
 
-All other assets under `$site_path/static` are served with a 5
+All other assets under `'$site_path'/static` are served with a 5
 minute expire, permitting some (limited) caching.  It may take up
 to 5 minutes after Gerrit restart before clients see the changes.
 

@@ -600,7 +600,7 @@ the warm-standby is reasonably current should the master go offline.
 
 Gerrit can be configured to replicate changes made to the local
 Git repositories over any standard Git transports.  This can be
-configured in `'site_path'/replication.conf` to send copies of
+configured in `'$site_path'/replication.conf` to send copies of
 all changes over SSH to other servers, or to the Amazon S3 blob
 storage service.
 

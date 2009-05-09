@@ -7,7 +7,7 @@ from Gerrit content to the same information, but shown by gitweb.
 To enable the gitweb integration, update `system_config.gitweb_url`
 with the URL of your gitweb CGI.
 
-The CGI's `$projectroot` should be `git_base_path`, or a fairly
+The CGI's `$projectroot` should be `'$git_base_path'`, or a fairly
 current replica.  If a replica is being used, ensure it uses a full
 mirror, so the `refs/changes/*` namespace is available.
 
@@ -28,7 +28,7 @@ gitweb_url
 ~~~~~~~~~~
 
 Defines the web location where a `gitweb.cgi` is installed to browse
-`git_base_path` and the repositories it contains.
+`'$git_base_path'` and the repositories it contains.
 
 Gerrit appends any necessary query arguments onto the end of this URL.
 For example, "?p=$project.git;h=$commit".

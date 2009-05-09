@@ -120,7 +120,7 @@ contributor agreement before they can upload changes.
 +
 If enabled, the admin must also insert one or more rows into
 `contributor_agreements` and create agreement files under
-`$site_path/static`, so users can actually complete one or
+`'$site_path'/static`, so users can actually complete one or
 more agreements. 
 +
 By default this is `N` (no agreements are used).

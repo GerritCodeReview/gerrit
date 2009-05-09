@@ -1,14 +1,14 @@
 Gerrit2 - Project Configuration
 ===============================
 
-All Git repositories under `git_base_path` must be registered in
+All Git repositories under `'$git_base_path'` must be registered in
 the Gerrit database in order to be accessed through SSH, or through
 the web interface.
 
 Create Git Repository
 ---------------------
 
-Create a Git repository under `git_base_path`:
+Create a Git repository under `'$git_base_path'`:
 
 ====
   git --git-dir=$git_base_path/new/project.git init

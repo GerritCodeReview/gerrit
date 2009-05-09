@@ -11,7 +11,7 @@ public/private key pair.  On a trusted network it is also possible to
 use replication over the insecure (but much faster) git:// protocol,
 by enabling the `receive-pack` service on the receiving system.
 
-To enable push replication, create `$\{site_path\}/replication.config`
+To enable push replication, create `'$site_path'/replication.config`
 as a Git-style config file, then restart Gerrit.
 
 Currently the replication runs on a 15 second delay.  This gives

@@ -53,6 +53,7 @@ clean:
 $(DOC_HTML): %.html : %.txt
 	rm -f $@+ $@
 	$(ASCIIDOC) \
+		-a toc \
 		-b xhtml11 -f asciidoc.conf \
 		$(ASCIIDOC_EXTRA) -o $@+ $<
 	mv $@+ $@

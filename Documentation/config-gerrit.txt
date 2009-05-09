@@ -9,192 +9,175 @@ The contents of the `system_config` table are cached at startup
 by Gerrit.  If you modify any columns in this table, Gerrit needs
 to be restarted before it will use the new values.
 
-Configurable Parameters
------------------------
+system_config: Configurable Parameters
+--------------------------------------
 
-max_session_age
-~~~~~~~~~~~~~~~
-
+max_session_age::
++
 Maximum number of seconds that an XSRF token or a session cookie
 is permitted to be valid for.
-
++
 By default this is 43200 seconds (12 hours).  Any browser session
 which has not been used in this time span will ask the user to
 login again.
-
++
 Administrators may increase (or decrease) this setting to control
 how long an idle session is allowed to remain alive.
 
-site_path
-~~~~~~~~~
-
+site_path::
++
 Local filesystem directory holding the site customization assets.
 Placing this directory under version control and/or backup is a
 good idea.
-
++
 SSH key files (`ssh_host_rsa_key` and `ssh_host_dsa_key` or
 `ssh_host_key`) in this directory provide the host keys for the
 internal SSH daemon.
-
++
 Other files support site customization.
-
++
 * link:config-headerfooter.html[Site Header/Footer]
 * link:config-replication.html[Git Replication/Mirroring]
 
-git_base_path
-~~~~~~~~~~~~~
-
+git_base_path::
++
 Local filesystem directory holding all Git repositories that
 Gerrit knows about and can process changes for.  A project
 entity in Gerrit maps to a local Git repository by creating
 the path string `"$\{git_pase_path}/$\{project_name}.git"`.
 
-gitweb_url
-~~~~~~~~~~
-
+gitweb_url::
++
 Optional URL of an affiliated gitweb service.
-
++
 * link:config-gitweb.html[Gitweb Integration]
 
-git_daemon_url
-~~~~~~~~~~~~~~
-
+git_daemon_url::
++
 Optional base URL for repositories available over the anonymous git
 protocol.  For example, set this to `git://mirror.example.com/base/`
 to have Gerrit display patch set download URLs in the UI.  Gerrit
 automatically appends the project name onto the end of the URL.
-
++
 By default NULL, as the git daemon must be configured externally
 by the system administrator, and might not even be running on the
 same host as Gerrit.
 
-use_repo_download
-~~~~~~~~~~~~~~~~~
-
+use_repo_download::
++
 If set to `Y`, Gerrit advertises patch set downloads with the
 `repo download` command, assuming that all projects managed by this
 instance are generally worked on with the repo multi-repository tool.
-
++
 By default, `N`, as not all instances will deploy repo.
 
-gerrit_git_name
-~~~~~~~~~~~~~~~
-
+gerrit_git_name::
++
 Name that Gerrit calls itself in Git when it creates a new Git
 commit, such as a merge during change submission.
-
++
 By default this is "Gerrit Code Review".
 
-gerrit_git_email
-~~~~~~~~~~~~~~~~
-
+gerrit_git_email::
++
 Email address that Gerrit refers to itself as when it creates a
 new Git commit, such as a merge commit during change submission.
-
++
 If NULL, Gerrit generates this as "gerrit@`hostname`", where
 `hostname` is the hostname of the system Gerrit is running on.
-
++
 By default, this is NULL, generating the value at startup.
 
-canonical_url
-~~~~~~~~~~~~~
-
+canonical_url::
++
 The default URL for Gerrit to be accessed through.
-
++
 Typically this would be set to "http://review.example.com/" or
 "http://example.com/gerrit/" so Gerrit can output links that point
 back to itself.
-
++
 Setting this is highly recommended, as its necessary for the upload
 code invoked by "git push" or "repo upload" to output hyperlinks
 to the newly uploaded changes.
 
-use_contributor_agreements
-~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+use_contributor_agreements::
++
 Controls whether or not the contributor agreement features are
 enabled for the Gerrit site.  If enabled a user must complete a
 contributor agreement before they can upload changes.
-
++
 If enabled, the admin must also insert one or more rows into
 `contributor_agreements` and create agreement files under
 `$site_path/static`, so users can actually complete one or
 more agreements. 
-
++
 By default this is `N` (no agreements are used).
 
-contact_store_url, contact_store_appsec
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+contact_store_url, contact_store_appsec::
++
 URL and shared secret of the web based contact store Gerrit will
 send any offline contact information to when it collects the data
 from users as part of a contributor agreement.
-
++
 * link:config-contact.html[Contact Information]
 
-
-sshd_port
-~~~~~~~~~
-
+sshd_port::
++
 Port number the internal SSHD listens for connections on.
-
++
 Gerrit receives new change submissions through this port by
 "git push ssh://you@example.com:$sshd_port/$project.git ...".
-
++
 By default this is 29418.
 
-login_type
-~~~~~~~~~~
-
+login_type::
++
 Type of user authentication employed by Gerrit.  This setting has
 two supported values:
-
++
 * `OPENID`
 +
 The default setting.  Gerrit uses any valid OpenID
 provider chosen by the end-user.  For more information see
 http://openid.net/[openid.net]
-
++
 * `HTTP`
 +
 Gerrit relies upon data in the HTTP request, such as the HTTP basic
 authentication, or some types of commerical single-sign-on solutions.
 For more information see link:config-sso.html[SSO configuration].
 
-login_http_header
-~~~~~~~~~~~~~~~~~
-
+login_http_header::
++
 HTTP header to trust the username from, or NULL to select HTTP
 basic or digest authentication.  Only used if `login_type = HTTP`.
-
++
 For more information see link:config-sso.html[SSO configuration].
 
-email_format
-~~~~~~~~~~~~
-
+email_format::
++
 Optional format string to construct user email addresses out of
 user login names.  Only used if `login_type = HTTP`.
-
++
 This value can be set to a format string, where `\{0\}` is replaced
 with the login name.  E.g. "\{0\}+gerrit@example.com" with a user
 login name of "foo" will produce "foo+gerrit@example.com" during
 the first time user "foo" registers.
-
++
 For more information see link:config-sso.html[SSO configuration].
 
-allow_google_account_upgrade
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+allow_google_account_upgrade::
++
 Allow old Gerrit1 users to seamlessly upgrade from Google Accounts
 on Google App Engine to OpenID authentication.  This should only be
 set to true on a Gerrit2 database that was imported from a Gerrit1
 database run on Google App Engine.  Having it enabled incurs an
 extra database query when new Google Account users register with
 the Gerrit2 server.
-
++
 Its strongly encouraged to set this to 'N' once the following
 query drops to 0, or close to 0:
-
++
 ====
   SELECT COUNT(*) FROM account_external_ids e
   WHERE e.external_id LIKE 'Google Account %'
@@ -205,79 +188,74 @@ query drops to 0, or close to 0:
 ====
 
 
-Not User Serviceable
---------------------
+system_config: Not User Serviceable
+-----------------------------------
 
 These fields generally shouldn't be modified.
 
-xsrf_private_key
-~~~~~~~~~~~~~~~~
-
+xsrf_private_key::
++
 A private key used to sign the XSRF (cross site request forgey)
 protection tokens.  All RPC calls which can potentially modify
 data require that the client obtain, and then later present an XSRF
 token to Gerrit.  The tokens are signed with this private key.
-
++
 This column is automatically generated when the database is
 initialized.  Changing it to a new value would cause all current
 XSRF tokens to be invalidated, forcing clients to either fail or
 retry any requests in progress.
-
++
 Changing it is not recommended.
 
-account_private_key
-~~~~~~~~~~~~~~~~~~~
-
+account_private_key::
++
 Like xsrf_private_key, but used to sign the cookie that tells Gerrit
 what account the end-user has signed into.  The key signs the cookie,
 preventing a client from spoofing another account.
-
++
 This column is automatically generated when the database is
 initialized.  Changing it to a new value would cause all current
 cookies to be invalidated, forcing clients to fail their current
 requests and require the user to sign in again.
-
++
 Changing it is not recommended.
 
-admin_group_id
-~~~~~~~~~~~~~~
-
+admin_group_id::
++
 Unique identity of the group with full privileges.  Any user who
 is a member of this group may manage any other group, any project,
 and other system settings over the web.
-
++
 This is initialized by Gerrit to be the "Administrators" group.
-
++
 Changing it is not recommended.
 
-anonymous_group_id
-~~~~~~~~~~~~~~~~~~
-
+anonymous_group_id::
++
 Unique identity of the group for anonymous (not authenticated) users.
-
++
 All users are a member of this group, whether or not they are
 actually signed in to Gerrit.  Any access rights assigned to
 this group are inherited by all users.
-
++
 This is initialized by Gerrit to be the "Anonymous Users" group.
-
++
 Changing it is not recommended.
 
-registered_group_id
-~~~~~~~~~~~~~~~~~~~
-
+registered_group_id::
++
 Unique identity of the group for all authenticated users.
-
++
 All signed-in users are a member of this group.  Any access rights
 assigned to this group are inherited by all users once they have
 authenticated to Gerrit.
-
++
 Since account registration is open and fairly easy to obtain,
 moving from the "Anonymous Users" group to this group is not
 very difficult.  Caution should be taken when assigning any
 permissions to this group.
-
++
 This is initialized by Gerrit to be the "Registered Users" group.
-
++
 Changing it is not recommended.
 

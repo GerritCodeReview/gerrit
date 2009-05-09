@@ -1,16 +1,28 @@
 Gerrit2 - Configuration
 =======================
 
-Several columns in the `system_config` table may be set to control
-how Gerrit behaves.
+File `replication.config`
+-------------------------
+
+The `replication.config` file under `'$site_path'` controls how
+Gerrit automatically replicates changes it makes to any of the Git
+repositories under its control.
+
+* link:config-replication.html[Git Replication/Mirroring]
+
+Database system_config
+----------------------
+
+Several columns in the `system_config` table within the metadata
+database may be set to control how Gerrit behaves.
 
 [NOTE]
 The contents of the `system_config` table are cached at startup
 by Gerrit.  If you modify any columns in this table, Gerrit needs
 to be restarted before it will use the new values.
 
-system_config: Configurable Parameters
---------------------------------------
+Configurable Parameters
+~~~~~~~~~~~~~~~~~~~~~~~
 
 max_session_age::
 +
@@ -188,8 +200,8 @@ query drops to 0, or close to 0:
 ====
 
 
-system_config: Not User Serviceable
------------------------------------
+Not User Serviceable
+~~~~~~~~~~~~~~~~~~~~
 
 These fields generally shouldn't be modified.
 

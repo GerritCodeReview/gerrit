@@ -27,7 +27,7 @@ Installation
 Configuration
 -------------
 
-* link:config-gerrit.html[system_config Settings]
+* link:config-gerrit.html[System Settings]
 * link:config-contact.html[User Contact Information]
 * link:config-replication.html[Git Replication/Mirroring]
 * link:config-gitweb.html[Gitweb Integration]

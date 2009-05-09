@@ -1,10 +1,191 @@
 Gerrit2 - Configuration
 =======================
 
+File `gerrit.config`
+--------------------
+
+The optional file `'$site_path'/gerrit.config` is a Git-style config
+file that controls many host specific settings for Gerrit.
+
+[NOTE]
+The contents of the `gerrit.config` file are cached at startup
+by Gerrit.  If you modify any propeties in this file, Gerrit needs
+to be restarted before it will use the new values.
+
+Sample `gerrit.config`:
+----
+[core]
+	packedGitLimit = 200 m
+
+[cache]
+	directory = /var/cache/gerrit2
+
+[cache "diff"]
+	diskbuffer = 10 m
+----
+
+Section core
+~~~~~~~~~~~~
+
+core.packedGitWindowSize::
++
+Number of bytes of a pack file to load into memory in a single
+read operation.  This is the "page size" of the JGit buffer cache,
+used for all pack access operations.  All disk IO occurs as single
+window reads.  Setting this too large may cause the process to load
+more data than is required; setting this too small may increase
+the frequency of `read()` system calls.
++
+Default on JGit is 8 KiB on all platforms.
++
+Common unit suffixes of 'k', 'm', or 'g' are supported.
+
+core.packedGitLimit::
++
+Maximum number of bytes to load and cache in memory from pack files.
+If JGit needs to access more than this many bytes it will unload less
+frequently used windows to reclaim memory space within the process.
+As this buffer must be shared with the rest of the JVM heap, it
+should be a fraction of the total memory available.
++
+Default on JGit is 10 MiB on all platforms.
++
+Common unit suffixes of 'k', 'm', or 'g' are supported.
+
+core.deltaBaseCacheLimit::
++
+Maximum number of bytes to reserve for caching base objects
+that multiple deltafied objects reference.  By storing the entire
+decompressed base object in a cache Git is able to avoid unpacking
+and decompressing frequently used base objects multiple times.
++
+Default on JGit is 10 MiB on all platforms.  You probably do not
+need to adjust this value.
++
+Common unit suffixes of 'k', 'm', or 'g' are supported.
+
+core.packedGitOpenFiles::
++
+Maximum number of pack files to have open at once.  A pack file
+must be opened in order for any of its data to be available in
+a cached window.
++
+If you increase this to a larger setting you may need to also adjust
+the ulimit on file descriptors for the host JVM, as Gerrit needs
+additional file descriptors available for network sockets and other
+repository data manipulation.
++
+Default on JGit is 128 file descriptors on all platforms.
+
+core.packedGitMmap::
++
+When true, JGit will use `mmap()` rather than `malloc()+read()`
+to load data from pack files.  The use of mmap can be problematic
+on some JVMs as the garbage collector must deduce that a memory
+mapped segment is no longer in use before a call to `munmap()`
+can be made by the JVM native code.
++
+In server applications (such as Gerrit) that need to access many
+pack files, setting this to true risks artifically running out
+of virtual address space, as the garbage collector cannot reclaim
+unused mapped spaces fast enough.
++
+Default on JGit is false. Although potentially slower, it yields
+much more predictable behavior.
+
+Section cache
+~~~~~~~~~~~~~
+
+cache.directory::
++
+Path to a local directory where Gerrit can write cached entities for
+future lookup.  This local disk cache is used to retain expensively
+computed information across restarts.
++
+If the location does not exist, Gerrit will try to create it.
++
+Default is `'$site_path'/disk_cache`.
+
+cache.maxAge::
+	Default setting inherited by named caches; see below.
+cache.memoryLimit::
+	Default setting inherited by named caches; see below.
+cache.diskLimit::
+	Default setting inherited by named caches; see below.
+cache.diskBuffer::
+	Default setting inherited by named caches; see below.
+
+cache.<name>.maxAge::
++
+Maximum age, in minutes, to keep an entry in the cache.  If an
+entry has not been accessed in this period of time, it is removed
+from the cache.
++
+Default is 129600 (90 days); 5 for cache "openid".
+
+cache.<name>.memoryLimit::
++
+Maximum number of cache items to retain in memory.  Keep in mind
+this is total number of items, not bytes of heap used.
++
+Default is 1024.
+
+cache.<name>.diskLimit::
++
+Maximum number of cache items to retain on disk, if this cache
+supports storing its items to disk.  Like memoryLimit, this is
+total number of items, not bytes of disk used.
++
+Default is 16384.
+
+cache.<name>.diskBuffer::
++
+Number of bytes to buffer in memory before writing less frequently
+accessed cache items to disk, if this cache supports storing its
+items to disk.
++
+Default is 5 MiB.
++
+Common unit suffixes of 'k', 'm', or 'g' are supported.
+
+Standard Caches
+^^^^^^^^^^^^^^^
+
+cache `"diff"`::
++
+Caches the edit list describing the differences between two versions
+of a file.  Gerrit uses this cache to accelerate display of file
+contents by computing the difference only once, typically during
+the initial upload.
++
+The average entry in this cache is approximately 1100 bytes when
+stored on disk.  The in-memory representation is only slightly
+larger, closer to 1300 bytes, depending on JVM.
++
+Keeping entries for 90 days gives sufficient time for most changes
+to be submitted or abandoned before their relevant difference items
+expire out.
+
+cache `"openid"`::
++
+If OpenID authentication is enabled, caches the OpenID discovery
+response by URL, for up to 5 minutes.  This can reduce the time
+required for OpenID authentication through very common providers,
+such as Google Accounts.
+
+cache `"sshkeys"`::
++
+Caches unpacked versions of user SSH keys, so the internal SSH daemon
+can match against them during authentication.  The unit of storage
+is per-user, so 1024 items translates to 1024 unique user accounts.
+As each individual user account may configure multiple SSH keys,
+the total number of keys may be larger than the item count.
+
+
 File `replication.config`
 -------------------------
 
-The `replication.config` file under `'$site_path'` controls how
+The optional file `'$site_path'/replication.config` controls how
 Gerrit automatically replicates changes it makes to any of the Git
 repositories under its control.
 

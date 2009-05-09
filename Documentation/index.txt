@@ -1,9 +1,5 @@
-Gerrit2
-=======
-
-Web based code review and project management for Git based projects.
-
-* link:http://code.google.com/p/gerrit/[Gerrit Homepage]
+Gerrit Code Review for Git
+==========================
 
 User Guide
 ----------
@@ -42,7 +38,11 @@ Developer Documentation
 * link:dev-design.html[System Design]
 * link:i18n-readme.html[i18n Support]
 
-Gerrit resources:
+Resources
+---------
 
-* link:http://code.google.com/p/gerrit/[Project Site]
+* link:http://code.google.com/p/gerrit/[Homepage]
+* link:http://code.google.com/p/gerrit/downloads/list[Downloads]
 * link:http://code.google.com/p/gerrit/wiki/Issues?tm=3[Issue Tracking]
+* link:http://code.google.com/p/gerrit/wiki/Source?tm=4[Source Code]
+* link:http://code.google.com/p/gerrit/wiki/Background[A History of Gerrit Code Review]

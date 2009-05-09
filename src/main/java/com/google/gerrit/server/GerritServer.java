@@ -262,11 +262,14 @@ public class GerritServer {
 
     final File loc = new File(getSitePath(), path);
     if (loc.exists() || loc.mkdirs()) {
-      final DiskStoreConfiguration c = new DiskStoreConfiguration();
-      c.setPath(loc.getAbsolutePath());
-      mgrCfg.addDiskStore(c);
-      log.info("Enabling disk cache " + loc.getAbsolutePath());
-
+      if (loc.canWrite()) {
+        final DiskStoreConfiguration c = new DiskStoreConfiguration();
+        c.setPath(loc.getAbsolutePath());
+        mgrCfg.addDiskStore(c);
+        log.info("Enabling disk cache " + loc.getAbsolutePath());
+      } else {
+        log.warn("Can't write to disk cache: " + loc.getAbsolutePath());
+      }
     } else {
       log.warn("Can't create disk cache: " + loc.getAbsolutePath());
     }

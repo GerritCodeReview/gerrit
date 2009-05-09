@@ -11,7 +11,6 @@ Features
 --------
 
 * link:http://source.android.com/submit-patches/workflow[Default Workflow]
-* link:feature-roadmap.html[Roadmap]
 
 Installation
 ------------

@@ -16,7 +16,7 @@ Installation
 ------------
 
 * link:licenses.html[Licenses and Notices]
-* link:install.html[Installing Gerrit2]
+* link:install.html[Installation Guide]
 * link:project-setup.html[Project Setup]
 
 Configuration

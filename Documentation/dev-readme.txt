@@ -111,6 +111,17 @@ the JavaScript happens to be.
 ====
 
 
+Final Setup
+-----------
+
+Since you are creating a Gerrit instance for testing, you need to
+also follow the other steps outlined under "Initialize the Schema"
+in the Installation Guide:
+
+* link:install.html[Installation Guide]
+* link:project-setup.html[Project Setup]
+
+
 Client-Server RPC
 -----------------
 

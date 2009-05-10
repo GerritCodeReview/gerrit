@@ -87,3 +87,31 @@ Open Run->Debug Configurations...
 Under Java Application find `gerrit_debug` (not Mac OS X)
 or `gerrit_macos` (Mac OS X only) to start the GWT hosted
 mode browser and debug through Eclipse.
+
+SSH Daemon
+~~~~~~~~~~
+
+To get the SSH daemon started when running in hosted mode, you need
+to manually hit the `ssh_info` URL to force the servlet initialize
+and bind the daemon on port 29418 (or whatever you have it configured
+to in `system_config`).
+
+----
+  curl http://localhost:8888/com.google.gerrit.Gerrit/ssh_info
+----
+
+
+Final Setup
+-----------
+
+Since you are creating a Gerrit instance for testing, you need to
+also follow the other steps outlined under "Initialize the Schema"
+in the Installation Guide.  Note that the database has already been
+created if you launched Gerrit at least once.
+
+Note that Bouncy Castle Crypto is automatically installed in the
+classpath when debugging with hosted mode, so you will need to
+create SSH keys with `ssh-keygen`.
+
+* link:install.html[Installation Guide]
+* link:project-setup.html[Project Setup]

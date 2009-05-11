@@ -304,19 +304,50 @@ class Receive extends AbstractGitCommand {
   private void lookup(final Set<Account.Id> accountIds,
       final String addressType, final Set<String> emails) throws Failure {
     final String efmt = server.getEmailFormat();
+    final boolean haveFormat = efmt != null && efmt.contains("{0}");
     final StringBuilder errors = new StringBuilder();
     try {
-      for (final String email : emails) {
-        Account who = Account.find(db, email);
-        if (who == null && !email.contains("@") && !email.contains(" ")
-            && efmt != null && efmt.contains("{0}")) {
-          who = Account.find(db, MessageFormat.format(efmt, email));
+      for (final String nameOrEmail : emails) {
+        final HashSet<Account.Id> matches = new HashSet<Account.Id>();
+        String email = splitEmail(nameOrEmail);
+
+        if (email == null && haveFormat && !nameOrEmail.contains(" ")) {
+          // Not a full name, since it has no space, and not an email
+          // address either. Assume it is just the local portion of
+          // the organizations standard email format, and complete out.
+          //
+          email = MessageFormat.format(efmt, nameOrEmail);
         }
-        if (who != null) {
-          accountIds.add(who.getId());
+
+        if (email == null) {
+          // Not an email address implies it was a full name, search by
+          // full name hoping to get a unique match.
+          //
+          final String n = nameOrEmail;
+          for (final Account a : db.accounts().suggestByFullName(n, n, 2)) {
+            matches.add(a.getId());
+          }
         } else {
-          errors.append("fatal: " + addressType + " " + email
-              + " is not registered on Gerrit\n");
+          // Scan email addresses for any potential matches.
+          //
+          for (final AccountExternalId e : db.accountExternalIds()
+              .byEmailAddress(email)) {
+            matches.add(e.getAccountId());
+          }
+        }
+
+        switch (matches.size()) {
+          case 0:
+            errors.append("fatal: " + addressType + " \"" + nameOrEmail
+                + "\" is not registered\n");
+            break;
+          case 1:
+            accountIds.add(matches.iterator().next());
+            break;
+          default:
+            errors.append("fatal: " + addressType + " \"" + nameOrEmail
+                + "\" matches multiple accounts\n");
+            break;
         }
       }
     } catch (OrmException e) {
@@ -325,6 +356,18 @@ class Receive extends AbstractGitCommand {
     if (errors.length() > 0) {
       throw new Failure(1, errors.toString());
     }
+  }
+
+  private static String splitEmail(final String nameOrEmail) {
+    final int lt = nameOrEmail.indexOf('<');
+    final int gt = nameOrEmail.indexOf('>');
+    if (lt >= 0 && gt > lt) {
+      return nameOrEmail.substring(lt + 1, gt);
+    }
+    if (nameOrEmail.contains("@")) {
+      return nameOrEmail;
+    }
+    return null;
   }
 
   @Override

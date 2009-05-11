@@ -26,6 +26,7 @@ import com.google.gerrit.server.GerritServer;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
 
+import org.apache.sshd.common.SshException;
 import org.apache.sshd.server.CommandFactory.Command;
 import org.apache.sshd.server.CommandFactory.ExitCallback;
 import org.apache.sshd.server.CommandFactory.SessionAware;
@@ -204,6 +205,15 @@ abstract class AbstractCommand implements Command, SessionAware {
         } catch (IOException e) {
           if (e.getClass() == IOException.class
               && "Pipe closed".equals(e.getMessage())) {
+            // This is sshd telling us the client just dropped off while
+            // we were waiting for a read or a write to complete. Either
+            // way its not really a fatal error. Don't log it.
+            //
+            throw new UnloggedFailure(127, "error: client went away", e);
+          }
+
+          if (e.getClass() == SshException.class
+              && "Already closed".equals(e.getMessage())) {
             // This is sshd telling us the client just dropped off while
             // we were waiting for a read or a write to complete. Either
             // way its not really a fatal error. Don't log it.

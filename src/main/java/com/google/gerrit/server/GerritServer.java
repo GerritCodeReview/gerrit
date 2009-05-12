@@ -636,7 +636,8 @@ public class GerritServer {
         sConfig = c.systemConfig().get(new SystemConfig.Key());
 
       } else {
-        throw new OrmException("Unsupported schema version " + sVer.versionNbr);
+        throw new OrmException("Unsupported schema version " + sVer.versionNbr
+            + "; expected schema version " + ReviewDb.VERSION);
       }
 
       loadGerritConfig(c);

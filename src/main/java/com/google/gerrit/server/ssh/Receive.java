@@ -334,6 +334,11 @@ class Receive extends AbstractGitCommand {
               .byEmailAddress(email)) {
             matches.add(e.getAccountId());
           }
+          if (matches.isEmpty()) {
+            for (final Account a : db.accounts().byPreferredEmail(email)) {
+              matches.add(a.getId());
+            }
+          }
         }
 
         switch (matches.size()) {

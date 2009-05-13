@@ -520,7 +520,7 @@ limitations under the License.
     <dependency>
       <groupId>net.sf.ehcache</groupId>
       <artifactId>ehcache</artifactId>
-      <version>1.6.0-beta4</version>
+      <version>1.6.0-beta5</version>
     </dependency>
 
     <dependency>

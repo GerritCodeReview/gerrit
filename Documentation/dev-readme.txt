@@ -92,7 +92,7 @@ Building
 From the command line:
 
 ====
-  mvn package
+  mvn clean package
 ====
 
 Output WAR will be placed in:
@@ -110,6 +110,18 @@ the JavaScript happens to be.
   mvn package -DgwtStyle=DETAILED
 ====
 
+Production Compile
+------------------
+
+*Always* use
+
+----
+  mvn clean package
+----
+
+to create a production build.  The `./to_hosted.sh` script that
+setups the development environment for Eclipse hosted mode also
+creates a state that produces a corrupt production build.
 
 Final Setup
 -----------

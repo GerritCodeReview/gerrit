@@ -157,10 +157,11 @@ public class GerritServer {
     if (s >= 0) {
       uri = uri.substring(0, s + 1);
     }
-    if (uri.endsWith("/rpc/")) {
-      // Nope, it was one of our RPC servlets. Drop the /rpc/ part too.
+    final String sfx = "/gerrit/rpc/";
+    if (uri.endsWith(sfx)) {
+      // Nope, it was one of our RPC servlets. Drop the rpc too.
       //
-      uri = uri.substring(0, uri.length() - 4);
+      uri = uri.substring(0, uri.length() - (sfx.length() - 1));
     }
     return uri;
   }

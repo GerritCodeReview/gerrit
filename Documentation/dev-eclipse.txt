@@ -23,7 +23,7 @@ Create a user library called `GWT_16`:
 * Java > Build Path > User Libraries
 
 * New
-* Name: `GWT`
+* Name: `GWT_16`
 * Add JARs...
 
 * Select `gwt-user.jar` from the $(GWT_SDK) directory.
@@ -78,6 +78,27 @@ instructions in link:dev-readme.html[Developer Setup].
 * Copy `GerritServer.properties_example` to `GerritServer.properties`
 * Configure your database for debugging in hosted mode.
 
+Bootstrap Compile
+-----------------
+
+From the command line we have to bootstrap the environment:
+
+----
+  ./to_hosted.sh
+----
+
+Production Compile
+------------------
+
+*Always* use
+
+----
+  mvn clean package
+----
+
+to create a production build.  The `./to_hosted.sh` used above
+to setup the development environment for Eclipse hosted mode also
+creates a state that produces a corrupt production build.
 
 Launch Gerrit
 -------------
@@ -87,19 +108,6 @@ Open Run->Debug Configurations...
 Under Java Application find `gerrit_debug` (not Mac OS X)
 or `gerrit_macos` (Mac OS X only) to start the GWT hosted
 mode browser and debug through Eclipse.
-
-SSH Daemon
-~~~~~~~~~~
-
-To get the SSH daemon started when running in hosted mode, you need
-to manually hit the `ssh_info` URL to force the servlet initialize
-and bind the daemon on port 29418 (or whatever you have it configured
-to in `system_config`).
-
-----
-  curl http://localhost:8888/com.google.gerrit.Gerrit/ssh_info
-----
-
 
 Final Setup
 -----------

@@ -94,7 +94,7 @@ public class UrlRewriteFilter implements Filter {
     final HttpServletResponse rsp = (HttpServletResponse) srsp;
     final String pathInfo = pathInfo(req);
 
-    if (pathInfo.startsWith("/rpc/")) {
+    if (pathInfo.startsWith("/gerrit/rpc/")) {
       // RPC requests are very common in Gerrit 2, we want to make sure
       // they run quickly by jumping through the chain as fast as we can.
       //

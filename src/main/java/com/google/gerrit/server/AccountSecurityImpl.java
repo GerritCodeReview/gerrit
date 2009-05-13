@@ -275,6 +275,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
 
     url.setLength(url.lastIndexOf("/")); // cut "AccountSecurity"
     url.setLength(url.lastIndexOf("/")); // cut "rpc"
+    url.setLength(url.lastIndexOf("/")); // cut "gerrit"
     url.append("/Gerrit#VE,");
 
     try {

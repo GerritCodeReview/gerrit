@@ -90,15 +90,7 @@ public class ChangeMail {
   }
 
   public void setHttpServletRequest(final HttpServletRequest req) {
-    final StringBuffer url = req.getRequestURL();
-    final int rpc = url.indexOf("/rpc/");
-    if (rpc >= 0) {
-      url.setLength(rpc + 1); // cut "rpc/..."
-    }
-    if (url.length() == 0 || url.charAt(url.length() - 1) != '/') {
-      url.append('/');
-    }
-    myUrl = url.toString();
+    myUrl = GerritServer.serverUrl(req);
   }
 
   public void setPatchSet(final PatchSet ps, final PatchSetInfo psi) {

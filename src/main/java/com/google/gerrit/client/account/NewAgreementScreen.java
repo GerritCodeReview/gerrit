@@ -221,7 +221,7 @@ public class NewAgreementScreen extends AccountScreen {
       agreementGroup.setVisible(true);
       agreementHtml.setText(Gerrit.C.rpcStatusLoading());
       if (!url.startsWith("http:") && !url.startsWith("https:")) {
-        url = GWT.getModuleBaseURL() + url;
+        url = GWT.getHostPageBaseURL() + url;
       }
       final RequestBuilder rb = new RequestBuilder(RequestBuilder.GET, url);
       rb.setCallback(new RequestCallback() {

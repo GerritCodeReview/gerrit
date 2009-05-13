@@ -107,7 +107,7 @@ public class BecomeAnyAccountLoginServlet extends HttpServlet {
       c.setPath(req.getContextPath() + "/");
       new AccountCookie(account.getId(), false).set(c, server);
       rsp.addCookie(c);
-      rsp.sendRedirect("Gerrit.html");
+      rsp.sendRedirect("Gerrit");
 
     } else {
       rsp.sendError(HttpServletResponse.SC_NOT_FOUND);

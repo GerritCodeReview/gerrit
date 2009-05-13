@@ -6,6 +6,6 @@
 /src/main/java/GerritServer.properties
 /src/main/java/com/google/gerrit/client/GerritVersion.properties
 /src/main/java/com/google/gerrit/client/GerritVersion_*.properties
-/gwt_www
-/tomcat
+/src/main/webapp/gerrit
+/src/main/webapp/WEB-INF/lib
 /hs_err_pid*.log

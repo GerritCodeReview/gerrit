@@ -39,7 +39,7 @@ Maven from a source download obtained directly from Git:
 ====
   git clone git://android.git.kernel.org/tools/gerrit.git
   cd gerrit
-  mvn package
+  mvn clean package
   cp target/gerrit-*.war ...YOUR.DEST.../gerrit.war
 ====
 

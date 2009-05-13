@@ -30,6 +30,7 @@ import java.io.InputStreamReader;
 import java.io.StringWriter;
 import java.util.zip.GZIPOutputStream;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -134,11 +135,12 @@ public class HtmlDomUtil {
     return d;
   }
 
-  /** Parse an XHTML file from our CLASSPATH and return the instance. */
-  public static Document parseFile(final String name) throws ServletException {
+  /** Parse an XHTML file from our ServletContext and return the instance. */
+  public static Document parseFile(final ServletContext context,
+      final String name) throws ServletException {
     final InputStream in;
 
-    in = HtmlDomUtil.class.getClassLoader().getResourceAsStream(name);
+    in = context.getResourceAsStream(name);
     if (in == null) {
       return null;
     }

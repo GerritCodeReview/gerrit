@@ -16,7 +16,7 @@ fi
 
 ctx="$jetty/contexts/gerrit.xml" &&
 
-mvn package &&
+mvn clean package &&
 war=target/gerrit-*.war &&
 
 cp $war "$jetty/webapps/gerrit.war" &&

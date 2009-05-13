@@ -55,6 +55,16 @@
   </servlet-mapping>
 
   <servlet>
+    <servlet-name>BecomeAnyAccount</servlet-name>
+    <servlet-class>com.google.gerrit.server.BecomeAnyAccountLoginServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>BecomeAnyAccount</servlet-name>
+    <url-pattern>/__BecomeAnyAccount</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
     <servlet-name>ssh</servlet-name>
     <servlet-class>com.google.gerrit.server.ssh.SshServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
@@ -91,7 +101,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>AccountService</servlet-name>
-    <url-pattern>/rpc/AccountService</url-pattern>
+    <url-pattern>/gerrit/rpc/AccountService</url-pattern>
   </servlet-mapping>
 
   <servlet>
@@ -101,7 +111,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>AccountSecurity</servlet-name>
-    <url-pattern>/rpc/AccountSecurity</url-pattern>
+    <url-pattern>/gerrit/rpc/AccountSecurity</url-pattern>
   </servlet-mapping>
 
   <servlet>
@@ -111,7 +121,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>GroupAdminService</servlet-name>
-    <url-pattern>/rpc/GroupAdminService</url-pattern>
+    <url-pattern>/gerrit/rpc/GroupAdminService</url-pattern>
   </servlet-mapping>
 
   <servlet>
@@ -121,7 +131,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>ChangeDetailService</servlet-name>
-    <url-pattern>/rpc/ChangeDetailService</url-pattern>
+    <url-pattern>/gerrit/rpc/ChangeDetailService</url-pattern>
   </servlet-mapping>
 
   <servlet>
@@ -131,7 +141,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>ChangeListService</servlet-name>
-    <url-pattern>/rpc/ChangeListService</url-pattern>
+    <url-pattern>/gerrit/rpc/ChangeListService</url-pattern>
   </servlet-mapping>
 
   <servlet>
@@ -141,7 +151,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>ChangeManageService</servlet-name>
-    <url-pattern>/rpc/ChangeManageService</url-pattern>
+    <url-pattern>/gerrit/rpc/ChangeManageService</url-pattern>
   </servlet-mapping>
 
   <servlet>
@@ -151,7 +161,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>OpenIdService</servlet-name>
-    <url-pattern>/rpc/OpenIdService</url-pattern>
+    <url-pattern>/gerrit/rpc/OpenIdService</url-pattern>
   </servlet-mapping>
 
   <servlet>
@@ -161,7 +171,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>PatchDetailService</servlet-name>
-    <url-pattern>/rpc/PatchDetailService</url-pattern>
+    <url-pattern>/gerrit/rpc/PatchDetailService</url-pattern>
   </servlet-mapping>
 
   <servlet>
@@ -171,7 +181,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>ProjectAdminService</servlet-name>
-    <url-pattern>/rpc/ProjectAdminService</url-pattern>
+    <url-pattern>/gerrit/rpc/ProjectAdminService</url-pattern>
   </servlet-mapping>
 
   <servlet>
@@ -181,7 +191,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>SuggestService</servlet-name>
-    <url-pattern>/rpc/SuggestService</url-pattern>
+    <url-pattern>/gerrit/rpc/SuggestService</url-pattern>
   </servlet-mapping>
 
   <servlet>
@@ -191,6 +201,6 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>SystemInfoService</servlet-name>
-    <url-pattern>/rpc/SystemInfoService</url-pattern>
+    <url-pattern>/gerrit/rpc/SystemInfoService</url-pattern>
   </servlet-mapping>
 </web-app>

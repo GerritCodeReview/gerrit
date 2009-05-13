@@ -268,12 +268,28 @@ limitations under the License.
         <includes>
           <include>log4j.properties</include>
           <include>com/google/gerrit/client/GerritVersion.properties</include>
-          <include>com/google/gerrit/public/Gerrit.html</include>
         </includes>
       </resource>
     </resources>
 
     <plugins>
+      <plugin>
+        <artifactId>maven-clean-plugin</artifactId>
+        <version>2.2</version>
+        <configuration>
+          <filesets>
+            <fileset>
+              <directory>src/main/webapp</directory>
+              <includes>
+                <include>gerrit</include>
+                <include>WEB-INF/lib</include>
+              </includes>
+              <followSymlinks>false</followSymlinks>
+            </fileset>
+          </filesets>
+        </configuration>
+      </plugin>
+    
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -307,7 +323,7 @@ limitations under the License.
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
         <configuration>
-          <warSourceExcludes>.gwt-tmp/**</warSourceExcludes>
+          <warSourceExcludes>WEB-INF/web-jetty.xml</warSourceExcludes>
           <archiveClasses>true</archiveClasses>
           <archive>
             <manifest>
@@ -379,6 +395,7 @@ limitations under the License.
             <configuration>
               <tasks>
                 <property name="d" location="${basedir}/target/${project.name}-${project.version}"/>
+                <property name="m" location="${d}/gerrit"/>
                 <property name="keyapplet" location="${basedir}/target/gerrit-keyapplet"/>
 
                 <copy todir="${d}">
@@ -394,25 +411,18 @@ limitations under the License.
                   </fileset>
                 </copy>
 
-                <move todir="${d}">
-                  <fileset dir="${d}/com.google.gerrit.Gerrit">
-                    <exclude name="Gerrit.html" />
-                    <exclude name="hosted.html" />
-                  </fileset>
-                </move>
-                <delete dir="${d}/com.google.gerrit.Gerrit" />
                 <apply executable="gzip" addsourcefile="false">
                   <arg value="-9"/> 
-                  <fileset dir="${d}"
+                  <fileset dir="${m}"
                            includes="**/*.html,**/*.css"/>
                   <redirector>
-                    <inputmapper type="glob" from="*" to="${d}/*"/>
-                    <outputmapper type="glob" from="*" to="${d}/*.gz"/>
+                    <inputmapper type="glob" from="*" to="${m}/*"/>
+                    <outputmapper type="glob" from="*" to="${m}/*.gz"/>
                   </redirector>
                 </apply>
 
                 <zip
-                    destfile="${d}/gerrit-keyapplet.cache.jar"
+                    destfile="${m}/gerrit-keyapplet.cache.jar"
                     compress="true">
                   <fileset dir="${keyapplet}" includes="**/*"/>
                 </zip>

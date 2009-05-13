@@ -13,7 +13,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<module>
+<module rename-to="gerrit">
   <inherits name='com.google.gwt.user.User'/>
   <inherits name='com.google.gwtjsonrpc.GWTJSONRPC'/>
   <inherits name='com.google.gwtorm.GWTORM'/>
@@ -28,40 +28,4 @@
   <extend-property name="locale" values="en"/>
 
   <entry-point class='com.google.gerrit.client.Gerrit'/>
-
-  <servlet path='/Gerrit'
-           class='com.google.gerrit.server.HostPageServlet'/>
-  <servlet path='/login'
-           class='com.google.gerrit.server.OpenIdLoginServlet'/>
-  <servlet path='/ssh_info'
-           class='com.google.gerrit.server.ssh.SshServlet'/>
-  <servlet path='/cat/*'
-           class='com.google.gerrit.server.CatServlet'/>
-
-  <servlet path='/rpc/AccountService'
-           class='com.google.gerrit.server.AccountServiceSrv'/>
-  <servlet path='/rpc/AccountSecurity'
-           class='com.google.gerrit.server.AccountSecuritySrv'/>
-  <servlet path='/rpc/ChangeDetailService'
-           class='com.google.gerrit.server.ChangeDetailServiceSrv'/>
-  <servlet path='/rpc/ChangeListService'
-           class='com.google.gerrit.server.ChangeListServiceSrv'/>
-  <servlet path='/rpc/ChangeManageService'
-           class='com.google.gerrit.server.ChangeManageServiceSrv'/>
-  <servlet path='/rpc/GroupAdminService'
-           class='com.google.gerrit.server.GroupAdminServiceSrv'/>
-  <servlet path='/rpc/OpenIdService'
-           class='com.google.gerrit.server.OpenIdServiceSrv'/>
-  <servlet path='/rpc/PatchDetailService'
-           class='com.google.gerrit.server.PatchDetailServiceSrv'/>
-  <servlet path='/rpc/ProjectAdminService'
-           class='com.google.gerrit.server.ProjectAdminServiceSrv'/>
-  <servlet path='/rpc/SuggestService'
-           class='com.google.gerrit.server.SuggestServiceSrv'/>
-  <servlet path='/rpc/SystemInfoService'
-           class='com.google.gerrit.server.SystemInfoServiceSrv'/>
-
-  <!-- Hosted mode debugging ONLY -->
-  <servlet path='/__BecomeAnyAccount'
-           class='com.google.gerrit.server.BecomeAnyAccountLoginServlet'/>
 </module>

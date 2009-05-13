@@ -61,10 +61,10 @@ public class HostPageServlet extends HttpServlet {
     final File sitePath = server.getSitePath();
     canonicalUrl = server.getCanonicalURL();
 
-    final String hostPageName = "com/google/gerrit/public/Gerrit.html";
-    hostDoc = HtmlDomUtil.parseFile(hostPageName);
+    final String hostPageName = "WEB-INF/Gerrit.html";
+    hostDoc = HtmlDomUtil.parseFile(getServletContext(), "/" + hostPageName);
     if (hostDoc == null) {
-      throw new ServletException("No " + hostPageName + " in CLASSPATH");
+      throw new ServletException("No " + hostPageName + " in webapp");
     }
     fixModuleReference(hostDoc);
     injectJson(hostDoc, "gerrit_gerritconfig", Common.getGerritConfig());
@@ -159,9 +159,10 @@ public class HostPageServlet extends HttpServlet {
     if (scriptNode == null) {
       throw new ServletException("No gerrit_module to rewrite in host document");
     }
+    scriptNode.removeAttribute("id");
 
     final String src = scriptNode.getAttribute("src");
-    final InputStream in = getServletContext().getResourceAsStream("/" + src);
+    InputStream in = getServletContext().getResourceAsStream("/" + src);
     if (in == null) {
       throw new ServletException("No " + src + " in webapp root");
     }
@@ -182,7 +183,6 @@ public class HostPageServlet extends HttpServlet {
     }
 
     final String vstr = ObjectId.fromRaw(md.digest()).name();
-    scriptNode.removeAttribute("id");
     scriptNode.setAttribute("src", src + "?content=" + vstr);
   }
 

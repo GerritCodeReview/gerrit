@@ -385,8 +385,7 @@ public class Gerrit implements EntryPoint {
       if (GWT.isClient() && !GWT.isScript()) {
         menuBar.addItem("Become", new Command() {
           public void execute() {
-            final String base = GWT.getHostPageBaseURL();
-            Window.Location.assign(base + "__BecomeAnyAccount");
+            Window.Location.assign(GWT.getHostPageBaseURL() + "become");
           }
         });
       }

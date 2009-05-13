@@ -58,24 +58,7 @@ public class BecomeAnyAccountLoginServlet extends HttpServlet {
   @Override
   protected void doGet(final HttpServletRequest req,
       final HttpServletResponse rsp) throws IOException {
-    if (!allowed) {
-      rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
-      return;
-    }
-
-    rsp.setContentType("text/html");
-    final ServletOutputStream out = rsp.getOutputStream();
-    out.print("<html>");
-    out.print("<form method=\"POST\"><b>ssh_user_name:</b> "
-        + "<input type=\"text\" size=\"30\" name=\"ssh_user_name\" />"
-        + "<input type=\"submit\" value=\"Become Account\" />" + "</form>");
-    out.print("<form method=\"POST\"><b>preferred_email:</b> "
-        + "<input type=\"text\" size=\"30\" name=\"preferred_email\" />"
-        + "<input type=\"submit\" value=\"Become Account\" />" + "</form>");
-    out.print("<form method=\"POST\"><b>account_id:</b> "
-        + "<input type=\"text\" size=\"12\" name=\"account_id\" />"
-        + "<input type=\"submit\" value=\"Become Account\" />" + "</form>");
-    out.print("</html>");
+    doPost(req, rsp);
   }
 
   @Override
@@ -97,7 +80,19 @@ public class BecomeAnyAccountLoginServlet extends HttpServlet {
       accounts = byAccountId(rsp, req.getParameter("account_id"));
 
     } else {
-      doGet(req, rsp);
+      final ServletOutputStream out = rsp.getOutputStream();
+      rsp.setContentType("text/html");
+      out.print("<html>");
+      out.print("<form method=\"POST\"><b>ssh_user_name:</b> "
+          + "<input type=\"text\" size=\"30\" name=\"ssh_user_name\" />"
+          + "<input type=\"submit\" value=\"Become Account\" />" + "</form>");
+      out.print("<form method=\"POST\"><b>preferred_email:</b> "
+          + "<input type=\"text\" size=\"30\" name=\"preferred_email\" />"
+          + "<input type=\"submit\" value=\"Become Account\" />" + "</form>");
+      out.print("<form method=\"POST\"><b>account_id:</b> "
+          + "<input type=\"text\" size=\"12\" name=\"account_id\" />"
+          + "<input type=\"submit\" value=\"Become Account\" />" + "</form>");
+      out.print("</html>");
       return;
     }
 

@@ -61,7 +61,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>BecomeAnyAccount</servlet-name>
-    <url-pattern>/__BecomeAnyAccount</url-pattern>
+    <url-pattern>/become</url-pattern>
   </servlet-mapping>
 
   <servlet>

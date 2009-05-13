@@ -253,7 +253,7 @@ limitations under the License.
   </licenses>
 
   <properties>
-    <gwtVersion>1.5.3</gwtVersion>
+    <gwtVersion>1.6.4</gwtVersion>
   </properties>
 
   <build>
@@ -262,8 +262,8 @@ limitations under the License.
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
-          <source>1.5</source>
-          <target>1.5</target>
+          <source>1.6</source>
+          <target>1.6</target>
           <encoding>UTF-8</encoding>
         </configuration>
       </plugin>
@@ -356,13 +356,6 @@ limitations under the License.
       <url>http://gwt-maven.googlecode.com/svn/trunk/mavenrepo/</url>
     </repository>
   </repositories>
-
-  <pluginRepositories>
-    <pluginRepository>
-      <id>gwt-maven-plugins</id>
-      <url>http://gwt-maven.googlecode.com/svn/trunk/mavenrepo/</url>
-    </pluginRepository>
-  </pluginRepositories>
 
   <distributionManagement>
     <repository>

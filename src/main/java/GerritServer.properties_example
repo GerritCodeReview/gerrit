@@ -7,11 +7,19 @@
 #  database.url    :  The connection URL
 #
 
+
 # H2
+# curl -O http://repo1.maven.org/maven2/com/h2database/h2/1.1.112/h2-1.1.112.jar
+#
+# database.classpath = h2-1.1.112.jar
 # database.driver = org.h2.Driver
 # database.url = jdbc:h2:file:ReviewDb
 
+
 # PostgreSQL
+# curl -O http://jdbc.postgresql.org/download/postgresql-8.3-604.jdbc3.jar
+#
+# database.classpath = postgresql-8.3-604.jdbc3.jar
 # database.driver = org.postgresql.Driver
 # database.url = jdbc:postgresql:reviewdb
 # database.user = gerrit2

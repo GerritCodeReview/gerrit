@@ -155,7 +155,6 @@ public class Gerrit implements EntryPoint {
     UserAgent.assertNotInIFrame();
     initHostname();
     Window.setTitle(M.windowTitle1(myHost));
-    loadCSS();
     initHistoryHooks();
     populateBottomMenu();
 
@@ -194,11 +193,6 @@ public class Gerrit implements EntryPoint {
     if (d2 >= 0) {
       myHost = myHost.substring(0, d2);
     }
-  }
-
-  private static void loadCSS() {
-    final GerritCss css = GWT.create(GerritCss.class);
-    css.load().inject();
   }
 
   private static ArrayList<JavaScriptObject> historyHooks;

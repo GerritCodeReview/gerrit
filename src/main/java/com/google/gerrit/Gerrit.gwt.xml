@@ -17,14 +17,15 @@
   <inherits name='com.google.gwt.user.User'/>
   <inherits name='com.google.gwtjsonrpc.GWTJSONRPC'/>
   <inherits name='com.google.gwtorm.GWTORM'/>
+  <inherits name='com.google.gwtexpui.css.CSS'/>
   <inherits name='com.google.gwtexpui.clippy.Clippy'/>
   <inherits name='com.google.gwtexpui.progress.Progress'/>
   <inherits name='com.google.gwtexpui.safehtml.SafeHtml'/>
 
   <inherits name='com.google.gwt.user.theme.chrome.Chrome'/>
-  <inherits name='com.google.gerrit.CssBundle'/>
   <inherits name='com.google.gerrit.UserAgent'/>
   <inherits name='org.spearce.jgit.JGit'/>
+  <stylesheet src='gerrit.css' />
   <extend-property name="locale" values="en"/>
 
   <entry-point class='com.google.gerrit.client.Gerrit'/>

@@ -15,21 +15,23 @@
 package com.google.gwtexpui.clippy.client;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.Element;
-import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.FocusListener;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.InlineLabel;
-import com.google.gwt.user.client.ui.KeyboardListenerAdapter;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 import com.google.gwtexpui.user.client.UserAgent;
@@ -87,8 +89,9 @@ public class CopyableLabel extends Composite implements HasText {
     if (showLabel) {
       textLabel = new InlineLabel(getText());
       textLabel.setStyleName("gwtexpui-Clippy-Label");
-      textLabel.addClickListener(new ClickListener() {
-        public void onClick(final Widget sender) {
+      textLabel.addClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(final ClickEvent event) {
           showTextBox();
         }
       });
@@ -152,12 +155,11 @@ public class CopyableLabel extends Composite implements HasText {
       textBox = new TextBox();
       textBox.setText(getText());
       textBox.setVisibleLength(getText().length());
-      textBox.addKeyboardListener(new KeyboardListenerAdapter() {
+      textBox.addKeyPressHandler(new KeyPressHandler() {
         @Override
-        public void onKeyPress(final Widget sender, final char kc, final int mod) {
-          if ((mod & MODIFIER_CTRL) == MODIFIER_CTRL
-              || (mod & MODIFIER_META) == MODIFIER_META) {
-            switch (kc) {
+        public void onKeyPress(final KeyPressEvent event) {
+          if (event.isControlKeyDown() || event.isMetaKeyDown()) {
+            switch (event.getCharCode()) {
               case 'c':
               case 'x':
                 DeferredCommand.addCommand(new Command() {
@@ -170,11 +172,9 @@ public class CopyableLabel extends Composite implements HasText {
           }
         }
       });
-      textBox.addFocusListener(new FocusListener() {
-        public void onFocus(Widget arg0) {
-        }
-
-        public void onLostFocus(Widget arg0) {
+      textBox.addBlurHandler(new BlurHandler() {
+        @Override
+        public void onBlur(final BlurEvent event) {
           hideTextBox();
         }
       });

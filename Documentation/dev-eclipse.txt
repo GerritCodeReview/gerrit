@@ -5,9 +5,9 @@ This document is about installing Gerrit into an Eclipse workspace
 for development and debugging, especially with the GWT hosted
 mode debugger.
 
-You will need to have the GWT (Google Web Toolkit) SDK installed on
-your system.  A Java 5 or later SDK is also required to run GWT's
-compiler and runtime.
+You will need to have the GWT (Google Web Toolkit) 1.6 SDK installed
+on your system.  A Java 6 or later SDK is also required to run
+GWT's compiler and runtime.
 
 GWT requires the Sun JDK (or OpenJDK).  The GWT "hosted mode"
 environment (Eclipse debugger or "make web-shell") does not work
@@ -17,7 +17,7 @@ under libgcj.
 User Library
 ------------
 
-Create a user library called `GWT`:
+Create a user library called `GWT_16`:
 
 * Window > Preferences
 * Java > Build Path > User Libraries

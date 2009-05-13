@@ -22,9 +22,9 @@ import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.AccountScreen;
-import com.google.gerrit.client.ui.LazyTabChild;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.LazyPanel;
 import com.google.gwt.user.client.ui.SourcesTabEvents;
 import com.google.gwt.user.client.ui.TabListener;
 import com.google.gwt.user.client.ui.TabPanel;
@@ -97,34 +97,34 @@ public class AccountSettings extends AccountScreen {
     tabs.add(prefsPanel, Util.C.tabPreferences());
     tabTokens.add(Link.SETTINGS);
 
-    tabs.add(new LazyTabChild<ContactPanel>() {
+    tabs.add(new LazyPanel() {
       @Override
-      protected ContactPanel create() {
+      protected ContactPanel createWidget() {
         return new ContactPanel(AccountSettings.this);
       }
     }, Util.C.tabContactInformation());
     tabTokens.add(Link.SETTINGS_CONTACT);
 
-    tabs.add(new LazyTabChild<SshKeyPanel>() {
+    tabs.add(new LazyPanel() {
       @Override
-      protected SshKeyPanel create() {
+      protected SshKeyPanel createWidget() {
         return new SshKeyPanel();
       }
     }, Util.C.tabSshKeys());
     tabTokens.add(Link.SETTINGS_SSHKEYS);
 
-    tabs.add(new LazyTabChild<ExternalIdPanel>() {
+    tabs.add(new LazyPanel() {
       @Override
-      protected ExternalIdPanel create() {
+      protected ExternalIdPanel createWidget() {
         return new ExternalIdPanel();
       }
     }, Util.C.tabWebIdentities());
     tabTokens.add(Link.SETTINGS_WEBIDENT);
 
     if (Common.getGerritConfig().isUseContributorAgreements()) {
-      tabs.add(new LazyTabChild<AgreementPanel>() {
+      tabs.add(new LazyPanel() {
         @Override
-        protected AgreementPanel create() {
+        protected AgreementPanel createWidget() {
           return new AgreementPanel();
         }
       }, Util.C.tabAgreements());

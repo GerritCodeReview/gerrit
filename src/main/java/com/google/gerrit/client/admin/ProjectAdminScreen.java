@@ -20,7 +20,7 @@ import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.AccountScreen;
-import com.google.gerrit.client.ui.LazyTabChild;
+import com.google.gwt.user.client.ui.LazyPanel;
 import com.google.gwt.user.client.ui.SourcesTabEvents;
 import com.google.gwt.user.client.ui.TabListener;
 import com.google.gwt.user.client.ui.TabPanel;
@@ -65,27 +65,27 @@ public class ProjectAdminScreen extends AccountScreen {
     tabs.setWidth("98%");
     add(tabs);
 
-    tabs.add(new LazyTabChild<ProjectInfoPanel>() {
+    tabs.add(new LazyPanel() {
       @Override
-      protected ProjectInfoPanel create() {
+      protected ProjectInfoPanel createWidget() {
         return new ProjectInfoPanel(projectId);
       }
     }, Util.C.projectAdminTabGeneral());
     tabTokens.add(Link.toProjectAdmin(projectId, INFO_TAB));
 
     if (!ProjectRight.WILD_PROJECT.equals(projectId)) {
-      tabs.add(new LazyTabChild<ProjectBranchesPanel>() {
+      tabs.add(new LazyPanel() {
         @Override
-        protected ProjectBranchesPanel create() {
+        protected ProjectBranchesPanel createWidget() {
           return new ProjectBranchesPanel(projectId);
         }
       }, Util.C.projectAdminTabBranches());
       tabTokens.add(Link.toProjectAdmin(projectId, BRANCH_TAB));
     }
 
-    tabs.add(new LazyTabChild<ProjectRightsPanel>() {
+    tabs.add(new LazyPanel() {
       @Override
-      protected ProjectRightsPanel create() {
+      protected ProjectRightsPanel createWidget() {
         return new ProjectRightsPanel(projectId);
       }
     }, Util.C.projectAdminTabAccess());

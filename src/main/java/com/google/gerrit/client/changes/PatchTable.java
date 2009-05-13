@@ -19,13 +19,14 @@ import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.IncrementalCommand;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.SourcesTableEvents;
-import com.google.gwt.user.client.ui.TableListener;
+import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.google.gwtexpui.progress.client.ProgressBar;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
@@ -60,10 +61,12 @@ public class PatchTable extends Composite {
 
   private class MyTable extends FancyFlexTable<Patch> {
     MyTable() {
-      table.addTableListener(new TableListener() {
-        public void onCellClicked(SourcesTableEvents sender, int row, int cell) {
-          if (row > 0) {
-            movePointerTo(row);
+      table.addClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(final ClickEvent event) {
+          final Cell cell = table.getCellForEvent(event);
+          if (cell != null && cell.getRowIndex() > 0) {
+            movePointerTo(cell.getRowIndex());
           }
         }
       });

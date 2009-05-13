@@ -25,12 +25,13 @@ import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.ui.ComplexDisclosurePanel;
 import com.google.gerrit.client.ui.FancyFlexTable;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.InlineLabel;
-import com.google.gwt.user.client.ui.KeyboardListener;
 import com.google.gwt.user.client.ui.Widget;
 
 import java.sql.Timestamp;
@@ -103,11 +104,11 @@ public abstract class AbstractPatchContentTable extends FancyFlexTable<Object> {
   }
 
   @Override
-  protected boolean onKeyPress(final char keyCode, final int modifiers) {
-    if (modifiers == 0) {
-      switch (keyCode) {
-        case KeyboardListener.KEY_UP:
-        case KeyboardListener.KEY_DOWN:
+  protected boolean onKeyPress(final KeyPressEvent event) {
+    if (!event.isAnyModifierKeyDown()) {
+      switch (event.getCharCode()) {
+        case KeyCodes.KEY_UP:
+        case KeyCodes.KEY_DOWN:
           return false;
 
         case 'c':
@@ -122,7 +123,7 @@ public abstract class AbstractPatchContentTable extends FancyFlexTable<Object> {
           return true;
       }
     }
-    return super.onKeyPress(keyCode, modifiers);
+    return super.onKeyPress(event);
   }
 
   @Override

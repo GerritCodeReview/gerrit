@@ -20,15 +20,15 @@ import com.google.gerrit.client.reviewdb.AccountExternalId;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.FancyFlexTable;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.SourcesTableEvents;
-import com.google.gwt.user.client.ui.TableListener;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
+import com.google.gwt.user.client.ui.HTMLTable.Cell;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -44,8 +44,9 @@ class ExternalIdPanel extends Composite {
     body.add(identites);
 
     deleteIdentity = new Button(Util.C.buttonDeleteIdentity());
-    deleteIdentity.addClickListener(new ClickListener() {
-      public void onClick(final Widget sender) {
+    deleteIdentity.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(final ClickEvent event) {
         identites.deleteChecked();
       }
     });
@@ -54,8 +55,9 @@ class ExternalIdPanel extends Composite {
     switch (Common.getGerritConfig().getLoginType()) {
       case OPENID: {
         final Button linkIdentity = new Button(Util.C.buttonLinkIdentity());
-        linkIdentity.addClickListener(new ClickListener() {
-          public void onClick(final Widget sender) {
+        linkIdentity.addClickHandler(new ClickHandler() {
+          @Override
+          public void onClick(final ClickEvent event) {
             doLinkIdentity();
           }
         });
@@ -93,10 +95,13 @@ class ExternalIdPanel extends Composite {
       table.setText(0, 3, Util.C.webIdStatus());
       table.setText(0, 4, Util.C.webIdEmail());
       table.setText(0, 5, Util.C.webIdIdentity());
-      table.addTableListener(new TableListener() {
-        public void onCellClicked(SourcesTableEvents sender, int row, int cell) {
-          if (cell != 1 && getRowItem(row) != null) {
-            movePointerTo(row);
+      table.addClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(ClickEvent event) {
+          final Cell cell = table.getCellForEvent(event);
+          if (cell != null && cell.getCellIndex() != 1
+              && getRowItem(cell.getRowIndex()) != null) {
+            movePointerTo(cell.getRowIndex());
           }
         }
       });
@@ -115,12 +120,12 @@ class ExternalIdPanel extends Composite {
     }
 
     @Override
-    protected boolean onKeyPress(final char keyCode, final int modifiers) {
-      if (super.onKeyPress(keyCode, modifiers)) {
+    protected boolean onKeyPress(final KeyPressEvent event) {
+      if (super.onKeyPress(event)) {
         return true;
       }
-      if (modifiers == 0) {
-        switch (keyCode) {
+      if (!event.isAnyModifierKeyDown()) {
+        switch (event.getCharCode()) {
           case 's':
           case 'c':
             toggleCurrentRow();
@@ -138,7 +143,7 @@ class ExternalIdPanel extends Composite {
     private void toggleCurrentRow() {
       final CheckBox cb = (CheckBox) table.getWidget(getCurrentRow(), 1);
       if (cb != null) {
-        cb.setChecked(!cb.isChecked());
+        cb.setValue(!cb.getValue());
       }
     }
 
@@ -154,7 +159,7 @@ class ExternalIdPanel extends Composite {
         if (cb == null) {
           continue;
         }
-        if (cb.isChecked()) {
+        if (cb.getValue()) {
           keys.add(k.getKey());
         }
       }

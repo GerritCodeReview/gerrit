@@ -17,18 +17,21 @@ package com.google.gerrit.client.patches;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.TextSaveButtonListener;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HasFocus;
+import com.google.gwt.user.client.ui.Focusable;
 import com.google.gwt.user.client.ui.InlineLabel;
-import com.google.gwt.user.client.ui.KeyboardListenerAdapter;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.Widget;
@@ -36,7 +39,7 @@ import com.google.gwtjsonrpc.client.VoidResult;
 
 import java.sql.Timestamp;
 
-class CommentEditorPanel extends Composite implements ClickListener {
+class CommentEditorPanel extends Composite implements ClickHandler {
   private static final int INITIAL_COLS = 60;
   private static final int INITIAL_LINES = 5;
   private static final int MAX_LINES = 30;
@@ -85,28 +88,30 @@ class CommentEditorPanel extends Composite implements ClickListener {
     text.setCharacterWidth(INITIAL_COLS);
     text.setVisibleLines(INITIAL_LINES);
     DOM.setElementPropertyBoolean(text.getElement(), "spellcheck", true);
-    text.addKeyboardListener(new KeyboardListenerAdapter() {
+    text.addKeyPressHandler(new KeyPressHandler() {
       @Override
-      public void onKeyPress(final Widget sender, final char kc, final int mod) {
-        DOM.eventCancelBubble(DOM.eventGetCurrentEvent(), true);
+      public void onKeyPress(final KeyPressEvent event) {
+        event.stopPropagation();
 
-        if (kc == KEY_ESCAPE && mod == 0 && isNew()) {
-          DOM.eventPreventDefault(DOM.eventGetCurrentEvent());
+        if (isNew() && event.getCharCode() == KeyCodes.KEY_ESCAPE
+            && !event.isAnyModifierKeyDown()) {
+          event.preventDefault();
           onDiscard();
           return;
         }
 
-        if ((mod & MODIFIER_CTRL) == MODIFIER_CTRL) {
-          switch (kc) {
+        if ((event.isControlKeyDown() || event.isMetaKeyDown())
+            && !event.isAltKeyDown() && !event.isShiftKeyDown()) {
+          switch (event.getCharCode()) {
             case 's':
-              DOM.eventPreventDefault(DOM.eventGetCurrentEvent());
+              event.preventDefault();
               onSave();
               return;
 
             case 'd':
-            case KEY_BACKSPACE:
-            case KEY_DELETE:
-              DOM.eventPreventDefault(DOM.eventGetCurrentEvent());
+            case KeyCodes.KEY_BACKSPACE:
+            case KeyCodes.KEY_DELETE:
+              event.preventDefault();
               if (isNew()) {
                 onDiscard();
               } else if (Window.confirm(PatchUtil.C.confirmDiscard())) {
@@ -129,24 +134,24 @@ class CommentEditorPanel extends Composite implements ClickListener {
 
     edit = new Button();
     edit.setText(PatchUtil.C.buttonEdit());
-    edit.addClickListener(this);
+    edit.addClickHandler(this);
     buttons.add(edit);
 
     save = new Button();
     save.setText(PatchUtil.C.buttonSave());
-    save.addClickListener(this);
+    save.addClickHandler(this);
     new TextSaveButtonListener(text, save);
     save.setEnabled(false);
     buttons.add(save);
 
     cancel = new Button();
     cancel.setText(PatchUtil.C.buttonCancel());
-    cancel.addClickListener(this);
+    cancel.addClickHandler(this);
     buttons.add(cancel);
 
     discard = new Button();
     discard.setText(PatchUtil.C.buttonDiscard());
-    discard.addClickListener(this);
+    discard.addClickHandler(this);
     buttons.add(discard);
 
     savedAt = new InlineLabel();
@@ -205,7 +210,9 @@ class CommentEditorPanel extends Composite implements ClickListener {
     return comment.getKey().get() == null;
   }
 
-  public void onClick(Widget sender) {
+  @Override
+  public void onClick(final ClickEvent event) {
+    final Widget sender = (Widget) event.getSource();
     if (sender == edit) {
       edit();
 
@@ -294,8 +301,8 @@ class CommentEditorPanel extends Composite implements ClickListener {
           AbstractPatchContentTable.destroyEditor(table, row, cell);
           Widget p = table;
           while (p != null) {
-            if (p instanceof HasFocus) {
-              ((HasFocus) p).setFocus(true);
+            if (p instanceof Focusable) {
+              ((Focusable) p).setFocus(true);
               break;
             }
             p = p.getParent();

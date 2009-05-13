@@ -19,19 +19,22 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.client.ui.ProjectNameSuggestOracle;
 import com.google.gerrit.client.ui.ProjectOpenLink;
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.FocusListenerAdapter;
-import com.google.gwt.user.client.ui.SourcesTableEvents;
 import com.google.gwt.user.client.ui.SuggestBox;
-import com.google.gwt.user.client.ui.TableListener;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
+import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.google.gwtjsonrpc.client.VoidResult;
 
 import java.util.HashSet;
@@ -56,17 +59,18 @@ class ProjectWatchPanel extends Composite {
       box.setVisibleLength(50);
       box.setText(Util.C.defaultProjectName());
       box.addStyleName("gerrit-InputFieldTypeHint");
-      box.addFocusListener(new FocusListenerAdapter() {
+      box.addFocusHandler(new FocusHandler() {
         @Override
-        public void onFocus(Widget sender) {
+        public void onFocus(FocusEvent event) {
           if (Util.C.defaultProjectName().equals(box.getText())) {
             box.setText("");
             box.removeStyleName("gerrit-InputFieldTypeHint");
           }
         }
-
+      });
+      box.addBlurHandler(new BlurHandler() {
         @Override
-        public void onLostFocus(Widget sender) {
+        public void onBlur(BlurEvent event) {
           if ("".equals(box.getText())) {
             box.setText(Util.C.defaultProjectName());
             box.addStyleName("gerrit-InputFieldTypeHint");
@@ -76,8 +80,9 @@ class ProjectWatchPanel extends Composite {
       fp.add(nameTxt);
 
       addNew = new Button(Util.C.buttonWatchProject());
-      addNew.addClickListener(new ClickListener() {
-        public void onClick(final Widget sender) {
+      addNew.addClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(final ClickEvent event) {
           doAddNew();
         }
       });
@@ -90,8 +95,9 @@ class ProjectWatchPanel extends Composite {
     {
       final FlowPanel fp = new FlowPanel();
       delSel = new Button(Util.C.buttonDeleteSshKey());
-      delSel.addClickListener(new ClickListener() {
-        public void onClick(final Widget sender) {
+      delSel.addClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(final ClickEvent event) {
           watches.deleteChecked();
         }
       });
@@ -149,19 +155,23 @@ class ProjectWatchPanel extends Composite {
       table.setText(0, 2, com.google.gerrit.client.changes.Util.C
           .changeTableColumnProject());
       table.setText(0, 3, Util.C.watchedProjectColumnEmailNotifications());
-      table.addTableListener(new TableListener() {
-        public void onCellClicked(SourcesTableEvents sender, int row, int cell) {
-          switch (cell) {
-            case 1:
-            case 3:
-              // Don't do anything, these cells also contain check boxes.
-              break;
+      table.addClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(ClickEvent event) {
+          final Cell cell = table.getCellForEvent(event);
+          if (cell != null) {
+            switch (cell.getCellIndex()) {
+              case 1:
+              case 3:
+                // Don't do anything, these cells also contain check boxes.
+                break;
 
-            default:
-              if (getRowItem(row) != null) {
-                movePointerTo(row);
-              }
-              break;
+              default:
+                if (getRowItem(cell.getRowIndex()) != null) {
+                  movePointerTo(cell.getRowIndex());
+                }
+                break;
+            }
           }
         }
       });
@@ -190,12 +200,12 @@ class ProjectWatchPanel extends Composite {
     }
 
     @Override
-    protected boolean onKeyPress(final char keyCode, final int modifiers) {
-      if (super.onKeyPress(keyCode, modifiers)) {
+    protected boolean onKeyPress(final KeyPressEvent event) {
+      if (super.onKeyPress(event)) {
         return true;
       }
-      if (modifiers == 0) {
-        switch (keyCode) {
+      if (!event.isAnyModifierKeyDown()) {
+        switch (event.getCharCode()) {
           case 's':
           case 'c':
             toggleCurrentRow();
@@ -212,7 +222,7 @@ class ProjectWatchPanel extends Composite {
 
     private void toggleCurrentRow() {
       final CheckBox cb = (CheckBox) table.getWidget(getCurrentRow(), 1);
-      cb.setChecked(!cb.isChecked());
+      cb.setValue(!cb.getValue());
     }
 
     void deleteChecked() {
@@ -220,7 +230,7 @@ class ProjectWatchPanel extends Composite {
           new HashSet<AccountProjectWatch.Key>();
       for (int row = 1; row < table.getRowCount(); row++) {
         final AccountProjectWatchInfo k = getRowItem(row);
-        if (k != null && ((CheckBox) table.getWidget(row, 1)).isChecked()) {
+        if (k != null && ((CheckBox) table.getWidget(row, 1)).getValue()) {
           ids.add(k.getWatch().getKey());
         }
       }
@@ -284,10 +294,11 @@ class ProjectWatchPanel extends Composite {
       table.setWidget(row, 2, new ProjectOpenLink(k.getProject().getNameKey()));
       {
         final CheckBox notifyNewChanges = new CheckBox();
-        notifyNewChanges.addClickListener(new ClickListener() {
-          public void onClick(final Widget sender) {
+        notifyNewChanges.addClickHandler(new ClickHandler() {
+          @Override
+          public void onClick(final ClickEvent event) {
             final boolean oldVal = k.getWatch().isNotifyNewChanges();
-            k.getWatch().setNotifyNewChanges(notifyNewChanges.isChecked());
+            k.getWatch().setNotifyNewChanges(notifyNewChanges.getValue());
             Util.ACCOUNT_SVC.updateProjectWatch(k.getWatch(),
                 new GerritCallback<VoidResult>() {
                   public void onSuccess(final VoidResult result) {
@@ -296,21 +307,22 @@ class ProjectWatchPanel extends Composite {
                   @Override
                   public void onFailure(final Throwable caught) {
                     k.getWatch().setNotifyNewChanges(oldVal);
-                    notifyNewChanges.setChecked(oldVal);
+                    notifyNewChanges.setValue(oldVal);
                     super.onFailure(caught);
                   }
                 });
           }
         });
-        notifyNewChanges.setChecked(k.getWatch().isNotifyNewChanges());
+        notifyNewChanges.setValue(k.getWatch().isNotifyNewChanges());
         table.setWidget(row, 3, notifyNewChanges);
       }
       {
         final CheckBox notifyAllComments = new CheckBox();
-        notifyAllComments.addClickListener(new ClickListener() {
-          public void onClick(final Widget sender) {
+        notifyAllComments.addClickHandler(new ClickHandler() {
+          @Override
+          public void onClick(final ClickEvent event) {
             final boolean oldVal = k.getWatch().isNotifyAllComments();
-            k.getWatch().setNotifyAllComments(notifyAllComments.isChecked());
+            k.getWatch().setNotifyAllComments(notifyAllComments.getValue());
             Util.ACCOUNT_SVC.updateProjectWatch(k.getWatch(),
                 new GerritCallback<VoidResult>() {
                   public void onSuccess(final VoidResult result) {
@@ -319,21 +331,23 @@ class ProjectWatchPanel extends Composite {
                   @Override
                   public void onFailure(final Throwable caught) {
                     k.getWatch().setNotifyAllComments(oldVal);
-                    notifyAllComments.setChecked(oldVal);
+                    notifyAllComments.setValue(oldVal);
                     super.onFailure(caught);
                   }
                 });
           }
         });
-        notifyAllComments.setChecked(k.getWatch().isNotifyAllComments());
+        notifyAllComments.setValue(k.getWatch().isNotifyAllComments());
         table.setWidget(row, 4, notifyAllComments);
       }
       {
         final CheckBox notifySubmittedChanges = new CheckBox();
-        notifySubmittedChanges.addClickListener(new ClickListener() {
-          public void onClick(final Widget sender) {
+        notifySubmittedChanges.addClickHandler(new ClickHandler() {
+          @Override
+          public void onClick(final ClickEvent event) {
             final boolean oldVal = k.getWatch().isNotifySubmittedChanges();
-            k.getWatch().setNotifySubmittedChanges(notifySubmittedChanges.isChecked());
+            k.getWatch().setNotifySubmittedChanges(
+                notifySubmittedChanges.getValue());
             Util.ACCOUNT_SVC.updateProjectWatch(k.getWatch(),
                 new GerritCallback<VoidResult>() {
                   public void onSuccess(final VoidResult result) {
@@ -342,13 +356,14 @@ class ProjectWatchPanel extends Composite {
                   @Override
                   public void onFailure(final Throwable caught) {
                     k.getWatch().setNotifySubmittedChanges(oldVal);
-                    notifySubmittedChanges.setChecked(oldVal);
+                    notifySubmittedChanges.setValue(oldVal);
                     super.onFailure(caught);
                   }
                 });
           }
         });
-        notifySubmittedChanges.setChecked(k.getWatch().isNotifySubmittedChanges());
+        notifySubmittedChanges
+            .setValue(k.getWatch().isNotifySubmittedChanges());
         table.setWidget(row, 5, notifySubmittedChanges);
       }
 

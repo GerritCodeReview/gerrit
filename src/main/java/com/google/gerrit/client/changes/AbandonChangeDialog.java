@@ -18,13 +18,13 @@ import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.SmallHeading;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.TextArea;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.user.client.AutoCenterDialogBox;
 import com.google.gwtjsonrpc.client.VoidResult;
 
@@ -66,8 +66,9 @@ public class AbandonChangeDialog extends AutoCenterDialogBox {
     panel.add(buttonPanel);
 
     sendButton = new Button(Util.C.buttonAbandonChangeSend());
-    sendButton.addClickListener(new ClickListener() {
-      public void onClick(Widget sender) {
+    sendButton.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(final ClickEvent event) {
         sendButton.setEnabled(false);
         PatchUtil.DETAIL_SVC.abandonChange(psid, message.getText().trim(),
             new GerritCallback<VoidResult>() {
@@ -89,8 +90,9 @@ public class AbandonChangeDialog extends AutoCenterDialogBox {
     buttonPanel.add(sendButton);
 
     cancelButton = new Button(Util.C.buttonAbandonChangeCancel());
-    cancelButton.addClickListener(new ClickListener() {
-      public void onClick(Widget sender) {
+    cancelButton.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(final ClickEvent event) {
         hide();
       }
     });

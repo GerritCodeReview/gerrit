@@ -32,22 +32,21 @@ import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.AccountScreen;
 import com.google.gerrit.client.ui.PatchLink;
 import com.google.gerrit.client.ui.SmallHeading;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.FormHandler;
 import com.google.gwt.user.client.ui.FormPanel;
-import com.google.gwt.user.client.ui.FormSubmitCompleteEvent;
-import com.google.gwt.user.client.ui.FormSubmitEvent;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtjsonrpc.client.VoidResult;
 
@@ -60,8 +59,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class PublishCommentScreen extends AccountScreen implements
-    ClickListener {
+public class PublishCommentScreen extends AccountScreen implements ClickHandler {
   private static SavedState lastState;
 
   private final PatchSet.Id patchSetId;
@@ -92,12 +90,10 @@ public class PublishCommentScreen extends AccountScreen implements
     final FormPanel form = new FormPanel();
     final FlowPanel body = new FlowPanel();
     form.setWidget(body);
-    form.addFormHandler(new FormHandler() {
-      public void onSubmit(FormSubmitEvent event) {
-        event.setCancelled(true);
-      }
-
-      public void onSubmitComplete(FormSubmitCompleteEvent event) {
+    form.addSubmitHandler(new FormPanel.SubmitHandler() {
+      @Override
+      public void onSubmit(final SubmitEvent event) {
+        event.cancel();
       }
     });
     add(form);
@@ -114,11 +110,11 @@ public class PublishCommentScreen extends AccountScreen implements
     body.add(buttonRow);
 
     send = new Button(Util.C.buttonPublishCommentsSend());
-    send.addClickListener(this);
+    send.addClickHandler(this);
     buttonRow.add(send);
 
     cancel = new Button(Util.C.buttonPublishCommentsCancel());
-    cancel.addClickListener(this);
+    cancel.addClickHandler(this);
     buttonRow.add(cancel);
   }
 
@@ -148,7 +144,9 @@ public class PublishCommentScreen extends AccountScreen implements
     }
   }
 
-  public void onClick(final Widget sender) {
+  @Override
+  public void onClick(final ClickEvent event) {
+    final Widget sender = (Widget) event.getSource();
     if (send == sender) {
       lastState = null;
       onSend();
@@ -214,10 +212,10 @@ public class PublishCommentScreen extends AccountScreen implements
 
       if (lastState != null && patchSetId.equals(lastState.patchSetId)
           && lastState.approvals.containsKey(buttonValue.getCategoryId())) {
-        b.setChecked(lastState.approvals.get(buttonValue.getCategoryId())
-            .equals(buttonValue));
+        b.setValue(lastState.approvals.get(buttonValue.getCategoryId()).equals(
+            buttonValue));
       } else {
-        b.setChecked(prior != null ? buttonValue.getValue() == prior.getValue()
+        b.setValue(prior != null ? buttonValue.getValue() == prior.getValue()
             : buttonValue.getValue() == 0);
       }
 
@@ -274,7 +272,7 @@ public class PublishCommentScreen extends AccountScreen implements
     final Map<ApprovalCategory.Id, ApprovalCategoryValue.Id> values =
         new HashMap<ApprovalCategory.Id, ApprovalCategoryValue.Id>();
     for (final ValueRadioButton b : approvalButtons) {
-      if (b.isChecked()) {
+      if (b.getValue()) {
         values.put(b.value.getCategoryId(), b.value.getId());
       }
     }
@@ -331,7 +329,7 @@ public class PublishCommentScreen extends AccountScreen implements
       message = p.message.getText();
       approvals = new HashMap<ApprovalCategory.Id, ApprovalCategoryValue>();
       for (final ValueRadioButton b : p.approvalButtons) {
-        if (b.isChecked()) {
+        if (b.getValue()) {
           approvals.put(b.value.getCategoryId(), b.value);
         }
       }

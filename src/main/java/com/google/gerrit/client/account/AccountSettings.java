@@ -22,11 +22,11 @@ import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.AccountScreen;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.LazyPanel;
-import com.google.gwt.user.client.ui.SourcesTabEvents;
-import com.google.gwt.user.client.ui.TabListener;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 
@@ -131,13 +131,10 @@ public class AccountSettings extends AccountScreen {
       tabTokens.add(Link.SETTINGS_AGREEMENTS);
     }
 
-    tabs.addTabListener(new TabListener() {
-      public boolean onBeforeTabSelected(SourcesTabEvents sender, int tabIndex) {
-        return true;
-      }
-
-      public void onTabSelected(SourcesTabEvents sender, int tabIndex) {
-        Gerrit.display(tabTokens.get(tabIndex), false);
+    tabs.addSelectionHandler(new SelectionHandler<Integer>() {
+      @Override
+      public void onSelection(final SelectionEvent<Integer> event) {
+        Gerrit.display(tabTokens.get(event.getSelectedItem()), false);
       }
     });
   }

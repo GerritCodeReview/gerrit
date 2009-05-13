@@ -19,32 +19,32 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.FormElement;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.user.client.Cookies;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.FormHandler;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.FormSubmitCompleteEvent;
-import com.google.gwt.user.client.ui.FormSubmitEvent;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Hidden;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.InlineLabel;
-import com.google.gwt.user.client.ui.KeyboardListenerAdapter;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
 
 import java.util.Map;
 
-public class OpenIdLoginPanel extends Composite implements FormHandler {
+public class OpenIdLoginPanel extends Composite implements
+    FormPanel.SubmitHandler {
   private final SignInDialog.Mode mode;
   private final LoginIcons icons;
   private final FlowPanel panelWidget;
@@ -71,7 +71,7 @@ public class OpenIdLoginPanel extends Composite implements FormHandler {
 
     form = new FormPanel();
     form.setMethod(FormPanel.METHOD_GET);
-    form.addFormHandler(this);
+    form.addSubmitHandler(this);
     form.add(formBody);
 
     redirectBody = new FlowPanel();
@@ -155,13 +155,12 @@ public class OpenIdLoginPanel extends Composite implements FormHandler {
     providerId.setVisibleLength(60);
     providerId.setStyleName("gerrit-OpenID-openid_identifier");
     providerId.setTabIndex(0);
-    providerId.addKeyboardListener(new KeyboardListenerAdapter() {
+    providerId.addKeyPressHandler(new KeyPressHandler() {
       @Override
-      public void onKeyPress(Widget sender, char keyCode, int modifiers) {
-        if (keyCode == KEY_ENTER) {
-          final Event event = DOM.eventGetCurrentEvent();
-          DOM.eventCancelBubble(event, true);
-          DOM.eventPreventDefault(event);
+      public void onKeyPress(final KeyPressEvent event) {
+        if (event.getCharCode() == KeyCodes.KEY_ENTER) {
+          event.stopPropagation();
+          event.preventDefault();
           form.submit();
         }
       }
@@ -178,8 +177,9 @@ public class OpenIdLoginPanel extends Composite implements FormHandler {
         login.setText(OpenIdUtil.C.buttonSignIn());
         break;
     }
-    login.addClickListener(new ClickListener() {
-      public void onClick(Widget sender) {
+    login.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(final ClickEvent event) {
         form.submit();
       }
     });
@@ -194,7 +194,7 @@ public class OpenIdLoginPanel extends Composite implements FormHandler {
       final String last = Cookies.getCookie(OpenIdUtil.LASTID_COOKIE);
       if (last != null && !"".equals(last)) {
         providerId.setText(last);
-        rememberId.setChecked(true);
+        rememberId.setValue(true);
       }
     }
 
@@ -203,8 +203,9 @@ public class OpenIdLoginPanel extends Composite implements FormHandler {
 
   private void link(final String identUrl, final String who,
       final AbstractImagePrototype icon) {
-    final ClickListener i = new ClickListener() {
-      public void onClick(Widget sender) {
+    final ClickHandler i = new ClickHandler() {
+      @Override
+      public void onClick(final ClickEvent event) {
         if (!discovering) {
           providerId.setText(identUrl);
           form.submit();
@@ -216,7 +217,7 @@ public class OpenIdLoginPanel extends Composite implements FormHandler {
     line.addStyleName("gerrit-OpenID-directlink");
 
     final Image img = icon.createImage();
-    img.addClickListener(i);
+    img.addClickHandler(i);
     line.add(img);
 
     final InlineLabel lbl = new InlineLabel();
@@ -229,7 +230,7 @@ public class OpenIdLoginPanel extends Composite implements FormHandler {
         lbl.setText(OpenIdUtil.M.signInWith(who));
         break;
     }
-    lbl.addClickListener(i);
+    lbl.addClickHandler(i);
     line.add(lbl);
 
     formBody.add(line);
@@ -277,8 +278,9 @@ public class OpenIdLoginPanel extends Composite implements FormHandler {
     providerId.setFocus(true);
   }
 
-  public void onSubmit(final FormSubmitEvent event) {
-    event.setCancelled(true);
+  @Override
+  public void onSubmit(final SubmitEvent event) {
+    event.cancel();
 
     final String openidIdentifier = providerId.getText();
     if (openidIdentifier == null || openidIdentifier.equals("")) {
@@ -290,7 +292,7 @@ public class OpenIdLoginPanel extends Composite implements FormHandler {
     enable(false);
     hideError();
 
-    final boolean remember = rememberId != null && rememberId.isChecked();
+    final boolean remember = rememberId != null && rememberId.getValue();
     final String token = History.getToken();
     OpenIdUtil.SVC.discover(openidIdentifier, mode, remember, token,
         new GerritCallback<DiscoveryResult>() {

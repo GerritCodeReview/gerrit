@@ -22,20 +22,23 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.InvalidNameException;
 import com.google.gerrit.client.rpc.InvalidRevisionException;
 import com.google.gerrit.client.ui.FancyFlexTable;
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.FocusListenerAdapter;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.SourcesTableEvents;
-import com.google.gwt.user.client.ui.TableListener;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
+import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.google.gwtjsonrpc.client.RemoteJsonException;
 
 import java.util.HashSet;
@@ -91,17 +94,18 @@ public class ProjectBranchesPanel extends Composite {
     nameTxtBox.setVisibleLength(50);
     nameTxtBox.setText(Util.C.defaultBranchName());
     nameTxtBox.addStyleName("gerrit-InputFieldTypeHint");
-    nameTxtBox.addFocusListener(new FocusListenerAdapter() {
+    nameTxtBox.addFocusHandler(new FocusHandler() {
       @Override
-      public void onFocus(Widget sender) {
+      public void onFocus(FocusEvent event) {
         if (Util.C.defaultBranchName().equals(nameTxtBox.getText())) {
           nameTxtBox.setText("");
           nameTxtBox.removeStyleName("gerrit-InputFieldTypeHint");
         }
       }
-
+    });
+    nameTxtBox.addBlurHandler(new BlurHandler() {
       @Override
-      public void onLostFocus(Widget sender) {
+      public void onBlur(BlurEvent event) {
         if ("".equals(nameTxtBox.getText())) {
           nameTxtBox.setText(Util.C.defaultBranchName());
           nameTxtBox.addStyleName("gerrit-InputFieldTypeHint");
@@ -115,17 +119,18 @@ public class ProjectBranchesPanel extends Composite {
     irevTxtBox.setVisibleLength(50);
     irevTxtBox.setText(Util.C.defaultRevisionSpec());
     irevTxtBox.addStyleName("gerrit-InputFieldTypeHint");
-    irevTxtBox.addFocusListener(new FocusListenerAdapter() {
+    irevTxtBox.addFocusHandler(new FocusHandler() {
       @Override
-      public void onFocus(Widget sender) {
+      public void onFocus(FocusEvent event) {
         if (Util.C.defaultRevisionSpec().equals(irevTxtBox.getText())) {
           irevTxtBox.setText("");
           irevTxtBox.removeStyleName("gerrit-InputFieldTypeHint");
         }
       }
-
+    });
+    irevTxtBox.addBlurHandler(new BlurHandler() {
       @Override
-      public void onLostFocus(Widget sender) {
+      public void onBlur(BlurEvent event) {
         if ("".equals(irevTxtBox.getText())) {
           irevTxtBox.setText(Util.C.defaultRevisionSpec());
           irevTxtBox.addStyleName("gerrit-InputFieldTypeHint");
@@ -136,8 +141,9 @@ public class ProjectBranchesPanel extends Composite {
     addGrid.setWidget(1, 1, irevTxtBox);
 
     addBranch = new Button(Util.C.buttonAddBranch());
-    addBranch.addClickListener(new ClickListener() {
-      public void onClick(final Widget sender) {
+    addBranch.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(final ClickEvent event) {
         doAddNewBranch();
       }
     });
@@ -147,8 +153,9 @@ public class ProjectBranchesPanel extends Composite {
     branches = new BranchesTable();
 
     delBranch = new Button(Util.C.buttonDeleteBranch());
-    delBranch.addClickListener(new ClickListener() {
-      public void onClick(final Widget sender) {
+    delBranch.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(final ClickEvent event) {
         branches.deleteChecked();
       }
     });
@@ -208,10 +215,13 @@ public class ProjectBranchesPanel extends Composite {
     BranchesTable() {
       table.setText(0, 2, Util.C.columnBranchName());
       table.setHTML(0, 3, "&nbsp;");
-      table.addTableListener(new TableListener() {
-        public void onCellClicked(SourcesTableEvents sender, int row, int cell) {
-          if (cell != 1 && getRowItem(row) != null) {
-            movePointerTo(row);
+      table.addClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(ClickEvent event) {
+          final Cell cell = table.getCellForEvent(event);
+          if (cell != null && cell.getCellIndex() != 1
+              && getRowItem(cell.getRowIndex()) != null) {
+            movePointerTo(cell.getRowIndex());
           }
         }
       });
@@ -228,12 +238,12 @@ public class ProjectBranchesPanel extends Composite {
     }
 
     @Override
-    protected boolean onKeyPress(final char keyCode, final int modifiers) {
-      if (super.onKeyPress(keyCode, modifiers)) {
+    protected boolean onKeyPress(final KeyPressEvent event) {
+      if (super.onKeyPress(event)) {
         return true;
       }
-      if (modifiers == 0) {
-        switch (keyCode) {
+      if (!event.isAnyModifierKeyDown()) {
+        switch (event.getCharCode()) {
           case 's':
           case 'c':
             toggleCurrentRow();
@@ -250,7 +260,7 @@ public class ProjectBranchesPanel extends Composite {
 
     private void toggleCurrentRow() {
       final CheckBox cb = (CheckBox) table.getWidget(getCurrentRow(), 1);
-      cb.setChecked(!cb.isChecked());
+      cb.setValue(!cb.getValue());
     }
 
     void deleteChecked() {
@@ -258,7 +268,7 @@ public class ProjectBranchesPanel extends Composite {
       for (int row = 1; row < table.getRowCount(); row++) {
         final Branch k = getRowItem(row);
         if (k != null && table.getWidget(row, 1) instanceof CheckBox
-            && ((CheckBox) table.getWidget(row, 1)).isChecked()) {
+            && ((CheckBox) table.getWidget(row, 1)).getValue()) {
           ids.add(k.getNameKey());
         }
       }

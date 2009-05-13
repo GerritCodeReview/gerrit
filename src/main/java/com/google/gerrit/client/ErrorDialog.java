@@ -15,11 +15,11 @@
 package com.google.gerrit.client;
 
 import com.google.gerrit.client.rpc.Common;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.user.client.AutoCenterDialogBox;
 import com.google.gwtjsonrpc.client.RemoteJsonException;
 
@@ -36,9 +36,10 @@ public class ErrorDialog extends AutoCenterDialogBox {
     buttons.setStyleName("gerrit-ErrorDialog-Buttons");
     final Button closey = new Button();
     closey.setText(Gerrit.C.errorDialogClose());
-    closey.addClickListener(new ClickListener() {
-      public void onClick(final Widget sender) {
-        hide();
+    closey.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        hide();        
       }
     });
     buttons.add(closey);

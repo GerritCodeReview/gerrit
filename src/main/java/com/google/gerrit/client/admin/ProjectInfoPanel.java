@@ -21,9 +21,11 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountGroupSuggestOracle;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.client.ui.TextSaveButtonListener;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.ChangeListener;
-import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ListBox;
@@ -32,7 +34,6 @@ import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtjsonrpc.client.VoidResult;
 
 public class ProjectInfoPanel extends Composite {
@@ -94,8 +95,9 @@ public class ProjectInfoPanel extends Composite {
     ownerPanel.add(ownerTxt);
 
     saveOwner = new Button(Util.C.buttonChangeGroupOwner());
-    saveOwner.addClickListener(new ClickListener() {
-      public void onClick(Widget sender) {
+    saveOwner.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(final ClickEvent event) {
         final String newOwner = ownerTxt.getText().trim();
         if (newOwner.length() > 0) {
           Util.PROJECT_SVC.changeProjectOwner(projectId, newOwner,
@@ -123,8 +125,9 @@ public class ProjectInfoPanel extends Composite {
     vp.add(descTxt);
 
     saveDesc = new Button(Util.C.buttonSaveDescription());
-    saveDesc.addClickListener(new ClickListener() {
-      public void onClick(Widget sender) {
+    saveDesc.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(final ClickEvent event) {
         final String txt = descTxt.getText().trim();
         Util.PROJECT_SVC.changeProjectDescription(projectId, txt,
             new GerritCallback<VoidResult>() {
@@ -148,8 +151,9 @@ public class ProjectInfoPanel extends Composite {
     for (final Project.SubmitType type : Project.SubmitType.values()) {
       submitType.addItem(Util.toLongString(type), type.name());
     }
-    submitType.addChangeListener(new ChangeListener() {
-      public void onChange(Widget sender) {
+    submitType.addChangeHandler(new ChangeHandler() {
+      @Override
+      public void onChange(final ChangeEvent event) {
         final int i = submitType.getSelectedIndex();
         if (i < 0) {
           return;

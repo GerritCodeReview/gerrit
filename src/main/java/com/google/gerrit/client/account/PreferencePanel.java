@@ -18,15 +18,16 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.SmallHeading;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.LocaleInfo;
-import com.google.gwt.user.client.ui.ChangeListener;
 import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtjsonrpc.client.VoidResult;
 
 class PreferencePanel extends Composite {
@@ -39,9 +40,10 @@ class PreferencePanel extends Composite {
     final FlowPanel body = new FlowPanel();
 
     showSiteHeader = new CheckBox(Util.C.showSiteHeader());
-    showSiteHeader.addClickListener(new ClickListener() {
-      public void onClick(final Widget sender) {
-        final boolean val = showSiteHeader.isChecked();
+    showSiteHeader.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(final ClickEvent event) {
+        final boolean val = showSiteHeader.getValue();
         Util.ACCOUNT_SVC.changeShowSiteHeader(val,
             new GerritCallback<VoidResult>() {
               public void onSuccess(final VoidResult result) {
@@ -51,7 +53,7 @@ class PreferencePanel extends Composite {
 
               @Override
               public void onFailure(final Throwable caught) {
-                showSiteHeader.setChecked(!val);
+                showSiteHeader.setValue(!val);
                 super.onFailure(caught);
               }
             });
@@ -68,8 +70,9 @@ class PreferencePanel extends Composite {
       }
       defaultContext.addItem(label, String.valueOf(v));
     }
-    defaultContext.addChangeListener(new ChangeListener() {
-      public void onChange(Widget sender) {
+    defaultContext.addChangeHandler(new ChangeHandler() {
+      @Override
+      public void onChange(final ChangeEvent event) {
         final int idx = defaultContext.getSelectedIndex();
         if (idx < 0) {
           return;
@@ -128,7 +131,7 @@ class PreferencePanel extends Composite {
   }
 
   void display(final Account account) {
-    showSiteHeader.setChecked(account.isShowSiteHeader());
+    showSiteHeader.setValue(account.isShowSiteHeader());
     setDefaultContext(account.getDefaultContext());
   }
 

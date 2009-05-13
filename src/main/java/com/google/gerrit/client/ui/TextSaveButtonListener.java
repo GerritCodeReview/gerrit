@@ -14,13 +14,14 @@
 
 package com.google.gerrit.client.ui;
 
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.user.client.ui.FocusWidget;
-import com.google.gwt.user.client.ui.KeyboardListenerAdapter;
 import com.google.gwt.user.client.ui.TextBoxBase;
-import com.google.gwt.user.client.ui.Widget;
 
 /** Enables an action (e.g. a Button) if the text box is modified. */
-public class TextSaveButtonListener extends KeyboardListenerAdapter {
+public class TextSaveButtonListener implements KeyPressHandler {
   private final FocusWidget descAction;
 
   public TextSaveButtonListener(final FocusWidget action) {
@@ -29,36 +30,42 @@ public class TextSaveButtonListener extends KeyboardListenerAdapter {
 
   public TextSaveButtonListener(final TextBoxBase text, final FocusWidget action) {
     this(action);
-    text.addKeyboardListener(this);
+    text.addKeyPressHandler(this);
   }
 
   @Override
-  public void onKeyPress(final Widget sender, final char key, final int mod) {
-    boolean hasm = (mod & (MODIFIER_CTRL | MODIFIER_ALT | MODIFIER_META)) != 0;
-    if (!hasm) {
-      switch (key) {
-        case KEY_UP:
-        case KEY_DOWN:
-        case KEY_LEFT:
-        case KEY_RIGHT:
-        case KEY_HOME:
-        case KEY_END:
-        case KEY_PAGEUP:
-        case KEY_PAGEDOWN:
-        case KEY_ALT:
-        case KEY_CTRL:
-        case KEY_SHIFT:
-          break;
-        default:
-          on(sender);
+  public void onKeyPress(final KeyPressEvent e) {
+    if (descAction.isEnabled()) {
+      // Do nothing, its already enabled.
+    } else if (e.isControlKeyDown() || e.isAltKeyDown() || e.isMetaKeyDown()) {
+      switch (e.getCharCode()) {
+        case 'v':
+        case 'x':
+          on(e);
           break;
       }
-    } else if (hasm && (key == 'v' || key == 'x')) {
-      on(sender);
+    } else {
+      switch (e.getCharCode()) {
+        case KeyCodes.KEY_UP:
+        case KeyCodes.KEY_DOWN:
+        case KeyCodes.KEY_LEFT:
+        case KeyCodes.KEY_RIGHT:
+        case KeyCodes.KEY_HOME:
+        case KeyCodes.KEY_END:
+        case KeyCodes.KEY_PAGEUP:
+        case KeyCodes.KEY_PAGEDOWN:
+        case KeyCodes.KEY_ALT:
+        case KeyCodes.KEY_CTRL:
+        case KeyCodes.KEY_SHIFT:
+          break;
+        default:
+          on(e);
+          break;
+      }
     }
   }
 
-  private void on(final Widget sender) {
-    descAction.setEnabled(((TextBoxBase) sender).isEnabled());
+  private void on(final KeyPressEvent e) {
+    descAction.setEnabled(((TextBoxBase) e.getSource()).isEnabled());
   }
 }

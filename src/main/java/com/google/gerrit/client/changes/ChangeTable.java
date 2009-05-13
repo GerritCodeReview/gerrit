@@ -28,13 +28,15 @@ import com.google.gerrit.client.ui.AccountDashboardLink;
 import com.google.gerrit.client.ui.ChangeLink;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.client.ui.ProjectOpenLink;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.SourcesTableEvents;
-import com.google.gwt.user.client.ui.TableListener;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
+import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwtjsonrpc.client.VoidResult;
 
@@ -78,14 +80,19 @@ public class ChangeTable extends FancyFlexTable<ChangeInfo> {
       fmt.addStyleName(0, i, S_DATA_HEADER);
     }
 
-    table.addTableListener(new TableListener() {
-      public void onCellClicked(SourcesTableEvents sender, int row, int cell) {
-        if (cell == C_STAR) {
-          onStarClick(row);
-        } else if (cell == C_OWNER) {
+    table.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(final ClickEvent event) {
+        final Cell cell = table.getCellForEvent(event);
+        if (cell == null) {
+          return;
+        }
+        if (cell.getCellIndex() == C_STAR) {
+          onStarClick(cell.getRowIndex());
+        } else if (cell.getCellIndex() == C_OWNER) {
           // Don't do anything.
-        } else if (getRowItem(row) != null) {
-          movePointerTo(row);
+        } else if (getRowItem(cell.getRowIndex()) != null) {
+          movePointerTo(cell.getRowIndex());
         }
       }
     });
@@ -155,12 +162,12 @@ public class ChangeTable extends FancyFlexTable<ChangeInfo> {
   }
 
   @Override
-  protected boolean onKeyPress(final char keyCode, final int modifiers) {
-    if (super.onKeyPress(keyCode, modifiers)) {
+  protected boolean onKeyPress(final KeyPressEvent event) {
+    if (super.onKeyPress(event)) {
       return true;
     }
-    if (modifiers == 0) {
-      switch (keyCode) {
+    if (!event.isAnyModifierKeyDown()) {
+      switch (event.getCharCode()) {
         case 's':
           onStarClick(getCurrentRow());
           return true;

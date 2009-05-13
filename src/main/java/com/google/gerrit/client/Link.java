@@ -43,9 +43,10 @@ import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.HistoryListener;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 
-public class Link implements HistoryListener {
+public class Link implements ValueChangeHandler<String> {
   public static final String SETTINGS = "settings";
   public static final String SETTINGS_SSHKEYS = "settings,ssh-keys";
   public static final String SETTINGS_WEBIDENT = "settings,web-identities";
@@ -106,7 +107,9 @@ public class Link implements HistoryListener {
     return "project,open," + proj.toString() + ",n,z";
   }
 
-  public void onHistoryChanged(final String token) {
+  @Override
+  public void onValueChange(final ValueChangeEvent<String> event) {
+    final String token = event.getValue();
     Screen s;
     try {
       s = select(token);

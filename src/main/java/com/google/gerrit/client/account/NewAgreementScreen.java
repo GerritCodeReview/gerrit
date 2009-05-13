@@ -24,6 +24,8 @@ import com.google.gerrit.client.ui.AccountScreen;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.client.ui.TextSaveButtonListener;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
@@ -31,7 +33,6 @@ import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.HTML;
@@ -41,7 +42,6 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtjsonrpc.client.VoidResult;
 
 import java.util.HashSet;
@@ -123,8 +123,9 @@ public class NewAgreementScreen extends AccountScreen {
     fp.add(new InlineLabel(Util.M.enterIAGREE(Util.C.newAgreementIAGREE())));
     finalGroup.add(fp);
     submit = new Button(Util.C.buttonSubmitNewAgreement());
-    submit.addClickListener(new ClickListener() {
-      public void onClick(final Widget sender) {
+    submit.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(final ClickEvent event) {
         doSign();
       }
     });
@@ -170,8 +171,9 @@ public class NewAgreementScreen extends AccountScreen {
         l.setStyleName("gerrit-ContributorAgreement-AlreadySubmitted");
         radios.add(l);
       } else {
-        r.addClickListener(new ClickListener() {
-          public void onClick(final Widget sender) {
+        r.addClickHandler(new ClickHandler() {
+          @Override
+          public void onClick(final ClickEvent event) {
             showCLA(cla);
           }
         });

@@ -27,20 +27,20 @@ import com.google.gerrit.client.ui.AddMemberBox;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.client.ui.TextSaveButtonListener;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.SourcesTableEvents;
 import com.google.gwt.user.client.ui.SuggestBox;
-import com.google.gwt.user.client.ui.TableListener;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
+import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.google.gwtjsonrpc.client.VoidResult;
 
 import java.util.HashSet;
@@ -70,7 +70,7 @@ public class AccountGroupScreen extends AccountScreen {
   }
 
   @Override
-  public void onLoad() {   
+  public void onLoad() {
     super.onLoad();
     Util.GROUP_SVC.groupDetail(groupId,
         new ScreenLoadCallback<AccountGroupDetail>(this) {
@@ -98,8 +98,9 @@ public class AccountGroupScreen extends AccountScreen {
 
     saveName = new Button(Util.C.buttonRenameGroup());
     saveName.setEnabled(false);
-    saveName.addClickListener(new ClickListener() {
-      public void onClick(Widget sender) {
+    saveName.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(final ClickEvent event) {
         final String newName = groupNameTxt.getText().trim();
         Util.GROUP_SVC.renameGroup(groupId, newName,
             new GerritCallback<VoidResult>() {
@@ -127,8 +128,9 @@ public class AccountGroupScreen extends AccountScreen {
 
     saveOwner = new Button(Util.C.buttonChangeGroupOwner());
     saveOwner.setEnabled(false);
-    saveOwner.addClickListener(new ClickListener() {
-      public void onClick(Widget sender) {
+    saveOwner.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(final ClickEvent event) {
         final String newOwner = ownerTxt.getText().trim();
         if (newOwner.length() > 0) {
           Util.GROUP_SVC.changeGroupOwner(groupId, newOwner,
@@ -158,8 +160,9 @@ public class AccountGroupScreen extends AccountScreen {
 
     saveDesc = new Button(Util.C.buttonSaveDescription());
     saveDesc.setEnabled(false);
-    saveDesc.addClickListener(new ClickListener() {
-      public void onClick(Widget sender) {
+    saveDesc.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(final ClickEvent event) {
         final String txt = descTxt.getText().trim();
         Util.GROUP_SVC.changeGroupDescription(groupId, txt,
             new GerritCallback<VoidResult>() {
@@ -177,9 +180,10 @@ public class AccountGroupScreen extends AccountScreen {
 
   private void initMemberList() {
     addMemberBox = new AddMemberBox();
-    
-    addMemberBox.addClickListener(new ClickListener() {
-      public void onClick(final Widget sender) {
+
+    addMemberBox.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(final ClickEvent event) {
         doAddNew();
       }
     });
@@ -187,8 +191,9 @@ public class AccountGroupScreen extends AccountScreen {
     members = new MemberTable();
 
     delMember = new Button(Util.C.buttonDeleteGroupMembers());
-    delMember.addClickListener(new ClickListener() {
-      public void onClick(final Widget sender) {
+    delMember.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(final ClickEvent event) {
         members.deleteChecked();
       }
     });
@@ -253,10 +258,13 @@ public class AccountGroupScreen extends AccountScreen {
     MemberTable() {
       table.setText(0, 2, Util.C.columnMember());
       table.setText(0, 3, Util.C.columnEmailAddress());
-      table.addTableListener(new TableListener() {
-        public void onCellClicked(SourcesTableEvents sender, int row, int cell) {
-          if (cell != 1 && getRowItem(row) != null) {
-            movePointerTo(row);
+      table.addClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(ClickEvent event) {
+          final Cell cell = table.getCellForEvent(event);
+          if (cell != null && cell.getCellIndex() != 1
+              && getRowItem(cell.getRowIndex()) != null) {
+            movePointerTo(cell.getRowIndex());
           }
         }
       });
@@ -273,12 +281,12 @@ public class AccountGroupScreen extends AccountScreen {
     }
 
     @Override
-    protected boolean onKeyPress(final char keyCode, final int modifiers) {
-      if (super.onKeyPress(keyCode, modifiers)) {
+    protected boolean onKeyPress(final KeyPressEvent event) {
+      if (super.onKeyPress(event)) {
         return true;
       }
-      if (modifiers == 0) {
-        switch (keyCode) {
+      if (!event.isAnyModifierKeyDown()) {
+        switch (event.getCharCode()) {
           case 's':
           case 'c':
             toggleCurrentRow();
@@ -295,7 +303,7 @@ public class AccountGroupScreen extends AccountScreen {
 
     private void toggleCurrentRow() {
       final CheckBox cb = (CheckBox) table.getWidget(getCurrentRow(), 1);
-      cb.setChecked(!cb.isChecked());
+      cb.setValue(!cb.getValue());
     }
 
     void deleteChecked() {
@@ -303,7 +311,7 @@ public class AccountGroupScreen extends AccountScreen {
           new HashSet<AccountGroupMember.Key>();
       for (int row = 1; row < table.getRowCount(); row++) {
         final AccountGroupMember k = getRowItem(row);
-        if (k != null && ((CheckBox) table.getWidget(row, 1)).isChecked()) {
+        if (k != null && ((CheckBox) table.getWidget(row, 1)).getValue()) {
           ids.add(k.getKey());
         }
       }

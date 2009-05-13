@@ -32,17 +32,18 @@ import com.google.gerrit.client.reviewdb.UserIdentity;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.RefreshListener;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.OpenEvent;
+import com.google.gwt.event.logical.shared.OpenHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.DisclosureEvent;
-import com.google.gwt.user.client.ui.DisclosureHandler;
+import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
@@ -53,7 +54,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-class PatchSetPanel extends Composite implements DisclosureHandler {
+class PatchSetPanel extends Composite implements OpenHandler<DisclosurePanel> {
   private static final int R_AUTHOR = 0;
   private static final int R_COMMITTER = 1;
   private static final int R_DOWNLOAD = 2;
@@ -295,8 +296,9 @@ class PatchSetPanel extends Composite implements DisclosureHandler {
       final Button b =
           new Button(Util.M.patchSetAction(at.getCategory().getName(), detail
               .getPatchSet().getPatchSetId()));
-      b.addClickListener(new ClickListener() {
-        public void onClick(Widget sender) {
+      b.addClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(final ClickEvent event) {
           b.setEnabled(false);
           Util.MANAGE_SVC.patchSetAction(max.getId(), patchSet.getId(),
               new GerritCallback<VoidResult>() {
@@ -319,8 +321,9 @@ class PatchSetPanel extends Composite implements DisclosureHandler {
 
   private void populateAbandonAction() {
     final Button b = new Button(Util.C.buttonAbandonChangeBegin());
-    b.addClickListener(new ClickListener() {
-      public void onClick(Widget sender) {
+    b.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(final ClickEvent event) {
         new AbandonChangeDialog(patchSet.getId(), new AsyncCallback<Object>() {
           public void onSuccess(Object result) {
             actionsPanel.remove(b);
@@ -337,8 +340,9 @@ class PatchSetPanel extends Composite implements DisclosureHandler {
 
   private void populateCommentAction() {
     final Button b = new Button(Util.C.buttonPublishCommentsBegin());
-    b.addClickListener(new ClickListener() {
-      public void onClick(Widget sender) {
+    b.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(final ClickEvent event) {
         Gerrit.display("change,publish," + patchSet.getId().toString(),
             new PublishCommentScreen(patchSet.getId()));
       }
@@ -346,7 +350,8 @@ class PatchSetPanel extends Composite implements DisclosureHandler {
     actionsPanel.add(b);
   }
 
-  public void onOpen(final DisclosureEvent event) {
+  @Override
+  public void onOpen(final OpenEvent<DisclosurePanel> event) {
     if (infoTable == null) {
       Util.DETAIL_SVC.patchSetDetail(patchSet.getId(),
           new GerritCallback<PatchSetDetail>() {
@@ -355,9 +360,6 @@ class PatchSetPanel extends Composite implements DisclosureHandler {
             }
           });
     }
-  }
-
-  public void onClose(final DisclosureEvent event) {
   }
 
   private void initRow(final int row, final String name) {

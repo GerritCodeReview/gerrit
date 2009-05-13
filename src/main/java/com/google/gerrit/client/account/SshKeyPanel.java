@@ -25,12 +25,14 @@ import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
@@ -38,12 +40,10 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.SourcesTableEvents;
-import com.google.gwt.user.client.ui.TableListener;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
+import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.google.gwtjsonrpc.client.RemoteJsonException;
 import com.google.gwtjsonrpc.client.VoidResult;
 
@@ -67,14 +67,15 @@ class SshKeyPanel extends Composite {
   private TextArea addTxt;
   private Button delSel;
 
-  private Panel serverKeys;  
+  private Panel serverKeys;
 
   SshKeyPanel() {
     final FlowPanel body = new FlowPanel();
 
     showAddKeyBlock = new Button(Util.C.buttonShowAddSshKey());
-    showAddKeyBlock.addClickListener(new ClickListener() {
-      public void onClick(Widget sender) {
+    showAddKeyBlock.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(final ClickEvent event) {
         showAddKeyBlock(true);
       }
     });
@@ -84,8 +85,9 @@ class SshKeyPanel extends Composite {
     {
       final FlowPanel fp = new FlowPanel();
       delSel = new Button(Util.C.buttonDeleteSshKey());
-      delSel.addClickListener(new ClickListener() {
-        public void onClick(final Widget sender) {
+      delSel.addClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(final ClickEvent event) {
           keys.deleteChecked();
         }
       });
@@ -110,8 +112,9 @@ class SshKeyPanel extends Composite {
     addKeyBlock.add(buttons);
 
     clearNew = new Button(Util.C.buttonClearSshKeyInput());
-    clearNew.addClickListener(new ClickListener() {
-      public void onClick(final Widget sender) {
+    clearNew.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(final ClickEvent event) {
         addTxt.setText("");
         addTxt.setFocus(true);
       }
@@ -119,8 +122,9 @@ class SshKeyPanel extends Composite {
     buttons.add(clearNew);
 
     browse = new Button(Util.C.buttonOpenSshKey());
-    browse.addClickListener(new ClickListener() {
-      public void onClick(final Widget sender) {
+    browse.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(final ClickEvent event) {
         doBrowse();
       }
     });
@@ -128,16 +132,18 @@ class SshKeyPanel extends Composite {
     buttons.add(browse);
 
     addNew = new Button(Util.C.buttonAddSshKey());
-    addNew.addClickListener(new ClickListener() {
-      public void onClick(final Widget sender) {
+    addNew.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(final ClickEvent event) {
         doAddNew();
       }
     });
     buttons.add(addNew);
 
     closeAddKeyBlock = new Button(Util.C.buttonCloseAddSshKey());
-    closeAddKeyBlock.addClickListener(new ClickListener() {
-      public void onClick(final Widget sender) {
+    closeAddKeyBlock.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(final ClickEvent event) {
         showAddKeyBlock(false);
       }
     });
@@ -310,10 +316,13 @@ class SshKeyPanel extends Composite {
       table.setText(0, 5, Util.C.sshKeyComment());
       table.setText(0, 6, Util.C.sshKeyLastUsed());
       table.setText(0, 7, Util.C.sshKeyStored());
-      table.addTableListener(new TableListener() {
-        public void onCellClicked(SourcesTableEvents sender, int row, int cell) {
-          if (cell != 1 && getRowItem(row) != null) {
-            movePointerTo(row);
+      table.addClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(ClickEvent event) {
+          final Cell cell = table.getCellForEvent(event);
+          if (cell != null && cell.getCellIndex() != 1
+              && getRowItem(cell.getRowIndex()) != null) {
+            movePointerTo(cell.getRowIndex());
           }
         }
       });
@@ -334,12 +343,12 @@ class SshKeyPanel extends Composite {
     }
 
     @Override
-    protected boolean onKeyPress(final char keyCode, final int modifiers) {
-      if (super.onKeyPress(keyCode, modifiers)) {
+    protected boolean onKeyPress(final KeyPressEvent event) {
+      if (super.onKeyPress(event)) {
         return true;
       }
-      if (modifiers == 0) {
-        switch (keyCode) {
+      if (!event.isAnyModifierKeyDown()) {
+        switch (event.getCharCode()) {
           case 's':
           case 'c':
             toggleCurrentRow();
@@ -356,14 +365,14 @@ class SshKeyPanel extends Composite {
 
     private void toggleCurrentRow() {
       final CheckBox cb = (CheckBox) table.getWidget(getCurrentRow(), 1);
-      cb.setChecked(!cb.isChecked());
+      cb.setValue(!cb.getValue());
     }
 
     void deleteChecked() {
       final HashSet<AccountSshKey.Id> ids = new HashSet<AccountSshKey.Id>();
       for (int row = 1; row < table.getRowCount(); row++) {
         final AccountSshKey k = getRowItem(row);
-        if (k != null && ((CheckBox) table.getWidget(row, 1)).isChecked()) {
+        if (k != null && ((CheckBox) table.getWidget(row, 1)).getValue()) {
           ids.add(k.getKey());
         }
       }

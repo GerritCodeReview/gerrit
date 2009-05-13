@@ -16,19 +16,25 @@ package com.google.gerrit.client.ui;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.dom.client.HasBlurHandlers;
+import com.google.gwt.event.dom.client.HasFocusHandlers;
+import com.google.gwt.event.dom.client.HasKeyPressHandlers;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.Element;
-import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.FocusListener;
 import com.google.gwt.user.client.ui.FocusPanel;
-import com.google.gwt.user.client.ui.HasFocus;
+import com.google.gwt.user.client.ui.Focusable;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.KeyboardListener;
-import com.google.gwt.user.client.ui.KeyboardListenerAdapter;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
@@ -40,7 +46,7 @@ import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 
 public abstract class FancyFlexTable<RowItem> extends Composite implements
-    HasFocus {
+    Focusable, HasFocusHandlers, HasBlurHandlers, HasKeyPressHandlers {
   private static final FancyFlexTableImpl impl =
       GWT.create(FancyFlexTableImpl.class);
 
@@ -74,24 +80,21 @@ public abstract class FancyFlexTable<RowItem> extends Composite implements
     table.addStyleName(MY_STYLE);
     focusy = UserAgent.wrapFocusPanel(table);
     if (focusy != null) {
-      focusy.addKeyboardListener(new KeyboardListenerAdapter() {
+      focusy.addKeyPressHandler(new KeyPressHandler() {
         @Override
-        public void onKeyPress(Widget sender, char keyCode, int modifiers) {
-          if (FancyFlexTable.this.onKeyPress(keyCode, modifiers)) {
-            final Event event = DOM.eventGetCurrentEvent();
-            DOM.eventCancelBubble(event, true);
-            DOM.eventPreventDefault(event);
+        public void onKeyPress(final KeyPressEvent event) {
+          if (FancyFlexTable.this.onKeyPress(event)) {
+            event.stopPropagation();
+            event.preventDefault();
           }
         }
       });
-      focusy.addFocusListener(new FocusListener() {
-        public void onFocus(final Widget sender) {
+      focusy.addFocusHandler(new FocusHandler() {
+        @Override
+        public void onFocus(final FocusEvent event) {
           if (currentRow < 0) {
             onDown();
           }
-        }
-
-        public void onLostFocus(final Widget sender) {
         }
       });
     }
@@ -122,21 +125,21 @@ public abstract class FancyFlexTable<RowItem> extends Composite implements
     impl.resetHtml(table, body);
   }
 
-  protected boolean onKeyPress(final char keyCode, final int modifiers) {
-    if (modifiers == 0) {
-      switch (keyCode) {
+  protected boolean onKeyPress(final KeyPressEvent event) {
+    if (!event.isAnyModifierKeyDown()) {
+      switch (event.getCharCode()) {
         case 'k':
-        case KeyboardListener.KEY_UP:
+        case KeyCodes.KEY_UP:
           onUp();
           return true;
 
         case 'j':
-        case KeyboardListener.KEY_DOWN:
+        case KeyCodes.KEY_DOWN:
           onDown();
           return true;
 
         case 'o':
-        case KeyboardListener.KEY_ENTER:
+        case KeyCodes.KEY_ENTER:
           onOpen();
           return true;
       }
@@ -273,31 +276,36 @@ public abstract class FancyFlexTable<RowItem> extends Composite implements
     }
   }
 
-  public void addFocusListener(FocusListener listener) {
+  public HandlerRegistration addFocusHandler(FocusHandler handler) {
     if (focusy != null) {
-      focusy.addFocusListener(listener);
+      return focusy.addFocusHandler(handler);
     }
+    return NoopRegistration.INSTANCE;
   }
 
-  public void addKeyboardListener(KeyboardListener listener) {
+  public HandlerRegistration addBlurHandler(BlurHandler handler) {
     if (focusy != null) {
-      focusy.addKeyboardListener(listener);
+      return focusy.addBlurHandler(handler);
     }
+    return NoopRegistration.INSTANCE;
   }
 
-  public void removeFocusListener(FocusListener listener) {
+  public HandlerRegistration addKeyPressHandler(KeyPressHandler handler) {
     if (focusy != null) {
-      focusy.removeFocusListener(listener);
+      return focusy.addKeyPressHandler(handler);
     }
-  }
-
-  public void removeKeyboardListener(KeyboardListener listener) {
-    if (focusy != null) {
-      focusy.removeKeyboardListener(listener);
-    }
+    return NoopRegistration.INSTANCE;
   }
 
   protected static class MyFlexTable extends FlexTable {
+  }
+
+  private static final class NoopRegistration implements HandlerRegistration {
+    static final NoopRegistration INSTANCE = new NoopRegistration();
+
+    @Override
+    public void removeHandler() {
+    }
   }
 
   private static final native <ItemType> void setRowItem(Element td, ItemType c)/*-{ td["__gerritRowItem"] = c; }-*/;

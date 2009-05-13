@@ -20,9 +20,9 @@ import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.AccountScreen;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.ui.LazyPanel;
-import com.google.gwt.user.client.ui.SourcesTabEvents;
-import com.google.gwt.user.client.ui.TabListener;
 import com.google.gwt.user.client.ui.TabPanel;
 
 import java.util.ArrayList;
@@ -91,13 +91,10 @@ public class ProjectAdminScreen extends AccountScreen {
     }, Util.C.projectAdminTabAccess());
     tabTokens.add(Link.toProjectAdmin(projectId, ACCESS_TAB));
 
-    tabs.addTabListener(new TabListener() {
-      public boolean onBeforeTabSelected(SourcesTabEvents sender, int tabIndex) {
-        return true;
-      }
-
-      public void onTabSelected(SourcesTabEvents sender, int tabIndex) {
-        Gerrit.display(tabTokens.get(tabIndex), false);
+    tabs.addSelectionHandler(new SelectionHandler<Integer>() {
+      @Override
+      public void onSelection(final SelectionEvent<Integer> event) {
+        Gerrit.display(tabTokens.get(event.getSelectedItem()), false);
       }
     });
   }

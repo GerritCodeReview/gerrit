@@ -31,9 +31,10 @@ import com.google.gerrit.client.ui.ExpandAllCommand;
 import com.google.gerrit.client.ui.LinkMenuBar;
 import com.google.gerrit.client.ui.RefreshListener;
 import com.google.gerrit.client.ui.Screen;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -127,8 +128,9 @@ public class ChangeScreen extends Screen {
     starChange = Gerrit.ICONS.starOpen().createImage();
     starChange.setStyleName("gerrit-ChangeScreen-StarIcon");
     starChange.setVisible(Gerrit.isSignedIn());
-    starChange.addClickListener(new ClickListener() {
-      public void onClick(Widget sender) {
+    starChange.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(final ClickEvent event) {
         final boolean prior = starred;
         setStarred(!prior);
 
@@ -261,7 +263,7 @@ public class ChangeScreen extends Screen {
           }
         });
       } else {
-        panel.addEventHandler(psp);
+        panel.addOpenHandler(psp);
       }
       add(panel);
       patchSetPanels.add(panel);

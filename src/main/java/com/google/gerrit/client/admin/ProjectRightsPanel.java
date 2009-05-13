@@ -26,22 +26,26 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountGroupSuggestOracle;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.client.ui.SmallHeading;
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.ChangeListener;
 import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.FocusListenerAdapter;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.SourcesTableEvents;
 import com.google.gwt.user.client.ui.SuggestBox;
-import com.google.gwt.user.client.ui.TableListener;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
+import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 import com.google.gwtjsonrpc.client.VoidResult;
@@ -106,8 +110,9 @@ public class ProjectRightsPanel extends Composite {
     rangeMinBox = new ListBox();
     rangeMaxBox = new ListBox();
 
-    catBox.addChangeListener(new ChangeListener() {
-      public void onChange(Widget sender) {
+    catBox.addChangeHandler(new ChangeHandler() {
+      @Override
+      public void onChange(final ChangeEvent event) {
         populateRangeBoxes();
       }
     });
@@ -132,17 +137,18 @@ public class ProjectRightsPanel extends Composite {
     nameTxtBox.setVisibleLength(50);
     nameTxtBox.setText(Util.C.defaultAccountGroupName());
     nameTxtBox.addStyleName("gerrit-InputFieldTypeHint");
-    nameTxtBox.addFocusListener(new FocusListenerAdapter() {
+    nameTxtBox.addFocusHandler(new FocusHandler() {
       @Override
-      public void onFocus(Widget sender) {
+      public void onFocus(FocusEvent event) {
         if (Util.C.defaultAccountGroupName().equals(nameTxtBox.getText())) {
           nameTxtBox.setText("");
           nameTxtBox.removeStyleName("gerrit-InputFieldTypeHint");
         }
       }
-
+    });
+    nameTxtBox.addBlurHandler(new BlurHandler() {
       @Override
-      public void onLostFocus(Widget sender) {
+      public void onBlur(BlurEvent event) {
         if ("".equals(nameTxtBox.getText())) {
           nameTxtBox.setText(Util.C.defaultAccountGroupName());
           nameTxtBox.addStyleName("gerrit-InputFieldTypeHint");
@@ -159,8 +165,9 @@ public class ProjectRightsPanel extends Composite {
     addGrid.setWidget(3, 1, rangeMaxBox);
 
     addRight = new Button(Util.C.buttonAddProjectRight());
-    addRight.addClickListener(new ClickListener() {
-      public void onClick(final Widget sender) {
+    addRight.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(final ClickEvent event) {
         doAddNewRight();
       }
     });
@@ -170,8 +177,9 @@ public class ProjectRightsPanel extends Composite {
     rights = new RightsTable();
 
     delRight = new Button(Util.C.buttonDeleteGroupMembers());
-    delRight.addClickListener(new ClickListener() {
-      public void onClick(final Widget sender) {
+    delRight.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(final ClickEvent event) {
         rights.deleteChecked();
       }
     });
@@ -303,10 +311,13 @@ public class ProjectRightsPanel extends Composite {
       table.setText(0, 2, Util.C.columnApprovalCategory());
       table.setText(0, 3, Util.C.columnGroupName());
       table.setText(0, 4, Util.C.columnRightRange());
-      table.addTableListener(new TableListener() {
-        public void onCellClicked(SourcesTableEvents sender, int row, int cell) {
-          if (cell != 1 && getRowItem(row) != null) {
-            movePointerTo(row);
+      table.addClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(final ClickEvent event) {
+          final Cell cell = table.getCellForEvent(event);
+          if (cell != null && cell.getCellIndex() != 1
+              && getRowItem(cell.getRowIndex()) != null) {
+            movePointerTo(cell.getRowIndex());
           }
         }
       });
@@ -324,12 +335,12 @@ public class ProjectRightsPanel extends Composite {
     }
 
     @Override
-    protected boolean onKeyPress(final char keyCode, final int modifiers) {
-      if (super.onKeyPress(keyCode, modifiers)) {
+    protected boolean onKeyPress(final KeyPressEvent event) {
+      if (super.onKeyPress(event)) {
         return true;
       }
-      if (modifiers == 0) {
-        switch (keyCode) {
+      if (!event.isAnyModifierKeyDown()) {
+        switch (event.getCharCode()) {
           case 's':
           case 'c':
             toggleCurrentRow();
@@ -346,7 +357,7 @@ public class ProjectRightsPanel extends Composite {
 
     private void toggleCurrentRow() {
       final CheckBox cb = (CheckBox) table.getWidget(getCurrentRow(), 1);
-      cb.setChecked(!cb.isChecked());
+      cb.setValue(!cb.getValue());
     }
 
     void deleteChecked() {
@@ -354,7 +365,7 @@ public class ProjectRightsPanel extends Composite {
       for (int row = 1; row < table.getRowCount(); row++) {
         final ProjectRight k = getRowItem(row);
         if (k != null && table.getWidget(row, 1) instanceof CheckBox
-            && ((CheckBox) table.getWidget(row, 1)).isChecked()) {
+            && ((CheckBox) table.getWidget(row, 1)).getValue()) {
           ids.add(k.getKey());
         }
       }

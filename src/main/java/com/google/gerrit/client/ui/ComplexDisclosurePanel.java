@@ -14,18 +14,21 @@
 
 package com.google.gerrit.client.ui;
 
+import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.event.logical.shared.HasCloseHandlers;
+import com.google.gwt.event.logical.shared.HasOpenHandlers;
+import com.google.gwt.event.logical.shared.OpenHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.DisclosureHandler;
 import com.google.gwt.user.client.ui.DisclosurePanel;
-import com.google.gwt.user.client.ui.FiresDisclosureEvents;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class ComplexDisclosurePanel extends Composite implements
-    FiresDisclosureEvents {
+    HasOpenHandlers<DisclosurePanel>, HasCloseHandlers<DisclosurePanel> {
   private final DisclosurePanel main;
   private final Panel header;
 
@@ -84,12 +87,15 @@ public class ComplexDisclosurePanel extends Composite implements
     return main.getContent();
   }
 
-  public void addEventHandler(final DisclosureHandler handler) {
-    main.addEventHandler(handler);
+  @Override
+  public HandlerRegistration addOpenHandler(final OpenHandler<DisclosurePanel> h) {
+    return main.addOpenHandler(h);
   }
 
-  public void removeEventHandler(final DisclosureHandler handler) {
-    main.removeEventHandler(handler);
+  @Override
+  public HandlerRegistration addCloseHandler(
+      final CloseHandler<DisclosurePanel> h) {
+    return main.addCloseHandler(h);
   }
 
   /** @return true if the panel's content is visible. */

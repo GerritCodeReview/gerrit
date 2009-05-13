@@ -26,10 +26,11 @@ import com.google.gerrit.client.ui.Screen;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.History;
-import com.google.gwt.user.client.HistoryListener;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTML;
@@ -203,9 +204,10 @@ public class Gerrit implements EntryPoint {
   static void addHistoryHook(final JavaScriptObject hook) {
     if (historyHooks == null) {
       historyHooks = new ArrayList<JavaScriptObject>();
-      History.addHistoryListener(new HistoryListener() {
-        public void onHistoryChanged(final String historyToken) {
-          dispatchHistoryHooks(historyToken);
+      History.addValueChangeHandler(new ValueChangeHandler<String>() {
+        @Override
+        public void onValueChange(ValueChangeEvent<String> event) {
+          dispatchHistoryHooks(event.getValue());
         }
       });
     }
@@ -281,7 +283,7 @@ public class Gerrit implements EntryPoint {
     sg.getElement().getParentElement().removeChild(sg.getElement());
     RootPanel.detachNow(sg);
 
-    History.addHistoryListener(new Link());
+    History.addValueChangeHandler(new Link());
     if ("".equals(History.getToken())) {
       if (isSignedIn()) {
         History.newItem(Link.MINE);

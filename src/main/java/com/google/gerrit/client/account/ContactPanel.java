@@ -21,16 +21,15 @@ import com.google.gerrit.client.reviewdb.ContactInformation;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.TextSaveButtonListener;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.ChangeListener;
-import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.FormHandler;
 import com.google.gwt.user.client.ui.FormPanel;
-import com.google.gwt.user.client.ui.FormSubmitCompleteEvent;
-import com.google.gwt.user.client.ui.FormSubmitEvent;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
@@ -39,6 +38,7 @@ import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
 import com.google.gwtexpui.user.client.AutoCenterDialogBox;
 import com.google.gwtjsonrpc.client.VoidResult;
 
@@ -129,8 +129,9 @@ class ContactPanel extends Composite {
 
     registerNewEmail = new Button(Util.C.buttonOpenRegisterNewEmail());
     registerNewEmail.setEnabled(false);
-    registerNewEmail.addClickListener(new ClickListener() {
-      public void onClick(final Widget sender) {
+    registerNewEmail.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(final ClickEvent event) {
         doRegisterNewEmail();
       }
     });
@@ -156,17 +157,19 @@ class ContactPanel extends Composite {
 
     save = new Button(Util.C.buttonSaveContact());
     save.setEnabled(false);
-    save.addClickListener(new ClickListener() {
-      public void onClick(final Widget sender) {
+    save.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(final ClickEvent event) {
         doSave();
       }
     });
     body.add(save);
 
     final TextSaveButtonListener sbl = new TextSaveButtonListener(save);
-    nameTxt.addKeyboardListener(sbl);
-    emailPick.addChangeListener(new ChangeListener() {
-      public void onChange(Widget sender) {
+    nameTxt.addKeyPressHandler(sbl);
+    emailPick.addChangeHandler(new ChangeHandler() {
+      @Override
+      public void onChange(final ChangeEvent event) {
         final int idx = emailPick.getSelectedIndex();
         final String v = 0 <= idx ? emailPick.getValue(idx) : null;
         if (Util.C.buttonOpenRegisterNewEmail().equals(v)) {
@@ -182,10 +185,10 @@ class ContactPanel extends Composite {
         }
       }
     });
-    addressTxt.addKeyboardListener(sbl);
-    countryTxt.addKeyboardListener(sbl);
-    phoneTxt.addKeyboardListener(sbl);
-    faxTxt.addKeyboardListener(sbl);
+    addressTxt.addKeyPressHandler(sbl);
+    countryTxt.addKeyPressHandler(sbl);
+    phoneTxt.addKeyPressHandler(sbl);
+    faxTxt.addKeyPressHandler(sbl);
 
     initWidget(body);
   }
@@ -216,29 +219,27 @@ class ContactPanel extends Composite {
         postLoad();
       }
     });
-    Util.ACCOUNT_SEC
-        .myExternalIds(new GerritCallback<ExternalIdDetail>() {
-          public void onSuccess(final ExternalIdDetail detail) {
-            if (!isAttached()) {
-              return;
-            }
-            final List<AccountExternalId> result = detail.ids;
-            final Set<String> emails = new HashSet<String>();
-            for (final AccountExternalId i : result) {
-              if (i.getEmailAddress() != null
-                  && i.getEmailAddress().length() > 0) {
-                emails.add(i.getEmailAddress());
-              }
-            }
-            final List<String> addrs = new ArrayList<String>(emails);
-            Collections.sort(addrs);
-            for (String s : addrs) {
-              emailPick.addItem(s);
-            }
-            haveEmails = true;
-            postLoad();
+    Util.ACCOUNT_SEC.myExternalIds(new GerritCallback<ExternalIdDetail>() {
+      public void onSuccess(final ExternalIdDetail detail) {
+        if (!isAttached()) {
+          return;
+        }
+        final List<AccountExternalId> result = detail.ids;
+        final Set<String> emails = new HashSet<String>();
+        for (final AccountExternalId i : result) {
+          if (i.getEmailAddress() != null && i.getEmailAddress().length() > 0) {
+            emails.add(i.getEmailAddress());
           }
-        });
+        }
+        final List<String> addrs = new ArrayList<String>(emails);
+        Collections.sort(addrs);
+        for (String s : addrs) {
+          emailPick.addItem(s);
+        }
+        haveEmails = true;
+        postLoad();
+      }
+    });
   }
 
   private void postLoad() {
@@ -306,9 +307,10 @@ class ContactPanel extends Composite {
 
     final Button register = new Button(Util.C.buttonSendRegisterNewEmail());
     final FormPanel form = new FormPanel();
-    form.addFormHandler(new FormHandler() {
-      public void onSubmit(final FormSubmitEvent event) {
-        event.setCancelled(true);
+    form.addSubmitHandler(new FormPanel.SubmitHandler() {
+      @Override
+      public void onSubmit(final SubmitEvent event) {
+        event.cancel();
         final String addr = inEmail.getText().trim();
         if (!addr.contains("@")) {
           return;
@@ -329,14 +331,12 @@ class ContactPanel extends Composite {
           }
         });
       }
-
-      public void onSubmitComplete(final FormSubmitCompleteEvent event) {
-      }
     });
     form.setWidget(body);
 
-    register.addClickListener(new ClickListener() {
-      public void onClick(Widget sender) {
+    register.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(final ClickEvent event) {
         form.submit();
       }
     });

@@ -30,13 +30,13 @@ import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountDashboardLink;
 import com.google.gerrit.client.ui.AddMemberBox;
-import com.google.gwt.user.client.ui.ClickListener;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwtjsonrpc.client.VoidResult;
 
@@ -70,8 +70,9 @@ public class ApprovalTable extends Composite {
     addReviewer.setStyleName("gerrit-Change-AddReviewer");
     addMemberBox = new AddMemberBox();
     addMemberBox.setAddButtonText(Util.C.approvalTableAddReviewer());
-    addMemberBox.addClickListener(new ClickListener() {
-      public void onClick(final Widget sender) {
+    addMemberBox.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(final ClickEvent event) {
         doAddReviewer();
       }
     });

@@ -18,13 +18,15 @@ import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.ui.FancyFlexTable;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.RadioButton;
-import com.google.gwt.user.client.ui.SourcesTableEvents;
-import com.google.gwt.user.client.ui.TableListener;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 import java.util.ArrayList;
@@ -38,10 +40,12 @@ class HistoryTable extends FancyFlexTable<Patch> {
     setStyleName("gerrit-PatchHistoryTable");
     screen = parent;
     table.addStyleName("gerrit-PatchHistoryTable");
-    table.addTableListener(new TableListener() {
-      public void onCellClicked(SourcesTableEvents sender, int row, int cell) {
-        if (row > 0) {
-          movePointerTo(row);
+    table.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(final ClickEvent event) {
+        final Cell cell = table.getCellForEvent(event);
+        if (cell != null && cell.getRowIndex() > 0) {
+          movePointerTo(cell.getRowIndex());
         }
       }
     });
@@ -53,12 +57,12 @@ class HistoryTable extends FancyFlexTable<Patch> {
   }
 
   @Override
-  protected boolean onKeyPress(final char keyCode, final int modifiers) {
-    if (super.onKeyPress(keyCode, modifiers)) {
+  protected boolean onKeyPress(final KeyPressEvent event) {
+    if (super.onKeyPress(event)) {
       return true;
     }
-    if (modifiers == 0 && getCurrentRow() > 0) {
-      switch (keyCode) {
+    if (!event.isAnyModifierKeyDown()) {
+      switch (event.getCharCode()) {
         case 'o':
         case 'l': {
           final Widget w = table.getWidget(getCurrentRow(), radioCell(0));
@@ -82,14 +86,14 @@ class HistoryTable extends FancyFlexTable<Patch> {
   }
 
   private void fakeClick(final HistoryRadio b) {
-    if (!b.isChecked() && b.isEnabled()) {
+    if (!b.getValue() && b.isEnabled()) {
       for (final HistoryRadio a : all) {
-        if (a.isChecked() && a.getName().equals(b.getName())) {
-          a.setChecked(false);
+        if (a.getValue() && a.getName().equals(b.getName())) {
+          a.setValue(false);
           break;
         }
       }
-      b.setChecked(true);
+      b.setValue(true);
       onClick(b);
     }
   }
@@ -152,7 +156,7 @@ class HistoryTable extends FancyFlexTable<Patch> {
       final PatchSet.Id cur) {
     final PatchSet.Id psid = k.getKey().getParentKey();
     final HistoryRadio b = new HistoryRadio(psid, file);
-    b.setChecked(eq(cur, psid));
+    b.setValue(eq(cur, psid));
 
     final int cell = radioCell(file);
     table.setWidget(row, cell, b);

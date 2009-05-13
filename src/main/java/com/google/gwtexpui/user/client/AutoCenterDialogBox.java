@@ -14,12 +14,14 @@
 
 package com.google.gwtexpui.user.client;
 
+import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.logical.shared.ResizeHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.WindowResizeListener;
 
 /** A DialogBox that automatically re-centers itself if the window changes */
 public class AutoCenterDialogBox extends PluginSafeDialogBox {
-  private WindowResizeListener recenter;
+  private HandlerRegistration recenter;
 
   public AutoCenterDialogBox() {
     this(false);
@@ -36,12 +38,14 @@ public class AutoCenterDialogBox extends PluginSafeDialogBox {
   @Override
   public void show() {
     if (recenter == null) {
-      recenter = new WindowResizeListener() {
-        public void onWindowResized(final int width, final int height) {
-          onResize(width, height);
+      recenter = Window.addResizeHandler(new ResizeHandler() {
+        @Override
+        public void onResize(final ResizeEvent event) {
+          final int w = event.getWidth();
+          final int h = event.getHeight();
+          AutoCenterDialogBox.this.onResize(w, h);
         }
-      };
-      Window.addWindowResizeListener(recenter);
+      });
     }
     super.show();
   }
@@ -49,7 +53,7 @@ public class AutoCenterDialogBox extends PluginSafeDialogBox {
   @Override
   protected void onUnload() {
     if (recenter != null) {
-      Window.removeWindowResizeListener(recenter);
+      recenter.removeHandler();
       recenter = null;
     }
     super.onUnload();

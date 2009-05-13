@@ -74,9 +74,9 @@ public class GerritSshDaemon {
       XsrfException, SocketException {
     final GerritServer srv = GerritServer.getInstance();
     final int myPort = Common.getGerritConfig().getSshdPort();
-    sshd = SshServer.setUpDefaultServer();
-    sshd.setPort(myPort);
-    sshd.setSessionFactory(new SessionFactory() {
+    final SshServer daemon = SshServer.setUpDefaultServer();
+    daemon.setPort(myPort);
+    daemon.setSessionFactory(new SessionFactory() {
       @Override
       protected AbstractSession createSession(final IoSession ioSession)
           throws Exception {
@@ -88,7 +88,7 @@ public class GerritSshDaemon {
 
     final File sitePath = srv.getSitePath();
     if (SecurityUtils.isBouncyCastleRegistered()) {
-      sshd.setKeyPairProvider(new FileKeyPairProvider(new String[] {
+      daemon.setKeyPairProvider(new FileKeyPairProvider(new String[] {
           new File(sitePath, "ssh_host_rsa_key").getAbsolutePath(),
           new File(sitePath, "ssh_host_dsa_key").getAbsolutePath()}));
     } else {
@@ -96,24 +96,18 @@ public class GerritSshDaemon {
 
       keyp = new SimpleGeneratorHostKeyProvider();
       keyp.setPath(new File(sitePath, "ssh_host_key").getAbsolutePath());
-      sshd.setKeyPairProvider(keyp);
+      daemon.setKeyPairProvider(keyp);
     }
 
-    // Always disable transparent compression. The majority of our data
-    // transfer is highly compressed Git pack files. We cannot make them
-    // any smaller than they already are.
-    //
-    sshd.setCompressionFactories(Arrays
-        .<NamedFactory<Compression>> asList(new CompressionNone.Factory()));
-
-    sshd.setUserAuthFactories(Arrays
-        .<NamedFactory<UserAuth>> asList(new UserAuthPublicKey.Factory()));
-    sshd.setPublickeyAuthenticator(new DatabasePubKeyAuth(srv));
-    sshd.setCommandFactory(new GerritCommandFactory());
-    sshd.setShellFactory(new NoShell());
+    setCompression(daemon);
+    setUserAuth(daemon);
+    daemon.setPublickeyAuthenticator(new DatabasePubKeyAuth(srv));
+    daemon.setCommandFactory(new GerritCommandFactory());
+    daemon.setShellFactory(new NoShell());
 
     try {
-      sshd.start();
+      sshd = daemon;
+      daemon.start();
       hostKeys = computeHostKeys();
       log.info("Started Gerrit SSHD on 0.0.0.0:" + myPort);
     } catch (IOException e) {
@@ -125,6 +119,22 @@ public class GerritSshDaemon {
       e2.initCause(e);
       throw e2;
     }
+  }
+
+  @SuppressWarnings("unchecked")
+  private static void setCompression(final SshServer daemon) {
+    // Always disable transparent compression. The majority of our data
+    // transfer is highly compressed Git pack files. We cannot make them
+    // any smaller than they already are.
+    //
+    daemon.setCompressionFactories(Arrays
+        .<NamedFactory<Compression>> asList(new CompressionNone.Factory()));
+  }
+
+  @SuppressWarnings("unchecked")
+  private static void setUserAuth(final SshServer daemon) {
+    daemon.setUserAuthFactories(Arrays
+        .<NamedFactory<UserAuth>> asList(new UserAuthPublicKey.Factory()));
   }
 
   private static Collection<PublicKey> computeHostKeys() {

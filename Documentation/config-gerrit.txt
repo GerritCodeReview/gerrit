@@ -193,6 +193,13 @@ to permit fast restarts.
 +
 By default, true.
 
+sshd.tcpKeepAlive::
++
+If true, enables TCP keepalive messages to the other side, so
+the daemon can terminate connections if the peer disappears.
++
+By default, true.
+
 File `replication.config`
 -------------------------
 

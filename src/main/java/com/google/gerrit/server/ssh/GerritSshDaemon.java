@@ -21,6 +21,7 @@ import com.google.gwtorm.client.OrmException;
 
 import org.apache.mina.core.service.IoAcceptor;
 import org.apache.mina.core.session.IoSession;
+import org.apache.mina.transport.socket.SocketSessionConfig;
 import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 import org.apache.sshd.SshServer;
 import org.apache.sshd.common.Cipher;
@@ -154,12 +155,14 @@ public class GerritSshDaemon extends SshServer {
 
   private IoAcceptor acceptor;
   private boolean reuseAddress;
+  private boolean keepAlive;
 
   private GerritSshDaemon(final GerritServer srv) {
     setPort(Common.getGerritConfig().getSshdPort());
 
     final RepositoryConfig cfg = srv.getGerritConfig();
     reuseAddress = cfg.getBoolean("sshd", "reuseaddress", true);
+    keepAlive = cfg.getBoolean("sshd", "tcpkeepalive", true);
 
     if (SecurityUtils.isBouncyCastleRegistered()) {
       initProviderBouncyCastle();
@@ -177,10 +180,15 @@ public class GerritSshDaemon extends SshServer {
     setShellFactory(new NoShell());
     setSessionFactory(new SessionFactory() {
       @Override
-      protected AbstractSession createSession(final IoSession ioSession)
+      protected AbstractSession createSession(final IoSession io)
           throws Exception {
-        final AbstractSession s = super.createSession(ioSession);
-        s.setAttribute(SshUtil.REMOTE_PEER, ioSession.getRemoteAddress());
+        if (io.getConfig() instanceof SocketSessionConfig) {
+          final SocketSessionConfig c = (SocketSessionConfig) io.getConfig();
+          c.setKeepAlive(keepAlive);
+        }
+
+        final AbstractSession s = super.createSession(io);
+        s.setAttribute(SshUtil.REMOTE_PEER, io.getRemoteAddress());
         return s;
       }
     });

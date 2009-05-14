@@ -33,6 +33,7 @@ JGit                        <<jgit,New-Style BSD>>
 JSch                        <<sshd,New-Style BSD>>
 ObjectWeb ASM               <<asm,New-Style BSD>>
 ANTLR                       <<antlr,New-Style BSD>>
+args4j                      <<args4j,MIT License>>
 SLF4J                       <<slf4j,MIT License>>
 Clippy                      <<clippy,MIT License>>
 -----------------------------------------------------------
@@ -461,6 +462,13 @@ JGit - New Style BSD
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ----
+
+[[args4j]]
+args4j - MIT License
+--------------------
+
+* link:https://args4j.dev.java.net/[Home]
+* link:http://www.opensource.org/licenses/mit-license.php[Canonical MIT License]
 
 [[slf4j]]
 SLF4J - MIT License

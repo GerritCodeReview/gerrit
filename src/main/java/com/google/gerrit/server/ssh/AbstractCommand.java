@@ -31,6 +31,8 @@ import org.apache.sshd.server.CommandFactory.Command;
 import org.apache.sshd.server.CommandFactory.ExitCallback;
 import org.apache.sshd.server.CommandFactory.SessionAware;
 import org.apache.sshd.server.session.ServerSession;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,6 +42,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.SocketAddress;
 import java.util.ArrayList;
@@ -59,8 +62,11 @@ abstract class AbstractCommand implements Command, SessionAware {
   protected ExitCallback exit;
   protected ServerSession session;
   private String name;
-  private String[] args;
+  private String unsplitArguments;
   private Set<AccountGroup.Id> userGroups;
+
+  @Option(name = "--help", usage = "display this help text", aliases = {"-h"})
+  private boolean help;
 
   public void setInputStream(final InputStream in) {
     this.in = in;
@@ -149,12 +155,17 @@ abstract class AbstractCommand implements Command, SessionAware {
     return name;
   }
 
-  void parseArguments(final String cmdName, final String line) {
+  void setCommandLine(final String cmdName, final String line) {
+    name = cmdName;
+    unsplitArguments = line;
+  }
+
+  private void parseArguments() throws Failure {
     final List<String> list = new ArrayList<String>();
     boolean inquote = false;
     StringBuilder r = new StringBuilder();
-    for (int ip = 0; ip < line.length();) {
-      final char b = line.charAt(ip++);
+    for (int ip = 0; ip < unsplitArguments.length();) {
+      final char b = unsplitArguments.charAt(ip++);
       switch (b) {
         case '\t':
         case ' ':
@@ -169,10 +180,10 @@ abstract class AbstractCommand implements Command, SessionAware {
           inquote = !inquote;
           continue;
         case '\\':
-          if (inquote || ip == line.length())
+          if (inquote || ip == unsplitArguments.length())
             r.append(b); // literal within a quote
           else
-            r.append(line.charAt(ip++));
+            r.append(unsplitArguments.charAt(ip++));
           continue;
         default:
           r.append(b);
@@ -182,8 +193,27 @@ abstract class AbstractCommand implements Command, SessionAware {
     if (r.length() > 0) {
       list.add(r.toString());
     }
-    name = cmdName;
-    args = list.toArray(new String[list.size()]);
+
+    final CmdLineParser clp = new CmdLineParser(this);
+    try {
+      clp.parseArgument(list.toArray(new String[list.size()]));
+    } catch (CmdLineException err) {
+      if (!help) {
+        throw new UnloggedFailure(1, "fatal: " + err.getMessage());
+      }
+    }
+
+    if (help) {
+      final StringWriter msg = new StringWriter();
+      msg.write(getName());
+      clp.printSingleLineUsage(msg, null);
+      msg.write('\n');
+
+      msg.write('\n');
+      clp.printUsage(msg, null);
+      msg.write('\n');
+      throw new UnloggedFailure(1, msg.toString());
+    }
   }
 
   public void start() {
@@ -201,7 +231,13 @@ abstract class AbstractCommand implements Command, SessionAware {
     try {
       try {
         try {
-          run(args);
+          preRun();
+          try {
+            parseArguments();
+            run();
+          } finally {
+            postRun();
+          }
         } catch (IOException e) {
           if (e.getClass() == IOException.class
               && "Pipe closed".equals(e.getMessage())) {
@@ -268,14 +304,19 @@ abstract class AbstractCommand implements Command, SessionAware {
     logmsg.append(getAccountId());
     logmsg.append("): ");
     logmsg.append(name);
-    for (final String a : args) {
-      logmsg.append(' ');
-      logmsg.append(a);
-    }
+    logmsg.append(' ');
+    logmsg.append(unsplitArguments);
     return logmsg;
   }
 
-  protected abstract void run(final String args[]) throws IOException, Failure;
+  @SuppressWarnings("unused")
+  protected void preRun() throws Failure {
+  }
+
+  protected abstract void run() throws IOException, Failure;
+
+  protected void postRun() {
+  }
 
   public static class Failure extends Exception {
     final int exitCode;

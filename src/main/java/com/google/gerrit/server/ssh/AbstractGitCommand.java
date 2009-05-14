@@ -23,11 +23,15 @@ import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.git.InvalidRepositoryException;
 
+import org.kohsuke.args4j.Argument;
 import org.spearce.jgit.lib.Repository;
 
 import java.io.IOException;
 
 abstract class AbstractGitCommand extends AbstractCommand {
+  @Argument(index = 0, metaVar = "PROJECT.git", required = true, usage = "project name")
+  private String reqProjName;
+
   protected Repository repo;
   protected ProjectCache.Entry cachedProj;
   protected Project proj;
@@ -39,9 +43,20 @@ abstract class AbstractGitCommand extends AbstractCommand {
   }
 
   @Override
-  protected final void run(final String[] args) throws IOException, Failure {
-    final String reqName = parseCommandLine(args);
-    String projectName = reqName;
+  protected void preRun() throws Failure {
+    super.preRun();
+    db = openReviewDb();
+  }
+
+  @Override
+  protected void postRun() {
+    closeDb();
+    super.postRun();
+  }
+
+  @Override
+  protected final void run() throws IOException, Failure {
+    String projectName = reqProjName;
     if (projectName.endsWith(".git")) {
       // Be nice and drop the trailing ".git" suffix, which we never keep
       // in our database, but clients might mistakenly provide anyway.
@@ -59,37 +74,32 @@ abstract class AbstractGitCommand extends AbstractCommand {
 
     cachedProj = Common.getProjectCache().get(new Project.NameKey(projectName));
     if (cachedProj == null) {
-      throw new Failure(1, "fatal: '" + reqName + "': not a Gerrit project");
+      throw new Failure(1, "fatal: '" + reqProjName + "': not a Gerrit project");
     }
 
     proj = cachedProj.getProject();
     if (ProjectRight.WILD_PROJECT.equals(proj.getId())) {
-      throw new Failure(1, "fatal: '" + reqName + "': not a valid project",
+      throw new Failure(1, "fatal: '" + reqProjName + "': not a valid project",
           new IllegalArgumentException("Cannot access the wildcard project"));
     }
     if (!canRead(cachedProj)) {
-      throw new Failure(1, "fatal: '" + reqName + "': not a Gerrit project",
+      throw new Failure(1, "fatal: '" + reqProjName + "': unknown project",
           new SecurityException("Account lacks Read permission"));
     }
 
     try {
       repo = getRepositoryCache().get(proj.getName());
     } catch (InvalidRepositoryException e) {
-      throw new Failure(1, "fatal: '" + reqName + "': not a git archive", e);
+      throw new Failure(1, "fatal: '" + reqProjName + "': not a git archive", e);
     }
 
-    db = openReviewDb();
-    try {
-      userAccount = Common.getAccountCache().get(getAccountId(), db);
-      if (userAccount == null) {
-        throw new Failure(1, "fatal: cannot query user database",
-            new IllegalStateException("Account record no longer in database"));
-      }
-
-      runImpl();
-    } finally {
-      closeDb();
+    userAccount = Common.getAccountCache().get(getAccountId(), db);
+    if (userAccount == null) {
+      throw new Failure(1, "fatal: cannot query user database",
+          new IllegalStateException("Account record no longer in database"));
     }
+
+    runImpl();
   }
 
   protected void closeDb() {
@@ -105,6 +115,4 @@ abstract class AbstractGitCommand extends AbstractCommand {
   }
 
   protected abstract void runImpl() throws IOException, Failure;
-
-  protected abstract String parseCommandLine(String[] args) throws Failure;
 }

@@ -28,8 +28,7 @@ class AdminShowCaches extends AbstractCommand {
   PrintWriter p;
 
   @Override
-  protected void run(String[] args) throws Failure,
-      UnsupportedEncodingException {
+  protected void run() throws Failure, UnsupportedEncodingException {
     assertIsAdministrator();
     p = toPrintWriter(out);
 

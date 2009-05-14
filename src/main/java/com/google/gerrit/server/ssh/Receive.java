@@ -46,6 +46,8 @@ import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.OrmRunnable;
 import com.google.gwtorm.client.Transaction;
 
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spearce.jgit.lib.Constants;
@@ -90,11 +92,18 @@ class Receive extends AbstractGitCommand {
   private static final Pattern NEW_PATCHSET =
       Pattern.compile("^refs/changes/(?:[0-9][0-9]/)?([1-9][0-9]*)(?:/new)?$");
 
-  private final Set<String> reviewerEmail = new HashSet<String>();
-  private final Set<String> ccEmail = new HashSet<String>();
-
   private final Set<Account.Id> reviewerId = new HashSet<Account.Id>();
   private final Set<Account.Id> ccId = new HashSet<Account.Id>();
+
+  @Option(name = "--reviewer", aliases = {"--re"}, multiValued = true, metaVar = "EMAIL", usage = "request reviewer for change(s)")
+  void addReviewer(final String nameOrEmail) throws CmdLineException {
+    reviewerId.add(toAccountId(nameOrEmail));
+  }
+
+  @Option(name = "--cc", aliases = {}, multiValued = true, metaVar = "EMAIL", usage = "CC user on change(s)")
+  void addCC(final String nameOrEmail) throws CmdLineException {
+    ccId.add(toAccountId(nameOrEmail));
+  }
 
   private GerritServer server;
   private ReceivePack rp;
@@ -113,15 +122,18 @@ class Receive extends AbstractGitCommand {
       new HashMap<Change.Id, Change>();
 
   @Override
-  protected void runImpl() throws IOException, Failure {
+  protected void preRun() throws Failure {
+    super.preRun();
     server = getGerritServer();
+  }
+
+  @Override
+  protected void runImpl() throws IOException, Failure {
     if (Common.getGerritConfig().isUseContributorAgreements()
         && proj.isUseContributorAgreements()) {
       verifyActiveContributorAgreement();
     }
     loadMyEmails();
-    lookup(reviewerId, "reviewer", reviewerEmail);
-    lookup(ccId, "cc", ccEmail);
     refLogIdent = ChangeUtil.toReflogIdent(userAccount, getRemoteAddress());
 
     rp = new ReceivePack(repo);
@@ -301,65 +313,57 @@ class Receive extends AbstractGitCommand {
     }
   }
 
-  private void lookup(final Set<Account.Id> accountIds,
-      final String addressType, final Set<String> emails) throws Failure {
+  private Account.Id toAccountId(final String nameOrEmail)
+      throws CmdLineException {
     final String efmt = server.getEmailFormat();
     final boolean haveFormat = efmt != null && efmt.contains("{0}");
-    final StringBuilder errors = new StringBuilder();
     try {
-      for (final String nameOrEmail : emails) {
-        final HashSet<Account.Id> matches = new HashSet<Account.Id>();
-        String email = splitEmail(nameOrEmail);
+      final HashSet<Account.Id> matches = new HashSet<Account.Id>();
+      String email = splitEmail(nameOrEmail);
 
-        if (email == null && haveFormat && !nameOrEmail.contains(" ")) {
-          // Not a full name, since it has no space, and not an email
-          // address either. Assume it is just the local portion of
-          // the organizations standard email format, and complete out.
-          //
-          email = MessageFormat.format(efmt, nameOrEmail);
+      if (email == null && haveFormat && !nameOrEmail.contains(" ")) {
+        // Not a full name, since it has no space, and not an email
+        // address either. Assume it is just the local portion of
+        // the organizations standard email format, and complete out.
+        //
+        email = MessageFormat.format(efmt, nameOrEmail);
+      }
+
+      if (email == null) {
+        // Not an email address implies it was a full name, search by
+        // full name hoping to get a unique match.
+        //
+        final String n = nameOrEmail;
+        for (final Account a : db.accounts().suggestByFullName(n, n, 2)) {
+          matches.add(a.getId());
         }
-
-        if (email == null) {
-          // Not an email address implies it was a full name, search by
-          // full name hoping to get a unique match.
-          //
-          final String n = nameOrEmail;
-          for (final Account a : db.accounts().suggestByFullName(n, n, 2)) {
+      } else {
+        // Scan email addresses for any potential matches.
+        //
+        for (final AccountExternalId e : db.accountExternalIds()
+            .byEmailAddress(email)) {
+          matches.add(e.getAccountId());
+        }
+        if (matches.isEmpty()) {
+          for (final Account a : db.accounts().byPreferredEmail(email)) {
             matches.add(a.getId());
           }
-        } else {
-          // Scan email addresses for any potential matches.
-          //
-          for (final AccountExternalId e : db.accountExternalIds()
-              .byEmailAddress(email)) {
-            matches.add(e.getAccountId());
-          }
-          if (matches.isEmpty()) {
-            for (final Account a : db.accounts().byPreferredEmail(email)) {
-              matches.add(a.getId());
-            }
-          }
-        }
-
-        switch (matches.size()) {
-          case 0:
-            errors.append("fatal: " + addressType + " \"" + nameOrEmail
-                + "\" is not registered\n");
-            break;
-          case 1:
-            accountIds.add(matches.iterator().next());
-            break;
-          default:
-            errors.append("fatal: " + addressType + " \"" + nameOrEmail
-                + "\" matches multiple accounts\n");
-            break;
         }
       }
+
+      switch (matches.size()) {
+        case 0:
+          throw new CmdLineException("\"" + nameOrEmail
+              + "\" is not registered");
+        case 1:
+          return (matches.iterator().next());
+        default:
+          throw new CmdLineException("\"" + nameOrEmail
+              + "\" matches multiple accounts");
+      }
     } catch (OrmException e) {
-      throw new Failure(1, "fatal: database is down", e);
-    }
-    if (errors.length() > 0) {
-      throw new Failure(1, errors.toString());
+      log.error("Cannot lookup name/email address", e);
+      throw new CmdLineException("database is down");
     }
   }
 
@@ -373,50 +377,6 @@ class Receive extends AbstractGitCommand {
       return nameOrEmail;
     }
     return null;
-  }
-
-  @Override
-  protected String parseCommandLine(final String[] args) throws Failure {
-    int argi = 0;
-    if (isGerrit()) {
-      for (; argi < args.length - 1; argi++) {
-        final int eq = args[argi].indexOf('=');
-        final String opt, val;
-        if (eq < 0) {
-          opt = args[argi];
-          val = "";
-        } else {
-          opt = args[argi].substring(0, eq);
-          val = args[argi].substring(eq + 1);
-        }
-
-        if (opt.equals("--reviewer")) {
-          reviewerEmail.add(val);
-          continue;
-        }
-        if (opt.equals("--cc")) {
-          ccEmail.add(val);
-          continue;
-        }
-        break;
-      }
-    }
-    if (argi != args.length - 1) {
-      throw usage();
-    }
-    return args[argi];
-  }
-
-  private Failure usage() {
-    final StringBuilder m = new StringBuilder();
-    m.append("usage: ");
-    m.append(getName());
-    if (isGerrit()) {
-      m.append(" [--reviewer=email]*");
-      m.append(" [--cc=email]*");
-    }
-    m.append(" '/project.git'");
-    return new Failure(1, m.toString());
   }
 
   private void parseCommands(final Collection<ReceiveCommand> commands) {

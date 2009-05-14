@@ -86,7 +86,7 @@ class GerritCommandFactory implements CommandFactory {
     }
 
     final AbstractCommand c = create(cmd);
-    c.parseArguments(cmd, args);
+    c.setCommandLine(cmd, args);
     return c;
   }
 
@@ -97,8 +97,8 @@ class GerritCommandFactory implements CommandFactory {
     }
     return new AbstractCommand() {
       @Override
-      protected void run(final String[] argv) throws Failure {
-        throw new Failure(127, "gerrit: " + getName() + ": not found");
+      protected void run() throws Failure {
+        throw new UnloggedFailure(127, "gerrit: " + getName() + ": not found");
       }
     };
   }

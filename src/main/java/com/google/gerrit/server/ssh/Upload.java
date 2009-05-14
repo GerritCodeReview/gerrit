@@ -27,11 +27,4 @@ class Upload extends AbstractGitCommand {
     final UploadPack up = new UploadPack(repo);
     up.upload(in, out, err);
   }
-
-  @Override
-  protected String parseCommandLine(final String[] args) throws Failure {
-    if (args.length != 1)
-      throw new Failure(1, "usage: " + getName() + " '/project.git'");
-    return args[0];
-  }
 }

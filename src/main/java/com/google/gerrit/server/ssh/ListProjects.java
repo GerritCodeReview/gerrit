@@ -26,11 +26,7 @@ import java.io.PrintWriter;
 
 class ListProjects extends AbstractCommand {
   @Override
-  protected void run(final String[] args) throws IOException, Failure {
-    if (args.length != 0) {
-      throw new Failure(1, "usage: " + getName());
-    }
-
+  protected void run() throws IOException, Failure {
     final PrintWriter stdout = toPrintWriter(out);
     final ReviewDb db = openReviewDb();
     try {

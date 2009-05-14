@@ -771,6 +771,11 @@ public class GerritServer {
     return u;
   }
 
+  /** Get the parsed <code>$site_path/gerrit.config</code> file. */
+  public RepositoryConfig getGerritConfig() {
+    return gerritConfigFile;
+  }
+
   /** Get the repositories maintained by this server. */
   public RepositoryCache getRepositoryCache() {
     return repositories;

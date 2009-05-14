@@ -181,6 +181,17 @@ is per-user, so 1024 items translates to 1024 unique user accounts.
 As each individual user account may configure multiple SSH keys,
 the total number of keys may be larger than the item count.
 
+Section sshd
+~~~~~~~~~~~~
+
+sshd.reuseAddress::
++
+If true, permits the daemon to bind to the port even if the port
+is already in use.  If false, the daemon ensures the port is not
+in use before starting.  Busy sites may need to set this to true
+to permit fast restarts.
++
+By default, true.
 
 File `replication.config`
 -------------------------

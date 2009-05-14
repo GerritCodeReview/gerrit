@@ -33,6 +33,7 @@ import java.security.PublicKey;
 import java.security.interfaces.DSAPublicKey;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
+import java.util.List;
 
 /** Utilities to support SSH operations. */
 public class SshUtil {
@@ -43,6 +44,10 @@ public class SshUtil {
   /** Server session attribute holding the remote {@link SocketAddress}. */
   static final AttributeKey<SocketAddress> REMOTE_PEER =
       new AttributeKey<SocketAddress>();
+
+  /** Server session attribute holding the current commands. */
+  static final AttributeKey<List<AbstractCommand>> ACTIVE =
+      new AttributeKey<List<AbstractCommand>>();
 
   /**
    * Parse a public key into its Java type.

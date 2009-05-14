@@ -148,6 +148,10 @@ public class GerritSshDaemon extends SshServer {
     return sshd != null ? sshd.getPort() : 0;
   }
 
+  public static synchronized IoAcceptor getIoAcceptor() {
+    return sshd != null ? sshd.acceptor : null;
+  }
+
   public static synchronized Collection<PublicKey> getHostKeys() {
     return hostKeys;
   }
@@ -188,6 +192,7 @@ public class GerritSshDaemon extends SshServer {
 
         final AbstractSession s = super.createSession(io);
         s.setAttribute(SshUtil.REMOTE_PEER, io.getRemoteAddress());
+        s.setAttribute(SshUtil.ACTIVE, new ArrayList<AbstractCommand>(2));
         return s;
       }
     });

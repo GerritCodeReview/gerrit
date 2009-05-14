@@ -155,6 +155,10 @@ abstract class AbstractCommand implements Command, SessionAware {
     return name;
   }
 
+  String getCommandLine() {
+    return unsplitArguments.length() > 0 ? name + " " + unsplitArguments : name;
+  }
+
   void setCommandLine(final String cmdName, final String line) {
     name = cmdName;
     unsplitArguments = line;
@@ -217,11 +221,21 @@ abstract class AbstractCommand implements Command, SessionAware {
   }
 
   public void start() {
+    final List<AbstractCommand> list = session.getAttribute(SshUtil.ACTIVE);
     final String who = session.getUsername() + "," + getAccountId();
     new Thread("Execute " + getName() + " [" + who + "]") {
       @Override
       public void run() {
-        runImp();
+        try {
+          synchronized (list) {
+            list.add(AbstractCommand.this);
+          }
+          runImp();
+        } finally {
+          synchronized (list) {
+            list.remove(this);
+          }
+        }
       }
     }.start();
   }

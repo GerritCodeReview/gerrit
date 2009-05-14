@@ -24,17 +24,16 @@ import org.apache.mina.core.session.IoSession;
 import org.apache.mina.transport.socket.SocketSessionConfig;
 import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 import org.apache.sshd.SshServer;
-import org.apache.sshd.common.Cipher;
 import org.apache.sshd.common.Compression;
 import org.apache.sshd.common.KeyExchange;
 import org.apache.sshd.common.KeyPairProvider;
-import org.apache.sshd.common.Mac;
 import org.apache.sshd.common.NamedFactory;
 import org.apache.sshd.common.Signature;
 import org.apache.sshd.common.cipher.AES128CBC;
 import org.apache.sshd.common.cipher.AES192CBC;
 import org.apache.sshd.common.cipher.AES256CBC;
 import org.apache.sshd.common.cipher.BlowfishCBC;
+import org.apache.sshd.common.cipher.CipherNone;
 import org.apache.sshd.common.cipher.TripleDESCBC;
 import org.apache.sshd.common.compression.CompressionNone;
 import org.apache.sshd.common.keyprovider.FileKeyPairProvider;
@@ -169,8 +168,8 @@ public class GerritSshDaemon extends SshServer {
     } else {
       initProviderJce();
     }
-    initCipers();
-    initMac();
+    initCiphers(cfg);
+    initMacs(cfg);
     initSignatures();
     initChannels();
     initCompression();
@@ -236,18 +235,85 @@ public class GerritSshDaemon extends SshServer {
   }
 
   @SuppressWarnings("unchecked")
-  private void initCipers() {
-    setCipherFactories(Arrays.<NamedFactory<Cipher>> asList(
-        new AES128CBC.Factory(), new TripleDESCBC.Factory(),
-        new BlowfishCBC.Factory(), new AES192CBC.Factory(),
-        new AES256CBC.Factory()));
+  private void initCiphers(final RepositoryConfig cfg) {
+    setCipherFactories(filter(cfg, "cipher", new AES128CBC.Factory(),
+        new TripleDESCBC.Factory(), new BlowfishCBC.Factory(),
+        new AES192CBC.Factory(), new AES256CBC.Factory(),
+
+        null, new CipherNone.Factory()));
   }
 
   @SuppressWarnings("unchecked")
-  private void initMac() {
-    setMacFactories(Arrays.<NamedFactory<Mac>> asList(new HMACMD5.Factory(),
+  private void initMacs(final RepositoryConfig cfg) {
+    setMacFactories(filter(cfg, "mac", new HMACMD5.Factory(),
         new HMACSHA1.Factory(), new HMACMD596.Factory(),
         new HMACSHA196.Factory()));
+  }
+
+  private static <T> List<NamedFactory<T>> filter(final RepositoryConfig cfg,
+      final String key, final NamedFactory<T>... avail) {
+    final ArrayList<NamedFactory<T>> def = new ArrayList<NamedFactory<T>>();
+    for (final NamedFactory<T> n : avail) {
+      if (n == null) {
+        break;
+      }
+      def.add(n);
+    }
+
+    final String[] want = cfg.getStringList("sshd", null, key);
+    if (want == null || want.length == 0) {
+      return def;
+    }
+
+    boolean didClear = false;
+    for (final String setting : want) {
+      String name = setting.trim();
+      boolean add = true;
+      if (name.startsWith("-")) {
+        add = false;
+        name = name.substring(1).trim();
+      } else if (name.startsWith("+")) {
+        name = name.substring(1).trim();
+      } else if (!didClear) {
+        didClear = true;
+        def.clear();
+      }
+
+      final NamedFactory<T> n = find(name, avail);
+      if (n == null) {
+        final StringBuilder msg = new StringBuilder();
+        msg.append("sshd." + key + " = " + name + " unsupported; only ");
+        for (int i = 0; i < avail.length; i++) {
+          if (avail[i] == null) {
+            continue;
+          }
+          if (i > 0) {
+            msg.append(", ");
+          }
+          msg.append(avail[i].getName());
+        }
+        msg.append(" is supported");
+        log.error(msg.toString());
+      } else if (add) {
+        if (!def.contains(n)) {
+          def.add(n);
+        }
+      } else {
+        def.remove(n);
+      }
+    }
+
+    return def;
+  }
+
+  private static <T> NamedFactory<T> find(final String name,
+      final NamedFactory<T>... avail) {
+    for (final NamedFactory<T> n : avail) {
+      if (n != null && name.equals(n.getName())) {
+        return n;
+      }
+    }
+    return null;
   }
 
   @SuppressWarnings("unchecked")

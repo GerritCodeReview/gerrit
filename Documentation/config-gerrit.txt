@@ -200,6 +200,32 @@ the daemon can terminate connections if the peer disappears.
 +
 By default, true.
 
+sshd.cipher::
++
+Available ciphers.  To permit multiple ciphers, specify multiple
+`sshd.cipher` keys in the configuration file, one cipher name
+per key.  Cipher names starting with `+` are enabled in addition
+to the default ciphers, cipher names starting with `-` are removed
+from the default cipher set.
++
+Supported ciphers: aes128-cbc, aes128-cbc, aes256-cbc, blowfish-cbc,
+3des-cbc, none.
++
+By default, all supported ciphers except `none` are available.
+
+sshd.mac::
++
+Available MAC (message authentication code) algorithms.  To permit
+multiple algorithms, specify multiple `sshd.mac` keys in the
+configuration file, one MAC per key.  MAC names starting with `+`
+are enabled in addition to the default MACs, MAC names starting with
+`-` are removed from the default MACs.
++
+Supported MACs: hmac-md5, hmac-md5-96, hmac-sha1, hmac-sha1-96.
++
+By default, all supported MACs are available.
+
+
 File `replication.config`
 -------------------------
 

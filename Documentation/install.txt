@@ -2,7 +2,7 @@ Gerrit2 - Installation Guide
 ============================
 
 You need a SQL database to house the Gerrit2 metadata.  Currently
-PostgreSQL is the only supported database.
+H2, MySQL and PostgreSQL are the only supported databases.
 
 Important Links
 ---------------
@@ -10,10 +10,15 @@ Important Links
 PostgreSQL:
 
 * http://www.postgresql.org/docs/[Documentation]
+* link:http://jdbc.postgresql.org/download.html[JDBC Driver]
+
+MySQL:
+
+* http://dev.mysql.com/doc/[Documentation]
+* http://dev.mysql.com/downloads/connector/j/5.0.html[JDBC Driver]
 
 Optional Libraries:
 
-* link:http://jdbc.postgresql.org/download.html[PostgreSQL JDBC Driver]
 * link:http://sourceforge.net/project/showfiles.php?group_id=25357[c3p0 JDBC Driver]
 * link:http://www.bouncycastle.org/java.html[Bouncy Castle Crypto API]
 * link:http://java.sun.com/products/javamail/downloads/index.html[JavaMail]
@@ -55,10 +60,6 @@ Apache Maven:
 Setting up the Database
 -----------------------
 
-Currently PostgreSQL is the only supported database.  H2 may also
-work, but hasn't been tested in a while.  The primary concern is
-having support for the database in the gwtorm project.
-
 PostgreSQL
 ~~~~~~~~~~
 
@@ -74,6 +75,18 @@ you just created as the owner of that database:
 
 ====
   createdb -E UTF-8 -O gerrit2 reviewdb
+====
+
+MySQL
+~~~~~
+
+Create a Gerrit specific user within the database and assign it a
+password, create a database, and give the user full rights:
+
+====
+  CREATE USER gerrit2 IDENTIFIED BY PASSWORD 'secret';
+  CREATE DATABASE reviewdb;
+  GRANT ALL ON reviewdb.* TO 'gerrit2'@'localhost';
 ====
 
 
@@ -102,12 +115,19 @@ Add Indexes
 
 A script should be run to create the query indexes, so Gerrit
 can avoid table scans when looking up information.  Run the
-`sql/query_index.sql` script through your database's query tool.
+index script through your database's query tool.
 
-e.g. with PostgreSQL:
+PostgreSQL:
 
 ====
-  java -jar gerrit.war --cat sql/query_index.sql | psql reviewdb
+  java -jar gerrit.war --cat sql/index_postgres.sql | psql reviewdb
+====
+
+MySQL:
+
+====
+  java -jar gerrit.war --cat sql/index_generic.sql | mysql reviewdb
+  java -jar gerrit.war --cat sql/mysql_nextval.sql | mysql reviewdb
 ====
 
 Configure site_path
@@ -123,7 +143,7 @@ update the database with this value.
   mkdir /home/gerrit/cfg
   cd /home/gerrit/cfg
 
-  psql -c "UPDATE system_config SET site_path='/home/gerrit/cfg'" reviewdb
+  UPDATE system_config SET site_path='/home/gerrit/cfg'
 ====
 
 SSH Host Keys
@@ -159,7 +179,7 @@ any Git repository stored within it.
 
 ====
   mkdir /srv/git
-  psql -c "UPDATE system_config SET git_base_path='/srv/git'" reviewdb
+  UPDATE system_config SET git_base_path='/srv/git'
 ====
 
 You may wish to consider also exporting this directory over the
@@ -401,7 +421,6 @@ Add your newly created account to the "Administrators" group,
 so that you can manage the site through the web interface:
 
 ====
-  psql reviewdb
   INSERT INTO account_group_members
     (account_id, group_id)
   VALUES (

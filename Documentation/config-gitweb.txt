@@ -12,7 +12,7 @@ current replica.  If a replica is being used, ensure it uses a full
 mirror, so the `refs/changes/*` namespace is available.
 
 ====
-  psql -c "UPDATE system_config SET gitweb_url='http://example.com/gitweb.cgi'" reviewdb
+  UPDATE system_config SET gitweb_url='http://example.com/gitweb.cgi'
 ====
 
 After updating `system_config`, the Gerrit server must be restarted

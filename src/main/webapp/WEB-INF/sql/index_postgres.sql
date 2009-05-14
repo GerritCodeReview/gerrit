@@ -1,3 +1,6 @@
+-- Gerrit 2 : PostgreSQL
+--
+
 -- Cluster hot tables by their primary method of access
 --
 ALTER TABLE patch_sets CLUSTER ON patch_sets_pkey;

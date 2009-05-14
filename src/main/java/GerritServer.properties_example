@@ -24,3 +24,11 @@
 # database.url = jdbc:postgresql:reviewdb
 # database.user = gerrit2
 # database.password = supersecretcode
+
+
+# MySQL 5.0
+# curl -O http://repo1.maven.org/maven2/mysql/mysql-connector-java/5.0.8/mysql-connector-java-5.0.8.jar
+#
+# database.classpath = mysql-connector-java-5.0.8.jar
+# database.driver = com.mysql.jdbc.Driver
+# database.url = jdbc:mysql://localhost/reviewdb?user=gerrit2&password=secretcode

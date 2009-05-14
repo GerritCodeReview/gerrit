@@ -40,7 +40,6 @@ Gerrit automatically assumes that `project.git` is the Git repository
 for a project named `project`.
 
 ====
-  psql reviewdb
   INSERT INTO projects
   (project_id
    ,use_contributor_agreements
@@ -63,6 +62,11 @@ for a project named `project`.
   ,'refs/heads/master'
   ,'new/project');
 ====
+
+[NOTE]
+On MySQL use `nextval_project_id()` and `nextval_branch_id()` to
+obtain the next value in the sequences.
+
 
 Change Submit Action (submit_type)
 ----------------------------------

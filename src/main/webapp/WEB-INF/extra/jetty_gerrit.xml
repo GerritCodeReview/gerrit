@@ -3,15 +3,15 @@
 <!--
 
   Jetty configuration to place "gerrit.war" into the root context,
-  so it answers to old-style URLs like "/$changeid" and "/mine".
+  so it answers to simple URLs like "/$changeid" and "/mine".
 
   * Copy this file to $JETTY_HOME/contexts/gerrit.xml
   * Edit user, password, jdbcUrl as necessary below for database.
   * Edit mail.smtp.host, user, password as necessary for outgoing SMTP.
 
-  * Copy jdbc/c3p0-0.9.1.2.jar       to $JETTY_HOME/lib/plus/
-  * Copy jdbc/postgresql-*.jdbc*.jar to $JETTY_HOME/lib/plus/
-  * Copy www/gerrit-*.war            to $JETTY_HOME/webapps/gerrit.war
+  * Copy c3p0-0.9.1.2.jar       to $JETTY_HOME/lib/plus/
+  * Copy JDBC driver            to $JETTY_HOME/lib/plus/
+  * Copy www/gerrit-*.war       to $JETTY_HOME/webapps/gerrit.war
 
   * Make sure you remove $JETTY_HOME/context/test.xml
 
@@ -38,10 +38,20 @@
     <Arg>jdbc/ReviewDb</Arg>
     <Arg>
       <New class="com.mchange.v2.c3p0.ComboPooledDataSource">
+<!--  PostgreSQL
         <Set name="driverClass">org.postgresql.Driver</Set>
         <Set name="jdbcUrl">jdbc:postgresql:reviewdb</Set>
         <Set name="user">gerrit2</Set>
         <Set name="password">secretkey</Set>
+-->
+<!--  MySQL 
+        <Set name="driverClass">com.mysql.jdbc.Driver</Set>
+        <Set name="jdbcUrl">jdbc:mysql://localhost/reviewdb?user=gerrit2&password=secretkey</Set>
+-->
+<!--  H2
+        <Set name="driverClass">org.h2.Driver</Set>
+        <Set name="jdbcUrl">jdbc:h2:file:ReviewDb</Set>
+-->
       </New>
     </Arg>
   </New>

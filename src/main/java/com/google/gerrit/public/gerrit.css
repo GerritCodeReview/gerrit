@@ -130,12 +130,24 @@
 
 .gerrit-topmenu-menuRight {
   float: right;
+  text-align: right;
 }
 .gerrit-MenuBarUserName {
   font-weight: bold;
   padding-left: 5px;
   padding-right: 5px;
   white-space: nowrap;
+}
+.gerrit-SearchPanel {
+  white-space: nowrap;
+}
+.gerrit-SearchPanel .gwt-TextBox {
+  font-size: 7pt;
+}
+.gerrit-SearchPanel .gwt-Button {
+  font-size: 7pt;
+  margin-left: 2px;
+  padding: 1px;
 }
 
 /** RPC Status **/

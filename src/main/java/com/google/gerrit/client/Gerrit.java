@@ -168,12 +168,15 @@ public class Gerrit implements EntryPoint {
     menuLeft = new TabPanel();
     menuRight = new LinkMenuBar();
     menuLeft.setStyleName("gerrit-topmenu-menuLeft");
-    menuRight.addStyleName("gerrit-topmenu-menuRight");
     menuLine.setStyleName("gerrit-topmenu");
     menuArea.add(menuLine);
+    final FlowPanel menuRightPanel = new FlowPanel();
+    menuRightPanel.setStyleName("gerrit-topmenu-menuRight");
+    menuRightPanel.add(menuRight);
+    menuRightPanel.add(new SearchPanel());
     menuLine.setWidget(0, 0, menuLeft);
     menuLine.setWidget(0, 1, new FlowPanel());
-    menuLine.setWidget(0, 2, menuRight);
+    menuLine.setWidget(0, 2, menuRightPanel);
     final CellFormatter fmt = menuLine.getCellFormatter();
     fmt.setStyleName(0, 0, "gerrit-topmenu-TDmenu");
     fmt.setStyleName(0, 1, "gerrit-topmenu-TDglue");

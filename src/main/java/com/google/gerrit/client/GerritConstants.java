@@ -46,6 +46,9 @@ public interface GerritConstants extends Constants {
   String menuGroups();
   String menuProjects();
 
+  String searchHint();
+  String searchButton();
+
   String rpcStatusLoading();
   String anonymousCoward();
 }

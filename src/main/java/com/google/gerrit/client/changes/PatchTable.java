@@ -188,7 +188,7 @@ public class PatchTable extends Composite {
           break;
 
         case BINARY: {
-          String base = GWT.getModuleBaseURL();
+          String base = GWT.getHostPageBaseURL();
           base += "cat/" + KeyUtil.encode(p.getKey().toString());
           switch (p.getChangeType()) {
             case DELETED:

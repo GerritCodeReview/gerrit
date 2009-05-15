@@ -23,7 +23,7 @@ import com.google.gwt.user.client.DOM;
 
 public class ChangeLink extends DirectScreenLink {
   public static String permalink(final Change.Id c) {
-    return GWT.getModuleBaseURL() + c.get();
+    return GWT.getHostPageBaseURL() + c.get();
   }
 
   protected Change.Id id;

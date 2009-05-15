@@ -119,29 +119,28 @@ public class ChangeMail {
   }
 
   public void sendNewChange() throws MessagingException {
-    if (begin("newchange")) {
-      newChangeTo();
-      if (!haveRcptTo()) {
-        // No destinations at this point makes it very moot to mail,
-        // nobody was interested in the change or was told to look
-        // at it by the caller.
-        //
-        return;
-      }
-      newChangeCc();
-
-      body.append("New change ");
-      body.append(change.getChangeId());
-      body.append(" for ");
-      body.append(change.getDest().getShortName());
-      body.append(":\n\n");
-
-      newChangePatchSetInfo();
-      newChangeFooter();
-
-      msg.setMessageID(changeMessageThreadId());
-      send();
+    begin("newchange");
+    newChangeTo();
+    if (!haveRcptTo()) {
+      // No destinations at this point makes it very moot to mail,
+      // nobody was interested in the change or was told to look
+      // at it by the caller.
+      //
+      return;
     }
+    newChangeCc();
+
+    body.append("New change ");
+    body.append(change.getChangeId());
+    body.append(" for ");
+    body.append(change.getDest().getShortName());
+    body.append(":\n\n");
+
+    newChangePatchSetInfo();
+    newChangeFooter();
+
+    msg.setMessageID(changeMessageThreadId());
+    send();
   }
 
   private void newChangePatchSetInfo() {
@@ -190,246 +189,240 @@ public class ChangeMail {
   }
 
   public void sendNewPatchSet() throws MessagingException {
-    if (begin("newpatchset")) {
-      newChangeTo();
-      if (!haveRcptTo()) {
-        // No destinations at this point makes it very moot to mail,
-        // nobody was interested in the change or was told to look
-        // at it by the caller.
-        //
-        return;
-      }
-      newChangeCc();
-      starredTo();
-
-      body.append("Uploaded replacement patch set ");
-      body.append(patchSet.getPatchSetId());
-      body.append(" for change ");
-      body.append(change.getChangeId());
-      body.append(":\n\n");
-
-      newChangePatchSetInfo();
-      newChangeFooter();
-      initInReplyToChange();
-      send();
+    begin("newpatchset");
+    newChangeTo();
+    if (!haveRcptTo()) {
+      // No destinations at this point makes it very moot to mail,
+      // nobody was interested in the change or was told to look
+      // at it by the caller.
+      //
+      return;
     }
+    newChangeCc();
+    starredTo();
+
+    body.append("Uploaded replacement patch set ");
+    body.append(patchSet.getPatchSetId());
+    body.append(" for change ");
+    body.append(change.getChangeId());
+    body.append(":\n\n");
+
+    newChangePatchSetInfo();
+    newChangeFooter();
+    initInReplyToChange();
+    send();
   }
 
   public void sendComment() throws MessagingException {
-    if (begin("comment")) {
-      if (message != null) {
-        body.append(message.getMessage().trim());
-        if (body.length() > 0) {
-          body.append("\n\n");
-        }
-      }
-
-      Map<Patch.Key, Patch> patches = Collections.emptyMap();
-      Repository repo = null;
-
-      if (!comments.isEmpty()) {
-        try {
-          final PatchSet.Id psId = patchSet.getId();
-          patches = db.patches().toMap(db.patches().byPatchSet(psId));
-        } catch (OrmException e) {
-          // Can't read the patch table? Don't quote file lines.
-          patches = Collections.emptyMap();
-        }
-        try {
-          repo = server.getRepositoryCache().get(projectName);
-        } catch (InvalidRepositoryException e) {
-          repo = null;
-          patches = Collections.emptyMap();
-        }
-
-        body.append("Comments on Patch Set ");
-        body.append(patchSet.getPatchSetId());
-        body.append(":\n\n");
-      }
-
-      Patch.Key currentFile = null;
-      PatchFile file = null;
-      for (final PatchLineComment c : comments) {
-        final Patch.Key pk = c.getKey().getParentKey();
-        final int lineNbr = c.getLine();
-        final short side = c.getSide();
-
-        if (!pk.equals(currentFile)) {
-          body.append("....................................................\n");
-          body.append("File ");
-          body.append(pk.get());
-          body.append("\n");
-          currentFile = pk;
-
-          final Patch p = patches.get(pk);
-          if (p != null && repo != null) {
-            try {
-              file = new PatchFile(repo, patchSet.getRevision(), p);
-            } catch (Throwable e) {
-              // Don't quote the line if we can't load it.
-            }
-          } else {
-            file = null;
-          }
-        }
-
-        body.append("Line ");
-        body.append(lineNbr);
-        if (file != null) {
-          try {
-            final String lineStr = file.getLine(side, lineNbr);
-            body.append(": ");
-            body.append(lineStr);
-          } catch (Throwable cce) {
-            // Don't quote the line if we can't safely convert it.
-          }
-        }
-        body.append("\n");
-
-        body.append(c.getMessage().trim());
+    begin("comment");
+    if (message != null) {
+      body.append(message.getMessage().trim());
+      if (body.length() > 0) {
         body.append("\n\n");
       }
+    }
 
-      if (body.length() == 0) {
-        // If we have no body, don't bother generating an email.
-        //
-        return;
+    Map<Patch.Key, Patch> patches = Collections.emptyMap();
+    Repository repo = null;
+
+    if (!comments.isEmpty()) {
+      try {
+        final PatchSet.Id psId = patchSet.getId();
+        patches = db.patches().toMap(db.patches().byPatchSet(psId));
+      } catch (OrmException e) {
+        // Can't read the patch table? Don't quote file lines.
+        patches = Collections.emptyMap();
+      }
+      try {
+        repo = server.getRepositoryCache().get(projectName);
+      } catch (InvalidRepositoryException e) {
+        repo = null;
+        patches = Collections.emptyMap();
       }
 
-      appendChangeRequestAndFooter();
-
-      initInReplyToChange();
-      commentTo();
-      starredTo();
-      send();
+      body.append("Comments on Patch Set ");
+      body.append(patchSet.getPatchSetId());
+      body.append(":\n\n");
     }
+
+    Patch.Key currentFile = null;
+    PatchFile file = null;
+    for (final PatchLineComment c : comments) {
+      final Patch.Key pk = c.getKey().getParentKey();
+      final int lineNbr = c.getLine();
+      final short side = c.getSide();
+
+      if (!pk.equals(currentFile)) {
+        body.append("....................................................\n");
+        body.append("File ");
+        body.append(pk.get());
+        body.append("\n");
+        currentFile = pk;
+
+        final Patch p = patches.get(pk);
+        if (p != null && repo != null) {
+          try {
+            file = new PatchFile(repo, patchSet.getRevision(), p);
+          } catch (Throwable e) {
+            // Don't quote the line if we can't load it.
+          }
+        } else {
+          file = null;
+        }
+      }
+
+      body.append("Line ");
+      body.append(lineNbr);
+      if (file != null) {
+        try {
+          final String lineStr = file.getLine(side, lineNbr);
+          body.append(": ");
+          body.append(lineStr);
+        } catch (Throwable cce) {
+          // Don't quote the line if we can't safely convert it.
+        }
+      }
+      body.append("\n");
+
+      body.append(c.getMessage().trim());
+      body.append("\n\n");
+    }
+
+    if (body.length() == 0) {
+      // If we have no body, don't bother generating an email.
+      //
+      return;
+    }
+
+    appendChangeRequestAndFooter();
+
+    initInReplyToChange();
+    commentTo();
+    starredTo();
+    send();
   }
 
   public void sendRequestReview() throws MessagingException {
-    if (begin("requestReview")) {
-      final Account a = Common.getAccountCache().get(fromId);
-      if (a == null || a.getFullName() == null || a.getFullName().length() == 0) {
-        body.append("A Gerrit user");
-      } else {
-        body.append(a.getFullName());
-      }
-      body.append(" has requested that you review a change:\n\n");
-      body.append(change.getChangeId());
-      body.append(" - ");
-      body.append(change.getSubject());
-      body.append("\n\n");
-
-      appendChangeRequestAndFooter();
-
-      initInReplyToChange();
-      add(RecipientType.TO, reviewers);
-      add(RecipientType.CC, extraCC);
-      if (fromId != null) {
-        add(RecipientType.CC, fromId);
-      }
-      send();
+    begin("requestReview");
+    final Account a = Common.getAccountCache().get(fromId);
+    if (a == null || a.getFullName() == null || a.getFullName().length() == 0) {
+      body.append("A Gerrit user");
+    } else {
+      body.append(a.getFullName());
     }
+    body.append(" has requested that you review a change:\n\n");
+    body.append(change.getChangeId());
+    body.append(" - ");
+    body.append(change.getSubject());
+    body.append("\n\n");
+
+    appendChangeRequestAndFooter();
+
+    initInReplyToChange();
+    add(RecipientType.TO, reviewers);
+    add(RecipientType.CC, extraCC);
+    if (fromId != null) {
+      add(RecipientType.CC, fromId);
+    }
+    send();
   }
 
   public void sendMerged() throws MessagingException {
-    if (begin("merged")) {
-      body.append("Change ");
-      body.append(change.getChangeId());
-      if (patchSetInfo != null && patchSetInfo.getAuthor() != null
-          && patchSetInfo.getAuthor().getName() != null) {
-        body.append(" by ");
-        body.append(patchSetInfo.getAuthor().getName());
-      }
-      body.append(" submitted to ");
-      body.append(change.getDest().getShortName());
-      body.append(".\n\n");
-
-      newChangePatchSetInfo();
-
-      if (changeUrl() != null) {
-        openFooter();
-        body.append("To view visit ");
-        body.append(changeUrl());
-        body.append("\n");
-      }
-
-      initInReplyToChange();
-      submittedTo();
-      starredTo();
-      send();
+    begin("merged");
+    body.append("Change ");
+    body.append(change.getChangeId());
+    if (patchSetInfo != null && patchSetInfo.getAuthor() != null
+        && patchSetInfo.getAuthor().getName() != null) {
+      body.append(" by ");
+      body.append(patchSetInfo.getAuthor().getName());
     }
+    body.append(" submitted to ");
+    body.append(change.getDest().getShortName());
+    body.append(".\n\n");
+
+    newChangePatchSetInfo();
+
+    if (changeUrl() != null) {
+      openFooter();
+      body.append("To view visit ");
+      body.append(changeUrl());
+      body.append("\n");
+    }
+
+    initInReplyToChange();
+    submittedTo();
+    starredTo();
+    send();
   }
 
   public void sendMergeFailed() throws MessagingException {
-    if (begin("comment")) {
-      body.append("Change ");
-      body.append(change.getChangeId());
-      if (patchSetInfo != null && patchSetInfo.getAuthor() != null
-          && patchSetInfo.getAuthor().getName() != null) {
-        body.append(" by ");
-        body.append(patchSetInfo.getAuthor().getName());
-      }
-      body.append(" FAILED to submit to ");
-      body.append(change.getDest().getShortName());
-      body.append(".\n\n");
-
-      if (message != null) {
-        body.append("Error message:\n");
-        body.append("....................................................\n");
-        body.append(message.getMessage().trim());
-        if (body.length() > 0) {
-          body.append("\n\n");
-        }
-      }
-
-      if (changeUrl() != null) {
-        openFooter();
-        body.append("To view visit ");
-        body.append(changeUrl());
-        body.append("\n");
-      }
-
-      initInReplyToChange();
-      submittedTo();
-      starredTo();
-      send();
+    begin("comment");
+    body.append("Change ");
+    body.append(change.getChangeId());
+    if (patchSetInfo != null && patchSetInfo.getAuthor() != null
+        && patchSetInfo.getAuthor().getName() != null) {
+      body.append(" by ");
+      body.append(patchSetInfo.getAuthor().getName());
     }
+    body.append(" FAILED to submit to ");
+    body.append(change.getDest().getShortName());
+    body.append(".\n\n");
+
+    if (message != null) {
+      body.append("Error message:\n");
+      body.append("....................................................\n");
+      body.append(message.getMessage().trim());
+      if (body.length() > 0) {
+        body.append("\n\n");
+      }
+    }
+
+    if (changeUrl() != null) {
+      openFooter();
+      body.append("To view visit ");
+      body.append(changeUrl());
+      body.append("\n");
+    }
+
+    initInReplyToChange();
+    submittedTo();
+    starredTo();
+    send();
   }
 
   public void sendAbandoned() throws MessagingException {
-    if (begin("abandon")) {
-      final Account a = Common.getAccountCache().get(fromId);
-      if (a == null || a.getFullName() == null || a.getFullName().length() == 0) {
-        body.append("A Gerrit user");
-      } else {
-        body.append(a.getFullName());
-      }
-
-      body.append(" has abandoned a change:\n\n");
-      body.append(change.getChangeId());
-      body.append(" - ");
-      body.append(change.getSubject());
-      body.append("\n\n");
-
-      if (message != null) {
-        body.append(message.getMessage().trim());
-        if (body.length() > 0) {
-          body.append("\n\n");
-        }
-      }
-
-      if (changeUrl() != null) {
-        openFooter();
-        body.append("To view visit ");
-        body.append(changeUrl());
-        body.append("\n");
-      }
-
-      initInReplyToChange();
-      commentTo();
-      starredTo();
-      send();
+    begin("abandon");
+    final Account a = Common.getAccountCache().get(fromId);
+    if (a == null || a.getFullName() == null || a.getFullName().length() == 0) {
+      body.append("A Gerrit user");
+    } else {
+      body.append(a.getFullName());
     }
+
+    body.append(" has abandoned a change:\n\n");
+    body.append(change.getChangeId());
+    body.append(" - ");
+    body.append(change.getSubject());
+    body.append("\n\n");
+
+    if (message != null) {
+      body.append(message.getMessage().trim());
+      if (body.length() > 0) {
+        body.append("\n\n");
+      }
+    }
+
+    if (changeUrl() != null) {
+      openFooter();
+      body.append("To view visit ");
+      body.append(changeUrl());
+      body.append("\n");
+    }
+
+    initInReplyToChange();
+    commentTo();
+    starredTo();
+    send();
   }
 
   private void newChangeTo() throws MessagingException {
@@ -587,7 +580,7 @@ public class ChangeMail {
     }
   }
 
-  private boolean begin(final String messageClass) throws MessagingException {
+  private void begin(final String messageClass) throws MessagingException {
     msg = new MimeMessage(transport);
     if (message != null && message.getWrittenOn() != null) {
       msg.setSentDate(new Date(message.getWrittenOn().getTime()));
@@ -604,7 +597,6 @@ public class ChangeMail {
     initSubject();
     body = new StringBuilder();
     inFooter = false;
-    return true;
   }
 
   private void initFrom() throws MessagingException, AddressException {

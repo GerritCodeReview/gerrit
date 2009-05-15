@@ -16,8 +16,6 @@ package com.google.gwtexpui.user.client;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.FocusPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * User agent feature tests we don't create permutations for.
@@ -77,21 +75,6 @@ public class UserAgent {
 
   private static native void bustOutOfIFrame(String newloc)
   /*-{ top.location.href = newloc }-*/;
-
-  private static final FocusPanelFactory focusFactory =
-      GWT.create(FocusPanelFactory.class);
-
-  /**
-   * @return a FocusPanel containing the supplied <code>child</code>;
-   *         <code>null</code> if the browser can't support it. Some browsers
-   *         (e.g. WebKit based ones) can't correctly wrap a table that sinks
-   *         click events; the events are delivered incorrectly and the table
-   *         doesn't get the click where the user actually clicked (it arrives
-   *         on another row).
-   */
-  public static FocusPanel wrapFocusPanel(final Widget child) {
-    return focusFactory.wrapFocusPanel(child);
-  }
 
   private UserAgent() {
   }

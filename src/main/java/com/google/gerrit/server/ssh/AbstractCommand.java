@@ -233,7 +233,7 @@ abstract class AbstractCommand implements Command, SessionAware {
           runImp();
         } finally {
           synchronized (list) {
-            list.remove(this);
+            list.remove(AbstractCommand.this);
           }
         }
       }

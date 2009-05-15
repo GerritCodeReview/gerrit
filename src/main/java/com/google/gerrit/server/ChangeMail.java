@@ -185,11 +185,15 @@ public class ChangeMail {
   }
 
   private void newChangeFooter() {
+    appendChangeRequestAndFooter();
+  }
+
+  private void appendChangeRequestAndFooter() {
     if (changeUrl() != null) {
-      openFooter();
-      body.append("View this change at ");
+      body.append("To perform this review, please visit\n\n   ");
       body.append(changeUrl());
-      body.append("\n");
+      body.append("\n\n");
+      openFooter();
     }
   }
 
@@ -300,12 +304,7 @@ public class ChangeMail {
         return;
       }
 
-      if (changeUrl() != null) {
-        openFooter();
-        body.append("To respond visit ");
-        body.append(changeUrl());
-        body.append("\n");
-      }
+      appendChangeRequestAndFooter();
 
       initInReplyToChange();
       commentTo();
@@ -328,12 +327,7 @@ public class ChangeMail {
       body.append(change.getSubject());
       body.append("\n\n");
 
-      if (changeUrl() != null) {
-        openFooter();
-        body.append("To respond visit ");
-        body.append(changeUrl());
-        body.append("\n");
-      }
+      appendChangeRequestAndFooter();
 
       initInReplyToChange();
       add(RecipientType.TO, reviewers);
@@ -602,26 +596,23 @@ public class ChangeMail {
   }
 
   private boolean begin(final String messageClass) throws MessagingException {
-    if (transport != null) {
-      msg = new MimeMessage(transport);
-      if (message != null && message.getWrittenOn() != null) {
-        msg.setSentDate(new Date(message.getWrittenOn().getTime()));
-      } else {
-        msg.setSentDate(new Date());
-      }
-      initFrom();
-      initUserAgent();
-      initListId();
-      initChangeUrl();
-      initChangeId();
-      initCommitId();
-      initMessageType(messageClass);
-      initSubject();
-      body = new StringBuilder();
-      inFooter = false;
-      return true;
+    msg = new MimeMessage(transport);
+    if (message != null && message.getWrittenOn() != null) {
+      msg.setSentDate(new Date(message.getWrittenOn().getTime()));
+    } else {
+      msg.setSentDate(new Date());
     }
-    return false;
+    initFrom();
+    initUserAgent();
+    initListId();
+    initChangeUrl();
+    initChangeId();
+    initCommitId();
+    initMessageType(messageClass);
+    initSubject();
+    body = new StringBuilder();
+    inFooter = false;
+    return true;
   }
 
   private void initFrom() throws MessagingException, AddressException {

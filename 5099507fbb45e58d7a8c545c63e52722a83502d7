@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAR3///+4\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ChangeMail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-05-15T17:52:13Z",
+      "side": 1,
+      "message": "So now we tell the change author, when comments are published,\n\n  To perform this review, please visit\n\n    URL\n\n?  That seems wrong here, shouldn\u0027t we use different custom text for this case, but still keep it in the message body?",
+      "revId": "5099507fbb45e58d7a8c545c63e52722a83502d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAR3///+8\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ChangeMail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 598,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-05-15T17:52:13Z",
+      "side": 1,
+      "message": "Isn\u0027t this method\u0027s boolean return now pointless?\n\nCan we do a follow-up change to simplify the callers?",
+      "revId": "5099507fbb45e58d7a8c545c63e52722a83502d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

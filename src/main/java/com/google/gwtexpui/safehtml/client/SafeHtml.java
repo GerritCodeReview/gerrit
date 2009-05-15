@@ -24,16 +24,31 @@ import com.google.gwt.user.client.ui.Widget;
 
 /** Immutable string safely placed as HTML without further escaping. */
 public abstract class SafeHtml {
+  /** @return the existing HTML property of a widget. */
+  public static SafeHtml get(final HasHTML t) {
+    return new SafeHtmlString(t.getHTML());
+  }
+
   /** Set the HTML property of a widget. */
   public static <T extends HasHTML> T set(final T e, final SafeHtml str) {
     e.setHTML(str.asString());
     return e;
   }
 
+  /** @return the existing inner HTML of any element. */
+  public static SafeHtml get(final Element e) {
+    return new SafeHtmlString(DOM.getInnerHTML(e));
+  }
+
   /** Set the inner HTML of any element. */
   public static Element set(final Element e, final SafeHtml str) {
     DOM.setInnerHTML(e, str.asString());
     return e;
+  }
+
+  /** @return the existing inner HTML of a table cell. */
+  public static SafeHtml get(final HTMLTable t, final int row, final int col) {
+    return new SafeHtmlString(t.getHTML(row, col));
   }
 
   /** Set the inner HTML of a table cell. */
@@ -50,7 +65,9 @@ public abstract class SafeHtml {
 
   /** Convert bare http:// and https:// URLs into &lt;a href&gt; tags. */
   public SafeHtml linkify() {
-    return replaceAll("(https?://[a-zA-Z0-9$_.+!*',%;:@&=?#/()-]{1,}[a-zA-Z0-9$_.+!*',%;:@&=?#/-])", "<a href=\"$1\">$1</a>");
+    return replaceAll(
+        "(https?://[a-zA-Z0-9$_.+!*',%;:@&=?#/()-]{1,}[a-zA-Z0-9$_.+!*',%;:@&=?#/-])",
+        "<a href=\"$1\">$1</a>");
   }
 
   /**
@@ -78,7 +95,7 @@ public abstract class SafeHtml {
           r.br();
         }
         r.closeElement("p");
-        
+
       } else if (isList(p)) {
         r.openElement("ul");
         r.setStyleName("gwtexpui-SafeHtml-WikiList");
@@ -91,7 +108,7 @@ public abstract class SafeHtml {
           r.closeElement("li");
         }
         r.closeElement("ul");
-        
+
       } else {
         r.openElement("p");
         r.append(new SafeHtmlString(p));

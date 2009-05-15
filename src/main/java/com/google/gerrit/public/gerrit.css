@@ -3,12 +3,7 @@
   padding-top: 5px;
   padding-left: 5px;
   padding-right: 5px;
-  height: 15px;
-}
-#gerrit_endtopmenu {
-  clear: both;
-  height: 5px;
-  border-bottom: 1px solid #B0BDCC;
+  background: #d4e9a9;
 }
 #gerrit_body {
   font-size: 11pt;
@@ -72,35 +67,71 @@
 
 
 /** Menu **/
-.gwt-MenuItem a,
-.gwt-MenuItem a:visited,
-.gwt-MenuItem a:hover {
-  color: #2a5db0;
-}
-.gerrit-LinkMenuBar .gwt-MenuItem {
+.gerrit-LinkMenuBar {
   font-size: 9pt;
-  color: #2a5db0;
-  text-decoration: underline;
+  display: inline;
+  white-space: nowrap;
+}
+.gerrit-MenuItem {
+  display: inline;
   padding-left: 5px;
   padding-right: 5px;
-  white-space: nowrap;
-  cursor: pointer;
-  cursor: hand;
 }
-.gerrit-LinkMenuBar .gwt-MenuItem-NormalItem {
+.gerrit-LinkMenuItem-NotLast {
   border-right: 1px solid black;
 }
-.gerrit-LinkMenuBar .gwt-MenuItem-LastItem {
-}
-.gerrit-FillMenuCenter {
+
+.gerrit-topmenu {
   width: 100%;
 }
-.gwt-MenuItem .gwt-Hyperlink {
-  font-size: 9pt;
-  white-space: nowrap;
+.gerrit-topmenu-TDmenu {
+  vertical-align: top;
+}
+.gerrit-topmenu-TDglue {
+  width: 100%;
+}
+.gerrit-topmenu-menuLeft {
+  width: 300px;
+  border-left: 1px solid #d4e9a9;
+  border-right: 1px solid #d4e9a9;
+  border-bottom: 1px solid #d4e9a9;
+}
+.gerrit-topmenu-menuLeft .gwt-TabBarFirst {
+  display: none;
+}
+.gerrit-topmenu-menuLeft .gwt-TabBarItem {
+  margin: 0px;
+  background: #d4e9a9;
+  padding-top: 0px;
+  padding-bottom: 1px;
+  padding-left: 1em;
+  padding-right: 1em;
+  border-right: 1px solid black;
+}
+.gerrit-topmenu-menuLeft .gwt-TabBarItem-selected {
+  background: #ffffcc;
+}
+.gerrit-topmenu-menuLeft .gwt-TabBarRest {
+  background: #d4e9a9;
+}
+.gerrit-topmenu-menuLeft .gwt-TabPanelBottom {
+  background: #d4e9a9;
+  border-top: 1px solid black;
+  border-left: none;
+  border-right: none;
+  border-bottom: none;
+  padding: 1px;
+}
+.gerrit-topmenu-menuLeft .gerrit-MenuItem {
+  padding-left: 1em;
+  padding-right: 1em;
+  border-right: none;
+}
+
+.gerrit-topmenu-menuRight {
+  float: right;
 }
 .gerrit-MenuBarUserName {
-  font-size: 9pt;
   font-weight: bold;
   padding-left: 5px;
   padding-right: 5px;

@@ -33,10 +33,13 @@ import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.MenuBar;
-import com.google.gwt.user.client.ui.MenuItem;
+import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.TabPanel;
+import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwtexpui.user.client.UserAgent;
 import com.google.gwtexpui.user.client.ViewSite;
 import com.google.gwtjsonrpc.client.JsonUtil;
@@ -64,7 +67,8 @@ public class Gerrit implements EntryPoint {
   private static final ArrayList<SignedInListener> signedInListeners =
       new ArrayList<SignedInListener>();
 
-  private static LinkMenuBar menuBar;
+  private static TabPanel menuLeft;
+  private static LinkMenuBar menuRight;
   private static RootPanel siteHeader;
   private static RootPanel siteFooter;
   private static ViewSite<Screen> body;
@@ -159,9 +163,21 @@ public class Gerrit implements EntryPoint {
     initHistoryHooks();
     populateBottomMenu();
 
-    final RootPanel topMenu = RootPanel.get("gerrit_topmenu");
-    menuBar = new LinkMenuBar();
-    topMenu.add(menuBar);
+    final RootPanel menuArea = RootPanel.get("gerrit_topmenu");
+    final Grid menuLine = new Grid(1, 3);
+    menuLeft = new TabPanel();
+    menuRight = new LinkMenuBar();
+    menuLeft.setStyleName("gerrit-topmenu-menuLeft");
+    menuRight.addStyleName("gerrit-topmenu-menuRight");
+    menuLine.setStyleName("gerrit-topmenu");
+    menuArea.add(menuLine);
+    menuLine.setWidget(0, 0, menuLeft);
+    menuLine.setWidget(0, 1, new FlowPanel());
+    menuLine.setWidget(0, 2, menuRight);
+    final CellFormatter fmt = menuLine.getCellFormatter();
+    fmt.setStyleName(0, 0, "gerrit-topmenu-TDmenu");
+    fmt.setStyleName(0, 1, "gerrit-topmenu-TDglue");
+    fmt.setStyleName(0, 2, "gerrit-topmenu-TDmenu");
 
     siteHeader = RootPanel.get("gerrit_header");
     siteFooter = RootPanel.get("gerrit_footer");
@@ -175,7 +191,7 @@ public class Gerrit implements EntryPoint {
     };
     RootPanel.get("gerrit_body").add(body);
 
-    JsonUtil.addRpcStatusListener(new RpcStatus(topMenu));
+    JsonUtil.addRpcStatusListener(new RpcStatus(menuArea));
     SYSTEM_SVC.loadGerritConfig(new GerritCallback<GerritConfig>() {
       public void onSuccess(final GerritConfig result) {
         Common.setGerritConfig(result);
@@ -314,39 +330,39 @@ public class Gerrit implements EntryPoint {
   }
 
   public static void refreshMenuBar() {
-    menuBar.clearItems();
+    menuLeft.clear();
+    menuRight.clear();
 
     final boolean signedIn = isSignedIn();
-    MenuBar m;
+    LinkMenuBar m;
 
-    m = new MenuBar(true);
+    m = new LinkMenuBar();
     addLink(m, C.menuAllOpen(), Link.ALL_OPEN);
     addLink(m, C.menuAllMerged(), Link.ALL_MERGED);
     addLink(m, C.menuAllAbandoned(), Link.ALL_ABANDONED);
-    menuBar.addItem(C.menuAll(), m);
+    menuLeft.add(m, C.menuAll());
 
     if (signedIn) {
-      m = new MenuBar(true);
+      m = new LinkMenuBar();
       addLink(m, C.menuMyChanges(), Link.MINE);
       addLink(m, C.menyMyDrafts(), Link.MINE_DRAFTS);
       addLink(m, C.menuMyStarredChanges(), Link.MINE_STARRED);
-      addLink(m, C.menuSettings(), Link.SETTINGS);
-      menuBar.addItem(C.menuMine(), m);
+      menuLeft.add(m, C.menuMine());
+      menuLeft.selectTab(1);
+    } else {
+      menuLeft.selectTab(0);
     }
 
     if (signedIn) {
-      m = new MenuBar(true);
+      m = new LinkMenuBar();
       addLink(m, C.menuGroups(), Link.ADMIN_GROUPS);
       addLink(m, C.menuProjects(), Link.ADMIN_PROJECTS);
-      menuBar.addItem(C.menuAdmin(), m);
+      menuLeft.add(m, C.menuAdmin());
     }
-
-    menuBar.lastInGroup();
-    menuBar.addGlue();
 
     if (signedIn) {
       whoAmI();
-      menuBar.addItem(new LinkMenuItem(C.menuSettings(), Link.SETTINGS));
+      addLink(menuRight, C.menuSettings(), Link.SETTINGS);
       boolean signout = false;
       switch (Common.getGerritConfig().getLoginType()) {
         case HTTP:
@@ -358,7 +374,7 @@ public class Gerrit implements EntryPoint {
           break;
       }
       if (signout || (GWT.isClient() && !GWT.isScript())) {
-        menuBar.addItem(C.menuSignOut(), new Command() {
+        menuRight.addItem(C.menuSignOut(), new Command() {
           public void execute() {
             doSignOut();
           }
@@ -371,7 +387,7 @@ public class Gerrit implements EntryPoint {
 
         case OPENID:
         default:
-          menuBar.addItem(C.menuSignIn(), new Command() {
+          menuRight.addItem(C.menuSignIn(), new Command() {
             public void execute() {
               doSignIn();
             }
@@ -379,14 +395,13 @@ public class Gerrit implements EntryPoint {
           break;
       }
       if (GWT.isClient() && !GWT.isScript()) {
-        menuBar.addItem("Become", new Command() {
+        menuRight.addItem("Become", new Command() {
           public void execute() {
             Window.Location.assign(GWT.getHostPageBaseURL() + "become");
           }
         });
       }
     }
-    menuBar.lastInGroup();
 
     final boolean view = myAccount == null || myAccount.isShowSiteHeader();
     if (siteHeader != null) {
@@ -399,12 +414,12 @@ public class Gerrit implements EntryPoint {
 
   private static void whoAmI() {
     final String name = FormatUtil.nameEmail(getUserAccount());
-    final MenuItem me = menuBar.addItem(name, (Command) null);
-    me.removeStyleName("gwt-MenuItem");
-    me.addStyleName("gerrit-MenuBarUserName");
+    final InlineLabel l = new InlineLabel(name);
+    l.setStyleName("gerrit-MenuBarUserName");
+    menuRight.add(l);
   }
 
-  private static void addLink(final MenuBar m, final String text,
+  private static void addLink(final LinkMenuBar m, final String text,
       final String historyToken) {
     m.addItem(new LinkMenuItem(text, historyToken));
   }

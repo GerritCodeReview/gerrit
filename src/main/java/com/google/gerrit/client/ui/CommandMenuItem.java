@@ -1,4 +1,4 @@
-// Copyright (C) 2008 The Android Open Source Project
+// Copyright (C) 2009 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,13 +14,25 @@
 
 package com.google.gerrit.client.ui;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.Accessibility;
-import com.google.gwt.user.client.ui.Hyperlink;
+import com.google.gwt.user.client.ui.Anchor;
 
-public class LinkMenuItem extends Hyperlink {
-  public LinkMenuItem(final String text, final String targetHistoryToken) {
-    super(text, targetHistoryToken);
+public class CommandMenuItem extends Anchor implements ClickHandler {
+  private final Command command;
+
+  public CommandMenuItem(final String text, final Command cmd) {
+    super(text);
     setStyleName("gerrit-MenuItem");
     Accessibility.setRole(getElement(), Accessibility.ROLE_MENUITEM);
+    addClickHandler(this);
+    command = cmd;
+  }
+
+  @Override
+  public void onClick(final ClickEvent event) {
+    command.execute();
   }
 }

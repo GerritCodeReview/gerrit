@@ -14,44 +14,44 @@
 
 package com.google.gerrit.client.ui;
 
-import com.google.gwt.user.client.ui.MenuBar;
-import com.google.gwt.user.client.ui.MenuItem;
+import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.ui.Accessibility;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Widget;
 
-/** A GWT MenuBar, rendering its items as through they were normal links. */
-public class LinkMenuBar extends MenuBar {
+public class LinkMenuBar extends Composite {
+  private final FlowPanel body;
+
   public LinkMenuBar() {
+    body = new FlowPanel();
+    initWidget(body);
     setStyleName("gerrit-LinkMenuBar");
+    Accessibility.setRole(getElement(), Accessibility.ROLE_MENUBAR);
   }
 
-  @Override
-  public MenuItem addItem(final MenuItem item) {
-    item.addStyleDependentName("NormalItem");
-    return super.addItem(item);
+  public void addItem(final String text, final Command imp) {
+    add(new CommandMenuItem(text, imp));
   }
 
-  /**
-   * Add a cell to fill the screen width.
-   * <p>
-   * The glue has 100% width, forcing the browser to align out the next element
-   * as far right as possible. If there is exactly 1 glue in the menu bar, the
-   * bar is split into a left and right section. If there are 2 glues, the bar
-   * will be split into thirds.
-   */
-  public void addGlue() {
-    addSeparator().setStyleName("gerrit-FillMenuCenter");
+  public void addItem(final CommandMenuItem i) {
+    add(i);
   }
 
-  /**
-   * Mark this item as the last in its group, so it has no border.
-   * <p>
-   * Usually this is used just before {@link #addGlue()} and after the last item
-   * has been added.
-   */
-  public void lastInGroup() {
-    if (!getItems().isEmpty()) {
-      final MenuItem i = getItems().get(getItems().size() - 1);
-      i.removeStyleDependentName("NormalItem");
-      i.addStyleDependentName("LastItem");
+  public void addItem(final LinkMenuItem i) {
+    add(i);
+  }
+
+  public void clear() {
+    body.clear();
+  }
+
+  public void add(final Widget i) {
+    if (body.getWidgetCount() > 0) {
+      final Widget p = body.getWidget(body.getWidgetCount() - 1);
+      p.addStyleName("gerrit-LinkMenuItem-NotLast");
     }
+    i.addStyleName("gerrit-LinkMenuItem");
+    body.add(i);
   }
 }

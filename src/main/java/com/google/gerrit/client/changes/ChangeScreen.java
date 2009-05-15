@@ -328,7 +328,6 @@ public class ChangeScreen extends Screen {
     });
     m.addItem(Util.C.messageExpandAll(), new ExpandAllCommand(c, true));
     m.addItem(Util.C.messageCollapseAll(), new ExpandAllCommand(c, false));
-    m.lastInGroup();
     return m;
   }
 

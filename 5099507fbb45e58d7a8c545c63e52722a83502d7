@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "AAAAR3///+k\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ChangeMail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-05-15T18:18:41Z",
+      "side": 1,
+      "message": "Sorry, I take that back, I missed that this is inside of sendNewPatchSet.",
+      "revId": "5099507fbb45e58d7a8c545c63e52722a83502d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAR3///+8\u003d",
         "filename": "src/main/java/com/google/gerrit/server/ChangeMail.java",
         "patchSetId": 1

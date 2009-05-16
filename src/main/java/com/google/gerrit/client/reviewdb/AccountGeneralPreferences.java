@@ -36,6 +36,10 @@ public final class AccountGeneralPreferences {
   @Column
   protected boolean showSiteHeader;
 
+  /** Should the Flash helper movie be used to copy text to the clipboard? */
+  @Column
+  protected boolean useFlashClipboard;
+
   public AccountGeneralPreferences() {
   }
 
@@ -57,8 +61,17 @@ public final class AccountGeneralPreferences {
     showSiteHeader = b;
   }
 
+  public boolean isUseFlashClipboard() {
+    return useFlashClipboard;
+  }
+
+  public void setUseFlashClipboard(final boolean b) {
+    useFlashClipboard = b;
+  }
+
   public void resetToDefaults() {
     defaultContext = DEFAULT_CONTEXT;
     showSiteHeader = true;
+    useFlashClipboard = true;
   }
 }

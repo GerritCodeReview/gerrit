@@ -33,6 +33,7 @@ import com.google.gwtjsonrpc.client.VoidResult;
 
 class PreferencePanel extends Composite {
   private CheckBox showSiteHeader;
+  private CheckBox useFlashClipboard;
   private ListBox defaultContext;
   private Button save;
 
@@ -48,6 +49,9 @@ class PreferencePanel extends Composite {
 
     showSiteHeader = new CheckBox(Util.C.showSiteHeader());
     showSiteHeader.addClickHandler(onClickSave);
+
+    useFlashClipboard = new CheckBox(Util.C.useFlashClipboard());
+    useFlashClipboard.addClickHandler(onClickSave);
 
     defaultContext = new ListBox();
     for (final short v : AccountGeneralPreferences.CONTEXT_CHOICES) {
@@ -74,13 +78,20 @@ class PreferencePanel extends Composite {
       labelIdx = 0;
       fieldIdx = 1;
     }
-    final Grid formGrid = new Grid(2, 2);
+    final Grid formGrid = new Grid(3, 2);
 
-    formGrid.setText(0, labelIdx, "");
-    formGrid.setWidget(0, fieldIdx, showSiteHeader);
+    int row = 0;
+    formGrid.setText(row, labelIdx, "");
+    formGrid.setWidget(row, fieldIdx, showSiteHeader);
+    row++;
 
-    formGrid.setText(1, labelIdx, Util.C.defaultContextFieldLabel());
-    formGrid.setWidget(1, fieldIdx, defaultContext);
+    formGrid.setText(row, labelIdx, "");
+    formGrid.setWidget(row, fieldIdx, useFlashClipboard);
+    row++;
+
+    formGrid.setText(row, labelIdx, Util.C.defaultContextFieldLabel());
+    formGrid.setWidget(row, fieldIdx, defaultContext);
+    row++;
 
     body.add(formGrid);
 
@@ -110,11 +121,13 @@ class PreferencePanel extends Composite {
 
   private void enable(final boolean on) {
     showSiteHeader.setEnabled(on);
+    useFlashClipboard.setEnabled(on);
     defaultContext.setEnabled(on);
   }
 
   private void display(final AccountGeneralPreferences p) {
     showSiteHeader.setValue(p.isShowSiteHeader());
+    useFlashClipboard.setValue(p.isUseFlashClipboard());
     displayDefaultContext(p.getDefaultContext());
   }
 
@@ -139,6 +152,7 @@ class PreferencePanel extends Composite {
   private void doSave() {
     final AccountGeneralPreferences p = new AccountGeneralPreferences();
     p.setShowSiteHeader(showSiteHeader.getValue());
+    p.setUseFlashClipboard(useFlashClipboard.getValue());
     p.setDefaultContext(getDefaultContext());
 
     enable(false);

@@ -43,6 +43,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
+import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandFilter;
@@ -407,6 +408,7 @@ public class Gerrit implements EntryPoint {
 
   public static void applyUserPreferences() {
     final AccountGeneralPreferences p = myAccount.getGeneralPreferences();
+    CopyableLabel.setFlashEnabled(p.isUseFlashClipboard());
     if (siteHeader != null) {
       siteHeader.setVisible(p.isShowSiteHeader());
     }

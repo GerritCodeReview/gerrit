@@ -50,6 +50,15 @@ public class CopyableLabel extends Composite implements HasText {
   private static final int SWF_WIDTH = 110;
   private static final int SWF_HEIGHT = 14;
   private static String swfUrl;
+  private static boolean flashEnabled = true;
+
+  public static boolean isFlashEnabled() {
+    return flashEnabled;
+  }
+
+  public static void setFlashEnabled(final boolean on) {
+    flashEnabled = on;
+  }
 
   private static String swfUrl() {
     if (swfUrl == null) {
@@ -101,7 +110,7 @@ public class CopyableLabel extends Composite implements HasText {
   }
 
   private void embedMovie() {
-    if (UserAgent.hasFlash) {
+    if (flashEnabled && UserAgent.hasFlash) {
       final String flashVars = "text=" + URL.encodeComponent(getText());
       final SafeHtmlBuilder h = new SafeHtmlBuilder();
 

@@ -18,9 +18,12 @@ import com.google.gerrit.client.data.ChangeInfo;
 import com.google.gerrit.client.data.SingleListChangeInfo;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.Screen;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Hyperlink;
+import com.google.gwtexpui.globalkey.client.KeyCommand;
 
 import java.util.List;
 
@@ -50,18 +53,25 @@ public abstract class AllSingleListScreen extends Screen {
   @Override
   protected void onInitUI() {
     super.onInitUI();
-    table = new ChangeTable();
-    section = new ChangeTable.Section();
-
-    table.addSection(section);
-    table.setSavePointerId(anchorPrefix);
-    add(table);
-
     prev = new Hyperlink(Util.C.pagedChangeListPrev(), true, "");
     prev.setVisible(false);
 
     next = new Hyperlink(Util.C.pagedChangeListNext(), true, "");
     next.setVisible(false);
+
+    table = new ChangeTable() {
+      {
+        keysNavigation.add(new DoLinkCommand(0, 'p', Util.C
+            .changeTablePagePrev(), prev));
+        keysNavigation.add(new DoLinkCommand(0, 'n', Util.C
+            .changeTablePageNext(), next));
+      }
+    };
+    section = new ChangeTable.Section();
+
+    table.addSection(section);
+    table.setSavePointerId(anchorPrefix);
+    add(table);
 
     final HorizontalPanel buttons = new HorizontalPanel();
     buttons.setStyleName("gerrit-ChangeTable-PrevNextLinks");
@@ -121,5 +131,21 @@ public abstract class AllSingleListScreen extends Screen {
     table.setAccountInfoCache(result.getAccounts());
     section.display(result.getChanges());
     table.finishDisplay();
+  }
+
+  private static final class DoLinkCommand extends KeyCommand {
+    private final Hyperlink link;
+
+    private DoLinkCommand(int mask, char key, String help, Hyperlink l) {
+      super(mask, key, help);
+      link = l;
+    }
+
+    @Override
+    public void onKeyPress(final KeyPressEvent event) {
+      if (link.isVisible()) {
+        History.newItem(link.getTargetHistoryToken());
+      }
+    }
   }
 }

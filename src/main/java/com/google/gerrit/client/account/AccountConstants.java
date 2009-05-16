@@ -24,9 +24,11 @@ public interface AccountConstants extends Constants {
   String sshUserName();
   String registeredOn();
   String accountId();
-  String defaultContext();
+
+  String defaultContextFieldLabel();
   String contextWholeFile();
   String showSiteHeader();
+  String buttonSaveChanges();
 
   String tabPreferences();
   String tabContactInformation();
@@ -80,7 +82,6 @@ public interface AccountConstants extends Constants {
   String contactFieldCountry();
   String contactFieldPhone();
   String contactFieldFax();
-  String buttonSaveContact();
   String buttonOpenRegisterNewEmail();
   String buttonSendRegisterNewEmail();
   String titleRegisterNewEmail();

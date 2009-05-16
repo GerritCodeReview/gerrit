@@ -16,6 +16,7 @@ package com.google.gerrit.client.account;
 
 import com.google.gerrit.client.data.ProjectCache;
 import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.client.reviewdb.AccountGeneralPreferences;
 import com.google.gerrit.client.reviewdb.AccountProjectWatch;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
@@ -48,25 +49,15 @@ public class AccountServiceImpl extends BaseServiceImplementation implements
     });
   }
 
-  public void changeShowSiteHeader(final boolean newSetting,
+  public void changePreferences(final AccountGeneralPreferences pref,
       final AsyncCallback<VoidResult> callback) {
     run(callback, new Action<VoidResult>() {
-      public VoidResult run(final ReviewDb db) throws OrmException {
+      public VoidResult run(final ReviewDb db) throws OrmException, Failure {
         final Account a = db.accounts().get(Common.getAccountId());
-        a.setShowSiteHeader(newSetting);
-        db.accounts().update(Collections.singleton(a));
-        Common.getAccountCache().invalidate(a.getId());
-        return VoidResult.INSTANCE;
-      }
-    });
-  }
-
-  public void changeDefaultContext(final short newSetting,
-      final AsyncCallback<VoidResult> callback) {
-    run(callback, new Action<VoidResult>() {
-      public VoidResult run(final ReviewDb db) throws OrmException {
-        final Account a = db.accounts().get(Common.getAccountId());
-        a.setDefaultContext(newSetting);
+        if (a == null) {
+          throw new Failure(new NoSuchEntityException());
+        }
+        a.setGeneralPreferences(pref);
         db.accounts().update(Collections.singleton(a));
         Common.getAccountCache().invalidate(a.getId());
         return VoidResult.INSTANCE;

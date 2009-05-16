@@ -17,7 +17,7 @@ package com.google.gerrit.server.patch;
 import static com.google.gerrit.client.rpc.BaseServiceImplementation.canRead;
 
 import com.google.gerrit.client.data.PatchScript;
-import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.client.reviewdb.AccountGeneralPreferences;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchSet;
@@ -137,7 +137,7 @@ class PatchScriptAction implements Action<PatchScript> {
     b.setRepository(git);
     b.setPatch(patch);
 
-    if (context == Account.WHOLE_FILE_CONTEXT)
+    if (context == AccountGeneralPreferences.WHOLE_FILE_CONTEXT)
       b.setContext(PatchScriptBuilder.MAX_CONTEXT);
     else if (0 <= context && context <= PatchScriptBuilder.MAX_CONTEXT)
       b.setContext(context);

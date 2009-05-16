@@ -17,6 +17,7 @@ package com.google.gerrit.client;
 import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.client.data.SystemInfoService;
 import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.client.reviewdb.AccountGeneralPreferences;
 import com.google.gerrit.client.reviewdb.SystemConfig;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.GerritCallback;
@@ -405,11 +406,12 @@ public class Gerrit implements EntryPoint {
   }
 
   public static void applyUserPreferences() {
+    final AccountGeneralPreferences p = myAccount.getGeneralPreferences();
     if (siteHeader != null) {
-      siteHeader.setVisible(myAccount.isShowSiteHeader());
+      siteHeader.setVisible(p.isShowSiteHeader());
     }
     if (siteFooter != null) {
-      siteFooter.setVisible(myAccount.isShowSiteHeader());
+      siteFooter.setVisible(p.isShowSiteHeader());
     }
   }
 

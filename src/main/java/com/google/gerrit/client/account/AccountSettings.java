@@ -20,7 +20,6 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.Link;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.rpc.Common;
-import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.AccountScreen;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
@@ -40,7 +39,6 @@ public class AccountSettings extends AccountScreen {
 
   private List<String> tabTokens;
   private TabPanel tabs;
-  private PreferencePanel prefsPanel;
 
   public AccountSettings(final String tabToken) {
     initialTabToken = tabToken;
@@ -49,13 +47,11 @@ public class AccountSettings extends AccountScreen {
   @Override
   public void onLoad() {
     super.onLoad();
-    Util.ACCOUNT_SVC.myAccount(new ScreenLoadCallback<Account>(this) {
-      @Override
-      protected void preDisplay(final Account result) {
-        display(result);
-        tabs.selectTab(tabTokens.indexOf(initialTabToken));
-      }
-    });
+
+    final int idx = tabTokens.indexOf(initialTabToken);
+    tabs.selectTab(0 <= idx ? idx : 0);
+    display(Gerrit.getUserAccount());
+    display();
   }
 
   @Override
@@ -87,14 +83,17 @@ public class AccountSettings extends AccountScreen {
     fmt.addStyleName(0, 1, "topmost");
     fmt.addStyleName(4, 0, "bottomheader");
 
-    prefsPanel = new PreferencePanel();
-
     tabTokens = new ArrayList<String>();
     tabs = new TabPanel();
     tabs.setWidth("98%");
     add(tabs);
 
-    tabs.add(prefsPanel, Util.C.tabPreferences());
+    tabs.add(new LazyPanel() {
+      @Override
+      protected PreferencePanel createWidget() {
+        return new PreferencePanel();
+      }
+    }, Util.C.tabPreferences());
     tabTokens.add(Link.SETTINGS);
 
     tabs.add(new LazyPanel() {
@@ -158,6 +157,5 @@ public class AccountSettings extends AccountScreen {
     info.setText(2, fieldIdx, account.getSshUserName());
     info.setText(3, fieldIdx, mediumFormat(account.getRegisteredOn()));
     info.setText(4, fieldIdx, account.getId().toString());
-    prefsPanel.display(account);
   }
 }

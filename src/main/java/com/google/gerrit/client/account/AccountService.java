@@ -15,6 +15,7 @@
 package com.google.gerrit.client.account;
 
 import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.client.reviewdb.AccountGeneralPreferences;
 import com.google.gerrit.client.reviewdb.AccountProjectWatch;
 import com.google.gerrit.client.rpc.SignInRequired;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -31,11 +32,8 @@ public interface AccountService extends RemoteJsonService {
   void myAccount(AsyncCallback<Account> callback);
 
   @SignInRequired
-  void changeShowSiteHeader(boolean show,
+  void changePreferences(AccountGeneralPreferences pref,
       AsyncCallback<VoidResult> gerritCallback);
-
-  @SignInRequired
-  void changeDefaultContext(short newSetting, AsyncCallback<VoidResult> callback);
 
   @SignInRequired
   void myProjectWatch(AsyncCallback<List<AccountProjectWatchInfo>> callback);

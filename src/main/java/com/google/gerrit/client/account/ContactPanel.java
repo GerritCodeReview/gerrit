@@ -155,7 +155,7 @@ class ContactPanel extends Composite {
     infoSecure.getCellFormatter().addStyleName(0, 1, "topmost");
     infoSecure.getCellFormatter().addStyleName(3, 0, "bottomheader");
 
-    save = new Button(Util.C.buttonSaveContact());
+    save = new Button(Util.C.buttonSaveChanges());
     save.setEnabled(false);
     save.addClickHandler(new ClickHandler() {
       @Override

@@ -24,16 +24,6 @@ import java.util.List;
 
 /** Preferences and information about a single user. */
 public final class Account {
-  /** Default number of lines of context. */
-  public static final short DEFAULT_CONTEXT = 10;
-
-  /** Context setting to display the entire file. */
-  public static final short WHOLE_FILE_CONTEXT = -1;
-
-  /** Typical valid choices for the default context setting. */
-  public static final short[] CONTEXT_CHOICES =
-      {3, 10, 25, 50, 75, 100, WHOLE_FILE_CONTEXT};
-
   /**
    * Locate exactly one account matching the name or name/email string.
    * 
@@ -120,17 +110,13 @@ public final class Account {
   @Column(notNull = false)
   protected String sshUserName;
 
-  /** Default number of lines of context when viewing a patch. */
-  @Column
-  protected short defaultContext;
-
-  /** Should the site header be displayed when logged in ? */
-  @Column
-  protected boolean showSiteHeader;
-
   /** When did the user last give us contact information? Null if never. */
   @Column(notNull = false)
   protected Timestamp contactFiledOn;
+
+  /** This user's preferences */
+  @Column(name = Column.NONE)
+  protected AccountGeneralPreferences generalPreferences;
 
   protected Account() {
   }
@@ -143,8 +129,9 @@ public final class Account {
   public Account(final Account.Id newId) {
     accountId = newId;
     registeredOn = new Timestamp(System.currentTimeMillis());
-    defaultContext = DEFAULT_CONTEXT;
-    showSiteHeader = true;
+
+    generalPreferences = new AccountGeneralPreferences();
+    generalPreferences.resetToDefaults();
   }
 
   /** Get local id of this account, to link with in other entities */
@@ -187,22 +174,12 @@ public final class Account {
     return registeredOn;
   }
 
-  /** Get the default number of lines of context when viewing a patch. */
-  public short getDefaultContext() {
-    return defaultContext;
+  public AccountGeneralPreferences getGeneralPreferences() {
+    return generalPreferences;
   }
 
-  /** Set the number of lines of context when viewing a patch. */
-  public void setDefaultContext(final short s) {
-    defaultContext = s;
-  }
-
-  public boolean isShowSiteHeader() {
-    return showSiteHeader;
-  }
-
-  public void setShowSiteHeader(final boolean b) {
-    showSiteHeader = b;
+  public void setGeneralPreferences(final AccountGeneralPreferences p) {
+    generalPreferences = p;
   }
 
   public boolean isContactFiled() {

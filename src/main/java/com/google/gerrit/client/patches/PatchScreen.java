@@ -17,6 +17,7 @@ package com.google.gerrit.client.patches;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.data.PatchScript;
 import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.client.reviewdb.AccountGeneralPreferences;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchSet;
@@ -49,9 +50,11 @@ public abstract class PatchScreen extends Screen {
     idSideB = id.getParentKey();
 
     if (Gerrit.isSignedIn()) {
-      contextLines = Gerrit.getUserAccount().getDefaultContext();
+      final AccountGeneralPreferences p =
+          Gerrit.getUserAccount().getGeneralPreferences();
+      contextLines = p.getDefaultContext();
     } else {
-      contextLines = Account.DEFAULT_CONTEXT;
+      contextLines = AccountGeneralPreferences.DEFAULT_CONTEXT;
     }
   }
 

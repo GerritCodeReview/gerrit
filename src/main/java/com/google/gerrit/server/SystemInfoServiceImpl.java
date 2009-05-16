@@ -33,8 +33,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.security.PublicKey;
+import java.security.interfaces.DSAPublicKey;
+import java.security.interfaces.RSAPublicKey;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -64,7 +67,7 @@ public class SystemInfoServiceImpl implements SystemInfoService {
 
   public void daemonHostKeys(final AsyncCallback<List<SshHostKey>> callback) {
     final String hostIdent = hostIdent();
-    final Collection<PublicKey> keys = GerritSshDaemon.getHostKeys();
+    final List<PublicKey> keys = sortKeys();
     final ArrayList<SshHostKey> r = new ArrayList<SshHostKey>(keys.size());
     for (final PublicKey pub : keys) {
       try {
@@ -77,6 +80,27 @@ public class SystemInfoServiceImpl implements SystemInfoService {
       }
     }
     callback.onSuccess(r);
+  }
+
+  private static List<PublicKey> sortKeys() {
+    final List<PublicKey> r = new ArrayList<PublicKey>(2);
+    r.addAll(GerritSshDaemon.getHostKeys());
+    Collections.sort(r, new Comparator<PublicKey>() {
+      @Override
+      public int compare(final PublicKey a, final PublicKey b) {
+        if (a == b) {
+          return 0;
+        }
+        if (a instanceof RSAPublicKey) {
+          return -1;
+        }
+        if (a instanceof DSAPublicKey) {
+          return 1;
+        }
+        return 0;
+      }
+    });
+    return r;
   }
 
   private HostKey toHostKey(final String hostIdent, final PublicKey pub)

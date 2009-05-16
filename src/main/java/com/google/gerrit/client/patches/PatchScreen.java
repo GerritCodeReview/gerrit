@@ -16,7 +16,6 @@ package com.google.gerrit.client.patches;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.data.PatchScript;
-import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountGeneralPreferences;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.Patch;

@@ -289,6 +289,7 @@ public class Gerrit implements EntryPoint {
             public void onSuccess(final Account result) {
               if (result != null) {
                 myAccount = result;
+                applyUserPreferences();
               } else {
                 Cookies.removeCookie(ACCOUNT_COOKIE);
               }
@@ -401,13 +402,14 @@ public class Gerrit implements EntryPoint {
         });
       }
     }
+  }
 
-    final boolean view = myAccount == null || myAccount.isShowSiteHeader();
+  public static void applyUserPreferences() {
     if (siteHeader != null) {
-      siteHeader.setVisible(view);
+      siteHeader.setVisible(myAccount.isShowSiteHeader());
     }
     if (siteFooter != null) {
-      siteFooter.setVisible(view);
+      siteFooter.setVisible(myAccount.isShowSiteHeader());
     }
   }
 

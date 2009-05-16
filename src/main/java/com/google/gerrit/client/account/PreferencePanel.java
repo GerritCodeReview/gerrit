@@ -48,7 +48,7 @@ class PreferencePanel extends Composite {
             new GerritCallback<VoidResult>() {
               public void onSuccess(final VoidResult result) {
                 Gerrit.getUserAccount().setShowSiteHeader(val);
-                Gerrit.refreshMenuBar();
+                Gerrit.applyUserPreferences();
               }
 
               @Override

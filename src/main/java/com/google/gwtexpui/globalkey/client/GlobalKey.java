@@ -14,10 +14,19 @@
 
 package com.google.gwtexpui.globalkey.client;
 
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 
 
 public class GlobalKey {
+  public static final KeyPressHandler STOP_PROPAGATION = new KeyPressHandler() {
+    @Override
+    public void onKeyPress(final KeyPressEvent event) {
+      event.stopPropagation();
+    }
+  };
+
   private static KeyCommandSet keyApplication;
   static KeyCommandSet keys;
 

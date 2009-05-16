@@ -18,9 +18,12 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwtjsonrpc.client.RpcStatusListener;
+import com.google.gwtjsonrpc.client.RpcCompleteEvent;
+import com.google.gwtjsonrpc.client.RpcCompleteHandler;
+import com.google.gwtjsonrpc.client.RpcStartEvent;
+import com.google.gwtjsonrpc.client.RpcStartHandler;
 
-public class RpcStatus implements RpcStatusListener {
+public class RpcStatus implements RpcStartHandler, RpcCompleteHandler {
   private static int hideDepth;
 
   /** Execute code, hiding the RPCs they execute from being shown visually. */
@@ -49,7 +52,8 @@ public class RpcStatus implements RpcStatusListener {
     r.add(loading);
   }
 
-  public void onCallStart() {
+  @Override
+  public void onRpcStart(final RpcStartEvent event) {
     if (++activeCalls == 1) {
       if (hideDepth == 0) {
         loading.setVisible(true);
@@ -57,7 +61,8 @@ public class RpcStatus implements RpcStatusListener {
     }
   }
 
-  public void onCallEnd() {
+  @Override
+  public void onRpcComplete(final RpcCompleteEvent event) {
     if (--activeCalls == 0) {
       loading.setVisible(false);
     }

@@ -198,7 +198,10 @@ public class Gerrit implements EntryPoint {
     };
     RootPanel.get("gerrit_body").add(body);
 
-    JsonUtil.addRpcStatusListener(new RpcStatus(menuArea));
+    final RpcStatus rpcStatus = new RpcStatus(menuArea);
+    JsonUtil.addRpcStartHandler(rpcStatus);
+    JsonUtil.addRpcCompleteHandler(rpcStatus);
+
     SYSTEM_SVC.loadGerritConfig(new GerritCallback<GerritConfig>() {
       public void onSuccess(final GerritConfig result) {
         Common.setGerritConfig(result);

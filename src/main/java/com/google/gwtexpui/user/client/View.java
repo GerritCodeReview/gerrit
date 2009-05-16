@@ -15,6 +15,7 @@
 package com.google.gwtexpui.user.client;
 
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Widget to display within a {@link ViewSite}.
@@ -33,6 +34,12 @@ public abstract class View extends Composite {
   protected void onUnload() {
     site = null;
     super.onUnload();
+  }
+
+  /** true if this is the current view of its parent view site */
+  public final boolean isCurrentView() {
+    final Widget p = getParent();
+    return p instanceof ViewSite && ((ViewSite<?>) p).getView() == this;
   }
 
   /** Replace the current view in the parent ViewSite with this view. */

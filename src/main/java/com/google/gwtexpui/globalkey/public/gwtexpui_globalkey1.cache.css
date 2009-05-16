@@ -1,0 +1,68 @@
+.gwtexpui-globalkey-KeyboardShortcuts {
+  background: #000000 none repeat scroll 0 50%;
+  color: #ffffff;
+  font-family: arial,sans-serif;
+  font-weight: bold;
+  overflow: hidden;
+  text-align: left;
+  text-shadow: 1px 1px 7px #000000;
+  width: 92%;
+  z-index: 1002;
+  opacity: 0.85;
+  -moz-border-radius-bottomleft: 10px;
+  -moz-border-radius-bottomright: 10px;
+  -moz-border-radius-topleft: 10px;
+  -moz-border-radius-topright: 10px;
+}
+
+.gwtexpui-globalkey-KeyboardShortcuts .popupContent {
+  margin: 10px;
+}
+
+.gwtexpui-globalkey-KeyboardShortcuts hr {
+  width: 100%;
+}
+
+.gwtexpui-globalkey-KeyboardShortcuts-Header {
+  width: 100%;
+}
+.gwtexpui-globalkey-KeyboardShortcuts-Header td {
+  white-space: nowrap;
+  color: #ffffff;
+}
+.gwtexpui-globalkey-KeyboardShortcuts-Header a,
+.gwtexpui-globalkey-KeyboardShortcuts-Header a:visited,
+.gwtexpui-globalkey-KeyboardShortcuts-Header a:hover {
+  color: #dddd00;
+}
+.gwtexpui-globalkey-KeyboardShortcuts-HeaderGlue {
+  width: 100%;
+}
+
+.gwtexpui-globalkey-KeyboardShortcuts-GroupTitle {
+  color: #dddd00;
+  padding-top: 0.8em;
+  text-align: left;
+}
+
+.gwtexpui-globalkey-KeyboardShortcuts-Table {
+  width: 90%;
+}
+.gwtexpui-globalkey-KeyboardShortcuts-Table td {
+  vertical-align: top;
+  white-space: nowrap;
+}
+td.gwtexpui-globalkey-KeyboardShortcuts-TableKeyStroke {
+  text-align: right;
+}
+td.gwtexpui-globalkey-KeyboardShortcuts-TableSeparator {
+  width: 0.5em;
+  text-align: center;
+  font-weight: bold;
+}
+.gwtexpui-globalkey-KeyboardShortcuts-TableGlue {
+  width: 25px;
+}
+.gwtexpui-globalkey-KeyboardShortcuts-Key {
+  color: #dddd00;
+}

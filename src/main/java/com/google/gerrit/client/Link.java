@@ -52,6 +52,7 @@ public class Link implements ValueChangeHandler<String> {
   public static final String SETTINGS_WEBIDENT = "settings,web-identities";
   public static final String SETTINGS_AGREEMENTS = "settings,agreements";
   public static final String SETTINGS_CONTACT = "settings,contact";
+  public static final String SETTINGS_PROJECTS = "settings,projects";
   public static final String SETTINGS_NEW_AGREEMENT = "settings,new-agreement";
 
   public static final String MINE = "mine";

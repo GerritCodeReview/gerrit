@@ -17,7 +17,6 @@ package com.google.gerrit.client.account;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.rpc.GerritCallback;
-import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -34,7 +33,6 @@ class PreferencePanel extends Composite {
   private CheckBox showSiteHeader;
   private ListBox defaultContext;
   private short oldDefaultContext;
-  private ProjectWatchPanel watchPanel;
 
   PreferencePanel() {
     final FlowPanel body = new FlowPanel();
@@ -116,17 +114,6 @@ class PreferencePanel extends Composite {
     formGrid.setWidget(1, fieldIdx, defaultContext);
 
     body.add(formGrid);
-
-    {
-      final FlowPanel fp = new FlowPanel();
-      fp.setStyleName("gerrit-WatchedProjectPanel");
-      fp.add(new SmallHeading(Util.C.watchedProjects()));
-
-      watchPanel = new ProjectWatchPanel();
-      fp.add(watchPanel);
-      body.add(fp);
-    }
-
     initWidget(body);
   }
 

@@ -794,13 +794,6 @@
   margin-top: 2px;
 }
 
-.gerrit-WatchedProjectPanel {
-  margin-top: 10px;
-  padding: 5px 5px 5px 5px;
-  display: table;
-  border: 1px solid #b0bdcc;
-}
-
 .gerrit-ContributorAgreement-Button {
   font-weight: bold;
 }

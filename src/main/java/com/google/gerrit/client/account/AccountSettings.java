@@ -99,6 +99,14 @@ public class AccountSettings extends AccountScreen {
 
     tabs.add(new LazyPanel() {
       @Override
+      protected ProjectWatchPanel createWidget() {
+        return new ProjectWatchPanel();
+      }
+    }, Util.C.watchedProjects());
+    tabTokens.add(Link.SETTINGS_PROJECTS);
+
+    tabs.add(new LazyPanel() {
+      @Override
       protected ContactPanel createWidget() {
         return new ContactPanel(AccountSettings.this);
       }

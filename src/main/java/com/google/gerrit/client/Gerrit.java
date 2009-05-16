@@ -372,7 +372,7 @@ public class Gerrit implements EntryPoint {
           signout = true;
           break;
       }
-      if (signout || (GWT.isClient() && !GWT.isScript())) {
+      if (signout || !GWT.isScript()) {
         menuRight.addItem(C.menuSignOut(), new Command() {
           public void execute() {
             doSignOut();
@@ -393,7 +393,7 @@ public class Gerrit implements EntryPoint {
           });
           break;
       }
-      if (GWT.isClient() && !GWT.isScript()) {
+      if (!GWT.isScript()) {
         menuRight.addItem("Become", new Command() {
           public void execute() {
             Window.Location.assign(GWT.getHostPageBaseURL() + "become");

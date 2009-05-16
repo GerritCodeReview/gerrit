@@ -90,6 +90,10 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
   }
 
   protected void movePointerTo(final int newRow) {
+    movePointerTo(newRow, true);
+  }
+
+  protected void movePointerTo(final int newRow, final boolean scroll) {
     final CellFormatter fmt = table.getCellFormatter();
     final boolean clear = 0 <= currentRow && currentRow < table.getRowCount();
     if (clear) {
@@ -100,7 +104,9 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
       table.setWidget(newRow, C_ARROW, pointer);
       final Element tr = DOM.getParent(fmt.getElement(newRow, C_ARROW));
       UIObject.setStyleName(tr, S_ACTIVE_ROW, true);
-      tr.scrollIntoView();
+      if (scroll) {
+        tr.scrollIntoView();
+      }
     } else if (clear) {
       table.setWidget(currentRow, C_ARROW, null);
     }

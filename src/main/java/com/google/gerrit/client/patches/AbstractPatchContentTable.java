@@ -61,6 +61,8 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
     keysNavigation.add(new UpToChangeCommand(0, 'u', PatchUtil.C.upToChange()));
     keysNavigation.add(new PrevKeyCommand(0, 'k', PatchUtil.C.linePrev()));
     keysNavigation.add(new NextKeyCommand(0, 'j', PatchUtil.C.lineNext()));
+    keysNavigation.add(new PrevChunkKeyCmd(0, 'p', PatchUtil.C.chunkPrev()));
+    keysNavigation.add(new NextChunkKeyCmd(0, 'n', PatchUtil.C.chunkNext()));
 
     if (Gerrit.isSignedIn()) {
       keysAction.add(new InsertCommentCommand(0, 'c', PatchUtil.C
@@ -140,6 +142,73 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
   @Override
   protected Object getRowItemKey(final Object item) {
     return null;
+  }
+
+  private boolean isChunk(final int row) {
+    final Object o = getRowItem(row);
+    if (o instanceof PatchLine) {
+      final PatchLine pl = (PatchLine) o;
+      switch (pl.getType()) {
+        case DELETE:
+        case INSERT:
+        case REPLACE:
+          return true;
+      }
+    } else if (o instanceof CommentList) {
+      return true;
+    }
+    return false;
+  }
+
+  private int findChunkStart(int row) {
+    while (0 <= row && isChunk(row)) {
+      row--;
+    }
+    return row + 1;
+  }
+
+  private int findChunkEnd(int row) {
+    final int max = table.getRowCount();
+    while (row < max && isChunk(row)) {
+      row++;
+    }
+    return row - 1;
+  }
+
+  private static int oneBefore(final int begin) {
+    return 1 <= begin ? begin - 1 : begin;
+  }
+
+  private int oneAfter(final int end) {
+    return end + 1 < table.getRowCount() ? end + 1 : end;
+  }
+
+  private void moveToPrevChunk(int row) {
+    while (0 <= row && isChunk(row)) {
+      row--;
+    }
+    for (; 0 <= row; row--) {
+      if (isChunk(row)) {
+        final int start = findChunkStart(row);
+        movePointerTo(start, false);
+        scrollIntoView(oneBefore(start), oneAfter(row));
+        break;
+      }
+    }
+  }
+
+  private void moveToNextChunk(int row) {
+    final int max = table.getRowCount();
+    while (row < max && isChunk(row)) {
+      row++;
+    }
+    for (; row < max; row++) {
+      if (isChunk(row)) {
+        movePointerTo(row, false);
+        scrollIntoView(oneBefore(row), oneAfter(findChunkEnd(row)));
+        break;
+      }
+    }
   }
 
   /** Invoked when the user clicks on a table cell. */
@@ -449,6 +518,28 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
       final PatchSet.Id id = patchKey.getParentKey();
       Gerrit.display("change,publish," + id.toString(),
           new PublishCommentScreen(id));
+    }
+  }
+
+  public class PrevChunkKeyCmd extends KeyCommand {
+    public PrevChunkKeyCmd(int mask, int key, String help) {
+      super(mask, key, help);
+    }
+
+    @Override
+    public void onKeyPress(final KeyPressEvent event) {
+      moveToPrevChunk(getCurrentRow());
+    }
+  }
+
+  public class NextChunkKeyCmd extends KeyCommand {
+    public NextChunkKeyCmd(int mask, int key, String help) {
+      super(mask, key, help);
+    }
+
+    @Override
+    public void onKeyPress(final KeyPressEvent event) {
+      moveToNextChunk(getCurrentRow());
     }
   }
 }

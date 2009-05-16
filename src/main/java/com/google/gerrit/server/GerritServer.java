@@ -76,6 +76,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
@@ -634,7 +635,17 @@ public class GerritServer {
       }
 
       if (sVer.versionNbr == ReviewDb.VERSION) {
-        sConfig = c.systemConfig().get(new SystemConfig.Key());
+        final List<SystemConfig> all = c.systemConfig().all().toList();
+        switch (all.size()) {
+          case 0:
+            throw new OrmException("system_config table is empty");
+          case 1:
+            sConfig = all.get(0);
+            break;
+          default:
+            throw new OrmException("system_config must have exactly 1 row;"
+                + " found " + all.size() + " rows instead");
+        }
 
       } else {
         throw new OrmException("Unsupported schema version " + sVer.versionNbr

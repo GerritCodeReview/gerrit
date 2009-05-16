@@ -38,8 +38,8 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Hidden;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.InlineLabel;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
+import com.google.gwtexpui.globalkey.client.NpTextBox;
 
 import java.util.Map;
 
@@ -57,7 +57,7 @@ public class OpenIdLoginPanel extends Composite implements
   private InlineLabel errorMsg;
 
   private Button login;
-  private TextBox providerId;
+  private NpTextBox providerId;
   private CheckBox rememberId;
   private boolean discovering;
 
@@ -151,7 +151,7 @@ public class OpenIdLoginPanel extends Composite implements
     final FlowPanel line1 = new FlowPanel();
     group.add(line1);
 
-    providerId = new TextBox();
+    providerId = new NpTextBox();
     providerId.setVisibleLength(60);
     providerId.setStyleName("gerrit-OpenID-openid_identifier");
     providerId.setTabIndex(0);
@@ -159,7 +159,6 @@ public class OpenIdLoginPanel extends Composite implements
       @Override
       public void onKeyPress(final KeyPressEvent event) {
         if (event.getCharCode() == KeyCodes.KEY_ENTER) {
-          event.stopPropagation();
           event.preventDefault();
           form.submit();
         }
@@ -245,8 +244,6 @@ public class OpenIdLoginPanel extends Composite implements
     discovering = false;
 
     if (result.validProvider) {
-      final String url = providerId.getText();
-
       redirectForm.setMethod(FormPanel.METHOD_POST);
       redirectForm.setAction(result.providerUrl);
       redirectBody.clear();

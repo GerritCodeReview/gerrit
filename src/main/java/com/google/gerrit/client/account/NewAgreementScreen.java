@@ -40,8 +40,8 @@ import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RadioButton;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwtexpui.globalkey.client.NpTextBox;
 import com.google.gwtjsonrpc.client.VoidResult;
 
 import java.util.HashSet;
@@ -62,7 +62,7 @@ public class NewAgreementScreen extends AccountScreen {
   private ContactPanel contactPanel;
 
   private Panel finalGroup;
-  private TextBox yesIAgreeBox;
+  private NpTextBox yesIAgreeBox;
   private Button submit;
 
   @Override
@@ -116,7 +116,7 @@ public class NewAgreementScreen extends AccountScreen {
     finalGroup = new VerticalPanel();
     finalGroup.add(new SmallHeading(Util.C.newAgreementCompleteHeading()));
     final FlowPanel fp = new FlowPanel();
-    yesIAgreeBox = new TextBox();
+    yesIAgreeBox = new NpTextBox();
     yesIAgreeBox.setVisibleLength(Util.C.newAgreementIAGREE().length() + 8);
     yesIAgreeBox.setMaxLength(Util.C.newAgreementIAGREE().length());
     fp.add(yesIAgreeBox);

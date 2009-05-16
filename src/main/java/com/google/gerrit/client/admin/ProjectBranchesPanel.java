@@ -35,8 +35,8 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
+import com.google.gwtexpui.globalkey.client.NpTextBox;
 import com.google.gwtjsonrpc.client.RemoteJsonException;
 
 import java.util.HashSet;
@@ -49,8 +49,8 @@ public class ProjectBranchesPanel extends Composite {
   private BranchesTable branches;
   private Button delBranch;
   private Button addBranch;
-  private TextBox nameTxtBox;
-  private TextBox irevTxtBox;
+  private NpTextBox nameTxtBox;
+  private NpTextBox irevTxtBox;
 
   public ProjectBranchesPanel(final Project.Id toShow) {
     final FlowPanel body = new FlowPanel();
@@ -87,7 +87,7 @@ public class ProjectBranchesPanel extends Composite {
 
     final Grid addGrid = new Grid(2, 2);
 
-    nameTxtBox = new TextBox();
+    nameTxtBox = new NpTextBox();
     nameTxtBox.setVisibleLength(50);
     nameTxtBox.setText(Util.C.defaultBranchName());
     nameTxtBox.addStyleName("gerrit-InputFieldTypeHint");
@@ -112,7 +112,7 @@ public class ProjectBranchesPanel extends Composite {
     addGrid.setText(0, 0, Util.C.columnBranchName() + ":");
     addGrid.setWidget(0, 1, nameTxtBox);
 
-    irevTxtBox = new TextBox();
+    irevTxtBox = new NpTextBox();
     irevTxtBox.setVisibleLength(50);
     irevTxtBox.setText(Util.C.defaultRevisionSpec());
     irevTxtBox.addStyleName("gerrit-InputFieldTypeHint");

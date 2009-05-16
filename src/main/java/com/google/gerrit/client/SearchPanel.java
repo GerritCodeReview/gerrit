@@ -29,12 +29,12 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
+import com.google.gwtexpui.globalkey.client.NpTextBox;
 
 class SearchPanel extends Composite {
-  private final TextBox searchBox;
+  private final NpTextBox searchBox;
   private HandlerRegistration focusKey;
 
   SearchPanel() {
@@ -42,7 +42,7 @@ class SearchPanel extends Composite {
     initWidget(body);
     setStyleName("gerrit-SearchPanel");
 
-    searchBox = new TextBox();
+    searchBox = new NpTextBox();
     searchBox.setVisibleLength(42);
     searchBox.setText(Gerrit.C.searchHint());
     searchBox.addStyleName("gerrit-InputFieldTypeHint");
@@ -67,7 +67,6 @@ class SearchPanel extends Composite {
     searchBox.addKeyPressHandler(new KeyPressHandler() {
       @Override
       public void onKeyPress(final KeyPressEvent event) {
-        event.stopPropagation();
         if (event.getCharCode() == KeyCodes.KEY_ENTER) {
           doSearch();
         }

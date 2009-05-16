@@ -27,17 +27,17 @@ import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Hyperlink;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
+import com.google.gwtexpui.globalkey.client.NpTextBox;
 
 import java.util.List;
 
 public class GroupListScreen extends AccountScreen {
   private GroupTable groups;
 
-  private TextBox addTxt;
+  private NpTextBox addTxt;
   private Button addNew;
 
   @Override
@@ -65,7 +65,7 @@ public class GroupListScreen extends AccountScreen {
     fp.setStyleName("gerrit-AddSshKeyPanel");
     fp.add(new SmallHeading(Util.C.headingCreateGroup()));
 
-    addTxt = new TextBox();
+    addTxt = new NpTextBox();
     addTxt.setVisibleLength(60);
     fp.add(addTxt);
 

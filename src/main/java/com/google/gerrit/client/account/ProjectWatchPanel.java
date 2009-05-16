@@ -31,8 +31,8 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
+import com.google.gwtexpui.globalkey.client.NpTextBox;
 import com.google.gwtjsonrpc.client.VoidResult;
 
 import java.util.HashSet;
@@ -52,7 +52,7 @@ class ProjectWatchPanel extends Composite {
       final FlowPanel fp = new FlowPanel();
       fp.setStyleName("gerrit-ProjectWatchPanel-AddPanel");
 
-      final TextBox box = new TextBox();
+      final NpTextBox box = new NpTextBox();
       nameTxt = new SuggestBox(new ProjectNameSuggestOracle(), box);
       box.setVisibleLength(50);
       box.setText(Util.C.defaultProjectName());

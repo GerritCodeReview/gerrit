@@ -39,9 +39,9 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
+import com.google.gwtexpui.globalkey.client.NpTextArea;
 import com.google.gwtjsonrpc.client.RemoteJsonException;
 import com.google.gwtjsonrpc.client.VoidResult;
 
@@ -62,7 +62,7 @@ class SshKeyPanel extends Composite {
   private Button clearNew;
   private Button addNew;
   private Button browse;
-  private TextArea addTxt;
+  private NpTextArea addTxt;
   private Button delSel;
 
   private Panel serverKeys;
@@ -100,7 +100,7 @@ class SshKeyPanel extends Composite {
     addKeyBlock.add(new SmallHeading(Util.C.addSshKeyPanelHeader()));
     addKeyBlock.add(new HTML(Util.C.addSshKeyHelp()));
 
-    addTxt = new TextArea();
+    addTxt = new NpTextArea();
     addTxt.setVisibleLines(12);
     addTxt.setCharacterWidth(80);
     DOM.setElementPropertyBoolean(addTxt.getElement(), "spellcheck", false);

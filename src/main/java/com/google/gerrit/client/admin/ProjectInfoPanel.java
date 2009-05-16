@@ -31,16 +31,16 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SuggestBox;
-import com.google.gwt.user.client.ui.TextArea;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwtexpui.globalkey.client.NpTextArea;
+import com.google.gwtexpui.globalkey.client.NpTextBox;
 import com.google.gwtjsonrpc.client.VoidResult;
 
 public class ProjectInfoPanel extends Composite {
   private Project.Id projectId;
 
   private Panel ownerPanel;
-  private TextBox ownerTxtBox;
+  private NpTextBox ownerTxtBox;
   private SuggestBox ownerTxt;
   private Button saveOwner;
 
@@ -48,7 +48,7 @@ public class ProjectInfoPanel extends Composite {
   private ListBox submitType;
   private Project.SubmitType currentSubmitType;
 
-  private TextArea descTxt;
+  private NpTextArea descTxt;
   private Button saveDesc;
 
   public ProjectInfoPanel(final Project.Id toShow) {
@@ -89,7 +89,7 @@ public class ProjectInfoPanel extends Composite {
     ownerPanel = new VerticalPanel();
     ownerPanel.add(new SmallHeading(Util.C.headingOwner()));
 
-    ownerTxtBox = new TextBox();
+    ownerTxtBox = new NpTextBox();
     ownerTxtBox.setVisibleLength(60);
     ownerTxt = new SuggestBox(new AccountGroupSuggestOracle(), ownerTxtBox);
     ownerPanel.add(ownerTxt);
@@ -119,7 +119,7 @@ public class ProjectInfoPanel extends Composite {
     final VerticalPanel vp = new VerticalPanel();
     vp.add(new SmallHeading(Util.C.headingDescription()));
 
-    descTxt = new TextArea();
+    descTxt = new NpTextArea();
     descTxt.setVisibleLines(6);
     descTxt.setCharacterWidth(60);
     vp.add(descTxt);

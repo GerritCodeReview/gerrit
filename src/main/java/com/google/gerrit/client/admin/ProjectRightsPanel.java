@@ -42,8 +42,8 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SuggestBox;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
+import com.google.gwtexpui.globalkey.client.NpTextBox;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 import com.google.gwtjsonrpc.client.VoidResult;
@@ -61,7 +61,7 @@ public class ProjectRightsPanel extends Composite {
   private ListBox catBox;
   private ListBox rangeMinBox;
   private ListBox rangeMaxBox;
-  private TextBox nameTxtBox;
+  private NpTextBox nameTxtBox;
   private SuggestBox nameTxt;
 
   public ProjectRightsPanel(final Project.Id toShow) {
@@ -129,7 +129,7 @@ public class ProjectRightsPanel extends Composite {
     addGrid.setText(0, 0, Util.C.columnApprovalCategory() + ":");
     addGrid.setWidget(0, 1, catBox);
 
-    nameTxtBox = new TextBox();
+    nameTxtBox = new NpTextBox();
     nameTxt = new SuggestBox(new AccountGroupSuggestOracle(), nameTxtBox);
     nameTxtBox.setVisibleLength(50);
     nameTxtBox.setText(Util.C.defaultAccountGroupName());

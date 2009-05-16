@@ -35,10 +35,10 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SuggestBox;
-import com.google.gwt.user.client.ui.TextArea;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
+import com.google.gwtexpui.globalkey.client.NpTextArea;
+import com.google.gwtexpui.globalkey.client.NpTextBox;
 import com.google.gwtjsonrpc.client.VoidResult;
 
 import java.util.HashSet;
@@ -49,14 +49,14 @@ public class AccountGroupScreen extends AccountScreen {
   private AccountInfoCache accounts = AccountInfoCache.empty();
   private MemberTable members;
 
-  private TextBox groupNameTxt;
+  private NpTextBox groupNameTxt;
   private Button saveName;
 
-  private TextBox ownerTxtBox;
+  private NpTextBox ownerTxtBox;
   private SuggestBox ownerTxt;
   private Button saveOwner;
 
-  private TextArea descTxt;
+  private NpTextArea descTxt;
   private Button saveDesc;
 
   private Panel memberPanel;
@@ -90,7 +90,7 @@ public class AccountGroupScreen extends AccountScreen {
 
   private void initName() {
     final VerticalPanel groupNamePanel = new VerticalPanel();
-    groupNameTxt = new TextBox();
+    groupNameTxt = new NpTextBox();
     groupNameTxt.setVisibleLength(60);
     groupNamePanel.add(groupNameTxt);
 
@@ -119,7 +119,7 @@ public class AccountGroupScreen extends AccountScreen {
     final VerticalPanel ownerPanel = new VerticalPanel();
     ownerPanel.add(new SmallHeading(Util.C.headingOwner()));
 
-    ownerTxtBox = new TextBox();
+    ownerTxtBox = new NpTextBox();
     ownerTxtBox.setVisibleLength(60);
     ownerTxt = new SuggestBox(new AccountGroupSuggestOracle(), ownerTxtBox);
     ownerPanel.add(ownerTxt);
@@ -151,7 +151,7 @@ public class AccountGroupScreen extends AccountScreen {
     final Label descHdr = new Label();
     vp.add(new SmallHeading(Util.C.headingDescription()));
 
-    descTxt = new TextArea();
+    descTxt = new NpTextArea();
     descTxt.setVisibleLines(6);
     descTxt.setCharacterWidth(60);
     vp.add(descTxt);

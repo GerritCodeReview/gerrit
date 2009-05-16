@@ -24,18 +24,18 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
-import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwtexpui.globalkey.client.NpTextBox;
 
 public class AddMemberBox extends Composite {
   private final FlowPanel addPanel;
   private final Button addMember;
-  private final TextBox nameTxtBox;
+  private final NpTextBox nameTxtBox;
   private final SuggestBox nameTxt;
 
   public AddMemberBox() {
     addPanel = new FlowPanel();
     addMember = new Button(Util.C.buttonAddGroupMember());
-    nameTxtBox = new TextBox();
+    nameTxtBox = new NpTextBox();
     nameTxt = new SuggestBox(new AccountSuggestOracle(), nameTxtBox);
 
     nameTxtBox.setVisibleLength(50);

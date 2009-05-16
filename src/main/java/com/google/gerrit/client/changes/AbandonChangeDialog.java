@@ -24,14 +24,14 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.TextArea;
+import com.google.gwtexpui.globalkey.client.NpTextArea;
 import com.google.gwtexpui.user.client.AutoCenterDialogBox;
 import com.google.gwtjsonrpc.client.VoidResult;
 
 public class AbandonChangeDialog extends AutoCenterDialogBox {
 
   private final FlowPanel panel;
-  private final TextArea message;
+  private final NpTextArea message;
   private final Button sendButton;
   private final Button cancelButton;
   private final PatchSet.Id psid;
@@ -55,7 +55,7 @@ public class AbandonChangeDialog extends AutoCenterDialogBox {
     mwrap.setStyleName("gerrit-AbandonMessage");
     panel.add(mwrap);
 
-    message = new TextArea();
+    message = new NpTextArea();
     message.setCharacterWidth(60);
     message.setVisibleLines(10);
     DOM.setElementPropertyBoolean(message.getElement(), "spellcheck", true);

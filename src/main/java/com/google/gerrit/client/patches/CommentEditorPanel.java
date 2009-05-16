@@ -33,8 +33,8 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Focusable;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwtexpui.globalkey.client.NpTextArea;
 import com.google.gwtjsonrpc.client.VoidResult;
 
 import java.sql.Timestamp;
@@ -45,7 +45,7 @@ class CommentEditorPanel extends Composite implements ClickHandler {
   private static final int MAX_LINES = 30;
   private PatchLineComment comment;
   private final LineCommentPanel renderedPanel;
-  private final TextArea text;
+  private final NpTextArea text;
   private final Button edit;
   private final Button save;
   private final Button cancel;
@@ -83,7 +83,7 @@ class CommentEditorPanel extends Composite implements ClickHandler {
         expandText();
       }
     };
-    text = new TextArea();
+    text = new NpTextArea();
     text.setText(comment.getMessage());
     text.setCharacterWidth(INITIAL_COLS);
     text.setVisibleLines(INITIAL_LINES);
@@ -91,8 +91,6 @@ class CommentEditorPanel extends Composite implements ClickHandler {
     text.addKeyPressHandler(new KeyPressHandler() {
       @Override
       public void onKeyPress(final KeyPressEvent event) {
-        event.stopPropagation();
-
         if (event.getCharCode() == KeyCodes.KEY_ESCAPE
             && !event.isAnyModifierKeyDown()) {
           event.preventDefault();

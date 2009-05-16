@@ -43,10 +43,10 @@ import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RadioButton;
-import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
+import com.google.gwtexpui.globalkey.client.NpTextArea;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtjsonrpc.client.VoidResult;
 
@@ -66,7 +66,7 @@ public class PublishCommentScreen extends AccountScreen implements ClickHandler 
   private Collection<ValueRadioButton> approvalButtons;
   private ChangeDescriptionBlock descBlock;
   private Panel approvalPanel;
-  private TextArea message;
+  private NpTextArea message;
   private Panel draftsPanel;
   private Button send;
   private Button cancel;
@@ -164,7 +164,7 @@ public class PublishCommentScreen extends AccountScreen implements ClickHandler 
     mwrap.setStyleName("gerrit-CoverMessage");
     body.add(mwrap);
 
-    message = new TextArea();
+    message = new NpTextArea();
     message.setCharacterWidth(60);
     message.setVisibleLines(10);
     DOM.setElementPropertyBoolean(message.getElement(), "spellcheck", true);

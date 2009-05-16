@@ -34,11 +34,11 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.TextArea;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
+import com.google.gwtexpui.globalkey.client.NpTextArea;
+import com.google.gwtexpui.globalkey.client.NpTextBox;
 import com.google.gwtexpui.user.client.AutoCenterDialogBox;
 import com.google.gwtjsonrpc.client.VoidResult;
 
@@ -58,14 +58,14 @@ class ContactPanel extends Composite {
   private boolean haveAccount;
   private boolean haveEmails;
 
-  private TextBox nameTxt;
+  private NpTextBox nameTxt;
   private ListBox emailPick;
   private Button registerNewEmail;
   private Label hasContact;
-  private TextArea addressTxt;
-  private TextBox countryTxt;
-  private TextBox phoneTxt;
-  private TextBox faxTxt;
+  private NpTextArea addressTxt;
+  private NpTextBox countryTxt;
+  private NpTextBox phoneTxt;
+  private NpTextBox faxTxt;
   private Button save;
 
   ContactPanel() {
@@ -83,24 +83,24 @@ class ContactPanel extends Composite {
       fieldIdx = 1;
     }
 
-    nameTxt = new TextBox();
+    nameTxt = new NpTextBox();
     nameTxt.setVisibleLength(60);
 
     emailPick = new ListBox();
 
-    addressTxt = new TextArea();
+    addressTxt = new NpTextArea();
     addressTxt.setVisibleLines(4);
     addressTxt.setCharacterWidth(60);
 
-    countryTxt = new TextBox();
+    countryTxt = new NpTextBox();
     countryTxt.setVisibleLength(40);
     countryTxt.setMaxLength(40);
 
-    phoneTxt = new TextBox();
+    phoneTxt = new NpTextBox();
     phoneTxt.setVisibleLength(30);
     phoneTxt.setMaxLength(30);
 
-    faxTxt = new TextBox();
+    faxTxt = new NpTextBox();
     faxTxt.setVisibleLength(30);
     faxTxt.setMaxLength(30);
 
@@ -302,7 +302,7 @@ class ContactPanel extends Composite {
     final AutoCenterDialogBox box = new AutoCenterDialogBox(true, true);
     final VerticalPanel body = new VerticalPanel();
 
-    final TextBox inEmail = new TextBox();
+    final NpTextBox inEmail = new NpTextBox();
     inEmail.setVisibleLength(60);
 
     final Button register = new Button(Util.C.buttonSendRegisterNewEmail());

@@ -32,7 +32,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -148,7 +147,6 @@ public class AccountGroupScreen extends AccountScreen {
 
   private void initDescription() {
     final VerticalPanel vp = new VerticalPanel();
-    final Label descHdr = new Label();
     vp.add(new SmallHeading(Util.C.headingDescription()));
 
     descTxt = new NpTextArea();

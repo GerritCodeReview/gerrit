@@ -110,7 +110,6 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
 
     signedInListener = new SignOutHandler() {
       public void onSignOut() {
-        final FlexCellFormatter fmt = table.getFlexCellFormatter();
         final int max = table.getRowCount();
         for (int row = 0; row < max; row++) {
           if (getRowItem(row) != null) {
@@ -262,7 +261,6 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
 
   private int insertRow(final int beforeRow) {
     for (final Section s : sections) {
-      boolean dirty = false;
       if (beforeRow <= s.titleRow) {
         s.titleRow++;
       }

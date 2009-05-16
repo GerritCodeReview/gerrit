@@ -23,7 +23,6 @@ import com.google.gerrit.client.reviewdb.AccountSshKey;
 import com.google.gerrit.client.reviewdb.ContactInformation;
 import com.google.gerrit.client.reviewdb.ContributorAgreement;
 import com.google.gerrit.client.reviewdb.ReviewDb;
-import com.google.gerrit.client.reviewdb.SystemConfig;
 import com.google.gerrit.client.reviewdb.TrustedExternalId;
 import com.google.gerrit.client.rpc.BaseServiceImplementation;
 import com.google.gerrit.client.rpc.Common;
@@ -180,8 +179,6 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
                 .toMap(db.accountExternalIds().byAccount(me));
         final AccountExternalId mostRecent =
             AccountExternalId.mostRecent(all.values());
-        final SystemConfig.LoginType loginType =
-            Common.getGerritConfig().getLoginType();
         final Set<AccountExternalId.Key> removed =
             new HashSet<AccountExternalId.Key>();
         final List<AccountExternalId> toDelete =

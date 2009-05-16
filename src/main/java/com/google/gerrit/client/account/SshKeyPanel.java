@@ -27,7 +27,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.DeferredCommand;
@@ -43,7 +42,6 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
-import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.google.gwtjsonrpc.client.RemoteJsonException;
 import com.google.gwtjsonrpc.client.VoidResult;
 
@@ -285,7 +283,6 @@ class SshKeyPanel extends Composite {
     Util.ACCOUNT_SEC.mySshKeys(new GerritCallback<List<AccountSshKey>>() {
       public void onSuccess(final List<AccountSshKey> result) {
         keys.display(result);
-        keys.finishDisplay(true);
         if (result.isEmpty()) {
           showAddKeyBlock(true);
         }
@@ -316,16 +313,6 @@ class SshKeyPanel extends Composite {
       table.setText(0, 5, Util.C.sshKeyComment());
       table.setText(0, 6, Util.C.sshKeyLastUsed());
       table.setText(0, 7, Util.C.sshKeyStored());
-      table.addClickHandler(new ClickHandler() {
-        @Override
-        public void onClick(ClickEvent event) {
-          final Cell cell = table.getCellForEvent(event);
-          if (cell != null && cell.getCellIndex() != 1
-              && getRowItem(cell.getRowIndex()) != null) {
-            movePointerTo(cell.getRowIndex());
-          }
-        }
-      });
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
       fmt.addStyleName(0, 1, S_ICON_HEADER);
@@ -335,37 +322,6 @@ class SshKeyPanel extends Composite {
       fmt.addStyleName(0, 5, S_DATA_HEADER);
       fmt.addStyleName(0, 6, S_DATA_HEADER);
       fmt.addStyleName(0, 7, S_DATA_HEADER);
-    }
-
-    @Override
-    protected Object getRowItemKey(final AccountSshKey item) {
-      return item.getKey();
-    }
-
-    @Override
-    protected boolean onKeyPress(final KeyPressEvent event) {
-      if (super.onKeyPress(event)) {
-        return true;
-      }
-      if (!event.isAnyModifierKeyDown()) {
-        switch (event.getCharCode()) {
-          case 's':
-          case 'c':
-            toggleCurrentRow();
-            return true;
-        }
-      }
-      return false;
-    }
-
-    @Override
-    protected void onOpenItem(final AccountSshKey item) {
-      toggleCurrentRow();
-    }
-
-    private void toggleCurrentRow() {
-      final CheckBox cb = (CheckBox) table.getWidget(getCurrentRow(), 1);
-      cb.setValue(!cb.getValue());
     }
 
     void deleteChecked() {

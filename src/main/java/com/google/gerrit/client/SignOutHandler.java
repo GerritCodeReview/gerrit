@@ -15,10 +15,7 @@
 package com.google.gerrit.client;
 
 /** Listener to monitor the state of the user's account token. */
-public interface SignedInListener {
-  /** Invoked after the user has finished sign-in to their account. */
-  public void onSignIn();
-
+public interface SignOutHandler {
   /** Invoked while the user is signing out of their account. */
   public void onSignOut();
 }

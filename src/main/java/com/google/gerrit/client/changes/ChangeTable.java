@@ -18,7 +18,7 @@ import static com.google.gerrit.client.FormatUtil.mediumFormat;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.Link;
-import com.google.gerrit.client.SignedInListener;
+import com.google.gerrit.client.SignOutHandler;
 import com.google.gerrit.client.data.AccountInfoCache;
 import com.google.gerrit.client.data.ChangeInfo;
 import com.google.gerrit.client.reviewdb.Account;
@@ -26,10 +26,12 @@ import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountDashboardLink;
 import com.google.gerrit.client.ui.ChangeLink;
-import com.google.gerrit.client.ui.FancyFlexTable;
+import com.google.gerrit.client.ui.NavigationTable;
+import com.google.gerrit.client.ui.NeedsSignInKeyCommand;
 import com.google.gerrit.client.ui.ProjectOpenLink;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
@@ -42,9 +44,8 @@ import com.google.gwtjsonrpc.client.VoidResult;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
-public class ChangeTable extends FancyFlexTable<ChangeInfo> {
+public class ChangeTable extends NavigationTable<ChangeInfo> {
   private static final String S_C_ID = "C_ID";
   private static final String S_C_SUBJECT = "C_SUBJECT";
   private static final String S_C_PROJECT = "C_PROJECT";
@@ -61,10 +62,20 @@ public class ChangeTable extends FancyFlexTable<ChangeInfo> {
   private static final int COLUMNS = 7;
 
   private final List<Section> sections;
-  private final SignedInListener signedInListener;
+  private final SignOutHandler signedInListener;
   private AccountInfoCache accountCache = AccountInfoCache.empty();
 
   public ChangeTable() {
+    keysNavigation.add(new PrevKeyCommand(0, 'k', Util.C.changeTablePrev()));
+    keysNavigation.add(new NextKeyCommand(0, 'j', Util.C.changeTableNext()));
+    keysNavigation.add(new OpenKeyCommand(0, 'o', Util.C.changeTableOpen()));
+    keysNavigation.add(new OpenKeyCommand(0, KeyCodes.KEY_ENTER, Util.C
+        .changeTableOpen()));
+
+    if (Gerrit.isSignedIn()) {
+      keysAction.add(new StarKeyCommand(0, 's', Util.C.changeTableStar()));
+    }
+
     sections = new ArrayList<Section>();
     table.setText(0, C_STAR, "");
     table.setText(0, C_ID, Util.C.changeTableColumnID());
@@ -97,30 +108,7 @@ public class ChangeTable extends FancyFlexTable<ChangeInfo> {
       }
     });
 
-    signedInListener = new SignedInListener() {
-      public void onSignIn() {
-        if (table.getRowCount() <= sections.size()) {
-          // There are no data rows in this table, so star status is
-          // simply not relevant to the caller.
-          //
-          return;
-        }
-
-        Util.LIST_SVC.myStarredChangeIds(new GerritCallback<Set<Change.Id>>() {
-          public void onSuccess(final Set<Change.Id> result) {
-            final FlexCellFormatter fmt = table.getFlexCellFormatter();
-            final int max = table.getRowCount();
-            for (int row = 0; row < max; row++) {
-              final ChangeInfo c = getRowItem(row);
-              if (c != null) {
-                c.setStarred(result.contains(c.getId()));
-                setStar(row, c);
-              }
-            }
-          }
-        });
-      }
-
+    signedInListener = new SignOutHandler() {
       public void onSignOut() {
         final FlexCellFormatter fmt = table.getFlexCellFormatter();
         final int max = table.getRowCount();
@@ -162,21 +150,6 @@ public class ChangeTable extends FancyFlexTable<ChangeInfo> {
   }
 
   @Override
-  protected boolean onKeyPress(final KeyPressEvent event) {
-    if (super.onKeyPress(event)) {
-      return true;
-    }
-    if (!event.isAnyModifierKeyDown()) {
-      switch (event.getCharCode()) {
-        case 's':
-          onStarClick(getCurrentRow());
-          return true;
-      }
-    }
-    return false;
-  }
-
-  @Override
   protected void onOpenItem(final ChangeInfo c) {
     Gerrit.display(Link.toChange(c), new ChangeScreen(c));
   }
@@ -184,12 +157,12 @@ public class ChangeTable extends FancyFlexTable<ChangeInfo> {
   @Override
   public void onLoad() {
     super.onLoad();
-    Gerrit.addSignedInListener(signedInListener);
+    Gerrit.addSignOutHandler(signedInListener);
   }
 
   @Override
   public void onUnload() {
-    Gerrit.removeSignedInListener(signedInListener);
+    Gerrit.removeSignOutHandler(signedInListener);
     super.onUnload();
   }
 
@@ -310,6 +283,17 @@ public class ChangeTable extends FancyFlexTable<ChangeInfo> {
       }
     }
     table.removeRow(row);
+  }
+
+  public class StarKeyCommand extends NeedsSignInKeyCommand {
+    public StarKeyCommand(int mask, char key, String help) {
+      super(mask, key, help);
+    }
+
+    @Override
+    public void onKeyPress(final KeyPressEvent event) {
+      onStarClick(getCurrentRow());
+    }
   }
 
   private final class TableChangeLink extends ChangeLink {

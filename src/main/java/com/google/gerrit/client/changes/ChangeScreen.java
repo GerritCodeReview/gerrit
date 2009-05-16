@@ -16,6 +16,7 @@ package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.Link;
 import com.google.gerrit.client.data.AccountInfoCache;
 import com.google.gerrit.client.data.ChangeDetail;
 import com.google.gerrit.client.data.ChangeInfo;
@@ -29,10 +30,13 @@ import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.ComplexDisclosurePanel;
 import com.google.gerrit.client.ui.ExpandAllCommand;
 import com.google.gerrit.client.ui.LinkMenuBar;
+import com.google.gerrit.client.ui.NeedsSignInKeyCommand;
 import com.google.gerrit.client.ui.RefreshListener;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.DisclosurePanel;
@@ -41,6 +45,9 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwtexpui.globalkey.client.GlobalKey;
+import com.google.gwtexpui.globalkey.client.KeyCommand;
+import com.google.gwtexpui.globalkey.client.KeyCommandSet;
 import com.google.gwtjsonrpc.client.VoidResult;
 
 import java.sql.Timestamp;
@@ -49,10 +56,10 @@ import java.util.List;
 
 public class ChangeScreen extends Screen {
   private final Change.Id changeId;
-  private boolean refreshOnSignIn;
 
   private Image starChange;
   private boolean starred;
+  private PatchSet.Id currentPatchSet;
   private ChangeDescriptionBlock descriptionBlock;
   private DisclosurePanel dependenciesPanel;
   private ChangeTable dependencies;
@@ -67,23 +74,17 @@ public class ChangeScreen extends Screen {
   private DisclosurePanel messagesPanel;
   private Panel messagesContent;
 
+  private KeyCommandSet keysNavigation;
+  private KeyCommandSet keysAction;
+  private HandlerRegistration regNavigation;
+  private HandlerRegistration regAction;
+
   public ChangeScreen(final Change.Id toShow) {
     changeId = toShow;
   }
 
   public ChangeScreen(final ChangeInfo c) {
     this(c.getId());
-  }
-
-  @Override
-  public void onSignIn() {
-    super.onSignIn();
-    if (refreshOnSignIn) {
-      refresh();
-    }
-    if (starChange != null) {
-      starChange.setVisible(true);
-    }
   }
 
   @Override
@@ -100,12 +101,34 @@ public class ChangeScreen extends Screen {
     refresh();
   }
 
+  @Override
+  public void onUnload() {
+    if (regNavigation != null) {
+      regNavigation.removeHandler();
+      regNavigation = null;
+    }
+    if (regAction != null) {
+      regAction.removeHandler();
+      regAction = null;
+    }
+    super.onUnload();
+  }
+
+  @Override
+  public void registerKeys() {
+    super.registerKeys();
+    regNavigation = GlobalKey.add(keysNavigation);
+    regAction = GlobalKey.add(keysAction);
+  }
+
   public void refresh() {
     Util.DETAIL_SVC.changeDetail(changeId,
         new ScreenLoadCallback<ChangeDetail>(this) {
           @Override
           protected void preDisplay(final ChangeDetail r) {
-            setStarred(r.isStarred());
+            if (starChange != null) {
+              setStarred(r.isStarred());
+            }
             display(r);
           }
         });
@@ -125,30 +148,26 @@ public class ChangeScreen extends Screen {
     super.onInitUI();
     addStyleName("gerrit-ChangeScreen");
 
-    starChange = Gerrit.ICONS.starOpen().createImage();
-    starChange.setStyleName("gerrit-ChangeScreen-StarIcon");
-    starChange.setVisible(Gerrit.isSignedIn());
-    starChange.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(final ClickEvent event) {
-        final boolean prior = starred;
-        setStarred(!prior);
+    keysNavigation = new KeyCommandSet(Gerrit.C.sectionNavigation());
+    keysAction = new KeyCommandSet(Gerrit.C.sectionActions());
+    keysNavigation.add(new DashboardKeyCommand(0, 'u', Util.C.upToDashboard()));
 
-        final ToggleStarRequest req = new ToggleStarRequest();
-        req.toggle(changeId, starred);
-        Util.LIST_SVC.toggleStars(req, new GerritCallback<VoidResult>() {
-          public void onSuccess(final VoidResult result) {
-          }
+    if (Gerrit.isSignedIn()) {
+      keysAction.add(new StarKeyCommand(0, 's', Util.C.changeTableStar()));
+      keysAction.add(new PublishCommentsKeyCommand(0, 'r', Util.C
+          .keyPublishComments()));
 
-          @Override
-          public void onFailure(final Throwable caught) {
-            super.onFailure(caught);
-            setStarred(prior);
-          }
-        });
-      }
-    });
-    insertTitleWidget(starChange);
+      starChange = Gerrit.ICONS.starOpen().createImage();
+      starChange.setStyleName("gerrit-ChangeScreen-StarIcon");
+      starChange.setVisible(Gerrit.isSignedIn());
+      starChange.addClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(final ClickEvent event) {
+          toggleStar();
+        }
+      });
+      insertTitleWidget(starChange);
+    }
 
     descriptionBlock = new ChangeDescriptionBlock();
     add(descriptionBlock);
@@ -201,7 +220,6 @@ public class ChangeScreen extends Screen {
   private void display(final ChangeDetail detail) {
     displayTitle(detail.getChange().getSubject());
 
-    refreshOnSignIn = !detail.getChange().getStatus().isClosed();
     dependencies.setAccountInfoCache(detail.getAccounts());
     approvals.setAccountInfoCache(detail.getAccounts());
 
@@ -268,6 +286,7 @@ public class ChangeScreen extends Screen {
       add(panel);
       patchSetPanels.add(panel);
     }
+    currentPatchSet = currps.getId();
   }
 
   private void addMessages(final ChangeDetail detail) {
@@ -331,9 +350,66 @@ public class ChangeScreen extends Screen {
     return m;
   }
 
+  private void toggleStar() {
+    final boolean prior = starred;
+    setStarred(!prior);
+
+    final ToggleStarRequest req = new ToggleStarRequest();
+    req.toggle(changeId, starred);
+    Util.LIST_SVC.toggleStars(req, new GerritCallback<VoidResult>() {
+      public void onSuccess(final VoidResult result) {
+      }
+
+      @Override
+      public void onFailure(final Throwable caught) {
+        super.onFailure(caught);
+        setStarred(prior);
+      }
+    });
+  }
+
   private static FlowPanel wrap(final Widget w) {
     final FlowPanel p = new FlowPanel();
     p.add(w);
     return p;
+  }
+
+
+  public class DashboardKeyCommand extends KeyCommand {
+    public DashboardKeyCommand(int mask, char key, String help) {
+      super(mask, key, help);
+    }
+
+    @Override
+    public void onKeyPress(final KeyPressEvent event) {
+      if (Gerrit.isSignedIn()) {
+        Gerrit.display(Link.MINE, true);
+      } else {
+        Gerrit.display(Link.ALL_OPEN, true);
+      }
+    }
+  }
+
+  public class StarKeyCommand extends NeedsSignInKeyCommand {
+    public StarKeyCommand(int mask, char key, String help) {
+      super(mask, key, help);
+    }
+
+    @Override
+    public void onKeyPress(final KeyPressEvent event) {
+      toggleStar();
+    }
+  }
+
+  public class PublishCommentsKeyCommand extends NeedsSignInKeyCommand {
+    public PublishCommentsKeyCommand(int mask, char key, String help) {
+      super(mask, key, help);
+    }
+
+    @Override
+    public void onKeyPress(final KeyPressEvent event) {
+      Gerrit.display("change,publish," + currentPatchSet.toString(),
+          new PublishCommentScreen(currentPatchSet));
+    }
   }
 }

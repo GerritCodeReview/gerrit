@@ -93,10 +93,14 @@ class CommentEditorPanel extends Composite implements ClickHandler {
       public void onKeyPress(final KeyPressEvent event) {
         event.stopPropagation();
 
-        if (isNew() && event.getCharCode() == KeyCodes.KEY_ESCAPE
+        if (event.getCharCode() == KeyCodes.KEY_ESCAPE
             && !event.isAnyModifierKeyDown()) {
           event.preventDefault();
-          onDiscard();
+          if (isNew()) {
+            onDiscard();
+          } else {
+            render();
+          }
           return;
         }
 
@@ -203,7 +207,11 @@ class CommentEditorPanel extends Composite implements ClickHandler {
   }
 
   void setFocus(final boolean take) {
-    text.setFocus(take);
+    if (text.isVisible()) {
+      text.setFocus(take);
+    } else if (take) {
+      edit();
+    }
   }
 
   boolean isNew() {

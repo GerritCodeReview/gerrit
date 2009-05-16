@@ -57,23 +57,17 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
   }
 
   @Override
-  protected void onOpenItem(final Object item) {
-    if (item instanceof PatchLine) {
-      final PatchLine pl = (PatchLine) item;
-      final int row = getCurrentRow();
-      switch (pl.getType()) {
-        case DELETE:
-        case CONTEXT:
-          createCommentEditor(row + 1, PC, pl.getLineA(), (short) 0);
-          break;
-        case INSERT:
-          createCommentEditor(row + 1, PC, pl.getLineB(), (short) 1);
-          break;
-      }
-      return;
+  protected void onInsertComment(final PatchLine pl) {
+    final int row = getCurrentRow();
+    switch (pl.getType()) {
+      case DELETE:
+      case CONTEXT:
+        createCommentEditor(row + 1, PC, pl.getLineA(), (short) 0);
+        break;
+      case INSERT:
+        createCommentEditor(row + 1, PC, pl.getLineB(), (short) 1);
+        break;
     }
-
-    super.onOpenItem(item);
   }
 
   @Override

@@ -30,4 +30,12 @@ public interface PatchConstants extends Constants {
   String patchHeaderNew();
 
   String patchHistoryTitle();
+
+  String upToChange();
+  String linePrev();
+  String lineNext();
+  String commentInsert();
+  String commentSaveDraft();
+  String commentDiscard();
+  String commentCancelEdit();
 }

@@ -41,6 +41,12 @@ public abstract class MineSingleListScreen extends AccountScreen {
     add(table);
   }
 
+  @Override
+  public void registerKeys() {
+    super.registerKeys();
+    table.setRegisterKeys(true);
+  }
+
   protected AsyncCallback<SingleListChangeInfo> loadCallback() {
     return new ScreenLoadCallback<SingleListChangeInfo>(this) {
       @Override
@@ -53,6 +59,6 @@ public abstract class MineSingleListScreen extends AccountScreen {
   private void display(final SingleListChangeInfo result) {
     table.setAccountInfoCache(result.getAccounts());
     drafts.display(result.getChanges());
-    table.finishDisplay(true);
+    table.finishDisplay();
   }
 }

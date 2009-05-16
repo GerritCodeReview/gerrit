@@ -18,15 +18,10 @@ import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.ui.FancyFlexTable;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.RadioButton;
-import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 import java.util.ArrayList;
@@ -40,63 +35,8 @@ class HistoryTable extends FancyFlexTable<Patch> {
     setStyleName("gerrit-PatchHistoryTable");
     screen = parent;
     table.addStyleName("gerrit-PatchHistoryTable");
-    table.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(final ClickEvent event) {
-        final Cell cell = table.getCellForEvent(event);
-        if (cell != null && cell.getRowIndex() > 0) {
-          movePointerTo(cell.getRowIndex());
-        }
-      }
-    });
   }
 
-  @Override
-  protected Object getRowItemKey(final Patch item) {
-    return item.getKey();
-  }
-
-  @Override
-  protected boolean onKeyPress(final KeyPressEvent event) {
-    if (super.onKeyPress(event)) {
-      return true;
-    }
-    if (!event.isAnyModifierKeyDown()) {
-      switch (event.getCharCode()) {
-        case 'o':
-        case 'l': {
-          final Widget w = table.getWidget(getCurrentRow(), radioCell(0));
-          if (w != null) {
-            fakeClick((HistoryRadio) w);
-          }
-          break;
-        }
-
-        case 'r':
-        case 'n': {
-          final Widget w = table.getWidget(getCurrentRow(), radioCell(1));
-          if (w != null) {
-            fakeClick((HistoryRadio) w);
-          }
-          break;
-        }
-      }
-    }
-    return false;
-  }
-
-  private void fakeClick(final HistoryRadio b) {
-    if (!b.getValue() && b.isEnabled()) {
-      for (final HistoryRadio a : all) {
-        if (a.getValue() && a.getName().equals(b.getName())) {
-          a.setValue(false);
-          break;
-        }
-      }
-      b.setValue(true);
-      onClick(b);
-    }
-  }
 
   void onClick(final HistoryRadio b) {
     switch (b.file) {
@@ -121,9 +61,6 @@ class HistoryTable extends FancyFlexTable<Patch> {
   }
 
   void display(final List<Patch> result) {
-    final int cur = getCurrentRow();
-    final Patch old = 0 < cur ? getRowItem(cur) : null;
-
     all.clear();
 
     final SafeHtmlBuilder nc = new SafeHtmlBuilder();
@@ -146,9 +83,6 @@ class HistoryTable extends FancyFlexTable<Patch> {
       installRadio(row, k, 0, screen.idSideA);
       installRadio(row, k, 1, screen.idSideB);
       row++;
-    }
-    if (old != null) {
-      movePointerTo(getRowItemKey(old));
     }
   }
 

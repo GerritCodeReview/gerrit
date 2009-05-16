@@ -25,15 +25,19 @@ import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwtexpui.globalkey.client.GlobalKey;
+import com.google.gwtexpui.globalkey.client.KeyCommand;
 
-public class SearchPanel extends Composite {
+class SearchPanel extends Composite {
   private final TextBox searchBox;
+  private HandlerRegistration focusKey;
 
-  public SearchPanel() {
+  SearchPanel() {
     final FlowPanel body = new FlowPanel();
     initWidget(body);
     setStyleName("gerrit-SearchPanel");
@@ -80,6 +84,31 @@ public class SearchPanel extends Composite {
 
     body.add(searchBox);
     body.add(searchButton);
+  }
+
+  @Override
+  public void onLoad() {
+    super.onLoad();
+    if (focusKey == null) {
+      focusKey =
+          GlobalKey
+              .addApplication(new KeyCommand(0, '/', Gerrit.C.keySearch()) {
+                @Override
+                public void onKeyPress(final KeyPressEvent event) {
+                  event.preventDefault();
+                  searchBox.setFocus(true);
+                  searchBox.selectAll();
+                }
+              });
+    }
+  }
+
+  @Override
+  public void onUnload() {
+    if (focusKey != null) {
+      focusKey.removeHandler();
+      focusKey = null;
+    }
   }
 
   private void doSearch() {

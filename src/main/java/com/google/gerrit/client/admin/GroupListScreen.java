@@ -19,10 +19,11 @@ import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.AccountScreen;
-import com.google.gerrit.client.ui.FancyFlexTable;
+import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Hyperlink;
@@ -47,7 +48,7 @@ public class GroupListScreen extends AccountScreen {
           @Override
           protected void preDisplay(final List<AccountGroup> result) {
             groups.display(result);
-            groups.finishDisplay(true);
+            groups.finishDisplay();
           }
         });
   }
@@ -56,8 +57,8 @@ public class GroupListScreen extends AccountScreen {
   protected void onInitUI() {
     super.onInitUI();
     setPageTitle(Util.C.groupListTitle());
+
     groups = new GroupTable();
-    groups.setSavePointerId(Link.ADMIN_GROUPS);
     add(groups);
 
     final VerticalPanel fp = new VerticalPanel();
@@ -79,6 +80,12 @@ public class GroupListScreen extends AccountScreen {
     add(fp);
   }
 
+  @Override
+  public void registerKeys() {
+    super.registerKeys();
+    groups.setRegisterKeys(true);
+  }
+
   private void doCreateGroup() {
     final String newName = addTxt.getText();
     if (newName == null || newName.length() == 0) {
@@ -92,8 +99,15 @@ public class GroupListScreen extends AccountScreen {
     });
   }
 
-  private class GroupTable extends FancyFlexTable<AccountGroup> {
+  private class GroupTable extends NavigationTable<AccountGroup> {
     GroupTable() {
+      setSavePointerId(Link.ADMIN_GROUPS);
+      keysNavigation.add(new PrevKeyCommand(0, 'k', Util.C.groupListPrev()));
+      keysNavigation.add(new NextKeyCommand(0, 'j', Util.C.groupListNext()));
+      keysNavigation.add(new OpenKeyCommand(0, 'o', Util.C.groupListOpen()));
+      keysNavigation.add(new OpenKeyCommand(0, KeyCodes.KEY_ENTER, Util.C
+          .groupListOpen()));
+
       table.setText(0, 1, Util.C.columnGroupName());
       table.setText(0, 2, Util.C.columnGroupDescription());
       table.addClickHandler(new ClickHandler() {

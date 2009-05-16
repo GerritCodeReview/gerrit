@@ -80,6 +80,12 @@ public abstract class AllSingleListScreen extends Screen {
     }
   }
 
+  @Override
+  public void registerKeys() {
+    super.registerKeys();
+    table.setRegisterKeys(true);
+  }
+
   protected abstract void loadPrev();
 
   protected abstract void loadNext();
@@ -114,6 +120,6 @@ public abstract class AllSingleListScreen extends Screen {
 
     table.setAccountInfoCache(result.getAccounts());
     section.display(result.getChanges());
-    table.finishDisplay(true);
+    table.finishDisplay();
   }
 }

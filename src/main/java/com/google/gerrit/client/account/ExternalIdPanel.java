@@ -22,13 +22,11 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
-import com.google.gwt.user.client.ui.HTMLTable.Cell;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -84,7 +82,6 @@ class ExternalIdPanel extends Composite {
     Util.ACCOUNT_SEC.myExternalIds(new GerritCallback<ExternalIdDetail>() {
       public void onSuccess(final ExternalIdDetail result) {
         identites.display(result);
-        identites.finishDisplay(true);
       }
     });
   }
@@ -95,16 +92,6 @@ class ExternalIdPanel extends Composite {
       table.setText(0, 3, Util.C.webIdStatus());
       table.setText(0, 4, Util.C.webIdEmail());
       table.setText(0, 5, Util.C.webIdIdentity());
-      table.addClickHandler(new ClickHandler() {
-        @Override
-        public void onClick(ClickEvent event) {
-          final Cell cell = table.getCellForEvent(event);
-          if (cell != null && cell.getCellIndex() != 1
-              && getRowItem(cell.getRowIndex()) != null) {
-            movePointerTo(cell.getRowIndex());
-          }
-        }
-      });
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
       fmt.addStyleName(0, 1, S_ICON_HEADER);
@@ -112,39 +99,6 @@ class ExternalIdPanel extends Composite {
       fmt.addStyleName(0, 3, S_DATA_HEADER);
       fmt.addStyleName(0, 4, S_DATA_HEADER);
       fmt.addStyleName(0, 5, S_DATA_HEADER);
-    }
-
-    @Override
-    protected Object getRowItemKey(final AccountExternalId item) {
-      return item.getKey();
-    }
-
-    @Override
-    protected boolean onKeyPress(final KeyPressEvent event) {
-      if (super.onKeyPress(event)) {
-        return true;
-      }
-      if (!event.isAnyModifierKeyDown()) {
-        switch (event.getCharCode()) {
-          case 's':
-          case 'c':
-            toggleCurrentRow();
-            return true;
-        }
-      }
-      return false;
-    }
-
-    @Override
-    protected void onOpenItem(final AccountExternalId item) {
-      toggleCurrentRow();
-    }
-
-    private void toggleCurrentRow() {
-      final CheckBox cb = (CheckBox) table.getWidget(getCurrentRow(), 1);
-      if (cb != null) {
-        cb.setValue(!cb.getValue());
-      }
     }
 
     void deleteChecked() {

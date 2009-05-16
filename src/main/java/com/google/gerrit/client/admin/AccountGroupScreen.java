@@ -29,7 +29,6 @@ import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.client.ui.TextSaveButtonListener;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -40,7 +39,6 @@ import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
-import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.google.gwtjsonrpc.client.VoidResult;
 
 import java.util.HashSet;
@@ -222,7 +220,6 @@ public class AccountGroupScreen extends AccountScreen {
       memberPanel.setVisible(true);
       accounts = result.accounts;
       members.display(result.members);
-      members.finishDisplay(true);
     }
   }
 
@@ -258,52 +255,11 @@ public class AccountGroupScreen extends AccountScreen {
     MemberTable() {
       table.setText(0, 2, Util.C.columnMember());
       table.setText(0, 3, Util.C.columnEmailAddress());
-      table.addClickHandler(new ClickHandler() {
-        @Override
-        public void onClick(ClickEvent event) {
-          final Cell cell = table.getCellForEvent(event);
-          if (cell != null && cell.getCellIndex() != 1
-              && getRowItem(cell.getRowIndex()) != null) {
-            movePointerTo(cell.getRowIndex());
-          }
-        }
-      });
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
       fmt.addStyleName(0, 1, S_ICON_HEADER);
       fmt.addStyleName(0, 2, S_DATA_HEADER);
       fmt.addStyleName(0, 3, S_DATA_HEADER);
-    }
-
-    @Override
-    protected Object getRowItemKey(final AccountGroupMember item) {
-      return item.getKey();
-    }
-
-    @Override
-    protected boolean onKeyPress(final KeyPressEvent event) {
-      if (super.onKeyPress(event)) {
-        return true;
-      }
-      if (!event.isAnyModifierKeyDown()) {
-        switch (event.getCharCode()) {
-          case 's':
-          case 'c':
-            toggleCurrentRow();
-            return true;
-        }
-      }
-      return false;
-    }
-
-    @Override
-    protected void onOpenItem(final AccountGroupMember item) {
-      toggleCurrentRow();
-    }
-
-    private void toggleCurrentRow() {
-      final CheckBox cb = (CheckBox) table.getWidget(getCurrentRow(), 1);
-      cb.setValue(!cb.getValue());
     }
 
     void deleteChecked() {

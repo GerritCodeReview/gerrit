@@ -18,10 +18,11 @@ import com.google.gerrit.client.Link;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.AccountScreen;
-import com.google.gerrit.client.ui.FancyFlexTable;
+import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -40,7 +41,7 @@ public class ProjectListScreen extends AccountScreen {
       @Override
       protected void preDisplay(final List<Project> result) {
         projects.display(result);
-        projects.finishDisplay(true);
+        projects.finishDisplay();
       }
     });
   }
@@ -51,7 +52,6 @@ public class ProjectListScreen extends AccountScreen {
     setPageTitle(Util.C.projectListTitle());
 
     projects = new ProjectTable();
-    projects.setSavePointerId(Link.ADMIN_PROJECTS);
     add(projects);
 
     final VerticalPanel fp = new VerticalPanel();
@@ -59,8 +59,21 @@ public class ProjectListScreen extends AccountScreen {
     fp.add(new SmallHeading(Util.C.headingCreateGroup()));
   }
 
-  private class ProjectTable extends FancyFlexTable<Project> {
+  @Override
+  public void registerKeys() {
+    super.registerKeys();
+    projects.setRegisterKeys(true);
+  }
+
+  private class ProjectTable extends NavigationTable<Project> {
     ProjectTable() {
+      setSavePointerId(Link.ADMIN_PROJECTS);
+      keysNavigation.add(new PrevKeyCommand(0, 'k', Util.C.projectListPrev()));
+      keysNavigation.add(new NextKeyCommand(0, 'j', Util.C.projectListNext()));
+      keysNavigation.add(new OpenKeyCommand(0, 'o', Util.C.projectListOpen()));
+      keysNavigation.add(new OpenKeyCommand(0, KeyCodes.KEY_ENTER, Util.C
+          .projectListOpen()));
+
       table.setText(0, 1, Util.C.columnProjectName());
       table.setText(0, 2, Util.C.columnProjectDescription());
       table.addClickHandler(new ClickHandler() {

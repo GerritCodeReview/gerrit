@@ -20,14 +20,11 @@ import com.google.gerrit.client.reviewdb.AccountAgreement;
 import com.google.gerrit.client.reviewdb.ContributorAgreement;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.FancyFlexTable;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
-import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
@@ -50,7 +47,6 @@ class AgreementPanel extends Composite {
     Util.ACCOUNT_SVC.myAgreements(new GerritCallback<AgreementInfo>() {
       public void onSuccess(final AgreementInfo result) {
         agreements.display(result);
-        agreements.finishDisplay(true);
       }
     });
   }
@@ -62,25 +58,10 @@ class AgreementPanel extends Composite {
       table.setText(0, 3, Util.C.agreementDescription());
       table.setText(0, 4, Util.C.agreementAccepted());
 
-      table.addClickHandler(new ClickHandler() {
-        @Override
-        public void onClick(final ClickEvent event) {
-          final Cell cell = table.getCellForEvent(event);
-          if (cell != null && getRowItem(cell.getRowIndex()) != null) {
-            movePointerTo(cell.getRowIndex());
-          }
-        }
-      });
-
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
       for (int c = 1; c <= 4; c++) {
         fmt.addStyleName(0, c, S_DATA_HEADER);
       }
-    }
-
-    @Override
-    protected Object getRowItemKey(final AccountAgreement item) {
-      return item.getKey();
     }
 
     void display(final AgreementInfo result) {

@@ -20,7 +20,8 @@
 #gerrit_btmmenu {
  clear: both;
 }
-#gerrit_btmmenu .gerrit-version {
+#gerrit_btmmenu .gerrit-version,
+#gerrit_btmmenu .gerrit-keyhelp {
   color: #a0adcc;
   right: 0;
   padding-right: 10px;

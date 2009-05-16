@@ -34,7 +34,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
-import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
@@ -45,7 +44,6 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
-import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 import com.google.gwtjsonrpc.client.VoidResult;
@@ -84,7 +82,6 @@ public class ProjectRightsPanel extends Composite {
           public void onSuccess(final ProjectDetail result) {
             enableForm(true);
             display(result);
-            rights.finishDisplay(true);
           }
         });
   }
@@ -311,53 +308,12 @@ public class ProjectRightsPanel extends Composite {
       table.setText(0, 2, Util.C.columnApprovalCategory());
       table.setText(0, 3, Util.C.columnGroupName());
       table.setText(0, 4, Util.C.columnRightRange());
-      table.addClickHandler(new ClickHandler() {
-        @Override
-        public void onClick(final ClickEvent event) {
-          final Cell cell = table.getCellForEvent(event);
-          if (cell != null && cell.getCellIndex() != 1
-              && getRowItem(cell.getRowIndex()) != null) {
-            movePointerTo(cell.getRowIndex());
-          }
-        }
-      });
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
       fmt.addStyleName(0, 1, S_ICON_HEADER);
       fmt.addStyleName(0, 2, S_DATA_HEADER);
       fmt.addStyleName(0, 3, S_DATA_HEADER);
       fmt.addStyleName(0, 4, S_DATA_HEADER);
-    }
-
-    @Override
-    protected Object getRowItemKey(final ProjectRight item) {
-      return item.getKey();
-    }
-
-    @Override
-    protected boolean onKeyPress(final KeyPressEvent event) {
-      if (super.onKeyPress(event)) {
-        return true;
-      }
-      if (!event.isAnyModifierKeyDown()) {
-        switch (event.getCharCode()) {
-          case 's':
-          case 'c':
-            toggleCurrentRow();
-            return true;
-        }
-      }
-      return false;
-    }
-
-    @Override
-    protected void onOpenItem(final ProjectRight item) {
-      toggleCurrentRow();
-    }
-
-    private void toggleCurrentRow() {
-      final CheckBox cb = (CheckBox) table.getWidget(getCurrentRow(), 1);
-      cb.setValue(!cb.getValue());
     }
 
     void deleteChecked() {

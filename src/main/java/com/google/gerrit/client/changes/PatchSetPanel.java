@@ -17,7 +17,7 @@ package com.google.gerrit.client.changes;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.Link;
-import com.google.gerrit.client.SignedInListener;
+import com.google.gerrit.client.SignOutHandler;
 import com.google.gerrit.client.data.ApprovalType;
 import com.google.gerrit.client.data.ChangeDetail;
 import com.google.gerrit.client.data.PatchSetDetail;
@@ -68,7 +68,7 @@ class PatchSetPanel extends Composite implements OpenHandler<DisclosurePanel> {
   private Grid infoTable;
   private Panel actionsPanel;
   private PatchTable patchTable;
-  private SignedInListener signedInListener;
+  private SignOutHandler signedInListener;
 
   PatchSetPanel(final ChangeDetail detail, final PatchSet ps) {
     changeDetail = detail;
@@ -104,14 +104,14 @@ class PatchSetPanel extends Composite implements OpenHandler<DisclosurePanel> {
   protected void onLoad() {
     super.onLoad();
     if (signedInListener != null) {
-      Gerrit.addSignedInListener(signedInListener);
+      Gerrit.addSignOutHandler(signedInListener);
     }
   }
 
   @Override
   protected void onUnload() {
     if (signedInListener != null) {
-      Gerrit.removeSignedInListener(signedInListener);
+      Gerrit.removeSignOutHandler(signedInListener);
     }
     super.onUnload();
   }
@@ -150,16 +150,13 @@ class PatchSetPanel extends Composite implements OpenHandler<DisclosurePanel> {
     actionsPanel = new FlowPanel();
     actionsPanel.setStyleName("gerrit-PatchSetActions");
     body.add(actionsPanel);
-    signedInListener = new SignedInListener() {
-      public void onSignIn() {
-      }
-
+    signedInListener = new SignOutHandler() {
       public void onSignOut() {
         actionsPanel.clear();
         actionsPanel.setVisible(false);
       }
     };
-    Gerrit.addSignedInListener(signedInListener);
+    Gerrit.addSignOutHandler(signedInListener);
     if (Gerrit.isSignedIn()) {
       populateCommentAction();
       if (changeDetail.isCurrentPatchSet(detail)) {

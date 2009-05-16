@@ -22,6 +22,7 @@ import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.LinkMenuBar;
 import com.google.gerrit.client.ui.LinkMenuItem;
+import com.google.gerrit.client.ui.NeedsSignInKeyCommand;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -37,9 +38,13 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.InlineLabel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
+import com.google.gwtexpui.globalkey.client.GlobalKey;
+import com.google.gwtexpui.globalkey.client.KeyCommand;
+import com.google.gwtexpui.globalkey.client.KeyCommandFilter;
 import com.google.gwtexpui.user.client.UserAgent;
 import com.google.gwtexpui.user.client.ViewSite;
 import com.google.gwtjsonrpc.client.JsonUtil;
@@ -64,8 +69,8 @@ public class Gerrit implements EntryPoint {
   private static String myHost;
   private static String myVersion;
   private static Account myAccount;
-  private static final ArrayList<SignedInListener> signedInListeners =
-      new ArrayList<SignedInListener>();
+  private static final ArrayList<SignOutHandler> signOutHandlers =
+      new ArrayList<SignOutHandler>();
 
   private static TabPanel menuLeft;
   private static LinkMenuBar menuRight;
@@ -133,9 +138,14 @@ public class Gerrit implements EntryPoint {
     myAccount = null;
     Cookies.removeCookie(ACCOUNT_COOKIE);
 
-    for (final SignedInListener l : signedInListeners) {
+    for (final SignOutHandler l : signOutHandlers) {
       l.onSignOut();
     }
+    GlobalKey.filter(new KeyCommandFilter() {
+      public boolean include(final KeyCommand key) {
+        return !(key instanceof NeedsSignInKeyCommand);
+      }
+    });
     refreshMenuBar();
 
     final Screen cs = body.getView();
@@ -145,15 +155,15 @@ public class Gerrit implements EntryPoint {
   }
 
   /** Add a listener to monitor sign-in status. */
-  public static void addSignedInListener(final SignedInListener l) {
-    if (!signedInListeners.contains(l)) {
-      signedInListeners.add(l);
+  public static void addSignOutHandler(final SignOutHandler l) {
+    if (!signOutHandlers.contains(l)) {
+      signOutHandlers.add(l);
     }
   }
 
   /** Remove a previously added sign in listener. */
-  public static void removeSignedInListener(final SignedInListener l) {
-    signedInListeners.remove(l);
+  public static void removeSignOutHandler(final SignOutHandler l) {
+    signOutHandlers.remove(l);
   }
 
   public void onModuleLoad() {
@@ -249,6 +259,10 @@ public class Gerrit implements EntryPoint {
     final HTML version = new HTML(M.poweredBy(vs));
     version.setStyleName("gerrit-version");
     btmmenu.add(version);
+
+    final Label keyHelp = new Label(C.keyHelp());
+    keyHelp.setStyleName("gerrit-keyhelp");
+    btmmenu.add(keyHelp);
   }
 
   /** @return version number of the Gerrit application software */
@@ -274,11 +288,11 @@ public class Gerrit implements EntryPoint {
           .myAccount(new AsyncCallback<Account>() {
             public void onSuccess(final Account result) {
               if (result != null) {
-                postSignIn(result, null);
+                myAccount = result;
               } else {
                 Cookies.removeCookie(ACCOUNT_COOKIE);
-                refreshMenuBar();
               }
+              refreshMenuBar();
               showInitialScreen();
             }
 
@@ -311,24 +325,6 @@ public class Gerrit implements EntryPoint {
       }
     } else {
       History.fireCurrentHistoryState();
-    }
-  }
-
-  /** Hook from {@link SignInDialog} to let us know to refresh the UI. */
-  static void postSignIn(final Account acct, final AsyncCallback<?> ac) {
-    myAccount = acct;
-    refreshMenuBar();
-
-    for (final SignedInListener l : signedInListeners) {
-      l.onSignIn();
-    }
-
-    final Screen cs = body.getView();
-    if (cs != null) {
-      cs.onSignIn();
-    }
-    if (ac != null) {
-      ac.onSuccess(null);
     }
   }
 

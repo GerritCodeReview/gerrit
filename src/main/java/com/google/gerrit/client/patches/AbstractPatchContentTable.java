@@ -16,15 +16,20 @@ package com.google.gerrit.client.patches;
 
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.SignedInListener;
+import com.google.gerrit.client.Link;
+import com.google.gerrit.client.SignOutHandler;
+import com.google.gerrit.client.changes.ChangeScreen;
+import com.google.gerrit.client.changes.PublishCommentScreen;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.data.AccountInfoCache;
 import com.google.gerrit.client.data.PatchScript;
+import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.ui.ComplexDisclosurePanel;
-import com.google.gerrit.client.ui.FancyFlexTable;
+import com.google.gerrit.client.ui.NavigationTable;
+import com.google.gerrit.client.ui.NeedsSignInKeyCommand;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.user.client.DOM;
@@ -33,12 +38,13 @@ import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwtexpui.globalkey.client.KeyCommand;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AbstractPatchContentTable extends FancyFlexTable<Object> {
+public abstract class AbstractPatchContentTable extends NavigationTable<Object> {
   private static final long AGE = 7 * 24 * 60 * 60 * 1000L;
   protected AccountInfoCache accountCache = AccountInfoCache.empty();
   protected Patch.Key patchKey;
@@ -47,10 +53,7 @@ public abstract class AbstractPatchContentTable extends FancyFlexTable<Object> {
 
   private final Timestamp aged =
       new Timestamp(System.currentTimeMillis() - AGE);
-  private final SignedInListener signedInListener = new SignedInListener() {
-    public void onSignIn() {
-    }
-
+  private final SignOutHandler signedInListener = new SignOutHandler() {
     public void onSignOut() {
       // TODO we should probably confirm with the user before sign out starts
       // that its OK to sign out if any of our editors are unsaved.
@@ -71,18 +74,38 @@ public abstract class AbstractPatchContentTable extends FancyFlexTable<Object> {
   };
 
   protected AbstractPatchContentTable() {
+    keysNavigation.add(new UpToChangeCommand(0, 'u', PatchUtil.C.upToChange()));
+    keysNavigation.add(new PrevKeyCommand(0, 'k', PatchUtil.C.linePrev()));
+    keysNavigation.add(new NextKeyCommand(0, 'j', PatchUtil.C.lineNext()));
+
+    if (Gerrit.isSignedIn()) {
+      keysAction.add(new InsertCommentCommand(0, 'c', PatchUtil.C
+          .commentInsert()));
+      keysAction.add(new PublishCommentsKeyCommand(0, 'r', Util.C
+          .keyPublishComments()));
+
+      // See CommentEditorPanel
+      //
+      keysAction.add(new NoOpKeyCommand(KeyCommand.M_CTRL, 's', PatchUtil.C
+          .commentSaveDraft()));
+      keysAction.add(new NoOpKeyCommand(KeyCommand.M_CTRL, 'd', PatchUtil.C
+          .commentDiscard()));
+      keysAction.add(new NoOpKeyCommand(0, KeyCodes.KEY_ESCAPE, PatchUtil.C
+          .commentCancelEdit()));
+    }
+
     table.setStyleName("gerrit-PatchContentTable");
   }
 
   @Override
   public void onLoad() {
     super.onLoad();
-    Gerrit.addSignedInListener(signedInListener);
+    Gerrit.addSignOutHandler(signedInListener);
   }
 
   @Override
   public void onUnload() {
-    Gerrit.removeSignedInListener(signedInListener);
+    Gerrit.removeSignOutHandler(signedInListener);
     super.onUnload();
   }
 
@@ -96,34 +119,13 @@ public abstract class AbstractPatchContentTable extends FancyFlexTable<Object> {
 
   protected abstract void render(PatchScript script);
 
+  protected abstract void onInsertComment(PatchLine pl);
+
   public abstract void display(CommentDetail comments);
 
   @Override
   protected MyFlexTable createFlexTable() {
     return new DoubleClickFlexTable();
-  }
-
-  @Override
-  protected boolean onKeyPress(final KeyPressEvent event) {
-    if (!event.isAnyModifierKeyDown()) {
-      switch (event.getCharCode()) {
-        case KeyCodes.KEY_UP:
-        case KeyCodes.KEY_DOWN:
-          return false;
-
-        case 'c':
-        case 'r':
-          for (int row = getCurrentRow(); 0 <= row; row--) {
-            final Object item = getRowItem(row);
-            if (!(item instanceof CommentList) && item != null) {
-              onOpenItem(item);
-              break;
-            }
-          }
-          return true;
-      }
-    }
-    return super.onKeyPress(event);
   }
 
   @Override
@@ -382,6 +384,62 @@ public abstract class AbstractPatchContentTable extends FancyFlexTable<Object> {
         }
       }
       super.onBrowserEvent(event);
+    }
+  }
+
+  public class UpToChangeCommand extends KeyCommand {
+    public UpToChangeCommand(int mask, int key, String help) {
+      super(mask, key, help);
+    }
+
+    @Override
+    public void onKeyPress(final KeyPressEvent event) {
+      final Change.Id ck = patchKey.getParentKey().getParentKey();
+      Gerrit.display(Link.toChange(ck), new ChangeScreen(ck));
+    }
+  }
+
+  public static class NoOpKeyCommand extends NeedsSignInKeyCommand {
+    public NoOpKeyCommand(int mask, int key, String help) {
+      super(mask, key, help);
+    }
+
+    @Override
+    public void onKeyPress(final KeyPressEvent event) {
+    }
+  }
+
+  public class InsertCommentCommand extends NeedsSignInKeyCommand {
+    public InsertCommentCommand(int mask, int key, String help) {
+      super(mask, key, help);
+    }
+
+    @Override
+    public void onKeyPress(final KeyPressEvent event) {
+      for (int row = getCurrentRow(); 0 <= row; row--) {
+        final Object item = getRowItem(row);
+        if (item instanceof PatchLine) {
+          onInsertComment((PatchLine) item);
+          return;
+        } else if (item instanceof CommentList) {
+          continue;
+        } else {
+          return;
+        }
+      }
+    }
+  }
+
+  public class PublishCommentsKeyCommand extends NeedsSignInKeyCommand {
+    public PublishCommentsKeyCommand(int mask, char key, String help) {
+      super(mask, key, help);
+    }
+
+    @Override
+    public void onKeyPress(final KeyPressEvent event) {
+      final PatchSet.Id id = patchKey.getParentKey();
+      Gerrit.display("change,publish," + id.toString(),
+          new PublishCommentScreen(id));
     }
   }
 }

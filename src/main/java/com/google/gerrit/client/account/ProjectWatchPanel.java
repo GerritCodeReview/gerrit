@@ -25,7 +25,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
-import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -34,7 +33,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
-import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.google.gwtjsonrpc.client.VoidResult;
 
 import java.util.HashSet;
@@ -115,11 +113,6 @@ class ProjectWatchPanel extends Composite {
       return;
     }
 
-    if (watches.moveToExistingProject(projectName)) {
-      nameTxt.setText("");
-      return;
-    }
-
     addNew.setEnabled(false);
     Util.ACCOUNT_SVC.addProjectWatch(projectName,
         new GerritCallback<AccountProjectWatchInfo>() {
@@ -144,7 +137,6 @@ class ProjectWatchPanel extends Composite {
         .myProjectWatch(new GerritCallback<List<AccountProjectWatchInfo>>() {
           public void onSuccess(final List<AccountProjectWatchInfo> result) {
             watches.display(result);
-            watches.finishDisplay(true);
           }
         });
   }
@@ -155,26 +147,6 @@ class ProjectWatchPanel extends Composite {
       table.setText(0, 2, com.google.gerrit.client.changes.Util.C
           .changeTableColumnProject());
       table.setText(0, 3, Util.C.watchedProjectColumnEmailNotifications());
-      table.addClickHandler(new ClickHandler() {
-        @Override
-        public void onClick(ClickEvent event) {
-          final Cell cell = table.getCellForEvent(event);
-          if (cell != null) {
-            switch (cell.getCellIndex()) {
-              case 1:
-              case 3:
-                // Don't do anything, these cells also contain check boxes.
-                break;
-
-              default:
-                if (getRowItem(cell.getRowIndex()) != null) {
-                  movePointerTo(cell.getRowIndex());
-                }
-                break;
-            }
-          }
-        }
-      });
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
       fmt.addStyleName(0, 1, S_ICON_HEADER);
@@ -192,37 +164,6 @@ class ProjectWatchPanel extends Composite {
       fmt.addStyleName(1, 0, S_DATA_HEADER);
       fmt.addStyleName(1, 1, S_DATA_HEADER);
       fmt.addStyleName(1, 2, S_DATA_HEADER);
-    }
-
-    @Override
-    protected Object getRowItemKey(final AccountProjectWatchInfo item) {
-      return item.getWatch().getKey();
-    }
-
-    @Override
-    protected boolean onKeyPress(final KeyPressEvent event) {
-      if (super.onKeyPress(event)) {
-        return true;
-      }
-      if (!event.isAnyModifierKeyDown()) {
-        switch (event.getCharCode()) {
-          case 's':
-          case 'c':
-            toggleCurrentRow();
-            return true;
-        }
-      }
-      return false;
-    }
-
-    @Override
-    protected void onOpenItem(final AccountProjectWatchInfo item) {
-      toggleCurrentRow();
-    }
-
-    private void toggleCurrentRow() {
-      final CheckBox cb = (CheckBox) table.getWidget(getCurrentRow(), 1);
-      cb.setValue(!cb.getValue());
     }
 
     void deleteChecked() {
@@ -249,17 +190,6 @@ class ProjectWatchPanel extends Composite {
               }
             });
       }
-    }
-
-    boolean moveToExistingProject(final String projectName) {
-      for (int row = 1; row < table.getRowCount(); row++) {
-        final AccountProjectWatchInfo i = getRowItem(row);
-        if (i != null && i.getProject().getName().equals(projectName)) {
-          movePointerTo(row);
-          return true;
-        }
-      }
-      return false;
     }
 
     void insertWatch(final AccountProjectWatchInfo k) {

@@ -63,6 +63,12 @@ public class AccountDashboardScreen extends Screen {
         });
   }
 
+  @Override
+  public void registerKeys() {
+    super.registerKeys();
+    table.setRegisterKeys(true);
+  }
+
   private void display(final AccountDashboardInfo r) {
     table.setAccountInfoCache(r.getAccounts());
 
@@ -77,6 +83,6 @@ public class AccountDashboardScreen extends Screen {
     byOwner.display(r.getByOwner());
     forReview.display(r.getForReview());
     closed.display(r.getClosed());
-    table.finishDisplay(true);
+    table.finishDisplay();
   }
 }

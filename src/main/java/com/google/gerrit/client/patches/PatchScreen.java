@@ -95,6 +95,12 @@ public abstract class PatchScreen extends Screen {
     refresh(true);
   }
 
+  @Override
+  public void registerKeys() {
+    super.registerKeys();
+    patchTable.setRegisterKeys(patchTable.isVisible());
+  }
+
   protected abstract AbstractPatchContentTable createPatchTable();
 
   protected void refresh(final boolean isFirst) {
@@ -164,8 +170,8 @@ public abstract class PatchScreen extends Screen {
 
       patchTable.display(patchKey, idSideA, idSideB, script);
       patchTable.display(comments);
+      patchTable.finishDisplay();
       showPatch(true);
-      patchTable.finishDisplay(true);
 
       script = null;
       comments = null;
@@ -177,5 +183,6 @@ public abstract class PatchScreen extends Screen {
   private void showPatch(final boolean showPatch) {
     noDifference.setVisible(!showPatch);
     patchTable.setVisible(showPatch);
+    patchTable.setRegisterKeys(isCurrentView() && showPatch);
   }
 }

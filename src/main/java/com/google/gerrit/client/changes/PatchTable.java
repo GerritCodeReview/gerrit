@@ -17,10 +17,11 @@ package com.google.gerrit.client.changes;
 import com.google.gerrit.client.Link;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchSet;
-import com.google.gerrit.client.ui.FancyFlexTable;
+import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.IncrementalCommand;
@@ -59,8 +60,14 @@ public class PatchTable extends Composite {
     savePointerId = id;
   }
 
-  private class MyTable extends FancyFlexTable<Patch> {
+  private class MyTable extends NavigationTable<Patch> {
     MyTable() {
+      keysNavigation.add(new PrevKeyCommand(0, 'k', Util.C.patchTablePrev()));
+      keysNavigation.add(new NextKeyCommand(0, 'j', Util.C.patchTableNext()));
+      keysNavigation.add(new OpenKeyCommand(0, 'o', Util.C.patchTableOpen()));
+      keysNavigation.add(new OpenKeyCommand(0, KeyCodes.KEY_ENTER, Util.C
+          .patchTableOpen()));
+
       table.addClickHandler(new ClickHandler() {
         @Override
         public void onClick(final ClickEvent event) {
@@ -328,7 +335,7 @@ public class PatchTable extends Composite {
     void showTable() {
       myBody.clear();
       myBody.add(table);
-      table.finishDisplay(false);
+      table.finishDisplay();
     }
 
     void initMeter() {

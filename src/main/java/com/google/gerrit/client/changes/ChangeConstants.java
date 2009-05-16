@@ -38,6 +38,13 @@ public interface ChangeConstants extends Constants {
   String changeTableColumnLastUpdate();
   String changeTableNone();
 
+  String changeTablePrev();
+  String changeTableNext();
+  String changeTableOpen();
+  String changeTableStar();
+  String upToDashboard();
+  String keyPublishComments();
+
   String patchTableColumnName();
   String patchTableColumnComments();
   String patchTableColumnDiff();
@@ -45,6 +52,10 @@ public interface ChangeConstants extends Constants {
   String patchTableDiffUnified();
   String patchTableDownloadPreImage();
   String patchTableDownloadPostImage();
+
+  String patchTablePrev();
+  String patchTableNext();
+  String patchTableOpen();
 
   String changeScreenDescription();
   String changeScreenDependencies();

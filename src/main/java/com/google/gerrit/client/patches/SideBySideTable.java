@@ -52,15 +52,9 @@ public class SideBySideTable extends AbstractPatchContentTable {
   }
 
   @Override
-  protected void onOpenItem(final Object item) {
-    if (item instanceof PatchLine) {
-      final PatchLine line = (PatchLine) item;
-      final int row = getCurrentRow();
-      createCommentEditor(row + 1, 4, line.getLineB(), (short) 1);
-      return;
-    }
-
-    super.onOpenItem(item);
+  protected void onInsertComment(final PatchLine line) {
+    final int row = getCurrentRow();
+    createCommentEditor(row + 1, 4, line.getLineB(), (short) 1);
   }
 
   @Override

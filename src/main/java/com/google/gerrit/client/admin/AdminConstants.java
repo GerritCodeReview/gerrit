@@ -56,6 +56,14 @@ public interface AdminConstants extends Constants {
   String buttonAddBranch();
   String buttonDeleteBranch();
 
+  String projectListPrev();
+  String projectListNext();
+  String projectListOpen();
+
+  String groupListPrev();
+  String groupListNext();
+  String groupListOpen();
+
   String groupListTitle();
   String projectListTitle();
   String projectAdminTabGeneral();

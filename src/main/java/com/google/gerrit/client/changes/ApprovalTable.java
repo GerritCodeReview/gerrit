@@ -15,7 +15,7 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.SignedInListener;
+import com.google.gerrit.client.SignOutHandler;
 import com.google.gerrit.client.data.AccountInfoCache;
 import com.google.gerrit.client.data.ApprovalDetail;
 import com.google.gerrit.client.data.ApprovalType;
@@ -52,7 +52,7 @@ public class ApprovalTable extends Composite {
   private final Panel missing;
   private final Panel addReviewer;
   private final AddMemberBox addMemberBox;
-  private final SignedInListener signedInListener;
+  private final SignOutHandler signedInListener;
   private Change.Id changeId;
   private boolean changeIsOpen;
   private AccountInfoCache accountCache = AccountInfoCache.empty();
@@ -85,11 +85,7 @@ public class ApprovalTable extends Composite {
     fp.add(addReviewer);
     initWidget(fp);
 
-    signedInListener = new SignedInListener() {
-      public void onSignIn() {
-        addReviewer.setVisible(changeIsOpen);
-      }
-
+    signedInListener = new SignOutHandler() {
       public void onSignOut() {
         addReviewer.setVisible(false);
       }
@@ -98,13 +94,13 @@ public class ApprovalTable extends Composite {
 
   @Override
   protected void onLoad() {
-    Gerrit.addSignedInListener(signedInListener);
+    Gerrit.addSignOutHandler(signedInListener);
     super.onLoad();
   }
 
   @Override
   protected void onUnload() {
-    Gerrit.removeSignedInListener(signedInListener);
+    Gerrit.removeSignOutHandler(signedInListener);
     super.onUnload();
   }
 

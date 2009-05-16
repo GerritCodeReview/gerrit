@@ -42,6 +42,9 @@ public abstract class Screen extends View {
     }
   }
 
+  public void registerKeys() {
+  }
+
   protected void onInitUI() {
     final FlowPanel me = (FlowPanel) getWidget();
     me.add(header = new FlowPanel());
@@ -89,13 +92,10 @@ public abstract class Screen extends View {
     }
   }
 
-  /** Invoked if this screen is the current screen and the user signs in. */
-  public void onSignIn() {
-  }
-
   public void onShowView() {
     if (windowTitle != null) {
       Gerrit.setWindowTitle(this, windowTitle);
     }
+    registerKeys();
   }
 }

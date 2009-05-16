@@ -18,6 +18,7 @@ import com.google.gerrit.client.data.SshHostKey;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
 
@@ -35,7 +36,7 @@ class SshHostKeyPanel extends Composite {
       body.add(fpVal);
     }
     {
-      final Label hdr = new Label(Util.C.sshHostKeyKnownHostEntry());
+      final HTML hdr = new HTML(Util.C.sshHostKeyKnownHostEntry());
       hdr.setStyleName("gerrit-SshHostKeyPanel-Heading");
       body.add(hdr);
       final CopyableLabel lbl =

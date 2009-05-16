@@ -14,6 +14,12 @@
 
 package com.google.gerrit.client.account;
 
+import static com.google.gerrit.client.reviewdb.AccountGeneralPreferences.DEFAULT_CONTEXT;
+import static com.google.gerrit.client.reviewdb.AccountGeneralPreferences.DEFAULT_PAGESIZE;
+import static com.google.gerrit.client.reviewdb.AccountGeneralPreferences.CONTEXT_CHOICES;
+import static com.google.gerrit.client.reviewdb.AccountGeneralPreferences.PAGESIZE_CHOICES;
+import static com.google.gerrit.client.reviewdb.AccountGeneralPreferences.WHOLE_FILE_CONTEXT;
+
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountGeneralPreferences;
@@ -35,6 +41,7 @@ class PreferencePanel extends Composite {
   private CheckBox showSiteHeader;
   private CheckBox useFlashClipboard;
   private ListBox defaultContext;
+  private ListBox maximumPageSize;
   private Button save;
 
   PreferencePanel() {
@@ -46,6 +53,12 @@ class PreferencePanel extends Composite {
         save.setEnabled(true);
       }
     };
+    final ChangeHandler onChangeSave = new ChangeHandler() {
+      @Override
+      public void onChange(final ChangeEvent event) {
+        save.setEnabled(true);
+      }
+    };
 
     showSiteHeader = new CheckBox(Util.C.showSiteHeader());
     showSiteHeader.addClickHandler(onClickSave);
@@ -53,22 +66,23 @@ class PreferencePanel extends Composite {
     useFlashClipboard = new CheckBox(Util.C.useFlashClipboard());
     useFlashClipboard.addClickHandler(onClickSave);
 
+    maximumPageSize = new ListBox();
+    for (final short v : PAGESIZE_CHOICES) {
+      maximumPageSize.addItem(Util.M.rowsPerPage(v), String.valueOf(v));
+    }
+    maximumPageSize.addChangeHandler(onChangeSave);
+
     defaultContext = new ListBox();
-    for (final short v : AccountGeneralPreferences.CONTEXT_CHOICES) {
+    for (final short v : CONTEXT_CHOICES) {
       final String label;
-      if (v == AccountGeneralPreferences.WHOLE_FILE_CONTEXT) {
+      if (v == WHOLE_FILE_CONTEXT) {
         label = Util.C.contextWholeFile();
       } else {
         label = Util.M.lines(v);
       }
       defaultContext.addItem(label, String.valueOf(v));
     }
-    defaultContext.addChangeHandler(new ChangeHandler() {
-      @Override
-      public void onChange(final ChangeEvent event) {
-        save.setEnabled(true);
-      }
-    });
+    defaultContext.addChangeHandler(onChangeSave);
 
     final int labelIdx, fieldIdx;
     if (LocaleInfo.getCurrentLocale().isRTL()) {
@@ -78,7 +92,7 @@ class PreferencePanel extends Composite {
       labelIdx = 0;
       fieldIdx = 1;
     }
-    final Grid formGrid = new Grid(3, 2);
+    final Grid formGrid = new Grid(4, 2);
 
     int row = 0;
     formGrid.setText(row, labelIdx, "");
@@ -87,6 +101,10 @@ class PreferencePanel extends Composite {
 
     formGrid.setText(row, labelIdx, "");
     formGrid.setWidget(row, fieldIdx, useFlashClipboard);
+    row++;
+
+    formGrid.setText(row, labelIdx, Util.C.maximumPageSizeFieldLabel());
+    formGrid.setWidget(row, fieldIdx, maximumPageSize);
     row++;
 
     formGrid.setText(row, labelIdx, Util.C.defaultContextFieldLabel());
@@ -122,38 +140,45 @@ class PreferencePanel extends Composite {
   private void enable(final boolean on) {
     showSiteHeader.setEnabled(on);
     useFlashClipboard.setEnabled(on);
+    maximumPageSize.setEnabled(on);
     defaultContext.setEnabled(on);
   }
 
   private void display(final AccountGeneralPreferences p) {
     showSiteHeader.setValue(p.isShowSiteHeader());
     useFlashClipboard.setValue(p.isUseFlashClipboard());
-    displayDefaultContext(p.getDefaultContext());
+    setListBox(maximumPageSize, DEFAULT_PAGESIZE, p.getMaximumPageSize());
+    setListBox(defaultContext, DEFAULT_CONTEXT, p.getDefaultContext());
   }
 
-  private void displayDefaultContext(final short lines) {
-    for (int i = 0; i < AccountGeneralPreferences.CONTEXT_CHOICES.length; i++) {
-      if (AccountGeneralPreferences.CONTEXT_CHOICES[i] == lines) {
-        defaultContext.setSelectedIndex(i);
+  private void setListBox(final ListBox f, final short defaultValue,
+      final short currentValue) {
+    final int n = f.getItemCount();
+    for (int i = 0; i < n; i++) {
+      if (Short.parseShort(f.getValue(i)) == currentValue) {
+        f.setSelectedIndex(i);
         return;
       }
     }
-    displayDefaultContext(AccountGeneralPreferences.DEFAULT_CONTEXT);
+    if (currentValue != defaultValue) {
+      setListBox(f, defaultValue, defaultValue);
+    }
   }
 
-  private short getDefaultContext() {
-    final int idx = defaultContext.getSelectedIndex();
+  private short getListBox(final ListBox f, final short defaultValue) {
+    final int idx = f.getSelectedIndex();
     if (0 <= idx) {
-      return Short.parseShort(defaultContext.getValue(idx));
+      return Short.parseShort(f.getValue(idx));
     }
-    return AccountGeneralPreferences.DEFAULT_CONTEXT;
+    return defaultValue;
   }
 
   private void doSave() {
     final AccountGeneralPreferences p = new AccountGeneralPreferences();
     p.setShowSiteHeader(showSiteHeader.getValue());
     p.setUseFlashClipboard(useFlashClipboard.getValue());
-    p.setDefaultContext(getDefaultContext());
+    p.setMaximumPageSize(getListBox(maximumPageSize, DEFAULT_PAGESIZE));
+    p.setDefaultContext(getListBox(defaultContext, DEFAULT_CONTEXT));
 
     enable(false);
     save.setEnabled(false);

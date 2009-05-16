@@ -14,8 +14,10 @@
 
 package com.google.gerrit.client.changes;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.data.ChangeInfo;
 import com.google.gerrit.client.data.SingleListChangeInfo;
+import com.google.gerrit.client.reviewdb.AccountGeneralPreferences;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gwt.event.dom.client.KeyPressEvent;
@@ -32,7 +34,7 @@ public abstract class AllSingleListScreen extends Screen {
   protected static final String MIN_SORTKEY = "";
   protected static final String MAX_SORTKEY = "z";
 
-  protected static final int pageSize = 25;
+  protected final int pageSize;
   private ChangeTable table;
   private ChangeTable.Section section;
   protected Hyperlink prev;
@@ -48,6 +50,15 @@ public abstract class AllSingleListScreen extends Screen {
     anchorPrefix = anchorToken;
     useLoadPrev = positionToken.startsWith("p,");
     pos = positionToken.substring(2);
+
+    if (Gerrit.isSignedIn()) {
+      final AccountGeneralPreferences p =
+          Gerrit.getUserAccount().getGeneralPreferences();
+      final short m = p.getMaximumPageSize();
+      pageSize = 0 < m ? m : AccountGeneralPreferences.DEFAULT_PAGESIZE;
+    } else {
+      pageSize = AccountGeneralPreferences.DEFAULT_PAGESIZE;
+    }
   }
 
   @Override

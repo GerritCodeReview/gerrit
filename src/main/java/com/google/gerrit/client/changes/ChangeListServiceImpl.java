@@ -58,7 +58,7 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
         }
       };
 
-  private static final int MAX_PER_PAGE = 50;
+  private static final int MAX_PER_PAGE = 100;
 
   private static int safePageSize(final int pageSize) {
     return 0 < pageSize && pageSize <= MAX_PER_PAGE ? pageSize : MAX_PER_PAGE;

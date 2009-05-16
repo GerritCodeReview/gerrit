@@ -28,9 +28,19 @@ public final class AccountGeneralPreferences {
   public static final short[] CONTEXT_CHOICES =
       {3, 10, 25, 50, 75, 100, WHOLE_FILE_CONTEXT};
 
+  /** Default number of items to display per page. */
+  public static final short DEFAULT_PAGESIZE = 25;
+
+  /** Valid choices for the page size. */
+  public static final short[] PAGESIZE_CHOICES = {10, 25, 50, 100};
+
   /** Default number of lines of context when viewing a patch. */
   @Column
   protected short defaultContext;
+
+  /** Number of changes to show in a screen. */
+  @Column
+  protected short maximumPageSize;
 
   /** Should the site header be displayed when logged in ? */
   @Column
@@ -53,6 +63,14 @@ public final class AccountGeneralPreferences {
     defaultContext = s;
   }
 
+  public short getMaximumPageSize() {
+    return maximumPageSize;
+  }
+
+  public void setMaximumPageSize(final short s) {
+    maximumPageSize = s;
+  }
+
   public boolean isShowSiteHeader() {
     return showSiteHeader;
   }
@@ -71,6 +89,7 @@ public final class AccountGeneralPreferences {
 
   public void resetToDefaults() {
     defaultContext = DEFAULT_CONTEXT;
+    maximumPageSize = DEFAULT_PAGESIZE;
     showSiteHeader = true;
     useFlashClipboard = true;
   }

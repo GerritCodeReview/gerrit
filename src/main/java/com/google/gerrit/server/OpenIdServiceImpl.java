@@ -213,14 +213,7 @@ class OpenIdServiceImpl implements OpenIdService {
   void doAuth(final HttpServletRequest req, final HttpServletResponse rsp)
       throws Exception {
     if (false) {
-      System.err.println(req.getMethod() + " /login");
-      for (final String n : new TreeMap<String, Object>(req.getParameterMap())
-          .keySet()) {
-        for (final String v : req.getParameterValues(n)) {
-          System.err.println("  " + n + "=" + v);
-        }
-      }
-      System.err.println();
+      debugRequest(req);
     }
 
     final String openidMode = req.getParameter(OPENID_MODE);
@@ -314,6 +307,18 @@ class OpenIdServiceImpl implements OpenIdService {
         initializeAccount(req, rsp, user, fullname, email);
       }
     }
+  }
+
+  @SuppressWarnings("unchecked")
+  private static void debugRequest(final HttpServletRequest req) {
+    System.err.println(req.getMethod() + " /login");
+    for (final String n : new TreeMap<String, Object>(req.getParameterMap())
+        .keySet()) {
+      for (final String v : req.getParameterValues(n)) {
+        System.err.println("  " + n + "=" + v);
+      }
+    }
+    System.err.println();
   }
 
   private void initializeAccount(final HttpServletRequest req,

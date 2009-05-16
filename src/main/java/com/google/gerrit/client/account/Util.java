@@ -22,7 +22,6 @@ public class Util {
   public static final AccountMessages M = GWT.create(AccountMessages.class);
   public static final AccountService ACCOUNT_SVC;
   public static final AccountSecurity ACCOUNT_SEC;
-  public static final LoginService LOGIN_SVC;
 
   static {
     ACCOUNT_SVC = GWT.create(AccountService.class);
@@ -30,7 +29,5 @@ public class Util {
 
     ACCOUNT_SEC = GWT.create(AccountSecurity.class);
     JsonUtil.bind(ACCOUNT_SEC, "rpc/AccountSecurity");
-
-    LOGIN_SVC = GWT.create(LoginService.class);
   }
 }

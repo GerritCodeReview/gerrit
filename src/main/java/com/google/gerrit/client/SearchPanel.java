@@ -35,7 +35,7 @@ import com.google.gwtexpui.globalkey.client.NpTextBox;
 
 class SearchPanel extends Composite {
   private final NpTextBox searchBox;
-  private HandlerRegistration focusKey;
+  private HandlerRegistration regFocus;
 
   SearchPanel() {
     final FlowPanel body = new FlowPanel();
@@ -88,8 +88,8 @@ class SearchPanel extends Composite {
   @Override
   public void onLoad() {
     super.onLoad();
-    if (focusKey == null) {
-      focusKey =
+    if (regFocus == null) {
+      regFocus =
           GlobalKey
               .addApplication(new KeyCommand(0, '/', Gerrit.C.keySearch()) {
                 @Override
@@ -104,9 +104,9 @@ class SearchPanel extends Composite {
 
   @Override
   public void onUnload() {
-    if (focusKey != null) {
-      focusKey.removeHandler();
-      focusKey = null;
+    if (regFocus != null) {
+      regFocus.removeHandler();
+      regFocus = null;
     }
   }
 

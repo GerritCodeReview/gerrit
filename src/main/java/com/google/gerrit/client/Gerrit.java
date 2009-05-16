@@ -30,6 +30,8 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.History;
@@ -71,8 +73,7 @@ public class Gerrit implements EntryPoint {
   private static String myHost;
   private static String myVersion;
   private static Account myAccount;
-  private static final ArrayList<SignOutHandler> signOutHandlers =
-      new ArrayList<SignOutHandler>();
+  private static final HandlerManager globalHandlers = new HandlerManager(true);
 
   private static TabPanel menuLeft;
   private static LinkMenuBar menuRight;
@@ -140,9 +141,7 @@ public class Gerrit implements EntryPoint {
     myAccount = null;
     Cookies.removeCookie(ACCOUNT_COOKIE);
 
-    for (final SignOutHandler l : signOutHandlers) {
-      l.onSignOut();
-    }
+    globalHandlers.fireEvent(new SignOutEvent());
     GlobalKey.filter(new KeyCommandFilter() {
       public boolean include(final KeyCommand key) {
         return !(key instanceof NeedsSignInKeyCommand);
@@ -156,16 +155,9 @@ public class Gerrit implements EntryPoint {
     }
   }
 
-  /** Add a listener to monitor sign-in status. */
-  public static void addSignOutHandler(final SignOutHandler l) {
-    if (!signOutHandlers.contains(l)) {
-      signOutHandlers.add(l);
-    }
-  }
-
-  /** Remove a previously added sign in listener. */
-  public static void removeSignOutHandler(final SignOutHandler l) {
-    signOutHandlers.remove(l);
+  /** Add a handler to monitor sign-out status. */
+  public static HandlerRegistration addSignOutHandler(final SignOutHandler l) {
+    return globalHandlers.addHandler(SignOutEvent.getType(), l);
   }
 
   public void onModuleLoad() {

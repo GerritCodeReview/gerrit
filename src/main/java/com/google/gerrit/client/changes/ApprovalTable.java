@@ -15,6 +15,7 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.SignOutEvent;
 import com.google.gerrit.client.SignOutHandler;
 import com.google.gerrit.client.data.AccountInfoCache;
 import com.google.gerrit.client.data.ApprovalDetail;
@@ -32,6 +33,7 @@ import com.google.gerrit.client.ui.AccountDashboardLink;
 import com.google.gerrit.client.ui.AddMemberBox;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
@@ -52,7 +54,7 @@ public class ApprovalTable extends Composite {
   private final Panel missing;
   private final Panel addReviewer;
   private final AddMemberBox addMemberBox;
-  private final SignOutHandler signedInListener;
+  private HandlerRegistration regSignOut;
   private Change.Id changeId;
   private boolean changeIsOpen;
   private AccountInfoCache accountCache = AccountInfoCache.empty();
@@ -84,23 +86,28 @@ public class ApprovalTable extends Composite {
     fp.add(missing);
     fp.add(addReviewer);
     initWidget(fp);
-
-    signedInListener = new SignOutHandler() {
-      public void onSignOut() {
-        addReviewer.setVisible(false);
-      }
-    };
   }
 
   @Override
   protected void onLoad() {
-    Gerrit.addSignOutHandler(signedInListener);
     super.onLoad();
+    if (regSignOut == null && Gerrit.isSignedIn()) {
+      regSignOut = Gerrit.addSignOutHandler(new SignOutHandler() {
+        public void onSignOut(final SignOutEvent event) {
+          addReviewer.setVisible(false);
+          regSignOut.removeHandler();
+          regSignOut = null;
+        }
+      });
+    }
   }
 
   @Override
   protected void onUnload() {
-    Gerrit.removeSignOutHandler(signedInListener);
+    if (regSignOut != null) {
+      regSignOut.removeHandler();
+      regSignOut = null;
+    }
     super.onUnload();
   }
 

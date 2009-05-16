@@ -17,6 +17,7 @@ package com.google.gerrit.client.changes;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.Link;
+import com.google.gerrit.client.SignOutEvent;
 import com.google.gerrit.client.SignOutHandler;
 import com.google.gerrit.client.data.ApprovalType;
 import com.google.gerrit.client.data.ChangeDetail;
@@ -36,6 +37,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.OpenEvent;
 import com.google.gwt.event.logical.shared.OpenHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
@@ -68,7 +70,7 @@ class PatchSetPanel extends Composite implements OpenHandler<DisclosurePanel> {
   private Grid infoTable;
   private Panel actionsPanel;
   private PatchTable patchTable;
-  private SignOutHandler signedInListener;
+  private HandlerRegistration regSignOut;
 
   PatchSetPanel(final ChangeDetail detail, final PatchSet ps) {
     changeDetail = detail;
@@ -103,15 +105,23 @@ class PatchSetPanel extends Composite implements OpenHandler<DisclosurePanel> {
   @Override
   protected void onLoad() {
     super.onLoad();
-    if (signedInListener != null) {
-      Gerrit.addSignOutHandler(signedInListener);
+    if (regSignOut == null && Gerrit.isSignedIn()) {
+      regSignOut = Gerrit.addSignOutHandler(new SignOutHandler() {
+        public void onSignOut(final SignOutEvent event) {
+          actionsPanel.clear();
+          actionsPanel.setVisible(false);
+          regSignOut.removeHandler();
+          regSignOut = null;
+        }
+      });
     }
   }
 
   @Override
   protected void onUnload() {
-    if (signedInListener != null) {
-      Gerrit.removeSignOutHandler(signedInListener);
+    if (regSignOut != null) {
+      regSignOut.removeHandler();
+      regSignOut = null;
     }
     super.onUnload();
   }
@@ -150,13 +160,6 @@ class PatchSetPanel extends Composite implements OpenHandler<DisclosurePanel> {
     actionsPanel = new FlowPanel();
     actionsPanel.setStyleName("gerrit-PatchSetActions");
     body.add(actionsPanel);
-    signedInListener = new SignOutHandler() {
-      public void onSignOut() {
-        actionsPanel.clear();
-        actionsPanel.setVisible(false);
-      }
-    };
-    Gerrit.addSignOutHandler(signedInListener);
     if (Gerrit.isSignedIn()) {
       populateCommentAction();
       if (changeDetail.isCurrentPatchSet(detail)) {

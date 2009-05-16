@@ -18,6 +18,7 @@ import static com.google.gerrit.client.FormatUtil.mediumFormat;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.Link;
+import com.google.gerrit.client.SignOutEvent;
 import com.google.gerrit.client.SignOutHandler;
 import com.google.gerrit.client.data.AccountInfoCache;
 import com.google.gerrit.client.data.ChangeInfo;
@@ -33,6 +34,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.Image;
@@ -62,7 +64,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
   private static final int COLUMNS = 7;
 
   private final List<Section> sections;
-  private final SignOutHandler signedInListener;
+  private HandlerRegistration regSignOut;
   private AccountInfoCache accountCache = AccountInfoCache.empty();
 
   public ChangeTable() {
@@ -107,17 +109,6 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
         }
       }
     });
-
-    signedInListener = new SignOutHandler() {
-      public void onSignOut() {
-        final int max = table.getRowCount();
-        for (int row = 0; row < max; row++) {
-          if (getRowItem(row) != null) {
-            table.clearCell(row, C_STAR);
-          }
-        }
-      }
-    };
   }
 
   protected void onStarClick(final int row) {
@@ -156,12 +147,28 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
   @Override
   public void onLoad() {
     super.onLoad();
-    Gerrit.addSignOutHandler(signedInListener);
+    if (regSignOut == null && Gerrit.isSignedIn()) {
+      regSignOut = Gerrit.addSignOutHandler(new SignOutHandler() {
+        public void onSignOut(final SignOutEvent event) {
+          final int max = table.getRowCount();
+          for (int row = 0; row < max; row++) {
+            if (getRowItem(row) != null) {
+              table.clearCell(row, C_STAR);
+            }
+          }
+          regSignOut.removeHandler();
+          regSignOut = null;
+        }
+      });
+    }
   }
 
   @Override
   public void onUnload() {
-    Gerrit.removeSignOutHandler(signedInListener);
+    if (regSignOut != null) {
+      regSignOut.removeHandler();
+      regSignOut = null;
+    }
     super.onUnload();
   }
 

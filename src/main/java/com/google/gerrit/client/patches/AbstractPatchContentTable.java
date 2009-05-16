@@ -17,6 +17,7 @@ package com.google.gerrit.client.patches;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.Link;
+import com.google.gerrit.client.SignOutEvent;
 import com.google.gerrit.client.SignOutHandler;
 import com.google.gerrit.client.changes.ChangeScreen;
 import com.google.gerrit.client.changes.PublishCommentScreen;
@@ -32,6 +33,7 @@ import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.client.ui.NeedsSignInKeyCommand;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
@@ -53,25 +55,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
 
   private final Timestamp aged =
       new Timestamp(System.currentTimeMillis() - AGE);
-  private final SignOutHandler signedInListener = new SignOutHandler() {
-    public void onSignOut() {
-      // TODO we should probably confirm with the user before sign out starts
-      // that its OK to sign out if any of our editors are unsaved.
-      // (bug GERRIT-16)
-      //
-      for (int row = 0; row < table.getRowCount();) {
-        final int nCells = table.getCellCount(row);
-        int inc = 1;
-        for (int cell = 0; cell < nCells; cell++) {
-          if (table.getWidget(row, cell) instanceof CommentEditorPanel) {
-            destroyEditor(table, row, cell);
-            inc = 0;
-          }
-        }
-        row += inc;
-      }
-    }
-  };
+  private HandlerRegistration regSignOut;
 
   protected AbstractPatchContentTable() {
     keysNavigation.add(new UpToChangeCommand(0, 'u', PatchUtil.C.upToChange()));
@@ -100,12 +84,37 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
   @Override
   public void onLoad() {
     super.onLoad();
-    Gerrit.addSignOutHandler(signedInListener);
+    if (regSignOut == null && Gerrit.isSignedIn()) {
+      regSignOut = Gerrit.addSignOutHandler(new SignOutHandler() {
+        public void onSignOut(final SignOutEvent event) {
+          // TODO we should confirm with the user before sign out starts
+          // that its OK to sign out if any of our editors are unsaved.
+          // (bug GERRIT-16)
+          //
+          for (int row = 0; row < table.getRowCount();) {
+            final int nCells = table.getCellCount(row);
+            int inc = 1;
+            for (int cell = 0; cell < nCells; cell++) {
+              if (table.getWidget(row, cell) instanceof CommentEditorPanel) {
+                destroyEditor(table, row, cell);
+                inc = 0;
+              }
+            }
+            row += inc;
+          }
+          regSignOut.removeHandler();
+          regSignOut = null;
+        }
+      });
+    }
   }
 
   @Override
   public void onUnload() {
-    Gerrit.removeSignOutHandler(signedInListener);
+    if (regSignOut != null) {
+      regSignOut.removeHandler();
+      regSignOut = null;
+    }
     super.onUnload();
   }
 

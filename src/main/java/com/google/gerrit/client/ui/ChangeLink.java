@@ -31,8 +31,7 @@ public class ChangeLink extends DirectScreenLink {
 
   public ChangeLink(final String text, final Change.Id c) {
     super(text, Link.toChange(c));
-    final String href = permalink(c);
-    DOM.setElementProperty(DOM.getFirstChild(getElement()), "href", href);
+    DOM.setElementProperty(getElement(), "href", permalink(c));
     id = c;
   }
 

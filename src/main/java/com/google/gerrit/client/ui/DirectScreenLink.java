@@ -19,7 +19,7 @@ import static com.google.gerrit.client.ui.LinkMenuItem.impl;
 import com.google.gerrit.client.Gerrit;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.ui.Hyperlink;
+import com.google.gwt.user.client.ui.InlineHyperlink;
 
 /**
  * Link to a Screen which can carry richer payload.
@@ -30,7 +30,7 @@ import com.google.gwt.user.client.ui.Hyperlink;
  * screen to show some limited information early, before RPCs required to fully
  * populate it are even started.
  */
-public abstract class DirectScreenLink extends Hyperlink {
+public abstract class DirectScreenLink extends InlineHyperlink {
   /**
    * Creates a link with its text and target history token specified.
    * 

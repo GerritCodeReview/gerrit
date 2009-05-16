@@ -17,19 +17,16 @@ package com.google.gerrit.client.ui;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.AnchorElement;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Accessibility;
-import com.google.gwt.user.client.ui.Hyperlink;
+import com.google.gwt.user.client.ui.InlineHyperlink;
 import com.google.gwt.user.client.ui.impl.HyperlinkImpl;
 
-public class LinkMenuItem extends Hyperlink {
+public class LinkMenuItem extends InlineHyperlink {
   static final HyperlinkImpl impl = GWT.create(HyperlinkImpl.class);
 
   public LinkMenuItem(final String text, final String targetHistoryToken) {
-    super((Element) null);
-    setText(text);
-    setTargetHistoryToken(targetHistoryToken);
+    super(text, targetHistoryToken);
     setStyleName("gerrit-MenuItem");
     Accessibility.setRole(getElement(), Accessibility.ROLE_MENUITEM);
   }

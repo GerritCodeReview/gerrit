@@ -46,6 +46,7 @@ import javax.servlet.http.HttpServletResponse;
  *  Port 8010
  * </pre>
  */
+@SuppressWarnings("serial")
 public class SshServlet extends HttpServlet {
   @Override
   public void init(final ServletConfig config) throws ServletException {

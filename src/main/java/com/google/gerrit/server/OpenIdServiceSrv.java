@@ -16,6 +16,7 @@ package com.google.gerrit.server;
 
 
 /** Publishes {@link OpenIdServiceImpl} over JSON. */
+@SuppressWarnings("serial")
 public class OpenIdServiceSrv extends GerritJsonServlet {
   @Override
   protected Object createServiceHandle() throws Exception {

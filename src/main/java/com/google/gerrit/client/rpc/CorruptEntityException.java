@@ -18,6 +18,8 @@ import com.google.gwtorm.client.Key;
 
 /** Error indicating the entity's database records are invalid. */
 public class CorruptEntityException extends Exception {
+  private static final long serialVersionUID = 1L;
+
   public static final String MESSAGE_PREFIX = "Corrupt Database Entity: ";
 
   public CorruptEntityException(final Key<?> key) {

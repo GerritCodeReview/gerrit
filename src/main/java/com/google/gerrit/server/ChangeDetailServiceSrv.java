@@ -17,6 +17,7 @@ package com.google.gerrit.server;
 import com.google.gerrit.client.changes.ChangeDetailServiceImpl;
 
 /** Publishes {@link ChangeDetailServiceImpl} over JSON. */
+@SuppressWarnings("serial")
 public class ChangeDetailServiceSrv extends GerritJsonServlet {
   @Override
   protected Object createServiceHandle() throws Exception {

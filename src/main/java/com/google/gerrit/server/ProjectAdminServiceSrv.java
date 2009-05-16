@@ -16,6 +16,7 @@ package com.google.gerrit.server;
 
 
 /** Publishes {@link ProjectAdminServiceImpl} over JSON. */
+@SuppressWarnings("serial")
 public class ProjectAdminServiceSrv extends GerritJsonServlet {
   @Override
   protected Object createServiceHandle() throws Exception {

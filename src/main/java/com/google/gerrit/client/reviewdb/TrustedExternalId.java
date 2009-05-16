@@ -21,6 +21,8 @@ import java.util.Collection;
 
 public final class TrustedExternalId {
   public static class Key extends StringKey<com.google.gwtorm.client.Key<?>> {
+    private static final long serialVersionUID = 1L;
+
     @Column
     protected String pattern;
 

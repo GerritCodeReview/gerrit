@@ -16,6 +16,8 @@ package com.google.gerrit.client.rpc;
 
 /** Error indicating the server cannot store contact information. */
 public class ContactInformationStoreException extends Exception {
+  private static final long serialVersionUID = 1L;
+
   public static final String MESSAGE = "Cannot store contact information";
 
   public ContactInformationStoreException() {

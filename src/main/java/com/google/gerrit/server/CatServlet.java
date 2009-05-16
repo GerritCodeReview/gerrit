@@ -59,6 +59,7 @@ import javax.servlet.http.HttpServletResponse;
  * it with the site's own protection domain. This opens a massive security hole
  * so we package the content into a zip file.
  */
+@SuppressWarnings("serial")
 public class CatServlet extends HttpServlet {
   private static final String APPLICATION_OCTET_STREAM =
       "application/octet-stream";

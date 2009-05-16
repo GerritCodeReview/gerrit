@@ -67,6 +67,8 @@ public final class Account {
 
   /** Key local to Gerrit to identify a user. */
   public static class Id extends IntKey<com.google.gwtorm.client.Key<?>> {
+    private static final long serialVersionUID = 1L;
+
     @Column
     protected int id;
 

@@ -16,6 +16,8 @@ package com.google.gerrit.client.rpc;
 
 /** Error stating the user must be signed-in in order to perform this action. */
 public class NotSignedInException extends Exception {
+  private static final long serialVersionUID = 1L;
+
   public static final String MESSAGE = "Not Signed In";
 
   public NotSignedInException() {

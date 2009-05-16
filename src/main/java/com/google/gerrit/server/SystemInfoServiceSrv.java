@@ -16,6 +16,7 @@ package com.google.gerrit.server;
 
 
 /** Publishes {@link SystemInfoServiceImpl} over JSON. */
+@SuppressWarnings("serial")
 public class SystemInfoServiceSrv extends GerritJsonServlet {
   @Override
   protected Object createServiceHandle() throws Exception {

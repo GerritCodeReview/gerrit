@@ -16,6 +16,7 @@ package com.google.gerrit.server;
 
 
 /** Publishes {@link AccountSecurityImpl} over JSON. */
+@SuppressWarnings("serial")
 public class AccountSecuritySrv extends GerritJsonServlet {
   @Override
   protected Object createServiceHandle() throws Exception {

@@ -23,6 +23,8 @@ public final class Project {
   /** Project name key */
   public static class NameKey extends
       StringKey<com.google.gwtorm.client.Key<?>> {
+    private static final long serialVersionUID = 1L;
+
     @Column
     protected String name;
 
@@ -53,6 +55,8 @@ public final class Project {
 
   /** Synthetic key to link to within the database */
   public static class Id extends IntKey<com.google.gwtorm.client.Key<?>> {
+    private static final long serialVersionUID = 1L;
+
     @Column
     protected int id;
 

@@ -16,6 +16,8 @@ package com.google.gerrit.client.rpc;
 
 /** Error indicating the entity requested doesn't exist. */
 public class NoSuchEntityException extends Exception {
+  private static final long serialVersionUID = 1L;
+
   public static final String MESSAGE = "Not Found";
 
   public NoSuchEntityException() {

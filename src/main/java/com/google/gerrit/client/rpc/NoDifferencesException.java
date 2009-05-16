@@ -16,6 +16,8 @@ package com.google.gerrit.client.rpc;
 
 /** Error indicating there are no differences in selected files. */
 public class NoDifferencesException extends Exception {
+  private static final long serialVersionUID = 1L;
+
   public static final String MESSAGE = "No Differences";
 
   public NoDifferencesException() {

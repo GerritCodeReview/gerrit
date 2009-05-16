@@ -23,6 +23,8 @@ public final class AccountGroup {
   /** Group name key */
   public static class NameKey extends
       StringKey<com.google.gwtorm.client.Key<?>> {
+    private static final long serialVersionUID = 1L;
+
     @Column(length = 40)
     protected String name;
 
@@ -46,6 +48,8 @@ public final class AccountGroup {
 
   /** Synthetic key to link to within the database */
   public static class Id extends IntKey<com.google.gwtorm.client.Key<?>> {
+    private static final long serialVersionUID = 1L;
+
     @Column
     protected int id;
 

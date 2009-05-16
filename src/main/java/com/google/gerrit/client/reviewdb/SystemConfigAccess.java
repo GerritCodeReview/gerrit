@@ -17,10 +17,15 @@ package com.google.gerrit.client.reviewdb;
 import com.google.gwtorm.client.Access;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.PrimaryKey;
+import com.google.gwtorm.client.Query;
+import com.google.gwtorm.client.ResultSet;
 
 /** Access interface for {@link SystemConfig}. */
 public interface SystemConfigAccess extends
-    Access<SystemConfig, SystemConfig.Key> { 
+    Access<SystemConfig, SystemConfig.Key> {
   @PrimaryKey("singleton")
   SystemConfig get(SystemConfig.Key key) throws OrmException;
+
+  @Query
+  ResultSet<SystemConfig> all() throws OrmException;
 }

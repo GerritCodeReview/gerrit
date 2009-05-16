@@ -20,6 +20,8 @@ import com.google.gwtorm.client.CompoundKey;
 /** Membership of an {@link Account} in an {@link AccountGroup}. */
 public final class AccountGroupMember {
   public static class Key extends CompoundKey<Account.Id> {
+    private static final long serialVersionUID = 1L;
+
     @Column
     protected Account.Id accountId;
 

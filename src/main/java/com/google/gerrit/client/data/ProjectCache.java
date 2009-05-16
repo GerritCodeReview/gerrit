@@ -26,6 +26,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /** Cache of project information, including access rights. */
+@SuppressWarnings("serial")
 public class ProjectCache {
   private final LinkedHashMap<Project.Id, Entry> byId =
       new LinkedHashMap<Project.Id, Entry>(16, 0.75f, true) {

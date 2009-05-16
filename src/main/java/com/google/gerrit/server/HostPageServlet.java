@@ -39,6 +39,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /** Sends the Gerrit host page to clients. */
+@SuppressWarnings("serial")
 public class HostPageServlet extends HttpServlet {
   private GerritServer server;
   private String canonicalUrl;

@@ -22,6 +22,8 @@ import java.sql.Timestamp;
 /** Electronic acceptance of a {@link ContributorAgreement} by {@link Account} */
 public final class AccountAgreement {
   public static class Key extends CompoundKey<Account.Id> {
+    private static final long serialVersionUID = 1L;
+
     @Column
     protected Account.Id accountId;
 

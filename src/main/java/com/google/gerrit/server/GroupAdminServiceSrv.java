@@ -16,6 +16,7 @@ package com.google.gerrit.server;
 
 
 /** Publishes {@link GroupAdminServiceImpl} over JSON. */
+@SuppressWarnings("serial")
 public class GroupAdminServiceSrv extends GerritJsonServlet {
   @Override
   protected Object createServiceHandle() throws Exception {

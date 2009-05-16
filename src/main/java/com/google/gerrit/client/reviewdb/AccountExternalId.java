@@ -24,6 +24,8 @@ import java.util.Collection;
 /** Association of an external account identifier to a local {@link Account}. */
 public final class AccountExternalId {
   public static class Key extends StringKey<Account.Id> {
+    private static final long serialVersionUID = 1L;
+
     @Column
     protected Account.Id accountId;
 

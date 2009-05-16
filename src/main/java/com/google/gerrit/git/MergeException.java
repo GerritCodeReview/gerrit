@@ -16,6 +16,8 @@ package com.google.gerrit.git;
 
 /** Indicates the current branch's queue cannot be processed at this time. */
 class MergeException extends Exception {
+  private static final long serialVersionUID = 1L;
+
   MergeException(final String msg) {
     super(msg, null);
   }

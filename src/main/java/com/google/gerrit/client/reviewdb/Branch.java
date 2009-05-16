@@ -25,6 +25,8 @@ public final class Branch {
 
   /** Branch name key */
   public static class NameKey extends StringKey<Project.NameKey> {
+    private static final long serialVersionUID = 1L;
+
     @Column
     protected Project.NameKey projectName;
 
@@ -70,6 +72,8 @@ public final class Branch {
 
   /** Synthetic key to link to within the database */
   public static class Id extends IntKey<com.google.gwtorm.client.Key<?>> {
+    private static final long serialVersionUID = 1L;
+
     @Column
     protected int id;
 

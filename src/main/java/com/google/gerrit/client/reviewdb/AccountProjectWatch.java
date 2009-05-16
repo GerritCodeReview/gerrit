@@ -20,6 +20,8 @@ import com.google.gwtorm.client.CompoundKey;
 /** An {@link Account} interested in a {@link Project}. */
 public final class AccountProjectWatch {
   public static class Key extends CompoundKey<Account.Id> {
+    private static final long serialVersionUID = 1L;
+
     @Column
     protected Account.Id accountId;
 

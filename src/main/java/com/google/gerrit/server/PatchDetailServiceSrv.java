@@ -17,6 +17,7 @@ package com.google.gerrit.server;
 import com.google.gerrit.server.patch.PatchDetailServiceImpl;
 
 /** Publishes {@link PatchDetailServiceImpl} over JSON. */
+@SuppressWarnings("serial")
 public class PatchDetailServiceSrv extends GerritJsonServlet {
   @Override
   protected Object createServiceHandle() throws Exception {

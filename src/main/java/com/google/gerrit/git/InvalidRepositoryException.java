@@ -16,6 +16,8 @@ package com.google.gerrit.git;
 
 /** Indicates a directory does not contain a valid Git repository. */
 public class InvalidRepositoryException extends Exception {
+  private static final long serialVersionUID = 1L;
+
   public InvalidRepositoryException(final String name) {
     super(name);
   }

@@ -46,6 +46,8 @@ public final class ApprovalCategory {
   public static final short PUSH_HEAD_REPLACE = 3;
 
   public static class Id extends StringKey<Key<?>> {
+    private static final long serialVersionUID = 1L;
+
     @Column(length = 4)
     protected String id;
 

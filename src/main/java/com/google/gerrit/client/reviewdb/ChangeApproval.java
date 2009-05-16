@@ -22,6 +22,8 @@ import java.sql.Timestamp;
 /** An approval (or negative approval) on a change. */
 public final class ChangeApproval {
   public static class Key extends CompoundKey<Change.Id> {
+    private static final long serialVersionUID = 1L;
+
     @Column
     protected Change.Id changeId;
 

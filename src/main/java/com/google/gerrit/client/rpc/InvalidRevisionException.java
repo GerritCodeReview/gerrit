@@ -16,6 +16,8 @@ package com.google.gerrit.client.rpc;
 
 /** Error indicating the revision is invalid as supplied. */
 public class InvalidRevisionException extends Exception {
+  private static final long serialVersionUID = 1L;
+
   public static final String MESSAGE = "Invalid Revision";
 
   public InvalidRevisionException() {

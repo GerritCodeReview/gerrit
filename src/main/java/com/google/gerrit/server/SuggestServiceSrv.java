@@ -17,6 +17,7 @@ package com.google.gerrit.server;
 import com.google.gerrit.client.ui.SuggestServiceImpl;
 
 /** Publishes {@link SuggestServiceImpl} over JSON. */
+@SuppressWarnings("serial")
 public class SuggestServiceSrv extends GerritJsonServlet {
   @Override
   protected Object createServiceHandle() throws Exception {

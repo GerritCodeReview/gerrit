@@ -22,6 +22,8 @@ import java.sql.Timestamp;
 /** A comment left by a user on a specific line of a {@link Patch}. */
 public final class PatchLineComment {
   public static class Key extends StringKey<Patch.Key> {
+    private static final long serialVersionUID = 1L;
+
     @Column(name = Column.NONE)
     protected Patch.Key patchKey;
 

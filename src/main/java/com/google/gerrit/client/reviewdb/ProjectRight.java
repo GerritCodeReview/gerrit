@@ -23,6 +23,8 @@ public final class ProjectRight {
   public static final Project.Id WILD_PROJECT = new Project.Id(0);
 
   public static class Key extends CompoundKey<Project.Id> {
+    private static final long serialVersionUID = 1L;
+
     @Column
     protected Project.Id projectId;
 

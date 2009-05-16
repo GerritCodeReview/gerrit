@@ -20,6 +20,8 @@ import com.google.gwtorm.client.CompoundKey;
 /** A {@link Change} starred by an {@link Account}. */
 public class StarredChange {
   public static class Key extends CompoundKey<Account.Id> {
+    private static final long serialVersionUID = 1L;
+
     @Column
     protected Account.Id accountId;
 

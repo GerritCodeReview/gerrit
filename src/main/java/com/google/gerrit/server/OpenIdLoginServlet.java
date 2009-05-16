@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /** Handles the <code>/login</code> URL for web based single-sign-on. */
+@SuppressWarnings("serial")
 public class OpenIdLoginServlet extends HttpServlet {
   private OpenIdServiceImpl impl;
 

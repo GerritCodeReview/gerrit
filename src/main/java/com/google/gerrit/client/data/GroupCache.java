@@ -31,6 +31,7 @@ import java.util.Map;
 import java.util.Set;
 
 /** Cache of group information, including account memberships. */
+@SuppressWarnings("serial")
 public class GroupCache {
   private AccountGroup.Id adminGroupId;
   private AccountGroup.Id anonymousGroupId;

@@ -22,6 +22,8 @@ import java.sql.Timestamp;
 /** An SSH key approved for use by an {@link Account}. */
 public final class AccountSshKey {
   public static class Id extends IntKey<Account.Id> {
+    private static final long serialVersionUID = 1L;
+
     @Column
     protected Account.Id accountId;
 

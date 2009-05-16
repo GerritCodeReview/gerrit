@@ -20,6 +20,8 @@ import com.google.gwtorm.client.IntKey;
 /** Ancestors of a {@link PatchSet} that the PatchSet depends upon. */
 public final class PatchSetAncestor {
   public static class Id extends IntKey<PatchSet.Id> {
+    private static final long serialVersionUID = 1L;
+
     @Column(name = Column.NONE)
     protected PatchSet.Id patchSetId;
 

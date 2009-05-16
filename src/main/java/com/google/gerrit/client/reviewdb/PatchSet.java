@@ -22,6 +22,8 @@ import java.sql.Timestamp;
 /** A single revision of a {@link Change}. */
 public final class PatchSet {
   public static class Id extends IntKey<Change.Id> {
+    private static final long serialVersionUID = 1L;
+
     @Column
     protected Change.Id changeId;
 

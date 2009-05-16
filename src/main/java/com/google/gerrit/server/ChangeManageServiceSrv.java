@@ -16,6 +16,7 @@ package com.google.gerrit.server;
 
 
 /** Publishes {@link ChangeManageServiceImpl} over JSON. */
+@SuppressWarnings("serial")
 public class ChangeManageServiceSrv extends GerritJsonServlet {
   @Override
   protected Object createServiceHandle() throws Exception {

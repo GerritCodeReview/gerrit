@@ -23,6 +23,8 @@ import java.sql.Timestamp;
 /** A change recommended to be inserted into {@link Branch}. */
 public final class Change {
   public static class Id extends IntKey<com.google.gwtorm.client.Key<?>> {
+    private static final long serialVersionUID = 1L;
+
     @Column
     protected int id;
 

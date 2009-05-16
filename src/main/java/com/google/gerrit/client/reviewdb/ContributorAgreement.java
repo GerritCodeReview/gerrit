@@ -24,6 +24,8 @@ import com.google.gwtorm.client.IntKey;
  */
 public final class ContributorAgreement {
   public static class Id extends IntKey<com.google.gwtorm.client.Key<?>> {
+    private static final long serialVersionUID = 1L;
+
     @Column(name = "cla_id")
     protected int id;
 

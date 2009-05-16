@@ -16,6 +16,8 @@ package com.google.gerrit.client.rpc;
 
 /** Error indicating the SSH key string is invalid as supplied. */
 public class InvalidSshKeyException extends Exception {
+  private static final long serialVersionUID = 1L;
+
   public static final String MESSAGE = "Invalid SSH Key";
 
   public InvalidSshKeyException() {

@@ -22,6 +22,8 @@ import com.google.gwtorm.client.StringKey;
 public final class SystemConfig {
   public static final class Key extends
       StringKey<com.google.gwtorm.client.Key<?>> {
+    private static final long serialVersionUID = 1L;
+
     private static final String VALUE = "X";
 
     @Column(length = 1)

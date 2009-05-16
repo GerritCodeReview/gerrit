@@ -20,6 +20,8 @@ import com.google.gwtorm.client.ShortKey;
 /** Valid value for a {@link ApprovalCategory}. */
 public final class ApprovalCategoryValue {
   public static class Id extends ShortKey<ApprovalCategory.Id> {
+    private static final long serialVersionUID = 1L;
+
     @Column
     protected ApprovalCategory.Id categoryId;
 

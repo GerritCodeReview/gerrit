@@ -35,6 +35,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /** Sends static content from the site 's <code>static/</code> subdirectory. */
+@SuppressWarnings("serial")
 public class StaticServlet extends HttpServlet {
   private static final long MAX_AGE = 12 * 60 * 60 * 1000L/* milliseconds */;
   private static final String CACHE_CTRL =

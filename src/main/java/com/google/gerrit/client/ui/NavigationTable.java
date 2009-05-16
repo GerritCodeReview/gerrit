@@ -30,6 +30,7 @@ import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 
 public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
+  @SuppressWarnings("serial")
   private static final LinkedHashMap<String, Object> savedPositions =
       new LinkedHashMap<String, Object>(10, 0.75f, true) {
         @Override

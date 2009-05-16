@@ -30,6 +30,7 @@ import java.util.Map;
 import java.util.Set;
 
 /** Cache of account information. */
+@SuppressWarnings("serial")
 public class AccountCache {
   private final LinkedHashMap<Account.Id, Account> byId =
       new LinkedHashMap<Account.Id, Account>(16, 0.75f, true) {

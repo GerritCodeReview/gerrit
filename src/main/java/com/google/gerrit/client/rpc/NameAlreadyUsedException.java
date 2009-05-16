@@ -16,6 +16,8 @@ package com.google.gerrit.client.rpc;
 
 /** Error indicating entity name is already taken by another entity. */
 public class NameAlreadyUsedException extends Exception {
+  private static final long serialVersionUID = 1L;
+
   public static final String MESSAGE = "Name Already Used";
 
   public NameAlreadyUsedException() {

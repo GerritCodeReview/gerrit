@@ -31,6 +31,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Base JSON servlet to ensure the current user is not forged.
  */
+@SuppressWarnings("serial")
 public abstract class GerritJsonServlet extends JsonServlet<GerritCall> {
   @SuppressWarnings("unchecked")
   public static final GerritCall getCurrentCall() {

@@ -33,6 +33,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+@SuppressWarnings("serial")
 public class BecomeAnyAccountLoginServlet extends HttpServlet {
   private boolean allowed;
   private GerritServer server;

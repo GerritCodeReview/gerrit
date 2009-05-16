@@ -333,6 +333,8 @@ abstract class AbstractCommand implements Command, SessionAware {
   }
 
   public static class Failure extends Exception {
+    private static final long serialVersionUID = 1L;
+
     final int exitCode;
 
     public Failure(final int exitCode, final String msg) {
@@ -346,6 +348,8 @@ abstract class AbstractCommand implements Command, SessionAware {
   }
 
   public static class UnloggedFailure extends Failure {
+    private static final long serialVersionUID = 1L;
+
     public UnloggedFailure(final int exitCode, final String msg) {
       this(exitCode, msg, null);
     }

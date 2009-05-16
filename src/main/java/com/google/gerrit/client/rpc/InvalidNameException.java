@@ -16,6 +16,8 @@ package com.google.gerrit.client.rpc;
 
 /** Error indicating the entity name is invalid as supplied. */
 public class InvalidNameException extends Exception {
+  private static final long serialVersionUID = 1L;
+
   public static final String MESSAGE = "Invalid Name";
 
   public InvalidNameException() {

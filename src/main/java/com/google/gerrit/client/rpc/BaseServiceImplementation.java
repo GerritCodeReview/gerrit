@@ -155,6 +155,8 @@ public class BaseServiceImplementation {
 
   /** Exception whose cause is passed into onFailure. */
   public static class Failure extends Exception {
+    private static final long serialVersionUID = 1L;
+
     public Failure(final Throwable why) {
       super(why);
     }

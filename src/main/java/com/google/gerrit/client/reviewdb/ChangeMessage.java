@@ -22,6 +22,8 @@ import java.sql.Timestamp;
 /** A message attached to a {@link Change}. */
 public final class ChangeMessage {
   public static class Key extends StringKey<Change.Id> {
+    private static final long serialVersionUID = 1L;
+
     @Column
     protected Change.Id changeId;
 

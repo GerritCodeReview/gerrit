@@ -19,11 +19,9 @@ package com.google.gerrit.client.account;
 public class SignInResult {
   public static enum Status {
     /** The user canceled the sign-in and wasn't able to complete it */
-    @SuppressWarnings("hiding")
     CANCEL,
 
     /** The sign-in was successful and we have the account data */
-    @SuppressWarnings("hiding")
     SUCCESS;
   }
 

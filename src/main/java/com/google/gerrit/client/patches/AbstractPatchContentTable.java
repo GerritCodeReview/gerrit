@@ -52,6 +52,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
   protected Patch.Key patchKey;
   protected PatchSet.Id idSideA;
   protected PatchSet.Id idSideB;
+  protected boolean onlyOneHunk;
 
   private final Timestamp aged =
       new Timestamp(System.currentTimeMillis() - AGE);
@@ -146,7 +147,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
 
   private boolean isChunk(final int row) {
     final Object o = getRowItem(row);
-    if (o instanceof PatchLine) {
+    if (!onlyOneHunk && o instanceof PatchLine) {
       final PatchLine pl = (PatchLine) o;
       switch (pl.getType()) {
         case DELETE:

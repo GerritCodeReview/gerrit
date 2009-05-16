@@ -121,6 +121,7 @@ public class SideBySideTable extends AbstractPatchContentTable {
       appendSkipLine(nc, b.size() - lastB);
     }
     resetHtml(nc);
+    onlyOneHunk = script.getEdits().size() == 1;
 
     for (int row = 0; row < lines.size(); row++) {
       setRowItem(row, lines.get(row));

@@ -16,7 +16,6 @@ package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.Link;
 import com.google.gerrit.client.SignOutEvent;
 import com.google.gerrit.client.SignOutHandler;
 import com.google.gerrit.client.data.ApprovalType;
@@ -32,6 +31,7 @@ import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.UserIdentity;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.ui.AccountDashboardLink;
 import com.google.gerrit.client.ui.RefreshListener;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -45,11 +45,10 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
-import com.google.gwtexpui.safehtml.client.SafeHtml;
-import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 import com.google.gwtjsonrpc.client.VoidResult;
 
 import java.util.ArrayList;
@@ -236,37 +235,25 @@ class PatchSetPanel extends Composite implements OpenHandler<DisclosurePanel> {
       return;
     }
 
-    final SafeHtmlBuilder m = new SafeHtmlBuilder();
-
+    final FlowPanel fp = new FlowPanel();
+    fp.setStyleName("gerrit-PatchSetUserIdentity");
     if (who.getName() != null) {
       final Account.Id aId = who.getAccount();
       if (aId != null) {
-        m.openAnchor();
-        m.setAttribute("href", "#" + Link.toAccountDashboard(aId));
-      }
-      m.append(who.getName());
-      if (aId != null) {
-        m.closeAnchor();
+        fp.add(new AccountDashboardLink(who.getName(), aId));
+      } else {
+        final InlineLabel lbl = new InlineLabel(who.getName());
+        lbl.setStyleName("gerrit-AccountName");
+        fp.add(lbl);
       }
     }
-
     if (who.getEmail() != null) {
-      if (m.hasContent()) {
-        m.append(' ');
-      }
-      m.append('<');
-      m.append(who.getEmail());
-      m.append('>');
+      fp.add(new InlineLabel("<" + who.getEmail() + ">"));
     }
-
     if (who.getDate() != null) {
-      if (m.hasContent()) {
-        m.append(' ');
-      }
-      m.append(FormatUtil.mediumFormat(who.getDate()));
+      fp.add(new InlineLabel(FormatUtil.mediumFormat(who.getDate())));
     }
-
-    SafeHtml.set(infoTable, row, 1, m);
+    infoTable.setWidget(row, 1, fp);
   }
 
   private void populateActions(final PatchSetDetail detail) {

@@ -30,21 +30,25 @@ public class AccountDashboardLink extends DirectScreenLink {
     return ai != null ? new AccountDashboardLink(ai) : null;
   }
 
-  private AccountInfo account;
+  private Account.Id accountId;
 
   public AccountDashboardLink(final AccountInfo ai) {
     this(FormatUtil.name(ai), ai);
   }
 
   public AccountDashboardLink(final String text, final AccountInfo ai) {
+    this(text, ai.getId());
+    setTitle(FormatUtil.nameEmail(ai));
+  }
+
+  public AccountDashboardLink(final String text, final Account.Id ai) {
     super(text, Link.toAccountDashboard(ai));
     addStyleName("gerrit-AccountName");
-    setTitle(FormatUtil.nameEmail(ai));
-    account = ai;
+    accountId = ai;
   }
 
   @Override
   protected Screen createScreen() {
-    return new AccountDashboardScreen(account.getId());
+    return new AccountDashboardScreen(accountId);
   }
 }

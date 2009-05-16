@@ -645,6 +645,15 @@
 .gerrit-PatchSetInfoBlock {
   margin-bottom: 10px;
 }
+.gerrit-PatchSetUserIdentity {
+  white-space: nowrap;
+}
+.gerrit-PatchSetUserIdentity .gerrit-AccountName {
+  display: inline
+}
+.gerrit-PatchSetUserIdentity .gwt-InlineLabel {
+  margin-left: 0.2em;
+}
 
 .gerrit-PatchSetActions {
   margin-bottom: 10px;

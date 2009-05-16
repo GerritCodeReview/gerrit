@@ -257,14 +257,15 @@ public class Gerrit implements EntryPoint {
 
   private static void populateBottomMenu() {
     final RootPanel btmmenu = RootPanel.get("gerrit_btmmenu");
-    final String vs = getVersion();
-    final HTML version = new HTML(M.poweredBy(vs));
-    version.setStyleName("gerrit-version");
-    btmmenu.add(version);
 
     final Label keyHelp = new Label(C.keyHelp());
     keyHelp.setStyleName("gerrit-keyhelp");
     btmmenu.add(keyHelp);
+
+    final String vs = getVersion();
+    final HTML version = new HTML(M.poweredBy(vs));
+    version.setStyleName("gerrit-version");
+    btmmenu.add(version);
   }
 
   /** @return version number of the Gerrit application software */

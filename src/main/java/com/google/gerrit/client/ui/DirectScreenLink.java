@@ -14,6 +14,8 @@
 
 package com.google.gerrit.client.ui;
 
+import static com.google.gerrit.client.ui.LinkMenuItem.impl;
+
 import com.google.gerrit.client.Gerrit;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
@@ -41,7 +43,7 @@ public abstract class DirectScreenLink extends Hyperlink {
 
   @Override
   public void onBrowserEvent(final Event event) {
-    if (DOM.eventGetType(event) == Event.ONCLICK) {
+    if (DOM.eventGetType(event) == Event.ONCLICK && impl.handleAsClick(event)) {
       onClick(event);
     }
   }

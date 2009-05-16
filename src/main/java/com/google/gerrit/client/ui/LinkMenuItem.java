@@ -24,7 +24,7 @@ import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.impl.HyperlinkImpl;
 
 public class LinkMenuItem extends Hyperlink {
-  private static HyperlinkImpl impl = GWT.create(HyperlinkImpl.class);
+  static final HyperlinkImpl impl = GWT.create(HyperlinkImpl.class);
 
   public LinkMenuItem(final String text, final String targetHistoryToken) {
     super((Element) null);

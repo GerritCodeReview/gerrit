@@ -33,6 +33,7 @@ public class CommandMenuItem extends Anchor implements ClickHandler {
 
   @Override
   public void onClick(final ClickEvent event) {
+    setFocus(false);
     command.execute();
   }
 }

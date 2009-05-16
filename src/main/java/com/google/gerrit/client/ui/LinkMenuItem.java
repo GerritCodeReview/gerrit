@@ -14,13 +14,32 @@
 
 package com.google.gerrit.client.ui;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Element;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Accessibility;
 import com.google.gwt.user.client.ui.Hyperlink;
+import com.google.gwt.user.client.ui.impl.FocusImpl;
+import com.google.gwt.user.client.ui.impl.HyperlinkImpl;
 
 public class LinkMenuItem extends Hyperlink {
+  private static HyperlinkImpl impl = GWT.create(HyperlinkImpl.class);
+  private static FocusImpl implPanel = GWT.create(FocusImpl.class);
+
   public LinkMenuItem(final String text, final String targetHistoryToken) {
-    super(text, targetHistoryToken);
+    super((Element) null);
+    setText(text);
+    setTargetHistoryToken(targetHistoryToken);
     setStyleName("gerrit-MenuItem");
     Accessibility.setRole(getElement(), Accessibility.ROLE_MENUITEM);
+  }
+
+  @Override
+  public void onBrowserEvent(Event event) {
+    super.onBrowserEvent(event);
+    if (DOM.eventGetType(event) == Event.ONCLICK && impl.handleAsClick(event)) {
+      implPanel.blur(getElement());
+    }
   }
 }

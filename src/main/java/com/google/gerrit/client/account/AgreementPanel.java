@@ -42,7 +42,7 @@ class AgreementPanel extends Composite {
   }
 
   @Override
-  public void onLoad() {
+  protected void onLoad() {
     super.onLoad();
     Util.ACCOUNT_SVC.myAgreements(new GerritCallback<AgreementInfo>() {
       public void onSuccess(final AgreementInfo result) {

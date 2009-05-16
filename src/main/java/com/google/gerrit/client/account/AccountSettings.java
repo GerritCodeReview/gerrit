@@ -45,7 +45,7 @@ public class AccountSettings extends AccountScreen {
   }
 
   @Override
-  public void onLoad() {
+  protected void onLoad() {
     super.onLoad();
 
     final int idx = tabTokens.indexOf(initialTabToken);

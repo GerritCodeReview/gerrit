@@ -66,7 +66,7 @@ public class NewAgreementScreen extends AccountScreen {
   private Button submit;
 
   @Override
-  public void onLoad() {
+  protected void onLoad() {
     super.onLoad();
     Util.ACCOUNT_SVC.myAgreements(new GerritCallback<AgreementInfo>() {
       public void onSuccess(AgreementInfo result) {

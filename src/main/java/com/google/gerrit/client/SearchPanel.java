@@ -86,7 +86,7 @@ class SearchPanel extends Composite {
   }
 
   @Override
-  public void onLoad() {
+  protected void onLoad() {
     super.onLoad();
     if (regFocus == null) {
       regFocus =
@@ -103,7 +103,7 @@ class SearchPanel extends Composite {
   }
 
   @Override
-  public void onUnload() {
+  protected void onUnload() {
     if (regFocus != null) {
       regFocus.removeHandler();
       regFocus = null;

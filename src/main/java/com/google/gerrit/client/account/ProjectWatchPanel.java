@@ -131,7 +131,7 @@ class ProjectWatchPanel extends Composite {
   }
 
   @Override
-  public void onLoad() {
+  protected void onLoad() {
     super.onLoad();
     Util.ACCOUNT_SVC
         .myProjectWatch(new GerritCallback<List<AccountProjectWatchInfo>>() {

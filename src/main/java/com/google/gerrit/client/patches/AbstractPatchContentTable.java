@@ -82,7 +82,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
   }
 
   @Override
-  public void onLoad() {
+  protected void onLoad() {
     super.onLoad();
     if (regSignOut == null && Gerrit.isSignedIn()) {
       regSignOut = Gerrit.addSignOutHandler(new SignOutHandler() {
@@ -110,7 +110,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
   }
 
   @Override
-  public void onUnload() {
+  protected void onUnload() {
     if (regSignOut != null) {
       regSignOut.removeHandler();
       regSignOut = null;

@@ -62,7 +62,7 @@ public class ProjectInfoPanel extends Composite {
   }
 
   @Override
-  public void onLoad() {
+  protected void onLoad() {
     enableForm(false);
     saveOwner.setEnabled(false);
     saveDesc.setEnabled(false);

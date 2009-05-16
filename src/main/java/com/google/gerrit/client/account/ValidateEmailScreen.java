@@ -34,7 +34,7 @@ public class ValidateEmailScreen extends AccountScreen {
   }
 
   @Override
-  public void onLoad() {
+  protected void onLoad() {
     super.onLoad();
     Util.ACCOUNT_SEC.validateEmail(magicToken,
         new ScreenLoadCallback<VoidResult>(this) {

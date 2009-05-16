@@ -41,7 +41,7 @@ public class GroupListScreen extends AccountScreen {
   private Button addNew;
 
   @Override
-  public void onLoad() {
+  protected void onLoad() {
     super.onLoad();
     Util.GROUP_SVC
         .ownedGroups(new ScreenLoadCallback<List<AccountGroup>>(this) {

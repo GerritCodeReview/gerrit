@@ -278,7 +278,7 @@ class SshKeyPanel extends Composite {
   }
 
   @Override
-  public void onLoad() {
+  protected void onLoad() {
     super.onLoad();
     Util.ACCOUNT_SEC.mySshKeys(new GerritCallback<List<AccountSshKey>>() {
       public void onSuccess(final List<AccountSshKey> result) {

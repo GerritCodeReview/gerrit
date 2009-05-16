@@ -145,7 +145,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
   }
 
   @Override
-  public void onLoad() {
+  protected void onLoad() {
     super.onLoad();
     if (regSignOut == null && Gerrit.isSignedIn()) {
       regSignOut = Gerrit.addSignOutHandler(new SignOutHandler() {
@@ -164,7 +164,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
   }
 
   @Override
-  public void onUnload() {
+  protected void onUnload() {
     if (regSignOut != null) {
       regSignOut.removeHandler();
       regSignOut = null;

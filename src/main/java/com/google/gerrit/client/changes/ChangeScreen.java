@@ -96,13 +96,13 @@ public class ChangeScreen extends Screen {
   }
 
   @Override
-  public void onLoad() {
+  protected void onLoad() {
     super.onLoad();
     refresh();
   }
 
   @Override
-  public void onUnload() {
+  protected void onUnload() {
     if (regNavigation != null) {
       regNavigation.removeHandler();
       regNavigation = null;

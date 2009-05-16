@@ -73,7 +73,7 @@ class ExternalIdPanel extends Composite {
   }
 
   @Override
-  public void onLoad() {
+  protected void onLoad() {
     super.onLoad();
     refresh();
   }

@@ -67,7 +67,7 @@ public class AccountGroupScreen extends AccountScreen {
   }
 
   @Override
-  public void onLoad() {
+  protected void onLoad() {
     super.onLoad();
     Util.GROUP_SVC.groupDetail(groupId,
         new ScreenLoadCallback<AccountGroupDetail>(this) {

@@ -92,7 +92,7 @@ public abstract class AllSingleListScreen extends Screen {
   }
 
   @Override
-  public void onLoad() {
+  protected void onLoad() {
     super.onLoad();
     if (useLoadPrev) {
       loadPrev();

@@ -93,7 +93,7 @@ public abstract class PatchScreen extends Screen {
   }
 
   @Override
-  public void onLoad() {
+  protected void onLoad() {
     super.onLoad();
     refresh(true);
   }

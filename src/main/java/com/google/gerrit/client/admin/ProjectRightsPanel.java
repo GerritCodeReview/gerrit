@@ -73,7 +73,7 @@ public class ProjectRightsPanel extends Composite {
   }
 
   @Override
-  public void onLoad() {
+  protected void onLoad() {
     enableForm(false);
     super.onLoad();
 

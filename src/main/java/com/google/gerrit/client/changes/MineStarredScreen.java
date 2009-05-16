@@ -31,7 +31,7 @@ public class MineStarredScreen extends MineSingleListScreen {
   }
 
   @Override
-  public void onLoad() {
+  protected void onLoad() {
     super.onLoad();
     Util.LIST_SVC.myStarredChanges(loadCallback());
   }

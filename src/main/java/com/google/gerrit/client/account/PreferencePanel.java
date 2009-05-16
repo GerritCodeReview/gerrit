@@ -127,7 +127,7 @@ class PreferencePanel extends Composite {
   }
 
   @Override
-  public void onLoad() {
+  protected void onLoad() {
     super.onLoad();
     Util.ACCOUNT_SVC.myAccount(new GerritCallback<Account>() {
       public void onSuccess(final Account result) {

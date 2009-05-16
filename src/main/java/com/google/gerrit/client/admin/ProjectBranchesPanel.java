@@ -61,7 +61,7 @@ public class ProjectBranchesPanel extends Composite {
   }
 
   @Override
-  public void onLoad() {
+  protected void onLoad() {
     enableForm(false);
     super.onLoad();
 

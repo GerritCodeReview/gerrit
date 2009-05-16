@@ -35,7 +35,7 @@ public class ProjectListScreen extends AccountScreen {
   private ProjectTable projects;
 
   @Override
-  public void onLoad() {
+  protected void onLoad() {
     super.onLoad();
     Util.PROJECT_SVC.ownedProjects(new ScreenLoadCallback<List<Project>>(this) {
       @Override

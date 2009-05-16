@@ -154,7 +154,7 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
   }
 
   @Override
-  public void onUnload() {
+  protected void onUnload() {
     setRegisterKeys(false);
 
     if (saveId != null && currentRow >= 0) {

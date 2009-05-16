@@ -45,7 +45,7 @@ public class ProjectAdminScreen extends AccountScreen {
   }
 
   @Override
-  public void onLoad() {
+  protected void onLoad() {
     super.onLoad();
     Util.PROJECT_SVC.projectDetail(projectId,
         new ScreenLoadCallback<ProjectDetail>(this) {

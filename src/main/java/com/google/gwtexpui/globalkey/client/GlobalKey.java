@@ -50,7 +50,7 @@ public class GlobalKey {
       @Override
       public void removeHandler() {
         keys.remove(key);
-        keyApplication.add(key);
+        keyApplication.remove(key);
       }
     };
   }

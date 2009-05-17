@@ -54,7 +54,9 @@ public class KeyCommandSet implements KeyPressHandler {
 
   public void add(final KeyCommand k) {
     assert !map.containsKey(k.keyMask);
-    map.put(k.keyMask, k);
+    if (!map.containsKey(k.keyMask)) {
+      map.put(k.keyMask, k);
+    }
   }
 
   public void remove(final KeyCommand k) {

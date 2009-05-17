@@ -44,13 +44,14 @@ public abstract class DirectScreenLink extends InlineHyperlink {
   @Override
   public void onBrowserEvent(final Event event) {
     if (DOM.eventGetType(event) == Event.ONCLICK && impl.handleAsClick(event)) {
-      onClick(event);
+      DOM.eventPreventDefault(event);
+      go();
     }
   }
 
-  protected void onClick(final Event event) {
+  /** Create the screen and start rendering, updating the browser history. */
+  public void go() {
     Gerrit.display(getTargetHistoryToken(), createScreen());
-    DOM.eventPreventDefault(event);
   }
 
   /** Create the screen this link wants to display. */

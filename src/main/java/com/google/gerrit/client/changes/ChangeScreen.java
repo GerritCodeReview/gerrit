@@ -117,8 +117,8 @@ public class ChangeScreen extends Screen {
   @Override
   public void registerKeys() {
     super.registerKeys();
-    regNavigation = GlobalKey.add(keysNavigation);
-    regAction = GlobalKey.add(keysAction);
+    regNavigation = GlobalKey.add(this, keysNavigation);
+    regAction = GlobalKey.add(this, keysAction);
   }
 
   public void refresh() {

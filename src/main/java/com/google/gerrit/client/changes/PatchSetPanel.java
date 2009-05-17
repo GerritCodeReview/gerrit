@@ -149,9 +149,7 @@ class PatchSetPanel extends Composite implements OpenHandler<DisclosurePanel> {
 
 
     patchTable = new PatchTable();
-    patchTable.setSavePointerId("patchTable "
-        + changeDetail.getChange().getChangeId() + " "
-        + patchSet.getPatchSetId());
+    patchTable.setSavePointerId("PatchTable " + patchSet.getId());
     patchTable.display(info.getKey(), detail.getPatches());
 
     body.add(infoTable);

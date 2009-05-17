@@ -90,15 +90,15 @@ class SearchPanel extends Composite {
     super.onLoad();
     if (regFocus == null) {
       regFocus =
-          GlobalKey
-              .addApplication(new KeyCommand(0, '/', Gerrit.C.keySearch()) {
-                @Override
-                public void onKeyPress(final KeyPressEvent event) {
-                  event.preventDefault();
-                  searchBox.setFocus(true);
-                  searchBox.selectAll();
-                }
-              });
+          GlobalKey.addApplication(this, new KeyCommand(0, '/', Gerrit.C
+              .keySearch()) {
+            @Override
+            public void onKeyPress(final KeyPressEvent event) {
+              event.preventDefault();
+              searchBox.setFocus(true);
+              searchBox.selectAll();
+            }
+          });
     }
   }
 

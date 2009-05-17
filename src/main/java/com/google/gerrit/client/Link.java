@@ -32,8 +32,7 @@ import com.google.gerrit.client.changes.MineStarredScreen;
 import com.google.gerrit.client.changes.PublishCommentScreen;
 import com.google.gerrit.client.data.AccountInfo;
 import com.google.gerrit.client.data.ChangeInfo;
-import com.google.gerrit.client.patches.PatchSideBySideScreen;
-import com.google.gerrit.client.patches.PatchUnifiedScreen;
+import com.google.gerrit.client.patches.PatchScreen;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.Change;
@@ -182,11 +181,11 @@ public class Link implements ValueChangeHandler<String> {
     if (token.startsWith("patch,")) {
       p = "patch,sidebyside,";
       if (token.startsWith(p))
-        return new PatchSideBySideScreen(Patch.Key.parse(skip(p, token)));
+        return new PatchScreen.SideBySide(Patch.Key.parse(skip(p, token)), null);
 
       p = "patch,unified,";
       if (token.startsWith(p))
-        return new PatchUnifiedScreen(Patch.Key.parse(skip(p, token)));
+        return new PatchScreen.Unified(Patch.Key.parse(skip(p, token)), null);
     }
 
     p = "change,publish,";

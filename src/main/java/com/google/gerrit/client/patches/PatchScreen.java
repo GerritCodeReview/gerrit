@@ -15,6 +15,7 @@
 package com.google.gerrit.client.patches;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.changes.PatchTable;
 import com.google.gerrit.client.data.PatchScript;
 import com.google.gerrit.client.reviewdb.AccountGeneralPreferences;
 import com.google.gerrit.client.reviewdb.Change;
@@ -29,7 +30,30 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwtjsonrpc.client.RemoteJsonException;
 
 public abstract class PatchScreen extends Screen {
+  public static class SideBySide extends PatchScreen {
+    public SideBySide(final Patch.Key id, final PatchTable files) {
+      super(id, files);
+    }
+
+    @Override
+    protected SideBySideTable createContentTable() {
+      return new SideBySideTable();
+    }
+  }
+
+  public static class Unified extends PatchScreen {
+    public Unified(final Patch.Key id, final PatchTable files) {
+      super(id, files);
+    }
+
+    @Override
+    protected UnifiedDiffTable createContentTable() {
+      return new UnifiedDiffTable();
+    }
+  }
+
   protected final Patch.Key patchKey;
+  protected PatchTable fileList;
   protected PatchSet.Id idSideA;
   protected PatchSet.Id idSideB;
   protected int contextLines;
@@ -37,14 +61,15 @@ public abstract class PatchScreen extends Screen {
   private DisclosurePanel historyPanel;
   private HistoryTable historyTable;
   private Label noDifference;
-  private AbstractPatchContentTable patchTable;
+  private AbstractPatchContentTable contentTable;
 
   private int rpcSequence;
   private PatchScript script;
   private CommentDetail comments;
 
-  protected PatchScreen(final Patch.Key id) {
+  protected PatchScreen(final Patch.Key id, final PatchTable files) {
     patchKey = id;
+    fileList = files;
     idSideA = null;
     idSideB = id.getParentKey();
 
@@ -82,12 +107,15 @@ public abstract class PatchScreen extends Screen {
     noDifference = new Label(PatchUtil.C.noDifference());
     noDifference.setStyleName("gerrit-PatchNoDifference");
     noDifference.setVisible(false);
-    patchTable = createPatchTable();
+
+    contentTable = createContentTable();
+    contentTable.fileList = fileList;
+    fileList = null;
 
     final FlowPanel fp = new FlowPanel();
     fp.setStyleName("gerrit-SideBySideScreen-SideBySideTable");
     fp.add(noDifference);
-    fp.add(patchTable);
+    fp.add(contentTable);
     add(fp);
   }
 
@@ -100,10 +128,10 @@ public abstract class PatchScreen extends Screen {
   @Override
   public void registerKeys() {
     super.registerKeys();
-    patchTable.setRegisterKeys(patchTable.isVisible());
+    contentTable.setRegisterKeys(contentTable.isVisible());
   }
 
-  protected abstract AbstractPatchContentTable createPatchTable();
+  protected abstract AbstractPatchContentTable createContentTable();
 
   protected void refresh(final boolean isFirst) {
     final int rpcseq = ++rpcSequence;
@@ -170,9 +198,9 @@ public abstract class PatchScreen extends Screen {
         historyPanel.setVisible(false);
       }
 
-      patchTable.display(patchKey, idSideA, idSideB, script);
-      patchTable.display(comments);
-      patchTable.finishDisplay();
+      contentTable.display(patchKey, idSideA, idSideB, script);
+      contentTable.display(comments);
+      contentTable.finishDisplay();
       showPatch(true);
 
       script = null;
@@ -184,7 +212,7 @@ public abstract class PatchScreen extends Screen {
 
   private void showPatch(final boolean showPatch) {
     noDifference.setVisible(!showPatch);
-    patchTable.setVisible(showPatch);
-    patchTable.setRegisterKeys(isCurrentView() && showPatch);
+    contentTable.setVisible(showPatch);
+    contentTable.setRegisterKeys(isCurrentView() && showPatch);
   }
 }

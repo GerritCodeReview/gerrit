@@ -35,7 +35,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
@@ -140,7 +139,8 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
   }
 
   @Override
-  protected void onOpenItem(final ChangeInfo c) {
+  protected void onOpenRow(final int row) {
+    final ChangeInfo c = getRowItem(row);
     Gerrit.display(Link.toChange(c), new ChangeScreen(c));
   }
 
@@ -307,9 +307,9 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     }
 
     @Override
-    protected void onClick(final Event event) {
+    public void go() {
       movePointerTo(id);
-      super.onClick(event);
+      super.go();
     }
   }
 

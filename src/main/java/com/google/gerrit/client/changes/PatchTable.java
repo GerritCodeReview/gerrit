@@ -14,17 +14,17 @@
 
 package com.google.gerrit.client.changes;
 
-import com.google.gerrit.client.Link;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchSet;
+import com.google.gerrit.client.ui.DirectScreenLink;
 import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.client.ui.PatchLink;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DeferredCommand;
-import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.IncrementalCommand;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -41,6 +41,8 @@ import java.util.List;
 public class PatchTable extends Composite {
   private final FlowPanel myBody;
   private PatchSet.Id psid;
+  private Command onLoadCommand;
+  private MyTable myTable;
   private String savePointerId;
 
   public PatchTable() {
@@ -50,6 +52,8 @@ public class PatchTable extends Composite {
 
   public void display(final PatchSet.Id id, final List<Patch> list) {
     psid = id;
+    myTable = null;
+
     final DisplayCommand cmd = new DisplayCommand(list);
     if (cmd.execute()) {
       cmd.initMeter();
@@ -63,7 +67,37 @@ public class PatchTable extends Composite {
     savePointerId = id;
   }
 
+  public boolean isLoaded() {
+    return myTable != null;
+  }
+
+  public void onTableLoaded(final Command cmd) {
+    if (myTable != null) {
+      cmd.execute();
+    } else {
+      onLoadCommand = cmd;
+    }
+  }
+
+  public void setRegisterKeys(final boolean on) {
+    myTable.setRegisterKeys(on);
+  }
+
+  public void movePointerTo(final Patch.Key k) {
+    myTable.movePointerTo(k);
+  }
+
+  public void notifyDraftDelta(final Patch.Key k, final int delta) {
+    if (myTable != null) {
+      myTable.notifyDraftDelta(k, delta);
+    }
+  }
+
   private class MyTable extends NavigationTable<Patch> {
+    private static final int C_PATH = 2;
+    private static final int C_DRAFT = 3;
+    private static final int C_SIDEBYSIDE = 4;
+
     MyTable() {
       keysNavigation.add(new PrevKeyCommand(0, 'k', Util.C.patchTablePrev()));
       keysNavigation.add(new NextKeyCommand(0, 'j', Util.C.patchTableNext()));
@@ -83,14 +117,30 @@ public class PatchTable extends Composite {
       setSavePointerId(PatchTable.this.savePointerId);
     }
 
+    void notifyDraftDelta(final Patch.Key key, final int delta) {
+      final int row = findRow(key);
+      if (0 <= row) {
+        final Patch p = getRowItem(row);
+        if (p != null) {
+          p.setDraftCount(p.getDraftCount() + delta);
+          final SafeHtmlBuilder m = new SafeHtmlBuilder();
+          appendCommentCount(m, p);
+          SafeHtml.set(table, row, C_DRAFT, m);
+        }
+      }
+    }
+
     @Override
     public void resetHtml(final SafeHtml html) {
       super.resetHtml(html);
     }
 
+    @Override
+    public void movePointerTo(Object oldId) {
+      super.movePointerTo(oldId);
+    }
+
     void initializeRow(final int row, final Patch p) {
-      final int C_PATH = 2;
-      final int C_SIDEBYSIDE = 4;
       setRowItem(row, p);
 
       Widget nameCol;
@@ -184,18 +234,7 @@ public class PatchTable extends Composite {
       m.openTd();
       m.addStyleName(S_DATA_CELL);
       m.addStyleName("CommentCell");
-      if (p.getCommentCount() > 0) {
-        m.append(Util.M.patchTableComments(p.getCommentCount()));
-      }
-      if (p.getDraftCount() > 0) {
-        if (p.getCommentCount() > 0) {
-          m.append(", ");
-        }
-        m.openSpan();
-        m.setStyleName("Drafts");
-        m.append(Util.M.patchTableDrafts(p.getDraftCount()));
-        m.closeSpan();
-      }
+      appendCommentCount(m, p);
       m.closeTd();
 
       switch (p.getPatchType()) {
@@ -247,6 +286,21 @@ public class PatchTable extends Composite {
       m.closeTr();
     }
 
+    void appendCommentCount(final SafeHtmlBuilder m, final Patch p) {
+      if (p.getCommentCount() > 0) {
+        m.append(Util.M.patchTableComments(p.getCommentCount()));
+      }
+      if (p.getDraftCount() > 0) {
+        if (p.getCommentCount() > 0) {
+          m.append(", ");
+        }
+        m.openSpan();
+        m.setStyleName("Drafts");
+        m.append(Util.M.patchTableDrafts(p.getDraftCount()));
+        m.closeSpan();
+      }
+    }
+
     private void openlink(final SafeHtmlBuilder m, final int colspan) {
       m.openTd();
       m.addStyleName(S_DATA_CELL);
@@ -274,8 +328,14 @@ public class PatchTable extends Composite {
     }
 
     @Override
-    protected void onOpenItem(final Patch item) {
-      History.newItem(Link.toPatchSideBySide(item.getKey()));
+    protected void onOpenRow(final int row) {
+      Widget link = table.getWidget(row, C_PATH);
+      if (link instanceof FlowPanel) {
+        link = ((FlowPanel) link).getWidget(0);
+      }
+      if (link instanceof DirectScreenLink) {
+        ((DirectScreenLink) link).go();
+      }
     }
   }
 
@@ -342,16 +402,21 @@ public class PatchTable extends Composite {
     }
 
     void showTable() {
-      myBody.clear();
-      myBody.add(table);
+      PatchTable.this.myBody.clear();
+      PatchTable.this.myBody.add(table);
+      PatchTable.this.myTable = table;
       table.finishDisplay();
+      if (PatchTable.this.onLoadCommand != null) {
+        PatchTable.this.onLoadCommand.execute();
+        PatchTable.this.onLoadCommand = null;
+      }
     }
 
     void initMeter() {
       if (meter == null) {
         meter = new ProgressBar(Util.M.loadingPatchSet(psid.get()));
-        myBody.clear();
-        myBody.add(meter);
+        PatchTable.this.myBody.clear();
+        PatchTable.this.myBody.add(meter);
       }
       updateMeter();
     }

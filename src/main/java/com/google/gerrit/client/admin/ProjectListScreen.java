@@ -98,8 +98,8 @@ public class ProjectListScreen extends AccountScreen {
     }
 
     @Override
-    protected void onOpenItem(final Project item) {
-      History.newItem(link(item));
+    protected void onOpenRow(final int row) {
+      History.newItem(link(getRowItem(row)));
     }
 
     private String link(final Project item) {

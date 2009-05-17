@@ -20,14 +20,17 @@ import com.google.gerrit.client.Link;
 import com.google.gerrit.client.SignOutEvent;
 import com.google.gerrit.client.SignOutHandler;
 import com.google.gerrit.client.changes.ChangeScreen;
+import com.google.gerrit.client.changes.PatchTable;
 import com.google.gerrit.client.changes.PublishCommentScreen;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.data.AccountInfoCache;
 import com.google.gerrit.client.data.PatchScript;
+import com.google.gerrit.client.data.PatchSetDetail;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.reviewdb.PatchSet;
+import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.ComplexDisclosurePanel;
 import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.client.ui.NeedsSignInKeyCommand;
@@ -48,6 +51,7 @@ import java.util.List;
 
 public abstract class AbstractPatchContentTable extends NavigationTable<Object> {
   private static final long AGE = 7 * 24 * 60 * 60 * 1000L;
+  protected PatchTable fileList;
   protected AccountInfoCache accountCache = AccountInfoCache.empty();
   protected Patch.Key patchKey;
   protected PatchSet.Id idSideA;
@@ -64,6 +68,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
     keysNavigation.add(new NextKeyCommand(0, 'j', PatchUtil.C.lineNext()));
     keysNavigation.add(new PrevChunkKeyCmd(0, 'p', PatchUtil.C.chunkPrev()));
     keysNavigation.add(new NextChunkKeyCmd(0, 'n', PatchUtil.C.chunkNext()));
+    keysNavigation.add(new FileListCmd(0, 'f', PatchUtil.C.fileList()));
 
     if (Gerrit.isSignedIn()) {
       keysAction.add(new InsertCommentCommand(0, 'c', PatchUtil.C
@@ -82,6 +87,12 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
     }
 
     table.setStyleName("gerrit-PatchContentTable");
+  }
+
+  void notifyDraftDelta(final int delta) {
+    if (fileList != null) {
+      fileList.notifyDraftDelta(patchKey, delta);
+    }
   }
 
   @Override
@@ -329,7 +340,8 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
   }
 
   @Override
-  protected void onOpenItem(final Object item) {
+  protected void onOpenRow(final int row) {
+    final Object item = getRowItem(row);
     if (item instanceof CommentList) {
       for (final ComplexDisclosurePanel p : ((CommentList) item).panels) {
         p.setOpen(!p.isOpen());
@@ -541,6 +553,30 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
     @Override
     public void onKeyPress(final KeyPressEvent event) {
       moveToNextChunk(getCurrentRow());
+    }
+  }
+
+  public class FileListCmd extends KeyCommand {
+    public FileListCmd(int mask, int key, String help) {
+      super(mask, key, help);
+    }
+
+    @Override
+    public void onKeyPress(final KeyPressEvent event) {
+      if (fileList == null || fileList.isAttached()) {
+        final PatchSet.Id psid = patchKey.getParentKey();
+        fileList = new PatchTable();
+        fileList.setSavePointerId("PatchTable " + psid);
+        Util.DETAIL_SVC.patchSetDetail(psid,
+            new GerritCallback<PatchSetDetail>() {
+              public void onSuccess(final PatchSetDetail result) {
+                fileList.display(psid, result.getPatches());
+              }
+            });
+      }
+
+      final PatchBrowserPopup p = new PatchBrowserPopup(patchKey, fileList);
+      p.open();
     }
   }
 }

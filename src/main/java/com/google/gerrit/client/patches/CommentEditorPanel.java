@@ -249,6 +249,9 @@ class CommentEditorPanel extends Composite implements ClickHandler {
     PatchUtil.DETAIL_SVC.saveDraft(comment,
         new GerritCallback<PatchLineComment>() {
           public void onSuccess(final PatchLineComment result) {
+            if (isNew()) {
+              notifyDraftDelta(1);
+            }
             comment = result;
             text.setReadOnly(false);
             cancel.setEnabled(true);
@@ -267,6 +270,16 @@ class CommentEditorPanel extends Composite implements ClickHandler {
         });
   }
 
+  private void notifyDraftDelta(final int delta) {
+    Widget p = getParent();
+    if (p != null) {
+      p = p.getParent();
+      if (p != null) {
+        ((AbstractPatchContentTable) p).notifyDraftDelta(delta);
+      }
+    }
+  }
+
   private void onDiscard() {
     expandTimer.cancel();
     if (isNew()) {
@@ -283,6 +296,7 @@ class CommentEditorPanel extends Composite implements ClickHandler {
     PatchUtil.DETAIL_SVC.deleteDraft(comment.getKey(),
         new GerritCallback<VoidResult>() {
           public void onSuccess(final VoidResult result) {
+            notifyDraftDelta(-1);
             removeUI();
           }
 

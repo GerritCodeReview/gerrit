@@ -53,7 +53,7 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
     keysAction = new KeyCommandSet(Gerrit.C.sectionActions());
   }
 
-  protected abstract void onOpenItem(RowItem item);
+  protected abstract void onOpenRow(int row);
 
   protected abstract Object getRowItemKey(RowItem item);
 
@@ -78,9 +78,8 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
 
   private void onOpen() {
     if (0 <= currentRow && currentRow < table.getRowCount()) {
-      final RowItem item = getRowItem(currentRow);
-      if (item != null) {
-        onOpenItem(item);
+      if (getRowItem(currentRow) != null) {
+        onOpenRow(currentRow);
       }
     }
   }
@@ -114,16 +113,23 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
   }
 
   protected void movePointerTo(final Object oldId) {
+    final int row = findRow(oldId);
+    if (0 <= row) {
+      movePointerTo(row);
+    }
+  }
+
+  protected int findRow(final Object oldId) {
     if (oldId != null) {
       final int max = table.getRowCount();
       for (int row = 0; row < max; row++) {
         final RowItem c = getRowItem(row);
         if (c != null && oldId.equals(getRowItemKey(c))) {
-          movePointerTo(row);
-          break;
+          return row;
         }
       }
     }
+    return -1;
   }
 
   public void finishDisplay() {
@@ -140,12 +146,12 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
   }
 
   public void setRegisterKeys(final boolean on) {
-    if (on) {
+    if (on && isAttached()) {
       if (regNavigation == null) {
-        regNavigation = GlobalKey.add(keysNavigation);
+        regNavigation = GlobalKey.add(this, keysNavigation);
       }
       if (regAction == null) {
-        regAction = GlobalKey.add(keysAction);
+        regAction = GlobalKey.add(this, keysAction);
       }
     } else {
       if (regNavigation != null) {

@@ -963,3 +963,14 @@
   padding-right: 10px;
   background: #fff1a8;
 }
+
+
+/** PatchBrowserPopup **/
+.gerrit-PatchBrowserPopup {
+  opacity: 0.90;
+}
+.gerrit-PatchBrowserPopup-Body {
+  background: #ffffff;
+  margin: 4px;
+  opacity: 0.90;
+}

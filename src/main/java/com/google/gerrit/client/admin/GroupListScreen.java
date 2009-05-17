@@ -132,8 +132,8 @@ public class GroupListScreen extends AccountScreen {
     }
 
     @Override
-    protected void onOpenItem(final AccountGroup item) {
-      History.newItem(Link.toAccountGroup(item.getId()));
+    protected void onOpenRow(final int row) {
+      History.newItem(Link.toAccountGroup(getRowItem(row).getId()));
     }
 
     void display(final List<AccountGroup> result) {

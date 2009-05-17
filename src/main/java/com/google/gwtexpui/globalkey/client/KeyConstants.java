@@ -19,6 +19,7 @@ import com.google.gwt.i18n.client.Constants;
 public interface KeyConstants extends Constants {
   String applicationSection();
   String showHelp();
+  String closeCurrentDialog();
 
   String keyboardShortcuts();
   String closeButton();

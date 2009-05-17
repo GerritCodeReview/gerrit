@@ -20,6 +20,8 @@ import com.google.gwt.user.client.ui.PopupPanel.PositionCallback;
 
 
 public class ShowHelpCommand extends KeyCommand {
+  public static final ShowHelpCommand INSTANCE = new ShowHelpCommand();
+
   public ShowHelpCommand() {
     super(0, '?', Util.C.showHelp());
   }

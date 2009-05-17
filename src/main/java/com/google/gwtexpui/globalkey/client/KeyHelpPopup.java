@@ -94,7 +94,8 @@ public class KeyHelpPopup extends PluginSafePopupPanel implements
   }
 
   private void populate(final Grid lists) {
-    final Iterator<KeyCommandSet> setitr = GlobalKey.keys.getSets().iterator();
+    final Iterator<KeyCommandSet> setitr =
+        GlobalKey.active.all.getSets().iterator();
     int end[] = new int[5];
     int column = 0;
     while (setitr.hasNext()) {

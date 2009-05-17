@@ -14,9 +14,14 @@
 
 package com.google.gwtexpui.globalkey.client;
 
+import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 
 public class GlobalKey {
@@ -27,50 +32,132 @@ public class GlobalKey {
     }
   };
 
-  private static KeyCommandSet keyApplication;
-  static KeyCommandSet keys;
+  private static State global;
+  static State active;
+  private static CloseHandler<PopupPanel> restoreGlobal;
 
-  private static void init() {
-    if (keys == null) {
-      keys = new KeyCommandSet();
-      DocWidget.get().addKeyPressHandler(keys);
+  private static void initEvents() {
+    if (active == null) {
+      DocWidget.get().addKeyPressHandler(new KeyPressHandler() {
+        @Override
+        public void onKeyPress(final KeyPressEvent event) {
+          active.all.onKeyPress(event);
+        }
+      });
 
-      keyApplication = new KeyCommandSet(Util.C.applicationSection());
-      keyApplication.add(new ShowHelpCommand());
-      keys.add(keyApplication);
+      global = new State(null);
+      active = global;
     }
   }
 
-  public static HandlerRegistration addApplication(final KeyCommand key) {
-    init();
-    keys.add(key);
-    keyApplication.add(key);
+  private static void initDialog() {
+    if (restoreGlobal == null) {
+      restoreGlobal = new CloseHandler<PopupPanel>() {
+        @Override
+        public void onClose(final CloseEvent<PopupPanel> event) {
+          active = global;
+        }
+      };
+    }
+  }
 
+  public static void dialog(final PopupPanel panel) {
+    initEvents();
+    initDialog();
+    assert panel.isVisible();
+    assert active == global;
+    active = new State(panel);
+    active.add(new KeyCommand(0, KeyCodes.KEY_ESCAPE, Util.C
+        .closeCurrentDialog()) {
+      @Override
+      public void onKeyPress(final KeyPressEvent event) {
+        panel.hide();
+      }
+    });
+    panel.addCloseHandler(restoreGlobal);
+  }
+
+  public static HandlerRegistration addApplication(final Widget widget,
+      final KeyCommand appKey) {
+    initEvents();
+    final State state = stateFor(widget);
+    state.add(appKey);
     return new HandlerRegistration() {
       @Override
       public void removeHandler() {
-        keys.remove(key);
-        keyApplication.remove(key);
+        state.remove(appKey);
       }
     };
   }
 
-  public static HandlerRegistration add(final KeyCommandSet set) {
-    init();
-    keys.add(set);
-
+  public static HandlerRegistration add(final Widget widget,
+      final KeyCommandSet cmdSet) {
+    initEvents();
+    final State state = stateFor(widget);
+    state.add(cmdSet);
     return new HandlerRegistration() {
       @Override
       public void removeHandler() {
-        keys.remove(set);
+        state.remove(cmdSet);
       }
     };
+  }
+
+  private static State stateFor(Widget w) {
+    while (w != null) {
+      if (w == active.root) {
+        return active;
+      }
+      w = w.getParent();
+    }
+    return global;
   }
 
   public static void filter(final KeyCommandFilter filter) {
-    keys.filter(filter);
+    active.filter(filter);
+    if (active != global) {
+      global.filter(filter);
+    }
   }
 
   private GlobalKey() {
+  }
+
+  static class State {
+    final Widget root;
+    final KeyCommandSet app;
+    final KeyCommandSet all;
+
+    State(final Widget r) {
+      root = r;
+
+      app = new KeyCommandSet(Util.C.applicationSection());
+      app.add(ShowHelpCommand.INSTANCE);
+
+      all = new KeyCommandSet();
+      all.add(app);
+    }
+
+    void add(final KeyCommand k) {
+      app.add(k);
+      all.add(k);
+    }
+
+    void remove(final KeyCommand k) {
+      app.remove(k);
+      all.remove(k);
+    }
+
+    void add(final KeyCommandSet s) {
+      all.add(s);
+    }
+
+    void remove(final KeyCommandSet s) {
+      all.remove(s);
+    }
+
+    void filter(final KeyCommandFilter f) {
+      all.filter(f);
+    }
   }
 }

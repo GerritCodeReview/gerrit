@@ -43,7 +43,9 @@ import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
+import com.google.gwtexpui.globalkey.client.KeyCommandSet;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -60,6 +62,8 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
 
   private final Timestamp aged =
       new Timestamp(System.currentTimeMillis() - AGE);
+  private final KeyCommandSet keysComment;
+  private HandlerRegistration regComment;
   private HandlerRegistration regSignOut;
 
   protected AbstractPatchContentTable() {
@@ -78,12 +82,15 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
 
       // See CommentEditorPanel
       //
-      keysAction.add(new NoOpKeyCommand(KeyCommand.M_CTRL, 's', PatchUtil.C
+      keysComment = new KeyCommandSet(PatchUtil.C.commentEditorSet());
+      keysComment.add(new NoOpKeyCommand(KeyCommand.M_CTRL, 's', PatchUtil.C
           .commentSaveDraft()));
-      keysAction.add(new NoOpKeyCommand(KeyCommand.M_CTRL, 'd', PatchUtil.C
+      keysComment.add(new NoOpKeyCommand(KeyCommand.M_CTRL, 'd', PatchUtil.C
           .commentDiscard()));
-      keysAction.add(new NoOpKeyCommand(0, KeyCodes.KEY_ESCAPE, PatchUtil.C
+      keysComment.add(new NoOpKeyCommand(0, KeyCodes.KEY_ESCAPE, PatchUtil.C
           .commentCancelEdit()));
+    } else {
+      keysComment = null;
     }
 
     table.setStyleName("gerrit-PatchContentTable");
@@ -92,6 +99,17 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
   void notifyDraftDelta(final int delta) {
     if (fileList != null) {
       fileList.notifyDraftDelta(patchKey, delta);
+    }
+  }
+
+  @Override
+  public void setRegisterKeys(final boolean on) {
+    super.setRegisterKeys(on);
+    if (on && keysComment != null && regComment == null) {
+      regComment = GlobalKey.add(this, keysComment);
+    } else if (!on && regComment != null) {
+      regComment.removeHandler();
+      regComment = null;
     }
   }
 

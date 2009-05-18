@@ -91,8 +91,11 @@ public class KeyCommandSet implements KeyPressHandler {
       }
     }
     for (final Iterator<KeyCommand> i = map.values().iterator(); i.hasNext();) {
-      if (!filter.include(i.next())) {
+      final KeyCommand kc = i.next();
+      if (!filter.include(kc)) {
         i.remove();
+      } else if (kc instanceof CompoundKeyCommand) {
+        ((CompoundKeyCommand) kc).set.filter(filter);
       }
     }
   }

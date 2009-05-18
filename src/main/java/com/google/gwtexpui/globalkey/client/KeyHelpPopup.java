@@ -101,7 +101,7 @@ public class KeyHelpPopup extends PluginSafePopupPanel implements
     while (setitr.hasNext()) {
       final KeyCommandSet set = setitr.next();
       int row = end[column];
-      row = populate(lists, row, column, set);
+      row = formatGroup(lists, row, column, set);
       end[column] = row;
       if (column == 0) {
         column = 4;
@@ -111,8 +111,82 @@ public class KeyHelpPopup extends PluginSafePopupPanel implements
     }
   }
 
-  private int populate(final Grid lists, int row, final int col,
+  private int formatGroup(final Grid lists, int row, final int col,
       final KeyCommandSet set) {
+    if (set.isEmpty()) {
+      return row;
+    }
+
+    if (lists.getRowCount() < row + 1) {
+      lists.resizeRows(row + 1);
+    }
+    lists.setText(row, col + 2, set.getName());
+    lists.getCellFormatter().addStyleName(row, col + 2, S + "-GroupTitle");
+    row++;
+
+    return formatKeys(lists, row, col, set, null);
+  }
+
+  private int formatKeys(final Grid lists, int row, final int col,
+      final KeyCommandSet set, final SafeHtml prefix) {
+    final CellFormatter fmt = lists.getCellFormatter();
+    final int initialRow = row;
+    final List<KeyCommand> keys = sort(set);
+    if (lists.getRowCount() < row + keys.size()) {
+      lists.resizeRows(row + keys.size());
+    }
+    FORMAT_KEYS: for (int i = 0; i < keys.size(); i++) {
+      final KeyCommand k = keys.get(i);
+
+      if (k instanceof CompoundKeyCommand) {
+        final SafeHtmlBuilder b = new SafeHtmlBuilder();
+        b.append(k.describeKeyStroke());
+        row = formatKeys(lists, row, col, ((CompoundKeyCommand) k).getSet(), b);
+        continue;
+      }
+
+      for (int prior = 0, r = initialRow; prior < i; prior++) {
+        if (KeyCommand.same(keys.get(prior), k)) {
+          final SafeHtmlBuilder b = new SafeHtmlBuilder();
+          b.append(SafeHtml.get(lists, r, col + 0));
+          b.append(" ");
+          b.append(Util.C.orOtherKey());
+          b.append(" ");
+          if (prefix != null) {
+            b.append(prefix);
+            b.append(" ");
+            b.append(Util.C.thenOtherKey());
+            b.append(" ");
+          }
+          b.append(k.describeKeyStroke());
+          SafeHtml.set(lists, r, col + 0, b);
+          continue FORMAT_KEYS;
+        }
+      }
+
+      if (prefix != null) {
+        final SafeHtmlBuilder b = new SafeHtmlBuilder();
+        b.append(prefix);
+        b.append(" ");
+        b.append(Util.C.thenOtherKey());
+        b.append(" ");
+        b.append(k.describeKeyStroke());
+        SafeHtml.set(lists, row, col + 0, b);
+      } else {
+        SafeHtml.set(lists, row, col + 0, k.describeKeyStroke());
+      }
+      lists.setText(row, col + 1, ":");
+      lists.setText(row, col + 2, k.getHelpText());
+
+      fmt.addStyleName(row, col + 0, S + "-TableKeyStroke");
+      fmt.addStyleName(row, col + 1, S + "-TableSeparator");
+      row++;
+    }
+
+    return row;
+  }
+
+  private List<KeyCommand> sort(final KeyCommandSet set) {
     final List<KeyCommand> keys = new ArrayList<KeyCommand>(set.getKeys());
     Collections.sort(keys, new Comparator<KeyCommand>() {
       @Override
@@ -125,45 +199,6 @@ public class KeyHelpPopup extends PluginSafePopupPanel implements
         return 0;
       }
     });
-    if (keys.isEmpty()) {
-      return row;
-    }
-
-    if (lists.getRowCount() < row + 1 + keys.size()) {
-      lists.resizeRows(row + 1 + keys.size());
-    }
-
-    final CellFormatter fmt = lists.getCellFormatter();
-    lists.setText(row, col + 2, set.getName());
-    fmt.addStyleName(row, col + 2, S + "-GroupTitle");
-    row++;
-
-    final int initialRow = row;
-    FORMAT_KEYS: for (int i = 0; i < keys.size(); i++) {
-      final KeyCommand k = keys.get(i);
-
-      for (int prior = 0, r = initialRow; prior < i; prior++) {
-        if (KeyCommand.same(keys.get(prior), k)) {
-          final SafeHtmlBuilder b = new SafeHtmlBuilder();
-          b.append(SafeHtml.get(lists, r, col + 0));
-          b.append(" ");
-          b.append(Util.C.orOtherKey());
-          b.append(" ");
-          b.append(k.describeKeyStroke());
-          SafeHtml.set(lists, r, col + 0, b);
-          continue FORMAT_KEYS;
-        }
-      }
-
-      SafeHtml.set(lists, row, col + 0, k.describeKeyStroke());
-      lists.setText(row, col + 1, ":");
-      lists.setText(row, col + 2, k.getHelpText());
-
-      fmt.addStyleName(row, col + 0, S + "-TableKeyStroke");
-      fmt.addStyleName(row, col + 1, S + "-TableSeparator");
-      row++;
-    }
-
-    return row;
+    return keys;
   }
 }

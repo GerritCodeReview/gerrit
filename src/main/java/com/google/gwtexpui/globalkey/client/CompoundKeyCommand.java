@@ -14,21 +14,27 @@
 
 package com.google.gwtexpui.globalkey.client;
 
-import com.google.gwt.i18n.client.Constants;
+import com.google.gwt.event.dom.client.KeyPressEvent;
 
-public interface KeyConstants extends Constants {
-  String applicationSection();
-  String showHelp();
-  String closeCurrentDialog();
+public final class CompoundKeyCommand extends KeyCommand {
+  final KeyCommandSet set;
 
-  String keyboardShortcuts();
-  String closeButton();
-  String orOtherKey();
-  String thenOtherKey();
+  public CompoundKeyCommand(int mask, char key, String help, KeyCommandSet s) {
+    super(mask, key, help);
+    set = s;
+  }
 
-  String keyCtrl();
-  String keyAlt();
-  String keyMeta();
-  String keyEnter();
-  String keyEsc();
+  public CompoundKeyCommand(int mask, int key, String help, KeyCommandSet s) {
+    super(mask, key, help);
+    set = s;
+  }
+
+  public KeyCommandSet getSet() {
+    return set;
+  }
+
+  @Override
+  public void onKeyPress(final KeyPressEvent event) {
+    GlobalKey.temporaryWithTimeout(set);
+  }
 }

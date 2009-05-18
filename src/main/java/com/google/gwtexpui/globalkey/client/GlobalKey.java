@@ -20,6 +20,7 @@ import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -35,15 +36,28 @@ public class GlobalKey {
   private static State global;
   static State active;
   private static CloseHandler<PopupPanel> restoreGlobal;
+  private static Timer restoreTimer;
 
   private static void initEvents() {
     if (active == null) {
       DocWidget.get().addKeyPressHandler(new KeyPressHandler() {
         @Override
         public void onKeyPress(final KeyPressEvent event) {
-          active.all.onKeyPress(event);
+          final KeyCommandSet s = active.live;
+          if (s != active.all) {
+            active.live = active.all;
+            restoreTimer.cancel();
+          }
+          s.onKeyPress(event);
         }
       });
+
+      restoreTimer = new Timer() {
+        @Override
+        public void run() {
+          active.live = active.all;
+        }
+      };
 
       global = new State(null);
       active = global;
@@ -59,6 +73,11 @@ public class GlobalKey {
         }
       };
     }
+  }
+
+  static void temporaryWithTimeout(final KeyCommandSet s) {
+    active.live = s;
+    restoreTimer.schedule(250);
   }
 
   public static void dialog(final PopupPanel panel) {
@@ -127,6 +146,7 @@ public class GlobalKey {
     final Widget root;
     final KeyCommandSet app;
     final KeyCommandSet all;
+    KeyCommandSet live;
 
     State(final Widget r) {
       root = r;
@@ -136,6 +156,8 @@ public class GlobalKey {
 
       all = new KeyCommandSet();
       all.add(app);
+
+      live = all;
     }
 
     void add(final KeyCommand k) {

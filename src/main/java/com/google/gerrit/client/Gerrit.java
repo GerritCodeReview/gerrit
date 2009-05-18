@@ -291,26 +291,23 @@ public class Gerrit implements EntryPoint {
               } else {
                 Cookies.removeCookie(ACCOUNT_COOKIE);
               }
-              refreshMenuBar();
-              showInitialScreen();
+              onModuleLoad3();
             }
 
             public void onFailure(final Throwable caught) {
-              if (!GWT.isScript() && !GerritCallback.isNotSignedIn(caught)) {
-                GWT.log("Unexpected failure from validating account", caught);
-              }
+              GWT.log("Unexpected failure from validating account", caught);
               Cookies.removeCookie(ACCOUNT_COOKIE);
-              refreshMenuBar();
-              showInitialScreen();
+              onModuleLoad3();
             }
           });
     } else {
-      refreshMenuBar();
-      showInitialScreen();
+      onModuleLoad3();
     }
   }
 
-  private void showInitialScreen() {
+  private void onModuleLoad3() {
+    refreshMenuBar();
+
     final RootPanel sg = RootPanel.get("gerrit_startinggerrit");
     sg.getElement().getParentElement().removeChild(sg.getElement());
     RootPanel.detachNow(sg);

@@ -17,6 +17,9 @@ package com.google.gerrit.client.patches;
 import com.google.gerrit.client.changes.PatchTable;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.reviewdb.Patch;
+import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.logical.shared.ResizeHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -25,10 +28,12 @@ import com.google.gwt.user.client.ui.PopupPanel.PositionCallback;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.user.client.PluginSafeDialogBox;
 
-class PatchBrowserPopup extends PluginSafeDialogBox implements PositionCallback {
+class PatchBrowserPopup extends PluginSafeDialogBox implements
+    PositionCallback, ResizeHandler {
   private final Patch.Key callerKey;
   private final PatchTable fileList;
   private final ScrollPanel sp;
+  private HandlerRegistration regWindowResize;
 
   PatchBrowserPopup(final Patch.Key pk, final PatchTable fl) {
     super(true/* autohide */, false/* modal */);
@@ -61,13 +66,30 @@ class PatchBrowserPopup extends PluginSafeDialogBox implements PositionCallback 
     setPopupPosition(sLeft + dLeft, (sTop + cHeight) - (myHeight + 10));
   }
 
-  public void open() {
+  @Override
+  public void onResize(final ResizeEvent event) {
     sp.setWidth((Window.getClientWidth() - 60) + "px");
-    if (!fileList.isLoaded()) {
-      sp.setHeight("22px");
+    setPosition(getOffsetWidth(), getOffsetHeight());
+  }
+
+  @Override
+  public void hide() {
+    if (regWindowResize != null) {
+      regWindowResize.removeHandler();
+      regWindowResize = null;
     }
-    setPopupPositionAndShow(this);
+    super.hide();
+  }
+
+  @Override
+  public void show() {
+    super.show();
+    if (regWindowResize == null) {
+      regWindowResize = Window.addResizeHandler(this);
+    }
+
     GlobalKey.dialog(this);
+
     if (fileList.isLoaded()) {
       installFileList();
     } else {
@@ -80,6 +102,14 @@ class PatchBrowserPopup extends PluginSafeDialogBox implements PositionCallback 
         }
       });
     }
+  }
+
+  public void open() {
+    if (!fileList.isLoaded()) {
+      sp.setHeight("22px");
+    }
+    sp.setWidth((Window.getClientWidth() - 60) + "px");
+    setPopupPositionAndShow(this);
   }
 
   private void installFileList() {

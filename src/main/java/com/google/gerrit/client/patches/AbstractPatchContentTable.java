@@ -525,6 +525,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
 
     @Override
     public void onKeyPress(final KeyPressEvent event) {
+      ensurePointerVisible();
       for (int row = getCurrentRow(); 0 <= row; row--) {
         final Object item = getRowItem(row);
         if (item instanceof PatchLine) {
@@ -559,6 +560,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
 
     @Override
     public void onKeyPress(final KeyPressEvent event) {
+      ensurePointerVisible();
       moveToPrevChunk(getCurrentRow());
     }
   }
@@ -570,6 +572,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
 
     @Override
     public void onKeyPress(final KeyPressEvent event) {
+      ensurePointerVisible();
       moveToNextChunk(getCurrentRow());
     }
   }

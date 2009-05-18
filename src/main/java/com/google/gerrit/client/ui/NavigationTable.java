@@ -15,6 +15,7 @@
 package com.google.gerrit.client.ui;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
@@ -86,6 +87,39 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
 
   protected int getCurrentRow() {
     return currentRow;
+  }
+
+  protected void ensurePointerVisible() {
+    final int max = table.getRowCount();
+    int row = currentRow;
+    final int init = row;
+    if (row < 0) {
+      row = 0;
+    } else if (max <= row) {
+      row = max - 1;
+    }
+
+    final CellFormatter fmt = table.getCellFormatter();
+    final int sTop = Document.get().getScrollTop();
+    final int sEnd = sTop + Document.get().getClientHeight();
+
+    while (0 <= row && row < max) {
+      final Element cur = DOM.getParent(fmt.getElement(row, C_ARROW));
+      final int cTop = cur.getAbsoluteTop();
+      final int cEnd = cTop + cur.getOffsetHeight();
+
+      if (cEnd < sTop) {
+        row++;
+      } else if (sEnd < cTop) {
+        row--;
+      } else if (getRowItem(row) != null) {
+        break;
+      }
+    }
+
+    if (init != row) {
+      movePointerTo(row, false);
+    }
   }
 
   protected void movePointerTo(final int newRow) {
@@ -186,6 +220,7 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
 
     @Override
     public void onKeyPress(final KeyPressEvent event) {
+      ensurePointerVisible();
       onUp();
     }
   }
@@ -197,6 +232,7 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
 
     @Override
     public void onKeyPress(final KeyPressEvent event) {
+      ensurePointerVisible();
       onDown();
     }
   }
@@ -208,6 +244,7 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
 
     @Override
     public void onKeyPress(final KeyPressEvent event) {
+      ensurePointerVisible();
       onOpen();
     }
   }

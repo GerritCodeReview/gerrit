@@ -313,6 +313,8 @@ public class Gerrit implements EntryPoint {
     RootPanel.detachNow(sg);
 
     History.addValueChangeHandler(new Link());
+    JumpKeys.register(body);
+
     if ("".equals(History.getToken())) {
       if (isSignedIn()) {
         History.newItem(Link.MINE);

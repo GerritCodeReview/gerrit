@@ -56,4 +56,11 @@ public interface GerritConstants extends Constants {
   String sectionActions();
   String keySearch();
   String keyHelp();
+
+  String sectionJumping();
+  String jumpAllOpen();
+  String jumpAllMerged();
+  String jumpMine();
+  String jumpMineDrafts();
+  String jumpMineStarred();
 }

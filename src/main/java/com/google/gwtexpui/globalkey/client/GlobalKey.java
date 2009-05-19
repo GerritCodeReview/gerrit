@@ -83,7 +83,7 @@ public class GlobalKey {
   public static void dialog(final PopupPanel panel) {
     initEvents();
     initDialog();
-    assert panel.isVisible();
+    assert panel.isShowing();
     assert active == global;
     active = new State(panel);
     active.add(new KeyCommand(0, KeyCodes.KEY_ESCAPE, Util.C

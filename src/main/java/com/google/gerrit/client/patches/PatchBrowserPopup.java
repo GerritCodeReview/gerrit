@@ -90,15 +90,14 @@ class PatchBrowserPopup extends PluginSafeDialogBox implements
 
     GlobalKey.dialog(this);
 
-    if (fileList.isLoaded()) {
-      installFileList();
-    } else {
+    if (!fileList.isLoaded()) {
       fileList.onTableLoaded(new Command() {
         @Override
         public void execute() {
           sp.setHeight("");
           setPosition(getOffsetWidth(), getOffsetHeight());
-          installFileList();
+          fileList.setRegisterKeys(true);
+          fileList.movePointerTo(callerKey);
         }
       });
     }
@@ -110,10 +109,9 @@ class PatchBrowserPopup extends PluginSafeDialogBox implements
     }
     sp.setWidth((Window.getClientWidth() - 60) + "px");
     setPopupPositionAndShow(this);
-  }
-
-  private void installFileList() {
-    fileList.setRegisterKeys(true);
-    fileList.movePointerTo(callerKey);
+    if (fileList.isLoaded()) {
+      fileList.setRegisterKeys(true);
+      fileList.movePointerTo(callerKey);
+    }
   }
 }

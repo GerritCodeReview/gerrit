@@ -21,7 +21,9 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.UIObject;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
@@ -47,6 +49,9 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
   private HandlerRegistration regAction;
   private int currentRow = -1;
   private String saveId;
+
+  private boolean computedScrollType;
+  private ScrollPanel parentScrollPanel;
 
   protected NavigationTable() {
     pointer = Gerrit.ICONS.arrowRight().createImage();
@@ -138,12 +143,37 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
       final Element tr = DOM.getParent(fmt.getElement(newRow, C_ARROW));
       UIObject.setStyleName(tr, S_ACTIVE_ROW, true);
       if (scroll) {
-        tr.scrollIntoView();
+        scrollIntoView(tr);
       }
     } else if (clear) {
       table.setWidget(currentRow, C_ARROW, null);
     }
     currentRow = newRow;
+  }
+
+  protected void scrollIntoView(final Element tr) {
+    if (!computedScrollType) {
+      parentScrollPanel = null;
+      Widget w = getParent();
+      while (w != null) {
+        if (w instanceof ScrollPanel) {
+          parentScrollPanel = (ScrollPanel) w;
+          break;
+        }
+        w = w.getParent();
+      }
+      computedScrollType = true;
+    }
+
+    if (parentScrollPanel != null) {
+      parentScrollPanel.ensureVisible(new UIObject() {
+        {
+          setElement(tr);
+        }
+      });
+    } else {
+      tr.scrollIntoView();
+    }
   }
 
   protected void movePointerTo(final Object oldId) {
@@ -200,6 +230,12 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
   }
 
   @Override
+  protected void onLoad() {
+    computedScrollType = false;
+    parentScrollPanel = null;
+  }
+
+  @Override
   protected void onUnload() {
     setRegisterKeys(false);
 
@@ -210,6 +246,8 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
       }
     }
 
+    computedScrollType = false;
+    parentScrollPanel = null;
     super.onUnload();
   }
 

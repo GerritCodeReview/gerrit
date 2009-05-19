@@ -14,21 +14,28 @@
 
 package com.google.gerrit.client.changes;
 
+import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.Link;
+import com.google.gerrit.client.patches.PatchScreen;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.ui.DirectScreenLink;
 import com.google.gerrit.client.ui.NavigationTable;
-import com.google.gerrit.client.ui.PatchLink;
+import com.google.gerrit.client.ui.Screen;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.DeferredCommand;
+import com.google.gwt.user.client.Element;
+import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.EventListener;
 import com.google.gwt.user.client.IncrementalCommand;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.google.gwtexpui.progress.client.ProgressBar;
@@ -39,6 +46,53 @@ import com.google.gwtorm.client.KeyUtil;
 import java.util.List;
 
 public class PatchTable extends Composite {
+  private static final EventListener patchLinkClick = new EventListener() {
+    @Override
+    public void onBrowserEvent(final Event event) {
+      final Element elem = event.getCurrentEventTarget().cast();
+      final PatchTable table = getPatchTable(elem);
+      if (table != null) {
+        final String token = elem.getAttribute("href").substring(1); // skip "#"
+        final Screen screen = dispatch(token, table);
+        if (screen != null) {
+          event.stopPropagation();
+          event.preventDefault();
+          Gerrit.display(token, screen);
+        }
+      }
+    }
+  };
+
+  private static Screen dispatch(final String token, final PatchTable table) {
+    String p;
+
+    p = "patch,sidebyside,";
+    if (token.startsWith(p))
+      return new PatchScreen.SideBySide(parse(token, p), table);
+
+    p = "patch,unified,";
+    if (token.startsWith(p))
+      new PatchScreen.SideBySide(parse(token, p), table);
+
+    GWT.log("Unexpected history token: " + token, null);
+    return null;
+  }
+
+  private static Patch.Key parse(final String token, String prefix) {
+    return Patch.Key.parse(token.substring(prefix.length()));
+  }
+
+  private static PatchTable getPatchTable(final Element a) {
+    Element obj = DOM.getParent(a);
+    while (obj != null) {
+      if (DOM.getEventListener(obj) instanceof PatchTable) {
+        return (PatchTable) DOM.getEventListener(obj);
+      }
+      obj = DOM.getParent(obj);
+    }
+    return null;
+  }
+
   private final FlowPanel myBody;
   private PatchSet.Id psid;
   private Command onLoadCommand;
@@ -96,7 +150,6 @@ public class PatchTable extends Composite {
   private class MyTable extends NavigationTable<Patch> {
     private static final int C_PATH = 2;
     private static final int C_DRAFT = 3;
-    private static final int C_SIDEBYSIDE = 4;
 
     MyTable() {
       keysNavigation.add(new PrevKeyCommand(0, 'k', Util.C.patchTablePrev()));
@@ -140,43 +193,22 @@ public class PatchTable extends Composite {
       super.movePointerTo(oldId);
     }
 
-    void initializeRow(final int row, final Patch p) {
-      setRowItem(row, p);
+    void initializeRow(final int row, final Patch item) {
+      setRowItem(row, item);
+      link(DOM.getParent(table.getCellFormatter().getElement(row, C_PATH)));
+    }
 
-      Widget nameCol;
-      if (p.getPatchType() == Patch.PatchType.UNIFIED) {
-        nameCol = new PatchLink.SideBySide(p.getFileName(), p.getKey());
-      } else {
-        nameCol = new PatchLink.Unified(p.getFileName(), p.getKey());
-      }
-      if (p.getSourceFileName() != null) {
-        final String text;
-        if (p.getChangeType() == Patch.ChangeType.RENAMED) {
-          text = Util.M.renamedFrom(p.getSourceFileName());
-        } else if (p.getChangeType() == Patch.ChangeType.COPIED) {
-          text = Util.M.copiedFrom(p.getSourceFileName());
-        } else {
-          text = Util.M.otherFrom(p.getSourceFileName());
+    void link(final Element tr) {
+      final NodeList<com.google.gwt.dom.client.Element> list =
+          tr.getElementsByTagName("a");
+      for (int i = 0; i < list.getLength(); i++) {
+        final Element a = list.getItem(i).cast();
+        final String href = a.getAttribute("href");
+        if (href.startsWith("#patch,")) {
+          DOM.sinkEvents(a, Event.getTypeInt(ClickEvent.getType().getName()));
+          DOM.setEventListener(a, patchLinkClick);
         }
-        final Label line = new Label(text);
-        line.setStyleName("SourceFilePath");
-        final FlowPanel cell = new FlowPanel();
-        cell.add(nameCol);
-        cell.add(line);
-        nameCol = cell;
       }
-      table.setWidget(row, C_PATH, nameCol);
-
-      int C_UNIFIED = C_SIDEBYSIDE + 1;
-      if (p.getPatchType() == Patch.PatchType.UNIFIED) {
-        table.setWidget(row, C_SIDEBYSIDE, new PatchLink.SideBySide(Util.C
-            .patchTableDiffSideBySide(), p.getKey()));
-
-      } else if (p.getPatchType() == Patch.PatchType.BINARY) {
-        C_UNIFIED = C_SIDEBYSIDE + 2;
-      }
-      table.setWidget(row, C_UNIFIED, new PatchLink.Unified(Util.C
-          .patchTableDiffUnified(), p.getKey()));
     }
 
     void appendHeader(final SafeHtmlBuilder m) {
@@ -229,6 +261,33 @@ public class PatchTable extends Composite {
       m.openTd();
       m.addStyleName(S_DATA_CELL);
       m.addStyleName("FilePathCell");
+
+      m.openAnchor();
+      if (p.getPatchType() == Patch.PatchType.UNIFIED) {
+        m.setAttribute("href", "#" + Link.toPatchSideBySide(p.getKey()));
+      } else {
+        m.setAttribute("href", "#" + Link.toPatchUnified(p.getKey()));
+      }
+      m.append(p.getFileName());
+      m.closeAnchor();
+
+      if (p.getSourceFileName() != null) {
+        final String secondLine;
+        if (p.getChangeType() == Patch.ChangeType.RENAMED) {
+          secondLine = Util.M.renamedFrom(p.getSourceFileName());
+
+        } else if (p.getChangeType() == Patch.ChangeType.COPIED) {
+          secondLine = Util.M.copiedFrom(p.getSourceFileName());
+
+        } else {
+          secondLine = Util.M.otherFrom(p.getSourceFileName());
+        }
+        m.br();
+        m.openSpan();
+        m.setStyleName("SourceFilePath");
+        m.append(secondLine);
+        m.closeSpan();
+      }
       m.closeTd();
 
       m.openTd();
@@ -240,7 +299,9 @@ public class PatchTable extends Composite {
       switch (p.getPatchType()) {
         case UNIFIED:
           openlink(m, 2);
-          m.closeTd();
+          m.setAttribute("href", "#" + Link.toPatchSideBySide(p.getKey()));
+          m.append(Util.C.patchTableDiffSideBySide());
+          closelink(m);
           break;
 
         case BINARY: {
@@ -250,7 +311,6 @@ public class PatchTable extends Composite {
             case DELETED:
             case MODIFIED:
               openlink(m, 1);
-              m.openAnchor();
               m.setAttribute("href", base + "^1");
               m.append(Util.C.patchTableDownloadPreImage());
               closelink(m);
@@ -263,7 +323,6 @@ public class PatchTable extends Composite {
             case MODIFIED:
             case ADDED:
               openlink(m, 1);
-              m.openAnchor();
               m.setAttribute("href", base + "^0");
               m.append(Util.C.patchTableDownloadPostImage());
               closelink(m);
@@ -281,7 +340,9 @@ public class PatchTable extends Composite {
       }
 
       openlink(m, 1);
-      m.closeTd();
+      m.setAttribute("href", "#" + Link.toPatchUnified(p.getKey()));
+      m.append(Util.C.patchTableDiffUnified());
+      closelink(m);
 
       m.closeTr();
     }
@@ -306,6 +367,7 @@ public class PatchTable extends Composite {
       m.addStyleName(S_DATA_CELL);
       m.addStyleName("DiffLinkCell");
       m.setAttribute("colspan", colspan);
+      m.openAnchor();
     }
 
     private void closelink(final SafeHtmlBuilder m) {

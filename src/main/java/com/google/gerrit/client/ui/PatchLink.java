@@ -15,10 +15,8 @@
 package com.google.gerrit.client.ui;
 
 import com.google.gerrit.client.Link;
-import com.google.gerrit.client.changes.PatchTable;
 import com.google.gerrit.client.patches.PatchScreen;
 import com.google.gerrit.client.reviewdb.Patch;
-import com.google.gwt.user.client.ui.Widget;
 
 public abstract class PatchLink extends DirectScreenLink {
   protected Patch.Key key;
@@ -28,17 +26,6 @@ public abstract class PatchLink extends DirectScreenLink {
     key = p;
   }
 
-  protected PatchTable parentPatchTable() {
-    Widget w = getParent();
-    while (w != null) {
-      if (w instanceof PatchTable) {
-        return ((PatchTable) w);
-      }
-      w = w.getParent();
-    }
-    return null;
-  }
-
   public static class SideBySide extends PatchLink {
     public SideBySide(final String text, final Patch.Key p) {
       super(text, p, Link.toPatchSideBySide(p));
@@ -46,7 +33,7 @@ public abstract class PatchLink extends DirectScreenLink {
 
     @Override
     protected Screen createScreen() {
-      return new PatchScreen.SideBySide(key, parentPatchTable());
+      return new PatchScreen.SideBySide(key, null);
     }
   }
 
@@ -57,7 +44,7 @@ public abstract class PatchLink extends DirectScreenLink {
 
     @Override
     protected Screen createScreen() {
-      return new PatchScreen.Unified(key, parentPatchTable());
+      return new PatchScreen.Unified(key, null);
     }
   }
 }

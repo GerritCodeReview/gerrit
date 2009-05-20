@@ -18,46 +18,48 @@ import com.google.gerrit.client.Link;
 import com.google.gerrit.client.changes.PatchTable;
 import com.google.gerrit.client.patches.PatchScreen;
 import com.google.gerrit.client.reviewdb.Patch;
-import com.google.gwt.user.client.ui.Widget;
 
 public abstract class PatchLink extends DirectScreenLink {
-  protected Patch.Key key;
+  protected Patch.Key patchKey;
+  protected int patchIndex;
+  protected PatchTable parentPatchTable;
 
-  public PatchLink(final String text, final Patch.Key p, final String token) {
-    super(text, token);
-    key = p;
-  }
-
-  protected PatchTable parentPatchTable() {
-    Widget w = getParent();
-    while (w != null) {
-      if (w instanceof PatchTable) {
-        return ((PatchTable) w);
-      }
-      w = w.getParent();
-    }
-    return null;
+  /**
+   * @param text The text of this link
+   * @param patchKey The key for this patch
+   * @param patchIndex The index of the current patch in the patch set
+   * @param historyToken The history token
+   * @param parentPatchTable The table used to display this link
+   */
+  public PatchLink(final String text, final Patch.Key patchKey, final int patchIndex,
+      final String historyToken, PatchTable parentPatchTable) {
+    super(text, historyToken);
+    this.patchKey = patchKey;
+    this.patchIndex = patchIndex;
+    this.parentPatchTable = parentPatchTable;
   }
 
   public static class SideBySide extends PatchLink {
-    public SideBySide(final String text, final Patch.Key p) {
-      super(text, p, Link.toPatchSideBySide(p));
+    public SideBySide(final String text, final Patch.Key patchKey, final int patchIndex,
+        PatchTable parentPatchTable) {
+      super(text, patchKey, patchIndex, Link.toPatchSideBySide(patchKey), parentPatchTable);
     }
 
     @Override
     protected Screen createScreen() {
-      return new PatchScreen.SideBySide(key, parentPatchTable());
+      return new PatchScreen.SideBySide(patchKey, patchIndex, parentPatchTable);
     }
   }
 
   public static class Unified extends PatchLink {
-    public Unified(final String text, final Patch.Key p) {
-      super(text, p, Link.toPatchUnified(p));
+    public Unified(final String text, final Patch.Key patchKey, final int patchIndex,
+        PatchTable parentPatchTable) {
+      super(text, patchKey, patchIndex, Link.toPatchUnified(patchKey), parentPatchTable);
     }
 
     @Override
     protected Screen createScreen() {
-      return new PatchScreen.Unified(key, parentPatchTable());
+      return new PatchScreen.Unified(patchKey, patchIndex, parentPatchTable);
     }
   }
 }

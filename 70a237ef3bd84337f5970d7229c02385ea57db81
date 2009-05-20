@@ -1,0 +1,344 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAATn///7A\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/Link.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-05-20T16:44:39Z",
+      "side": 1,
+      "message": "Unnecessary trailing whitespace.",
+      "revId": "70a237ef3bd84337f5970d7229c02385ea57db81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAATn///68\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/Link.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-05-20T16:44:39Z",
+      "side": 1,
+      "message": "Unnecessary trailing whitespace.",
+      "revId": "70a237ef3bd84337f5970d7229c02385ea57db81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAATn///64\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/Link.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-05-20T16:44:39Z",
+      "side": 1,
+      "message": "Unnecessary trailing whitespace.",
+      "revId": "70a237ef3bd84337f5970d7229c02385ea57db81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAATn///54\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/PatchTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-05-20T16:44:39Z",
+      "side": 1,
+      "message": "NAK.\n\nOn a patch set from PV, when we have 4000 files in the list, you are creating 4000 copies of an array of 4000 entries long, requiring 16,000,000 array slots, in a browser, in JavaScript.  Please don\u0027t do that.",
+      "revId": "70a237ef3bd84337f5970d7229c02385ea57db81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAATn///50\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/PublishCommentScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-05-20T16:44:39Z",
+      "side": 1,
+      "message": "I wonder if in this context we should thread all files, or just the files that have drafts?",
+      "revId": "70a237ef3bd84337f5970d7229c02385ea57db81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAATn///6I\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-05-20T16:44:39Z",
+      "side": 1,
+      "message": "NAK.  See my remark about PatchType, your assumed meanings are wrong.",
+      "revId": "70a237ef3bd84337f5970d7229c02385ea57db81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAATn///6E\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-05-20T16:44:39Z",
+      "side": 1,
+      "message": "I try to defer UI construction later, as Screen objects can be created pretty early.  I would move these into the hunk below, even if that means holding onto the PatchSetKeys in an instance member.",
+      "revId": "70a237ef3bd84337f5970d7229c02385ea57db81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAATn///58\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-05-20T16:44:39Z",
+      "side": 1,
+      "message": "I thought these can\u0027t ever be null, given my comments in PatchSetKeys?",
+      "revId": "70a237ef3bd84337f5970d7229c02385ea57db81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAATn///6A\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-05-20T16:44:39Z",
+      "side": 1,
+      "message": "Unnecessary whitespace on otherwise empty line.",
+      "revId": "70a237ef3bd84337f5970d7229c02385ea57db81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAATn///7E\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/reviewdb/Patch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-05-20T16:44:39Z",
+      "side": 1,
+      "message": "Unnecessary whitespace on otherwise empty line.",
+      "revId": "70a237ef3bd84337f5970d7229c02385ea57db81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAATn///60\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/ui/PatchSetKeys.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-05-20T16:44:39Z",
+      "side": 1,
+      "message": "Missing AOSP 2009 copyright header.\n\nAlso, I would probably package this under the client.patch package, its more related to the patch display code than to the other UI code.  Or maybe, client.changes, since its essentially the data model of the PatchTable UI widget.\n\nWhich makes me start to wonder, why can\u0027t we use the PatchTable data model instead?",
+      "revId": "70a237ef3bd84337f5970d7229c02385ea57db81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAATn///6w\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/ui/PatchSetKeys.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-05-20T16:44:39Z",
+      "side": 1,
+      "message": "Is there a reason that parentChange can\u0027t be implied from keys.get(0).getParentKey().getParentKey() ?",
+      "revId": "70a237ef3bd84337f5970d7229c02385ea57db81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAATn///6o\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/ui/PatchSetKeys.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-05-20T16:44:39Z",
+      "side": 1,
+      "message": "Better spelled this(...) and then move the init method logic to the above constructor.",
+      "revId": "70a237ef3bd84337f5970d7229c02385ea57db81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAATn///6g\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/ui/PatchSetKeys.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-05-20T16:44:39Z",
+      "side": 1,
+      "message": "Javadoc disagrees with method, method only returns null if there is no parent change, but if we imply it from the current file, then there is always a parent change.",
+      "revId": "70a237ef3bd84337f5970d7229c02385ea57db81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAATn///6k\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/ui/PatchSetKeys.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-05-20T16:44:39Z",
+      "side": 1,
+      "message": "This may disagree with Android style, but existing style in Gerrit is to never cuddle, and always use {...} around the then/else statements.",
+      "revId": "70a237ef3bd84337f5970d7229c02385ea57db81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAATn///6c\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/ui/PatchSetKeys.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-05-20T16:44:39Z",
+      "side": 1,
+      "message": "Should we maybe split on the last \"/\" so we only show the basename of the file?  File paths are pretty long in Java projects.",
+      "revId": "70a237ef3bd84337f5970d7229c02385ea57db81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAATn///6Y\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/ui/PatchSetKeys.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-05-20T16:44:39Z",
+      "side": 1,
+      "message": "IMHO, I prefer to just return from each case point.  Or, declare the variable final with no value assigned here.  Either way the case is then forced to handle everything below, and return null (or chuck an exception) falls under default, or fall-through.",
+      "revId": "70a237ef3bd84337f5970d7229c02385ea57db81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAATn///6U\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/ui/PatchSetKeys.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-05-20T16:44:39Z",
+      "side": 1,
+      "message": "Wrong understanding of patchType, sorry.\n\nUNIFIED:  The patch is a textual view we can show in either SideBySide *OR* Unified.  We should use the same view type as the current view.\n\nBINARY:  The patch is a binary file.  SideBySide makes no sense (currently), so the only valid view is Unified.\n\nN_WAY:  The patch is a merge conflict, showing 2 or more pre-images and one post-image.  Although it may be a textual change, we can\u0027t format it in the SideBySide viewer, so you need to use the Unified viewer.",
+      "revId": "70a237ef3bd84337f5970d7229c02385ea57db81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAATn///6Q\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/ui/PatchSetKeys.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-05-20T16:44:39Z",
+      "side": 1,
+      "message": "Unnecessary whitespace on an otherwise empty line.",
+      "revId": "70a237ef3bd84337f5970d7229c02385ea57db81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAATn///6M\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/ui/PatchSetKeys.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-05-20T16:44:39Z",
+      "side": 1,
+      "message": "This should never be possible to be null.\n\nIf we have at least one Patch, we always have a Change.Id (its parent\u0027s parent).  If we have no Patches, how the hell did we get here in the first place?  Its possible for a change to have no Patch entities (patch set is a merge with no conflicts) but then how did we get into a viewer wanting to navigate?  We can\u0027t.  It should be a runtime failure, not return null gracefully.",
+      "revId": "70a237ef3bd84337f5970d7229c02385ea57db81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

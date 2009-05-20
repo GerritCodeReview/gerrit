@@ -14,8 +14,12 @@
 
 package com.google.gerrit.client.changes;
 
+import com.google.gerrit.client.patches.PatchScreen;
+import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchSet;
+import com.google.gerrit.client.reviewdb.Patch.Key;
+import com.google.gerrit.client.ui.ChangeLink;
 import com.google.gerrit.client.ui.DirectScreenLink;
 import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.client.ui.PatchLink;
@@ -36,6 +40,8 @@ import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 import com.google.gwtorm.client.KeyUtil;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PatchTable extends Composite {
@@ -44,6 +50,7 @@ public class PatchTable extends Composite {
   private Command onLoadCommand;
   private MyTable myTable;
   private String savePointerId;
+  private List<Patch> patchList;
 
   public PatchTable() {
     myBody = new FlowPanel();
@@ -53,6 +60,7 @@ public class PatchTable extends Composite {
   public void display(final PatchSet.Id id, final List<Patch> list) {
     psid = id;
     myTable = null;
+    patchList = list;
 
     final DisplayCommand cmd = new DisplayCommand(list);
     if (cmd.execute()) {
@@ -91,6 +99,54 @@ public class PatchTable extends Composite {
     if (myTable != null) {
       myTable.notifyDraftDelta(k, delta);
     }
+  }
+
+  /**
+   * @return a link to the previous file in this patch set, or a link to the main patch view
+   * if we are at the first file.
+   */
+  public DirectScreenLink getPreviousPatchLink(int index, PatchScreen.Type patchType) {
+    if (index == 0) return createParentChangeLink();
+    else return createLink(index - 1, patchType, "<<", "");
+  }
+
+  /**
+   * @return a link to the next file in this patch set, or a link to the main patch view
+   * if we are at the last file.
+   */
+  public DirectScreenLink getNextPatchLink(int index, PatchScreen.Type patchType) {
+    if (index >= patchList.size() - 1) return createParentChangeLink();
+    else return createLink(index + 1, patchType, "", ">>");
+  }
+
+  /**
+   * @return a link to the the given patch.
+   * @param patch The patch to link to
+   * @param patchType The type of patch display
+   * @param before A string to display at the beginning of the href text
+   * @param after A string to display at the end of the href text
+   */
+  private PatchLink createLink(int index, PatchScreen.Type patchType,
+      String before, String after) {
+    Patch patch = patchList.get(index);
+    String fileName = patch.getFileName();
+    // Note: use '/' here and not File.pathSeparator since git paths are always separated by /
+    int s = fileName.lastIndexOf('/');
+    if (s >= 0) {
+      fileName = fileName.substring(s + 1);
+    }
+    Key thisKey = patch.getKey();
+    String linkText = before + " " + fileName + " " + after;
+    if (patchType == PatchScreen.Type.SIDE_BY_SIDE
+        && patch.getPatchType() == Patch.PatchType.UNIFIED) {
+      return new PatchLink.SideBySide(linkText, thisKey, index, this);
+    } else {
+      return new PatchLink.Unified(linkText, thisKey, index, this);
+    }
+  }
+
+  private ChangeLink createParentChangeLink() {
+    return new ChangeLink(PatchUtil.C.upToChange(), psid.getParentKey());
   }
 
   private class MyTable extends NavigationTable<Patch> {
@@ -140,23 +196,26 @@ public class PatchTable extends Composite {
       super.movePointerTo(oldId);
     }
 
-    void initializeRow(final int row, final Patch p) {
-      setRowItem(row, p);
+    void initializeRow(int row) {
+      Patch patch = PatchTable.this.patchList.get(row - 1);
+      setRowItem(row, patch);
 
       Widget nameCol;
-      if (p.getPatchType() == Patch.PatchType.UNIFIED) {
-        nameCol = new PatchLink.SideBySide(p.getFileName(), p.getKey());
+      if (patch.getPatchType() == Patch.PatchType.UNIFIED) {
+        nameCol = new PatchLink.SideBySide(patch.getFileName(), patch.getKey(), row - 1,
+            PatchTable.this);
       } else {
-        nameCol = new PatchLink.Unified(p.getFileName(), p.getKey());
+        nameCol = new PatchLink.Unified(patch.getFileName(), patch.getKey(), row - 1,
+            PatchTable.this);
       }
-      if (p.getSourceFileName() != null) {
+      if (patch.getSourceFileName() != null) {
         final String text;
-        if (p.getChangeType() == Patch.ChangeType.RENAMED) {
-          text = Util.M.renamedFrom(p.getSourceFileName());
-        } else if (p.getChangeType() == Patch.ChangeType.COPIED) {
-          text = Util.M.copiedFrom(p.getSourceFileName());
+        if (patch.getChangeType() == Patch.ChangeType.RENAMED) {
+          text = Util.M.renamedFrom(patch.getSourceFileName());
+        } else if (patch.getChangeType() == Patch.ChangeType.COPIED) {
+          text = Util.M.copiedFrom(patch.getSourceFileName());
         } else {
-          text = Util.M.otherFrom(p.getSourceFileName());
+          text = Util.M.otherFrom(patch.getSourceFileName());
         }
         final Label line = new Label(text);
         line.setStyleName("SourceFilePath");
@@ -168,15 +227,17 @@ public class PatchTable extends Composite {
       table.setWidget(row, C_PATH, nameCol);
 
       int C_UNIFIED = C_SIDEBYSIDE + 1;
-      if (p.getPatchType() == Patch.PatchType.UNIFIED) {
-        table.setWidget(row, C_SIDEBYSIDE, new PatchLink.SideBySide(Util.C
-            .patchTableDiffSideBySide(), p.getKey()));
+      if (patch.getPatchType() == Patch.PatchType.UNIFIED) {
+        table.setWidget(row, C_SIDEBYSIDE,
+            new PatchLink.SideBySide(Util.C.patchTableDiffSideBySide(), patch.getKey(), row - 1,
+                PatchTable.this));
 
-      } else if (p.getPatchType() == Patch.PatchType.BINARY) {
+      } else if (patch.getPatchType() == Patch.PatchType.BINARY) {
         C_UNIFIED = C_SIDEBYSIDE + 2;
       }
-      table.setWidget(row, C_UNIFIED, new PatchLink.Unified(Util.C
-          .patchTableDiffUnified(), p.getKey()));
+      table.setWidget(row, C_UNIFIED,
+          new PatchLink.Unified(Util.C.patchTableDiffUnified(), patch.getKey(), row - 1,
+              PatchTable.this));
     }
 
     void appendHeader(final SafeHtmlBuilder m) {
@@ -389,7 +450,7 @@ public class PatchTable extends Composite {
 
         case 1:
           while (row < list.size()) {
-            table.initializeRow(row + 1, list.get(row));
+            table.initializeRow(row + 1);
             if ((++row % 50) == 0 && longRunning()) {
               updateMeter();
               return true;
@@ -432,4 +493,5 @@ public class PatchTable extends Composite {
       return System.currentTimeMillis() - start > 200;
     }
   }
+
 }

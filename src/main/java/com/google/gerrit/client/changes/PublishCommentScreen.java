@@ -248,8 +248,8 @@ public class PublishCommentScreen extends AccountScreen implements ClickHandler 
           panel = new FlowPanel();
           panel.addStyleName("gerrit-PatchComments");
           draftsPanel.add(panel);
-
-          panel.add(new PatchLink.SideBySide(fn, patchKey));
+          // Parent table can be null here since we are not showing any next/previous links
+          panel.add(new PatchLink.SideBySide(fn, patchKey, 0, null /* parent table */));
           priorFile = fn;
         }
 

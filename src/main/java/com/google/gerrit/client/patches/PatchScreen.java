@@ -110,7 +110,6 @@ public abstract class PatchScreen extends Screen {
 
     contentTable = createContentTable();
     contentTable.fileList = fileList;
-    fileList = null;
 
     final FlowPanel fp = new FlowPanel();
     fp.setStyleName("gerrit-SideBySideScreen-SideBySideTable");

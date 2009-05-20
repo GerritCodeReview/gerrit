@@ -30,6 +30,7 @@ import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.AccountScreen;
+import com.google.gerrit.client.ui.PatchSetKeys;
 import com.google.gerrit.client.ui.PatchLink;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -248,8 +249,7 @@ public class PublishCommentScreen extends AccountScreen implements ClickHandler 
           panel = new FlowPanel();
           panel.addStyleName("gerrit-PatchComments");
           draftsPanel.add(panel);
-
-          panel.add(new PatchLink.SideBySide(fn, patchKey));
+          panel.add(new PatchLink.SideBySide(fn, new PatchSetKeys(patchKey)));
           priorFile = fn;
         }
 

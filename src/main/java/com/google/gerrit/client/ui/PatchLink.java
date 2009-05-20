@@ -20,12 +20,14 @@ import com.google.gerrit.client.patches.PatchScreen;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gwt.user.client.ui.Widget;
 
-public abstract class PatchLink extends DirectScreenLink {
-  protected Patch.Key key;
+import java.util.List;
 
-  public PatchLink(final String text, final Patch.Key p, final String token) {
+public abstract class PatchLink extends DirectScreenLink {
+  protected PatchSetKeys patch;
+
+  public PatchLink(final String text, final PatchSetKeys patch, final String token) {
     super(text, token);
-    key = p;
+    this.patch = patch;
   }
 
   protected PatchTable parentPatchTable() {
@@ -40,24 +42,24 @@ public abstract class PatchLink extends DirectScreenLink {
   }
 
   public static class SideBySide extends PatchLink {
-    public SideBySide(final String text, final Patch.Key p) {
-      super(text, p, Link.toPatchSideBySide(p));
+    public SideBySide(final String text, PatchSetKeys psk) {
+      super(text, psk, Link.toPatchSideBySide(psk.getKey()));
     }
 
     @Override
     protected Screen createScreen() {
-      return new PatchScreen.SideBySide(key, parentPatchTable());
+      return new PatchScreen.SideBySide(patch.getKey(), patch, parentPatchTable());
     }
   }
 
   public static class Unified extends PatchLink {
-    public Unified(final String text, final Patch.Key p) {
-      super(text, p, Link.toPatchUnified(p));
+    public Unified(final String text, PatchSetKeys psk) {
+      super(text, psk, Link.toPatchUnified(psk.getKey()));
     }
 
     @Override
     protected Screen createScreen() {
-      return new PatchScreen.Unified(key, parentPatchTable());
+      return new PatchScreen.Unified(patch.getKey(), patch, parentPatchTable());
     }
   }
 }

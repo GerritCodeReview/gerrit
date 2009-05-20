@@ -199,4 +199,8 @@ public final class Patch {
   public void setSourceFileName(final String n) {
     sourceFileName = n;
   }
+  
+  public String toString() {
+    return key.toString();
+  }
 }

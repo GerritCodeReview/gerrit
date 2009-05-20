@@ -27,9 +27,9 @@ import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.workflow.FunctionState;
-import com.google.gerrit.server.ChangeMail;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritServer;
+import com.google.gerrit.server.mail.ChangeMail;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.Transaction;
 

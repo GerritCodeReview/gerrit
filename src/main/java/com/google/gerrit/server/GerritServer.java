@@ -148,7 +148,7 @@ public class GerritServer {
     return impl;
   }
 
-  static String serverUrl(final HttpServletRequest req) {
+  public static String serverUrl(final HttpServletRequest req) {
     // Assume this servlet is in the context with a simple name like "login"
     // and we were accessed without any path info. Clipping the last part of
     // the name from the URL should generate the web application's root path.

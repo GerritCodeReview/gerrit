@@ -58,6 +58,9 @@ public interface ChangeConstants extends Constants {
   String patchTablePrev();
   String patchTableNext();
   String patchTableOpen();
+  String upToChangeIconLink();
+  String prevPatchLinkIcon();
+  String nextPatchLinkIcon();
 
   String changeScreenDescription();
   String changeScreenDependencies();

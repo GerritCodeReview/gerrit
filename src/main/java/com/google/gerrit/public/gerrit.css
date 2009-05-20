@@ -686,6 +686,13 @@
   background: #fef8cb;
 }
 
+.gerrit-SideBySideScreen-LinkTable {
+  width: 100%;
+}
+.gerrit-SideBySideScreen-LinkTable td {
+  width: 33%;
+}
+
 .gerrit-CommentEditor {
   background: lightgrey;
   padding-left: 5px;

@@ -16,6 +16,7 @@ package com.google.gerrit.client.patches;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.PatchTable;
+import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.data.PatchScript;
 import com.google.gerrit.client.reviewdb.AccountGeneralPreferences;
 import com.google.gerrit.client.reviewdb.Change;
@@ -23,32 +24,50 @@ import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.NoDifferencesException;
+import com.google.gerrit.client.ui.ChangeLink;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
+import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtjsonrpc.client.RemoteJsonException;
 
 public abstract class PatchScreen extends Screen {
   public static class SideBySide extends PatchScreen {
-    public SideBySide(final Patch.Key id, final PatchTable files) {
-      super(id, files);
+    public SideBySide(final Patch.Key id, final int patchIndex,
+        final PatchTable patchTable) {
+      super(id, patchIndex, patchTable);
     }
 
     @Override
     protected SideBySideTable createContentTable() {
       return new SideBySideTable();
     }
+
+    @Override
+    protected PatchScreen.Type getPatchScreenType() {
+      return PatchScreen.Type.SIDE_BY_SIDE;
+    }
   }
 
   public static class Unified extends PatchScreen {
-    public Unified(final Patch.Key id, final PatchTable files) {
-      super(id, files);
+    public Unified(final Patch.Key id, final int patchIndex,
+        final PatchTable patchTable) {
+      super(id, patchIndex, patchTable);
     }
 
     @Override
     protected UnifiedDiffTable createContentTable() {
       return new UnifiedDiffTable();
+    }
+
+    @Override
+    protected PatchScreen.Type getPatchScreenType() {
+      return PatchScreen.Type.UNIFIED;
     }
   }
 
@@ -67,11 +86,23 @@ public abstract class PatchScreen extends Screen {
   private PatchScript script;
   private CommentDetail comments;
 
-  protected PatchScreen(final Patch.Key id, final PatchTable files) {
+  /** The index of the file we are currently looking at among the fileList */
+  private int patchIndex;
+
+  /**
+   * How this patch should be displayed in the patch screen.
+   */
+  public static enum Type {
+    UNIFIED, SIDE_BY_SIDE
+  }
+
+  protected PatchScreen(final Patch.Key id, final int patchIndex,
+      final PatchTable patchTable) {
     patchKey = id;
-    fileList = files;
+    fileList = patchTable;
     idSideA = null;
     idSideB = id.getParentKey();
+    this.patchIndex = patchIndex;
 
     if (Gerrit.isSignedIn()) {
       final AccountGeneralPreferences p =
@@ -111,11 +142,36 @@ public abstract class PatchScreen extends Screen {
     contentTable = createContentTable();
     contentTable.fileList = fileList;
 
+    add(createNextPrevLinks());
     final FlowPanel fp = new FlowPanel();
     fp.setStyleName("gerrit-SideBySideScreen-SideBySideTable");
     fp.add(noDifference);
     fp.add(contentTable);
     add(fp);
+    add(createNextPrevLinks());
+  }
+
+  private Widget createNextPrevLinks() {
+    final Grid table = new Grid(1, 3);
+    final CellFormatter fmt = table.getCellFormatter();
+    table.setStyleName("gerrit-SideBySideScreen-LinkTable");
+    fmt.setHorizontalAlignment(0, 0, HasHorizontalAlignment.ALIGN_LEFT);
+    fmt.setHorizontalAlignment(0, 1, HasHorizontalAlignment.ALIGN_CENTER);
+    fmt.setHorizontalAlignment(0, 2, HasHorizontalAlignment.ALIGN_RIGHT);
+
+    if (fileList != null) {
+      table.setWidget(0, 0, fileList.getPreviousPatchLink(patchIndex,
+          getPatchScreenType()));
+      table.setWidget(0, 2, fileList.getNextPatchLink(patchIndex,
+          getPatchScreenType()));
+    }
+
+    final ChangeLink up =
+        new ChangeLink("", patchKey.getParentKey().getParentKey());
+    SafeHtml.set(up, SafeHtml.asis(Util.C.upToChangeIconLink()));
+    table.setWidget(0, 1, up);
+
+    return table;
   }
 
   @Override
@@ -131,6 +187,8 @@ public abstract class PatchScreen extends Screen {
   }
 
   protected abstract AbstractPatchContentTable createContentTable();
+
+  protected abstract PatchScreen.Type getPatchScreenType();
 
   protected void refresh(final boolean isFirst) {
     final int rpcseq = ++rpcSequence;

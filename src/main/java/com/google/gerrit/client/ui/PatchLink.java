@@ -20,44 +20,61 @@ import com.google.gerrit.client.patches.PatchScreen;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gwt.user.client.ui.Widget;
 
-public abstract class PatchLink extends DirectScreenLink {
-  protected Patch.Key key;
+import java.util.List;
 
-  public PatchLink(final String text, final Patch.Key p, final String token) {
+public abstract class PatchLink extends DirectScreenLink {
+  protected Patch.Key patchKey;
+  protected int patchIndex;
+  private PatchTable parentPatchTable;
+
+  /**
+   * @param text The text of this link
+   * @param patchIndex The index of the current patch in the patch set
+   */
+  public PatchLink(final String text, final Patch.Key patchKey, final int patchIndex,
+      final String token, PatchTable parentPatchTable) {
     super(text, token);
-    key = p;
+    this.patchKey = patchKey;
+    this.patchIndex = patchIndex;
+    this.parentPatchTable = parentPatchTable;
   }
 
-  protected PatchTable parentPatchTable() {
-    Widget w = getParent();
-    while (w != null) {
-      if (w instanceof PatchTable) {
-        return ((PatchTable) w);
-      }
-      w = w.getParent();
-    }
-    return null;
+//  protected PatchTable parentPatchTable() {
+//    Widget w = getParent();
+//    while (w != null) {
+//      if (w instanceof PatchTable) {
+//        return ((PatchTable) w);
+//      }
+//      w = w.getParent();
+//    }
+//    return null;
+//  }
+
+  protected PatchTable getParentPatchTable() {
+    return parentPatchTable;
   }
 
   public static class SideBySide extends PatchLink {
-    public SideBySide(final String text, final Patch.Key p) {
-      super(text, p, Link.toPatchSideBySide(p));
+    public SideBySide(final String text, final Patch.Key patchKey, final int patchIndex,
+        PatchTable parentPatchTable) {
+      super(text, patchKey, patchIndex, Link.toPatchSideBySide(patchKey), parentPatchTable);
     }
 
     @Override
     protected Screen createScreen() {
-      return new PatchScreen.SideBySide(key, parentPatchTable());
+      return new PatchScreen.SideBySide(patchKey, patchIndex, getParentPatchTable());
     }
   }
 
   public static class Unified extends PatchLink {
-    public Unified(final String text, final Patch.Key p) {
-      super(text, p, Link.toPatchUnified(p));
+    public Unified(final String text, final Patch.Key patchKey, final int patchIndex,
+        PatchTable parentPatchTable) {
+      super(text, patchKey, patchIndex, Link.toPatchUnified(patchKey), parentPatchTable);
     }
 
     @Override
     protected Screen createScreen() {
-      return new PatchScreen.Unified(key, parentPatchTable());
+      return new PatchScreen.Unified(patchKey, patchIndex, getParentPatchTable());
     }
   }
 }

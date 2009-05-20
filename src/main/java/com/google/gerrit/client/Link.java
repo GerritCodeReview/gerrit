@@ -181,11 +181,15 @@ public class Link implements ValueChangeHandler<String> {
     if (token.startsWith("patch,")) {
       p = "patch,sidebyside,";
       if (token.startsWith(p))
-        return new PatchScreen.SideBySide(Patch.Key.parse(skip(p, token)), null);
+        return new PatchScreen.SideBySide(Patch.Key.parse(skip(p, token)),
+            0 /* patchIndex */,
+            null /* files */);
 
       p = "patch,unified,";
       if (token.startsWith(p))
-        return new PatchScreen.Unified(Patch.Key.parse(skip(p, token)), null);
+        return new PatchScreen.Unified(Patch.Key.parse(skip(p, token)),
+            0 /* patchIndex */,
+            null /* files */);
     }
 
     p = "change,publish,";

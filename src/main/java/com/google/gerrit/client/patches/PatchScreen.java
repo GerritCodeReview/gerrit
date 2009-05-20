@@ -23,32 +23,45 @@ import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.NoDifferencesException;
+import com.google.gerrit.client.ui.DirectScreenLink;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gwt.user.client.ui.DisclosurePanel;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwtjsonrpc.client.RemoteJsonException;
 
 public abstract class PatchScreen extends Screen {
   public static class SideBySide extends PatchScreen {
-    public SideBySide(final Patch.Key id, final PatchTable files) {
-      super(id, files);
+    public SideBySide(final Patch.Key id, final int patchIndex, final PatchTable patchTable) {
+      super(id, patchIndex, patchTable);
     }
 
     @Override
     protected SideBySideTable createContentTable() {
       return new SideBySideTable();
     }
+
+    @Override
+    protected Patch.PatchType getPatchType() {
+      return Patch.PatchType.N_WAY;
+    }
   }
 
   public static class Unified extends PatchScreen {
-    public Unified(final Patch.Key id, final PatchTable files) {
-      super(id, files);
+    public Unified(final Patch.Key id, final int patchIndex, final PatchTable patchTable) {
+      super(id, patchIndex, patchTable);
     }
 
     @Override
     protected UnifiedDiffTable createContentTable() {
       return new UnifiedDiffTable();
+    }
+
+    @Override
+    protected Patch.PatchType getPatchType() {
+      return Patch.PatchType.UNIFIED;
     }
   }
 
@@ -67,11 +80,19 @@ public abstract class PatchScreen extends Screen {
   private PatchScript script;
   private CommentDetail comments;
 
-  protected PatchScreen(final Patch.Key id, final PatchTable files) {
+  // Links to the previous and next file, if applicable
+  private DirectScreenLink previousPatchLink;
+  private DirectScreenLink nextPatchLink;
+
+  // The index of the file we are currently looking at among the fileList
+  private int patchIndex;
+
+  protected PatchScreen(final Patch.Key id, final int patchIndex, final PatchTable patchTable) {
     patchKey = id;
-    fileList = files;
+    fileList = patchTable;
     idSideA = null;
     idSideB = id.getParentKey();
+    this.patchIndex = patchIndex;
 
     if (Gerrit.isSignedIn()) {
       final AccountGeneralPreferences p =
@@ -110,13 +131,27 @@ public abstract class PatchScreen extends Screen {
 
     contentTable = createContentTable();
     contentTable.fileList = fileList;
-    fileList = null;
 
     final FlowPanel fp = new FlowPanel();
     fp.setStyleName("gerrit-SideBySideScreen-SideBySideTable");
     fp.add(noDifference);
     fp.add(contentTable);
     add(fp);
+
+    // Links to the next/previous file
+    FlexTable dp = new FlexTable();
+    dp.setStyleName("gerrit-SideBySideScreen-LinkTable");
+    dp.getFlexCellFormatter().setHorizontalAlignment(0, 0, HasHorizontalAlignment.ALIGN_LEFT);
+    dp.getFlexCellFormatter().setHorizontalAlignment(0, 1, HasHorizontalAlignment.ALIGN_RIGHT);
+    
+    if (fileList != null) {
+      previousPatchLink = fileList.getPreviousPatchLink(patchIndex, getPatchType());
+      nextPatchLink = fileList.getNextPatchLink(patchIndex, getPatchType());
+    }
+
+    dp.setWidget(0, 0, previousPatchLink); 
+    dp.setWidget(0, 1, nextPatchLink);
+    add(dp);
   }
 
   @Override
@@ -132,6 +167,8 @@ public abstract class PatchScreen extends Screen {
   }
 
   protected abstract AbstractPatchContentTable createContentTable();
+
+  protected abstract Patch.PatchType getPatchType();
 
   protected void refresh(final boolean isFirst) {
     final int rpcseq = ++rpcSequence;

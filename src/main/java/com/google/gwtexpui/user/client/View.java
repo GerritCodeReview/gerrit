@@ -38,8 +38,14 @@ public abstract class View extends Composite {
 
   /** true if this is the current view of its parent view site */
   public final boolean isCurrentView() {
-    final Widget p = getParent();
-    return p instanceof ViewSite && ((ViewSite<?>) p).getView() == this;
+    Widget p = getParent();
+    while (p != null) {
+      if (p instanceof ViewSite) {
+        return ((ViewSite<?>) p).getView() == this;
+      }
+      p = p.getParent();
+    }
+    return false;
   }
 
   /** Replace the current view in the parent ViewSite with this view. */

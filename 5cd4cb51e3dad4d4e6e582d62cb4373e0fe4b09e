@@ -36,6 +36,108 @@
     },
     {
       "key": {
+        "uuid": "AAAAUX////0\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/PatchTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-05-21T23:58:31Z",
+      "side": 1,
+      "message": "I still think cutting the file name on the last \u0027/\u0027 and using only the basename in the display part of the link will create a better presentation, especially for Java code bases.",
+      "revId": "5cd4cb51e3dad4d4e6e582d62cb4373e0fe4b09e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAUX////8\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/PatchTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-05-21T23:58:31Z",
+      "side": 1,
+      "message": "I\u0027m really not that comfortable with abusing the Patch.PatchType enum like this.  We need a new enum for the two different types of display, and pass that through here, but we still need to take into account the patch.getPatchType() return value because a SideBySide can only be used if patch.getPatchType() \u003d\u003d UNIFIED.",
+      "revId": "5cd4cb51e3dad4d4e6e582d62cb4373e0fe4b09e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAUX////w\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/PatchTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-05-21T23:58:31Z",
+      "side": 1,
+      "message": "This just isn\u0027t possible.  parentChange cannot be null.",
+      "revId": "5cd4cb51e3dad4d4e6e582d62cb4373e0fe4b09e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAUX////s\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/PatchTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-05-21T23:58:31Z",
+      "side": 1,
+      "message": "Please externalize the string in the PatchUtil.C interface (really its called PatchConstants, but the static instance to access through is PatchUtil.C.)\n\nAlso, this should say \"Up to change\" rather than \"Back to patch\".",
+      "revId": "5cd4cb51e3dad4d4e6e582d62cb4373e0fe4b09e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAUX////o\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/PatchTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-05-21T23:58:31Z",
+      "side": 1,
+      "message": "Please cleanup this whitespace.",
+      "revId": "5cd4cb51e3dad4d4e6e582d62cb4373e0fe4b09e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAUX////k\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/PatchTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-05-21T23:58:31Z",
+      "side": 1,
+      "message": "Please cleanup this whitespace.",
+      "revId": "5cd4cb51e3dad4d4e6e582d62cb4373e0fe4b09e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAUH////k\u003d",
         "filename": "src/main/java/com/google/gerrit/client/changes/PatchTable.java",
         "patchSetId": 2
@@ -47,6 +149,40 @@
       "writtenOn": "2009-05-21T22:14:21Z",
       "side": 1,
       "message": "No longer needed, delete.",
+      "revId": "5cd4cb51e3dad4d4e6e582d62cb4373e0fe4b09e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAUX////g\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/PatchTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-05-21T23:58:31Z",
+      "side": 1,
+      "message": "Hmm, we have an instance member patchList that we can use here instead of passing the list through, don\u0027t we?  You initialize the instance member before we create the DisplayCommand, and its the DisplayCommand that is calling back to here, so we certainly have the data.\n\nI\u0027d prefer to just use the instance member and avoid passing the List through.",
+      "revId": "5cd4cb51e3dad4d4e6e582d62cb4373e0fe4b09e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAUX////Y\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/PatchTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-05-21T23:58:31Z",
+      "side": 1,
+      "message": "FWIW, I would have preferred to see this variable rename in its own commit, as then its less code delta when we start to talk about the real change you are making.  But splitting it out now might be painful.  Food for thought for future changes.",
       "revId": "5cd4cb51e3dad4d4e6e582d62cb4373e0fe4b09e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +223,40 @@
     },
     {
       "key": {
+        "uuid": "AAAAUX////c\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/PatchTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-05-21T23:58:31Z",
+      "side": 1,
+      "message": "Code is correct.  Its your understanding that is still wrong.\n\nPlease review the definitions I put into the Javadoc for Patch.PatchType.\n\nIf getPatchType() \u003d\u003d UNIFIED it means its a textual diff between two contents.  We can show that in a side by side view, using only two columns.",
+      "revId": "5cd4cb51e3dad4d4e6e582d62cb4373e0fe4b09e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAUX////U\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/PublishCommentScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-05-21T23:58:31Z",
+      "side": 1,
+      "message": "Bad import (delete).",
+      "revId": "5cd4cb51e3dad4d4e6e582d62cb4373e0fe4b09e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAUH////E\u003d",
         "filename": "src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
         "patchSetId": 2
@@ -104,6 +274,23 @@
     },
     {
       "key": {
+        "uuid": "AAAAUX////Q\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-05-21T23:58:31Z",
+      "side": 1,
+      "message": "Make a new enum that means \"Type of Screen\" and return that.  E.g.:\n\n  public enum PatchScreenType {\n    SIDE_BY_SIDE,\n    UNIFIED\n  }\n\nMaybe we can later teach the enum how to create a PatchScreenLink for a given Patch.PatchType, based on what the different screen types are capable of rendering.",
+      "revId": "5cd4cb51e3dad4d4e6e582d62cb4373e0fe4b09e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAUH////A\u003d",
         "filename": "src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
         "patchSetId": 2
@@ -115,6 +302,40 @@
       "writtenOn": "2009-05-21T22:14:21Z",
       "side": 1,
       "message": "So much for consistency, should probably use patchTable everywhere.",
+      "revId": "5cd4cb51e3dad4d4e6e582d62cb4373e0fe4b09e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAUX////M\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-05-21T23:58:31Z",
+      "side": 1,
+      "message": "Well, fileList was already here.  Yea, we should maybe rename it to patchTable, in a separate commit, to make the code a bit more consistent.",
+      "revId": "5cd4cb51e3dad4d4e6e582d62cb4373e0fe4b09e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAUX////E\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-05-21T23:58:31Z",
+      "side": 1,
+      "message": "We should make this an instance member.  Then if fileList \u003d\u003d null we can start an async RPC to populate it with the real list in the background and insert the next/prev links when that RPC completes.",
       "revId": "5cd4cb51e3dad4d4e6e582d62cb4373e0fe4b09e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -155,6 +376,23 @@
     },
     {
       "key": {
+        "uuid": "AAAAUX///+8\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/ui/PatchLink.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-05-21T23:58:31Z",
+      "side": 1,
+      "message": "I suggest just making this protected and allow the subclasses to access directly.",
+      "revId": "5cd4cb51e3dad4d4e6e582d62cb4373e0fe4b09e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAUH///+0\u003d",
         "filename": "src/main/java/com/google/gerrit/client/ui/PatchLink.java",
         "patchSetId": 2
@@ -166,6 +404,23 @@
       "writtenOn": "2009-05-21T22:14:21Z",
       "side": 1,
       "message": "Remove this.",
+      "revId": "5cd4cb51e3dad4d4e6e582d62cb4373e0fe4b09e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAUX////A\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/ui/PatchLink.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-05-21T23:58:31Z",
+      "side": 1,
+      "message": "Can\u0027t we just delete the method and allow the subclasses access to the field?  The only reason I had the method was because there was logic to execute to discover the parent at createScreen time.",
       "revId": "5cd4cb51e3dad4d4e6e582d62cb4373e0fe4b09e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

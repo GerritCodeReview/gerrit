@@ -59,8 +59,9 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
   private static final int C_SUBJECT = 3;
   private static final int C_OWNER = 4;
   private static final int C_PROJECT = 5;
-  private static final int C_LAST_UPDATE = 6;
-  private static final int COLUMNS = 7;
+  private static final int C_BRANCH = 6;
+  private static final int C_LAST_UPDATE = 7;
+  private static final int COLUMNS = 8;
 
   private final List<Section> sections;
   private HandlerRegistration regSignOut;
@@ -83,6 +84,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     table.setText(0, C_SUBJECT, Util.C.changeTableColumnSubject());
     table.setText(0, C_OWNER, Util.C.changeTableColumnOwner());
     table.setText(0, C_PROJECT, Util.C.changeTableColumnProject());
+    table.setText(0, C_BRANCH, Util.C.changeTableColumnBranch());
     table.setText(0, C_LAST_UPDATE, Util.C.changeTableColumnLastUpdate());
 
     final FlexCellFormatter fmt = table.getFlexCellFormatter();
@@ -196,6 +198,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     fmt.addStyleName(row, C_ID, S_C_ID);
     fmt.addStyleName(row, C_SUBJECT, S_C_SUBJECT);
     fmt.addStyleName(row, C_PROJECT, S_C_PROJECT);
+    fmt.addStyleName(row, C_BRANCH, S_C_PROJECT);
     fmt.addStyleName(row, C_LAST_UPDATE, S_C_LAST_UPDATE);
   }
 
@@ -218,6 +221,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     table.setWidget(row, C_OWNER, link(c.getOwner()));
     table.setWidget(row, C_PROJECT,
         new ProjectOpenLink(c.getProject().getKey()));
+    table.setText(row, C_BRANCH, c.getBranch());
     table.setText(row, C_LAST_UPDATE, mediumFormat(c.getLastUpdatedOn()));
     setRowItem(row, c);
   }

@@ -25,6 +25,7 @@ public class ChangeInfo {
   protected String subject;
   protected Change.Status status;
   protected ProjectInfo project;
+  protected String branch;
   protected boolean starred;
   protected Timestamp lastUpdatedOn;
   protected String sortKey;
@@ -38,6 +39,7 @@ public class ChangeInfo {
     subject = c.getSubject();
     status = c.getStatus();
     project = new ProjectInfo(c.getDest().getParentKey());
+    branch = c.getDest().getShortName();
     lastUpdatedOn = c.getLastUpdatedOn();
     sortKey = c.getSortKey();
 
@@ -62,6 +64,10 @@ public class ChangeInfo {
 
   public ProjectInfo getProject() {
     return project;
+  }
+
+  public String getBranch() {
+    return branch;
   }
 
   public boolean isStarred() {

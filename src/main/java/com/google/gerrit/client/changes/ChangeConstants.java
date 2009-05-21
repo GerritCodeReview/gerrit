@@ -35,6 +35,7 @@ public interface ChangeConstants extends Constants {
   String changeTableColumnOwner();
   String changeTableColumnReviewers();
   String changeTableColumnProject();
+  String changeTableColumnBranch();
   String changeTableColumnLastUpdate();
   String changeTableNone();
 

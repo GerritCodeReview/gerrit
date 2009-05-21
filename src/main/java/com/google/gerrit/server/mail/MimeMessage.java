@@ -18,6 +18,8 @@ import javax.mail.MessagingException;
 import javax.mail.Session;
 
 class MimeMessage extends javax.mail.internet.MimeMessage {
+  static final String MESSAGE_ID = "Message-ID";
+
   MimeMessage(final Session session) {
     super(session);
   }
@@ -29,9 +31,18 @@ class MimeMessage extends javax.mail.internet.MimeMessage {
   }
 
   @Override
+  public void setHeader(String name, String value) throws MessagingException {
+    if (MESSAGE_ID.equalsIgnoreCase(name)) {
+      messageID = value;
+    } else {
+      super.setHeader(name, value);
+    }
+  }
+
+  @Override
   protected void updateMessageID() throws MessagingException {
     if (messageID != null) {
-      setHeader("Message-ID", messageID);
+      super.setHeader(MESSAGE_ID, messageID);
     } else {
       super.updateMessageID();
     }

@@ -25,7 +25,7 @@ import java.util.Properties;
 public class Version {
   private static String version;
 
-  public static String getVersion() {
+  public static synchronized String getVersion() {
     if (version == null) {
       final Properties p = new Properties();
       final InputStream in =

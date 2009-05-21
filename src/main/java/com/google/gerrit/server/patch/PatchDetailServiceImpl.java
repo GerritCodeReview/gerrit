@@ -39,7 +39,9 @@ import com.google.gerrit.git.RepositoryCache;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritJsonServlet;
 import com.google.gerrit.server.GerritServer;
-import com.google.gerrit.server.mail.ChangeMail;
+import com.google.gerrit.server.mail.AbandonedSender;
+import com.google.gerrit.server.mail.AddReviewerSender;
+import com.google.gerrit.server.mail.CommentSender;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
@@ -164,7 +166,7 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
         });
 
         try {
-          final ChangeMail cm = new ChangeMail(server, r.change);
+          final CommentSender cm = new CommentSender(server, r.change);
           cm.setFrom(Common.getAccountId());
           cm.setPatchSet(r.patchSet, r.info);
           cm.setChangeMessage(r.message);
@@ -172,7 +174,7 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
           cm.setReviewDb(db);
           cm.setHttpServletRequest(GerritJsonServlet.getCurrentCall()
               .getHttpServletRequest());
-          cm.sendComment();
+          cm.send();
         } catch (MessagingException e) {
           log.error("Cannot send comments by email for patch set " + psid, e);
           throw new Failure(e);
@@ -324,13 +326,13 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
 
         // Email the reviewer
         try {
-          final ChangeMail cm = new ChangeMail(server, change);
+          final AddReviewerSender cm = new AddReviewerSender(server, change);
           cm.setFrom(Common.getAccountId());
           cm.setReviewDb(db);
           cm.addReviewers(reviewerIds);
           cm.setHttpServletRequest(GerritJsonServlet.getCurrentCall()
               .getHttpServletRequest());
-          cm.sendRequestReview();
+          cm.send();
         } catch (MessagingException e) {
           log.error("Cannot send review request by email for change " + id, e);
           throw new Failure(e);
@@ -406,13 +408,13 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
         if (dbSuccess) {
           // Email the reviewers
           try {
-            final ChangeMail cm = new ChangeMail(server, change);
+            final AbandonedSender cm = new AbandonedSender(server, change);
             cm.setFrom(me);
             cm.setReviewDb(db);
             cm.setChangeMessage(cmsg);
             cm.setHttpServletRequest(GerritJsonServlet.getCurrentCall()
                 .getHttpServletRequest());
-            cm.sendAbandoned();
+            cm.send();
           } catch (MessagingException e) {
             log.error("Cannot send abandon change email for change "
                 + change.getChangeId(), e);

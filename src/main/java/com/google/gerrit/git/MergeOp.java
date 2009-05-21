@@ -29,7 +29,8 @@ import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.workflow.FunctionState;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritServer;
-import com.google.gerrit.server.mail.ChangeMail;
+import com.google.gerrit.server.mail.MergeFailSender;
+import com.google.gerrit.server.mail.MergedSender;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.Transaction;
 
@@ -701,13 +702,13 @@ public class MergeOp {
           }
 
           try {
-            final ChangeMail cm = new ChangeMail(server, c);
+            final MergeFailSender cm = new MergeFailSender(server, c);
             cm.setFrom(getSubmitter(c));
             cm.setReviewDb(schema);
             cm.setPatchSet(schema.patchSets().get(c.currentPatchSetId()), schema
                 .patchSetInfo().get(c.currentPatchSetId()));
             cm.setChangeMessage(msg);
-            cm.sendMergeFailed();
+            cm.send();
           } catch (OrmException e) {
             log.error("Cannot submit patch set for Change " + c.getId() + " due to a missing dependency.", e);
           } catch (MessagingException e) {
@@ -813,14 +814,14 @@ public class MergeOp {
     }
 
     try {
-      final ChangeMail cm = new ChangeMail(server, c);
+      final MergedSender cm = new MergedSender(server, c);
       if (submitter != null) {
         cm.setFrom(submitter.getAccountId());
       }
       cm.setReviewDb(schema);
       cm.setPatchSet(schema.patchSets().get(c.currentPatchSetId()), schema
           .patchSetInfo().get(c.currentPatchSetId()));
-      cm.sendMerged();
+      cm.send();
     } catch (OrmException e) {
       log.error("Cannot send email for submitted patch set " + c.getId(), e);
     } catch (MessagingException e) {
@@ -855,13 +856,13 @@ public class MergeOp {
     }
 
     try {
-      final ChangeMail cm = new ChangeMail(server, c);
+      final MergeFailSender cm = new MergeFailSender(server, c);
       cm.setFrom(getSubmitter(c));
       cm.setReviewDb(schema);
       cm.setPatchSet(schema.patchSets().get(c.currentPatchSetId()), schema
           .patchSetInfo().get(c.currentPatchSetId()));
       cm.setChangeMessage(msg);
-      cm.sendMergeFailed();
+      cm.send();
     } catch (OrmException e) {
       log.error("Cannot submit patch set for Change " + c.getId() + " due to a path conflict.", e);
     } catch (MessagingException e) {

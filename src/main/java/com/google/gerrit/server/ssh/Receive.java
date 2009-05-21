@@ -41,7 +41,8 @@ import com.google.gerrit.git.PatchSetImporter;
 import com.google.gerrit.git.PushQueue;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritServer;
-import com.google.gerrit.server.mail.ChangeMail;
+import com.google.gerrit.server.mail.CreateChangeSender;
+import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.OrmRunnable;
 import com.google.gwtorm.client.Transaction;
@@ -706,13 +707,13 @@ class Receive extends AbstractGitCommand {
     allNewChanges.add(change.getId());
 
     try {
-      final ChangeMail cm = new ChangeMail(server, change);
+      final CreateChangeSender cm = new CreateChangeSender(server, change);
       cm.setFrom(me);
       cm.setPatchSet(ps, imp.getPatchSetInfo());
       cm.setReviewDb(db);
       cm.addReviewers(reviewerId);
       cm.addExtraCC(ccId);
-      cm.sendNewChange();
+      cm.send();
     } catch (MessagingException e) {
       log.error("Cannot send email for new change " + change.getId(), e);
     }
@@ -906,14 +907,15 @@ class Receive extends AbstractGitCommand {
       cmd.setResult(ReceiveCommand.Result.OK);
 
       try {
-        final ChangeMail cm = new ChangeMail(server, result.change);
+        final ReplacePatchSetSender cm =
+            new ReplacePatchSetSender(server, result.change);
         cm.setFrom(me);
         cm.setPatchSet(ps, result.info);
         cm.setChangeMessage(result.msg);
         cm.setReviewDb(db);
         cm.addReviewers(reviewerId);
         cm.addExtraCC(ccId);
-        cm.sendNewPatchSet();
+        cm.send();
       } catch (MessagingException e) {
         log.error("Cannot send email for new patch set " + ps.getId(), e);
       }

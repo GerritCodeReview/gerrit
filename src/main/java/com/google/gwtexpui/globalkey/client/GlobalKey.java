@@ -86,13 +86,7 @@ public class GlobalKey {
     assert panel.isShowing();
     assert active == global;
     active = new State(panel);
-    active.add(new KeyCommand(0, KeyCodes.KEY_ESCAPE, Util.C
-        .closeCurrentDialog()) {
-      @Override
-      public void onKeyPress(final KeyPressEvent event) {
-        panel.hide();
-      }
-    });
+    active.add(new HidePopupPanelCommand(0, KeyCodes.KEY_ESCAPE, panel));
     panel.addCloseHandler(restoreGlobal);
   }
 

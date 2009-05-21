@@ -47,6 +47,7 @@ public class ShowHelpCommand extends KeyCommand {
         current = null;
       }
     });
+    current = help;
     help.setPopupPositionAndShow(new PositionCallback() {
       @Override
       public void setPosition(final int pWidth, final int pHeight) {

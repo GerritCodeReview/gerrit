@@ -90,6 +90,13 @@ public class KeyHelpPopup extends PluginSafePopupPanel implements
 
   @Override
   public void onKeyPress(final KeyPressEvent event) {
+    if (KeyCommandSet.toMask(event) == ShowHelpCommand.INSTANCE.keyMask) {
+      // Block the '?' key from triggering us to show right after
+      // we just hide ourselves.
+      //
+      event.stopPropagation();
+      event.preventDefault();
+    }
     hide();
   }
 

@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAUH////I\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/Link.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1002059
+      },
+      "writtenOn": "2009-05-21T22:14:21Z",
+      "side": 1,
+      "message": "Renamed this patchList in the constructor, should probably update the name here too (and below as well).",
+      "revId": "5cd4cb51e3dad4d4e6e582d62cb4373e0fe4b09e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAUH////o\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/PatchTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1002059
+      },
+      "writtenOn": "2009-05-21T22:14:21Z",
+      "side": 1,
+      "message": "Need to update this comment.",
+      "revId": "5cd4cb51e3dad4d4e6e582d62cb4373e0fe4b09e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAUH////k\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/PatchTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1002059
+      },
+      "writtenOn": "2009-05-21T22:14:21Z",
+      "side": 1,
+      "message": "No longer needed, delete.",
+      "revId": "5cd4cb51e3dad4d4e6e582d62cb4373e0fe4b09e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAUH////g\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/PatchTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1002059
+      },
+      "writtenOn": "2009-05-21T22:14:21Z",
+      "side": 1,
+      "message": "Delete.",
+      "revId": "5cd4cb51e3dad4d4e6e582d62cb4373e0fe4b09e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAUH////c\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/PatchTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1002059
+      },
+      "writtenOn": "2009-05-21T22:14:21Z",
+      "side": 1,
+      "message": "Mmh something is wrong here: UNIFIED -\u003e Unified, and else should create SideBySide(?)\n\nActually I didn\u0027t write this, it was already there but the question still remains.",
+      "revId": "5cd4cb51e3dad4d4e6e582d62cb4373e0fe4b09e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAUH////E\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1002059
+      },
+      "writtenOn": "2009-05-21T22:14:21Z",
+      "side": 1,
+      "message": "Shawn, I now know this is wrong, but what is the correct value?",
+      "revId": "5cd4cb51e3dad4d4e6e582d62cb4373e0fe4b09e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAUH////A\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1002059
+      },
+      "writtenOn": "2009-05-21T22:14:21Z",
+      "side": 1,
+      "message": "So much for consistency, should probably use patchTable everywhere.",
+      "revId": "5cd4cb51e3dad4d4e6e582d62cb4373e0fe4b09e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAUH///+8\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1002059
+      },
+      "writtenOn": "2009-05-21T22:14:21Z",
+      "side": 1,
+      "message": "Spaces.",
+      "revId": "5cd4cb51e3dad4d4e6e582d62cb4373e0fe4b09e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAUH///+4\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1002059
+      },
+      "writtenOn": "2009-05-21T22:14:21Z",
+      "side": 1,
+      "message": "Extra space",
+      "revId": "5cd4cb51e3dad4d4e6e582d62cb4373e0fe4b09e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAUH///+0\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/ui/PatchLink.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1002059
+      },
+      "writtenOn": "2009-05-21T22:14:21Z",
+      "side": 1,
+      "message": "Remove this.",
+      "revId": "5cd4cb51e3dad4d4e6e582d62cb4373e0fe4b09e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -15,12 +15,16 @@
 package com.google.gwtexpui.globalkey.client;
 
 import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.PopupPanel.PositionCallback;
 
 
 public class ShowHelpCommand extends KeyCommand {
   public static final ShowHelpCommand INSTANCE = new ShowHelpCommand();
+  private static KeyHelpPopup current;
 
   public ShowHelpCommand() {
     super(0, '?', Util.C.showHelp());
@@ -28,7 +32,21 @@ public class ShowHelpCommand extends KeyCommand {
 
   @Override
   public void onKeyPress(final KeyPressEvent event) {
+    if (current != null) {
+      // Already open? Close the dialog.
+      //
+      current.hide();
+      current = null;
+      return;
+    }
+
     final KeyHelpPopup help = new KeyHelpPopup();
+    help.addCloseHandler(new CloseHandler<PopupPanel>() {
+      @Override
+      public void onClose(final CloseEvent<PopupPanel> event) {
+        current = null;
+      }
+    });
     help.setPopupPositionAndShow(new PositionCallback() {
       @Override
       public void setPosition(final int pWidth, final int pHeight) {

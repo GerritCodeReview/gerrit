@@ -222,6 +222,15 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
         final int start = findChunkStart(row);
         movePointerTo(start, false);
         scrollIntoView(oneBefore(start), oneAfter(row));
+        return;
+      }
+    }
+
+    // No prior hunk found? Try to hit the first line in the file.
+    //
+    for (row = 0; row < table.getRowCount(); row++) {
+      if (getRowItem(row) != null) {
+        movePointerTo(row);
         break;
       }
     }
@@ -236,6 +245,15 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
       if (isChunk(row)) {
         movePointerTo(row, false);
         scrollIntoView(oneBefore(row), oneAfter(findChunkEnd(row)));
+        return;
+      }
+    }
+
+    // No next hunk found? Try to hit the last line in the file.
+    //
+    for (row = max - 1; row >= 0; row--) {
+      if (getRowItem(row) != null) {
+        movePointerTo(row);
         break;
       }
     }

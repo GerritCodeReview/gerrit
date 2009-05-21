@@ -753,6 +753,9 @@ class Receive extends AbstractGitCommand {
     final Account.Id me = userAccount.getId();
     final ReplaceResult result;
 
+    final Set<Account.Id> oldReviewers = new HashSet<Account.Id>();
+    final Set<Account.Id> oldCC = new HashSet<Account.Id>();
+
     result = db.run(new OrmRunnable<ReplaceResult, ReviewDb>() {
       public ReplaceResult run(final ReviewDb db, final Transaction txn,
           final boolean isRetry) throws OrmException {
@@ -820,8 +823,19 @@ class Receive extends AbstractGitCommand {
         boolean haveAuthor = false;
         boolean haveCommitter = false;
         final Set<Account.Id> haveApprovals = new HashSet<Account.Id>();
+
+        oldReviewers.clear();
+        oldCC.clear();
+
         for (ChangeApproval a : db.changeApprovals().byChange(change.getId())) {
           haveApprovals.add(a.getAccountId());
+
+          if (a.getValue() != 0) {
+            oldReviewers.add(a.getAccountId());
+          } else {
+            oldCC.add(a.getAccountId());
+          }
+
           if (!haveAuthor && authorId != null
               && a.getAccountId().equals(authorId)) {
             haveAuthor = true;
@@ -915,6 +929,8 @@ class Receive extends AbstractGitCommand {
         cm.setReviewDb(db);
         cm.addReviewers(reviewerId);
         cm.addExtraCC(ccId);
+        cm.addReviewers(oldReviewers);
+        cm.addExtraCC(oldCC);
         cm.send();
       } catch (MessagingException e) {
         log.error("Cannot send email for new patch set " + ps.getId(), e);

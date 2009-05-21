@@ -16,9 +16,7 @@ package com.google.gerrit.server.mail;
 
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.Change;
-import com.google.gerrit.client.reviewdb.ChangeApproval;
 import com.google.gerrit.server.GerritServer;
-import com.google.gwtorm.client.OrmException;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -49,7 +47,11 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
   protected void init() throws MessagingException {
     super.init();
 
-    lookupPriorReviewers();
+    if (fromId != null) {
+      // Don't call yourself a reviewer of your own patch set.
+      //
+      reviewers.remove(fromId);
+    }
     add(RecipientType.TO, reviewers);
     add(RecipientType.CC, extraCC);
     rcptToAuthors(RecipientType.CC);
@@ -105,20 +107,5 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
     appendText(" in ");
     appendText(projectName);
     appendText(":\n");
-  }
-
-  private void lookupPriorReviewers() {
-    if (db != null) {
-      try {
-        for (ChangeApproval ap : db.changeApprovals().byChange(change.getId())) {
-          if (ap.getValue() != 0) {
-            reviewers.add(ap.getAccountId());
-          } else {
-            extraCC.add(ap.getAccountId());
-          }
-        }
-      } catch (OrmException err) {
-      }
-    }
   }
 }

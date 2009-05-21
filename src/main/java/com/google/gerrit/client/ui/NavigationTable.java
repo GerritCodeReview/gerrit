@@ -28,6 +28,7 @@ import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
+import com.google.gwtexpui.safehtml.client.SafeHtml;
 
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
@@ -194,6 +195,12 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
       }
     }
     return -1;
+  }
+
+  @Override
+  protected void resetHtml(SafeHtml body) {
+    currentRow = -1;
+    super.resetHtml(body);
   }
 
   public void finishDisplay() {

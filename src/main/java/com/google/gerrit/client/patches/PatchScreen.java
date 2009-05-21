@@ -205,7 +205,9 @@ public abstract class PatchScreen extends Screen {
       script = null;
       comments = null;
 
-      display();
+      if (!isCurrentView()) {
+        display();
+      }
     }
   }
 

@@ -130,6 +130,9 @@ class AdminShowConnections extends AbstractCommand {
   }
 
   private String hostname(final SocketAddress remoteAddress) {
+    if (remoteAddress == null) {
+      return "?";
+    }
     String host = null;
     if (remoteAddress instanceof InetSocketAddress) {
       final InetSocketAddress sa = (InetSocketAddress) remoteAddress;

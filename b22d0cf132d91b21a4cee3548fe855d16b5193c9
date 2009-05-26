@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAUX///7Y\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/PublishCommentScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-05-26T22:42:55Z",
+      "side": 0,
+      "message": "*sigh*.  As it so happens, this old code is suffering from the issue we have been talking about this entire thread, that you can\u0027t always use a PatchLink.SideBySide on a patch entity.\n\nWe probably get lucky here, in that it may just be not possible to put an inline comment on e.g. a binary file, or maybe just nobody has tried and noticed the problem downstream in PublishCommentScreen.\n\nOpened as GERRIT-193.",
+      "revId": "b22d0cf132d91b21a4cee3548fe855d16b5193c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAUX///7o\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/PatchTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-05-26T22:42:55Z",
+      "side": 1,
+      "message": "I thought we were talking about using the base name here, e.g.:\n\n  final int s \u003d fileName.lastIndexOf(\u0027/\u0027);\n  if (0 \u003c s) {\n    fileName \u003d fileName.substring(s + 1);\n  }\n\nAlthough pulling that all into some utility method may make the code cleaner.  :-)",
+      "revId": "86b5102f54caa80e51a3b8c5ec8c4f5bcb4f6c57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAUX///7k\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/PatchTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-05-26T22:42:55Z",
+      "side": 1,
+      "message": "What about putting the expression\n\n  before + \" \" + fileName + \" \" + after\n\ninto a local variable, and reusing it in both cases here?  We\u0027ll format the text for the link the same way no matter what we show, and it will avoid this ugly line wrapping we are getting otherwise on these constructor calls.",
+      "revId": "86b5102f54caa80e51a3b8c5ec8c4f5bcb4f6c57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAUX///7g\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/PatchTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-05-26T22:42:55Z",
+      "side": 1,
+      "message": "Just because this view is a SIDE_BY_SIDE doesn\u0027t mean the file can actually be shown in a SIDE_BY_SIDE.\n\nI\u0027d rewrite this switch instead as:\n\n  if (patchType \u003d\u003d PatchScreen.Type.SIDE_BY_SIDE\n   \u0026\u0026 patch.getPatchType() \u003d\u003d Patch.PatchType.UNIFIED) {\n    return new PatchLink.SideBySide(....);\n  } else {\n    return new PatchLink.Unified(...);\n  }\n\nas currently only Patch.PatchType.UNIFIED can be presented in the SIDE_BY_SIDE screen type.",
+      "revId": "86b5102f54caa80e51a3b8c5ec8c4f5bcb4f6c57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAUX///7c\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/PatchTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-05-26T22:42:55Z",
+      "side": 1,
+      "message": "Isn\u0027t this now unused?",
+      "revId": "86b5102f54caa80e51a3b8c5ec8c4f5bcb4f6c57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAUX///7s\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-05-26T22:42:55Z",
+      "side": 1,
+      "message": "Is this Google style?  Usually I prefer\n\n  /** bleh */\n\neven on private fields, as its the same line height, but you get Javadoc annotation for free in Eclipse when you hover over the field name.  The // form doesn\u0027t get you that.",
+      "revId": "86b5102f54caa80e51a3b8c5ec8c4f5bcb4f6c57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAUX///70\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/reviewdb/Patch.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-05-26T22:42:55Z",
+      "side": 1,
+      "message": "I keep letting this one slide, but strictly speaking, it has nothing to do with this change, so it probably should have been its own commit.  But I can see the value in having it for a debugging aid.",
+      "revId": "86b5102f54caa80e51a3b8c5ec8c4f5bcb4f6c57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAUX///74\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/ui/PatchLink.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-05-26T22:42:55Z",
+      "side": 1,
+      "message": "Missing Javadoc for patchKey, token, parentPatchTable.  Either document all of the parameters, or don\u0027t document anything.  At least then you are consistent when the surrounding code.  :-)",
+      "revId": "86b5102f54caa80e51a3b8c5ec8c4f5bcb4f6c57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

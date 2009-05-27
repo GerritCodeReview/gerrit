@@ -22,7 +22,41 @@ import com.google.gwtorm.client.ResultSet;
 import java.sql.Timestamp;
 import java.util.List;
 
-/** Preferences and information about a single user. */
+/**
+ * Information about a single user.
+ * <p>
+ * A user may have multiple identities they can use to login to Gerrit (see
+ * {@link AccountExternalId}), but in such cases they always map back to a
+ * single Account entity.
+ *<p>
+ * Entities "owned" by an Account (that is, their primary key contains the
+ * {@link Account.Id} key as part of their key structure):
+ * <ul>
+ * <li>{@link AccountAgreement}: any record of the user's acceptance of a
+ * predefined {@link ContributorAgreement}. Multiple records indicate
+ * potentially multiple agreements, especially if agreements must be retired and
+ * replaced with new agreements.</li>
+ * 
+ * <li>{@link AccountExternalId}: OpenID identities and email addresses known to
+ * be registered to this user. Multiple records can exist when the user has more
+ * than one public identity, such as a work and a personal email address.</li>
+ * 
+ * <li>{@link AccountGroupMember}: membership of the user in a specific human
+ * managed {@link AccountGroup}. Multiple records can exist when the user is a
+ * member of more than one group.</li>
+ * 
+ * <li>{@link AccountProjectWatch}: user's email settings related to a specific
+ * {@link Project}. One record per project the user is interested in tracking.</li>
+ * 
+ * <li>{@link AccountSshKey}: user's public SSH keys, for authentication through
+ * the internal SSH daemon. One record per SSH key uploaded by the user, keys
+ * are checked in random order until a match is found.</li>
+ * 
+ * <li>{@link StarredChange}: user has starred the change, tracking
+ * notifications of updates on that change, or just book-marking it for faster
+ * future reference. One record per starred change.</li>
+ * </ul>
+ */
 public final class Account {
   /**
    * Locate exactly one account matching the name or name/email string.

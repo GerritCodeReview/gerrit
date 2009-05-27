@@ -19,6 +19,7 @@ import com.google.gerrit.server.GerritServer;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
 
+import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 
 import org.slf4j.Logger;
@@ -176,6 +177,12 @@ public class PushQueue {
       log.error("Cannot replicate to " + op.uri, e);
       return;
     } catch (TransportException e) {
+      final Throwable cause = e.getCause();
+      if (cause instanceof JSchException
+          && cause.getMessage().startsWith("UnknownHostKey:")) {
+        log.error("Cannot replicate to " + op.uri + ": " + cause.getMessage());
+        return;
+      }
       log.error("Cannot replicate to " + op.uri, e);
       return;
     } finally {

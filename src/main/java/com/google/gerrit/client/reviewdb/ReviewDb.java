@@ -122,6 +122,11 @@ public interface ReviewDb extends Schema {
   @Sequence
   int nextChangeId() throws OrmException;
 
+  /**
+   * Next id for a block of {@link ChangeMessage} records.
+   * 
+   * @see com.google.gerrit.server.ChangeUtil#messageUUID(ReviewDb)
+   */
   @Sequence
   int nextChangeMessageId() throws OrmException;
 }

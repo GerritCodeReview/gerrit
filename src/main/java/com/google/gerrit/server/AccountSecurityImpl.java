@@ -38,8 +38,6 @@ import com.google.gwtorm.client.OrmDuplicateKeyException;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.Transaction;
 
-import net.sf.ehcache.constructs.blocking.SelfPopulatingCache;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spearce.jgit.lib.PersonIdent;
@@ -139,10 +137,15 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
   }
 
   private void uncacheSshKeys(final Account.Id me, final ReviewDb db) {
-    final SelfPopulatingCache c = server.getSshKeysCache();
     final Account a = Common.getAccountCache().get(me, db);
-    if (a != null && a.getSshUserName() != null) {
-      c.remove(a.getSshUserName());
+    if (a != null) {
+      uncacheSshKeys(a.getSshUserName());
+    }
+  }
+
+  private void uncacheSshKeys(final String userName) {
+    if (userName != null) {
+      server.getSshKeysCache().remove(userName);
     }
   }
 
@@ -219,6 +222,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
     run(callback, new Action<Account>() {
       public Account run(ReviewDb db) throws OrmException, Failure {
         final Account me = db.accounts().get(Common.getAccountId());
+        final String oldUser = me.getSshUserName();
         me.setFullName(fullName);
         me.setPreferredEmail(emailAddr);
         if (Common.getGerritConfig().isUseContactInfo()) {
@@ -235,10 +239,21 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
           }
         }
         db.accounts().update(Collections.singleton(me));
+        if (!eq(oldUser, me.getSshUserName())) {
+          uncacheSshKeys(oldUser);
+          uncacheSshKeys(me.getSshUserName());
+        }
         Common.getAccountCache().invalidate(me.getId());
         return me;
       }
     });
+  }
+
+  private static boolean eq(final String a, final String b) {
+    if (a == null && b == null) {
+      return true;
+    }
+    return a != null && a.equals(b);
   }
 
   public void enterAgreement(final ContributorAgreement.Id id,

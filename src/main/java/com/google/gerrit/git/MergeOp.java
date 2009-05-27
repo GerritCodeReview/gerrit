@@ -421,6 +421,14 @@ public class MergeOp {
   }
 
   private void markCleanMerges() throws MergeException {
+    if (mergeTip == null) {
+      // If mergeTip is null here, branchTip was null, indicating a new branch
+      // at the start of the merge process. We also elected to merge nothing,
+      // probably due to missing dependencies. Nothing was cleanly merged.
+      //
+      return;
+    }
+
     try {
       rw.reset();
       rw.sort(RevSort.TOPO);

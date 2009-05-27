@@ -269,7 +269,7 @@ public class PushQueue {
         log.error("Can't read " + cfgFile, e);
         return Collections.emptyList();
       } catch (URISyntaxException e) {
-        log.error("Invalid URI in " + cfgFile, e);
+        log.error("Invalid URI in " + cfgFile + ": " + e.getMessage());
         return Collections.emptyList();
       }
     }

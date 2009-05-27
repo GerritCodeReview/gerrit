@@ -19,25 +19,16 @@ import com.google.gerrit.server.GerritServer;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
 
-import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.spearce.jgit.errors.NoRemoteRepositoryException;
-import org.spearce.jgit.errors.NotSupportedException;
-import org.spearce.jgit.errors.TransportException;
-import org.spearce.jgit.lib.NullProgressMonitor;
-import org.spearce.jgit.lib.Repository;
 import org.spearce.jgit.lib.RepositoryConfig;
 import org.spearce.jgit.transport.OpenSshConfig;
-import org.spearce.jgit.transport.PushResult;
 import org.spearce.jgit.transport.RefSpec;
 import org.spearce.jgit.transport.RemoteConfig;
-import org.spearce.jgit.transport.RemoteRefUpdate;
 import org.spearce.jgit.transport.SshConfigSessionFactory;
 import org.spearce.jgit.transport.SshSessionFactory;
-import org.spearce.jgit.transport.Transport;
 import org.spearce.jgit.transport.URIish;
 
 import java.io.File;
@@ -47,17 +38,15 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 public class PushQueue {
-  private static final Logger log = LoggerFactory.getLogger(PushQueue.class);
+  static final Logger log = LoggerFactory.getLogger(PushQueue.class);
   private static final int startDelay = 15; // seconds
   private static List<RemoteConfig> configs;
-  private static final Map<URIish, PushOp> active =
+  private static final Map<URIish, PushOp> pending =
       new HashMap<URIish, PushOp>();
 
   static {
@@ -95,130 +84,17 @@ public class PushQueue {
 
   private static synchronized void scheduleImp(final Project.NameKey project,
       final String ref, final RemoteConfig srcConf, final URIish uri) {
-    PushOp e = active.get(uri);
+    PushOp e = pending.get(uri);
     if (e == null) {
-      final PushOp newOp = new PushOp(project.get(), srcConf, uri);
-      WorkQueue.schedule(new Runnable() {
-        public void run() {
-          try {
-            pushImpl(newOp);
-          } catch (RuntimeException e) {
-            log.error("Unexpected error during replication", e);
-          } catch (Error e) {
-            log.error("Unexpected error during replication", e);
-          }
-        }
-      }, startDelay, TimeUnit.SECONDS);
-      active.put(uri, newOp);
-      e = newOp;
+      e = new PushOp(project.get(), srcConf, uri);
+      WorkQueue.schedule(e, startDelay, TimeUnit.SECONDS);
+      pending.put(uri, e);
     }
-    e.delta.add(ref);
+    e.addRef(ref);
   }
 
-  private static void pushImpl(final PushOp op) {
-    removeFromActive(op);
-    final Repository db;
-    try {
-      db = GerritServer.getInstance().getRepositoryCache().get(op.projectName);
-    } catch (OrmException e) {
-      log.error("Cannot open repository cache", e);
-      return;
-    } catch (XsrfException e) {
-      log.error("Cannot open repository cache", e);
-      return;
-    } catch (InvalidRepositoryException e) {
-      log.error("Cannot replicate " + op.projectName, e);
-      return;
-    }
-
-    final ArrayList<RemoteRefUpdate> cmds = new ArrayList<RemoteRefUpdate>();
-    try {
-      for (final String ref : op.delta) {
-        final String src = ref;
-        RefSpec spec = null;
-        for (final RefSpec s : op.config.getPushRefSpecs()) {
-          if (s.matchSource(src)) {
-            spec = s.expandFromSource(src);
-            break;
-          }
-        }
-        if (spec == null) {
-          continue;
-        }
-
-        // If the ref still exists locally, send it, else delete it.
-        //
-        final String srcexp = db.resolve(src) != null ? src : null;
-        final String dst = spec.getDestination();
-        final boolean force = spec.isForceUpdate();
-        cmds.add(new RemoteRefUpdate(db, srcexp, dst, force, null, null));
-      }
-    } catch (IOException e) {
-      log.error("Cannot replicate " + op.projectName, e);
-      return;
-    }
-
-    final Transport tn;
-    try {
-      tn = Transport.open(db, op.uri);
-      tn.applyConfig(op.config);
-    } catch (NotSupportedException e) {
-      log.error("Cannot replicate to " + op.uri, e);
-      return;
-    }
-
-    final PushResult res;
-    try {
-      res = tn.push(NullProgressMonitor.INSTANCE, cmds);
-    } catch (NoRemoteRepositoryException e) {
-      log.error("Cannot replicate to " + op.uri + "; repository not found");
-      return;
-    } catch (NotSupportedException e) {
-      log.error("Cannot replicate to " + op.uri, e);
-      return;
-    } catch (TransportException e) {
-      final Throwable cause = e.getCause();
-      if (cause instanceof JSchException
-          && cause.getMessage().startsWith("UnknownHostKey:")) {
-        log.error("Cannot replicate to " + op.uri + ": " + cause.getMessage());
-        return;
-      }
-      log.error("Cannot replicate to " + op.uri, e);
-      return;
-    } finally {
-      try {
-        tn.close();
-      } catch (Throwable e2) {
-        log.warn("Unexpected error while closing " + op.uri, e2);
-      }
-    }
-
-    for (final RemoteRefUpdate u : res.getRemoteUpdates()) {
-      switch (u.getStatus()) {
-        case OK:
-        case UP_TO_DATE:
-        case NON_EXISTING:
-          break;
-
-        case NOT_ATTEMPTED:
-        case AWAITING_REPORT:
-        case REJECTED_NODELETE:
-        case REJECTED_NONFASTFORWARD:
-        case REJECTED_REMOTE_CHANGED:
-          log.error("Failed replicate of " + u.getRemoteName() + " to "
-              + op.uri + ": status " + u.getStatus().name());
-          break;
-
-        case REJECTED_OTHER_REASON:
-          log.error("Failed replicate of " + u.getRemoteName() + " to "
-              + op.uri + ", reason: " + u.getMessage());
-          break;
-      }
-    }
-  }
-
-  private static synchronized void removeFromActive(final PushOp op) {
-    active.remove(op.uri);
+  static synchronized void notifyStarting(final PushOp op) {
+    pending.remove(op.getURI());
   }
 
   private static String replace(final String pat, final String key,
@@ -281,18 +157,5 @@ public class PushQueue {
       }
     }
     return configs;
-  }
-
-  private static class PushOp {
-    final Set<String> delta = new HashSet<String>();
-    final String projectName;
-    final RemoteConfig config;
-    final URIish uri;
-
-    PushOp(final String d, final RemoteConfig c, final URIish u) {
-      projectName = d;
-      config = c;
-      uri = u;
-    }
   }
 }

@@ -19,6 +19,8 @@ import com.google.gerrit.server.GerritServer;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
 
+import com.jcraft.jsch.Session;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spearce.jgit.errors.NotSupportedException;
@@ -26,10 +28,13 @@ import org.spearce.jgit.errors.TransportException;
 import org.spearce.jgit.lib.NullProgressMonitor;
 import org.spearce.jgit.lib.Repository;
 import org.spearce.jgit.lib.RepositoryConfig;
+import org.spearce.jgit.transport.OpenSshConfig;
 import org.spearce.jgit.transport.PushResult;
 import org.spearce.jgit.transport.RefSpec;
 import org.spearce.jgit.transport.RemoteConfig;
 import org.spearce.jgit.transport.RemoteRefUpdate;
+import org.spearce.jgit.transport.SshConfigSessionFactory;
+import org.spearce.jgit.transport.SshSessionFactory;
 import org.spearce.jgit.transport.Transport;
 import org.spearce.jgit.transport.URIish;
 
@@ -52,6 +57,18 @@ public class PushQueue {
   private static List<RemoteConfig> configs;
   private static final Map<URIish, PushOp> active =
       new HashMap<URIish, PushOp>();
+
+  static {
+    // Install our own factory which always runs in batch mode, as we
+    // have no UI available for interactive prompting.
+    //
+    SshSessionFactory.setInstance(new SshConfigSessionFactory() {
+      @Override
+      protected void configure(OpenSshConfig.Host hc, Session session) {
+        // Default configuration is batch mode.
+      }
+    });
+  }
 
   public static void scheduleUpdate(final Project.NameKey project,
       final String ref) {

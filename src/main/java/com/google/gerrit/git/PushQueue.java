@@ -160,7 +160,7 @@ public class PushQueue {
     } finally {
       try {
         tn.close();
-      } catch (Throwable e2){
+      } catch (Throwable e2) {
         log.warn("Unexpected error while closing " + op.uri, e2);
       }
     }

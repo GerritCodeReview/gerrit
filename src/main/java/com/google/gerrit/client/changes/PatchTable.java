@@ -40,8 +40,9 @@ import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 import com.google.gwtorm.client.KeyUtil;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PatchTable extends Composite {
   private final FlowPanel myBody;
@@ -50,6 +51,13 @@ public class PatchTable extends Composite {
   private MyTable myTable;
   private String savePointerId;
   private List<Patch> patchList;
+
+  /**
+   * Maps of <file name, direct url>. The url points to the binary file that should be shown on the 
+   * left/right side or null if it is not considered safe to be shown inline.
+   */
+  protected Map<String, String> directUrlsLeft = new HashMap<String, String>();
+  protected Map<String, String> directUrlsRight = new HashMap<String, String>();
 
   public PatchTable() {
     myBody = new FlowPanel();
@@ -76,6 +84,20 @@ public class PatchTable extends Composite {
 
   public boolean isLoaded() {
     return myTable != null;
+  }
+
+  /**
+   * @return the map of safe files that can be displayed on the left side.
+   */
+  public Map<String, String> getDirectUrlLeft() {
+    return directUrlsLeft;
+  }
+
+  /**
+   * @return the map of safe files that can be displayed on the right side.
+   */
+  public Map<String, String> getDirectUrlRight() {
+    return directUrlsRight;
   }
 
   public void onTableLoaded(final Command cmd) {
@@ -196,17 +218,6 @@ public class PatchTable extends Composite {
       super.movePointerTo(oldId);
     }
 
-    /**
-     * Turns a list of patches into a list of keys.
-     */
-    private List<Patch.Key> patchesToKeys(List<Patch> patches) {
-      List<Patch.Key> result = new ArrayList<Patch.Key>();
-      for (Patch p : patches) {
-        result.add(p.getKey());
-      }
-      return result;
-    }
-
     void initializeRow(int row) {
       Patch patch = PatchTable.this.patchList.get(row - 1);
       setRowItem(row, patch);
@@ -318,14 +329,11 @@ public class PatchTable extends Composite {
         case BINARY: {
           String base = GWT.getHostPageBaseURL();
           base += "cat/" + KeyUtil.encode(p.getKey().toString());
+          String fileName = p.getKey().get();
           switch (p.getChangeType()) {
             case DELETED:
             case MODIFIED:
-              openlink(m, 1);
-              m.openAnchor();
-              m.setAttribute("href", base + "^1");
-              m.append(Util.C.patchTableDownloadPreImage());
-              closelink(m);
+              directUrlsLeft.put(fileName, createLink(m, base, "^1"));
               break;
             default:
               emptycell(m, 1);
@@ -334,11 +342,7 @@ public class PatchTable extends Composite {
           switch (p.getChangeType()) {
             case MODIFIED:
             case ADDED:
-              openlink(m, 1);
-              m.openAnchor();
-              m.setAttribute("href", base + "^0");
-              m.append(Util.C.patchTableDownloadPostImage());
-              closelink(m);
+              directUrlsRight.put(fileName, createLink(m, base, "^0"));
               break;
             default:
               emptycell(m, 1);
@@ -356,6 +360,19 @@ public class PatchTable extends Composite {
       m.closeTd();
 
       m.closeTr();
+    }
+
+    /**
+     * @return a link to the URL given in the parameter base
+     */
+    private String createLink(final SafeHtmlBuilder m, String base, String suffix) {
+      openlink(m, 1);
+      m.openAnchor();
+      String result = base + suffix;
+      m.setAttribute("href", result);
+      m.append(Util.C.patchTableDownloadPostImage());
+      closelink(m);
+      return result;
     }
 
     void appendCommentCount(final SafeHtmlBuilder m, final Patch p) {

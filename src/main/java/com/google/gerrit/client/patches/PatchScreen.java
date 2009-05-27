@@ -246,6 +246,10 @@ public abstract class PatchScreen extends Screen {
         historyPanel.setVisible(false);
       }
 
+      if (script.isSafeInline()) {
+        contentTable.setDirectUrlLeft(fileList.getDirectUrlLeft());
+        contentTable.setDirectUrlRight(fileList.getDirectUrlRight());
+      }
       contentTable.display(patchKey, idSideA, idSideB, script);
       contentTable.display(comments);
       contentTable.finishDisplay();

@@ -21,7 +21,7 @@ import com.google.gwtorm.client.Sequence;
 
 /** The review service database schema. */
 public interface ReviewDb extends Schema {
-  public static final int VERSION = 11;
+  public static final int VERSION = 12;
 
   @Relation
   SchemaVersionAccess schemaVersion();
@@ -97,6 +97,9 @@ public interface ReviewDb extends Schema {
 
   @Relation
   PatchLineCommentAccess patchComments();
+
+  @Relation
+  SafeFileAccess safeFiles();
 
   /** Create the next unique id for an {@link Account}. */
   @Sequence(startWith = 1000000)

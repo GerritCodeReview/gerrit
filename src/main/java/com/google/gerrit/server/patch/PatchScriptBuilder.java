@@ -17,6 +17,7 @@ package com.google.gerrit.server.patch;
 import com.google.gerrit.client.data.PatchScript;
 import com.google.gerrit.client.data.SparseFileContent;
 import com.google.gerrit.client.reviewdb.Patch;
+import com.google.gerrit.client.reviewdb.SafeFile;
 import com.google.gerrit.client.rpc.CorruptEntityException;
 
 import org.slf4j.Logger;
@@ -84,7 +85,8 @@ class PatchScriptBuilder {
       //
       edits = Collections.emptyList();
       packHeader(fh);
-      return new PatchScript(header, context, dstA, dstB, edits);
+      return new PatchScript(header, context, dstA, dstB, edits,
+          SafeFile.isSafeInline(null, patch.getFileName()));
     }
 
     srcA = open(content.getOldId());
@@ -117,7 +119,8 @@ class PatchScriptBuilder {
       }
       packContent();
     }
-    return new PatchScript(header, context, dstA, dstB, edits);
+    return new PatchScript(header, context, dstA, dstB, edits,
+        SafeFile.isSafeInline(null, patch.getFileName()));
   }
 
   private static boolean eq(final ObjectId a, final ObjectId b) {

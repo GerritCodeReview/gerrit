@@ -50,6 +50,7 @@ import com.google.gwtexpui.globalkey.client.KeyCommandSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public abstract class AbstractPatchContentTable extends NavigationTable<Object> {
   private static final long AGE = 7 * 24 * 60 * 60 * 1000L;
@@ -65,6 +66,13 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
   private final KeyCommandSet keysComment;
   private HandlerRegistration regComment;
   private HandlerRegistration regSignOut;
+
+  /**
+   * Maps of <file name, direct url>. The url points to the binary file that should be shown on the 
+   * left/right side or null if it is not considered safe to be shown inline.
+   */
+  protected Map<String, String> directUrlsLeft;
+  protected Map<String, String> directUrlsRight;
 
   protected AbstractPatchContentTable() {
     keysNavigation.add(new UpToChangeCommand(0, 'u', PatchUtil.C.upToChange()));
@@ -156,6 +164,14 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
     idSideA = a;
     idSideB = b;
     render(s);
+  }
+
+  public void setDirectUrlLeft(Map<String, String> url) {
+    directUrlsLeft = url;
+  }
+
+  public void setDirectUrlRight(Map<String, String> url) {
+    directUrlsRight = url;
   }
 
   protected abstract void render(PatchScript script);
@@ -600,4 +616,5 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
       p.open();
     }
   }
+
 }

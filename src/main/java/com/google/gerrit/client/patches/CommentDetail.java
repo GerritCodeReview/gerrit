@@ -36,15 +36,24 @@ public class CommentDetail {
   private transient Map<Integer, List<PatchLineComment>> forA;
   private transient Map<Integer, List<PatchLineComment>> forB;
 
-  public CommentDetail(final PatchSet.Id a, final PatchSet.Id b) {
+  // Whether this file can be displayed inline or whether it should be made available as a
+  // gzipped download
+  private boolean isSafeInline;
+
+  public CommentDetail(final PatchSet.Id a, final PatchSet.Id b, boolean isSafeInline) {
     commentsA = new ArrayList<PatchLineComment>();
     commentsB = new ArrayList<PatchLineComment>();
 
     idA = a;
     idB = b;
+    this.isSafeInline = isSafeInline;
   }
 
   protected CommentDetail() {
+  }
+
+  public boolean isSafeInline() {
+    return isSafeInline;
   }
 
   public boolean include(final PatchLineComment p) {

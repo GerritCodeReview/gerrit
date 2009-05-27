@@ -24,6 +24,7 @@ import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gerrit.client.reviewdb.SafeFile;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gerrit.client.rpc.BaseServiceImplementation.Action;
@@ -69,7 +70,8 @@ class PatchCommentAction implements Action<CommentDetail> {
     final AccountInfoCacheFactory aic = new AccountInfoCacheFactory(db);
     final CommentDetail r;
 
-    r = new CommentDetail(psa, psb != null ? psb : patchSetId);
+    r = new CommentDetail(psa, psb != null ? psb : patchSetId,
+        SafeFile.isSafeInline(null, patch.getFileName()));
     for (PatchLineComment p : db.patchComments().published(changeId, pn)) {
       if (r.include(p)) {
         aic.want(p.getAuthor());

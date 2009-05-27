@@ -41,6 +41,7 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
@@ -65,6 +66,18 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
   private final KeyCommandSet keysComment;
   private HandlerRegistration regComment;
   private HandlerRegistration regSignOut;
+
+  /**
+   *  Link to a direct url for the binary file shown on the left side, null if it is not
+   * considered safe.
+   */
+  protected String directUrlLeft;
+
+  /**
+   *  Link to a direct url for the binary file shown on the right side, null if it is not
+   * considered safe.
+   */
+  protected String directUrlRight;
 
   protected AbstractPatchContentTable() {
     keysNavigation.add(new UpToChangeCommand(0, 'u', PatchUtil.C.upToChange()));
@@ -156,6 +169,14 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
     idSideA = a;
     idSideB = b;
     render(s);
+  }
+
+  public void setDirectUrlLeft(String url) {
+    directUrlLeft = url;
+  }
+
+  public void setDirectUrlRight(String url) {
+    directUrlRight = url;
   }
 
   protected abstract void render(PatchScript script);
@@ -600,4 +621,5 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
       p.open();
     }
   }
+
 }

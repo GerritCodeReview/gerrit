@@ -40,7 +40,6 @@ import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 import com.google.gwtorm.client.KeyUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class PatchTable extends Composite {
@@ -50,6 +49,10 @@ public class PatchTable extends Composite {
   private MyTable myTable;
   private String savePointerId;
   private List<Patch> patchList;
+
+  // Direct links to the files
+  protected String directUrlLeft;
+  protected String directUrlRight;
 
   public PatchTable() {
     myBody = new FlowPanel();
@@ -76,6 +79,20 @@ public class PatchTable extends Composite {
 
   public boolean isLoaded() {
     return myTable != null;
+  }
+
+  /**
+   * The direct URL, null if this file should not be linked inline.
+   */
+  public String getDirectUrlLeft() {
+    return directUrlLeft;
+  }
+
+  /**
+   * The direct URL, null if this file should not be linked inline.
+   */
+  public String getDirectUrlRight() {
+    return directUrlRight;
   }
 
   public void onTableLoaded(final Command cmd) {
@@ -196,17 +213,6 @@ public class PatchTable extends Composite {
       super.movePointerTo(oldId);
     }
 
-    /**
-     * Turns a list of patches into a list of keys.
-     */
-    private List<Patch.Key> patchesToKeys(List<Patch> patches) {
-      List<Patch.Key> result = new ArrayList<Patch.Key>();
-      for (Patch p : patches) {
-        result.add(p.getKey());
-      }
-      return result;
-    }
-
     void initializeRow(int row) {
       Patch patch = PatchTable.this.patchList.get(row - 1);
       setRowItem(row, patch);
@@ -321,11 +327,7 @@ public class PatchTable extends Composite {
           switch (p.getChangeType()) {
             case DELETED:
             case MODIFIED:
-              openlink(m, 1);
-              m.openAnchor();
-              m.setAttribute("href", base + "^1");
-              m.append(Util.C.patchTableDownloadPreImage());
-              closelink(m);
+              directUrlLeft = createLink(m, base, "^1");
               break;
             default:
               emptycell(m, 1);
@@ -334,11 +336,7 @@ public class PatchTable extends Composite {
           switch (p.getChangeType()) {
             case MODIFIED:
             case ADDED:
-              openlink(m, 1);
-              m.openAnchor();
-              m.setAttribute("href", base + "^0");
-              m.append(Util.C.patchTableDownloadPostImage());
-              closelink(m);
+              directUrlRight = createLink(m, base, "^0");
               break;
             default:
               emptycell(m, 1);
@@ -356,6 +354,19 @@ public class PatchTable extends Composite {
       m.closeTd();
 
       m.closeTr();
+    }
+
+    /**
+     * @return a link to the URL given in the parameter base
+     */
+    private String createLink(final SafeHtmlBuilder m, String base, String suffix) {
+      openlink(m, 1);
+      m.openAnchor();
+      String result = base + suffix;
+      m.setAttribute("href", result);
+      m.append(Util.C.patchTableDownloadPostImage());
+      closelink(m);
+      return result;
     }
 
     void appendCommentCount(final SafeHtmlBuilder m, final Patch p) {

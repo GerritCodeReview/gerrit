@@ -63,23 +63,27 @@ public class PushQueue {
 
   public static void scheduleUpdate(final Project.NameKey project,
       final String ref) {
-    for (final RemoteConfig srcConf : allConfigs()) {
-      RefSpec spec = null;
-      for (final RefSpec s : srcConf.getPushRefSpecs()) {
-        if (s.matchSource(ref)) {
-          spec = s;
-          break;
+    for (final RemoteConfig cfg : allConfigs()) {
+      if (wouldPushRef(cfg, ref)) {
+        for (final URIish uri : cfg.getURIs()) {
+          scheduleImp(project, ref, cfg, expandURI(uri, project));
         }
       }
-      if (spec == null) {
-        continue;
-      }
+    }
+  }
 
-      for (URIish uri : srcConf.getURIs()) {
-        uri = uri.setPath(replace(uri.getPath(), "name", project.get()));
-        scheduleImp(project, ref, srcConf, uri);
+  private static boolean wouldPushRef(final RemoteConfig cfg, final String ref) {
+    for (final RefSpec s : cfg.getPushRefSpecs()) {
+      if (s.matchSource(ref)) {
+        return true;
       }
     }
+    return false;
+  }
+
+  private static URIish expandURI(URIish uri, final Project.NameKey project) {
+    uri = uri.setPath(replace(uri.getPath(), "name", project.get()));
+    return uri;
   }
 
   private static synchronized void scheduleImp(final Project.NameKey project,

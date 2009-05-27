@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAUX///4E\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/PatchTable.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-05-27T20:52:12Z",
+      "side": 1,
+      "message": "Should be lastIndexOf, in order to get \"A.java\" out of \"src/foo/bar/A.java\".\n\nAlso, Git paths are *always* \u0027/\u0027, even on Windows, so we need to hardcode \u0027/\u0027 here, so that even on Win32 Gerrit produces the correct file path.\n\nEven worse, I\u0027m willing to bet that since this is client UI code, and gets compiled down to JavaScript, there is no meaning of java.io.File in the JavaScript world, so GWT will fail to convert this expression, choke, die, and the build doesn\u0027t work.  :-)",
+      "revId": "a5f371357de13c2e831716536afb5266bc245c1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAUX///4I\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/PatchTable.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-05-27T20:52:12Z",
+      "side": 1,
+      "message": "I hate this style of programming.  A null assignment here potentially allows the variable to not be overwritten later.  Usually its better to leave it unassigned and let the compiler error out if we forget to assign it to a more meaningful value later, during the decision tree.\n\nBut, actually, in this context, since its also the return value, it might just be cleaner to remove the variable and have each decision point return the link object.",
+      "revId": "a5f371357de13c2e831716536afb5266bc245c1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

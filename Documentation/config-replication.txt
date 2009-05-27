@@ -1,30 +1,42 @@
 Gerrit2 Git Replication
 =======================
 
-Gerrit can automatically push any changes it makes to its local Git
-repositories to another system.  Usually this would be configured
-to provide mirroring of changes, for warm-standby backups or a
+Gerrit can automatically push any changes it makes to its managed Git
+repositories to another system.  Usually this would be configured to
+provide mirroring of changes, for warm-standby backups, or a
 load-balanced public mirror farm.
+
+The replication runs on a 15 second delay.  This gives Gerrit a short
+time window to batch updates going to the same project, such as when a
+user uploads multiple changes at once.
 
 Typically replication should be done over SSH, with a passwordless
 public/private key pair.  On a trusted network it is also possible to
 use replication over the insecure (but much faster) git:// protocol,
-by enabling the `receive-pack` service on the receiving system.
+by enabling the `receive-pack` service on the receiving system, but
+this configuration is not recommended.
 
-To enable push replication, create `'$site_path'/replication.config`
-as a Git-style config file, then restart Gerrit.
+Enabling Replication
+--------------------
 
-Currently the replication runs on a 15 second delay.  This gives
-Gerrit a short time window to batch updates going to the same
-project, such as when a user uploads multiple changes at once.
+If replicating over SSH (recommended), ensure the host key of the
+remote system(s) is already in the Gerrit user's `~/.ssh/known_hosts`
+file.  The easiest way to add the host key is to connect once by hand
+with the command line:
 
-An example configuration file to replicate in parallel to four
-different hosts follows:
+====
+  sudo su -c 'ssh mirror1.us.some.org echo' gerrit2
+====
+
+Next, create `'$site_path'/replication.config` as a Git-style config
+file, and restart Gerrit.
+
+Example `replication.config` to replicate in parallel to four
+different hosts:
 
 ====
   [remote "host-one"]
     url = gerrit2@host-one.example.com:/some/path/${name}.git
-    # push defaults to +refs/*:refs/*
 
   [remote "pubmirror"]
     url = mirror1.us.some.org:/pub/git/${name}.git
@@ -34,25 +46,65 @@ different hosts follows:
     push = +refs/tags/*
 ====
 
-Within each url value the magic placeholder `$\{name}` is replaced
+File `replication.config`[[replication_config]]
+-----------------------------------------------
+
+The optional file `'$site_path'/replication.config` is a Git-style
+config file that controls the replication settings for Gerrit.
+
+The file is composed of one or more `remote` sections, each remote
+section provides common configuration settings for one or more
+destination URLs.
+
+Section remote[[section_remote]]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In the keys below, the <name> portion is unused by Gerrit, but must be
+unique to distinguish the different sections if more than one remote
+section appears in the file.
+
+remote.<name>.url::
++
+Address of the remote server to push to.  Multiple URLs may be
+specified within a single remote block, listing different destinations
+which share the same settings.  Gerrit pushes to all URLs in parallel,
+using one thread per URL.
++
+Within each URL value the magic placeholder `$\{name}` is replaced
 with the Gerrit project name.  This is a Gerrit specific extension
-to the Git URL syntax.
+to the otherwise standard Git URL syntax.
++
+See link:http://www.kernel.org/pub/software/scm/git/docs/git-push.html#URLS[GIT URLS]
+for details on Git URL syntax.
 
-Multiple URLs may be specified within a single remote block,
-listing different destinations which share the same settings.
+remote.<name>.receivepack::
++
+Path of the `git-receive-pack` executable on the remote system, if
+using the SSH transport.
++
+Defaults to `git receive-pack`, which works on any version of Git so
+long as `git` is in the remote user's PATH.
 
-Most standard Git remote configuration settings can be used within
-a remote block.  The `receivepack` option can be used to specify
-the remote path to the `git-receive-pack` executable, if it is
-not in the remote user's `PATH` by default.
+remote.<name>.push::
++
+Standard Git refspec denoting what should be replicated.  Setting this
+to `+refs/heads/\*:refs/heads/\*` would mirror only the active
+branches, but not the change refs under `refs/changes/`, or the tags
+under `refs/tags/`.
++
+Multiple push keys can be supplied, to specify multiple patterns
+to match against.  In the example file above, remote "pubmirror"
+uses two push keys to match both `refs/heads/\*` and `refs/tags/*`,
+but excludes all others, including `refs/changes/*`.
++
+Defaults to `+refs/\*:refs/*` (all refs) if not specified.
 
-One or more `push` entries may also be specified within a remote
-block to select a subset of the refs for replication.  If no push
-values are configured, a default of `+refs/\*:refs/*` is used.
 
-As the above configuration uses SSH for both connections it also
-relies upon having a `~/.ssh/config` file setup for the user
-running Gerrit.  A matching configuration file might be:
+File `~/.ssh/config`[[ssh_config]]
+----------------------------------
+
+If present, Gerrit reads and caches `~/.ssh/config` at startup, and
+supports most SSH configuration options.  For example:
 
 ====
   Host host-one.example.com:
@@ -67,7 +119,7 @@ running Gerrit.  A matching configuration file might be:
     BatchMode yes
 ====
 
-Most (but not all) SSH options are honored:
+Supported options:
 
  * Host
  * Hostname
@@ -86,6 +138,3 @@ Host keys for any destination SSH servers must appear in the user's
 `~/.ssh/known_hosts` file, and must be added in advance, before
 Gerrit starts.  If a host key is not listed, Gerrit will be unable to
 connect to that destination, and replication to that URL will fail.
-
-Make sure you are replicating to a standard Git daemon or SSH
-daemon, and not to another Gerrit's internal SSHD.

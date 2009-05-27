@@ -316,8 +316,8 @@ Follow the <<apache2,reverse proxy>> section below to setup an
 Apache2 server to handle SSL for Jetty.
 
 
-Other Servlet Containers
-~~~~~~~~~~~~~~~~~~~~~~~~
+Other Servlet Containers[[other_containers]]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Deploy the `gerrit-*.war` file to your application server as
 `gerrit.war`.

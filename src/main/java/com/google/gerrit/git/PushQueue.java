@@ -23,6 +23,7 @@ import com.jcraft.jsch.Session;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.spearce.jgit.errors.NoRemoteRepositoryException;
 import org.spearce.jgit.errors.NotSupportedException;
 import org.spearce.jgit.errors.TransportException;
 import org.spearce.jgit.lib.NullProgressMonitor;
@@ -168,6 +169,9 @@ public class PushQueue {
     final PushResult res;
     try {
       res = tn.push(NullProgressMonitor.INSTANCE, cmds);
+    } catch (NoRemoteRepositoryException e) {
+      log.error("Cannot replicate to " + op.uri + "; repository not found");
+      return;
     } catch (NotSupportedException e) {
       log.error("Cannot replicate to " + op.uri, e);
       return;

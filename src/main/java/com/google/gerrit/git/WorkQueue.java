@@ -15,7 +15,9 @@
 package com.google.gerrit.git;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Delayed;
 import java.util.concurrent.ExecutionException;
@@ -88,8 +90,8 @@ public class WorkQueue {
     return null;
   }
 
+    private final Set<Task<?>> active = new HashSet<Task<?>>();
   private static class Executor extends ScheduledThreadPoolExecutor {
-    private final List<Task<?>> active = new ArrayList<Task<?>>();
 
     Executor(final int corePoolSize) {
       super(corePoolSize);

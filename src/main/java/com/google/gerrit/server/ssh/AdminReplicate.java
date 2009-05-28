@@ -23,6 +23,7 @@ import com.google.gerrit.git.WorkQueue;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -35,7 +36,7 @@ class AdminReplicate extends AbstractCommand {
   private String urlMatch;
 
   @Argument(index = 0, multiValued = true, metaVar = "PROJECT", usage = "project name")
-  private List<String> projectNames;
+  private List<String> projectNames = new ArrayList<String>(2);
 
   @Override
   protected void run() throws Failure {

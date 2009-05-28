@@ -6,9 +6,9 @@ repositories to another system.  Usually this would be configured to
 provide mirroring of changes, for warm-standby backups, or a
 load-balanced public mirror farm.
 
-The replication runs on a 15 second delay.  This gives Gerrit a short
-time window to batch updates going to the same project, such as when a
-user uploads multiple changes at once.
+The replication runs on a short delay.  This gives Gerrit a small
+time window to batch updates going to the same project, such as
+when a user uploads multiple changes at once.
 
 Typically replication should be done over SSH, with a passwordless
 public/private key pair.  On a trusted network it is also possible to
@@ -98,6 +98,16 @@ uses two push keys to match both `refs/heads/\*` and `refs/tags/*`,
 but excludes all others, including `refs/changes/*`.
 +
 Defaults to `+refs/\*:refs/*` (all refs) if not specified.
+
+remote.<name>.replicationDelay::
++
+Number of seconds to wait before scheduling a remote push operation.
+Setting the delay to 0 effectively disables the delay, causing the
+push to start as soon as possible.
++
+This is a Gerrit specific extension to the Git remote block.
++
+By default, 15 seconds.
 
 
 File `~/.ssh/config`[[ssh_config]]

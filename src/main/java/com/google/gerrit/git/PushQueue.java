@@ -45,8 +45,7 @@ import java.util.concurrent.TimeUnit;
 /** Manages automatic replication to remote repositories. */
 public class PushQueue {
   static final Logger log = LoggerFactory.getLogger(PushQueue.class);
-  private static final int startDelay = 15; // seconds
-  private static List<RemoteConfig> configs;
+  private static List<ReplicationConfig> configs;
   private static final Map<URIish, PushOp> pending =
       new HashMap<URIish, PushOp>();
 
@@ -78,9 +77,9 @@ public class PushQueue {
    * @param project identity of the project to replicate.
    */
   public static void scheduleFullSync(final Project.NameKey project) {
-    for (final RemoteConfig cfg : allConfigs()) {
-      for (final URIish uri : cfg.getURIs()) {
-        scheduleImp(project, PushOp.MIRROR_ALL, cfg, expandURI(uri, project));
+    for (final ReplicationConfig cfg : allConfigs()) {
+      for (final URIish uri : cfg.getURIs(project)) {
+        scheduleImp(project, PushOp.MIRROR_ALL, cfg, uri);
       }
     }
   }
@@ -97,35 +96,21 @@ public class PushQueue {
    */
   public static void scheduleUpdate(final Project.NameKey project,
       final String ref) {
-    for (final RemoteConfig cfg : allConfigs()) {
-      if (wouldPushRef(cfg, ref)) {
-        for (final URIish uri : cfg.getURIs()) {
-          scheduleImp(project, ref, cfg, expandURI(uri, project));
+    for (final ReplicationConfig cfg : allConfigs()) {
+      if (cfg.wouldPushRef(ref)) {
+        for (final URIish uri : cfg.getURIs(project)) {
+          scheduleImp(project, ref, cfg, uri);
         }
       }
     }
   }
 
-  private static boolean wouldPushRef(final RemoteConfig cfg, final String ref) {
-    for (final RefSpec s : cfg.getPushRefSpecs()) {
-      if (s.matchSource(ref)) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  private static URIish expandURI(URIish uri, final Project.NameKey project) {
-    uri = uri.setPath(replace(uri.getPath(), "name", project.get()));
-    return uri;
-  }
-
   private static synchronized void scheduleImp(final Project.NameKey project,
-      final String ref, final RemoteConfig srcConf, final URIish uri) {
+      final String ref, final ReplicationConfig config, final URIish uri) {
     PushOp e = pending.get(uri);
     if (e == null) {
-      e = new PushOp(project.get(), srcConf, uri);
-      WorkQueue.schedule(e, startDelay, TimeUnit.SECONDS);
+      e = new PushOp(project.get(), config.remote, uri);
+      WorkQueue.schedule(e, config.delay, TimeUnit.SECONDS);
       pending.put(uri, e);
     }
     e.addRef(ref);
@@ -141,7 +126,7 @@ public class PushQueue {
     return pat.substring(0, n) + val + pat.substring(n + 3 + key.length());
   }
 
-  private static synchronized List<RemoteConfig> allConfigs() {
+  private static synchronized List<ReplicationConfig> allConfigs() {
     if (configs == null) {
       final File path;
       try {
@@ -160,7 +145,8 @@ public class PushQueue {
       final RepositoryConfig cfg = new RepositoryConfig(null, cfgFile);
       try {
         cfg.load();
-        final ArrayList<RemoteConfig> r = new ArrayList<RemoteConfig>();
+
+        final List<ReplicationConfig> r = new ArrayList<ReplicationConfig>();
         for (final RemoteConfig c : RemoteConfig.getAllRemoteConfigs(cfg)) {
           if (c.getURIs().isEmpty()) {
             continue;
@@ -180,7 +166,7 @@ public class PushQueue {
             c.addPushRefSpec(spec);
           }
 
-          r.add(c);
+          r.add(new ReplicationConfig(c, cfg));
         }
         configs = Collections.unmodifiableList(r);
       } catch (FileNotFoundException e) {
@@ -195,5 +181,38 @@ public class PushQueue {
       }
     }
     return configs;
+  }
+
+  private static class ReplicationConfig {
+    final RemoteConfig remote;
+    final int delay;
+
+    ReplicationConfig(final RemoteConfig rc, final RepositoryConfig cfg) {
+      remote = rc;
+      delay = posInt(rc, cfg, "replicationdelay", 15);
+    }
+
+    private static int posInt(final RemoteConfig rc, final RepositoryConfig cfg,
+        final String name, final int defValue) {
+      return Math.max(0, cfg.getInt("remote", rc.getName(), name, defValue));
+    }
+
+    boolean wouldPushRef(final String ref) {
+      for (final RefSpec s : remote.getPushRefSpecs()) {
+        if (s.matchSource(ref)) {
+          return true;
+        }
+      }
+      return false;
+    }
+
+    List<URIish> getURIs(final Project.NameKey project) {
+      final List<URIish> r = new ArrayList<URIish>(remote.getURIs().size());
+      for (URIish uri : remote.getURIs()) {
+        uri = uri.setPath(replace(uri.getPath(), "name", project.get()));
+        r.add(uri);
+      }
+      return r;
+    }
   }
 }

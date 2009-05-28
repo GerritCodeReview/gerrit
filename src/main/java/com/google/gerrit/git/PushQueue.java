@@ -42,6 +42,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+/** Manages automatic replication to remote repositories. */
 public class PushQueue {
   static final Logger log = LoggerFactory.getLogger(PushQueue.class);
   private static final int startDelay = 15; // seconds
@@ -61,6 +62,39 @@ public class PushQueue {
     });
   }
 
+  /** Determine if replication is enabled, or not. */
+  public static boolean isReplicationEnabled() {
+    return !allConfigs().isEmpty();
+  }
+
+  /**
+   * Schedule a full replication for a single project.
+   * <p>
+   * All remote URLs are checked to verify the are current with regards to the
+   * local project state. If not, they are updated by pushing new refs, updating
+   * existing ones which don't match, and deleting stale refs which have been
+   * removed from the local repository.
+   * 
+   * @param project identity of the project to replicate.
+   */
+  public static void scheduleFullSync(final Project.NameKey project) {
+    for (final RemoteConfig cfg : allConfigs()) {
+      for (final URIish uri : cfg.getURIs()) {
+        scheduleImp(project, PushOp.MIRROR_ALL, cfg, expandURI(uri, project));
+      }
+    }
+  }
+
+  /**
+   * Schedule update of a single ref.
+   * <p>
+   * This method automatically tries to batch together multiple requests in the
+   * same project, to take advantage of Git's native ability to update multiple
+   * refs during a single push operation.
+   * 
+   * @param project identity of the project to replicate.
+   * @param ref unique name of the ref; must start with {@code refs/}.
+   */
   public static void scheduleUpdate(final Project.NameKey project,
       final String ref) {
     for (final RemoteConfig cfg : allConfigs()) {

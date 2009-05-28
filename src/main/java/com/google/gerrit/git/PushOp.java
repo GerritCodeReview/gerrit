@@ -24,8 +24,11 @@ import org.slf4j.Logger;
 import org.spearce.jgit.errors.NoRemoteRepositoryException;
 import org.spearce.jgit.errors.NotSupportedException;
 import org.spearce.jgit.errors.TransportException;
+import org.spearce.jgit.lib.Constants;
 import org.spearce.jgit.lib.NullProgressMonitor;
+import org.spearce.jgit.lib.Ref;
 import org.spearce.jgit.lib.Repository;
+import org.spearce.jgit.transport.FetchConnection;
 import org.spearce.jgit.transport.PushResult;
 import org.spearce.jgit.transport.RefSpec;
 import org.spearce.jgit.transport.RemoteConfig;
@@ -37,6 +40,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -47,11 +51,15 @@ import java.util.Set;
  */
 class PushOp implements Runnable {
   private static final Logger log = PushQueue.log;
+  static final String MIRROR_ALL = "..all..";
 
   private final Set<String> delta = new HashSet<String>();
   private final String projectName;
   private final RemoteConfig config;
   private final URIish uri;
+  private boolean mirror;
+
+  private Repository db;
 
   PushOp(final String d, final RemoteConfig c, final URIish u) {
     projectName = d;
@@ -64,7 +72,12 @@ class PushOp implements Runnable {
   }
 
   void addRef(final String ref) {
-    delta.add(ref);
+    if (MIRROR_ALL.equals(ref)) {
+      delta.clear();
+      mirror = true;
+    } else if (!mirror) {
+      delta.add(ref);
+    }
   }
 
   public void run() {
@@ -74,64 +87,59 @@ class PushOp implements Runnable {
       // created and scheduled for a future point in time.)
       //
       PushQueue.notifyStarting(this);
-      pushImpl();
-    } catch (RuntimeException e) {
-      log.error("Unexpected error during replication", e);
-    } catch (Error e) {
-      log.error("Unexpected error during replication", e);
-    }
-  }
-
-  @Override
-  public String toString() {
-    return "push " + uri;
-  }
-
-  private void pushImpl() {
-    final Repository db;
-    try {
-      db = GerritServer.getInstance().getRepositoryCache().get(projectName);
+      openRepository();
+      runImpl();
     } catch (OrmException e) {
-      log.error("Cannot open repository cache", e);
-      return;
+      log.error("Cannot open database", e);
+
     } catch (XsrfException e) {
-      log.error("Cannot open repository cache", e);
-      return;
+      log.error("Cannot open database", e);
+
     } catch (InvalidRepositoryException e) {
-      log.error("Cannot replicate " + projectName, e);
-      return;
-    }
+      log.error("Cannot replicate " + projectName + "; " + e.getMessage());
 
-    final Transport tn;
-    try {
-      tn = Transport.open(db, uri);
-      tn.applyConfig(config);
-    } catch (NotSupportedException e) {
-      log.error("Cannot replicate to " + uri, e);
-      return;
-    }
-
-    final PushResult res;
-    try {
-      res = tn.push(NullProgressMonitor.INSTANCE, computeUpdates(db));
     } catch (NoRemoteRepositoryException e) {
       log.error("Cannot replicate to " + uri + "; repository not found");
-      return;
+
     } catch (NotSupportedException e) {
       log.error("Cannot replicate to " + uri, e);
-      return;
+
     } catch (TransportException e) {
       final Throwable cause = e.getCause();
       if (cause instanceof JSchException
           && cause.getMessage().startsWith("UnknownHostKey:")) {
         log.error("Cannot replicate to " + uri + ": " + cause.getMessage());
-        return;
+      } else {
+        log.error("Cannot replicate to " + uri, e);
       }
-      log.error("Cannot replicate to " + uri, e);
-      return;
+
     } catch (IOException e) {
       log.error("Cannot replicate to " + uri, e);
-      return;
+
+    } catch (RuntimeException e) {
+      log.error("Unexpected error during replication to " + uri, e);
+
+    } catch (Error e) {
+      log.error("Unexpected error during replication to " + uri, e);
+
+    }
+  }
+
+  @Override
+  public String toString() {
+    return (mirror ? "mirror " : "push ") + uri;
+  }
+
+  private void openRepository() throws InvalidRepositoryException,
+      OrmException, XsrfException {
+    db = GerritServer.getInstance().getRepositoryCache().get(projectName);
+  }
+
+  private void runImpl() throws IOException {
+    final Transport tn = Transport.open(db, uri);
+    final PushResult res;
+    try {
+      res = pushVia(tn);
     } finally {
       try {
         tn.close();
@@ -164,29 +172,116 @@ class PushOp implements Runnable {
     }
   }
 
-  private List<RemoteRefUpdate> computeUpdates(final Repository db)
+  private PushResult pushVia(final Transport tn) throws IOException,
+      NotSupportedException, TransportException {
+    tn.applyConfig(config);
+
+    final List<RemoteRefUpdate> todo = generateUpdates(tn);
+    if (todo.isEmpty()) {
+      // If we have no commands selected, we have nothing to do.
+      // Calling JGit at this point would just redo the work we
+      // already did, and come up with the same answer. Instead
+      // send back an empty result.
+      //
+      return new PushResult();
+    }
+
+    return tn.push(NullProgressMonitor.INSTANCE, todo);
+  }
+
+  private List<RemoteRefUpdate> generateUpdates(final Transport tn)
       throws IOException {
-    final ArrayList<RemoteRefUpdate> cmds = new ArrayList<RemoteRefUpdate>();
-    for (final String ref : delta) {
-      final String src = ref;
-      RefSpec spec = null;
-      for (final RefSpec s : config.getPushRefSpecs()) {
-        if (s.matchSource(src)) {
-          spec = s.expandFromSource(src);
-          break;
+    final List<RemoteRefUpdate> cmds = new ArrayList<RemoteRefUpdate>();
+    final Map<String, Ref> local = db.getAllRefs();
+
+    if (mirror) {
+      final Map<String, Ref> remote = listRemote(tn);
+
+      for (final Ref src : local.values()) {
+        final RefSpec spec = matchSrc(src.getName());
+        if (spec != null) {
+          final Ref dst = remote.get(spec.getDestination());
+          if (dst == null || !src.getObjectId().equals(dst.getObjectId())) {
+            // Doesn't exist yet, or isn't the same value, request to push.
+            //
+            send(cmds, spec);
+          }
         }
       }
-      if (spec == null) {
-        continue;
+
+      for (final Ref ref : remote.values()) {
+        if (!isHEAD(ref)) {
+          final RefSpec spec = matchDst(ref.getName());
+          if (spec != null && !local.containsKey(spec.getSource())) {
+            // No longer on local side, request removal.
+            //
+            delete(cmds, spec);
+          }
+        }
       }
 
-      // If the ref still exists locally, send it, else delete it.
-      //
-      final String srcexp = db.resolve(src) != null ? src : null;
-      final String dst = spec.getDestination();
-      final boolean force = spec.isForceUpdate();
-      cmds.add(new RemoteRefUpdate(db, srcexp, dst, force, null, null));
+    } else {
+      for (final String src : delta) {
+        final RefSpec spec = matchSrc(src);
+        if (spec != null) {
+          // If the ref still exists locally, send it, otherwise delete it.
+          //
+          if (local.containsKey(src)) {
+            send(cmds, spec);
+          } else {
+            delete(cmds, spec);
+          }
+        }
+      }
     }
+
     return cmds;
+  }
+
+  private Map<String, Ref> listRemote(final Transport tn)
+      throws NotSupportedException, TransportException {
+    final FetchConnection fc = tn.openFetch();
+    try {
+      return fc.getRefsMap();
+    } finally {
+      fc.close();
+    }
+  }
+
+  private RefSpec matchSrc(final String ref) {
+    for (final RefSpec s : config.getPushRefSpecs()) {
+      if (s.matchSource(ref)) {
+        return s.expandFromSource(ref);
+      }
+    }
+    return null;
+  }
+
+  private RefSpec matchDst(final String ref) {
+    for (final RefSpec s : config.getPushRefSpecs()) {
+      if (s.matchDestination(ref)) {
+        return s.expandFromDestination(ref);
+      }
+    }
+    return null;
+  }
+
+  private void send(final List<RemoteRefUpdate> cmds, final RefSpec spec)
+      throws IOException {
+    final String src = spec.getSource();
+    final String dst = spec.getDestination();
+    final boolean force = spec.isForceUpdate();
+    cmds.add(new RemoteRefUpdate(db, src, dst, force, null, null));
+  }
+
+  private void delete(final List<RemoteRefUpdate> cmds, final RefSpec spec)
+      throws IOException {
+    final String dst = spec.getDestination();
+    final boolean force = spec.isForceUpdate();
+    cmds.add(new RemoteRefUpdate(db, null, dst, force, null, null));
+  }
+
+  private static boolean isHEAD(final Ref ref) {
+    return Constants.HEAD.equals(ref.getName());
   }
 }

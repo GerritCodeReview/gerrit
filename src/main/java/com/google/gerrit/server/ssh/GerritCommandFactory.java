@@ -60,6 +60,11 @@ class GerritCommandFactory implements CommandFactory {
         return new AdminShowQueue();
       }
     });
+    commands.put("gerrit-replicate", new Factory() {
+      public AbstractCommand create() {
+        return new AdminReplicate();
+      }
+    });
 
     alias("gerrit-upload-pack", "git-upload-pack");
     alias("gerrit-receive-pack", "git-receive-pack");

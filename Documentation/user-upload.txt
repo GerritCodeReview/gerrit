@@ -13,9 +13,9 @@ first be configured by the uploading user.
 SSH Authentication
 ------------------
 
-Each user uploading changes to Gerrit must configure one or
-more SSH public keys.  The per-user SSH key list can be accessed
-over the web within Gerrit by `My` > `Settings` (or by visting
+Each user uploading changes to Gerrit must configure one
+or more SSH public keys.  The per-user SSH key list can be
+accessed over the web within Gerrit by `Settings` (or by visting
 `http://'hostname'/settings`) then accessing the `SSH Keys` tab.
 
 To register a new SSH key for use with Gerrit, paste the contents
@@ -66,11 +66,11 @@ port 29418, using the same hostname as the web server:
 
 In the command above, `sshusername` is always the local part of your
 preferred email address (the text before the `@` sign).  The exact
-value chosen by Gerrit can be confirmed by visting `My` > `Settings`,
+value chosen by Gerrit can be confirmed by visting `Settings`,
 and copying the `SSH Username` field.  For example, a user who
 has selected a preferred email address of `john.doe@example.com`
-would be assigned `john.doe` as their SSH username.  For many
-users, this may also be identical to their local username.
+would be assigned `john.doe` as their SSH username.  For many users,
+this may also be identical to their local username.
 
 To determine the port number Gerrit is running on, visit the special
 information URL `http://'hostname'/ssh_info`, and copy the port

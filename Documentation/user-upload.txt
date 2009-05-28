@@ -153,10 +153,10 @@ shorter URLs on the command line, such as:
 
 Specific reviewers can be requested and/or additional ``carbon
 copies'' of the notification message may be sent by including these
-as arguments to `gerrit receive-pack`:
+as arguments to `git receive-pack`:
 
 ====
-  git push --receive-pack='gerrit receive-pack --reviewer=a@a.com --cc=b@o.com' tr:kernel/common HEAD:refs/for/experimental
+  git push --receive-pack='git receive-pack --reviewer=a@a.com --cc=b@o.com' tr:kernel/common HEAD:refs/for/experimental
 ====
 
 The `\--reviewer='email'` and `\--cc='email'` options may be
@@ -174,7 +174,7 @@ branches, consider adding a custom remote block to your project's
   ...
   [remote "for-a-exp"]
     url = tr:kernel/common
-    receivepack = gerrit receive-pack --reviewer=a@a.com --cc=b@o.com
+    receivepack = git receive-pack --reviewer=a@a.com --cc=b@o.com
     push = HEAD:refs/for/experimental
 
   $ git push for-a-exp

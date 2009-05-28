@@ -198,7 +198,7 @@ class PushOp implements Runnable {
       final Map<String, Ref> remote = listRemote(tn);
 
       for (final Ref src : local.values()) {
-        final RefSpec spec = matchSrc(src.getName());
+        final RefSpec spec = matchSrc(src.getOrigName());
         if (spec != null) {
           final Ref dst = remote.get(spec.getDestination());
           if (dst == null || !src.getObjectId().equals(dst.getObjectId())) {
@@ -282,6 +282,6 @@ class PushOp implements Runnable {
   }
 
   private static boolean isHEAD(final Ref ref) {
-    return Constants.HEAD.equals(ref.getName());
+    return Constants.HEAD.equals(ref.getOrigName());
   }
 }

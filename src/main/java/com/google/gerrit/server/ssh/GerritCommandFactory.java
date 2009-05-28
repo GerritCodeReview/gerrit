@@ -55,6 +55,11 @@ class GerritCommandFactory implements CommandFactory {
         return new AdminShowConnections();
       }
     });
+    commands.put("gerrit-show-queue", new Factory() {
+      public AbstractCommand create() {
+        return new AdminShowQueue();
+      }
+    });
 
     alias("gerrit-upload-pack", "git-upload-pack");
     alias("gerrit-receive-pack", "git-receive-pack");

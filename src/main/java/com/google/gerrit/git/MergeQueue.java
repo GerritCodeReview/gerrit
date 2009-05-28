@@ -15,6 +15,7 @@
 package com.google.gerrit.git;
 
 import com.google.gerrit.client.reviewdb.Branch;
+import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.server.GerritServer;
 
 import org.slf4j.Logger;
@@ -97,6 +98,13 @@ public class MergeQueue {
           } finally {
             finish(e.dest);
           }
+        }
+
+        @Override
+        public String toString() {
+          final Branch.NameKey branch = e.dest;
+          final Project.NameKey project = branch.getParentKey();
+          return "submit " + project.get() + " " + branch.getShortName();
         }
       }, 0, TimeUnit.SECONDS);
     }

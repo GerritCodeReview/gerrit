@@ -134,7 +134,7 @@ public class GerritServer {
     if (impl == null) {
       try {
         impl = new GerritServer();
-        impl.reloadMergeQueue();
+        impl.reloadSubmitQueue();
       } catch (OrmException e) {
         closeDataSource();
         log.error("GerritServer ORM is unavailable", e);
@@ -694,7 +694,7 @@ public class GerritServer {
     WindowCache.reconfigure(c);
   }
 
-  private void reloadMergeQueue() {
+  private void reloadSubmitQueue() {
     WorkQueue.schedule(new Runnable() {
       public void run() {
         final HashSet<Branch.NameKey> pending = new HashSet<Branch.NameKey>();
@@ -714,6 +714,11 @@ public class GerritServer {
         for (final Branch.NameKey branch : pending) {
           MergeQueue.schedule(branch);
         }
+      }
+
+      @Override
+      public String toString() {
+        return "Reload Submit Queue";
       }
     }, 0, TimeUnit.SECONDS);
   }

@@ -82,6 +82,11 @@ class PushOp implements Runnable {
     }
   }
 
+  @Override
+  public String toString() {
+    return "push " + uri;
+  }
+
   private void pushImpl() {
     final Repository db;
     try {

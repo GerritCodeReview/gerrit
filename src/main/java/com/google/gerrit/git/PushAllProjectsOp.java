@@ -29,13 +29,23 @@ public class PushAllProjectsOp implements Runnable {
   private static final Logger log =
       LoggerFactory.getLogger(PushAllProjectsOp.class);
 
+  private final String urlMatch;
+
+  public PushAllProjectsOp() {
+    this(null);
+  }
+
+  public PushAllProjectsOp(final String urlMatch) {
+    this.urlMatch = urlMatch;
+  }
+
   public void run() {
     final HashSet<Branch.NameKey> pending = new HashSet<Branch.NameKey>();
     try {
       final ReviewDb db = Common.getSchemaFactory().open();
       try {
         for (final Project project : db.projects().all()) {
-          PushQueue.scheduleFullSync(project.getNameKey());
+          PushQueue.scheduleFullSync(project.getNameKey(), urlMatch);
         }
       } finally {
         db.close();
@@ -47,6 +57,10 @@ public class PushAllProjectsOp implements Runnable {
 
   @Override
   public String toString() {
-    return "Replicate All Projects";
+    String s = "Replicate All Projects";
+    if (urlMatch != null) {
+      s = s + " to " + urlMatch;
+    }
+    return s;
   }
 }

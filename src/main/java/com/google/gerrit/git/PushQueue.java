@@ -75,10 +75,12 @@ public class PushQueue {
    * removed from the local repository.
    * 
    * @param project identity of the project to replicate.
+   * @param urlMatch substring that must appear in a URI to support replication.
    */
-  public static void scheduleFullSync(final Project.NameKey project) {
+  public static void scheduleFullSync(final Project.NameKey project,
+      final String urlMatch) {
     for (final ReplicationConfig cfg : allConfigs()) {
-      for (final URIish uri : cfg.getURIs(project)) {
+      for (final URIish uri : cfg.getURIs(project, urlMatch)) {
         scheduleImp(project, PushOp.MIRROR_ALL, cfg, uri);
       }
     }
@@ -98,7 +100,7 @@ public class PushQueue {
       final String ref) {
     for (final ReplicationConfig cfg : allConfigs()) {
       if (cfg.wouldPushRef(ref)) {
-        for (final URIish uri : cfg.getURIs(project)) {
+        for (final URIish uri : cfg.getURIs(project, null)) {
           scheduleImp(project, ref, cfg, uri);
         }
       }
@@ -192,8 +194,8 @@ public class PushQueue {
       delay = posInt(rc, cfg, "replicationdelay", 15);
     }
 
-    private static int posInt(final RemoteConfig rc, final RepositoryConfig cfg,
-        final String name, final int defValue) {
+    private static int posInt(final RemoteConfig rc,
+        final RepositoryConfig cfg, final String name, final int defValue) {
       return Math.max(0, cfg.getInt("remote", rc.getName(), name, defValue));
     }
 
@@ -206,13 +208,22 @@ public class PushQueue {
       return false;
     }
 
-    List<URIish> getURIs(final Project.NameKey project) {
+    List<URIish> getURIs(final Project.NameKey project, final String urlMatch) {
       final List<URIish> r = new ArrayList<URIish>(remote.getURIs().size());
       for (URIish uri : remote.getURIs()) {
-        uri = uri.setPath(replace(uri.getPath(), "name", project.get()));
-        r.add(uri);
+        if (matches(uri, urlMatch)) {
+          uri = uri.setPath(replace(uri.getPath(), "name", project.get()));
+          r.add(uri);
+        }
       }
       return r;
+    }
+
+    private static boolean matches(URIish uri, final String urlMatch) {
+      if (urlMatch == null || urlMatch.equals("") || urlMatch.equals("*")) {
+        return true;
+      }
+      return uri.toString().contains(urlMatch);
     }
   }
 }

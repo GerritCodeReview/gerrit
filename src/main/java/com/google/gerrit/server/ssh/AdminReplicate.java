@@ -31,6 +31,9 @@ class AdminReplicate extends AbstractCommand {
   @Option(name = "--all", usage = "push all known projects")
   private boolean all;
 
+  @Option(name = "--url", metaVar = "PATTERN", usage = "pattern to match URL on")
+  private String urlMatch;
+
   @Argument(index = 0, multiValued = true, metaVar = "PROJECT", usage = "project name")
   private List<String> projectNames;
 
@@ -47,13 +50,13 @@ class AdminReplicate extends AbstractCommand {
     }
 
     if (all) {
-      WorkQueue.schedule(new PushAllProjectsOp(), 0, TimeUnit.SECONDS);
+      WorkQueue.schedule(new PushAllProjectsOp(urlMatch), 0, TimeUnit.SECONDS);
 
     } else {
       for (final String name : projectNames) {
         final Project.NameKey key = new Project.NameKey(name);
         if (Common.getProjectCache().get(key) != null) {
-          PushQueue.scheduleFullSync(key);
+          PushQueue.scheduleFullSync(key, urlMatch);
         } else {
           throw new Failure(1, "error: '" + name + "': not a Gerrit project");
         }

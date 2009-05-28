@@ -36,6 +36,8 @@ import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.workflow.NoOpFunction;
 import com.google.gerrit.client.workflow.SubmitFunction;
 import com.google.gerrit.git.MergeQueue;
+import com.google.gerrit.git.PushAllProjectsOp;
+import com.google.gerrit.git.PushQueue;
 import com.google.gerrit.git.RepositoryCache;
 import com.google.gerrit.git.WorkQueue;
 import com.google.gerrit.server.patch.DiffCacheEntryFactory;
@@ -135,6 +137,9 @@ public class GerritServer {
       try {
         impl = new GerritServer();
         impl.reloadSubmitQueue();
+        if (PushQueue.isReplicationEnabled()) {
+          WorkQueue.schedule(new PushAllProjectsOp(), 30, TimeUnit.SECONDS);
+        }
       } catch (OrmException e) {
         closeDataSource();
         log.error("GerritServer ORM is unavailable", e);

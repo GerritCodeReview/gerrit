@@ -85,6 +85,14 @@ using the SSH transport.
 Defaults to `git receive-pack`, which works on any version of Git so
 long as `git` is in the remote user's PATH.
 
+remote.<name>.uploadpack::
++
+Path of the `git-upload-pack` executable on the remote system, if
+using the SSH transport.
++
+Defaults to `git upload-pack`, which works on any version of Git so
+long as `git` is in the remote user's PATH.
+
 remote.<name>.push::
 +
 Standard Git refspec denoting what should be replicated.  Setting this

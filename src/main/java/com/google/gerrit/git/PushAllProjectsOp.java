@@ -16,6 +16,7 @@ package com.google.gerrit.git;
 
 import com.google.gerrit.client.reviewdb.Branch;
 import com.google.gerrit.client.reviewdb.Project;
+import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gwtorm.client.OrmException;
@@ -45,7 +46,9 @@ public class PushAllProjectsOp implements Runnable {
       final ReviewDb db = Common.getSchemaFactory().open();
       try {
         for (final Project project : db.projects().all()) {
-          PushQueue.scheduleFullSync(project.getNameKey(), urlMatch);
+          if (!ProjectRight.WILD_PROJECT.equals(project.getId())) {
+            PushQueue.scheduleFullSync(project.getNameKey(), urlMatch);
+          }
         }
       } finally {
         db.close();

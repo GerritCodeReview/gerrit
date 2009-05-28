@@ -720,7 +720,7 @@ public class GerritServer {
       public String toString() {
         return "Reload Submit Queue";
       }
-    }, 0, TimeUnit.SECONDS);
+    }, 15, TimeUnit.SECONDS);
   }
 
   /** Time (in seconds) that user sessions stay "signed in". */

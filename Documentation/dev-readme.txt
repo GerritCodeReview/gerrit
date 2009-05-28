@@ -152,3 +152,7 @@ Why GWT?
 We like it.  Plus we can write Java code once and run it both in
 the browser and on the server side.  This will be very useful as
 we implement offline support in Gerrit.
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

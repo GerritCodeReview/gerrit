@@ -47,3 +47,7 @@ Caching Gitweb
 If your repository set is large and you are expecting a lot
 of users, you may want to look at the caching forks used by
 high-traffic sites like kernel.org or repo.or.cz.
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

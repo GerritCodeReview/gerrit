@@ -123,3 +123,7 @@ create SSH keys with `ssh-keygen`.
 
 * link:install.html[Installation Guide]
 * link:project-setup.html[Project Setup]
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

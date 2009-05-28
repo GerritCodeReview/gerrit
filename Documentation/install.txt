@@ -457,3 +457,7 @@ Project Setup
 
 See link:project-setup.html[Project Setup] for further details on
 how to register a project with Gerrit.
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

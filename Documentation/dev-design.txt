@@ -657,3 +657,7 @@ complex as Android.  Most contributors at least need some sort of
 dashboard to keep track of any pending reviews, and some way to
 correlate updated revisions back to the comments written on prior
 revisions of the same logical change.
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

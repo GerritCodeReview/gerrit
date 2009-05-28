@@ -28,3 +28,7 @@ langauges and different users want different translations.
 * The title of the host page is not translated.
 
 * The <noscript> tag is not translated.
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

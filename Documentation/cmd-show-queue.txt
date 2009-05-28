@@ -73,3 +73,7 @@ DEFECTS
 There is a small race condition where tasks may disappear from the
 output of this command while they transition from the ready/waiting
 (`W`) or sleeping (`S`) state to the running (`R`) state.
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

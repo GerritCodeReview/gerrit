@@ -174,3 +174,7 @@ Host keys for any destination SSH servers must appear in the user's
 `~/.ssh/known_hosts` file, and must be added in advance, before
 Gerrit starts.  If a host key is not listed, Gerrit will be unable to
 connect to that destination, and replication to that URL will fail.
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

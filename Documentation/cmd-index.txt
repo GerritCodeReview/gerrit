@@ -46,3 +46,7 @@ link:cmd-show-queue.html[gerrit show-queue]::
 
 link:cmd-replicate.html[gerrit replicate]::
 	Manually trigger replication, to recover a node.
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

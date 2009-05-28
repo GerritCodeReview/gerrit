@@ -130,3 +130,7 @@ will automatically have `refs/heads/` prefixed to ensure they are
 a standard Git branch name.  Almost any valid SHA-1 expression can
 be used to specify the starting revision, so long as it resolves
 to a commit object.  Abbreviated SHA-1s are not supported.
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

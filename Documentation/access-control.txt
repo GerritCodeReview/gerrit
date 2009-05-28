@@ -509,3 +509,7 @@ making any database changes to approval categories.  Category data
 is aggressively cached by every corner of Gerrit, as it does not
 change often.  Browser may need more than 5 minutes to flush the
 old category data out of their local disk caches.
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

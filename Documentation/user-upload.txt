@@ -317,3 +317,7 @@ agreement is required, but not completed, it aborts the network
 connection before data is sent.  This ensures that project owners
 can be certain any object available in their repository has been
 supplied under at least one valid agreement.
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

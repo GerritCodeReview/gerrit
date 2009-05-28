@@ -72,3 +72,7 @@ SEE ALSO
 * link:cmd-flush-caches.html[gerrit flush-caches]
 * link:config-gerrit.html#section_cache[Cache Configuration]
 * link:config-gerrit.html#cache_names[Standard Caches]
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

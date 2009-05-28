@@ -130,3 +130,6 @@ page.  Because GWT loads the module asynchronously any `<script>`
 block in the header or footer will execute before Gerrit has defined
 the function and is ready to register the hook callback.
 
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

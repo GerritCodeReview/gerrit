@@ -498,3 +498,6 @@ This is initialized by Gerrit to be the "Registered Users" group.
 +
 Changing it is not recommended.
 
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

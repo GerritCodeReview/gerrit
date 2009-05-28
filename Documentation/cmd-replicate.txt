@@ -95,3 +95,7 @@ SEE ALSO
 --------
 
 * link:config-replication.html[Git Replication/Mirroring]
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

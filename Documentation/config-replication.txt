@@ -82,16 +82,14 @@ remote.<name>.receivepack::
 Path of the `git-receive-pack` executable on the remote system, if
 using the SSH transport.
 +
-Defaults to `git receive-pack`, which works on any version of Git so
-long as `git` is in the remote user's PATH.
+Defaults to `git-receive-pack`.
 
 remote.<name>.uploadpack::
 +
 Path of the `git-upload-pack` executable on the remote system, if
 using the SSH transport.
 +
-Defaults to `git upload-pack`, which works on any version of Git so
-long as `git` is in the remote user's PATH.
+Defaults to `git-upload-pack`.
 
 remote.<name>.push::
 +

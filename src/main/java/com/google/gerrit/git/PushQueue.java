@@ -181,6 +181,12 @@ public class PushQueue {
         log.error("Invalid URI in " + cfgFile + ": " + e.getMessage());
         return Collections.emptyList();
       }
+
+      int destCnt = 0;
+      for (final ReplicationConfig c : configs) {
+        destCnt += c.remote.getURIs().size();
+      }
+      WorkQueue.adviseThreadCount(destCnt);
     }
     return configs;
   }

@@ -31,10 +31,14 @@ public class WorkQueue {
   private static synchronized Executor getPool(final boolean autoStart) {
     if (autoStart && pool == null) {
       pool = new Executor(1);
-      pool.setKeepAliveTime(60, TimeUnit.SECONDS);
-      pool.setMaximumPoolSize(5);
     }
     return pool;
+  }
+
+  static void adviseThreadCount(final int callerWants) {
+    final Executor p = getPool(true);
+    p.setMaximumPoolSize(1 + callerWants);
+    p.setCorePoolSize(1 + callerWants);
   }
 
   /** Get all of the tasks currently scheduled in the work queue. */

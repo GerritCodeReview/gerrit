@@ -46,8 +46,6 @@ import java.util.concurrent.TimeUnit;
 public class PushQueue {
   static final Logger log = LoggerFactory.getLogger(PushQueue.class);
   private static List<ReplicationConfig> configs;
-  private static final Map<URIish, PushOp> pending =
-      new HashMap<URIish, PushOp>();
 
   static {
     // Install our own factory which always runs in batch mode, as we
@@ -81,7 +79,7 @@ public class PushQueue {
       final String urlMatch) {
     for (final ReplicationConfig cfg : allConfigs()) {
       for (final URIish uri : cfg.getURIs(project, urlMatch)) {
-        scheduleImp(project, PushOp.MIRROR_ALL, cfg, uri);
+        cfg.schedule(project, PushOp.MIRROR_ALL, uri);
       }
     }
   }
@@ -101,25 +99,10 @@ public class PushQueue {
     for (final ReplicationConfig cfg : allConfigs()) {
       if (cfg.wouldPushRef(ref)) {
         for (final URIish uri : cfg.getURIs(project, null)) {
-          scheduleImp(project, ref, cfg, uri);
+          cfg.schedule(project, ref, uri);
         }
       }
     }
-  }
-
-  private static synchronized void scheduleImp(final Project.NameKey project,
-      final String ref, final ReplicationConfig config, final URIish uri) {
-    PushOp e = pending.get(uri);
-    if (e == null) {
-      e = new PushOp(project.get(), config.remote, uri);
-      WorkQueue.schedule(e, config.delay, TimeUnit.SECONDS);
-      pending.put(uri, e);
-    }
-    e.addRef(ref);
-  }
-
-  static synchronized void notifyStarting(final PushOp op) {
-    pending.remove(op.getURI());
   }
 
   private static String replace(final String pat, final String key,
@@ -181,28 +164,44 @@ public class PushQueue {
         log.error("Invalid URI in " + cfgFile + ": " + e.getMessage());
         return Collections.emptyList();
       }
-
-      int destCnt = 0;
-      for (final ReplicationConfig c : configs) {
-        destCnt += c.remote.getURIs().size();
-      }
-      WorkQueue.adviseThreadCount(destCnt);
     }
     return configs;
   }
 
-  private static class ReplicationConfig {
-    final RemoteConfig remote;
-    final int delay;
+  static class ReplicationConfig {
+    private final RemoteConfig remote;
+    private final int delay;
+    private final WorkQueue.Executor pool;
+    private final Map<URIish, PushOp> pending = new HashMap<URIish, PushOp>();
 
     ReplicationConfig(final RemoteConfig rc, final RepositoryConfig cfg) {
       remote = rc;
-      delay = posInt(rc, cfg, "replicationdelay", 15);
+      delay = Math.max(0, getInt(rc, cfg, "replicationdelay", 15));
+      pool = WorkQueue.createQueue(Math.max(0, getInt(rc, cfg, "threads", 1)));
     }
 
-    private static int posInt(final RemoteConfig rc,
+    private static int getInt(final RemoteConfig rc,
         final RepositoryConfig cfg, final String name, final int defValue) {
-      return Math.max(0, cfg.getInt("remote", rc.getName(), name, defValue));
+      return cfg.getInt("remote", rc.getName(), name, defValue);
+    }
+
+    void schedule(final Project.NameKey project, final String ref,
+        final URIish uri) {
+      synchronized (pending) {
+        PushOp e = pending.get(uri);
+        if (e == null) {
+          e = new PushOp(this, project.get(), remote, uri);
+          pool.schedule(e, delay, TimeUnit.SECONDS);
+          pending.put(uri, e);
+        }
+        e.addRef(ref);
+      }
+    }
+
+    void notifyStarting(final PushOp op) {
+      synchronized (pending) {
+        pending.remove(op.getURI());
+      }
     }
 
     boolean wouldPushRef(final String ref) {

@@ -54,6 +54,7 @@ class PushOp implements Runnable {
   static final String MIRROR_ALL = "..all..";
 
   private final Set<String> delta = new HashSet<String>();
+  private final PushQueue.ReplicationConfig pool;
   private final String projectName;
   private final RemoteConfig config;
   private final URIish uri;
@@ -61,7 +62,9 @@ class PushOp implements Runnable {
 
   private Repository db;
 
-  PushOp(final String d, final RemoteConfig c, final URIish u) {
+  PushOp(final PushQueue.ReplicationConfig p, final String d,
+      final RemoteConfig c, final URIish u) {
+    pool = p;
     projectName = d;
     config = c;
     uri = u;
@@ -86,7 +89,7 @@ class PushOp implements Runnable {
       // we start replication (instead a new instance, with the same URI, is
       // created and scheduled for a future point in time.)
       //
-      PushQueue.notifyStarting(this);
+      pool.notifyStarting(this);
       openRepository();
       runImpl();
     } catch (OrmException e) {

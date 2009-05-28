@@ -19,6 +19,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Callable;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.Delayed;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.RunnableScheduledFuture;
@@ -28,27 +29,33 @@ import java.util.concurrent.TimeoutException;
 
 /** Delayed execution of tasks using a background thread pool. */
 public class WorkQueue {
-  private static Executor pool;
+  private static Executor defaultQueue;
+  private static final CopyOnWriteArrayList<Executor> queues =
+      new CopyOnWriteArrayList<Executor>();
 
-  private static synchronized Executor getPool(final boolean autoStart) {
-    if (autoStart && pool == null) {
-      pool = new Executor(1);
+  private static synchronized Executor getDefaultQueue() {
+    if (defaultQueue == null) {
+      defaultQueue = createQueue(1);
     }
-    return pool;
+    return defaultQueue;
   }
 
-  static void adviseThreadCount(final int callerWants) {
-    final Executor p = getPool(true);
-    p.setMaximumPoolSize(1 + callerWants);
-    p.setCorePoolSize(1 + callerWants);
+  /** Create a new executor queue with one thread. */
+  public static Executor createQueue(final int poolsize) {
+    final Executor r = new Executor(poolsize);
+    r.setContinueExistingPeriodicTasksAfterShutdownPolicy(false);
+    r.setExecuteExistingDelayedTasksAfterShutdownPolicy(false);
+    queues.add(r);
+    return r;
   }
 
   /** Get all of the tasks currently scheduled in the work queue. */
   public static Task<?>[] getTasks() {
-    final Executor p = getPool(false);
-    final Task<?>[] r;
-    r = p != null ? p.toTaskArray() : new Task[] {};
-    return r;
+    final List<Task<?>> r = new ArrayList<Task<?>>();
+    for (final Executor e : queues) {
+      e.addAllTo(r);
+    }
+    return r.toArray(new Task[r.size()]);
   }
 
   /**
@@ -62,13 +69,13 @@ public class WorkQueue {
    */
   public static void schedule(final Runnable task, final long delay,
       final TimeUnit unit) {
-    getPool(true).schedule(task, delay, unit);
+    getDefaultQueue().schedule(task, delay, unit);
   }
 
   /** Shutdown the work queue, aborting any pending tasks that haven't started. */
   public static void terminate() {
-    final ScheduledThreadPoolExecutor p = shutdown();
-    if (p != null) {
+    for (final Executor p : queues) {
+      p.shutdown();
       boolean isTerminated;
       do {
         try {
@@ -78,20 +85,12 @@ public class WorkQueue {
         }
       } while (!isTerminated);
     }
+    queues.clear();
   }
 
-  private static synchronized ScheduledThreadPoolExecutor shutdown() {
-    final ScheduledThreadPoolExecutor p = pool;
-    if (p != null) {
-      p.shutdown();
-      pool = null;
-      return p;
-    }
-    return null;
-  }
-
+  /** An isolated queue. */
+  public static class Executor extends ScheduledThreadPoolExecutor {
     private final Set<Task<?>> active = new HashSet<Task<?>>();
-  private static class Executor extends ScheduledThreadPoolExecutor {
 
     Executor(final int corePoolSize) {
       super(corePoolSize);
@@ -125,15 +124,13 @@ public class WorkQueue {
       }
     }
 
-    Task<?>[] toTaskArray() {
-      final List<Task<?>> list = new ArrayList<Task<?>>();
+    void addAllTo(final List<Task<?>> list) {
       synchronized (active) {
         list.addAll(active);
       }
       for (final Runnable task : getQueue()) { // iterator is thread safe
         list.add((Task<?>) task);
       }
-      return list.toArray(new Task<?>[list.size()]);
     }
   }
 

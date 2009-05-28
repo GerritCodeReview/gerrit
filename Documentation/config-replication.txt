@@ -44,6 +44,7 @@ different hosts:
     url = mirror3.us.some.org:/pub/git/${name}.git
     push = +refs/heads/*
     push = +refs/tags/*
+    threads = 3
 ====
 
 File `replication.config`[[replication_config]]
@@ -56,6 +57,13 @@ The file is composed of one or more `remote` sections, each remote
 section provides common configuration settings for one or more
 destination URLs.
 
+Each remote section uses its own thread pool.  If pushing to
+multiple remotes, over differing types of network connections
+(e.g. LAN and also public Internet), its a good idea to put them
+into different remote sections, so that replication to the slower
+connection does not starve out the faster local one.  The example
+file above does this.
+
 Section remote[[section_remote]]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -65,9 +73,10 @@ section appears in the file.
 
 remote.<name>.url::
 +
-Address of the remote server to push to.  Multiple URLs may be
-specified within a single remote block, listing different destinations
-which share the same settings.  Gerrit pushes to all URLs in parallel,
+Address of the remote server to push to.  Multiple URLs may
+be specified within a single remote block, listing different
+destinations which share the same settings.  Assuming sufficient
+threads in the thread pool, Gerrit pushes to all URLs in parallel,
 using one thread per URL.
 +
 Within each URL value the magic placeholder `$\{name}` is replaced
@@ -114,6 +123,17 @@ push to start as soon as possible.
 This is a Gerrit specific extension to the Git remote block.
 +
 By default, 15 seconds.
+
+remote.<name>.threads::
++
+Number of worker threads to dedicate to pushing to the repositories
+described by this remote.  Each thread can push one project at a
+time, to one destination URL.  Scheduling within the thread pool
+is done on a per-project basis.  If a remote block describes 4
+URLs, allocating 4 threads in the pool will permit some level of
+parallel pushing.
++
+By default, 1 thread.
 
 
 File `~/.ssh/config`[[ssh_config]]

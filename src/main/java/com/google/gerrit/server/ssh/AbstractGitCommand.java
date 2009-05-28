@@ -19,7 +19,6 @@ import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ProjectRight;
-import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.git.InvalidRepositoryException;
 
@@ -36,7 +35,6 @@ abstract class AbstractGitCommand extends AbstractCommand {
   protected ProjectCache.Entry cachedProj;
   protected Project proj;
   protected Account userAccount;
-  protected ReviewDb db;
 
   protected boolean isGerrit() {
     return getName().startsWith("gerrit-");
@@ -45,13 +43,7 @@ abstract class AbstractGitCommand extends AbstractCommand {
   @Override
   protected void preRun() throws Failure {
     super.preRun();
-    db = openReviewDb();
-  }
-
-  @Override
-  protected void postRun() {
-    closeDb();
-    super.postRun();
+    openReviewDb();
   }
 
   @Override
@@ -100,13 +92,6 @@ abstract class AbstractGitCommand extends AbstractCommand {
     }
 
     runImpl();
-  }
-
-  protected void closeDb() {
-    if (db != null) {
-      db.close();
-      db = null;
-    }
   }
 
   protected boolean canPerform(final ApprovalCategory.Id actionId,

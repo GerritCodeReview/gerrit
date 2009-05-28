@@ -61,6 +61,8 @@ abstract class AbstractCommand implements Command, SessionAware {
   protected OutputStream err;
   protected ExitCallback exit;
   protected ServerSession session;
+  protected ReviewDb db;
+
   private String name;
   private String unsplitArguments;
   private Set<AccountGroup.Id> userGroups;
@@ -113,11 +115,14 @@ abstract class AbstractCommand implements Command, SessionAware {
   }
 
   protected ReviewDb openReviewDb() throws Failure {
-    try {
-      return Common.getSchemaFactory().open();
-    } catch (OrmException e) {
-      throw new Failure(1, "fatal: Gerrit database is offline", e);
+    if (db == null) {
+      try {
+        db = Common.getSchemaFactory().open();
+      } catch (OrmException e) {
+        throw new Failure(1, "fatal: Gerrit database is offline", e);
+      }
     }
+    return db;
   }
 
   protected Account.Id getAccountId() {
@@ -330,6 +335,14 @@ abstract class AbstractCommand implements Command, SessionAware {
   protected abstract void run() throws IOException, Failure;
 
   protected void postRun() {
+    closeDb();
+  }
+
+  protected void closeDb() {
+    if (db != null) {
+      db.close();
+      db = null;
+    }
   }
 
   public static class Failure extends Exception {

@@ -51,8 +51,8 @@ key's passphrase.  Consult `man ssh-agent`, or your SSH client's
 documentation, for more details on configuration of the agent
 process and how to add the private key.
 
-Testing Your SSH Connection
----------------------------
+Testing Your SSH Connection[[test_ssh]]
+---------------------------------------
 
 To verify your SSH key is working correctly, try using an SSH client
 to connect to Gerrit's SSHD port.  By default Gerrit is running on
@@ -108,8 +108,8 @@ be sent through command line options.
 For more details on using `repo upload`, see `repo help upload`.
 
 
-git push: Create Changes
-------------------------
+git push: Create Changes[[push_create]]
+---------------------------------------
 
 To create new changes for review, simply push into the project's
 magical `refs/for/'branch'` ref using any Git client tool:

@@ -47,6 +47,9 @@ different hosts:
     threads = 3
 ====
 
+To manually trigger replication at runtime, see
+link:cmd-replicate.html[gerrit replicate].
+
 File `replication.config`[[replication_config]]
 -----------------------------------------------
 

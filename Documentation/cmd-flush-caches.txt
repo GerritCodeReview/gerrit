@@ -1,0 +1,85 @@
+gerrit flush-caches
+===================
+
+NAME
+----
+gerrit flush-caches - Flush some/all server caches from memory
+
+SYNOPSIS
+--------
+[verse]
+'ssh' -p <port> <host> 'gerrit flush-caches' \
+[\--all | \--list | \--cache <NAME> ...]
+
+DESCRIPTION
+-----------
+Clear an in-memory cache, forcing Gerrit to reconsult the ground
+truth when it needs the information again.
+
+Flushing a cache may be necessary if an administrator modifies
+database records directly in the database, rather than going through
+the Gerrit web interface.
+
+If no options are supplied, defaults to `--all`.
+
+ACCESS
+------
+Caller must be a member of the privileged 'Administrators' group.
+
+SCRIPTING
+---------
+This command is intended to be used in scripts.
+
+OPTIONS
+-------
+\--all::
+	Flush all supported caches.  This is like applying a big
+	hammer, it will force everything out, potentially more than
+	was necessary for the change made.
+
+\--list::
+	Show a list of the caches.
+
+\--cache=<NAME>::
+	Flush only the cache called <NAME>.  May be supplied more
+	than once to flush multiple caches in a single command
+	execution.
+
+EXAMPLES
+--------
+List caches available for flushing:
+
+====
+	$ ssh -p 29418 review.example.com gerrit flush-caches --list
+	accounts
+	diff
+	groups
+	openid
+	projects
+	sshkeys
+====
+
+Flush all caches known to the server, forcing them to recompute:
+
+====
+	$ ssh -p 29418 review.example.com gerrit flush-caches --all
+====
+
+or
+
+====
+	$ ssh -p 29418 review.example.com gerrit flush-caches
+====
+
+Flush only the "sshkeys" cache:
+
+====
+	$ ssh -p 29418 review.example.com gerrit flush-caches --cache sshkeys
+====
+
+SEE ALSO
+--------
+
+* link:cmd-show-caches.html[gerrit show-caches]
+* link:config-gerrit.html#section_cache[Cache Configuration]
+* link:config-gerrit.html#cache_names[Standard Caches]

@@ -93,8 +93,8 @@ unused mapped spaces fast enough.
 Default on JGit is false. Although potentially slower, it yields
 much more predictable behavior.
 
-Section cache
-~~~~~~~~~~~~~
+Section cache[[section_cache]]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 cache.directory::
 +
@@ -148,8 +148,8 @@ Default is 5 MiB.
 +
 Common unit suffixes of 'k', 'm', or 'g' are supported.
 
-Standard Caches
-^^^^^^^^^^^^^^^
+Standard Caches[[cache_names]]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 cache `"diff"`::
 +
@@ -180,6 +180,8 @@ can match against them during authentication.  The unit of storage
 is per-user, so 1024 items translates to 1024 unique user accounts.
 As each individual user account may configure multiple SSH keys,
 the total number of keys may be larger than the item count.
+
+See also link:cmd-flush-caches.html[gerrit flush-caches].
 
 Section sshd
 ~~~~~~~~~~~~

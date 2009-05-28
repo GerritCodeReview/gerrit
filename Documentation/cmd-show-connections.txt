@@ -1,0 +1,84 @@
+gerrit show-connections
+=======================
+
+NAME
+----
+gerrit show-connections - Display active client SSH connections
+
+SYNOPSIS
+--------
+[verse]
+'ssh' -p <port> <host> 'gerrit show-connections' [-n]
+
+DESCRIPTION
+-----------
+Presents a table of the active SSH connections, the users who
+are currently connected to the internal server and performing
+an activity.
+
+ACCESS
+------
+Caller must be a member of the privileged 'Administrators' group.
+
+SCRIPTING
+---------
+Intended for interactive use only.
+
+OPTIONS
+-------
+-n::
+\--numeric::
+	Show client hostnames as IP addresses instead of DNS hostname.
+
+DISPLAY
+-------
+
+Start::
+	Time (local to the server) that this connection started.
+
+Idle::
+	Time since the last data transfer on this connection.
+	Note that most SSH clients use not only a TCP based
+	connection keep-alive, but also an encrypted keep alive
+	higher up in the SSH protocol stack.  That higher keep
+	alive resets the idle timer, about once a minute.
+
+User::
+	The SSH User Name of the account that is authenticated on
+	this connection.  If the -n option is used, this column
+	shows the Account Id instead.
+
+Remote Host::
+	Reverse lookup hostname, or if -n option is used, the remote
+	IP address.
+
+[ second line ]::
+	Command(s) actively being executed on this connection.
+	With SSH channel multiplexing a single connection can
+	perform multiple commands, or a connection can be idle,
+	performing nothing at all.
+
+EXAMPLES
+--------
+
+With reverse DNS lookup (default):
+====
+	$ ssh -p 29418 review.example.com gerrit show-connections
+	    Start     Idle   User            Remote Host
+	--------------------------------------------------------------
+	 14:02:47 00:00:00  jdoe            jdoe-desktop.example.com
+	 [ gerrit-show-connections ]
+	
+	--
+====
+
+Without reverse DNS lookup:
+====
+	$ ssh -p 29418 review.example.com gerrit show-connections -n
+	    Start     Idle   User            Remote Host
+	--------------------------------------------------------------
+	 14:02:48 00:00:00  a/1001240       10.0.0.1
+	 [ gerrit-show-connections -n ]
+	
+	--
+====

@@ -1,0 +1,74 @@
+gerrit show-caches
+===================
+
+NAME
+----
+gerrit show-caches - Display current cache statistics
+
+SYNOPSIS
+--------
+[verse]
+'ssh' -p <port> <host> 'gerrit show-caches'
+
+DESCRIPTION
+-----------
+Display statistics about the size and hit ratio of in-memory caches.
+
+ACCESS
+------
+Caller must be a member of the privileged 'Administrators' group.
+
+SCRIPTING
+---------
+Intended for interactive use only.
+
+EXAMPLES
+--------
+
+====
+	$ ssh -p 29418 review.example.com gerrit show-caches
+	cache "diff" (memory, disk):
+	  items       :           16519
+	  items.memory:             153
+	  items.disk  :           16384
+	  evictions   :               0
+	  ttl.idle    :  90.00 days
+	  ttl.live    :        inf
+	  avg.get     :   0.67 ms
+	  hit%        :  85%
+	  hit%.memory :  55%
+	  hit%.disk   :  30%
+	
+	cache "openid":
+	  items       :               8
+	  evictions   :               0
+	  ttl.idle    :   5.00 mins
+	  ttl.live    :   5.00 mins
+	  avg.get     :   1.00 ms
+	  hit%        :   5%
+	
+	cache "sshkeys":
+	  items       :               4
+	  evictions   :               0
+	  ttl.idle    :  90.00 days
+	  ttl.live    :        inf
+	  avg.get     :   0.06 ms
+	  hit%        :  92%
+	
+	JGit Buffer Cache:
+	  open files  :               9
+	  loaded      :   9.99 mb
+	  mem%        :   3%
+	
+	JVM Heap:
+	  max         : 880.00 mb
+	  inuse       : 166.96 mb
+	  mem%        :  57%
+====
+
+SEE ALSO
+--------
+
+* link:cmd-flush-caches.html[gerrit flush-caches]
+* link:config-gerrit.html#section_cache[Cache Configuration]
+* link:config-gerrit.html#cache_names[Standard Caches]

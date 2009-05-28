@@ -1,0 +1,48 @@
+Gerrit2 - Command Line Tool
+===========================
+
+Executing Commands
+------------------
+
+Aside from the standard Git server side actions, Gerrit supports
+several other commands over its internal SSH daemon.  As Gerrit does
+not provide an interactive shell, the commands must be triggered
+from an ssh client, for example:
+
+  $ ssh -p 29418 review.example.com gerrit ls-projects
+
+For more details on how to determine the correct SSH port number,
+see link:user-upload.html#test_ssh[Testing Your SSH Connection].
+
+User Commands
+-------------
+
+git upload-pack::
+	Standard Git server side command for client side `git fetch`.
+
+git receive-pack::
+	Standard Git server side command for client side `git push`.
++
+Also implements the magic associated with uploading commits for
+review.  See link:user-upload.html#push_create[Creating Changes].
+
+link:cmd-ls-projects.html[gerrit ls-projects]::
+	List projects visible to the caller.
+
+Adminstrator Commands
+---------------------
+
+link:cmd-flush-caches.html[gerrit flush-caches]::
+	Flush some/all server caches from memory.
+
+link:cmd-show-caches.html[gerrit show-caches]::
+	Display current cache statistics.
+
+link:cmd-show-connections.html[gerrit show-connections]::
+	Display active client SSH connections.
+
+link:cmd-show-queue.html[gerrit show-queue]::
+	Display the background work queues, including replication.
+
+link:cmd-replicate.html[gerrit replicate]::
+	Manually trigger replication, to recover a node.

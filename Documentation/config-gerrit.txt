@@ -151,6 +151,12 @@ Common unit suffixes of 'k', 'm', or 'g' are supported.
 Standard Caches[[cache_names]]
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+cache `"accounts"`::
++
+Caches records from the `accounts` database table, containing user
+preferences and preferred display name/email address.  If updates are
+made directly to this database table, this cache should be flushed.
+
 cache `"diff"`::
 +
 Caches the edit list describing the differences between two versions
@@ -166,12 +172,26 @@ Keeping entries for 90 days gives sufficient time for most changes
 to be submitted or abandoned before their relevant difference items
 expire out.
 
+cache `"groups"`::
++
+Caches which groups a user is a member of.  This is derived from the
+`account_group_members` table, and also the `account_external_ids`
+table if OpenID authentication is enabled.  If either table is
+modified directly in the database, this cache should be flushed.
+
 cache `"openid"`::
 +
 If OpenID authentication is enabled, caches the OpenID discovery
 response by URL, for up to 5 minutes.  This can reduce the time
 required for OpenID authentication through very common providers,
 such as Google Accounts.
+
+cache `"projects"`::
++
+Caches the project description records, from the `projects` table
+in the database.  If a project record is updated or deleted, this
+cache should be flushed.  Newly inserted projects do not require
+a cache flush, as they will be read upon first reference.
 
 cache `"sshkeys"`::
 +
@@ -180,6 +200,10 @@ can match against them during authentication.  The unit of storage
 is per-user, so 1024 items translates to 1024 unique user accounts.
 As each individual user account may configure multiple SSH keys,
 the total number of keys may be larger than the item count.
++
+This cache is based off the `account_ssh_keys` table and the
+`accounts.ssh_user_name` column in the database.  If either is
+modified directly, this cache should be flushed.
 
 See also link:cmd-flush-caches.html[gerrit flush-caches].
 

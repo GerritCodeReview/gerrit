@@ -239,22 +239,16 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
     m.addStyleName("DiffText-" + type.name());
     switch (type) {
       case CONTEXT:
-        if ("".equals(text)) {
-          m.nbsp();
-        } else {
-          m.append(" ");
-          m.append(PatchUtil.lineToSafeHtml(text, len, false));
-        }
+        m.nbsp();
         break;
       case DELETE:
         m.append("-");
-        m.append(PatchUtil.lineToSafeHtml(text, len, false));
         break;
       case INSERT:
         m.append("+");
-        m.append(PatchUtil.lineToSafeHtml(text, len, true));
         break;
     }
+    m.append(PatchUtil.lineToSafeHtml(text, len, false));
     m.closeTd();
   }
 
@@ -275,7 +269,6 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
     m.setAttribute("valign", "top");
     m.openTd();
     m.setStyleName(S_ICON_CELL);
-    m.nbsp();
     m.closeTd();
   }
 
@@ -286,7 +279,6 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
   private void padLineNumber(final SafeHtmlBuilder m) {
     m.openTd();
     m.setStyleName("LineNumber");
-    m.nbsp();
     m.closeTd();
   }
 

@@ -180,13 +180,11 @@ public class SideBySideTable extends AbstractPatchContentTable {
     m.openTd();
     m.addStyleName(S_ICON_CELL);
     m.addStyleName("FileColumnHeader");
-    m.nbsp();
     m.closeTd();
 
     m.openTd();
     m.addStyleName("FileColumnHeader");
     m.addStyleName("LineNumber");
-    m.nbsp();
     m.closeTd();
 
     m.openTd();
@@ -198,7 +196,6 @@ public class SideBySideTable extends AbstractPatchContentTable {
     m.openTd();
     m.addStyleName("FileColumnHeader");
     m.addStyleName("LineNumber");
-    m.nbsp();
     m.closeTd();
 
     m.openTd();
@@ -215,7 +212,6 @@ public class SideBySideTable extends AbstractPatchContentTable {
 
     m.openTd();
     m.setStyleName(S_ICON_CELL);
-    m.nbsp();
     m.closeTd();
 
     m.openTd();
@@ -232,7 +228,6 @@ public class SideBySideTable extends AbstractPatchContentTable {
 
     m.openTd();
     m.setStyleName(S_ICON_CELL);
-    m.nbsp();
     m.closeTd();
   }
 
@@ -248,26 +243,19 @@ public class SideBySideTable extends AbstractPatchContentTable {
     m.addStyleName("FileLine");
     m.addStyleName("FileLine-" + type.name());
     final String text = src.get(i);
-    if ("".equals(text)) {
-      m.nbsp();
-    } else {
-      final boolean ws = type == INSERT;
-      m.append(PatchUtil
-          .lineToSafeHtml(text, PatchUtil.DEFAULT_LINE_LENGTH, ws));
-    }
+    final boolean ws = type == INSERT;
+    m.append(PatchUtil.lineToSafeHtml(text, PatchUtil.DEFAULT_LINE_LENGTH, ws));
     m.closeTd();
   }
 
   private void appendLineNone(final SafeHtmlBuilder m) {
     m.openTd();
     m.setStyleName("LineNumber");
-    m.nbsp();
     m.closeTd();
 
     m.openTd();
     m.addStyleName("FileLine");
     m.addStyleName("FileLineNone");
-    m.nbsp();
     m.closeTd();
   }
 

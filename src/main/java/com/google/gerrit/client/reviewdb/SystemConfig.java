@@ -142,10 +142,6 @@ public final class SystemConfig {
   @Column
   public boolean useContributorAgreements;
 
-  /** Local TCP port number the embedded SSHD server binds onto. */
-  @Column
-  public int sshdPort;
-
   /** Should Gerrit advertise 'repo download' for patch sets? */
   @Column
   public boolean useRepoDownload;

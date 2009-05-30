@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server;
 
+import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gwt.user.server.rpc.RPCServletUtils;
@@ -43,12 +44,10 @@ import javax.servlet.http.HttpServletResponse;
 public class HostPageServlet extends HttpServlet {
   private GerritServer server;
   private String canonicalUrl;
-  private byte[] hostPageRaw;
-  private byte[] hostPageCompressed;
   private Document hostDoc;
 
   @Override
-  public void init(final ServletConfig config) throws ServletException {
+  public void init(ServletConfig config) throws ServletException {
     super.init(config);
 
     try {
@@ -68,19 +67,9 @@ public class HostPageServlet extends HttpServlet {
       throw new ServletException("No " + hostPageName + " in webapp");
     }
     fixModuleReference(hostDoc);
-    injectJson(hostDoc, "gerrit_gerritconfig", Common.getGerritConfig());
     injectCssFile(hostDoc, "gerrit_sitecss", sitePath, "GerritSite.css");
     injectXmlFile(hostDoc, "gerrit_header", sitePath, "GerritSiteHeader.html");
     injectXmlFile(hostDoc, "gerrit_footer", sitePath, "GerritSiteFooter.html");
-
-    try {
-      final Document anon = HtmlDomUtil.clone(hostDoc);
-      injectJson(anon, "gerrit_myaccount", null);
-      hostPageRaw = HtmlDomUtil.toUTF8(anon);
-      hostPageCompressed = HtmlDomUtil.compress(hostPageRaw);
-    } catch (IOException e) {
-      throw new ServletException(e.getMessage(), e);
-    }
   }
 
   private void injectXmlFile(final Document hostDoc, final String id,
@@ -190,7 +179,6 @@ public class HostPageServlet extends HttpServlet {
   @Override
   protected void doGet(final HttpServletRequest req,
       final HttpServletResponse rsp) throws IOException {
-
     // If we get a request for "/Gerrit/change,1" rewrite it the way
     // it should have been, as "/Gerrit#change,1". This may happen
     // coming out of Google Analytics, where its common to replace
@@ -220,30 +208,19 @@ public class HostPageServlet extends HttpServlet {
 
     final Account.Id me = new GerritCall(server, req, rsp).getAccountId();
     final Account account = Common.getAccountCache().get(me);
-    final byte[] tosend;
-    if (account != null) {
-      // We know who the user is; embed their account data into the host
-      // page to avoid an RPC during module loading.
-      //
-      final Document peruser = HtmlDomUtil.clone(hostDoc);
-      injectJson(peruser, "gerrit_myaccount", account);
-      final byte[] raw = HtmlDomUtil.toUTF8(peruser);
-      if (RPCServletUtils.acceptsGzipEncoding(req)) {
-        rsp.setHeader("Content-Encoding", "gzip");
-        tosend = HtmlDomUtil.compress(raw);
-      } else {
-        tosend = raw;
-      }
+    final GerritConfig config = SystemInfoServiceImpl.getGerritConfig();
 
+    final Document peruser = HtmlDomUtil.clone(hostDoc);
+    injectJson(peruser, "gerrit_gerritconfig", config);
+    injectJson(peruser, "gerrit_myaccount", account);
+
+    final byte[] raw = HtmlDomUtil.toUTF8(peruser);
+    final byte[] tosend;
+    if (RPCServletUtils.acceptsGzipEncoding(req)) {
+      rsp.setHeader("Content-Encoding", "gzip");
+      tosend = HtmlDomUtil.compress(raw);
     } else {
-      // User is anonymous (hasn't authenticated with us).
-      //
-      if (RPCServletUtils.acceptsGzipEncoding(req)) {
-        rsp.setHeader("Content-Encoding", "gzip");
-        tosend = hostPageCompressed;
-      } else {
-        tosend = hostPageRaw;
-      }
+      tosend = raw;
     }
 
     rsp.setHeader("Expires", "Fri, 01 Jan 1980 00:00:00 GMT");

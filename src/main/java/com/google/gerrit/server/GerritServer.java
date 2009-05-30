@@ -435,7 +435,6 @@ public class GerritServer {
     s.maxSessionAge = 12 * 60 * 60 /* seconds */;
     s.xsrfPrivateKey = SignedToken.generateRandomKey();
     s.accountPrivateKey = SignedToken.generateRandomKey();
-    s.sshdPort = 29418;
     s.adminGroupId = admin.getId();
     s.anonymousGroupId = anonymous.getId();
     s.registeredGroupId = registered.getId();
@@ -666,7 +665,6 @@ public class GerritServer {
   private void loadGerritConfig(final ReviewDb db) throws OrmException {
     final GerritConfig r = new GerritConfig();
     r.setCanonicalUrl(getCanonicalURL());
-    r.setSshdPort(sConfig.sshdPort);
     r.setUseContributorAgreements(sConfig.useContributorAgreements);
     r.setGitDaemonUrl(sConfig.gitDaemonUrl);
     r.setUseRepoDownload(sConfig.useRepoDownload);

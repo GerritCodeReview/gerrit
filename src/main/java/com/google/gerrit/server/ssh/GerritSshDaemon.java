@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.ssh;
 
-import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.server.GerritServer;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
@@ -62,14 +61,18 @@ import org.spearce.jgit.lib.RepositoryConfig;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
+import java.net.SocketAddress;
 import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.security.KeyPair;
 import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -90,30 +93,40 @@ import java.util.List;
  * </pre>
  */
 public class GerritSshDaemon extends SshServer {
+  private static final int DEFAULT_PORT = 29418;
+
   private static final Logger log =
       LoggerFactory.getLogger(GerritSshDaemon.class);
 
   private static GerritSshDaemon sshd;
+  private static InetSocketAddress preferredAddress;
   private static Collection<PublicKey> hostKeys = Collections.emptyList();
 
   public static synchronized void startSshd() throws OrmException,
       XsrfException, SocketException {
     final GerritServer srv = GerritServer.getInstance();
     final GerritSshDaemon daemon = new GerritSshDaemon(srv);
+    final String addressList = daemon.addressList();
     try {
       sshd = daemon;
+      preferredAddress = null;
       hostKeys = computeHostKeys();
+
       if (hostKeys.isEmpty()) {
         throw new IOException("No SSHD host key");
       }
       daemon.start();
-      log.info("Started Gerrit SSHD on 0.0.0.0:" + daemon.getPort());
+
+      log.info("Started Gerrit SSHD on " + addressList);
     } catch (IOException e) {
-      log.error("Cannot start Gerrit SSHD on 0.0.0.0:" + daemon.getPort(), e);
       sshd = null;
+      preferredAddress = null;
       hostKeys = Collections.emptyList();
+
+      final String msg = "Cannot start Gerrit SSHD on " + addressList;
+      log.error(msg, e);
       final SocketException e2;
-      e2 = new SocketException("Cannot start sshd on " + daemon.getPort());
+      e2 = new SocketException(msg);
       e2.initCause(e);
       throw e2;
     }
@@ -135,20 +148,32 @@ public class GerritSshDaemon extends SshServer {
     }
   }
 
+  private static String format(final SocketAddress addr) {
+    if (addr instanceof InetSocketAddress) {
+      final InetSocketAddress inetAddr = (InetSocketAddress) addr;
+      final InetAddress hostAddr = inetAddr.getAddress();
+      String host;
+      if (hostAddr.isAnyLocalAddress()) {
+        host = "*";
+      } else {
+        host = "[" + hostAddr.getCanonicalHostName() + "]";
+      }
+      return host + ":" + inetAddr.getPort();
+    }
+    return addr.toString();
+  }
+
   public static synchronized void stopSshd() {
     if (sshd != null) {
       try {
         sshd.stop();
-        log.info("Stopped Gerrit SSHD on 0.0.0.0:" + sshd.getPort());
+        log.info("Stopped Gerrit SSHD");
       } finally {
         sshd = null;
+        preferredAddress = null;
         hostKeys = Collections.emptyList();
       }
     }
-  }
-
-  public static synchronized int getSshdPort() {
-    return sshd != null ? sshd.getPort() : 0;
   }
 
   public static synchronized IoAcceptor getIoAcceptor() {
@@ -159,14 +184,46 @@ public class GerritSshDaemon extends SshServer {
     return hostKeys;
   }
 
+  public static synchronized InetSocketAddress getAddress() {
+    if (sshd != null && preferredAddress == null) {
+      preferredAddress = computePreferredAddress();
+    }
+    return preferredAddress;
+  }
+
+  private static InetSocketAddress computePreferredAddress() {
+    for (final SocketAddress addr : sshd.listen) {
+      if (!(addr instanceof InetSocketAddress)) {
+        continue;
+      }
+
+      InetSocketAddress inetAddr = (InetSocketAddress) addr;
+      if (inetAddr.getAddress().isLoopbackAddress()) {
+        continue;
+      }
+      if (inetAddr.getAddress().isAnyLocalAddress()) {
+        return inetAddr;
+      }
+
+      String host = inetAddr.getAddress().getCanonicalHostName();
+      if (host.equals(inetAddr.getAddress().getHostAddress())) {
+        return inetAddr;
+      }
+      return InetSocketAddress.createUnresolved(host, inetAddr.getPort());
+    }
+    return null;
+  }
+
+  private List<SocketAddress> listen;
   private IoAcceptor acceptor;
   private boolean reuseAddress;
   private boolean keepAlive;
 
   private GerritSshDaemon(final GerritServer srv) {
-    setPort(Common.getGerritConfig().getSshdPort());
+    setPort(22/* never used */);
 
     final RepositoryConfig cfg = srv.getGerritConfig();
+    listen = parseListen(cfg);
     reuseAddress = cfg.getBoolean("sshd", "reuseaddress", true);
     keepAlive = cfg.getBoolean("sshd", "tcpkeepalive", true);
 
@@ -211,7 +268,7 @@ public class GerritSshDaemon extends SshServer {
       handler.setServer(this);
       ain.setHandler(handler);
       ain.setReuseAddress(reuseAddress);
-      ain.bind(new InetSocketAddress(getPort()));
+      ain.bind(listen);
       acceptor = ain;
     }
   }
@@ -224,6 +281,87 @@ public class GerritSshDaemon extends SshServer {
       } finally {
         acceptor = null;
       }
+    }
+  }
+
+  private String addressList() {
+    final StringBuilder r = new StringBuilder();
+    for (Iterator<SocketAddress> i = listen.iterator(); i.hasNext();) {
+      r.append(format(i.next()));
+      if (i.hasNext()) {
+        r.append(", ");
+      }
+    }
+    return r.toString();
+  }
+
+  private List<SocketAddress> parseListen(final RepositoryConfig cfg) {
+    final ArrayList<SocketAddress> bind = new ArrayList<SocketAddress>(2);
+    final String[] want = cfg.getStringList("sshd", null, "listenaddress");
+    if (want == null || want.length == 0) {
+      bind.add(new InetSocketAddress(DEFAULT_PORT));
+      return bind;
+    }
+
+    for (final String desc : want) {
+      try {
+        bind.add(toSocketAddress(desc));
+      } catch (IllegalArgumentException e) {
+        log.error("Bad sshd.listenaddress: " + desc + ": " + e.getMessage());
+      }
+    }
+
+    return bind;
+  }
+
+  private SocketAddress toSocketAddress(final String desc) {
+    String hostStr;
+    String portStr;
+
+    if (desc.startsWith("[")) {
+      // IPv6, as a raw IP address.
+      //
+      final int hostEnd = desc.indexOf(']');
+      if (hostEnd < 0) {
+        throw new IllegalArgumentException("invalid IPv6 representation");
+      }
+
+      hostStr = desc.substring(1, hostEnd);
+      portStr = desc.substring(hostEnd + 1);
+    } else {
+      // IPv4, or a host name.
+      //
+      final int hostEnd = desc.indexOf(':');
+      hostStr = 0 <= hostEnd ? desc.substring(0, hostEnd) : desc;
+      portStr = 0 <= hostEnd ? desc.substring(hostEnd) : "";
+    }
+
+    if ("*".equals(hostStr)) {
+      hostStr = "";
+    }
+    if (portStr.startsWith(":")) {
+      portStr = portStr.substring(1);
+    }
+
+    final int port;
+    if (portStr.length() > 0) {
+      try {
+        port = Integer.parseInt(portStr);
+      } catch (NumberFormatException e) {
+        throw new IllegalArgumentException("invalid port");
+      }
+    } else {
+      port = DEFAULT_PORT;
+    }
+
+    if (hostStr.length() > 0) {
+      try {
+        return new InetSocketAddress(InetAddress.getByName(hostStr), port);
+      } catch (UnknownHostException e) {
+        throw new IllegalArgumentException(e.getMessage(), e);
+      }
+    } else {
+      return new InetSocketAddress(port);
     }
   }
 
@@ -359,7 +497,7 @@ public class GerritSshDaemon extends SshServer {
     final File anyKey = new File(sitePath, "ssh_host_key");
     final File rsaKey = new File(sitePath, "ssh_host_rsa_key");
     final File dsaKey = new File(sitePath, "ssh_host_dsa_key");
-    
+
     final List<String> keys = new ArrayList<String>(2);
     if (rsaKey.exists()) {
       keys.add(rsaKey.getAbsolutePath());
@@ -370,14 +508,14 @@ public class GerritSshDaemon extends SshServer {
 
     if (anyKey.exists() && !keys.isEmpty()) {
       // If both formats of host key exist, we don't know which format
-      // should be authoritative.  Complain and abort.
+      // should be authoritative. Complain and abort.
       //
       keys.add(anyKey.getAbsolutePath());
       throw new IllegalStateException("Multiple host keys exist: " + keys);
     }
 
     if (keys.isEmpty()) {
-      // No administrator created host key?  Generate and save our own.
+      // No administrator created host key? Generate and save our own.
       //
       final SimpleGeneratorHostKeyProvider keyp;
 

@@ -32,6 +32,10 @@ import org.apache.sshd.common.util.Buffer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.net.Inet6Address;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.UnknownHostException;
 import java.security.PublicKey;
 import java.security.interfaces.DSAPublicKey;
 import java.security.interfaces.RSAPublicKey;
@@ -47,8 +51,33 @@ public class SystemInfoServiceImpl implements SystemInfoService {
       LoggerFactory.getLogger(SystemInfoServiceImpl.class);
   private static final JSch JSCH = new JSch();
 
+  public static GerritConfig getGerritConfig() {
+    final GerritConfig cfg = Common.getGerritConfig();
+    synchronized (cfg) {
+      if (cfg.getSshdAddress() == null) {
+        final InetSocketAddress addr = GerritSshDaemon.getAddress();
+        if (addr != null) {
+          final InetAddress ip = addr.getAddress();
+          String host;
+          if (ip != null && ip.isAnyLocalAddress()) {
+            host = "";
+          } else if (ip instanceof Inet6Address) {
+            host = "[" + addr.getHostName() + "]";
+          } else {
+            host = addr.getHostName();
+          }
+          if (addr.getPort() != 22) {
+            host += ":" + addr.getPort();
+          }
+          cfg.setSshdAddress(host);
+        }
+      }
+    }
+    return cfg;
+  }
+
   public void loadGerritConfig(final AsyncCallback<GerritConfig> callback) {
-    callback.onSuccess(Common.getGerritConfig());
+    callback.onSuccess(getGerritConfig());
   }
 
   public void contributorAgreements(
@@ -114,8 +143,21 @@ public class SystemInfoServiceImpl implements SystemInfoService {
   private String hostIdent() {
     final HttpServletRequest req =
         GerritJsonServlet.getCurrentCall().getHttpServletRequest();
-    final String serverName = req.getServerName();
-    final int serverPort = GerritSshDaemon.getSshdPort();
-    return serverPort == 22 ? serverName : "[" + serverName + "]:" + serverPort;
+
+    InetSocketAddress addr = GerritSshDaemon.getAddress();
+    if (addr.getAddress() != null && addr.getAddress().isAnyLocalAddress()) {
+      final InetAddress me;
+      try {
+        me = InetAddress.getByName(req.getLocalAddr());
+      } catch (UnknownHostException e) {
+        throw new RuntimeException("Unexpected uknown host", e);
+      }
+      addr = new InetSocketAddress(me, addr.getPort());
+    }
+
+    if (addr.getPort() == 22 && !(addr.getAddress() instanceof Inet6Address)) {
+      return addr.getHostName();
+    }
+    return "[" + addr.getHostName() + "]:" + addr.getPort();
   }
 }

@@ -210,6 +210,24 @@ See also link:cmd-flush-caches.html[gerrit flush-caches].
 Section sshd
 ~~~~~~~~~~~~
 
+sshd.listenAddress::
++
+Specifies the local addresses the internal SSHD should listen
+for connections on.  The following forms may be used to specify
+an address.  In any form, `:'port'` may be omitted to use the
+default of 29418.
++
+* 'hostname':'port' (for example `review.example.com:29418`)
+* 'IPv4':'port' (for example `10.0.0.1:29418`)
+* ['IPv6']:'port' (for example `[ff02::1]:29418`)
+* \*:'port' (for example `*:29418`)
+
++
+If multiple values are supplied, the daemon will listen on all
+of them.
++
+By default, *:29418.
+
 sshd.reuseAddress::
 +
 If true, permits the daemon to bind to the port even if the port
@@ -383,15 +401,6 @@ send any offline contact information to when it collects the data
 from users as part of a contributor agreement.
 +
 * link:config-contact.html[Contact Information]
-
-sshd_port::
-+
-Port number the internal SSHD listens for connections on.
-+
-Gerrit receives new change submissions through this port by
-"git push ssh://you@example.com:$sshd_port/$project.git ...".
-+
-By default this is 29418.
 
 login_type::
 +

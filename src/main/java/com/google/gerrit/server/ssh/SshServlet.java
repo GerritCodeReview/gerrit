@@ -19,7 +19,11 @@ import com.google.gwtorm.client.OrmException;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.Inet6Address;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.SocketException;
+import java.net.UnknownHostException;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -75,10 +79,19 @@ public class SshServlet extends HttpServlet {
     rsp.setHeader("Pragma", "no-cache");
     rsp.setHeader("Cache-Control", "no-cache, must-revalidate");
 
-    final int port = GerritSshDaemon.getSshdPort();
+    final InetSocketAddress addr = GerritSshDaemon.getAddress();
     final String out;
-    if (0 < port) {
-      out = req.getServerName() + " " + port;
+    if (addr != null) {
+      final InetAddress ip = addr.getAddress();
+      String host;
+      if (ip != null && ip.isAnyLocalAddress()) {
+        host = req.getLocalAddr();
+      } else if (ip instanceof Inet6Address) {
+        host = "[" + addr.getHostName() + "]";
+      } else {
+        host = addr.getHostName();
+      }
+      out = host + " " + addr.getPort();
     } else {
       out = "NOT_AVAILABLE";
     }

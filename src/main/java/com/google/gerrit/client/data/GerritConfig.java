@@ -22,17 +22,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class GerritConfig {
+public class GerritConfig implements Cloneable {
   protected String canonicalUrl;
   protected GitwebLink gitweb;
   protected List<ApprovalType> approvalTypes;
   protected List<ApprovalType> actionTypes;
-  protected int sshdPort;
   protected boolean useContributorAgreements;
   protected boolean useContactInfo;
   protected SystemConfig.LoginType loginType;
   protected boolean useRepoDownload;
   protected String gitDaemonUrl;
+  protected String sshdAddress;
   private transient Map<ApprovalCategory.Id, ApprovalType> byCategoryId;
 
   public GerritConfig() {
@@ -94,14 +94,6 @@ public class GerritConfig {
     }
   }
 
-  public int getSshdPort() {
-    return sshdPort;
-  }
-
-  public void setSshdPort(final int p) {
-    sshdPort = p;
-  }
-
   public boolean isUseContributorAgreements() {
     return useContributorAgreements;
   }
@@ -153,5 +145,13 @@ public class GerritConfig {
       url += "/";
     }
     gitDaemonUrl = url;
+  }
+
+  public String getSshdAddress() {
+    return sshdAddress;
+  }
+
+  public void setSshdAddress(final String addr) {
+    sshdAddress = addr;
   }
 }

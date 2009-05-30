@@ -102,8 +102,11 @@ public class GerritSshDaemon extends SshServer {
     final GerritSshDaemon daemon = new GerritSshDaemon(srv);
     try {
       sshd = daemon;
-      daemon.start();
       hostKeys = computeHostKeys();
+      if (hostKeys.isEmpty()) {
+        throw new IOException("No SSHD host key");
+      }
+      daemon.start();
       log.info("Started Gerrit SSHD on 0.0.0.0:" + daemon.getPort());
     } catch (IOException e) {
       log.error("Cannot start Gerrit SSHD on 0.0.0.0:" + daemon.getPort(), e);
@@ -178,7 +181,7 @@ public class GerritSshDaemon extends SshServer {
     initChannels();
     initCompression();
     initUserAuth(srv);
-    initHostKey(srv);
+    setKeyPairProvider(initHostKey(srv));
     setCommandFactory(new GerritCommandFactory());
     setShellFactory(new NoShell());
     setSessionFactory(new SessionFactory() {
@@ -350,20 +353,39 @@ public class GerritSshDaemon extends SshServer {
     setPublickeyAuthenticator(new DatabasePubKeyAuth(srv));
   }
 
-  private void initHostKey(final GerritServer srv) {
+  private KeyPairProvider initHostKey(final GerritServer srv) {
     final File sitePath = srv.getSitePath();
 
-    if (SecurityUtils.isBouncyCastleRegistered()) {
-      setKeyPairProvider(new FileKeyPairProvider(new String[] {
-          new File(sitePath, "ssh_host_rsa_key").getAbsolutePath(),
-          new File(sitePath, "ssh_host_dsa_key").getAbsolutePath()}));
+    final File anyKey = new File(sitePath, "ssh_host_key");
+    final File rsaKey = new File(sitePath, "ssh_host_rsa_key");
+    final File dsaKey = new File(sitePath, "ssh_host_dsa_key");
+    
+    final List<String> keys = new ArrayList<String>(2);
+    if (rsaKey.exists()) {
+      keys.add(rsaKey.getAbsolutePath());
+    }
+    if (dsaKey.exists()) {
+      keys.add(dsaKey.getAbsolutePath());
+    }
 
-    } else {
+    if (anyKey.exists() && !keys.isEmpty()) {
+      // If both formats of host key exist, we don't know which format
+      // should be authoritative.  Complain and abort.
+      //
+      keys.add(anyKey.getAbsolutePath());
+      throw new IllegalStateException("Multiple host keys exist: " + keys);
+    }
+
+    if (keys.isEmpty()) {
+      // No administrator created host key?  Generate and save our own.
+      //
       final SimpleGeneratorHostKeyProvider keyp;
 
       keyp = new SimpleGeneratorHostKeyProvider();
-      keyp.setPath(new File(sitePath, "ssh_host_key").getAbsolutePath());
-      setKeyPairProvider(keyp);
+      keyp.setPath(anyKey.getAbsolutePath());
+      return keyp;
     }
+
+    return new FileKeyPairProvider(keys.toArray(new String[keys.size()]));
   }
 }

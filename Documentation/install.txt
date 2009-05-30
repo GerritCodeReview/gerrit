@@ -150,7 +150,8 @@ SSH Host Keys
 ~~~~~~~~~~~~~
 
 If you choose to install the Bouncy Castle Crypto APIs (see below)
-you must create RSA and DSA host keys for the daemon:
+you must create an RSA, DSA, or both, host keys for the daemon:
+
 ====
   ssh-keygen -t rsa -P '' -f ssh_host_rsa_key
   ssh-keygen -t dsa -P '' -f ssh_host_dsa_key

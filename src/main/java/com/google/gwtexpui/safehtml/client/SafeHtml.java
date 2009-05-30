@@ -29,6 +29,11 @@ public abstract class SafeHtml {
     return new SafeHtmlString(t.getHTML());
   }
 
+  /** @return the existing HTML text, wrapped in a safe buffer. */
+  public static SafeHtml asis(final String htmlText) {
+    return new SafeHtmlString(htmlText);
+  }
+
   /** Set the HTML property of a widget. */
   public static <T extends HasHTML> T set(final T e, final SafeHtml str) {
     e.setHTML(str.asString());

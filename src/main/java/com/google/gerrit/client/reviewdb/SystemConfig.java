@@ -83,18 +83,6 @@ public final class SystemConfig {
   @Column(notNull = false)
   public transient String sitePath;
 
-  /** Optional canonical URL for this application. */
-  @Column(notNull = false)
-  public String canonicalUrl;
-
-  /**
-   * Optional URL of the anonymous git daemon for project access.
-   * <p>
-   * For example: <code>git://host/base/</code>
-   */
-  @Column(notNull = false)
-  public String gitDaemonUrl;
-
   /** Local filesystem location all projects reside within. */
   @Column(notNull = false)
   public transient String gitBasePath;

@@ -306,12 +306,12 @@ rule into `'$JETTY_HOME'/etc`:
 Create a start script like the one above, configuring Jetty to
 listen on another port, such as 127.0.0.1:8081.
 
-Set `canonical_url` in `system_config` to an `https://` style URL
-for your application, so that non-SSL connections are automatically
-upgraded to SSL by issuing a redirect.  Gerrit does not currently
-support a dual http/https usage on the same site as it doesn't
-know when to upgrade a non-secure connection to a secure one if
-data needs to be protected.
+Set `gerrit.canonicalWebUrl` in `'$site_path'/gerrit.config`
+to an `https://` style URL for your application, so that non-SSL
+connections are automatically upgraded to SSL by issuing a redirect.
+Gerrit does not currently support a dual http/https usage on the
+same site as it doesn't know when to upgrade a non-secure connection
+to a secure one if data needs to be protected.
 
 Follow the <<apache2,reverse proxy>> section below to setup an
 Apache2 server to handle SSL for Jetty.

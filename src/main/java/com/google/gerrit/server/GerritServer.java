@@ -666,7 +666,8 @@ public class GerritServer {
     r.setCanonicalUrl(getCanonicalURL());
     r.setUseContributorAgreements(getGerritConfig().getBoolean("auth",
         "contributoragreements", false));
-    r.setGitDaemonUrl(sConfig.gitDaemonUrl);
+    r.setGitDaemonUrl(getGerritConfig().getString("gerrit", null,
+        "canonicalgiturl"));
     r.setUseRepoDownload(getGerritConfig().getBoolean("repo", null,
         "showdownloadcommand", false));
     r.setUseContactInfo(getContactStoreURL() != null);
@@ -799,7 +800,7 @@ public class GerritServer {
 
   /** Optional canonical URL for this application. */
   public String getCanonicalURL() {
-    String u = sConfig.canonicalUrl;
+    String u = getGerritConfig().getString("gerrit", null, "canonicalweburl");
     if (u != null && !u.endsWith("/")) {
       u += "/";
     }

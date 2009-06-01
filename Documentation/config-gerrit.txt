@@ -309,6 +309,32 @@ unused mapped spaces fast enough.
 Default on JGit is false. Although potentially slower, it yields
 much more predictable behavior.
 
+Section gerrit
+~~~~~~~~~~~~~~
+
+gerrit.canonicalWebUrl::
++
+The default URL for Gerrit to be accessed through.
++
+Typically this would be set to "http://review.example.com/" or
+"http://example.com/gerrit/" so Gerrit can output links that point
+back to itself.
++
+Setting this is highly recommended, as its necessary for the upload
+code invoked by "git push" or "repo upload" to output hyperlinks
+to the newly uploaded changes.
+
+gerrit.canonicalGitUrl::
++
+Optional base URL for repositories available over the anonymous git
+protocol.  For example, set this to `git://mirror.example.com/base/`
+to have Gerrit display patch set download URLs in the UI.  Gerrit
+automatically appends the project name onto the end of the URL.
++
+By default unset, as the git daemon must be configured externally
+by the system administrator, and might not even be running on the
+same host as Gerrit.
+
 Section gitweb[[section_gitweb]]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -461,30 +487,6 @@ Local filesystem directory holding all Git repositories that
 Gerrit knows about and can process changes for.  A project
 entity in Gerrit maps to a local Git repository by creating
 the path string `"$\{git_pase_path}/$\{project_name}.git"`.
-
-git_daemon_url::
-+
-Optional base URL for repositories available over the anonymous git
-protocol.  For example, set this to `git://mirror.example.com/base/`
-to have Gerrit display patch set download URLs in the UI.  Gerrit
-automatically appends the project name onto the end of the URL.
-+
-By default NULL, as the git daemon must be configured externally
-by the system administrator, and might not even be running on the
-same host as Gerrit.
-
-canonical_url::
-+
-The default URL for Gerrit to be accessed through.
-+
-Typically this would be set to "http://review.example.com/" or
-"http://example.com/gerrit/" so Gerrit can output links that point
-back to itself.
-+
-Setting this is highly recommended, as its necessary for the upload
-code invoked by "git push" or "repo upload" to output hyperlinks
-to the newly uploaded changes.
-
 
 Not User Serviceable
 ~~~~~~~~~~~~~~~~~~~~

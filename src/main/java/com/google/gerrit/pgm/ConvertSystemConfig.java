@@ -62,12 +62,19 @@ public class ConvertSystemConfig {
 
   private static void export(RepositoryConfig config, ResultSet rs)
       throws SQLException {
+    gerrit(config, rs);
     sshd(config, rs);
     contactstore(config, rs);
     user(config, rs);
     auth(config, rs);
     gitweb(config, rs);
     repo(config, rs);
+  }
+
+  private static void gerrit(RepositoryConfig config, ResultSet rs)
+      throws SQLException {
+    copy(config, "gerrit", "canonicalweburl", rs, "canonical_url");
+    copy(config, "gerrit", "canonicalgiturl", rs, "git_daemon_url");
   }
 
   private static void sshd(RepositoryConfig config, ResultSet rs)

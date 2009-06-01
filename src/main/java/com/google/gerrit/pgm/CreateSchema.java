@@ -35,7 +35,7 @@ public class CreateSchema {
 
   private static void mainImpl(final String[] argv) throws OrmException,
       XsrfException {
-    GerritServer.getInstance();
+    GerritServer.getInstance(false);
     Common.getSchemaFactory().open().close();
     System.out.println("Gerrit2 schema initialized");
   }

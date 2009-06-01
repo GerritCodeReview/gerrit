@@ -133,12 +133,19 @@ public class GerritServer {
    */
   public static synchronized GerritServer getInstance() throws OrmException,
       XsrfException {
+    return getInstance(true);
+  }
+
+  public static synchronized GerritServer getInstance(final boolean startQueues)
+      throws OrmException, XsrfException {
     if (impl == null) {
       try {
         impl = new GerritServer();
-        impl.reloadSubmitQueue();
-        if (PushQueue.isReplicationEnabled()) {
-          WorkQueue.schedule(new PushAllProjectsOp(), 30, TimeUnit.SECONDS);
+        if (startQueues) {
+          impl.reloadSubmitQueue();
+          if (PushQueue.isReplicationEnabled()) {
+            WorkQueue.schedule(new PushAllProjectsOp(), 30, TimeUnit.SECONDS);
+          }
         }
       } catch (OrmException e) {
         closeDataSource();

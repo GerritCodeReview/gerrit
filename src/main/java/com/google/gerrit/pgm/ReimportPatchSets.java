@@ -65,7 +65,7 @@ public class ReimportPatchSets {
 
   private static void mainImpl(final String[] argv) throws OrmException,
       XsrfException, IOException {
-    final GerritServer gs = GerritServer.getInstance();
+    final GerritServer gs = GerritServer.getInstance(false);
     final ArrayList<PatchSet.Id> todo = new ArrayList<PatchSet.Id>();
     final BufferedReader br =
         new BufferedReader(new InputStreamReader(System.in));

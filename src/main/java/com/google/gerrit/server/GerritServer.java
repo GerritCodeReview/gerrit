@@ -376,7 +376,7 @@ public class GerritServer {
     return r;
   }
 
-  private Database<ReviewDb> createDatabase() throws OrmException {
+  public static Database<ReviewDb> createDatabase() throws OrmException {
     final String dsName = "java:comp/env/jdbc/ReviewDb";
     try {
       datasource = (DataSource) new InitialContext().lookup(dsName);
@@ -397,7 +397,7 @@ public class GerritServer {
     return new Database<ReviewDb>(datasource, ReviewDb.class);
   }
 
-  private Properties readGerritDataSource() throws OrmException {
+  private static Properties readGerritDataSource() throws OrmException {
     final Properties srvprop = new Properties();
     String name = System.getProperty("GerritServer");
     if (name == null) {

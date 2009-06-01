@@ -42,6 +42,7 @@ import com.google.gerrit.git.PushQueue;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.mail.CreateChangeSender;
+import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.OrmRunnable;
@@ -82,8 +83,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import javax.mail.MessagingException;
 
 /** Receives change upload over SSH using the Git receive-pack protocol. */
 class Receive extends AbstractGitCommand {
@@ -714,7 +713,7 @@ class Receive extends AbstractGitCommand {
       cm.addReviewers(reviewerId);
       cm.addExtraCC(ccId);
       cm.send();
-    } catch (MessagingException e) {
+    } catch (EmailException e) {
       log.error("Cannot send email for new change " + change.getId(), e);
     }
   }
@@ -932,7 +931,7 @@ class Receive extends AbstractGitCommand {
         cm.addReviewers(oldReviewers);
         cm.addExtraCC(oldCC);
         cm.send();
-      } catch (MessagingException e) {
+      } catch (EmailException e) {
         log.error("Cannot send email for new patch set " + ps.getId(), e);
       }
     }

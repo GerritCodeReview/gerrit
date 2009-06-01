@@ -23,9 +23,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import javax.mail.MessagingException;
-import javax.mail.Message.RecipientType;
-
 /** Send notice of new patch sets for reviewers. */
 public class ReplacePatchSetSender extends ReplyToChangeSender {
   private final Set<Account.Id> reviewers = new HashSet<Account.Id>();
@@ -44,7 +41,7 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
   }
 
   @Override
-  protected void init() throws MessagingException {
+  protected void init() {
     super.init();
 
     if (fromId != null) {

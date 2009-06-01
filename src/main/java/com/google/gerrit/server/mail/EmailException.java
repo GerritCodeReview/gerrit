@@ -14,19 +14,12 @@
 
 package com.google.gerrit.server.mail;
 
-import com.google.gerrit.client.reviewdb.Change;
-import com.google.gerrit.server.GerritServer;
-
-/** Asks a user to review a change. */
-public class AddReviewerSender extends NewChangeSender {
-  public AddReviewerSender(GerritServer gs, Change c) {
-    super(gs, c);
+public class EmailException extends Exception {
+  public EmailException(String msg) {
+    super(msg);
   }
 
-  @Override
-  protected void init() {
-    super.init();
-
-    ccExistingReviewers();
+  public EmailException(String msg, Throwable why) {
+    super(msg, why);
   }
 }

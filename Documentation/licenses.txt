@@ -18,6 +18,7 @@ Google Web Toolkit          <<apache2,Apache License 2.0>>
 Apache Commons Codec        <<apache2,Apache License 2.0>>
 Apache Commons Logging      <<apache2,Apache License 2.0>>
 Apache Commons Http Client  <<apache2,Apache License 2.0>>
+Apache Commons Net          <<apache2,Apache License 2.0>>
 Apache Log4J                <<apache2,Apache License 2.0>>
 Apache MINA                 <<apache2,Apache License 2.0>>
 Apache SSHD                 <<apache2,Apache License 2.0>>, see also <<sshd,NOTICE>>

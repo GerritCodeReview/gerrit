@@ -29,6 +29,7 @@ import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.workflow.FunctionState;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritServer;
+import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.mail.MergeFailSender;
 import com.google.gerrit.server.mail.MergedSender;
 import com.google.gwtorm.client.OrmException;
@@ -64,8 +65,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import javax.mail.MessagingException;
 
 /**
  * Merges changes in submission order into a single branch.
@@ -719,7 +718,7 @@ public class MergeOp {
             cm.send();
           } catch (OrmException e) {
             log.error("Cannot submit patch set for Change " + c.getId() + " due to a missing dependency.", e);
-          } catch (MessagingException e) {
+          } catch (EmailException e) {
             log.error("Cannot submit patch set for Change " + c.getId() + " due to a missing dependency.", e);
           }
 
@@ -832,7 +831,7 @@ public class MergeOp {
       cm.send();
     } catch (OrmException e) {
       log.error("Cannot send email for submitted patch set " + c.getId(), e);
-    } catch (MessagingException e) {
+    } catch (EmailException e) {
       log.error("Cannot send email for submitted patch set " + c.getId(), e);
     }
   }
@@ -873,7 +872,7 @@ public class MergeOp {
       cm.send();
     } catch (OrmException e) {
       log.error("Cannot submit patch set for Change " + c.getId() + " due to a path conflict.", e);
-    } catch (MessagingException e) {
+    } catch (EmailException e) {
       log.error("Cannot submit patch set for Change " + c.getId() + " due to a path conflict.", e);
     }
   }

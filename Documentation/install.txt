@@ -21,7 +21,6 @@ Optional Libraries:
 
 * link:http://sourceforge.net/project/showfiles.php?group_id=25357[c3p0 JDBC Driver]
 * link:http://www.bouncycastle.org/java.html[Bouncy Castle Crypto API]
-* link:http://java.sun.com/products/javamail/downloads/index.html[JavaMail]
 
 
 Downloading Gerrit
@@ -236,8 +235,6 @@ and they may support additional encryption algorithms:
 
 * link:http://www.bouncycastle.org/java.html[Bouncy Castle Crypto API]
 
-Jetty comes with JavaMail, so there is no need to install it.
-
 Copy Gerrit into the deployment:
 ====
   java -jar gerrit.war --cat extra/jetty_gerrit.xml >$JETTY_HOME/contexts/gerrit.xml
@@ -332,14 +329,6 @@ necessary JDBC drivers.
 classpath.  Usually its best to load this library from the servlet
 container's extensions directory, but gerrit.war could also be
 manually repacked to include it.
-
-('Optional') Configure the JNDI name `mail/Outgoing` for the web
-application context to be a factory for a `javax.mail.Session`,
-with the connection information necessary to send outgoing emails.
-You may need to download and install the Java Mail JARs in your
-container's classpath.  If this is not configured, Gerrit will
-function, but will not be able to send email.
-
 
 [[apache2]]
 Apache2 Reverse Proxy

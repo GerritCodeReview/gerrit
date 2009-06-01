@@ -23,9 +23,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import javax.mail.MessagingException;
-import javax.mail.Message.RecipientType;
-
 /** Sends an email alerting a user to a new change for them to review. */
 public abstract class NewChangeSender extends OutgoingEmail {
   private final Set<Account.Id> reviewers = new HashSet<Account.Id>();
@@ -44,10 +41,10 @@ public abstract class NewChangeSender extends OutgoingEmail {
   }
 
   @Override
-  protected void init() throws MessagingException {
+  protected void init() {
     super.init();
 
-    setHeader(MimeMessage.MESSAGE_ID, getChangeMessageThreadId());
+    setHeader("Message-ID", getChangeMessageThreadId());
 
     add(RecipientType.TO, reviewers);
     add(RecipientType.CC, extraCC);

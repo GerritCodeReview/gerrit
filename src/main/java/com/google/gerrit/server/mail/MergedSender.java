@@ -29,9 +29,6 @@ import com.google.gwtorm.client.OrmException;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.mail.MessagingException;
-import javax.mail.Message.RecipientType;
-
 /** Send notice about a change successfully merged. */
 public class MergedSender extends ReplyToChangeSender {
   public MergedSender(GerritServer gs, Change c) {
@@ -39,7 +36,7 @@ public class MergedSender extends ReplyToChangeSender {
   }
 
   @Override
-  protected void init() throws MessagingException {
+  protected void init() {
     super.init();
 
     ccAllApprovals();
@@ -141,7 +138,7 @@ public class MergedSender extends ReplyToChangeSender {
     m.put(ca.getCategoryId(), ca);
   }
 
-  private void bccWatchesNotifySubmittedChanges() throws MessagingException {
+  private void bccWatchesNotifySubmittedChanges() {
     if (db != null) {
       try {
         // BCC anyone else who has interest in this project's changes

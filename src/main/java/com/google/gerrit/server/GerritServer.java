@@ -40,6 +40,7 @@ import com.google.gerrit.git.PushAllProjectsOp;
 import com.google.gerrit.git.PushQueue;
 import com.google.gerrit.git.RepositoryCache;
 import com.google.gerrit.git.WorkQueue;
+import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.patch.DiffCacheEntryFactory;
 import com.google.gerrit.server.ssh.SshKeyCacheEntryFactory;
 import com.google.gwtjsonrpc.server.SignedToken;
@@ -59,6 +60,9 @@ import net.sf.ehcache.constructs.blocking.SelfPopulatingCache;
 import net.sf.ehcache.store.MemoryStoreEvictionPolicy;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.net.smtp.AuthSMTPClient;
+import org.apache.commons.net.smtp.SMTPClient;
+import org.apache.commons.net.smtp.SMTPReply;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spearce.jgit.lib.PersonIdent;
@@ -185,7 +189,6 @@ public class GerritServer {
   private final SignedToken account;
   private final SignedToken emailReg;
   private final RepositoryCache repositories;
-  private final javax.mail.Session outgoingMail;
   private final SelfPopulatingCache diffCache;
   private final SelfPopulatingCache sshKeysCache;
 
@@ -234,8 +237,6 @@ public class GerritServer {
     } else {
       repositories = null;
     }
-
-    outgoingMail = createOutgoingMail();
 
     final ReviewDb c = db.open();
     try {
@@ -692,13 +693,49 @@ public class GerritServer {
     Common.setGerritConfig(r);
   }
 
-  private javax.mail.Session createOutgoingMail() {
-    final String dsName = "java:comp/env/mail/Outgoing";
-    try {
-      return (javax.mail.Session) new InitialContext().lookup(dsName);
-    } catch (NamingException namingErr) {
-      return null;
+  public SMTPClient createOutgoingMail() throws EmailException {
+    final RepositoryConfig cfg = getGerritConfig();
+    String smtpHost = cfg.getString("sendemail", null, "smtpserver");
+    if (smtpHost == null) {
+      smtpHost = "127.0.0.1";
     }
+    int smtpPort = cfg.getInt("sendemail", null, "smtpserverport", 25);
+
+    String smtpUser = cfg.getString("sendemail", null, "smtpuser");
+    String smtpPass = cfg.getString("sendemail", null, "smtpuserpass");
+
+    final AuthSMTPClient client = new AuthSMTPClient("UTF-8");
+    try {
+      client.connect(smtpHost, smtpPort);
+      if (!SMTPReply.isPositiveCompletion(client.getReplyCode())) {
+        throw new EmailException("SMTP server rejected connection");
+      }
+      if (!client.login()) {
+        String e = client.getReplyString();
+        throw new EmailException("SMTP server rejected login: " + e);
+      }
+      if (smtpUser != null && !client.auth(smtpUser, smtpPass)) {
+        String e = client.getReplyString();
+        throw new EmailException("SMTP server rejected auth: " + e);
+      }
+    } catch (IOException e) {
+      if (client.isConnected()) {
+        try {
+          client.disconnect();
+        } catch (IOException e2) {
+        }
+      }
+      throw new EmailException(e.getMessage(), e);
+    } catch (EmailException e) {
+      if (client.isConnected()) {
+        try {
+          client.disconnect();
+        } catch (IOException e2) {
+        }
+      }
+      throw e;
+    }
+    return client;
   }
 
   private void reconfigureWindowCache() {
@@ -847,11 +884,6 @@ public class GerritServer {
   /** Get the self-populating cache of user SSH keys. */
   public SelfPopulatingCache getSshKeysCache() {
     return sshKeysCache;
-  }
-
-  /** The mail session used to send messages; null if not configured. */
-  public javax.mail.Session getOutgoingMail() {
-    return outgoingMail;
   }
 
   /** Get a new identity representing this Gerrit server in Git. */

@@ -17,8 +17,6 @@ package com.google.gerrit.server.mail;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.server.GerritServer;
 
-import javax.mail.MessagingException;
-
 /** Send notice about a change failing to merged. */
 public class MergeFailSender extends ReplyToChangeSender {
   public MergeFailSender(GerritServer gs, Change c) {
@@ -26,7 +24,7 @@ public class MergeFailSender extends ReplyToChangeSender {
   }
 
   @Override
-  protected void init() throws MessagingException {
+  protected void init() {
     super.init();
 
     ccExistingReviewers();

@@ -55,23 +55,4 @@
       </New>
     </Arg>
   </New>
-
-  <New id="OutgoingSmtp" class="org.mortbay.jetty.plus.naming.Resource">
-    <Arg></Arg>
-    <Arg>mail/Outgoing</Arg>
-    <Arg>
-      <New class="org.mortbay.naming.factories.MailSessionReference">
-        <Set name="properties">
-          <New class="java.util.Properties">
-            <Put name="mail.smtp.host">localhost</Put>
-            <Put name="mail.smtp.port">25</Put>
-          </New>
-        </Set>
-        <!-- Uncomment if you need to authenticate to your SMTP server.
-        <Set name="user">gerrit2</Set>
-        <Set name="password">secretkey</Set>
-             /Uncomment -->
-      </New>
-    </Arg>
-  </New>
 </Configure>

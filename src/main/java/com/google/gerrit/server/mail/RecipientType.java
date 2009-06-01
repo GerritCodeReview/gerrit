@@ -14,19 +14,6 @@
 
 package com.google.gerrit.server.mail;
 
-import com.google.gerrit.client.reviewdb.Change;
-import com.google.gerrit.server.GerritServer;
-
-/** Asks a user to review a change. */
-public class AddReviewerSender extends NewChangeSender {
-  public AddReviewerSender(GerritServer gs, Change c) {
-    super(gs, c);
-  }
-
-  @Override
-  protected void init() {
-    super.init();
-
-    ccExistingReviewers();
-  }
+public enum RecipientType {
+  TO, CC, BCC
 }

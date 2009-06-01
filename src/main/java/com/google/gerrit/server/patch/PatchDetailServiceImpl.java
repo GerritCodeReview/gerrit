@@ -42,6 +42,7 @@ import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.mail.AbandonedSender;
 import com.google.gerrit.server.mail.AddReviewerSender;
 import com.google.gerrit.server.mail.CommentSender;
+import com.google.gerrit.server.mail.EmailException;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
@@ -57,8 +58,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import javax.mail.MessagingException;
 
 public class PatchDetailServiceImpl extends BaseServiceImplementation implements
     PatchDetailService {
@@ -175,7 +174,7 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
           cm.setHttpServletRequest(GerritJsonServlet.getCurrentCall()
               .getHttpServletRequest());
           cm.send();
-        } catch (MessagingException e) {
+        } catch (EmailException e) {
           log.error("Cannot send comments by email for patch set " + psid, e);
           throw new Failure(e);
         }
@@ -333,7 +332,7 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
           cm.setHttpServletRequest(GerritJsonServlet.getCurrentCall()
               .getHttpServletRequest());
           cm.send();
-        } catch (MessagingException e) {
+        } catch (EmailException e) {
           log.error("Cannot send review request by email for change " + id, e);
           throw new Failure(e);
         }
@@ -415,7 +414,7 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
             cm.setHttpServletRequest(GerritJsonServlet.getCurrentCall()
                 .getHttpServletRequest());
             cm.send();
-          } catch (MessagingException e) {
+          } catch (EmailException e) {
             log.error("Cannot send abandon change email for change "
                 + change.getChangeId(), e);
             throw new Failure(e);

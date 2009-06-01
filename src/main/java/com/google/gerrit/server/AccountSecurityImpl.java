@@ -29,6 +29,8 @@ import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.ContactInformationStoreException;
 import com.google.gerrit.client.rpc.InvalidSshKeyException;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
+import com.google.gerrit.server.mail.EmailException;
+import com.google.gerrit.server.mail.RegisterNewEmailSender;
 import com.google.gerrit.server.ssh.SshUtil;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
@@ -49,17 +51,11 @@ import java.security.NoSuchProviderException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 
 class AccountSecurityImpl extends BaseServiceImplementation implements
@@ -282,71 +278,15 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
     final PersonIdent gi = server.newGerritPersonIdent();
     final HttpServletRequest req =
         GerritJsonServlet.getCurrentCall().getHttpServletRequest();
-    final StringBuffer url = req.getRequestURL();
-    final StringBuilder m = new StringBuilder();
-
-    url.setLength(url.lastIndexOf("/")); // cut "AccountSecurity"
-    url.setLength(url.lastIndexOf("/")); // cut "rpc"
-    url.setLength(url.lastIndexOf("/")); // cut "gerrit"
-    url.append("/Gerrit#VE,");
-
     try {
-      url.append(server.getEmailRegistrationToken().newToken(
-          Base64.encodeBytes(address.getBytes("UTF-8"))));
-    } catch (XsrfException e) {
-      cb.onFailure(e);
-      return;
-    } catch (UnsupportedEncodingException e) {
-      cb.onFailure(e);
-      return;
-    }
-
-    m.append("Welcome to Gerrit Code Review at ");
-    m.append(req.getServerName());
-    m.append(".\n");
-
-    m.append("\n");
-    m.append("To add a verified email address to your user account, please\n");
-    m.append("click on the following link:\n");
-    m.append("\n");
-    m.append(url);
-    m.append("\n");
-
-    m.append("\n");
-    m.append("If you have received this mail in error,"
-        + " you do not need to take any\n");
-    m.append("action to cancel the account."
-        + " The account will not be activated, and\n");
-    m.append("you will not receive any further emails.\n");
-
-    m.append("\n");
-    m.append("If clicking the link above does not work,"
-        + " copy and paste the URL in a\n");
-    m.append("new browser window instead.\n");
-
-    m.append("\n");
-    m.append("This is a send-only email address."
-        + "  Replies to this message will not\n");
-    m.append("be read or answered.\n");
-
-    final javax.mail.Session out = server.getOutgoingMail();
-    if (out == null) {
-      cb.onFailure(new IllegalStateException("Outgoing mail is disabled"));
-      return;
-    }
-    try {
-      final MimeMessage msg = new MimeMessage(out);
-      msg.setFrom(new InternetAddress(gi.getEmailAddress(), gi.getName()));
-      msg.setRecipients(Message.RecipientType.TO, address);
-      msg.setSubject("[Gerrit Code Review] Email Verification");
-      msg.setSentDate(new Date());
-      msg.setText(m.toString());
-      Transport.send(msg);
+      final RegisterNewEmailSender sender;
+      sender = new RegisterNewEmailSender(server, address, req);
+      sender.send();
       cb.onSuccess(VoidResult.INSTANCE);
-    } catch (MessagingException e) {
+    } catch (EmailException e) {
       log.error("Cannot send email verification message to " + address, e);
       cb.onFailure(e);
-    } catch (UnsupportedEncodingException e) {
+    } catch (RuntimeException e) {
       log.error("Cannot send email verification message to " + address, e);
       cb.onFailure(e);
     }

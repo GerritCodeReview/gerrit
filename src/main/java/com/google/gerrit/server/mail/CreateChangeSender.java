@@ -25,9 +25,6 @@ import com.google.gwtorm.client.OrmException;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.mail.MessagingException;
-import javax.mail.Message.RecipientType;
-
 /** Notify interested parties of a brand new change. */
 public class CreateChangeSender extends NewChangeSender {
   public CreateChangeSender(GerritServer gs, Change c) {
@@ -35,13 +32,13 @@ public class CreateChangeSender extends NewChangeSender {
   }
 
   @Override
-  protected void init() throws MessagingException {
+  protected void init() {
     super.init();
 
     bccWatchers();
   }
 
-  private void bccWatchers() throws MessagingException {
+  private void bccWatchers() {
     if (db != null) {
       try {
         // BCC anyone else who has interest in this project's changes

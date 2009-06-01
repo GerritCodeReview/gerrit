@@ -17,9 +17,6 @@ package com.google.gerrit.server.mail;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.server.GerritServer;
 
-import javax.mail.MessagingException;
-import javax.mail.Message.RecipientType;
-
 /** Alert a user to a reply to a change, usually commentary made during review. */
 public abstract class ReplyToChangeSender extends OutgoingEmail {
   protected ReplyToChangeSender(GerritServer gs, Change c, String mc) {
@@ -27,7 +24,7 @@ public abstract class ReplyToChangeSender extends OutgoingEmail {
   }
 
   @Override
-  protected void init() throws MessagingException {
+  protected void init() {
     super.init();
 
     final String threadId = getChangeMessageThreadId();

@@ -29,8 +29,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import javax.mail.MessagingException;
-
 /** Send comments, after the author of them hit used Publish Comments in the UI. */
 public class CommentSender extends ReplyToChangeSender {
   private List<PatchLineComment> inlineComments = Collections.emptyList();
@@ -44,7 +42,7 @@ public class CommentSender extends ReplyToChangeSender {
   }
 
   @Override
-  protected void init() throws MessagingException {
+  protected void init() {
     super.init();
 
     ccAllApprovals();

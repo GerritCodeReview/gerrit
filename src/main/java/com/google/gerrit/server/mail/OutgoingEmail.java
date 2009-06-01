@@ -32,34 +32,41 @@ import com.google.gerrit.pgm.Version;
 import com.google.gerrit.server.GerritServer;
 import com.google.gwtorm.client.OrmException;
 
+import org.apache.commons.net.smtp.SMTPClient;
 import org.spearce.jgit.lib.PersonIdent;
 
-import java.io.UnsupportedEncodingException;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.Writer;
 import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
-import javax.mail.Address;
-import javax.mail.MessagingException;
-import javax.mail.Transport;
-import javax.mail.Message.RecipientType;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
 import javax.servlet.http.HttpServletRequest;
 
 /** Sends an email to one or more interested parties. */
 public abstract class OutgoingEmail {
+  private static final String HDR_TO = "To";
+  private static final String HDR_CC = "CC";
+
+  private static final Random RNG = new Random();
   private final String messageClass;
   protected final GerritServer server;
-  private final javax.mail.Session transport;
   protected final Change change;
   protected final String projectName;
   private final HashSet<Account.Id> rcptTo = new HashSet<Account.Id>();
-  private MimeMessage msg;
+  private final Map<String, EmailHeader> headers;
+  private final List<String> smtpRcptTo = new ArrayList<String>();
+  private Address smtpFromAddress;
   private StringBuilder body;
   private boolean inFooter;
 
@@ -72,10 +79,10 @@ public abstract class OutgoingEmail {
 
   protected OutgoingEmail(final GerritServer gs, final Change c, final String mc) {
     server = gs;
-    transport = server.getOutgoingMail();
     change = c;
-    projectName = change.getDest().getParentKey().get();
+    projectName = change != null ? change.getDest().getParentKey().get() : null;
     messageClass = mc;
+    headers = new LinkedHashMap<String, EmailHeader>();
   }
 
   public void setFrom(final Account.Id id) {
@@ -99,8 +106,12 @@ public abstract class OutgoingEmail {
     db = d;
   }
 
-  /** Format and enqueue the message for delivery. */
-  public void send() throws MessagingException {
+  /**
+   * Format and enqueue the message for delivery.
+   * 
+   * @throws EmailException
+   */
+  public void send() throws EmailException {
     init();
     format();
     if (shouldSendMessage()) {
@@ -111,30 +122,89 @@ public abstract class OutgoingEmail {
         //
         add(RecipientType.CC, fromId);
       }
-      if (getChangeUrl() != null) {
-        openFooter();
-        appendText("To view visit ");
-        appendText(getChangeUrl());
-        appendText("\n");
-      }
-      if (getSettingsUrl() != null) {
-        openFooter();
-        appendText("To unsubscribe, visit ");
-        appendText(getSettingsUrl());
-        appendText("\n");
+      if (change != null) {
+        if (getChangeUrl() != null) {
+          openFooter();
+          appendText("To view visit ");
+          appendText(getChangeUrl());
+          appendText("\n");
+        }
+        if (getSettingsUrl() != null) {
+          openFooter();
+          appendText("To unsubscribe, visit ");
+          appendText(getSettingsUrl());
+          appendText("\n");
+        }
+
+        if (inFooter) {
+          appendText("\n");
+        } else {
+          openFooter();
+        }
+        appendText("Gerrit-MessageType: " + messageClass + "\n");
+        appendText("Gerrit-Project: " + projectName + "\n");
+        appendText("Gerrit-Branch: " + change.getDest().getShortName() + "\n");
       }
 
-      if (inFooter) {
-        appendText("\n");
-      } else {
-        openFooter();
-      }
-      appendText("Gerrit-MessageType: " + messageClass + "\n");
-      appendText("Gerrit-Project: " + projectName + "\n");
-      appendText("Gerrit-Branch: " + change.getDest().getShortName() + "\n");
+      try {
+        final SMTPClient client = server.createOutgoingMail();
+        try {
+          if (!client.setSender(smtpFromAddress.email)) {
+            throw new EmailException("SMTP server rejected from "
+                + smtpFromAddress);
+          }
 
-      msg.setText(body.toString(), "UTF-8");
-      Transport.send(msg);
+          for (String emailAddress : smtpRcptTo) {
+            if (!client.addRecipient(emailAddress)) {
+              String error = client.getReplyString();
+              throw new EmailException("SMTP server rejected rcpt "
+                  + emailAddress + ": " + error);
+            }
+          }
+
+          if (headers.get("Message-ID").isEmpty()) {
+            final StringBuilder rndid = new StringBuilder();
+            rndid.append("<");
+            rndid.append(System.currentTimeMillis());
+            rndid.append("-");
+            rndid.append(Integer.toString(RNG.nextInt(999999), 36));
+            rndid.append("@");
+            rndid.append(InetAddress.getLocalHost().getCanonicalHostName());
+            rndid.append(">");
+            setHeader("Message-ID", rndid.toString());
+          }
+
+          Writer w = client.sendMessageData();
+          if (w == null) {
+            throw new EmailException("SMTP server rejected message body");
+          }
+          w = new BufferedWriter(w);
+
+          for (Map.Entry<String, EmailHeader> h : headers.entrySet()) {
+            if (!h.getValue().isEmpty()) {
+              w.write(h.getKey());
+              w.write(": ");
+              h.getValue().write(w);
+              w.write("\r\n");
+            }
+          }
+
+          w.write("\r\n");
+          w.write(body.toString());
+          w.flush();
+          w.close();
+
+          if (!client.completePendingCommand()) {
+            throw new EmailException("SMTP server rejected message body");
+          }
+
+          client.logout();
+        } finally {
+          client.disconnect();
+        }
+      } catch (IOException e) {
+        throw new EmailException("Cannot send outgoing email", e);
+      }
     }
   }
 
@@ -142,25 +212,35 @@ public abstract class OutgoingEmail {
   protected abstract void format();
 
   /** Setup the message headers and envelope (TO, CC, BCC). */
-  protected void init() throws MessagingException {
-    msg = new MimeMessage(transport);
+  protected void init() {
+    smtpFromAddress = computeFrom();
     if (changeMessage != null && changeMessage.getWrittenOn() != null) {
-      msg.setSentDate(new Date(changeMessage.getWrittenOn().getTime()));
+      setHeader("Date", new Date(changeMessage.getWrittenOn().getTime()));
     } else {
-      msg.setSentDate(new Date());
+      setHeader("Date", new Date());
     }
-    msg.setFrom(computeFrom());
+    headers.put("From", new EmailHeader.AddressList(smtpFromAddress));
+    headers.put(HDR_TO, new EmailHeader.AddressList());
+    headers.put(HDR_CC, new EmailHeader.AddressList());
+    if (change != null) {
+      setChangeSubjectHeader();
+    }
+    setHeader("Message-ID", "");
+    setHeader("MIME-Version", "1.0");
+    setHeader("Content-Type", "text/plain; charset=UTF-8");
+    setHeader("Content-Disposition", "inline");
     setHeader("User-Agent", "Gerrit/" + Version.getVersion());
-    setHeader("X-Gerrit-ChangeId", "" + change.getChangeId());
     setHeader("X-Gerrit-MessageType", messageClass);
-    setListIdHeader();
-    setChangeUrlHeader();
-    setCommitIdHeader();
-    setSubjectHeader();
+    if (change != null) {
+      setHeader("X-Gerrit-ChangeId", "" + change.getChangeId());
+      setListIdHeader();
+      setChangeUrlHeader();
+      setCommitIdHeader();
+    }
     body = new StringBuilder();
     inFooter = false;
 
-    if (db != null) {
+    if (change != null && db != null) {
       if (patchSet == null) {
         try {
           patchSet = db.patchSets().get(change.currentPatchSetId());
@@ -179,19 +259,16 @@ public abstract class OutgoingEmail {
     }
   }
 
-  private Address computeFrom() throws AddressException {
+  private Address computeFrom() {
     if (fromId != null) {
       return toAddress(fromId);
     }
+
     final PersonIdent pi = server.newGerritPersonIdent();
-    try {
-      return new InternetAddress(pi.getName(), pi.getEmailAddress());
-    } catch (UnsupportedEncodingException e) {
-      return new InternetAddress(pi.getEmailAddress());
-    }
+    return new Address(pi.getName(), pi.getEmailAddress());
   }
 
-  private void setListIdHeader() throws MessagingException {
+  private void setListIdHeader() {
     // Set a reasonable list id so that filters can be used to sort messages
     //
     final StringBuilder listid = new StringBuilder();
@@ -208,14 +285,14 @@ public abstract class OutgoingEmail {
     }
   }
 
-  private void setChangeUrlHeader() throws MessagingException {
+  private void setChangeUrlHeader() {
     final String u = getChangeUrl();
     if (u != null) {
       setHeader("X-Gerrit-ChangeURL", "<" + u + ">");
     }
   }
 
-  private void setCommitIdHeader() throws MessagingException {
+  private void setCommitIdHeader() {
     if (patchSet != null && patchSet.getRevision() != null
         && patchSet.getRevision().get() != null
         && patchSet.getRevision().get().length() > 0) {
@@ -223,7 +300,7 @@ public abstract class OutgoingEmail {
     }
   }
 
-  private void setSubjectHeader() throws MessagingException {
+  private void setChangeSubjectHeader() {
     final StringBuilder subj = new StringBuilder();
     subj.append("[");
     subj.append(change.getDest().getShortName());
@@ -239,7 +316,7 @@ public abstract class OutgoingEmail {
     } else {
       subj.append(change.getSubject());
     }
-    msg.setSubject(subj.toString());
+    setHeader("Subject", subj.toString());
   }
 
   private String getGerritHost() {
@@ -272,7 +349,7 @@ public abstract class OutgoingEmail {
 
   /** Get a link to the change; null if the server doesn't know its own address. */
   protected String getChangeUrl() {
-    if (getGerritUrl() != null) {
+    if (change != null && getGerritUrl() != null) {
       final StringBuilder r = new StringBuilder();
       r.append(getGerritUrl());
       r.append(change.getChangeId());
@@ -313,9 +390,12 @@ public abstract class OutgoingEmail {
   }
 
   /** Set a header in the outgoing message. */
-  protected void setHeader(final String name, final String value)
-      throws MessagingException {
-    msg.setHeader(name, value);
+  protected void setHeader(final String name, final String value) {
+    headers.put(name, new EmailHeader.String(value));
+  }
+
+  protected void setHeader(final String name, final Date date) {
+    headers.put(name, new EmailHeader.Date(date));
   }
 
   /** Append text to the outgoing email body. */
@@ -397,7 +477,7 @@ public abstract class OutgoingEmail {
     return name;
   }
 
-  private boolean shouldSendMessage() {
+  protected boolean shouldSendMessage() {
     if (body.length() == 0) {
       // If we have no message body, don't send.
       //
@@ -430,16 +510,14 @@ public abstract class OutgoingEmail {
   }
 
   /** Schedule this message for delivery to the listed accounts. */
-  protected void add(final RecipientType rt, final Collection<Account.Id> list)
-      throws MessagingException {
+  protected void add(final RecipientType rt, final Collection<Account.Id> list) {
     for (final Account.Id id : list) {
       add(rt, id);
     }
   }
 
   /** TO or CC all vested parties (change owner, patch set uploader, author). */
-  protected void rcptToAuthors(final RecipientType rt)
-      throws MessagingException {
+  protected void rcptToAuthors(final RecipientType rt) {
     add(rt, change.getOwner());
     if (patchSet != null) {
       add(rt, patchSet.getUploader());
@@ -450,15 +528,14 @@ public abstract class OutgoingEmail {
     }
   }
 
-  private void add(final RecipientType rt, final UserIdentity who)
-      throws MessagingException {
+  private void add(final RecipientType rt, final UserIdentity who) {
     if (who != null && who.getAccount() != null) {
       add(rt, who.getAccount());
     }
   }
 
   /** BCC any user who has starred this change. */
-  protected void bccStarredBy() throws MessagingException {
+  protected void bccStarredBy() {
     if (db != null) {
       try {
         // BCC anyone who has starred this change.
@@ -475,7 +552,7 @@ public abstract class OutgoingEmail {
   }
 
   /** BCC any user who has set "notify all comments" on this project. */
-  protected void bccWatchesNotifyAllComments() throws MessagingException {
+  protected void bccWatchesNotifyAllComments() {
     if (db != null) {
       try {
         // BCC anyone else who has interest in this project's changes
@@ -496,16 +573,16 @@ public abstract class OutgoingEmail {
   }
 
   /** Any user who has published comments on this change. */
-  protected void ccAllApprovals() throws MessagingException {
+  protected void ccAllApprovals() {
     ccApprovals(true);
   }
 
   /** Users who have non-zero approval codes on the change. */
-  protected void ccExistingReviewers() throws MessagingException {
+  protected void ccExistingReviewers() {
     ccApprovals(false);
   }
 
-  private void ccApprovals(final boolean includeZero) throws MessagingException {
+  private void ccApprovals(final boolean includeZero) {
     if (db != null) {
       try {
         // CC anyone else who has posted an approval mark on this change
@@ -522,17 +599,28 @@ public abstract class OutgoingEmail {
   }
 
   /** Schedule delivery of this message to the given account. */
-  protected void add(final RecipientType rt, final Account.Id to)
-      throws MessagingException {
+  protected void add(final RecipientType rt, final Account.Id to) {
     if (rcptTo.add(to)) {
-      final Address addr = toAddress(to);
-      if (addr != null) {
-        msg.addRecipient(rt, addr);
+      add(rt, toAddress(to));
+    }
+  }
+
+  /** Schedule delivery of this message to the given account. */
+  protected void add(final RecipientType rt, final Address addr) {
+    if (addr != null && addr.email != null && addr.email.length() > 0) {
+      smtpRcptTo.add(addr.email);
+      switch (rt) {
+        case TO:
+          ((EmailHeader.AddressList) headers.get(HDR_TO)).add(addr);
+          break;
+        case CC:
+          ((EmailHeader.AddressList) headers.get(HDR_CC)).add(addr);
+          break;
       }
     }
   }
 
-  private Address toAddress(final Account.Id id) throws AddressException {
+  private Address toAddress(final Account.Id id) {
     final Account a = Common.getAccountCache().get(id);
     if (a == null) {
       return null;
@@ -543,11 +631,6 @@ public abstract class OutgoingEmail {
       return null;
     }
 
-    try {
-      final String an = a.getFullName();
-      return new InternetAddress(e, an);
-    } catch (UnsupportedEncodingException e1) {
-      return new InternetAddress(e);
-    }
+    return new Address(a.getFullName(), e);
   }
 }

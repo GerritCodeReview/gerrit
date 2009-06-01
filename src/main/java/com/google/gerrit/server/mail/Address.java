@@ -1,0 +1,80 @@
+// Copyright (C) 2009 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package com.google.gerrit.server.mail;
+
+class Address {
+  String name;
+  String email;
+
+  Address(String email) {
+    this(null, email);
+  }
+
+  Address(String name, String email) {
+    this.name = name;
+    this.email = email;
+  }
+
+  @Override
+  public String toString() {
+    return toHeaderString();
+  }
+
+  String toHeaderString() {
+    if (name != null) {
+      return quotedPhrase(name) + " <" + email + ">";
+    } else if (isSimple()) {
+      return email;
+    }
+    return "<" + email + ">";
+  }
+
+  private static final String MUST_QUOTE_EMAIL = "()<>,;:\\\"[]";
+  private static final String MUST_QUOTE_NAME = MUST_QUOTE_EMAIL + "@.";
+
+  private boolean isSimple() {
+    for (int i = 0; i < email.length(); i++) {
+      final char c = email.charAt(i);
+      if (c <= ' ' || 0x7F <= c || MUST_QUOTE_EMAIL.indexOf(c) != -1) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  private static String quotedPhrase(final String name) {
+    for (int i = 0; i < name.length(); i++) {
+      final char c = name.charAt(i);
+      if (c < ' ' || 0x7F <= c || MUST_QUOTE_NAME.indexOf(c) != -1) {
+        return wrapInQuotes(name);
+      }
+    }
+    return name;
+  }
+
+  private static String wrapInQuotes(final String name) {
+    final StringBuilder r = new StringBuilder(2 + name.length());
+    r.append('"');
+    for (int i = 0; i < name.length(); i++) {
+      char c = name.charAt(i);
+      if (c == '"' || c == '\\') {
+        r.append('\\');
+      }
+      r.append(c);
+    }
+    r.append('"');
+    return r.toString();
+  }
+}

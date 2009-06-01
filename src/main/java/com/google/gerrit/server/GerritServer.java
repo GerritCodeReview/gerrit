@@ -71,8 +71,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -182,7 +180,6 @@ public class GerritServer {
   private final Database<ReviewDb> db;
   private final RepositoryConfig gerritConfigFile;
   private SystemConfig sConfig;
-  private final PersonIdent gerritPersonIdentTemplate;
   private final SignedToken xsrf;
   private final SignedToken account;
   private final SignedToken emailReg;
@@ -230,15 +227,6 @@ public class GerritServer {
       repositories = null;
     }
 
-    String email = sConfig.gerritGitEmail;
-    if (email == null || email.length() == 0) {
-      try {
-        email = "gerrit@" + InetAddress.getLocalHost().getCanonicalHostName();
-      } catch (UnknownHostException e) {
-        email = "gerrit@localhost";
-      }
-    }
-    gerritPersonIdentTemplate = new PersonIdent(sConfig.gerritGitName, email);
     outgoingMail = createOutgoingMail();
 
     final ReviewDb c = db.open();
@@ -452,7 +440,6 @@ public class GerritServer {
     s.adminGroupId = admin.getId();
     s.anonymousGroupId = anonymous.getId();
     s.registeredGroupId = registered.getId();
-    s.gerritGitName = "Gerrit Code Review";
     s.setLoginType(SystemConfig.LoginType.OPENID);
     c.systemConfig().insert(Collections.singleton(s));
 
@@ -845,7 +832,15 @@ public class GerritServer {
 
   /** Get a new identity representing this Gerrit server in Git. */
   public PersonIdent newGerritPersonIdent() {
-    return new PersonIdent(gerritPersonIdentTemplate);
+    String name = getGerritConfig().getString("user", null, "name");
+    if (name == null) {
+      name = "Gerrit Code Review";
+    }
+    String email = getGerritConfig().getCommitterEmail();
+    if (email == null || email.length() == 0) {
+      email = "gerrit@localhost";
+    }
+    return new PersonIdent(name, email);
   }
 
   public boolean isAllowGoogleAccountUpgrade() {

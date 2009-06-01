@@ -284,6 +284,26 @@ Supported MACs: hmac-md5, hmac-md5-96, hmac-sha1, hmac-sha1-96.
 +
 By default, all supported MACs are available.
 
+Section user
+~~~~~~~~~~~~
+
+name::
++
+Name that Gerrit calls itself in Git when it creates a new Git
+commit, such as a merge during change submission.
++
+By default this is "Gerrit Code Review".
+
+email::
++
+Email address that Gerrit refers to itself as when it creates a
+new Git commit, such as a merge commit during change submission.
++
+If not set, Gerrit generates this as "gerrit@`hostname`", where
+`hostname` is the hostname of the system Gerrit is running on.
++
+By default, not set, generating the value at startup.
+
 
 File `replication.config`
 -------------------------
@@ -366,23 +386,6 @@ If set to `Y`, Gerrit advertises patch set downloads with the
 instance are generally worked on with the repo multi-repository tool.
 +
 By default, `N`, as not all instances will deploy repo.
-
-gerrit_git_name::
-+
-Name that Gerrit calls itself in Git when it creates a new Git
-commit, such as a merge during change submission.
-+
-By default this is "Gerrit Code Review".
-
-gerrit_git_email::
-+
-Email address that Gerrit refers to itself as when it creates a
-new Git commit, such as a merge commit during change submission.
-+
-If NULL, Gerrit generates this as "gerrit@`hostname`", where
-`hostname` is the hostname of the system Gerrit is running on.
-+
-By default, this is NULL, generating the value at startup.
 
 canonical_url::
 +

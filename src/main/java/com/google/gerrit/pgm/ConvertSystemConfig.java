@@ -64,6 +64,7 @@ public class ConvertSystemConfig {
       throws SQLException {
     sshd(config, rs);
     contactstore(config, rs);
+    user(config, rs);
   }
 
   private static void sshd(RepositoryConfig config, ResultSet rs)
@@ -80,6 +81,12 @@ public class ConvertSystemConfig {
       throws SQLException {
     copy(config, "contactstore", "url", rs, "contact_store_url");
     copy(config, "contactstore", "appsec", rs, "contact_store_appsec");
+  }
+
+  private static void user(RepositoryConfig config, ResultSet rs)
+      throws SQLException {
+    copy(config, "user", "name", rs, "gerrit_git_name");
+    copy(config, "user", "email", rs, "gerrit_git_email");
   }
 
   private static void copy(RepositoryConfig config, String section, String key,

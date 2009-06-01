@@ -12,3 +12,4 @@ ALTER TABLE system_config DROP COLUMN login_type;
 ALTER TABLE system_config DROP COLUMN login_http_header;
 ALTER TABLE system_config DROP COLUMN sshd_port;
 ALTER TABLE system_config DROP COLUMN use_contributor_agreements;
+ALTER TABLE system_config DROP COLUMN use_repo_download;

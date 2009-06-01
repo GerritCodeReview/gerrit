@@ -323,6 +323,17 @@ web location where a `gitweb.cgi` is installed to browse
 Gerrit appends any necessary query arguments onto the end of this URL.
 For example, "?p=$project.git;h=$commit".
 
+Section repo
+~~~~~~~~~~~
+
+repo.showDownloadCommand::
++
+If set to true, Gerrit advertises patch set downloads with the
+`repo download` command, assuming that all projects managed by this
+instance are generally worked on with the repo multi-repository tool.
++
+By default, false, as not all instances will deploy repo.
+
 Section sshd
 ~~~~~~~~~~~~
 
@@ -461,14 +472,6 @@ automatically appends the project name onto the end of the URL.
 By default NULL, as the git daemon must be configured externally
 by the system administrator, and might not even be running on the
 same host as Gerrit.
-
-use_repo_download::
-+
-If set to `Y`, Gerrit advertises patch set downloads with the
-`repo download` command, assuming that all projects managed by this
-instance are generally worked on with the repo multi-repository tool.
-+
-By default, `N`, as not all instances will deploy repo.
 
 canonical_url::
 +

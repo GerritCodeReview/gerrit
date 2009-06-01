@@ -99,10 +99,6 @@ public final class SystemConfig {
   @Column(notNull = false)
   public transient String gitBasePath;
 
-  /** Should Gerrit advertise 'repo download' for patch sets? */
-  @Column
-  public boolean useRepoDownload;
-
   /** Identity of the administration group; those with full access. */
   @Column
   public AccountGroup.Id adminGroupId;

@@ -667,7 +667,8 @@ public class GerritServer {
     r.setUseContributorAgreements(getGerritConfig().getBoolean("auth",
         "contributoragreements", false));
     r.setGitDaemonUrl(sConfig.gitDaemonUrl);
-    r.setUseRepoDownload(sConfig.useRepoDownload);
+    r.setUseRepoDownload(getGerritConfig().getBoolean("repo", null,
+        "showdownloadcommand", false));
     r.setUseContactInfo(getContactStoreURL() != null);
     r.setLoginType(getLoginType());
 

@@ -67,6 +67,7 @@ public class ConvertSystemConfig {
     user(config, rs);
     auth(config, rs);
     gitweb(config, rs);
+    repo(config, rs);
   }
 
   private static void sshd(RepositoryConfig config, ResultSet rs)
@@ -113,6 +114,11 @@ public class ConvertSystemConfig {
   private static void gitweb(RepositoryConfig config, ResultSet rs)
       throws SQLException {
     copy(config, "gitweb", "url", rs, "gitweb_url");
+  }
+
+  private static void repo(RepositoryConfig config, ResultSet rs)
+      throws SQLException {
+    copyBool(config, "repo", "showdownloadcommand", rs, "use_repo_download");
   }
 
   private static void copy(RepositoryConfig config, String section, String key,

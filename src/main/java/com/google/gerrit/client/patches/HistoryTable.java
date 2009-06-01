@@ -34,9 +34,8 @@ class HistoryTable extends FancyFlexTable<Patch> {
   HistoryTable(final PatchScreen parent) {
     setStyleName("gerrit-PatchHistoryTable");
     screen = parent;
-    table.addStyleName("gerrit-PatchHistoryTable");
+    table.addStyleName("gerrit-ChangeTable");
   }
-
 
   void onClick(final HistoryRadio b) {
     switch (b.file) {

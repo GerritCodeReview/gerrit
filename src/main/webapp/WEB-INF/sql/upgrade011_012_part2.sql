@@ -7,6 +7,7 @@ ALTER TABLE system_config DROP COLUMN contact_store_url;
 ALTER TABLE system_config DROP COLUMN contact_store_appsec;
 ALTER TABLE system_config DROP COLUMN gerrit_git_name;
 ALTER TABLE system_config DROP COLUMN gerrit_git_email;
+ALTER TABLE system_config DROP COLUMN git_base_path;
 ALTER TABLE system_config DROP COLUMN git_daemon_url;
 ALTER TABLE system_config DROP COLUMN gitweb_url;
 ALTER TABLE system_config DROP COLUMN email_format;

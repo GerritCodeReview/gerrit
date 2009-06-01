@@ -73,6 +73,7 @@ public class ConvertSystemConfig {
 
   private static void gerrit(RepositoryConfig config, ResultSet rs)
       throws SQLException {
+    copy(config, "gerrit", "basepath", rs, "git_base_path");
     copy(config, "gerrit", "canonicalweburl", rs, "canonical_url");
     copy(config, "gerrit", "canonicalgiturl", rs, "git_daemon_url");
   }

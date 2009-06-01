@@ -312,6 +312,15 @@ much more predictable behavior.
 Section gerrit
 ~~~~~~~~~~~~~~
 
+gerrit.basePath::
++
+Local filesystem directory holding all Git repositories that
+Gerrit knows about and can process changes for.  A project
+entity in Gerrit maps to a local Git repository by creating
+the path string `"$\{basePath}/$\{project_name}.git"`.
++
+If relative, the path is resolved relative to `'$site_path'`.
+
 gerrit.canonicalWebUrl::
 +
 The default URL for Gerrit to be accessed through.
@@ -344,7 +353,7 @@ gitweb.url::
 +
 Optional URL of an affiliated gitweb service.  Defines the
 web location where a `gitweb.cgi` is installed to browse
-`'$git_base_path'` and the repositories it contains.
+gerrit.basePath and the repositories it contains.
 +
 Gerrit appends any necessary query arguments onto the end of this URL.
 For example, "?p=$project.git;h=$commit".
@@ -480,13 +489,6 @@ Other files support site customization.
 +
 * link:config-headerfooter.html[Site Header/Footer]
 * link:config-replication.html[Git Replication/Mirroring]
-
-git_base_path::
-+
-Local filesystem directory holding all Git repositories that
-Gerrit knows about and can process changes for.  A project
-entity in Gerrit maps to a local Git repository by creating
-the path string `"$\{git_pase_path}/$\{project_name}.git"`.
 
 Not User Serviceable
 ~~~~~~~~~~~~~~~~~~~~

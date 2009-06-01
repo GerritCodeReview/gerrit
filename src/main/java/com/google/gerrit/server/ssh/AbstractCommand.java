@@ -109,7 +109,7 @@ abstract class AbstractCommand implements Command, SessionAware {
     final RepositoryCache rc = getGerritServer().getRepositoryCache();
     if (rc == null) {
       throw new Failure(128, "fatal: Gerrit repositories are not available",
-          new IllegalStateException("git_base_path not set in system_config"));
+          new IllegalStateException("gerrit.basePath not set"));
     }
     return rc;
   }

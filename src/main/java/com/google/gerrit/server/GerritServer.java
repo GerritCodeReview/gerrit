@@ -223,8 +223,14 @@ public class GerritServer {
     account = new SignedToken(accountCookieAge, sConfig.accountPrivateKey);
     emailReg = new SignedToken(5 * 24 * 60 * 60, sConfig.accountPrivateKey);
 
-    if (sConfig.gitBasePath != null) {
-      repositories = new RepositoryCache(new File(sConfig.gitBasePath));
+    final String basePath =
+        getGerritConfig().getString("gerrit", null, "basepath");
+    if (basePath != null) {
+      File root = new File(basePath);
+      if (!root.isAbsolute()) {
+        root = new File(getSitePath(), basePath);
+      }
+      repositories = new RepositoryCache(root);
     } else {
       repositories = null;
     }

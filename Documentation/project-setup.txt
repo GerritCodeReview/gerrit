@@ -1,17 +1,17 @@
 Gerrit2 - Project Configuration
 ===============================
 
-All Git repositories under `'$git_base_path'` must be registered in
+All Git repositories under gerrit.basePath must be registered in
 the Gerrit database in order to be accessed through SSH, or through
 the web interface.
 
 Create Git Repository
 ---------------------
 
-Create a Git repository under `'$git_base_path'`:
+Create a Git repository under gerrit.basePath:
 
 ====
-  git --git-dir=$git_base_path/new/project.git init
+  git --git-dir=$base_path/new/project.git init
 ====
 
 [TIP]
@@ -22,7 +22,7 @@ To also make this repository available over the anonymous git://
 protocol, don't forget to create a `git-daemon-export-ok` file:
 
 ====
-  touch $git_base_path/new/project.git/git-daemon-export-ok
+  touch $base_path/new/project.git/git-daemon-export-ok
 ====
 
 Register Project

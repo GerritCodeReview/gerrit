@@ -83,10 +83,6 @@ public final class SystemConfig {
   @Column(notNull = false)
   public transient String sitePath;
 
-  /** Local filesystem location all projects reside within. */
-  @Column(notNull = false)
-  public transient String gitBasePath;
-
   /** Identity of the administration group; those with full access. */
   @Column
   public AccountGroup.Id adminGroupId;

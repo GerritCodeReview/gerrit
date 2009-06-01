@@ -66,6 +66,7 @@ public class ConvertSystemConfig {
     contactstore(config, rs);
     user(config, rs);
     auth(config, rs);
+    gitweb(config, rs);
   }
 
   private static void sshd(RepositoryConfig config, ResultSet rs)
@@ -107,6 +108,11 @@ public class ConvertSystemConfig {
     } else {
       config.setInt("auth", null, "maxsessionage", maxSessionAge / 60);
     }
+  }
+
+  private static void gitweb(RepositoryConfig config, ResultSet rs)
+      throws SQLException {
+    copy(config, "gitweb", "url", rs, "gitweb_url");
   }
 
   private static void copy(RepositoryConfig config, String section, String key,

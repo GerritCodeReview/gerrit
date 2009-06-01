@@ -4,34 +4,19 @@ Gerrit2 - Gitweb Integration
 Gerrit2 can generate hyperlinks to gitweb, allowing users to jump
 from Gerrit content to the same information, but shown by gitweb.
 
-To enable the gitweb integration, update `system_config.gitweb_url`
-with the URL of your gitweb CGI.
+To enable the gitweb integration, set gitweb.url with the URL of
+your gitweb CGI.
 
 The CGI's `$projectroot` should be `'$git_base_path'`, or a fairly
 current replica.  If a replica is being used, ensure it uses a full
 mirror, so the `refs/changes/*` namespace is available.
 
 ====
-  UPDATE system_config SET gitweb_url='http://example.com/gitweb.cgi'
+  git config --file=$site_path/gerrit.config gitweb.url http://example.com/gitweb.cgi
 ====
 
-After updating `system_config`, the Gerrit server must be restarted
-and clients must reload the host page to see the change.
-
-Configurable Parameters
------------------------
-
-Some columns in the `system_config` table may be set to control
-how Gerrit interacts with gitweb.
-
-gitweb_url
-~~~~~~~~~~
-
-Defines the web location where a `gitweb.cgi` is installed to browse
-`'$git_base_path'` and the repositories it contains.
-
-Gerrit appends any necessary query arguments onto the end of this URL.
-For example, "?p=$project.git;h=$commit".
+After updating `'$site_path'/gerrit.config`, the Gerrit server must
+be restarted and clients must reload the host page to see the change.
 
 Access Control
 --------------
@@ -47,6 +32,11 @@ Caching Gitweb
 If your repository set is large and you are expecting a lot
 of users, you may want to look at the caching forks used by
 high-traffic sites like kernel.org or repo.or.cz.
+
+See Also
+--------
+
+* link:config-gerrit.html#section_gitweb[Section gitweb]
 
 GERRIT
 ------

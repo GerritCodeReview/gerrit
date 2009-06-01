@@ -670,8 +670,10 @@ public class GerritServer {
     r.setUseRepoDownload(sConfig.useRepoDownload);
     r.setUseContactInfo(getContactStoreURL() != null);
     r.setLoginType(getLoginType());
-    if (sConfig.gitwebUrl != null) {
-      r.setGitwebLink(new GitwebLink(sConfig.gitwebUrl));
+
+    final String gitwebUrl = getGerritConfig().getString("gitweb", null, "url");
+    if (gitwebUrl != null) {
+      r.setGitwebLink(new GitwebLink(gitwebUrl));
     }
 
     for (final ApprovalCategory c : db.approvalCategories().all()) {

@@ -309,6 +309,20 @@ unused mapped spaces fast enough.
 Default on JGit is false. Although potentially slower, it yields
 much more predictable behavior.
 
+Section gitweb[[section_gitweb]]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+See also link:config-gitweb.html[Gitweb Integration].
+
+gitweb.url::
++
+Optional URL of an affiliated gitweb service.  Defines the
+web location where a `gitweb.cgi` is installed to browse
+`'$git_base_path'` and the repositories it contains.
++
+Gerrit appends any necessary query arguments onto the end of this URL.
+For example, "?p=$project.git;h=$commit".
+
 Section sshd
 ~~~~~~~~~~~~
 
@@ -436,12 +450,6 @@ Local filesystem directory holding all Git repositories that
 Gerrit knows about and can process changes for.  A project
 entity in Gerrit maps to a local Git repository by creating
 the path string `"$\{git_pase_path}/$\{project_name}.git"`.
-
-gitweb_url::
-+
-Optional URL of an affiliated gitweb service.
-+
-* link:config-gitweb.html[Gitweb Integration]
 
 git_daemon_url::
 +

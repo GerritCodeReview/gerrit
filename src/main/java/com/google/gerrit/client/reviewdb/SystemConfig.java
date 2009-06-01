@@ -87,10 +87,6 @@ public final class SystemConfig {
   @Column(notNull = false)
   public String canonicalUrl;
 
-  /** Optional URL of a gitweb installation to also view changes through. */
-  @Column(notNull = false)
-  public String gitwebUrl;
-
   /**
    * Optional URL of the anonymous git daemon for project access.
    * <p>

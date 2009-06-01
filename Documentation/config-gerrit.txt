@@ -24,75 +24,6 @@ Sample `gerrit.config`:
 	diskbuffer = 10 m
 ----
 
-Section core
-~~~~~~~~~~~~
-
-core.packedGitWindowSize::
-+
-Number of bytes of a pack file to load into memory in a single
-read operation.  This is the "page size" of the JGit buffer cache,
-used for all pack access operations.  All disk IO occurs as single
-window reads.  Setting this too large may cause the process to load
-more data than is required; setting this too small may increase
-the frequency of `read()` system calls.
-+
-Default on JGit is 8 KiB on all platforms.
-+
-Common unit suffixes of 'k', 'm', or 'g' are supported.
-
-core.packedGitLimit::
-+
-Maximum number of bytes to load and cache in memory from pack files.
-If JGit needs to access more than this many bytes it will unload less
-frequently used windows to reclaim memory space within the process.
-As this buffer must be shared with the rest of the JVM heap, it
-should be a fraction of the total memory available.
-+
-Default on JGit is 10 MiB on all platforms.
-+
-Common unit suffixes of 'k', 'm', or 'g' are supported.
-
-core.deltaBaseCacheLimit::
-+
-Maximum number of bytes to reserve for caching base objects
-that multiple deltafied objects reference.  By storing the entire
-decompressed base object in a cache Git is able to avoid unpacking
-and decompressing frequently used base objects multiple times.
-+
-Default on JGit is 10 MiB on all platforms.  You probably do not
-need to adjust this value.
-+
-Common unit suffixes of 'k', 'm', or 'g' are supported.
-
-core.packedGitOpenFiles::
-+
-Maximum number of pack files to have open at once.  A pack file
-must be opened in order for any of its data to be available in
-a cached window.
-+
-If you increase this to a larger setting you may need to also adjust
-the ulimit on file descriptors for the host JVM, as Gerrit needs
-additional file descriptors available for network sockets and other
-repository data manipulation.
-+
-Default on JGit is 128 file descriptors on all platforms.
-
-core.packedGitMmap::
-+
-When true, JGit will use `mmap()` rather than `malloc()+read()`
-to load data from pack files.  The use of mmap can be problematic
-on some JVMs as the garbage collector must deduce that a memory
-mapped segment is no longer in use before a call to `munmap()`
-can be made by the JVM native code.
-+
-In server applications (such as Gerrit) that need to access many
-pack files, setting this to true risks artifically running out
-of virtual address space, as the garbage collector cannot reclaim
-unused mapped spaces fast enough.
-+
-Default on JGit is false. Although potentially slower, it yields
-much more predictable behavior.
-
 Section cache[[section_cache]]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -206,6 +137,90 @@ This cache is based off the `account_ssh_keys` table and the
 modified directly, this cache should be flushed.
 
 See also link:cmd-flush-caches.html[gerrit flush-caches].
+
+Section contactstore
+~~~~~~~~~~~~~~~~~~~~
+
+contactstore.url::
++
+URL of the web based contact store Gerrit will send any offline
+contact information to when it collects the data from users as part
+of a contributor agreement.
++
+See link:config-contact.html[Contact Information].
+
+contactstore.appsec::
++
+Shared secret of the web based contact store.
+
+Section core
+~~~~~~~~~~~~
+
+core.packedGitWindowSize::
++
+Number of bytes of a pack file to load into memory in a single
+read operation.  This is the "page size" of the JGit buffer cache,
+used for all pack access operations.  All disk IO occurs as single
+window reads.  Setting this too large may cause the process to load
+more data than is required; setting this too small may increase
+the frequency of `read()` system calls.
++
+Default on JGit is 8 KiB on all platforms.
++
+Common unit suffixes of 'k', 'm', or 'g' are supported.
+
+core.packedGitLimit::
++
+Maximum number of bytes to load and cache in memory from pack files.
+If JGit needs to access more than this many bytes it will unload less
+frequently used windows to reclaim memory space within the process.
+As this buffer must be shared with the rest of the JVM heap, it
+should be a fraction of the total memory available.
++
+Default on JGit is 10 MiB on all platforms.
++
+Common unit suffixes of 'k', 'm', or 'g' are supported.
+
+core.deltaBaseCacheLimit::
++
+Maximum number of bytes to reserve for caching base objects
+that multiple deltafied objects reference.  By storing the entire
+decompressed base object in a cache Git is able to avoid unpacking
+and decompressing frequently used base objects multiple times.
++
+Default on JGit is 10 MiB on all platforms.  You probably do not
+need to adjust this value.
++
+Common unit suffixes of 'k', 'm', or 'g' are supported.
+
+core.packedGitOpenFiles::
++
+Maximum number of pack files to have open at once.  A pack file
+must be opened in order for any of its data to be available in
+a cached window.
++
+If you increase this to a larger setting you may need to also adjust
+the ulimit on file descriptors for the host JVM, as Gerrit needs
+additional file descriptors available for network sockets and other
+repository data manipulation.
++
+Default on JGit is 128 file descriptors on all platforms.
+
+core.packedGitMmap::
++
+When true, JGit will use `mmap()` rather than `malloc()+read()`
+to load data from pack files.  The use of mmap can be problematic
+on some JVMs as the garbage collector must deduce that a memory
+mapped segment is no longer in use before a call to `munmap()`
+can be made by the JVM native code.
++
+In server applications (such as Gerrit) that need to access many
+pack files, setting this to true risks artifically running out
+of virtual address space, as the garbage collector cannot reclaim
+unused mapped spaces fast enough.
++
+Default on JGit is false. Although potentially slower, it yields
+much more predictable behavior.
 
 Section sshd
 ~~~~~~~~~~~~
@@ -393,14 +408,6 @@ If enabled, the admin must also insert one or more rows into
 more agreements. 
 +
 By default this is `N` (no agreements are used).
-
-contact_store_url, contact_store_appsec::
-+
-URL and shared secret of the web based contact store Gerrit will
-send any offline contact information to when it collects the data
-from users as part of a contributor agreement.
-+
-* link:config-contact.html[Contact Information]
 
 login_type::
 +

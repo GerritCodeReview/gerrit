@@ -8,8 +8,8 @@ another server, typically at a different location, to make it more
 difficult for an attacker to obtain.
 
 This feature is optional.  If the crypto APIs aren't installed
-and the `contact_store_url` column in `system_config` is left
-NULL, Gerrit will not collect contact information from users.
+and the `contactstore.url` setting in `gerrit.config` is not set,
+Gerrit will not collect contact information from users.
 
 
 Setup
@@ -60,7 +60,7 @@ you can easily copy-and-paste the text.  Gerrit can read both the
 armored and unarmored formats.
 
 ====
-  gpg --export --armor KEYEMAIL >$site_config/contact_information.pub
+  gpg --export --armor KEYEMAIL >$site_path/contact_information.pub
 ====
 
 Consider storing the private key with some sort of key escrow
@@ -75,9 +75,14 @@ gerrit-contactstore project.
 
 * link:http://android.git.kernel.org/?p=tools/gerrit-contactstore.git[gerrit-contactstore]
 
-Configure the `system_config` table with the contact store's URL
-(in field `contact_store_url`), and if needed, APPSEC value (in
-field `contact_store_appsec`).
+Configure `'$site_path'/gerrit.config` with the contact store's
+URL (in `contactstore.url`), and if needed, APPSEC value (in
+`contactstore.appsec`):
+
+====
+  git config --file=$site_path/gerrit.config appsec.url https://...
+  git config --file=$site_path/gerrit.config appsec.appsec sekret
+====
 
 
 Contact Store Protocol
@@ -86,16 +91,16 @@ Contact Store Protocol
 To implement a new contact store, the following details are useful.
 
 Gerrit connects to the contact store by sending a standard
-`application/x-www-form-urlencoded` within an HTTP POST request sent
-to the store URL (the exact URL that is in `contact_store_url` in the
-`system_config` table), with the following form fields in the body:
+`application/x-www-form-urlencoded` within an HTTP POST request
+sent to the store URL (the exact URL that is in contactstore.url)
+with the following form fields in the body:
 
 * APPSEC
 +
 A shared secret "password" that should be known only to Gerrit
 and the contact store.  The contact store should test this value to
 deter spamming of the contact store by outside parties.  Gerrit reads
-this from `system_config` in the `contact_store_appsec` field.
+this from contactstore.appsec.
 
 * account_id
 +

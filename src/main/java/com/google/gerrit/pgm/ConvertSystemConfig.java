@@ -63,6 +63,7 @@ public class ConvertSystemConfig {
   private static void export(RepositoryConfig config, ResultSet rs)
       throws SQLException {
     sshd(config, rs);
+    contactstore(config, rs);
   }
 
   private static void sshd(RepositoryConfig config, ResultSet rs)
@@ -73,6 +74,12 @@ public class ConvertSystemConfig {
     } else {
       config.setString("sshd", null, "listenaddress", "*:" + port);
     }
+  }
+
+  private static void contactstore(RepositoryConfig config, ResultSet rs)
+      throws SQLException {
+    copy(config, "contactstore", "url", rs, "contact_store_url");
+    copy(config, "contactstore", "appsec", rs, "contact_store_appsec");
   }
 
   private static void copy(RepositoryConfig config, String section, String key,

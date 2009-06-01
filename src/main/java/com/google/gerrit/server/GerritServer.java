@@ -179,6 +179,7 @@ public class GerritServer {
 
   private final Database<ReviewDb> db;
   private final RepositoryConfig gerritConfigFile;
+  private final int sessionAge;
   private SystemConfig sConfig;
   private final SignedToken xsrf;
   private final SignedToken account;
@@ -205,17 +206,18 @@ public class GerritServer {
       throw new OrmException("Cannot read " + cfgLoc.getAbsolutePath(), e);
     }
     reconfigureWindowCache();
+    sessionAge = gerritConfigFile.getInt("auth", "maxsessionage", 12 * 60) * 60;
 
-    xsrf = new SignedToken(sConfig.maxSessionAge, sConfig.xsrfPrivateKey);
+    xsrf = new SignedToken(getSessionAge(), sConfig.xsrfPrivateKey);
 
     final int accountCookieAge;
-    switch (sConfig.getLoginType()) {
+    switch (getLoginType()) {
       case HTTP:
         accountCookieAge = -1; // expire when the browser closes
         break;
       case OPENID:
       default:
-        accountCookieAge = sConfig.maxSessionAge;
+        accountCookieAge = getSessionAge();
         break;
     }
     account = new SignedToken(accountCookieAge, sConfig.accountPrivateKey);
@@ -251,7 +253,7 @@ public class GerritServer {
     configureDiskStore(mgrCfg);
     configureDefaultCache(mgrCfg);
 
-    if (sConfig.getLoginType() == LoginType.OPENID) {
+    if (getLoginType() == LoginType.OPENID) {
       final CacheConfiguration c;
       c = configureNamedCache(mgrCfg, "openid", false, 5);
       c.setTimeToLiveSeconds(c.getTimeToIdleSeconds());
@@ -434,13 +436,11 @@ public class GerritServer {
     c.accountGroups().insert(Collections.singleton(registered));
 
     final SystemConfig s = SystemConfig.create();
-    s.maxSessionAge = 12 * 60 * 60 /* seconds */;
     s.xsrfPrivateKey = SignedToken.generateRandomKey();
     s.accountPrivateKey = SignedToken.generateRandomKey();
     s.adminGroupId = admin.getId();
     s.anonymousGroupId = anonymous.getId();
     s.registeredGroupId = registered.getId();
-    s.setLoginType(SystemConfig.LoginType.OPENID);
     c.systemConfig().insert(Collections.singleton(s));
 
     // By default with OpenID trust any http:// or https:// provider
@@ -664,11 +664,12 @@ public class GerritServer {
   private void loadGerritConfig(final ReviewDb db) throws OrmException {
     final GerritConfig r = new GerritConfig();
     r.setCanonicalUrl(getCanonicalURL());
-    r.setUseContributorAgreements(sConfig.useContributorAgreements);
+    r.setUseContributorAgreements(getGerritConfig().getBoolean("auth",
+        "contributoragreements", false));
     r.setGitDaemonUrl(sConfig.gitDaemonUrl);
     r.setUseRepoDownload(sConfig.useRepoDownload);
     r.setUseContactInfo(getContactStoreURL() != null);
-    r.setLoginType(sConfig.getLoginType());
+    r.setLoginType(getLoginType());
     if (sConfig.gitwebUrl != null) {
       r.setGitwebLink(new GitwebLink(sConfig.gitwebUrl));
     }
@@ -727,7 +728,7 @@ public class GerritServer {
 
   /** Time (in seconds) that user sessions stay "signed in". */
   public int getSessionAge() {
-    return sConfig.maxSessionAge;
+    return sessionAge;
   }
 
   /** Get the signature support used to protect against XSRF attacks. */
@@ -745,12 +746,25 @@ public class GerritServer {
     return emailReg;
   }
 
+  private SystemConfig.LoginType getLoginType() {
+    String type = getGerritConfig().getString("auth", null, "type");
+    if (type == null) {
+      return SystemConfig.LoginType.OPENID;
+    }
+    for (SystemConfig.LoginType t : SystemConfig.LoginType.values()) {
+      if (type.equalsIgnoreCase(t.name())) {
+        return t;
+      }
+    }
+    throw new IllegalStateException("Unsupported auth.type: " + type);
+  }
+
   public String getLoginHttpHeader() {
-    return sConfig.loginHttpHeader;
+    return getGerritConfig().getString("auth", null, "httpheader");
   }
 
   public String getEmailFormat() {
-    return sConfig.emailFormat;
+    return getGerritConfig().getString("auth", null, "emailformat");
   }
 
   public String getContactStoreURL() {
@@ -844,6 +858,7 @@ public class GerritServer {
   }
 
   public boolean isAllowGoogleAccountUpgrade() {
-    return sConfig.allowGoogleAccountUpgrade;
+    return getGerritConfig().getBoolean("auth", "allowgoogleaccountupgrade",
+        false);
   }
 }

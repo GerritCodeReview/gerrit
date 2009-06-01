@@ -65,6 +65,7 @@ public class ConvertSystemConfig {
     sshd(config, rs);
     contactstore(config, rs);
     user(config, rs);
+    auth(config, rs);
   }
 
   private static void sshd(RepositoryConfig config, ResultSet rs)
@@ -89,11 +90,40 @@ public class ConvertSystemConfig {
     copy(config, "user", "email", rs, "gerrit_git_email");
   }
 
+  private static void auth(RepositoryConfig config, ResultSet rs)
+      throws SQLException {
+    copy(config, "auth", "type", rs, "login_type");
+    copy(config, "auth", "httpheader", rs, "login_http_header");
+    copy(config, "auth", "emailformat", rs, "email_format");
+
+    copyBool(config, "auth", "allowgoogleaccountupgrade", rs,
+        "allow_google_account_upgrade");
+    copyBool(config, "auth", "contributoragreements", rs,
+        "use_contributor_agreements");
+
+    final int maxSessionAge = rs.getInt("max_session_age");
+    if (maxSessionAge == 43200) {
+      config.unsetString("auth", null, "maxsessionage");
+    } else {
+      config.setInt("auth", null, "maxsessionage", maxSessionAge / 60);
+    }
+  }
+
   private static void copy(RepositoryConfig config, String section, String key,
       ResultSet rs, String colName) throws SQLException {
     final String value = rs.getString(colName);
     if (value != null) {
       config.setString(section, null, key, value);
+    } else {
+      config.unsetString(section, null, key);
+    }
+  }
+
+  private static void copyBool(RepositoryConfig config, String section,
+      String key, ResultSet rs, String colName) throws SQLException {
+    final String value = rs.getString(colName);
+    if ("Y".equals(value)) {
+      config.setBoolean(section, null, key, true);
     } else {
       config.unsetString(section, null, key);
     }

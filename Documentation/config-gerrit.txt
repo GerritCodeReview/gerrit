@@ -24,6 +24,93 @@ Sample `gerrit.config`:
 	diskbuffer = 10 m
 ----
 
+Section auth
+~~~~~~~~~~~~
+
+See also link:config-sso.html[SSO configuration].
+
+auth.type::
++
+Type of user authentication employed by Gerrit.  This setting has
+two supported values:
++
+* `OpenID`
++
+The default setting.  Gerrit uses any valid OpenID
+provider chosen by the end-user.  For more information see
+http://openid.net/[openid.net]
++
+* `HTTP`
++
+Gerrit relies upon data in the HTTP request, such as the HTTP basic
+authentication, or some types of commerical single-sign-on solutions.
+
++
+By default, OpenID.
+
+auth.httpHeader::
++
+HTTP header to trust the username from, or unset to select HTTP basic
+or digest authentication.  Only used if `auth.type` was set to HTTP.
+
+auth.emailFormat::
++
+Optional format string to construct user email addresses out of
+user login names.  Only used if auth.type is HTTP.
++
+This value can be set to a format string, where `\{0\}` is replaced
+with the login name.  E.g. "\{0\}+gerrit@example.com" with a user
+login name of "foo" will produce "foo+gerrit@example.com" during
+the first time user "foo" registers.
+
+auth.contributorAgreements::
++
+Controls whether or not the contributor agreement features are
+enabled for the Gerrit site.  If enabled a user must complete a
+contributor agreement before they can upload changes.
++
+If enabled, the admin must also insert one or more rows into
+`contributor_agreements` and create agreement files under
+`'$site_path'/static`, so users can actually complete one or
+more agreements. 
++
+By default this is false (no agreements are used).
+
+auth.maxSessionAge::
++
+Maximum number of minutes that an XSRF token or a session cookie
+is permitted to be valid for.
++
+By default this is 720 minutes (12 hours).  Any browser session
+which has not been used in this time span will ask the user to
+login again.
++
+Administrators may increase (or decrease) this setting to control
+how long an idle session is allowed to remain alive.
+
+auth.allowGoogleAccountUpgrade::
++
+Allow old Gerrit1 users to seamlessly upgrade from Google Accounts
+on Google App Engine to OpenID authentication.  This should only be
+set to true on a Gerrit2 database that was imported from a Gerrit1
+database run on Google App Engine.  Having it enabled incurs an
+extra database query when new Google Account users register with
+the Gerrit2 server.
++
+Its strongly encouraged to unset this once the following query
+drops to 0, or close to 0:
++
+====
+  SELECT COUNT(*) FROM account_external_ids e
+  WHERE e.external_id LIKE 'Google Account %'
+  AND NOT EXISTS (SELECT 1
+    FROM account_external_ids o
+    WHERE o.account_id = e.account_id
+	AND o.external_id LIKE '%.google.com%/id?id=%');
+====
++
+By default, unset/false.
+
 Section cache[[section_cache]]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -328,18 +415,6 @@ to be restarted before it will use the new values.
 Configurable Parameters
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-max_session_age::
-+
-Maximum number of seconds that an XSRF token or a session cookie
-is permitted to be valid for.
-+
-By default this is 43200 seconds (12 hours).  Any browser session
-which has not been used in this time span will ask the user to
-login again.
-+
-Administrators may increase (or decrease) this setting to control
-how long an idle session is allowed to remain alive.
-
 site_path::
 +
 Local filesystem directory holding the site customization assets.
@@ -398,76 +473,6 @@ back to itself.
 Setting this is highly recommended, as its necessary for the upload
 code invoked by "git push" or "repo upload" to output hyperlinks
 to the newly uploaded changes.
-
-use_contributor_agreements::
-+
-Controls whether or not the contributor agreement features are
-enabled for the Gerrit site.  If enabled a user must complete a
-contributor agreement before they can upload changes.
-+
-If enabled, the admin must also insert one or more rows into
-`contributor_agreements` and create agreement files under
-`'$site_path'/static`, so users can actually complete one or
-more agreements. 
-+
-By default this is `N` (no agreements are used).
-
-login_type::
-+
-Type of user authentication employed by Gerrit.  This setting has
-two supported values:
-+
-* `OPENID`
-+
-The default setting.  Gerrit uses any valid OpenID
-provider chosen by the end-user.  For more information see
-http://openid.net/[openid.net]
-+
-* `HTTP`
-+
-Gerrit relies upon data in the HTTP request, such as the HTTP basic
-authentication, or some types of commerical single-sign-on solutions.
-For more information see link:config-sso.html[SSO configuration].
-
-login_http_header::
-+
-HTTP header to trust the username from, or NULL to select HTTP
-basic or digest authentication.  Only used if `login_type = HTTP`.
-+
-For more information see link:config-sso.html[SSO configuration].
-
-email_format::
-+
-Optional format string to construct user email addresses out of
-user login names.  Only used if `login_type = HTTP`.
-+
-This value can be set to a format string, where `\{0\}` is replaced
-with the login name.  E.g. "\{0\}+gerrit@example.com" with a user
-login name of "foo" will produce "foo+gerrit@example.com" during
-the first time user "foo" registers.
-+
-For more information see link:config-sso.html[SSO configuration].
-
-allow_google_account_upgrade::
-+
-Allow old Gerrit1 users to seamlessly upgrade from Google Accounts
-on Google App Engine to OpenID authentication.  This should only be
-set to true on a Gerrit2 database that was imported from a Gerrit1
-database run on Google App Engine.  Having it enabled incurs an
-extra database query when new Google Account users register with
-the Gerrit2 server.
-+
-Its strongly encouraged to set this to 'N' once the following
-query drops to 0, or close to 0:
-+
-====
-  SELECT COUNT(*) FROM account_external_ids e
-  WHERE e.external_id LIKE 'Google Account %'
-  AND NOT EXISTS (SELECT 1
-    FROM account_external_ids o
-    WHERE o.account_id = e.account_id
-	AND o.external_id LIKE '%.google.com%/id?id=%');
-====
 
 
 Not User Serviceable

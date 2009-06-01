@@ -75,10 +75,6 @@ public final class SystemConfig {
   @Column(length = 36)
   public transient String accountPrivateKey;
 
-  /** Maximum web session age, in seconds. */
-  @Column
-  public transient int maxSessionAge;
-
   /**
    * Local filesystem location of header/footer/CSS configuration files
    * 
@@ -107,33 +103,6 @@ public final class SystemConfig {
   @Column(notNull = false)
   public transient String gitBasePath;
 
-  /** Type of login access used by this instance. */
-  @Column(length = 16)
-  protected String loginType;
-
-  /** HTTP header to use for the user identity if loginType is HTTP. */
-  @Column(length = 30, notNull = false)
-  public transient String loginHttpHeader;
-
-  /** Format to generate email address from a login names */
-  @Column(length = 30, notNull = false)
-  public transient String emailFormat;
-
-  /**
-   * Can user accounts from Gerrit1 upgrade to use OpenID?
-   * <p>
-   * This setting should only be true if this server is an upgraded database
-   * from Gerrit1, and if there are still outstanding accounts which need to be
-   * upgraded to Gerrit2's OpenID authentication scheme. Any other system should
-   * leave this setting false.
-   */
-  @Column
-  public transient boolean allowGoogleAccountUpgrade;
-
-  /** Is a verified {@link AccountAgreement} required to upload changes? */
-  @Column
-  public boolean useContributorAgreements;
-
   /** Should Gerrit advertise 'repo download' for patch sets? */
   @Column
   public boolean useRepoDownload;
@@ -149,14 +118,6 @@ public final class SystemConfig {
   /** Identity of the registered users group, which permits anyone. */
   @Column
   public AccountGroup.Id registeredGroupId;
-
-  public LoginType getLoginType() {
-    return loginType != null ? LoginType.valueOf(loginType) : null;
-  }
-
-  public void setLoginType(final LoginType t) {
-    loginType = t.name();
-  }
 
   protected SystemConfig() {
   }

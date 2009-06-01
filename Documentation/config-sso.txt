@@ -9,16 +9,15 @@ OpenID
 ------
 
 By default a new Gerrit installation relies upon OpenID to perform
-user authentication services.  To enable OpenID, the `system_config`
-table needs `login_type` set to `OPENID`:
+user authentication services.  To enable OpenID, the auth.type
+setting should be `OpenID`:
 
 ====
-  UPDATE system_config SET login_type = 'OPENID';
+  git config --file=$site_path/gerrit.config auth.type OpenID
 ====
 
-As this is the default setting for new installations there is
-nothing required from the site administrator to make use of the
-OpenID authentication services.
+As this is the default setting there is nothing required from the
+site administrator to make use of the OpenID authentication services.
 
 * http://openid.net/[openid.net]
 
@@ -83,23 +82,22 @@ As a result of this assumption, Gerrit can assume that any and
 all requests have already been authenticated.  The "Sign In" and
 "Sign Out" links are therefore not displayed in the web UI.
 
-To enable this form of authentication, update `system_config`:
+To enable this form of authentication:
 
 ====
-  UPDATE system_config
-  SET
-   login_type='HTTP'
-  ,login_http_header=NULL
-  ,email_format='{0}@example.com';
+  git config --file=$site_path/gerrit.config auth.type HTTP
+  git config --file=$site_path/gerrit.config --unset auth.httpHeader
+  git config --file=$site_path/gerrit.config auth.emailFormat '{0}@example.com'
 ====
 
-The `login_type` must always be `HTTP`, indicating the user identity
+The auth.type must always be HTTP, indicating the user identity
 will be obtained from the HTTP authorization data.
 
-The `login_http_header` must always be `NULL`.  If non-null then
-Gerrit won't correctly honor the `Authorization` HTTP header.
+The auth.httpHeader must always be unset.  If set to any value
+(including `Authorization`) then Gerrit won't correctly honor the
+standard `Authorization` HTTP header.
 
-The `email_format` field ('optional') sets the preferred email
+The auth.emailFormat field ('optional') sets the preferred email
 address during first login.  Gerrit will replace `\{0\}` with the
 username, as obtained from the Authorization header.  A format such
 as shown in the example would be typical, to add the domain name
@@ -159,29 +157,27 @@ As a result of this assumption, Gerrit can assume that any and
 all requests have already been authenticated.  The "Sign In" and
 "Sign Out" links are therefore not displayed in the web UI.
 
-To enable this form of authentication, update `system_config`:
+To enable this form of authentication:
 
 ====
-  UPDATE system_config
-  SET
-   login_type='HTTP'
-  ,login_http_header='SM_USER'
-  ,email_format='{0}@example.com';
+  git config --file=$site_path/gerrit.config auth.type HTTP
+  git config --file=$site_path/gerrit.config auth.httpHeader SM_USER
+  git config --file=$site_path/gerrit.config auth.emailFormat '{0}@example.com'
 ====
 
-The `login_type` must always be `HTTP`, indicating the user identity
-will be obtained from an HTTP header.
+The auth.type must always be HTTP, indicating the user identity
+will be obtained from the HTTP authorization data.
 
-The `login_http_header` indicates which HTTP header field the
-Siteminder product has stored the username.  Usually this is
-"SM_USER", but may differ in your environment.  Please refer to
-your organization's single sign-on or security group to ensure the
-setting is correct.
+The auth.httpHeader indicates which HTTP header field the Siteminder
+product has stored the username.  Usually this is "SM_USER", but
+may differ in your environment.  Please refer to your organization's
+single sign-on or security group to ensure the setting is correct.
 
-The `email_format` field ('optional') sets the user's preferred email
-address when they first login.  Gerrit will replace `\{0\}` with the
-username, as supplied by Siteminder.  A format such as shown in the
-example would be typical, to add the domain name of the organization.
+The auth.emailFormat field ('optional') sets the user's preferred
+email address when they first login.  Gerrit will replace `\{0\}`
+with the username, as supplied by Siteminder.  A format such as
+shown in the example would be typical, to add the domain name of
+the organization.
 
 If Apache HTTPd is being used, see the section above to configure
 the `/ssh_info` URL to be available to `repo upload`.

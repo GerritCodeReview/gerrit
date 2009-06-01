@@ -241,6 +241,13 @@ public class GerritServer {
     gerritPersonIdentTemplate = new PersonIdent(sConfig.gerritGitName, email);
     outgoingMail = createOutgoingMail();
 
+    final ReviewDb c = db.open();
+    try {
+      loadGerritConfig(c);
+    } finally {
+      c.close();
+    }
+
     Common.setSchemaFactory(db);
     Common.setProjectCache(new ProjectCache());
     Common.setAccountCache(new AccountCache());
@@ -662,8 +669,6 @@ public class GerritServer {
         throw new OrmException("Unsupported schema version " + sVer.versionNbr
             + "; expected schema version " + ReviewDb.VERSION);
       }
-
-      loadGerritConfig(c);
     } finally {
       c.close();
     }

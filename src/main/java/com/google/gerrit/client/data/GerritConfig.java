@@ -29,6 +29,7 @@ public class GerritConfig implements Cloneable {
   protected List<ApprovalType> actionTypes;
   protected boolean useContributorAgreements;
   protected boolean useContactInfo;
+  protected boolean allowRegisterNewEmail;
   protected SystemConfig.LoginType loginType;
   protected boolean useRepoDownload;
   protected String gitDaemonUrl;
@@ -108,6 +109,14 @@ public class GerritConfig implements Cloneable {
 
   public void setUseContactInfo(final boolean r) {
     useContactInfo = r;
+  }
+
+  public boolean isAllowRegisterNewEmail() {
+    return allowRegisterNewEmail;
+  }
+
+  public void setAllowRegisterNewEmail(final boolean r) {
+    allowRegisterNewEmail = r;
   }
 
   public ApprovalType getApprovalType(final ApprovalCategory.Id id) {

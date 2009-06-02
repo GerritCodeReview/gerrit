@@ -112,6 +112,12 @@ public abstract class OutgoingEmail {
    * @throws EmailException
    */
   public void send() throws EmailException {
+    if (!server.isOutgoingMailEnabled()) {
+      // Server has explicitly disabled email sending.
+      //
+      return;
+    }
+
     init();
     format();
     if (shouldSendMessage()) {

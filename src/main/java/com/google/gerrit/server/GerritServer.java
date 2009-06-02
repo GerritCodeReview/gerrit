@@ -678,6 +678,7 @@ public class GerritServer {
     r.setUseRepoDownload(getGerritConfig().getBoolean("repo", null,
         "showdownloadcommand", false));
     r.setUseContactInfo(getContactStoreURL() != null);
+    r.setAllowRegisterNewEmail(isOutgoingMailEnabled());
     r.setLoginType(getLoginType());
 
     final String gitwebUrl = getGerritConfig().getString("gitweb", null, "url");
@@ -693,7 +694,15 @@ public class GerritServer {
     Common.setGerritConfig(r);
   }
 
+  public boolean isOutgoingMailEnabled() {
+    return getGerritConfig().getBoolean("sendemail", null, "enable", true);
+  }
+
   public SMTPClient createOutgoingMail() throws EmailException {
+    if (!isOutgoingMailEnabled()) {
+      throw new EmailException("Sending email is disabled");
+    }
+
     final RepositoryConfig cfg = getGerritConfig();
     String smtpHost = cfg.getString("sendemail", null, "smtpserver");
     if (smtpHost == null) {

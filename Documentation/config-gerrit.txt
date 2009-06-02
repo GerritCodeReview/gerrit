@@ -372,6 +372,13 @@ By default, false, as not all instances will deploy repo.
 Section sendemail
 ~~~~~~~~~~~~~~~~~
 
+sendemail.enable::
++
+If false Gerrit will not send email messages, for any reason,
+and all other properties of section sendemail are ignored.
++
+By default, true, allowing notifications to be sent.
+
 sendemail.smtpServer::
 +
 Hostname (or IP address) of a SMTP server that will relay

@@ -137,7 +137,9 @@ class ContactPanel extends Composite {
     });
     final FlowPanel emailLine = new FlowPanel();
     emailLine.add(emailPick);
-    emailLine.add(registerNewEmail);
+    if (Common.getGerritConfig().isAllowRegisterNewEmail()) {
+      emailLine.add(registerNewEmail);
+    }
 
     row(infoPlainText, 0, Util.C.contactFieldFullName(), nameTxt);
     row(infoPlainText, 1, Util.C.contactFieldEmail(), emailLine);
@@ -261,8 +263,10 @@ class ContactPanel extends Composite {
       if (emailPick.getItemCount() > 0) {
         emailPick.setVisible(true);
         emailPick.setEnabled(true);
-        emailPick.addItem("... " + Util.C.buttonOpenRegisterNewEmail() + "  ",
-            Util.C.buttonOpenRegisterNewEmail());
+        if (Common.getGerritConfig().isAllowRegisterNewEmail()) {
+          final String t = Util.C.buttonOpenRegisterNewEmail();
+          emailPick.addItem("... " + t + "  ", t);
+        }
       } else {
         emailPick.setVisible(false);
       }
@@ -299,6 +303,10 @@ class ContactPanel extends Composite {
   }
 
   private void doRegisterNewEmail() {
+    if (!Common.getGerritConfig().isAllowRegisterNewEmail()) {
+      return;
+    }
+
     final AutoCenterDialogBox box = new AutoCenterDialogBox(true, true);
     final VerticalPanel body = new VerticalPanel();
 

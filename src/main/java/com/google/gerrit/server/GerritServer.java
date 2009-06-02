@@ -705,6 +705,7 @@ public class GerritServer {
     String smtpPass = cfg.getString("sendemail", null, "smtpuserpass");
 
     final AuthSMTPClient client = new AuthSMTPClient("UTF-8");
+    client.setAllowRcpt(cfg.getStringList("sendemail", null, "allowrcpt"));
     try {
       client.connect(smtpHost, smtpPort);
       if (!SMTPReply.isPositiveCompletion(client.getReplyCode())) {

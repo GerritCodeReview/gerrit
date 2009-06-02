@@ -393,6 +393,16 @@ sendemail.smtpPass::
 +
 Password for the account named by sendemail.smtpUser.
 
+sendemail.allowrcpt::
++
+If present, each value adds one entry to the whitelist of email
+addresses that Gerrit can send email to.  If set to a complete
+email address, that one address is added to the white list.
+If set to a domain name, any address at that domain can receive
+email from Gerrit.
++
+By default, unset, permitting delivery to any email address.
+
 Section sshd
 ~~~~~~~~~~~~
 

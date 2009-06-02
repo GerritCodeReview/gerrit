@@ -23,6 +23,7 @@ import org.apache.mina.core.session.IoSession;
 import org.apache.mina.transport.socket.SocketSessionConfig;
 import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 import org.apache.sshd.SshServer;
+import org.apache.sshd.common.Cipher;
 import org.apache.sshd.common.Compression;
 import org.apache.sshd.common.KeyExchange;
 import org.apache.sshd.common.KeyPairProvider;
@@ -66,6 +67,7 @@ import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.security.InvalidKeyException;
 import java.security.KeyPair;
 import java.security.PublicKey;
 import java.util.ArrayList;
@@ -73,6 +75,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -382,11 +385,34 @@ public class GerritSshDaemon extends SshServer {
 
   @SuppressWarnings("unchecked")
   private void initCiphers(final RepositoryConfig cfg) {
-    setCipherFactories(filter(cfg, "cipher", new AES128CBC.Factory(),
-        new TripleDESCBC.Factory(), new BlowfishCBC.Factory(),
-        new AES192CBC.Factory(), new AES256CBC.Factory(),
+    final List<NamedFactory<Cipher>> a = new LinkedList<NamedFactory<Cipher>>();
+    a.add(new AES128CBC.Factory());
+    a.add(new TripleDESCBC.Factory());
+    a.add(new BlowfishCBC.Factory());
+    a.add(new AES192CBC.Factory());
+    a.add(new AES256CBC.Factory());
 
-        null, new CipherNone.Factory()));
+    for (Iterator<NamedFactory<Cipher>> i = a.iterator(); i.hasNext();) {
+      final NamedFactory<Cipher> f = i.next();
+      try {
+        final Cipher c = f.create();
+        final byte[] key = new byte[c.getBlockSize()];
+        final byte[] iv = new byte[c.getIVSize()];
+        c.init(Cipher.Mode.Encrypt, key, iv);
+      } catch (InvalidKeyException e) {
+        log.warn("Disabling cipher " + f.getName() + ": " + e.getMessage()
+            + "; try installing unlimited cryptography extension");
+        i.remove();
+      } catch (Exception e) {
+        log.warn("Disabling cipher " + f.getName() + ": " + e.getMessage());
+        i.remove();
+      }
+    }
+
+    a.add(null);
+    a.add(new CipherNone.Factory());
+    setCipherFactories(filter(cfg, "cipher", a.toArray(new NamedFactory[a
+        .size()])));
   }
 
   @SuppressWarnings("unchecked")

@@ -111,8 +111,6 @@ class CommentEditorPanel extends Composite implements ClickHandler {
               return;
 
             case 'd':
-            case KeyCodes.KEY_BACKSPACE:
-            case KeyCodes.KEY_DELETE:
               event.preventDefault();
               if (isNew()) {
                 onDiscard();

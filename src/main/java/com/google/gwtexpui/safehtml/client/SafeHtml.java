@@ -71,7 +71,13 @@ public abstract class SafeHtml {
   /** Convert bare http:// and https:// URLs into &lt;a href&gt; tags. */
   public SafeHtml linkify() {
     return replaceAll(
-        "(https?://[a-zA-Z0-9$_.+!*',%;:@&=?#/()-]{1,}[a-zA-Z0-9$_.+!*',%;:@&=?#/-])",
+        "(https?://" +
+          "[a-zA-Z0-9$_.+!*',%;:@&=?#/-]{2,}" +
+          "([(]" +
+          "[a-zA-Z0-9$_.+!*',%;:@&=?#/-]*" +
+          "[)])*" +
+          "[a-zA-Z0-9$_.+!*',%;:@&=?#/-]*" +
+        ")",
         "<a href=\"$1\">$1</a>");
   }
 

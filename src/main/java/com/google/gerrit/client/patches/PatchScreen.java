@@ -15,6 +15,7 @@
 package com.google.gerrit.client.patches;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.Link;
 import com.google.gerrit.client.changes.PatchTable;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.data.PatchScript;
@@ -26,6 +27,7 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.NoDifferencesException;
 import com.google.gerrit.client.ui.ChangeLink;
 import com.google.gerrit.client.ui.Screen;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
@@ -79,6 +81,7 @@ public abstract class PatchScreen extends Screen {
 
   private DisclosurePanel historyPanel;
   private HistoryTable historyTable;
+  private FlowPanel contentPanel;
   private Label noDifference;
   private AbstractPatchContentTable contentTable;
 
@@ -143,11 +146,11 @@ public abstract class PatchScreen extends Screen {
     contentTable.fileList = fileList;
 
     add(createNextPrevLinks());
-    final FlowPanel fp = new FlowPanel();
-    fp.setStyleName("gerrit-SideBySideScreen-SideBySideTable");
-    fp.add(noDifference);
-    fp.add(contentTable);
-    add(fp);
+    contentPanel = new FlowPanel();
+    contentPanel.setStyleName("gerrit-SideBySideScreen-SideBySideTable");
+    contentPanel.add(noDifference);
+    contentPanel.add(contentTable);
+    add(contentPanel);
     add(createNextPrevLinks());
   }
 
@@ -253,6 +256,19 @@ public abstract class PatchScreen extends Screen {
         historyPanel.setVisible(true);
       } else {
         historyPanel.setVisible(false);
+      }
+
+      if (contentTable instanceof SideBySideTable
+          && script.getEdits().isEmpty() && !script.getPatchHeader().isEmpty()) {
+        // User asked for SideBySide (or a link guessed, wrong) and we can't
+        // show a binary or pure-rename change there accurately. Switch to
+        // the unified view instead.
+        //
+        contentTable.removeFromParent();
+        contentTable = new UnifiedDiffTable();
+        contentTable.fileList = fileList;
+        contentPanel.add(contentTable);
+        History.newItem(Link.toPatchUnified(patchKey), false);
       }
 
       contentTable.display(patchKey, idSideA, idSideB, script);

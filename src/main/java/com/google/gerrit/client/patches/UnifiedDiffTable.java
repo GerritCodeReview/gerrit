@@ -119,7 +119,7 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
       }
     }
     resetHtml(nc);
-    onlyOneHunk = script.getEdits().size() == 1;
+    initScript(script);
 
     int row = script.getPatchHeader().size();
     final CellFormatter fmt = table.getCellFormatter();

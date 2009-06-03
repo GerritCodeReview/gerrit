@@ -26,6 +26,7 @@ import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.data.AccountInfoCache;
 import com.google.gerrit.client.data.PatchScript;
 import com.google.gerrit.client.data.PatchSetDetail;
+import com.google.gerrit.client.data.SparseFileContent;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
@@ -172,6 +173,16 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
   @Override
   protected Object getRowItemKey(final Object item) {
     return null;
+  }
+
+  protected void initScript(final PatchScript script) {
+    if (script.getEdits().size() == 1) {
+      final SparseFileContent a = script.getA();
+      final SparseFileContent b = script.getB();
+      onlyOneHunk = a.size() == 0 || b.size() == 0;
+    } else {
+      onlyOneHunk = false;
+    }
   }
 
   private boolean isChunk(final int row) {

@@ -90,16 +90,17 @@ abstract class EmailHeader {
       boolean first = true;
       for (final Address addr : list) {
         java.lang.String s = addr.toHeaderString();
-        if (!first && 72 < len + s.length()) {
+        if (first) {
+          first = false;
+        } else if (72 < len + s.length()) {
           w.write(",\r\n\t");
           len = 8;
           first = true;
-        }
-        if (!first) {
+        } else {
           w.write(", ");
-          first = false;
         }
         w.write(s);
+        len += s.length();
       }
     }
   }

@@ -21,7 +21,7 @@ limitations under the License.
   <groupId>gerrit</groupId>
   <artifactId>gerrit</artifactId>
   <packaging>war</packaging>
-  <version>2.0.14-SNAPSHOT</version>
+  <version>2.0.13.1</version>
   <name>gerrit</name>
   <description>Gerrit - Web Based Code Review</description>
   <url>http://android.git.kernel.org/?p=tools/gerrit.git</url>

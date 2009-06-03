@@ -145,17 +145,17 @@ public class SystemInfoServiceImpl implements SystemInfoService {
         GerritJsonServlet.getCurrentCall().getHttpServletRequest();
 
     InetSocketAddress addr = GerritSshDaemon.getAddress();
-    if (addr.getAddress() != null && addr.getAddress().isAnyLocalAddress()) {
-      final InetAddress me;
+    InetAddress ip = addr.getAddress();
+    if (ip.isAnyLocalAddress()) {
       try {
-        me = InetAddress.getByName(req.getLocalAddr());
+        ip = InetAddress.getByName(req.getServerName());
       } catch (UnknownHostException e) {
-        throw new RuntimeException("Unexpected uknown host", e);
+        throw new RuntimeException(e);
       }
-      addr = new InetSocketAddress(me, addr.getPort());
+      addr = new InetSocketAddress(ip, addr.getPort());
     }
 
-    if (addr.getPort() == 22 && !(addr.getAddress() instanceof Inet6Address)) {
+    if (addr.getPort() == 22 && !(ip instanceof Inet6Address)) {
       return addr.getHostName();
     }
     return "[" + addr.getHostName() + "]:" + addr.getPort();

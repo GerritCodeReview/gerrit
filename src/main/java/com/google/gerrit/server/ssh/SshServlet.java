@@ -85,7 +85,7 @@ public class SshServlet extends HttpServlet {
       final InetAddress ip = addr.getAddress();
       String host;
       if (ip != null && ip.isAnyLocalAddress()) {
-        host = req.getLocalAddr();
+        host = req.getServerName();
       } else if (ip instanceof Inet6Address) {
         host = "[" + addr.getHostName() + "]";
       } else {

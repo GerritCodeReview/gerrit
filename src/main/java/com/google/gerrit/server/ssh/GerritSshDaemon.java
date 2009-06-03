@@ -159,7 +159,7 @@ public class GerritSshDaemon extends SshServer {
       if (hostAddr.isAnyLocalAddress()) {
         host = "*";
       } else {
-        host = "[" + hostAddr.getCanonicalHostName() + "]";
+        host = "[" + hostAddr.getHostName() + "]";
       }
       return host + ":" + inetAddr.getPort();
     }
@@ -204,15 +204,7 @@ public class GerritSshDaemon extends SshServer {
       if (inetAddr.getAddress().isLoopbackAddress()) {
         continue;
       }
-      if (inetAddr.getAddress().isAnyLocalAddress()) {
-        return inetAddr;
-      }
-
-      String host = inetAddr.getAddress().getCanonicalHostName();
-      if (host.equals(inetAddr.getAddress().getHostAddress())) {
-        return inetAddr;
-      }
-      return InetSocketAddress.createUnresolved(host, inetAddr.getPort());
+      return inetAddr;
     }
     return null;
   }

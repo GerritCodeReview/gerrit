@@ -61,7 +61,7 @@ public class SystemInfoServiceImpl implements SystemInfoService {
           String host;
           if (ip != null && ip.isAnyLocalAddress()) {
             host = "";
-          } else if (ip instanceof Inet6Address) {
+          } else if (isIPv6(ip)) {
             host = "[" + addr.getHostName() + "]";
           } else {
             host = addr.getHostName();
@@ -74,6 +74,11 @@ public class SystemInfoServiceImpl implements SystemInfoService {
       }
     }
     return cfg;
+  }
+
+  private static boolean isIPv6(final InetAddress ip) {
+    return ip instanceof Inet6Address
+        && ip.getHostName().equals(ip.getHostAddress());
   }
 
   public void loadGerritConfig(final AsyncCallback<GerritConfig> callback) {
@@ -155,7 +160,7 @@ public class SystemInfoServiceImpl implements SystemInfoService {
       addr = new InetSocketAddress(ip, addr.getPort());
     }
 
-    if (addr.getPort() == 22 && !(ip instanceof Inet6Address)) {
+    if (addr.getPort() == 22 && !isIPv6(ip)) {
       return addr.getHostName();
     }
     return "[" + addr.getHostName() + "]:" + addr.getPort();

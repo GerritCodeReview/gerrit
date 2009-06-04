@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAWn///04\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/PatchTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-04T23:00:41Z",
+      "side": 1,
+      "message": "This only works if there is 1 binary file in a change, as the field is set to the last binary file present.\n\nTry change https://review.source.android.com/10067 :-)",
+      "revId": "87c842ff41541e393cbaeb340017a21306279a68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAWn///0o\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/patches/CommentDetail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-04T23:00:41Z",
+      "side": 1,
+      "message": "Why do we need this?  I can\u0027t see anyone calling it.",
+      "revId": "87c842ff41541e393cbaeb340017a21306279a68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAWn///0s\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/patches/UnifiedDiffTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-04T23:00:41Z",
+      "side": 1,
+      "message": "I thought the HTML specs called this align for horizontal and valign for vertical?",
+      "revId": "87c842ff41541e393cbaeb340017a21306279a68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAWn///0w\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/patches/UnifiedDiffTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-04T23:00:41Z",
+      "side": 1,
+      "message": "Please *ALWAYS* display the patch header in the unified diff view.  It shows rename/copy information, file mode, etc. and this may be useful/necessary even on a binary file.",
+      "revId": "87c842ff41541e393cbaeb340017a21306279a68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAWn///1E\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/reviewdb/ReviewDb.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-04T23:00:41Z",
+      "side": 1,
+      "message": "Instead of putting this in the database, what about putting it into gerrit.config.  For example:\n\n  [viewinline]\n    allow \u003d image/png\n    allow \u003d image/gif\n\nYou can get access to it in GerritServer by way of:\n\n  String[] allowed \u003d getGerritConfig().getStringList(\n    \"viewinline\", null, \"allow\");\n\nThough I\u0027m half torn on that.  Its certainly easier for an administrator to modify the set of safe patterns this way, no SQL hacking necessary.  And most of the rest of our configuration has moved to gerrit.config.\n\nWe also need to know that the thing is an image, or a Word or PDF document.  Meaning, should we suggest to the browser that we should show it via an \u003cimg src\u003d\"\"\u003e tag like you do in this change, or should we suggest to the browser to open the content in a new tab/window?\n\nSo perhaps we have:\n\n  [viewinline]\n    allow \u003d image/png\n    allow \u003d image/gif\n\n  [viewtab]\n    allow \u003d application/pdf\n\nBut I really hate the name \"viewtab\".",
+      "revId": "87c842ff41541e393cbaeb340017a21306279a68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAWn///1U\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/reviewdb/SafeFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-04T23:00:41Z",
+      "side": 1,
+      "message": "Missing AOSP copyright header.",
+      "revId": "87c842ff41541e393cbaeb340017a21306279a68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAWn///1Q\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/reviewdb/SafeFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-04T23:00:41Z",
+      "side": 1,
+      "message": "You mean a safe file here.",
+      "revId": "87c842ff41541e393cbaeb340017a21306279a68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAWn///1M\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/reviewdb/SafeFile.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-04T23:00:41Z",
+      "side": 1,
+      "message": "You can\u0027t call this on the browser, its not available.\n\nInstead of doing this and trying to use the database from the browser, how about adding a boolean property to the Patch object that says \"safe to render inline\"?  Then when we send a list of Patch to the browser, the server can set that boolean, based on what it knows from this table?",
+      "revId": "87c842ff41541e393cbaeb340017a21306279a68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAWn///1c\u003d",
+        "filename": "src/main/webapp/WEB-INF/sql/upgrade011_012.sql",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-04T23:00:41Z",
+      "side": 1,
+      "message": "strike the default clause",
+      "revId": "87c842ff41541e393cbaeb340017a21306279a68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAWn///1g\u003d",
+        "filename": "src/main/webapp/WEB-INF/sql/upgrade011_012.sql",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-04T23:00:41Z",
+      "side": 1,
+      "message": "we\u0027re already on 12, you need to go to 13.",
+      "revId": "87c842ff41541e393cbaeb340017a21306279a68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAWn///00\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/PatchTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-04T23:00:41Z",
+      "side": 0,
+      "message": "You are clearly based on an old version of your prior change.  Not sure how that happend; please rebase onto current master.",
+      "revId": "86b5102f54caa80e51a3b8c5ec8c4f5bcb4f6c57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

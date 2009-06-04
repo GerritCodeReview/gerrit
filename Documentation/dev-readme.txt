@@ -63,6 +63,13 @@ going to use, and possibly update properties such as "user" and
 PostgreSQL Setup
 ~~~~~~~~~~~~~~~~
 
+Initialize and start PostgreSQL (where $data is the location of your data):
+
+===
+initdb --locale en_US.UTF-8 -D $data
+postmaster -D $data >/tmp/logfile 2>&1&
+===
+
 Create the JDBC user as a normal user (no superuser access) and
 assign it an encrypted password:
 

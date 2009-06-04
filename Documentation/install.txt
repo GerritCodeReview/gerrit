@@ -182,6 +182,14 @@ any Git repository stored within it.
   git config --file=$site_path/gerrit.config gerrit.basePath /srv/git
 ====
 
+Note: if you get the error "invalid key", you are using an older version
+of git and you should use the following syntax instead:
+
+===
+  mkdir /srv/git
+  git config --file $site_path/gerrit.config gerrit.basePath /srv/git
+===
+
 You may wish to consider also exporting this directory over the
 anonymous git:// protocol, as it is more efficient than Gerrit's
 internal ssh daemon.  See the `git-daemon` documentation for details

@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAWn///10\u003d",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-04T22:33:53Z",
+      "side": 1,
+      "message": "Please indent with two spaces",
+      "revId": "e73acdbcaa826571361fc717503dc226018f2c6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAWn///1w\u003d",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-04T22:33:53Z",
+      "side": 1,
+      "message": "Style nit: Say \"2\u003e\u00261 \u0026\" as its easier to read.",
+      "revId": "e73acdbcaa826571361fc717503dc226018f2c6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAWn///1o\u003d",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-04T22:33:53Z",
+      "side": 1,
+      "message": "Change \"--file\u003d$site\" to \"--file $site\"",
+      "revId": "e73acdbcaa826571361fc717503dc226018f2c6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAWn///1s\u003d",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-04T22:33:53Z",
+      "side": 1,
+      "message": "Actually, new git accepts the same as old git.  Lets strike this block and just remove the \u003d above.",
+      "revId": "e73acdbcaa826571361fc717503dc226018f2c6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

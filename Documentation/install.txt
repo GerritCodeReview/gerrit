@@ -179,7 +179,7 @@ any Git repository stored within it.
 
 ====
   mkdir /srv/git
-  git config --file=$site_path/gerrit.config gerrit.basePath /srv/git
+  git config --file $site_path/gerrit.config gerrit.basePath /srv/git
 ====
 
 You may wish to consider also exporting this directory over the

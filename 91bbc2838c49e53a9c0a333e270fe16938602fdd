@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAW3////o\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-05T16:48:02Z",
+      "side": 1,
+      "message": "Please add to Constants.java/.properties in this package instead of using a string literal here.",
+      "revId": "91bbc2838c49e53a9c0a333e270fe16938602fdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

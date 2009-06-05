@@ -87,6 +87,23 @@
     },
     {
       "key": {
+        "uuid": "AAAAW3///+8\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/reviewdb/ReviewDb.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-05T17:30:46Z",
+      "side": 1,
+      "message": "What about doing the following in gerrit.config:\n\n  [mimetype \"image/gif\"]\n    safe \u003d true\n\n  [mimetype \"image/png\"]\n    safe \u003d true\n\n  [mimetype \"image/jpeg\"]\n    safe \u003d true\n\n  [mimetype \"application/pdf\"]\n    safe \u003d true\n    extensions \u003d pdf\n\n?",
+      "revId": "87c842ff41541e393cbaeb340017a21306279a68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAWn///1U\u003d",
         "filename": "src/main/java/com/google/gerrit/client/reviewdb/SafeFile.java",
         "patchSetId": 1

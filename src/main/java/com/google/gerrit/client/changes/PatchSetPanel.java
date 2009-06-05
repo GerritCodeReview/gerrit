@@ -204,6 +204,7 @@ class PatchSetPanel extends Composite implements OpenHandler<DisclosurePanel> {
       downloads.add(new CopyableLabel(r.toString()));
 
     } else if (Gerrit.isSignedIn() && Gerrit.getUserAccount() != null
+        && Common.getGerritConfig().getSshdAddress() != null
         && Gerrit.getUserAccount().getSshUserName() != null
         && Gerrit.getUserAccount().getSshUserName().length() > 0) {
       // The user is signed in and anonymous access isn't allowed.

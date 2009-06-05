@@ -769,6 +769,12 @@ class Receive extends AbstractGitCommand {
             reject(cmd, "change " + changeId.get() + " closed");
             return null;
           }
+          if (change.getDest() == null
+              || !proj.getNameKey().equals(change.getDest().getParentKey())) {
+            reject(cmd, "change " + changeId.get() + " not in "
+                + proj.getName());
+            return null;
+          }
         } else {
           change = changeCache.get(changeId);
         }

@@ -13,7 +13,7 @@ user authentication services.  To enable OpenID, the auth.type
 setting should be `OpenID`:
 
 ====
-  git config --file=$site_path/gerrit.config auth.type OpenID
+  git config --file $site_path/gerrit.config auth.type OpenID
 ====
 
 As this is the default setting there is nothing required from the
@@ -85,9 +85,9 @@ all requests have already been authenticated.  The "Sign In" and
 To enable this form of authentication:
 
 ====
-  git config --file=$site_path/gerrit.config auth.type HTTP
-  git config --file=$site_path/gerrit.config --unset auth.httpHeader
-  git config --file=$site_path/gerrit.config auth.emailFormat '{0}@example.com'
+  git config --file $site_path/gerrit.config auth.type HTTP
+  git config --file $site_path/gerrit.config --unset auth.httpHeader
+  git config --file $site_path/gerrit.config auth.emailFormat '{0}@example.com'
 ====
 
 The auth.type must always be HTTP, indicating the user identity
@@ -160,9 +160,9 @@ all requests have already been authenticated.  The "Sign In" and
 To enable this form of authentication:
 
 ====
-  git config --file=$site_path/gerrit.config auth.type HTTP
-  git config --file=$site_path/gerrit.config auth.httpHeader SM_USER
-  git config --file=$site_path/gerrit.config auth.emailFormat '{0}@example.com'
+  git config --file $site_path/gerrit.config auth.type HTTP
+  git config --file $site_path/gerrit.config auth.httpHeader SM_USER
+  git config --file $site_path/gerrit.config auth.emailFormat '{0}@example.com'
 ====
 
 The auth.type must always be HTTP, indicating the user identity

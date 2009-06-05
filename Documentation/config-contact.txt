@@ -80,8 +80,8 @@ URL (in `contactstore.url`), and if needed, APPSEC value (in
 `contactstore.appsec`):
 
 ====
-  git config --file=$site_path/gerrit.config appsec.url https://...
-  git config --file=$site_path/gerrit.config appsec.appsec sekret
+  git config --file $site_path/gerrit.config appsec.url https://...
+  git config --file $site_path/gerrit.config appsec.appsec sekret
 ====
 
 

@@ -454,11 +454,28 @@ public class MergeOp {
         if (c.patchsetId != null) {
           c.statusCode = CommitMergeStatus.CLEAN_MERGE;
           status.put(c.patchsetId.getParentKey(), c.statusCode);
+
+          if (branchUpdate.getRefLogIdent() == null) {
+            setRefLogIdent(getSubmitter(c.patchsetId.getParentKey()));
+          }
         }
       }
     } catch (IOException e) {
       throw new MergeException("Cannot mark clean merges", e);
     }
+  }
+
+  private void setRefLogIdent(final ChangeApproval submitAudit) {
+    if (submitAudit == null) {
+      return;
+    }
+
+    final Account a = Common.getAccountCache().get(submitAudit.getAccountId());
+    if (a == null) {
+      return;
+    }
+
+    branchUpdate.setRefLogIdent(ChangeUtil.toReflogIdent(a, null));
   }
 
   private void cherryPickChanges() throws MergeException {
@@ -603,6 +620,7 @@ public class MergeOp {
     n.statusCode = CommitMergeStatus.CLEAN_PICK;
     status.put(n.patchsetId.getParentKey(), n.statusCode);
     newCommits.put(n.patchsetId.getParentKey(), mergeTip);
+    setRefLogIdent(submitAudit);
   }
 
   private PersonIdent toPersonIdent(final ChangeApproval audit) {

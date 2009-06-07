@@ -734,7 +734,10 @@ public class MergeOp {
 
           try {
             final MergeFailSender cm = new MergeFailSender(server, c);
-            cm.setFrom(getSubmitter(c));
+            final ChangeApproval submitter = getSubmitter(c.getId());
+            if (submitter != null) {
+              cm.setFrom(submitter.getAccountId());
+            }
             cm.setReviewDb(schema);
             cm.setPatchSet(schema.patchSets().get(c.currentPatchSetId()),
                 schema.patchSetInfo().get(c.currentPatchSetId()));
@@ -771,11 +774,11 @@ public class MergeOp {
     return m;
   }
 
-  private Account.Id getSubmitter(Change c) {
+  private ChangeApproval getSubmitter(Change.Id c) {
     ChangeApproval submitter = null;
     try {
       final List<ChangeApproval> approvals =
-          schema.changeApprovals().byChange(c.getId()).toList();
+          schema.changeApprovals().byChange(c).toList();
       for (ChangeApproval a : approvals) {
         if (a.getValue() > 0
             && ApprovalCategory.SUBMIT.equals(a.getCategoryId())) {
@@ -787,7 +790,7 @@ public class MergeOp {
       }
     } catch (OrmException e) {
     }
-    return submitter != null ? submitter.getAccountId() : null;
+    return submitter;
   }
 
   private void setMerged(Change c, ChangeMessage msg) {
@@ -890,7 +893,10 @@ public class MergeOp {
 
     try {
       final MergeFailSender cm = new MergeFailSender(server, c);
-      cm.setFrom(getSubmitter(c));
+      final ChangeApproval submitter = getSubmitter(c.getId());
+      if (submitter != null) {
+        cm.setFrom(submitter.getAccountId());
+      }
       cm.setReviewDb(schema);
       cm.setPatchSet(schema.patchSets().get(c.currentPatchSetId()), schema
           .patchSetInfo().get(c.currentPatchSetId()));

@@ -65,6 +65,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TimeZone;
 
 /**
  * Merges changes in submission order into a single branch.
@@ -589,31 +590,12 @@ public class MergeOp {
       log.error("Can't read approval records for " + n.patchsetId, e);
     }
 
-    Account submitterAcct = null;
-    if (submitAudit != null) {
-      submitterAcct = Common.getAccountCache().get(submitAudit.getAccountId());
-    }
-
+    final PersonIdent submitIdent = toPersonIdent(submitAudit);
     final Commit mergeCommit = new Commit(db);
     mergeCommit.setTreeId(m.getResultTreeId());
     mergeCommit.setParentIds(new ObjectId[] {mergeTip});
     mergeCommit.setAuthor(n.getAuthorIdent());
-    if (submitterAcct != null) {
-      String name = submitterAcct.getFullName();
-      if (name == null || name.length() == 0) {
-        name = "Anonymous Coward";
-      }
-
-      String email = submitterAcct.getPreferredEmail();
-      if (email == null || email.length() == 0) {
-        email = "account-" + submitterAcct.getId().get() + "@localhost";
-      }
-
-      mergeCommit.setCommitter(new PersonIdent(name, email, submitAudit
-          .getGranted(), myIdent.getTimeZone()));
-    } else {
-      mergeCommit.setCommitter(myIdent);
-    }
+    mergeCommit.setCommitter(submitIdent != null ? submitIdent : myIdent);
     mergeCommit.setMessage(msgbuf.toString());
 
     final ObjectId id = m.getObjectWriter().writeCommit(mergeCommit);
@@ -621,6 +603,30 @@ public class MergeOp {
     n.statusCode = CommitMergeStatus.CLEAN_PICK;
     status.put(n.patchsetId.getParentKey(), n.statusCode);
     newCommits.put(n.patchsetId.getParentKey(), mergeTip);
+  }
+
+  private PersonIdent toPersonIdent(final ChangeApproval audit) {
+    if (audit == null) {
+      return null;
+    }
+
+    final Account a = Common.getAccountCache().get(audit.getAccountId());
+    if (a == null) {
+      return null;
+    }
+
+    String name = a.getFullName();
+    if (name == null || name.length() == 0) {
+      name = "Anonymous Coward";
+    }
+
+    String email = a.getPreferredEmail();
+    if (email == null || email.length() == 0) {
+      email = "account-" + a.getId().get() + "@localhost";
+    }
+
+    final TimeZone tz = myIdent.getTimeZone();
+    return new PersonIdent(name, email, audit.getGranted(), tz);
   }
 
   private boolean endsWithKey(final String msg) {

@@ -18,6 +18,7 @@ import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.Link;
 import com.google.gerrit.client.reviewdb.AccountAgreement;
+import com.google.gerrit.client.reviewdb.AccountGroupAgreement;
 import com.google.gerrit.client.reviewdb.ContributorAgreement;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountScreen;
@@ -72,7 +73,10 @@ public class NewAgreementScreen extends AccountScreen {
       public void onSuccess(AgreementInfo result) {
         if (isAttached()) {
           mySigned = new HashSet<ContributorAgreement.Id>();
-          for (AccountAgreement a : result.accepted) {
+          for (AccountAgreement a : result.userAccepted) {
+            mySigned.add(a.getAgreementId());
+          }
+          for (AccountGroupAgreement a : result.groupAccepted) {
             mySigned.add(a.getAgreementId());
           }
           postRPC();

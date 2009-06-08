@@ -1,4 +1,4 @@
-// Copyright (C) 2008 The Android Open Source Project
+// Copyright (C) 2009 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,30 +19,32 @@ import com.google.gwtorm.client.CompoundKey;
 
 import java.sql.Timestamp;
 
-/** Electronic acceptance of a {@link ContributorAgreement} by {@link Account} */
-public final class AccountAgreement implements AbstractAgreement {
-  public static class Key extends CompoundKey<Account.Id> {
+/**
+ * Acceptance of a {@link ContributorAgreement} by an {@link AccountGroup}.
+ */
+public final class AccountGroupAgreement implements AbstractAgreement {
+  public static class Key extends CompoundKey<AccountGroup.Id> {
     private static final long serialVersionUID = 1L;
 
     @Column
-    protected Account.Id accountId;
+    protected AccountGroup.Id groupId;
 
     @Column
     protected ContributorAgreement.Id claId;
 
     protected Key() {
-      accountId = new Account.Id();
+      groupId = new AccountGroup.Id();
       claId = new ContributorAgreement.Id();
     }
 
-    public Key(final Account.Id account, final ContributorAgreement.Id cla) {
-      this.accountId = account;
+    public Key(final AccountGroup.Id group, final ContributorAgreement.Id cla) {
+      this.groupId = group;
       this.claId = cla;
     }
 
     @Override
-    public Account.Id getParentKey() {
-      return accountId;
+    public AccountGroup.Id getParentKey() {
+      return groupId;
     }
 
     @Override
@@ -69,16 +71,16 @@ public final class AccountAgreement implements AbstractAgreement {
   @Column(notNull = false, length = Integer.MAX_VALUE)
   protected String reviewComments;
 
-  protected AccountAgreement() {
+  protected AccountGroupAgreement() {
   }
 
-  public AccountAgreement(final AccountAgreement.Key k) {
+  public AccountGroupAgreement(final AccountGroupAgreement.Key k) {
     key = k;
     acceptedOn = new Timestamp(System.currentTimeMillis());
     status = Status.NEW.getCode();
   }
 
-  public AccountAgreement.Key getKey() {
+  public AccountGroupAgreement.Key getKey() {
     return key;
   }
 
@@ -108,11 +110,5 @@ public final class AccountAgreement implements AbstractAgreement {
 
   public void setReviewComments(final String s) {
     reviewComments = s;
-  }
-
-  public void review(final Status newStatus, final Account.Id by) {
-    status = newStatus.getCode();
-    reviewedBy = by;
-    reviewedOn = new Timestamp(System.currentTimeMillis());
   }
 }

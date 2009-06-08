@@ -16,7 +16,9 @@ package com.google.gerrit.client.account;
 
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Link;
+import com.google.gerrit.client.reviewdb.AbstractAgreement;
 import com.google.gerrit.client.reviewdb.AccountAgreement;
+import com.google.gerrit.client.reviewdb.AccountGroupAgreement;
 import com.google.gerrit.client.reviewdb.ContributorAgreement;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.FancyFlexTable;
@@ -51,7 +53,7 @@ class AgreementPanel extends Composite {
     });
   }
 
-  private class AgreementTable extends FancyFlexTable<AccountAgreement> {
+  private class AgreementTable extends FancyFlexTable<AbstractAgreement> {
     AgreementTable() {
       table.setText(0, 1, Util.C.agreementStatus());
       table.setText(0, 2, Util.C.agreementName());
@@ -68,12 +70,15 @@ class AgreementPanel extends Composite {
       while (1 < table.getRowCount())
         table.removeRow(table.getRowCount() - 1);
 
-      for (final AccountAgreement k : result.accepted) {
+      for (final AccountAgreement k : result.userAccepted) {
+        addOne(result, k);
+      }
+      for (final AccountGroupAgreement k : result.groupAccepted) {
         addOne(result, k);
       }
     }
 
-    void addOne(final AgreementInfo info, final AccountAgreement k) {
+    void addOne(final AgreementInfo info, final AbstractAgreement k) {
       final int row = table.getRowCount();
       table.insertRow(row);
       applyDataRowStyle(row);

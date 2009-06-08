@@ -24,9 +24,12 @@ import static com.google.gerrit.client.reviewdb.ApprovalCategory.PUSH_TAG_ANY;
 
 import com.google.gerrit.client.Link;
 import com.google.gerrit.client.data.ApprovalType;
+import com.google.gerrit.client.reviewdb.AbstractAgreement;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountAgreement;
 import com.google.gerrit.client.reviewdb.AccountExternalId;
+import com.google.gerrit.client.reviewdb.AccountGroup;
+import com.google.gerrit.client.reviewdb.AccountGroupAgreement;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.Branch;
 import com.google.gerrit.client.reviewdb.Change;
@@ -199,20 +202,37 @@ class Receive extends AbstractGitCommand {
   }
 
   private void verifyActiveContributorAgreement() throws Failure {
-    AccountAgreement bestAgreement = null;
+    AbstractAgreement bestAgreement = null;
     ContributorAgreement bestCla = null;
     try {
-      for (final AccountAgreement a : db.accountAgreements().byAccount(
-          userAccount.getId()).toList()) {
-        final ContributorAgreement cla =
-            db.contributorAgreements().get(a.getAgreementId());
-        if (cla == null) {
-          continue;
-        }
+      OUTER: for (final AccountGroup.Id groupId : getGroups()) {
+        for (final AccountGroupAgreement a : db.accountGroupAgreements()
+            .byGroup(groupId)) {
+          final ContributorAgreement cla =
+              db.contributorAgreements().get(a.getAgreementId());
+          if (cla == null) {
+            continue;
+          }
 
-        bestAgreement = a;
-        bestCla = cla;
-        break;
+          bestAgreement = a;
+          bestCla = cla;
+          break OUTER;
+        }
+      }
+
+      if (bestAgreement == null) {
+        for (final AccountAgreement a : db.accountAgreements().byAccount(
+            userAccount.getId()).toList()) {
+          final ContributorAgreement cla =
+              db.contributorAgreements().get(a.getAgreementId());
+          if (cla == null) {
+            continue;
+          }
+
+          bestAgreement = a;
+          bestCla = cla;
+          break;
+        }
       }
     } catch (OrmException e) {
       throw new Failure(1, "fatal: database error", e);

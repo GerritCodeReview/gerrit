@@ -21,4 +21,15 @@ WHERE group_id = (SELECT anonymous_group_id FROM system_config);
 UPDATE account_groups SET automatic_membership = 'Y'
 WHERE group_id = (SELECT registered_group_id FROM system_config);
 
+CREATE TABLE account_group_agreements
+(accepted_on TIMESTAMP NOT NULL
+,status CHAR(1) NOT NULL
+,reviewed_by INT
+,reviewed_on TIMESTAMP
+,review_comments TEXT
+,group_id INT NOT NULL
+,cla_id INT NOT NULL
+,PRIMARY KEY (group_id, cla_id)
+);
+
 UPDATE schema_version SET version_nbr = 13;

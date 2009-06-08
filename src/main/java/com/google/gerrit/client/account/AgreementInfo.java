@@ -18,17 +18,22 @@ import com.google.gerrit.client.data.AccountInfoCache;
 import com.google.gerrit.client.data.AccountInfoCacheFactory;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountAgreement;
+import com.google.gerrit.client.reviewdb.AccountGroup;
+import com.google.gerrit.client.reviewdb.AccountGroupAgreement;
 import com.google.gerrit.client.reviewdb.ContributorAgreement;
 import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gerrit.client.rpc.Common;
 import com.google.gwtorm.client.OrmException;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class AgreementInfo {
   protected AccountInfoCache accounts;
-  protected List<AccountAgreement> accepted;
+  protected List<AccountAgreement> userAccepted;
+  protected List<AccountGroupAgreement> groupAccepted;
   protected Map<ContributorAgreement.Id, ContributorAgreement> agreements;
 
   public AgreementInfo() {
@@ -37,9 +42,23 @@ public class AgreementInfo {
   public void load(final Account.Id me, final ReviewDb db) throws OrmException {
     final AccountInfoCacheFactory acc = new AccountInfoCacheFactory(db);
 
-    accepted = db.accountAgreements().byAccount(me).toList();
+    userAccepted = db.accountAgreements().byAccount(me).toList();
+    groupAccepted = new ArrayList<AccountGroupAgreement>();
+    for (final AccountGroup.Id groupId : Common.getGroupCache()
+        .getEffectiveGroups(me)) {
+      groupAccepted.addAll(db.accountGroupAgreements().byGroup(groupId)
+          .toList());
+    }
+
     agreements = new HashMap<ContributorAgreement.Id, ContributorAgreement>();
-    for (final AccountAgreement a : accepted) {
+    for (final AccountAgreement a : userAccepted) {
+      acc.want(a.getReviewedBy());
+      if (!agreements.containsKey(a.getAgreementId())) {
+        agreements.put(a.getAgreementId(), db.contributorAgreements().get(
+            a.getAgreementId()));
+      }
+    }
+    for (final AccountGroupAgreement a : groupAccepted) {
       acc.want(a.getReviewedBy());
       if (!agreements.containsKey(a.getAgreementId())) {
         agreements.put(a.getAgreementId(), db.contributorAgreements().get(

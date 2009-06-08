@@ -133,8 +133,7 @@ class PatchScriptBuilder {
     return new PatchScript(header, context, dstA, dstB, edits);
   }
 
-  private void ensureCommentsVisible(final CommentDetail comments)
-      throws CorruptEntityException {
+  private void ensureCommentsVisible(final CommentDetail comments) {
     if (comments.getCommentsA().isEmpty() && comments.getCommentsB().isEmpty()) {
       // No comments, no additional dummy edits are required.
       //
@@ -180,7 +179,7 @@ class PatchScriptBuilder {
     edits = n;
   }
 
-  private int mapA2B(final int a) throws CorruptEntityException {
+  private int mapA2B(final int a) {
     if (edits.isEmpty()) {
       // Magic special case of an unmodified file.
       //
@@ -198,11 +197,12 @@ class PatchScriptBuilder {
         return e.getBeginB() + (a - e.getBeginA());
       }
     }
-    log.error("In " + patchKey + " cannot remap A " + a + " to B");
-    throw new CorruptEntityException(patchKey);
+
+    final Edit last = edits.get(edits.size() - 1);
+    return last.getBeginB() + (a - last.getEndA());
   }
 
-  private int mapB2A(final int b) throws CorruptEntityException {
+  private int mapB2A(final int b) {
     if (edits.isEmpty()) {
       // Magic special case of an unmodified file.
       //
@@ -220,8 +220,9 @@ class PatchScriptBuilder {
         return e.getBeginA() + (b - e.getBeginB());
       }
     }
-    log.error("In " + patchKey + " cannot remap B " + b + " to A");
-    throw new CorruptEntityException(patchKey);
+
+    final Edit last = edits.get(edits.size() - 1);
+    return last.getBeginA() + (b - last.getEndB());
   }
 
   private static boolean eq(final ObjectId a, final ObjectId b) {

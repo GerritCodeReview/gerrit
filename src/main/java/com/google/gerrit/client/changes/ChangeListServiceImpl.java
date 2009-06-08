@@ -23,7 +23,9 @@ import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.ChangeAccess;
 import com.google.gerrit.client.reviewdb.ChangeApproval;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
+import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.Project;
+import com.google.gerrit.client.reviewdb.RevId;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.StarredChange;
 import com.google.gerrit.client.reviewdb.Change.Id;
@@ -35,6 +37,7 @@ import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.ResultSet;
 import com.google.gwtorm.client.Transaction;
+import com.google.gwtorm.client.impl.ListResultSet;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -55,6 +58,18 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
       new Comparator<ChangeInfo>() {
         public int compare(final ChangeInfo o1, final ChangeInfo o2) {
           return o2.getSortKey().compareTo(o1.getSortKey());
+        }
+      };
+  private static final Comparator<Change> QUERY_PREV =
+      new Comparator<Change>() {
+        public int compare(final Change a, final Change b) {
+          return a.getSortKey().compareTo(b.getSortKey());
+        }
+      };
+  private static final Comparator<Change> QUERY_NEXT =
+      new Comparator<Change>() {
+        public int compare(final Change a, final Change b) {
+          return b.getSortKey().compareTo(a.getSortKey());
         }
       };
 
@@ -130,6 +145,78 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
         return db.changes().allClosedNext(s.getCode(), key, lim);
       }
     });
+  }
+
+  @Override
+  public void allQueryPrev(final String query, final String pos,
+      final int pageSize, final AsyncCallback<SingleListChangeInfo> callback) {
+    run(callback, new QueryPrev(pageSize, pos) {
+      @Override
+      ResultSet<Change> query(ReviewDb db, int lim, String key)
+          throws OrmException {
+        return searchQuery(db, query, lim, key, QUERY_PREV);
+      }
+    });
+  }
+
+  @Override
+  public void allQueryNext(final String query, final String pos,
+      final int pageSize, final AsyncCallback<SingleListChangeInfo> callback) {
+    run(callback, new QueryNext(pageSize, pos) {
+      @Override
+      ResultSet<Change> query(ReviewDb db, int lim, String key)
+          throws OrmException {
+        return searchQuery(db, query, lim, key, QUERY_NEXT);
+      }
+    });
+  }
+
+  private ResultSet<Change> searchQuery(final ReviewDb db, String query,
+      final int limit, final String key, final Comparator<Change> cmp)
+      throws OrmException {
+    final HashSet<Change.Id> want = new HashSet<Change.Id>();
+    query = query.trim();
+
+    if (query.matches("^[1-9][0-9]*$")) {
+      want.add(Change.Id.parse(query));
+
+    } else if (query.matches("^([0-9a-fA-F]{4," + RevId.LEN + "})$")) {
+      final RevId id = new RevId(query);
+      final ResultSet<PatchSet> patches;
+      if (id.isComplete()) {
+        patches = db.patchSets().byRevision(id);
+      } else {
+        patches = db.patchSets().byRevisionRange(id, id.max());
+      }
+      for (PatchSet p : patches) {
+        want.add(p.getId().getParentKey());
+      }
+    }
+
+    if (want.isEmpty()) {
+      return new ListResultSet<Change>(Collections.<Change> emptyList());
+    }
+
+    List<Change> result = new ArrayList<Change>();
+    final ResultSet<Change> rs = db.changes().get(want);
+    if (cmp == QUERY_PREV) {
+      for (Change c : rs) {
+        if (c.getSortKey().compareTo(key) > 0) {
+          result.add(c);
+        }
+      }
+    } else /* cmp == QUERY_NEXT */{
+      for (Change c : rs) {
+        if (c.getSortKey().compareTo(key) < 0) {
+          result.add(c);
+        }
+      }
+    }
+    Collections.sort(result, cmp);
+    if (limit < result.size()) {
+      result = result.subList(0, limit);
+    }
+    return new ListResultSet<Change>(result);
   }
 
   public void forAccount(final Account.Id id,

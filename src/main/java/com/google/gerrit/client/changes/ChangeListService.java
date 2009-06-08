@@ -42,13 +42,21 @@ public interface ChangeListService extends RemoteJsonService {
   /** Get all open changes older than pos, fetching at most limit rows. */
   void byProjectOpenNext(Project.NameKey project, String pos, int limit,
       AsyncCallback<SingleListChangeInfo> callback);
-  
+
   /** Get all closed changes more recent than pos, fetching at most limit rows. */
   void allClosedPrev(Change.Status status, String pos, int limit,
       AsyncCallback<SingleListChangeInfo> callback);
 
   /** Get all closed changes older than pos, fetching at most limit rows. */
   void allClosedNext(Change.Status status, String pos, int limit,
+      AsyncCallback<SingleListChangeInfo> callback);
+
+  /** Get all changes which match an arbitrary query string. */
+  void allQueryPrev(String query, String pos, int limit,
+      AsyncCallback<SingleListChangeInfo> callback);
+
+  /** Get all changes which match an arbitrary query string. */
+  void allQueryNext(String query, String pos, int limit,
       AsyncCallback<SingleListChangeInfo> callback);
 
   /** Get the data to show {@link AccountDashboardScreen} for an account. */

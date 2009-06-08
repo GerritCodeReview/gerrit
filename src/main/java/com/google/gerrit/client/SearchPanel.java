@@ -91,6 +91,16 @@ class SearchPanel extends Composite {
     body.add(searchButton);
   }
 
+  void setText(final String query) {
+    if (query == null || query.equals("")) {
+      searchBox.setText(Gerrit.C.searchHint());
+      searchBox.addStyleName("gerrit-InputFieldTypeHint");
+    } else {
+      searchBox.setText(query);
+      searchBox.removeStyleName("gerrit-InputFieldTypeHint");
+    }
+  }
+
   @Override
   protected void onLoad() {
     super.onLoad();
@@ -128,7 +138,7 @@ class SearchPanel extends Composite {
       final Change.Id ck = Change.Id.parse(query);
       Gerrit.display(Link.toChange(ck), new ChangeScreen(ck));
     } else {
-      Gerrit.display(new NotFoundScreen());
+      Gerrit.display(Link.toChangeQuery(query), true);
     }
   }
 }

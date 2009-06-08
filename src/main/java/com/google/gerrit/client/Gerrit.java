@@ -79,6 +79,7 @@ public class Gerrit implements EntryPoint {
   private static LinkMenuBar menuRight;
   private static RootPanel siteHeader;
   private static RootPanel siteFooter;
+  private static SearchPanel searchPanel;
   private static ViewSite<Screen> body;
 
   static {
@@ -107,6 +108,10 @@ public class Gerrit implements EntryPoint {
     } else {
       body.setView(view);
     }
+  }
+
+  public static void setQueryString(String query) {
+    searchPanel.setText(query);
   }
 
   public static void setWindowTitle(final Screen screen, final String text) {
@@ -171,13 +176,14 @@ public class Gerrit implements EntryPoint {
     final Grid menuLine = new Grid(1, 3);
     menuLeft = new TabPanel();
     menuRight = new LinkMenuBar();
+    searchPanel = new SearchPanel();
     menuLeft.setStyleName("gerrit-topmenu-menuLeft");
     menuLine.setStyleName("gerrit-topmenu");
     menuArea.add(menuLine);
     final FlowPanel menuRightPanel = new FlowPanel();
     menuRightPanel.setStyleName("gerrit-topmenu-menuRight");
     menuRightPanel.add(menuRight);
-    menuRightPanel.add(new SearchPanel());
+    menuRightPanel.add(searchPanel);
     menuLine.setWidget(0, 0, menuLeft);
     menuLine.setWidget(0, 1, new FlowPanel());
     menuLine.setWidget(0, 2, menuRightPanel);

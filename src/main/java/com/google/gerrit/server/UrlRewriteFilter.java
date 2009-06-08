@@ -17,7 +17,6 @@ package com.google.gerrit.server;
 import com.google.gerrit.client.Link;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.Change;
-import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.RevId;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
@@ -178,36 +177,10 @@ public class UrlRewriteFilter implements Filter {
       return true;
     }
 
-    final RevId id = new RevId(rev);
-    final List<PatchSet> patches;
-    try {
-      final ReviewDb db = Common.getSchemaFactory().open();
-      try {
-        if (id.isComplete()) {
-          patches = db.patchSets().byRevision(id).toList();
-        } else {
-          patches = db.patchSets().byRevisionRange(id, id.max()).toList();
-        }
-      } finally {
-        db.close();
-      }
-    } catch (OrmException e) {
-      config.getServletContext().log("Unable to query for " + rev, e);
-      rsp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-      return true;
-    }
-
-    if (patches.size() == 0) {
-      rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
-    } else if (patches.size() == 1) {
-      final StringBuffer url = toGerrit(req);
-      url.append('#');
-      url.append(Link.toChange(patches.get(0).getId().getParentKey()));
-      rsp.sendRedirect(url.toString());
-    } else {
-      // TODO Someday this should be a menu of choices.
-      rsp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-    }
+    final StringBuffer url = toGerrit(req);
+    url.append('#');
+    url.append(Link.toChangeQuery(rev));
+    rsp.sendRedirect(url.toString());
     return true;
   }
 

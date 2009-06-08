@@ -25,6 +25,7 @@ import com.google.gerrit.client.changes.AccountDashboardScreen;
 import com.google.gerrit.client.changes.AllAbandonedChangesScreen;
 import com.google.gerrit.client.changes.AllMergedChangesScreen;
 import com.google.gerrit.client.changes.AllOpenChangesScreen;
+import com.google.gerrit.client.changes.ChangeQueryResultsScreen;
 import com.google.gerrit.client.changes.ByProjectOpenChangesScreen;
 import com.google.gerrit.client.changes.ChangeScreen;
 import com.google.gerrit.client.changes.MineDraftsScreen;
@@ -44,6 +45,7 @@ import com.google.gerrit.client.ui.Screen;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwtorm.client.KeyUtil;
 
 public class Link implements ValueChangeHandler<String> {
   public static final String SETTINGS = "settings";
@@ -105,6 +107,10 @@ public class Link implements ValueChangeHandler<String> {
 
   public static String toProjectOpen(final Project.NameKey proj) {
     return "project,open," + proj.toString() + ",n,z";
+  }
+
+  public static String toChangeQuery(final String query) {
+    return "q," + KeyUtil.encode(query) + ",n,z";
   }
 
   @Override
@@ -203,6 +209,13 @@ public class Link implements ValueChangeHandler<String> {
     p = "dashboard,";
     if (token.startsWith(p))
       return new AccountDashboardScreen(Account.Id.parse(skip(p, token)));
+
+    p = "q,";
+    if (token.startsWith(p)) {
+      final String s = skip(p, token);
+      final int c = s.indexOf(',');
+      return new ChangeQueryResultsScreen(s.substring(0, c), s.substring(c + 1));
+    }
 
     if (token.startsWith("admin,")) {
       p = "admin,group,";

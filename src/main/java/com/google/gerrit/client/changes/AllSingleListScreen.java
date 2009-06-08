@@ -120,7 +120,7 @@ public abstract class AllSingleListScreen extends Screen {
     };
   }
 
-  private void display(final SingleListChangeInfo result) {
+  protected void display(final SingleListChangeInfo result) {
     changes = result.getChanges();
 
     if (!changes.isEmpty()) {

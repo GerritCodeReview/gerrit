@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAXH////k\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/GerritCommandFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2009-06-08T04:55:40Z",
+      "side": 1,
+      "message": "I wasn\u0027t sure if gerrit-upload-pack should be disabled or not...",
+      "revId": "742a27ce81e3a5e7524210b673267ce70daf0f9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAXH////g\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/SshServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2009-06-08T04:55:40Z",
+      "side": 1,
+      "message": "I assume this will never be used from a replication server(?)",
+      "revId": "742a27ce81e3a5e7524210b673267ce70daf0f9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

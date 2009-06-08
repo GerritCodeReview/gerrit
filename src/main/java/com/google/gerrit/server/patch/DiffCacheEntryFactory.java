@@ -20,6 +20,7 @@ import com.google.gerrit.server.GerritServer;
 
 import net.sf.ehcache.constructs.blocking.CacheEntryFactory;
 
+import org.spearce.jgit.lib.ObjectId;
 import org.spearce.jgit.lib.Repository;
 import org.spearce.jgit.patch.FileHeader;
 
@@ -37,6 +38,7 @@ public class DiffCacheEntryFactory implements CacheEntryFactory {
   public Object createEntry(Object genericKey) throws Exception {
     final DiffCacheKey key = (DiffCacheKey) genericKey;
     final Repository db = open(key.getProjectKey());
+    final ObjectId newId = key.getNewId();
     final List<String> args = new ArrayList<String>();
     args.add("git");
     args.add("--git-dir=.");
@@ -52,7 +54,7 @@ public class DiffCacheEntryFactory implements CacheEntryFactory {
       args.add("--unified=1");
       args.add(key.getOldId().name());
     }
-    args.add(key.getNewId().name());
+    args.add(newId.name());
     args.add("--");
     args.add(key.getFileName());
     if (key.getSourceFileName() != null) {
@@ -71,7 +73,7 @@ public class DiffCacheEntryFactory implements CacheEntryFactory {
       proc.getInputStream().close();
 
       if (p.getFiles().isEmpty()) {
-        return new DiffCacheContent();
+        return DiffCacheContent.createEmpty(db, newId, key.getFileName());
 
       } else if (p.getFiles().size() != 1) {
         throw new IOException("unexpected file count: " + key);

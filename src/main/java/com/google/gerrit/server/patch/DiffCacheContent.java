@@ -32,12 +32,16 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 public final class DiffCacheContent implements Serializable {
-  private static final long serialVersionUID = 2L;
+  // Note: If we modify our version, also modify DiffCacheKey, so
+  // the on disk cache is fully destroyed and recreated when the
+  // schema has changed.
+  //
+  private static final long serialVersionUID = 3L;
 
   public static DiffCacheContent create(final Repository db,
       final DiffCacheKey key, final FileHeader file)
@@ -64,6 +68,16 @@ public final class DiffCacheContent implements Serializable {
     return new DiffCacheContent(file, o, n);
   }
 
+  public static DiffCacheContent createEmpty(final Repository db,
+      final ObjectId treeIsh, final String path) throws MissingObjectException,
+      IncorrectObjectTypeException, IOException {
+    final ObjectId blob = find(db, treeIsh, path);
+    if (blob == null) {
+      throw new IOException("path \"" + path + "\" not in " + treeIsh.name());
+    }
+    return new DiffCacheContent(blob);
+  }
+
   private static ObjectId toId(final AbbreviatedObjectId a) {
     final ObjectId o = a.toObjectId();
     return ObjectId.zeroId().equals(o) ? null : o;
@@ -80,32 +94,33 @@ public final class DiffCacheContent implements Serializable {
     return tw.getObjectId(0);
   }
 
-  private transient boolean noDifference;
   private transient ObjectId oldId;
   private transient ObjectId newId;
   private transient FileHeader header;
   private transient List<Edit> edits;
 
-  public DiffCacheContent() {
-    noDifference = true;
+  private DiffCacheContent(final ObjectId o) {
+    oldId = o;
+    newId = o;
+    header = null;
+    edits = Collections.emptyList();
   }
 
   private DiffCacheContent(final FileHeader h, final ObjectId o,
       final ObjectId n) {
-    noDifference = false;
     header = compact(h);
     oldId = o;
     newId = n;
 
-    if (h instanceof CombinedFileHeader || h.getHunks().isEmpty()) {
+    if (h == null || h instanceof CombinedFileHeader || h.getHunks().isEmpty()) {
       edits = Collections.emptyList();
     } else {
-      edits = h.toEditList();
+      edits = Collections.unmodifiableList(h.toEditList());
     }
   }
 
   public boolean isNoDifference() {
-    return noDifference;
+    return header == null;
   }
 
   public ObjectId getOldId() {
@@ -125,17 +140,16 @@ public final class DiffCacheContent implements Serializable {
   }
 
   private void writeObject(final ObjectOutputStream out) throws IOException {
-    out.writeBoolean(noDifference);
-    if (noDifference) {
-      return;
-    }
-
     ObjectIdSerialization.write(out, oldId);
     ObjectIdSerialization.write(out, newId);
 
-    final int len = end(header) - header.getStartOffset();
-    out.writeInt(len);
-    out.write(header.getBuffer(), header.getStartOffset(), len);
+    if (header != null) {
+      final int hdrLen = end(header) - header.getStartOffset();
+      out.writeInt(hdrLen);
+      out.write(header.getBuffer(), header.getStartOffset(), hdrLen);
+    } else {
+      out.writeInt(0);
+    }
 
     out.writeInt(edits.size());
     for (final Edit e : edits) {
@@ -147,26 +161,31 @@ public final class DiffCacheContent implements Serializable {
   }
 
   private void readObject(final ObjectInputStream in) throws IOException {
-    noDifference = in.readBoolean();
-    if (noDifference) {
-      return;
-    }
-
     oldId = ObjectIdSerialization.read(in);
     newId = ObjectIdSerialization.read(in);
 
-    final byte[] buf = new byte[in.readInt()];
-    in.readFully(buf);
-    header = parse(buf);
+    final int hdrLen = in.readInt();
+    if (hdrLen > 0) {
+      final byte[] buf = new byte[hdrLen];
+      in.readFully(buf);
+      header = parse(buf);
+    } else {
+      header = null;
+    }
 
     final int editCount = in.readInt();
-    edits = new ArrayList<Edit>(editCount);
-    for (int n = editCount - 1; 0 <= n; n--) {
-      final int beginA = in.readInt();
-      final int endA = in.readInt();
-      final int beginB = in.readInt();
-      final int endB = in.readInt();
-      edits.add(new Edit(beginA, endA, beginB, endB));
+    if (editCount > 0) {
+      final Edit[] editArray = new Edit[editCount];
+      for (int i = 0; i < editCount; i++) {
+        final int beginA = in.readInt();
+        final int endA = in.readInt();
+        final int beginB = in.readInt();
+        final int endB = in.readInt();
+        editArray[i] = new Edit(beginA, endA, beginB, endB);
+      }
+      edits = Collections.unmodifiableList(Arrays.asList(editArray));
+    } else {
+      edits = Collections.emptyList();
     }
   }
 

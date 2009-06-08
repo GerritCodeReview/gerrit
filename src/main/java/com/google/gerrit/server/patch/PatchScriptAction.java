@@ -17,12 +17,16 @@ package com.google.gerrit.server.patch;
 import static com.google.gerrit.client.rpc.BaseServiceImplementation.canRead;
 
 import com.google.gerrit.client.data.PatchScript;
+import com.google.gerrit.client.patches.CommentDetail;
+import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountGeneralPreferences;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.Patch;
+import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.CorruptEntityException;
 import com.google.gerrit.client.rpc.NoDifferencesException;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
@@ -120,12 +124,13 @@ class PatchScriptAction implements Action<PatchScript> {
     }
 
     final DiffCacheContent dcc = (DiffCacheContent) cacheElem.getObjectValue();
-    if (dcc.isNoDifference()) {
+    final CommentDetail comments = allComments(db);
+    if (dcc.isNoDifference() && comments.isEmpty()) {
       throw new Failure(new NoDifferencesException());
     }
 
     try {
-      return b.toPatchScript(dcc);
+      return b.toPatchScript(dcc, comments);
     } catch (CorruptEntityException e) {
       log.error("File content for " + key + " unavailable", e);
       throw new Failure(new NoSuchEntityException());
@@ -193,5 +198,21 @@ class PatchScriptAction implements Action<PatchScript> {
     } else {
       throw new Failure(new NoSuchEntityException());
     }
+  }
+
+  private CommentDetail allComments(final ReviewDb db) throws OrmException {
+    final CommentDetail r = new CommentDetail(psa, psb);
+    final String pn = patchKey.get();
+    for (PatchLineComment p : db.patchComments().published(changeId, pn)) {
+      r.include(p);
+    }
+
+    final Account.Id me = Common.getAccountId();
+    if (me != null) {
+      for (PatchLineComment p : db.patchComments().draft(changeId, pn, me)) {
+        r.include(p);
+      }
+    }
+    return r;
   }
 }

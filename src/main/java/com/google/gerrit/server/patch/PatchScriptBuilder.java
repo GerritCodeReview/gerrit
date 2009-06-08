@@ -16,7 +16,9 @@ package com.google.gerrit.server.patch;
 
 import com.google.gerrit.client.data.PatchScript;
 import com.google.gerrit.client.data.SparseFileContent;
+import com.google.gerrit.client.patches.CommentDetail;
 import com.google.gerrit.client.reviewdb.Patch;
+import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.rpc.CorruptEntityException;
 
 import org.slf4j.Logger;
@@ -35,6 +37,7 @@ import org.spearce.jgit.util.RawParseUtils;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 class PatchScriptBuilder {
@@ -43,6 +46,13 @@ class PatchScriptBuilder {
 
   private static final Logger log =
       LoggerFactory.getLogger(PatchScriptBuilder.class);
+
+  private static final Comparator<Edit> EDIT_SORT = new Comparator<Edit>() {
+    @Override
+    public int compare(final Edit o1, final Edit o2) {
+      return o1.getBeginA() - o2.getBeginA();
+    }
+  };
 
   private final List<String> header;
   private final SparseFileContent dstA;
@@ -75,8 +85,8 @@ class PatchScriptBuilder {
     context = c;
   }
 
-  PatchScript toPatchScript(final DiffCacheContent content)
-      throws CorruptEntityException {
+  PatchScript toPatchScript(final DiffCacheContent content,
+      final CommentDetail comments) throws CorruptEntityException {
     final FileHeader fh = content.getFileHeader();
     if (fh instanceof CombinedFileHeader) {
       // For a diff --cc format we don't support converting it into
@@ -94,6 +104,7 @@ class PatchScriptBuilder {
       srcB = open(content.getNewId());
     }
     edits = content.getEdits();
+    ensureCommentsVisible(comments);
 
     dstA.setMissingNewlineAtEnd(srcA.isMissingNewlineAtEnd());
     dstB.setMissingNewlineAtEnd(srcA.isMissingNewlineAtEnd());
@@ -101,7 +112,9 @@ class PatchScriptBuilder {
     dstA.setSize(srcA.size());
     dstB.setSize(srcB.size());
 
-    packHeader(fh);
+    if (fh != null) {
+      packHeader(fh);
+    }
     if (srcA == srcB && srcA.size() <= context && edits.isEmpty()) {
       // Odd special case; the files are identical (100% rename or copy)
       // and the user has asked for context that is larger than the file.
@@ -118,6 +131,97 @@ class PatchScriptBuilder {
       packContent();
     }
     return new PatchScript(header, context, dstA, dstB, edits);
+  }
+
+  private void ensureCommentsVisible(final CommentDetail comments)
+      throws CorruptEntityException {
+    if (comments.getCommentsA().isEmpty() && comments.getCommentsB().isEmpty()) {
+      // No comments, no additional dummy edits are required.
+      //
+      return;
+    }
+
+    // Construct empty Edit blocks around each location where a comment is.
+    // This will force the later packContent method to include the regions
+    // containing comments, potentially combining those regions together if
+    // they have overlapping contexts. UI renders will also be able to make
+    // correct hunks from this, but because the Edit is empty they will not
+    // style it specially.
+    //
+    final List<Edit> empty = new ArrayList<Edit>();
+    int lastLine;
+
+    lastLine = -1;
+    for (PatchLineComment plc : comments.getCommentsA()) {
+      final int a = plc.getLine();
+      if (lastLine != a) {
+        empty.add(new Edit(a - 1, mapA2B(a - 1)));
+        lastLine = a;
+      }
+    }
+
+    lastLine = -1;
+    for (PatchLineComment plc : comments.getCommentsB()) {
+      final int b = plc.getLine();
+      if (lastLine != b) {
+        empty.add(new Edit(mapB2A(b - 1), b - 1));
+        lastLine = b;
+      }
+    }
+
+    // Build the final list as a copy, as we cannot modify the cached
+    // edit list we started out with. Also sort the final list by the
+    // index in A, so packContent can combine them correctly later.
+    //
+    final List<Edit> n = new ArrayList<Edit>(edits.size() + empty.size());
+    n.addAll(edits);
+    n.addAll(empty);
+    Collections.sort(n, EDIT_SORT);
+    edits = n;
+  }
+
+  private int mapA2B(final int a) throws CorruptEntityException {
+    if (edits.isEmpty()) {
+      // Magic special case of an unmodified file.
+      //
+      return a;
+    }
+
+    if (a < edits.get(0).getBeginA()) {
+      // Special case of context at start of file.
+      //
+      return a;
+    }
+
+    for (Edit e : edits) {
+      if (e.getBeginA() <= a && a <= e.getEndA()) {
+        return e.getBeginB() + (a - e.getBeginA());
+      }
+    }
+    log.error("In " + patchKey + " cannot remap A " + a + " to B");
+    throw new CorruptEntityException(patchKey);
+  }
+
+  private int mapB2A(final int b) throws CorruptEntityException {
+    if (edits.isEmpty()) {
+      // Magic special case of an unmodified file.
+      //
+      return b;
+    }
+
+    if (b < edits.get(0).getBeginB()) {
+      // Special case of context at start of file.
+      //
+      return b;
+    }
+
+    for (Edit e : edits) {
+      if (e.getBeginB() <= b && b <= e.getEndB()) {
+        return e.getBeginA() + (b - e.getBeginB());
+      }
+    }
+    log.error("In " + patchKey + " cannot remap B " + b + " to A");
+    throw new CorruptEntityException(patchKey);
   }
 
   private static boolean eq(final ObjectId a, final ObjectId b) {

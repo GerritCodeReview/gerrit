@@ -55,7 +55,7 @@ public class SshServlet extends HttpServlet {
   public void init(final ServletConfig config) throws ServletException {
     super.init(config);
     try {
-      GerritSshDaemon.startSshd();
+      GerritSshDaemon.startSshd(false);
     } catch (SocketException e) {
       throw new ServletException(e);
     } catch (OrmException e) {

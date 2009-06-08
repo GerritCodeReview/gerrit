@@ -22,19 +22,31 @@ import java.util.HashMap;
 class GerritCommandFactory implements CommandFactory {
   private final HashMap<String, Factory> commands;
 
-  GerritCommandFactory() {
+  GerritCommandFactory(final boolean slave) {
     commands = new HashMap<String, Factory>();
 
-    commands.put("gerrit-upload-pack", new Factory() {
-      public AbstractCommand create() {
-        return new Upload();
-      }
-    });
-    commands.put("gerrit-receive-pack", new Factory() {
-      public AbstractCommand create() {
-        return new Receive();
-      }
-    });
+    // If we are running on a replication server (slave mode), don't allow
+    // uploading from clients or pushing to replication servers.
+    if (!slave) {
+      commands.put("gerrit-upload-pack", new Factory() {
+        public AbstractCommand create() {
+          return new Upload();
+        }
+      });
+      commands.put("gerrit-receive-pack", new Factory() {
+        public AbstractCommand create() {
+          return new Receive();
+        }
+      });
+      commands.put("gerrit-replicate", new Factory() {
+        public AbstractCommand create() {
+          return new AdminReplicate();
+        }
+      });
+
+      alias("gerrit-upload-pack", "git-upload-pack");
+      alias("gerrit-receive-pack", "git-receive-pack");
+    }
     commands.put("gerrit-flush-caches", new Factory() {
       public AbstractCommand create() {
         return new AdminFlushCaches();
@@ -60,14 +72,6 @@ class GerritCommandFactory implements CommandFactory {
         return new AdminShowQueue();
       }
     });
-    commands.put("gerrit-replicate", new Factory() {
-      public AbstractCommand create() {
-        return new AdminReplicate();
-      }
-    });
-
-    alias("gerrit-upload-pack", "git-upload-pack");
-    alias("gerrit-receive-pack", "git-receive-pack");
   }
 
   private void alias(final String from, final String to) {

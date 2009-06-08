@@ -25,6 +25,14 @@ import java.net.SocketException;
 public class Daemon {
   public static void main(final String[] argv) throws SocketException,
       OrmException, XsrfException {
-    GerritSshDaemon.startSshd();
+    boolean slave = false;
+
+    for (String arg : argv) {
+      if ("--slave".equals(arg)) {
+        slave = true;
+      }
+    }
+
+    GerritSshDaemon.startSshd(slave);
   }
 }

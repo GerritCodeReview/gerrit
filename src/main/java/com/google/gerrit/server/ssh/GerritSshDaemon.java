@@ -105,10 +105,10 @@ public class GerritSshDaemon extends SshServer {
   private static InetSocketAddress preferredAddress;
   private static Collection<PublicKey> hostKeys = Collections.emptyList();
 
-  public static synchronized void startSshd() throws OrmException,
-      XsrfException, SocketException {
-    final GerritServer srv = GerritServer.getInstance();
-    final GerritSshDaemon daemon = new GerritSshDaemon(srv);
+  public static synchronized void startSshd(final boolean slave)
+      throws OrmException, XsrfException, SocketException {
+    final GerritServer srv = GerritServer.getInstance(!slave);
+    final GerritSshDaemon daemon = new GerritSshDaemon(srv, slave);
     final String addressList = daemon.addressList();
     try {
       sshd = daemon;
@@ -214,7 +214,7 @@ public class GerritSshDaemon extends SshServer {
   private boolean reuseAddress;
   private boolean keepAlive;
 
-  private GerritSshDaemon(final GerritServer srv) {
+  private GerritSshDaemon(final GerritServer srv, final boolean slave) {
     setPort(22/* never used */);
 
     final RepositoryConfig cfg = srv.getGerritConfig();
@@ -234,7 +234,7 @@ public class GerritSshDaemon extends SshServer {
     initCompression();
     initUserAuth(srv);
     setKeyPairProvider(initHostKey(srv));
-    setCommandFactory(new GerritCommandFactory());
+    setCommandFactory(new GerritCommandFactory(slave));
     setShellFactory(new NoShell());
     setSessionFactory(new SessionFactory() {
       @Override

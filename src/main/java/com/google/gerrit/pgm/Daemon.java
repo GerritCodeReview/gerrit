@@ -16,12 +16,18 @@ package com.google.gerrit.pgm;
 
 import com.google.gerrit.server.ssh.GerritSshDaemon;
 
+import org.kohsuke.args4j.Option;
+
 
 /** Run only the SSH daemon portions of Gerrit. */
 public class Daemon extends AbstractProgram {
+
+  @Option(name = "--slave", usage = "support fetch only")
+  boolean slave;
+
   @Override
   public int run() throws Exception {
-    GerritSshDaemon.startSshd();
+    GerritSshDaemon.startSshd(slave);
     return never();
   }
 }

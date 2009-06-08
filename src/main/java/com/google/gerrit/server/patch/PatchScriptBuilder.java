@@ -154,7 +154,7 @@ class PatchScriptBuilder {
     for (PatchLineComment plc : comments.getCommentsA()) {
       final int a = plc.getLine();
       if (lastLine != a) {
-        empty.add(new Edit(a - 1, mapA2B(a - 1)));
+        safeAdd(empty, new Edit(a - 1, mapA2B(a - 1)));
         lastLine = a;
       }
     }
@@ -163,7 +163,7 @@ class PatchScriptBuilder {
     for (PatchLineComment plc : comments.getCommentsB()) {
       final int b = plc.getLine();
       if (lastLine != b) {
-        empty.add(new Edit(mapB2A(b - 1), b - 1));
+        safeAdd(empty, new Edit(mapB2A(b - 1), b - 1));
         lastLine = b;
       }
     }
@@ -177,6 +177,20 @@ class PatchScriptBuilder {
     n.addAll(empty);
     Collections.sort(n, EDIT_SORT);
     edits = n;
+  }
+
+  private void safeAdd(final List<Edit> empty, final Edit toAdd) {
+    final int a = toAdd.getBeginA();
+    final int b = toAdd.getBeginB();
+    for (final Edit e : edits) {
+      if (e.getBeginA() <= a && a <= e.getEndA()) {
+        return;
+      }
+      if (e.getBeginB() <= b && b <= e.getEndB()) {
+        return;
+      }
+    }
+    empty.add(toAdd);
   }
 
   private int mapA2B(final int a) {

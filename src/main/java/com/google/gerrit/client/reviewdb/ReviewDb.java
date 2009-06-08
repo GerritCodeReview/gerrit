@@ -31,7 +31,7 @@ import com.google.gwtorm.client.Sequence;
  * </ul>
  */
 public interface ReviewDb extends Schema {
-  public static final int VERSION = 12;
+  public static final int VERSION = 13;
 
   @Relation
   SchemaVersionAccess schemaVersion();
@@ -68,6 +68,9 @@ public interface ReviewDb extends Schema {
 
   @Relation
   AccountGroupMemberAccess accountGroupMembers();
+
+  @Relation
+  AccountGroupMemberAuditAccess accountGroupMembersAudit();
 
   @Relation
   StarredChangeAccess starredChanges();

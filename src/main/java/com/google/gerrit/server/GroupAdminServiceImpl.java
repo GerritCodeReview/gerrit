@@ -98,11 +98,8 @@ public class GroupAdminServiceImpl extends BaseServiceImplementation implements
       final AsyncCallback<AccountGroupDetail> callback) {
     run(callback, new Action<AccountGroupDetail>() {
       public AccountGroupDetail run(ReviewDb db) throws OrmException, Failure {
-        assertAmGroupOwner(db, groupId);
         final AccountGroup group = db.accountGroups().get(groupId);
-        if (group == null) {
-          throw new Failure(new NoSuchEntityException());
-        }
+        assertAmGroupOwner(db, group);
 
         final AccountGroupDetail d = new AccountGroupDetail();
         final boolean auto = Common.getGroupCache().isAutoGroup(group.getId());
@@ -116,11 +113,8 @@ public class GroupAdminServiceImpl extends BaseServiceImplementation implements
       final String description, final AsyncCallback<VoidResult> callback) {
     run(callback, new Action<VoidResult>() {
       public VoidResult run(final ReviewDb db) throws OrmException, Failure {
-        assertAmGroupOwner(db, groupId);
         final AccountGroup group = db.accountGroups().get(groupId);
-        if (group == null) {
-          throw new Failure(new NoSuchEntityException());
-        }
+        assertAmGroupOwner(db, group);
         group.setDescription(description);
         db.accountGroups().update(Collections.singleton(group));
         return VoidResult.INSTANCE;
@@ -132,11 +126,8 @@ public class GroupAdminServiceImpl extends BaseServiceImplementation implements
       final String newOwnerName, final AsyncCallback<VoidResult> callback) {
     run(callback, new Action<VoidResult>() {
       public VoidResult run(final ReviewDb db) throws OrmException, Failure {
-        assertAmGroupOwner(db, groupId);
         final AccountGroup group = db.accountGroups().get(groupId);
-        if (group == null) {
-          throw new Failure(new NoSuchEntityException());
-        }
+        assertAmGroupOwner(db, group);
 
         final AccountGroup owner =
             db.accountGroups().get(new AccountGroup.NameKey(newOwnerName));
@@ -155,11 +146,8 @@ public class GroupAdminServiceImpl extends BaseServiceImplementation implements
       final AsyncCallback<VoidResult> callback) {
     run(callback, new Action<VoidResult>() {
       public VoidResult run(final ReviewDb db) throws OrmException, Failure {
-        assertAmGroupOwner(db, groupId);
         final AccountGroup group = db.accountGroups().get(groupId);
-        if (group == null) {
-          throw new Failure(new NoSuchEntityException());
-        }
+        assertAmGroupOwner(db, group);
 
         final AccountGroup.NameKey nameKey = new AccountGroup.NameKey(newName);
         if (!nameKey.equals(group.getNameKey())) {
@@ -178,10 +166,13 @@ public class GroupAdminServiceImpl extends BaseServiceImplementation implements
       final String nameOrEmail, final AsyncCallback<AccountGroupDetail> callback) {
     run(callback, new Action<AccountGroupDetail>() {
       public AccountGroupDetail run(ReviewDb db) throws OrmException, Failure {
-        assertAmGroupOwner(db, groupId);
-        if (Common.getGroupCache().isAutoGroup(groupId)) {
+        final AccountGroup group = db.accountGroups().get(groupId);
+        assertAmGroupOwner(db, group);
+        if (group.isAutomaticMembership()
+            || Common.getGroupCache().isAutoGroup(groupId)) {
           throw new Failure(new NameAlreadyUsedException());
         }
+
         final Account a = findAccount(db, nameOrEmail);
         final AccountGroupMember.Key key =
             new AccountGroupMember.Key(a.getId(), groupId);
@@ -255,9 +246,8 @@ public class GroupAdminServiceImpl extends BaseServiceImplementation implements
     });
   }
 
-  private void assertAmGroupOwner(final ReviewDb db,
-      final AccountGroup.Id groupId) throws OrmException, Failure {
-    final AccountGroup group = db.accountGroups().get(groupId);
+  private void assertAmGroupOwner(final ReviewDb db, final AccountGroup group)
+      throws Failure {
     if (group == null) {
       throw new Failure(new NoSuchEntityException());
     }

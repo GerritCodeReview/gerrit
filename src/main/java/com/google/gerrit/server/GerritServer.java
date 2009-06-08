@@ -433,6 +433,7 @@ public class GerritServer {
             new AccountGroup.Id(c.nextAccountGroupId()));
     anonymous.setDescription("Any user, signed-in or not");
     anonymous.setOwnerGroupId(admin.getId());
+    anonymous.setAutomaticMembership(true);
     c.accountGroups().insert(Collections.singleton(anonymous));
 
     final AccountGroup registered =
@@ -440,6 +441,7 @@ public class GerritServer {
             new AccountGroup.Id(c.nextAccountGroupId()));
     registered.setDescription("Any signed-in user");
     registered.setOwnerGroupId(admin.getId());
+    registered.setAutomaticMembership(true);
     c.accountGroups().insert(Collections.singleton(registered));
 
     final SystemConfig s = SystemConfig.create();

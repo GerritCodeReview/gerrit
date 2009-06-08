@@ -98,6 +98,10 @@ public final class AccountGroup {
   @Column(length = Integer.MAX_VALUE, notNull = false)
   protected String description;
 
+  /** Is the membership managed by some external means? */
+  @Column
+  protected boolean automaticMembership;
+
   protected AccountGroup() {
   }
 
@@ -138,5 +142,13 @@ public final class AccountGroup {
 
   public void setOwnerGroupId(final AccountGroup.Id id) {
     ownerGroupId = id;
+  }
+
+  public boolean isAutomaticMembership() {
+    return automaticMembership;
+  }
+
+  public void setAutomaticMembership(final boolean auto) {
+    automaticMembership = auto;
   }
 }

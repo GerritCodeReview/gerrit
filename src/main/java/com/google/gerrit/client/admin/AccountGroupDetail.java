@@ -46,7 +46,7 @@ public class AccountGroupDetail {
     } else {
       ownerGroup = db.accountGroups().get(group.getOwnerGroupId());
     }
-    autoGroup = isAuto;
+    autoGroup = isAuto || g.isAutomaticMembership();
 
     if (!autoGroup) {
       loadMembers(db, acc);

@@ -16,22 +16,20 @@ package com.google.gerrit.pgm;
 
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.server.GerritServer;
-import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.jdbc.JdbcSchema;
 
 import org.spearce.jgit.lib.RepositoryConfig;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 /** Export system_config from schema version 11 to gerrit.config file. */
-public class ConvertSystemConfig {
-  public static void main(final String[] argv) throws OrmException,
-      SQLException, IOException {
+public class ConvertSystemConfig extends AbstractProgram {
+  @Override
+  public int run() throws Exception {
     final ReviewDb db = GerritServer.createDatabase().open();
     try {
       final Statement s = ((JdbcSchema) db).getConnection().createStatement();
@@ -58,6 +56,7 @@ public class ConvertSystemConfig {
     } finally {
       db.close();
     }
+    return 0;
   }
 
   private static void export(RepositoryConfig config, ResultSet rs)

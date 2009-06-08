@@ -15,16 +15,13 @@
 package com.google.gerrit.pgm;
 
 import com.google.gerrit.server.ssh.GerritSshDaemon;
-import com.google.gwtjsonrpc.server.XsrfException;
-import com.google.gwtorm.client.OrmException;
-
-import java.net.SocketException;
 
 
 /** Run only the SSH daemon portions of Gerrit. */
-public class Daemon {
-  public static void main(final String[] argv) throws SocketException,
-      OrmException, XsrfException {
+public class Daemon extends AbstractProgram {
+  @Override
+  public int run() throws Exception {
     GerritSshDaemon.startSshd();
+    return never();
   }
 }

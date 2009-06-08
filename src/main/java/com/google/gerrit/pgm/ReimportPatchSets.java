@@ -21,9 +21,7 @@ import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.git.InvalidRepositoryException;
 import com.google.gerrit.git.PatchSetImporter;
-import com.google.gerrit.git.WorkQueue;
 import com.google.gerrit.server.GerritServer;
-import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
 
 import org.spearce.jgit.lib.ObjectId;
@@ -34,7 +32,6 @@ import org.spearce.jgit.revwalk.RevCommit;
 import org.spearce.jgit.revwalk.RevWalk;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -53,18 +50,9 @@ import java.util.ArrayList;
  * For each supplied PatchSet the info and patch entities are completely updated
  * based on the data stored in Git.
  */
-public class ReimportPatchSets {
-  public static void main(final String[] argv) throws OrmException,
-      XsrfException, IOException {
-    try {
-      mainImpl(argv);
-    } finally {
-      WorkQueue.terminate();
-    }
-  }
-
-  private static void mainImpl(final String[] argv) throws OrmException,
-      XsrfException, IOException {
+public class ReimportPatchSets extends AbstractProgram {
+  @Override
+  public int run() throws Exception {
     final GerritServer gs = GerritServer.getInstance(false);
     final ArrayList<PatchSet.Id> todo = new ArrayList<PatchSet.Id>();
     final BufferedReader br =
@@ -74,6 +62,7 @@ public class ReimportPatchSets {
       todo.add(PatchSet.Id.parse(line.replace('|', ',')));
     }
 
+    int exitStatus = 0;
     final ReviewDb db = Common.getSchemaFactory().open();
     final ProgressMonitor pm = new TextProgressMonitor();
     try {
@@ -122,9 +111,11 @@ public class ReimportPatchSets {
           e2.getNextException().printStackTrace();
         }
       }
+      exitStatus = 1;
     } finally {
       pm.endTask();
       db.close();
     }
+    return exitStatus;
   }
 }

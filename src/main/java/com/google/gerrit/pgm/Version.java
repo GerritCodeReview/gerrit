@@ -22,7 +22,7 @@ import java.util.Properties;
 
 
 /** Display the version of Gerrit. */
-public class Version {
+public class Version extends AbstractProgram {
   private static String version;
 
   public static synchronized String getVersion() {
@@ -49,12 +49,14 @@ public class Version {
     return version;
   }
 
-  public static void main(final String[] argv) {
+  @Override
+  public int run() throws Exception {
     final String v = getVersion();
     if (v == null) {
       System.err.println("fatal: version unavailable");
-      System.exit(1);
+      return 1;
     }
     System.out.println("gerrit version " + v);
+    return 0;
   }
 }

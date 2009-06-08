@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAAXX////0\u003d",
+        "filename": "src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-08T14:30:01Z",
+      "side": 1,
+      "message": "I would have preferred to use args4j.  Maybe I\u0027ll convert it after submit, its slightly non-trivial since it isn\u0027t setup here yet.",
+      "revId": "742a27ce81e3a5e7524210b673267ce70daf0f9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAXH////k\u003d",
         "filename": "src/main/java/com/google/gerrit/server/ssh/GerritCommandFactory.java",
         "patchSetId": 1
@@ -19,6 +36,23 @@
     },
     {
       "key": {
+        "uuid": "AAAAXX////s\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/GerritCommandFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-08T14:30:01Z",
+      "side": 1,
+      "message": "It must be enabled.\n\nClients trying to fetch invoke git-upload-pack.  You disabled the one thing you wanted the slave mode for.  :-)\n\ngerrit-upload-pack exists only for symmetry with gerrit-receive-pack.  gerrit-receive-pack exists because repo asks for it, because back before args4j was introduced the --cc and --reviewer flags were only available on gerrit-receive-pack.",
+      "revId": "742a27ce81e3a5e7524210b673267ce70daf0f9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAXH////g\u003d",
         "filename": "src/main/java/com/google/gerrit/server/ssh/SshServlet.java",
         "patchSetId": 1
@@ -30,6 +64,23 @@
       "writtenOn": "2009-06-08T04:55:40Z",
       "side": 1,
       "message": "I assume this will never be used from a replication server(?)",
+      "revId": "742a27ce81e3a5e7524210b673267ce70daf0f9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAXX////w\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/SshServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-08T14:30:01Z",
+      "side": 1,
+      "message": "Yes, this will never be used from a slave.  If we ever get http://jira.source.android.com/jira/browse/GERRIT-202 (Make a self-contained Gerrit JAR) done we may need to revisit that assumption at some point and have more explicit control over the SSHD startup in parallel with the embedded servlet container startup.  A slave might actually be able to run a local HTTPD.",
       "revId": "742a27ce81e3a5e7524210b673267ce70daf0f9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -214,7 +214,13 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
     }
     Collections.sort(result, cmp);
     if (limit < result.size()) {
-      result = result.subList(0, limit);
+      // GWT emulation unfortunately lacks subList(int,int).
+      //
+      final List<Change> r = new ArrayList<Change>(limit);
+      for (int i = 0; i < limit; i++) {
+        r.add(result.get(i));
+      }
+      result = r;
     }
     return new ListResultSet<Change>(result);
   }

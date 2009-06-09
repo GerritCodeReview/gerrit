@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAX3////Y\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/GerritCommandFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-09T14:45:51Z",
+      "side": 1,
+      "message": "I wonder if it would make more sense to create a new AbstractCommand subclass that indicates the command is disabled on this server, and to contact another server.  \n\nI think this is especially true for gerrit-receive-pack/git-receive-pack.  If a user pushes to the slave by accident, they should get a nice warning telling them to use the master:\n\n  $ git push slave HEAD:refs/for/master\n  \n  fatal: push not accepted by this server\n\n  Please use the master server URL.\n\nrather than a command error:\n\n  $ git push slave HEAD:refs/for/master\n  gerrit: git-receive-pack: not found\n\nLook at the create() method below for an example of a failing command.  It doesn\u0027t have to be a very fancy command, just define its run method to throw an UnloggedFailure(1, msg).",
+      "revId": "529b0e5830d24d26939da4ce377357b994af09bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -32,6 +32,9 @@ public interface AccountAccess extends Access<Account, Account.Id> {
   @Query("WHERE sshUserName = ?")
   ResultSet<Account> bySshUserName(String userName) throws OrmException;
 
+  @Query("WHERE fullName = ? LIMIT 2")
+  ResultSet<Account> byFullName(String name) throws OrmException;
+
   @Query("WHERE fullName >= ? AND fullName <= ? ORDER BY fullName LIMIT ?")
   ResultSet<Account> suggestByFullName(String nameA, String nameB, int limit)
       throws OrmException;

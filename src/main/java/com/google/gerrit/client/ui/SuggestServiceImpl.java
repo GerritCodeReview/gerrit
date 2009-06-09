@@ -81,7 +81,9 @@ public class SuggestServiceImpl extends BaseServiceImplementation implements
             if (!r.containsKey(e.getAccountId())) {
               final Account p = ac.get(e.getAccountId(), db);
               if (p != null) {
-                r.put(e.getAccountId(), new AccountInfo(p));
+                final AccountInfo info = new AccountInfo(p);
+                info.setPreferredEmail(e.getEmailAddress());
+                r.put(e.getAccountId(), info);
               }
             }
           }

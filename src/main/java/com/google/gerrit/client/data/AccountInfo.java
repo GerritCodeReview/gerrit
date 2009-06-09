@@ -61,4 +61,8 @@ public class AccountInfo {
   public String getPreferredEmail() {
     return preferredEmail;
   }
+
+  public void setPreferredEmail(final String email) {
+    preferredEmail = email;
+  }
 }

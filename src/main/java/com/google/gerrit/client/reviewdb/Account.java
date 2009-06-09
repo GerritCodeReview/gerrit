@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.reviewdb;
 
+import com.google.gerrit.client.rpc.Common;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.IntKey;
 import com.google.gwtorm.client.OrmException;
@@ -63,30 +64,50 @@ public final class Account {
    * 
    * @param db open database handle to use for the query.
    * @param nameOrEmail a string of the format
-   *        "Full Name &lt;email@example&gt;", or just the preferred email
-   *        address ("email@example"), or a full name.
+   *        "Full Name &lt;email@example&gt;", or just the email address
+   *        ("email@example"), or a full name, or an account id.
    * @return the single account that matches; null if no account matches or
    *         there are multiple candidates.
    */
   public static Account find(final ReviewDb db, final String nameOrEmail)
       throws OrmException {
+    if (nameOrEmail.matches("^[1-9][0-9]*$")) {
+      return Common.getAccountCache().get(Account.Id.parse(nameOrEmail));
+    }
+
     final int lt = nameOrEmail.indexOf('<');
     final int gt = nameOrEmail.indexOf('>');
-    if (lt >= 0 && gt > lt) {
-      final String email = nameOrEmail.substring(lt + 1, gt);
-      return one(db.accounts().byPreferredEmail(email));
+    if (lt >= 0 && gt > lt && nameOrEmail.contains("@")) {
+      return findByEmail(db, nameOrEmail.substring(lt + 1, gt));
     }
 
     if (nameOrEmail.contains("@")) {
-      return one(db.accounts().byPreferredEmail(nameOrEmail));
+      return findByEmail(db, nameOrEmail);
     }
 
-    return one(db.accounts().suggestByFullName(nameOrEmail, nameOrEmail, 2));
+    return oneAccount(db.accounts().byFullName(nameOrEmail));
   }
 
-  private static Account one(final ResultSet<Account> rs) {
+  private static Account findByEmail(final ReviewDb db, final String email)
+      throws OrmException {
+    Account a = oneAccount(db.accounts().byPreferredEmail(email));
+    if (a == null) {
+      a = oneAccountExternalId(db.accountExternalIds().byEmailAddress(email));
+    }
+    return a;
+  }
+
+  private static Account oneAccount(ResultSet<Account> rs) {
     final List<Account> r = rs.toList();
     return r.size() == 1 ? r.get(0) : null;
+  }
+
+  private static Account oneAccountExternalId(ResultSet<AccountExternalId> rs) {
+    final List<AccountExternalId> r = rs.toList();
+    if (r.size() == 1) {
+      return Common.getAccountCache().get(r.get(0).getAccountId());
+    }
+    return null;
   }
 
   /** Key local to Gerrit to identify a user. */

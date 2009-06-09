@@ -30,6 +30,13 @@ public abstract class GerritCallback<T> implements AsyncCallback<T> {
     } else if (isNoSuchEntity(caught)) {
       new ErrorDialog(Gerrit.C.notFoundBody()).center();
 
+    } else if (isNoSuchAccount(caught)) {
+      final String msg = caught.getMessage();
+      final String who = msg.substring(NoSuchAccountException.MESSAGE.length());
+      final ErrorDialog d = new ErrorDialog(Gerrit.M.noSuchAccountMessage(who));
+      d.setText(Gerrit.C.noSuchAccountTitle());
+      d.center();
+
     } else if (isNameAlreadyUsed(caught)) {
       new ErrorDialog(Gerrit.C.nameAlreadyUsedBody()).center();
 
@@ -56,6 +63,14 @@ public abstract class GerritCallback<T> implements AsyncCallback<T> {
     }
     return caught instanceof RemoteJsonException
         && caught.getMessage().equals(NoSuchEntityException.MESSAGE);
+  }
+
+  public static boolean isNoSuchAccount(final Throwable caught) {
+    if (caught instanceof NoSuchAccountException) {
+      return true;
+    }
+    return caught instanceof RemoteJsonException
+        && caught.getMessage().startsWith(NoSuchAccountException.MESSAGE);
   }
 
   public static boolean isNameAlreadyUsed(final Throwable caught) {

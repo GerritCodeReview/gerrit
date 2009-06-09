@@ -12,14 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client;
+package com.google.gerrit.client.rpc;
 
-import com.google.gwt.i18n.client.Messages;
+/** Error indicating the account requested doesn't exist. */
+public class NoSuchAccountException extends Exception {
+  private static final long serialVersionUID = 1L;
 
-public interface GerritMessages extends Messages {
-  String windowTitle1(String hostname);
-  String windowTitle2(String section, String hostname);
-  String poweredBy(String version);
+  public static final String MESSAGE = "Not Found: ";
 
-  String noSuchAccountMessage(String who);
+  public NoSuchAccountException(String who) {
+    super(MESSAGE + who);
+  }
 }

@@ -30,6 +30,7 @@ public interface GerritConstants extends Constants {
   String notFoundTitle();
   String notFoundBody();
   String nameAlreadyUsedBody();
+  String noSuchAccountTitle();
 
   String menuAll();
   String menuAllOpen();

@@ -34,6 +34,7 @@ import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.Account.Id;
 import com.google.gerrit.client.rpc.BaseServiceImplementation;
 import com.google.gerrit.client.rpc.Common;
+import com.google.gerrit.client.rpc.NoSuchAccountException;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gerrit.git.RepositoryCache;
 import com.google.gerrit.server.ChangeUtil;
@@ -310,9 +311,10 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
 
         for (final String email : reviewers) {
           final Account who = Account.find(db, email);
-          if (who != null) {
-            reviewerIds.add(who.getId());
+          if (who == null) {
+            throw new Failure(new NoSuchAccountException(email));
           }
+          reviewerIds.add(who.getId());
         }
 
         // Add the reviewer to the database

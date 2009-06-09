@@ -25,6 +25,7 @@ import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.BaseServiceImplementation;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.NameAlreadyUsedException;
+import com.google.gerrit.client.rpc.NoSuchAccountException;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
@@ -284,7 +285,7 @@ public class GroupAdminServiceImpl extends BaseServiceImplementation implements
       throws OrmException, Failure {
     final Account r = Account.find(db, nameOrEmail);
     if (r == null) {
-      throw new Failure(new NoSuchEntityException());
+      throw new Failure(new NoSuchAccountException(nameOrEmail));
     }
     return r;
   }

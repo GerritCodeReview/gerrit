@@ -28,6 +28,9 @@ import com.google.gerrit.client.rpc.NoDifferencesException;
 import com.google.gerrit.client.ui.ChangeLink;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gwt.user.client.History;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
@@ -107,6 +110,14 @@ public abstract class PatchScreen extends Screen {
     idSideB = id.getParentKey();
     this.patchIndex = patchIndex;
 
+    initContextLines();
+  }
+
+  /**
+   * Initialize the context lines to the user's preference, or to the default number if the
+   * user is not logged in.
+   */
+  private void initContextLines() {
     if (Gerrit.isSignedIn()) {
       final AccountGeneralPreferences p =
           Gerrit.getUserAccount().getGeneralPreferences();
@@ -130,6 +141,25 @@ public abstract class PatchScreen extends Screen {
 
     setWindowTitle(PatchUtil.M.patchWindowTitle(changeId.get(), fileName));
     setPageTitle(PatchUtil.M.patchPageTitle(changeId.get(), path));
+
+    //
+    // The check box that lets the user switch between ontext diff and full file diff
+    //
+    final CheckBox showFullFileBox = new CheckBox(PatchUtil.C.showFullFiles());
+    showFullFileBox.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent arg0) {
+        if (showFullFileBox.getValue()) {
+          // Show a diff of the full files
+          contextLines = AccountGeneralPreferences.WHOLE_FILE_CONTEXT;
+        } else {
+          // Restore the context lines to the user's preference
+          initContextLines();
+        }
+        refresh(false /* not the first time */);
+      }
+    });
+    add(showFullFileBox);
 
     historyTable = new HistoryTable(this);
     historyPanel = new DisclosurePanel(PatchUtil.C.patchHistoryTitle());

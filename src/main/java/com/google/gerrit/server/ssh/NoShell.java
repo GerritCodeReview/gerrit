@@ -20,7 +20,6 @@ import org.spearce.jgit.lib.Constants;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Map;
 
 /**
  * Dummy shell which prints a message and terminates.
@@ -53,7 +52,7 @@ class NoShell implements ShellFactory {
         this.exit = callback;
       }
 
-      public void start(final Map<String, String> env) throws IOException {
+      public void start(final Environment env) throws IOException {
         err.write(Constants.encodeASCII("gerrit: no shell available\n"));
         in.close();
         out.close();

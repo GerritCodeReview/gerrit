@@ -842,6 +842,13 @@ class Receive extends AbstractGitCommand {
           throw new OrmException(e);
         }
 
+        final Ref mergedInto = findMergedInto(change.getDest().get(), c);
+        final ReplaceResult result = new ReplaceResult();
+        result.mergedIntoRef = mergedInto != null ? mergedInto.getName() : null;
+        result.change = change;
+        result.patchSet = ps;
+        result.info = imp.getPatchSetInfo();
+
         final Account.Id authorId =
             imp.getPatchSetInfo().getAuthor() != null ? imp.getPatchSetInfo()
                 .getAuthor().getAccount() : null;
@@ -856,7 +863,9 @@ class Receive extends AbstractGitCommand {
         oldReviewers.clear();
         oldCC.clear();
 
-        for (ChangeApproval a : db.changeApprovals().byChange(change.getId())) {
+        result.approvals =
+            db.changeApprovals().byChange(change.getId()).toList();
+        for (ChangeApproval a : result.approvals) {
           haveApprovals.add(a.getAccountId());
 
           if (a.getValue() != 0) {
@@ -878,41 +887,12 @@ class Receive extends AbstractGitCommand {
             if (a.getValue() > 0
                 && ApprovalCategory.SUBMIT.equals(a.getCategoryId())) {
               a.clear();
-              db.changeApprovals().update(Collections.singleton(a), txn);
             } else {
               // Leave my own approvals alone.
               //
             }
           } else if (a.getValue() > 0) {
             a.clear();
-            db.changeApprovals().update(Collections.singleton(a), txn);
-          }
-        }
-
-        final List<ApprovalType> allTypes =
-            Common.getGerritConfig().getApprovalTypes();
-        if (allTypes.size() > 0) {
-          final ApprovalCategory.Id catId =
-              allTypes.get(allTypes.size() - 1).getCategory().getId();
-          if (authorId != null && haveApprovals.add(authorId)) {
-            db.changeApprovals().insert(
-                Collections.singleton(new ChangeApproval(
-                    new ChangeApproval.Key(change.getId(), authorId, catId),
-                    (short) 0)), txn);
-          }
-          if (committerId != null && haveApprovals.add(committerId)) {
-            db.changeApprovals().insert(
-                Collections.singleton(new ChangeApproval(
-                    new ChangeApproval.Key(change.getId(), committerId, catId),
-                    (short) 0)), txn);
-          }
-          for (final Account.Id reviewer : reviewerId) {
-            if (haveApprovals.add(reviewer)) {
-              db.changeApprovals().insert(
-                  Collections.singleton(new ChangeApproval(
-                      new ChangeApproval.Key(change.getId(), reviewer, catId),
-                      (short) 0)), txn);
-            }
           }
         }
 
@@ -921,17 +901,37 @@ class Receive extends AbstractGitCommand {
                 .messageUUID(db)), me, ps.getCreatedOn());
         msg.setMessage("Uploaded patch set " + ps.getPatchSetId() + ".");
         db.changeMessages().insert(Collections.singleton(msg), txn);
-
-        change.setStatus(Change.Status.NEW);
-        change.setCurrentPatchSet(imp.getPatchSetInfo());
-        ChangeUtil.updated(change);
-        db.changes().update(Collections.singleton(change), txn);
-
-        final ReplaceResult result = new ReplaceResult();
-        result.change = change;
-        result.patchSet = ps;
-        result.info = imp.getPatchSetInfo();
         result.msg = msg;
+
+        if (result.mergedIntoRef != null) {
+          // Change was already submitted to a branch, close it.
+          //
+          markChangeMergedByPush(db, txn, result);
+        } else {
+          // Change should be new, so it can go through review again.
+          //
+          change.setStatus(Change.Status.NEW);
+          change.setCurrentPatchSet(imp.getPatchSetInfo());
+          ChangeUtil.updated(change);
+          db.changeApprovals().update(result.approvals, txn);
+          db.changes().update(Collections.singleton(change), txn);
+        }
+
+        final List<ApprovalType> allTypes =
+            Common.getGerritConfig().getApprovalTypes();
+        if (allTypes.size() > 0) {
+          final ApprovalCategory.Id catId =
+              allTypes.get(allTypes.size() - 1).getCategory().getId();
+          if (authorId != null && haveApprovals.add(authorId)) {
+            insertDummyChangeApproval(result, authorId, catId, db, txn);
+          }
+          if (committerId != null && haveApprovals.add(committerId)) {
+            insertDummyChangeApproval(result, committerId, catId, db, txn);
+          }
+          for (final Account.Id reviewer : reviewerId) {
+            insertDummyChangeApproval(result, reviewer, catId, db, txn);
+          }
+        }
         return result;
       }
     });
@@ -965,6 +965,44 @@ class Receive extends AbstractGitCommand {
         log.error("Cannot send email for new patch set " + ps.getId(), e);
       }
     }
+    sendMergedEmail(result);
+  }
+
+  private void insertDummyChangeApproval(final ReplaceResult result,
+      final Account.Id forAccount, final ApprovalCategory.Id catId,
+      final ReviewDb db, final Transaction txn) throws OrmException {
+    final ChangeApproval ca =
+        new ChangeApproval(new ChangeApproval.Key(result.change.getId(),
+            forAccount, catId), (short) 0);
+    ca.cache(result.change);
+    db.changeApprovals().insert(Collections.singleton(ca), txn);
+  }
+
+  private Ref findMergedInto(final String first, final RevCommit commit) {
+    try {
+      final Map<String, Ref> all = repo.getAllRefs();
+      Ref firstRef = all.get(first);
+      if (firstRef != null && isMergedInto(commit, firstRef)) {
+        return firstRef;
+      }
+      for (Ref ref : all.values()) {
+        if (isHead(ref)) {
+          if (isMergedInto(commit, ref)) {
+            return ref;
+          }
+        }
+      }
+      return null;
+    } catch (IOException e) {
+      log.warn("Can't check for already submitted change", e);
+      return null;
+    }
+  }
+
+  private boolean isMergedInto(final RevCommit commit, final Ref ref)
+      throws IOException {
+    final RevWalk rw = rp.getRevWalk();
+    return rw.isMergedInto(commit, rw.parseCommit(ref.getObjectId()));
   }
 
   private static class ReplaceResult {
@@ -972,6 +1010,8 @@ class Receive extends AbstractGitCommand {
     PatchSet patchSet;
     PatchSetInfo info;
     ChangeMessage msg;
+    String mergedIntoRef;
+    List<ChangeApproval> approvals;
   }
 
   private boolean validCommitter(final ReceiveCommand cmd, final RevCommit c) {
@@ -1074,59 +1114,16 @@ class Receive extends AbstractGitCommand {
               return null;
             }
 
-            if (!psi.equals(change.currentPatchSetId())) {
-              change.setCurrentPatchSet(psInfo);
-            }
-            change.setStatus(Change.Status.MERGED);
-            ChangeUtil.updated(change);
-
-            final List<ChangeApproval> approvals =
-                db.changeApprovals().byChange(change.getId()).toList();
-            for (ChangeApproval a : approvals) {
-              a.cache(change);
-            }
-
-            final StringBuilder msgBuf = new StringBuilder();
-            msgBuf.append("Change has been successfully pushed");
-            if (!refName.equals(change.getDest().get())) {
-              msgBuf.append(" into ");
-              if (refName.startsWith(Constants.R_HEADS)) {
-                msgBuf.append("branch ");
-                msgBuf.append(repo.shortenRefName(refName));
-              } else {
-                msgBuf.append(refName);
-              }
-            }
-            msgBuf.append(".");
-            final ChangeMessage msg =
-                new ChangeMessage(new ChangeMessage.Key(change.getId(),
-                    ChangeUtil.messageUUID(db)), getAccountId());
-            msg.setMessage(msgBuf.toString());
-
-            db.changeApprovals().update(approvals, txn);
-            db.changeMessages().insert(Collections.singleton(msg), txn);
-            db.changes().update(Collections.singleton(change), txn);
-
             final ReplaceResult result = new ReplaceResult();
             result.change = change;
             result.patchSet = ps;
             result.info = psInfo;
-            result.msg = msg;
+            result.mergedIntoRef = refName;
+            markChangeMergedByPush(db, txn, result);
             return result;
           }
         });
-    if (result != null) {
-      try {
-        final MergedSender cm = new MergedSender(server, result.change);
-        cm.setFrom(getAccountId());
-        cm.setReviewDb(db);
-        cm.setPatchSet(result.patchSet, result.info);
-        cm.setDest(new Branch.NameKey(proj.getNameKey(), cmd.getRefName()));
-        cm.send();
-      } catch (EmailException e) {
-        log.error("Cannot send email for submitted patch set " + psi, e);
-      }
-    }
+    sendMergedEmail(result);
   }
 
   private Map<ObjectId, Ref> changeRefsById() {
@@ -1141,6 +1138,60 @@ class Receive extends AbstractGitCommand {
     return refsById;
   }
 
+  private void markChangeMergedByPush(final ReviewDb db, final Transaction txn,
+      final ReplaceResult result) throws OrmException {
+    final Change change = result.change;
+    final String mergedIntoRef = result.mergedIntoRef;
+
+    change.setCurrentPatchSet(result.info);
+    change.setStatus(Change.Status.MERGED);
+    ChangeUtil.updated(change);
+
+    if (result.approvals == null) {
+      result.approvals = db.changeApprovals().byChange(change.getId()).toList();
+    }
+    for (ChangeApproval a : result.approvals) {
+      a.cache(change);
+    }
+
+    final StringBuilder msgBuf = new StringBuilder();
+    msgBuf.append("Change has been successfully pushed");
+    if (!mergedIntoRef.equals(change.getDest().get())) {
+      msgBuf.append(" into ");
+      if (mergedIntoRef.startsWith(Constants.R_HEADS)) {
+        msgBuf.append("branch ");
+        msgBuf.append(repo.shortenRefName(mergedIntoRef));
+      } else {
+        msgBuf.append(mergedIntoRef);
+      }
+    }
+    msgBuf.append(".");
+    final ChangeMessage msg =
+        new ChangeMessage(new ChangeMessage.Key(change.getId(), ChangeUtil
+            .messageUUID(db)), getAccountId());
+    msg.setMessage(msgBuf.toString());
+
+    db.changeApprovals().update(result.approvals, txn);
+    db.changeMessages().insert(Collections.singleton(msg), txn);
+    db.changes().update(Collections.singleton(change), txn);
+  }
+
+  private void sendMergedEmail(final ReplaceResult result) {
+    if (result != null && result.mergedIntoRef != null) {
+      try {
+        final MergedSender cm = new MergedSender(server, result.change);
+        cm.setFrom(getAccountId());
+        cm.setReviewDb(db);
+        cm.setPatchSet(result.patchSet, result.info);
+        cm.setDest(new Branch.NameKey(proj.getNameKey(), result.mergedIntoRef));
+        cm.send();
+      } catch (EmailException e) {
+        final PatchSet.Id psi = result.patchSet.getId();
+        log.error("Cannot send email for submitted patch set " + psi, e);
+      }
+    }
+  }
+
   private static void reject(final ReceiveCommand cmd) {
     reject(cmd, "prohibited by Gerrit");
   }
@@ -1151,6 +1202,10 @@ class Receive extends AbstractGitCommand {
 
   private static boolean isTag(final ReceiveCommand cmd) {
     return cmd.getRefName().startsWith(Constants.R_TAGS);
+  }
+
+  private static boolean isHead(final Ref ref) {
+    return ref.getName().startsWith(Constants.R_HEADS);
   }
 
   private static boolean isHead(final ReceiveCommand cmd) {

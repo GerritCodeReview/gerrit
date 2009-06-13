@@ -16,6 +16,8 @@ package com.google.gerrit.client.data;
 
 
 
+import com.google.gerrit.client.data.PatchScriptSettings.Whitespace;
+
 import org.spearce.jgit.diff.Edit;
 
 import java.util.Iterator;
@@ -46,6 +48,10 @@ public class PatchScript {
 
   public int getContext() {
     return settings.getContext();
+  }
+
+  public boolean isIgnoreWhitespace() {
+    return settings.getWhitespace() != Whitespace.IGNORE_NONE;
   }
 
   public SparseFileContent getA() {

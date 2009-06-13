@@ -68,6 +68,7 @@ public class SideBySideTable extends AbstractPatchContentTable {
     lines.add(null);
 
     int lastB = 0;
+    final boolean ignoreWS = script.isIgnoreWhitespace();
     for (final PatchScript.Hunk hunk : script.getHunks()) {
       if (!hunk.isStartOfFile()) {
         appendSkipLine(nc, hunk.getCurB() - lastB);
@@ -78,7 +79,11 @@ public class SideBySideTable extends AbstractPatchContentTable {
         if (hunk.isContextLine()) {
           openLine(nc);
           appendLineText(nc, hunk.getCurA(), CONTEXT, a, hunk.getCurA());
-          appendLineText(nc, hunk.getCurB(), CONTEXT, a, hunk.getCurA());
+          if (ignoreWS && b.contains(hunk.getCurB())) {
+            appendLineText(nc, hunk.getCurB(), CONTEXT, b, hunk.getCurB());
+          } else {
+            appendLineText(nc, hunk.getCurB(), CONTEXT, a, hunk.getCurA());
+          }
           closeLine(nc);
           hunk.incBoth();
           lines.add(new PatchLine(CONTEXT, hunk.getCurA(), hunk.getCurB()));

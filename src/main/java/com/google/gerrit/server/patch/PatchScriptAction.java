@@ -18,6 +18,7 @@ import static com.google.gerrit.client.rpc.BaseServiceImplementation.canRead;
 
 import com.google.gerrit.client.data.PatchScript;
 import com.google.gerrit.client.data.PatchScriptSettings;
+import com.google.gerrit.client.data.PatchScriptSettings.Whitespace;
 import com.google.gerrit.client.patches.CommentDetail;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountGeneralPreferences;
@@ -107,10 +108,41 @@ class PatchScriptAction implements Action<PatchScript> {
     final PatchScriptBuilder b = newBuilder();
     final ObjectId bId = toObjectId(db, psb);
     final ObjectId aId = psa == null ? ancestor(bId) : toObjectId(db, psa);
-    final DiffCacheKey key;
-    final Element cacheElem;
 
-    key = new DiffCacheKey(projectKey, aId, bId, patch, settings);
+    final DiffCacheKey key = keyFor(bId, aId);
+    final DiffCacheContent contentWS = get(key);
+    final CommentDetail comments = allComments(db);
+    if (contentWS.isNoDifference() && comments.isEmpty()) {
+      throw new Failure(new NoDifferencesException());
+    }
+
+    final DiffCacheContent contentActual;
+    if (settings.getWhitespace() != Whitespace.IGNORE_NONE) {
+      // If we are ignoring whitespace in some form, we still need to know
+      // where the post-image differs so we can ensure the post-image lines
+      // are still packed for the client to display.
+      //
+      final PatchScriptSettings s = new PatchScriptSettings(settings);
+      s.setWhitespace(Whitespace.IGNORE_NONE);
+      contentActual = get(new DiffCacheKey(projectKey, aId, bId, patch, s));
+    } else {
+      contentActual = contentWS;
+    }
+
+    try {
+      return b.toPatchScript(contentWS, comments, contentActual);
+    } catch (CorruptEntityException e) {
+      log.error("File content for " + key + " unavailable", e);
+      throw new Failure(new NoSuchEntityException());
+    }
+  }
+
+  private DiffCacheKey keyFor(final ObjectId bId, final ObjectId aId) {
+    return new DiffCacheKey(projectKey, aId, bId, patch, settings);
+  }
+
+  private DiffCacheContent get(final DiffCacheKey key) throws Failure {
+    final Element cacheElem;
     try {
       cacheElem = server.getDiffCache().get(key);
     } catch (IllegalStateException e) {
@@ -120,24 +152,11 @@ class PatchScriptAction implements Action<PatchScript> {
       log.error("Cache get failed for " + key, e);
       throw new Failure(new NoSuchEntityException());
     }
-
     if (cacheElem == null || cacheElem.getObjectValue() == null) {
       log.error("Cache get failed for " + key);
       throw new Failure(new NoSuchEntityException());
     }
-
-    final DiffCacheContent dcc = (DiffCacheContent) cacheElem.getObjectValue();
-    final CommentDetail comments = allComments(db);
-    if (dcc.isNoDifference() && comments.isEmpty()) {
-      throw new Failure(new NoDifferencesException());
-    }
-
-    try {
-      return b.toPatchScript(dcc, comments);
-    } catch (CorruptEntityException e) {
-      log.error("File content for " + key + " unavailable", e);
-      throw new Failure(new NoSuchEntityException());
-    }
+    return (DiffCacheContent) cacheElem.getObjectValue();
   }
 
   private PatchScriptBuilder newBuilder() throws Failure {

@@ -90,9 +90,10 @@ class PatchScriptBuilder {
     return settings.getContext();
   }
 
-  PatchScript toPatchScript(final DiffCacheContent content,
-      final CommentDetail comments) throws CorruptEntityException {
-    final FileHeader fh = content.getFileHeader();
+  PatchScript toPatchScript(final DiffCacheContent contentWS,
+      final CommentDetail comments, final DiffCacheContent contentAct)
+      throws CorruptEntityException {
+    final FileHeader fh = contentAct.getFileHeader();
     if (fh instanceof CombinedFileHeader) {
       // For a diff --cc format we don't support converting it into
       // a patch script. Instead treat everything as a file header.
@@ -102,13 +103,13 @@ class PatchScriptBuilder {
       return new PatchScript(header, settings, dstA, dstB, edits);
     }
 
-    srcA = open(content.getOldId());
-    if (eq(content.getOldId(), content.getNewId())) {
+    srcA = open(contentAct.getOldId());
+    if (eq(contentAct.getOldId(), contentAct.getNewId())) {
       srcB = srcA;
     } else {
-      srcB = open(content.getNewId());
+      srcB = open(contentAct.getNewId());
     }
-    edits = content.getEdits();
+    edits = contentAct.getEdits();
     ensureCommentsVisible(comments);
 
     dstA.setMissingNewlineAtEnd(srcA.isMissingNewlineAtEnd());
@@ -120,7 +121,8 @@ class PatchScriptBuilder {
     if (fh != null) {
       packHeader(fh);
     }
-    if (srcA == srcB && srcA.size() <= context() && edits.isEmpty()) {
+    if (srcA == srcB && srcA.size() <= context()
+        && contentAct.getEdits().isEmpty()) {
       // Odd special case; the files are identical (100% rename or copy)
       // and the user has asked for context that is larger than the file.
       // Send them the entire file, with an empty edit after the last line.
@@ -135,6 +137,16 @@ class PatchScriptBuilder {
       }
       packContent();
     }
+
+    if (contentWS != contentAct) {
+      // The edit list we used to pack the file contents doesn't honor the
+      // whitespace settings requested. Instead we must rebuild our edit
+      // list around the whitespace edit list.
+      //
+      edits = contentWS.getEdits();
+      ensureCommentsVisible(comments);
+    }
+
     return new PatchScript(header, settings, dstA, dstB, edits);
   }
 

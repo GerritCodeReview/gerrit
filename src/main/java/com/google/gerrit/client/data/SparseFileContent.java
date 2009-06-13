@@ -44,6 +44,18 @@ public class SparseFileContent {
   }
 
   public String get(final int idx) {
+    final String line = getLine(idx);
+    if (line == null) {
+      throw new ArrayIndexOutOfBoundsException(idx);
+    }
+    return line;
+  }
+
+  public boolean contains(final int idx) {
+    return getLine(idx) != null;
+  }
+
+  private String getLine(final int idx) {
     for (int i = lastGetRange; i < ranges.size(); i++) {
       final Range r = ranges.get(i);
       if (r.contains(idx)) {
@@ -53,9 +65,9 @@ public class SparseFileContent {
     }
     if (lastGetRange != 0) {
       lastGetRange = 0;
-      return get(idx);
+      return getLine(idx);
     }
-    throw new ArrayIndexOutOfBoundsException(idx);
+    return null;
   }
 
   public void addLine(final int i, final String content) {

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.patch;
 
+import com.google.gerrit.client.patches.PatchScriptSettings;
+import com.google.gerrit.client.patches.PatchScriptSettings.Whitespace;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.Project;
 
@@ -27,26 +29,29 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 public final class DiffCacheKey implements Serializable {
-  private static final long serialVersionUID = 3L;
+  private static final long serialVersionUID = 4L;
 
   private transient Project.NameKey projectKey;
   private transient ObjectId oldId;
   private transient ObjectId newId;
   private transient String fileName;
   private transient String sourceFileName;
+  private transient Whitespace whitespace;
 
   public DiffCacheKey(final Project.NameKey pnk, final AnyObjectId a,
-      final AnyObjectId b, final Patch p) {
-    this(pnk, a, b, p.getFileName(), p.getSourceFileName());
+      final AnyObjectId b, final Patch p, final PatchScriptSettings s) {
+    this(pnk, a, b, p.getFileName(), p.getSourceFileName(), s.getWhitespace());
   }
 
   public DiffCacheKey(final Project.NameKey p, final AnyObjectId a,
-      final AnyObjectId b, final String dname, final String sname) {
+      final AnyObjectId b, final String dname, final String sname,
+      final Whitespace ws) {
     projectKey = p;
     oldId = a != null ? a.copy() : null;
     newId = b.copy();
     fileName = dname;
     sourceFileName = sname;
+    whitespace = ws;
   }
 
   public Project.NameKey getProjectKey() {
@@ -69,6 +74,10 @@ public final class DiffCacheKey implements Serializable {
     return sourceFileName;
   }
 
+  public Whitespace getWhitespace() {
+    return whitespace;
+  }
+
   @Override
   public int hashCode() {
     int h = projectKey.hashCode();
@@ -89,6 +98,9 @@ public final class DiffCacheKey implements Serializable {
       h += sourceFileName.hashCode();
     }
 
+    h *= 31;
+    h += whitespace.ordinal();
+
     return h;
   }
 
@@ -98,7 +110,7 @@ public final class DiffCacheKey implements Serializable {
       final DiffCacheKey k = (DiffCacheKey) o;
       return projectKey.equals(k.projectKey) && eq(oldId, k.oldId)
           && eq(newId, k.newId) && eq(fileName, k.fileName)
-          && eq(sourceFileName, k.sourceFileName);
+          && eq(sourceFileName, k.sourceFileName) && whitespace == k.whitespace;
     }
     return false;
   }
@@ -121,6 +133,8 @@ public final class DiffCacheKey implements Serializable {
   public String toString() {
     final StringBuilder r = new StringBuilder();
     r.append("DiffCache[");
+    r.append(whitespace.name());
+    r.append(" ");
     r.append(projectKey.toString());
     r.append(" ");
     if (oldId != null) {
@@ -144,6 +158,7 @@ public final class DiffCacheKey implements Serializable {
     ObjectIdSerialization.write(out, newId);
     writeString(out, fileName);
     writeString(out, sourceFileName);
+    writeString(out, whitespace.name());
   }
 
   private void readObject(final ObjectInputStream in) throws IOException {
@@ -152,6 +167,7 @@ public final class DiffCacheKey implements Serializable {
     newId = ObjectIdSerialization.read(in);
     fileName = readString(in);
     sourceFileName = readString(in);
+    whitespace = Whitespace.valueOf(readString(in));
   }
 
   private static void writeString(final ObjectOutputStream out, final String s)

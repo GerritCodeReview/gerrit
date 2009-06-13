@@ -14,6 +14,8 @@
 
 package com.google.gerrit.git;
 
+import static com.google.gerrit.client.patches.PatchScriptSettings.Whitespace.IGNORE_NONE;
+
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountExternalId;
 import com.google.gerrit.client.reviewdb.Patch;
@@ -328,7 +330,8 @@ public class PatchSetImporter {
           break;
       }
 
-      k = new DiffCacheKey(projectKey, a, b, fh.getNewName(), srcName);
+      final String newName = fh.getNewName();
+      k = new DiffCacheKey(projectKey, a, b, newName, srcName, IGNORE_NONE);
       diffCache.put(new Element(k, DiffCacheContent.create(repo, k, fh)));
     }
 

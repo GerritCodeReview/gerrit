@@ -51,7 +51,7 @@ public class PatchFile {
     final RevWalk rw = new RevWalk(repo);
     final RevCommit bCommit = rw.parseCommit(ObjectId.fromString(id.get()));
     if (bCommit.getParentCount() > 0) {
-      rw.parse(bCommit.getParent(0));
+      rw.parseHeaders(bCommit.getParent(0));
       aTree = bCommit.getParent(0).getTree();
     } else {
       aTree = emptyTree();

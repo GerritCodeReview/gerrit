@@ -329,6 +329,12 @@
 }
 
 
+/** PatchScreen **/
+.gerrit-PatchScreen-DisplayControls .gwt-CheckBox {
+  margin-right: 1em;
+}
+
+
 /** PatchContentTable **/
 .gerrit-PatchContentTable {
   width: 100%;

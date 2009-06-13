@@ -30,6 +30,7 @@ public interface PatchConstants extends Constants {
   String patchHeaderNew();
 
   String showFullFiles();
+  String ignoreWhitespace();
   String patchHistoryTitle();
 
   String upToChange();

@@ -46,6 +46,21 @@ public class DiffCacheEntryFactory implements CacheEntryFactory {
     if (key.getSourceFileName() != null) {
       args.add("-M");
     }
+    switch (key.getWhitespace()) {
+      case IGNORE_NONE:
+        break;
+      case IGNORE_SPACE_AT_EOL:
+        args.add("--ignore-space-at-eol");
+        break;
+      case IGNORE_SPACE_CHANGE:
+        args.add("--ignore-space-change");
+        break;
+      case IGNORE_ALL_SPACE:
+        args.add("--ignore-all-space");
+        break;
+      default:
+        throw new IOException("Unsupported whitespace " + key.getWhitespace());
+    }
     args.add("--full-index");
 
     if (key.getOldId() == null) {

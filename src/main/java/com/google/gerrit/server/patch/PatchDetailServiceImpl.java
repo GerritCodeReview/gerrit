@@ -19,6 +19,7 @@ import com.google.gerrit.client.data.PatchScript;
 import com.google.gerrit.client.data.ProjectCache;
 import com.google.gerrit.client.patches.CommentDetail;
 import com.google.gerrit.client.patches.PatchDetailService;
+import com.google.gerrit.client.patches.PatchScriptSettings;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
@@ -70,7 +71,7 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
   }
 
   public void patchScript(final Patch.Key patchKey, final PatchSet.Id psa,
-      final PatchSet.Id psb, final int ctx,
+      final PatchSet.Id psb, final PatchScriptSettings s,
       final AsyncCallback<PatchScript> callback) {
     if (psb == null) {
       callback.onFailure(new NoSuchEntityException());
@@ -81,7 +82,7 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
       callback.onFailure(new Exception("No Repository Cache configured"));
       return;
     }
-    run(callback, new PatchScriptAction(server, rc, patchKey, psa, psb, ctx));
+    run(callback, new PatchScriptAction(server, rc, patchKey, psa, psb, s));
   }
 
   public void patchComments(final Patch.Key patchKey, final PatchSet.Id psa,

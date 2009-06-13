@@ -14,6 +14,11 @@
 
 package com.google.gerrit.client.patches;
 
+import static com.google.gerrit.client.reviewdb.AccountGeneralPreferences.DEFAULT_CONTEXT;
+import static com.google.gerrit.client.reviewdb.AccountGeneralPreferences.WHOLE_FILE_CONTEXT;
+import static com.google.gerrit.client.patches.PatchScriptSettings.Whitespace.IGNORE_NONE;
+import static com.google.gerrit.client.patches.PatchScriptSettings.Whitespace.IGNORE_SPACE_CHANGE;
+
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.Link;
 import com.google.gerrit.client.changes.PatchTable;
@@ -80,7 +85,7 @@ public abstract class PatchScreen extends Screen {
   protected PatchTable fileList;
   protected PatchSet.Id idSideA;
   protected PatchSet.Id idSideB;
-  protected int contextLines;
+  protected final PatchScriptSettings scriptSettings;
 
   private DisclosurePanel historyPanel;
   private HistoryTable historyTable;
@@ -109,21 +114,22 @@ public abstract class PatchScreen extends Screen {
     idSideA = null;
     idSideB = id.getParentKey();
     this.patchIndex = patchIndex;
+    scriptSettings = new PatchScriptSettings();
 
     initContextLines();
   }
 
   /**
-   * Initialize the context lines to the user's preference, or to the default number if the
-   * user is not logged in.
+   * Initialize the context lines to the user's preference, or to the default
+   * number if the user is not logged in.
    */
   private void initContextLines() {
     if (Gerrit.isSignedIn()) {
       final AccountGeneralPreferences p =
           Gerrit.getUserAccount().getGeneralPreferences();
-      contextLines = p.getDefaultContext();
+      scriptSettings.setContext(p.getDefaultContext());
     } else {
-      contextLines = AccountGeneralPreferences.DEFAULT_CONTEXT;
+      scriptSettings.setContext(DEFAULT_CONTEXT);
     }
   }
 
@@ -142,31 +148,13 @@ public abstract class PatchScreen extends Screen {
     setWindowTitle(PatchUtil.M.patchWindowTitle(changeId.get(), fileName));
     setPageTitle(PatchUtil.M.patchPageTitle(changeId.get(), path));
 
-    //
-    // The check box that lets the user switch between ontext diff and full file diff
-    //
-    final CheckBox showFullFileBox = new CheckBox(PatchUtil.C.showFullFiles());
-    showFullFileBox.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(ClickEvent arg0) {
-        if (showFullFileBox.getValue()) {
-          // Show a diff of the full files
-          contextLines = AccountGeneralPreferences.WHOLE_FILE_CONTEXT;
-        } else {
-          // Restore the context lines to the user's preference
-          initContextLines();
-        }
-        refresh(false /* not the first time */);
-      }
-    });
-    add(showFullFileBox);
-
     historyTable = new HistoryTable(this);
     historyPanel = new DisclosurePanel(PatchUtil.C.patchHistoryTitle());
     historyPanel.setContent(historyTable);
     historyPanel.setOpen(false);
     historyPanel.setVisible(false);
     add(historyPanel);
+    initDisplayControls();
 
     noDifference = new Label(PatchUtil.C.noDifference());
     noDifference.setStyleName("gerrit-PatchNoDifference");
@@ -182,6 +170,49 @@ public abstract class PatchScreen extends Screen {
     contentPanel.add(contentTable);
     add(contentPanel);
     add(createNextPrevLinks());
+  }
+
+  private void initDisplayControls() {
+    final FlowPanel displayControls = new FlowPanel();
+    displayControls.setStyleName("gerrit-PatchScreen-DisplayControls");
+    add(displayControls);
+
+    displayControls.add(createShowFullFiles());
+    displayControls.add(createIgnoreWhitespace());
+  }
+
+  private Widget createShowFullFiles() {
+    final CheckBox cb = new CheckBox(PatchUtil.C.showFullFiles());
+    cb.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent arg0) {
+        if (cb.getValue()) {
+          // Show a diff of the full files
+          scriptSettings.setContext(WHOLE_FILE_CONTEXT);
+        } else {
+          // Restore the context lines to the user's preference
+          initContextLines();
+        }
+        refresh(false /* not the first time */);
+      }
+    });
+    return cb;
+  }
+
+  private Widget createIgnoreWhitespace() {
+    final CheckBox cb = new CheckBox(PatchUtil.C.ignoreWhitespace());
+    cb.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent arg0) {
+        if (cb.getValue()) {
+          scriptSettings.setWhitespace(IGNORE_SPACE_CHANGE);
+        } else {
+          scriptSettings.setWhitespace(IGNORE_NONE);
+        }
+        refresh(false /* not the first time */);
+      }
+    });
+    return cb;
   }
 
   private Widget createNextPrevLinks() {
@@ -228,8 +259,8 @@ public abstract class PatchScreen extends Screen {
     script = null;
     comments = null;
 
-    PatchUtil.DETAIL_SVC.patchScript(patchKey, idSideA, idSideB, contextLines,
-        new GerritCallback<PatchScript>() {
+    PatchUtil.DETAIL_SVC.patchScript(patchKey, idSideA, idSideB,
+        scriptSettings, new GerritCallback<PatchScript>() {
           public void onSuccess(final PatchScript result) {
             if (rpcSequence == rpcseq) {
               script = result;

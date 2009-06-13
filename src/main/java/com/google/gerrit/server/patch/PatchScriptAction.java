@@ -18,6 +18,7 @@ import static com.google.gerrit.client.rpc.BaseServiceImplementation.canRead;
 
 import com.google.gerrit.client.data.PatchScript;
 import com.google.gerrit.client.patches.CommentDetail;
+import com.google.gerrit.client.patches.PatchScriptSettings;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountGeneralPreferences;
 import com.google.gerrit.client.reviewdb.Change;
@@ -60,7 +61,7 @@ class PatchScriptAction implements Action<PatchScript> {
   private final Patch.Key patchKey;
   private final PatchSet.Id psa;
   private final PatchSet.Id psb;
-  private final int context;
+  private final PatchScriptSettings settings;
 
   private final PatchSet.Id patchSetId;
   private final Change.Id changeId;
@@ -72,13 +73,13 @@ class PatchScriptAction implements Action<PatchScript> {
 
   PatchScriptAction(final GerritServer gs, final RepositoryCache rc,
       final Patch.Key patchKey, final PatchSet.Id psa, final PatchSet.Id psb,
-      final int context) {
+      final PatchScriptSettings settings) {
     this.server = gs;
     this.rc = rc;
     this.patchKey = patchKey;
     this.psa = psa;
     this.psb = psb;
-    this.context = context;
+    this.settings = settings;
 
     patchSetId = patchKey.getParentKey();
     changeId = patchSetId.getParentKey();
@@ -106,8 +107,10 @@ class PatchScriptAction implements Action<PatchScript> {
     final PatchScriptBuilder b = newBuilder();
     final ObjectId bId = toObjectId(db, psb);
     final ObjectId aId = psa == null ? ancestor(bId) : toObjectId(db, psa);
-    final DiffCacheKey key = new DiffCacheKey(projectKey, aId, bId, patch);
+    final DiffCacheKey key;
     final Element cacheElem;
+
+    key = new DiffCacheKey(projectKey, aId, bId, patch, settings);
     try {
       cacheElem = server.getDiffCache().get(key);
     } catch (IllegalStateException e) {
@@ -142,10 +145,11 @@ class PatchScriptAction implements Action<PatchScript> {
     b.setRepository(git);
     b.setPatch(patch);
 
-    if (context == AccountGeneralPreferences.WHOLE_FILE_CONTEXT)
+    final int ctx = settings.getContext();
+    if (ctx == AccountGeneralPreferences.WHOLE_FILE_CONTEXT)
       b.setContext(PatchScriptBuilder.MAX_CONTEXT);
-    else if (0 <= context && context <= PatchScriptBuilder.MAX_CONTEXT)
-      b.setContext(context);
+    else if (0 <= ctx && ctx <= PatchScriptBuilder.MAX_CONTEXT)
+      b.setContext(ctx);
     else
       throw new Failure(new NoSuchEntityException());
     return b;

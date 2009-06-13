@@ -29,8 +29,8 @@ import java.util.List;
 import java.util.Set;
 
 public interface PatchDetailService extends RemoteJsonService {
-  void patchScript(Patch.Key key, PatchSet.Id a, PatchSet.Id b, int context,
-      AsyncCallback<PatchScript> callback);
+  void patchScript(Patch.Key key, PatchSet.Id a, PatchSet.Id b,
+      PatchScriptSettings settings, AsyncCallback<PatchScript> callback);
 
   void patchComments(Patch.Key key, PatchSet.Id a, PatchSet.Id b,
       AsyncCallback<CommentDetail> callback);

@@ -14,7 +14,7 @@
 
 package com.google.gerrit.git;
 
-import static com.google.gerrit.client.patches.PatchScriptSettings.Whitespace.IGNORE_NONE;
+import static com.google.gerrit.client.data.PatchScriptSettings.Whitespace.IGNORE_NONE;
 
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountExternalId;

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.patches;
+package com.google.gerrit.client.data;
 
 import com.google.gerrit.client.reviewdb.AccountGeneralPreferences;
 

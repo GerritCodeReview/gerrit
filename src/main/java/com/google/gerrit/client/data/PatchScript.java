@@ -15,7 +15,6 @@
 package com.google.gerrit.client.data;
 
 
-import com.google.gerrit.client.patches.PatchScriptSettings;
 
 import org.spearce.jgit.diff.Edit;
 

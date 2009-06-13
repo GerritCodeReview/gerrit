@@ -15,6 +15,7 @@
 package com.google.gerrit.client.patches;
 
 import com.google.gerrit.client.data.PatchScript;
+import com.google.gerrit.client.data.PatchScriptSettings;
 import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.Patch;

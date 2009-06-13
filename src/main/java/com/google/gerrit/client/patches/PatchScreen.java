@@ -16,14 +16,15 @@ package com.google.gerrit.client.patches;
 
 import static com.google.gerrit.client.reviewdb.AccountGeneralPreferences.DEFAULT_CONTEXT;
 import static com.google.gerrit.client.reviewdb.AccountGeneralPreferences.WHOLE_FILE_CONTEXT;
-import static com.google.gerrit.client.patches.PatchScriptSettings.Whitespace.IGNORE_NONE;
-import static com.google.gerrit.client.patches.PatchScriptSettings.Whitespace.IGNORE_SPACE_CHANGE;
+import static com.google.gerrit.client.data.PatchScriptSettings.Whitespace.IGNORE_NONE;
+import static com.google.gerrit.client.data.PatchScriptSettings.Whitespace.IGNORE_SPACE_CHANGE;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.Link;
 import com.google.gerrit.client.changes.PatchTable;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.data.PatchScript;
+import com.google.gerrit.client.data.PatchScriptSettings;
 import com.google.gerrit.client.reviewdb.AccountGeneralPreferences;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.Patch;

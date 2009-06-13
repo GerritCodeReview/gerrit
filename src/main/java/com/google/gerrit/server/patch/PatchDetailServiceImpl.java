@@ -16,10 +16,10 @@ package com.google.gerrit.server.patch;
 
 import com.google.gerrit.client.data.ApprovalType;
 import com.google.gerrit.client.data.PatchScript;
+import com.google.gerrit.client.data.PatchScriptSettings;
 import com.google.gerrit.client.data.ProjectCache;
 import com.google.gerrit.client.patches.CommentDetail;
 import com.google.gerrit.client.patches.PatchDetailService;
-import com.google.gerrit.client.patches.PatchScriptSettings;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;

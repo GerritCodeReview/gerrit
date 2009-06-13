@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.patch;
 
-import com.google.gerrit.client.patches.PatchScriptSettings;
-import com.google.gerrit.client.patches.PatchScriptSettings.Whitespace;
+import com.google.gerrit.client.data.PatchScriptSettings;
+import com.google.gerrit.client.data.PatchScriptSettings.Whitespace;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.Project;
 

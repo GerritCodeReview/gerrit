@@ -15,9 +15,9 @@
 package com.google.gerrit.server.patch;
 
 import com.google.gerrit.client.data.PatchScript;
+import com.google.gerrit.client.data.PatchScriptSettings;
 import com.google.gerrit.client.data.SparseFileContent;
 import com.google.gerrit.client.patches.CommentDetail;
-import com.google.gerrit.client.patches.PatchScriptSettings;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.rpc.CorruptEntityException;

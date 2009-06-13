@@ -17,8 +17,8 @@ package com.google.gerrit.server.patch;
 import static com.google.gerrit.client.rpc.BaseServiceImplementation.canRead;
 
 import com.google.gerrit.client.data.PatchScript;
+import com.google.gerrit.client.data.PatchScriptSettings;
 import com.google.gerrit.client.patches.CommentDetail;
-import com.google.gerrit.client.patches.PatchScriptSettings;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountGeneralPreferences;
 import com.google.gerrit.client.reviewdb.Change;

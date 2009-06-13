@@ -262,7 +262,7 @@ public class ChangeScreen extends Screen {
       final PatchSetPanel psp = new PatchSetPanel(detail, ps);
       panel.setContent(psp);
 
-      final InlineLabel revtxt = new InlineLabel(ps.getRevision().get());
+      final InlineLabel revtxt = new InlineLabel(ps.getRevision().get() + " ");
       revtxt.addStyleName("gerrit-PatchSetRevision");
       panel.getHeader().add(revtxt);
       if (gw != null) {

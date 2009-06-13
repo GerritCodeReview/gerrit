@@ -46,6 +46,7 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.mail.EmailException;
+import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.OrmRunnable;
@@ -124,6 +125,8 @@ class Receive extends AbstractGitCommand {
   private final Map<Change.Id, Change> changeCache =
       new HashMap<Change.Id, Change>();
 
+  private Map<ObjectId, Ref> refsById;
+
   @Override
   protected void preRun() throws Failure {
     super.preRun();
@@ -169,6 +172,7 @@ class Receive extends AbstractGitCommand {
                   deleteBranchEntity(c);
                   break;
               }
+              autoCloseChanges(c);
             }
 
             if (isHead(c) || isTag(c)) {
@@ -1021,6 +1025,120 @@ class Receive extends AbstractGitCommand {
         // Ignore errors writing to the client
       }
     }
+  }
+
+  private void autoCloseChanges(final ReceiveCommand cmd) {
+    final RevWalk rw = rp.getRevWalk();
+    try {
+      rw.reset();
+      rw.markStart(rw.parseCommit(cmd.getNewId()));
+      rw.markUninteresting(rw.parseCommit(cmd.getOldId()));
+
+      final Map<ObjectId, Ref> changes = changeRefsById();
+      RevCommit c;
+      while ((c = rw.next()) != null) {
+        Ref r = changes.get(c.copy());
+        if (r != null) {
+          closeChange(cmd, PatchSet.Id.fromRef(r.getName()));
+        }
+      }
+    } catch (IOException e) {
+      log.error("Can't scan for changes to close", e);
+    } catch (OrmException e) {
+      log.error("Can't scan for changes to close", e);
+    }
+  }
+
+  private void closeChange(final ReceiveCommand cmd, final PatchSet.Id psi)
+      throws OrmException {
+    final String refName = cmd.getRefName();
+    final Change.Id cid = psi.getParentKey();
+    final ReplaceResult result =
+        db.run(new OrmRunnable<ReplaceResult, ReviewDb>() {
+          @Override
+          public ReplaceResult run(ReviewDb db, Transaction txn, boolean retry)
+              throws OrmException {
+            final Change change = db.changes().get(cid);
+            final PatchSet ps = db.patchSets().get(psi);
+            final PatchSetInfo psInfo = db.patchSetInfo().get(psi);
+            if (change == null || ps == null || psInfo == null) {
+              log.warn(proj.getName() + " " + psi + " is missing");
+              return null;
+            }
+
+            if (change.getStatus() == Change.Status.MERGED) {
+              // If its already merged, don't make further updates, it
+              // might just be moving from an experimental branch into
+              // a more stable branch.
+              //
+              return null;
+            }
+
+            if (!psi.equals(change.currentPatchSetId())) {
+              change.setCurrentPatchSet(psInfo);
+            }
+            change.setStatus(Change.Status.MERGED);
+            ChangeUtil.updated(change);
+
+            final List<ChangeApproval> approvals =
+                db.changeApprovals().byChange(change.getId()).toList();
+            for (ChangeApproval a : approvals) {
+              a.cache(change);
+            }
+
+            final StringBuilder msgBuf = new StringBuilder();
+            msgBuf.append("Change has been successfully pushed");
+            if (!refName.equals(change.getDest().get())) {
+              msgBuf.append(" into ");
+              if (refName.startsWith(Constants.R_HEADS)) {
+                msgBuf.append("branch ");
+                msgBuf.append(repo.shortenRefName(refName));
+              } else {
+                msgBuf.append(refName);
+              }
+            }
+            msgBuf.append(".");
+            final ChangeMessage msg =
+                new ChangeMessage(new ChangeMessage.Key(change.getId(),
+                    ChangeUtil.messageUUID(db)), getAccountId());
+            msg.setMessage(msgBuf.toString());
+
+            db.changeApprovals().update(approvals, txn);
+            db.changeMessages().insert(Collections.singleton(msg), txn);
+            db.changes().update(Collections.singleton(change), txn);
+
+            final ReplaceResult result = new ReplaceResult();
+            result.change = change;
+            result.patchSet = ps;
+            result.info = psInfo;
+            result.msg = msg;
+            return result;
+          }
+        });
+    if (result != null) {
+      try {
+        final MergedSender cm = new MergedSender(server, result.change);
+        cm.setFrom(getAccountId());
+        cm.setReviewDb(db);
+        cm.setPatchSet(result.patchSet, result.info);
+        cm.setDest(new Branch.NameKey(proj.getNameKey(), cmd.getRefName()));
+        cm.send();
+      } catch (EmailException e) {
+        log.error("Cannot send email for submitted patch set " + psi, e);
+      }
+    }
+  }
+
+  private Map<ObjectId, Ref> changeRefsById() {
+    if (refsById == null) {
+      refsById = new HashMap<ObjectId, Ref>();
+      for (final Ref r : repo.getAllRefs().values()) {
+        if (PatchSet.isRef(r.getName())) {
+          refsById.put(r.getObjectId(), r);
+        }
+      }
+    }
+    return refsById;
   }
 
   private static void reject(final ReceiveCommand cmd) {

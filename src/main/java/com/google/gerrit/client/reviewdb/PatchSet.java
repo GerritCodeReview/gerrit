@@ -21,6 +21,13 @@ import java.sql.Timestamp;
 
 /** A single revision of a {@link Change}. */
 public final class PatchSet {
+  private static final String REFS_CHANGES = "refs/changes/";
+
+  /** Is the reference name a change reference? */
+  public static boolean isRef(final String name) {
+    return name.matches("^refs/changes/.*/[1-9][0-9]*/[1-9][0-9]*$");
+  }
+
   public static class Id extends IntKey<Change.Id> {
     private static final long serialVersionUID = 1L;
 
@@ -59,6 +66,21 @@ public final class PatchSet {
       final Id r = new Id();
       r.fromString(str);
       return r;
+    }
+
+    /** Parse a PatchSet.Id from a {@link PatchSet#getRefName()} result. */
+    public static Id fromRef(String name) {
+      if (!name.startsWith(REFS_CHANGES)) {
+        throw new IllegalArgumentException("Not a PatchSet.Id: " + name);
+      }
+      final String[] parts = name.substring(REFS_CHANGES.length()).split("/");
+      final int n = parts.length;
+      if (n < 2) {
+        throw new IllegalArgumentException("Not a PatchSet.Id: " + name);
+      }
+      final int changeId = Integer.parseInt(parts[n - 2]);
+      final int patchSetId = Integer.parseInt(parts[n - 1]);
+      return new PatchSet.Id(new Change.Id(changeId), patchSetId);
     }
   }
 
@@ -116,7 +138,7 @@ public final class PatchSet {
 
   public String getRefName() {
     final StringBuilder r = new StringBuilder();
-    r.append("refs/changes/");
+    r.append(REFS_CHANGES);
     final int changeId = id.getParentKey().get();
     final int m = changeId % 100;
     if (m < 10) {

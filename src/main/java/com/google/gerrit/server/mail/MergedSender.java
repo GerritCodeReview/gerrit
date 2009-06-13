@@ -19,6 +19,7 @@ import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountProjectWatch;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
+import com.google.gerrit.client.reviewdb.Branch;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.ChangeApproval;
 import com.google.gerrit.client.reviewdb.Project;
@@ -31,8 +32,15 @@ import java.util.Map;
 
 /** Send notice about a change successfully merged. */
 public class MergedSender extends ReplyToChangeSender {
+  private Branch.NameKey dest;
+
   public MergedSender(GerritServer gs, Change c) {
     super(gs, c, "merged");
+    dest = c.getDest();
+  }
+
+  public void setDest(final Branch.NameKey key) {
+    dest = key;
   }
 
   @Override
@@ -54,7 +62,7 @@ public class MergedSender extends ReplyToChangeSender {
       appendText(patchSetInfo.getAuthor().getName());
     }
     appendText(" submitted to ");
-    appendText(change.getDest().getShortName());
+    appendText(dest.getShortName());
     appendText(":\n\n");
     formatChangeDetail();
     formatApprovals();

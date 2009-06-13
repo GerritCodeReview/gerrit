@@ -21,7 +21,8 @@ public class SparseFileContent {
   protected List<Range> ranges;
   protected int size;
   protected boolean missingNewlineAtEnd;
-  private transient int lastGetRange;
+
+  private transient int currentRangeIdx;
 
   public SparseFileContent() {
     ranges = new ArrayList<Range>();
@@ -56,17 +57,39 @@ public class SparseFileContent {
   }
 
   private String getLine(final int idx) {
-    for (int i = lastGetRange; i < ranges.size(); i++) {
-      final Range r = ranges.get(i);
-      if (r.contains(idx)) {
-        lastGetRange = i;
-        return r.get(idx);
+    // Most requests are sequential in nature, fetching the next
+    // line from the current range, or the next range.
+    //
+    int high = ranges.size();
+    if (currentRangeIdx < high) {
+      Range cur = ranges.get(currentRangeIdx);
+      if (cur.contains(idx)) {
+        return cur.get(idx);
+      }
+
+      if (++currentRangeIdx < high) {
+        final Range next = ranges.get(currentRangeIdx);
+        if (next.contains(idx)) {
+          return next.get(idx);
+        }
       }
     }
-    if (lastGetRange != 0) {
-      lastGetRange = 0;
-      return getLine(idx);
-    }
+
+    // Binary search for the range, since we know its a sorted list.
+    //
+    int low = 0;
+    do {
+      final int mid = (low + high) / 2;
+      final Range cur = ranges.get(mid);
+      if (cur.contains(idx)) {
+        currentRangeIdx = mid;
+        return cur.get(idx);
+      }
+      if (cur.base < idx)
+        high = mid;
+      else
+        low = mid + 1;
+    } while (low < high);
     return null;
   }
 

@@ -15,6 +15,8 @@
 package com.google.gerrit.client.data;
 
 
+import com.google.gerrit.client.patches.PatchScriptSettings;
+
 import org.spearce.jgit.diff.Edit;
 
 import java.util.Iterator;
@@ -22,15 +24,15 @@ import java.util.List;
 
 public class PatchScript {
   protected List<String> header;
-  protected int context;
+  protected PatchScriptSettings settings;
   protected SparseFileContent a;
   protected SparseFileContent b;
   protected List<Edit> edits;
 
-  public PatchScript(final List<String> h, final int ctx,
+  public PatchScript(final List<String> h, final PatchScriptSettings s,
       final SparseFileContent ca, final SparseFileContent cb, final List<Edit> e) {
     header = h;
-    context = ctx;
+    settings = s;
     a = ca;
     b = cb;
     edits = e;
@@ -44,7 +46,7 @@ public class PatchScript {
   }
 
   public int getContext() {
-    return context;
+    return settings.getContext();
   }
 
   public SparseFileContent getA() {
@@ -92,11 +94,15 @@ public class PatchScript {
   }
 
   private boolean combineA(final int i) {
-    return edits.get(i).getBeginA() - edits.get(i - 1).getEndA() <= 2 * context;
+    final Edit s = edits.get(i);
+    final Edit e = edits.get(i - 1);
+    return s.getBeginA() - e.getEndA() <= 2 * getContext();
   }
 
   private boolean combineB(final int i) {
-    return edits.get(i).getBeginB() - edits.get(i - 1).getEndB() <= 2 * context;
+    final int s = edits.get(i).getBeginB();
+    final int e = edits.get(i - 1).getEndB();
+    return s - e <= 2 * getContext();
   }
 
   private static boolean end(final Edit edit, final int a, final int b) {
@@ -120,10 +126,10 @@ public class PatchScript {
       curEdit = edits.get(curIdx);
       endEdit = edits.get(endIdx);
 
-      aCur = Math.max(0, curEdit.getBeginA() - context);
-      bCur = Math.max(0, curEdit.getBeginB() - context);
-      aEnd = Math.min(a.size(), endEdit.getEndA() + context);
-      bEnd = Math.min(b.size(), endEdit.getEndB() + context);
+      aCur = Math.max(0, curEdit.getBeginA() - getContext());
+      bCur = Math.max(0, curEdit.getBeginB() - getContext());
+      aEnd = Math.min(a.size(), endEdit.getEndA() + getContext());
+      bEnd = Math.min(b.size(), endEdit.getEndB() + getContext());
     }
 
     public int getCurA() {

@@ -141,17 +141,20 @@ class PatchScriptAction implements Action<PatchScript> {
   }
 
   private PatchScriptBuilder newBuilder() throws Failure {
-    final PatchScriptBuilder b = new PatchScriptBuilder();
-    b.setRepository(git);
-    b.setPatch(patch);
+    final PatchScriptSettings s = new PatchScriptSettings(settings);
 
     final int ctx = settings.getContext();
     if (ctx == AccountGeneralPreferences.WHOLE_FILE_CONTEXT)
-      b.setContext(PatchScriptBuilder.MAX_CONTEXT);
+      s.setContext(PatchScriptBuilder.MAX_CONTEXT);
     else if (0 <= ctx && ctx <= PatchScriptBuilder.MAX_CONTEXT)
-      b.setContext(ctx);
+      s.setContext(ctx);
     else
       throw new Failure(new NoSuchEntityException());
+
+    final PatchScriptBuilder b = new PatchScriptBuilder();
+    b.setRepository(git);
+    b.setPatch(patch);
+    b.setSettings(s);
     return b;
   }
 

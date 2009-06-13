@@ -29,6 +29,11 @@ public class PatchScriptSettings {
     whitespace = Whitespace.IGNORE_NONE;
   }
 
+  public PatchScriptSettings(final PatchScriptSettings s) {
+    context = s.context;
+    whitespace = s.whitespace;
+  }
+
   public int getContext() {
     return context;
   }

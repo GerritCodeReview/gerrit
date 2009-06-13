@@ -17,6 +17,7 @@ package com.google.gerrit.server.patch;
 import com.google.gerrit.client.data.PatchScript;
 import com.google.gerrit.client.data.SparseFileContent;
 import com.google.gerrit.client.patches.CommentDetail;
+import com.google.gerrit.client.patches.PatchScriptSettings;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.rpc.CorruptEntityException;
@@ -60,7 +61,7 @@ class PatchScriptBuilder {
   private Repository db;
   private Patch patch;
   private Patch.Key patchKey;
-  private int context;
+  private PatchScriptSettings settings;
 
   private Text srcA;
   private Text srcB;
@@ -81,8 +82,12 @@ class PatchScriptBuilder {
     patchKey = patch.getKey();
   }
 
-  void setContext(final int c) {
-    context = c;
+  void setSettings(final PatchScriptSettings s) {
+    settings = s;
+  }
+
+  private int context() {
+    return settings.getContext();
   }
 
   PatchScript toPatchScript(final DiffCacheContent content,
@@ -94,7 +99,7 @@ class PatchScriptBuilder {
       //
       edits = Collections.emptyList();
       packHeader(fh);
-      return new PatchScript(header, context, dstA, dstB, edits);
+      return new PatchScript(header, settings, dstA, dstB, edits);
     }
 
     srcA = open(content.getOldId());
@@ -115,7 +120,7 @@ class PatchScriptBuilder {
     if (fh != null) {
       packHeader(fh);
     }
-    if (srcA == srcB && srcA.size() <= context && edits.isEmpty()) {
+    if (srcA == srcB && srcA.size() <= context() && edits.isEmpty()) {
       // Odd special case; the files are identical (100% rename or copy)
       // and the user has asked for context that is larger than the file.
       // Send them the entire file, with an empty edit after the last line.
@@ -125,12 +130,12 @@ class PatchScriptBuilder {
       }
       edits = Collections.singletonList(new Edit(srcA.size(), srcA.size()));
     } else {
-      if (BIG_FILE < Math.max(srcA.size(), srcB.size()) && 25 < context) {
-        context = 25;
+      if (BIG_FILE < Math.max(srcA.size(), srcB.size()) && 25 < context()) {
+        settings.setContext(25);
       }
       packContent();
     }
-    return new PatchScript(header, context, dstA, dstB, edits);
+    return new PatchScript(header, settings, dstA, dstB, edits);
   }
 
   private void ensureCommentsVisible(final CommentDetail comments) {
@@ -278,10 +283,10 @@ class PatchScriptBuilder {
       final int endIdx = findCombinedEnd(edits, curIdx);
       final Edit endEdit = edits.get(endIdx);
 
-      int aCur = Math.max(0, curEdit.getBeginA() - context);
-      int bCur = Math.max(0, curEdit.getBeginB() - context);
-      final int aEnd = Math.min(srcA.size(), endEdit.getEndA() + context);
-      final int bEnd = Math.min(srcB.size(), endEdit.getEndB() + context);
+      int aCur = Math.max(0, curEdit.getBeginA() - context());
+      int bCur = Math.max(0, curEdit.getBeginB() - context());
+      final int aEnd = Math.min(srcA.size(), endEdit.getEndA() + context());
+      final int bEnd = Math.min(srcB.size(), endEdit.getEndB() + context());
 
       while (aCur < aEnd || bCur < bEnd) {
         if (aCur < curEdit.getBeginA() || endIdx + 1 < curIdx) {
@@ -310,11 +315,11 @@ class PatchScriptBuilder {
   }
 
   private boolean combineA(final List<Edit> e, final int i) {
-    return e.get(i).getBeginA() - e.get(i - 1).getEndA() <= 2 * context;
+    return e.get(i).getBeginA() - e.get(i - 1).getEndA() <= 2 * context();
   }
 
   private boolean combineB(final List<Edit> e, final int i) {
-    return e.get(i).getBeginB() - e.get(i - 1).getEndB() <= 2 * context;
+    return e.get(i).getBeginB() - e.get(i - 1).getEndB() <= 2 * context();
   }
 
   private static boolean end(final Edit edit, final int a, final int b) {

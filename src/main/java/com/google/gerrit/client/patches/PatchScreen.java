@@ -33,9 +33,9 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.NoDifferencesException;
 import com.google.gerrit.client.ui.ChangeLink;
 import com.google.gerrit.client.ui.Screen;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.History;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -184,10 +184,10 @@ public abstract class PatchScreen extends Screen {
 
   private Widget createShowFullFiles() {
     final CheckBox cb = new CheckBox(PatchUtil.C.showFullFiles());
-    cb.addClickHandler(new ClickHandler() {
+    cb.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
       @Override
-      public void onClick(ClickEvent arg0) {
-        if (cb.getValue()) {
+      public void onValueChange(ValueChangeEvent<Boolean> event) {
+        if (event.getValue()) {
           // Show a diff of the full files
           scriptSettings.setContext(WHOLE_FILE_CONTEXT);
         } else {
@@ -202,10 +202,10 @@ public abstract class PatchScreen extends Screen {
 
   private Widget createIgnoreWhitespace() {
     final CheckBox cb = new CheckBox(PatchUtil.C.ignoreWhitespace());
-    cb.addClickHandler(new ClickHandler() {
+    cb.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
       @Override
-      public void onClick(ClickEvent arg0) {
-        if (cb.getValue()) {
+      public void onValueChange(ValueChangeEvent<Boolean> event) {
+        if (event.getValue()) {
           scriptSettings.setWhitespace(IGNORE_SPACE_CHANGE);
         } else {
           scriptSettings.setWhitespace(IGNORE_NONE);

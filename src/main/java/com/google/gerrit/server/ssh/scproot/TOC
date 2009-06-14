@@ -1,3 +1,4 @@
 # Format of this file is:
 #   mode <SPACE> fullpath
 #
+755 bin/gerrit-cherry-pick

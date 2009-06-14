@@ -1,0 +1,206 @@
+#!/bin/sh
+#
+# Copyright (C) 2009 The Android Open Source Project
+# 
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+# http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# 
+
+usage() {
+  echo >&2 "usage: $0 remote changeid..."
+  echo >&2 "usage: $0 --continue"
+  echo >&2 "usage: $0 --skip"
+  echo >&2 "usage: $0 --abort"
+  echo >&2 "usage: $0 [--close|--replace] remote"
+  exit 1
+}
+
+die() {
+  echo >&2 "fatal: $1"
+  exit 1
+}
+
+GIT_DIR=$(git rev-parse --git-dir) || exit
+CL="$GIT_DIR/GERRIT_CHANGES"
+STATE="$GIT_DIR/rebase-gerrit"
+TODO="$STATE/todo"
+
+RESOLVEMSG="
+When you have resolved this problem run \"$0 --continue\".
+If you would prefer to skip this patch, run \"$0 --skip\".
+"
+
+pop_action() {
+  sed -e 1d <"$TODO" >>"$TODO".new
+  mv -f "$TODO".new "$TODO"
+}
+
+mark_done() {
+  read commit changeid <"$TODO"
+  changeid=$(get_changeid "$changeid")
+  head_after=$(git rev-parse HEAD^0)
+  head_before=$(cat "$STATE/head_before")
+  if ! test $head_after = $head_before
+  then
+    echo $head_after >"$CL/$changeid"
+  fi
+  pop_action
+}
+
+do_next() {
+  while test -s "$TODO"
+  do
+    read commit changeid <"$TODO"
+    git rev-parse HEAD^0 >"$STATE/head_before"
+    git format-patch \
+        -k --stdout --full-index --ignore-if-in-upstream \
+        $commit^..$commit |
+    git am $git_am_opt --rebasing --resolvemsg="$RESOLVEMSG" || exit
+    mark_done
+  done
+
+  echo >&2 "Done."
+  rm -rf "$STATE"
+}
+
+git_am_opt=
+if test -f "$STATE/git_am_opt"
+then
+  git_am_opt=$(cat "$STATE/git_am_opt")
+fi
+
+while test $# != 0
+do
+  case "$1" in
+  --continue)
+    test -f "$TODO" || die "No cherry-pick in progress?"
+    git am $git_am_opt --rebasing --resolvemsg="$RESOLVEMSG" --resolved || exit
+    mark_done
+    do_next
+    exit
+    ;;
+  --skip)
+    test -f "$TODO" || die "No cherry-pick in progress?"
+    git reset --hard HEAD || exit
+    git am --skip || exit
+    pop_action
+    do_next
+    exit
+    ;;
+  --abort)
+    test -f "$TODO" || die "No cherry-pick in progress?"
+    git reset --hard HEAD
+    git am --skip
+    rm -rf "$STATE"
+    ;;
+  --close|--replace)
+    shift
+    test -d "$CL" || die "No changes to close"
+    test $# = 1   || usage
+    remote=$1
+    printf %s "git push $remote" >&2
+    rs=$(cd "$CL" && for change_id in *; do
+      test "$change_id" = '*' && die "No changes to close"
+      c=$(cat "$change_id");
+      echo "$c:refs/changes/$change_id";
+      echo ' \' >&2;
+      printf %s "  $c:refs/changes/$change_id" >&2
+      done)
+    echo >&2
+    echo >&2
+    git push $remote $rs
+    rc=$?
+    test $rc = 0 && rm -rf "$CL"
+    exit $rc
+    ;;
+  --whitespace=*)
+    git_am_opt="$git_am_opt $1"
+    ;;
+  --committer-date-is-author-date|--ignore-date)
+    git_am_opt="$git_am_opt $1"
+    ;;
+  -C*)
+    git_am_opt="$git_am_opt $1"
+    ;;
+  -s|--signoff)
+    git_am_opt="$git_am_opt $1"
+    ;;
+  -*)
+    usage
+    ;;
+  *)
+    break
+    ;;
+  esac
+  shift
+done
+
+get_changeid() {
+  case $1 in
+  */*) echo ${1%%/*} ;;
+  *)   echo $1 ;;
+  esac
+}
+
+to_ref() {
+  case $1 in
+  */*)
+    change_id=${1%%/*}
+    patchset_id=${1##*/}
+    ;;
+  *)
+    change_id=$1
+    patchset_id=1
+    ;;
+  esac
+
+  hash=$(($change_id % 100))
+  case $hash in
+  [0-9]) hash="0$hash" ;;
+  esac
+
+  echo "refs/changes/$hash/$change_id/$patchset_id"
+}
+
+get_revid() {
+  grep $(to_ref $1) <"$GIT_DIR/FETCH_HEAD" | cut -f1
+}
+
+# Initialize state
+#
+test $# -lt 2 && usage
+remote="$1"
+shift
+
+mkdir "$STATE" || die "cherry-pick already in progress"
+echo $git_am_opt >"$STATE/git_am_opt"
+
+if ! git fetch $remote $(for id; do to_ref $id; done)
+then
+  rm -rf $STATE
+  exit 1
+fi
+
+(for id
+ do
+  if revid=$(get_revid $id)
+  then
+    echo "$revid $id"
+  else
+    echo >&2 "fatal: $id not found"
+    exit 1
+  fi
+done) >"$TODO"
+
+mkdir -p "$CL"
+echo >&2
+do_next

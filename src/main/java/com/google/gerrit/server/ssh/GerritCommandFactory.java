@@ -98,6 +98,8 @@ class GerritCommandFactory implements CommandFactory {
         cmd += args;
         args = "";
       }
+    } else if ("scp".equals(cmd)) {
+      return new ScpCommand(args.split(" "));
     }
 
     final AbstractCommand c = create(cmd);

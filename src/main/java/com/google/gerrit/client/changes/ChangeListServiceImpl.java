@@ -19,6 +19,7 @@ import com.google.gerrit.client.data.AccountInfoCacheFactory;
 import com.google.gerrit.client.data.ChangeInfo;
 import com.google.gerrit.client.data.SingleListChangeInfo;
 import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.client.reviewdb.AccountExternalId;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.ChangeAccess;
 import com.google.gerrit.client.reviewdb.ChangeApproval;
@@ -174,6 +175,7 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
   private ResultSet<Change> searchQuery(final ReviewDb db, String query,
       final int limit, final String key, final Comparator<Change> cmp)
       throws OrmException {
+    List<Change> result = new ArrayList<Change>();
     final HashSet<Change.Id> want = new HashSet<Change.Id>();
     query = query.trim();
 
@@ -191,27 +193,23 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
       for (PatchSet p : patches) {
         want.add(p.getId().getParentKey());
       }
+    } else if (query.contains("owner:")) {
+      String[] parsedQuery = query.split(":");
+      if (parsedQuery.length > 1) {
+        filterBySortKey(result, changesCreatedBy(db, parsedQuery[1]), cmp, key);
+      }
+    } else if (query.contains("reviewer:")) {
+      String[] parsedQuery = query.split(":");
+      if (parsedQuery.length > 1) {
+        want.addAll(changesReviewedBy(db, parsedQuery[1]));
+      }
     }
 
-    if (want.isEmpty()) {
+    if (result.isEmpty() && want.isEmpty()) {
       return new ListResultSet<Change>(Collections.<Change> emptyList());
     }
 
-    List<Change> result = new ArrayList<Change>();
-    final ResultSet<Change> rs = db.changes().get(want);
-    if (cmp == QUERY_PREV) {
-      for (Change c : rs) {
-        if (c.getSortKey().compareTo(key) > 0) {
-          result.add(c);
-        }
-      }
-    } else /* cmp == QUERY_NEXT */{
-      for (Change c : rs) {
-        if (c.getSortKey().compareTo(key) < 0) {
-          result.add(c);
-        }
-      }
-    }
+    filterBySortKey(result, db.changes().get(want), cmp, key);
     Collections.sort(result, cmp);
     if (limit < result.size()) {
       // GWT emulation unfortunately lacks subList(int,int).
@@ -223,6 +221,23 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
       result = r;
     }
     return new ListResultSet<Change>(result);
+  }
+
+  private static void filterBySortKey(final List<Change> dst,
+      final Iterable<Change> src, final Comparator<Change> cmp, final String key) {
+    if (cmp == QUERY_PREV) {
+      for (Change c : src) {
+        if (c.getSortKey().compareTo(key) > 0) {
+          dst.add(c);
+        }
+      }
+    } else /* cmp == QUERY_NEXT */{
+      for (Change c : src) {
+        if (c.getSortKey().compareTo(key) < 0) {
+          dst.add(c);
+        }
+      }
+    }
   }
 
   public void forAccount(final Account.Id id,
@@ -399,6 +414,70 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
       }
     }
     return existing;
+  }
+
+  /**
+   * @return a set of all the account ID's matching the given user name in
+   *         either of the following columns: ssh name, email address, full name
+   */
+  private static Set<Account.Id> getAccountSources(final ReviewDb db,
+      final String userName) throws OrmException {
+    Set<Account.Id> result = new HashSet<Account.Id>();
+    String a = userName;
+    String b = userName + "\u9fa5";
+    addAll(result, db.accounts().suggestBySshUserName(a, b, 10));
+    addAll(result, db.accounts().suggestByFullName(a, b, 10));
+    for (AccountExternalId extId : db.accountExternalIds()
+        .suggestByEmailAddress(a, b, 10)) {
+      result.add(extId.getKey().getParentKey());
+    }
+    return result;
+  }
+
+  private static void addAll(Set<Account.Id> result, ResultSet<Account> rs) {
+    for (Account account : rs) {
+      result.add(account.getId());
+    }
+  }
+
+  /**
+   * @return a set of all the changes created by userName. This method tries to
+   *         find userName in 1) the ssh user names, 2) the full names and 3)
+   *         the email addresses. The returned changes are unique and sorted by
+   *         time stamp, newer first.
+   */
+  private List<Change> changesCreatedBy(final ReviewDb db, final String userName)
+      throws OrmException {
+    final List<Change> resultChanges = new ArrayList<Change>();
+    for (Account.Id account : getAccountSources(db, userName)) {
+      for (Change change : db.changes().byOwnerOpen(account)) {
+        resultChanges.add(change);
+      }
+      for (Change change : db.changes().byOwnerClosedAll(account)) {
+        resultChanges.add(change);
+      }
+    }
+    return resultChanges;
+  }
+
+  /**
+   * @return a set of all the changes reviewed by userName. This method tries to
+   *         find userName in 1) the ssh user names, 2) the full names and the
+   *         email addresses. The returned changes are unique and sorted by time
+   *         stamp, newer first.
+   */
+  private Set<Change.Id> changesReviewedBy(final ReviewDb db, final String userName)
+      throws OrmException {
+    final Set<Change.Id> resultChanges = new HashSet<Change.Id>();
+    for (Account.Id account : getAccountSources(db, userName)) {
+      for (ChangeApproval a : db.changeApprovals().openByUser(account)) {
+        resultChanges.add(a.getChangeId());
+      }
+      for (ChangeApproval a : db.changeApprovals().closedByUserAll(account)) {
+        resultChanges.add(a.getChangeId());
+      }
+    }
+    return resultChanges;
   }
 
   private abstract class QueryNext implements Action<SingleListChangeInfo> {

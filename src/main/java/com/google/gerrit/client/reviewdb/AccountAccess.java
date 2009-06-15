@@ -42,4 +42,9 @@ public interface AccountAccess extends Access<Account, Account.Id> {
   @Query("WHERE preferredEmail >= ? AND preferredEmail <= ? ORDER BY preferredEmail LIMIT ?")
   ResultSet<Account> suggestByPreferredEmail(String nameA, String nameB,
       int limit) throws OrmException;
+
+  @Query("WHERE sshUserName >= ? AND sshUserName <= ? ORDER BY sshUserName LIMIT ?")
+  ResultSet<Account> suggestBySshUserName(String nameA, String nameB, int limit)
+      throws OrmException;
+
 }

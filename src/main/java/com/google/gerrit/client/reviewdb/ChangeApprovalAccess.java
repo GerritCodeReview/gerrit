@@ -39,4 +39,8 @@ public interface ChangeApprovalAccess extends
       + " ORDER BY changeSortKey DESC LIMIT 10")
   ResultSet<ChangeApproval> closedByUser(Account.Id account)
       throws OrmException;
+
+  @Query("WHERE changeOpen = false AND key.accountId = ? ORDER BY changeSortKey")
+  ResultSet<ChangeApproval> closedByUserAll(Account.Id account)
+      throws OrmException;
 }

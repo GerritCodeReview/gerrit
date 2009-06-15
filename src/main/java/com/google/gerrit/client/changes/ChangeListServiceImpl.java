@@ -19,9 +19,11 @@ import com.google.gerrit.client.data.AccountInfoCacheFactory;
 import com.google.gerrit.client.data.ChangeInfo;
 import com.google.gerrit.client.data.SingleListChangeInfo;
 import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.client.reviewdb.AccountAccess;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.ChangeAccess;
 import com.google.gerrit.client.reviewdb.ChangeApproval;
+import com.google.gerrit.client.reviewdb.ChangeApprovalAccess;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.Project;
@@ -42,9 +44,13 @@ import com.google.gwtorm.client.impl.ListResultSet;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.Callable;
 
 public class ChangeListServiceImpl extends BaseServiceImplementation implements
     ChangeListService {
@@ -190,6 +196,16 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
       }
       for (PatchSet p : patches) {
         want.add(p.getId().getParentKey());
+      }
+    } else if (query.contains("owner:")) {
+      String[] parsedQuery = query.split(":");
+      if (parsedQuery.length > 1) {
+        want.addAll(changesCreatedBy(db, parsedQuery[1]));
+      }
+    } else if (query.contains("reviewer:")) {
+      String[] parsedQuery = query.split(":");
+      if (parsedQuery.length > 1) {
+        want.addAll(changesReviewedBy(db, parsedQuery[1]));
       }
     }
 
@@ -399,6 +415,120 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
       }
     }
     return existing;
+  }
+
+  /**
+   * A Callable that returns a set of changes parameterized by a user. Subclasses should implement
+   * the method process() in order to provide the logic that decides whether a given change should
+   * be included in the result.  This class is used for various user name based queries
+   * (e.g. owner:, reviewer:, etc...).
+   */
+  private abstract static class UserNameProcessor {
+    private final String userName;
+    private ReviewDb db;
+
+    public UserNameProcessor(ReviewDb db, String userName) {
+      this.db = db;
+      this.userName = userName;
+    }
+
+    /**
+     * @return a set of all the account ID's matching the given user name in either of the following
+     * columns:
+     * - ssh name
+     * - email address
+     * - full name
+     */
+    private static Set<Account.Id> getAccountSources(final ReviewDb db, final String userName)
+        throws OrmException {
+      AccountAccess dbAccounts = db.accounts();
+      ResultSet<Account>[] allAccounts = new ResultSet[] {
+          dbAccounts.suggestBySshUserName(userName, userName + "\u9fa5", 10),
+          dbAccounts.suggestByFullName(userName, userName + "\u9fa5", 10),
+          db.accountExternalIds().suggestByEmailAddress(userName, userName + "\u9fa5", 10),
+      };
+
+      Set<Account.Id> result = new HashSet<Account.Id>();
+      for (ResultSet<Account> rs : allAccounts) {
+        for (Account account : rs) {
+          result.add(account.getId());
+        }
+      }
+      return result;
+    }
+
+    /**
+     * This method factors out the enumeration of accounts coming from several sources
+     * (ssh, email address, full name).
+     */
+    public Set<Change.Id> call() throws OrmException {
+      final Map<Change.Id, Change> resultChanges = new HashMap<Change.Id, Change>();
+
+      AccountAccess dbAccounts = db.accounts();
+      Set<Account.Id> accountSources = getAccountSources(db, userName);
+      for (Account.Id account : accountSources) {
+        process(db, account, resultChanges);
+      }
+
+      return resultChanges.keySet();
+    }
+
+    /**
+     * If the account passed in parameter matches the criterion used by the subclass, implementors
+     * of this method should add the corresponding change to the parameter outResultChanges.
+     */
+    abstract void process(ReviewDb db, Account.Id account, Map<Id, Change> outResultChanges)
+        throws OrmException ;
+
+  }
+
+  /**
+   * @return a set of all the changes created by userName.  This method tries to find userName 
+   * in 1) the ssh user names, 2) the full names and 3) the email addresses. The returned changes 
+   * are unique and sorted by time stamp, newer first.
+   */
+  private Set<Change.Id> changesCreatedBy(final ReviewDb db, final String userName)
+      throws OrmException {
+    UserNameProcessor processor = new UserNameProcessor(db, userName) {
+      @Override
+      void process(ReviewDb db, Account.Id account, Map<Id, Change> resultChanges)
+          throws OrmException {
+        for (Change change : db.changes().byOwnerOpen(account)) {
+          resultChanges.put(change.getId(), change);
+        }
+        for (Change change : db.changes().byOwnerClosed(account)) {
+          resultChanges.put(change.getId(), change);
+        }
+      }
+    };
+    return processor.call();
+  }
+
+  /**
+   * @return a set of all the changes reviewed by userName. This method tries to find
+   * userName in 1) the ssh user names, 2) the full names and the email addresses. The returned
+   * changes are unique and sorted by time stamp, newer first.
+   */
+  private Set<Change.Id> changesReviewedBy(final ReviewDb db, final String userName)
+      throws OrmException {
+    UserNameProcessor processor = new UserNameProcessor(db, userName) {
+      @Override
+      void process(ReviewDb db, Account.Id account, Map<Id, Change> outResultChanges)
+          throws OrmException {
+        ChangeApprovalAccess changes = db.changeApprovals();
+        ChangeAccess changeAccess = db.changes();
+        Iterator<ChangeApproval> changeIterator
+            = changes.reviewedByUser(account).iterator();
+        while (changeIterator.hasNext()) {
+          ChangeApproval approval = changeIterator.next();
+          Change change = changeAccess.get(approval.getChangeId());
+          if (change != null) {
+            outResultChanges.put(change.getId(), change);
+          }
+        }
+      }
+    };
+    return processor.call();
   }
 
   private abstract class QueryNext implements Action<SingleListChangeInfo> {

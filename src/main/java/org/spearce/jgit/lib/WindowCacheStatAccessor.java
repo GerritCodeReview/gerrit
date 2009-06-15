@@ -22,7 +22,7 @@ public class WindowCacheStatAccessor {
     return WindowCache.getInstance().getOpenFiles();
   }
 
-  public static int getOpenBytes() {
+  public static long getOpenBytes() {
     return WindowCache.getInstance().getOpenBytes();
   }
 

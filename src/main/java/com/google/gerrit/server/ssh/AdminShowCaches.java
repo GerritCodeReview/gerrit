@@ -67,7 +67,7 @@ class AdminShowCaches extends AbstractCommand {
     final long mFree = r.freeMemory();
     final long mTotal = r.totalMemory();
     final long mInuse = mTotal - mFree;
-    final int jgitBytes = WindowCacheStatAccessor.getOpenBytes();
+    final long jgitBytes = WindowCacheStatAccessor.getOpenBytes();
 
     p.println("JGit Buffer Cache:");
     fItemCount("open files", WindowCacheStatAccessor.getOpenFiles());

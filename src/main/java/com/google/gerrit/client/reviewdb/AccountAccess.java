@@ -35,11 +35,15 @@ public interface AccountAccess extends Access<Account, Account.Id> {
   @Query("WHERE fullName = ? LIMIT 2")
   ResultSet<Account> byFullName(String name) throws OrmException;
 
-  @Query("WHERE fullName >= ? AND fullName <= ? ORDER BY fullName LIMIT ?")
-  ResultSet<Account> suggestByFullName(String nameA, String nameB, int limit)
-      throws OrmException;
-
   @Query("WHERE preferredEmail >= ? AND preferredEmail <= ? ORDER BY preferredEmail LIMIT ?")
   ResultSet<Account> suggestByPreferredEmail(String nameA, String nameB,
       int limit) throws OrmException;
+
+  @Query("WHERE sshUserName >= ? AND sshUserName <= ? ORDER BY sshUserName LIMIT ?")
+  ResultSet<Account> suggestBySshUserName(String nameA, String nameB, int limit)
+      throws OrmException;
+
+  @Query("WHERE fullName >= ? AND fullName <= ? ORDER BY fullName LIMIT ?")
+  ResultSet<Account> suggestByFullName(String nameA, String nameB, int limit)
+      throws OrmException;
 }

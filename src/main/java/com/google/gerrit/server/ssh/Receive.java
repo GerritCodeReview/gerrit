@@ -162,17 +162,19 @@ class Receive extends AbstractGitCommand {
         for (final ReceiveCommand c : commands) {
           if (c.getResult() == Result.OK) {
             if (isHead(c)) {
-              // Make sure the branch table matches the repository
-              //
               switch (c.getType()) {
                 case CREATE:
                   insertBranchEntity(c);
+                  autoCloseChanges(c);
                   break;
                 case DELETE:
                   deleteBranchEntity(c);
                   break;
+                case UPDATE:
+                case UPDATE_NONFASTFORWARD:
+                  autoCloseChanges(c);
+                  break;
               }
-              autoCloseChanges(c);
             }
 
             if (isHead(c) || isTag(c)) {
@@ -1072,7 +1074,9 @@ class Receive extends AbstractGitCommand {
     try {
       rw.reset();
       rw.markStart(rw.parseCommit(cmd.getNewId()));
-      rw.markUninteresting(rw.parseCommit(cmd.getOldId()));
+      if (!ObjectId.zeroId().equals(cmd.getOldId())) {
+        rw.markUninteresting(rw.parseCommit(cmd.getOldId()));
+      }
 
       final Map<ObjectId, Ref> changes = changeRefsById();
       RevCommit c;

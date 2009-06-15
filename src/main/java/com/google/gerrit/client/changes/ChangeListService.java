@@ -74,6 +74,14 @@ public interface ChangeListService extends RemoteJsonService {
   @SignInRequired
   void myStarredChangeIds(AsyncCallback<Set<Change.Id>> callback);
 
+  /** Get the changes created by the user name */
+  @SignInRequired
+  void changesCreatedBy(String userName, final AsyncCallback<SingleListChangeInfo> callback);
+  
+  /** Get the changes reviewed by the user name */
+  @SignInRequired
+  void changesReviewedBy(String userName, final AsyncCallback<SingleListChangeInfo> callback);
+
   /**
    * Add and/or remove changes from the set of starred changes of the caller.
    * 

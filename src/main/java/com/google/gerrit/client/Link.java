@@ -25,12 +25,14 @@ import com.google.gerrit.client.changes.AccountDashboardScreen;
 import com.google.gerrit.client.changes.AllAbandonedChangesScreen;
 import com.google.gerrit.client.changes.AllMergedChangesScreen;
 import com.google.gerrit.client.changes.AllOpenChangesScreen;
-import com.google.gerrit.client.changes.ChangeQueryResultsScreen;
 import com.google.gerrit.client.changes.ByProjectOpenChangesScreen;
+import com.google.gerrit.client.changes.ChangeQueryResultsScreen;
 import com.google.gerrit.client.changes.ChangeScreen;
 import com.google.gerrit.client.changes.MineDraftsScreen;
 import com.google.gerrit.client.changes.MineStarredScreen;
+import com.google.gerrit.client.changes.OwnerScreen;
 import com.google.gerrit.client.changes.PublishCommentScreen;
+import com.google.gerrit.client.changes.ReviewerScreen;
 import com.google.gerrit.client.data.AccountInfo;
 import com.google.gerrit.client.data.ChangeInfo;
 import com.google.gerrit.client.patches.PatchScreen;
@@ -59,6 +61,9 @@ public class Link implements ValueChangeHandler<String> {
   public static final String MINE = "mine";
   public static final String MINE_STARRED = "mine,starred";
   public static final String MINE_DRAFTS = "mine,drafts";
+
+  public static final String OWNER = "owner";
+  public static final String REVIEWER = "reviewer";
 
   public static final String ALL_ABANDONED = "all,abandoned,n,z";
   public static final String ALL_MERGED = "all,merged,n,z";
@@ -113,6 +118,16 @@ public class Link implements ValueChangeHandler<String> {
     return "q," + KeyUtil.encode(query) + ",n,z";
   }
 
+  public static String toOwnerQuery(final String query) {
+    String ownerName = query.substring(query.indexOf(":") + 1);
+    return OWNER + "," + ownerName;
+  }
+
+  public static String toReviewerQuery(final String query) {
+    String ownerName = query.substring(query.indexOf(":") + 1);
+    return REVIEWER + "," + ownerName;
+  }
+
   @Override
   public void onValueChange(final ValueChangeEvent<String> event) {
     final String token = event.getValue();
@@ -155,6 +170,16 @@ public class Link implements ValueChangeHandler<String> {
       if (MINE_DRAFTS.equals(token)) {
         return new MineDraftsScreen();
       }
+    }
+
+    if (token.startsWith(OWNER + ",")) {
+      String userName = token.substring(token.indexOf(",") + 1);
+      return new OwnerScreen(userName);
+    }
+
+    if (token.startsWith(REVIEWER + ",")) {
+      String userName = token.substring(token.indexOf(",") + 1);
+      return new ReviewerScreen(userName);
     }
 
     if (token.startsWith("all,")) {

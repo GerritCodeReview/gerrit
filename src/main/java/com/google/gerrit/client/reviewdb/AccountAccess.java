@@ -39,6 +39,16 @@ public interface AccountAccess extends Access<Account, Account.Id> {
   ResultSet<Account> suggestByFullName(String nameA, String nameB, int limit)
       throws OrmException;
 
+  /**
+   * Note: the name of this method suggests that it's matching on the substring but
+   * the current implementation uses '='. Eventually, I want to enable substring matching
+   * with LIKE, but there are performance implications that I'd like to understand
+   * better before turning this on. 
+   */
+  @Query("WHERE fullName = ?")
+  ResultSet<Account> suggestByFullNameSubString(String substring)
+      throws OrmException;
+
   @Query("WHERE preferredEmail >= ? AND preferredEmail <= ? ORDER BY preferredEmail LIMIT ?")
   ResultSet<Account> suggestByPreferredEmail(String nameA, String nameB,
       int limit) throws OrmException;

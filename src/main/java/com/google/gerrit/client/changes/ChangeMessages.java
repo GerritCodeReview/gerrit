@@ -42,4 +42,8 @@ public interface ChangeMessages extends Messages {
 
   String changeQueryWindowTitle(String query);
   String changeQueryPageTitle(String query);
+  
+  String changesCreatedByTitle(String userName);
+  String changesReviewedByTitle(String userName);
+
 }

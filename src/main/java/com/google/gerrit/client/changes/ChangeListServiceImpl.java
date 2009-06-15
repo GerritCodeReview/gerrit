@@ -19,9 +19,11 @@ import com.google.gerrit.client.data.AccountInfoCacheFactory;
 import com.google.gerrit.client.data.ChangeInfo;
 import com.google.gerrit.client.data.SingleListChangeInfo;
 import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.client.reviewdb.AccountAccess;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.ChangeAccess;
 import com.google.gerrit.client.reviewdb.ChangeApproval;
+import com.google.gerrit.client.reviewdb.ChangeApprovalAccess;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.Project;
@@ -40,10 +42,14 @@ import com.google.gwtorm.client.Transaction;
 import com.google.gwtorm.client.impl.ListResultSet;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class ChangeListServiceImpl extends BaseServiceImplementation implements
@@ -399,6 +405,164 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
       }
     }
     return existing;
+  }
+
+  /**
+   * @return the list of changes created by the given user, both open and closed.
+   */
+  private static Set<Change> createdBy(final ReviewDb db, final Account.Id user)
+      throws OrmException {
+    final Set<Change> existing = new HashSet<Change>();
+    for (Change change : db.changes().byOwnerOpen(user)) {
+      existing.add(change);
+    }
+    for (Change change : db.changes().byOwnerClosed(user)) {
+      existing.add(change);
+    }
+    return existing;
+  }
+
+  /////
+  // UserNameAction
+  //
+
+  /**
+   * An action that returns a set of changes parameterized by a user. Subclasses should implement
+   * the method process() in order to provide the logic that decides whether a given change should
+   * be included in the result.  This class is used to populate ReviewerScreen and OwnerScreen.
+   */
+  private abstract static class UserNameAction implements Action<SingleListChangeInfo> {
+    private final String userName;
+    
+    public UserNameAction(String userName) {
+      this.userName = userName;
+    }
+
+    
+    /**
+     * @return an array of all the accounts matching the given user name in either of the following
+     * columns:
+     * - ssh name
+     * - email address
+     * - full name
+     */
+    private static ResultSet<Account>[] getAccountSources(final String userName,
+        AccountAccess dbAccounts) throws OrmException {
+      ResultSet<Account>[] result = new ResultSet[] {
+          dbAccounts.bySshUserName(userName),
+          dbAccounts.suggestByFullNameSubString(userName),
+          dbAccounts.byPreferredEmail(userName)
+      };
+      return result;
+    }
+
+    /**
+     * This method factors out the enumeration of accounts coming from several sources
+     * (ssh, email address, full name).
+     */
+    @Override
+    public SingleListChangeInfo run(ReviewDb db) throws OrmException {
+      final AccountInfoCacheFactory ac = new AccountInfoCacheFactory(db);
+      final Map<Change.Id, Change> resultChanges = new HashMap<Change.Id, Change>();
+      
+      AccountAccess dbAccounts = db.accounts();
+      ResultSet<Account>[] accountSources = getAccountSources(userName, db.accounts());
+
+      for (ResultSet<Account> accounts : accountSources) {
+        for (Iterator<Account> it = accounts.iterator(); it.hasNext();) {
+          // Invoke the subclass so it can perform its logic on the current account
+          process(db, ac, it.next(), resultChanges);
+        }
+      }
+
+      return filterResults(ac, resultChanges.values());
+
+    }
+
+    /**
+     * If the account passed in parameter matches the criterion used by the subclass, implementors
+     * of this method should add the corresponding change to the parameter outResultChanges.
+     */
+    abstract void process(ReviewDb db, AccountInfoCacheFactory ac, Account account,
+        Map<Id, Change> outResultChanges) throws OrmException ;
+  }
+
+  //
+  // UserNameAction
+  /////
+
+  /**
+   * Calculate a list of all the changes reviewed by userName and return them in the callback.
+   * This method tries to find userName in 1) the ssh user names, 2) the full names and
+   * 3) the email addresses. The returned changes are unique and sorted by time stamp, newer first.
+   */
+  public void changesReviewedBy(final String userName,
+      final AsyncCallback<SingleListChangeInfo> callback) {
+    
+    run(callback, new UserNameAction(userName) {
+
+      @Override
+      void process(ReviewDb db, AccountInfoCacheFactory ac, Account account,
+          Map<Id, Change> outResultChanges) throws OrmException {
+        ChangeApprovalAccess changes = db.changeApprovals();
+        ChangeAccess changeAccess = db.changes();
+        Iterator<ChangeApproval> changeIterator
+            = changes.reviewedByUser(account.getId()).iterator();
+        while (changeIterator.hasNext()) {
+          ChangeApproval approval = changeIterator.next();
+          Change change = changeAccess.get(approval.getChangeId());
+          // This will return null if the change was submitted
+          if (change != null) {
+            outResultChanges.put(change.getId(), change);
+          }
+        }        
+      }
+      
+    });
+  }
+
+  /**
+   * Calculate a list of all the changes created by userName and return them in the callback.
+   * This method tries to find userName in 1) the ssh user names, 2) the full names and
+   * 3) the email addresses. The returned changes are unique and sorted by time stamp, newer first.
+   */
+  public void changesCreatedBy(final String userName,
+      final AsyncCallback<SingleListChangeInfo> callback) {
+    
+    run(callback, new UserNameAction(userName) {
+      @Override
+      void process(ReviewDb db, AccountInfoCacheFactory ac,
+          Account account, Map<Id, Change> resultChanges) throws OrmException {
+        final Set<Change> changes = createdBy(db, account.getId());
+        ac.want(account.getId());
+        for (Change change : changes) {
+          resultChanges.put(change.getId(), change);
+        }
+      }
+    });
+  }
+
+  /**
+   * @return a properly initialized SingleListChangeInfo that captures all the changes 
+   * passed in parameter and ordered in chronological order, most recent first.
+   */
+  private static SingleListChangeInfo filterResults(
+      AccountInfoCacheFactory ac, Collection<Change> changes) {
+
+    SingleListChangeInfo result = new SingleListChangeInfo();
+    
+    List<ChangeInfo> changeInfos = new ArrayList<ChangeInfo>();
+    for (Change c : changes) {
+      changeInfos.add(new ChangeInfo(c, ac));
+    }
+    result.setChanges(changeInfos);
+    Collections.sort(result.getChanges(), new Comparator<ChangeInfo>() {
+      public int compare(final ChangeInfo o1, final ChangeInfo o2) {
+        return o1.getLastUpdatedOn().compareTo(o2.getLastUpdatedOn());
+      }
+    });
+    result.setAccounts(ac.create());
+    return result;
   }
 
   private abstract class QueryNext implements Action<SingleListChangeInfo> {

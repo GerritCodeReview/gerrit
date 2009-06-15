@@ -137,6 +137,10 @@ class SearchPanel extends Composite {
     if (query.matches("^[1-9][0-9]*$")) {
       final Change.Id ck = Change.Id.parse(query);
       Gerrit.display(Link.toChange(ck), new ChangeScreen(ck));
+    } else if (query.contains("owner:")) {
+      Gerrit.display(Link.toOwnerQuery(query), true /* go */);
+    } else if (query.contains("reviewer:")) {
+      Gerrit.display(Link.toReviewerQuery(query), true /* go */);
     } else {
       Gerrit.display(Link.toChangeQuery(query), true);
     }

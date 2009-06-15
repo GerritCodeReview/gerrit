@@ -19,9 +19,11 @@ import com.google.gerrit.client.data.AccountInfoCacheFactory;
 import com.google.gerrit.client.data.ChangeInfo;
 import com.google.gerrit.client.data.SingleListChangeInfo;
 import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.client.reviewdb.AccountAccess;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.ChangeAccess;
 import com.google.gerrit.client.reviewdb.ChangeApproval;
+import com.google.gerrit.client.reviewdb.ChangeApprovalAccess;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.Project;
@@ -40,10 +42,14 @@ import com.google.gwtorm.client.Transaction;
 import com.google.gwtorm.client.impl.ListResultSet;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class ChangeListServiceImpl extends BaseServiceImplementation implements
@@ -190,6 +196,22 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
       }
       for (PatchSet p : patches) {
         want.add(p.getId().getParentKey());
+      }
+    } else if (query.contains("owner:")) {
+      String[] parsedQuery = query.split(":");
+      if (parsedQuery.length > 1) {
+        Collection<Change.Id> changes = changesCreatedBy(db, parsedQuery[1]);
+        for (Change.Id change : changes) {
+          want.add(change);
+        }
+      }
+    } else if (query.contains("reviewer:")) {
+      String[] parsedQuery = query.split(":");
+      if (parsedQuery.length > 1) {
+        Collection<Change.Id> changes = changesReviewedBy(db, parsedQuery[1]);
+        for (Change.Id change : changes) {
+          want.add(change);
+        }
       }
     }
 
@@ -399,6 +421,171 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
       }
     }
     return existing;
+  }
+
+  /**
+   * @return the list of changes created by the given user, both open and closed.
+   */
+  private static Set<Change> createdBy(final ReviewDb db, final Account.Id user)
+      throws OrmException {
+    final Set<Change> existing = new HashSet<Change>();
+    for (Change change : db.changes().byOwnerOpen(user)) {
+      existing.add(change);
+    }
+    for (Change change : db.changes().byOwnerClosed(user)) {
+      existing.add(change);
+    }
+    return existing;
+  }
+
+  /////
+  // UserNameProcessor
+  //
+
+  /**
+   * A Runnable that returns a set of changes parameterized by a user. Subclasses should implement
+   * the method process() in order to provide the logic that decides whether a given change should
+   * be included in the result.  This class is used for various user name based queries
+   * (e.g. owner:, reviewer:, etc...).
+   */
+  private abstract static class UserNameProcessor implements Runnable {
+    private final String userName;
+    private ReviewDb db;
+    private Map<Change.Id, Change> result;
+
+    public UserNameProcessor(ReviewDb db, String userName) {
+      this.db = db;
+      this.userName = userName;
+    }
+
+    /**
+     * @return an array of all the accounts matching the given user name in either of the following
+     * columns:
+     * - ssh name
+     * - email address
+     * - full name
+     */
+    private static ResultSet<Account>[] getAccountSources(final String userName,
+        AccountAccess dbAccounts) throws OrmException {
+      ResultSet<Account> emails = dbAccounts.suggestByPreferredEmail(userName, userName, 3);
+      ResultSet<Account>[] result = new ResultSet[] {
+          dbAccounts.suggestBySshUserName(userName, userName + "\u9fa5", 10),
+          dbAccounts.suggestByPreferredEmail(userName, userName + "\u9fa5", 10),
+          dbAccounts.suggestByPreferredEmail(userName, userName + "\u9fa5", 10)
+      };
+      return result;
+    }
+
+    /**
+     * This method factors out the enumeration of accounts coming from several sources
+     * (ssh, email address, full name).
+     */
+    @Override
+    public void run() {
+      final Map<Change.Id, Change> resultChanges = new HashMap<Change.Id, Change>();
+
+      AccountAccess dbAccounts = db.accounts();
+      try {
+        ResultSet<Account>[] accountSources = getAccountSources(userName, db.accounts());
+
+        for (ResultSet<Account> accounts : accountSources) {
+          for (Iterator<Account> it = accounts.iterator(); it.hasNext();) {
+            // Invoke the subclass so it can perform its logic on the current account
+            process(db, it.next(), resultChanges);
+          }
+        }
+      } catch(OrmException ex) {
+        ex.printStackTrace();
+      }
+
+      this.result = resultChanges;
+    }
+
+    /**
+     * If the account passed in parameter matches the criterion used by the subclass, implementors
+     * of this method should add the corresponding change to the parameter outResultChanges.
+     */
+    abstract void process(ReviewDb db, Account account, Map<Id, Change> outResultChanges)
+        throws OrmException ;
+
+    public Map<Change.Id, Change> getResult() {
+      return result;
+    }
+  }
+
+  //
+  // UserNameProcessor
+  /////
+
+  /**
+   * @return a list of all the changes created by userName.  This method tries to find userName 
+   * in 1) the ssh user names, 2) the full names and 3) the email addresses. The returned changes 
+   * are unique and sorted by time stamp, newer first.
+   */
+  public List<Change.Id> changesCreatedBy(final ReviewDb db, final String userName) {
+
+    UserNameProcessor processor = new UserNameProcessor(db, userName) {
+      @Override
+      void process(ReviewDb db, Account account, Map<Id, Change> resultChanges)
+          throws OrmException {
+        Set<Change> changes = createdBy(db, account.getId());
+        for (Change change : changes) {
+          resultChanges.put(change.getId(), change);
+        }
+      }
+    };
+    processor.run();
+    return filterResults(processor.getResult());
+  }
+
+  /**
+   * @return a list of all the changes reviewed by userName. This method tries to find
+   * userName in 1) the ssh user names, 2) the full names and the email addresses. The returned
+   * changes are unique and sorted by time stamp, newer first.
+   */
+  public List<Change.Id> changesReviewedBy(final ReviewDb db, final String userName) {
+
+    UserNameProcessor processor = new UserNameProcessor(db, userName) {
+      @Override
+      void process(ReviewDb db, Account account, Map<Id, Change> outResultChanges)
+          throws OrmException {
+        ChangeApprovalAccess changes = db.changeApprovals();
+        ChangeAccess changeAccess = db.changes();
+        Iterator<ChangeApproval> changeIterator
+            = changes.reviewedByUser(account.getId()).iterator();
+        while (changeIterator.hasNext()) {
+          ChangeApproval approval = changeIterator.next();
+          Change change = changeAccess.get(approval.getChangeId());
+          // This will return null if the change was submitted
+          if (change != null) {
+            outResultChanges.put(change.getId(), change);
+          }
+        }
+      }
+    };
+    processor.run();
+    return filterResults(processor.getResult());
+  }
+
+  /**
+   * @return a properly initialized SingleListChangeInfo that captures all the changes 
+   * passed in parameter and ordered in chronological order, most recent first.
+   */
+  private static List<Change.Id> filterResults(final Map<Change.Id, Change> changes) {
+    List<Change.Id> result = new ArrayList<Change.Id>();
+    for (Change.Id id : changes.keySet()) {
+      result.add(id);
+    }
+
+    List<ChangeInfo> changeInfos = new ArrayList<ChangeInfo>();
+
+    Collections.sort(result, new Comparator<Change.Id>() {
+      public int compare(final Change.Id o1, final Change.Id o2) {
+        return changes.get(o1).getLastUpdatedOn().compareTo(changes.get(o2).getLastUpdatedOn());
+      }
+    });
+
+    return result;
   }
 
   private abstract class QueryNext implements Action<SingleListChangeInfo> {

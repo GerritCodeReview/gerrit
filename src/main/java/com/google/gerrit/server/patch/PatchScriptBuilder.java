@@ -109,7 +109,7 @@ class PatchScriptBuilder {
     } else {
       srcB = open(contentAct.getNewId());
     }
-    edits = contentAct.getEdits();
+    edits = new ArrayList<Edit>(contentAct.getEdits());
     ensureCommentsVisible(comments);
 
     dstA.setMissingNewlineAtEnd(srcA.isMissingNewlineAtEnd());
@@ -130,7 +130,8 @@ class PatchScriptBuilder {
       for (int i = 0; i < srcA.size(); i++) {
         srcA.addLineTo(dstA, i);
       }
-      edits = Collections.singletonList(new Edit(srcA.size(), srcA.size()));
+      edits = new ArrayList<Edit>(1);
+      edits.add(new Edit(srcA.size(), srcA.size()));
     } else {
       if (BIG_FILE < Math.max(srcA.size(), srcB.size()) && 25 < context()) {
         settings.setContext(25);
@@ -143,7 +144,7 @@ class PatchScriptBuilder {
       // whitespace settings requested. Instead we must rebuild our edit
       // list around the whitespace edit list.
       //
-      edits = contentWS.getEdits();
+      edits = new ArrayList<Edit>(contentWS.getEdits());
       ensureCommentsVisible(comments);
     }
 
@@ -185,15 +186,11 @@ class PatchScriptBuilder {
       }
     }
 
-    // Build the final list as a copy, as we cannot modify the cached
-    // edit list we started out with. Also sort the final list by the
-    // index in A, so packContent can combine them correctly later.
+    // Sort the final list by the index in A, so packContent can combine
+    // them correctly later.
     //
-    final List<Edit> n = new ArrayList<Edit>(edits.size() + empty.size());
-    n.addAll(edits);
-    n.addAll(empty);
-    Collections.sort(n, EDIT_SORT);
-    edits = n;
+    edits.addAll(empty);
+    Collections.sort(edits, EDIT_SORT);
   }
 
   private void safeAdd(final List<Edit> empty, final Edit toAdd) {
@@ -313,8 +310,13 @@ class PatchScriptBuilder {
           srcB.addLineTo(dstB, bCur++);
         }
 
-        if (end(curEdit, aCur, bCur) && ++curIdx < edits.size())
+        if (end(curEdit, aCur, bCur) && ++curIdx < edits.size()) {
           curEdit = edits.get(curIdx);
+          while (curEdit.getType() == Edit.Type.EMPTY && curEdit != endEdit) {
+            edits.remove(curIdx);
+            curEdit = edits.get(curIdx);
+          }
+        }
       }
     }
   }

@@ -2,3 +2,5 @@
 #   mode <SPACE> fullpath
 #
 755 bin/gerrit-cherry-pick
+
+755 hooks/commit-msg

@@ -1,0 +1,44 @@
+#!/bin/sh
+
+MSG="$1"
+
+# Check for, and add if missing, a unique Change-Id
+#
+add_ChangeId() {
+	if grep '^Change-Id: ' "$MSG" >/dev/null
+	then
+		return
+	fi
+
+	id=$(_gen_ChangeId)
+	out="$MSG.new"
+	ftt="$MSG.footers"
+	sed -e  '/^[A-Za-z][A-Za-z0-9-]*: /,$d' <"$MSG" >"$out"
+	sed -ne '/^[A-Za-z][A-Za-z0-9-]*: /,$p' <"$MSG" >"$ftt"
+	if ! [ -s "$ftt" ]
+	then
+		echo >>"$out"
+	fi
+	echo "Change-Id: I$id" >>"$out"
+	cat "$ftt" >>"$out"
+	mv -f "$out" "$MSG"
+	rm -f "$out" "$ftt"
+}
+_gen_ChangeIdInput() {
+	echo "tree $(git write-tree)"
+	if parent=$(git rev-parse HEAD^0 2>/dev/null)
+	then
+		echo "parent $parent"
+	fi
+	echo "author $(git var GIT_AUTHOR_IDENT)"
+	echo "committer $(git var GIT_COMMITTER_IDENT)"
+	echo
+	cat "$MSG"
+}
+_gen_ChangeId() {
+	_gen_ChangeIdInput |
+	git hash-object -t commit --stdin
+}
+
+
+add_ChangeId

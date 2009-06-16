@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAY3////k\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/SearchPanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-16T06:46:22Z",
+      "side": 1,
+      "message": "I had intended to let these fall through to the else toChangeQuery case below, and let the server perform the magic of decoding the query string to produce a result.\n\nReason is, in the future we might actually be able to fairly efficiently support \"4419 or (owner:bob and is:closed)\".  This isn\u0027t the really simple exactly one change jump case above, but the server needs to consider more than just the \"owner\" predicate.",
+      "revId": "966f01de37d3143b78782b124717a3f858d8898a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAY3////g\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeListServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-16T06:46:22Z",
+      "side": 1,
+      "message": "There\u0027s no pagination support.  On review.source.android.com this will currently produce 1445 for \"owner:sop\" (me).  In a few more months, the browser will lock up and be unable to display the entire result set because the script is taking too long to process the result table.\n\nI wanted to piggy back all of this into the existing searchQuery() method in this class so that we at least paginate the data to the client, even if we fully materialized the list inside of the server heap.\n\nHopefully by the end of Q309 we\u0027ll be using a git based storage, and most of this list in the server heap will actually just be an RLE bitmap that needs to be expanded once we slice it down by the pagination, making the server heap costs almost nothing.  But until then we can probably afford to materialize it on the server, but not so on the client.",
+      "revId": "966f01de37d3143b78782b124717a3f858d8898a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

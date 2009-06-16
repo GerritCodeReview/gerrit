@@ -754,11 +754,11 @@ class Receive extends AbstractGitCommand {
         appendPatchSet(changeId, cmd);
       } catch (IOException err) {
         log.error("Error computing replacement patch for change " + changeId
-            + ", commit " + cmd.getNewId().name(), e);
+            + ", commit " + cmd.getNewId().name(), err);
         reject(cmd, "diff error");
       } catch (OrmException err) {
         log.error("Error storing replacement patch for change " + changeId
-            + ", commit " + cmd.getNewId().name(), e);
+            + ", commit " + cmd.getNewId().name(), err);
         reject(cmd, "database error");
       }
       if (cmd.getResult() == ReceiveCommand.Result.NOT_ATTEMPTED) {

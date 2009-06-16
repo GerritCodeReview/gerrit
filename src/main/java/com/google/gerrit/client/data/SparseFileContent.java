@@ -108,6 +108,19 @@ public class SparseFileContent {
     return ranges.get(ranges.size() - 1);
   }
 
+  @Override
+  public String toString() {
+    final StringBuilder b = new StringBuilder();
+    b.append("SparseFileContent[\n");
+    for (Range r : ranges) {
+      b.append("  ");
+      b.append(r.toString());
+      b.append('\n');
+    }
+    b.append("]");
+    return b.toString();
+  }
+
   static class Range {
     protected int base;
     protected List<String> lines;
@@ -130,6 +143,11 @@ public class SparseFileContent {
 
     private boolean contains(final int i) {
       return base <= i && i < end();
+    }
+
+    @Override
+    public String toString() {
+      return "Range[" + base + "," + end() + ")";
     }
   }
 }

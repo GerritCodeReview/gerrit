@@ -1,6 +1,20 @@
 Gerrit2 - Command Line Tool
 ===========================
 
+Client Commands
+---------------
+
+Client commands can be downloaded via scp, and then executed on
+the client system.
+
+link:cmd-cherry-pick.html[gerrit-cherry-pick]::
+  Download and cherry-pick one or more changes (commits).
+
+To download a client command, use scp:
+
+  $ scp -P 29418 review.example.com:bin/gerrit-cherry-pick ~/bin
+
+
 Executing Commands
 ------------------
 

@@ -1,0 +1,100 @@
+git-receive-pack
+================
+
+NAME
+----
+git-receive-pack - Receive what is pushed into the repository
+
+SYNOPSIS
+--------
+[verse]
+git receive-pack [\--reviewer <address>] [\--cc <address>] <project>
+
+DESCRIPTION
+-----------
+Invoked by 'git push' and updates the project's repository with
+the information fed from the 'git push' end.
+
+End users can supply options to this command by passing them through
+to 'git push', which will relay them automatically.
+
+OPTIONS
+-------
+
+<project>::
+	The remote repository that will receive the pushed objects,
+	and create (or update) changes.  Within Gerrit Code Review
+	this is the name of a project.	The optional leading `/`
+	and or trailing `.git` suffix will be removed, if supplied.
+
+\--re <address>::
+\--reviewer <address>::
+	Automatically add <address> as a reviewer to any change
+	created or updated by the pushed commit objects.  These
+	changes will appear in the reviewer's dashboard, and will
+	also be emailed to the reviewer.
++
+May be specified more than once to request multiple reviewers.
++
+This is a Gerrit Code Review specific extension.
+
+\--cc <address>::
+	Carbon-copy <address> on the created or updated changes,
+	but don't request them to perform a review.  Like with
+	\--reviewer the changes will appear in the CC'd user's
+	dashboard, and will be emailed to them.
++
+May be specified more than once to specify multiple CCs.
++
+This is a Gerrit Code Review specific extension.
+
+Above <address> may be the complete email address, or, if Gerrit is
+configured with HTTP authentication (e.g. within a single domain),
+just the local part (typically username).
+
+ACCESS
+------
+Any user who has configured an SSH key.
+
+EXAMPLES
+--------
+
+Send a review for a change on the master branch to charlie@example.com:
+=====
+	git push --receive-pack='git receive-pack --reviewer charlie@example.com' ssh://review.example.com:29418/project HEAD:refs/for/master
+=====
+
+Also CC two other parties:
+=====
+	git push --receive-pack='git receive-pack --reviewer charlie@example.com --cc alice@example.com --cc bob@example.com' ssh://review.example.com:29418/project HEAD:refs/for/master
+=====
+
+Configure a push macro to perform the last action:
+====
+	git config remote.charlie.url ssh://review.example.com:29418/project
+	git config remote.charlie.push HEAD:refs/for/master
+	git config remote.charlie.receivepack 'git receive-pack --reviewer charlie@example.com --cc alice@example.com --cc bob@example.com'
+====
+
+afterwards `.git/config` contains the following:
+====
+	[remote "charlie"]
+		url = ssh://review.example.com:29418/project
+		push = HEAD:refs/for/master
+		receivepack = git receive-pack --reviewer charlie@example.com --cc alice@example.com --cc bob@example.com
+====
+
+and now sending a new change for review to charlie, CC'ing both
+alice and bob is much easier:
+====
+	git push charlie
+====
+
+SEE ALSO
+--------
+
+* link:user-upload.html[Uploading Changes]
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

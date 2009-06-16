@@ -34,7 +34,7 @@ User Commands
 git upload-pack::
 	Standard Git server side command for client side `git fetch`.
 
-git receive-pack::
+link:cmd-receive-pack.html[git receive-pack]::
 	Standard Git server side command for client side `git push`.
 +
 Also implements the magic associated with uploading commits for

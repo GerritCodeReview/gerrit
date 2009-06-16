@@ -509,6 +509,8 @@ public class MergeOp {
 
   private void writeCherryPickCommit(final Merger m, final CodeReviewCommit n)
       throws IOException {
+    rw.parseBody(n);
+
     final StringBuilder msgbuf = new StringBuilder();
     msgbuf.append(n.getFullMessage());
 

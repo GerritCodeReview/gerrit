@@ -665,6 +665,8 @@ class Receive extends AbstractGitCommand {
 
   private void createChange(final RevWalk walk, final RevCommit c)
       throws OrmException, IOException {
+    walk.parseBody(c);
+
     final Transaction txn = db.beginTransaction();
     final Account.Id me = userAccount.getId();
     final Change change =
@@ -771,6 +773,7 @@ class Receive extends AbstractGitCommand {
   private void appendPatchSet(final Change.Id changeId, final ReceiveCommand cmd)
       throws IOException, OrmException {
     final RevCommit c = rp.getRevWalk().parseCommit(cmd.getNewId());
+    rp.getRevWalk().parseBody(c);
     if (!validCommitter(cmd, c)) {
       return;
     }

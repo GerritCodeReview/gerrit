@@ -934,7 +934,9 @@ class Receive extends AbstractGitCommand {
             insertDummyChangeApproval(result, committerId, catId, db, txn);
           }
           for (final Account.Id reviewer : reviewerId) {
-            insertDummyChangeApproval(result, reviewer, catId, db, txn);
+            if (haveApprovals.add(reviewer)) {
+              insertDummyChangeApproval(result, reviewer, catId, db, txn);
+            }
           }
         }
         return result;

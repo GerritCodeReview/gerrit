@@ -1,0 +1,378 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAZH///+s\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/Link.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-17T00:28:45Z",
+      "side": 1,
+      "message": "This change in imports is entirely unnecessary now, how about unstaging the file and not doing it in this CL?",
+      "revId": "5701c93ea5ac5cbc5e9af47803481ecef51c2359",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZH///+I\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeListServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-17T00:28:45Z",
+      "side": 1,
+      "message": "Can\u0027t we just do:\n\n  want.addAll(changes);\n\n?  But actually, we should hoist the result declaration up to the start of the method and just put all of the Change instances directly into it.  For changesCreatedBy() we are already loading the Change entity from the database, instead of discarding it for its Change.Id and then reloading it again below on line 223 we should just return it and insert it directly into the result list, rather than the want list.",
+      "revId": "5701c93ea5ac5cbc5e9af47803481ecef51c2359",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZH///+M\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeListServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-17T00:28:45Z",
+      "side": 1,
+      "message": "Can\u0027t we just do:\n\n  want.addAll(changes);\n\n?",
+      "revId": "5701c93ea5ac5cbc5e9af47803481ecef51c2359",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZH///90\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeListServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-17T00:28:45Z",
+      "side": 1,
+      "message": "Move this up to the top of the method, so we can populate it from within the owner: branch.",
+      "revId": "5701c93ea5ac5cbc5e9af47803481ecef51c2359",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZH///9w\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeListServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-17T00:28:45Z",
+      "side": 1,
+      "message": "FYI, if want is empty here, this is safely a no-op and rs is an empty ResultSet.",
+      "revId": "5701c93ea5ac5cbc5e9af47803481ecef51c2359",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZH///9Q\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeListServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-17T00:28:45Z",
+      "side": 1,
+      "message": "Why can\u0027t this just be inline in changesCreatedBy ?",
+      "revId": "5701c93ea5ac5cbc5e9af47803481ecef51c2359",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZH///9M\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeListServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-17T00:28:45Z",
+      "side": 1,
+      "message": "FWIW, Set\u003cChange\u003e is pointless, Change does not override hashCode and equals, so its relying on instance equality, and the ORM has no object cache, so if the same change tuple was loaded from the database by both queries, its going to appear twice (in two different object instances) in the result.",
+      "revId": "5701c93ea5ac5cbc5e9af47803481ecef51c2359",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZH///9k\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeListServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-17T00:28:45Z",
+      "side": 1,
+      "message": "This may be Android style... but we don\u0027t do this anywhere else in any of the Gerrit code.  I\u0027d prefer not to start this trend as it only wastes vertical screen space.",
+      "revId": "5701c93ea5ac5cbc5e9af47803481ecef51c2359",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZH///9g\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeListServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-17T00:28:45Z",
+      "side": 1,
+      "message": "Why not use a Callable\u003cT\u003e instead, since that can actually return a result object?  Or better, just declare a specific method, there\u0027s no motivation for this to actually be a Runnable, it doesn\u0027t spawn into a thread or get scheduled on an async thread pool.",
+      "revId": "5701c93ea5ac5cbc5e9af47803481ecef51c2359",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZH///+k\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeListServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-17T00:28:45Z",
+      "side": 1,
+      "message": "This value isn\u0027t used, why are you setting up the query?",
+      "revId": "5701c93ea5ac5cbc5e9af47803481ecef51c2359",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZH///9c\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeListServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-17T00:28:45Z",
+      "side": 1,
+      "message": "Duplicate with line above it.\n\nReally though, I think you want to use db.accountExternalIds().suggestByEmailAddress(String,String,int) as that includes secondary email addresses, permitting searching for \"owner:spearce\" and finding me, even though my preferred email address is \"sop@google.com\".",
+      "revId": "5701c93ea5ac5cbc5e9af47803481ecef51c2359",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZH///9Y\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeListServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-17T00:28:45Z",
+      "side": 1,
+      "message": "Its possible for the same account to show up in both ResultSets.  We probably should flatten them out into a single Set\u003cAccount.Id\u003e to ensure that we only query for each account at most once, because querying the same Account.Id again is only going to produce the results we already have.",
+      "revId": "5701c93ea5ac5cbc5e9af47803481ecef51c2359",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZH///9U\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeListServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-17T00:28:45Z",
+      "side": 1,
+      "message": "I\u0027d prefer if you throw this, then it will show up in the server error log correctly, rather than disappear into System.err.  Basically, if you let it pop up the stack far enough that its wrapped up in a Failure by the calling method (which is then itself thrown), the top level HttpServlet that is processing the RPC will catch the exception, log it to disk, and return an error to the client.",
+      "revId": "5701c93ea5ac5cbc5e9af47803481ecef51c2359",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZH///+E\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeListServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-17T00:28:45Z",
+      "side": 1,
+      "message": "Should be private.",
+      "revId": "5701c93ea5ac5cbc5e9af47803481ecef51c2359",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZH///+A\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeListServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-17T00:28:45Z",
+      "side": 1,
+      "message": "Should be private.",
+      "revId": "5701c93ea5ac5cbc5e9af47803481ecef51c2359",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZH///9I\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeListServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-17T00:28:45Z",
+      "side": 1,
+      "message": "Can we have this form of helper return Set\u003cChange.Id\u003e so that these fall into the want list in searchQuery() and we don\u0027t have to load the same Change record twice?",
+      "revId": "5701c93ea5ac5cbc5e9af47803481ecef51c2359",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZH///9E\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeListServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 559,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-17T00:28:45Z",
+      "side": 1,
+      "message": "No.  Returns null if the change was deleted from the database.  Generally that shouldn\u0027t happen, users can\u0027t delete changes, only abandon them.",
+      "revId": "5701c93ea5ac5cbc5e9af47803481ecef51c2359",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZH///9o\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeListServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 571,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-17T00:28:45Z",
+      "side": 1,
+      "message": "This documented return type has nothing to do with the method body.  It doesn\u0027t return a SingleListChangeInfo at all.",
+      "revId": "5701c93ea5ac5cbc5e9af47803481ecef51c2359",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZH///98\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeListServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 575,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-17T00:28:45Z",
+      "side": 1,
+      "message": "Can\u0027t this just be:\n\n  List\u003cChange.Id\u003e result \u003d new ArrayList\u003cChange.Id\u003e(changes.keySet());\n\n?",
+      "revId": "5701c93ea5ac5cbc5e9af47803481ecef51c2359",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZH///94\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeListServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 580,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-17T00:28:45Z",
+      "side": 1,
+      "message": "Unused.",
+      "revId": "5701c93ea5ac5cbc5e9af47803481ecef51c2359",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZH///9s\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeListServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-17T00:28:45Z",
+      "side": 1,
+      "message": "This sort is unnecessary, it will be done by the caller in searchQuery().",
+      "revId": "5701c93ea5ac5cbc5e9af47803481ecef51c2359",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZH///+o\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/reviewdb/AccountAccess.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-17T00:28:45Z",
+      "side": 1,
+      "message": "I would have preferred to not move this method.  My (not documented) ordering here was \"equality stuff, and then the suggestBy stuff\", clustering the suggestBy methods together at the bottom, rather than with their equality partner.",
+      "revId": "5701c93ea5ac5cbc5e9af47803481ecef51c2359",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

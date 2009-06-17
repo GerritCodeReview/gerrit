@@ -16,6 +16,23 @@
       "revId": "86b5102f54caa80e51a3b8c5ec8c4f5bcb4f6c57",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZH///8Y\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/PatchTable.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-17T17:23:56Z",
+      "side": 0,
+      "message": "Still based on the wrong commit.",
+      "revId": "86b5102f54caa80e51a3b8c5ec8c4f5bcb4f6c57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

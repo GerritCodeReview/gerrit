@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAZH///8U\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/PatchTable.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-17T17:23:56Z",
+      "side": 1,
+      "message": "I don\u0027t understand why this Map has to be done here, why can\u0027t the URL to the image be generated inside of the UnifiedDiffTable when its needed?  All of the data required should be present inside of that class at the time the \u003cimg\u003e tag would be constructed in the DOM.",
+      "revId": "c4b49b2fbca6d009b982fcaac41e245d5b946886",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZH///8Q\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/data/PatchScript.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-17T17:23:56Z",
+      "side": 1,
+      "message": "Must be protected to be serialized over JSON-RPC.\n\nI wonder if isSafeImage isn\u0027t a better name here, since we use this later to assume we can render it with an \u003cimg\u003e tag.",
+      "revId": "c4b49b2fbca6d009b982fcaac41e245d5b946886",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZH///8I\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/patches/AbstractPatchContentTable.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-17T17:23:56Z",
+      "side": 1,
+      "message": "We shouldn\u0027t need these maps if the UnifiedDiffTable knows how to create the hyperlink too.",
+      "revId": "c4b49b2fbca6d009b982fcaac41e245d5b946886",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZH///8M\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/patches/AbstractPatchContentTable.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 619,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-17T17:23:56Z",
+      "side": 1,
+      "message": "This hunk is modified unnecessarily.",
+      "revId": "c4b49b2fbca6d009b982fcaac41e245d5b946886",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZH///78\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/patches/UnifiedDiffTable.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-17T17:23:56Z",
+      "side": 1,
+      "message": "Instead of relying on these maps I think we can compute the data directly based on script.isSafeImage().",
+      "revId": "c4b49b2fbca6d009b982fcaac41e245d5b946886",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZH///70\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/patches/UnifiedDiffTable.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-17T17:23:56Z",
+      "side": 1,
+      "message": "First two columns should be nbsp() as they are line number columns.  The imagesc should go in the main 3rd column where the text would have otherwise gone.",
+      "revId": "c4b49b2fbca6d009b982fcaac41e245d5b946886",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZH///8E\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/reviewdb/ReviewDb.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-17T17:23:56Z",
+      "side": 1,
+      "message": "Next version is 14.",
+      "revId": "c4b49b2fbca6d009b982fcaac41e245d5b946886",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZH///8A\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/reviewdb/ReviewDb.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-17T17:23:56Z",
+      "side": 1,
+      "message": "I\u0027d still prefer to put this into gerrit.config.",
+      "revId": "c4b49b2fbca6d009b982fcaac41e245d5b946886",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZH///7s\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/CatServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-17T17:23:56Z",
+      "side": 1,
+      "message": "This should be a reasonable guess at least based on file extension, rather than making the browser guess.  Which means loading the mime.types file and processing that.",
+      "revId": "c4b49b2fbca6d009b982fcaac41e245d5b946886",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZH///7w\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/patch/PatchCommentAction.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-17T17:23:56Z",
+      "side": 1,
+      "message": "Unnecessary import.",
+      "revId": "c4b49b2fbca6d009b982fcaac41e245d5b946886",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

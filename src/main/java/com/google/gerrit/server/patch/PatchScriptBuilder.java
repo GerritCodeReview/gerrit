@@ -21,6 +21,7 @@ import com.google.gerrit.client.patches.CommentDetail;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.rpc.CorruptEntityException;
+import com.google.gerrit.server.CatServlet;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -100,7 +101,8 @@ class PatchScriptBuilder {
       //
       edits = Collections.emptyList();
       packHeader(fh);
-      return new PatchScript(header, settings, dstA, dstB, edits);
+      return new PatchScript(header, settings, dstA, dstB, edits,
+          CatServlet.isSafeInline(null, patch.getFileName()));
     }
 
     srcA = open(contentAct.getOldId());
@@ -148,7 +150,8 @@ class PatchScriptBuilder {
       ensureCommentsVisible(comments);
     }
 
-    return new PatchScript(header, settings, dstA, dstB, edits);
+    return new PatchScript(header, settings, dstA, dstB, edits,
+        CatServlet.isSafeInline(null, patch.getFileName()));
   }
 
   private void ensureCommentsVisible(final CommentDetail comments) {

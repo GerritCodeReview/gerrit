@@ -312,9 +312,16 @@ class PatchScriptBuilder {
 
         if (end(curEdit, aCur, bCur) && ++curIdx < edits.size()) {
           curEdit = edits.get(curIdx);
-          while (curEdit.getType() == Edit.Type.EMPTY && curEdit != endEdit) {
+          while (curEdit.getType() == Edit.Type.EMPTY) {
+            if (aEnd <= curEdit.getBeginA() || bEnd <= curEdit.getEndB()) {
+              break;
+            }
             edits.remove(curIdx);
-            curEdit = edits.get(curIdx);
+            if (curIdx < edits.size()) {
+              curEdit = edits.get(curIdx);
+            } else {
+              break;
+            }
           }
         }
       }

@@ -45,4 +45,10 @@ public interface PatchConstants extends Constants {
   String commentSaveDraft();
   String commentDiscard();
   String commentCancelEdit();
+  
+  String whitespaceIgnoreLabel();
+  String whitespaceIGNORE_NONE();
+  String whitespaceIGNORE_SPACE_AT_EOL();
+  String whitespaceIGNORE_SPACE_CHANGE();
+  String whitespaceIGNORE_ALL_SPACE();
 }

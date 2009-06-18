@@ -16,8 +16,6 @@ package com.google.gerrit.client.patches;
 
 import static com.google.gerrit.client.reviewdb.AccountGeneralPreferences.DEFAULT_CONTEXT;
 import static com.google.gerrit.client.reviewdb.AccountGeneralPreferences.WHOLE_FILE_CONTEXT;
-import static com.google.gerrit.client.data.PatchScriptSettings.Whitespace.IGNORE_NONE;
-import static com.google.gerrit.client.data.PatchScriptSettings.Whitespace.IGNORE_SPACE_CHANGE;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.Link;
@@ -25,6 +23,7 @@ import com.google.gerrit.client.changes.PatchTable;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.data.PatchScript;
 import com.google.gerrit.client.data.PatchScriptSettings;
+import com.google.gerrit.client.data.PatchScriptSettings.Whitespace;
 import com.google.gerrit.client.reviewdb.AccountGeneralPreferences;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.Patch;
@@ -33,6 +32,8 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.NoDifferencesException;
 import com.google.gerrit.client.ui.ChangeLink;
 import com.google.gerrit.client.ui.Screen;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.History;
@@ -42,6 +43,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
@@ -174,15 +176,16 @@ public abstract class PatchScreen extends Screen {
   }
 
   private void initDisplayControls() {
-    final FlowPanel displayControls = new FlowPanel();
+    final Grid displayControls = new Grid(0, 4);
     displayControls.setStyleName("gerrit-PatchScreen-DisplayControls");
     add(displayControls);
 
-    displayControls.add(createShowFullFiles());
-    displayControls.add(createIgnoreWhitespace());
+    createIgnoreWhitespace(displayControls, 0, 0);
+    createContext(displayControls, 0, 2);
   }
 
-  private Widget createShowFullFiles() {
+  private void createContext(final Grid parent, final int row, final int col) {
+    parent.resizeRows(row + 1);
     final CheckBox cb = new CheckBox(PatchUtil.C.showFullFiles());
     cb.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
       @Override
@@ -197,23 +200,33 @@ public abstract class PatchScreen extends Screen {
         refresh(false /* not the first time */);
       }
     });
-    return cb;
+    parent.setWidget(row, col + 1, cb);
   }
 
-  private Widget createIgnoreWhitespace() {
-    final CheckBox cb = new CheckBox(PatchUtil.C.ignoreWhitespace());
-    cb.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+  private void createIgnoreWhitespace(final Grid parent, final int row,
+      final int col) {
+    parent.resizeRows(row + 1);    
+    final ListBox ws = new ListBox();
+    ws.addItem(PatchUtil.C.whitespaceIGNORE_NONE(), Whitespace.IGNORE_NONE
+        .name());
+    ws.addItem(PatchUtil.C.whitespaceIGNORE_SPACE_AT_EOL(),
+        Whitespace.IGNORE_SPACE_AT_EOL.name());
+    ws.addItem(PatchUtil.C.whitespaceIGNORE_SPACE_CHANGE(),
+        Whitespace.IGNORE_SPACE_CHANGE.name());
+    ws.addItem(PatchUtil.C.whitespaceIGNORE_ALL_SPACE(),
+        Whitespace.IGNORE_ALL_SPACE.name());
+    ws.addChangeHandler(new ChangeHandler() {
       @Override
-      public void onValueChange(ValueChangeEvent<Boolean> event) {
-        if (event.getValue()) {
-          scriptSettings.setWhitespace(IGNORE_SPACE_CHANGE);
-        } else {
-          scriptSettings.setWhitespace(IGNORE_NONE);
+      public void onChange(ChangeEvent event) {
+        final int sel = ws.getSelectedIndex();
+        if(0 <= sel){
+          scriptSettings.setWhitespace(Whitespace.valueOf(ws.getValue(sel)));
+          refresh(false /* not the first time */);
         }
-        refresh(false /* not the first time */);
       }
     });
-    return cb;
+    parent.setText(row, col, PatchUtil.C.whitespaceIgnoreLabel());
+    parent.setWidget(row, col + 1, ws);
   }
 
   private Widget createNextPrevLinks() {

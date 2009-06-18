@@ -70,13 +70,59 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
     }
   }
 
+  /**
+   * If url is not null, append an img tag to it
+   * @param nc
+   * @param url
+   */
+  private void maybeAppendImgTag(SafeHtmlBuilder nc, String url) {
+    if (url != null) {
+      nc.openElement("img");
+      nc.setAttribute("src", url);
+      nc.closeElement("img");
+    }
+  }
+
   @Override
   protected void render(final PatchScript script) {
     final SparseFileContent a = script.getA();
     final SparseFileContent b = script.getB();
     final SafeHtmlBuilder nc = new SafeHtmlBuilder();
+
+    // Display the patch header
     for (final String line : script.getPatchHeader()) {
       appendFileHeader(nc, line);
+    }
+
+    String left = directUrlsLeft.get(patchKey.get());
+    String right = directUrlsRight.get(patchKey.get());
+
+    if (script.isSafeInline()) {
+      // The left url can be null if a file is being added and the right url can be null if a
+      // file is being deleted. They will both be non-null if this change is modifying an existing
+      // file.
+
+      nc.openTr();
+      nc.setAttribute("valign", "center");
+      nc.setAttribute("align", "center");
+
+      nc.openTd();
+      maybeAppendImgTag(nc, left);
+      nc.closeTd();
+
+      nc.openTd();
+      nc.nbsp();
+      nc.closeTd();
+
+      nc.openTd();
+      nc.nbsp();
+      nc.closeTd();
+
+      nc.openTd();
+      maybeAppendImgTag(nc, right);
+      nc.closeTd();
+
+      nc.closeTr();
     }
 
     final ArrayList<PatchLine> lines = new ArrayList<PatchLine>();

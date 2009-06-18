@@ -50,7 +50,9 @@ import com.google.gwtexpui.globalkey.client.KeyCommandSet;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public abstract class AbstractPatchContentTable extends NavigationTable<Object> {
   private static final long AGE = 7 * 24 * 60 * 60 * 1000L;
@@ -629,4 +631,5 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
       p.open();
     }
   }
+
 }

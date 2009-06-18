@@ -23,10 +23,13 @@ import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gerrit.client.reviewdb.SafeFile;
+import com.google.gerrit.client.reviewdb.SafeFileAccess;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.git.InvalidRepositoryException;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.ResultSet;
 
 import org.spearce.jgit.lib.Constants;
 import org.spearce.jgit.lib.ObjectId;
@@ -41,6 +44,8 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.SecureRandom;
+import java.util.List;
+import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -223,7 +228,7 @@ public class CatServlet extends HttpServlet {
     final String fn;
     final byte[] outData;
 
-    if (isSafeInline(contentType)) {
+    if (isSafeInline(contentType, keyStr)) {
       fn = safeFileName(path, suffix);
       outData = blobData;
 
@@ -267,20 +272,6 @@ public class CatServlet extends HttpServlet {
     // When in doubt, call it a generic binary stream.
     //
     return APPLICATION_OCTET_STREAM;
-  }
-
-  private boolean isSafeInline(final String contentType) {
-    if (APPLICATION_OCTET_STREAM.equals(contentType)) {
-      // Most browsers perform content type sniffing when they get told
-      // a generic content type. This is bad, so assume we cannot send
-      // the file inline.
-      //
-      return false;
-    }
-
-    // Assume we cannot send the content inline.
-    //
-    return false;
   }
 
   private static String safeFileName(String fileName, final String suffix) {
@@ -349,4 +340,29 @@ public class CatServlet extends HttpServlet {
     return suffix + "-" + ObjectId.fromRaw(md.digest()).name();
   }
 
+  /**
+   * @return true if the file can safely be displayed in a direct link. This method should only
+   * be invoked from the server side.
+   */
+  public static boolean isSafeInline(String contentType, String name) {
+    try {
+      int index = name.lastIndexOf('.');
+      if (index >= 0) {
+        String suffix = name.substring(index + 1);
+        String[] allowedMimeTypes = GerritServer.getInstance().getGerritConfig()
+            .getStringList("viewinline", null, "allow");
+        for (String allowedMimeType : allowedMimeTypes) {
+          if (allowedMimeType.endsWith(suffix)) {
+            return true;
+          }
+        }
+      }
+    } catch (OrmException e) {
+      e.printStackTrace();
+    } catch (XsrfException e) {
+      e.printStackTrace();
+    }
+    
+    return false;
+  }
 }

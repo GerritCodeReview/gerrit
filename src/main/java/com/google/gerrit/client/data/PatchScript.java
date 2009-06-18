@@ -29,17 +29,25 @@ public class PatchScript {
   protected SparseFileContent a;
   protected SparseFileContent b;
   protected List<Edit> edits;
+  /** protected for serialization over JSON-RPC */
+  protected boolean isSafeInline;
 
   public PatchScript(final List<String> h, final PatchScriptSettings s,
-      final SparseFileContent ca, final SparseFileContent cb, final List<Edit> e) {
+      final SparseFileContent ca, final SparseFileContent cb, final List<Edit> e,
+      boolean safe) {
     header = h;
     settings = s;
     a = ca;
     b = cb;
     edits = e;
+    isSafeInline = safe;
   }
 
   protected PatchScript() {
+  }
+
+  public boolean isSafeInline() {
+    return isSafeInline;
   }
 
   public List<String> getPatchHeader() {

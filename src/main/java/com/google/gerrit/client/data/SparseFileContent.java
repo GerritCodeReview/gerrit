@@ -85,7 +85,7 @@ public class SparseFileContent {
         currentRangeIdx = mid;
         return cur.get(idx);
       }
-      if (cur.base < idx)
+      if (idx < cur.base)
         high = mid;
       else
         low = mid + 1;

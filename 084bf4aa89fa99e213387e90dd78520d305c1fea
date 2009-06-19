@@ -1,0 +1,242 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAZX////g\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/Link.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-19T20:54:20Z",
+      "side": 1,
+      "message": "Drop this file from your change.",
+      "revId": "084bf4aa89fa99e213387e90dd78520d305c1fea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZX///+w\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeListServiceImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-19T20:54:20Z",
+      "side": 1,
+      "message": "I\u0027d still kinda like to avoid the db.changes.get(want) hit on line 217 for these.  We pulled the whole Change object already, discarded it, and are now going to pull them again.  *sigh*",
+      "revId": "084bf4aa89fa99e213387e90dd78520d305c1fea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZX////Q\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeListServiceImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-19T20:54:20Z",
+      "side": 1,
+      "message": "Type on Callabe, should be Callable",
+      "revId": "084bf4aa89fa99e213387e90dd78520d305c1fea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZX////U\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeListServiceImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-19T20:54:20Z",
+      "side": 1,
+      "message": "Technically its a set of account ids, not an array...",
+      "revId": "084bf4aa89fa99e213387e90dd78520d305c1fea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZX////Y\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeListServiceImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-19T20:54:20Z",
+      "side": 1,
+      "message": "FWIW this can be written as:\n\n  for(Account matchedAccount : rs) {\n    result.add(matchedAccount.getId());\n  }\n\nThe ResultSet\u003cT\u003e type is Iteratable.",
+      "revId": "084bf4aa89fa99e213387e90dd78520d305c1fea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZX////M\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeListServiceImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-19T20:54:20Z",
+      "side": 1,
+      "message": "Ick.  I\u0027d prefer to not implement Callable and just declare this method to throw OrmException.  Wrapping a checked exception in an unchecked RuntimeException just to meet an interface we don\u0027t actually need to meet is not a good idea.",
+      "revId": "084bf4aa89fa99e213387e90dd78520d305c1fea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZX////I\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeListServiceImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-19T20:54:20Z",
+      "side": 1,
+      "message": "Unnecessary blank line.",
+      "revId": "084bf4aa89fa99e213387e90dd78520d305c1fea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZX////E\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeListServiceImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-19T20:54:20Z",
+      "side": 1,
+      "message": "Unnecessary blank line.",
+      "revId": "084bf4aa89fa99e213387e90dd78520d305c1fea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZX///+8\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeListServiceImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-19T20:54:20Z",
+      "side": 1,
+      "message": "Why return a copy, its just copied anyway in the caller.  Why not just return the resultChanges Set\u003cChange.Id\u003e and save 1 copy?",
+      "revId": "084bf4aa89fa99e213387e90dd78520d305c1fea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZX////A\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeListServiceImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-19T20:54:20Z",
+      "side": 1,
+      "message": "Unnecessary blank line.",
+      "revId": "084bf4aa89fa99e213387e90dd78520d305c1fea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZX///+4\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeListServiceImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-19T20:54:20Z",
+      "side": 1,
+      "message": "This comment doesn\u0027t make any sense; change can be null if the change has been deleted from the database but the approval was orphaned.  Otherwise, it shouldn\u0027t be null.",
+      "revId": "084bf4aa89fa99e213387e90dd78520d305c1fea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZX///+0\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeListServiceImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-19T20:54:20Z",
+      "side": 1,
+      "message": "Again, why bother returning a copy when the caller just copies anyway?",
+      "revId": "084bf4aa89fa99e213387e90dd78520d305c1fea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZX////k\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/reviewdb/AccountAccess.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-19T20:54:20Z",
+      "side": 1,
+      "message": "Why can\u0027t you just leave this alone on line 38 and add suggestBySshUserName at the end of the file?  Please don\u0027t move code around for no apparent reason.",
+      "revId": "084bf4aa89fa99e213387e90dd78520d305c1fea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZX////c\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/reviewdb/ChangeApprovalAccess.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-19T20:54:20Z",
+      "side": 1,
+      "message": "We don\u0027t currently have an index on change_approvals that meets this query.\n\nEither create one, or two two queries using the openByUser and closedByUser above, as we to have an index on changeOpen,key.accountId.",
+      "revId": "084bf4aa89fa99e213387e90dd78520d305c1fea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

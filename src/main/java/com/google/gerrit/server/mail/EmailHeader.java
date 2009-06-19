@@ -87,20 +87,24 @@ abstract class EmailHeader {
     @Override
     void write(Writer w) throws IOException {
       int len = 8;
-      boolean first = true;
+      boolean firstAddress = true;
+      boolean needComma = false;
       for (final Address addr : list) {
         java.lang.String s = addr.toHeaderString();
-        if (first) {
-          first = false;
+        if (firstAddress) {
+          firstAddress = false;
         } else if (72 < len + s.length()) {
           w.write(",\r\n\t");
           len = 8;
-          first = true;
-        } else {
+          needComma = false;
+        }
+
+        if (needComma) {
           w.write(", ");
         }
         w.write(s);
         len += s.length();
+        needComma = true;
       }
     }
   }

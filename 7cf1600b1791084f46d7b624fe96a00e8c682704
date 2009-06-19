@@ -1,0 +1,208 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAZX///+A\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/patches/UnifiedDiffTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-19T21:17:02Z",
+      "side": 1,
+      "message": "Drop these maps.  All you need to generate the left and right URLs is:\n\n String base \u003d GWT.getHostPageBaseURL();\n base +\u003d \"cat/\" + KeyUtil.encode(patchKey.toString());\n String left \u003d base + \"^1\";\n String right \u003d base + \"^0\";",
+      "revId": "7cf1600b1791084f46d7b624fe96a00e8c682704",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZX///+I\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/patches/UnifiedDiffTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-19T21:17:02Z",
+      "side": 1,
+      "message": "This should be an nbsp();",
+      "revId": "7cf1600b1791084f46d7b624fe96a00e8c682704",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZX///+E\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/patches/UnifiedDiffTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-19T21:17:02Z",
+      "side": 1,
+      "message": "Put both image tags here:\n\n   maybeAppendImgTag(nc, left);\n   maybeAppendImgTag(nc, right);\n\nThe 4th column is the main content column.  The other 3 columns are tiny fixed width columns.",
+      "revId": "7cf1600b1791084f46d7b624fe96a00e8c682704",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZX///+M\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/reviewdb/ReviewDb.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-19T21:17:02Z",
+      "side": 1,
+      "message": "Don\u0027t make this edit, there\u0027s no schema change.",
+      "revId": "7cf1600b1791084f46d7b624fe96a00e8c682704",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZX///+U\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/reviewdb/SafeFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-19T21:17:02Z",
+      "side": 1,
+      "message": "Drop this type, its unused now.",
+      "revId": "7cf1600b1791084f46d7b624fe96a00e8c682704",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZX///+Q\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/reviewdb/SafeFileAccess.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-19T21:17:02Z",
+      "side": 1,
+      "message": "Drop this type, its unused now.",
+      "revId": "7cf1600b1791084f46d7b624fe96a00e8c682704",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZX///+Y\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/CatServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-19T21:17:02Z",
+      "side": 1,
+      "message": "Unused",
+      "revId": "7cf1600b1791084f46d7b624fe96a00e8c682704",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZX///+c\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/CatServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-19T21:17:02Z",
+      "side": 1,
+      "message": "Unused",
+      "revId": "7cf1600b1791084f46d7b624fe96a00e8c682704",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZX///+g\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/CatServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-19T21:17:02Z",
+      "side": 1,
+      "message": "Unnecessary trailing whitespace.",
+      "revId": "7cf1600b1791084f46d7b624fe96a00e8c682704",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZX///+s\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/CatServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-19T21:17:02Z",
+      "side": 1,
+      "message": "These aren\u0027t really mime types, are they, but file extensions...",
+      "revId": "7cf1600b1791084f46d7b624fe96a00e8c682704",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZX///+o\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/CatServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-19T21:17:02Z",
+      "side": 1,
+      "message": "Why endsWith and not equals?",
+      "revId": "7cf1600b1791084f46d7b624fe96a00e8c682704",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZX///+k\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/CatServlet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-19T21:17:02Z",
+      "side": 1,
+      "message": "Unnecessary trailing whitespace.",
+      "revId": "7cf1600b1791084f46d7b624fe96a00e8c682704",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

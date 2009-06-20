@@ -561,6 +561,12 @@ limitations under the License.
       <artifactId>jgit</artifactId>
       <version>${jgitVersion}</version>
       <scope>compile</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>com.jcraft</groupId>
+          <artifactId>jsch</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.spearce</groupId>
@@ -569,6 +575,13 @@ limitations under the License.
       <classifier>sources</classifier>
       <scope>provided</scope>
       <type>jar</type>
+    </dependency>
+
+    <dependency>
+      <groupId>com.jcraft</groupId>
+      <artifactId>jsch</artifactId>
+      <version>0.1.41</version>
+      <scope>compile</scope>
     </dependency>
 
     <!-- GWT -->

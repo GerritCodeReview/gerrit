@@ -253,7 +253,7 @@ limitations under the License.
   </licenses>
 
   <properties>
-    <jgitVersion>0.4.0-398-ge866578</jgitVersion>
+    <jgitVersion>0.4.0-411-g8076bdb</jgitVersion>
     <gwtormVersion>1.1.1</gwtormVersion>
     <gwtjsonrpcVersion>1.1.0</gwtjsonrpcVersion>
     <gwtexpuiVersion>1.1.1</gwtexpuiVersion>

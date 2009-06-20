@@ -36,10 +36,6 @@ abstract class AbstractGitCommand extends AbstractCommand {
   protected Project proj;
   protected Account userAccount;
 
-  protected boolean isGerrit() {
-    return getName().startsWith("gerrit-");
-  }
-
   @Override
   protected void preRun() throws Failure {
     super.preRun();

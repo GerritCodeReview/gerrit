@@ -123,7 +123,59 @@ public class CommentDetail {
   private static List<PatchLineComment> get(
       final Map<Integer, List<PatchLineComment>> m, final int i) {
     final List<PatchLineComment> r = m.get(i);
-    return r != null ? r : Collections.<PatchLineComment> emptyList();
+    return r != null ? orderComments(r) : Collections.<PatchLineComment> emptyList();
+  }
+
+  /**
+   * Order the comments based on their parent_uuid parent.  It is possible to do this by
+   * iterating over the list only once but it's probably overkill since the number of comments
+   * on a given line will be small most of the time.
+   *
+   * @param comments The list of comments for a given line.
+   * @return The comments sorted as they should appear in the UI
+   */
+  private static List<PatchLineComment> orderComments(List<PatchLineComment> comments) {
+    // Map of comments keyed by their parent. The values are lists of comments since it is
+    // possible for several comments to have the same parent (this can happen if two reviewers
+    // click Reply on the same comment at the same time). Such comments will be displayed under
+    // their correct parent in chronological order.
+    Map<String, List<PatchLineComment>> parentMap = new HashMap<String, List<PatchLineComment>>();
+
+    // It's possible to have more than one root comment if two reviewers create a comment on the
+    // same line at the same time
+    List<PatchLineComment> rootComments = new ArrayList<PatchLineComment>();
+
+    // Store all the comments in parentMap, keyed by their parent
+    for (PatchLineComment c : comments) {
+      String parentUuid = c.getParentUuid();
+      List<PatchLineComment> l = parentMap.get(parentUuid);
+      if (l == null) {
+        l = new ArrayList<PatchLineComment>();
+        parentMap.put(parentUuid, l);
+      }
+      l.add(c);
+      if (parentUuid == null) rootComments.add(c);
+    }
+
+    // Add the comments in the list, starting with the head and then going through all the
+    // comments that have it as a parent, and so on
+    List<PatchLineComment> result = new ArrayList<PatchLineComment>();
+    addChildren(parentMap, rootComments, result);
+
+    return result;
+  }
+
+  /**
+   * Add the comments to <code>outResult</code>, depth first
+   */
+  private static void addChildren(Map<String, List<PatchLineComment>> parentMap,
+      List<PatchLineComment> children, List<PatchLineComment> outResult) {
+    if (children != null) {
+      for (PatchLineComment c : children) {
+        outResult.add(c);
+        addChildren(parentMap, parentMap.get(c.getKey()), outResult);
+      }
+    }
   }
 
   private Map<Integer, List<PatchLineComment>> index(

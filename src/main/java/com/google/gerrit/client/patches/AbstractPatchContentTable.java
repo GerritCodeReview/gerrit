@@ -266,8 +266,28 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
   /** Invoked when the user clicks on a table cell. */
   protected abstract void onCellDoubleClick(int row, int column);
 
+  /**
+   * Invokes createCommentEditor() with an empty string as value for the comment
+   * parent UUID. This method is invoked by callers that want to create an
+   * editor for a comment that is not a reply.
+   */
   protected void createCommentEditor(final int suggestRow, final int column,
       final int line, final short file) {
+    createCommentEditor(suggestRow, column, line, file, null /* no parent */);
+  }
+
+  protected void createReplyEditor(final LineCommentPanel currentPanel) {
+    final int row = rowOf(currentPanel.getElement());
+    if (row >= 0) {
+      final int column = columnOf(currentPanel.getElement());
+      final PatchLineComment c = currentPanel.comment;
+      final PatchLineComment.Key k = c.getKey();
+      createCommentEditor(row, column, c.getLine(), c.getSide(), k.get());
+    }
+  }
+
+  private void createCommentEditor(final int suggestRow, final int column,
+      final int line, final short file, final String parentUuid) {
     int row = suggestRow;
     int spans[] = new int[column + 1];
     OUTER: while (row < table.getRowCount()) {
@@ -322,7 +342,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
 
     final PatchLineComment newComment =
         new PatchLineComment(new PatchLineComment.Key(parentKey, null), line,
-            Gerrit.getUserAccount().getId());
+            Gerrit.getUserAccount().getId(), parentUuid);
     newComment.setSide(side);
     newComment.setMessage("");
 
@@ -437,7 +457,14 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
       return;
     }
 
-    final LineCommentPanel mp = new LineCommentPanel(line);
+    final LineCommentPanel mp;
+    if (isLast) {
+      // Create a panel with a Reply button if we are looking at the
+      // last comment for this line.
+      mp = new LineCommentPanel(line, this);
+    } else {
+      mp = new LineCommentPanel(line);
+    }
     String panelHeader;
     final ComplexDisclosurePanel panel;
 
@@ -491,9 +518,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
           if (td == null) {
             break;
           }
-          final Element tr = DOM.getParent(td);
-          final Element body = DOM.getParent(tr);
-          final int row = DOM.getChildIndex(body, tr);
+          final int row = rowOf(td);
           if (getRowItem(row) != null) {
             movePointerTo(row);
             return;
@@ -506,11 +531,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
           if (td == null) {
             return;
           }
-          Element tr = DOM.getParent(td);
-          Element body = DOM.getParent(tr);
-          int row = DOM.getChildIndex(body, tr);
-          int column = DOM.getChildIndex(tr, td);
-          onCellDoubleClick(row, column);
+          onCellDoubleClick(rowOf(td), columnOf(td));
           return;
         }
       }

@@ -116,6 +116,49 @@ public abstract class FancyFlexTable<RowItem> extends Composite {
     table.getCellFormatter().addStyleName(newRow, C_ARROW, S_LEFT_MOST_CELL);
   }
 
+  /**
+   * Get the td element that contains another element.
+   * 
+   * @param target the child element whose parent td is required.
+   * @return the td containing element {@code target}; null if {@code target} is
+   *         not a member of this table.
+   */
+  protected Element getParentCell(final Element target) {
+    final Element body = FancyFlexTableImpl.getBodyElement(table);
+    for (Element td = target; td != null && td != body; td = DOM.getParent(td)) {
+      // If it's a TD, it might be the one we're looking for.
+      if ("td".equalsIgnoreCase(td.getTagName())) {
+        // Make sure it's directly a part of this table.
+        Element tr = DOM.getParent(td);
+        if (DOM.getParent(tr) == body) {
+          return td;
+        }
+      }
+    }
+    return null;
+  }
+
+  /** @return the row of the child element; -1 if the child is not in the table. */
+  protected int rowOf(final Element target) {
+    final Element td = getParentCell(target);
+    if (td == null) {
+      return -1;
+    }
+    final Element tr = DOM.getParent(td);
+    final Element body = DOM.getParent(tr);
+    return DOM.getChildIndex(body, tr);
+  }
+
+  /** @return the cell of the child element; -1 if the child is not in the table. */
+  protected int columnOf(final Element target) {
+    final Element td = getParentCell(target);
+    if (td == null) {
+      return -1;
+    }
+    final Element tr = DOM.getParent(td);
+    return DOM.getChildIndex(tr, td);
+  }
+
   protected static class MyFlexTable extends FlexTable {
   }
 

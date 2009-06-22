@@ -16,6 +16,8 @@ package com.google.gerrit.client.patches;
 
 import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
@@ -27,12 +29,21 @@ public class LineCommentPanel extends Composite {
 
   PatchLineComment comment;
   boolean isRecent;
+  private VerticalPanel panel;
 
   public LineCommentPanel(final PatchLineComment msg) {
     comment = msg;
+    panel = new VerticalPanel();
     final Widget l = toSafeHtml(msg).toBlockWidget();
     l.setStyleName("gerrit-PatchLineComment");
-    initWidget(l);
+    panel.add(l);
+
+    panel.setStyleName("gerrit-PatchLineCommentPanel");
+    initWidget(panel);
+  }
+
+  public Panel getPanel() {
+    return panel;
   }
 
   void update(final PatchLineComment msg) {

@@ -114,7 +114,7 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
         if (comment.getKey().get() == null) {
           final PatchLineComment nc =
               new PatchLineComment(new PatchLineComment.Key(patch.getKey(),
-                  ChangeUtil.messageUUID(db)), comment.getLine(), me);
+                  ChangeUtil.messageUUID(db)), comment.getLine(), me, comment.getParentUuid());
           nc.setSide(comment.getSide());
           nc.setMessage(comment.getMessage());
           db.patchComments().insert(Collections.singleton(nc));

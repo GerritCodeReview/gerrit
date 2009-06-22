@@ -123,7 +123,41 @@ public class CommentDetail {
   private static List<PatchLineComment> get(
       final Map<Integer, List<PatchLineComment>> m, final int i) {
     final List<PatchLineComment> r = m.get(i);
-    return r != null ? r : Collections.<PatchLineComment> emptyList();
+    return r != null ? orderComments(r) : Collections.<PatchLineComment> emptyList();
+  }
+
+  /**
+   * Order the comments based on their parent_uuid parent.  It is possible to do this by
+   * iterating over the list only once but it's probably overkill since the number of comments
+   * on a given line will be small most of the time.
+   *
+   * @param comments The list of comments for a given line.
+   * @return The comments sorted as they should appear in the UI
+   */
+  private static List<PatchLineComment> orderComments(List<PatchLineComment> comments) {
+    Map<String, PatchLineComment> parentMap = new HashMap<String, PatchLineComment>();
+    PatchLineComment firstComment = null;
+
+    // Store all the comments, keyed by their parent
+    for (PatchLineComment c : comments) {
+      parentMap.put(c.getParentUuid(), c);
+      if ("".equals(c.getParentUuid())) firstComment = c;
+    }
+
+    // Add the comments in the list, starting with the head and then going through the parents
+    // chain
+    List<PatchLineComment> result = new ArrayList<PatchLineComment>();
+    result.add(firstComment);
+    PatchLineComment current = firstComment;
+    do {
+      PatchLineComment parent = parentMap.get(current.getKey().get());
+      if (parent != null) {
+          result.add(parent);
+      }
+      current = parent;
+    } while (current != null);
+
+    return result;
   }
 
   private Map<Integer, List<PatchLineComment>> index(

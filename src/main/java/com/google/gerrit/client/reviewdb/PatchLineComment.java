@@ -110,14 +110,19 @@ public final class PatchLineComment {
   @Column(notNull = false, length = Integer.MAX_VALUE)
   protected String message;
 
+  /** The parent of this comment, or null if this is the first comment on this line */
+  @Column(length = 40)
+  protected String parentUuid;
+
   protected PatchLineComment() {
   }
 
   public PatchLineComment(final PatchLineComment.Key id, final int line,
-      final Account.Id a) {
+      final Account.Id a, String parentUuid) {
     key = id;
     lineNbr = line;
     author = a;
+    this.parentUuid = parentUuid;
     setStatus(Status.DRAFT);
     updated();
   }
@@ -164,5 +169,9 @@ public final class PatchLineComment {
 
   public void updated() {
     writtenOn = new Timestamp(System.currentTimeMillis());
+  }
+
+  public String getParentUuid() {
+    return parentUuid;
   }
 }

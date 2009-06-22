@@ -387,6 +387,11 @@
   border-collapse: separate;
   border-spacing: 0;
 }
+
+.gerrit-PatchLineCommentPanel {
+  width: 100%;
+}
+
 .gerrit-PatchContentTable .Comment td,
 .gerrit-PatchLineComment {
   font-family: Arial Unicode MS,Arial,sans-serif;

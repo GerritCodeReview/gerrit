@@ -35,12 +35,15 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.ComplexDisclosurePanel;
 import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.client.ui.NeedsSignInKeyCommand;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Widget;
@@ -273,8 +276,18 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
   /** Invoked when the user clicks on a table cell. */
   protected abstract void onCellDoubleClick(int row, int column);
 
+  /**
+   * Invokes createCommentEditor() with an empty string as value for the comment parent UUID.
+   * This method is invoked by callers that want to create an editor for a comment that is
+   * not a reply.
+   */
   protected void createCommentEditor(final int suggestRow, final int column,
       final int line, final short file) {
+    createCommentEditor(suggestRow, column, line, file, "");
+  }
+
+  protected void createCommentEditor(final int suggestRow, final int column,
+      final int line, final short file, final String parentUuid) {
     int row = suggestRow;
     int spans[] = new int[column + 1];
     OUTER: while (row < table.getRowCount()) {
@@ -329,7 +342,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
 
     final PatchLineComment newComment =
         new PatchLineComment(new PatchLineComment.Key(parentKey, null), line,
-            Gerrit.getUserAccount().getId());
+            Gerrit.getUserAccount().getId(), parentUuid);
     newComment.setSide(side);
     newComment.setMessage("");
 
@@ -455,7 +468,18 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
     }
 
     if (isLast) {
-      mp.isRecent = true;
+      if (Gerrit.isSignedIn()) {
+        mp.isRecent = true;
+        Button button = new Button(Util.C.reply());
+        mp.getPanel().add(button);
+
+        button.addClickHandler(new ClickHandler() {
+          @Override
+          public void onClick(ClickEvent arg0) {
+            createCommentEditor(row, col, line.getLine(), line.getSide(), line.getKey().get());
+          }
+        });
+      }
     } else {
       // TODO Instead of opening messages by strict age, do it by "unread"?
       mp.isRecent = line.getWrittenOn().after(aged);

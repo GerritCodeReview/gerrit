@@ -721,10 +721,8 @@ class Receive extends AbstractGitCommand {
     txn.commit();
 
     final RefUpdate ru = repo.updateRef(ps.getRefName());
-    ru.setForceUpdate(true);
     ru.setNewObjectId(c);
-    ru.setRefLogIdent(refLogIdent);
-    ru.setRefLogMessage("uploaded", false);
+    ru.disableRefLog();
     if (ru.update(walk) != RefUpdate.Result.NEW) {
       throw new IOException("Failed to create ref " + ps.getRefName() + " in "
           + repo.getDirectory() + ": " + ru.getResult());
@@ -945,10 +943,8 @@ class Receive extends AbstractGitCommand {
     if (result != null) {
       final PatchSet ps = result.patchSet;
       final RefUpdate ru = repo.updateRef(ps.getRefName());
-      ru.setForceUpdate(true);
       ru.setNewObjectId(c);
-      ru.setRefLogIdent(refLogIdent);
-      ru.setRefLogMessage("uploaded", false);
+      ru.disableRefLog();
       if (ru.update(rp.getRevWalk()) != RefUpdate.Result.NEW) {
         throw new IOException("Failed to create ref " + ps.getRefName()
             + " in " + repo.getDirectory() + ": " + ru.getResult());

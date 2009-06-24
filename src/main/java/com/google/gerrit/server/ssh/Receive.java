@@ -806,16 +806,23 @@ class Receive extends AbstractGitCommand {
           change = changeCache.get(changeId);
         }
 
-        final HashSet<String> existingRevisions = new HashSet<String>();
+        final HashSet<ObjectId> existingRevisions = new HashSet<ObjectId>();
         for (final PatchSet ps : db.patchSets().byChange(changeId)) {
           if (ps.getRevision() != null) {
-            existingRevisions.add(ps.getRevision().get());
+            final String revIdStr = ps.getRevision().get();
+            try {
+              existingRevisions.add(ObjectId.fromString(revIdStr));
+            } catch (IllegalArgumentException e) {
+              log.warn("Invalid revision in " + ps.getId() + ": " + revIdStr);
+              reject(cmd, "change state corrupt");
+              return null;
+            }
           }
         }
 
         // Don't allow the same commit to appear twice on the same change
         //
-        if (existingRevisions.contains(c.name())) {
+        if (existingRevisions.contains(c.copy())) {
           reject(cmd, "patch set exists");
           return null;
         }
@@ -824,9 +831,16 @@ class Receive extends AbstractGitCommand {
         // very common error due to users making a new commit rather than
         // amending when trying to address review comments.
         //
-        for (final RevCommit p : c.getParents()) {
-          if (existingRevisions.contains(p.name())) {
-            reject(cmd, "squash commits first");
+        for (final ObjectId commitId : existingRevisions) {
+          try {
+            final RevCommit prior = rp.getRevWalk().parseCommit(commitId);
+            if (rp.getRevWalk().isMergedInto(prior, c)) {
+              reject(cmd, "squash commits first");
+              return null;
+            }
+          } catch (IOException e) {
+            log.error("Change " + changeId + " missing " + commitId.name(), e);
+            reject(cmd, "change state corrupt");
             return null;
           }
         }

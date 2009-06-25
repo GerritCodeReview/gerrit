@@ -590,7 +590,7 @@ public class MergeOp {
         if (CRVW.equals(a.getCategoryId())) {
           tag = "Reviewed-by";
         } else if (VRIF.equals(a.getCategoryId())) {
-          tag = "Verified-by";
+          tag = "Tested-by";
         } else {
           final ApprovalType at =
               Common.getGerritConfig().getApprovalType(a.getCategoryId());

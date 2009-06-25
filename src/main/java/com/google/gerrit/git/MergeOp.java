@@ -580,7 +580,9 @@ public class MergeOp {
 
         final StringBuilder identbuf = new StringBuilder();
         if (acc.getFullName() != null && acc.getFullName().length() > 0) {
-          identbuf.append(' ');
+          if (identbuf.length() > 0) {
+            identbuf.append(' ');
+          }
           identbuf.append(acc.getFullName());
         }
         if (acc.getPreferredEmail() != null
@@ -588,7 +590,9 @@ public class MergeOp {
           if (isSignedOffBy(footers, acc.getPreferredEmail())) {
             continue;
           }
-          identbuf.append(' ');
+          if (identbuf.length() > 0) {
+            identbuf.append(' ');
+          }
           identbuf.append('<');
           identbuf.append(acc.getPreferredEmail());
           identbuf.append('>');
@@ -612,10 +616,13 @@ public class MergeOp {
           }
           tag = at.getCategory().getName().replace(' ', '-');
         }
-        msgbuf.append(tag);
-        msgbuf.append(':');
-        msgbuf.append(identbuf);
-        msgbuf.append('\n');
+
+        if (!contains(footers, new FooterKey(tag), identbuf.toString())) {
+          msgbuf.append(tag);
+          msgbuf.append(": ");
+          msgbuf.append(identbuf);
+          msgbuf.append('\n');
+        }
       }
     } catch (OrmException e) {
       log.error("Can't read approval records for " + n.patchsetId, e);

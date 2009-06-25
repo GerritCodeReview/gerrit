@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAZn///z4\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/Link.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-25T18:53:13Z",
+      "side": 0,
+      "message": "By drop I meant \"don\u0027t modify\", you deleted it from the project.  :-(",
+      "revId": "3d74122c74e32be07e110c92ad7913909572c979",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

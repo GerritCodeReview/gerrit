@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAZn///z0\u003d",
+        "filename": "src/main/webapp/WEB-INF/sql/upgrade013_014.sql",
+        "patchSetId": 4
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-25T18:53:13Z",
+      "side": 1,
+      "message": "Should be \"change_approvals_byAccountId\"",
+      "revId": "35a9a5f44a52ac266bdc6f4483af4aaf467d9b0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

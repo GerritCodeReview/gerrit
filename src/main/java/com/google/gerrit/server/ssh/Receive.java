@@ -61,6 +61,8 @@ import org.spearce.jgit.lib.ObjectId;
 import org.spearce.jgit.lib.PersonIdent;
 import org.spearce.jgit.lib.Ref;
 import org.spearce.jgit.lib.RefUpdate;
+import org.spearce.jgit.revwalk.FooterKey;
+import org.spearce.jgit.revwalk.FooterLine;
 import org.spearce.jgit.revwalk.RevCommit;
 import org.spearce.jgit.revwalk.RevObject;
 import org.spearce.jgit.revwalk.RevSort;
@@ -1033,14 +1035,44 @@ class Receive extends AbstractGitCommand {
 
   private boolean validCommitter(final ReceiveCommand cmd, final RevCommit c) {
     // Require that committer matches the uploader.
+    //
     final PersonIdent committer = c.getCommitterIdent();
-    final String email = committer.getEmailAddress();
-    if (myEmails.contains(email)) {
-      return true;
-    } else {
-      reject(cmd, "invalid committer " + email);
+    if (!myEmails.contains(committer.getEmailAddress())) {
+      reject(cmd, "you are not committer " + committer.getEmailAddress());
       return false;
     }
+
+    if (proj.isUseSignedOffBy()) {
+      // If the project wants Signed-off-by / Acked-by lines, verify we
+      // have them for the blamable parties involved on this change.
+      //
+      final PersonIdent author = c.getAuthorIdent();
+      boolean sboAuthor = false, sboCommitter = false, sboMe = false;
+      for (final FooterLine footer : c.getFooterLines()) {
+        if (footer.matches(FooterKey.SIGNED_OFF_BY)) {
+          final String e = footer.getEmailAddress();
+          if (e != null) {
+            sboAuthor |= author.getEmailAddress().equals(e);
+            sboCommitter |= committer.getEmailAddress().equals(e);
+            sboMe |= myEmails.contains(e);
+          }
+        }
+      }
+      if (!sboMe) {
+        reject(cmd, "not Signed-off-by you");
+        return false;
+      }
+      if (!sboAuthor) {
+        reject(cmd, "not Signed-off-by " + author.getEmailAddress());
+        return false;
+      }
+      if (!sboCommitter) {
+        reject(cmd, "not Signed-off-by " + committer.getEmailAddress());
+        return false;
+      }
+    }
+
+    return true;
   }
 
   private void insertBranchEntity(final ReceiveCommand c) {

@@ -30,6 +30,8 @@ public interface AdminConstants extends Constants {
   String buttonChangeGroupOwner();
   String buttonAddProjectRight();
   String buttonSaveChanges();
+  String useContributorAgreements();
+  String useSignedOffBy();
 
   String headingOwner();
   String headingDescription();
@@ -37,6 +39,7 @@ public interface AdminConstants extends Constants {
   String headingMembers();
   String headingCreateGroup();
   String headingAccessRights();
+  String headingAgreements();
 
   String projectSubmitType_FAST_FORWARD_ONLY();
   String projectSubmitType_MERGE_ALWAYS();

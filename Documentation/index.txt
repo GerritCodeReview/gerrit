@@ -6,6 +6,7 @@ User Guide
 
 * link:cmd-index.html[Command Line Tools]
 * link:user-upload.html[Uploading Changes]
+* link:user-signedoffby.html[Signed-off-by Lines]
 * link:access-control.html[Access Controls]
 
 Features

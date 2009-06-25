@@ -17,6 +17,7 @@ package com.google.gerrit.client.admin;
 import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ProjectRight;
+import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountGroupSuggestOracle;
 import com.google.gerrit.client.ui.SmallHeading;
@@ -25,7 +26,10 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ListBox;
@@ -48,6 +52,10 @@ public class ProjectInfoPanel extends Composite {
   private Panel submitTypePanel;
   private ListBox submitType;
 
+  private Panel agreementsPanel;
+  private CheckBox useContributorAgreements;
+  private CheckBox useSignedOffBy;
+
   private NpTextArea descTxt;
   private Button saveProject;
 
@@ -64,6 +72,7 @@ public class ProjectInfoPanel extends Composite {
     initOwner(body);
     initDescription(body);
     initSubmitType(body);
+    initAgreements(body);
     body.add(saveProject);
 
     initWidget(body);
@@ -95,6 +104,8 @@ public class ProjectInfoPanel extends Composite {
     submitType.setEnabled(on);
     ownerTxtBox.setEnabled(on);
     descTxt.setEnabled(on);
+    useContributorAgreements.setEnabled(on);
+    useSignedOffBy.setEnabled(on);
   }
 
   private void initOwner(final Panel body) {
@@ -158,6 +169,29 @@ public class ProjectInfoPanel extends Composite {
     body.add(submitTypePanel);
   }
 
+  private void initAgreements(final Panel body) {
+    final ValueChangeHandler<Boolean> onChangeSave =
+        new ValueChangeHandler<Boolean>() {
+          @Override
+          public void onValueChange(ValueChangeEvent<Boolean> event) {
+            saveProject.setEnabled(true);
+          }
+        };
+
+    agreementsPanel = new VerticalPanel();
+    agreementsPanel.add(new SmallHeading(Util.C.headingAgreements()));
+
+    useContributorAgreements = new CheckBox(Util.C.useContributorAgreements());
+    useContributorAgreements.addValueChangeHandler(onChangeSave);
+    agreementsPanel.add(useContributorAgreements);
+
+    useSignedOffBy = new CheckBox(Util.C.useSignedOffBy(), true);
+    useSignedOffBy.addValueChangeHandler(onChangeSave);
+    agreementsPanel.add(useSignedOffBy);
+
+    body.add(agreementsPanel);
+  }
+
   private void setSubmitType(final Project.SubmitType newSubmitType) {
     if (submitType != null) {
       for (int i = 0; i < submitType.getItemCount(); i++) {
@@ -179,20 +213,23 @@ public class ProjectInfoPanel extends Composite {
       ownerTxt.setText(Util.M.deletedGroup(project.getOwnerGroupId().get()));
     }
 
-    if (ProjectRight.WILD_PROJECT.equals(project.getId())) {
-      ownerPanel.setVisible(false);
-      submitTypePanel.setVisible(false);
-    } else {
-      ownerPanel.setVisible(true);
-      submitTypePanel.setVisible(true);
-    }
+    final boolean isall = ProjectRight.WILD_PROJECT.equals(project.getId());
+    ownerPanel.setVisible(!isall);
+    submitTypePanel.setVisible(!isall);
+    agreementsPanel.setVisible(!isall);
+    useContributorAgreements.setVisible(Common.getGerritConfig()
+        .isUseContributorAgreements());
 
     descTxt.setText(project.getDescription());
+    useContributorAgreements.setValue(project.isUseContributorAgreements());
+    useSignedOffBy.setValue(project.isUseSignedOffBy());
     setSubmitType(project.getSubmitType());
   }
 
   private void doSave() {
     project.setDescription(descTxt.getText().trim());
+    project.setUseContributorAgreements(useContributorAgreements.getValue());
+    project.setUseSignedOffBy(useSignedOffBy.getValue());
     if (submitType.getSelectedIndex() >= 0) {
       project.setSubmitType(Project.SubmitType.valueOf(submitType
           .getValue(submitType.getSelectedIndex())));

@@ -130,6 +130,9 @@ public final class Project {
   protected boolean useContributorAgreements;
 
   @Column
+  protected boolean useSignedOffBy;
+
+  @Column
   protected char submitType;
 
   protected Project() {
@@ -178,6 +181,14 @@ public final class Project {
     useContributorAgreements = u;
   }
 
+  public boolean isUseSignedOffBy() {
+    return useSignedOffBy;
+  }
+
+  public void setUseSignedOffBy(final boolean sbo) {
+    useSignedOffBy = sbo;
+  }
+
   public SubmitType getSubmitType() {
     return SubmitType.forCode(submitType);
   }
@@ -189,6 +200,7 @@ public final class Project {
   public void copySettingsFrom(final Project update) {
     description = update.description;
     useContributorAgreements = update.useContributorAgreements;
+    useSignedOffBy = update.useSignedOffBy;
     submitType = update.submitType;
   }
 }

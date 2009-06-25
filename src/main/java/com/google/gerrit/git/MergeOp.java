@@ -91,6 +91,7 @@ public class MergeOp {
       new ApprovalCategory.Id("CRVW");
   private static final ApprovalCategory.Id VRIF =
       new ApprovalCategory.Id("VRIF");
+  private static final FooterKey REVIEWED_ON = new FooterKey("Reviewed-on");
 
   private final GerritServer server;
   private final PersonIdent myIdent;
@@ -533,10 +534,15 @@ public class MergeOp {
     }
 
     if (server.getCanonicalURL() != null) {
-      msgbuf.append("Reviewed-on: ");
-      msgbuf.append(server.getCanonicalURL());
-      msgbuf.append(n.patchsetId.getParentKey().get());
-      msgbuf.append('\n');
+      final String url =
+          server.getCanonicalURL() + n.patchsetId.getParentKey().get();
+      if (!contains(footers, REVIEWED_ON, url)) {
+        msgbuf.append(REVIEWED_ON.getName());
+        msgbuf.append(": ");
+        msgbuf.append(server.getCanonicalURL());
+        msgbuf.append(url);
+        msgbuf.append('\n');
+      }
     }
 
     ChangeApproval submitAudit = null;
@@ -629,6 +635,15 @@ public class MergeOp {
     status.put(n.patchsetId.getParentKey(), n.statusCode);
     newCommits.put(n.patchsetId.getParentKey(), mergeTip);
     setRefLogIdent(submitAudit);
+  }
+
+  private boolean contains(List<FooterLine> footers, FooterKey key, String val) {
+    for (final FooterLine line : footers) {
+      if (line.matches(key) && val.equals(line.getValue())) {
+        return true;
+      }
+    }
+    return false;
   }
 
   private boolean isSignedOffBy(List<FooterLine> footers, String email) {

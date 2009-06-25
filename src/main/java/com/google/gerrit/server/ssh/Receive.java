@@ -90,6 +90,8 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.security.auth.login.AccountNotFoundException;
+
 /** Receives change upload over SSH using the Git receive-pack protocol. */
 class Receive extends AbstractGitCommand {
   private static final Logger log = LoggerFactory.getLogger(Receive.class);
@@ -98,17 +100,32 @@ class Receive extends AbstractGitCommand {
   private static final Pattern NEW_PATCHSET =
       Pattern.compile("^refs/changes/(?:[0-9][0-9]/)?([1-9][0-9]*)(?:/new)?$");
 
+  private static final FooterKey REVIEWED_BY = new FooterKey("Reviewed-by");
+  private static final FooterKey TESTED_BY = new FooterKey("Tested-by");
+
   private final Set<Account.Id> reviewerId = new HashSet<Account.Id>();
   private final Set<Account.Id> ccId = new HashSet<Account.Id>();
 
   @Option(name = "--reviewer", aliases = {"--re"}, multiValued = true, metaVar = "EMAIL", usage = "request reviewer for change(s)")
   void addReviewer(final String nameOrEmail) throws CmdLineException {
-    reviewerId.add(toAccountId(nameOrEmail));
+    try {
+      reviewerId.add(toAccountId(nameOrEmail));
+    } catch (AccountNotFoundException e) {
+      throw new CmdLineException(e.getMessage());
+    } catch (OrmException e) {
+      throw new CmdLineException("database is down");
+    }
   }
 
   @Option(name = "--cc", aliases = {}, multiValued = true, metaVar = "EMAIL", usage = "CC user on change(s)")
   void addCC(final String nameOrEmail) throws CmdLineException {
-    ccId.add(toAccountId(nameOrEmail));
+    try {
+      ccId.add(toAccountId(nameOrEmail));
+    } catch (AccountNotFoundException e) {
+      throw new CmdLineException(e.getMessage());
+    } catch (OrmException e) {
+      throw new CmdLineException("database is down");
+    }
   }
 
   private GerritServer server;
@@ -341,8 +358,8 @@ class Receive extends AbstractGitCommand {
     }
   }
 
-  private Account.Id toAccountId(final String nameOrEmail)
-      throws CmdLineException {
+  private Account.Id toAccountId(final String nameOrEmail) throws OrmException,
+      AccountNotFoundException {
     final String efmt = server.getEmailFormat();
     final boolean haveFormat = efmt != null && efmt.contains("{0}");
     try {
@@ -381,17 +398,17 @@ class Receive extends AbstractGitCommand {
 
       switch (matches.size()) {
         case 0:
-          throw new CmdLineException("\"" + nameOrEmail
+          throw new AccountNotFoundException("\"" + nameOrEmail
               + "\" is not registered");
         case 1:
           return (matches.iterator().next());
         default:
-          throw new CmdLineException("\"" + nameOrEmail
+          throw new AccountNotFoundException("\"" + nameOrEmail
               + "\" matches multiple accounts");
       }
     } catch (OrmException e) {
       log.error("Cannot lookup name/email address", e);
-      throw new CmdLineException("database is down");
+      throw e;
     }
   }
 
@@ -692,6 +709,23 @@ class Receive extends AbstractGitCommand {
         Common.getGerritConfig().getApprovalTypes();
     haveApprovals.add(me);
 
+    final Set<Account.Id> reviewers = new HashSet<Account.Id>(reviewerId);
+    final Set<Account.Id> cc = new HashSet<Account.Id>(ccId);
+    for (final FooterLine footerLine : c.getFooterLines()) {
+      try {
+        if (isReviewer(footerLine)) {
+          reviewers.add(toAccountId(footerLine.getValue().trim()));
+        } else if (footerLine.matches(FooterKey.CC)) {
+          cc.add(toAccountId(footerLine.getValue().trim()));
+        }
+      } catch (AccountNotFoundException e) {
+        continue;
+      }
+    }
+    reviewers.remove(me);
+    cc.remove(me);
+    cc.removeAll(reviewers);
+
     if (allTypes.size() > 0) {
       final Account.Id authorId =
           imp.getPatchSetInfo().getAuthor() != null ? imp.getPatchSetInfo()
@@ -711,7 +745,7 @@ class Receive extends AbstractGitCommand {
             Collections.singleton(new ChangeApproval(new ChangeApproval.Key(
                 change.getId(), committerId, catId), (short) 0)), txn);
       }
-      for (final Account.Id reviewer : reviewerId) {
+      for (final Account.Id reviewer : reviewers) {
         if (haveApprovals.add(reviewer)) {
           db.changeApprovals().insert(
               Collections.singleton(new ChangeApproval(new ChangeApproval.Key(
@@ -738,12 +772,19 @@ class Receive extends AbstractGitCommand {
       cm.setFrom(me);
       cm.setPatchSet(ps, imp.getPatchSetInfo());
       cm.setReviewDb(db);
-      cm.addReviewers(reviewerId);
-      cm.addExtraCC(ccId);
+      cm.addReviewers(reviewers);
+      cm.addExtraCC(cc);
       cm.send();
     } catch (EmailException e) {
       log.error("Cannot send email for new change " + change.getId(), e);
     }
+  }
+
+  private static boolean isReviewer(final FooterLine candidateFooterLine) {
+    return candidateFooterLine.matches(FooterKey.SIGNED_OFF_BY)
+        || candidateFooterLine.matches(FooterKey.ACKED_BY)
+        || candidateFooterLine.matches(REVIEWED_BY)
+        || candidateFooterLine.matches(TESTED_BY);
   }
 
   private void appendPatchSets() {
@@ -779,6 +820,23 @@ class Receive extends AbstractGitCommand {
     }
 
     final Account.Id me = userAccount.getId();
+    final Set<Account.Id> reviewers = new HashSet<Account.Id>(reviewerId);
+    final Set<Account.Id> cc = new HashSet<Account.Id>(ccId);
+    for (final FooterLine footerLine : c.getFooterLines()) {
+      try {
+        if (isReviewer(footerLine)) {
+          reviewers.add(toAccountId(footerLine.getValue().trim()));
+        } else if (footerLine.matches(FooterKey.CC)) {
+          cc.add(toAccountId(footerLine.getValue().trim()));
+        }
+      } catch (AccountNotFoundException e) {
+        continue;
+      }
+    }
+    reviewers.remove(me);
+    cc.remove(me);
+    cc.removeAll(reviewers);
+
     final ReplaceResult result;
 
     final Set<Account.Id> oldReviewers = new HashSet<Account.Id>();
@@ -947,7 +1005,7 @@ class Receive extends AbstractGitCommand {
           if (committerId != null && haveApprovals.add(committerId)) {
             insertDummyChangeApproval(result, committerId, catId, db, txn);
           }
-          for (final Account.Id reviewer : reviewerId) {
+          for (final Account.Id reviewer : reviewers) {
             if (haveApprovals.add(reviewer)) {
               insertDummyChangeApproval(result, reviewer, catId, db, txn);
             }
@@ -975,8 +1033,8 @@ class Receive extends AbstractGitCommand {
         cm.setPatchSet(ps, result.info);
         cm.setChangeMessage(result.msg);
         cm.setReviewDb(db);
-        cm.addReviewers(reviewerId);
-        cm.addExtraCC(ccId);
+        cm.addReviewers(reviewers);
+        cm.addExtraCC(cc);
         cm.addReviewers(oldReviewers);
         cm.addExtraCC(oldCC);
         cm.send();

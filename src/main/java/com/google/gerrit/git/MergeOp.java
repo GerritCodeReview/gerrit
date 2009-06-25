@@ -50,6 +50,8 @@ import org.spearce.jgit.lib.Repository;
 import org.spearce.jgit.merge.MergeStrategy;
 import org.spearce.jgit.merge.Merger;
 import org.spearce.jgit.merge.ThreeWayMerger;
+import org.spearce.jgit.revwalk.FooterKey;
+import org.spearce.jgit.revwalk.FooterLine;
 import org.spearce.jgit.revwalk.RevCommit;
 import org.spearce.jgit.revwalk.RevSort;
 import org.spearce.jgit.revwalk.RevWalk;
@@ -511,6 +513,7 @@ public class MergeOp {
       throws IOException {
     rw.parseBody(n);
 
+    final List<FooterLine> footers = n.getFooterLines();
     final StringBuilder msgbuf = new StringBuilder();
     msgbuf.append(n.getFullMessage());
 
@@ -576,6 +579,9 @@ public class MergeOp {
         }
         if (acc.getPreferredEmail() != null
             && acc.getPreferredEmail().length() > 0) {
+          if (isSignedOffBy(footers, acc.getPreferredEmail())) {
+            continue;
+          }
           identbuf.append(' ');
           identbuf.append('<');
           identbuf.append(acc.getPreferredEmail());
@@ -623,6 +629,16 @@ public class MergeOp {
     status.put(n.patchsetId.getParentKey(), n.statusCode);
     newCommits.put(n.patchsetId.getParentKey(), mergeTip);
     setRefLogIdent(submitAudit);
+  }
+
+  private boolean isSignedOffBy(List<FooterLine> footers, String email) {
+    for (final FooterLine line : footers) {
+      if (line.matches(FooterKey.SIGNED_OFF_BY)
+          && email.equals(line.getEmailAddress())) {
+        return true;
+      }
+    }
+    return false;
   }
 
   private PersonIdent toPersonIdent(final ChangeApproval audit) {

@@ -526,7 +526,7 @@ public class MergeOp {
       // Missing a trailing LF? Correct it (perhaps the editor was broken).
       msgbuf.append('\n');
     }
-    if (!endsWithKey(msgbuf.toString())) {
+    if (footers.isEmpty()) {
       // Doesn't end in a "Signed-off-by: ..." style line? Add another line
       // break to start a new paragraph for the reviewed-by tag lines.
       //
@@ -685,24 +685,6 @@ public class MergeOp {
 
     final TimeZone tz = myIdent.getTimeZone();
     return new PersonIdent(name, email, audit.getGranted(), tz);
-  }
-
-  private boolean endsWithKey(final String msg) {
-    if (msg.length() == 0 || !msg.endsWith("\n") || msg.length() < 2) {
-      return false;
-    }
-
-    final int lf = msg.lastIndexOf('\n', msg.length() - 2);
-    if (lf == -1) {
-      return false;
-    }
-
-    final String line = msg.substring(lf + 1);
-    final int c = line.indexOf(':');
-    if (c == -1) {
-      return false;
-    }
-    return line.substring(0, c).matches("[A-Za-z][A-Za-z0-9-]*[A-Za-z0-9]");
   }
 
   private void updateBranch() throws MergeException {

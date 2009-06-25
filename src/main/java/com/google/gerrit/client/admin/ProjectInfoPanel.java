@@ -38,42 +38,54 @@ import com.google.gwtjsonrpc.client.VoidResult;
 
 public class ProjectInfoPanel extends Composite {
   private Project.Id projectId;
+  private Project project;
 
   private Panel ownerPanel;
   private NpTextBox ownerTxtBox;
   private SuggestBox ownerTxt;
-  private Button saveOwner;
+  private Button changeOwner;
 
   private Panel submitTypePanel;
   private ListBox submitType;
-  private Project.SubmitType currentSubmitType;
 
   private NpTextArea descTxt;
-  private Button saveDesc;
+  private Button saveProject;
 
   public ProjectInfoPanel(final Project.Id toShow) {
+    saveProject = new Button(Util.C.buttonSaveChanges());
+    saveProject.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        doSave();
+      }
+    });
+
     final FlowPanel body = new FlowPanel();
     initOwner(body);
     initDescription(body);
     initSubmitType(body);
-    initWidget(body);
+    body.add(saveProject);
 
+    initWidget(body);
     projectId = toShow;
   }
 
   @Override
   protected void onLoad() {
     enableForm(false);
-    saveOwner.setEnabled(false);
-    saveDesc.setEnabled(false);
+    changeOwner.setEnabled(false);
+    saveProject.setEnabled(false);
     super.onLoad();
+    refresh();
+  }
 
+  private void refresh() {
     Util.PROJECT_SVC.projectDetail(projectId,
         new GerritCallback<ProjectDetail>() {
           public void onSuccess(final ProjectDetail result) {
             enableForm(true);
-            saveOwner.setEnabled(false);
-            saveDesc.setEnabled(false);
+            changeOwner.setEnabled(false);
+            saveProject.setEnabled(false);
             display(result);
           }
         });
@@ -94,8 +106,8 @@ public class ProjectInfoPanel extends Composite {
     ownerTxt = new SuggestBox(new AccountGroupSuggestOracle(), ownerTxtBox);
     ownerPanel.add(ownerTxt);
 
-    saveOwner = new Button(Util.C.buttonChangeGroupOwner());
-    saveOwner.addClickHandler(new ClickHandler() {
+    changeOwner = new Button(Util.C.buttonChangeGroupOwner());
+    changeOwner.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(final ClickEvent event) {
         final String newOwner = ownerTxt.getText().trim();
@@ -103,16 +115,16 @@ public class ProjectInfoPanel extends Composite {
           Util.PROJECT_SVC.changeProjectOwner(projectId, newOwner,
               new GerritCallback<VoidResult>() {
                 public void onSuccess(final VoidResult result) {
-                  saveOwner.setEnabled(false);
+                  changeOwner.setEnabled(false);
                 }
               });
         }
       }
     });
-    ownerPanel.add(saveOwner);
+    ownerPanel.add(changeOwner);
     body.add(ownerPanel);
 
-    new TextSaveButtonListener(ownerTxtBox, saveOwner);
+    new TextSaveButtonListener(ownerTxtBox, changeOwner);
   }
 
   private void initDescription(final Panel body) {
@@ -124,23 +136,8 @@ public class ProjectInfoPanel extends Composite {
     descTxt.setCharacterWidth(60);
     vp.add(descTxt);
 
-    saveDesc = new Button(Util.C.buttonSaveDescription());
-    saveDesc.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(final ClickEvent event) {
-        final String txt = descTxt.getText().trim();
-        Util.PROJECT_SVC.changeProjectDescription(projectId, txt,
-            new GerritCallback<VoidResult>() {
-              public void onSuccess(final VoidResult result) {
-                saveDesc.setEnabled(false);
-              }
-            });
-      }
-    });
-    vp.add(saveDesc);
     body.add(vp);
-
-    new TextSaveButtonListener(descTxt, saveDesc);
+    new TextSaveButtonListener(descTxt, saveProject);
   }
 
   private void initSubmitType(final Panel body) {
@@ -154,27 +151,7 @@ public class ProjectInfoPanel extends Composite {
     submitType.addChangeHandler(new ChangeHandler() {
       @Override
       public void onChange(final ChangeEvent event) {
-        final int i = submitType.getSelectedIndex();
-        if (i < 0) {
-          return;
-        }
-        final Project.SubmitType newSubmitType =
-            Project.SubmitType.valueOf(submitType.getValue(i));
-        submitType.setEnabled(false);
-        Util.PROJECT_SVC.changeProjectSubmitType(projectId, newSubmitType,
-            new GerritCallback<VoidResult>() {
-              public void onSuccess(final VoidResult result) {
-                currentSubmitType = newSubmitType;
-                submitType.setEnabled(true);
-              }
-
-              @Override
-              public void onFailure(final Throwable caught) {
-                submitType.setEnabled(false);
-                setSubmitType(currentSubmitType);
-                super.onFailure(caught);
-              }
-            });
+        saveProject.setEnabled(true);
       }
     });
     submitTypePanel.add(submitType);
@@ -182,7 +159,6 @@ public class ProjectInfoPanel extends Composite {
   }
 
   private void setSubmitType(final Project.SubmitType newSubmitType) {
-    currentSubmitType = newSubmitType;
     if (submitType != null) {
       for (int i = 0; i < submitType.getItemCount(); i++) {
         if (newSubmitType.name().equals(submitType.getValue(i))) {
@@ -195,7 +171,7 @@ public class ProjectInfoPanel extends Composite {
   }
 
   void display(final ProjectDetail result) {
-    final Project project = result.project;
+    project = result.project;
     final AccountGroup owner = result.groups.get(project.getOwnerGroupId());
     if (owner != null) {
       ownerTxt.setText(owner.getName());
@@ -213,5 +189,31 @@ public class ProjectInfoPanel extends Composite {
 
     descTxt.setText(project.getDescription());
     setSubmitType(project.getSubmitType());
+  }
+
+  private void doSave() {
+    project.setDescription(descTxt.getText().trim());
+    if (submitType.getSelectedIndex() >= 0) {
+      project.setSubmitType(Project.SubmitType.valueOf(submitType
+          .getValue(submitType.getSelectedIndex())));
+    }
+
+    enableForm(false);
+    changeOwner.setEnabled(false);
+    saveProject.setEnabled(false);
+
+    Util.PROJECT_SVC.changeProjectSettings(project,
+        new GerritCallback<ProjectDetail>() {
+          public void onSuccess(final ProjectDetail result) {
+            enableForm(true);
+            display(result);
+          }
+
+          @Override
+          public void onFailure(final Throwable caught) {
+            refresh();
+            super.onFailure(caught);
+          }
+        });
   }
 }

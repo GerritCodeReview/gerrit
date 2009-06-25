@@ -185,4 +185,10 @@ public final class Project {
   public void setSubmitType(final SubmitType type) {
     submitType = type.getCode();
   }
+
+  public void copySettingsFrom(final Project update) {
+    description = update.description;
+    useContributorAgreements = update.useContributorAgreements;
+    submitType = update.submitType;
+  }
 }

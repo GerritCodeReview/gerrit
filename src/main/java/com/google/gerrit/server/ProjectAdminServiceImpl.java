@@ -107,20 +107,20 @@ public class ProjectAdminServiceImpl extends BaseServiceImplementation
     });
   }
 
-  public void changeProjectDescription(final Project.Id projectId,
-      final String description, final AsyncCallback<VoidResult> callback) {
-    run(callback, new Action<VoidResult>() {
-      public VoidResult run(final ReviewDb db) throws OrmException, Failure {
-        assertAmProjectOwner(db, projectId);
-        final Project proj = db.projects().get(projectId);
+  public void changeProjectSettings(final Project update,
+      final AsyncCallback<ProjectDetail> callback) {
+    run(callback, new Action<ProjectDetail>() {
+      public ProjectDetail run(final ReviewDb db) throws OrmException, Failure {
+        assertAmProjectOwner(db, update.getId());
+        final Project proj = db.projects().get(update.getId());
         if (proj == null) {
           throw new Failure(new NoSuchEntityException());
         }
-        proj.setDescription(description);
+        proj.copySettingsFrom(update);
         db.projects().update(Collections.singleton(proj));
         Common.getProjectCache().invalidate(proj);
 
-        if (!ProjectRight.WILD_PROJECT.equals(projectId)) {
+        if (!ProjectRight.WILD_PROJECT.equals(update.getId())) {
           // Update git's description file, in case gitweb is being used
           //
           try {
@@ -146,7 +146,9 @@ public class ProjectAdminServiceImpl extends BaseServiceImplementation
           }
         }
 
-        return VoidResult.INSTANCE;
+        final ProjectDetail d = new ProjectDetail();
+        d.load(db, Common.getProjectCache().get(update.getId()));
+        return d;
       }
     });
   }
@@ -173,24 +175,6 @@ public class ProjectAdminServiceImpl extends BaseServiceImplementation
         }
 
         project.setOwnerGroupId(owner.getId());
-        db.projects().update(Collections.singleton(project));
-        Common.getProjectCache().invalidate(project);
-        return VoidResult.INSTANCE;
-      }
-    });
-  }
-
-  public void changeProjectSubmitType(final Project.Id projectId,
-      final Project.SubmitType newSubmitType,
-      final AsyncCallback<VoidResult> callback) {
-    run(callback, new Action<VoidResult>() {
-      public VoidResult run(final ReviewDb db) throws OrmException, Failure {
-        assertAmProjectOwner(db, projectId);
-        final Project project = db.projects().get(projectId);
-        if (project == null) {
-          throw new Failure(new NoSuchEntityException());
-        }
-        project.setSubmitType(newSubmitType);
         db.projects().update(Collections.singleton(project));
         Common.getProjectCache().invalidate(project);
         return VoidResult.INSTANCE;

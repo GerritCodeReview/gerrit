@@ -34,16 +34,12 @@ public interface ProjectAdminService extends RemoteJsonService {
   void projectDetail(Project.Id projectId, AsyncCallback<ProjectDetail> callback);
 
   @SignInRequired
-  void changeProjectDescription(Project.Id projectId, String description,
-      AsyncCallback<VoidResult> callback);
+  void changeProjectSettings(Project update,
+      AsyncCallback<ProjectDetail> callback);
 
   @SignInRequired
   void changeProjectOwner(Project.Id projectId, String newOwnerName,
       AsyncCallback<VoidResult> callback);
-
-  @SignInRequired
-  void changeProjectSubmitType(Project.Id projectId,
-      Project.SubmitType newSubmitType, AsyncCallback<VoidResult> callback);
 
   @SignInRequired
   void deleteRight(Set<ProjectRight.Key> ids, AsyncCallback<VoidResult> callback);

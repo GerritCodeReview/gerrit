@@ -22,10 +22,13 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.Delayed;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executors;
 import java.util.concurrent.RunnableScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /** Delayed execution of tasks using a background thread pool. */
 public class WorkQueue {
@@ -35,14 +38,14 @@ public class WorkQueue {
 
   private static synchronized Executor getDefaultQueue() {
     if (defaultQueue == null) {
-      defaultQueue = createQueue(1);
+      defaultQueue = createQueue(1, "WorkQueue");
     }
     return defaultQueue;
   }
 
   /** Create a new executor queue with one thread. */
-  public static Executor createQueue(final int poolsize) {
-    final Executor r = new Executor(poolsize);
+  public static Executor createQueue(final int poolsize, final String prefix) {
+    final Executor r = new Executor(poolsize, prefix);
     r.setContinueExistingPeriodicTasksAfterShutdownPolicy(false);
     r.setExecuteExistingDelayedTasksAfterShutdownPolicy(false);
     queues.add(r);
@@ -92,8 +95,18 @@ public class WorkQueue {
   public static class Executor extends ScheduledThreadPoolExecutor {
     private final Set<Task<?>> active = new HashSet<Task<?>>();
 
-    Executor(final int corePoolSize) {
-      super(corePoolSize);
+    Executor(final int corePoolSize, final String prefix) {
+      super(corePoolSize, new ThreadFactory() {
+        private final ThreadFactory parent = Executors.defaultThreadFactory();
+        private final AtomicInteger tid = new AtomicInteger(1);
+
+        @Override
+        public Thread newThread(final Runnable task) {
+          final Thread t = parent.newThread(task);
+          t.setName(prefix + "-thread-" + tid.getAndIncrement());
+          return t;
+        }
+      });
     }
 
     @Override

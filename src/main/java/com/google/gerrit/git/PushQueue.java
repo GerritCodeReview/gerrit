@@ -177,7 +177,10 @@ public class PushQueue {
     ReplicationConfig(final RemoteConfig rc, final RepositoryConfig cfg) {
       remote = rc;
       delay = Math.max(0, getInt(rc, cfg, "replicationdelay", 15));
-      pool = WorkQueue.createQueue(Math.max(0, getInt(rc, cfg, "threads", 1)));
+
+      final int poolSize = Math.max(0, getInt(rc, cfg, "threads", 1));
+      final String poolName = "ReplicateTo-" + rc.getName();
+      pool = WorkQueue.createQueue(poolSize, poolName);
     }
 
     private static int getInt(final RemoteConfig rc,

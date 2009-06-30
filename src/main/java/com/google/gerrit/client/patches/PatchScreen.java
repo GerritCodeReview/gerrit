@@ -84,6 +84,13 @@ public abstract class PatchScreen extends Screen {
     }
   }
 
+  // Which patch set id's are being diff'ed
+  private static PatchSet.Id diffSideA = null;
+  private static PatchSet.Id diffSideB = null;
+
+  // The change id for which the above patch set id's are valid
+  private static Change.Id currentChangeId = null;
+
   protected final Patch.Key patchKey;
   protected PatchTable fileList;
   protected PatchSet.Id idSideA;
@@ -114,12 +121,29 @@ public abstract class PatchScreen extends Screen {
       final PatchTable patchTable) {
     patchKey = id;
     fileList = patchTable;
-    idSideA = null;
-    idSideB = id.getParentKey();
+
+    // If we have any diff side stored, make sure they are applicable to the current change,
+    // discard them otherwise.
+    Change.Id thisChangeId = id.getParentKey().getParentKey();
+    if (currentChangeId != null && !currentChangeId.equals(thisChangeId)) {
+      diffSideA = null;
+      diffSideB = null;
+    }
+    currentChangeId = thisChangeId;
+    idSideA = getPatchSetId(diffSideA, null);
+    idSideB = getPatchSetId(diffSideB, id.getParentKey());
     this.patchIndex = patchIndex;
     scriptSettings = new PatchScriptSettings();
 
     initContextLines();
+  }
+
+  /**
+   * @return the patch set id if it can be found in the given cookie, or
+   * <param>defaultValue<param> otherwise.
+   */
+  private PatchSet.Id getPatchSetId(PatchSet.Id diffId, PatchSet.Id defaultValue) {
+    return diffId != null ? diffId : defaultValue;
   }
 
   /**
@@ -156,6 +180,9 @@ public abstract class PatchScreen extends Screen {
     historyPanel.setContent(historyTable);
     historyPanel.setOpen(false);
     historyPanel.setVisible(false);
+    // If the user selected a different patch set than the default for either side,
+    // expand the history panel
+    historyPanel.setOpen(diffSideA != null || diffSideB != null);
     add(historyPanel);
     initDisplayControls();
 
@@ -364,5 +391,15 @@ public abstract class PatchScreen extends Screen {
     noDifference.setVisible(!showPatch);
     contentTable.setVisible(showPatch);
     contentTable.setRegisterKeys(isCurrentView() && showPatch);
+  }
+
+  public void setSideA(PatchSet.Id patchSetId) {
+    idSideA = patchSetId;
+    diffSideA = patchSetId;
+  }
+
+  public void setSideB(PatchSet.Id patchSetId) {
+    idSideB = patchSetId;
+    diffSideB = patchSetId;
   }
 }

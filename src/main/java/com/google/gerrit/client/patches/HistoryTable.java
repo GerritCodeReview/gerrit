@@ -40,10 +40,10 @@ class HistoryTable extends FancyFlexTable<Patch> {
   void onClick(final HistoryRadio b) {
     switch (b.file) {
       case 0:
-        screen.idSideA = b.patchSetId;
+        screen.setSideA(b.patchSetId);
         break;
       case 1:
-        screen.idSideB = b.patchSetId;
+        screen.setSideB(b.patchSetId);
         break;
       default:
         return;

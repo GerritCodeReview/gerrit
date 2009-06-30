@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAZn///vA\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-30T21:58:20Z",
+      "side": 1,
+      "message": "Why are we using cookies?  Why can\u0027t we just use a global variable in the GWT code?  The page doesn\u0027t reload as you navigate, so globals remain, so the history table settings can be carried from one page to the next.\n\nActually, the history table settings should be part of the PatchTable maybe that is already carried from one view to the next...  or a wrapper that the PatchTable gets moved down into, some sort of \"diff view state\" object.\n\nI\u0027m anti-cookie here because cookies transmit to the server on every RPC request.  If the value is strictly for local state, then it doesn\u0027t belong in a cookie.",
+      "revId": "b76e1166bb4759c60285442a9ce27d0599035316",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

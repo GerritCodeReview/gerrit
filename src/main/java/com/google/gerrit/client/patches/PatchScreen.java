@@ -36,6 +36,7 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.DisclosurePanel;
@@ -84,6 +85,11 @@ public abstract class PatchScreen extends Screen {
     }
   }
 
+  // Cookie names to remember what patch set are being diff'ed
+  private static final String COOKIE_SIDE_A = "side-a";
+  private static final String COOKIE_SIDE_B = "side-b";
+  private static final String COOKIE_CURRENT_CHANGE_ID = "current-change-id";
+
   protected final Patch.Key patchKey;
   protected PatchTable fileList;
   protected PatchSet.Id idSideA;
@@ -114,12 +120,32 @@ public abstract class PatchScreen extends Screen {
       final PatchTable patchTable) {
     patchKey = id;
     fileList = patchTable;
-    idSideA = null;
-    idSideB = id.getParentKey();
+
+    // If we have any side cookies set, make sure they are applicable to the current change
+    // and remove them if they were set for a different change.
+    String currentCookieChange = Cookies.getCookie(PatchScreen.COOKIE_CURRENT_CHANGE_ID);
+    String currentChange = id.getParentKey().getParentKey().toString();
+    if (currentCookieChange != null && !currentChange.equals(currentCookieChange)) {
+      Cookies.removeCookie(PatchScreen.COOKIE_SIDE_A);
+      Cookies.removeCookie(PatchScreen.COOKIE_SIDE_B);
+      Cookies.setCookie(COOKIE_CURRENT_CHANGE_ID, currentChange);
+    }
+
+    idSideA = getPatchSetId(COOKIE_SIDE_A, null);
+    idSideB = getPatchSetId(COOKIE_SIDE_B, id.getParentKey());
     this.patchIndex = patchIndex;
     scriptSettings = new PatchScriptSettings();
 
     initContextLines();
+  }
+
+  /**
+   * @return the patch set id if it can be found in the given cookie, or
+   * <param>defaultValue<param> otherwise.
+   */
+  private PatchSet.Id getPatchSetId(String cookieName, PatchSet.Id defaultValue) {
+    String cookie = Cookies.getCookie(cookieName);
+    return cookie != null ? PatchSet.Id.parse(cookie) : defaultValue;
   }
 
   /**
@@ -156,6 +182,10 @@ public abstract class PatchScreen extends Screen {
     historyPanel.setContent(historyTable);
     historyPanel.setOpen(false);
     historyPanel.setVisible(false);
+    // If the user selected a different patch set than the default for either side,
+    // expand the history panel
+    historyPanel.setOpen(Cookies.getCookie(COOKIE_SIDE_A) != null
+        || Cookies.getCookie(COOKIE_SIDE_A) != null);
     add(historyPanel);
     initDisplayControls();
 
@@ -365,4 +395,20 @@ public abstract class PatchScreen extends Screen {
     contentTable.setVisible(showPatch);
     contentTable.setRegisterKeys(isCurrentView() && showPatch);
   }
+
+  public void setSideA(PatchSet.Id patchSetId) {
+    idSideA = patchSetId;
+    updateCookie(COOKIE_SIDE_A, patchSetId);
+  }
+
+  public void setSideB(PatchSet.Id patchSetId) {
+    idSideB = patchSetId;
+    updateCookie(COOKIE_SIDE_B, patchSetId);
+  }
+
+  private void updateCookie(String cookieName, PatchSet.Id patchSetId) {
+    Cookies.setCookie(cookieName, patchSetId.toString());
+    Cookies.setCookie(COOKIE_CURRENT_CHANGE_ID, patchSetId.getParentKey().toString());
+  }
+
 }

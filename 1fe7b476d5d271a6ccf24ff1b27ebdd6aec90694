@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAZn///uk\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/patches/AbstractPatchContentTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-30T22:20:02Z",
+      "side": 1,
+      "message": "But existing rows use null not \"\" for the parentUuid.",
+      "revId": "1fe7b476d5d271a6ccf24ff1b27ebdd6aec90694",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZn///us\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/patches/CommentDetail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-30T22:20:02Z",
+      "side": 1,
+      "message": "This fails if two comments reply to the same node.  One of them will evict the other, and then never display.",
+      "revId": "1fe7b476d5d271a6ccf24ff1b27ebdd6aec90694",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZn///uw\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/patches/CommentDetail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-30T22:20:02Z",
+      "side": 1,
+      "message": "parentUuid is null on top level comments, not \"\"",
+      "revId": "1fe7b476d5d271a6ccf24ff1b27ebdd6aec90694",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZn///u4\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/reviewdb/PatchLineComment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-30T22:20:02Z",
+      "side": 1,
+      "message": "need `notNull \u003d false` here to actually permit nulls",
+      "revId": "1fe7b476d5d271a6ccf24ff1b27ebdd6aec90694",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZn///u0\u003d",
+        "filename": "src/main/webapp/WEB-INF/sql/upgrade014_015.sql",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-06-30T22:20:02Z",
+      "side": 1,
+      "message": "Need to edit ReviewDb also",
+      "revId": "1fe7b476d5d271a6ccf24ff1b27ebdd6aec90694",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

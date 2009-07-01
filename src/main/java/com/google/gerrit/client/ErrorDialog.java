@@ -39,7 +39,7 @@ public class ErrorDialog extends AutoCenterDialogBox {
     closey.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(ClickEvent event) {
-        hide();        
+        hide();
       }
     });
     buttons.add(closey);
@@ -81,7 +81,7 @@ public class ErrorDialog extends AutoCenterDialogBox {
     body.add(label(cn, "gerrit-ErrorDialog-ErrorType"));
     body.add(label(what.getMessage(), "gerrit-ErrorDialog-ErrorMessage"));
   }
-  
+
   private static Label label(final String what, final String style) {
     final Label r = new Label(what);
     r.setStyleName(style);

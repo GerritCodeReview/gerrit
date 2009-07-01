@@ -575,6 +575,12 @@ limitations under the License.
       <classifier>sources</classifier>
       <scope>provided</scope>
       <type>jar</type>
+      <exclusions>
+        <exclusion>
+          <groupId>com.jcraft</groupId>
+          <artifactId>jsch</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <dependency>

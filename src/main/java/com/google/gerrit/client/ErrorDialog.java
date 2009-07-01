@@ -68,6 +68,13 @@ public class ErrorDialog extends AutoCenterDialogBox {
       cn = what.getClass().getName();
       if (cn.startsWith("java.lang.")) {
         cn = cn.substring("java.lang.".length());
+      } else if (cn.startsWith("com.google.gerrit.")) {
+        cn = cn.substring(cn.lastIndexOf('.') + 1);
+      }
+      if (cn.endsWith("Exception")) {
+        cn = cn.substring(0, cn.length() - "Exception".length());
+      } else if (cn.endsWith("Error")) {
+        cn = cn.substring(0, cn.length() - "Error".length());
       }
     }
 

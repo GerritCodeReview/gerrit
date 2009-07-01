@@ -61,8 +61,9 @@ public class OpenIdLoginPanel extends Composite implements
   private CheckBox rememberId;
   private boolean discovering;
 
-  public OpenIdLoginPanel(final SignInDialog.Mode m) {
-    mode = m;
+  public OpenIdLoginPanel(final SignInDialog.Mode requestedMode,
+      final String initialErrorMsg) {
+    mode = requestedMode;
 
     icons = GWT.create(LoginIcons.class);
 
@@ -92,6 +93,9 @@ public class OpenIdLoginPanel extends Composite implements
     link(OpenIdUtil.URL_GOOGLE, OpenIdUtil.C.nameGoogle(), icons.iconGoogle());
     link(OpenIdUtil.URL_YAHOO, OpenIdUtil.C.nameYahoo(), icons.iconYahoo());
 
+    if (initialErrorMsg != null) {
+      showError(initialErrorMsg);
+    }
     formBody.add(new HTML(OpenIdUtil.C.whatIsOpenIDHtml()));
   }
 
@@ -130,13 +134,14 @@ public class OpenIdLoginPanel extends Composite implements
     errorLine = new FlowPanel();
     errorLine.setVisible(false);
 
-    errorMsg = new InlineLabel(OpenIdUtil.C.notSupported());
+    errorMsg = new InlineLabel();
     errorLine.setStyleName("gerrit-OpenID-errorline");
     errorLine.add(errorMsg);
     formBody.add(errorLine);
   }
 
-  private void showError() {
+  private void showError(final String msgText) {
+    errorMsg.setText(msgText);
     errorLine.setVisible(true);
   }
 
@@ -269,7 +274,7 @@ public class OpenIdLoginPanel extends Composite implements
   }
 
   private void onDiscoveryFailure() {
-    showError();
+    showError(OpenIdUtil.C.notSupported());
     enable(true);
     providerId.selectAll();
     providerId.setFocus(true);

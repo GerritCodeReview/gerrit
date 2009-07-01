@@ -29,6 +29,7 @@ import com.google.gerrit.client.rpc.Common;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.server.ValidToken;
 import com.google.gwtjsonrpc.server.XsrfException;
+import com.google.gwtorm.client.KeyUtil;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.ResultSet;
 import com.google.gwtorm.client.Transaction;
@@ -252,12 +253,7 @@ class OpenIdServiceImpl implements OpenIdService {
               .getParameterMap()), state.discovered);
       final Identifier user = result.getVerifiedId();
 
-      if (user == null) {
-        // Authentication failed.
-        //
-        cancel(req, rsp);
-
-      } else {
+      if (user != null) {
         // Authentication was successful.
         //
         final Message authRsp = result.getAuthResponse();
@@ -305,6 +301,22 @@ class OpenIdServiceImpl implements OpenIdService {
         }
 
         initializeAccount(req, rsp, user, fullname, email);
+      } else if ("Nonce verification failed.".equals(result.getStatusMsg())) {
+        // We might be suffering from clock skew on this system.
+        //
+        log.error("OpenID failure: " + result.getStatusMsg()
+            + "  Likely caused by clock skew on this server,"
+            + " install/configure NTP.");
+        cancelWithError(req, rsp, mode, result.getStatusMsg());
+      } else if (result.getStatusMsg() != null) {
+        // Authentication failed.
+        //
+        log.error("OpenID failure: " + result.getStatusMsg());
+        cancelWithError(req, rsp, mode, result.getStatusMsg());
+      } else {
+        // Assume authentication was canceled.
+        //
+        cancel(req, rsp);
       }
     }
   }
@@ -539,7 +551,7 @@ class OpenIdServiceImpl implements OpenIdService {
     rdr.append(GerritServer.serverUrl(req));
     rdr.append("Gerrit");
     final String token = req.getParameter(P_TOKEN);
-    if (token != null) {
+    if (token != null && !token.startsWith("SignInFailure,")) {
       rdr.append('#');
       rdr.append(token);
     }
@@ -549,6 +561,21 @@ class OpenIdServiceImpl implements OpenIdService {
   private static void cancel(final HttpServletRequest req,
       final HttpServletResponse rsp) throws IOException {
     callback(req, rsp);
+  }
+
+  private static void cancelWithError(final HttpServletRequest req,
+      final HttpServletResponse rsp, final SignInDialog.Mode mode,
+      final String errorDetail) throws IOException {
+    final StringBuilder rdr = new StringBuilder();
+    rdr.append(GerritServer.serverUrl(req));
+    rdr.append("Gerrit");
+    rdr.append('#');
+    rdr.append("SignInFailure");
+    rdr.append(',');
+    rdr.append(mode.name());
+    rdr.append(',');
+    rdr.append(errorDetail != null ? KeyUtil.encode(errorDetail) : "");
+    rsp.sendRedirect(rdr.toString());
   }
 
   private State init(final HttpServletRequest httpReq,

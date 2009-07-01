@@ -60,11 +60,21 @@ public class SignInDialog extends AutoCenterDialogBox {
    * @param signInMode type of mode the login will perform.
    */
   public SignInDialog(final Mode signInMode) {
+    this(signInMode, null);
+  }
+
+  /**
+   * Create a new dialog to handle user sign in.
+   * 
+   * @param signInMode type of mode the login will perform.
+   * @param errorMsg error message to display, if non-null.
+   */
+  public SignInDialog(final Mode signInMode, final String errorMsg) {
     super(/* auto hide */true, /* modal */true);
 
     switch (Common.getGerritConfig().getLoginType()) {
       case OPENID:
-        panel = new OpenIdLoginPanel(signInMode);
+        panel = new OpenIdLoginPanel(signInMode, errorMsg);
         break;
 
       default: {

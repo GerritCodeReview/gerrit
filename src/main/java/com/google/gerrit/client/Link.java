@@ -244,6 +244,20 @@ public class Link implements ValueChangeHandler<String> {
       return new ValidateEmailScreen(skip(p, token));
     }
 
+    p = "SignInFailure,";
+    if (token.startsWith(p)) {
+      final String[] args = skip(p, token).split(",");
+      final SignInDialog.Mode mode = SignInDialog.Mode.valueOf(args[0]);
+      final String msg = KeyUtil.decode(args[1]);
+      new SignInDialog(mode, msg).center();
+      switch (mode) {
+        case SIGN_IN:
+          return select(ALL_OPEN);
+        case LINK_IDENTIY:
+          return new AccountSettings(SETTINGS_WEBIDENT);
+      }
+    }
+
     return null;
   }
 

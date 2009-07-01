@@ -501,7 +501,7 @@ limitations under the License.
     <dependency>
       <groupId>org.openid4java</groupId>
       <artifactId>openid4java-consumer</artifactId>
-      <version>0.9.5-SNAPSHOT</version>
+      <version>0.9.5</version>
       <scope>compile</scope>
       <exclusions>
         <exclusion>
@@ -660,11 +660,6 @@ limitations under the License.
   </profiles>
 
   <repositories>
-    <repository>
-      <id>openid4java-repo</id>
-      <url>http://openid4java.googlecode.com/svn/maven-repo/</url>
-    </repository>
-
     <repository>
       <id>jgit-repository</id>
       <url>http://egit.googlecode.com/svn/maven/</url>

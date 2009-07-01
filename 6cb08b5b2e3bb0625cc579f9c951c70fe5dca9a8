@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAZn///n8\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/patches/CommentDetail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-01T19:17:35Z",
+      "side": 1,
+      "message": "IIRC your input list is sorted by time already, oldest-to-newest.",
+      "revId": "6cb08b5b2e3bb0625cc579f9c951c70fe5dca9a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZn///n4\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/patches/CommentDetail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-01T19:17:35Z",
+      "side": 1,
+      "message": "What happens when there are multiple root comments, e.g. two users both concurrently create a new comment on a line that never had a comment there before.",
+      "revId": "6cb08b5b2e3bb0625cc579f9c951c70fe5dca9a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAZn///n0\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/patches/CommentDetail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-01T19:17:35Z",
+      "side": 1,
+      "message": "If I understand this block below right, it doesn\u0027t thread messages correctly, e.g. if we had this tree of replies:\n\n  A\n    B\n      Q\n      R\n    C\n      X\n      Y\n\nYou would actually render:\n\n  A\n  B\n  C\n  Q\n  R\n  X\n  Y\n\nWhich may not even match with time, let alone provide a reasonable threading of the responses.\n\nIMHO, if we\u0027re going to this level of storing a parentUuid in each comment object, we should ensure it lays out immediately after its parentUuid.  We could even indent it by its depth by applying a left margin padding, getting some sort of nice display of the thread structure.  It doesn\u0027t have to be much, we could just do something like:\n\n  .childcmt {\n    border-left: 1px blue solid;\n    padding-left: 1px;\n  }\n  .indent-1 { margin-left: 1px; }\n  .indent-2 { margin-left: 3px; }\n  .indent-3 { margin-left: 5px; }\n\nExcept we\u0027d probably want to dynamically compute the margin-left style on the element, so we don\u0027t need to write out the indent-n classes for every single possible depth we\u0027d like to support.",
+      "revId": "6cb08b5b2e3bb0625cc579f9c951c70fe5dca9a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

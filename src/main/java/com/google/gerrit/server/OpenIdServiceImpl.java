@@ -591,7 +591,10 @@ class OpenIdServiceImpl implements OpenIdService {
       return null;
     }
 
-    final String contextUrl = GerritServer.serverUrl(httpReq);
+    String contextUrl = server.getCanonicalURL();
+    if (contextUrl == null) {
+      contextUrl = GerritServer.serverUrl(httpReq);
+    }
     final DiscoveryInformation discovered = manager.associate(list);
     final UrlEncoded retTo = new UrlEncoded(contextUrl + "login");
     retTo.put(P_MODE, mode.name());

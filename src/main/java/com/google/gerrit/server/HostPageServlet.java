@@ -44,6 +44,7 @@ import javax.servlet.http.HttpServletResponse;
 public class HostPageServlet extends HttpServlet {
   private GerritServer server;
   private String canonicalUrl;
+  private boolean wantSSL;
   private Document hostDoc;
 
   @Override
@@ -60,6 +61,7 @@ public class HostPageServlet extends HttpServlet {
 
     final File sitePath = server.getSitePath();
     canonicalUrl = server.getCanonicalURL();
+    wantSSL = canonicalUrl != null && canonicalUrl.startsWith("https:");
 
     final String hostPageName = "WEB-INF/Gerrit.html";
     hostDoc = HtmlDomUtil.parseFile(getServletContext(), "/" + hostPageName);
@@ -179,30 +181,42 @@ public class HostPageServlet extends HttpServlet {
   @Override
   protected void doGet(final HttpServletRequest req,
       final HttpServletResponse rsp) throws IOException {
+    final String screen = req.getPathInfo();
+
+    // If we wanted SSL, but the user didn't come to us over an SSL channel,
+    // force it to be SSL by issuing a protocol redirect. Try to keep the
+    // name "localhost" in case this is an SSH port tunnel.
+    //
+    if (wantSSL && !isSecure(req)) {
+      final StringBuffer reqUrl = req.getRequestURL();
+      if (isLocalHost(req)) {
+        reqUrl.replace(0, reqUrl.indexOf(":"), "https");
+      } else {
+        reqUrl.setLength(0);
+        reqUrl.append(canonicalUrl);
+        reqUrl.append("Gerrit");
+        if (hasScreenName(screen)) {
+          reqUrl.append('#');
+          reqUrl.append(screen.substring(1));
+        }
+      }
+      rsp.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
+      rsp.setHeader("Location", reqUrl.toString());
+      return;
+    }
+
     // If we get a request for "/Gerrit/change,1" rewrite it the way
     // it should have been, as "/Gerrit#change,1". This may happen
     // coming out of Google Analytics, where its common to replace
     // the anchor mark ('#') with '/' so it logs independent pages.
     //
-    final String screen = req.getPathInfo();
-    if (screen != null && screen.length() > 1 && screen.startsWith("/")) {
+    if (hasScreenName(screen)) {
       final StringBuilder r = new StringBuilder();
-      if (canonicalUrl != null) {
-        r.append(canonicalUrl);
-      } else {
-        r.append(GerritServer.serverUrl(req));
-      }
+      r.append(GerritServer.serverUrl(req));
       r.append("Gerrit#");
       r.append(screen.substring(1));
       rsp.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
       rsp.setHeader("Location", r.toString());
-      return;
-    }
-
-    if (canonicalUrl != null
-        && !canonicalUrl.equals(GerritServer.serverUrl(req))) {
-      rsp.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
-      rsp.setHeader("Location", canonicalUrl + "Gerrit");
       return;
     }
 
@@ -235,5 +249,18 @@ public class HostPageServlet extends HttpServlet {
     } finally {
       out.close();
     }
+  }
+
+  private static boolean hasScreenName(final String screen) {
+    return screen != null && screen.length() > 1 && screen.startsWith("/");
+  }
+
+  private static boolean isSecure(final HttpServletRequest req) {
+    return "https".equals(req.getScheme()) || req.isSecure();
+  }
+
+  private static boolean isLocalHost(final HttpServletRequest req) {
+    return "localhost".equals(req.getServerName())
+        || "127.0.0.1".equals(req.getServerName());
   }
 }

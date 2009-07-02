@@ -194,7 +194,6 @@ public class HostPageServlet extends HttpServlet {
       } else {
         reqUrl.setLength(0);
         reqUrl.append(canonicalUrl);
-        reqUrl.append("Gerrit");
         if (hasScreenName(screen)) {
           reqUrl.append('#');
           reqUrl.append(screen.substring(1));
@@ -213,7 +212,7 @@ public class HostPageServlet extends HttpServlet {
     if (hasScreenName(screen)) {
       final StringBuilder r = new StringBuilder();
       r.append(GerritServer.serverUrl(req));
-      r.append("Gerrit#");
+      r.append("#");
       r.append(screen.substring(1));
       rsp.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
       rsp.setHeader("Location", r.toString());

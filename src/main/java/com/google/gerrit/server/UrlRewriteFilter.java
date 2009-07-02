@@ -52,9 +52,6 @@ public class UrlRewriteFilter implements Filter {
 
   static {
     staticLinks = new HashMap<String, String>();
-    staticLinks.put("", "");
-    staticLinks.put("/", "");
-
     staticLinks.put("/mine", Link.MINE);
     staticLinks.put("/starred", Link.MINE_STARRED);
     staticLinks.put("/settings", Link.SETTINGS);
@@ -99,6 +96,8 @@ public class UrlRewriteFilter implements Filter {
       //
       chain.doFilter(req, rsp);
     } else if (staticExtension(pathInfo, req, rsp, chain)) {
+    } else if ("".equals(pathInfo) || "/".equals(pathInfo)) {
+      req.getRequestDispatcher("/Gerrit").forward(req, rsp);
     } else if (staticLink(pathInfo, req, rsp)) {
     } else if (bareChangeId(pathInfo, req, rsp)) {
     } else if (bareRevisionId(pathInfo, req, rsp)) {
@@ -243,7 +242,7 @@ public class UrlRewriteFilter implements Filter {
   private static StringBuffer toGerrit(final HttpServletRequest req) {
     final StringBuffer url = new StringBuffer();
     url.append(req.getContextPath());
-    url.append("/Gerrit");
+    url.append("/");
     return url;
   }
 }

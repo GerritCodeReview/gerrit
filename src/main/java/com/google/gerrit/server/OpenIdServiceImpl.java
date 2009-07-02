@@ -549,7 +549,6 @@ class OpenIdServiceImpl implements OpenIdService {
       final HttpServletResponse rsp) throws IOException {
     final StringBuilder rdr = new StringBuilder();
     rdr.append(GerritServer.serverUrl(req));
-    rdr.append("Gerrit");
     final String token = req.getParameter(P_TOKEN);
     if (token != null && !token.startsWith("SignInFailure,")) {
       rdr.append('#');
@@ -568,7 +567,6 @@ class OpenIdServiceImpl implements OpenIdService {
       final String errorDetail) throws IOException {
     final StringBuilder rdr = new StringBuilder();
     rdr.append(GerritServer.serverUrl(req));
-    rdr.append("Gerrit");
     rdr.append('#');
     rdr.append("SignInFailure");
     rdr.append(',');

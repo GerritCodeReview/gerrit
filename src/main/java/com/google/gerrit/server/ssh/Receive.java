@@ -272,7 +272,7 @@ class Receive extends AbstractGitCommand {
         msg.append("\nPlease complete a new agreement");
         msg.append(":\n\n  ");
         msg.append(server.getCanonicalURL());
-        msg.append("Gerrit#");
+        msg.append("#");
         msg.append(Link.SETTINGS_AGREEMENTS);
         msg.append("\n");
       }
@@ -296,7 +296,7 @@ class Receive extends AbstractGitCommand {
           msg.append("\nPlease review your contact information");
           msg.append(":\n\n  ");
           msg.append(server.getCanonicalURL());
-          msg.append("Gerrit#");
+          msg.append("#");
           msg.append(Link.SETTINGS_CONTACT);
           msg.append("\n");
         }
@@ -326,7 +326,7 @@ class Receive extends AbstractGitCommand {
     if (server.getCanonicalURL() != null) {
       msg.append(":\n\n  ");
       msg.append(server.getCanonicalURL());
-      msg.append("Gerrit#");
+      msg.append("#");
       msg.append(Link.SETTINGS_AGREEMENTS);
       msg.append("\n");
     } else {

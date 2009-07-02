@@ -1,0 +1,80 @@
+Short Version:
+
+ - Make small logical changes.
+ - Provide a meaningful commit message.
+ - Make sure all code is under the Apache License, 2.0.
+ - Publish your changes for review:
+
+   git push ssh://review.source.android.com:29418/tools/gerrit.git HEAD:refs/for/master
+
+
+Long Version:
+
+I wanted a file describing how to submit patches for Gerrit,
+so I started with the one found in the core Git distribution
+(Documentation/SubmittingPatches), which itself was based on the
+patch submission guidelines for the Linux kernel.
+
+However there are some differences, so please review and familiarize
+yourself with the following relevant bits:
+
+
+(1) Make separate commits for logically separate changes.
+
+Unless your patch is really trivial, you should not be sending
+out a patch that was generated between your working tree and your
+commit head.  Instead, always make a commit with complete commit
+message and generate a series of patches from your repository.
+It is a good discipline.
+
+Describe the technical detail of the change(s).
+
+If your description starts to get too long, that's a sign that you
+probably need to split up your commit to finer grained pieces.
+
+
+(2) Check the license
+
+Gerrit Code Review is licensed under the Apache License, 2.0.
+
+Because of this licensing model *every* file within the project
+*must* list the license that covers it in the header of the file.
+Any new contributions to an existing file *must* be submitted under
+the current license of that file.  Any new files *must* clearly
+indicate which license they are provided under in the file header.
+
+Please verify that you are legally allowed and willing to submit your
+changes under the license covering each file *prior* to submitting
+your patch.  It is virtually impossible to remove a patch once it
+has been applied and pushed out.
+
+
+(3) Sending your patches.
+
+Do not email your patches to anyone.
+
+Instead, login to the Gerrit Code Review tool at:
+
+  https://review.source.android.com/
+
+Ensure you have completed one of the necessary contributor
+agreements, providing documentation to the project maintainers that
+they have right to redistribute your work under the Apache License:
+
+  https://review.source.android.com/#settings,agreements
+
+Ensure you have registered one or more SSH public keys, so you can
+push your commits directly over SSH:
+
+  https://review.source.android.com/#settings,ssh-keys
+
+Push your patches over SSH to the review server, possibly through
+a remembered remote to make this easier in the future:
+
+   git config remote.review.url ssh://review.source.android.com:29418/tools/gerrit.git
+   git config remote.review.push HEAD:refs/for/master
+
+   git push review
+
+You will be automatically emailed a copy of your commits, and any
+comments made by the project maintainers.

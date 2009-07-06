@@ -100,20 +100,25 @@ public class PatchTable extends Composite {
   /**
    * @return a link to the previous file in this patch set, or null.
    */
-  public DirectScreenLink getPreviousPatchLink(int index, PatchScreen.Type patchType) {
+  public DirectScreenLink getPreviousPatchLink(int index, PatchScreen.Type patchType,
+      char shortcut) {
     if (0 < index)
-      return createLink(index - 1, patchType, SafeHtml.asis(Util.C
-          .prevPatchLinkIcon()), null);
+      return createLink(index - 1, patchType,
+          SafeHtml.asis(Util.C.prevPatchLinkIcon()), /* before */
+          SafeHtml.asis(" ('" + shortcut + "')") /* after */);
     return null;
   }
 
   /**
    * @return a link to the next file in this patch set, or null.
    */
-  public DirectScreenLink getNextPatchLink(int index, PatchScreen.Type patchType) {
-    if (index < patchList.size() - 1)
-      return createLink(index + 1, patchType, null, SafeHtml.asis(Util.C
-          .nextPatchLinkIcon()));
+  public DirectScreenLink getNextPatchLink(int index, PatchScreen.Type patchType, char shortcut) {
+    if (index < patchList.size() - 1) {
+      final PatchLink result = createLink(index + 1, patchType, 
+          null, /* before */
+          SafeHtml.asis(Util.C.nextPatchLinkIcon() + " ('" + shortcut + "')") /* after */);
+      return result;
+    }
     return null;
   }
 

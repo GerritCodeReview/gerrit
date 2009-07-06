@@ -31,11 +31,14 @@ import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.NoDifferencesException;
 import com.google.gerrit.client.ui.ChangeLink;
+import com.google.gerrit.client.ui.DirectScreenLink;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.DisclosurePanel;
@@ -46,6 +49,9 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
+import com.google.gwtexpui.globalkey.client.GlobalKey;
+import com.google.gwtexpui.globalkey.client.KeyCommand;
+import com.google.gwtexpui.globalkey.client.KeyCommandSet;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtjsonrpc.client.RemoteJsonException;
 
@@ -103,6 +109,19 @@ public abstract class PatchScreen extends Screen {
   /** The index of the file we are currently looking at among the fileList */
   private int patchIndex;
 
+  /** Keys that cause an action on this screen */
+  private KeyCommandSet keysAction;
+  private HandlerRegistration regAction;
+
+  /** Link to the screen for the previous file, null if not applicable */
+  private DirectScreenLink previousFileLink;
+
+  /** Link to the screen for the next file, null if not applicable */
+  private DirectScreenLink nextFileLink;
+
+  private static final char SHORTCUT_PREVIOUS_FILE = 'k';
+  private static final char SHORTCUT_NEXT_FILE = 'j';
+
   /**
    * How this patch should be displayed in the patch screen.
    */
@@ -140,6 +159,8 @@ public abstract class PatchScreen extends Screen {
   protected void onInitUI() {
     super.onInitUI();
 
+    keysAction = new KeyCommandSet(Gerrit.C.sectionActions());
+
     final Change.Id changeId = patchKey.getParentKey().getParentKey();
     final String path = patchKey.get();
     String fileName = path;
@@ -166,13 +187,30 @@ public abstract class PatchScreen extends Screen {
     contentTable = createContentTable();
     contentTable.fileList = fileList;
 
-    add(createNextPrevLinks());
+    add(createNextPreviousLinks());
     contentPanel = new FlowPanel();
     contentPanel.setStyleName("gerrit-SideBySideScreen-SideBySideTable");
     contentPanel.add(noDifference);
     contentPanel.add(contentTable);
     add(contentPanel);
-    add(createNextPrevLinks());
+    add(createNextPreviousLinks());
+
+    // This must be done after calling createNextPreviousLinks(), which initializes these fields
+    if (previousFileLink != null) {
+      installLinkShortCut(previousFileLink, SHORTCUT_PREVIOUS_FILE, PatchUtil.C.previousFileHelp());
+    }
+    if (nextFileLink != null) {
+      installLinkShortCut(nextFileLink, SHORTCUT_NEXT_FILE, PatchUtil.C.nextFileHelp());
+    }
+  }
+
+  private void installLinkShortCut(final DirectScreenLink link, char shortcut, String help) {
+    keysAction.add(new KeyCommand(0, shortcut, help) {
+      @Override
+      public void onKeyPress(KeyPressEvent event) {
+        link.go();
+      }
+    });
   }
 
   private void initDisplayControls() {
@@ -229,7 +267,7 @@ public abstract class PatchScreen extends Screen {
     parent.setWidget(row, col + 1, ws);
   }
 
-  private Widget createNextPrevLinks() {
+  private Widget createNextPreviousLinks() {
     final Grid table = new Grid(1, 3);
     final CellFormatter fmt = table.getCellFormatter();
     table.setStyleName("gerrit-SideBySideScreen-LinkTable");
@@ -238,10 +276,13 @@ public abstract class PatchScreen extends Screen {
     fmt.setHorizontalAlignment(0, 2, HasHorizontalAlignment.ALIGN_RIGHT);
 
     if (fileList != null) {
-      table.setWidget(0, 0, fileList.getPreviousPatchLink(patchIndex,
-          getPatchScreenType()));
-      table.setWidget(0, 2, fileList.getNextPatchLink(patchIndex,
-          getPatchScreenType()));
+      previousFileLink = fileList.getPreviousPatchLink(patchIndex,
+          getPatchScreenType(), SHORTCUT_PREVIOUS_FILE);
+      table.setWidget(0, 0, previousFileLink);
+
+      nextFileLink = fileList.getNextPatchLink(patchIndex,
+          getPatchScreenType(), SHORTCUT_NEXT_FILE);
+      table.setWidget(0, 2, nextFileLink);
     }
 
     final ChangeLink up =
@@ -259,9 +300,19 @@ public abstract class PatchScreen extends Screen {
   }
 
   @Override
+  protected void onUnload() {
+    if (regAction != null) {
+      regAction.removeHandler();
+      regAction = null;
+    }
+    super.onUnload();
+  }
+
+  @Override
   public void registerKeys() {
     super.registerKeys();
     contentTable.setRegisterKeys(contentTable.isVisible());
+    regAction = GlobalKey.add(this, keysAction);
   }
 
   protected abstract AbstractPatchContentTable createContentTable();

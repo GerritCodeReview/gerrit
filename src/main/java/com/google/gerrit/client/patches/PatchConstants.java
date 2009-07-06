@@ -51,4 +51,7 @@ public interface PatchConstants extends Constants {
   String whitespaceIGNORE_SPACE_AT_EOL();
   String whitespaceIGNORE_SPACE_CHANGE();
   String whitespaceIGNORE_ALL_SPACE();
+
+  String previousFileHelp();
+  String nextFileHelp();
 }

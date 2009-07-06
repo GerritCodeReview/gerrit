@@ -102,8 +102,9 @@ public class PatchTable extends Composite {
    */
   public DirectScreenLink getPreviousPatchLink(int index, PatchScreen.Type patchType) {
     if (0 < index)
-      return createLink(index - 1, patchType, SafeHtml.asis(Util.C
-          .prevPatchLinkIcon()), null);
+      return createLink(index - 1, patchType,
+          SafeHtml.asis(Util.C.prevPatchLinkIcon()), /* before */
+          null /* after */);
     return null;
   }
 
@@ -111,9 +112,12 @@ public class PatchTable extends Composite {
    * @return a link to the next file in this patch set, or null.
    */
   public DirectScreenLink getNextPatchLink(int index, PatchScreen.Type patchType) {
-    if (index < patchList.size() - 1)
-      return createLink(index + 1, patchType, null, SafeHtml.asis(Util.C
-          .nextPatchLinkIcon()));
+    if (index < patchList.size() - 1) {
+      final PatchLink result = createLink(index + 1, patchType,
+          null, /* before */
+          SafeHtml.asis(Util.C.nextPatchLinkIcon()) /* after */);
+      return result;
+    }
     return null;
   }
 

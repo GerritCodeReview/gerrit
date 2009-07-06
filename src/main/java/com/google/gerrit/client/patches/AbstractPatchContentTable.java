@@ -69,8 +69,6 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
 
   protected AbstractPatchContentTable() {
     keysNavigation.add(new UpToChangeCommand(0, 'u', PatchUtil.C.upToChange()));
-    keysNavigation.add(new PrevKeyCommand(0, 'k', PatchUtil.C.linePrev()));
-    keysNavigation.add(new NextKeyCommand(0, 'j', PatchUtil.C.lineNext()));
     keysNavigation.add(new PrevChunkKeyCmd(0, 'p', PatchUtil.C.chunkPrev()));
     keysNavigation.add(new NextChunkKeyCmd(0, 'n', PatchUtil.C.chunkNext()));
     keysNavigation.add(new FileListCmd(0, 'f', PatchUtil.C.fileList()));

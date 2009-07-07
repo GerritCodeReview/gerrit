@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAan///9s\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/patches/CommentDetail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-07T18:30:27Z",
+      "side": 1,
+      "message": "Isn\u0027t this redundant with the list obtained by:\n\n  parentMap.get(null)",
+      "revId": "7e50d9fddfa0246a7ad370233731790d6a07244d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAan///9c\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/patches/CommentDetail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-07T18:30:27Z",
+      "side": 1,
+      "message": "Missing a .get() here after .getKey() as the UUID is the key in the map, not the PatchLineComment.Key object instance.",
+      "revId": "7e50d9fddfa0246a7ad370233731790d6a07244d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

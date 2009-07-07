@@ -30,7 +30,6 @@ import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.CorruptEntityException;
-import com.google.gerrit.client.rpc.NoDifferencesException;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gerrit.client.rpc.BaseServiceImplementation.Action;
 import com.google.gerrit.client.rpc.BaseServiceImplementation.Failure;
@@ -112,9 +111,6 @@ class PatchScriptAction implements Action<PatchScript> {
     final DiffCacheKey key = keyFor(bId, aId);
     final DiffCacheContent contentWS = get(key);
     final CommentDetail comments = allComments(db);
-    if (contentWS.isNoDifference() && comments.isEmpty()) {
-      throw new Failure(new NoDifferencesException());
-    }
 
     final DiffCacheContent contentActual;
     if (settings.getWhitespace() != Whitespace.IGNORE_NONE) {

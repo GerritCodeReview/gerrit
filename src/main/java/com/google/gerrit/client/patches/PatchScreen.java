@@ -117,8 +117,8 @@ public abstract class PatchScreen extends Screen {
   private int patchIndex;
 
   /** Keys that cause an action on this screen */
-  private KeyCommandSet keysAction;
-  private HandlerRegistration regAction;
+  private KeyCommandSet keysNavigation;
+  private HandlerRegistration regNavigation;
 
   /** Link to the screen for the previous file, null if not applicable */
   private DirectScreenLink previousFileLink;
@@ -175,7 +175,7 @@ public abstract class PatchScreen extends Screen {
   protected void onInitUI() {
     super.onInitUI();
 
-    keysAction = new KeyCommandSet(Gerrit.C.sectionActions());
+    keysNavigation = new KeyCommandSet(Gerrit.C.sectionNavigation());
 
     final Change.Id changeId = patchKey.getParentKey().getParentKey();
     final String path = patchKey.get();
@@ -224,7 +224,7 @@ public abstract class PatchScreen extends Screen {
   }
 
   private void installLinkShortCut(final DirectScreenLink link, char shortcut, String help) {
-    keysAction.add(new KeyCommand(0, shortcut, help) {
+    keysNavigation.add(new KeyCommand(0, shortcut, help) {
       @Override
       public void onKeyPress(KeyPressEvent event) {
         link.go();
@@ -318,9 +318,9 @@ public abstract class PatchScreen extends Screen {
 
   @Override
   protected void onUnload() {
-    if (regAction != null) {
-      regAction.removeHandler();
-      regAction = null;
+    if (regNavigation != null) {
+      regNavigation.removeHandler();
+      regNavigation = null;
     }
     super.onUnload();
   }
@@ -329,7 +329,7 @@ public abstract class PatchScreen extends Screen {
   public void registerKeys() {
     super.registerKeys();
     contentTable.setRegisterKeys(contentTable.isVisible());
-    regAction = GlobalKey.add(this, keysAction);
+    regNavigation = GlobalKey.add(this, keysNavigation);
   }
 
   protected abstract AbstractPatchContentTable createContentTable();

@@ -19,10 +19,12 @@ import static com.google.gerrit.client.reviewdb.AccountGeneralPreferences.WHOLE_
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.Link;
+import com.google.gerrit.client.changes.ChangeScreen;
 import com.google.gerrit.client.changes.PatchTable;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.data.PatchScript;
 import com.google.gerrit.client.data.PatchScriptSettings;
+import com.google.gerrit.client.data.PatchSetDetail;
 import com.google.gerrit.client.data.PatchScriptSettings.Whitespace;
 import com.google.gerrit.client.reviewdb.AccountGeneralPreferences;
 import com.google.gerrit.client.reviewdb.Change;
@@ -176,6 +178,8 @@ public abstract class PatchScreen extends Screen {
     super.onInitUI();
 
     keysNavigation = new KeyCommandSet(Gerrit.C.sectionNavigation());
+    keysNavigation.add(new UpToChangeCommand(0, 'u', PatchUtil.C.upToChange()));
+    keysNavigation.add(new FileListCmd(0, 'f', PatchUtil.C.fileList()));
 
     final Change.Id changeId = patchKey.getParentKey().getParentKey();
     final String path = patchKey.get();
@@ -442,5 +446,41 @@ public abstract class PatchScreen extends Screen {
   public void setSideB(PatchSet.Id patchSetId) {
     idSideB = patchSetId;
     diffSideB = patchSetId;
+  }
+
+  public class UpToChangeCommand extends KeyCommand {
+    public UpToChangeCommand(int mask, int key, String help) {
+      super(mask, key, help);
+    }
+
+    @Override
+    public void onKeyPress(final KeyPressEvent event) {
+      final Change.Id ck = patchKey.getParentKey().getParentKey();
+      Gerrit.display(Link.toChange(ck), new ChangeScreen(ck));
+    }
+  }
+
+  public class FileListCmd extends KeyCommand {
+    public FileListCmd(int mask, int key, String help) {
+      super(mask, key, help);
+    }
+
+    @Override
+    public void onKeyPress(final KeyPressEvent event) {
+      if (fileList == null || fileList.isAttached()) {
+        final PatchSet.Id psid = patchKey.getParentKey();
+        fileList = new PatchTable();
+        fileList.setSavePointerId("PatchTable " + psid);
+        Util.DETAIL_SVC.patchSetDetail(psid,
+            new GerritCallback<PatchSetDetail>() {
+              public void onSuccess(final PatchSetDetail result) {
+                fileList.display(psid, result.getPatches());
+              }
+            });
+      }
+
+      final PatchBrowserPopup p = new PatchBrowserPopup(patchKey, fileList);
+      p.open();
+    }
   }
 }

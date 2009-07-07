@@ -16,22 +16,17 @@ package com.google.gerrit.client.patches;
 
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.Link;
 import com.google.gerrit.client.SignOutEvent;
 import com.google.gerrit.client.SignOutHandler;
-import com.google.gerrit.client.changes.ChangeScreen;
 import com.google.gerrit.client.changes.PatchTable;
 import com.google.gerrit.client.changes.PublishCommentScreen;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.data.AccountInfoCache;
 import com.google.gerrit.client.data.PatchScript;
-import com.google.gerrit.client.data.PatchSetDetail;
 import com.google.gerrit.client.data.SparseFileContent;
-import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.reviewdb.PatchSet;
-import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.ComplexDisclosurePanel;
 import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.client.ui.NeedsSignInKeyCommand;
@@ -68,12 +63,10 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
   private HandlerRegistration regSignOut;
 
   protected AbstractPatchContentTable() {
-    keysNavigation.add(new UpToChangeCommand(0, 'u', PatchUtil.C.upToChange()));
     keysNavigation.add(new PrevKeyCommand(0, 'k', PatchUtil.C.linePrev()));
     keysNavigation.add(new NextKeyCommand(0, 'j', PatchUtil.C.lineNext()));
     keysNavigation.add(new PrevChunkKeyCmd(0, 'p', PatchUtil.C.chunkPrev()));
     keysNavigation.add(new NextChunkKeyCmd(0, 'n', PatchUtil.C.chunkNext()));
-    keysNavigation.add(new FileListCmd(0, 'f', PatchUtil.C.fileList()));
 
     if (Gerrit.isSignedIn()) {
       keysAction.add(new InsertCommentCommand(0, 'c', PatchUtil.C
@@ -525,18 +518,6 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
     }
   }
 
-  public class UpToChangeCommand extends KeyCommand {
-    public UpToChangeCommand(int mask, int key, String help) {
-      super(mask, key, help);
-    }
-
-    @Override
-    public void onKeyPress(final KeyPressEvent event) {
-      final Change.Id ck = patchKey.getParentKey().getParentKey();
-      Gerrit.display(Link.toChange(ck), new ChangeScreen(ck));
-    }
-  }
-
   public static class NoOpKeyCommand extends NeedsSignInKeyCommand {
     public NoOpKeyCommand(int mask, int key, String help) {
       super(mask, key, help);
@@ -603,30 +584,6 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
     public void onKeyPress(final KeyPressEvent event) {
       ensurePointerVisible();
       moveToNextChunk(getCurrentRow());
-    }
-  }
-
-  public class FileListCmd extends KeyCommand {
-    public FileListCmd(int mask, int key, String help) {
-      super(mask, key, help);
-    }
-
-    @Override
-    public void onKeyPress(final KeyPressEvent event) {
-      if (fileList == null || fileList.isAttached()) {
-        final PatchSet.Id psid = patchKey.getParentKey();
-        fileList = new PatchTable();
-        fileList.setSavePointerId("PatchTable " + psid);
-        Util.DETAIL_SVC.patchSetDetail(psid,
-            new GerritCallback<PatchSetDetail>() {
-              public void onSuccess(final PatchSetDetail result) {
-                fileList.display(psid, result.getPatches());
-              }
-            });
-      }
-
-      final PatchBrowserPopup p = new PatchBrowserPopup(patchKey, fileList);
-      p.open();
     }
   }
 }

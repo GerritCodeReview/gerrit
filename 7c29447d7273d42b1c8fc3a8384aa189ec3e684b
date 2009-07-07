@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAan///+0\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/PatchTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-07T16:41:36Z",
+      "side": 1,
+      "message": "Given that we have keyboard hints in the dialog shown by \u0027?\u0027 why are we putting it in the hyperlink text?",
+      "revId": "7c29447d7273d42b1c8fc3a8384aa189ec3e684b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAan///+s\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-07T16:41:36Z",
+      "side": 1,
+      "message": "Renaming this method has nothing to do with the change.",
+      "revId": "7c29447d7273d42b1c8fc3a8384aa189ec3e684b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

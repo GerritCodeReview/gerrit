@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAan///+w\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/patches/AbstractPatchContentTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-07T16:41:36Z",
+      "side": 0,
+      "message": "I really don\u0027t want to remove j/k to mean next/prev line.  We use that meaning everywhere else that j/k means up/down the current view.  I\u0027d prefer to keep these bindings for line down/up in the patch view, and use different keys for next/prev file.",
+      "revId": "109bce300ac9755c1488ce54a2c412c69cc15349",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

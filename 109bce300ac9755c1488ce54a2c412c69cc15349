@@ -16,6 +16,23 @@
       "revId": "109bce300ac9755c1488ce54a2c412c69cc15349",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAan///+c\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/patches/AbstractPatchContentTable.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-07T17:36:43Z",
+      "side": 0,
+      "message": "Please restore these bindings by reverting this file.",
+      "revId": "109bce300ac9755c1488ce54a2c412c69cc15349",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

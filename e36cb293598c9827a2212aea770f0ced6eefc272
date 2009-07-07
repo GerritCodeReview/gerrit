@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAan///+g\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/PatchTable.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-07T17:36:43Z",
+      "side": 1,
+      "message": "Isn\u0027t this now just needless code churn?  If so, revert the file out of the change.",
+      "revId": "e36cb293598c9827a2212aea770f0ced6eefc272",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAan///+Y\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-07T17:36:43Z",
+      "side": 1,
+      "message": "Its still called createNextPrevLinks()",
+      "revId": "e36cb293598c9827a2212aea770f0ced6eefc272",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAan///+U\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-07T17:36:43Z",
+      "side": 1,
+      "message": "I don\u0027t remember what happens if keysAction is an empty set, because the links weren\u0027t created.  Do we install an empty section in the help dialog, or does the help code automatically filter it out?\n\nThis is easy enough to test, view a file and hit the browser reload button, the next/prev links should disappear, then hit \u0027?\u0027 to view the help.  Do we get an empty \"Actions\" group?",
+      "revId": "e36cb293598c9827a2212aea770f0ced6eefc272",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

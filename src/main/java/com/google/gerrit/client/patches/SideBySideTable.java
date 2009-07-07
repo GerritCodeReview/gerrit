@@ -59,10 +59,11 @@ public class SideBySideTable extends AbstractPatchContentTable {
 
   @Override
   protected void render(final PatchScript script) {
+    final SafeHtmlBuilder nc = new SafeHtmlBuilder();
+
     final SparseFileContent a = script.getA();
     final SparseFileContent b = script.getB();
     final ArrayList<PatchLine> lines = new ArrayList<PatchLine>();
-    final SafeHtmlBuilder nc = new SafeHtmlBuilder();
 
     appendHeader(nc);
     lines.add(null);
@@ -122,6 +123,7 @@ public class SideBySideTable extends AbstractPatchContentTable {
       }
       lastB = hunk.getCurB();
     }
+
     if (lastB != b.size()) {
       appendSkipLine(nc, b.size() - lastB);
     }

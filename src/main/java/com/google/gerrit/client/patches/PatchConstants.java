@@ -25,7 +25,6 @@ public interface PatchConstants extends Constants {
   String buttonDiscard();
   String confirmDiscard();
 
-  String noDifference();
   String patchHeaderOld();
   String patchHeaderNew();
 

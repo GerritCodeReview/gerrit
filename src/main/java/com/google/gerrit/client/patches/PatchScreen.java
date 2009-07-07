@@ -29,7 +29,6 @@ import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.rpc.GerritCallback;
-import com.google.gerrit.client.rpc.NoDifferencesException;
 import com.google.gerrit.client.ui.ChangeLink;
 import com.google.gerrit.client.ui.DirectScreenLink;
 import com.google.gerrit.client.ui.Screen;
@@ -106,7 +105,6 @@ public abstract class PatchScreen extends Screen {
   private DisclosurePanel historyPanel;
   private HistoryTable historyTable;
   private FlowPanel contentPanel;
-  private Label noDifference;
   private AbstractPatchContentTable contentTable;
 
   private int rpcSequence;
@@ -199,17 +197,12 @@ public abstract class PatchScreen extends Screen {
     add(historyPanel);
     initDisplayControls();
 
-    noDifference = new Label(PatchUtil.C.noDifference());
-    noDifference.setStyleName("gerrit-PatchNoDifference");
-    noDifference.setVisible(false);
-
     contentTable = createContentTable();
     contentTable.fileList = fileList;
 
     add(createNextPrevLinks());
     contentPanel = new FlowPanel();
     contentPanel.setStyleName("gerrit-SideBySideScreen-SideBySideTable");
-    contentPanel.add(noDifference);
     contentPanel.add(contentTable);
     add(contentPanel);
     add(createNextPrevLinks());
@@ -353,21 +346,8 @@ public abstract class PatchScreen extends Screen {
           @Override
           public void onFailure(final Throwable caught) {
             if (rpcSequence == rpcseq) {
-              if (isNoDifferences(caught) && !isFirst) {
-                historyTable.enableAll(true);
-                showPatch(false);
-              } else {
-                super.onFailure(caught);
-              }
+              super.onFailure(caught);
             }
-          }
-
-          private boolean isNoDifferences(final Throwable caught) {
-            if (caught instanceof NoDifferencesException) {
-              return true;
-            }
-            return caught instanceof RemoteJsonException
-                && caught.getMessage().equals(NoDifferencesException.MESSAGE);
           }
         });
 
@@ -417,7 +397,7 @@ public abstract class PatchScreen extends Screen {
       contentTable.display(patchKey, idSideA, idSideB, script);
       contentTable.display(comments);
       contentTable.finishDisplay();
-      showPatch(true);
+      showPatch();
 
       script = null;
       comments = null;
@@ -428,10 +408,9 @@ public abstract class PatchScreen extends Screen {
     }
   }
 
-  private void showPatch(final boolean showPatch) {
-    noDifference.setVisible(!showPatch);
-    contentTable.setVisible(showPatch);
-    contentTable.setRegisterKeys(isCurrentView() && showPatch);
+  private void showPatch() {
+    contentTable.setVisible(true);
+    contentTable.setRegisterKeys(isCurrentView());
   }
 
   public void setSideA(PatchSet.Id patchSetId) {

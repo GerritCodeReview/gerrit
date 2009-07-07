@@ -1120,10 +1120,6 @@ class Receive extends AbstractGitCommand {
         reject(cmd, "not Signed-off-by you");
         return false;
       }
-      if (!sboAuthor) {
-        reject(cmd, "not Signed-off-by " + author.getEmailAddress());
-        return false;
-      }
       if (!sboCommitter) {
         reject(cmd, "not Signed-off-by " + committer.getEmailAddress());
         return false;

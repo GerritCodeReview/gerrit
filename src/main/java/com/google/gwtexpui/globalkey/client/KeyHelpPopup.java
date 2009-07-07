@@ -30,9 +30,10 @@ import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 import com.google.gwtexpui.user.client.PluginSafePopupPanel;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 
@@ -101,12 +102,9 @@ public class KeyHelpPopup extends PluginSafePopupPanel implements
   }
 
   private void populate(final Grid lists) {
-    final Iterator<KeyCommandSet> setitr =
-        GlobalKey.active.all.getSets().iterator();
     int end[] = new int[5];
     int column = 0;
-    while (setitr.hasNext()) {
-      final KeyCommandSet set = setitr.next();
+    for (final KeyCommandSet set : combinedSetsByName()) {
       int row = end[column];
       row = formatGroup(lists, row, column, set);
       end[column] = row;
@@ -116,6 +114,24 @@ public class KeyHelpPopup extends PluginSafePopupPanel implements
         column = 0;
       }
     }
+  }
+
+  /**
+   * @return an ordered collection of KeyCommandSet, combining sets which share
+   *         the same name, so that each set name appears at most once.
+   */
+  private static Collection<KeyCommandSet> combinedSetsByName() {
+    final LinkedHashMap<String, KeyCommandSet> byName =
+        new LinkedHashMap<String, KeyCommandSet>();
+    for (final KeyCommandSet set : GlobalKey.active.all.getSets()) {
+      KeyCommandSet v = byName.get(set.getName());
+      if (v == null) {
+        v = new KeyCommandSet(set.getName());
+        byName.put(v.getName(), v);
+      }
+      v.add(set);
+    }
+    return byName.values();
   }
 
   private int formatGroup(final Grid lists, int row, final int col,

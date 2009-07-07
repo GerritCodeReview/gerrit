@@ -62,9 +62,6 @@ public class BaseServiceImplementation {
       } else if (e.getCause() instanceof NoSuchEntityException) {
         callback.onFailure(e.getCause());
 
-      } else if (e.getCause() instanceof NoDifferencesException) {
-        callback.onFailure(e.getCause());
-
       } else {
         callback.onFailure(e);
       }

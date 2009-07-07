@@ -29,7 +29,6 @@ import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.rpc.GerritCallback;
-import com.google.gerrit.client.rpc.NoDifferencesException;
 import com.google.gerrit.client.ui.ChangeLink;
 import com.google.gerrit.client.ui.DirectScreenLink;
 import com.google.gerrit.client.ui.Screen;
@@ -353,21 +352,8 @@ public abstract class PatchScreen extends Screen {
           @Override
           public void onFailure(final Throwable caught) {
             if (rpcSequence == rpcseq) {
-              if (isNoDifferences(caught) && !isFirst) {
-                historyTable.enableAll(true);
-                showPatch(false);
-              } else {
-                super.onFailure(caught);
-              }
+              super.onFailure(caught);
             }
-          }
-
-          private boolean isNoDifferences(final Throwable caught) {
-            if (caught instanceof NoDifferencesException) {
-              return true;
-            }
-            return caught instanceof RemoteJsonException
-                && caught.getMessage().equals(NoDifferencesException.MESSAGE);
           }
         });
 

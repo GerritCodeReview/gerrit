@@ -59,10 +59,21 @@ public class SideBySideTable extends AbstractPatchContentTable {
 
   @Override
   protected void render(final PatchScript script) {
+    final SafeHtmlBuilder nc = new SafeHtmlBuilder();
+    // Display "No differences" and abort early if the two sides are identical
+    if (script.getEdits().isEmpty()) {
+      nc.openTr();
+      nc.openTd();
+      nc.setStyleName("gerrit-PatchNoDifference");
+      nc.append(PatchUtil.C.noDifference());
+      nc.closeTd();
+      nc.closeTr();
+      resetHtml(nc);
+      return;
+    }
     final SparseFileContent a = script.getA();
     final SparseFileContent b = script.getB();
     final ArrayList<PatchLine> lines = new ArrayList<PatchLine>();
-    final SafeHtmlBuilder nc = new SafeHtmlBuilder();
 
     appendHeader(nc);
     lines.add(null);
@@ -122,6 +133,7 @@ public class SideBySideTable extends AbstractPatchContentTable {
       }
       lastB = hunk.getCurB();
     }
+
     if (lastB != b.size()) {
       appendSkipLine(nc, b.size() - lastB);
     }

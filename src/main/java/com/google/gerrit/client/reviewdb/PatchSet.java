@@ -151,4 +151,9 @@ public final class PatchSet {
     r.append(id.get());
     return r.toString();
   }
+
+  @Override
+  public String toString() {
+    return "[PatchSet " + getId().toString() + "]";
+  }
 }

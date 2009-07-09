@@ -27,6 +27,9 @@ import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A table used to specify which two patch sets should be diff'ed.
+ */
 class HistoryTable extends FancyFlexTable<Patch> {
   private final PatchScreen screen;
   final List<HistoryRadio> all = new ArrayList<HistoryRadio>();

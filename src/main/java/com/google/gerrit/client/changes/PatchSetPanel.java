@@ -125,6 +125,10 @@ class PatchSetPanel extends Composite implements OpenHandler<DisclosurePanel> {
     super.onUnload();
   }
 
+  /**
+   * Display the table showing the Author, Committer and Download links, followed by the 
+   * action buttons.
+   */
   public void ensureLoaded(final PatchSetDetail detail) {
     infoTable = new Grid(R_CNT, 2);
     infoTable.setStyleName("gerrit-InfoBlock");

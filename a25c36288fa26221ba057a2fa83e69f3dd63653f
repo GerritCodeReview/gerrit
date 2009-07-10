@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAa3////0\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/patches/SideBySideTable.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-10T21:05:25Z",
+      "side": 1,
+      "message": "If this is here, why isn\u0027t it removed from PatchScreen?\n\nAlso, what happens to a unified view when there are no differences?",
+      "revId": "a25c36288fa26221ba057a2fa83e69f3dd63653f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

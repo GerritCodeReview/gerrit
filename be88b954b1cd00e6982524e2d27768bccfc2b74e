@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAan///3M\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-10T16:21:58Z",
+      "side": 1,
+      "message": "I\u0027m concerned that this ignores an RPC error.\n\nAlso, near as I can tell, we now don\u0027t show the \"No Differences\" label anymore, because we can\u0027t reach the showPatch(false) code path.",
+      "revId": "be88b954b1cd00e6982524e2d27768bccfc2b74e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

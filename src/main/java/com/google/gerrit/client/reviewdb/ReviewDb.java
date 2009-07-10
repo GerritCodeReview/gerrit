@@ -114,6 +114,9 @@ public interface ReviewDb extends Schema {
   @Relation
   PatchLineCommentAccess patchComments();
 
+  @Relation
+  AccountPatchReviewAccess accountPatchReviews();
+
   /** Create the next unique id for an {@link Account}. */
   @Sequence(startWith = 1000000)
   int nextAccountId() throws OrmException;

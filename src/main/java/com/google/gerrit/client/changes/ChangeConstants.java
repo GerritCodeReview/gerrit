@@ -106,4 +106,5 @@ public interface ChangeConstants extends Constants {
   String pagedChangeListNext();
 
   String reply();
+  String reviewed();
 }

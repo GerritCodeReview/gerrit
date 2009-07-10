@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAan///20\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/patches/AbstractPatchContentTable.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-10T17:08:24Z",
+      "side": 1,
+      "message": "This API is somewhat of a lie right now.  The method implementation forces the new editor at the end of everything for this same file line.  Saying it has a particular parent might be something of a lie than visually if we don\u0027t also position the new editor immediately below the requested parent.",
+      "revId": "8dca934f94a0556c5d8ac9db2889a5f6d387d858",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAan///2s\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/patches/AbstractPatchContentTable.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-10T17:08:24Z",
+      "side": 1,
+      "message": "IMHO, this code to build the button and attach it probably belongs inside of the LineCommentPanel, not part of the outer level UI.  Especially if we consider that we would eventually want a \"Reply\" button on perhaps every comment once we have a tree structure, permitting better threading support.",
+      "revId": "8dca934f94a0556c5d8ac9db2889a5f6d387d858",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAan///2w\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/patches/CommentDetail.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-10T17:08:24Z",
+      "side": 1,
+      "message": "My comment still stands that\n\n  rootComments \u003d parentMap.get(null)\n\nand thus this is unnecessary complexity in the code.",
+      "revId": "8dca934f94a0556c5d8ac9db2889a5f6d387d858",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

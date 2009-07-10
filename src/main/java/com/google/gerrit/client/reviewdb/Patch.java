@@ -257,4 +257,9 @@ public final class Patch {
   public void setSourceFileName(final String n) {
     sourceFileName = n;
   }
+
+  @Override
+  public String toString() {
+    return "[Patch " + getKey().toString() + "]";
+  }
 }

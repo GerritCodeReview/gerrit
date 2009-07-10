@@ -421,6 +421,9 @@ public class PatchTable extends Composite {
       this.list = list;
     }
 
+    /**
+     * Add the files contained in the list of patches to the table, one per row.
+     */
     @SuppressWarnings("fallthrough")
     public boolean execute() {
       final boolean attachedNow = isAttached();

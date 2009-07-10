@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAan///3A\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-10T16:38:18Z",
+      "side": 0,
+      "message": "Uh, ok, but what happens now in a side-by-side diff when there are no differences between the two selections?",
+      "revId": "cb7270677b27d330732830100176a0d7d3c5f79f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

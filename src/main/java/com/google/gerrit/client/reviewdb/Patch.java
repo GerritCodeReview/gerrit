@@ -194,6 +194,10 @@ public final class Patch {
   /** Number of drafts by the current user; not persisted in the datastore. */
   protected int nbrDrafts;
 
+  /** Whether this file has been reviewed, 0=no, 1=yes */
+  @Column
+  protected int reviewed;
+
   /**
    * Original if {@link #changeType} is {@link ChangeType#COPIED} or
    * {@link ChangeType#RENAMED}.
@@ -256,6 +260,14 @@ public final class Patch {
 
   public void setSourceFileName(final String n) {
     sourceFileName = n;
+  }
+
+  public int getReviewed() {
+    return reviewed;
+  }
+
+  public void setReviewed(int reviewed) {
+    this.reviewed = reviewed;
   }
 
   @Override

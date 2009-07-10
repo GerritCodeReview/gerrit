@@ -42,6 +42,7 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -56,6 +57,7 @@ import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtjsonrpc.client.RemoteJsonException;
+import com.google.gwtjsonrpc.client.VoidResult;
 
 public abstract class PatchScreen extends Screen {
   public static class SideBySide extends PatchScreen {
@@ -237,7 +239,7 @@ public abstract class PatchScreen extends Screen {
   }
 
   private void initDisplayControls() {
-    final Grid displayControls = new Grid(0, 4);
+    final Grid displayControls = new Grid(0, 5);
     displayControls.setStyleName("gerrit-PatchScreen-DisplayControls");
     add(displayControls);
 
@@ -245,8 +247,13 @@ public abstract class PatchScreen extends Screen {
     createContext(displayControls, 0, 2);
   }
 
+  /**
+   * Add the contextual widgets for this patch: "Show full files" and "Keep unreviewed"
+   */
   private void createContext(final Grid parent, final int row, final int col) {
     parent.resizeRows(row + 1);
+
+    // Show full files
     final CheckBox cb = new CheckBox(PatchUtil.C.showFullFiles());
     cb.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
       @Override
@@ -262,6 +269,38 @@ public abstract class PatchScreen extends Screen {
       }
     });
     parent.setWidget(row, col + 1, cb);
+
+    // "Reviewed" check box
+    if (Gerrit.isSignedIn()) {
+      final CheckBox ku = new CheckBox(PatchUtil.C.reviewed());
+      ku.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+        @Override
+        public void onValueChange(ValueChangeEvent<Boolean> event) {
+          setReviewedByCurrentUser(event.getValue());
+        }
+      });
+      // Checked by default
+      ku.setValue(true);
+      parent.setWidget(row, col + 2, ku);
+    }
+
+  }
+
+  private void setReviewedByCurrentUser(boolean reviewed) {
+    PatchUtil.DETAIL_SVC.setReviewedByCurrentUser(patchKey, reviewed,
+        new AsyncCallback<VoidResult>() {
+
+          @Override
+          public void onFailure(Throwable arg0) {
+            // nop
+          }
+    
+          @Override
+          public void onSuccess(VoidResult result) {
+            // nop
+          }
+
+    });
   }
 
   private void createIgnoreWhitespace(final Grid parent, final int row,
@@ -344,6 +383,11 @@ public abstract class PatchScreen extends Screen {
     final int rpcseq = ++rpcSequence;
     script = null;
     comments = null;
+
+    // Mark this file reviewed as soon we display the diff screen
+    if (Gerrit.isSignedIn() && isFirst) {
+      setReviewedByCurrentUser(true /* reviewed */);
+    }
 
     PatchUtil.DETAIL_SVC.patchScript(patchKey, idSideA, idSideB,
         scriptSettings, new GerritCallback<PatchScript>() {

@@ -201,6 +201,9 @@ public final class Patch {
   @Column(notNull = false)
   protected String sourceFileName;
 
+  /** True if this patch has been reviewed by the current logged in user */
+  private boolean reviewedByCurrentUser;
+
   protected Patch() {
   }
 
@@ -256,6 +259,14 @@ public final class Patch {
 
   public void setSourceFileName(final String n) {
     sourceFileName = n;
+  }
+
+  public boolean isReviewedByCurrentUser() {
+    return reviewedByCurrentUser;
+  }
+
+  public void setReviewedByCurrentUser(boolean r) {
+    reviewedByCurrentUser = r;
   }
 
   @Override

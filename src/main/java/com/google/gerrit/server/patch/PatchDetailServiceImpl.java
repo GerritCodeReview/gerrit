@@ -21,6 +21,7 @@ import com.google.gerrit.client.data.ProjectCache;
 import com.google.gerrit.client.patches.CommentDetail;
 import com.google.gerrit.client.patches.PatchDetailService;
 import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.client.reviewdb.AccountPatchReview;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.client.reviewdb.Change;
@@ -33,6 +34,7 @@ import com.google.gerrit.client.reviewdb.PatchSetInfo;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.Account.Id;
+import com.google.gerrit.client.reviewdb.Patch.Key;
 import com.google.gerrit.client.rpc.BaseServiceImplementation;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.NoSuchAccountException;
@@ -184,6 +186,28 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
       }
     });
   }
+
+  /**
+   * Update the reviewed status for the file by user @code{account}. If @code{newValue} is 1,
+   * mark the file reviewed.
+   */
+  public void updatePatchReviewed(final Key patchKey, final int newValue, final Account.Id account,
+      AsyncCallback<VoidResult> callback) {
+    run(callback, new Action<VoidResult>() {
+      public VoidResult run(ReviewDb db) throws OrmException {
+        AccountPatchReview.Key key = new AccountPatchReview.Key(patchKey, account);
+        AccountPatchReview apr = db.accountPatchReviews().get(key);
+        if (apr == null && newValue == 1) {
+          db.accountPatchReviews().
+              insert(Collections.singleton(new AccountPatchReview(patchKey, account)));
+        } else if (newValue == 0) {
+          db.accountPatchReviews().delete(Collections.singleton(apr));
+        }
+        return VoidResult.INSTANCE;
+      }
+    });
+  }
+
 
   private static class PublishResult {
     Change change;

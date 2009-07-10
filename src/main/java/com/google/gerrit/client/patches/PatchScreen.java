@@ -30,6 +30,8 @@ import com.google.gerrit.client.reviewdb.AccountGeneralPreferences;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchSet;
+import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.NoDifferencesException;
 import com.google.gerrit.client.ui.ChangeLink;
@@ -56,6 +58,8 @@ import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtjsonrpc.client.RemoteJsonException;
+
+import java.util.Collections;
 
 public abstract class PatchScreen extends Screen {
   public static class SideBySide extends PatchScreen {
@@ -237,7 +241,7 @@ public abstract class PatchScreen extends Screen {
   }
 
   private void initDisplayControls() {
-    final Grid displayControls = new Grid(0, 4);
+    final Grid displayControls = new Grid(0, 5);
     displayControls.setStyleName("gerrit-PatchScreen-DisplayControls");
     add(displayControls);
 
@@ -245,8 +249,13 @@ public abstract class PatchScreen extends Screen {
     createContext(displayControls, 0, 2);
   }
 
+  /**
+   * Add the contextual widgets for this patch: "Show full files" and "Keep unreviewed"
+   */
   private void createContext(final Grid parent, final int row, final int col) {
     parent.resizeRows(row + 1);
+
+    // Show full files
     final CheckBox cb = new CheckBox(PatchUtil.C.showFullFiles());
     cb.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
       @Override
@@ -262,6 +271,24 @@ public abstract class PatchScreen extends Screen {
       }
     });
     parent.setWidget(row, col + 1, cb);
+
+    // Keep unreviewed
+    if (Gerrit.isSignedIn()) {
+      final CheckBox ku = new CheckBox(PatchUtil.C.keepUnreviewed());
+      ku.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+        @Override
+        public void onValueChange(ValueChangeEvent<Boolean> event) {
+          updateReviewedStatus(event.getValue() ? 0 : 1);
+        }
+      });
+      parent.setWidget(row, col + 2, ku);
+    }
+
+  }
+
+  private void updateReviewedStatus(int newValue) {
+    PatchUtil.DETAIL_SVC.updatePatchReviewed(patchKey, newValue,
+        Gerrit.getUserAccount().getId(), null);
   }
 
   private void createIgnoreWhitespace(final Grid parent, final int row,
@@ -298,6 +325,7 @@ public abstract class PatchScreen extends Screen {
     fmt.setHorizontalAlignment(0, 1, HasHorizontalAlignment.ALIGN_CENTER);
     fmt.setHorizontalAlignment(0, 2, HasHorizontalAlignment.ALIGN_RIGHT);
 
+    // Next and previous
     if (fileList != null) {
       previousFileLink = fileList.getPreviousPatchLink(patchIndex, getPatchScreenType());
       table.setWidget(0, 0, previousFileLink);
@@ -306,6 +334,9 @@ public abstract class PatchScreen extends Screen {
       table.setWidget(0, 2, nextFileLink);
     }
 
+    // Keep unreviewed
+
+    // Up
     final ChangeLink up =
         new ChangeLink("", patchKey.getParentKey().getParentKey());
     SafeHtml.set(up, SafeHtml.asis(Util.C.upToChangeIconLink()));
@@ -344,6 +375,11 @@ public abstract class PatchScreen extends Screen {
     final int rpcseq = ++rpcSequence;
     script = null;
     comments = null;
+
+    // Mark this file reviewed as soon we display the diff screen
+    if (Gerrit.isSignedIn()) {
+      updateReviewedStatus(1);
+    }
 
     PatchUtil.DETAIL_SVC.patchScript(patchKey, idSideA, idSideB,
         scriptSettings, new GerritCallback<PatchScript>() {

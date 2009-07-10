@@ -16,11 +16,13 @@ package com.google.gerrit.client.patches;
 
 import com.google.gerrit.client.data.PatchScript;
 import com.google.gerrit.client.data.PatchScriptSettings;
+import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.reviewdb.PatchSet;
+import com.google.gerrit.client.reviewdb.Patch.Key;
 import com.google.gerrit.client.rpc.SignInRequired;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.RemoteJsonService;
@@ -54,5 +56,13 @@ public interface PatchDetailService extends RemoteJsonService {
 
   @SignInRequired
   void abandonChange(PatchSet.Id patchSetId, String message,
+      AsyncCallback<VoidResult> callback);
+
+  /**
+   * Update the reviewed status for the patch. If newValue == 1, the file is marked
+   * as reviewed, otherwise it's unreviewed.
+   */
+  @SignInRequired
+  void updatePatchReviewed(Key patchKey, int newValue, Account.Id account,
       AsyncCallback<VoidResult> callback);
 }

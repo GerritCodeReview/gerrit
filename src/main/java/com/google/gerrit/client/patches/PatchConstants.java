@@ -54,4 +54,6 @@ public interface PatchConstants extends Constants {
 
   String previousFileHelp();
   String nextFileHelp();
+
+  String keepUnreviewed();
 }

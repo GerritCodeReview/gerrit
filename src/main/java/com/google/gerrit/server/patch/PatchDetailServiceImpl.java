@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.patch;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.data.ApprovalType;
 import com.google.gerrit.client.data.PatchScript;
 import com.google.gerrit.client.data.PatchScriptSettings;
@@ -21,6 +22,7 @@ import com.google.gerrit.client.data.ProjectCache;
 import com.google.gerrit.client.patches.CommentDetail;
 import com.google.gerrit.client.patches.PatchDetailService;
 import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.client.reviewdb.AccountPatchReview;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.client.reviewdb.Change;
@@ -33,6 +35,7 @@ import com.google.gerrit.client.reviewdb.PatchSetInfo;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.Account.Id;
+import com.google.gerrit.client.reviewdb.Patch.Key;
 import com.google.gerrit.client.rpc.BaseServiceImplementation;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.NoSuchAccountException;
@@ -184,6 +187,28 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
       }
     });
   }
+
+  /**
+   * Update the reviewed status for the file by user @code{account}
+   */
+  public void setReviewedByCurrentUser(final Key patchKey, final boolean reviewed,
+      AsyncCallback<VoidResult> callback) {
+    run(callback, new Action<VoidResult>() {
+      public VoidResult run(ReviewDb db) throws OrmException {
+        Account.Id account = Common.getAccountId();
+        AccountPatchReview.Key key = new AccountPatchReview.Key(patchKey, account);
+        AccountPatchReview apr = db.accountPatchReviews().get(key);
+        if (apr == null && reviewed) {
+          db.accountPatchReviews().
+              insert(Collections.singleton(new AccountPatchReview(patchKey, account)));
+        } else if (apr != null && !reviewed) {
+          db.accountPatchReviews().delete(Collections.singleton(apr));
+        }
+        return VoidResult.INSTANCE;
+      }
+    });
+  }
+
 
   private static class PublishResult {
     Change change;

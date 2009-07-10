@@ -21,6 +21,7 @@ import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.reviewdb.PatchSet;
+import com.google.gerrit.client.reviewdb.Patch.Key;
 import com.google.gerrit.client.rpc.SignInRequired;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.RemoteJsonService;
@@ -54,5 +55,9 @@ public interface PatchDetailService extends RemoteJsonService {
 
   @SignInRequired
   void abandonChange(PatchSet.Id patchSetId, String message,
+      AsyncCallback<VoidResult> callback);
+
+  @SignInRequired
+  void updatePatchReviewed(Key patchKey, int newValue,
       AsyncCallback<VoidResult> callback);
 }

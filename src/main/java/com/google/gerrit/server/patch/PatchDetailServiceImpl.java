@@ -33,6 +33,7 @@ import com.google.gerrit.client.reviewdb.PatchSetInfo;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.Account.Id;
+import com.google.gerrit.client.reviewdb.Patch.Key;
 import com.google.gerrit.client.rpc.BaseServiceImplementation;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.NoSuchAccountException;
@@ -184,6 +185,19 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
       }
     });
   }
+
+  public void updatePatchReviewed(final Key patchKey, final int newValue,
+      AsyncCallback<VoidResult> callback) {
+    run(callback, new Action<VoidResult>() {
+      public VoidResult run(ReviewDb db) throws OrmException {
+        Patch p = db.patches().get(patchKey);
+        p.setReviewed(newValue);
+        db.patches().update(Collections.singleton(p));
+        return VoidResult.INSTANCE;
+      }
+    });
+  }
+
 
   private static class PublishResult {
     Change change;
@@ -453,4 +467,6 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
 
     return Boolean.FALSE;
   }
+
+  
 }

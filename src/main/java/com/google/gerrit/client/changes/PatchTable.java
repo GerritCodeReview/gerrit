@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.changes;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.patches.PatchScreen;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchSet;
@@ -249,31 +250,42 @@ public class PatchTable extends Composite {
     void appendHeader(final SafeHtmlBuilder m) {
       m.openTr();
 
+      // Cursor
       m.openTd();
       m.addStyleName(S_ICON_HEADER);
       m.addStyleName("LeftMostCell");
       m.nbsp();
       m.closeTd();
 
+      // Mode
       m.openTd();
       m.setStyleName(S_ICON_HEADER);
       m.nbsp();
       m.closeTd();
 
+      // "File path"
       m.openTd();
       m.setStyleName(S_DATA_HEADER);
       m.append(Util.C.patchTableColumnName());
       m.closeTd();
 
+      // "Comments"
       m.openTd();
       m.setStyleName(S_DATA_HEADER);
       m.append(Util.C.patchTableColumnComments());
       m.closeTd();
 
+      // "Diff"
       m.openTd();
       m.setStyleName(S_DATA_HEADER);
       m.setAttribute("colspan", 3);
       m.append(Util.C.patchTableColumnDiff());
+      m.closeTd();
+
+      // "Reviewed"
+      m.openTd();
+      m.setStyleName(S_ICON_HEADER);
+      m.append(Util.C.reviewed());
       m.closeTd();
 
       m.closeTr();
@@ -350,6 +362,15 @@ public class PatchTable extends Composite {
       openlink(m, 1);
       m.closeTd();
 
+      m.openTd();
+      m.setStyleName(S_DATA_CELL);
+      if (p.getReviewed() == 1) {
+        m.append(SafeHtml.asis(Gerrit.ICONS.greenCheck().getHTML()));
+      } else {
+        m.nbsp();
+      }
+      m.closeTd();
+      
       m.closeTr();
     }
 

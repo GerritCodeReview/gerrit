@@ -33,6 +33,7 @@ import com.google.gerrit.client.reviewdb.PatchSetInfo;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.Account.Id;
+import com.google.gerrit.client.reviewdb.Patch.Key;
 import com.google.gerrit.client.rpc.BaseServiceImplementation;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.NoSuchAccountException;
@@ -54,9 +55,12 @@ import com.google.gwtorm.client.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -184,6 +188,52 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
       }
     });
   }
+
+  /**
+   * Join a collection of strings separated by @code{delimiter}.
+   */
+  private static String join(Collection<String> s, String delimiter) {
+    StringBuilder builder = new StringBuilder();
+    Iterator<String> iter = s.iterator();
+    while (iter.hasNext()) {
+       builder.append(iter.next());
+        if (iter.hasNext()) {
+            builder.append(delimiter);
+        }
+    }
+    return builder.toString();
+  }
+
+  /**
+   * Update the reviewed status for the file by user @code{account}. If @code{newValue} is 1,
+   * the file has been reviewed, otherwise it's being marked unreviewed.
+   */
+  public void updatePatchReviewed(final Key patchKey, final int newValue, final String account,
+      AsyncCallback<VoidResult> callback) {
+    run(callback, new Action<VoidResult>() {
+      public VoidResult run(ReviewDb db) throws OrmException {
+        Patch p = db.patches().get(patchKey);
+        String reviewed = p.getReviewedBy();
+
+        HashSet<String> newReviewedBy = new HashSet<String>();
+        if (reviewed != null) {
+          for (String currentReviewer : reviewed.split(" ")) {
+            if (currentReviewer.length() > 0) newReviewedBy.add(currentReviewer);
+          }
+        }
+        if (newValue == 1) {
+          newReviewedBy.add(account);
+        } else {
+          newReviewedBy.remove(account);
+        }
+        
+        p.setReviewedBy(join(newReviewedBy, " "));
+        db.patches().update(Collections.singleton(p));
+        return VoidResult.INSTANCE;
+      }
+    });
+  }
+
 
   private static class PublishResult {
     Change change;
@@ -453,4 +503,6 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
 
     return Boolean.FALSE;
   }
+
+  
 }

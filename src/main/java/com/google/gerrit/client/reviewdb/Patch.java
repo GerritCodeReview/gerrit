@@ -15,6 +15,7 @@
 package com.google.gerrit.client.reviewdb;
 
 import com.google.gwtorm.client.Column;
+import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.StringKey;
 
 /** A single modified file in a {@link PatchSet}. */
@@ -195,6 +196,13 @@ public final class Patch {
   protected int nbrDrafts;
 
   /**
+   * The list of people who have marked this file as reviewed. This is a space-separated
+   * list of login names
+   */
+  @Column
+  protected String reviewedBy;
+
+  /**
    * Original if {@link #changeType} is {@link ChangeType#COPIED} or
    * {@link ChangeType#RENAMED}.
    */
@@ -258,8 +266,31 @@ public final class Patch {
     sourceFileName = n;
   }
 
+  public String getReviewedBy() {
+    return reviewedBy;
+  }
+
+  public void setReviewedBy(String reviewedBy) {
+    this.reviewedBy = reviewedBy;
+  }
+
   @Override
   public String toString() {
     return "[Patch " + getKey().toString() + "]";
   }
+
+  public boolean hasBeenReviewedBy(String name) {
+    if (reviewedBy != null) {
+      for (String account : reviewedBy.split(" ")) {
+        if (name.equals(account)) return true;
+      }
+    }
+    return false;
+  }
+  
+//  public static boolean hasBeenReviewedBy(ReviewDb db, String name, Patch.Key id)
+//      throws OrmException {
+//    String reviewedBy = db.patches().get(id).getReviewedBy();
+//    return hasBeenReviewedBy(db, name, getKey());
+//  }
 }

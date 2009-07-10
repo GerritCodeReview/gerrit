@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAa3////s\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-10T21:22:30Z",
+      "side": 1,
+      "message": "FWIW, if this is false, the prior 3 lines were pointless.  Might be worth putting them into an if block.\n\nAlso, this isn\u0027t entirely true, the header also has to be empty.  See the last two conditions of the boolean expression on line 391 (above):\n\n  !(script.getEdits().isEmpty() \u0026\u0026 script.getPatchHeader().isEmpty())\n\nOtherwise we\u0027d show \"No Differences\" when there is a mode change or a pure rename/copy.",
+      "revId": "4ff3ce6b72bfe083b75c702583b22ff3a1071d0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAa3////o\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/patches/SideBySideTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-10T21:22:30Z",
+      "side": 1,
+      "message": "Pointless edit, drop this from your CL.",
+      "revId": "4ff3ce6b72bfe083b75c702583b22ff3a1071d0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAa3////k\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/patches/SideBySideTable.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-10T21:22:30Z",
+      "side": 1,
+      "message": "Pointless edit, drop this from your CL.",
+      "revId": "4ff3ce6b72bfe083b75c702583b22ff3a1071d0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAa3////g\u003d",
+        "filename": "src/main/java/com/google/gerrit/public/gerrit.css",
+        "patchSetId": 4
+      },
+      "lineNbr": 731,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-10T21:22:30Z",
+      "side": 1,
+      "message": "Why are we boosting the font size here?  Font size increase is unrelated to not showing the exception dialog all of the time IMHO.",
+      "revId": "4ff3ce6b72bfe083b75c702583b22ff3a1071d0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAa3///8g\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/reviewdb/ReviewDb.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-13T23:26:55Z",
+      "side": 1,
+      "message": "Drop this file from your CL.",
+      "revId": "5e9f3d9c0781108d7c9f2af58055efbbec0be538",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAa3///8k\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/CatServlet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-13T23:26:55Z",
+      "side": 1,
+      "message": "I still say this is wrong; if we are going to serve content for the browser to interpret (such as in an \u003cimg\u003e tag) we really should try harder to produce a correct content type header for the response.",
+      "revId": "5e9f3d9c0781108d7c9f2af58055efbbec0be538",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAa3///8c\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/CatServlet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-13T23:26:55Z",
+      "side": 1,
+      "message": "Prior email thread:\n\n  sp\u003e Why endsWith and not equals?\n  cb\u003e Because we\u0027re mapping MIME types to file extensions...\n\nUh, that\u0027s not the right way to map MIME type to file extensions.  Instead you should be parsing say /etc/mime.types or taking the mime.types file that is shipped with the Apache HTTPd server and embedding it as a static resource in the Gerrit JAR.  Load that on server startup, creating a mapping of file extension to MIME type.  Then here name isn\u0027t relevant because we can pass in the contentType, which is guessed from the guessContentType method above by doing the lookup in the MIME type table.",
+      "revId": "5e9f3d9c0781108d7c9f2af58055efbbec0be538",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAa3///88\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/reviewdb/Patch.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-13T21:54:20Z",
+      "side": 1,
+      "message": "sshUserName isn\u0027t unique.  Please use Account.Id and use a new entity in a new table that matches Account.Id to Patch.Key.  For an example, see AccountGroupMember and its associated AccountGroupMemberAccess (since its an all-key entity like that is).",
+      "revId": "52dcb51e5eadd9387131da771412fb9dcf574c63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

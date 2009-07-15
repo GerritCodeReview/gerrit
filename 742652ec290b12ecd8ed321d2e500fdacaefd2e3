@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAbH///6c\u003d",
+        "filename": "src/main/webapp/WEB-INF/sql/upgrade015_016.sql",
+        "patchSetId": 9
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-15T20:40:55Z",
+      "side": 1,
+      "message": "Already done by upgrade014_015.sql.\n\nBut I\u0027m wondering if we shouldn\u0027t merge this into the 14_15 file and just call this one upgrade 15.  Then its only 1 schema upgrade file (and revision) for the 2.0.16 to 2.0.17 upgrade path.",
+      "revId": "742652ec290b12ecd8ed321d2e500fdacaefd2e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -53,6 +53,23 @@
     },
     {
       "key": {
+        "uuid": "AAAAbH///7Q\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/reviewdb/AccountPatchReview.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1002059
+      },
+      "writtenOn": "2009-07-15T18:49:34Z",
+      "side": 1,
+      "message": "Done, but I was puzzled by the generic parameter, and still am. Account doesn\u0027t seem to make much sense as a parent, and the Javadoc recommends using Key in such a case. Should I just do that?",
+      "revId": "ba797bde47bea91fb0bdcc2ea30ed4bedb0df5ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAbH///7s\u003d",
         "filename": "src/main/java/com/google/gerrit/client/reviewdb/AccountPatchReview.java",
         "patchSetId": 7
@@ -64,6 +81,23 @@
       "writtenOn": "2009-07-15T18:39:25Z",
       "side": 1,
       "message": "If you override accountId then the parentKey is automatically a member, and this needs to only include the patchKey.",
+      "revId": "ba797bde47bea91fb0bdcc2ea30ed4bedb0df5ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAbH///7M\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/reviewdb/AccountPatchReview.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1002059
+      },
+      "writtenOn": "2009-07-15T18:49:34Z",
+      "side": 1,
+      "message": "Fixed.",
       "revId": "ba797bde47bea91fb0bdcc2ea30ed4bedb0df5ba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +121,23 @@
     },
     {
       "key": {
+        "uuid": "AAAAbH///7U\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/reviewdb/AccountPatchReviewAccess.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1002059
+      },
+      "writtenOn": "2009-07-15T18:49:34Z",
+      "side": 1,
+      "message": "Of course. Fixed.",
+      "revId": "ba797bde47bea91fb0bdcc2ea30ed4bedb0df5ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAbH///7g\u003d",
         "filename": "src/main/java/com/google/gerrit/server/patch/PatchDetailServiceImpl.java",
         "patchSetId": 7
@@ -98,6 +149,23 @@
       "writtenOn": "2009-07-15T18:39:25Z",
       "side": 1,
       "message": "Should be:\n\n  } else if (apr !\u003d NULL \u0026\u0026 !reviewed) {\n\nI don\u0027t know what gwtorm does if you ask it to delete null from a table; it makes no sense, its likely to NPE because I probably don\u0027t check for null coming out of the collection.",
+      "revId": "ba797bde47bea91fb0bdcc2ea30ed4bedb0df5ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAbH///7I\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/patch/PatchDetailServiceImpl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1002059
+      },
+      "writtenOn": "2009-07-15T18:49:34Z",
+      "side": 1,
+      "message": "Regardless of gwtorm\u0027s behavior, testing against null is definitely the right thing to do here, my bad. Fixed.",
       "revId": "ba797bde47bea91fb0bdcc2ea30ed4bedb0df5ba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

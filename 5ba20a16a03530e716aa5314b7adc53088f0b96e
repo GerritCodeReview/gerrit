@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "AAAAbH///8U\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/data/PatchSetDetail.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1002059
+      },
+      "writtenOn": "2009-07-15T18:09:33Z",
+      "side": 1,
+      "message": "Fixed.",
+      "revId": "5ba20a16a03530e716aa5314b7adc53088f0b96e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAbH///9Q\u003d",
         "filename": "src/main/java/com/google/gerrit/client/patches/PatchDetailService.java",
         "patchSetId": 6
@@ -30,6 +47,23 @@
       "writtenOn": "2009-07-15T17:07:56Z",
       "side": 1,
       "message": "is boolean not supported by gwtjsonrpc?  i thought it was.  also, why are you passing account given @SignInRequired?  the account should come from the session state, not as a parameter.",
+      "revId": "5ba20a16a03530e716aa5314b7adc53088f0b96e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAbH///8Q\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/patches/PatchDetailService.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1002059
+      },
+      "writtenOn": "2009-07-15T18:09:33Z",
+      "side": 1,
+      "message": "Both fixed.",
       "revId": "5ba20a16a03530e716aa5314b7adc53088f0b96e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +87,23 @@
     },
     {
       "key": {
+        "uuid": "AAAAbH///8M\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1002059
+      },
+      "writtenOn": "2009-07-15T18:09:33Z",
+      "side": 1,
+      "message": "Agree about reversing the checkbox, less confusing with a positive wording. Not sure that stacking is better, though, and it won\u0027t scale very well if we need to add more checkboxes...",
+      "revId": "5ba20a16a03530e716aa5314b7adc53088f0b96e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAbH///9I\u003d",
         "filename": "src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
         "patchSetId": 6
@@ -70,6 +121,23 @@
     },
     {
       "key": {
+        "uuid": "AAAAbH///8I\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1002059
+      },
+      "writtenOn": "2009-07-15T18:09:33Z",
+      "side": 1,
+      "message": "I didn\u0027t see any error with null, but fixed anyway.",
+      "revId": "5ba20a16a03530e716aa5314b7adc53088f0b96e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAbH///9A\u003d",
         "filename": "src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
         "patchSetId": 6
@@ -81,6 +149,23 @@
       "writtenOn": "2009-07-15T17:07:56Z",
       "side": 1,
       "message": "No other delta in this region, no reason to comment it right now in this CL.",
+      "revId": "5ba20a16a03530e716aa5314b7adc53088f0b96e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAbH///8E\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/patches/PatchScreen.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1002059
+      },
+      "writtenOn": "2009-07-15T18:09:33Z",
+      "side": 1,
+      "message": "Even for comments? That\u0027s really too bad, it\u0027s the only way to realistically improve the commenting of the application as I go...",
       "revId": "5ba20a16a03530e716aa5314b7adc53088f0b96e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -200,6 +285,23 @@
       "writtenOn": "2009-07-15T17:07:56Z",
       "side": 1,
       "message": "I would mark this protected; we mark everything protected in our entity beans unless its some sort of private transient just for this process thing.\n\nAlso, I would prefer calling this \"reviewedByCurrentUser\".",
+      "revId": "5ba20a16a03530e716aa5314b7adc53088f0b96e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAbH///8A\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/reviewdb/Patch.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1002059
+      },
+      "writtenOn": "2009-07-15T18:09:33Z",
+      "side": 1,
+      "message": "Why mark this field protected if this is not necessary? I\u0027d rather keep visibility as low as possible.",
       "revId": "5ba20a16a03530e716aa5314b7adc53088f0b96e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

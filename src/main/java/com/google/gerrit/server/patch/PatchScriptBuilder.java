@@ -17,10 +17,14 @@ package com.google.gerrit.server.patch;
 import com.google.gerrit.client.data.PatchScript;
 import com.google.gerrit.client.data.PatchScriptSettings;
 import com.google.gerrit.client.data.SparseFileContent;
+import com.google.gerrit.client.data.PatchScript.DisplayMethod;
 import com.google.gerrit.client.patches.CommentDetail;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.rpc.CorruptEntityException;
+import com.google.gerrit.server.FileTypeRegistry;
+
+import eu.medsea.mimeutil.MimeType;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,11 +70,13 @@ class PatchScriptBuilder {
   private Text srcA;
   private Text srcB;
   private List<Edit> edits;
+  private final FileTypeRegistry registry;
 
   PatchScriptBuilder() {
     header = new ArrayList<String>();
     dstA = new SparseFileContent();
     dstB = new SparseFileContent();
+    registry = FileTypeRegistry.getInstance();
   }
 
   void setRepository(final Repository r) {
@@ -94,21 +100,57 @@ class PatchScriptBuilder {
       final CommentDetail comments, final DiffCacheContent contentAct)
       throws CorruptEntityException {
     final FileHeader fh = contentAct.getFileHeader();
+    DisplayMethod displayA = DisplayMethod.DIFF;
+    DisplayMethod displayB = DisplayMethod.DIFF;
+
     if (fh instanceof CombinedFileHeader) {
       // For a diff --cc format we don't support converting it into
       // a patch script. Instead treat everything as a file header.
       //
       edits = Collections.emptyList();
       packHeader(fh);
-      return new PatchScript(header, settings, dstA, dstB, edits);
+      return new PatchScript(header, settings, dstA, dstB, edits, displayA,
+          displayB);
     }
 
     srcA = open(contentAct.getOldId());
+
+    MimeType typeA = registry.getMimeType(fh.getOldName(), srcA.getContent());
+    MimeType typeB;
+
     if (eq(contentAct.getOldId(), contentAct.getNewId())) {
       srcB = srcA;
+      typeB = typeA;
     } else {
       srcB = open(contentAct.getNewId());
+      typeB = registry.getMimeType(fh.getNewName(), srcB.getContent());
     }
+
+    switch (fh.getChangeType()) {
+      case DELETE:
+        if (isImage(typeA)) {
+          displayA = DisplayMethod.IMG;
+        }
+        displayB = DisplayMethod.NONE;
+        break;
+      case ADD:
+        displayA = DisplayMethod.NONE;
+        if (isImage(typeB)) {
+          displayB = DisplayMethod.IMG;
+        }
+        break;
+      case COPY:
+      case MODIFY:
+      case RENAME:
+        if (isImage(typeA)) {
+          displayA = DisplayMethod.IMG;
+        }
+        if (isImage(typeB)) {
+          displayB = DisplayMethod.IMG;
+        }
+        break;
+    }
+
     edits = new ArrayList<Edit>(contentAct.getEdits());
     ensureCommentsVisible(comments);
 
@@ -148,7 +190,12 @@ class PatchScriptBuilder {
       ensureCommentsVisible(comments);
     }
 
-    return new PatchScript(header, settings, dstA, dstB, edits);
+    return new PatchScript(header, settings, dstA, dstB, edits, displayA,
+        displayB);
+  }
+
+  private boolean isImage(final MimeType type) {
+    return "image".equals(type.getMediaType()) && registry.isSafeInline(type);
   }
 
   private void ensureCommentsVisible(final CommentDetail comments) {

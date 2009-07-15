@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAbH///+c\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/FileTypeRegistry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1002059
+      },
+      "writtenOn": "2009-07-15T16:14:16Z",
+      "side": 1,
+      "message": "Javadoc",
+      "revId": "d98e3b30e75d120bf0898a96ebc223f23c71aa74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAbH///+Y\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/FileTypeRegistry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1002059
+      },
+      "writtenOn": "2009-07-15T16:14:16Z",
+      "side": 1,
+      "message": "Does mime-util supply constants for these strings, by any chance?",
+      "revId": "d98e3b30e75d120bf0898a96ebc223f23c71aa74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAbH///+U\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/FileTypeRegistry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1002059
+      },
+      "writtenOn": "2009-07-15T16:14:16Z",
+      "side": 1,
+      "message": "Is it worth creating a method just for this?",
+      "revId": "d98e3b30e75d120bf0898a96ebc223f23c71aa74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAbH///+Q\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/FileTypeRegistry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1002059
+      },
+      "writtenOn": "2009-07-15T16:14:16Z",
+      "side": 1,
+      "message": "Javadoc.\n\nMaybe something like \"Attempt to guess the best MIME type for this content or its path, return UNKNOWN_MIME_TYPE if no determination can be made.\"",
+      "revId": "d98e3b30e75d120bf0898a96ebc223f23c71aa74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAbH///+M\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/FileTypeRegistry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1002059
+      },
+      "writtenOn": "2009-07-15T16:14:16Z",
+      "side": 1,
+      "message": "Is this a valid MIME type to return?  (we\u0027re setting it in the headers, just making sure).",
+      "revId": "d98e3b30e75d120bf0898a96ebc223f23c71aa74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

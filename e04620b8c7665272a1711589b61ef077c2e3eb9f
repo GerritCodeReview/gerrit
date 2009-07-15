@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAbH///6k\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/reviewdb/ReviewDb.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-15T20:32:09Z",
+      "side": 1,
+      "message": "You somehow lost the schema change to create the table.",
+      "revId": "e04620b8c7665272a1711589b61ef077c2e3eb9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

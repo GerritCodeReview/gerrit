@@ -28,6 +28,8 @@ import com.google.gerrit.git.InvalidRepositoryException;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
 
+import eu.medsea.mimeutil.MimeType;
+
 import org.spearce.jgit.lib.Constants;
 import org.spearce.jgit.lib.ObjectId;
 import org.spearce.jgit.lib.Repository;
@@ -61,10 +63,10 @@ import javax.servlet.http.HttpServletResponse;
  */
 @SuppressWarnings("serial")
 public class CatServlet extends HttpServlet {
-  private static final String APPLICATION_OCTET_STREAM =
-      "application/octet-stream";
+  private static final MimeType ZIP = new MimeType("application/zip");
   private GerritServer server;
   private SecureRandom rng;
+  private FileTypeRegistry registry;
 
   @Override
   public void init(final ServletConfig config) throws ServletException {
@@ -77,6 +79,7 @@ public class CatServlet extends HttpServlet {
       throw new ServletException("Cannot load GerritServer", e);
     }
     rng = new SecureRandom();
+    registry = FileTypeRegistry.getInstance();
   }
 
   @Override
@@ -219,11 +222,11 @@ public class CatServlet extends HttpServlet {
     }
 
     final long when = fromCommit.getCommitTime() * 1000L;
-    String contentType = guessContentType(project, path, blobData);
+    MimeType contentType = registry.getMimeType(path, blobData);
     final String fn;
     final byte[] outData;
 
-    if (isSafeInline(contentType)) {
+    if (registry.isSafeInline(contentType)) {
       fn = safeFileName(path, suffix);
       outData = blobData;
 
@@ -248,11 +251,11 @@ public class CatServlet extends HttpServlet {
       zo.close();
 
       outData = zip.toByteArray();
-      contentType = "application/zip";
+      contentType = ZIP;
       fn = safeFileName(path, suffix) + ".zip";
     }
 
-    rsp.setContentType(contentType);
+    rsp.setContentType(contentType.toString());
     rsp.setContentLength(outData.length);
     rsp.setDateHeader("Last-Modified", when);
     rsp.setHeader("Content-Disposition", "attachment; filename=\"" + fn + "\"");
@@ -260,27 +263,6 @@ public class CatServlet extends HttpServlet {
     rsp.setHeader("Pragma", "no-cache");
     rsp.setHeader("Cache-Control", "no-cache, must-revalidate");
     rsp.getOutputStream().write(outData);
-  }
-
-  private String guessContentType(final Project project, final String path,
-      final byte[] content) {
-    // When in doubt, call it a generic binary stream.
-    //
-    return APPLICATION_OCTET_STREAM;
-  }
-
-  private boolean isSafeInline(final String contentType) {
-    if (APPLICATION_OCTET_STREAM.equals(contentType)) {
-      // Most browsers perform content type sniffing when they get told
-      // a generic content type. This is bad, so assume we cannot send
-      // the file inline.
-      //
-      return false;
-    }
-
-    // Assume we cannot send the content inline.
-    //
-    return false;
   }
 
   private static String safeFileName(String fileName, final String suffix) {

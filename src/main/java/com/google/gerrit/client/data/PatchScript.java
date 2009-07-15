@@ -24,22 +24,39 @@ import java.util.Iterator;
 import java.util.List;
 
 public class PatchScript {
+  public static enum DisplayMethod {
+    NONE, DIFF, IMG
+  }
+
   protected List<String> header;
   protected PatchScriptSettings settings;
   protected SparseFileContent a;
   protected SparseFileContent b;
   protected List<Edit> edits;
+  protected DisplayMethod displayMethodA;
+  protected DisplayMethod displayMethodB;
 
   public PatchScript(final List<String> h, final PatchScriptSettings s,
-      final SparseFileContent ca, final SparseFileContent cb, final List<Edit> e) {
+      final SparseFileContent ca, final SparseFileContent cb,
+      final List<Edit> e, final DisplayMethod ma, final DisplayMethod mb) {
     header = h;
     settings = s;
     a = ca;
     b = cb;
     edits = e;
+    displayMethodA = ma;
+    displayMethodB = mb;
   }
 
   protected PatchScript() {
+  }
+
+  public DisplayMethod getDisplayMethodA() {
+    return displayMethodA;
+  }
+
+  public DisplayMethod getDisplayMethodB() {
+    return displayMethodB;
   }
 
   public List<String> getPatchHeader() {

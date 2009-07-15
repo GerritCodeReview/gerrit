@@ -223,11 +223,9 @@ public class CatServlet extends HttpServlet {
 
     final long when = fromCommit.getCommitTime() * 1000L;
     MimeType contentType = registry.getMimeType(path, blobData);
-    final String fn;
     final byte[] outData;
 
     if (registry.isSafeInline(contentType)) {
-      fn = safeFileName(path, suffix);
       outData = blobData;
 
     } else {
@@ -252,13 +250,14 @@ public class CatServlet extends HttpServlet {
 
       outData = zip.toByteArray();
       contentType = ZIP;
-      fn = safeFileName(path, suffix) + ".zip";
+
+      rsp.setHeader("Content-Disposition", "attachment; filename=\""
+          + safeFileName(path, suffix) + ".zip" + "\"");
     }
 
     rsp.setContentType(contentType.toString());
     rsp.setContentLength(outData.length);
     rsp.setDateHeader("Last-Modified", when);
-    rsp.setHeader("Content-Disposition", "attachment; filename=\"" + fn + "\"");
     rsp.setDateHeader("Expires", 0L);
     rsp.setHeader("Pragma", "no-cache");
     rsp.setHeader("Cache-Control", "no-cache, must-revalidate");

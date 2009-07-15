@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAbH///6Q\u003d",
+        "filename": "src/main/webapp/WEB-INF/sql/upgrade014_015.sql",
+        "patchSetId": 10
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-15T20:48:44Z",
+      "side": 1,
+      "message": "Also need a\n\n  ALTER TABLE account_patch_reviews OWNER TO gerrit2;\n\notherwise admins often forget to do this and gerrit can\u0027t actually read (or update) the new table.  Unfortunately this is PostgreSQL only, so now you need an _postgresql.sql and an _mysql.sql variant of the script file.",
+      "revId": "36c8d223e97337f118a6e7b84878055d8c015530",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

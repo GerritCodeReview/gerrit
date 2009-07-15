@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAbH///+E\u003d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1002059
+      },
+      "writtenOn": "2009-07-15T16:21:36Z",
+      "side": 1,
+      "message": "Maybe add an example to clarify since the mix of / and . is a bit unorthodox to me:\n\nmimetype.image/png.safe \u003d true",
+      "revId": "012442e07a9ccc2cd2bdf8a29533d1ff8b135b47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAbH///+A\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/FileTypeRegistry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1002059
+      },
+      "writtenOn": "2009-07-15T16:21:36Z",
+      "side": 1,
+      "message": "s/cfg/config",
+      "revId": "012442e07a9ccc2cd2bdf8a29533d1ff8b135b47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAbH///94\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/FileTypeRegistry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1002059
+      },
+      "writtenOn": "2009-07-15T16:21:36Z",
+      "side": 1,
+      "message": "false /* default */);",
+      "revId": "012442e07a9ccc2cd2bdf8a29533d1ff8b135b47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAbH///98\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/FileTypeRegistry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1002059
+      },
+      "writtenOn": "2009-07-15T16:21:36Z",
+      "side": 1,
+      "message": "s/cfg/config\nAlso rename d to something more descriptive, e.g. \"def\" or \"defaultValue\", since we can\u0027t use \"default\"",
+      "revId": "012442e07a9ccc2cd2bdf8a29533d1ff8b135b47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

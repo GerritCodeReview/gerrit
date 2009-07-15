@@ -27,6 +27,10 @@ class Text extends RawText {
     super(r);
   }
 
+  byte[] getContent() {
+    return content;
+  }
+
   String getLine(final int i) {
     final int s = lines.get(i + 1);
     int e = lines.get(i + 2);

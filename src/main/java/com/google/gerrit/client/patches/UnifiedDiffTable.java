@@ -20,10 +20,14 @@ import static com.google.gerrit.client.patches.PatchLine.Type.INSERT;
 
 import com.google.gerrit.client.data.PatchScript;
 import com.google.gerrit.client.data.SparseFileContent;
+import com.google.gerrit.client.data.PatchScript.DisplayMethod;
 import com.google.gerrit.client.data.PatchScript.Hunk;
+import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
+import com.google.gwtorm.client.KeyUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -70,13 +74,58 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
     }
   }
 
+  private void appendImgTag(SafeHtmlBuilder nc, String url) {
+      nc.openElement("img");
+      nc.setAttribute("src", url);
+      nc.closeElement("img");
+  }
+
   @Override
   protected void render(final PatchScript script) {
     final SparseFileContent a = script.getA();
     final SparseFileContent b = script.getB();
     final SafeHtmlBuilder nc = new SafeHtmlBuilder();
+
+    // Display the patch header
     for (final String line : script.getPatchHeader()) {
       appendFileHeader(nc, line);
+    }
+
+    if (script.getDisplayMethodA() == DisplayMethod.IMG
+        || script.getDisplayMethodB() == DisplayMethod.IMG) {
+      final String rawBase = GWT.getHostPageBaseURL() + "cat/";
+
+      nc.openTr();
+      nc.setAttribute("valign", "center");
+      nc.setAttribute("align", "center");
+
+      nc.openTd();
+      nc.nbsp();
+      nc.closeTd();
+
+      nc.openTd();
+      nc.nbsp();
+      nc.closeTd();
+
+      nc.openTd();
+      nc.nbsp();
+      nc.closeTd();
+
+      nc.openTd();
+      if (script.getDisplayMethodA() == DisplayMethod.IMG) {
+        if (idSideA == null) {
+          Patch.Key k = new Patch.Key(idSideA, patchKey.get());
+          appendImgTag(nc, rawBase + KeyUtil.encode(k.toString()) + "^0");
+        } else {
+          appendImgTag(nc, rawBase + KeyUtil.encode(patchKey.toString()) + "^1");
+        }
+      }
+      if (script.getDisplayMethodB() == DisplayMethod.IMG) {
+        appendImgTag(nc, rawBase + KeyUtil.encode(patchKey.toString()) + "^0");
+      }
+      nc.closeTd();
+
+      nc.closeTr();
     }
 
     final ArrayList<PatchLine> lines = new ArrayList<PatchLine>();

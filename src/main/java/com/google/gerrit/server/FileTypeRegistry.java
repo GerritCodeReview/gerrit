@@ -14,12 +14,16 @@
 
 package com.google.gerrit.server;
 
+import com.google.gwtjsonrpc.server.XsrfException;
+import com.google.gwtorm.client.OrmException;
+
 import eu.medsea.mimeutil.MimeException;
 import eu.medsea.mimeutil.MimeType;
 import eu.medsea.mimeutil.MimeUtil2;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.spearce.jgit.lib.RepositoryConfig;
 
 import java.security.AccessController;
 import java.security.PrivilegedAction;
@@ -32,6 +36,8 @@ import java.util.List;
 import java.util.Set;
 
 public class FileTypeRegistry {
+  private static final String KEY_SAFE = "safe";
+  private static final String SECTION_MIMETYPE = "mimetype";
   private static final Logger log =
       LoggerFactory.getLogger(FileTypeRegistry.class);
   private static final FileTypeRegistry INSTANCE = new FileTypeRegistry();
@@ -112,14 +118,14 @@ public class FileTypeRegistry {
   /**
    * Is this content type safe to transmit to a browser directly?
    * 
-   * @param contentType the MIME type of the file content.
+   * @param type the MIME type of the file content.
    * @return true if the Gerrit administrator wants to permit this content to be
    *         served as-is; false if the administrator does not trust this
    *         content type and wants it to be protected (typically by wrapping
    *         the data in a ZIP archive).
    */
-  public boolean isSafeInline(final MimeType contentType) {
-    if (MimeUtil2.UNKNOWN_MIME_TYPE.equals(contentType)) {
+  public boolean isSafeInline(final MimeType type) {
+    if (MimeUtil2.UNKNOWN_MIME_TYPE.equals(type)) {
       // Most browsers perform content type sniffing when they get told
       // a generic content type. This is bad, so assume we cannot send
       // the file inline.
@@ -127,9 +133,32 @@ public class FileTypeRegistry {
       return false;
     }
 
+    final RepositoryConfig cfg = getGerritConfig();
+    if (cfg != null) {
+      final boolean any = isSafe(cfg, "*/*", false);
+      final boolean genericMedia = isSafe(cfg, type.getMediaType() + "/*", any);
+      return isSafe(cfg, type.toString(), genericMedia);
+    }
+
     // Assume we cannot send the content inline.
     //
     return false;
+  }
+
+  private static boolean isSafe(RepositoryConfig cfg, String type, boolean def) {
+    return cfg.getBoolean(SECTION_MIMETYPE, type, KEY_SAFE, def);
+  }
+
+  private static RepositoryConfig getGerritConfig() {
+    try {
+      return GerritServer.getInstance().getGerritConfig();
+    } catch (OrmException e) {
+      log.warn("Cannot obtain GerritServer", e);
+      return null;
+    } catch (XsrfException e) {
+      log.warn("Cannot obtain GerritServer", e);
+      return null;
+    }
   }
 
   private static boolean isUnknownType(Collection<MimeType> mimeTypes) {

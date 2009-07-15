@@ -358,8 +358,33 @@ gerrit.basePath and the repositories it contains.
 Gerrit appends any necessary query arguments onto the end of this URL.
 For example, "?p=$project.git;h=$commit".
 
+Section mimetype
+~~~~~~~~~~~~~~~~
+
+mimetype.<name>.safe::
++
+If set to true, files with the MIME type `<name>` will be sent as
+direct downloads to the user's browser, rather than being wrapped up
+inside of zipped archives.  The type name may be a complete type
+name, e.g. `image/gif`, a generic media type, e.g. `image/\*`,
+or the wildcard `\*/*` to match all types.
++
+By default, false for all MIME types.
+
+Common examples:
+====
+  [mimetype "image/*"]
+    safe = true
+  [mimetype "application/pdf"]
+    safe = true
+  [mimetype "application/msword"]
+    safe = true
+  [mimetype "application/vnd.ms-excel"]
+    safe = true
+====
+
 Section repo
-~~~~~~~~~~~
+~~~~~~~~~~~~
 
 repo.showDownloadCommand::
 +

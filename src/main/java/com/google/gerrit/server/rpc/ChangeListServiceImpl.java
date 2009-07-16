@@ -45,10 +45,13 @@ import com.google.gwtorm.client.impl.ListResultSet;
 import com.google.inject.Inject;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 class ChangeListServiceImpl extends BaseServiceImplementation implements
@@ -202,15 +205,39 @@ class ChangeListServiceImpl extends BaseServiceImplementation implements
       for (PatchSet p : patches) {
         want.add(p.getId().getParentKey());
       }
-    } else if (query.contains("owner:")) {
-      String[] parsedQuery = query.split(":");
-      if (parsedQuery.length > 1) {
-        filterBySortKey(result, changesCreatedBy(db, parsedQuery[1]), cmp, key);
+    } else {
+      Map<String, String> parsedQuery = parseComplexQuery(query);
+
+      // Determine the owner and reviewer
+      Set<Account.Id> ownerIds = getAccountIds(db, parsedQuery.get("owner"));
+      Set<Account.Id> reviewerIds = getAccountIds(db, parsedQuery.get("reviewer"));
+      // Determine the status
+      String status = parsedQuery.get("status");
+
+      Change.Status queryStatus = null;
+      if (status != null) {
+        if ("open".equalsIgnoreCase(status)) {
+          queryStatus =  Change.Status.NEW;
+        } else if ("merged".equalsIgnoreCase(status)) {
+          queryStatus =  Change.Status.MERGED;
+        } else if ("submitted".equalsIgnoreCase(status)) {
+          queryStatus =  Change.Status.SUBMITTED;
+        } else if ("abandoned".equalsIgnoreCase(status)) {
+          queryStatus = Change.Status.ABANDONED;
+        }
       }
-    } else if (query.contains("reviewer:")) {
-      String[] parsedQuery = query.split(":");
-      if (parsedQuery.length > 1) {
-        want.addAll(changesReviewedBy(db, parsedQuery[1]));
+
+      // Calculate the correct list of changes based on the combination of owner/reviewer and status
+      if (ownerIds.size() > 0 && queryStatus != null) {
+        want.addAll(changesCreatedBy(db, ownerIds, queryStatus));
+      } else if (reviewerIds.size() > 0 && status != null) {
+        want.addAll(changesReviewedBy(db, reviewerIds, queryStatus));
+      } else if (ownerIds.size() > 0) {
+        want.addAll(changesCreatedBy(db, ownerIds, queryStatus));
+      } else if (reviewerIds.size() > 0) {
+        want.addAll(changesReviewedBy(db, reviewerIds, queryStatus));
+      } else if (queryStatus != null) {
+        want.addAll(changesToKeys(db.changes().byStatus(queryStatus.getCode()).toList()));
       }
     }
 
@@ -230,6 +257,45 @@ class ChangeListServiceImpl extends BaseServiceImplementation implements
       result = r;
     }
     return new ListResultSet<Change>(result);
+  }
+
+  /**
+   * Parse a search query typed in by the user, such as "owner:x status:open" and return a map
+   * of keyword/value for each pair separated by a colon.
+   */
+  private Map<String, String> parseComplexQuery(String query) {
+    HashMap<String, String> result = new HashMap<String, String>();
+    String[] tokens = query.split(" ");
+    for (String token : tokens) {
+      String[] parsedQuery = token.split(":");
+      if (parsedQuery.length > 1) {
+        result.put(parsedQuery[0], parsedQuery[1]);
+      }
+    }
+
+    return result;
+  }
+
+  /**
+   * Turn a list of Accounts into a set of Account.Ids.
+   */
+  private static Set<Account.Id> accountsToKeys(List<Account> accounts) {
+    HashSet<Account.Id> result = new HashSet<Account.Id>();
+    for (Account c : accounts) {
+      result.add(c.getId());
+    }
+    return result;
+  }
+
+  /**
+   * Turn a list of Changes into a set of Change.Ids.
+   */
+  private Collection<Change.Id> changesToKeys(List<Change> changes) {
+    HashSet<Change.Id> result = new HashSet<Change.Id>();
+    for (Change c : changes) {
+      result.add(c.getId());
+    }
+    return result;
   }
 
   private static void filterBySortKey(final List<Change> dst,
@@ -426,18 +492,20 @@ class ChangeListServiceImpl extends BaseServiceImplementation implements
   }
 
   /**
-   * @return a set of all the account ID's matching the given user name in
-   *         either of the following columns: ssh name, email address, full name
+   * @return a set of all the account ID's matching the given user name in the ssh name column or
+   * an empty set if no matches were found or @code{userName} is null.
    */
-  private static Set<Account.Id> getAccountSources(final ReviewDb db,
-      final String userName) throws OrmException {
+  private static Set<Account.Id> getAccountIds(final ReviewDb db, final String userName)
+      throws OrmException {
+    if (userName == null) {
+      return new HashSet<Account.Id>();
+    }
     Set<Account.Id> result = new HashSet<Account.Id>();
     String a = userName;
     String b = userName + "\u9fa5";
     addAll(result, db.accounts().suggestBySshUserName(a, b, 10));
     addAll(result, db.accounts().suggestByFullName(a, b, 10));
-    for (AccountExternalId extId : db.accountExternalIds()
-        .suggestByEmailAddress(a, b, 10)) {
+    for (AccountExternalId extId : db.accountExternalIds().suggestByEmailAddress(a, b, 10)) {
       result.add(extId.getKey().getParentKey());
     }
     return result;
@@ -450,40 +518,66 @@ class ChangeListServiceImpl extends BaseServiceImplementation implements
   }
 
   /**
-   * @return a set of all the changes created by userName. This method tries to
-   *         find userName in 1) the ssh user names, 2) the full names and 3)
-   *         the email addresses. The returned changes are unique and sorted by
-   *         time stamp, newer first.
+   * @return a list of all the changes created by @code{acocuntIds}. The returned changes are
+   * unique and sorted by time stamp, newer first.
    */
-  private List<Change> changesCreatedBy(final ReviewDb db, final String userName)
+  private List<Change.Id> changesCreatedBy(final ReviewDb db, final Set<Account.Id> accountIds)
       throws OrmException {
-    final List<Change> resultChanges = new ArrayList<Change>();
-    for (Account.Id account : getAccountSources(db, userName)) {
+    final List<Change.Id> resultChanges = new ArrayList<Change.Id>();
+    for (Account.Id account : accountIds) {
       for (Change change : db.changes().byOwnerOpen(account)) {
-        resultChanges.add(change);
+        resultChanges.add(change.getId());
       }
       for (Change change : db.changes().byOwnerClosedAll(account)) {
-        resultChanges.add(change);
+        resultChanges.add(change.getId());
       }
     }
     return resultChanges;
   }
 
   /**
-   * @return a set of all the changes reviewed by userName. This method tries to
-   *         find userName in 1) the ssh user names, 2) the full names and the
-   *         email addresses. The returned changes are unique and sorted by time
-   *         stamp, newer first.
+   * @return a collection of change ids that were created by accountIds. If @code{status}
+   * is non-null, only results that have a status matching it will be returned, otherwise, all the
+   * changes matching the accounts are returned, regardless of their status.
    */
-  private Set<Change.Id> changesReviewedBy(final ReviewDb db,
-      final String userName) throws OrmException {
+  private Collection<Change.Id> changesCreatedBy(ReviewDb db, Set<Account.Id> accountIds,
+      Change.Status status) throws OrmException {
+    if (status != null) {
+      return changesToKeys(db.changes().byOwnerAndStatus(accountIds.iterator().next(),
+          status.getCode()).toList());
+    } else {
+      return changesCreatedBy(db, accountIds);
+    }
+  }
+
+  /**
+   * @return a collection of change ids that were reviewed by accountIds. If @code{status}
+   * is non-null, only results that have a status matching it will be returned, otherwise, all the
+   * changes matching the accounts are returned, regardless of their status.
+   */
+  private Set<Change.Id> changesReviewedBy(final ReviewDb db, final Set<Account.Id> accountIds,
+      Change.Status status) throws OrmException {
     final Set<Change.Id> resultChanges = new HashSet<Change.Id>();
-    for (Account.Id account : getAccountSources(db, userName)) {
+    for (Account.Id account : accountIds) {
       for (ChangeApproval a : db.changeApprovals().openByUser(account)) {
-        resultChanges.add(a.getChangeId());
+        if (status != null) {
+          Change c = db.changes().get(a.getKey().getParentKey());
+          if (c.getStatus() == status) {
+            resultChanges.add(a.getChangeId());
+          }
+        } else {
+          resultChanges.add(a.getChangeId());
+        }
       }
       for (ChangeApproval a : db.changeApprovals().closedByUserAll(account)) {
-        resultChanges.add(a.getChangeId());
+        if (status != null) {
+          Change c = db.changes().get(a.getKey().getParentKey());
+          if (c.getStatus() == status) {
+            resultChanges.add(a.getChangeId());
+          }
+        } else {
+          resultChanges.add(a.getChangeId());
+        }
       }
     }
     return resultChanges;

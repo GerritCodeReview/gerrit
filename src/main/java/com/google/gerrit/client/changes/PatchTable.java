@@ -156,6 +156,19 @@ public class PatchTable extends Composite {
     return fileName;
   }
 
+  /**
+   * Update the reviewed status for the given patch.
+   */
+  public void updateReviewedStatus(Patch.Key patchKey, boolean reviewed) {
+    for (Patch p : patchList) {
+      if (p.getKey().equals(patchKey)) {
+        p.setReviewedByCurrentUser(reviewed);
+        break;
+      }
+    }
+    display(patchKey.getParentKey(), patchList);
+  }
+
   private class MyTable extends NavigationTable<Patch> {
     private static final int C_PATH = 2;
     private static final int C_DRAFT = 3;

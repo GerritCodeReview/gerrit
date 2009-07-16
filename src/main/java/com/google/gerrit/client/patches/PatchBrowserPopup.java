@@ -37,7 +37,9 @@ class PatchBrowserPopup extends PluginSafeDialogBox implements
   private HandlerRegistration regWindowResize;
 
   PatchBrowserPopup(final Patch.Key pk, final PatchTable fl) {
-    super(true/* autohide */, false/* modal */);
+    // Setting autohide to false allows this popup to stay on screen if the user checks the
+    // "reviewed" box on PatchScreen. This popup can still be dismissed with `esc` or `f`.
+    super(false/* autohide */, false/* modal */);
 
     callerKey = pk;
     fileList = fl;

@@ -286,6 +286,8 @@ public abstract class PatchScreen extends Screen {
   }
 
   private void setReviewedByCurrentUser(boolean reviewed) {
+    fileList.updateReviewedStatus(patchKey, reviewed);
+
     PatchUtil.DETAIL_SVC.setReviewedByCurrentUser(patchKey, reviewed,
         new AsyncCallback<VoidResult>() {
 

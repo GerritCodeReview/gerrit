@@ -10,6 +10,6 @@ file_name VARCHAR(255) NOT NULL DEFAULT(''),
 PRIMARY KEY (account_id, change_id, patch_set_id, file_name)
 );
 
-ALTER_TABLE account_patch_reviews OWNER TO gerrit2;
+ALTER TABLE account_patch_reviews OWNER TO gerrit2;
 
 UPDATE schema_version SET version_nbr = 15;

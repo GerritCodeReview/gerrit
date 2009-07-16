@@ -82,6 +82,9 @@ public interface ReviewDb extends Schema {
   AccountProjectWatchAccess accountProjectWatches();
 
   @Relation
+  AccountPatchReviewAccess accountPatchReviews();
+
+  @Relation
   ProjectAccess projects();
 
   @Relation

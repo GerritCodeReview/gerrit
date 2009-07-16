@@ -63,4 +63,10 @@ public interface ChangeAccess extends Access<Change, Change.Id> {
   @Query("WHERE open = false AND status = ? AND sortKey < ? ORDER BY sortKey DESC LIMIT ?")
   ResultSet<Change> allClosedNext(char status, String sortKey, int limit)
       throws OrmException;
+
+  @Query("WHERE owner = ? AND status = ?")
+  ResultSet<Change> byOwnerAndStatus(Account.Id id, char status) throws OrmException;
+
+  @Query("WHERE status = ?")
+  ResultSet<Change> byStatus(char status) throws OrmException;
 }

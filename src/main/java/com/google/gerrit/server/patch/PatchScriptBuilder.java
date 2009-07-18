@@ -96,9 +96,9 @@ class PatchScriptBuilder {
     return settings.getContext();
   }
 
-  PatchScript toPatchScript(final DiffCacheContent contentWS,
-      final CommentDetail comments, final DiffCacheContent contentAct)
-      throws CorruptEntityException {
+  PatchScript toPatchScript(final DiffCacheKey key,
+      final DiffCacheContent contentWS, final CommentDetail comments,
+      final DiffCacheContent contentAct) throws CorruptEntityException {
     final FileHeader fh = contentAct.getFileHeader();
     DisplayMethod displayA = DisplayMethod.DIFF;
     DisplayMethod displayB = DisplayMethod.DIFF;
@@ -113,42 +113,51 @@ class PatchScriptBuilder {
           displayB);
     }
 
-    srcA = open(contentAct.getOldId());
-
-    MimeType typeA = registry.getMimeType(fh.getOldName(), srcA.getContent());
+    MimeType typeA;
     MimeType typeB;
 
+    srcA = open(contentAct.getOldId());
+    typeA = registry.getMimeType(oldFileName(key, fh), srcA.getContent());
     if (eq(contentAct.getOldId(), contentAct.getNewId())) {
       srcB = srcA;
       typeB = typeA;
     } else {
       srcB = open(contentAct.getNewId());
-      typeB = registry.getMimeType(fh.getNewName(), srcB.getContent());
+      typeB = registry.getMimeType(newFileName(key, fh), srcB.getContent());
     }
 
-    switch (fh.getChangeType()) {
-      case DELETE:
-        if (isImage(typeA)) {
-          displayA = DisplayMethod.IMG;
-        }
-        displayB = DisplayMethod.NONE;
-        break;
-      case ADD:
-        displayA = DisplayMethod.NONE;
-        if (isImage(typeB)) {
-          displayB = DisplayMethod.IMG;
-        }
-        break;
-      case COPY:
-      case MODIFY:
-      case RENAME:
-        if (isImage(typeA)) {
-          displayA = DisplayMethod.IMG;
-        }
-        if (isImage(typeB)) {
-          displayB = DisplayMethod.IMG;
-        }
-        break;
+    if (fh != null) {
+      switch (fh.getChangeType()) {
+        case DELETE:
+          if (isImage(typeA)) {
+            displayA = DisplayMethod.IMG;
+          }
+          displayB = DisplayMethod.NONE;
+          break;
+        case ADD:
+          displayA = DisplayMethod.NONE;
+          if (isImage(typeB)) {
+            displayB = DisplayMethod.IMG;
+          }
+          break;
+        case COPY:
+        case MODIFY:
+        case RENAME:
+          if (isImage(typeA)) {
+            displayA = DisplayMethod.IMG;
+          }
+          if (isImage(typeB)) {
+            displayB = DisplayMethod.IMG;
+          }
+          break;
+      }
+    } else {
+      if (srcA.getContent().length > 0 && isImage(typeA)) {
+        displayA = DisplayMethod.IMG;
+      }
+      if (srcB.getContent().length > 0 && isImage(typeB)) {
+        displayB = DisplayMethod.IMG;
+      }
     }
 
     edits = new ArrayList<Edit>(contentAct.getEdits());
@@ -192,6 +201,23 @@ class PatchScriptBuilder {
 
     return new PatchScript(header, settings, dstA, dstB, edits, displayA,
         displayB);
+  }
+
+  private static String oldFileName(final DiffCacheKey key, final FileHeader fh) {
+    if (fh != null) {
+      return fh.getOldName();
+    }
+    if (key.getSourceFileName() != null) {
+      return key.getSourceFileName();
+    }
+    return key.getFileName();
+  }
+
+  private static String newFileName(final DiffCacheKey key, final FileHeader fh) {
+    if (fh != null) {
+      return fh.getOldName();
+    }
+    return key.getFileName();
   }
 
   private boolean isImage(final MimeType type) {

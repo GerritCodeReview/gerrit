@@ -126,7 +126,7 @@ class PatchScriptAction implements Action<PatchScript> {
     }
 
     try {
-      return b.toPatchScript(contentWS, comments, contentActual);
+      return b.toPatchScript(key, contentWS, comments, contentActual);
     } catch (CorruptEntityException e) {
       log.error("File content for " + key + " unavailable", e);
       throw new Failure(new NoSuchEntityException());

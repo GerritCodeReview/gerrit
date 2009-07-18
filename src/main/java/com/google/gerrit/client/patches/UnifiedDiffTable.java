@@ -75,9 +75,9 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
   }
 
   private void appendImgTag(SafeHtmlBuilder nc, String url) {
-      nc.openElement("img");
-      nc.setAttribute("src", url);
-      nc.closeElement("img");
+    nc.openElement("img");
+    nc.setAttribute("src", url);
+    nc.closeElement("img");
   }
 
   @Override

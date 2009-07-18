@@ -1092,9 +1092,23 @@ class Receive extends AbstractGitCommand {
   }
 
   private boolean validCommitter(final ReceiveCommand cmd, final RevCommit c) {
+    final PersonIdent committer = c.getCommitterIdent();
+    final PersonIdent author = c.getAuthorIdent();
+
+    // Don't allow the user to amend a merge created by Gerrit Code Review.
+    // This seems to happen all too often, due to users not paying any
+    // attention to what they are doing.
+    //
+    final PersonIdent serverIdent = server.newGerritPersonIdent();
+    if (c.getParentCount() > 1
+        && author.getName().equals(serverIdent.getName())
+        && author.getEmailAddress().equals(serverIdent.getEmailAddress())) {
+      reject(cmd, "do not amend merges not made by you");
+      return false;
+    }
+
     // Require that committer matches the uploader.
     //
-    final PersonIdent committer = c.getCommitterIdent();
     if (!myEmails.contains(committer.getEmailAddress())) {
       reject(cmd, "you are not committer " + committer.getEmailAddress());
       return false;
@@ -1104,7 +1118,6 @@ class Receive extends AbstractGitCommand {
       // If the project wants Signed-off-by / Acked-by lines, verify we
       // have them for the blamable parties involved on this change.
       //
-      final PersonIdent author = c.getAuthorIdent();
       boolean sboAuthor = false, sboCommitter = false, sboMe = false;
       for (final FooterLine footer : c.getFooterLines()) {
         if (footer.matches(FooterKey.SIGNED_OFF_BY)) {

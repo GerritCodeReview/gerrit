@@ -332,7 +332,7 @@ public class PatchSetImporter {
 
       final String newName = fh.getNewName();
       k = new DiffCacheKey(projectKey, a, b, newName, srcName, IGNORE_NONE);
-      diffCache.put(new Element(k, DiffCacheContent.create(repo, k, fh)));
+      diffCache.put(new Element(k, DiffCacheContent.create(fh)));
     }
 
     return p;

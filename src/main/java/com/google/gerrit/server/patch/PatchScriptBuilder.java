@@ -25,17 +25,24 @@ import com.google.gerrit.client.rpc.CorruptEntityException;
 import com.google.gerrit.server.FileTypeRegistry;
 
 import eu.medsea.mimeutil.MimeType;
+import eu.medsea.mimeutil.MimeUtil2;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spearce.jgit.diff.Edit;
+import org.spearce.jgit.errors.CorruptObjectException;
+import org.spearce.jgit.errors.IncorrectObjectTypeException;
 import org.spearce.jgit.errors.MissingObjectException;
 import org.spearce.jgit.lib.Constants;
+import org.spearce.jgit.lib.FileMode;
 import org.spearce.jgit.lib.ObjectId;
 import org.spearce.jgit.lib.ObjectLoader;
 import org.spearce.jgit.lib.Repository;
 import org.spearce.jgit.patch.CombinedFileHeader;
 import org.spearce.jgit.patch.FileHeader;
+import org.spearce.jgit.revwalk.RevTree;
+import org.spearce.jgit.revwalk.RevWalk;
+import org.spearce.jgit.treewalk.TreeWalk;
 import org.spearce.jgit.util.IntList;
 import org.spearce.jgit.util.RawParseUtils;
 
@@ -60,22 +67,21 @@ class PatchScriptBuilder {
   };
 
   private final List<String> header;
-  private final SparseFileContent dstA;
-  private final SparseFileContent dstB;
   private Repository db;
   private Patch patch;
   private Patch.Key patchKey;
   private PatchScriptSettings settings;
 
-  private Text srcA;
-  private Text srcB;
+  private final Side a;
+  private final Side b;
+
   private List<Edit> edits;
   private final FileTypeRegistry registry;
 
   PatchScriptBuilder() {
     header = new ArrayList<String>();
-    dstA = new SparseFileContent();
-    dstB = new SparseFileContent();
+    a = new Side();
+    b = new Side();
     registry = FileTypeRegistry.getInstance();
   }
 
@@ -99,92 +105,44 @@ class PatchScriptBuilder {
   PatchScript toPatchScript(final DiffCacheKey key,
       final DiffCacheContent contentWS, final CommentDetail comments,
       final DiffCacheContent contentAct) throws CorruptEntityException {
-    final FileHeader fh = contentAct.getFileHeader();
-    DisplayMethod displayA = DisplayMethod.DIFF;
-    DisplayMethod displayB = DisplayMethod.DIFF;
-
-    if (fh instanceof CombinedFileHeader) {
+    if (contentAct.getFileHeader() instanceof CombinedFileHeader) {
       // For a diff --cc format we don't support converting it into
       // a patch script. Instead treat everything as a file header.
       //
       edits = Collections.emptyList();
-      packHeader(fh);
-      return new PatchScript(header, settings, dstA, dstB, edits, displayA,
-          displayB);
+      packHeader(contentAct.getFileHeader());
+      return new PatchScript(header, settings, a.dst, b.dst, edits,
+          a.displayMethod, b.displayMethod);
     }
 
-    MimeType typeA;
-    MimeType typeB;
+    a.path = oldFileName(key, contentAct.getFileHeader());
+    b.path = newFileName(key, contentAct.getFileHeader());
 
-    srcA = open(contentAct.getOldId());
-    typeA = registry.getMimeType(oldFileName(key, fh), srcA.getContent());
-    if (eq(contentAct.getOldId(), contentAct.getNewId())) {
-      srcB = srcA;
-      typeB = typeA;
-    } else {
-      srcB = open(contentAct.getNewId());
-      typeB = registry.getMimeType(newFileName(key, fh), srcB.getContent());
-    }
-
-    if (fh != null) {
-      switch (fh.getChangeType()) {
-        case DELETE:
-          if (isImage(typeA)) {
-            displayA = DisplayMethod.IMG;
-          }
-          displayB = DisplayMethod.NONE;
-          break;
-        case ADD:
-          displayA = DisplayMethod.NONE;
-          if (isImage(typeB)) {
-            displayB = DisplayMethod.IMG;
-          }
-          break;
-        case COPY:
-        case MODIFY:
-        case RENAME:
-          if (isImage(typeA)) {
-            displayA = DisplayMethod.IMG;
-          }
-          if (isImage(typeB)) {
-            displayB = DisplayMethod.IMG;
-          }
-          break;
-      }
-    } else {
-      if (srcA.getContent().length > 0 && isImage(typeA)) {
-        displayA = DisplayMethod.IMG;
-      }
-      if (srcB.getContent().length > 0 && isImage(typeB)) {
-        displayB = DisplayMethod.IMG;
-      }
-    }
+    a.resolve(null, key.getOldId());
+    b.resolve(a, key.getNewId());
 
     edits = new ArrayList<Edit>(contentAct.getEdits());
     ensureCommentsVisible(comments);
 
-    dstA.setMissingNewlineAtEnd(srcA.isMissingNewlineAtEnd());
-    dstB.setMissingNewlineAtEnd(srcA.isMissingNewlineAtEnd());
-
-    dstA.setSize(srcA.size());
-    dstB.setSize(srcB.size());
-
-    if (fh != null) {
-      packHeader(fh);
+    if (contentAct.getFileHeader() != null) {
+      packHeader(contentAct.getFileHeader());
     }
-    if (srcA == srcB && srcA.size() <= context()
+
+    if (a.mode == FileMode.GITLINK || b.mode == FileMode.GITLINK) {
+
+    } else if (a.src == b.src && a.src.size() <= context()
         && contentAct.getEdits().isEmpty()) {
       // Odd special case; the files are identical (100% rename or copy)
       // and the user has asked for context that is larger than the file.
       // Send them the entire file, with an empty edit after the last line.
       //
-      for (int i = 0; i < srcA.size(); i++) {
-        srcA.addLineTo(dstA, i);
+      for (int i = 0; i < a.src.size(); i++) {
+        a.src.addLineTo(a.dst, i);
       }
       edits = new ArrayList<Edit>(1);
-      edits.add(new Edit(srcA.size(), srcA.size()));
+      edits.add(new Edit(a.src.size(), a.src.size()));
     } else {
-      if (BIG_FILE < Math.max(srcA.size(), srcB.size()) && 25 < context()) {
+      if (BIG_FILE < Math.max(a.src.size(), b.src.size()) && 25 < context()) {
         settings.setContext(25);
       }
       packContent();
@@ -199,12 +157,18 @@ class PatchScriptBuilder {
       ensureCommentsVisible(comments);
     }
 
-    return new PatchScript(header, settings, dstA, dstB, edits, displayA,
-        displayB);
+    return new PatchScript(header, settings, a.dst, b.dst, edits,
+        a.displayMethod, b.displayMethod);
   }
 
   private static String oldFileName(final DiffCacheKey key, final FileHeader fh) {
     if (fh != null) {
+      if (FileMode.MISSING == fh.getOldMode()) {
+        return null;
+      }
+      if (FileHeader.DEV_NULL.equals(fh.getOldName())) {
+        return null;
+      }
       return fh.getOldName();
     }
     if (key.getSourceFileName() != null) {
@@ -215,13 +179,15 @@ class PatchScriptBuilder {
 
   private static String newFileName(final DiffCacheKey key, final FileHeader fh) {
     if (fh != null) {
-      return fh.getOldName();
+      if (FileMode.MISSING == fh.getNewMode()) {
+        return null;
+      }
+      if (FileHeader.DEV_NULL.equals(fh.getNewName())) {
+        return null;
+      }
+      return fh.getNewName();
     }
     return key.getFileName();
-  }
-
-  private boolean isImage(final MimeType type) {
-    return "image".equals(type.getMediaType()) && registry.isSafeInline(type);
   }
 
   private void ensureCommentsVisible(final CommentDetail comments) {
@@ -326,29 +292,6 @@ class PatchScriptBuilder {
     return last.getBeginA() + (b - last.getEndB());
   }
 
-  private static boolean eq(final ObjectId a, final ObjectId b) {
-    if (a == null && b == null) {
-      return true;
-    }
-    return a != null && b != null ? a.equals(b) : false;
-  }
-
-  private Text open(final ObjectId id) throws CorruptEntityException {
-    if (id == null) {
-      return Text.EMPTY;
-    }
-    try {
-      final ObjectLoader ldr = db.openObject(id);
-      if (ldr == null) {
-        throw new MissingObjectException(id, Constants.TYPE_BLOB);
-      }
-      return new Text(ldr.getCachedBytes());
-    } catch (IOException e) {
-      log.error("In " + patchKey + " blob " + id.name() + " gone", e);
-      throw new CorruptEntityException(patchKey);
-    }
-  }
-
   private void packHeader(final FileHeader fh) {
     final byte[] buf = fh.getBuffer();
     final IntList m = RawParseUtils.lineMap(buf, fh.getStartOffset(), end(fh));
@@ -367,20 +310,20 @@ class PatchScriptBuilder {
 
       int aCur = Math.max(0, curEdit.getBeginA() - context());
       int bCur = Math.max(0, curEdit.getBeginB() - context());
-      final int aEnd = Math.min(srcA.size(), endEdit.getEndA() + context());
-      final int bEnd = Math.min(srcB.size(), endEdit.getEndB() + context());
+      final int aEnd = Math.min(a.src.size(), endEdit.getEndA() + context());
+      final int bEnd = Math.min(b.src.size(), endEdit.getEndB() + context());
 
       while (aCur < aEnd || bCur < bEnd) {
         if (aCur < curEdit.getBeginA() || endIdx + 1 < curIdx) {
-          srcA.addLineTo(dstA, aCur);
+          a.src.addLineTo(a.dst, aCur);
           aCur++;
           bCur++;
 
         } else if (aCur < curEdit.getEndA()) {
-          srcA.addLineTo(dstA, aCur++);
+          a.src.addLineTo(a.dst, aCur++);
 
         } else if (bCur < curEdit.getEndB()) {
-          srcB.addLineTo(dstB, bCur++);
+          b.src.addLineTo(b.dst, bCur++);
         }
 
         if (end(curEdit, aCur, bCur) && ++curIdx < edits.size()) {
@@ -428,5 +371,78 @@ class PatchScriptBuilder {
       return h.getHunks().get(0).getStartOffset();
     }
     return h.getEndOffset();
+  }
+
+  private class Side {
+    String path;
+    ObjectId id;
+    FileMode mode;
+    Text src;
+    MimeType mimeType = MimeUtil2.UNKNOWN_MIME_TYPE;
+    DisplayMethod displayMethod = DisplayMethod.DIFF;
+    final SparseFileContent dst = new SparseFileContent();
+
+    void resolve(final Side other, final ObjectId within)
+        throws CorruptEntityException {
+      try {
+        final TreeWalk tw = find(within);
+
+        id = tw != null ? tw.getObjectId(0) : ObjectId.zeroId();
+        mode = tw != null ? tw.getFileMode(0) : FileMode.MISSING;
+
+        final boolean reuse =
+            other != null && other.id.equals(id) && other.mode == mode;
+
+        if (reuse) {
+          src = other.src;
+
+        } else if (mode.getObjectType() == Constants.OBJ_BLOB) {
+          final ObjectLoader ldr = db.openObject(id);
+          if (ldr == null) {
+            throw new MissingObjectException(id, Constants.TYPE_BLOB);
+          }
+          final byte[] data = ldr.getCachedBytes();
+          if (ldr.getType() != Constants.OBJ_BLOB) {
+            throw new IncorrectObjectTypeException(id, Constants.TYPE_BLOB);
+          }
+          src = new Text(data);
+
+        } else {
+          src = Text.EMPTY;
+        }
+
+        if (reuse) {
+          mimeType = other.mimeType;
+          displayMethod = other.displayMethod;
+
+        } else if (src.getContent().length > 0 && FileMode.SYMLINK != mode) {
+          mimeType = registry.getMimeType(path, src.getContent());
+          if ("image".equals(mimeType.getMediaType())
+              && registry.isSafeInline(mimeType)) {
+            displayMethod = DisplayMethod.IMG;
+          }
+        }
+
+        if (mode == FileMode.MISSING) {
+          displayMethod = DisplayMethod.NONE;
+        }
+
+        dst.setMissingNewlineAtEnd(src.isMissingNewlineAtEnd());
+        dst.setSize(src.size());
+      } catch (IOException err) {
+        log.error("Cannot read " + within.name() + ":" + path, err);
+        throw new CorruptEntityException(patchKey);
+      }
+    }
+
+    private TreeWalk find(final ObjectId within) throws MissingObjectException,
+        IncorrectObjectTypeException, CorruptObjectException, IOException {
+      if (path == null) {
+        return null;
+      }
+      final RevWalk rw = new RevWalk(db);
+      final RevTree tree = rw.parseTree(within);
+      return TreeWalk.forPath(db, path, tree);
+    }
   }
 }

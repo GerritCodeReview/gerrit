@@ -88,7 +88,7 @@ public class DiffCacheEntryFactory implements CacheEntryFactory {
       proc.getInputStream().close();
 
       if (p.getFiles().isEmpty()) {
-        return DiffCacheContent.createEmpty(db, newId, key.getFileName());
+        return DiffCacheContent.createEmpty();
 
       } else if (p.getFiles().size() != 1) {
         throw new IOException("unexpected file count: " + key);
@@ -104,7 +104,7 @@ public class DiffCacheEntryFactory implements CacheEntryFactory {
       }
     }
 
-    return DiffCacheContent.create(db, key, file);
+    return DiffCacheContent.create(file);
   }
 
   private Repository open(final Project.NameKey key)

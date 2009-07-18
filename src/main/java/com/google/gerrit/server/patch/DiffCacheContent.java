@@ -15,18 +15,10 @@
 package com.google.gerrit.server.patch;
 
 import org.spearce.jgit.diff.Edit;
-import org.spearce.jgit.errors.IncorrectObjectTypeException;
-import org.spearce.jgit.errors.MissingObjectException;
-import org.spearce.jgit.lib.AbbreviatedObjectId;
-import org.spearce.jgit.lib.ObjectId;
-import org.spearce.jgit.lib.ObjectIdSerialization;
-import org.spearce.jgit.lib.Repository;
+import org.spearce.jgit.lib.FileMode;
 import org.spearce.jgit.patch.CombinedFileHeader;
 import org.spearce.jgit.patch.FileHeader;
 import org.spearce.jgit.patch.Patch;
-import org.spearce.jgit.revwalk.RevTree;
-import org.spearce.jgit.revwalk.RevWalk;
-import org.spearce.jgit.treewalk.TreeWalk;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -41,90 +33,34 @@ public final class DiffCacheContent implements Serializable {
   // the on disk cache is fully destroyed and recreated when the
   // schema has changed.
   //
-  private static final long serialVersionUID = 3L;
+  private static final long serialVersionUID = DiffCacheKey.serialVersionUID;
 
-  public static DiffCacheContent create(final Repository db,
-      final DiffCacheKey key, final FileHeader file)
-      throws MissingObjectException, IncorrectObjectTypeException, IOException {
-    final ObjectId o;
-    final ObjectId n;
-
-    if (file.getOldId() != null && file.getOldId().isComplete()) {
-      o = toId(file.getOldId());
-    } else {
-      String path = key.getSourceFileName();
-      if (path == null) {
-        path = key.getFileName();
-      }
-      o = find(db, key.getOldId(), path);
-    }
-
-    if (file.getNewId() != null && file.getNewId().isComplete()) {
-      n = toId(file.getNewId());
-    } else {
-      n = find(db, key.getNewId(), key.getFileName());
-    }
-
-    return new DiffCacheContent(file, o, n);
+  public static DiffCacheContent create(final FileHeader file) {
+    return new DiffCacheContent(file);
   }
 
-  public static DiffCacheContent createEmpty(final Repository db,
-      final ObjectId treeIsh, final String path) throws MissingObjectException,
-      IncorrectObjectTypeException, IOException {
-    final ObjectId blob = find(db, treeIsh, path);
-    if (blob == null) {
-      throw new IOException("path \"" + path + "\" not in " + treeIsh.name());
-    }
-    return new DiffCacheContent(blob);
+  public static DiffCacheContent createEmpty() {
+    return new DiffCacheContent();
   }
 
-  private static ObjectId toId(final AbbreviatedObjectId a) {
-    final ObjectId o = a.toObjectId();
-    return ObjectId.zeroId().equals(o) ? null : o;
-  }
-
-  static ObjectId find(final Repository db, final ObjectId treeIsh,
-      final String path) throws MissingObjectException,
-      IncorrectObjectTypeException, IOException {
-    final RevTree tree = new RevWalk(db).parseTree(treeIsh);
-    final TreeWalk tw = TreeWalk.forPath(db, path, tree);
-    if (tw == null) {
-      return null;
-    }
-    return tw.getObjectId(0);
-  }
-
-  private transient ObjectId oldId;
-  private transient ObjectId newId;
   private transient FileHeader header;
   private transient List<Edit> edits;
 
-  private DiffCacheContent(final ObjectId o) {
-    oldId = o;
-    newId = o;
+  private DiffCacheContent() {
     header = null;
     edits = Collections.emptyList();
   }
 
-  private DiffCacheContent(final FileHeader h, final ObjectId o,
-      final ObjectId n) {
+  private DiffCacheContent(final FileHeader h) {
     header = compact(h);
-    oldId = o;
-    newId = n;
 
-    if (h == null || h instanceof CombinedFileHeader || h.getHunks().isEmpty()) {
+    if (h == null || h instanceof CombinedFileHeader || h.getHunks().isEmpty()
+        || h.getOldMode() == FileMode.GITLINK
+        || h.getNewMode() == FileMode.GITLINK) {
       edits = Collections.emptyList();
     } else {
       edits = Collections.unmodifiableList(h.toEditList());
     }
-  }
-
-  public ObjectId getOldId() {
-    return oldId;
-  }
-
-  public ObjectId getNewId() {
-    return newId;
   }
 
   public FileHeader getFileHeader() {
@@ -136,9 +72,6 @@ public final class DiffCacheContent implements Serializable {
   }
 
   private void writeObject(final ObjectOutputStream out) throws IOException {
-    ObjectIdSerialization.write(out, oldId);
-    ObjectIdSerialization.write(out, newId);
-
     if (header != null) {
       final int hdrLen = end(header) - header.getStartOffset();
       out.writeInt(hdrLen);
@@ -157,9 +90,6 @@ public final class DiffCacheContent implements Serializable {
   }
 
   private void readObject(final ObjectInputStream in) throws IOException {
-    oldId = ObjectIdSerialization.read(in);
-    newId = ObjectIdSerialization.read(in);
-
     final int hdrLen = in.readInt();
     if (hdrLen > 0) {
       final byte[] buf = new byte[hdrLen];

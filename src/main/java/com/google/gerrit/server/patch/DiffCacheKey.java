@@ -29,7 +29,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 public final class DiffCacheKey implements Serializable {
-  private static final long serialVersionUID = 4L;
+  static final long serialVersionUID = 5L;
 
   private transient Project.NameKey projectKey;
   private transient ObjectId oldId;
@@ -58,10 +58,12 @@ public final class DiffCacheKey implements Serializable {
     return projectKey;
   }
 
+  /** Commit name, or the empty tree name if this is for an initial commit. */
   public ObjectId getOldId() {
     return oldId;
   }
 
+  /** Commit name. */
   public ObjectId getNewId() {
     return newId;
   }

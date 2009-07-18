@@ -29,6 +29,7 @@ import org.spearce.jgit.lib.ObjectWriter;
 import org.spearce.jgit.lib.Repository;
 import org.spearce.jgit.revwalk.RevCommit;
 import org.spearce.jgit.revwalk.RevWalk;
+import org.spearce.jgit.treewalk.TreeWalk;
 
 import java.io.IOException;
 import java.nio.charset.CharacterCodingException;
@@ -97,10 +98,14 @@ public class PatchFile {
   private Text load(final ObjectId tree, final String path)
       throws MissingObjectException, IncorrectObjectTypeException,
       CorruptObjectException, IOException {
-    final ObjectId id = DiffCacheContent.find(repo, tree, path);
-    if (id == null) {
+    final TreeWalk tw = TreeWalk.forPath(repo, path, tree);
+    if (tw == null) {
       return Text.EMPTY;
     }
+    if (tw.getFileMode(0).getObjectType() != Constants.OBJ_BLOB) {
+      return Text.EMPTY;
+    }
+    final ObjectId id = tw.getObjectId(0);
     final ObjectLoader ldr = repo.openObject(id);
     if (ldr == null) {
       throw new MissingObjectException(id, Constants.TYPE_BLOB);

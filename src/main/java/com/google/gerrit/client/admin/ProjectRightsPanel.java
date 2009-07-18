@@ -65,11 +65,11 @@ public class ProjectRightsPanel extends Composite {
   private SuggestBox nameTxt;
 
   public ProjectRightsPanel(final Project.Id toShow) {
+    projectId = toShow;
+
     final FlowPanel body = new FlowPanel();
     initRights(body);
     initWidget(body);
-
-    projectId = toShow;
   }
 
   @Override
@@ -119,6 +119,15 @@ public class ProjectRightsPanel extends Composite {
     }
     for (final ApprovalType at : Common.getGerritConfig().getActionTypes()) {
       final ApprovalCategory c = at.getCategory();
+      if (ProjectRight.WILD_PROJECT.equals(projectId)
+          && ApprovalCategory.OWN.equals(c.getId())) {
+        // Giving out control of the WILD_PROJECT to other groups beyond
+        // Administrators is dangerous. Having control over WILD_PROJECT
+        // is about the same as having Administrator access as users are
+        // able to affect grants in all projects on the system.
+        //
+        continue;
+      }
       catBox.addItem(c.getName(), c.getId().get());
     }
     if (catBox.getItemCount() > 0) {

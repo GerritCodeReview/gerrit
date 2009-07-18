@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.patch;
 
-import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.data.ApprovalType;
 import com.google.gerrit.client.data.PatchScript;
 import com.google.gerrit.client.data.PatchScriptSettings;
@@ -408,7 +407,7 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
 
         if (!me.equals(change.getOwner()) && !me.equals(patch.getUploader())
             && !Common.getGroupCache().isAdministrator(me)
-            && !Common.getGroupCache().isInGroup(me, proj.getOwnerGroupId())) {
+            && !canPerform(me, projEnt, ApprovalCategory.OWN, (short) 1)) {
           // The user doesn't have permission to abandon the change
           throw new Failure(new NoSuchEntityException());
         }

@@ -40,7 +40,6 @@ public class ProjectDetail {
       throws OrmException {
     project = g.getProject();
     groups = new HashMap<AccountGroup.Id, AccountGroup>();
-    wantGroup(project.getOwnerGroupId());
 
     rights = new ArrayList<ProjectRight>();
     for (final ProjectRight p : g.getRights()) {

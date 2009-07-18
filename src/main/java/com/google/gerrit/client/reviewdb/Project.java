@@ -124,9 +124,6 @@ public final class Project {
   protected String description;
 
   @Column
-  protected AccountGroup.Id ownerGroupId;
-
-  @Column
   protected boolean useContributorAgreements;
 
   @Column
@@ -163,14 +160,6 @@ public final class Project {
 
   public void setDescription(final String d) {
     description = d;
-  }
-
-  public AccountGroup.Id getOwnerGroupId() {
-    return ownerGroupId;
-  }
-
-  public void setOwnerGroupId(final AccountGroup.Id id) {
-    ownerGroupId = id;
   }
 
   public boolean isUseContributorAgreements() {

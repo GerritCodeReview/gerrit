@@ -38,10 +38,6 @@ public interface ProjectAdminService extends RemoteJsonService {
       AsyncCallback<ProjectDetail> callback);
 
   @SignInRequired
-  void changeProjectOwner(Project.Id projectId, String newOwnerName,
-      AsyncCallback<VoidResult> callback);
-
-  @SignInRequired
   void deleteRight(Set<ProjectRight.Key> ids, AsyncCallback<VoidResult> callback);
 
   @SignInRequired

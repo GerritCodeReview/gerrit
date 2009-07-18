@@ -25,6 +25,7 @@ import com.google.gerrit.client.reviewdb.Branch;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gerrit.client.reviewdb.AccountGroup.Id;
 import com.google.gerrit.client.rpc.BaseServiceImplementation;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.InvalidNameException;
@@ -74,17 +75,12 @@ public class ProjectAdminServiceImpl extends BaseServiceImplementation
   public void ownedProjects(final AsyncCallback<List<Project>> callback) {
     run(callback, new Action<List<Project>>() {
       public List<Project> run(ReviewDb db) throws OrmException {
-        final List<Project> result;
-        if (Common.getGroupCache().isAdministrator(Common.getAccountId())) {
-          result = db.projects().all().toList();
-        } else {
-          result = myOwnedProjects(db);
-          Collections.sort(result, new Comparator<Project>() {
-            public int compare(final Project a, final Project b) {
-              return a.getName().compareTo(b.getName());
-            }
-          });
-        }
+        final List<Project> result = myOwnedProjects(db);
+        Collections.sort(result, new Comparator<Project>() {
+          public int compare(final Project a, final Project b) {
+            return a.getName().compareTo(b.getName());
+          }
+        });
         return result;
       }
     });
@@ -153,50 +149,14 @@ public class ProjectAdminServiceImpl extends BaseServiceImplementation
     });
   }
 
-  public void changeProjectOwner(final Project.Id projectId,
-      final String newOwnerName, final AsyncCallback<VoidResult> callback) {
-    run(callback, new Action<VoidResult>() {
-      public VoidResult run(final ReviewDb db) throws OrmException, Failure {
-        assertAmProjectOwner(db, projectId);
-        final Project project = db.projects().get(projectId);
-        if (project == null) {
-          throw new Failure(new NoSuchEntityException());
-        }
-        if (ProjectRight.WILD_PROJECT.equals(projectId)) {
-          // This is *not* a good idea to change away from administrators.
-          //
-          throw new Failure(new NoSuchEntityException());
-        }
-
-        final AccountGroup owner =
-            db.accountGroups().get(new AccountGroup.NameKey(newOwnerName));
-        if (owner == null) {
-          throw new Failure(new NoSuchEntityException());
-        }
-
-        project.setOwnerGroupId(owner.getId());
-        db.projects().update(Collections.singleton(project));
-        Common.getProjectCache().invalidate(project);
-        return VoidResult.INSTANCE;
-      }
-    });
-  }
-
   public void deleteRight(final Set<ProjectRight.Key> keys,
       final AsyncCallback<VoidResult> callback) {
     run(callback, new Action<VoidResult>() {
       public VoidResult run(final ReviewDb db) throws OrmException, Failure {
         final Set<Project.Id> owned = ids(myOwnedProjects(db));
-        Boolean amAdmin = null;
         for (final ProjectRight.Key k : keys) {
           if (!owned.contains(k.getProjectId())) {
-            if (amAdmin == null) {
-              amAdmin =
-                  Common.getGroupCache().isAdministrator(Common.getAccountId());
-            }
-            if (!amAdmin) {
-              throw new Failure(new NoSuchEntityException());
-            }
+            throw new Failure(new NoSuchEntityException());
           }
         }
         for (final ProjectRight.Key k : keys) {
@@ -215,6 +175,17 @@ public class ProjectAdminServiceImpl extends BaseServiceImplementation
       final ApprovalCategory.Id categoryId, final String groupName,
       final short amin, final short amax,
       final AsyncCallback<ProjectDetail> callback) {
+    if (ProjectRight.WILD_PROJECT.equals(projectId)
+        && ApprovalCategory.OWN.equals(categoryId)) {
+      // Giving out control of the WILD_PROJECT to other groups beyond
+      // Administrators is dangerous. Having control over WILD_PROJECT
+      // is about the same as having Administrator access as users are
+      // able to affect grants in all projects on the system.
+      //
+      callback.onFailure(new NoSuchEntityException());
+      return;
+    }
+
     final short min, max;
     if (amin <= amax) {
       min = amin;
@@ -295,7 +266,6 @@ public class ProjectAdminServiceImpl extends BaseServiceImplementation
       public Set<Branch.NameKey> run(ReviewDb db) throws OrmException, Failure {
         final Set<Branch.NameKey> deleted = new HashSet<Branch.NameKey>();
         final Set<Project.Id> owned = ids(myOwnedProjects(db));
-        Boolean amAdmin = null;
         for (final Branch.NameKey k : ids) {
           final ProjectCache.Entry e;
 
@@ -304,13 +274,7 @@ public class ProjectAdminServiceImpl extends BaseServiceImplementation
             throw new Failure(new NoSuchEntityException());
           }
           if (!owned.contains(e.getProject().getId())) {
-            if (amAdmin == null) {
-              amAdmin =
-                  Common.getGroupCache().isAdministrator(Common.getAccountId());
-            }
-            if (!amAdmin) {
-              throw new Failure(new NoSuchEntityException());
-            }
+            throw new Failure(new NoSuchEntityException());
           }
         }
         for (final Branch.NameKey k : ids) {
@@ -475,23 +439,42 @@ public class ProjectAdminServiceImpl extends BaseServiceImplementation
     if (p == null) {
       throw new Failure(new NoSuchEntityException());
     }
-    final Account.Id me = Common.getAccountId();
-    if (!Common.getGroupCache().isInGroup(me, p.getProject().getOwnerGroupId())
-        && !Common.getGroupCache().isAdministrator(me)) {
+    if (Common.getGroupCache().isAdministrator(Common.getAccountId())) {
+      return;
+    }
+    final Set<Id> myGroups = myGroups();
+    if (!canPerform(myGroups, p, ApprovalCategory.OWN, (short) 1)) {
       throw new Failure(new NoSuchEntityException());
     }
   }
 
   private List<Project> myOwnedProjects(final ReviewDb db) throws OrmException {
-    final Account.Id me = Common.getAccountId();
+    if (Common.getGroupCache().isAdministrator(Common.getAccountId())) {
+      return db.projects().all().toList();
+    }
+
+    final Set<AccountGroup.Id> myGroups = myGroups();
+    final HashSet<Project.Id> projects = new HashSet<Project.Id>();
+    for (final AccountGroup.Id groupId : myGroups) {
+      for (final ProjectRight r : db.projectRights().byCategoryGroup(
+          ApprovalCategory.OWN, groupId)) {
+        projects.add(r.getProjectId());
+      }
+    }
+
+    final ProjectCache projectCache = Common.getProjectCache();
     final List<Project> own = new ArrayList<Project>();
-    for (final AccountGroup.Id groupId : Common.getGroupCache()
-        .getEffectiveGroups(me)) {
-      for (final Project g : db.projects().ownedByGroup(groupId)) {
-        own.add(g);
+    for (Project.Id id : projects) {
+      final ProjectCache.Entry cacheEntry = projectCache.get(id);
+      if (canPerform(myGroups, cacheEntry, ApprovalCategory.OWN, (short) 1)) {
+        own.add(cacheEntry.getProject());
       }
     }
     return own;
+  }
+
+  private Set<Id> myGroups() {
+    return Common.getGroupCache().getEffectiveGroups(Common.getAccountId());
   }
 
   private static Set<Project.Id> ids(final Collection<Project> projectList) {

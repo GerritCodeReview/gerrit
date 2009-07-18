@@ -16,6 +16,7 @@ package com.google.gerrit.server.mail;
 
 import com.google.gerrit.client.data.ProjectCache;
 import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.AccountProjectWatch;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.ChangeApproval;
@@ -44,12 +45,14 @@ import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -513,6 +516,14 @@ public abstract class OutgoingEmail {
 
     r = Common.getProjectCache().get(change.getDest().getParentKey());
     return r != null ? r.getProject() : null;
+  }
+
+  /** Get the groups which own the project. */
+  protected Set<AccountGroup.Id> getProjectOwners() {
+    final ProjectCache.Entry r;
+
+    r = Common.getProjectCache().get(change.getDest().getParentKey());
+    return r != null ? r.getOwners() : Collections.<AccountGroup.Id> emptySet();
   }
 
   /** Schedule this message for delivery to the listed accounts. */

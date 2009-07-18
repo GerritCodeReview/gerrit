@@ -28,10 +28,7 @@ public interface ProjectRightAccess extends
   @Query("WHERE key.projectId = ?")
   ResultSet<ProjectRight> byProject(Project.Id id) throws OrmException;
 
-  @Query("WHERE key.groupId = ?")
-  ResultSet<ProjectRight> byGroup(AccountGroup.Id id) throws OrmException;
-
-  @Query("WHERE key.categoryId = ?")
-  ResultSet<ProjectRight> byApprovalCategory(ApprovalCategory.Id id)
-      throws OrmException;
+  @Query("WHERE key.categoryId = ? AND key.groupId = ?")
+  ResultSet<ProjectRight> byCategoryGroup(ApprovalCategory.Id cat,
+      AccountGroup.Id group) throws OrmException;
 }

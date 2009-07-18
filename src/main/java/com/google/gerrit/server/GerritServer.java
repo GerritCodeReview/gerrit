@@ -473,7 +473,6 @@ public class GerritServer {
         new Project(new Project.NameKey("-- All Projects --"),
             ProjectRight.WILD_PROJECT);
     proj.setDescription("Rights inherited by all other projects");
-    proj.setOwnerGroupId(sConfig.adminGroupId);
     proj.setUseContributorAgreements(false);
     c.projects().insert(Collections.singleton(proj));
   }
@@ -517,6 +516,21 @@ public class GerritServer {
     approve.setMaxValue((short) 1);
     approve.setMinValue((short) -1);
     c.projectRights().insert(Collections.singleton(approve));
+  }
+
+  private void initOwnerCategory(final ReviewDb c) throws OrmException {
+    final Transaction txn = c.beginTransaction();
+    final ApprovalCategory cat;
+    final ArrayList<ApprovalCategoryValue> vals;
+
+    cat = new ApprovalCategory(ApprovalCategory.OWN, "Owner");
+    cat.setPosition((short) -1);
+    cat.setFunctionName(NoOpFunction.NAME);
+    vals = new ArrayList<ApprovalCategoryValue>();
+    vals.add(value(cat, 1, "Administer All Settings"));
+    c.approvalCategories().insert(Collections.singleton(cat), txn);
+    c.approvalCategoryValues().insert(vals, txn);
+    txn.commit();
   }
 
   private void initReadCategory(final ReviewDb c) throws OrmException {
@@ -631,13 +645,14 @@ public class GerritServer {
 
         initSystemConfig(c);
         sConfig = c.systemConfig().get(new SystemConfig.Key());
-        initWildCardProject(c);
+        initOwnerCategory(c);
         initReadCategory(c);
         initVerifiedCategory(c);
         initCodeReviewCategory(c);
         initSubmitCategory(c);
         initPushTagCategory(c);
         initPushUpdateBranchCategory(c);
+        initWildCardProject(c);
       }
 
       if (sVer.versionNbr == 2) {

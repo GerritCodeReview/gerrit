@@ -147,7 +147,7 @@ abstract class AbstractCommand implements Command, SessionAware {
   protected boolean canPerform(final ProjectCache.Entry project,
       final ApprovalCategory.Id actionId, final short val) {
     return BaseServiceImplementation.canPerform(getGroups(), project, actionId,
-        val, false);
+        val);
   }
 
   protected void assertIsAdministrator() throws Failure {

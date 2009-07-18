@@ -31,6 +31,10 @@ public final class ApprovalCategory {
   public static final ApprovalCategory.Id READ =
       new ApprovalCategory.Id("READ");
 
+  /** Id of the special "Own" category; manages a project. */
+  public static final ApprovalCategory.Id OWN =
+      new ApprovalCategory.Id("OWN");
+
   /** Id of the special "Push Annotated Tag" action (and category). */
   public static final ApprovalCategory.Id PUSH_TAG =
       new ApprovalCategory.Id("pTAG");
@@ -66,6 +70,14 @@ public final class ApprovalCategory {
     @Override
     protected void set(String newValue) {
       id = newValue;
+    }
+
+    /** True if the right can inherit from {@link ProjectRight#WILD_PROJECT}. */
+    public boolean canInheritFromWildProject() {
+      if (OWN.equals(this)) {
+        return false;
+      }
+      return true;
     }
   }
 

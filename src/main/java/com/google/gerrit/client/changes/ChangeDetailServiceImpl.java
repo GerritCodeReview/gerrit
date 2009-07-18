@@ -19,6 +19,7 @@ import com.google.gerrit.client.data.ChangeDetail;
 import com.google.gerrit.client.data.PatchSetDetail;
 import com.google.gerrit.client.data.ProjectCache;
 import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.Project;
@@ -69,8 +70,7 @@ public class ChangeDetailServiceImpl extends BaseServiceImplementation
               me.equals(change.getOwner())
                   || me.equals(patch.getUploader())
                   || Common.getGroupCache().isAdministrator(me)
-                  || Common.getGroupCache().isInGroup(me,
-                      proj.getOwnerGroupId());
+                  || canPerform(me, projEnt, ApprovalCategory.OWN, (short) 1);
         }
         final ChangeDetail d = new ChangeDetail();
 

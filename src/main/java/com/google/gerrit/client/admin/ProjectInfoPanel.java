@@ -44,11 +44,6 @@ public class ProjectInfoPanel extends Composite {
   private Project.Id projectId;
   private Project project;
 
-  private Panel ownerPanel;
-  private NpTextBox ownerTxtBox;
-  private SuggestBox ownerTxt;
-  private Button changeOwner;
-
   private Panel submitTypePanel;
   private ListBox submitType;
 
@@ -69,7 +64,6 @@ public class ProjectInfoPanel extends Composite {
     });
 
     final FlowPanel body = new FlowPanel();
-    initOwner(body);
     initDescription(body);
     initSubmitType(body);
     initAgreements(body);
@@ -82,7 +76,6 @@ public class ProjectInfoPanel extends Composite {
   @Override
   protected void onLoad() {
     enableForm(false);
-    changeOwner.setEnabled(false);
     saveProject.setEnabled(false);
     super.onLoad();
     refresh();
@@ -93,7 +86,6 @@ public class ProjectInfoPanel extends Composite {
         new GerritCallback<ProjectDetail>() {
           public void onSuccess(final ProjectDetail result) {
             enableForm(true);
-            changeOwner.setEnabled(false);
             saveProject.setEnabled(false);
             display(result);
           }
@@ -102,40 +94,9 @@ public class ProjectInfoPanel extends Composite {
 
   private void enableForm(final boolean on) {
     submitType.setEnabled(on);
-    ownerTxtBox.setEnabled(on);
     descTxt.setEnabled(on);
     useContributorAgreements.setEnabled(on);
     useSignedOffBy.setEnabled(on);
-  }
-
-  private void initOwner(final Panel body) {
-    ownerPanel = new VerticalPanel();
-    ownerPanel.add(new SmallHeading(Util.C.headingOwner()));
-
-    ownerTxtBox = new NpTextBox();
-    ownerTxtBox.setVisibleLength(60);
-    ownerTxt = new SuggestBox(new AccountGroupSuggestOracle(), ownerTxtBox);
-    ownerPanel.add(ownerTxt);
-
-    changeOwner = new Button(Util.C.buttonChangeGroupOwner());
-    changeOwner.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(final ClickEvent event) {
-        final String newOwner = ownerTxt.getText().trim();
-        if (newOwner.length() > 0) {
-          Util.PROJECT_SVC.changeProjectOwner(projectId, newOwner,
-              new GerritCallback<VoidResult>() {
-                public void onSuccess(final VoidResult result) {
-                  changeOwner.setEnabled(false);
-                }
-              });
-        }
-      }
-    });
-    ownerPanel.add(changeOwner);
-    body.add(ownerPanel);
-
-    new TextSaveButtonListener(ownerTxtBox, changeOwner);
   }
 
   private void initDescription(final Panel body) {
@@ -206,15 +167,8 @@ public class ProjectInfoPanel extends Composite {
 
   void display(final ProjectDetail result) {
     project = result.project;
-    final AccountGroup owner = result.groups.get(project.getOwnerGroupId());
-    if (owner != null) {
-      ownerTxt.setText(owner.getName());
-    } else {
-      ownerTxt.setText(Util.M.deletedGroup(project.getOwnerGroupId().get()));
-    }
 
     final boolean isall = ProjectRight.WILD_PROJECT.equals(project.getId());
-    ownerPanel.setVisible(!isall);
     submitTypePanel.setVisible(!isall);
     agreementsPanel.setVisible(!isall);
     useContributorAgreements.setVisible(Common.getGerritConfig()
@@ -236,7 +190,6 @@ public class ProjectInfoPanel extends Composite {
     }
 
     enableForm(false);
-    changeOwner.setEnabled(false);
     saveProject.setEnabled(false);
 
     Util.PROJECT_SVC.changeProjectSettings(project,

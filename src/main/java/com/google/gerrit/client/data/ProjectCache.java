@@ -14,6 +14,8 @@
 
 package com.google.gerrit.client.data;
 
+import com.google.gerrit.client.reviewdb.AccountGroup;
+import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.client.reviewdb.ReviewDb;
@@ -22,8 +24,10 @@ import com.google.gwtorm.client.OrmException;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 
 /** Cache of project information, including access rights. */
 @SuppressWarnings("serial")
@@ -177,12 +181,22 @@ public class ProjectCache {
   public static class Entry {
     private final Project project;
     private final Collection<ProjectRight> rights;
+    private final Set<AccountGroup.Id> owners;
 
     protected Entry(final ReviewDb db, final Project p) throws OrmException {
       project = p;
       rights =
           Collections.unmodifiableCollection(db.projectRights().byProject(
               project.getId()).toList());
+
+      final HashSet<AccountGroup.Id> groups = new HashSet<AccountGroup.Id>();
+      for (final ProjectRight right : rights) {
+        if (ApprovalCategory.OWN.equals(right.getApprovalCategoryId())
+            && right.getMaxValue() > 0) {
+          groups.add(right.getAccountGroupId());
+        }
+      }
+      owners = Collections.unmodifiableSet(groups);
     }
 
     public Project getProject() {
@@ -191,6 +205,10 @@ public class ProjectCache {
 
     public Collection<ProjectRight> getRights() {
       return rights;
+    }
+
+    public Set<AccountGroup.Id> getOwners() {
+      return owners;
     }
   }
 }

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.mail;
 
 import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.AccountGroupMember;
 import com.google.gerrit.client.reviewdb.AccountProjectWatch;
 import com.google.gerrit.client.reviewdb.Change;
@@ -48,9 +49,10 @@ public class CreateChangeSender extends NewChangeSender {
           // Try to mark interested owners with a TO and not a BCC line.
           //
           final Set<Account.Id> owners = new HashSet<Account.Id>();
-          for (AccountGroupMember m : db.accountGroupMembers().byGroup(
-              project.getOwnerGroupId())) {
-            owners.add(m.getAccountId());
+          for (AccountGroup.Id g : getProjectOwners()) {
+            for (AccountGroupMember m : db.accountGroupMembers().byGroup(g)) {
+              owners.add(m.getAccountId());
+            }
           }
 
           // BCC anyone who has interest in this project's changes

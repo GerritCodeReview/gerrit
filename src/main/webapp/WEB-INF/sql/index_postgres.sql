@@ -186,20 +186,14 @@ ON patch_set_ancestors (ancestor_revision);
 -- ProjectAccess
 --    @PrimaryKey covers: all, suggestByName
 --    covers:             ownedByGroup
-CREATE INDEX projects_ownedByGroup
-ON projects (owner_group_id);
 
 
 -- *********************************************************************
 -- ProjectRightAccess
 --    @PrimaryKey covers: byProject
---    covers:             byGroup
-CREATE INDEX project_rights_byGroup
-ON project_rights (group_id);
-
---    covers:             byApprovalCategory
-CREATE INDEX project_rights_byCat
-ON project_rights (category_id);
+--    covers:             byCategoryGroup
+CREATE INDEX project_rights_byCatGroup
+ON project_rights (category_id, group_id);
 
 
 -- *********************************************************************

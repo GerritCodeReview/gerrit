@@ -97,27 +97,25 @@ public class BaseServiceImplementation {
 
   public static boolean canRead(final Account.Id who,
       final Project.NameKey projectKey) {
-    final ProjectCache.Entry e = Common.getProjectCache().get(projectKey);
-    return canRead(who, e);
+    return canRead(who, Common.getProjectCache().get(projectKey));
   }
 
   public static boolean canRead(final Account.Id who, final ProjectCache.Entry e) {
-    if (e == null) {
-      // Unexpected, a project disappearing. But claim its not available.
-      //
-      return false;
-    }
-    final Set<AccountGroup.Id> myGroups = Common.getGroupCache().getEffectiveGroups(who);
-    return canPerform(myGroups, e, ApprovalCategory.READ, (short) 1, true);
+    return canPerform(who, e, ApprovalCategory.READ, (short) 1);
+  }
+
+  public static boolean canPerform(final Account.Id who,
+      final ProjectCache.Entry e, final ApprovalCategory.Id actionId,
+      final short requireValue) {
+    Set<AccountGroup.Id> groups = Common.getGroupCache().getEffectiveGroups(who);
+    return canPerform(groups, e, actionId, requireValue);
   }
 
   public static boolean canPerform(final Set<AccountGroup.Id> myGroups,
       final ProjectCache.Entry e, final ApprovalCategory.Id actionId,
-      final short requireValue, final boolean assumeOwner) {
-    if (assumeOwner && myGroups.contains(e.getProject().getOwnerGroupId())) {
-      // Ownership implies full access.
-      //
-      return true;
+      final short requireValue) {
+    if (e == null) {
+      return false;
     }
 
     int val = Integer.MIN_VALUE;
@@ -138,7 +136,7 @@ public class BaseServiceImplementation {
         }
       }
     }
-    if (val == Integer.MIN_VALUE) {
+    if (val == Integer.MIN_VALUE && actionId.canInheritFromWildProject()) {
       for (final ProjectRight pr : Common.getProjectCache().getWildcardRights()) {
         if (actionId.equals(pr.getApprovalCategoryId())
             && myGroups.contains(pr.getAccountGroupId())) {

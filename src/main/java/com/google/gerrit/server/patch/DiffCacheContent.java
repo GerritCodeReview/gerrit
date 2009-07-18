@@ -119,10 +119,6 @@ public final class DiffCacheContent implements Serializable {
     }
   }
 
-  public boolean isNoDifference() {
-    return header == null;
-  }
-
   public ObjectId getOldId() {
     return oldId;
   }

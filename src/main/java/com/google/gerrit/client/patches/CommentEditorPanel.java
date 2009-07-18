@@ -16,7 +16,6 @@ package com.google.gerrit.client.patches;
 
 import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.rpc.GerritCallback;
-import com.google.gerrit.client.ui.TextSaveButtonListener;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -140,8 +139,6 @@ class CommentEditorPanel extends Composite implements ClickHandler {
     save = new Button();
     save.setText(PatchUtil.C.buttonSave());
     save.addClickHandler(this);
-    new TextSaveButtonListener(text, save);
-    save.setEnabled(false);
     buttons.add(save);
 
     cancel = new Button();
@@ -252,6 +249,7 @@ class CommentEditorPanel extends Composite implements ClickHandler {
             }
             comment = result;
             text.setReadOnly(false);
+            save.setEnabled(true);
             cancel.setEnabled(true);
             discard.setEnabled(true);
             render();
@@ -285,7 +283,6 @@ class CommentEditorPanel extends Composite implements ClickHandler {
       return;
     }
 
-    final boolean saveOn = save.isEnabled();
     text.setReadOnly(true);
     save.setEnabled(false);
     cancel.setEnabled(false);
@@ -301,7 +298,7 @@ class CommentEditorPanel extends Composite implements ClickHandler {
           @Override
           public void onFailure(final Throwable caught) {
             text.setReadOnly(false);
-            save.setEnabled(saveOn);
+            save.setEnabled(true);
             cancel.setEnabled(true);
             discard.setEnabled(true);
             super.onFailure(caught);

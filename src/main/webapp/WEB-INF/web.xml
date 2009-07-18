@@ -39,6 +39,16 @@
   </servlet-mapping>
 
   <servlet>
+    <servlet-name>Prettify</servlet-name>
+    <servlet-class>com.google.gerrit.server.PrettifyServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Prettify</servlet-name>
+    <url-pattern>/prettify/*</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
     <servlet-name>Login</servlet-name>
     <servlet-class>com.google.gerrit.server.OpenIdLoginServlet</servlet-class>
     <load-on-startup>1</load-on-startup>

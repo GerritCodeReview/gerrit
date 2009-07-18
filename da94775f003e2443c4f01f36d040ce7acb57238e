@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAbX///8s\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeListServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-18T17:47:10Z",
+      "side": 1,
+      "message": "Why not just use the Change.Status enum here, initialized to null.  Set it to non-null only when there actually is a status value in the query.  That would remove this magic value of \u0027a\u0027 and remove the need for the hasStatus boolean.",
+      "revId": "da94775f003e2443c4f01f36d040ce7acb57238e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAbX///8o\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeListServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-18T17:47:10Z",
+      "side": 1,
+      "message": "Using equalsIgnoreCase might be more user friendly here.",
+      "revId": "da94775f003e2443c4f01f36d040ce7acb57238e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAbX///8c\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeListServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-18T17:47:10Z",
+      "side": 1,
+      "message": "If queryStatus was the enum this set of cases may be a lot simpler as you wouldn\u0027t need to check for both with and without status before calling the supporting function.",
+      "revId": "da94775f003e2443c4f01f36d040ce7acb57238e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAbX///8w\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeListServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-18T17:47:10Z",
+      "side": 1,
+      "message": "This if is unnecessary, the loop will just not run if the length is 0.",
+      "revId": "da94775f003e2443c4f01f36d040ce7acb57238e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAbX///8g\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeListServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-18T17:47:10Z",
+      "side": 1,
+      "message": "If status was the Change.Status enum it could be null here, and then you can avoid the need for the filterByStatus boolean to tell you which query to drive.",
+      "revId": "da94775f003e2443c4f01f36d040ce7acb57238e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAbX///8k\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeListServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-18T17:47:10Z",
+      "side": 0,
+      "message": "Why did you remove the email address query?  Was it because you also removed full name due to full name containing spaces and the query is split on spaces?\n\nI\u0027d prefer to keep email query support, especially since we have already released a version that contains it.  Perhaps also true with full name.\n\nYou should rethink the query parser.  Instead of removing features we have already shipped, redo the query parser to split around the key patterns.  Yes, its slightly harder, but you should be able to do something reasonably intelligent given that the tag names match the regexp \"(^| )[a-z]+:\".",
+      "revId": "31f8dcb91e6ea5a03b7ffabd4075119404c95f1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

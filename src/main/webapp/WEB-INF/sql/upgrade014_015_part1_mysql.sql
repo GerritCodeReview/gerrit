@@ -24,7 +24,7 @@ INSERT INTO project_rights
 (project_id, category_id, group_id, min_value, max_value)
 SELECT p.project_id, 'OWN', p.owner_group_id, 0, 1
 FROM projects p
-AND p.project_id <> 0;
+WHERE p.project_id <> 0;
 
 DROP INDEX projects_ownedByGroup ON projects;
 DROP INDEX project_rights_byCat ON project_rights;

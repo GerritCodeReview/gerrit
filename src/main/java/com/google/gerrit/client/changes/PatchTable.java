@@ -156,6 +156,15 @@ public class PatchTable extends Composite {
     return fileName;
   }
 
+  /**
+   * Update the reviewed status for the given patch.
+   */
+  public void updateReviewedStatus(Patch.Key patchKey, boolean reviewed) {
+    if (myTable != null) {
+      myTable.updateReviewedStatus(patchKey, reviewed);
+    }
+  }
+
   private class MyTable extends NavigationTable<Patch> {
     private static final int C_PATH = 2;
     private static final int C_DRAFT = 3;
@@ -178,6 +187,27 @@ public class PatchTable extends Composite {
         }
       });
       setSavePointerId(PatchTable.this.savePointerId);
+    }
+
+    void updateReviewedStatus(final Patch.Key patchKey, boolean reviewed) {
+      final int row = findRow(patchKey);
+      if (0 <= row) {
+        final Patch patch = getRowItem(row);
+        if (patch != null) {
+          patch.setReviewedByCurrentUser(reviewed);
+
+          int col = C_SIDEBYSIDE + 2;
+          if (patch.getPatchType() == Patch.PatchType.BINARY) {
+            col = C_SIDEBYSIDE + 3;
+          }
+
+          if (reviewed) {
+            table.setWidget(row, col, Gerrit.ICONS.greenCheck().createImage());
+          } else {
+            table.clearCell(row, col);
+          }
+        }
+      }
     }
 
     void notifyDraftDelta(final Patch.Key key, final int delta) {
@@ -370,8 +400,6 @@ public class PatchTable extends Composite {
         m.setStyleName(S_DATA_CELL);
         if (p.isReviewedByCurrentUser()) {
           m.append(SafeHtml.asis(Gerrit.ICONS.greenCheck().getHTML()));
-        } else {
-          m.nbsp();
         }
         m.closeTd();
       }

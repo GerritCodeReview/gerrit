@@ -55,7 +55,6 @@ import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
-import com.google.gwtjsonrpc.client.RemoteJsonException;
 import com.google.gwtjsonrpc.client.VoidResult;
 
 public abstract class PatchScreen extends Screen {
@@ -286,6 +285,10 @@ public abstract class PatchScreen extends Screen {
   }
 
   private void setReviewedByCurrentUser(boolean reviewed) {
+    if (fileList != null) {
+      fileList.updateReviewedStatus(patchKey, reviewed);
+    }
+
     PatchUtil.DETAIL_SVC.setReviewedByCurrentUser(patchKey, reviewed,
         new AsyncCallback<VoidResult>() {
 

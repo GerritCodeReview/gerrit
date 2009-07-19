@@ -342,23 +342,38 @@ public class MergeOp {
           writeMergeCommit(m, n);
 
         } else {
-          rw.reset();
-          rw.markStart(n);
-          rw.markUninteresting(mergeTip);
-          CodeReviewCommit failed;
-          while ((failed = (CodeReviewCommit) rw.next()) != null) {
-            if (failed.patchsetId == null) {
-              continue;
-            }
-
-            failed.statusCode = CommitMergeStatus.PATH_CONFLICT;
-            status.put(failed.patchsetId.getParentKey(), failed.statusCode);
-          }
+          failed(n, CommitMergeStatus.PATH_CONFLICT);
         }
       } catch (IOException e) {
-        throw new MergeException("Cannot merge " + n.name(), e);
+        if (e.getMessage().startsWith("Multiple merge bases for")) {
+          try {
+            failed(n, CommitMergeStatus.CRISS_CROSS_MERGE);
+          } catch (IOException e2) {
+            throw new MergeException("Cannot merge " + n.name(), e);
+          }
+        } else {
+          throw new MergeException("Cannot merge " + n.name(), e);
+        }
       }
     }
+  }
+
+  private CodeReviewCommit failed(final CodeReviewCommit n,
+      final CommitMergeStatus failure) throws MissingObjectException,
+      IncorrectObjectTypeException, IOException {
+    rw.reset();
+    rw.markStart(n);
+    rw.markUninteresting(mergeTip);
+    CodeReviewCommit failed;
+    while ((failed = (CodeReviewCommit) rw.next()) != null) {
+      if (failed.patchsetId == null) {
+        continue;
+      }
+
+      failed.statusCode = failure;
+      status.put(failed.patchsetId.getParentKey(), failed.statusCode);
+    }
+    return failed;
   }
 
   private void writeMergeCommit(final Merger m, final CodeReviewCommit n)
@@ -743,6 +758,15 @@ public class MergeOp {
         case PATH_CONFLICT: {
           final String txt =
               "Your change could not be merged due to a path conflict.\n"
+                  + "\n"
+                  + "Please merge (or rebase) the change locally and upload the resolution for review.";
+          setNew(c, message(c, txt));
+          break;
+        }
+
+        case CRISS_CROSS_MERGE: {
+          final String txt =
+              "Your change requires a recursive merge to resolve.\n"
                   + "\n"
                   + "Please merge (or rebase) the change locally and upload the resolution for review.";
           setNew(c, message(c, txt));

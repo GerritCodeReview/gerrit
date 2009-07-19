@@ -34,5 +34,8 @@ enum CommitMergeStatus {
   NO_PATCH_SET,
 
   /** */
-  REVISION_GONE;
+  REVISION_GONE,
+
+  /** */
+  CRISS_CROSS_MERGE;
 }

@@ -37,6 +37,10 @@ import com.google.gerrit.client.ui.Screen;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.event.logical.shared.OpenEvent;
+import com.google.gwt.event.logical.shared.OpenHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -95,6 +99,21 @@ public abstract class PatchScreen extends Screen {
   // Which patch set id's are being diff'ed
   private static PatchSet.Id diffSideA = null;
   private static PatchSet.Id diffSideB = null;
+  private static Boolean historyOpen = null;
+  private static final OpenHandler<DisclosurePanel> cacheOpenState =
+      new OpenHandler<DisclosurePanel>() {
+        @Override
+        public void onOpen(OpenEvent<DisclosurePanel> event) {
+          historyOpen = true;
+        }
+      };
+  private static final CloseHandler<DisclosurePanel> cacheCloseState =
+      new CloseHandler<DisclosurePanel>() {
+        @Override
+        public void onClose(CloseEvent<DisclosurePanel> event) {
+          historyOpen = false;
+        }
+      };
 
   // The change id for which the above patch set id's are valid
   private static Change.Id currentChangeId = null;
@@ -150,6 +169,7 @@ public abstract class PatchScreen extends Screen {
     if (currentChangeId != null && !currentChangeId.equals(thisChangeId)) {
       diffSideA = null;
       diffSideB = null;
+      historyOpen = null;
     }
     currentChangeId = thisChangeId;
     idSideA = diffSideA; // null here means we're diff'ing from the Base
@@ -196,11 +216,13 @@ public abstract class PatchScreen extends Screen {
     historyTable = new HistoryTable(this);
     historyPanel = new DisclosurePanel(PatchUtil.C.patchHistoryTitle());
     historyPanel.setContent(historyTable);
-    historyPanel.setOpen(false);
     historyPanel.setVisible(false);
-    // If the user selected a different patch set than the default for either side,
-    // expand the history panel
-    historyPanel.setOpen(diffSideA != null || diffSideB != null);
+    // If the user selected a different patch set than the default for either
+    // side, expand the history panel
+    historyPanel.setOpen(diffSideA != null || diffSideB != null
+        || (historyOpen != null && historyOpen));
+    historyPanel.addOpenHandler(cacheOpenState);
+    historyPanel.addCloseHandler(cacheCloseState);
     add(historyPanel);
     initDisplayControls();
 
@@ -439,12 +461,8 @@ public abstract class PatchScreen extends Screen {
 
   private void onResult() {
     if (script != null && comments != null) {
-      if (comments.getHistory().size() > 1) {
-        historyTable.display(comments.getHistory());
-        historyPanel.setVisible(true);
-      } else {
-        historyPanel.setVisible(false);
-      }
+      historyTable.display(comments.getHistory());
+      historyPanel.setVisible(true);
 
       // True if there are differences between the two patch sets
       boolean hasEdits = !script.getEdits().isEmpty();

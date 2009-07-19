@@ -15,6 +15,7 @@
 package com.google.gerrit.client.patches;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwtexpui.safehtml.client.Prettify;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 import com.google.gwtjsonrpc.client.JsonUtil;
@@ -31,25 +32,27 @@ public class PatchUtil {
   }
 
   public static SafeHtml lineToSafeHtml(final String src, final int lineLength,
-      final boolean showWhiteSpaceErrors) {
+      final boolean showWhiteSpaceErrors, final String languageType) {
     final boolean hasTab = src.indexOf('\t') >= 0;
     String brokenSrc = wrapLines(src, hasTab, lineLength);
+    final boolean hasLFs = brokenSrc != src;
     SafeHtml html = new SafeHtmlBuilder().append(brokenSrc);
     if (showWhiteSpaceErrors) {
       html = showTabAfterSpace(html);
       html = showTrailingWhitespace(html);
     }
-    if (brokenSrc != src) {
+    if (hasTab) {
+      // We had at least one horizontal tab, so we should expand it out.
+      //
+      html = expandTabs(html);
+    }
+    html = Prettify.prettify(html, languageType);
+    if (hasLFs) {
       // If we had line breaks inserted into the source text we need
       // to expand the line breaks into <br> tags in HTML, so the
       // line will wrap around.
       //
       html = expandLFs(html);
-    }
-    if (hasTab) {
-      // We had at least one horizontal tab, so we should expand it out.
-      //
-      html = expandTabs(html);
     }
     return html;
   }
@@ -85,7 +88,7 @@ public class PatchUtil {
   private static SafeHtml expandTabs(SafeHtml src) {
     return src
         .replaceAll("\t",
-            "<span title=\"Visual Tab\" class=\"gerrit-visualtab\">&raquo;</span>\t");
+            "<span title=\"Visual Tab\" class=\"gerrit-visualtab\"> </span>\t");
   }
 
   private static SafeHtml expandLFs(SafeHtml src) {

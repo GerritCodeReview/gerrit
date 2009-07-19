@@ -22,6 +22,7 @@ import static com.google.gerrit.client.patches.PatchLine.Type.REPLACE;
 import com.google.gerrit.client.data.PatchScript;
 import com.google.gerrit.client.data.SparseFileContent;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
+import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 import java.util.ArrayList;
@@ -248,8 +249,7 @@ public class SideBySideTable extends AbstractPatchContentTable {
     m.addStyleName("FileLine");
     m.addStyleName("FileLine-" + type.name());
     final String text = src.get(i);
-    final boolean ws = type == INSERT;
-    m.append(PatchUtil.lineToSafeHtml(text, PatchUtil.DEFAULT_LINE_LENGTH, ws));
+    m.append(lineToSafeHtml(text, type == INSERT));
     m.closeTd();
   }
 

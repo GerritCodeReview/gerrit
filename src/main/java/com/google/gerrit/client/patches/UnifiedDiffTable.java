@@ -281,7 +281,6 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
 
   private void appendLineText(final SafeHtmlBuilder m,
       final PatchLine.Type type, final SparseFileContent src, final int i) {
-    final int len = PatchUtil.DEFAULT_LINE_LENGTH;
     final String text = src.get(i);
     m.openTd();
     m.addStyleName("DiffText");
@@ -297,7 +296,7 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
         m.append("+");
         break;
     }
-    m.append(PatchUtil.lineToSafeHtml(text, len, false));
+    m.append(lineToSafeHtml(text, type == PatchLine.Type.INSERT));
     m.closeTd();
   }
 

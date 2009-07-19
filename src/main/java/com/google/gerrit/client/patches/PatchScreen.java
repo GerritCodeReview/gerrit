@@ -143,8 +143,9 @@ public abstract class PatchScreen extends Screen {
     patchKey = id;
     fileList = patchTable;
 
-    // If we have any diff side stored, make sure they are applicable to the current change,
-    // discard them otherwise.
+    // If we have any diff side stored, make sure they are applicable to the
+    // current change, discard them otherwise.
+    //
     Change.Id thisChangeId = id.getParentKey().getParentKey();
     if (currentChangeId != null && !currentChangeId.equals(thisChangeId)) {
       diffSideA = null;
@@ -218,16 +219,20 @@ public abstract class PatchScreen extends Screen {
     add(contentPanel);
     add(createNextPrevLinks());
 
-    // This must be done after calling createNextPrevLinks(), which initializes these fields
+    // This must be done after calling createNextPrevLinks(), which initializes
+    // these fields
     if (previousFileLink != null) {
-      installLinkShortCut(previousFileLink, SHORTCUT_PREVIOUS_FILE, PatchUtil.C.previousFileHelp());
+      installLinkShortCut(previousFileLink, SHORTCUT_PREVIOUS_FILE, PatchUtil.C
+          .previousFileHelp());
     }
     if (nextFileLink != null) {
-      installLinkShortCut(nextFileLink, SHORTCUT_NEXT_FILE, PatchUtil.C.nextFileHelp());
+      installLinkShortCut(nextFileLink, SHORTCUT_NEXT_FILE, PatchUtil.C
+          .nextFileHelp());
     }
   }
 
-  private void installLinkShortCut(final DirectScreenLink link, char shortcut, String help) {
+  private void installLinkShortCut(final DirectScreenLink link, char shortcut,
+      String help) {
     keysNavigation.add(new KeyCommand(0, shortcut, help) {
       @Override
       public void onKeyPress(KeyPressEvent event) {
@@ -246,7 +251,8 @@ public abstract class PatchScreen extends Screen {
   }
 
   /**
-   * Add the contextual widgets for this patch: "Show full files" and "Keep unreviewed"
+   * Add the contextual widgets for this patch: "Show full files" and
+   * "Keep unreviewed"
    */
   private void createContext(final Grid parent, final int row, final int col) {
     parent.resizeRows(row + 1);
@@ -302,12 +308,12 @@ public abstract class PatchScreen extends Screen {
             // nop
           }
 
-    });
+        });
   }
 
   private void createIgnoreWhitespace(final Grid parent, final int row,
       final int col) {
-    parent.resizeRows(row + 1);    
+    parent.resizeRows(row + 1);
     final ListBox ws = new ListBox();
     ws.addItem(PatchUtil.C.whitespaceIGNORE_NONE(), Whitespace.IGNORE_NONE
         .name());
@@ -321,7 +327,7 @@ public abstract class PatchScreen extends Screen {
       @Override
       public void onChange(ChangeEvent event) {
         final int sel = ws.getSelectedIndex();
-        if(0 <= sel){
+        if (0 <= sel) {
           scriptSettings.setWhitespace(Whitespace.valueOf(ws.getValue(sel)));
           refresh(false /* not the first time */);
         }
@@ -340,10 +346,12 @@ public abstract class PatchScreen extends Screen {
     fmt.setHorizontalAlignment(0, 2, HasHorizontalAlignment.ALIGN_RIGHT);
 
     if (fileList != null) {
-      previousFileLink = fileList.getPreviousPatchLink(patchIndex, getPatchScreenType());
+      previousFileLink =
+          fileList.getPreviousPatchLink(patchIndex, getPatchScreenType());
       table.setWidget(0, 0, previousFileLink);
 
-      nextFileLink = fileList.getNextPatchLink(patchIndex, getPatchScreenType());
+      nextFileLink =
+          fileList.getNextPatchLink(patchIndex, getPatchScreenType());
       table.setWidget(0, 2, nextFileLink);
     }
 

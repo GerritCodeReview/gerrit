@@ -42,7 +42,6 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
-import com.google.gwtexpui.safehtml.client.SafeHtml;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -183,11 +182,6 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
     } else {
       onlyOneHunk = false;
     }
-  }
-
-  protected SafeHtml lineToSafeHtml(String text, boolean showWhitespaceErrors) {
-    return PatchUtil.lineToSafeHtml(text, PatchUtil.DEFAULT_LINE_LENGTH,
-        showWhitespaceErrors, formatLanguage);
   }
 
   private boolean isChunk(final int row) {

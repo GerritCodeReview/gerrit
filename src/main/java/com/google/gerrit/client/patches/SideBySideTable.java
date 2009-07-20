@@ -22,6 +22,8 @@ import static com.google.gerrit.client.patches.PatchLine.Type.REPLACE;
 import com.google.gerrit.client.data.PatchScript;
 import com.google.gerrit.client.data.SparseFileContent;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
+import com.google.gwtexpui.safehtml.client.PrettyFormatter;
+import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 import java.util.ArrayList;
@@ -61,9 +63,12 @@ public class SideBySideTable extends AbstractPatchContentTable {
   protected void render(final PatchScript script) {
     final SparseFileContent a = script.getA();
     final SparseFileContent b = script.getB();
+    final PrettyFormatter fmtA = PrettyFormatter.newFormatter(formatLanguage);
+    final PrettyFormatter fmtB = PrettyFormatter.newFormatter(formatLanguage);
     final ArrayList<PatchLine> lines = new ArrayList<PatchLine>();
     final SafeHtmlBuilder nc = new SafeHtmlBuilder();
 
+    fmtB.setShowWhiteSpaceErrors(true);
     appendHeader(nc);
     lines.add(null);
 
@@ -78,11 +83,12 @@ public class SideBySideTable extends AbstractPatchContentTable {
       while (hunk.hasNextLine()) {
         if (hunk.isContextLine()) {
           openLine(nc);
-          appendLineText(nc, hunk.getCurA(), CONTEXT, a, hunk.getCurA());
+          final SafeHtml ctx = fmtA.format(a.get(hunk.getCurA()));
+          appendLineText(nc, hunk.getCurA(), CONTEXT, ctx);
           if (ignoreWS && b.contains(hunk.getCurB())) {
-            appendLineText(nc, hunk.getCurB(), CONTEXT, b, hunk.getCurB());
+            appendLineText(nc, hunk.getCurB(), CONTEXT, b, hunk.getCurB(), fmtB);
           } else {
-            appendLineText(nc, hunk.getCurB(), CONTEXT, a, hunk.getCurA());
+            appendLineText(nc, hunk.getCurB(), CONTEXT, ctx);
           }
           closeLine(nc);
           hunk.incBoth();
@@ -94,14 +100,14 @@ public class SideBySideTable extends AbstractPatchContentTable {
           openLine(nc);
 
           if (del) {
-            appendLineText(nc, hunk.getCurA(), DELETE, a, hunk.getCurA());
+            appendLineText(nc, hunk.getCurA(), DELETE, a, hunk.getCurA(), fmtA);
             hunk.incA();
           } else {
             appendLineNone(nc);
           }
 
           if (ins) {
-            appendLineText(nc, hunk.getCurB(), INSERT, b, hunk.getCurB());
+            appendLineText(nc, hunk.getCurB(), INSERT, b, hunk.getCurB(), fmtB);
             hunk.incB();
           } else {
             appendLineNone(nc);
@@ -236,9 +242,17 @@ public class SideBySideTable extends AbstractPatchContentTable {
     m.closeTd();
   }
 
+  private SafeHtml appendLineText(final SafeHtmlBuilder m,
+      final int lineNumberMinusOne, final PatchLine.Type type,
+      final SparseFileContent src, final int i, final PrettyFormatter dst) {
+    final SafeHtml lineHtml = dst.format(src.get(i));
+    appendLineText(m, lineNumberMinusOne, type, lineHtml);
+    return lineHtml;
+  }
+
   private void appendLineText(final SafeHtmlBuilder m,
       final int lineNumberMinusOne, final PatchLine.Type type,
-      final SparseFileContent src, final int i) {
+      final SafeHtml lineHtml) {
     m.openTd();
     m.setStyleName("LineNumber");
     m.append(lineNumberMinusOne + 1);
@@ -247,8 +261,7 @@ public class SideBySideTable extends AbstractPatchContentTable {
     m.openTd();
     m.addStyleName("FileLine");
     m.addStyleName("FileLine-" + type.name());
-    final String text = src.get(i);
-    m.append(lineToSafeHtml(text, type == INSERT));
+    m.append(lineHtml);
     m.closeTd();
   }
 

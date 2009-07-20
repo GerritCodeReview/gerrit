@@ -22,7 +22,6 @@ import static com.google.gerrit.client.patches.PatchLine.Type.REPLACE;
 import com.google.gerrit.client.data.PatchScript;
 import com.google.gerrit.client.data.SparseFileContent;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
-import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 import java.util.ArrayList;

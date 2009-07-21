@@ -14,7 +14,6 @@
 
 package com.google.gerrit.client.reviewdb;
 
-import com.google.gerrit.server.HostPageServlet;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.StringKey;
 
@@ -77,8 +76,6 @@ public final class SystemConfig {
 
   /**
    * Local filesystem location of header/footer/CSS configuration files
-   * 
-   * @see HostPageServlet
    */
   @Column(notNull = false)
   public transient String sitePath;

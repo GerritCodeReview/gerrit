@@ -304,7 +304,7 @@ limitations under the License.
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>gwt-maven-plugin</artifactId>
-        <version>1.1-20090511.155458-49</version>
+        <version>1.1</version>
         <configuration>
           <module>com.google.gerrit.Gerrit</module>
           <output>${project.build.directory}/${project.name}-${project.version}</output>

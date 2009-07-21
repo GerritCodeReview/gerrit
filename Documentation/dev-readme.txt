@@ -19,7 +19,6 @@ Important Links
 Google Web Toolkit:
 
 * http://code.google.com/webtoolkit/download.html[Download]
-* http://code.google.com/docreader/#p=google-web-toolkit-doc-1-5[Developer's Guide]
 
 Apache Maven:
 

@@ -257,7 +257,7 @@ limitations under the License.
     <gwtormVersion>1.1.1</gwtormVersion>
     <gwtjsonrpcVersion>1.1.0</gwtjsonrpcVersion>
     <gwtexpuiVersion>1.1.2</gwtexpuiVersion>
-    <gwtVersion>1.6.4</gwtVersion>
+    <gwtVersion>1.7.0</gwtVersion>
     <gwtStyle>OBF</gwtStyle>
   </properties>
 

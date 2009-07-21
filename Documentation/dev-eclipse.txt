@@ -5,7 +5,7 @@ This document is about installing Gerrit into an Eclipse workspace
 for development and debugging, especially with the GWT hosted
 mode debugger.
 
-You will need to have the GWT (Google Web Toolkit) 1.6 SDK installed
+You will need to have the GWT (Google Web Toolkit) 1.7 SDK installed
 on your system.  A Java 6 or later SDK is also required to run
 GWT's compiler and runtime.
 
@@ -17,13 +17,13 @@ under libgcj.
 User Library
 ------------
 
-Create a user library called `GWT_16`:
+Create a user library called `GWT_17`:
 
 * Window > Preferences
 * Java > Build Path > User Libraries
 
 * New
-* Name: `GWT_16`
+* Name: `GWT_17`
 * Add JARs...
 
 * Select `gwt-user.jar` from the $(GWT_SDK) directory.

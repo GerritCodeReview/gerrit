@@ -609,61 +609,7 @@ limitations under the License.
       <version>${gwtVersion}</version>
       <scope>provided</scope>
     </dependency>
-    <dependency>
-      <groupId>com.google.gwt</groupId>
-      <artifactId>gwt-dev</artifactId>
-      <version>${gwtVersion}</version>
-      <classifier>${platform}-libs</classifier>
-      <type>zip</type>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.google.gwt</groupId>
-      <artifactId>gwt-dev</artifactId>
-      <version>${gwtVersion}</version>
-      <classifier>${platform}</classifier>
-      <scope>provided</scope>
-    </dependency>
   </dependencies>
-
-  <profiles>
-    <profile>
-      <id>gwt-dev-windows</id>
-      <properties>
-        <platform>windows</platform>
-      </properties>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-        <os>
-          <family>windows</family>
-        </os>
-      </activation>
-    </profile>
-    <profile>
-      <id>gwt-dev-mac</id>
-      <properties>
-        <platform>mac</platform>
-      </properties>
-      <activation>
-        <activeByDefault>false</activeByDefault>
-        <os>
-          <family>mac</family>
-        </os>
-      </activation>
-    </profile>
-    <profile>
-      <id>gwt-dev-linux</id>
-      <properties>
-        <platform>linux</platform>
-      </properties>
-      <activation>
-        <activeByDefault>false</activeByDefault>
-        <os>
-          <name>linux</name>
-        </os>
-      </activation>
-    </profile>
-  </profiles>
 
   <repositories>
     <repository>

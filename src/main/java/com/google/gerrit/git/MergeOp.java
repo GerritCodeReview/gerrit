@@ -554,7 +554,6 @@ public class MergeOp {
       if (!contains(footers, REVIEWED_ON, url)) {
         msgbuf.append(REVIEWED_ON.getName());
         msgbuf.append(": ");
-        msgbuf.append(server.getCanonicalURL());
         msgbuf.append(url);
         msgbuf.append('\n');
       }

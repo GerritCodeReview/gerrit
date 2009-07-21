@@ -675,11 +675,6 @@ limitations under the License.
       <id>gerrit-maven-repository</id>
       <url>http://gerrit.googlecode.com/svn/mavenrepo/</url>
     </repository>
-
-    <repository>
-      <id>gwt-maven</id>
-      <url>http://gwt-maven.googlecode.com/svn/trunk/mavenrepo/</url>
-    </repository>
   </repositories>
 
   <pluginRepositories>

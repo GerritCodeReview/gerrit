@@ -16,14 +16,11 @@ package com.google.gerrit.client.data;
 
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountPatchReview;
-import com.google.gerrit.client.reviewdb.AccountPatchReviewAccess;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.PatchSetInfo;
 import com.google.gerrit.client.reviewdb.ReviewDb;
-import com.google.gerrit.client.reviewdb.Patch.Key;
-import com.google.gerrit.client.reviewdb.PatchSet.Id;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.ResultSet;

@@ -25,7 +25,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwtorm.client.SchemaFactory;
 
 public class Common {
-  public static final RpcConstants C;
   private static GerritConfig config;
   private static SchemaFactory<ReviewDb> schema;
   private static AccountCache accountCache;
@@ -35,15 +34,12 @@ public class Common {
 
   static {
     if (GWT.isClient()) {
-      C = GWT.create(RpcConstants.class);
       caImpl = new CurrentAccountImpl() {
         public Account.Id getAccountId() {
           final Account a = Gerrit.getUserAccount();
           return a != null ? a.getId() : null;
         }
       };
-    } else {
-      C = null;
     }
   }
 

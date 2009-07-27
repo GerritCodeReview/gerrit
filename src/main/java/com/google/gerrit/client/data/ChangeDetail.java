@@ -25,6 +25,7 @@ import com.google.gerrit.client.reviewdb.PatchSetAncestor;
 import com.google.gerrit.client.reviewdb.RevId;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
+import com.google.gerrit.client.workflow.CategoryFunction;
 import com.google.gerrit.client.workflow.FunctionState;
 import com.google.gwtorm.client.OrmException;
 
@@ -82,13 +83,13 @@ public class ChangeDetail {
       missingApprovals = new HashSet<ApprovalCategory.Id>();
       currentActions = new HashSet<ApprovalCategory.Id>();
       for (final ApprovalType at : Common.getGerritConfig().getApprovalTypes()) {
-        at.getCategory().getFunction().run(at, fs);
+        CategoryFunction.forCategory(at.getCategory()).run(at, fs);
         if (!fs.isValid(at)) {
           missingApprovals.add(at.getCategory().getId());
         }
       }
       for (final ApprovalType at : Common.getGerritConfig().getActionTypes()) {
-        if (at.getCategory().getFunction().isValid(me, at, fs)) {
+        if (CategoryFunction.forCategory(at.getCategory()).isValid(me, at, fs)) {
           currentActions.add(at.getCategory().getId());
         }
       }

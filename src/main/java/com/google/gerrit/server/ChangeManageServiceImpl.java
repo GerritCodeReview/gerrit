@@ -25,6 +25,7 @@ import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
+import com.google.gerrit.client.workflow.CategoryFunction;
 import com.google.gerrit.client.workflow.FunctionState;
 import com.google.gerrit.git.MergeQueue;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -90,9 +91,10 @@ public class ChangeManageServiceImpl extends BaseServiceImplementation
 
         final FunctionState fs = new FunctionState(change, allApprovals);
         for (ApprovalType c : Common.getGerritConfig().getApprovalTypes()) {
-          c.getCategory().getFunction().run(c, fs);
+          CategoryFunction.forCategory(c.getCategory()).run(c, fs);
         }
-        if (!actionType.getCategory().getFunction().isValid(me, actionType, fs)) {
+        if (!CategoryFunction.forCategory(actionType.getCategory()).isValid(me,
+            actionType, fs)) {
           throw new Failure(new IllegalStateException(actionType.getCategory()
               .getName()
               + " not permitted"));

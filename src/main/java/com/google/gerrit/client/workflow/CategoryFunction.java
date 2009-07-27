@@ -34,6 +34,18 @@ public abstract class CategoryFunction {
   }
 
   /**
+   * Locate a function by category.
+   * 
+   * @param category the category the function is for.
+   * @return the function implementation; {@link NoOpFunction} if the function
+   *         is not known to Gerrit and thus cannot be executed.
+   */
+  public static CategoryFunction forCategory(final ApprovalCategory category) {
+    final CategoryFunction r = forName(category.getFunctionName());
+    return r != null ? r : new NoOpFunction();
+  }
+
+  /**
    * Locate a function by name.
    * 
    * @param functionName the function's unique name.

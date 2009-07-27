@@ -26,6 +26,7 @@ import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
+import com.google.gerrit.client.workflow.CategoryFunction;
 import com.google.gerrit.client.workflow.FunctionState;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritServer;
@@ -879,7 +880,7 @@ public class MergeOp {
             schema.changeApprovals().byChange(c.getId()).toList();
         final FunctionState fs = new FunctionState(c, approvals);
         for (ApprovalType at : Common.getGerritConfig().getApprovalTypes()) {
-          at.getCategory().getFunction().run(at, fs);
+          CategoryFunction.forCategory(at.getCategory()).run(at, fs);
         }
         for (ChangeApproval a : approvals) {
           if (a.getValue() > 0

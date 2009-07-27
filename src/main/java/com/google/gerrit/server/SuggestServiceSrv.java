@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server;
 
-import com.google.gerrit.client.ui.SuggestServiceImpl;
 
 /** Publishes {@link SuggestServiceImpl} over JSON. */
 @SuppressWarnings("serial")

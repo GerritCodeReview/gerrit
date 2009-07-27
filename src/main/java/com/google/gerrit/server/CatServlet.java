@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server;
 
-import static com.google.gerrit.client.rpc.BaseServiceImplementation.canRead;
+import static com.google.gerrit.server.BaseServiceImplementation.canRead;
 
 import com.google.gerrit.client.data.ProjectCache;
 import com.google.gerrit.client.reviewdb.Account;

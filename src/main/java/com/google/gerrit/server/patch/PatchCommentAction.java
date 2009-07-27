@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.patch;
 
-import static com.google.gerrit.client.rpc.BaseServiceImplementation.canRead;
+import static com.google.gerrit.server.BaseServiceImplementation.canRead;
 
 import com.google.gerrit.client.data.AccountInfoCacheFactory;
 import com.google.gerrit.client.patches.CommentDetail;
@@ -26,8 +26,8 @@ import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
-import com.google.gerrit.client.rpc.BaseServiceImplementation.Action;
-import com.google.gerrit.client.rpc.BaseServiceImplementation.Failure;
+import com.google.gerrit.server.BaseServiceImplementation.Action;
+import com.google.gerrit.server.BaseServiceImplementation.Failure;
 import com.google.gwtorm.client.OrmException;
 
 

@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server;
 
-import com.google.gerrit.client.changes.ChangeListServiceImpl;
 
 /** Publishes {@link ChangeListServiceImpl} over JSON. */
 @SuppressWarnings("serial")

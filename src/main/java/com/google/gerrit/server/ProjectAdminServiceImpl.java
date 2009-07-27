@@ -128,7 +128,10 @@ public class ProjectAdminServiceImpl extends BaseServiceImplementation
             if (f.lock()) {
               String d = proj.getDescription();
               if (d != null) {
-                d = d.trim() + "\n";
+                d = d.trim();
+                if (d.length() > 0) {
+                  d += "\n";
+                }
               } else {
                 d = "";
               }

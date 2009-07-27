@@ -65,6 +65,7 @@ import org.apache.commons.net.smtp.SMTPClient;
 import org.apache.commons.net.smtp.SMTPReply;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.spearce.jgit.errors.ConfigInvalidException;
 import org.spearce.jgit.lib.PersonIdent;
 import org.spearce.jgit.lib.RepositoryConfig;
 import org.spearce.jgit.lib.WindowCache;
@@ -205,6 +206,8 @@ public class GerritServer {
       gerritConfigFile.load();
     } catch (FileNotFoundException e) {
       log.info("No " + cfgLoc.getAbsolutePath() + "; assuming defaults");
+    } catch (ConfigInvalidException e) {
+      throw new OrmException("Cannot read " + cfgLoc.getAbsolutePath(), e);
     } catch (IOException e) {
       throw new OrmException("Cannot read " + cfgLoc.getAbsolutePath(), e);
     }

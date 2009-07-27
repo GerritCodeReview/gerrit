@@ -23,6 +23,7 @@ import com.jcraft.jsch.Session;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.spearce.jgit.errors.ConfigInvalidException;
 import org.spearce.jgit.lib.RepositoryConfig;
 import org.spearce.jgit.transport.OpenSshConfig;
 import org.spearce.jgit.transport.RefSpec;
@@ -157,6 +158,9 @@ public class PushQueue {
       } catch (FileNotFoundException e) {
         log.warn("No " + cfgFile + "; not replicating");
         configs = Collections.emptyList();
+      } catch (ConfigInvalidException e) {
+        log.error("Can't read " + cfgFile, e);
+        return Collections.emptyList();
       } catch (IOException e) {
         log.error("Can't read " + cfgFile, e);
         return Collections.emptyList();

@@ -26,13 +26,13 @@ import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
-import com.google.gerrit.client.workflow.CategoryFunction;
-import com.google.gerrit.client.workflow.FunctionState;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.mail.MergeFailSender;
 import com.google.gerrit.server.mail.MergedSender;
+import com.google.gerrit.server.workflow.CategoryFunction;
+import com.google.gerrit.server.workflow.FunctionState;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.Transaction;
 

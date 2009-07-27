@@ -37,10 +37,10 @@ import com.google.gerrit.client.reviewdb.RevId;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
-import com.google.gerrit.client.workflow.CategoryFunction;
-import com.google.gerrit.client.workflow.FunctionState;
 import com.google.gerrit.server.BaseServiceImplementation.Action;
 import com.google.gerrit.server.BaseServiceImplementation.Failure;
+import com.google.gerrit.server.workflow.CategoryFunction;
+import com.google.gerrit.server.workflow.FunctionState;
 import com.google.gwtorm.client.OrmException;
 
 import java.util.ArrayList;

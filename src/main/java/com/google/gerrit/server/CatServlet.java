@@ -24,12 +24,12 @@ import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
-import com.google.gerrit.git.InvalidRepositoryException;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
 
 import eu.medsea.mimeutil.MimeType;
 
+import org.spearce.jgit.errors.RepositoryNotFoundException;
 import org.spearce.jgit.lib.Constants;
 import org.spearce.jgit.lib.ObjectId;
 import org.spearce.jgit.lib.Repository;
@@ -162,10 +162,8 @@ public class CatServlet extends HttpServlet {
 
     final Repository repo;
     try {
-      repo =
-          server.getRepositoryCache()
-              .get(change.getDest().getParentKey().get());
-    } catch (InvalidRepositoryException e) {
+      repo = server.openRepository(change.getDest().getParentKey().get());
+    } catch (RepositoryNotFoundException e) {
       getServletContext().log("Cannot open repository", e);
       rsp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
       return;
@@ -219,6 +217,8 @@ public class CatServlet extends HttpServlet {
       getServletContext().log("Cannot read repository", e);
       rsp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
       return;
+    } finally {
+      repo.close();
     }
 
     final long when = fromCommit.getCommitTime() * 1000L;

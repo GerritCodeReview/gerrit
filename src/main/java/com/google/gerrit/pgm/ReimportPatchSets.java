@@ -19,11 +19,11 @@ import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
-import com.google.gerrit.git.InvalidRepositoryException;
 import com.google.gerrit.git.PatchSetImporter;
 import com.google.gerrit.server.GerritServer;
 import com.google.gwtorm.client.OrmException;
 
+import org.spearce.jgit.errors.RepositoryNotFoundException;
 import org.spearce.jgit.lib.ObjectId;
 import org.spearce.jgit.lib.ProgressMonitor;
 import org.spearce.jgit.lib.Repository;
@@ -88,8 +88,8 @@ public class ReimportPatchSets extends AbstractProgram {
         final String projectName = projectKey.get();
         final Repository repo;
         try {
-          repo = gs.getRepositoryCache().get(projectName);
-        } catch (InvalidRepositoryException ie) {
+          repo = gs.openRepository(projectName);
+        } catch (RepositoryNotFoundException ie) {
           System.err.println();
           System.err.println("NoProject " + psid);
           System.err.println("NoProject " + ie.getMessage());
@@ -101,6 +101,7 @@ public class ReimportPatchSets extends AbstractProgram {
             rw.parseCommit(ObjectId.fromString(ps.getRevision().get()));
         new PatchSetImporter(gs, db, projectKey, repo, src, ps, false).run();
         pm.update(1);
+        repo.close();
       }
     } catch (OrmException e) {
       System.err.println();

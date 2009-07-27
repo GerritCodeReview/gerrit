@@ -20,9 +20,9 @@ import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.client.rpc.Common;
-import com.google.gerrit.git.InvalidRepositoryException;
 
 import org.kohsuke.args4j.Argument;
+import org.spearce.jgit.errors.RepositoryNotFoundException;
 import org.spearce.jgit.lib.Repository;
 
 import java.io.IOException;
@@ -75,19 +75,22 @@ abstract class AbstractGitCommand extends AbstractCommand {
           new SecurityException("Account lacks Read permission"));
     }
 
-    try {
-      repo = getRepositoryCache().get(proj.getName());
-    } catch (InvalidRepositoryException e) {
-      throw new Failure(1, "fatal: '" + reqProjName + "': not a git archive", e);
-    }
-
     userAccount = Common.getAccountCache().get(getAccountId(), db);
     if (userAccount == null) {
       throw new Failure(1, "fatal: cannot query user database",
           new IllegalStateException("Account record no longer in database"));
     }
 
-    runImpl();
+    try {
+      repo = getGerritServer().openRepository(proj.getName());
+    } catch (RepositoryNotFoundException e) {
+      throw new Failure(1, "fatal: '" + reqProjName + "': not a git archive", e);
+    }
+    try {
+      runImpl();
+    } finally {
+      repo.close();
+    }
   }
 
   protected boolean canPerform(final ApprovalCategory.Id actionId,

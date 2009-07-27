@@ -18,11 +18,11 @@ import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.reviewdb.PatchSet;
-import com.google.gerrit.git.InvalidRepositoryException;
 import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.patch.PatchFile;
 import com.google.gwtorm.client.OrmException;
 
+import org.spearce.jgit.errors.RepositoryNotFoundException;
 import org.spearce.jgit.lib.Repository;
 
 import java.util.Collections;
@@ -109,6 +109,10 @@ public class CommentSender extends ReplyToChangeSender {
       appendText(c.getMessage().trim());
       appendText("\n\n");
     }
+
+    if (repo != null) {
+      repo.close();
+    }
   }
 
   private Map<Patch.Key, Patch> getPatchMap() {
@@ -124,8 +128,8 @@ public class CommentSender extends ReplyToChangeSender {
 
   private Repository getRepository() {
     try {
-      return server.getRepositoryCache().get(projectName);
-    } catch (InvalidRepositoryException e) {
+      return server.openRepository(projectName);
+    } catch (RepositoryNotFoundException e) {
       return null;
     }
   }

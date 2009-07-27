@@ -39,7 +39,6 @@ import com.google.gerrit.client.rpc.BaseServiceImplementation;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.NoSuchAccountException;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
-import com.google.gerrit.git.RepositoryCache;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritJsonServlet;
 import com.google.gerrit.server.GerritServer;
@@ -79,12 +78,7 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
       callback.onFailure(new NoSuchEntityException());
       return;
     }
-    final RepositoryCache rc = server.getRepositoryCache();
-    if (rc == null) {
-      callback.onFailure(new Exception("No Repository Cache configured"));
-      return;
-    }
-    run(callback, new PatchScriptAction(server, rc, patchKey, psa, psb, s));
+    run(callback, new PatchScriptAction(server, patchKey, psa, psb, s));
   }
 
   public void patchComments(final Patch.Key patchKey, final PatchSet.Id psa,

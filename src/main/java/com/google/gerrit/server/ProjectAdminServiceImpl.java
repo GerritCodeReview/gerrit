@@ -31,7 +31,6 @@ import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.InvalidNameException;
 import com.google.gerrit.client.rpc.InvalidRevisionException;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
-import com.google.gerrit.git.InvalidRepositoryException;
 import com.google.gerrit.git.PushQueue;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
@@ -41,6 +40,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spearce.jgit.errors.IncorrectObjectTypeException;
 import org.spearce.jgit.errors.MissingObjectException;
+import org.spearce.jgit.errors.RepositoryNotFoundException;
 import org.spearce.jgit.lib.Constants;
 import org.spearce.jgit.lib.LockFile;
 import org.spearce.jgit.lib.ObjectId;
@@ -123,7 +123,7 @@ public class ProjectAdminServiceImpl extends BaseServiceImplementation
             final Repository e;
             final LockFile f;
 
-            e = server.getRepositoryCache().get(proj.getName());
+            e = server.openRepository(proj.getName());
             f = new LockFile(new File(e.getDirectory(), "description"));
             if (f.lock()) {
               String d = proj.getDescription();
@@ -135,9 +135,10 @@ public class ProjectAdminServiceImpl extends BaseServiceImplementation
               f.write(Constants.encode(d));
               f.commit();
             }
-          } catch (IOException e) {
+            e.close();
+          } catch (RepositoryNotFoundException e) {
             log.error("Cannot update description for " + proj.getName(), e);
-          } catch (InvalidRepositoryException e) {
+          } catch (IOException e) {
             log.error("Cannot update description for " + proj.getName(), e);
           }
         }
@@ -285,8 +286,8 @@ public class ProjectAdminServiceImpl extends BaseServiceImplementation
           final Repository r;
 
           try {
-            r = server.getRepositoryCache().get(k.getParentKey().get());
-          } catch (InvalidRepositoryException e) {
+            r = server.openRepository(k.getParentKey().get());
+          } catch (RepositoryNotFoundException e) {
             throw new Failure(new NoSuchEntityException());
           }
 
@@ -297,6 +298,7 @@ public class ProjectAdminServiceImpl extends BaseServiceImplementation
             result = u.delete();
           } catch (IOException e) {
             log.error("Cannot delete " + k, e);
+            r.close();
             continue;
           }
 
@@ -319,6 +321,7 @@ public class ProjectAdminServiceImpl extends BaseServiceImplementation
               log.error("Cannot delete " + k + ": " + result.name());
               break;
           }
+          r.close();
         }
         return deleted;
       }
@@ -348,81 +351,90 @@ public class ProjectAdminServiceImpl extends BaseServiceImplementation
         assertAmProjectOwner(db, projectId);
 
         final String repoName = pce.getProject().getName();
+        final Branch.NameKey name =
+            new Branch.NameKey(pce.getProject().getNameKey(), refname);
         final Repository repo;
         try {
-          repo = server.getRepositoryCache().get(repoName);
-        } catch (InvalidRepositoryException e1) {
+          repo = server.openRepository(repoName);
+        } catch (RepositoryNotFoundException e1) {
           throw new Failure(new NoSuchEntityException());
         }
 
-        // Convert the name given by the user into a valid object.
-        //
-        final ObjectId revid;
         try {
-          revid = repo.resolve(startingRevision);
-          if (revid == null) {
+          // Convert the name given by the user into a valid object.
+          //
+          final ObjectId revid;
+          try {
+            revid = repo.resolve(startingRevision);
+            if (revid == null) {
+              throw new Failure(new InvalidRevisionException());
+            }
+          } catch (IOException err) {
+            log.error("Cannot resolve \"" + startingRevision + "\" in "
+                + repoName, err);
             throw new Failure(new InvalidRevisionException());
           }
-        } catch (IOException err) {
-          log.error("Cannot resolve \"" + startingRevision + "\" in "
-              + repoName, err);
-          throw new Failure(new InvalidRevisionException());
-        }
 
-        // Ensure it is fully connected in this repository. If not,
-        // we can't safely create a ref to it as objects are missing
-        //
-        final RevCommit revcommit;
-        final ObjectWalk rw = new ObjectWalk(repo);
-        try {
+          // Ensure it is fully connected in this repository. If not,
+          // we can't safely create a ref to it as objects are missing
+          //
+          final RevCommit revcommit;
+          final ObjectWalk rw = new ObjectWalk(repo);
           try {
-            revcommit = rw.parseCommit(revid);
-            rw.markStart(revcommit);
+            try {
+              revcommit = rw.parseCommit(revid);
+              rw.markStart(revcommit);
+            } catch (IncorrectObjectTypeException err) {
+              throw new Failure(new InvalidRevisionException());
+            }
+            for (final Ref r : repo.getAllRefs().values()) {
+              try {
+                rw.markUninteresting(rw.parseAny(r.getObjectId()));
+              } catch (MissingObjectException err) {
+                continue;
+              }
+            }
+            rw.checkConnectivity();
           } catch (IncorrectObjectTypeException err) {
             throw new Failure(new InvalidRevisionException());
+          } catch (MissingObjectException err) {
+            throw new Failure(new InvalidRevisionException());
+          } catch (IOException err) {
+            log.error("Repository " + repoName + " possibly corrupt", err);
+            throw new Failure(new InvalidRevisionException());
           }
-          for (final Ref r : repo.getAllRefs().values()) {
-            try {
-              rw.markUninteresting(rw.parseAny(r.getObjectId()));
-            } catch (MissingObjectException err) {
-              continue;
-            }
-          }
-          rw.checkConnectivity();
-        } catch (IncorrectObjectTypeException err) {
-          throw new Failure(new InvalidRevisionException());
-        } catch (MissingObjectException err) {
-          throw new Failure(new InvalidRevisionException());
-        } catch (IOException err) {
-          log.error("Repository " + repoName + " possibly corrupt", err);
-          throw new Failure(new InvalidRevisionException());
-        }
 
-        final HttpServletRequest hreq =
-            GerritJsonServlet.getCurrentCall().getHttpServletRequest();
-        final Branch.NameKey name =
-            new Branch.NameKey(pce.getProject().getNameKey(), refname);
-        try {
-          final RefUpdate u = repo.updateRef(refname);
-          u.setExpectedOldObjectId(ObjectId.zeroId());
-          u.setNewObjectId(revid);
-          u.setRefLogIdent(ChangeUtil.toReflogIdent(me, new InetSocketAddress(
-              hreq.getRemoteHost(), hreq.getRemotePort())));
-          u.setRefLogMessage("created via web from " + startingRevision, false);
-          final RefUpdate.Result result = u.update(rw);
-          switch (result) {
-            case FAST_FORWARD:
-            case NEW:
-            case NO_CHANGE:
-              PushQueue.scheduleUpdate(name.getParentKey(), refname);
-              break;
-            default:
-              log.error("Cannot create branch " + name + ": " + result.name());
-              throw new Failure(new IOException(result.name()));
+          final HttpServletRequest hreq =
+              GerritJsonServlet.getCurrentCall().getHttpServletRequest();
+          try {
+            final RefUpdate u = repo.updateRef(refname);
+            u.setExpectedOldObjectId(ObjectId.zeroId());
+            u.setNewObjectId(revid);
+            u.setRefLogIdent(ChangeUtil.toReflogIdent(me,
+                new InetSocketAddress(hreq.getRemoteHost(), hreq
+                    .getRemotePort())));
+            u.setRefLogMessage("created via web from " + startingRevision,
+                false);
+            final RefUpdate.Result result = u.update(rw);
+            switch (result) {
+              case FAST_FORWARD:
+              case NEW:
+              case NO_CHANGE:
+                PushQueue.scheduleUpdate(name.getParentKey(), refname);
+                break;
+              default: {
+                final String msg =
+                    "Cannot create branch " + name + ": " + result.name();
+                log.error(msg);
+                throw new Failure(new IOException(result.name()));
+              }
+            }
+          } catch (IOException err) {
+            log.error("Cannot create branch " + name, err);
+            throw new Failure(err);
           }
-        } catch (IOException err) {
-          log.error("Cannot create branch " + name, err);
-          throw new Failure(err);
+        } finally {
+          repo.close();
         }
 
         final Branch.Id id = new Branch.Id(db.nextBranchId());

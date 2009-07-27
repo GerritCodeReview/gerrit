@@ -38,7 +38,6 @@ import com.google.gerrit.client.workflow.SubmitFunction;
 import com.google.gerrit.git.MergeQueue;
 import com.google.gerrit.git.PushAllProjectsOp;
 import com.google.gerrit.git.PushQueue;
-import com.google.gerrit.git.RepositoryCache;
 import com.google.gerrit.git.WorkQueue;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.patch.DiffCacheEntryFactory;
@@ -66,10 +65,14 @@ import org.apache.commons.net.smtp.SMTPReply;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spearce.jgit.errors.ConfigInvalidException;
+import org.spearce.jgit.errors.RepositoryNotFoundException;
 import org.spearce.jgit.lib.PersonIdent;
+import org.spearce.jgit.lib.Repository;
+import org.spearce.jgit.lib.RepositoryCache;
 import org.spearce.jgit.lib.RepositoryConfig;
 import org.spearce.jgit.lib.WindowCache;
 import org.spearce.jgit.lib.WindowCacheConfig;
+import org.spearce.jgit.lib.RepositoryCache.FileKey;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -189,7 +192,7 @@ public class GerritServer {
   private final SignedToken xsrf;
   private final SignedToken account;
   private final SignedToken emailReg;
-  private final RepositoryCache repositories;
+  private final File basepath;
   private final SelfPopulatingCache diffCache;
   private final SelfPopulatingCache sshKeysCache;
 
@@ -236,9 +239,9 @@ public class GerritServer {
       if (!root.isAbsolute()) {
         root = new File(getSitePath(), basePath);
       }
-      repositories = new RepositoryCache(root);
+      basepath = root;
     } else {
-      repositories = null;
+      basepath = null;
     }
 
     final ReviewDb c = db.open();
@@ -885,9 +888,49 @@ public class GerritServer {
     return gerritConfigFile;
   }
 
-  /** Get the repositories maintained by this server. */
-  public RepositoryCache getRepositoryCache() {
-    return repositories;
+  /**
+   * Get (or open) a repository by name.
+   * 
+   * @param name the repository name, relative to the base directory.
+   * @return the cached Repository instance. Caller must call {@code close()}
+   *         when done to decrement the resource handle.
+   * @throws RepositoryNotFoundException the name does not denote an existing
+   *         repository, or the name cannot be read as a repository.
+   */
+  public Repository openRepository(String name)
+      throws RepositoryNotFoundException {
+    if (basepath == null) {
+      throw new RepositoryNotFoundException("No gerrit.basepath configured");
+    }
+
+    if (isUnreasonableName(name)) {
+      throw new RepositoryNotFoundException("Invalid name: " + name);
+    }
+
+    try {
+      final FileKey loc = FileKey.lenient(new File(basepath, name));
+      return RepositoryCache.open(loc);
+    } catch (IOException e1) {
+      final RepositoryNotFoundException e2;
+      e2 = new RepositoryNotFoundException("Cannot open repository " + name);
+      e2.initCause(e1);
+      throw e2;
+    }
+  }
+
+  private boolean isUnreasonableName(final String name) {
+    if (name.length() == 0) return true; // no empty paths
+
+    if (name.indexOf('\\') >= 0) return true; // no windows/dos stlye paths
+    if (name.charAt(0) == '/') return true; // no absolute paths
+    if (new File(name).isAbsolute()) return true; // no absolute paths
+
+    if (name.startsWith("../")) return true; // no "l../etc/passwd"
+    if (name.contains("/../")) return true; // no "foo/../etc/passwd"
+    if (name.contains("/./")) return true; // "foo/./foo" is insane to ask
+    if (name.contains("//")) return true; // windows UNC path can be "//..."
+
+    return false; // is a reasonable name
   }
 
   /** Get all registered caches. */

@@ -21,7 +21,6 @@ import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.BaseServiceImplementation;
 import com.google.gerrit.client.rpc.Common;
-import com.google.gerrit.git.RepositoryCache;
 import com.google.gerrit.server.GerritServer;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
@@ -103,15 +102,6 @@ abstract class AbstractCommand implements Command, SessionAware {
     } catch (XsrfException e) {
       throw new Failure(128, "fatal: Gerrit is not available", e);
     }
-  }
-
-  protected RepositoryCache getRepositoryCache() throws Failure {
-    final RepositoryCache rc = getGerritServer().getRepositoryCache();
-    if (rc == null) {
-      throw new Failure(128, "fatal: Gerrit repositories are not available",
-          new IllegalStateException("gerrit.basePath not set"));
-    }
-    return rc;
   }
 
   protected ReviewDb openReviewDb() throws Failure {

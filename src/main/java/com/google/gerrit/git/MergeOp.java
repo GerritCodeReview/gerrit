@@ -39,6 +39,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spearce.jgit.errors.IncorrectObjectTypeException;
 import org.spearce.jgit.errors.MissingObjectException;
+import org.spearce.jgit.errors.RepositoryNotFoundException;
 import org.spearce.jgit.lib.AnyObjectId;
 import org.spearce.jgit.lib.Commit;
 import org.spearce.jgit.lib.Constants;
@@ -133,6 +134,9 @@ public class MergeOp {
     try {
       mergeImpl();
     } finally {
+      if (db != null) {
+        db.close();
+      }
       schema.close();
       schema = null;
     }
@@ -165,8 +169,8 @@ public class MergeOp {
   private void openRepository() throws MergeException {
     final String name = destBranch.getParentKey().get();
     try {
-      db = server.getRepositoryCache().get(name);
-    } catch (InvalidRepositoryException notGit) {
+      db = server.openRepository(name);
+    } catch (RepositoryNotFoundException notGit) {
       final String m = "Repository \"" + name + "\" unknown.";
       throw new MergeException(m, notGit);
     }

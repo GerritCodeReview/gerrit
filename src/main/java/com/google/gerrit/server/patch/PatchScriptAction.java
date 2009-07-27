@@ -33,8 +33,6 @@ import com.google.gerrit.client.rpc.CorruptEntityException;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gerrit.client.rpc.BaseServiceImplementation.Action;
 import com.google.gerrit.client.rpc.BaseServiceImplementation.Failure;
-import com.google.gerrit.git.InvalidRepositoryException;
-import com.google.gerrit.git.RepositoryCache;
 import com.google.gerrit.server.GerritServer;
 import com.google.gwtorm.client.OrmException;
 
@@ -43,6 +41,7 @@ import net.sf.ehcache.Element;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.spearce.jgit.errors.RepositoryNotFoundException;
 import org.spearce.jgit.lib.ObjectId;
 import org.spearce.jgit.lib.ObjectWriter;
 import org.spearce.jgit.lib.Repository;
@@ -57,7 +56,6 @@ class PatchScriptAction implements Action<PatchScript> {
       LoggerFactory.getLogger(PatchScriptAction.class);
 
   private final GerritServer server;
-  private final RepositoryCache rc;
   private final Patch.Key patchKey;
   private final PatchSet.Id psa;
   private final PatchSet.Id psb;
@@ -71,11 +69,10 @@ class PatchScriptAction implements Action<PatchScript> {
   private Project.NameKey projectKey;
   private Repository git;
 
-  PatchScriptAction(final GerritServer gs, final RepositoryCache rc,
-      final Patch.Key patchKey, final PatchSet.Id psa, final PatchSet.Id psb,
+  PatchScriptAction(final GerritServer gs, final Patch.Key patchKey,
+      final PatchSet.Id psa, final PatchSet.Id psb,
       final PatchScriptSettings settings) {
     this.server = gs;
-    this.rc = rc;
     this.patchKey = patchKey;
     this.psa = psa;
     this.psb = psb;
@@ -98,38 +95,42 @@ class PatchScriptAction implements Action<PatchScript> {
 
     projectKey = change.getDest().getParentKey();
     try {
-      git = rc.get(projectKey.get());
-    } catch (InvalidRepositoryException e) {
+      git = server.openRepository(projectKey.get());
+    } catch (RepositoryNotFoundException e) {
       log.error("Repository " + projectKey + " not found", e);
       throw new Failure(new NoSuchEntityException());
     }
 
-    final PatchScriptBuilder b = newBuilder();
-    final ObjectId bId = toObjectId(db, psb);
-    final ObjectId aId = psa == null ? ancestor(bId) : toObjectId(db, psa);
-
-    final DiffCacheKey key = keyFor(bId, aId);
-    final DiffCacheContent contentWS = get(key);
-    final CommentDetail comments = allComments(db);
-
-    final DiffCacheContent contentActual;
-    if (settings.getWhitespace() != Whitespace.IGNORE_NONE) {
-      // If we are ignoring whitespace in some form, we still need to know
-      // where the post-image differs so we can ensure the post-image lines
-      // are still packed for the client to display.
-      //
-      final PatchScriptSettings s = new PatchScriptSettings(settings);
-      s.setWhitespace(Whitespace.IGNORE_NONE);
-      contentActual = get(new DiffCacheKey(projectKey, aId, bId, patch, s));
-    } else {
-      contentActual = contentWS;
-    }
-
     try {
-      return b.toPatchScript(key, contentWS, comments, contentActual);
-    } catch (CorruptEntityException e) {
-      log.error("File content for " + key + " unavailable", e);
-      throw new Failure(new NoSuchEntityException());
+      final PatchScriptBuilder b = newBuilder();
+      final ObjectId bId = toObjectId(db, psb);
+      final ObjectId aId = psa == null ? ancestor(bId) : toObjectId(db, psa);
+
+      final DiffCacheKey key = keyFor(bId, aId);
+      final DiffCacheContent contentWS = get(key);
+      final CommentDetail comments = allComments(db);
+
+      final DiffCacheContent contentActual;
+      if (settings.getWhitespace() != Whitespace.IGNORE_NONE) {
+        // If we are ignoring whitespace in some form, we still need to know
+        // where the post-image differs so we can ensure the post-image lines
+        // are still packed for the client to display.
+        //
+        final PatchScriptSettings s = new PatchScriptSettings(settings);
+        s.setWhitespace(Whitespace.IGNORE_NONE);
+        contentActual = get(new DiffCacheKey(projectKey, aId, bId, patch, s));
+      } else {
+        contentActual = contentWS;
+      }
+
+      try {
+        return b.toPatchScript(key, contentWS, comments, contentActual);
+      } catch (CorruptEntityException e) {
+        log.error("File content for " + key + " unavailable", e);
+        throw new Failure(new NoSuchEntityException());
+      }
+    } finally {
+      git.close();
     }
   }
 

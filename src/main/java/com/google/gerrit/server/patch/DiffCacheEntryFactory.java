@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.patch;
 
-import com.google.gerrit.client.reviewdb.Project;
-import com.google.gerrit.git.InvalidRepositoryException;
 import com.google.gerrit.server.GerritServer;
 
 import net.sf.ehcache.constructs.blocking.CacheEntryFactory;
@@ -37,7 +35,16 @@ public class DiffCacheEntryFactory implements CacheEntryFactory {
 
   public Object createEntry(Object genericKey) throws Exception {
     final DiffCacheKey key = (DiffCacheKey) genericKey;
-    final Repository db = open(key.getProjectKey());
+    final Repository db = server.openRepository(key.getProjectKey().get());
+    try {
+      return createEntry(key, db);
+    } finally {
+      db.close();
+    }
+  }
+
+  private DiffCacheContent createEntry(final DiffCacheKey key,
+      final Repository db) throws Exception {
     final ObjectId newId = key.getNewId();
     final List<String> args = new ArrayList<String>();
     args.add("git");
@@ -105,10 +112,5 @@ public class DiffCacheEntryFactory implements CacheEntryFactory {
     }
 
     return DiffCacheContent.create(file);
-  }
-
-  private Repository open(final Project.NameKey key)
-      throws InvalidRepositoryException {
-    return server.getRepositoryCache().get(key.get());
   }
 }

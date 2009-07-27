@@ -23,6 +23,7 @@ import com.jcraft.jsch.JSchException;
 import org.slf4j.Logger;
 import org.spearce.jgit.errors.NoRemoteRepositoryException;
 import org.spearce.jgit.errors.NotSupportedException;
+import org.spearce.jgit.errors.RepositoryNotFoundException;
 import org.spearce.jgit.errors.TransportException;
 import org.spearce.jgit.lib.Constants;
 import org.spearce.jgit.lib.NullProgressMonitor;
@@ -98,7 +99,7 @@ class PushOp implements Runnable {
     } catch (XsrfException e) {
       log.error("Cannot open database", e);
 
-    } catch (InvalidRepositoryException e) {
+    } catch (RepositoryNotFoundException e) {
       log.error("Cannot replicate " + projectName + "; " + e.getMessage());
 
     } catch (NoRemoteRepositoryException e) {
@@ -125,6 +126,10 @@ class PushOp implements Runnable {
     } catch (Error e) {
       log.error("Unexpected error during replication to " + uri, e);
 
+    } finally {
+      if (db != null) {
+        db.close();
+      }
     }
   }
 
@@ -133,9 +138,9 @@ class PushOp implements Runnable {
     return (mirror ? "mirror " : "push ") + uri;
   }
 
-  private void openRepository() throws InvalidRepositoryException,
+  private void openRepository() throws RepositoryNotFoundException,
       OrmException, XsrfException {
-    db = GerritServer.getInstance().getRepositoryCache().get(projectName);
+    db = GerritServer.getInstance().openRepository(projectName);
   }
 
   private void runImpl() throws IOException {

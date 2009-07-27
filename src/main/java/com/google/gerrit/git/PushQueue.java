@@ -118,7 +118,7 @@ public class PushQueue {
       try {
         final GerritServer gs = GerritServer.getInstance();
         path = gs.getSitePath();
-        if (path == null || gs.getRepositoryCache() == null) {
+        if (path == null) {
           return Collections.emptyList();
         }
       } catch (OrmException e) {

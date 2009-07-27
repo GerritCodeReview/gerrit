@@ -14,14 +14,12 @@
 
 package com.google.gerrit.client.rpc;
 
-import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.data.AccountCache;
 import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.client.data.GroupCache;
 import com.google.gerrit.client.data.ProjectCache;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.ReviewDb;
-import com.google.gwt.core.client.GWT;
 import com.google.gwtorm.client.SchemaFactory;
 
 public class Common {
@@ -31,17 +29,6 @@ public class Common {
   private static GroupCache groupCache;
   private static ProjectCache projectCache;
   private static CurrentAccountImpl caImpl;
-
-  static {
-    if (GWT.isClient()) {
-      caImpl = new CurrentAccountImpl() {
-        public Account.Id getAccountId() {
-          final Account a = Gerrit.getUserAccount();
-          return a != null ? a.getId() : null;
-        }
-      };
-    }
-  }
 
   /** Get the public configuration data used by this Gerrit instance. */
   public static GerritConfig getGerritConfig() {

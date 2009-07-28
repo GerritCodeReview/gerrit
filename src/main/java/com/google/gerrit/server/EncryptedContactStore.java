@@ -55,22 +55,8 @@ import java.util.Iterator;
 import java.util.TimeZone;
 
 /** Encrypts {@link ContactInformation} instances and saves them. */
-public class EncryptedContactStore implements ContactStore {
+class EncryptedContactStore implements ContactStore {
   private static final TimeZone UTC = TimeZone.getTimeZone("UTC");
-
-  public static ContactStore create(final GerritServer gs) {
-    try {
-      return new EncryptedContactStore(gs);
-    } catch (final ContactInformationStoreException initError) {
-      return new ContactStore() {
-        @Override
-        public void store(Account account, ContactInformation info)
-            throws ContactInformationStoreException {
-          throw initError;
-        }
-      };
-    }
-  }
 
   private final GerritServer server;
   private PGPPublicKey dest;
@@ -78,7 +64,7 @@ public class EncryptedContactStore implements ContactStore {
   private URL storeUrl;
   private String storeAPPSEC;
 
-  private EncryptedContactStore(final GerritServer gs)
+  EncryptedContactStore(final GerritServer gs)
       throws ContactInformationStoreException {
     server = gs;
 
@@ -231,8 +217,8 @@ public class EncryptedContactStore implements ContactStore {
     return buf.toByteArray();
   }
 
-  private String format(final Account account,
-      final ContactInformation info) throws ContactInformationStoreException {
+  private String format(final Account account, final ContactInformation info)
+      throws ContactInformationStoreException {
     Timestamp on = account.getContactFiledOn();
     if (on == null) {
       on = new Timestamp(System.currentTimeMillis());

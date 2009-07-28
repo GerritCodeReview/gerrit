@@ -20,7 +20,6 @@ import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.RevId;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
-import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Singleton;
 
@@ -72,15 +71,8 @@ public class UrlRewriteFilter implements Filter {
 
   private FilterConfig config;
 
-  public void init(final FilterConfig config) throws ServletException {
+  public void init(final FilterConfig config) {
     this.config = config;
-    try {
-      GerritServer.getInstance();
-    } catch (OrmException e) {
-      throw new ServletException("Cannot initialize GerritServer", e);
-    } catch (XsrfException e) {
-      throw new ServletException("Cannot initialize GerritServer", e);
-    }
   }
 
   public void destroy() {

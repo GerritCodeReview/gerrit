@@ -24,8 +24,8 @@ import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
-import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import eu.medsea.mimeutil.MimeType;
@@ -66,21 +66,19 @@ import javax.servlet.http.HttpServletResponse;
 @Singleton
 public class CatServlet extends HttpServlet {
   private static final MimeType ZIP = new MimeType("application/zip");
-  private GerritServer server;
-  private SecureRandom rng;
+  private final GerritServer server;
+  private final SecureRandom rng;
   private FileTypeRegistry registry;
+
+  @Inject
+  CatServlet(final GerritServer gs) {
+    server = gs;
+    rng = new SecureRandom();
+  }
 
   @Override
   public void init(final ServletConfig config) throws ServletException {
     super.init(config);
-    try {
-      server = GerritServer.getInstance();
-    } catch (OrmException e) {
-      throw new ServletException("Cannot load GerritServer", e);
-    } catch (XsrfException e) {
-      throw new ServletException("Cannot load GerritServer", e);
-    }
-    rng = new SecureRandom();
     registry = FileTypeRegistry.getInstance();
   }
 

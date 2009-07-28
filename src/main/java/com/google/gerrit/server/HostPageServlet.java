@@ -18,8 +18,7 @@ import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gwt.user.server.rpc.RPCServletUtils;
-import com.google.gwtjsonrpc.server.XsrfException;
-import com.google.gwtorm.client.OrmException;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.spearce.jgit.lib.Constants;
@@ -44,22 +43,19 @@ import javax.servlet.http.HttpServletResponse;
 @SuppressWarnings("serial")
 @Singleton
 public class HostPageServlet extends HttpServlet {
-  private GerritServer server;
+  private final GerritServer server;
   private String canonicalUrl;
   private boolean wantSSL;
   private Document hostDoc;
 
+  @Inject
+  HostPageServlet(final GerritServer gs) {
+    server = gs;
+  }
+
   @Override
   public void init(ServletConfig config) throws ServletException {
     super.init(config);
-
-    try {
-      server = GerritServer.getInstance();
-    } catch (OrmException e) {
-      throw new ServletException("Cannot load GerritServer", e);
-    } catch (XsrfException e) {
-      throw new ServletException("Cannot load GerritServer", e);
-    }
 
     final File sitePath = server.getSitePath();
     canonicalUrl = server.getCanonicalURL();

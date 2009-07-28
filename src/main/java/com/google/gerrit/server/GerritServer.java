@@ -48,6 +48,7 @@ import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.Transaction;
 import com.google.gwtorm.jdbc.Database;
 import com.google.gwtorm.jdbc.SimpleDataSource;
+import com.google.inject.Singleton;
 
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
@@ -95,6 +96,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
 
 /** Global server-side state for Gerrit. */
+@Singleton
 public class GerritServer {
   private static final Logger log = LoggerFactory.getLogger(GerritServer.class);
   private static DataSource datasource;

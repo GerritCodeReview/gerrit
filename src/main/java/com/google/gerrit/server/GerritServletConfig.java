@@ -15,16 +15,25 @@
 package com.google.gerrit.server;
 
 import com.google.gerrit.server.ssh.SshServlet;
+import com.google.gwtjsonrpc.server.XsrfException;
+import com.google.gwtorm.client.OrmException;
+import com.google.inject.AbstractModule;
+import com.google.inject.ConfigurationException;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.Key;
+import com.google.inject.Module;
 import com.google.inject.servlet.GuiceServletContextListener;
 import com.google.inject.servlet.ServletModule;
 
+import java.security.ProviderException;
+
+import javax.servlet.ServletContextEvent;
+
 /** Configures the web application environment for Gerrit Code Review. */
 public class GerritServletConfig extends GuiceServletContextListener {
-  @Override
-  protected Injector getInjector() {
-    return Guice.createInjector(new ServletModule() {
+  private static Module createServletModule() {
+    return new ServletModule() {
       @Override
       protected void configureServlets() {
         filter("/*").through(UrlRewriteFilter.class);
@@ -65,6 +74,48 @@ public class GerritServletConfig extends GuiceServletContextListener {
       private void rpc(String name, Class<? extends GerritJsonServlet> clazz) {
         serve("/gerrit/rpc/" + name).with(clazz);
       }
-    });
+    };
+  }
+
+  private static Module createDatabaseModule() {
+    return new AbstractModule() {
+      @Override
+      protected void configure() {
+        try {
+          bind(GerritServer.class).toInstance(GerritServer.getInstance(true));
+        } catch (OrmException e) {
+          addError(e);
+        } catch (XsrfException e) {
+          addError(e);
+        }
+      }
+    };
+  }
+
+  private final Injector injector =
+      Guice.createInjector(createDatabaseModule(), createServletModule());
+
+  @Override
+  protected Injector getInjector() {
+    return injector;
+  }
+
+  @Override
+  public void contextInitialized(final ServletContextEvent event) {
+    super.contextInitialized(event);
+  }
+
+  @Override
+  public void contextDestroyed(final ServletContextEvent event) {
+    try {
+      final GerritServer gs = injector.getInstance(Key.get(GerritServer.class));
+      gs.closeDataSource();
+    } catch (ConfigurationException ce) {
+      // Assume it never started.
+    } catch (ProviderException ce) {
+      // Assume it never started.
+    }
+
+    super.contextDestroyed(event);
   }
 }

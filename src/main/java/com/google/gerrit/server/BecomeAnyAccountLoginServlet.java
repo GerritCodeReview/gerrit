@@ -18,16 +18,14 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
-import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
@@ -45,21 +43,13 @@ public class BecomeAnyAccountLoginServlet extends HttpServlet {
     }
   }
 
-  private boolean allowed;
-  private GerritServer server;
+  private final boolean allowed;
+  private final GerritServer server;
 
-  @Override
-  public void init(final ServletConfig config) throws ServletException {
-    super.init(config);
+  @Inject
+  BecomeAnyAccountLoginServlet(final GerritServer gs) {
+    server = gs;
     allowed = isAllowed();
-
-    try {
-      server = GerritServer.getInstance();
-    } catch (OrmException e) {
-      throw new ServletException("Cannot load GerritServer", e);
-    } catch (XsrfException e) {
-      throw new ServletException("Cannot load GerritServer", e);
-    }
   }
 
   @Override

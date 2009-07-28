@@ -15,8 +15,7 @@
 package com.google.gerrit.server;
 
 import com.google.gwt.user.server.rpc.RPCServletUtils;
-import com.google.gwtjsonrpc.server.XsrfException;
-import com.google.gwtorm.client.OrmException;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.spearce.jgit.util.NB;
@@ -29,8 +28,6 @@ import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.zip.GZIPOutputStream;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -90,22 +87,11 @@ public class StaticServlet extends HttpServlet {
     return out.toByteArray();
   }
 
-  private File staticBase;
-
-  @Override
-  public void init(final ServletConfig config) throws ServletException {
-    super.init(config);
-
-    final GerritServer srv;
-    try {
-      srv = GerritServer.getInstance();
-    } catch (OrmException e) {
-      throw new ServletException("Cannot load GerritServer", e);
-    } catch (XsrfException e) {
-      throw new ServletException("Cannot load GerritServer", e);
-    }
-
-    final File p = srv.getSitePath();
+  private final File staticBase;
+  
+  @Inject
+  StaticServlet(final GerritServer gs) {
+    final File p = gs.getSitePath();
     staticBase = p != null ? new File(p, "static") : null;
   }
 

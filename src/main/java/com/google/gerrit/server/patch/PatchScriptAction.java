@@ -31,6 +31,7 @@ import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.CorruptEntityException;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
+import com.google.gerrit.server.FileTypeRegistry;
 import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.BaseServiceImplementation.Action;
 import com.google.gerrit.server.BaseServiceImplementation.Failure;
@@ -56,6 +57,7 @@ class PatchScriptAction implements Action<PatchScript> {
       LoggerFactory.getLogger(PatchScriptAction.class);
 
   private final GerritServer server;
+  private final FileTypeRegistry registry;
   private final Patch.Key patchKey;
   private final PatchSet.Id psa;
   private final PatchSet.Id psb;
@@ -69,10 +71,11 @@ class PatchScriptAction implements Action<PatchScript> {
   private Project.NameKey projectKey;
   private Repository git;
 
-  PatchScriptAction(final GerritServer gs, final Patch.Key patchKey,
-      final PatchSet.Id psa, final PatchSet.Id psb,
+  PatchScriptAction(final GerritServer gs, final FileTypeRegistry ftr,
+      final Patch.Key patchKey, final PatchSet.Id psa, final PatchSet.Id psb,
       final PatchScriptSettings settings) {
     this.server = gs;
+    this.registry = ftr;
     this.patchKey = patchKey;
     this.psa = psa;
     this.psb = psb;
@@ -167,7 +170,7 @@ class PatchScriptAction implements Action<PatchScript> {
     else
       throw new Failure(new NoSuchEntityException());
 
-    final PatchScriptBuilder b = new PatchScriptBuilder();
+    final PatchScriptBuilder b = new PatchScriptBuilder(registry);
     b.setRepository(git);
     b.setPatch(patch);
     b.setSettings(s);

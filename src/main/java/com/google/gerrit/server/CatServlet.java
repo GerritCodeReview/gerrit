@@ -47,8 +47,6 @@ import java.security.SecureRandom;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -68,18 +66,13 @@ public class CatServlet extends HttpServlet {
   private static final MimeType ZIP = new MimeType("application/zip");
   private final GerritServer server;
   private final SecureRandom rng;
-  private FileTypeRegistry registry;
+  private final FileTypeRegistry registry;
 
   @Inject
-  CatServlet(final GerritServer gs) {
+  CatServlet(final GerritServer gs, final FileTypeRegistry ftr) {
     server = gs;
     rng = new SecureRandom();
-  }
-
-  @Override
-  public void init(final ServletConfig config) throws ServletException {
-    super.init(config);
-    registry = FileTypeRegistry.getInstance();
+    registry = ftr;
   }
 
   @Override

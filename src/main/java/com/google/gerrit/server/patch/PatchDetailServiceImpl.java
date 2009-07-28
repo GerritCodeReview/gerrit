@@ -40,6 +40,7 @@ import com.google.gerrit.client.rpc.NoSuchAccountException;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gerrit.server.BaseServiceImplementation;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.FileTypeRegistry;
 import com.google.gerrit.server.GerritJsonServlet;
 import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.mail.AbandonedSender;
@@ -65,9 +66,11 @@ import java.util.Set;
 class PatchDetailServiceImpl extends BaseServiceImplementation implements
     PatchDetailService {
   private final Logger log = LoggerFactory.getLogger(getClass());
+  private final FileTypeRegistry registry;
 
-  PatchDetailServiceImpl(final GerritServer gs) {
+  PatchDetailServiceImpl(final GerritServer gs, final FileTypeRegistry ftr) {
     super(gs);
+    registry = ftr;
   }
 
   public void patchScript(final Patch.Key patchKey, final PatchSet.Id psa,
@@ -77,7 +80,8 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
       callback.onFailure(new NoSuchEntityException());
       return;
     }
-    run(callback, new PatchScriptAction(server, patchKey, psa, psb, s));
+    run(callback,
+        new PatchScriptAction(server, registry, patchKey, psa, psb, s));
   }
 
   public void patchComments(final Patch.Key patchKey, final PatchSet.Id psa,
@@ -109,7 +113,8 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
         if (comment.getKey().get() == null) {
           final PatchLineComment nc =
               new PatchLineComment(new PatchLineComment.Key(patch.getKey(),
-                  ChangeUtil.messageUUID(db)), comment.getLine(), me, comment.getParentUuid());
+                  ChangeUtil.messageUUID(db)), comment.getLine(), me, comment
+                  .getParentUuid());
           nc.setSide(comment.getSide());
           nc.setMessage(comment.getMessage());
           db.patchComments().insert(Collections.singleton(nc));
@@ -183,16 +188,17 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
   /**
    * Update the reviewed status for the file by user @code{account}
    */
-  public void setReviewedByCurrentUser(final Key patchKey, final boolean reviewed,
-      AsyncCallback<VoidResult> callback) {
+  public void setReviewedByCurrentUser(final Key patchKey,
+      final boolean reviewed, AsyncCallback<VoidResult> callback) {
     run(callback, new Action<VoidResult>() {
       public VoidResult run(ReviewDb db) throws OrmException {
         Account.Id account = Common.getAccountId();
-        AccountPatchReview.Key key = new AccountPatchReview.Key(patchKey, account);
+        AccountPatchReview.Key key =
+            new AccountPatchReview.Key(patchKey, account);
         AccountPatchReview apr = db.accountPatchReviews().get(key);
         if (apr == null && reviewed) {
-          db.accountPatchReviews().
-              insert(Collections.singleton(new AccountPatchReview(patchKey, account)));
+          db.accountPatchReviews().insert(
+              Collections.singleton(new AccountPatchReview(patchKey, account)));
         } else if (apr != null && !reviewed) {
           db.accountPatchReviews().delete(Collections.singleton(apr));
         }

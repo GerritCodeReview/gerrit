@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server;
 
-import com.google.gwtjsonrpc.server.XsrfException;
-import com.google.gwtorm.client.OrmException;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import eu.medsea.mimeutil.MimeException;
 import eu.medsea.mimeutil.MimeType;
@@ -35,21 +35,19 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@Singleton
 public class FileTypeRegistry {
   private static final String KEY_SAFE = "safe";
   private static final String SECTION_MIMETYPE = "mimetype";
   private static final Logger log =
       LoggerFactory.getLogger(FileTypeRegistry.class);
-  private static final FileTypeRegistry INSTANCE = new FileTypeRegistry();
 
-  /** Get the global registry. */
-  public static FileTypeRegistry getInstance() {
-    return INSTANCE;
-  }
-
+  private final GerritServer server;
   private MimeUtil2 mimeUtil;
 
-  private FileTypeRegistry() {
+  @Inject
+  FileTypeRegistry(final GerritServer gs) {
+    server = gs;
     mimeUtil = new MimeUtil2();
     register("eu.medsea.mimeutil.detector.ExtensionMimeDetector");
     register("eu.medsea.mimeutil.detector.MagicMimeMimeDetector");
@@ -133,32 +131,14 @@ public class FileTypeRegistry {
       return false;
     }
 
-    final RepositoryConfig cfg = getGerritConfig();
-    if (cfg != null) {
-      final boolean any = isSafe(cfg, "*/*", false);
-      final boolean genericMedia = isSafe(cfg, type.getMediaType() + "/*", any);
-      return isSafe(cfg, type.toString(), genericMedia);
-    }
-
-    // Assume we cannot send the content inline.
-    //
-    return false;
+    final RepositoryConfig cfg = server.getGerritConfig();
+    final boolean any = isSafe(cfg, "*/*", false);
+    final boolean genericMedia = isSafe(cfg, type.getMediaType() + "/*", any);
+    return isSafe(cfg, type.toString(), genericMedia);
   }
 
   private static boolean isSafe(RepositoryConfig cfg, String type, boolean def) {
     return cfg.getBoolean(SECTION_MIMETYPE, type, KEY_SAFE, def);
-  }
-
-  private static RepositoryConfig getGerritConfig() {
-    try {
-      return GerritServer.getInstance().getGerritConfig();
-    } catch (OrmException e) {
-      log.warn("Cannot obtain GerritServer", e);
-      return null;
-    } catch (XsrfException e) {
-      log.warn("Cannot obtain GerritServer", e);
-      return null;
-    }
   }
 
   private static boolean isUnknownType(Collection<MimeType> mimeTypes) {

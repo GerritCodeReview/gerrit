@@ -78,11 +78,11 @@ class PatchScriptBuilder {
   private List<Edit> edits;
   private final FileTypeRegistry registry;
 
-  PatchScriptBuilder() {
+  PatchScriptBuilder(final FileTypeRegistry ftr) {
     header = new ArrayList<String>();
     a = new Side();
     b = new Side();
-    registry = FileTypeRegistry.getInstance();
+    registry = ftr;
   }
 
   void setRepository(final Repository r) {

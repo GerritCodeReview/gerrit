@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.patch;
 
+import com.google.gerrit.server.FileTypeRegistry;
 import com.google.gerrit.server.GerritJsonServlet;
 import com.google.gerrit.server.GerritServer;
 import com.google.inject.Inject;
@@ -23,13 +24,16 @@ import com.google.inject.Singleton;
 @SuppressWarnings("serial")
 @Singleton
 public class PatchDetailServiceSrv extends GerritJsonServlet {
+  private final FileTypeRegistry registry;
+
   @Inject
-  PatchDetailServiceSrv(final GerritServer gs) {
+  PatchDetailServiceSrv(final GerritServer gs, final FileTypeRegistry ftr) {
     super(gs);
+    registry = ftr;
   }
 
   @Override
   protected Object createServiceHandle() throws Exception {
-    return new PatchDetailServiceImpl(server);
+    return new PatchDetailServiceImpl(server, registry);
   }
 }

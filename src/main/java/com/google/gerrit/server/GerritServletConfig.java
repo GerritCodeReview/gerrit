@@ -90,6 +90,7 @@ public class GerritServletConfig extends GuiceServletContextListener {
           bind(GerritServer.class).toInstance(gs);
           bind(ContactStore.class).toInstance(EncryptedContactStore.create(gs));
           bind(OpenIdServiceImpl.class).toInstance(new OpenIdServiceImpl(gs));
+          bind(FileTypeRegistry.class).toInstance(new FileTypeRegistry(gs));
         } catch (OrmException e) {
           addError(e);
         } catch (XsrfException e) {

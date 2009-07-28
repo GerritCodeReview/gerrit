@@ -15,8 +15,6 @@
 package com.google.gerrit.git;
 
 import com.google.gerrit.server.GerritServer;
-import com.google.gwtjsonrpc.server.XsrfException;
-import com.google.gwtorm.client.OrmException;
 
 import com.jcraft.jsch.JSchException;
 
@@ -54,6 +52,7 @@ class PushOp implements Runnable {
   private static final Logger log = PushQueue.log;
   static final String MIRROR_ALL = "..all..";
 
+  private final GerritServer server;
   private final Set<String> delta = new HashSet<String>();
   private final PushQueue.ReplicationConfig pool;
   private final String projectName;
@@ -63,8 +62,9 @@ class PushOp implements Runnable {
 
   private Repository db;
 
-  PushOp(final PushQueue.ReplicationConfig p, final String d,
-      final RemoteConfig c, final URIish u) {
+  PushOp(final GerritServer gs, final PushQueue.ReplicationConfig p,
+      final String d, final RemoteConfig c, final URIish u) {
+    server = gs;
     pool = p;
     projectName = d;
     config = c;
@@ -91,14 +91,8 @@ class PushOp implements Runnable {
       // created and scheduled for a future point in time.)
       //
       pool.notifyStarting(this);
-      openRepository();
+      db = server.openRepository(projectName);
       runImpl();
-    } catch (OrmException e) {
-      log.error("Cannot open database", e);
-
-    } catch (XsrfException e) {
-      log.error("Cannot open database", e);
-
     } catch (RepositoryNotFoundException e) {
       log.error("Cannot replicate " + projectName + "; " + e.getMessage());
 
@@ -136,11 +130,6 @@ class PushOp implements Runnable {
   @Override
   public String toString() {
     return (mirror ? "mirror " : "push ") + uri;
-  }
-
-  private void openRepository() throws RepositoryNotFoundException,
-      OrmException, XsrfException {
-    db = GerritServer.getInstance().openRepository(projectName);
   }
 
   private void runImpl() throws IOException {

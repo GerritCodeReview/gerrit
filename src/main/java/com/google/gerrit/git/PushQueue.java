@@ -114,16 +114,17 @@ public class PushQueue {
 
   private static synchronized List<ReplicationConfig> allConfigs() {
     if (configs == null) {
-      final File path;
+      final GerritServer gs;
       try {
-        final GerritServer gs = GerritServer.getInstance();
-        path = gs.getSitePath();
-        if (path == null) {
-          return Collections.emptyList();
-        }
+        gs = GerritServer.getInstance();
       } catch (OrmException e) {
         return Collections.emptyList();
       } catch (XsrfException e) {
+        return Collections.emptyList();
+      }
+
+      final File path = gs.getSitePath();
+      if (path == null) {
         return Collections.emptyList();
       }
 
@@ -152,7 +153,7 @@ public class PushQueue {
             c.addPushRefSpec(spec);
           }
 
-          r.add(new ReplicationConfig(c, cfg));
+          r.add(new ReplicationConfig(gs, c, cfg));
         }
         configs = Collections.unmodifiableList(r);
       } catch (FileNotFoundException e) {
@@ -173,12 +174,15 @@ public class PushQueue {
   }
 
   static class ReplicationConfig {
+    private final GerritServer server;
     private final RemoteConfig remote;
     private final int delay;
     private final WorkQueue.Executor pool;
     private final Map<URIish, PushOp> pending = new HashMap<URIish, PushOp>();
 
-    ReplicationConfig(final RemoteConfig rc, final RepositoryConfig cfg) {
+    ReplicationConfig(final GerritServer gs, final RemoteConfig rc,
+        final RepositoryConfig cfg) {
+      server = gs;
       remote = rc;
       delay = Math.max(0, getInt(rc, cfg, "replicationdelay", 15));
 
@@ -197,7 +201,7 @@ public class PushQueue {
       synchronized (pending) {
         PushOp e = pending.get(uri);
         if (e == null) {
-          e = new PushOp(this, project.get(), remote, uri);
+          e = new PushOp(server, this, project.get(), remote, uri);
           pool.schedule(e, delay, TimeUnit.SECONDS);
           pending.put(uri, e);
         }

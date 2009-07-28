@@ -234,7 +234,7 @@ public class GerritSshDaemon extends SshServer {
     initCompression();
     initUserAuth(srv);
     setKeyPairProvider(initHostKey(srv));
-    setCommandFactory(new GerritCommandFactory());
+    setCommandFactory(new GerritCommandFactory(srv));
     setShellFactory(new NoShell());
     setSessionFactory(new SessionFactory() {
       @Override

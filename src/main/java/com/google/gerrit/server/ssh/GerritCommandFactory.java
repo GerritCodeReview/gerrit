@@ -14,15 +14,19 @@
 
 package com.google.gerrit.server.ssh;
 
+import com.google.gerrit.server.GerritServer;
+
 import org.apache.sshd.server.CommandFactory;
 
 import java.util.HashMap;
 
 /** Creates a command implementation based on the client input. */
 class GerritCommandFactory implements CommandFactory {
+  private final GerritServer server;
   private final HashMap<String, Factory> commands;
 
-  GerritCommandFactory() {
+  GerritCommandFactory(final GerritServer gs) {
+    server = gs;
     commands = new HashMap<String, Factory>();
 
     commands.put("gerrit-upload-pack", new Factory() {
@@ -103,6 +107,7 @@ class GerritCommandFactory implements CommandFactory {
     }
 
     final AbstractCommand c = create(cmd);
+    c.server = server;
     c.setCommandLine(cmd, args);
     return c;
   }

@@ -22,7 +22,6 @@ import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.server.BaseServiceImplementation;
 import com.google.gerrit.server.GerritServer;
-import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
 
 import org.apache.sshd.common.SshException;
@@ -60,6 +59,7 @@ abstract class AbstractCommand implements Command, SessionAware {
   protected OutputStream err;
   protected ExitCallback exit;
   protected ServerSession session;
+  protected GerritServer server; 
   protected ReviewDb db;
 
   private String name;
@@ -94,14 +94,8 @@ abstract class AbstractCommand implements Command, SessionAware {
     return new PrintWriter(new BufferedWriter(new OutputStreamWriter(o, ENC)));
   }
 
-  protected GerritServer getGerritServer() throws Failure {
-    try {
-      return GerritServer.getInstance();
-    } catch (OrmException e) {
-      throw new Failure(128, "fatal: Gerrit is not available", e);
-    } catch (XsrfException e) {
-      throw new Failure(128, "fatal: Gerrit is not available", e);
-    }
+  protected GerritServer getGerritServer() {
+    return server;
   }
 
   protected ReviewDb openReviewDb() throws Failure {

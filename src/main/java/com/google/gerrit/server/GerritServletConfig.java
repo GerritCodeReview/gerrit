@@ -17,6 +17,7 @@ package com.google.gerrit.server;
 import com.google.gerrit.git.WorkQueue;
 import com.google.gerrit.server.patch.PatchDetailServiceSrv;
 import com.google.gerrit.server.ssh.SshServlet;
+import com.google.gwtexpui.server.CacheControlFilter;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.AbstractModule;
@@ -25,6 +26,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Module;
+import com.google.inject.Scopes;
 import com.google.inject.servlet.GuiceServletContextListener;
 import com.google.inject.servlet.ServletModule;
 
@@ -41,7 +43,9 @@ public class GerritServletConfig extends GuiceServletContextListener {
       @Override
       protected void configureServlets() {
         filter("/*").through(UrlRewriteFilter.class);
-        filter("/*").through(GerritCacheControlFilter.class);
+
+        filter("/*").through(Key.get(CacheControlFilter.class));
+        bind(Key.get(CacheControlFilter.class)).in(Scopes.SINGLETON);
 
         serve("/Gerrit", "/Gerrit/*").with(HostPageServlet.class);
         serve("/prettify/*").with(PrettifyServlet.class);

@@ -18,6 +18,7 @@ import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gerrit.client.reviewdb.SystemConfig;
 import com.google.gerrit.git.ChangeMergeQueue;
 import com.google.gerrit.git.MergeQueue;
 import com.google.gerrit.git.PushReplication;
@@ -43,6 +44,9 @@ public class GerritServerModule extends AbstractModule {
         new TypeLiteral<Database<ReviewDb>>() {});
     bind(new TypeLiteral<Database<ReviewDb>>() {}).toProvider(
         ReviewDbProvider.class).in(SINGLETON);
+
+    bind(SystemConfig.class).toProvider(SystemConfigProvider.class).in(
+        SINGLETON);
 
     bind(GerritServer.class);
     bind(ContactStore.class).toProvider(EncryptedContactStoreProvider.class);

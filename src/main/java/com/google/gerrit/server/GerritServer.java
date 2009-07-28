@@ -17,26 +17,16 @@ package com.google.gerrit.server;
 import com.google.gerrit.client.data.AccountCache;
 import com.google.gerrit.client.data.GroupCache;
 import com.google.gerrit.client.data.ProjectCache;
-import com.google.gerrit.client.reviewdb.AccountGroup;
-import com.google.gerrit.client.reviewdb.ApprovalCategory;
-import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
-import com.google.gerrit.client.reviewdb.Project;
-import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.client.reviewdb.ReviewDb;
-import com.google.gerrit.client.reviewdb.SchemaVersion;
 import com.google.gerrit.client.reviewdb.SystemConfig;
-import com.google.gerrit.client.reviewdb.TrustedExternalId;
 import com.google.gerrit.client.reviewdb.SystemConfig.LoginType;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.patch.DiffCacheEntryFactory;
 import com.google.gerrit.server.ssh.SshKeyCacheEntryFactory;
-import com.google.gerrit.server.workflow.NoOpFunction;
-import com.google.gerrit.server.workflow.SubmitFunction;
 import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.Transaction;
 import com.google.gwtorm.jdbc.Database;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -50,7 +40,6 @@ import net.sf.ehcache.config.DiskStoreConfiguration;
 import net.sf.ehcache.constructs.blocking.SelfPopulatingCache;
 import net.sf.ehcache.store.MemoryStoreEvictionPolicy;
 
-import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.net.smtp.AuthSMTPClient;
 import org.apache.commons.net.smtp.SMTPClient;
 import org.apache.commons.net.smtp.SMTPReply;
@@ -69,10 +58,7 @@ import org.spearce.jgit.lib.RepositoryCache.FileKey;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -113,9 +99,9 @@ public class GerritServer {
   }
 
   private final Database<ReviewDb> db;
+  private final File sitePath;
   private final RepositoryConfig gerritConfigFile;
   private final int sessionAge;
-  private SystemConfig sConfig;
   private final SignedToken xsrf;
   private final SignedToken account;
   private final SignedToken emailReg;
@@ -124,13 +110,10 @@ public class GerritServer {
   private final SelfPopulatingCache sshKeysCache;
 
   @Inject
-  GerritServer(final Database<ReviewDb> database)
+  GerritServer(final Database<ReviewDb> database, final SystemConfig sConfig)
       throws OrmException, XsrfException {
     db = database;
-    loadSystemConfig();
-    if (sConfig == null) {
-      throw new OrmException("No " + SystemConfig.class.getName() + " found");
-    }
+    sitePath = sConfig.sitePath != null ? new File(sConfig.sitePath) : null;
 
     final File cfgLoc = new File(getSitePath(), "gerrit.config");
     gerritConfigFile = new RepositoryConfig(null, cfgLoc);
@@ -301,270 +284,6 @@ public class GerritServer {
     return r;
   }
 
-  private void initSystemConfig(final ReviewDb c) throws OrmException {
-    final AccountGroup admin =
-        new AccountGroup(new AccountGroup.NameKey("Administrators"),
-            new AccountGroup.Id(c.nextAccountGroupId()));
-    admin.setDescription("Gerrit Site Administrators");
-    c.accountGroups().insert(Collections.singleton(admin));
-
-    final AccountGroup anonymous =
-        new AccountGroup(new AccountGroup.NameKey("Anonymous Users"),
-            new AccountGroup.Id(c.nextAccountGroupId()));
-    anonymous.setDescription("Any user, signed-in or not");
-    anonymous.setOwnerGroupId(admin.getId());
-    anonymous.setAutomaticMembership(true);
-    c.accountGroups().insert(Collections.singleton(anonymous));
-
-    final AccountGroup registered =
-        new AccountGroup(new AccountGroup.NameKey("Registered Users"),
-            new AccountGroup.Id(c.nextAccountGroupId()));
-    registered.setDescription("Any signed-in user");
-    registered.setOwnerGroupId(admin.getId());
-    registered.setAutomaticMembership(true);
-    c.accountGroups().insert(Collections.singleton(registered));
-
-    final SystemConfig s = SystemConfig.create();
-    s.xsrfPrivateKey = SignedToken.generateRandomKey();
-    s.accountPrivateKey = SignedToken.generateRandomKey();
-    s.adminGroupId = admin.getId();
-    s.anonymousGroupId = anonymous.getId();
-    s.registeredGroupId = registered.getId();
-    c.systemConfig().insert(Collections.singleton(s));
-
-    // By default with OpenID trust any http:// or https:// provider
-    //
-    initTrustedExternalId(c, "http://");
-    initTrustedExternalId(c, "https://");
-    initTrustedExternalId(c, "https://www.google.com/accounts/o8/id?id=");
-  }
-
-  private void initTrustedExternalId(final ReviewDb c, final String re)
-      throws OrmException {
-    c.trustedExternalIds().insert(
-        Collections.singleton(new TrustedExternalId(new TrustedExternalId.Key(
-            re))));
-  }
-
-  private void initWildCardProject(final ReviewDb c) throws OrmException {
-    final Project proj;
-
-    proj =
-        new Project(new Project.NameKey("-- All Projects --"),
-            ProjectRight.WILD_PROJECT);
-    proj.setDescription("Rights inherited by all other projects");
-    proj.setUseContributorAgreements(false);
-    c.projects().insert(Collections.singleton(proj));
-  }
-
-  private void initVerifiedCategory(final ReviewDb c) throws OrmException {
-    final Transaction txn = c.beginTransaction();
-    final ApprovalCategory cat;
-    final ArrayList<ApprovalCategoryValue> vals;
-
-    cat = new ApprovalCategory(new ApprovalCategory.Id("VRIF"), "Verified");
-    cat.setPosition((short) 0);
-    vals = new ArrayList<ApprovalCategoryValue>();
-    vals.add(value(cat, 1, "Verified"));
-    vals.add(value(cat, 0, "No score"));
-    vals.add(value(cat, -1, "Fails"));
-    c.approvalCategories().insert(Collections.singleton(cat), txn);
-    c.approvalCategoryValues().insert(vals, txn);
-    txn.commit();
-  }
-
-  private void initCodeReviewCategory(final ReviewDb c) throws OrmException {
-    final Transaction txn = c.beginTransaction();
-    final ApprovalCategory cat;
-    final ArrayList<ApprovalCategoryValue> vals;
-
-    cat = new ApprovalCategory(new ApprovalCategory.Id("CRVW"), "Code Review");
-    cat.setPosition((short) 1);
-    vals = new ArrayList<ApprovalCategoryValue>();
-    vals.add(value(cat, 2, "Looks good to me, approved"));
-    vals.add(value(cat, 1, "Looks good to me, but someone else must approve"));
-    vals.add(value(cat, 0, "No score"));
-    vals.add(value(cat, -1, "I would prefer that you didn't submit this"));
-    vals.add(value(cat, -2, "Do not submit"));
-    c.approvalCategories().insert(Collections.singleton(cat), txn);
-    c.approvalCategoryValues().insert(vals, txn);
-    txn.commit();
-
-    final ProjectRight approve =
-        new ProjectRight(new ProjectRight.Key(ProjectRight.WILD_PROJECT, cat
-            .getId(), sConfig.registeredGroupId));
-    approve.setMaxValue((short) 1);
-    approve.setMinValue((short) -1);
-    c.projectRights().insert(Collections.singleton(approve));
-  }
-
-  private void initOwnerCategory(final ReviewDb c) throws OrmException {
-    final Transaction txn = c.beginTransaction();
-    final ApprovalCategory cat;
-    final ArrayList<ApprovalCategoryValue> vals;
-
-    cat = new ApprovalCategory(ApprovalCategory.OWN, "Owner");
-    cat.setPosition((short) -1);
-    cat.setFunctionName(NoOpFunction.NAME);
-    vals = new ArrayList<ApprovalCategoryValue>();
-    vals.add(value(cat, 1, "Administer All Settings"));
-    c.approvalCategories().insert(Collections.singleton(cat), txn);
-    c.approvalCategoryValues().insert(vals, txn);
-    txn.commit();
-  }
-
-  private void initReadCategory(final ReviewDb c) throws OrmException {
-    final Transaction txn = c.beginTransaction();
-    final ApprovalCategory cat;
-    final ArrayList<ApprovalCategoryValue> vals;
-
-    cat = new ApprovalCategory(ApprovalCategory.READ, "Read Access");
-    cat.setPosition((short) -1);
-    cat.setFunctionName(NoOpFunction.NAME);
-    vals = new ArrayList<ApprovalCategoryValue>();
-    vals.add(value(cat, 1, "Read access"));
-    vals.add(value(cat, -1, "No access"));
-    c.approvalCategories().insert(Collections.singleton(cat), txn);
-    c.approvalCategoryValues().insert(vals, txn);
-    txn.commit();
-    {
-      final ProjectRight read =
-          new ProjectRight(new ProjectRight.Key(ProjectRight.WILD_PROJECT, cat
-              .getId(), sConfig.anonymousGroupId));
-      read.setMaxValue((short) 1);
-      read.setMinValue((short) 1);
-      c.projectRights().insert(Collections.singleton(read));
-    }
-    {
-      final ProjectRight read =
-          new ProjectRight(new ProjectRight.Key(ProjectRight.WILD_PROJECT, cat
-              .getId(), sConfig.adminGroupId));
-      read.setMaxValue((short) 1);
-      read.setMinValue((short) 1);
-      c.projectRights().insert(Collections.singleton(read));
-    }
-  }
-
-  private void initSubmitCategory(final ReviewDb c) throws OrmException {
-    final Transaction txn = c.beginTransaction();
-    final ApprovalCategory cat;
-    final ArrayList<ApprovalCategoryValue> vals;
-
-    cat = new ApprovalCategory(ApprovalCategory.SUBMIT, "Submit");
-    cat.setPosition((short) -1);
-    cat.setFunctionName(SubmitFunction.NAME);
-    vals = new ArrayList<ApprovalCategoryValue>();
-    vals.add(value(cat, 1, "Submit"));
-    c.approvalCategories().insert(Collections.singleton(cat), txn);
-    c.approvalCategoryValues().insert(vals, txn);
-    txn.commit();
-  }
-
-  private void initPushTagCategory(final ReviewDb c) throws OrmException {
-    final Transaction txn = c.beginTransaction();
-    final ApprovalCategory cat;
-    final ArrayList<ApprovalCategoryValue> vals;
-
-    cat = new ApprovalCategory(ApprovalCategory.PUSH_TAG, "Push Annotated Tag");
-    cat.setPosition((short) -1);
-    cat.setFunctionName(NoOpFunction.NAME);
-    vals = new ArrayList<ApprovalCategoryValue>();
-    vals.add(value(cat, ApprovalCategory.PUSH_TAG_SIGNED, "Create Signed Tag"));
-    vals.add(value(cat, ApprovalCategory.PUSH_TAG_ANNOTATED,
-        "Create Annotated Tag"));
-    vals.add(value(cat, ApprovalCategory.PUSH_TAG_ANY, "Create Any Tag"));
-    c.approvalCategories().insert(Collections.singleton(cat), txn);
-    c.approvalCategoryValues().insert(vals, txn);
-    txn.commit();
-  }
-
-  private void initPushUpdateBranchCategory(final ReviewDb c)
-      throws OrmException {
-    final Transaction txn = c.beginTransaction();
-    final ApprovalCategory cat;
-    final ArrayList<ApprovalCategoryValue> vals;
-
-    cat = new ApprovalCategory(ApprovalCategory.PUSH_HEAD, "Push Branch");
-    cat.setPosition((short) -1);
-    cat.setFunctionName(NoOpFunction.NAME);
-    vals = new ArrayList<ApprovalCategoryValue>();
-    vals.add(value(cat, ApprovalCategory.PUSH_HEAD_UPDATE, "Update Branch"));
-    vals.add(value(cat, ApprovalCategory.PUSH_HEAD_CREATE, "Create Branch"));
-    vals.add(value(cat, ApprovalCategory.PUSH_HEAD_REPLACE,
-        "Force Push Branch; Delete Branch"));
-    c.approvalCategories().insert(Collections.singleton(cat), txn);
-    c.approvalCategoryValues().insert(vals, txn);
-    txn.commit();
-  }
-
-  private static ApprovalCategoryValue value(final ApprovalCategory cat,
-      final int value, final String name) {
-    return new ApprovalCategoryValue(new ApprovalCategoryValue.Id(cat.getId(),
-        (short) value), name);
-  }
-
-  private void loadSystemConfig() throws OrmException {
-    final ReviewDb c = db.open();
-    try {
-      SchemaVersion sVer;
-      try {
-        sVer = c.schemaVersion().get(new SchemaVersion.Key());
-      } catch (OrmException e) {
-        // Assume the schema doesn't exist.
-        //
-        sVer = null;
-      }
-
-      if (sVer == null) {
-        // Assume the schema is empty and populate it.
-        //
-        c.createSchema();
-        sVer = SchemaVersion.create();
-        sVer.versionNbr = ReviewDb.VERSION;
-        c.schemaVersion().insert(Collections.singleton(sVer));
-
-        initSystemConfig(c);
-        sConfig = c.systemConfig().get(new SystemConfig.Key());
-        initOwnerCategory(c);
-        initReadCategory(c);
-        initVerifiedCategory(c);
-        initCodeReviewCategory(c);
-        initSubmitCategory(c);
-        initPushTagCategory(c);
-        initPushUpdateBranchCategory(c);
-        initWildCardProject(c);
-      }
-
-      if (sVer.versionNbr == 2) {
-        initPushTagCategory(c);
-        initPushUpdateBranchCategory(c);
-
-        sVer.versionNbr = 3;
-        c.schemaVersion().update(Collections.singleton(sVer));
-      }
-
-      if (sVer.versionNbr == ReviewDb.VERSION) {
-        final List<SystemConfig> all = c.systemConfig().all().toList();
-        switch (all.size()) {
-          case 0:
-            throw new OrmException("system_config table is empty");
-          case 1:
-            sConfig = all.get(0);
-            break;
-          default:
-            throw new OrmException("system_config must have exactly 1 row;"
-                + " found " + all.size() + " rows instead");
-        }
-
-      } else {
-        throw new OrmException("Unsupported schema version " + sVer.versionNbr
-            + "; expected schema version " + ReviewDb.VERSION);
-      }
-    } finally {
-      c.close();
-    }
-  }
-
   public boolean isOutgoingMailEnabled() {
     return getGerritConfig().getBoolean("sendemail", null, "enable", true);
   }
@@ -674,23 +393,9 @@ public class GerritServer {
     return getGerritConfig().getString("contactstore", null, "appsec");
   }
 
-  /** A binary string key to encrypt cookies related to account data. */
-  public String getAccountCookieKey() {
-    byte[] r = new byte[sConfig.accountPrivateKey.length()];
-    for (int k = r.length - 1; k >= 0; k--) {
-      r[k] = (byte) sConfig.accountPrivateKey.charAt(k);
-    }
-    r = Base64.decodeBase64(r);
-    final StringBuilder b = new StringBuilder();
-    for (int i = 0; i < r.length; i++) {
-      b.append((char) r[i]);
-    }
-    return b.toString();
-  }
-
   /** Local filesystem location of header/footer/CSS configuration files. */
   public File getSitePath() {
-    return sConfig.sitePath != null ? new File(sConfig.sitePath) : null;
+    return sitePath;
   }
 
   /** Optional canonical URL for this application. */

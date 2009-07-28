@@ -28,6 +28,8 @@ import com.google.inject.Module;
 import com.google.inject.servlet.GuiceServletContextListener;
 import com.google.inject.servlet.ServletModule;
 
+import org.openid4java.consumer.ConsumerException;
+
 import java.security.ProviderException;
 
 import javax.servlet.ServletContextEvent;
@@ -87,9 +89,12 @@ public class GerritServletConfig extends GuiceServletContextListener {
           final GerritServer gs = GerritServer.getInstance(true);
           bind(GerritServer.class).toInstance(gs);
           bind(ContactStore.class).toInstance(EncryptedContactStore.create(gs));
+          bind(OpenIdServiceImpl.class).toInstance(new OpenIdServiceImpl(gs));
         } catch (OrmException e) {
           addError(e);
         } catch (XsrfException e) {
+          addError(e);
+        } catch (ConsumerException e) {
           addError(e);
         }
       }

@@ -22,13 +22,16 @@ import com.google.inject.Singleton;
 @SuppressWarnings("serial")
 @Singleton
 class OpenIdServiceSrv extends GerritJsonServlet {
+  private final OpenIdServiceImpl impl;
+
   @Inject
-  OpenIdServiceSrv(final GerritServer gs) {
+  OpenIdServiceSrv(final GerritServer gs, final OpenIdServiceImpl i) {
     super(gs);
+    impl =i;
   }
 
   @Override
   protected Object createServiceHandle() throws Exception {
-    return OpenIdServiceImpl.getInstance();
+    return impl;
   }
 }

@@ -14,16 +14,11 @@
 
 package com.google.gerrit.server;
 
-import com.google.gwtjsonrpc.server.XsrfException;
-import com.google.gwtorm.client.OrmException;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import org.openid4java.consumer.ConsumerException;
 
 import java.io.IOException;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,22 +26,12 @@ import javax.servlet.http.HttpServletResponse;
 /** Handles the <code>/login</code> URL for web based single-sign-on. */
 @SuppressWarnings("serial")
 @Singleton
-public class OpenIdLoginServlet extends HttpServlet {
-  private OpenIdServiceImpl impl;
+class OpenIdLoginServlet extends HttpServlet {
+  private final OpenIdServiceImpl impl;
 
-  @Override
-  public void init(final ServletConfig config) throws ServletException {
-    super.init(config);
-
-    try {
-      impl = OpenIdServiceImpl.getInstance();
-    } catch (OrmException e) {
-      throw new ServletException("Cannot load GerritServer", e);
-    } catch (XsrfException e) {
-      throw new ServletException("Cannot load GerritServer", e);
-    } catch (ConsumerException e) {
-      throw new ServletException("Cannot load OpenId consumer", e);
-    }
+  @Inject
+  OpenIdLoginServlet(final OpenIdServiceImpl i){
+    impl = i;
   }
 
   @Override

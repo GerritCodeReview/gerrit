@@ -87,27 +87,16 @@ class OpenIdServiceImpl implements OpenIdService {
   private static final String SCHEMA_LASTNAME =
       "http://schema.openid.net/namePerson/last";
 
-  private static OpenIdServiceImpl INSTANCE;
-
   private static boolean useOpenID() {
     return Common.getGerritConfig().getLoginType() == SystemConfig.LoginType.OPENID;
-  }
-
-  static synchronized OpenIdServiceImpl getInstance() throws ConsumerException,
-      OrmException, XsrfException {
-    if (INSTANCE == null) {
-      INSTANCE = new OpenIdServiceImpl();
-    }
-    return INSTANCE;
   }
 
   private final GerritServer server;
   private final ConsumerManager manager;
   private final SelfPopulatingCache discoveryCache;
 
-  private OpenIdServiceImpl() throws ConsumerException, OrmException,
-      XsrfException {
-    server = GerritServer.getInstance();
+  OpenIdServiceImpl(final GerritServer gs) throws ConsumerException {
+    server = gs;
     manager = new ConsumerManager();
     if (useOpenID()) {
       discoveryCache =

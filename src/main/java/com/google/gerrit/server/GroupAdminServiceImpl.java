@@ -39,8 +39,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class GroupAdminServiceImpl extends BaseServiceImplementation implements
+class GroupAdminServiceImpl extends BaseServiceImplementation implements
     GroupAdminService {
+  GroupAdminServiceImpl(final GerritServer gs) {
+    super(gs);
+  }
+
   public void ownedGroups(final AsyncCallback<List<AccountGroup>> callback) {
     run(callback, new Action<List<AccountGroup>>() {
       public List<AccountGroup> run(ReviewDb db) throws OrmException {

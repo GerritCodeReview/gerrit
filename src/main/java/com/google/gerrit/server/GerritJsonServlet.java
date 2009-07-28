@@ -16,15 +16,10 @@ package com.google.gerrit.server;
 
 import com.google.gerrit.client.rpc.NotSignedInException;
 import com.google.gerrit.client.rpc.SignInRequired;
-import com.google.gerrit.git.WorkQueue;
 import com.google.gson.GsonBuilder;
 import com.google.gwtjsonrpc.server.JsonServlet;
 import com.google.gwtjsonrpc.server.SignedToken;
-import com.google.gwtjsonrpc.server.XsrfException;
-import com.google.gwtorm.client.OrmException;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -38,35 +33,15 @@ public abstract class GerritJsonServlet extends JsonServlet<GerritCall> {
     return JsonServlet.<GerritCall> getCurrentCall();
   }
 
-  private GerritServer server;
+  protected GerritServer server;
 
-  @Override
-  public void init(final ServletConfig config) throws ServletException {
-    super.init(config);
-
-    try {
-      server = GerritServer.getInstance();
-    } catch (OrmException e) {
-      throw new ServletException("Cannot configure GerritServer", e);
-    } catch (XsrfException e) {
-      throw new ServletException("Cannot configure GerritServer", e);
-    }
+  protected GerritJsonServlet(final GerritServer gs) {
+    server = gs;
   }
 
   @Override
-  public void destroy() {
-    WorkQueue.terminate();
-    GerritServer.closeDataSource();
-    super.destroy();
-  }
-
-  @Override
-  protected SignedToken createXsrfSignedToken() throws XsrfException {
-    try {
-      return GerritServer.getInstance().getXsrfToken();
-    } catch (OrmException e) {
-      throw new XsrfException("Cannot configure GerritServer", e);
-    }
+  protected SignedToken createXsrfSignedToken() {
+    return server.getXsrfToken();
   }
 
   @Override

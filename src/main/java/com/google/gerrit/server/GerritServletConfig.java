@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server;
 
+import com.google.gerrit.git.WorkQueue;
+import com.google.gerrit.server.patch.PatchDetailServiceSrv;
 import com.google.gerrit.server.ssh.SshServlet;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
@@ -115,7 +117,7 @@ public class GerritServletConfig extends GuiceServletContextListener {
     } catch (ProviderException ce) {
       // Assume it never started.
     }
-
+    WorkQueue.terminate();
     super.contextDestroyed(event);
   }
 }

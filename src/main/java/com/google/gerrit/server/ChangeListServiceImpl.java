@@ -48,7 +48,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class ChangeListServiceImpl extends BaseServiceImplementation implements
+class ChangeListServiceImpl extends BaseServiceImplementation implements
     ChangeListService {
   private static final Comparator<ChangeInfo> ID_COMP =
       new Comparator<ChangeInfo>() {
@@ -79,6 +79,10 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
 
   private static int safePageSize(final int pageSize) {
     return 0 < pageSize && pageSize <= MAX_PER_PAGE ? pageSize : MAX_PER_PAGE;
+  }
+
+  ChangeListServiceImpl(final GerritServer gs) {
+    super(gs);
   }
 
   public void allOpenPrev(final String pos, final int pageSize,
@@ -467,8 +471,8 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
    *         email addresses. The returned changes are unique and sorted by time
    *         stamp, newer first.
    */
-  private Set<Change.Id> changesReviewedBy(final ReviewDb db, final String userName)
-      throws OrmException {
+  private Set<Change.Id> changesReviewedBy(final ReviewDb db,
+      final String userName) throws OrmException {
     final Set<Change.Id> resultChanges = new HashSet<Change.Id>();
     for (Account.Id account : getAccountSources(db, userName)) {
       for (ChangeApproval a : db.changeApprovals().openByUser(account)) {

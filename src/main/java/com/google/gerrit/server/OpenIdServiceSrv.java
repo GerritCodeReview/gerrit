@@ -14,13 +14,19 @@
 
 package com.google.gerrit.server;
 
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 
 /** Publishes {@link OpenIdServiceImpl} over JSON. */
 @SuppressWarnings("serial")
 @Singleton
-public class OpenIdServiceSrv extends GerritJsonServlet {
+class OpenIdServiceSrv extends GerritJsonServlet {
+  @Inject
+  OpenIdServiceSrv(final GerritServer gs) {
+    super(gs);
+  }
+
   @Override
   protected Object createServiceHandle() throws Exception {
     return OpenIdServiceImpl.getInstance();

@@ -62,13 +62,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class PatchDetailServiceImpl extends BaseServiceImplementation implements
+class PatchDetailServiceImpl extends BaseServiceImplementation implements
     PatchDetailService {
   private final Logger log = LoggerFactory.getLogger(getClass());
-  private final GerritServer server;
 
-  public PatchDetailServiceImpl(final GerritServer gs) {
-    server = gs;
+  PatchDetailServiceImpl(final GerritServer gs) {
+    super(gs);
   }
 
   public void patchScript(final Patch.Key patchKey, final PatchSet.Id psa,

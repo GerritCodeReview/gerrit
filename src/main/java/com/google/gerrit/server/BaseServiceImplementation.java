@@ -32,6 +32,12 @@ import java.util.Set;
 
 /** Support for services which require a {@link ReviewDb} instance. */
 public class BaseServiceImplementation {
+  protected final GerritServer server;
+
+  protected BaseServiceImplementation(final GerritServer gs) {
+    server = gs;
+  }
+
   /**
    * Executes <code>action.run</code> with an active ReviewDb connection.
    * <p>

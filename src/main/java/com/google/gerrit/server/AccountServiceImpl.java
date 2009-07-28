@@ -36,8 +36,12 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
-public class AccountServiceImpl extends BaseServiceImplementation implements
+class AccountServiceImpl extends BaseServiceImplementation implements
     AccountService {
+  AccountServiceImpl(final GerritServer gs) {
+    super(gs);
+  }
+
   public void myAccount(final AsyncCallback<Account> callback) {
     run(callback, new Action<Account>() {
       public Account run(ReviewDb db) throws Failure {

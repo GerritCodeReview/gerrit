@@ -37,8 +37,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class ChangeManageServiceImpl extends BaseServiceImplementation
-    implements ChangeManageService {
+class ChangeManageServiceImpl extends BaseServiceImplementation implements
+    ChangeManageService {
+  ChangeManageServiceImpl(final GerritServer gs) {
+    super(gs);
+  }
 
   public void patchSetAction(final ApprovalCategoryValue.Id value,
       final PatchSet.Id patchSetId, final AsyncCallback<VoidResult> callback) {

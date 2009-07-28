@@ -14,15 +14,21 @@
 
 package com.google.gerrit.server;
 
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 
 /** Publishes {@link ProjectAdminServiceImpl} over JSON. */
 @SuppressWarnings("serial")
 @Singleton
-public class ProjectAdminServiceSrv extends GerritJsonServlet {
+class ProjectAdminServiceSrv extends GerritJsonServlet {
+  @Inject
+  ProjectAdminServiceSrv(final GerritServer gs) {
+    super(gs);
+  }
+
   @Override
   protected Object createServiceHandle() throws Exception {
-    return new ProjectAdminServiceImpl(GerritServer.getInstance());
+    return new ProjectAdminServiceImpl(server);
   }
 }

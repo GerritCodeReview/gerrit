@@ -60,10 +60,9 @@ import javax.servlet.http.HttpServletRequest;
 class AccountSecurityImpl extends BaseServiceImplementation implements
     AccountSecurity {
   private final Logger log = LoggerFactory.getLogger(getClass());
-  private final GerritServer server;
 
   AccountSecurityImpl(final GerritServer gs) {
-    server = gs;
+    super(gs);
   }
 
   public void mySshKeys(final AsyncCallback<List<AccountSshKey>> callback) {

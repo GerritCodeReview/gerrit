@@ -14,15 +14,21 @@
 
 package com.google.gerrit.server;
 
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 
 /** Publishes {@link ChangeManageServiceImpl} over JSON. */
 @SuppressWarnings("serial")
 @Singleton
-public class ChangeManageServiceSrv extends GerritJsonServlet {
+class ChangeManageServiceSrv extends GerritJsonServlet {
+  @Inject
+  ChangeManageServiceSrv(final GerritServer gs) {
+    super(gs);
+  }
+
   @Override
   protected Object createServiceHandle() throws Exception {
-    return new ChangeManageServiceImpl();
+    return new ChangeManageServiceImpl(server);
   }
 }

@@ -25,8 +25,12 @@ import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtorm.client.OrmException;
 
-public class ChangeDetailServiceImpl extends BaseServiceImplementation
-    implements ChangeDetailService {
+class ChangeDetailServiceImpl extends BaseServiceImplementation implements
+    ChangeDetailService {
+  ChangeDetailServiceImpl(final GerritServer gs) {
+    super(gs);
+  }
+
   public void changeDetail(final Change.Id id,
       final AsyncCallback<ChangeDetail> callback) {
     run(callback, new ChangeDetailFactory(id));

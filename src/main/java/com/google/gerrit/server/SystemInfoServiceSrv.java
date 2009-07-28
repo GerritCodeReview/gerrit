@@ -14,15 +14,21 @@
 
 package com.google.gerrit.server;
 
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 
 /** Publishes {@link SystemInfoServiceImpl} over JSON. */
 @SuppressWarnings("serial")
 @Singleton
-public class SystemInfoServiceSrv extends GerritJsonServlet {
+class SystemInfoServiceSrv extends GerritJsonServlet {
+  @Inject
+  SystemInfoServiceSrv(final GerritServer gs) {
+    super(gs);
+  }
+
   @Override
   protected Object createServiceHandle() throws Exception {
-    return new SystemInfoServiceImpl();
+    return new SystemInfoServiceImpl(server);
   }
 }

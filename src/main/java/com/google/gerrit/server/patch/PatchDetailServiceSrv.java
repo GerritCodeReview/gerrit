@@ -12,17 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server;
+package com.google.gerrit.server.patch;
 
-import com.google.gerrit.server.patch.PatchDetailServiceImpl;
+import com.google.gerrit.server.GerritJsonServlet;
+import com.google.gerrit.server.GerritServer;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 /** Publishes {@link PatchDetailServiceImpl} over JSON. */
 @SuppressWarnings("serial")
 @Singleton
 public class PatchDetailServiceSrv extends GerritJsonServlet {
+  @Inject
+  PatchDetailServiceSrv(final GerritServer gs) {
+    super(gs);
+  }
+
   @Override
   protected Object createServiceHandle() throws Exception {
-    return new PatchDetailServiceImpl(GerritServer.getInstance());
+    return new PatchDetailServiceImpl(server);
   }
 }

@@ -46,10 +46,16 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class SystemInfoServiceImpl implements SystemInfoService {
+class SystemInfoServiceImpl implements SystemInfoService {
   private static final Logger log =
       LoggerFactory.getLogger(SystemInfoServiceImpl.class);
   private static final JSch JSCH = new JSch();
+
+  private final GerritServer server;
+
+  SystemInfoServiceImpl(final GerritServer gs) {
+    server = gs;
+  }
 
   public static GerritConfig getGerritConfig() {
     final GerritConfig cfg = Common.getGerritConfig();

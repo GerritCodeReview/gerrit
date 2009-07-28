@@ -30,9 +30,13 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-public class SuggestServiceImpl extends BaseServiceImplementation implements
+class SuggestServiceImpl extends BaseServiceImplementation implements
     SuggestService {
   private static final String MAX_SUFFIX = "\u9fa5";
+
+  SuggestServiceImpl(final GerritServer gs) {
+    super(gs);
+  }
 
   public void suggestProjectNameKey(final String query, final int limit,
       final AsyncCallback<List<Project.NameKey>> callback) {

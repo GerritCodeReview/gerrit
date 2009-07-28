@@ -14,15 +14,21 @@
 
 package com.google.gerrit.server;
 
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 
 /** Publishes {@link AccountSecurityImpl} over JSON. */
 @SuppressWarnings("serial")
 @Singleton
-public class AccountSecuritySrv extends GerritJsonServlet {
+class AccountSecuritySrv extends GerritJsonServlet {
+  @Inject
+  AccountSecuritySrv(final GerritServer gs) {
+    super(gs);
+  }
+
   @Override
   protected Object createServiceHandle() throws Exception {
-    return new AccountSecurityImpl(GerritServer.getInstance());
+    return new AccountSecurityImpl(server);
   }
 }

@@ -62,13 +62,12 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class ProjectAdminServiceImpl extends BaseServiceImplementation
-    implements ProjectAdminService {
+class ProjectAdminServiceImpl extends BaseServiceImplementation implements
+    ProjectAdminService {
   private final Logger log = LoggerFactory.getLogger(getClass());
-  private final GerritServer server;
 
   ProjectAdminServiceImpl(final GerritServer gs) {
-    server = gs;
+    super(gs);
   }
 
   public void ownedProjects(final AsyncCallback<List<Project>> callback) {

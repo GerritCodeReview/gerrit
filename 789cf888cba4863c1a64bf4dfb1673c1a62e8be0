@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAdH///+Y\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ChangeDetailServiceImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-28T23:40:41Z",
+      "side": 1,
+      "message": "You\u0027ll need to rebase your change, and this is going to conflict with what I just submitted where the constructor takes a SchemaFactory\u003cReviewDb\u003e via Guice.",
+      "revId": "789cf888cba4863c1a64bf4dfb1673c1a62e8be0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAdH///+U\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/patchsetinfo/PatchSetInfoFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-28T23:40:41Z",
+      "side": 1,
+      "message": "Method is gone in latest code; you\u0027ll need to rebase and fix the compile errors.  Actually... you can get everything via Guice now so you probably want to register your factory through Guice and receive the SchemaFactory\u003cReviewDb\u003e in your constructor via injection... and feed your object to others that need you via injection.",
+      "revId": "789cf888cba4863c1a64bf4dfb1673c1a62e8be0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

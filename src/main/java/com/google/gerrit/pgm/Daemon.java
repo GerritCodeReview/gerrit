@@ -14,14 +14,29 @@
 
 package com.google.gerrit.pgm;
 
+import com.google.gerrit.client.data.GerritConfig;
+import com.google.gerrit.client.rpc.Common;
+import com.google.gerrit.server.GerritServerModule;
 import com.google.gerrit.server.ssh.GerritSshDaemon;
+import com.google.gerrit.server.ssh.SshDaemonModule;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 
 
 /** Run only the SSH daemon portions of Gerrit. */
 public class Daemon extends AbstractProgram {
   @Override
   public int run() throws Exception {
-    GerritSshDaemon.startSshd();
+    final Injector injector =
+        Guice.createInjector(new GerritServerModule(), new SshDaemonModule());
+
+    // This is a hack to force the GerritConfig to install itself into
+    // Common.setGerritConfig. If we don't do this here in the daemon
+    // it won't inject in time for things that demand it. This must die.
+    //
+    Common.setGerritConfig(injector.getInstance(GerritConfig.class));
+
+    injector.getInstance(GerritSshDaemon.class).start();
     return never();
   }
 }

@@ -15,9 +15,6 @@
 package com.google.gerrit.server;
 
 import com.google.gerrit.client.data.AccountCache;
-import com.google.gerrit.client.data.ApprovalType;
-import com.google.gerrit.client.data.GerritConfig;
-import com.google.gerrit.client.data.GitwebLink;
 import com.google.gerrit.client.data.GroupCache;
 import com.google.gerrit.client.data.ProjectCache;
 import com.google.gerrit.client.reviewdb.AccountGroup;
@@ -245,13 +242,6 @@ public class GerritServer {
       basepath = root;
     } else {
       basepath = null;
-    }
-
-    final ReviewDb c = db.open();
-    try {
-      loadGerritConfig(c);
-    } finally {
-      c.close();
     }
 
     Common.setSchemaFactory(db);
@@ -694,32 +684,6 @@ public class GerritServer {
     }
   }
 
-  private void loadGerritConfig(final ReviewDb db) throws OrmException {
-    final GerritConfig r = new GerritConfig();
-    r.setCanonicalUrl(getCanonicalURL());
-    r.setUseContributorAgreements(getGerritConfig().getBoolean("auth",
-        "contributoragreements", false));
-    r.setGitDaemonUrl(getGerritConfig().getString("gerrit", null,
-        "canonicalgiturl"));
-    r.setUseRepoDownload(getGerritConfig().getBoolean("repo", null,
-        "showdownloadcommand", false));
-    r.setUseContactInfo(getContactStoreURL() != null);
-    r.setAllowRegisterNewEmail(isOutgoingMailEnabled());
-    r.setLoginType(getLoginType());
-
-    final String gitwebUrl = getGerritConfig().getString("gitweb", null, "url");
-    if (gitwebUrl != null) {
-      r.setGitwebLink(new GitwebLink(gitwebUrl));
-    }
-
-    for (final ApprovalCategory c : db.approvalCategories().all()) {
-      r.add(new ApprovalType(c, db.approvalCategoryValues().byCategory(
-          c.getId()).toList()));
-    }
-
-    Common.setGerritConfig(r);
-  }
-
   public boolean isOutgoingMailEnabled() {
     return getGerritConfig().getBoolean("sendemail", null, "enable", true);
   }
@@ -829,7 +793,7 @@ public class GerritServer {
     return emailReg;
   }
 
-  private SystemConfig.LoginType getLoginType() {
+  public SystemConfig.LoginType getLoginType() {
     String type = getGerritConfig().getString("auth", null, "type");
     if (type == null) {
       return SystemConfig.LoginType.OPENID;

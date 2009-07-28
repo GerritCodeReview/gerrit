@@ -14,8 +14,7 @@
 
 package com.google.gerrit.server.ssh;
 
-import com.google.gwtjsonrpc.server.XsrfException;
-import com.google.gwtorm.client.OrmException;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import java.io.IOException;
@@ -23,10 +22,7 @@ import java.io.PrintWriter;
 import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
-import java.net.SocketException;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -53,24 +49,11 @@ import javax.servlet.http.HttpServletResponse;
 @SuppressWarnings("serial")
 @Singleton
 public class SshServlet extends HttpServlet {
-  @Override
-  public void init(final ServletConfig config) throws ServletException {
-    super.init(config);
-    try {
-      GerritSshDaemon.startSshd();
-    } catch (SocketException e) {
-      throw new ServletException(e);
-    } catch (OrmException e) {
-      throw new ServletException(e);
-    } catch (XsrfException e) {
-      throw new ServletException(e);
-    }
-  }
+  private final GerritSshDaemon sshd;
 
-  @Override
-  public void destroy() {
-    GerritSshDaemon.stopSshd();
-    super.destroy();
+  @Inject
+  SshServlet(final GerritSshDaemon daemon) {
+    sshd = daemon;
   }
 
   @Override
@@ -80,7 +63,7 @@ public class SshServlet extends HttpServlet {
     rsp.setHeader("Pragma", "no-cache");
     rsp.setHeader("Cache-Control", "no-cache, must-revalidate");
 
-    final InetSocketAddress addr = GerritSshDaemon.getAddress();
+    final InetSocketAddress addr = sshd.getAddress();
     final String out;
     if (addr != null) {
       final InetAddress ip = addr.getAddress();

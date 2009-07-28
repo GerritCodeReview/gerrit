@@ -15,8 +15,8 @@
 package com.google.gerrit.server.ssh;
 
 import com.google.gerrit.server.GerritServer;
-import com.google.gwtjsonrpc.server.XsrfException;
-import com.google.gwtorm.client.OrmException;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import org.apache.mina.core.service.IoAcceptor;
 import org.apache.mina.core.session.IoSession;
@@ -48,6 +48,7 @@ import org.apache.sshd.common.session.AbstractSession;
 import org.apache.sshd.common.signature.SignatureDSA;
 import org.apache.sshd.common.signature.SignatureRSA;
 import org.apache.sshd.common.util.SecurityUtils;
+import org.apache.sshd.server.CommandFactory;
 import org.apache.sshd.server.ServerChannel;
 import org.apache.sshd.server.SessionFactory;
 import org.apache.sshd.server.UserAuth;
@@ -65,7 +66,6 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
-import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.security.InvalidKeyException;
 import java.security.KeyPair;
@@ -95,61 +95,12 @@ import java.util.List;
  *  Port 8010
  * </pre>
  */
+@Singleton
 public class GerritSshDaemon extends SshServer {
   private static final int DEFAULT_PORT = 29418;
 
   private static final Logger log =
       LoggerFactory.getLogger(GerritSshDaemon.class);
-
-  private static GerritSshDaemon sshd;
-  private static InetSocketAddress preferredAddress;
-  private static Collection<PublicKey> hostKeys = Collections.emptyList();
-
-  public static synchronized void startSshd() throws OrmException,
-      XsrfException, SocketException {
-    final GerritServer srv = GerritServer.getInstance();
-    final GerritSshDaemon daemon = new GerritSshDaemon(srv);
-    final String addressList = daemon.addressList();
-    try {
-      sshd = daemon;
-      preferredAddress = null;
-      hostKeys = computeHostKeys();
-
-      if (hostKeys.isEmpty()) {
-        throw new IOException("No SSHD host key");
-      }
-      daemon.start();
-
-      log.info("Started Gerrit SSHD on " + addressList);
-    } catch (IOException e) {
-      sshd = null;
-      preferredAddress = null;
-      hostKeys = Collections.emptyList();
-
-      final String msg = "Cannot start Gerrit SSHD on " + addressList;
-      log.error(msg, e);
-      final SocketException e2;
-      e2 = new SocketException(msg);
-      e2.initCause(e);
-      throw e2;
-    }
-  }
-
-  private static Collection<PublicKey> computeHostKeys() {
-    final KeyPairProvider p = sshd.getKeyPairProvider();
-    final List<PublicKey> keys = new ArrayList<PublicKey>(2);
-    addPublicKey(keys, p, KeyPairProvider.SSH_DSS);
-    addPublicKey(keys, p, KeyPairProvider.SSH_RSA);
-    return Collections.unmodifiableList(keys);
-  }
-
-  private static void addPublicKey(final Collection<PublicKey> out,
-      final KeyPairProvider p, final String type) {
-    final KeyPair pair = p.loadKey(type);
-    if (pair != null && pair.getPublic() != null) {
-      out.add(pair.getPublic());
-    }
-  }
 
   private static String format(final SocketAddress addr) {
     if (addr instanceof InetSocketAddress) {
@@ -166,55 +117,16 @@ public class GerritSshDaemon extends SshServer {
     return addr.toString();
   }
 
-  public static synchronized void stopSshd() {
-    if (sshd != null) {
-      try {
-        sshd.stop();
-        log.info("Stopped Gerrit SSHD");
-      } finally {
-        sshd = null;
-        preferredAddress = null;
-        hostKeys = Collections.emptyList();
-      }
-    }
-  }
+  private final List<SocketAddress> listen;
+  private final InetSocketAddress preferredAddress;
+  private final boolean reuseAddress;
+  private final boolean keepAlive;
+  private final Collection<PublicKey> hostKeys;
+  private volatile IoAcceptor acceptor;
 
-  public static synchronized IoAcceptor getIoAcceptor() {
-    return sshd != null ? sshd.acceptor : null;
-  }
-
-  public static synchronized Collection<PublicKey> getHostKeys() {
-    return hostKeys;
-  }
-
-  public static synchronized InetSocketAddress getAddress() {
-    if (sshd != null && preferredAddress == null) {
-      preferredAddress = computePreferredAddress();
-    }
-    return preferredAddress;
-  }
-
-  private static InetSocketAddress computePreferredAddress() {
-    for (final SocketAddress addr : sshd.listen) {
-      if (!(addr instanceof InetSocketAddress)) {
-        continue;
-      }
-
-      InetSocketAddress inetAddr = (InetSocketAddress) addr;
-      if (inetAddr.getAddress().isLoopbackAddress()) {
-        continue;
-      }
-      return inetAddr;
-    }
-    return null;
-  }
-
-  private List<SocketAddress> listen;
-  private IoAcceptor acceptor;
-  private boolean reuseAddress;
-  private boolean keepAlive;
-
-  private GerritSshDaemon(final GerritServer srv) {
+  @Inject
+  public GerritSshDaemon(final GerritServer srv,
+      final CommandFactory commandFactory) {
     setPort(22/* never used */);
 
     final RepositoryConfig cfg = srv.getGerritConfig();
@@ -234,7 +146,7 @@ public class GerritSshDaemon extends SshServer {
     initCompression();
     initUserAuth(srv);
     setKeyPairProvider(initHostKey(srv));
-    setCommandFactory(new GerritCommandFactory(srv));
+    setCommandFactory(commandFactory);
     setShellFactory(new NoShell());
     setSessionFactory(new SessionFactory() {
       @Override
@@ -251,12 +163,30 @@ public class GerritSshDaemon extends SshServer {
         return s;
       }
     });
+
+    hostKeys = computeHostKeys();
+    preferredAddress = computePreferredAddress();
+  }
+
+  public Collection<PublicKey> getHostKeys() {
+    return hostKeys;
+  }
+
+  public InetSocketAddress getAddress() {
+    return preferredAddress;
+  }
+
+  public IoAcceptor getIoAcceptor() {
+    return acceptor;
   }
 
   @Override
-  public void start() throws IOException {
+  public synchronized void start() throws IOException {
     if (acceptor == null) {
       checkConfig();
+      if (hostKeys.isEmpty()) {
+        throw new IOException("No SSHD host key");
+      }
 
       final NioSocketAcceptor ain = new NioSocketAcceptor();
       final SessionFactory handler = getSessionFactory();
@@ -265,18 +195,52 @@ public class GerritSshDaemon extends SshServer {
       ain.setReuseAddress(reuseAddress);
       ain.bind(listen);
       acceptor = ain;
+
+      log.info("Started Gerrit SSHD on " + addressList());
     }
   }
 
   @Override
-  public void stop() {
+  public synchronized void stop() {
     if (acceptor != null) {
       try {
         acceptor.dispose();
+        log.info("Stopped Gerrit SSHD");
       } finally {
         acceptor = null;
       }
     }
+  }
+
+  private Collection<PublicKey> computeHostKeys() {
+    final KeyPairProvider p = getKeyPairProvider();
+    final List<PublicKey> keys = new ArrayList<PublicKey>(2);
+    addPublicKey(keys, p, KeyPairProvider.SSH_DSS);
+    addPublicKey(keys, p, KeyPairProvider.SSH_RSA);
+    return Collections.unmodifiableList(keys);
+  }
+
+  private static void addPublicKey(final Collection<PublicKey> out,
+      final KeyPairProvider p, final String type) {
+    final KeyPair pair = p.loadKey(type);
+    if (pair != null && pair.getPublic() != null) {
+      out.add(pair.getPublic());
+    }
+  }
+
+  private InetSocketAddress computePreferredAddress() {
+    for (final SocketAddress addr : listen) {
+      if (!(addr instanceof InetSocketAddress)) {
+        continue;
+      }
+
+      InetSocketAddress inetAddr = (InetSocketAddress) addr;
+      if (inetAddr.getAddress().isLoopbackAddress()) {
+        continue;
+      }
+      return inetAddr;
+    }
+    return null;
   }
 
   private String addressList() {

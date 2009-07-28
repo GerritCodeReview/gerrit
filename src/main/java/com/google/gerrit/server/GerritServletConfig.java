@@ -16,12 +16,11 @@ package com.google.gerrit.server;
 
 import com.google.gerrit.git.WorkQueue;
 import com.google.gerrit.server.patch.PatchDetailServiceImpl;
+import com.google.gerrit.server.ssh.GerritSshDaemon;
+import com.google.gerrit.server.ssh.SshDaemonModule;
 import com.google.gerrit.server.ssh.SshServlet;
 import com.google.gwtexpui.server.CacheControlFilter;
 import com.google.gwtjsonrpc.client.RemoteJsonService;
-import com.google.gwtjsonrpc.server.XsrfException;
-import com.google.gwtorm.client.OrmException;
-import com.google.inject.AbstractModule;
 import com.google.inject.BindingAnnotation;
 import com.google.inject.ConfigurationException;
 import com.google.inject.Guice;
@@ -32,6 +31,7 @@ import com.google.inject.Scopes;
 import com.google.inject.servlet.GuiceServletContextListener;
 import com.google.inject.servlet.ServletModule;
 
+import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -123,27 +123,10 @@ public class GerritServletConfig extends GuiceServletContextListener {
     };
   }
 
-  private static Module createDatabaseModule() {
-    return new AbstractModule() {
-      @Override
-      protected void configure() {
-        try {
-          bind(GerritServer.class).toInstance(GerritServer.getInstance(true));
-        } catch (OrmException e) {
-          addError(e);
-        } catch (XsrfException e) {
-          addError(e);
-        }
-
-        bind(ContactStore.class)
-            .toProvider(EncryptedContactStoreProvider.class);
-        bind(FileTypeRegistry.class).to(MimeUtilFileTypeRegistry.class);
-      }
-    };
-  }
-
   private final Injector injector =
-      Guice.createInjector(createDatabaseModule(), createServletModule());
+      Guice.createInjector(createServletModule(),
+          new GerritServerModule(),
+          new SshDaemonModule());
 
   @Override
   protected Injector getInjector() {
@@ -153,12 +136,30 @@ public class GerritServletConfig extends GuiceServletContextListener {
   @Override
   public void contextInitialized(final ServletContextEvent event) {
     super.contextInitialized(event);
+
+    try {
+      injector.getInstance(GerritSshDaemon.class).start();
+    } catch (ConfigurationException e) {
+      event.getServletContext().log("Unable to start SSHD", e);
+    } catch (ProviderException e) {
+      event.getServletContext().log("Unable to start SSHD", e);
+    } catch (IOException e) {
+      event.getServletContext().log("Unable to start SSHD", e);
+    }
   }
 
   @Override
   public void contextDestroyed(final ServletContextEvent event) {
     try {
-      final GerritServer gs = injector.getInstance(Key.get(GerritServer.class));
+      injector.getInstance(GerritSshDaemon.class).stop();
+    } catch (ConfigurationException e) {
+      // Assume it never started.
+    } catch (ProviderException e) {
+      // Assume it never started.
+    }
+
+    try {
+      final GerritServer gs = injector.getInstance(GerritServer.class);
       gs.closeDataSource();
     } catch (ConfigurationException ce) {
       // Assume it never started.

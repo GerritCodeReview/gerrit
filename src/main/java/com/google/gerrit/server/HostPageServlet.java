@@ -44,13 +44,16 @@ import javax.servlet.http.HttpServletResponse;
 @Singleton
 public class HostPageServlet extends HttpServlet {
   private final GerritServer server;
+  private final GerritConfig config;
+
   private String canonicalUrl;
   private boolean wantSSL;
   private Document hostDoc;
 
   @Inject
-  HostPageServlet(final GerritServer gs) {
+  HostPageServlet(final GerritServer gs, final GerritConfig gc) {
     server = gs;
+    config = gc;
   }
 
   @Override
@@ -219,7 +222,6 @@ public class HostPageServlet extends HttpServlet {
 
     final Account.Id me = new GerritCall(server, req, rsp).getAccountId();
     final Account account = Common.getAccountCache().get(me);
-    final GerritConfig config = SystemInfoServiceImpl.getGerritConfig();
 
     final Document peruser = HtmlDomUtil.clone(hostDoc);
     injectJson(peruser, "gerrit_gerritconfig", config);

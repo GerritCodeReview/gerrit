@@ -19,7 +19,6 @@ import com.google.gerrit.client.data.SshHostKey;
 import com.google.gerrit.client.data.SystemInfoService;
 import com.google.gerrit.client.reviewdb.ContributorAgreement;
 import com.google.gerrit.client.reviewdb.ReviewDb;
-import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.server.ssh.GerritSshDaemon;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtorm.client.OrmException;
@@ -53,35 +52,17 @@ class SystemInfoServiceImpl implements SystemInfoService {
   private static final JSch JSCH = new JSch();
 
   private final GerritServer server;
+  private final GerritSshDaemon sshd;
+  private final GerritConfig config;
+  private final List<PublicKey> hostKeys;
 
   @Inject
-  SystemInfoServiceImpl(final GerritServer gs) {
+  SystemInfoServiceImpl(final GerritServer gs, final GerritSshDaemon daemon,
+      final GerritConfig gc) {
     server = gs;
-  }
-
-  public static GerritConfig getGerritConfig() {
-    final GerritConfig cfg = Common.getGerritConfig();
-    synchronized (cfg) {
-      if (cfg.getSshdAddress() == null) {
-        final InetSocketAddress addr = GerritSshDaemon.getAddress();
-        if (addr != null) {
-          final InetAddress ip = addr.getAddress();
-          String host;
-          if (ip != null && ip.isAnyLocalAddress()) {
-            host = "";
-          } else if (isIPv6(ip)) {
-            host = "[" + addr.getHostName() + "]";
-          } else {
-            host = addr.getHostName();
-          }
-          if (addr.getPort() != 22) {
-            host += ":" + addr.getPort();
-          }
-          cfg.setSshdAddress(host);
-        }
-      }
-    }
-    return cfg;
+    sshd = daemon;
+    config = gc;
+    hostKeys = sortHostKeys();
   }
 
   private static boolean isIPv6(final InetAddress ip) {
@@ -90,7 +71,7 @@ class SystemInfoServiceImpl implements SystemInfoService {
   }
 
   public void loadGerritConfig(final AsyncCallback<GerritConfig> callback) {
-    callback.onSuccess(getGerritConfig());
+    callback.onSuccess(config);
   }
 
   public void contributorAgreements(
@@ -109,9 +90,8 @@ class SystemInfoServiceImpl implements SystemInfoService {
 
   public void daemonHostKeys(final AsyncCallback<List<SshHostKey>> callback) {
     final String hostIdent = hostIdent();
-    final List<PublicKey> keys = sortKeys();
-    final ArrayList<SshHostKey> r = new ArrayList<SshHostKey>(keys.size());
-    for (final PublicKey pub : keys) {
+    final ArrayList<SshHostKey> r = new ArrayList<SshHostKey>(hostKeys.size());
+    for (final PublicKey pub : hostKeys) {
       try {
         final HostKey hk = toHostKey(hostIdent, pub);
         r.add(new SshHostKey(hk.getHost(), hk.getType() + " " + hk.getKey(), hk
@@ -124,9 +104,9 @@ class SystemInfoServiceImpl implements SystemInfoService {
     callback.onSuccess(r);
   }
 
-  private static List<PublicKey> sortKeys() {
+  private List<PublicKey> sortHostKeys() {
     final List<PublicKey> r = new ArrayList<PublicKey>(2);
-    r.addAll(GerritSshDaemon.getHostKeys());
+    r.addAll(sshd.getHostKeys());
     Collections.sort(r, new Comparator<PublicKey>() {
       @Override
       public int compare(final PublicKey a, final PublicKey b) {
@@ -142,7 +122,7 @@ class SystemInfoServiceImpl implements SystemInfoService {
         return 0;
       }
     });
-    return r;
+    return Collections.unmodifiableList(r);
   }
 
   private HostKey toHostKey(final String hostIdent, final PublicKey pub)
@@ -157,7 +137,7 @@ class SystemInfoServiceImpl implements SystemInfoService {
     final HttpServletRequest req =
         GerritJsonServlet.getCurrentCall().getHttpServletRequest();
 
-    InetSocketAddress addr = GerritSshDaemon.getAddress();
+    InetSocketAddress addr = sshd.getAddress();
     InetAddress ip = addr.getAddress();
     if (ip.isAnyLocalAddress()) {
       try {

@@ -14,64 +14,41 @@
 
 package com.google.gerrit.server.ssh;
 
-import com.google.gerrit.server.GerritServer;
+import com.google.inject.Inject;
+import com.google.inject.Injector;
+import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import org.apache.sshd.server.CommandFactory;
 
 import java.util.HashMap;
 
 /** Creates a command implementation based on the client input. */
-class GerritCommandFactory implements CommandFactory {
-  private final GerritServer server;
-  private final HashMap<String, Factory> commands;
+@Singleton
+public class GerritCommandFactory implements CommandFactory {
+  private final Injector injector;
+  private final HashMap<String, Provider<? extends AbstractCommand>> commands;
 
-  GerritCommandFactory(final GerritServer gs) {
-    server = gs;
-    commands = new HashMap<String, Factory>();
+  @Inject
+  GerritCommandFactory(final Injector i) {
+    injector = i;
+    commands = new HashMap<String, Provider<? extends AbstractCommand>>();
 
-    commands.put("gerrit-upload-pack", new Factory() {
-      public AbstractCommand create() {
-        return new Upload();
-      }
-    });
-    commands.put("gerrit-receive-pack", new Factory() {
-      public AbstractCommand create() {
-        return new Receive();
-      }
-    });
-    commands.put("gerrit-flush-caches", new Factory() {
-      public AbstractCommand create() {
-        return new AdminFlushCaches();
-      }
-    });
-    commands.put("gerrit-ls-projects", new Factory() {
-      public AbstractCommand create() {
-        return new ListProjects();
-      }
-    });
-    commands.put("gerrit-show-caches", new Factory() {
-      public AbstractCommand create() {
-        return new AdminShowCaches();
-      }
-    });
-    commands.put("gerrit-show-connections", new Factory() {
-      public AbstractCommand create() {
-        return new AdminShowConnections();
-      }
-    });
-    commands.put("gerrit-show-queue", new Factory() {
-      public AbstractCommand create() {
-        return new AdminShowQueue();
-      }
-    });
-    commands.put("gerrit-replicate", new Factory() {
-      public AbstractCommand create() {
-        return new AdminReplicate();
-      }
-    });
+    bind("gerrit-upload-pack", Upload.class);
+    bind("gerrit-receive-pack", Receive.class);
+    bind("gerrit-flush-caches", AdminFlushCaches.class);
+    bind("gerrit-ls-projects", ListProjects.class);
+    bind("gerrit-show-caches", AdminShowCaches.class);
+    bind("gerrit-show-connections", AdminShowConnections.class);
+    bind("gerrit-show-queue", AdminShowQueue.class);
+    bind("gerrit-replicate", AdminReplicate.class);
 
     alias("gerrit-upload-pack", "git-upload-pack");
     alias("gerrit-receive-pack", "git-receive-pack");
+  }
+
+  private void bind(final String cmd, final Class<? extends AbstractCommand> imp) {
+    commands.put(cmd, injector.getProvider(imp));
   }
 
   private void alias(final String from, final String to) {
@@ -107,15 +84,14 @@ class GerritCommandFactory implements CommandFactory {
     }
 
     final AbstractCommand c = create(cmd);
-    c.server = server;
     c.setCommandLine(cmd, args);
     return c;
   }
 
   private AbstractCommand create(final String cmd) {
-    final Factory f = commands.get(cmd);
+    final Provider<? extends AbstractCommand> f = commands.get(cmd);
     if (f != null) {
-      return f.create();
+      return f.get();
     }
     return new AbstractCommand() {
       @Override
@@ -123,9 +99,5 @@ class GerritCommandFactory implements CommandFactory {
         throw new UnloggedFailure(127, "gerrit: " + getName() + ": not found");
       }
     };
-  }
-
-  protected static interface Factory {
-    AbstractCommand create();
   }
 }

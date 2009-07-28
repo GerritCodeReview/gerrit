@@ -16,6 +16,7 @@ package com.google.gerrit.server.ssh;
 
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.rpc.Common;
+import com.google.inject.Inject;
 
 import org.apache.mina.core.service.IoAcceptor;
 import org.apache.mina.core.session.IoSession;
@@ -41,14 +42,17 @@ class AdminShowConnections extends AbstractCommand {
 
   PrintWriter p;
 
+  @Inject
+  private GerritSshDaemon daemon;
+
   @Override
   protected void run() throws Failure, UnsupportedEncodingException {
     assertIsAdministrator();
     p = toPrintWriter(out);
 
-    final IoAcceptor acceptor = GerritSshDaemon.getIoAcceptor();
+    final IoAcceptor acceptor = daemon.getIoAcceptor();
     if (acceptor == null) {
-      throw new Failure(1, "fatal: sshd not running");
+      throw new Failure(1, "fatal: sshd no longer running");
     }
 
     final List<IoSession> list =

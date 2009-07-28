@@ -29,6 +29,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.Transaction;
+import com.google.inject.Inject;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -38,6 +39,7 @@ import java.util.Set;
 
 class AccountServiceImpl extends BaseServiceImplementation implements
     AccountService {
+  @Inject
   AccountServiceImpl(final GerritServer gs) {
     super(gs);
   }

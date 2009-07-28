@@ -52,6 +52,7 @@ import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.OrmRunnable;
 import com.google.gwtorm.client.Transaction;
+import com.google.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,11 +64,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-class PatchDetailServiceImpl extends BaseServiceImplementation implements
+public class PatchDetailServiceImpl extends BaseServiceImplementation implements
     PatchDetailService {
   private final Logger log = LoggerFactory.getLogger(getClass());
   private final FileTypeRegistry registry;
 
+  @Inject
   PatchDetailServiceImpl(final GerritServer gs, final FileTypeRegistry ftr) {
     super(gs);
     registry = ftr;

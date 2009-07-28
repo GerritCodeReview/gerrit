@@ -17,8 +17,10 @@ package com.google.gerrit.server;
 import com.google.gerrit.client.rpc.NotSignedInException;
 import com.google.gerrit.client.rpc.SignInRequired;
 import com.google.gson.GsonBuilder;
+import com.google.gwtjsonrpc.client.RemoteJsonService;
 import com.google.gwtjsonrpc.server.JsonServlet;
 import com.google.gwtjsonrpc.server.SignedToken;
+import com.google.inject.Inject;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,16 +29,19 @@ import javax.servlet.http.HttpServletResponse;
  * Base JSON servlet to ensure the current user is not forged.
  */
 @SuppressWarnings("serial")
-public abstract class GerritJsonServlet extends JsonServlet<GerritCall> {
+public final class GerritJsonServlet extends JsonServlet<GerritCall> {
   @SuppressWarnings("unchecked")
   public static final GerritCall getCurrentCall() {
     return JsonServlet.<GerritCall> getCurrentCall();
   }
 
   protected GerritServer server;
+  private RemoteJsonService service;
 
-  protected GerritJsonServlet(final GerritServer gs) {
+  @Inject
+  GerritJsonServlet(final GerritServer gs, final RemoteJsonService s) {
     server = gs;
+    service = s;
   }
 
   @Override
@@ -85,5 +90,7 @@ public abstract class GerritJsonServlet extends JsonServlet<GerritCall> {
   }
 
   @Override
-  protected abstract Object createServiceHandle() throws Exception;
+  protected Object createServiceHandle() {
+    return service;
+  }
 }

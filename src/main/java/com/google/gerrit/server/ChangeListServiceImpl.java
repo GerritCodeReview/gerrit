@@ -40,6 +40,7 @@ import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.ResultSet;
 import com.google.gwtorm.client.Transaction;
 import com.google.gwtorm.client.impl.ListResultSet;
+import com.google.inject.Inject;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -81,6 +82,7 @@ class ChangeListServiceImpl extends BaseServiceImplementation implements
     return 0 < pageSize && pageSize <= MAX_PER_PAGE ? pageSize : MAX_PER_PAGE;
   }
 
+  @Inject
   ChangeListServiceImpl(final GerritServer gs) {
     super(gs);
   }

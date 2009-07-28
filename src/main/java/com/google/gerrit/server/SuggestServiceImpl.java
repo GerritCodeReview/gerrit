@@ -25,6 +25,7 @@ import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.ui.SuggestService;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtorm.client.OrmException;
+import com.google.inject.Inject;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -34,6 +35,7 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
     SuggestService {
   private static final String MAX_SUFFIX = "\u9fa5";
 
+  @Inject
   SuggestServiceImpl(final GerritServer gs) {
     super(gs);
   }

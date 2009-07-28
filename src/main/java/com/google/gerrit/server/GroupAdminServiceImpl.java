@@ -30,6 +30,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.Transaction;
+import com.google.inject.Inject;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -41,6 +42,7 @@ import java.util.Set;
 
 class GroupAdminServiceImpl extends BaseServiceImplementation implements
     GroupAdminService {
+  @Inject
   GroupAdminServiceImpl(final GerritServer gs) {
     super(gs);
   }

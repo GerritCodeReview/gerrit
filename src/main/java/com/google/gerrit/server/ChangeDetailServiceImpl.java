@@ -24,9 +24,11 @@ import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtorm.client.OrmException;
+import com.google.inject.Inject;
 
 class ChangeDetailServiceImpl extends BaseServiceImplementation implements
     ChangeDetailService {
+  @Inject
   ChangeDetailServiceImpl(final GerritServer gs) {
     super(gs);
   }

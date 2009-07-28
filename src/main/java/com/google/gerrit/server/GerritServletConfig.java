@@ -15,12 +15,14 @@
 package com.google.gerrit.server;
 
 import com.google.gerrit.git.WorkQueue;
-import com.google.gerrit.server.patch.PatchDetailServiceSrv;
+import com.google.gerrit.server.patch.PatchDetailServiceImpl;
 import com.google.gerrit.server.ssh.SshServlet;
 import com.google.gwtexpui.server.CacheControlFilter;
+import com.google.gwtjsonrpc.client.RemoteJsonService;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.AbstractModule;
+import com.google.inject.BindingAnnotation;
 import com.google.inject.ConfigurationException;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -30,14 +32,44 @@ import com.google.inject.Scopes;
 import com.google.inject.servlet.GuiceServletContextListener;
 import com.google.inject.servlet.ServletModule;
 
-import org.openid4java.consumer.ConsumerException;
-
+import java.lang.annotation.Annotation;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.security.ProviderException;
 
 import javax.servlet.ServletContextEvent;
 
 /** Configures the web application environment for Gerrit Code Review. */
 public class GerritServletConfig extends GuiceServletContextListener {
+  @Retention(RetentionPolicy.RUNTIME)
+  @BindingAnnotation
+  private static @interface ServletName {
+    String value();
+  }
+
+  private static final class ServletNameImpl implements ServletName {
+    private final String name;
+
+    ServletNameImpl(final String name) {
+      this.name = name;
+    }
+
+    @Override
+    public String value() {
+      return name;
+    }
+
+    @Override
+    public Class<? extends Annotation> annotationType() {
+      return ServletName.class;
+    }
+
+    @Override
+    public String toString() {
+      return "ServletName[" + value() + "]";
+    }
+  }
+
   private static Module createServletModule() {
     return new ServletModule() {
       @Override
@@ -54,33 +86,39 @@ public class GerritServletConfig extends GuiceServletContextListener {
         serve("/cat/*").with(CatServlet.class);
         serve("/static/*").with(StaticServlet.class);
 
-        rpc(AccountServiceSrv.class);
-        rpc(AccountSecuritySrv.class);
-        rpc(GroupAdminServiceSrv.class);
-        rpc(ChangeDetailServiceSrv.class);
-        rpc(ChangeListServiceSrv.class);
-        rpc(ChangeManageServiceSrv.class);
-        rpc(OpenIdServiceSrv.class);
-        rpc(PatchDetailServiceSrv.class);
-        rpc(ProjectAdminServiceSrv.class);
-        rpc(SuggestServiceSrv.class);
-        rpc(SystemInfoServiceSrv.class);
+        rpc(AccountServiceImpl.class);
+        rpc(AccountSecurityImpl.class);
+        rpc(GroupAdminServiceImpl.class);
+        rpc(ChangeDetailServiceImpl.class);
+        rpc(ChangeListServiceImpl.class);
+        rpc(ChangeManageServiceImpl.class);
+        rpc(OpenIdServiceImpl.class);
+        rpc(PatchDetailServiceImpl.class);
+        rpc(ProjectAdminServiceImpl.class);
+        rpc(SuggestServiceImpl.class);
+        rpc(SystemInfoServiceImpl.class);
 
         if (BecomeAnyAccountLoginServlet.isAllowed()) {
           serve("/become").with(BecomeAnyAccountLoginServlet.class);
         }
       }
 
-      private void rpc(Class<? extends GerritJsonServlet> clazz) {
+      private void rpc(Class<? extends RemoteJsonService> clazz) {
         String name = clazz.getSimpleName();
-        if (name.endsWith("Srv")) {
-          name = name.substring(0, name.length() - 3);
+        if (name.endsWith("Impl")) {
+          name = name.substring(0, name.length() - 4);
         }
         rpc(name, clazz);
       }
 
-      private void rpc(String name, Class<? extends GerritJsonServlet> clazz) {
-        serve("/gerrit/rpc/" + name).with(clazz);
+      private void rpc(final String name,
+          Class<? extends RemoteJsonService> clazz) {
+        final Key<GerritJsonServlet> srv =
+            Key.get(GerritJsonServlet.class, new ServletNameImpl(name));
+        final GerritJsonServletProvider provider =
+            new GerritJsonServletProvider(clazz);
+        serve("/gerrit/rpc/" + name).with(srv);
+        bind(srv).toProvider(provider).in(Scopes.SINGLETON);
       }
     };
   }
@@ -93,13 +131,10 @@ public class GerritServletConfig extends GuiceServletContextListener {
           final GerritServer gs = GerritServer.getInstance(true);
           bind(GerritServer.class).toInstance(gs);
           bind(ContactStore.class).toInstance(EncryptedContactStore.create(gs));
-          bind(OpenIdServiceImpl.class).toInstance(new OpenIdServiceImpl(gs));
           bind(FileTypeRegistry.class).toInstance(new FileTypeRegistry(gs));
         } catch (OrmException e) {
           addError(e);
         } catch (XsrfException e) {
-          addError(e);
-        } catch (ConsumerException e) {
           addError(e);
         }
       }

@@ -38,6 +38,7 @@ import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmDuplicateKeyException;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.Transaction;
+import com.google.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,6 +63,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
   private final Logger log = LoggerFactory.getLogger(getClass());
   private final ContactStore contactStore;
 
+  @Inject
   AccountSecurityImpl(final GerritServer gs, final ContactStore cs) {
     super(gs);
     contactStore = cs;

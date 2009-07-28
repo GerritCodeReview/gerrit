@@ -33,6 +33,8 @@ import com.google.gwtorm.client.KeyUtil;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.ResultSet;
 import com.google.gwtorm.client.Transaction;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import net.sf.ehcache.Element;
 import net.sf.ehcache.constructs.blocking.CacheEntryFactory;
@@ -68,6 +70,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+@Singleton
 class OpenIdServiceImpl implements OpenIdService {
   private static final Logger log =
       LoggerFactory.getLogger(OpenIdServiceImpl.class);
@@ -95,6 +98,7 @@ class OpenIdServiceImpl implements OpenIdService {
   private final ConsumerManager manager;
   private final SelfPopulatingCache discoveryCache;
 
+  @Inject
   OpenIdServiceImpl(final GerritServer gs) throws ConsumerException {
     server = gs;
     manager = new ConsumerManager();

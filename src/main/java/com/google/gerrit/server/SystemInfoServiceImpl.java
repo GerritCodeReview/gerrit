@@ -23,6 +23,7 @@ import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.server.ssh.GerritSshDaemon;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtorm.client.OrmException;
+import com.google.inject.Inject;
 
 import com.jcraft.jsch.HostKey;
 import com.jcraft.jsch.JSch;
@@ -53,6 +54,7 @@ class SystemInfoServiceImpl implements SystemInfoService {
 
   private final GerritServer server;
 
+  @Inject
   SystemInfoServiceImpl(final GerritServer gs) {
     server = gs;
   }

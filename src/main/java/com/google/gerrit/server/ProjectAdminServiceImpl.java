@@ -34,6 +34,7 @@ import com.google.gerrit.git.PushQueue;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
+import com.google.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,6 +67,7 @@ class ProjectAdminServiceImpl extends BaseServiceImplementation implements
     ProjectAdminService {
   private final Logger log = LoggerFactory.getLogger(getClass());
 
+  @Inject
   ProjectAdminServiceImpl(final GerritServer gs) {
     super(gs);
   }

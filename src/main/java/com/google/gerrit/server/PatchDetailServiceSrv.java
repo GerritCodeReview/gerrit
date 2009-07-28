@@ -15,9 +15,11 @@
 package com.google.gerrit.server;
 
 import com.google.gerrit.server.patch.PatchDetailServiceImpl;
+import com.google.inject.Singleton;
 
 /** Publishes {@link PatchDetailServiceImpl} over JSON. */
 @SuppressWarnings("serial")
+@Singleton
 public class PatchDetailServiceSrv extends GerritJsonServlet {
   @Override
   protected Object createServiceHandle() throws Exception {

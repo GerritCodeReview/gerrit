@@ -16,6 +16,7 @@ package com.google.gerrit.server;
 
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
+import com.google.inject.Singleton;
 
 import org.openid4java.consumer.ConsumerException;
 
@@ -29,6 +30,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /** Handles the <code>/login</code> URL for web based single-sign-on. */
 @SuppressWarnings("serial")
+@Singleton
 public class OpenIdLoginServlet extends HttpServlet {
   private OpenIdServiceImpl impl;
 

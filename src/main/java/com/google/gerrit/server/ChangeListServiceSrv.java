@@ -14,9 +14,12 @@
 
 package com.google.gerrit.server;
 
+import com.google.inject.Singleton;
+
 
 /** Publishes {@link ChangeListServiceImpl} over JSON. */
 @SuppressWarnings("serial")
+@Singleton
 public class ChangeListServiceSrv extends GerritJsonServlet {
   @Override
   protected Object createServiceHandle() throws Exception {

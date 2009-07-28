@@ -22,6 +22,7 @@ import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
+import com.google.inject.Singleton;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -42,6 +43,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /** Rewrites Gerrit 1 style URLs to Gerrit 2 style URLs. */
+@Singleton
 public class UrlRewriteFilter implements Filter {
   private static final Pattern CHANGE_ID = Pattern.compile("^/(\\d+)/?$");
   private static final Pattern REV_ID =

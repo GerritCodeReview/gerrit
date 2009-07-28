@@ -26,6 +26,7 @@ import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
+import com.google.inject.Singleton;
 
 import eu.medsea.mimeutil.MimeType;
 
@@ -62,6 +63,7 @@ import javax.servlet.http.HttpServletResponse;
  * so we package the content into a zip file.
  */
 @SuppressWarnings("serial")
+@Singleton
 public class CatServlet extends HttpServlet {
   private static final MimeType ZIP = new MimeType("application/zip");
   private GerritServer server;

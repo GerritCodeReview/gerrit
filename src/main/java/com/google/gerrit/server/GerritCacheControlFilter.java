@@ -14,15 +14,9 @@
 
 package com.google.gerrit.server;
 
+import com.google.gwtexpui.server.CacheControlFilter;
 import com.google.inject.Singleton;
 
-
-/** Publishes {@link OpenIdServiceImpl} over JSON. */
-@SuppressWarnings("serial")
 @Singleton
-public class OpenIdServiceSrv extends GerritJsonServlet {
-  @Override
-  protected Object createServiceHandle() throws Exception {
-    return OpenIdServiceImpl.getInstance();
-  }
+class GerritCacheControlFilter extends CacheControlFilter {
 }

@@ -17,6 +17,7 @@ package com.google.gerrit.server;
 import com.google.gwt.user.server.rpc.RPCServletUtils;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
+import com.google.inject.Singleton;
 
 import org.spearce.jgit.util.NB;
 
@@ -36,6 +37,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /** Sends static content from the site 's <code>static/</code> subdirectory. */
 @SuppressWarnings("serial")
+@Singleton
 public class StaticServlet extends HttpServlet {
   private static final long MAX_AGE = 12 * 60 * 60 * 1000L/* milliseconds */;
   private static final String CACHE_CTRL =

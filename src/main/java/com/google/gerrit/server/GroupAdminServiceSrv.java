@@ -14,9 +14,12 @@
 
 package com.google.gerrit.server;
 
+import com.google.inject.Singleton;
+
 
 /** Publishes {@link GroupAdminServiceImpl} over JSON. */
 @SuppressWarnings("serial")
+@Singleton
 public class GroupAdminServiceSrv extends GerritJsonServlet {
   @Override
   protected Object createServiceHandle() throws Exception {

@@ -16,6 +16,7 @@ package com.google.gerrit.server.ssh;
 
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
+import com.google.inject.Singleton;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -50,6 +51,7 @@ import javax.servlet.http.HttpServletResponse;
  * </pre>
  */
 @SuppressWarnings("serial")
+@Singleton
 public class SshServlet extends HttpServlet {
   @Override
   public void init(final ServletConfig config) throws ServletException {

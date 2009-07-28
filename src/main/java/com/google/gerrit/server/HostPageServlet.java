@@ -20,6 +20,7 @@ import com.google.gerrit.client.rpc.Common;
 import com.google.gwt.user.server.rpc.RPCServletUtils;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
+import com.google.inject.Singleton;
 
 import org.spearce.jgit.lib.Constants;
 import org.spearce.jgit.lib.ObjectId;
@@ -41,6 +42,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /** Sends the Gerrit host page to clients. */
 @SuppressWarnings("serial")
+@Singleton
 public class HostPageServlet extends HttpServlet {
   private GerritServer server;
   private String canonicalUrl;

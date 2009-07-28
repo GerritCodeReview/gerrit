@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server;
 
+import com.google.inject.Singleton;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,6 +27,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+@Singleton
 public class PrettifyServlet extends HttpServlet {
   private static final String VERSION = "20090521";
 

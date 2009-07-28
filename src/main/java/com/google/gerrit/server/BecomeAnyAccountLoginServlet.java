@@ -20,6 +20,7 @@ import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
+import com.google.inject.Singleton;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -34,18 +35,23 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @SuppressWarnings("serial")
+@Singleton
 public class BecomeAnyAccountLoginServlet extends HttpServlet {
+  static boolean isAllowed() {
+    try {
+      return Boolean.getBoolean(BecomeAnyAccountLoginServlet.class.getName());
+    } catch (SecurityException se) {
+      return false;
+    }
+  }
+
   private boolean allowed;
   private GerritServer server;
 
   @Override
   public void init(final ServletConfig config) throws ServletException {
     super.init(config);
-    try {
-      allowed = Boolean.getBoolean(getClass().getName());
-    } catch (SecurityException se) {
-      allowed = false;
-    }
+    allowed = isAllowed();
 
     try {
       server = GerritServer.getInstance();

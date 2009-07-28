@@ -158,7 +158,7 @@ public class GerritCall extends ActiveCall {
     }
 
     try {
-      final ReviewDb db = Common.getSchemaFactory().open();
+      final ReviewDb db = server.getSchemaFactory().open();
       try {
         final String eid = "gerrit:" + user;
         final List<AccountExternalId> matches =

@@ -51,7 +51,7 @@ public class BaseServiceImplementation {
    */
   protected <T> void run(final AsyncCallback<T> callback, final Action<T> action) {
     try {
-      final ReviewDb db = Common.getSchemaFactory().open();
+      final ReviewDb db = server.getSchemaFactory().open();
       final T r;
       try {
         r = action.run(db);

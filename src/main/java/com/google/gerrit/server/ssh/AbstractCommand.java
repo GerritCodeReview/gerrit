@@ -107,7 +107,7 @@ abstract class AbstractCommand implements Command, SessionAware {
   protected ReviewDb openReviewDb() throws Failure {
     if (db == null) {
       try {
-        db = Common.getSchemaFactory().open();
+        db = getGerritServer().getSchemaFactory().open();
       } catch (OrmException e) {
         throw new Failure(1, "fatal: Gerrit database is offline", e);
       }

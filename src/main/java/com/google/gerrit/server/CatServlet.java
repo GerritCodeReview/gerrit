@@ -129,7 +129,7 @@ public class CatServlet extends HttpServlet {
     final PatchSet patchSet;
     final Patch patch;
     try {
-      final ReviewDb db = Common.getSchemaFactory().open();
+      final ReviewDb db = server.getSchemaFactory().open();
       try {
         change = db.changes().get(changeId);
         if (change == null) {

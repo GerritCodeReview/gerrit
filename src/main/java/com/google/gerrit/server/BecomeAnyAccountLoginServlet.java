@@ -109,7 +109,7 @@ public class BecomeAnyAccountLoginServlet extends HttpServlet {
   private List<Account> bySshUserName(final HttpServletResponse rsp,
       final String userName) {
     try {
-      final ReviewDb db = Common.getSchemaFactory().open();
+      final ReviewDb db = server.getSchemaFactory().open();
       try {
         return db.accounts().bySshUserName(userName).toList();
       } finally {
@@ -124,7 +124,7 @@ public class BecomeAnyAccountLoginServlet extends HttpServlet {
   private List<Account> byPreferredEmail(final HttpServletResponse rsp,
       final String email) {
     try {
-      final ReviewDb db = Common.getSchemaFactory().open();
+      final ReviewDb db = server.getSchemaFactory().open();
       try {
         return db.accounts().byPreferredEmail(email).toList();
       } finally {
@@ -145,7 +145,7 @@ public class BecomeAnyAccountLoginServlet extends HttpServlet {
       return Collections.<Account> emptyList();
     }
     try {
-      final ReviewDb db = Common.getSchemaFactory().open();
+      final ReviewDb db = server.getSchemaFactory().open();
       try {
         final Account account = db.accounts().get(id);
         return account != null ? Collections.<Account> singletonList(account)

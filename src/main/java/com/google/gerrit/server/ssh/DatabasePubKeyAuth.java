@@ -38,9 +38,11 @@ import java.util.Collections;
 class DatabasePubKeyAuth implements PublickeyAuthenticator {
   private final Logger log = LoggerFactory.getLogger(getClass());
   private final SelfPopulatingCache sshKeysCache;
+  private final GerritServer server;
 
   DatabasePubKeyAuth(final GerritServer gs) {
     sshKeysCache = gs.getSshKeysCache();
+    server = gs;
   }
 
   public boolean hasKey(final String username, final PublicKey inkey,
@@ -65,7 +67,7 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
     }
 
     if (matched != null) {
-      matched.updateLastUsed();
+      matched.updateLastUsed(server);
       session.setAttribute(SshUtil.CURRENT_ACCOUNT, matched.getAccount());
       return true;
     }

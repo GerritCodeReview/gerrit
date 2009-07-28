@@ -17,7 +17,7 @@ package com.google.gerrit.server.ssh;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountSshKey;
 import com.google.gerrit.client.reviewdb.ReviewDb;
-import com.google.gerrit.client.rpc.Common;
+import com.google.gerrit.server.GerritServer;
 import com.google.gwtorm.client.OrmException;
 
 import org.slf4j.Logger;
@@ -46,9 +46,9 @@ class SshKeyCacheEntry {
     return publicKey.equals(inkey);
   }
 
-  void updateLastUsed() {
+  void updateLastUsed(final GerritServer server) {
     try {
-      final ReviewDb db = Common.getSchemaFactory().open();
+      final ReviewDb db = server.getSchemaFactory().open();
       try {
         final AccountSshKey k = db.accountSshKeys().get(id);
         if (k != null) {

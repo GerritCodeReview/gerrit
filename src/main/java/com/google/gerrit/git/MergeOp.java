@@ -128,7 +128,7 @@ public class MergeOp {
     destProject = pe.getProject();
 
     try {
-      schema = Common.getSchemaFactory().open();
+      schema = server.getSchemaFactory().open();
     } catch (OrmException e) {
       throw new MergeException("Cannot open database", e);
     }

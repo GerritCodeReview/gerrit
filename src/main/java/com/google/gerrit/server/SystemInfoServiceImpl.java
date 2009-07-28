@@ -94,7 +94,7 @@ class SystemInfoServiceImpl implements SystemInfoService {
   public void contributorAgreements(
       final AsyncCallback<List<ContributorAgreement>> callback) {
     try {
-      final ReviewDb db = Common.getSchemaFactory().open();
+      final ReviewDb db = server.getSchemaFactory().open();
       try {
         callback.onSuccess(db.contributorAgreements().active().toList());
       } finally {

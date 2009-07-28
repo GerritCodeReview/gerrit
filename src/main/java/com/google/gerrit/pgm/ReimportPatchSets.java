@@ -18,7 +18,6 @@ import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
-import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.git.PatchSetImporter;
 import com.google.gerrit.server.GerritServer;
 import com.google.gwtorm.client.OrmException;
@@ -63,7 +62,7 @@ public class ReimportPatchSets extends AbstractProgram {
     }
 
     int exitStatus = 0;
-    final ReviewDb db = Common.getSchemaFactory().open();
+    final ReviewDb db = gs.getSchemaFactory().open();
     final ProgressMonitor pm = new TextProgressMonitor();
     try {
       pm.start(1);

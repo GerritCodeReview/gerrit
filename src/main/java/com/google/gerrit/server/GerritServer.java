@@ -153,7 +153,7 @@ public class GerritServer {
         if (startQueues) {
           impl.reloadSubmitQueue();
           if (PushQueue.isReplicationEnabled()) {
-            WorkQueue.schedule(new PushAllProjectsOp(), 30, TimeUnit.SECONDS);
+            WorkQueue.schedule(new PushAllProjectsOp(impl), 30, TimeUnit.SECONDS);
           }
         }
       } catch (OrmException e) {

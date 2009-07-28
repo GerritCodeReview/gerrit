@@ -14,7 +14,6 @@
 
 package com.google.gerrit.pgm;
 
-import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.server.GerritServer;
 
 /**
@@ -23,8 +22,8 @@ import com.google.gerrit.server.GerritServer;
 public class CreateSchema extends AbstractProgram {
   @Override
   public int run() throws Exception {
-    GerritServer.getInstance(false);
-    Common.getSchemaFactory().open().close();
+    final GerritServer gs = GerritServer.getInstance(false);
+    gs.getSchemaFactory().open().close();
     System.out.println("Gerrit2 schema initialized");
     return 0;
   }

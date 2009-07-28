@@ -18,7 +18,6 @@ import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountExternalId;
 import com.google.gerrit.client.reviewdb.ContactInformation;
 import com.google.gerrit.client.reviewdb.ReviewDb;
-import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.ContactInformationStoreException;
 import com.google.gwtorm.client.OrmException;
 
@@ -73,6 +72,7 @@ public class EncryptedContactStore implements ContactStore {
     }
   }
 
+  private final GerritServer server;
   private PGPPublicKey dest;
   private SecureRandom prng;
   private URL storeUrl;
@@ -80,6 +80,8 @@ public class EncryptedContactStore implements ContactStore {
 
   private EncryptedContactStore(final GerritServer gs)
       throws ContactInformationStoreException {
+    server = gs;
+
     if (gs.getContactStoreURL() == null) {
       throw new ContactInformationStoreException(new IllegalStateException(
           "No contactStoreURL configured"));
@@ -229,7 +231,7 @@ public class EncryptedContactStore implements ContactStore {
     return buf.toByteArray();
   }
 
-  private static String format(final Account account,
+  private String format(final Account account,
       final ContactInformation info) throws ContactInformationStoreException {
     Timestamp on = account.getContactFiledOn();
     if (on == null) {
@@ -246,7 +248,7 @@ public class EncryptedContactStore implements ContactStore {
     field(b, "Preferred-Email", account.getPreferredEmail());
 
     try {
-      final ReviewDb db = Common.getSchemaFactory().open();
+      final ReviewDb db = server.getSchemaFactory().open();
       try {
         for (final AccountExternalId e : db.accountExternalIds().byAccount(
             account.getId())) {

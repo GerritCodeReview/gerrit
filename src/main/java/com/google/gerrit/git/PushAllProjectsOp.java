@@ -19,6 +19,7 @@ import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
+import com.google.gerrit.server.GerritServer;
 import com.google.gwtorm.client.OrmException;
 
 import org.slf4j.Logger;
@@ -30,20 +31,22 @@ public class PushAllProjectsOp implements Runnable {
   private static final Logger log =
       LoggerFactory.getLogger(PushAllProjectsOp.class);
 
+  private final GerritServer server;
   private final String urlMatch;
 
-  public PushAllProjectsOp() {
-    this(null);
+  public PushAllProjectsOp(final GerritServer gs) {
+    this(gs, null);
   }
 
-  public PushAllProjectsOp(final String urlMatch) {
+  public PushAllProjectsOp(final GerritServer gs, final String urlMatch) {
+    this.server = gs;
     this.urlMatch = urlMatch;
   }
 
   public void run() {
     final HashSet<Branch.NameKey> pending = new HashSet<Branch.NameKey>();
     try {
-      final ReviewDb db = Common.getSchemaFactory().open();
+      final ReviewDb db = server.getSchemaFactory().open();
       try {
         for (final Project project : db.projects().all()) {
           if (!ProjectRight.WILD_PROJECT.equals(project.getId())) {

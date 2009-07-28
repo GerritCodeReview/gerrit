@@ -175,7 +175,7 @@ class OpenIdServiceImpl implements OpenIdService {
     // We might already have this account on file. Look for it.
     //
     try {
-      final ReviewDb db = Common.getSchemaFactory().open();
+      final ReviewDb db = server.getSchemaFactory().open();
       try {
         final ResultSet<AccountExternalId> ae =
             db.accountExternalIds().byExternal(aReq.getIdentity());
@@ -329,7 +329,7 @@ class OpenIdServiceImpl implements OpenIdService {
     Account account = null;
     if (user != null) {
       try {
-        final ReviewDb d = Common.getSchemaFactory().open();
+        final ReviewDb d = server.getSchemaFactory().open();
         try {
           switch (mode) {
             case SIGN_IN:

@@ -51,7 +51,8 @@ class AdminReplicate extends AbstractCommand {
     }
 
     if (all) {
-      WorkQueue.schedule(new PushAllProjectsOp(urlMatch), 0, TimeUnit.SECONDS);
+      WorkQueue.schedule(new PushAllProjectsOp(getGerritServer(), urlMatch), 0,
+          TimeUnit.SECONDS);
 
     } else {
       for (final String name : projectNames) {

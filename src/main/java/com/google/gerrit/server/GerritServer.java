@@ -39,7 +39,7 @@ import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.gwtorm.client.Transaction;
 import com.google.gwtorm.jdbc.Database;
-import com.google.gwtorm.jdbc.SimpleDataSource;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import net.sf.ehcache.Cache;
@@ -68,46 +68,22 @@ import org.spearce.jgit.lib.WindowCacheConfig;
 import org.spearce.jgit.lib.RepositoryCache.FileKey;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.Properties;
 
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.servlet.http.HttpServletRequest;
-import javax.sql.DataSource;
 
 /** Global server-side state for Gerrit. */
 @Singleton
 public class GerritServer {
   private static final Logger log = LoggerFactory.getLogger(GerritServer.class);
-  private static DataSource datasource;
-  private static GerritServer impl;
   private static CacheManager cacheMgr;
 
-  static void closeDataSource() {
-    if (datasource != null) {
-      try {
-        try {
-          Class.forName("com.mchange.v2.c3p0.DataSources").getMethod("destroy",
-              DataSource.class).invoke(null, datasource);
-        } catch (Throwable bad) {
-          // Oh well, its not a c3p0 pooled connection. Too bad its
-          // not standardized how "good applications cleanup".
-        }
-      } finally {
-        datasource = null;
-      }
-    }
-
+  static void closeCacheManager() {
     if (cacheMgr != null) {
       try {
         cacheMgr.shutdown();
@@ -116,35 +92,6 @@ public class GerritServer {
         cacheMgr = null;
       }
     }
-  }
-
-  /**
-   * Obtain the singleton server instance for this web application.
-   * 
-   * @return the server instance. Never null.
-   * @throws OrmException the database could not be configured. There is
-   *         something wrong with the schema configuration in {@link ReviewDb}
-   *         that must be addressed by a developer.
-   * @throws XsrfException the XSRF support could not be correctly configured to
-   *         protect the application against cross-site request forgery. The JVM
-   *         is most likely lacking critical security algorithms.
-   */
-  public static synchronized GerritServer getInstance() throws OrmException,
-      XsrfException {
-    if (impl == null) {
-      try {
-        impl = new GerritServer();
-      } catch (OrmException e) {
-        closeDataSource();
-        log.error("GerritServer ORM is unavailable", e);
-        throw e;
-      } catch (XsrfException e) {
-        closeDataSource();
-        log.error("GerritServer XSRF support failed to initailize", e);
-        throw e;
-      }
-    }
-    return impl;
   }
 
   public static String serverUrl(final HttpServletRequest req) {
@@ -177,8 +124,10 @@ public class GerritServer {
   private final SelfPopulatingCache diffCache;
   private final SelfPopulatingCache sshKeysCache;
 
-  private GerritServer() throws OrmException, XsrfException {
-    db = createDatabase();
+  @Inject
+  GerritServer(final Database<ReviewDb> database)
+      throws OrmException, XsrfException {
+    db = database;
     loadSystemConfig();
     if (sConfig == null) {
       throw new OrmException("No " + SystemConfig.class.getName() + " found");
@@ -351,54 +300,6 @@ public class GerritServer {
     r = new SelfPopulatingCache(dc, new SshKeyCacheEntryFactory(this));
     cacheMgr.replaceCacheWithDecoratedCache(dc, r);
     return r;
-  }
-
-  public static Database<ReviewDb> createDatabase() throws OrmException {
-    final String dsName = "java:comp/env/jdbc/ReviewDb";
-    try {
-      datasource = (DataSource) new InitialContext().lookup(dsName);
-    } catch (NamingException namingErr) {
-      final Properties p = readGerritDataSource();
-      if (p == null) {
-        throw new OrmException("Initialization error:\n" + "  * No DataSource "
-            + dsName + "\n" + "  * No -DGerritServer=GerritServer.properties"
-            + " on Java command line", namingErr);
-      }
-
-      try {
-        datasource = new SimpleDataSource(p);
-      } catch (SQLException se) {
-        throw new OrmException("Database unavailable", se);
-      }
-    }
-    return new Database<ReviewDb>(datasource, ReviewDb.class);
-  }
-
-  private static Properties readGerritDataSource() throws OrmException {
-    final Properties srvprop = new Properties();
-    String name = System.getProperty("GerritServer");
-    if (name == null) {
-      name = "GerritServer.properties";
-    }
-    try {
-      final InputStream in = new FileInputStream(name);
-      try {
-        srvprop.load(in);
-      } finally {
-        in.close();
-      }
-    } catch (IOException e) {
-      throw new OrmException("Cannot read " + name, e);
-    }
-
-    final Properties dbprop = new Properties();
-    for (final Map.Entry<Object, Object> e : srvprop.entrySet()) {
-      final String key = (String) e.getKey();
-      if (key.startsWith("database.")) {
-        dbprop.put(key.substring("database.".length()), e.getValue());
-      }
-    }
-    return dbprop;
   }
 
   private void initSystemConfig(final ReviewDb c) throws OrmException {

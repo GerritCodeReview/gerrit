@@ -14,28 +14,34 @@
 
 package com.google.gerrit.server;
 
+import static com.google.inject.Scopes.SINGLETON;
+
 import com.google.gerrit.client.data.GerritConfig;
+import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.git.ChangeMergeQueue;
 import com.google.gerrit.git.MergeQueue;
 import com.google.gerrit.git.PushReplication;
 import com.google.gerrit.git.ReplicationQueue;
-import com.google.gwtjsonrpc.server.XsrfException;
-import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.jdbc.Database;
 import com.google.inject.AbstractModule;
-import static com.google.inject.Scopes.SINGLETON;
+import com.google.inject.Key;
+import com.google.inject.TypeLiteral;
+import com.google.inject.name.Names;
+
+import javax.sql.DataSource;
 
 /** Starts {@link GerritServer} with standard dependencies. */
 public class GerritServerModule extends AbstractModule {
+  public static final Key<DataSource> DS =
+      Key.get(DataSource.class, Names.named("ReviewDb"));
+
   @Override
   protected void configure() {
-    try {
-      bind(GerritServer.class).toInstance(GerritServer.getInstance());
-    } catch (OrmException e) {
-      addError(e);
-    } catch (XsrfException e) {
-      addError(e);
-    }
+    bind(DS).toProvider(ReviewDbDataSourceProvider.class).in(SINGLETON);
+    bind(new TypeLiteral<Database<ReviewDb>>() {}).toProvider(
+        ReviewDbProvider.class).in(SINGLETON);
 
+    bind(GerritServer.class);
     bind(ContactStore.class).toProvider(EncryptedContactStoreProvider.class);
     bind(FileTypeRegistry.class).to(MimeUtilFileTypeRegistry.class);
     bind(ReplicationQueue.class).to(PushReplication.class).in(SINGLETON);

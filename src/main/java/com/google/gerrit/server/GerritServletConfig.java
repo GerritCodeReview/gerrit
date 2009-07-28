@@ -50,6 +50,7 @@ import java.util.HashSet;
 import java.util.concurrent.TimeUnit;
 
 import javax.servlet.ServletContextEvent;
+import javax.sql.DataSource;
 
 /** Configures the web application environment for Gerrit Code Review. */
 public class GerritServletConfig extends GuiceServletContextListener {
@@ -227,15 +228,26 @@ public class GerritServletConfig extends GuiceServletContextListener {
       // Assume it never started.
     }
 
+    WorkQueue.terminate();
+    GerritServer.closeCacheManager();
+
     try {
-      final GerritServer gs = injector.getInstance(GerritServer.class);
-      gs.closeDataSource();
+      final DataSource ds = injector.getInstance(GerritServerModule.DS);
+      try {
+        final Class<?> type = Class.forName("com.mchange.v2.c3p0.DataSources");
+        if (type.isInstance(ds)) {
+          type.getMethod("destroy", DataSource.class).invoke(null, ds);
+        }
+      } catch (Throwable bad) {
+        // Oh well, its not a c3p0 pooled connection. Too bad its
+        // not standardized how "good applications cleanup".
+      }
     } catch (ConfigurationException ce) {
       // Assume it never started.
     } catch (ProviderException ce) {
       // Assume it never started.
     }
-    WorkQueue.terminate();
+
     super.contextDestroyed(event);
   }
 }

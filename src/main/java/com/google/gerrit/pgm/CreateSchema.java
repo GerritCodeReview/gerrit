@@ -15,6 +15,9 @@
 package com.google.gerrit.pgm;
 
 import com.google.gerrit.server.GerritServer;
+import com.google.gerrit.server.GerritServerModule;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 
 /**
  * Creates the Gerrit 2 database schema.
@@ -22,7 +25,8 @@ import com.google.gerrit.server.GerritServer;
 public class CreateSchema extends AbstractProgram {
   @Override
   public int run() throws Exception {
-    final GerritServer gs = GerritServer.getInstance();
+    final Injector injector = Guice.createInjector(new GerritServerModule());    
+    final GerritServer gs = injector.getInstance(GerritServer.class);
     gs.getSchemaFactory().open().close();
     System.out.println("Gerrit2 schema initialized");
     return 0;

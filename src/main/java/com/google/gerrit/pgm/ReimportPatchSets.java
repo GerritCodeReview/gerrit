@@ -20,7 +20,10 @@ import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.git.PatchSetImporter;
 import com.google.gerrit.server.GerritServer;
+import com.google.gerrit.server.GerritServerModule;
 import com.google.gwtorm.client.OrmException;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 
 import org.spearce.jgit.errors.RepositoryNotFoundException;
 import org.spearce.jgit.lib.ObjectId;
@@ -52,7 +55,9 @@ import java.util.ArrayList;
 public class ReimportPatchSets extends AbstractProgram {
   @Override
   public int run() throws Exception {
-    final GerritServer gs = GerritServer.getInstance();
+    final Injector injector = Guice.createInjector(new GerritServerModule());    
+    final GerritServer gs = injector.getInstance(GerritServer.class);
+
     final ArrayList<PatchSet.Id> todo = new ArrayList<PatchSet.Id>();
     final BufferedReader br =
         new BufferedReader(new InputStreamReader(System.in));

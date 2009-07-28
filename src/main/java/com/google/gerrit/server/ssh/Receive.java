@@ -43,7 +43,6 @@ import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.git.PatchSetImporter;
 import com.google.gerrit.git.PushQueue;
 import com.google.gerrit.server.ChangeUtil;
-import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.mail.MergedSender;
@@ -128,7 +127,6 @@ class Receive extends AbstractGitCommand {
     }
   }
 
-  private GerritServer server;
   private ReceivePack rp;
   private PersonIdent refLogIdent;
   private ReceiveCommand newChange;
@@ -145,12 +143,6 @@ class Receive extends AbstractGitCommand {
       new HashMap<Change.Id, Change>();
 
   private Map<ObjectId, Ref> refsById;
-
-  @Override
-  protected void preRun() throws Failure {
-    super.preRun();
-    server = getGerritServer();
-  }
 
   @Override
   protected void runImpl() throws IOException, Failure {

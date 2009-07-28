@@ -163,6 +163,8 @@ public class PatchSetImporter {
     info.setAuthor(toUserIdentity(src.getAuthorIdent()));
     info.setCommitter(toUserIdentity(src.getCommitterIdent()));
 
+    //FIXME: This code has to be moved to separate method when patchSetInfo
+    //creation is removed
     for (int p = 0; p < src.getParentCount(); p++) {
       PatchSetAncestor a = ancestorExisting.remove(p + 1);
       if (a == null) {

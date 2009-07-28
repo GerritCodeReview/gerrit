@@ -16,8 +16,8 @@ package com.google.gerrit.git;
 
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.server.GerritServer;
-import com.google.gwtjsonrpc.server.XsrfException;
-import com.google.gwtorm.client.OrmException;
+import com.google.inject.Inject;
+import com.google.inject.Injector;
 
 import com.jcraft.jsch.Session;
 
@@ -44,9 +44,8 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /** Manages automatic replication to remote repositories. */
-public class PushQueue {
-  static final Logger log = LoggerFactory.getLogger(PushQueue.class);
-  private static List<ReplicationConfig> configs;
+public class PushReplication implements ReplicationQueue {
+  static final Logger log = LoggerFactory.getLogger(PushReplication.class);
 
   static {
     // Install our own factory which always runs in batch mode, as we
@@ -60,44 +59,35 @@ public class PushQueue {
     });
   }
 
-  /** Determine if replication is enabled, or not. */
-  public static boolean isReplicationEnabled() {
-    return !allConfigs().isEmpty();
+  private final Injector injector;
+  private final GerritServer server;
+  private final List<ReplicationConfig> configs;
+
+  @Inject
+  PushReplication(final Injector i, final GerritServer gs) {
+    injector = i;
+    server = gs;
+    configs = allConfigs();
   }
 
-  /**
-   * Schedule a full replication for a single project.
-   * <p>
-   * All remote URLs are checked to verify the are current with regards to the
-   * local project state. If not, they are updated by pushing new refs, updating
-   * existing ones which don't match, and deleting stale refs which have been
-   * removed from the local repository.
-   * 
-   * @param project identity of the project to replicate.
-   * @param urlMatch substring that must appear in a URI to support replication.
-   */
-  public static void scheduleFullSync(final Project.NameKey project,
+  @Override
+  public boolean isEnabled() {
+    return configs.size() > 0;
+  }
+
+  @Override
+  public void scheduleFullSync(final Project.NameKey project,
       final String urlMatch) {
-    for (final ReplicationConfig cfg : allConfigs()) {
+    for (final ReplicationConfig cfg : configs) {
       for (final URIish uri : cfg.getURIs(project, urlMatch)) {
         cfg.schedule(project, PushOp.MIRROR_ALL, uri);
       }
     }
   }
 
-  /**
-   * Schedule update of a single ref.
-   * <p>
-   * This method automatically tries to batch together multiple requests in the
-   * same project, to take advantage of Git's native ability to update multiple
-   * refs during a single push operation.
-   * 
-   * @param project identity of the project to replicate.
-   * @param ref unique name of the ref; must start with {@code refs/}.
-   */
-  public static void scheduleUpdate(final Project.NameKey project,
-      final String ref) {
-    for (final ReplicationConfig cfg : allConfigs()) {
+  @Override
+  public void scheduleUpdate(final Project.NameKey project, final String ref) {
+    for (final ReplicationConfig cfg : configs) {
       if (cfg.wouldPushRef(ref)) {
         for (final URIish uri : cfg.getURIs(project, null)) {
           cfg.schedule(project, ref, uri);
@@ -112,77 +102,62 @@ public class PushQueue {
     return pat.substring(0, n) + val + pat.substring(n + 3 + key.length());
   }
 
-  private static synchronized List<ReplicationConfig> allConfigs() {
-    if (configs == null) {
-      final GerritServer gs;
-      try {
-        gs = GerritServer.getInstance();
-      } catch (OrmException e) {
-        return Collections.emptyList();
-      } catch (XsrfException e) {
-        return Collections.emptyList();
-      }
-
-      final File path = gs.getSitePath();
-      if (path == null) {
-        return Collections.emptyList();
-      }
-
-      final File cfgFile = new File(path, "replication.config");
-      final RepositoryConfig cfg = new RepositoryConfig(null, cfgFile);
-      try {
-        cfg.load();
-
-        final List<ReplicationConfig> r = new ArrayList<ReplicationConfig>();
-        for (final RemoteConfig c : RemoteConfig.getAllRemoteConfigs(cfg)) {
-          if (c.getURIs().isEmpty()) {
-            continue;
-          }
-
-          for (final URIish u : c.getURIs()) {
-            if (u.getPath() == null || !u.getPath().contains("${name}")) {
-              final String s = u.toString();
-              throw new URISyntaxException(s, "No ${name}");
-            }
-          }
-
-          if (c.getPushRefSpecs().isEmpty()) {
-            RefSpec spec = new RefSpec();
-            spec = spec.setSourceDestination("refs/*", "refs/*");
-            spec = spec.setForceUpdate(true);
-            c.addPushRefSpec(spec);
-          }
-
-          r.add(new ReplicationConfig(gs, c, cfg));
-        }
-        configs = Collections.unmodifiableList(r);
-      } catch (FileNotFoundException e) {
-        log.warn("No " + cfgFile + "; not replicating");
-        configs = Collections.emptyList();
-      } catch (ConfigInvalidException e) {
-        log.error("Can't read " + cfgFile, e);
-        return Collections.emptyList();
-      } catch (IOException e) {
-        log.error("Can't read " + cfgFile, e);
-        return Collections.emptyList();
-      } catch (URISyntaxException e) {
-        log.error("Invalid URI in " + cfgFile + ": " + e.getMessage());
-        return Collections.emptyList();
-      }
+  private synchronized List<ReplicationConfig> allConfigs() {
+    final File path = server.getSitePath();
+    if (path == null) {
+      return Collections.emptyList();
     }
-    return configs;
+
+    final File cfgFile = new File(path, "replication.config");
+    final RepositoryConfig cfg = new RepositoryConfig(null, cfgFile);
+    try {
+      cfg.load();
+
+      final List<ReplicationConfig> r = new ArrayList<ReplicationConfig>();
+      for (final RemoteConfig c : RemoteConfig.getAllRemoteConfigs(cfg)) {
+        if (c.getURIs().isEmpty()) {
+          continue;
+        }
+
+        for (final URIish u : c.getURIs()) {
+          if (u.getPath() == null || !u.getPath().contains("${name}")) {
+            final String s = u.toString();
+            throw new URISyntaxException(s, "No ${name}");
+          }
+        }
+
+        if (c.getPushRefSpecs().isEmpty()) {
+          RefSpec spec = new RefSpec();
+          spec = spec.setSourceDestination("refs/*", "refs/*");
+          spec = spec.setForceUpdate(true);
+          c.addPushRefSpec(spec);
+        }
+
+        r.add(new ReplicationConfig(c, cfg));
+      }
+      return Collections.unmodifiableList(r);
+    } catch (FileNotFoundException e) {
+      log.warn("No " + cfgFile + "; not replicating");
+      return Collections.emptyList();
+    } catch (ConfigInvalidException e) {
+      log.error("Can't read " + cfgFile, e);
+      return Collections.emptyList();
+    } catch (IOException e) {
+      log.error("Can't read " + cfgFile, e);
+      return Collections.emptyList();
+    } catch (URISyntaxException e) {
+      log.error("Invalid URI in " + cfgFile + ": " + e.getMessage());
+      return Collections.emptyList();
+    }
   }
 
-  static class ReplicationConfig {
-    private final GerritServer server;
+  class ReplicationConfig {
     private final RemoteConfig remote;
     private final int delay;
     private final WorkQueue.Executor pool;
     private final Map<URIish, PushOp> pending = new HashMap<URIish, PushOp>();
 
-    ReplicationConfig(final GerritServer gs, final RemoteConfig rc,
-        final RepositoryConfig cfg) {
-      server = gs;
+    ReplicationConfig(final RemoteConfig rc, final RepositoryConfig cfg) {
       remote = rc;
       delay = Math.max(0, getInt(rc, cfg, "replicationdelay", 15));
 
@@ -191,8 +166,8 @@ public class PushQueue {
       pool = WorkQueue.createQueue(poolSize, poolName);
     }
 
-    private static int getInt(final RemoteConfig rc,
-        final RepositoryConfig cfg, final String name, final int defValue) {
+    private int getInt(final RemoteConfig rc, final RepositoryConfig cfg,
+        final String name, final int defValue) {
       return cfg.getInt("remote", rc.getName(), name, defValue);
     }
 
@@ -201,7 +176,8 @@ public class PushQueue {
       synchronized (pending) {
         PushOp e = pending.get(uri);
         if (e == null) {
-          e = new PushOp(server, this, project.get(), remote, uri);
+          e = new PushOp(this, project.get(), remote, uri);
+          injector.injectMembers(e);
           pool.schedule(e, delay, TimeUnit.SECONDS);
           pending.put(uri, e);
         }
@@ -235,7 +211,7 @@ public class PushQueue {
       return r;
     }
 
-    private static boolean matches(URIish uri, final String urlMatch) {
+    private boolean matches(URIish uri, final String urlMatch) {
       if (urlMatch == null || urlMatch.equals("") || urlMatch.equals("*")) {
         return true;
       }

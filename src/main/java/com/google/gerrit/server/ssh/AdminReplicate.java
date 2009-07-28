@@ -17,8 +17,9 @@ package com.google.gerrit.server.ssh;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.git.PushAllProjectsOp;
-import com.google.gerrit.git.PushQueue;
+import com.google.gerrit.git.ReplicationQueue;
 import com.google.gerrit.git.WorkQueue;
+import com.google.inject.Inject;
 
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
@@ -38,6 +39,9 @@ class AdminReplicate extends AbstractCommand {
   @Argument(index = 0, multiValued = true, metaVar = "PROJECT", usage = "project name")
   private List<String> projectNames = new ArrayList<String>(2);
 
+  @Inject
+  private ReplicationQueue replication;
+
   @Override
   protected void run() throws Failure {
     assertIsAdministrator();
@@ -46,19 +50,19 @@ class AdminReplicate extends AbstractCommand {
       throw new Failure(1, "error: cannot combine --all and PROJECT");
     }
 
-    if (!PushQueue.isReplicationEnabled()) {
+    if (!replication.isEnabled()) {
       throw new Failure(1, "error: replication not enabled");
     }
 
     if (all) {
-      WorkQueue.schedule(new PushAllProjectsOp(getGerritServer(), urlMatch), 0,
-          TimeUnit.SECONDS);
+      WorkQueue.schedule(new PushAllProjectsOp(server, replication, urlMatch),
+          0, TimeUnit.SECONDS);
 
     } else {
       for (final String name : projectNames) {
         final Project.NameKey key = new Project.NameKey(name);
         if (Common.getProjectCache().get(key) != null) {
-          PushQueue.scheduleFullSync(key, urlMatch);
+          replication.scheduleFullSync(key, urlMatch);
         } else {
           throw new Failure(1, "error: '" + name + "': not a Gerrit project");
         }

@@ -22,7 +22,7 @@ import com.google.gerrit.server.GerritServer;
 public class CreateSchema extends AbstractProgram {
   @Override
   public int run() throws Exception {
-    final GerritServer gs = GerritServer.getInstance(false);
+    final GerritServer gs = GerritServer.getInstance();
     gs.getSchemaFactory().open().close();
     System.out.println("Gerrit2 schema initialized");
     return 0;

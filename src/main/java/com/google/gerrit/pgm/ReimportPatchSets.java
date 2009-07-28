@@ -52,7 +52,7 @@ import java.util.ArrayList;
 public class ReimportPatchSets extends AbstractProgram {
   @Override
   public int run() throws Exception {
-    final GerritServer gs = GerritServer.getInstance(false);
+    final GerritServer gs = GerritServer.getInstance();
     final ArrayList<PatchSet.Id> todo = new ArrayList<PatchSet.Id>();
     final BufferedReader br =
         new BufferedReader(new InputStreamReader(System.in));

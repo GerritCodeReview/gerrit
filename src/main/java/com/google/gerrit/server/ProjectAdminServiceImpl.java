@@ -30,7 +30,7 @@ import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.InvalidNameException;
 import com.google.gerrit.client.rpc.InvalidRevisionException;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
-import com.google.gerrit.git.PushQueue;
+import com.google.gerrit.git.ReplicationQueue;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
@@ -67,9 +67,12 @@ class ProjectAdminServiceImpl extends BaseServiceImplementation implements
     ProjectAdminService {
   private final Logger log = LoggerFactory.getLogger(getClass());
 
+  private final ReplicationQueue replication;
+
   @Inject
-  ProjectAdminServiceImpl(final GerritServer gs) {
+  ProjectAdminServiceImpl(final GerritServer gs, final ReplicationQueue rq) {
     super(gs);
+    replication = rq;
   }
 
   public void ownedProjects(final AsyncCallback<List<Project>> callback) {
@@ -313,7 +316,7 @@ class ProjectAdminServiceImpl extends BaseServiceImplementation implements
             case FORCED:
               db.branches().delete(Collections.singleton(m));
               deleted.add(mKey);
-              PushQueue.scheduleUpdate(mKey.getParentKey(), m.getName());
+              replication.scheduleUpdate(mKey.getParentKey(), m.getName());
               break;
 
             case REJECTED_CURRENT_BRANCH:
@@ -423,7 +426,7 @@ class ProjectAdminServiceImpl extends BaseServiceImplementation implements
               case FAST_FORWARD:
               case NEW:
               case NO_CHANGE:
-                PushQueue.scheduleUpdate(name.getParentKey(), refname);
+                replication.scheduleUpdate(name.getParentKey(), refname);
                 break;
               default: {
                 final String msg =

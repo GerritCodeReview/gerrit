@@ -41,7 +41,7 @@ import com.google.gerrit.client.reviewdb.PatchSetInfo;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.git.PatchSetImporter;
-import com.google.gerrit.git.PushQueue;
+import com.google.gerrit.git.ReplicationQueue;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.mail.EmailException;
@@ -50,6 +50,7 @@ import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.OrmRunnable;
 import com.google.gwtorm.client.Transaction;
+import com.google.inject.Inject;
 
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.Option;
@@ -127,6 +128,9 @@ class Receive extends AbstractGitCommand {
     }
   }
 
+  @Inject
+  private ReplicationQueue replication;
+
   private ReceivePack rp;
   private PersonIdent refLogIdent;
   private ReceiveCommand newChange;
@@ -192,7 +196,7 @@ class Receive extends AbstractGitCommand {
               // We only schedule heads and tags for replication.
               // Change refs are scheduled when they are created.
               //
-              PushQueue.scheduleUpdate(proj.getNameKey(), c.getRefName());
+              replication.scheduleUpdate(proj.getNameKey(), c.getRefName());
             }
           }
         }
@@ -755,7 +759,7 @@ class Receive extends AbstractGitCommand {
       throw new IOException("Failed to create ref " + ps.getRefName() + " in "
           + repo.getDirectory() + ": " + ru.getResult());
     }
-    PushQueue.scheduleUpdate(proj.getNameKey(), ru.getName());
+    replication.scheduleUpdate(proj.getNameKey(), ru.getName());
 
     allNewChanges.add(change.getId());
 
@@ -1015,7 +1019,7 @@ class Receive extends AbstractGitCommand {
         throw new IOException("Failed to create ref " + ps.getRefName()
             + " in " + repo.getDirectory() + ": " + ru.getResult());
       }
-      PushQueue.scheduleUpdate(proj.getNameKey(), ru.getName());
+      replication.scheduleUpdate(proj.getNameKey(), ru.getName());
       cmd.setResult(ReceiveCommand.Result.OK);
 
       try {

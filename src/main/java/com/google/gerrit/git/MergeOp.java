@@ -96,6 +96,7 @@ public class MergeOp {
   private static final FooterKey REVIEWED_ON = new FooterKey("Reviewed-on");
 
   private final GerritServer server;
+  private final ReplicationQueue replication;
   private final PersonIdent myIdent;
   private final Branch.NameKey destBranch;
   private Project destProject;
@@ -110,8 +111,10 @@ public class MergeOp {
   private CodeReviewCommit mergeTip;
   private RefUpdate branchUpdate;
 
-  public MergeOp(final GerritServer gs, final Branch.NameKey branch) {
+  public MergeOp(final GerritServer gs, final ReplicationQueue rq,
+      final Branch.NameKey branch) {
     server = gs;
+    replication = rq;
     myIdent = server.newGerritPersonIdent();
     destBranch = branch;
     toMerge = new ArrayList<CodeReviewCommit>();
@@ -715,7 +718,7 @@ public class MergeOp {
         switch (branchUpdate.update(rw)) {
           case NEW:
           case FAST_FORWARD:
-            PushQueue.scheduleUpdate(destBranch.getParentKey(), branchUpdate
+            replication.scheduleUpdate(destBranch.getParentKey(), branchUpdate
                 .getName());
             break;
 

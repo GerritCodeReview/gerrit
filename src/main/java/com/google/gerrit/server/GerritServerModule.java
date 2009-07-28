@@ -15,17 +15,21 @@
 package com.google.gerrit.server;
 
 import com.google.gerrit.client.data.GerritConfig;
+import com.google.gerrit.git.ChangeMergeQueue;
+import com.google.gerrit.git.MergeQueue;
+import com.google.gerrit.git.PushReplication;
+import com.google.gerrit.git.ReplicationQueue;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.AbstractModule;
-import com.google.inject.Scopes;
+import static com.google.inject.Scopes.SINGLETON;
 
 /** Starts {@link GerritServer} with standard dependencies. */
 public class GerritServerModule extends AbstractModule {
   @Override
   protected void configure() {
     try {
-      bind(GerritServer.class).toInstance(GerritServer.getInstance(true));
+      bind(GerritServer.class).toInstance(GerritServer.getInstance());
     } catch (OrmException e) {
       addError(e);
     } catch (XsrfException e) {
@@ -34,7 +38,9 @@ public class GerritServerModule extends AbstractModule {
 
     bind(ContactStore.class).toProvider(EncryptedContactStoreProvider.class);
     bind(FileTypeRegistry.class).to(MimeUtilFileTypeRegistry.class);
+    bind(ReplicationQueue.class).to(PushReplication.class).in(SINGLETON);
+    bind(MergeQueue.class).to(ChangeMergeQueue.class).in(SINGLETON);
     bind(GerritConfig.class).toProvider(GerritConfigProvider.class).in(
-        Scopes.SINGLETON);
+        SINGLETON);
   }
 }

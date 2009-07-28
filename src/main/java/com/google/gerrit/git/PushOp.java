@@ -15,6 +15,7 @@
 package com.google.gerrit.git;
 
 import com.google.gerrit.server.GerritServer;
+import com.google.inject.Inject;
 
 import com.jcraft.jsch.JSchException;
 
@@ -43,18 +44,20 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * A push to remote operation started by {@link PushQueue}.
+ * A push to remote operation started by {@link ReplicationQueue}.
  * <p>
  * Instance members are protected by the lock within PushQueue. Callers must
  * take that lock to ensure they are working with a current view of the object.
  */
 class PushOp implements Runnable {
-  private static final Logger log = PushQueue.log;
+  private static final Logger log = PushReplication.log;
   static final String MIRROR_ALL = "..all..";
 
-  private final GerritServer server;
+  @Inject
+  private GerritServer server;
+
   private final Set<String> delta = new HashSet<String>();
-  private final PushQueue.ReplicationConfig pool;
+  private final PushReplication.ReplicationConfig pool;
   private final String projectName;
   private final RemoteConfig config;
   private final URIish uri;
@@ -62,9 +65,8 @@ class PushOp implements Runnable {
 
   private Repository db;
 
-  PushOp(final GerritServer gs, final PushQueue.ReplicationConfig p,
-      final String d, final RemoteConfig c, final URIish u) {
-    server = gs;
+  PushOp(final PushReplication.ReplicationConfig p, final String d,
+      final RemoteConfig c, final URIish u) {
     pool = p;
     projectName = d;
     config = c;

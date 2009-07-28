@@ -20,8 +20,6 @@ import com.google.gerrit.client.data.ProjectCache;
 import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
-import com.google.gerrit.client.reviewdb.Branch;
-import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.client.reviewdb.ReviewDb;
@@ -30,10 +28,6 @@ import com.google.gerrit.client.reviewdb.SystemConfig;
 import com.google.gerrit.client.reviewdb.TrustedExternalId;
 import com.google.gerrit.client.reviewdb.SystemConfig.LoginType;
 import com.google.gerrit.client.rpc.Common;
-import com.google.gerrit.git.MergeQueue;
-import com.google.gerrit.git.PushAllProjectsOp;
-import com.google.gerrit.git.PushQueue;
-import com.google.gerrit.git.WorkQueue;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.patch.DiffCacheEntryFactory;
 import com.google.gerrit.server.ssh.SshKeyCacheEntryFactory;
@@ -82,11 +76,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.concurrent.TimeUnit;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -139,20 +131,9 @@ public class GerritServer {
    */
   public static synchronized GerritServer getInstance() throws OrmException,
       XsrfException {
-    return getInstance(true);
-  }
-
-  public static synchronized GerritServer getInstance(final boolean startQueues)
-      throws OrmException, XsrfException {
     if (impl == null) {
       try {
         impl = new GerritServer();
-        if (startQueues) {
-          impl.reloadSubmitQueue();
-          if (PushQueue.isReplicationEnabled()) {
-            WorkQueue.schedule(new PushAllProjectsOp(impl), 30, TimeUnit.SECONDS);
-          }
-        }
       } catch (OrmException e) {
         closeDataSource();
         log.error("GerritServer ORM is unavailable", e);
@@ -742,35 +723,6 @@ public class GerritServer {
     final WindowCacheConfig c = new WindowCacheConfig();
     c.fromConfig(gerritConfigFile);
     WindowCache.reconfigure(c);
-  }
-
-  private void reloadSubmitQueue() {
-    WorkQueue.schedule(new Runnable() {
-      public void run() {
-        final HashSet<Branch.NameKey> pending = new HashSet<Branch.NameKey>();
-        try {
-          final ReviewDb c = db.open();
-          try {
-            for (final Change change : c.changes().allSubmitted()) {
-              pending.add(change.getDest());
-            }
-          } finally {
-            c.close();
-          }
-        } catch (OrmException e) {
-          log.error("Cannot reload MergeQueue", e);
-        }
-
-        for (final Branch.NameKey branch : pending) {
-          MergeQueue.schedule(branch);
-        }
-      }
-
-      @Override
-      public String toString() {
-        return "Reload Submit Queue";
-      }
-    }, 15, TimeUnit.SECONDS);
   }
 
   /** Time (in seconds) that user sessions stay "signed in". */

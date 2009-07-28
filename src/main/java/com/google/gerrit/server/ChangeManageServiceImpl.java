@@ -40,9 +40,12 @@ import java.util.List;
 
 class ChangeManageServiceImpl extends BaseServiceImplementation implements
     ChangeManageService {
+  private final MergeQueue merger;
+  
   @Inject
-  ChangeManageServiceImpl(final GerritServer gs) {
+  ChangeManageServiceImpl(final GerritServer gs, final MergeQueue mq) {
     super(gs);
+    merger = mq;
   }
 
   public void patchSetAction(final ApprovalCategoryValue.Id value,
@@ -135,7 +138,7 @@ class ChangeManageServiceImpl extends BaseServiceImplementation implements
         txn.commit();
 
         if (change.getStatus() == Change.Status.SUBMITTED) {
-          MergeQueue.merge(change.getDest());
+          merger.merge(change.getDest());
         }
 
         return VoidResult.INSTANCE;

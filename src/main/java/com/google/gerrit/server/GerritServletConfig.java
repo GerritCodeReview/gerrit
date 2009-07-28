@@ -14,6 +14,12 @@
 
 package com.google.gerrit.server;
 
+import com.google.gerrit.client.reviewdb.Branch;
+import com.google.gerrit.client.reviewdb.Change;
+import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gerrit.git.MergeQueue;
+import com.google.gerrit.git.PushAllProjectsOp;
+import com.google.gerrit.git.ReplicationQueue;
 import com.google.gerrit.git.WorkQueue;
 import com.google.gerrit.server.patch.PatchDetailServiceImpl;
 import com.google.gerrit.server.ssh.GerritSshDaemon;
@@ -21,6 +27,7 @@ import com.google.gerrit.server.ssh.SshDaemonModule;
 import com.google.gerrit.server.ssh.SshServlet;
 import com.google.gwtexpui.server.CacheControlFilter;
 import com.google.gwtjsonrpc.client.RemoteJsonService;
+import com.google.gwtorm.client.OrmException;
 import com.google.inject.BindingAnnotation;
 import com.google.inject.ConfigurationException;
 import com.google.inject.Guice;
@@ -31,16 +38,24 @@ import com.google.inject.Scopes;
 import com.google.inject.servlet.GuiceServletContextListener;
 import com.google.inject.servlet.ServletModule;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.security.ProviderException;
+import java.util.HashSet;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.ServletContextEvent;
 
 /** Configures the web application environment for Gerrit Code Review. */
 public class GerritServletConfig extends GuiceServletContextListener {
+  private static final Logger log =
+      LoggerFactory.getLogger(GerritServletConfig.class);
+
   @Retention(RetentionPolicy.RUNTIME)
   @BindingAnnotation
   private static @interface ServletName {
@@ -124,8 +139,7 @@ public class GerritServletConfig extends GuiceServletContextListener {
   }
 
   private final Injector injector =
-      Guice.createInjector(createServletModule(),
-          new GerritServerModule(),
+      Guice.createInjector(createServletModule(), new GerritServerModule(),
           new SshDaemonModule());
 
   @Override
@@ -138,14 +152,69 @@ public class GerritServletConfig extends GuiceServletContextListener {
     super.contextInitialized(event);
 
     try {
+      startReplication();
+    } catch (ConfigurationException e) {
+      log.error("Unable to restart replication queue", e);
+    } catch (ProviderException e) {
+      log.error("Unable to restart replication queue", e);
+    }
+
+    try {
+      restartPendingMerges();
+    } catch (ConfigurationException e) {
+      log.error("Unable to restart merge queue", e);
+    } catch (ProviderException e) {
+      log.error("Unable to restart merge queue", e);
+    }
+
+    try {
       injector.getInstance(GerritSshDaemon.class).start();
     } catch (ConfigurationException e) {
-      event.getServletContext().log("Unable to start SSHD", e);
+      log.error("Unable to start SSHD", e);
     } catch (ProviderException e) {
-      event.getServletContext().log("Unable to start SSHD", e);
+      log.error("Unable to start SSHD", e);
     } catch (IOException e) {
-      event.getServletContext().log("Unable to start SSHD", e);
+      log.error("Unable to start SSHD", e);
     }
+  }
+
+  private void startReplication() {
+    final ReplicationQueue rq = injector.getInstance(ReplicationQueue.class);
+    if (rq.isEnabled()) {
+      final GerritServer gs = injector.getInstance(GerritServer.class);
+      WorkQueue.schedule(new PushAllProjectsOp(gs, rq), 30, TimeUnit.SECONDS);
+    }
+  }
+
+  private void restartPendingMerges() {
+    final MergeQueue mq = injector.getInstance(MergeQueue.class);
+    final GerritServer gs = injector.getInstance(GerritServer.class);
+    WorkQueue.schedule(new Runnable() {
+      public void run() {
+        final HashSet<Branch.NameKey> pending = new HashSet<Branch.NameKey>();
+        try {
+          final ReviewDb c = gs.getSchemaFactory().open();
+          try {
+            for (final Change change : c.changes().allSubmitted()) {
+              pending.add(change.getDest());
+            }
+          } finally {
+            c.close();
+          }
+        } catch (OrmException e) {
+          log.error("Cannot reload MergeQueue", e);
+        }
+
+        for (final Branch.NameKey branch : pending) {
+          mq.schedule(branch);
+        }
+      }
+
+      @Override
+      public String toString() {
+        return "Reload Submit Queue";
+      }
+    }, 15, TimeUnit.SECONDS);
   }
 
   @Override

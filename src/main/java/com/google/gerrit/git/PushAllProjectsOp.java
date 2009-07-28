@@ -18,7 +18,6 @@ import com.google.gerrit.client.reviewdb.Branch;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.client.reviewdb.ReviewDb;
-import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.server.GerritServer;
 import com.google.gwtorm.client.OrmException;
 
@@ -32,14 +31,17 @@ public class PushAllProjectsOp implements Runnable {
       LoggerFactory.getLogger(PushAllProjectsOp.class);
 
   private final GerritServer server;
+  private final ReplicationQueue replication;
   private final String urlMatch;
 
-  public PushAllProjectsOp(final GerritServer gs) {
-    this(gs, null);
+  public PushAllProjectsOp(final GerritServer gs, final ReplicationQueue rq) {
+    this(gs, rq, null);
   }
 
-  public PushAllProjectsOp(final GerritServer gs, final String urlMatch) {
+  public PushAllProjectsOp(final GerritServer gs, final ReplicationQueue rq,
+      final String urlMatch) {
     this.server = gs;
+    this.replication = rq;
     this.urlMatch = urlMatch;
   }
 
@@ -50,7 +52,7 @@ public class PushAllProjectsOp implements Runnable {
       try {
         for (final Project project : db.projects().all()) {
           if (!ProjectRight.WILD_PROJECT.equals(project.getId())) {
-            PushQueue.scheduleFullSync(project.getNameKey(), urlMatch);
+            replication.scheduleFullSync(project.getNameKey(), urlMatch);
           }
         }
       } finally {

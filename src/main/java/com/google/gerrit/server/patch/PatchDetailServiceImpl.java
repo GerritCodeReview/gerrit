@@ -30,7 +30,6 @@ import com.google.gerrit.client.reviewdb.ChangeMessage;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.reviewdb.PatchSet;
-import com.google.gerrit.client.reviewdb.PatchSetInfo;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.Account.Id;
@@ -47,6 +46,8 @@ import com.google.gerrit.server.mail.AbandonedSender;
 import com.google.gerrit.server.mail.AddReviewerSender;
 import com.google.gerrit.server.mail.CommentSender;
 import com.google.gerrit.server.mail.EmailException;
+import com.google.gerrit.server.patchsetinfo.PatchSetInfoFactory;
+import com.google.gerrit.server.patchsetinfo.PatchSetInfoNotAvailableException;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
@@ -175,7 +176,7 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
         try {
           final CommentSender cm = new CommentSender(server, r.change);
           cm.setFrom(Common.getAccountId());
-          cm.setPatchSet(r.patchSet, r.info);
+          cm.setPatchSet(r.patchSet, PatchSetInfoFactory.patchSetInfoFromPatchSetId(psid));
           cm.setChangeMessage(r.message);
           cm.setPatchLineComments(r.comments);
           cm.setReviewDb(db);
@@ -184,6 +185,9 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
           cm.send();
         } catch (EmailException e) {
           log.error("Cannot send comments by email for patch set " + psid, e);
+          throw new Failure(e);
+        } catch (PatchSetInfoNotAvailableException e) {
+          log.error("Failed to obtain PatchSetInfo for patch set " + psid, e);
           throw new Failure(e);
         }
         return VoidResult.INSTANCE;
@@ -217,7 +221,6 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
   private static class PublishResult {
     Change change;
     PatchSet patchSet;
-    PatchSetInfo info;
     ChangeMessage message;
     List<PatchLineComment> comments;
   }
@@ -229,8 +232,7 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
     final Account.Id me = Common.getAccountId();
     r.change = db.changes().get(psid.getParentKey());
     r.patchSet = db.patchSets().get(psid);
-    r.info = db.patchSetInfo().get(psid);
-    if (r.change == null || r.patchSet == null || r.info == null) {
+    if (r.change == null || r.patchSet == null) {
       throw new OrmException(new NoSuchEntityException());
     }
 

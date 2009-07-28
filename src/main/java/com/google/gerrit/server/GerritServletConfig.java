@@ -131,7 +131,7 @@ public class GerritServletConfig extends GuiceServletContextListener {
           final GerritServer gs = GerritServer.getInstance(true);
           bind(GerritServer.class).toInstance(gs);
           bind(ContactStore.class).toInstance(EncryptedContactStore.create(gs));
-          bind(FileTypeRegistry.class).toInstance(new FileTypeRegistry(gs));
+          bind(FileTypeRegistry.class).to(MimeUtilFileTypeRegistry.class);
         } catch (OrmException e) {
           addError(e);
         } catch (XsrfException e) {

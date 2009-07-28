@@ -14,63 +14,10 @@
 
 package com.google.gerrit.server;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-
-import eu.medsea.mimeutil.MimeException;
 import eu.medsea.mimeutil.MimeType;
 import eu.medsea.mimeutil.MimeUtil2;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.spearce.jgit.lib.RepositoryConfig;
-
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-@Singleton
-public class FileTypeRegistry {
-  private static final String KEY_SAFE = "safe";
-  private static final String SECTION_MIMETYPE = "mimetype";
-  private static final Logger log =
-      LoggerFactory.getLogger(FileTypeRegistry.class);
-
-  private final GerritServer server;
-  private MimeUtil2 mimeUtil;
-
-  @Inject
-  FileTypeRegistry(final GerritServer gs) {
-    server = gs;
-    mimeUtil = new MimeUtil2();
-    register("eu.medsea.mimeutil.detector.ExtensionMimeDetector");
-    register("eu.medsea.mimeutil.detector.MagicMimeMimeDetector");
-    if (isWin32()) {
-      register("eu.medsea.mimeutil.detector.WindowsRegistryMimeDetector");
-    }
-  }
-
-  private void register(String name) {
-    mimeUtil.registerMimeDetector(name);
-  }
-
-  private static boolean isWin32() {
-    final String osDotName =
-        AccessController.doPrivileged(new PrivilegedAction<String>() {
-          public String run() {
-            return System.getProperty("os.name");
-          }
-        });
-    return osDotName != null
-        && osDotName.toLowerCase().indexOf("windows") != -1;
-  }
-
+public interface FileTypeRegistry {
   /**
    * Get the most specific MIME type available for a file.
    * 
@@ -84,34 +31,7 @@ public class FileTypeRegistry {
    *         or cannot be determined, {@link MimeUtil2#UNKNOWN_MIME_TYPE} which
    *         is an alias for {@code application/octet-stream}.
    */
-  public MimeType getMimeType(final String path, final byte[] content) {
-    Set<MimeType> mimeTypes = new HashSet<MimeType>();
-    if (content != null && content.length > 0) {
-      try {
-        mimeTypes.addAll(mimeUtil.getMimeTypes(content));
-      } catch (MimeException e) {
-        log.warn("Unable to determine MIME type from content", e);
-      }
-    }
-    try {
-      mimeTypes.addAll(mimeUtil.getMimeTypes(path));
-    } catch (MimeException e) {
-      log.warn("Unable to determine MIME type from path", e);
-    }
-
-    if (isUnknownType(mimeTypes)) {
-      return MimeUtil2.UNKNOWN_MIME_TYPE;
-    }
-
-    final List<MimeType> types = new ArrayList<MimeType>(mimeTypes);
-    Collections.sort(types, new Comparator<MimeType>() {
-      @Override
-      public int compare(MimeType a, MimeType b) {
-        return b.getSpecificity() - a.getSpecificity();
-      }
-    });
-    return types.get(0);
-  }
+  public abstract MimeType getMimeType(final String path, final byte[] content);
 
   /**
    * Is this content type safe to transmit to a browser directly?
@@ -122,30 +42,6 @@ public class FileTypeRegistry {
    *         content type and wants it to be protected (typically by wrapping
    *         the data in a ZIP archive).
    */
-  public boolean isSafeInline(final MimeType type) {
-    if (MimeUtil2.UNKNOWN_MIME_TYPE.equals(type)) {
-      // Most browsers perform content type sniffing when they get told
-      // a generic content type. This is bad, so assume we cannot send
-      // the file inline.
-      //
-      return false;
-    }
+  public abstract boolean isSafeInline(final MimeType type);
 
-    final RepositoryConfig cfg = server.getGerritConfig();
-    final boolean any = isSafe(cfg, "*/*", false);
-    final boolean genericMedia = isSafe(cfg, type.getMediaType() + "/*", any);
-    return isSafe(cfg, type.toString(), genericMedia);
-  }
-
-  private static boolean isSafe(RepositoryConfig cfg, String type, boolean def) {
-    return cfg.getBoolean(SECTION_MIMETYPE, type, KEY_SAFE, def);
-  }
-
-  private static boolean isUnknownType(Collection<MimeType> mimeTypes) {
-    if (mimeTypes.isEmpty()) {
-      return true;
-    }
-    return mimeTypes.size() == 1
-        && mimeTypes.contains(MimeUtil2.UNKNOWN_MIME_TYPE);
-  }
 }

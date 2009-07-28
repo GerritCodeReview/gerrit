@@ -31,6 +31,8 @@ import com.google.gerrit.client.reviewdb.UserIdentity;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.pgm.Version;
 import com.google.gerrit.server.GerritServer;
+import com.google.gerrit.server.patchsetinfo.PatchSetInfoFactory;
+import com.google.gerrit.server.patchsetinfo.PatchSetInfoNotAvailableException;
 import com.google.gwtorm.client.OrmException;
 
 import org.apache.commons.net.smtp.SMTPClient;
@@ -260,8 +262,9 @@ public abstract class OutgoingEmail {
 
       if (patchSet != null && patchSetInfo == null) {
         try {
-          patchSetInfo = db.patchSetInfo().get(patchSet.getId());
-        } catch (OrmException err) {
+          patchSetInfo =
+            PatchSetInfoFactory.patchSetInfoFromPatchSetId(patchSet.getId());
+        } catch (PatchSetInfoNotAvailableException err) {
           patchSetInfo = null;
         }
       }

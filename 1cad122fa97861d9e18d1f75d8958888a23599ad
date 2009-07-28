@@ -1,0 +1,378 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAcn///7Q\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/PatchSetPublishDetail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-28T22:03:30Z",
+      "side": 1,
+      "message": "Unnecessary whitespace.",
+      "revId": "1cad122fa97861d9e18d1f75d8958888a23599ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAcn///7I\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/PatchSetPublishDetail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-28T22:03:30Z",
+      "side": 1,
+      "message": "Unnecessary whitespace.",
+      "revId": "1cad122fa97861d9e18d1f75d8958888a23599ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAcn///7A\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/changes/PatchSetPublishDetailFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-28T22:03:30Z",
+      "side": 1,
+      "message": "Unnecessary whitespace.\n\nAlso I tend to prefer \"public final class\" when declaring.",
+      "revId": "1cad122fa97861d9e18d1f75d8958888a23599ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAcn///68\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/changes/PatchSetPublishDetailFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-28T22:03:30Z",
+      "side": 1,
+      "message": "Unnecessary whitespace.",
+      "revId": "1cad122fa97861d9e18d1f75d8958888a23599ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAcn///64\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/changes/PatchSetPublishDetailFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-28T22:03:30Z",
+      "side": 1,
+      "message": "Unnecessary whitespace.",
+      "revId": "1cad122fa97861d9e18d1f75d8958888a23599ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAcn///60\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/changes/PatchSetPublishDetailFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-28T22:03:30Z",
+      "side": 1,
+      "message": "Unnecessary whitespace.",
+      "revId": "1cad122fa97861d9e18d1f75d8958888a23599ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAcn///6E\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/patchsetinfo/PatchSetInfoFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-28T22:03:30Z",
+      "side": 1,
+      "message": "This method only actually needs the PatchSet.Id and never the PatchSet object itself.  If you take only the id it simplifies code below.",
+      "revId": "1cad122fa97861d9e18d1f75d8958888a23599ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAcn///6w\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/patchsetinfo/PatchSetInfoFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-28T22:03:30Z",
+      "side": 1,
+      "message": "Unnecessary whitespace.",
+      "revId": "1cad122fa97861d9e18d1f75d8958888a23599ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAcn///6s\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/patchsetinfo/PatchSetInfoFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-28T22:03:30Z",
+      "side": 1,
+      "message": "Unnecessary whitespace.",
+      "revId": "1cad122fa97861d9e18d1f75d8958888a23599ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAcn///6o\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/patchsetinfo/PatchSetInfoFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-28T22:03:30Z",
+      "side": 1,
+      "message": "Unnecessary whitespace.",
+      "revId": "1cad122fa97861d9e18d1f75d8958888a23599ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAcn///6k\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/patchsetinfo/PatchSetInfoFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-28T22:03:30Z",
+      "side": 1,
+      "message": "Unnecessary whitespace.",
+      "revId": "1cad122fa97861d9e18d1f75d8958888a23599ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAcn///6g\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/patchsetinfo/PatchSetInfoFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-28T22:03:30Z",
+      "side": 1,
+      "message": "Unnecessary whitespace.",
+      "revId": "1cad122fa97861d9e18d1f75d8958888a23599ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAcn///6c\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/patchsetinfo/PatchSetInfoFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-28T22:03:30Z",
+      "side": 1,
+      "message": "Unnecessary whitespace.",
+      "revId": "1cad122fa97861d9e18d1f75d8958888a23599ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAcn///6M\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/patchsetinfo/PatchSetInfoFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-28T22:03:30Z",
+      "side": 1,
+      "message": "Leaked db, need close in finally.",
+      "revId": "1cad122fa97861d9e18d1f75d8958888a23599ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAcn///6I\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/patchsetinfo/PatchSetInfoFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-28T22:03:30Z",
+      "side": 1,
+      "message": "What I don\u0027t like about this is you open 2 database connections concurrently on the call stack.  Maybe 3 if the caller already has one open.  Can we do with less?  Maybe make the method always take a PatchSet.Id and never bother with passing in a PatchSet?",
+      "revId": "1cad122fa97861d9e18d1f75d8958888a23599ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAcn///6Y\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/patchsetinfo/PatchSetInfoFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-28T22:03:30Z",
+      "side": 1,
+      "message": "Unnecessary whitespace.",
+      "revId": "1cad122fa97861d9e18d1f75d8958888a23599ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAcn///6U\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/patchsetinfo/PatchSetInfoFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-28T22:03:30Z",
+      "side": 1,
+      "message": "Unnecessary whitespace.",
+      "revId": "1cad122fa97861d9e18d1f75d8958888a23599ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAcn///6A\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/patchsetinfo/PatchSetInfoFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-28T22:03:30Z",
+      "side": 1,
+      "message": "Eventually this logic should be in Ehcache as a SelfPopulatingCache, but this is a good start for now.",
+      "revId": "1cad122fa97861d9e18d1f75d8958888a23599ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAcn///6Q\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/patchsetinfo/PatchSetInfoFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-28T22:03:30Z",
+      "side": 1,
+      "message": "Unnecessary line.",
+      "revId": "1cad122fa97861d9e18d1f75d8958888a23599ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAcn///54\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/patchsetinfo/PatchSetInfoNotAvailableException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-28T22:03:30Z",
+      "side": 1,
+      "message": "Missing AOSP copyright header.",
+      "revId": "1cad122fa97861d9e18d1f75d8958888a23599ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAcn///50\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/patchsetinfo/PatchSetInfoNotAvailableException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-28T22:03:30Z",
+      "side": 1,
+      "message": "Why IOException?\n\nWhy not just Exception?",
+      "revId": "1cad122fa97861d9e18d1f75d8958888a23599ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAcn///58\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/patchsetinfo/PatchSetInfoNotAvailableException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-28T22:03:30Z",
+      "side": 1,
+      "message": "Unnecessary whitespace.",
+      "revId": "1cad122fa97861d9e18d1f75d8958888a23599ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -20,7 +20,6 @@ import com.google.gerrit.client.reviewdb.ContactInformation;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.ContactInformationStoreException;
-import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
 
 import org.apache.sshd.common.util.SecurityUtils;
@@ -57,26 +56,21 @@ import java.util.Iterator;
 import java.util.TimeZone;
 
 /** Encrypts {@link ContactInformation} instances and saves them. */
-public class EncryptedContactStore {
+public class EncryptedContactStore implements ContactStore {
   private static final TimeZone UTC = TimeZone.getTimeZone("UTC");
-  private static boolean inited;
-  private static EncryptedContactStore self;
 
-  private static synchronized EncryptedContactStore getInstance()
-      throws ContactInformationStoreException {
-    if (!inited) {
-      inited = true;
-      self = new EncryptedContactStore();
+  public static ContactStore create(final GerritServer gs) {
+    try {
+      return new EncryptedContactStore(gs);
+    } catch (final ContactInformationStoreException initError) {
+      return new ContactStore() {
+        @Override
+        public void store(Account account, ContactInformation info)
+            throws ContactInformationStoreException {
+          throw initError;
+        }
+      };
     }
-    if (self == null) {
-      throw new ContactInformationStoreException();
-    }
-    return self;
-  }
-
-  public static void store(final Account account, final ContactInformation info)
-      throws ContactInformationStoreException {
-    getInstance().storeImpl(account, info);
   }
 
   private PGPPublicKey dest;
@@ -84,16 +78,8 @@ public class EncryptedContactStore {
   private URL storeUrl;
   private String storeAPPSEC;
 
-  private EncryptedContactStore() throws ContactInformationStoreException {
-    final GerritServer gs;
-    try {
-      gs = GerritServer.getInstance();
-    } catch (OrmException e) {
-      throw new ContactInformationStoreException(e);
-    } catch (XsrfException e) {
-      throw new ContactInformationStoreException(e);
-    }
-
+  private EncryptedContactStore(final GerritServer gs)
+      throws ContactInformationStoreException {
     if (gs.getContactStoreURL() == null) {
       throw new ContactInformationStoreException(new IllegalStateException(
           "No contactStoreURL configured"));
@@ -150,7 +136,7 @@ public class EncryptedContactStore {
     return null;
   }
 
-  private void storeImpl(final Account account, final ContactInformation info)
+  public void store(final Account account, final ContactInformation info)
       throws ContactInformationStoreException {
     try {
       final byte[] plainText = format(account, info).getBytes("UTF-8");

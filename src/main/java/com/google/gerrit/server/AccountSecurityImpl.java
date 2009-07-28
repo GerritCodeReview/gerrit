@@ -60,9 +60,11 @@ import javax.servlet.http.HttpServletRequest;
 class AccountSecurityImpl extends BaseServiceImplementation implements
     AccountSecurity {
   private final Logger log = LoggerFactory.getLogger(getClass());
+  private final ContactStore contactStore;
 
-  AccountSecurityImpl(final GerritServer gs) {
+  AccountSecurityImpl(final GerritServer gs, final ContactStore cs) {
     super(gs);
+    contactStore = cs;
   }
 
   public void mySshKeys(final AsyncCallback<List<AccountSshKey>> callback) {
@@ -226,7 +228,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
           }
           if (ContactInformation.hasData(info)) {
             try {
-              EncryptedContactStore.store(me, info);
+              contactStore.store(me, info);
             } catch (ContactInformationStoreException e) {
               throw new Failure(e);
             }

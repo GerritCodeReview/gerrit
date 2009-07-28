@@ -84,7 +84,9 @@ public class GerritServletConfig extends GuiceServletContextListener {
       @Override
       protected void configure() {
         try {
-          bind(GerritServer.class).toInstance(GerritServer.getInstance(true));
+          final GerritServer gs = GerritServer.getInstance(true);
+          bind(GerritServer.class).toInstance(gs);
+          bind(ContactStore.class).toInstance(EncryptedContactStore.create(gs));
         } catch (OrmException e) {
           addError(e);
         } catch (XsrfException e) {

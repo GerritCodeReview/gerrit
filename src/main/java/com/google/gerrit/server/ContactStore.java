@@ -1,4 +1,4 @@
-// Copyright (C) 2008 The Android Open Source Project
+// Copyright (C) 2009 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,24 +14,11 @@
 
 package com.google.gerrit.server;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.client.reviewdb.ContactInformation;
+import com.google.gerrit.client.rpc.ContactInformationStoreException;
 
-
-/** Publishes {@link AccountSecurityImpl} over JSON. */
-@SuppressWarnings("serial")
-@Singleton
-class AccountSecuritySrv extends GerritJsonServlet {
-  private final ContactStore contactStore;
-
-  @Inject
-  AccountSecuritySrv(final GerritServer gs, final ContactStore cs) {
-    super(gs);
-    contactStore = cs;
-  }
-
-  @Override
-  protected Object createServiceHandle() throws Exception {
-    return new AccountSecurityImpl(server, contactStore);
-  }
+public interface ContactStore {
+  void store(Account account, ContactInformation info)
+      throws ContactInformationStoreException;
 }

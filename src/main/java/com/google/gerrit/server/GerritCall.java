@@ -24,6 +24,7 @@ import com.google.gwtjsonrpc.server.ActiveCall;
 import com.google.gwtjsonrpc.server.ValidToken;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.SchemaFactory;
 import com.google.gwtorm.client.Transaction;
 
 import org.spearce.jgit.util.Base64;
@@ -46,13 +47,15 @@ public class GerritCall extends ActiveCall {
   }
 
   private final GerritServer server;
+  private final SchemaFactory<ReviewDb> schema;
   private boolean accountRead;
   private Account.Id accountId;
   private boolean rememberAccount;
 
-  public GerritCall(final GerritServer gs, final HttpServletRequest i,
-      final HttpServletResponse o) {
+  public GerritCall(final GerritServer gs, final SchemaFactory<ReviewDb> sf,
+      final HttpServletRequest i, final HttpServletResponse o) {
     super(i, o);
+    schema = sf;
     server = gs;
   }
 
@@ -158,7 +161,7 @@ public class GerritCall extends ActiveCall {
     }
 
     try {
-      final ReviewDb db = server.getSchemaFactory().open();
+      final ReviewDb db = schema.open();
       try {
         final String eid = "gerrit:" + user;
         final List<AccountExternalId> matches =

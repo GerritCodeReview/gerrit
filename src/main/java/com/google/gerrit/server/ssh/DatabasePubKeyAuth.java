@@ -15,7 +15,11 @@
 package com.google.gerrit.server.ssh;
 
 import com.google.gerrit.client.reviewdb.AccountSshKey;
+import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.server.GerritServer;
+import com.google.gwtorm.client.SchemaFactory;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import net.sf.ehcache.Element;
 import net.sf.ehcache.constructs.blocking.SelfPopulatingCache;
@@ -35,14 +39,16 @@ import java.util.Collections;
  * address, as listed in their Account entity. Only keys listed under that
  * account as authorized keys are permitted to access the account.
  */
+@Singleton
 class DatabasePubKeyAuth implements PublickeyAuthenticator {
   private final Logger log = LoggerFactory.getLogger(getClass());
   private final SelfPopulatingCache sshKeysCache;
-  private final GerritServer server;
+  private final SchemaFactory<ReviewDb> schema;
 
-  DatabasePubKeyAuth(final GerritServer gs) {
+  @Inject
+  DatabasePubKeyAuth(final GerritServer gs, final SchemaFactory<ReviewDb> sf) {
     sshKeysCache = gs.getSshKeysCache();
-    server = gs;
+    schema = sf;
   }
 
   public boolean hasKey(final String username, final PublicKey inkey,
@@ -67,7 +73,7 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
     }
 
     if (matched != null) {
-      matched.updateLastUsed(server);
+      matched.updateLastUsed(schema);
       session.setAttribute(SshUtil.CURRENT_ACCOUNT, matched.getAccount());
       return true;
     }

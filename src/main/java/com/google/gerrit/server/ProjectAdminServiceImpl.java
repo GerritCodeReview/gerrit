@@ -34,6 +34,7 @@ import com.google.gerrit.git.ReplicationQueue;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
 
 import org.slf4j.Logger;
@@ -66,12 +67,14 @@ import javax.servlet.http.HttpServletRequest;
 class ProjectAdminServiceImpl extends BaseServiceImplementation implements
     ProjectAdminService {
   private final Logger log = LoggerFactory.getLogger(getClass());
-
+  private final GerritServer server;
   private final ReplicationQueue replication;
 
   @Inject
-  ProjectAdminServiceImpl(final GerritServer gs, final ReplicationQueue rq) {
-    super(gs);
+  ProjectAdminServiceImpl(final SchemaFactory<ReviewDb> sf,
+      final GerritServer gs, final ReplicationQueue rq) {
+    super(sf);
+    server = gs;
     replication = rq;
   }
 

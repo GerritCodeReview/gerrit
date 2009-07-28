@@ -51,6 +51,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.OrmRunnable;
+import com.google.gwtorm.client.SchemaFactory;
 import com.google.gwtorm.client.Transaction;
 import com.google.inject.Inject;
 
@@ -67,11 +68,14 @@ import java.util.Set;
 public class PatchDetailServiceImpl extends BaseServiceImplementation implements
     PatchDetailService {
   private final Logger log = LoggerFactory.getLogger(getClass());
+  private final GerritServer server;
   private final FileTypeRegistry registry;
 
   @Inject
-  PatchDetailServiceImpl(final GerritServer gs, final FileTypeRegistry ftr) {
-    super(gs);
+  PatchDetailServiceImpl(final SchemaFactory<ReviewDb> sf,
+      final GerritServer gs, final FileTypeRegistry ftr) {
+    super(sf);
+    server = gs;
     registry = ftr;
   }
 

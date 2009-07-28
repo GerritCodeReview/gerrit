@@ -22,6 +22,7 @@ import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.server.ssh.GerritSshDaemon;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
 
 import com.jcraft.jsch.HostKey;
@@ -51,15 +52,15 @@ class SystemInfoServiceImpl implements SystemInfoService {
       LoggerFactory.getLogger(SystemInfoServiceImpl.class);
   private static final JSch JSCH = new JSch();
 
-  private final GerritServer server;
+  private final SchemaFactory<ReviewDb> schema;
   private final GerritSshDaemon sshd;
   private final GerritConfig config;
   private final List<PublicKey> hostKeys;
 
   @Inject
-  SystemInfoServiceImpl(final GerritServer gs, final GerritSshDaemon daemon,
-      final GerritConfig gc) {
-    server = gs;
+  SystemInfoServiceImpl(final SchemaFactory<ReviewDb> sf,
+      final GerritSshDaemon daemon, final GerritConfig gc) {
+    schema = sf;
     sshd = daemon;
     config = gc;
     hostKeys = sortHostKeys();
@@ -77,7 +78,7 @@ class SystemInfoServiceImpl implements SystemInfoService {
   public void contributorAgreements(
       final AsyncCallback<List<ContributorAgreement>> callback) {
     try {
-      final ReviewDb db = server.getSchemaFactory().open();
+      final ReviewDb db = schema.open();
       try {
         callback.onSuccess(db.contributorAgreements().active().toList());
       } finally {

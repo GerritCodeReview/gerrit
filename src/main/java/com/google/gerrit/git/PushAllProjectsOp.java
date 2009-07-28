@@ -18,8 +18,8 @@ import com.google.gerrit.client.reviewdb.Branch;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.client.reviewdb.ReviewDb;
-import com.google.gerrit.server.GerritServer;
 import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.SchemaFactory;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,17 +30,18 @@ public class PushAllProjectsOp implements Runnable {
   private static final Logger log =
       LoggerFactory.getLogger(PushAllProjectsOp.class);
 
-  private final GerritServer server;
+  private final SchemaFactory<ReviewDb> schema;
   private final ReplicationQueue replication;
   private final String urlMatch;
 
-  public PushAllProjectsOp(final GerritServer gs, final ReplicationQueue rq) {
-    this(gs, rq, null);
+  public PushAllProjectsOp(final SchemaFactory<ReviewDb> sf,
+      final ReplicationQueue rq) {
+    this(sf, rq, null);
   }
 
-  public PushAllProjectsOp(final GerritServer gs, final ReplicationQueue rq,
-      final String urlMatch) {
-    this.server = gs;
+  public PushAllProjectsOp(final SchemaFactory<ReviewDb> sf,
+      final ReplicationQueue rq, final String urlMatch) {
+    this.schema = sf;
     this.replication = rq;
     this.urlMatch = urlMatch;
   }
@@ -48,7 +49,7 @@ public class PushAllProjectsOp implements Runnable {
   public void run() {
     final HashSet<Branch.NameKey> pending = new HashSet<Branch.NameKey>();
     try {
-      final ReviewDb db = server.getSchemaFactory().open();
+      final ReviewDb db = schema.open();
       try {
         for (final Project project : db.projects().all()) {
           if (!ProjectRight.WILD_PROJECT.equals(project.getId())) {

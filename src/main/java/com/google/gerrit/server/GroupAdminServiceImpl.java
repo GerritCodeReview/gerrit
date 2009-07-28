@@ -29,6 +29,7 @@ import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.SchemaFactory;
 import com.google.gwtorm.client.Transaction;
 import com.google.inject.Inject;
 
@@ -43,8 +44,8 @@ import java.util.Set;
 class GroupAdminServiceImpl extends BaseServiceImplementation implements
     GroupAdminService {
   @Inject
-  GroupAdminServiceImpl(final GerritServer gs) {
-    super(gs);
+  GroupAdminServiceImpl(final SchemaFactory<ReviewDb> sf) {
+    super(sf);
   }
 
   public void ownedGroups(final AsyncCallback<List<AccountGroup>> callback) {

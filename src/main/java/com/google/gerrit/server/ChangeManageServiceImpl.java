@@ -31,6 +31,7 @@ import com.google.gerrit.server.workflow.FunctionState;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.SchemaFactory;
 import com.google.gwtorm.client.Transaction;
 import com.google.inject.Inject;
 
@@ -41,10 +42,10 @@ import java.util.List;
 class ChangeManageServiceImpl extends BaseServiceImplementation implements
     ChangeManageService {
   private final MergeQueue merger;
-  
+
   @Inject
-  ChangeManageServiceImpl(final GerritServer gs, final MergeQueue mq) {
-    super(gs);
+  ChangeManageServiceImpl(final SchemaFactory<ReviewDb> sf, final MergeQueue mq) {
+    super(sf);
     merger = mq;
   }
 

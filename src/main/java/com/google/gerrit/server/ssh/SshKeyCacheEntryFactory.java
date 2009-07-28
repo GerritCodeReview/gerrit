@@ -17,8 +17,8 @@ package com.google.gerrit.server.ssh;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountSshKey;
 import com.google.gerrit.client.reviewdb.ReviewDb;
-import com.google.gerrit.server.GerritServer;
 import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.SchemaFactory;
 
 import net.sf.ehcache.constructs.blocking.CacheEntryFactory;
 
@@ -32,15 +32,15 @@ import java.util.List;
 public class SshKeyCacheEntryFactory implements CacheEntryFactory {
   private final Logger log = LoggerFactory.getLogger(getClass());
 
-  private final GerritServer server;
+  private final SchemaFactory<ReviewDb> schema;
 
-  public SshKeyCacheEntryFactory(final GerritServer gs) {
-    server = gs;
+  public SshKeyCacheEntryFactory(final SchemaFactory<ReviewDb> sf) {
+    schema = sf;
   }
 
   public Object createEntry(final Object genericKey) throws Exception {
     final String username = (String) genericKey;
-    final ReviewDb db = server.getSchemaFactory().open();
+    final ReviewDb db = schema.open();
     try {
       final List<Account> matches =
           db.accounts().bySshUserName(username).toList();

@@ -27,15 +27,16 @@ import com.google.gerrit.client.rpc.CorruptEntityException;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.SchemaFactory;
 
 import java.util.Set;
 
 /** Support for services which require a {@link ReviewDb} instance. */
 public class BaseServiceImplementation {
-  protected final GerritServer server;
+  private final SchemaFactory<ReviewDb> schema;
 
-  protected BaseServiceImplementation(final GerritServer gs) {
-    server = gs;
+  protected BaseServiceImplementation(final SchemaFactory<ReviewDb> sf) {
+    schema = sf;
   }
 
   /**
@@ -51,7 +52,7 @@ public class BaseServiceImplementation {
    */
   protected <T> void run(final AsyncCallback<T> callback, final Action<T> action) {
     try {
-      final ReviewDb db = server.getSchemaFactory().open();
+      final ReviewDb db = schema.open();
       final T r;
       try {
         r = action.run(db);
@@ -116,7 +117,8 @@ public class BaseServiceImplementation {
   public static boolean canPerform(final Account.Id who,
       final ProjectCache.Entry e, final ApprovalCategory.Id actionId,
       final short requireValue) {
-    Set<AccountGroup.Id> groups = Common.getGroupCache().getEffectiveGroups(who);
+    Set<AccountGroup.Id> groups =
+        Common.getGroupCache().getEffectiveGroups(who);
     return canPerform(groups, e, actionId, requireValue);
   }
 

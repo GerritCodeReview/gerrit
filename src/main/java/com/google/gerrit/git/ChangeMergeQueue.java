@@ -16,7 +16,9 @@ package com.google.gerrit.git;
 
 import com.google.gerrit.client.reviewdb.Branch;
 import com.google.gerrit.client.reviewdb.Project;
+import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.server.GerritServer;
+import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
 
 import org.slf4j.Logger;
@@ -34,11 +36,14 @@ public class ChangeMergeQueue implements MergeQueue {
       new HashMap<Branch.NameKey, MergeEntry>();
 
   private final GerritServer server;
+  private final SchemaFactory<ReviewDb> schema;
   private final ReplicationQueue replication;
 
   @Inject
-  ChangeMergeQueue(final GerritServer gs, final ReplicationQueue rq) {
+  ChangeMergeQueue(final GerritServer gs, final SchemaFactory<ReviewDb> sf,
+      final ReplicationQueue rq) {
     server = gs;
+    schema = sf;
     replication = rq;
   }
 
@@ -131,7 +136,7 @@ public class ChangeMergeQueue implements MergeQueue {
 
   private void mergeImpl(final Branch.NameKey branch) {
     try {
-      new MergeOp(server, replication, branch).merge();
+      new MergeOp(server, schema, replication, branch).merge();
     } catch (Throwable e) {
       log.error("Merge attempt for " + branch + " failed", e);
     }

@@ -44,9 +44,9 @@ class GerritConfigProvider implements Provider<GerritConfig> {
   private GerritSshDaemon sshd;
 
   @Inject
-  GerritConfigProvider(final GerritServer gs) {
+  GerritConfigProvider(final GerritServer gs, final SchemaFactory<ReviewDb> sf) {
     server = gs;
-    schema = gs.getSchemaFactory();
+    schema = sf;
   }
 
   @Inject(optional = true)

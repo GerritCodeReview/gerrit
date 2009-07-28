@@ -17,6 +17,7 @@ package com.google.gerrit.server.ssh;
 import com.google.inject.AbstractModule;
 
 import org.apache.sshd.server.CommandFactory;
+import org.apache.sshd.server.PublickeyAuthenticator;
 
 /** Configures standard dependencies for {@link GerritSshDaemon}. */
 public class SshDaemonModule extends AbstractModule {
@@ -24,5 +25,6 @@ public class SshDaemonModule extends AbstractModule {
   protected void configure() {
     bind(GerritSshDaemon.class);
     bind(CommandFactory.class).to(GerritCommandFactory.class);
+    bind(PublickeyAuthenticator.class).to(DatabasePubKeyAuth.class);
   }
 }

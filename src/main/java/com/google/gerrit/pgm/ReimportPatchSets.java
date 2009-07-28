@@ -22,8 +22,9 @@ import com.google.gerrit.git.PatchSetImporter;
 import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.GerritServerModule;
 import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Guice;
-import com.google.inject.Injector;
+import com.google.inject.Inject;
 
 import org.spearce.jgit.errors.RepositoryNotFoundException;
 import org.spearce.jgit.lib.ObjectId;
@@ -53,10 +54,15 @@ import java.util.ArrayList;
  * based on the data stored in Git.
  */
 public class ReimportPatchSets extends AbstractProgram {
+  @Inject
+  private SchemaFactory<ReviewDb> schema;
+
+  @Inject
+  private GerritServer gs;
+
   @Override
   public int run() throws Exception {
-    final Injector injector = Guice.createInjector(new GerritServerModule());    
-    final GerritServer gs = injector.getInstance(GerritServer.class);
+    Guice.createInjector(new GerritServerModule()).injectMembers(this);
 
     final ArrayList<PatchSet.Id> todo = new ArrayList<PatchSet.Id>();
     final BufferedReader br =
@@ -67,7 +73,7 @@ public class ReimportPatchSets extends AbstractProgram {
     }
 
     int exitStatus = 0;
-    final ReviewDb db = gs.getSchemaFactory().open();
+    final ReviewDb db = schema.open();
     final ProgressMonitor pm = new TextProgressMonitor();
     try {
       pm.start(1);

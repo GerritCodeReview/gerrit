@@ -23,6 +23,7 @@ import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.server.BaseServiceImplementation;
 import com.google.gerrit.server.GerritServer;
 import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.servlet.RequestScoped;
 
@@ -62,8 +63,12 @@ abstract class AbstractCommand implements Command, SessionAware {
   protected OutputStream err;
   protected ExitCallback exit;
   protected ServerSession session;
+
   @Inject
   protected GerritServer server;
+
+  @Inject
+  protected SchemaFactory<ReviewDb> schema;
   protected ReviewDb db;
 
   private String name;
@@ -105,7 +110,7 @@ abstract class AbstractCommand implements Command, SessionAware {
   protected ReviewDb openReviewDb() throws Failure {
     if (db == null) {
       try {
-        db = getGerritServer().getSchemaFactory().open();
+        db = schema.open();
       } catch (OrmException e) {
         throw new Failure(1, "fatal: Gerrit database is offline", e);
       }

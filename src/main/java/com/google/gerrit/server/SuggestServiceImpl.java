@@ -25,6 +25,7 @@ import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.ui.SuggestService;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
 
 import java.util.ArrayList;
@@ -36,8 +37,8 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
   private static final String MAX_SUFFIX = "\u9fa5";
 
   @Inject
-  SuggestServiceImpl(final GerritServer gs) {
-    super(gs);
+  SuggestServiceImpl(final SchemaFactory<ReviewDb> sf) {
+    super(sf);
   }
 
   public void suggestProjectNameKey(final String query, final int limit,

@@ -28,6 +28,7 @@ import com.google.gerrit.server.ssh.SshServlet;
 import com.google.gwtexpui.server.CacheControlFilter;
 import com.google.gwtjsonrpc.client.RemoteJsonService;
 import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.BindingAnnotation;
 import com.google.inject.ConfigurationException;
 import com.google.inject.Guice;
@@ -35,6 +36,7 @@ import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Module;
 import com.google.inject.Scopes;
+import com.google.inject.TypeLiteral;
 import com.google.inject.servlet.GuiceServletContextListener;
 import com.google.inject.servlet.ServletModule;
 
@@ -182,19 +184,23 @@ public class GerritServletConfig extends GuiceServletContextListener {
   private void startReplication() {
     final ReplicationQueue rq = injector.getInstance(ReplicationQueue.class);
     if (rq.isEnabled()) {
-      final GerritServer gs = injector.getInstance(GerritServer.class);
-      WorkQueue.schedule(new PushAllProjectsOp(gs, rq), 30, TimeUnit.SECONDS);
+      final SchemaFactory<ReviewDb> sf =
+          injector.getInstance(Key
+              .get(new TypeLiteral<SchemaFactory<ReviewDb>>() {}));
+      WorkQueue.schedule(new PushAllProjectsOp(sf, rq), 30, TimeUnit.SECONDS);
     }
   }
 
   private void restartPendingMerges() {
     final MergeQueue mq = injector.getInstance(MergeQueue.class);
-    final GerritServer gs = injector.getInstance(GerritServer.class);
+    final SchemaFactory<ReviewDb> sf =
+        injector.getInstance(Key
+            .get(new TypeLiteral<SchemaFactory<ReviewDb>>() {}));
     WorkQueue.schedule(new Runnable() {
       public void run() {
         final HashSet<Branch.NameKey> pending = new HashSet<Branch.NameKey>();
         try {
-          final ReviewDb c = gs.getSchemaFactory().open();
+          final ReviewDb c = sf.open();
           try {
             for (final Change change : c.changes().allSubmitted()) {
               pending.add(change.getDest());

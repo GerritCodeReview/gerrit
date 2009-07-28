@@ -34,6 +34,7 @@ import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.workflow.CategoryFunction;
 import com.google.gerrit.server.workflow.FunctionState;
 import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.SchemaFactory;
 import com.google.gwtorm.client.Transaction;
 
 import org.slf4j.Logger;
@@ -96,6 +97,7 @@ public class MergeOp {
   private static final FooterKey REVIEWED_ON = new FooterKey("Reviewed-on");
 
   private final GerritServer server;
+  private final SchemaFactory<ReviewDb> schemaFactory;
   private final ReplicationQueue replication;
   private final PersonIdent myIdent;
   private final Branch.NameKey destBranch;
@@ -111,9 +113,10 @@ public class MergeOp {
   private CodeReviewCommit mergeTip;
   private RefUpdate branchUpdate;
 
-  public MergeOp(final GerritServer gs, final ReplicationQueue rq,
-      final Branch.NameKey branch) {
+  public MergeOp(final GerritServer gs, final SchemaFactory<ReviewDb> sf,
+      final ReplicationQueue rq, final Branch.NameKey branch) {
     server = gs;
+    schemaFactory = sf;
     replication = rq;
     myIdent = server.newGerritPersonIdent();
     destBranch = branch;
@@ -131,7 +134,7 @@ public class MergeOp {
     destProject = pe.getProject();
 
     try {
-      schema = server.getSchemaFactory().open();
+      schema = schemaFactory.open();
     } catch (OrmException e) {
       throw new MergeException("Cannot open database", e);
     }

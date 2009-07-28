@@ -55,7 +55,7 @@ class AdminReplicate extends AbstractCommand {
     }
 
     if (all) {
-      WorkQueue.schedule(new PushAllProjectsOp(server, replication, urlMatch),
+      WorkQueue.schedule(new PushAllProjectsOp(schema, replication, urlMatch),
           0, TimeUnit.SECONDS);
 
     } else {

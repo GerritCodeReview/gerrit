@@ -14,20 +14,27 @@
 
 package com.google.gerrit.pgm;
 
+import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.GerritServerModule;
+import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Guice;
+import com.google.inject.Inject;
 import com.google.inject.Injector;
 
 /**
  * Creates the Gerrit 2 database schema.
  */
 public class CreateSchema extends AbstractProgram {
+  @Inject
+  private SchemaFactory<ReviewDb> schema;
+
   @Override
   public int run() throws Exception {
-    final Injector injector = Guice.createInjector(new GerritServerModule());    
-    final GerritServer gs = injector.getInstance(GerritServer.class);
-    gs.getSchemaFactory().open().close();
+    final Injector injector = Guice.createInjector(new GerritServerModule());
+    injector.injectMembers(this);
+    injector.getInstance(GerritServer.class);
+    schema.open().close();
     System.out.println("Gerrit2 schema initialized");
     return 0;
   }

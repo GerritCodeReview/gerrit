@@ -22,6 +22,7 @@ import com.google.gerrit.git.ChangeMergeQueue;
 import com.google.gerrit.git.MergeQueue;
 import com.google.gerrit.git.PushReplication;
 import com.google.gerrit.git.ReplicationQueue;
+import com.google.gwtorm.client.SchemaFactory;
 import com.google.gwtorm.jdbc.Database;
 import com.google.inject.AbstractModule;
 import com.google.inject.Key;
@@ -38,6 +39,8 @@ public class GerritServerModule extends AbstractModule {
   @Override
   protected void configure() {
     bind(DS).toProvider(ReviewDbDataSourceProvider.class).in(SINGLETON);
+    bind(new TypeLiteral<SchemaFactory<ReviewDb>>() {}).to(
+        new TypeLiteral<Database<ReviewDb>>() {});
     bind(new TypeLiteral<Database<ReviewDb>>() {}).toProvider(
         ReviewDbProvider.class).in(SINGLETON);
 

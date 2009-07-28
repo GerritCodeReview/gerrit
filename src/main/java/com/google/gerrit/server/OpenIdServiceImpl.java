@@ -32,6 +32,7 @@ import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.KeyUtil;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.ResultSet;
+import com.google.gwtorm.client.SchemaFactory;
 import com.google.gwtorm.client.Transaction;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -95,12 +96,15 @@ class OpenIdServiceImpl implements OpenIdService {
   }
 
   private final GerritServer server;
+  private final SchemaFactory<ReviewDb> schema;
   private final ConsumerManager manager;
   private final SelfPopulatingCache discoveryCache;
 
   @Inject
-  OpenIdServiceImpl(final GerritServer gs) throws ConsumerException {
+  OpenIdServiceImpl(final GerritServer gs, final SchemaFactory<ReviewDb> sf)
+      throws ConsumerException {
     server = gs;
+    schema = sf;
     manager = new ConsumerManager();
     if (useOpenID()) {
       discoveryCache =
@@ -179,7 +183,7 @@ class OpenIdServiceImpl implements OpenIdService {
     // We might already have this account on file. Look for it.
     //
     try {
-      final ReviewDb db = server.getSchemaFactory().open();
+      final ReviewDb db = schema.open();
       try {
         final ResultSet<AccountExternalId> ae =
             db.accountExternalIds().byExternal(aReq.getIdentity());
@@ -333,7 +337,7 @@ class OpenIdServiceImpl implements OpenIdService {
     Account account = null;
     if (user != null) {
       try {
-        final ReviewDb d = server.getSchemaFactory().open();
+        final ReviewDb d = schema.open();
         try {
           switch (mode) {
             case SIGN_IN:

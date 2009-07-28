@@ -49,6 +49,7 @@ import org.apache.sshd.common.signature.SignatureDSA;
 import org.apache.sshd.common.signature.SignatureRSA;
 import org.apache.sshd.common.util.SecurityUtils;
 import org.apache.sshd.server.CommandFactory;
+import org.apache.sshd.server.PublickeyAuthenticator;
 import org.apache.sshd.server.ServerChannel;
 import org.apache.sshd.server.SessionFactory;
 import org.apache.sshd.server.UserAuth;
@@ -126,7 +127,7 @@ public class GerritSshDaemon extends SshServer {
 
   @Inject
   public GerritSshDaemon(final GerritServer srv,
-      final CommandFactory commandFactory) {
+      final CommandFactory commandFactory, final PublickeyAuthenticator userAuth) {
     setPort(22/* never used */);
 
     final RepositoryConfig cfg = srv.getGerritConfig();
@@ -144,7 +145,7 @@ public class GerritSshDaemon extends SshServer {
     initSignatures();
     initChannels();
     initCompression();
-    initUserAuth(srv);
+    initUserAuth(userAuth);
     setKeyPairProvider(initHostKey(srv));
     setCommandFactory(commandFactory);
     setShellFactory(new NoShell());
@@ -467,10 +468,10 @@ public class GerritSshDaemon extends SshServer {
   }
 
   @SuppressWarnings("unchecked")
-  private void initUserAuth(final GerritServer srv) {
+  private void initUserAuth(final PublickeyAuthenticator pubkey) {
     setUserAuthFactories(Arrays
         .<NamedFactory<UserAuth>> asList(new UserAuthPublicKey.Factory()));
-    setPublickeyAuthenticator(new DatabasePubKeyAuth(srv));
+    setPublickeyAuthenticator(pubkey);
   }
 
   private KeyPairProvider initHostKey(final GerritServer srv) {

@@ -20,6 +20,7 @@ import com.google.gerrit.client.reviewdb.ContactInformation;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.ContactInformationStoreException;
 import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.SchemaFactory;
 
 import org.apache.sshd.common.util.SecurityUtils;
 import org.bouncycastle.bcpg.ArmoredOutputStream;
@@ -59,14 +60,16 @@ class EncryptedContactStore implements ContactStore {
   private static final TimeZone UTC = TimeZone.getTimeZone("UTC");
 
   private final GerritServer server;
+  private final SchemaFactory<ReviewDb> schema;
   private PGPPublicKey dest;
   private SecureRandom prng;
   private URL storeUrl;
   private String storeAPPSEC;
 
-  EncryptedContactStore(final GerritServer gs)
+  EncryptedContactStore(final GerritServer gs, final SchemaFactory<ReviewDb> sf)
       throws ContactInformationStoreException {
     server = gs;
+    schema = sf;
 
     if (gs.getContactStoreURL() == null) {
       throw new ContactInformationStoreException(new IllegalStateException(
@@ -90,12 +93,12 @@ class EncryptedContactStore implements ContactStore {
       throw new ContactInformationStoreException(e);
     }
 
-    dest = selectKey(readPubRing(gs));
+    dest = selectKey(readPubRing());
   }
 
-  private PGPPublicKeyRingCollection readPubRing(final GerritServer gs)
+  private PGPPublicKeyRingCollection readPubRing()
       throws ContactInformationStoreException {
-    final File pub = new File(gs.getSitePath(), "contact_information.pub");
+    final File pub = new File(server.getSitePath(), "contact_information.pub");
     try {
       InputStream in = new FileInputStream(pub);
       try {
@@ -234,7 +237,7 @@ class EncryptedContactStore implements ContactStore {
     field(b, "Preferred-Email", account.getPreferredEmail());
 
     try {
-      final ReviewDb db = server.getSchemaFactory().open();
+      final ReviewDb db = schema.open();
       try {
         for (final AccountExternalId e : db.accountExternalIds().byAccount(
             account.getId())) {

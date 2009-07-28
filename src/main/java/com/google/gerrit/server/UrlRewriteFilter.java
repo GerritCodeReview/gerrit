@@ -20,6 +20,7 @@ import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.RevId;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -69,12 +70,12 @@ public class UrlRewriteFilter implements Filter {
     staticExtensions.add(".png");
   }
 
-  private final GerritServer server;
+  private final SchemaFactory<ReviewDb> schema;
   private FilterConfig config;
 
   @Inject
-  UrlRewriteFilter(final GerritServer gs) {
-    server = gs;
+  UrlRewriteFilter(final SchemaFactory<ReviewDb> sf) {
+    schema = sf;
   }
 
   public void init(final FilterConfig config) {
@@ -194,7 +195,7 @@ public class UrlRewriteFilter implements Filter {
     final String email = cleanEmail(m.group(1));
     final List<Account> people;
     try {
-      final ReviewDb db = server.getSchemaFactory().open();
+      final ReviewDb db = schema.open();
       try {
         people = db.accounts().byPreferredEmail(email).toList();
       } finally {

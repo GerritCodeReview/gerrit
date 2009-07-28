@@ -38,6 +38,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.ResultSet;
+import com.google.gwtorm.client.SchemaFactory;
 import com.google.gwtorm.client.Transaction;
 import com.google.gwtorm.client.impl.ListResultSet;
 import com.google.inject.Inject;
@@ -83,8 +84,8 @@ class ChangeListServiceImpl extends BaseServiceImplementation implements
   }
 
   @Inject
-  ChangeListServiceImpl(final GerritServer gs) {
-    super(gs);
+  ChangeListServiceImpl(final SchemaFactory<ReviewDb> sf) {
+    super(sf);
   }
 
   public void allOpenPrev(final String pos, final int pageSize,

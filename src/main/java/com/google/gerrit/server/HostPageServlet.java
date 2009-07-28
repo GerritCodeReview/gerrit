@@ -16,8 +16,10 @@ package com.google.gerrit.server;
 
 import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gwt.user.server.rpc.RPCServletUtils;
+import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -44,6 +46,7 @@ import javax.servlet.http.HttpServletResponse;
 @Singleton
 public class HostPageServlet extends HttpServlet {
   private final GerritServer server;
+  private final SchemaFactory<ReviewDb> schema;
   private final GerritConfig config;
 
   private String canonicalUrl;
@@ -51,8 +54,10 @@ public class HostPageServlet extends HttpServlet {
   private Document hostDoc;
 
   @Inject
-  HostPageServlet(final GerritServer gs, final GerritConfig gc) {
+  HostPageServlet(final GerritServer gs, final SchemaFactory<ReviewDb> sf,
+      final GerritConfig gc) {
     server = gs;
+    schema = sf;
     config = gc;
   }
 
@@ -220,7 +225,8 @@ public class HostPageServlet extends HttpServlet {
       return;
     }
 
-    final Account.Id me = new GerritCall(server, req, rsp).getAccountId();
+    final Account.Id me =
+        new GerritCall(server, schema, req, rsp).getAccountId();
     final Account account = Common.getAccountCache().get(me);
 
     final Document peruser = HtmlDomUtil.clone(hostDoc);

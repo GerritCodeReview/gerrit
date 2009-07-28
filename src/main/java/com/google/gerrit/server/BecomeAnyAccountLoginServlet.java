@@ -17,8 +17,8 @@ package com.google.gerrit.server;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.ReviewDb;
-import com.google.gerrit.client.rpc.Common;
 import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -44,10 +44,13 @@ public class BecomeAnyAccountLoginServlet extends HttpServlet {
   }
 
   private final boolean allowed;
+  private final SchemaFactory<ReviewDb> schema;
   private final GerritServer server;
 
   @Inject
-  BecomeAnyAccountLoginServlet(final GerritServer gs) {
+  BecomeAnyAccountLoginServlet(final SchemaFactory<ReviewDb> sf,
+      final GerritServer gs) {
+    schema = sf;
     server = gs;
     allowed = isAllowed();
   }
@@ -109,7 +112,7 @@ public class BecomeAnyAccountLoginServlet extends HttpServlet {
   private List<Account> bySshUserName(final HttpServletResponse rsp,
       final String userName) {
     try {
-      final ReviewDb db = server.getSchemaFactory().open();
+      final ReviewDb db = schema.open();
       try {
         return db.accounts().bySshUserName(userName).toList();
       } finally {
@@ -124,7 +127,7 @@ public class BecomeAnyAccountLoginServlet extends HttpServlet {
   private List<Account> byPreferredEmail(final HttpServletResponse rsp,
       final String email) {
     try {
-      final ReviewDb db = server.getSchemaFactory().open();
+      final ReviewDb db = schema.open();
       try {
         return db.accounts().byPreferredEmail(email).toList();
       } finally {
@@ -145,7 +148,7 @@ public class BecomeAnyAccountLoginServlet extends HttpServlet {
       return Collections.<Account> emptyList();
     }
     try {
-      final ReviewDb db = server.getSchemaFactory().open();
+      final ReviewDb db = schema.open();
       try {
         final Account account = db.accounts().get(id);
         return account != null ? Collections.<Account> singletonList(account)

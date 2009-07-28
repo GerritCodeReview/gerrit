@@ -37,6 +37,7 @@ import com.google.gwtjsonrpc.server.ValidToken;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmDuplicateKeyException;
 import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.SchemaFactory;
 import com.google.gwtorm.client.Transaction;
 import com.google.inject.Inject;
 
@@ -61,11 +62,14 @@ import javax.servlet.http.HttpServletRequest;
 class AccountSecurityImpl extends BaseServiceImplementation implements
     AccountSecurity {
   private final Logger log = LoggerFactory.getLogger(getClass());
+  private final GerritServer server;
   private final ContactStore contactStore;
 
   @Inject
-  AccountSecurityImpl(final GerritServer gs, final ContactStore cs) {
-    super(gs);
+  AccountSecurityImpl(final SchemaFactory<ReviewDb> sf, final GerritServer gs,
+      final ContactStore cs) {
+    super(sf);
+    server = gs;
     contactStore = cs;
   }
 

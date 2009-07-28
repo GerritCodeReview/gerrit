@@ -36,7 +36,6 @@ import com.google.gerrit.server.workflow.SubmitFunction;
 import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.SchemaFactory;
 import com.google.gwtorm.client.Transaction;
 import com.google.gwtorm.jdbc.Database;
 import com.google.inject.Inject;
@@ -297,7 +296,7 @@ public class GerritServer {
     final Cache dc = cacheMgr.getCache("sshkeys");
     final SelfPopulatingCache r;
 
-    r = new SelfPopulatingCache(dc, new SshKeyCacheEntryFactory(this));
+    r = new SelfPopulatingCache(dc, new SshKeyCacheEntryFactory(db));
     cacheMgr.replaceCacheWithDecoratedCache(dc, r);
     return r;
   }
@@ -706,11 +705,6 @@ public class GerritServer {
   /** Get the parsed <code>$site_path/gerrit.config</code> file. */
   public RepositoryConfig getGerritConfig() {
     return gerritConfigFile;
-  }
-
-  /** Get the schema factory for this instance. */
-  public SchemaFactory<ReviewDb> getSchemaFactory() {
-    return db;
   }
 
   /**

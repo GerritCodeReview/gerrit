@@ -72,14 +72,17 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
   private final GerritServer server;
   private final FileTypeRegistry registry;
   private final EmailSender emailSender;
+  private final AddReviewerSender.Factory addReviewerSenderFactory;
 
   @Inject
   PatchDetailServiceImpl(final SchemaFactory<ReviewDb> sf,
-      final GerritServer gs, final FileTypeRegistry ftr, final EmailSender es) {
+      final GerritServer gs, final FileTypeRegistry ftr, final EmailSender es,
+      final AddReviewerSender.Factory arsf) {
     super(sf);
     server = gs;
     registry = ftr;
     emailSender = es;
+    addReviewerSenderFactory = arsf;
   }
 
   public void patchScript(final Patch.Key patchKey, final PatchSet.Id psa,
@@ -362,7 +365,7 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
         // Email the reviewer
         try {
           final AddReviewerSender cm;
-          cm = new AddReviewerSender(server, emailSender, change);
+          cm = addReviewerSenderFactory.create(change);
           cm.setFrom(Common.getAccountId());
           cm.setReviewDb(db);
           cm.addReviewers(reviewerIds);

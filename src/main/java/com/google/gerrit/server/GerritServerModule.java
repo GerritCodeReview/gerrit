@@ -28,6 +28,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerConfigProvider;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePathProvider;
+import com.google.gerrit.server.mail.AddReviewerSender;
 import com.google.gerrit.server.mail.EmailSender;
 import com.google.gerrit.server.mail.RegisterNewEmailSender;
 import com.google.gerrit.server.mail.SmtpEmailSender;
@@ -78,5 +79,8 @@ public class GerritServerModule extends AbstractModule {
     bind(RegisterNewEmailSender.Factory.class).toProvider(
         FactoryProvider.newFactory(RegisterNewEmailSender.Factory.class,
             RegisterNewEmailSender.class));
+    bind(AddReviewerSender.Factory.class).toProvider(
+        FactoryProvider.newFactory(AddReviewerSender.Factory.class,
+            AddReviewerSender.class));
   }
 }

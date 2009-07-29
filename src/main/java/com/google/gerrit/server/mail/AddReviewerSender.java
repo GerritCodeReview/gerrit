@@ -16,10 +16,18 @@ package com.google.gerrit.server.mail;
 
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.server.GerritServer;
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 
 /** Asks a user to review a change. */
 public class AddReviewerSender extends NewChangeSender {
-  public AddReviewerSender(GerritServer gs, EmailSender sf, Change c) {
+
+  public static interface Factory {
+    AddReviewerSender create(Change change);
+  }
+
+  @Inject
+  public AddReviewerSender(GerritServer gs, EmailSender sf, @Assisted Change c) {
     super(gs, sf, c);
   }
 

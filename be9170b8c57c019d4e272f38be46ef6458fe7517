@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAdX///6c\u003d",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-29T22:55:49Z",
+      "side": 1,
+      "message": "I\u0027d delete this line.  I had kept the aopalliance here against the guice stuff because it really should have been inside the guice pom, but because guice does not have a real pom, it does not declare its dependencies right.",
+      "revId": "be9170b8c57c019d4e272f38be46ef6458fe7517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAdX///6E\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/AccountSecurityImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-29T22:55:49Z",
+      "side": 1,
+      "message": "i would prefer to call this \"registerNewEmailFactory\" i think",
+      "revId": "be9170b8c57c019d4e272f38be46ef6458fe7517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAdX///6Q\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/AccountSecurityImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-29T22:55:49Z",
+      "side": 1,
+      "message": "this is unnecessary here",
+      "revId": "be9170b8c57c019d4e272f38be46ef6458fe7517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAdX///6M\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/AccountSecurityImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-29T22:55:49Z",
+      "side": 1,
+      "message": "this is unnecessary here",
+      "revId": "be9170b8c57c019d4e272f38be46ef6458fe7517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAdX///6Y\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/GerritServerModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-29T22:55:49Z",
+      "side": 1,
+      "message": "Put a blank line above here, we are going to need to register a whole ton of these (1 per factory method).",
+      "revId": "be9170b8c57c019d4e272f38be46ef6458fe7517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

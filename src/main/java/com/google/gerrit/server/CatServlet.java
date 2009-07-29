@@ -27,6 +27,8 @@ import com.google.gerrit.client.rpc.Common;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
+import com.google.inject.Injector;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import eu.medsea.mimeutil.MimeType;
@@ -65,14 +67,16 @@ import javax.servlet.http.HttpServletResponse;
 @Singleton
 public class CatServlet extends HttpServlet {
   private static final MimeType ZIP = new MimeType("application/zip");
+  private final Provider<GerritCall> callFactory;
   private final GerritServer server;
   private final SchemaFactory<ReviewDb> schema;
   private final SecureRandom rng;
   private final FileTypeRegistry registry;
 
   @Inject
-  CatServlet(final GerritServer gs, final SchemaFactory<ReviewDb> sf,
-      final FileTypeRegistry ftr) {
+  CatServlet(final Injector i, final GerritServer gs,
+      final SchemaFactory<ReviewDb> sf, final FileTypeRegistry ftr) {
+    callFactory = i.getProvider(GerritCall.class);
     server = gs;
     schema = sf;
     rng = new SecureRandom();
@@ -119,8 +123,7 @@ public class CatServlet extends HttpServlet {
       }
     }
 
-    final Account.Id me =
-        new GerritCall(server, schema, req, rsp).getAccountId();
+    final Account.Id me = callFactory.get().getAccountId();
     final Change.Id changeId = patchKey.getParentKey().getParentKey();
     final Project project;
     final Change change;

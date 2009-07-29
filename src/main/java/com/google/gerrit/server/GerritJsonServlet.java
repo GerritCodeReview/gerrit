@@ -14,15 +14,15 @@
 
 package com.google.gerrit.server;
 
-import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.NotSignedInException;
 import com.google.gerrit.client.rpc.SignInRequired;
 import com.google.gson.GsonBuilder;
 import com.google.gwtjsonrpc.client.RemoteJsonService;
 import com.google.gwtjsonrpc.server.JsonServlet;
 import com.google.gwtjsonrpc.server.SignedToken;
-import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
+import com.google.inject.Injector;
+import com.google.inject.Provider;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,15 +37,15 @@ public final class GerritJsonServlet extends JsonServlet<GerritCall> {
     return JsonServlet.<GerritCall> getCurrentCall();
   }
 
+  private final Provider<GerritCall> callFactory;
   private final GerritServer server;
-  private final SchemaFactory<ReviewDb> schema;
   private final RemoteJsonService service;
 
   @Inject
-  GerritJsonServlet(final GerritServer gs, final SchemaFactory<ReviewDb> sf,
+  GerritJsonServlet(final Injector i, final GerritServer gs,
       final RemoteJsonService s) {
+    callFactory = i.getProvider(GerritCall.class);
     server = gs;
-    schema = sf;
     service = s;
   }
 
@@ -57,7 +57,7 @@ public final class GerritJsonServlet extends JsonServlet<GerritCall> {
   @Override
   protected GerritCall createActiveCall(final HttpServletRequest req,
       final HttpServletResponse resp) {
-    return new GerritCall(server, schema, req, resp);
+    return callFactory.get();
   }
 
   @Override

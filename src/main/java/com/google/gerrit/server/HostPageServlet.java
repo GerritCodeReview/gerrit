@@ -16,12 +16,12 @@ package com.google.gerrit.server;
 
 import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.client.reviewdb.Account;
-import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gwt.user.server.rpc.RPCServletUtils;
-import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
+import com.google.inject.Injector;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import org.spearce.jgit.lib.Constants;
@@ -46,9 +46,9 @@ import javax.servlet.http.HttpServletResponse;
 @SuppressWarnings("serial")
 @Singleton
 public class HostPageServlet extends HttpServlet {
+  private final Provider<GerritCall> callFactory;
   private final GerritServer server;
   private final File sitePath;
-  private final SchemaFactory<ReviewDb> schema;
   private final GerritConfig config;
 
   private String canonicalUrl;
@@ -56,11 +56,11 @@ public class HostPageServlet extends HttpServlet {
   private Document hostDoc;
 
   @Inject
-  HostPageServlet(final GerritServer gs, @SitePath final File path,
-      final SchemaFactory<ReviewDb> sf, final GerritConfig gc) {
+  HostPageServlet(final Injector i, final GerritServer gs,
+      @SitePath final File path, final GerritConfig gc) {
+    callFactory = i.getProvider(GerritCall.class);
     server = gs;
     sitePath = path;
-    schema = sf;
     config = gc;
   }
 
@@ -227,8 +227,7 @@ public class HostPageServlet extends HttpServlet {
       return;
     }
 
-    final Account.Id me =
-        new GerritCall(server, schema, req, rsp).getAccountId();
+    final Account.Id me = callFactory.get().getAccountId();
     final Account account = Common.getAccountCache().get(me);
 
     final Document peruser = HtmlDomUtil.clone(hostDoc);

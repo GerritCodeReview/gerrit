@@ -26,6 +26,8 @@ import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.gwtorm.client.Transaction;
+import com.google.inject.Inject;
+import com.google.inject.servlet.RequestScoped;
 
 import org.spearce.jgit.util.Base64;
 
@@ -36,6 +38,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+@RequestScoped
 public class GerritCall extends ActiveCall {
   static {
     Common.setCurrentAccountImpl(new CurrentAccountImpl() {
@@ -52,7 +55,8 @@ public class GerritCall extends ActiveCall {
   private Account.Id accountId;
   private boolean rememberAccount;
 
-  public GerritCall(final GerritServer gs, final SchemaFactory<ReviewDb> sf,
+  @Inject
+  GerritCall(final GerritServer gs, final SchemaFactory<ReviewDb> sf,
       final HttpServletRequest i, final HttpServletResponse o) {
     super(i, o);
     schema = sf;

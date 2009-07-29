@@ -97,6 +97,8 @@ public class GerritServletConfig extends GuiceServletContextListener {
         filter("/*").through(Key.get(CacheControlFilter.class));
         bind(Key.get(CacheControlFilter.class)).in(Scopes.SINGLETON);
 
+        bind(GerritCall.class);
+
         serve("/Gerrit", "/Gerrit/*").with(HostPageServlet.class);
         serve("/prettify/*").with(PrettifyServlet.class);
         serve("/login").with(OpenIdLoginServlet.class);

@@ -316,14 +316,13 @@ public class GerritServer {
     return u;
   }
 
-  /** Get the parsed <code>$site_path/gerrit.config</code> file. */
-  public Config getGerritConfig() {
+  private Config getGerritConfig() {
     return gerritConfigFile;
   }
 
   /**
    * Get (or open) a repository by name.
-   * 
+   *
    * @param name the repository name, relative to the base directory.
    * @return the cached Repository instance. Caller must call {@code close()}
    *         when done to decrement the resource handle.

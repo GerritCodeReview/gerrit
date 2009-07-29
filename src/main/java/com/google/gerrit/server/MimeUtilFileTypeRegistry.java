@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server;
 
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -42,12 +43,12 @@ class MimeUtilFileTypeRegistry implements FileTypeRegistry {
   private static final Logger log =
       LoggerFactory.getLogger(MimeUtilFileTypeRegistry.class);
 
-  private final GerritServer server;
+  private final Config cfg;
   private MimeUtil2 mimeUtil;
 
   @Inject
-  MimeUtilFileTypeRegistry(final GerritServer gs) {
-    server = gs;
+  MimeUtilFileTypeRegistry(@GerritServerConfig final Config gsc) {
+    cfg = gsc;
     mimeUtil = new MimeUtil2();
     register("eu.medsea.mimeutil.detector.ExtensionMimeDetector");
     register("eu.medsea.mimeutil.detector.MagicMimeMimeDetector");
@@ -109,7 +110,6 @@ class MimeUtilFileTypeRegistry implements FileTypeRegistry {
       return false;
     }
 
-    final Config cfg = server.getGerritConfig();
     final boolean any = isSafe(cfg, "*/*", false);
     final boolean genericMedia = isSafe(cfg, type.getMediaType() + "/*", any);
     return isSafe(cfg, type.toString(), genericMedia);

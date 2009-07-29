@@ -20,6 +20,7 @@ import com.google.gerrit.client.data.GitwebLink;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.mail.EmailSender;
 import com.google.gerrit.server.ssh.GerritSshDaemon;
 import com.google.gwtorm.client.OrmException;
@@ -40,6 +41,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
         && ip.getHostName().equals(ip.getHostAddress());
   }
 
+  private final Config cfg;
   private final GerritServer server;
   private final SchemaFactory<ReviewDb> schema;
 
@@ -48,7 +50,9 @@ class GerritConfigProvider implements Provider<GerritConfig> {
   private ContactStore contactStore;
 
   @Inject
-  GerritConfigProvider(final GerritServer gs, final SchemaFactory<ReviewDb> sf) {
+  GerritConfigProvider(@GerritServerConfig final Config gsc,
+      final GerritServer gs, final SchemaFactory<ReviewDb> sf) {
+    cfg = gsc;
     server = gs;
     schema = sf;
   }
@@ -69,7 +73,6 @@ class GerritConfigProvider implements Provider<GerritConfig> {
   }
 
   private GerritConfig create() throws OrmException {
-    final Config cfg = server.getGerritConfig();
     final GerritConfig config = new GerritConfig();
     config.setCanonicalUrl(server.getCanonicalURL());
     config.setUseContributorAgreements(cfg.getBoolean("auth",

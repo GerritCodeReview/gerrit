@@ -15,6 +15,7 @@
 package com.google.gerrit.server.ssh;
 
 import com.google.gerrit.server.GerritServer;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePath;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -129,10 +130,10 @@ public class GerritSshDaemon extends SshServer {
   @Inject
   public GerritSshDaemon(final GerritServer srv,
       final CommandFactory commandFactory,
-      final PublickeyAuthenticator userAuth, @SitePath final File sitePath) {
+      final PublickeyAuthenticator userAuth, @SitePath final File sitePath,
+      @GerritServerConfig final Config cfg) {
     setPort(22/* never used */);
 
-    final Config cfg = srv.getGerritConfig();
     listen = parseListen(cfg);
     reuseAddress = cfg.getBoolean("sshd", "reuseaddress", true);
     keepAlive = cfg.getBoolean("sshd", "tcpkeepalive", true);

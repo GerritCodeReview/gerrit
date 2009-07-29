@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAdX////g\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ChangeDetailServiceImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-29T01:11:08Z",
+      "side": 1,
+      "message": "I would prefer it if this were private.",
+      "revId": "fb04ab6bea0ae09e413557137250161b3823624a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAdX////A\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/patchsetinfo/PatchSetInfoFactory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-29T01:11:08Z",
+      "side": 1,
+      "message": "I think I\u0027d prefer the server.patch package instead.",
+      "revId": "fb04ab6bea0ae09e413557137250161b3823624a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAdX////I\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/patchsetinfo/PatchSetInfoFactory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-29T01:11:08Z",
+      "side": 1,
+      "message": "You only need the PatchSet.Id here.",
+      "revId": "fb04ab6bea0ae09e413557137250161b3823624a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAdX////E\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/patchsetinfo/PatchSetInfoFactory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-29T01:11:08Z",
+      "side": 1,
+      "message": "We prefer initialization on same line as declaration.",
+      "revId": "fb04ab6bea0ae09e413557137250161b3823624a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAdX////c\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/patchsetinfo/PatchSetInfoFactory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-29T01:11:08Z",
+      "side": 1,
+      "message": "Take a SchemaFactory\u003cReviewDb\u003e in your constructor from Guice and use that here instead of this method.  This method will be removed very soon.  Guice already has the SchemaFactory\u003cReviewDb\u003e registered in the injector.",
+      "revId": "fb04ab6bea0ae09e413557137250161b3823624a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAdX////U\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/patchsetinfo/PatchSetInfoFactory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-29T01:11:08Z",
+      "side": 1,
+      "message": "Why can\u0027t this catch be combined with the catch below on line 87?",
+      "revId": "fb04ab6bea0ae09e413557137250161b3823624a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAdX////Q\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/patchsetinfo/PatchSetInfoFactory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-29T01:11:08Z",
+      "side": 1,
+      "message": "Our coding style says indentation here should be two spaces in deeper than the method declaration.",
+      "revId": "fb04ab6bea0ae09e413557137250161b3823624a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAdX////M\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/patchsetinfo/PatchSetInfoFactory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-29T01:11:08Z",
+      "side": 1,
+      "message": "Again, use the SchemaFactory\u003cReviewDb\u003e supplied in the constructor by Guice.",
+      "revId": "fb04ab6bea0ae09e413557137250161b3823624a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAdX///+8\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/patchsetinfo/PatchSetInfoNotAvailableException.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-29T01:11:08Z",
+      "side": 1,
+      "message": "I think I\u0027d prefer the server.patch package instead.",
+      "revId": "fb04ab6bea0ae09e413557137250161b3823624a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -133,6 +133,9 @@ class Receive extends AbstractGitCommand {
   private EmailSender emailSender;
 
   @Inject
+  private CreateChangeSender.Factory createChangeSenderFactory;
+
+  @Inject
   private ReplicationQueue replication;
 
   private ReceivePack rp;
@@ -769,7 +772,7 @@ class Receive extends AbstractGitCommand {
 
     try {
       final CreateChangeSender cm;
-      cm = new CreateChangeSender(server, emailSender, change);
+      cm = createChangeSenderFactory.create(change);
       cm.setFrom(me);
       cm.setPatchSet(ps, imp.getPatchSetInfo());
       cm.setReviewDb(db);

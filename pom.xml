@@ -547,6 +547,11 @@ limitations under the License.
       <version>2.0</version>
     </dependency>
     <dependency>
+      <groupId>com.google.code.guice</groupId>
+      <artifactId>guice-assistedinject</artifactId>
+      <version>2.0</version>
+    </dependency>
+    <dependency>
       <!-- required by Guice (whose POM is fake and lacks it) -->
       <groupId>aopalliance</groupId>
       <artifactId>aopalliance</artifactId>

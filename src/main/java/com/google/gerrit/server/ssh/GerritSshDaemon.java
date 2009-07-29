@@ -61,7 +61,7 @@ import org.apache.sshd.server.kex.DHG14;
 import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.spearce.jgit.lib.RepositoryConfig;
+import org.spearce.jgit.lib.Config;
 
 import java.io.File;
 import java.io.IOException;
@@ -132,7 +132,7 @@ public class GerritSshDaemon extends SshServer {
       final PublickeyAuthenticator userAuth, @SitePath final File sitePath) {
     setPort(22/* never used */);
 
-    final RepositoryConfig cfg = srv.getGerritConfig();
+    final Config cfg = srv.getGerritConfig();
     listen = parseListen(cfg);
     reuseAddress = cfg.getBoolean("sshd", "reuseaddress", true);
     keepAlive = cfg.getBoolean("sshd", "tcpkeepalive", true);
@@ -257,7 +257,7 @@ public class GerritSshDaemon extends SshServer {
     return r.toString();
   }
 
-  private List<SocketAddress> parseListen(final RepositoryConfig cfg) {
+  private List<SocketAddress> parseListen(final Config cfg) {
     final ArrayList<SocketAddress> bind = new ArrayList<SocketAddress>(2);
     final String[] want = cfg.getStringList("sshd", null, "listenaddress");
     if (want == null || want.length == 0) {
@@ -343,7 +343,7 @@ public class GerritSshDaemon extends SshServer {
   }
 
   @SuppressWarnings("unchecked")
-  private void initCiphers(final RepositoryConfig cfg) {
+  private void initCiphers(final Config cfg) {
     final List<NamedFactory<Cipher>> a = new LinkedList<NamedFactory<Cipher>>();
     a.add(new AES128CBC.Factory());
     a.add(new TripleDESCBC.Factory());
@@ -375,13 +375,13 @@ public class GerritSshDaemon extends SshServer {
   }
 
   @SuppressWarnings("unchecked")
-  private void initMacs(final RepositoryConfig cfg) {
+  private void initMacs(final Config cfg) {
     setMacFactories(filter(cfg, "mac", new HMACMD5.Factory(),
         new HMACSHA1.Factory(), new HMACMD596.Factory(),
         new HMACSHA196.Factory()));
   }
 
-  private static <T> List<NamedFactory<T>> filter(final RepositoryConfig cfg,
+  private static <T> List<NamedFactory<T>> filter(final Config cfg,
       final String key, final NamedFactory<T>... avail) {
     final ArrayList<NamedFactory<T>> def = new ArrayList<NamedFactory<T>>();
     for (final NamedFactory<T> n : avail) {

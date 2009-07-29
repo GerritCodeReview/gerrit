@@ -48,10 +48,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spearce.jgit.errors.ConfigInvalidException;
 import org.spearce.jgit.errors.RepositoryNotFoundException;
+import org.spearce.jgit.lib.Config;
+import org.spearce.jgit.lib.FileBasedConfig;
 import org.spearce.jgit.lib.PersonIdent;
 import org.spearce.jgit.lib.Repository;
 import org.spearce.jgit.lib.RepositoryCache;
-import org.spearce.jgit.lib.RepositoryConfig;
+import org.spearce.jgit.lib.UserConfig;
 import org.spearce.jgit.lib.WindowCache;
 import org.spearce.jgit.lib.WindowCacheConfig;
 import org.spearce.jgit.lib.RepositoryCache.FileKey;
@@ -101,7 +103,7 @@ public class GerritServer {
 
   private final Database<ReviewDb> db;
   private final File sitePath;
-  private final RepositoryConfig gerritConfigFile;
+  private final FileBasedConfig gerritConfigFile;
   private final int sessionAge;
   private final SignedToken xsrf;
   private final SignedToken account;
@@ -117,7 +119,7 @@ public class GerritServer {
     sitePath = path;
 
     final File cfgLoc = new File(sitePath, "gerrit.config");
-    gerritConfigFile = new RepositoryConfig(null, cfgLoc);
+    gerritConfigFile = new FileBasedConfig(cfgLoc);
     try {
       gerritConfigFile.load();
     } catch (FileNotFoundException e) {
@@ -206,7 +208,7 @@ public class GerritServer {
   }
 
   private void configureDefaultCache(final Configuration mgrCfg) {
-    final RepositoryConfig i = gerritConfigFile;
+    final Config i = gerritConfigFile;
     final CacheConfiguration c = new CacheConfiguration();
 
     c.setMaxElementsInMemory(i.getInt("cache", "memorylimit", 1024));
@@ -233,7 +235,7 @@ public class GerritServer {
 
   private CacheConfiguration configureNamedCache(final Configuration mgrCfg,
       final String name, final boolean disk, final int defaultAge) {
-    final RepositoryConfig i = gerritConfigFile;
+    final Config i = gerritConfigFile;
     final CacheConfiguration def = mgrCfg.getDefaultCacheConfiguration();
     final CacheConfiguration cfg;
     try {
@@ -294,7 +296,7 @@ public class GerritServer {
       throw new EmailException("Sending email is disabled");
     }
 
-    final RepositoryConfig cfg = getGerritConfig();
+    final Config cfg = getGerritConfig();
     String smtpHost = cfg.getString("sendemail", null, "smtpserver");
     if (smtpHost == null) {
       smtpHost = "127.0.0.1";
@@ -404,7 +406,7 @@ public class GerritServer {
   }
 
   /** Get the parsed <code>$site_path/gerrit.config</code> file. */
-  public RepositoryConfig getGerritConfig() {
+  public Config getGerritConfig() {
     return gerritConfigFile;
   }
 
@@ -485,7 +487,7 @@ public class GerritServer {
     if (name == null) {
       name = "Gerrit Code Review";
     }
-    String email = getGerritConfig().getCommitterEmail();
+    String email = getGerritConfig().get(UserConfig.KEY).getCommitterEmail();
     if (email == null || email.length() == 0) {
       email = "gerrit@localhost";
     }

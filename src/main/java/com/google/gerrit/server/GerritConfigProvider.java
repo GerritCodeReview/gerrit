@@ -27,7 +27,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 
-import org.spearce.jgit.lib.RepositoryConfig;
+import org.spearce.jgit.lib.Config;
 
 import java.net.Inet6Address;
 import java.net.InetAddress;
@@ -55,7 +55,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
   }
 
   private GerritConfig create() throws OrmException {
-    final RepositoryConfig cfg = server.getGerritConfig();
+    final Config cfg = server.getGerritConfig();
     final GerritConfig config = new GerritConfig();
     config.setCanonicalUrl(server.getCanonicalURL());
     config.setUseContributorAgreements(cfg.getBoolean("auth",

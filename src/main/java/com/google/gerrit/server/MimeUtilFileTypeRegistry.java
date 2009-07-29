@@ -23,7 +23,7 @@ import eu.medsea.mimeutil.MimeUtil2;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.spearce.jgit.lib.RepositoryConfig;
+import org.spearce.jgit.lib.Config;
 
 import java.security.AccessController;
 import java.security.PrivilegedAction;
@@ -109,13 +109,13 @@ class MimeUtilFileTypeRegistry implements FileTypeRegistry {
       return false;
     }
 
-    final RepositoryConfig cfg = server.getGerritConfig();
+    final Config cfg = server.getGerritConfig();
     final boolean any = isSafe(cfg, "*/*", false);
     final boolean genericMedia = isSafe(cfg, type.getMediaType() + "/*", any);
     return isSafe(cfg, type.toString(), genericMedia);
   }
 
-  private static boolean isSafe(RepositoryConfig cfg, String type, boolean def) {
+  private static boolean isSafe(Config cfg, String type, boolean def) {
     return cfg.getBoolean(SECTION_MIMETYPE, type, KEY_SAFE, def);
   }
 

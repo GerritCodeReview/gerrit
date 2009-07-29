@@ -24,7 +24,8 @@ import com.jcraft.jsch.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spearce.jgit.errors.ConfigInvalidException;
-import org.spearce.jgit.lib.RepositoryConfig;
+import org.spearce.jgit.lib.Config;
+import org.spearce.jgit.lib.FileBasedConfig;
 import org.spearce.jgit.transport.OpenSshConfig;
 import org.spearce.jgit.transport.RefSpec;
 import org.spearce.jgit.transport.RemoteConfig;
@@ -33,7 +34,6 @@ import org.spearce.jgit.transport.SshSessionFactory;
 import org.spearce.jgit.transport.URIish;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -63,7 +63,8 @@ public class PushReplication implements ReplicationQueue {
   private final List<ReplicationConfig> configs;
 
   @Inject
-  PushReplication(final Injector i, @SitePath final File sitePath) {
+  PushReplication(final Injector i, @SitePath final File sitePath)
+      throws ConfigInvalidException, IOException {
     injector = i;
     configs = allConfigs(sitePath);
   }
@@ -100,48 +101,65 @@ public class PushReplication implements ReplicationQueue {
     return pat.substring(0, n) + val + pat.substring(n + 3 + key.length());
   }
 
-  private List<ReplicationConfig> allConfigs(final File path) {
+  private List<ReplicationConfig> allConfigs(final File path)
+      throws ConfigInvalidException, IOException {
     final File cfgFile = new File(path, "replication.config");
-    final RepositoryConfig cfg = new RepositoryConfig(null, cfgFile);
-    try {
-      cfg.load();
+    final FileBasedConfig cfg = new FileBasedConfig(cfgFile);
 
-      final List<ReplicationConfig> r = new ArrayList<ReplicationConfig>();
-      for (final RemoteConfig c : RemoteConfig.getAllRemoteConfigs(cfg)) {
-        if (c.getURIs().isEmpty()) {
-          continue;
-        }
-
-        for (final URIish u : c.getURIs()) {
-          if (u.getPath() == null || !u.getPath().contains("${name}")) {
-            final String s = u.toString();
-            throw new URISyntaxException(s, "No ${name}");
-          }
-        }
-
-        if (c.getPushRefSpecs().isEmpty()) {
-          RefSpec spec = new RefSpec();
-          spec = spec.setSourceDestination("refs/*", "refs/*");
-          spec = spec.setForceUpdate(true);
-          c.addPushRefSpec(spec);
-        }
-
-        r.add(new ReplicationConfig(c, cfg));
-      }
-      return Collections.unmodifiableList(r);
-    } catch (FileNotFoundException e) {
-      log.warn("No " + cfgFile + "; not replicating");
-      return Collections.emptyList();
-    } catch (ConfigInvalidException e) {
-      log.error("Can't read " + cfgFile, e);
-      return Collections.emptyList();
-    } catch (IOException e) {
-      log.error("Can't read " + cfgFile, e);
-      return Collections.emptyList();
-    } catch (URISyntaxException e) {
-      log.error("Invalid URI in " + cfgFile + ": " + e.getMessage());
+    if (!cfg.getFile().exists()) {
+      log.warn("No " + cfg.getFile() + "; not replicating");
       return Collections.emptyList();
     }
+
+    try {
+      cfg.load();
+    } catch (ConfigInvalidException e) {
+      throw new ConfigInvalidException("Config file " + cfg.getFile()
+          + " is invalid: " + e.getMessage(), e);
+    } catch (IOException e) {
+      throw new IOException("Cannot read " + cfgFile + ": " + e.getMessage(), e);
+    }
+
+    final List<ReplicationConfig> r = new ArrayList<ReplicationConfig>();
+    for (final RemoteConfig c : allRemotes(cfg)) {
+      if (c.getURIs().isEmpty()) {
+        continue;
+      }
+
+      for (final URIish u : c.getURIs()) {
+        if (u.getPath() == null || !u.getPath().contains("${name}")) {
+          throw new ConfigInvalidException("remote." + c.getName() + ".url"
+              + " \"" + u + "\" lacks ${name} placeholder in " + cfg.getFile());
+        }
+      }
+
+      if (c.getPushRefSpecs().isEmpty()) {
+        RefSpec spec = new RefSpec();
+        spec = spec.setSourceDestination("refs/*", "refs/*");
+        spec = spec.setForceUpdate(true);
+        c.addPushRefSpec(spec);
+      }
+
+      r.add(new ReplicationConfig(c, cfg));
+    }
+    return Collections.unmodifiableList(r);
+  }
+
+  private List<RemoteConfig> allRemotes(final FileBasedConfig cfg)
+      throws ConfigInvalidException {
+    List<String> names = new ArrayList<String>(cfg.getSubsections("remote"));
+    Collections.sort(names);
+
+    final List<RemoteConfig> result = new ArrayList<RemoteConfig>(names.size());
+    for (final String name : names) {
+      try {
+        result.add(new RemoteConfig(cfg, name));
+      } catch (URISyntaxException e) {
+        throw new ConfigInvalidException("remote " + name
+            + " has invalid URL in " + cfg.getFile());
+      }
+    }
+    return result;
   }
 
   class ReplicationConfig {
@@ -150,7 +168,7 @@ public class PushReplication implements ReplicationQueue {
     private final WorkQueue.Executor pool;
     private final Map<URIish, PushOp> pending = new HashMap<URIish, PushOp>();
 
-    ReplicationConfig(final RemoteConfig rc, final RepositoryConfig cfg) {
+    ReplicationConfig(final RemoteConfig rc, final Config cfg) {
       remote = rc;
       delay = Math.max(0, getInt(rc, cfg, "replicationdelay", 15));
 
@@ -159,7 +177,7 @@ public class PushReplication implements ReplicationQueue {
       pool = WorkQueue.createQueue(poolSize, poolName);
     }
 
-    private int getInt(final RemoteConfig rc, final RepositoryConfig cfg,
+    private int getInt(final RemoteConfig rc, final Config cfg,
         final String name, final int defValue) {
       return cfg.getInt("remote", rc.getName(), name, defValue);
     }

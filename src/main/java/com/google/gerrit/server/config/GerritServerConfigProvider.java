@@ -44,7 +44,7 @@ public class GerritServerConfigProvider implements Provider<Config> {
   @Override
   public Config get() {
     final File cfgPath = new File(sitePath, "gerrit.config");
-    final FileBasedConfig cfg = new FileBasedConfig(sitePath);
+    final FileBasedConfig cfg = new FileBasedConfig(cfgPath);
 
     if (!cfg.getFile().exists()) {
       log.info("No " + cfgPath.getAbsolutePath() + "; assuming defaults");

@@ -16,6 +16,24 @@
       "revId": "1d7d68007e61cbf5a743f76cbb6f73434991d394",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAdX///9c\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2009-07-29T18:17:23Z",
+      "side": 1,
+      "message": "I\u0027ve set up Eclipse to automatically fix these problems so I\u0027d prefer to submit this patch so I won\u0027t fixes for the same problem over and over again.\n\nYou can set up Eclipse in the same way so it will never produce unnecessary spaces even in Javadocs.",
+      "parentUuid": "AAAAdX///+w\u003d",
+      "revId": "1d7d68007e61cbf5a743f76cbb6f73434991d394",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

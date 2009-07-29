@@ -21,13 +21,13 @@ import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.SystemConfig;
 import com.google.gerrit.client.reviewdb.SystemConfig.LoginType;
 import com.google.gerrit.client.rpc.Common;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.patch.DiffCacheEntryFactory;
 import com.google.gerrit.server.ssh.SshKeyCacheEntryFactory;
 import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.gwtjsonrpc.server.XsrfException;
-import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.jdbc.Database;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -46,20 +46,15 @@ import org.apache.commons.net.smtp.SMTPClient;
 import org.apache.commons.net.smtp.SMTPReply;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.spearce.jgit.errors.ConfigInvalidException;
 import org.spearce.jgit.errors.RepositoryNotFoundException;
 import org.spearce.jgit.lib.Config;
-import org.spearce.jgit.lib.FileBasedConfig;
 import org.spearce.jgit.lib.PersonIdent;
 import org.spearce.jgit.lib.Repository;
 import org.spearce.jgit.lib.RepositoryCache;
 import org.spearce.jgit.lib.UserConfig;
-import org.spearce.jgit.lib.WindowCache;
-import org.spearce.jgit.lib.WindowCacheConfig;
 import org.spearce.jgit.lib.RepositoryCache.FileKey;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -103,7 +98,7 @@ public class GerritServer {
 
   private final Database<ReviewDb> db;
   private final File sitePath;
-  private final FileBasedConfig gerritConfigFile;
+  private final Config gerritConfigFile;
   private final int sessionAge;
   private final SignedToken xsrf;
   private final SignedToken account;
@@ -114,23 +109,12 @@ public class GerritServer {
 
   @Inject
   GerritServer(final Database<ReviewDb> database, final SystemConfig sConfig,
-      @SitePath final File path) throws OrmException, XsrfException {
+      @SitePath final File path, @GerritServerConfig final Config cfg)
+      throws XsrfException {
     db = database;
     sitePath = path;
-
-    final File cfgLoc = new File(sitePath, "gerrit.config");
-    gerritConfigFile = new FileBasedConfig(cfgLoc);
-    try {
-      gerritConfigFile.load();
-    } catch (FileNotFoundException e) {
-      log.info("No " + cfgLoc.getAbsolutePath() + "; assuming defaults");
-    } catch (ConfigInvalidException e) {
-      throw new OrmException("Cannot read " + cfgLoc.getAbsolutePath(), e);
-    } catch (IOException e) {
-      throw new OrmException("Cannot read " + cfgLoc.getAbsolutePath(), e);
-    }
-    reconfigureWindowCache();
-    sessionAge = gerritConfigFile.getInt("auth", "maxsessionage", 12 * 60) * 60;
+    gerritConfigFile = cfg;
+    sessionAge = cfg.getInt("auth", "maxsessionage", 12 * 60) * 60;
 
     xsrf = new SignedToken(getSessionAge(), sConfig.xsrfPrivateKey);
 
@@ -147,8 +131,7 @@ public class GerritServer {
     account = new SignedToken(accountCookieAge, sConfig.accountPrivateKey);
     emailReg = new SignedToken(5 * 24 * 60 * 60, sConfig.accountPrivateKey);
 
-    final String basePath =
-        getGerritConfig().getString("gerrit", null, "basepath");
+    final String basePath = cfg.getString("gerrit", null, "basepath");
     if (basePath != null) {
       File root = new File(basePath);
       if (!root.isAbsolute()) {
@@ -339,12 +322,6 @@ public class GerritServer {
       throw e;
     }
     return client;
-  }
-
-  private void reconfigureWindowCache() {
-    final WindowCacheConfig c = new WindowCacheConfig();
-    c.fromConfig(gerritConfigFile);
-    WindowCache.reconfigure(c);
   }
 
   /** Time (in seconds) that user sessions stay "signed in". */

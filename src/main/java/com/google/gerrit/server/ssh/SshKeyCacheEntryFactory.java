@@ -29,12 +29,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class SshKeyCacheEntryFactory implements CacheEntryFactory {
+class SshKeyCacheEntryFactory implements CacheEntryFactory {
   private final Logger log = LoggerFactory.getLogger(getClass());
 
   private final SchemaFactory<ReviewDb> schema;
 
-  public SshKeyCacheEntryFactory(final SchemaFactory<ReviewDb> sf) {
+  SshKeyCacheEntryFactory(final SchemaFactory<ReviewDb> sf) {
     schema = sf;
   }
 

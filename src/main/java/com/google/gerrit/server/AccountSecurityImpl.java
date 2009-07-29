@@ -31,6 +31,7 @@ import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.mail.RegisterNewEmailSender;
+import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gerrit.server.ssh.SshUtil;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
@@ -67,16 +68,18 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
   private final ContactStore contactStore;
   private final AuthConfig authConfig;
   private final RegisterNewEmailSender.Factory registerNewEmailFactory;
+  private final SshKeyCache sshKeyCache;
 
   @Inject
   AccountSecurityImpl(final SchemaFactory<ReviewDb> sf, final GerritServer gs,
       final ContactStore cs, final AuthConfig ac,
-      final RegisterNewEmailSender.Factory esf) {
+      final RegisterNewEmailSender.Factory esf, final SshKeyCache skc) {
     super(sf);
     server = gs;
     contactStore = cs;
     authConfig = ac;
     registerNewEmailFactory = esf;
+    sshKeyCache = skc;
   }
 
   public void mySshKeys(final AsyncCallback<List<AccountSshKey>> callback) {
@@ -153,7 +156,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
 
   private void uncacheSshKeys(final String userName) {
     if (userName != null) {
-      server.getSshKeysCache().remove(userName);
+      sshKeyCache.evict(userName);
     }
   }
 

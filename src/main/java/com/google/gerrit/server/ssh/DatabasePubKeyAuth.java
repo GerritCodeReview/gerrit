@@ -16,21 +16,14 @@ package com.google.gerrit.server.ssh;
 
 import com.google.gerrit.client.reviewdb.AccountSshKey;
 import com.google.gerrit.client.reviewdb.ReviewDb;
-import com.google.gerrit.server.GerritServer;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import net.sf.ehcache.Element;
-import net.sf.ehcache.constructs.blocking.SelfPopulatingCache;
-
 import org.apache.sshd.server.PublickeyAuthenticator;
 import org.apache.sshd.server.session.ServerSession;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.security.PublicKey;
-import java.util.Collections;
 
 /**
  * Authenticates by public key through {@link AccountSshKey} entities.
@@ -41,13 +34,12 @@ import java.util.Collections;
  */
 @Singleton
 class DatabasePubKeyAuth implements PublickeyAuthenticator {
-  private final Logger log = LoggerFactory.getLogger(getClass());
-  private final SelfPopulatingCache sshKeysCache;
+  private final SshKeyCache sshKeyCache;
   private final SchemaFactory<ReviewDb> schema;
 
   @Inject
-  DatabasePubKeyAuth(final GerritServer gs, final SchemaFactory<ReviewDb> sf) {
-    sshKeysCache = gs.getSshKeysCache();
+  DatabasePubKeyAuth(final SshKeyCache skc, final SchemaFactory<ReviewDb> sf) {
+    sshKeyCache = skc;
     schema = sf;
   }
 
@@ -55,7 +47,7 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
       final ServerSession session) {
     SshKeyCacheEntry matched = null;
 
-    for (final SshKeyCacheEntry k : get(username)) {
+    for (final SshKeyCacheEntry k : sshKeyCache.get(username)) {
       if (k.match(inkey)) {
         if (matched == null) {
           matched = k;
@@ -78,20 +70,5 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
       return true;
     }
     return false;
-  }
-
-  @SuppressWarnings("unchecked")
-  private Iterable<SshKeyCacheEntry> get(final String username) {
-    try {
-      final Element e = sshKeysCache.get(username);
-      if (e == null || e.getObjectValue() == null) {
-        log.warn("Can't get SSH keys for \"" + username + "\" from cache.");
-        return Collections.emptyList();
-      }
-      return (Iterable<SshKeyCacheEntry>) e.getObjectValue();
-    } catch (RuntimeException e) {
-      log.error("Can't get SSH keys for \"" + username + "\" from cache.", e);
-      return Collections.emptyList();
-    }
   }
 }

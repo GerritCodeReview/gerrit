@@ -40,6 +40,8 @@ import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import net.sf.ehcache.Cache;
+import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
 import net.sf.ehcache.constructs.blocking.CacheEntryFactory;
 import net.sf.ehcache.constructs.blocking.SelfPopulatingCache;
@@ -102,7 +104,8 @@ class OpenIdServiceImpl implements OpenIdService {
   private final SelfPopulatingCache discoveryCache;
 
   @Inject
-  OpenIdServiceImpl(final Injector i,final AuthConfig ac, final GerritServer gs,
+  OpenIdServiceImpl(final Injector i, final AuthConfig ac,
+      final GerritServer gs, final CacheManager cacheMgr,
       final SchemaFactory<ReviewDb> sf) throws ConsumerException {
     callFactory = i.getProvider(GerritCall.class);
     authConfig = ac;
@@ -110,18 +113,18 @@ class OpenIdServiceImpl implements OpenIdService {
     schema = sf;
     manager = new ConsumerManager();
     if (authConfig.getLoginType() == SystemConfig.LoginType.OPENID) {
-      discoveryCache =
-          new SelfPopulatingCache(server.getCache("openid"),
-              new CacheEntryFactory() {
-                public Object createEntry(final Object objKey) throws Exception {
-                  try {
-                    final List<?> list = manager.discover((String) objKey);
-                    return list != null && !list.isEmpty() ? list : null;
-                  } catch (DiscoveryException e) {
-                    return null;
-                  }
-                }
-              });
+      final Cache base = cacheMgr.getCache("openid");
+      discoveryCache = new SelfPopulatingCache(base, new CacheEntryFactory() {
+        public Object createEntry(final Object objKey) throws Exception {
+          try {
+            final List<?> list = manager.discover((String) objKey);
+            return list != null && !list.isEmpty() ? list : null;
+          } catch (DiscoveryException e) {
+            return null;
+          }
+        }
+      });
+      cacheMgr.replaceCacheWithDecoratedCache(base, discoveryCache);
     } else {
       discoveryCache = null;
     }

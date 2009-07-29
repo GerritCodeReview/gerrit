@@ -24,7 +24,7 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 
 /** Show the current cache states. */
-class AdminShowCaches extends AbstractCommand {
+class AdminShowCaches extends AbstractAdminCacheCommand {
   PrintWriter p;
 
   @Override
@@ -32,7 +32,7 @@ class AdminShowCaches extends AbstractCommand {
     assertIsAdministrator();
     p = toPrintWriter(out);
 
-    for (final Ehcache cache : getGerritServer().getAllCaches()) {
+    for (final Ehcache cache : getAllCaches()) {
       final CacheConfiguration cfg = cache.getCacheConfiguration();
       final boolean useDisk = cfg.isDiskPersistent() || cfg.isOverflowToDisk();
       final Statistics stat = cache.getStatistics();

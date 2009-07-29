@@ -24,6 +24,7 @@ import com.google.gerrit.git.MergeQueue;
 import com.google.gerrit.git.PushReplication;
 import com.google.gerrit.git.ReplicationQueue;
 import com.google.gerrit.server.config.AuthConfig;
+import com.google.gerrit.server.config.CacheManagerProvider;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerConfigProvider;
 import com.google.gerrit.server.config.SitePath;
@@ -33,7 +34,9 @@ import com.google.gerrit.server.mail.AddReviewerSender;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.mail.EmailSender;
 import com.google.gerrit.server.mail.SmtpEmailSender;
+import com.google.gerrit.server.patch.DiffCache;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
+import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.gwtorm.jdbc.Database;
 import com.google.inject.AbstractModule;
@@ -41,6 +44,8 @@ import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
 import com.google.inject.assistedinject.FactoryProvider;
 import com.google.inject.name.Names;
+
+import net.sf.ehcache.CacheManager;
 
 import org.spearce.jgit.lib.Config;
 
@@ -68,6 +73,11 @@ public class GerritServerModule extends AbstractModule {
     bind(Config.class).annotatedWith(GerritServerConfig.class).toProvider(
         GerritServerConfigProvider.class).in(SINGLETON);
     bind(AuthConfig.class);
+
+    bind(CacheManager.class).toProvider(CacheManagerProvider.class).in(
+        SINGLETON);
+    bind(SshKeyCache.class);
+    bind(DiffCache.class);
 
     bind(GerritServer.class);
     bind(ContactStore.class).toProvider(EncryptedContactStoreProvider.class);

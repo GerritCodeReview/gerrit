@@ -21,6 +21,7 @@ import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.git.PatchSetImporter;
 import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.GerritServerModule;
+import com.google.gerrit.server.patch.DiffCache;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Guice;
@@ -45,7 +46,7 @@ import java.util.ArrayList;
  * Takes on input strings of the form <code>change_id|patch_set_id</code> or
  * <code>change_id,patch_set_id</code>, such as might be created by the
  * following PostgreSQL database dump:
- * 
+ *
  * <pre>
  *  psql reviewdb -tAc 'select change_id,patch_set_id from patch_sets'
  * </pre>
@@ -59,6 +60,9 @@ public class ReimportPatchSets extends AbstractProgram {
 
   @Inject
   private GerritServer gs;
+
+  @Inject
+  private DiffCache diffCache;
 
   @Override
   public int run() throws Exception {
@@ -109,7 +113,8 @@ public class ReimportPatchSets extends AbstractProgram {
         final RevWalk rw = new RevWalk(repo);
         final RevCommit src =
             rw.parseCommit(ObjectId.fromString(ps.getRevision().get()));
-        new PatchSetImporter(gs, db, projectKey, repo, src, ps, false).run();
+        new PatchSetImporter(gs, diffCache, db, projectKey, repo, src, ps,
+            false).run();
         pm.update(1);
         repo.close();
       }

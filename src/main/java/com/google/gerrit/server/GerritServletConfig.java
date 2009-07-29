@@ -42,6 +42,8 @@ import com.google.inject.assistedinject.FactoryProvider;
 import com.google.inject.servlet.GuiceServletContextListener;
 import com.google.inject.servlet.ServletModule;
 
+import net.sf.ehcache.CacheManager;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -243,7 +245,14 @@ public class GerritServletConfig extends GuiceServletContextListener {
     }
 
     WorkQueue.terminate();
-    GerritServer.closeCacheManager();
+
+    try {
+      injector.getInstance(CacheManager.class).shutdown();
+    } catch (ConfigurationException e) {
+      // Assume it never started.
+    } catch (ProviderException e) {
+      // Assume it never started.
+    }
 
     try {
       final DataSource ds = injector.getInstance(GerritServerModule.DS);

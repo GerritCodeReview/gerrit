@@ -27,13 +27,11 @@ import com.google.gerrit.client.reviewdb.RevId;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.UserIdentity;
 import com.google.gerrit.server.GerritServer;
+import com.google.gerrit.server.patch.DiffCache;
 import com.google.gerrit.server.patch.DiffCacheContent;
 import com.google.gerrit.server.patch.DiffCacheKey;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.Transaction;
-
-import net.sf.ehcache.Element;
-import net.sf.ehcache.constructs.blocking.SelfPopulatingCache;
 
 import org.spearce.jgit.lib.Commit;
 import org.spearce.jgit.lib.ObjectId;
@@ -56,7 +54,7 @@ import java.util.Set;
 
 /** Imports a {@link PatchSet} from a {@link Commit}. */
 public class PatchSetImporter {
-  private final SelfPopulatingCache diffCache;
+  private final DiffCache diffCache;
   private final ReviewDb db;
   private final Project.NameKey projectKey;
   private final Repository repo;
@@ -80,11 +78,11 @@ public class PatchSetImporter {
   private final List<PatchSetAncestor> ancestorUpdate =
       new ArrayList<PatchSetAncestor>();
 
-  public PatchSetImporter(final GerritServer gs, final ReviewDb dstDb,
-      final Project.NameKey proj, final Repository srcRepo,
-      final RevCommit srcCommit, final PatchSet dstPatchSet,
-      final boolean isNewPatchSet) {
-    diffCache = gs.getDiffCache();
+  public PatchSetImporter(final GerritServer gs, final DiffCache dc,
+      final ReviewDb dstDb, final Project.NameKey proj,
+      final Repository srcRepo, final RevCommit srcCommit,
+      final PatchSet dstPatchSet, final boolean isNewPatchSet) {
+    diffCache = dc;
     db = dstDb;
     projectKey = proj;
     repo = srcRepo;
@@ -163,8 +161,8 @@ public class PatchSetImporter {
     info.setAuthor(toUserIdentity(src.getAuthorIdent()));
     info.setCommitter(toUserIdentity(src.getCommitterIdent()));
 
-    //FIXME: This code has to be moved to separate method when patchSetInfo
-    //creation is removed
+    // FIXME: This code has to be moved to separate method when patchSetInfo
+    // creation is removed
     for (int p = 0; p < src.getParentCount(); p++) {
       PatchSetAncestor a = ancestorExisting.remove(p + 1);
       if (a == null) {
@@ -334,7 +332,7 @@ public class PatchSetImporter {
 
       final String newName = fh.getNewName();
       k = new DiffCacheKey(projectKey, a, b, newName, srcName, IGNORE_NONE);
-      diffCache.put(new Element(k, DiffCacheContent.create(fh)));
+      diffCache.put(k, DiffCacheContent.create(fh));
     }
 
     return p;

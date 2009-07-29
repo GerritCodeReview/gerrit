@@ -15,9 +15,10 @@
 package com.google.gerrit.server.ssh;
 
 import com.google.gerrit.client.rpc.Common;
+import com.google.gerrit.server.patch.DiffCache;
+import com.google.inject.Inject;
 
 import net.sf.ehcache.Ehcache;
-import net.sf.ehcache.constructs.blocking.SelfPopulatingCache;
 
 import org.kohsuke.args4j.Option;
 
@@ -26,10 +27,9 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedSet;
-import java.util.TreeSet;
 
 /** Causes the caches to purge all entries and reload. */
-class AdminFlushCaches extends AbstractCommand {
+class AdminFlushCaches extends AbstractAdminCacheCommand {
   @Option(name = "--cache", usage = "flush named cache", metaVar = "NAME")
   private List<String> caches = new ArrayList<String>();
 
@@ -38,6 +38,9 @@ class AdminFlushCaches extends AbstractCommand {
 
   @Option(name = "--list", usage = "list available caches")
   private boolean list;
+
+  @Inject
+  private DiffCache diffCache;
 
   PrintWriter p;
 
@@ -72,7 +75,7 @@ class AdminFlushCaches extends AbstractCommand {
     doBulkFlush();
   }
 
-  private void doList() throws Failure {
+  private void doList() {
     for (final String name : cacheNames()) {
       p.print(name);
       p.print('\n');
@@ -80,22 +83,8 @@ class AdminFlushCaches extends AbstractCommand {
     p.flush();
   }
 
-  private SortedSet<String> cacheNames() throws Failure {
-    final SortedSet<String> names = new TreeSet<String>();
-    names.add("groups");
-    names.add("projects");
-    names.add("accounts");
-    names.add(getGerritServer().getDiffCache().getName());
-    for (final Ehcache c : getGerritServer().getAllCaches()) {
-      names.add(c.getName());
-    }
-    return names;
-  }
-
-  private void doBulkFlush() throws Failure {
+  private void doBulkFlush() {
     try {
-      final SelfPopulatingCache diffCache = getGerritServer().getDiffCache();
-
       if (flush("groups")) {
         Common.getGroupCache().flush();
       }
@@ -106,7 +95,7 @@ class AdminFlushCaches extends AbstractCommand {
         Common.getAccountCache().flush();
       }
 
-      for (final Ehcache c : getGerritServer().getAllCaches()) {
+      for (final Ehcache c : getAllCaches()) {
         final String name = c.getName();
         if (diffCache.getName().equals(name)) {
           continue;
@@ -121,7 +110,12 @@ class AdminFlushCaches extends AbstractCommand {
       }
 
       if (flush(diffCache.getName())) {
-        saveToDisk(diffCache);
+        try {
+          diffCache.flush();
+        } catch (Throwable e) {
+          final String n = diffCache.getName();
+          p.println("warning: cannot save cache \"" + n + "\": " + e);
+        }
       }
     } finally {
       p.flush();
@@ -130,13 +124,5 @@ class AdminFlushCaches extends AbstractCommand {
 
   private boolean flush(final String cacheName) {
     return all || caches.contains(cacheName);
-  }
-
-  private void saveToDisk(final Ehcache c) {
-    try {
-      c.flush();
-    } catch (Throwable e) {
-      p.println("warning: cannot save cache \"" + c.getName() + "\": " + e);
-    }
   }
 }

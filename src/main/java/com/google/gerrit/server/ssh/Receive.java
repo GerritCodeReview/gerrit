@@ -49,6 +49,7 @@ import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.mail.EmailSender;
 import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
+import com.google.gerrit.server.patch.DiffCache;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.OrmRunnable;
 import com.google.gwtorm.client.Transaction;
@@ -141,6 +142,9 @@ class Receive extends AbstractGitCommand {
 
   @Inject
   private ReplicationQueue replication;
+
+  @Inject
+  private DiffCache diffCache;
 
   private ReceivePack rp;
   private PersonIdent refLogIdent;
@@ -703,7 +707,8 @@ class Receive extends AbstractGitCommand {
     ps.setUploader(me);
 
     final PatchSetImporter imp =
-        new PatchSetImporter(server, db, proj.getNameKey(), repo, c, ps, true);
+        new PatchSetImporter(server, diffCache, db, proj.getNameKey(), repo, c,
+            ps, true);
     imp.setTransaction(txn);
     imp.run();
 
@@ -918,8 +923,8 @@ class Receive extends AbstractGitCommand {
         ps.setUploader(userAccount.getId());
 
         final PatchSetImporter imp =
-            new PatchSetImporter(server, db, proj.getNameKey(), repo, c, ps,
-                true);
+            new PatchSetImporter(server, diffCache, db, proj.getNameKey(),
+                repo, c, ps, true);
         imp.setTransaction(txn);
         try {
           imp.run();

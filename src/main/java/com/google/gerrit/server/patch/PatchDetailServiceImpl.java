@@ -71,18 +71,20 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
   private final Logger log = LoggerFactory.getLogger(getClass());
   private final GerritServer server;
   private final FileTypeRegistry registry;
+  private final DiffCache diffCache;
   private final EmailSender emailSender;
   private final AddReviewerSender.Factory addReviewerSenderFactory;
   private final AbandonedSender.Factory abandonedSenderFactory;
 
   @Inject
   PatchDetailServiceImpl(final SchemaFactory<ReviewDb> sf,
-      final GerritServer gs, final FileTypeRegistry ftr, final EmailSender es,
-      final AddReviewerSender.Factory arsf,
+      final GerritServer gs, final FileTypeRegistry ftr, final DiffCache dc,
+      final EmailSender es, final AddReviewerSender.Factory arsf,
       final AbandonedSender.Factory asf) {
     super(sf);
     server = gs;
     registry = ftr;
+    diffCache = dc;
     emailSender = es;
     addReviewerSenderFactory = arsf;
     abandonedSenderFactory = asf;
@@ -95,8 +97,8 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
       callback.onFailure(new NoSuchEntityException());
       return;
     }
-    run(callback,
-        new PatchScriptAction(server, registry, patchKey, psa, psb, s));
+    run(callback, new PatchScriptAction(server, registry, diffCache, patchKey,
+        psa, psb, s));
   }
 
   public void patchComments(final Patch.Key patchKey, final PatchSet.Id psa,

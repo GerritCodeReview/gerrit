@@ -58,6 +58,7 @@ class PatchScriptAction implements Action<PatchScript> {
 
   private final GerritServer server;
   private final FileTypeRegistry registry;
+  private final DiffCache diffCache;
   private final Patch.Key patchKey;
   private final PatchSet.Id psa;
   private final PatchSet.Id psb;
@@ -72,10 +73,11 @@ class PatchScriptAction implements Action<PatchScript> {
   private Repository git;
 
   PatchScriptAction(final GerritServer gs, final FileTypeRegistry ftr,
-      final Patch.Key patchKey, final PatchSet.Id psa, final PatchSet.Id psb,
-      final PatchScriptSettings settings) {
+      final DiffCache dc, final Patch.Key patchKey, final PatchSet.Id psa,
+      final PatchSet.Id psb, final PatchScriptSettings settings) {
     this.server = gs;
     this.registry = ftr;
+    this.diffCache = dc;
     this.patchKey = patchKey;
     this.psa = psa;
     this.psb = psb;
@@ -144,7 +146,7 @@ class PatchScriptAction implements Action<PatchScript> {
   private DiffCacheContent get(final DiffCacheKey key) throws Failure {
     final Element cacheElem;
     try {
-      cacheElem = server.getDiffCache().get(key);
+      cacheElem = diffCache.get(key);
     } catch (IllegalStateException e) {
       log.error("Cache get failed for " + key, e);
       throw new Failure(new NoSuchEntityException());

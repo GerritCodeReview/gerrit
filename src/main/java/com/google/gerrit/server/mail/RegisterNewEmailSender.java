@@ -16,6 +16,8 @@ package com.google.gerrit.server.mail;
 
 import com.google.gerrit.server.GerritServer;
 import com.google.gwtjsonrpc.server.XsrfException;
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 
 import org.spearce.jgit.util.Base64;
 
@@ -24,11 +26,17 @@ import java.io.UnsupportedEncodingException;
 import javax.servlet.http.HttpServletRequest;
 
 public class RegisterNewEmailSender extends OutgoingEmail {
+
+  public static interface Factory {
+    public RegisterNewEmailSender create(String address);
+  }
+
   private final HttpServletRequest req;
   private final String addr;
 
+  @Inject
   public RegisterNewEmailSender(final GerritServer gs, final EmailSender sf,
-      final String address, final HttpServletRequest request) {
+      @Assisted final String address, final HttpServletRequest request) {
     super(gs, sf, null, "registernewemail");
     addr = address;
     req = request;

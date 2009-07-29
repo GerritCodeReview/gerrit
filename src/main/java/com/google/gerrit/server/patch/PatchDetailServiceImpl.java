@@ -30,7 +30,6 @@ import com.google.gerrit.client.reviewdb.ChangeMessage;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.reviewdb.PatchSet;
-import com.google.gerrit.client.reviewdb.PatchSetInfo;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.Account.Id;
@@ -70,13 +69,16 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
   private final Logger log = LoggerFactory.getLogger(getClass());
   private final GerritServer server;
   private final FileTypeRegistry registry;
+  private final PatchSetInfoFactory patchSetInfoFactory;
 
   @Inject
   PatchDetailServiceImpl(final SchemaFactory<ReviewDb> sf,
-      final GerritServer gs, final FileTypeRegistry ftr) {
+      final GerritServer gs, final FileTypeRegistry ftr,
+      final PatchSetInfoFactory psif) {
     super(sf);
     server = gs;
     registry = ftr;
+    patchSetInfoFactory = psif;
   }
 
   public void patchScript(final Patch.Key patchKey, final PatchSet.Id psa,
@@ -175,7 +177,7 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
         try {
           final CommentSender cm = new CommentSender(server, r.change);
           cm.setFrom(Common.getAccountId());
-          cm.setPatchSet(r.patchSet, r.info);
+          cm.setPatchSet(r.patchSet, patchSetInfoFactory.patchSetInfoFromPatchSetId(psid));
           cm.setChangeMessage(r.message);
           cm.setPatchLineComments(r.comments);
           cm.setReviewDb(db);
@@ -184,6 +186,9 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
           cm.send();
         } catch (EmailException e) {
           log.error("Cannot send comments by email for patch set " + psid, e);
+          throw new Failure(e);
+        } catch (PatchSetInfoNotAvailableException e) {
+          log.error("Failed to obtain PatchSetInfo for patch set " + psid, e);
           throw new Failure(e);
         }
         return VoidResult.INSTANCE;
@@ -217,7 +222,6 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
   private static class PublishResult {
     Change change;
     PatchSet patchSet;
-    PatchSetInfo info;
     ChangeMessage message;
     List<PatchLineComment> comments;
   }
@@ -229,8 +233,7 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
     final Account.Id me = Common.getAccountId();
     r.change = db.changes().get(psid.getParentKey());
     r.patchSet = db.patchSets().get(psid);
-    r.info = db.patchSetInfo().get(psid);
-    if (r.change == null || r.patchSet == null || r.info == null) {
+    if (r.change == null || r.patchSet == null) {
       throw new OrmException(new NoSuchEntityException());
     }
 

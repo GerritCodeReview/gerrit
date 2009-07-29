@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAdX///+4\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-29T01:16:20Z",
+      "side": 1,
+      "message": "Not accessible by static method anymore, is it?",
+      "revId": "7bee154d69545e77c1822f1c9894727e5dce88e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

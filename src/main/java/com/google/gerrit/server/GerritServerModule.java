@@ -23,6 +23,7 @@ import com.google.gerrit.git.ChangeMergeQueue;
 import com.google.gerrit.git.MergeQueue;
 import com.google.gerrit.git.PushReplication;
 import com.google.gerrit.git.ReplicationQueue;
+import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.gwtorm.jdbc.Database;
 import com.google.inject.AbstractModule;
@@ -55,5 +56,6 @@ public class GerritServerModule extends AbstractModule {
     bind(MergeQueue.class).to(ChangeMergeQueue.class).in(SINGLETON);
     bind(GerritConfig.class).toProvider(GerritConfigProvider.class).in(
         SINGLETON);
+    bind(PatchSetInfoFactory.class);
   }
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAdX///8M\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/patch/PatchSetInfoFactory.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-29T19:58:13Z",
+      "side": 1,
+      "message": "repo must be closed when you are done with it.",
+      "revId": "e4938f3103f9ede07ca75275bd0e4dc8aca54046",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

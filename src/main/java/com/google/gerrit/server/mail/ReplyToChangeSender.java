@@ -19,8 +19,9 @@ import com.google.gerrit.server.GerritServer;
 
 /** Alert a user to a reply to a change, usually commentary made during review. */
 public abstract class ReplyToChangeSender extends OutgoingEmail {
-  protected ReplyToChangeSender(GerritServer gs, Change c, String mc) {
-    super(gs, c, mc);
+  protected ReplyToChangeSender(GerritServer gs, EmailSender sf, Change c,
+      String mc) {
+    super(gs, sf, c, mc);
   }
 
   @Override

@@ -27,6 +27,8 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerConfigProvider;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePathProvider;
+import com.google.gerrit.server.mail.EmailSender;
+import com.google.gerrit.server.mail.SmtpEmailSender;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.gwtorm.jdbc.Database;
 import com.google.inject.AbstractModule;
@@ -65,6 +67,7 @@ public class GerritServerModule extends AbstractModule {
     bind(FileTypeRegistry.class).to(MimeUtilFileTypeRegistry.class);
     bind(ReplicationQueue.class).to(PushReplication.class).in(SINGLETON);
     bind(MergeQueue.class).to(ChangeMergeQueue.class).in(SINGLETON);
+    bind(EmailSender.class).to(SmtpEmailSender.class).in(SINGLETON);
     bind(GerritConfig.class).toProvider(GerritConfigProvider.class).in(
         SINGLETON);
   }

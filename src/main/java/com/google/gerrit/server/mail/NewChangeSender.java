@@ -28,8 +28,8 @@ public abstract class NewChangeSender extends OutgoingEmail {
   private final Set<Account.Id> reviewers = new HashSet<Account.Id>();
   private final Set<Account.Id> extraCC = new HashSet<Account.Id>();
 
-  protected NewChangeSender(GerritServer gs, Change c) {
-    super(gs, c, "newchange");
+  protected NewChangeSender(GerritServer gs, EmailSender sf, Change c) {
+    super(gs, sf, c, "newchange");
   }
 
   public void addReviewers(final Collection<Account.Id> cc) {

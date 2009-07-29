@@ -47,6 +47,7 @@ import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
+import com.google.gerrit.server.mail.EmailSender;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.OrmRunnable;
 import com.google.gwtorm.client.Transaction;
@@ -127,6 +128,9 @@ class Receive extends AbstractGitCommand {
       throw new CmdLineException("database is down");
     }
   }
+
+  @Inject
+  private EmailSender emailSender;
 
   @Inject
   private ReplicationQueue replication;
@@ -764,7 +768,8 @@ class Receive extends AbstractGitCommand {
     allNewChanges.add(change.getId());
 
     try {
-      final CreateChangeSender cm = new CreateChangeSender(server, change);
+      final CreateChangeSender cm;
+      cm = new CreateChangeSender(server, emailSender, change);
       cm.setFrom(me);
       cm.setPatchSet(ps, imp.getPatchSetInfo());
       cm.setReviewDb(db);
@@ -1023,8 +1028,8 @@ class Receive extends AbstractGitCommand {
       cmd.setResult(ReceiveCommand.Result.OK);
 
       try {
-        final ReplacePatchSetSender cm =
-            new ReplacePatchSetSender(server, result.change);
+        final ReplacePatchSetSender cm;
+        cm = new ReplacePatchSetSender(server, emailSender, result.change);
         cm.setFrom(me);
         cm.setPatchSet(ps, result.info);
         cm.setChangeMessage(result.msg);
@@ -1293,7 +1298,8 @@ class Receive extends AbstractGitCommand {
   private void sendMergedEmail(final ReplaceResult result) {
     if (result != null && result.mergedIntoRef != null) {
       try {
-        final MergedSender cm = new MergedSender(server, result.change);
+        final MergedSender cm;
+        cm = new MergedSender(server, emailSender, result.change);
         cm.setFrom(getAccountId());
         cm.setReviewDb(db);
         cm.setPatchSet(result.patchSet, result.info);

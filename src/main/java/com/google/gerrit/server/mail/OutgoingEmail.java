@@ -29,16 +29,12 @@ import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.StarredChange;
 import com.google.gerrit.client.reviewdb.UserIdentity;
 import com.google.gerrit.client.rpc.Common;
-import com.google.gerrit.pgm.Version;
 import com.google.gerrit.server.GerritServer;
 import com.google.gwtorm.client.OrmException;
 
-import org.apache.commons.net.smtp.SMTPClient;
 import org.spearce.jgit.lib.PersonIdent;
+import org.spearce.jgit.util.SystemReader;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.Writer;
 import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -64,11 +60,12 @@ public abstract class OutgoingEmail {
   private static final Random RNG = new Random();
   private final String messageClass;
   protected final GerritServer server;
+  private final EmailSender emailSender;
   protected final Change change;
   protected final String projectName;
   private final HashSet<Account.Id> rcptTo = new HashSet<Account.Id>();
   private final Map<String, EmailHeader> headers;
-  private final List<String> smtpRcptTo = new ArrayList<String>();
+  private final List<Address> smtpRcptTo = new ArrayList<Address>();
   private Address smtpFromAddress;
   private StringBuilder body;
   private boolean inFooter;
@@ -80,8 +77,10 @@ public abstract class OutgoingEmail {
   protected ChangeMessage changeMessage;
   protected ReviewDb db;
 
-  protected OutgoingEmail(final GerritServer gs, final Change c, final String mc) {
+  protected OutgoingEmail(final GerritServer gs, final EmailSender es,
+      final Change c, final String mc) {
     server = gs;
+    emailSender = es;
     change = c;
     projectName = change != null ? change.getDest().getParentKey().get() : null;
     messageClass = mc;
@@ -115,7 +114,7 @@ public abstract class OutgoingEmail {
    * @throws EmailException
    */
   public void send() throws EmailException {
-    if (!server.isOutgoingMailEnabled()) {
+    if (!emailSender.isEnabled()) {
       // Server has explicitly disabled email sending.
       //
       return;
@@ -155,65 +154,19 @@ public abstract class OutgoingEmail {
         appendText("Gerrit-Branch: " + change.getDest().getShortName() + "\n");
       }
 
-      try {
-        final SMTPClient client = server.createOutgoingMail();
-        try {
-          if (!client.setSender(smtpFromAddress.email)) {
-            throw new EmailException("SMTP server rejected from "
-                + smtpFromAddress);
-          }
-
-          for (String emailAddress : smtpRcptTo) {
-            if (!client.addRecipient(emailAddress)) {
-              String error = client.getReplyString();
-              throw new EmailException("SMTP server rejected rcpt "
-                  + emailAddress + ": " + error);
-            }
-          }
-
-          if (headers.get("Message-ID").isEmpty()) {
-            final StringBuilder rndid = new StringBuilder();
-            rndid.append("<");
-            rndid.append(System.currentTimeMillis());
-            rndid.append("-");
-            rndid.append(Integer.toString(RNG.nextInt(999999), 36));
-            rndid.append("@");
-            rndid.append(InetAddress.getLocalHost().getCanonicalHostName());
-            rndid.append(">");
-            setHeader("Message-ID", rndid.toString());
-          }
-
-          Writer w = client.sendMessageData();
-          if (w == null) {
-            throw new EmailException("SMTP server rejected message body");
-          }
-          w = new BufferedWriter(w);
-
-          for (Map.Entry<String, EmailHeader> h : headers.entrySet()) {
-            if (!h.getValue().isEmpty()) {
-              w.write(h.getKey());
-              w.write(": ");
-              h.getValue().write(w);
-              w.write("\r\n");
-            }
-          }
-
-          w.write("\r\n");
-          w.write(body.toString());
-          w.flush();
-          w.close();
-
-          if (!client.completePendingCommand()) {
-            throw new EmailException("SMTP server rejected message body");
-          }
-
-          client.logout();
-        } finally {
-          client.disconnect();
-        }
-      } catch (IOException e) {
-        throw new EmailException("Cannot send outgoing email", e);
+      if (headers.get("Message-ID").isEmpty()) {
+        final StringBuilder rndid = new StringBuilder();
+        rndid.append("<");
+        rndid.append(System.currentTimeMillis());
+        rndid.append("-");
+        rndid.append(Integer.toString(RNG.nextInt(999999), 36));
+        rndid.append("@");
+        rndid.append(SystemReader.getInstance().getHostname());
+        rndid.append(">");
+        setHeader("Message-ID", rndid.toString());
       }
+
+      emailSender.send(smtpFromAddress, smtpRcptTo, headers, body.toString());
     }
   }
 
@@ -235,11 +188,6 @@ public abstract class OutgoingEmail {
       setChangeSubjectHeader();
     }
     setHeader("Message-ID", "");
-    setHeader("MIME-Version", "1.0");
-    setHeader("Content-Type", "text/plain; charset=UTF-8");
-    setHeader("Content-Transfer-Encoding", "8bit");
-    setHeader("Content-Disposition", "inline");
-    setHeader("User-Agent", "Gerrit/" + Version.getVersion());
     setHeader("X-Gerrit-MessageType", messageClass);
     if (change != null) {
       setHeader("X-Gerrit-ChangeId", "" + change.getChangeId());
@@ -626,7 +574,7 @@ public abstract class OutgoingEmail {
   /** Schedule delivery of this message to the given account. */
   protected void add(final RecipientType rt, final Address addr) {
     if (addr != null && addr.email != null && addr.email.length() > 0) {
-      smtpRcptTo.add(addr.email);
+      smtpRcptTo.add(addr);
       switch (rt) {
         case TO:
           ((EmailHeader.AddressList) headers.get(HDR_TO)).add(addr);

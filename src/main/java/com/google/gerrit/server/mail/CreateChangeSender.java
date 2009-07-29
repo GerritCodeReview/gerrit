@@ -28,8 +28,8 @@ import java.util.Set;
 
 /** Notify interested parties of a brand new change. */
 public class CreateChangeSender extends NewChangeSender {
-  public CreateChangeSender(GerritServer gs, Change c) {
-    super(gs, c);
+  public CreateChangeSender(GerritServer gs, EmailSender sf, Change c) {
+    super(gs, sf, c);
   }
 
   @Override

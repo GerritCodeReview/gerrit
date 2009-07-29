@@ -47,6 +47,7 @@ import com.google.gerrit.server.mail.AbandonedSender;
 import com.google.gerrit.server.mail.AddReviewerSender;
 import com.google.gerrit.server.mail.CommentSender;
 import com.google.gerrit.server.mail.EmailException;
+import com.google.gerrit.server.mail.EmailSender;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
@@ -70,13 +71,15 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
   private final Logger log = LoggerFactory.getLogger(getClass());
   private final GerritServer server;
   private final FileTypeRegistry registry;
+  private final EmailSender emailSender;
 
   @Inject
   PatchDetailServiceImpl(final SchemaFactory<ReviewDb> sf,
-      final GerritServer gs, final FileTypeRegistry ftr) {
+      final GerritServer gs, final FileTypeRegistry ftr, final EmailSender es) {
     super(sf);
     server = gs;
     registry = ftr;
+    emailSender = es;
   }
 
   public void patchScript(final Patch.Key patchKey, final PatchSet.Id psa,
@@ -173,7 +176,8 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
         });
 
         try {
-          final CommentSender cm = new CommentSender(server, r.change);
+          final CommentSender cm;
+          cm = new CommentSender(server, emailSender, r.change);
           cm.setFrom(Common.getAccountId());
           cm.setPatchSet(r.patchSet, r.info);
           cm.setChangeMessage(r.message);
@@ -357,7 +361,8 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
 
         // Email the reviewer
         try {
-          final AddReviewerSender cm = new AddReviewerSender(server, change);
+          final AddReviewerSender cm;
+          cm = new AddReviewerSender(server, emailSender, change);
           cm.setFrom(Common.getAccountId());
           cm.setReviewDb(db);
           cm.addReviewers(reviewerIds);
@@ -439,7 +444,8 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
         if (dbSuccess) {
           // Email the reviewers
           try {
-            final AbandonedSender cm = new AbandonedSender(server, change);
+            final AbandonedSender cm;
+            cm = new AbandonedSender(server, emailSender, change);
             cm.setFrom(me);
             cm.setReviewDb(db);
             cm.setChangeMessage(cmsg);

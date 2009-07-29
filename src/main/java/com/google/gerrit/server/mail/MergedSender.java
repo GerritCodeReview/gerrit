@@ -34,8 +34,8 @@ import java.util.Map;
 public class MergedSender extends ReplyToChangeSender {
   private Branch.NameKey dest;
 
-  public MergedSender(GerritServer gs, Change c) {
-    super(gs, c, "merged");
+  public MergedSender(GerritServer gs, EmailSender sf, Change c) {
+    super(gs, sf, c, "merged");
     dest = c.getDest();
   }
 

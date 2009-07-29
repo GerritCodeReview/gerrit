@@ -28,8 +28,8 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
   private final Set<Account.Id> reviewers = new HashSet<Account.Id>();
   private final Set<Account.Id> extraCC = new HashSet<Account.Id>();
 
-  public ReplacePatchSetSender(GerritServer gs, Change c) {
-    super(gs, c, "newpatchset");
+  public ReplacePatchSetSender(GerritServer gs, EmailSender sf, Change c) {
+    super(gs, sf, c, "newpatchset");
   }
 
   public void addReviewers(final Collection<Account.Id> cc) {

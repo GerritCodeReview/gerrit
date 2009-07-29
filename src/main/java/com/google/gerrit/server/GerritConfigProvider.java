@@ -20,6 +20,7 @@ import com.google.gerrit.client.data.GitwebLink;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
+import com.google.gerrit.server.mail.EmailSender;
 import com.google.gerrit.server.ssh.GerritSshDaemon;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
@@ -42,6 +43,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
   private final GerritServer server;
   private final SchemaFactory<ReviewDb> schema;
   private GerritSshDaemon sshd;
+  private EmailSender emailSender;
 
   @Inject
   GerritConfigProvider(final GerritServer gs, final SchemaFactory<ReviewDb> sf) {
@@ -54,6 +56,11 @@ class GerritConfigProvider implements Provider<GerritConfig> {
     sshd = d;
   }
 
+  @Inject(optional = true)
+  void setEmailSender(final EmailSender d) {
+    emailSender = d;
+  }
+
   private GerritConfig create() throws OrmException {
     final Config cfg = server.getGerritConfig();
     final GerritConfig config = new GerritConfig();
@@ -64,7 +71,8 @@ class GerritConfigProvider implements Provider<GerritConfig> {
     config.setUseRepoDownload(cfg.getBoolean("repo", null,
         "showdownloadcommand", false));
     config.setUseContactInfo(server.getContactStoreURL() != null);
-    config.setAllowRegisterNewEmail(server.isOutgoingMailEnabled());
+    config.setAllowRegisterNewEmail(emailSender != null
+        && emailSender.isEnabled());
     config.setLoginType(server.getLoginType());
 
     final String gitwebUrl = cfg.getString("gitweb", null, "url");

@@ -31,6 +31,7 @@ import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.mail.MergeFailSender;
 import com.google.gerrit.server.mail.MergedSender;
+import com.google.gerrit.server.mail.EmailSender;
 import com.google.gerrit.server.workflow.CategoryFunction;
 import com.google.gerrit.server.workflow.FunctionState;
 import com.google.gwtorm.client.OrmException;
@@ -99,6 +100,7 @@ public class MergeOp {
   private final GerritServer server;
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final ReplicationQueue replication;
+  private final EmailSender emailSender;
   private final PersonIdent myIdent;
   private final Branch.NameKey destBranch;
   private Project destProject;
@@ -114,10 +116,12 @@ public class MergeOp {
   private RefUpdate branchUpdate;
 
   public MergeOp(final GerritServer gs, final SchemaFactory<ReviewDb> sf,
-      final ReplicationQueue rq, final Branch.NameKey branch) {
+      final ReplicationQueue rq, final EmailSender es,
+      final Branch.NameKey branch) {
     server = gs;
     schemaFactory = sf;
     replication = rq;
+    emailSender = es;
     myIdent = server.newGerritPersonIdent();
     destBranch = branch;
     toMerge = new ArrayList<CodeReviewCommit>();
@@ -807,7 +811,8 @@ public class MergeOp {
           }
 
           try {
-            final MergeFailSender cm = new MergeFailSender(server, c);
+            final MergeFailSender cm;
+            cm = new MergeFailSender(server, emailSender, c);
             final ChangeApproval submitter = getSubmitter(c.getId());
             if (submitter != null) {
               cm.setFrom(submitter.getAccountId());
@@ -924,7 +929,8 @@ public class MergeOp {
     }
 
     try {
-      final MergedSender cm = new MergedSender(server, c);
+      final MergedSender cm;
+      cm = new MergedSender(server, emailSender, c);
       if (submitter != null) {
         cm.setFrom(submitter.getAccountId());
       }
@@ -966,8 +972,9 @@ public class MergeOp {
     }
 
     try {
-      final MergeFailSender cm = new MergeFailSender(server, c);
       final ChangeApproval submitter = getSubmitter(c.getId());
+      final MergeFailSender cm;
+      cm = new MergeFailSender(server, emailSender, c);
       if (submitter != null) {
         cm.setFrom(submitter.getAccountId());
       }

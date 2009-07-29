@@ -27,9 +27,9 @@ public class RegisterNewEmailSender extends OutgoingEmail {
   private final HttpServletRequest req;
   private final String addr;
 
-  public RegisterNewEmailSender(final GerritServer srv, final String address,
-      final HttpServletRequest request) {
-    super(srv, null, "registernewemail");
+  public RegisterNewEmailSender(final GerritServer gs, final EmailSender sf,
+      final String address, final HttpServletRequest request) {
+    super(gs, sf, null, "registernewemail");
     addr = address;
     req = request;
   }

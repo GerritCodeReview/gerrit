@@ -19,8 +19,8 @@ import com.google.gerrit.server.GerritServer;
 
 /** Asks a user to review a change. */
 public class AddReviewerSender extends NewChangeSender {
-  public AddReviewerSender(GerritServer gs, Change c) {
-    super(gs, c);
+  public AddReviewerSender(GerritServer gs, EmailSender sf, Change c) {
+    super(gs, sf, c);
   }
 
   @Override

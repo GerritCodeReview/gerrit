@@ -33,8 +33,8 @@ import java.util.Map;
 public class CommentSender extends ReplyToChangeSender {
   private List<PatchLineComment> inlineComments = Collections.emptyList();
 
-  public CommentSender(GerritServer gs, Change c) {
-    super(gs, c, "comment");
+  public CommentSender(GerritServer gs, EmailSender sf, Change c) {
+    super(gs, sf, c, "comment");
   }
 
   public void setPatchLineComments(final List<PatchLineComment> plc) {

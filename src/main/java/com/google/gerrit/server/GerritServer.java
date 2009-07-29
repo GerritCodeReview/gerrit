@@ -23,7 +23,6 @@ import com.google.gerrit.client.reviewdb.SystemConfig.LoginType;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePath;
-import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.patch.DiffCacheEntryFactory;
 import com.google.gerrit.server.ssh.SshKeyCacheEntryFactory;
 import com.google.gwtjsonrpc.server.SignedToken;
@@ -41,9 +40,6 @@ import net.sf.ehcache.config.DiskStoreConfiguration;
 import net.sf.ehcache.constructs.blocking.SelfPopulatingCache;
 import net.sf.ehcache.store.MemoryStoreEvictionPolicy;
 
-import org.apache.commons.net.smtp.AuthSMTPClient;
-import org.apache.commons.net.smtp.SMTPClient;
-import org.apache.commons.net.smtp.SMTPReply;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spearce.jgit.errors.RepositoryNotFoundException;
@@ -268,60 +264,6 @@ public class GerritServer {
     r = new SelfPopulatingCache(dc, new SshKeyCacheEntryFactory(db));
     cacheMgr.replaceCacheWithDecoratedCache(dc, r);
     return r;
-  }
-
-  public boolean isOutgoingMailEnabled() {
-    return getGerritConfig().getBoolean("sendemail", null, "enable", true);
-  }
-
-  public SMTPClient createOutgoingMail() throws EmailException {
-    if (!isOutgoingMailEnabled()) {
-      throw new EmailException("Sending email is disabled");
-    }
-
-    final Config cfg = getGerritConfig();
-    String smtpHost = cfg.getString("sendemail", null, "smtpserver");
-    if (smtpHost == null) {
-      smtpHost = "127.0.0.1";
-    }
-    int smtpPort = cfg.getInt("sendemail", null, "smtpserverport", 25);
-
-    String smtpUser = cfg.getString("sendemail", null, "smtpuser");
-    String smtpPass = cfg.getString("sendemail", null, "smtpuserpass");
-
-    final AuthSMTPClient client = new AuthSMTPClient("UTF-8");
-    client.setAllowRcpt(cfg.getStringList("sendemail", null, "allowrcpt"));
-    try {
-      client.connect(smtpHost, smtpPort);
-      if (!SMTPReply.isPositiveCompletion(client.getReplyCode())) {
-        throw new EmailException("SMTP server rejected connection");
-      }
-      if (!client.login()) {
-        String e = client.getReplyString();
-        throw new EmailException("SMTP server rejected login: " + e);
-      }
-      if (smtpUser != null && !client.auth(smtpUser, smtpPass)) {
-        String e = client.getReplyString();
-        throw new EmailException("SMTP server rejected auth: " + e);
-      }
-    } catch (IOException e) {
-      if (client.isConnected()) {
-        try {
-          client.disconnect();
-        } catch (IOException e2) {
-        }
-      }
-      throw new EmailException(e.getMessage(), e);
-    } catch (EmailException e) {
-      if (client.isConnected()) {
-        try {
-          client.disconnect();
-        } catch (IOException e2) {
-        }
-      }
-      throw e;
-    }
-    return client;
   }
 
   /** Time (in seconds) that user sessions stay "signed in". */

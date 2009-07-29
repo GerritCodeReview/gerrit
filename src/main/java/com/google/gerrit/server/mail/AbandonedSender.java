@@ -19,8 +19,8 @@ import com.google.gerrit.server.GerritServer;
 
 /** Send notice about a change being abandoned by its owner. */
 public class AbandonedSender extends ReplyToChangeSender {
-  public AbandonedSender(GerritServer gs, Change c) {
-    super(gs, c, "abandon");
+  public AbandonedSender(GerritServer gs, EmailSender sf, Change c) {
+    super(gs, sf, c, "abandon");
   }
 
   @Override

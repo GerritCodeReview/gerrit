@@ -30,6 +30,7 @@ import com.google.gerrit.client.rpc.InvalidSshKeyException;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.mail.RegisterNewEmailSender;
+import com.google.gerrit.server.mail.EmailSender;
 import com.google.gerrit.server.ssh.SshUtil;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
@@ -64,13 +65,15 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
   private final Logger log = LoggerFactory.getLogger(getClass());
   private final GerritServer server;
   private final ContactStore contactStore;
+  private final EmailSender emailSender;
 
   @Inject
   AccountSecurityImpl(final SchemaFactory<ReviewDb> sf, final GerritServer gs,
-      final ContactStore cs) {
+      final ContactStore cs, final EmailSender es) {
     super(sf);
     server = gs;
     contactStore = cs;
+    emailSender = es;
   }
 
   public void mySshKeys(final AsyncCallback<List<AccountSshKey>> callback) {
@@ -286,7 +289,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
         GerritJsonServlet.getCurrentCall().getHttpServletRequest();
     try {
       final RegisterNewEmailSender sender;
-      sender = new RegisterNewEmailSender(server, address, req);
+      sender = new RegisterNewEmailSender(server, emailSender, address, req);
       sender.send();
       cb.onSuccess(VoidResult.INSTANCE);
     } catch (EmailException e) {

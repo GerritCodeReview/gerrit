@@ -19,8 +19,8 @@ import com.google.gerrit.server.GerritServer;
 
 /** Send notice about a change failing to merged. */
 public class MergeFailSender extends ReplyToChangeSender {
-  public MergeFailSender(GerritServer gs, Change c) {
-    super(gs, c, "comment");
+  public MergeFailSender(GerritServer gs, EmailSender sf, Change c) {
+    super(gs, sf, c, "comment");
   }
 
   @Override

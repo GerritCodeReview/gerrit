@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAdX///8o\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/patch/PatchSetInfoFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-29T18:36:49Z",
+      "side": 1,
+      "message": "Like the method below, I wonder if this name can\u0027t be shorter.  I mean clearly we want a patchSetInfo, we are asking the PatchSetInfoFactory for one.  And clearly we have a RevCommit, its in the type argument we are passing.",
+      "revId": "bc52bd5913862ac8a3b39a297ca51491e129264d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAdX///8w\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/patch/PatchSetInfoFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-29T18:36:49Z",
+      "side": 1,
+      "message": "This method name is reeeeeeeeeeeeealy long.\n\nIs get(PatchSet.Id) just too short?",
+      "revId": "bc52bd5913862ac8a3b39a297ca51491e129264d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

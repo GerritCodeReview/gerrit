@@ -15,27 +15,13 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.data.AccountInfoCache;
-import com.google.gerrit.client.data.AccountInfoCacheFactory;
-import com.google.gerrit.client.data.ApprovalType;
-import com.google.gerrit.client.data.GerritConfig;
-import com.google.gerrit.client.data.ProjectCache;
-import com.google.gerrit.client.reviewdb.Account;
-import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.ChangeApproval;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
-import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.PatchSetInfo;
-import com.google.gerrit.client.reviewdb.ProjectRight;
-import com.google.gerrit.client.reviewdb.ReviewDb;
-import com.google.gerrit.client.rpc.Common;
-import com.google.gwtorm.client.OrmException;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -48,59 +34,37 @@ public class PatchSetPublishDetail {
   protected Map<ApprovalCategory.Id, Set<ApprovalCategoryValue.Id>> allowed;
   protected Map<ApprovalCategory.Id, ChangeApproval> given;
 
-  public void load(final ReviewDb db, final Change c, final PatchSet.Id psi)
-      throws OrmException {
-    final AccountInfoCacheFactory acc = new AccountInfoCacheFactory(db);
-    final Account.Id me = Common.getAccountId();
-    change = c;
-    patchSetInfo = db.patchSetInfo().get(psi);
-    drafts = db.patchComments().draft(psi, me).toList();
-
-    allowed = new HashMap<ApprovalCategory.Id, Set<ApprovalCategoryValue.Id>>();
-    given = new HashMap<ApprovalCategory.Id, ChangeApproval>();
-    if (change.getStatus().isOpen() && psi.equals(change.currentPatchSetId())) {
-      computeAllowed();
-      for (final ChangeApproval a : db.changeApprovals().byChangeUser(
-          c.getId(), me)) {
-        given.put(a.getCategoryId(), a);
-      }
-    }
-
-    acc.want(change.getOwner());
-    accounts = acc.create();
+  public Map<ApprovalCategory.Id, Set<ApprovalCategoryValue.Id>> getAllowed() {
+    return allowed;
   }
 
-  private void computeAllowed() {
-    final Account.Id me = Common.getAccountId();
-    final Set<AccountGroup.Id> am = Common.getGroupCache().getEffectiveGroups(me);
-    final ProjectCache.Entry pe =
-        Common.getProjectCache().get(change.getDest().getParentKey());
-    computeAllowed(am, pe.getRights());
-    computeAllowed(am, Common.getProjectCache().getWildcardRights());
+  public void setAllowed(
+      Map<ApprovalCategory.Id, Set<ApprovalCategoryValue.Id>> allowed) {
+    this.allowed = allowed;
   }
 
-  private void computeAllowed(final Set<AccountGroup.Id> am,
-      final Collection<ProjectRight> list) {
-    final GerritConfig cfg = Common.getGerritConfig();
-    for (final ProjectRight r : list) {
-      if (!am.contains(r.getAccountGroupId())) {
-        continue;
-      }
+  public Map<ApprovalCategory.Id, ChangeApproval> getGiven() {
+    return given;
+  }
 
-      Set<ApprovalCategoryValue.Id> s = allowed.get(r.getApprovalCategoryId());
-      if (s == null) {
-        s = new HashSet<ApprovalCategoryValue.Id>();
-        allowed.put(r.getApprovalCategoryId(), s);
-      }
+  public void setGiven(Map<ApprovalCategory.Id, ChangeApproval> given) {
+    this.given = given;
+  }
 
-      final ApprovalType at = cfg.getApprovalType(r.getApprovalCategoryId());
-      for (short m = r.getMinValue(); m <= r.getMaxValue(); m++) {
-        final ApprovalCategoryValue v = at.getValue(m);
-        if (v != null) {
-          s.add(v.getId());
-        }
-      }
-    }
+  public void setAccounts(AccountInfoCache accounts) {
+    this.accounts = accounts;
+  }
+
+  public void setPatchSetInfo(PatchSetInfo patchSetInfo) {
+    this.patchSetInfo = patchSetInfo;
+  }
+
+  public void setChange(Change change) {
+    this.change = change;
+  }
+
+  public void setDrafts(List<PatchLineComment> drafts) {
+    this.drafts = drafts;
   }
 
   public AccountInfoCache getAccounts() {

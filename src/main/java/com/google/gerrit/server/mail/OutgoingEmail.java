@@ -110,7 +110,7 @@ public abstract class OutgoingEmail {
 
   /**
    * Format and enqueue the message for delivery.
-   * 
+   *
    * @throws EmailException
    */
   public void send() throws EmailException {

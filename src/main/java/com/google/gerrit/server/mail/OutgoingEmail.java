@@ -237,6 +237,7 @@ public abstract class OutgoingEmail {
     setHeader("Message-ID", "");
     setHeader("MIME-Version", "1.0");
     setHeader("Content-Type", "text/plain; charset=UTF-8");
+    setHeader("Content-Transfer-Encoding", "8bit");
     setHeader("Content-Disposition", "inline");
     setHeader("User-Agent", "Gerrit/" + Version.getVersion());
     setHeader("X-Gerrit-MessageType", messageClass);

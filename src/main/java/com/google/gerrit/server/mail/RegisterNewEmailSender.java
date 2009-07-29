@@ -15,6 +15,7 @@
 package com.google.gerrit.server.mail;
 
 import com.google.gerrit.server.GerritServer;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -27,19 +28,22 @@ import javax.servlet.http.HttpServletRequest;
 
 public class RegisterNewEmailSender extends OutgoingEmail {
 
-  public static interface Factory {
+  public interface Factory {
     public RegisterNewEmailSender create(String address);
   }
 
   private final HttpServletRequest req;
   private final String addr;
+  private final AuthConfig authConfig;
 
   @Inject
   public RegisterNewEmailSender(final GerritServer gs, final EmailSender sf,
-      @Assisted final String address, final HttpServletRequest request) {
+      final HttpServletRequest request, final AuthConfig ac,
+      @Assisted final String address) {
     super(gs, sf, null, "registernewemail");
     addr = address;
     req = request;
+    authConfig = ac;
   }
 
   @Override
@@ -62,7 +66,7 @@ public class RegisterNewEmailSender extends OutgoingEmail {
     url.setLength(url.lastIndexOf("/")); // cut "gerrit"
     url.append("/Gerrit#VE,");
     try {
-      url.append(server.getEmailRegistrationToken().newToken(
+      url.append(authConfig.getEmailRegistrationToken().newToken(
           Base64.encodeBytes(addr.getBytes("UTF-8"))));
     } catch (XsrfException e) {
       throw new IllegalArgumentException(e);

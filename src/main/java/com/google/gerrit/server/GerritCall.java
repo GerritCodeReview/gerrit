@@ -20,6 +20,7 @@ import com.google.gerrit.client.reviewdb.AccountExternalId;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.Common.CurrentAccountImpl;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gwtjsonrpc.server.ActiveCall;
 import com.google.gwtjsonrpc.server.ValidToken;
 import com.google.gwtjsonrpc.server.XsrfException;
@@ -49,18 +50,18 @@ public class GerritCall extends ActiveCall {
     });
   }
 
-  private final GerritServer server;
+  private final AuthConfig authConfig;
   private final SchemaFactory<ReviewDb> schema;
   private boolean accountRead;
   private Account.Id accountId;
   private boolean rememberAccount;
 
   @Inject
-  GerritCall(final GerritServer gs, final SchemaFactory<ReviewDb> sf,
+  GerritCall(final AuthConfig ac, final SchemaFactory<ReviewDb> sf,
       final HttpServletRequest i, final HttpServletResponse o) {
     super(i, o);
+    authConfig = ac;
     schema = sf;
-    server = gs;
   }
 
   @Override
@@ -78,6 +79,20 @@ public class GerritCall extends ActiveCall {
     return accountId != null ? accountId.toString() : null;
   }
 
+  public void setAccount(final Account.Id id, final boolean remember) {
+    accountRead = true;
+    accountId = id;
+    rememberAccount = remember;
+    setAccountCookie();
+  }
+
+  public void logout() {
+    accountRead = true;
+    accountId = null;
+    rememberAccount = false;
+    setAccountCookie();
+  }
+
   public Account.Id getAccountId() {
     initAccount();
     return accountId;
@@ -90,7 +105,8 @@ public class GerritCall extends ActiveCall {
 
     accountRead = true;
     ValidToken accountInfo;
-    accountInfo = getCookie(Gerrit.ACCOUNT_COOKIE, server.getAccountToken());
+    accountInfo =
+        getCookie(Gerrit.ACCOUNT_COOKIE, authConfig.getAccountToken());
 
     if (accountInfo == null) {
       switch (Common.getGerritConfig().getLoginType()) {
@@ -133,7 +149,7 @@ public class GerritCall extends ActiveCall {
   }
 
   private boolean assumeHttp() {
-    final String hdr = server.getLoginHttpHeader();
+    final String hdr = authConfig.getLoginHttpHeader();
     String user;
     if (hdr != null && !"".equals(hdr)
         && !"Authorization".equalsIgnoreCase(hdr)) {
@@ -191,7 +207,7 @@ public class GerritCall extends ActiveCall {
           final Account.Id nid = new Account.Id(db.nextAccountId());
           final Account a = new Account(nid);
           a.setFullName(user);
-          final String efmt = server.getEmailFormat();
+          final String efmt = authConfig.getEmailFormat();
           if (efmt != null && efmt.contains("{0}")) {
             a.setPreferredEmail(MessageFormat.format(efmt, user));
           }
@@ -222,8 +238,8 @@ public class GerritCall extends ActiveCall {
     String val;
     int age;
     try {
-      val = server.getAccountToken().newToken(ac.toString());
-      age = ac.isRemember() ? server.getSessionAge() : -1;
+      val = authConfig.getAccountToken().newToken(ac.toString());
+      age = ac.isRemember() ? authConfig.getSessionAge() : -1;
     } catch (XsrfException e) {
       val = "";
       age = 0;

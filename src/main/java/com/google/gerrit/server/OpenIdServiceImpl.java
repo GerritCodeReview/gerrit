@@ -26,6 +26,7 @@ import com.google.gerrit.client.reviewdb.AccountExternalIdAccess;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.SystemConfig;
 import com.google.gerrit.client.rpc.Common;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.server.ValidToken;
 import com.google.gwtjsonrpc.server.XsrfException;
@@ -35,6 +36,8 @@ import com.google.gwtorm.client.ResultSet;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.gwtorm.client.Transaction;
 import com.google.inject.Inject;
+import com.google.inject.Injector;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import net.sf.ehcache.Element;
@@ -91,22 +94,22 @@ class OpenIdServiceImpl implements OpenIdService {
   private static final String SCHEMA_LASTNAME =
       "http://schema.openid.net/namePerson/last";
 
-  private static boolean useOpenID() {
-    return Common.getGerritConfig().getLoginType() == SystemConfig.LoginType.OPENID;
-  }
-
+  private final Provider<GerritCall> callFactory;
+  private final AuthConfig authConfig;
   private final GerritServer server;
   private final SchemaFactory<ReviewDb> schema;
   private final ConsumerManager manager;
   private final SelfPopulatingCache discoveryCache;
 
   @Inject
-  OpenIdServiceImpl(final GerritServer gs, final SchemaFactory<ReviewDb> sf)
-      throws ConsumerException {
+  OpenIdServiceImpl(final Injector i,final AuthConfig ac, final GerritServer gs,
+      final SchemaFactory<ReviewDb> sf) throws ConsumerException {
+    callFactory = i.getProvider(GerritCall.class);
+    authConfig = ac;
     server = gs;
     schema = sf;
     manager = new ConsumerManager();
-    if (useOpenID()) {
+    if (authConfig.getLoginType() == SystemConfig.LoginType.OPENID) {
       discoveryCache =
           new SelfPopulatingCache(server.getCache("openid"),
               new CacheEntryFactory() {
@@ -127,7 +130,7 @@ class OpenIdServiceImpl implements OpenIdService {
   public void discover(final String openidIdentifier,
       final SignInDialog.Mode mode, final boolean remember,
       final String returnToken, final AsyncCallback<DiscoveryResult> callback) {
-    if (!useOpenID()) {
+    if (authConfig.getLoginType() != SystemConfig.LoginType.OPENID) {
       callback.onFailure(new IllegalStateException("OpenID not enabled"));
       return;
     }
@@ -356,31 +359,25 @@ class OpenIdServiceImpl implements OpenIdService {
       }
     }
 
-    Cookie c = new Cookie(Gerrit.ACCOUNT_COOKIE, "");
-    c.setPath(req.getContextPath() + "/");
-
     if (account == null) {
       if (mode == SignInDialog.Mode.SIGN_IN) {
-        c.setMaxAge(0);
-        rsp.addCookie(c);
+        callFactory.get().logout();
       }
       cancel(req, rsp);
 
     } else if (mode == SignInDialog.Mode.SIGN_IN) {
       final boolean remember = "1".equals(req.getParameter(P_REMEMBER));
+      callFactory.get().setAccount(account.getId(), false);
 
-      new AccountCookie(account.getId(), remember).set(c, server);
-      rsp.addCookie(c);
-
-      c = new Cookie(OpenIdUtil.LASTID_COOKIE, "");
-      c.setPath(req.getContextPath() + "/");
+      final Cookie lastId = new Cookie(OpenIdUtil.LASTID_COOKIE, "");
+      lastId.setPath(req.getContextPath() + "/");
       if (remember) {
-        c.setValue(user.getIdentifier());
-        c.setMaxAge(LASTID_AGE);
+        lastId.setValue(user.getIdentifier());
+        lastId.setMaxAge(LASTID_AGE);
       } else {
-        c.setMaxAge(0);
+        lastId.setMaxAge(0);
       }
-      rsp.addCookie(c);
+      rsp.addCookie(lastId);
 
       callback(req, rsp);
 
@@ -396,7 +393,7 @@ class OpenIdServiceImpl implements OpenIdService {
     AccountExternalId acctExt = lookup(extAccess, user.getIdentifier());
 
     if (acctExt == null && email != null
-        && server.isAllowGoogleAccountUpgrade() && isGoogleAccount(user)) {
+        && authConfig.isAllowGoogleAccountUpgrade() && isGoogleAccount(user)) {
       acctExt = lookupGoogleAccount(extAccess, email);
       if (acctExt != null) {
         // Legacy user from Gerrit 1? Attach the OpenID identity.
@@ -455,7 +452,7 @@ class OpenIdServiceImpl implements OpenIdService {
       if (Gerrit.ACCOUNT_COOKIE.equals(c.getName())) {
         try {
           final ValidToken tok =
-              server.getAccountToken().checkToken(c.getValue(), null);
+              authConfig.getAccountToken().checkToken(c.getValue(), null);
           if (tok == null) {
             return null;
           }

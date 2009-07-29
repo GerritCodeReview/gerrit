@@ -28,6 +28,7 @@ import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.ContactInformationStoreException;
 import com.google.gerrit.client.rpc.InvalidSshKeyException;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.mail.RegisterNewEmailSender;
 import com.google.gerrit.server.ssh.SshUtil;
@@ -64,14 +65,17 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
   private final Logger log = LoggerFactory.getLogger(getClass());
   private final GerritServer server;
   private final ContactStore contactStore;
+  private final AuthConfig authConfig;
   private final RegisterNewEmailSender.Factory registerNewEmailFactory;
 
   @Inject
   AccountSecurityImpl(final SchemaFactory<ReviewDb> sf, final GerritServer gs,
-      final ContactStore cs, final RegisterNewEmailSender.Factory esf) {
+      final ContactStore cs, final AuthConfig ac,
+      final RegisterNewEmailSender.Factory esf) {
     super(sf);
     server = gs;
     contactStore = cs;
+    authConfig = ac;
     registerNewEmailFactory = esf;
   }
 
@@ -305,7 +309,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
     final String address;
     try {
       final ValidToken t =
-          server.getEmailRegistrationToken().checkToken(token, null);
+          authConfig.getEmailRegistrationToken().checkToken(token, null);
       if (t == null || t.getData() == null || "".equals(t.getData())) {
         callback.onFailure(new IllegalStateException("Invalid token"));
         return;

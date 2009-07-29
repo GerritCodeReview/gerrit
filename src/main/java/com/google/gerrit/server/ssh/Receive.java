@@ -43,11 +43,12 @@ import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.git.PatchSetImporter;
 import com.google.gerrit.git.ReplicationQueue;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.mail.EmailException;
+import com.google.gerrit.server.mail.EmailSender;
 import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
-import com.google.gerrit.server.mail.EmailSender;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.OrmRunnable;
 import com.google.gwtorm.client.Transaction;
@@ -128,6 +129,9 @@ class Receive extends AbstractGitCommand {
       throw new CmdLineException("database is down");
     }
   }
+
+  @Inject
+  private AuthConfig authConfig;
 
   @Inject
   private EmailSender emailSender;
@@ -363,7 +367,7 @@ class Receive extends AbstractGitCommand {
 
   private Account.Id toAccountId(final String nameOrEmail) throws OrmException,
       AccountNotFoundException {
-    final String efmt = server.getEmailFormat();
+    final String efmt = authConfig.getEmailFormat();
     final boolean haveFormat = efmt != null && efmt.contains("{0}");
     try {
       final HashSet<Account.Id> matches = new HashSet<Account.Id>();

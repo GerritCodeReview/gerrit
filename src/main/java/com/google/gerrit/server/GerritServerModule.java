@@ -23,7 +23,7 @@ import com.google.gerrit.git.ChangeMergeQueue;
 import com.google.gerrit.git.MergeQueue;
 import com.google.gerrit.git.PushReplication;
 import com.google.gerrit.git.ReplicationQueue;
-import com.google.gerrit.server.patch.PatchSetInfoFactory;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerConfigProvider;
 import com.google.gerrit.server.config.SitePath;
@@ -33,6 +33,7 @@ import com.google.gerrit.server.mail.AddReviewerSender;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.mail.EmailSender;
 import com.google.gerrit.server.mail.SmtpEmailSender;
+import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.gwtorm.jdbc.Database;
 import com.google.inject.AbstractModule;
@@ -66,6 +67,7 @@ public class GerritServerModule extends AbstractModule {
         SitePathProvider.class);
     bind(Config.class).annotatedWith(GerritServerConfig.class).toProvider(
         GerritServerConfigProvider.class).in(SINGLETON);
+    bind(AuthConfig.class);
 
     bind(GerritServer.class);
     bind(ContactStore.class).toProvider(EncryptedContactStoreProvider.class);

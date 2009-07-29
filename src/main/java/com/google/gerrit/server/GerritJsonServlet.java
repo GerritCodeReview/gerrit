@@ -16,6 +16,7 @@ package com.google.gerrit.server;
 
 import com.google.gerrit.client.rpc.NotSignedInException;
 import com.google.gerrit.client.rpc.SignInRequired;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gson.GsonBuilder;
 import com.google.gwtjsonrpc.client.RemoteJsonService;
 import com.google.gwtjsonrpc.server.JsonServlet;
@@ -38,20 +39,20 @@ public final class GerritJsonServlet extends JsonServlet<GerritCall> {
   }
 
   private final Provider<GerritCall> callFactory;
-  private final GerritServer server;
   private final RemoteJsonService service;
+  private final SignedToken xsrf;
 
   @Inject
-  GerritJsonServlet(final Injector i, final GerritServer gs,
+  GerritJsonServlet(final Injector i, final AuthConfig authConfig,
       final RemoteJsonService s) {
     callFactory = i.getProvider(GerritCall.class);
-    server = gs;
     service = s;
+    xsrf = authConfig.getXsrfToken();
   }
 
   @Override
   protected SignedToken createXsrfSignedToken() {
-    return server.getXsrfToken();
+    return xsrf;
   }
 
   @Override

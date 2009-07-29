@@ -14,12 +14,13 @@
 
 package com.google.gerrit.server;
 
-import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
+import com.google.inject.Injector;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import java.io.IOException;
@@ -27,7 +28,6 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.ServletOutputStream;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -45,13 +45,13 @@ public class BecomeAnyAccountLoginServlet extends HttpServlet {
 
   private final boolean allowed;
   private final SchemaFactory<ReviewDb> schema;
-  private final GerritServer server;
+  private final Provider<GerritCall> callFactory;
 
   @Inject
-  BecomeAnyAccountLoginServlet(final SchemaFactory<ReviewDb> sf,
-      final GerritServer gs) {
+  BecomeAnyAccountLoginServlet(final Injector i,
+      final SchemaFactory<ReviewDb> sf) {
+    callFactory = i.getProvider(GerritCall.class);
     schema = sf;
-    server = gs;
     allowed = isAllowed();
   }
 
@@ -98,11 +98,11 @@ public class BecomeAnyAccountLoginServlet extends HttpServlet {
 
     if (accounts.size() == 1) {
       final Account account = accounts.get(0);
-      final Cookie c = new Cookie(Gerrit.ACCOUNT_COOKIE, "");
-      c.setPath(req.getContextPath() + "/");
-      new AccountCookie(account.getId(), false).set(c, server);
-      rsp.addCookie(c);
-      rsp.sendRedirect(c.getPath());
+      callFactory.get().setAccount(account.getId(), false);
+
+      final StringBuffer url = req.getRequestURL();
+      url.setLength(url.lastIndexOf("/")); // drop 'become'
+      rsp.sendRedirect(url.toString());
 
     } else {
       rsp.sendError(HttpServletResponse.SC_NOT_FOUND);

@@ -18,9 +18,6 @@ package com.google.gerrit.server;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gwtjsonrpc.server.ValidToken;
-import com.google.gwtjsonrpc.server.XsrfException;
-
-import javax.servlet.http.Cookie;
 
 
 /** Data encoded into the {@link Gerrit#ACCOUNT_COOKIE} value. */
@@ -39,16 +36,6 @@ class AccountCookie {
 
   boolean isRemember() {
     return remember;
-  }
-
-  void set(final Cookie c, final GerritServer gs) {
-    try {
-      c.setValue(gs.getAccountToken().newToken(toString()));
-      c.setMaxAge(isRemember() ? gs.getSessionAge() : -1);
-    } catch (XsrfException e) {
-      c.setValue("");
-      c.setMaxAge(0);
-    }
   }
 
   @Override

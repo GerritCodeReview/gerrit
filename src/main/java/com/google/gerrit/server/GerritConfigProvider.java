@@ -20,6 +20,7 @@ import com.google.gerrit.client.data.GitwebLink;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.mail.EmailSender;
 import com.google.gerrit.server.ssh.GerritSshDaemon;
@@ -42,6 +43,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
   }
 
   private final Config cfg;
+  private final AuthConfig authConfig;
   private final GerritServer server;
   private final SchemaFactory<ReviewDb> schema;
 
@@ -51,8 +53,10 @@ class GerritConfigProvider implements Provider<GerritConfig> {
 
   @Inject
   GerritConfigProvider(@GerritServerConfig final Config gsc,
-      final GerritServer gs, final SchemaFactory<ReviewDb> sf) {
+      final AuthConfig ac, final GerritServer gs,
+      final SchemaFactory<ReviewDb> sf) {
     cfg = gsc;
+    authConfig = ac;
     server = gs;
     schema = sf;
   }
@@ -83,7 +87,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
     config.setUseContactInfo(contactStore != null && contactStore.isEnabled());
     config.setAllowRegisterNewEmail(emailSender != null
         && emailSender.isEnabled());
-    config.setLoginType(server.getLoginType());
+    config.setLoginType(authConfig.getLoginType());
 
     final String gitwebUrl = cfg.getString("gitweb", null, "url");
     if (gitwebUrl != null) {

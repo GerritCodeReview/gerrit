@@ -21,12 +21,11 @@ import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.SystemConfig;
 import com.google.gerrit.client.reviewdb.SystemConfig.LoginType;
 import com.google.gerrit.client.rpc.Common;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.patch.DiffCacheEntryFactory;
 import com.google.gerrit.server.ssh.SshKeyCacheEntryFactory;
-import com.google.gwtjsonrpc.server.SignedToken;
-import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.jdbc.Database;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -95,37 +94,17 @@ public class GerritServer {
   private final Database<ReviewDb> db;
   private final File sitePath;
   private final Config gerritConfigFile;
-  private final int sessionAge;
-  private final SignedToken xsrf;
-  private final SignedToken account;
-  private final SignedToken emailReg;
   private final File basepath;
   private final SelfPopulatingCache diffCache;
   private final SelfPopulatingCache sshKeysCache;
 
   @Inject
   GerritServer(final Database<ReviewDb> database, final SystemConfig sConfig,
-      @SitePath final File path, @GerritServerConfig final Config cfg)
-      throws XsrfException {
+      @SitePath final File path, @GerritServerConfig final Config cfg,
+      final AuthConfig authConfig) {
     db = database;
     sitePath = path;
     gerritConfigFile = cfg;
-    sessionAge = cfg.getInt("auth", "maxsessionage", 12 * 60) * 60;
-
-    xsrf = new SignedToken(getSessionAge(), sConfig.xsrfPrivateKey);
-
-    final int accountCookieAge;
-    switch (getLoginType()) {
-      case HTTP:
-        accountCookieAge = -1; // expire when the browser closes
-        break;
-      case OPENID:
-      default:
-        accountCookieAge = getSessionAge();
-        break;
-    }
-    account = new SignedToken(accountCookieAge, sConfig.accountPrivateKey);
-    emailReg = new SignedToken(5 * 24 * 60 * 60, sConfig.accountPrivateKey);
 
     final String basePath = cfg.getString("gerrit", null, "basepath");
     if (basePath != null) {
@@ -143,17 +122,17 @@ public class GerritServer {
     Common.setAccountCache(new AccountCache());
     Common.setGroupCache(new GroupCache(sConfig));
 
-    cacheMgr = new CacheManager(createCacheConfiguration());
+    cacheMgr = new CacheManager(createCacheConfiguration(authConfig));
     diffCache = startCacheDiff();
     sshKeysCache = startCacheSshKeys();
   }
 
-  private Configuration createCacheConfiguration() {
+  private Configuration createCacheConfiguration(final AuthConfig authConfig) {
     final Configuration mgrCfg = new Configuration();
     configureDiskStore(mgrCfg);
     configureDefaultCache(mgrCfg);
 
-    if (getLoginType() == LoginType.OPENID) {
+    if (authConfig.getLoginType() == LoginType.OPENID) {
       final CacheConfiguration c;
       c = configureNamedCache(mgrCfg, "openid", false, 5);
       c.setTimeToLiveSeconds(c.getTimeToIdleSeconds());
@@ -266,47 +245,6 @@ public class GerritServer {
     return r;
   }
 
-  /** Time (in seconds) that user sessions stay "signed in". */
-  public int getSessionAge() {
-    return sessionAge;
-  }
-
-  /** Get the signature support used to protect against XSRF attacks. */
-  public SignedToken getXsrfToken() {
-    return xsrf;
-  }
-
-  /** Get the signature support used to protect user identity cookies. */
-  public SignedToken getAccountToken() {
-    return account;
-  }
-
-  /** Get the signature used for email registration/validation links. */
-  public SignedToken getEmailRegistrationToken() {
-    return emailReg;
-  }
-
-  public SystemConfig.LoginType getLoginType() {
-    String type = getGerritConfig().getString("auth", null, "type");
-    if (type == null) {
-      return SystemConfig.LoginType.OPENID;
-    }
-    for (SystemConfig.LoginType t : SystemConfig.LoginType.values()) {
-      if (type.equalsIgnoreCase(t.name())) {
-        return t;
-      }
-    }
-    throw new IllegalStateException("Unsupported auth.type: " + type);
-  }
-
-  public String getLoginHttpHeader() {
-    return getGerritConfig().getString("auth", null, "httpheader");
-  }
-
-  public String getEmailFormat() {
-    return getGerritConfig().getString("auth", null, "emailformat");
-  }
-
   /** Optional canonical URL for this application. */
   public String getCanonicalURL() {
     String u = getGerritConfig().getString("gerrit", null, "canonicalweburl");
@@ -402,10 +340,5 @@ public class GerritServer {
       email = "gerrit@localhost";
     }
     return new PersonIdent(name, email);
-  }
-
-  public boolean isAllowGoogleAccountUpgrade() {
-    return getGerritConfig().getBoolean("auth", "allowgoogleaccountupgrade",
-        false);
   }
 }

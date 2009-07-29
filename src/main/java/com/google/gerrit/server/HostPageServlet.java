@@ -18,6 +18,7 @@ import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
+import com.google.gerrit.server.config.SitePath;
 import com.google.gwt.user.server.rpc.RPCServletUtils;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
@@ -46,6 +47,7 @@ import javax.servlet.http.HttpServletResponse;
 @Singleton
 public class HostPageServlet extends HttpServlet {
   private final GerritServer server;
+  private final File sitePath;
   private final SchemaFactory<ReviewDb> schema;
   private final GerritConfig config;
 
@@ -54,9 +56,10 @@ public class HostPageServlet extends HttpServlet {
   private Document hostDoc;
 
   @Inject
-  HostPageServlet(final GerritServer gs, final SchemaFactory<ReviewDb> sf,
-      final GerritConfig gc) {
+  HostPageServlet(final GerritServer gs, @SitePath final File path,
+      final SchemaFactory<ReviewDb> sf, final GerritConfig gc) {
     server = gs;
+    sitePath = path;
     schema = sf;
     config = gc;
   }
@@ -65,7 +68,6 @@ public class HostPageServlet extends HttpServlet {
   public void init(ServletConfig config) throws ServletException {
     super.init(config);
 
-    final File sitePath = server.getSitePath();
     canonicalUrl = server.getCanonicalURL();
     wantSSL = canonicalUrl != null && canonicalUrl.startsWith("https:");
 

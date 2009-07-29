@@ -15,7 +15,7 @@
 package com.google.gerrit.git;
 
 import com.google.gerrit.client.reviewdb.Project;
-import com.google.gerrit.server.GerritServer;
+import com.google.gerrit.server.config.SitePath;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 
@@ -60,14 +60,12 @@ public class PushReplication implements ReplicationQueue {
   }
 
   private final Injector injector;
-  private final GerritServer server;
   private final List<ReplicationConfig> configs;
 
   @Inject
-  PushReplication(final Injector i, final GerritServer gs) {
+  PushReplication(final Injector i, @SitePath final File sitePath) {
     injector = i;
-    server = gs;
-    configs = allConfigs();
+    configs = allConfigs(sitePath);
   }
 
   @Override
@@ -102,12 +100,7 @@ public class PushReplication implements ReplicationQueue {
     return pat.substring(0, n) + val + pat.substring(n + 3 + key.length());
   }
 
-  private synchronized List<ReplicationConfig> allConfigs() {
-    final File path = server.getSitePath();
-    if (path == null) {
-      return Collections.emptyList();
-    }
-
+  private List<ReplicationConfig> allConfigs(final File path) {
     final File cfgFile = new File(path, "replication.config");
     final RepositoryConfig cfg = new RepositoryConfig(null, cfgFile);
     try {

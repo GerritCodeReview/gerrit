@@ -19,6 +19,7 @@ import com.google.gerrit.client.reviewdb.AccountExternalId;
 import com.google.gerrit.client.reviewdb.ContactInformation;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.ContactInformationStoreException;
+import com.google.gerrit.server.config.SitePath;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 
@@ -59,28 +60,27 @@ import java.util.TimeZone;
 class EncryptedContactStore implements ContactStore {
   private static final TimeZone UTC = TimeZone.getTimeZone("UTC");
 
-  private final GerritServer server;
   private final SchemaFactory<ReviewDb> schema;
   private PGPPublicKey dest;
   private SecureRandom prng;
   private URL storeUrl;
   private String storeAPPSEC;
 
-  EncryptedContactStore(final GerritServer gs, final SchemaFactory<ReviewDb> sf)
+  EncryptedContactStore(final GerritServer server,
+      @SitePath final File sitePath, final SchemaFactory<ReviewDb> sf)
       throws ContactInformationStoreException {
-    server = gs;
     schema = sf;
 
-    if (gs.getContactStoreURL() == null) {
+    if (server.getContactStoreURL() == null) {
       throw new ContactInformationStoreException(new IllegalStateException(
           "No contactStoreURL configured"));
     }
     try {
-      storeUrl = new URL(gs.getContactStoreURL());
+      storeUrl = new URL(server.getContactStoreURL());
     } catch (MalformedURLException e) {
       throw new ContactInformationStoreException(e);
     }
-    storeAPPSEC = gs.getContactStoreAPPSEC();
+    storeAPPSEC = server.getContactStoreAPPSEC();
 
     if (!SecurityUtils.isBouncyCastleRegistered()) {
       throw new ContactInformationStoreException(new NoSuchProviderException(
@@ -93,12 +93,12 @@ class EncryptedContactStore implements ContactStore {
       throw new ContactInformationStoreException(e);
     }
 
-    dest = selectKey(readPubRing());
+    dest = selectKey(readPubRing(sitePath));
   }
 
-  private PGPPublicKeyRingCollection readPubRing()
+  private PGPPublicKeyRingCollection readPubRing(final File sitePath)
       throws ContactInformationStoreException {
-    final File pub = new File(server.getSitePath(), "contact_information.pub");
+    final File pub = new File(sitePath, "contact_information.pub");
     try {
       InputStream in = new FileInputStream(pub);
       try {

@@ -21,6 +21,7 @@ import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.SystemConfig;
 import com.google.gerrit.client.reviewdb.SystemConfig.LoginType;
 import com.google.gerrit.client.rpc.Common;
+import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.patch.DiffCacheEntryFactory;
 import com.google.gerrit.server.ssh.SshKeyCacheEntryFactory;
@@ -110,12 +111,12 @@ public class GerritServer {
   private final SelfPopulatingCache sshKeysCache;
 
   @Inject
-  GerritServer(final Database<ReviewDb> database, final SystemConfig sConfig)
-      throws OrmException, XsrfException {
+  GerritServer(final Database<ReviewDb> database, final SystemConfig sConfig,
+      @SitePath final File path) throws OrmException, XsrfException {
     db = database;
-    sitePath = sConfig.sitePath != null ? new File(sConfig.sitePath) : null;
+    sitePath = path;
 
-    final File cfgLoc = new File(getSitePath(), "gerrit.config");
+    final File cfgLoc = new File(sitePath, "gerrit.config");
     gerritConfigFile = new RepositoryConfig(null, cfgLoc);
     try {
       gerritConfigFile.load();
@@ -149,7 +150,7 @@ public class GerritServer {
     if (basePath != null) {
       File root = new File(basePath);
       if (!root.isAbsolute()) {
-        root = new File(getSitePath(), basePath);
+        root = new File(sitePath, basePath);
       }
       basepath = root;
     } else {
@@ -189,7 +190,7 @@ public class GerritServer {
       path = "disk_cache";
     }
 
-    final File loc = new File(getSitePath(), path);
+    final File loc = new File(sitePath, path);
     if (loc.exists() || loc.mkdirs()) {
       if (loc.canWrite()) {
         final DiskStoreConfiguration c = new DiskStoreConfiguration();
@@ -391,11 +392,6 @@ public class GerritServer {
 
   public String getContactStoreAPPSEC() {
     return getGerritConfig().getString("contactstore", null, "appsec");
-  }
-
-  /** Local filesystem location of header/footer/CSS configuration files. */
-  public File getSitePath() {
-    return sitePath;
   }
 
   /** Optional canonical URL for this application. */

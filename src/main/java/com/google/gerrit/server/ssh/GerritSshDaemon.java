@@ -15,6 +15,7 @@
 package com.google.gerrit.server.ssh;
 
 import com.google.gerrit.server.GerritServer;
+import com.google.gerrit.server.config.SitePath;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -127,7 +128,8 @@ public class GerritSshDaemon extends SshServer {
 
   @Inject
   public GerritSshDaemon(final GerritServer srv,
-      final CommandFactory commandFactory, final PublickeyAuthenticator userAuth) {
+      final CommandFactory commandFactory,
+      final PublickeyAuthenticator userAuth, @SitePath final File sitePath) {
     setPort(22/* never used */);
 
     final RepositoryConfig cfg = srv.getGerritConfig();
@@ -146,7 +148,7 @@ public class GerritSshDaemon extends SshServer {
     initChannels();
     initCompression();
     initUserAuth(userAuth);
-    setKeyPairProvider(initHostKey(srv));
+    setKeyPairProvider(initHostKey(sitePath));
     setCommandFactory(commandFactory);
     setShellFactory(new NoShell());
     setSessionFactory(new SessionFactory() {
@@ -474,9 +476,7 @@ public class GerritSshDaemon extends SshServer {
     setPublickeyAuthenticator(pubkey);
   }
 
-  private KeyPairProvider initHostKey(final GerritServer srv) {
-    final File sitePath = srv.getSitePath();
-
+  private KeyPairProvider initHostKey(final File sitePath) {
     final File anyKey = new File(sitePath, "ssh_host_key");
     final File rsaKey = new File(sitePath, "ssh_host_rsa_key");
     final File dsaKey = new File(sitePath, "ssh_host_dsa_key");

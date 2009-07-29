@@ -23,12 +23,16 @@ import com.google.gerrit.git.ChangeMergeQueue;
 import com.google.gerrit.git.MergeQueue;
 import com.google.gerrit.git.PushReplication;
 import com.google.gerrit.git.ReplicationQueue;
+import com.google.gerrit.server.config.SitePath;
+import com.google.gerrit.server.config.SitePathProvider;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.gwtorm.jdbc.Database;
 import com.google.inject.AbstractModule;
 import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
+
+import java.io.File;
 
 import javax.sql.DataSource;
 
@@ -47,6 +51,8 @@ public class GerritServerModule extends AbstractModule {
 
     bind(SystemConfig.class).toProvider(SystemConfigProvider.class).in(
         SINGLETON);
+    bind(File.class).annotatedWith(SitePath.class).toProvider(
+        SitePathProvider.class);
 
     bind(GerritServer.class);
     bind(ContactStore.class).toProvider(EncryptedContactStoreProvider.class);

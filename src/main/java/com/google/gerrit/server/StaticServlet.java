@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server;
 
+import com.google.gerrit.server.config.SitePath;
 import com.google.gwt.user.server.rpc.RPCServletUtils;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -88,11 +89,10 @@ public class StaticServlet extends HttpServlet {
   }
 
   private final File staticBase;
-  
+
   @Inject
-  StaticServlet(final GerritServer gs) {
-    final File p = gs.getSitePath();
-    staticBase = p != null ? new File(p, "static") : null;
+  StaticServlet(@SitePath final File sitePath) {
+    staticBase = new File(sitePath, "static");
   }
 
   private File local(final HttpServletRequest req) {

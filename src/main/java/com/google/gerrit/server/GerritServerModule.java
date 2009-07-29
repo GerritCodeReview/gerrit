@@ -29,12 +29,14 @@ import com.google.gerrit.server.config.GerritServerConfigProvider;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePathProvider;
 import com.google.gerrit.server.mail.EmailSender;
+import com.google.gerrit.server.mail.RegisterNewEmailSender;
 import com.google.gerrit.server.mail.SmtpEmailSender;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.gwtorm.jdbc.Database;
 import com.google.inject.AbstractModule;
 import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
+import com.google.inject.assistedinject.FactoryProvider;
 import com.google.inject.name.Names;
 
 import org.spearce.jgit.lib.Config;
@@ -72,5 +74,8 @@ public class GerritServerModule extends AbstractModule {
     bind(GerritConfig.class).toProvider(GerritConfigProvider.class).in(
         SINGLETON);
     bind(PatchSetInfoFactory.class);
+    bind(RegisterNewEmailSender.Factory.class).toProvider(
+        FactoryProvider.newFactory(RegisterNewEmailSender.Factory.class,
+            RegisterNewEmailSender.class));
   }
 }

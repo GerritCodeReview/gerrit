@@ -33,6 +33,24 @@
       "revId": "bc52bd5913862ac8a3b39a297ca51491e129264d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAdX///8g\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/patch/PatchSetInfoFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2009-07-29T18:41:56Z",
+      "side": 1,
+      "message": "Inspired by:\nhttp://fiber-space.de/wordpress/?p\u003d1016 :)",
+      "parentUuid": "AAAAdX///8w\u003d",
+      "revId": "bc52bd5913862ac8a3b39a297ca51491e129264d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

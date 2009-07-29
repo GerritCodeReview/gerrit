@@ -22,13 +22,21 @@ import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.server.GerritServer;
 import com.google.gwtorm.client.OrmException;
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 
 import java.util.HashSet;
 import java.util.Set;
 
 /** Notify interested parties of a brand new change. */
 public class CreateChangeSender extends NewChangeSender {
-  public CreateChangeSender(GerritServer gs, EmailSender sf, Change c) {
+
+  public static interface Factory {
+    public CreateChangeSender create(Change change);
+  }
+
+  @Inject
+  public CreateChangeSender(GerritServer gs, EmailSender sf, @Assisted Change c) {
     super(gs, sf, c);
   }
 

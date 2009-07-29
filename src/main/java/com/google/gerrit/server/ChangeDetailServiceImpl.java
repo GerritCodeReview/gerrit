@@ -22,6 +22,8 @@ import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
+import com.google.gerrit.server.changes.PatchSetPublishDetailFactory;
+import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
@@ -29,9 +31,14 @@ import com.google.inject.Inject;
 
 class ChangeDetailServiceImpl extends BaseServiceImplementation implements
     ChangeDetailService {
+
+  private final PatchSetInfoFactory infoFactory;
+
   @Inject
-  ChangeDetailServiceImpl(final SchemaFactory<ReviewDb> sf) {
+  ChangeDetailServiceImpl(final SchemaFactory<ReviewDb> sf,
+      PatchSetInfoFactory infoFactory) {
     super(sf);
+    this.infoFactory = infoFactory;
   }
 
   public void changeDetail(final Change.Id id,
@@ -58,20 +65,6 @@ class ChangeDetailServiceImpl extends BaseServiceImplementation implements
 
   public void patchSetPublishDetail(final PatchSet.Id id,
       final AsyncCallback<PatchSetPublishDetail> callback) {
-    run(callback, new Action<PatchSetPublishDetail>() {
-      public PatchSetPublishDetail run(final ReviewDb db) throws OrmException,
-          Failure {
-        final PatchSet ps = db.patchSets().get(id);
-        final Change change = db.changes().get(ps.getId().getParentKey());
-        if (ps == null || change == null) {
-          throw new Failure(new NoSuchEntityException());
-        }
-        assertCanRead(change);
-
-        final PatchSetPublishDetail d = new PatchSetPublishDetail();
-        d.load(db, change, id);
-        return d;
-      }
-    });
+    run(callback, new PatchSetPublishDetailFactory(id, infoFactory));
   }
 }

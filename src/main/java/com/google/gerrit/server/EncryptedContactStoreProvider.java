@@ -18,16 +18,20 @@ import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.ContactInformation;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.ContactInformationStoreException;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import org.spearce.jgit.lib.Config;
+
 import java.io.File;
 
 class EncryptedContactStoreProvider implements Provider<ContactStore> {
   @Inject
-  private GerritServer server;
+  @GerritServerConfig
+  private Config config;
 
   @Inject
   private SchemaFactory<ReviewDb> schema;
@@ -39,9 +43,14 @@ class EncryptedContactStoreProvider implements Provider<ContactStore> {
   @Override
   public ContactStore get() {
     try {
-      return new EncryptedContactStore(server, sitePath, schema);
+      return new EncryptedContactStore(config, sitePath, schema);
     } catch (final ContactInformationStoreException initError) {
       return new ContactStore() {
+        @Override
+        public boolean isEnabled() {
+          return false;
+        }
+
         @Override
         public void store(Account account, ContactInformation info)
             throws ContactInformationStoreException {

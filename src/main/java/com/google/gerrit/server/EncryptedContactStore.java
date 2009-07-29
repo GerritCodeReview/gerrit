@@ -19,9 +19,11 @@ import com.google.gerrit.client.reviewdb.AccountExternalId;
 import com.google.gerrit.client.reviewdb.ContactInformation;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.ContactInformationStoreException;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
+import com.google.inject.Inject;
 
 import org.apache.sshd.common.util.SecurityUtils;
 import org.bouncycastle.bcpg.ArmoredOutputStream;
@@ -36,6 +38,7 @@ import org.bouncycastle.openpgp.PGPPublicKey;
 import org.bouncycastle.openpgp.PGPPublicKeyRing;
 import org.bouncycastle.openpgp.PGPPublicKeyRingCollection;
 import org.bouncycastle.openpgp.PGPUtil;
+import org.spearce.jgit.lib.Config;
 import org.spearce.jgit.util.NB;
 
 import java.io.ByteArrayOutputStream;
@@ -61,26 +64,28 @@ class EncryptedContactStore implements ContactStore {
   private static final TimeZone UTC = TimeZone.getTimeZone("UTC");
 
   private final SchemaFactory<ReviewDb> schema;
-  private PGPPublicKey dest;
-  private SecureRandom prng;
-  private URL storeUrl;
-  private String storeAPPSEC;
+  private final PGPPublicKey dest;
+  private final SecureRandom prng;
+  private final URL storeUrl;
+  private final String storeAPPSEC;
 
-  EncryptedContactStore(final GerritServer server,
+  @Inject
+  EncryptedContactStore(@GerritServerConfig final Config cfg,
       @SitePath final File sitePath, final SchemaFactory<ReviewDb> sf)
       throws ContactInformationStoreException {
     schema = sf;
 
-    if (server.getContactStoreURL() == null) {
+    final String url = cfg.getString("contactstore", null, "url");
+    if (url == null) {
       throw new ContactInformationStoreException(new IllegalStateException(
-          "No contactStoreURL configured"));
+          "contactstore.url not set"));
     }
     try {
-      storeUrl = new URL(server.getContactStoreURL());
+      storeUrl = new URL(url);
     } catch (MalformedURLException e) {
       throw new ContactInformationStoreException(e);
     }
-    storeAPPSEC = server.getContactStoreAPPSEC();
+    storeAPPSEC = cfg.getString("contactstore", null, "appsec");
 
     if (!SecurityUtils.isBouncyCastleRegistered()) {
       throw new ContactInformationStoreException(new NoSuchProviderException(
@@ -94,6 +99,11 @@ class EncryptedContactStore implements ContactStore {
     }
 
     dest = selectKey(readPubRing(sitePath));
+  }
+
+  @Override
+  public boolean isEnabled() {
+    return true;
   }
 
   private PGPPublicKeyRingCollection readPubRing(final File sitePath)

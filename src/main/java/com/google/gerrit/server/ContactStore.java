@@ -19,6 +19,8 @@ import com.google.gerrit.client.reviewdb.ContactInformation;
 import com.google.gerrit.client.rpc.ContactInformationStoreException;
 
 public interface ContactStore {
+  boolean isEnabled();
+
   void store(Account account, ContactInformation info)
       throws ContactInformationStoreException;
 }

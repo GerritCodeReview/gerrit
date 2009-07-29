@@ -307,14 +307,6 @@ public class GerritServer {
     return getGerritConfig().getString("auth", null, "emailformat");
   }
 
-  public String getContactStoreURL() {
-    return getGerritConfig().getString("contactstore", null, "url");
-  }
-
-  public String getContactStoreAPPSEC() {
-    return getGerritConfig().getString("contactstore", null, "appsec");
-  }
-
   /** Optional canonical URL for this application. */
   public String getCanonicalURL() {
     String u = getGerritConfig().getString("gerrit", null, "canonicalweburl");

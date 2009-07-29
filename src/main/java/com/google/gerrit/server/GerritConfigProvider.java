@@ -42,8 +42,10 @@ class GerritConfigProvider implements Provider<GerritConfig> {
 
   private final GerritServer server;
   private final SchemaFactory<ReviewDb> schema;
+
   private GerritSshDaemon sshd;
   private EmailSender emailSender;
+  private ContactStore contactStore;
 
   @Inject
   GerritConfigProvider(final GerritServer gs, final SchemaFactory<ReviewDb> sf) {
@@ -61,6 +63,11 @@ class GerritConfigProvider implements Provider<GerritConfig> {
     emailSender = d;
   }
 
+  @Inject(optional = true)
+  void setContactStore(final ContactStore d) {
+    contactStore = d;
+  }
+
   private GerritConfig create() throws OrmException {
     final Config cfg = server.getGerritConfig();
     final GerritConfig config = new GerritConfig();
@@ -70,7 +77,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
     config.setGitDaemonUrl(cfg.getString("gerrit", null, "canonicalgiturl"));
     config.setUseRepoDownload(cfg.getBoolean("repo", null,
         "showdownloadcommand", false));
-    config.setUseContactInfo(server.getContactStoreURL() != null);
+    config.setUseContactInfo(contactStore != null && contactStore.isEnabled());
     config.setAllowRegisterNewEmail(emailSender != null
         && emailSender.isEnabled());
     config.setLoginType(server.getLoginType());

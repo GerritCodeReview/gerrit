@@ -34,6 +34,24 @@
       "revId": "1d7d68007e61cbf5a743f76cbb6f73434991d394",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAdX///9Q\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-29T18:25:02Z",
+      "side": 1,
+      "message": "OK, fine, but you\u0027ll need to rebase the change anyway since Gerrit can\u0027t merge file contents and I\u0027ve already submitted other changes to this file.",
+      "parentUuid": "AAAAdX///9c\u003d",
+      "revId": "1d7d68007e61cbf5a743f76cbb6f73434991d394",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

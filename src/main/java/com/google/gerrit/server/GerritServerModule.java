@@ -34,6 +34,7 @@ import com.google.gerrit.server.mail.AddReviewerSender;
 import com.google.gerrit.server.mail.CommentSender;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.mail.EmailSender;
+import com.google.gerrit.server.mail.MergeFailSender;
 import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.mail.SmtpEmailSender;
 import com.google.gerrit.server.patch.DiffCache;
@@ -106,5 +107,8 @@ public class GerritServerModule extends AbstractModule {
     bind(MergedSender.Factory.class).toProvider(
         FactoryProvider.newFactory(MergedSender.Factory.class,
             MergedSender.class));
+    bind(MergeFailSender.Factory.class).toProvider(
+        FactoryProvider.newFactory(MergeFailSender.Factory.class,
+            MergeFailSender.class));
   }
 }

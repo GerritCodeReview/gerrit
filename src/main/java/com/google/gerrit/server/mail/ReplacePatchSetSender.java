@@ -17,6 +17,8 @@ package com.google.gerrit.server.mail;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.server.GerritServer;
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -25,10 +27,17 @@ import java.util.Set;
 
 /** Send notice of new patch sets for reviewers. */
 public class ReplacePatchSetSender extends ReplyToChangeSender {
+
+  public static interface Factory {
+    public ReplacePatchSetSender create(Change change);
+  }
+
   private final Set<Account.Id> reviewers = new HashSet<Account.Id>();
   private final Set<Account.Id> extraCC = new HashSet<Account.Id>();
 
-  public ReplacePatchSetSender(GerritServer gs, EmailSender sf, Change c) {
+  @Inject
+  public ReplacePatchSetSender(GerritServer gs, EmailSender sf,
+      @Assisted Change c) {
     super(gs, sf, c, "newpatchset");
   }
 

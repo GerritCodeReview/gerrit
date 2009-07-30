@@ -46,7 +46,6 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.mail.EmailException;
-import com.google.gerrit.server.mail.EmailSender;
 import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.patch.DiffCache;
@@ -135,13 +134,13 @@ class Receive extends AbstractGitCommand {
   private AuthConfig authConfig;
 
   @Inject
-  private EmailSender emailSender;
-
-  @Inject
   private CreateChangeSender.Factory createChangeSenderFactory;
 
   @Inject
   private MergedSender.Factory mergedSenderFactory;
+
+  @Inject
+  private ReplacePatchSetSender.Factory replacePatchSetFactory;
 
   @Inject
   private ReplicationQueue replication;
@@ -1044,7 +1043,7 @@ class Receive extends AbstractGitCommand {
 
       try {
         final ReplacePatchSetSender cm;
-        cm = new ReplacePatchSetSender(server, emailSender, result.change);
+        cm = replacePatchSetFactory.create(result.change);
         cm.setFrom(me);
         cm.setPatchSet(ps, result.info);
         cm.setChangeMessage(result.msg);

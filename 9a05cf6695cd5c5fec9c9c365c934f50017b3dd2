@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAdX///0k\u003d",
+        "filename": "src/main/java/com/google/gerrit/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-30T17:21:28Z",
+      "side": 1,
+      "message": "We probably should consider changing this to use an AssistedInject factory too, its getting unwieldy.",
+      "revId": "9a05cf6695cd5c5fec9c9c365c934f50017b3dd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

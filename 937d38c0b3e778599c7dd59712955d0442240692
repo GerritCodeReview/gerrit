@@ -16,6 +16,24 @@
       "revId": "937d38c0b3e778599c7dd59712955d0442240692",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAdX///xs\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/patch/PatchDetailServiceImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2009-07-30T19:06:48Z",
+      "side": 1,
+      "message": "What do you mean? Binding for it was introduced in\n203a775142e5b912f88dca2f76b65d3ab5397903.",
+      "parentUuid": "AAAAdX///x4\u003d",
+      "revId": "937d38c0b3e778599c7dd59712955d0442240692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

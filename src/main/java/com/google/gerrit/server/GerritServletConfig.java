@@ -18,6 +18,7 @@ import com.google.gerrit.git.PushAllProjectsOp;
 import com.google.gerrit.git.ReloadSubmitQueueOp;
 import com.google.gerrit.git.WorkQueue;
 import com.google.gerrit.server.config.FactoryModule;
+import com.google.gerrit.server.config.GerritServerModule;
 import com.google.gerrit.server.mail.RegisterNewEmailSender;
 import com.google.gerrit.server.patch.PatchDetailServiceImpl;
 import com.google.gerrit.server.ssh.GerritSshDaemon;

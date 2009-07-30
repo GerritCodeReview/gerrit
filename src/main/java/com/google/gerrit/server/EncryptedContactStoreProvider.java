@@ -28,7 +28,7 @@ import org.spearce.jgit.lib.Config;
 
 import java.io.File;
 
-class EncryptedContactStoreProvider implements Provider<ContactStore> {
+public class EncryptedContactStoreProvider implements Provider<ContactStore> {
   @Inject
   @GerritServerConfig
   private Config config;

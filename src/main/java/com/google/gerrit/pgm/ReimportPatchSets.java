@@ -20,7 +20,7 @@ import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.git.PatchSetImporter;
 import com.google.gerrit.server.GerritServer;
-import com.google.gerrit.server.GerritServerModule;
+import com.google.gerrit.server.config.GerritServerModule;
 import com.google.gerrit.server.patch.DiffCache;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;

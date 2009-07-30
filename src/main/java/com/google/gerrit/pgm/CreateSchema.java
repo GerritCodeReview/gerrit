@@ -16,7 +16,7 @@ package com.google.gerrit.pgm;
 
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.server.GerritServer;
-import com.google.gerrit.server.GerritServerModule;
+import com.google.gerrit.server.config.GerritServerModule;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Guice;
 import com.google.inject.Inject;

@@ -16,7 +16,7 @@ package com.google.gerrit.pgm;
 
 import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.client.rpc.Common;
-import com.google.gerrit.server.GerritServerModule;
+import com.google.gerrit.server.config.GerritServerModule;
 import com.google.gerrit.server.ssh.GerritSshDaemon;
 import com.google.gerrit.server.ssh.SshDaemonModule;
 import com.google.inject.Guice;

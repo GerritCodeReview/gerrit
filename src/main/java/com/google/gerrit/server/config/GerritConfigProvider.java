@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server;
+package com.google.gerrit.server.config;
 
 import com.google.gerrit.client.data.ApprovalType;
 import com.google.gerrit.client.data.GerritConfig;
@@ -20,10 +20,7 @@ import com.google.gerrit.client.data.GitwebLink;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
-import com.google.gerrit.server.config.AuthConfig;
-import com.google.gerrit.server.config.CanonicalWebUrl;
-import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.config.Nullable;
+import com.google.gerrit.server.ContactStore;
 import com.google.gerrit.server.mail.EmailSender;
 import com.google.gerrit.server.ssh.GerritSshDaemon;
 import com.google.gwtorm.client.OrmException;

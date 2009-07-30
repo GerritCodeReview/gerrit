@@ -37,7 +37,7 @@ import java.util.List;
 import java.util.Set;
 
 @Singleton
-class MimeUtilFileTypeRegistry implements FileTypeRegistry {
+public class MimeUtilFileTypeRegistry implements FileTypeRegistry {
   private static final String KEY_SAFE = "safe";
   private static final String SECTION_MIMETYPE = "mimetype";
   private static final Logger log =

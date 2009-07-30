@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server;
+package com.google.gerrit.server.config;
 
 import static com.google.inject.Scopes.SINGLETON;
 
@@ -27,15 +27,11 @@ import com.google.gerrit.git.PushReplication;
 import com.google.gerrit.git.ReloadSubmitQueueOp;
 import com.google.gerrit.git.ReplicationQueue;
 import com.google.gerrit.git.WorkQueue;
-import com.google.gerrit.server.config.AuthConfig;
-import com.google.gerrit.server.config.CacheManagerProvider;
-import com.google.gerrit.server.config.CanonicalWebUrl;
-import com.google.gerrit.server.config.CanonicalWebUrlProvider;
-import com.google.gerrit.server.config.FactoryModule;
-import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.config.GerritServerConfigProvider;
-import com.google.gerrit.server.config.SitePath;
-import com.google.gerrit.server.config.SitePathProvider;
+import com.google.gerrit.server.ContactStore;
+import com.google.gerrit.server.EncryptedContactStoreProvider;
+import com.google.gerrit.server.FileTypeRegistry;
+import com.google.gerrit.server.GerritServer;
+import com.google.gerrit.server.MimeUtilFileTypeRegistry;
 import com.google.gerrit.server.mail.AbandonedSender;
 import com.google.gerrit.server.mail.AddReviewerSender;
 import com.google.gerrit.server.mail.CommentSender;

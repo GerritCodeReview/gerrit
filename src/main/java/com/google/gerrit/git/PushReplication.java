@@ -16,8 +16,10 @@ package com.google.gerrit.git;
 
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.server.config.SitePath;
+import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.google.inject.assistedinject.FactoryProvider;
 
 import com.jcraft.jsch.Session;
 
@@ -140,7 +142,7 @@ public class PushReplication implements ReplicationQueue {
         c.addPushRefSpec(spec);
       }
 
-      r.add(new ReplicationConfig(c, cfg));
+      r.add(new ReplicationConfig(injector, c, cfg));
     }
     return Collections.unmodifiableList(r);
   }
@@ -162,19 +164,32 @@ public class PushReplication implements ReplicationQueue {
     return result;
   }
 
-  class ReplicationConfig {
+  static class ReplicationConfig {
     private final RemoteConfig remote;
     private final int delay;
     private final WorkQueue.Executor pool;
     private final Map<URIish, PushOp> pending = new HashMap<URIish, PushOp>();
+    private final PushOp.Factory opFactory;
 
-    ReplicationConfig(final RemoteConfig rc, final Config cfg) {
+    ReplicationConfig(final Injector injector, final RemoteConfig rc,
+        final Config cfg) {
       remote = rc;
       delay = Math.max(0, getInt(rc, cfg, "replicationdelay", 15));
 
       final int poolSize = Math.max(0, getInt(rc, cfg, "threads", 1));
       final String poolName = "ReplicateTo-" + rc.getName();
       pool = WorkQueue.createQueue(poolSize, poolName);
+
+      opFactory = injector.createChildInjector(new AbstractModule() {
+        @Override
+        protected void configure() {
+          bind(PushReplication.ReplicationConfig.class).toInstance(
+              ReplicationConfig.this);
+          bind(RemoteConfig.class).toInstance(remote);
+          bind(PushOp.Factory.class).toProvider(
+              FactoryProvider.newFactory(PushOp.Factory.class, PushOp.class));
+        }
+      }).getInstance(PushOp.Factory.class);
     }
 
     private int getInt(final RemoteConfig rc, final Config cfg,
@@ -187,8 +202,7 @@ public class PushReplication implements ReplicationQueue {
       synchronized (pending) {
         PushOp e = pending.get(uri);
         if (e == null) {
-          e = new PushOp(this, project.get(), remote, uri);
-          injector.injectMembers(e);
+          e = opFactory.create(project.get(), uri);
           pool.schedule(e, delay, TimeUnit.SECONDS);
           pending.put(uri, e);
         }

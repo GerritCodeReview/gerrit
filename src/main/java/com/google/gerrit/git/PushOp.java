@@ -16,6 +16,7 @@ package com.google.gerrit.git;
 
 import com.google.gerrit.server.GerritServer;
 import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 
 import com.jcraft.jsch.JSchException;
 
@@ -50,26 +51,31 @@ import java.util.Set;
  * take that lock to ensure they are working with a current view of the object.
  */
 class PushOp implements Runnable {
+  interface Factory {
+    PushOp create(String d, URIish u);
+  }
+
   private static final Logger log = PushReplication.log;
   static final String MIRROR_ALL = "..all..";
 
-  @Inject
-  private GerritServer server;
+  private final GerritServer server;
+  private final PushReplication.ReplicationConfig pool;
+  private final RemoteConfig config;
 
   private final Set<String> delta = new HashSet<String>();
-  private final PushReplication.ReplicationConfig pool;
   private final String projectName;
-  private final RemoteConfig config;
   private final URIish uri;
   private boolean mirror;
 
   private Repository db;
 
-  PushOp(final PushReplication.ReplicationConfig p, final String d,
-      final RemoteConfig c, final URIish u) {
+  @Inject
+  PushOp(final GerritServer gs, final PushReplication.ReplicationConfig p,
+      final RemoteConfig c, @Assisted final String d, @Assisted final URIish u) {
+    server = gs;
     pool = p;
-    projectName = d;
     config = c;
+    projectName = d;
     uri = u;
   }
 

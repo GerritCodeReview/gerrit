@@ -17,6 +17,7 @@ package com.google.gerrit.server;
 import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.rpc.Common;
+import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gwt.user.server.rpc.RPCServletUtils;
 import com.google.inject.Inject;
@@ -47,29 +48,26 @@ import javax.servlet.http.HttpServletResponse;
 @Singleton
 public class HostPageServlet extends HttpServlet {
   private final Provider<GerritCall> callFactory;
-  private final GerritServer server;
   private final File sitePath;
   private final GerritConfig config;
 
-  private String canonicalUrl;
-  private boolean wantSSL;
+  private final String canonicalUrl;
+  private final boolean wantSSL;
   private Document hostDoc;
 
   @Inject
-  HostPageServlet(final Injector i, final GerritServer gs,
-      @SitePath final File path, final GerritConfig gc) {
+  HostPageServlet(final Injector i, @SitePath final File path,
+      final GerritConfig gc, @CanonicalWebUrl final String cwu) {
     callFactory = i.getProvider(GerritCall.class);
-    server = gs;
+    canonicalUrl = cwu;
     sitePath = path;
     config = gc;
+    wantSSL = canonicalUrl != null && canonicalUrl.startsWith("https:");
   }
 
   @Override
   public void init(ServletConfig config) throws ServletException {
     super.init(config);
-
-    canonicalUrl = server.getCanonicalURL();
-    wantSSL = canonicalUrl != null && canonicalUrl.startsWith("https:");
 
     final String hostPageName = "WEB-INF/Gerrit.html";
     hostDoc = HtmlDomUtil.parseFile(getServletContext(), "/" + hostPageName);

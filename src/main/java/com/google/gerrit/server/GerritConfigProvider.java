@@ -21,6 +21,7 @@ import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.server.config.AuthConfig;
+import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.mail.EmailSender;
 import com.google.gerrit.server.ssh.GerritSshDaemon;
@@ -43,8 +44,8 @@ class GerritConfigProvider implements Provider<GerritConfig> {
   }
 
   private final Config cfg;
+  private final String canonicalWebUrl;
   private final AuthConfig authConfig;
-  private final GerritServer server;
   private final SchemaFactory<ReviewDb> schema;
 
   private GerritSshDaemon sshd;
@@ -53,11 +54,11 @@ class GerritConfigProvider implements Provider<GerritConfig> {
 
   @Inject
   GerritConfigProvider(@GerritServerConfig final Config gsc,
-      final AuthConfig ac, final GerritServer gs,
+      @CanonicalWebUrl final String cwu, final AuthConfig ac,
       final SchemaFactory<ReviewDb> sf) {
     cfg = gsc;
+    canonicalWebUrl = cwu;
     authConfig = ac;
-    server = gs;
     schema = sf;
   }
 
@@ -78,7 +79,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
 
   private GerritConfig create() throws OrmException {
     final GerritConfig config = new GerritConfig();
-    config.setCanonicalUrl(server.getCanonicalURL());
+    config.setCanonicalUrl(canonicalWebUrl);
     config.setUseContributorAgreements(cfg.getBoolean("auth",
         "contributoragreements", false));
     config.setGitDaemonUrl(cfg.getString("gerrit", null, "canonicalgiturl"));

@@ -44,6 +44,7 @@ import com.google.gerrit.git.PatchSetImporter;
 import com.google.gerrit.git.ReplicationQueue;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.config.AuthConfig;
+import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.mail.MergedSender;
@@ -148,6 +149,10 @@ class Receive extends AbstractGitCommand {
   @Inject
   private DiffCache diffCache;
 
+  @Inject
+  @CanonicalWebUrl
+  private String canonicalWebUrl;
+
   private ReceivePack rp;
   private PersonIdent refLogIdent;
   private ReceiveCommand newChange;
@@ -221,14 +226,14 @@ class Receive extends AbstractGitCommand {
     });
     rp.receive(in, out, err);
 
-    if (!allNewChanges.isEmpty() && server.getCanonicalURL() != null) {
+    if (!allNewChanges.isEmpty() && canonicalWebUrl != null) {
       // Make sure there isn't anything buffered; we want to give the
       // push client a chance to display its status report before we
       // show our own messages on standard error.
       //
       out.flush();
 
-      final String url = server.getCanonicalURL();
+      final String url = canonicalWebUrl;
       final PrintWriter msg = toPrintWriter(err);
       msg.write("\nNew Changes:\n");
       for (final Change.Id c : allNewChanges) {
@@ -281,10 +286,10 @@ class Receive extends AbstractGitCommand {
       msg.append("\nfatal: ");
       msg.append(bestCla.getShortName());
       msg.append(" contributor agreement is expired.\n");
-      if (server.getCanonicalURL() != null) {
+      if (canonicalWebUrl != null) {
         msg.append("\nPlease complete a new agreement");
         msg.append(":\n\n  ");
-        msg.append(server.getCanonicalURL());
+        msg.append(canonicalWebUrl);
         msg.append("#");
         msg.append(Link.SETTINGS_AGREEMENTS);
         msg.append("\n");
@@ -305,10 +310,10 @@ class Receive extends AbstractGitCommand {
         msg.append(bestCla.getShortName());
         msg.append(" contributor agreement requires");
         msg.append(" current contact information.\n");
-        if (server.getCanonicalURL() != null) {
+        if (canonicalWebUrl != null) {
           msg.append("\nPlease review your contact information");
           msg.append(":\n\n  ");
-          msg.append(server.getCanonicalURL());
+          msg.append(canonicalWebUrl);
           msg.append("#");
           msg.append(Link.SETTINGS_CONTACT);
           msg.append("\n");
@@ -336,9 +341,9 @@ class Receive extends AbstractGitCommand {
     final StringBuilder msg = new StringBuilder();
     msg.append("\nfatal: A Contributor Agreement"
         + " must be completed before uploading");
-    if (server.getCanonicalURL() != null) {
+    if (canonicalWebUrl != null) {
       msg.append(":\n\n  ");
-      msg.append(server.getCanonicalURL());
+      msg.append(canonicalWebUrl);
       msg.append("#");
       msg.append(Link.SETTINGS_AGREEMENTS);
       msg.append("\n");

@@ -28,6 +28,7 @@ import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritServer;
+import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.mail.MergeFailSender;
 import com.google.gerrit.server.mail.MergedSender;
@@ -107,6 +108,8 @@ public class MergeOp {
   private final ReplicationQueue replication;
   private final MergedSender.Factory mergedSenderFactory;
   private final MergeFailSender.Factory mergeFailSenderFactory;
+  private final String canonicalWebUrl;
+
   private final PersonIdent myIdent;
   private final Branch.NameKey destBranch;
   private Project destProject;
@@ -124,12 +127,14 @@ public class MergeOp {
   @Inject
   MergeOp(final GerritServer gs, final SchemaFactory<ReviewDb> sf,
       final ReplicationQueue rq, final MergedSender.Factory msf,
-      final MergeFailSender.Factory mfsf, @Assisted final Branch.NameKey branch) {
+      final MergeFailSender.Factory mfsf, @CanonicalWebUrl final String cwu,
+      @Assisted final Branch.NameKey branch) {
     server = gs;
     schemaFactory = sf;
     replication = rq;
     mergedSenderFactory = msf;
     mergeFailSenderFactory = mfsf;
+    canonicalWebUrl = cwu;
     myIdent = server.newGerritPersonIdent();
     destBranch = branch;
     toMerge = new ArrayList<CodeReviewCommit>();
@@ -571,9 +576,8 @@ public class MergeOp {
       msgbuf.append('\n');
     }
 
-    if (server.getCanonicalURL() != null) {
-      final String url =
-          server.getCanonicalURL() + n.patchsetId.getParentKey().get();
+    if (canonicalWebUrl != null) {
+      final String url = canonicalWebUrl + n.patchsetId.getParentKey().get();
       if (!contains(footers, REVIEWED_ON, url)) {
         msgbuf.append(REVIEWED_ON.getName());
         msgbuf.append(": ");

@@ -26,6 +26,8 @@ import com.google.gerrit.git.PushReplication;
 import com.google.gerrit.git.ReplicationQueue;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CacheManagerProvider;
+import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.CanonicalWebUrlProvider;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerConfigProvider;
 import com.google.gerrit.server.config.SitePath;
@@ -77,6 +79,8 @@ public class GerritServerModule extends AbstractModule {
         SitePathProvider.class);
     bind(Config.class).annotatedWith(GerritServerConfig.class).toProvider(
         GerritServerConfigProvider.class).in(SINGLETON);
+    bind(String.class).annotatedWith(CanonicalWebUrl.class).toProvider(
+        CanonicalWebUrlProvider.class);
     bind(AuthConfig.class);
 
     bind(CacheManager.class).toProvider(CacheManagerProvider.class).in(

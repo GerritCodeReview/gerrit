@@ -92,15 +92,6 @@ public class GerritServer {
     Common.setGroupCache(new GroupCache(sConfig));
   }
 
-  /** Optional canonical URL for this application. */
-  public String getCanonicalURL() {
-    String u = getGerritConfig().getString("gerrit", null, "canonicalweburl");
-    if (u != null && !u.endsWith("/")) {
-      u += "/";
-    }
-    return u;
-  }
-
   private Config getGerritConfig() {
     return gerritConfigFile;
   }

@@ -30,7 +30,9 @@ import com.google.gerrit.client.reviewdb.StarredChange;
 import com.google.gerrit.client.reviewdb.UserIdentity;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.server.GerritServer;
+import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gwtorm.client.OrmException;
+import com.google.inject.Inject;
 
 import org.spearce.jgit.lib.PersonIdent;
 import org.spearce.jgit.util.SystemReader;
@@ -77,6 +79,10 @@ public abstract class OutgoingEmail {
   protected ChangeMessage changeMessage;
   protected ReviewDb db;
 
+  @Inject
+  @CanonicalWebUrl
+  private String canonicalWebUrl;
+
   protected OutgoingEmail(final GerritServer gs, final EmailSender es,
       final Change c, final String mc) {
     server = gs;
@@ -110,7 +116,7 @@ public abstract class OutgoingEmail {
 
   /**
    * Format and enqueue the message for delivery.
-   * 
+   *
    * @throws EmailException
    */
   public void send() throws EmailException {
@@ -278,17 +284,9 @@ public abstract class OutgoingEmail {
   }
 
   private String getGerritHost() {
-    if (server.getCanonicalURL() != null) {
+    if (getGerritUrl() != null) {
       try {
-        return new URL(server.getCanonicalURL()).getHost();
-      } catch (MalformedURLException e) {
-        // Try something else.
-      }
-    }
-
-    if (myUrl != null) {
-      try {
-        return new URL(myUrl).getHost();
+        return new URL(getGerritUrl()).getHost();
       } catch (MalformedURLException e) {
         // Try something else.
       }
@@ -327,8 +325,8 @@ public abstract class OutgoingEmail {
   }
 
   private String getGerritUrl() {
-    if (server.getCanonicalURL() != null) {
-      return server.getCanonicalURL();
+    if (canonicalWebUrl != null) {
+      return canonicalWebUrl;
     }
     return myUrl;
   }

@@ -47,7 +47,6 @@ import com.google.gerrit.server.mail.AbandonedSender;
 import com.google.gerrit.server.mail.AddReviewerSender;
 import com.google.gerrit.server.mail.CommentSender;
 import com.google.gerrit.server.mail.EmailException;
-import com.google.gerrit.server.mail.EmailSender;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
@@ -72,22 +71,23 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
   private final GerritServer server;
   private final FileTypeRegistry registry;
   private final DiffCache diffCache;
-  private final EmailSender emailSender;
   private final AddReviewerSender.Factory addReviewerSenderFactory;
   private final AbandonedSender.Factory abandonedSenderFactory;
+  private final CommentSender.Factory commentSenderFactory;
 
   @Inject
   PatchDetailServiceImpl(final SchemaFactory<ReviewDb> sf,
       final GerritServer gs, final FileTypeRegistry ftr, final DiffCache dc,
-      final EmailSender es, final AddReviewerSender.Factory arsf,
-      final AbandonedSender.Factory asf) {
+      final AddReviewerSender.Factory arsf,
+      final AbandonedSender.Factory asf,
+      final CommentSender.Factory csf) {
     super(sf);
     server = gs;
     registry = ftr;
     diffCache = dc;
-    emailSender = es;
     addReviewerSenderFactory = arsf;
     abandonedSenderFactory = asf;
+    commentSenderFactory = csf;
   }
 
   public void patchScript(final Patch.Key patchKey, final PatchSet.Id psa,
@@ -185,7 +185,7 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
 
         try {
           final CommentSender cm;
-          cm = new CommentSender(server, emailSender, r.change);
+          cm = commentSenderFactory.create(r.change);
           cm.setFrom(Common.getAccountId());
           cm.setPatchSet(r.patchSet, r.info);
           cm.setChangeMessage(r.message);

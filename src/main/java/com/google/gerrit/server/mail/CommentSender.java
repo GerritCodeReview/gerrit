@@ -21,6 +21,8 @@ import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.patch.PatchFile;
 import com.google.gwtorm.client.OrmException;
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 
 import org.spearce.jgit.errors.RepositoryNotFoundException;
 import org.spearce.jgit.lib.Repository;
@@ -31,9 +33,15 @@ import java.util.Map;
 
 /** Send comments, after the author of them hit used Publish Comments in the UI. */
 public class CommentSender extends ReplyToChangeSender {
+
+  public static interface Factory {
+    public CommentSender create(Change change);
+  }
+
   private List<PatchLineComment> inlineComments = Collections.emptyList();
 
-  public CommentSender(GerritServer gs, EmailSender sf, Change c) {
+  @Inject
+  public CommentSender(GerritServer gs, EmailSender sf, @Assisted Change c) {
     super(gs, sf, c, "comment");
   }
 

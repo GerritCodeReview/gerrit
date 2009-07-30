@@ -33,6 +33,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -139,12 +140,18 @@ class SystemConfigProvider implements Provider<SystemConfig> {
     registered.setAutomaticMembership(true);
     c.accountGroups().insert(Collections.singleton(registered));
 
+    File sitePath = new File(".").getAbsoluteFile();
+    if (".".equals(sitePath.getName())) {
+      sitePath = sitePath.getParentFile();
+    }
+
     final SystemConfig s = SystemConfig.create();
     s.xsrfPrivateKey = SignedToken.generateRandomKey();
     s.accountPrivateKey = SignedToken.generateRandomKey();
     s.adminGroupId = admin.getId();
     s.anonymousGroupId = anonymous.getId();
     s.registeredGroupId = registered.getId();
+    s.sitePath = sitePath.getAbsolutePath();
     c.systemConfig().insert(Collections.singleton(s));
     return s;
   }

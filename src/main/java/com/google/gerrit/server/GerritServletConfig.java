@@ -17,6 +17,7 @@ package com.google.gerrit.server;
 import com.google.gerrit.git.PushAllProjectsOp;
 import com.google.gerrit.git.ReloadSubmitQueueOp;
 import com.google.gerrit.git.WorkQueue;
+import com.google.gerrit.server.config.DatabaseModule;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GerritServerModule;
 import com.google.gerrit.server.mail.RegisterNewEmailSender;
@@ -163,16 +164,7 @@ public class GerritServletConfig extends GuiceServletContextListener {
     }
 
     try {
-      final DataSource ds = injector.getInstance(GerritServerModule.DS);
-      try {
-        final Class<?> type = Class.forName("com.mchange.v2.c3p0.DataSources");
-        if (type.isInstance(ds)) {
-          type.getMethod("destroy", DataSource.class).invoke(null, ds);
-        }
-      } catch (Throwable bad) {
-        // Oh well, its not a c3p0 pooled connection. Too bad its
-        // not standardized how "good applications cleanup".
-      }
+      closeDataSource(injector.getInstance(DatabaseModule.DS));
     } catch (ConfigurationException ce) {
       // Assume it never started.
     } catch (ProvisionException ce) {
@@ -180,5 +172,18 @@ public class GerritServletConfig extends GuiceServletContextListener {
     }
 
     super.contextDestroyed(event);
+  }
+
+  private void closeDataSource(final DataSource ds) {
+    try {
+      final Class<?> type = Class.forName("com.mchange.v2.c3p0.DataSources");
+      if (type.isInstance(ds)) {
+        type.getMethod("destroy", DataSource.class).invoke(null, ds);
+        return;
+      }
+    } catch (Throwable bad) {
+      // Oh well, its not a c3p0 pooled connection. Too bad its
+      // not standardized how "good applications cleanup".
+    }
   }
 }

@@ -17,8 +17,6 @@ package com.google.gerrit.server.config;
 import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.gerrit.client.data.GerritConfig;
-import com.google.gerrit.client.reviewdb.ReviewDb;
-import com.google.gerrit.client.reviewdb.SystemConfig;
 import com.google.gerrit.git.ChangeMergeQueue;
 import com.google.gerrit.git.MergeOp;
 import com.google.gerrit.git.MergeQueue;
@@ -44,11 +42,6 @@ import com.google.gerrit.server.mail.SmtpEmailSender;
 import com.google.gerrit.server.patch.DiffCache;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.ssh.SshKeyCache;
-import com.google.gwtorm.client.SchemaFactory;
-import com.google.gwtorm.jdbc.Database;
-import com.google.inject.Key;
-import com.google.inject.TypeLiteral;
-import com.google.inject.name.Names;
 
 import net.sf.ehcache.CacheManager;
 
@@ -56,23 +49,12 @@ import org.spearce.jgit.lib.Config;
 
 import java.io.File;
 
-import javax.sql.DataSource;
-
 /** Starts {@link GerritServer} with standard dependencies. */
 public class GerritServerModule extends FactoryModule {
-  public static final Key<DataSource> DS =
-      Key.get(DataSource.class, Names.named("ReviewDb"));
-
   @Override
   protected void configure() {
-    bind(DS).toProvider(ReviewDbDataSourceProvider.class).in(SINGLETON);
-    bind(new TypeLiteral<SchemaFactory<ReviewDb>>() {}).to(
-        new TypeLiteral<Database<ReviewDb>>() {});
-    bind(new TypeLiteral<Database<ReviewDb>>() {}).toProvider(
-        ReviewDbProvider.class).in(SINGLETON);
+    install(new DatabaseModule());
 
-    bind(SystemConfig.class).toProvider(SystemConfigProvider.class).in(
-        SINGLETON);
     bind(File.class).annotatedWith(SitePath.class).toProvider(
         SitePathProvider.class);
     bind(Config.class).annotatedWith(GerritServerConfig.class).toProvider(

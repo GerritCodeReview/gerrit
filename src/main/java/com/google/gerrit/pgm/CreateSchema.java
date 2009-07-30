@@ -15,8 +15,9 @@
 package com.google.gerrit.pgm;
 
 import com.google.gerrit.client.reviewdb.ReviewDb;
-import com.google.gerrit.server.GerritServer;
-import com.google.gerrit.server.config.GerritServerModule;
+import com.google.gerrit.client.reviewdb.SchemaVersion;
+import com.google.gerrit.client.reviewdb.SystemConfig;
+import com.google.gerrit.server.config.DatabaseModule;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
@@ -27,15 +28,34 @@ import com.google.inject.Injector;
  */
 public class CreateSchema extends AbstractProgram {
   @Inject
+  private SystemConfig systemConfig;
+
+  @Inject
   private SchemaFactory<ReviewDb> schema;
 
   @Override
   public int run() throws Exception {
-    final Injector injector = Guice.createInjector(new GerritServerModule());
+    final Injector injector = Guice.createInjector(new DatabaseModule());
     injector.injectMembers(this);
-    injector.getInstance(GerritServer.class);
-    schema.open().close();
-    System.out.println("Gerrit2 schema initialized");
+
+    final SchemaVersion sv;
+    final ReviewDb db = schema.open();
+    try {
+      sv = db.schemaVersion().get(new SchemaVersion.Key());
+    } finally {
+      db.close();
+    }
+    if (sv == null) {
+      System.err.println("Schema failed to initialize");
+      return 1;
+    }
+
+    System.out.println("Gerrit Code Review initialized.");
+    System.out.println("Current settings:");
+    System.out.println("  schema version =  " + sv.versionNbr);
+    System.out.println("  admin group    =  " + systemConfig.adminGroupId);
+    System.out.println("  site_path      =  " + systemConfig.sitePath);
+    System.out.println();
     return 0;
   }
 }

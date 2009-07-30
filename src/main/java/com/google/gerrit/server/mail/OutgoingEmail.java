@@ -32,6 +32,8 @@ import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.Nullable;
+import com.google.gerrit.server.patch.PatchSetInfoFactory;
+import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 
@@ -80,6 +82,9 @@ public abstract class OutgoingEmail {
 
   @Inject
   private EmailSender emailSender;
+
+  @Inject
+  private PatchSetInfoFactory patchSetInfoFactory;
 
   @Inject
   @CanonicalWebUrl
@@ -221,8 +226,8 @@ public abstract class OutgoingEmail {
 
       if (patchSet != null && patchSetInfo == null) {
         try {
-          patchSetInfo = db.patchSetInfo().get(patchSet.getId());
-        } catch (OrmException err) {
+          patchSetInfo = patchSetInfoFactory.get(patchSet.getId());
+        } catch (PatchSetInfoNotAvailableException err) {
           patchSetInfo = null;
         }
       }

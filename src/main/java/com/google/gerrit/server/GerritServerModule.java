@@ -46,10 +46,8 @@ import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.gwtorm.jdbc.Database;
-import com.google.inject.AbstractModule;
 import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
-import com.google.inject.assistedinject.FactoryProvider;
 import com.google.inject.name.Names;
 
 import net.sf.ehcache.CacheManager;
@@ -61,7 +59,7 @@ import java.io.File;
 import javax.sql.DataSource;
 
 /** Starts {@link GerritServer} with standard dependencies. */
-public class GerritServerModule extends AbstractModule {
+public class GerritServerModule extends FactoryModule {
   public static final Key<DataSource> DS =
       Key.get(DataSource.class, Names.named("ReviewDb"));
 
@@ -94,34 +92,19 @@ public class GerritServerModule extends AbstractModule {
     bind(ReplicationQueue.class).to(PushReplication.class).in(SINGLETON);
 
     bind(MergeQueue.class).to(ChangeMergeQueue.class).in(SINGLETON);
-    bind(MergeOp.Factory.class).toProvider(
-        FactoryProvider.newFactory(MergeOp.Factory.class, MergeOp.class));
+    factory(MergeOp.Factory.class);
 
     bind(EmailSender.class).to(SmtpEmailSender.class).in(SINGLETON);
     bind(GerritConfig.class).toProvider(GerritConfigProvider.class).in(
         SINGLETON);
     bind(PatchSetInfoFactory.class);
 
-    bind(AddReviewerSender.Factory.class).toProvider(
-        FactoryProvider.newFactory(AddReviewerSender.Factory.class,
-            AddReviewerSender.class));
-    bind(CreateChangeSender.Factory.class).toProvider(
-        FactoryProvider.newFactory(CreateChangeSender.Factory.class,
-            CreateChangeSender.class));
-    bind(AbandonedSender.Factory.class).toProvider(
-        FactoryProvider.newFactory(AbandonedSender.Factory.class,
-            AbandonedSender.class));
-    bind(CommentSender.Factory.class).toProvider(
-        FactoryProvider.newFactory(CommentSender.Factory.class,
-            CommentSender.class));
-    bind(MergedSender.Factory.class).toProvider(
-        FactoryProvider.newFactory(MergedSender.Factory.class,
-            MergedSender.class));
-    bind(MergeFailSender.Factory.class).toProvider(
-        FactoryProvider.newFactory(MergeFailSender.Factory.class,
-            MergeFailSender.class));
-    bind(ReplacePatchSetSender.Factory.class).toProvider(
-        FactoryProvider.newFactory(ReplacePatchSetSender.Factory.class,
-            ReplacePatchSetSender.class));
+    factory(AbandonedSender.Factory.class);
+    factory(AddReviewerSender.Factory.class);
+    factory(CreateChangeSender.Factory.class);
+    factory(CommentSender.Factory.class);
+    factory(MergedSender.Factory.class);
+    factory(MergeFailSender.Factory.class);
+    factory(ReplacePatchSetSender.Factory.class);
   }
 }

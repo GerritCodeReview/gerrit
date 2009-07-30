@@ -21,6 +21,7 @@ import com.google.gerrit.git.MergeQueue;
 import com.google.gerrit.git.PushAllProjectsOp;
 import com.google.gerrit.git.ReplicationQueue;
 import com.google.gerrit.git.WorkQueue;
+import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.mail.RegisterNewEmailSender;
 import com.google.gerrit.server.patch.PatchDetailServiceImpl;
 import com.google.gerrit.server.ssh.GerritSshDaemon;
@@ -38,7 +39,6 @@ import com.google.inject.Key;
 import com.google.inject.Module;
 import com.google.inject.Scopes;
 import com.google.inject.TypeLiteral;
-import com.google.inject.assistedinject.FactoryProvider;
 import com.google.inject.servlet.GuiceServletContextListener;
 import com.google.inject.servlet.ServletModule;
 
@@ -122,10 +122,6 @@ public class GerritServletConfig extends GuiceServletContextListener {
         rpc(SuggestServiceImpl.class);
         rpc(SystemInfoServiceImpl.class);
 
-        bind(RegisterNewEmailSender.Factory.class).toProvider(
-            FactoryProvider.newFactory(RegisterNewEmailSender.Factory.class,
-                RegisterNewEmailSender.class));
-
         if (BecomeAnyAccountLoginServlet.isAllowed()) {
           serve("/become").with(BecomeAnyAccountLoginServlet.class);
         }
@@ -151,9 +147,18 @@ public class GerritServletConfig extends GuiceServletContextListener {
     };
   }
 
+  private static Module createOtherModule() {
+    return new FactoryModule() {
+      @Override
+      protected void configure() {
+        factory(RegisterNewEmailSender.Factory.class);
+      }
+    };
+  }
+
   private final Injector injector =
-      Guice.createInjector(createServletModule(), new GerritServerModule(),
-          new SshDaemonModule());
+      Guice.createInjector(createServletModule(), createOtherModule(),
+          new GerritServerModule(), new SshDaemonModule());
 
   @Override
   protected Injector getInjector() {

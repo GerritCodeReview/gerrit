@@ -45,7 +45,6 @@ import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import java.security.ProviderException;
 import java.util.concurrent.TimeUnit;
 
 import javax.servlet.ServletContextEvent;
@@ -167,7 +166,7 @@ public class GerritServletConfig extends GuiceServletContextListener {
           30, TimeUnit.SECONDS);
     } catch (ConfigurationException e) {
       log.error("Unable to restart replication queue", e);
-    } catch (ProviderException e) {
+    } catch (ProvisionException e) {
       log.error("Unable to restart replication queue", e);
     }
 
@@ -176,7 +175,7 @@ public class GerritServletConfig extends GuiceServletContextListener {
           15, TimeUnit.SECONDS);
     } catch (ConfigurationException e) {
       log.error("Unable to restart merge queue", e);
-    } catch (ProviderException e) {
+    } catch (ProvisionException e) {
       log.error("Unable to restart merge queue", e);
     }
 
@@ -184,7 +183,7 @@ public class GerritServletConfig extends GuiceServletContextListener {
       injector.getInstance(GerritSshDaemon.class).start();
     } catch (ConfigurationException e) {
       log.error("Unable to start SSHD", e);
-    } catch (ProviderException e) {
+    } catch (ProvisionException e) {
       log.error("Unable to start SSHD", e);
     } catch (IOException e) {
       log.error("Unable to start SSHD", e);
@@ -197,7 +196,7 @@ public class GerritServletConfig extends GuiceServletContextListener {
       injector.getInstance(GerritSshDaemon.class).stop();
     } catch (ConfigurationException e) {
       // Assume it never started.
-    } catch (ProviderException e) {
+    } catch (ProvisionException e) {
       // Assume it never started.
     }
 
@@ -213,7 +212,7 @@ public class GerritServletConfig extends GuiceServletContextListener {
       injector.getInstance(CacheManager.class).shutdown();
     } catch (ConfigurationException e) {
       // Assume it never started.
-    } catch (ProviderException e) {
+    } catch (ProvisionException e) {
       // Assume it never started.
     }
 
@@ -230,7 +229,7 @@ public class GerritServletConfig extends GuiceServletContextListener {
       }
     } catch (ConfigurationException ce) {
       // Assume it never started.
-    } catch (ProviderException ce) {
+    } catch (ProvisionException ce) {
       // Assume it never started.
     }
 

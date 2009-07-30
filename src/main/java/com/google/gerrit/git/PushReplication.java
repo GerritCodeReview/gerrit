@@ -62,12 +62,14 @@ public class PushReplication implements ReplicationQueue {
   }
 
   private final Injector injector;
+  private final WorkQueue workQueue;
   private final List<ReplicationConfig> configs;
 
   @Inject
-  PushReplication(final Injector i, @SitePath final File sitePath)
-      throws ConfigInvalidException, IOException {
+  PushReplication(final Injector i, final WorkQueue wq,
+      @SitePath final File sitePath) throws ConfigInvalidException, IOException {
     injector = i;
+    workQueue = wq;
     configs = allConfigs(sitePath);
   }
 
@@ -142,7 +144,7 @@ public class PushReplication implements ReplicationQueue {
         c.addPushRefSpec(spec);
       }
 
-      r.add(new ReplicationConfig(injector, c, cfg));
+      r.add(new ReplicationConfig(injector, workQueue, c, cfg));
     }
     return Collections.unmodifiableList(r);
   }
@@ -171,14 +173,14 @@ public class PushReplication implements ReplicationQueue {
     private final Map<URIish, PushOp> pending = new HashMap<URIish, PushOp>();
     private final PushOp.Factory opFactory;
 
-    ReplicationConfig(final Injector injector, final RemoteConfig rc,
-        final Config cfg) {
+    ReplicationConfig(final Injector injector, final WorkQueue workQueue,
+        final RemoteConfig rc, final Config cfg) {
       remote = rc;
       delay = Math.max(0, getInt(rc, cfg, "replicationdelay", 15));
 
       final int poolSize = Math.max(0, getInt(rc, cfg, "threads", 1));
       final String poolName = "ReplicateTo-" + rc.getName();
-      pool = WorkQueue.createQueue(poolSize, poolName);
+      pool = workQueue.createQueue(poolSize, poolName);
 
       opFactory = injector.createChildInjector(new AbstractModule() {
         @Override

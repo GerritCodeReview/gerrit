@@ -18,7 +18,6 @@ import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.git.PushAllProjectsOp;
 import com.google.gerrit.git.ReplicationQueue;
-import com.google.gerrit.git.WorkQueue;
 import com.google.inject.Inject;
 
 import org.kohsuke.args4j.Argument;
@@ -40,6 +39,9 @@ class AdminReplicate extends AbstractCommand {
   private List<String> projectNames = new ArrayList<String>(2);
 
   @Inject
+  private PushAllProjectsOp.Factory pushAllOpFactory;
+
+  @Inject
   private ReplicationQueue replication;
 
   @Override
@@ -55,8 +57,7 @@ class AdminReplicate extends AbstractCommand {
     }
 
     if (all) {
-      WorkQueue.schedule(new PushAllProjectsOp(schema, replication, urlMatch),
-          0, TimeUnit.SECONDS);
+      pushAllOpFactory.create(urlMatch).start(0, TimeUnit.SECONDS);
 
     } else {
       for (final String name : projectNames) {

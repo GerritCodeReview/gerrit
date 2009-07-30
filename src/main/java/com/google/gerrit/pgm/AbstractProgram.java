@@ -14,7 +14,6 @@
 
 package com.google.gerrit.pgm;
 
-import com.google.gerrit.git.WorkQueue;
 import com.google.gerrit.server.ssh.CmdLineParser;
 
 import org.kohsuke.args4j.CmdLineException;
@@ -63,11 +62,7 @@ public abstract class AbstractProgram {
       return 1;
     }
 
-    try {
-      return run();
-    } finally {
-      WorkQueue.terminate();
-    }
+    return run();
   }
 
   /** Method that never returns, e.g. to keep a daemon running. */

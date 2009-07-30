@@ -15,74 +15,58 @@
 package com.google.gerrit.git;
 
 import com.google.gerrit.client.reviewdb.Branch;
-import com.google.gerrit.client.reviewdb.Project;
-import com.google.gerrit.client.reviewdb.ProjectRight;
+import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.ReviewDb;
-import com.google.gerrit.server.config.Nullable;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashSet;
-import java.util.concurrent.TimeUnit;
 
-public class PushAllProjectsOp extends DefaultQueueOp {
+public class ReloadSubmitQueueOp extends DefaultQueueOp {
   public interface Factory {
-    PushAllProjectsOp create(String urlMatch);
+    ReloadSubmitQueueOp create();
   }
 
   private static final Logger log =
-      LoggerFactory.getLogger(PushAllProjectsOp.class);
+      LoggerFactory.getLogger(ReloadSubmitQueueOp.class);
 
   private final SchemaFactory<ReviewDb> schema;
-  private final ReplicationQueue replication;
-  private final String urlMatch;
+  private final MergeQueue mergeQueue;
 
   @Inject
-  public PushAllProjectsOp(final WorkQueue wq,
-      final SchemaFactory<ReviewDb> sf, final ReplicationQueue rq,
-      @Assisted @Nullable final String urlMatch) {
+  ReloadSubmitQueueOp(final WorkQueue wq, final SchemaFactory<ReviewDb> sf,
+      final MergeQueue mq) {
     super(wq);
-    this.schema = sf;
-    this.replication = rq;
-    this.urlMatch = urlMatch;
-  }
-
-  @Override
-  public void start(final int delay, final TimeUnit unit) {
-    if (replication.isEnabled()) {
-      super.start(delay, unit);
-    }
+    schema = sf;
+    mergeQueue = mq;
   }
 
   public void run() {
     final HashSet<Branch.NameKey> pending = new HashSet<Branch.NameKey>();
     try {
-      final ReviewDb db = schema.open();
+      final ReviewDb c = schema.open();
       try {
-        for (final Project project : db.projects().all()) {
-          if (!ProjectRight.WILD_PROJECT.equals(project.getId())) {
-            replication.scheduleFullSync(project.getNameKey(), urlMatch);
-          }
+        for (final Change change : c.changes().allSubmitted()) {
+          pending.add(change.getDest());
         }
       } finally {
-        db.close();
+        c.close();
       }
     } catch (OrmException e) {
-      log.error("Cannot enumerate known projects", e);
+      log.error("Cannot reload MergeQueue", e);
+    }
+
+    for (final Branch.NameKey branch : pending) {
+      mergeQueue.schedule(branch);
     }
   }
 
   @Override
   public String toString() {
-    String s = "Replicate All Projects";
-    if (urlMatch != null) {
-      s = s + " to " + urlMatch;
-    }
-    return s;
+    return "Reload Submit Queue";
   }
 }

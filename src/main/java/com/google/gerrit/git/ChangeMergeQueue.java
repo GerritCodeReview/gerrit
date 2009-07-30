@@ -32,10 +32,12 @@ public class ChangeMergeQueue implements MergeQueue {
   private final Map<Branch.NameKey, MergeEntry> active =
       new HashMap<Branch.NameKey, MergeEntry>();
 
+  private final WorkQueue workQueue;
   private final MergeOp.Factory opFactory;
 
   @Inject
-  ChangeMergeQueue(final MergeOp.Factory of) {
+  ChangeMergeQueue(final WorkQueue wq, final MergeOp.Factory of) {
+    workQueue = wq;
     opFactory = of;
   }
 
@@ -101,7 +103,7 @@ public class ChangeMergeQueue implements MergeQueue {
       // to run a merge again.
       //
       e.jobScheduled = true;
-      WorkQueue.schedule(new Runnable() {
+      workQueue.getDefaultQueue().schedule(new Runnable() {
         public void run() {
           unschedule(e);
           try {

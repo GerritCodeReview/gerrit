@@ -16,17 +16,22 @@ package com.google.gerrit.server.ssh;
 
 import com.google.gerrit.git.WorkQueue;
 import com.google.gerrit.git.WorkQueue.Task;
+import com.google.inject.Inject;
 
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /** Display the current work queue. */
 class AdminShowQueue extends AbstractCommand {
+  @Inject
+  private WorkQueue workQueue;
+
   PrintWriter p;
 
   @Override
@@ -34,8 +39,8 @@ class AdminShowQueue extends AbstractCommand {
     assertIsAdministrator();
     p = toPrintWriter(out);
 
-    final Task<?>[] pending = WorkQueue.getTasks();
-    Arrays.sort(pending, new Comparator<Task<?>>() {
+    final List<Task<?>> pending = workQueue.getTasks();
+    Collections.sort(pending, new Comparator<Task<?>>() {
       public int compare(Task<?> a, Task<?> b) {
         final Task.State aState = a.getState();
         final Task.State bState = b.getState();
@@ -81,7 +86,7 @@ class AdminShowQueue extends AbstractCommand {
           format(task)));
     }
     p.print("--------------------------------------------------------------\n");
-    p.print("  " + pending.length + " tasks\n");
+    p.print("  " + pending.size() + " tasks\n");
 
     p.flush();
   }

@@ -22,12 +22,16 @@ import com.google.gerrit.client.reviewdb.SystemConfig;
 import com.google.gerrit.git.ChangeMergeQueue;
 import com.google.gerrit.git.MergeOp;
 import com.google.gerrit.git.MergeQueue;
+import com.google.gerrit.git.PushAllProjectsOp;
 import com.google.gerrit.git.PushReplication;
+import com.google.gerrit.git.ReloadSubmitQueueOp;
 import com.google.gerrit.git.ReplicationQueue;
+import com.google.gerrit.git.WorkQueue;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CacheManagerProvider;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;
+import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerConfigProvider;
 import com.google.gerrit.server.config.SitePath;
@@ -89,10 +93,14 @@ public class GerritServerModule extends FactoryModule {
     bind(GerritServer.class);
     bind(ContactStore.class).toProvider(EncryptedContactStoreProvider.class);
     bind(FileTypeRegistry.class).to(MimeUtilFileTypeRegistry.class);
+    bind(WorkQueue.class);
+
     bind(ReplicationQueue.class).to(PushReplication.class).in(SINGLETON);
+    factory(PushAllProjectsOp.Factory.class);
 
     bind(MergeQueue.class).to(ChangeMergeQueue.class).in(SINGLETON);
     factory(MergeOp.Factory.class);
+    factory(ReloadSubmitQueueOp.Factory.class);
 
     bind(EmailSender.class).to(SmtpEmailSender.class).in(SINGLETON);
     bind(GerritConfig.class).toProvider(GerritConfigProvider.class).in(

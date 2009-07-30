@@ -32,11 +32,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /** Delayed execution of tasks using a background thread pool. */
 public class WorkQueue {
-  private static Executor defaultQueue;
-  private static final CopyOnWriteArrayList<Executor> queues =
+  private Executor defaultQueue;
+  private final CopyOnWriteArrayList<Executor> queues =
       new CopyOnWriteArrayList<Executor>();
 
-  private static synchronized Executor getDefaultQueue() {
+  /** Get the default work queue, for miscellaneous tasks. */
+  public synchronized Executor getDefaultQueue() {
     if (defaultQueue == null) {
       defaultQueue = createQueue(1, "WorkQueue");
     }
@@ -44,7 +45,7 @@ public class WorkQueue {
   }
 
   /** Create a new executor queue with one thread. */
-  public static Executor createQueue(final int poolsize, final String prefix) {
+  public Executor createQueue(final int poolsize, final String prefix) {
     final Executor r = new Executor(poolsize, prefix);
     r.setContinueExistingPeriodicTasksAfterShutdownPolicy(false);
     r.setExecuteExistingDelayedTasksAfterShutdownPolicy(false);
@@ -52,31 +53,17 @@ public class WorkQueue {
     return r;
   }
 
-  /** Get all of the tasks currently scheduled in the work queue. */
-  public static Task<?>[] getTasks() {
+  /** Get all of the tasks currently scheduled in any work queue. */
+  public List<Task<?>> getTasks() {
     final List<Task<?>> r = new ArrayList<Task<?>>();
     for (final Executor e : queues) {
       e.addAllTo(r);
     }
-    return r.toArray(new Task[r.size()]);
+    return r;
   }
 
-  /**
-   * Schedule a task to run at a later point in time.
-   * 
-   * @param task the task to invoke the {@code run()} method of later, on a
-   *        background thread.
-   * @param delay amount to wait before calling the task. May be 0 to request
-   *        "as soon as possible".
-   * @param unit time unit that {@code delay} is measured in.
-   */
-  public static void schedule(final Runnable task, final long delay,
-      final TimeUnit unit) {
-    getDefaultQueue().schedule(task, delay, unit);
-  }
-
-  /** Shutdown the work queue, aborting any pending tasks that haven't started. */
-  public static void terminate() {
+  /** Shutdown all queues, aborting any pending tasks that haven't started. */
+  public void shutdown() {
     for (final Executor p : queues) {
       p.shutdown();
       boolean isTerminated;

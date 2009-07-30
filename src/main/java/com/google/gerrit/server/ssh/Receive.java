@@ -141,6 +141,9 @@ class Receive extends AbstractGitCommand {
   private CreateChangeSender.Factory createChangeSenderFactory;
 
   @Inject
+  private MergedSender.Factory mergedSenderFactory;
+
+  @Inject
   private ReplicationQueue replication;
 
   @Inject
@@ -1311,7 +1314,7 @@ class Receive extends AbstractGitCommand {
     if (result != null && result.mergedIntoRef != null) {
       try {
         final MergedSender cm;
-        cm = new MergedSender(server, emailSender, result.change);
+        cm = mergedSenderFactory.create(result.change);
         cm.setFrom(getAccountId());
         cm.setReviewDb(db);
         cm.setPatchSet(result.patchSet, result.info);

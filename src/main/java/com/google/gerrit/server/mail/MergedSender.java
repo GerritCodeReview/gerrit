@@ -26,15 +26,23 @@ import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.server.GerritServer;
 import com.google.gwtorm.client.OrmException;
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /** Send notice about a change successfully merged. */
 public class MergedSender extends ReplyToChangeSender {
+
+  public static interface Factory {
+    public MergedSender create(Change change);
+  }
+
   private Branch.NameKey dest;
 
-  public MergedSender(GerritServer gs, EmailSender sf, Change c) {
+  @Inject
+  public MergedSender(GerritServer gs, EmailSender sf, @Assisted Change c) {
     super(gs, sf, c, "merged");
     dest = c.getDest();
   }

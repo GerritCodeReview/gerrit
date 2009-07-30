@@ -19,6 +19,7 @@ import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.mail.EmailSender;
+import com.google.gerrit.server.mail.MergedSender;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
 
@@ -40,14 +41,17 @@ public class ChangeMergeQueue implements MergeQueue {
   private final SchemaFactory<ReviewDb> schema;
   private final ReplicationQueue replication;
   private final EmailSender emailSender;
+  private final MergedSender.Factory mergedSenderFactory;
 
   @Inject
   ChangeMergeQueue(final GerritServer gs, final SchemaFactory<ReviewDb> sf,
-      final ReplicationQueue rq, final EmailSender es) {
+      final ReplicationQueue rq, final EmailSender es,
+      final MergedSender.Factory msf) {
     server = gs;
     schema = sf;
     replication = rq;
     emailSender = es;
+    mergedSenderFactory = msf;
   }
 
   @Override
@@ -139,7 +143,8 @@ public class ChangeMergeQueue implements MergeQueue {
 
   private void mergeImpl(final Branch.NameKey branch) {
     try {
-      new MergeOp(server, schema, replication, emailSender, branch).merge();
+      new MergeOp(server, schema, replication, emailSender, mergedSenderFactory,
+            branch).merge();
     } catch (Throwable e) {
       log.error("Merge attempt for " + branch + " failed", e);
     }

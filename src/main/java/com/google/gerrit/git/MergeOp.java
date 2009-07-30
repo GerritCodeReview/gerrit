@@ -101,6 +101,7 @@ public class MergeOp {
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final ReplicationQueue replication;
   private final EmailSender emailSender;
+  private final MergedSender.Factory mergedSenderFactory;
   private final PersonIdent myIdent;
   private final Branch.NameKey destBranch;
   private Project destProject;
@@ -117,11 +118,13 @@ public class MergeOp {
 
   public MergeOp(final GerritServer gs, final SchemaFactory<ReviewDb> sf,
       final ReplicationQueue rq, final EmailSender es,
+      final MergedSender.Factory msf,
       final Branch.NameKey branch) {
     server = gs;
     schemaFactory = sf;
     replication = rq;
     emailSender = es;
+    mergedSenderFactory = msf;
     myIdent = server.newGerritPersonIdent();
     destBranch = branch;
     toMerge = new ArrayList<CodeReviewCommit>();
@@ -930,7 +933,7 @@ public class MergeOp {
 
     try {
       final MergedSender cm;
-      cm = new MergedSender(server, emailSender, c);
+      cm = mergedSenderFactory.create(c);
       if (submitter != null) {
         cm.setFrom(submitter.getAccountId());
       }

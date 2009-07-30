@@ -73,16 +73,19 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
   private final FileTypeRegistry registry;
   private final EmailSender emailSender;
   private final AddReviewerSender.Factory addReviewerSenderFactory;
+  private final AbandonedSender.Factory abandonedSenderFactory;
 
   @Inject
   PatchDetailServiceImpl(final SchemaFactory<ReviewDb> sf,
       final GerritServer gs, final FileTypeRegistry ftr, final EmailSender es,
-      final AddReviewerSender.Factory arsf) {
+      final AddReviewerSender.Factory arsf,
+      final AbandonedSender.Factory asf) {
     super(sf);
     server = gs;
     registry = ftr;
     emailSender = es;
     addReviewerSenderFactory = arsf;
+    abandonedSenderFactory = asf;
   }
 
   public void patchScript(final Patch.Key patchKey, final PatchSet.Id psa,
@@ -448,7 +451,7 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
           // Email the reviewers
           try {
             final AbandonedSender cm;
-            cm = new AbandonedSender(server, emailSender, change);
+            cm = abandonedSenderFactory.create(change);
             cm.setFrom(me);
             cm.setReviewDb(db);
             cm.setChangeMessage(cmsg);

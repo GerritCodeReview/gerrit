@@ -36,6 +36,8 @@ import com.google.gerrit.server.workflow.FunctionState;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.gwtorm.client.Transaction;
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -87,6 +89,10 @@ import java.util.TimeZone;
  * be merged cleanly.
  */
 public class MergeOp {
+  public interface Factory {
+    MergeOp create(Branch.NameKey branch);
+  }
+
   private static final Logger log = LoggerFactory.getLogger(MergeOp.class);
   private static final String R_HEADS_MASTER =
       Constants.R_HEADS + Constants.MASTER;
@@ -115,9 +121,10 @@ public class MergeOp {
   private CodeReviewCommit mergeTip;
   private RefUpdate branchUpdate;
 
-  public MergeOp(final GerritServer gs, final SchemaFactory<ReviewDb> sf,
+  @Inject
+  MergeOp(final GerritServer gs, final SchemaFactory<ReviewDb> sf,
       final ReplicationQueue rq, final MergedSender.Factory msf,
-      final MergeFailSender.Factory mfsf, final Branch.NameKey branch) {
+      final MergeFailSender.Factory mfsf, @Assisted final Branch.NameKey branch) {
     server = gs;
     schemaFactory = sf;
     replication = rq;

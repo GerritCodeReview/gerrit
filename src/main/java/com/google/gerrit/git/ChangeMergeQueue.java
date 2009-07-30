@@ -16,11 +16,6 @@ package com.google.gerrit.git;
 
 import com.google.gerrit.client.reviewdb.Branch;
 import com.google.gerrit.client.reviewdb.Project;
-import com.google.gerrit.client.reviewdb.ReviewDb;
-import com.google.gerrit.server.GerritServer;
-import com.google.gerrit.server.mail.MergeFailSender;
-import com.google.gerrit.server.mail.MergedSender;
-import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
 
 import org.slf4j.Logger;
@@ -37,21 +32,11 @@ public class ChangeMergeQueue implements MergeQueue {
   private final Map<Branch.NameKey, MergeEntry> active =
       new HashMap<Branch.NameKey, MergeEntry>();
 
-  private final GerritServer server;
-  private final SchemaFactory<ReviewDb> schema;
-  private final ReplicationQueue replication;
-  private final MergedSender.Factory mergedSenderFactory;
-  private final MergeFailSender.Factory mergeFailSenderFactory;
+  private final MergeOp.Factory opFactory;
 
   @Inject
-  ChangeMergeQueue(final GerritServer gs, final SchemaFactory<ReviewDb> sf,
-      final ReplicationQueue rq, final MergedSender.Factory msf,
-      final MergeFailSender.Factory mfsf) {
-    server = gs;
-    schema = sf;
-    replication = rq;
-    mergedSenderFactory = msf;
-    mergeFailSenderFactory = mfsf;
+  ChangeMergeQueue(final MergeOp.Factory of) {
+    opFactory = of;
   }
 
   @Override
@@ -143,8 +128,7 @@ public class ChangeMergeQueue implements MergeQueue {
 
   private void mergeImpl(final Branch.NameKey branch) {
     try {
-      new MergeOp(server, schema, replication, mergedSenderFactory,
-            mergeFailSenderFactory, branch).merge();
+      opFactory.create(branch).merge();
     } catch (Throwable e) {
       log.error("Merge attempt for " + branch + " failed", e);
     }

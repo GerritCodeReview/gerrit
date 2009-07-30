@@ -20,6 +20,7 @@ import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.SystemConfig;
 import com.google.gerrit.git.ChangeMergeQueue;
+import com.google.gerrit.git.MergeOp;
 import com.google.gerrit.git.MergeQueue;
 import com.google.gerrit.git.PushReplication;
 import com.google.gerrit.git.ReplicationQueue;
@@ -87,7 +88,11 @@ public class GerritServerModule extends AbstractModule {
     bind(ContactStore.class).toProvider(EncryptedContactStoreProvider.class);
     bind(FileTypeRegistry.class).to(MimeUtilFileTypeRegistry.class);
     bind(ReplicationQueue.class).to(PushReplication.class).in(SINGLETON);
+
     bind(MergeQueue.class).to(ChangeMergeQueue.class).in(SINGLETON);
+    bind(MergeOp.Factory.class).toProvider(
+        FactoryProvider.newFactory(MergeOp.Factory.class, MergeOp.class));
+
     bind(EmailSender.class).to(SmtpEmailSender.class).in(SINGLETON);
     bind(GerritConfig.class).toProvider(GerritConfigProvider.class).in(
         SINGLETON);

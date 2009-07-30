@@ -37,10 +37,8 @@ import com.google.inject.Inject;
 import org.spearce.jgit.lib.PersonIdent;
 import org.spearce.jgit.util.SystemReader;
 
-import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -296,11 +294,7 @@ public abstract class OutgoingEmail {
     // this server is called. We hopefully didn't get here as a
     // good admin would have configured the canonical url.
     //
-    try {
-      return InetAddress.getLocalHost().getCanonicalHostName();
-    } catch (UnknownHostException e) {
-      return "localhost";
-    }
+    return SystemReader.getInstance().getHostname();
   }
 
   /** Get a link to the change; null if the server doesn't know its own address. */

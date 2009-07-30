@@ -14,6 +14,8 @@
 
 package com.google.gerrit.pgm;
 
+import static com.google.inject.Stage.PRODUCTION;
+
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.SchemaVersion;
 import com.google.gerrit.client.reviewdb.SystemConfig;
@@ -35,7 +37,8 @@ public class CreateSchema extends AbstractProgram {
 
   @Override
   public int run() throws Exception {
-    final Injector injector = Guice.createInjector(new DatabaseModule());
+    final Injector injector =
+        Guice.createInjector(PRODUCTION, new DatabaseModule());
     injector.injectMembers(this);
 
     final SchemaVersion sv;

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.pgm;
 
+import static com.google.inject.Stage.PRODUCTION;
+
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.Project;
@@ -26,6 +28,7 @@ import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
+import com.google.inject.Injector;
 
 import org.spearce.jgit.errors.RepositoryNotFoundException;
 import org.spearce.jgit.lib.ObjectId;
@@ -66,7 +69,9 @@ public class ReimportPatchSets extends AbstractProgram {
 
   @Override
   public int run() throws Exception {
-    Guice.createInjector(new GerritServerModule()).injectMembers(this);
+    final Injector injector =
+        Guice.createInjector(PRODUCTION, new GerritServerModule());
+    injector.injectMembers(this);
 
     final ArrayList<PatchSet.Id> todo = new ArrayList<PatchSet.Id>();
     final BufferedReader br =

@@ -20,6 +20,7 @@ import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.patch.PatchFile;
+import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -41,8 +42,9 @@ public class CommentSender extends ReplyToChangeSender {
   private List<PatchLineComment> inlineComments = Collections.emptyList();
 
   @Inject
-  public CommentSender(GerritServer gs, EmailSender sf, @Assisted Change c) {
-    super(gs, sf, c, "comment");
+  public CommentSender(GerritServer gs, EmailSender sf,
+      PatchSetInfoFactory psif, @Assisted Change c) {
+    super(gs, sf, psif, c, "comment");
   }
 
   public void setPatchLineComments(final List<PatchLineComment> plc) {

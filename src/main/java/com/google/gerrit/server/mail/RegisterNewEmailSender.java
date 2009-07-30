@@ -16,6 +16,7 @@ package com.google.gerrit.server.mail;
 
 import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.config.AuthConfig;
+import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -38,9 +39,9 @@ public class RegisterNewEmailSender extends OutgoingEmail {
 
   @Inject
   public RegisterNewEmailSender(final GerritServer gs, final EmailSender sf,
-      final HttpServletRequest request, final AuthConfig ac,
-      @Assisted final String address) {
-    super(gs, sf, null, "registernewemail");
+      final PatchSetInfoFactory psif, final HttpServletRequest request,
+      final AuthConfig ac, @Assisted final String address) {
+    super(gs, sf, psif, null, "registernewemail");
     addr = address;
     req = request;
     authConfig = ac;

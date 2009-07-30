@@ -25,6 +25,7 @@ import com.google.gerrit.client.reviewdb.ChangeApproval;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.server.GerritServer;
+import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -42,8 +43,9 @@ public class MergedSender extends ReplyToChangeSender {
   private Branch.NameKey dest;
 
   @Inject
-  public MergedSender(GerritServer gs, EmailSender sf, @Assisted Change c) {
-    super(gs, sf, c, "merged");
+  public MergedSender(GerritServer gs, EmailSender sf, PatchSetInfoFactory psif,
+      @Assisted Change c) {
+    super(gs, sf, psif, c, "merged");
     dest = c.getDest();
   }
 

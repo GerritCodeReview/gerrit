@@ -30,6 +30,8 @@ import com.google.gerrit.client.reviewdb.StarredChange;
 import com.google.gerrit.client.reviewdb.UserIdentity;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.server.GerritServer;
+import com.google.gerrit.server.patch.PatchSetInfoFactory;
+import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gwtorm.client.OrmException;
 
 import org.spearce.jgit.lib.PersonIdent;
@@ -61,6 +63,7 @@ public abstract class OutgoingEmail {
   private final String messageClass;
   protected final GerritServer server;
   private final EmailSender emailSender;
+  private final PatchSetInfoFactory patchSetInfoFactory;
   protected final Change change;
   protected final String projectName;
   private final HashSet<Account.Id> rcptTo = new HashSet<Account.Id>();
@@ -78,9 +81,10 @@ public abstract class OutgoingEmail {
   protected ReviewDb db;
 
   protected OutgoingEmail(final GerritServer gs, final EmailSender es,
-      final Change c, final String mc) {
+      final PatchSetInfoFactory psif, final Change c, final String mc) {
     server = gs;
     emailSender = es;
+    patchSetInfoFactory = psif;
     change = c;
     projectName = change != null ? change.getDest().getParentKey().get() : null;
     messageClass = mc;
@@ -209,8 +213,8 @@ public abstract class OutgoingEmail {
 
       if (patchSet != null && patchSetInfo == null) {
         try {
-          patchSetInfo = db.patchSetInfo().get(patchSet.getId());
-        } catch (OrmException err) {
+          patchSetInfo = patchSetInfoFactory.get(patchSet.getId());
+        } catch (PatchSetInfoNotAvailableException err) {
           patchSetInfo = null;
         }
       }

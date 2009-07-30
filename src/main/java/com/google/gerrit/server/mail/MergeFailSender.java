@@ -16,6 +16,7 @@ package com.google.gerrit.server.mail;
 
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.server.GerritServer;
+import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -27,8 +28,9 @@ public class MergeFailSender extends ReplyToChangeSender {
   }
 
   @Inject
-  public MergeFailSender(GerritServer gs, EmailSender sf, @Assisted Change c) {
-    super(gs, sf, c, "comment");
+  public MergeFailSender(GerritServer gs, EmailSender sf,
+      PatchSetInfoFactory psif, @Assisted Change c) {
+    super(gs, sf, psif, c, "comment");
   }
 
   @Override

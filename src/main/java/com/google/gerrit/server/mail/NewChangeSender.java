@@ -17,6 +17,7 @@ package com.google.gerrit.server.mail;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.server.GerritServer;
+import com.google.gerrit.server.patch.PatchSetInfoFactory;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -28,8 +29,9 @@ public abstract class NewChangeSender extends OutgoingEmail {
   private final Set<Account.Id> reviewers = new HashSet<Account.Id>();
   private final Set<Account.Id> extraCC = new HashSet<Account.Id>();
 
-  protected NewChangeSender(GerritServer gs, EmailSender sf, Change c) {
-    super(gs, sf, c, "newchange");
+  protected NewChangeSender(GerritServer gs, EmailSender sf,
+      PatchSetInfoFactory psif, Change c) {
+    super(gs, sf, psif, c, "newchange");
   }
 
   public void addReviewers(final Collection<Account.Id> cc) {

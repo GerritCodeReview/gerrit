@@ -18,10 +18,10 @@ import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.Nullable;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gwt.user.server.rpc.RPCServletUtils;
 import com.google.inject.Inject;
-import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
@@ -56,9 +56,9 @@ public class HostPageServlet extends HttpServlet {
   private Document hostDoc;
 
   @Inject
-  HostPageServlet(final Injector i, @SitePath final File path,
-      final GerritConfig gc, @CanonicalWebUrl final String cwu) {
-    callFactory = i.getProvider(GerritCall.class);
+  HostPageServlet(final Provider<GerritCall> cf, @SitePath final File path,
+      final GerritConfig gc, @CanonicalWebUrl @Nullable final String cwu) {
+    callFactory = cf;
     canonicalUrl = cwu;
     sitePath = path;
     config = gc;

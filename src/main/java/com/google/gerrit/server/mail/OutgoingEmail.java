@@ -31,6 +31,7 @@ import com.google.gerrit.client.reviewdb.UserIdentity;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.Nullable;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 
@@ -82,6 +83,7 @@ public abstract class OutgoingEmail {
 
   @Inject
   @CanonicalWebUrl
+  @Nullable
   private String canonicalWebUrl;
   private String httpRequestUrl;
 

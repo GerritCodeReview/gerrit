@@ -28,6 +28,7 @@ import com.google.gerrit.client.reviewdb.SystemConfig;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.Nullable;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.server.ValidToken;
 import com.google.gwtjsonrpc.server.XsrfException;
@@ -106,7 +107,7 @@ class OpenIdServiceImpl implements OpenIdService {
 
   @Inject
   OpenIdServiceImpl(final Injector i, final AuthConfig ac,
-      @CanonicalWebUrl final String cwu, final CacheManager cacheMgr,
+      @CanonicalWebUrl @Nullable final String cwu, final CacheManager cacheMgr,
       final SchemaFactory<ReviewDb> sf) throws ConsumerException {
     callFactory = i.getProvider(GerritCall.class);
     authConfig = ac;

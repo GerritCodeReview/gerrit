@@ -23,6 +23,7 @@ import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.Nullable;
 import com.google.gerrit.server.mail.EmailSender;
 import com.google.gerrit.server.ssh.GerritSshDaemon;
 import com.google.gwtorm.client.OrmException;
@@ -54,7 +55,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
 
   @Inject
   GerritConfigProvider(@GerritServerConfig final Config gsc,
-      @CanonicalWebUrl final String cwu, final AuthConfig ac,
+      @CanonicalWebUrl @Nullable final String cwu, final AuthConfig ac,
       final SchemaFactory<ReviewDb> sf) {
     cfg = gsc;
     canonicalWebUrl = cwu;

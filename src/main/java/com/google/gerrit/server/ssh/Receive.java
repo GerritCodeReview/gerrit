@@ -45,6 +45,7 @@ import com.google.gerrit.git.ReplicationQueue;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.Nullable;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.mail.MergedSender;
@@ -151,6 +152,7 @@ class Receive extends AbstractGitCommand {
 
   @Inject
   @CanonicalWebUrl
+  @Nullable
   private String canonicalWebUrl;
 
   private ReceivePack rp;

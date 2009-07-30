@@ -29,6 +29,7 @@ import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.Nullable;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.mail.MergeFailSender;
 import com.google.gerrit.server.mail.MergedSender;
@@ -127,7 +128,8 @@ public class MergeOp {
   @Inject
   MergeOp(final GerritServer gs, final SchemaFactory<ReviewDb> sf,
       final ReplicationQueue rq, final MergedSender.Factory msf,
-      final MergeFailSender.Factory mfsf, @CanonicalWebUrl final String cwu,
+      final MergeFailSender.Factory mfsf,
+      @CanonicalWebUrl @Nullable final String cwu,
       @Assisted final Branch.NameKey branch) {
     server = gs;
     schemaFactory = sf;

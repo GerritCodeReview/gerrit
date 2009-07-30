@@ -40,7 +40,6 @@ import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gerrit.server.BaseServiceImplementation;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.FileTypeRegistry;
-import com.google.gerrit.server.GerritJsonServlet;
 import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.mail.AbandonedSender;
 import com.google.gerrit.server.mail.AddReviewerSender;
@@ -192,8 +191,6 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
           cm.setChangeMessage(r.message);
           cm.setPatchLineComments(r.comments);
           cm.setReviewDb(db);
-          cm.setHttpServletRequest(GerritJsonServlet.getCurrentCall()
-              .getHttpServletRequest());
           cm.send();
         } catch (EmailException e) {
           log.error("Cannot send comments by email for patch set " + psid, e);
@@ -376,8 +373,6 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
           cm.setFrom(Common.getAccountId());
           cm.setReviewDb(db);
           cm.addReviewers(reviewerIds);
-          cm.setHttpServletRequest(GerritJsonServlet.getCurrentCall()
-              .getHttpServletRequest());
           cm.send();
         } catch (EmailException e) {
           log.error("Cannot send review request by email for change " + id, e);
@@ -459,8 +454,6 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
             cm.setFrom(me);
             cm.setReviewDb(db);
             cm.setChangeMessage(cmsg);
-            cm.setHttpServletRequest(GerritJsonServlet.getCurrentCall()
-                .getHttpServletRequest());
             cm.send();
           } catch (EmailException e) {
             log.error("Cannot send abandon change email for change "

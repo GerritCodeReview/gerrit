@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.mail;
 
-import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.inject.Inject;
@@ -24,26 +23,20 @@ import org.spearce.jgit.util.Base64;
 
 import java.io.UnsupportedEncodingException;
 
-import javax.servlet.http.HttpServletRequest;
-
 public class RegisterNewEmailSender extends OutgoingEmail {
-
   public interface Factory {
     public RegisterNewEmailSender create(String address);
   }
 
-  private final HttpServletRequest req;
   private final String addr;
-  private final AuthConfig authConfig;
 
   @Inject
-  public RegisterNewEmailSender(final GerritServer gs, final EmailSender sf,
-      final HttpServletRequest request, final AuthConfig ac,
-      @Assisted final String address) {
-    super(gs, sf, null, "registernewemail");
+  private AuthConfig authConfig;
+
+  @Inject
+  public RegisterNewEmailSender(@Assisted final String address) {
+    super("registernewemail");
     addr = address;
-    req = request;
-    authConfig = ac;
   }
 
   @Override
@@ -60,11 +53,9 @@ public class RegisterNewEmailSender extends OutgoingEmail {
 
   @Override
   protected void format() {
-    final StringBuffer url = req.getRequestURL();
-    url.setLength(url.lastIndexOf("/")); // cut "AccountSecurity"
-    url.setLength(url.lastIndexOf("/")); // cut "rpc"
-    url.setLength(url.lastIndexOf("/")); // cut "gerrit"
-    url.append("/Gerrit#VE,");
+    final StringBuilder url = new StringBuilder();
+    url.append(getGerritUrl());
+    url.append("#VE,");
     try {
       url.append(authConfig.getEmailRegistrationToken().newToken(
           Base64.encodeBytes(addr.getBytes("UTF-8"))));
@@ -75,7 +66,7 @@ public class RegisterNewEmailSender extends OutgoingEmail {
     }
 
     appendText("Welcome to Gerrit Code Review at ");
-    appendText(req.getServerName());
+    appendText(getGerritHost());
     appendText(".\n");
 
     appendText("\n");

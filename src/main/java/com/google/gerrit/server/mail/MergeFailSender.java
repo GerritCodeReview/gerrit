@@ -15,20 +15,18 @@
 package com.google.gerrit.server.mail;
 
 import com.google.gerrit.client.reviewdb.Change;
-import com.google.gerrit.server.GerritServer;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 /** Send notice about a change failing to merged. */
 public class MergeFailSender extends ReplyToChangeSender {
-
   public static interface Factory {
     public MergeFailSender create(Change change);
   }
 
   @Inject
-  public MergeFailSender(GerritServer gs, EmailSender sf, @Assisted Change c) {
-    super(gs, sf, c, "comment");
+  public MergeFailSender(@Assisted Change c) {
+    super(c, "comment");
   }
 
   @Override

@@ -18,7 +18,6 @@ import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.reviewdb.PatchSet;
-import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.patch.PatchFile;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
@@ -33,7 +32,6 @@ import java.util.Map;
 
 /** Send comments, after the author of them hit used Publish Comments in the UI. */
 public class CommentSender extends ReplyToChangeSender {
-
   public static interface Factory {
     public CommentSender create(Change change);
   }
@@ -41,8 +39,8 @@ public class CommentSender extends ReplyToChangeSender {
   private List<PatchLineComment> inlineComments = Collections.emptyList();
 
   @Inject
-  public CommentSender(GerritServer gs, EmailSender sf, @Assisted Change c) {
-    super(gs, sf, c, "comment");
+  public CommentSender(@Assisted Change c) {
+    super(c, "comment");
   }
 
   public void setPatchLineComments(final List<PatchLineComment> plc) {

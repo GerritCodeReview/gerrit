@@ -59,8 +59,6 @@ public abstract class OutgoingEmail {
 
   private static final Random RNG = new Random();
   private final String messageClass;
-  protected final GerritServer server;
-  private final EmailSender emailSender;
   protected final Change change;
   protected final String projectName;
   private final HashSet<Account.Id> rcptTo = new HashSet<Account.Id>();
@@ -70,7 +68,6 @@ public abstract class OutgoingEmail {
   private StringBuilder body;
   private boolean inFooter;
 
-  private String myUrl;
   protected Account.Id fromId;
   protected PatchSet patchSet;
   protected PatchSetInfo patchSetInfo;
@@ -78,25 +75,34 @@ public abstract class OutgoingEmail {
   protected ReviewDb db;
 
   @Inject
+  protected GerritServer server;
+
+  @Inject
+  private EmailSender emailSender;
+
+  @Inject
   @CanonicalWebUrl
   private String canonicalWebUrl;
+  private String httpRequestUrl;
 
-  protected OutgoingEmail(final GerritServer gs, final EmailSender es,
-      final Change c, final String mc) {
-    server = gs;
-    emailSender = es;
+  protected OutgoingEmail(final Change c, final String mc) {
     change = c;
     projectName = change != null ? change.getDest().getParentKey().get() : null;
     messageClass = mc;
     headers = new LinkedHashMap<String, EmailHeader>();
   }
 
-  public void setFrom(final Account.Id id) {
-    fromId = id;
+  protected OutgoingEmail(final String mc) {
+    this(null, mc);
   }
 
-  public void setHttpServletRequest(final HttpServletRequest req) {
-    myUrl = GerritServer.serverUrl(req);
+  @Inject(optional = true)
+  void setHttpServletRequest(final HttpServletRequest req) {
+    httpRequestUrl = GerritServer.serverUrl(req);
+  }
+
+  public void setFrom(final Account.Id id) {
+    fromId = id;
   }
 
   public void setPatchSet(final PatchSet ps, final PatchSetInfo psi) {
@@ -281,7 +287,7 @@ public abstract class OutgoingEmail {
     setHeader("Subject", subj.toString());
   }
 
-  private String getGerritHost() {
+  protected String getGerritHost() {
     if (getGerritUrl() != null) {
       try {
         return new URL(getGerritUrl()).getHost();
@@ -318,11 +324,11 @@ public abstract class OutgoingEmail {
     return null;
   }
 
-  private String getGerritUrl() {
+  protected String getGerritUrl() {
     if (canonicalWebUrl != null) {
       return canonicalWebUrl;
     }
-    return myUrl;
+    return httpRequestUrl;
   }
 
   protected String getChangeMessageThreadId() {

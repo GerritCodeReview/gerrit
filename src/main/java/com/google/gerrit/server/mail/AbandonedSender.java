@@ -15,20 +15,18 @@
 package com.google.gerrit.server.mail;
 
 import com.google.gerrit.client.reviewdb.Change;
-import com.google.gerrit.server.GerritServer;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 /** Send notice about a change being abandoned by its owner. */
 public class AbandonedSender extends ReplyToChangeSender {
-
   public static interface Factory {
     AbandonedSender create(Change change);
   }
 
   @Inject
-  public AbandonedSender(GerritServer gs, EmailSender sf, @Assisted Change c) {
-    super(gs, sf, c, "abandon");
+  public AbandonedSender(@Assisted Change c) {
+    super(c, "abandon");
   }
 
   @Override

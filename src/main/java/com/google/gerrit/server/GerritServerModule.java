@@ -32,7 +32,6 @@ import com.google.gerrit.server.mail.AbandonedSender;
 import com.google.gerrit.server.mail.AddReviewerSender;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.mail.EmailSender;
-import com.google.gerrit.server.mail.RegisterNewEmailSender;
 import com.google.gerrit.server.mail.SmtpEmailSender;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.gwtorm.jdbc.Database;
@@ -78,9 +77,6 @@ public class GerritServerModule extends AbstractModule {
         SINGLETON);
     bind(PatchSetInfoFactory.class);
 
-    bind(RegisterNewEmailSender.Factory.class).toProvider(
-        FactoryProvider.newFactory(RegisterNewEmailSender.Factory.class,
-            RegisterNewEmailSender.class));
     bind(AddReviewerSender.Factory.class).toProvider(
         FactoryProvider.newFactory(AddReviewerSender.Factory.class,
             AddReviewerSender.class));

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAdX///xA\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/mail/AbandonedSender.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-07-30T19:27:28Z",
+      "side": 1,
+      "message": "I just changed all of these to use member injection, so you wouldn\u0027t have to carry this through the constructors.",
+      "revId": "0a947f3638d26d3750d0910e695a42d0d97b6711",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

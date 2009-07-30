@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server;
+package com.google.gerrit.server.rpc;
 
 import com.google.gerrit.client.changes.ChangeDetailService;
 import com.google.gerrit.client.changes.PatchSetPublishDetail;
@@ -22,6 +22,7 @@ import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
+import com.google.gerrit.server.BaseServiceImplementation;
 import com.google.gerrit.server.changes.PatchSetPublishDetailFactory;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gwt.user.client.rpc.AsyncCallback;

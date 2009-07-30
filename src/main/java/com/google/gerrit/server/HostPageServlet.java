@@ -21,6 +21,7 @@ import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.Nullable;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gwt.user.server.rpc.RPCServletUtils;
+import com.google.gwtjsonrpc.server.JsonServlet;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -143,7 +144,7 @@ public class HostPageServlet extends HttpServlet {
     w.write("var ");
     w.write(id);
     w.write("_obj=");
-    GerritJsonServlet.defaultGsonBuilder().create().toJson(obj, w);
+    JsonServlet.defaultGsonBuilder().create().toJson(obj, w);
     w.write(";\n// -->\n");
     scriptNode.removeAttribute("id");
     scriptNode.setAttribute("type", "text/javascript");

@@ -20,13 +20,11 @@ import com.google.gerrit.git.WorkQueue;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GerritServerModule;
 import com.google.gerrit.server.mail.RegisterNewEmailSender;
-import com.google.gerrit.server.patch.PatchDetailServiceImpl;
+import com.google.gerrit.server.rpc.UiRpcModule;
 import com.google.gerrit.server.ssh.GerritSshDaemon;
 import com.google.gerrit.server.ssh.SshDaemonModule;
 import com.google.gerrit.server.ssh.SshServlet;
 import com.google.gwtexpui.server.CacheControlFilter;
-import com.google.gwtjsonrpc.client.RemoteJsonService;
-import com.google.inject.BindingAnnotation;
 import com.google.inject.ConfigurationException;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -43,9 +41,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.lang.annotation.Annotation;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javax.servlet.ServletContextEvent;
@@ -55,35 +52,6 @@ import javax.sql.DataSource;
 public class GerritServletConfig extends GuiceServletContextListener {
   private static final Logger log =
       LoggerFactory.getLogger(GerritServletConfig.class);
-
-  @Retention(RetentionPolicy.RUNTIME)
-  @BindingAnnotation
-  private static @interface ServletName {
-    String value();
-  }
-
-  private static final class ServletNameImpl implements ServletName {
-    private final String name;
-
-    ServletNameImpl(final String name) {
-      this.name = name;
-    }
-
-    @Override
-    public String value() {
-      return name;
-    }
-
-    @Override
-    public Class<? extends Annotation> annotationType() {
-      return ServletName.class;
-    }
-
-    @Override
-    public String toString() {
-      return "ServletName[" + value() + "]";
-    }
-  }
 
   private static Module createServletModule() {
     return new ServletModule() {
@@ -98,44 +66,13 @@ public class GerritServletConfig extends GuiceServletContextListener {
 
         serve("/Gerrit", "/Gerrit/*").with(HostPageServlet.class);
         serve("/prettify/*").with(PrettifyServlet.class);
-        serve("/login").with(OpenIdLoginServlet.class);
         serve("/ssh_info").with(SshServlet.class);
         serve("/cat/*").with(CatServlet.class);
         serve("/static/*").with(StaticServlet.class);
 
-        rpc(AccountServiceImpl.class);
-        rpc(AccountSecurityImpl.class);
-        rpc(GroupAdminServiceImpl.class);
-        rpc(ChangeDetailServiceImpl.class);
-        rpc(ChangeListServiceImpl.class);
-        rpc(ChangeManageServiceImpl.class);
-        rpc(OpenIdServiceImpl.class);
-        rpc(PatchDetailServiceImpl.class);
-        rpc(ProjectAdminServiceImpl.class);
-        rpc(SuggestServiceImpl.class);
-        rpc(SystemInfoServiceImpl.class);
-
         if (BecomeAnyAccountLoginServlet.isAllowed()) {
           serve("/become").with(BecomeAnyAccountLoginServlet.class);
         }
-      }
-
-      private void rpc(Class<? extends RemoteJsonService> clazz) {
-        String name = clazz.getSimpleName();
-        if (name.endsWith("Impl")) {
-          name = name.substring(0, name.length() - 4);
-        }
-        rpc(name, clazz);
-      }
-
-      private void rpc(final String name,
-          Class<? extends RemoteJsonService> clazz) {
-        final Key<GerritJsonServlet> srv =
-            Key.get(GerritJsonServlet.class, new ServletNameImpl(name));
-        final GerritJsonServletProvider provider =
-            new GerritJsonServletProvider(clazz);
-        serve("/gerrit/rpc/" + name).with(srv);
-        bind(srv).toProvider(provider).in(Scopes.SINGLETON);
       }
     };
   }
@@ -149,9 +86,17 @@ public class GerritServletConfig extends GuiceServletContextListener {
     };
   }
 
-  private final Injector injector =
-      Guice.createInjector(createServletModule(), createOtherModule(),
-          new GerritServerModule(), new SshDaemonModule());
+  private final Injector injector;
+
+  public GerritServletConfig() {
+    final List<Module> modules = new ArrayList<Module>();
+    modules.add(createServletModule());
+    modules.add(new UiRpcModule());
+    modules.add(createOtherModule());
+    modules.add(new GerritServerModule());
+    modules.add(new SshDaemonModule());
+    injector = Guice.createInjector(modules);
+  }
 
   @Override
   protected Injector getInjector() {

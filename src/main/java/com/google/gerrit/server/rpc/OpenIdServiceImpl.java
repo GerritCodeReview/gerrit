@@ -12,9 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server;
+package com.google.gerrit.server.rpc;
 
-import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.SignInDialog;
 import com.google.gerrit.client.SignInDialog.Mode;
 import com.google.gerrit.client.openid.DiscoveryResult;
@@ -26,12 +25,13 @@ import com.google.gerrit.client.reviewdb.AccountExternalIdAccess;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.SystemConfig;
 import com.google.gerrit.client.rpc.Common;
+import com.google.gerrit.server.GerritCall;
+import com.google.gerrit.server.GerritServer;
+import com.google.gerrit.server.UrlEncoded;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.Nullable;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwtjsonrpc.server.ValidToken;
-import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.KeyUtil;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.ResultSet;
@@ -447,32 +447,7 @@ class OpenIdServiceImpl implements OpenIdService {
 
   private Account linkAccount(final HttpServletRequest req, final ReviewDb db,
       final Identifier user, final String email) throws OrmException {
-    final Cookie[] cookies = req.getCookies();
-    if (cookies == null) {
-      return null;
-    }
-    Account.Id me = null;
-    for (final Cookie c : cookies) {
-      if (Gerrit.ACCOUNT_COOKIE.equals(c.getName())) {
-        try {
-          final ValidToken tok =
-              authConfig.getAccountToken().checkToken(c.getValue(), null);
-          if (tok == null) {
-            return null;
-          }
-          me = AccountCookie.parse(tok).getAccountId();
-          break;
-        } catch (XsrfException e) {
-          return null;
-        } catch (RuntimeException e) {
-          return null;
-        }
-      }
-    }
-    if (me == null) {
-      return null;
-    }
-
+    final Account.Id me = callFactory.get().getAccountId();
     final Account account = Common.getAccountCache().get(me, db);
     if (account == null) {
       return null;

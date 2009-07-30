@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server;
+package com.google.gerrit.server.rpc;
 
 import com.google.gerrit.client.changes.ChangeManageService;
 import com.google.gerrit.client.data.ApprovalType;
@@ -26,6 +26,8 @@ import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gerrit.git.MergeQueue;
+import com.google.gerrit.server.BaseServiceImplementation;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.workflow.CategoryFunction;
 import com.google.gerrit.server.workflow.FunctionState;
 import com.google.gwt.user.client.rpc.AsyncCallback;

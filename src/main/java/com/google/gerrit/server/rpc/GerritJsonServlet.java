@@ -12,10 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server;
+package com.google.gerrit.server.rpc;
 
 import com.google.gerrit.client.rpc.NotSignedInException;
 import com.google.gerrit.client.rpc.SignInRequired;
+import com.google.gerrit.server.GerritCall;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gson.GsonBuilder;
 import com.google.gwtjsonrpc.client.RemoteJsonService;
@@ -31,12 +32,7 @@ import javax.servlet.http.HttpServletResponse;
  * Base JSON servlet to ensure the current user is not forged.
  */
 @SuppressWarnings("serial")
-public final class GerritJsonServlet extends JsonServlet<GerritCall> {
-  @SuppressWarnings("unchecked")
-  public static final GerritCall getCurrentCall() {
-    return JsonServlet.<GerritCall> getCurrentCall();
-  }
-
+final class GerritJsonServlet extends JsonServlet<GerritCall> {
   private final Provider<GerritCall> callFactory;
   private final RemoteJsonService service;
   private final SignedToken xsrf;

@@ -22,6 +22,7 @@ import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.Common.CurrentAccountImpl;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gwtjsonrpc.server.ActiveCall;
+import com.google.gwtjsonrpc.server.JsonServlet;
 import com.google.gwtjsonrpc.server.ValidToken;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
@@ -44,7 +45,7 @@ public class GerritCall extends ActiveCall {
   static {
     Common.setCurrentAccountImpl(new CurrentAccountImpl() {
       public Account.Id getAccountId() {
-        final GerritCall c = GerritJsonServlet.getCurrentCall();
+        final GerritCall c = JsonServlet.getCurrentCall();
         return c != null ? c.getAccountId() : null;
       }
     });

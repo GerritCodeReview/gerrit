@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server;
+package com.google.gerrit.server.rpc;
 
 import com.google.gwtjsonrpc.client.RemoteJsonService;
 import com.google.inject.AbstractModule;
@@ -24,8 +24,10 @@ import com.google.inject.Provider;
 class GerritJsonServletProvider implements Provider<GerritJsonServlet> {
   @Inject
   private Injector injector;
+
   private final Class<? extends RemoteJsonService> serviceClass;
 
+  @Inject
   GerritJsonServletProvider(final Class<? extends RemoteJsonService> c) {
     serviceClass = c;
   }

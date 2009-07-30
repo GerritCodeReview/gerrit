@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server;
+package com.google.gerrit.server.rpc;
 
 import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.client.data.SshHostKey;

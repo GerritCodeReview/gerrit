@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server;
+package com.google.gerrit.server.rpc;
 
 import com.google.gerrit.client.account.AccountSecurity;
 import com.google.gerrit.client.account.ExternalIdDetail;
@@ -28,6 +28,9 @@ import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.ContactInformationStoreException;
 import com.google.gerrit.client.rpc.InvalidSshKeyException;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
+import com.google.gerrit.server.BaseServiceImplementation;
+import com.google.gerrit.server.ContactStore;
+import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.mail.RegisterNewEmailSender;

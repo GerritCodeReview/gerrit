@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server;
+package com.google.gerrit.server.rpc;
 
 import com.google.gerrit.client.admin.ProjectAdminService;
 import com.google.gerrit.client.admin.ProjectDetail;
@@ -31,6 +31,9 @@ import com.google.gerrit.client.rpc.InvalidNameException;
 import com.google.gerrit.client.rpc.InvalidRevisionException;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gerrit.git.ReplicationQueue;
+import com.google.gerrit.server.BaseServiceImplementation;
+import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.GerritServer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;

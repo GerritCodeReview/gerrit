@@ -19,7 +19,6 @@ import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
-import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
@@ -48,9 +47,9 @@ public class BecomeAnyAccountLoginServlet extends HttpServlet {
   private final Provider<GerritCall> callFactory;
 
   @Inject
-  BecomeAnyAccountLoginServlet(final Injector i,
+  BecomeAnyAccountLoginServlet(final Provider<GerritCall> cf,
       final SchemaFactory<ReviewDb> sf) {
-    callFactory = i.getProvider(GerritCall.class);
+    callFactory = cf;
     schema = sf;
     allowed = isAllowed();
   }

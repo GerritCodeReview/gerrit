@@ -38,7 +38,6 @@ import com.google.gwtorm.client.ResultSet;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.gwtorm.client.Transaction;
 import com.google.inject.Inject;
-import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
@@ -106,10 +105,10 @@ class OpenIdServiceImpl implements OpenIdService {
   private final SelfPopulatingCache discoveryCache;
 
   @Inject
-  OpenIdServiceImpl(final Injector i, final AuthConfig ac,
+  OpenIdServiceImpl(final Provider<GerritCall> cf, final AuthConfig ac,
       @CanonicalWebUrl @Nullable final String cwu, final CacheManager cacheMgr,
       final SchemaFactory<ReviewDb> sf) throws ConsumerException {
-    callFactory = i.getProvider(GerritCall.class);
+    callFactory = cf;
     authConfig = ac;
     canonicalWebUrl = cwu;
     schema = sf;

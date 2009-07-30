@@ -27,7 +27,6 @@ import com.google.gerrit.client.rpc.Common;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
-import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
@@ -74,9 +73,9 @@ public class CatServlet extends HttpServlet {
   private final FileTypeRegistry registry;
 
   @Inject
-  CatServlet(final Injector i, final GerritServer gs,
+  CatServlet(final Provider<GerritCall> cf, final GerritServer gs,
       final SchemaFactory<ReviewDb> sf, final FileTypeRegistry ftr) {
-    callFactory = i.getProvider(GerritCall.class);
+    callFactory = cf;
     server = gs;
     schema = sf;
     rng = new SecureRandom();

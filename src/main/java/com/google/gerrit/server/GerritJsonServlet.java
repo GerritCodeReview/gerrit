@@ -22,7 +22,6 @@ import com.google.gwtjsonrpc.client.RemoteJsonService;
 import com.google.gwtjsonrpc.server.JsonServlet;
 import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.inject.Inject;
-import com.google.inject.Injector;
 import com.google.inject.Provider;
 
 import javax.servlet.http.HttpServletRequest;
@@ -43,9 +42,9 @@ public final class GerritJsonServlet extends JsonServlet<GerritCall> {
   private final SignedToken xsrf;
 
   @Inject
-  GerritJsonServlet(final Injector i, final AuthConfig authConfig,
+  GerritJsonServlet(final Provider<GerritCall> cf, final AuthConfig authConfig,
       final RemoteJsonService s) {
-    callFactory = i.getProvider(GerritCall.class);
+    callFactory = cf;
     service = s;
     xsrf = authConfig.getXsrfToken();
   }

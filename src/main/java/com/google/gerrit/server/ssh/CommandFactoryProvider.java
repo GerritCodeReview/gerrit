@@ -14,57 +14,32 @@
 
 package com.google.gerrit.server.ssh;
 
-import com.google.inject.Binding;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
-import com.google.inject.TypeLiteral;
 
 import org.apache.sshd.server.CommandFactory;
-
-import java.lang.annotation.Annotation;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Creates a CommandFactory using commands registered by {@link CommandModule}.
  */
 class CommandFactoryProvider implements Provider<CommandFactory> {
-  private final Injector injector;
+  private static final String SERVER = "Gerrit Code Review";
+  private final DispatchCommandProvider dispatcher;
 
   @Inject
   CommandFactoryProvider(final Injector i) {
-    injector = i;
+    dispatcher = new DispatchCommandProvider(i, SERVER, Commands.ROOT);
   }
 
   @Override
   public CommandFactory get() {
-    return new GuiceCommandFactory(createMap());
-  }
-
-  @SuppressWarnings("unchecked")
-  private Map<String, Provider<CommandFactory.Command>> createMap() {
-    final Map<String, Provider<CommandFactory.Command>> m;
-    m = new HashMap<String, Provider<CommandFactory.Command>>();
-
-    for (final Binding<?> binding : allCommands()) {
-      final Annotation annotation = binding.getKey().getAnnotation();
-      if (annotation == null || !(annotation instanceof CommandName)) {
-        continue;
+    return new CommandFactory() {
+      public Command createCommand(final String requestCommand) {
+        final DispatchCommand c = dispatcher.get();
+        c.setCommandLine(requestCommand);
+        return c;
       }
-
-      final CommandName name = (CommandName) annotation;
-      m.put(name.value(), (Provider<CommandFactory.Command>) binding
-          .getProvider());
-    }
-
-    return Collections.unmodifiableMap(m);
-  }
-
-  private List<Binding<CommandFactory.Command>> allCommands() {
-    return injector
-        .findBindingsByType(new TypeLiteral<CommandFactory.Command>() {});
+    };
   }
 }

@@ -15,23 +15,37 @@
 package com.google.gerrit.server.ssh.commands;
 
 import com.google.gerrit.server.ssh.CommandModule;
+import com.google.gerrit.server.ssh.CommandName;
+import com.google.gerrit.server.ssh.Commands;
+import com.google.gerrit.server.ssh.DispatchCommandProvider;
 
 
 /** Register the basic commands any Gerrit server should support. */
 public class DefaultCommandModule extends CommandModule {
   @Override
   protected void configure() {
-    command("gerrit-flush-caches").to(AdminFlushCaches.class);
-    command("gerrit-ls-projects").to(ListProjects.class);
-    command("gerrit-receive-pack").to(Receive.class);
-    command("gerrit-replicate").to(AdminReplicate.class);
-    command("gerrit-show-caches").to(AdminShowCaches.class);
-    command("gerrit-show-connections").to(AdminShowConnections.class);
-    command("gerrit-show-queue").to(AdminShowQueue.class);
-    command("gerrit-upload-pack").to(Upload.class);
+    final CommandName git = Commands.named("git");
+    final CommandName gerrit = Commands.named("gerrit");
+
+    command(gerrit).toProvider(new DispatchCommandProvider(gerrit));
+    command(gerrit, "flush-caches").to(AdminFlushCaches.class);
+    command(gerrit, "ls-projects").to(ListProjects.class);
+    command(gerrit, "receive-pack").to(Receive.class);
+    command(gerrit, "replicate").to(AdminReplicate.class);
+    command(gerrit, "show-caches").to(AdminShowCaches.class);
+    command(gerrit, "show-connections").to(AdminShowConnections.class);
+    command(gerrit, "show-queue").to(AdminShowQueue.class);
+
+    command(git).toProvider(new DispatchCommandProvider(git));
+    command(git, "receive-pack").to(Commands.key(gerrit, "receive-pack"));
+    command(git, "upload-pack").to(Upload.class);
+
     command("scp").to(ScpCommand.class);
 
-    alias("git-upload-pack", "gerrit-upload-pack");
-    alias("git-receive-pack", "gerrit-receive-pack");
+    // Honor the legacy hypenated forms as aliases for the non-hypenated forms
+    //
+    command("git-upload-pack").to(Commands.key(git, "upload-pack"));
+    command("git-receive-pack").to(Commands.key(git, "receive-pack"));
+    command("gerrit-receive-pack").to(Commands.key(git, "receive-pack"));
   }
 }

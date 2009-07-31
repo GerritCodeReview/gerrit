@@ -48,7 +48,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-/** Basic command implementation invoked by {@link GuiceCommandFactory}. */
 public abstract class AbstractCommand extends BaseCommand {
   private static final String ENC = "UTF-8";
 
@@ -70,8 +69,6 @@ public abstract class AbstractCommand extends BaseCommand {
 
   protected ReviewDb db;
 
-  private String name;
-  private String unsplitArguments;
   private Set<AccountGroup.Id> userGroups;
 
   @Option(name = "--help", usage = "display this help text", aliases = {"-h"})
@@ -128,25 +125,12 @@ public abstract class AbstractCommand extends BaseCommand {
     }
   }
 
-  protected String getName() {
-    return name;
-  }
-
-  public String getCommandLine() {
-    return unsplitArguments.length() > 0 ? name + " " + unsplitArguments : name;
-  }
-
-  public void setCommandLine(final String cmdName, final String line) {
-    name = cmdName;
-    unsplitArguments = line;
-  }
-
   private void parseArguments() throws Failure {
     final List<String> list = new ArrayList<String>();
     boolean inquote = false;
     StringBuilder r = new StringBuilder();
-    for (int ip = 0; ip < unsplitArguments.length();) {
-      final char b = unsplitArguments.charAt(ip++);
+    for (int ip = 0; ip < commandLine.length();) {
+      final char b = commandLine.charAt(ip++);
       switch (b) {
         case '\t':
         case ' ':
@@ -161,10 +145,10 @@ public abstract class AbstractCommand extends BaseCommand {
           inquote = !inquote;
           continue;
         case '\\':
-          if (inquote || ip == unsplitArguments.length())
+          if (inquote || ip == commandLine.length())
             r.append(b); // literal within a quote
           else
-            r.append(unsplitArguments.charAt(ip++));
+            r.append(commandLine.charAt(ip++));
           continue;
         default:
           r.append(b);
@@ -186,7 +170,7 @@ public abstract class AbstractCommand extends BaseCommand {
 
     if (help) {
       final StringWriter msg = new StringWriter();
-      msg.write(getName());
+      msg.write(commandPrefix);
       clp.printSingleLineUsage(msg, null);
       msg.write('\n');
 
@@ -202,7 +186,7 @@ public abstract class AbstractCommand extends BaseCommand {
     final String who = session.getUsername() + "," + getAccountId();
     final AbstractCommand cmd = this;
     final Context ctx = SshScopes.getContext();
-    new Thread("Execute " + getName() + " [" + who + "]") {
+    new Thread("Execute " + commandPrefix + " [" + who + "]") {
       @Override
       public void run() {
         SshScopes.current.set(ctx);
@@ -297,9 +281,9 @@ public abstract class AbstractCommand extends BaseCommand {
     logmsg.append("sshd error (account ");
     logmsg.append(getAccountId());
     logmsg.append("): ");
-    logmsg.append(name);
+    logmsg.append(commandPrefix);
     logmsg.append(' ');
-    logmsg.append(unsplitArguments);
+    logmsg.append(commandLine);
     return logmsg;
   }
 

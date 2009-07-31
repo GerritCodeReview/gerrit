@@ -90,7 +90,7 @@ class AdminShowConnections extends AbstractCommand {
       if (active != null) {
         synchronized (active) {
           for (final AbstractCommand cmd : active) {
-            p.print(String.format(" [ %s ]\n", cmd.getCommandLine()));
+            p.print(String.format(" [ %s ]\n", cmd.toString()));
           }
         }
       }

@@ -55,8 +55,8 @@ class ScpCommand extends AbstractCommand {
   private IOException error;
 
   @Override
-  public void setCommandLine(final String cmdName, final String line) {
-    super.setCommandLine(cmdName, "");
+  public void setCommandLine(final String line) {
+    super.setCommandLine(line);
 
     final String[] args = line.split(" ");
     root = "";

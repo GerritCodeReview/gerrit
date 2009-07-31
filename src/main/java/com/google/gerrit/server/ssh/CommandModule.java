@@ -34,6 +34,33 @@ public abstract class CommandModule extends AbstractModule {
   }
 
   /**
+   * Configure a command to be invoked by name.
+   *
+   * @param name the name of the command the client will provide in order to
+   *        call the command.
+   * @return a binding that must be bound to a non-singleton provider for a
+   *         {@link Command} object.
+   */
+  protected LinkedBindingBuilder<Command> command(final CommandName name) {
+    return bind(Commands.key(name));
+  }
+
+  /**
+   * Configure a command to be invoked by name.
+   *
+   *@param parent context of the parent command, that this command is a
+   *        subcommand of.
+   * @param name the name of the command the client will provide in order to
+   *        call the command.
+   * @return a binding that must be bound to a non-singleton provider for a
+   *         {@link Command} object.
+   */
+  protected LinkedBindingBuilder<Command> command(final CommandName parent,
+      final String name) {
+    return bind(Commands.key(parent, name));
+  }
+
+  /**
    * Alias one command to another.
    *
    * @param from the new command name that when called will actually delegate to

@@ -22,8 +22,20 @@ import java.lang.annotation.Annotation;
 
 /** Utilities to support {@link CommandName} construction. */
 public class Commands {
+  /** Magic value signaling the top level. */
+  public static final CommandName ROOT = named("");
+
   public static Key<CommandFactory.Command> key(final String name) {
-    return Key.get(CommandFactory.Command.class, named(name));
+    return key(named(name));
+  }
+
+  public static Key<CommandFactory.Command> key(final CommandName name) {
+    return Key.get(CommandFactory.Command.class, name);
+  }
+
+  public static Key<CommandFactory.Command> key(final CommandName parent,
+      final String name) {
+    return Key.get(CommandFactory.Command.class, named(parent, name));
   }
 
   /** Create a CommandName annotation for the supplied name. */
@@ -55,6 +67,67 @@ public class Commands {
         return "CommandName[" + value() + "]";
       }
     };
+  }
+
+  /** Create a CommandName annotation for the supplied name. */
+  public static CommandName named(final CommandName parent, final String name) {
+    return new NestedCommandNameImpl(parent, name);
+  }
+
+  /** Return the name of this command, possibly including any parents. */
+  public static String nameOf(final CommandName name) {
+    if (name instanceof NestedCommandNameImpl) {
+      return nameOf(((NestedCommandNameImpl) name).parent) + " " + name.value();
+    }
+    return name.value();
+  }
+
+  /** Is the second command a direct child of the first command? */
+  public static boolean isChild(final CommandName parent, final CommandName name) {
+    if (name instanceof NestedCommandNameImpl) {
+      return parent.equals(((NestedCommandNameImpl) name).parent);
+    }
+    if (parent == ROOT) {
+      return true;
+    }
+    return false;
+  }
+
+  private static final class NestedCommandNameImpl implements CommandName {
+    private final CommandName parent;
+    private final String name;
+
+    NestedCommandNameImpl(final CommandName parent, final String name) {
+      this.parent = parent;
+      this.name = name;
+    }
+
+    @Override
+    public String value() {
+      return name;
+    }
+
+    @Override
+    public Class<? extends Annotation> annotationType() {
+      return CommandName.class;
+    }
+
+    @Override
+    public int hashCode() {
+      return parent.hashCode() * 31 + value().hashCode();
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+      return obj instanceof NestedCommandNameImpl
+          && parent.equals(((NestedCommandNameImpl) obj).parent)
+          && value().equals(((NestedCommandNameImpl) obj).value());
+    }
+
+    @Override
+    public String toString() {
+      return "CommandName[" + nameOf(this) + "]";
+    }
   }
 
   private Commands() {

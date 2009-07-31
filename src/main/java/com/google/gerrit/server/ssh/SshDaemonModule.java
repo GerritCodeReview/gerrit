@@ -34,7 +34,7 @@ import org.slf4j.LoggerFactory;
 
 import java.net.SocketAddress;
 
-/** Configures standard dependencies for {@link GerritSshDaemon}. */
+/** Configures standard dependencies for {@link SshDaemon}. */
 public class SshDaemonModule extends AbstractModule {
   static final Logger log = LoggerFactory.getLogger(SshDaemonModule.class);
 
@@ -46,7 +46,7 @@ public class SshDaemonModule extends AbstractModule {
     configureSessionScope();
     configureRequestScope();
 
-    bind(Sshd.class).to(GerritSshDaemon.class).in(SINGLETON);
+    bind(SshInfo.class).to(SshDaemon.class).in(SINGLETON);
     bind(CommandFactory.class).toProvider(CommandFactoryProvider.class);
     bind(PublickeyAuthenticator.class).to(DatabasePubKeyAuth.class);
 

@@ -22,11 +22,17 @@ import org.apache.sshd.server.CommandFactory;
 import java.io.IOException;
 import java.util.Map;
 
-/** Creates a command implementation based on the client input. */
-class GerritCommandFactory implements CommandFactory {
+/**
+ * Creates a command implementation by looking up an entry in Guice.
+ * <p>
+ * Commands can be registered in Guice through a {@link CommandModule}, using
+ * the {@link CommandModule#command(String)} binding to connect a String command
+ * name to a command implementation.
+ */
+class GuiceCommandFactory implements CommandFactory {
   private final Map<String, Provider<Command>> commands;
 
-  GerritCommandFactory(final Map<String, Provider<Command>> c) {
+  GuiceCommandFactory(final Map<String, Provider<Command>> c) {
     commands = c;
   }
 

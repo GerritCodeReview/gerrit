@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server;
 
-import com.google.gerrit.server.ssh.Sshd;
+import com.google.gerrit.server.ssh.SshInfo;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -50,10 +50,10 @@ import javax.servlet.http.HttpServletResponse;
 @SuppressWarnings("serial")
 @Singleton
 public class SshServlet extends HttpServlet {
-  private final Sshd sshd;
+  private final SshInfo sshd;
 
   @Inject
-  SshServlet(final Sshd daemon) {
+  SshServlet(final SshInfo daemon) {
     sshd = daemon;
   }
 

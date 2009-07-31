@@ -101,11 +101,11 @@ import java.util.List;
  * </pre>
  */
 @Singleton
-class GerritSshDaemon extends SshServer implements Sshd {
+public class SshDaemon extends SshServer implements SshInfo {
   private static final int DEFAULT_PORT = 29418;
 
   private static final Logger log =
-      LoggerFactory.getLogger(GerritSshDaemon.class);
+      LoggerFactory.getLogger(SshDaemon.class);
 
   private static String format(final SocketAddress addr) {
     if (addr instanceof InetSocketAddress) {
@@ -130,7 +130,7 @@ class GerritSshDaemon extends SshServer implements Sshd {
   private volatile IoAcceptor acceptor;
 
   @Inject
-  GerritSshDaemon(final GerritServer srv, final CommandFactory commandFactory,
+  SshDaemon(final GerritServer srv, final CommandFactory commandFactory,
       final PublickeyAuthenticator userAuth, @SitePath final File sitePath,
       @GerritServerConfig final Config cfg) {
     setPort(22/* never used */);

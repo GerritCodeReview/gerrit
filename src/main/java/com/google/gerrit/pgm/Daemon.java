@@ -21,8 +21,8 @@ import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.server.config.GerritConfigProvider;
 import com.google.gerrit.server.config.GerritServerModule;
+import com.google.gerrit.server.ssh.SshDaemon;
 import com.google.gerrit.server.ssh.SshDaemonModule;
-import com.google.gerrit.server.ssh.Sshd;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -47,7 +47,7 @@ public class Daemon extends AbstractProgram {
     //
     Common.setGerritConfig(injector.getInstance(GerritConfig.class));
 
-    injector.getInstance(Sshd.class).start();
+    injector.getInstance(SshDaemon.class).start();
     return never();
   }
 }

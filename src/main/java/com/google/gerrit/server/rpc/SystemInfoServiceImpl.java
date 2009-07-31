@@ -19,7 +19,7 @@ import com.google.gerrit.client.data.SshHostKey;
 import com.google.gerrit.client.data.SystemInfoService;
 import com.google.gerrit.client.reviewdb.ContributorAgreement;
 import com.google.gerrit.client.reviewdb.ReviewDb;
-import com.google.gerrit.server.ssh.Sshd;
+import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
@@ -53,13 +53,13 @@ class SystemInfoServiceImpl implements SystemInfoService {
   private static final JSch JSCH = new JSch();
 
   private final SchemaFactory<ReviewDb> schema;
-  private final Sshd sshd;
+  private final SshInfo sshd;
   private final GerritConfig config;
   private final List<PublicKey> hostKeys;
 
   @Inject
   SystemInfoServiceImpl(final SchemaFactory<ReviewDb> sf,
-      final Sshd daemon, final GerritConfig gc) {
+      final SshInfo daemon, final GerritConfig gc) {
     schema = sf;
     sshd = daemon;
     config = gc;

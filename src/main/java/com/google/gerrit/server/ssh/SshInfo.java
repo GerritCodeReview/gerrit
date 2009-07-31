@@ -14,21 +14,12 @@
 
 package com.google.gerrit.server.ssh;
 
-import org.apache.mina.core.service.IoAcceptor;
-
-import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.security.PublicKey;
 import java.util.Collection;
 
-public interface Sshd {
-  void start() throws IOException;
-
-  void stop();
-
+public interface SshInfo {
   InetSocketAddress getAddress();
 
   Collection<PublicKey> getHostKeys();
-
-  IoAcceptor getIoAcceptor();
 }

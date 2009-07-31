@@ -17,8 +17,8 @@ package com.google.gerrit.server.ssh.commands;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.server.ssh.AbstractCommand;
+import com.google.gerrit.server.ssh.SshDaemon;
 import com.google.gerrit.server.ssh.SshUtil;
-import com.google.gerrit.server.ssh.Sshd;
 import com.google.inject.Inject;
 
 import org.apache.mina.core.service.IoAcceptor;
@@ -46,7 +46,7 @@ class AdminShowConnections extends AbstractCommand {
   PrintWriter p;
 
   @Inject
-  private Sshd daemon;
+  private SshDaemon daemon;
 
   @Override
   protected void run() throws Failure, UnsupportedEncodingException {

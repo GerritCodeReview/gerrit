@@ -30,8 +30,9 @@ import com.google.gerrit.server.config.GerritConfigProvider;
 import com.google.gerrit.server.config.GerritServerModule;
 import com.google.gerrit.server.mail.RegisterNewEmailSender;
 import com.google.gerrit.server.rpc.UiRpcModule;
+import com.google.gerrit.server.ssh.SshDaemon;
 import com.google.gerrit.server.ssh.SshDaemonModule;
-import com.google.gerrit.server.ssh.Sshd;
+import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gwtexpui.server.CacheControlFilter;
 import com.google.inject.ConfigurationException;
 import com.google.inject.Guice;
@@ -105,7 +106,7 @@ public class GerritServletConfig extends GuiceServletContextListener {
     webInjector = rootInjector.createChildInjector(new FactoryModule() {
       @Override
       protected void configure() {
-        bind(Sshd.class).toProvider(sshInjector.getProvider(Sshd.class));
+        bind(SshInfo.class).toProvider(sshInjector.getProvider(SshInfo.class));
         bind(GerritConfig.class).toProvider(GerritConfigProvider.class).in(
             SINGLETON);
 
@@ -173,7 +174,7 @@ public class GerritServletConfig extends GuiceServletContextListener {
     }
 
     try {
-      sshInjector.getInstance(Sshd.class).start();
+      sshInjector.getInstance(SshDaemon.class).start();
     } catch (ConfigurationException e) {
       log.error("Unable to start SSHD", e);
     } catch (ProvisionException e) {
@@ -186,7 +187,7 @@ public class GerritServletConfig extends GuiceServletContextListener {
   @Override
   public void contextDestroyed(final ServletContextEvent event) {
     try {
-      sshInjector.getInstance(Sshd.class).stop();
+      sshInjector.getInstance(SshDaemon.class).stop();
     } catch (ConfigurationException e) {
     } catch (ProvisionException e) {
     }

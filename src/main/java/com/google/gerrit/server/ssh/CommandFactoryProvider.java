@@ -41,7 +41,7 @@ class CommandFactoryProvider implements Provider<CommandFactory> {
 
   @Override
   public CommandFactory get() {
-    return new GerritCommandFactory(createMap());
+    return new GuiceCommandFactory(createMap());
   }
 
   @SuppressWarnings("unchecked")

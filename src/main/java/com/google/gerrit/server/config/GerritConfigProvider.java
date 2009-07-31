@@ -22,7 +22,7 @@ import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.server.ContactStore;
 import com.google.gerrit.server.mail.EmailSender;
-import com.google.gerrit.server.ssh.Sshd;
+import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
@@ -46,7 +46,7 @@ public class GerritConfigProvider implements Provider<GerritConfig> {
   private final AuthConfig authConfig;
   private final SchemaFactory<ReviewDb> schema;
 
-  private Sshd sshd;
+  private SshInfo sshd;
   private EmailSender emailSender;
   private ContactStore contactStore;
 
@@ -61,7 +61,7 @@ public class GerritConfigProvider implements Provider<GerritConfig> {
   }
 
   @Inject(optional = true)
-  void setSshd(final Sshd d) {
+  void setSshd(final SshInfo d) {
     sshd = d;
   }
 

@@ -48,7 +48,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-/** Basic command implementation invoked by {@link GerritCommandFactory}. */
+/** Basic command implementation invoked by {@link GuiceCommandFactory}. */
 public abstract class AbstractCommand extends BaseCommand {
   private static final String ENC = "UTF-8";
 

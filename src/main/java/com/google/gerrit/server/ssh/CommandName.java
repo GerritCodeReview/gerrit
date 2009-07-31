@@ -22,9 +22,11 @@ import java.lang.annotation.Retention;
 
 /**
  * Name of a command registered in an SSH daemon.
+ * <p>
+ * Use {@link Commands#key(String)} to construct a key for a command name.
  *
  * @see CommandModule#command(String)
- * @see Commands#named(String)
+ * @see Commands#key(String)
  */
 @Retention(RUNTIME)
 @BindingAnnotation

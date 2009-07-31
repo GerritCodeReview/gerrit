@@ -28,6 +28,7 @@ import com.google.gerrit.server.ContactStore;
 import com.google.gerrit.server.EncryptedContactStoreProvider;
 import com.google.gerrit.server.FileTypeRegistry;
 import com.google.gerrit.server.GerritServer;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.MimeUtilFileTypeRegistry;
 import com.google.gerrit.server.mail.AbandonedSender;
 import com.google.gerrit.server.mail.AddReviewerSender;
@@ -81,6 +82,7 @@ public class GerritServerModule extends FactoryModule {
 
     bind(EmailSender.class).to(SmtpEmailSender.class).in(SINGLETON);
     bind(PatchSetInfoFactory.class);
+    bind(IdentifiedUser.Factory.class);
 
     factory(AbandonedSender.Factory.class);
     factory(AddReviewerSender.Factory.class);

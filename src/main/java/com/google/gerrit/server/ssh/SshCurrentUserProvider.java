@@ -12,27 +12,30 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server;
+package com.google.gerrit.server.ssh;
 
 import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.ssh.SshScopes.Context;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.servlet.RequestScoped;
+import com.google.inject.ProvisionException;
 
-@RequestScoped
-class HttpCurrentUserProvider implements Provider<CurrentUser> {
-  private final GerritCall call;
+class SshCurrentUserProvider implements Provider<IdentifiedUser> {
   private final IdentifiedUser.Factory factory;
 
   @Inject
-  HttpCurrentUserProvider(final GerritCall c, final IdentifiedUser.Factory f) {
-    call = c;
+  SshCurrentUserProvider(final IdentifiedUser.Factory f) {
     factory = f;
   }
 
   @Override
-  public CurrentUser get() {
-    final Account.Id id = call.getAccountId();
-    return id != null ? factory.create(id) : CurrentUser.ANONYMOUS;
+  public IdentifiedUser get() {
+    final Context ctx = SshScopes.getContext();
+    final Account.Id id = ctx.session.getAttribute(SshUtil.CURRENT_ACCOUNT);
+    if (id == null) {
+      throw new ProvisionException("User not yet authenticated");
+    }
+    return factory.create(id);
   }
 }

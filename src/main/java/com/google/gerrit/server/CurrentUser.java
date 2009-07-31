@@ -15,14 +15,11 @@
 package com.google.gerrit.server;
 
 import com.google.inject.servlet.RequestScoped;
-import com.google.inject.servlet.SessionScoped;
 
 /**
  * Information about the currently logged in user.
  * <p>
- * This is a {@link RequestScoped} or {@link SessionScoped} property managed by
- * Guice, depending on the environment. Application code should just assume it
- * is {@code RequestScoped}.
+ * This is a {@link RequestScoped} property managed by Guice.
  *
  * @see IdentifiedUser
  */

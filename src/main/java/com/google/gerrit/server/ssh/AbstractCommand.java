@@ -20,7 +20,6 @@ import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
-import com.google.gerrit.pgm.CmdLineParser;
 import com.google.gerrit.server.BaseServiceImplementation;
 import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.IdentifiedUser;
@@ -29,20 +28,12 @@ import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
 
-import org.apache.sshd.common.SshException;
-import org.kohsuke.args4j.CmdLineException;
-import org.kohsuke.args4j.Option;
-
 import java.io.BufferedWriter;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.SocketAddress;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 public abstract class AbstractCommand extends BaseCommand {
@@ -64,9 +55,6 @@ public abstract class AbstractCommand extends BaseCommand {
   protected ReviewDb db;
 
   private Set<AccountGroup.Id> userGroups;
-
-  @Option(name = "--help", usage = "display this help text", aliases = {"-h"})
-  private boolean help;
 
   protected PrintWriter toPrintWriter(final OutputStream o)
       throws UnsupportedEncodingException {
@@ -119,68 +107,12 @@ public abstract class AbstractCommand extends BaseCommand {
     }
   }
 
-  private void parseArguments() throws Failure {
-    final List<String> list = new ArrayList<String>();
-    boolean inquote = false;
-    StringBuilder r = new StringBuilder();
-    for (int ip = 0; ip < commandLine.length();) {
-      final char b = commandLine.charAt(ip++);
-      switch (b) {
-        case '\t':
-        case ' ':
-          if (inquote)
-            r.append(b);
-          else if (r.length() > 0) {
-            list.add(r.toString());
-            r = new StringBuilder();
-          }
-          continue;
-        case '\'':
-          inquote = !inquote;
-          continue;
-        case '\\':
-          if (inquote || ip == commandLine.length())
-            r.append(b); // literal within a quote
-          else
-            r.append(commandLine.charAt(ip++));
-          continue;
-        default:
-          r.append(b);
-          continue;
-      }
-    }
-    if (r.length() > 0) {
-      list.add(r.toString());
-    }
-
-    final CmdLineParser clp = new CmdLineParser(this);
-    try {
-      clp.parseArgument(list.toArray(new String[list.size()]));
-    } catch (CmdLineException err) {
-      if (!help) {
-        throw new UnloggedFailure(1, "fatal: " + err.getMessage());
-      }
-    }
-
-    if (help) {
-      final StringWriter msg = new StringWriter();
-      msg.write(commandPrefix);
-      clp.printSingleLineUsage(msg, null);
-      msg.write('\n');
-
-      msg.write('\n');
-      clp.printUsage(msg, null);
-      msg.write('\n');
-      throw new UnloggedFailure(1, msg.toString());
-    }
-  }
-
   public void start() {
     startThread(new CommandRunnable() {
       public void run() throws Exception {
         try {
           preRun();
-          parseArguments();
+          parseCommandLine();
           AbstractCommand.this.run();
         } finally {
           postRun();

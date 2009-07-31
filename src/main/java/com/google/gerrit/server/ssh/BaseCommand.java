@@ -15,6 +15,7 @@
 package com.google.gerrit.server.ssh;
 
 import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.pgm.CmdLineParser;
 import com.google.gerrit.server.ssh.SshScopes.Context;
 
 import org.apache.sshd.common.SshException;
@@ -22,16 +23,24 @@ import org.apache.sshd.server.CommandFactory.Command;
 import org.apache.sshd.server.CommandFactory.ExitCallback;
 import org.apache.sshd.server.CommandFactory.SessionAware;
 import org.apache.sshd.server.session.ServerSession;
+import org.kohsuke.args4j.Argument;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class BaseCommand implements Command, SessionAware {
   private static final Logger log = LoggerFactory.getLogger(BaseCommand.class);
+
+  @Option(name = "--help", usage = "display this help text", aliases = {"-h"})
+  private boolean help;
 
   protected InputStream in;
   protected OutputStream out;
@@ -99,6 +108,72 @@ public abstract class BaseCommand implements Command, SessionAware {
     cmd.setOutputStream(out);
     cmd.setErrorStream(err);
     cmd.setExitCallback(exit);
+  }
+
+  /**
+   * Parses the command line argument, injecting parsed values into fields.
+   * <p>
+   * This method must be explicitly invoked to cause a parse. When parsing,
+   * arguments are split out of and read from the {@link #commandLine} field.
+   *
+   * @throws Failure if the command line arguments were invalid.
+   * @see Option
+   * @see Argument
+   */
+  protected void parseCommandLine() throws Failure {
+    final List<String> list = new ArrayList<String>();
+    boolean inquote = false;
+    StringBuilder r = new StringBuilder();
+    for (int ip = 0; ip < commandLine.length();) {
+      final char b = commandLine.charAt(ip++);
+      switch (b) {
+        case '\t':
+        case ' ':
+          if (inquote)
+            r.append(b);
+          else if (r.length() > 0) {
+            list.add(r.toString());
+            r = new StringBuilder();
+          }
+          continue;
+        case '\'':
+          inquote = !inquote;
+          continue;
+        case '\\':
+          if (inquote || ip == commandLine.length())
+            r.append(b); // literal within a quote
+          else
+            r.append(commandLine.charAt(ip++));
+          continue;
+        default:
+          r.append(b);
+          continue;
+      }
+    }
+    if (r.length() > 0) {
+      list.add(r.toString());
+    }
+
+    final CmdLineParser clp = new CmdLineParser(this);
+    try {
+      clp.parseArgument(list.toArray(new String[list.size()]));
+    } catch (CmdLineException err) {
+      if (!help) {
+        throw new UnloggedFailure(1, "fatal: " + err.getMessage());
+      }
+    }
+
+    if (help) {
+      final StringWriter msg = new StringWriter();
+      msg.write(commandPrefix);
+      clp.printSingleLineUsage(msg, null);
+      msg.write('\n');
+
+      msg.write('\n');
+      clp.printUsage(msg, null);
+      msg.write('\n');
+      throw new UnloggedFailure(1, msg.toString());
+    }
   }
 
   /**

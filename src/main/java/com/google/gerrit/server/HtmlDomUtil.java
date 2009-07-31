@@ -31,7 +31,6 @@ import java.io.StringWriter;
 import java.util.zip.GZIPOutputStream;
 
 import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -137,7 +136,7 @@ public class HtmlDomUtil {
 
   /** Parse an XHTML file from our ServletContext and return the instance. */
   public static Document parseFile(final ServletContext context,
-      final String name) throws ServletException {
+      final String name) throws IOException {
     final InputStream in;
 
     in = context.getResourceAsStream(name);
@@ -149,21 +148,21 @@ public class HtmlDomUtil {
         try {
           return newBuilder().parse(in);
         } catch (SAXException e) {
-          throw new ServletException("Error reading " + name, e);
+          throw new IOException("Error reading " + name, e);
         } catch (ParserConfigurationException e) {
-          throw new ServletException("Error reading " + name, e);
+          throw new IOException("Error reading " + name, e);
         }
       } finally {
         in.close();
       }
     } catch (IOException e) {
-      throw new ServletException("Error reading " + name, e);
+      throw new IOException("Error reading " + name, e);
     }
   }
 
   /** Parse an XHTML file from the local drive and return the instance. */
   public static Document parseFile(final File parentDir, final String name)
-      throws ServletException {
+      throws IOException {
     if (parentDir == null) {
       return null;
     }
@@ -174,9 +173,9 @@ public class HtmlDomUtil {
         try {
           return newBuilder().parse(in);
         } catch (SAXException e) {
-          throw new ServletException("Error reading " + path, e);
+          throw new IOException("Error reading " + path, e);
         } catch (ParserConfigurationException e) {
-          throw new ServletException("Error reading " + path, e);
+          throw new IOException("Error reading " + path, e);
         }
       } finally {
         in.close();
@@ -184,13 +183,13 @@ public class HtmlDomUtil {
     } catch (FileNotFoundException e) {
       return null;
     } catch (IOException e) {
-      throw new ServletException("Error reading " + path, e);
+      throw new IOException("Error reading " + path, e);
     }
   }
 
   /** Read a UTF-8 text file from the local drive. */
   public static String readFile(final File parentDir, final String name)
-      throws ServletException {
+      throws IOException {
     if (parentDir == null) {
       return null;
     }
@@ -212,7 +211,7 @@ public class HtmlDomUtil {
     } catch (FileNotFoundException e) {
       return null;
     } catch (IOException e) {
-      throw new ServletException("Error reading " + path, e);
+      throw new IOException("Error reading " + path, e);
     }
   }
 

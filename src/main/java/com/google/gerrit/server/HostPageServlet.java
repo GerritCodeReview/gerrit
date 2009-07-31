@@ -32,14 +32,14 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.StringWriter;
 import java.security.MessageDigest;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -54,35 +54,31 @@ public class HostPageServlet extends HttpServlet {
 
   private final String canonicalUrl;
   private final boolean wantSSL;
-  private Document hostDoc;
+  private final Document hostDoc;
 
   @Inject
   HostPageServlet(final Provider<GerritCall> cf, @SitePath final File path,
-      final GerritConfig gc, @CanonicalWebUrl @Nullable final String cwu) {
+      final GerritConfig gc, @CanonicalWebUrl @Nullable final String cwu,
+      final ServletContext servletContext) throws IOException {
     callFactory = cf;
     canonicalUrl = cwu;
     sitePath = path;
     config = gc;
     wantSSL = canonicalUrl != null && canonicalUrl.startsWith("https:");
-  }
-
-  @Override
-  public void init(ServletConfig config) throws ServletException {
-    super.init(config);
 
     final String hostPageName = "WEB-INF/Gerrit.html";
-    hostDoc = HtmlDomUtil.parseFile(getServletContext(), "/" + hostPageName);
+    hostDoc = HtmlDomUtil.parseFile(servletContext, "/" + hostPageName);
     if (hostDoc == null) {
-      throw new ServletException("No " + hostPageName + " in webapp");
+      throw new FileNotFoundException("No " + hostPageName + " in webapp");
     }
-    fixModuleReference(hostDoc);
+    fixModuleReference(hostDoc, servletContext);
     injectCssFile(hostDoc, "gerrit_sitecss", sitePath, "GerritSite.css");
     injectXmlFile(hostDoc, "gerrit_header", sitePath, "GerritSiteHeader.html");
     injectXmlFile(hostDoc, "gerrit_footer", sitePath, "GerritSiteFooter.html");
   }
 
   private void injectXmlFile(final Document hostDoc, final String id,
-      final File sitePath, final String fileName) throws ServletException {
+      final File sitePath, final String fileName) throws IOException {
     final Element banner = HtmlDomUtil.find(hostDoc, id);
     if (banner == null) {
       return;
@@ -103,7 +99,7 @@ public class HostPageServlet extends HttpServlet {
   }
 
   private void injectCssFile(final Document hostDoc, final String id,
-      final File sitePath, final String fileName) throws ServletException {
+      final File sitePath, final String fileName) throws IOException {
     final Element banner = HtmlDomUtil.find(hostDoc, id);
     if (banner == null) {
       return;
@@ -152,18 +148,18 @@ public class HostPageServlet extends HttpServlet {
     scriptNode.appendChild(hostDoc.createCDATASection(w.toString()));
   }
 
-  private void fixModuleReference(final Document hostDoc)
-      throws ServletException {
+  private void fixModuleReference(final Document hostDoc,
+      final ServletContext servletContext) throws IOException {
     final Element scriptNode = HtmlDomUtil.find(hostDoc, "gerrit_module");
     if (scriptNode == null) {
-      throw new ServletException("No gerrit_module to rewrite in host document");
+      throw new IOException("No gerrit_module to rewrite in host document");
     }
     scriptNode.removeAttribute("id");
 
     final String src = scriptNode.getAttribute("src");
-    InputStream in = getServletContext().getResourceAsStream("/" + src);
+    InputStream in = servletContext.getResourceAsStream("/" + src);
     if (in == null) {
-      throw new ServletException("No " + src + " in webapp root");
+      throw new IOException("No " + src + " in webapp root");
     }
 
     final MessageDigest md = Constants.newMessageDigest();
@@ -178,7 +174,7 @@ public class HostPageServlet extends HttpServlet {
         in.close();
       }
     } catch (IOException e) {
-      throw new ServletException("Failed reading " + src, e);
+      throw new IOException("Failed reading " + src, e);
     }
 
     final String vstr = ObjectId.fromRaw(md.digest()).name();

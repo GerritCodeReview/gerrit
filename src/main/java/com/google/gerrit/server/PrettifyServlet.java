@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server;
 
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import java.io.ByteArrayOutputStream;
@@ -21,8 +22,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,26 +31,26 @@ import javax.servlet.http.HttpServletResponse;
 public class PrettifyServlet extends HttpServlet {
   private static final String VERSION = "20090521";
 
-  private byte[] content;
+  private final byte[] content;
 
-  @Override
-  public void init(ServletConfig config) throws ServletException {
-    super.init(config);
-
+  @Inject
+  PrettifyServlet(final ServletContext servletContext) throws IOException {
     final String myDir = "/gerrit/prettify" + VERSION + "/";
     final ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-    load(buffer, myDir + "prettify.js");
-    for (Object p : getServletContext().getResourcePaths(myDir)) {
+    load(buffer, servletContext, myDir + "prettify.js");
+    for (Object p : servletContext.getResourcePaths(myDir)) {
       String name = (String) p;
       if (name.startsWith(myDir + "lang-") && name.endsWith(".js")) {
-        load(buffer, name);
+        load(buffer, servletContext, name);
       }
     }
     content = buffer.toByteArray();
   }
 
-  private void load(final OutputStream buffer, final String path) {
-    final InputStream in = getServletContext().getResourceAsStream(path);
+  private void load(final OutputStream buffer,
+      final ServletContext servletContext, final String path)
+      throws IOException {
+    final InputStream in = servletContext.getResourceAsStream(path);
     if (in != null) {
       try {
         final byte[] tmp = new byte[4096];
@@ -62,7 +62,7 @@ public class PrettifyServlet extends HttpServlet {
         buffer.write('\n');
         in.close();
       } catch (IOException e) {
-        getServletContext().log("Cannot read " + path, e);
+        throw new IOException("Cannot read " + path, e);
       }
     }
   }

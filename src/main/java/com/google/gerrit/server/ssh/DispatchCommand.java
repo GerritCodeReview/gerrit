@@ -20,6 +20,7 @@ import com.google.inject.Provider;
 import org.apache.sshd.server.CommandFactory.Command;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
 /**
@@ -37,8 +38,13 @@ public class DispatchCommand extends BaseCommand {
 
   @Override
   public void start() throws IOException {
-    int sp = commandLine.indexOf(' ');
+    if (commandLine.isEmpty()) {
+      usage();
+      return;
+    }
+
     final String name, args;
+    int sp = commandLine.indexOf(' ');
     if (0 < sp) {
       name = commandLine.substring(0, sp);
       while (Character.isWhitespace(commandLine.charAt(sp))) {
@@ -77,5 +83,21 @@ public class DispatchCommand extends BaseCommand {
       err.flush();
       exit.onExit(127);
     }
+  }
+
+  private void usage() throws IOException, UnsupportedEncodingException {
+    final StringBuilder usage = new StringBuilder();
+    usage.append("usage: " + prefix + " COMMAND [ARGS]\n");
+    usage.append("\n");
+    usage.append("Available commands of " + prefix + " are:\n");
+    for (Map.Entry<String, Provider<Command>> e : commands.entrySet()) {
+      usage.append("   ");
+      usage.append(e.getKey());
+      usage.append("\n");
+    }
+    usage.append("\n");
+    err.write(usage.toString().getBytes("UTF-8"));
+    err.flush();
+    exit.onExit(1);
   }
 }

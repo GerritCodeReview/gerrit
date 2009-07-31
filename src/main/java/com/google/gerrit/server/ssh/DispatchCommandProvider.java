@@ -24,9 +24,10 @@ import org.apache.sshd.server.CommandFactory.Command;
 
 import java.lang.annotation.Annotation;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Creates DispatchCommand using commands registered by {@link CommandModule}.
@@ -76,7 +77,7 @@ public class DispatchCommandProvider implements Provider<DispatchCommand> {
   @SuppressWarnings("unchecked")
   private Map<String, Provider<Command>> createMap() {
     final Map<String, Provider<Command>> m =
-        new HashMap<String, Provider<Command>>();
+        new TreeMap<String, Provider<Command>>();
 
     for (final Binding<?> b : allCommands()) {
       final Annotation annotation = b.getKey().getAnnotation();
@@ -88,7 +89,7 @@ public class DispatchCommandProvider implements Provider<DispatchCommand> {
       }
     }
 
-    return Collections.unmodifiableMap(m);
+    return Collections.unmodifiableMap(new LinkedHashMap(m));
   }
 
   private static final TypeLiteral<Command> type =

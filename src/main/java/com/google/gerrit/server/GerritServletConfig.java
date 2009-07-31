@@ -14,17 +14,22 @@
 
 package com.google.gerrit.server;
 
+import static com.google.inject.Scopes.SINGLETON;
+import static com.google.inject.Stage.DEVELOPMENT;
+
+import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.git.PushAllProjectsOp;
 import com.google.gerrit.git.ReloadSubmitQueueOp;
 import com.google.gerrit.git.WorkQueue;
 import com.google.gerrit.server.config.DatabaseModule;
 import com.google.gerrit.server.config.FactoryModule;
+import com.google.gerrit.server.config.GerritConfigProvider;
 import com.google.gerrit.server.config.GerritServerModule;
 import com.google.gerrit.server.mail.RegisterNewEmailSender;
 import com.google.gerrit.server.rpc.UiRpcModule;
-import com.google.gerrit.server.ssh.GerritSshDaemon;
 import com.google.gerrit.server.ssh.SshDaemonModule;
 import com.google.gerrit.server.ssh.SshServlet;
+import com.google.gerrit.server.ssh.Sshd;
 import com.google.gwtexpui.server.CacheControlFilter;
 import com.google.inject.ConfigurationException;
 import com.google.inject.Guice;
@@ -42,8 +47,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javax.servlet.ServletContextEvent;
@@ -78,30 +81,34 @@ public class GerritServletConfig extends GuiceServletContextListener {
     };
   }
 
-  private static Module createOtherModule() {
-    return new FactoryModule() {
-      @Override
-      protected void configure() {
-        factory(RegisterNewEmailSender.Factory.class);
-      }
-    };
-  }
-
-  private final Injector injector;
+  private final Injector rootInjector;
+  private final Injector webInjector;
+  private final Injector sshInjector;
 
   public GerritServletConfig() {
-    final List<Module> modules = new ArrayList<Module>();
-    modules.add(createServletModule());
-    modules.add(new UiRpcModule());
-    modules.add(createOtherModule());
-    modules.add(new GerritServerModule());
-    modules.add(new SshDaemonModule());
-    injector = Guice.createInjector(modules);
+    // Sadly we use DEVELOPMENT right now to permit lazy construction on
+    // everything. This allows us to perform a graceful shutdown during
+    // contextDestroyed if we failed part way through contextInitialized.
+    //
+    rootInjector = Guice.createInjector(DEVELOPMENT, new GerritServerModule());
+    sshInjector = rootInjector.createChildInjector(new SshDaemonModule());
+    webInjector = rootInjector.createChildInjector(new FactoryModule() {
+      @Override
+      protected void configure() {
+        bind(Sshd.class).toProvider(sshInjector.getProvider(Sshd.class));
+        bind(GerritConfig.class).toProvider(GerritConfigProvider.class).in(
+            SINGLETON);
+
+        install(createServletModule());
+        install(new UiRpcModule());
+        factory(RegisterNewEmailSender.Factory.class);
+      }
+    });
   }
 
   @Override
   protected Injector getInjector() {
-    return injector;
+    return webInjector;
   }
 
   @Override
@@ -109,8 +116,8 @@ public class GerritServletConfig extends GuiceServletContextListener {
     super.contextInitialized(event);
 
     try {
-      injector.getInstance(PushAllProjectsOp.Factory.class).create(null).start(
-          30, TimeUnit.SECONDS);
+      rootInjector.getInstance(PushAllProjectsOp.Factory.class).create(null)
+          .start(30, TimeUnit.SECONDS);
     } catch (ConfigurationException e) {
       log.error("Unable to restart replication queue", e);
     } catch (ProvisionException e) {
@@ -118,8 +125,8 @@ public class GerritServletConfig extends GuiceServletContextListener {
     }
 
     try {
-      injector.getInstance(ReloadSubmitQueueOp.Factory.class).create().start(
-          15, TimeUnit.SECONDS);
+      rootInjector.getInstance(ReloadSubmitQueueOp.Factory.class).create()
+          .start(15, TimeUnit.SECONDS);
     } catch (ConfigurationException e) {
       log.error("Unable to restart merge queue", e);
     } catch (ProvisionException e) {
@@ -127,7 +134,7 @@ public class GerritServletConfig extends GuiceServletContextListener {
     }
 
     try {
-      injector.getInstance(GerritSshDaemon.class).start();
+      sshInjector.getInstance(Sshd.class).start();
     } catch (ConfigurationException e) {
       log.error("Unable to start SSHD", e);
     } catch (ProvisionException e) {
@@ -140,35 +147,27 @@ public class GerritServletConfig extends GuiceServletContextListener {
   @Override
   public void contextDestroyed(final ServletContextEvent event) {
     try {
-      injector.getInstance(GerritSshDaemon.class).stop();
+      sshInjector.getInstance(Sshd.class).stop();
     } catch (ConfigurationException e) {
-      // Assume it never started.
     } catch (ProvisionException e) {
-      // Assume it never started.
     }
 
     try {
-      injector.getInstance(WorkQueue.class).shutdown();
+      rootInjector.getInstance(WorkQueue.class).shutdown();
     } catch (ConfigurationException e) {
-      // Assume it never started.
     } catch (ProvisionException e) {
-      // Assume it never started.
     }
 
     try {
-      injector.getInstance(CacheManager.class).shutdown();
+      rootInjector.getInstance(CacheManager.class).shutdown();
     } catch (ConfigurationException e) {
-      // Assume it never started.
     } catch (ProvisionException e) {
-      // Assume it never started.
     }
 
     try {
-      closeDataSource(injector.getInstance(DatabaseModule.DS));
+      closeDataSource(rootInjector.getInstance(DatabaseModule.DS));
     } catch (ConfigurationException ce) {
-      // Assume it never started.
     } catch (ProvisionException ce) {
-      // Assume it never started.
     }
 
     super.contextDestroyed(event);

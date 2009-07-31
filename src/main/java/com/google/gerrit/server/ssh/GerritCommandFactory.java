@@ -14,45 +14,21 @@
 
 package com.google.gerrit.server.ssh;
 
-import com.google.inject.Inject;
-import com.google.inject.Injector;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
 
 import org.apache.sshd.server.CommandFactory;
 
-import java.util.HashMap;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Map;
 
 /** Creates a command implementation based on the client input. */
-@Singleton
-public class GerritCommandFactory implements CommandFactory {
-  private final Injector injector;
-  private final HashMap<String, Provider<? extends AbstractCommand>> commands;
+class GerritCommandFactory implements CommandFactory {
+  private final Map<String, Provider<AbstractCommand>> commands;
 
-  @Inject
-  GerritCommandFactory(final Injector i) {
-    injector = i;
-    commands = new HashMap<String, Provider<? extends AbstractCommand>>();
-
-    bind("gerrit-upload-pack", Upload.class);
-    bind("gerrit-receive-pack", Receive.class);
-    bind("gerrit-flush-caches", AdminFlushCaches.class);
-    bind("gerrit-ls-projects", ListProjects.class);
-    bind("gerrit-show-caches", AdminShowCaches.class);
-    bind("gerrit-show-connections", AdminShowConnections.class);
-    bind("gerrit-show-queue", AdminShowQueue.class);
-    bind("gerrit-replicate", AdminReplicate.class);
-
-    alias("gerrit-upload-pack", "git-upload-pack");
-    alias("gerrit-receive-pack", "git-receive-pack");
-  }
-
-  private void bind(final String cmd, final Class<? extends AbstractCommand> imp) {
-    commands.put(cmd, injector.getProvider(imp));
-  }
-
-  private void alias(final String from, final String to) {
-    commands.put(to, commands.get(from));
+  GerritCommandFactory(final Map<String, Provider<AbstractCommand>> c) {
+    commands = c;
   }
 
   public Command createCommand(final String commandLine) {
@@ -79,24 +55,45 @@ public class GerritCommandFactory implements CommandFactory {
         cmd += args;
         args = "";
       }
-    } else if ("scp".equals(cmd)) {
-      return new ScpCommand(args.split(" "));
     }
 
-    final AbstractCommand c = create(cmd);
-    c.setCommandLine(cmd, args);
+    final Command c = create(cmd);
+    if (c instanceof AbstractCommand) {
+      ((AbstractCommand) c).setCommandLine(cmd, args);
+    }
     return c;
   }
 
-  private AbstractCommand create(final String cmd) {
-    final Provider<? extends AbstractCommand> f = commands.get(cmd);
-    if (f != null) {
-      return f.get();
+  private Command create(final String cmd) {
+    final Provider<? extends Command> p = commands.get(cmd);
+    if (p != null) {
+      return p.get();
     }
-    return new AbstractCommand() {
+
+    return new Command() {
+      private OutputStream err;
+      private ExitCallback exit;
+
+      public void setErrorStream(final OutputStream err) {
+        this.err = err;
+      }
+
+      public void setExitCallback(final ExitCallback callback) {
+        this.exit = callback;
+      }
+
       @Override
-      protected void run() throws Failure {
-        throw new UnloggedFailure(127, "gerrit: " + getName() + ": not found");
+      public void start() throws IOException {
+        final String msg = "gerrit: " + cmd + ": not found\n";
+        err.write(msg.getBytes("UTF-8"));
+        err.flush();
+        exit.onExit(127);
+      }
+
+      public void setInputStream(final InputStream in) {
+      }
+
+      public void setOutputStream(final OutputStream out) {
       }
     };
   }

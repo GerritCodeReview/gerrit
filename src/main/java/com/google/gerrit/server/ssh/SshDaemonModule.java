@@ -14,7 +14,10 @@
 
 package com.google.gerrit.server.ssh;
 
+import static com.google.inject.Scopes.SINGLETON;
+
 import com.google.inject.AbstractModule;
+import com.google.inject.binder.LinkedBindingBuilder;
 
 import org.apache.sshd.server.CommandFactory;
 import org.apache.sshd.server.PublickeyAuthenticator;
@@ -23,8 +26,29 @@ import org.apache.sshd.server.PublickeyAuthenticator;
 public class SshDaemonModule extends AbstractModule {
   @Override
   protected void configure() {
-    bind(GerritSshDaemon.class);
-    bind(CommandFactory.class).to(GerritCommandFactory.class);
+    bind(Sshd.class).to(GerritSshDaemon.class).in(SINGLETON);
+    bind(CommandFactory.class).toProvider(CommandFactoryProvider.class);
     bind(PublickeyAuthenticator.class).to(DatabasePubKeyAuth.class);
+
+    command("gerrit-upload-pack").to(Upload.class);
+    command("gerrit-receive-pack").to(Receive.class);
+    command("gerrit-flush-caches").to(AdminFlushCaches.class);
+    command("gerrit-ls-projects").to(ListProjects.class);
+    command("gerrit-show-caches").to(AdminShowCaches.class);
+    command("gerrit-show-connections").to(AdminShowConnections.class);
+    command("gerrit-show-queue").to(AdminShowQueue.class);
+    command("gerrit-replicate").to(AdminReplicate.class);
+    command("scp").to(ScpCommand.class);
+
+    alias("git-upload-pack", "gerrit-upload-pack");
+    alias("git-receive-pack", "gerrit-receive-pack");
+  }
+
+  private LinkedBindingBuilder<AbstractCommand> command(final String name) {
+    return bind(Commands.key(name));
+  }
+
+  private void alias(final String from, final String to) {
+    bind(Commands.key(from)).toProvider(getProvider(Commands.key(to)));
   }
 }

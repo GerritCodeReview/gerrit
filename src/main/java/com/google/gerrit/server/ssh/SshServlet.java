@@ -49,10 +49,10 @@ import javax.servlet.http.HttpServletResponse;
 @SuppressWarnings("serial")
 @Singleton
 public class SshServlet extends HttpServlet {
-  private final GerritSshDaemon sshd;
+  private final Sshd sshd;
 
   @Inject
-  SshServlet(final GerritSshDaemon daemon) {
+  SshServlet(final Sshd daemon) {
     sshd = daemon;
   }
 

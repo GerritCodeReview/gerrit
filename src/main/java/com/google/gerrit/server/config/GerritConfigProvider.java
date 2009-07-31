@@ -22,7 +22,7 @@ import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.server.ContactStore;
 import com.google.gerrit.server.mail.EmailSender;
-import com.google.gerrit.server.ssh.GerritSshDaemon;
+import com.google.gerrit.server.ssh.Sshd;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
@@ -35,7 +35,7 @@ import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 
-class GerritConfigProvider implements Provider<GerritConfig> {
+public class GerritConfigProvider implements Provider<GerritConfig> {
   private static boolean isIPv6(final InetAddress ip) {
     return ip instanceof Inet6Address
         && ip.getHostName().equals(ip.getHostAddress());
@@ -46,7 +46,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
   private final AuthConfig authConfig;
   private final SchemaFactory<ReviewDb> schema;
 
-  private GerritSshDaemon sshd;
+  private Sshd sshd;
   private EmailSender emailSender;
   private ContactStore contactStore;
 
@@ -61,7 +61,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
   }
 
   @Inject(optional = true)
-  void setGerritSshDaemon(final GerritSshDaemon d) {
+  void setSshd(final Sshd d) {
     sshd = d;
   }
 

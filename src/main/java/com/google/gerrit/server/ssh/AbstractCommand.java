@@ -25,7 +25,6 @@ import com.google.gerrit.server.GerritServer;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
-import com.google.inject.servlet.RequestScoped;
 
 import org.apache.sshd.common.SshException;
 import org.apache.sshd.server.CommandFactory.Command;
@@ -51,7 +50,6 @@ import java.util.List;
 import java.util.Set;
 
 /** Basic command implementation invoked by {@link GerritCommandFactory}. */
-@RequestScoped
 abstract class AbstractCommand implements Command, SessionAware {
   private static final String ENC = "UTF-8";
 

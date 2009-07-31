@@ -99,7 +99,7 @@ import java.util.List;
  * </pre>
  */
 @Singleton
-public class GerritSshDaemon extends SshServer {
+class GerritSshDaemon extends SshServer implements Sshd {
   private static final int DEFAULT_PORT = 29418;
 
   private static final Logger log =
@@ -128,8 +128,7 @@ public class GerritSshDaemon extends SshServer {
   private volatile IoAcceptor acceptor;
 
   @Inject
-  public GerritSshDaemon(final GerritServer srv,
-      final CommandFactory commandFactory,
+  GerritSshDaemon(final GerritServer srv, final CommandFactory commandFactory,
       final PublickeyAuthenticator userAuth, @SitePath final File sitePath,
       @GerritServerConfig final Config cfg) {
     setPort(22/* never used */);
@@ -172,10 +171,12 @@ public class GerritSshDaemon extends SshServer {
     preferredAddress = computePreferredAddress();
   }
 
+  @Override
   public Collection<PublicKey> getHostKeys() {
     return hostKeys;
   }
 
+  @Override
   public InetSocketAddress getAddress() {
     return preferredAddress;
   }

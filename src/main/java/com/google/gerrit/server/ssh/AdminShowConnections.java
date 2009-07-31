@@ -43,7 +43,7 @@ class AdminShowConnections extends AbstractCommand {
   PrintWriter p;
 
   @Inject
-  private GerritSshDaemon daemon;
+  private Sshd daemon;
 
   @Override
   protected void run() throws Failure, UnsupportedEncodingException {

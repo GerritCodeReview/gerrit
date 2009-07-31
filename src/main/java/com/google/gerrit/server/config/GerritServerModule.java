@@ -16,7 +16,6 @@ package com.google.gerrit.server.config;
 
 import static com.google.inject.Scopes.SINGLETON;
 
-import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.git.ChangeMergeQueue;
 import com.google.gerrit.git.MergeOp;
 import com.google.gerrit.git.MergeQueue;
@@ -81,8 +80,6 @@ public class GerritServerModule extends FactoryModule {
     factory(ReloadSubmitQueueOp.Factory.class);
 
     bind(EmailSender.class).to(SmtpEmailSender.class).in(SINGLETON);
-    bind(GerritConfig.class).toProvider(GerritConfigProvider.class).in(
-        SINGLETON);
     bind(PatchSetInfoFactory.class);
 
     factory(AbandonedSender.Factory.class);

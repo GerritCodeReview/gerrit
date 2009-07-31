@@ -14,13 +14,16 @@
 
 package com.google.gerrit.pgm;
 
+import static com.google.inject.Scopes.SINGLETON;
 import static com.google.inject.Stage.PRODUCTION;
 
 import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.client.rpc.Common;
+import com.google.gerrit.server.config.GerritConfigProvider;
 import com.google.gerrit.server.config.GerritServerModule;
-import com.google.gerrit.server.ssh.GerritSshDaemon;
 import com.google.gerrit.server.ssh.SshDaemonModule;
+import com.google.gerrit.server.ssh.Sshd;
+import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
@@ -30,7 +33,13 @@ public class Daemon extends AbstractProgram {
   public int run() throws Exception {
     final Injector injector =
         Guice.createInjector(PRODUCTION, new GerritServerModule(),
-            new SshDaemonModule());
+            new SshDaemonModule(), new AbstractModule() {
+              @Override
+              protected void configure() {
+                bind(GerritConfig.class).toProvider(GerritConfigProvider.class)
+                    .in(SINGLETON);
+              }
+            });
 
     // This is a hack to force the GerritConfig to install itself into
     // Common.setGerritConfig. If we don't do this here in the daemon
@@ -38,7 +47,7 @@ public class Daemon extends AbstractProgram {
     //
     Common.setGerritConfig(injector.getInstance(GerritConfig.class));
 
-    injector.getInstance(GerritSshDaemon.class).start();
+    injector.getInstance(Sshd.class).start();
     return never();
   }
 }

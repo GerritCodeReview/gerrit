@@ -5,9 +5,9 @@
  * licenses this file to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -17,12 +17,11 @@
 
 /*
  * NB: This code was primarly ripped out of MINA SSHD.
- * 
+ *
  * @author <a href="mailto:dev@mina.apache.org">Apache MINA SSHD Project</a>
  */
 package com.google.gerrit.server.ssh;
 
-import org.apache.sshd.server.CommandFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,13 +32,12 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 
-class ScpCommand implements CommandFactory.Command, Runnable {
+class ScpCommand extends AbstractCommand {
   private static final String TYPE_DIR = "D";
   private static final String TYPE_FILE = "C";
   private static final Logger log = LoggerFactory.getLogger(ScpCommand.class);
@@ -52,13 +50,13 @@ class ScpCommand implements CommandFactory.Command, Runnable {
   private String root;
 
   private TreeMap<String, Entry> toc;
-  private InputStream in;
-  private OutputStream out;
-  private OutputStream err;
-  private CommandFactory.ExitCallback callback;
   private IOException error;
 
-  public ScpCommand(final String[] args) {
+  @Override
+  void setCommandLine(final String cmdName, final String line) {
+    super.setCommandLine(cmdName, "");
+
+    final String[] args = line.split(" ");
     root = "";
     for (int i = 0; i < args.length; i++) {
       if (args[i].charAt(0) == '-') {
@@ -90,31 +88,13 @@ class ScpCommand implements CommandFactory.Command, Runnable {
     }
   }
 
-  public void setInputStream(InputStream in) {
-    this.in = in;
-  }
-
-  public void setOutputStream(OutputStream out) {
-    this.out = out;
-  }
-
-  public void setErrorStream(OutputStream err) {
-    this.err = err;
-  }
-
-  public void setExitCallback(CommandFactory.ExitCallback callback) {
-    this.callback = callback;
-  }
-
-  public void start() throws IOException {
-    if (error != null) {
-      throw error;
-    }
-    new Thread(this).start();
-  }
-
-  public void run() {
+  @Override
+  protected void run() {
     try {
+      if (error != null) {
+        throw error;
+      }
+
       readToc();
       if (opt_f) {
         if (root.startsWith("/")) {
@@ -155,8 +135,6 @@ class ScpCommand implements CommandFactory.Command, Runnable {
         // Ignore
       }
       log.debug("Error in scp command", e);
-    } finally {
-      callback.onExit(0);
     }
   }
 

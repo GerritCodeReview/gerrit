@@ -23,6 +23,8 @@ import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.pgm.CmdLineParser;
 import com.google.gerrit.server.BaseServiceImplementation;
 import com.google.gerrit.server.GerritServer;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.RemotePeer;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
@@ -68,6 +70,14 @@ public abstract class AbstractCommand implements Command, SessionAware {
 
   @Inject
   protected SchemaFactory<ReviewDb> schema;
+
+  @Inject
+  @RemotePeer
+  private SocketAddress remoteAddress;
+
+  @Inject
+  private IdentifiedUser currentUser;
+
   protected ReviewDb db;
 
   private String name;
@@ -118,11 +128,11 @@ public abstract class AbstractCommand implements Command, SessionAware {
   }
 
   protected Account.Id getAccountId() {
-    return session.getAttribute(SshUtil.CURRENT_ACCOUNT);
+    return currentUser.getAccountId();
   }
 
   protected SocketAddress getRemoteAddress() {
-    return session.getAttribute(SshUtil.REMOTE_PEER);
+    return remoteAddress;
   }
 
   protected Set<AccountGroup.Id> getGroups() {
@@ -220,19 +230,24 @@ public abstract class AbstractCommand implements Command, SessionAware {
   public void start() {
     final List<AbstractCommand> list = session.getAttribute(SshUtil.ACTIVE);
     final String who = session.getUsername() + "," + getAccountId();
+    final AbstractCommand cmd = this;
     new Thread("Execute " + getName() + " [" + who + "]") {
       @Override
       public void run() {
-        try {
-          synchronized (list) {
-            list.add(AbstractCommand.this);
+        SshScopes.invoke(session, cmd, new Runnable() {
+          public void run() {
+            try {
+              synchronized (list) {
+                list.add(cmd);
+              }
+              runImp();
+            } finally {
+              synchronized (list) {
+                list.remove(cmd);
+              }
+            }
           }
-          runImp();
-        } finally {
-          synchronized (list) {
-            list.remove(AbstractCommand.this);
-          }
-        }
+        });
       }
     }.start();
   }

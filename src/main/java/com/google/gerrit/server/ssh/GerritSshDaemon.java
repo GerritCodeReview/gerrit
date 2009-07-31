@@ -22,7 +22,6 @@ import com.google.inject.Singleton;
 
 import org.apache.mina.core.service.IoAcceptor;
 import org.apache.mina.core.session.IoSession;
-import org.apache.mina.transport.socket.SocketSessionConfig;
 import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 import org.apache.sshd.SshServer;
 import org.apache.sshd.common.Cipher;
@@ -46,7 +45,6 @@ import org.apache.sshd.common.mac.HMACSHA196;
 import org.apache.sshd.common.random.BouncyCastleRandom;
 import org.apache.sshd.common.random.JceRandom;
 import org.apache.sshd.common.random.SingletonRandomFactory;
-import org.apache.sshd.common.session.AbstractSession;
 import org.apache.sshd.common.signature.SignatureDSA;
 import org.apache.sshd.common.signature.SignatureRSA;
 import org.apache.sshd.common.util.SecurityUtils;
@@ -60,6 +58,7 @@ import org.apache.sshd.server.channel.ChannelSession;
 import org.apache.sshd.server.kex.DHG1;
 import org.apache.sshd.server.kex.DHG14;
 import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
+import org.apache.sshd.server.session.ServerSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spearce.jgit.lib.Config;
@@ -153,17 +152,9 @@ class GerritSshDaemon extends SshServer implements Sshd {
     setShellFactory(new NoShell());
     setSessionFactory(new SessionFactory() {
       @Override
-      protected AbstractSession createSession(final IoSession io)
+      protected ServerSession createSession(final IoSession io)
           throws Exception {
-        if (io.getConfig() instanceof SocketSessionConfig) {
-          final SocketSessionConfig c = (SocketSessionConfig) io.getConfig();
-          c.setKeepAlive(keepAlive);
-        }
-
-        final AbstractSession s = super.createSession(io);
-        s.setAttribute(SshUtil.REMOTE_PEER, io.getRemoteAddress());
-        s.setAttribute(SshUtil.ACTIVE, new ArrayList<AbstractCommand>(2));
-        return s;
+        return new GerritServerSession(server, io, keepAlive);
       }
     });
 

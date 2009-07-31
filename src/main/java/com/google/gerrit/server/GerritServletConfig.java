@@ -18,6 +18,9 @@ import static com.google.inject.Scopes.SINGLETON;
 import static com.google.inject.Stage.DEVELOPMENT;
 
 import com.google.gerrit.client.data.GerritConfig;
+import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.client.rpc.Common;
+import com.google.gerrit.client.rpc.Common.CurrentAccountImpl;
 import com.google.gerrit.git.PushAllProjectsOp;
 import com.google.gerrit.git.ReloadSubmitQueueOp;
 import com.google.gerrit.git.WorkQueue;
@@ -35,9 +38,12 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Module;
+import com.google.inject.OutOfScopeException;
+import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 import com.google.inject.Scopes;
 import com.google.inject.servlet.GuiceServletContextListener;
+import com.google.inject.servlet.RequestScoped;
 import com.google.inject.servlet.ServletModule;
 
 import net.sf.ehcache.CacheManager;
@@ -46,6 +52,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.net.SocketAddress;
 import java.util.concurrent.TimeUnit;
 
 import javax.servlet.ServletContextEvent;
@@ -60,12 +67,16 @@ public class GerritServletConfig extends GuiceServletContextListener {
     return new ServletModule() {
       @Override
       protected void configureServlets() {
+        bind(GerritCall.class).in(RequestScoped.class);
+        bind(SocketAddress.class).annotatedWith(RemotePeer.class).toProvider(
+            HttpRemotePeerProvider.class).in(RequestScoped.class);
+        bind(CurrentUser.class).toProvider(HttpCurrentUserProvider.class).in(
+            RequestScoped.class);
+
         filter("/*").through(UrlRewriteFilter.class);
 
         filter("/*").through(Key.get(CacheControlFilter.class));
         bind(Key.get(CacheControlFilter.class)).in(Scopes.SINGLETON);
-
-        bind(GerritCall.class);
 
         serve("/Gerrit", "/Gerrit/*").with(HostPageServlet.class);
         serve("/prettify/*").with(PrettifyServlet.class);
@@ -113,6 +124,35 @@ public class GerritServletConfig extends GuiceServletContextListener {
   @Override
   public void contextInitialized(final ServletContextEvent event) {
     super.contextInitialized(event);
+
+    // Temporary hack to make Common.getAccountId() honor the Guice
+    // managed request state in either SSH or HTTP environments.
+    //
+    Common.setCurrentAccountImpl(new CurrentAccountImpl() {
+      private final Provider<IdentifiedUser> sshUser =
+          sshInjector.getProvider(IdentifiedUser.class);
+      private final Provider<CurrentUser> webUser =
+          webInjector.getProvider(CurrentUser.class);
+
+      public Account.Id getAccountId() {
+        try {
+          return sshUser.get().getAccountId();
+        } catch (ProvisionException notSsh) {
+          if (!(notSsh.getCause() instanceof OutOfScopeException)) {
+            throw notSsh;
+          }
+        }
+
+        CurrentUser u = webUser.get();
+        if (u instanceof IdentifiedUser) {
+          return ((IdentifiedUser) u).getAccountId();
+        } else if (u == CurrentUser.ANONYMOUS) {
+          return null;
+        } else {
+          throw new OutOfScopeException("Cannot determine current user");
+        }
+      }
+    });
 
     try {
       rootInjector.getInstance(PushAllProjectsOp.Factory.class).create(null)

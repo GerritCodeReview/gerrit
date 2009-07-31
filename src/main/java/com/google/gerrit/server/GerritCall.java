@@ -19,10 +19,8 @@ import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountExternalId;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
-import com.google.gerrit.client.rpc.Common.CurrentAccountImpl;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gwtjsonrpc.server.ActiveCall;
-import com.google.gwtjsonrpc.server.JsonServlet;
 import com.google.gwtjsonrpc.server.ValidToken;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
@@ -42,15 +40,6 @@ import javax.servlet.http.HttpServletResponse;
 
 @RequestScoped
 public class GerritCall extends ActiveCall {
-  static {
-    Common.setCurrentAccountImpl(new CurrentAccountImpl() {
-      public Account.Id getAccountId() {
-        final GerritCall c = JsonServlet.getCurrentCall();
-        return c != null ? c.getAccountId() : null;
-      }
-    });
-  }
-
   private final AuthConfig authConfig;
   private final SchemaFactory<ReviewDb> schema;
   private boolean accountRead;

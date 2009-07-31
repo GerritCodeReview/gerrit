@@ -21,7 +21,6 @@ import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
 
 import org.apache.sshd.server.CommandFactory;
-import org.slf4j.Logger;
 
 import java.lang.annotation.Annotation;
 import java.util.Collections;
@@ -33,8 +32,6 @@ import java.util.Map;
  * Creates a CommandFactory using commands registered by {@link CommandModule}.
  */
 class CommandFactoryProvider implements Provider<CommandFactory> {
-  private static final Logger log = SshDaemonModule.log;
-
   private final Injector injector;
 
   @Inject
@@ -55,7 +52,6 @@ class CommandFactoryProvider implements Provider<CommandFactory> {
     for (final Binding<?> binding : allCommands()) {
       final Annotation annotation = binding.getKey().getAnnotation();
       if (annotation == null || !(annotation instanceof CommandName)) {
-        log.warn("SSH command binding lacks @CommandName: " + binding.getKey());
         continue;
       }
 

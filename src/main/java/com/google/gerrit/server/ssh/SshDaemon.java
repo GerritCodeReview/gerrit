@@ -55,6 +55,7 @@ import org.apache.sshd.server.PublickeyAuthenticator;
 import org.apache.sshd.server.ServerChannel;
 import org.apache.sshd.server.SessionFactory;
 import org.apache.sshd.server.UserAuth;
+import org.apache.sshd.server.CommandFactory.Command;
 import org.apache.sshd.server.auth.UserAuthPublicKey;
 import org.apache.sshd.server.channel.ChannelSession;
 import org.apache.sshd.server.kex.DHG1;
@@ -164,7 +165,7 @@ public class SshDaemon extends SshServer implements SshInfo {
 
         final ServerSession s = (ServerSession) super.createSession(io);
         s.setAttribute(SshUtil.REMOTE_PEER, io.getRemoteAddress());
-        s.setAttribute(SshUtil.ACTIVE, new ArrayList<AbstractCommand>(2));
+        s.setAttribute(SshUtil.ACTIVE, new ArrayList<Command>(2));
         s.setAttribute(SshScopes.sessionMap, new HashMap<Key<?>, Object>());
         return s;
       }

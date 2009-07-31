@@ -22,7 +22,7 @@
  */
 package com.google.gerrit.server.ssh.commands;
 
-import com.google.gerrit.server.ssh.AbstractCommand;
+import com.google.gerrit.server.ssh.BaseCommand;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 
-class ScpCommand extends AbstractCommand {
+class ScpCommand extends BaseCommand {
   private static final String TYPE_DIR = "D";
   private static final String TYPE_FILE = "C";
   private static final Logger log = LoggerFactory.getLogger(ScpCommand.class);
@@ -91,7 +91,15 @@ class ScpCommand extends AbstractCommand {
   }
 
   @Override
-  protected void run() {
+  public void start() {
+    startThread(new Runnable() {
+      public void run() {
+        runImp();
+      }
+    });
+  }
+
+  private void runImp() {
     try {
       if (error != null) {
         throw error;

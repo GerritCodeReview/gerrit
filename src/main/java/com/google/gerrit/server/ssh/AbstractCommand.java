@@ -25,7 +25,6 @@ import com.google.gerrit.server.BaseServiceImplementation;
 import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RemotePeer;
-import com.google.gerrit.server.ssh.SshScopes.Context;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
@@ -33,8 +32,6 @@ import com.google.inject.Inject;
 import org.apache.sshd.common.SshException;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.Option;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -50,9 +47,6 @@ import java.util.Set;
 
 public abstract class AbstractCommand extends BaseCommand {
   private static final String ENC = "UTF-8";
-
-  private static final Logger log =
-      LoggerFactory.getLogger(AbstractCommand.class);
 
   @Inject
   protected GerritServer server;
@@ -182,116 +176,24 @@ public abstract class AbstractCommand extends BaseCommand {
   }
 
   public void start() {
-    final List<AbstractCommand> list = session.getAttribute(SshUtil.ACTIVE);
-    final String who = session.getUsername() + "," + getAccountId();
-    final AbstractCommand cmd = this;
-    final Context ctx = SshScopes.getContext();
-    new Thread("Execute " + commandPrefix + " [" + who + "]") {
-      @Override
-      public void run() {
-        SshScopes.current.set(ctx);
-        try {
-          synchronized (list) {
-            list.add(cmd);
-          }
-          runImp();
-        } finally {
-          synchronized (list) {
-            list.remove(cmd);
-          }
-        }
-      }
-    }.start();
-  }
-
-  private void runImp() {
-    int rc = 0;
-    try {
-      try {
+    startThread(new CommandRunnable() {
+      public void run() throws Exception {
         try {
           preRun();
-          try {
-            parseArguments();
-            run();
-          } finally {
-            postRun();
-          }
-        } catch (IOException e) {
-          if (e.getClass() == IOException.class
-              && "Pipe closed".equals(e.getMessage())) {
-            // This is sshd telling us the client just dropped off while
-            // we were waiting for a read or a write to complete. Either
-            // way its not really a fatal error. Don't log it.
-            //
-            throw new UnloggedFailure(127, "error: client went away", e);
-          }
-
-          if (e.getClass() == SshException.class
-              && "Already closed".equals(e.getMessage())) {
-            // This is sshd telling us the client just dropped off while
-            // we were waiting for a read or a write to complete. Either
-            // way its not really a fatal error. Don't log it.
-            //
-            throw new UnloggedFailure(127, "error: client went away", e);
-          }
-
-          throw new Failure(128, "fatal: unexpected IO error", e);
-
-        } catch (RuntimeException e) {
-          throw new Failure(128, "fatal: internal server error", e);
-
-        } catch (Error e) {
-          throw new Failure(128, "fatal: internal server error", e);
-
-        }
-      } catch (Failure e) {
-        if (!(e instanceof UnloggedFailure)) {
-          final StringBuilder logmsg = beginLogMessage();
-          logmsg.append(": ");
-          logmsg.append(e.getMessage());
-          if (e.getCause() != null)
-            log.error(logmsg.toString(), e.getCause());
-          else
-            log.error(logmsg.toString());
-        }
-
-        rc = e.exitCode;
-        try {
-          err.write((e.getMessage() + '\n').getBytes(ENC));
-        } catch (IOException err) {
+          parseArguments();
+          AbstractCommand.this.run();
+        } finally {
+          postRun();
         }
       }
-    } finally {
-      try {
-        out.flush();
-      } catch (IOException err) {
-      }
-
-      try {
-        err.flush();
-      } catch (IOException err) {
-      }
-
-      exit.onExit(rc);
-    }
-  }
-
-  private StringBuilder beginLogMessage() {
-    final StringBuilder logmsg = new StringBuilder();
-    logmsg.append("sshd error (account ");
-    logmsg.append(getAccountId());
-    logmsg.append("): ");
-    logmsg.append(commandPrefix);
-    logmsg.append(' ');
-    logmsg.append(commandLine);
-    return logmsg;
+    });
   }
 
   @SuppressWarnings("unused")
   protected void preRun() throws Failure {
   }
 
-  protected abstract void run() throws IOException, Failure;
+  protected abstract void run() throws Exception;
 
   protected void postRun() {
     closeDb();
@@ -301,34 +203,6 @@ public abstract class AbstractCommand extends BaseCommand {
     if (db != null) {
       db.close();
       db = null;
-    }
-  }
-
-  public static class Failure extends Exception {
-    private static final long serialVersionUID = 1L;
-
-    final int exitCode;
-
-    public Failure(final int exitCode, final String msg) {
-      this(exitCode, msg, null);
-    }
-
-    public Failure(final int exitCode, final String msg, final Throwable why) {
-      super(msg, why);
-      this.exitCode = exitCode;
-    }
-  }
-
-  public static class UnloggedFailure extends Failure {
-    private static final long serialVersionUID = 1L;
-
-    public UnloggedFailure(final int exitCode, final String msg) {
-      this(exitCode, msg, null);
-    }
-
-    public UnloggedFailure(final int exitCode, final String msg,
-        final Throwable why) {
-      super(exitCode, msg, why);
     }
   }
 }

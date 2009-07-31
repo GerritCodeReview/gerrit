@@ -21,6 +21,7 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.sshd.common.KeyPairProvider;
 import org.apache.sshd.common.session.AttributeKey;
 import org.apache.sshd.common.util.Buffer;
+import org.apache.sshd.server.CommandFactory.Command;
 import org.spearce.jgit.lib.Constants;
 
 import java.io.BufferedReader;
@@ -46,8 +47,8 @@ public class SshUtil {
       new AttributeKey<SocketAddress>();
 
   /** Server session attribute holding the current commands. */
-  public static final AttributeKey<List<AbstractCommand>> ACTIVE =
-      new AttributeKey<List<AbstractCommand>>();
+  public static final AttributeKey<List<Command>> ACTIVE =
+      new AttributeKey<List<Command>>();
 
   /**
    * Parse a public key into its Java type.

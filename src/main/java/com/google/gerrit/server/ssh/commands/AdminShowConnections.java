@@ -24,6 +24,7 @@ import com.google.inject.Inject;
 import org.apache.mina.core.service.IoAcceptor;
 import org.apache.mina.core.session.IoSession;
 import org.apache.sshd.common.session.AbstractSession;
+import org.apache.sshd.server.CommandFactory.Command;
 import org.kohsuke.args4j.Option;
 
 import java.io.PrintWriter;
@@ -78,8 +79,7 @@ class AdminShowConnections extends AbstractCommand {
     p.print("--------------------------------------------------------------\n");
     for (final IoSession io : list) {
       final AbstractSession s = AbstractSession.getSession(io, true);
-      List<AbstractCommand> active =
-          s != null ? s.getAttribute(SshUtil.ACTIVE) : null;
+      List<Command> active = s != null ? s.getAttribute(SshUtil.ACTIVE) : null;
 
       final SocketAddress remoteAddress = io.getRemoteAddress();
       final long start = io.getCreationTime();
@@ -89,7 +89,7 @@ class AdminShowConnections extends AbstractCommand {
           age(idle), username(s), hostname(remoteAddress)));
       if (active != null) {
         synchronized (active) {
-          for (final AbstractCommand cmd : active) {
+          for (final Command cmd : active) {
             p.print(String.format(" [ %s ]\n", cmd.toString()));
           }
         }

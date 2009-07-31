@@ -16,15 +16,12 @@ package com.google.gerrit.server.ssh;
 
 import static com.google.inject.Scopes.SINGLETON;
 
-import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RemotePeer;
-import com.google.gerrit.server.ssh.SshScopes.Context;
 import com.google.gerrit.server.ssh.commands.DefaultCommandModule;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provider;
-import com.google.inject.ProvisionException;
 import com.google.inject.servlet.RequestScoped;
 import com.google.inject.servlet.SessionScoped;
 
@@ -73,21 +70,11 @@ public class SshDaemonModule extends AbstractModule {
                 .getAttribute(SshUtil.REMOTE_PEER);
           }
         }).in(SshScopes.SESSION);
-
-    bind(IdentifiedUser.class).toProvider(new Provider<IdentifiedUser>() {
-      @Override
-      public IdentifiedUser get() {
-        final Context ctx = SshScopes.getContext();
-        final Account.Id id = ctx.session.getAttribute(SshUtil.CURRENT_ACCOUNT);
-        if (id == null) {
-          throw new ProvisionException("User not yet authenticated");
-        }
-        return new IdentifiedUser(id);
-      }
-    }).in(SshScopes.SESSION);
-    bind(CurrentUser.class).to(IdentifiedUser.class);
   }
 
   private void configureRequestScope() {
+    bind(IdentifiedUser.class).toProvider(SshCurrentUserProvider.class).in(
+        SshScopes.REQUEST);
+    bind(CurrentUser.class).to(IdentifiedUser.class);
   }
 }

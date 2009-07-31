@@ -25,15 +25,12 @@ import com.google.gerrit.server.BaseServiceImplementation;
 import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RemotePeer;
+import com.google.gerrit.server.ssh.SshScopes.Context;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
 
 import org.apache.sshd.common.SshException;
-import org.apache.sshd.server.CommandFactory.Command;
-import org.apache.sshd.server.CommandFactory.ExitCallback;
-import org.apache.sshd.server.CommandFactory.SessionAware;
-import org.apache.sshd.server.session.ServerSession;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
@@ -41,7 +38,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -53,17 +49,11 @@ import java.util.List;
 import java.util.Set;
 
 /** Basic command implementation invoked by {@link GerritCommandFactory}. */
-public abstract class AbstractCommand implements Command, SessionAware {
+public abstract class AbstractCommand extends BaseCommand {
   private static final String ENC = "UTF-8";
 
   private static final Logger log =
       LoggerFactory.getLogger(AbstractCommand.class);
-
-  protected InputStream in;
-  protected OutputStream out;
-  protected OutputStream err;
-  protected ExitCallback exit;
-  protected ServerSession session;
 
   @Inject
   protected GerritServer server;
@@ -86,26 +76,6 @@ public abstract class AbstractCommand implements Command, SessionAware {
 
   @Option(name = "--help", usage = "display this help text", aliases = {"-h"})
   private boolean help;
-
-  public void setInputStream(final InputStream in) {
-    this.in = in;
-  }
-
-  public void setOutputStream(final OutputStream out) {
-    this.out = out;
-  }
-
-  public void setErrorStream(final OutputStream err) {
-    this.err = err;
-  }
-
-  public void setExitCallback(final ExitCallback callback) {
-    this.exit = callback;
-  }
-
-  public void setSession(final ServerSession session) {
-    this.session = session;
-  }
 
   protected PrintWriter toPrintWriter(final OutputStream o)
       throws UnsupportedEncodingException {
@@ -231,23 +201,21 @@ public abstract class AbstractCommand implements Command, SessionAware {
     final List<AbstractCommand> list = session.getAttribute(SshUtil.ACTIVE);
     final String who = session.getUsername() + "," + getAccountId();
     final AbstractCommand cmd = this;
+    final Context ctx = SshScopes.getContext();
     new Thread("Execute " + getName() + " [" + who + "]") {
       @Override
       public void run() {
-        SshScopes.invoke(session, cmd, new Runnable() {
-          public void run() {
-            try {
-              synchronized (list) {
-                list.add(cmd);
-              }
-              runImp();
-            } finally {
-              synchronized (list) {
-                list.remove(cmd);
-              }
-            }
+        SshScopes.current.set(ctx);
+        try {
+          synchronized (list) {
+            list.add(cmd);
           }
-        });
+          runImp();
+        } finally {
+          synchronized (list) {
+            list.remove(cmd);
+          }
+        }
       }
     }.start();
   }

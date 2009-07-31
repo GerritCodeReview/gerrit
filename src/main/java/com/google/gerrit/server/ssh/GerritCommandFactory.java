@@ -14,13 +14,12 @@
 
 package com.google.gerrit.server.ssh;
 
+import com.google.gerrit.server.ssh.SshScopes.Context;
 import com.google.inject.Provider;
 
 import org.apache.sshd.server.CommandFactory;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.Map;
 
 /** Creates a command implementation based on the client input. */
@@ -32,68 +31,53 @@ class GerritCommandFactory implements CommandFactory {
   }
 
   public Command createCommand(final String commandLine) {
-    final int sp1 = commandLine.indexOf(' ');
-    String cmd, args;
-    if (0 < sp1) {
-      cmd = commandLine.substring(0, sp1);
-      args = commandLine.substring(sp1 + 1);
-    } else {
-      cmd = commandLine;
-      args = "";
-    }
-
-    // Support newer-style "git receive-pack" requests by converting
-    // to the older-style "git-receive-pack".
-    //
-    if ("git".equals(cmd) || "gerrit".equals(cmd)) {
-      cmd += "-";
-      final int sp2 = args.indexOf(' ');
-      if (0 < sp2) {
-        cmd += args.substring(0, sp2);
-        args = args.substring(sp2 + 1);
-      } else {
-        cmd += args;
-        args = "";
-      }
-    }
-
-    final Command c = create(cmd);
-    if (c instanceof AbstractCommand) {
-      ((AbstractCommand) c).setCommandLine(cmd, args);
-    }
-    return c;
-  }
-
-  private Command create(final String cmd) {
-    final Provider<Command> p = commands.get(cmd);
-    if (p != null) {
-      return p.get();
-    }
-
-    return new Command() {
-      private OutputStream err;
-      private ExitCallback exit;
-
-      public void setErrorStream(final OutputStream err) {
-        this.err = err;
-      }
-
-      public void setExitCallback(final ExitCallback callback) {
-        this.exit = callback;
-      }
-
+    return new BaseCommand() {
       @Override
       public void start() throws IOException {
-        final String msg = "gerrit: " + cmd + ": not found\n";
-        err.write(msg.getBytes("UTF-8"));
-        err.flush();
-        exit.onExit(127);
-      }
+        final int sp1 = commandLine.indexOf(' ');
+        String cmd, args;
+        if (0 < sp1) {
+          cmd = commandLine.substring(0, sp1);
+          args = commandLine.substring(sp1 + 1);
+        } else {
+          cmd = commandLine;
+          args = "";
+        }
 
-      public void setInputStream(final InputStream in) {
-      }
+        // Support newer-style "git receive-pack" requests by converting
+        // to the older-style "git-receive-pack".
+        //
+        if ("git".equals(cmd) || "gerrit".equals(cmd)) {
+          cmd += "-";
+          final int sp2 = args.indexOf(' ');
+          if (0 < sp2) {
+            cmd += args.substring(0, sp2);
+            args = args.substring(sp2 + 1);
+          } else {
+            cmd += args;
+            args = "";
+          }
+        }
 
-      public void setOutputStream(final OutputStream out) {
+        final Provider<Command> p = commands.get(cmd);
+        if (p != null) {
+          final Context old = SshScopes.current.get();
+          try {
+            SshScopes.current.set(new Context(session));
+            final Command c = p.get();
+            if (c instanceof AbstractCommand) {
+              ((AbstractCommand) c).setCommandLine(cmd, args);
+            }
+            delegateTo(c);
+          } finally {
+            SshScopes.current.set(old);
+          }
+        } else {
+          final String msg = "gerrit: " + cmd + ": not found\n";
+          err.write(msg.getBytes("UTF-8"));
+          err.flush();
+          exit.onExit(127);
+        }
       }
     };
   }

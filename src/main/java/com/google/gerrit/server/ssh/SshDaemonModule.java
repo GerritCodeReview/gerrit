@@ -31,7 +31,6 @@ import com.google.inject.servlet.SessionScoped;
 import org.apache.sshd.common.session.AbstractSession;
 import org.apache.sshd.server.CommandFactory;
 import org.apache.sshd.server.PublickeyAuthenticator;
-import org.apache.sshd.server.CommandFactory.Command;
 import org.apache.sshd.server.session.ServerSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -90,11 +89,5 @@ public class SshDaemonModule extends AbstractModule {
   }
 
   private void configureRequestScope() {
-    bind(Command.class).toProvider(new Provider<Command>() {
-      @Override
-      public Command get() {
-        return SshScopes.getContext().command;
-      }
-    }).in(SshScopes.REQUEST);
   }
 }

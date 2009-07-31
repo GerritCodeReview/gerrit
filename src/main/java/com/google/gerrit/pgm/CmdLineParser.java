@@ -1,24 +1,24 @@
 /*
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
- * 
+ *
  * (Taken from JGit org.spearce.jgit.pgm.opt.CmdLineParser.)
- * 
+ *
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * - Redistributions of source code must retain the above copyright notice, this
  * list of conditions and the following disclaimer.
- * 
+ *
  * - Redistributions in binary form must reproduce the above copyright notice,
  * this list of conditions and the following disclaimer in the documentation
  * and/or other materials provided with the distribution.
- * 
+ *
  * - Neither the name of the Git Development Community nor the names of its
  * contributors may be used to endorse or promote products derived from this
  * software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -32,7 +32,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.google.gerrit.server.ssh;
+package com.google.gerrit.pgm;
 
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.IllegalAnnotationError;
@@ -51,12 +51,12 @@ public class CmdLineParser extends org.kohsuke.args4j.CmdLineParser {
   /**
    * Creates a new command line owner that parses arguments/options and set them
    * into the given object.
-   * 
+   *
    * @param bean instance of a class annotated by
    *        {@link org.kohsuke.args4j.Option} and
    *        {@link org.kohsuke.args4j.Argument}. this object will receive
    *        values.
-   * 
+   *
    * @throws IllegalAnnotationError if the option bean class is using args4j
    *         annotations incorrectly.
    */

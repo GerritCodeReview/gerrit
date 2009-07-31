@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.ssh;
+package com.google.gerrit.server.ssh.commands;
 
 import net.sf.ehcache.Ehcache;
 import net.sf.ehcache.Statistics;

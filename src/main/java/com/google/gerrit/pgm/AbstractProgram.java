@@ -14,7 +14,6 @@
 
 package com.google.gerrit.pgm;
 
-import com.google.gerrit.server.ssh.CmdLineParser;
 
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.Option;

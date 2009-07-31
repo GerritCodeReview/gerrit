@@ -12,8 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.ssh;
+package com.google.gerrit.server.ssh.commands;
 
+import com.google.gerrit.server.ssh.AbstractCommand;
 import com.google.inject.Inject;
 
 import net.sf.ehcache.CacheManager;

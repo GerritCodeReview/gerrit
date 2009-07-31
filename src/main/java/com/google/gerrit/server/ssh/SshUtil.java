@@ -26,8 +26,6 @@ import org.spearce.jgit.lib.Constants;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
@@ -40,20 +38,20 @@ import java.util.List;
 /** Utilities to support SSH operations. */
 public class SshUtil {
   /** Server session attribute holding the {@link Account.Id}. */
-  static final AttributeKey<Account.Id> CURRENT_ACCOUNT =
+  public static final AttributeKey<Account.Id> CURRENT_ACCOUNT =
       new AttributeKey<Account.Id>();
 
   /** Server session attribute holding the remote {@link SocketAddress}. */
-  static final AttributeKey<SocketAddress> REMOTE_PEER =
+  public static final AttributeKey<SocketAddress> REMOTE_PEER =
       new AttributeKey<SocketAddress>();
 
   /** Server session attribute holding the current commands. */
-  static final AttributeKey<List<AbstractCommand>> ACTIVE =
+  public static final AttributeKey<List<AbstractCommand>> ACTIVE =
       new AttributeKey<List<AbstractCommand>>();
 
   /**
    * Parse a public key into its Java type.
-   * 
+   *
    * @param key the account key to parse.
    * @return the valid public key object.
    * @throws InvalidKeySpecException the key supplied is not a valid SSH key.
@@ -77,7 +75,7 @@ public class SshUtil {
 
   /**
    * Convert an RFC 4716 style key to an OpenSSH style key.
-   * 
+   *
    * @param keyStr the key string to convert.
    * @return <code>keyStr</code> if conversion failed; otherwise the converted
    *         key, in OpenSSH key format.

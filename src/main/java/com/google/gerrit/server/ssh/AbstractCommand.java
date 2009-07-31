@@ -20,6 +20,7 @@ import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
+import com.google.gerrit.pgm.CmdLineParser;
 import com.google.gerrit.server.BaseServiceImplementation;
 import com.google.gerrit.server.GerritServer;
 import com.google.gwtorm.client.OrmException;
@@ -50,7 +51,7 @@ import java.util.List;
 import java.util.Set;
 
 /** Basic command implementation invoked by {@link GerritCommandFactory}. */
-abstract class AbstractCommand implements Command, SessionAware {
+public abstract class AbstractCommand implements Command, SessionAware {
   private static final String ENC = "UTF-8";
 
   private static final Logger log =
@@ -151,11 +152,11 @@ abstract class AbstractCommand implements Command, SessionAware {
     return name;
   }
 
-  String getCommandLine() {
+  public String getCommandLine() {
     return unsplitArguments.length() > 0 ? name + " " + unsplitArguments : name;
   }
 
-  void setCommandLine(final String cmdName, final String line) {
+  public void setCommandLine(final String cmdName, final String line) {
     name = cmdName;
     unsplitArguments = line;
   }

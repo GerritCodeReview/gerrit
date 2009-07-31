@@ -12,13 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.ssh;
+package com.google.gerrit.server.ssh.commands;
 
 import com.google.gerrit.client.data.ProjectCache;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
+import com.google.gerrit.server.ssh.AbstractCommand;
 import com.google.gwtorm.client.OrmException;
 
 import java.io.IOException;

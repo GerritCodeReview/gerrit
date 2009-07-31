@@ -28,7 +28,6 @@ import com.google.gerrit.server.config.GerritServerModule;
 import com.google.gerrit.server.mail.RegisterNewEmailSender;
 import com.google.gerrit.server.rpc.UiRpcModule;
 import com.google.gerrit.server.ssh.SshDaemonModule;
-import com.google.gerrit.server.ssh.SshServlet;
 import com.google.gerrit.server.ssh.Sshd;
 import com.google.gwtexpui.server.CacheControlFilter;
 import com.google.inject.ConfigurationException;

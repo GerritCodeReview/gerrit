@@ -12,8 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.ssh;
+package com.google.gerrit.server;
 
+import com.google.gerrit.server.ssh.Sshd;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 

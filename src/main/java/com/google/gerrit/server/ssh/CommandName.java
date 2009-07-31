@@ -20,6 +20,12 @@ import com.google.inject.BindingAnnotation;
 
 import java.lang.annotation.Retention;
 
+/**
+ * Name of a command registered in an SSH daemon.
+ *
+ * @see CommandModule#command(String)
+ * @see Commands#named(String)
+ */
 @Retention(RUNTIME)
 @BindingAnnotation
 public @interface CommandName {

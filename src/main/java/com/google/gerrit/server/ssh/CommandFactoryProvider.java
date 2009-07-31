@@ -22,7 +22,6 @@ import com.google.inject.TypeLiteral;
 
 import org.apache.sshd.server.CommandFactory;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.lang.annotation.Annotation;
 import java.util.Collections;
@@ -30,9 +29,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Creates a CommandFactory using commands registered by {@link CommandModule}.
+ */
 class CommandFactoryProvider implements Provider<CommandFactory> {
-  private static final Logger log =
-      LoggerFactory.getLogger(SshDaemonModule.class);
+  private static final Logger log = SshDaemonModule.log;
 
   private final Injector injector;
 
@@ -47,9 +48,9 @@ class CommandFactoryProvider implements Provider<CommandFactory> {
   }
 
   @SuppressWarnings("unchecked")
-  private Map<String, Provider<AbstractCommand>> createMap() {
-    final Map<String, Provider<AbstractCommand>> m;
-    m = new HashMap<String, Provider<AbstractCommand>>();
+  private Map<String, Provider<CommandFactory.Command>> createMap() {
+    final Map<String, Provider<CommandFactory.Command>> m;
+    m = new HashMap<String, Provider<CommandFactory.Command>>();
 
     for (final Binding<?> binding : allCommands()) {
       final Annotation annotation = binding.getKey().getAnnotation();
@@ -59,13 +60,15 @@ class CommandFactoryProvider implements Provider<CommandFactory> {
       }
 
       final CommandName name = (CommandName) annotation;
-      m.put(name.value(), (Provider<AbstractCommand>) binding.getProvider());
+      m.put(name.value(), (Provider<CommandFactory.Command>) binding
+          .getProvider());
     }
 
     return Collections.unmodifiableMap(m);
   }
 
-  private List<Binding<AbstractCommand>> allCommands() {
-    return injector.findBindingsByType(new TypeLiteral<AbstractCommand>() {});
+  private List<Binding<CommandFactory.Command>> allCommands() {
+    return injector
+        .findBindingsByType(new TypeLiteral<CommandFactory.Command>() {});
   }
 }

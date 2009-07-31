@@ -20,7 +20,9 @@
  *
  * @author <a href="mailto:dev@mina.apache.org">Apache MINA SSHD Project</a>
  */
-package com.google.gerrit.server.ssh;
+package com.google.gerrit.server.ssh.commands;
+
+import com.google.gerrit.server.ssh.AbstractCommand;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,7 +55,7 @@ class ScpCommand extends AbstractCommand {
   private IOException error;
 
   @Override
-  void setCommandLine(final String cmdName, final String line) {
+  public void setCommandLine(final String cmdName, final String line) {
     super.setCommandLine(cmdName, "");
 
     final String[] args = line.split(" ");

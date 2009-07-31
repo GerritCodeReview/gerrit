@@ -25,9 +25,9 @@ import java.util.Map;
 
 /** Creates a command implementation based on the client input. */
 class GerritCommandFactory implements CommandFactory {
-  private final Map<String, Provider<AbstractCommand>> commands;
+  private final Map<String, Provider<Command>> commands;
 
-  GerritCommandFactory(final Map<String, Provider<AbstractCommand>> c) {
+  GerritCommandFactory(final Map<String, Provider<Command>> c) {
     commands = c;
   }
 
@@ -65,7 +65,7 @@ class GerritCommandFactory implements CommandFactory {
   }
 
   private Command create(final String cmd) {
-    final Provider<? extends Command> p = commands.get(cmd);
+    final Provider<Command> p = commands.get(cmd);
     if (p != null) {
       return p.get();
     }

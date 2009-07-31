@@ -16,13 +16,17 @@ package com.google.gerrit.server.ssh;
 
 import com.google.inject.Key;
 
+import org.apache.sshd.server.CommandFactory;
+
 import java.lang.annotation.Annotation;
 
+/** Utilities to support {@link CommandName} construction. */
 public class Commands {
-  public static Key<AbstractCommand> key(final String name) {
-    return Key.get(AbstractCommand.class, named(name));
+  public static Key<CommandFactory.Command> key(final String name) {
+    return Key.get(CommandFactory.Command.class, named(name));
   }
 
+  /** Create a CommandName annotation for the supplied name. */
   public static CommandName named(final String name) {
     return new CommandName() {
       @Override

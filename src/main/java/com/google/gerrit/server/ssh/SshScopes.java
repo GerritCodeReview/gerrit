@@ -19,7 +19,7 @@ import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
 import com.google.inject.Scope;
 
-import org.apache.sshd.server.CommandFactory.Command;
+import org.apache.sshd.common.session.AttributeKey;
 import org.apache.sshd.server.session.ServerSession;
 
 import java.util.HashMap;
@@ -28,16 +28,17 @@ import java.util.Map;
 /** Guice scopes for state during an SSH connection. */
 class SshScopes {
   static class Context {
-    final GerritServerSession session;
-    final Command command;
+    final ServerSession session;
     final Map<Key<?>, Object> map;
 
-    Context(final GerritServerSession s, final Command c) {
+    Context(final ServerSession s) {
       session = s;
-      command = c;
       map = new HashMap<Key<?>, Object>();
     }
   }
+
+  static final AttributeKey<Map<Key<?>, Object>> sessionMap =
+      new AttributeKey<Map<Key<?>, Object>>();
 
   static final ThreadLocal<Context> current = new ThreadLocal<Context>();
 
@@ -50,23 +51,13 @@ class SshScopes {
     return ctx;
   }
 
-  static void invoke(final ServerSession s, final Command c, final Runnable t) {
-    final Context old = current.get();
-    try {
-      current.set(new Context((GerritServerSession)s, c));
-      t.run();
-    } finally {
-      current.set(old);
-    }
-  }
-
   /** Returns exactly one instance for the scope of the SSH connection. */
   static final Scope SESSION = new Scope() {
     public <T> Provider<T> scope(final Key<T> key, final Provider<T> creator) {
       return new Provider<T>() {
         public T get() {
           final Context ctx = getContext();
-          final Map<Key<?>, Object> map = ctx.session.sessionContext.map;
+          final Map<Key<?>, Object> map = ctx.session.getAttribute(sessionMap);
           synchronized (map) {
             @SuppressWarnings("unchecked")
             T t = (T) map.get(key);

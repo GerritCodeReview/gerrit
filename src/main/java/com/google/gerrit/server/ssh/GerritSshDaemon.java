@@ -18,10 +18,12 @@ import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePath;
 import com.google.inject.Inject;
+import com.google.inject.Key;
 import com.google.inject.Singleton;
 
 import org.apache.mina.core.service.IoAcceptor;
 import org.apache.mina.core.session.IoSession;
+import org.apache.mina.transport.socket.SocketSessionConfig;
 import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 import org.apache.sshd.SshServer;
 import org.apache.sshd.common.Cipher;
@@ -76,6 +78,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -154,7 +157,16 @@ class GerritSshDaemon extends SshServer implements Sshd {
       @Override
       protected ServerSession createSession(final IoSession io)
           throws Exception {
-        return new GerritServerSession(server, io, keepAlive);
+        if (io.getConfig() instanceof SocketSessionConfig) {
+          final SocketSessionConfig c = (SocketSessionConfig) io.getConfig();
+          c.setKeepAlive(keepAlive);
+        }
+
+        final ServerSession s = (ServerSession) super.createSession(io);
+        s.setAttribute(SshUtil.REMOTE_PEER, io.getRemoteAddress());
+        s.setAttribute(SshUtil.ACTIVE, new ArrayList<AbstractCommand>(2));
+        s.setAttribute(SshScopes.sessionMap, new HashMap<Key<?>, Object>());
+        return s;
       }
     });
 

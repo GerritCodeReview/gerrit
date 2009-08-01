@@ -17,7 +17,6 @@ package com.google.gerrit.server.http;
 import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.rpc.Common;
-import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.Nullable;
 import com.google.gerrit.server.config.SitePath;
@@ -53,19 +52,21 @@ public class HostPageServlet extends HttpServlet {
   private final File sitePath;
   private final GerritConfig config;
 
-  private final String canonicalUrl;
+  private final Provider<String> urlProvider;
   private final boolean wantSSL;
   private final Document hostDoc;
 
   @Inject
   HostPageServlet(final Provider<GerritCall> cf, @SitePath final File path,
-      final GerritConfig gc, @CanonicalWebUrl @Nullable final String cwu,
+      final GerritConfig gc,
+      @CanonicalWebUrl @Nullable final Provider<String> up,
+      @CanonicalWebUrl @Nullable final String configuredUrl,
       final ServletContext servletContext) throws IOException {
     callFactory = cf;
-    canonicalUrl = cwu;
+    urlProvider = up;
     sitePath = path;
     config = gc;
-    wantSSL = canonicalUrl != null && canonicalUrl.startsWith("https:");
+    wantSSL = configuredUrl != null && configuredUrl.startsWith("https:");
 
     final String hostPageName = "WEB-INF/Gerrit.html";
     hostDoc = HtmlDomUtil.parseFile(servletContext, "/" + hostPageName);
@@ -197,7 +198,7 @@ public class HostPageServlet extends HttpServlet {
         reqUrl.replace(0, reqUrl.indexOf(":"), "https");
       } else {
         reqUrl.setLength(0);
-        reqUrl.append(canonicalUrl);
+        reqUrl.append(urlProvider.get());
         if (hasScreenName(screen)) {
           reqUrl.append('#');
           reqUrl.append(screen.substring(1));
@@ -215,7 +216,7 @@ public class HostPageServlet extends HttpServlet {
     //
     if (hasScreenName(screen)) {
       final StringBuilder r = new StringBuilder();
-      r.append(GerritServer.serverUrl(req));
+      r.append(urlProvider.get());
       r.append("#");
       r.append(screen.substring(1));
       rsp.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);

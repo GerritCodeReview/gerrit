@@ -38,30 +38,9 @@ import org.spearce.jgit.lib.RepositoryCache.FileKey;
 import java.io.File;
 import java.io.IOException;
 
-import javax.servlet.http.HttpServletRequest;
-
 /** Global server-side state for Gerrit. */
 @Singleton
 public class GerritServer {
-  public static String serverUrl(final HttpServletRequest req) {
-    // Assume this servlet is in the context with a simple name like "login"
-    // and we were accessed without any path info. Clipping the last part of
-    // the name from the URL should generate the web application's root path.
-    //
-    String uri = req.getRequestURL().toString();
-    final int s = uri.lastIndexOf('/');
-    if (s >= 0) {
-      uri = uri.substring(0, s + 1);
-    }
-    final String sfx = "/gerrit/rpc/";
-    if (uri.endsWith(sfx)) {
-      // Nope, it was one of our RPC servlets. Drop the rpc too.
-      //
-      uri = uri.substring(0, uri.length() - (sfx.length() - 1));
-    }
-    return uri;
-  }
-
   private final Database<ReviewDb> db;
   private final File sitePath;
   private final Config gerritConfigFile;

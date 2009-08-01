@@ -14,10 +14,8 @@
 
 package com.google.gerrit.server.http;
 
-import static com.google.inject.Scopes.SINGLETON;
 import static com.google.inject.Stage.PRODUCTION;
 
-import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.Common.CurrentAccountImpl;
@@ -26,29 +24,20 @@ import com.google.gerrit.git.ReloadSubmitQueueOp;
 import com.google.gerrit.git.WorkQueue;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.RemotePeer;
+import com.google.gerrit.server.config.CanonicalWebUrlProvider;
 import com.google.gerrit.server.config.DatabaseModule;
-import com.google.gerrit.server.config.FactoryModule;
-import com.google.gerrit.server.config.GerritConfigProvider;
 import com.google.gerrit.server.config.GerritServerModule;
-import com.google.gerrit.server.mail.RegisterNewEmailSender;
-import com.google.gerrit.server.rpc.UiRpcModule;
 import com.google.gerrit.server.ssh.SshDaemon;
 import com.google.gerrit.server.ssh.SshDaemonModule;
 import com.google.gerrit.server.ssh.SshInfo;
-import com.google.gwtexpui.server.CacheControlFilter;
 import com.google.inject.ConfigurationException;
 import com.google.inject.CreationException;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.google.inject.Key;
-import com.google.inject.Module;
 import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 import com.google.inject.servlet.GuiceServletContextListener;
-import com.google.inject.servlet.RequestScoped;
-import com.google.inject.servlet.ServletModule;
 import com.google.inject.spi.Message;
 
 import net.sf.ehcache.CacheManager;
@@ -57,45 +46,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.net.SocketAddress;
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
 import javax.servlet.ServletContextEvent;
+import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
 
 /** Configures the web application environment for Gerrit Code Review. */
 public class GerritServletConfig extends GuiceServletContextListener {
   private static final Logger log =
       LoggerFactory.getLogger(GerritServletConfig.class);
-
-  private static Module createServletModule() {
-    return new ServletModule() {
-      @Override
-      protected void configureServlets() {
-        bind(GerritCall.class).in(RequestScoped.class);
-        bind(SocketAddress.class).annotatedWith(RemotePeer.class).toProvider(
-            HttpRemotePeerProvider.class).in(RequestScoped.class);
-        bind(CurrentUser.class).toProvider(HttpCurrentUserProvider.class).in(
-            RequestScoped.class);
-
-        filter("/*").through(UrlRewriteFilter.class);
-
-        filter("/*").through(Key.get(CacheControlFilter.class));
-        bind(Key.get(CacheControlFilter.class)).in(SINGLETON);
-
-        serve("/Gerrit", "/Gerrit/*").with(HostPageServlet.class);
-        serve("/prettify/*").with(PrettifyServlet.class);
-        serve("/ssh_info").with(SshServlet.class);
-        serve("/cat/*").with(CatServlet.class);
-        serve("/static/*").with(StaticServlet.class);
-
-        if (BecomeAnyAccountLoginServlet.isAllowed()) {
-          serve("/become").with(BecomeAnyAccountLoginServlet.class);
-        }
-      }
-    };
-  }
 
   private Injector dbInjector;
   private Injector sysInjector;
@@ -106,21 +67,6 @@ public class GerritServletConfig extends GuiceServletContextListener {
     if (sysInjector == null) {
       try {
         dbInjector = Guice.createInjector(PRODUCTION, new DatabaseModule());
-        sysInjector = dbInjector.createChildInjector(new GerritServerModule());
-        sshInjector = sysInjector.createChildInjector(new SshDaemonModule());
-        webInjector = sysInjector.createChildInjector(new FactoryModule() {
-          @Override
-          protected void configure() {
-            bind(SshInfo.class).toProvider(
-                sshInjector.getProvider(SshInfo.class));
-            bind(GerritConfig.class).toProvider(GerritConfigProvider.class).in(
-                SINGLETON);
-
-            install(createServletModule());
-            install(new UiRpcModule());
-            factory(RegisterNewEmailSender.Factory.class);
-          }
-        });
       } catch (CreationException ce) {
         final Message first = ce.getErrorMessages().iterator().next();
         final StringBuilder buf = new StringBuilder();
@@ -139,6 +85,25 @@ public class GerritServletConfig extends GuiceServletContextListener {
         log.error(buf.toString(), first.getCause());
         throw new CreationException(Collections.singleton(first));
       }
+
+      sysInjector = dbInjector.createChildInjector(new GerritServerModule());
+      sshInjector = sysInjector.createChildInjector(new SshDaemonModule());
+      webInjector =
+          sysInjector.createChildInjector(new WebModule(sshInjector
+              .getProvider(SshInfo.class)));
+
+      // Push the Provider<HttpServletRequest> down into the canonical
+      // URL provider. Its optional for that provider, but since we can
+      // supply one we should do so, in case the administrator has not
+      // setup the canonical URL in the configuration file.
+      //
+      // Note we have to do this manually as Guice failed to do the
+      // injection here because the HTTP environment is not visible
+      // to the core server modules.
+      //
+      sysInjector.getInstance(CanonicalWebUrlProvider.class)
+          .setHttpServletRequest(
+              webInjector.getProvider(HttpServletRequest.class));
     }
   }
 

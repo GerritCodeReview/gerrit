@@ -36,6 +36,7 @@ import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import org.spearce.jgit.lib.PersonIdent;
 import org.spearce.jgit.util.SystemReader;
@@ -52,8 +53,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
 
 /** Sends an email to one or more interested parties. */
 public abstract class OutgoingEmail {
@@ -89,8 +88,7 @@ public abstract class OutgoingEmail {
   @Inject
   @CanonicalWebUrl
   @Nullable
-  private String canonicalWebUrl;
-  private String httpRequestUrl;
+  private Provider<String> urlProvider;
 
   protected OutgoingEmail(final Change c, final String mc) {
     change = c;
@@ -101,11 +99,6 @@ public abstract class OutgoingEmail {
 
   protected OutgoingEmail(final String mc) {
     this(null, mc);
-  }
-
-  @Inject(optional = true)
-  void setHttpServletRequest(final HttpServletRequest req) {
-    httpRequestUrl = GerritServer.serverUrl(req);
   }
 
   public void setFrom(final Account.Id id) {
@@ -332,10 +325,7 @@ public abstract class OutgoingEmail {
   }
 
   protected String getGerritUrl() {
-    if (canonicalWebUrl != null) {
-      return canonicalWebUrl;
-    }
-    return httpRequestUrl;
+    return urlProvider.get();
   }
 
   protected String getChangeMessageThreadId() {

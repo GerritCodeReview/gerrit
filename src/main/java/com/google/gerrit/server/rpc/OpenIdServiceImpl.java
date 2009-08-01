@@ -25,7 +25,6 @@ import com.google.gerrit.client.reviewdb.AccountExternalIdAccess;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.SystemConfig;
 import com.google.gerrit.client.rpc.Common;
-import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.UrlEncoded;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
@@ -99,21 +98,19 @@ class OpenIdServiceImpl implements OpenIdService {
 
   private final Provider<GerritCall> callFactory;
   private final AuthConfig authConfig;
-  private final String canonicalWebUrl;
+  private final Provider<String> urlProvider;
   private final SchemaFactory<ReviewDb> schema;
   private final ConsumerManager manager;
   private final SelfPopulatingCache discoveryCache;
-  private final Provider<HttpServletRequest> httpRequest;
 
   @Inject
-  OpenIdServiceImpl(final Provider<GerritCall> cf,
-      final Provider<HttpServletRequest> hsr, final AuthConfig ac,
-      @CanonicalWebUrl @Nullable final String cwu, final CacheManager cacheMgr,
-      final SchemaFactory<ReviewDb> sf) throws ConsumerException {
+  OpenIdServiceImpl(final Provider<GerritCall> cf, final AuthConfig ac,
+      @CanonicalWebUrl @Nullable final Provider<String> up,
+      final CacheManager cacheMgr, final SchemaFactory<ReviewDb> sf)
+      throws ConsumerException {
     callFactory = cf;
-    httpRequest = hsr;
     authConfig = ac;
-    canonicalWebUrl = cwu;
+    urlProvider = up;
     schema = sf;
     manager = new ConsumerManager();
     if (authConfig.getLoginType() == SystemConfig.LoginType.OPENID) {
@@ -519,10 +516,10 @@ class OpenIdServiceImpl implements OpenIdService {
     return m.size() == 1 ? m.get(0) : null;
   }
 
-  private static void callback(final HttpServletRequest req,
+  private void callback(final HttpServletRequest req,
       final HttpServletResponse rsp) throws IOException {
     final StringBuilder rdr = new StringBuilder();
-    rdr.append(GerritServer.serverUrl(req));
+    rdr.append(urlProvider.get());
     final String token = req.getParameter(P_TOKEN);
     if (token != null && !token.startsWith("SignInFailure,")) {
       rdr.append('#');
@@ -531,16 +528,16 @@ class OpenIdServiceImpl implements OpenIdService {
     rsp.sendRedirect(rdr.toString());
   }
 
-  private static void cancel(final HttpServletRequest req,
+  private void cancel(final HttpServletRequest req,
       final HttpServletResponse rsp) throws IOException {
     callback(req, rsp);
   }
 
-  private static void cancelWithError(final HttpServletRequest req,
+  private void cancelWithError(final HttpServletRequest req,
       final HttpServletResponse rsp, final SignInDialog.Mode mode,
       final String errorDetail) throws IOException {
     final StringBuilder rdr = new StringBuilder();
-    rdr.append(GerritServer.serverUrl(req));
+    rdr.append(urlProvider.get());
     rdr.append('#');
     rdr.append("SignInFailure");
     rdr.append(',');
@@ -563,10 +560,7 @@ class OpenIdServiceImpl implements OpenIdService {
       return null;
     }
 
-    String contextUrl = canonicalWebUrl;
-    if (contextUrl == null) {
-      contextUrl = GerritServer.serverUrl(httpRequest.get());
-    }
+    final String contextUrl = urlProvider.get();
     final DiscoveryInformation discovered = manager.associate(list);
     final UrlEncoded retTo = new UrlEncoded(contextUrl + "login");
     retTo.put(P_MODE, mode.name());

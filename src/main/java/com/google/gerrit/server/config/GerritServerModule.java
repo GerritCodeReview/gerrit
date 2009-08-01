@@ -37,6 +37,7 @@ import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.mail.EmailSender;
 import com.google.gerrit.server.mail.MergeFailSender;
 import com.google.gerrit.server.mail.MergedSender;
+import com.google.gerrit.server.mail.RegisterNewEmailSender;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.mail.SmtpEmailSender;
 import com.google.gerrit.server.patch.DiffCache;
@@ -57,9 +58,18 @@ public class GerritServerModule extends FactoryModule {
         SitePathProvider.class).in(SINGLETON);
     bind(Config.class).annotatedWith(GerritServerConfig.class).toProvider(
         GerritServerConfigProvider.class).in(SINGLETON);
-    bind(String.class).annotatedWith(CanonicalWebUrl.class).toProvider(
-        CanonicalWebUrlProvider.class).in(SINGLETON);
     bind(AuthConfig.class).in(SINGLETON);
+
+    // Note that the CanonicalWebUrl itself must not be a singleton, but its
+    // provider must be.
+    //
+    // If the value was not configured in the system configuration data the
+    // provider may try to guess it from the current HTTP request, if we are
+    // running in an HTTP environment.
+    //
+    bind(CanonicalWebUrlProvider.class).in(SINGLETON);
+    bind(String.class).annotatedWith(CanonicalWebUrl.class).toProvider(
+        CanonicalWebUrlProvider.class);
 
     bind(CacheManager.class).toProvider(CacheManagerProvider.class).in(
         SINGLETON);
@@ -90,5 +100,6 @@ public class GerritServerModule extends FactoryModule {
     factory(MergedSender.Factory.class);
     factory(MergeFailSender.Factory.class);
     factory(ReplacePatchSetSender.Factory.class);
+    factory(RegisterNewEmailSender.Factory.class);
   }
 }

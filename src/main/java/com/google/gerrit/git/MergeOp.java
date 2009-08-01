@@ -39,6 +39,7 @@ import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.gwtorm.client.Transaction;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 import org.slf4j.Logger;
@@ -109,7 +110,7 @@ public class MergeOp {
   private final ReplicationQueue replication;
   private final MergedSender.Factory mergedSenderFactory;
   private final MergeFailSender.Factory mergeFailSenderFactory;
-  private final String canonicalWebUrl;
+  private final Provider<String> urlProvider;
 
   private final PersonIdent myIdent;
   private final Branch.NameKey destBranch;
@@ -129,14 +130,14 @@ public class MergeOp {
   MergeOp(final GerritServer gs, final SchemaFactory<ReviewDb> sf,
       final ReplicationQueue rq, final MergedSender.Factory msf,
       final MergeFailSender.Factory mfsf,
-      @CanonicalWebUrl @Nullable final String cwu,
+      @CanonicalWebUrl @Nullable final Provider<String> cwu,
       @Assisted final Branch.NameKey branch) {
     server = gs;
     schemaFactory = sf;
     replication = rq;
     mergedSenderFactory = msf;
     mergeFailSenderFactory = mfsf;
-    canonicalWebUrl = cwu;
+    urlProvider = cwu;
     myIdent = server.newGerritPersonIdent();
     destBranch = branch;
     toMerge = new ArrayList<CodeReviewCommit>();
@@ -578,8 +579,9 @@ public class MergeOp {
       msgbuf.append('\n');
     }
 
-    if (canonicalWebUrl != null) {
-      final String url = canonicalWebUrl + n.patchsetId.getParentKey().get();
+    final String siteUrl = urlProvider.get();
+    if (siteUrl != null) {
+      final String url = siteUrl + n.patchsetId.getParentKey().get();
       if (!contains(footers, REVIEWED_ON, url)) {
         msgbuf.append(REVIEWED_ON.getName());
         msgbuf.append(": ");

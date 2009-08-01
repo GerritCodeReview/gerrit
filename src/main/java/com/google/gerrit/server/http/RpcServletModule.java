@@ -17,6 +17,7 @@ package com.google.gerrit.server.http;
 import com.google.gwtjsonrpc.client.RemoteJsonService;
 import com.google.inject.Key;
 import com.google.inject.Scopes;
+import com.google.inject.internal.UniqueAnnotations;
 import com.google.inject.servlet.ServletModule;
 
 /** Binds {@link RemoteJsonService} implementations to a JSON servlet. */
@@ -37,7 +38,7 @@ public abstract class RpcServletModule extends ServletModule {
 
   protected void rpc(final String name, Class<? extends RemoteJsonService> clazz) {
     final Key<GerritJsonServlet> srv =
-        Key.get(GerritJsonServlet.class, ServletNameImpl.named(name));
+        Key.get(GerritJsonServlet.class, UniqueAnnotations.create());
     final GerritJsonServletProvider provider =
         new GerritJsonServletProvider(clazz);
     serve(prefix + name).with(srv);

@@ -29,16 +29,17 @@ import org.spearce.jgit.lib.Config;
 import java.io.File;
 
 public class EncryptedContactStoreProvider implements Provider<ContactStore> {
-  @Inject
-  @GerritServerConfig
-  private Config config;
+  private final Config config;
+  private final SchemaFactory<ReviewDb> schema;
+  private final File sitePath;
 
   @Inject
-  private SchemaFactory<ReviewDb> schema;
-
-  @Inject
-  @SitePath
-  private File sitePath;
+  EncryptedContactStoreProvider(@GerritServerConfig final Config config,
+      final SchemaFactory<ReviewDb> schema, @SitePath final File sitePath) {
+    this.config = config;
+    this.schema = schema;
+    this.sitePath = sitePath;
+  }
 
   @Override
   public ContactStore get() {

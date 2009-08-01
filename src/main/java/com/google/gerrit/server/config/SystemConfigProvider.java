@@ -40,8 +40,12 @@ import java.util.List;
 
 /** Loads the {@link SystemConfig} from the database. */
 class SystemConfigProvider implements Provider<SystemConfig> {
+  private final SchemaFactory<ReviewDb> schema;
+
   @Inject
-  private SchemaFactory<ReviewDb> schema;
+  SystemConfigProvider(final SchemaFactory<ReviewDb> sf) {
+    schema = sf;
+  }
 
   @Override
   public SystemConfig get() {

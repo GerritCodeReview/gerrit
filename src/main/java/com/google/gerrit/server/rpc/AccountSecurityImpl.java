@@ -30,7 +30,6 @@ import com.google.gerrit.client.rpc.InvalidSshKeyException;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gerrit.server.BaseServiceImplementation;
 import com.google.gerrit.server.ContactStore;
-import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.mail.RegisterNewEmailSender;
@@ -48,7 +47,6 @@ import com.google.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.spearce.jgit.lib.PersonIdent;
 import org.spearce.jgit.util.Base64;
 
 import java.io.UnsupportedEncodingException;
@@ -62,23 +60,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.servlet.http.HttpServletRequest;
-
 class AccountSecurityImpl extends BaseServiceImplementation implements
     AccountSecurity {
   private final Logger log = LoggerFactory.getLogger(getClass());
-  private final GerritServer server;
   private final ContactStore contactStore;
   private final AuthConfig authConfig;
   private final RegisterNewEmailSender.Factory registerNewEmailFactory;
   private final SshKeyCache sshKeyCache;
 
   @Inject
-  AccountSecurityImpl(final SchemaFactory<ReviewDb> sf, final GerritServer gs,
-      final ContactStore cs, final AuthConfig ac,
-      final RegisterNewEmailSender.Factory esf, final SshKeyCache skc) {
+  AccountSecurityImpl(final SchemaFactory<ReviewDb> sf, final ContactStore cs,
+      final AuthConfig ac, final RegisterNewEmailSender.Factory esf,
+      final SshKeyCache skc) {
     super(sf);
-    server = gs;
     contactStore = cs;
     authConfig = ac;
     registerNewEmailFactory = esf;
@@ -293,9 +287,6 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
 
   public void registerEmail(final String address,
       final AsyncCallback<VoidResult> cb) {
-    final PersonIdent gi = server.newGerritPersonIdent();
-    final HttpServletRequest req =
-        GerritJsonServlet.getCurrentCall().getHttpServletRequest();
     try {
       final RegisterNewEmailSender sender;
       sender = registerNewEmailFactory.create(address);

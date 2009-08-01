@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.config;
 
+import com.google.gerrit.client.reviewdb.LoginType;
 import com.google.gerrit.client.reviewdb.SystemConfig;
-import com.google.gerrit.client.reviewdb.SystemConfig.LoginType;
 import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.inject.Inject;
@@ -64,6 +64,9 @@ public class AuthConfig {
   }
 
   private static LoginType toType(final Config cfg) {
+    if (isBecomeAnyoneEnabled()) {
+      return LoginType.DEVELOPMENT_BECOME_ANY_ACCOUNT;
+    }
     String type = cfg.getString("auth", null, "type");
     if (type == null) {
       return LoginType.OPENID;
@@ -74,6 +77,15 @@ public class AuthConfig {
       }
     }
     throw new IllegalStateException("Unsupported auth.type: " + type);
+  }
+
+  private static boolean isBecomeAnyoneEnabled() {
+    try {
+      String s = "com.google.gerrit.server.http.BecomeAnyAccountLoginServlet";
+      return Boolean.getBoolean(s);
+    } catch (SecurityException se) {
+      return false;
+    }
   }
 
   /** Type of user authentication used by this Gerrit server. */

@@ -42,20 +42,6 @@ public final class SystemConfig {
     }
   }
 
-  public static enum LoginType {
-    /** Login relies upon the OpenID standard: {@link "http://openid.net/"} */
-    OPENID,
-
-    /**
-     * Login relies upon the container/web server security.
-     * <p>
-     * The container or web server must populate an HTTP header with the some
-     * user token. Gerrit will implicitly trust the value of this header to
-     * supply the unique identity.
-     */
-    HTTP;
-  }
-
   /** Construct a new, unconfigured instance. */
   public static SystemConfig create() {
     final SystemConfig r = new SystemConfig();

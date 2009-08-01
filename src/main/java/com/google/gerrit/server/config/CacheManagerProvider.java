@@ -1,6 +1,6 @@
 package com.google.gerrit.server.config;
 
-import com.google.gerrit.client.reviewdb.SystemConfig.LoginType;
+import com.google.gerrit.client.reviewdb.LoginType;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 

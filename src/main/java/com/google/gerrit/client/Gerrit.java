@@ -351,22 +351,18 @@ public class Gerrit implements EntryPoint {
     if (signedIn) {
       whoAmI();
       addLink(menuRight, C.menuSettings(), Link.SETTINGS);
-      boolean signout = false;
       switch (Common.getGerritConfig().getLoginType()) {
         case HTTP:
           break;
 
         case OPENID:
-        default:
-          signout = true;
+        case DEVELOPMENT_BECOME_ANY_ACCOUNT:
+          menuRight.addItem(C.menuSignOut(), new Command() {
+            public void execute() {
+              doSignOut();
+            }
+          });
           break;
-      }
-      if (signout || !GWT.isScript()) {
-        menuRight.addItem(C.menuSignOut(), new Command() {
-          public void execute() {
-            doSignOut();
-          }
-        });
       }
     } else {
       switch (Common.getGerritConfig().getLoginType()) {
@@ -374,20 +370,20 @@ public class Gerrit implements EntryPoint {
           break;
 
         case OPENID:
-        default:
           menuRight.addItem(C.menuSignIn(), new Command() {
             public void execute() {
               doSignIn();
             }
           });
           break;
-      }
-      if (!GWT.isScript()) {
-        menuRight.addItem("Become", new Command() {
-          public void execute() {
-            Window.Location.assign(GWT.getHostPageBaseURL() + "become");
-          }
-        });
+
+        case DEVELOPMENT_BECOME_ANY_ACCOUNT:
+          menuRight.addItem("Become", new Command() {
+            public void execute() {
+              Window.Location.assign(GWT.getHostPageBaseURL() + "become");
+            }
+          });
+          break;
       }
     }
   }

@@ -15,7 +15,7 @@
 package com.google.gerrit.client.data;
 
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
-import com.google.gerrit.client.reviewdb.SystemConfig;
+import com.google.gerrit.client.reviewdb.LoginType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,7 +30,7 @@ public class GerritConfig implements Cloneable {
   protected boolean useContributorAgreements;
   protected boolean useContactInfo;
   protected boolean allowRegisterNewEmail;
-  protected SystemConfig.LoginType loginType;
+  protected LoginType loginType;
   protected boolean useRepoDownload;
   protected String gitDaemonUrl;
   protected String sshdAddress;
@@ -47,11 +47,11 @@ public class GerritConfig implements Cloneable {
     canonicalUrl = u;
   }
 
-  public SystemConfig.LoginType getLoginType() {
+  public LoginType getLoginType() {
     return loginType;
   }
 
-  public void setLoginType(final SystemConfig.LoginType t) {
+  public void setLoginType(final LoginType t) {
     loginType = t;
   }
 

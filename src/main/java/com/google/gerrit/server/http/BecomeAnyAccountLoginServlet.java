@@ -16,6 +16,8 @@ package com.google.gerrit.server.http;
 
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.Nullable;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
@@ -34,24 +36,17 @@ import javax.servlet.http.HttpServletResponse;
 @SuppressWarnings("serial")
 @Singleton
 public class BecomeAnyAccountLoginServlet extends HttpServlet {
-  static boolean isAllowed() {
-    try {
-      return Boolean.getBoolean(BecomeAnyAccountLoginServlet.class.getName());
-    } catch (SecurityException se) {
-      return false;
-    }
-  }
-
-  private final boolean allowed;
   private final SchemaFactory<ReviewDb> schema;
   private final Provider<GerritCall> callFactory;
+  private final Provider<String> urlProvider;
 
   @Inject
   BecomeAnyAccountLoginServlet(final Provider<GerritCall> cf,
-      final SchemaFactory<ReviewDb> sf) {
+      final SchemaFactory<ReviewDb> sf,
+      final @CanonicalWebUrl @Nullable Provider<String> up) {
     callFactory = cf;
     schema = sf;
-    allowed = isAllowed();
+    urlProvider = up;
   }
 
   @Override
@@ -63,11 +58,6 @@ public class BecomeAnyAccountLoginServlet extends HttpServlet {
   @Override
   protected void doPost(final HttpServletRequest req,
       final HttpServletResponse rsp) throws IOException {
-    if (!allowed) {
-      rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
-      return;
-    }
-
     final List<Account> accounts;
     if (req.getParameter("ssh_user_name") != null) {
       accounts = bySshUserName(rsp, req.getParameter("ssh_user_name"));
@@ -97,11 +87,10 @@ public class BecomeAnyAccountLoginServlet extends HttpServlet {
 
     if (accounts.size() == 1) {
       final Account account = accounts.get(0);
-      callFactory.get().setAccount(account.getId(), false);
-
-      final StringBuffer url = req.getRequestURL();
-      url.setLength(url.lastIndexOf("/")); // drop 'become'
-      rsp.sendRedirect(url.toString());
+      final GerritCall call = callFactory.get();
+      call.noCache();
+      call.setAccount(account.getId(), false);
+      rsp.sendRedirect(urlProvider.get());
 
     } else {
       rsp.sendError(HttpServletResponse.SC_NOT_FOUND);

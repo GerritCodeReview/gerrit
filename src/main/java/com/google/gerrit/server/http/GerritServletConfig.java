@@ -17,7 +17,6 @@ package com.google.gerrit.server.http;
 import static com.google.inject.Stage.PRODUCTION;
 
 import com.google.gerrit.client.reviewdb.Account;
-import com.google.gerrit.client.reviewdb.SystemConfig.LoginType;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.Common.CurrentAccountImpl;
 import com.google.gerrit.git.PushAllProjectsOp;
@@ -123,15 +122,19 @@ public class GerritServletConfig extends GuiceServletContextListener {
     final List<Module> modules = new ArrayList<Module>();
     modules.add(new WebModule(sshInfo));
 
-    if (BecomeAnyAccountLoginServlet.isAllowed()) {
-      modules.add(new ServletModule() {
-        @Override
-        protected void configureServlets() {
-          serve("/become").with(BecomeAnyAccountLoginServlet.class);
-        }
-      });
-    } else if (auth.getLoginType() == LoginType.OPENID) {
-      modules.add(new OpenIdModule());
+    switch (auth.getLoginType()) {
+      case OPENID:
+        modules.add(new OpenIdModule());
+        break;
+
+      case DEVELOPMENT_BECOME_ANY_ACCOUNT:
+        modules.add(new ServletModule() {
+          @Override
+          protected void configureServlets() {
+            serve("/become").with(BecomeAnyAccountLoginServlet.class);
+          }
+        });
+        break;
     }
 
     return sysInjector.createChildInjector(modules);

@@ -35,6 +35,7 @@ import com.google.gerrit.server.ssh.SshDaemonModule;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gwtexpui.server.CacheControlFilter;
 import com.google.inject.ConfigurationException;
+import com.google.inject.CreationException;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Key;
@@ -45,6 +46,7 @@ import com.google.inject.ProvisionException;
 import com.google.inject.servlet.GuiceServletContextListener;
 import com.google.inject.servlet.RequestScoped;
 import com.google.inject.servlet.ServletModule;
+import com.google.inject.spi.Message;
 
 import net.sf.ehcache.CacheManager;
 
@@ -53,6 +55,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.SocketAddress;
+import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
 import javax.servlet.ServletContextEvent;
@@ -91,27 +94,48 @@ public class GerritServletConfig extends GuiceServletContextListener {
     };
   }
 
+  private Injector dbInjector;
   private Injector sysInjector;
   private Injector webInjector;
   private Injector sshInjector;
 
   private synchronized void init() {
     if (sysInjector == null) {
-      sysInjector = Guice.createInjector(PRODUCTION, new GerritServerModule());
-      sshInjector = sysInjector.createChildInjector(new SshDaemonModule());
-      webInjector = sysInjector.createChildInjector(new FactoryModule() {
-        @Override
-        protected void configure() {
-          bind(SshInfo.class)
-              .toProvider(sshInjector.getProvider(SshInfo.class));
-          bind(GerritConfig.class).toProvider(GerritConfigProvider.class).in(
-              SINGLETON);
+      try {
+        dbInjector = Guice.createInjector(PRODUCTION, new DatabaseModule());
+        sysInjector = dbInjector.createChildInjector(new GerritServerModule());
+        sshInjector = sysInjector.createChildInjector(new SshDaemonModule());
+        webInjector = sysInjector.createChildInjector(new FactoryModule() {
+          @Override
+          protected void configure() {
+            bind(SshInfo.class).toProvider(
+                sshInjector.getProvider(SshInfo.class));
+            bind(GerritConfig.class).toProvider(GerritConfigProvider.class).in(
+                SINGLETON);
 
-          install(createServletModule());
-          install(new UiRpcModule());
-          factory(RegisterNewEmailSender.Factory.class);
+            install(createServletModule());
+            install(new UiRpcModule());
+            factory(RegisterNewEmailSender.Factory.class);
+          }
+        });
+      } catch (CreationException ce) {
+        final Message first = ce.getErrorMessages().iterator().next();
+        final StringBuilder buf = new StringBuilder();
+        buf.append(first.getMessage());
+        Throwable why = first.getCause();
+        while (why != null) {
+          buf.append("\n  caused by ");
+          buf.append(why.toString());
+          why = why.getCause();
         }
-      });
+        if (first.getCause() != null) {
+          buf.append("\n");
+          buf.append("\nResolve above errors before continuing.");
+          buf.append("\nComplete stack trace follows:");
+        }
+        log.error(buf.toString(), first.getCause());
+        throw new CreationException(Collections.singleton(first));
+      }
     }
   }
 
@@ -211,8 +235,8 @@ public class GerritServletConfig extends GuiceServletContextListener {
     }
 
     try {
-      if (sysInjector != null) {
-        closeDataSource(sysInjector.getInstance(DatabaseModule.DS));
+      if (dbInjector != null) {
+        closeDataSource(dbInjector.getInstance(DatabaseModule.DS));
       }
     } catch (ConfigurationException ce) {
     } catch (ProvisionException ce) {

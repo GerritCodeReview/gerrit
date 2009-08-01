@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server;
+package com.google.gerrit.server.http;
 
 import static com.google.inject.Scopes.SINGLETON;
 import static com.google.inject.Stage.PRODUCTION;
@@ -24,6 +24,9 @@ import com.google.gerrit.client.rpc.Common.CurrentAccountImpl;
 import com.google.gerrit.git.PushAllProjectsOp;
 import com.google.gerrit.git.ReloadSubmitQueueOp;
 import com.google.gerrit.git.WorkQueue;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.config.DatabaseModule;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GerritConfigProvider;

@@ -23,5 +23,5 @@
 <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-war ${resource_loc:/gerrit/src/main/webapp} -startupUrl /Gerrit com.google.gerrit.Gerrit"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="gerrit"/>
 <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.maven.ide.eclipse.launchconfig.sourcepathProvider"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xmx256M -DGerritServer=${resource_loc:/gerrit/src/main/java/GerritServer.properties} -Dcom.google.gerrit.server.BecomeAnyAccountLoginServlet=true"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xmx256M -DGerritServer=${resource_loc:/gerrit/src/main/java/GerritServer.properties} -Dcom.google.gerrit.server.http.BecomeAnyAccountLoginServlet=true"/>
 </launchConfiguration>

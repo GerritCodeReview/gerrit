@@ -12,27 +12,37 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server;
+package com.google.gerrit.server.http;
 
-import com.google.gerrit.client.reviewdb.Account;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.ProvisionException;
 import com.google.inject.servlet.RequestScoped;
 
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.SocketAddress;
+import java.net.UnknownHostException;
+
+import javax.servlet.http.HttpServletRequest;
+
 @RequestScoped
-class HttpCurrentUserProvider implements Provider<CurrentUser> {
-  private final GerritCall call;
-  private final IdentifiedUser.Factory factory;
+class HttpRemotePeerProvider implements Provider<SocketAddress> {
+  private final HttpServletRequest req;
 
   @Inject
-  HttpCurrentUserProvider(final GerritCall c, final IdentifiedUser.Factory f) {
-    call = c;
-    factory = f;
+  HttpRemotePeerProvider(final HttpServletRequest r) {
+    req = r;
   }
 
   @Override
-  public CurrentUser get() {
-    final Account.Id id = call.getAccountId();
-    return id != null ? factory.create(id) : CurrentUser.ANONYMOUS;
+  public SocketAddress get() {
+    final String addr = req.getRemoteAddr();
+    final int port = req.getRemotePort();
+    try {
+      return new InetSocketAddress(InetAddress.getByName(addr), port);
+    } catch (UnknownHostException e) {
+      throw new ProvisionException("Cannot get @RemotePeer", e);
+    }
   }
 }

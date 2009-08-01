@@ -12,11 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server;
+package com.google.gerrit.server.http;
 
 import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.rpc.Common;
+import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.Nullable;
 import com.google.gerrit.server.config.SitePath;

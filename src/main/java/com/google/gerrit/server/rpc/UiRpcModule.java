@@ -14,15 +14,15 @@
 
 package com.google.gerrit.server.rpc;
 
-import com.google.gerrit.server.config.ServletNameImpl;
+import com.google.gerrit.server.http.RpcServletModule;
 import com.google.gerrit.server.patch.PatchDetailServiceImpl;
-import com.google.gwtjsonrpc.client.RemoteJsonService;
-import com.google.inject.Key;
-import com.google.inject.Scopes;
-import com.google.inject.servlet.ServletModule;
 
 /** Registers servlets to answer RPCs from client UI. */
-public class UiRpcModule extends ServletModule {
+public class UiRpcModule extends RpcServletModule {
+  public UiRpcModule() {
+    super("/gerrit/rpc/");
+  }
+
   @Override
   protected void configureServlets() {
     serve("/login").with(OpenIdLoginServlet.class);
@@ -38,22 +38,5 @@ public class UiRpcModule extends ServletModule {
     rpc(ProjectAdminServiceImpl.class);
     rpc(SuggestServiceImpl.class);
     rpc(SystemInfoServiceImpl.class);
-  }
-
-  private void rpc(Class<? extends RemoteJsonService> clazz) {
-    String name = clazz.getSimpleName();
-    if (name.endsWith("Impl")) {
-      name = name.substring(0, name.length() - 4);
-    }
-    rpc(name, clazz);
-  }
-
-  private void rpc(final String name, Class<? extends RemoteJsonService> clazz) {
-    final Key<GerritJsonServlet> srv =
-        Key.get(GerritJsonServlet.class, ServletNameImpl.named(name));
-    final GerritJsonServletProvider provider =
-        new GerritJsonServletProvider(clazz);
-    serve("/gerrit/rpc/" + name).with(srv);
-    bind(srv).toProvider(provider).in(Scopes.SINGLETON);
   }
 }

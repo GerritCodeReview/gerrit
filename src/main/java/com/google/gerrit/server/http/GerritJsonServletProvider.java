@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.rpc;
+package com.google.gerrit.server.http;
 
 import com.google.gwtjsonrpc.client.RemoteJsonService;
 import com.google.inject.AbstractModule;

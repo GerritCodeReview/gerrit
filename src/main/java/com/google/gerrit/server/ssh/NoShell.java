@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.ssh;
 
-import com.google.gerrit.server.SshServlet;
+import com.google.gerrit.server.http.SshServlet;
 
 import org.apache.sshd.server.ShellFactory;
 import org.spearce.jgit.lib.Constants;

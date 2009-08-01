@@ -16,6 +16,6 @@
   </filter-mapping>
 
   <listener>
-    <listener-class>com.google.gerrit.server.GerritServletConfig</listener-class>
+    <listener-class>com.google.gerrit.server.http.GerritServletConfig</listener-class>
   </listener>
 </web-app>

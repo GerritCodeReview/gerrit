@@ -53,8 +53,6 @@ import java.io.File;
 public class GerritServerModule extends FactoryModule {
   @Override
   protected void configure() {
-    install(new DatabaseModule());
-
     bind(File.class).annotatedWith(SitePath.class).toProvider(
         SitePathProvider.class).in(SINGLETON);
     bind(Config.class).annotatedWith(GerritServerConfig.class).toProvider(

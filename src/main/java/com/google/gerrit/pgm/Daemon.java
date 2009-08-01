@@ -19,6 +19,7 @@ import static com.google.inject.Stage.PRODUCTION;
 
 import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.client.rpc.Common;
+import com.google.gerrit.server.config.DatabaseModule;
 import com.google.gerrit.server.config.GerritConfigProvider;
 import com.google.gerrit.server.config.GerritServerModule;
 import com.google.gerrit.server.ssh.SshDaemon;
@@ -32,8 +33,9 @@ public class Daemon extends AbstractProgram {
   @Override
   public int run() throws Exception {
     final Injector injector =
-        Guice.createInjector(PRODUCTION, new GerritServerModule(),
-            new SshDaemonModule(), new AbstractModule() {
+        Guice.createInjector(PRODUCTION, new DatabaseModule(),
+            new GerritServerModule(), new SshDaemonModule(),
+            new AbstractModule() {
               @Override
               protected void configure() {
                 bind(GerritConfig.class).toProvider(GerritConfigProvider.class)

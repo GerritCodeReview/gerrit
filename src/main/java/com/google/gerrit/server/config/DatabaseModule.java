@@ -34,8 +34,9 @@ public class DatabaseModule extends FactoryModule {
   @Override
   protected void configure() {
     bind(DS).toProvider(ReviewDbDataSourceProvider.class).in(SINGLETON);
+
     bind(new TypeLiteral<SchemaFactory<ReviewDb>>() {}).to(
-        new TypeLiteral<Database<ReviewDb>>() {});
+        new TypeLiteral<Database<ReviewDb>>() {}).in(SINGLETON);
     bind(new TypeLiteral<Database<ReviewDb>>() {}).toProvider(
         ReviewDbProvider.class).in(SINGLETON);
 

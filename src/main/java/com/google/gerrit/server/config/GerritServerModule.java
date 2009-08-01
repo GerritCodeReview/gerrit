@@ -56,12 +56,12 @@ public class GerritServerModule extends FactoryModule {
     install(new DatabaseModule());
 
     bind(File.class).annotatedWith(SitePath.class).toProvider(
-        SitePathProvider.class);
+        SitePathProvider.class).in(SINGLETON);
     bind(Config.class).annotatedWith(GerritServerConfig.class).toProvider(
         GerritServerConfigProvider.class).in(SINGLETON);
     bind(String.class).annotatedWith(CanonicalWebUrl.class).toProvider(
-        CanonicalWebUrlProvider.class);
-    bind(AuthConfig.class);
+        CanonicalWebUrlProvider.class).in(SINGLETON);
+    bind(AuthConfig.class).in(SINGLETON);
 
     bind(CacheManager.class).toProvider(CacheManagerProvider.class).in(
         SINGLETON);
@@ -69,7 +69,8 @@ public class GerritServerModule extends FactoryModule {
     bind(DiffCache.class);
 
     bind(GerritServer.class);
-    bind(ContactStore.class).toProvider(EncryptedContactStoreProvider.class);
+    bind(ContactStore.class).toProvider(EncryptedContactStoreProvider.class)
+        .in(SINGLETON);
     bind(FileTypeRegistry.class).to(MimeUtilFileTypeRegistry.class);
     bind(WorkQueue.class);
 

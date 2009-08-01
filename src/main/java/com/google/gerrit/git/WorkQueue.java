@@ -14,6 +14,8 @@
 
 package com.google.gerrit.git;
 
+import com.google.inject.Singleton;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -31,6 +33,7 @@ import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /** Delayed execution of tasks using a background thread pool. */
+@Singleton
 public class WorkQueue {
   private Executor defaultQueue;
   private final CopyOnWriteArrayList<Executor> queues =

@@ -19,6 +19,7 @@ import com.google.gerrit.server.config.SitePath;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.google.inject.Singleton;
 import com.google.inject.assistedinject.FactoryProvider;
 
 import com.jcraft.jsch.Session;
@@ -46,6 +47,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /** Manages automatic replication to remote repositories. */
+@Singleton
 public class PushReplication implements ReplicationQueue {
   static final Logger log = LoggerFactory.getLogger(PushReplication.class);
 

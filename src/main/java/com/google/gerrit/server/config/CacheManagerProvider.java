@@ -20,17 +20,21 @@ public class CacheManagerProvider implements Provider<CacheManager> {
   private static final Logger log =
       LoggerFactory.getLogger(CacheManagerProvider.class);
 
-  private final CacheManager cacheMgr;
+  private final Config cfg;
+  private final File sitePath;
+  private final AuthConfig authConfig;
 
   @Inject
   CacheManagerProvider(@GerritServerConfig final Config cfg,
       @SitePath final File sitePath, final AuthConfig authConfig) {
-    cacheMgr = new CacheManager(toConfiguration(cfg, sitePath, authConfig));
+    this.cfg = cfg;
+    this.sitePath = sitePath;
+    this.authConfig = authConfig;
   }
 
   @Override
   public CacheManager get() {
-    return cacheMgr;
+    return new CacheManager(toConfiguration(cfg, sitePath, authConfig));
   }
 
   private Configuration toConfiguration(final Config cfg, final File sitePath,

@@ -24,6 +24,7 @@ import com.google.gerrit.server.config.SitePath;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import org.apache.sshd.common.util.SecurityUtils;
 import org.bouncycastle.bcpg.ArmoredOutputStream;
@@ -60,6 +61,7 @@ import java.util.Iterator;
 import java.util.TimeZone;
 
 /** Encrypts {@link ContactInformation} instances and saves them. */
+@Singleton
 class EncryptedContactStore implements ContactStore {
   private static final TimeZone UTC = TimeZone.getTimeZone("UTC");
 

@@ -30,11 +30,11 @@ import com.google.gwtexpui.user.client.AutoCenterDialogBox;
  * other web based single-sign-on system to be used for authentication.
  * <p>
  * Post login the iframe content is expected to execute the JavaScript snippet:
- * 
+ *
  * <pre>
  * $callback(account);
  * </pre>
- * 
+ *
  * where <code>$callback</code> is the parameter in the initial request and
  * <code>account</code> is either <code>!= null</code> (the user is now signed
  * in) or <code>null</code> (the sign in was aborted/canceled before it
@@ -42,7 +42,7 @@ import com.google.gwtexpui.user.client.AutoCenterDialogBox;
  */
 public class SignInDialog extends AutoCenterDialogBox {
   public static enum Mode {
-    SIGN_IN, LINK_IDENTIY;
+    SIGN_IN, LINK_IDENTIY, REGISTER;
   }
 
   private Widget panel;
@@ -56,7 +56,7 @@ public class SignInDialog extends AutoCenterDialogBox {
 
   /**
    * Create a new dialog to handle user sign in.
-   * 
+   *
    * @param signInMode type of mode the login will perform.
    */
   public SignInDialog(final Mode signInMode) {
@@ -65,7 +65,7 @@ public class SignInDialog extends AutoCenterDialogBox {
 
   /**
    * Create a new dialog to handle user sign in.
-   * 
+   *
    * @param signInMode type of mode the login will perform.
    * @param errorMsg error message to display, if non-null.
    */
@@ -89,6 +89,9 @@ public class SignInDialog extends AutoCenterDialogBox {
     switch (signInMode) {
       case LINK_IDENTIY:
         setText(Gerrit.C.linkIdentityDialogTitle());
+        break;
+      case REGISTER:
+        setText(Gerrit.C.registerDialogTitle());
         break;
       default:
         setText(Gerrit.C.signInDialogTitle());

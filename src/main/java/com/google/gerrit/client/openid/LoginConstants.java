@@ -18,7 +18,9 @@ import com.google.gwt.i18n.client.Constants;
 
 public interface LoginConstants extends Constants {
   String buttonSignIn();
+  String buttonRegister();
   String buttonLinkId();
+
   String rememberMe();
   String notSupported();
 

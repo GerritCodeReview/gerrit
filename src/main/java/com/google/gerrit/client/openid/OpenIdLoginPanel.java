@@ -121,6 +121,9 @@ public class OpenIdLoginPanel extends Composite implements
       case LINK_IDENTIY:
         headerLabel.setText(OpenIdUtil.M.linkAt(me));
         break;
+      case REGISTER:
+        headerLabel.setText(OpenIdUtil.M.registerAt(me));
+        break;
       case SIGN_IN:
       default:
         headerLabel.setText(OpenIdUtil.M.signInAt(me));
@@ -176,6 +179,9 @@ public class OpenIdLoginPanel extends Composite implements
       case LINK_IDENTIY:
         login.setText(OpenIdUtil.C.buttonLinkId());
         break;
+      case REGISTER:
+        login.setText(OpenIdUtil.C.buttonRegister());
+        break;
       case SIGN_IN:
       default:
         login.setText(OpenIdUtil.C.buttonSignIn());
@@ -228,6 +234,9 @@ public class OpenIdLoginPanel extends Composite implements
     switch (mode) {
       case LINK_IDENTIY:
         lbl.setText(OpenIdUtil.M.linkWith(who));
+        break;
+      case REGISTER:
+        lbl.setText(OpenIdUtil.M.registerWith(who));
         break;
       case SIGN_IN:
       default:

@@ -341,6 +341,7 @@ class OpenIdServiceImpl implements OpenIdService {
         try {
           switch (mode) {
             case SIGN_IN:
+            case REGISTER:
               account = openAccount(d, user, fullname, email);
               break;
             case LINK_IDENTIY:
@@ -357,12 +358,12 @@ class OpenIdServiceImpl implements OpenIdService {
     }
 
     if (account == null) {
-      if (mode == SignInDialog.Mode.SIGN_IN) {
+      if (isSignIn(mode)) {
         callFactory.get().logout();
       }
       cancel(req, rsp);
 
-    } else if (mode == SignInDialog.Mode.SIGN_IN) {
+    } else if (isSignIn(mode)) {
       final boolean remember = "1".equals(req.getParameter(P_REMEMBER));
       callFactory.get().setAccount(account.getId(), false);
 
@@ -380,6 +381,16 @@ class OpenIdServiceImpl implements OpenIdService {
 
     } else {
       callback(req, rsp);
+    }
+  }
+
+  private boolean isSignIn(final SignInDialog.Mode mode) {
+    switch (mode) {
+      case SIGN_IN:
+      case REGISTER:
+        return true;
+      default:
+        return false;
     }
   }
 

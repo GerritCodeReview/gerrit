@@ -19,9 +19,12 @@ import com.google.gwt.i18n.client.Constants;
 public interface GerritConstants extends Constants {
   String menuSignIn();
   String menuSignOut();
+  String menuRegister();
   String menuSettings();
+
   String signInDialogTitle();
   String linkIdentityDialogTitle();
+  String registerDialogTitle();
   String loginTypeUnsupported();
 
   String errorDialogTitle();

@@ -15,6 +15,7 @@
 package com.google.gerrit.server;
 
 import static com.google.inject.Scopes.SINGLETON;
+import static com.google.inject.Stage.PRODUCTION;
 
 import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.client.reviewdb.Account;
@@ -96,7 +97,7 @@ public class GerritServletConfig extends GuiceServletContextListener {
 
   private synchronized void init() {
     if (sysInjector == null) {
-      sysInjector = Guice.createInjector(new GerritServerModule());
+      sysInjector = Guice.createInjector(PRODUCTION, new GerritServerModule());
       sshInjector = sysInjector.createChildInjector(new SshDaemonModule());
       webInjector = sysInjector.createChildInjector(new FactoryModule() {
         @Override

@@ -14,9 +14,10 @@
 
 package com.google.gerrit.server.http;
 
+import com.google.gerrit.client.HostPageData;
 import com.google.gerrit.client.data.GerritConfig;
-import com.google.gerrit.client.reviewdb.Account;
-import com.google.gerrit.client.rpc.Common;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.Nullable;
 import com.google.gerrit.server.config.SitePath;
@@ -48,21 +49,20 @@ import javax.servlet.http.HttpServletResponse;
 @SuppressWarnings("serial")
 @Singleton
 public class HostPageServlet extends HttpServlet {
-  private final Provider<GerritCall> callFactory;
+  private final Provider<CurrentUser> currentUser;
   private final File sitePath;
   private final GerritConfig config;
-
   private final Provider<String> urlProvider;
   private final boolean wantSSL;
   private final Document hostDoc;
 
   @Inject
-  HostPageServlet(final Provider<GerritCall> cf, @SitePath final File path,
+  HostPageServlet(final Provider<CurrentUser> cu, @SitePath final File path,
       final GerritConfig gc,
       @CanonicalWebUrl @Nullable final Provider<String> up,
       @CanonicalWebUrl @Nullable final String configuredUrl,
       final ServletContext servletContext) throws IOException {
-    callFactory = cf;
+    currentUser = cu;
     urlProvider = up;
     sitePath = path;
     config = gc;
@@ -203,12 +203,16 @@ public class HostPageServlet extends HttpServlet {
       return;
     }
 
-    final Account.Id me = callFactory.get().getAccountId();
-    final Account account = Common.getAccountCache().get(me);
+    final HostPageData pageData = new HostPageData();
+    pageData.config = config;
+
+    final CurrentUser user = currentUser.get();
+    if (user instanceof IdentifiedUser) {
+      pageData.userAccount = ((IdentifiedUser) user).getAccount();
+    }
 
     final Document peruser = HtmlDomUtil.clone(hostDoc);
-    injectJson(peruser, "gerrit_gerritconfig", config);
-    injectJson(peruser, "gerrit_myaccount", account);
+    injectJson(peruser, "gerrit_hostpagedata", pageData);
 
     final byte[] raw = HtmlDomUtil.toUTF8(peruser);
     final byte[] tosend;

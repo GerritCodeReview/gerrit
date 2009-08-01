@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.rpc;
 
-import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.client.data.SshHostKey;
 import com.google.gerrit.client.data.SystemInfoService;
 import com.google.gerrit.client.reviewdb.ContributorAgreement;
@@ -55,16 +54,14 @@ class SystemInfoServiceImpl implements SystemInfoService {
 
   private final SchemaFactory<ReviewDb> schema;
   private final SshInfo sshd;
-  private final GerritConfig config;
   private final List<PublicKey> hostKeys;
   private final Provider<HttpServletRequest> httpRequest;
 
   @Inject
   SystemInfoServiceImpl(final SchemaFactory<ReviewDb> sf, final SshInfo daemon,
-      final GerritConfig gc, final Provider<HttpServletRequest> hsr) {
+      final Provider<HttpServletRequest> hsr) {
     schema = sf;
     sshd = daemon;
-    config = gc;
     hostKeys = sortHostKeys();
     httpRequest = hsr;
   }
@@ -72,10 +69,6 @@ class SystemInfoServiceImpl implements SystemInfoService {
   private static boolean isIPv6(final InetAddress ip) {
     return ip instanceof Inet6Address
         && ip.getHostName().equals(ip.getHostAddress());
-  }
-
-  public void loadGerritConfig(final AsyncCallback<GerritConfig> callback) {
-    callback.onSuccess(config);
   }
 
   public void contributorAgreements(

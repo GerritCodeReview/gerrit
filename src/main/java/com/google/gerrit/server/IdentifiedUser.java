@@ -15,6 +15,7 @@
 package com.google.gerrit.server;
 
 import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.client.rpc.Common;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.servlet.RequestScoped;
@@ -29,6 +30,7 @@ public class IdentifiedUser extends CurrentUser {
   }
 
   private final Account.Id accountId;
+  private Account account;
 
   @Inject
   IdentifiedUser(@Assisted final Account.Id i) {
@@ -38,6 +40,13 @@ public class IdentifiedUser extends CurrentUser {
   /** The account identity for the user. */
   public Account.Id getAccountId() {
     return accountId;
+  }
+
+  public Account getAccount() {
+    if (account == null) {
+      account = Common.getAccountCache().get(getAccountId());
+    }
+    return account;
   }
 
   @Override

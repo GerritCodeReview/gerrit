@@ -14,11 +14,9 @@
 
 package com.google.gerrit.client;
 
-import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.client.data.SystemInfoService;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountGeneralPreferences;
-import com.google.gerrit.client.reviewdb.SystemConfig;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.Common.CurrentAccountImpl;
@@ -37,7 +35,6 @@ import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
@@ -61,7 +58,7 @@ public class Gerrit implements EntryPoint {
    * Name of the Cookie our authentication data is stored in.
    * <p>
    * If this cookie has a value we assume we are signed in.
-   * 
+   *
    * @see #isSignedIn()
    */
   public static final String ACCOUNT_COOKIE = "GerritAccount";
@@ -216,9 +213,14 @@ public class Gerrit implements EntryPoint {
     JsonUtil.addRpcStartHandler(rpcStatus);
     JsonUtil.addRpcCompleteHandler(rpcStatus);
 
-    SYSTEM_SVC.loadGerritConfig(new GerritCallback<GerritConfig>() {
-      public void onSuccess(final GerritConfig result) {
-        Common.setGerritConfig(result);
+    final HostPageDataService hpd = GWT.create(HostPageDataService.class);
+    hpd.load(new GerritCallback<HostPageData>() {
+      public void onSuccess(final HostPageData result) {
+        Common.setGerritConfig(result.config);
+        if (result.userAccount != null) {
+          myAccount = result.userAccount;
+          applyUserPreferences();
+        }
         onModuleLoad2();
       }
     });
@@ -291,35 +293,7 @@ public class Gerrit implements EntryPoint {
   }
 
   private void onModuleLoad2() {
-    if (Cookies.getCookie(ACCOUNT_COOKIE) != null
-        || Common.getGerritConfig().getLoginType() == SystemConfig.LoginType.HTTP) {
-      // If the user is likely to already be signed into their account,
-      // load the account data and update the UI with that.
-      //
-      com.google.gerrit.client.account.Util.ACCOUNT_SVC
-          .myAccount(new AsyncCallback<Account>() {
-            public void onSuccess(final Account result) {
-              if (result != null) {
-                myAccount = result;
-                applyUserPreferences();
-              } else {
-                Cookies.removeCookie(ACCOUNT_COOKIE);
-              }
-              onModuleLoad3();
-            }
 
-            public void onFailure(final Throwable caught) {
-              GWT.log("Unexpected failure from validating account", caught);
-              Cookies.removeCookie(ACCOUNT_COOKIE);
-              onModuleLoad3();
-            }
-          });
-    } else {
-      onModuleLoad3();
-    }
-  }
-
-  private void onModuleLoad3() {
     refreshMenuBar();
 
     final RootPanel sg = RootPanel.get("gerrit_startinggerrit");

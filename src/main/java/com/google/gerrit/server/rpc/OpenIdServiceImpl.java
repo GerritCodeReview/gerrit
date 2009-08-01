@@ -219,6 +219,8 @@ class OpenIdServiceImpl implements OpenIdService {
       debugRequest(req);
     }
 
+    callFactory.get().noCache();
+
     final String openidMode = req.getParameter(OPENID_MODE);
     if (OMODE_CANCEL.equals(openidMode)) {
       cancel(req, rsp);

@@ -34,11 +34,13 @@ import com.google.gerrit.git.ReplicationQueue;
 import com.google.gerrit.server.BaseServiceImplementation;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritServer;
+import com.google.gerrit.server.RemotePeer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,7 +58,7 @@ import org.spearce.jgit.revwalk.RevCommit;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.InetSocketAddress;
+import java.net.SocketAddress;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -65,20 +67,21 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.servlet.http.HttpServletRequest;
-
 class ProjectAdminServiceImpl extends BaseServiceImplementation implements
     ProjectAdminService {
   private final Logger log = LoggerFactory.getLogger(getClass());
   private final GerritServer server;
   private final ReplicationQueue replication;
+  private final Provider<SocketAddress> remotePeer;
 
   @Inject
   ProjectAdminServiceImpl(final SchemaFactory<ReviewDb> sf,
-      final GerritServer gs, final ReplicationQueue rq) {
+      final GerritServer gs, final ReplicationQueue rq,
+      @RemotePeer final Provider<SocketAddress> rp) {
     super(sf);
     server = gs;
     replication = rq;
+    remotePeer = rp;
   }
 
   public void ownedProjects(final AsyncCallback<List<Project>> callback) {
@@ -416,15 +419,11 @@ class ProjectAdminServiceImpl extends BaseServiceImplementation implements
             throw new Failure(new InvalidRevisionException());
           }
 
-          final HttpServletRequest hreq =
-              GerritJsonServlet.getCurrentCall().getHttpServletRequest();
           try {
             final RefUpdate u = repo.updateRef(refname);
             u.setExpectedOldObjectId(ObjectId.zeroId());
             u.setNewObjectId(revid);
-            u.setRefLogIdent(ChangeUtil.toReflogIdent(me,
-                new InetSocketAddress(hreq.getRemoteHost(), hreq
-                    .getRemotePort())));
+            u.setRefLogIdent(ChangeUtil.toReflogIdent(me, remotePeer.get()));
             u.setRefLogMessage("created via web from " + startingRevision,
                 false);
             final RefUpdate.Result result = u.update(rw);

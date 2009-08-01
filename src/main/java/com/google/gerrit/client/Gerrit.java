@@ -217,6 +217,9 @@ public class Gerrit implements EntryPoint {
     hpd.load(new GerritCallback<HostPageData>() {
       public void onSuccess(final HostPageData result) {
         Common.setGerritConfig(result.config);
+        if (result.xsrfToken != null) {
+          JsonUtil.getDefaultXsrfManager().setToken(null, result.xsrfToken);
+        }
         if (result.userAccount != null) {
           myAccount = result.userAccount;
           applyUserPreferences();

@@ -255,7 +255,7 @@ limitations under the License.
   <properties>
     <jgitVersion>0.5.0-63-gb245c3c</jgitVersion>
     <gwtormVersion>1.1.1</gwtormVersion>
-    <gwtjsonrpcVersion>1.1.0</gwtjsonrpcVersion>
+    <gwtjsonrpcVersion>1.1.1-SNAPSHOT</gwtjsonrpcVersion>
     <gwtexpuiVersion>1.1.2</gwtexpuiVersion>
     <gwtVersion>1.7.0</gwtVersion>
     <gwtStyle>OBF</gwtStyle>

@@ -52,6 +52,7 @@ public class GerritCall extends ActiveCall {
     super(i, o);
     authConfig = ac;
     schema = sf;
+    setXsrfSignedToken(ac.getXsrfToken());
   }
 
   @Override

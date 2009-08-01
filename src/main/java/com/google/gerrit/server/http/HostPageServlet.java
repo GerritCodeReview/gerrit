@@ -23,6 +23,7 @@ import com.google.gerrit.server.config.Nullable;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gwt.user.server.rpc.RPCServletUtils;
 import com.google.gwtjsonrpc.server.JsonServlet;
+import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -50,6 +51,7 @@ import javax.servlet.http.HttpServletResponse;
 @Singleton
 public class HostPageServlet extends HttpServlet {
   private final Provider<CurrentUser> currentUser;
+  private final Provider<GerritCall> jsonCall;
   private final File sitePath;
   private final GerritConfig config;
   private final Provider<String> urlProvider;
@@ -57,12 +59,14 @@ public class HostPageServlet extends HttpServlet {
   private final Document hostDoc;
 
   @Inject
-  HostPageServlet(final Provider<CurrentUser> cu, @SitePath final File path,
+  HostPageServlet(final Provider<CurrentUser> cu,
+      final Provider<GerritCall> cp, @SitePath final File path,
       final GerritConfig gc,
       @CanonicalWebUrl @Nullable final Provider<String> up,
       @CanonicalWebUrl @Nullable final String configuredUrl,
       final ServletContext servletContext) throws IOException {
     currentUser = cu;
+    jsonCall = cp;
     urlProvider = up;
     sitePath = path;
     config = gc;
@@ -205,6 +209,14 @@ public class HostPageServlet extends HttpServlet {
 
     final HostPageData pageData = new HostPageData();
     pageData.config = config;
+
+    final GerritCall call = jsonCall.get();
+    try {
+      call.xsrfValidate();
+      pageData.xsrfToken = call.getXsrfKeyOut();
+    } catch (XsrfException e) {
+      log("Cannot create initial XSRF token for user", e);
+    }
 
     final CurrentUser user = currentUser.get();
     if (user instanceof IdentifiedUser) {

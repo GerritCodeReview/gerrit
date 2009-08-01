@@ -14,12 +14,10 @@
 
 package com.google.gerrit.client.admin;
 
-import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.GerritCallback;
-import com.google.gerrit.client.ui.AccountGroupSuggestOracle;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.client.ui.TextSaveButtonListener;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -34,11 +32,8 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
-import com.google.gwtexpui.globalkey.client.NpTextBox;
-import com.google.gwtjsonrpc.client.VoidResult;
 
 public class ProjectInfoPanel extends Composite {
   private Project.Id projectId;

@@ -14,9 +14,9 @@
 
 package com.google.gerrit.client.account;
 
+import static com.google.gerrit.client.reviewdb.AccountGeneralPreferences.CONTEXT_CHOICES;
 import static com.google.gerrit.client.reviewdb.AccountGeneralPreferences.DEFAULT_CONTEXT;
 import static com.google.gerrit.client.reviewdb.AccountGeneralPreferences.DEFAULT_PAGESIZE;
-import static com.google.gerrit.client.reviewdb.AccountGeneralPreferences.CONTEXT_CHOICES;
 import static com.google.gerrit.client.reviewdb.AccountGeneralPreferences.PAGESIZE_CHOICES;
 import static com.google.gerrit.client.reviewdb.AccountGeneralPreferences.WHOLE_FILE_CONTEXT;
 

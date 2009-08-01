@@ -56,10 +56,6 @@ class WebModule extends FactoryModule {
         serve("/prettify/*").with(PrettifyServlet.class);
         serve("/ssh_info").with(SshServlet.class);
         serve("/static/*").with(StaticServlet.class);
-
-        if (BecomeAnyAccountLoginServlet.isAllowed()) {
-          serve("/become").with(BecomeAnyAccountLoginServlet.class);
-        }
       }
     });
     install(new UiRpcModule());

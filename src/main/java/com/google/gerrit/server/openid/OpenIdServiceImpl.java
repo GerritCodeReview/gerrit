@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.rpc;
+package com.google.gerrit.server.openid;
 
 import com.google.gerrit.client.SignInDialog;
 import com.google.gerrit.client.SignInDialog.Mode;
@@ -23,7 +23,6 @@ import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountExternalId;
 import com.google.gerrit.client.reviewdb.AccountExternalIdAccess;
 import com.google.gerrit.client.reviewdb.ReviewDb;
-import com.google.gerrit.client.reviewdb.SystemConfig;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.server.UrlEncoded;
 import com.google.gerrit.server.config.AuthConfig;
@@ -81,6 +80,8 @@ class OpenIdServiceImpl implements OpenIdService {
   private static final Logger log =
       LoggerFactory.getLogger(OpenIdServiceImpl.class);
 
+  static final String RETURN_URL = "OpenID";
+
   private static final String P_MODE = "gerrit.mode";
   private static final String P_TOKEN = "gerrit.token";
   private static final String P_REMEMBER = "gerrit.remember";
@@ -113,32 +114,24 @@ class OpenIdServiceImpl implements OpenIdService {
     urlProvider = up;
     schema = sf;
     manager = new ConsumerManager();
-    if (authConfig.getLoginType() == SystemConfig.LoginType.OPENID) {
-      final Cache base = cacheMgr.getCache("openid");
-      discoveryCache = new SelfPopulatingCache(base, new CacheEntryFactory() {
-        public Object createEntry(final Object objKey) throws Exception {
-          try {
-            final List<?> list = manager.discover((String) objKey);
-            return list != null && !list.isEmpty() ? list : null;
-          } catch (DiscoveryException e) {
-            return null;
-          }
+
+    final Cache base = cacheMgr.getCache("openid");
+    discoveryCache = new SelfPopulatingCache(base, new CacheEntryFactory() {
+      public Object createEntry(final Object objKey) throws Exception {
+        try {
+          final List<?> list = manager.discover((String) objKey);
+          return list != null && !list.isEmpty() ? list : null;
+        } catch (DiscoveryException e) {
+          return null;
         }
-      });
-      cacheMgr.replaceCacheWithDecoratedCache(base, discoveryCache);
-    } else {
-      discoveryCache = null;
-    }
+      }
+    });
+    cacheMgr.replaceCacheWithDecoratedCache(base, discoveryCache);
   }
 
   public void discover(final String openidIdentifier,
       final SignInDialog.Mode mode, final boolean remember,
       final String returnToken, final AsyncCallback<DiscoveryResult> callback) {
-    if (authConfig.getLoginType() != SystemConfig.LoginType.OPENID) {
-      callback.onFailure(new IllegalStateException("OpenID not enabled"));
-      return;
-    }
-
     final State state;
     state = init(openidIdentifier, mode, remember, returnToken);
     if (state == null) {
@@ -327,7 +320,7 @@ class OpenIdServiceImpl implements OpenIdService {
 
   @SuppressWarnings("unchecked")
   private static void debugRequest(final HttpServletRequest req) {
-    System.err.println(req.getMethod() + " /login");
+    System.err.println(req.getMethod() + " /" + RETURN_URL);
     for (final String n : new TreeMap<String, Object>(req.getParameterMap())
         .keySet()) {
       for (final String v : req.getParameterValues(n)) {
@@ -564,7 +557,7 @@ class OpenIdServiceImpl implements OpenIdService {
 
     final String contextUrl = urlProvider.get();
     final DiscoveryInformation discovered = manager.associate(list);
-    final UrlEncoded retTo = new UrlEncoded(contextUrl + "login");
+    final UrlEncoded retTo = new UrlEncoded(contextUrl + RETURN_URL);
     retTo.put(P_MODE, mode.name());
     if (returnToken != null && returnToken.length() > 0) {
       retTo.put(P_TOKEN, returnToken);

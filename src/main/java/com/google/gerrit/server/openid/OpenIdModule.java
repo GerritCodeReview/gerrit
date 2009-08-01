@@ -12,30 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.rpc;
+package com.google.gerrit.server.openid;
 
 import com.google.gerrit.server.http.RpcServletModule;
-import com.google.gerrit.server.patch.PatchDetailServiceImpl;
+import com.google.gerrit.server.rpc.UiRpcModule;
+import com.google.inject.servlet.ServletModule;
 
-/** Registers servlets to answer RPCs from client UI. */
-public class UiRpcModule extends RpcServletModule {
-  public static final String PREFIX = "/gerrit/rpc/";
-
-  public UiRpcModule() {
-    super(PREFIX);
-  }
-
+/** Servlets and RPC support related to OpenID authentication. */
+public class OpenIdModule extends ServletModule {
   @Override
   protected void configureServlets() {
-    rpc(AccountServiceImpl.class);
-    rpc(AccountSecurityImpl.class);
-    rpc(GroupAdminServiceImpl.class);
-    rpc(ChangeDetailServiceImpl.class);
-    rpc(ChangeListServiceImpl.class);
-    rpc(ChangeManageServiceImpl.class);
-    rpc(PatchDetailServiceImpl.class);
-    rpc(ProjectAdminServiceImpl.class);
-    rpc(SuggestServiceImpl.class);
-    rpc(SystemInfoServiceImpl.class);
+    serve("/" + OpenIdServiceImpl.RETURN_URL).with(OpenIdLoginServlet.class);
+
+    install(new RpcServletModule(UiRpcModule.PREFIX) {
+      @Override
+      protected void configureServlets() {
+        rpc(OpenIdServiceImpl.class);
+      }
+    });
   }
 }

@@ -17,6 +17,7 @@ package com.google.gerrit.server.http;
 import static com.google.inject.Stage.PRODUCTION;
 
 import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.client.reviewdb.SystemConfig.LoginType;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.Common.CurrentAccountImpl;
 import com.google.gerrit.git.PushAllProjectsOp;
@@ -24,9 +25,11 @@ import com.google.gerrit.git.ReloadSubmitQueueOp;
 import com.google.gerrit.git.WorkQueue;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;
 import com.google.gerrit.server.config.DatabaseModule;
 import com.google.gerrit.server.config.GerritServerModule;
+import com.google.gerrit.server.openid.OpenIdModule;
 import com.google.gerrit.server.ssh.SshDaemon;
 import com.google.gerrit.server.ssh.SshDaemonModule;
 import com.google.gerrit.server.ssh.SshInfo;
@@ -34,10 +37,12 @@ import com.google.inject.ConfigurationException;
 import com.google.inject.CreationException;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.Module;
 import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 import com.google.inject.servlet.GuiceServletContextListener;
+import com.google.inject.servlet.ServletModule;
 import com.google.inject.spi.Message;
 
 import net.sf.ehcache.CacheManager;
@@ -46,7 +51,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javax.servlet.ServletContextEvent;
@@ -87,10 +94,8 @@ public class GerritServletConfig extends GuiceServletContextListener {
       }
 
       sysInjector = dbInjector.createChildInjector(new GerritServerModule());
-      sshInjector = sysInjector.createChildInjector(new SshDaemonModule());
-      webInjector =
-          sysInjector.createChildInjector(new WebModule(sshInjector
-              .getProvider(SshInfo.class)));
+      sshInjector = createSshInjector();
+      webInjector = createWebInjector();
 
       // Push the Provider<HttpServletRequest> down into the canonical
       // URL provider. Its optional for that provider, but since we can
@@ -105,6 +110,31 @@ public class GerritServletConfig extends GuiceServletContextListener {
           .setHttpServletRequest(
               webInjector.getProvider(HttpServletRequest.class));
     }
+  }
+
+  private Injector createSshInjector() {
+    return sysInjector.createChildInjector(new SshDaemonModule());
+  }
+
+  private Injector createWebInjector() {
+    final Provider<SshInfo> sshInfo = sshInjector.getProvider(SshInfo.class);
+    final AuthConfig auth = sysInjector.getInstance(AuthConfig.class);
+
+    final List<Module> modules = new ArrayList<Module>();
+    modules.add(new WebModule(sshInfo));
+
+    if (BecomeAnyAccountLoginServlet.isAllowed()) {
+      modules.add(new ServletModule() {
+        @Override
+        protected void configureServlets() {
+          serve("/become").with(BecomeAnyAccountLoginServlet.class);
+        }
+      });
+    } else if (auth.getLoginType() == LoginType.OPENID) {
+      modules.add(new OpenIdModule());
+    }
+
+    return sysInjector.createChildInjector(modules);
   }
 
   @Override

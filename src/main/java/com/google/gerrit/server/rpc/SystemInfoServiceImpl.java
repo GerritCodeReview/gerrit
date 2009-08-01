@@ -24,6 +24,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import com.jcraft.jsch.HostKey;
 import com.jcraft.jsch.JSch;
@@ -56,14 +57,16 @@ class SystemInfoServiceImpl implements SystemInfoService {
   private final SshInfo sshd;
   private final GerritConfig config;
   private final List<PublicKey> hostKeys;
+  private final Provider<HttpServletRequest> httpRequest;
 
   @Inject
-  SystemInfoServiceImpl(final SchemaFactory<ReviewDb> sf,
-      final SshInfo daemon, final GerritConfig gc) {
+  SystemInfoServiceImpl(final SchemaFactory<ReviewDb> sf, final SshInfo daemon,
+      final GerritConfig gc, final Provider<HttpServletRequest> hsr) {
     schema = sf;
     sshd = daemon;
     config = gc;
     hostKeys = sortHostKeys();
+    httpRequest = hsr;
   }
 
   private static boolean isIPv6(final InetAddress ip) {
@@ -135,14 +138,11 @@ class SystemInfoServiceImpl implements SystemInfoService {
   }
 
   private String hostIdent() {
-    final HttpServletRequest req =
-        GerritJsonServlet.getCurrentCall().getHttpServletRequest();
-
     InetSocketAddress addr = sshd.getAddress();
     InetAddress ip = addr.getAddress();
     if (ip.isAnyLocalAddress()) {
       try {
-        ip = InetAddress.getByName(req.getServerName());
+        ip = InetAddress.getByName(httpRequest.get().getServerName());
       } catch (UnknownHostException e) {
         throw new RuntimeException(e);
       }

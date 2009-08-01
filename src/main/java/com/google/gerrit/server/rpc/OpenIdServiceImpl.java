@@ -103,12 +103,15 @@ class OpenIdServiceImpl implements OpenIdService {
   private final SchemaFactory<ReviewDb> schema;
   private final ConsumerManager manager;
   private final SelfPopulatingCache discoveryCache;
+  private final Provider<HttpServletRequest> httpRequest;
 
   @Inject
-  OpenIdServiceImpl(final Provider<GerritCall> cf, final AuthConfig ac,
+  OpenIdServiceImpl(final Provider<GerritCall> cf,
+      final Provider<HttpServletRequest> hsr, final AuthConfig ac,
       @CanonicalWebUrl @Nullable final String cwu, final CacheManager cacheMgr,
       final SchemaFactory<ReviewDb> sf) throws ConsumerException {
     callFactory = cf;
+    httpRequest = hsr;
     authConfig = ac;
     canonicalWebUrl = cwu;
     schema = sf;
@@ -139,10 +142,8 @@ class OpenIdServiceImpl implements OpenIdService {
       return;
     }
 
-    final HttpServletRequest httpReq =
-        GerritJsonServlet.getCurrentCall().getHttpServletRequest();
     final State state;
-    state = init(httpReq, openidIdentifier, mode, remember, returnToken);
+    state = init(openidIdentifier, mode, remember, returnToken);
     if (state == null) {
       callback.onSuccess(new DiscoveryResult(false));
       return;
@@ -234,7 +235,7 @@ class OpenIdServiceImpl implements OpenIdService {
       final boolean remember = "1".equals(req.getParameter(P_REMEMBER));
       final State state;
 
-      state = init(req, openidIdentifier, mode, remember, returnToken);
+      state = init(openidIdentifier, mode, remember, returnToken);
       if (state == null) {
         // Re-discovery must have failed, we can't run a login.
         //
@@ -549,9 +550,9 @@ class OpenIdServiceImpl implements OpenIdService {
     rsp.sendRedirect(rdr.toString());
   }
 
-  private State init(final HttpServletRequest httpReq,
-      final String openidIdentifier, final SignInDialog.Mode mode,
-      final boolean remember, final String returnToken) {
+  private State init(final String openidIdentifier,
+      final SignInDialog.Mode mode, final boolean remember,
+      final String returnToken) {
     final Element serverCache = discoveryCache.get(openidIdentifier);
     if (serverCache == null) {
       return null;
@@ -564,7 +565,7 @@ class OpenIdServiceImpl implements OpenIdService {
 
     String contextUrl = canonicalWebUrl;
     if (contextUrl == null) {
-      contextUrl = GerritServer.serverUrl(httpReq);
+      contextUrl = GerritServer.serverUrl(httpRequest.get());
     }
     final DiscoveryInformation discovered = manager.associate(list);
     final UrlEncoded retTo = new UrlEncoded(contextUrl + "login");

@@ -68,7 +68,7 @@ public class HostPageServlet extends HttpServlet {
     config = gc;
     wantSSL = configuredUrl != null && configuredUrl.startsWith("https:");
 
-    final String hostPageName = "WEB-INF/Gerrit.html";
+    final String hostPageName = "WEB-INF/HostPage.html";
     hostDoc = HtmlDomUtil.parseFile(servletContext, "/" + hostPageName);
     if (hostDoc == null) {
       throw new FileNotFoundException("No " + hostPageName + " in webapp");
@@ -186,8 +186,6 @@ public class HostPageServlet extends HttpServlet {
   @Override
   protected void doGet(final HttpServletRequest req,
       final HttpServletResponse rsp) throws IOException {
-    final String screen = req.getPathInfo();
-
     // If we wanted SSL, but the user didn't come to us over an SSL channel,
     // force it to be SSL by issuing a protocol redirect. Try to keep the
     // name "localhost" in case this is an SSH port tunnel.
@@ -199,28 +197,9 @@ public class HostPageServlet extends HttpServlet {
       } else {
         reqUrl.setLength(0);
         reqUrl.append(urlProvider.get());
-        if (hasScreenName(screen)) {
-          reqUrl.append('#');
-          reqUrl.append(screen.substring(1));
-        }
       }
       rsp.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
       rsp.setHeader("Location", reqUrl.toString());
-      return;
-    }
-
-    // If we get a request for "/Gerrit/change,1" rewrite it the way
-    // it should have been, as "/Gerrit#change,1". This may happen
-    // coming out of Google Analytics, where its common to replace
-    // the anchor mark ('#') with '/' so it logs independent pages.
-    //
-    if (hasScreenName(screen)) {
-      final StringBuilder r = new StringBuilder();
-      r.append(urlProvider.get());
-      r.append("#");
-      r.append(screen.substring(1));
-      rsp.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
-      rsp.setHeader("Location", r.toString());
       return;
     }
 
@@ -252,10 +231,6 @@ public class HostPageServlet extends HttpServlet {
     } finally {
       out.close();
     }
-  }
-
-  private static boolean hasScreenName(final String screen) {
-    return screen != null && screen.length() > 1 && screen.startsWith("/");
   }
 
   private static boolean isSecure(final HttpServletRequest req) {

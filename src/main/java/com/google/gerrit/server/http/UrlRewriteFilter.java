@@ -97,12 +97,16 @@ public class UrlRewriteFilter implements Filter {
       //
       chain.doFilter(req, rsp);
     } else if (staticExtension(pathInfo, req, rsp, chain)) {
-    } else if ("".equals(pathInfo) || "/".equals(pathInfo)) {
-      req.getRequestDispatcher("/Gerrit").forward(req, rsp);
     } else if (staticLink(pathInfo, req, rsp)) {
     } else if (bareChangeId(pathInfo, req, rsp)) {
     } else if (bareRevisionId(pathInfo, req, rsp)) {
     } else if (bareUserEmailDashboard(pathInfo, req, rsp)) {
+
+    } else if (pathInfo.startsWith("/Gerrit/")) {
+      final StringBuffer url = toGerrit(req);
+      url.append('#');
+      url.append(pathInfo.substring("/Gerrit/".length()));
+      rsp.sendRedirect(url.toString());
     } else {
       // Anything else is either a static resource request (which the container
       // can do for us) or is going to be a 404 error when the container cannot

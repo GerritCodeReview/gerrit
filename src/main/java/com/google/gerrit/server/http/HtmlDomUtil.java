@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.zip.GZIPOutputStream;
 
 import javax.servlet.ServletContext;
@@ -160,6 +161,20 @@ public class HtmlDomUtil {
     }
   }
 
+  /** Read a Read a UTF-8 text file from our ServletContext and return it. */
+  public static String readFile(final ServletContext context, final String name)
+      throws IOException {
+    final InputStream in = context.getResourceAsStream(name);
+    if (in == null) {
+      return null;
+    }
+    try {
+      return asString(in);
+    } catch (IOException e) {
+      throw new IOException("Error reading " + name, e);
+    }
+  }
+
   /** Parse an XHTML file from the local drive and return the instance. */
   public static Document parseFile(final File parentDir, final String name)
       throws IOException {
@@ -195,23 +210,27 @@ public class HtmlDomUtil {
     }
     final File path = new File(parentDir, name);
     try {
-      final InputStream in = new FileInputStream(path);
-      try {
-        final StringBuilder w = new StringBuilder();
-        final InputStreamReader r = new InputStreamReader(in, ENC);
-        final char[] buf = new char[512];
-        int n;
-        while ((n = r.read(buf)) > 0) {
-          w.append(buf, 0, n);
-        }
-        return w.toString();
-      } finally {
-        in.close();
-      }
+      return asString(new FileInputStream(path));
     } catch (FileNotFoundException e) {
       return null;
     } catch (IOException e) {
       throw new IOException("Error reading " + path, e);
+    }
+  }
+
+  private static String asString(final InputStream in)
+      throws UnsupportedEncodingException, IOException {
+    try {
+      final StringBuilder w = new StringBuilder();
+      final InputStreamReader r = new InputStreamReader(in, ENC);
+      final char[] buf = new char[512];
+      int n;
+      while ((n = r.read(buf)) > 0) {
+        w.append(buf, 0, n);
+      }
+      return w.toString();
+    } finally {
+      in.close();
     }
   }
 

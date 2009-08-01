@@ -50,10 +50,11 @@ class WebModule extends FactoryModule {
         filter("/*").through(Key.get(CacheControlFilter.class));
         bind(Key.get(CacheControlFilter.class)).in(SINGLETON);
 
-        serve("/Gerrit", "/Gerrit/*").with(HostPageServlet.class);
+        serve("/").with(HostPageServlet.class);
+        serve("/Gerrit").with(LegacyGerritServlet.class);
+        serve("/cat/*").with(CatServlet.class);
         serve("/prettify/*").with(PrettifyServlet.class);
         serve("/ssh_info").with(SshServlet.class);
-        serve("/cat/*").with(CatServlet.class);
         serve("/static/*").with(StaticServlet.class);
 
         if (BecomeAnyAccountLoginServlet.isAllowed()) {

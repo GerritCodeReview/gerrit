@@ -47,6 +47,7 @@ public class SshDaemonModule extends AbstractModule {
     configureRequestScope();
 
     bind(SshInfo.class).to(SshDaemon.class).in(SINGLETON);
+    bind(CommandFactoryProvider.class);
     bind(CommandFactory.class).toProvider(CommandFactoryProvider.class);
     bind(PublickeyAuthenticator.class).to(DatabasePubKeyAuth.class);
 

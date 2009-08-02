@@ -107,4 +107,14 @@ public interface AccountConstants extends Constants {
   String newAgreementIAGREE();
   String newAgreementAlreadySubmitted();
   String buttonSubmitNewAgreement();
+
+  String welcomeToGerritCodeReview();
+  String welcomeReviewContact();
+  String welcomeContactFrom();
+  String welcomeSshKeyHeading();
+  String welcomeSshKeyText();
+  String welcomeAgreementHeading();
+  String welcomeAgreementText();
+  String welcomeAgreementLater();
+  String welcomeContinue();
 }

@@ -225,13 +225,13 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
     });
   }
 
-  public void updateContact(final String fullName, final String emailAddr,
+  public void updateContact(final String name, final String emailAddr,
       final ContactInformation info, final AsyncCallback<Account> callback) {
     run(callback, new Action<Account>() {
       public Account run(ReviewDb db) throws OrmException, Failure {
         final Account me = db.accounts().get(Common.getAccountId());
         final String oldUser = me.getSshUserName();
-        me.setFullName(fullName);
+        me.setFullName(name != null && !name.isEmpty() ? name : null);
         me.setPreferredEmail(emailAddr);
         if (Common.getGerritConfig().isUseContactInfo()) {
           if (ContactInformation.hasAddress(info)

@@ -841,6 +841,35 @@
   border: 1px solid #b0bdcc;
 }
 
+.gerrit-RegisterScreen-Section {
+  margin-top: 2em;
+}
+.gerrit-RegisterScreen-Explain {
+  margin-left: 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  width: 45em;
+}
+.gerrit-RegisterScreen-NextLinks {
+  margin-top: 2em;
+}
+.gerrit-RegisterScreen-NextLinks .gwt-InlineHyperlink {
+  margin-left: 2em;
+  white-space: nowrap;
+}
+.gerrit-RegisterScreen-Section .gerrit-ChangeTable {
+  width: 45em;
+}
+.gerrit-RegisterScreen-Section .gerrit-AddSshKeyPanel {
+  background: none;
+}
+.gerrit-RegisterScreen-Section .gerrit-SshHostKeyPanel {
+  border: none;
+}
+.gerrit-RegisterScreen-Section .gerrit-SshHostKeyPanel .gerrit-SshHostKeyPanel-KnownHostEntry {
+  width: 45em;
+}
+
 .gerrit-ProjectAdmin-ApprovalCategoryRangeLine {
   white-space: nowrap;
 }

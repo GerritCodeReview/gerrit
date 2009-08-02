@@ -32,7 +32,6 @@ import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
-import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FormPanel;
@@ -50,6 +49,7 @@ import java.util.List;
 import java.util.Set;
 
 public class NewAgreementScreen extends AccountScreen {
+  private final String nextToken;
   private Set<ContributorAgreement.Id> mySigned;
   private List<ContributorAgreement> available;
   private ContributorAgreement current;
@@ -60,11 +60,19 @@ public class NewAgreementScreen extends AccountScreen {
   private HTML agreementHtml;
 
   private Panel contactGroup;
-  private ContactPanel contactPanel;
+  private ContactPanelFull contactPanel;
 
   private Panel finalGroup;
   private NpTextBox yesIAgreeBox;
   private Button submit;
+
+  public NewAgreementScreen() {
+    this(null);
+  }
+
+  public NewAgreementScreen(final String token) {
+    nextToken = token != null ? token : Link.SETTINGS_AGREEMENTS;
+  }
 
   @Override
   protected void onLoad() {
@@ -209,7 +217,7 @@ public class NewAgreementScreen extends AccountScreen {
     Util.ACCOUNT_SEC.enterAgreement(current.getId(),
         new GerritCallback<VoidResult>() {
           public void onSuccess(final VoidResult result) {
-            History.newItem(Link.SETTINGS_AGREEMENTS);
+            Gerrit.display(nextToken, true);
           }
 
           @Override
@@ -255,9 +263,9 @@ public class NewAgreementScreen extends AccountScreen {
     }
 
     if (contactPanel == null && cla.isRequireContactInformation()) {
-      contactPanel = new ContactPanel();
-      contactPanel.hideSaveButton();
+      contactPanel = new ContactPanelFull();
       contactGroup.add(contactPanel);
+      contactPanel.hideSaveButton();
     }
     contactGroup.setVisible(cla.isRequireContactInformation());
     finalGroup.setVisible(true);

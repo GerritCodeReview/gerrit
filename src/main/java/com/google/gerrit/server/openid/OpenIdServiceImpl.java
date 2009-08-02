@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.openid;
 
+import com.google.gerrit.client.Link;
 import com.google.gerrit.client.SignInDialog;
 import com.google.gerrit.client.SignInDialog.Mode;
 import com.google.gerrit.client.openid.DiscoveryResult;
@@ -335,15 +336,21 @@ class OpenIdServiceImpl implements OpenIdService {
       final String fullname, final String email) throws IOException {
     final SignInDialog.Mode mode = signInMode(req);
     Account account = null;
+    boolean isNew = false;
     if (user != null) {
       try {
         final ReviewDb d = schema.open();
         try {
           switch (mode) {
             case SIGN_IN:
-            case REGISTER:
-              account = openAccount(d, user, fullname, email);
+            case REGISTER: {
+              SignInResult r = openAccount(d, user, fullname, email);
+              if (r != null) {
+                account = r.account;
+                isNew = r.isNew;
+              }
               break;
+            }
             case LINK_IDENTIY:
               account = linkAccount(req, d, user, email);
               break;
@@ -377,10 +384,10 @@ class OpenIdServiceImpl implements OpenIdService {
       }
       rsp.addCookie(lastId);
 
-      callback(req, rsp);
+      callback(isNew, req, rsp);
 
     } else {
-      callback(req, rsp);
+      callback(isNew, req, rsp);
     }
   }
 
@@ -394,7 +401,17 @@ class OpenIdServiceImpl implements OpenIdService {
     }
   }
 
-  private Account openAccount(final ReviewDb db, final Identifier user,
+  static class SignInResult {
+    final Account account;
+    final boolean isNew;
+
+    SignInResult(final Account a, final boolean n) {
+      account = a;
+      isNew = n;
+    }
+  }
+
+  private SignInResult openAccount(final ReviewDb db, final Identifier user,
       final String fullname, final String email) throws OrmException {
     Account account;
     final AccountExternalIdAccess extAccess = db.accountExternalIds();
@@ -445,8 +462,9 @@ class OpenIdServiceImpl implements OpenIdService {
       db.accounts().insert(Collections.singleton(account), txn);
       extAccess.insert(Collections.singleton(acctExt), txn);
       txn.commit();
+      return new SignInResult(account, true);
     }
-    return account;
+    return account != null ? new SignInResult(account, false) : null;
   }
 
   private Account linkAccount(final HttpServletRequest req, final ReviewDb db,
@@ -522,21 +540,27 @@ class OpenIdServiceImpl implements OpenIdService {
     return m.size() == 1 ? m.get(0) : null;
   }
 
-  private void callback(final HttpServletRequest req,
+  private void callback(final boolean isNew, final HttpServletRequest req,
       final HttpServletResponse rsp) throws IOException {
+    String token = req.getParameter(P_TOKEN);
+    if (token == null || token.isEmpty() || token.startsWith("SignInFailure,")) {
+      token = Link.MINE;
+    }
+
     final StringBuilder rdr = new StringBuilder();
     rdr.append(urlProvider.get());
-    final String token = req.getParameter(P_TOKEN);
-    if (token != null && !token.startsWith("SignInFailure,")) {
-      rdr.append('#');
-      rdr.append(token);
+    rdr.append('#');
+    if (isNew) {
+      rdr.append(Link.REGISTER);
+      rdr.append(',');
     }
+    rdr.append(token);
     rsp.sendRedirect(rdr.toString());
   }
 
   private void cancel(final HttpServletRequest req,
       final HttpServletResponse rsp) throws IOException {
-    callback(req, rsp);
+    callback(false, req, rsp);
   }
 
   private void cancelWithError(final HttpServletRequest req,

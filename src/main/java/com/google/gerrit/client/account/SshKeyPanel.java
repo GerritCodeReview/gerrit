@@ -158,6 +158,12 @@ class SshKeyPanel extends Composite {
     initWidget(body);
   }
 
+  void setKeyTableVisible(final boolean on) {
+    keys.setVisible(on);
+    delSel.setVisible(on);
+    closeAddKeyBlock.setVisible(on);
+  }
+
   void doBrowse() {
     browse.setEnabled(false);
     if (!loadedApplet) {
@@ -252,6 +258,10 @@ class SshKeyPanel extends Composite {
           addNew.setEnabled(true);
           addTxt.setText("");
           keys.addOneKey(result);
+          if (!keys.isVisible()) {
+            showAddKeyBlock(false);
+            setKeyTableVisible(true);
+          }
         }
 
         @Override
@@ -283,7 +293,7 @@ class SshKeyPanel extends Composite {
     Util.ACCOUNT_SEC.mySshKeys(new GerritCallback<List<AccountSshKey>>() {
       public void onSuccess(final List<AccountSshKey> result) {
         keys.display(result);
-        if (result.isEmpty()) {
+        if (result.isEmpty() && keys.isVisible()) {
           showAddKeyBlock(true);
         }
       }

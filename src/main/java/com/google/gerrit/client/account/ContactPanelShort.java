@@ -32,49 +32,41 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
-import com.google.gwtexpui.globalkey.client.NpTextArea;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
 import com.google.gwtexpui.user.client.AutoCenterDialogBox;
 import com.google.gwtjsonrpc.client.VoidResult;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-class ContactPanel extends Composite {
-  private final AccountSettings parentScreen;
-  private int labelIdx, fieldIdx;
+class ContactPanelShort extends Composite {
+  AccountSettings accountSettings;
+
+  protected final FlowPanel body;
+  protected int labelIdx, fieldIdx;
+  protected Button save;
 
   private String currentEmail;
-  private boolean haveAccount;
+  protected boolean haveAccount;
   private boolean haveEmails;
 
-  private NpTextBox nameTxt;
+  NpTextBox nameTxt;
   private ListBox emailPick;
   private Button registerNewEmail;
-  private Label hasContact;
-  private NpTextArea addressTxt;
-  private NpTextBox countryTxt;
-  private NpTextBox phoneTxt;
-  private NpTextBox faxTxt;
-  private Button save;
 
-  ContactPanel() {
-    this(null);
+  ContactPanelShort() {
+    body = new FlowPanel();
+    initWidget(body);
   }
 
-  ContactPanel(final AccountSettings parent) {
-    parentScreen = parent;
-
+  protected void onInitUI() {
     if (LocaleInfo.getCurrentLocale().isRTL()) {
       labelIdx = 1;
       fieldIdx = 0;
@@ -88,44 +80,11 @@ class ContactPanel extends Composite {
 
     emailPick = new ListBox();
 
-    addressTxt = new NpTextArea();
-    addressTxt.setVisibleLines(4);
-    addressTxt.setCharacterWidth(60);
-
-    countryTxt = new NpTextBox();
-    countryTxt.setVisibleLength(40);
-    countryTxt.setMaxLength(40);
-
-    phoneTxt = new NpTextBox();
-    phoneTxt.setVisibleLength(30);
-    phoneTxt.setMaxLength(30);
-
-    faxTxt = new NpTextBox();
-    faxTxt.setVisibleLength(30);
-    faxTxt.setMaxLength(30);
-
-    final FlowPanel body = new FlowPanel();
     final Grid infoPlainText = new Grid(2, 2);
     infoPlainText.setStyleName("gerrit-InfoBlock");
     infoPlainText.addStyleName("gerrit-AccountInfoBlock");
 
-    final Grid infoSecure = new Grid(4, 2);
-    infoSecure.setStyleName("gerrit-InfoBlock");
-    infoSecure.addStyleName("gerrit-AccountInfoBlock");
-
-    final HTML privhtml = new HTML(Util.C.contactPrivacyDetailsHtml());
-    privhtml.setStyleName("gerrit-AccountContactPrivacyDetails");
-
-    hasContact = new Label();
-    hasContact.setStyleName("gerrit-AccountContactOnFile");
-    hasContact.setVisible(false);
-
     body.add(infoPlainText);
-    if (Common.getGerritConfig().isUseContactInfo()) {
-      body.add(privhtml);
-      body.add(hasContact);
-      body.add(infoSecure);
-    }
 
     registerNewEmail = new Button(Util.C.buttonOpenRegisterNewEmail());
     registerNewEmail.setEnabled(false);
@@ -144,18 +103,9 @@ class ContactPanel extends Composite {
     row(infoPlainText, 0, Util.C.contactFieldFullName(), nameTxt);
     row(infoPlainText, 1, Util.C.contactFieldEmail(), emailLine);
 
-    row(infoSecure, 0, Util.C.contactFieldAddress(), addressTxt);
-    row(infoSecure, 1, Util.C.contactFieldCountry(), countryTxt);
-    row(infoSecure, 2, Util.C.contactFieldPhone(), phoneTxt);
-    row(infoSecure, 3, Util.C.contactFieldFax(), faxTxt);
-
     infoPlainText.getCellFormatter().addStyleName(0, 0, "topmost");
     infoPlainText.getCellFormatter().addStyleName(0, 1, "topmost");
     infoPlainText.getCellFormatter().addStyleName(1, 0, "bottomheader");
-
-    infoSecure.getCellFormatter().addStyleName(0, 0, "topmost");
-    infoSecure.getCellFormatter().addStyleName(0, 1, "topmost");
-    infoSecure.getCellFormatter().addStyleName(3, 0, "bottomheader");
 
     save = new Button(Util.C.buttonSaveChanges());
     save.setEnabled(false);
@@ -165,7 +115,6 @@ class ContactPanel extends Composite {
         doSave();
       }
     });
-    body.add(save);
 
     final TextSaveButtonListener sbl = new TextSaveButtonListener(save);
     nameTxt.addKeyPressHandler(sbl);
@@ -187,12 +136,6 @@ class ContactPanel extends Composite {
         }
       }
     });
-    addressTxt.addKeyPressHandler(sbl);
-    countryTxt.addKeyPressHandler(sbl);
-    phoneTxt.addKeyPressHandler(sbl);
-    faxTxt.addKeyPressHandler(sbl);
-
-    initWidget(body);
   }
 
   void hideSaveButton() {
@@ -202,6 +145,9 @@ class ContactPanel extends Composite {
   @Override
   protected void onLoad() {
     super.onLoad();
+
+    onInitUI();
+    body.add(save);
     display(Gerrit.getUserAccount());
 
     emailPick.clear();
@@ -274,32 +220,17 @@ class ContactPanel extends Composite {
     }
   }
 
-  private void row(final Grid info, final int row, final String name,
+  protected void row(final Grid info, final int row, final String name,
       final Widget field) {
     info.setText(row, labelIdx, name);
     info.setWidget(row, fieldIdx, field);
     info.getCellFormatter().addStyleName(row, 0, "header");
   }
 
-  private void display(final Account userAccount) {
+  protected void display(final Account userAccount) {
     currentEmail = userAccount.getPreferredEmail();
     nameTxt.setText(userAccount.getFullName());
-    displayHasContact(userAccount);
-    addressTxt.setText("");
-    countryTxt.setText("");
-    phoneTxt.setText("");
-    faxTxt.setText("");
     save.setEnabled(false);
-  }
-
-  private void displayHasContact(final Account userAccount) {
-    if (userAccount.isContactFiled()) {
-      final Timestamp dt = userAccount.getContactFiledOn();
-      hasContact.setText(Util.M.contactOnFile(new Date(dt.getTime())));
-      hasContact.setVisible(true);
-    } else {
-      hasContact.setVisible(false);
-    }
   }
 
   private void doRegisterNewEmail() {
@@ -359,7 +290,11 @@ class ContactPanel extends Composite {
   }
 
   void doSave() {
-    final String newName = nameTxt.getText();
+    String newName = nameTxt.getText();
+    if ("".equals(newName)) {
+      newName = null;
+    }
+
     final String newEmail;
     if (emailPick.isEnabled() && emailPick.getSelectedIndex() >= 0) {
       final String v = emailPick.getValue(emailPick.getSelectedIndex());
@@ -372,31 +307,14 @@ class ContactPanel extends Composite {
       newEmail = currentEmail;
     }
 
-    final ContactInformation info;
-    if (Common.getGerritConfig().isUseContactInfo()) {
-      info = new ContactInformation();
-      info.setAddress(addressTxt.getText());
-      info.setCountry(countryTxt.getText());
-      info.setPhoneNumber(phoneTxt.getText());
-      info.setFaxNumber(faxTxt.getText());
-    } else {
-      info = null;
-    }
+    final ContactInformation info = toContactInformation();
     save.setEnabled(false);
     registerNewEmail.setEnabled(false);
 
     Util.ACCOUNT_SEC.updateContact(newName, newEmail, info,
         new GerritCallback<Account>() {
           public void onSuccess(final Account result) {
-            registerNewEmail.setEnabled(false);
-            final Account me = Gerrit.getUserAccount();
-            me.setFullName(newName);
-            me.setPreferredEmail(newEmail);
-            displayHasContact(result);
-            Gerrit.refreshMenuBar();
-            if (parentScreen != null) {
-              parentScreen.display(me);
-            }
+            onSaveSuccess(result);
           }
 
           @Override
@@ -406,5 +324,20 @@ class ContactPanel extends Composite {
             super.onFailure(caught);
           }
         });
+  }
+
+  void onSaveSuccess(final Account result) {
+    registerNewEmail.setEnabled(false);
+    final Account me = Gerrit.getUserAccount();
+    me.setFullName(result.getFullName());
+    me.setPreferredEmail(result.getPreferredEmail());
+    Gerrit.refreshMenuBar();
+    if (accountSettings != null) {
+      accountSettings.display(me);
+    }
+  }
+
+  ContactInformation toContactInformation() {
+    return null;
   }
 }

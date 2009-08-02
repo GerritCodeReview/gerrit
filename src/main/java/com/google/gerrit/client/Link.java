@@ -16,6 +16,7 @@ package com.google.gerrit.client;
 
 import com.google.gerrit.client.account.AccountSettings;
 import com.google.gerrit.client.account.NewAgreementScreen;
+import com.google.gerrit.client.account.RegisterScreen;
 import com.google.gerrit.client.account.ValidateEmailScreen;
 import com.google.gerrit.client.admin.AccountGroupScreen;
 import com.google.gerrit.client.admin.GroupListScreen;
@@ -55,6 +56,7 @@ public class Link implements ValueChangeHandler<String> {
   public static final String SETTINGS_CONTACT = "settings,contact";
   public static final String SETTINGS_PROJECTS = "settings,projects";
   public static final String SETTINGS_NEW_AGREEMENT = "settings,new-agreement";
+  public static final String REGISTER = "register";
 
   public static final String MINE = "mine";
   public static final String MINE_STARRED = "mine,starred";
@@ -142,6 +144,10 @@ public class Link implements ValueChangeHandler<String> {
       if (SETTINGS_NEW_AGREEMENT.equals(token)) {
         return new NewAgreementScreen();
       }
+      p = SETTINGS_NEW_AGREEMENT + ",";
+      if (token.startsWith(p)) {
+        return new NewAgreementScreen(skip(p, token));
+      }
       return new AccountSettings(token);
     }
 
@@ -188,14 +194,12 @@ public class Link implements ValueChangeHandler<String> {
       p = "patch,sidebyside,";
       if (token.startsWith(p))
         return new PatchScreen.SideBySide(Patch.Key.parse(skip(p, token)),
-            0 /* patchIndex */,
-            null /* patchTable */);
+            0 /* patchIndex */, null /* patchTable */);
 
       p = "patch,unified,";
       if (token.startsWith(p))
         return new PatchScreen.Unified(Patch.Key.parse(skip(p, token)),
-            0 /* patchIndex */,
-            null /* patchTable  */);
+            0 /* patchIndex */, null /* patchTable */);
     }
 
     p = "change,publish,";
@@ -237,6 +241,11 @@ public class Link implements ValueChangeHandler<String> {
       if (ADMIN_PROJECTS.equals(token)) {
         return new ProjectListScreen();
       }
+    }
+
+    p = REGISTER + ",";
+    if (token.startsWith(p)) {
+      return new RegisterScreen(skip(p, token));
     }
 
     p = "VE,";

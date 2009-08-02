@@ -106,8 +106,10 @@ public class AccountSettings extends AccountScreen {
 
     tabs.add(new LazyPanel() {
       @Override
-      protected ContactPanel createWidget() {
-        return new ContactPanel(AccountSettings.this);
+      protected ContactPanelFull createWidget() {
+        final ContactPanelFull p = new ContactPanelFull();
+        p.accountSettings = AccountSettings.this;
+        return p;
       }
     }, Util.C.tabContactInformation());
     tabTokens.add(Link.SETTINGS_CONTACT);

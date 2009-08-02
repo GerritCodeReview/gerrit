@@ -41,6 +41,7 @@ public abstract class RpcServletModule extends ServletModule {
         Key.get(GerritJsonServlet.class, UniqueAnnotations.create());
     final GerritJsonServletProvider provider =
         new GerritJsonServletProvider(clazz);
+    bind(clazz);
     serve(prefix + name).with(srv);
     bind(srv).toProvider(provider).in(Scopes.SINGLETON);
   }

@@ -60,12 +60,19 @@ class SystemConfigProvider implements Provider<SystemConfig> {
           sVer = createSchema(db);
         }
 
-        if (sVer.versionNbr == 2) {
-          initPushTagCategory(db);
-          initPushUpdateBranchCategory(db);
+        switch (sVer.versionNbr) {
+          case 2:
+            initPushTagCategory(db);
+            initPushUpdateBranchCategory(db);
 
-          sVer.versionNbr = 3;
-          db.schemaVersion().update(Collections.singleton(sVer));
+            sVer.versionNbr = 3;
+            db.schemaVersion().update(Collections.singleton(sVer));
+            break;
+
+          case 15:
+            sVer.versionNbr = 16;
+            db.schemaVersion().update(Collections.singleton(sVer));
+            break;
         }
 
         if (sVer.versionNbr != ReviewDb.VERSION) {

@@ -24,7 +24,6 @@ import com.google.gerrit.client.data.ApprovalType;
 import com.google.gerrit.client.data.ChangeDetail;
 import com.google.gerrit.client.data.ChangeInfo;
 import com.google.gerrit.client.data.GerritConfig;
-import com.google.gerrit.client.data.PatchSetDetail;
 import com.google.gerrit.client.data.ProjectCache;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
@@ -62,6 +61,7 @@ class ChangeDetailFactory implements Action<ChangeDetail> {
   }
 
   private final GerritConfig gerritConfig;
+  private final PatchSetDetailFactory.Factory patchSetDetail;
   private final Change.Id changeId;
 
   private AccountInfoCacheFactory acc;
@@ -69,8 +69,10 @@ class ChangeDetailFactory implements Action<ChangeDetail> {
 
   @Inject
   ChangeDetailFactory(final GerritConfig gerritConfig,
+      final PatchSetDetailFactory.Factory patchSetDetail,
       @Assisted final Change.Id id) {
     this.gerritConfig = gerritConfig;
+    this.patchSetDetail = patchSetDetail;
     this.changeId = id;
   }
 
@@ -193,13 +195,12 @@ class ChangeDetailFactory implements Action<ChangeDetail> {
     detail.setApprovals(ad.values());
   }
 
-  private void loadCurrentPatchSet(final ReviewDb db) throws OrmException {
+  private void loadCurrentPatchSet(final ReviewDb db) throws OrmException,
+      Failure {
     final PatchSet.Id psId = detail.getChange().currentPatchSetId();
-    final PatchSet ps = detail.getCurrentPatchSet();
-
-    final PatchSetDetail currentDetail = new PatchSetDetail();
-    currentDetail.load(db, ps);
-    detail.setCurrentPatchSetDetail(currentDetail);
+    final PatchSetDetailFactory loader = patchSetDetail.create(psId);
+    loader.patchSet = detail.getCurrentPatchSet();
+    detail.setCurrentPatchSetDetail(loader.run(db));
 
     final HashSet<Change.Id> changesToGet = new HashSet<Change.Id>();
     final List<Change.Id> ancestorOrder = new ArrayList<Change.Id>();
@@ -212,7 +213,7 @@ class ChangeDetailFactory implements Action<ChangeDetail> {
       }
     }
 
-    final RevId cprev = ps.getRevision();
+    final RevId cprev = loader.patchSet.getRevision();
     final List<PatchSetAncestor> descendants =
         cprev != null ? db.patchSetAncestors().descendantsOf(cprev).toList()
             : Collections.<PatchSetAncestor> emptyList();

@@ -24,7 +24,6 @@ import com.google.gerrit.git.PatchSetImporter;
 import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.config.DatabaseModule;
 import com.google.gerrit.server.config.GerritServerModule;
-import com.google.gerrit.server.patch.DiffCache;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Guice;
@@ -66,7 +65,7 @@ public class ReimportPatchSets extends AbstractProgram {
   private GerritServer gs;
 
   @Inject
-  private DiffCache diffCache;
+  private PatchSetImporter.Factory factory;
 
   @Override
   public int run() throws Exception {
@@ -120,8 +119,7 @@ public class ReimportPatchSets extends AbstractProgram {
         final RevWalk rw = new RevWalk(repo);
         final RevCommit src =
             rw.parseCommit(ObjectId.fromString(ps.getRevision().get()));
-        new PatchSetImporter(gs, diffCache, db, projectKey, repo, src, ps,
-            false).run();
+        factory.create(db, projectKey, repo, src, ps, false).run();
         pm.update(1);
         repo.close();
       }

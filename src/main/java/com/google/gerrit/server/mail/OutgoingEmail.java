@@ -105,6 +105,10 @@ public abstract class OutgoingEmail {
     fromId = id;
   }
 
+  public void setPatchSet(final PatchSet ps) {
+    patchSet = ps;
+  }
+
   public void setPatchSet(final PatchSet ps, final PatchSetInfo psi) {
     patchSet = ps;
     patchSetInfo = psi;

@@ -34,6 +34,8 @@ import com.google.gerrit.server.config.Nullable;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.mail.MergeFailSender;
 import com.google.gerrit.server.mail.MergedSender;
+import com.google.gerrit.server.patch.PatchSetInfoFactory;
+import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.workflow.CategoryFunction;
 import com.google.gerrit.server.workflow.FunctionState;
 import com.google.gwtorm.client.OrmException;
@@ -113,6 +115,7 @@ public class MergeOp {
   private final MergeFailSender.Factory mergeFailSenderFactory;
   private final Provider<String> urlProvider;
   private final GerritConfig gerritConfig;
+  private final PatchSetInfoFactory patchSetInfoFactory;
 
   private final PersonIdent myIdent;
   private final Branch.NameKey destBranch;
@@ -133,7 +136,8 @@ public class MergeOp {
       final ReplicationQueue rq, final MergedSender.Factory msf,
       final MergeFailSender.Factory mfsf,
       @CanonicalWebUrl @Nullable final Provider<String> cwu,
-      final GerritConfig gc, @Assisted final Branch.NameKey branch) {
+      final GerritConfig gc, final PatchSetInfoFactory psif,
+      @Assisted final Branch.NameKey branch) {
     server = gs;
     schemaFactory = sf;
     replication = rq;
@@ -141,6 +145,8 @@ public class MergeOp {
     mergeFailSenderFactory = mfsf;
     urlProvider = cwu;
     gerritConfig = gc;
+    patchSetInfoFactory = psif;
+
     myIdent = server.newGerritPersonIdent();
     destBranch = branch;
     toMerge = new ArrayList<CodeReviewCommit>();
@@ -830,15 +836,13 @@ public class MergeOp {
           }
 
           try {
-            final MergeFailSender cm;
-            cm = mergeFailSenderFactory.create(c);
+            final MergeFailSender cm = mergeFailSenderFactory.create(c);
             final ChangeApproval submitter = getSubmitter(c.getId());
             if (submitter != null) {
               cm.setFrom(submitter.getAccountId());
             }
             cm.setReviewDb(schema);
-            cm.setPatchSet(schema.patchSets().get(c.currentPatchSetId()),
-                schema.patchSetInfo().get(c.currentPatchSetId()));
+            cm.setPatchSet(schema.patchSets().get(c.currentPatchSetId()));
             cm.setChangeMessage(msg);
             cm.send();
           } catch (OrmException e) {
@@ -934,28 +938,32 @@ public class MergeOp {
         txn.commit();
         break;
       } catch (OrmException e) {
+        final Change.Id id = c.getId();
         try {
-          c = schema.changes().get(c.getId());
+          c = schema.changes().get(id);
           if (!merged.equals(c.currentPatchSetId())) {
             // Uncool; the patch set changed after we merged it.
             // Go back to the patch set that was actually merged.
             //
-            c.setCurrentPatchSet(schema.patchSetInfo().get(merged));
+            try {
+              c.setCurrentPatchSet(patchSetInfoFactory.get(merged));
+            } catch (PatchSetInfoNotAvailableException e1) {
+              log.error("Cannot read merged patch set " + merged, e1);
+            }
           }
         } catch (OrmException e2) {
+          log.error("Cannot set change " + id + " to merged " + merged, e2);
         }
       }
     }
 
     try {
-      final MergedSender cm;
-      cm = mergedSenderFactory.create(c);
+      final MergedSender cm = mergedSenderFactory.create(c);
       if (submitter != null) {
         cm.setFrom(submitter.getAccountId());
       }
       cm.setReviewDb(schema);
-      cm.setPatchSet(schema.patchSets().get(c.currentPatchSetId()), schema
-          .patchSetInfo().get(c.currentPatchSetId()));
+      cm.setPatchSet(schema.patchSets().get(c.currentPatchSetId()));
       cm.send();
     } catch (OrmException e) {
       log.error("Cannot send email for submitted patch set " + c.getId(), e);
@@ -992,14 +1000,12 @@ public class MergeOp {
 
     try {
       final ChangeApproval submitter = getSubmitter(c.getId());
-      final MergeFailSender cm;
-      cm = mergeFailSenderFactory.create(c);
+      final MergeFailSender cm = mergeFailSenderFactory.create(c);
       if (submitter != null) {
         cm.setFrom(submitter.getAccountId());
       }
       cm.setReviewDb(schema);
-      cm.setPatchSet(schema.patchSets().get(c.currentPatchSetId()), schema
-          .patchSetInfo().get(c.currentPatchSetId()));
+      cm.setPatchSet(schema.patchSets().get(c.currentPatchSetId()));
       cm.setChangeMessage(msg);
       cm.send();
     } catch (OrmException e) {

@@ -14,29 +14,22 @@
 
 package com.google.gerrit.client.reviewdb;
 
-import com.google.gwtorm.client.Column;
-
 import java.sql.Timestamp;
 
 public final class UserIdentity {
   /** Full name of the user. */
-  @Column
   protected String name;
 
   /** Email address (or user@host style string anyway). */
-  @Column
   protected String email;
 
   /** Time (in UTC) when the identity was constructed. */
-  @Column
   protected Timestamp when;
 
   /** Offset from UTC */
-  @Column
   protected int tz;
 
   /** If the user has a Gerrit account, their account identity. */
-  @Column(notNull = false)
   protected Account.Id accountId;
 
   public String getName() {

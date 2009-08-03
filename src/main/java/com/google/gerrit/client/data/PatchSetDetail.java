@@ -14,20 +14,11 @@
 
 package com.google.gerrit.client.data;
 
-import com.google.gerrit.client.reviewdb.Account;
-import com.google.gerrit.client.reviewdb.AccountPatchReview;
 import com.google.gerrit.client.reviewdb.Patch;
-import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.PatchSetInfo;
-import com.google.gerrit.client.reviewdb.ReviewDb;
-import com.google.gerrit.client.rpc.Common;
-import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.ResultSet;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 
 public class PatchSetDetail {
   protected PatchSet patchSet;
@@ -37,53 +28,27 @@ public class PatchSetDetail {
   public PatchSetDetail() {
   }
 
-  public void load(final ReviewDb db, final PatchSet ps) throws OrmException {
-    PatchSet.Id patchSetKey = ps.getId();
-    patchSet = ps;
-    info = db.patchSetInfo().get(patchSetKey);
-    patches = db.patches().byPatchSet(patchSetKey).toList();
-
-    final Account.Id me = Common.getAccountId();
-    if (me != null) {
-      // If we are signed in, compute the number of draft comments by the
-      // current user on each of these patch files. This way they can more
-      // quickly locate where they have pending drafts, and review them.
-      //
-      final List<PatchLineComment> comments =
-          db.patchComments().draft(patchSetKey, me).toList();
-      if (!comments.isEmpty()) {
-        final Map<Patch.Key, Patch> byKey = db.patches().toMap(patches);
-        for (final PatchLineComment c : comments) {
-          final Patch p = byKey.get(c.getKey().getParentKey());
-          if (p != null) {
-            p.setDraftCount(p.getDraftCount() + 1);
-          }
-        }
-      }
-
-      // Get all the reviewed patches in one query
-      ResultSet<AccountPatchReview> reviews = db.accountPatchReviews().byReviewer(me, patchSetKey);
-      HashSet<Patch.Key> reviewedPatches = new HashSet<Patch.Key>();
-      for (AccountPatchReview review : reviews) {
-        reviewedPatches.add(review.getKey().getPatchKey());
-      }
-
-      // Initialize the reviewed status of each patch
-      for (Patch p : patches) {
-        if (reviewedPatches.contains(p.getKey())) p.setReviewedByCurrentUser(true);
-      }
-    }
-  }
-
   public PatchSet getPatchSet() {
     return patchSet;
+  }
+
+  public void setPatchSet(final PatchSet ps) {
+    patchSet = ps;
   }
 
   public PatchSetInfo getInfo() {
     return info;
   }
 
+  public void setInfo(final PatchSetInfo i) {
+    info = i;
+  }
+
   public List<Patch> getPatches() {
     return patches;
+  }
+
+  public void setPatches(final List<Patch> p) {
+    patches = p;
   }
 }

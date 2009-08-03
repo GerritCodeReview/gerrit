@@ -19,6 +19,7 @@ import static com.google.inject.Scopes.SINGLETON;
 import com.google.gerrit.git.ChangeMergeQueue;
 import com.google.gerrit.git.MergeOp;
 import com.google.gerrit.git.MergeQueue;
+import com.google.gerrit.git.PatchSetImporter;
 import com.google.gerrit.git.PushAllProjectsOp;
 import com.google.gerrit.git.PushReplication;
 import com.google.gerrit.git.ReloadSubmitQueueOp;
@@ -92,6 +93,7 @@ public class GerritServerModule extends FactoryModule {
     factory(ReloadSubmitQueueOp.Factory.class);
 
     bind(EmailSender.class).to(SmtpEmailSender.class).in(SINGLETON);
+    factory(PatchSetImporter.Factory.class);
     bind(PatchSetInfoFactory.class);
     bind(IdentifiedUser.Factory.class);
 

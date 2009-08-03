@@ -16,8 +16,6 @@ package com.google.gerrit.git;
 
 import static com.google.gerrit.client.data.PatchScriptSettings.Whitespace.IGNORE_NONE;
 
-import com.google.gerrit.client.reviewdb.Account;
-import com.google.gerrit.client.reviewdb.AccountExternalId;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.PatchSetAncestor;
@@ -25,36 +23,40 @@ import com.google.gerrit.client.reviewdb.PatchSetInfo;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.RevId;
 import com.google.gerrit.client.reviewdb.ReviewDb;
-import com.google.gerrit.client.reviewdb.UserIdentity;
-import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.patch.DiffCache;
 import com.google.gerrit.server.patch.DiffCacheContent;
 import com.google.gerrit.server.patch.DiffCacheKey;
+import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.Transaction;
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 
 import org.spearce.jgit.lib.Commit;
 import org.spearce.jgit.lib.ObjectId;
 import org.spearce.jgit.lib.ObjectWriter;
-import org.spearce.jgit.lib.PersonIdent;
 import org.spearce.jgit.lib.Repository;
 import org.spearce.jgit.patch.CombinedFileHeader;
 import org.spearce.jgit.patch.FileHeader;
 import org.spearce.jgit.revwalk.RevCommit;
 
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /** Imports a {@link PatchSet} from a {@link Commit}. */
 public class PatchSetImporter {
+  public interface Factory {
+    PatchSetImporter create(ReviewDb dstDb, Project.NameKey proj,
+        Repository srcRepo, RevCommit srcCommit, PatchSet dstPatchSet,
+        boolean isNewPatchSet);
+  }
+
   private final DiffCache diffCache;
+  private final PatchSetInfoFactory patchSetInfoFactory;
   private final ReviewDb db;
   private final Project.NameKey projectKey;
   private final Repository repo;
@@ -65,7 +67,6 @@ public class PatchSetImporter {
   private org.spearce.jgit.patch.Patch gitpatch;
 
   private PatchSetInfo info;
-  private boolean infoIsNew;
 
   private final Map<String, Patch> patchExisting = new HashMap<String, Patch>();
   private final List<Patch> patchInsert = new ArrayList<Patch>();
@@ -78,11 +79,14 @@ public class PatchSetImporter {
   private final List<PatchSetAncestor> ancestorUpdate =
       new ArrayList<PatchSetAncestor>();
 
-  public PatchSetImporter(final GerritServer gs, final DiffCache dc,
-      final ReviewDb dstDb, final Project.NameKey proj,
-      final Repository srcRepo, final RevCommit srcCommit,
-      final PatchSet dstPatchSet, final boolean isNewPatchSet) {
+  @Inject
+  PatchSetImporter(final DiffCache dc, final PatchSetInfoFactory psif,
+      @Assisted final ReviewDb dstDb, @Assisted final Project.NameKey proj,
+      @Assisted final Repository srcRepo, @Assisted final RevCommit srcCommit,
+      @Assisted final PatchSet dstPatchSet,
+      @Assisted final boolean isNewPatchSet) {
     diffCache = dc;
+    patchSetInfoFactory = psif;
     db = dstDb;
     projectKey = proj;
     repo = srcRepo;
@@ -108,7 +112,6 @@ public class PatchSetImporter {
       // If we aren't a new patch set then we need to load the existing
       // files so we can update or delete them if there are corrections.
       //
-      info = db.patchSetInfo().get(dst.getId());
       for (final Patch p : db.patches().byPatchSet(dst.getId())) {
         patchExisting.put(p.getFileName(), p);
       }
@@ -118,7 +121,8 @@ public class PatchSetImporter {
       }
     }
 
-    importInfo();
+    info = patchSetInfoFactory.get(src, dst.getId());
+    importAncestors();
     for (final FileHeader fh : gitpatch.getFiles()) {
       importFile(fh);
     }
@@ -129,11 +133,6 @@ public class PatchSetImporter {
     }
     if (isNew) {
       db.patchSets().insert(Collections.singleton(dst), txn);
-    }
-    if (infoIsNew) {
-      db.patchSetInfo().insert(Collections.singleton(info), txn);
-    } else {
-      db.patchSetInfo().update(Collections.singleton(info), txn);
     }
     db.patches().insert(patchInsert, txn);
     db.patchSetAncestors().insert(ancestorInsert, txn);
@@ -150,19 +149,7 @@ public class PatchSetImporter {
     }
   }
 
-  private void importInfo() throws OrmException {
-    if (info == null) {
-      info = new PatchSetInfo(dst.getId());
-      infoIsNew = true;
-    }
-
-    info.setSubject(src.getShortMessage());
-    info.setMessage(src.getFullMessage());
-    info.setAuthor(toUserIdentity(src.getAuthorIdent()));
-    info.setCommitter(toUserIdentity(src.getCommitterIdent()));
-
-    // FIXME: This code has to be moved to separate method when patchSetInfo
-    // creation is removed
+  private void importAncestors() {
     for (int p = 0; p < src.getParentCount(); p++) {
       PatchSetAncestor a = ancestorExisting.remove(p + 1);
       if (a == null) {
@@ -173,31 +160,6 @@ public class PatchSetImporter {
       }
       a.setAncestorRevision(toRevId(src.getParent(p)));
     }
-  }
-
-  private UserIdentity toUserIdentity(final PersonIdent who)
-      throws OrmException {
-    final UserIdentity u = new UserIdentity();
-    u.setName(who.getName());
-    u.setEmail(who.getEmailAddress());
-    u.setDate(new Timestamp(who.getWhen().getTime()));
-    u.setTimeZone(who.getTimeZoneOffset());
-
-    if (u.getEmail() != null) {
-      // If only one account has access to this email address, select it
-      // as the identity of the user.
-      //
-      final Set<Account.Id> a = new HashSet<Account.Id>();
-      for (final AccountExternalId e : db.accountExternalIds().byEmailAddress(
-          u.getEmail())) {
-        a.add(e.getAccountId());
-      }
-      if (a.size() == 1) {
-        u.setAccount(a.iterator().next());
-      }
-    }
-
-    return u;
   }
 
   private void importFile(final FileHeader fh) {

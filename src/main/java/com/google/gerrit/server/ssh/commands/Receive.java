@@ -50,7 +50,6 @@ import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
-import com.google.gerrit.server.patch.DiffCache;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.OrmRunnable;
 import com.google.gwtorm.client.Transaction;
@@ -151,7 +150,7 @@ class Receive extends AbstractGitCommand {
   private ReplicationQueue replication;
 
   @Inject
-  private DiffCache diffCache;
+  private PatchSetImporter.Factory importFactory;
 
   @Inject
   @CanonicalWebUrl
@@ -719,8 +718,7 @@ class Receive extends AbstractGitCommand {
     ps.setUploader(me);
 
     final PatchSetImporter imp =
-        new PatchSetImporter(server, diffCache, db, proj.getNameKey(), repo, c,
-            ps, true);
+        importFactory.create(db, proj.getNameKey(), repo, c, ps, true);
     imp.setTransaction(txn);
     imp.run();
 
@@ -934,8 +932,7 @@ class Receive extends AbstractGitCommand {
         ps.setUploader(userAccount.getId());
 
         final PatchSetImporter imp =
-            new PatchSetImporter(server, diffCache, db, proj.getNameKey(),
-                repo, c, ps, true);
+            importFactory.create(db, proj.getNameKey(), repo, c, ps, true);
         imp.setTransaction(txn);
         try {
           imp.run();
@@ -1241,8 +1238,7 @@ class Receive extends AbstractGitCommand {
               throws OrmException {
             final Change change = db.changes().get(cid);
             final PatchSet ps = db.patchSets().get(psi);
-            final PatchSetInfo psInfo = db.patchSetInfo().get(psi);
-            if (change == null || ps == null || psInfo == null) {
+            if (change == null || ps == null) {
               log.warn(proj.getName() + " " + psi + " is missing");
               return null;
             }
@@ -1258,7 +1254,6 @@ class Receive extends AbstractGitCommand {
             final ReplaceResult result = new ReplaceResult();
             result.change = change;
             result.patchSet = ps;
-            result.info = psInfo;
             result.mergedIntoRef = refName;
             markChangeMergedByPush(db, txn, result);
             return result;

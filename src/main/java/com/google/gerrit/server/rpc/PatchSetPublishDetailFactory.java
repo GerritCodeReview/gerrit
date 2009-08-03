@@ -32,8 +32,6 @@ import com.google.gerrit.client.reviewdb.PatchSetInfo;
 import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
-import com.google.gerrit.server.BaseServiceImplementation.Action;
-import com.google.gerrit.server.BaseServiceImplementation.Failure;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gwtorm.client.OrmException;
@@ -47,8 +45,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-final class PatchSetPublishDetailFactory implements
-    Action<PatchSetPublishDetail> {
+final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> {
   interface Factory {
     PatchSetPublishDetailFactory create(PatchSet.Id patchSetId);
   }
@@ -56,6 +53,7 @@ final class PatchSetPublishDetailFactory implements
   private final PatchSet.Id patchSetId;
   private final PatchSetInfoFactory infoFactory;
   private final GerritConfig gerritConfig;
+  private final ReviewDb db;
 
   protected AccountInfoCache accounts;
   protected PatchSetInfo patchSetInfo;
@@ -66,23 +64,22 @@ final class PatchSetPublishDetailFactory implements
 
   @Inject
   PatchSetPublishDetailFactory(final PatchSetInfoFactory infoFactory,
-      final GerritConfig gerritConfig, @Assisted final PatchSet.Id patchSetId) {
+      final GerritConfig gerritConfig, final ReviewDb db,
+      @Assisted final PatchSet.Id patchSetId) {
     this.patchSetId = patchSetId;
     this.infoFactory = infoFactory;
     this.gerritConfig = gerritConfig;
+    this.db = db;
   }
 
   @Override
-  public PatchSetPublishDetail run(ReviewDb db) throws OrmException, Failure {
+  public PatchSetPublishDetail call() throws OrmException,
+      PatchSetInfoNotAvailableException {
     final AccountInfoCacheFactory acc = new AccountInfoCacheFactory(db);
     final Account.Id me = Common.getAccountId();
     final Change.Id changeId = patchSetId.getParentKey();
     change = db.changes().get(changeId);
-    try {
-      patchSetInfo = infoFactory.get(patchSetId);
-    } catch (PatchSetInfoNotAvailableException e) {
-      throw new Failure(e);
-    }
+    patchSetInfo = infoFactory.get(patchSetId);
     drafts = db.patchComments().draft(patchSetId, me).toList();
 
     allowed = new HashMap<ApprovalCategory.Id, Set<ApprovalCategoryValue.Id>>();
@@ -143,5 +140,4 @@ final class PatchSetPublishDetailFactory implements
       }
     }
   }
-
 }

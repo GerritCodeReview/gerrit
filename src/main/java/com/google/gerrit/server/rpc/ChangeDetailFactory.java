@@ -37,8 +37,8 @@ import com.google.gerrit.client.reviewdb.RevId;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
-import com.google.gerrit.server.BaseServiceImplementation.Action;
 import com.google.gerrit.server.BaseServiceImplementation.Failure;
+import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.workflow.CategoryFunction;
 import com.google.gerrit.server.workflow.FunctionState;
 import com.google.gwtorm.client.OrmException;
@@ -55,13 +55,14 @@ import java.util.Map;
 import java.util.Set;
 
 /** Creates a {@link ChangeDetail} from a {@link Change}. */
-class ChangeDetailFactory implements Action<ChangeDetail> {
+class ChangeDetailFactory extends Handler<ChangeDetail> {
   interface Factory {
     ChangeDetailFactory create(Change.Id id);
   }
 
   private final GerritConfig gerritConfig;
   private final PatchSetDetailFactory.Factory patchSetDetail;
+  private final ReviewDb db;
   private final Change.Id changeId;
 
   private AccountInfoCacheFactory acc;
@@ -69,24 +70,27 @@ class ChangeDetailFactory implements Action<ChangeDetail> {
 
   @Inject
   ChangeDetailFactory(final GerritConfig gerritConfig,
-      final PatchSetDetailFactory.Factory patchSetDetail,
+      final PatchSetDetailFactory.Factory patchSetDetail, final ReviewDb db,
       @Assisted final Change.Id id) {
     this.gerritConfig = gerritConfig;
     this.patchSetDetail = patchSetDetail;
+    this.db = db;
     this.changeId = id;
   }
 
-  public ChangeDetail run(final ReviewDb db) throws OrmException, Failure {
+  @Override
+  public ChangeDetail call() throws OrmException, NoSuchEntityException,
+      PatchSetInfoNotAvailableException, Failure {
     final Account.Id me = Common.getAccountId();
     final Change change = db.changes().get(changeId);
     if (change == null) {
-      throw new Failure(new NoSuchEntityException());
+      throw new NoSuchEntityException();
     }
     final PatchSet patch = db.patchSets().get(change.currentPatchSetId());
     final ProjectCache.Entry projEnt =
         Common.getProjectCache().get(change.getDest().getParentKey());
     if (patch == null || projEnt == null) {
-      throw new Failure(new NoSuchEntityException());
+      throw new NoSuchEntityException();
     }
     final Project proj = projEnt.getProject();
     assertCanRead(change);
@@ -122,28 +126,28 @@ class ChangeDetailFactory implements Action<ChangeDetail> {
     detail.setCanAbandon(canAbandon);
     detail.setStarred(ChangeListServiceImpl.starredBy(db, me)
         .contains(changeId));
-    loadPatchSets(db);
-    loadMessages(db);
+    loadPatchSets();
+    loadMessages();
     if (change.currentPatchSetId() != null) {
-      loadCurrentPatchSet(db);
+      loadCurrentPatchSet();
     }
-    load(db);
+    load();
     detail.setAccounts(acc.create());
     return detail;
   }
 
-  private void loadPatchSets(final ReviewDb db) throws OrmException {
+  private void loadPatchSets() throws OrmException {
     detail.setPatchSets(db.patchSets().byChange(changeId).toList());
   }
 
-  private void loadMessages(final ReviewDb db) throws OrmException {
+  private void loadMessages() throws OrmException {
     detail.setMessages(db.changeMessages().byChange(changeId).toList());
     for (final ChangeMessage m : detail.getMessages()) {
       acc.want(m.getAuthor());
     }
   }
 
-  private void load(final ReviewDb db) throws OrmException {
+  private void load() throws OrmException {
     final List<ChangeApproval> allApprovals =
         db.changeApprovals().byChange(changeId).toList();
 
@@ -195,12 +199,12 @@ class ChangeDetailFactory implements Action<ChangeDetail> {
     detail.setApprovals(ad.values());
   }
 
-  private void loadCurrentPatchSet(final ReviewDb db) throws OrmException,
-      Failure {
+  private void loadCurrentPatchSet() throws OrmException,
+      NoSuchEntityException, PatchSetInfoNotAvailableException {
     final PatchSet.Id psId = detail.getChange().currentPatchSetId();
     final PatchSetDetailFactory loader = patchSetDetail.create(psId);
     loader.patchSet = detail.getCurrentPatchSet();
-    detail.setCurrentPatchSetDetail(loader.run(db));
+    detail.setCurrentPatchSetDetail(loader.call());
 
     final HashSet<Change.Id> changesToGet = new HashSet<Change.Id>();
     final List<Change.Id> ancestorOrder = new ArrayList<Change.Id>();

@@ -23,8 +23,6 @@ import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
-import com.google.gerrit.server.BaseServiceImplementation.Action;
-import com.google.gerrit.server.BaseServiceImplementation.Failure;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gwtorm.client.OrmException;
@@ -37,40 +35,40 @@ import java.util.List;
 import java.util.Map;
 
 /** Creates a {@link PatchSetDetail} from a {@link PatchSet}. */
-class PatchSetDetailFactory implements Action<PatchSetDetail> {
+class PatchSetDetailFactory extends Handler<PatchSetDetail> {
   interface Factory {
     PatchSetDetailFactory create(PatchSet.Id id);
   }
 
   private final PatchSetInfoFactory infoFactory;
+  private final ReviewDb db;
   private final PatchSet.Id psId;
 
   private PatchSetDetail detail;
   PatchSet patchSet;
 
   @Inject
-  PatchSetDetailFactory(final PatchSetInfoFactory psif,
+  PatchSetDetailFactory(final PatchSetInfoFactory psif, final ReviewDb db,
       @Assisted final PatchSet.Id id) {
     this.infoFactory = psif;
+    this.db = db;
     this.psId = id;
   }
 
-  public PatchSetDetail run(final ReviewDb db) throws OrmException, Failure {
+  @Override
+  public PatchSetDetail call() throws OrmException, NoSuchEntityException,
+      PatchSetInfoNotAvailableException {
     if (patchSet == null) {
       patchSet = db.patchSets().get(psId);
       if (patchSet == null) {
-        throw new Failure(new NoSuchEntityException());
+        throw new NoSuchEntityException();
       }
     }
 
     detail = new PatchSetDetail();
     detail.setPatchSet(patchSet);
 
-    try {
-      detail.setInfo(infoFactory.get(psId));
-    } catch (PatchSetInfoNotAvailableException e) {
-      throw new Failure(e);
-    }
+    detail.setInfo(infoFactory.get(psId));
     detail.setPatches(db.patches().byPatchSet(psId).toList());
 
     final Account.Id me = Common.getAccountId();

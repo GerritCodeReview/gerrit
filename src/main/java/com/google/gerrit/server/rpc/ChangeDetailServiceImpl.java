@@ -20,24 +20,18 @@ import com.google.gerrit.client.data.ChangeDetail;
 import com.google.gerrit.client.data.PatchSetDetail;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.PatchSet;
-import com.google.gerrit.client.reviewdb.ReviewDb;
-import com.google.gerrit.server.BaseServiceImplementation;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
 
-class ChangeDetailServiceImpl extends BaseServiceImplementation implements
-    ChangeDetailService {
+class ChangeDetailServiceImpl implements ChangeDetailService {
   private final ChangeDetailFactory.Factory changeDetail;
   private final PatchSetDetailFactory.Factory patchSetDetail;
   private final PatchSetPublishDetailFactory.Factory patchSetPublishDetail;
 
   @Inject
-  ChangeDetailServiceImpl(final SchemaFactory<ReviewDb> sf,
-      final ChangeDetailFactory.Factory changeDetail,
+  ChangeDetailServiceImpl(final ChangeDetailFactory.Factory changeDetail,
       final PatchSetDetailFactory.Factory patchSetDetail,
       final PatchSetPublishDetailFactory.Factory patchSetPublishDetail) {
-    super(sf);
     this.changeDetail = changeDetail;
     this.patchSetDetail = patchSetDetail;
     this.patchSetPublishDetail = patchSetPublishDetail;
@@ -45,16 +39,16 @@ class ChangeDetailServiceImpl extends BaseServiceImplementation implements
 
   public void changeDetail(final Change.Id id,
       final AsyncCallback<ChangeDetail> callback) {
-    run(callback, changeDetail.create(id));
+    changeDetail.create(id).to(callback);
   }
 
   public void patchSetDetail(final PatchSet.Id id,
       final AsyncCallback<PatchSetDetail> callback) {
-    run(callback, patchSetDetail.create(id));
+    patchSetDetail.create(id).to(callback);
   }
 
   public void patchSetPublishDetail(final PatchSet.Id id,
       final AsyncCallback<PatchSetPublishDetail> callback) {
-    run(callback, patchSetPublishDetail.create(id));
+    patchSetPublishDetail.create(id).to(callback);
   }
 }

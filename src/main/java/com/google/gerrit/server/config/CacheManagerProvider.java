@@ -55,6 +55,7 @@ public class CacheManagerProvider implements Provider<CacheManager> {
 
       mgr.addCache(disk(named("diff")));
       mgr.addCache(named("sshkeys"));
+      mgr.addCache(named("accounts_byemail"));
 
       return mgr;
     }

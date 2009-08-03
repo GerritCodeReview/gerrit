@@ -30,6 +30,7 @@ import com.google.gerrit.server.FileTypeRegistry;
 import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.MimeUtilFileTypeRegistry;
+import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.mail.AbandonedSender;
 import com.google.gerrit.server.mail.AddReviewerSender;
 import com.google.gerrit.server.mail.CommentSender;
@@ -75,6 +76,7 @@ public class GerritServerModule extends FactoryModule {
         SINGLETON);
     bind(SshKeyCache.class);
     bind(DiffCache.class);
+    bind(AccountByEmailCache.class);
 
     bind(GerritServer.class);
     bind(ContactStore.class).toProvider(EncryptedContactStoreProvider.class)

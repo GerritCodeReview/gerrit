@@ -18,6 +18,7 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountExternalId;
 import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gwtjsonrpc.server.ActiveCall;
 import com.google.gwtjsonrpc.server.ValidToken;
@@ -41,16 +42,19 @@ import javax.servlet.http.HttpServletResponse;
 public class GerritCall extends ActiveCall {
   private final AuthConfig authConfig;
   private final SchemaFactory<ReviewDb> schema;
+  private final AccountByEmailCache byEmailCache;
   private boolean accountRead;
   private Account.Id accountId;
   private boolean rememberAccount;
 
   @Inject
   GerritCall(final AuthConfig ac, final SchemaFactory<ReviewDb> sf,
-      final HttpServletRequest i, final HttpServletResponse o) {
+      final AccountByEmailCache bec, final HttpServletRequest i,
+      final HttpServletResponse o) {
     super(i, o);
     authConfig = ac;
     schema = sf;
+    byEmailCache = bec;
     setXsrfSignedToken(ac.getXsrfToken());
   }
 
@@ -206,6 +210,7 @@ public class GerritCall extends ActiveCall {
           db.accounts().insert(Collections.singleton(a), txn);
           db.accountExternalIds().insert(Collections.singleton(e), txn);
           txn.commit();
+          byEmailCache.evict(a.getPreferredEmail());
 
           accountId = nid;
           rememberAccount = false;

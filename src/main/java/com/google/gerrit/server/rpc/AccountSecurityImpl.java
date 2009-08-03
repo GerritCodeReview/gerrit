@@ -30,6 +30,7 @@ import com.google.gerrit.client.rpc.InvalidSshKeyException;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gerrit.server.BaseServiceImplementation;
 import com.google.gerrit.server.ContactStore;
+import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.mail.RegisterNewEmailSender;
@@ -67,17 +68,19 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
   private final AuthConfig authConfig;
   private final RegisterNewEmailSender.Factory registerNewEmailFactory;
   private final SshKeyCache sshKeyCache;
+  private final AccountByEmailCache byEmailCache;
   private final boolean useContactInfo;
 
   @Inject
   AccountSecurityImpl(final SchemaFactory<ReviewDb> sf, final ContactStore cs,
       final AuthConfig ac, final RegisterNewEmailSender.Factory esf,
-      final SshKeyCache skc) {
+      final SshKeyCache skc, final AccountByEmailCache abec) {
     super(sf);
     contactStore = cs;
     authConfig = ac;
     registerNewEmailFactory = esf;
     sshKeyCache = skc;
+    byEmailCache = abec;
 
     useContactInfo = contactStore != null && contactStore.isEnabled();
   }
@@ -221,6 +224,9 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
           db.accountExternalIds().delete(toDelete, txn);
           txn.commit();
           Common.getGroupCache().invalidate(me);
+          for (AccountExternalId e : toDelete) {
+            byEmailCache.evict(e.getEmailAddress());
+          }
         }
 
         return removed;
@@ -234,6 +240,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
       public Account run(ReviewDb db) throws OrmException, Failure {
         final Account me = db.accounts().get(Common.getAccountId());
         final String oldUser = me.getSshUserName();
+        final String oldEmail = me.getPreferredEmail();
         me.setFullName(name != null && !name.isEmpty() ? name : null);
         me.setPreferredEmail(emailAddr);
         if (useContactInfo) {
@@ -253,6 +260,10 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
         if (!eq(oldUser, me.getSshUserName())) {
           uncacheSshKeys(oldUser);
           uncacheSshKeys(me.getSshUserName());
+        }
+        if (!eq(oldEmail, me.getPreferredEmail())) {
+          byEmailCache.evict(oldEmail);
+          byEmailCache.evict(me.getPreferredEmail());
         }
         Common.getAccountCache().invalidate(me.getId());
         return me;
@@ -306,7 +317,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
 
   public void validateEmail(final String token,
       final AsyncCallback<VoidResult> callback) {
-    final String address;
+    final String newEmail;
     try {
       final ValidToken t =
           authConfig.getEmailRegistrationToken().checkToken(token, null);
@@ -314,8 +325,8 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
         callback.onFailure(new IllegalStateException("Invalid token"));
         return;
       }
-      address = new String(Base64.decode(t.getData()), "UTF-8");
-      if (!address.contains("@")) {
+      newEmail = new String(Base64.decode(t.getData()), "UTF-8");
+      if (!newEmail.contains("@")) {
         callback.onFailure(new IllegalStateException("Invalid token"));
         return;
       }
@@ -331,7 +342,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
       public VoidResult run(ReviewDb db) throws OrmException {
         final Account.Id me = Common.getAccountId();
         final List<AccountExternalId> exists =
-            db.accountExternalIds().byAccountEmail(me, address).toList();
+            db.accountExternalIds().byAccountEmail(me, newEmail).toList();
         if (!exists.isEmpty()) {
           return VoidResult.INSTANCE;
         }
@@ -339,16 +350,20 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
         try {
           final AccountExternalId id =
               new AccountExternalId(new AccountExternalId.Key(me, "mailto:"
-                  + address));
-          id.setEmailAddress(address);
+                  + newEmail));
+          id.setEmailAddress(newEmail);
           db.accountExternalIds().insert(Collections.singleton(id));
         } catch (OrmDuplicateKeyException e) {
           // Ignore a duplicate registration
         }
 
         final Account a = db.accounts().get(me);
-        a.setPreferredEmail(address);
+        final String oldEmail = a.getPreferredEmail();
+        a.setPreferredEmail(newEmail);
         db.accounts().update(Collections.singleton(a));
+
+        byEmailCache.evict(oldEmail);
+        byEmailCache.evict(newEmail);
         Common.getAccountCache().invalidate(me);
         return VoidResult.INSTANCE;
       }

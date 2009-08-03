@@ -15,7 +15,6 @@
 package com.google.gerrit.server.patch;
 
 import com.google.gerrit.client.reviewdb.Account;
-import com.google.gerrit.client.reviewdb.AccountExternalId;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.PatchSetInfo;
@@ -23,6 +22,7 @@ import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.UserIdentity;
 import com.google.gerrit.server.GerritServer;
+import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
@@ -36,7 +36,6 @@ import org.spearce.jgit.revwalk.RevWalk;
 
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.util.HashSet;
 import java.util.Set;
 
 
@@ -45,19 +44,20 @@ import java.util.Set;
  */
 @Singleton
 public class PatchSetInfoFactory {
-
   private final GerritServer gs;
   private final SchemaFactory<ReviewDb> schemaFactory;
+  private final AccountByEmailCache byEmailCache;
 
   @Inject
-  public PatchSetInfoFactory(GerritServer gs,
-      SchemaFactory<ReviewDb> schemaFactory) {
+  public PatchSetInfoFactory(final GerritServer gs,
+      final SchemaFactory<ReviewDb> schemaFactory,
+      final AccountByEmailCache byEmailCache) {
     this.gs = gs;
     this.schemaFactory = schemaFactory;
+    this.byEmailCache = byEmailCache;
   }
 
-  public PatchSetInfo get(RevCommit src, PatchSet.Id psi)
-    throws OrmException {
+  public PatchSetInfo get(RevCommit src, PatchSet.Id psi) {
     PatchSetInfo info = new PatchSetInfo(psi);
     info.setSubject(src.getShortMessage());
     info.setMessage(src.getFullMessage());
@@ -68,7 +68,7 @@ public class PatchSetInfoFactory {
   }
 
   public PatchSetInfo get(PatchSet.Id patchSetId)
-    throws PatchSetInfoNotAvailableException {
+      throws PatchSetInfoNotAvailableException {
     ReviewDb db = null;
     Repository repo = null;
     try {
@@ -80,46 +80,35 @@ public class PatchSetInfoFactory {
       repo = gs.openRepository(projectName);
       final RevWalk rw = new RevWalk(repo);
       final RevCommit src =
-        rw.parseCommit(ObjectId.fromString(patchSet.getRevision().get()));
+          rw.parseCommit(ObjectId.fromString(patchSet.getRevision().get()));
       return get(src, patchSetId);
     } catch (OrmException e) {
       throw new PatchSetInfoNotAvailableException(e);
     } catch (IOException e) {
       throw new PatchSetInfoNotAvailableException(e);
     } finally {
-      if (db != null)
+      if (db != null) {
         db.close();
-      if (repo != null)
+      }
+      if (repo != null) {
         repo.close();
+      }
     }
   }
 
-  private UserIdentity toUserIdentity(final PersonIdent who)
-    throws OrmException {
-
+  private UserIdentity toUserIdentity(final PersonIdent who) {
     final UserIdentity u = new UserIdentity();
     u.setName(who.getName());
     u.setEmail(who.getEmailAddress());
     u.setDate(new Timestamp(who.getWhen().getTime()));
     u.setTimeZone(who.getTimeZoneOffset());
 
-    if (u.getEmail() != null) {
-      // If only one account has access to this email address, select it
-      // as the identity of the user.
-      //
-      final Set<Account.Id> a = new HashSet<Account.Id>();
-      final ReviewDb db = schemaFactory.open();
-      try {
-        for (final AccountExternalId e : db.accountExternalIds().byEmailAddress(
-            u.getEmail())) {
-          a.add(e.getAccountId());
-        }
-      } finally {
-        db.close();
-      }
-      if (a.size() == 1) {
-        u.setAccount(a.iterator().next());
-      }
+    // If only one account has access to this email address, select it
+    // as the identity of the user.
+    //
+    final Set<Account.Id> a = byEmailCache.get(u.getEmail());
+    if (a.size() == 1) {
+      u.setAccount(a.iterator().next());
     }
 
     return u;

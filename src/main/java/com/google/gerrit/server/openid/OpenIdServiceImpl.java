@@ -26,6 +26,7 @@ import com.google.gerrit.client.reviewdb.AccountExternalIdAccess;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.server.UrlEncoded;
+import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.Nullable;
@@ -103,17 +104,19 @@ class OpenIdServiceImpl implements OpenIdService {
   private final Provider<String> urlProvider;
   private final SchemaFactory<ReviewDb> schema;
   private final ConsumerManager manager;
+  private final AccountByEmailCache byEmailCache;
   private final SelfPopulatingCache discoveryCache;
 
   @Inject
   OpenIdServiceImpl(final Provider<GerritCall> cf, final AuthConfig ac,
       @CanonicalWebUrl @Nullable final Provider<String> up,
-      final CacheManager cacheMgr, final SchemaFactory<ReviewDb> sf)
-      throws ConsumerException {
+      final AccountByEmailCache bec, final CacheManager cacheMgr,
+      final SchemaFactory<ReviewDb> sf) throws ConsumerException {
     callFactory = cf;
     authConfig = ac;
     urlProvider = up;
     schema = sf;
+    byEmailCache = bec;
     manager = new ConsumerManager();
 
     final Cache base = cacheMgr.getCache("openid");
@@ -435,6 +438,8 @@ class OpenIdServiceImpl implements OpenIdService {
       // Existing user; double check the email is current.
       //
       if (email != null && !email.equals(acctExt.getEmailAddress())) {
+        byEmailCache.evict(acctExt.getEmailAddress());
+        byEmailCache.evict(email);
         acctExt.setEmailAddress(email);
       }
       acctExt.setLastUsedOn();
@@ -462,6 +467,7 @@ class OpenIdServiceImpl implements OpenIdService {
       db.accounts().insert(Collections.singleton(account), txn);
       extAccess.insert(Collections.singleton(acctExt), txn);
       txn.commit();
+      byEmailCache.evict(email);
       return new SignInResult(account, true);
     }
     return account != null ? new SignInResult(account, false) : null;
@@ -483,9 +489,12 @@ class OpenIdServiceImpl implements OpenIdService {
       id.setLastUsedOn();
       id.setEmailAddress(email);
       db.accountExternalIds().insert(Collections.singleton(id));
+      byEmailCache.evict(email);
       Common.getGroupCache().invalidate(account.getId());
     } else {
       if (email != null && !email.equals(id.getEmailAddress())) {
+        byEmailCache.evict(id.getEmailAddress());
+        byEmailCache.evict(email);
         id.setEmailAddress(email);
       }
       id.setLastUsedOn();

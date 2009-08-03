@@ -14,32 +14,87 @@
 
 package com.google.gerrit.server.ssh;
 
+import com.google.gerrit.server.ssh.SshScopes.Context;
 import com.google.inject.Inject;
-import com.google.inject.Injector;
 import com.google.inject.Provider;
 
 import org.apache.sshd.server.CommandFactory;
+import org.apache.sshd.server.CommandFactory.Command;
+import org.apache.sshd.server.CommandFactory.ExitCallback;
+import org.apache.sshd.server.CommandFactory.SessionAware;
+import org.apache.sshd.server.session.ServerSession;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
  * Creates a CommandFactory using commands registered by {@link CommandModule}.
  */
 class CommandFactoryProvider implements Provider<CommandFactory> {
-  private static final String SERVER = "Gerrit Code Review";
   private final DispatchCommandProvider dispatcher;
 
   @Inject
-  CommandFactoryProvider(final Injector i) {
-    dispatcher = new DispatchCommandProvider(i, SERVER, Commands.ROOT);
+  CommandFactoryProvider(
+      @CommandName(Commands.ROOT) final DispatchCommandProvider d) {
+    dispatcher = d;
   }
 
   @Override
   public CommandFactory get() {
     return new CommandFactory() {
       public Command createCommand(final String requestCommand) {
-        final DispatchCommand c = dispatcher.get();
-        c.setCommandLine(requestCommand);
-        return c;
+        return new Trampoline(requestCommand);
       }
     };
+  }
+
+  private class Trampoline implements Command, SessionAware {
+    private final String commandLine;
+    private InputStream in;
+    private OutputStream out;
+    private OutputStream err;
+    private ExitCallback exit;
+    private ServerSession session;
+
+    Trampoline(final String cmdLine) {
+      commandLine = cmdLine;
+    }
+
+    public void setInputStream(final InputStream in) {
+      this.in = in;
+    }
+
+    public void setOutputStream(final OutputStream out) {
+      this.out = out;
+    }
+
+    public void setErrorStream(final OutputStream err) {
+      this.err = err;
+    }
+
+    public void setExitCallback(final ExitCallback callback) {
+      this.exit = callback;
+    }
+
+    public void setSession(final ServerSession session) {
+      this.session = session;
+    }
+
+    public void start() throws IOException {
+      final Context old = SshScopes.current.get();
+      try {
+        SshScopes.current.set(new Context(session));
+        final DispatchCommand c = dispatcher.get();
+        c.setCommandLine(commandLine);
+        c.setInputStream(in);
+        c.setOutputStream(out);
+        c.setErrorStream(err);
+        c.setExitCallback(exit);
+        c.start();
+      } finally {
+        SshScopes.current.set(old);
+      }
+    }
   }
 }

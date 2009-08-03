@@ -36,6 +36,9 @@ public class DispatchCommandProvider implements Provider<DispatchCommand> {
   @Inject
   private Injector injector;
 
+  @Inject
+  private DispatchCommand.Factory factory;
+
   private final String dispatcherName;
   private final CommandName parent;
 
@@ -51,16 +54,9 @@ public class DispatchCommandProvider implements Provider<DispatchCommand> {
     this.parent = cn;
   }
 
-  public DispatchCommandProvider(final Injector i, final String dispatcherName,
-      final CommandName cn) {
-    this.injector = i;
-    this.dispatcherName = dispatcherName;
-    this.parent = cn;
-  }
-
   @Override
   public DispatchCommand get() {
-    return new DispatchCommand(dispatcherName, getMap());
+    return factory.create(dispatcherName, getMap());
   }
 
   private Map<String, Provider<Command>> getMap() {
@@ -83,7 +79,7 @@ public class DispatchCommandProvider implements Provider<DispatchCommand> {
       final Annotation annotation = b.getKey().getAnnotation();
       if (annotation instanceof CommandName) {
         final CommandName n = (CommandName) annotation;
-        if (Commands.isChild(parent, n)) {
+        if (!Commands.CMD_ROOT.equals(n) && Commands.isChild(parent, n)) {
           m.put(n.value(), (Provider<Command>) b.getProvider());
         }
       }

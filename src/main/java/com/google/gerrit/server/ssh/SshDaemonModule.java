@@ -19,8 +19,10 @@ import static com.google.inject.Scopes.SINGLETON;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RemotePeer;
+import com.google.gerrit.server.RequestCleanup;
+import com.google.gerrit.server.config.FactoryModule;
+import com.google.gerrit.server.config.GerritRequestModule;
 import com.google.gerrit.server.ssh.commands.DefaultCommandModule;
-import com.google.inject.AbstractModule;
 import com.google.inject.Provider;
 import com.google.inject.servlet.RequestScoped;
 import com.google.inject.servlet.SessionScoped;
@@ -29,14 +31,12 @@ import org.apache.sshd.common.session.AbstractSession;
 import org.apache.sshd.server.CommandFactory;
 import org.apache.sshd.server.PublickeyAuthenticator;
 import org.apache.sshd.server.session.ServerSession;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.net.SocketAddress;
 
 /** Configures standard dependencies for {@link SshDaemon}. */
-public class SshDaemonModule extends AbstractModule {
-  static final Logger log = LoggerFactory.getLogger(SshDaemonModule.class);
+public class SshDaemonModule extends FactoryModule {
+  private static final String NAME = "Gerrit Code Review";
 
   @Override
   protected void configure() {
@@ -47,8 +47,13 @@ public class SshDaemonModule extends AbstractModule {
     configureRequestScope();
 
     bind(SshInfo.class).to(SshDaemon.class).in(SINGLETON);
+    factory(DispatchCommand.Factory.class);
+
+    bind(DispatchCommandProvider.class).annotatedWith(Commands.CMD_ROOT)
+        .toInstance(new DispatchCommandProvider(NAME, Commands.CMD_ROOT));
     bind(CommandFactoryProvider.class);
     bind(CommandFactory.class).toProvider(CommandFactoryProvider.class);
+
     bind(PublickeyAuthenticator.class).to(DatabasePubKeyAuth.class);
 
     install(new DefaultCommandModule());
@@ -74,6 +79,7 @@ public class SshDaemonModule extends AbstractModule {
   }
 
   private void configureRequestScope() {
+    install(new GerritRequestModule());
     bind(IdentifiedUser.class).toProvider(SshCurrentUserProvider.class).in(
         SshScopes.REQUEST);
     bind(CurrentUser.class).to(IdentifiedUser.class);

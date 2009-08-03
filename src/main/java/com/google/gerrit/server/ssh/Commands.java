@@ -23,7 +23,10 @@ import java.lang.annotation.Annotation;
 /** Utilities to support {@link CommandName} construction. */
 public class Commands {
   /** Magic value signaling the top level. */
-  public static final CommandName ROOT = named("");
+  public static final String ROOT = "";
+
+  /** Magic value signaling the top level. */
+  public static final CommandName CMD_ROOT = named(ROOT);
 
   public static Key<CommandFactory.Command> key(final String name) {
     return key(named(name));
@@ -53,7 +56,8 @@ public class Commands {
 
       @Override
       public int hashCode() {
-        return value().hashCode();
+        // This is specified in java.lang.Annotation.
+        return (127 * "value".hashCode()) ^ value().hashCode();
       }
 
       @Override
@@ -64,7 +68,7 @@ public class Commands {
 
       @Override
       public String toString() {
-        return "CommandName[" + value() + "]";
+        return "@" + CommandName.class.getName() + "(value=" + value() + ")";
       }
     };
   }
@@ -87,7 +91,7 @@ public class Commands {
     if (name instanceof NestedCommandNameImpl) {
       return parent.equals(((NestedCommandNameImpl) name).parent);
     }
-    if (parent == ROOT) {
+    if (parent == CMD_ROOT) {
       return true;
     }
     return false;

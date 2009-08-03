@@ -44,7 +44,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /** Rewrites Gerrit 1 style URLs to Gerrit 2 style URLs. */
 @Singleton
-public class UrlRewriteFilter implements Filter {
+class UrlRewriteFilter implements Filter {
   private static final Pattern CHANGE_ID = Pattern.compile("^/(\\d+)/?$");
   private static final Pattern REV_ID =
       Pattern.compile("^/r/([0-9a-fA-F]{4," + RevId.LEN + "})/?$");

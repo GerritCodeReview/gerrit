@@ -14,8 +14,9 @@
 
 package com.google.gerrit.server.ssh;
 
-import com.google.gerrit.server.ssh.SshScopes.Context;
+import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.assistedinject.Assisted;
 
 import org.apache.sshd.server.CommandFactory.Command;
 
@@ -26,12 +27,17 @@ import java.util.Map;
 /**
  * Command that dispatches to a subcommand from its command table.
  */
-public class DispatchCommand extends BaseCommand {
+class DispatchCommand extends BaseCommand {
+  interface Factory {
+    DispatchCommand create(String prefix, Map<String, Provider<Command>> map);
+  }
+
   private final String prefix;
   private final Map<String, Provider<Command>> commands;
 
-  public DispatchCommand(final String pfx,
-      final Map<String, Provider<Command>> all) {
+  @Inject
+  DispatchCommand(@Assisted final String pfx,
+      @Assisted final Map<String, Provider<Command>> all) {
     prefix = pfx;
     commands = all;
   }
@@ -58,30 +64,22 @@ public class DispatchCommand extends BaseCommand {
 
     final Provider<Command> p = commands.get(name);
     if (p != null) {
-      final Context old = SshScopes.current.get();
-      try {
-        if (old == null) {
-          SshScopes.current.set(new Context(session));
-        }
-        final Command cmd = p.get();
-        provideStateTo(cmd);
-        if (cmd instanceof BaseCommand) {
-          final BaseCommand bc = (BaseCommand) cmd;
-          if (commandPrefix.isEmpty())
-            bc.setCommandPrefix(name);
-          else
-            bc.setCommandPrefix(commandPrefix + " " + name);
-          bc.setCommandLine(args);
-        }
-        cmd.start();
-      } finally {
-        SshScopes.current.set(old);
+      final Command cmd = p.get();
+      provideStateTo(cmd);
+      if (cmd instanceof BaseCommand) {
+        final BaseCommand bc = (BaseCommand) cmd;
+        if (commandPrefix.isEmpty())
+          bc.setCommandPrefix(name);
+        else
+          bc.setCommandPrefix(commandPrefix + " " + name);
+        bc.setCommandLine(args);
       }
+      cmd.start();
     } else {
       final String msg = prefix + ": " + name + ": not found\n";
       err.write(msg.getBytes("UTF-8"));
       err.flush();
-      exit.onExit(127);
+      onExit(127);
     }
   }
 
@@ -98,6 +96,6 @@ public class DispatchCommand extends BaseCommand {
     usage.append("\n");
     err.write(usage.toString().getBytes("UTF-8"));
     err.flush();
-    exit.onExit(1);
+    onExit(1);
   }
 }

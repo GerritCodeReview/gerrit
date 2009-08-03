@@ -16,12 +16,13 @@ package com.google.gerrit.server.ssh;
 
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.pgm.CmdLineParser;
+import com.google.gerrit.server.RequestCleanup;
 import com.google.gerrit.server.ssh.SshScopes.Context;
+import com.google.inject.Inject;
 
 import org.apache.sshd.common.SshException;
 import org.apache.sshd.server.CommandFactory.Command;
 import org.apache.sshd.server.CommandFactory.ExitCallback;
-import org.apache.sshd.server.CommandFactory.SessionAware;
 import org.apache.sshd.server.session.ServerSession;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
@@ -36,7 +37,7 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class BaseCommand implements Command, SessionAware {
+public abstract class BaseCommand implements Command {
   private static final Logger log = LoggerFactory.getLogger(BaseCommand.class);
 
   @Option(name = "--help", usage = "display this help text", aliases = {"-h"})
@@ -45,8 +46,11 @@ public abstract class BaseCommand implements Command, SessionAware {
   protected InputStream in;
   protected OutputStream out;
   protected OutputStream err;
-  protected ExitCallback exit;
-  protected ServerSession session;
+
+  private ExitCallback exit;
+
+  @Inject
+  private RequestCleanup cleanup;
 
   /** Text of the command line which lead up to invoking this instance. */
   protected String commandPrefix = "";
@@ -68,10 +72,6 @@ public abstract class BaseCommand implements Command, SessionAware {
 
   public void setExitCallback(final ExitCallback callback) {
     this.exit = callback;
-  }
-
-  public void setSession(final ServerSession session) {
-    this.session = session;
   }
 
   public void setCommandPrefix(final String prefix) {
@@ -101,9 +101,6 @@ public abstract class BaseCommand implements Command, SessionAware {
    * @param cmd the command that will receive the current state.
    */
   protected void provideStateTo(final Command cmd) {
-    if (cmd instanceof SessionAware) {
-      ((SessionAware) cmd).setSession(session);
-    }
     cmd.setInputStream(in);
     cmd.setOutputStream(out);
     cmd.setErrorStream(err);
@@ -222,15 +219,15 @@ public abstract class BaseCommand implements Command, SessionAware {
    */
   protected void startThread(final CommandRunnable thunk) {
     final Context context = SshScopes.getContext();
-    final List<Command> activeList = session.getAttribute(SshUtil.ACTIVE);
+    final List<Command> active = context.session.getAttribute(SshUtil.ACTIVE);
     final Command cmd = this;
     new Thread(threadName()) {
       @Override
       public void run() {
         int rc = 0;
         try {
-          synchronized (activeList) {
-            activeList.add(cmd);
+          synchronized (active) {
+            active.add(cmd);
           }
           SshScopes.current.set(context);
           thunk.run();
@@ -247,16 +244,31 @@ public abstract class BaseCommand implements Command, SessionAware {
           }
           rc = handleError(e);
         } finally {
-          synchronized (activeList) {
-            activeList.remove(cmd);
+          synchronized (active) {
+            active.remove(cmd);
           }
-          exit.onExit(rc);
+          onExit(rc);
         }
       }
     }.start();
   }
 
+  /**
+   * Terminate this command and return a result code to the remote client.
+   *<p>
+   * Commands should invoke this at most once. Once invoked, the command may
+   * lose access to request based resources as any callbacks previously
+   * registered with {@link RequestCleanup} will fire.
+   *
+   * @param rc exit code for the remote client.
+   */
+  protected void onExit(final int rc) {
+    exit.onExit(rc);
+    cleanup.run();
+  }
+
   private String threadName() {
+    final ServerSession session = SshScopes.getContext().session;
     final String who = session.getUsername();
     final Account.Id id = session.getAttribute(SshUtil.CURRENT_ACCOUNT);
     return "SSH " + getFullCommandLine() + " / " + who + " " + id;
@@ -283,6 +295,7 @@ public abstract class BaseCommand implements Command, SessionAware {
 
     if (e instanceof UnloggedFailure) {
     } else {
+      final ServerSession session = SshScopes.getContext().session;
       final StringBuilder m = new StringBuilder();
       m.append("Internal server error (");
       m.append("user ");

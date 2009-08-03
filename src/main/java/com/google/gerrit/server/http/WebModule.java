@@ -21,6 +21,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GerritConfigProvider;
+import com.google.gerrit.server.config.GerritRequestModule;
 import com.google.gerrit.server.rpc.UiRpcModule;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gwtexpui.server.CacheControlFilter;
@@ -45,6 +46,7 @@ class WebModule extends FactoryModule {
     install(new ServletModule() {
       @Override
       protected void configureServlets() {
+        filter("/*").through(RequestCleanupFilter.class);
         filter("/*").through(UrlRewriteFilter.class);
 
         filter("/*").through(Key.get(CacheControlFilter.class));
@@ -59,6 +61,7 @@ class WebModule extends FactoryModule {
       }
     });
     install(new UiRpcModule());
+    install(new GerritRequestModule());
 
     bind(SshInfo.class).toProvider(sshInfoProvider);
     bind(GerritConfig.class).toProvider(GerritConfigProvider.class).in(

@@ -26,10 +26,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DiffCacheEntryFactory implements CacheEntryFactory {
+class DiffCacheEntryFactory implements CacheEntryFactory {
   private final GerritServer server;
 
-  public DiffCacheEntryFactory(final GerritServer gs) {
+  DiffCacheEntryFactory(final GerritServer gs) {
     server = gs;
   }
 

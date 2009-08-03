@@ -24,11 +24,13 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Collections;
 import java.util.List;
 
-import javax.servlet.ServletOutputStream;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -39,14 +41,24 @@ public class BecomeAnyAccountLoginServlet extends HttpServlet {
   private final SchemaFactory<ReviewDb> schema;
   private final Provider<GerritCall> callFactory;
   private final Provider<String> urlProvider;
+  private final byte[] raw;
 
   @Inject
   BecomeAnyAccountLoginServlet(final Provider<GerritCall> cf,
       final SchemaFactory<ReviewDb> sf,
-      final @CanonicalWebUrl @Nullable Provider<String> up) {
+      final @CanonicalWebUrl @Nullable Provider<String> up,
+      final ServletContext servletContext) throws IOException {
     callFactory = cf;
     schema = sf;
     urlProvider = up;
+
+    final String hostPageName = "WEB-INF/BecomeAnyAccount.html";
+    final String doc = HtmlDomUtil.readFile(servletContext, "/" + hostPageName);
+    if (doc == null) {
+      throw new FileNotFoundException("No " + hostPageName + " in webapp");
+    }
+
+    raw = doc.getBytes(HtmlDomUtil.ENC);
   }
 
   @Override
@@ -69,19 +81,15 @@ public class BecomeAnyAccountLoginServlet extends HttpServlet {
       accounts = byAccountId(rsp, req.getParameter("account_id"));
 
     } else {
-      final ServletOutputStream out = rsp.getOutputStream();
       rsp.setContentType("text/html");
-      out.print("<html>");
-      out.print("<form method=\"POST\"><b>ssh_user_name:</b> "
-          + "<input type=\"text\" size=\"30\" name=\"ssh_user_name\" />"
-          + "<input type=\"submit\" value=\"Become Account\" />" + "</form>");
-      out.print("<form method=\"POST\"><b>preferred_email:</b> "
-          + "<input type=\"text\" size=\"30\" name=\"preferred_email\" />"
-          + "<input type=\"submit\" value=\"Become Account\" />" + "</form>");
-      out.print("<form method=\"POST\"><b>account_id:</b> "
-          + "<input type=\"text\" size=\"12\" name=\"account_id\" />"
-          + "<input type=\"submit\" value=\"Become Account\" />" + "</form>");
-      out.print("</html>");
+      rsp.setCharacterEncoding(HtmlDomUtil.ENC);
+      rsp.setContentLength(raw.length);
+      final OutputStream out = rsp.getOutputStream();
+      try {
+        out.write(raw);
+      } finally {
+        out.close();
+      }
       return;
     }
 

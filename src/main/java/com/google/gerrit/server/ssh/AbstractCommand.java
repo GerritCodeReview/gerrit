@@ -18,14 +18,9 @@ import com.google.gerrit.client.data.ProjectCache;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
-import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.server.BaseServiceImplementation;
-import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.RemotePeer;
-import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
 
 import java.io.BufferedWriter;
@@ -33,26 +28,13 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-import java.net.SocketAddress;
 import java.util.Set;
 
 public abstract class AbstractCommand extends BaseCommand {
   private static final String ENC = "UTF-8";
 
   @Inject
-  protected GerritServer server;
-
-  @Inject
-  protected SchemaFactory<ReviewDb> schema;
-
-  @Inject
-  @RemotePeer
-  private SocketAddress remoteAddress;
-
-  @Inject
   private IdentifiedUser currentUser;
-
-  protected ReviewDb db;
 
   private Set<AccountGroup.Id> userGroups;
 
@@ -61,27 +43,8 @@ public abstract class AbstractCommand extends BaseCommand {
     return new PrintWriter(new BufferedWriter(new OutputStreamWriter(o, ENC)));
   }
 
-  protected GerritServer getGerritServer() {
-    return server;
-  }
-
-  protected ReviewDb openReviewDb() throws Failure {
-    if (db == null) {
-      try {
-        db = schema.open();
-      } catch (OrmException e) {
-        throw new Failure(1, "fatal: Gerrit database is offline", e);
-      }
-    }
-    return db;
-  }
-
   protected Account.Id getAccountId() {
     return currentUser.getAccountId();
-  }
-
-  protected SocketAddress getRemoteAddress() {
-    return remoteAddress;
   }
 
   protected Set<AccountGroup.Id> getGroups() {
@@ -110,31 +73,11 @@ public abstract class AbstractCommand extends BaseCommand {
   public void start() {
     startThread(new CommandRunnable() {
       public void run() throws Exception {
-        try {
-          preRun();
-          parseCommandLine();
-          AbstractCommand.this.run();
-        } finally {
-          postRun();
-        }
+        parseCommandLine();
+        AbstractCommand.this.run();
       }
     });
   }
 
-  @SuppressWarnings("unused")
-  protected void preRun() throws Failure {
-  }
-
   protected abstract void run() throws Exception;
-
-  protected void postRun() {
-    closeDb();
-  }
-
-  protected void closeDb() {
-    if (db != null) {
-      db.close();
-      db = null;
-    }
-  }
 }

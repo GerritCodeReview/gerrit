@@ -22,8 +22,6 @@ import java.io.IOException;
 class Upload extends AbstractGitCommand {
   @Override
   protected void runImpl() throws IOException {
-    closeDb();
-
     final UploadPack up = new UploadPack(repo);
     up.upload(in, out, err);
   }

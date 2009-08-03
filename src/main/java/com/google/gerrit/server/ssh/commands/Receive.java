@@ -43,6 +43,7 @@ import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.git.PatchSetImporter;
 import com.google.gerrit.git.ReplicationQueue;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.Nullable;
@@ -80,6 +81,7 @@ import org.spearce.jgit.transport.ReceiveCommand.Type;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.SocketAddress;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -132,6 +134,13 @@ class Receive extends AbstractGitCommand {
   }
 
   @Inject
+  @RemotePeer
+  private SocketAddress remoteAddress;
+
+  @Inject
+  private ReviewDb db;
+
+  @Inject
   private GerritConfig gerritConfig;
 
   @Inject
@@ -181,7 +190,7 @@ class Receive extends AbstractGitCommand {
       verifyActiveContributorAgreement();
     }
     loadMyEmails();
-    refLogIdent = ChangeUtil.toReflogIdent(userAccount, getRemoteAddress());
+    refLogIdent = ChangeUtil.toReflogIdent(userAccount, remoteAddress);
 
     rp = new ReceivePack(repo);
     rp.setAllowCreates(true);

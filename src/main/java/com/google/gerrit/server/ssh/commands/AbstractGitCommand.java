@@ -20,7 +20,9 @@ import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.client.rpc.Common;
+import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.ssh.AbstractCommand;
+import com.google.inject.Inject;
 
 import org.kohsuke.args4j.Argument;
 import org.spearce.jgit.errors.RepositoryNotFoundException;
@@ -32,16 +34,13 @@ abstract class AbstractGitCommand extends AbstractCommand {
   @Argument(index = 0, metaVar = "PROJECT.git", required = true, usage = "project name")
   private String reqProjName;
 
+  @Inject
+  protected GerritServer server;
+
   protected Repository repo;
   protected ProjectCache.Entry cachedProj;
   protected Project proj;
   protected Account userAccount;
-
-  @Override
-  protected void preRun() throws Failure {
-    super.preRun();
-    openReviewDb();
-  }
 
   @Override
   protected final void run() throws IOException, Failure {
@@ -76,14 +75,14 @@ abstract class AbstractGitCommand extends AbstractCommand {
           new SecurityException("Account lacks Read permission"));
     }
 
-    userAccount = Common.getAccountCache().get(getAccountId(), db);
+    userAccount = Common.getAccountCache().get(getAccountId());
     if (userAccount == null) {
       throw new Failure(1, "fatal: cannot query user database",
           new IllegalStateException("Account record no longer in database"));
     }
 
     try {
-      repo = getGerritServer().openRepository(proj.getName());
+      repo = server.openRepository(proj.getName());
     } catch (RepositoryNotFoundException e) {
       throw new Failure(1, "fatal: '" + reqProjName + "': not a git archive", e);
     }

@@ -21,15 +21,18 @@ import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.server.ssh.AbstractCommand;
 import com.google.gwtorm.client.OrmException;
+import com.google.inject.Inject;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 
 class ListProjects extends AbstractCommand {
+  @Inject
+  private ReviewDb db;
+
   @Override
   protected void run() throws IOException, Failure {
     final PrintWriter stdout = toPrintWriter(out);
-    final ReviewDb db = openReviewDb();
     try {
       final ProjectCache cache = Common.getProjectCache();
       for (final Project p : db.projects().all()) {
@@ -49,7 +52,6 @@ class ListProjects extends AbstractCommand {
       throw new Failure(1, "fatal: database error", e);
     } finally {
       stdout.flush();
-      db.close();
     }
   }
 }

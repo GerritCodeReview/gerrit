@@ -31,19 +31,35 @@ See also link:config-sso.html[SSO configuration].
 
 auth.type::
 +
-Type of user authentication employed by Gerrit.  This setting has
-two supported values:
+Type of user authentication employed by Gerrit.  The supported
+values are:
 +
 * `OpenID`
 +
 The default setting.  Gerrit uses any valid OpenID
 provider chosen by the end-user.  For more information see
-http://openid.net/[openid.net]
+http://openid.net/[openid.net].
 +
 * `HTTP`
 +
-Gerrit relies upon data in the HTTP request, such as the HTTP basic
-authentication, or some types of commerical single-sign-on solutions.
+Gerrit relies upon data presented in the HTTP request.  This includes
+HTTP basic authentication, or some types of commerical single-sign-on
+solutions.  With this setting enabled the authentication must
+take place in the web server or servlet container, and not from
+within Gerrit.
++
+* `DEVELOPMENT_BECOME_ANY_ACCOUNT`
++
+*DO NOT USE*.  Only for use in a development environment.
++
+When this is the configured authentication method a hyperlink titled
+`Become` appears in the top right corner of the page, taking the
+user to a form where they can enter the username of any existing
+user account, and immediately login as that account, without any
+authentication taking place.  This form of authentication is only
+useful for the GWT hosted mode shell, where OpenID authentication
+redirects might be risky to the developer's host computer, and HTTP
+authentication is not possible.
 
 +
 By default, OpenID.

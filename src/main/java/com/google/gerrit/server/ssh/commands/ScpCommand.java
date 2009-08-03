@@ -39,7 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 
-class ScpCommand extends BaseCommand {
+final class ScpCommand extends BaseCommand {
   private static final String TYPE_DIR = "D";
   private static final String TYPE_FILE = "C";
   private static final Logger log = LoggerFactory.getLogger(ScpCommand.class);

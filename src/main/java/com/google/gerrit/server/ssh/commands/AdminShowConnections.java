@@ -16,7 +16,8 @@ package com.google.gerrit.server.ssh.commands;
 
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.rpc.Common;
-import com.google.gerrit.server.ssh.AbstractCommand;
+import com.google.gerrit.server.ssh.AdminCommand;
+import com.google.gerrit.server.ssh.BaseCommand;
 import com.google.gerrit.server.ssh.SshDaemon;
 import com.google.gerrit.server.ssh.SshUtil;
 import com.google.inject.Inject;
@@ -28,7 +29,6 @@ import org.apache.sshd.server.CommandFactory.Command;
 import org.kohsuke.args4j.Option;
 
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
@@ -40,18 +40,28 @@ import java.util.Date;
 import java.util.List;
 
 /** Show the current SSH connections. */
-class AdminShowConnections extends AbstractCommand {
+@AdminCommand
+final class AdminShowConnections extends BaseCommand {
   @Option(name = "--numeric", aliases = {"-n"}, usage = "don't resolve names")
   private boolean numeric;
 
-  PrintWriter p;
+  private PrintWriter p;
 
   @Inject
   private SshDaemon daemon;
 
   @Override
-  protected void run() throws Failure, UnsupportedEncodingException {
-    assertIsAdministrator();
+  public void start() {
+    startThread(new CommandRunnable() {
+      @Override
+      public void run() throws Exception {
+        parseCommandLine();
+        AdminShowConnections.this.display();
+      }
+    });
+  }
+
+  private void display() throws Failure {
     p = toPrintWriter(out);
 
     final IoAcceptor acceptor = daemon.getIoAcceptor();

@@ -30,15 +30,20 @@ import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class BaseCommand implements Command {
   private static final Logger log = LoggerFactory.getLogger(BaseCommand.class);
+  public static final String ENC = "UTF-8";
 
   @Option(name = "--help", usage = "display this help text", aliases = {"-h"})
   private boolean help;
@@ -267,6 +272,18 @@ public abstract class BaseCommand implements Command {
     cleanup.run();
   }
 
+  /** Wrap the supplied output stream in a UTF-8 encoded PrintWriter. */
+  protected static PrintWriter toPrintWriter(final OutputStream o) {
+    try {
+      return new PrintWriter(new BufferedWriter(new OutputStreamWriter(o, ENC)));
+    } catch (UnsupportedEncodingException e) {
+      // Our default encoding is required by the specifications for the
+      // runtime APIs, this should never, ever happen.
+      //
+      throw new RuntimeException("JVM lacks " + ENC + " encoding", e);
+    }
+  }
+
   private String threadName() {
     final ServerSession session = SshScopes.getContext().session;
     final String who = session.getUsername();
@@ -310,7 +327,7 @@ public abstract class BaseCommand implements Command {
     if (e instanceof Failure) {
       final Failure f = (Failure) e;
       try {
-        err.write((f.getMessage() + "\n").getBytes("UTF-8"));
+        err.write((f.getMessage() + "\n").getBytes(ENC));
         err.flush();
       } catch (IOException e2) {
       } catch (Throwable e2) {
@@ -320,7 +337,7 @@ public abstract class BaseCommand implements Command {
 
     } else {
       try {
-        err.write("fatal: internal server error\n".getBytes("UTF-8"));
+        err.write("fatal: internal server error\n".getBytes(ENC));
         err.flush();
       } catch (IOException e2) {
       } catch (Throwable e2) {

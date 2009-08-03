@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.ssh.commands;
 
-import com.google.gerrit.server.ssh.AbstractCommand;
+import com.google.gerrit.server.ssh.BaseCommand;
 import com.google.inject.Inject;
 
 import net.sf.ehcache.CacheManager;
@@ -24,7 +24,7 @@ import java.util.Arrays;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-abstract class AbstractAdminCacheCommand extends AbstractCommand {
+abstract class CacheCommand extends BaseCommand {
   @Inject
   protected CacheManager cacheMgr;
 

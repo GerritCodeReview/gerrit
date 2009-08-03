@@ -34,7 +34,7 @@ import com.google.gerrit.git.ReplicationQueue;
 import com.google.gerrit.server.BaseServiceImplementation;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritServer;
-import com.google.gerrit.server.RemotePeer;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
@@ -58,7 +58,6 @@ import org.spearce.jgit.revwalk.RevCommit;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.SocketAddress;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -72,16 +71,16 @@ class ProjectAdminServiceImpl extends BaseServiceImplementation implements
   private final Logger log = LoggerFactory.getLogger(getClass());
   private final GerritServer server;
   private final ReplicationQueue replication;
-  private final Provider<SocketAddress> remotePeer;
+  private final Provider<IdentifiedUser> identifiedUser;
 
   @Inject
   ProjectAdminServiceImpl(final SchemaFactory<ReviewDb> sf,
       final GerritServer gs, final ReplicationQueue rq,
-      @RemotePeer final Provider<SocketAddress> rp) {
+      final Provider<IdentifiedUser> iu) {
     super(sf);
     server = gs;
     replication = rq;
-    remotePeer = rp;
+    identifiedUser = iu;
   }
 
   public void ownedProjects(final AsyncCallback<List<Project>> callback) {
@@ -423,7 +422,7 @@ class ProjectAdminServiceImpl extends BaseServiceImplementation implements
             final RefUpdate u = repo.updateRef(refname);
             u.setExpectedOldObjectId(ObjectId.zeroId());
             u.setNewObjectId(revid);
-            u.setRefLogIdent(ChangeUtil.toReflogIdent(me, remotePeer.get()));
+            u.setRefLogIdent(identifiedUser.get().toPersonIdent());
             u.setRefLogMessage("created via web from " + startingRevision,
                 false);
             final RefUpdate.Result result = u.update(rw);

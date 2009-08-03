@@ -14,18 +14,12 @@
 
 package com.google.gerrit.server;
 
-import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gwtorm.client.OrmException;
 
-import org.spearce.jgit.lib.PersonIdent;
 import org.spearce.jgit.util.Base64;
 import org.spearce.jgit.util.NB;
-
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
-import java.net.SocketAddress;
 
 public class ChangeUtil {
   private static int uuidPrefix;
@@ -33,7 +27,7 @@ public class ChangeUtil {
 
   /**
    * Generate a new unique identifier for change message entities.
-   * 
+   *
    * @param db the database connection, used to increment the change message
    *        allocation sequence.
    * @return the new unique identifier.
@@ -43,55 +37,6 @@ public class ChangeUtil {
     final byte[] raw = new byte[8];
     fill(raw, db);
     return Base64.encodeBytes(raw);
-  }
-
-  public static PersonIdent toPersonIdent(final Account userAccount) {
-    String name = userAccount.getFullName();
-    if (name == null) {
-      name = userAccount.getPreferredEmail();
-    }
-    if (name == null) {
-      name = "Anonymous Coward";
-    }
-
-    String user = "account-" + userAccount.getId().toString();
-    String host = "unknown";
-    return new PersonIdent(name, user + "@" + host);
-  }
-
-  public static PersonIdent toReflogIdent(final Account userAccount,
-      final SocketAddress remotePeer) {
-    String name = userAccount.getFullName();
-    if (name == null) {
-      name = userAccount.getPreferredEmail();
-    }
-    if (name == null) {
-      name = "Anonymous Coward";
-    }
-
-    final String userId = "account-" + userAccount.getId().toString();
-    final String user;
-    if (userAccount.getSshUserName() != null) {
-      user = userAccount.getSshUserName() + "|" + userId;
-    } else {
-      user = userId;
-    }
-
-    String host = null;
-    if (remotePeer instanceof InetSocketAddress) {
-      final InetSocketAddress sa = (InetSocketAddress) remotePeer;
-      final InetAddress in = sa.getAddress();
-      if (in != null) {
-        host = in.getCanonicalHostName();
-      } else {
-        host = sa.getHostName();
-      }
-    }
-    if (host == null) {
-      host = "unknown";
-    }
-
-    return new PersonIdent(name, user + "@" + host);
   }
 
   private static synchronized void fill(byte[] raw, ReviewDb db)
@@ -123,7 +68,7 @@ public class ChangeUtil {
   }
 
   private static final char[] hexchar =
-      {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', // 
+      {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', //
           'a', 'b', 'c', 'd', 'e', 'f'};
 
   private static void formatHexInt(final StringBuilder dst, final int p, int w) {

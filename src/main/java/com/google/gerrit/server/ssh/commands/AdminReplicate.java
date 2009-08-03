@@ -18,7 +18,8 @@ import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.git.PushAllProjectsOp;
 import com.google.gerrit.git.ReplicationQueue;
-import com.google.gerrit.server.ssh.AbstractCommand;
+import com.google.gerrit.server.ssh.AdminCommand;
+import com.google.gerrit.server.ssh.BaseCommand;
 import com.google.inject.Inject;
 
 import org.kohsuke.args4j.Argument;
@@ -29,7 +30,8 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /** Force a project to replicate, again. */
-class AdminReplicate extends AbstractCommand {
+@AdminCommand
+final class AdminReplicate extends BaseCommand {
   @Option(name = "--all", usage = "push all known projects")
   private boolean all;
 
@@ -46,9 +48,17 @@ class AdminReplicate extends AbstractCommand {
   private ReplicationQueue replication;
 
   @Override
-  protected void run() throws Failure {
-    assertIsAdministrator();
+  public void start() {
+    startThread(new CommandRunnable() {
+      @Override
+      public void run() throws Exception {
+        parseCommandLine();
+        AdminReplicate.this.schedule();
+      }
+    });
+  }
 
+  private void schedule() throws Failure {
     if (all && projectNames.size() > 0) {
       throw new Failure(1, "error: cannot combine --all and PROJECT");
     }

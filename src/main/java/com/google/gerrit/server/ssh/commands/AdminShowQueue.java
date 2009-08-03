@@ -16,11 +16,11 @@ package com.google.gerrit.server.ssh.commands;
 
 import com.google.gerrit.git.WorkQueue;
 import com.google.gerrit.git.WorkQueue.Task;
-import com.google.gerrit.server.ssh.AbstractCommand;
+import com.google.gerrit.server.ssh.AdminCommand;
+import com.google.gerrit.server.ssh.BaseCommand;
 import com.google.inject.Inject;
 
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Comparator;
@@ -29,15 +29,25 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /** Display the current work queue. */
-class AdminShowQueue extends AbstractCommand {
+@AdminCommand
+final class AdminShowQueue extends BaseCommand {
   @Inject
   private WorkQueue workQueue;
 
-  PrintWriter p;
+  private PrintWriter p;
 
   @Override
-  protected void run() throws Failure, UnsupportedEncodingException {
-    assertIsAdministrator();
+  public void start() {
+    startThread(new CommandRunnable() {
+      @Override
+      public void run() throws Exception {
+        parseCommandLine();
+        AdminShowQueue.this.display();
+      }
+    });
+  }
+
+  private void display() {
     p = toPrintWriter(out);
 
     final List<Task<?>> pending = workQueue.getTasks();

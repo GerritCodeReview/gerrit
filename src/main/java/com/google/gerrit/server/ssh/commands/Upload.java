@@ -19,7 +19,7 @@ import org.spearce.jgit.transport.UploadPack;
 import java.io.IOException;
 
 /** Publishes Git repositories over SSH using the Git upload-pack protocol. */
-class Upload extends AbstractGitCommand {
+final class Upload extends AbstractGitCommand {
   @Override
   protected void runImpl() throws IOException {
     final UploadPack up = new UploadPack(repo);

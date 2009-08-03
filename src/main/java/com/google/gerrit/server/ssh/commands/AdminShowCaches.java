@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.ssh.commands;
 
+import com.google.gerrit.server.ssh.AdminCommand;
+
 import net.sf.ehcache.Ehcache;
 import net.sf.ehcache.Statistics;
 import net.sf.ehcache.config.CacheConfiguration;
@@ -21,15 +23,24 @@ import net.sf.ehcache.config.CacheConfiguration;
 import org.spearce.jgit.lib.WindowCacheStatAccessor;
 
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 
 /** Show the current cache states. */
-class AdminShowCaches extends AbstractAdminCacheCommand {
-  PrintWriter p;
+@AdminCommand
+final class AdminShowCaches extends CacheCommand {
+  private PrintWriter p;
 
   @Override
-  protected void run() throws Failure, UnsupportedEncodingException {
-    assertIsAdministrator();
+  public void start() {
+    startThread(new CommandRunnable() {
+      @Override
+      public void run() throws Exception {
+        parseCommandLine();
+        display();
+      }
+    });
+  }
+
+  private void display() {
     p = toPrintWriter(out);
 
     for (final Ehcache cache : getAllCaches()) {

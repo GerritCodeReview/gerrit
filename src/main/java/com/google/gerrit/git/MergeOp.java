@@ -29,6 +29,7 @@ import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritServer;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.Nullable;
 import com.google.gerrit.server.mail.EmailException;
@@ -116,6 +117,7 @@ public class MergeOp {
   private final Provider<String> urlProvider;
   private final GerritConfig gerritConfig;
   private final PatchSetInfoFactory patchSetInfoFactory;
+  private final IdentifiedUser.Factory identifiedUserFactory;
 
   private final PersonIdent myIdent;
   private final Branch.NameKey destBranch;
@@ -137,7 +139,7 @@ public class MergeOp {
       final MergeFailSender.Factory mfsf,
       @CanonicalWebUrl @Nullable final Provider<String> cwu,
       final GerritConfig gc, final PatchSetInfoFactory psif,
-      @Assisted final Branch.NameKey branch) {
+      final IdentifiedUser.Factory iuf, @Assisted final Branch.NameKey branch) {
     server = gs;
     schemaFactory = sf;
     replication = rq;
@@ -146,6 +148,7 @@ public class MergeOp {
     urlProvider = cwu;
     gerritConfig = gc;
     patchSetInfoFactory = psif;
+    identifiedUserFactory = iuf;
 
     myIdent = server.newGerritPersonIdent();
     destBranch = branch;
@@ -524,16 +527,10 @@ public class MergeOp {
   }
 
   private void setRefLogIdent(final ChangeApproval submitAudit) {
-    if (submitAudit == null) {
-      return;
+    if (submitAudit != null) {
+      branchUpdate.setRefLogIdent(identifiedUserFactory.create(
+          submitAudit.getAccountId()).toPersonIdent());
     }
-
-    final Account a = Common.getAccountCache().get(submitAudit.getAccountId());
-    if (a == null) {
-      return;
-    }
-
-    branchUpdate.setRefLogIdent(ChangeUtil.toReflogIdent(a, null));
   }
 
   private void cherryPickChanges() throws MergeException {

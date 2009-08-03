@@ -43,7 +43,7 @@ import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.git.PatchSetImporter;
 import com.google.gerrit.git.ReplicationQueue;
 import com.google.gerrit.server.ChangeUtil;
-import com.google.gerrit.server.RemotePeer;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.Nullable;
@@ -81,7 +81,6 @@ import org.spearce.jgit.transport.ReceiveCommand.Type;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.SocketAddress;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -98,7 +97,7 @@ import java.util.regex.Pattern;
 import javax.security.auth.login.AccountNotFoundException;
 
 /** Receives change upload over SSH using the Git receive-pack protocol. */
-class Receive extends AbstractGitCommand {
+final class Receive extends AbstractGitCommand {
   private static final Logger log = LoggerFactory.getLogger(Receive.class);
 
   private static final String NEW_CHANGE = "refs/for/";
@@ -134,8 +133,7 @@ class Receive extends AbstractGitCommand {
   }
 
   @Inject
-  @RemotePeer
-  private SocketAddress remoteAddress;
+  private IdentifiedUser currentUser;
 
   @Inject
   private ReviewDb db;
@@ -190,7 +188,7 @@ class Receive extends AbstractGitCommand {
       verifyActiveContributorAgreement();
     }
     loadMyEmails();
-    refLogIdent = ChangeUtil.toReflogIdent(userAccount, remoteAddress);
+    refLogIdent = currentUser.toPersonIdent();
 
     rp = new ReceivePack(repo);
     rp.setAllowCreates(true);
@@ -261,7 +259,7 @@ class Receive extends AbstractGitCommand {
     AbstractAgreement bestAgreement = null;
     ContributorAgreement bestCla = null;
     try {
-      OUTER: for (final AccountGroup.Id groupId : getGroups()) {
+      OUTER: for (AccountGroup.Id groupId : currentUser.getEffectiveGroups()) {
         for (final AccountGroupAgreement a : db.accountGroupAgreements()
             .byGroup(groupId)) {
           final ContributorAgreement cla =
@@ -278,7 +276,7 @@ class Receive extends AbstractGitCommand {
 
       if (bestAgreement == null) {
         for (final AccountAgreement a : db.accountAgreements().byAccount(
-            userAccount.getId()).toList()) {
+            currentUser.getAccountId()).toList()) {
           final ContributorAgreement cla =
               db.contributorAgreements().get(a.getAgreementId());
           if (cla == null) {
@@ -313,9 +311,9 @@ class Receive extends AbstractGitCommand {
 
     if (bestCla != null && bestCla.isRequireContactInformation()) {
       boolean fail = false;
-      fail |= missing(userAccount.getFullName());
-      fail |= missing(userAccount.getPreferredEmail());
-      fail |= !userAccount.isContactFiled();
+      fail |= missing(currentUser.getAccount().getFullName());
+      fail |= missing(currentUser.getAccount().getPreferredEmail());
+      fail |= !currentUser.getAccount().isContactFiled();
 
       if (fail) {
         final StringBuilder msg = new StringBuilder();
@@ -372,10 +370,10 @@ class Receive extends AbstractGitCommand {
   }
 
   private void loadMyEmails() throws Failure {
-    addEmail(userAccount.getPreferredEmail());
+    addEmail(currentUser.getAccount().getPreferredEmail());
     try {
       for (final AccountExternalId id : db.accountExternalIds().byAccount(
-          userAccount.getId())) {
+          currentUser.getAccountId())) {
         addEmail(id.getEmailAddress());
       }
     } catch (OrmException e) {
@@ -718,7 +716,7 @@ class Receive extends AbstractGitCommand {
     walk.parseBody(c);
 
     final Transaction txn = db.beginTransaction();
-    final Account.Id me = userAccount.getId();
+    final Account.Id me = currentUser.getAccountId();
     final Change change =
         new Change(new Change.Id(db.nextChangeId()), me, destBranch
             .getNameKey());
@@ -850,7 +848,7 @@ class Receive extends AbstractGitCommand {
       return;
     }
 
-    final Account.Id me = userAccount.getId();
+    final Account.Id me = currentUser.getAccountId();
     final Set<Account.Id> reviewers = new HashSet<Account.Id>(reviewerId);
     final Set<Account.Id> cc = new HashSet<Account.Id>(ccId);
     for (final FooterLine footerLine : c.getFooterLines()) {
@@ -938,7 +936,7 @@ class Receive extends AbstractGitCommand {
 
         final PatchSet ps = new PatchSet(change.newPatchSetId());
         ps.setCreatedOn(new Timestamp(System.currentTimeMillis()));
-        ps.setUploader(userAccount.getId());
+        ps.setUploader(currentUser.getAccountId());
 
         final PatchSetImporter imp =
             importFactory.create(db, proj.getNameKey(), repo, c, ps, true);
@@ -1313,7 +1311,7 @@ class Receive extends AbstractGitCommand {
     msgBuf.append(".");
     final ChangeMessage msg =
         new ChangeMessage(new ChangeMessage.Key(change.getId(), ChangeUtil
-            .messageUUID(db)), getAccountId());
+            .messageUUID(db)), currentUser.getAccountId());
     msg.setMessage(msgBuf.toString());
 
     db.changeApprovals().update(result.approvals, txn);
@@ -1324,9 +1322,8 @@ class Receive extends AbstractGitCommand {
   private void sendMergedEmail(final ReplaceResult result) {
     if (result != null && result.mergedIntoRef != null) {
       try {
-        final MergedSender cm;
-        cm = mergedSenderFactory.create(result.change);
-        cm.setFrom(getAccountId());
+        final MergedSender cm = mergedSenderFactory.create(result.change);
+        cm.setFrom(currentUser.getAccountId());
         cm.setReviewDb(db);
         cm.setPatchSet(result.patchSet, result.info);
         cm.setDest(new Branch.NameKey(proj.getNameKey(), result.mergedIntoRef));

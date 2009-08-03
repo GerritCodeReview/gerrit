@@ -16,6 +16,7 @@ package com.google.gerrit.server.ssh.commands;
 
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.server.patch.DiffCache;
+import com.google.gerrit.server.ssh.AdminCommand;
 import com.google.inject.Inject;
 
 import net.sf.ehcache.Ehcache;
@@ -23,13 +24,13 @@ import net.sf.ehcache.Ehcache;
 import org.kohsuke.args4j.Option;
 
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedSet;
 
 /** Causes the caches to purge all entries and reload. */
-class AdminFlushCaches extends AbstractAdminCacheCommand {
+@AdminCommand
+final class AdminFlushCaches extends CacheCommand {
   @Option(name = "--cache", usage = "flush named cache", metaVar = "NAME")
   private List<String> caches = new ArrayList<String>();
 
@@ -42,12 +43,20 @@ class AdminFlushCaches extends AbstractAdminCacheCommand {
   @Inject
   private DiffCache diffCache;
 
-  PrintWriter p;
+  private PrintWriter p;
 
   @Override
-  protected void run() throws Failure, UnsupportedEncodingException {
-    assertIsAdministrator();
+  public void start() {
+    startThread(new CommandRunnable() {
+      @Override
+      public void run() throws Exception {
+        parseCommandLine();
+        flush();
+      }
+    });
+  }
 
+  private void flush() throws Failure {
     p = toPrintWriter(err);
     if (list) {
       if (all || caches.size() > 0) {

@@ -25,6 +25,7 @@ import com.google.gerrit.git.PushReplication;
 import com.google.gerrit.git.ReloadSubmitQueueOp;
 import com.google.gerrit.git.ReplicationQueue;
 import com.google.gerrit.git.WorkQueue;
+import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.ContactStore;
 import com.google.gerrit.server.EncryptedContactStoreProvider;
 import com.google.gerrit.server.FileTypeRegistry;
@@ -61,6 +62,7 @@ public class GerritServerModule extends FactoryModule {
     bind(Config.class).annotatedWith(GerritServerConfig.class).toProvider(
         GerritServerConfigProvider.class).in(SINGLETON);
     bind(AuthConfig.class).in(SINGLETON);
+    bind(AnonymousUser.class);
 
     // Note that the CanonicalWebUrl itself must not be a singleton, but its
     // provider must be.
@@ -95,7 +97,7 @@ public class GerritServerModule extends FactoryModule {
     bind(EmailSender.class).to(SmtpEmailSender.class).in(SINGLETON);
     factory(PatchSetImporter.Factory.class);
     bind(PatchSetInfoFactory.class);
-    bind(IdentifiedUser.Factory.class);
+    factory(IdentifiedUser.Factory.class);
 
     factory(AbandonedSender.Factory.class);
     factory(AddReviewerSender.Factory.class);

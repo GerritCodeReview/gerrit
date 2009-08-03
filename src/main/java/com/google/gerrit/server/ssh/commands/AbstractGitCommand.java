@@ -15,13 +15,13 @@
 package com.google.gerrit.server.ssh.commands;
 
 import com.google.gerrit.client.data.ProjectCache;
-import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.server.GerritServer;
-import com.google.gerrit.server.ssh.AbstractCommand;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.ssh.BaseCommand;
 import com.google.inject.Inject;
 
 import org.kohsuke.args4j.Argument;
@@ -30,20 +30,32 @@ import org.spearce.jgit.lib.Repository;
 
 import java.io.IOException;
 
-abstract class AbstractGitCommand extends AbstractCommand {
+abstract class AbstractGitCommand extends BaseCommand {
   @Argument(index = 0, metaVar = "PROJECT.git", required = true, usage = "project name")
   private String reqProjName;
 
   @Inject
   protected GerritServer server;
 
+  @Inject
+  private IdentifiedUser currentUser;
+
   protected Repository repo;
   protected ProjectCache.Entry cachedProj;
   protected Project proj;
-  protected Account userAccount;
 
   @Override
-  protected final void run() throws IOException, Failure {
+  public void start() {
+    startThread(new CommandRunnable() {
+      @Override
+      public void run() throws Exception {
+        parseCommandLine();
+        AbstractGitCommand.this.service();
+      }
+    });
+  }
+
+  private void service() throws IOException, Failure {
     String projectName = reqProjName;
     if (projectName.endsWith(".git")) {
       // Be nice and drop the trailing ".git" suffix, which we never keep
@@ -70,15 +82,9 @@ abstract class AbstractGitCommand extends AbstractCommand {
       throw new Failure(1, "fatal: '" + reqProjName + "': not a valid project",
           new IllegalArgumentException("Cannot access the wildcard project"));
     }
-    if (!canRead(cachedProj)) {
+    if (!canPerform(ApprovalCategory.READ, (short) 1)) {
       throw new Failure(1, "fatal: '" + reqProjName + "': unknown project",
           new SecurityException("Account lacks Read permission"));
-    }
-
-    userAccount = Common.getAccountCache().get(getAccountId());
-    if (userAccount == null) {
-      throw new Failure(1, "fatal: cannot query user database",
-          new IllegalStateException("Account record no longer in database"));
     }
 
     try {
@@ -95,7 +101,7 @@ abstract class AbstractGitCommand extends AbstractCommand {
 
   protected boolean canPerform(final ApprovalCategory.Id actionId,
       final short val) {
-    return canPerform(cachedProj, actionId, val);
+    return currentUser.canPerform(cachedProj, actionId, val);
   }
 
   protected abstract void runImpl() throws IOException, Failure;

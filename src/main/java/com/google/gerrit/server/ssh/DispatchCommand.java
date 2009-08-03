@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.ssh;
 
+import com.google.gerrit.server.CurrentUser;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
@@ -27,17 +28,19 @@ import java.util.Map;
 /**
  * Command that dispatches to a subcommand from its command table.
  */
-class DispatchCommand extends BaseCommand {
+final class DispatchCommand extends BaseCommand {
   interface Factory {
     DispatchCommand create(String prefix, Map<String, Provider<Command>> map);
   }
 
+  private final Provider<CurrentUser> currentUser;
   private final String prefix;
   private final Map<String, Provider<Command>> commands;
 
   @Inject
-  DispatchCommand(@Assisted final String pfx,
+  DispatchCommand(final Provider<CurrentUser> cu, @Assisted final String pfx,
       @Assisted final Map<String, Provider<Command>> all) {
+    currentUser = cu;
     prefix = pfx;
     commands = all;
   }
@@ -65,6 +68,16 @@ class DispatchCommand extends BaseCommand {
     final Provider<Command> p = commands.get(name);
     if (p != null) {
       final Command cmd = p.get();
+      if (cmd.getClass().getAnnotation(AdminCommand.class) != null) {
+        final CurrentUser u = currentUser.get();
+        if (!u.isAdministrator()) {
+          err.write("fatal: Not a Gerrit administrator\n".getBytes(ENC));
+          err.flush();
+          onExit(1);
+          return;
+        }
+      }
+
       provideStateTo(cmd);
       if (cmd instanceof BaseCommand) {
         final BaseCommand bc = (BaseCommand) cmd;
@@ -77,7 +90,7 @@ class DispatchCommand extends BaseCommand {
       cmd.start();
     } else {
       final String msg = prefix + ": " + name + ": not found\n";
-      err.write(msg.getBytes("UTF-8"));
+      err.write(msg.getBytes(ENC));
       err.flush();
       onExit(127);
     }

@@ -22,6 +22,7 @@ import com.google.gerrit.client.rpc.Common.CurrentAccountImpl;
 import com.google.gerrit.git.PushAllProjectsOp;
 import com.google.gerrit.git.ReloadSubmitQueueOp;
 import com.google.gerrit.git.WorkQueue;
+import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AuthConfig;
@@ -172,7 +173,7 @@ public class GerritServletConfig extends GuiceServletContextListener {
         CurrentUser u = webUser.get();
         if (u instanceof IdentifiedUser) {
           return ((IdentifiedUser) u).getAccountId();
-        } else if (u == CurrentUser.ANONYMOUS) {
+        } else if (u instanceof AnonymousUser) {
           return null;
         } else {
           throw new OutOfScopeException("Cannot determine current user");

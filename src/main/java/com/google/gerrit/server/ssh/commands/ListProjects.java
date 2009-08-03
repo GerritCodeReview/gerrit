@@ -14,24 +14,39 @@
 
 package com.google.gerrit.server.ssh.commands;
 
+import static com.google.gerrit.client.reviewdb.ApprovalCategory.READ;
+
 import com.google.gerrit.client.data.ProjectCache;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
-import com.google.gerrit.server.ssh.AbstractCommand;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.ssh.BaseCommand;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 
-class ListProjects extends AbstractCommand {
+final class ListProjects extends BaseCommand {
   @Inject
   private ReviewDb db;
 
+  @Inject
+  private IdentifiedUser currentUser;
+
   @Override
-  protected void run() throws IOException, Failure {
+  public void start() {
+    startThread(new CommandRunnable() {
+      @Override
+      public void run() throws Exception {
+        parseCommandLine();
+        ListProjects.this.display();
+      }
+    });
+  }
+
+  private void display() throws Failure {
     final PrintWriter stdout = toPrintWriter(out);
     try {
       final ProjectCache cache = Common.getProjectCache();
@@ -43,7 +58,7 @@ class ListProjects extends AbstractCommand {
         }
 
         final ProjectCache.Entry e = cache.get(p.getId());
-        if (e != null && canRead(e)) {
+        if (e != null && currentUser.canPerform(e, READ, (short) 1)) {
           stdout.print(p.getName());
           stdout.println();
         }

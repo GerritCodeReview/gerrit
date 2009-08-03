@@ -15,6 +15,7 @@
 package com.google.gerrit.server.mail;
 
 import com.google.gerrit.client.data.ApprovalType;
+import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountProjectWatch;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
@@ -23,7 +24,6 @@ import com.google.gerrit.client.reviewdb.Branch;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.ChangeApproval;
 import com.google.gerrit.client.reviewdb.Project;
-import com.google.gerrit.client.rpc.Common;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -40,7 +40,10 @@ public class MergedSender extends ReplyToChangeSender {
   private Branch.NameKey dest;
 
   @Inject
-  public MergedSender( @Assisted Change c) {
+  private GerritConfig gerritConfig;
+
+  @Inject
+  public MergedSender(@Assisted Change c) {
     super(c, "merged");
     dest = c.getDest();
   }
@@ -112,7 +115,7 @@ public class MergedSender extends ReplyToChangeSender {
       appendText(getNameFor(ent.getKey()));
       appendText(": ");
       boolean first = true;
-      for (ApprovalType at : Common.getGerritConfig().getApprovalTypes()) {
+      for (ApprovalType at : gerritConfig.getApprovalTypes()) {
         final ChangeApproval ca = l.get(at.getCategory().getId());
         if (ca == null) {
           continue;

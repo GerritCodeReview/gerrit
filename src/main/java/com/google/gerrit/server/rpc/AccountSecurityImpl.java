@@ -67,6 +67,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
   private final AuthConfig authConfig;
   private final RegisterNewEmailSender.Factory registerNewEmailFactory;
   private final SshKeyCache sshKeyCache;
+  private final boolean useContactInfo;
 
   @Inject
   AccountSecurityImpl(final SchemaFactory<ReviewDb> sf, final ContactStore cs,
@@ -77,6 +78,8 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
     authConfig = ac;
     registerNewEmailFactory = esf;
     sshKeyCache = skc;
+
+    useContactInfo = contactStore != null && contactStore.isEnabled();
   }
 
   public void mySshKeys(final AsyncCallback<List<AccountSshKey>> callback) {
@@ -233,7 +236,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
         final String oldUser = me.getSshUserName();
         me.setFullName(name != null && !name.isEmpty() ? name : null);
         me.setPreferredEmail(emailAddr);
-        if (Common.getGerritConfig().isUseContactInfo()) {
+        if (useContactInfo) {
           if (ContactInformation.hasAddress(info)
               || (me.isContactFiled() && ContactInformation.hasData(info))) {
             me.setContactFiled();

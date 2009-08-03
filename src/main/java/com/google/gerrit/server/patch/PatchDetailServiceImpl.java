@@ -15,6 +15,7 @@
 package com.google.gerrit.server.patch;
 
 import com.google.gerrit.client.data.ApprovalType;
+import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.client.data.PatchScript;
 import com.google.gerrit.client.data.PatchScriptSettings;
 import com.google.gerrit.client.data.ProjectCache;
@@ -73,13 +74,15 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
   private final AbandonedSender.Factory abandonedSenderFactory;
   private final CommentSender.Factory commentSenderFactory;
   private final PatchSetInfoFactory patchSetInfoFactory;
+  private final GerritConfig gerritConfig;
+  private final ApprovalCategory.Id addReviewerCategoryId;
 
   @Inject
   PatchDetailServiceImpl(final SchemaFactory<ReviewDb> sf,
       final GerritServer gs, final FileTypeRegistry ftr, final DiffCache dc,
-      final AddReviewerSender.Factory arsf,
-      final AbandonedSender.Factory asf,
-      final CommentSender.Factory csf, final PatchSetInfoFactory psif) {
+      final AddReviewerSender.Factory arsf, final AbandonedSender.Factory asf,
+      final CommentSender.Factory csf, final PatchSetInfoFactory psif,
+      final GerritConfig gc) {
     super(sf);
     server = gs;
     registry = ftr;
@@ -88,6 +91,11 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
     addReviewerSenderFactory = arsf;
     abandonedSenderFactory = asf;
     commentSenderFactory = csf;
+    gerritConfig = gc;
+
+    final List<ApprovalType> allTypes = gerritConfig.getApprovalTypes();
+    addReviewerCategoryId =
+        allTypes.get(allTypes.size() - 1).getCategory().getId();
   }
 
   public void patchScript(final Patch.Key patchKey, final PatchSet.Id psa,
@@ -278,7 +286,7 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
         r.change.getId(), me)) {
       have.put(a.getCategoryId(), a);
     }
-    for (final ApprovalType at : Common.getGerritConfig().getApprovalTypes()) {
+    for (final ApprovalType at : gerritConfig.getApprovalTypes()) {
       final ApprovalCategoryValue.Id v = values.get(at.getCategory().getId());
       if (v == null) {
         continue;
@@ -386,17 +394,12 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
   private VoidResult doAddReviewers(final Set<Id> reviewerIds,
       final Change.Id id, final ReviewDb db, final Transaction txn)
       throws OrmException {
-    final List<ApprovalType> allTypes =
-        Common.getGerritConfig().getApprovalTypes();
-    final ApprovalCategory.Id ac =
-        allTypes.get(allTypes.size() - 1).getCategory().getId();
-
     for (Account.Id reviewer : reviewerIds) {
       if (!db.changeApprovals().byChangeUser(id, reviewer).iterator().hasNext()) {
         // This reviewer has not entered an approval for this change yet.
         ChangeApproval myca =
-            new ChangeApproval(new ChangeApproval.Key(id, reviewer, ac),
-                (short) 0);
+            new ChangeApproval(new ChangeApproval.Key(id, reviewer,
+                addReviewerCategoryId), (short) 0);
         db.changeApprovals().insert(Collections.singleton(myca), txn);
       }
     }

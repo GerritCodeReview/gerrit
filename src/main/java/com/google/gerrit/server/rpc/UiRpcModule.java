@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.rpc;
 
+import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.http.RpcServletModule;
 import com.google.gerrit.server.patch.PatchDetailServiceImpl;
 
@@ -37,5 +38,13 @@ public class UiRpcModule extends RpcServletModule {
     rpc(ProjectAdminServiceImpl.class);
     rpc(SuggestServiceImpl.class);
     rpc(SystemInfoServiceImpl.class);
+
+    install(new FactoryModule() {
+      @Override
+      protected void configure() {
+        factory(ChangeDetailFactory.Factory.class);
+        factory(PatchSetPublishDetailFactory.Factory.class);
+      }
+    });
   }
 }

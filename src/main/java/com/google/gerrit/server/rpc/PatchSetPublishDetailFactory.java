@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.changes;
+package com.google.gerrit.server.rpc;
 
 import com.google.gerrit.client.changes.PatchSetPublishDetail;
 import com.google.gerrit.client.data.AccountInfoCache;
@@ -37,6 +37,8 @@ import com.google.gerrit.server.BaseServiceImplementation.Failure;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gwtorm.client.OrmException;
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -45,11 +47,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public final class PatchSetPublishDetailFactory
-  implements Action<PatchSetPublishDetail> {
+final class PatchSetPublishDetailFactory implements
+    Action<PatchSetPublishDetail> {
+  interface Factory {
+    PatchSetPublishDetailFactory create(PatchSet.Id patchSetId);
+  }
 
-  final PatchSet.Id patchSetId;
-  final PatchSetInfoFactory infoFactory;
+  private final PatchSet.Id patchSetId;
+  private final PatchSetInfoFactory infoFactory;
+  private final GerritConfig gerritConfig;
 
   protected AccountInfoCache accounts;
   protected PatchSetInfo patchSetInfo;
@@ -58,15 +64,16 @@ public final class PatchSetPublishDetailFactory
   protected Map<ApprovalCategory.Id, Set<ApprovalCategoryValue.Id>> allowed;
   protected Map<ApprovalCategory.Id, ChangeApproval> given;
 
-  public PatchSetPublishDetailFactory(PatchSet.Id patchSetId,
-      PatchSetInfoFactory infoFactory) {
+  @Inject
+  PatchSetPublishDetailFactory(final PatchSetInfoFactory infoFactory,
+      final GerritConfig gerritConfig, @Assisted final PatchSet.Id patchSetId) {
     this.patchSetId = patchSetId;
     this.infoFactory = infoFactory;
+    this.gerritConfig = gerritConfig;
   }
 
   @Override
   public PatchSetPublishDetail run(ReviewDb db) throws OrmException, Failure {
-
     final AccountInfoCacheFactory acc = new AccountInfoCacheFactory(db);
     final Account.Id me = Common.getAccountId();
     final Change.Id changeId = patchSetId.getParentKey();
@@ -80,11 +87,11 @@ public final class PatchSetPublishDetailFactory
 
     allowed = new HashMap<ApprovalCategory.Id, Set<ApprovalCategoryValue.Id>>();
     given = new HashMap<ApprovalCategory.Id, ChangeApproval>();
-    if (change.getStatus().isOpen() &&
-        patchSetId.equals(change.currentPatchSetId())) {
+    if (change.getStatus().isOpen()
+        && patchSetId.equals(change.currentPatchSetId())) {
       computeAllowed();
-      for (final ChangeApproval a : db.changeApprovals().byChangeUser(
-          changeId, me)) {
+      for (final ChangeApproval a : db.changeApprovals().byChangeUser(changeId,
+          me)) {
         given.put(a.getCategoryId(), a);
       }
     }
@@ -105,7 +112,8 @@ public final class PatchSetPublishDetailFactory
 
   private void computeAllowed() {
     final Account.Id me = Common.getAccountId();
-    final Set<AccountGroup.Id> am = Common.getGroupCache().getEffectiveGroups(me);
+    final Set<AccountGroup.Id> am =
+        Common.getGroupCache().getEffectiveGroups(me);
     final ProjectCache.Entry pe =
         Common.getProjectCache().get(change.getDest().getParentKey());
     computeAllowed(am, pe.getRights());
@@ -114,7 +122,6 @@ public final class PatchSetPublishDetailFactory
 
   private void computeAllowed(final Set<AccountGroup.Id> am,
       final Collection<ProjectRight> list) {
-    final GerritConfig cfg = Common.getGerritConfig();
     for (final ProjectRight r : list) {
       if (!am.contains(r.getAccountGroupId())) {
         continue;
@@ -126,7 +133,8 @@ public final class PatchSetPublishDetailFactory
         allowed.put(r.getApprovalCategoryId(), s);
       }
 
-      final ApprovalType at = cfg.getApprovalType(r.getApprovalCategoryId());
+      final ApprovalType at =
+          gerritConfig.getApprovalType(r.getApprovalCategoryId());
       for (short m = r.getMinValue(); m <= r.getMaxValue(); m++) {
         final ApprovalCategoryValue v = at.getValue(m);
         if (v != null) {

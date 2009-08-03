@@ -24,6 +24,7 @@ import static com.google.gerrit.client.reviewdb.ApprovalCategory.PUSH_TAG_ANY;
 
 import com.google.gerrit.client.Link;
 import com.google.gerrit.client.data.ApprovalType;
+import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.client.reviewdb.AbstractAgreement;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountAgreement;
@@ -39,7 +40,6 @@ import com.google.gerrit.client.reviewdb.ContributorAgreement;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.PatchSetInfo;
 import com.google.gerrit.client.reviewdb.ReviewDb;
-import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.git.PatchSetImporter;
 import com.google.gerrit.git.ReplicationQueue;
 import com.google.gerrit.server.ChangeUtil;
@@ -133,6 +133,9 @@ class Receive extends AbstractGitCommand {
   }
 
   @Inject
+  private GerritConfig gerritConfig;
+
+  @Inject
   private AuthConfig authConfig;
 
   @Inject
@@ -174,7 +177,7 @@ class Receive extends AbstractGitCommand {
 
   @Override
   protected void runImpl() throws IOException, Failure {
-    if (Common.getGerritConfig().isUseContributorAgreements()
+    if (gerritConfig.isUseContributorAgreements()
         && proj.isUseContributorAgreements()) {
       verifyActiveContributorAgreement();
     }
@@ -726,8 +729,7 @@ class Receive extends AbstractGitCommand {
     db.changes().insert(Collections.singleton(change), txn);
 
     final Set<Account.Id> haveApprovals = new HashSet<Account.Id>();
-    final List<ApprovalType> allTypes =
-        Common.getGerritConfig().getApprovalTypes();
+    final List<ApprovalType> allTypes = gerritConfig.getApprovalTypes();
     haveApprovals.add(me);
 
     final Set<Account.Id> reviewers = new HashSet<Account.Id>(reviewerId);
@@ -1016,8 +1018,7 @@ class Receive extends AbstractGitCommand {
           db.changes().update(Collections.singleton(change), txn);
         }
 
-        final List<ApprovalType> allTypes =
-            Common.getGerritConfig().getApprovalTypes();
+        final List<ApprovalType> allTypes = gerritConfig.getApprovalTypes();
         if (allTypes.size() > 0) {
           final ApprovalCategory.Id catId =
               allTypes.get(allTypes.size() - 1).getCategory().getId();

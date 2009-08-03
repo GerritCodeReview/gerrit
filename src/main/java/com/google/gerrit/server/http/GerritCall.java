@@ -18,7 +18,6 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountExternalId;
 import com.google.gerrit.client.reviewdb.ReviewDb;
-import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gwtjsonrpc.server.ActiveCall;
 import com.google.gwtjsonrpc.server.ValidToken;
@@ -81,7 +80,7 @@ public class GerritCall extends ActiveCall {
     accountRead = true;
     accountId = null;
     rememberAccount = false;
-    setAccountCookie();
+    removeCookie(Gerrit.ACCOUNT_COOKIE);
   }
 
   public Account.Id getAccountId() {
@@ -95,12 +94,11 @@ public class GerritCall extends ActiveCall {
     }
 
     accountRead = true;
-    ValidToken accountInfo;
-    accountInfo =
+    ValidToken accountInfo =
         getCookie(Gerrit.ACCOUNT_COOKIE, authConfig.getAccountToken());
 
     if (accountInfo == null) {
-      switch (Common.getGerritConfig().getLoginType()) {
+      switch (authConfig.getLoginType()) {
         case HTTP:
           if (assumeHttp()) {
             return;
@@ -112,7 +110,7 @@ public class GerritCall extends ActiveCall {
         // The cookie is bogus, but it was sent. Send an expired cookie
         // back to clear it out of the browser's cookie store.
         //
-        removeCookie(Gerrit.ACCOUNT_COOKIE);
+        logout();
       }
       return;
     }
@@ -125,9 +123,7 @@ public class GerritCall extends ActiveCall {
       // Whoa, did we change our cookie format or something? This should
       // never happen on a valid acocunt token, but discard it anyway.
       //
-      removeCookie(Gerrit.ACCOUNT_COOKIE);
-      accountInfo = null;
-      accountId = null;
+      logout();
       return;
     }
 

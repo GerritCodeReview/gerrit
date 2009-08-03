@@ -15,6 +15,7 @@
 package com.google.gerrit.git;
 
 import com.google.gerrit.client.data.ApprovalType;
+import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.client.data.ProjectCache;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
@@ -111,6 +112,7 @@ public class MergeOp {
   private final MergedSender.Factory mergedSenderFactory;
   private final MergeFailSender.Factory mergeFailSenderFactory;
   private final Provider<String> urlProvider;
+  private final GerritConfig gerritConfig;
 
   private final PersonIdent myIdent;
   private final Branch.NameKey destBranch;
@@ -131,13 +133,14 @@ public class MergeOp {
       final ReplicationQueue rq, final MergedSender.Factory msf,
       final MergeFailSender.Factory mfsf,
       @CanonicalWebUrl @Nullable final Provider<String> cwu,
-      @Assisted final Branch.NameKey branch) {
+      final GerritConfig gc, @Assisted final Branch.NameKey branch) {
     server = gs;
     schemaFactory = sf;
     replication = rq;
     mergedSenderFactory = msf;
     mergeFailSenderFactory = mfsf;
     urlProvider = cwu;
+    gerritConfig = gc;
     myIdent = server.newGerritPersonIdent();
     destBranch = branch;
     toMerge = new ArrayList<CodeReviewCommit>();
@@ -654,7 +657,7 @@ public class MergeOp {
           tag = "Tested-by";
         } else {
           final ApprovalType at =
-              Common.getGerritConfig().getApprovalType(a.getCategoryId());
+              gerritConfig.getApprovalType(a.getCategoryId());
           if (at == null) {
             // A deprecated/deleted approval type, ignore it.
             continue;
@@ -906,7 +909,7 @@ public class MergeOp {
         final List<ChangeApproval> approvals =
             schema.changeApprovals().byChange(c.getId()).toList();
         final FunctionState fs = new FunctionState(c, approvals);
-        for (ApprovalType at : Common.getGerritConfig().getApprovalTypes()) {
+        for (ApprovalType at : gerritConfig.getApprovalTypes()) {
           CategoryFunction.forCategory(at.getCategory()).run(at, fs);
         }
         for (ChangeApproval a : approvals) {

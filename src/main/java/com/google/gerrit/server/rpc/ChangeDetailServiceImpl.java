@@ -23,8 +23,6 @@ import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gerrit.server.BaseServiceImplementation;
-import com.google.gerrit.server.changes.PatchSetPublishDetailFactory;
-import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
@@ -32,19 +30,21 @@ import com.google.inject.Inject;
 
 class ChangeDetailServiceImpl extends BaseServiceImplementation implements
     ChangeDetailService {
-
-  private final PatchSetInfoFactory infoFactory;
+  private final ChangeDetailFactory.Factory changeDetail;
+  private final PatchSetPublishDetailFactory.Factory patchSetPublishDetail;
 
   @Inject
   ChangeDetailServiceImpl(final SchemaFactory<ReviewDb> sf,
-      PatchSetInfoFactory infoFactory) {
+      final ChangeDetailFactory.Factory changeDetail,
+      final PatchSetPublishDetailFactory.Factory patchSetPublishDetail) {
     super(sf);
-    this.infoFactory = infoFactory;
+    this.changeDetail = changeDetail;
+    this.patchSetPublishDetail = patchSetPublishDetail;
   }
 
   public void changeDetail(final Change.Id id,
       final AsyncCallback<ChangeDetail> callback) {
-    run(callback, new ChangeDetailFactory(id));
+    run(callback, changeDetail.create(id));
   }
 
   public void patchSetDetail(final PatchSet.Id id,
@@ -66,6 +66,6 @@ class ChangeDetailServiceImpl extends BaseServiceImplementation implements
 
   public void patchSetPublishDetail(final PatchSet.Id id,
       final AsyncCallback<PatchSetPublishDetail> callback) {
-    run(callback, new PatchSetPublishDetailFactory(id, infoFactory));
+    run(callback, patchSetPublishDetail.create(id));
   }
 }

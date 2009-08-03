@@ -23,6 +23,7 @@ import com.google.gerrit.client.data.ApprovalDetail;
 import com.google.gerrit.client.data.ApprovalType;
 import com.google.gerrit.client.data.ChangeDetail;
 import com.google.gerrit.client.data.ChangeInfo;
+import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.client.data.PatchSetDetail;
 import com.google.gerrit.client.data.ProjectCache;
 import com.google.gerrit.client.reviewdb.Account;
@@ -42,6 +43,8 @@ import com.google.gerrit.server.BaseServiceImplementation.Failure;
 import com.google.gerrit.server.workflow.CategoryFunction;
 import com.google.gerrit.server.workflow.FunctionState;
 import com.google.gwtorm.client.OrmException;
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -54,12 +57,20 @@ import java.util.Set;
 
 /** Creates a {@link ChangeDetail} from a {@link Change}. */
 class ChangeDetailFactory implements Action<ChangeDetail> {
+  interface Factory {
+    ChangeDetailFactory create(Change.Id id);
+  }
+
+  private final GerritConfig gerritConfig;
   private final Change.Id changeId;
 
   private AccountInfoCacheFactory acc;
   private ChangeDetail detail;
 
-  ChangeDetailFactory(final Change.Id id) {
+  @Inject
+  ChangeDetailFactory(final GerritConfig gerritConfig,
+      @Assisted final Change.Id id) {
+    this.gerritConfig = gerritConfig;
     this.changeId = id;
   }
 
@@ -145,13 +156,13 @@ class ChangeDetailFactory implements Action<ChangeDetail> {
       final Set<ApprovalCategory.Id> currentActions =
           new HashSet<ApprovalCategory.Id>();
 
-      for (final ApprovalType at : Common.getGerritConfig().getApprovalTypes()) {
+      for (final ApprovalType at : gerritConfig.getApprovalTypes()) {
         CategoryFunction.forCategory(at.getCategory()).run(at, fs);
         if (!fs.isValid(at)) {
           missingApprovals.add(at.getCategory().getId());
         }
       }
-      for (final ApprovalType at : Common.getGerritConfig().getActionTypes()) {
+      for (final ApprovalType at : gerritConfig.getActionTypes()) {
         if (CategoryFunction.forCategory(at.getCategory()).isValid(me, at, fs)) {
           currentActions.add(at.getCategory().getId());
         }

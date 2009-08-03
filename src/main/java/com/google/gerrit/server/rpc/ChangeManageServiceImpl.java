@@ -16,6 +16,7 @@ package com.google.gerrit.server.rpc;
 
 import com.google.gerrit.client.changes.ChangeManageService;
 import com.google.gerrit.client.data.ApprovalType;
+import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
@@ -44,11 +45,14 @@ import java.util.List;
 class ChangeManageServiceImpl extends BaseServiceImplementation implements
     ChangeManageService {
   private final MergeQueue merger;
+  private final GerritConfig gerritConfig;
 
   @Inject
-  ChangeManageServiceImpl(final SchemaFactory<ReviewDb> sf, final MergeQueue mq) {
+  ChangeManageServiceImpl(final SchemaFactory<ReviewDb> sf,
+      final MergeQueue mq, final GerritConfig gc) {
     super(sf);
     merger = mq;
+    gerritConfig = gc;
   }
 
   public void patchSetAction(final ApprovalCategoryValue.Id value,
@@ -93,7 +97,7 @@ class ChangeManageServiceImpl extends BaseServiceImplementation implements
         }
 
         final ApprovalType actionType =
-            Common.getGerritConfig().getApprovalType(myAction.getCategoryId());
+            gerritConfig.getApprovalType(myAction.getCategoryId());
         if (actionType == null || !actionType.getCategory().isAction()) {
           throw new Failure(new IllegalArgumentException(actionType
               .getCategory().getName()
@@ -101,7 +105,7 @@ class ChangeManageServiceImpl extends BaseServiceImplementation implements
         }
 
         final FunctionState fs = new FunctionState(change, allApprovals);
-        for (ApprovalType c : Common.getGerritConfig().getApprovalTypes()) {
+        for (ApprovalType c : gerritConfig.getApprovalTypes()) {
           CategoryFunction.forCategory(c.getCategory()).run(c, fs);
         }
         if (!CategoryFunction.forCategory(actionType.getCategory()).isValid(me,

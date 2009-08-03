@@ -16,6 +16,24 @@
       "revId": "31f8dcb91e6ea5a03b7ffabd4075119404c95f1b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAdn///8A\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeListServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1002059
+      },
+      "writtenOn": "2009-08-03T18:41:48Z",
+      "side": 0,
+      "message": "This is temporary until we come up with a good story for the parser implementation and UI since this change list introduces space-separated queries and I\u0027m not quite sure yet how to handle these when we are also matching on full names, which can contain spaces as well.\n\nWe will probably want to support double quotes for this:\n\nstatus:merged owner:\"Cedric Beust\"\n\nor something like this, but until then, I thought I\u0027d restrict this to ssh only. I agree I don\u0027t like to take away features from users, though, but I thought this was was new enough that not many people would miss it until we get a good parser...\n\nAnyway, I\u0027ll restore this code for now.",
+      "parentUuid": "AAAAbX///8k\u003d",
+      "revId": "31f8dcb91e6ea5a03b7ffabd4075119404c95f1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

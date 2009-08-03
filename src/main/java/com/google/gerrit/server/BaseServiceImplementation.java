@@ -45,7 +45,7 @@ public class BaseServiceImplementation {
    * A database handle is automatically opened and closed around the action's
    * {@link Action#run(ReviewDb)} method. OrmExceptions are caught and passed
    * into the onFailure method of the callback.
-   * 
+   *
    * @param <T> type of result the callback expects.
    * @param callback the callback that will receive the result.
    * @param action the action logic to perform.
@@ -81,6 +81,7 @@ public class BaseServiceImplementation {
   }
 
   /** Throws NoSuchEntityException if the caller cannot access the project. */
+  @Deprecated
   public static void assertCanRead(final Change change) throws Failure {
     if (!canRead(change)) {
       throw new Failure(new NoSuchEntityException());
@@ -88,6 +89,7 @@ public class BaseServiceImplementation {
   }
 
   /** Throws NoSuchEntityException if the caller cannot access the project. */
+  @Deprecated
   public static void assertCanRead(final Project.NameKey projectKey)
       throws Failure {
     if (!canRead(projectKey)) {
@@ -96,24 +98,29 @@ public class BaseServiceImplementation {
   }
 
   /** Return true if the current user can read this change's project. */
+  @Deprecated
   public static boolean canRead(final Change change) {
     return change != null && canRead(change.getDest().getParentKey());
   }
 
   /** Return true if the current user can read this project, and its contents. */
+  @Deprecated
   public static boolean canRead(final Project.NameKey projectKey) {
     return canRead(Common.getAccountId(), projectKey);
   }
 
+  @Deprecated
   public static boolean canRead(final Account.Id who,
       final Project.NameKey projectKey) {
     return canRead(who, Common.getProjectCache().get(projectKey));
   }
 
+  @Deprecated
   public static boolean canRead(final Account.Id who, final ProjectCache.Entry e) {
     return canPerform(who, e, ApprovalCategory.READ, (short) 1);
   }
 
+  @Deprecated
   public static boolean canPerform(final Account.Id who,
       final ProjectCache.Entry e, final ApprovalCategory.Id actionId,
       final short requireValue) {
@@ -122,6 +129,7 @@ public class BaseServiceImplementation {
     return canPerform(groups, e, actionId, requireValue);
   }
 
+  @Deprecated
   public static boolean canPerform(final Set<AccountGroup.Id> myGroups,
       final ProjectCache.Entry e, final ApprovalCategory.Id actionId,
       final short requireValue) {
@@ -160,6 +168,7 @@ public class BaseServiceImplementation {
   }
 
   /** Exception whose cause is passed into onFailure. */
+  @Deprecated
   public static class Failure extends Exception {
     private static final long serialVersionUID = 1L;
 
@@ -172,7 +181,7 @@ public class BaseServiceImplementation {
   public static interface Action<T> {
     /**
      * Perform this action, returning the onSuccess value.
-     * 
+     *
      * @param db an open database handle to be used by this connection.
      * @return he value to pass to {@link AsyncCallback#onSuccess(Object)}.
      * @throws OrmException any schema based action failed.

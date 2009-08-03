@@ -35,6 +35,7 @@ import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
@@ -383,11 +384,7 @@ public class Gerrit implements EntryPoint {
           break;
 
         case DEVELOPMENT_BECOME_ANY_ACCOUNT:
-          menuRight.addItem("Become", new Command() {
-            public void execute() {
-              Window.Location.assign(GWT.getHostPageBaseURL() + "become");
-            }
-          });
+          menuRight.add(new Anchor("Become", "become"));
           break;
       }
     }

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.rpc;
+package com.google.gerrit.server.rpc.changedetail;
 
 import com.google.gerrit.client.data.PatchSetDetail;
 import com.google.gerrit.client.reviewdb.Account;
@@ -25,6 +25,7 @@ import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
+import com.google.gerrit.server.rpc.Handler;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.ResultSet;
 import com.google.inject.Inject;

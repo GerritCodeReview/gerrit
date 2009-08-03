@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.rpc;
+package com.google.gerrit.server.rpc.changedetail;
 
 import static com.google.gerrit.server.BaseServiceImplementation.assertCanRead;
 import static com.google.gerrit.server.BaseServiceImplementation.canPerform;
@@ -39,6 +39,8 @@ import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gerrit.server.BaseServiceImplementation.Failure;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
+import com.google.gerrit.server.rpc.ChangeListServiceImpl;
+import com.google.gerrit.server.rpc.Handler;
 import com.google.gerrit.server.workflow.CategoryFunction;
 import com.google.gerrit.server.workflow.FunctionState;
 import com.google.gwtorm.client.OrmException;

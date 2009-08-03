@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server.rpc;
 
-import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.http.RpcServletModule;
 import com.google.gerrit.server.patch.PatchDetailServiceImpl;
+import com.google.gerrit.server.rpc.changedetail.ChangeDetailModule;
 
 /** Registers servlets to answer RPCs from client UI. */
 public class UiRpcModule extends RpcServletModule {
@@ -31,7 +31,6 @@ public class UiRpcModule extends RpcServletModule {
     rpc(AccountServiceImpl.class);
     rpc(AccountSecurityImpl.class);
     rpc(GroupAdminServiceImpl.class);
-    rpc(ChangeDetailServiceImpl.class);
     rpc(ChangeListServiceImpl.class);
     rpc(ChangeManageServiceImpl.class);
     rpc(PatchDetailServiceImpl.class);
@@ -39,13 +38,6 @@ public class UiRpcModule extends RpcServletModule {
     rpc(SuggestServiceImpl.class);
     rpc(SystemInfoServiceImpl.class);
 
-    install(new FactoryModule() {
-      @Override
-      protected void configure() {
-        factory(ChangeDetailFactory.Factory.class);
-        factory(PatchSetDetailFactory.Factory.class);
-        factory(PatchSetPublishDetailFactory.Factory.class);
-      }
-    });
+    install(new ChangeDetailModule());
   }
 }

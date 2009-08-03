@@ -51,7 +51,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-class ChangeListServiceImpl extends BaseServiceImplementation implements
+public class ChangeListServiceImpl extends BaseServiceImplementation implements
     ChangeListService {
   private static final Comparator<ChangeInfo> ID_COMP =
       new Comparator<ChangeInfo>() {
@@ -401,7 +401,7 @@ class ChangeListServiceImpl extends BaseServiceImplementation implements
     return r;
   }
 
-  static Set<Change.Id> starredBy(final ReviewDb db, final Account.Id me)
+  public static Set<Change.Id> starredBy(final ReviewDb db, final Account.Id me)
       throws OrmException {
     final Set<Change.Id> existing = new HashSet<Change.Id>();
     if (me != null) {

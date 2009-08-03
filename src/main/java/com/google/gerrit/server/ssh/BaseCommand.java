@@ -204,7 +204,7 @@ public abstract class BaseCommand implements Command {
    * Typically this should be invoked within {@link Command#start()}, such as:
    *
    * <pre>
-   * startThread(new Task() {
+   * startThread(new CommandRunnable() {
    *   public void run() throws Exception {
    *     runImp();
    *   }
@@ -255,7 +255,7 @@ public abstract class BaseCommand implements Command {
 
   /**
    * Terminate this command and return a result code to the remote client.
-   *<p>
+   * <p>
    * Commands should invoke this at most once. Once invoked, the command may
    * lose access to request based resources as any callbacks previously
    * registered with {@link RequestCleanup} will fire.

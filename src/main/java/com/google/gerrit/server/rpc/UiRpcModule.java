@@ -32,7 +32,6 @@ public class UiRpcModule extends RpcServletModule {
     rpc(AccountSecurityImpl.class);
     rpc(GroupAdminServiceImpl.class);
     rpc(ChangeListServiceImpl.class);
-    rpc(ChangeManageServiceImpl.class);
     rpc(PatchDetailServiceImpl.class);
     rpc(ProjectAdminServiceImpl.class);
     rpc(SuggestServiceImpl.class);

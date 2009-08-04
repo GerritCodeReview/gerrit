@@ -24,12 +24,12 @@ import com.google.inject.name.Named;
 
 import javax.sql.DataSource;
 
-/** Provides the {@link ReviewDb} database handle. */
-final class ReviewDbProvider implements Provider<Database<ReviewDb>> {
+/** Provides the {@code Database<ReviewDb>} database handle. */
+final class ReviewDbDatabaseProvider implements Provider<Database<ReviewDb>> {
   private final DataSource datasource;
 
   @Inject
-  ReviewDbProvider(@Named("ReviewDb") final DataSource ds) {
+  ReviewDbDatabaseProvider(@Named("ReviewDb") final DataSource ds) {
     datasource = ds;
   }
 

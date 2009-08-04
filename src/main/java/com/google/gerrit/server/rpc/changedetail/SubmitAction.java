@@ -48,14 +48,16 @@ class SubmitAction extends Handler<VoidResult> {
   private final ReviewDb db;
   private final MergeQueue merger;
   private final GerritConfig gerritConfig;
+  private final FunctionState.Factory functionState;
   private final PatchSet.Id patchSetId;
 
   @Inject
   SubmitAction(final ReviewDb db, final MergeQueue mq, final GerritConfig gc,
-      @Assisted final PatchSet.Id patchSetId) {
+      final FunctionState.Factory fs, @Assisted final PatchSet.Id patchSetId) {
     this.db = db;
     this.merger = mq;
     this.gerritConfig = gc;
+    this.functionState = fs;
     this.patchSetId = patchSetId;
   }
 
@@ -105,7 +107,7 @@ class SubmitAction extends Handler<VoidResult> {
           + " not an action");
     }
 
-    final FunctionState fs = new FunctionState(change, allApprovals);
+    final FunctionState fs = functionState.create(change, allApprovals);
     for (ApprovalType c : gerritConfig.getApprovalTypes()) {
       CategoryFunction.forCategory(c.getCategory()).run(c, fs);
     }

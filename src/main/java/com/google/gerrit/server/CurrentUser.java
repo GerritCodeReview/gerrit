@@ -14,12 +14,9 @@
 
 package com.google.gerrit.server;
 
-import com.google.gerrit.client.data.ProjectCache;
 import com.google.gerrit.client.reviewdb.AccountGroup;
-import com.google.gerrit.client.reviewdb.ApprovalCategory;
-import com.google.gerrit.client.reviewdb.ProjectRight;
+import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.SystemConfig;
-import com.google.gerrit.client.rpc.Common;
 import com.google.inject.servlet.RequestScoped;
 
 import java.util.Set;
@@ -52,45 +49,11 @@ public abstract class CurrentUser {
    */
   public abstract Set<AccountGroup.Id> getEffectiveGroups();
 
+  /** Set of changes starred by this user. */
+  public abstract Set<Change.Id> getStarredChanges();
+
   @Deprecated
   public final boolean isAdministrator() {
     return getEffectiveGroups().contains(systemConfig.adminGroupId);
-  }
-
-  @Deprecated
-  public boolean canPerform(final ProjectCache.Entry e,
-      final ApprovalCategory.Id actionId, final short requireValue) {
-    if (e == null) {
-      return false;
-    }
-
-    int val = Integer.MIN_VALUE;
-    for (final ProjectRight pr : e.getRights()) {
-      if (actionId.equals(pr.getApprovalCategoryId())
-          && getEffectiveGroups().contains(pr.getAccountGroupId())) {
-        if (val < 0 && pr.getMaxValue() > 0) {
-          // If one of the user's groups had denied them access, but
-          // this group grants them access, prefer the grant over
-          // the denial. We have to break the tie somehow and we
-          // prefer being "more open" to being "more closed".
-          //
-          val = pr.getMaxValue();
-        } else {
-          // Otherwise we use the largest value we can get.
-          //
-          val = Math.max(pr.getMaxValue(), val);
-        }
-      }
-    }
-    if (val == Integer.MIN_VALUE && actionId.canInheritFromWildProject()) {
-      for (final ProjectRight pr : Common.getProjectCache().getWildcardRights()) {
-        if (actionId.equals(pr.getApprovalCategoryId())
-            && getEffectiveGroups().contains(pr.getAccountGroupId())) {
-          val = Math.max(pr.getMaxValue(), val);
-        }
-      }
-    }
-
-    return val >= requireValue;
   }
 }

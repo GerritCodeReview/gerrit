@@ -15,7 +15,6 @@
 package com.google.gerrit.server.workflow;
 
 import com.google.gerrit.client.data.ApprovalType;
-import com.google.gerrit.client.data.ProjectCache;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
@@ -26,6 +25,10 @@ import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.client.reviewdb.ApprovalCategory.Id;
 import com.google.gerrit.client.rpc.Common;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -37,6 +40,12 @@ import java.util.Set;
 
 /** State passed through to a {@link CategoryFunction}. */
 public class FunctionState {
+  public interface Factory {
+    FunctionState create(Change c, Collection<ChangeApproval> all);
+  }
+
+  private final ProjectCache projectCache;
+
   private final Map<Account.Id, Set<AccountGroup.Id>> groupCache =
       new HashMap<Account.Id, Set<AccountGroup.Id>>();
   private final Map<ApprovalCategory.Id, Collection<ChangeApproval>> approvals =
@@ -44,16 +53,20 @@ public class FunctionState {
   private final Map<ApprovalCategory.Id, Boolean> valid =
       new HashMap<ApprovalCategory.Id, Boolean>();
   private final Change change;
-  private final ProjectCache.Entry project;
+  private final ProjectState project;
   private final Map<ApprovalCategory.Id, Collection<ProjectRight>> allRights =
       new HashMap<ApprovalCategory.Id, Collection<ProjectRight>>();
   private Map<ApprovalCategory.Id, Collection<ProjectRight>> projectRights;
   private Map<ApprovalCategory.Id, Collection<ProjectRight>> wildcardRights;
   private Set<ChangeApproval> modified;
 
-  public FunctionState(final Change c, final Collection<ChangeApproval> all) {
+  @Inject
+  FunctionState(final ProjectCache pc, @Assisted final Change c,
+      @Assisted final Collection<ChangeApproval> all) {
+    projectCache = pc;
+
     change = c;
-    project = Common.getProjectCache().get(change.getDest().getParentKey());
+    project = projectCache.get(change.getDest().getParentKey());
 
     for (final ChangeApproval ca : all) {
       Collection<ChangeApproval> l = approvals.get(ca.getCategoryId());
@@ -127,7 +140,7 @@ public class FunctionState {
 
   public Collection<ProjectRight> getWildcardRights(final ApprovalCategory.Id id) {
     if (wildcardRights == null) {
-      wildcardRights = index(Common.getProjectCache().getWildcardRights());
+      wildcardRights = index(projectCache.getWildcardRights());
     }
     final Collection<ProjectRight> l = wildcardRights.get(id);
     return l != null ? l : Collections.<ProjectRight> emptySet();

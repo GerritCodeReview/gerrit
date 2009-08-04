@@ -14,22 +14,12 @@
 
 package com.google.gerrit.server;
 
-import com.google.gerrit.client.data.ProjectCache;
-import com.google.gerrit.client.reviewdb.Account;
-import com.google.gerrit.client.reviewdb.AccountGroup;
-import com.google.gerrit.client.reviewdb.ApprovalCategory;
-import com.google.gerrit.client.reviewdb.Change;
-import com.google.gerrit.client.reviewdb.Project;
-import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.client.reviewdb.ReviewDb;
-import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.CorruptEntityException;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
-
-import java.util.Set;
 
 /** Support for services which require a {@link ReviewDb} instance. */
 public class BaseServiceImplementation {
@@ -78,93 +68,6 @@ public class BaseServiceImplementation {
     } catch (Failure e) {
       callback.onFailure(e.getCause());
     }
-  }
-
-  /** Throws NoSuchEntityException if the caller cannot access the project. */
-  @Deprecated
-  public static void assertCanRead(final Change change) throws Failure {
-    if (!canRead(change)) {
-      throw new Failure(new NoSuchEntityException());
-    }
-  }
-
-  /** Throws NoSuchEntityException if the caller cannot access the project. */
-  @Deprecated
-  public static void assertCanRead(final Project.NameKey projectKey)
-      throws Failure {
-    if (!canRead(projectKey)) {
-      throw new Failure(new NoSuchEntityException());
-    }
-  }
-
-  /** Return true if the current user can read this change's project. */
-  @Deprecated
-  public static boolean canRead(final Change change) {
-    return change != null && canRead(change.getDest().getParentKey());
-  }
-
-  /** Return true if the current user can read this project, and its contents. */
-  @Deprecated
-  public static boolean canRead(final Project.NameKey projectKey) {
-    return canRead(Common.getAccountId(), projectKey);
-  }
-
-  @Deprecated
-  public static boolean canRead(final Account.Id who,
-      final Project.NameKey projectKey) {
-    return canRead(who, Common.getProjectCache().get(projectKey));
-  }
-
-  @Deprecated
-  public static boolean canRead(final Account.Id who, final ProjectCache.Entry e) {
-    return canPerform(who, e, ApprovalCategory.READ, (short) 1);
-  }
-
-  @Deprecated
-  public static boolean canPerform(final Account.Id who,
-      final ProjectCache.Entry e, final ApprovalCategory.Id actionId,
-      final short requireValue) {
-    Set<AccountGroup.Id> groups =
-        Common.getGroupCache().getEffectiveGroups(who);
-    return canPerform(groups, e, actionId, requireValue);
-  }
-
-  @Deprecated
-  public static boolean canPerform(final Set<AccountGroup.Id> myGroups,
-      final ProjectCache.Entry e, final ApprovalCategory.Id actionId,
-      final short requireValue) {
-    if (e == null) {
-      return false;
-    }
-
-    int val = Integer.MIN_VALUE;
-    for (final ProjectRight pr : e.getRights()) {
-      if (actionId.equals(pr.getApprovalCategoryId())
-          && myGroups.contains(pr.getAccountGroupId())) {
-        if (val < 0 && pr.getMaxValue() > 0) {
-          // If one of the user's groups had denied them access, but
-          // this group grants them access, prefer the grant over
-          // the denial. We have to break the tie somehow and we
-          // prefer being "more open" to being "more closed".
-          //
-          val = pr.getMaxValue();
-        } else {
-          // Otherwise we use the largest value we can get.
-          //
-          val = Math.max(pr.getMaxValue(), val);
-        }
-      }
-    }
-    if (val == Integer.MIN_VALUE && actionId.canInheritFromWildProject()) {
-      for (final ProjectRight pr : Common.getProjectCache().getWildcardRights()) {
-        if (actionId.equals(pr.getApprovalCategoryId())
-            && myGroups.contains(pr.getAccountGroupId())) {
-          val = Math.max(pr.getMaxValue(), val);
-        }
-      }
-    }
-
-    return val >= requireValue;
   }
 
   /** Exception whose cause is passed into onFailure. */

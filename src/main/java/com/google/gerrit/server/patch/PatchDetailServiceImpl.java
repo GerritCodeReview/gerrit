@@ -18,7 +18,6 @@ import com.google.gerrit.client.data.ApprovalType;
 import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.client.data.PatchScript;
 import com.google.gerrit.client.data.PatchScriptSettings;
-import com.google.gerrit.client.data.ProjectCache;
 import com.google.gerrit.client.patches.CommentDetail;
 import com.google.gerrit.client.patches.PatchDetailService;
 import com.google.gerrit.client.reviewdb.Account;
@@ -40,12 +39,12 @@ import com.google.gerrit.client.rpc.NoSuchAccountException;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gerrit.server.BaseServiceImplementation;
 import com.google.gerrit.server.ChangeUtil;
-import com.google.gerrit.server.FileTypeRegistry;
-import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.mail.AbandonedSender;
 import com.google.gerrit.server.mail.AddReviewerSender;
 import com.google.gerrit.server.mail.CommentSender;
 import com.google.gerrit.server.mail.EmailException;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
@@ -64,34 +63,38 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class PatchDetailServiceImpl extends BaseServiceImplementation implements
+class PatchDetailServiceImpl extends BaseServiceImplementation implements
     PatchDetailService {
   private final Logger log = LoggerFactory.getLogger(getClass());
-  private final GerritServer server;
-  private final FileTypeRegistry registry;
-  private final DiffCache diffCache;
   private final AddReviewerSender.Factory addReviewerSenderFactory;
-  private final AbandonedSender.Factory abandonedSenderFactory;
   private final CommentSender.Factory commentSenderFactory;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final GerritConfig gerritConfig;
+
+  private final AbandonChange.Factory abandonChangeFactory;
+  private final CommentDetailFactory.Factory commentDetailFactory;
+  private final PatchScriptFactory.Factory patchScriptFactoryFactory;
+  private final SaveDraft.Factory saveDraftFactory;
   private final ApprovalCategory.Id addReviewerCategoryId;
 
   @Inject
   PatchDetailServiceImpl(final SchemaFactory<ReviewDb> sf,
-      final GerritServer gs, final FileTypeRegistry ftr, final DiffCache dc,
-      final AddReviewerSender.Factory arsf, final AbandonedSender.Factory asf,
-      final CommentSender.Factory csf, final PatchSetInfoFactory psif,
-      final GerritConfig gc) {
+      final AddReviewerSender.Factory arsf, final CommentSender.Factory csf,
+      final PatchSetInfoFactory psif, final GerritConfig gc,
+      final AbandonChange.Factory abandonChangeFactory,
+      final CommentDetailFactory.Factory commentDetailFactory,
+      final PatchScriptFactory.Factory patchScriptFactoryFactory,
+      final SaveDraft.Factory saveDraftFactory) {
     super(sf);
-    server = gs;
-    registry = ftr;
     patchSetInfoFactory = psif;
-    diffCache = dc;
     addReviewerSenderFactory = arsf;
-    abandonedSenderFactory = asf;
     commentSenderFactory = csf;
     gerritConfig = gc;
+
+    this.abandonChangeFactory = abandonChangeFactory;
+    this.commentDetailFactory = commentDetailFactory;
+    this.patchScriptFactoryFactory = patchScriptFactoryFactory;
+    this.saveDraftFactory = saveDraftFactory;
 
     final List<ApprovalType> allTypes = gerritConfig.getApprovalTypes();
     addReviewerCategoryId =
@@ -105,8 +108,7 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
       callback.onFailure(new NoSuchEntityException());
       return;
     }
-    run(callback, new PatchScriptAction(server, registry, diffCache, patchKey,
-        psa, psb, s));
+    patchScriptFactoryFactory.create(patchKey, psa, psb, s).to(callback);
   }
 
   public void patchComments(final Patch.Key patchKey, final PatchSet.Id psa,
@@ -115,46 +117,12 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
       callback.onFailure(new NoSuchEntityException());
       return;
     }
-    run(callback, new PatchCommentAction(patchKey, psa, psb));
+    commentDetailFactory.create(patchKey, psa, psb).to(callback);
   }
 
   public void saveDraft(final PatchLineComment comment,
       final AsyncCallback<PatchLineComment> callback) {
-    run(callback, new Action<PatchLineComment>() {
-      public PatchLineComment run(ReviewDb db) throws OrmException, Failure {
-        if (comment.getStatus() != PatchLineComment.Status.DRAFT) {
-          throw new Failure(new IllegalStateException("Comment published"));
-        }
-
-        final Patch patch = db.patches().get(comment.getKey().getParentKey());
-        final Change change;
-        if (patch == null) {
-          throw new Failure(new NoSuchEntityException());
-        }
-        change = db.changes().get(patch.getKey().getParentKey().getParentKey());
-        assertCanRead(change);
-
-        final Account.Id me = Common.getAccountId();
-        if (comment.getKey().get() == null) {
-          final PatchLineComment nc =
-              new PatchLineComment(new PatchLineComment.Key(patch.getKey(),
-                  ChangeUtil.messageUUID(db)), comment.getLine(), me, comment
-                  .getParentUuid());
-          nc.setSide(comment.getSide());
-          nc.setMessage(comment.getMessage());
-          db.patchComments().insert(Collections.singleton(nc));
-          return nc;
-
-        } else {
-          if (!me.equals(comment.getAuthor())) {
-            throw new Failure(new NoSuchEntityException());
-          }
-          comment.updated();
-          db.patchComments().update(Collections.singleton(comment));
-          return comment;
-        }
-      }
-    });
+    saveDraftFactory.create(comment).to(callback);
   }
 
   public void deleteDraft(final PatchLineComment.Key commentKey,
@@ -408,90 +376,6 @@ public class PatchDetailServiceImpl extends BaseServiceImplementation implements
 
   public void abandonChange(final PatchSet.Id patchSetId, final String message,
       final AsyncCallback<VoidResult> callback) {
-    run(callback, new Action<VoidResult>() {
-      public VoidResult run(final ReviewDb db) throws OrmException, Failure {
-        final Account.Id me = Common.getAccountId();
-        final Change change = db.changes().get(patchSetId.getParentKey());
-        if (change == null) {
-          throw new Failure(new NoSuchEntityException());
-        }
-        final PatchSet patch = db.patchSets().get(patchSetId);
-        final ProjectCache.Entry projEnt =
-            Common.getProjectCache().get(change.getDest().getParentKey());
-        if (me == null || patch == null || projEnt == null) {
-          throw new Failure(new NoSuchEntityException());
-        }
-        final Project proj = projEnt.getProject();
-
-        if (!me.equals(change.getOwner()) && !me.equals(patch.getUploader())
-            && !Common.getGroupCache().isAdministrator(me)
-            && !canPerform(me, projEnt, ApprovalCategory.OWN, (short) 1)) {
-          // The user doesn't have permission to abandon the change
-          throw new Failure(new NoSuchEntityException());
-        }
-
-        final ChangeMessage cmsg =
-            new ChangeMessage(new ChangeMessage.Key(change.getId(), ChangeUtil
-                .messageUUID(db)), me);
-        final StringBuilder msgBuf =
-            new StringBuilder("Patch Set " + change.currentPatchSetId().get()
-                + ": Abandoned");
-        if (message != null && message.length() > 0) {
-          msgBuf.append("\n\n");
-          msgBuf.append(message);
-        }
-        cmsg.setMessage(msgBuf.toString());
-
-        Boolean dbSuccess = db.run(new OrmRunnable<Boolean, ReviewDb>() {
-          public Boolean run(ReviewDb db, Transaction txn, boolean retry)
-              throws OrmException {
-            return doAbandonChange(message, change, patchSetId, cmsg, db, txn);
-          }
-        });
-
-        if (dbSuccess) {
-          // Email the reviewers
-          try {
-            final AbandonedSender cm;
-            cm = abandonedSenderFactory.create(change);
-            cm.setFrom(me);
-            cm.setReviewDb(db);
-            cm.setChangeMessage(cmsg);
-            cm.send();
-          } catch (EmailException e) {
-            log.error("Cannot send abandon change email for change "
-                + change.getChangeId(), e);
-            throw new Failure(e);
-          }
-        }
-
-        return VoidResult.INSTANCE;
-      }
-    });
-  }
-
-  private Boolean doAbandonChange(final String message, final Change change,
-      final PatchSet.Id psid, final ChangeMessage cm, final ReviewDb db,
-      final Transaction txn) throws OrmException {
-
-    // Check to make sure the change status and current patchset ID haven't
-    // changed while the user was typing an abandon message
-    if (change.getStatus().isOpen() && change.currentPatchSetId().equals(psid)) {
-      change.setStatus(Change.Status.ABANDONED);
-      ChangeUtil.updated(change);
-
-      final List<ChangeApproval> approvals =
-          db.changeApprovals().byChange(change.getId()).toList();
-      for (ChangeApproval a : approvals) {
-        a.cache(change);
-      }
-      db.changeApprovals().update(approvals, txn);
-
-      db.changeMessages().insert(Collections.singleton(cm), txn);
-      db.changes().update(Collections.singleton(change), txn);
-      return Boolean.TRUE;
-    }
-
-    return Boolean.FALSE;
+    abandonChangeFactory.create(patchSetId, message).to(callback);
   }
 }

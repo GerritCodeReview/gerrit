@@ -19,7 +19,6 @@ import com.google.gerrit.client.data.AccountInfoCache;
 import com.google.gerrit.client.data.AccountInfoCacheFactory;
 import com.google.gerrit.client.data.ApprovalType;
 import com.google.gerrit.client.data.GerritConfig;
-import com.google.gerrit.client.data.ProjectCache;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
@@ -34,6 +33,10 @@ import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
+import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.rpc.Handler;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
@@ -51,35 +54,43 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
     PatchSetPublishDetailFactory create(PatchSet.Id patchSetId);
   }
 
-  private final PatchSet.Id patchSetId;
+  private final ProjectCache projectCache;
   private final PatchSetInfoFactory infoFactory;
   private final GerritConfig gerritConfig;
   private final ReviewDb db;
+  private final ChangeControl.Factory changeControlFactory;
 
-  protected AccountInfoCache accounts;
-  protected PatchSetInfo patchSetInfo;
-  protected Change change;
-  protected List<PatchLineComment> drafts;
-  protected Map<ApprovalCategory.Id, Set<ApprovalCategoryValue.Id>> allowed;
-  protected Map<ApprovalCategory.Id, ChangeApproval> given;
+  private final PatchSet.Id patchSetId;
+
+  private AccountInfoCache accounts;
+  private PatchSetInfo patchSetInfo;
+  private Change change;
+  private List<PatchLineComment> drafts;
+  private Map<ApprovalCategory.Id, Set<ApprovalCategoryValue.Id>> allowed;
+  private Map<ApprovalCategory.Id, ChangeApproval> given;
 
   @Inject
   PatchSetPublishDetailFactory(final PatchSetInfoFactory infoFactory,
-      final GerritConfig gerritConfig, final ReviewDb db,
+      final ProjectCache projectCache, final GerritConfig gerritConfig,
+      final ReviewDb db, final ChangeControl.Factory changeControlFactory,
       @Assisted final PatchSet.Id patchSetId) {
-    this.patchSetId = patchSetId;
+    this.projectCache = projectCache;
     this.infoFactory = infoFactory;
     this.gerritConfig = gerritConfig;
     this.db = db;
+    this.changeControlFactory = changeControlFactory;
+
+    this.patchSetId = patchSetId;
   }
 
   @Override
   public PatchSetPublishDetail call() throws OrmException,
-      PatchSetInfoNotAvailableException {
+      PatchSetInfoNotAvailableException, NoSuchChangeException {
     final AccountInfoCacheFactory acc = new AccountInfoCacheFactory(db);
     final Account.Id me = Common.getAccountId();
     final Change.Id changeId = patchSetId.getParentKey();
-    change = db.changes().get(changeId);
+    final ChangeControl control = changeControlFactory.validateFor(changeId);
+    change = control.getChange();
     patchSetInfo = infoFactory.get(patchSetId);
     drafts = db.patchComments().draft(patchSetId, me).toList();
 
@@ -112,10 +123,9 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
     final Account.Id me = Common.getAccountId();
     final Set<AccountGroup.Id> am =
         Common.getGroupCache().getEffectiveGroups(me);
-    final ProjectCache.Entry pe =
-        Common.getProjectCache().get(change.getDest().getParentKey());
+    final ProjectState pe = projectCache.get(change.getDest().getParentKey());
     computeAllowed(am, pe.getRights());
-    computeAllowed(am, Common.getProjectCache().getWildcardRights());
+    computeAllowed(am, projectCache.getWildcardRights());
   }
 
   private void computeAllowed(final Set<AccountGroup.Id> am,

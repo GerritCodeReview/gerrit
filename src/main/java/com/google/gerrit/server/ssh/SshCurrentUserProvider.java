@@ -20,12 +20,14 @@ import com.google.gerrit.server.ssh.SshScopes.Context;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
+import com.google.inject.Singleton;
 
+@Singleton
 class SshCurrentUserProvider implements Provider<IdentifiedUser> {
-  private final IdentifiedUser.Factory factory;
+  private final IdentifiedUser.RequestFactory factory;
 
   @Inject
-  SshCurrentUserProvider(final IdentifiedUser.Factory f) {
+  SshCurrentUserProvider(final IdentifiedUser.RequestFactory f) {
     factory = f;
   }
 

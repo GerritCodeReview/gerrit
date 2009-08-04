@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.patch;
 
-import static com.google.gerrit.server.BaseServiceImplementation.canRead;
-
 import com.google.gerrit.client.data.PatchScript;
 import com.google.gerrit.client.data.PatchScriptSettings;
 import com.google.gerrit.client.data.PatchScriptSettings.Whitespace;
@@ -30,12 +28,15 @@ import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.CorruptEntityException;
-import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gerrit.server.FileTypeRegistry;
 import com.google.gerrit.server.GerritServer;
-import com.google.gerrit.server.BaseServiceImplementation.Action;
-import com.google.gerrit.server.BaseServiceImplementation.Failure;
+import com.google.gerrit.server.config.Nullable;
+import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.rpc.Handler;
 import com.google.gwtorm.client.OrmException;
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 
 import net.sf.ehcache.CacheException;
 import net.sf.ehcache.Element;
@@ -52,14 +53,25 @@ import org.spearce.jgit.revwalk.RevWalk;
 import java.io.IOException;
 
 
-class PatchScriptAction implements Action<PatchScript> {
+class PatchScriptFactory extends Handler<PatchScript> {
+  interface Factory {
+    PatchScriptFactory create(Patch.Key patchKey,
+        @Assisted("patchSetA") PatchSet.Id patchSetA,
+        @Assisted("patchSetB") PatchSet.Id patchSetB,
+        PatchScriptSettings settings);
+  }
+
   private static final Logger log =
-      LoggerFactory.getLogger(PatchScriptAction.class);
+      LoggerFactory.getLogger(PatchScriptFactory.class);
 
   private final GerritServer server;
   private final FileTypeRegistry registry;
   private final DiffCache diffCache;
+  private final ReviewDb db;
+  private final ChangeControl.Factory changeControlFactory;
+
   private final Patch.Key patchKey;
+  @Nullable
   private final PatchSet.Id psa;
   private final PatchSet.Id psb;
   private final PatchScriptSettings settings;
@@ -72,30 +84,40 @@ class PatchScriptAction implements Action<PatchScript> {
   private Project.NameKey projectKey;
   private Repository git;
 
-  PatchScriptAction(final GerritServer gs, final FileTypeRegistry ftr,
-      final DiffCache dc, final Patch.Key patchKey, final PatchSet.Id psa,
-      final PatchSet.Id psb, final PatchScriptSettings settings) {
+  @Inject
+  PatchScriptFactory(final GerritServer gs, final FileTypeRegistry ftr,
+      final DiffCache dc, final ReviewDb db,
+      final ChangeControl.Factory changeControlFactory,
+      @Assisted final Patch.Key patchKey,
+      @Assisted("patchSetA") @Nullable final PatchSet.Id patchSetA,
+      @Assisted("patchSetB") final PatchSet.Id patchSetB,
+      @Assisted final PatchScriptSettings settings) {
     this.server = gs;
     this.registry = ftr;
     this.diffCache = dc;
+    this.db = db;
+    this.changeControlFactory = changeControlFactory;
+
     this.patchKey = patchKey;
-    this.psa = psa;
-    this.psb = psb;
+    this.psa = patchSetA;
+    this.psb = patchSetB;
     this.settings = settings;
 
     patchSetId = patchKey.getParentKey();
     changeId = patchSetId.getParentKey();
   }
 
-  public PatchScript run(final ReviewDb db) throws OrmException, Failure {
+  @Override
+  public PatchScript call() throws OrmException, NoSuchChangeException {
     validatePatchSetId(psa);
     validatePatchSetId(psb);
 
-    change = db.changes().get(changeId);
+    final ChangeControl control = changeControlFactory.validateFor(changeId);
+    change = control.getChange();
     patch = db.patches().get(patchKey);
 
-    if (change == null || patch == null || !canRead(change)) {
-      throw new Failure(new NoSuchEntityException());
+    if (patch == null) {
+      throw new NoSuchChangeException(changeId);
     }
 
     projectKey = change.getDest().getParentKey();
@@ -103,7 +125,7 @@ class PatchScriptAction implements Action<PatchScript> {
       git = server.openRepository(projectKey.get());
     } catch (RepositoryNotFoundException e) {
       log.error("Repository " + projectKey + " not found", e);
-      throw new Failure(new NoSuchEntityException());
+      throw new NoSuchChangeException(changeId, e);
     }
 
     try {
@@ -132,7 +154,7 @@ class PatchScriptAction implements Action<PatchScript> {
         return b.toPatchScript(key, contentWS, comments, contentActual);
       } catch (CorruptEntityException e) {
         log.error("File content for " + key + " unavailable", e);
-        throw new Failure(new NoSuchEntityException());
+        throw new NoSuchChangeException(changeId, e);
       }
     } finally {
       git.close();
@@ -143,25 +165,26 @@ class PatchScriptAction implements Action<PatchScript> {
     return new DiffCacheKey(projectKey, aId, bId, patch, settings);
   }
 
-  private DiffCacheContent get(final DiffCacheKey key) throws Failure {
+  private DiffCacheContent get(final DiffCacheKey key)
+      throws NoSuchChangeException {
     final Element cacheElem;
     try {
       cacheElem = diffCache.get(key);
     } catch (IllegalStateException e) {
       log.error("Cache get failed for " + key, e);
-      throw new Failure(new NoSuchEntityException());
+      throw new NoSuchChangeException(changeId, e);
     } catch (CacheException e) {
       log.error("Cache get failed for " + key, e);
-      throw new Failure(new NoSuchEntityException());
+      throw new NoSuchChangeException(changeId, e);
     }
     if (cacheElem == null || cacheElem.getObjectValue() == null) {
       log.error("Cache get failed for " + key);
-      throw new Failure(new NoSuchEntityException());
+      throw new NoSuchChangeException(changeId);
     }
     return (DiffCacheContent) cacheElem.getObjectValue();
   }
 
-  private PatchScriptBuilder newBuilder() throws Failure {
+  private PatchScriptBuilder newBuilder() throws NoSuchChangeException {
     final PatchScriptSettings s = new PatchScriptSettings(settings);
 
     final int ctx = settings.getContext();
@@ -170,7 +193,7 @@ class PatchScriptAction implements Action<PatchScript> {
     else if (0 <= ctx && ctx <= PatchScriptBuilder.MAX_CONTEXT)
       s.setContext(ctx);
     else
-      throw new Failure(new NoSuchEntityException());
+      throw new NoSuchChangeException(changeId);
 
     final PatchScriptBuilder b = new PatchScriptBuilder(registry);
     b.setRepository(git);
@@ -179,7 +202,7 @@ class PatchScriptAction implements Action<PatchScript> {
     return b;
   }
 
-  private ObjectId ancestor(final ObjectId id) throws Failure {
+  private ObjectId ancestor(final ObjectId id) throws NoSuchChangeException {
     try {
       final RevCommit c = new RevWalk(git).parseCommit(id);
       switch (c.getParentCount()) {
@@ -192,7 +215,7 @@ class PatchScriptAction implements Action<PatchScript> {
       }
     } catch (IOException e) {
       log.error("Commit information for " + id.name() + " unavailable", e);
-      throw new Failure(new NoSuchEntityException());
+      throw new NoSuchChangeException(changeId, e);
     }
   }
 
@@ -201,30 +224,31 @@ class PatchScriptAction implements Action<PatchScript> {
   }
 
   private ObjectId toObjectId(final ReviewDb db, final PatchSet.Id psId)
-      throws Failure, OrmException {
+      throws OrmException, NoSuchChangeException {
     if (!changeId.equals(psId.getParentKey())) {
-      throw new Failure(new NoSuchEntityException());
+      throw new NoSuchChangeException(changeId);
     }
 
     final PatchSet ps = db.patchSets().get(psId);
     if (ps == null || ps.getRevision() == null
         || ps.getRevision().get() == null) {
-      throw new Failure(new NoSuchEntityException());
+      throw new NoSuchChangeException(changeId);
     }
 
     try {
       return ObjectId.fromString(ps.getRevision().get());
     } catch (IllegalArgumentException e) {
       log.error("Patch set " + psId + " has invalid revision");
-      throw new Failure(new NoSuchEntityException());
+      throw new NoSuchChangeException(changeId, e);
     }
   }
 
-  private void validatePatchSetId(final PatchSet.Id psId) throws Failure {
+  private void validatePatchSetId(final PatchSet.Id psId)
+      throws NoSuchChangeException {
     if (psId == null) { // OK, means use base;
     } else if (changeId.equals(psId.getParentKey())) { // OK, same change;
     } else {
-      throw new Failure(new NoSuchEntityException());
+      throw new NoSuchChangeException(changeId);
     }
   }
 

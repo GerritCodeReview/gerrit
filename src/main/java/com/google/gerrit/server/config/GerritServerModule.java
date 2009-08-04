@@ -45,7 +45,9 @@ import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.mail.SmtpEmailSender;
 import com.google.gerrit.server.patch.DiffCache;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.ssh.SshKeyCache;
+import com.google.gerrit.server.workflow.FunctionState;
 
 import net.sf.ehcache.CacheManager;
 
@@ -80,6 +82,7 @@ public class GerritServerModule extends FactoryModule {
     bind(SshKeyCache.class);
     bind(DiffCache.class);
     bind(AccountByEmailCache.class);
+    bind(ProjectCache.class);
 
     bind(GerritServer.class);
     bind(ContactStore.class).toProvider(EncryptedContactStoreProvider.class)
@@ -97,7 +100,8 @@ public class GerritServerModule extends FactoryModule {
     bind(EmailSender.class).to(SmtpEmailSender.class).in(SINGLETON);
     factory(PatchSetImporter.Factory.class);
     bind(PatchSetInfoFactory.class);
-    factory(IdentifiedUser.Factory.class);
+    bind(IdentifiedUser.GenericFactory.class).in(SINGLETON);
+    factory(FunctionState.Factory.class);
 
     factory(AbandonedSender.Factory.class);
     factory(AddReviewerSender.Factory.class);

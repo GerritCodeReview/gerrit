@@ -19,7 +19,6 @@ import static com.google.inject.Scopes.SINGLETON;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RemotePeer;
-import com.google.gerrit.server.RequestCleanup;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GerritRequestModule;
 import com.google.gerrit.server.ssh.commands.DefaultCommandModule;

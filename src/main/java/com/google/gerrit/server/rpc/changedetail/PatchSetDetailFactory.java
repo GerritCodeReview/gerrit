@@ -25,6 +25,8 @@ import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
+import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.rpc.Handler;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.ResultSet;
@@ -43,6 +45,8 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
 
   private final PatchSetInfoFactory infoFactory;
   private final ReviewDb db;
+  private final ChangeControl.Factory changeControlFactory;
+
   private final PatchSet.Id psId;
 
   private PatchSetDetail detail;
@@ -50,16 +54,20 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
 
   @Inject
   PatchSetDetailFactory(final PatchSetInfoFactory psif, final ReviewDb db,
+      final ChangeControl.Factory changeControlFactory,
       @Assisted final PatchSet.Id id) {
     this.infoFactory = psif;
     this.db = db;
+    this.changeControlFactory = changeControlFactory;
+
     this.psId = id;
   }
 
   @Override
   public PatchSetDetail call() throws OrmException, NoSuchEntityException,
-      PatchSetInfoNotAvailableException {
+      PatchSetInfoNotAvailableException, NoSuchChangeException {
     if (patchSet == null) {
+      changeControlFactory.validateFor(psId.getParentKey());
       patchSet = db.patchSets().get(psId);
       if (patchSet == null) {
         throw new NoSuchEntityException();

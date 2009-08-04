@@ -14,17 +14,12 @@
 
 package com.google.gerrit.server.rpc.changedetail;
 
-import static com.google.gerrit.server.BaseServiceImplementation.assertCanRead;
-import static com.google.gerrit.server.BaseServiceImplementation.canPerform;
-import static com.google.gerrit.server.BaseServiceImplementation.canRead;
-
 import com.google.gerrit.client.data.AccountInfoCacheFactory;
 import com.google.gerrit.client.data.ApprovalDetail;
 import com.google.gerrit.client.data.ApprovalType;
 import com.google.gerrit.client.data.ChangeDetail;
 import com.google.gerrit.client.data.ChangeInfo;
 import com.google.gerrit.client.data.GerritConfig;
-import com.google.gerrit.client.data.ProjectCache;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.Change;
@@ -37,9 +32,9 @@ import com.google.gerrit.client.reviewdb.RevId;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
-import com.google.gerrit.server.BaseServiceImplementation.Failure;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
-import com.google.gerrit.server.rpc.ChangeListServiceImpl;
+import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.rpc.Handler;
 import com.google.gerrit.server.workflow.CategoryFunction;
 import com.google.gerrit.server.workflow.FunctionState;
@@ -63,8 +58,11 @@ class ChangeDetailFactory extends Handler<ChangeDetail> {
   }
 
   private final GerritConfig gerritConfig;
+  private final ChangeControl.Factory changeControlFactory;
+  private final FunctionState.Factory functionState;
   private final PatchSetDetailFactory.Factory patchSetDetail;
   private final ReviewDb db;
+
   private final Change.Id changeId;
 
   private AccountInfoCacheFactory acc;
@@ -72,51 +70,28 @@ class ChangeDetailFactory extends Handler<ChangeDetail> {
 
   @Inject
   ChangeDetailFactory(final GerritConfig gerritConfig,
+      final FunctionState.Factory functionState,
       final PatchSetDetailFactory.Factory patchSetDetail, final ReviewDb db,
+      final ChangeControl.Factory changeControlFactory,
       @Assisted final Change.Id id) {
     this.gerritConfig = gerritConfig;
+    this.functionState = functionState;
     this.patchSetDetail = patchSetDetail;
     this.db = db;
+    this.changeControlFactory = changeControlFactory;
+
     this.changeId = id;
   }
 
   @Override
   public ChangeDetail call() throws OrmException, NoSuchEntityException,
-      PatchSetInfoNotAvailableException, Failure {
-    final Account.Id me = Common.getAccountId();
-    final Change change = db.changes().get(changeId);
-    if (change == null) {
-      throw new NoSuchEntityException();
-    }
+      PatchSetInfoNotAvailableException, NoSuchChangeException {
+    final ChangeControl control = changeControlFactory.validateFor(changeId);
+    final Change change = control.getChange();
+    final Project proj = control.getProject();
     final PatchSet patch = db.patchSets().get(change.currentPatchSetId());
-    final ProjectCache.Entry projEnt =
-        Common.getProjectCache().get(change.getDest().getParentKey());
-    if (patch == null || projEnt == null) {
+    if (patch == null) {
       throw new NoSuchEntityException();
-    }
-    final Project proj = projEnt.getProject();
-    assertCanRead(change);
-
-    final boolean anon;
-    boolean canAbandon = false;
-    if (me == null) {
-      // Safe assumption, this wouldn't be allowed if it wasn't.
-      //
-      anon = true;
-    } else {
-      // Ask if the anonymous user can read this project; even if
-      // we can that doesn't mean the anonymous user could.
-      //
-      anon = canRead(null, change.getDest().getParentKey());
-
-      // The change owner, current patchset uploader, Gerrit administrator,
-      // and project administrator can mark the change as abandoned.
-      //
-      canAbandon = change.getStatus().isOpen();
-      canAbandon &=
-          me.equals(change.getOwner()) || me.equals(patch.getUploader())
-              || Common.getGroupCache().isAdministrator(me)
-              || canPerform(me, projEnt, ApprovalCategory.OWN, (short) 1);
     }
 
     acc = new AccountInfoCacheFactory(db);
@@ -124,10 +99,10 @@ class ChangeDetailFactory extends Handler<ChangeDetail> {
 
     detail = new ChangeDetail();
     detail.setChange(change);
-    detail.setAllowsAnonymous(anon);
-    detail.setCanAbandon(canAbandon);
-    detail.setStarred(ChangeListServiceImpl.starredBy(db, me)
-        .contains(changeId));
+    detail.setAllowsAnonymous(control.forAnonymousUser().isVisible());
+    detail.setCanAbandon(change.getStatus().isOpen() && control.canAbandon());
+    detail.setStarred(control.getCurrentUser().getStarredChanges().contains(
+        changeId));
     loadPatchSets();
     loadMessages();
     if (change.currentPatchSetId() != null) {
@@ -156,7 +131,7 @@ class ChangeDetailFactory extends Handler<ChangeDetail> {
     if (detail.getChange().getStatus().isOpen()) {
       final Account.Id me = Common.getAccountId();
       final FunctionState fs =
-          new FunctionState(detail.getChange(), allApprovals);
+          functionState.create(detail.getChange(), allApprovals);
 
       final Set<ApprovalCategory.Id> missingApprovals =
           new HashSet<ApprovalCategory.Id>();
@@ -202,7 +177,8 @@ class ChangeDetailFactory extends Handler<ChangeDetail> {
   }
 
   private void loadCurrentPatchSet() throws OrmException,
-      NoSuchEntityException, PatchSetInfoNotAvailableException {
+      NoSuchEntityException, PatchSetInfoNotAvailableException,
+      NoSuchChangeException {
     final PatchSet.Id psId = detail.getChange().currentPatchSetId();
     final PatchSetDetailFactory loader = patchSetDetail.create(psId);
     loader.patchSet = detail.getCurrentPatchSet();

@@ -17,6 +17,8 @@ package com.google.gerrit.server.rpc;
 import com.google.gerrit.client.rpc.CorruptEntityException;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gerrit.server.BaseServiceImplementation;
+import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
@@ -55,6 +57,12 @@ public abstract class Handler<T> implements Callable<T> {
       if (r != null) {
         callback.onSuccess(r);
       }
+    } catch (NoSuchProjectException e) {
+      callback.onFailure(new NoSuchEntityException());
+
+    } catch (NoSuchChangeException e) {
+      callback.onFailure(new NoSuchEntityException());
+
     } catch (OrmException e) {
       if (e.getCause() instanceof BaseServiceImplementation.Failure) {
         callback.onFailure(e.getCause().getCause());

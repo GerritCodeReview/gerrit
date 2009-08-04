@@ -14,14 +14,12 @@
 
 package com.google.gerrit.server.ssh.commands;
 
-import static com.google.gerrit.client.reviewdb.ApprovalCategory.READ;
-
-import com.google.gerrit.client.data.ProjectCache;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.client.reviewdb.ReviewDb;
-import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.ssh.BaseCommand;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
@@ -34,6 +32,9 @@ final class ListProjects extends BaseCommand {
 
   @Inject
   private IdentifiedUser currentUser;
+
+  @Inject
+  private ProjectCache projectCache;
 
   @Override
   public void start() {
@@ -49,7 +50,6 @@ final class ListProjects extends BaseCommand {
   private void display() throws Failure {
     final PrintWriter stdout = toPrintWriter(out);
     try {
-      final ProjectCache cache = Common.getProjectCache();
       for (final Project p : db.projects().all()) {
         if (ProjectRight.WILD_PROJECT.equals(p.getId())) {
           // This project "doesn't exist". At least not as a repository.
@@ -57,8 +57,8 @@ final class ListProjects extends BaseCommand {
           continue;
         }
 
-        final ProjectCache.Entry e = cache.get(p.getId());
-        if (e != null && currentUser.canPerform(e, READ, (short) 1)) {
+        final ProjectState e = projectCache.get(p.getNameKey());
+        if (e != null && e.controlFor(currentUser).isVisible()) {
           stdout.print(p.getName());
           stdout.println();
         }

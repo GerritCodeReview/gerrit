@@ -16,40 +16,94 @@ package com.google.gerrit.server;
 
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountGroup;
+import com.google.gerrit.client.reviewdb.Change;
+import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gerrit.client.reviewdb.StarredChange;
 import com.google.gerrit.client.reviewdb.SystemConfig;
 import com.google.gerrit.client.rpc.Common;
+import com.google.gerrit.server.config.Nullable;
+import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
-import com.google.inject.assistedinject.Assisted;
-import com.google.inject.servlet.RequestScoped;
+import com.google.inject.ProvisionException;
+import com.google.inject.Singleton;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.spearce.jgit.lib.PersonIdent;
 
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 /** An authenticated user. */
-@RequestScoped
 public class IdentifiedUser extends CurrentUser {
-  public interface Factory {
-    IdentifiedUser create(Account.Id id);
+  /** Create an IdentifiedUser, ignoring any per-request state. */
+  @Singleton
+  public static class GenericFactory {
+    private final SystemConfig systemConfig;
+
+    @Inject
+    GenericFactory(final SystemConfig systemConfig) {
+      this.systemConfig = systemConfig;
+    }
+
+    public IdentifiedUser create(final Account.Id id) {
+      return new IdentifiedUser(systemConfig, null, null, id);
+    }
   }
 
-  private final Account.Id accountId;
+  /**
+   * Create an IdentifiedUser, relying on current request state.
+   * <p>
+   * Can only be used from within a module that has defined request scoped
+   * {@code @RemotePeer SocketAddress} and {@code ReviewDb} providers.
+   */
+  @Singleton
+  public static class RequestFactory {
+    private final SystemConfig systemConfig;
+    private final Provider<SocketAddress> remotePeerProvider;
+    private final Provider<ReviewDb> dbProvider;
 
-  @Inject(optional = true)
-  @RemotePeer
-  private Provider<SocketAddress> remotePeerProvider;
+    @Inject
+    RequestFactory(final SystemConfig systemConfig,
+        final @RemotePeer Provider<SocketAddress> remotePeerProvider,
+        final Provider<ReviewDb> dbProvider) {
+      this.systemConfig = systemConfig;
+      this.remotePeerProvider = remotePeerProvider;
+      this.dbProvider = dbProvider;
+    }
+
+    public IdentifiedUser create(final Account.Id id) {
+      return new IdentifiedUser(systemConfig, remotePeerProvider, dbProvider,
+          id);
+    }
+  }
+
+  private static final Logger log =
+      LoggerFactory.getLogger(IdentifiedUser.class);
+
+  @Nullable
+  private final Provider<SocketAddress> remotePeerProvider;
+  @Nullable
+  private final Provider<ReviewDb> dbProvider;
+  private final Account.Id accountId;
 
   private Account account;
   private Set<AccountGroup.Id> effectiveGroups;
+  private Set<Change.Id> starredChanges;
 
-  @Inject
-  IdentifiedUser(final SystemConfig cfg, @Assisted final Account.Id id) {
-    super(cfg);
-    accountId = id;
+  private IdentifiedUser(final SystemConfig systemConfig,
+      @Nullable final Provider<SocketAddress> remotePeerProvider,
+      @Nullable final Provider<ReviewDb> dbProvider, final Account.Id id) {
+    super(systemConfig);
+    this.remotePeerProvider = remotePeerProvider;
+    this.dbProvider = dbProvider;
+    this.accountId = id;
   }
 
   /** The account identity for the user. */
@@ -71,6 +125,28 @@ public class IdentifiedUser extends CurrentUser {
           Common.getGroupCache().getEffectiveGroups(getAccountId());
     }
     return effectiveGroups;
+  }
+
+  @Override
+  public Set<Change.Id> getStarredChanges() {
+    if (starredChanges == null) {
+      if (dbProvider == null) {
+        throw new OutOfScopeException("Not in request scoped user");
+      }
+      final Set<Change.Id> h = new HashSet<Change.Id>();
+      try {
+        for (final StarredChange sc : dbProvider.get().starredChanges()
+            .byAccount(getAccountId())) {
+          h.add(sc.getChangeId());
+        }
+      } catch (ProvisionException e) {
+        log.warn("Cannot query starred by user changes", e);
+      } catch (OrmException e) {
+        log.warn("Cannot query starred by user changes", e);
+      }
+      starredChanges = Collections.unmodifiableSet(h);
+    }
+    return starredChanges;
   }
 
   public PersonIdent toPersonIdent() {

@@ -12,11 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.rpc;
+package com.google.gerrit.server.rpc.project;
 
 import com.google.gerrit.client.admin.ProjectAdminService;
 import com.google.gerrit.client.admin.ProjectDetail;
-import com.google.gerrit.client.data.ProjectCache;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
@@ -32,9 +31,12 @@ import com.google.gerrit.client.rpc.InvalidRevisionException;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gerrit.git.ReplicationQueue;
 import com.google.gerrit.server.BaseServiceImplementation;
-import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
@@ -70,17 +72,26 @@ class ProjectAdminServiceImpl extends BaseServiceImplementation implements
     ProjectAdminService {
   private final Logger log = LoggerFactory.getLogger(getClass());
   private final GerritServer server;
+  private final ProjectCache projectCache;
+  private final ProjectControl.Factory projectControlFactory;
   private final ReplicationQueue replication;
   private final Provider<IdentifiedUser> identifiedUser;
 
+  private final ProjectDetailFactory.Factory projectDetailFactory;
+
   @Inject
   ProjectAdminServiceImpl(final SchemaFactory<ReviewDb> sf,
-      final GerritServer gs, final ReplicationQueue rq,
-      final Provider<IdentifiedUser> iu) {
+      final GerritServer gs, final ProjectCache pc, final ReplicationQueue rq,
+      final Provider<IdentifiedUser> iu,
+      final ProjectControl.Factory projectControlFactory,
+      final ProjectDetailFactory.Factory projectDetailFactory) {
     super(sf);
-    server = gs;
-    replication = rq;
-    identifiedUser = iu;
+    this.server = gs;
+    this.projectCache = pc;
+    this.replication = rq;
+    this.identifiedUser = iu;
+    this.projectControlFactory = projectControlFactory;
+    this.projectDetailFactory = projectDetailFactory;
   }
 
   public void ownedProjects(final AsyncCallback<List<Project>> callback) {
@@ -99,19 +110,7 @@ class ProjectAdminServiceImpl extends BaseServiceImplementation implements
 
   public void projectDetail(final Project.Id projectId,
       final AsyncCallback<ProjectDetail> callback) {
-    run(callback, new Action<ProjectDetail>() {
-      public ProjectDetail run(ReviewDb db) throws OrmException, Failure {
-        assertAmProjectOwner(db, projectId);
-        final ProjectCache.Entry p = Common.getProjectCache().get(projectId);
-        if (p == null) {
-          throw new Failure(new NoSuchEntityException());
-        }
-
-        final ProjectDetail d = new ProjectDetail();
-        d.load(db, p);
-        return d;
-      }
-    });
+    projectDetailFactory.create(projectId).to(callback);
   }
 
   public void changeProjectSettings(final Project update,
@@ -125,7 +124,7 @@ class ProjectAdminServiceImpl extends BaseServiceImplementation implements
         }
         proj.copySettingsFrom(update);
         db.projects().update(Collections.singleton(proj));
-        Common.getProjectCache().invalidate(proj);
+        projectCache.invalidate(proj);
 
         if (!ProjectRight.WILD_PROJECT.equals(update.getId())) {
           // Update git's description file, in case gitweb is being used
@@ -157,9 +156,11 @@ class ProjectAdminServiceImpl extends BaseServiceImplementation implements
           }
         }
 
-        final ProjectDetail d = new ProjectDetail();
-        d.load(db, Common.getProjectCache().get(update.getId()));
-        return d;
+        try {
+          return projectDetailFactory.create(update.getId()).call();
+        } catch (NoSuchEntityException e) {
+          throw new Failure(e);
+        }
       }
     });
   }
@@ -178,7 +179,7 @@ class ProjectAdminServiceImpl extends BaseServiceImplementation implements
           final ProjectRight m = db.projectRights().get(k);
           if (m != null) {
             db.projectRights().delete(Collections.singleton(m));
-            Common.getProjectCache().invalidate(k.getProjectId());
+            projectCache.invalidate(k.getProjectId());
           }
         }
         return VoidResult.INSTANCE;
@@ -253,10 +254,12 @@ class ProjectAdminServiceImpl extends BaseServiceImplementation implements
           db.projectRights().update(Collections.singleton(pr));
         }
 
-        Common.getProjectCache().invalidate(proj);
-        final ProjectDetail d = new ProjectDetail();
-        d.load(db, Common.getProjectCache().get(projectId));
-        return d;
+        projectCache.invalidate(proj);
+        try {
+          return projectDetailFactory.create(projectId).call();
+        } catch (NoSuchEntityException e) {
+          throw new Failure(e);
+        }
       }
     });
   }
@@ -265,12 +268,16 @@ class ProjectAdminServiceImpl extends BaseServiceImplementation implements
       final AsyncCallback<List<Branch>> callback) {
     run(callback, new Action<List<Branch>>() {
       public List<Branch> run(ReviewDb db) throws OrmException, Failure {
-        final ProjectCache.Entry e = Common.getProjectCache().get(project);
-        if (e == null) {
+        final ProjectControl c;
+        try {
+          c = projectControlFactory.controlFor(project);
+        } catch (NoSuchProjectException e) {
           throw new Failure(new NoSuchEntityException());
         }
-        assertCanRead(e.getProject().getNameKey());
-        return db.branches().byProject(e.getProject().getNameKey()).toList();
+        if (!c.isOwner()) {
+          throw new Failure(new NoSuchEntityException());
+        }
+        return db.branches().byProject(c.getProject().getNameKey()).toList();
       }
     });
   }
@@ -282,9 +289,9 @@ class ProjectAdminServiceImpl extends BaseServiceImplementation implements
         final Set<Branch.NameKey> deleted = new HashSet<Branch.NameKey>();
         final Set<Project.Id> owned = ids(myOwnedProjects(db));
         for (final Branch.NameKey k : ids) {
-          final ProjectCache.Entry e;
+          final ProjectState e;
 
-          e = Common.getProjectCache().get(k.getParentKey());
+          e = projectCache.get(k.getParentKey());
           if (e == null) {
             throw new Failure(new NoSuchEntityException());
           }
@@ -358,7 +365,7 @@ class ProjectAdminServiceImpl extends BaseServiceImplementation implements
         if (me == null) {
           throw new Failure(new NoSuchEntityException());
         }
-        final ProjectCache.Entry pce = Common.getProjectCache().get(projectId);
+        final ProjectState pce = projectCache.get(projectId);
         if (pce == null) {
           throw new Failure(new NoSuchEntityException());
         }
@@ -457,15 +464,11 @@ class ProjectAdminServiceImpl extends BaseServiceImplementation implements
 
   private void assertAmProjectOwner(final ReviewDb db,
       final Project.Id projectId) throws Failure {
-    final ProjectCache.Entry p = Common.getProjectCache().get(projectId);
-    if (p == null) {
-      throw new Failure(new NoSuchEntityException());
-    }
-    if (Common.getGroupCache().isAdministrator(Common.getAccountId())) {
-      return;
-    }
-    final Set<Id> myGroups = myGroups();
-    if (!canPerform(myGroups, p, ApprovalCategory.OWN, (short) 1)) {
+    try {
+      if (!projectControlFactory.controlFor(projectId).isOwner()) {
+        throw new Failure(new NoSuchEntityException());
+      }
+    } catch (NoSuchProjectException e) {
       throw new Failure(new NoSuchEntityException());
     }
   }
@@ -484,12 +487,15 @@ class ProjectAdminServiceImpl extends BaseServiceImplementation implements
       }
     }
 
-    final ProjectCache projectCache = Common.getProjectCache();
     final List<Project> own = new ArrayList<Project>();
     for (Project.Id id : projects) {
-      final ProjectCache.Entry cacheEntry = projectCache.get(id);
-      if (canPerform(myGroups, cacheEntry, ApprovalCategory.OWN, (short) 1)) {
-        own.add(cacheEntry.getProject());
+      try {
+        final ProjectControl c = projectControlFactory.controlFor(id);
+        if (c.isOwner()) {
+          own.add(c.getProject());
+        }
+      } catch (NoSuchProjectException e) {
+        continue;
       }
     }
     return own;

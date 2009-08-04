@@ -14,20 +14,18 @@
 
 package com.google.gerrit.server.http;
 
-import static com.google.gerrit.server.BaseServiceImplementation.canRead;
-
-import com.google.gerrit.client.data.ProjectCache;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
-import com.google.gerrit.client.rpc.Common;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.FileTypeRegistry;
 import com.google.gerrit.server.GerritServer;
+import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -69,19 +67,22 @@ import javax.servlet.http.HttpServletResponse;
 public class CatServlet extends HttpServlet {
   private static final MimeType ZIP = new MimeType("application/zip");
   private final Provider<GerritCall> callFactory;
+  private final Provider<ReviewDb> requestDb;
   private final GerritServer server;
-  private final SchemaFactory<ReviewDb> schema;
   private final SecureRandom rng;
   private final FileTypeRegistry registry;
+  private final ChangeControl.Factory changeControl;
 
   @Inject
-  CatServlet(final Provider<GerritCall> cf, final GerritServer gs,
-      final SchemaFactory<ReviewDb> sf, final FileTypeRegistry ftr) {
+  CatServlet(final Provider<GerritCall> cf, final Provider<CurrentUser> cu,
+      final GerritServer gs, final Provider<ReviewDb> sf,
+      final FileTypeRegistry ftr, final ChangeControl.Factory ccf) {
     callFactory = cf;
+    requestDb = sf;
     server = gs;
-    schema = sf;
     rng = new SecureRandom();
     registry = ftr;
+    changeControl = ccf;
   }
 
   @Override
@@ -127,35 +128,22 @@ public class CatServlet extends HttpServlet {
     final Account.Id me = callFactory.get().getAccountId();
     final Change.Id changeId = patchKey.getParentKey().getParentKey();
     final Project project;
-    final Change change;
     final PatchSet patchSet;
     final Patch patch;
     try {
-      final ReviewDb db = schema.open();
-      try {
-        change = db.changes().get(changeId);
-        if (change == null) {
-          rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
-          return;
-        }
+      final ReviewDb db = requestDb.get();
+      final ChangeControl control = changeControl.validateFor(changeId);
 
-        final ProjectCache.Entry e =
-            Common.getProjectCache().get(change.getDest().getParentKey());
-        if (e == null || !canRead(me, e)) {
-          rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
-          return;
-        }
-
-        project = e.getProject();
-        patchSet = db.patchSets().get(patchKey.getParentKey());
-        patch = db.patches().get(patchKey);
-        if (patchSet == null || patch == null) {
-          rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
-          return;
-        }
-      } finally {
-        db.close();
+      project = control.getProject();
+      patchSet = db.patchSets().get(patchKey.getParentKey());
+      patch = db.patches().get(patchKey);
+      if (patchSet == null || patch == null) {
+        rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
+        return;
       }
+    } catch (NoSuchChangeException e) {
+      rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
+      return;
     } catch (OrmException e) {
       getServletContext().log("Cannot query database", e);
       rsp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -164,7 +152,7 @@ public class CatServlet extends HttpServlet {
 
     final Repository repo;
     try {
-      repo = server.openRepository(change.getDest().getParentKey().get());
+      repo = server.openRepository(project.getNameKey().get());
     } catch (RepositoryNotFoundException e) {
       getServletContext().log("Cannot open repository", e);
       rsp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

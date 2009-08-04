@@ -16,7 +16,6 @@ package com.google.gerrit.git;
 
 import com.google.gerrit.client.data.ApprovalType;
 import com.google.gerrit.client.data.GerritConfig;
-import com.google.gerrit.client.data.ProjectCache;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.Branch;
@@ -37,6 +36,8 @@ import com.google.gerrit.server.mail.MergeFailSender;
 import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.workflow.CategoryFunction;
 import com.google.gerrit.server.workflow.FunctionState;
 import com.google.gwtorm.client.OrmException;
@@ -111,13 +112,15 @@ public class MergeOp {
 
   private final GerritServer server;
   private final SchemaFactory<ReviewDb> schemaFactory;
+  private final ProjectCache projectCache;
+  private final FunctionState.Factory functionState;
   private final ReplicationQueue replication;
   private final MergedSender.Factory mergedSenderFactory;
   private final MergeFailSender.Factory mergeFailSenderFactory;
   private final Provider<String> urlProvider;
   private final GerritConfig gerritConfig;
   private final PatchSetInfoFactory patchSetInfoFactory;
-  private final IdentifiedUser.Factory identifiedUserFactory;
+  private final IdentifiedUser.GenericFactory identifiedUserFactory;
 
   private final PersonIdent myIdent;
   private final Branch.NameKey destBranch;
@@ -135,13 +138,17 @@ public class MergeOp {
 
   @Inject
   MergeOp(final GerritServer gs, final SchemaFactory<ReviewDb> sf,
+      final ProjectCache pc, final FunctionState.Factory fs,
       final ReplicationQueue rq, final MergedSender.Factory msf,
       final MergeFailSender.Factory mfsf,
       @CanonicalWebUrl @Nullable final Provider<String> cwu,
       final GerritConfig gc, final PatchSetInfoFactory psif,
-      final IdentifiedUser.Factory iuf, @Assisted final Branch.NameKey branch) {
+      final IdentifiedUser.GenericFactory iuf,
+      @Assisted final Branch.NameKey branch) {
     server = gs;
     schemaFactory = sf;
+    functionState = fs;
+    projectCache = pc;
     replication = rq;
     mergedSenderFactory = msf;
     mergeFailSenderFactory = mfsf;
@@ -158,8 +165,7 @@ public class MergeOp {
   }
 
   public void merge() throws MergeException {
-    final ProjectCache.Entry pe =
-        Common.getProjectCache().get(destBranch.getParentKey());
+    final ProjectState pe = projectCache.get(destBranch.getParentKey());
     if (pe == null) {
       throw new MergeException("No such project: " + destBranch.getParentKey());
     }
@@ -909,7 +915,7 @@ public class MergeOp {
         //
         final List<ChangeApproval> approvals =
             schema.changeApprovals().byChange(c.getId()).toList();
-        final FunctionState fs = new FunctionState(c, approvals);
+        final FunctionState fs = functionState.create(c, approvals);
         for (ApprovalType at : gerritConfig.getApprovalTypes()) {
           CategoryFunction.forCategory(at.getCategory()).run(at, fs);
         }

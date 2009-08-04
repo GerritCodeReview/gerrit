@@ -18,6 +18,7 @@ import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GerritConfigProvider;
@@ -69,7 +70,10 @@ class WebModule extends FactoryModule {
     bind(GerritCall.class).in(RequestScoped.class);
     bind(SocketAddress.class).annotatedWith(RemotePeer.class).toProvider(
         HttpRemotePeerProvider.class).in(RequestScoped.class);
+
     bind(CurrentUser.class).toProvider(HttpCurrentUserProvider.class).in(
+        RequestScoped.class);
+    bind(IdentifiedUser.class).toProvider(HttpIdentifiedUserProvider.class).in(
         RequestScoped.class);
   }
 }

@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.patch;
 
-import static com.google.gerrit.server.BaseServiceImplementation.canRead;
-
 import com.google.gerrit.client.data.AccountInfoCacheFactory;
 import com.google.gerrit.client.patches.CommentDetail;
 import com.google.gerrit.client.reviewdb.Account;
@@ -24,14 +22,26 @@ import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.ReviewDb;
-import com.google.gerrit.client.rpc.Common;
-import com.google.gerrit.client.rpc.NoSuchEntityException;
-import com.google.gerrit.server.BaseServiceImplementation.Action;
-import com.google.gerrit.server.BaseServiceImplementation.Failure;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.config.Nullable;
+import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.rpc.Handler;
 import com.google.gwtorm.client.OrmException;
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 
 
-class PatchCommentAction implements Action<CommentDetail> {
+class CommentDetailFactory extends Handler<CommentDetail> {
+  interface Factory {
+    CommentDetailFactory create(Patch.Key patchKey,
+        @Assisted("patchSetA") PatchSet.Id patchSetA,
+        @Assisted("patchSetB") PatchSet.Id patchSetB);
+  }
+
+  private final ReviewDb db;
+  private final ChangeControl.Factory changeControlFactory;
+
   private final Patch.Key patchKey;
   private final PatchSet.Id psa;
   private final PatchSet.Id psb;
@@ -39,30 +49,34 @@ class PatchCommentAction implements Action<CommentDetail> {
   private final PatchSet.Id patchSetId;
   private final Change.Id changeId;
 
-  private Account.Id me;
-  private Change change;
   private Patch patch;
 
-  PatchCommentAction(final Patch.Key patchKey, final PatchSet.Id psa,
-      final PatchSet.Id psb) {
+  @Inject
+  CommentDetailFactory(final ReviewDb db,
+      final ChangeControl.Factory changeControlFactory,
+      @Assisted final Patch.Key patchKey,
+      @Assisted("patchSetA") @Nullable final PatchSet.Id patchSetA,
+      @Assisted("patchSetB") final PatchSet.Id patchSetB) {
+    this.db = db;
+    this.changeControlFactory = changeControlFactory;
+
     this.patchKey = patchKey;
-    this.psa = psa;
-    this.psb = psb;
+    this.psa = patchSetA;
+    this.psb = patchSetB;
 
     patchSetId = patchKey.getParentKey();
     changeId = patchSetId.getParentKey();
   }
 
-  public CommentDetail run(final ReviewDb db) throws OrmException, Failure {
+  @Override
+  public CommentDetail call() throws OrmException, NoSuchChangeException {
     validatePatchSetId(psa);
     validatePatchSetId(psb);
 
-    me = Common.getAccountId();
-    change = db.changes().get(changeId);
+    final ChangeControl control = changeControlFactory.validateFor(changeId);
     patch = db.patches().get(patchKey);
-
-    if (change == null || patch == null || !canRead(change)) {
-      throw new Failure(new NoSuchEntityException());
+    if (patch == null) {
+      throw new NoSuchChangeException(changeId);
     }
 
     final String pn = patch.getFileName();
@@ -76,7 +90,9 @@ class PatchCommentAction implements Action<CommentDetail> {
       }
     }
 
-    if (me != null) {
+    if (control.getCurrentUser() instanceof IdentifiedUser) {
+      final Account.Id me =
+          ((IdentifiedUser) control.getCurrentUser()).getAccountId();
       aic.want(me);
       for (PatchLineComment p : db.patchComments().draft(changeId, pn, me)) {
         r.include(p);
@@ -88,11 +104,12 @@ class PatchCommentAction implements Action<CommentDetail> {
     return r;
   }
 
-  private void validatePatchSetId(final PatchSet.Id psId) throws Failure {
+  private void validatePatchSetId(final PatchSet.Id psId)
+      throws NoSuchChangeException {
     if (psId == null) { // OK, means use base;
     } else if (changeId.equals(psId.getParentKey())) { // OK, same change;
     } else {
-      throw new Failure(new NoSuchEntityException());
+      throw new NoSuchChangeException(changeId);
     }
   }
 }

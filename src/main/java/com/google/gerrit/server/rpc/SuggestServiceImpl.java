@@ -24,10 +24,14 @@ import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.ui.SuggestService;
 import com.google.gerrit.server.BaseServiceImplementation;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -37,9 +41,15 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
     SuggestService {
   private static final String MAX_SUFFIX = "\u9fa5";
 
+  private final Provider<CurrentUser> currentUser;
+  private final ProjectCache projectCache;
+
   @Inject
-  SuggestServiceImpl(final SchemaFactory<ReviewDb> sf) {
+  SuggestServiceImpl(final SchemaFactory<ReviewDb> sf, final ProjectCache pc,
+      final Provider<CurrentUser> cu) {
     super(sf);
+    projectCache = pc;
+    currentUser = cu;
   }
 
   public void suggestProjectNameKey(final String query, final int limit,
@@ -51,9 +61,11 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
         final int max = 10;
         final int n = limit <= 0 ? max : Math.min(limit, max);
 
+        final CurrentUser user = currentUser.get();
         final List<Project.NameKey> r = new ArrayList<Project.NameKey>();
         for (final Project p : db.projects().suggestByName(a, b, n)) {
-          if (canRead(p.getNameKey())) {
+          final ProjectState e = projectCache.get(p.getNameKey());
+          if (e != null && e.controlFor(user).isVisible()) {
             r.add(p.getNameKey());
           }
         }

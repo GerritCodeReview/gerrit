@@ -15,9 +15,9 @@
 package com.google.gerrit.server.ssh.commands;
 
 import com.google.gerrit.client.reviewdb.Project;
-import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.git.PushAllProjectsOp;
 import com.google.gerrit.git.ReplicationQueue;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.ssh.AdminCommand;
 import com.google.gerrit.server.ssh.BaseCommand;
 import com.google.inject.Inject;
@@ -47,6 +47,9 @@ final class AdminReplicate extends BaseCommand {
   @Inject
   private ReplicationQueue replication;
 
+  @Inject
+  private ProjectCache projectCache;
+
   @Override
   public void start() {
     startThread(new CommandRunnable() {
@@ -73,7 +76,7 @@ final class AdminReplicate extends BaseCommand {
     } else {
       for (final String name : projectNames) {
         final Project.NameKey key = new Project.NameKey(name);
-        if (Common.getProjectCache().get(key) != null) {
+        if (projectCache.get(key) != null) {
           replication.scheduleFullSync(key, urlMatch);
         } else {
           throw new Failure(1, "error: '" + name + "': not a Gerrit project");

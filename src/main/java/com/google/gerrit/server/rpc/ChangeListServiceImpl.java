@@ -31,10 +31,12 @@ import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.RevId;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.StarredChange;
-import com.google.gerrit.client.reviewdb.Change.Id;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gerrit.server.BaseServiceImplementation;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
@@ -43,6 +45,7 @@ import com.google.gwtorm.client.SchemaFactory;
 import com.google.gwtorm.client.Transaction;
 import com.google.gwtorm.client.impl.ListResultSet;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -84,9 +87,24 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
     return 0 < pageSize && pageSize <= MAX_PER_PAGE ? pageSize : MAX_PER_PAGE;
   }
 
+  private final Provider<CurrentUser> currentUser;
+  private final ChangeControl.Factory changeControlFactory;
+
   @Inject
-  ChangeListServiceImpl(final SchemaFactory<ReviewDb> sf) {
+  ChangeListServiceImpl(final SchemaFactory<ReviewDb> sf,
+      final Provider<CurrentUser> currentUser,
+      final ChangeControl.Factory changeControlFactory) {
     super(sf);
+    this.currentUser = currentUser;
+    this.changeControlFactory = changeControlFactory;
+  }
+
+  private boolean canRead(final Change c) {
+    try {
+      return changeControlFactory.controlFor(c).isVisible();
+    } catch (NoSuchChangeException e) {
+      return false;
+    }
   }
 
   public void allOpenPrev(final String pos, final int pageSize,
@@ -267,7 +285,7 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
           throw new Failure(new NoSuchEntityException());
         }
 
-        final Set<Change.Id> stars = starredBy(db, me);
+        final Set<Change.Id> stars = currentUser.get().getStarredChanges();
         final ChangeAccess changes = db.changes();
         final AccountDashboardInfo d;
 
@@ -311,7 +329,7 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
         final Account.Id me = Common.getAccountId();
         final AccountInfoCacheFactory ac = new AccountInfoCacheFactory(db);
         final SingleListChangeInfo d = new SingleListChangeInfo();
-        final Set<Change.Id> starred = starredBy(db, me);
+        final Set<Change.Id> starred = currentUser.get().getStarredChanges();
         d.setChanges(filter(db.changes().get(starred), starred, ac));
         Collections.sort(d.getChanges(), new Comparator<ChangeInfo>() {
           public int compare(final ChangeInfo o1, final ChangeInfo o2) {
@@ -330,7 +348,7 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
         final Account.Id me = Common.getAccountId();
         final AccountInfoCacheFactory ac = new AccountInfoCacheFactory(db);
         final SingleListChangeInfo d = new SingleListChangeInfo();
-        final Set<Change.Id> starred = starredBy(db, me);
+        final Set<Change.Id> starred = currentUser.get().getStarredChanges();
         final Set<Change.Id> drafted = draftedBy(db, me);
         d.setChanges(filter(db.changes().get(drafted), starred, ac));
         Collections.sort(d.getChanges(), new Comparator<ChangeInfo>() {
@@ -349,7 +367,7 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
     run(callback, new Action<VoidResult>() {
       public VoidResult run(final ReviewDb db) throws OrmException {
         final Account.Id me = Common.getAccountId();
-        final Set<Change.Id> existing = starredBy(db, me);
+        final Set<Change.Id> existing = currentUser.get().getStarredChanges();
         final ArrayList<StarredChange> add = new ArrayList<StarredChange>();
         final ArrayList<StarredChange> remove = new ArrayList<StarredChange>();
 
@@ -381,14 +399,10 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
   }
 
   public void myStarredChangeIds(final AsyncCallback<Set<Change.Id>> callback) {
-    run(callback, new Action<Set<Change.Id>>() {
-      public Set<Id> run(final ReviewDb db) throws OrmException {
-        return starredBy(db, Common.getAccountId());
-      }
-    });
+    callback.onSuccess(currentUser.get().getStarredChanges());
   }
 
-  private static List<ChangeInfo> filter(final ResultSet<Change> rs,
+  private List<ChangeInfo> filter(final ResultSet<Change> rs,
       final Set<Change.Id> starred, final AccountInfoCacheFactory accts) {
     final ArrayList<ChangeInfo> r = new ArrayList<ChangeInfo>();
     for (final Change c : rs) {
@@ -399,17 +413,6 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
       }
     }
     return r;
-  }
-
-  public static Set<Change.Id> starredBy(final ReviewDb db, final Account.Id me)
-      throws OrmException {
-    final Set<Change.Id> existing = new HashSet<Change.Id>();
-    if (me != null) {
-      for (final StarredChange sc : db.starredChanges().byAccount(me)) {
-        existing.add(sc.getChangeId());
-      }
-    }
-    return existing;
   }
 
   private static Set<Change.Id> draftedBy(final ReviewDb db, final Account.Id me)
@@ -504,7 +507,7 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
       final Account.Id me = Common.getAccountId();
       final AccountInfoCacheFactory ac = new AccountInfoCacheFactory(db);
       final SingleListChangeInfo d = new SingleListChangeInfo();
-      final Set<Change.Id> starred = starredBy(db, me);
+      final Set<Change.Id> starred = currentUser.get().getStarredChanges();
 
       boolean results = true;
       String sortKey = pos;

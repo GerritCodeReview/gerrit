@@ -15,6 +15,7 @@
 package com.google.gerrit.server;
 
 import com.google.gerrit.client.reviewdb.AccountGroup;
+import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.SystemConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -36,6 +37,11 @@ public class AnonymousUser extends CurrentUser {
   @Override
   public Set<AccountGroup.Id> getEffectiveGroups() {
     return effectiveGroups;
+  }
+
+  @Override
+  public Set<Change.Id> getStarredChanges() {
+    return Collections.emptySet();
   }
 
   @Override

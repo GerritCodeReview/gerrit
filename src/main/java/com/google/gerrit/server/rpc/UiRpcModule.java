@@ -15,8 +15,9 @@
 package com.google.gerrit.server.rpc;
 
 import com.google.gerrit.server.http.RpcServletModule;
-import com.google.gerrit.server.patch.PatchDetailServiceImpl;
+import com.google.gerrit.server.patch.PatchModule;
 import com.google.gerrit.server.rpc.changedetail.ChangeDetailModule;
+import com.google.gerrit.server.rpc.project.ProjectModule;
 
 /** Registers servlets to answer RPCs from client UI. */
 public class UiRpcModule extends RpcServletModule {
@@ -32,11 +33,11 @@ public class UiRpcModule extends RpcServletModule {
     rpc(AccountSecurityImpl.class);
     rpc(GroupAdminServiceImpl.class);
     rpc(ChangeListServiceImpl.class);
-    rpc(PatchDetailServiceImpl.class);
-    rpc(ProjectAdminServiceImpl.class);
     rpc(SuggestServiceImpl.class);
     rpc(SystemInfoServiceImpl.class);
 
     install(new ChangeDetailModule());
+    install(new PatchModule());
+    install(new ProjectModule());
   }
 }

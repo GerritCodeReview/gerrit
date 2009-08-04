@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.mail;
 
-import com.google.gerrit.client.data.ProjectCache;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.AccountProjectWatch;
@@ -34,6 +33,8 @@ import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.Nullable;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -78,6 +79,9 @@ public abstract class OutgoingEmail {
 
   @Inject
   protected GerritServer server;
+
+  @Inject
+  private ProjectCache projectCache;
 
   @Inject
   private EmailSender emailSender;
@@ -460,17 +464,17 @@ public abstract class OutgoingEmail {
 
   /** Get the project entity the change is in; null if its been deleted. */
   protected Project getProject() {
-    final ProjectCache.Entry r;
+    final ProjectState r;
 
-    r = Common.getProjectCache().get(change.getDest().getParentKey());
+    r = projectCache.get(change.getDest().getParentKey());
     return r != null ? r.getProject() : null;
   }
 
   /** Get the groups which own the project. */
   protected Set<AccountGroup.Id> getProjectOwners() {
-    final ProjectCache.Entry r;
+    final ProjectState r;
 
-    r = Common.getProjectCache().get(change.getDest().getParentKey());
+    r = projectCache.get(change.getDest().getParentKey());
     return r != null ? r.getOwners() : Collections.<AccountGroup.Id> emptySet();
   }
 

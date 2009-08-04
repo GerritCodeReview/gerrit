@@ -14,13 +14,13 @@
 
 package com.google.gerrit.server.ssh.commands;
 
-import com.google.gerrit.client.data.ProjectCache;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ProjectRight;
-import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.ssh.BaseCommand;
 import com.google.inject.Inject;
 
@@ -40,8 +40,11 @@ abstract class AbstractGitCommand extends BaseCommand {
   @Inject
   private IdentifiedUser currentUser;
 
+  @Inject
+  private ProjectCache projectCache;
+
   protected Repository repo;
-  protected ProjectCache.Entry cachedProj;
+  protected ProjectState cachedProj;
   protected Project proj;
 
   @Override
@@ -72,7 +75,7 @@ abstract class AbstractGitCommand extends BaseCommand {
       projectName = projectName.substring(1);
     }
 
-    cachedProj = Common.getProjectCache().get(new Project.NameKey(projectName));
+    cachedProj = projectCache.get(new Project.NameKey(projectName));
     if (cachedProj == null) {
       throw new Failure(1, "fatal: '" + reqProjName + "': not a Gerrit project");
     }
@@ -101,7 +104,7 @@ abstract class AbstractGitCommand extends BaseCommand {
 
   protected boolean canPerform(final ApprovalCategory.Id actionId,
       final short val) {
-    return currentUser.canPerform(cachedProj, actionId, val);
+    return cachedProj.controlFor(currentUser).canPerform(actionId, val);
   }
 
   protected abstract void runImpl() throws IOException, Failure;

@@ -97,9 +97,6 @@ final class AdminFlushCaches extends CacheCommand {
       if (flush("groups")) {
         Common.getGroupCache().flush();
       }
-      if (flush("projects")) {
-        Common.getProjectCache().flush();
-      }
       if (flush("accounts")) {
         Common.getAccountCache().flush();
       }

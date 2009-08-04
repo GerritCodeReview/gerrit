@@ -17,7 +17,6 @@ package com.google.gerrit.server.rpc;
 import com.google.gerrit.client.account.AccountProjectWatchInfo;
 import com.google.gerrit.client.account.AccountService;
 import com.google.gerrit.client.account.AgreementInfo;
-import com.google.gerrit.client.data.ProjectCache;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountGeneralPreferences;
 import com.google.gerrit.client.reviewdb.AccountProjectWatch;
@@ -26,6 +25,8 @@ import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gerrit.server.BaseServiceImplementation;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
@@ -41,9 +42,13 @@ import java.util.Set;
 
 class AccountServiceImpl extends BaseServiceImplementation implements
     AccountService {
+  private final ProjectCache projectCache;
+
   @Inject
-  AccountServiceImpl(final SchemaFactory<ReviewDb> sf) {
+  AccountServiceImpl(final SchemaFactory<ReviewDb> sf,
+      final ProjectCache projectCache) {
     super(sf);
+    this.projectCache = projectCache;
   }
 
   public void myAccount(final AsyncCallback<Account> callback) {
@@ -84,8 +89,7 @@ class AccountServiceImpl extends BaseServiceImplementation implements
 
         for (final AccountProjectWatch w : db.accountProjectWatches()
             .byAccount(Common.getAccountId()).toList()) {
-          final ProjectCache.Entry project =
-              Common.getProjectCache().get(w.getProjectId());
+          final ProjectState project = projectCache.get(w.getProjectId());
           if (project == null) {
             db.accountProjectWatches().delete(Collections.singleton(w));
             continue;
@@ -108,8 +112,8 @@ class AccountServiceImpl extends BaseServiceImplementation implements
     run(callback, new Action<AccountProjectWatchInfo>() {
       public AccountProjectWatchInfo run(ReviewDb db) throws OrmException,
           Failure {
-        final ProjectCache.Entry project =
-            Common.getProjectCache().get(new Project.NameKey(projectName));
+        final ProjectState project =
+            projectCache.get(new Project.NameKey(projectName));
         if (project == null) {
           throw new Failure(new NoSuchEntityException());
         }

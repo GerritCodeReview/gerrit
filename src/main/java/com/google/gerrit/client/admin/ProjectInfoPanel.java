@@ -36,7 +36,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
 
 public class ProjectInfoPanel extends Composite {
-  private Project.Id projectId;
+  private Project.NameKey projectName;
   private Project project;
 
   private Panel submitTypePanel;
@@ -49,7 +49,7 @@ public class ProjectInfoPanel extends Composite {
   private NpTextArea descTxt;
   private Button saveProject;
 
-  public ProjectInfoPanel(final Project.Id toShow) {
+  public ProjectInfoPanel(final Project.NameKey toShow) {
     saveProject = new Button(Util.C.buttonSaveChanges());
     saveProject.addClickHandler(new ClickHandler() {
       @Override
@@ -65,7 +65,7 @@ public class ProjectInfoPanel extends Composite {
     body.add(saveProject);
 
     initWidget(body);
-    projectId = toShow;
+    projectName = toShow;
   }
 
   @Override
@@ -77,7 +77,7 @@ public class ProjectInfoPanel extends Composite {
   }
 
   private void refresh() {
-    Util.PROJECT_SVC.projectDetail(projectId,
+    Util.PROJECT_SVC.projectDetail(projectName,
         new GerritCallback<ProjectDetail>() {
           public void onSuccess(final ProjectDetail result) {
             enableForm(true);

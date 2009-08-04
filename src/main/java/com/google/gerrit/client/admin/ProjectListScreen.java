@@ -103,7 +103,7 @@ public class ProjectListScreen extends AccountScreen {
     }
 
     private String link(final Project item) {
-      return Link.toProjectAdmin(item.getId(), ProjectAdminScreen.INFO_TAB);
+      return Link.toProjectAdmin(item.getNameKey(), ProjectAdminScreen.INFO_TAB);
     }
 
     void display(final List<Project> result) {

@@ -35,27 +35,27 @@ import java.util.Map;
 
 class ProjectDetailFactory extends Handler<ProjectDetail> {
   interface Factory {
-    ProjectDetailFactory create(Project.Id id);
+    ProjectDetailFactory create(Project.NameKey name);
   }
 
   private final ProjectCache projectCache;
   private final ReviewDb db;
-  private final Project.Id projectId;
+  private final Project.NameKey projectName;
 
   private ProjectDetail detail;
   private Map<AccountGroup.Id, AccountGroup> groups;
 
   @Inject
   ProjectDetailFactory(final ProjectCache projectCache, final ReviewDb db,
-      @Assisted final Project.Id id) {
+      @Assisted final Project.NameKey name) {
     this.projectCache = projectCache;
     this.db = db;
-    this.projectId = id;
+    this.projectName = name;
   }
 
   @Override
   public ProjectDetail call() throws OrmException, NoSuchEntityException {
-    final ProjectState e = projectCache.get(projectId);
+    final ProjectState e = projectCache.get(projectName);
     if (e == null) {
       throw new NoSuchEntityException();
     }
@@ -70,7 +70,7 @@ class ProjectDetailFactory extends Handler<ProjectDetail> {
       rights.add(p);
       wantGroup(p.getAccountGroupId());
     }
-    if (!ProjectRight.WILD_PROJECT.equals(projectId)) {
+    if (!ProjectRight.WILD_PROJECT.equals(e.getProject().getId())) {
       for (final ProjectRight p : projectCache.getWildcardRights()) {
         rights.add(p);
         wantGroup(p.getAccountGroupId());

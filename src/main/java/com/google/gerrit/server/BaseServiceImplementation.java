@@ -17,6 +17,7 @@ package com.google.gerrit.server;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.CorruptEntityException;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Provider;
@@ -46,6 +47,9 @@ public class BaseServiceImplementation {
       if (r != null) {
         callback.onSuccess(r);
       }
+    } catch (NoSuchProjectException e) {
+      callback.onFailure(new NoSuchEntityException());
+
     } catch (OrmException e) {
       if (e.getCause() instanceof Failure) {
         callback.onFailure(e.getCause().getCause());
@@ -84,7 +88,8 @@ public class BaseServiceImplementation {
      * @throws OrmException any schema based action failed.
      * @throws Failure cause is given to
      *         {@link AsyncCallback#onFailure(Throwable)}.
+     * @throws NoSuchProjectException
      */
-    T run(ReviewDb db) throws OrmException, Failure;
+    T run(ReviewDb db) throws OrmException, Failure, NoSuchProjectException;
   }
 }

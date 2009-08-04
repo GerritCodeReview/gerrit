@@ -31,28 +31,31 @@ public interface ProjectAdminService extends RemoteJsonService {
   void ownedProjects(AsyncCallback<List<Project>> callback);
 
   @SignInRequired
-  void projectDetail(Project.Id projectId, AsyncCallback<ProjectDetail> callback);
+  void projectDetail(Project.NameKey projectName,
+      AsyncCallback<ProjectDetail> callback);
 
   @SignInRequired
   void changeProjectSettings(Project update,
       AsyncCallback<ProjectDetail> callback);
 
   @SignInRequired
-  void deleteRight(Set<ProjectRight.Key> ids, AsyncCallback<VoidResult> callback);
+  void deleteRight(Project.NameKey projectName, Set<ProjectRight.Key> ids,
+      AsyncCallback<VoidResult> callback);
 
   @SignInRequired
-  void addRight(Project.Id projectId, ApprovalCategory.Id categoryId,
+  void addRight(Project.NameKey projectName, ApprovalCategory.Id categoryId,
       String groupName, short min, short max,
       AsyncCallback<ProjectDetail> callback);
 
   @SignInRequired
-  void listBranches(Project.Id project, AsyncCallback<List<Branch>> callback);
+  void listBranches(Project.NameKey projectName,
+      AsyncCallback<List<Branch>> callback);
 
   @SignInRequired
-  void addBranch(Project.Id project, String branchName,
+  void addBranch(Project.NameKey projectName, String branchName,
       String startingRevision, AsyncCallback<List<Branch>> callback);
 
   @SignInRequired
-  void deleteBranch(Set<Branch.NameKey> ids,
+  void deleteBranch(Project.NameKey projectName, Set<Branch.NameKey> ids,
       AsyncCallback<Set<Branch.NameKey>> callback);
 }

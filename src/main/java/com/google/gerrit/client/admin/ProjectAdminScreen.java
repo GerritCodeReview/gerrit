@@ -33,21 +33,21 @@ public class ProjectAdminScreen extends AccountScreen {
   static final String BRANCH_TAB = "branches";
   static final String ACCESS_TAB = "access";
 
-  private final Project.Id projectId;
+  private final Project.NameKey projectName;
   private final String initialTabToken;
 
   private List<String> tabTokens;
   private TabPanel tabs;
 
-  public ProjectAdminScreen(final Project.Id toShow, final String token) {
-    projectId = toShow;
+  public ProjectAdminScreen(final Project.NameKey toShow, final String token) {
+    projectName = toShow;
     initialTabToken = token;
   }
 
   @Override
   protected void onLoad() {
     super.onLoad();
-    Util.PROJECT_SVC.projectDetail(projectId,
+    Util.PROJECT_SVC.projectDetail(projectName,
         new ScreenLoadCallback<ProjectDetail>(this) {
           @Override
           protected void preDisplay(final ProjectDetail result) {
@@ -68,28 +68,28 @@ public class ProjectAdminScreen extends AccountScreen {
     tabs.add(new LazyPanel() {
       @Override
       protected ProjectInfoPanel createWidget() {
-        return new ProjectInfoPanel(projectId);
+        return new ProjectInfoPanel(projectName);
       }
     }, Util.C.projectAdminTabGeneral());
-    tabTokens.add(Link.toProjectAdmin(projectId, INFO_TAB));
+    tabTokens.add(Link.toProjectAdmin(projectName, INFO_TAB));
 
-    if (!ProjectRight.WILD_PROJECT.equals(projectId)) {
+    if (!ProjectRight.WILD_PROJECT.equals(projectName)) {
       tabs.add(new LazyPanel() {
         @Override
         protected ProjectBranchesPanel createWidget() {
-          return new ProjectBranchesPanel(projectId);
+          return new ProjectBranchesPanel(projectName);
         }
       }, Util.C.projectAdminTabBranches());
-      tabTokens.add(Link.toProjectAdmin(projectId, BRANCH_TAB));
+      tabTokens.add(Link.toProjectAdmin(projectName, BRANCH_TAB));
     }
 
     tabs.add(new LazyPanel() {
       @Override
       protected ProjectRightsPanel createWidget() {
-        return new ProjectRightsPanel(projectId);
+        return new ProjectRightsPanel(projectName);
       }
     }, Util.C.projectAdminTabAccess());
-    tabTokens.add(Link.toProjectAdmin(projectId, ACCESS_TAB));
+    tabTokens.add(Link.toProjectAdmin(projectName, ACCESS_TAB));
 
     tabs.addSelectionHandler(new SelectionHandler<Integer>() {
       @Override

@@ -103,8 +103,8 @@ public class Link implements ValueChangeHandler<String> {
     return "admin,group," + id.toString();
   }
 
-  public static String toProjectAdmin(final Project.Id id, final String tab) {
-    return "admin,project," + id.toString() + "," + tab;
+  public static String toProjectAdmin(final Project.NameKey n, final String tab) {
+    return "admin,project," + n.toString() + "," + tab;
   }
 
   public static String toProjectOpen(final Project.NameKey proj) {
@@ -231,7 +231,7 @@ public class Link implements ValueChangeHandler<String> {
         p = skip(p, token);
         final int c = p.indexOf(',');
         final String idstr = p.substring(0, c);
-        return new ProjectAdminScreen(Project.Id.parse(idstr), token);
+        return new ProjectAdminScreen(Project.NameKey.parse(idstr), token);
       }
 
       if (ADMIN_GROUPS.equals(token)) {

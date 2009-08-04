@@ -76,13 +76,6 @@ public final class Project {
     protected void set(int newValue) {
       id = newValue;
     }
-
-    /** Parse a Project.Id out of a string representation. */
-    public static Id parse(final String str) {
-      final Id r = new Id();
-      r.fromString(str);
-      return r;
-    }
   }
 
   public static enum SubmitType {

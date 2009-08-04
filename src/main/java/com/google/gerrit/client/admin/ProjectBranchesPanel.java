@@ -44,7 +44,7 @@ import java.util.List;
 import java.util.Set;
 
 public class ProjectBranchesPanel extends Composite {
-  private Project.Id projectId;
+  private Project.NameKey projectName;
 
   private BranchesTable branches;
   private Button delBranch;
@@ -52,12 +52,12 @@ public class ProjectBranchesPanel extends Composite {
   private NpTextBox nameTxtBox;
   private NpTextBox irevTxtBox;
 
-  public ProjectBranchesPanel(final Project.Id toShow) {
+  public ProjectBranchesPanel(final Project.NameKey toShow) {
     final FlowPanel body = new FlowPanel();
     initBranches(body);
     initWidget(body);
 
-    projectId = toShow;
+    projectName = toShow;
   }
 
   @Override
@@ -65,7 +65,7 @@ public class ProjectBranchesPanel extends Composite {
     enableForm(false);
     super.onLoad();
 
-    Util.PROJECT_SVC.listBranches(projectId,
+    Util.PROJECT_SVC.listBranches(projectName,
         new GerritCallback<List<Branch>>() {
           public void onSuccess(final List<Branch> result) {
             enableForm(true);
@@ -178,7 +178,7 @@ public class ProjectBranchesPanel extends Composite {
     }
 
     addBranch.setEnabled(false);
-    Util.PROJECT_SVC.addBranch(projectId, branchName, rev,
+    Util.PROJECT_SVC.addBranch(projectName, branchName, rev,
         new GerritCallback<List<Branch>>() {
           public void onSuccess(final List<Branch> result) {
             addBranch.setEnabled(true);
@@ -232,7 +232,7 @@ public class ProjectBranchesPanel extends Composite {
         return;
       }
 
-      Util.PROJECT_SVC.deleteBranch(ids,
+      Util.PROJECT_SVC.deleteBranch(projectName, ids,
           new GerritCallback<Set<Branch.NameKey>>() {
             public void onSuccess(final Set<Branch.NameKey> deleted) {
               for (int row = 1; row < table.getRowCount();) {

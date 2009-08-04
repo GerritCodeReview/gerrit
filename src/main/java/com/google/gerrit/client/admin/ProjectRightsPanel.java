@@ -53,7 +53,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ProjectRightsPanel extends Composite {
-  private Project.Id projectId;
+  private Project.NameKey projectName;
 
   private RightsTable rights;
   private Button delRight;
@@ -64,8 +64,8 @@ public class ProjectRightsPanel extends Composite {
   private NpTextBox nameTxtBox;
   private SuggestBox nameTxt;
 
-  public ProjectRightsPanel(final Project.Id toShow) {
-    projectId = toShow;
+  public ProjectRightsPanel(final Project.NameKey toShow) {
+    projectName = toShow;
 
     final FlowPanel body = new FlowPanel();
     initRights(body);
@@ -77,7 +77,7 @@ public class ProjectRightsPanel extends Composite {
     enableForm(false);
     super.onLoad();
 
-    Util.PROJECT_SVC.projectDetail(projectId,
+    Util.PROJECT_SVC.projectDetail(projectName,
         new GerritCallback<ProjectDetail>() {
           public void onSuccess(final ProjectDetail result) {
             enableForm(true);
@@ -119,7 +119,7 @@ public class ProjectRightsPanel extends Composite {
     }
     for (final ApprovalType at : Common.getGerritConfig().getActionTypes()) {
       final ApprovalCategory c = at.getCategory();
-      if (ProjectRight.WILD_PROJECT.equals(projectId)
+      if (ProjectRight.WILD_PROJECT.equals(projectName)
           && ApprovalCategory.OWN.equals(c.getId())) {
         // Giving out control of the WILD_PROJECT to other groups beyond
         // Administrators is dangerous. Having control over WILD_PROJECT
@@ -249,7 +249,7 @@ public class ProjectRightsPanel extends Composite {
     }
 
     addRight.setEnabled(false);
-    Util.PROJECT_SVC.addRight(projectId, at.getCategory().getId(), groupName,
+    Util.PROJECT_SVC.addRight(projectName, at.getCategory().getId(), groupName,
         min.getValue(), max.getValue(), new GerritCallback<ProjectDetail>() {
           public void onSuccess(final ProjectDetail result) {
             addRight.setEnabled(true);
@@ -335,18 +335,19 @@ public class ProjectRightsPanel extends Composite {
         }
       }
       if (!ids.isEmpty()) {
-        Util.PROJECT_SVC.deleteRight(ids, new GerritCallback<VoidResult>() {
-          public void onSuccess(final VoidResult result) {
-            for (int row = 1; row < table.getRowCount();) {
-              final ProjectRight k = getRowItem(row);
-              if (k != null && ids.contains(k.getKey())) {
-                table.removeRow(row);
-              } else {
-                row++;
+        Util.PROJECT_SVC.deleteRight(projectName, ids,
+            new GerritCallback<VoidResult>() {
+              public void onSuccess(final VoidResult result) {
+                for (int row = 1; row < table.getRowCount();) {
+                  final ProjectRight k = getRowItem(row);
+                  if (k != null && ids.contains(k.getKey())) {
+                    table.removeRow(row);
+                  } else {
+                    row++;
+                  }
+                }
               }
-            }
-          }
-        });
+            });
       }
     }
 
@@ -370,7 +371,7 @@ public class ProjectRightsPanel extends Composite {
       final AccountGroup group = groups.get(k.getAccountGroupId());
 
       if (ProjectRight.WILD_PROJECT.equals(k.getProjectId())
-          && !ProjectRight.WILD_PROJECT.equals(projectId)) {
+          && !ProjectRight.WILD_PROJECT.equals(projectName)) {
         table.setText(row, 1, "");
       } else {
         table.setWidget(row, 1, new CheckBox());

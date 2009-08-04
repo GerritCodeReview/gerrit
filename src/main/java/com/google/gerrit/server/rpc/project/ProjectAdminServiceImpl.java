@@ -79,8 +79,8 @@ class ProjectAdminServiceImpl extends BaseServiceImplementation implements
   private final ProjectDetailFactory.Factory projectDetailFactory;
 
   @Inject
-  ProjectAdminServiceImpl(final Provider<ReviewDb> sf,
-      final GerritServer gs, final ProjectCache pc, final ReplicationQueue rq,
+  ProjectAdminServiceImpl(final Provider<ReviewDb> sf, final GerritServer gs,
+      final ProjectCache pc, final ReplicationQueue rq,
       final Provider<IdentifiedUser> iu,
       final ProjectControl.Factory projectControlFactory,
       final ProjectDetailFactory.Factory projectDetailFactory) {
@@ -107,17 +107,18 @@ class ProjectAdminServiceImpl extends BaseServiceImplementation implements
     });
   }
 
-  public void projectDetail(final Project.Id projectId,
+  public void projectDetail(final Project.NameKey projectName,
       final AsyncCallback<ProjectDetail> callback) {
-    projectDetailFactory.create(projectId).to(callback);
+    projectDetailFactory.create(projectName).to(callback);
   }
 
   public void changeProjectSettings(final Project update,
       final AsyncCallback<ProjectDetail> callback) {
+    final Project.NameKey projectName = update.getNameKey();
     run(callback, new Action<ProjectDetail>() {
       public ProjectDetail run(final ReviewDb db) throws OrmException, Failure {
-        assertAmProjectOwner(db, update.getId());
-        final Project proj = db.projects().get(update.getId());
+        assertAmProjectOwner(db, projectName);
+        final Project proj = db.projects().get(projectName);
         if (proj == null) {
           throw new Failure(new NoSuchEntityException());
         }
@@ -156,7 +157,7 @@ class ProjectAdminServiceImpl extends BaseServiceImplementation implements
         }
 
         try {
-          return projectDetailFactory.create(update.getId()).call();
+          return projectDetailFactory.create(projectName).call();
         } catch (NoSuchEntityException e) {
           throw new Failure(e);
         }
@@ -164,13 +165,17 @@ class ProjectAdminServiceImpl extends BaseServiceImplementation implements
     });
   }
 
-  public void deleteRight(final Set<ProjectRight.Key> keys,
-      final AsyncCallback<VoidResult> callback) {
+  public void deleteRight(final Project.NameKey name,
+      final Set<ProjectRight.Key> keys, final AsyncCallback<VoidResult> callback) {
     run(callback, new Action<VoidResult>() {
-      public VoidResult run(final ReviewDb db) throws OrmException, Failure {
-        final Set<Project.Id> owned = ids(myOwnedProjects(db));
+      public VoidResult run(final ReviewDb db) throws OrmException, Failure,
+          NoSuchProjectException {
+        final ProjectControl control = projectControlFactory.validateFor(name);
+        if (!control.isOwner()) {
+          throw new NoSuchProjectException(name);
+        }
         for (final ProjectRight.Key k : keys) {
-          if (!owned.contains(k.getProjectId())) {
+          if (!control.getProject().getId().equals(k.getProjectId())) {
             throw new Failure(new NoSuchEntityException());
           }
         }
@@ -178,29 +183,18 @@ class ProjectAdminServiceImpl extends BaseServiceImplementation implements
           final ProjectRight m = db.projectRights().get(k);
           if (m != null) {
             db.projectRights().delete(Collections.singleton(m));
-            projectCache.invalidate(k.getProjectId());
           }
         }
+        projectCache.invalidate(control.getProject());
         return VoidResult.INSTANCE;
       }
     });
   }
 
-  public void addRight(final Project.Id projectId,
+  public void addRight(final Project.NameKey projectName,
       final ApprovalCategory.Id categoryId, final String groupName,
       final short amin, final short amax,
       final AsyncCallback<ProjectDetail> callback) {
-    if (ProjectRight.WILD_PROJECT.equals(projectId)
-        && ApprovalCategory.OWN.equals(categoryId)) {
-      // Giving out control of the WILD_PROJECT to other groups beyond
-      // Administrators is dangerous. Having control over WILD_PROJECT
-      // is about the same as having Administrator access as users are
-      // able to affect grants in all projects on the system.
-      //
-      callback.onFailure(new NoSuchEntityException());
-      return;
-    }
-
     final short min, max;
     if (amin <= amax) {
       min = amin;
@@ -212,9 +206,19 @@ class ProjectAdminServiceImpl extends BaseServiceImplementation implements
 
     run(callback, new Action<ProjectDetail>() {
       public ProjectDetail run(ReviewDb db) throws OrmException, Failure {
-        assertAmProjectOwner(db, projectId);
-        final Project proj = db.projects().get(projectId);
+        assertAmProjectOwner(db, projectName);
+        final Project proj = db.projects().get(projectName);
         if (proj == null) {
+          throw new Failure(new NoSuchEntityException());
+        }
+
+        if (ProjectRight.WILD_PROJECT.equals(proj.getId())
+            && ApprovalCategory.OWN.equals(categoryId)) {
+          // Giving out control of the WILD_PROJECT to other groups beyond
+          // Administrators is dangerous. Having control over WILD_PROJECT
+          // is about the same as having Administrator access as users are
+          // able to affect grants in all projects on the system.
+          //
           throw new Failure(new NoSuchEntityException());
         }
 
@@ -240,7 +244,7 @@ class ProjectAdminServiceImpl extends BaseServiceImplementation implements
         }
 
         final ProjectRight.Key key =
-            new ProjectRight.Key(projectId, categoryId, group.getId());
+            new ProjectRight.Key(proj.getId(), categoryId, group.getId());
         ProjectRight pr = db.projectRights().get(key);
         if (pr == null) {
           pr = new ProjectRight(key);
@@ -255,7 +259,7 @@ class ProjectAdminServiceImpl extends BaseServiceImplementation implements
 
         projectCache.invalidate(proj);
         try {
-          return projectDetailFactory.create(projectId).call();
+          return projectDetailFactory.create(projectName).call();
         } catch (NoSuchEntityException e) {
           throw new Failure(e);
         }
@@ -263,13 +267,13 @@ class ProjectAdminServiceImpl extends BaseServiceImplementation implements
     });
   }
 
-  public void listBranches(final Project.Id project,
+  public void listBranches(final Project.NameKey projectName,
       final AsyncCallback<List<Branch>> callback) {
     run(callback, new Action<List<Branch>>() {
       public List<Branch> run(ReviewDb db) throws OrmException, Failure {
         final ProjectControl c;
         try {
-          c = projectControlFactory.controlFor(project);
+          c = projectControlFactory.controlFor(projectName);
         } catch (NoSuchProjectException e) {
           throw new Failure(new NoSuchEntityException());
         }
@@ -281,23 +285,26 @@ class ProjectAdminServiceImpl extends BaseServiceImplementation implements
     });
   }
 
-  public void deleteBranch(final Set<Branch.NameKey> ids,
+  public void deleteBranch(final Project.NameKey projectName,
+      final Set<Branch.NameKey> ids,
       final AsyncCallback<Set<Branch.NameKey>> callback) {
     run(callback, new Action<Set<Branch.NameKey>>() {
       public Set<Branch.NameKey> run(ReviewDb db) throws OrmException, Failure {
-        final Set<Branch.NameKey> deleted = new HashSet<Branch.NameKey>();
-        final Set<Project.Id> owned = ids(myOwnedProjects(db));
-        for (final Branch.NameKey k : ids) {
-          final ProjectState e;
-
-          e = projectCache.get(k.getParentKey());
-          if (e == null) {
-            throw new Failure(new NoSuchEntityException());
-          }
-          if (!owned.contains(e.getProject().getId())) {
+        for (Branch.NameKey k : ids) {
+          if (!projectName.equals(k.getParentKey())) {
             throw new Failure(new NoSuchEntityException());
           }
         }
+        final ProjectControl c;
+        try {
+          c = projectControlFactory.controlFor(projectName);
+        } catch (NoSuchProjectException e) {
+          throw new Failure(new NoSuchEntityException());
+        }
+        if (!c.isOwner()) {
+          throw new Failure(new NoSuchEntityException());
+        }
+        final Set<Branch.NameKey> deleted = new HashSet<Branch.NameKey>();
         for (final Branch.NameKey k : ids) {
           final Branch m = db.branches().get(k);
           if (m == null) {
@@ -348,8 +355,9 @@ class ProjectAdminServiceImpl extends BaseServiceImplementation implements
     });
   }
 
-  public void addBranch(final Project.Id projectId, final String branchName,
-      final String startingRevision, final AsyncCallback<List<Branch>> callback) {
+  public void addBranch(final Project.NameKey projectName,
+      final String branchName, final String startingRevision,
+      final AsyncCallback<List<Branch>> callback) {
     run(callback, new Action<List<Branch>>() {
       public List<Branch> run(ReviewDb db) throws OrmException, Failure {
         String refname = branchName;
@@ -364,11 +372,11 @@ class ProjectAdminServiceImpl extends BaseServiceImplementation implements
         if (me == null) {
           throw new Failure(new NoSuchEntityException());
         }
-        final ProjectState pce = projectCache.get(projectId);
+        final ProjectState pce = projectCache.get(projectName);
         if (pce == null) {
           throw new Failure(new NoSuchEntityException());
         }
-        assertAmProjectOwner(db, projectId);
+        assertAmProjectOwner(db, projectName);
 
         final String repoName = pce.getProject().getName();
         final Branch.NameKey name =
@@ -462,9 +470,9 @@ class ProjectAdminServiceImpl extends BaseServiceImplementation implements
   }
 
   private void assertAmProjectOwner(final ReviewDb db,
-      final Project.Id projectId) throws Failure {
+      final Project.NameKey projectName) throws Failure {
     try {
-      if (!projectControlFactory.controlFor(projectId).isOwner()) {
+      if (!projectControlFactory.controlFor(projectName).isOwner()) {
         throw new Failure(new NoSuchEntityException());
       }
     } catch (NoSuchProjectException e) {
@@ -477,38 +485,35 @@ class ProjectAdminServiceImpl extends BaseServiceImplementation implements
       return db.projects().all().toList();
     }
 
-    final Set<AccountGroup.Id> myGroups = myGroups();
-    final HashSet<Project.Id> projects = new HashSet<Project.Id>();
-    for (final AccountGroup.Id groupId : myGroups) {
+    final HashSet<Project.Id> seen = new HashSet<Project.Id>();
+    final List<Project> own = new ArrayList<Project>();
+    for (final AccountGroup.Id groupId : myGroups()) {
       for (final ProjectRight r : db.projectRights().byCategoryGroup(
           ApprovalCategory.OWN, groupId)) {
-        projects.add(r.getProjectId());
+        if (!seen.add(r.getProjectId())) {
+          continue;
+        }
+
+        final Project p = db.projects().get(r.getProjectId());
+        if (p == null) {
+          continue;
+        }
+
+        try {
+          ProjectControl c = projectControlFactory.controlFor(p.getNameKey());
+          if (c.isOwner()) {
+            own.add(c.getProject());
+          }
+        } catch (NoSuchProjectException e) {
+          continue;
+        }
       }
     }
 
-    final List<Project> own = new ArrayList<Project>();
-    for (Project.Id id : projects) {
-      try {
-        final ProjectControl c = projectControlFactory.controlFor(id);
-        if (c.isOwner()) {
-          own.add(c.getProject());
-        }
-      } catch (NoSuchProjectException e) {
-        continue;
-      }
-    }
     return own;
   }
 
   private Set<Id> myGroups() {
     return Common.getGroupCache().getEffectiveGroups(Common.getAccountId());
-  }
-
-  private static Set<Project.Id> ids(final Collection<Project> projectList) {
-    final HashSet<Project.Id> r = new HashSet<Project.Id>();
-    for (final Project project : projectList) {
-      r.add(project.getId());
-    }
-    return r;
   }
 }

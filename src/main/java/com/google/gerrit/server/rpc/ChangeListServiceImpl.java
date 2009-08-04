@@ -41,7 +41,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.ResultSet;
-import com.google.gwtorm.client.SchemaFactory;
 import com.google.gwtorm.client.Transaction;
 import com.google.gwtorm.client.impl.ListResultSet;
 import com.google.inject.Inject;
@@ -91,7 +90,7 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
   private final ChangeControl.Factory changeControlFactory;
 
   @Inject
-  ChangeListServiceImpl(final SchemaFactory<ReviewDb> sf,
+  ChangeListServiceImpl(final Provider<ReviewDb> sf,
       final Provider<CurrentUser> currentUser,
       final ChangeControl.Factory changeControlFactory) {
     super(sf);

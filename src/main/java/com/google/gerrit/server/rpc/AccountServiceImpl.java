@@ -30,9 +30,9 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.SchemaFactory;
 import com.google.gwtorm.client.Transaction;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -45,7 +45,7 @@ class AccountServiceImpl extends BaseServiceImplementation implements
   private final ProjectCache projectCache;
 
   @Inject
-  AccountServiceImpl(final SchemaFactory<ReviewDb> sf,
+  AccountServiceImpl(final Provider<ReviewDb> sf,
       final ProjectCache projectCache) {
     super(sf);
     this.projectCache = projectCache;

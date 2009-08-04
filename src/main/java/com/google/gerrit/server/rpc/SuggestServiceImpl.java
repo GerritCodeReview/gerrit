@@ -29,7 +29,6 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -45,7 +44,7 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
   private final ProjectCache projectCache;
 
   @Inject
-  SuggestServiceImpl(final SchemaFactory<ReviewDb> sf, final ProjectCache pc,
+  SuggestServiceImpl(final Provider<ReviewDb> sf, final ProjectCache pc,
       final Provider<CurrentUser> cu) {
     super(sf);
     projectCache = pc;

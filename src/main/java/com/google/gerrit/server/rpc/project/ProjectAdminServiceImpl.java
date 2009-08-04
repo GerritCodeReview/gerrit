@@ -40,7 +40,6 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -80,7 +79,7 @@ class ProjectAdminServiceImpl extends BaseServiceImplementation implements
   private final ProjectDetailFactory.Factory projectDetailFactory;
 
   @Inject
-  ProjectAdminServiceImpl(final SchemaFactory<ReviewDb> sf,
+  ProjectAdminServiceImpl(final Provider<ReviewDb> sf,
       final GerritServer gs, final ProjectCache pc, final ReplicationQueue rq,
       final Provider<IdentifiedUser> iu,
       final ProjectControl.Factory projectControlFactory,

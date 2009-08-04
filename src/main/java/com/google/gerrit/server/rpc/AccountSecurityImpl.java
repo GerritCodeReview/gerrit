@@ -42,9 +42,9 @@ import com.google.gwtjsonrpc.server.ValidToken;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmDuplicateKeyException;
 import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.SchemaFactory;
 import com.google.gwtorm.client.Transaction;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,7 +72,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
   private final boolean useContactInfo;
 
   @Inject
-  AccountSecurityImpl(final SchemaFactory<ReviewDb> sf, final ContactStore cs,
+  AccountSecurityImpl(final Provider<ReviewDb> sf, final ContactStore cs,
       final AuthConfig ac, final RegisterNewEmailSender.Factory esf,
       final SshKeyCache skc, final AccountByEmailCache abec) {
     super(sf);

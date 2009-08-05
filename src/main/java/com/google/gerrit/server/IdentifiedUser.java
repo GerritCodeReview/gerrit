@@ -114,6 +114,9 @@ public class IdentifiedUser extends CurrentUser {
   public Account getAccount() {
     if (account == null) {
       account = Common.getAccountCache().get(getAccountId());
+      if (account == null) {
+        account = new Account(getAccountId());
+      }
     }
     return account;
   }

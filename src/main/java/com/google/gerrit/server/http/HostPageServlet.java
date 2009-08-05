@@ -210,8 +210,14 @@ public class HostPageServlet extends HttpServlet {
     final HostPageData pageData = new HostPageData();
     pageData.config = config;
 
-    final GerritCall call = jsonCall.get();
+    // Grab the current GerritCall to gain access to the XSRF token
+    // generator, and force a token to be constructed for this user.
+    // We can then send the XSRF token as part of the initial data
+    // vector in the host page, saving the client 1 round trip as it
+    // bootstraps itself.
+    //
     try {
+      final GerritCall call = jsonCall.get();
       call.xsrfValidate();
       pageData.xsrfToken = call.getXsrfKeyOut();
     } catch (XsrfException e) {

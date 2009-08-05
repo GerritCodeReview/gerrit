@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.patch;
+package com.google.gerrit.server.rpc.patch;
 
 import com.google.gerrit.client.data.PatchScript;
 import com.google.gerrit.client.data.PatchScriptSettings;
@@ -23,6 +23,9 @@ import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.rpc.CorruptEntityException;
 import com.google.gerrit.server.FileTypeRegistry;
+import com.google.gerrit.server.patch.DiffCacheContent;
+import com.google.gerrit.server.patch.DiffCacheKey;
+import com.google.gerrit.server.patch.Text;
 
 import eu.medsea.mimeutil.MimeType;
 import eu.medsea.mimeutil.MimeUtil2;

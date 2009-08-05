@@ -15,9 +15,9 @@
 package com.google.gerrit.server.rpc;
 
 import com.google.gerrit.server.http.RpcServletModule;
-import com.google.gerrit.server.patch.PatchModule;
 import com.google.gerrit.server.rpc.account.AccountModule;
 import com.google.gerrit.server.rpc.changedetail.ChangeModule;
+import com.google.gerrit.server.rpc.patch.PatchModule;
 import com.google.gerrit.server.rpc.project.ProjectModule;
 
 /** Registers servlets to answer RPCs from client UI. */

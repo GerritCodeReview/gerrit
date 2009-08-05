@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.patch;
+package com.google.gerrit.server.rpc.patch;
 
 import com.google.gerrit.client.data.ApprovalType;
 import com.google.gerrit.client.data.GerritConfig;
@@ -41,6 +41,8 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.mail.AddReviewerSender;
 import com.google.gerrit.server.mail.CommentSender;
 import com.google.gerrit.server.mail.EmailException;
+import com.google.gerrit.server.patch.PatchSetInfoFactory;
+import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;

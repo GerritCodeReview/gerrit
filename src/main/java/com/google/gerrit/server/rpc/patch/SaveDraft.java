@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.patch;
+package com.google.gerrit.server.rpc.patch;
 
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.Change;

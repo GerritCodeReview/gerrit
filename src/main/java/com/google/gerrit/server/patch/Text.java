@@ -20,18 +20,18 @@ import org.spearce.jgit.diff.RawText;
 import org.spearce.jgit.lib.Constants;
 import org.spearce.jgit.util.RawParseUtils;
 
-class Text extends RawText {
-  static final Text EMPTY = new Text(new byte[0]);
+public class Text extends RawText {
+  public static final Text EMPTY = new Text(new byte[0]);
 
-  Text(final byte[] r) {
+  public Text(final byte[] r) {
     super(r);
   }
 
-  byte[] getContent() {
+  public byte[] getContent() {
     return content;
   }
 
-  String getLine(final int i) {
+  public String getLine(final int i) {
     final int s = lines.get(i + 1);
     int e = lines.get(i + 2);
     if (content[e - 1] == '\n') {
@@ -40,7 +40,7 @@ class Text extends RawText {
     return RawParseUtils.decode(Constants.CHARSET, content, s, e);
   }
 
-  void addLineTo(final SparseFileContent out, final int i) {
+  public void addLineTo(final SparseFileContent out, final int i) {
     out.addLine(i, getLine(i));
   }
 }

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.patch;
+package com.google.gerrit.server.rpc.patch;
 
 import com.google.gerrit.client.data.PatchScript;
 import com.google.gerrit.client.data.PatchScriptSettings;
@@ -31,6 +31,9 @@ import com.google.gerrit.client.rpc.CorruptEntityException;
 import com.google.gerrit.server.FileTypeRegistry;
 import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.config.Nullable;
+import com.google.gerrit.server.patch.DiffCache;
+import com.google.gerrit.server.patch.DiffCacheContent;
+import com.google.gerrit.server.patch.DiffCacheKey;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.rpc.Handler;

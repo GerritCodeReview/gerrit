@@ -16,8 +16,8 @@ package com.google.gerrit.client.data;
 
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.ReviewDb;
-import com.google.gerrit.client.rpc.Common;
 import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.SchemaFactory;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -41,9 +41,15 @@ public class AccountCache {
         }
       };
 
+  private final SchemaFactory<ReviewDb> schema;
+
+  public AccountCache(SchemaFactory<ReviewDb> s) {
+    schema = s;
+  }
+
   /**
    * Invalidate all cached information about a single user account.
-   * 
+   *
    * @param accountId the account to invalidate from the cache.
    */
   public void invalidate(final Account.Id accountId) {
@@ -54,7 +60,7 @@ public class AccountCache {
 
   /**
    * Get a single account.
-   * 
+   *
    * @param accountId the account to obtain.
    * @return the cached account entity; null if the account is not in the
    *         database anymore.
@@ -65,7 +71,7 @@ public class AccountCache {
 
   /**
    * Get a single account.
-   * 
+   *
    * @param accountId the account to obtain.
    * @param qd optional connection to reuse (if not null) when doing a lookup.
    * @return the cached account entity; null if the account is not in the
@@ -85,7 +91,7 @@ public class AccountCache {
     }
 
     try {
-      final ReviewDb db = qd != null ? qd : Common.getSchemaFactory().open();
+      final ReviewDb db = qd != null ? qd : schema.open();
       try {
         m = db.accounts().get(accountId);
       } finally {
@@ -106,7 +112,7 @@ public class AccountCache {
 
   /**
    * Lookup multiple account records.
-   * 
+   *
    * @param fetch set of all accounts to obtain.
    * @param qd optional query handle to use if the account data is not in cache.
    * @return records which match; if an account listed in <code>fetch</code> is
@@ -129,7 +135,7 @@ public class AccountCache {
     if (!toget.isEmpty()) {
       List<Account> found;
       try {
-        final ReviewDb db = qd != null ? qd : Common.getSchemaFactory().open();
+        final ReviewDb db = qd != null ? qd : schema.open();
         try {
           found = qd.accounts().get(toget).toList();
         } finally {

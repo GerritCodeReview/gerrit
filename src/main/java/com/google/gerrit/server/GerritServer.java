@@ -63,8 +63,7 @@ public class GerritServer {
       basepath = null;
     }
 
-    Common.setSchemaFactory(db);
-    Common.setAccountCache(new AccountCache());
+    Common.setAccountCache(new AccountCache(db));
   }
 
   private Config getGerritConfig() {

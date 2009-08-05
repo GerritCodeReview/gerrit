@@ -16,12 +16,9 @@ package com.google.gerrit.client.rpc;
 
 import com.google.gerrit.client.data.AccountCache;
 import com.google.gerrit.client.data.GerritConfig;
-import com.google.gerrit.client.reviewdb.ReviewDb;
-import com.google.gwtorm.client.SchemaFactory;
 
 public class Common {
   private static GerritConfig config;
-  private static SchemaFactory<ReviewDb> schema;
   private static AccountCache accountCache;
 
   /** Get the public configuration data used by this Gerrit instance. */
@@ -44,18 +41,5 @@ public class Common {
 
   public static void setAccountCache(final AccountCache imp) {
     accountCache = imp;
-  }
-
-  /**
-   * Get the schema factory for this instance.
-   * <p>
-   * <b>Note: this is likely only available on the server side.</b>
-   */
-  public static SchemaFactory<ReviewDb> getSchemaFactory() {
-    return schema;
-  }
-
-  public static void setSchemaFactory(final SchemaFactory<ReviewDb> imp) {
-    schema = imp;
   }
 }

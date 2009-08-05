@@ -19,7 +19,7 @@ import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.AccountGroupMember;
 import com.google.gerrit.client.reviewdb.AccountProjectWatch;
 import com.google.gerrit.client.reviewdb.Change;
-import com.google.gerrit.client.reviewdb.Project;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -50,8 +50,8 @@ public class CreateChangeSender extends NewChangeSender {
       try {
         // BCC anyone else who has interest in this project's changes
         //
-        final Project project = getProject();
-        if (project != null) {
+        final ProjectState ps = getProjectState();
+        if (ps != null) {
           // Try to mark interested owners with a TO and not a BCC line.
           //
           final Set<Account.Id> owners = new HashSet<Account.Id>();
@@ -64,7 +64,7 @@ public class CreateChangeSender extends NewChangeSender {
           // BCC anyone who has interest in this project's changes
           //
           for (AccountProjectWatch w : db.accountProjectWatches()
-              .notifyNewChanges(project.getId())) {
+              .notifyNewChanges(ps.getProject().getNameKey())) {
             if (owners.contains(w.getAccountId())) {
               add(RecipientType.TO, w.getAccountId());
             } else {

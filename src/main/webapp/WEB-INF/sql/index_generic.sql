@@ -55,15 +55,15 @@ ON account_group_members (group_id);
 --    @PrimaryKey covers: byAccount
 --    covers:             notifyNewChanges
 CREATE INDEX account_project_watches_ntNew
-ON account_project_watches (notify_new_changes, project_id);
+ON account_project_watches (notify_new_changes, project_name);
 
 --    covers:             notifyAllComments
 CREATE INDEX account_project_watches_ntCmt
-ON account_project_watches (notify_all_comments, project_id);
+ON account_project_watches (notify_all_comments, project_name);
 
 --    covers:             notifySubmittedChanges
 CREATE INDEX account_project_watches_ntSub
-ON account_project_watches (notify_submitted_changes, project_id);
+ON account_project_watches (notify_submitted_changes, project_name);
 
 
 -- *********************************************************************

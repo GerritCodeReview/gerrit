@@ -16,6 +16,7 @@ package com.google.gerrit.client.data;
 
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.LoginType;
+import com.google.gerrit.client.reviewdb.Project;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,6 +35,7 @@ public class GerritConfig implements Cloneable {
   protected boolean useRepoDownload;
   protected String gitDaemonUrl;
   protected String sshdAddress;
+  protected Project.NameKey wildProject;
   private transient Map<ApprovalCategory.Id, ApprovalType> byCategoryId;
 
   public GerritConfig() {
@@ -162,5 +164,13 @@ public class GerritConfig implements Cloneable {
 
   public void setSshdAddress(final String addr) {
     sshdAddress = addr;
+  }
+
+  public Project.NameKey getWildProject() {
+    return wildProject;
+  }
+
+  public void setWildProject(final Project.NameKey wp) {
+    wildProject = wp;
   }
 }

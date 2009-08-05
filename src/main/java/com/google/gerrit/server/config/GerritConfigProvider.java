@@ -18,6 +18,7 @@ import com.google.gerrit.client.data.ApprovalType;
 import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.client.data.GitwebLink;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
+import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.server.ContactStore;
@@ -45,6 +46,7 @@ public class GerritConfigProvider implements Provider<GerritConfig> {
   private final String canonicalWebUrl;
   private final AuthConfig authConfig;
   private final SchemaFactory<ReviewDb> schema;
+  private final Project.NameKey wildProject;
 
   private SshInfo sshd;
   private EmailSender emailSender;
@@ -53,11 +55,13 @@ public class GerritConfigProvider implements Provider<GerritConfig> {
   @Inject
   GerritConfigProvider(@GerritServerConfig final Config gsc,
       @CanonicalWebUrl @Nullable final String cwu, final AuthConfig ac,
-      final SchemaFactory<ReviewDb> sf) {
+      final SchemaFactory<ReviewDb> sf,
+      @WildProjectName final Project.NameKey wp) {
     cfg = gsc;
     canonicalWebUrl = cwu;
     authConfig = ac;
     schema = sf;
+    wildProject = wp;
   }
 
   @Inject(optional = true)
@@ -87,6 +91,7 @@ public class GerritConfigProvider implements Provider<GerritConfig> {
     config.setAllowRegisterNewEmail(emailSender != null
         && emailSender.isEnabled());
     config.setLoginType(authConfig.getLoginType());
+    config.setWildProject(wildProject);
 
     final String gitwebUrl = cfg.getString("gitweb", null, "url");
     if (gitwebUrl != null) {

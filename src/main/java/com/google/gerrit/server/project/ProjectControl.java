@@ -46,29 +46,11 @@ public class ProjectControl {
       return p.controlFor(user.get());
     }
 
-    public ProjectControl controlFor(final Project.Id projectId)
-        throws NoSuchProjectException {
-      final ProjectState p = projectCache.get(projectId);
-      if (p == null) {
-        throw new NoSuchProjectException(projectId);
-      }
-      return p.controlFor(user.get());
-    }
-
     public ProjectControl validateFor(final Project.NameKey nameKey)
         throws NoSuchProjectException {
       final ProjectControl c = controlFor(nameKey);
       if (!c.isVisible()) {
         throw new NoSuchProjectException(nameKey);
-      }
-      return c;
-    }
-
-    public ProjectControl validateFor(final Project.Id projectId)
-        throws NoSuchProjectException {
-      final ProjectControl c = controlFor(projectId);
-      if (!c.isVisible()) {
-        throw new NoSuchProjectException(projectId);
       }
       return c;
     }

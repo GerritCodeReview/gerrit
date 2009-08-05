@@ -20,6 +20,7 @@ import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
+import com.google.gerrit.server.config.WildProjectName;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.rpc.Handler;
@@ -35,11 +36,12 @@ import java.util.Map;
 
 class ProjectDetailFactory extends Handler<ProjectDetail> {
   interface Factory {
-    ProjectDetailFactory create(Project.NameKey name);
+    ProjectDetailFactory create(@Assisted("name") Project.NameKey name);
   }
 
   private final ProjectCache projectCache;
   private final ReviewDb db;
+  private final Project.NameKey wildProject;
   private final Project.NameKey projectName;
 
   private ProjectDetail detail;
@@ -47,9 +49,11 @@ class ProjectDetailFactory extends Handler<ProjectDetail> {
 
   @Inject
   ProjectDetailFactory(final ProjectCache projectCache, final ReviewDb db,
-      @Assisted final Project.NameKey name) {
+      @WildProjectName final Project.NameKey wp,
+      @Assisted("name") final Project.NameKey name) {
     this.projectCache = projectCache;
     this.db = db;
+    this.wildProject = wp;
     this.projectName = name;
   }
 
@@ -70,7 +74,7 @@ class ProjectDetailFactory extends Handler<ProjectDetail> {
       rights.add(p);
       wantGroup(p.getAccountGroupId());
     }
-    if (!ProjectRight.WILD_PROJECT.equals(e.getProject().getId())) {
+    if (!wildProject.equals(e.getProject().getNameKey())) {
       for (final ProjectRight p : projectCache.getWildcardRights()) {
         rights.add(p);
         wantGroup(p.getAccountGroupId());

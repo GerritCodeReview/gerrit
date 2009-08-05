@@ -23,12 +23,12 @@ import com.google.gerrit.client.reviewdb.ChangeMessage;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.PatchSetInfo;
-import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.StarredChange;
 import com.google.gerrit.client.reviewdb.UserIdentity;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.server.GerritServer;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.Nullable;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
@@ -90,15 +90,27 @@ public abstract class OutgoingEmail {
   private PatchSetInfoFactory patchSetInfoFactory;
 
   @Inject
+  private IdentifiedUser.GenericFactory identifiedUserFactory;
+
+  @Inject
   @CanonicalWebUrl
   @Nullable
   private Provider<String> urlProvider;
+  private ProjectState projectState;
 
   protected OutgoingEmail(final Change c, final String mc) {
     change = c;
-    projectName = change != null ? change.getDest().getParentKey().get() : null;
     messageClass = mc;
     headers = new LinkedHashMap<String, EmailHeader>();
+
+    if (change != null) {
+      projectState = projectCache.get(change.getDest().getParentKey());
+      projectName =
+          projectState != null ? projectState.getProject().getName() : null;
+    } else {
+      projectState = null;
+      projectName = null;
+    }
   }
 
   protected OutgoingEmail(final String mc) {
@@ -463,11 +475,8 @@ public abstract class OutgoingEmail {
   }
 
   /** Get the project entity the change is in; null if its been deleted. */
-  protected Project getProject() {
-    final ProjectState r;
-
-    r = projectCache.get(change.getDest().getParentKey());
-    return r != null ? r.getProject() : null;
+  protected ProjectState getProjectState() {
+    return projectState;
   }
 
   /** Get the groups which own the project. */
@@ -526,10 +535,10 @@ public abstract class OutgoingEmail {
       try {
         // BCC anyone else who has interest in this project's changes
         //
-        final Project project = getProject();
-        if (project != null) {
-          for (AccountProjectWatch w : db.accountProjectWatches()
-              .notifyAllComments(project.getId())) {
+        final ProjectState ps = getProjectState();
+        if (ps != null) {
+          for (final AccountProjectWatch w : db.accountProjectWatches()
+              .notifyAllComments(ps.getProject().getNameKey())) {
             add(RecipientType.BCC, w.getAccountId());
           }
         }
@@ -569,9 +578,17 @@ public abstract class OutgoingEmail {
 
   /** Schedule delivery of this message to the given account. */
   protected void add(final RecipientType rt, final Account.Id to) {
-    if (rcptTo.add(to)) {
+    if (!rcptTo.contains(to) && isVisibleTo(to)) {
+      rcptTo.add(to);
       add(rt, toAddress(to));
     }
+  }
+
+  private boolean isVisibleTo(final Account.Id to) {
+    return projectState == null
+        || change == null
+        || projectState.controlFor(identifiedUserFactory.create(to))
+            .controlFor(change).isVisible();
   }
 
   /** Schedule delivery of this message to the given account. */

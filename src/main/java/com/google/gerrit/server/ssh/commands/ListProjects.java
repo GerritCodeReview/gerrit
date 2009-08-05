@@ -15,9 +15,9 @@
 package com.google.gerrit.server.ssh.commands;
 
 import com.google.gerrit.client.reviewdb.Project;
-import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.config.WildProjectName;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.ssh.BaseCommand;
@@ -36,6 +36,10 @@ final class ListProjects extends BaseCommand {
   @Inject
   private ProjectCache projectCache;
 
+  @Inject
+  @WildProjectName
+  private Project.NameKey wildProject;
+
   @Override
   public void start() {
     startThread(new CommandRunnable() {
@@ -51,7 +55,7 @@ final class ListProjects extends BaseCommand {
     final PrintWriter stdout = toPrintWriter(out);
     try {
       for (final Project p : db.projects().all()) {
-        if (ProjectRight.WILD_PROJECT.equals(p.getId())) {
+        if (p.getNameKey().equals(wildProject)) {
           // This project "doesn't exist". At least not as a repository.
           //
           continue;

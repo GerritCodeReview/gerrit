@@ -40,7 +40,7 @@ public class ProjectState {
     project = p;
     rights =
         Collections.unmodifiableCollection(db.projectRights().byProject(
-            project.getId()).toList());
+            project.getNameKey()).toList());
 
     final HashSet<AccountGroup.Id> groups = new HashSet<AccountGroup.Id>();
     for (final ProjectRight right : rights) {

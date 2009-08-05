@@ -12,17 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.project;
+package com.google.gerrit.server.config;
+
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import com.google.gerrit.client.reviewdb.Project;
+import com.google.inject.BindingAnnotation;
 
-/** Indicates the project does not exist. */
-public class NoSuchProjectException extends Exception {
-  public NoSuchProjectException(final Project.NameKey key) {
-    this(key, null);
-  }
+import java.lang.annotation.Retention;
 
-  public NoSuchProjectException(final Project.NameKey key, final Throwable why) {
-    super(key.toString(), why);
-  }
+/**
+ * Marker on a {@link Project.NameKey} for the current wildcard project.
+ * <p>
+ * This is the name of the project whose rights inherit into every other project
+ * in the system.
+ */
+@Retention(RUNTIME)
+@BindingAnnotation
+public @interface WildProjectName {
 }

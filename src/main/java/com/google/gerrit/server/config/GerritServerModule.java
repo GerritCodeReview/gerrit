@@ -16,6 +16,7 @@ package com.google.gerrit.server.config;
 
 import static com.google.inject.Scopes.SINGLETON;
 
+import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.git.ChangeMergeQueue;
 import com.google.gerrit.git.MergeOp;
 import com.google.gerrit.git.MergeQueue;
@@ -61,6 +62,8 @@ public class GerritServerModule extends FactoryModule {
   protected void configure() {
     bind(File.class).annotatedWith(SitePath.class).toProvider(
         SitePathProvider.class).in(SINGLETON);
+    bind(Project.NameKey.class).annotatedWith(WildProjectName.class)
+        .toProvider(WildProjectNameProvider.class).in(SINGLETON);
     bind(Config.class).annotatedWith(GerritServerConfig.class).toProvider(
         GerritServerConfigProvider.class).in(SINGLETON);
     bind(AuthConfig.class).in(SINGLETON);

@@ -69,7 +69,7 @@ public final class ApprovalCategory {
       id = newValue;
     }
 
-    /** True if the right can inherit from {@link ProjectRight#WILD_PROJECT}. */
+    /** True if the right can inherit from {@link ProjectRight#WILD_PROJECT_ID}. */
     public boolean canInheritFromWildProject() {
       if (OWN.equals(this)) {
         return false;

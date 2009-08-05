@@ -28,15 +28,15 @@ public interface AccountProjectWatchAccess extends
   @Query("WHERE key.accountId = ?")
   ResultSet<AccountProjectWatch> byAccount(Account.Id id) throws OrmException;
 
-  @Query("WHERE notifyNewChanges = true AND key.projectId = ?")
-  ResultSet<AccountProjectWatch> notifyNewChanges(Project.Id id)
+  @Query("WHERE notifyNewChanges = true AND key.projectName = ?")
+  ResultSet<AccountProjectWatch> notifyNewChanges(Project.NameKey name)
       throws OrmException;
 
-  @Query("WHERE notifyAllComments = true AND key.projectId = ?")
-  ResultSet<AccountProjectWatch> notifyAllComments(Project.Id id)
+  @Query("WHERE notifyAllComments = true AND key.projectName = ?")
+  ResultSet<AccountProjectWatch> notifyAllComments(Project.NameKey name)
       throws OrmException;
 
-  @Query("WHERE notifySubmittedChanges = true AND key.projectId = ?")
-  ResultSet<AccountProjectWatch> notifySubmittedChanges(Project.Id id)
+  @Query("WHERE notifySubmittedChanges = true AND key.projectName = ?")
+  ResultSet<AccountProjectWatch> notifySubmittedChanges(Project.NameKey name)
       throws OrmException;
 }

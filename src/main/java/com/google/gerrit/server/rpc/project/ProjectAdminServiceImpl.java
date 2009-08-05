@@ -33,6 +33,7 @@ import com.google.gerrit.git.ReplicationQueue;
 import com.google.gerrit.server.BaseServiceImplementation;
 import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.config.WildProjectName;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
@@ -60,7 +61,6 @@ import org.spearce.jgit.revwalk.RevCommit;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -72,6 +72,7 @@ class ProjectAdminServiceImpl extends BaseServiceImplementation implements
   private final Logger log = LoggerFactory.getLogger(getClass());
   private final GerritServer server;
   private final ProjectCache projectCache;
+  private final Project.NameKey wildProject;
   private final ProjectControl.Factory projectControlFactory;
   private final ReplicationQueue replication;
   private final Provider<IdentifiedUser> identifiedUser;
@@ -82,12 +83,14 @@ class ProjectAdminServiceImpl extends BaseServiceImplementation implements
   ProjectAdminServiceImpl(final Provider<ReviewDb> sf, final GerritServer gs,
       final ProjectCache pc, final ReplicationQueue rq,
       final Provider<IdentifiedUser> iu,
+      @WildProjectName final Project.NameKey wp,
       final ProjectControl.Factory projectControlFactory,
       final ProjectDetailFactory.Factory projectDetailFactory) {
     super(sf);
     this.server = gs;
     this.projectCache = pc;
     this.replication = rq;
+    this.wildProject = wp;
     this.identifiedUser = iu;
     this.projectControlFactory = projectControlFactory;
     this.projectDetailFactory = projectDetailFactory;
@@ -126,7 +129,7 @@ class ProjectAdminServiceImpl extends BaseServiceImplementation implements
         db.projects().update(Collections.singleton(proj));
         projectCache.invalidate(proj);
 
-        if (!ProjectRight.WILD_PROJECT.equals(update.getId())) {
+        if (!wildProject.equals(projectName)) {
           // Update git's description file, in case gitweb is being used
           //
           try {
@@ -175,7 +178,7 @@ class ProjectAdminServiceImpl extends BaseServiceImplementation implements
           throw new NoSuchProjectException(name);
         }
         for (final ProjectRight.Key k : keys) {
-          if (!control.getProject().getId().equals(k.getProjectId())) {
+          if (!name.equals(k.getProjectNameKey())) {
             throw new Failure(new NoSuchEntityException());
           }
         }
@@ -212,7 +215,7 @@ class ProjectAdminServiceImpl extends BaseServiceImplementation implements
           throw new Failure(new NoSuchEntityException());
         }
 
-        if (ProjectRight.WILD_PROJECT.equals(proj.getId())
+        if (wildProject.equals(projectName)
             && ApprovalCategory.OWN.equals(categoryId)) {
           // Giving out control of the WILD_PROJECT to other groups beyond
           // Administrators is dangerous. Having control over WILD_PROJECT
@@ -244,7 +247,7 @@ class ProjectAdminServiceImpl extends BaseServiceImplementation implements
         }
 
         final ProjectRight.Key key =
-            new ProjectRight.Key(proj.getId(), categoryId, group.getId());
+            new ProjectRight.Key(projectName, categoryId, group.getId());
         ProjectRight pr = db.projectRights().get(key);
         if (pr == null) {
           pr = new ProjectRight(key);
@@ -485,22 +488,17 @@ class ProjectAdminServiceImpl extends BaseServiceImplementation implements
       return db.projects().all().toList();
     }
 
-    final HashSet<Project.Id> seen = new HashSet<Project.Id>();
+    final HashSet<Project.NameKey> seen = new HashSet<Project.NameKey>();
     final List<Project> own = new ArrayList<Project>();
     for (final AccountGroup.Id groupId : myGroups()) {
       for (final ProjectRight r : db.projectRights().byCategoryGroup(
           ApprovalCategory.OWN, groupId)) {
-        if (!seen.add(r.getProjectId())) {
+        final Project.NameKey name = r.getProjectNameKey();
+        if (!seen.add(name)) {
           continue;
         }
-
-        final Project p = db.projects().get(r.getProjectId());
-        if (p == null) {
-          continue;
-        }
-
         try {
-          ProjectControl c = projectControlFactory.controlFor(p.getNameKey());
+          ProjectControl c = projectControlFactory.controlFor(name);
           if (c.isOwner()) {
             own.add(c.getProject());
           }

@@ -23,7 +23,7 @@ import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.client.reviewdb.Branch;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.ChangeApproval;
-import com.google.gerrit.client.reviewdb.Project;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -160,10 +160,10 @@ public class MergedSender extends ReplyToChangeSender {
       try {
         // BCC anyone else who has interest in this project's changes
         //
-        final Project project = getProject();
-        if (project != null) {
+        final ProjectState ps = getProjectState();
+        if (ps != null) {
           for (AccountProjectWatch w : db.accountProjectWatches()
-              .notifySubmittedChanges(project.getId())) {
+              .notifySubmittedChanges(ps.getProject().getNameKey())) {
             add(RecipientType.BCC, w.getAccountId());
           }
         }

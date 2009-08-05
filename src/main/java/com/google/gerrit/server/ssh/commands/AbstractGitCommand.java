@@ -16,7 +16,6 @@ package com.google.gerrit.server.ssh.commands;
 
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.Project;
-import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.ProjectCache;
@@ -81,10 +80,6 @@ abstract class AbstractGitCommand extends BaseCommand {
     }
 
     proj = cachedProj.getProject();
-    if (ProjectRight.WILD_PROJECT.equals(proj.getId())) {
-      throw new Failure(1, "fatal: '" + reqProjName + "': not a valid project",
-          new IllegalArgumentException("Cannot access the wildcard project"));
-    }
     if (!canPerform(ApprovalCategory.READ, (short) 1)) {
       throw new Failure(1, "fatal: '" + reqProjName + "': unknown project",
           new SecurityException("Account lacks Read permission"));

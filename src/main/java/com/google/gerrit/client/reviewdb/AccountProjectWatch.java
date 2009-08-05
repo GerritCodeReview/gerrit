@@ -26,16 +26,16 @@ public final class AccountProjectWatch {
     protected Account.Id accountId;
 
     @Column
-    protected Project.Id projectId;
+    protected Project.NameKey projectName;
 
     protected Key() {
       accountId = new Account.Id();
-      projectId = new Project.Id();
+      projectName = new Project.NameKey();
     }
 
-    public Key(final Account.Id a, final Project.Id g) {
+    public Key(final Account.Id a, final Project.NameKey g) {
       accountId = a;
-      projectId = g;
+      projectName = g;
     }
 
     @Override
@@ -45,7 +45,7 @@ public final class AccountProjectWatch {
 
     @Override
     public com.google.gwtorm.client.Key<?>[] members() {
-      return new com.google.gwtorm.client.Key<?>[] {projectId};
+      return new com.google.gwtorm.client.Key<?>[] {projectName};
     }
   }
 
@@ -79,8 +79,8 @@ public final class AccountProjectWatch {
     return key.accountId;
   }
 
-  public Project.Id getProjectId() {
-    return key.projectId;
+  public Project.NameKey getProjectNameKey() {
+    return key.projectName;
   }
 
   public boolean isNotifyNewChanges() {

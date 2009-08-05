@@ -40,6 +40,8 @@ import java.util.List;
 
 /** Loads the {@link SystemConfig} from the database. */
 class SystemConfigProvider implements Provider<SystemConfig> {
+  private static final Project.NameKey DEFAULT_WILD_NAME =
+      new Project.NameKey("-- All Projects --");
   private final SchemaFactory<ReviewDb> schema;
 
   @Inject
@@ -183,14 +185,12 @@ class SystemConfigProvider implements Provider<SystemConfig> {
   }
 
   private void initWildCardProject(final ReviewDb c) throws OrmException {
-    final Project proj;
+    final Project p;
 
-    proj =
-        new Project(new Project.NameKey("-- All Projects --"),
-            ProjectRight.WILD_PROJECT);
-    proj.setDescription("Rights inherited by all other projects");
-    proj.setUseContributorAgreements(false);
-    c.projects().insert(Collections.singleton(proj));
+    p = new Project(DEFAULT_WILD_NAME, WildProjectNameProvider.WILD_PROJECT_ID);
+    p.setDescription("Rights inherited by all other projects");
+    p.setUseContributorAgreements(false);
+    c.projects().insert(Collections.singleton(p));
   }
 
   private void initVerifiedCategory(final ReviewDb c) throws OrmException {
@@ -228,8 +228,8 @@ class SystemConfigProvider implements Provider<SystemConfig> {
     txn.commit();
 
     final ProjectRight approve =
-        new ProjectRight(new ProjectRight.Key(ProjectRight.WILD_PROJECT, cat
-            .getId(), sConfig.registeredGroupId));
+        new ProjectRight(new ProjectRight.Key(DEFAULT_WILD_NAME, cat.getId(),
+            sConfig.registeredGroupId));
     approve.setMaxValue((short) 1);
     approve.setMinValue((short) -1);
     c.projectRights().insert(Collections.singleton(approve));
@@ -267,16 +267,16 @@ class SystemConfigProvider implements Provider<SystemConfig> {
     txn.commit();
     {
       final ProjectRight read =
-          new ProjectRight(new ProjectRight.Key(ProjectRight.WILD_PROJECT, cat
-              .getId(), sConfig.anonymousGroupId));
+          new ProjectRight(new ProjectRight.Key(DEFAULT_WILD_NAME, cat.getId(),
+              sConfig.anonymousGroupId));
       read.setMaxValue((short) 1);
       read.setMinValue((short) 1);
       c.projectRights().insert(Collections.singleton(read));
     }
     {
       final ProjectRight read =
-          new ProjectRight(new ProjectRight.Key(ProjectRight.WILD_PROJECT, cat
-              .getId(), sConfig.adminGroupId));
+          new ProjectRight(new ProjectRight.Key(DEFAULT_WILD_NAME, cat.getId(),
+              sConfig.adminGroupId));
       read.setMaxValue((short) 1);
       read.setMinValue((short) 1);
       c.projectRights().insert(Collections.singleton(read));

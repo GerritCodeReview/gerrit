@@ -25,8 +25,9 @@ import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gerrit.server.BaseServiceImplementation;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectControl;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
@@ -42,13 +43,13 @@ import java.util.Set;
 
 class AccountServiceImpl extends BaseServiceImplementation implements
     AccountService {
-  private final ProjectCache projectCache;
+  private final ProjectControl.Factory projectControlFactory;
 
   @Inject
   AccountServiceImpl(final Provider<ReviewDb> sf,
-      final ProjectCache projectCache) {
+      final ProjectControl.Factory projectControlFactory) {
     super(sf);
-    this.projectCache = projectCache;
+    this.projectControlFactory = projectControlFactory;
   }
 
   public void myAccount(final AsyncCallback<Account> callback) {
@@ -89,12 +90,14 @@ class AccountServiceImpl extends BaseServiceImplementation implements
 
         for (final AccountProjectWatch w : db.accountProjectWatches()
             .byAccount(Common.getAccountId()).toList()) {
-          final ProjectState project = projectCache.get(w.getProjectId());
-          if (project == null) {
+          final ProjectControl ctl;
+          try {
+            ctl = projectControlFactory.validateFor(w.getProjectNameKey());
+          } catch (NoSuchProjectException e) {
             db.accountProjectWatches().delete(Collections.singleton(w));
             continue;
           }
-          r.add(new AccountProjectWatchInfo(w, project.getProject()));
+          r.add(new AccountProjectWatchInfo(w, ctl.getProject()));
         }
         Collections.sort(r, new Comparator<AccountProjectWatchInfo>() {
           public int compare(final AccountProjectWatchInfo a,
@@ -111,18 +114,16 @@ class AccountServiceImpl extends BaseServiceImplementation implements
       final AsyncCallback<AccountProjectWatchInfo> callback) {
     run(callback, new Action<AccountProjectWatchInfo>() {
       public AccountProjectWatchInfo run(ReviewDb db) throws OrmException,
-          Failure {
-        final ProjectState project =
-            projectCache.get(new Project.NameKey(projectName));
-        if (project == null) {
-          throw new Failure(new NoSuchEntityException());
-        }
+          NoSuchProjectException {
+        final Project.NameKey nameKey = new Project.NameKey(projectName);
+        final ProjectControl ctl = projectControlFactory.validateFor(nameKey);
 
         final AccountProjectWatch watch =
-            new AccountProjectWatch(new AccountProjectWatch.Key(Common
-                .getAccountId(), project.getProject().getId()));
+            new AccountProjectWatch(
+                new AccountProjectWatch.Key(((IdentifiedUser) ctl
+                    .getCurrentUser()).getAccountId(), nameKey));
         db.accountProjectWatches().insert(Collections.singleton(watch));
-        return new AccountProjectWatchInfo(watch, project.getProject());
+        return new AccountProjectWatchInfo(watch, ctl.getProject());
       }
     });
   }

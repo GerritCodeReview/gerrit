@@ -18,6 +18,7 @@ import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
+import com.google.gerrit.server.config.WildProjectName;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
@@ -42,38 +43,31 @@ public class ProjectCache {
 
   final AnonymousUser anonymousUser;
   private final SchemaFactory<ReviewDb> schema;
+  private final Project.NameKey wildProject;
   private final Cache raw;
   private final SelfPopulatingCache auto;
 
   @Inject
   ProjectCache(final AnonymousUser au, final SchemaFactory<ReviewDb> sf,
-      final CacheManager mgr) {
+      @WildProjectName final Project.NameKey wp, final CacheManager mgr) {
     anonymousUser = au;
     schema = sf;
+    wildProject = wp;
 
     raw = mgr.getCache("projects");
     auto = new SelfPopulatingCache(raw, new CacheEntryFactory() {
       @Override
       public Object createEntry(final Object key) throws Exception {
-        return lookup(key);
+        return lookup((Project.NameKey) key);
       }
     });
     mgr.replaceCacheWithDecoratedCache(raw, auto);
   }
 
-  private ProjectState lookup(final Object key) throws OrmException {
+  private ProjectState lookup(final Project.NameKey key) throws OrmException {
     final ReviewDb db = schema.open();
     try {
-      final Project p;
-      if (key instanceof Project.Id) {
-        p = db.projects().get((Project.Id) key);
-
-      } else if (key instanceof Project.NameKey) {
-        p = db.projects().get((Project.NameKey) key);
-
-      } else {
-        p = null;
-      }
+      final Project p = db.projects().get(key);
       return p != null ? new ProjectState(this, db, p) : null;
     } finally {
       db.close();
@@ -82,37 +76,14 @@ public class ProjectCache {
 
   /** Get the rights which are applied to all projects in the system. */
   public Collection<ProjectRight> getWildcardRights() {
-    return get(ProjectRight.WILD_PROJECT).getRights();
+    return get(wildProject).getRights();
   }
 
   /** Invalidate the cached information about the given project. */
   public void invalidate(final Project p) {
     if (p != null) {
       auto.remove(p.getNameKey());
-      auto.remove(p.getId());
     }
-  }
-
-  /** Invalidate the cached information about the given project. */
-  public void invalidate(final Project.Id projectId) {
-    if (projectId != null) {
-      final Element e = raw.get(projectId);
-      if (e != null && e.getObjectValue() != null) {
-        invalidate(((ProjectState) e.getObjectValue()).getProject());
-      } else {
-        auto.remove(projectId);
-      }
-    }
-  }
-
-  /**
-   * Get the cached data for a project by its unique id.
-   *
-   * @param projectId id of the project.
-   * @return the cached data; null if no such project exists.
-   */
-  public ProjectState get(final Project.Id projectId) {
-    return get0(projectId);
   }
 
   /**

@@ -163,7 +163,8 @@ public class ProjectInfoPanel extends Composite {
   void display(final ProjectDetail result) {
     project = result.project;
 
-    final boolean isall = ProjectRight.WILD_PROJECT.equals(project.getId());
+    final boolean isall =
+        Common.getGerritConfig().getWildProject().equals(project.getNameKey());
     submitTypePanel.setVisible(!isall);
     agreementsPanel.setVisible(!isall);
     useContributorAgreements.setVisible(Common.getGerritConfig()

@@ -25,8 +25,8 @@ public interface ProjectRightAccess extends
   @PrimaryKey("key")
   ProjectRight get(ProjectRight.Key key) throws OrmException;
 
-  @Query("WHERE key.projectId = ?")
-  ResultSet<ProjectRight> byProject(Project.Id id) throws OrmException;
+  @Query("WHERE key.projectName = ?")
+  ResultSet<ProjectRight> byProject(Project.NameKey name) throws OrmException;
 
   @Query("WHERE key.categoryId = ? AND key.groupId = ?")
   ResultSet<ProjectRight> byCategoryGroup(ApprovalCategory.Id cat,

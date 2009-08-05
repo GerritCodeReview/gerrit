@@ -119,7 +119,7 @@ public class ProjectRightsPanel extends Composite {
     }
     for (final ApprovalType at : Common.getGerritConfig().getActionTypes()) {
       final ApprovalCategory c = at.getCategory();
-      if (ProjectRight.WILD_PROJECT.equals(projectName)
+      if (Common.getGerritConfig().getWildProject().equals(projectName)
           && ApprovalCategory.OWN.equals(c.getId())) {
         // Giving out control of the WILD_PROJECT to other groups beyond
         // Administrators is dangerous. Having control over WILD_PROJECT
@@ -370,8 +370,8 @@ public class ProjectRightsPanel extends Composite {
       final ApprovalType ar = config.getApprovalType(k.getApprovalCategoryId());
       final AccountGroup group = groups.get(k.getAccountGroupId());
 
-      if (ProjectRight.WILD_PROJECT.equals(k.getProjectId())
-          && !ProjectRight.WILD_PROJECT.equals(projectName)) {
+      if (Common.getGerritConfig().getWildProject().equals(k.getProjectNameKey())
+          && !Common.getGerritConfig().getWildProject().equals(projectName)) {
         table.setText(row, 1, "");
       } else {
         table.setWidget(row, 1, new CheckBox());

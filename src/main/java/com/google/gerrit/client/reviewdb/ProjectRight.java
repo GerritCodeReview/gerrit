@@ -19,14 +19,11 @@ import com.google.gwtorm.client.CompoundKey;
 
 /** Grant to use an {@link ApprovalCategory} in the scope of a {@link Project}. */
 public final class ProjectRight {
-  /** Project.Id meaning "any and all projects on this server". */
-  public static final Project.Id WILD_PROJECT = new Project.Id(0);
-
-  public static class Key extends CompoundKey<Project.Id> {
+  public static class Key extends CompoundKey<Project.NameKey> {
     private static final long serialVersionUID = 1L;
 
     @Column
-    protected Project.Id projectId;
+    protected Project.NameKey projectName;
 
     @Column
     protected ApprovalCategory.Id categoryId;
@@ -35,25 +32,25 @@ public final class ProjectRight {
     protected AccountGroup.Id groupId;
 
     protected Key() {
-      projectId = new Project.Id();
+      projectName = new Project.NameKey();
       categoryId = new ApprovalCategory.Id();
       groupId = new AccountGroup.Id();
     }
 
-    public Key(final Project.Id p, final ApprovalCategory.Id a,
+    public Key(final Project.NameKey p, final ApprovalCategory.Id a,
         final AccountGroup.Id g) {
-      projectId = p;
+      projectName = p;
       categoryId = a;
       groupId = g;
     }
 
     @Override
-    public Project.Id getParentKey() {
-      return projectId;
+    public Project.NameKey getParentKey() {
+      return projectName;
     }
 
-    public Project.Id getProjectId() {
-      return projectId;
+    public Project.NameKey getProjectNameKey() {
+      return projectName;
     }
 
     @Override
@@ -82,8 +79,8 @@ public final class ProjectRight {
     return key;
   }
 
-  public Project.Id getProjectId() {
-    return key.projectId;
+  public Project.NameKey getProjectNameKey() {
+    return key.projectName;
   }
 
   public ApprovalCategory.Id getApprovalCategoryId() {

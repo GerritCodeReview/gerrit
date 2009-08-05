@@ -18,8 +18,8 @@ import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.http.RpcServletModule;
 import com.google.gerrit.server.rpc.UiRpcModule;
 
-public class ChangeDetailModule extends RpcServletModule {
-  public ChangeDetailModule() {
+public class ChangeModule extends RpcServletModule {
+  public ChangeModule() {
     super(UiRpcModule.PREFIX);
   }
 

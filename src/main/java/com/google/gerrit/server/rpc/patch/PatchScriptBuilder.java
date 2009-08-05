@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.rpc.patch;
 
+import com.google.gerrit.client.data.EditList;
 import com.google.gerrit.client.data.PatchScript;
 import com.google.gerrit.client.data.PatchScriptSettings;
 import com.google.gerrit.client.data.SparseFileContent;
@@ -305,67 +306,6 @@ class PatchScriptBuilder {
     }
   }
 
-  private void packContent() {
-    for (int curIdx = 0; curIdx < edits.size();) {
-      Edit curEdit = edits.get(curIdx);
-      final int endIdx = findCombinedEnd(edits, curIdx);
-      final Edit endEdit = edits.get(endIdx);
-
-      int aCur = Math.max(0, curEdit.getBeginA() - context());
-      int bCur = Math.max(0, curEdit.getBeginB() - context());
-      final int aEnd = Math.min(a.src.size(), endEdit.getEndA() + context());
-      final int bEnd = Math.min(b.src.size(), endEdit.getEndB() + context());
-
-      while (aCur < aEnd || bCur < bEnd) {
-        if (aCur < curEdit.getBeginA() || endIdx + 1 < curIdx) {
-          a.src.addLineTo(a.dst, aCur);
-          aCur++;
-          bCur++;
-
-        } else if (aCur < curEdit.getEndA()) {
-          a.src.addLineTo(a.dst, aCur++);
-
-        } else if (bCur < curEdit.getEndB()) {
-          b.src.addLineTo(b.dst, bCur++);
-        }
-
-        if (end(curEdit, aCur, bCur) && ++curIdx < edits.size()) {
-          curEdit = edits.get(curIdx);
-          while (curEdit.getType() == Edit.Type.EMPTY) {
-            if (aEnd <= curEdit.getBeginA() || bEnd <= curEdit.getEndB()) {
-              break;
-            }
-            edits.remove(curIdx);
-            if (curIdx < edits.size()) {
-              curEdit = edits.get(curIdx);
-            } else {
-              break;
-            }
-          }
-        }
-      }
-    }
-  }
-
-  private int findCombinedEnd(final List<Edit> edits, final int i) {
-    int end = i + 1;
-    while (end < edits.size() && (combineA(edits, end) || combineB(edits, end)))
-      end++;
-    return end - 1;
-  }
-
-  private boolean combineA(final List<Edit> e, final int i) {
-    return e.get(i).getBeginA() - e.get(i - 1).getEndA() <= 2 * context();
-  }
-
-  private boolean combineB(final List<Edit> e, final int i) {
-    return e.get(i).getBeginB() - e.get(i - 1).getEndB() <= 2 * context();
-  }
-
-  private static boolean end(final Edit edit, final int a, final int b) {
-    return edit.getEndA() <= a && edit.getEndB() <= b;
-  }
-
   private static int end(final FileHeader h) {
     if (h instanceof CombinedFileHeader) {
       return h.getEndOffset();
@@ -374,6 +314,26 @@ class PatchScriptBuilder {
       return h.getHunks().get(0).getStartOffset();
     }
     return h.getEndOffset();
+  }
+
+  private void packContent() {
+    EditList list = new EditList(edits, context(), a.src.size(), b.src.size());
+    for (final EditList.Hunk hunk : list.getHunks()) {
+      while (hunk.next()) {
+        if (hunk.isContextLine()) {
+          a.src.addLineTo(a.dst, hunk.getCurA());
+          hunk.incBoth();
+
+        } else if (hunk.isDeletedA()) {
+          a.src.addLineTo(a.dst, hunk.getCurA());
+          hunk.incA();
+
+        } else if (hunk.isInsertedB()) {
+          b.src.addLineTo(b.dst, hunk.getCurB());
+          hunk.incB();
+        }
+      }
+    }
   }
 
   private class Side {

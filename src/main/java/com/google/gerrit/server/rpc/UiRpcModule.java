@@ -16,6 +16,7 @@ package com.google.gerrit.server.rpc;
 
 import com.google.gerrit.server.http.RpcServletModule;
 import com.google.gerrit.server.patch.PatchModule;
+import com.google.gerrit.server.rpc.account.AccountModule;
 import com.google.gerrit.server.rpc.changedetail.ChangeModule;
 import com.google.gerrit.server.rpc.project.ProjectModule;
 
@@ -29,13 +30,12 @@ public class UiRpcModule extends RpcServletModule {
 
   @Override
   protected void configureServlets() {
-    rpc(AccountServiceImpl.class);
-    rpc(AccountSecurityImpl.class);
     rpc(GroupAdminServiceImpl.class);
     rpc(ChangeListServiceImpl.class);
     rpc(SuggestServiceImpl.class);
     rpc(SystemInfoServiceImpl.class);
 
+    install(new AccountModule());
     install(new ChangeModule());
     install(new PatchModule());
     install(new ProjectModule());

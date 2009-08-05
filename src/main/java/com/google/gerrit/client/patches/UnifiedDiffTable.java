@@ -18,10 +18,11 @@ import static com.google.gerrit.client.patches.PatchLine.Type.CONTEXT;
 import static com.google.gerrit.client.patches.PatchLine.Type.DELETE;
 import static com.google.gerrit.client.patches.PatchLine.Type.INSERT;
 
+import com.google.gerrit.client.data.EditList;
 import com.google.gerrit.client.data.PatchScript;
 import com.google.gerrit.client.data.SparseFileContent;
+import com.google.gerrit.client.data.EditList.Hunk;
 import com.google.gerrit.client.data.PatchScript.DisplayMethod;
-import com.google.gerrit.client.data.PatchScript.Hunk;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gwt.core.client.GWT;
@@ -134,9 +135,9 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
     }
 
     final ArrayList<PatchLine> lines = new ArrayList<PatchLine>();
-    for (final PatchScript.Hunk hunk : script.getHunks()) {
+    for (final EditList.Hunk hunk : script.getHunks()) {
       appendHunkHeader(nc, hunk);
-      while (hunk.hasNextLine()) {
+      while (hunk.next()) {
         if (hunk.isContextLine()) {
           openLine(nc);
           appendLineNumber(nc, hunk.getCurA());
@@ -168,8 +169,6 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
           if (b.size() == hunk.getCurB() && b.isMissingNewlineAtEnd())
             appendNoLF(nc);
         }
-
-        hunk.next();
       }
     }
     resetHtml(nc);

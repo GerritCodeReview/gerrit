@@ -19,6 +19,7 @@ import static com.google.gerrit.client.patches.PatchLine.Type.DELETE;
 import static com.google.gerrit.client.patches.PatchLine.Type.INSERT;
 import static com.google.gerrit.client.patches.PatchLine.Type.REPLACE;
 
+import com.google.gerrit.client.data.EditList;
 import com.google.gerrit.client.data.PatchScript;
 import com.google.gerrit.client.data.SparseFileContent;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
@@ -74,13 +75,13 @@ public class SideBySideTable extends AbstractPatchContentTable {
 
     int lastB = 0;
     final boolean ignoreWS = script.isIgnoreWhitespace();
-    for (final PatchScript.Hunk hunk : script.getHunks()) {
+    for (final EditList.Hunk hunk : script.getHunks()) {
       if (!hunk.isStartOfFile()) {
         appendSkipLine(nc, hunk.getCurB() - lastB);
         lines.add(null);
       }
 
-      while (hunk.hasNextLine()) {
+      while (hunk.next()) {
         if (hunk.isContextLine()) {
           openLine(nc);
           final SafeHtml ctx = fmtA.format(a.get(hunk.getCurA()));
@@ -123,8 +124,6 @@ public class SideBySideTable extends AbstractPatchContentTable {
             lines.add(new PatchLine(INSERT, 0, hunk.getCurB()));
           }
         }
-
-        hunk.next();
       }
       lastB = hunk.getCurB();
     }

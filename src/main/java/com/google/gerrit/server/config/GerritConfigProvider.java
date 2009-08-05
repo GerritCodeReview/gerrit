@@ -47,8 +47,8 @@ public class GerritConfigProvider implements Provider<GerritConfig> {
   private final AuthConfig authConfig;
   private final SchemaFactory<ReviewDb> schema;
   private final Project.NameKey wildProject;
+  private final SshInfo sshInfo;
 
-  private SshInfo sshd;
   private EmailSender emailSender;
   private ContactStore contactStore;
 
@@ -56,17 +56,13 @@ public class GerritConfigProvider implements Provider<GerritConfig> {
   GerritConfigProvider(@GerritServerConfig final Config gsc,
       @CanonicalWebUrl @Nullable final String cwu, final AuthConfig ac,
       final SchemaFactory<ReviewDb> sf,
-      @WildProjectName final Project.NameKey wp) {
+      @WildProjectName final Project.NameKey wp, final SshInfo si) {
     cfg = gsc;
     canonicalWebUrl = cwu;
     authConfig = ac;
     schema = sf;
+    sshInfo = si;
     wildProject = wp;
-  }
-
-  @Inject(optional = true)
-  void setSshd(final SshInfo d) {
-    sshd = d;
   }
 
   @Inject(optional = true)
@@ -108,7 +104,8 @@ public class GerritConfigProvider implements Provider<GerritConfig> {
       db.close();
     }
 
-    final InetSocketAddress addr = sshd != null ? sshd.getAddress() : null;
+    final InetSocketAddress addr =
+        sshInfo != null ? sshInfo.getAddress() : null;
     if (addr != null) {
       final InetAddress ip = addr.getAddress();
       String host;

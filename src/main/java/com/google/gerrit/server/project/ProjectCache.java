@@ -80,7 +80,7 @@ public class ProjectCache {
   }
 
   /** Invalidate the cached information about the given project. */
-  public void invalidate(final Project p) {
+  public void evict(final Project p) {
     if (p != null) {
       auto.remove(p.getNameKey());
     }

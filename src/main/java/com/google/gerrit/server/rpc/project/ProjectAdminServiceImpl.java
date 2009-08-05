@@ -127,7 +127,7 @@ class ProjectAdminServiceImpl extends BaseServiceImplementation implements
         }
         proj.copySettingsFrom(update);
         db.projects().update(Collections.singleton(proj));
-        projectCache.invalidate(proj);
+        projectCache.evict(proj);
 
         if (!wildProject.equals(projectName)) {
           // Update git's description file, in case gitweb is being used
@@ -188,7 +188,7 @@ class ProjectAdminServiceImpl extends BaseServiceImplementation implements
             db.projectRights().delete(Collections.singleton(m));
           }
         }
-        projectCache.invalidate(control.getProject());
+        projectCache.evict(control.getProject());
         return VoidResult.INSTANCE;
       }
     });
@@ -260,7 +260,7 @@ class ProjectAdminServiceImpl extends BaseServiceImplementation implements
           db.projectRights().update(Collections.singleton(pr));
         }
 
-        projectCache.invalidate(proj);
+        projectCache.evict(proj);
         try {
           return projectDetailFactory.create(projectName).call();
         } catch (NoSuchEntityException e) {

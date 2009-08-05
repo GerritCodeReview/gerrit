@@ -18,7 +18,6 @@ import com.google.gerrit.client.data.PatchScript;
 import com.google.gerrit.client.data.PatchScriptSettings;
 import com.google.gerrit.client.data.PatchScriptSettings.Whitespace;
 import com.google.gerrit.client.patches.CommentDetail;
-import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountGeneralPreferences;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.Patch;
@@ -26,10 +25,10 @@ import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
-import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.CorruptEntityException;
 import com.google.gerrit.server.FileTypeRegistry;
 import com.google.gerrit.server.GerritServer;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.Nullable;
 import com.google.gerrit.server.patch.DiffCache;
 import com.google.gerrit.server.patch.DiffCacheContent;
@@ -87,6 +86,8 @@ class PatchScriptFactory extends Handler<PatchScript> {
   private Project.NameKey projectKey;
   private Repository git;
 
+  private ChangeControl control;
+
   @Inject
   PatchScriptFactory(final GerritServer gs, final FileTypeRegistry ftr,
       final DiffCache dc, final ReviewDb db,
@@ -115,7 +116,7 @@ class PatchScriptFactory extends Handler<PatchScript> {
     validatePatchSetId(psa);
     validatePatchSetId(psb);
 
-    final ChangeControl control = changeControlFactory.validateFor(changeId);
+    control = changeControlFactory.validateFor(changeId);
     change = control.getChange();
     patch = db.patches().get(patchKey);
 
@@ -262,9 +263,9 @@ class PatchScriptFactory extends Handler<PatchScript> {
       r.include(p);
     }
 
-    final Account.Id me = Common.getAccountId();
-    if (me != null) {
-      for (PatchLineComment p : db.patchComments().draft(changeId, pn, me)) {
+    if (control.getCurrentUser() instanceof IdentifiedUser) {
+      for (PatchLineComment p : db.patchComments().draft(changeId, pn,
+          ((IdentifiedUser) control.getCurrentUser()).getAccountId())) {
         r.include(p);
       }
     }

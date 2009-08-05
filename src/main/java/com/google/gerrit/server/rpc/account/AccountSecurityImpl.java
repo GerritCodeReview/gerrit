@@ -28,6 +28,7 @@ import com.google.gerrit.client.rpc.InvalidSshKeyException;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gerrit.server.BaseServiceImplementation;
 import com.google.gerrit.server.ContactStore;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.account.AccountCache2;
 import com.google.gerrit.server.config.AuthConfig;
@@ -74,12 +75,13 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
   private final ExternalIdDetailFactory.Factory externalIdDetailFactory;
 
   @Inject
-  AccountSecurityImpl(final Provider<ReviewDb> sf, final ContactStore cs,
+  AccountSecurityImpl(final Provider<ReviewDb> schema,
+      final Provider<CurrentUser> currentUser, final ContactStore cs,
       final AuthConfig ac, final RegisterNewEmailSender.Factory esf,
       final SshKeyCache skc, final AccountByEmailCache abec,
       final AccountCache2 uac,
       final ExternalIdDetailFactory.Factory externalIdDetailFactory) {
-    super(sf);
+    super(schema, currentUser);
     contactStore = cs;
     authConfig = ac;
     registerNewEmailFactory = esf;
@@ -95,7 +97,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
   public void mySshKeys(final AsyncCallback<List<AccountSshKey>> callback) {
     run(callback, new Action<List<AccountSshKey>>() {
       public List<AccountSshKey> run(ReviewDb db) throws OrmException {
-        return db.accountSshKeys().byAccount(Common.getAccountId()).toList();
+        return db.accountSshKeys().byAccount(getAccountId()).toList();
       }
     });
   }
@@ -105,7 +107,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
     run(callback, new Action<AccountSshKey>() {
       public AccountSshKey run(final ReviewDb db) throws OrmException, Failure {
         int max = 0;
-        final Account.Id me = Common.getAccountId();
+        final Account.Id me = getAccountId();
         for (final AccountSshKey k : db.accountSshKeys().byAccount(me)) {
           max = Math.max(max, k.getKey().get());
         }
@@ -138,7 +140,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
       final AsyncCallback<VoidResult> callback) {
     run(callback, new Action<VoidResult>() {
       public VoidResult run(final ReviewDb db) throws OrmException, Failure {
-        final Account.Id me = Common.getAccountId();
+        final Account.Id me = getAccountId();
         for (final AccountSshKey.Id keyId : ids) {
           if (!me.equals(keyId.getParentKey()))
             throw new Failure(new NoSuchEntityException());
@@ -181,7 +183,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
           throws OrmException, Failure {
         // Don't permit deletes unless they are for our own account
         //
-        final Account.Id me = Common.getAccountId();
+        final Account.Id me = getAccountId();
         for (final AccountExternalId.Key keyId : keys) {
           if (!me.equals(keyId.getParentKey()))
             throw new Failure(new NoSuchEntityException());
@@ -236,7 +238,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
       final ContactInformation info, final AsyncCallback<Account> callback) {
     run(callback, new Action<Account>() {
       public Account run(ReviewDb db) throws OrmException, Failure {
-        final Account me = db.accounts().get(Common.getAccountId());
+        final Account me = db.accounts().get(getAccountId());
         final String oldUser = me.getSshUserName();
         final String oldEmail = me.getPreferredEmail();
         me.setFullName(name != null && !name.isEmpty() ? name : null);
@@ -288,7 +290,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
 
         final AccountAgreement a =
             new AccountAgreement(new AccountAgreement.Key(
-                Common.getAccountId(), id));
+                getAccountId(), id));
         if (cla.isAutoVerify()) {
           a.review(AccountAgreement.Status.VERIFIED, null);
         }
@@ -339,7 +341,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
 
     run(callback, new Action<VoidResult>() {
       public VoidResult run(ReviewDb db) throws OrmException {
-        final Account.Id me = Common.getAccountId();
+        final Account.Id me = getAccountId();
         final List<AccountExternalId> exists =
             db.accountExternalIds().byAccountEmail(me, newEmail).toList();
         if (!exists.isEmpty()) {

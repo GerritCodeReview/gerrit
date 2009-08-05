@@ -80,18 +80,18 @@ class ProjectAdminServiceImpl extends BaseServiceImplementation implements
   private final ProjectDetailFactory.Factory projectDetailFactory;
 
   @Inject
-  ProjectAdminServiceImpl(final Provider<ReviewDb> sf, final GerritServer gs,
-      final ProjectCache pc, final ReplicationQueue rq,
-      final Provider<IdentifiedUser> iu,
+  ProjectAdminServiceImpl(final Provider<ReviewDb> schema,
+      final GerritServer gs, final ProjectCache pc, final ReplicationQueue rq,
+      final Provider<IdentifiedUser> currentUser,
       @WildProjectName final Project.NameKey wp,
       final ProjectControl.Factory projectControlFactory,
       final ProjectDetailFactory.Factory projectDetailFactory) {
-    super(sf);
+    super(schema, currentUser);
     this.server = gs;
     this.projectCache = pc;
     this.replication = rq;
     this.wildProject = wp;
-    this.identifiedUser = iu;
+    this.identifiedUser = currentUser;
     this.projectControlFactory = projectControlFactory;
     this.projectDetailFactory = projectDetailFactory;
   }
@@ -395,7 +395,7 @@ class ProjectAdminServiceImpl extends BaseServiceImplementation implements
           throw new Failure(new InvalidNameException());
         }
 
-        final Account me = Common.getAccountCache().get(Common.getAccountId());
+        final Account me = Common.getAccountCache().get(getAccountId());
         if (me == null) {
           throw new Failure(new NoSuchEntityException());
         }

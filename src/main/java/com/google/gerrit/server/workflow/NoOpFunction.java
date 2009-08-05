@@ -15,7 +15,7 @@
 package com.google.gerrit.server.workflow;
 
 import com.google.gerrit.client.data.ApprovalType;
-import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.server.CurrentUser;
 
 /** A function that does nothing. */
 public class NoOpFunction extends CategoryFunction {
@@ -26,7 +26,7 @@ public class NoOpFunction extends CategoryFunction {
   }
 
   @Override
-  public boolean isValid(final Account.Id accountId, final ApprovalType at,
+  public boolean isValid(final CurrentUser user, final ApprovalType at,
       final FunctionState state) {
     return false;
   }

@@ -50,13 +50,13 @@ class AccountServiceImpl extends BaseServiceImplementation implements
   private final AgreementInfoFactory.Factory agreementInfoFactory;
 
   @Inject
-  AccountServiceImpl(final Provider<ReviewDb> sf,
-      final Provider<IdentifiedUser> currentUser,
+  AccountServiceImpl(final Provider<ReviewDb> schema,
+      final Provider<IdentifiedUser> identifiedUser,
       final AccountCache2 accountCache,
       final ProjectControl.Factory projectControlFactory,
       final AgreementInfoFactory.Factory agreementInfoFactory) {
-    super(sf);
-    this.currentUser = currentUser;
+    super(schema, identifiedUser);
+    this.currentUser = identifiedUser;
     this.accountCache = accountCache;
     this.projectControlFactory = projectControlFactory;
     this.agreementInfoFactory = agreementInfoFactory;
@@ -70,7 +70,7 @@ class AccountServiceImpl extends BaseServiceImplementation implements
       final AsyncCallback<VoidResult> callback) {
     run(callback, new Action<VoidResult>() {
       public VoidResult run(final ReviewDb db) throws OrmException, Failure {
-        final Account a = db.accounts().get(Common.getAccountId());
+        final Account a = db.accounts().get(getAccountId());
         if (a == null) {
           throw new Failure(new NoSuchEntityException());
         }
@@ -91,7 +91,7 @@ class AccountServiceImpl extends BaseServiceImplementation implements
             new ArrayList<AccountProjectWatchInfo>();
 
         for (final AccountProjectWatch w : db.accountProjectWatches()
-            .byAccount(Common.getAccountId()).toList()) {
+            .byAccount(getAccountId()).toList()) {
           final ProjectControl ctl;
           try {
             ctl = projectControlFactory.validateFor(w.getProjectNameKey());
@@ -132,7 +132,7 @@ class AccountServiceImpl extends BaseServiceImplementation implements
 
   public void updateProjectWatch(final AccountProjectWatch watch,
       final AsyncCallback<VoidResult> callback) {
-    if (!Common.getAccountId().equals(watch.getAccountId())) {
+    if (!getAccountId().equals(watch.getAccountId())) {
       callback.onFailure(new NoSuchEntityException());
       return;
     }
@@ -149,7 +149,7 @@ class AccountServiceImpl extends BaseServiceImplementation implements
       final AsyncCallback<VoidResult> callback) {
     run(callback, new Action<VoidResult>() {
       public VoidResult run(final ReviewDb db) throws OrmException, Failure {
-        final Account.Id me = Common.getAccountId();
+        final Account.Id me = getAccountId();
         for (final AccountProjectWatch.Key keyId : keys) {
           if (!me.equals(keyId.getParentKey()))
             throw new Failure(new NoSuchEntityException());

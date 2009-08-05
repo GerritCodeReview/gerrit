@@ -19,7 +19,6 @@ import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountGeneralPreferences;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.GerritCallback;
-import com.google.gerrit.client.rpc.Common.CurrentAccountImpl;
 import com.google.gerrit.client.ui.LinkMenuBar;
 import com.google.gerrit.client.ui.LinkMenuItem;
 import com.google.gerrit.client.ui.NeedsSignInKeyCommand;
@@ -202,13 +201,6 @@ public class Gerrit implements EntryPoint {
       }
     };
     RootPanel.get("gerrit_body").add(body);
-
-    Common.setCurrentAccountImpl(new CurrentAccountImpl() {
-      public Account.Id getAccountId() {
-        final Account a = getUserAccount();
-        return a != null ? a.getId() : null;
-      }
-    });
 
     final RpcStatus rpcStatus = new RpcStatus(menuArea);
     JsonUtil.addRpcStartHandler(rpcStatus);

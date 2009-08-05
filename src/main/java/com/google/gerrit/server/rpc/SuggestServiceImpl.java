@@ -44,11 +44,11 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
   private final ProjectCache projectCache;
 
   @Inject
-  SuggestServiceImpl(final Provider<ReviewDb> sf, final ProjectCache pc,
-      final Provider<CurrentUser> cu) {
-    super(sf);
-    projectCache = pc;
-    currentUser = cu;
+  SuggestServiceImpl(final Provider<ReviewDb> schema, final ProjectCache pc,
+      final Provider<CurrentUser> currentUser) {
+    super(schema, currentUser);
+    this.projectCache = pc;
+    this.currentUser = currentUser;
   }
 
   public void suggestProjectNameKey(final String query, final int limit,

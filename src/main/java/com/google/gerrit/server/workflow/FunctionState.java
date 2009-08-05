@@ -48,8 +48,6 @@ public class FunctionState {
   private final AccountCache2 accountCache;
   private final ProjectCache projectCache;
 
-  private final Map<Account.Id, Set<AccountGroup.Id>> groupCache =
-      new HashMap<Account.Id, Set<AccountGroup.Id>>();
   private final Map<ApprovalCategory.Id, Collection<ChangeApproval>> approvals =
       new HashMap<ApprovalCategory.Id, Collection<ChangeApproval>>();
   private final Map<ApprovalCategory.Id, Boolean> valid =
@@ -182,24 +180,6 @@ public class FunctionState {
     return r;
   }
 
-  public boolean isMember(final ChangeApproval ca, final ProjectRight r) {
-    return isMember(ca.getAccountId(), r.getAccountGroupId());
-  }
-
-  public boolean isMember(final Account.Id accountId,
-      final AccountGroup.Id groupId) {
-    return getGroups(accountId).contains(groupId);
-  }
-
-  public Set<AccountGroup.Id> getGroups(final Account.Id id) {
-    Set<AccountGroup.Id> g = groupCache.get(id);
-    if (g == null) {
-      g = accountCache.get(id).getEffectiveGroups();
-      groupCache.put(id, g);
-    }
-    return g;
-  }
-
   /**
    * Normalize the approval record down to the range permitted by the type, in
    * case the type was modified since the approval was originally granted.
@@ -236,7 +216,9 @@ public class FunctionState {
     //
     short minAllowed = 0, maxAllowed = 0;
     for (final ProjectRight r : getAllRights(a.getCategoryId())) {
-      if (isMember(a, r)) {
+      final Account.Id who = a.getAccountId();
+      final AccountGroup.Id grp = r.getAccountGroupId();
+      if (accountCache.get(who).getEffectiveGroups().contains(grp)) {
         minAllowed = (short) Math.min(minAllowed, r.getMinValue());
         maxAllowed = (short) Math.max(maxAllowed, r.getMaxValue());
       }

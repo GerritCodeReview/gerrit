@@ -19,7 +19,6 @@ import com.google.gerrit.client.Link;
 import com.google.gerrit.client.data.AccountDashboardInfo;
 import com.google.gerrit.client.data.AccountInfo;
 import com.google.gerrit.client.reviewdb.Account;
-import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.Screen;
 
@@ -32,8 +31,7 @@ public class AccountDashboardScreen extends Screen {
   private ChangeTable.Section closed;
 
   public AccountDashboardScreen(final Account.Id id) {
-    ownerId = id != null ? id : Common.getAccountId();
-    setRequiresSignIn(ownerId == null);
+    ownerId = id;
   }
 
   @Override

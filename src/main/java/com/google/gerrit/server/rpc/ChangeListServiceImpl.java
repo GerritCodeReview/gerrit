@@ -90,10 +90,10 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
   private final ChangeControl.Factory changeControlFactory;
 
   @Inject
-  ChangeListServiceImpl(final Provider<ReviewDb> sf,
+  ChangeListServiceImpl(final Provider<ReviewDb> schema,
       final Provider<CurrentUser> currentUser,
       final ChangeControl.Factory changeControlFactory) {
-    super(sf);
+    super(schema, currentUser);
     this.currentUser = currentUser;
     this.changeControlFactory = changeControlFactory;
   }
@@ -268,7 +268,7 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
 
   public void forAccount(final Account.Id id,
       final AsyncCallback<AccountDashboardInfo> callback) {
-    final Account.Id me = Common.getAccountId();
+    final Account.Id me = getAccountId();
     final Account.Id target = id != null ? id : me;
     if (target == null) {
       callback.onFailure(new NoSuchEntityException());
@@ -325,7 +325,7 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
       final AsyncCallback<SingleListChangeInfo> callback) {
     run(callback, new Action<SingleListChangeInfo>() {
       public SingleListChangeInfo run(final ReviewDb db) throws OrmException {
-        final Account.Id me = Common.getAccountId();
+        final Account.Id me = getAccountId();
         final AccountInfoCacheFactory ac = new AccountInfoCacheFactory(db);
         final SingleListChangeInfo d = new SingleListChangeInfo();
         final Set<Change.Id> starred = currentUser.get().getStarredChanges();
@@ -344,7 +344,7 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
   public void myDraftChanges(final AsyncCallback<SingleListChangeInfo> callback) {
     run(callback, new Action<SingleListChangeInfo>() {
       public SingleListChangeInfo run(final ReviewDb db) throws OrmException {
-        final Account.Id me = Common.getAccountId();
+        final Account.Id me = getAccountId();
         final AccountInfoCacheFactory ac = new AccountInfoCacheFactory(db);
         final SingleListChangeInfo d = new SingleListChangeInfo();
         final Set<Change.Id> starred = currentUser.get().getStarredChanges();
@@ -365,7 +365,7 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
       final AsyncCallback<VoidResult> callback) {
     run(callback, new Action<VoidResult>() {
       public VoidResult run(final ReviewDb db) throws OrmException {
-        final Account.Id me = Common.getAccountId();
+        final Account.Id me = getAccountId();
         final Set<Change.Id> existing = currentUser.get().getStarredChanges();
         final ArrayList<StarredChange> add = new ArrayList<StarredChange>();
         final ArrayList<StarredChange> remove = new ArrayList<StarredChange>();
@@ -503,7 +503,7 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
     }
 
     public SingleListChangeInfo run(final ReviewDb db) throws OrmException {
-      final Account.Id me = Common.getAccountId();
+      final Account.Id me = getAccountId();
       final AccountInfoCacheFactory ac = new AccountInfoCacheFactory(db);
       final SingleListChangeInfo d = new SingleListChangeInfo();
       final Set<Change.Id> starred = currentUser.get().getStarredChanges();

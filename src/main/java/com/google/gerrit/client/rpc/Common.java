@@ -16,7 +16,6 @@ package com.google.gerrit.client.rpc;
 
 import com.google.gerrit.client.data.AccountCache;
 import com.google.gerrit.client.data.GerritConfig;
-import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gwtorm.client.SchemaFactory;
 
@@ -24,7 +23,6 @@ public class Common {
   private static GerritConfig config;
   private static SchemaFactory<ReviewDb> schema;
   private static AccountCache accountCache;
-  private static CurrentAccountImpl caImpl;
 
   /** Get the public configuration data used by this Gerrit instance. */
   public static GerritConfig getGerritConfig() {
@@ -59,19 +57,5 @@ public class Common {
 
   public static void setSchemaFactory(final SchemaFactory<ReviewDb> imp) {
     schema = imp;
-  }
-
-  /** Get the unique id for this account; null if there is no account. */
-  public static Account.Id getAccountId() {
-    return caImpl.getAccountId();
-  }
-
-  public static void setCurrentAccountImpl(final CurrentAccountImpl i) {
-    caImpl = i;
-  }
-
-  public interface CurrentAccountImpl {
-    /** Get the unique id for this account; null if there is no account. */
-    public Account.Id getAccountId();
   }
 }

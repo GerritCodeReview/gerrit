@@ -15,10 +15,10 @@
 package com.google.gerrit.server.workflow;
 
 import com.google.gerrit.client.data.ApprovalType;
-import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ChangeApproval;
 import com.google.gerrit.client.reviewdb.ProjectRight;
+import com.google.gerrit.server.CurrentUser;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,7 +35,7 @@ public abstract class CategoryFunction {
 
   /**
    * Locate a function by category.
-   * 
+   *
    * @param category the category the function is for.
    * @return the function implementation; {@link NoOpFunction} if the function
    *         is not known to Gerrit and thus cannot be executed.
@@ -47,7 +47,7 @@ public abstract class CategoryFunction {
 
   /**
    * Locate a function by name.
-   * 
+   *
    * @param functionName the function's unique name.
    * @return the function implementation; null if the function is not known to
    *         Gerrit and thus cannot be executed.
@@ -60,7 +60,7 @@ public abstract class CategoryFunction {
    * Normalize ChangeApprovals and set the valid flag for this category.
    * <p>
    * Implementors should invoke:
-   * 
+   *
    * <pre>
    * state.valid(at, true);
    * </pre>
@@ -70,7 +70,7 @@ public abstract class CategoryFunction {
    * <p>
    * An example implementation which requires at least one positive and no
    * negatives might be:
-   * 
+   *
    * <pre>
    * boolean neg = false, pos = false;
    * for (final ChangeApproval ca : state.getApprovals(at)) {
@@ -80,17 +80,17 @@ public abstract class CategoryFunction {
    * }
    * state.valid(at, !neg &amp;&amp; pos);
    * </pre>
-   * 
+   *
    * @param at the cached category description to process.
    * @param state state to read approvals and project rights from, and to update
    *        the valid status into.
    */
   public abstract void run(ApprovalType at, FunctionState state);
 
-  public boolean isValid(final Account.Id accountId, final ApprovalType at,
+  public boolean isValid(final CurrentUser user, final ApprovalType at,
       final FunctionState state) {
     for (final ProjectRight pr : state.getAllRights(at)) {
-      if (state.isMember(accountId, pr.getAccountGroupId())
+      if (user.getEffectiveGroups().contains(pr.getAccountGroupId())
           && (pr.getMinValue() < 0 || pr.getMaxValue() > 0)) {
         return true;
       }

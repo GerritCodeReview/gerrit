@@ -30,7 +30,6 @@ import com.google.gerrit.client.reviewdb.PatchSetAncestor;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.RevId;
 import com.google.gerrit.client.reviewdb.ReviewDb;
-import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
@@ -67,6 +66,7 @@ class ChangeDetailFactory extends Handler<ChangeDetail> {
 
   private AccountInfoCacheFactory acc;
   private ChangeDetail detail;
+  private ChangeControl control;
 
   @Inject
   ChangeDetailFactory(final GerritConfig gerritConfig,
@@ -86,7 +86,7 @@ class ChangeDetailFactory extends Handler<ChangeDetail> {
   @Override
   public ChangeDetail call() throws OrmException, NoSuchEntityException,
       PatchSetInfoNotAvailableException, NoSuchChangeException {
-    final ChangeControl control = changeControlFactory.validateFor(changeId);
+    control = changeControlFactory.validateFor(changeId);
     final Change change = control.getChange();
     final Project proj = control.getProject();
     final PatchSet patch = db.patchSets().get(change.currentPatchSetId());
@@ -129,7 +129,6 @@ class ChangeDetailFactory extends Handler<ChangeDetail> {
         db.changeApprovals().byChange(changeId).toList();
 
     if (detail.getChange().getStatus().isOpen()) {
-      final Account.Id me = Common.getAccountId();
       final FunctionState fs =
           functionState.create(detail.getChange(), allApprovals);
 
@@ -146,7 +145,8 @@ class ChangeDetailFactory extends Handler<ChangeDetail> {
         }
       }
       for (final ApprovalType at : gerritConfig.getActionTypes()) {
-        if (CategoryFunction.forCategory(at.getCategory()).isValid(me, at, fs)) {
+        if (CategoryFunction.forCategory(at.getCategory()).isValid(
+            control.getCurrentUser(), at, fs)) {
           currentActions.add(at.getCategory().getId());
         }
       }
@@ -182,6 +182,7 @@ class ChangeDetailFactory extends Handler<ChangeDetail> {
     final PatchSet.Id psId = detail.getChange().currentPatchSetId();
     final PatchSetDetailFactory loader = patchSetDetail.create(psId);
     loader.patchSet = detail.getCurrentPatchSet();
+    loader.control = control;
     detail.setCurrentPatchSetDetail(loader.call());
 
     final HashSet<Change.Id> changesToGet = new HashSet<Change.Id>();

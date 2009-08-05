@@ -15,11 +15,11 @@
 package com.google.gerrit.server.workflow;
 
 import com.google.gerrit.client.data.ApprovalType;
-import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.client.rpc.Common;
+import com.google.gerrit.server.CurrentUser;
 
 /**
  * Computes if the submit function can be used.
@@ -40,11 +40,11 @@ public class SubmitFunction extends CategoryFunction {
   }
 
   @Override
-  public boolean isValid(final Account.Id accountId, final ApprovalType at,
+  public boolean isValid(final CurrentUser user, final ApprovalType at,
       final FunctionState state) {
     if (valid(at, state)) {
       for (final ProjectRight pr : state.getAllRights(at)) {
-        if (state.isMember(accountId, pr.getAccountGroupId())
+        if (user.getEffectiveGroups().contains(pr.getAccountGroupId())
             && pr.getMaxValue() > 0) {
           return true;
         }

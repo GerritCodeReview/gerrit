@@ -16,15 +16,9 @@ package com.google.gerrit.server.http;
 
 import static com.google.inject.Stage.PRODUCTION;
 
-import com.google.gerrit.client.reviewdb.Account;
-import com.google.gerrit.client.rpc.Common;
-import com.google.gerrit.client.rpc.Common.CurrentAccountImpl;
 import com.google.gerrit.git.PushAllProjectsOp;
 import com.google.gerrit.git.ReloadSubmitQueueOp;
 import com.google.gerrit.git.WorkQueue;
-import com.google.gerrit.server.AnonymousUser;
-import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;
 import com.google.gerrit.server.config.DatabaseModule;
@@ -38,7 +32,6 @@ import com.google.inject.CreationException;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
-import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 import com.google.inject.servlet.GuiceServletContextListener;
@@ -151,35 +144,6 @@ public class GerritServletConfig extends GuiceServletContextListener {
   public void contextInitialized(final ServletContextEvent event) {
     super.contextInitialized(event);
     init();
-
-    // Temporary hack to make Common.getAccountId() honor the Guice
-    // managed request state in either SSH or HTTP environments.
-    //
-    Common.setCurrentAccountImpl(new CurrentAccountImpl() {
-      private final Provider<IdentifiedUser> sshUser =
-          sshInjector.getProvider(IdentifiedUser.class);
-      private final Provider<CurrentUser> webUser =
-          webInjector.getProvider(CurrentUser.class);
-
-      public Account.Id getAccountId() {
-        try {
-          return sshUser.get().getAccountId();
-        } catch (ProvisionException notSsh) {
-          if (!(notSsh.getCause() instanceof OutOfScopeException)) {
-            throw notSsh;
-          }
-        }
-
-        CurrentUser u = webUser.get();
-        if (u instanceof IdentifiedUser) {
-          return ((IdentifiedUser) u).getAccountId();
-        } else if (u instanceof AnonymousUser) {
-          return null;
-        } else {
-          throw new OutOfScopeException("Cannot determine current user");
-        }
-      }
-    });
 
     try {
       sysInjector.getInstance(PushAllProjectsOp.Factory.class).create(null)

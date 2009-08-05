@@ -27,6 +27,7 @@ import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gerrit.git.MergeQueue;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.rpc.Handler;
 import com.google.gerrit.server.workflow.CategoryFunction;
 import com.google.gerrit.server.workflow.FunctionState;
@@ -49,15 +50,20 @@ class SubmitAction extends Handler<VoidResult> {
   private final MergeQueue merger;
   private final GerritConfig gerritConfig;
   private final FunctionState.Factory functionState;
+  private final IdentifiedUser user;
+
   private final PatchSet.Id patchSetId;
 
   @Inject
   SubmitAction(final ReviewDb db, final MergeQueue mq, final GerritConfig gc,
-      final FunctionState.Factory fs, @Assisted final PatchSet.Id patchSetId) {
+      final FunctionState.Factory fs, final IdentifiedUser user,
+      @Assisted final PatchSet.Id patchSetId) {
     this.db = db;
     this.merger = mq;
     this.gerritConfig = gc;
     this.functionState = fs;
+    this.user = user;
+
     this.patchSetId = patchSetId;
   }
 
@@ -81,9 +87,8 @@ class SubmitAction extends Handler<VoidResult> {
         new ArrayList<ChangeApproval>(db.changeApprovals().byChange(
             change.getId()).toList());
 
-    final Account.Id me = Common.getAccountId();
     final ChangeApproval.Key ak =
-        new ChangeApproval.Key(change.getId(), me, SUBMIT);
+        new ChangeApproval.Key(change.getId(), user.getAccountId(), SUBMIT);
     ChangeApproval myAction = null;
     boolean isnew = true;
     for (final ChangeApproval ca : allApprovals) {
@@ -111,7 +116,7 @@ class SubmitAction extends Handler<VoidResult> {
     for (ApprovalType c : gerritConfig.getApprovalTypes()) {
       CategoryFunction.forCategory(c.getCategory()).run(c, fs);
     }
-    if (!CategoryFunction.forCategory(actionType.getCategory()).isValid(me,
+    if (!CategoryFunction.forCategory(actionType.getCategory()).isValid(user,
         actionType, fs)) {
       throw new IllegalStateException(actionType.getCategory().getName()
           + " not permitted");

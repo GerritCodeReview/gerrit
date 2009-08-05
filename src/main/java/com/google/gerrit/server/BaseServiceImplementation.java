@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server;
 
+import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.CorruptEntityException;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
@@ -27,9 +28,21 @@ import com.google.inject.Provider;
 /** Support for services which require a {@link ReviewDb} instance. */
 public class BaseServiceImplementation {
   private final Provider<ReviewDb> schema;
+  private final Provider<? extends CurrentUser> currentUser;
 
-  protected BaseServiceImplementation(final Provider<ReviewDb> sf) {
-    schema = sf;
+  protected BaseServiceImplementation(final Provider<ReviewDb> schema,
+      final Provider<? extends CurrentUser> currentUser) {
+    this.schema = schema;
+    this.currentUser = currentUser;
+  }
+
+  @Deprecated
+  protected Account.Id getAccountId() {
+    CurrentUser u = currentUser.get();
+    if (u instanceof IdentifiedUser) {
+      return ((IdentifiedUser) u).getAccountId();
+    }
+    return null;
   }
 
   /**

@@ -21,8 +21,8 @@ import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.ReviewDb;
-import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
@@ -50,6 +50,7 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
   private final PatchSet.Id psId;
 
   private PatchSetDetail detail;
+  ChangeControl control;
   PatchSet patchSet;
 
   @Inject
@@ -66,8 +67,8 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
   @Override
   public PatchSetDetail call() throws OrmException, NoSuchEntityException,
       PatchSetInfoNotAvailableException, NoSuchChangeException {
-    if (patchSet == null) {
-      changeControlFactory.validateFor(psId.getParentKey());
+    if (control == null || patchSet == null) {
+      control = changeControlFactory.validateFor(psId.getParentKey());
       patchSet = db.patchSets().get(psId);
       if (patchSet == null) {
         throw new NoSuchEntityException();
@@ -80,12 +81,13 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
     detail.setInfo(infoFactory.get(psId));
     detail.setPatches(db.patches().byPatchSet(psId).toList());
 
-    final Account.Id me = Common.getAccountId();
-    if (me != null) {
+    if (control.getCurrentUser() instanceof IdentifiedUser) {
       // If we are signed in, compute the number of draft comments by the
       // current user on each of these patch files. This way they can more
       // quickly locate where they have pending drafts, and review them.
       //
+      final Account.Id me =
+          ((IdentifiedUser) control.getCurrentUser()).getAccountId();
       final List<PatchLineComment> comments =
           db.patchComments().draft(psId, me).toList();
       if (!comments.isEmpty()) {

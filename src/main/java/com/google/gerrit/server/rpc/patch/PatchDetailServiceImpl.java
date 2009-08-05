@@ -38,6 +38,7 @@ import com.google.gerrit.client.rpc.NoSuchAccountException;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gerrit.server.BaseServiceImplementation;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.mail.AddReviewerSender;
 import com.google.gerrit.server.mail.CommentSender;
 import com.google.gerrit.server.mail.EmailException;
@@ -76,14 +77,15 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
   private final ApprovalCategory.Id addReviewerCategoryId;
 
   @Inject
-  PatchDetailServiceImpl(final Provider<ReviewDb> sf,
+  PatchDetailServiceImpl(final Provider<ReviewDb> schema,
+      final Provider<CurrentUser> currentUser,
       final AddReviewerSender.Factory arsf, final CommentSender.Factory csf,
       final PatchSetInfoFactory psif, final GerritConfig gc,
       final AbandonChange.Factory abandonChangeFactory,
       final CommentDetailFactory.Factory commentDetailFactory,
       final PatchScriptFactory.Factory patchScriptFactoryFactory,
       final SaveDraft.Factory saveDraftFactory) {
-    super(sf);
+    super(schema, currentUser);
     patchSetInfoFactory = psif;
     addReviewerSenderFactory = arsf;
     commentSenderFactory = csf;
@@ -131,7 +133,7 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
         if (comment == null) {
           throw new Failure(new NoSuchEntityException());
         }
-        if (!Common.getAccountId().equals(comment.getAuthor())) {
+        if (!getAccountId().equals(comment.getAuthor())) {
           throw new Failure(new NoSuchEntityException());
         }
         if (comment.getStatus() != PatchLineComment.Status.DRAFT) {
@@ -160,7 +162,7 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
         try {
           final CommentSender cm;
           cm = commentSenderFactory.create(r.change);
-          cm.setFrom(Common.getAccountId());
+          cm.setFrom(getAccountId());
           cm.setPatchSet(r.patchSet, patchSetInfoFactory.get(psid));
           cm.setChangeMessage(r.message);
           cm.setPatchLineComments(r.comments);
@@ -185,7 +187,7 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
       final boolean reviewed, AsyncCallback<VoidResult> callback) {
     run(callback, new Action<VoidResult>() {
       public VoidResult run(ReviewDb db) throws OrmException {
-        Account.Id account = Common.getAccountId();
+        Account.Id account = getAccountId();
         AccountPatchReview.Key key =
             new AccountPatchReview.Key(patchKey, account);
         AccountPatchReview apr = db.accountPatchReviews().get(key);
@@ -212,7 +214,7 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
       final String messageText, final Set<ApprovalCategoryValue.Id> approvals,
       final ReviewDb db, final Transaction txn) throws OrmException {
     final PublishResult r = new PublishResult();
-    final Account.Id me = Common.getAccountId();
+    final Account.Id me = getAccountId();
     r.change = db.changes().get(psid.getParentKey());
     r.patchSet = db.patchSets().get(psid);
     if (r.change == null || r.patchSet == null) {
@@ -344,7 +346,7 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
         try {
           final AddReviewerSender cm;
           cm = addReviewerSenderFactory.create(change);
-          cm.setFrom(Common.getAccountId());
+          cm.setFrom(getAccountId());
           cm.setReviewDb(db);
           cm.addReviewers(reviewerIds);
           cm.send();

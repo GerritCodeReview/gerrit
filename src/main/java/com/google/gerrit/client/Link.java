@@ -41,7 +41,6 @@ import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.Project;
-import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -152,7 +151,13 @@ public class Link implements ValueChangeHandler<String> {
     }
 
     if (MINE.equals(token)) {
-      return new AccountDashboardScreen(Common.getAccountId());
+      if (Gerrit.isSignedIn()) {
+        return new AccountDashboardScreen(Gerrit.getUserAccount().getId());
+      } else {
+        final Screen r = new AccountDashboardScreen(null);
+        r.setRequiresSignIn(true);
+        return r;
+      }
     }
     if (token.startsWith("mine,")) {
       if (MINE_STARRED.equals(token)) {

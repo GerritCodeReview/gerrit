@@ -54,12 +54,12 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
   private final GroupControl.Factory groupControlFactory;
 
   @Inject
-  GroupAdminServiceImpl(final Provider<ReviewDb> sf,
-      final Provider<IdentifiedUser> iu, final AccountCache2 accountCache,
-      final GroupCache groupCache,
+  GroupAdminServiceImpl(final Provider<ReviewDb> schema,
+      final Provider<IdentifiedUser> currentUser,
+      final AccountCache2 accountCache, final GroupCache groupCache,
       final GroupControl.Factory groupControlFactory) {
-    super(sf);
-    this.identifiedUser = iu;
+    super(schema, currentUser);
+    this.identifiedUser = currentUser;
     this.accountCache = accountCache;
     this.groupCache = groupCache;
     this.groupControlFactory = groupControlFactory;
@@ -118,7 +118,7 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
         group.setNameKey(nameKey);
         group.setDescription("");
 
-        final Account.Id me = Common.getAccountId();
+        final Account.Id me = getAccountId();
         final AccountGroupMember m =
             new AccountGroupMember(
                 new AccountGroupMember.Key(me, group.getId()));
@@ -229,8 +229,8 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
           final Transaction txn = db.beginTransaction();
           db.accountGroupMembers().insert(Collections.singleton(m), txn);
           db.accountGroupMembersAudit().insert(
-              Collections.singleton(new AccountGroupMemberAudit(m, Common
-                  .getAccountId())), txn);
+              Collections.singleton(new AccountGroupMemberAudit(m,
+                  getAccountId())), txn);
           txn.commit();
           accountCache.evict(m.getAccountId());
         }
@@ -259,7 +259,7 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
           }
         }
 
-        final Account.Id me = Common.getAccountId();
+        final Account.Id me = getAccountId();
         for (final AccountGroupMember.Key k : keys) {
           final AccountGroupMember m = db.accountGroupMembers().get(k);
           if (m != null) {

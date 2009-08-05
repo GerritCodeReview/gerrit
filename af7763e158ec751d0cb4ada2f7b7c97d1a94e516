@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAdn///uQ\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/http/UrlRewriteFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2009-08-05T17:40:21Z",
+      "side": 1,
+      "message": "Does this change relate to commit it belongs to?",
+      "revId": "af7763e158ec751d0cb4ada2f7b7c97d1a94e516",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

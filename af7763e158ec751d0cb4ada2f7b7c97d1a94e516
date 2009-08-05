@@ -16,6 +16,24 @@
       "revId": "af7763e158ec751d0cb4ada2f7b7c97d1a94e516",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAdn///uM\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/http/UrlRewriteFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-05T17:41:40Z",
+      "side": 1,
+      "message": "Whoops, no, it doesn\u0027t.  :-(",
+      "parentUuid": "AAAAdn///uQ\u003d",
+      "revId": "af7763e158ec751d0cb4ada2f7b7c97d1a94e516",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

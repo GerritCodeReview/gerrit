@@ -43,26 +43,23 @@ import java.util.Set;
 
 class AccountServiceImpl extends BaseServiceImplementation implements
     AccountService {
+  private final Provider<IdentifiedUser> currentUser;
   private final ProjectControl.Factory projectControlFactory;
+  private final AgreementInfoFactory.Factory agreementInfoFactory;
 
   @Inject
   AccountServiceImpl(final Provider<ReviewDb> sf,
-      final ProjectControl.Factory projectControlFactory) {
+      final Provider<IdentifiedUser> currentUser,
+      final ProjectControl.Factory projectControlFactory,
+      final AgreementInfoFactory.Factory agreementInfoFactory) {
     super(sf);
+    this.currentUser = currentUser;
     this.projectControlFactory = projectControlFactory;
+    this.agreementInfoFactory = agreementInfoFactory;
   }
 
   public void myAccount(final AsyncCallback<Account> callback) {
-    run(callback, new Action<Account>() {
-      public Account run(ReviewDb db) throws Failure {
-        final Account a =
-            Common.getAccountCache().get(Common.getAccountId(), db);
-        if (a == null) {
-          throw new Failure(new NoSuchEntityException());
-        }
-        return a;
-      }
-    });
+    callback.onSuccess(currentUser.get().getAccount());
   }
 
   public void changePreferences(final AccountGeneralPreferences pref,
@@ -167,12 +164,6 @@ class AccountServiceImpl extends BaseServiceImplementation implements
   }
 
   public void myAgreements(final AsyncCallback<AgreementInfo> callback) {
-    run(callback, new Action<AgreementInfo>() {
-      public AgreementInfo run(final ReviewDb db) throws OrmException {
-        final AgreementInfo i = new AgreementInfo();
-        i.load(Common.getAccountId(), db);
-        return i;
-      }
-    });
+    agreementInfoFactory.create().to(callback);
   }
 }

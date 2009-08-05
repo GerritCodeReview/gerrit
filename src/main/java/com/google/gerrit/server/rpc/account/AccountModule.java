@@ -28,6 +28,7 @@ public class AccountModule extends RpcServletModule {
     install(new FactoryModule() {
       @Override
       protected void configure() {
+        factory(AgreementInfoFactory.Factory.class);
       }
     });
     rpc(AccountSecurityImpl.class);

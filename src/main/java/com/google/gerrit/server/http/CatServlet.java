@@ -14,13 +14,11 @@
 
 package com.google.gerrit.server.http;
 
-import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.FileTypeRegistry;
 import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.project.ChangeControl;
@@ -66,7 +64,6 @@ import javax.servlet.http.HttpServletResponse;
 @Singleton
 public class CatServlet extends HttpServlet {
   private static final MimeType ZIP = new MimeType("application/zip");
-  private final Provider<GerritCall> callFactory;
   private final Provider<ReviewDb> requestDb;
   private final GerritServer server;
   private final SecureRandom rng;
@@ -74,10 +71,8 @@ public class CatServlet extends HttpServlet {
   private final ChangeControl.Factory changeControl;
 
   @Inject
-  CatServlet(final Provider<GerritCall> cf, final Provider<CurrentUser> cu,
-      final GerritServer gs, final Provider<ReviewDb> sf,
+  CatServlet(final GerritServer gs, final Provider<ReviewDb> sf,
       final FileTypeRegistry ftr, final ChangeControl.Factory ccf) {
-    callFactory = cf;
     requestDb = sf;
     server = gs;
     rng = new SecureRandom();
@@ -125,7 +120,6 @@ public class CatServlet extends HttpServlet {
       }
     }
 
-    final Account.Id me = callFactory.get().getAccountId();
     final Change.Id changeId = patchKey.getParentKey().getParentKey();
     final Project project;
     final PatchSet patchSet;

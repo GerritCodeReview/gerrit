@@ -99,7 +99,31 @@ class ProjectAdminServiceImpl extends BaseServiceImplementation implements
   public void ownedProjects(final AsyncCallback<List<Project>> callback) {
     run(callback, new Action<List<Project>>() {
       public List<Project> run(ReviewDb db) throws OrmException {
-        final List<Project> result = myOwnedProjects(db);
+        final IdentifiedUser user = identifiedUser.get();
+        final List<Project> result;
+        if (user.isAdministrator()) {
+          result = db.projects().all().toList();
+        } else {
+          final HashSet<Project.NameKey> seen = new HashSet<Project.NameKey>();
+          result = new ArrayList<Project>();
+          for (final AccountGroup.Id groupId : user.getEffectiveGroups()) {
+            for (final ProjectRight r : db.projectRights().byCategoryGroup(
+                ApprovalCategory.OWN, groupId)) {
+              final Project.NameKey name = r.getProjectNameKey();
+              if (!seen.add(name)) {
+                continue;
+              }
+              try {
+                ProjectControl c = projectControlFactory.controlFor(name);
+                if (c.isOwner()) {
+                  result.add(c.getProject());
+                }
+              } catch (NoSuchProjectException e) {
+                continue;
+              }
+            }
+          }
+        }
         Collections.sort(result, new Comparator<Project>() {
           public int compare(final Project a, final Project b) {
             return a.getName().compareTo(b.getName());
@@ -481,37 +505,5 @@ class ProjectAdminServiceImpl extends BaseServiceImplementation implements
     } catch (NoSuchProjectException e) {
       throw new Failure(new NoSuchEntityException());
     }
-  }
-
-  private List<Project> myOwnedProjects(final ReviewDb db) throws OrmException {
-    if (Common.getGroupCache().isAdministrator(Common.getAccountId())) {
-      return db.projects().all().toList();
-    }
-
-    final HashSet<Project.NameKey> seen = new HashSet<Project.NameKey>();
-    final List<Project> own = new ArrayList<Project>();
-    for (final AccountGroup.Id groupId : myGroups()) {
-      for (final ProjectRight r : db.projectRights().byCategoryGroup(
-          ApprovalCategory.OWN, groupId)) {
-        final Project.NameKey name = r.getProjectNameKey();
-        if (!seen.add(name)) {
-          continue;
-        }
-        try {
-          ProjectControl c = projectControlFactory.controlFor(name);
-          if (c.isOwner()) {
-            own.add(c.getProject());
-          }
-        } catch (NoSuchProjectException e) {
-          continue;
-        }
-      }
-    }
-
-    return own;
-  }
-
-  private Set<Id> myGroups() {
-    return Common.getGroupCache().getEffectiveGroups(Common.getAccountId());
   }
 }

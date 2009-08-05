@@ -14,14 +14,18 @@
 
 package com.google.gerrit.server.config;
 
+import com.google.gerrit.client.reviewdb.AccountExternalId;
 import com.google.gerrit.client.reviewdb.LoginType;
 import com.google.gerrit.client.reviewdb.SystemConfig;
+import com.google.gerrit.client.reviewdb.TrustedExternalId;
 import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.spearce.jgit.lib.Config;
+
+import java.util.Collection;
 
 /** Authentication related settings from {@code gerrit.config}. */
 @Singleton
@@ -30,6 +34,7 @@ public class AuthConfig {
   private final LoginType loginType;
   private final String httpHeader;
   private final String emailFormat;
+  private final Collection<TrustedExternalId> trusted;
 
   private final SignedToken xsrfToken;
   private final SignedToken accountToken;
@@ -38,12 +43,13 @@ public class AuthConfig {
   private final boolean allowGoogleAccountUpgrade;
 
   @Inject
-  AuthConfig(@GerritServerConfig final Config cfg, final SystemConfig s)
-      throws XsrfException {
+  AuthConfig(@GerritServerConfig final Config cfg, final SystemConfig s,
+      final Collection<TrustedExternalId> tei) throws XsrfException {
     sessionAge = cfg.getInt("auth", "maxsessionage", 12 * 60) * 60;
     loginType = toType(cfg);
     httpHeader = cfg.getString("auth", null, "httpheader");
     emailFormat = cfg.getString("auth", null, "emailformat");
+    trusted = tei;
 
     xsrfToken = new SignedToken(getSessionAge(), s.xsrfPrivateKey);
     final int accountCookieAge;
@@ -120,5 +126,56 @@ public class AuthConfig {
 
   public boolean isAllowGoogleAccountUpgrade() {
     return allowGoogleAccountUpgrade;
+  }
+
+  public boolean isIdentityTrustable(final Collection<AccountExternalId> ids) {
+    switch (getLoginType()) {
+      case DEVELOPMENT_BECOME_ANY_ACCOUNT:
+      case HTTP:
+        // Its safe to assume yes for an HTTP authentication type, as the
+        // only way in is through some external system that the admin trusts
+        //
+        return true;
+
+      case OPENID:
+        // All identities must be trusted in order to trust the account.
+        //
+        for (final AccountExternalId e : ids) {
+          if (!isTrusted(e)) {
+            return false;
+          }
+        }
+        return true;
+
+      default:
+        // Assume not, we don't understand the login format.
+        //
+        return false;
+    }
+  }
+
+  private boolean isTrusted(final AccountExternalId id) {
+    if (id.getExternalId().startsWith("Google Account ")) {
+      // Assume this is a trusted token, its a legacy import from
+      // a fairly well respected provider and only takes effect if
+      // the administrator has the import still enabled
+      //
+      return isAllowGoogleAccountUpgrade();
+    }
+
+    if (id.getExternalId().startsWith("mailto:")) {
+      // mailto identities are created by sending a unique validation
+      // token to the address and asking them to come back to the site
+      // with that token.
+      //
+      return true;
+    }
+
+    for (final TrustedExternalId t : trusted) {
+      if (t.matches(id)) {
+        return true;
+      }
+    }
+    return false;
   }
 }

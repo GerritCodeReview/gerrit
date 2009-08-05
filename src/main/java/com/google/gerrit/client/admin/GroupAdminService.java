@@ -52,6 +52,6 @@ public interface GroupAdminService extends RemoteJsonService {
       AsyncCallback<AccountGroupDetail> callback);
 
   @SignInRequired
-  void deleteGroupMembers(Set<AccountGroupMember.Key> keys,
-      AsyncCallback<VoidResult> callback);
+  void deleteGroupMembers(AccountGroup.Id groupId,
+      Set<AccountGroupMember.Key> keys, AsyncCallback<VoidResult> callback);
 }

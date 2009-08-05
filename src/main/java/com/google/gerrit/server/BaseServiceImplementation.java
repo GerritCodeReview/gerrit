@@ -17,6 +17,8 @@ package com.google.gerrit.server;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.CorruptEntityException;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
+import com.google.gerrit.server.account.NoSuchGroupException;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtorm.client.OrmException;
@@ -49,6 +51,8 @@ public class BaseServiceImplementation {
       }
     } catch (NoSuchProjectException e) {
       callback.onFailure(new NoSuchEntityException());
+    } catch (NoSuchGroupException e) {
+      callback.onFailure(new NoSuchEntityException());
 
     } catch (OrmException e) {
       if (e.getCause() instanceof Failure) {
@@ -64,7 +68,14 @@ public class BaseServiceImplementation {
         callback.onFailure(e);
       }
     } catch (Failure e) {
-      callback.onFailure(e.getCause());
+      if (e.getCause() instanceof NoSuchProjectException
+          || e.getCause() instanceof NoSuchChangeException
+          || e.getCause() instanceof NoSuchGroupException) {
+        callback.onFailure(new NoSuchEntityException());
+
+      } else {
+        callback.onFailure(e.getCause());
+      }
     }
   }
 
@@ -89,7 +100,9 @@ public class BaseServiceImplementation {
      * @throws Failure cause is given to
      *         {@link AsyncCallback#onFailure(Throwable)}.
      * @throws NoSuchProjectException
+     * @throws NoSuchGroupException
      */
-    T run(ReviewDb db) throws OrmException, Failure, NoSuchProjectException;
+    T run(ReviewDb db) throws OrmException, Failure, NoSuchProjectException,
+        NoSuchGroupException;
   }
 }

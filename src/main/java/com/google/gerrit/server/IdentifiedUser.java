@@ -20,7 +20,8 @@ import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.StarredChange;
 import com.google.gerrit.client.reviewdb.SystemConfig;
-import com.google.gerrit.client.rpc.Common;
+import com.google.gerrit.server.account.AccountCache2;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.Nullable;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
@@ -46,14 +47,17 @@ public class IdentifiedUser extends CurrentUser {
   @Singleton
   public static class GenericFactory {
     private final SystemConfig systemConfig;
+    private final AccountCache2 accountCache;
 
     @Inject
-    GenericFactory(final SystemConfig systemConfig) {
+    GenericFactory(final SystemConfig systemConfig,
+        final AccountCache2 accountCache) {
       this.systemConfig = systemConfig;
+      this.accountCache = accountCache;
     }
 
     public IdentifiedUser create(final Account.Id id) {
-      return new IdentifiedUser(systemConfig, null, null, id);
+      return new IdentifiedUser(systemConfig, accountCache, null, null, id);
     }
   }
 
@@ -66,44 +70,56 @@ public class IdentifiedUser extends CurrentUser {
   @Singleton
   public static class RequestFactory {
     private final SystemConfig systemConfig;
+    private final AccountCache2 accountCache;
     private final Provider<SocketAddress> remotePeerProvider;
     private final Provider<ReviewDb> dbProvider;
 
     @Inject
     RequestFactory(final SystemConfig systemConfig,
+        final AccountCache2 accountCache,
         final @RemotePeer Provider<SocketAddress> remotePeerProvider,
         final Provider<ReviewDb> dbProvider) {
       this.systemConfig = systemConfig;
+      this.accountCache = accountCache;
       this.remotePeerProvider = remotePeerProvider;
       this.dbProvider = dbProvider;
     }
 
     public IdentifiedUser create(final Account.Id id) {
-      return new IdentifiedUser(systemConfig, remotePeerProvider, dbProvider,
-          id);
+      return new IdentifiedUser(systemConfig, accountCache, remotePeerProvider,
+          dbProvider, id);
     }
   }
 
   private static final Logger log =
       LoggerFactory.getLogger(IdentifiedUser.class);
 
+  private final AccountCache2 accountCache;
   @Nullable
   private final Provider<SocketAddress> remotePeerProvider;
   @Nullable
   private final Provider<ReviewDb> dbProvider;
   private final Account.Id accountId;
 
-  private Account account;
-  private Set<AccountGroup.Id> effectiveGroups;
+  private AccountState state;
   private Set<Change.Id> starredChanges;
 
   private IdentifiedUser(final SystemConfig systemConfig,
+      final AccountCache2 accountCache,
       @Nullable final Provider<SocketAddress> remotePeerProvider,
       @Nullable final Provider<ReviewDb> dbProvider, final Account.Id id) {
     super(systemConfig);
+    this.accountCache = accountCache;
     this.remotePeerProvider = remotePeerProvider;
     this.dbProvider = dbProvider;
     this.accountId = id;
+  }
+
+  private AccountState state() {
+    if (state == null) {
+      state = accountCache.get(getAccountId());
+    }
+    return state;
   }
 
   /** The account identity for the user. */
@@ -112,22 +128,12 @@ public class IdentifiedUser extends CurrentUser {
   }
 
   public Account getAccount() {
-    if (account == null) {
-      account = Common.getAccountCache().get(getAccountId());
-      if (account == null) {
-        account = new Account(getAccountId());
-      }
-    }
-    return account;
+    return state().getAccount();
   }
 
   @Override
   public Set<AccountGroup.Id> getEffectiveGroups() {
-    if (effectiveGroups == null) {
-      effectiveGroups =
-          Common.getGroupCache().getEffectiveGroups(getAccountId());
-    }
-    return effectiveGroups;
+    return state().getEffectiveGroups();
   }
 
   @Override

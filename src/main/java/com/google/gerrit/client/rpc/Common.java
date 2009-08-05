@@ -16,7 +16,6 @@ package com.google.gerrit.client.rpc;
 
 import com.google.gerrit.client.data.AccountCache;
 import com.google.gerrit.client.data.GerritConfig;
-import com.google.gerrit.client.data.GroupCache;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gwtorm.client.SchemaFactory;
@@ -25,7 +24,6 @@ public class Common {
   private static GerritConfig config;
   private static SchemaFactory<ReviewDb> schema;
   private static AccountCache accountCache;
-  private static GroupCache groupCache;
   private static CurrentAccountImpl caImpl;
 
   /** Get the public configuration data used by this Gerrit instance. */
@@ -48,19 +46,6 @@ public class Common {
 
   public static void setAccountCache(final AccountCache imp) {
     accountCache = imp;
-  }
-
-  /**
-   * Get the active GroupCache instance.
-   * <p>
-   * <b>Note: this is likely only available on the server side.</b>
-   */
-  public static GroupCache getGroupCache() {
-    return groupCache;
-  }
-
-  public static void setGroupCache(final GroupCache imp) {
-    groupCache = imp;
   }
 
   /**

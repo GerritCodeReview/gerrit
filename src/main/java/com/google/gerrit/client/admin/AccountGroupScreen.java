@@ -212,7 +212,7 @@ public class AccountGroupScreen extends AccountScreen {
       ownerTxt.setText(Util.M.deletedGroup(group.getOwnerGroupId().get()));
     }
     descTxt.setText(group.getDescription());
-    if (result.autoGroup) {
+    if (group.isAutomaticMembership()) {
       memberPanel.setVisible(false);
     } else {
       memberPanel.setVisible(true);
@@ -270,7 +270,7 @@ public class AccountGroupScreen extends AccountScreen {
         }
       }
       if (!ids.isEmpty()) {
-        Util.GROUP_SVC.deleteGroupMembers(ids,
+        Util.GROUP_SVC.deleteGroupMembers(groupId, ids,
             new GerritCallback<VoidResult>() {
               public void onSuccess(final VoidResult result) {
                 for (int row = 1; row < table.getRowCount();) {

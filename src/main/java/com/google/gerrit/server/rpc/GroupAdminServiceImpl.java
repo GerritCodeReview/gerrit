@@ -27,6 +27,11 @@ import com.google.gerrit.client.rpc.NameAlreadyUsedException;
 import com.google.gerrit.client.rpc.NoSuchAccountException;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gerrit.server.BaseServiceImplementation;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.AccountCache2;
+import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.account.GroupControl;
+import com.google.gerrit.server.account.NoSuchGroupException;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
@@ -35,7 +40,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -44,25 +48,55 @@ import java.util.Set;
 
 class GroupAdminServiceImpl extends BaseServiceImplementation implements
     GroupAdminService {
+  private final Provider<IdentifiedUser> identifiedUser;
+  private final AccountCache2 accountCache;
+  private final GroupCache groupCache;
+  private final GroupControl.Factory groupControlFactory;
+
   @Inject
-  GroupAdminServiceImpl(final Provider<ReviewDb> sf) {
+  GroupAdminServiceImpl(final Provider<ReviewDb> sf,
+      final Provider<IdentifiedUser> iu, final AccountCache2 accountCache,
+      final GroupCache groupCache,
+      final GroupControl.Factory groupControlFactory) {
     super(sf);
+    this.identifiedUser = iu;
+    this.accountCache = accountCache;
+    this.groupCache = groupCache;
+    this.groupControlFactory = groupControlFactory;
   }
 
   public void ownedGroups(final AsyncCallback<List<AccountGroup>> callback) {
     run(callback, new Action<List<AccountGroup>>() {
       public List<AccountGroup> run(ReviewDb db) throws OrmException {
+        final IdentifiedUser user = identifiedUser.get();
         final List<AccountGroup> result;
-        if (Common.getGroupCache().isAdministrator(Common.getAccountId())) {
+        if (user.isAdministrator()) {
           result = db.accountGroups().all().toList();
         } else {
-          result = myOwnedGroups(db);
-          Collections.sort(result, new Comparator<AccountGroup>() {
-            public int compare(final AccountGroup a, final AccountGroup b) {
-              return a.getName().compareTo(b.getName());
+          final HashSet<AccountGroup.Id> seen = new HashSet<AccountGroup.Id>();
+          result = new ArrayList<AccountGroup>();
+          for (final AccountGroup.Id myGroup : user.getEffectiveGroups()) {
+            for (AccountGroup group : db.accountGroups().ownedByGroup(myGroup)) {
+              final AccountGroup.Id id = group.getId();
+              if (!seen.add(id)) {
+                continue;
+              }
+              try {
+                GroupControl c = groupControlFactory.controlFor(id);
+                if (c.isOwner()) {
+                  result.add(c.getAccountGroup());
+                }
+              } catch (NoSuchGroupException e) {
+                continue;
+              }
             }
-          });
+          }
         }
+        Collections.sort(result, new Comparator<AccountGroup>() {
+          public int compare(final AccountGroup a, final AccountGroup b) {
+            return a.getName().compareTo(b.getName());
+          }
+        });
         return result;
       }
     });
@@ -95,7 +129,7 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
         db.accountGroupMembersAudit().insert(
             Collections.singleton(new AccountGroupMemberAudit(m, me)), txn);
         txn.commit();
-        Common.getGroupCache().notifyGroupAdd(m);
+        accountCache.evict(m.getAccountId());
 
         return group.getId();
       }
@@ -110,8 +144,7 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
         assertAmGroupOwner(db, group);
 
         final AccountGroupDetail d = new AccountGroupDetail();
-        final boolean auto = Common.getGroupCache().isAutoGroup(group.getId());
-        d.load(db, new AccountInfoCacheFactory(db), group, auto);
+        d.load(db, new AccountInfoCacheFactory(db), group);
         return d;
       }
     });
@@ -125,6 +158,7 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
         assertAmGroupOwner(db, group);
         group.setDescription(description);
         db.accountGroups().update(Collections.singleton(group));
+        groupCache.evict(groupId);
         return VoidResult.INSTANCE;
       }
     });
@@ -145,6 +179,7 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
 
         group.setOwnerGroupId(owner.getId());
         db.accountGroups().update(Collections.singleton(group));
+        groupCache.evict(groupId);
         return VoidResult.INSTANCE;
       }
     });
@@ -164,6 +199,7 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
           }
           group.setNameKey(nameKey);
           db.accountGroups().update(Collections.singleton(group));
+          groupCache.evict(groupId);
         }
         return VoidResult.INSTANCE;
       }
@@ -173,29 +209,31 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
   public void addGroupMember(final AccountGroup.Id groupId,
       final String nameOrEmail, final AsyncCallback<AccountGroupDetail> callback) {
     run(callback, new Action<AccountGroupDetail>() {
-      public AccountGroupDetail run(ReviewDb db) throws OrmException, Failure {
-        final AccountGroup group = db.accountGroups().get(groupId);
-        assertAmGroupOwner(db, group);
-        if (group.isAutomaticMembership()
-            || Common.getGroupCache().isAutoGroup(groupId)) {
+      public AccountGroupDetail run(ReviewDb db) throws OrmException, Failure,
+          NoSuchGroupException {
+        final GroupControl control = groupControlFactory.validateFor(groupId);
+        if (control.getAccountGroup().isAutomaticMembership()) {
           throw new Failure(new NameAlreadyUsedException());
         }
 
         final Account a = findAccount(db, nameOrEmail);
-        final AccountGroupMember.Key key =
-            new AccountGroupMember.Key(a.getId(), groupId);
-        if (db.accountGroupMembers().get(key) != null) {
-          return new AccountGroupDetail();
+        if (!control.canAdd(a.getId())) {
+          throw new Failure(new NoSuchEntityException());
         }
 
-        final AccountGroupMember m = new AccountGroupMember(key);
-        final Transaction txn = db.beginTransaction();
-        db.accountGroupMembers().insert(Collections.singleton(m), txn);
-        db.accountGroupMembersAudit().insert(
-            Collections.singleton(new AccountGroupMemberAudit(m, Common
-                .getAccountId())), txn);
-        txn.commit();
-        Common.getGroupCache().notifyGroupAdd(m);
+        final AccountGroupMember.Key key =
+            new AccountGroupMember.Key(a.getId(), groupId);
+        AccountGroupMember m = db.accountGroupMembers().get(key);
+        if (m == null) {
+          m = new AccountGroupMember(key);
+          final Transaction txn = db.beginTransaction();
+          db.accountGroupMembers().insert(Collections.singleton(m), txn);
+          db.accountGroupMembersAudit().insert(
+              Collections.singleton(new AccountGroupMemberAudit(m, Common
+                  .getAccountId())), txn);
+          txn.commit();
+          accountCache.evict(m.getAccountId());
+        }
 
         final AccountGroupDetail d = new AccountGroupDetail();
         d.loadOneMember(db, a, m);
@@ -204,26 +242,31 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
     });
   }
 
-  public void deleteGroupMembers(final Set<AccountGroupMember.Key> keys,
+  public void deleteGroupMembers(final AccountGroup.Id groupId,
+      final Set<AccountGroupMember.Key> keys,
       final AsyncCallback<VoidResult> callback) {
     run(callback, new Action<VoidResult>() {
-      public VoidResult run(final ReviewDb db) throws OrmException, Failure {
-        final Account.Id me = Common.getAccountId();
-        final Set<AccountGroup.Id> owned = ids(myOwnedGroups(db));
-        Boolean amAdmin = null;
+      public VoidResult run(final ReviewDb db) throws OrmException,
+          NoSuchGroupException, Failure {
+        final GroupControl control = groupControlFactory.validateFor(groupId);
+        if (control.getAccountGroup().isAutomaticMembership()) {
+          throw new Failure(new NameAlreadyUsedException());
+        }
+
         for (final AccountGroupMember.Key k : keys) {
-          if (!owned.contains(k.getAccountGroupId())) {
-            if (amAdmin == null) {
-              amAdmin = Common.getGroupCache().isAdministrator(me);
-            }
-            if (!amAdmin) {
-              throw new Failure(new NoSuchEntityException());
-            }
+          if (!groupId.equals(k.getAccountGroupId())) {
+            throw new Failure(new NoSuchEntityException());
           }
         }
+
+        final Account.Id me = Common.getAccountId();
         for (final AccountGroupMember.Key k : keys) {
           final AccountGroupMember m = db.accountGroupMembers().get(k);
           if (m != null) {
+            if (!control.canRemove(m.getAccountId())) {
+              throw new Failure(new NoSuchEntityException());
+            }
+
             AccountGroupMemberAudit audit = null;
             for (AccountGroupMemberAudit a : db.accountGroupMembersAudit()
                 .byGroupAccount(m.getAccountGroupId(), m.getAccountId())) {
@@ -246,7 +289,7 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
                   Collections.singleton(audit), txn);
             }
             txn.commit();
-            Common.getGroupCache().notifyGroupDelete(m);
+            accountCache.evict(m.getAccountId());
           }
         }
         return VoidResult.INSTANCE;
@@ -256,36 +299,13 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
 
   private void assertAmGroupOwner(final ReviewDb db, final AccountGroup group)
       throws Failure {
-    if (group == null) {
-      throw new Failure(new NoSuchEntityException());
-    }
-    final Account.Id me = Common.getAccountId();
-    if (!Common.getGroupCache().isInGroup(me, group.getOwnerGroupId())
-        && !Common.getGroupCache().isAdministrator(me)) {
-      throw new Failure(new NoSuchEntityException());
-    }
-  }
-
-  private static Set<AccountGroup.Id> ids(
-      final Collection<AccountGroup> groupList) {
-    final HashSet<AccountGroup.Id> r = new HashSet<AccountGroup.Id>();
-    for (final AccountGroup group : groupList) {
-      r.add(group.getId());
-    }
-    return r;
-  }
-
-  private List<AccountGroup> myOwnedGroups(final ReviewDb db)
-      throws OrmException {
-    final Account.Id me = Common.getAccountId();
-    final List<AccountGroup> own = new ArrayList<AccountGroup>();
-    for (final AccountGroup.Id groupId : Common.getGroupCache()
-        .getEffectiveGroups(me)) {
-      for (final AccountGroup g : db.accountGroups().ownedByGroup(groupId)) {
-        own.add(g);
+    try {
+      if (!groupControlFactory.controlFor(group.getId()).isOwner()) {
+        throw new Failure(new NoSuchGroupException(group.getId()));
       }
+    } catch (NoSuchGroupException e) {
+      throw new Failure(new NoSuchGroupException(group.getId()));
     }
-    return own;
   }
 
   private static Account findAccount(final ReviewDb db, final String nameOrEmail)

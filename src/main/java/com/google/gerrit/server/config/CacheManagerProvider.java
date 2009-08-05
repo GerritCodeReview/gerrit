@@ -53,8 +53,10 @@ public class CacheManagerProvider implements Provider<CacheManager> {
           break;
       }
 
+      mgr.addCache(named("accounts"));
       mgr.addCache(named("accounts_byemail"));
       mgr.addCache(disk(named("diff")));
+      mgr.addCache(named("groups"));
       mgr.addCache(named("projects"));
       mgr.addCache(named("sshkeys"));
 

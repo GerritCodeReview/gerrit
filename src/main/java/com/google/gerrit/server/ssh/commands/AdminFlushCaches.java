@@ -94,9 +94,6 @@ final class AdminFlushCaches extends CacheCommand {
 
   private void doBulkFlush() {
     try {
-      if (flush("groups")) {
-        Common.getGroupCache().flush();
-      }
       if (flush("accounts")) {
         Common.getAccountCache().flush();
       }

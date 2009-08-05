@@ -27,6 +27,7 @@ import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.server.UrlEncoded;
 import com.google.gerrit.server.account.AccountByEmailCache;
+import com.google.gerrit.server.account.AccountCache2;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.Nullable;
@@ -105,18 +106,21 @@ class OpenIdServiceImpl implements OpenIdService {
   private final SchemaFactory<ReviewDb> schema;
   private final ConsumerManager manager;
   private final AccountByEmailCache byEmailCache;
+  private final AccountCache2 byIdCache;
   private final SelfPopulatingCache discoveryCache;
 
   @Inject
   OpenIdServiceImpl(final Provider<GerritCall> cf, final AuthConfig ac,
       @CanonicalWebUrl @Nullable final Provider<String> up,
-      final AccountByEmailCache bec, final CacheManager cacheMgr,
-      final SchemaFactory<ReviewDb> sf) throws ConsumerException {
+      final AccountByEmailCache bec, final AccountCache2 bic,
+      final CacheManager cacheMgr, final SchemaFactory<ReviewDb> sf)
+      throws ConsumerException {
     callFactory = cf;
     authConfig = ac;
     urlProvider = up;
     schema = sf;
     byEmailCache = bec;
+    byIdCache = bic;
     manager = new ConsumerManager();
 
     final Cache base = cacheMgr.getCache("openid");
@@ -474,7 +478,7 @@ class OpenIdServiceImpl implements OpenIdService {
   }
 
   private Account linkAccount(final HttpServletRequest req, final ReviewDb db,
-      final Identifier user, final String email) throws OrmException {
+      final Identifier user, final String curEmail) throws OrmException {
     final Account.Id me = callFactory.get().getAccountId();
     final Account account = Common.getAccountCache().get(me, db);
     if (account == null) {
@@ -487,18 +491,22 @@ class OpenIdServiceImpl implements OpenIdService {
     if (id == null) {
       id = new AccountExternalId(idKey);
       id.setLastUsedOn();
-      id.setEmailAddress(email);
+      id.setEmailAddress(curEmail);
       db.accountExternalIds().insert(Collections.singleton(id));
-      byEmailCache.evict(email);
-      Common.getGroupCache().invalidate(account.getId());
+      byEmailCache.evict(curEmail);
+      byIdCache.evict(account.getId());
     } else {
-      if (email != null && !email.equals(id.getEmailAddress())) {
-        byEmailCache.evict(id.getEmailAddress());
-        byEmailCache.evict(email);
-        id.setEmailAddress(email);
+      final String oldEmail = id.getEmailAddress();
+      if (curEmail != null && !curEmail.equals(oldEmail)) {
+        id.setEmailAddress(curEmail);
       }
       id.setLastUsedOn();
       db.accountExternalIds().update(Collections.singleton(id));
+      if (curEmail != null && !curEmail.equals(oldEmail)) {
+        byEmailCache.evict(oldEmail);
+        byEmailCache.evict(curEmail);
+        byIdCache.evict(account.getId());
+      }
     }
     return account;
   }

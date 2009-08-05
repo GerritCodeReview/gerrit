@@ -167,27 +167,28 @@ class ContactPanelShort extends Composite {
         postLoad();
       }
     });
-    Util.ACCOUNT_SEC.myExternalIds(new GerritCallback<ExternalIdDetail>() {
-      public void onSuccess(final ExternalIdDetail detail) {
-        if (!isAttached()) {
-          return;
-        }
-        final List<AccountExternalId> result = detail.ids;
-        final Set<String> emails = new HashSet<String>();
-        for (final AccountExternalId i : result) {
-          if (i.getEmailAddress() != null && i.getEmailAddress().length() > 0) {
-            emails.add(i.getEmailAddress());
+    Util.ACCOUNT_SEC
+        .myExternalIds(new GerritCallback<List<AccountExternalId>>() {
+          public void onSuccess(final List<AccountExternalId> result) {
+            if (!isAttached()) {
+              return;
+            }
+            final Set<String> emails = new HashSet<String>();
+            for (final AccountExternalId i : result) {
+              if (i.getEmailAddress() != null
+                  && i.getEmailAddress().length() > 0) {
+                emails.add(i.getEmailAddress());
+              }
+            }
+            final List<String> addrs = new ArrayList<String>(emails);
+            Collections.sort(addrs);
+            for (String s : addrs) {
+              emailPick.addItem(s);
+            }
+            haveEmails = true;
+            postLoad();
           }
-        }
-        final List<String> addrs = new ArrayList<String>(emails);
-        Collections.sort(addrs);
-        for (String s : addrs) {
-          emailPick.addItem(s);
-        }
-        haveEmails = true;
-        postLoad();
-      }
-    });
+        });
   }
 
   private void postLoad() {

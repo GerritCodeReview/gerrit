@@ -17,8 +17,6 @@ package com.google.gerrit.client.reviewdb;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.StringKey;
 
-import java.util.Collection;
-
 public final class TrustedExternalId {
   public static class Key extends StringKey<com.google.gwtorm.client.Key<?>> {
     private static final long serialVersionUID = 1L;
@@ -42,43 +40,6 @@ public final class TrustedExternalId {
     protected void set(String newValue) {
       pattern = newValue;
     }
-  }
-
-  public static boolean isIdentityTrustable(
-      final Collection<TrustedExternalId> trusted,
-      final Iterable<AccountExternalId> ids) {
-    for (final AccountExternalId e : ids) {
-      if (!isTrusted(e, trusted)) {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  public static boolean isTrusted(final AccountExternalId id,
-      final Collection<TrustedExternalId> trusted) {
-    if (id.getExternalId().startsWith("Google Account ")) {
-      // Assume this is a trusted token, its a legacy import from
-      // a fairly well respected provider and only takes effect if
-      // the administrator has the import still enabled
-      //
-      return true;
-    }
-
-    if (id.getExternalId().startsWith("mailto:")) {
-      // mailto identities are created by sending a unique validation
-      // token to the address and asking them to come back to the site
-      // with that token.
-      //
-      return true;
-    }
-
-    for (final TrustedExternalId t : trusted) {
-      if (t.matches(id)) {
-        return true;
-      }
-    }
-    return false;
   }
 
   @Column

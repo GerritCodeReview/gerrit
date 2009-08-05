@@ -39,7 +39,7 @@ public interface AccountSecurity extends RemoteJsonService {
       AsyncCallback<VoidResult> callback);
 
   @SignInRequired
-  void myExternalIds(AsyncCallback<ExternalIdDetail> callback);
+  void myExternalIds(AsyncCallback<List<AccountExternalId>> callback);
 
   @SignInRequired
   void deleteExternalIds(Set<AccountExternalId.Key> keys,

@@ -26,6 +26,7 @@ import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gerrit.server.BaseServiceImplementation;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.AccountCache2;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -44,16 +45,19 @@ import java.util.Set;
 class AccountServiceImpl extends BaseServiceImplementation implements
     AccountService {
   private final Provider<IdentifiedUser> currentUser;
+  private final AccountCache2 accountCache;
   private final ProjectControl.Factory projectControlFactory;
   private final AgreementInfoFactory.Factory agreementInfoFactory;
 
   @Inject
   AccountServiceImpl(final Provider<ReviewDb> sf,
       final Provider<IdentifiedUser> currentUser,
+      final AccountCache2 accountCache,
       final ProjectControl.Factory projectControlFactory,
       final AgreementInfoFactory.Factory agreementInfoFactory) {
     super(sf);
     this.currentUser = currentUser;
+    this.accountCache = accountCache;
     this.projectControlFactory = projectControlFactory;
     this.agreementInfoFactory = agreementInfoFactory;
   }
@@ -72,6 +76,7 @@ class AccountServiceImpl extends BaseServiceImplementation implements
         }
         a.setGeneralPreferences(pref);
         db.accounts().update(Collections.singleton(a));
+        accountCache.evict(a.getId());
         Common.getAccountCache().invalidate(a.getId());
         return VoidResult.INSTANCE;
       }

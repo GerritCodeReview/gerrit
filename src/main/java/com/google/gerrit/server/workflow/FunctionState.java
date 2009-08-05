@@ -24,7 +24,8 @@ import com.google.gerrit.client.reviewdb.ChangeApproval;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.client.reviewdb.ApprovalCategory.Id;
-import com.google.gerrit.client.rpc.Common;
+import com.google.gerrit.server.account.AccountCache2;
+import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
@@ -44,6 +45,7 @@ public class FunctionState {
     FunctionState create(Change c, Collection<ChangeApproval> all);
   }
 
+  private final AccountCache2 accountCache;
   private final ProjectCache projectCache;
 
   private final Map<Account.Id, Set<AccountGroup.Id>> groupCache =
@@ -61,9 +63,11 @@ public class FunctionState {
   private Set<ChangeApproval> modified;
 
   @Inject
-  FunctionState(final ProjectCache pc, @Assisted final Change c,
+  FunctionState(final ProjectCache pc, final AccountCache2 ac,
+      final GroupCache egc, @Assisted final Change c,
       @Assisted final Collection<ChangeApproval> all) {
     projectCache = pc;
+    accountCache = ac;
 
     change = c;
     project = projectCache.get(change.getDest().getParentKey());
@@ -190,7 +194,7 @@ public class FunctionState {
   public Set<AccountGroup.Id> getGroups(final Account.Id id) {
     Set<AccountGroup.Id> g = groupCache.get(id);
     if (g == null) {
-      g = Common.getGroupCache().getEffectiveGroups(id);
+      g = accountCache.get(id).getEffectiveGroups();
       groupCache.put(id, g);
     }
     return g;

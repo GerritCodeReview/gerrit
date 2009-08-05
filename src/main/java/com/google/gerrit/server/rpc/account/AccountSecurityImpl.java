@@ -15,7 +15,6 @@
 package com.google.gerrit.server.rpc.account;
 
 import com.google.gerrit.client.account.AccountSecurity;
-import com.google.gerrit.client.account.ExternalIdDetail;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountAgreement;
 import com.google.gerrit.client.reviewdb.AccountExternalId;
@@ -23,7 +22,6 @@ import com.google.gerrit.client.reviewdb.AccountSshKey;
 import com.google.gerrit.client.reviewdb.ContactInformation;
 import com.google.gerrit.client.reviewdb.ContributorAgreement;
 import com.google.gerrit.client.reviewdb.ReviewDb;
-import com.google.gerrit.client.reviewdb.TrustedExternalId;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.ContactInformationStoreException;
 import com.google.gerrit.client.rpc.InvalidSshKeyException;
@@ -31,6 +29,7 @@ import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gerrit.server.BaseServiceImplementation;
 import com.google.gerrit.server.ContactStore;
 import com.google.gerrit.server.account.AccountByEmailCache;
+import com.google.gerrit.server.account.AccountCache2;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.mail.RegisterNewEmailSender;
@@ -69,20 +68,28 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
   private final RegisterNewEmailSender.Factory registerNewEmailFactory;
   private final SshKeyCache sshKeyCache;
   private final AccountByEmailCache byEmailCache;
+  private final AccountCache2 accountCache;
   private final boolean useContactInfo;
+
+  private final ExternalIdDetailFactory.Factory externalIdDetailFactory;
 
   @Inject
   AccountSecurityImpl(final Provider<ReviewDb> sf, final ContactStore cs,
       final AuthConfig ac, final RegisterNewEmailSender.Factory esf,
-      final SshKeyCache skc, final AccountByEmailCache abec) {
+      final SshKeyCache skc, final AccountByEmailCache abec,
+      final AccountCache2 uac,
+      final ExternalIdDetailFactory.Factory externalIdDetailFactory) {
     super(sf);
     contactStore = cs;
     authConfig = ac;
     registerNewEmailFactory = esf;
     sshKeyCache = skc;
     byEmailCache = abec;
+    accountCache = uac;
 
     useContactInfo = contactStore != null && contactStore.isEnabled();
+
+    this.externalIdDetailFactory = externalIdDetailFactory;
   }
 
   public void mySshKeys(final AsyncCallback<List<AccountSshKey>> callback) {
@@ -163,17 +170,8 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
     }
   }
 
-  public void myExternalIds(AsyncCallback<ExternalIdDetail> callback) {
-    run(callback, new Action<ExternalIdDetail>() {
-      public ExternalIdDetail run(ReviewDb db) throws OrmException {
-        final Account.Id me = Common.getAccountId();
-        final List<TrustedExternalId> trusted =
-            Common.getGroupCache().getTrustedExternalIds(db);
-        final List<AccountExternalId> myIds =
-            db.accountExternalIds().byAccount(me).toList();
-        return new ExternalIdDetail(myIds, trusted);
-      }
-    });
+  public void myExternalIds(AsyncCallback<List<AccountExternalId>> callback) {
+    externalIdDetailFactory.create().to(callback);
   }
 
   public void deleteExternalIds(final Set<AccountExternalId.Key> keys,
@@ -223,7 +221,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
           final Transaction txn = db.beginTransaction();
           db.accountExternalIds().delete(toDelete, txn);
           txn.commit();
-          Common.getGroupCache().invalidate(me);
+          accountCache.evict(me);
           for (AccountExternalId e : toDelete) {
             byEmailCache.evict(e.getEmailAddress());
           }
@@ -265,6 +263,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
           byEmailCache.evict(oldEmail);
           byEmailCache.evict(me.getPreferredEmail());
         }
+        accountCache.evict(me.getId());
         Common.getAccountCache().invalidate(me.getId());
         return me;
       }
@@ -364,6 +363,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
 
         byEmailCache.evict(oldEmail);
         byEmailCache.evict(newEmail);
+        accountCache.evict(me);
         Common.getAccountCache().invalidate(me);
         return VoidResult.INSTANCE;
       }

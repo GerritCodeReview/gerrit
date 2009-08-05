@@ -15,7 +15,6 @@
 package com.google.gerrit.server;
 
 import com.google.gerrit.client.data.AccountCache;
-import com.google.gerrit.client.data.GroupCache;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.SystemConfig;
 import com.google.gerrit.client.rpc.Common;
@@ -66,7 +65,6 @@ public class GerritServer {
 
     Common.setSchemaFactory(db);
     Common.setAccountCache(new AccountCache());
-    Common.setGroupCache(new GroupCache(sConfig));
   }
 
   private Config getGerritConfig() {

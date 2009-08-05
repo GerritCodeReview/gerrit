@@ -17,6 +17,7 @@ package com.google.gerrit.server.config;
 import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.gerrit.client.reviewdb.Project;
+import com.google.gerrit.client.reviewdb.TrustedExternalId;
 import com.google.gerrit.git.ChangeMergeQueue;
 import com.google.gerrit.git.MergeOp;
 import com.google.gerrit.git.MergeQueue;
@@ -34,6 +35,8 @@ import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.MimeUtilFileTypeRegistry;
 import com.google.gerrit.server.account.AccountByEmailCache;
+import com.google.gerrit.server.account.AccountCache2;
+import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.mail.AbandonedSender;
 import com.google.gerrit.server.mail.AddReviewerSender;
 import com.google.gerrit.server.mail.CommentSender;
@@ -49,12 +52,14 @@ import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gerrit.server.workflow.FunctionState;
+import com.google.inject.TypeLiteral;
 
 import net.sf.ehcache.CacheManager;
 
 import org.spearce.jgit.lib.Config;
 
 import java.io.File;
+import java.util.Collection;
 
 /** Starts {@link GerritServer} with standard dependencies. */
 public class GerritServerModule extends FactoryModule {
@@ -67,6 +72,8 @@ public class GerritServerModule extends FactoryModule {
     bind(Config.class).annotatedWith(GerritServerConfig.class).toProvider(
         GerritServerConfigProvider.class).in(SINGLETON);
     bind(AuthConfig.class).in(SINGLETON);
+    bind(new TypeLiteral<Collection<TrustedExternalId>>() {}).toProvider(
+        TrustedExternalIdsProvider.class).in(SINGLETON);
     bind(AnonymousUser.class);
 
     // Note that the CanonicalWebUrl itself must not be a singleton, but its
@@ -82,10 +89,12 @@ public class GerritServerModule extends FactoryModule {
 
     bind(CacheManager.class).toProvider(CacheManagerProvider.class).in(
         SINGLETON);
-    bind(SshKeyCache.class);
-    bind(DiffCache.class);
     bind(AccountByEmailCache.class);
+    bind(AccountCache2.class);
+    bind(DiffCache.class);
+    bind(GroupCache.class);
     bind(ProjectCache.class);
+    bind(SshKeyCache.class);
 
     bind(GerritServer.class);
     bind(ContactStore.class).toProvider(EncryptedContactStoreProvider.class)

@@ -29,6 +29,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 class ExternalIdPanel extends Composite {
@@ -79,11 +80,12 @@ class ExternalIdPanel extends Composite {
   }
 
   private void refresh() {
-    Util.ACCOUNT_SEC.myExternalIds(new GerritCallback<ExternalIdDetail>() {
-      public void onSuccess(final ExternalIdDetail result) {
-        identites.display(result);
-      }
-    });
+    Util.ACCOUNT_SEC
+        .myExternalIds(new GerritCallback<List<AccountExternalId>>() {
+          public void onSuccess(final List<AccountExternalId> result) {
+            identites.display(result);
+          }
+        });
   }
 
   private class IdTable extends FancyFlexTable<AccountExternalId> {
@@ -142,16 +144,15 @@ class ExternalIdPanel extends Composite {
       }
     }
 
-    void display(final ExternalIdDetail result) {
+    void display(final List<AccountExternalId> result) {
       while (1 < table.getRowCount())
         table.removeRow(table.getRowCount() - 1);
 
-      for (final AccountExternalId k : result.getIds()) {
-        addOneId(k, result);
+      for (final AccountExternalId k : result) {
+        addOneId(k);
       }
 
-      final AccountExternalId mostRecent =
-          AccountExternalId.mostRecent(result.getIds());
+      final AccountExternalId mostRecent = AccountExternalId.mostRecent(result);
       if (mostRecent != null) {
         for (int row = 1; row < table.getRowCount(); row++) {
           if (getRowItem(row) == mostRecent) {
@@ -166,7 +167,7 @@ class ExternalIdPanel extends Composite {
       }
     }
 
-    void addOneId(final AccountExternalId k, final ExternalIdDetail detail) {
+    void addOneId(final AccountExternalId k) {
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
       final int row = table.getRowCount();
       table.insertRow(row);
@@ -182,7 +183,7 @@ class ExternalIdPanel extends Composite {
       } else {
         table.setHTML(row, 2, "&nbsp;");
       }
-      if (detail.isTrusted(k)) {
+      if (k.isTrusted()) {
         table.setHTML(row, 3, "&nbsp;");
       } else {
         table.setText(row, 3, Util.C.untrustedProvider());

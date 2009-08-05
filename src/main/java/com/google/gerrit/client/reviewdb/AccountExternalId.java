@@ -59,7 +59,7 @@ public final class AccountExternalId {
 
   /**
    * Select the most recently used identity from a list of identities.
-   * 
+   *
    * @param all all known identities
    * @return most recently used login identity; null if none matches.
    */
@@ -97,12 +97,15 @@ public final class AccountExternalId {
   @Column(notNull = false)
   protected Timestamp lastUsedOn;
 
+  /** <i>computed value</i> is this identity trusted by the site administrator? */
+  protected boolean trusted;
+
   protected AccountExternalId() {
   }
 
   /**
    * Create a new binding to an external identity.
-   * 
+   *
    * @param k the binding key.
    */
   public AccountExternalId(final AccountExternalId.Key k) {
@@ -160,5 +163,13 @@ public final class AccountExternalId {
         break;
     }
     return true;
+  }
+
+  public boolean isTrusted() {
+    return trusted;
+  }
+
+  public void setTrusted(final boolean t) {
+    trusted = t;
   }
 }

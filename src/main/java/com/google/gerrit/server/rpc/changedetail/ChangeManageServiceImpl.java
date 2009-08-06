@@ -32,7 +32,8 @@ class ChangeManageServiceImpl implements ChangeManageService {
 
   public void patchSetAction(final ApprovalCategoryValue.Id value,
       final PatchSet.Id patchSetId, final AsyncCallback<VoidResult> cb) {
-    if (ApprovalCategory.SUBMIT.equals(value) && value.get() == 1) {
+    final ApprovalCategory.Id category = value.getParentKey();
+    if (ApprovalCategory.SUBMIT.equals(category) && value.get() == 1) {
       submitAction.create(patchSetId).to(cb);
 
     } else {

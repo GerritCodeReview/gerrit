@@ -138,7 +138,7 @@ If the Gerrit instance is configured to use OpenID authentication,
 an account's effective group membership will be restricted to only
 the `Anonymous Users` and `Registered Users` groups, unless *all*
 of its OpenID identities match one or more of the patterns listed
-in the `trusted_external_ids` table.
+in the `auth.trustedOpenID` list from `gerrit.config`.
 
 All Projects
 ~~~~~~~~~~~~

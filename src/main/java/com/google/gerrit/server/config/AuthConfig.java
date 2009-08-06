@@ -17,7 +17,6 @@ package com.google.gerrit.server.config;
 import com.google.gerrit.client.reviewdb.AccountExternalId;
 import com.google.gerrit.client.reviewdb.LoginType;
 import com.google.gerrit.client.reviewdb.SystemConfig;
-import com.google.gerrit.client.reviewdb.TrustedExternalId;
 import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.inject.Inject;
@@ -33,7 +32,7 @@ public class AuthConfig {
   private final int sessionAge;
   private final LoginType loginType;
   private final String httpHeader;
-  private final Collection<TrustedExternalId> trusted;
+  private final String[] trusted;
 
   private final SignedToken xsrfToken;
   private final SignedToken accountToken;
@@ -42,12 +41,12 @@ public class AuthConfig {
   private final boolean allowGoogleAccountUpgrade;
 
   @Inject
-  AuthConfig(@GerritServerConfig final Config cfg, final SystemConfig s,
-      final Collection<TrustedExternalId> tei) throws XsrfException {
+  AuthConfig(@GerritServerConfig final Config cfg, final SystemConfig s)
+      throws XsrfException {
     sessionAge = cfg.getInt("auth", "maxsessionage", 12 * 60) * 60;
     loginType = toType(cfg);
     httpHeader = cfg.getString("auth", null, "httpheader");
-    trusted = tei;
+    trusted = toTrusted(cfg);
 
     xsrfToken = new SignedToken(getSessionAge(), s.xsrfPrivateKey);
     final int accountCookieAge;
@@ -65,6 +64,14 @@ public class AuthConfig {
 
     allowGoogleAccountUpgrade =
         cfg.getBoolean("auth", "allowgoogleaccountupgrade", false);
+  }
+
+  private String[] toTrusted(final Config cfg) {
+    final String[] r = cfg.getStringList("auth", null, "trustedopenid");
+    if (r.length == 0) {
+      return new String[] {"http://", "https://"};
+    }
+    return r;
   }
 
   private static LoginType toType(final Config cfg) {
@@ -165,11 +172,20 @@ public class AuthConfig {
       return true;
     }
 
-    for (final TrustedExternalId t : trusted) {
-      if (t.matches(id)) {
+    for (final String p : trusted) {
+      if (matches(p, id)) {
         return true;
       }
     }
     return false;
+  }
+
+  private boolean matches(final String p, final AccountExternalId id) {
+    if (p.startsWith("^") && p.endsWith("$")) {
+      return id.getExternalId().matches(p);
+
+    } else {
+      return id.getExternalId().startsWith(p);
+    }
   }
 }

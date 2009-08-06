@@ -17,7 +17,6 @@ package com.google.gerrit.server.config;
 import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.gerrit.client.reviewdb.Project;
-import com.google.gerrit.client.reviewdb.TrustedExternalId;
 import com.google.gerrit.git.ChangeMergeQueue;
 import com.google.gerrit.git.MergeOp;
 import com.google.gerrit.git.MergeQueue;
@@ -54,14 +53,12 @@ import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gerrit.server.workflow.FunctionState;
-import com.google.inject.TypeLiteral;
 
 import net.sf.ehcache.CacheManager;
 
 import org.spearce.jgit.lib.Config;
 
 import java.io.File;
-import java.util.Collection;
 
 /** Starts global state with standard dependencies. */
 public class GerritGlobalModule extends FactoryModule {
@@ -76,8 +73,6 @@ public class GerritGlobalModule extends FactoryModule {
     bind(AuthConfig.class).in(SINGLETON);
     bind(EmailExpander.class).toProvider(EmailExpanderProvider.class).in(
         SINGLETON);
-    bind(new TypeLiteral<Collection<TrustedExternalId>>() {}).toProvider(
-        TrustedExternalIdsProvider.class).in(SINGLETON);
     bind(AnonymousUser.class);
 
     // Note that the CanonicalWebUrl itself must not be a singleton, but its

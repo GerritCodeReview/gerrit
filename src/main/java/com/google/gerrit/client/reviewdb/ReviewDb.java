@@ -40,9 +40,6 @@ public interface ReviewDb extends Schema {
   SystemConfigAccess systemConfig();
 
   @Relation
-  TrustedExternalIdAccess trustedExternalIds();
-
-  @Relation
   ApprovalCategoryAccess approvalCategories();
 
   @Relation
@@ -140,7 +137,7 @@ public interface ReviewDb extends Schema {
 
   /**
    * Next id for a block of {@link ChangeMessage} records.
-   * 
+   *
    * @see com.google.gerrit.server.ChangeUtil#messageUUID(ReviewDb)
    */
   @Sequence

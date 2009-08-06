@@ -22,7 +22,6 @@ import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.SchemaVersion;
 import com.google.gerrit.client.reviewdb.SystemConfig;
-import com.google.gerrit.client.reviewdb.TrustedExternalId;
 import com.google.gerrit.server.workflow.NoOpFunction;
 import com.google.gerrit.server.workflow.SubmitFunction;
 import com.google.gwtjsonrpc.server.SignedToken;
@@ -109,7 +108,6 @@ class SystemConfigProvider implements Provider<SystemConfig> {
     db.schemaVersion().insert(Collections.singleton(sVer));
 
     final SystemConfig sConfig = initSystemConfig(db);
-    initTrustedExternalIds(db);
     initOwnerCategory(db);
     initReadCategory(db, sConfig);
     initVerifiedCategory(db);
@@ -167,21 +165,6 @@ class SystemConfigProvider implements Provider<SystemConfig> {
     s.sitePath = sitePath.getAbsolutePath();
     c.systemConfig().insert(Collections.singleton(s));
     return s;
-  }
-
-  private void initTrustedExternalIds(final ReviewDb c) throws OrmException {
-    // By default with OpenID trust any http:// or https:// provider
-    //
-    initTrustedExternalId(c, "http://");
-    initTrustedExternalId(c, "https://");
-    initTrustedExternalId(c, "https://www.google.com/accounts/o8/id?id=");
-  }
-
-  private void initTrustedExternalId(final ReviewDb c, final String re)
-      throws OrmException {
-    c.trustedExternalIds().insert(
-        Collections.singleton(new TrustedExternalId(new TrustedExternalId.Key(
-            re))));
   }
 
   private void initWildCardProject(final ReviewDb c) throws OrmException {

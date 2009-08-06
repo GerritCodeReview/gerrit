@@ -64,6 +64,22 @@ authentication is not possible.
 +
 By default, OpenID.
 
+auth.trustedOpenID::
++
+List of trusted OpenID providers.  Only used if `auth.type` was
+set to OpenID (the default).
++
+In order for a user to take advantage of permissions beyond those
+granted to the `Anonymous Users` and `Registered Users` groups,
+the user account must only have OpenIDs which match at least one
+pattern from this list.
++
+Patterns may be either a regular expression (start with `^` and
+end with `$`) or be a simple prefix (any other string).
++
+By default, the list contains two values, `http://` and `https://`,
+allowing Gerrit to trust any OpenID it receives.
+
 auth.httpHeader::
 +
 HTTP header to trust the username from, or unset to select HTTP basic

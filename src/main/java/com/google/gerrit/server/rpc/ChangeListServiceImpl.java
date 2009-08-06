@@ -17,7 +17,6 @@ package com.google.gerrit.server.rpc;
 import com.google.gerrit.client.changes.ChangeListService;
 import com.google.gerrit.client.changes.ToggleStarRequest;
 import com.google.gerrit.client.data.AccountDashboardInfo;
-import com.google.gerrit.client.data.AccountInfoCacheFactory;
 import com.google.gerrit.client.data.ChangeInfo;
 import com.google.gerrit.client.data.SingleListChangeInfo;
 import com.google.gerrit.client.reviewdb.Account;
@@ -31,10 +30,10 @@ import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.RevId;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.StarredChange;
-import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gerrit.server.BaseServiceImplementation;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -88,14 +87,17 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
 
   private final Provider<CurrentUser> currentUser;
   private final ChangeControl.Factory changeControlFactory;
+  private final AccountInfoCacheFactory.Factory accountInfoCacheFactory;
 
   @Inject
   ChangeListServiceImpl(final Provider<ReviewDb> schema,
       final Provider<CurrentUser> currentUser,
-      final ChangeControl.Factory changeControlFactory) {
+      final ChangeControl.Factory changeControlFactory,
+      final AccountInfoCacheFactory.Factory accountInfoCacheFactory) {
     super(schema, currentUser);
     this.currentUser = currentUser;
     this.changeControlFactory = changeControlFactory;
+    this.accountInfoCacheFactory = accountInfoCacheFactory;
   }
 
   private boolean canRead(final Change c) {
@@ -278,7 +280,7 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
     run(callback, new Action<AccountDashboardInfo>() {
       public AccountDashboardInfo run(final ReviewDb db) throws OrmException,
           Failure {
-        final AccountInfoCacheFactory ac = new AccountInfoCacheFactory(db);
+        final AccountInfoCacheFactory ac = accountInfoCacheFactory.create();
         final Account user = ac.get(target);
         if (user == null) {
           throw new Failure(new NoSuchEntityException());
@@ -326,7 +328,7 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
     run(callback, new Action<SingleListChangeInfo>() {
       public SingleListChangeInfo run(final ReviewDb db) throws OrmException {
         final Account.Id me = getAccountId();
-        final AccountInfoCacheFactory ac = new AccountInfoCacheFactory(db);
+        final AccountInfoCacheFactory ac = accountInfoCacheFactory.create();
         final SingleListChangeInfo d = new SingleListChangeInfo();
         final Set<Change.Id> starred = currentUser.get().getStarredChanges();
         d.setChanges(filter(db.changes().get(starred), starred, ac));
@@ -345,7 +347,7 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
     run(callback, new Action<SingleListChangeInfo>() {
       public SingleListChangeInfo run(final ReviewDb db) throws OrmException {
         final Account.Id me = getAccountId();
-        final AccountInfoCacheFactory ac = new AccountInfoCacheFactory(db);
+        final AccountInfoCacheFactory ac = accountInfoCacheFactory.create();
         final SingleListChangeInfo d = new SingleListChangeInfo();
         final Set<Change.Id> starred = currentUser.get().getStarredChanges();
         final Set<Change.Id> drafted = draftedBy(db, me);
@@ -406,7 +408,8 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
     final ArrayList<ChangeInfo> r = new ArrayList<ChangeInfo>();
     for (final Change c : rs) {
       if (canRead(c)) {
-        final ChangeInfo ci = new ChangeInfo(c, accts);
+        final ChangeInfo ci = new ChangeInfo(c);
+        accts.want(ci.getOwner());
         ci.setStarred(starred.contains(ci.getId()));
         r.add(ci);
       }
@@ -504,7 +507,7 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
 
     public SingleListChangeInfo run(final ReviewDb db) throws OrmException {
       final Account.Id me = getAccountId();
-      final AccountInfoCacheFactory ac = new AccountInfoCacheFactory(db);
+      final AccountInfoCacheFactory ac = accountInfoCacheFactory.create();
       final SingleListChangeInfo d = new SingleListChangeInfo();
       final Set<Change.Id> starred = currentUser.get().getStarredChanges();
 
@@ -517,7 +520,8 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
         for (final Change c : rs) {
           results = true;
           if (canRead(c)) {
-            final ChangeInfo ci = new ChangeInfo(c, ac);
+            final ChangeInfo ci = new ChangeInfo(c);
+            ac.want(ci.getOwner());
             ci.setStarred(starred.contains(ci.getId()));
             list.add(ci);
             if (list.size() == slim) {

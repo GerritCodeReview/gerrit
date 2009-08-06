@@ -22,7 +22,6 @@ import com.google.gerrit.client.reviewdb.AccountSshKey;
 import com.google.gerrit.client.reviewdb.ContactInformation;
 import com.google.gerrit.client.reviewdb.ContributorAgreement;
 import com.google.gerrit.client.reviewdb.ReviewDb;
-import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.ContactInformationStoreException;
 import com.google.gerrit.client.rpc.InvalidSshKeyException;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
@@ -30,7 +29,7 @@ import com.google.gerrit.server.BaseServiceImplementation;
 import com.google.gerrit.server.ContactStore;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountByEmailCache;
-import com.google.gerrit.server.account.AccountCache2;
+import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.mail.RegisterNewEmailSender;
@@ -69,7 +68,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
   private final RegisterNewEmailSender.Factory registerNewEmailFactory;
   private final SshKeyCache sshKeyCache;
   private final AccountByEmailCache byEmailCache;
-  private final AccountCache2 accountCache;
+  private final AccountCache accountCache;
   private final boolean useContactInfo;
 
   private final ExternalIdDetailFactory.Factory externalIdDetailFactory;
@@ -79,7 +78,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
       final Provider<CurrentUser> currentUser, final ContactStore cs,
       final AuthConfig ac, final RegisterNewEmailSender.Factory esf,
       final SshKeyCache skc, final AccountByEmailCache abec,
-      final AccountCache2 uac,
+      final AccountCache uac,
       final ExternalIdDetailFactory.Factory externalIdDetailFactory) {
     super(schema, currentUser);
     contactStore = cs;
@@ -130,7 +129,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
           throw new Failure(new InvalidSshKeyException());
         }
         db.accountSshKeys().insert(Collections.singleton(newKey));
-        uncacheSshKeys(me, db);
+        uncacheSshKeys(me);
         return newKey;
       }
     });
@@ -151,7 +150,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
           final Transaction txn = db.beginTransaction();
           db.accountSshKeys().delete(k, txn);
           txn.commit();
-          uncacheSshKeys(me, db);
+          uncacheSshKeys(me);
         }
 
         return VoidResult.INSTANCE;
@@ -159,17 +158,12 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
     });
   }
 
-  private void uncacheSshKeys(final Account.Id me, final ReviewDb db) {
-    final Account a = Common.getAccountCache().get(me, db);
-    if (a != null) {
-      uncacheSshKeys(a.getSshUserName());
-    }
+  private void uncacheSshKeys(final Account.Id me) {
+    uncacheSshKeys(accountCache.get(me).getAccount().getSshUserName());
   }
 
   private void uncacheSshKeys(final String userName) {
-    if (userName != null) {
-      sshKeyCache.evict(userName);
-    }
+    sshKeyCache.evict(userName);
   }
 
   public void myExternalIds(AsyncCallback<List<AccountExternalId>> callback) {
@@ -266,7 +260,6 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
           byEmailCache.evict(me.getPreferredEmail());
         }
         accountCache.evict(me.getId());
-        Common.getAccountCache().invalidate(me.getId());
         return me;
       }
     });
@@ -289,8 +282,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
         }
 
         final AccountAgreement a =
-            new AccountAgreement(new AccountAgreement.Key(
-                getAccountId(), id));
+            new AccountAgreement(new AccountAgreement.Key(getAccountId(), id));
         if (cla.isAutoVerify()) {
           a.review(AccountAgreement.Status.VERIFIED, null);
         }
@@ -366,7 +358,6 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
         byEmailCache.evict(oldEmail);
         byEmailCache.evict(newEmail);
         accountCache.evict(me);
-        Common.getAccountCache().invalidate(me);
         return VoidResult.INSTANCE;
       }
     });

@@ -58,6 +58,8 @@ public class SshKeyCache {
   }
 
   public void evict(String username) {
-    self.remove(username);
+    if (username != null) {
+      self.remove(username);
+    }
   }
 }

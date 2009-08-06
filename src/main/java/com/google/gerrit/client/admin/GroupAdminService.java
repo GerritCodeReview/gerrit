@@ -33,7 +33,7 @@ public interface GroupAdminService extends RemoteJsonService {
 
   @SignInRequired
   void groupDetail(AccountGroup.Id groupId,
-      AsyncCallback<AccountGroupDetail> callback);
+      AsyncCallback<GroupDetail> callback);
 
   @SignInRequired
   void changeGroupDescription(AccountGroup.Id groupId, String description,
@@ -49,7 +49,7 @@ public interface GroupAdminService extends RemoteJsonService {
 
   @SignInRequired
   void addGroupMember(AccountGroup.Id groupId, String nameOrEmail,
-      AsyncCallback<AccountGroupDetail> callback);
+      AsyncCallback<GroupDetail> callback);
 
   @SignInRequired
   void deleteGroupMembers(AccountGroup.Id groupId,

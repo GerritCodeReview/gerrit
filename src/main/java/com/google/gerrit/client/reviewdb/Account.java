@@ -14,14 +14,10 @@
 
 package com.google.gerrit.client.reviewdb;
 
-import com.google.gerrit.client.rpc.Common;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.IntKey;
-import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.ResultSet;
 
 import java.sql.Timestamp;
-import java.util.List;
 
 /**
  * Information about a single user.
@@ -37,79 +33,28 @@ import java.util.List;
  * predefined {@link ContributorAgreement}. Multiple records indicate
  * potentially multiple agreements, especially if agreements must be retired and
  * replaced with new agreements.</li>
- * 
+ *
  * <li>{@link AccountExternalId}: OpenID identities and email addresses known to
  * be registered to this user. Multiple records can exist when the user has more
  * than one public identity, such as a work and a personal email address.</li>
- * 
+ *
  * <li>{@link AccountGroupMember}: membership of the user in a specific human
  * managed {@link AccountGroup}. Multiple records can exist when the user is a
  * member of more than one group.</li>
- * 
+ *
  * <li>{@link AccountProjectWatch}: user's email settings related to a specific
  * {@link Project}. One record per project the user is interested in tracking.</li>
- * 
+ *
  * <li>{@link AccountSshKey}: user's public SSH keys, for authentication through
  * the internal SSH daemon. One record per SSH key uploaded by the user, keys
  * are checked in random order until a match is found.</li>
- * 
+ *
  * <li>{@link StarredChange}: user has starred the change, tracking
  * notifications of updates on that change, or just book-marking it for faster
  * future reference. One record per starred change.</li>
  * </ul>
  */
 public final class Account {
-  /**
-   * Locate exactly one account matching the name or name/email string.
-   * 
-   * @param db open database handle to use for the query.
-   * @param nameOrEmail a string of the format
-   *        "Full Name &lt;email@example&gt;", or just the email address
-   *        ("email@example"), or a full name, or an account id.
-   * @return the single account that matches; null if no account matches or
-   *         there are multiple candidates.
-   */
-  public static Account find(final ReviewDb db, final String nameOrEmail)
-      throws OrmException {
-    if (nameOrEmail.matches("^[1-9][0-9]*$")) {
-      return Common.getAccountCache().get(Account.Id.parse(nameOrEmail));
-    }
-
-    final int lt = nameOrEmail.indexOf('<');
-    final int gt = nameOrEmail.indexOf('>');
-    if (lt >= 0 && gt > lt && nameOrEmail.contains("@")) {
-      return findByEmail(db, nameOrEmail.substring(lt + 1, gt));
-    }
-
-    if (nameOrEmail.contains("@")) {
-      return findByEmail(db, nameOrEmail);
-    }
-
-    return oneAccount(db.accounts().byFullName(nameOrEmail));
-  }
-
-  private static Account findByEmail(final ReviewDb db, final String email)
-      throws OrmException {
-    Account a = oneAccount(db.accounts().byPreferredEmail(email));
-    if (a == null) {
-      a = oneAccountExternalId(db.accountExternalIds().byEmailAddress(email));
-    }
-    return a;
-  }
-
-  private static Account oneAccount(ResultSet<Account> rs) {
-    final List<Account> r = rs.toList();
-    return r.size() == 1 ? r.get(0) : null;
-  }
-
-  private static Account oneAccountExternalId(ResultSet<AccountExternalId> rs) {
-    final List<AccountExternalId> r = rs.toList();
-    if (r.size() == 1) {
-      return Common.getAccountCache().get(r.get(0).getAccountId());
-    }
-    return null;
-  }
-
   /** Key local to Gerrit to identify a user. */
   public static class Id extends IntKey<com.google.gwtorm.client.Key<?>> {
     private static final long serialVersionUID = 1L;
@@ -178,7 +123,7 @@ public final class Account {
 
   /**
    * Create a new account.
-   * 
+   *
    * @param newId unique id, see {@link ReviewDb#nextAccountId()}.
    */
   public Account(final Account.Id newId) {

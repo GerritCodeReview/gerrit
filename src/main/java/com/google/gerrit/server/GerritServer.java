@@ -14,14 +14,10 @@
 
 package com.google.gerrit.server;
 
-import com.google.gerrit.client.data.AccountCache;
-import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.SystemConfig;
-import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePath;
-import com.google.gwtorm.jdbc.Database;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -39,16 +35,13 @@ import java.io.IOException;
 /** Global server-side state for Gerrit. */
 @Singleton
 public class GerritServer {
-  private final Database<ReviewDb> db;
   private final File sitePath;
   private final Config gerritConfigFile;
   private final File basepath;
 
   @Inject
-  GerritServer(final Database<ReviewDb> database, final SystemConfig sConfig,
-      @SitePath final File path, @GerritServerConfig final Config cfg,
-      final AuthConfig authConfig) {
-    db = database;
+  GerritServer(final SystemConfig sConfig, @SitePath final File path,
+      @GerritServerConfig final Config cfg, final AuthConfig authConfig) {
     sitePath = path;
     gerritConfigFile = cfg;
 
@@ -62,8 +55,6 @@ public class GerritServer {
     } else {
       basepath = null;
     }
-
-    Common.setAccountCache(new AccountCache(db));
   }
 
   private Config getGerritConfig() {

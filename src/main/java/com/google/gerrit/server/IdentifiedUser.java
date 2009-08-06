@@ -20,7 +20,7 @@ import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.StarredChange;
 import com.google.gerrit.client.reviewdb.SystemConfig;
-import com.google.gerrit.server.account.AccountCache2;
+import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.Nullable;
 import com.google.gwtorm.client.OrmException;
@@ -38,8 +38,10 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.TimeZone;
 
 /** An authenticated user. */
 public class IdentifiedUser extends CurrentUser {
@@ -47,11 +49,11 @@ public class IdentifiedUser extends CurrentUser {
   @Singleton
   public static class GenericFactory {
     private final SystemConfig systemConfig;
-    private final AccountCache2 accountCache;
+    private final AccountCache accountCache;
 
     @Inject
     GenericFactory(final SystemConfig systemConfig,
-        final AccountCache2 accountCache) {
+        final AccountCache accountCache) {
       this.systemConfig = systemConfig;
       this.accountCache = accountCache;
     }
@@ -70,13 +72,13 @@ public class IdentifiedUser extends CurrentUser {
   @Singleton
   public static class RequestFactory {
     private final SystemConfig systemConfig;
-    private final AccountCache2 accountCache;
+    private final AccountCache accountCache;
     private final Provider<SocketAddress> remotePeerProvider;
     private final Provider<ReviewDb> dbProvider;
 
     @Inject
     RequestFactory(final SystemConfig systemConfig,
-        final AccountCache2 accountCache,
+        final AccountCache accountCache,
         final @RemotePeer Provider<SocketAddress> remotePeerProvider,
         final Provider<ReviewDb> dbProvider) {
       this.systemConfig = systemConfig;
@@ -94,7 +96,7 @@ public class IdentifiedUser extends CurrentUser {
   private static final Logger log =
       LoggerFactory.getLogger(IdentifiedUser.class);
 
-  private final AccountCache2 accountCache;
+  private final AccountCache accountCache;
   @Nullable
   private final Provider<SocketAddress> remotePeerProvider;
   @Nullable
@@ -105,7 +107,7 @@ public class IdentifiedUser extends CurrentUser {
   private Set<Change.Id> starredChanges;
 
   private IdentifiedUser(final SystemConfig systemConfig,
-      final AccountCache2 accountCache,
+      final AccountCache accountCache,
       @Nullable final Provider<SocketAddress> remotePeerProvider,
       @Nullable final Provider<ReviewDb> dbProvider, final Account.Id id) {
     super(systemConfig);
@@ -158,7 +160,11 @@ public class IdentifiedUser extends CurrentUser {
     return starredChanges;
   }
 
-  public PersonIdent toPersonIdent() {
+  public PersonIdent newPersonIdent() {
+    return newPersonIdent(new Date(), TimeZone.getDefault());
+  }
+
+  public PersonIdent newPersonIdent(final Date when, final TimeZone tz) {
     final Account ua = getAccount();
     String name = ua.getFullName();
     if (name == null) {
@@ -192,7 +198,7 @@ public class IdentifiedUser extends CurrentUser {
       host = "unknown";
     }
 
-    return new PersonIdent(name, user + "@" + host);
+    return new PersonIdent(name, user + "@" + host, when, tz);
   }
 
   @Override

@@ -35,7 +35,9 @@ import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.MimeUtilFileTypeRegistry;
 import com.google.gerrit.server.account.AccountByEmailCache;
-import com.google.gerrit.server.account.AccountCache2;
+import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.AccountInfoCacheFactory;
+import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.mail.AbandonedSender;
 import com.google.gerrit.server.mail.AddReviewerSender;
@@ -90,11 +92,13 @@ public class GerritServerModule extends FactoryModule {
     bind(CacheManager.class).toProvider(CacheManagerProvider.class).in(
         SINGLETON);
     bind(AccountByEmailCache.class);
-    bind(AccountCache2.class);
+    bind(AccountCache.class);
+    factory(AccountInfoCacheFactory.Factory.class);
     bind(DiffCache.class);
     bind(GroupCache.class);
     bind(ProjectCache.class);
     bind(SshKeyCache.class);
+    bind(AccountResolver.class);
 
     bind(GerritServer.class);
     bind(ContactStore.class).toProvider(EncryptedContactStoreProvider.class)

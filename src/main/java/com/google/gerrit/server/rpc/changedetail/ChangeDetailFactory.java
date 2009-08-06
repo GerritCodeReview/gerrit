@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.rpc.changedetail;
 
-import com.google.gerrit.client.data.AccountInfoCacheFactory;
 import com.google.gerrit.client.data.ApprovalDetail;
 import com.google.gerrit.client.data.ApprovalType;
 import com.google.gerrit.client.data.ChangeDetail;
@@ -31,6 +30,7 @@ import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.RevId;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
+import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -60,11 +60,11 @@ class ChangeDetailFactory extends Handler<ChangeDetail> {
   private final ChangeControl.Factory changeControlFactory;
   private final FunctionState.Factory functionState;
   private final PatchSetDetailFactory.Factory patchSetDetail;
+  private final AccountInfoCacheFactory aic;
   private final ReviewDb db;
 
   private final Change.Id changeId;
 
-  private AccountInfoCacheFactory acc;
   private ChangeDetail detail;
   private ChangeControl control;
 
@@ -73,12 +73,14 @@ class ChangeDetailFactory extends Handler<ChangeDetail> {
       final FunctionState.Factory functionState,
       final PatchSetDetailFactory.Factory patchSetDetail, final ReviewDb db,
       final ChangeControl.Factory changeControlFactory,
+      final AccountInfoCacheFactory.Factory accountInfoCacheFactory,
       @Assisted final Change.Id id) {
     this.gerritConfig = gerritConfig;
     this.functionState = functionState;
     this.patchSetDetail = patchSetDetail;
     this.db = db;
     this.changeControlFactory = changeControlFactory;
+    this.aic = accountInfoCacheFactory.create();
 
     this.changeId = id;
   }
@@ -94,8 +96,7 @@ class ChangeDetailFactory extends Handler<ChangeDetail> {
       throw new NoSuchEntityException();
     }
 
-    acc = new AccountInfoCacheFactory(db);
-    acc.want(change.getOwner());
+    aic.want(change.getOwner());
 
     detail = new ChangeDetail();
     detail.setChange(change);
@@ -109,7 +110,7 @@ class ChangeDetailFactory extends Handler<ChangeDetail> {
       loadCurrentPatchSet();
     }
     load();
-    detail.setAccounts(acc.create());
+    detail.setAccounts(aic.create());
     return detail;
   }
 
@@ -120,7 +121,7 @@ class ChangeDetailFactory extends Handler<ChangeDetail> {
   private void loadMessages() throws OrmException {
     detail.setMessages(db.changeMessages().byChange(changeId).toList());
     for (final ChangeMessage m : detail.getMessages()) {
-      acc.want(m.getAuthor());
+      aic.want(m.getAuthor());
     }
   }
 
@@ -172,7 +173,7 @@ class ChangeDetailFactory extends Handler<ChangeDetail> {
       ad.get(owner).sortFirst();
     }
 
-    acc.want(ad.keySet());
+    aic.want(ad.keySet());
     detail.setApprovals(ad.values());
   }
 
@@ -210,7 +211,8 @@ class ChangeDetailFactory extends Handler<ChangeDetail> {
     for (final Change.Id a : ancestorOrder) {
       final Change ac = m.get(a);
       if (ac != null) {
-        dependsOn.add(new ChangeInfo(ac, acc));
+        aic.want(ac.getOwner());
+        dependsOn.add(new ChangeInfo(ac));
       }
     }
 
@@ -218,7 +220,8 @@ class ChangeDetailFactory extends Handler<ChangeDetail> {
     for (final PatchSetAncestor a : descendants) {
       final Change ac = m.get(a.getPatchSet().getParentKey());
       if (ac != null) {
-        neededBy.add(new ChangeInfo(ac, acc));
+        aic.want(ac.getOwner());
+        neededBy.add(new ChangeInfo(ac));
       }
     }
 

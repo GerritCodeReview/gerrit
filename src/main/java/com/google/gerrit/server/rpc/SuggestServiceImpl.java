@@ -14,17 +14,16 @@
 
 package com.google.gerrit.server.rpc;
 
-import com.google.gerrit.client.data.AccountCache;
 import com.google.gerrit.client.data.AccountInfo;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountExternalId;
 import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
-import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.ui.SuggestService;
 import com.google.gerrit.server.BaseServiceImplementation;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -40,14 +39,17 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
     SuggestService {
   private static final String MAX_SUFFIX = "\u9fa5";
 
-  private final Provider<CurrentUser> currentUser;
   private final ProjectCache projectCache;
+  private final AccountCache accountCache;
+  private final Provider<CurrentUser> currentUser;
 
   @Inject
-  SuggestServiceImpl(final Provider<ReviewDb> schema, final ProjectCache pc,
+  SuggestServiceImpl(final Provider<ReviewDb> schema,
+      final ProjectCache projectCache, final AccountCache accountCache,
       final Provider<CurrentUser> currentUser) {
     super(schema, currentUser);
-    this.projectCache = pc;
+    this.projectCache = projectCache;
+    this.accountCache = accountCache;
     this.currentUser = currentUser;
   }
 
@@ -94,16 +96,13 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
           }
         }
         if (r.size() < n) {
-          final AccountCache ac = Common.getAccountCache();
           for (final AccountExternalId e : db.accountExternalIds()
               .suggestByEmailAddress(a, b, n - r.size())) {
             if (!r.containsKey(e.getAccountId())) {
-              final Account p = ac.get(e.getAccountId(), db);
-              if (p != null) {
-                final AccountInfo info = new AccountInfo(p);
-                info.setPreferredEmail(e.getEmailAddress());
-                r.put(e.getAccountId(), info);
-              }
+              final Account p = accountCache.get(e.getAccountId()).getAccount();
+              final AccountInfo info = new AccountInfo(p);
+              info.setPreferredEmail(e.getEmailAddress());
+              r.put(e.getAccountId(), info);
             }
           }
         }

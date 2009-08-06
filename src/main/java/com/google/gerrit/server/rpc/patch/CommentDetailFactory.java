@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.rpc.patch;
 
-import com.google.gerrit.client.data.AccountInfoCacheFactory;
 import com.google.gerrit.client.patches.CommentDetail;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.Change;
@@ -23,6 +22,7 @@ import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.config.Nullable;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -41,6 +41,7 @@ class CommentDetailFactory extends Handler<CommentDetail> {
 
   private final ReviewDb db;
   private final ChangeControl.Factory changeControlFactory;
+  private final AccountInfoCacheFactory aic;
 
   private final Patch.Key patchKey;
   private final PatchSet.Id psa;
@@ -54,11 +55,13 @@ class CommentDetailFactory extends Handler<CommentDetail> {
   @Inject
   CommentDetailFactory(final ReviewDb db,
       final ChangeControl.Factory changeControlFactory,
+      final AccountInfoCacheFactory.Factory accountInfoCacheFactory,
       @Assisted final Patch.Key patchKey,
       @Assisted("patchSetA") @Nullable final PatchSet.Id patchSetA,
       @Assisted("patchSetB") final PatchSet.Id patchSetB) {
     this.db = db;
     this.changeControlFactory = changeControlFactory;
+    this.aic = accountInfoCacheFactory.create();
 
     this.patchKey = patchKey;
     this.psa = patchSetA;
@@ -80,7 +83,6 @@ class CommentDetailFactory extends Handler<CommentDetail> {
     }
 
     final String pn = patch.getFileName();
-    final AccountInfoCacheFactory aic = new AccountInfoCacheFactory(db);
     final CommentDetail r;
 
     r = new CommentDetail(psa, psb != null ? psb : patchSetId);

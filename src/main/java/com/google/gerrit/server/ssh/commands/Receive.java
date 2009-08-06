@@ -188,7 +188,7 @@ final class Receive extends AbstractGitCommand {
       verifyActiveContributorAgreement();
     }
     loadMyEmails();
-    refLogIdent = currentUser.toPersonIdent();
+    refLogIdent = currentUser.newPersonIdent();
 
     rp = new ReceivePack(repo);
     rp.setAllowCreates(true);

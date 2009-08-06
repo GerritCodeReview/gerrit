@@ -24,7 +24,7 @@ import com.google.gerrit.client.reviewdb.ChangeApproval;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.client.reviewdb.ApprovalCategory.Id;
-import com.google.gerrit.server.account.AccountCache2;
+import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
@@ -45,7 +45,7 @@ public class FunctionState {
     FunctionState create(Change c, Collection<ChangeApproval> all);
   }
 
-  private final AccountCache2 accountCache;
+  private final AccountCache accountCache;
   private final ProjectCache projectCache;
 
   private final Map<ApprovalCategory.Id, Collection<ChangeApproval>> approvals =
@@ -61,7 +61,7 @@ public class FunctionState {
   private Set<ChangeApproval> modified;
 
   @Inject
-  FunctionState(final ProjectCache pc, final AccountCache2 ac,
+  FunctionState(final ProjectCache pc, final AccountCache ac,
       final GroupCache egc, @Assisted final Change c,
       @Assisted final Collection<ChangeApproval> all) {
     projectCache = pc;

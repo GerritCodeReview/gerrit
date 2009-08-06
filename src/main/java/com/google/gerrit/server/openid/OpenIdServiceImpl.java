@@ -24,10 +24,10 @@ import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountExternalId;
 import com.google.gerrit.client.reviewdb.AccountExternalIdAccess;
 import com.google.gerrit.client.reviewdb.ReviewDb;
-import com.google.gerrit.client.rpc.Common;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.UrlEncoded;
 import com.google.gerrit.server.account.AccountByEmailCache;
-import com.google.gerrit.server.account.AccountCache2;
+import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.Nullable;
@@ -101,21 +101,24 @@ class OpenIdServiceImpl implements OpenIdService {
       "http://schema.openid.net/namePerson/last";
 
   private final Provider<GerritCall> callFactory;
+  private final Provider<IdentifiedUser> identifiedUser;
   private final AuthConfig authConfig;
   private final Provider<String> urlProvider;
   private final SchemaFactory<ReviewDb> schema;
   private final ConsumerManager manager;
   private final AccountByEmailCache byEmailCache;
-  private final AccountCache2 byIdCache;
+  private final AccountCache byIdCache;
   private final SelfPopulatingCache discoveryCache;
 
   @Inject
-  OpenIdServiceImpl(final Provider<GerritCall> cf, final AuthConfig ac,
+  OpenIdServiceImpl(final Provider<GerritCall> cf,
+      final Provider<IdentifiedUser> iu, final AuthConfig ac,
       @CanonicalWebUrl @Nullable final Provider<String> up,
-      final AccountByEmailCache bec, final AccountCache2 bic,
+      final AccountByEmailCache bec, final AccountCache bic,
       final CacheManager cacheMgr, final SchemaFactory<ReviewDb> sf)
       throws ConsumerException {
     callFactory = cf;
+    identifiedUser = iu;
     authConfig = ac;
     urlProvider = up;
     schema = sf;
@@ -448,7 +451,7 @@ class OpenIdServiceImpl implements OpenIdService {
       }
       acctExt.setLastUsedOn();
       extAccess.update(Collections.singleton(acctExt));
-      account = Common.getAccountCache().get(acctExt.getAccountId(), db);
+      account = byIdCache.get(acctExt.getAccountId()).getAccount();
     } else {
       account = null;
     }
@@ -479,12 +482,7 @@ class OpenIdServiceImpl implements OpenIdService {
 
   private Account linkAccount(final HttpServletRequest req, final ReviewDb db,
       final Identifier user, final String curEmail) throws OrmException {
-    final Account.Id me = callFactory.get().getAccountId();
-    final Account account = Common.getAccountCache().get(me, db);
-    if (account == null) {
-      return null;
-    }
-
+    final Account account = identifiedUser.get().getAccount();
     final AccountExternalId.Key idKey =
         new AccountExternalId.Key(account.getId(), user.getIdentifier());
     AccountExternalId id = db.accountExternalIds().get(idKey);

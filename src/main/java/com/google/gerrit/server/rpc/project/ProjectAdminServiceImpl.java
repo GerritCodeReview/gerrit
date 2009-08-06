@@ -16,7 +16,6 @@ package com.google.gerrit.server.rpc.project;
 
 import com.google.gerrit.client.admin.ProjectAdminService;
 import com.google.gerrit.client.admin.ProjectDetail;
-import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
@@ -24,8 +23,6 @@ import com.google.gerrit.client.reviewdb.Branch;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.client.reviewdb.ReviewDb;
-import com.google.gerrit.client.reviewdb.AccountGroup.Id;
-import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.InvalidNameException;
 import com.google.gerrit.client.rpc.InvalidRevisionException;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
@@ -395,10 +392,6 @@ class ProjectAdminServiceImpl extends BaseServiceImplementation implements
           throw new Failure(new InvalidNameException());
         }
 
-        final Account me = Common.getAccountCache().get(getAccountId());
-        if (me == null) {
-          throw new Failure(new NoSuchEntityException());
-        }
         final ProjectState pce = projectCache.get(projectName);
         if (pce == null) {
           throw new Failure(new NoSuchEntityException());
@@ -463,7 +456,7 @@ class ProjectAdminServiceImpl extends BaseServiceImplementation implements
             final RefUpdate u = repo.updateRef(refname);
             u.setExpectedOldObjectId(ObjectId.zeroId());
             u.setNewObjectId(revid);
-            u.setRefLogIdent(identifiedUser.get().toPersonIdent());
+            u.setRefLogIdent(identifiedUser.get().newPersonIdent());
             u.setRefLogMessage("created via web from " + startingRevision,
                 false);
             final RefUpdate.Result result = u.update(rw);

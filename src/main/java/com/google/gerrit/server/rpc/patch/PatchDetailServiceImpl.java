@@ -33,12 +33,12 @@ import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.Account.Id;
 import com.google.gerrit.client.reviewdb.Patch.Key;
-import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.NoSuchAccountException;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gerrit.server.BaseServiceImplementation;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.mail.AddReviewerSender;
 import com.google.gerrit.server.mail.CommentSender;
 import com.google.gerrit.server.mail.EmailException;
@@ -69,6 +69,7 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
   private final CommentSender.Factory commentSenderFactory;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final GerritConfig gerritConfig;
+  private final AccountResolver accountResolver;
 
   private final AbandonChange.Factory abandonChangeFactory;
   private final CommentDetailFactory.Factory commentDetailFactory;
@@ -81,6 +82,8 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
       final Provider<CurrentUser> currentUser,
       final AddReviewerSender.Factory arsf, final CommentSender.Factory csf,
       final PatchSetInfoFactory psif, final GerritConfig gc,
+      final AccountResolver accountResolver,
+
       final AbandonChange.Factory abandonChangeFactory,
       final CommentDetailFactory.Factory commentDetailFactory,
       final PatchScriptFactory.Factory patchScriptFactoryFactory,
@@ -90,6 +93,7 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
     addReviewerSenderFactory = arsf;
     commentSenderFactory = csf;
     gerritConfig = gc;
+    this.accountResolver = accountResolver;
 
     this.abandonChangeFactory = abandonChangeFactory;
     this.commentDetailFactory = commentDetailFactory;
@@ -327,7 +331,7 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
         }
 
         for (final String email : reviewers) {
-          final Account who = Account.find(db, email);
+          final Account who = accountResolver.find(email);
           if (who == null) {
             throw new Failure(new NoSuchAccountException(email));
           }

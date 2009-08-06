@@ -85,4 +85,8 @@ public class GroupControl {
   public boolean canRemove(final Account.Id id) {
     return isOwner();
   }
+
+  public boolean canSee(Account.Id id) {
+    return isOwner();
+  }
 }

@@ -70,9 +70,9 @@ public class AccountGroupScreen extends AccountScreen {
   protected void onLoad() {
     super.onLoad();
     Util.GROUP_SVC.groupDetail(groupId,
-        new ScreenLoadCallback<AccountGroupDetail>(this) {
+        new ScreenLoadCallback<GroupDetail>(this) {
           @Override
-          protected void preDisplay(final AccountGroupDetail result) {
+          protected void preDisplay(final GroupDetail result) {
             display(result);
           }
         });
@@ -202,7 +202,7 @@ public class AccountGroupScreen extends AccountScreen {
     add(memberPanel);
   }
 
-  private void display(final AccountGroupDetail result) {
+  private void display(final GroupDetail result) {
     final AccountGroup group = result.group;
     setPageTitle(Util.M.group(group.getName()));
     groupNameTxt.setText(group.getName());
@@ -229,15 +229,13 @@ public class AccountGroupScreen extends AccountScreen {
 
     addMemberBox.setEnabled(false);
     Util.GROUP_SVC.addGroupMember(groupId, nameEmail,
-        new GerritCallback<AccountGroupDetail>() {
-          public void onSuccess(final AccountGroupDetail result) {
+        new GerritCallback<GroupDetail>() {
+          public void onSuccess(final GroupDetail result) {
             addMemberBox.setEnabled(true);
             addMemberBox.setText("");
             if (result.accounts != null && result.members != null) {
               accounts.merge(result.accounts);
-              for (final AccountGroupMember m : result.members) {
-                members.insertMember(m);
-              }
+              members.display(result.members);
             }
           }
 

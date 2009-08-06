@@ -25,7 +25,6 @@ import com.google.gerrit.client.reviewdb.ChangeMessage;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
-import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.IdentifiedUser;
@@ -80,7 +79,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TimeZone;
 
 /**
  * Merges changes in submission order into a single branch.
@@ -535,7 +533,7 @@ public class MergeOp {
   private void setRefLogIdent(final ChangeApproval submitAudit) {
     if (submitAudit != null) {
       branchUpdate.setRefLogIdent(identifiedUserFactory.create(
-          submitAudit.getAccountId()).toPersonIdent());
+          submitAudit.getAccountId()).newPersonIdent());
     }
   }
 
@@ -629,12 +627,8 @@ public class MergeOp {
           continue;
         }
 
-        final Account acc = Common.getAccountCache().get(a.getAccountId());
-        if (acc == null) {
-          // No record of user, WTF?
-          continue;
-        }
-
+        final Account acc =
+            identifiedUserFactory.create(a.getAccountId()).getAccount();
         final StringBuilder identbuf = new StringBuilder();
         if (acc.getFullName() != null && acc.getFullName().length() > 0) {
           if (identbuf.length() > 0) {
@@ -724,24 +718,8 @@ public class MergeOp {
     if (audit == null) {
       return null;
     }
-
-    final Account a = Common.getAccountCache().get(audit.getAccountId());
-    if (a == null) {
-      return null;
-    }
-
-    String name = a.getFullName();
-    if (name == null || name.length() == 0) {
-      name = "Anonymous Coward";
-    }
-
-    String email = a.getPreferredEmail();
-    if (email == null || email.length() == 0) {
-      email = "account-" + a.getId().get() + "@localhost";
-    }
-
-    final TimeZone tz = myIdent.getTimeZone();
-    return new PersonIdent(name, email, audit.getGranted(), tz);
+    return identifiedUserFactory.create(audit.getAccountId()).newPersonIdent(
+        audit.getGranted(), myIdent.getTimeZone());
   }
 
   private void updateBranch() throws MergeException {

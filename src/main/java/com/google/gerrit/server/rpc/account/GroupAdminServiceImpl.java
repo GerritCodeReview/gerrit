@@ -12,23 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.rpc;
+package com.google.gerrit.server.rpc.account;
 
-import com.google.gerrit.client.admin.AccountGroupDetail;
 import com.google.gerrit.client.admin.GroupAdminService;
-import com.google.gerrit.client.data.AccountInfoCacheFactory;
+import com.google.gerrit.client.admin.GroupDetail;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.AccountGroupMember;
 import com.google.gerrit.client.reviewdb.AccountGroupMemberAudit;
 import com.google.gerrit.client.reviewdb.ReviewDb;
-import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.NameAlreadyUsedException;
 import com.google.gerrit.client.rpc.NoSuchAccountException;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gerrit.server.BaseServiceImplementation;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.AccountCache2;
+import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.account.NoSuchGroupException;
@@ -49,20 +48,26 @@ import java.util.Set;
 class GroupAdminServiceImpl extends BaseServiceImplementation implements
     GroupAdminService {
   private final Provider<IdentifiedUser> identifiedUser;
-  private final AccountCache2 accountCache;
+  private final AccountCache accountCache;
+  private final AccountResolver accountResolver;
   private final GroupCache groupCache;
   private final GroupControl.Factory groupControlFactory;
+  private final GroupDetailFactory.Factory groupDetailFactory;
 
   @Inject
   GroupAdminServiceImpl(final Provider<ReviewDb> schema,
       final Provider<IdentifiedUser> currentUser,
-      final AccountCache2 accountCache, final GroupCache groupCache,
-      final GroupControl.Factory groupControlFactory) {
+      final AccountCache accountCache, final AccountResolver accountResolver,
+      final GroupCache groupCache,
+      final GroupControl.Factory groupControlFactory,
+      final GroupDetailFactory.Factory groupDetailFactory) {
     super(schema, currentUser);
     this.identifiedUser = currentUser;
     this.accountCache = accountCache;
+    this.accountResolver = accountResolver;
     this.groupCache = groupCache;
     this.groupControlFactory = groupControlFactory;
+    this.groupDetailFactory = groupDetailFactory;
   }
 
   public void ownedGroups(final AsyncCallback<List<AccountGroup>> callback) {
@@ -137,17 +142,8 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
   }
 
   public void groupDetail(final AccountGroup.Id groupId,
-      final AsyncCallback<AccountGroupDetail> callback) {
-    run(callback, new Action<AccountGroupDetail>() {
-      public AccountGroupDetail run(ReviewDb db) throws OrmException, Failure {
-        final AccountGroup group = db.accountGroups().get(groupId);
-        assertAmGroupOwner(db, group);
-
-        final AccountGroupDetail d = new AccountGroupDetail();
-        d.load(db, new AccountInfoCacheFactory(db), group);
-        return d;
-      }
-    });
+      final AsyncCallback<GroupDetail> callback) {
+    groupDetailFactory.create(groupId).to(callback);
   }
 
   public void changeGroupDescription(final AccountGroup.Id groupId,
@@ -207,16 +203,16 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
   }
 
   public void addGroupMember(final AccountGroup.Id groupId,
-      final String nameOrEmail, final AsyncCallback<AccountGroupDetail> callback) {
-    run(callback, new Action<AccountGroupDetail>() {
-      public AccountGroupDetail run(ReviewDb db) throws OrmException, Failure,
+      final String nameOrEmail, final AsyncCallback<GroupDetail> callback) {
+    run(callback, new Action<GroupDetail>() {
+      public GroupDetail run(ReviewDb db) throws OrmException, Failure,
           NoSuchGroupException {
         final GroupControl control = groupControlFactory.validateFor(groupId);
         if (control.getAccountGroup().isAutomaticMembership()) {
           throw new Failure(new NameAlreadyUsedException());
         }
 
-        final Account a = findAccount(db, nameOrEmail);
+        final Account a = findAccount(nameOrEmail);
         if (!control.canAdd(a.getId())) {
           throw new Failure(new NoSuchEntityException());
         }
@@ -235,9 +231,7 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
           accountCache.evict(m.getAccountId());
         }
 
-        final AccountGroupDetail d = new AccountGroupDetail();
-        d.loadOneMember(db, a, m);
-        return d;
+        return groupDetailFactory.create(groupId).call();
       }
     });
   }
@@ -308,9 +302,9 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
     }
   }
 
-  private static Account findAccount(final ReviewDb db, final String nameOrEmail)
-      throws OrmException, Failure {
-    final Account r = Account.find(db, nameOrEmail);
+  private Account findAccount(final String nameOrEmail) throws OrmException,
+      Failure {
+    final Account r = accountResolver.find(nameOrEmail);
     if (r == null) {
       throw new Failure(new NoSuchAccountException(nameOrEmail));
     }

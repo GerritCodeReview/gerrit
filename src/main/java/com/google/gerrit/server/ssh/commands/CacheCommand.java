@@ -30,7 +30,6 @@ abstract class CacheCommand extends BaseCommand {
 
   protected SortedSet<String> cacheNames() {
     final SortedSet<String> names = new TreeSet<String>();
-    names.add("accounts");
     for (final Ehcache c : getAllCaches()) {
       names.add(c.getName());
     }

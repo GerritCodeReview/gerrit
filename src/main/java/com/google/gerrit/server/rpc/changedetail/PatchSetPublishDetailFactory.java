@@ -16,7 +16,6 @@ package com.google.gerrit.server.rpc.changedetail;
 
 import com.google.gerrit.client.changes.PatchSetPublishDetail;
 import com.google.gerrit.client.data.AccountInfoCache;
-import com.google.gerrit.client.data.AccountInfoCacheFactory;
 import com.google.gerrit.client.data.ApprovalType;
 import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.client.reviewdb.AccountGroup;
@@ -30,6 +29,7 @@ import com.google.gerrit.client.reviewdb.PatchSetInfo;
 import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
@@ -58,6 +58,7 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
   private final GerritConfig gerritConfig;
   private final ReviewDb db;
   private final ChangeControl.Factory changeControlFactory;
+  private final AccountInfoCacheFactory aic;
   private final IdentifiedUser user;
 
   private final PatchSet.Id patchSetId;
@@ -72,13 +73,16 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
   @Inject
   PatchSetPublishDetailFactory(final PatchSetInfoFactory infoFactory,
       final ProjectCache projectCache, final GerritConfig gerritConfig,
-      final ReviewDb db, final ChangeControl.Factory changeControlFactory,
+      final ReviewDb db,
+      final AccountInfoCacheFactory.Factory accountInfoCacheFactory,
+      final ChangeControl.Factory changeControlFactory,
       final IdentifiedUser user, @Assisted final PatchSet.Id patchSetId) {
     this.projectCache = projectCache;
     this.infoFactory = infoFactory;
     this.gerritConfig = gerritConfig;
     this.db = db;
     this.changeControlFactory = changeControlFactory;
+    this.aic = accountInfoCacheFactory.create();
     this.user = user;
 
     this.patchSetId = patchSetId;
@@ -87,7 +91,6 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
   @Override
   public PatchSetPublishDetail call() throws OrmException,
       PatchSetInfoNotAvailableException, NoSuchChangeException {
-    final AccountInfoCacheFactory acc = new AccountInfoCacheFactory(db);
     final Change.Id changeId = patchSetId.getParentKey();
     final ChangeControl control = changeControlFactory.validateFor(changeId);
     change = control.getChange();
@@ -105,8 +108,8 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
       }
     }
 
-    acc.want(change.getOwner());
-    accounts = acc.create();
+    aic.want(change.getOwner());
+    accounts = aic.create();
 
     PatchSetPublishDetail detail = new PatchSetPublishDetail();
     detail.setAccounts(accounts);

@@ -43,9 +43,9 @@ import java.util.Set;
 
 /** Caches important (but small) account state to avoid database hits. */
 @Singleton
-public class AccountCache2 {
+public class AccountCache {
   private static final Logger log =
-      LoggerFactory.getLogger(AccountCache2.class);
+      LoggerFactory.getLogger(AccountCache.class);
 
   private final SchemaFactory<ReviewDb> schema;
   private final AuthConfig authConfig;
@@ -55,7 +55,7 @@ public class AccountCache2 {
   private final Set<AccountGroup.Id> anonymous;
 
   @Inject
-  AccountCache2(final SchemaFactory<ReviewDb> sf, final SystemConfig cfg,
+  AccountCache(final SchemaFactory<ReviewDb> sf, final SystemConfig cfg,
       final AuthConfig ac, final CacheManager mgr) {
     schema = sf;
     authConfig = ac;
@@ -83,7 +83,7 @@ public class AccountCache2 {
       if (account == null) {
         // Account no longer exists? They are anonymous.
         //
-        return null;
+        return missing(who);
       }
 
       final List<AccountExternalId> ids =

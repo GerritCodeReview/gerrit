@@ -30,9 +30,11 @@ public class AccountModule extends RpcServletModule {
       protected void configure() {
         factory(AgreementInfoFactory.Factory.class);
         factory(ExternalIdDetailFactory.Factory.class);
+        factory(GroupDetailFactory.Factory.class);
       }
     });
     rpc(AccountSecurityImpl.class);
     rpc(AccountServiceImpl.class);
+    rpc(GroupAdminServiceImpl.class);
   }
 }

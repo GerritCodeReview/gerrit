@@ -38,7 +38,7 @@ public class AccountInfoCache {
   protected AccountInfoCache() {
   }
 
-  AccountInfoCache(final Iterable<AccountInfo> list) {
+  public AccountInfoCache(final Iterable<AccountInfo> list) {
     accounts = new HashMap<Account.Id, AccountInfo>();
     for (final AccountInfo ai : list) {
       accounts.put(ai.getId(), ai);
@@ -54,7 +54,7 @@ public class AccountInfoCache {
    * <li>a valid info block, if <code>id</code> was loaded.</li>
    * <li>an anonymous info block, if <code>id</code> was not loaded.</li>
    * </ul>
-   * 
+   *
    * @param id the id desired.
    * @return info block for the account.
    */

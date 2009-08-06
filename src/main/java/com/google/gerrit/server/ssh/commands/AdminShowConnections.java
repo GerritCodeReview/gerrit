@@ -15,7 +15,6 @@
 package com.google.gerrit.server.ssh.commands;
 
 import com.google.gerrit.client.reviewdb.Account;
-import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.server.ssh.AdminCommand;
 import com.google.gerrit.server.ssh.BaseCommand;
 import com.google.gerrit.server.ssh.SshDaemon;
@@ -24,8 +23,8 @@ import com.google.inject.Inject;
 
 import org.apache.mina.core.service.IoAcceptor;
 import org.apache.mina.core.session.IoSession;
-import org.apache.sshd.common.session.AbstractSession;
 import org.apache.sshd.server.CommandFactory.Command;
+import org.apache.sshd.server.session.ServerSession;
 import org.kohsuke.args4j.Option;
 
 import java.io.PrintWriter;
@@ -88,7 +87,7 @@ final class AdminShowConnections extends BaseCommand {
         "Remote Host"));
     p.print("--------------------------------------------------------------\n");
     for (final IoSession io : list) {
-      final AbstractSession s = AbstractSession.getSession(io, true);
+      ServerSession s = (ServerSession) ServerSession.getSession(io, true);
       List<Command> active = s != null ? s.getAttribute(SshUtil.ACTIVE) : null;
 
       final SocketAddress remoteAddress = io.getRemoteAddress();
@@ -131,19 +130,16 @@ final class AdminShowConnections extends BaseCommand {
     return String.format("%02d:%02d:%02d", hr, min, sec);
   }
 
-  private String username(final AbstractSession s) {
+  private String username(final ServerSession s) {
     if (s == null) {
       return "";
+    } else if (numeric) {
+      final Account.Id id = s.getAttribute(SshUtil.CURRENT_ACCOUNT);
+      return id != null ? "a/" + id.toString() : "";
+    } else {
+      final String user = s.getUsername();
+      return user != null ? user : "";
     }
-    final Account.Id id = s.getAttribute(SshUtil.CURRENT_ACCOUNT);
-    if (id == null) {
-      return "";
-    }
-    if (numeric) {
-      return "a/" + id.toString();
-    }
-    final Account a = Common.getAccountCache().get(id);
-    return a != null ? a.getSshUserName() : "";
   }
 
   private String hostname(final SocketAddress remoteAddress) {

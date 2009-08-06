@@ -33,7 +33,7 @@ public class ChangeInfo {
   protected ChangeInfo() {
   }
 
-  public ChangeInfo(final Change c, final AccountInfoCacheFactory acc) {
+  public ChangeInfo(final Change c) {
     id = c.getId();
     owner = c.getOwner();
     subject = c.getSubject();
@@ -42,8 +42,6 @@ public class ChangeInfo {
     branch = c.getDest().getShortName();
     lastUpdatedOn = c.getLastUpdatedOn();
     sortKey = c.getSortKey();
-
-    acc.want(owner);
   }
 
   public Change.Id getId() {

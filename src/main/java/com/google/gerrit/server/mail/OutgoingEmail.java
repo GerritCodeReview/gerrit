@@ -26,9 +26,9 @@ import com.google.gerrit.client.reviewdb.PatchSetInfo;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.StarredChange;
 import com.google.gerrit.client.reviewdb.UserIdentity;
-import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.Nullable;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
@@ -82,6 +82,9 @@ public abstract class OutgoingEmail {
 
   @Inject
   private ProjectCache projectCache;
+
+  @Inject
+  private AccountCache accountCache;
 
   @Inject
   private EmailSender emailSender;
@@ -435,11 +438,7 @@ public abstract class OutgoingEmail {
       return "Anonymous Coward";
     }
 
-    final Account userAccount = Common.getAccountCache().get(accountId);
-    if (userAccount == null) {
-      return "Anonymous Coward #" + accountId;
-    }
-
+    final Account userAccount = accountCache.get(accountId).getAccount();
     String name = userAccount.getFullName();
     if (name == null) {
       name = userAccount.getPreferredEmail();
@@ -607,16 +606,11 @@ public abstract class OutgoingEmail {
   }
 
   private Address toAddress(final Account.Id id) {
-    final Account a = Common.getAccountCache().get(id);
-    if (a == null) {
-      return null;
-    }
-
+    final Account a = accountCache.get(id).getAccount();
     final String e = a.getPreferredEmail();
     if (e == null) {
       return null;
     }
-
     return new Address(a.getFullName(), e);
   }
 }

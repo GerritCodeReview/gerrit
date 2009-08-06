@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.ssh.commands;
 
-import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.server.patch.DiffCache;
 import com.google.gerrit.server.ssh.AdminCommand;
 import com.google.inject.Inject;
@@ -94,10 +93,6 @@ final class AdminFlushCaches extends CacheCommand {
 
   private void doBulkFlush() {
     try {
-      if (flush("accounts")) {
-        Common.getAccountCache().flush();
-      }
-
       for (final Ehcache c : getAllCaches()) {
         final String name = c.getName();
         if (diffCache.getName().equals(name)) {

@@ -63,7 +63,7 @@ public abstract class OutgoingEmail {
   private static final Random RNG = new Random();
   private final String messageClass;
   protected final Change change;
-  protected final String projectName;
+  protected String projectName;
   private final HashSet<Account.Id> rcptTo = new HashSet<Account.Id>();
   private final Map<String, EmailHeader> headers;
   private final List<Address> smtpRcptTo = new ArrayList<Address>();
@@ -105,15 +105,6 @@ public abstract class OutgoingEmail {
     change = c;
     messageClass = mc;
     headers = new LinkedHashMap<String, EmailHeader>();
-
-    if (change != null) {
-      projectState = projectCache.get(change.getDest().getParentKey());
-      projectName =
-          projectState != null ? projectState.getProject().getName() : null;
-    } else {
-      projectState = null;
-      projectName = null;
-    }
   }
 
   protected OutgoingEmail(final String mc) {
@@ -208,6 +199,15 @@ public abstract class OutgoingEmail {
 
   /** Setup the message headers and envelope (TO, CC, BCC). */
   protected void init() {
+    if (change != null && projectCache != null) {
+      projectState = projectCache.get(change.getDest().getParentKey());
+      projectName =
+          projectState != null ? projectState.getProject().getName() : null;
+    } else {
+      projectState = null;
+      projectName = null;
+    }
+
     smtpFromAddress = computeFrom();
     if (changeMessage != null && changeMessage.getWrittenOn() != null) {
       setHeader("Date", new Date(changeMessage.getWrittenOn().getTime()));

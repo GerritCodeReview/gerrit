@@ -188,9 +188,26 @@ Standard Caches[[cache_names]]
 
 cache `"accounts"`::
 +
-Caches records from the `accounts` database table, containing user
-preferences and preferred display name/email address.  If updates are
-made directly to this database table, this cache should be flushed.
+Cache entries contain important details of an active user, including
+their display name, preferences, known email addresses, and group
+memberships.  Entry information is obtained from the following
+database tables:
++
+* `accounts`
++
+* `account_group_members`
++
+* `account_external_ids`
+
++
+If direct updates are made to any of these database tables, this
+cache should be flushed.
+
+cache `"accounts_byemail"`::
++
+Caches account identities keyed by email address, which is scanned
+from the `account_external_ids` database table.  If updates are
+made to this table, this cache should be flushed.
 
 cache `"diff"`::
 +
@@ -209,10 +226,9 @@ expire out.
 
 cache `"groups"`::
 +
-Caches which groups a user is a member of.  This is derived from the
-`account_group_members` table, and also the `account_external_ids`
-table if OpenID authentication is enabled.  If either table is
-modified directly in the database, this cache should be flushed.
+Caches the basic group information from the `account_groups` table,
+including the group owner, name, and description.  Group membership
+is cached under the `"accounts"` cache above.
 
 cache `"openid"`::
 +

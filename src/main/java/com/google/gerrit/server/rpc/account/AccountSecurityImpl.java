@@ -24,6 +24,7 @@ import com.google.gerrit.client.reviewdb.ContributorAgreement;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.ContactInformationStoreException;
 import com.google.gerrit.client.rpc.InvalidSshKeyException;
+import com.google.gerrit.client.rpc.NameAlreadyUsedException;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gerrit.server.BaseServiceImplementation;
 import com.google.gerrit.server.ContactStore;
@@ -166,6 +167,41 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
     sshKeyCache.evict(userName);
   }
 
+  @Override
+  public void changeSshUserName(final String newName,
+      final AsyncCallback<VoidResult> callback) {
+    run(callback, new Action<VoidResult>() {
+      @Override
+      public VoidResult run(ReviewDb db) throws OrmException, Failure {
+        final Account me = db.accounts().get(getAccountId());
+        if (me == null) {
+          throw new Failure(new NoSuchEntityException());
+        }
+        final Account other;
+        if (newName != null) {
+          other = db.accounts().bySshUserName(newName);
+        } else {
+          other = null;
+        }
+
+        if (other != null) {
+          if (other.getId().equals(me.getId())) {
+            return VoidResult.INSTANCE;
+          } else {
+            throw new Failure(new NameAlreadyUsedException());
+          }
+        }
+
+        final String oldName = me.getSshUserName();
+        me.setSshUserName(newName);
+        db.accounts().update(Collections.singleton(me));
+        uncacheSshKeys(oldName);
+        uncacheSshKeys(newName);
+        return VoidResult.INSTANCE;
+      }
+    });
+  }
+
   public void myExternalIds(AsyncCallback<List<AccountExternalId>> callback) {
     externalIdDetailFactory.create().to(callback);
   }
@@ -233,7 +269,6 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
     run(callback, new Action<Account>() {
       public Account run(ReviewDb db) throws OrmException, Failure {
         final Account me = db.accounts().get(getAccountId());
-        final String oldUser = me.getSshUserName();
         final String oldEmail = me.getPreferredEmail();
         me.setFullName(name != null && !name.isEmpty() ? name : null);
         me.setPreferredEmail(emailAddr);
@@ -251,10 +286,6 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
           }
         }
         db.accounts().update(Collections.singleton(me));
-        if (!eq(oldUser, me.getSshUserName())) {
-          uncacheSshKeys(oldUser);
-          uncacheSshKeys(me.getSshUserName());
-        }
         if (!eq(oldEmail, me.getPreferredEmail())) {
           byEmailCache.evict(oldEmail);
           byEmailCache.evict(me.getPreferredEmail());

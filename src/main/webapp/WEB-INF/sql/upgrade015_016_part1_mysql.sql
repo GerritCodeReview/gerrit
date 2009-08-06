@@ -56,4 +56,17 @@ ALTER INDEX change_approvals_closedbyuser RENAME TO patch_set_approvals_closedby
 ALTER INDEX change_approvals_openbyuser RENAME TO patch_set_approvals_openbyuser;
 
 
+-- unique ssh_user_name
+--
+UPDATE accounts SET ssh_user_name = NULL
+WHERE ssh_user_name IS NOT NULL
+AND NOT EXISTS (SELECT 1 FROM account_ssh_keys k
+                WHERE k.account_id = accounts.account_id
+                AND k.valid = 'Y');
+
+DROP INDEX accounts_bySshUserName ON accounts;
+CREATE UNIQUE INDEX accounts_ssh_user_name_key
+ON accounts (ssh_user_name);
+
+
 UPDATE schema_version SET version_nbr = 16;

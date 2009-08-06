@@ -42,17 +42,17 @@ class SshKeyCacheEntryFactory implements CacheEntryFactory {
     final String username = (String) genericKey;
     final ReviewDb db = schema.open();
     try {
-      final List<Account> matches =
-          db.accounts().bySshUserName(username).toList();
-      if (matches.isEmpty()) {
+      final Account user = db.accounts().bySshUserName(username);
+      if (user == null) {
         return Collections.<SshKeyCacheEntry> emptyList();
       }
 
       final List<SshKeyCacheEntry> kl = new ArrayList<SshKeyCacheEntry>(4);
-      for (final Account a : matches) {
-        for (final AccountSshKey k : db.accountSshKeys().valid(a.getId())) {
-          add(db, kl, k);
-        }
+      for (final AccountSshKey k : db.accountSshKeys().valid(user.getId())) {
+        add(db, kl, k);
+      }
+      if (kl.isEmpty()) {
+        return Collections.<SshKeyCacheEntry> emptyList();
       }
       return Collections.unmodifiableList(kl);
     } finally {

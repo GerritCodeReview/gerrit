@@ -331,6 +331,7 @@ class ContactPanelShort extends Composite {
     final Account me = Gerrit.getUserAccount();
     me.setFullName(result.getFullName());
     me.setPreferredEmail(result.getPreferredEmail());
+    me.setSshUserName(result.getSshUserName());
     Gerrit.refreshMenuBar();
     if (accountSettings != null) {
       accountSettings.display(me);

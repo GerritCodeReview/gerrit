@@ -66,21 +66,20 @@ public class AccountSettings extends AccountScreen {
       fieldIdx = 1;
     }
 
-    info = new Grid(5, 2);
+    info = new Grid(4, 2);
     info.setStyleName("gerrit-InfoBlock");
     info.addStyleName("gerrit-AccountInfoBlock");
     add(info);
 
     infoRow(0, Util.C.fullName());
     infoRow(1, Util.C.preferredEmail());
-    infoRow(2, Util.C.sshUserName());
-    infoRow(3, Util.C.registeredOn());
-    infoRow(4, Util.C.accountId());
+    infoRow(2, Util.C.registeredOn());
+    infoRow(3, Util.C.accountId());
 
     final CellFormatter fmt = info.getCellFormatter();
     fmt.addStyleName(0, 0, "topmost");
     fmt.addStyleName(0, 1, "topmost");
-    fmt.addStyleName(4, 0, "bottomheader");
+    fmt.addStyleName(3, 0, "bottomheader");
 
     tabTokens = new ArrayList<String>();
     tabs = new TabPanel();
@@ -115,8 +114,8 @@ public class AccountSettings extends AccountScreen {
 
     tabs.add(new LazyPanel() {
       @Override
-      protected SshKeyPanel createWidget() {
-        return new SshKeyPanel();
+      protected SshPanel createWidget() {
+        return new SshPanel();
       }
     }, Util.C.tabSshKeys());
     tabTokens.add(Link.SETTINGS_SSHKEYS);
@@ -155,8 +154,7 @@ public class AccountSettings extends AccountScreen {
   void display(final Account account) {
     info.setText(0, fieldIdx, account.getFullName());
     info.setText(1, fieldIdx, account.getPreferredEmail());
-    info.setText(2, fieldIdx, account.getSshUserName());
-    info.setText(3, fieldIdx, mediumFormat(account.getRegisteredOn()));
-    info.setText(4, fieldIdx, account.getId().toString());
+    info.setText(2, fieldIdx, mediumFormat(account.getRegisteredOn()));
+    info.setText(3, fieldIdx, account.getId().toString());
   }
 }

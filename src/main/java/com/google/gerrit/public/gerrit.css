@@ -745,6 +745,11 @@
 
 
 /** AccountSettings  **/
+.gerrit-SshPanel-username {
+  font-family: monospace;
+  font-size: small;
+  margin-right: 0.2em;
+}
 .gerrit-SshKeyPanel-EncodedKey {
   white-space: nowrap;
   text-overflow: ellipsis;

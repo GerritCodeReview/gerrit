@@ -43,32 +43,38 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
     schema = sf;
   }
 
-  public boolean hasKey(final String username, final PublicKey inkey,
+  public boolean hasKey(final String username, final PublicKey suppliedKey,
       final ServerSession session) {
-    SshKeyCacheEntry matched = null;
+    final Iterable<SshKeyCacheEntry> keyList = sshKeyCache.get(username);
+    final SshKeyCacheEntry key = find(keyList, suppliedKey);
+    if (key == null) {
+      return false;
+    }
 
-    for (final SshKeyCacheEntry k : sshKeyCache.get(username)) {
-      if (k.match(inkey)) {
-        if (matched == null) {
-          matched = k;
-
-        } else if (!matched.getAccount().equals(k.getAccount())) {
-          // Don't permit keys to authenticate to different accounts
-          // that have the same username and public key.
-          //
-          // We'd have to pick one at random, yielding unpredictable
-          // behavior for the end-user.
-          //
-          return false;
-        }
+    // Double check that all of the keys are for the same user account.
+    // This should have been true when the cache factory method loaded
+    // the list into memory, but we want to be extra paranoid about our
+    // security check to ensure there aren't two users sharing the same
+    // user name on the server.
+    //
+    for (final SshKeyCacheEntry otherKey : keyList) {
+      if (!key.getAccount().equals(otherKey.getAccount())) {
+        return false;
       }
     }
 
-    if (matched != null) {
-      matched.updateLastUsed(schema);
-      session.setAttribute(SshUtil.CURRENT_ACCOUNT, matched.getAccount());
-      return true;
+    key.updateLastUsed(schema);
+    session.setAttribute(SshUtil.CURRENT_ACCOUNT, key.getAccount());
+    return true;
+  }
+
+  private SshKeyCacheEntry find(final Iterable<SshKeyCacheEntry> keyList,
+      final PublicKey suppliedKey) {
+    for (final SshKeyCacheEntry k : keyList) {
+      if (k.match(suppliedKey)) {
+        return k;
+      }
     }
-    return false;
+    return null;
   }
 }

@@ -21,7 +21,6 @@ public interface AccountConstants extends Constants {
 
   String fullName();
   String preferredEmail();
-  String sshUserName();
   String registeredOn();
   String accountId();
 
@@ -44,6 +43,9 @@ public interface AccountConstants extends Constants {
   String buttonClearSshKeyInput();
   String buttonOpenSshKey();
   String buttonAddSshKey();
+
+  String sshUserName();
+  String buttonChangeSshUserName();
 
   String sshKeyInvalid();
   String sshKeyAlgorithm();

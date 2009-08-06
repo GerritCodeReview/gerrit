@@ -110,7 +110,9 @@ public class BecomeAnyAccountLoginServlet extends HttpServlet {
     try {
       final ReviewDb db = schema.open();
       try {
-        return db.accounts().bySshUserName(userName).toList();
+        final Account account = db.accounts().bySshUserName(userName);
+        return account != null ? Collections.<Account> singletonList(account)
+            : Collections.<Account> emptyList();
       } finally {
         db.close();
       }

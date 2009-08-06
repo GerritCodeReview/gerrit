@@ -19,6 +19,7 @@ import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.PrimaryKey;
 import com.google.gwtorm.client.Query;
 import com.google.gwtorm.client.ResultSet;
+import com.google.gwtorm.client.SecondaryKey;
 
 /** Access interface for {@link Account}. */
 public interface AccountAccess extends Access<Account, Account.Id> {
@@ -29,8 +30,8 @@ public interface AccountAccess extends Access<Account, Account.Id> {
   @Query("WHERE preferredEmail = ? LIMIT 2")
   ResultSet<Account> byPreferredEmail(String email) throws OrmException;
 
-  @Query("WHERE sshUserName = ?")
-  ResultSet<Account> bySshUserName(String userName) throws OrmException;
+  @SecondaryKey("sshUserName")
+  Account bySshUserName(String userName) throws OrmException;
 
   @Query("WHERE fullName = ? LIMIT 2")
   ResultSet<Account> byFullName(String name) throws OrmException;

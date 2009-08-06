@@ -18,15 +18,18 @@ import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.data.SshHostKey;
+import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountSshKey;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.InvalidSshKeyException;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.client.ui.SmallHeading;
+import com.google.gerrit.client.ui.TextSaveButtonListener;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.DeferredCommand;
@@ -34,25 +37,33 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
+import com.google.gwtexpui.globalkey.client.NpTextBox;
 import com.google.gwtjsonrpc.client.RemoteJsonException;
 import com.google.gwtjsonrpc.client.VoidResult;
 
 import java.util.HashSet;
 import java.util.List;
 
-class SshKeyPanel extends Composite {
+class SshPanel extends Composite {
   private static boolean loadedApplet;
   private static Element applet;
   private static String appletErrorInvalidKey;
   private static String appletErrorSecurity;
+
+  private int labelIdx, fieldIdx;
+
+  private NpTextBox userNameTxt;
+  private Button changeUserName;
 
   private SshKeyTable keys;
 
@@ -67,8 +78,48 @@ class SshKeyPanel extends Composite {
 
   private Panel serverKeys;
 
-  SshKeyPanel() {
+  SshPanel() {
+    if (LocaleInfo.getCurrentLocale().isRTL()) {
+      labelIdx = 1;
+      fieldIdx = 0;
+    } else {
+      labelIdx = 0;
+      fieldIdx = 1;
+    }
+
     final FlowPanel body = new FlowPanel();
+
+    userNameTxt = new NpTextBox();
+    if (Gerrit.isSignedIn()) {
+      userNameTxt.setText(Gerrit.getUserAccount().getSshUserName());
+    }
+    userNameTxt.addStyleName("gerrit-SshPanel-username");
+    userNameTxt.setVisibleLength(16);
+
+    changeUserName = new Button(Util.C.buttonChangeSshUserName());
+    changeUserName.setEnabled(false);
+    changeUserName.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(final ClickEvent event) {
+        doChangeUserName();
+      }
+    });
+    new TextSaveButtonListener(userNameTxt, changeUserName);
+
+    final Grid userInfo = new Grid(1, 2);
+    userInfo.setStyleName("gerrit-InfoBlock");
+    userInfo.addStyleName("gerrit-AccountInfoBlock");
+    body.add(userInfo);
+
+    final FlowPanel userNameRow = new FlowPanel();
+    userNameRow.add(userNameTxt);
+    userNameRow.add(changeUserName);
+
+    row(userInfo, 0, Util.C.sshUserName(), userNameRow);
+    userInfo.getCellFormatter().addStyleName(0, 0, "topmost");
+    userInfo.getCellFormatter().addStyleName(0, 0, "topmost");
+    userInfo.getCellFormatter().addStyleName(0, 1, "topmost");
+    userInfo.getCellFormatter().addStyleName(0, 0, "bottomheader");
 
     showAddKeyBlock = new Button(Util.C.buttonShowAddSshKey());
     showAddKeyBlock.addClickHandler(new ClickHandler() {
@@ -158,10 +209,46 @@ class SshKeyPanel extends Composite {
     initWidget(body);
   }
 
+  protected void row(final Grid info, final int row, final String name,
+      final Widget field) {
+    info.setText(row, labelIdx, name);
+    info.setWidget(row, fieldIdx, field);
+    info.getCellFormatter().addStyleName(row, 0, "header");
+  }
+
   void setKeyTableVisible(final boolean on) {
     keys.setVisible(on);
     delSel.setVisible(on);
     closeAddKeyBlock.setVisible(on);
+  }
+
+  void doChangeUserName() {
+    String newName = userNameTxt.getText();
+    if ("".equals(newName)) {
+      newName = null;
+    }
+
+    userNameTxt.setEnabled(false);
+    changeUserName.setEnabled(false);
+
+    final String newSshUserName = newName;
+    Util.ACCOUNT_SEC.changeSshUserName(newSshUserName,
+        new GerritCallback<VoidResult>() {
+          public void onSuccess(final VoidResult result) {
+            userNameTxt.setEnabled(true);
+            changeUserName.setEnabled(false);
+            if (Gerrit.isSignedIn()) {
+              Gerrit.getUserAccount().setSshUserName(newSshUserName);
+            }
+          }
+
+          @Override
+          public void onFailure(final Throwable caught) {
+            userNameTxt.setEnabled(true);
+            changeUserName.setEnabled(true);
+            super.onFailure(caught);
+          }
+        });
   }
 
   void doBrowse() {
@@ -290,6 +377,18 @@ class SshKeyPanel extends Composite {
   @Override
   protected void onLoad() {
     super.onLoad();
+
+    userNameTxt.setEnabled(false);
+    Util.ACCOUNT_SVC.myAccount(new GerritCallback<Account>() {
+      public void onSuccess(final Account result) {
+        if (Gerrit.isSignedIn()) {
+          Gerrit.getUserAccount().setSshUserName(result.getSshUserName());
+        }
+        userNameTxt.setText(result.getSshUserName());
+        userNameTxt.setEnabled(true);
+      }
+    });
+
     Util.ACCOUNT_SEC.mySshKeys(new GerritCallback<List<AccountSshKey>>() {
       public void onSuccess(final List<AccountSshKey> result) {
         keys.display(result);
@@ -299,9 +398,9 @@ class SshKeyPanel extends Composite {
       }
     });
 
-    serverKeys.clear();
     Gerrit.SYSTEM_SVC.daemonHostKeys(new GerritCallback<List<SshHostKey>>() {
       public void onSuccess(final List<SshHostKey> result) {
+        serverKeys.clear();
         for (final SshHostKey keyInfo : result) {
           serverKeys.add(new SshHostKeyPanel(keyInfo));
         }

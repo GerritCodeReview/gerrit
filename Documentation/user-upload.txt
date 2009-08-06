@@ -64,13 +64,9 @@ port 29418, using the same hostname as the web server:
   Connection to hostname closed.
 ====
 
-In the command above, `sshusername` is always the local part of your
-preferred email address (the text before the `@` sign).  The exact
-value chosen by Gerrit can be confirmed by visting `Settings`,
-and copying the `SSH Username` field.  For example, a user who
-has selected a preferred email address of `john.doe@example.com`
-would be assigned `john.doe` as their SSH username.  For many users,
-this may also be identical to their local username.
+In the command above, `sshusername` was configured on the `SSH Keys`
+tab of the `Settings` screen.  If it is not set, propose a name
+and use `Change Username` to select the name.
 
 To determine the port number Gerrit is running on, visit the special
 information URL `http://'hostname'/ssh_info`, and copy the port

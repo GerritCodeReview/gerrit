@@ -202,6 +202,10 @@ public class GerritCall extends ActiveCall {
           a.setFullName(user);
           if (emailExpander.canExpand(user)) {
             a.setPreferredEmail(emailExpander.expand(user));
+            final int at = a.getPreferredEmail().indexOf('@');
+            if (at > 0) {
+              a.setSshUserName(a.getPreferredEmail().substring(0, at));
+            }
           }
 
           final AccountExternalId e =

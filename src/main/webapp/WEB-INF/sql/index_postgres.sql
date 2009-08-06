@@ -23,10 +23,6 @@ CLUSTER;
 CREATE INDEX accounts_byPreferredEmail
 ON accounts (preferred_email);
 
---    covers:             bySshUserName
-CREATE INDEX accounts_bySshUserName
-ON accounts (ssh_user_name);
-
 --    covers:             suggestByFullName
 CREATE INDEX accounts_byFullName
 ON accounts (full_name);

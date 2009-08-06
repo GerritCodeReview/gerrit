@@ -71,7 +71,7 @@ public class RegisterScreen extends AccountScreen {
     final HTML whySshKey = new HTML(Util.C.welcomeSshKeyText());
     whySshKey.setStyleName("gerrit-RegisterScreen-Explain");
     sshKeyGroup.add(whySshKey);
-    sshKeyGroup.add(new SshKeyPanel() {
+    sshKeyGroup.add(new SshPanel() {
       {
         setKeyTableVisible(false);
       }

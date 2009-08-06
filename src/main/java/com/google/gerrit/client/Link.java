@@ -251,6 +251,8 @@ public class Link implements ValueChangeHandler<String> {
     p = REGISTER + ",";
     if (token.startsWith(p)) {
       return new RegisterScreen(skip(p, token));
+    } else if (REGISTER.equals(token)) {
+      return new RegisterScreen(MINE);
     }
 
     p = "VE,";

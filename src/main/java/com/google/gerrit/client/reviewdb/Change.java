@@ -24,17 +24,15 @@ import java.sql.Timestamp;
  * A change proposed to be merged into a {@link Branch}.
  * <p>
  * The data graph rooted below a Change can be quite complex:
- * 
+ *
  * <pre>
  *   {@link Change}
  *     |
  *     +- {@link ChangeMessage}: &quot;cover letter&quot; or general comment.
  *     |
- *     +- {@link ChangeApproval}: a +/- vote on the change's current state.
- *     |     
  *     +- {@link PatchSet}: a single variant of this change.
  *          |
- *          +- {@link PatchSetInfo}: extra data about the change.
+ *          +- {@link PatchSetApproval}: a +/- vote on the change's current state.
  *          |
  *          +- {@link PatchSetAncestor}: parents of this change's commit.
  *          |
@@ -50,10 +48,10 @@ import java.sql.Timestamp;
  * {@link Account} is usually also listed as the author and committer in the
  * PatchSetInfo.
  * <p>
- * The {@link PatchSetInfo} and {@link PatchSetAncestor} entities are a mirror
- * of the Git commit metadata, providing access to the information without
- * needing direct accessing Git. These entities are actually legacy artifacts
- * from Gerrit 1.x and could be removed, replaced by direct RevCommit access.
+ * The {@link PatchSetAncestor} entities are a mirror of the Git commit
+ * metadata, providing access to the information without needing direct
+ * accessing Git. These entities are actually legacy artifacts from Gerrit 1.x
+ * and could be removed, replaced by direct RevCommit access.
  * <p>
  * Each PatchSet contains zero or more Patch records, detailing the file paths
  * impacted by the change (otherwise known as, the file paths the author
@@ -82,20 +80,20 @@ import java.sql.Timestamp;
  * Users often use this entity to describe general remarks about the overall
  * concept proposed by the change.
  * <p>
- * <h5>ChangeApproval</h5>
+ * <h5>PatchSetApproval</h5>
  * <p>
- * ChangeApproval entities exist to fill in the <i>cells</i> of the approvals
- * table in the web UI. That is, a single ChangeApproval record's key is the
- * tuple {@code (Change,Account,ApprovalCategory)}. Each ChangeApproval carries
- * with it a small score value, typically within the range -2..+2.
+ * PatchSetApproval entities exist to fill in the <i>cells</i> of the approvals
+ * table in the web UI. That is, a single PatchSetApproval record's key is the
+ * tuple {@code (PatchSet,Account,ApprovalCategory)}. Each PatchSetApproval
+ * carries with it a small score value, typically within the range -2..+2.
  * <p>
- * If an Account has created only ChangeApprovals with a score value of 0, the
+ * If an Account has created only PatchSetApprovals with a score value of 0, the
  * Change shows in their dashboard, and they are said to be CC'd (carbon copied)
  * on the Change, but are not a direct reviewer. This often happens when an
  * account was specified at upload time with the {@code --cc} command line flag,
  * or have published comments, but left the approval scores at 0 ("No Score").
  * <p>
- * If an Account has one or more ChangeAprovals with a score != 0, the Change
+ * If an Account has one or more PatchSetApprovals with a score != 0, the Change
  * shows in their dashboard, and they are said to be an active reviewer. Such
  * individuals are highlighted when notice of a replacement patch set is sent,
  * or when notice of the change submission occurs.
@@ -146,7 +144,7 @@ public final class Change {
 
   /**
    * Current state within the basic workflow of the change.
-   * 
+   *
    * <p>
    * Within the database, lower case codes ('a'..'z') indicate a change that is
    * still open, and that can be modified/refined further, while upper case
@@ -156,12 +154,12 @@ public final class Change {
   public static enum Status {
     /**
      * Change is open and pending review, or review is in progress.
-     * 
+     *
      * <p>
      * This is the default state assigned to a change when it is first created
      * in the database. A change stays in the NEW state throughout its review
      * cycle, until the change is submitted or abandoned.
-     * 
+     *
      * <p>
      * Changes in the NEW state can be moved to:
      * <ul>
@@ -173,19 +171,19 @@ public final class Change {
 
     /**
      * Change is open, but has been submitted to the merge queue.
-     * 
+     *
      * <p>
      * A change enters the SUBMITTED state when an authorized user presses the
      * "submit" action through the web UI, requesting that Gerrit merge the
      * change's current patch set into the destination branch.
-     * 
+     *
      * <p>
      * Typically a change resides in the SUBMITTED for only a brief sub-second
      * period while the merge queue fires and the destination branch is updated.
      * However, if a dependency commit (a {@link PatchSetAncestor}, directly or
      * transitively) is not yet merged into the branch, the change will hang in
      * the SUBMITTED state indefinately.
-     * 
+     *
      * <p>
      * Changes in the SUBMITTED state can be moved to:
      * <ul>
@@ -200,7 +198,7 @@ public final class Change {
 
     /**
      * Change is closed, and submitted to its destination branch.
-     * 
+     *
      * <p>
      * Once a change has been merged, it cannot be further modified by adding a
      * replacement patch set. Draft comments however may be published,
@@ -210,7 +208,7 @@ public final class Change {
 
     /**
      * Change is closed, but was not submitted to its destination branch.
-     * 
+     *
      * <p>
      * Once a change has been abandoned, it cannot be further modified by adding
      * a replacement patch set, and it cannot be merged. Draft comments however

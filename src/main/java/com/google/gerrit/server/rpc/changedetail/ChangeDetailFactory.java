@@ -22,10 +22,10 @@ import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.Change;
-import com.google.gerrit.client.reviewdb.ChangeApproval;
 import com.google.gerrit.client.reviewdb.ChangeMessage;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.PatchSetAncestor;
+import com.google.gerrit.client.reviewdb.PatchSetApproval;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.RevId;
 import com.google.gerrit.client.reviewdb.ReviewDb;
@@ -126,12 +126,13 @@ class ChangeDetailFactory extends Handler<ChangeDetail> {
   }
 
   private void load() throws OrmException {
-    final List<ChangeApproval> allApprovals =
-        db.changeApprovals().byChange(changeId).toList();
+    final PatchSet.Id psId = detail.getChange().currentPatchSetId();
+    final List<PatchSetApproval> allApprovals =
+        db.patchSetApprovals().byChange(changeId).toList();
 
     if (detail.getChange().getStatus().isOpen()) {
       final FunctionState fs =
-          functionState.create(detail.getChange(), allApprovals);
+          functionState.create(detail.getChange(), psId, allApprovals);
 
       final Set<ApprovalCategory.Id> missingApprovals =
           new HashSet<ApprovalCategory.Id>();
@@ -157,13 +158,15 @@ class ChangeDetailFactory extends Handler<ChangeDetail> {
 
     final HashMap<Account.Id, ApprovalDetail> ad =
         new HashMap<Account.Id, ApprovalDetail>();
-    for (ChangeApproval ca : allApprovals) {
+    for (PatchSetApproval ca : allApprovals) {
       ApprovalDetail d = ad.get(ca.getAccountId());
       if (d == null) {
         d = new ApprovalDetail(ca.getAccountId());
         ad.put(d.getAccount(), d);
       }
-      d.add(ca);
+      if (ca.getPatchSetId().equals(psId)) {
+        d.add(ca);
+      }
     }
 
     final Account.Id owner = detail.getChange().getOwner();

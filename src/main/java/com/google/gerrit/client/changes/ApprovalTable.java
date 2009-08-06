@@ -26,7 +26,7 @@ import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.client.reviewdb.Change;
-import com.google.gerrit.client.reviewdb.ChangeApproval;
+import com.google.gerrit.client.reviewdb.PatchSetApproval;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountDashboardLink;
@@ -229,14 +229,14 @@ public class ApprovalTable extends Composite {
 
   private void displayRow(final int row, final ApprovalDetail ad) {
     final CellFormatter fmt = table.getCellFormatter();
-    final Map<ApprovalCategory.Id, ChangeApproval> am = ad.getApprovalMap();
+    final Map<ApprovalCategory.Id, PatchSetApproval> am = ad.getApprovalMap();
     final StringBuilder hint = new StringBuilder();
     int col = 0;
     table.setWidget(row, col++, link(ad.getAccount()));
     table.clearCell(row, col++); // TODO populate the account role
 
     for (final ApprovalType type : types) {
-      final ChangeApproval ca = am.get(type.getCategory().getId());
+      final PatchSetApproval ca = am.get(type.getCategory().getId());
       if (ca == null || ca.getValue() == 0) {
         table.clearCell(row, col);
         col++;

@@ -25,13 +25,12 @@ import com.google.gerrit.client.reviewdb.AccountPatchReview;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.client.reviewdb.Change;
-import com.google.gerrit.client.reviewdb.ChangeApproval;
 import com.google.gerrit.client.reviewdb.ChangeMessage;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.reviewdb.PatchSet;
+import com.google.gerrit.client.reviewdb.PatchSetApproval;
 import com.google.gerrit.client.reviewdb.ReviewDb;
-import com.google.gerrit.client.reviewdb.Account.Id;
 import com.google.gerrit.client.reviewdb.Patch.Key;
 import com.google.gerrit.client.rpc.NoSuchAccountException;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
@@ -252,10 +251,9 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
     }
 
     final boolean applyApprovals = iscurrent && r.change.getStatus().isOpen();
-    final Map<ApprovalCategory.Id, ChangeApproval> have =
-        new HashMap<ApprovalCategory.Id, ChangeApproval>();
-    for (final ChangeApproval a : db.changeApprovals().byChangeUser(
-        r.change.getId(), me)) {
+    final Map<ApprovalCategory.Id, PatchSetApproval> have =
+        new HashMap<ApprovalCategory.Id, PatchSetApproval>();
+    for (PatchSetApproval a : db.patchSetApprovals().byPatchSetUser(psid, me)) {
       have.put(a.getCategoryId(), a);
     }
     for (final ApprovalType at : gerritConfig.getApprovalTypes()) {
@@ -269,7 +267,7 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
         continue;
       }
 
-      ChangeApproval mycatpp = have.remove(v.getParentKey());
+      PatchSetApproval mycatpp = have.remove(v.getParentKey());
       if (mycatpp == null) {
         if (msgbuf.length() > 0) {
           msgbuf.append("; ");
@@ -277,9 +275,9 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
         msgbuf.append(val.getName());
         if (applyApprovals) {
           mycatpp =
-              new ChangeApproval(new ChangeApproval.Key(r.change.getId(), me, v
+              new PatchSetApproval(new PatchSetApproval.Key(psid, me, v
                   .getParentKey()), v.get());
-          db.changeApprovals().insert(Collections.singleton(mycatpp), txn);
+          db.patchSetApprovals().insert(Collections.singleton(mycatpp), txn);
         }
 
       } else if (mycatpp.getValue() != v.get()) {
@@ -290,12 +288,12 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
         if (applyApprovals) {
           mycatpp.setValue(v.get());
           mycatpp.setGranted();
-          db.changeApprovals().update(Collections.singleton(mycatpp), txn);
+          db.patchSetApprovals().update(Collections.singleton(mycatpp), txn);
         }
       }
     }
     if (applyApprovals) {
-      db.changeApprovals().delete(have.values(), txn);
+      db.patchSetApprovals().delete(have.values(), txn);
     }
 
     if (msgbuf.length() > 0) {
@@ -342,7 +340,8 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
         db.run(new OrmRunnable<VoidResult, ReviewDb>() {
           public VoidResult run(ReviewDb db, Transaction txn, boolean retry)
               throws OrmException {
-            return doAddReviewers(reviewerIds, id, db, txn);
+            return doAddReviewers(reviewerIds, change.currentPatchSetId(), db,
+                txn);
           }
         });
 
@@ -363,16 +362,17 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
     });
   }
 
-  private VoidResult doAddReviewers(final Set<Id> reviewerIds,
-      final Change.Id id, final ReviewDb db, final Transaction txn)
+  private VoidResult doAddReviewers(final Set<Account.Id> reviewerIds,
+      final PatchSet.Id psid, final ReviewDb db, final Transaction txn)
       throws OrmException {
     for (Account.Id reviewer : reviewerIds) {
-      if (!db.changeApprovals().byChangeUser(id, reviewer).iterator().hasNext()) {
+      if (!db.patchSetApprovals().byPatchSetUser(psid, reviewer).iterator()
+          .hasNext()) {
         // This reviewer has not entered an approval for this change yet.
-        ChangeApproval myca =
-            new ChangeApproval(new ChangeApproval.Key(id, reviewer,
+        PatchSetApproval myca =
+            new PatchSetApproval(new PatchSetApproval.Key(psid, reviewer,
                 addReviewerCategoryId), (short) 0);
-        db.changeApprovals().insert(Collections.singleton(myca), txn);
+        db.patchSetApprovals().insert(Collections.singleton(myca), txn);
       }
     }
     return VoidResult.INSTANCE;

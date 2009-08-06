@@ -22,7 +22,7 @@ import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.client.reviewdb.Branch;
 import com.google.gerrit.client.reviewdb.Change;
-import com.google.gerrit.client.reviewdb.ChangeApproval;
+import com.google.gerrit.client.reviewdb.PatchSetApproval;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
@@ -78,15 +78,16 @@ public class MergedSender extends ReplyToChangeSender {
   }
 
   private void formatApprovals() {
-    if (db != null) {
+    if (db != null && patchSet != null) {
       try {
-        final Map<Account.Id, Map<ApprovalCategory.Id, ChangeApproval>> pos =
-            new HashMap<Account.Id, Map<ApprovalCategory.Id, ChangeApproval>>();
+        final Map<Account.Id, Map<ApprovalCategory.Id, PatchSetApproval>> pos =
+            new HashMap<Account.Id, Map<ApprovalCategory.Id, PatchSetApproval>>();
 
-        final Map<Account.Id, Map<ApprovalCategory.Id, ChangeApproval>> neg =
-            new HashMap<Account.Id, Map<ApprovalCategory.Id, ChangeApproval>>();
+        final Map<Account.Id, Map<ApprovalCategory.Id, PatchSetApproval>> neg =
+            new HashMap<Account.Id, Map<ApprovalCategory.Id, PatchSetApproval>>();
 
-        for (ChangeApproval ca : db.changeApprovals().byChange(change.getId())) {
+        for (PatchSetApproval ca : db.patchSetApprovals().byPatchSet(
+            patchSet.getId())) {
           if (ca.getValue() > 0) {
             insert(pos, ca);
           } else if (ca.getValue() < 0) {
@@ -103,20 +104,20 @@ public class MergedSender extends ReplyToChangeSender {
   }
 
   private void format(final String type,
-      final Map<Account.Id, Map<ApprovalCategory.Id, ChangeApproval>> list) {
+      final Map<Account.Id, Map<ApprovalCategory.Id, PatchSetApproval>> list) {
     if (list.isEmpty()) {
       return;
     }
     appendText(type + ":\n");
-    for (final Map.Entry<Account.Id, Map<ApprovalCategory.Id, ChangeApproval>> ent : list
+    for (final Map.Entry<Account.Id, Map<ApprovalCategory.Id, PatchSetApproval>> ent : list
         .entrySet()) {
-      final Map<ApprovalCategory.Id, ChangeApproval> l = ent.getValue();
+      final Map<ApprovalCategory.Id, PatchSetApproval> l = ent.getValue();
       appendText("  ");
       appendText(getNameFor(ent.getKey()));
       appendText(": ");
       boolean first = true;
       for (ApprovalType at : gerritConfig.getApprovalTypes()) {
-        final ChangeApproval ca = l.get(at.getCategory().getId());
+        final PatchSetApproval ca = l.get(at.getCategory().getId());
         if (ca == null) {
           continue;
         }
@@ -145,11 +146,11 @@ public class MergedSender extends ReplyToChangeSender {
   }
 
   private void insert(
-      final Map<Account.Id, Map<ApprovalCategory.Id, ChangeApproval>> list,
-      final ChangeApproval ca) {
-    Map<ApprovalCategory.Id, ChangeApproval> m = list.get(ca.getAccountId());
+      final Map<Account.Id, Map<ApprovalCategory.Id, PatchSetApproval>> list,
+      final PatchSetApproval ca) {
+    Map<ApprovalCategory.Id, PatchSetApproval> m = list.get(ca.getAccountId());
     if (m == null) {
-      m = new HashMap<ApprovalCategory.Id, ChangeApproval>();
+      m = new HashMap<ApprovalCategory.Id, PatchSetApproval>();
       list.put(ca.getAccountId(), m);
     }
     m.put(ca.getCategoryId(), ca);

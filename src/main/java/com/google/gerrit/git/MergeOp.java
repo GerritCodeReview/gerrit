@@ -20,9 +20,9 @@ import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.Branch;
 import com.google.gerrit.client.reviewdb.Change;
-import com.google.gerrit.client.reviewdb.ChangeApproval;
 import com.google.gerrit.client.reviewdb.ChangeMessage;
 import com.google.gerrit.client.reviewdb.PatchSet;
+import com.google.gerrit.client.reviewdb.PatchSetApproval;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
@@ -521,7 +521,7 @@ public class MergeOp {
           status.put(c.patchsetId.getParentKey(), c.statusCode);
 
           if (branchUpdate.getRefLogIdent() == null) {
-            setRefLogIdent(getSubmitter(c.patchsetId.getParentKey()));
+            setRefLogIdent(getSubmitter(c.patchsetId));
           }
         }
       }
@@ -530,7 +530,7 @@ public class MergeOp {
     }
   }
 
-  private void setRefLogIdent(final ChangeApproval submitAudit) {
+  private void setRefLogIdent(final PatchSetApproval submitAudit) {
     if (submitAudit != null) {
       branchUpdate.setRefLogIdent(identifiedUserFactory.create(
           submitAudit.getAccountId()).newPersonIdent());
@@ -600,18 +600,17 @@ public class MergeOp {
       }
     }
 
-    ChangeApproval submitAudit = null;
+    PatchSetApproval submitAudit = null;
     try {
-      final List<ChangeApproval> approvalList =
-          schema.changeApprovals().byChange(n.patchsetId.getParentKey())
-              .toList();
-      Collections.sort(approvalList, new Comparator<ChangeApproval>() {
-        public int compare(final ChangeApproval a, final ChangeApproval b) {
+      final List<PatchSetApproval> approvalList =
+          schema.patchSetApprovals().byPatchSet(n.patchsetId).toList();
+      Collections.sort(approvalList, new Comparator<PatchSetApproval>() {
+        public int compare(final PatchSetApproval a, final PatchSetApproval b) {
           return a.getGranted().compareTo(b.getGranted());
         }
       });
 
-      for (final ChangeApproval a : approvalList) {
+      for (final PatchSetApproval a : approvalList) {
         if (a.getValue() <= 0) {
           // Negative votes aren't counted.
           continue;
@@ -714,7 +713,7 @@ public class MergeOp {
     return false;
   }
 
-  private PersonIdent toPersonIdent(final ChangeApproval audit) {
+  private PersonIdent toPersonIdent(final PatchSetApproval audit) {
     if (audit == null) {
       return null;
     }
@@ -818,7 +817,8 @@ public class MergeOp {
 
           try {
             final MergeFailSender cm = mergeFailSenderFactory.create(c);
-            final ChangeApproval submitter = getSubmitter(c.getId());
+            final PatchSetApproval submitter =
+                getSubmitter(c.currentPatchSetId());
             if (submitter != null) {
               cm.setFrom(submitter.getAccountId());
             }
@@ -857,12 +857,15 @@ public class MergeOp {
     return m;
   }
 
-  private ChangeApproval getSubmitter(Change.Id c) {
-    ChangeApproval submitter = null;
+  private PatchSetApproval getSubmitter(PatchSet.Id c) {
+    if (c == null) {
+      return null;
+    }
+    PatchSetApproval submitter = null;
     try {
-      final List<ChangeApproval> approvals =
-          schema.changeApprovals().byChange(c).toList();
-      for (ChangeApproval a : approvals) {
+      final List<PatchSetApproval> approvals =
+          schema.patchSetApprovals().byPatchSet(c).toList();
+      for (PatchSetApproval a : approvals) {
         if (a.getValue() > 0
             && ApprovalCategory.SUBMIT.equals(a.getCategoryId())) {
           if (submitter == null
@@ -878,7 +881,7 @@ public class MergeOp {
 
   private void setMerged(Change c, ChangeMessage msg) {
     final PatchSet.Id merged = c.currentPatchSetId();
-    ChangeApproval submitter = null;
+    PatchSetApproval submitter = null;
     for (int attempts = 0; attempts < 10; attempts++) {
       c.setStatus(Change.Status.MERGED);
       ChangeUtil.updated(c);
@@ -891,15 +894,16 @@ public class MergeOp {
         // sure they are accurate now. This way if permissions get
         // modified in the future, historical records stay accurate.
         //
-        final List<ChangeApproval> approvals =
-            schema.changeApprovals().byChange(c.getId()).toList();
-        final FunctionState fs = functionState.create(c, approvals);
+        final List<PatchSetApproval> approvals =
+            schema.patchSetApprovals().byChange(c.getId()).toList();
+        final FunctionState fs = functionState.create(c, merged, approvals);
         for (ApprovalType at : gerritConfig.getApprovalTypes()) {
           CategoryFunction.forCategory(at.getCategory()).run(at, fs);
         }
-        for (ChangeApproval a : approvals) {
+        for (PatchSetApproval a : approvals) {
           if (a.getValue() > 0
-              && ApprovalCategory.SUBMIT.equals(a.getCategoryId())) {
+              && ApprovalCategory.SUBMIT.equals(a.getCategoryId())
+              && a.getPatchSetId().equals(merged)) {
             if (submitter == null
                 || a.getGranted().compareTo(submitter.getGranted()) > 0) {
               submitter = a;
@@ -907,7 +911,7 @@ public class MergeOp {
           }
           a.cache(c);
         }
-        schema.changeApprovals().update(approvals, txn);
+        schema.patchSetApprovals().update(approvals, txn);
 
         if (msg != null) {
           if (submitter != null && msg.getAuthor() == null) {
@@ -980,7 +984,7 @@ public class MergeOp {
     }
 
     try {
-      final ChangeApproval submitter = getSubmitter(c.getId());
+      final PatchSetApproval submitter = getSubmitter(c.currentPatchSetId());
       final MergeFailSender cm = mergeFailSenderFactory.create(c);
       if (submitter != null) {
         cm.setFrom(submitter.getAccountId());

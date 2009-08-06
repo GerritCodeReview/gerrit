@@ -16,7 +16,7 @@ package com.google.gerrit.client.data;
 
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
-import com.google.gerrit.client.reviewdb.ChangeApproval;
+import com.google.gerrit.client.reviewdb.PatchSetApproval;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -40,7 +40,7 @@ public class ApprovalDetail {
   static final Timestamp EG_D = new Timestamp(Long.MAX_VALUE);
 
   protected Account.Id account;
-  protected List<ChangeApproval> approvals;
+  protected List<PatchSetApproval> approvals;
 
   private transient int hasNonZero;
   private transient Timestamp sortOrder = EG_D;
@@ -50,17 +50,17 @@ public class ApprovalDetail {
 
   public ApprovalDetail(final Account.Id id) {
     account = id;
-    approvals = new ArrayList<ChangeApproval>();
+    approvals = new ArrayList<PatchSetApproval>();
   }
 
   public Account.Id getAccount() {
     return account;
   }
 
-  public Map<ApprovalCategory.Id, ChangeApproval> getApprovalMap() {
-    final HashMap<ApprovalCategory.Id, ChangeApproval> r;
-    r = new HashMap<ApprovalCategory.Id, ChangeApproval>();
-    for (final ChangeApproval ca : approvals) {
+  public Map<ApprovalCategory.Id, PatchSetApproval> getApprovalMap() {
+    final HashMap<ApprovalCategory.Id, PatchSetApproval> r;
+    r = new HashMap<ApprovalCategory.Id, PatchSetApproval>();
+    for (final PatchSetApproval ca : approvals) {
       r.put(ca.getCategoryId(), ca);
     }
     return r;
@@ -71,7 +71,7 @@ public class ApprovalDetail {
     sortOrder = ApprovalDetail.EG_0;
   }
 
-  public void add(final ChangeApproval ca) {
+  public void add(final PatchSetApproval ca) {
     approvals.add(ca);
 
     final Timestamp g = ca.getGranted();

@@ -15,7 +15,7 @@
 package com.google.gerrit.server.rpc.patch;
 
 import com.google.gerrit.client.reviewdb.Change;
-import com.google.gerrit.client.reviewdb.ChangeApproval;
+import com.google.gerrit.client.reviewdb.PatchSetApproval;
 import com.google.gerrit.client.reviewdb.ChangeMessage;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.ReviewDb;
@@ -121,12 +121,12 @@ class AbandonChange extends Handler<VoidResult> {
       change.setStatus(Change.Status.ABANDONED);
       ChangeUtil.updated(change);
 
-      final List<ChangeApproval> approvals =
-          db.changeApprovals().byChange(change.getId()).toList();
-      for (ChangeApproval a : approvals) {
+      final List<PatchSetApproval> approvals =
+          db.patchSetApprovals().byChange(change.getId()).toList();
+      for (PatchSetApproval a : approvals) {
         a.cache(change);
       }
-      db.changeApprovals().update(approvals, txn);
+      db.patchSetApprovals().update(approvals, txn);
 
       db.changeMessages().insert(Collections.singleton(cm), txn);
       db.changes().update(Collections.singleton(change), txn);

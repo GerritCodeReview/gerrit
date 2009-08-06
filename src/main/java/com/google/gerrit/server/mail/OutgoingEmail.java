@@ -18,7 +18,7 @@ import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.AccountProjectWatch;
 import com.google.gerrit.client.reviewdb.Change;
-import com.google.gerrit.client.reviewdb.ChangeApproval;
+import com.google.gerrit.client.reviewdb.PatchSetApproval;
 import com.google.gerrit.client.reviewdb.ChangeMessage;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchSet;
@@ -564,7 +564,8 @@ public abstract class OutgoingEmail {
       try {
         // CC anyone else who has posted an approval mark on this change
         //
-        for (ChangeApproval ap : db.changeApprovals().byChange(change.getId())) {
+        for (PatchSetApproval ap : db.patchSetApprovals().byChange(
+            change.getId())) {
           if (!includeZero && ap.getValue() == 0) {
             continue;
           }

@@ -19,13 +19,13 @@ import com.google.gwtorm.client.CompoundKey;
 
 import java.sql.Timestamp;
 
-/** An approval (or negative approval) on a change. */
-public final class ChangeApproval {
-  public static class Key extends CompoundKey<Change.Id> {
+/** An approval (or negative approval) on a patch set. */
+public final class PatchSetApproval {
+  public static class Key extends CompoundKey<PatchSet.Id> {
     private static final long serialVersionUID = 1L;
 
-    @Column
-    protected Change.Id changeId;
+    @Column(name = Column.NONE)
+    protected PatchSet.Id patchSetId;
 
     @Column
     protected Account.Id accountId;
@@ -34,21 +34,21 @@ public final class ChangeApproval {
     protected ApprovalCategory.Id categoryId;
 
     protected Key() {
-      changeId = new Change.Id();
+      patchSetId = new PatchSet.Id();
       accountId = new Account.Id();
       categoryId = new ApprovalCategory.Id();
     }
 
-    public Key(final Change.Id change, final Account.Id a,
+    public Key(final PatchSet.Id ps, final Account.Id a,
         final ApprovalCategory.Id c) {
-      this.changeId = change;
+      this.patchSetId = ps;
       this.accountId = a;
       this.categoryId = c;
     }
 
     @Override
-    public Change.Id getParentKey() {
-      return changeId;
+    public PatchSet.Id getParentKey() {
+      return patchSetId;
     }
 
     @Override
@@ -88,22 +88,22 @@ public final class ChangeApproval {
   @Column(length = 16, notNull = false)
   protected String changeSortKey;
 
-  protected ChangeApproval() {
+  protected PatchSetApproval() {
   }
 
-  public ChangeApproval(final ChangeApproval.Key k, final short v) {
+  public PatchSetApproval(final PatchSetApproval.Key k, final short v) {
     key = k;
     changeOpen = true;
     setValue(v);
     setGranted();
   }
 
-  public ChangeApproval.Key getKey() {
+  public PatchSetApproval.Key getKey() {
     return key;
   }
 
-  public Change.Id getChangeId() {
-    return key.changeId;
+  public PatchSet.Id getPatchSetId() {
+    return key.patchSetId;
   }
 
   public Account.Id getAccountId() {
@@ -120,10 +120,6 @@ public final class ChangeApproval {
 
   public void setValue(final short v) {
     value = v;
-  }
-
-  public void clear() {
-    value = 0;
   }
 
   public Timestamp getGranted() {

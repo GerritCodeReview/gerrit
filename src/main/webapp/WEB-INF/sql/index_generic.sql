@@ -114,15 +114,15 @@ ON changes (open, status, sort_key);
 
 
 -- *********************************************************************
--- ChangeApprovalAccess
---    @PrimaryKey covers: byChange, byChangeUser
+-- PatchSetApprovalAccess
+--    @PrimaryKey covers: byPatchSet, byPatchSetUser
 --    covers:             openByUser
-CREATE INDEX change_approvals_openByUser
-ON change_approvals (change_open, account_id);
+CREATE INDEX patch_set_approvals_openByUser
+ON patch_set_approvals (change_open, account_id);
 
 --    covers:             closedByUser
-CREATE INDEX change_approvals_closedByUser
-ON change_approvals (change_open, account_id, change_sort_key);
+CREATE INDEX patch_set_approvals_closedByUser
+ON patch_set_approvals (change_open, account_id, change_sort_key);
 
 
 -- *********************************************************************

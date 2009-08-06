@@ -23,7 +23,7 @@ import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountExternalId;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.ChangeAccess;
-import com.google.gerrit.client.reviewdb.ChangeApproval;
+import com.google.gerrit.client.reviewdb.PatchSetApproval;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.Project;
@@ -292,11 +292,11 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
 
         final Set<Change.Id> openReviews = new HashSet<Change.Id>();
         final Set<Change.Id> closedReviews = new HashSet<Change.Id>();
-        for (final ChangeApproval ca : db.changeApprovals().openByUser(id)) {
-          openReviews.add(ca.getChangeId());
+        for (final PatchSetApproval ca : db.patchSetApprovals().openByUser(id)) {
+          openReviews.add(ca.getPatchSetId().getParentKey());
         }
-        for (final ChangeApproval ca : db.changeApprovals().closedByUser(id)) {
-          closedReviews.add(ca.getChangeId());
+        for (final PatchSetApproval ca : db.patchSetApprovals().closedByUser(id)) {
+          closedReviews.add(ca.getPatchSetId().getParentKey());
         }
 
         d = new AccountDashboardInfo(target);
@@ -484,11 +484,11 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
       final String userName) throws OrmException {
     final Set<Change.Id> resultChanges = new HashSet<Change.Id>();
     for (Account.Id account : getAccountSources(db, userName)) {
-      for (ChangeApproval a : db.changeApprovals().openByUser(account)) {
-        resultChanges.add(a.getChangeId());
+      for (PatchSetApproval a : db.patchSetApprovals().openByUser(account)) {
+        resultChanges.add(a.getPatchSetId().getParentKey());
       }
-      for (ChangeApproval a : db.changeApprovals().closedByUserAll(account)) {
-        resultChanges.add(a.getChangeId());
+      for (PatchSetApproval a : db.patchSetApprovals().closedByUserAll(account)) {
+        resultChanges.add(a.getPatchSetId().getParentKey());
       }
     }
     return resultChanges;

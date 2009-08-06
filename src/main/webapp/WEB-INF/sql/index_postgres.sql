@@ -7,7 +7,7 @@ ALTER TABLE patch_sets CLUSTER ON patch_sets_pkey;
 ALTER TABLE patches CLUSTER ON patches_pkey;
 ALTER TABLE change_messages CLUSTER ON change_messages_pkey;
 ALTER TABLE patch_comments CLUSTER ON patch_comments_pkey;
-ALTER TABLE change_approvals CLUSTER ON change_approvals_pkey;
+ALTER TABLE patch_set_approvals CLUSTER ON patch_set_approvals_pkey;
 
 ALTER TABLE account_group_members CLUSTER ON account_group_members_pkey;
 ALTER TABLE starred_changes CLUSTER ON starred_changes_pkey;
@@ -136,16 +136,16 @@ WHERE open = 'N';
 
 
 -- *********************************************************************
--- ChangeApprovalAccess
---    @PrimaryKey covers: byChange, byChangeUser
+-- PatchSetApprovalAccess
+--    @PrimaryKey covers: byPatchSet, byPatchSetUser
 --    covers:             openByUser
-CREATE INDEX change_approvals_openByUser
-ON change_approvals (account_id)
+CREATE INDEX patch_set_approvals_openByUser
+ON patch_set_approvals (account_id)
 WHERE change_open = 'Y';
 
 --    covers:             closedByUser
-CREATE INDEX change_approvals_closedByUser
-ON change_approvals (account_id, change_sort_key)
+CREATE INDEX patch_set_approvals_closedByUser
+ON patch_set_approvals (account_id, change_sort_key)
 WHERE change_open = 'N';
 
 

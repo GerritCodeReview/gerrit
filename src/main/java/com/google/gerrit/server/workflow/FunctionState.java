@@ -20,7 +20,8 @@ import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.client.reviewdb.Change;
-import com.google.gerrit.client.reviewdb.ChangeApproval;
+import com.google.gerrit.client.reviewdb.PatchSet;
+import com.google.gerrit.client.reviewdb.PatchSetApproval;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.client.reviewdb.ApprovalCategory.Id;
@@ -42,14 +43,15 @@ import java.util.Set;
 /** State passed through to a {@link CategoryFunction}. */
 public class FunctionState {
   public interface Factory {
-    FunctionState create(Change c, Collection<ChangeApproval> all);
+    FunctionState create(Change c, PatchSet.Id psId,
+        Collection<PatchSetApproval> all);
   }
 
   private final AccountCache accountCache;
   private final ProjectCache projectCache;
 
-  private final Map<ApprovalCategory.Id, Collection<ChangeApproval>> approvals =
-      new HashMap<ApprovalCategory.Id, Collection<ChangeApproval>>();
+  private final Map<ApprovalCategory.Id, Collection<PatchSetApproval>> approvals =
+      new HashMap<ApprovalCategory.Id, Collection<PatchSetApproval>>();
   private final Map<ApprovalCategory.Id, Boolean> valid =
       new HashMap<ApprovalCategory.Id, Boolean>();
   private final Change change;
@@ -58,25 +60,28 @@ public class FunctionState {
       new HashMap<ApprovalCategory.Id, Collection<ProjectRight>>();
   private Map<ApprovalCategory.Id, Collection<ProjectRight>> projectRights;
   private Map<ApprovalCategory.Id, Collection<ProjectRight>> wildcardRights;
-  private Set<ChangeApproval> modified;
+  private Set<PatchSetApproval> modified;
 
   @Inject
   FunctionState(final ProjectCache pc, final AccountCache ac,
       final GroupCache egc, @Assisted final Change c,
-      @Assisted final Collection<ChangeApproval> all) {
+      @Assisted final PatchSet.Id psId,
+      @Assisted final Collection<PatchSetApproval> all) {
     projectCache = pc;
     accountCache = ac;
 
     change = c;
     project = projectCache.get(change.getDest().getParentKey());
 
-    for (final ChangeApproval ca : all) {
-      Collection<ChangeApproval> l = approvals.get(ca.getCategoryId());
-      if (l == null) {
-        l = new ArrayList<ChangeApproval>();
-        approvals.put(ca.getCategoryId(), l);
+    for (final PatchSetApproval ca : all) {
+      if (psId.equals(ca.getPatchSetId())) {
+        Collection<PatchSetApproval> l = approvals.get(ca.getCategoryId());
+        if (l == null) {
+          l = new ArrayList<PatchSetApproval>();
+          approvals.put(ca.getCategoryId(), l);
+        }
+        l.add(ca);
       }
-      l.add(ca);
     }
   }
 
@@ -101,23 +106,23 @@ public class FunctionState {
     return b != null && b;
   }
 
-  public Collection<ChangeApproval> getApprovals(final ApprovalType at) {
+  public Collection<PatchSetApproval> getApprovals(final ApprovalType at) {
     return getApprovals(id(at));
   }
 
-  public Collection<ChangeApproval> getApprovals(final ApprovalCategory.Id id) {
-    final Collection<ChangeApproval> l = approvals.get(id);
-    return l != null ? l : Collections.<ChangeApproval> emptySet();
+  public Collection<PatchSetApproval> getApprovals(final ApprovalCategory.Id id) {
+    final Collection<PatchSetApproval> l = approvals.get(id);
+    return l != null ? l : Collections.<PatchSetApproval> emptySet();
   }
 
-  public void dirty(final ChangeApproval ap) {
+  public void dirty(final PatchSetApproval ap) {
     if (modified == null) {
-      modified = new HashSet<ChangeApproval>();
+      modified = new HashSet<PatchSetApproval>();
     }
     modified.add(ap);
   }
 
-  public Collection<ChangeApproval> getDirtyChangeApprovals() {
+  public Collection<PatchSetApproval> getDirtyChangeApprovals() {
     if (modified != null) {
       return modified;
     }
@@ -186,7 +191,7 @@ public class FunctionState {
    * <p>
    * If the record's value was modified, its automatically marked as dirty.
    */
-  public void applyTypeFloor(final ApprovalType at, final ChangeApproval a) {
+  public void applyTypeFloor(final ApprovalType at, final PatchSetApproval a) {
     final ApprovalCategoryValue atMin = at.getMin();
 
     if (atMin != null && a.getValue() < atMin.getValue()) {
@@ -211,7 +216,7 @@ public class FunctionState {
    * <p>
    * If the record's value was modified, its automatically marked as dirty.
    */
-  public void applyRightFloor(final ChangeApproval a) {
+  public void applyRightFloor(final PatchSetApproval a) {
     // Find the maximal range actually granted to the user.
     //
     short minAllowed = 0, maxAllowed = 0;
@@ -238,7 +243,7 @@ public class FunctionState {
   }
 
   /** Run <code>applyTypeFloor</code>, <code>applyRightFloor</code>. */
-  public void normalize(final ApprovalType at, final ChangeApproval ca) {
+  public void normalize(final ApprovalType at, final PatchSetApproval ca) {
     applyTypeFloor(at, ca);
     applyRightFloor(ca);
   }

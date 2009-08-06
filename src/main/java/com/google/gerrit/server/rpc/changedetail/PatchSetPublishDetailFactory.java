@@ -22,7 +22,7 @@ import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.client.reviewdb.Change;
-import com.google.gerrit.client.reviewdb.ChangeApproval;
+import com.google.gerrit.client.reviewdb.PatchSetApproval;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.PatchSetInfo;
@@ -68,7 +68,7 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
   private Change change;
   private List<PatchLineComment> drafts;
   private Map<ApprovalCategory.Id, Set<ApprovalCategoryValue.Id>> allowed;
-  private Map<ApprovalCategory.Id, ChangeApproval> given;
+  private Map<ApprovalCategory.Id, PatchSetApproval> given;
 
   @Inject
   PatchSetPublishDetailFactory(final PatchSetInfoFactory infoFactory,
@@ -98,12 +98,12 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
     drafts = db.patchComments().draft(patchSetId, user.getAccountId()).toList();
 
     allowed = new HashMap<ApprovalCategory.Id, Set<ApprovalCategoryValue.Id>>();
-    given = new HashMap<ApprovalCategory.Id, ChangeApproval>();
+    given = new HashMap<ApprovalCategory.Id, PatchSetApproval>();
     if (change.getStatus().isOpen()
         && patchSetId.equals(change.currentPatchSetId())) {
       computeAllowed();
-      for (final ChangeApproval a : db.changeApprovals().byChangeUser(changeId,
-          user.getAccountId())) {
+      for (final PatchSetApproval a : db.patchSetApprovals().byPatchSetUser(
+          patchSetId, user.getAccountId())) {
         given.put(a.getCategoryId(), a);
       }
     }

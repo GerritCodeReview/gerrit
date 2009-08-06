@@ -94,7 +94,7 @@ public interface ReviewDb extends Schema {
   ChangeAccess changes();
 
   @Relation
-  ChangeApprovalAccess changeApprovals();
+  PatchSetApprovalAccess patchSetApprovals();
 
   @Relation
   ChangeMessageAccess changeMessages();

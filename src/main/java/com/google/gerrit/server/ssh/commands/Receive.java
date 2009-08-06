@@ -33,10 +33,10 @@ import com.google.gerrit.client.reviewdb.AccountGroupAgreement;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.Branch;
 import com.google.gerrit.client.reviewdb.Change;
-import com.google.gerrit.client.reviewdb.ChangeApproval;
 import com.google.gerrit.client.reviewdb.ChangeMessage;
 import com.google.gerrit.client.reviewdb.ContributorAgreement;
 import com.google.gerrit.client.reviewdb.PatchSet;
+import com.google.gerrit.client.reviewdb.PatchSetApproval;
 import com.google.gerrit.client.reviewdb.PatchSetInfo;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.git.PatchSetImporter;
@@ -686,20 +686,14 @@ final class Receive extends AbstractGitCommand {
       final ApprovalCategory.Id catId =
           allTypes.get(allTypes.size() - 1).getCategory().getId();
       if (authorId != null && haveApprovals.add(authorId)) {
-        db.changeApprovals().insert(
-            Collections.singleton(new ChangeApproval(new ChangeApproval.Key(
-                change.getId(), authorId, catId), (short) 0)), txn);
+        insertDummyApproval(change, ps.getId(), authorId, catId, db, txn);
       }
       if (committerId != null && haveApprovals.add(committerId)) {
-        db.changeApprovals().insert(
-            Collections.singleton(new ChangeApproval(new ChangeApproval.Key(
-                change.getId(), committerId, catId), (short) 0)), txn);
+        insertDummyApproval(change, ps.getId(), committerId, catId, db, txn);
       }
       for (final Account.Id reviewer : reviewers) {
         if (haveApprovals.add(reviewer)) {
-          db.changeApprovals().insert(
-              Collections.singleton(new ChangeApproval(new ChangeApproval.Key(
-                  change.getId(), reviewer, catId), (short) 0)), txn);
+          insertDummyApproval(change, ps.getId(), reviewer, catId, db, txn);
         }
       }
     }
@@ -890,9 +884,8 @@ final class Receive extends AbstractGitCommand {
         oldReviewers.clear();
         oldCC.clear();
 
-        result.approvals =
-            db.changeApprovals().byChange(change.getId()).toList();
-        for (ChangeApproval a : result.approvals) {
+        for (PatchSetApproval a : db.patchSetApprovals().byChange(
+            change.getId())) {
           haveApprovals.add(a.getAccountId());
 
           if (a.getValue() != 0) {
@@ -908,18 +901,6 @@ final class Receive extends AbstractGitCommand {
           if (!haveCommitter && committerId != null
               && a.getAccountId().equals(committerId)) {
             haveCommitter = true;
-          }
-
-          if (me.equals(a.getAccountId())) {
-            if (a.getValue() > 0
-                && ApprovalCategory.SUBMIT.equals(a.getCategoryId())) {
-              a.clear();
-            } else {
-              // Leave my own approvals alone.
-              //
-            }
-          } else if (a.getValue() > 0) {
-            a.clear();
           }
         }
 
@@ -940,7 +921,6 @@ final class Receive extends AbstractGitCommand {
           change.setStatus(Change.Status.NEW);
           change.setCurrentPatchSet(imp.getPatchSetInfo());
           ChangeUtil.updated(change);
-          db.changeApprovals().update(result.approvals, txn);
           db.changes().update(Collections.singleton(change), txn);
         }
 
@@ -949,14 +929,14 @@ final class Receive extends AbstractGitCommand {
           final ApprovalCategory.Id catId =
               allTypes.get(allTypes.size() - 1).getCategory().getId();
           if (authorId != null && haveApprovals.add(authorId)) {
-            insertDummyChangeApproval(result, authorId, catId, db, txn);
+            insertDummyApproval(result, authorId, catId, db, txn);
           }
           if (committerId != null && haveApprovals.add(committerId)) {
-            insertDummyChangeApproval(result, committerId, catId, db, txn);
+            insertDummyApproval(result, committerId, catId, db, txn);
           }
           for (final Account.Id reviewer : reviewers) {
             if (haveApprovals.add(reviewer)) {
-              insertDummyChangeApproval(result, reviewer, catId, db, txn);
+              insertDummyApproval(result, reviewer, catId, db, txn);
             }
           }
         }
@@ -994,14 +974,21 @@ final class Receive extends AbstractGitCommand {
     sendMergedEmail(result);
   }
 
-  private void insertDummyChangeApproval(final ReplaceResult result,
+  private void insertDummyApproval(final ReplaceResult result,
       final Account.Id forAccount, final ApprovalCategory.Id catId,
       final ReviewDb db, final Transaction txn) throws OrmException {
-    final ChangeApproval ca =
-        new ChangeApproval(new ChangeApproval.Key(result.change.getId(),
-            forAccount, catId), (short) 0);
-    ca.cache(result.change);
-    db.changeApprovals().insert(Collections.singleton(ca), txn);
+    insertDummyApproval(result.change, result.patchSet.getId(), forAccount,
+        catId, db, txn);
+  }
+
+  private void insertDummyApproval(final Change change, final PatchSet.Id psId,
+      final Account.Id forAccount, final ApprovalCategory.Id catId,
+      final ReviewDb db, final Transaction txn) throws OrmException {
+    final PatchSetApproval ca =
+        new PatchSetApproval(new PatchSetApproval.Key(psId, forAccount, catId),
+            (short) 0);
+    ca.cache(change);
+    db.patchSetApprovals().insert(Collections.singleton(ca), txn);
   }
 
   private Ref findMergedInto(final String first, final RevCommit commit) {
@@ -1037,7 +1024,6 @@ final class Receive extends AbstractGitCommand {
     PatchSetInfo info;
     ChangeMessage msg;
     String mergedIntoRef;
-    List<ChangeApproval> approvals;
   }
 
   private boolean validCommitter(final ReceiveCommand cmd, final RevCommit c) {
@@ -1212,10 +1198,9 @@ final class Receive extends AbstractGitCommand {
     change.setStatus(Change.Status.MERGED);
     ChangeUtil.updated(change);
 
-    if (result.approvals == null) {
-      result.approvals = db.changeApprovals().byChange(change.getId()).toList();
-    }
-    for (ChangeApproval a : result.approvals) {
+    final List<PatchSetApproval> approvals =
+        db.patchSetApprovals().byChange(change.getId()).toList();
+    for (PatchSetApproval a : approvals) {
       a.cache(change);
     }
 
@@ -1236,7 +1221,7 @@ final class Receive extends AbstractGitCommand {
             .messageUUID(db)), currentUser.getAccountId());
     msg.setMessage(msgBuf.toString());
 
-    db.changeApprovals().update(result.approvals, txn);
+    db.patchSetApprovals().update(approvals, txn);
     db.changeMessages().insert(Collections.singleton(msg), txn);
     db.changes().update(Collections.singleton(change), txn);
   }

@@ -44,4 +44,23 @@ ALTER TABLE project_rights ADD PRIMARY KEY (project_name, category_id, group_id)
 ALTER TABLE project_rights DROP COLUMN project_id;
 
 
+-- patch_set_approvals
+--
+ALTER TABLE change_approvals RENAME TO patch_set_approvals;
+ALTER TABLE patch_set_approvals ADD patch_set_id INT;
+UPDATE patch_set_approvals SET patch_set_id = (
+  SELECT current_patch_set_id
+  FROM changes
+  WHERE changes.change_id = patch_set_approvals.change_id);
+ALTER TABLE patch_set_approvals ALTER COLUMN patch_set_id SET NOT NULL;
+ALTER TABLE patch_set_approvals DROP CONSTRAINT change_approvals_pkey;
+ALTER TABLE patch_set_approvals DROP CONSTRAINT change_approvals_change_open_check;
+ALTER TABLE patch_set_approvals ADD PRIMARY KEY (change_id, patch_set_id, account_id, category_id);
+ALTER TABLE patch_set_approvals ADD CONSTRAINT patch_set_approvals_change_open_check CHECK (change_open IN ('Y', 'N'));
+ALTER TABLE patch_set_approvals CLUSTER ON patch_set_approvals_pkey;
+
+ALTER INDEX change_approvals_closedbyuser RENAME TO patch_set_approvals_closedbyuser;
+ALTER INDEX change_approvals_openbyuser RENAME TO patch_set_approvals_openbyuser;
+
+
 UPDATE schema_version SET version_nbr = 16;

@@ -22,7 +22,7 @@ import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.client.reviewdb.Change;
-import com.google.gerrit.client.reviewdb.ChangeApproval;
+import com.google.gerrit.client.reviewdb.PatchSetApproval;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.reviewdb.PatchSet;
@@ -190,7 +190,7 @@ public class PublishCommentScreen extends AccountScreen implements ClickHandler 
     Collections.reverse(lst);
     final ApprovalCategory.Id catId = ct.getCategory().getId();
     final Set<ApprovalCategoryValue.Id> allowed = r.getAllowed(catId);
-    final ChangeApproval prior = r.getChangeApproval(catId);
+    final PatchSetApproval prior = r.getChangeApproval(catId);
 
     for (final ApprovalCategoryValue buttonValue : lst) {
       if (!allowed.contains(buttonValue.getId())) {

@@ -18,7 +18,7 @@ import com.google.gerrit.client.data.AccountInfoCache;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.client.reviewdb.Change;
-import com.google.gerrit.client.reviewdb.ChangeApproval;
+import com.google.gerrit.client.reviewdb.PatchSetApproval;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.reviewdb.PatchSetInfo;
 
@@ -32,7 +32,7 @@ public class PatchSetPublishDetail {
   protected Change change;
   protected List<PatchLineComment> drafts;
   protected Map<ApprovalCategory.Id, Set<ApprovalCategoryValue.Id>> allowed;
-  protected Map<ApprovalCategory.Id, ChangeApproval> given;
+  protected Map<ApprovalCategory.Id, PatchSetApproval> given;
 
   public Map<ApprovalCategory.Id, Set<ApprovalCategoryValue.Id>> getAllowed() {
     return allowed;
@@ -43,11 +43,11 @@ public class PatchSetPublishDetail {
     this.allowed = allowed;
   }
 
-  public Map<ApprovalCategory.Id, ChangeApproval> getGiven() {
+  public Map<ApprovalCategory.Id, PatchSetApproval> getGiven() {
     return given;
   }
 
-  public void setGiven(Map<ApprovalCategory.Id, ChangeApproval> given) {
+  public void setGiven(Map<ApprovalCategory.Id, PatchSetApproval> given) {
     this.given = given;
   }
 
@@ -92,7 +92,7 @@ public class PatchSetPublishDetail {
     return allowed.get(id);
   }
 
-  public ChangeApproval getChangeApproval(final ApprovalCategory.Id id) {
+  public PatchSetApproval getChangeApproval(final ApprovalCategory.Id id) {
     return given.get(id);
   }
 }

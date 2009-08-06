@@ -19,7 +19,7 @@ import static com.google.gerrit.client.reviewdb.ApprovalCategory.SUBMIT;
 import com.google.gerrit.client.data.ApprovalType;
 import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.client.reviewdb.Change;
-import com.google.gerrit.client.reviewdb.ChangeApproval;
+import com.google.gerrit.client.reviewdb.PatchSetApproval;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
@@ -81,15 +81,15 @@ class SubmitAction extends Handler<VoidResult> {
       throw new IllegalStateException("Change" + change.getId() + " is closed");
     }
 
-    final List<ChangeApproval> allApprovals =
-        new ArrayList<ChangeApproval>(db.changeApprovals().byChange(
-            change.getId()).toList());
+    final List<PatchSetApproval> allApprovals =
+        new ArrayList<PatchSetApproval>(db.patchSetApprovals().byPatchSet(
+            patchSetId).toList());
 
-    final ChangeApproval.Key ak =
-        new ChangeApproval.Key(change.getId(), user.getAccountId(), SUBMIT);
-    ChangeApproval myAction = null;
+    final PatchSetApproval.Key ak =
+        new PatchSetApproval.Key(patchSetId, user.getAccountId(), SUBMIT);
+    PatchSetApproval myAction = null;
     boolean isnew = true;
-    for (final ChangeApproval ca : allApprovals) {
+    for (final PatchSetApproval ca : allApprovals) {
       if (ak.equals(ca.getKey())) {
         isnew = false;
         myAction = ca;
@@ -99,7 +99,7 @@ class SubmitAction extends Handler<VoidResult> {
       }
     }
     if (myAction == null) {
-      myAction = new ChangeApproval(ak, (short) 1);
+      myAction = new PatchSetApproval(ak, (short) 1);
       allApprovals.add(myAction);
     }
 
@@ -110,7 +110,8 @@ class SubmitAction extends Handler<VoidResult> {
           + " not an action");
     }
 
-    final FunctionState fs = functionState.create(change, allApprovals);
+    final FunctionState fs =
+        functionState.create(change, patchSetId, allApprovals);
     for (ApprovalType c : gerritConfig.getApprovalTypes()) {
       CategoryFunction.forCategory(c.getCategory()).run(c, fs);
     }
@@ -133,12 +134,12 @@ class SubmitAction extends Handler<VoidResult> {
     final Transaction txn = db.beginTransaction();
     db.changes().update(Collections.singleton(change), txn);
     if (change.getStatus().isClosed()) {
-      db.changeApprovals().update(fs.getDirtyChangeApprovals(), txn);
+      db.patchSetApprovals().update(fs.getDirtyChangeApprovals(), txn);
     }
     if (isnew) {
-      db.changeApprovals().insert(Collections.singleton(myAction), txn);
+      db.patchSetApprovals().insert(Collections.singleton(myAction), txn);
     } else {
-      db.changeApprovals().update(Collections.singleton(myAction), txn);
+      db.patchSetApprovals().update(Collections.singleton(myAction), txn);
     }
     txn.commit();
 

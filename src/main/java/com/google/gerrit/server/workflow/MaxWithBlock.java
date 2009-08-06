@@ -16,7 +16,7 @@ package com.google.gerrit.server.workflow;
 
 import com.google.gerrit.client.data.ApprovalType;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
-import com.google.gerrit.client.reviewdb.ChangeApproval;
+import com.google.gerrit.client.reviewdb.PatchSetApproval;
 
 /**
  * Computes an {@link ApprovalCategory} by looking at maximum values.
@@ -48,7 +48,7 @@ public class MaxWithBlock extends CategoryFunction {
   public void run(final ApprovalType at, final FunctionState state) {
     boolean rejected = false;
     boolean passed = false;
-    for (final ChangeApproval a : state.getApprovals(at)) {
+    for (final PatchSetApproval a : state.getApprovals(at)) {
       state.normalize(at, a);
 
       rejected |= at.isMaxNegative(a);

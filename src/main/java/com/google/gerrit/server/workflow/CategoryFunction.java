@@ -16,14 +16,14 @@ package com.google.gerrit.server.workflow;
 
 import com.google.gerrit.client.data.ApprovalType;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
-import com.google.gerrit.client.reviewdb.ChangeApproval;
+import com.google.gerrit.client.reviewdb.PatchSetApproval;
 import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.server.CurrentUser;
 
 import java.util.HashMap;
 import java.util.Map;
 
-/** Function to control {@link ChangeApproval}s in an {@link ApprovalCategory}. */
+/** Function to control {@link PatchSetApproval}s in an {@link ApprovalCategory}. */
 public abstract class CategoryFunction {
   private static Map<String, CategoryFunction> all =
       new HashMap<String, CategoryFunction>();

@@ -16,7 +16,7 @@ package com.google.gerrit.client.data;
 
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
-import com.google.gerrit.client.reviewdb.ChangeApproval;
+import com.google.gerrit.client.reviewdb.PatchSetApproval;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -81,11 +81,11 @@ public class ApprovalType {
     return v.getValue() > 0 ? v : null;
   }
 
-  public boolean isMaxNegative(final ChangeApproval ca) {
+  public boolean isMaxNegative(final PatchSetApproval ca) {
     return maxNegative == ca.getValue();
   }
 
-  public boolean isMaxPositive(final ChangeApproval ca) {
+  public boolean isMaxPositive(final PatchSetApproval ca) {
     return maxPositive == ca.getValue();
   }
 
@@ -94,7 +94,7 @@ public class ApprovalType {
     return byValue.get(value);
   }
 
-  public ApprovalCategoryValue getValue(final ChangeApproval ca) {
+  public ApprovalCategoryValue getValue(final PatchSetApproval ca) {
     initByValue();
     return byValue.get(ca.getValue());
   }

@@ -20,27 +20,31 @@ import com.google.gwtorm.client.PrimaryKey;
 import com.google.gwtorm.client.Query;
 import com.google.gwtorm.client.ResultSet;
 
-public interface ChangeApprovalAccess extends
-    Access<ChangeApproval, ChangeApproval.Key> {
+public interface PatchSetApprovalAccess extends
+    Access<PatchSetApproval, PatchSetApproval.Key> {
   @PrimaryKey("key")
-  ChangeApproval get(ChangeApproval.Key key) throws OrmException;
+  PatchSetApproval get(PatchSetApproval.Key key) throws OrmException;
 
-  @Query("WHERE key.changeId = ?")
-  ResultSet<ChangeApproval> byChange(Change.Id id) throws OrmException;
+  @Query("WHERE key.patchSetId.changeId = ?")
+  ResultSet<PatchSetApproval> byChange(Change.Id id) throws OrmException;
 
-  @Query("WHERE key.changeId = ? AND key.accountId = ?")
-  ResultSet<ChangeApproval> byChangeUser(Change.Id change, Account.Id account)
-      throws OrmException;
+  @Query("WHERE key.patchSetId = ?")
+  ResultSet<PatchSetApproval> byPatchSet(PatchSet.Id id) throws OrmException;
+
+  @Query("WHERE key.patchSetId = ? AND key.accountId = ?")
+  ResultSet<PatchSetApproval> byPatchSetUser(PatchSet.Id patchSet,
+      Account.Id account) throws OrmException;
 
   @Query("WHERE changeOpen = true AND key.accountId = ?")
-  ResultSet<ChangeApproval> openByUser(Account.Id account) throws OrmException;
+  ResultSet<PatchSetApproval> openByUser(Account.Id account)
+      throws OrmException;
 
   @Query("WHERE changeOpen = false AND key.accountId = ?"
       + " ORDER BY changeSortKey DESC LIMIT 10")
-  ResultSet<ChangeApproval> closedByUser(Account.Id account)
+  ResultSet<PatchSetApproval> closedByUser(Account.Id account)
       throws OrmException;
 
   @Query("WHERE changeOpen = false AND key.accountId = ? ORDER BY changeSortKey")
-  ResultSet<ChangeApproval> closedByUserAll(Account.Id account)
+  ResultSet<PatchSetApproval> closedByUserAll(Account.Id account)
       throws OrmException;
 }

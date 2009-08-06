@@ -315,6 +315,7 @@ class ContactPanelShort extends Composite {
     Util.ACCOUNT_SEC.updateContact(newName, newEmail, info,
         new GerritCallback<Account>() {
           public void onSuccess(final Account result) {
+            registerNewEmail.setEnabled(true);
             onSaveSuccess(result);
           }
 
@@ -328,7 +329,6 @@ class ContactPanelShort extends Composite {
   }
 
   void onSaveSuccess(final Account result) {
-    registerNewEmail.setEnabled(false);
     final Account me = Gerrit.getUserAccount();
     me.setFullName(result.getFullName());
     me.setPreferredEmail(result.getPreferredEmail());

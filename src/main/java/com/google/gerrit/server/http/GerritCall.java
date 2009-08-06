@@ -19,6 +19,7 @@ import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountExternalId;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.server.account.AccountByEmailCache;
+import com.google.gerrit.server.account.EmailExpander;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gwtjsonrpc.server.ActiveCall;
 import com.google.gwtjsonrpc.server.ValidToken;
@@ -31,7 +32,6 @@ import com.google.inject.servlet.RequestScoped;
 
 import org.spearce.jgit.util.Base64;
 
-import java.text.MessageFormat;
 import java.util.Collections;
 import java.util.List;
 
@@ -41,6 +41,7 @@ import javax.servlet.http.HttpServletResponse;
 @RequestScoped
 public class GerritCall extends ActiveCall {
   private final AuthConfig authConfig;
+  private final EmailExpander emailExpander;
   private final SchemaFactory<ReviewDb> schema;
   private final AccountByEmailCache byEmailCache;
   private boolean accountRead;
@@ -48,13 +49,14 @@ public class GerritCall extends ActiveCall {
   private boolean rememberAccount;
 
   @Inject
-  GerritCall(final AuthConfig ac, final SchemaFactory<ReviewDb> sf,
-      final AccountByEmailCache bec, final HttpServletRequest i,
-      final HttpServletResponse o) {
+  GerritCall(final AuthConfig ac, final EmailExpander emailExpander,
+      final SchemaFactory<ReviewDb> sf, final AccountByEmailCache bec,
+      final HttpServletRequest i, final HttpServletResponse o) {
     super(i, o);
-    authConfig = ac;
-    schema = sf;
-    byEmailCache = bec;
+    this.authConfig = ac;
+    this.emailExpander = emailExpander;
+    this.schema = sf;
+    this.byEmailCache = bec;
     setXsrfSignedToken(ac.getXsrfToken());
   }
 
@@ -198,9 +200,8 @@ public class GerritCall extends ActiveCall {
           final Account.Id nid = new Account.Id(db.nextAccountId());
           final Account a = new Account(nid);
           a.setFullName(user);
-          final String efmt = authConfig.getEmailFormat();
-          if (efmt != null && efmt.contains("{0}")) {
-            a.setPreferredEmail(MessageFormat.format(efmt, user));
+          if (emailExpander.canExpand(user)) {
+            a.setPreferredEmail(emailExpander.expand(user));
           }
 
           final AccountExternalId e =

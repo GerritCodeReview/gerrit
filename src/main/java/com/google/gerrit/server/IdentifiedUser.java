@@ -133,6 +133,10 @@ public class IdentifiedUser extends CurrentUser {
     return state().getAccount();
   }
 
+  public Set<String> getEmailAddresses() {
+    return state().getEmailAddresses();
+  }
+
   @Override
   public Set<AccountGroup.Id> getEffectiveGroups() {
     return state().getEffectiveGroups();

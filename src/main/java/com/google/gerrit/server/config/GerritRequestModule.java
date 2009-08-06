@@ -19,6 +19,7 @@ import static com.google.inject.Scopes.SINGLETON;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RequestCleanup;
+import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectControl;
@@ -31,6 +32,7 @@ public class GerritRequestModule extends FactoryModule {
     bind(RequestCleanup.class).in(RequestScoped.class);
     bind(ReviewDb.class).toProvider(RequestScopedReviewDbProvider.class);
     bind(IdentifiedUser.RequestFactory.class).in(SINGLETON);
+    bind(AccountResolver.class);
 
     bind(ChangeControl.Factory.class).in(SINGLETON);
     bind(GroupControl.Factory.class).in(SINGLETON);

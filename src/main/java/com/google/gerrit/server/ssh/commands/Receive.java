@@ -28,7 +28,6 @@ import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.client.reviewdb.AbstractAgreement;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountAgreement;
-import com.google.gerrit.client.reviewdb.AccountExternalId;
 import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.AccountGroupAgreement;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
@@ -44,7 +43,7 @@ import com.google.gerrit.git.PatchSetImporter;
 import com.google.gerrit.git.ReplicationQueue;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.config.AuthConfig;
+import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.Nullable;
 import com.google.gerrit.server.mail.CreateChangeSender;
@@ -82,7 +81,6 @@ import org.spearce.jgit.transport.ReceiveCommand.Type;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -142,7 +140,7 @@ final class Receive extends AbstractGitCommand {
   private GerritConfig gerritConfig;
 
   @Inject
-  private AuthConfig authConfig;
+  private AccountResolver accountResolver;
 
   @Inject
   private CreateChangeSender.Factory createChangeSenderFactory;
@@ -169,7 +167,6 @@ final class Receive extends AbstractGitCommand {
   private ReceiveCommand newChange;
   private Branch destBranch;
 
-  private final Set<String> myEmails = new HashSet<String>();
   private final List<Change.Id> allNewChanges = new ArrayList<Change.Id>();
 
   private final Map<Change.Id, ReceiveCommand> addByChange =
@@ -187,7 +184,6 @@ final class Receive extends AbstractGitCommand {
         && proj.isUseContributorAgreements()) {
       verifyActiveContributorAgreement();
     }
-    loadMyEmails();
     refLogIdent = currentUser.newPersonIdent();
 
     rp = new ReceivePack(repo);
@@ -369,88 +365,14 @@ final class Receive extends AbstractGitCommand {
     return value == null || value.trim().equals("");
   }
 
-  private void loadMyEmails() throws Failure {
-    addEmail(currentUser.getAccount().getPreferredEmail());
-    try {
-      for (final AccountExternalId id : db.accountExternalIds().byAccount(
-          currentUser.getAccountId())) {
-        addEmail(id.getEmailAddress());
-      }
-    } catch (OrmException e) {
-      throw new Failure(1, "fatal: database error", e);
-    }
-  }
-
-  private void addEmail(final String email) {
-    if (email != null && email.length() > 0) {
-      myEmails.add(email);
-    }
-  }
-
   private Account.Id toAccountId(final String nameOrEmail) throws OrmException,
       AccountNotFoundException {
-    final String efmt = authConfig.getEmailFormat();
-    final boolean haveFormat = efmt != null && efmt.contains("{0}");
-    try {
-      final HashSet<Account.Id> matches = new HashSet<Account.Id>();
-      String email = splitEmail(nameOrEmail);
-
-      if (email == null && haveFormat && !nameOrEmail.contains(" ")) {
-        // Not a full name, since it has no space, and not an email
-        // address either. Assume it is just the local portion of
-        // the organizations standard email format, and complete out.
-        //
-        email = MessageFormat.format(efmt, nameOrEmail);
-      }
-
-      if (email == null) {
-        // Not an email address implies it was a full name, search by
-        // full name hoping to get a unique match.
-        //
-        final String n = nameOrEmail;
-        for (final Account a : db.accounts().suggestByFullName(n, n, 2)) {
-          matches.add(a.getId());
-        }
-      } else {
-        // Scan email addresses for any potential matches.
-        //
-        for (final AccountExternalId e : db.accountExternalIds()
-            .byEmailAddress(email)) {
-          matches.add(e.getAccountId());
-        }
-        if (matches.isEmpty()) {
-          for (final Account a : db.accounts().byPreferredEmail(email)) {
-            matches.add(a.getId());
-          }
-        }
-      }
-
-      switch (matches.size()) {
-        case 0:
-          throw new AccountNotFoundException("\"" + nameOrEmail
-              + "\" is not registered");
-        case 1:
-          return (matches.iterator().next());
-        default:
-          throw new AccountNotFoundException("\"" + nameOrEmail
-              + "\" matches multiple accounts");
-      }
-    } catch (OrmException e) {
-      log.error("Cannot lookup name/email address", e);
-      throw e;
+    final Account a = accountResolver.find(nameOrEmail);
+    if (a == null) {
+      throw new AccountNotFoundException("\"" + nameOrEmail
+          + "\" is not registered");
     }
-  }
-
-  private static String splitEmail(final String nameOrEmail) {
-    final int lt = nameOrEmail.indexOf('<');
-    final int gt = nameOrEmail.indexOf('>');
-    if (lt >= 0 && gt > lt) {
-      return nameOrEmail.substring(lt + 1, gt);
-    }
-    if (nameOrEmail.contains("@")) {
-      return nameOrEmail;
-    }
-    return null;
+    return a.getId();
   }
 
   private void parseCommands(final Collection<ReceiveCommand> commands) {
@@ -530,7 +452,7 @@ final class Receive extends AbstractGitCommand {
       }
 
       final String email = tagger.getEmailAddress();
-      if (!myEmails.contains(email)) {
+      if (!currentUser.getEmailAddresses().contains(email)) {
         reject(cmd, "invalid tagger " + email);
         return;
       }
@@ -1136,7 +1058,7 @@ final class Receive extends AbstractGitCommand {
 
     // Require that committer matches the uploader.
     //
-    if (!myEmails.contains(committer.getEmailAddress())) {
+    if (!currentUser.getEmailAddresses().contains(committer.getEmailAddress())) {
       reject(cmd, "you are not committer " + committer.getEmailAddress());
       return false;
     }
@@ -1152,7 +1074,7 @@ final class Receive extends AbstractGitCommand {
           if (e != null) {
             sboAuthor |= author.getEmailAddress().equals(e);
             sboCommitter |= committer.getEmailAddress().equals(e);
-            sboMe |= myEmails.contains(e);
+            sboMe |= currentUser.getEmailAddresses().contains(e);
           }
         }
       }

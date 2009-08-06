@@ -33,7 +33,6 @@ public class AuthConfig {
   private final int sessionAge;
   private final LoginType loginType;
   private final String httpHeader;
-  private final String emailFormat;
   private final Collection<TrustedExternalId> trusted;
 
   private final SignedToken xsrfToken;
@@ -48,7 +47,6 @@ public class AuthConfig {
     sessionAge = cfg.getInt("auth", "maxsessionage", 12 * 60) * 60;
     loginType = toType(cfg);
     httpHeader = cfg.getString("auth", null, "httpheader");
-    emailFormat = cfg.getString("auth", null, "emailformat");
     trusted = tei;
 
     xsrfToken = new SignedToken(getSessionAge(), s.xsrfPrivateKey);
@@ -101,10 +99,6 @@ public class AuthConfig {
 
   public String getLoginHttpHeader() {
     return httpHeader;
-  }
-
-  public String getEmailFormat() {
-    return emailFormat;
   }
 
   /** Time (in seconds) that user sessions stay "signed in". */

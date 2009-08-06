@@ -18,22 +18,23 @@ import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.ResultSet;
-import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import com.google.inject.Provider;
 
 import java.util.List;
 import java.util.Set;
 
-@Singleton
 public class AccountResolver {
+  private final EmailExpander emailExpander;
   private final AccountByEmailCache byEmail;
   private final AccountCache byId;
-  private final SchemaFactory<ReviewDb> schema;
+  private final Provider<ReviewDb> schema;
 
   @Inject
-  AccountResolver(final AccountByEmailCache byEmail, final AccountCache byId,
-      final SchemaFactory<ReviewDb> schema) {
+  AccountResolver(final EmailExpander emailExpander,
+      final AccountByEmailCache byEmail, final AccountCache byId,
+      final Provider<ReviewDb> schema) {
+    this.emailExpander = emailExpander;
     this.byEmail = byEmail;
     this.byId = byId;
     this.schema = schema;
@@ -63,12 +64,14 @@ public class AccountResolver {
       return findByEmail(nameOrEmail);
     }
 
-    final ReviewDb db = schema.open();
-    try {
-      return oneAccount(db.accounts().byFullName(nameOrEmail));
-    } finally {
-      db.close();
+    if (emailExpander.canExpand(nameOrEmail)) {
+      final Account a = findByEmail(emailExpander.expand(nameOrEmail));
+      if (a != null) {
+        return a;
+      }
     }
+
+    return oneAccount(schema.get().accounts().byFullName(nameOrEmail));
   }
 
   private Account findByEmail(final String email) {

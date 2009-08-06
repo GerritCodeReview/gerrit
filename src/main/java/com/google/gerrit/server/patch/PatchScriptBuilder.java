@@ -212,7 +212,10 @@ class PatchScriptBuilder {
     for (PatchLineComment plc : comments.getCommentsA()) {
       final int a = plc.getLine();
       if (lastLine != a) {
-        safeAdd(empty, new Edit(a - 1, mapA2B(a - 1)));
+        final int b = mapA2B(a - 1);
+        if (0 <= b) {
+          safeAdd(empty, new Edit(a - 1, b));
+        }
         lastLine = a;
       }
     }
@@ -221,7 +224,10 @@ class PatchScriptBuilder {
     for (PatchLineComment plc : comments.getCommentsB()) {
       final int b = plc.getLine();
       if (lastLine != b) {
-        safeAdd(empty, new Edit(mapB2A(b - 1), b - 1));
+        final int a = mapB2A(b - 1);
+        if (0 <= a) {
+          safeAdd(empty, new Edit(a, b - 1));
+        }
         lastLine = b;
       }
     }
@@ -254,15 +260,18 @@ class PatchScriptBuilder {
       return a;
     }
 
-    if (a < edits.get(0).getBeginA()) {
-      // Special case of context at start of file.
-      //
-      return a;
-    }
-
-    for (Edit e : edits) {
+    for (int i = 0; i < edits.size(); i++) {
+      final Edit e = edits.get(i);
+      if (a < e.getBeginA()) {
+        if (i == 0) {
+          // Special case of context at start of file.
+          //
+          return a;
+        }
+        return edits.get(i - i).getEndB() + (e.getBeginA() - a);
+      }
       if (e.getBeginA() <= a && a <= e.getEndA()) {
-        return e.getBeginB() + (a - e.getBeginA());
+        return -1;
       }
     }
 
@@ -277,15 +286,18 @@ class PatchScriptBuilder {
       return b;
     }
 
-    if (b < edits.get(0).getBeginB()) {
-      // Special case of context at start of file.
-      //
-      return b;
-    }
-
-    for (Edit e : edits) {
+    for (int i = 0; i < edits.size(); i++) {
+      final Edit e = edits.get(i);
+      if (b < e.getBeginB()) {
+        if (i == 0) {
+          // Special case of context at start of file.
+          //
+          return b;
+        }
+        return edits.get(i - i).getEndA() + (e.getBeginB() - b);
+      }
       if (e.getBeginB() <= b && b <= e.getEndB()) {
-        return e.getBeginA() + (b - e.getBeginB());
+        return -1;
       }
     }
 

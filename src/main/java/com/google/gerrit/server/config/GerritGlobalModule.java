@@ -63,8 +63,8 @@ import org.spearce.jgit.lib.Config;
 import java.io.File;
 import java.util.Collection;
 
-/** Starts {@link GerritServer} with standard dependencies. */
-public class GerritServerModule extends FactoryModule {
+/** Starts global state with standard dependencies. */
+public class GerritGlobalModule extends FactoryModule {
   @Override
   protected void configure() {
     bind(File.class).annotatedWith(SitePath.class).toProvider(

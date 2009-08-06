@@ -22,7 +22,7 @@ import com.google.gerrit.git.WorkQueue;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;
 import com.google.gerrit.server.config.DatabaseModule;
-import com.google.gerrit.server.config.GerritServerModule;
+import com.google.gerrit.server.config.GerritGlobalModule;
 import com.google.gerrit.server.openid.OpenIdModule;
 import com.google.gerrit.server.ssh.SshDaemon;
 import com.google.gerrit.server.ssh.SshDaemonModule;
@@ -86,7 +86,7 @@ public class GerritServletConfig extends GuiceServletContextListener {
         throw new CreationException(Collections.singleton(first));
       }
 
-      sysInjector = dbInjector.createChildInjector(new GerritServerModule());
+      sysInjector = dbInjector.createChildInjector(new GerritGlobalModule());
       sshInjector = createSshInjector();
       webInjector = createWebInjector();
 

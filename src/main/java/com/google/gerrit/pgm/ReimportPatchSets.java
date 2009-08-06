@@ -23,7 +23,7 @@ import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.git.PatchSetImporter;
 import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.config.DatabaseModule;
-import com.google.gerrit.server.config.GerritServerModule;
+import com.google.gerrit.server.config.GerritGlobalModule;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Guice;
@@ -71,7 +71,7 @@ public class ReimportPatchSets extends AbstractProgram {
   public int run() throws Exception {
     final Injector injector =
         Guice.createInjector(PRODUCTION, new DatabaseModule(),
-            new GerritServerModule());
+            new GerritGlobalModule());
     injector.injectMembers(this);
 
     final ArrayList<PatchSet.Id> todo = new ArrayList<PatchSet.Id>();

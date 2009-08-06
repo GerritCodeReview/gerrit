@@ -34,7 +34,7 @@ import org.apache.sshd.server.session.ServerSession;
 import java.net.SocketAddress;
 
 /** Configures standard dependencies for {@link SshDaemon}. */
-public class SshDaemonModule extends FactoryModule {
+public class SshModule extends FactoryModule {
   private static final String NAME = "Gerrit Code Review";
 
   @Override

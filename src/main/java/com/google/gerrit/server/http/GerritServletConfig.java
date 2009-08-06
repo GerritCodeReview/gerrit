@@ -25,7 +25,7 @@ import com.google.gerrit.server.config.DatabaseModule;
 import com.google.gerrit.server.config.GerritGlobalModule;
 import com.google.gerrit.server.openid.OpenIdModule;
 import com.google.gerrit.server.ssh.SshDaemon;
-import com.google.gerrit.server.ssh.SshDaemonModule;
+import com.google.gerrit.server.ssh.SshModule;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.inject.ConfigurationException;
 import com.google.inject.CreationException;
@@ -106,7 +106,7 @@ public class GerritServletConfig extends GuiceServletContextListener {
   }
 
   private Injector createSshInjector() {
-    return sysInjector.createChildInjector(new SshDaemonModule());
+    return sysInjector.createChildInjector(new SshModule());
   }
 
   private Injector createWebInjector() {

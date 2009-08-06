@@ -14,9 +14,7 @@
 
 package com.google.gerrit.server.ssh.commands;
 
-import com.google.gerrit.server.patch.DiffCache;
 import com.google.gerrit.server.ssh.AdminCommand;
-import com.google.inject.Inject;
 
 import net.sf.ehcache.Ehcache;
 
@@ -38,9 +36,6 @@ final class AdminFlushCaches extends CacheCommand {
 
   @Option(name = "--list", usage = "list available caches")
   private boolean list;
-
-  @Inject
-  private DiffCache diffCache;
 
   private PrintWriter p;
 
@@ -95,24 +90,12 @@ final class AdminFlushCaches extends CacheCommand {
     try {
       for (final Ehcache c : getAllCaches()) {
         final String name = c.getName();
-        if (diffCache.getName().equals(name)) {
-          continue;
-        }
         if (flush(name)) {
           try {
             c.removeAll();
           } catch (Throwable e) {
             p.println("error: cannot flush cache \"" + name + "\": " + e);
           }
-        }
-      }
-
-      if (flush(diffCache.getName())) {
-        try {
-          diffCache.flush();
-        } catch (Throwable e) {
-          final String n = diffCache.getName();
-          p.println("warning: cannot save cache \"" + n + "\": " + e);
         }
       }
     } finally {

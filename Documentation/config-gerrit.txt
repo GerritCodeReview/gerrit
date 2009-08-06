@@ -133,12 +133,13 @@ Section cache[[section_cache]]
 cache.directory::
 +
 Path to a local directory where Gerrit can write cached entities for
-future lookup.  This local disk cache is used to retain expensively
-computed information across restarts.
+future lookup.  This local disk cache is used to retain potentially
+expensive to compute information across restarts.  If the location
+does not exist, Gerrit will try to create it.
 +
-If the location does not exist, Gerrit will try to create it.
+If not absolute, the path is resolved relative to `$site_path`.
 +
-Default is `'$site_path'/disk_cache`.
+Default is unset, no disk cache.
 
 cache.maxAge::
 	Default setting inherited by named caches; see below.

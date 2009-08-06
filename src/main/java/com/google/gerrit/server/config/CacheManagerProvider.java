@@ -66,10 +66,13 @@ public class CacheManagerProvider implements Provider<CacheManager> {
     private void configureDiskStore() {
       String path = config.getString("cache", null, "directory");
       if (path == null || path.length() == 0) {
-        path = "disk_cache";
+        return;
       }
 
-      final File loc = new File(sitePath, path);
+      File loc = new File(path);
+      if (!loc.isAbsolute()) {
+        loc = new File(sitePath, path);
+      }
       if (loc.exists() || loc.mkdirs()) {
         if (loc.canWrite()) {
           final DiskStoreConfiguration c = new DiskStoreConfiguration();

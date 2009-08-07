@@ -14,7 +14,7 @@
 
 package com.google.gerrit.client.reviewdb;
 
-import com.google.gerrit.client.rpc.Common;
+import com.google.gerrit.client.Gerrit;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.StringKey;
 
@@ -142,7 +142,7 @@ public final class AccountExternalId {
   }
 
   public boolean canUserDelete() {
-    switch (Common.getGerritConfig().getLoginType()) {
+    switch (Gerrit.getConfig().getLoginType()) {
       case OPENID:
         if (getExternalId().startsWith("Google Account ")) {
           // Don't allow users to delete legacy google account tokens.

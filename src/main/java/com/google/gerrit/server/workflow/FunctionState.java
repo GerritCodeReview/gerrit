@@ -15,6 +15,7 @@
 package com.google.gerrit.server.workflow;
 
 import com.google.gerrit.client.data.ApprovalType;
+import com.google.gerrit.client.data.ApprovalTypes;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
@@ -37,6 +38,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -47,6 +49,7 @@ public class FunctionState {
         Collection<PatchSetApproval> all);
   }
 
+  private final ApprovalTypes approvalTypes;
   private final AccountCache accountCache;
   private final ProjectCache projectCache;
 
@@ -63,10 +66,11 @@ public class FunctionState {
   private Set<PatchSetApproval> modified;
 
   @Inject
-  FunctionState(final ProjectCache pc, final AccountCache ac,
-      final GroupCache egc, @Assisted final Change c,
+  FunctionState(final ApprovalTypes approvalTypes, final ProjectCache pc,
+      final AccountCache ac, final GroupCache egc, @Assisted final Change c,
       @Assisted final PatchSet.Id psId,
       @Assisted final Collection<PatchSetApproval> all) {
+    this.approvalTypes = approvalTypes;
     projectCache = pc;
     accountCache = ac;
 
@@ -83,6 +87,10 @@ public class FunctionState {
         l.add(ca);
       }
     }
+  }
+
+  List<ApprovalType> getApprovalTypes() {
+    return approvalTypes.getApprovalTypes();
   }
 
   public Change getChange() {

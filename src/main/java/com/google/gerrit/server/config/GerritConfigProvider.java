@@ -18,7 +18,6 @@ import com.google.gerrit.client.data.ApprovalTypes;
 import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.client.data.GitwebLink;
 import com.google.gerrit.client.reviewdb.Project;
-import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.server.ContactStore;
 import com.google.gerrit.server.mail.EmailSender;
 import com.google.gerrit.server.ssh.SshInfo;
@@ -108,7 +107,6 @@ public class GerritConfigProvider implements Provider<GerritConfig> {
       config.setSshdAddress(host);
     }
 
-    Common.setGerritConfig(config);
     return config;
   }
 

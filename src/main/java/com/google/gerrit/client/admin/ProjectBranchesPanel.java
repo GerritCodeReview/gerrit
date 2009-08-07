@@ -14,10 +14,10 @@
 
 package com.google.gerrit.client.admin;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.data.GitwebLink;
 import com.google.gerrit.client.reviewdb.Branch;
 import com.google.gerrit.client.reviewdb.Project;
-import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.InvalidNameException;
 import com.google.gerrit.client.rpc.InvalidRevisionException;
@@ -260,7 +260,7 @@ public class ProjectBranchesPanel extends Composite {
     }
 
     void populate(final int row, final Branch k) {
-      final GitwebLink c = Common.getGerritConfig().getGitwebLink();
+      final GitwebLink c = Gerrit.getConfig().getGitwebLink();
 
       table.setWidget(row, 1, new CheckBox());
       table.setText(row, 2, k.getShortName());

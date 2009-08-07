@@ -27,7 +27,6 @@ import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.PatchSetApproval;
-import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountDashboardLink;
 import com.google.gerrit.client.ui.AddMemberBox;
@@ -60,7 +59,7 @@ public class ApprovalTable extends Composite {
   private AccountInfoCache accountCache = AccountInfoCache.empty();
 
   public ApprovalTable() {
-    types = Common.getGerritConfig().getApprovalTypes().getApprovalTypes();
+    types = Gerrit.getConfig().getApprovalTypes().getApprovalTypes();
     table = new Grid(1, 3 + types.size());
     table.addStyleName("gerrit-InfoTable");
     displayHeader();

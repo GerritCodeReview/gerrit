@@ -26,7 +26,6 @@ import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.PatchSetApproval;
-import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.AccountScreen;
@@ -172,7 +171,7 @@ public class PublishCommentScreen extends AccountScreen implements ClickHandler 
   }
 
   private void initApprovals(final PatchSetPublishDetail r, final Panel body) {
-    for (final ApprovalType ct : Common.getGerritConfig().getApprovalTypes()
+    for (final ApprovalType ct : Gerrit.getConfig().getApprovalTypes()
         .getApprovalTypes()) {
       if (r.isAllowed(ct.getCategory().getId())) {
         initApprovalType(r, body, ct);

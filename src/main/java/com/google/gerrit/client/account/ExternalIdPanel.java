@@ -15,9 +15,9 @@
 package com.google.gerrit.client.account;
 
 import com.google.gerrit.client.FormatUtil;
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.SignInDialog;
 import com.google.gerrit.client.reviewdb.AccountExternalId;
-import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -51,7 +51,7 @@ class ExternalIdPanel extends Composite {
     });
     body.add(deleteIdentity);
 
-    switch (Common.getGerritConfig().getLoginType()) {
+    switch (Gerrit.getConfig().getLoginType()) {
       case OPENID: {
         final Button linkIdentity = new Button(Util.C.buttonLinkIdentity());
         linkIdentity.addClickHandler(new ClickHandler() {

@@ -14,10 +14,10 @@
 
 package com.google.gerrit.client;
 
+import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.client.data.SystemInfoService;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountGeneralPreferences;
-import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.LinkMenuBar;
 import com.google.gerrit.client.ui.LinkMenuItem;
@@ -70,6 +70,7 @@ public class Gerrit implements EntryPoint {
 
   private static String myHost;
   private static String myVersion;
+  private static GerritConfig myConfig;
   private static Account myAccount;
   private static final HandlerManager globalHandlers = new HandlerManager(true);
 
@@ -120,6 +121,11 @@ public class Gerrit implements EntryPoint {
         Window.setTitle(M.windowTitle2(text, myHost));
       }
     }
+  }
+
+  /** Get the public configuration data used by this Gerrit instance. */
+  public static GerritConfig getConfig() {
+    return myConfig;
   }
 
   /** @return the currently signed in user's account data; null if no account */
@@ -209,7 +215,7 @@ public class Gerrit implements EntryPoint {
     final HostPageDataService hpd = GWT.create(HostPageDataService.class);
     hpd.load(new GerritCallback<HostPageData>() {
       public void onSuccess(final HostPageData result) {
-        Common.setGerritConfig(result.config);
+        myConfig = result.config;
         if (result.xsrfToken != null) {
           JsonUtil.getDefaultXsrfManager().setToken(null, result.xsrfToken);
         }
@@ -344,7 +350,7 @@ public class Gerrit implements EntryPoint {
     if (signedIn) {
       whoAmI();
       addLink(menuRight, C.menuSettings(), Link.SETTINGS);
-      switch (Common.getGerritConfig().getLoginType()) {
+      switch (getConfig().getLoginType()) {
         case HTTP:
           break;
 
@@ -358,7 +364,7 @@ public class Gerrit implements EntryPoint {
           break;
       }
     } else {
-      switch (Common.getGerritConfig().getLoginType()) {
+      switch (getConfig().getLoginType()) {
         case HTTP:
           break;
 

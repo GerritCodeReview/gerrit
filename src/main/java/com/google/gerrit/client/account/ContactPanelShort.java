@@ -18,7 +18,6 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountExternalId;
 import com.google.gerrit.client.reviewdb.ContactInformation;
-import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.TextSaveButtonListener;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -96,7 +95,7 @@ class ContactPanelShort extends Composite {
     });
     final FlowPanel emailLine = new FlowPanel();
     emailLine.add(emailPick);
-    if (Common.getGerritConfig().isAllowRegisterNewEmail()) {
+    if (Gerrit.getConfig().isAllowRegisterNewEmail()) {
       emailLine.add(registerNewEmail);
     }
 
@@ -210,7 +209,7 @@ class ContactPanelShort extends Composite {
       if (emailPick.getItemCount() > 0) {
         emailPick.setVisible(true);
         emailPick.setEnabled(true);
-        if (Common.getGerritConfig().isAllowRegisterNewEmail()) {
+        if (Gerrit.getConfig().isAllowRegisterNewEmail()) {
           final String t = Util.C.buttonOpenRegisterNewEmail();
           emailPick.addItem("... " + t + "  ", t);
         }
@@ -235,7 +234,7 @@ class ContactPanelShort extends Composite {
   }
 
   private void doRegisterNewEmail() {
-    if (!Common.getGerritConfig().isAllowRegisterNewEmail()) {
+    if (!Gerrit.getConfig().isAllowRegisterNewEmail()) {
       return;
     }
 

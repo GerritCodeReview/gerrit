@@ -14,9 +14,9 @@
 
 package com.google.gerrit.client.account;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.Link;
 import com.google.gerrit.client.reviewdb.Account;
-import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.ui.AccountScreen;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -80,7 +80,7 @@ public class RegisterScreen extends AccountScreen {
 
     final FlowPanel choices = new FlowPanel();
     choices.setStyleName("gerrit-RegisterScreen-NextLinks");
-    if (Common.getGerritConfig().isUseContributorAgreements()) {
+    if (Gerrit.getConfig().isUseContributorAgreements()) {
       final FlowPanel agreementGroup = new FlowPanel();
       agreementGroup.setStyleName("gerrit-RegisterScreen-Section");
       agreementGroup.add(new SmallHeading(Util.C.welcomeAgreementHeading()));

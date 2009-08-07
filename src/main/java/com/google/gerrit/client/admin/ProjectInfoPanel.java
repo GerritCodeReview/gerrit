@@ -14,9 +14,8 @@
 
 package com.google.gerrit.client.admin;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.reviewdb.Project;
-import com.google.gerrit.client.reviewdb.ProjectRight;
-import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.client.ui.TextSaveButtonListener;
@@ -164,10 +163,10 @@ public class ProjectInfoPanel extends Composite {
     project = result.project;
 
     final boolean isall =
-        Common.getGerritConfig().getWildProject().equals(project.getNameKey());
+        Gerrit.getConfig().getWildProject().equals(project.getNameKey());
     submitTypePanel.setVisible(!isall);
     agreementsPanel.setVisible(!isall);
-    useContributorAgreements.setVisible(Common.getGerritConfig()
+    useContributorAgreements.setVisible(Gerrit.getConfig()
         .isUseContributorAgreements());
 
     descTxt.setText(project.getDescription());

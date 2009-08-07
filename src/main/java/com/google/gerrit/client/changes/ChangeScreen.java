@@ -24,7 +24,6 @@ import com.google.gerrit.client.data.GitwebLink;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.ChangeMessage;
 import com.google.gerrit.client.reviewdb.PatchSet;
-import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.ComplexDisclosurePanel;
@@ -254,7 +253,7 @@ public class ChangeScreen extends Screen {
     patchSetPanels.clear();
 
     final PatchSet currps = detail.getCurrentPatchSet();
-    final GitwebLink gw = Common.getGerritConfig().getGitwebLink();
+    final GitwebLink gw = Gerrit.getConfig().getGitwebLink();
     for (final PatchSet ps : detail.getPatchSets()) {
       final ComplexDisclosurePanel panel =
           new ComplexDisclosurePanel(Util.M.patchSetHeader(ps.getPatchSetId()),

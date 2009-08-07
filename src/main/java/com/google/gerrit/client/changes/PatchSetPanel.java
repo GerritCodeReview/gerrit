@@ -29,7 +29,6 @@ import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.PatchSetInfo;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.UserIdentity;
-import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountDashboardLink;
 import com.google.gerrit.client.ui.RefreshListener;
@@ -179,7 +178,7 @@ class PatchSetPanel extends Composite implements OpenHandler<DisclosurePanel> {
     final String projectName = projectKey.get();
     final FlowPanel downloads = new FlowPanel();
 
-    if (Common.getGerritConfig().isUseRepoDownload()) {
+    if (Gerrit.getConfig().isUseRepoDownload()) {
       // This site prefers usage of the 'repo' tool, so suggest
       // that for easy fetch.
       //
@@ -194,28 +193,28 @@ class PatchSetPanel extends Composite implements OpenHandler<DisclosurePanel> {
     }
 
     if (changeDetail.isAllowsAnonymous()
-        && Common.getGerritConfig().getGitDaemonUrl() != null) {
+        && Gerrit.getConfig().getGitDaemonUrl() != null) {
       // Anonymous Git is claimed to be available, and this project
       // isn't secured. The anonymous Git daemon will be much more
       // efficient than our own SSH daemon, so prefer offering it.
       //
       final StringBuilder r = new StringBuilder();
       r.append("git pull ");
-      r.append(Common.getGerritConfig().getGitDaemonUrl());
+      r.append(Gerrit.getConfig().getGitDaemonUrl());
       r.append(projectName);
       r.append(" ");
       r.append(patchSet.getRefName());
       downloads.add(new CopyableLabel(r.toString()));
 
     } else if (Gerrit.isSignedIn() && Gerrit.getUserAccount() != null
-        && Common.getGerritConfig().getSshdAddress() != null
+        && Gerrit.getConfig().getSshdAddress() != null
         && Gerrit.getUserAccount().getSshUserName() != null
         && Gerrit.getUserAccount().getSshUserName().length() > 0) {
       // The user is signed in and anonymous access isn't allowed.
       // Use our SSH daemon URL as its the only way they can get
       // to the project (that we know of anyway).
       //
-      final String sshAddr = Common.getGerritConfig().getSshdAddress();
+      final String sshAddr = Gerrit.getConfig().getSshdAddress();
       final StringBuilder r = new StringBuilder();
       r.append("git pull ssh://");
       r.append(Gerrit.getUserAccount().getSshUserName());
@@ -274,7 +273,7 @@ class PatchSetPanel extends Composite implements OpenHandler<DisclosurePanel> {
       return;
     }
 
-    for (final ApprovalType at : Common.getGerritConfig().getApprovalTypes()
+    for (final ApprovalType at : Gerrit.getConfig().getApprovalTypes()
         .getActionTypes()) {
       final ApprovalCategoryValue max = at.getMax();
       if (max == null || max.getValue() <= 0) {

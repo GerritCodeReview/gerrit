@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.admin;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.data.ApprovalType;
 import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.client.reviewdb.AccountGroup;
@@ -21,7 +22,6 @@ import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ProjectRight;
-import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountGroupSuggestOracle;
 import com.google.gerrit.client.ui.FancyFlexTable;
@@ -113,15 +113,15 @@ public class ProjectRightsPanel extends Composite {
         populateRangeBoxes();
       }
     });
-    for (final ApprovalType at : Common.getGerritConfig().getApprovalTypes()
+    for (final ApprovalType at : Gerrit.getConfig().getApprovalTypes()
         .getApprovalTypes()) {
       final ApprovalCategory c = at.getCategory();
       catBox.addItem(c.getName(), c.getId().get());
     }
-    for (final ApprovalType at : Common.getGerritConfig().getApprovalTypes()
+    for (final ApprovalType at : Gerrit.getConfig().getApprovalTypes()
         .getActionTypes()) {
       final ApprovalCategory c = at.getCategory();
-      if (Common.getGerritConfig().getWildProject().equals(projectName)
+      if (Gerrit.getConfig().getWildProject().equals(projectName)
           && ApprovalCategory.OWN.equals(c.getId())) {
         // Giving out control of the WILD_PROJECT to other groups beyond
         // Administrators is dangerous. Having control over WILD_PROJECT
@@ -210,7 +210,7 @@ public class ProjectRightsPanel extends Composite {
       return;
     }
     at =
-        Common.getGerritConfig().getApprovalTypes().getApprovalType(
+        Gerrit.getConfig().getApprovalTypes().getApprovalType(
             new ApprovalCategory.Id(catBox.getValue(idx)));
     if (at == null) {
       return;
@@ -272,7 +272,7 @@ public class ProjectRightsPanel extends Composite {
     final ApprovalType at;
     if (idx >= 0) {
       at =
-          Common.getGerritConfig().getApprovalTypes().getApprovalType(
+          Gerrit.getConfig().getApprovalTypes().getApprovalType(
               new ApprovalCategory.Id(catBox.getValue(idx)));
     } else {
       at = null;
@@ -368,14 +368,13 @@ public class ProjectRightsPanel extends Composite {
 
     void populate(final int row,
         final Map<AccountGroup.Id, AccountGroup> groups, final ProjectRight k) {
-      final GerritConfig config = Common.getGerritConfig();
+      final GerritConfig config = Gerrit.getConfig();
       final ApprovalType ar =
           config.getApprovalTypes().getApprovalType(k.getApprovalCategoryId());
       final AccountGroup group = groups.get(k.getAccountGroupId());
 
-      if (Common.getGerritConfig().getWildProject().equals(
-          k.getProjectNameKey())
-          && !Common.getGerritConfig().getWildProject().equals(projectName)) {
+      if (Gerrit.getConfig().getWildProject().equals(k.getProjectNameKey())
+          && !Gerrit.getConfig().getWildProject().equals(projectName)) {
         table.setText(row, 1, "");
       } else {
         table.setWidget(row, 1, new CheckBox());

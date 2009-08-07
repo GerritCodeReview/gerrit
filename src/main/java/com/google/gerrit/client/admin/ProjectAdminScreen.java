@@ -17,8 +17,6 @@ package com.google.gerrit.client.admin;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.Link;
 import com.google.gerrit.client.reviewdb.Project;
-import com.google.gerrit.client.reviewdb.ProjectRight;
-import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.AccountScreen;
 import com.google.gwt.event.logical.shared.SelectionEvent;
@@ -74,7 +72,7 @@ public class ProjectAdminScreen extends AccountScreen {
     }, Util.C.projectAdminTabGeneral());
     tabTokens.add(Link.toProjectAdmin(projectName, INFO_TAB));
 
-    if (!Common.getGerritConfig().getWildProject().equals(projectName)) {
+    if (!Gerrit.getConfig().getWildProject().equals(projectName)) {
       tabs.add(new LazyPanel() {
         @Override
         protected ProjectBranchesPanel createWidget() {

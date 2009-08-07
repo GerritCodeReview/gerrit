@@ -18,7 +18,6 @@ import com.google.gerrit.client.data.ApprovalType;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.ProjectRight;
-import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.server.CurrentUser;
 
 /**
@@ -57,8 +56,7 @@ public class SubmitFunction extends CategoryFunction {
     if (state.getChange().getStatus() != Change.Status.NEW) {
       return false;
     }
-    for (final ApprovalType t : Common.getGerritConfig().getApprovalTypes()
-        .getApprovalTypes()) {
+    for (final ApprovalType t : state.getApprovalTypes()) {
       if (!state.isValid(t)) {
         return false;
       }

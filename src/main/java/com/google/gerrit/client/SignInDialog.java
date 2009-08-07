@@ -15,7 +15,6 @@
 package com.google.gerrit.client;
 
 import com.google.gerrit.client.openid.OpenIdLoginPanel;
-import com.google.gerrit.client.rpc.Common;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
@@ -72,7 +71,7 @@ public class SignInDialog extends AutoCenterDialogBox {
   public SignInDialog(final Mode signInMode, final String errorMsg) {
     super(/* auto hide */true, /* modal */true);
 
-    switch (Common.getGerritConfig().getLoginType()) {
+    switch (Gerrit.getConfig().getLoginType()) {
       case OPENID:
         panel = new OpenIdLoginPanel(signInMode, errorMsg);
         break;

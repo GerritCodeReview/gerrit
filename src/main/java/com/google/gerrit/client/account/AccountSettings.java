@@ -19,7 +19,6 @@ import static com.google.gerrit.client.FormatUtil.mediumFormat;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.Link;
 import com.google.gerrit.client.reviewdb.Account;
-import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.ui.AccountScreen;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
@@ -130,7 +129,7 @@ public class AccountSettings extends AccountScreen {
     }, Util.C.tabWebIdentities());
     tabTokens.add(Link.SETTINGS_WEBIDENT);
 
-    if (Common.getGerritConfig().isUseContributorAgreements()) {
+    if (Gerrit.getConfig().isUseContributorAgreements()) {
       tabs.add(new LazyPanel() {
         @Override
         protected AgreementPanel createWidget() {

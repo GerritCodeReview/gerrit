@@ -14,9 +14,9 @@
 
 package com.google.gerrit.client.account;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.ContactInformation;
-import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.ui.TextSaveButtonListener;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
@@ -65,7 +65,7 @@ class ContactPanelFull extends ContactPanelShort {
     hasContact.setStyleName("gerrit-AccountContactOnFile");
     hasContact.setVisible(false);
 
-    if (Common.getGerritConfig().isUseContactInfo()) {
+    if (Gerrit.getConfig().isUseContactInfo()) {
       body.add(privhtml);
       body.add(hasContact);
       body.add(infoSecure);
@@ -116,7 +116,7 @@ class ContactPanelFull extends ContactPanelShort {
   @Override
   ContactInformation toContactInformation() {
     final ContactInformation info;
-    if (Common.getGerritConfig().isUseContactInfo()) {
+    if (Gerrit.getConfig().isUseContactInfo()) {
       info = new ContactInformation();
       info.setAddress(addressTxt.getText());
       info.setCountry(countryTxt.getText());

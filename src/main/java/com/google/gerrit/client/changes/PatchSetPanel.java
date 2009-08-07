@@ -126,8 +126,8 @@ class PatchSetPanel extends Composite implements OpenHandler<DisclosurePanel> {
   }
 
   /**
-   * Display the table showing the Author, Committer and Download links, followed by the
-   * action buttons.
+   * Display the table showing the Author, Committer and Download links,
+   * followed by the action buttons.
    */
   public void ensureLoaded(final PatchSetDetail detail) {
     infoTable = new Grid(R_CNT, 2);
@@ -274,7 +274,8 @@ class PatchSetPanel extends Composite implements OpenHandler<DisclosurePanel> {
       return;
     }
 
-    for (final ApprovalType at : Common.getGerritConfig().getActionTypes()) {
+    for (final ApprovalType at : Common.getGerritConfig().getApprovalTypes()
+        .getActionTypes()) {
       final ApprovalCategoryValue max = at.getMax();
       if (max == null || max.getValue() <= 0) {
         // No positive assertion, don't draw a button.

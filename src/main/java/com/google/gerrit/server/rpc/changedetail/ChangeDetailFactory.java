@@ -16,9 +16,9 @@ package com.google.gerrit.server.rpc.changedetail;
 
 import com.google.gerrit.client.data.ApprovalDetail;
 import com.google.gerrit.client.data.ApprovalType;
+import com.google.gerrit.client.data.ApprovalTypes;
 import com.google.gerrit.client.data.ChangeDetail;
 import com.google.gerrit.client.data.ChangeInfo;
-import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.Change;
@@ -56,7 +56,7 @@ class ChangeDetailFactory extends Handler<ChangeDetail> {
     ChangeDetailFactory create(Change.Id id);
   }
 
-  private final GerritConfig gerritConfig;
+  private final ApprovalTypes approvalTypes;
   private final ChangeControl.Factory changeControlFactory;
   private final FunctionState.Factory functionState;
   private final PatchSetDetailFactory.Factory patchSetDetail;
@@ -69,13 +69,13 @@ class ChangeDetailFactory extends Handler<ChangeDetail> {
   private ChangeControl control;
 
   @Inject
-  ChangeDetailFactory(final GerritConfig gerritConfig,
+  ChangeDetailFactory(final ApprovalTypes approvalTypes,
       final FunctionState.Factory functionState,
       final PatchSetDetailFactory.Factory patchSetDetail, final ReviewDb db,
       final ChangeControl.Factory changeControlFactory,
       final AccountInfoCacheFactory.Factory accountInfoCacheFactory,
       @Assisted final Change.Id id) {
-    this.gerritConfig = gerritConfig;
+    this.approvalTypes = approvalTypes;
     this.functionState = functionState;
     this.patchSetDetail = patchSetDetail;
     this.db = db;
@@ -140,13 +140,13 @@ class ChangeDetailFactory extends Handler<ChangeDetail> {
       final Set<ApprovalCategory.Id> currentActions =
           new HashSet<ApprovalCategory.Id>();
 
-      for (final ApprovalType at : gerritConfig.getApprovalTypes()) {
+      for (final ApprovalType at : approvalTypes.getApprovalTypes()) {
         CategoryFunction.forCategory(at.getCategory()).run(at, fs);
         if (!fs.isValid(at)) {
           missingApprovals.add(at.getCategory().getId());
         }
       }
-      for (final ApprovalType at : gerritConfig.getActionTypes()) {
+      for (final ApprovalType at : approvalTypes.getActionTypes()) {
         if (CategoryFunction.forCategory(at.getCategory()).isValid(
             control.getCurrentUser(), at, fs)) {
           currentActions.add(at.getCategory().getId());

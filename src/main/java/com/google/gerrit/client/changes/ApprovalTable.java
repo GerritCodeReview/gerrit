@@ -60,7 +60,7 @@ public class ApprovalTable extends Composite {
   private AccountInfoCache accountCache = AccountInfoCache.empty();
 
   public ApprovalTable() {
-    types = Common.getGerritConfig().getApprovalTypes();
+    types = Common.getGerritConfig().getApprovalTypes().getApprovalTypes();
     table = new Grid(1, 3 + types.size());
     table.addStyleName("gerrit-InfoTable");
     displayHeader();

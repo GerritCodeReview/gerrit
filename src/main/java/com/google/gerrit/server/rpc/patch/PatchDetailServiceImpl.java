@@ -15,7 +15,7 @@
 package com.google.gerrit.server.rpc.patch;
 
 import com.google.gerrit.client.data.ApprovalType;
-import com.google.gerrit.client.data.GerritConfig;
+import com.google.gerrit.client.data.ApprovalTypes;
 import com.google.gerrit.client.data.PatchScript;
 import com.google.gerrit.client.data.PatchScriptSettings;
 import com.google.gerrit.client.patches.CommentDetail;
@@ -67,7 +67,7 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
   private final AddReviewerSender.Factory addReviewerSenderFactory;
   private final CommentSender.Factory commentSenderFactory;
   private final PatchSetInfoFactory patchSetInfoFactory;
-  private final GerritConfig gerritConfig;
+  private final ApprovalTypes approvalTypes;
   private final AccountResolver accountResolver;
 
   private final AbandonChange.Factory abandonChangeFactory;
@@ -80,7 +80,7 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
   PatchDetailServiceImpl(final Provider<ReviewDb> schema,
       final Provider<CurrentUser> currentUser,
       final AddReviewerSender.Factory arsf, final CommentSender.Factory csf,
-      final PatchSetInfoFactory psif, final GerritConfig gc,
+      final PatchSetInfoFactory psif, final ApprovalTypes approvalTypes,
       final AccountResolver accountResolver,
 
       final AbandonChange.Factory abandonChangeFactory,
@@ -91,7 +91,7 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
     patchSetInfoFactory = psif;
     addReviewerSenderFactory = arsf;
     commentSenderFactory = csf;
-    gerritConfig = gc;
+    this.approvalTypes = approvalTypes;
     this.accountResolver = accountResolver;
 
     this.abandonChangeFactory = abandonChangeFactory;
@@ -99,7 +99,7 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
     this.patchScriptFactoryFactory = patchScriptFactoryFactory;
     this.saveDraftFactory = saveDraftFactory;
 
-    final List<ApprovalType> allTypes = gerritConfig.getApprovalTypes();
+    final List<ApprovalType> allTypes = approvalTypes.getApprovalTypes();
     addReviewerCategoryId =
         allTypes.get(allTypes.size() - 1).getCategory().getId();
   }
@@ -256,7 +256,7 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
     for (PatchSetApproval a : db.patchSetApprovals().byPatchSetUser(psid, me)) {
       have.put(a.getCategoryId(), a);
     }
-    for (final ApprovalType at : gerritConfig.getApprovalTypes()) {
+    for (final ApprovalType at : approvalTypes.getApprovalTypes()) {
       final ApprovalCategoryValue.Id v = values.get(at.getCategory().getId());
       if (v == null) {
         continue;

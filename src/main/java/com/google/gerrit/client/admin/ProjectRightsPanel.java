@@ -113,11 +113,13 @@ public class ProjectRightsPanel extends Composite {
         populateRangeBoxes();
       }
     });
-    for (final ApprovalType at : Common.getGerritConfig().getApprovalTypes()) {
+    for (final ApprovalType at : Common.getGerritConfig().getApprovalTypes()
+        .getApprovalTypes()) {
       final ApprovalCategory c = at.getCategory();
       catBox.addItem(c.getName(), c.getId().get());
     }
-    for (final ApprovalType at : Common.getGerritConfig().getActionTypes()) {
+    for (final ApprovalType at : Common.getGerritConfig().getApprovalTypes()
+        .getActionTypes()) {
       final ApprovalCategory c = at.getCategory();
       if (Common.getGerritConfig().getWildProject().equals(projectName)
           && ApprovalCategory.OWN.equals(c.getId())) {
@@ -208,7 +210,7 @@ public class ProjectRightsPanel extends Composite {
       return;
     }
     at =
-        Common.getGerritConfig().getApprovalType(
+        Common.getGerritConfig().getApprovalTypes().getApprovalType(
             new ApprovalCategory.Id(catBox.getValue(idx)));
     if (at == null) {
       return;
@@ -270,7 +272,7 @@ public class ProjectRightsPanel extends Composite {
     final ApprovalType at;
     if (idx >= 0) {
       at =
-          Common.getGerritConfig().getApprovalType(
+          Common.getGerritConfig().getApprovalTypes().getApprovalType(
               new ApprovalCategory.Id(catBox.getValue(idx)));
     } else {
       at = null;
@@ -367,10 +369,12 @@ public class ProjectRightsPanel extends Composite {
     void populate(final int row,
         final Map<AccountGroup.Id, AccountGroup> groups, final ProjectRight k) {
       final GerritConfig config = Common.getGerritConfig();
-      final ApprovalType ar = config.getApprovalType(k.getApprovalCategoryId());
+      final ApprovalType ar =
+          config.getApprovalTypes().getApprovalType(k.getApprovalCategoryId());
       final AccountGroup group = groups.get(k.getAccountGroupId());
 
-      if (Common.getGerritConfig().getWildProject().equals(k.getProjectNameKey())
+      if (Common.getGerritConfig().getWildProject().equals(
+          k.getProjectNameKey())
           && !Common.getGerritConfig().getWildProject().equals(projectName)) {
         table.setText(row, 1, "");
       } else {

@@ -16,6 +16,7 @@ package com.google.gerrit.server.config;
 
 import static com.google.inject.Scopes.SINGLETON;
 
+import com.google.gerrit.client.data.ApprovalTypes;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.git.ChangeMergeQueue;
 import com.google.gerrit.git.MergeOp;
@@ -71,6 +72,8 @@ public class GerritGlobalModule extends FactoryModule {
     bind(Config.class).annotatedWith(GerritServerConfig.class).toProvider(
         GerritServerConfigProvider.class).in(SINGLETON);
     bind(AuthConfig.class).in(SINGLETON);
+    bind(ApprovalTypes.class).toProvider(ApprovalTypesProvider.class).in(
+        SINGLETON);
     bind(EmailExpander.class).toProvider(EmailExpanderProvider.class).in(
         SINGLETON);
     bind(AnonymousUser.class);

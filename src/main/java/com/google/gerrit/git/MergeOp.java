@@ -15,7 +15,7 @@
 package com.google.gerrit.git;
 
 import com.google.gerrit.client.data.ApprovalType;
-import com.google.gerrit.client.data.GerritConfig;
+import com.google.gerrit.client.data.ApprovalTypes;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.Branch;
@@ -116,7 +116,7 @@ public class MergeOp {
   private final MergedSender.Factory mergedSenderFactory;
   private final MergeFailSender.Factory mergeFailSenderFactory;
   private final Provider<String> urlProvider;
-  private final GerritConfig gerritConfig;
+  private final ApprovalTypes approvalTypes;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
 
@@ -140,7 +140,7 @@ public class MergeOp {
       final ReplicationQueue rq, final MergedSender.Factory msf,
       final MergeFailSender.Factory mfsf,
       @CanonicalWebUrl @Nullable final Provider<String> cwu,
-      final GerritConfig gc, final PatchSetInfoFactory psif,
+      final ApprovalTypes approvalTypes, final PatchSetInfoFactory psif,
       final IdentifiedUser.GenericFactory iuf,
       @Assisted final Branch.NameKey branch) {
     server = gs;
@@ -151,7 +151,7 @@ public class MergeOp {
     mergedSenderFactory = msf;
     mergeFailSenderFactory = mfsf;
     urlProvider = cwu;
-    gerritConfig = gc;
+    this.approvalTypes = approvalTypes;
     patchSetInfoFactory = psif;
     identifiedUserFactory = iuf;
 
@@ -659,7 +659,7 @@ public class MergeOp {
           tag = "Tested-by";
         } else {
           final ApprovalType at =
-              gerritConfig.getApprovalType(a.getCategoryId());
+              approvalTypes.getApprovalType(a.getCategoryId());
           if (at == null) {
             // A deprecated/deleted approval type, ignore it.
             continue;
@@ -897,7 +897,7 @@ public class MergeOp {
         final List<PatchSetApproval> approvals =
             schema.patchSetApprovals().byChange(c.getId()).toList();
         final FunctionState fs = functionState.create(c, merged, approvals);
-        for (ApprovalType at : gerritConfig.getApprovalTypes()) {
+        for (ApprovalType at : approvalTypes.getApprovalTypes()) {
           CategoryFunction.forCategory(at.getCategory()).run(at, fs);
         }
         for (PatchSetApproval a : approvals) {

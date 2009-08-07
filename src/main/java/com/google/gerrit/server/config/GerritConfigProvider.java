@@ -14,21 +14,16 @@
 
 package com.google.gerrit.server.config;
 
-import com.google.gerrit.client.data.ApprovalType;
+import com.google.gerrit.client.data.ApprovalTypes;
 import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.client.data.GitwebLink;
-import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.Project;
-import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.server.ContactStore;
 import com.google.gerrit.server.mail.EmailSender;
 import com.google.gerrit.server.ssh.SshInfo;
-import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.ProvisionException;
 
 import org.spearce.jgit.lib.Config;
 
@@ -45,9 +40,9 @@ public class GerritConfigProvider implements Provider<GerritConfig> {
   private final Config cfg;
   private final String canonicalWebUrl;
   private final AuthConfig authConfig;
-  private final SchemaFactory<ReviewDb> schema;
   private final Project.NameKey wildProject;
   private final SshInfo sshInfo;
+  private final ApprovalTypes approvalTypes;
 
   private EmailSender emailSender;
   private ContactStore contactStore;
@@ -55,14 +50,14 @@ public class GerritConfigProvider implements Provider<GerritConfig> {
   @Inject
   GerritConfigProvider(@GerritServerConfig final Config gsc,
       @CanonicalWebUrl @Nullable final String cwu, final AuthConfig ac,
-      final SchemaFactory<ReviewDb> sf,
-      @WildProjectName final Project.NameKey wp, final SshInfo si) {
+      @WildProjectName final Project.NameKey wp, final SshInfo si,
+      final ApprovalTypes at) {
     cfg = gsc;
     canonicalWebUrl = cwu;
     authConfig = ac;
-    schema = sf;
     sshInfo = si;
     wildProject = wp;
+    approvalTypes = at;
   }
 
   @Inject(optional = true)
@@ -75,7 +70,7 @@ public class GerritConfigProvider implements Provider<GerritConfig> {
     contactStore = d;
   }
 
-  private GerritConfig create() throws OrmException {
+  private GerritConfig create() {
     final GerritConfig config = new GerritConfig();
     config.setCanonicalUrl(canonicalWebUrl);
     config.setUseContributorAgreements(cfg.getBoolean("auth",
@@ -88,20 +83,11 @@ public class GerritConfigProvider implements Provider<GerritConfig> {
         && emailSender.isEnabled());
     config.setLoginType(authConfig.getLoginType());
     config.setWildProject(wildProject);
+    config.setApprovalTypes(approvalTypes);
 
     final String gitwebUrl = cfg.getString("gitweb", null, "url");
     if (gitwebUrl != null) {
       config.setGitwebLink(new GitwebLink(gitwebUrl));
-    }
-
-    final ReviewDb db = schema.open();
-    try {
-      for (final ApprovalCategory c : db.approvalCategories().all()) {
-        config.add(new ApprovalType(c, db.approvalCategoryValues().byCategory(
-            c.getId()).toList()));
-      }
-    } finally {
-      db.close();
     }
 
     final InetSocketAddress addr =
@@ -128,10 +114,6 @@ public class GerritConfigProvider implements Provider<GerritConfig> {
 
   @Override
   public GerritConfig get() {
-    try {
-      return create();
-    } catch (OrmException e) {
-      throw new ProvisionException("Cannot construct GerritConfig", e);
-    }
+    return create();
   }
 }

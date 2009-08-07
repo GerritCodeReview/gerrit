@@ -22,10 +22,10 @@ import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.client.reviewdb.Change;
-import com.google.gerrit.client.reviewdb.PatchSetApproval;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.reviewdb.PatchSet;
+import com.google.gerrit.client.reviewdb.PatchSetApproval;
 import com.google.gerrit.client.rpc.Common;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
@@ -172,7 +172,8 @@ public class PublishCommentScreen extends AccountScreen implements ClickHandler 
   }
 
   private void initApprovals(final PatchSetPublishDetail r, final Panel body) {
-    for (final ApprovalType ct : Common.getGerritConfig().getApprovalTypes()) {
+    for (final ApprovalType ct : Common.getGerritConfig().getApprovalTypes()
+        .getApprovalTypes()) {
       if (r.isAllowed(ct.getCategory().getId())) {
         initApprovalType(r, body, ct);
       }
@@ -248,8 +249,12 @@ public class PublishCommentScreen extends AccountScreen implements ClickHandler 
           panel = new FlowPanel();
           panel.addStyleName("gerrit-PatchComments");
           draftsPanel.add(panel);
-          // Parent table can be null here since we are not showing any next/previous links
-          panel.add(new PatchLink.SideBySide(fn, patchKey, 0, null /* parent table */));
+          // Parent table can be null here since we are not showing any
+          // next/previous links
+          panel.add(new PatchLink.SideBySide(fn, patchKey, 0, null /*
+                                                                    * parent
+                                                                    * table
+                                                                    */));
           priorFile = fn;
         }
 

@@ -24,7 +24,7 @@ import static com.google.gerrit.client.reviewdb.ApprovalCategory.PUSH_TAG_ANY;
 
 import com.google.gerrit.client.Link;
 import com.google.gerrit.client.data.ApprovalType;
-import com.google.gerrit.client.data.GerritConfig;
+import com.google.gerrit.client.data.ApprovalTypes;
 import com.google.gerrit.client.reviewdb.AbstractAgreement;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountAgreement;
@@ -137,7 +137,7 @@ final class Receive extends AbstractGitCommand {
   private ReviewDb db;
 
   @Inject
-  private GerritConfig gerritConfig;
+  private ApprovalTypes approvalTypes;
 
   @Inject
   private AccountResolver accountResolver;
@@ -180,8 +180,7 @@ final class Receive extends AbstractGitCommand {
 
   @Override
   protected void runImpl() throws IOException, Failure {
-    if (gerritConfig.isUseContributorAgreements()
-        && proj.isUseContributorAgreements()) {
+    if (proj.isUseContributorAgreements()) {
       verifyActiveContributorAgreement();
     }
     refLogIdent = currentUser.newPersonIdent();
@@ -656,7 +655,7 @@ final class Receive extends AbstractGitCommand {
     db.changes().insert(Collections.singleton(change), txn);
 
     final Set<Account.Id> haveApprovals = new HashSet<Account.Id>();
-    final List<ApprovalType> allTypes = gerritConfig.getApprovalTypes();
+    final List<ApprovalType> allTypes = approvalTypes.getApprovalTypes();
     haveApprovals.add(me);
 
     final Set<Account.Id> reviewers = new HashSet<Account.Id>(reviewerId);
@@ -924,7 +923,7 @@ final class Receive extends AbstractGitCommand {
           db.changes().update(Collections.singleton(change), txn);
         }
 
-        final List<ApprovalType> allTypes = gerritConfig.getApprovalTypes();
+        final List<ApprovalType> allTypes = approvalTypes.getApprovalTypes();
         if (allTypes.size() > 0) {
           final ApprovalCategory.Id catId =
               allTypes.get(allTypes.size() - 1).getCategory().getId();

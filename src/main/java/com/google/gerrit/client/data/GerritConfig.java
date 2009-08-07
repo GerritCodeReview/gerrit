@@ -14,20 +14,12 @@
 
 package com.google.gerrit.client.data;
 
-import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.LoginType;
 import com.google.gerrit.client.reviewdb.Project;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class GerritConfig implements Cloneable {
   protected String canonicalUrl;
   protected GitwebLink gitweb;
-  protected List<ApprovalType> approvalTypes;
-  protected List<ApprovalType> actionTypes;
   protected boolean useContributorAgreements;
   protected boolean useContactInfo;
   protected boolean allowRegisterNewEmail;
@@ -36,10 +28,7 @@ public class GerritConfig implements Cloneable {
   protected String gitDaemonUrl;
   protected String sshdAddress;
   protected Project.NameKey wildProject;
-  private transient Map<ApprovalCategory.Id, ApprovalType> byCategoryId;
-
-  public GerritConfig() {
-  }
+  protected ApprovalTypes approvalTypes;
 
   public String getCanonicalUrl() {
     return canonicalUrl;
@@ -65,38 +54,6 @@ public class GerritConfig implements Cloneable {
     gitweb = w;
   }
 
-  public void add(final ApprovalType t) {
-    if (t.getCategory().isAction()) {
-      initActionTypes();
-      actionTypes.add(t);
-    } else {
-      initApprovalTypes();
-      approvalTypes.add(t);
-    }
-  }
-
-  public List<ApprovalType> getApprovalTypes() {
-    initApprovalTypes();
-    return approvalTypes;
-  }
-
-  private void initApprovalTypes() {
-    if (approvalTypes == null) {
-      approvalTypes = new ArrayList<ApprovalType>();
-    }
-  }
-
-  public List<ApprovalType> getActionTypes() {
-    initActionTypes();
-    return actionTypes;
-  }
-
-  private void initActionTypes() {
-    if (actionTypes == null) {
-      actionTypes = new ArrayList<ApprovalType>();
-    }
-  }
-
   public boolean isUseContributorAgreements() {
     return useContributorAgreements;
   }
@@ -119,24 +76,6 @@ public class GerritConfig implements Cloneable {
 
   public void setAllowRegisterNewEmail(final boolean r) {
     allowRegisterNewEmail = r;
-  }
-
-  public ApprovalType getApprovalType(final ApprovalCategory.Id id) {
-    if (byCategoryId == null) {
-      byCategoryId = new HashMap<ApprovalCategory.Id, ApprovalType>();
-      if (actionTypes != null) {
-        for (final ApprovalType t : actionTypes) {
-          byCategoryId.put(t.getCategory().getId(), t);
-        }
-      }
-
-      if (approvalTypes != null) {
-        for (final ApprovalType t : approvalTypes) {
-          byCategoryId.put(t.getCategory().getId(), t);
-        }
-      }
-    }
-    return byCategoryId.get(id);
   }
 
   public boolean isUseRepoDownload() {
@@ -172,5 +111,13 @@ public class GerritConfig implements Cloneable {
 
   public void setWildProject(final Project.NameKey wp) {
     wildProject = wp;
+  }
+
+  public ApprovalTypes getApprovalTypes() {
+    return approvalTypes;
+  }
+
+  public void setApprovalTypes(final ApprovalTypes at) {
+    approvalTypes = at;
   }
 }

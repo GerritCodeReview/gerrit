@@ -57,7 +57,8 @@ public class SubmitFunction extends CategoryFunction {
     if (state.getChange().getStatus() != Change.Status.NEW) {
       return false;
     }
-    for (final ApprovalType t : Common.getGerritConfig().getApprovalTypes()) {
+    for (final ApprovalType t : Common.getGerritConfig().getApprovalTypes()
+        .getApprovalTypes()) {
       if (!state.isValid(t)) {
         return false;
       }

@@ -17,10 +17,10 @@ package com.google.gerrit.server.rpc.changedetail;
 import static com.google.gerrit.client.reviewdb.ApprovalCategory.SUBMIT;
 
 import com.google.gerrit.client.data.ApprovalType;
-import com.google.gerrit.client.data.GerritConfig;
+import com.google.gerrit.client.data.ApprovalTypes;
 import com.google.gerrit.client.reviewdb.Change;
-import com.google.gerrit.client.reviewdb.PatchSetApproval;
 import com.google.gerrit.client.reviewdb.PatchSet;
+import com.google.gerrit.client.reviewdb.PatchSetApproval;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gerrit.git.MergeQueue;
@@ -46,19 +46,19 @@ class SubmitAction extends Handler<VoidResult> {
 
   private final ReviewDb db;
   private final MergeQueue merger;
-  private final GerritConfig gerritConfig;
+  private final ApprovalTypes approvalTypes;
   private final FunctionState.Factory functionState;
   private final IdentifiedUser user;
 
   private final PatchSet.Id patchSetId;
 
   @Inject
-  SubmitAction(final ReviewDb db, final MergeQueue mq, final GerritConfig gc,
+  SubmitAction(final ReviewDb db, final MergeQueue mq, final ApprovalTypes at,
       final FunctionState.Factory fs, final IdentifiedUser user,
       @Assisted final PatchSet.Id patchSetId) {
     this.db = db;
     this.merger = mq;
-    this.gerritConfig = gc;
+    this.approvalTypes = at;
     this.functionState = fs;
     this.user = user;
 
@@ -104,7 +104,7 @@ class SubmitAction extends Handler<VoidResult> {
     }
 
     final ApprovalType actionType =
-        gerritConfig.getApprovalType(myAction.getCategoryId());
+        approvalTypes.getApprovalType(myAction.getCategoryId());
     if (actionType == null || !actionType.getCategory().isAction()) {
       throw new IllegalArgumentException(actionType.getCategory().getName()
           + " not an action");
@@ -112,7 +112,7 @@ class SubmitAction extends Handler<VoidResult> {
 
     final FunctionState fs =
         functionState.create(change, patchSetId, allApprovals);
-    for (ApprovalType c : gerritConfig.getApprovalTypes()) {
+    for (ApprovalType c : approvalTypes.getApprovalTypes()) {
       CategoryFunction.forCategory(c.getCategory()).run(c, fs);
     }
     if (!CategoryFunction.forCategory(actionType.getCategory()).isValid(user,

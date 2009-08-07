@@ -17,14 +17,14 @@ package com.google.gerrit.server.rpc.changedetail;
 import com.google.gerrit.client.changes.PatchSetPublishDetail;
 import com.google.gerrit.client.data.AccountInfoCache;
 import com.google.gerrit.client.data.ApprovalType;
-import com.google.gerrit.client.data.GerritConfig;
+import com.google.gerrit.client.data.ApprovalTypes;
 import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.client.reviewdb.Change;
-import com.google.gerrit.client.reviewdb.PatchSetApproval;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.reviewdb.PatchSet;
+import com.google.gerrit.client.reviewdb.PatchSetApproval;
 import com.google.gerrit.client.reviewdb.PatchSetInfo;
 import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.client.reviewdb.ReviewDb;
@@ -55,7 +55,7 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
 
   private final ProjectCache projectCache;
   private final PatchSetInfoFactory infoFactory;
-  private final GerritConfig gerritConfig;
+  private final ApprovalTypes approvalTypes;
   private final ReviewDb db;
   private final ChangeControl.Factory changeControlFactory;
   private final AccountInfoCacheFactory aic;
@@ -72,14 +72,14 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
 
   @Inject
   PatchSetPublishDetailFactory(final PatchSetInfoFactory infoFactory,
-      final ProjectCache projectCache, final GerritConfig gerritConfig,
+      final ProjectCache projectCache, final ApprovalTypes approvalTypes,
       final ReviewDb db,
       final AccountInfoCacheFactory.Factory accountInfoCacheFactory,
       final ChangeControl.Factory changeControlFactory,
       final IdentifiedUser user, @Assisted final PatchSet.Id patchSetId) {
     this.projectCache = projectCache;
     this.infoFactory = infoFactory;
-    this.gerritConfig = gerritConfig;
+    this.approvalTypes = approvalTypes;
     this.db = db;
     this.changeControlFactory = changeControlFactory;
     this.aic = accountInfoCacheFactory.create();
@@ -143,7 +143,7 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
       }
 
       final ApprovalType at =
-          gerritConfig.getApprovalType(r.getApprovalCategoryId());
+          approvalTypes.getApprovalType(r.getApprovalCategoryId());
       for (short m = r.getMinValue(); m <= r.getMaxValue(); m++) {
         final ApprovalCategoryValue v = at.getValue(m);
         if (v != null) {

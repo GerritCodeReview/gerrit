@@ -15,7 +15,7 @@
 package com.google.gerrit.server.mail;
 
 import com.google.gerrit.client.data.ApprovalType;
-import com.google.gerrit.client.data.GerritConfig;
+import com.google.gerrit.client.data.ApprovalTypes;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountProjectWatch;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
@@ -40,7 +40,7 @@ public class MergedSender extends ReplyToChangeSender {
   private Branch.NameKey dest;
 
   @Inject
-  private GerritConfig gerritConfig;
+  private ApprovalTypes approvalTypes;
 
   @Inject
   public MergedSender(@Assisted Change c) {
@@ -116,7 +116,7 @@ public class MergedSender extends ReplyToChangeSender {
       appendText(getNameFor(ent.getKey()));
       appendText(": ");
       boolean first = true;
-      for (ApprovalType at : gerritConfig.getApprovalTypes()) {
+      for (ApprovalType at : approvalTypes.getApprovalTypes()) {
         final PatchSetApproval ca = l.get(at.getCategory().getId());
         if (ca == null) {
           continue;

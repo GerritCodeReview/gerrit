@@ -15,32 +15,36 @@
 package com.google.gerrit.server.rpc.project;
 
 import com.google.gerrit.client.admin.ProjectDetail;
+import com.google.gerrit.client.data.ApprovalType;
+import com.google.gerrit.client.data.ApprovalTypes;
 import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ProjectRight;
-import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
+import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.config.WildProjectName;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.rpc.Handler;
-import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 class ProjectDetailFactory extends Handler<ProjectDetail> {
   interface Factory {
     ProjectDetailFactory create(@Assisted("name") Project.NameKey name);
   }
 
+  private final ApprovalTypes approvalTypes;
+  private final GroupCache groupCache;
   private final ProjectCache projectCache;
-  private final ReviewDb db;
   private final Project.NameKey wildProject;
   private final Project.NameKey projectName;
 
@@ -48,17 +52,19 @@ class ProjectDetailFactory extends Handler<ProjectDetail> {
   private Map<AccountGroup.Id, AccountGroup> groups;
 
   @Inject
-  ProjectDetailFactory(final ProjectCache projectCache, final ReviewDb db,
+  ProjectDetailFactory(final ApprovalTypes approvalTypes,
+      final GroupCache groupCache, final ProjectCache projectCache,
       @WildProjectName final Project.NameKey wp,
       @Assisted("name") final Project.NameKey name) {
+    this.approvalTypes = approvalTypes;
+    this.groupCache = groupCache;
     this.projectCache = projectCache;
-    this.db = db;
     this.wildProject = wp;
     this.projectName = name;
   }
 
   @Override
-  public ProjectDetail call() throws OrmException, NoSuchEntityException {
+  public ProjectDetail call() throws NoSuchEntityException {
     final ProjectState e = projectCache.get(projectName);
     if (e == null) {
       throw new NoSuchEntityException();
@@ -68,7 +74,6 @@ class ProjectDetailFactory extends Handler<ProjectDetail> {
     detail.setProject(e.getProject());
 
     groups = new HashMap<AccountGroup.Id, AccountGroup>();
-
     final List<ProjectRight> rights = new ArrayList<ProjectRight>();
     for (final ProjectRight p : e.getRights()) {
       rights.add(p);
@@ -80,8 +85,32 @@ class ProjectDetailFactory extends Handler<ProjectDetail> {
         wantGroup(p.getAccountGroupId());
       }
     }
-
     loadGroups();
+
+    Collections.sort(rights, new Comparator<ProjectRight>() {
+      @Override
+      public int compare(final ProjectRight a, final ProjectRight b) {
+        int rc = categoryOf(a).compareTo(categoryOf(b));
+        if (rc == 0) {
+          rc = groupOf(a).compareTo(groupOf(b));
+        }
+        return rc;
+      }
+
+      private String categoryOf(final ProjectRight r) {
+        final ApprovalType type =
+            approvalTypes.getApprovalType(r.getApprovalCategoryId());
+        if (type == null) {
+          return r.getApprovalCategoryId().get();
+        }
+        return type.getCategory().getName();
+      }
+
+      private String groupOf(final ProjectRight r) {
+        return groups.get(r.getAccountGroupId()).getName();
+      }
+    });
+
     detail.setRights(rights);
     detail.setGroups(groups);
     return detail;
@@ -91,11 +120,11 @@ class ProjectDetailFactory extends Handler<ProjectDetail> {
     groups.put(id, null);
   }
 
-  private void loadGroups() throws OrmException {
-    final ResultSet<AccountGroup> r = db.accountGroups().get(groups.keySet());
-    groups.clear();
-    for (final AccountGroup g : r) {
-      groups.put(g.getId(), g);
+  private void loadGroups() {
+    final Set<AccountGroup.Id> toGet = groups.keySet();
+    groups = new HashMap<AccountGroup.Id, AccountGroup>();
+    for (AccountGroup.Id groupId : toGet) {
+      groups.put(groupId, groupCache.get(groupId));
     }
   }
 }

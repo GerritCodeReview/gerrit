@@ -45,19 +45,28 @@ public class EncryptedContactStoreProvider implements Provider<ContactStore> {
   public ContactStore get() {
     try {
       return new EncryptedContactStore(config, sitePath, schema);
+    } catch (NoClassDefFoundError notInstalled) {
+      return noContact(new ContactInformationStoreException(
+          new ClassNotFoundException("BouncyCastle PGP not installed",
+              notInstalled)));
     } catch (final ContactInformationStoreException initError) {
-      return new ContactStore() {
-        @Override
-        public boolean isEnabled() {
-          return false;
-        }
-
-        @Override
-        public void store(Account account, ContactInformation info)
-            throws ContactInformationStoreException {
-          throw initError;
-        }
-      };
+      return noContact(initError);
     }
+  }
+
+  private ContactStore noContact(
+      final ContactInformationStoreException initError) {
+    return new ContactStore() {
+      @Override
+      public boolean isEnabled() {
+        return false;
+      }
+
+      @Override
+      public void store(Account account, ContactInformation info)
+          throws ContactInformationStoreException {
+        throw initError;
+      }
+    };
   }
 }

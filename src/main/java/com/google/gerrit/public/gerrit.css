@@ -65,6 +65,43 @@
 }
 
 
+/** TabPanel */
+.gwt-TabBar {
+  border-bottom: 1px solid black;
+}
+.gwt-TabBar .gwt-TabBarFirst {
+  display: none;
+}
+.gwt-TabBar .gwt-TabBarItem {
+  margin: 0px;
+  background: #d4e9a9;
+  padding-top: 0.5em;
+  padding-bottom: 1px;
+  padding-left: 1em;
+  padding-right: 1em;
+  border-right: 1px solid black;
+}
+.gwt-TabBar .gwt-TabBarItem-selected {
+  background: #ffffcc;
+}
+.gwt-TabBar .gwt-TabBarRest {
+  background: #d4e9a9;
+  padding-top: 0.5em;
+  padding-bottom: 1px;
+}
+.gwt-TabBar .gwt-TabPanelBottom {
+  background: #d4e9a9;
+  border-top: 1px solid black;
+  border-left: none;
+  border-right: none;
+  border-bottom: none;
+  padding: 1px;
+}
+.gwt-TabPanel .gwt-TabPanelBottom {
+  border: none;
+}
+
+
 /** Menu **/
 .gerrit-LinkMenuBar {
   font-size: 9pt;
@@ -111,10 +148,11 @@
 }
 .gerrit-topmenu-menuLeft .gwt-TabBarRest {
   background: #d4e9a9;
+  padding-top: 0px;
 }
 .gerrit-topmenu-menuLeft .gwt-TabPanelBottom {
   background: #d4e9a9;
-  border-top: 1px solid black;
+  border-top: none;
   border-left: none;
   border-right: none;
   border-bottom: none;

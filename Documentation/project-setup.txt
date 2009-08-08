@@ -47,7 +47,7 @@ for a project named `project`.
    ,name)
   VALUES
   (nextval('project_id')
-  ,'Y'
+  ,'N'
   ,'M'
   ,'new/project');
 

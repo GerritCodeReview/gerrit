@@ -1,6 +1,13 @@
 -- Upgrade: schema_version 15 to 16 (MySQL)
 --
 
+-- Unset contributor agreement flag if site doesn't use them.
+--
+UPDATE projects SET use_contributor_agreements = 'N'
+WHERE use_contributor_agreements = 'Y'
+AND NOT EXISTS (SELECT 1 FROM contributor_agreements);
+
+
 -- account_project_watches
 --
 DELETE FROM account_project_watches WHERE project_id NOT IN (SELECT project_id FROM projects);

@@ -76,6 +76,13 @@ CREATE UNIQUE INDEX accounts_ssh_user_name_key
 ON accounts (ssh_user_name);
 
 
+-- branch (no id)
+--
+ALTER TABLE branches DROP COLUMN branch_id;
+DROP TABLE branch_id;
+DROP FUNCTION nextval_branch_id;
+
+
 UPDATE project_rights SET min_value=1
 WHERE category_id='OWN' AND min_value=0 AND max_value=1;
 

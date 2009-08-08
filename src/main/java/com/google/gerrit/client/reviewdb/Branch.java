@@ -15,7 +15,6 @@
 package com.google.gerrit.client.reviewdb;
 
 import com.google.gwtorm.client.Column;
-import com.google.gwtorm.client.IntKey;
 import com.google.gwtorm.client.StringKey;
 
 /** Registered line of development within a {@link Project}. */
@@ -61,7 +60,7 @@ public final class Branch {
       final String n = get();
 
       // Git style branches will tend to start with "refs/heads/".
-      // 
+      //
       if (n.startsWith(R_HEADS)) {
         return n.substring(R_HEADS.length());
       }
@@ -70,47 +69,14 @@ public final class Branch {
     }
   }
 
-  /** Synthetic key to link to within the database */
-  public static class Id extends IntKey<com.google.gwtorm.client.Key<?>> {
-    private static final long serialVersionUID = 1L;
-
-    @Column
-    protected int id;
-
-    protected Id() {
-    }
-
-    public Id(final int id) {
-      this.id = id;
-    }
-
-    @Override
-    public int get() {
-      return id;
-    }
-
-    @Override
-    protected void set(int newValue) {
-      id = newValue;
-    }
-  }
-
   @Column(name = Column.NONE)
   protected NameKey name;
-
-  @Column
-  protected Id branchId;
 
   protected Branch() {
   }
 
-  public Branch(final Branch.NameKey newName, final Branch.Id newId) {
+  public Branch(final Branch.NameKey newName) {
     name = newName;
-    branchId = newId;
-  }
-
-  public Branch.Id getId() {
-    return branchId;
   }
 
   public Branch.NameKey getNameKey() {

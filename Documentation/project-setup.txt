@@ -52,19 +52,17 @@ for a project named `project`.
   ,'new/project');
 
   INSERT INTO branches
-  (branch_id
-  ,branch_name
+  (branch_name
   ,project_name)
   VALUES
-  (nextval('branch_id')
-  ,'refs/heads/master'
+  ('refs/heads/master'
   ,'new/project');
 ====
 
 [NOTE]
-On MySQL use `nextval_project_id()` and `nextval_branch_id()` to
-obtain the next value in the sequences.  These are contained in the
-`sql/mysql_nextval.sql` script, available from `java -jar gerrit.war --cat sql/mysql_nextval.sql`.
+On MySQL use `nextval_project_id()` to obtain the next value in the
+sequences.  This is contained in the `sql/mysql_nextval.sql` script,
+available from `java -jar gerrit.war --cat sql/mysql_nextval.sql`.
 
 Change Submit Action (submit_type)
 ----------------------------------

@@ -74,6 +74,7 @@ class ProjectAdminServiceImpl extends BaseServiceImplementation implements
   private final ReplicationQueue replication;
   private final Provider<IdentifiedUser> identifiedUser;
 
+  private final ListBranches.Factory listBranchesFactory;
   private final ProjectDetailFactory.Factory projectDetailFactory;
 
   @Inject
@@ -82,6 +83,7 @@ class ProjectAdminServiceImpl extends BaseServiceImplementation implements
       final Provider<IdentifiedUser> currentUser,
       @WildProjectName final Project.NameKey wp,
       final ProjectControl.Factory projectControlFactory,
+      final ListBranches.Factory listBranchesFactory,
       final ProjectDetailFactory.Factory projectDetailFactory) {
     super(schema, currentUser);
     this.server = gs;
@@ -90,6 +92,8 @@ class ProjectAdminServiceImpl extends BaseServiceImplementation implements
     this.wildProject = wp;
     this.identifiedUser = currentUser;
     this.projectControlFactory = projectControlFactory;
+
+    this.listBranchesFactory = listBranchesFactory;
     this.projectDetailFactory = projectDetailFactory;
   }
 
@@ -293,20 +297,7 @@ class ProjectAdminServiceImpl extends BaseServiceImplementation implements
 
   public void listBranches(final Project.NameKey projectName,
       final AsyncCallback<List<Branch>> callback) {
-    run(callback, new Action<List<Branch>>() {
-      public List<Branch> run(ReviewDb db) throws OrmException, Failure {
-        final ProjectControl c;
-        try {
-          c = projectControlFactory.controlFor(projectName);
-        } catch (NoSuchProjectException e) {
-          throw new Failure(new NoSuchEntityException());
-        }
-        if (!c.isOwner()) {
-          throw new Failure(new NoSuchEntityException());
-        }
-        return db.branches().byProject(c.getProject().getNameKey()).toList();
-      }
-    });
+    listBranchesFactory.create(projectName).to(callback);
   }
 
   public void deleteBranch(final Project.NameKey projectName,
@@ -481,8 +472,7 @@ class ProjectAdminServiceImpl extends BaseServiceImplementation implements
           repo.close();
         }
 
-        final Branch.Id id = new Branch.Id(db.nextBranchId());
-        final Branch newBranch = new Branch(name, id);
+        final Branch newBranch = new Branch(name);
         db.branches().insert(Collections.singleton(newBranch));
         return db.branches().byProject(pce.getProject().getNameKey()).toList();
       }

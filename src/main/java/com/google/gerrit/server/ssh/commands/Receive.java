@@ -1080,8 +1080,7 @@ final class Receive extends AbstractGitCommand {
     try {
       final Branch.NameKey nameKey =
           new Branch.NameKey(proj.getNameKey(), c.getRefName());
-      final Branch.Id idKey = new Branch.Id(db.nextBranchId());
-      final Branch b = new Branch(nameKey, idKey);
+      final Branch b = new Branch(nameKey);
       db.branches().insert(Collections.singleton(b));
     } catch (OrmException e) {
       final String msg = "database failure creating " + c.getRefName();

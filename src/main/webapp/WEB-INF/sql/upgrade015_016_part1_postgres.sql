@@ -95,4 +95,8 @@ CREATE UNIQUE INDEX accounts_ssh_user_name_key
 ON accounts (ssh_user_name);
 
 
+UPDATE project_rights SET min_value=1
+WHERE category_id='OWN' AND min_value=0 AND max_value=1;
+
+
 UPDATE schema_version SET version_nbr = 16;

@@ -210,6 +210,7 @@ public class ProjectBranchesPanel extends Composite {
 
   private class BranchesTable extends FancyFlexTable<Branch> {
     BranchesTable() {
+      table.setWidth("");
       table.setText(0, 2, Util.C.columnBranchName());
       table.setHTML(0, 3, "&nbsp;");
 

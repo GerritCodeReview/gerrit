@@ -417,6 +417,7 @@ class SshPanel extends Composite {
     private static final String S_INVALID = "gerrit-SshKeyPanel-Invalid";
 
     SshKeyTable() {
+      table.setWidth("");
       table.setText(0, 3, Util.C.sshKeyAlgorithm());
       table.setText(0, 4, Util.C.sshKeyKey());
       table.setText(0, 5, Util.C.sshKeyComment());

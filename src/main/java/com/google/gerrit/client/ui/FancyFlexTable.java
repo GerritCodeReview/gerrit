@@ -45,6 +45,7 @@ public abstract class FancyFlexTable<RowItem> extends Composite {
   protected FancyFlexTable() {
     table = createFlexTable();
     table.addStyleName(MY_STYLE);
+    table.setWidth("100%");
     initWidget(table);
 
     table.setText(0, C_ARROW, "");
@@ -118,7 +119,7 @@ public abstract class FancyFlexTable<RowItem> extends Composite {
 
   /**
    * Get the td element that contains another element.
-   * 
+   *
    * @param target the child element whose parent td is required.
    * @return the td containing element {@code target}; null if {@code target} is
    *         not a member of this table.

@@ -316,6 +316,7 @@ public class ProjectRightsPanel extends Composite {
 
   private class RightsTable extends FancyFlexTable<ProjectRight> {
     RightsTable() {
+      table.setWidth("");
       table.setText(0, 2, Util.C.columnApprovalCategory());
       table.setText(0, 3, Util.C.columnGroupName());
       table.setText(0, 4, Util.C.columnRightRange());

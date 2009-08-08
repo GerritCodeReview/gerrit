@@ -143,6 +143,7 @@ class ProjectWatchPanel extends Composite {
 
   private class WatchTable extends FancyFlexTable<AccountProjectWatchInfo> {
     WatchTable() {
+      table.setWidth("");
       table.insertRow(1);
       table.setText(0, 2, com.google.gerrit.client.changes.Util.C
           .changeTableColumnProject());

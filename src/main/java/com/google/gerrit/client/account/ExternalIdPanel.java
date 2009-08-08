@@ -90,6 +90,7 @@ class ExternalIdPanel extends Composite {
 
   private class IdTable extends FancyFlexTable<AccountExternalId> {
     IdTable() {
+      table.setWidth("");
       table.setText(0, 2, Util.C.webIdLastUsed());
       table.setText(0, 3, Util.C.webIdStatus());
       table.setText(0, 4, Util.C.webIdEmail());

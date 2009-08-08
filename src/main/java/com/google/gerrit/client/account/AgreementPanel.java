@@ -55,6 +55,7 @@ class AgreementPanel extends Composite {
 
   private class AgreementTable extends FancyFlexTable<AbstractAgreement> {
     AgreementTable() {
+      table.setWidth("");
       table.setText(0, 1, Util.C.agreementStatus());
       table.setText(0, 2, Util.C.agreementName());
       table.setText(0, 3, Util.C.agreementDescription());

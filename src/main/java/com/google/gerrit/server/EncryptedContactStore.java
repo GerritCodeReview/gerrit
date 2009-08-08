@@ -260,8 +260,7 @@ class EncryptedContactStore implements ContactStore {
             }
             oistr.append(e.getEmailAddress());
           }
-          if (e.getExternalId() != null && e.getExternalId().length() > 0
-              && !e.getExternalId().startsWith("mailto:")) {
+          if (e.isScheme(AccountExternalId.SCHEME_MAILTO)) {
             if (oistr.length() > 0) {
               oistr.append(' ');
             }

@@ -17,6 +17,7 @@ package com.google.gerrit.client.account;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.SignInDialog;
+import com.google.gerrit.client.openid.OpenIdUtil;
 import com.google.gerrit.client.reviewdb.AccountExternalId;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.FancyFlexTable;
@@ -28,6 +29,8 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -146,6 +149,17 @@ class ExternalIdPanel extends Composite {
     }
 
     void display(final List<AccountExternalId> result) {
+      Collections.sort(result, new Comparator<AccountExternalId>() {
+        @Override
+        public int compare(AccountExternalId a, AccountExternalId b) {
+          return emailOf(a).compareTo(emailOf(b));
+        }
+
+        private String emailOf(final AccountExternalId a) {
+          return a.getEmailAddress() != null ? a.getEmailAddress() : "";
+        }
+      });
+
       while (1 < table.getRowCount())
         table.removeRow(table.getRowCount() - 1);
 
@@ -174,18 +188,14 @@ class ExternalIdPanel extends Composite {
       table.insertRow(row);
       applyDataRowStyle(row);
 
-      if (k.canUserDelete()) {
-        table.setWidget(row, 1, new CheckBox());
-      } else {
-        table.setHTML(row, 1, "&nbsp;");
-      }
+      table.setWidget(row, 1, new CheckBox());
       if (k.getLastUsedOn() != null) {
         table.setText(row, 2, FormatUtil.mediumFormat(k.getLastUsedOn()));
       } else {
-        table.setHTML(row, 2, "&nbsp;");
+        table.setText(row, 2, "");
       }
       if (k.isTrusted()) {
-        table.setHTML(row, 3, "&nbsp;");
+        table.setText(row, 3, "");
       } else {
         table.setText(row, 3, Util.C.untrustedProvider());
         fmt.addStyleName(row, 3, "gerrit-Identity-UntrustedExternalId");
@@ -193,9 +203,9 @@ class ExternalIdPanel extends Composite {
       if (k.getEmailAddress() != null && k.getEmailAddress().length() > 0) {
         table.setText(row, 4, k.getEmailAddress());
       } else {
-        table.setHTML(row, 4, "&nbsp;");
+        table.setText(row, 4, "");
       }
-      table.setText(row, 5, k.getExternalId());
+      table.setText(row, 5, describe(k));
 
       fmt.addStyleName(row, 1, S_ICON_CELL);
       fmt.addStyleName(row, 2, S_DATA_CELL);
@@ -205,6 +215,33 @@ class ExternalIdPanel extends Composite {
       fmt.addStyleName(row, 5, S_DATA_CELL);
 
       setRowItem(row, k);
+    }
+
+    private String describe(final AccountExternalId k) {
+      final String id = k.getExternalId();
+      if (k.isScheme(AccountExternalId.SCHEME_GERRIT)) {
+        // A local user identity should just be itself.
+        //
+        return id.substring(AccountExternalId.SCHEME_GERRIT.length());
+
+      } else if (k.isScheme(AccountExternalId.SCHEME_MAILTO)) {
+        // Describe a mailto address as just its email address, which
+        // is already shown in the email address field.
+        //
+        return "";
+
+      } else if (k.isScheme(OpenIdUtil.URL_GOOGLE)) {
+        return OpenIdUtil.C.nameGoogle();
+
+      } else if (k.isScheme(OpenIdUtil.URL_YAHOO)) {
+        return OpenIdUtil.C.nameYahoo();
+
+      } else if (k.isScheme(AccountExternalId.LEGACY_GAE)) {
+        return OpenIdUtil.C.nameGoogle() + " (Imported from Google AppEngine)";
+
+      }
+
+      return id;
     }
   }
 }

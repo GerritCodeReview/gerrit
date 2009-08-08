@@ -156,7 +156,7 @@ public class AuthConfig {
   }
 
   private boolean isTrusted(final AccountExternalId id) {
-    if (id.getExternalId().startsWith("Google Account ")) {
+    if (id.isScheme(AccountExternalId.LEGACY_GAE)) {
       // Assume this is a trusted token, its a legacy import from
       // a fairly well respected provider and only takes effect if
       // the administrator has the import still enabled
@@ -164,7 +164,7 @@ public class AuthConfig {
       return isAllowGoogleAccountUpgrade();
     }
 
-    if (id.getExternalId().startsWith("mailto:")) {
+    if (id.isScheme(AccountExternalId.SCHEME_MAILTO)) {
       // mailto identities are created by sending a unique validation
       // token to the address and asking them to come back to the site
       // with that token.

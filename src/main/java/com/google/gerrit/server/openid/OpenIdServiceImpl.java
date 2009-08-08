@@ -548,7 +548,7 @@ class OpenIdServiceImpl implements OpenIdService {
     //
     final List<AccountExternalId> m = new ArrayList<AccountExternalId>();
     for (final AccountExternalId e : extAccess.byEmailAddress(email)) {
-      if (e.getExternalId().equals("Google Account " + email)) {
+      if (e.getExternalId().equals(AccountExternalId.LEGACY_GAE + email)) {
         m.add(e);
       }
     }

@@ -23,6 +23,10 @@ import java.util.Collection;
 
 /** Association of an external account identifier to a local {@link Account}. */
 public final class AccountExternalId {
+  public static final String SCHEME_GERRIT = "gerrit:";
+  public static final String SCHEME_MAILTO = "mailto:";
+  public static final String LEGACY_GAE = "Google Account ";
+
   public static class Key extends StringKey<Account.Id> {
     private static final long serialVersionUID = 1L;
 
@@ -74,7 +78,7 @@ public final class AccountExternalId {
         continue;
       }
 
-      if (e.getExternalId().startsWith("mailto:")) {
+      if (e.getExternalId().startsWith(SCHEME_MAILTO)) {
         // Don't ever consider an email address as a "recent login"
         //
         continue;
@@ -141,28 +145,9 @@ public final class AccountExternalId {
     lastUsedOn = new Timestamp(System.currentTimeMillis());
   }
 
-  public boolean canUserDelete() {
-    switch (Gerrit.getConfig().getLoginType()) {
-      case OPENID:
-        if (getExternalId().startsWith("Google Account ")) {
-          // Don't allow users to delete legacy google account tokens.
-          // Administrators will do it when cleaning the database.
-          //
-          return false;
-        }
-        break;
-
-      case HTTP:
-        if (getExternalId().startsWith("gerrit:")) {
-          // Don't allow users to delete a gerrit: token, as this is
-          // a Gerrit generated value for single-sign-on configurations
-          // not using OpenID.
-          //
-          return false;
-        }
-        break;
-    }
-    return true;
+  public boolean isScheme(final String scheme) {
+    final String id = getExternalId();
+    return id != null && id.startsWith(scheme);
   }
 
   public boolean isTrusted() {

@@ -176,7 +176,7 @@ public class GerritCall extends ActiveCall {
     try {
       final ReviewDb db = schema.open();
       try {
-        final String eid = "gerrit:" + user;
+        final String eid = AccountExternalId.SCHEME_GERRIT + user;
         final List<AccountExternalId> matches =
             db.accountExternalIds().byExternal(eid).toList();
 

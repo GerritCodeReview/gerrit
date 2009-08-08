@@ -243,7 +243,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
             //
             continue;
 
-          } else if (e.canUserDelete()) {
+          } else {
             toDelete.add(e);
             removed.add(e.getKey());
           }
@@ -373,8 +373,8 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
 
         try {
           final AccountExternalId id =
-              new AccountExternalId(new AccountExternalId.Key(me, "mailto:"
-                  + newEmail));
+              new AccountExternalId(new AccountExternalId.Key(me,
+                  AccountExternalId.SCHEME_MAILTO + newEmail));
           id.setEmailAddress(newEmail);
           db.accountExternalIds().insert(Collections.singleton(id));
         } catch (OrmDuplicateKeyException e) {

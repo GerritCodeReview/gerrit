@@ -22,6 +22,9 @@ import com.google.inject.Injector;
 import com.google.inject.Singleton;
 import com.google.inject.assistedinject.FactoryProvider;
 
+import com.jcraft.jsch.Channel;
+import com.jcraft.jsch.ChannelExec;
+import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 
 import org.slf4j.Logger;
@@ -35,13 +38,16 @@ import org.spearce.jgit.transport.RemoteConfig;
 import org.spearce.jgit.transport.SshConfigSessionFactory;
 import org.spearce.jgit.transport.SshSessionFactory;
 import org.spearce.jgit.transport.URIish;
+import org.spearce.jgit.util.QuotedString;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -168,6 +174,111 @@ public class PushReplication implements ReplicationQueue {
     return result;
   }
 
+  public void replicateNewProject(Project.NameKey projectName) {
+    if (!isEnabled()) {
+      return;
+    }
+
+    Iterator<ReplicationConfig> configIter = configs.iterator();
+
+    while (configIter.hasNext()) {
+      ReplicationConfig rp = configIter.next();
+      List<URIish> uriList = rp.getURIs(projectName, "*");
+
+      Iterator<URIish> uriIter = uriList.iterator();
+
+      while (uriIter.hasNext()) {
+          replicateProject(uriIter.next());
+      }
+    }
+  }
+
+
+  private void replicateProject(final URIish replicateURI) {
+    SshSessionFactory sshFactory = SshSessionFactory.getInstance();
+    Session sshSession;
+    String projectPath = QuotedString.BOURNE.quote(replicateURI.getPath());
+
+    if(!usingSSH(replicateURI)) {
+      log.warn("Cannot create new project on remote site since the connection "
+          + "methood is not SSH: " + replicateURI.toString());
+      return;
+    }
+
+    OutputStream errStream  = createErrStream();
+    String cmd = "mkdir " + projectPath
+    + "&& cd " + projectPath
+    + "&& git init --bare";
+
+    try {
+      sshSession = sshFactory.getSession(replicateURI.getUser(),
+          replicateURI.getPass(), replicateURI.getHost(), replicateURI.getPort());
+      sshSession.connect();
+
+      Channel channel = sshSession.openChannel("exec");
+      ((ChannelExec) channel).setCommand(cmd);
+
+      channel.setInputStream(null);
+
+      ((ChannelExec) channel).setErrStream(errStream);
+
+      channel.connect();
+
+      while (!channel.isClosed()) {
+        try {
+          final int delay = 50;
+          Thread.sleep(delay);
+        } catch (InterruptedException e) { }
+      }
+      channel.disconnect();
+      sshSession.disconnect();
+    } catch(JSchException e) {
+      log.error("Communication error when trying to replicate to: "
+          + replicateURI.toString() + "\n"
+          + "Error reported: " + e.getMessage() + "\n"
+          + "Error in communication: " + errStream.toString());
+    }
+  }
+
+  private OutputStream createErrStream() {
+    return new OutputStream() {
+      private StringBuilder all = new StringBuilder();
+      private StringBuilder sb = new StringBuilder();
+
+      public String toString() {
+        String r = all.toString();
+        while (r.endsWith("\n"))
+          r = r.substring(0, r.length() - 1);
+        return r;
+      }
+
+      @Override
+      public void write(final int b) throws IOException {
+        if (b == '\r') {
+          return;
+        }
+
+        sb.append((char) b);
+
+        if (b == '\n') {
+          all.append(sb);
+          sb.setLength(0);
+        }
+      }
+    };
+  }
+
+  private boolean usingSSH(final URIish uri) {
+    if (!uri.isRemote())
+    return false;
+    final String scheme = uri.getScheme();
+    if (scheme != null && scheme.toLowerCase().contains("ssh"))
+    return true;
+    if (scheme == null && uri.getHost() != null && uri.getPath() != null)
+    return true;
+    return false;
+  }
+
   static class ReplicationConfig {
     private final RemoteConfig remote;
     private final int delay;
@@ -248,3 +359,4 @@ public class PushReplication implements ReplicationQueue {
     }
   }
 }
+

@@ -58,6 +58,10 @@ public class GroupCache {
     mgr.replaceCacheWithDecoratedCache(dc, self);
   }
 
+  public final AccountGroup.Id getAdministrators() {
+    return administrators;
+  }
+
   private AccountGroup lookup(final AccountGroup.Id groupId)
       throws OrmException {
     final ReviewDb db = schema.open();
@@ -108,6 +112,23 @@ public class GroupCache {
   public void evict(final AccountGroup.Id groupId) {
     if (groupId != null) {
       self.remove(groupId);
+    }
+  }
+
+  public AccountGroup lookup(final String groupName) throws OrmException {
+    final ReviewDb db = schema.open();
+    try {
+      final AccountGroup.NameKey nameKey =
+        new AccountGroup.NameKey(groupName);
+
+      final AccountGroup group = db.accountGroups().get(nameKey);
+      if (group != null) {
+        return group;
+      } else {
+        return null;
+      }
+    } finally {
+      db.close();
     }
   }
 }

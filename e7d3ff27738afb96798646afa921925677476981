@@ -1,0 +1,293 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAfn////0\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/GerritServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-11T02:01:50Z",
+      "side": 1,
+      "message": "If name doesn\u0027t end in \".git\", should we add it here?",
+      "revId": "e7d3ff27738afb96798646afa921925677476981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAfn////w\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/AdminCreateProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-11T02:01:50Z",
+      "side": 1,
+      "message": "Missing copyright header.",
+      "revId": "e7d3ff27738afb96798646afa921925677476981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAfn////o\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/AdminCreateProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-11T02:01:50Z",
+      "side": 1,
+      "message": "I think this should actually accept the SubmitType values by name, rather than by short code.  It makes it less likely the admin has selected the wrong type by entering the wrong character.",
+      "revId": "e7d3ff27738afb96798646afa921925677476981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAfn////s\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/AdminCreateProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-11T02:01:50Z",
+      "side": 1,
+      "message": "I would prefer a hypen between words in a long option, so \"--use-contributor-agreements\".\n\nAlso, we tend to use \"--\" for aliases that use more than one letter, so \"--ca\" here would be more appropriate.  To see what I mean, look at the help for `git receive-pack` as output by gerrit:\n\n  $ ssh -p 29418 localhost git receive-pack -h\n  git receive-pack PROJECT.git [--cc EMAIL ...] [--help (-h)] [--reviewer (--re) EMAIL ...]\n\n   PROJECT.git             : project name\n   --cc EMAIL              : CC user on change(s)\n   --help (-h)             : display this help text\n   --reviewer (--re) EMAIL : request reviewer for change(s)",
+      "revId": "e7d3ff27738afb96798646afa921925677476981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAfn////k\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/AdminCreateProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-11T02:01:50Z",
+      "side": 1,
+      "message": "Oh, I see, I think I would prefer the \".git\" suffix append down in GerritServer.",
+      "revId": "e7d3ff27738afb96798646afa921925677476981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAfn///+0\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/AdminCreateProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-11T02:01:50Z",
+      "side": 1,
+      "message": "Positive failure code.",
+      "revId": "e7d3ff27738afb96798646afa921925677476981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAfn///+4\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/AdminCreateProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-11T02:01:50Z",
+      "side": 1,
+      "message": "This should be \"refs/heads/master\".",
+      "revId": "e7d3ff27738afb96798646afa921925677476981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAfn////g\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/AdminCreateProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-11T02:01:50Z",
+      "side": 1,
+      "message": "I guess we should document this; we prefer positive values for Failure here, so just 1.",
+      "revId": "e7d3ff27738afb96798646afa921925677476981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAfn////U\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/AdminCreateProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-11T02:01:50Z",
+      "side": 1,
+      "message": "This is possibly bad; the administrators group could be renamed.  Better to take an injection of the GroupCache object and ask it for the administrative group, it has the proper AccountGroup.Id stored within it as a private instance member, that could be exposed with a new public accessor.",
+      "revId": "e7d3ff27738afb96798646afa921925677476981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAfn////Q\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/AdminCreateProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-11T02:01:50Z",
+      "side": 1,
+      "message": "Since the \"Administrators\" note above suggest using the GroupCache to locate the administrators group, you could use that here to locate the group for the case when its not the default administrators assumption.",
+      "revId": "e7d3ff27738afb96798646afa921925677476981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAfn////c\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/AdminCreateProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-11T02:01:50Z",
+      "side": 1,
+      "message": "Positive 1.",
+      "revId": "e7d3ff27738afb96798646afa921925677476981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAfn////Y\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/AdminCreateProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-11T02:01:50Z",
+      "side": 1,
+      "message": "There are spaces before tabs here on this line, and the next, please don\u0027t use that form of indentation to start lines.  Our style uses only spaces for indentation, 2 spaces per level.",
+      "revId": "e7d3ff27738afb96798646afa921925677476981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAfn////M\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/AdminCreateProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-11T02:01:50Z",
+      "side": 1,
+      "message": "I would prefer to move all of this into the PushReplication class, and add a new public method on ReplicationQueue to actually do the repository creation.  That way the reading of the configuration and the management of it is all encapsulated in the code that already has to deal with it.\n\nAlso, I\u0027m concerned about just blindly looping through the remotes.  I think you should loop through all of them sequentially, that\u0027s fine, but if one remote fails (e.g. network outage) you should report the error, but keep going.  That way the admin can manually recover that other node later.",
+      "revId": "e7d3ff27738afb96798646afa921925677476981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAfn///+8\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/AdminCreateProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-11T02:01:50Z",
+      "side": 1,
+      "message": "Actually the test is more complex.  To really match what JGit would do here you need a much more complex predicate.  This is taken out of TransportGitSsh, which is the handler for SSH transports:\n\n\tstatic boolean canHandle(final URIish uri) {\n\t\tif (!uri.isRemote())\n\t\t\treturn false;\n\t\tfinal String scheme \u003d uri.getScheme();\n\t\tif (\"ssh\".equals(scheme))\n\t\t\treturn true;\n\t\tif (\"ssh+git\".equals(scheme))\n\t\t\treturn true;\n\t\tif (\"git+ssh\".equals(scheme))\n\t\t\treturn true;\n\t\tif (scheme \u003d\u003d null \u0026\u0026 uri.getHost() !\u003d null \u0026\u0026 uri.getPath() !\u003d null)\n\t\t\treturn true;\n\t\treturn false;\n\t}\n\nUnfortunately its not public.  :-(  But that\u0027s the logic you need here to correctly pick an SSH connection you can open, vs. a non-SSH connection that you cannot handle here.\n\nIf it is a non-SSH connection, you should alert the admin, so they know that the creation wasn\u0027t performed.",
+      "revId": "e7d3ff27738afb96798646afa921925677476981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAfn////A\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/AdminCreateProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-11T02:01:50Z",
+      "side": 1,
+      "message": "To be paranoid, the projectPath should be quoted to protect them from the remote shell.\n\nFortunately, JGit has a class for this:\n\n  QuotedString.BOURNE.quote(projectPath)\n\nWe probably also should use \u0026\u0026 rather than ; between commands, so that if the mkdir or cd fails we don\u0027t create a bare git repository in the remote user\u0027s home directory.",
+      "revId": "e7d3ff27738afb96798646afa921925677476981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAfn////I\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/AdminCreateProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-11T02:01:50Z",
+      "side": 1,
+      "message": "This really should be pulled into a buffer, and written out to either this.stderr (so it goes to the admin\u0027s tty) or to the server log file, rather than System.err.\n\nE.g. JGit actually uses this for setErrStream:\n\n\t\tnew OutputStream() {\n\t\t\tprivate StringBuilder all \u003d new StringBuilder();\n\n\t\t\tprivate StringBuilder sb \u003d new StringBuilder();\n\n\t\t\tpublic String toString() {\n\t\t\t\tString r \u003d all.toString();\n\t\t\t\twhile (r.endsWith(\"\\n\"))\n\t\t\t\t\tr \u003d r.substring(0, r.length() - 1);\n\t\t\t\treturn r;\n\t\t\t}\n\n\t\t\t@Override\n\t\t\tpublic void write(final int b) throws IOException {\n\t\t\t\tif (b \u003d\u003d \u0027\\r\u0027) {\n\t\t\t\t\treturn;\n\t\t\t\t}\n\n\t\t\t\tsb.append((char) b);\n\n\t\t\t\tif (b \u003d\u003d \u0027\\n\u0027) {\n\t\t\t\t\tall.append(sb);\n\t\t\t\t\tsb.setLength(0);\n\t\t\t\t}\n\t\t\t}\n\t\t}",
+      "revId": "e7d3ff27738afb96798646afa921925677476981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAfn////E\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/AdminCreateProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-11T02:01:50Z",
+      "side": 1,
+      "message": "Lets go with a shorter wait than 1 second.  The loop does very little work while waiting.  50 or 100 milliseconds is probably a more reasonable value, as it will more quickly move to the next replication destination once the command is actually done.",
+      "revId": "e7d3ff27738afb96798646afa921925677476981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

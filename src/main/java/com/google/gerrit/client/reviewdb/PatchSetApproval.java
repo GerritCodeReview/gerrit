@@ -98,6 +98,14 @@ public final class PatchSetApproval {
     setGranted();
   }
 
+  public PatchSetApproval(final PatchSet.Id psId, final PatchSetApproval src) {
+    key =
+        new PatchSetApproval.Key(psId, src.getAccountId(), src.getCategoryId());
+    changeOpen = true;
+    value = src.getValue();
+    granted = src.granted;
+  }
+
   public PatchSetApproval.Key getKey() {
     return key;
   }

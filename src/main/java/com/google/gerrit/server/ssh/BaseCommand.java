@@ -372,10 +372,28 @@ public abstract class BaseCommand implements Command {
 
     final int exitCode;
 
+    /**
+     * Create a new failure.
+     *
+     * @param exitCode exit code to return the client, which indicates the
+     *        failure status of this command. Should be between 1 and 255,
+     *        inclusive.
+     * @param msg message to also send to the client's stderr.
+     */
     public Failure(final int exitCode, final String msg) {
       this(exitCode, msg, null);
     }
 
+    /**
+     * Create a new failure.
+     *
+     * @param exitCode exit code to return the client, which indicates the
+     *        failure status of this command. Should be between 1 and 255,
+     *        inclusive.
+     * @param msg message to also send to the client's stderr.
+     * @param why stack trace to include in the server's log, but is not sent to
+     *        the client's stderr.
+     */
     public Failure(final int exitCode, final String msg, final Throwable why) {
       super(msg, why);
       this.exitCode = exitCode;
@@ -386,10 +404,28 @@ public abstract class BaseCommand implements Command {
   public static class UnloggedFailure extends Failure {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * Create a new failure.
+     *
+     * @param exitCode exit code to return the client, which indicates the
+     *        failure status of this command. Should be between 1 and 255,
+     *        inclusive.
+     * @param msg message to also send to the client's stderr.
+     */
     public UnloggedFailure(final int exitCode, final String msg) {
       this(exitCode, msg, null);
     }
 
+    /**
+     * Create a new failure.
+     *
+     * @param exitCode exit code to return the client, which indicates the
+     *        failure status of this command. Should be between 1 and 255,
+     *        inclusive.
+     * @param msg message to also send to the client's stderr.
+     * @param why stack trace to include in the server's log, but is not sent to
+     *        the client's stderr.
+     */
     public UnloggedFailure(final int exitCode, final String msg,
         final Throwable why) {
       super(exitCode, msg, why);

@@ -810,6 +810,7 @@ final class Receive extends AbstractGitCommand {
           change = changeCache.get(changeId);
         }
 
+        final PatchSet.Id priorPatchSet = change.currentPatchSetId();
         final HashSet<ObjectId> existingRevisions = new HashSet<ObjectId>();
         for (final PatchSet ps : db.patchSets().byChange(changeId)) {
           if (ps.getRevision() != null) {
@@ -891,6 +892,17 @@ final class Receive extends AbstractGitCommand {
             oldReviewers.add(a.getAccountId());
           } else {
             oldCC.add(a.getAccountId());
+          }
+
+          if (a.getValue() < 0
+              && a.getPatchSetId().equals(priorPatchSet)) {
+            // If there was a negative vote on the prior patch set, carry it
+            // into this patch set.
+            //
+            db.patchSetApprovals()
+                .insert(
+                    Collections.singleton(new PatchSetApproval(ps.getId(), a)),
+                    txn);
           }
 
           if (!haveAuthor && authorId != null

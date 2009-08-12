@@ -187,20 +187,21 @@ final class AdminCreateProject extends BaseCommand {
     signedOffBy = stringToBoolean(useSignedOffBy, false);
 
     if (submitTypeStr == null) {
-      submitTypeStr = "fast-forward-only";
-    }
-
-    if (submitTypeStr.toLowerCase().equalsIgnoreCase("fast-forward-only")) {
       submitType = SubmitType.FAST_FORWARD_ONLY;
-    } else if (submitTypeStr.toLowerCase().equalsIgnoreCase("merge-if-necessary")) {
-      submitType = SubmitType.MERGE_IF_NECESSARY;
-    } else if (submitTypeStr.toLowerCase().equalsIgnoreCase("merge-always")) {
-      submitType = SubmitType.MERGE_ALWAYS;
-    } else if (submitTypeStr.toLowerCase().equalsIgnoreCase("cherry-pick")) {
-      submitType = SubmitType.CHERRY_PICK;
-    }
 
-    if (submitType == null) {
+    } else if (submitTypeStr.equalsIgnoreCase("fast-forward-only")) {
+      submitType = SubmitType.FAST_FORWARD_ONLY;
+
+    } else if (submitTypeStr.equalsIgnoreCase("merge-if-necessary")) {
+      submitType = SubmitType.MERGE_IF_NECESSARY;
+
+    } else if (submitTypeStr.equalsIgnoreCase("merge-always")) {
+      submitType = SubmitType.MERGE_ALWAYS;
+
+    } else if (submitTypeStr.equalsIgnoreCase("cherry-pick")) {
+      submitType = SubmitType.CHERRY_PICK;
+
+    } else {
       throw new Failure(1, "Submit type must be either: fast-forward-only, "
           + "merge-if-necessary, merge-always or cherry-pick");
     }

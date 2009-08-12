@@ -21,8 +21,12 @@ import com.google.gerrit.server.config.SitePath;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.spearce.jgit.errors.RepositoryNotFoundException;
 import org.spearce.jgit.lib.Config;
+import org.spearce.jgit.lib.Constants;
+import org.spearce.jgit.lib.LockFile;
 import org.spearce.jgit.lib.PersonIdent;
 import org.spearce.jgit.lib.Repository;
 import org.spearce.jgit.lib.RepositoryCache;
@@ -35,6 +39,7 @@ import java.io.IOException;
 /** Global server-side state for Gerrit. */
 @Singleton
 public class GerritServer {
+  private static final Logger log = LoggerFactory.getLogger(GerritServer.class);
   private final File sitePath;
   private final Config gerritConfigFile;
   private final File basepath;
@@ -121,6 +126,45 @@ public class GerritServer {
       e2 = new RepositoryNotFoundException("Cannot open repository " + name);
       e2.initCause(e1);
       throw e2;
+    }
+  }
+
+  /**
+   * Set the {@code GIT_DIR/description} file for gitweb.
+   * <p>
+   * NB: This code should really be in JGit, as a member of the Repostiory
+   * object. Until it moves there, its here.
+   *
+   * @param name the repository name, relative to the base directory.
+   * @param description new description text for the repository.
+   */
+  public void setProjectDescription(final String name, final String description) {
+    // Update git's description file, in case gitweb is being used
+    //
+    try {
+      final Repository e;
+      final LockFile f;
+
+      e = openRepository(name);
+      f = new LockFile(new File(e.getDirectory(), "description"));
+      if (f.lock()) {
+        String d = description;
+        if (d != null) {
+          d = d.trim();
+          if (d.length() > 0) {
+            d += "\n";
+          }
+        } else {
+          d = "";
+        }
+        f.write(Constants.encode(d));
+        f.commit();
+      }
+      e.close();
+    } catch (RepositoryNotFoundException e) {
+      log.error("Cannot update description for " + name, e);
+    } catch (IOException e) {
+      log.error("Cannot update description for " + name, e);
     }
   }
 

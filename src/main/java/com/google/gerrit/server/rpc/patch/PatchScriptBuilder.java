@@ -271,7 +271,7 @@ class PatchScriptBuilder {
           //
           return a;
         }
-        return edits.get(i - i).getEndB() + (e.getBeginA() - a);
+        return e.getBeginB() - (e.getBeginA() - a);
       }
       if (e.getBeginA() <= a && a <= e.getEndA()) {
         return -1;
@@ -297,7 +297,7 @@ class PatchScriptBuilder {
           //
           return b;
         }
-        return edits.get(i - i).getEndA() + (e.getBeginB() - b);
+        return e.getBeginA() - (e.getBeginB() - b);
       }
       if (e.getBeginB() <= b && b <= e.getEndB()) {
         return -1;

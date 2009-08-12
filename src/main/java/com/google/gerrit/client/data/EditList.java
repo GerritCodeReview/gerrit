@@ -138,7 +138,7 @@ public class EditList {
     }
 
     public boolean isContextLine() {
-      return !isModifiedLine() || endIdx + 1 < curIdx;
+      return !isModifiedLine();
     }
 
     public boolean isDeletedA() {
@@ -154,8 +154,10 @@ public class EditList {
     }
 
     public boolean next() {
-      if (!in(curEdit) && ++curIdx < edits.size()) {
-        curEdit = edits.get(curIdx);
+      if (!in(curEdit)) {
+        if (curIdx < endIdx) {
+          curEdit = edits.get(++curIdx);
+        }
       }
       return aCur < aEnd || bCur < bEnd;
     }

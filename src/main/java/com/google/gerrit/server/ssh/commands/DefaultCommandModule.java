@@ -28,6 +28,7 @@ public class DefaultCommandModule extends CommandModule {
     final CommandName gerrit = Commands.named("gerrit");
 
     command(gerrit).toProvider(new DispatchCommandProvider(gerrit));
+    command(gerrit, "create-project").to(AdminCreateProject.class);
     command(gerrit, "flush-caches").to(AdminFlushCaches.class);
     command(gerrit, "ls-projects").to(ListProjects.class);
     command(gerrit, "receive-pack").to(Receive.class);

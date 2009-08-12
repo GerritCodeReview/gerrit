@@ -91,6 +91,39 @@ public class GerritServer {
     }
   }
 
+  /**
+   * Create (and open) a repository by name.
+   *
+   * @param name the repository name, relative to the base directory.
+   * @return the cached Repository instance. Caller must call {@code close()}
+   *         when done to decrement the resource handle.
+   * @throws RepositoryNotFoundException the name does not denote an existing
+   *         repository, or the name cannot be read as a repository.
+   */
+  public Repository createRepository(String name)
+      throws RepositoryNotFoundException {
+    if (basepath == null) {
+      throw new RepositoryNotFoundException("No gerrit.basepath configured");
+    }
+
+    if (isUnreasonableName(name)) {
+      throw new RepositoryNotFoundException("Invalid name: " + name);
+    }
+
+    try {
+      if (!name.endsWith(".git")) {
+        name = name + ".git";
+      }
+      final FileKey loc = FileKey.exact(new File(basepath, name));
+      return RepositoryCache.open(loc, false);
+    } catch (IOException e1) {
+      final RepositoryNotFoundException e2;
+      e2 = new RepositoryNotFoundException("Cannot open repository " + name);
+      e2.initCause(e1);
+      throw e2;
+    }
+  }
+
   private boolean isUnreasonableName(final String name) {
     if (name.length() == 0) return true; // no empty paths
 

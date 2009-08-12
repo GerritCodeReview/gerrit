@@ -43,6 +43,9 @@ review.  See link:user-upload.html#push_create[Creating Changes].
 link:cmd-ls-projects.html[gerrit ls-projects]::
 	List projects visible to the caller.
 
+gerrit receive-pack::
+	Legacy alias for `git receive-pack`.
+
 Adminstrator Commands
 ---------------------
 

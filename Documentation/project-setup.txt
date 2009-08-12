@@ -5,8 +5,27 @@ All Git repositories under gerrit.basePath must be registered in
 the Gerrit database in order to be accessed through SSH, or through
 the web interface.
 
+Create Through SSH
+------------------
+
+Creating a new repository over SSH is perhaps the easiest way to
+configure a new project:
+
+====
+  ssh -p 29418 review.example.com gerrit create-project --name new/project
+====
+
+See link:cmd-create-project.html[gerrit create-project] for more
+details.
+
+
+Manual Creation
+---------------
+
+Projects may also be manually registered with the database.
+
 Create Git Repository
----------------------
+~~~~~~~~~~~~~~~~~~~~~
 
 Create a Git repository under gerrit.basePath:
 
@@ -26,7 +45,7 @@ protocol, don't forget to create a `git-daemon-export-ok` file:
 ====
 
 Register Project
-----------------
+~~~~~~~~~~~~~~~~
 
 At least two inserts are needed to register a project with Gerrit:
 one to define the project exists, and another to define a branch
@@ -64,8 +83,9 @@ On MySQL use `nextval_project_id()` to obtain the next value in the
 sequences.  This is contained in the `sql/mysql_nextval.sql` script,
 available from `java -jar gerrit.war --cat sql/mysql_nextval.sql`.
 
-Change Submit Action (submit_type)
-----------------------------------
+[[submit_type]]
+Change Submit Action
+--------------------
 
 The method Gerrit uses to submit a change to a project can be
 modified by any project owner through the project console, `Admin` >

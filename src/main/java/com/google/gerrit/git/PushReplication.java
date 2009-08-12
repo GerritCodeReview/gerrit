@@ -206,7 +206,7 @@ public class PushReplication implements ReplicationQueue {
     }
 
     OutputStream errStream  = createErrStream();
-    String cmd = "mkdir " + projectPath
+    String cmd = "mkdir -p " + projectPath
     + "&& cd " + projectPath
     + "&& git init --bare";
 

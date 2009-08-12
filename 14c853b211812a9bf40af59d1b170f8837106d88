@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAfn///8g\u003d",
+        "filename": "src/test/java/com/google/gerrit/server/query/QueryParserTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1002059
+      },
+      "writtenOn": "2009-08-12T02:53:02Z",
+      "side": 1,
+      "message": "There seems to be a bug in Gerrit\u0027s highlighting: everything is red from this point on.",
+      "revId": "14c853b211812a9bf40af59d1b170f8837106d88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAfn///8c\u003d",
+        "filename": "src/test/java/com/google/gerrit/server/query/QueryParserTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1002059
+      },
+      "writtenOn": "2009-08-12T02:53:02Z",
+      "side": 1,
+      "message": "You could factor out the rest of this code and use it in both this method and the previous one.",
+      "revId": "14c853b211812a9bf40af59d1b170f8837106d88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+gerrit create-project
+=====================
+
+NAME
+----
+gerrit create-project - Create a new hosted project
+
+SYNOPSIS
+--------
+[verse]
+'ssh' -p <port> <host> 'gerrit create-project' \
+\--name <NAME> \
+[\--owner <OWNER>] \
+[\--description <DESC>] \
+[\--submit-type <TYPE>] \
+[\--use-contributor-agreements {true|false}] \
+[\--use-signed-off-by {true|false}]
+
+DESCRIPTION
+-----------
+Creates a new bare Git repository under `gerrit.basePath`, using
+the project name supplied.  The newly created repository is empty
+(has no commits), but is registered in the Gerrit database so that
+the initial commit may be uploaded for review, or initial content
+can be pushed directly into a branch.
+
+If replication is enabled, this command also connects to each of
+the configured remote systems over SSH and uses command line git
+on the remote system to create the empty repository.
+
+
+ACCESS
+------
+Caller must be a member of the privileged 'Administrators' group.
+
+SCRIPTING
+---------
+This command is intended to be used in scripts.
+
+OPTIONS
+-------
+\--name::
+	Required; name of the project to create.  If name ends with
+	`.git` the suffix will be automatically removed.
+
+\--owner::
+	Name of the group which will initially own this repository.
+	The specified group must already be defined within Gerrit.
+	Only one group can be specified on the command line.
+	To specify additional owners, add the additional owners
+	through the web interface after project creation.
++
+Defaults to `Administrators` if not specified.
+
+\--description::
+	Initial description of the project.  If not specified,
+	no description is stored.
+
+\--submit-type::
+	Action used by Gerrit to submit an approved change to its
+	destination branch.  Supported options are:
++
+* fast-forward-only: produces a strictly linear history.
+* merge-if-necessary: create a merge commit when required.
+* merge-always: always create a merge commit.
+* cherry-pick: always cherry-pick the commit.
+
++
+Defaults to fast-forward-only.  For more details see
+link:project-setup.html#submit_type[Change Submit Actions].
+
+\--use-contributor-agreements::
+	If enabled, authors must complete a contributor agreement
+	on the site before pushing any commits or changes to this
+	project.  Disabled by default.
+
+\--use-signed-off-by::
+	If enabled, each change must contain a Signed-off-by line
+	from either the author or the uploader in the commit message.
+	Disabled by default.
+
+
+EXAMPLES
+--------
+Create a new project called `tools/gerrit`:
+
+====
+	$ ssh -p 29418 review.example.com gerrit create-project --name tools/gerrit.git
+====
+
+REPLICATION
+-----------
+The remote repository creation is performed by a Bourne shell script:
+
+====
+  mkdir -p '/base/project.git' && cd '/base/project.git' && git init --bare
+====
+
+For this to work successfully the remote system must be able to
+run arbitrary shell scripts, and must have `git` in the user's PATH
+environment variable.  Administrators can run this command by hand
+to establish a new empty repository if necessary.
+
+SEE ALSO
+--------
+
+* link:config-replication.html[Git Replication/Mirroring]
+* link:project-setup.html[Project Setup]
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

@@ -49,6 +49,9 @@ gerrit receive-pack::
 Adminstrator Commands
 ---------------------
 
+link:cmd-create-project.html[gerrit create-project]::
+	Create a new project and associated Git repository.
+
 link:cmd-flush-caches.html[gerrit flush-caches]::
 	Flush some/all server caches from memory.
 

@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAfn///9c\u003d",
+        "filename": "src/main/java/com/google/gerrit/git/PushReplication.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-12T00:14:02Z",
+      "side": 1,
+      "message": "Typo, \"methood\" should be \"method\"",
+      "revId": "99b87c944ffcc77d23d54814b529fc0e0fe57f71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAfn///9Y\u003d",
+        "filename": "src/main/java/com/google/gerrit/git/PushReplication.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-12T00:14:02Z",
+      "side": 1,
+      "message": "Looks like indentation got messed up during copy-and-paste.  JGit uses tabs for indentation, Gerrit uses two spaces, likely this is a mixture so the \"then\" clauses aren\u0027t nicely nested under their corresponding \"if\" condition.  Please fix up while fixing the one minor typo above.",
+      "revId": "99b87c944ffcc77d23d54814b529fc0e0fe57f71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAfn///9U\u003d",
+        "filename": "src/main/java/com/google/gerrit/git/PushReplication.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-12T00:14:02Z",
+      "side": 1,
+      "message": "ditto with indentation",
+      "revId": "99b87c944ffcc77d23d54814b529fc0e0fe57f71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAfn///9Q\u003d",
+        "filename": "src/main/java/com/google/gerrit/git/PushReplication.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-12T00:14:02Z",
+      "side": 1,
+      "message": "ditto with indentation",
+      "revId": "99b87c944ffcc77d23d54814b529fc0e0fe57f71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAfn///9g\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/AdminCreateProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-12T00:14:02Z",
+      "side": 1,
+      "message": "Its 2009.  :-)",
+      "revId": "99b87c944ffcc77d23d54814b529fc0e0fe57f71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

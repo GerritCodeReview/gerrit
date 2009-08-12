@@ -21,7 +21,6 @@ import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.Project.SubmitType;
-import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gerrit.git.ReplicationQueue;
 import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.account.GroupCache;
@@ -108,9 +107,7 @@ final class AdminCreateProject extends BaseCommand {
     });
   }
 
-
-  private void createProject(Transaction txn) throws OrmException,
-  NoSuchEntityException {
+  private void createProject(Transaction txn) throws OrmException {
     final Project.NameKey newProjectNameKey =
       new Project.NameKey(projectName);
 

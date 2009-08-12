@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAfn///7E\u003d",
+        "filename": "src/test/java/com/google/gerrit/server/query/QueryParserTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-12T14:03:09Z",
+      "side": 1,
+      "message": "Known issue, GERRIT-252[1].  I meant to ask you about this when you got back from vacation.  We\u0027re running prettify one line at a time, which makes it fail to identify multi-line blocks like /* ... */, a C style comment).  So I cooked up this horrible hack of looking for /* in a line, and */ in a later line, and forcing that section to look like a multi-line comment to prettify.  Which is what you are seeing here.\n\n[1] http://jira.source.android.com/jira/browse/GERRIT-252",
+      "parentUuid": "AAAAfn///8g\u003d",
+      "revId": "14c853b211812a9bf40af59d1b170f8837106d88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAfn///8c\u003d",
         "filename": "src/test/java/com/google/gerrit/server/query/QueryParserTest.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2009-08-12T02:53:02Z",
       "side": 1,
       "message": "You could factor out the rest of this code and use it in both this method and the previous one.",
+      "revId": "14c853b211812a9bf40af59d1b170f8837106d88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAfn///7A\u003d",
+        "filename": "src/test/java/com/google/gerrit/server/query/QueryParserTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-12T14:03:09Z",
+      "side": 1,
+      "message": "Yea.  Actually I\u0027m not happy with keeping the parsed data in the generic ANTLR tree class.  I\u0027d like to convert it to our own graph, which should make constructing and comparing easier, resulting in shorter test cases.  Which means factoring this out with testAnd5 below would be relatively pointless.",
+      "parentUuid": "AAAAfn///8c\u003d",
       "revId": "14c853b211812a9bf40af59d1b170f8837106d88",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

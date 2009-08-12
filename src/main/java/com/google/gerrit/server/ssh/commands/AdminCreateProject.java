@@ -93,6 +93,7 @@ final class AdminCreateProject extends BaseCommand {
 
           Repository repo  = gs.createRepository(projectName);
           repo.create(true);
+          gs.setProjectDescription(projectName, projectDescription);
 
           txn.commit();
 

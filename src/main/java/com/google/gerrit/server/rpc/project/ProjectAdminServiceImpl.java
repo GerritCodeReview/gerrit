@@ -47,7 +47,6 @@ import org.spearce.jgit.errors.IncorrectObjectTypeException;
 import org.spearce.jgit.errors.MissingObjectException;
 import org.spearce.jgit.errors.RepositoryNotFoundException;
 import org.spearce.jgit.lib.Constants;
-import org.spearce.jgit.lib.LockFile;
 import org.spearce.jgit.lib.ObjectId;
 import org.spearce.jgit.lib.Ref;
 import org.spearce.jgit.lib.RefUpdate;
@@ -55,7 +54,6 @@ import org.spearce.jgit.lib.Repository;
 import org.spearce.jgit.revwalk.ObjectWalk;
 import org.spearce.jgit.revwalk.RevCommit;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -155,33 +153,8 @@ class ProjectAdminServiceImpl extends BaseServiceImplementation implements
         projectCache.evict(proj);
 
         if (!wildProject.equals(projectName)) {
-          // Update git's description file, in case gitweb is being used
-          //
-          try {
-            final Repository e;
-            final LockFile f;
-
-            e = server.openRepository(proj.getName());
-            f = new LockFile(new File(e.getDirectory(), "description"));
-            if (f.lock()) {
-              String d = proj.getDescription();
-              if (d != null) {
-                d = d.trim();
-                if (d.length() > 0) {
-                  d += "\n";
-                }
-              } else {
-                d = "";
-              }
-              f.write(Constants.encode(d));
-              f.commit();
-            }
-            e.close();
-          } catch (RepositoryNotFoundException e) {
-            log.error("Cannot update description for " + proj.getName(), e);
-          } catch (IOException e) {
-            log.error("Cannot update description for " + proj.getName(), e);
-          }
+          server.setProjectDescription(projectName.get(), update
+              .getDescription());
         }
 
         try {

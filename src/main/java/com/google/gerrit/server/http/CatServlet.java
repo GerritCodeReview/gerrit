@@ -42,6 +42,7 @@ import org.spearce.jgit.util.NB;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.security.MessageDigest;
 import java.security.SecureRandom;
 import java.util.zip.ZipEntry;
@@ -84,6 +85,16 @@ public class CatServlet extends HttpServlet {
   protected void doGet(final HttpServletRequest req,
       final HttpServletResponse rsp) throws IOException {
     String keyStr = req.getPathInfo();
+
+    // We shouldn't have to do this extra decode pass, but somehow we
+    // are now receiving our "^1" suffix as "%5E1", which confuses us
+    // downstream. Other times we get our embedded "," as "%2C", which
+    // is equally bad. And yet when these happen a "%2F" is left as-is,
+    // rather than escaped as "%252F", which makes me feel really really
+    // uncomfortable with a blind decode right here.
+    //
+    keyStr = URLDecoder.decode(keyStr, "UTF-8");
+
     if (!keyStr.startsWith("/")) {
       rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
       return;

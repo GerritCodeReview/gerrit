@@ -120,10 +120,10 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
       nc.openTd();
       if (script.getDisplayMethodA() == DisplayMethod.IMG) {
         if (idSideA == null) {
+          appendImgTag(nc, rawBase + KeyUtil.encode(patchKey.toString()) + "^1");
+        } else {
           Patch.Key k = new Patch.Key(idSideA, patchKey.get());
           appendImgTag(nc, rawBase + KeyUtil.encode(k.toString()) + "^0");
-        } else {
-          appendImgTag(nc, rawBase + KeyUtil.encode(patchKey.toString()) + "^1");
         }
       }
       if (script.getDisplayMethodB() == DisplayMethod.IMG) {

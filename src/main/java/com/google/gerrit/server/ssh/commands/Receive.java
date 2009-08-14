@@ -1075,12 +1075,8 @@ final class Receive extends AbstractGitCommand {
           }
         }
       }
-      if (!sboMe) {
-        reject(cmd, "not Signed-off-by you");
-        return false;
-      }
-      if (!sboCommitter) {
-        reject(cmd, "not Signed-off-by " + committer.getEmailAddress());
+      if (!sboAuthor && !sboCommitter && !sboMe) {
+        reject(cmd, "not Signed-off-by author/committer/uploader");
         return false;
       }
     }

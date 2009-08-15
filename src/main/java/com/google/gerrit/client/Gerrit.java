@@ -21,19 +21,16 @@ import com.google.gerrit.client.reviewdb.AccountGeneralPreferences;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.LinkMenuBar;
 import com.google.gerrit.client.ui.LinkMenuItem;
-import com.google.gerrit.client.ui.NeedsSignInKeyCommand;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Accessibility;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
@@ -44,9 +41,6 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
-import com.google.gwtexpui.globalkey.client.GlobalKey;
-import com.google.gwtexpui.globalkey.client.KeyCommand;
-import com.google.gwtexpui.globalkey.client.KeyCommandFilter;
 import com.google.gwtexpui.user.client.UserAgent;
 import com.google.gwtexpui.user.client.ViewSite;
 import com.google.gwtjsonrpc.client.JsonUtil;
@@ -72,7 +66,6 @@ public class Gerrit implements EntryPoint {
   private static String myVersion;
   private static GerritConfig myConfig;
   private static Account myAccount;
-  private static final HandlerManager globalHandlers = new HandlerManager(true);
 
   private static TabPanel menuLeft;
   private static LinkMenuBar menuRight;
@@ -143,30 +136,6 @@ public class Gerrit implements EntryPoint {
    */
   public static void doSignIn() {
     new SignInDialog().center();
-  }
-
-  /** Sign the user out of the application (and discard the cookies). */
-  public static void doSignOut() {
-    myAccount = null;
-    Cookies.removeCookie(ACCOUNT_COOKIE);
-
-    globalHandlers.fireEvent(new SignOutEvent());
-    GlobalKey.filter(new KeyCommandFilter() {
-      public boolean include(final KeyCommand key) {
-        return !(key instanceof NeedsSignInKeyCommand);
-      }
-    });
-    refreshMenuBar();
-
-    final Screen cs = body.getView();
-    if (cs != null) {
-      cs.onSignOut();
-    }
-  }
-
-  /** Add a handler to monitor sign-out status. */
-  public static HandlerRegistration addSignOutHandler(final SignOutHandler l) {
-    return globalHandlers.addHandler(SignOutEvent.getType(), l);
   }
 
   public void onModuleLoad() {
@@ -350,19 +319,7 @@ public class Gerrit implements EntryPoint {
     if (signedIn) {
       whoAmI();
       addLink(menuRight, C.menuSettings(), Link.SETTINGS);
-      switch (getConfig().getLoginType()) {
-        case HTTP:
-          break;
-
-        case OPENID:
-        case DEVELOPMENT_BECOME_ANY_ACCOUNT:
-          menuRight.addItem(C.menuSignOut(), new Command() {
-            public void execute() {
-              doSignOut();
-            }
-          });
-          break;
-      }
+      menuRight.add(anchor(C.menuSignOut(), "logout"));
     } else {
       switch (getConfig().getLoginType()) {
         case HTTP:
@@ -382,7 +339,7 @@ public class Gerrit implements EntryPoint {
           break;
 
         case DEVELOPMENT_BECOME_ANY_ACCOUNT:
-          menuRight.add(new Anchor("Become", "become"));
+          menuRight.add(anchor("Become", "become"));
           break;
       }
     }
@@ -404,6 +361,13 @@ public class Gerrit implements EntryPoint {
     final InlineLabel l = new InlineLabel(name);
     l.setStyleName("gerrit-MenuBarUserName");
     menuRight.add(l);
+  }
+
+  private static Anchor anchor(final String text, final String to) {
+    final Anchor a = new Anchor(text, to);
+    a.setStyleName("gerrit-MenuItem");
+    Accessibility.setRole(a.getElement(), Accessibility.ROLE_MENUITEM);
+    return a;
   }
 
   private static void addLink(final LinkMenuBar m, final String text,

@@ -18,8 +18,6 @@ import static com.google.gerrit.client.FormatUtil.mediumFormat;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.Link;
-import com.google.gerrit.client.SignOutEvent;
-import com.google.gerrit.client.SignOutHandler;
 import com.google.gerrit.client.data.AccountInfoCache;
 import com.google.gerrit.client.data.ChangeInfo;
 import com.google.gerrit.client.reviewdb.Account;
@@ -34,7 +32,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
@@ -64,7 +61,6 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
   private static final int COLUMNS = 8;
 
   private final List<Section> sections;
-  private HandlerRegistration regSignOut;
   private AccountInfoCache accountCache = AccountInfoCache.empty();
 
   public ChangeTable() {
@@ -144,34 +140,6 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
   protected void onOpenRow(final int row) {
     final ChangeInfo c = getRowItem(row);
     Gerrit.display(Link.toChange(c), new ChangeScreen(c));
-  }
-
-  @Override
-  protected void onLoad() {
-    super.onLoad();
-    if (regSignOut == null && Gerrit.isSignedIn()) {
-      regSignOut = Gerrit.addSignOutHandler(new SignOutHandler() {
-        public void onSignOut(final SignOutEvent event) {
-          final int max = table.getRowCount();
-          for (int row = 0; row < max; row++) {
-            if (getRowItem(row) != null) {
-              table.clearCell(row, C_STAR);
-            }
-          }
-          regSignOut.removeHandler();
-          regSignOut = null;
-        }
-      });
-    }
-  }
-
-  @Override
-  protected void onUnload() {
-    if (regSignOut != null) {
-      regSignOut.removeHandler();
-      regSignOut = null;
-    }
-    super.onUnload();
   }
 
   private void insertNoneRow(final int row) {

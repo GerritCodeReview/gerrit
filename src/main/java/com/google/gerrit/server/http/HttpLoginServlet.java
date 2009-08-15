@@ -32,6 +32,7 @@ import org.spearce.jgit.util.Base64;
 
 import java.io.IOException;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -69,7 +70,13 @@ class HttpLoginServlet extends HttpServlet {
 
   @Override
   protected void doGet(final HttpServletRequest req,
-      final HttpServletResponse rsp) throws IOException {
+      final HttpServletResponse rsp) throws ServletException, IOException {
+    final String token = getToken(req);
+    if ("logout".equals(token) || "signout".equals(token)) {
+      req.getRequestDispatcher("/logout").forward(req, rsp);
+      return;
+    }
+
     final String user = getRemoteUser(req);
     if (user == null || "".equals(user)) {
       log.error("Unable to authenticate user by " + loginHeader
@@ -88,14 +95,6 @@ class HttpLoginServlet extends HttpServlet {
       return;
     }
 
-    String token = req.getPathInfo();
-    if (token != null && token.startsWith("/")) {
-      token = token.substring(1);
-    }
-    if (token == null || token.isEmpty()) {
-      token = Link.MINE;
-    }
-
     gerritCall.get().setAccount(arsp.getAccountId(), false);
     final StringBuilder rdr = new StringBuilder();
     rdr.append(urlProvider.get());
@@ -106,6 +105,17 @@ class HttpLoginServlet extends HttpServlet {
     }
     rdr.append(token);
     rsp.sendRedirect(rdr.toString());
+  }
+
+  private String getToken(final HttpServletRequest req) {
+    String token = req.getPathInfo();
+    if (token != null && token.startsWith("/")) {
+      token = token.substring(1);
+    }
+    if (token == null || token.isEmpty()) {
+      token = Link.MINE;
+    }
+    return token;
   }
 
   private String getRemoteUser(final HttpServletRequest req) {

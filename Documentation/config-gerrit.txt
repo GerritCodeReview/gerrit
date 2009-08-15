@@ -85,6 +85,15 @@ auth.httpHeader::
 HTTP header to trust the username from, or unset to select HTTP basic
 or digest authentication.  Only used if `auth.type` was set to HTTP.
 
+auth.logoutUrl::
++
+URL to redirect a browser to after the end-user has clicked on the
+"Sign Out" link in the upper right corner.  Organizations using an
+enterprise single-sign-on solution may want to redirect the browser
+to the SSO product's sign-out page.
++
+If not set, the redirect returns to the list of all open changes.
+
 auth.emailFormat::
 +
 Optional format string to construct user email addresses out of

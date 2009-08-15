@@ -16,8 +16,6 @@ package com.google.gerrit.client.patches;
 
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.SignOutEvent;
-import com.google.gerrit.client.SignOutHandler;
 import com.google.gerrit.client.changes.PatchTable;
 import com.google.gerrit.client.changes.PublishCommentScreen;
 import com.google.gerrit.client.changes.Util;
@@ -61,7 +59,6 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
       new Timestamp(System.currentTimeMillis() - AGE);
   private final KeyCommandSet keysComment;
   private HandlerRegistration regComment;
-  private HandlerRegistration regSignOut;
 
   protected AbstractPatchContentTable() {
     keysNavigation.add(new PrevKeyCommand(0, 'k', PatchUtil.C.linePrev()));
@@ -108,49 +105,12 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
     }
   }
 
-  @Override
-  protected void onLoad() {
-    super.onLoad();
-    if (regSignOut == null && Gerrit.isSignedIn()) {
-      regSignOut = Gerrit.addSignOutHandler(new SignOutHandler() {
-        public void onSignOut(final SignOutEvent event) {
-          // TODO we should confirm with the user before sign out starts
-          // that its OK to sign out if any of our editors are unsaved.
-          // (bug GERRIT-16)
-          //
-          for (int row = 0; row < table.getRowCount();) {
-            final int nCells = table.getCellCount(row);
-            int inc = 1;
-            for (int cell = 0; cell < nCells; cell++) {
-              if (table.getWidget(row, cell) instanceof CommentEditorPanel) {
-                destroyEditor(table, row, cell);
-                inc = 0;
-              }
-            }
-            row += inc;
-          }
-          regSignOut.removeHandler();
-          regSignOut = null;
-        }
-      });
-    }
-  }
-
-  @Override
-  protected void onUnload() {
-    if (regSignOut != null) {
-      regSignOut.removeHandler();
-      regSignOut = null;
-    }
-    super.onUnload();
-  }
-
   public void display(final Patch.Key k, final PatchSet.Id a,
       final PatchSet.Id b, final PatchScript s) {
     patchKey = k;
     idSideA = a;
     idSideB = b;
-    
+
     final String pathName = patchKey.get();
     int ext = pathName.lastIndexOf('.');
     formatLanguage = ext > 0 ? pathName.substring(ext + 1).toLowerCase() : null;

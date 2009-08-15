@@ -32,6 +32,7 @@ public class AuthConfig {
   private final int sessionAge;
   private final LoginType loginType;
   private final String httpHeader;
+  private final String logoutUrl;
   private final String[] trusted;
 
   private final SignedToken xsrfToken;
@@ -46,6 +47,7 @@ public class AuthConfig {
     sessionAge = cfg.getInt("auth", "maxsessionage", 12 * 60) * 60;
     loginType = toType(cfg);
     httpHeader = cfg.getString("auth", null, "httpheader");
+    logoutUrl = cfg.getString("auth", null, "logouturl");
     trusted = toTrusted(cfg);
 
     xsrfToken = new SignedToken(getSessionAge(), s.xsrfPrivateKey);
@@ -106,6 +108,10 @@ public class AuthConfig {
 
   public String getLoginHttpHeader() {
     return httpHeader;
+  }
+
+  public String getLogoutURL() {
+    return logoutUrl;
   }
 
   /** Time (in seconds) that user sessions stay "signed in". */

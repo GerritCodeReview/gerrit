@@ -52,7 +52,9 @@ class WebModule extends FactoryModule {
         serve("/").with(HostPageServlet.class);
         serve("/Gerrit").with(LegacyGerritServlet.class);
         serve("/cat/*").with(CatServlet.class);
+        serve("/logout").with(HttpLogoutServlet.class);
         serve("/prettify/*").with(PrettifyServlet.class);
+        serve("/signout").with(HttpLogoutServlet.class);
         serve("/ssh_info").with(SshServlet.class);
         serve("/static/*").with(StaticServlet.class);
       }

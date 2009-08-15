@@ -14,7 +14,6 @@
 
 package com.google.gerrit.client.reviewdb;
 
-import com.google.gerrit.client.Gerrit;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.StringKey;
 

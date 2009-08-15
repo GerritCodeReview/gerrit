@@ -67,22 +67,12 @@ public class CanonicalWebUrlProvider implements Provider<String> {
         }
       }
 
-      // Assume this servlet is in the context with a simple name like "login"
-      // and we were accessed without any path info. Clipping the last part of
-      // the name from the URL should generate the web application's root path.
-      //
-      String uri = req.getRequestURL().toString();
-      final int s = uri.lastIndexOf('/');
-      if (s >= 0) {
-        uri = uri.substring(0, s + 1);
+      final StringBuffer url = req.getRequestURL();
+      url.setLength(url.length() - req.getServletPath().length());
+      if (url.charAt(url.length() - 1) != '/') {
+        url.append('/');
       }
-      final String sfx = "/gerrit/rpc/";
-      if (uri.endsWith(sfx)) {
-        // Nope, it was one of our RPC servlets. Drop the rpc too.
-        //
-        uri = uri.substring(0, uri.length() - (sfx.length() - 1));
-      }
-      return uri;
+      return url.toString();
     }
 
     // We have no way of guessing our HTTP url.

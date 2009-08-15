@@ -23,14 +23,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Handles the <code>/login</code> URL for web based single-sign-on. */
+/** Handles the <code>/OpenID</code> URL for web based single-sign-on. */
 @SuppressWarnings("serial")
 @Singleton
 class OpenIdLoginServlet extends HttpServlet {
   private final OpenIdServiceImpl impl;
 
   @Inject
-  OpenIdLoginServlet(final OpenIdServiceImpl i){
+  OpenIdLoginServlet(final OpenIdServiceImpl i) {
     impl = i;
   }
 
@@ -44,6 +44,9 @@ class OpenIdLoginServlet extends HttpServlet {
   public void doPost(final HttpServletRequest req, final HttpServletResponse rsp)
       throws IOException {
     try {
+      rsp.setHeader("Expires", "Fri, 01 Jan 1980 00:00:00 GMT");
+      rsp.setHeader("Pragma", "no-cache");
+      rsp.setHeader("Cache-Control", "no-cache, must-revalidate");
       impl.doAuth(req, rsp);
     } catch (Exception e) {
       getServletContext().log("Unexpected error during authentication", e);

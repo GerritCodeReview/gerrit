@@ -1,0 +1,21 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
+<html>
+  <head>
+    <title>Gerrit Code Review</title>
+    <script type="text/javascript" language="javascript">
+      var href = window.location.href;
+      var p = href.indexOf('#');
+      var token;
+      if (p >= 0) {
+        token = href.substring(p + 1);
+        href = href.substring(0, p);
+      } else {
+        token = 'mine';
+      }
+      window.location.replace(href + 'login/' + token);
+    </script>
+  </head>
+  <body>
+    <p>Redirecting to <a href="login/mine">Gerrit Code Review</a>.</p>
+  </body>
+</html>

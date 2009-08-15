@@ -20,24 +20,15 @@ import com.google.gerrit.client.SignInDialog.Mode;
 import com.google.gerrit.client.openid.DiscoveryResult;
 import com.google.gerrit.client.openid.OpenIdService;
 import com.google.gerrit.client.openid.OpenIdUtil;
-import com.google.gerrit.client.reviewdb.Account;
-import com.google.gerrit.client.reviewdb.AccountExternalId;
-import com.google.gerrit.client.reviewdb.AccountExternalIdAccess;
-import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.UrlEncoded;
-import com.google.gerrit.server.account.AccountByEmailCache;
-import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.config.AuthConfig;
+import com.google.gerrit.server.account.AccountException;
+import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.Nullable;
 import com.google.gerrit.server.http.GerritCall;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtorm.client.KeyUtil;
-import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.ResultSet;
-import com.google.gwtorm.client.SchemaFactory;
-import com.google.gwtorm.client.Transaction;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -69,10 +60,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.TreeMap;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -102,28 +90,21 @@ class OpenIdServiceImpl implements OpenIdService {
 
   private final Provider<GerritCall> callFactory;
   private final Provider<IdentifiedUser> identifiedUser;
-  private final AuthConfig authConfig;
   private final Provider<String> urlProvider;
-  private final SchemaFactory<ReviewDb> schema;
+  private final AccountManager accountManager;
   private final ConsumerManager manager;
-  private final AccountByEmailCache byEmailCache;
-  private final AccountCache byIdCache;
   private final SelfPopulatingCache discoveryCache;
 
   @Inject
   OpenIdServiceImpl(final Provider<GerritCall> cf,
-      final Provider<IdentifiedUser> iu, final AuthConfig ac,
+      final Provider<IdentifiedUser> iu,
       @CanonicalWebUrl @Nullable final Provider<String> up,
-      final AccountByEmailCache bec, final AccountCache bic,
-      final CacheManager cacheMgr, final SchemaFactory<ReviewDb> sf)
+      final CacheManager cacheMgr, final AccountManager am)
       throws ConsumerException {
     callFactory = cf;
     identifiedUser = iu;
-    authConfig = ac;
     urlProvider = up;
-    schema = sf;
-    byEmailCache = bec;
-    byIdCache = bic;
+    accountManager = am;
     manager = new ConsumerManager();
 
     final Cache base = cacheMgr.getCache("openid");
@@ -187,217 +168,146 @@ class OpenIdServiceImpl implements OpenIdService {
       // registration information, in case the identity is new to us.
       //
       return true;
-    }
 
-    // We might already have this account on file. Look for it.
-    //
-    try {
-      final ReviewDb db = schema.open();
-      try {
-        final ResultSet<AccountExternalId> ae =
-            db.accountExternalIds().byExternal(aReq.getIdentity());
-        if (ae.iterator().hasNext()) {
-          // We already have it. Don't bother asking for the
-          // registration information, we have what we need.
-          //
-          return false;
-        }
-      } finally {
-        db.close();
-      }
-    } catch (OrmException e) {
-      log.warn("Failed looking for existing account", e);
+    } else {
+      // We might already have this account on file. Look for it.
+      //
+      return accountManager.equals(aReq.getIdentity());
     }
-
-    // We don't have this account on file, or our query failed. Assume
-    // we should ask for registration information in case the account
-    // turns out to be new.
-    //
-    return true;
   }
 
   /** Called by {@link OpenIdLoginServlet} doGet, doPost */
   void doAuth(final HttpServletRequest req, final HttpServletResponse rsp)
       throws Exception {
-    if (false) {
-      debugRequest(req);
+    if (OMODE_CANCEL.equals(req.getParameter(OPENID_MODE))) {
+      cancel(req, rsp);
+      return;
     }
 
-    callFactory.get().noCache();
+    // Process the authentication response.
+    //
+    final SignInDialog.Mode mode = signInMode(req);
+    final String openidIdentifier = req.getParameter("openid.identity");
+    final String returnToken = req.getParameter(P_TOKEN);
+    final boolean remember = "1".equals(req.getParameter(P_REMEMBER));
+    final State state;
 
-    final String openidMode = req.getParameter(OPENID_MODE);
-    if (OMODE_CANCEL.equals(openidMode)) {
-      cancel(req, rsp);
-
-    } else {
-      // Process the authentication response.
+    state = init(openidIdentifier, mode, remember, returnToken);
+    if (state == null) {
+      // Re-discovery must have failed, we can't run a login.
       //
-      final SignInDialog.Mode mode = signInMode(req);
-      final String openidIdentifier = req.getParameter("openid.identity");
-      final String returnToken = req.getParameter(P_TOKEN);
-      final boolean remember = "1".equals(req.getParameter(P_REMEMBER));
-      final State state;
+      cancel(req, rsp);
+      return;
+    }
 
-      state = init(openidIdentifier, mode, remember, returnToken);
-      if (state == null) {
-        // Re-discovery must have failed, we can't run a login.
-        //
-        cancel(req, rsp);
-        return;
-      }
+    final String returnTo = req.getParameter("openid.return_to");
+    if (returnTo != null && returnTo.contains("openid.rpnonce=")) {
+      // Some providers (claimid.com) seem to embed these request
+      // parameters into our return_to URL, and then give us them
+      // in the return_to request parameter. But not all.
+      //
+      state.retTo.put("openid.rpnonce", req.getParameter("openid.rpnonce"));
+      state.retTo.put("openid.rpsig", req.getParameter("openid.rpsig"));
+    }
 
-      final String returnTo = req.getParameter("openid.return_to");
-      if (returnTo != null && returnTo.contains("openid.rpnonce=")) {
-        // Some providers (claimid.com) seem to embed these request
-        // parameters into our return_to URL, and then give us them
-        // in the return_to request parameter. But not all.
-        //
-        state.retTo.put("openid.rpnonce", req.getParameter("openid.rpnonce"));
-        state.retTo.put("openid.rpsig", req.getParameter("openid.rpsig"));
-      }
-
-      final VerificationResult result =
-          manager.verify(state.retTo.toString(), new ParameterList(req
-              .getParameterMap()), state.discovered);
-      final Identifier user = result.getVerifiedId();
-
-      if (user != null) {
-        // Authentication was successful.
-        //
-        final Message authRsp = result.getAuthResponse();
-        SRegResponse sregRsp = null;
-        FetchResponse fetchRsp = null;
-
-        if (authRsp.hasExtension(SRegMessage.OPENID_NS_SREG)) {
-          final MessageExtension ext =
-              authRsp.getExtension(SRegMessage.OPENID_NS_SREG);
-          if (ext instanceof SRegResponse) {
-            sregRsp = (SRegResponse) ext;
-          }
-        }
-
-        if (authRsp.hasExtension(AxMessage.OPENID_NS_AX)) {
-          final MessageExtension ext =
-              authRsp.getExtension(AxMessage.OPENID_NS_AX);
-          if (ext instanceof FetchResponse) {
-            fetchRsp = (FetchResponse) ext;
-          }
-        }
-
-        String fullname = null;
-        String email = null;
-
-        if (sregRsp != null) {
-          fullname = sregRsp.getAttributeValue("fullname");
-          email = sregRsp.getAttributeValue("email");
-
-        } else if (fetchRsp != null) {
-          final String firstName = fetchRsp.getAttributeValue("FirstName");
-          final String lastName = fetchRsp.getAttributeValue("LastName");
-          final StringBuilder n = new StringBuilder();
-          if (firstName != null && firstName.length() > 0) {
-            n.append(firstName);
-          }
-          if (lastName != null && lastName.length() > 0) {
-            if (n.length() > 0) {
-              n.append(' ');
-            }
-            n.append(lastName);
-          }
-          fullname = n.length() > 0 ? n.toString() : null;
-          email = fetchRsp.getAttributeValue("Email");
-        }
-
-        initializeAccount(req, rsp, user, fullname, email);
-      } else if ("Nonce verification failed.".equals(result.getStatusMsg())) {
+    final VerificationResult result =
+        manager.verify(state.retTo.toString(), new ParameterList(req
+            .getParameterMap()), state.discovered);
+    final Identifier user = result.getVerifiedId();
+    if (user == null /* authentication failure */) {
+      if ("Nonce verification failed.".equals(result.getStatusMsg())) {
         // We might be suffering from clock skew on this system.
         //
         log.error("OpenID failure: " + result.getStatusMsg()
             + "  Likely caused by clock skew on this server,"
             + " install/configure NTP.");
-        cancelWithError(req, rsp, mode, result.getStatusMsg());
+        cancelWithError(req, rsp, result.getStatusMsg());
+
       } else if (result.getStatusMsg() != null) {
         // Authentication failed.
         //
         log.error("OpenID failure: " + result.getStatusMsg());
-        cancelWithError(req, rsp, mode, result.getStatusMsg());
+        cancelWithError(req, rsp, result.getStatusMsg());
+
       } else {
         // Assume authentication was canceled.
         //
         cancel(req, rsp);
       }
+      return;
     }
-  }
 
-  @SuppressWarnings("unchecked")
-  private static void debugRequest(final HttpServletRequest req) {
-    System.err.println(req.getMethod() + " /" + RETURN_URL);
-    for (final String n : new TreeMap<String, Object>(req.getParameterMap())
-        .keySet()) {
-      for (final String v : req.getParameterValues(n)) {
-        System.err.println("  " + n + "=" + v);
+    final Message authRsp = result.getAuthResponse();
+    SRegResponse sregRsp = null;
+    FetchResponse fetchRsp = null;
+
+    if (authRsp.hasExtension(SRegMessage.OPENID_NS_SREG)) {
+      final MessageExtension ext =
+          authRsp.getExtension(SRegMessage.OPENID_NS_SREG);
+      if (ext instanceof SRegResponse) {
+        sregRsp = (SRegResponse) ext;
       }
     }
-    System.err.println();
-  }
 
-  private void initializeAccount(final HttpServletRequest req,
-      final HttpServletResponse rsp, final Identifier user,
-      final String fullname, final String email) throws IOException {
-    final SignInDialog.Mode mode = signInMode(req);
-    Account account = null;
-    boolean isNew = false;
-    if (user != null) {
-      try {
-        final ReviewDb d = schema.open();
-        try {
-          switch (mode) {
-            case SIGN_IN:
-            case REGISTER: {
-              SignInResult r = openAccount(d, user, fullname, email);
-              if (r != null) {
-                account = r.account;
-                isNew = r.isNew;
-              }
-              break;
-            }
-            case LINK_IDENTIY:
-              account = linkAccount(req, d, user, email);
-              break;
-          }
-        } finally {
-          d.close();
+    if (authRsp.hasExtension(AxMessage.OPENID_NS_AX)) {
+      final MessageExtension ext = authRsp.getExtension(AxMessage.OPENID_NS_AX);
+      if (ext instanceof FetchResponse) {
+        fetchRsp = (FetchResponse) ext;
+      }
+    }
+
+    final com.google.gerrit.server.account.AuthRequest areq =
+        new com.google.gerrit.server.account.AuthRequest(user.getIdentifier());
+
+    if (sregRsp != null) {
+      areq.setDisplayName(sregRsp.getAttributeValue("fullname"));
+      areq.setEmailAddress(sregRsp.getAttributeValue("email"));
+
+    } else if (fetchRsp != null) {
+      final String firstName = fetchRsp.getAttributeValue("FirstName");
+      final String lastName = fetchRsp.getAttributeValue("LastName");
+      final StringBuilder n = new StringBuilder();
+      if (firstName != null && firstName.length() > 0) {
+        n.append(firstName);
+      }
+      if (lastName != null && lastName.length() > 0) {
+        if (n.length() > 0) {
+          n.append(' ');
         }
-      } catch (OrmException e) {
-        log.error("Account lookup failed", e);
-        account = null;
+        n.append(lastName);
       }
+      areq.setDisplayName(n.length() > 0 ? n.toString() : null);
+      areq.setEmailAddress(fetchRsp.getAttributeValue("Email"));
     }
 
-    if (account == null) {
-      if (isSignIn(mode)) {
-        callFactory.get().logout();
+    try {
+      switch (mode) {
+        case REGISTER:
+        case SIGN_IN:
+          final com.google.gerrit.server.account.AuthResult arsp;
+          arsp = accountManager.authenticate(areq);
+
+          final Cookie lastId = new Cookie(OpenIdUtil.LASTID_COOKIE, "");
+          lastId.setPath(req.getContextPath() + "/");
+          if (remember) {
+            lastId.setValue(user.getIdentifier());
+            lastId.setMaxAge(LASTID_AGE);
+          } else {
+            lastId.setMaxAge(0);
+          }
+          rsp.addCookie(lastId);
+          callFactory.get().setAccount(arsp.getAccountId(), remember);
+          callback(arsp.isNew(), req, rsp);
+          break;
+
+        case LINK_IDENTIY:
+          accountManager.link(identifiedUser.get().getAccountId(), areq);
+          callback(false, req, rsp);
+          break;
       }
-      cancel(req, rsp);
-
-    } else if (isSignIn(mode)) {
-      final boolean remember = "1".equals(req.getParameter(P_REMEMBER));
-      callFactory.get().setAccount(account.getId(), false);
-
-      final Cookie lastId = new Cookie(OpenIdUtil.LASTID_COOKIE, "");
-      lastId.setPath(req.getContextPath() + "/");
-      if (remember) {
-        lastId.setValue(user.getIdentifier());
-        lastId.setMaxAge(LASTID_AGE);
-      } else {
-        lastId.setMaxAge(0);
-      }
-      rsp.addCookie(lastId);
-
-      callback(isNew, req, rsp);
-
-    } else {
-      callback(isNew, req, rsp);
+    } catch (AccountException e) {
+      log.error("OpenID authentication failure", e);
+      cancelWithError(req, rsp, "Contact site administrator");
     }
   }
 
@@ -411,148 +321,12 @@ class OpenIdServiceImpl implements OpenIdService {
     }
   }
 
-  static class SignInResult {
-    final Account account;
-    final boolean isNew;
-
-    SignInResult(final Account a, final boolean n) {
-      account = a;
-      isNew = n;
-    }
-  }
-
-  private SignInResult openAccount(final ReviewDb db, final Identifier user,
-      final String fullname, final String email) throws OrmException {
-    Account account;
-    final AccountExternalIdAccess extAccess = db.accountExternalIds();
-    AccountExternalId acctExt = lookup(extAccess, user.getIdentifier());
-
-    if (acctExt == null && email != null
-        && authConfig.isAllowGoogleAccountUpgrade() && isGoogleAccount(user)) {
-      acctExt = lookupGoogleAccount(extAccess, email);
-      if (acctExt != null) {
-        // Legacy user from Gerrit 1? Attach the OpenID identity.
-        //
-        final AccountExternalId openidExt =
-            new AccountExternalId(new AccountExternalId.Key(acctExt
-                .getAccountId(), user.getIdentifier()));
-        extAccess.insert(Collections.singleton(openidExt));
-        acctExt = openidExt;
-      }
-    }
-
-    if (acctExt != null) {
-      // Existing user; double check the email is current.
-      //
-      if (email != null && !email.equals(acctExt.getEmailAddress())) {
-        byEmailCache.evict(acctExt.getEmailAddress());
-        byEmailCache.evict(email);
-        acctExt.setEmailAddress(email);
-      }
-      acctExt.setLastUsedOn();
-      extAccess.update(Collections.singleton(acctExt));
-      account = byIdCache.get(acctExt.getAccountId()).getAccount();
-    } else {
-      account = null;
-    }
-
-    if (account == null) {
-      // New user; create an account entity for them.
-      //
-      final Transaction txn = db.beginTransaction();
-
-      account = new Account(new Account.Id(db.nextAccountId()));
-      account.setFullName(fullname);
-      account.setPreferredEmail(email);
-
-      acctExt =
-          new AccountExternalId(new AccountExternalId.Key(account.getId(), user
-              .getIdentifier()));
-      acctExt.setLastUsedOn();
-      acctExt.setEmailAddress(email);
-
-      db.accounts().insert(Collections.singleton(account), txn);
-      extAccess.insert(Collections.singleton(acctExt), txn);
-      txn.commit();
-      byEmailCache.evict(email);
-      return new SignInResult(account, true);
-    }
-    return account != null ? new SignInResult(account, false) : null;
-  }
-
-  private Account linkAccount(final HttpServletRequest req, final ReviewDb db,
-      final Identifier user, final String curEmail) throws OrmException {
-    final Account account = identifiedUser.get().getAccount();
-    final AccountExternalId.Key idKey =
-        new AccountExternalId.Key(account.getId(), user.getIdentifier());
-    AccountExternalId id = db.accountExternalIds().get(idKey);
-    if (id == null) {
-      id = new AccountExternalId(idKey);
-      id.setLastUsedOn();
-      id.setEmailAddress(curEmail);
-      db.accountExternalIds().insert(Collections.singleton(id));
-      byEmailCache.evict(curEmail);
-      byIdCache.evict(account.getId());
-    } else {
-      final String oldEmail = id.getEmailAddress();
-      if (curEmail != null && !curEmail.equals(oldEmail)) {
-        id.setEmailAddress(curEmail);
-      }
-      id.setLastUsedOn();
-      db.accountExternalIds().update(Collections.singleton(id));
-      if (curEmail != null && !curEmail.equals(oldEmail)) {
-        byEmailCache.evict(oldEmail);
-        byEmailCache.evict(curEmail);
-        byIdCache.evict(account.getId());
-      }
-    }
-    return account;
-  }
-
   private static Mode signInMode(final HttpServletRequest req) {
     try {
       return SignInDialog.Mode.valueOf(req.getParameter(P_MODE));
     } catch (RuntimeException e) {
       return SignInDialog.Mode.SIGN_IN;
     }
-  }
-
-  private static AccountExternalId lookup(
-      final AccountExternalIdAccess extAccess, final String id)
-      throws OrmException {
-    final List<AccountExternalId> extRes = extAccess.byExternal(id).toList();
-    switch (extRes.size()) {
-      case 0:
-        return null;
-      case 1:
-        return extRes.get(0);
-      default:
-        throw new OrmException("More than one account matches: " + id);
-    }
-  }
-
-  private static boolean isGoogleAccount(final Identifier user) {
-    return user.getIdentifier().startsWith(OpenIdUtil.URL_GOOGLE + "?");
-  }
-
-  private static AccountExternalId lookupGoogleAccount(
-      final AccountExternalIdAccess extAccess, final String email)
-      throws OrmException {
-    // We may have multiple records which match the email address, but
-    // all under the same account. This happens when the user does a
-    // login through different server hostnames, as Google issues
-    // unique OpenID tokens per server.
-    //
-    // Match to an existing account only if there is exactly one record
-    // for this email using the generic Google identity.
-    //
-    final List<AccountExternalId> m = new ArrayList<AccountExternalId>();
-    for (final AccountExternalId e : extAccess.byEmailAddress(email)) {
-      if (e.getExternalId().equals(AccountExternalId.LEGACY_GAE + email)) {
-        m.add(e);
-      }
-    }
-    return m.size() == 1 ? m.get(0) : null;
   }
 
   private void callback(final boolean isNew, final HttpServletRequest req,
@@ -575,12 +349,19 @@ class OpenIdServiceImpl implements OpenIdService {
 
   private void cancel(final HttpServletRequest req,
       final HttpServletResponse rsp) throws IOException {
+    if (isSignIn(signInMode(req))) {
+      callFactory.get().logout();
+    }
     callback(false, req, rsp);
   }
 
   private void cancelWithError(final HttpServletRequest req,
-      final HttpServletResponse rsp, final SignInDialog.Mode mode,
-      final String errorDetail) throws IOException {
+      final HttpServletResponse rsp, final String errorDetail)
+      throws IOException {
+    final SignInDialog.Mode mode = signInMode(req);
+    if (isSignIn(mode)) {
+      callFactory.get().logout();
+    }
     final StringBuilder rdr = new StringBuilder();
     rdr.append(urlProvider.get());
     rdr.append('#');

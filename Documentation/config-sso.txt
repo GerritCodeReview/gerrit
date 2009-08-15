@@ -91,27 +91,15 @@ username, as obtained from the Authorization header.  A format such
 as shown in the example would be typical, to add the domain name
 of the organization.
 
-If Apache HTTPd is being used as the primary web server and Apache
-will be handling authentication, a configuration such as the
-following is recommended to ensure repo can obtain the `/ssh_info`
-URL during `repo upload`:
+If Apache HTTPd is being used as the primary web server and the
+Apache server will be handling user authentication, a configuration
+such as the following is recommended to ensure Apache performs the
+authentication at the proper time:
 
 ====
-  <Location "/ssh_info">
-    # We don't want authentication for this one location,
-    # as repo uses it to grab our hostname and ssh port
-    #
-    ProxyPass http://127.0.0.1:8081/ssh_info
-    Allow from all
-    Satisfy Any
-  </Location>
-  #
-  <Location "/">
-    # Everything else should be protected by password
-    #
-    ProxyPass http://127.0.0.1:8081/
+  <Location "/login/">
     AuthType Basic
-    AuthName "Gerrit Review Server"
+    AuthName "Gerrit Code Review"
     Require valid-user
     ...
   </Location>
@@ -166,9 +154,6 @@ email address when they first login.  Gerrit will replace `\{0\}`
 with the username, as supplied by Siteminder.  A format such as
 shown in the example would be typical, to add the domain name of
 the organization.
-
-If Apache HTTPd is being used, see the section above to configure
-the `/ssh_info` URL to be available to `repo upload`.
 
 If Jetty is being used, you may need to increase the header
 buffer size parameter, due to very long header lines.

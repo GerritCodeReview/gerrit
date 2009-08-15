@@ -31,6 +31,9 @@ import com.google.gerrit.server.ContactStore;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.AccountException;
+import com.google.gerrit.server.account.AccountManager;
+import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.mail.RegisterNewEmailSender;
@@ -40,7 +43,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtjsonrpc.server.ValidToken;
 import com.google.gwtjsonrpc.server.XsrfException;
-import com.google.gwtorm.client.OrmDuplicateKeyException;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.Transaction;
 import com.google.inject.Inject;
@@ -70,6 +72,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
   private final SshKeyCache sshKeyCache;
   private final AccountByEmailCache byEmailCache;
   private final AccountCache accountCache;
+  private final AccountManager accountManager;
   private final boolean useContactInfo;
 
   private final ExternalIdDetailFactory.Factory externalIdDetailFactory;
@@ -79,7 +82,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
       final Provider<CurrentUser> currentUser, final ContactStore cs,
       final AuthConfig ac, final RegisterNewEmailSender.Factory esf,
       final SshKeyCache skc, final AccountByEmailCache abec,
-      final AccountCache uac,
+      final AccountCache uac, final AccountManager am,
       final ExternalIdDetailFactory.Factory externalIdDetailFactory) {
     super(schema, currentUser);
     contactStore = cs;
@@ -88,6 +91,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
     sshKeyCache = skc;
     byEmailCache = abec;
     accountCache = uac;
+    accountManager = am;
 
     useContactInfo = contactStore != null && contactStore.isEnabled();
 
@@ -341,7 +345,6 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
 
   public void validateEmail(final String token,
       final AsyncCallback<VoidResult> callback) {
-    final String newEmail;
     try {
       final ValidToken t =
           authConfig.getEmailRegistrationToken().checkToken(token, null);
@@ -349,48 +352,19 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
         callback.onFailure(new IllegalStateException("Invalid token"));
         return;
       }
-      newEmail = new String(Base64.decode(t.getData()), "UTF-8");
+      final String newEmail = new String(Base64.decode(t.getData()), "UTF-8");
       if (!newEmail.contains("@")) {
         callback.onFailure(new IllegalStateException("Invalid token"));
         return;
       }
+      accountManager.link(getAccountId(), AuthRequest.forEmail(newEmail));
+      callback.onSuccess(VoidResult.INSTANCE);
     } catch (XsrfException e) {
       callback.onFailure(e);
-      return;
     } catch (UnsupportedEncodingException e) {
       callback.onFailure(e);
-      return;
+    } catch (AccountException e) {
+      callback.onFailure(e);
     }
-
-    run(callback, new Action<VoidResult>() {
-      public VoidResult run(ReviewDb db) throws OrmException {
-        final Account.Id me = getAccountId();
-        final List<AccountExternalId> exists =
-            db.accountExternalIds().byAccountEmail(me, newEmail).toList();
-        if (!exists.isEmpty()) {
-          return VoidResult.INSTANCE;
-        }
-
-        try {
-          final AccountExternalId id =
-              new AccountExternalId(new AccountExternalId.Key(me,
-                  AccountExternalId.SCHEME_MAILTO + newEmail));
-          id.setEmailAddress(newEmail);
-          db.accountExternalIds().insert(Collections.singleton(id));
-        } catch (OrmDuplicateKeyException e) {
-          // Ignore a duplicate registration
-        }
-
-        final Account a = db.accounts().get(me);
-        final String oldEmail = a.getPreferredEmail();
-        a.setPreferredEmail(newEmail);
-        db.accounts().update(Collections.singleton(a));
-
-        byEmailCache.evict(oldEmail);
-        byEmailCache.evict(newEmail);
-        accountCache.evict(me);
-        return VoidResult.INSTANCE;
-      }
-    });
   }
 }

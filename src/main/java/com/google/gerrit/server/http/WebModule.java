@@ -20,13 +20,13 @@ import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RemotePeer;
+import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GerritConfigProvider;
 import com.google.gerrit.server.config.GerritRequestModule;
 import com.google.gerrit.server.rpc.UiRpcModule;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gwtexpui.server.CacheControlFilter;
-import com.google.inject.Inject;
 import com.google.inject.Key;
 import com.google.inject.Provider;
 import com.google.inject.servlet.RequestScoped;
@@ -37,9 +37,8 @@ import java.net.SocketAddress;
 class WebModule extends FactoryModule {
   private final Provider<SshInfo> sshInfoProvider;
 
-  @Inject
-  WebModule(final Provider<SshInfo> si) {
-    sshInfoProvider = si;
+  WebModule(final Provider<SshInfo> sshInfoProvider) {
+    this.sshInfoProvider = sshInfoProvider;
   }
 
   @Override
@@ -47,9 +46,6 @@ class WebModule extends FactoryModule {
     install(new ServletModule() {
       @Override
       protected void configureServlets() {
-        filter("/*").through(RequestCleanupFilter.class);
-        filter("/*").through(UrlRewriteFilter.class);
-
         filter("/*").through(Key.get(CacheControlFilter.class));
         bind(Key.get(CacheControlFilter.class)).in(SINGLETON);
 
@@ -67,6 +63,7 @@ class WebModule extends FactoryModule {
     bind(SshInfo.class).toProvider(sshInfoProvider);
     bind(GerritConfig.class).toProvider(GerritConfigProvider.class).in(
         SINGLETON);
+    bind(AccountManager.class).in(SINGLETON);
     bind(GerritCall.class).in(RequestScoped.class);
     bind(SocketAddress.class).annotatedWith(RemotePeer.class).toProvider(
         HttpRemotePeerProvider.class).in(RequestScoped.class);

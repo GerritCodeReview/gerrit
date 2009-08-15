@@ -114,11 +114,20 @@ public class GerritServletConfig extends GuiceServletContextListener {
     final AuthConfig auth = sysInjector.getInstance(AuthConfig.class);
 
     final List<Module> modules = new ArrayList<Module>();
-    modules.add(new WebModule(sshInfo));
-
+    modules.add(new ServletModule() {
+      @Override
+      protected void configureServlets() {
+        filter("/*").through(RequestCleanupFilter.class);
+        filter("/*").through(UrlRewriteFilter.class);
+      }
+    });
     switch (auth.getLoginType()) {
       case OPENID:
         modules.add(new OpenIdModule());
+        break;
+
+      case HTTP:
+        modules.add(new HttpAuthModule());
         break;
 
       case DEVELOPMENT_BECOME_ANY_ACCOUNT:
@@ -130,6 +139,7 @@ public class GerritServletConfig extends GuiceServletContextListener {
         });
         break;
     }
+    modules.add(new WebModule(sshInfo));
 
     return sysInjector.createChildInjector(modules);
   }

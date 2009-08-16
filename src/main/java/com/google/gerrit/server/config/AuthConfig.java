@@ -44,7 +44,7 @@ public class AuthConfig {
     httpHeader = cfg.getString("auth", null, "httpheader");
     logoutUrl = cfg.getString("auth", null, "logouturl");
     trusted = toTrusted(cfg);
-    emailReg = new SignedToken(5 * 24 * 60 * 60, s.accountPrivateKey);
+    emailReg = new SignedToken(5 * 24 * 60 * 60, s.registerEmailPrivateKey);
 
     allowGoogleAccountUpgrade =
         cfg.getBoolean("auth", "allowgoogleaccountupgrade", false);

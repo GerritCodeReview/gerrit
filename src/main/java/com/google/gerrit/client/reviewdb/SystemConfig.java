@@ -52,13 +52,9 @@ public final class SystemConfig {
   @Column
   protected Key singleton;
 
-  /** Private key to sign XSRF protection tokens. */
-  @Column(length = 36)
-  public transient String xsrfPrivateKey;
-
   /** Private key to sign account identification cookies. */
   @Column(length = 36)
-  public transient String accountPrivateKey;
+  public transient String registerEmailPrivateKey;
 
   /**
    * Local filesystem location of header/footer/CSS configuration files

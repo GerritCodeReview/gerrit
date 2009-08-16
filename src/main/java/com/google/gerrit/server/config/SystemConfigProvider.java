@@ -157,8 +157,7 @@ class SystemConfigProvider implements Provider<SystemConfig> {
     }
 
     final SystemConfig s = SystemConfig.create();
-    s.xsrfPrivateKey = SignedToken.generateRandomKey();
-    s.accountPrivateKey = SignedToken.generateRandomKey();
+    s.registerEmailPrivateKey = SignedToken.generateRandomKey();
     s.adminGroupId = admin.getId();
     s.anonymousGroupId = anonymous.getId();
     s.registeredGroupId = registered.getId();

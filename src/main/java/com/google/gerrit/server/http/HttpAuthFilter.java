@@ -45,14 +45,14 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Singleton
 class HttpAuthFilter implements Filter {
-  private final Provider<GerritCall> gerritCall;
+  private final Provider<WebSession> webSession;
   private final byte[] signInRaw;
   private final byte[] signInGzip;
 
   @Inject
-  HttpAuthFilter(final Provider<GerritCall> gerritCall,
+  HttpAuthFilter(final Provider<WebSession> webSession,
       final ServletContext servletContext) throws IOException {
-    this.gerritCall = gerritCall;
+    this.webSession = webSession;
 
     final String hostPageName = "WEB-INF/LoginRedirect.html";
     final String doc = HtmlDomUtil.readFile(servletContext, "/" + hostPageName);
@@ -68,7 +68,7 @@ class HttpAuthFilter implements Filter {
   public void doFilter(final ServletRequest request,
       final ServletResponse response, final FilterChain chain)
       throws IOException, ServletException {
-    if (gerritCall.get().getAccountId() == null) {
+    if (!webSession.get().isSignedIn()) {
       // Not signed in yet. Since the browser state might have an anchor
       // token which we want to capture and carry through the auth process
       // we send back JavaScript now to capture that, and do the real work

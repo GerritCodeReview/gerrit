@@ -66,9 +66,11 @@ class WebModule extends FactoryModule {
     bind(GerritConfig.class).toProvider(GerritConfigProvider.class).in(
         SINGLETON);
     bind(AccountManager.class).in(SINGLETON);
-    bind(GerritCall.class).in(RequestScoped.class);
     bind(SocketAddress.class).annotatedWith(RemotePeer.class).toProvider(
         HttpRemotePeerProvider.class).in(RequestScoped.class);
+
+    bind(WebSession.class).in(RequestScoped.class);
+    bind(WebSessionManager.class).in(SINGLETON);
 
     bind(CurrentUser.class).toProvider(HttpCurrentUserProvider.class).in(
         RequestScoped.class);

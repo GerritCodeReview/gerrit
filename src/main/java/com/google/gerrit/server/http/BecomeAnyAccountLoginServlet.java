@@ -39,16 +39,16 @@ import javax.servlet.http.HttpServletResponse;
 @Singleton
 public class BecomeAnyAccountLoginServlet extends HttpServlet {
   private final SchemaFactory<ReviewDb> schema;
-  private final Provider<GerritCall> callFactory;
+  private final Provider<WebSession> webSession;
   private final Provider<String> urlProvider;
   private final byte[] raw;
 
   @Inject
-  BecomeAnyAccountLoginServlet(final Provider<GerritCall> cf,
+  BecomeAnyAccountLoginServlet(final Provider<WebSession> ws,
       final SchemaFactory<ReviewDb> sf,
       final @CanonicalWebUrl @Nullable Provider<String> up,
       final ServletContext servletContext) throws IOException {
-    callFactory = cf;
+    webSession = ws;
     schema = sf;
     urlProvider = up;
 
@@ -95,9 +95,10 @@ public class BecomeAnyAccountLoginServlet extends HttpServlet {
 
     if (accounts.size() == 1) {
       final Account account = accounts.get(0);
-      final GerritCall call = callFactory.get();
-      call.noCache();
-      call.setAccount(account.getId(), false);
+      rsp.setHeader("Expires", "Fri, 01 Jan 1980 00:00:00 GMT");
+      rsp.setHeader("Pragma", "no-cache");
+      rsp.setHeader("Cache-Control", "no-cache, must-revalidate");
+      webSession.get().login(account.getId(), false);
       rsp.sendRedirect(urlProvider.get());
 
     } else {

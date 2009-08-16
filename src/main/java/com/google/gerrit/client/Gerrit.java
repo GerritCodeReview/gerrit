@@ -48,15 +48,6 @@ import com.google.gwtjsonrpc.client.JsonUtil;
 import java.util.ArrayList;
 
 public class Gerrit implements EntryPoint {
-  /**
-   * Name of the Cookie our authentication data is stored in.
-   * <p>
-   * If this cookie has a value we assume we are signed in.
-   *
-   * @see #isSignedIn()
-   */
-  public static final String ACCOUNT_COOKIE = "GerritAccount";
-
   public static final GerritConstants C = GWT.create(GerritConstants.class);
   public static final GerritMessages M = GWT.create(GerritMessages.class);
   public static final GerritIcons ICONS = GWT.create(GerritIcons.class);

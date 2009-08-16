@@ -16,11 +16,11 @@ package com.google.gerrit.server.http;
 
 import com.google.gerrit.client.rpc.NotSignedInException;
 import com.google.gerrit.client.rpc.SignInRequired;
-import com.google.gerrit.server.config.AuthConfig;
 import com.google.gson.GsonBuilder;
 import com.google.gwtjsonrpc.client.RemoteJsonService;
+import com.google.gwtjsonrpc.server.ActiveCall;
 import com.google.gwtjsonrpc.server.JsonServlet;
-import com.google.gwtjsonrpc.server.SignedToken;
+import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -31,28 +31,20 @@ import javax.servlet.http.HttpServletResponse;
  * Base JSON servlet to ensure the current user is not forged.
  */
 @SuppressWarnings("serial")
-final class GerritJsonServlet extends JsonServlet<GerritCall> {
-  private final Provider<GerritCall> callFactory;
+final class GerritJsonServlet extends JsonServlet<GerritJsonServlet.GerritCall> {
+  private final Provider<WebSession> session;
   private final RemoteJsonService service;
-  private final SignedToken xsrf;
 
   @Inject
-  GerritJsonServlet(final Provider<GerritCall> cf, final AuthConfig authConfig,
-      final RemoteJsonService s) {
-    callFactory = cf;
+  GerritJsonServlet(final Provider<WebSession> w, final RemoteJsonService s) {
+    session = w;
     service = s;
-    xsrf = authConfig.getXsrfToken();
-  }
-
-  @Override
-  protected SignedToken createXsrfSignedToken() {
-    return xsrf;
   }
 
   @Override
   protected GerritCall createActiveCall(final HttpServletRequest req,
-      final HttpServletResponse resp) {
-    return callFactory.get();
+      final HttpServletResponse rsp) {
+    return new GerritCall(session.get(), req, rsp);
   }
 
   @Override
@@ -78,11 +70,7 @@ final class GerritJsonServlet extends JsonServlet<GerritCall> {
       // valid XSRF token *and* have the user signed in. Doing these
       // checks also validates that they agree on the user identity.
       //
-      if (!call.requireXsrfValid()) {
-        return;
-      }
-
-      if (call.getAccountId() == null) {
+      if (!call.requireXsrfValid() || !session.get().isSignedIn()) {
         call.onFailure(new NotSignedInException());
         return;
       }
@@ -92,5 +80,40 @@ final class GerritJsonServlet extends JsonServlet<GerritCall> {
   @Override
   protected Object createServiceHandle() {
     return service;
+  }
+
+  static class GerritCall extends ActiveCall {
+    private final WebSession session;
+
+    GerritCall(final WebSession session, final HttpServletRequest i,
+        final HttpServletResponse o) {
+      super(i, o);
+      this.session = session;
+    }
+
+    @Override
+    public void onFailure(final Throwable error) {
+      if (error instanceof OrmException) {
+        onInternalFailure(error);
+      } else {
+        super.onFailure(error);
+      }
+    }
+
+    @Override
+    public boolean xsrfValidate() {
+      final String keyIn = getXsrfKeyIn();
+      if (keyIn == null || "".equals(keyIn)) {
+        // Anonymous requests don't need XSRF protection, they shouldn't
+        // be able to cause critical state changes.
+        //
+        return !session.isSignedIn();
+
+      } else {
+        // The session must exist, and must be using this token.
+        //
+        return session.isSignedIn() && session.isTokenValid(keyIn);
+      }
+    }
   }
 }

@@ -104,6 +104,17 @@ final class AdminFlushCaches extends CacheCommand {
   }
 
   private boolean flush(final String cacheName) {
-    return all || caches.contains(cacheName);
+    if (caches.contains(cacheName)) {
+      return true;
+
+    } else if (all) {
+      if ("web_sessions".equals(cacheName)) {
+        return false;
+      }
+      return true;
+
+    } else {
+      return false;
+    }
   }
 }

@@ -117,18 +117,6 @@ more agreements.
 +
 By default this is false (no agreements are used).
 
-auth.maxSessionAge::
-+
-Maximum number of minutes that an XSRF token or a session cookie
-is permitted to be valid for.
-+
-By default this is 720 minutes (12 hours).  Any browser session
-which has not been used in this time span will ask the user to
-login again.
-+
-Administrators may increase (or decrease) this setting to control
-how long an idle session is allowed to remain alive.
-
 auth.allowGoogleAccountUpgrade::
 +
 Allow old Gerrit1 users to seamlessly upgrade from Google Accounts
@@ -280,6 +268,12 @@ the total number of keys may be larger than the item count.
 This cache is based off the `account_ssh_keys` table and the
 `accounts.ssh_user_name` column in the database.  If either is
 modified directly, this cache should be flushed.
+
+cache `"web_sessions"`::
++
+Tracks the live user sessions coming in over HTTP.  Flushing this
+cache would cause all users to be signed out immediately, forcing
+them to sign-in again.
 
 See also link:cmd-flush-caches.html[gerrit flush-caches].
 

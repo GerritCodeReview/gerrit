@@ -30,16 +30,16 @@ import javax.servlet.http.HttpServletResponse;
 
 @Singleton
 class HttpLogoutServlet extends HttpServlet {
-  private final Provider<GerritCall> gerritCall;
+  private final Provider<WebSession> webSession;
   private final Provider<String> urlProvider;
   private final String logoutUrl;
 
   @Inject
   HttpLogoutServlet(final AuthConfig authConfig,
-      final Provider<GerritCall> gerritCall,
+      final Provider<WebSession> webSession,
       @CanonicalWebUrl @Nullable final Provider<String> urlProvider,
       final AccountManager accountManager) {
-    this.gerritCall = gerritCall;
+    this.webSession = webSession;
     this.urlProvider = urlProvider;
     this.logoutUrl = authConfig.getLogoutURL();
   }
@@ -47,7 +47,7 @@ class HttpLogoutServlet extends HttpServlet {
   @Override
   protected void doGet(final HttpServletRequest req,
       final HttpServletResponse rsp) throws IOException {
-    gerritCall.get().logout();
+    webSession.get().logout();
     if (logoutUrl != null) {
       rsp.sendRedirect(logoutUrl);
     } else {

@@ -50,17 +50,17 @@ class HttpLoginServlet extends HttpServlet {
       LoggerFactory.getLogger(HttpLoginServlet.class);
 
   private static final String AUTHORIZATION = "Authorization";
-  private final Provider<GerritCall> gerritCall;
+  private final Provider<WebSession> webSession;
   private final Provider<String> urlProvider;
   private final AccountManager accountManager;
   private final String loginHeader;
 
   @Inject
   HttpLoginServlet(final AuthConfig authConfig,
-      final Provider<GerritCall> gerritCall,
+      final Provider<WebSession> webSession,
       @CanonicalWebUrl @Nullable final Provider<String> urlProvider,
       final AccountManager accountManager) {
-    this.gerritCall = gerritCall;
+    this.webSession = webSession;
     this.urlProvider = urlProvider;
     this.accountManager = accountManager;
 
@@ -95,7 +95,7 @@ class HttpLoginServlet extends HttpServlet {
       return;
     }
 
-    gerritCall.get().setAccount(arsp.getAccountId(), false);
+    webSession.get().login(arsp.getAccountId(), false);
     final StringBuilder rdr = new StringBuilder();
     rdr.append(urlProvider.get());
     rdr.append('#');

@@ -26,7 +26,7 @@ import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.Nullable;
-import com.google.gerrit.server.http.GerritCall;
+import com.google.gerrit.server.http.WebSession;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtorm.client.KeyUtil;
 import com.google.inject.Inject;
@@ -88,7 +88,7 @@ class OpenIdServiceImpl implements OpenIdService {
   private static final String SCHEMA_LASTNAME =
       "http://schema.openid.net/namePerson/last";
 
-  private final Provider<GerritCall> callFactory;
+  private final Provider<WebSession> webSession;
   private final Provider<IdentifiedUser> identifiedUser;
   private final Provider<String> urlProvider;
   private final AccountManager accountManager;
@@ -96,12 +96,12 @@ class OpenIdServiceImpl implements OpenIdService {
   private final SelfPopulatingCache discoveryCache;
 
   @Inject
-  OpenIdServiceImpl(final Provider<GerritCall> cf,
+  OpenIdServiceImpl(final Provider<WebSession> cf,
       final Provider<IdentifiedUser> iu,
       @CanonicalWebUrl @Nullable final Provider<String> up,
       final CacheManager cacheMgr, final AccountManager am)
       throws ConsumerException {
-    callFactory = cf;
+    webSession = cf;
     identifiedUser = iu;
     urlProvider = up;
     accountManager = am;
@@ -296,7 +296,7 @@ class OpenIdServiceImpl implements OpenIdService {
             lastId.setMaxAge(0);
           }
           rsp.addCookie(lastId);
-          callFactory.get().setAccount(arsp.getAccountId(), remember);
+          webSession.get().login(arsp.getAccountId(), remember);
           callback(arsp.isNew(), req, rsp);
           break;
 
@@ -350,7 +350,7 @@ class OpenIdServiceImpl implements OpenIdService {
   private void cancel(final HttpServletRequest req,
       final HttpServletResponse rsp) throws IOException {
     if (isSignIn(signInMode(req))) {
-      callFactory.get().logout();
+      webSession.get().logout();
     }
     callback(false, req, rsp);
   }
@@ -360,7 +360,7 @@ class OpenIdServiceImpl implements OpenIdService {
       throws IOException {
     final SignInDialog.Mode mode = signInMode(req);
     if (isSignIn(mode)) {
-      callFactory.get().logout();
+      webSession.get().logout();
     }
     final StringBuilder rdr = new StringBuilder();
     rdr.append(urlProvider.get());

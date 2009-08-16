@@ -29,14 +29,10 @@ import java.util.Collection;
 /** Authentication related settings from {@code gerrit.config}. */
 @Singleton
 public class AuthConfig {
-  private final int sessionAge;
   private final LoginType loginType;
   private final String httpHeader;
   private final String logoutUrl;
   private final String[] trusted;
-
-  private final SignedToken xsrfToken;
-  private final SignedToken accountToken;
   private final SignedToken emailReg;
 
   private final boolean allowGoogleAccountUpgrade;
@@ -44,24 +40,10 @@ public class AuthConfig {
   @Inject
   AuthConfig(@GerritServerConfig final Config cfg, final SystemConfig s)
       throws XsrfException {
-    sessionAge = cfg.getInt("auth", "maxsessionage", 12 * 60) * 60;
     loginType = toType(cfg);
     httpHeader = cfg.getString("auth", null, "httpheader");
     logoutUrl = cfg.getString("auth", null, "logouturl");
     trusted = toTrusted(cfg);
-
-    xsrfToken = new SignedToken(getSessionAge(), s.xsrfPrivateKey);
-    final int accountCookieAge;
-    switch (getLoginType()) {
-      case HTTP:
-        accountCookieAge = -1; // expire when the browser closes
-        break;
-      case OPENID:
-      default:
-        accountCookieAge = getSessionAge();
-        break;
-    }
-    accountToken = new SignedToken(accountCookieAge, s.accountPrivateKey);
     emailReg = new SignedToken(5 * 24 * 60 * 60, s.accountPrivateKey);
 
     allowGoogleAccountUpgrade =
@@ -112,19 +94,6 @@ public class AuthConfig {
 
   public String getLogoutURL() {
     return logoutUrl;
-  }
-
-  /** Time (in seconds) that user sessions stay "signed in". */
-  public int getSessionAge() {
-    return sessionAge;
-  }
-
-  public SignedToken getXsrfToken() {
-    return xsrfToken;
-  }
-
-  public SignedToken getAccountToken() {
-    return accountToken;
   }
 
   public SignedToken getEmailRegistrationToken() {

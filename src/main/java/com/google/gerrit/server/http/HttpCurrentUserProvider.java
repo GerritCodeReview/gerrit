@@ -14,31 +14,22 @@
 
 package com.google.gerrit.server.http;
 
-import com.google.gerrit.client.reviewdb.Account;
-import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
+import com.google.inject.servlet.RequestScoped;
 
-@Singleton
+@RequestScoped
 class HttpCurrentUserProvider implements Provider<CurrentUser> {
-  private final Provider<GerritCall> call;
-  private final AnonymousUser anonymous;
-  private final IdentifiedUser.RequestFactory identified;
+  private final WebSession session;
 
   @Inject
-  HttpCurrentUserProvider(final Provider<GerritCall> c, final AnonymousUser a,
-      final IdentifiedUser.RequestFactory f) {
-    call = c;
-    anonymous = a;
-    identified = f;
+  HttpCurrentUserProvider(final WebSession session) {
+    this.session = session;
   }
 
   @Override
   public CurrentUser get() {
-    final Account.Id id = call.get().getAccountId();
-    return id != null ? identified.create(id) : anonymous;
+    return session.getCurrentUser();
   }
 }

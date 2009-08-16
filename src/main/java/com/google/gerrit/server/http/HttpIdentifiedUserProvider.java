@@ -24,16 +24,15 @@ import com.google.inject.servlet.RequestScoped;
 
 @RequestScoped
 class HttpIdentifiedUserProvider implements Provider<IdentifiedUser> {
-  private final Provider<CurrentUser> currentUser;
+  private final CurrentUser user;
 
   @Inject
-  HttpIdentifiedUserProvider(final Provider<CurrentUser> u) {
-    currentUser = u;
+  HttpIdentifiedUserProvider(final CurrentUser u) {
+    user = u;
   }
 
   @Override
   public IdentifiedUser get() {
-    final CurrentUser user = currentUser.get();
     if (user instanceof IdentifiedUser) {
       return (IdentifiedUser) user;
     }

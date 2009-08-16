@@ -41,6 +41,7 @@ public class CacheManagerProvider implements Provider<CacheManager> {
     private static final int MB = 1024 * 1024;
     private static final int ONE_DAY = 24 * 60;
     private static final int D_MAXAGE = 3 * 30 * ONE_DAY;
+    private static final int D_SESSIONAGE = ONE_DAY / 2;
     private final Configuration mgr = new Configuration();
 
     Configuration toConfiguration() {
@@ -59,6 +60,7 @@ public class CacheManagerProvider implements Provider<CacheManager> {
       mgr.addCache(named("groups"));
       mgr.addCache(named("projects"));
       mgr.addCache(named("sshkeys"));
+      mgr.addCache(disk(tti(named("web_sessions"), D_SESSIONAGE)));
 
       return mgr;
     }
@@ -136,6 +138,14 @@ public class CacheManagerProvider implements Provider<CacheManager> {
       final String name = c.getName();
       c.setTimeToIdleSeconds(config.getInt("cache", name, "maxage", age) * 60);
       c.setTimeToLiveSeconds(c.getTimeToIdleSeconds());
+      c.setEternal(c.getTimeToIdleSeconds() == 0);
+      return c;
+    }
+
+    private CacheConfiguration tti(final CacheConfiguration c, final int age) {
+      final String name = c.getName();
+      c.setTimeToIdleSeconds(config.getInt("cache", name, "maxage", age) * 60);
+      c.setTimeToLiveSeconds(0 /* until idle out, or removed */);
       c.setEternal(c.getTimeToIdleSeconds() == 0);
       return c;
     }

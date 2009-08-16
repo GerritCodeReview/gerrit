@@ -23,7 +23,6 @@ import com.google.gerrit.server.config.Nullable;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gwt.user.server.rpc.RPCServletUtils;
 import com.google.gwtjsonrpc.server.JsonServlet;
-import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -51,7 +50,7 @@ import javax.servlet.http.HttpServletResponse;
 @Singleton
 public class HostPageServlet extends HttpServlet {
   private final Provider<CurrentUser> currentUser;
-  private final Provider<GerritCall> jsonCall;
+  private final Provider<WebSession> webSession;
   private final File sitePath;
   private final GerritConfig config;
   private final Provider<String> urlProvider;
@@ -60,13 +59,13 @@ public class HostPageServlet extends HttpServlet {
 
   @Inject
   HostPageServlet(final Provider<CurrentUser> cu,
-      final Provider<GerritCall> cp, @SitePath final File path,
+      final Provider<WebSession> ws, @SitePath final File path,
       final GerritConfig gc,
       @CanonicalWebUrl @Nullable final Provider<String> up,
       @CanonicalWebUrl @Nullable final String configuredUrl,
       final ServletContext servletContext) throws IOException {
     currentUser = cu;
-    jsonCall = cp;
+    webSession = ws;
     urlProvider = up;
     sitePath = path;
     config = gc;
@@ -210,22 +209,9 @@ public class HostPageServlet extends HttpServlet {
     final HostPageData pageData = new HostPageData();
     pageData.config = config;
 
-    // Grab the current GerritCall to gain access to the XSRF token
-    // generator, and force a token to be constructed for this user.
-    // We can then send the XSRF token as part of the initial data
-    // vector in the host page, saving the client 1 round trip as it
-    // bootstraps itself.
-    //
-    try {
-      final GerritCall call = jsonCall.get();
-      call.xsrfValidate();
-      pageData.xsrfToken = call.getXsrfKeyOut();
-    } catch (XsrfException e) {
-      log("Cannot create initial XSRF token for user", e);
-    }
-
     final CurrentUser user = currentUser.get();
     if (user instanceof IdentifiedUser) {
+      pageData.xsrfToken = webSession.get().getToken();
       pageData.userAccount = ((IdentifiedUser) user).getAccount();
     }
 

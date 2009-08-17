@@ -18,13 +18,14 @@ import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.Gerrit;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwtjsonrpc.client.JsonUtil;
 import com.google.gwtjsonrpc.client.RemoteJsonException;
 import com.google.gwtjsonrpc.client.ServerUnavailableException;
 
 /** Abstract callback handling generic error conditions automatically */
 public abstract class GerritCallback<T> implements AsyncCallback<T> {
   public void onFailure(final Throwable caught) {
-    if (isNotSignedIn(caught)) {
+    if (isNotSignedIn(caught) || isInvalidXSRF(caught)) {
       new ErrorDialog(RpcConstants.C.errorNotSignedIn()).center();
 
     } else if (isNoSuchEntity(caught)) {
@@ -47,6 +48,11 @@ public abstract class GerritCallback<T> implements AsyncCallback<T> {
       GWT.log(getClass().getName() + " caught " + caught, caught);
       new ErrorDialog(caught).center();
     }
+  }
+
+  public static boolean isInvalidXSRF(final Throwable caught) {
+    return caught instanceof RemoteJsonException
+        && caught.getMessage().equals(JsonUtil.ERROR_INVALID_XSRF);
   }
 
   public static boolean isNotSignedIn(final Throwable caught) {

@@ -159,8 +159,8 @@ public class CacheManagerProvider implements Provider<CacheManager> {
         int buffer = c.getDiskSpoolBufferSizeMB() * MB;
         buffer = config.getInt("cache", name, "diskbuffer", buffer) / MB;
         c.setDiskSpoolBufferSizeMB(Math.max(1, buffer));
-        c.setOverflowToDisk(true);
-        c.setDiskPersistent(true);
+        c.setOverflowToDisk(c.getMaxElementsOnDisk() > 0);
+        c.setDiskPersistent(c.getMaxElementsOnDisk() > 0);
       }
       return c;
     }

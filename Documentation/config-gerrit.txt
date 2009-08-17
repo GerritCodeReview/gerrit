@@ -182,7 +182,8 @@ cache.<name>.diskLimit::
 +
 Maximum number of cache items to retain on disk, if this cache
 supports storing its items to disk.  Like memoryLimit, this is
-total number of items, not bytes of disk used.
+total number of items, not bytes of disk used.  If 0, disk storage
+for this cache is disabled.
 +
 Default is 16384.
 

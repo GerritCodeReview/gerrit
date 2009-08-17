@@ -33,9 +33,13 @@ This command is intended to be used in scripts.
 OPTIONS
 -------
 \--all::
-	Flush all supported caches.  This is like applying a big
-	hammer, it will force everything out, potentially more than
-	was necessary for the change made.
+	Flush all known caches.  This is like applying a big hammer,
+	it will force everything out, potentially more than was
+	necessary for the change made.	This option automatically
+	skips flushing potentially dangerous caches such as
+	"web_sessions".  To flush one of these caches, the caller
+	must specifically name them on the command line, e.g. pass
+	`\--cache=web_sessions`.
 
 \--list::
 	Show a list of the caches.
@@ -52,11 +56,13 @@ List caches available for flushing:
 ====
 	$ ssh -p 29418 review.example.com gerrit flush-caches --list
 	accounts
+	accounts_byemail
 	diff
 	groups
 	openid
 	projects
 	sshkeys
+	web_sessions
 ====
 
 Flush all caches known to the server, forcing them to recompute:
@@ -71,10 +77,17 @@ or
 	$ ssh -p 29418 review.example.com gerrit flush-caches
 ====
 
-Flush only the "sshkeys" cache:
+Flush only the "sshkeys" cache, after manually editing an SSH key
+for a user:
 
 ====
 	$ ssh -p 29418 review.example.com gerrit flush-caches --cache sshkeys
+====
+
+Flush "web_sessions", forcing all users to sign-in again:
+
+====
+	$ ssh -p 29418 review.example.com gerrit flush-caches --cache web_sessions
 ====
 
 SEE ALSO

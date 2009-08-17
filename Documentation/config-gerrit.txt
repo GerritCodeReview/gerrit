@@ -169,7 +169,8 @@ Maximum age, in minutes, to keep an entry in the cache.  If an
 entry has not been accessed in this period of time, it is removed
 from the cache.
 +
-Default is 129600 (90 days); 5 for cache "openid".
+Default is 129600 (90 days) for most caches; 5 minutes for cache
+"openid", 12 hours for cache "web_sessions".
 
 cache.<name>.memoryLimit::
 +
@@ -274,7 +275,18 @@ cache `"web_sessions"`::
 +
 Tracks the live user sessions coming in over HTTP.  Flushing this
 cache would cause all users to be signed out immediately, forcing
-them to sign-in again.
+them to sign-in again.  To avoid breaking active users, this cache
+is not flushed automatically by `gerrit flush-caches --all`, but
+instead must be explicitly requested.
++
+If no disk cache is configured (or `cache.web_sessions.diskLimit`
+is set to 0) a server restart will force all users to sign-out,
+and need to sign-in again after the restart, as the cache was
+unable to persist the session information.  Enabling a disk cache
+is strongly recommended.
++
+Session storage is relatively inexpensive, the average entry in
+this cache is approximately 248 bytes, depending on the JVM.
 
 See also link:cmd-flush-caches.html[gerrit flush-caches].
 

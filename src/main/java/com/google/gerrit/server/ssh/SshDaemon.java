@@ -16,7 +16,6 @@ package com.google.gerrit.server.ssh;
 
 import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.config.SitePath;
 import com.google.inject.Inject;
 import com.google.inject.Key;
 import com.google.inject.Singleton;
@@ -39,7 +38,6 @@ import org.apache.sshd.common.cipher.BlowfishCBC;
 import org.apache.sshd.common.cipher.CipherNone;
 import org.apache.sshd.common.cipher.TripleDESCBC;
 import org.apache.sshd.common.compression.CompressionNone;
-import org.apache.sshd.common.keyprovider.FileKeyPairProvider;
 import org.apache.sshd.common.mac.HMACMD5;
 import org.apache.sshd.common.mac.HMACMD596;
 import org.apache.sshd.common.mac.HMACSHA1;
@@ -60,13 +58,11 @@ import org.apache.sshd.server.auth.UserAuthPublicKey;
 import org.apache.sshd.server.channel.ChannelSession;
 import org.apache.sshd.server.kex.DHG1;
 import org.apache.sshd.server.kex.DHG14;
-import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
 import org.apache.sshd.server.session.ServerSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spearce.jgit.lib.Config;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
@@ -105,8 +101,7 @@ import java.util.List;
 public class SshDaemon extends SshServer implements SshInfo {
   private static final int DEFAULT_PORT = 29418;
 
-  private static final Logger log =
-      LoggerFactory.getLogger(SshDaemon.class);
+  private static final Logger log = LoggerFactory.getLogger(SshDaemon.class);
 
   private static String format(final SocketAddress addr) {
     if (addr instanceof InetSocketAddress) {
@@ -132,7 +127,8 @@ public class SshDaemon extends SshServer implements SshInfo {
 
   @Inject
   SshDaemon(final GerritServer srv, final CommandFactory commandFactory,
-      final PublickeyAuthenticator userAuth, @SitePath final File sitePath,
+      final PublickeyAuthenticator userAuth,
+      final KeyPairProvider hostKeyProvider,
       @GerritServerConfig final Config cfg) {
     setPort(22/* never used */);
 
@@ -151,7 +147,7 @@ public class SshDaemon extends SshServer implements SshInfo {
     initChannels();
     initCompression();
     initUserAuth(userAuth);
-    setKeyPairProvider(initHostKey(sitePath));
+    setKeyPairProvider(hostKeyProvider);
     setCommandFactory(commandFactory);
     setShellFactory(new NoShell());
     setSessionFactory(new SessionFactory() {
@@ -480,39 +476,5 @@ public class SshDaemon extends SshServer implements SshInfo {
     setUserAuthFactories(Arrays
         .<NamedFactory<UserAuth>> asList(new UserAuthPublicKey.Factory()));
     setPublickeyAuthenticator(pubkey);
-  }
-
-  private KeyPairProvider initHostKey(final File sitePath) {
-    final File anyKey = new File(sitePath, "ssh_host_key");
-    final File rsaKey = new File(sitePath, "ssh_host_rsa_key");
-    final File dsaKey = new File(sitePath, "ssh_host_dsa_key");
-
-    final List<String> keys = new ArrayList<String>(2);
-    if (rsaKey.exists()) {
-      keys.add(rsaKey.getAbsolutePath());
-    }
-    if (dsaKey.exists()) {
-      keys.add(dsaKey.getAbsolutePath());
-    }
-
-    if (anyKey.exists() && !keys.isEmpty()) {
-      // If both formats of host key exist, we don't know which format
-      // should be authoritative. Complain and abort.
-      //
-      keys.add(anyKey.getAbsolutePath());
-      throw new IllegalStateException("Multiple host keys exist: " + keys);
-    }
-
-    if (keys.isEmpty()) {
-      // No administrator created host key? Generate and save our own.
-      //
-      final SimpleGeneratorHostKeyProvider keyp;
-
-      keyp = new SimpleGeneratorHostKeyProvider();
-      keyp.setPath(anyKey.getAbsolutePath());
-      return keyp;
-    }
-
-    return new FileKeyPairProvider(keys.toArray(new String[keys.size()]));
   }
 }

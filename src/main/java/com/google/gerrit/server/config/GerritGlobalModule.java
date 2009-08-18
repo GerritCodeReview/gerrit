@@ -37,6 +37,7 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.account.EmailExpander;
 import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.cache.CachePool;
 import com.google.gerrit.server.mail.AbandonedSender;
 import com.google.gerrit.server.mail.AddReviewerSender;
 import com.google.gerrit.server.mail.CommentSender;
@@ -55,8 +56,6 @@ import com.google.gerrit.server.workflow.FunctionState;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
-
-import net.sf.ehcache.CacheManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,15 +93,15 @@ public class GerritGlobalModule extends FactoryModule {
     bind(String.class).annotatedWith(CanonicalWebUrl.class).toProvider(
         CanonicalWebUrlProvider.class);
 
-    bind(CacheManager.class).toProvider(CacheManagerProvider.class).in(
-        SINGLETON);
-    bind(AccountByEmailCache.class);
-    bind(AccountCache.class);
+    bind(CachePool.class);
+    install(AccountByEmailCache.module());
+    install(AccountCache.module());
+    install(DiffCache.module());
+    install(GroupCache.module());
+    install(ProjectCache.module());
+    install(SshKeyCache.module());
+
     factory(AccountInfoCacheFactory.Factory.class);
-    bind(DiffCache.class);
-    bind(GroupCache.class);
-    bind(ProjectCache.class);
-    bind(SshKeyCache.class);
 
     bind(GerritServer.class);
     bind(FileTypeRegistry.class).to(MimeUtilFileTypeRegistry.class);

@@ -20,21 +20,17 @@ import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.AccountGroupMember;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.SystemConfig;
+import com.google.gerrit.server.cache.Cache;
+import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.server.cache.SelfPopulatingCache;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
+import com.google.inject.Module;
 import com.google.inject.Singleton;
-
-import net.sf.ehcache.Cache;
-import net.sf.ehcache.CacheException;
-import net.sf.ehcache.CacheManager;
-import net.sf.ehcache.Element;
-import net.sf.ehcache.constructs.blocking.CacheEntryFactory;
-import net.sf.ehcache.constructs.blocking.SelfPopulatingCache;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.google.inject.TypeLiteral;
+import com.google.inject.name.Named;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -44,19 +40,31 @@ import java.util.Set;
 /** Caches important (but small) account state to avoid database hits. */
 @Singleton
 public class AccountCache {
-  private static final Logger log =
-      LoggerFactory.getLogger(AccountCache.class);
+  private static final String CACHE_NAME = "accounts";
+
+  public static Module module() {
+    return new CacheModule() {
+      @Override
+      protected void configure() {
+        final TypeLiteral<Cache<Account.Id, AccountState>> type =
+            new TypeLiteral<Cache<Account.Id, AccountState>>() {};
+        core(type, CACHE_NAME);
+        bind(AccountCache.class);
+      }
+    };
+  }
 
   private final SchemaFactory<ReviewDb> schema;
   private final AuthConfig authConfig;
-  private final SelfPopulatingCache self;
+  private final SelfPopulatingCache<Account.Id, AccountState> self;
 
   private final Set<AccountGroup.Id> registered;
   private final Set<AccountGroup.Id> anonymous;
 
   @Inject
   AccountCache(final SchemaFactory<ReviewDb> sf, final SystemConfig cfg,
-      final AuthConfig ac, final CacheManager mgr) {
+      final AuthConfig ac,
+      @Named(CACHE_NAME) final Cache<Account.Id, AccountState> rawCache) {
     schema = sf;
     authConfig = ac;
 
@@ -66,14 +74,17 @@ public class AccountCache {
     registered = Collections.unmodifiableSet(r);
     anonymous = Collections.singleton(cfg.anonymousGroupId);
 
-    final Cache dc = mgr.getCache("accounts");
-    self = new SelfPopulatingCache(dc, new CacheEntryFactory() {
+    self = new SelfPopulatingCache<Account.Id, AccountState>(rawCache) {
       @Override
-      public Object createEntry(final Object key) throws Exception {
-        return lookup((Account.Id) key);
+      protected AccountState createEntry(Account.Id key) throws Exception {
+        return lookup(key);
       }
-    });
-    mgr.replaceCacheWithDecoratedCache(dc, self);
+
+      @Override
+      protected AccountState missing(final Account.Id key) {
+        return missingAccount(key);
+      }
+    };
   }
 
   private AccountState lookup(final Account.Id who) throws OrmException {
@@ -83,7 +94,7 @@ public class AccountCache {
       if (account == null) {
         // Account no longer exists? They are anonymous.
         //
-        return missing(who);
+        return missingAccount(who);
       }
 
       final List<AccountExternalId> ids =
@@ -120,38 +131,17 @@ public class AccountCache {
     }
   }
 
-  @SuppressWarnings("unchecked")
-  public AccountState get(final Account.Id accountId) {
-    if (accountId == null) {
-      return null;
-    }
-
-    final Element m;
-    try {
-      m = self.get(accountId);
-    } catch (IllegalStateException e) {
-      log.error("Cannot lookup account for " + accountId, e);
-      return missing(accountId);
-    } catch (CacheException e) {
-      log.error("Cannot lookup account for " + accountId, e);
-      return missing(accountId);
-    }
-
-    if (m == null || m.getObjectValue() == null) {
-      return missing(accountId);
-    }
-    return (AccountState) m.getObjectValue();
-  }
-
-  private AccountState missing(final Account.Id accountId) {
+  private AccountState missingAccount(final Account.Id accountId) {
     final Account account = new Account(accountId);
     final Set<String> emails = Collections.emptySet();
     return new AccountState(account, anonymous, anonymous, emails);
   }
 
+  public AccountState get(final Account.Id accountId) {
+    return self.get(accountId);
+  }
+
   public void evict(final Account.Id accountId) {
-    if (accountId != null) {
-      self.remove(accountId);
-    }
+    self.remove(accountId);
   }
 }

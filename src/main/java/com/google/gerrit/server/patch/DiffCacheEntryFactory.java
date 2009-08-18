@@ -16,8 +16,6 @@ package com.google.gerrit.server.patch;
 
 import com.google.gerrit.server.GerritServer;
 
-import net.sf.ehcache.constructs.blocking.CacheEntryFactory;
-
 import org.spearce.jgit.lib.ObjectId;
 import org.spearce.jgit.lib.Repository;
 import org.spearce.jgit.patch.FileHeader;
@@ -26,15 +24,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-class DiffCacheEntryFactory implements CacheEntryFactory {
+final class DiffCacheEntryFactory {
   private final GerritServer server;
 
   DiffCacheEntryFactory(final GerritServer gs) {
     server = gs;
   }
 
-  public Object createEntry(Object genericKey) throws Exception {
-    final DiffCacheKey key = (DiffCacheKey) genericKey;
+  DiffCacheContent createEntry(final DiffCacheKey key) throws Exception {
     final Repository db = server.openRepository(key.getProjectKey().get());
     try {
       return createEntry(key, db);

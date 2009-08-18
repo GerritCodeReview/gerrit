@@ -26,7 +26,7 @@ public abstract class FactoryModule extends AbstractModule {
    * Register an assisted injection factory.
    * <p>
    * This function provides an automatic way to define a factory that creates a
-   * concrete type through assited injection. For example to configure the
+   * concrete type through assisted injection. For example to configure the
    * following assisted injection case:
    *
    * <pre>

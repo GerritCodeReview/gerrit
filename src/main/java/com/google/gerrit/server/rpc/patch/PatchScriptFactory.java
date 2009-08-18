@@ -40,9 +40,6 @@ import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
-import net.sf.ehcache.CacheException;
-import net.sf.ehcache.Element;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spearce.jgit.errors.RepositoryNotFoundException;
@@ -171,21 +168,12 @@ class PatchScriptFactory extends Handler<PatchScript> {
 
   private DiffCacheContent get(final DiffCacheKey key)
       throws NoSuchChangeException {
-    final Element cacheElem;
-    try {
-      cacheElem = diffCache.get(key);
-    } catch (IllegalStateException e) {
-      log.error("Cache get failed for " + key, e);
-      throw new NoSuchChangeException(changeId, e);
-    } catch (CacheException e) {
-      log.error("Cache get failed for " + key, e);
-      throw new NoSuchChangeException(changeId, e);
-    }
-    if (cacheElem == null || cacheElem.getObjectValue() == null) {
+    final DiffCacheContent r = diffCache.get(key);
+    if (r == null) {
       log.error("Cache get failed for " + key);
       throw new NoSuchChangeException(changeId);
     }
-    return (DiffCacheContent) cacheElem.getObjectValue();
+    return r;
   }
 
   private PatchScriptBuilder newBuilder() throws NoSuchChangeException {

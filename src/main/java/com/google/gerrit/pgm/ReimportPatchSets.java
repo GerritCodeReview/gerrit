@@ -20,6 +20,7 @@ import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.git.PatchSetImporter;
 import com.google.gerrit.server.GerritServer;
+import com.google.gerrit.server.cache.CachePool;
 import com.google.gerrit.server.config.GerritGlobalModule;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
@@ -66,6 +67,7 @@ public class ReimportPatchSets extends AbstractProgram {
   @Override
   public int run() throws Exception {
     final Injector injector = GerritGlobalModule.createInjector();
+    injector.getInstance(CachePool.class).start();
     injector.injectMembers(this);
 
     final ArrayList<PatchSet.Id> todo = new ArrayList<PatchSet.Id>();

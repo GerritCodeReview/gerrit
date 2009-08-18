@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.ssh.commands;
 
+import com.google.gerrit.server.cache.CachePool;
 import com.google.gerrit.server.ssh.BaseCommand;
 import com.google.inject.Inject;
 
@@ -26,7 +27,7 @@ import java.util.TreeSet;
 
 abstract class CacheCommand extends BaseCommand {
   @Inject
-  protected CacheManager cacheMgr;
+  protected CachePool cachePool;
 
   protected SortedSet<String> cacheNames() {
     final SortedSet<String> names = new TreeSet<String>();
@@ -37,6 +38,7 @@ abstract class CacheCommand extends BaseCommand {
   }
 
   protected Ehcache[] getAllCaches() {
+    final CacheManager cacheMgr = cachePool.getCacheManager();
     final String[] cacheNames = cacheMgr.getCacheNames();
     Arrays.sort(cacheNames);
     final Ehcache[] r = new Ehcache[cacheNames.length];

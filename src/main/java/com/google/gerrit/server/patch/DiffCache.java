@@ -15,40 +15,53 @@
 package com.google.gerrit.server.patch;
 
 import com.google.gerrit.server.GerritServer;
+import com.google.gerrit.server.cache.Cache;
+import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.server.cache.SelfPopulatingCache;
 import com.google.inject.Inject;
+import com.google.inject.Module;
 import com.google.inject.Singleton;
+import com.google.inject.TypeLiteral;
+import com.google.inject.name.Named;
 
-import net.sf.ehcache.Cache;
-import net.sf.ehcache.CacheException;
-import net.sf.ehcache.CacheManager;
-import net.sf.ehcache.Element;
-import net.sf.ehcache.constructs.blocking.SelfPopulatingCache;
 
 /** Provides the {@link DiffCacheContent}. */
 @Singleton
 public class DiffCache {
-  private final SelfPopulatingCache self;
+  private static final String CACHE_NAME = "diff";
+
+  public static Module module() {
+    return new CacheModule() {
+      @Override
+      protected void configure() {
+        final TypeLiteral<Cache<DiffCacheKey, DiffCacheContent>> type =
+            new TypeLiteral<Cache<DiffCacheKey, DiffCacheContent>>() {};
+        disk(type, CACHE_NAME);
+        bind(DiffCache.class);
+      }
+    };
+  }
+
+  private final SelfPopulatingCache<DiffCacheKey, DiffCacheContent> self;
 
   @Inject
-  DiffCache(final CacheManager mgr, final GerritServer gs) {
-    final Cache dc = mgr.getCache("diff");
-    self = new SelfPopulatingCache(dc, new DiffCacheEntryFactory(gs));
-    mgr.replaceCacheWithDecoratedCache(dc, self);
+  DiffCache(final GerritServer gs,
+      @Named(CACHE_NAME) final Cache<DiffCacheKey, DiffCacheContent> raw) {
+    final DiffCacheEntryFactory f = new DiffCacheEntryFactory(gs);
+    self = new SelfPopulatingCache<DiffCacheKey, DiffCacheContent>(raw) {
+      @Override
+      protected DiffCacheContent createEntry(final DiffCacheKey key)
+          throws Exception {
+        return f.createEntry(key);
+      }
+    };
   }
 
-  public String getName() {
-    return self.getName();
-  }
-
-  public Element get(final DiffCacheKey key) {
+  public DiffCacheContent get(final DiffCacheKey key) {
     return self.get(key);
   }
 
   public void put(final DiffCacheKey k, final DiffCacheContent c) {
-    self.put(new Element(k, c));
-  }
-
-  public void flush() throws IllegalStateException, CacheException {
-    self.flush();
+    self.put(k, c);
   }
 }

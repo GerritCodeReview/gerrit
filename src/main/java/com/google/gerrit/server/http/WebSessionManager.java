@@ -15,13 +15,10 @@
 package com.google.gerrit.server.http;
 
 import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.server.cache.Cache;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import net.sf.ehcache.Cache;
-import net.sf.ehcache.CacheException;
-import net.sf.ehcache.CacheManager;
-import net.sf.ehcache.Element;
+import com.google.inject.name.Named;
 
 import org.spearce.jgit.util.Base64;
 import org.spearce.jgit.util.NB;
@@ -31,21 +28,29 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.security.SecureRandom;
+import java.util.concurrent.TimeUnit;
 
 @Singleton
 class WebSessionManager {
+  static final String CACHE_NAME = "web_sessions";
+
   private final int tokenLen;
   private final SecureRandom prng;
-  private final Cache self;
+  private final Cache<Key, Val> self;
 
   @Inject
-  WebSessionManager(final CacheManager mgr) {
+  WebSessionManager(@Named(CACHE_NAME) final Cache<Key, Val> cache) {
     tokenLen = 40 - 4;
     prng = new SecureRandom();
-    self = mgr.getCache("web_sessions");
+    self = cache;
   }
 
-  Element create(final Account.Id who) {
+  void updateRefreshCookieAt(final Val val) {
+    final long now = System.currentTimeMillis();
+    val.refreshCookieAt = now + self.getTimeToIdle(TimeUnit.MILLISECONDS) / 2;
+  }
+
+  Key createKey(final Account.Id who) {
     final int accountId = who.get();
     final byte[] rnd = new byte[tokenLen];
     prng.nextBytes(rnd);
@@ -54,29 +59,21 @@ class WebSessionManager {
     NB.encodeInt32(buf, 0, accountId);
     System.arraycopy(rnd, 0, buf, 4, rnd.length);
 
-    final String token = Base64.encodeBytes(rnd, Base64.DONT_BREAK_LINES);
-    final Val v = new Val(who);
-    final Element m = new Element(new Key(token), v);
-    self.put(m);
-    return m;
+    return new Key(Base64.encodeBytes(rnd, Base64.DONT_BREAK_LINES));
   }
 
-  Element get(final String token) {
-    if (token != null && !"".equals(token)) {
-      try {
-        return self.get(new Key(token));
-      } catch (IllegalStateException e) {
-        return null;
-      } catch (CacheException e) {
-        return null;
-      }
-    } else {
-      return null;
-    }
+  Val createVal(final Key key, final Account.Id who) {
+    final Val val = new Val(who);
+    self.put(key, val);
+    return val;
   }
 
-  void destroy(final Element cacheEntry) {
-    self.remove(cacheEntry.getKey());
+  Val get(final Key key) {
+    return self.get(key);
+  }
+
+  void destroy(final Key key) {
+    self.remove(key);
   }
 
   static final class Key implements Serializable {
@@ -115,6 +112,10 @@ class WebSessionManager {
 
     Val(final Account.Id accountId) {
       this.accountId = accountId;
+    }
+
+    int getCookieAge() {
+      return (int) ((refreshCookieAt - System.currentTimeMillis()) / 1000L);
     }
 
     private void writeObject(final ObjectOutputStream out) throws IOException {

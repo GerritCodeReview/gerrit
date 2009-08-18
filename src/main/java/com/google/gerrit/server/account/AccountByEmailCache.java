@@ -17,20 +17,16 @@ package com.google.gerrit.server.account;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountExternalId;
 import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gerrit.server.cache.Cache;
+import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.server.cache.SelfPopulatingCache;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
+import com.google.inject.Module;
 import com.google.inject.Singleton;
-
-import net.sf.ehcache.Cache;
-import net.sf.ehcache.CacheException;
-import net.sf.ehcache.CacheManager;
-import net.sf.ehcache.Element;
-import net.sf.ehcache.constructs.blocking.CacheEntryFactory;
-import net.sf.ehcache.constructs.blocking.SelfPopulatingCache;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.google.inject.TypeLiteral;
+import com.google.inject.name.Named;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -39,24 +35,38 @@ import java.util.Set;
 /** Translates an email address to a set of matching accounts. */
 @Singleton
 public class AccountByEmailCache {
-  private static final Logger log =
-      LoggerFactory.getLogger(AccountByEmailCache.class);
+  private static final String CACHE_NAME = "accounts_byemail";
+
+  public static Module module() {
+    return new CacheModule() {
+      @Override
+      protected void configure() {
+        final TypeLiteral<Cache<String, Set<Account.Id>>> type =
+            new TypeLiteral<Cache<String, Set<Account.Id>>>() {};
+        core(type, CACHE_NAME);
+        bind(AccountByEmailCache.class);
+      }
+    };
+  }
 
   private final SchemaFactory<ReviewDb> schema;
-  private final SelfPopulatingCache self;
+  private final SelfPopulatingCache<String, Set<Account.Id>> self;
 
   @Inject
-  AccountByEmailCache(final SchemaFactory<ReviewDb> sf, final CacheManager mgr) {
-    schema = sf;
-
-    final Cache dc = mgr.getCache("accounts_byemail");
-    self = new SelfPopulatingCache(dc, new CacheEntryFactory() {
+  AccountByEmailCache(final SchemaFactory<ReviewDb> schema,
+      @Named(CACHE_NAME) final Cache<String, Set<Account.Id>> rawCache) {
+    this.schema = schema;
+    this.self = new SelfPopulatingCache<String, Set<Account.Id>>(rawCache) {
       @Override
-      public Object createEntry(final Object key) throws Exception {
-        return lookup((String) key);
+      protected Set<Account.Id> createEntry(final String key) throws Exception {
+        return lookup(key);
       }
-    });
-    mgr.replaceCacheWithDecoratedCache(dc, self);
+
+      @Override
+      protected Set<Account.Id> missing(final String key) {
+        return Collections.emptySet();
+      }
+    };
   }
 
   private Set<Account.Id> lookup(final String email) throws OrmException {
@@ -75,33 +85,12 @@ public class AccountByEmailCache {
     }
   }
 
-  @SuppressWarnings("unchecked")
   public Set<Account.Id> get(final String email) {
-    if (email == null || email.isEmpty()) {
-      return Collections.emptySet();
-    }
-
-    final Element m;
-    try {
-      m = self.get(email);
-    } catch (IllegalStateException e) {
-      log.error("Cannot lookup email " + email, e);
-      return Collections.emptySet();
-    } catch (CacheException e) {
-      log.error("Cannot lookup email " + email, e);
-      return Collections.emptySet();
-    }
-
-    if (m == null || m.getObjectValue() == null) {
-      return Collections.emptySet();
-    }
-    return (Set<Account.Id>) m.getObjectValue();
+    return self.get(email);
   }
 
   public void evict(final String email) {
-    if (email != null && !email.isEmpty()) {
-      self.remove(email);
-    }
+    self.remove(email);
   }
 
   private static Set<Account.Id> pack(final Set<Account.Id> c) {

@@ -14,14 +14,29 @@
 
 package com.google.gerrit.server.openid;
 
+import com.google.gerrit.server.cache.Cache;
+import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.http.RpcServletModule;
 import com.google.gerrit.server.rpc.UiRpcModule;
+import com.google.inject.TypeLiteral;
 import com.google.inject.servlet.ServletModule;
+
+import java.util.List;
+import static java.util.concurrent.TimeUnit.MINUTES;
 
 /** Servlets and RPC support related to OpenID authentication. */
 public class OpenIdModule extends ServletModule {
   @Override
   protected void configureServlets() {
+    install(new CacheModule() {
+      @Override
+      protected void configure() {
+        final TypeLiteral<Cache<String, List>> type =
+            new TypeLiteral<Cache<String, List>>() {};
+        core(type, "openid").timeToIdle(5, MINUTES).timeToLive(5, MINUTES);
+      }
+    });
+
     serve("/" + OpenIdServiceImpl.RETURN_URL).with(OpenIdLoginServlet.class);
 
     install(new RpcServletModule(UiRpcModule.PREFIX) {

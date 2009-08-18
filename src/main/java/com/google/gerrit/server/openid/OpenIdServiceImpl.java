@@ -24,6 +24,8 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.UrlEncoded;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
+import com.google.gerrit.server.cache.Cache;
+import com.google.gerrit.server.cache.SelfPopulatingCache;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.Nullable;
 import com.google.gerrit.server.http.WebSession;
@@ -32,12 +34,7 @@ import com.google.gwtorm.client.KeyUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-
-import net.sf.ehcache.Cache;
-import net.sf.ehcache.CacheManager;
-import net.sf.ehcache.Element;
-import net.sf.ehcache.constructs.blocking.CacheEntryFactory;
-import net.sf.ehcache.constructs.blocking.SelfPopulatingCache;
+import com.google.inject.name.Named;
 
 import org.openid4java.consumer.ConsumerException;
 import org.openid4java.consumer.ConsumerManager;
@@ -93,32 +90,31 @@ class OpenIdServiceImpl implements OpenIdService {
   private final Provider<String> urlProvider;
   private final AccountManager accountManager;
   private final ConsumerManager manager;
-  private final SelfPopulatingCache discoveryCache;
+  private final SelfPopulatingCache<String, List> discoveryCache;
 
   @Inject
   OpenIdServiceImpl(final Provider<WebSession> cf,
       final Provider<IdentifiedUser> iu,
       @CanonicalWebUrl @Nullable final Provider<String> up,
-      final CacheManager cacheMgr, final AccountManager am)
-      throws ConsumerException {
+      @Named("openid") final Cache<String, List> openidCache,
+      final AccountManager am) throws ConsumerException {
     webSession = cf;
     identifiedUser = iu;
     urlProvider = up;
     accountManager = am;
     manager = new ConsumerManager();
 
-    final Cache base = cacheMgr.getCache("openid");
-    discoveryCache = new SelfPopulatingCache(base, new CacheEntryFactory() {
-      public Object createEntry(final Object objKey) throws Exception {
+    discoveryCache = new SelfPopulatingCache<String, List>(openidCache) {
+      @Override
+      protected List createEntry(final String url) throws Exception {
         try {
-          final List<?> list = manager.discover((String) objKey);
+          final List<?> list = manager.discover(url);
           return list != null && !list.isEmpty() ? list : null;
         } catch (DiscoveryException e) {
           return null;
         }
       }
-    });
-    cacheMgr.replaceCacheWithDecoratedCache(base, discoveryCache);
+    };
   }
 
   public void discover(final String openidIdentifier,
@@ -376,12 +372,7 @@ class OpenIdServiceImpl implements OpenIdService {
   private State init(final String openidIdentifier,
       final SignInDialog.Mode mode, final boolean remember,
       final String returnToken) {
-    final Element serverCache = discoveryCache.get(openidIdentifier);
-    if (serverCache == null) {
-      return null;
-    }
-
-    final List<?> list = (List<?>) serverCache.getObjectValue();
+    final List<?> list = discoveryCache.get(openidIdentifier);
     if (list == null || list.isEmpty()) {
       return null;
     }

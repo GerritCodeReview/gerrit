@@ -19,6 +19,7 @@ import static com.google.inject.Stage.PRODUCTION;
 import com.google.gerrit.git.PushAllProjectsOp;
 import com.google.gerrit.git.ReloadSubmitQueueOp;
 import com.google.gerrit.git.WorkQueue;
+import com.google.gerrit.server.cache.CachePool;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;
 import com.google.gerrit.server.config.DatabaseModule;
 import com.google.gerrit.server.config.GerritGlobalModule;
@@ -32,8 +33,6 @@ import com.google.inject.Module;
 import com.google.inject.ProvisionException;
 import com.google.inject.servlet.GuiceServletContextListener;
 import com.google.inject.spi.Message;
-
-import net.sf.ehcache.CacheManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -122,6 +121,14 @@ public class GerritServletConfig extends GuiceServletContextListener {
     init();
 
     try {
+      sysInjector.getInstance(CachePool.class).start();
+    } catch (ConfigurationException e) {
+      log.error("Unable to start CachePool", e);
+    } catch (ProvisionException e) {
+      log.error("Unable to start CachePool", e);
+    }
+
+    try {
       sysInjector.getInstance(PushAllProjectsOp.Factory.class).create(null)
           .start(30, TimeUnit.SECONDS);
     } catch (ConfigurationException e) {
@@ -170,7 +177,7 @@ public class GerritServletConfig extends GuiceServletContextListener {
 
     try {
       if (sysInjector != null) {
-        sysInjector.getInstance(CacheManager.class).shutdown();
+        sysInjector.getInstance(CachePool.class).stop();
       }
     } catch (ConfigurationException e) {
     } catch (ProvisionException e) {

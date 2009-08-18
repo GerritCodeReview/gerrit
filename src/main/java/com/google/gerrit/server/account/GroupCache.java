@@ -17,45 +17,57 @@ package com.google.gerrit.server.account;
 import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.SystemConfig;
+import com.google.gerrit.server.cache.Cache;
+import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.server.cache.SelfPopulatingCache;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
+import com.google.inject.Module;
 import com.google.inject.Singleton;
+import com.google.inject.TypeLiteral;
+import com.google.inject.name.Named;
 
-import net.sf.ehcache.Cache;
-import net.sf.ehcache.CacheException;
-import net.sf.ehcache.CacheManager;
-import net.sf.ehcache.Element;
-import net.sf.ehcache.constructs.blocking.CacheEntryFactory;
-import net.sf.ehcache.constructs.blocking.SelfPopulatingCache;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-/** Tracks group objects in memory for effecient access. */
+/** Tracks group objects in memory for efficient access. */
 @Singleton
 public class GroupCache {
-  private static final Logger log = LoggerFactory.getLogger(GroupCache.class);
+  private static final String CACHE_NAME = "groups";
+
+  public static Module module() {
+    return new CacheModule() {
+      @Override
+      protected void configure() {
+        final TypeLiteral<Cache<AccountGroup.Id, AccountGroup>> type =
+            new TypeLiteral<Cache<AccountGroup.Id, AccountGroup>>() {};
+        core(type, CACHE_NAME);
+        bind(GroupCache.class);
+      }
+    };
+  }
 
   private final SchemaFactory<ReviewDb> schema;
-  private final SelfPopulatingCache self;
+  private final SelfPopulatingCache<AccountGroup.Id, AccountGroup> byId;
 
   private final AccountGroup.Id administrators;
 
   @Inject
   GroupCache(final SchemaFactory<ReviewDb> sf, final SystemConfig cfg,
-      final CacheManager mgr) {
+      @Named(CACHE_NAME) final Cache<AccountGroup.Id, AccountGroup> rawCache) {
     schema = sf;
     administrators = cfg.adminGroupId;
 
-    final Cache dc = mgr.getCache("groups");
-    self = new SelfPopulatingCache(dc, new CacheEntryFactory() {
+    byId = new SelfPopulatingCache<AccountGroup.Id, AccountGroup>(rawCache) {
       @Override
-      public Object createEntry(final Object key) throws Exception {
-        return lookup((AccountGroup.Id) key);
+      public AccountGroup createEntry(final AccountGroup.Id key)
+          throws Exception {
+        return lookup(key);
       }
-    });
-    mgr.replaceCacheWithDecoratedCache(dc, self);
+
+      @Override
+      protected AccountGroup missing(final AccountGroup.Id key) {
+        return missingGroup(key);
+      }
+    };
   }
 
   public final AccountGroup.Id getAdministrators() {
@@ -77,29 +89,6 @@ public class GroupCache {
     }
   }
 
-  @SuppressWarnings("unchecked")
-  public AccountGroup get(final AccountGroup.Id groupId) {
-    if (groupId == null) {
-      return null;
-    }
-
-    final Element m;
-    try {
-      m = self.get(groupId);
-    } catch (IllegalStateException e) {
-      log.error("Cannot lookup group " + groupId, e);
-      return missingGroup(groupId);
-    } catch (CacheException e) {
-      log.error("Cannot lookup effective groups for " + groupId, e);
-      return missingGroup(groupId);
-    }
-
-    if (m == null || m.getObjectValue() == null) {
-      return missingGroup(groupId);
-    }
-    return (AccountGroup) m.getObjectValue();
-  }
-
   private AccountGroup missingGroup(final AccountGroup.Id groupId) {
     final AccountGroup.NameKey name =
         new AccountGroup.NameKey("Deleted Group" + groupId.toString());
@@ -109,17 +98,19 @@ public class GroupCache {
     return g;
   }
 
+  @SuppressWarnings("unchecked")
+  public AccountGroup get(final AccountGroup.Id groupId) {
+    return byId.get(groupId);
+  }
+
   public void evict(final AccountGroup.Id groupId) {
-    if (groupId != null) {
-      self.remove(groupId);
-    }
+    byId.remove(groupId);
   }
 
   public AccountGroup lookup(final String groupName) throws OrmException {
     final ReviewDb db = schema.open();
     try {
-      final AccountGroup.NameKey nameKey =
-        new AccountGroup.NameKey(groupName);
+      final AccountGroup.NameKey nameKey = new AccountGroup.NameKey(groupName);
 
       final AccountGroup group = db.accountGroups().get(nameKey);
       if (group != null) {

@@ -15,9 +15,9 @@
 package com.google.gerrit.server.config;
 
 import static com.google.inject.Scopes.SINGLETON;
+import static com.google.inject.Stage.PRODUCTION;
 
 import com.google.gerrit.client.data.ApprovalTypes;
-import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.git.ChangeMergeQueue;
 import com.google.gerrit.git.MergeOp;
 import com.google.gerrit.git.MergeQueue;
@@ -28,8 +28,6 @@ import com.google.gerrit.git.ReloadSubmitQueueOp;
 import com.google.gerrit.git.ReplicationQueue;
 import com.google.gerrit.git.WorkQueue;
 import com.google.gerrit.server.AnonymousUser;
-import com.google.gerrit.server.ContactStore;
-import com.google.gerrit.server.EncryptedContactStoreProvider;
 import com.google.gerrit.server.FileTypeRegistry;
 import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.IdentifiedUser;
@@ -54,24 +52,31 @@ import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gerrit.server.workflow.FunctionState;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import com.google.inject.Module;
 
 import net.sf.ehcache.CacheManager;
 
-import org.spearce.jgit.lib.Config;
-
-import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /** Starts global state with standard dependencies. */
 public class GerritGlobalModule extends FactoryModule {
+  public static Injector createInjector() {
+    return createInjector(Guice
+        .createInjector(PRODUCTION, new DatabaseModule()));
+  }
+
+  public static Injector createInjector(final Injector db) {
+    final Injector cfg = db.createChildInjector(new GerritConfigModule());
+    final List<Module> modules = new ArrayList<Module>();
+    modules.add(new GerritGlobalModule());
+    return cfg.createChildInjector(modules);
+  }
+
   @Override
   protected void configure() {
-    bind(File.class).annotatedWith(SitePath.class).toProvider(
-        SitePathProvider.class).in(SINGLETON);
-    bind(Project.NameKey.class).annotatedWith(WildProjectName.class)
-        .toProvider(WildProjectNameProvider.class).in(SINGLETON);
-    bind(Config.class).annotatedWith(GerritServerConfig.class).toProvider(
-        GerritServerConfigProvider.class).in(SINGLETON);
-    bind(AuthConfig.class).in(SINGLETON);
     bind(ApprovalTypes.class).toProvider(ApprovalTypesProvider.class).in(
         SINGLETON);
     bind(EmailExpander.class).toProvider(EmailExpanderProvider.class).in(
@@ -100,8 +105,6 @@ public class GerritGlobalModule extends FactoryModule {
     bind(SshKeyCache.class);
 
     bind(GerritServer.class);
-    bind(ContactStore.class).toProvider(EncryptedContactStoreProvider.class)
-        .in(SINGLETON);
     bind(FileTypeRegistry.class).to(MimeUtilFileTypeRegistry.class);
     bind(WorkQueue.class);
 

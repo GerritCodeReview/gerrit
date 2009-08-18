@@ -12,13 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.config;
+package com.google.gerrit.server.http;
 
 import com.google.gerrit.client.data.ApprovalTypes;
 import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.client.data.GitwebLink;
 import com.google.gerrit.client.reviewdb.Project;
-import com.google.gerrit.server.ContactStore;
+import com.google.gerrit.server.config.AuthConfig;
+import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.Nullable;
+import com.google.gerrit.server.config.WildProjectName;
+import com.google.gerrit.server.contact.ContactStore;
 import com.google.gerrit.server.mail.EmailSender;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.inject.Inject;
@@ -44,29 +49,25 @@ public class GerritConfigProvider implements Provider<GerritConfig> {
   private final ApprovalTypes approvalTypes;
 
   private EmailSender emailSender;
-  private ContactStore contactStore;
+  private final ContactStore contactStore;
 
   @Inject
   GerritConfigProvider(@GerritServerConfig final Config gsc,
       @CanonicalWebUrl @Nullable final String cwu, final AuthConfig ac,
       @WildProjectName final Project.NameKey wp, final SshInfo si,
-      final ApprovalTypes at) {
+      final ApprovalTypes at, final ContactStore cs) {
     cfg = gsc;
     canonicalWebUrl = cwu;
     authConfig = ac;
     sshInfo = si;
     wildProject = wp;
     approvalTypes = at;
+    contactStore = cs;
   }
 
   @Inject(optional = true)
   void setEmailSender(final EmailSender d) {
     emailSender = d;
-  }
-
-  @Inject(optional = true)
-  void setContactStore(final ContactStore d) {
-    contactStore = d;
   }
 
   private GerritConfig create() {

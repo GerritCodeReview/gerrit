@@ -19,23 +19,18 @@ import static com.google.inject.Stage.PRODUCTION;
 import com.google.gerrit.git.PushAllProjectsOp;
 import com.google.gerrit.git.ReloadSubmitQueueOp;
 import com.google.gerrit.git.WorkQueue;
-import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;
 import com.google.gerrit.server.config.DatabaseModule;
 import com.google.gerrit.server.config.GerritGlobalModule;
-import com.google.gerrit.server.openid.OpenIdModule;
 import com.google.gerrit.server.ssh.SshDaemon;
 import com.google.gerrit.server.ssh.SshModule;
-import com.google.gerrit.server.ssh.SshInfo;
 import com.google.inject.ConfigurationException;
 import com.google.inject.CreationException;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
-import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 import com.google.inject.servlet.GuiceServletContextListener;
-import com.google.inject.servlet.ServletModule;
 import com.google.inject.spi.Message;
 
 import net.sf.ehcache.CacheManager;
@@ -86,7 +81,7 @@ public class GerritServletConfig extends GuiceServletContextListener {
         throw new CreationException(Collections.singleton(first));
       }
 
-      sysInjector = dbInjector.createChildInjector(new GerritGlobalModule());
+      sysInjector = GerritGlobalModule.createInjector(dbInjector);
       sshInjector = createSshInjector();
       webInjector = createWebInjector();
 
@@ -110,37 +105,8 @@ public class GerritServletConfig extends GuiceServletContextListener {
   }
 
   private Injector createWebInjector() {
-    final Provider<SshInfo> sshInfo = sshInjector.getProvider(SshInfo.class);
-    final AuthConfig auth = sysInjector.getInstance(AuthConfig.class);
-
     final List<Module> modules = new ArrayList<Module>();
-    modules.add(new ServletModule() {
-      @Override
-      protected void configureServlets() {
-        filter("/*").through(RequestCleanupFilter.class);
-        filter("/*").through(UrlRewriteFilter.class);
-      }
-    });
-    switch (auth.getLoginType()) {
-      case OPENID:
-        modules.add(new OpenIdModule());
-        break;
-
-      case HTTP:
-        modules.add(new HttpAuthModule());
-        break;
-
-      case DEVELOPMENT_BECOME_ANY_ACCOUNT:
-        modules.add(new ServletModule() {
-          @Override
-          protected void configureServlets() {
-            serve("/become").with(BecomeAnyAccountLoginServlet.class);
-          }
-        });
-        break;
-    }
-    modules.add(new WebModule(sshInfo));
-
+    modules.add(sshInjector.getInstance(WebModule.class));
     return sysInjector.createChildInjector(modules);
   }
 

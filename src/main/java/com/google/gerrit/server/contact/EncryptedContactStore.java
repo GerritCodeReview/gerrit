@@ -12,21 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server;
+package com.google.gerrit.server.contact;
 
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountExternalId;
 import com.google.gerrit.client.reviewdb.ContactInformation;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.ContactInformationStoreException;
-import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.config.SitePath;
+import com.google.gerrit.server.UrlEncoded;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
-import com.google.inject.Inject;
+import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
 
-import org.apache.sshd.common.util.SecurityUtils;
 import org.bouncycastle.bcpg.ArmoredOutputStream;
 import org.bouncycastle.openpgp.PGPCompressedData;
 import org.bouncycastle.openpgp.PGPCompressedDataGenerator;
@@ -39,7 +37,6 @@ import org.bouncycastle.openpgp.PGPPublicKey;
 import org.bouncycastle.openpgp.PGPPublicKeyRing;
 import org.bouncycastle.openpgp.PGPPublicKeyRingCollection;
 import org.bouncycastle.openpgp.PGPUtil;
-import org.spearce.jgit.lib.Config;
 import org.spearce.jgit.util.NB;
 
 import java.io.ByteArrayOutputStream;
@@ -49,7 +46,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
@@ -71,36 +67,19 @@ class EncryptedContactStore implements ContactStore {
   private final URL storeUrl;
   private final String storeAPPSEC;
 
-  @Inject
-  EncryptedContactStore(@GerritServerConfig final Config cfg,
-      @SitePath final File sitePath, final SchemaFactory<ReviewDb> sf)
-      throws ContactInformationStoreException {
-    schema = sf;
+  EncryptedContactStore(final URL storeUrl, final String storeAPPSEC,
+      final File pubKey, final SchemaFactory<ReviewDb> schema) {
+    this.storeUrl = storeUrl;
+    this.storeAPPSEC = storeAPPSEC;
+    this.schema = schema;
+    this.dest = selectKey(readPubRing(pubKey));
 
-    final String url = cfg.getString("contactstore", null, "url");
-    if (url == null) {
-      throw new ContactInformationStoreException(new IllegalStateException(
-          "contactstore.url not set"));
-    }
+    final String prngName = "SHA1PRNG";
     try {
-      storeUrl = new URL(url);
-    } catch (MalformedURLException e) {
-      throw new ContactInformationStoreException(e);
-    }
-    storeAPPSEC = cfg.getString("contactstore", null, "appsec");
-
-    if (!SecurityUtils.isBouncyCastleRegistered()) {
-      throw new ContactInformationStoreException(new NoSuchProviderException(
-          "BC (aka BouncyCastle)"));
-    }
-
-    try {
-      prng = SecureRandom.getInstance("SHA1PRNG");
+      prng = SecureRandom.getInstance(prngName);
     } catch (NoSuchAlgorithmException e) {
-      throw new ContactInformationStoreException(e);
+      throw new ProvisionException("Cannot create " + prngName, e);
     }
-
-    dest = selectKey(readPubRing(sitePath));
   }
 
   @Override
@@ -108,9 +87,7 @@ class EncryptedContactStore implements ContactStore {
     return true;
   }
 
-  private PGPPublicKeyRingCollection readPubRing(final File sitePath)
-      throws ContactInformationStoreException {
-    final File pub = new File(sitePath, "contact_information.pub");
+  private static PGPPublicKeyRingCollection readPubRing(final File pub) {
     try {
       InputStream in = new FileInputStream(pub);
       try {
@@ -120,13 +97,13 @@ class EncryptedContactStore implements ContactStore {
         in.close();
       }
     } catch (IOException e) {
-      throw new ContactInformationStoreException(e);
+      throw new ProvisionException("Cannot read " + pub, e);
     } catch (PGPException e) {
-      throw new ContactInformationStoreException(e);
+      throw new ProvisionException("Cannot read " + pub, e);
     }
   }
 
-  private PGPPublicKey selectKey(final PGPPublicKeyRingCollection rings) {
+  private static PGPPublicKey selectKey(final PGPPublicKeyRingCollection rings) {
     for (final Iterator<?> ri = rings.getKeyRings(); ri.hasNext();) {
       final PGPPublicKeyRing currRing = (PGPPublicKeyRing) ri.next();
       for (final Iterator<?> ki = currRing.getPublicKeys(); ki.hasNext();) {

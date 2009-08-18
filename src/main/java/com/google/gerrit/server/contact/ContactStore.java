@@ -12,20 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.pgm;
+package com.google.gerrit.server.contact;
 
-import com.google.gerrit.server.config.GerritGlobalModule;
-import com.google.gerrit.server.ssh.SshDaemon;
-import com.google.gerrit.server.ssh.SshModule;
-import com.google.inject.Injector;
+import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.client.reviewdb.ContactInformation;
+import com.google.gerrit.client.rpc.ContactInformationStoreException;
 
-/** Run only the SSH daemon portions of Gerrit. */
-public class Daemon extends AbstractProgram {
-  @Override
-  public int run() throws Exception {
-    Injector sysInjector = GerritGlobalModule.createInjector();
-    Injector sshInjector = sysInjector.createChildInjector(new SshModule());
-    sshInjector.getInstance(SshDaemon.class).start();
-    return never();
-  }
+public interface ContactStore {
+  boolean isEnabled();
+
+  void store(Account account, ContactInformation info)
+      throws ContactInformationStoreException;
 }

@@ -17,18 +17,24 @@ package com.google.gerrit.server.http;
 import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.gerrit.client.data.GerritConfig;
+import com.google.gerrit.client.reviewdb.LoginType;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.account.AccountManager;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.FactoryModule;
-import com.google.gerrit.server.config.GerritConfigProvider;
 import com.google.gerrit.server.config.GerritRequestModule;
+import com.google.gerrit.server.contact.ContactStore;
+import com.google.gerrit.server.contact.ContactStoreProvider;
+import com.google.gerrit.server.openid.OpenIdModule;
 import com.google.gerrit.server.rpc.UiRpcModule;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gwtexpui.server.CacheControlFilter;
+import com.google.inject.Inject;
 import com.google.inject.Key;
 import com.google.inject.Provider;
+import com.google.inject.ProvisionException;
 import com.google.inject.servlet.RequestScoped;
 import com.google.inject.servlet.ServletModule;
 
@@ -36,13 +42,50 @@ import java.net.SocketAddress;
 
 class WebModule extends FactoryModule {
   private final Provider<SshInfo> sshInfoProvider;
+  private final LoginType loginType;
 
-  WebModule(final Provider<SshInfo> sshInfoProvider) {
+  @Inject
+  WebModule(final Provider<SshInfo> sshInfoProvider, final AuthConfig authConfig) {
+    this(sshInfoProvider, authConfig.getLoginType());
+  }
+
+  WebModule(final Provider<SshInfo> sshInfoProvider, final LoginType loginType) {
     this.sshInfoProvider = sshInfoProvider;
+    this.loginType = loginType;
   }
 
   @Override
   protected void configure() {
+    install(new ServletModule() {
+      @Override
+      protected void configureServlets() {
+        filter("/*").through(RequestCleanupFilter.class);
+        filter("/*").through(UrlRewriteFilter.class);
+      }
+    });
+
+    switch (loginType) {
+      case OPENID:
+        install(new OpenIdModule());
+        break;
+
+      case HTTP:
+        install(new HttpAuthModule());
+        break;
+
+      case DEVELOPMENT_BECOME_ANY_ACCOUNT:
+        install(new ServletModule() {
+          @Override
+          protected void configureServlets() {
+            serve("/become").with(BecomeAnyAccountLoginServlet.class);
+          }
+        });
+        break;
+
+      default:
+        throw new ProvisionException("Unsupported loginType: " + loginType);
+    }
+
     install(new ServletModule() {
       @Override
       protected void configureServlets() {
@@ -63,6 +106,8 @@ class WebModule extends FactoryModule {
     install(new GerritRequestModule());
 
     bind(SshInfo.class).toProvider(sshInfoProvider);
+    bind(ContactStore.class).toProvider(ContactStoreProvider.class).in(
+        SINGLETON);
     bind(GerritConfig.class).toProvider(GerritConfigProvider.class).in(
         SINGLETON);
     bind(AccountManager.class).in(SINGLETON);

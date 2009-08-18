@@ -14,19 +14,15 @@
 
 package com.google.gerrit.pgm;
 
-import static com.google.inject.Stage.PRODUCTION;
-
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.git.PatchSetImporter;
 import com.google.gerrit.server.GerritServer;
-import com.google.gerrit.server.config.DatabaseModule;
 import com.google.gerrit.server.config.GerritGlobalModule;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
-import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 
@@ -69,9 +65,7 @@ public class ReimportPatchSets extends AbstractProgram {
 
   @Override
   public int run() throws Exception {
-    final Injector injector =
-        Guice.createInjector(PRODUCTION, new DatabaseModule(),
-            new GerritGlobalModule());
+    final Injector injector = GerritGlobalModule.createInjector();
     injector.injectMembers(this);
 
     final ArrayList<PatchSet.Id> todo = new ArrayList<PatchSet.Id>();

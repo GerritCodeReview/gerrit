@@ -150,7 +150,7 @@ public class AccountManager {
   private AuthResult create(final ReviewDb db, final AuthRequest who)
       throws OrmException, AccountException {
     if (authConfig.isAllowGoogleAccountUpgrade()
-        && who.getExternalId().startsWith(OpenIdUtil.URL_GOOGLE + "?")
+        && who.isScheme(OpenIdUtil.URL_GOOGLE + "?")
         && who.getEmailAddress() != null) {
       final List<AccountExternalId> legacyAppEngine =
           db.accountExternalIds().byExternal(

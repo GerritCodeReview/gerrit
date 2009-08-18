@@ -77,7 +77,7 @@ public final class AccountExternalId {
         continue;
       }
 
-      if (e.getExternalId().startsWith(SCHEME_MAILTO)) {
+      if (e.isScheme(SCHEME_MAILTO)) {
         // Don't ever consider an email address as a "recent login"
         //
         continue;
@@ -147,6 +147,10 @@ public final class AccountExternalId {
   public boolean isScheme(final String scheme) {
     final String id = getExternalId();
     return id != null && id.startsWith(scheme);
+  }
+
+  public String getSchemeRest(final String scheme) {
+    return isScheme(scheme) ? getExternalId().substring(scheme.length()) : null;
   }
 
   public boolean isTrusted() {

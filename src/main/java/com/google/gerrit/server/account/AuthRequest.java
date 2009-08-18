@@ -57,8 +57,12 @@ public class AuthRequest {
     return externalId;
   }
 
+  public boolean isScheme(final String scheme) {
+    return getExternalId().startsWith(scheme);
+  }
+
   public String getLocalUser() {
-    if (getExternalId().startsWith(SCHEME_GERRIT)) {
+    if (isScheme(SCHEME_GERRIT)) {
       return getExternalId().substring(SCHEME_GERRIT.length());
     }
     return null;

@@ -218,11 +218,10 @@ class ExternalIdPanel extends Composite {
     }
 
     private String describe(final AccountExternalId k) {
-      final String id = k.getExternalId();
       if (k.isScheme(AccountExternalId.SCHEME_GERRIT)) {
         // A local user identity should just be itself.
         //
-        return id.substring(AccountExternalId.SCHEME_GERRIT.length());
+        return k.getSchemeRest(AccountExternalId.SCHEME_GERRIT);
 
       } else if (k.isScheme(AccountExternalId.SCHEME_MAILTO)) {
         // Describe a mailto address as just its email address, which
@@ -239,9 +238,9 @@ class ExternalIdPanel extends Composite {
       } else if (k.isScheme(AccountExternalId.LEGACY_GAE)) {
         return OpenIdUtil.C.nameGoogle() + " (Imported from Google AppEngine)";
 
+      } else {
+        return k.getExternalId();
       }
-
-      return id;
     }
   }
 }

@@ -18,9 +18,91 @@ import static org.spearce.jgit.util.StringUtils.equalsIgnoreCase;
 
 import org.spearce.jgit.lib.Config;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.TimeUnit;
 
 public class ConfigUtil {
+  /**
+   * Parse a Java enumeration from the configuration.
+   *
+   * @param <T> type of the enumeration object.
+   * @param config the configuration file to read.
+   * @param section section the key is in.
+   * @param subsection subsection the key is in, or null if not in a subsection.
+   * @param setting name of the setting to read.
+   * @param defaultValue default value to return if the setting was not set.
+   *        Must not be null as the enumeration values are derived from this.
+   * @return the selected enumeration value, or {@code defaultValue}.
+   */
+  @SuppressWarnings("unchecked")
+  public static <T extends Enum<?>> T getEnum(final Config config,
+      final String section, final String subsection, final String setting,
+      final T defaultValue) {
+    final T[] all;
+    try {
+      all = (T[]) defaultValue.getClass().getMethod("values").invoke(null);
+    } catch (IllegalArgumentException e) {
+      throw new IllegalArgumentException("Cannot obtain enumeration values", e);
+    } catch (SecurityException e) {
+      throw new IllegalArgumentException("Cannot obtain enumeration values", e);
+    } catch (IllegalAccessException e) {
+      throw new IllegalArgumentException("Cannot obtain enumeration values", e);
+    } catch (InvocationTargetException e) {
+      throw new IllegalArgumentException("Cannot obtain enumeration values", e);
+    } catch (NoSuchMethodException e) {
+      throw new IllegalArgumentException("Cannot obtain enumeration values", e);
+    }
+    return getEnum(config, section, subsection, setting, all, defaultValue);
+  }
+
+  /**
+   * Parse a Java enumeration from the configuration.
+   *
+   * @param <T> type of the enumeration object.
+   * @param config the configuration file to read.
+   * @param section section the key is in.
+   * @param subsection subsection the key is in, or null if not in a subsection.
+   * @param setting name of the setting to read.
+   * @param all all possible values in the enumeration which should be
+   *        recognized. This should be {@code EnumType.values()}.
+   * @param defaultValue default value to return if the setting was not set.
+   *        This value may be null.
+   * @return the selected enumeration value, or {@code defaultValue}.
+   */
+  public static <T extends Enum<?>> T getEnum(final Config config,
+      final String section, final String subsection, final String setting,
+      final T[] all, final T defaultValue) {
+    final String valueString = config.getString(section, subsection, setting);
+    if (valueString == null) {
+      return defaultValue;
+    }
+
+    String n = valueString.replace(' ', '_');
+    for (final T e : all) {
+      if (equalsIgnoreCase(e.name(), n)) {
+        return e;
+      }
+    }
+
+    final StringBuilder r = new StringBuilder();
+    r.append("Value \"");
+    r.append(valueString);
+    r.append("\" not recognized in ");
+    r.append(section);
+    if (subsection != null) {
+      r.append(".");
+      r.append(subsection);
+    }
+    r.append(".");
+    r.append(setting);
+    r.append("; supported values are: ");
+    for (final T e : all) {
+      r.append(e.name());
+      r.append(" ");
+    }
+    throw new IllegalArgumentException(r.toString().trim());
+  }
+
   /**
    * Parse a numerical time unit, such as "1 minute", from the configuration.
    *

@@ -77,16 +77,7 @@ public class AuthConfig {
     if (isBecomeAnyoneEnabled()) {
       return LoginType.DEVELOPMENT_BECOME_ANY_ACCOUNT;
     }
-    String type = cfg.getString("auth", null, "type");
-    if (type == null) {
-      return LoginType.OPENID;
-    }
-    for (LoginType t : LoginType.values()) {
-      if (type.equalsIgnoreCase(t.name())) {
-        return t;
-      }
-    }
-    throw new IllegalStateException("Unsupported auth.type: " + type);
+    return ConfigUtil.getEnum(cfg, "auth", null, "type", LoginType.OPENID);
   }
 
   private static boolean isBecomeAnyoneEnabled() {

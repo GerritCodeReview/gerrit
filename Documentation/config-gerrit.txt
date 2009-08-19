@@ -637,7 +637,7 @@ email from Gerrit.
 By default, unset, permitting delivery to any email address.
 
 [[sshd]] Section sshd
-~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
 
 [[sshd.listenAddress]]sshd.listenAddress::
 +
@@ -699,7 +699,7 @@ Supported MACs: hmac-md5, hmac-md5-96, hmac-sha1, hmac-sha1-96.
 By default, all supported MACs are available.
 
 [[user]] Section user
-~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
 
 [[user.name]]user.name::
 +

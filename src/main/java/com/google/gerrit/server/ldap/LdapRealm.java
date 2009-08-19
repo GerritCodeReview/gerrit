@@ -185,6 +185,14 @@ class LdapRealm implements Realm {
           //
           who.setEmailAddress(emailExpander.expand(username));
         }
+
+        // Fill the cache with the user's current groups. We've already
+        // spent the cost to open the LDAP connection, we might as well
+        // do one more call to get their group membership. Since we are
+        // in the middle of authenticating the user, its likely we will
+        // need to know what access rights they have soon.
+        //
+        membershipCache.put(username, queryForGroups(ctx, username, m));
         return who;
       } finally {
         try {
@@ -210,34 +218,42 @@ class LdapRealm implements Realm {
       throws NamingException, AccountException {
     final DirContext ctx = open();
     try {
-      final HashMap<String, String> params = new HashMap<String, String>();
-      params.put(USERNAME, username);
-      if (groupNeedsAccount) {
-        final LdapQuery.Result m = findAccount(ctx, username);
-        for (final String name : groupMemberQuery.getParameters()) {
-          params.put(name, m.get(name));
-        }
-      }
-
-      final Set<AccountGroup.Id> actual = new HashSet<AccountGroup.Id>();
-      for (LdapQuery.Result r : groupMemberQuery.query(ctx, params)) {
-        final String name = r.get(groupName);
-        final AccountGroup group = groupCache.lookup(name);
-        if (group != null && isLdapGroup(group)) {
-          actual.add(group.getId());
-        }
-      }
-      if (actual.isEmpty()) {
-        return Collections.emptySet();
-      } else {
-        return Collections.unmodifiableSet(actual);
-      }
+      return queryForGroups(ctx, username, null);
     } finally {
       try {
         ctx.close();
       } catch (NamingException e) {
         log.warn("Cannot close LDAP query handle", e);
       }
+    }
+  }
+
+  private Set<AccountGroup.Id> queryForGroups(final DirContext ctx,
+      final String username, LdapQuery.Result account) throws NamingException,
+      AccountException {
+    final HashMap<String, String> params = new HashMap<String, String>();
+    params.put(USERNAME, username);
+    if (groupNeedsAccount) {
+      if (account == null) {
+        account = findAccount(ctx, username);
+      }
+      for (final String name : groupMemberQuery.getParameters()) {
+        params.put(name, account.get(name));
+      }
+    }
+
+    final Set<AccountGroup.Id> actual = new HashSet<AccountGroup.Id>();
+    for (LdapQuery.Result r : groupMemberQuery.query(ctx, params)) {
+      final String name = r.get(groupName);
+      final AccountGroup group = groupCache.lookup(name);
+      if (group != null && isLdapGroup(group)) {
+        actual.add(group.getId());
+      }
+    }
+    if (actual.isEmpty()) {
+      return Collections.emptySet();
+    } else {
+      return Collections.unmodifiableSet(actual);
     }
   }
 

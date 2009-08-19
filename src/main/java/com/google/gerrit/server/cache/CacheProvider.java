@@ -25,8 +25,8 @@ import java.util.concurrent.TimeUnit;
 final class CacheProvider<K, V> implements Provider<Cache<K, V>>,
     NamedCacheBinding, UnnamedCacheBinding {
   private final boolean disk;
-  private long timeToIdle = -1;
-  private long timeToLive = -1;
+  private long timeToIdle = DEFAULT;
+  private long timeToLive = DEFAULT;
   private String cacheName;
   private ProxyEhcache cache;
 
@@ -70,7 +70,7 @@ final class CacheProvider<K, V> implements Provider<Cache<K, V>>,
     return this;
   }
 
-  public NamedCacheBinding timeToIdle(final int duration, final TimeUnit unit) {
+  public NamedCacheBinding timeToIdle(final long duration, final TimeUnit unit) {
     if (timeToIdle >= 0) {
       throw new IllegalStateException("Cache timeToIdle already set");
     }
@@ -78,7 +78,7 @@ final class CacheProvider<K, V> implements Provider<Cache<K, V>>,
     return this;
   }
 
-  public NamedCacheBinding timeToLive(final int duration, final TimeUnit unit) {
+  public NamedCacheBinding timeToLive(final long duration, final TimeUnit unit) {
     if (timeToLive >= 0) {
       throw new IllegalStateException("Cache timeToLive already set");
     }

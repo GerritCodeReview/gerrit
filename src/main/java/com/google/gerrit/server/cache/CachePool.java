@@ -117,12 +117,23 @@ public class CachePool {
         }
 
         {
-          long v;
-          v = p.timeToIdle() < 0 ? c.getTimeToIdleSeconds() : p.timeToIdle();
-          c.setTimeToIdleSeconds(getLong(name, "maxage", v / 60) * 60);
+          long idle = p.timeToIdle();
+          long live = p.timeToLive();
 
-          v = p.timeToLive() < 0 ? c.getTimeToIdleSeconds() : p.timeToLive();
-          c.setTimeToLiveSeconds(v);
+          if (idle == NamedCacheBinding.DEFAULT)
+            idle = c.getTimeToIdleSeconds();
+          if (live == NamedCacheBinding.DEFAULT)
+            live = c.getTimeToLiveSeconds();
+
+          idle = getLong(name, "maxage", idle / 60) * 60;
+          if (live == NamedCacheBinding.INFINITE) {
+            // Keep the alive period infinite, rather than expiring.
+          } else {
+            live = Math.max(live, idle);
+          }
+
+          c.setTimeToIdleSeconds(idle);
+          c.setTimeToLiveSeconds(live);
           c.setEternal(c.getTimeToIdleSeconds() == 0
               && c.getTimeToLiveSeconds() == 0);
         }

@@ -18,9 +18,12 @@ import java.util.concurrent.TimeUnit;
 
 /** Configure a cache declared within a {@link CacheModule} instance. */
 public interface NamedCacheBinding {
+  public static final long INFINITE = 0L;
+  public static final long DEFAULT = -1L;
+
   /** Set the time an element lives without access before being expired. */
-  public NamedCacheBinding timeToIdle(int duration, TimeUnit durationUnits);
+  public NamedCacheBinding timeToIdle(long duration, TimeUnit durationUnits);
 
   /** Set the time an element lives since creation, before being expired. */
-  public NamedCacheBinding timeToLive(int duration, TimeUnit durationUnits);
+  public NamedCacheBinding timeToLive(long duration, TimeUnit durationUnits);
 }

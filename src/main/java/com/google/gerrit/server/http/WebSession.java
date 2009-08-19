@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.http;
 
+import static com.google.gerrit.server.cache.NamedCacheBinding.INFINITE;
 import static java.util.concurrent.TimeUnit.HOURS;
-import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.server.AnonymousUser;
@@ -45,7 +45,7 @@ public final class WebSession {
         final String cacheName = WebSessionManager.CACHE_NAME;
         final TypeLiteral<Cache<Key, Val>> type =
             new TypeLiteral<Cache<Key, Val>>() {};
-        disk(type, cacheName).timeToIdle(12, HOURS).timeToLive(0, SECONDS);
+        disk(type, cacheName).timeToIdle(12, HOURS).timeToLive(INFINITE, HOURS);
         bind(WebSessionManager.class);
         bind(WebSession.class).in(RequestScoped.class);
       }

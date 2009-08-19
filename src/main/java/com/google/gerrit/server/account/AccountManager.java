@@ -186,6 +186,13 @@ public class AccountManager {
     account.setFullName(who.getDisplayName());
     account.setPreferredEmail(extId.getEmailAddress());
 
+    if (who.getSshUserName() != null
+        && db.accounts().bySshUserName(who.getSshUserName()) == null) {
+      // Only set if the name hasn't been used yet, but was given to us.
+      //
+      account.setSshUserName(who.getSshUserName());
+    }
+
     final Transaction txn = db.beginTransaction();
     db.accounts().insert(Collections.singleton(account), txn);
     db.accountExternalIds().insert(Collections.singleton(extId), txn);

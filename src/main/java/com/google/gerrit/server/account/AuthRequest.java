@@ -29,7 +29,10 @@ import static com.google.gerrit.client.reviewdb.AccountExternalId.SCHEME_MAILTO;
 public class AuthRequest {
   /** Create a request for a local username, such as from LDAP. */
   public static AuthRequest forUser(final String username) {
-    return new AuthRequest(SCHEME_GERRIT + username);
+    final AuthRequest r;
+    r = new AuthRequest(SCHEME_GERRIT + username);
+    r.setSshUserName(username);
+    return r;
   }
 
   /**
@@ -48,6 +51,7 @@ public class AuthRequest {
   private final String externalId;
   private String displayName;
   private String emailAddress;
+  private String sshUserName;
 
   public AuthRequest(final String externalId) {
     this.externalId = externalId;
@@ -82,5 +86,13 @@ public class AuthRequest {
 
   public void setEmailAddress(final String email) {
     emailAddress = email != null && email.length() > 0 ? email : null;
+  }
+
+  public String getSshUserName() {
+    return sshUserName;
+  }
+
+  public void setSshUserName(final String user) {
+    sshUserName = user;
   }
 }

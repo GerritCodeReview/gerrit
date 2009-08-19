@@ -59,6 +59,7 @@ class LdapRealm implements Realm {
   private final EmailExpander emailExpander;
   private final String accountDisplayName;
   private final String accountEmailAddress;
+  private final String accountSshUserName;
   private final LdapQuery accountQuery;
 
   private final GroupCache groupCache;
@@ -119,6 +120,10 @@ class LdapRealm implements Realm {
     if (accountEmailAddress != null) {
       accountAtts.add(accountEmailAddress);
     }
+    accountSshUserName = optdef(config, "accountSshUserName", "uid");
+    if (accountSshUserName != null) {
+      accountAtts.add(accountSshUserName);
+    }
     for (final String name : groupMemberQuery.getParameters()) {
       if (!USERNAME.equals(name)) {
         groupNeedsAccount = true;
@@ -174,7 +179,10 @@ class LdapRealm implements Realm {
       final DirContext ctx = open();
       try {
         final LdapQuery.Result m = findAccount(ctx, username);
+
         who.setDisplayName(m.get(accountDisplayName));
+        who.setSshUserName(m.get(accountSshUserName));
+
         if (accountEmailAddress != null) {
           who.setEmailAddress(m.get(accountEmailAddress));
 

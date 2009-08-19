@@ -210,6 +210,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
         db.accounts().update(Collections.singleton(me));
         uncacheSshKeys(oldName);
         uncacheSshKeys(newName);
+        accountCache.evict(me.getId());
         return VoidResult.INSTANCE;
       }
     });

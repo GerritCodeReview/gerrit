@@ -17,6 +17,7 @@ package com.google.gerrit.client;
 import com.google.gerrit.client.rpc.RpcConstants;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.rpc.StatusCodeException;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -64,6 +65,10 @@ public class ErrorDialog extends AutoCenterDialogBox {
     String cn;
     if (what instanceof RemoteJsonException) {
       cn = RpcConstants.C.errorRemoteJsonException();
+
+    } else if (what instanceof StatusCodeException) {
+      cn = RpcConstants.C.errorServerUnavailable();
+
     } else {
       cn = what.getClass().getName();
       if (cn.startsWith("java.lang.")) {

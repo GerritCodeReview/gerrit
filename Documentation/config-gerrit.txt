@@ -177,15 +177,26 @@ Default is unset, no disk cache.
 
 [[cache.name.maxAge]]cache.<name>.maxAge::
 +
-Maximum age, in minutes, to keep an entry in the cache.  If an
-entry has not been accessed in this period of time, it is removed
-from the cache.
+Maximum age to keep an entry in the cache.  If an entry has not
+been accessed in this period of time, it is removed from the cache.
+Values should use common unit suffixes to express their setting:
 +
-Default is 129600 (90 days) for most caches, except:
+* s, sec, second, seconds
+* m, min, minute, minutes
+* h, hr, hour, hours
+* d, day, days
+* w, week, weeks (`1 week` is treated as `7 days`)
+* mon, month, months (`1 month` is treated as `30 days`)
+* y, year, years (`1 year` is treated as `365 days`)
+
 +
-* `"ldap_groups"`: default is 60 (1 hour)
-* `"openid"`: default is 5 (5 minutes)
-* `"web_sessions"`: default is 720 (12 hours)
+If a unit suffix is not specified, `minutes` is assumed.
++
+Default is `90 days` for most caches, except:
++
+* `"ldap_groups"`: default is `1 hour`
+* `"openid"`: default is `5 minutes`
+* `"web_sessions"`: default is `12 hours`
 
 [[cache.name.memoryLimit]]cache.<name>.memoryLimit::
 +

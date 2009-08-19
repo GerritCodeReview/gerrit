@@ -14,6 +14,11 @@
 
 package com.google.gerrit.server.cache;
 
+import static java.util.concurrent.TimeUnit.DAYS;
+import static java.util.concurrent.TimeUnit.MINUTES;
+import static java.util.concurrent.TimeUnit.SECONDS;
+
+import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePath;
 import com.google.inject.Inject;
@@ -33,7 +38,6 @@ import org.spearce.jgit.lib.Config;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 /** Pool of all declared caches created by {@link CacheModule}s. */
 @Singleton
@@ -125,7 +129,7 @@ public class CachePool {
           if (live == NamedCacheBinding.DEFAULT)
             live = c.getTimeToLiveSeconds();
 
-          idle = getLong(name, "maxage", idle / 60) * 60;
+          idle = getSeconds(name, "maxage", idle);
           if (live == NamedCacheBinding.INFINITE) {
             // Keep the alive period infinite, rather than expiring.
           } else {
@@ -159,8 +163,11 @@ public class CachePool {
       return config.getInt("cache", name, setting, def);
     }
 
-    private long getLong(String name, String setting, long def) {
-      return config.getLong("cache", name, setting, def);
+    private long getSeconds(String n, String setting, long def) {
+      final long d = MINUTES.convert(def, SECONDS);
+      final long m;
+      m = ConfigUtil.getTimeUnit(config, "cache", n, setting, d, MINUTES);
+      return SECONDS.convert(m, MINUTES);
     }
 
     private void configureDiskStore() {
@@ -204,8 +211,8 @@ public class CachePool {
       c.setMaxElementsInMemory(getInt(null, "memorylimit", 1024));
       c.setMemoryStoreEvictionPolicyFromObject(MemoryStoreEvictionPolicy.LFU);
 
-      final long defaultAge = TimeUnit.MINUTES.convert(90, TimeUnit.DAYS);
-      c.setTimeToIdleSeconds(getLong(null, "maxage", defaultAge) * 60);
+      final long defaultAge = SECONDS.convert(90, DAYS);
+      c.setTimeToIdleSeconds(getSeconds(null, "maxage", defaultAge));
       c.setTimeToLiveSeconds(c.getTimeToIdleSeconds());
       c.setEternal(c.getTimeToIdleSeconds() == 0);
 

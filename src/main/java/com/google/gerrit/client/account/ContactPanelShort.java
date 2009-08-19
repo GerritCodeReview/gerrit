@@ -76,6 +76,7 @@ class ContactPanelShort extends Composite {
 
     nameTxt = new NpTextBox();
     nameTxt.setVisibleLength(60);
+    nameTxt.setReadOnly(!canEditFullName());
 
     emailPick = new ListBox();
 
@@ -95,7 +96,7 @@ class ContactPanelShort extends Composite {
     });
     final FlowPanel emailLine = new FlowPanel();
     emailLine.add(emailPick);
-    if (Gerrit.getConfig().isAllowRegisterNewEmail()) {
+    if (canRegisterNewEmail()) {
       emailLine.add(registerNewEmail);
     }
 
@@ -135,6 +136,14 @@ class ContactPanelShort extends Composite {
         }
       }
     });
+  }
+
+  private boolean canEditFullName() {
+    return Gerrit.getConfig().canEdit(Account.FieldName.FULL_NAME);
+  }
+
+  private boolean canRegisterNewEmail() {
+    return Gerrit.getConfig().canEdit(Account.FieldName.REGISTER_NEW_EMAIL);
   }
 
   void hideSaveButton() {
@@ -209,7 +218,7 @@ class ContactPanelShort extends Composite {
       if (emailPick.getItemCount() > 0) {
         emailPick.setVisible(true);
         emailPick.setEnabled(true);
-        if (Gerrit.getConfig().isAllowRegisterNewEmail()) {
+        if (canRegisterNewEmail()) {
           final String t = Util.C.buttonOpenRegisterNewEmail();
           emailPick.addItem("... " + t + "  ", t);
         }
@@ -234,7 +243,7 @@ class ContactPanelShort extends Composite {
   }
 
   private void doRegisterNewEmail() {
-    if (!Gerrit.getConfig().isAllowRegisterNewEmail()) {
+    if (!canRegisterNewEmail()) {
       return;
     }
 
@@ -290,7 +299,7 @@ class ContactPanelShort extends Composite {
   }
 
   void doSave() {
-    String newName = nameTxt.getText();
+    String newName = canEditFullName() ? nameTxt.getText() : null;
     if ("".equals(newName)) {
       newName = null;
     }

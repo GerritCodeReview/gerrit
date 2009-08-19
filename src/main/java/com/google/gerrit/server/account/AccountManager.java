@@ -120,6 +120,7 @@ public class AccountManager {
       final AccountExternalId extId) throws OrmException, AccountException {
     final Transaction txn = db.beginTransaction();
     final Account account = db.accounts().get(extId.getAccountId());
+    boolean updateAccount = false;
     if (account == null) {
       throw new AccountException("Account has been deleted");
     }
@@ -131,21 +132,42 @@ public class AccountManager {
     final String oldEmail = extId.getEmailAddress();
     if (newEmail != null && !newEmail.equals(oldEmail)) {
       if (oldEmail != null && oldEmail.equals(account.getPreferredEmail())) {
+        updateAccount = true;
         account.setPreferredEmail(newEmail);
-        db.accounts().update(Collections.singleton(account), txn);
       }
 
       extId.setEmailAddress(newEmail);
     }
 
+    if (!realm.allowsEdit(Account.FieldName.FULL_NAME)
+        && !eq(account.getFullName(), who.getDisplayName())) {
+      updateAccount = true;
+      account.setFullName(who.getDisplayName());
+    }
+    if (!realm.allowsEdit(Account.FieldName.SSH_USER_NAME)
+        && !eq(account.getSshUserName(), who.getSshUserName())) {
+      updateAccount = true;
+      account.setSshUserName(who.getSshUserName());
+    }
+
     extId.setLastUsedOn();
     db.accountExternalIds().update(Collections.singleton(extId), txn);
+    if (updateAccount) {
+      db.accounts().update(Collections.singleton(account), txn);
+    }
     txn.commit();
 
     if (newEmail != null && !newEmail.equals(oldEmail)) {
       byEmailCache.evict(oldEmail);
       byEmailCache.evict(newEmail);
     }
+    if (updateAccount) {
+      byIdCache.evict(account.getId());
+    }
+  }
+
+  private static boolean eq(final String a, final String b) {
+    return (a == null && b == null) || (a != null && a.equals(b));
   }
 
   private AuthResult create(final ReviewDb db, final AuthRequest who)

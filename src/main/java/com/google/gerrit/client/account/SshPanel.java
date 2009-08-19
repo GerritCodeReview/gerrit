@@ -95,8 +95,10 @@ class SshPanel extends Composite {
     }
     userNameTxt.addStyleName("gerrit-SshPanel-username");
     userNameTxt.setVisibleLength(16);
+    userNameTxt.setReadOnly(!canEditSshUserName());
 
     changeUserName = new Button(Util.C.buttonChangeSshUserName());
+    changeUserName.setVisible(canEditSshUserName());
     changeUserName.setEnabled(false);
     changeUserName.addClickHandler(new ClickHandler() {
       @Override
@@ -209,6 +211,10 @@ class SshPanel extends Composite {
     initWidget(body);
   }
 
+  private boolean canEditSshUserName() {
+    return Gerrit.getConfig().canEdit(Account.FieldName.SSH_USER_NAME);
+  }
+
   protected void row(final Grid info, final int row, final String name,
       final Widget field) {
     info.setText(row, labelIdx, name);
@@ -223,6 +229,10 @@ class SshPanel extends Composite {
   }
 
   void doChangeUserName() {
+    if(!canEditSshUserName()){
+      return;
+    }
+
     String newName = userNameTxt.getText();
     if ("".equals(newName)) {
       newName = null;

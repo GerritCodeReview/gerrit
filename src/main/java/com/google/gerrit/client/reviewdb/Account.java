@@ -55,6 +55,10 @@ import java.sql.Timestamp;
  * </ul>
  */
 public final class Account {
+  public static enum FieldName {
+    FULL_NAME, SSH_USER_NAME, REGISTER_NEW_EMAIL;
+  }
+
   /** Key local to Gerrit to identify a user. */
   public static class Id extends IntKey<com.google.gwtorm.client.Key<?>> {
     private static final long serialVersionUID = 1L;

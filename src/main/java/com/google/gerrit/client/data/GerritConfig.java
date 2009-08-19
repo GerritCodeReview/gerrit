@@ -14,8 +14,11 @@
 
 package com.google.gerrit.client.data;
 
+import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AuthType;
 import com.google.gerrit.client.reviewdb.Project;
+
+import java.util.Set;
 
 public class GerritConfig implements Cloneable {
   protected String canonicalUrl;
@@ -29,6 +32,7 @@ public class GerritConfig implements Cloneable {
   protected String sshdAddress;
   protected Project.NameKey wildProject;
   protected ApprovalTypes approvalTypes;
+  protected Set<Account.FieldName> editableAccountFields;
 
   public String getCanonicalUrl() {
     return canonicalUrl;
@@ -68,14 +72,6 @@ public class GerritConfig implements Cloneable {
 
   public void setUseContactInfo(final boolean r) {
     useContactInfo = r;
-  }
-
-  public boolean isAllowRegisterNewEmail() {
-    return allowRegisterNewEmail;
-  }
-
-  public void setAllowRegisterNewEmail(final boolean r) {
-    allowRegisterNewEmail = r;
   }
 
   public boolean isUseRepoDownload() {
@@ -119,5 +115,17 @@ public class GerritConfig implements Cloneable {
 
   public void setApprovalTypes(final ApprovalTypes at) {
     approvalTypes = at;
+  }
+
+  public boolean canEdit(final Account.FieldName f) {
+    return editableAccountFields.contains(f);
+  }
+
+  public Set<Account.FieldName> getEditableAccountFields() {
+    return editableAccountFields;
+  }
+
+  public void setEditableAccountFields(final Set<Account.FieldName> af) {
+    editableAccountFields = af;
   }
 }

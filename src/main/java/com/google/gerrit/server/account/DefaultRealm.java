@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.inject.Inject;
 
@@ -25,6 +26,11 @@ public final class DefaultRealm implements Realm {
   @Inject
   DefaultRealm(final EmailExpander emailExpander) {
     this.emailExpander = emailExpander;
+  }
+
+  @Override
+  public boolean allowsEdit(final Account.FieldName field) {
+    return true;
   }
 
   @Override

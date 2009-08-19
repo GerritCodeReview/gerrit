@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.ldap;
 
+import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountExternalId;
 import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.server.account.AccountException;
@@ -170,6 +171,20 @@ class LdapRealm implements Realm {
       throw new IllegalArgumentException("No ldap." + n + " configured");
     }
     return v;
+  }
+
+  @Override
+  public boolean allowsEdit(final Account.FieldName field) {
+    switch (field) {
+      case FULL_NAME:
+        return accountDisplayName == null; // only if not obtained from LDAP
+
+      case SSH_USER_NAME:
+        return accountSshUserName == null; // only if not obtained from LDAP
+
+      default:
+        return true;
+    }
   }
 
   public AuthRequest authenticate(final AuthRequest who)

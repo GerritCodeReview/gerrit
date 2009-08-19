@@ -14,11 +14,15 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountGroup;
 
 import java.util.Set;
 
 public interface Realm {
+  /** Can the end-user modify this field of their own account? */
+  public boolean allowsEdit(Account.FieldName field);
+
   public AuthRequest authenticate(AuthRequest who) throws AccountException;
 
   public Set<AccountGroup.Id> groups(AccountState who);

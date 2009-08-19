@@ -17,7 +17,9 @@ package com.google.gerrit.server.http;
 import com.google.gerrit.client.data.ApprovalTypes;
 import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.client.data.GitwebLink;
+import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.Project;
+import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -34,6 +36,8 @@ import org.spearce.jgit.lib.Config;
 import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
+import java.util.HashSet;
+import java.util.Set;
 
 public class GerritConfigProvider implements Provider<GerritConfig> {
   private static boolean isIPv6(final InetAddress ip) {
@@ -41,6 +45,7 @@ public class GerritConfigProvider implements Provider<GerritConfig> {
         && ip.getHostName().equals(ip.getHostAddress());
   }
 
+  private final Realm realm;
   private final Config cfg;
   private final String canonicalWebUrl;
   private final AuthConfig authConfig;
@@ -52,10 +57,11 @@ public class GerritConfigProvider implements Provider<GerritConfig> {
   private final ContactStore contactStore;
 
   @Inject
-  GerritConfigProvider(@GerritServerConfig final Config gsc,
+  GerritConfigProvider(final Realm r, @GerritServerConfig final Config gsc,
       @CanonicalWebUrl @Nullable final String cwu, final AuthConfig ac,
       @WildProjectName final Project.NameKey wp, final SshInfo si,
       final ApprovalTypes at, final ContactStore cs) {
+    realm = r;
     cfg = gsc;
     canonicalWebUrl = cwu;
     authConfig = ac;
@@ -79,11 +85,20 @@ public class GerritConfigProvider implements Provider<GerritConfig> {
     config.setUseRepoDownload(cfg.getBoolean("repo", null,
         "showdownloadcommand", false));
     config.setUseContactInfo(contactStore != null && contactStore.isEnabled());
-    config.setAllowRegisterNewEmail(emailSender != null
-        && emailSender.isEnabled());
     config.setAuthType(authConfig.getLoginType());
     config.setWildProject(wildProject);
     config.setApprovalTypes(approvalTypes);
+
+    final Set<Account.FieldName> fields = new HashSet<Account.FieldName>();
+    for (final Account.FieldName n : Account.FieldName.values()) {
+      if (realm.allowsEdit(n)) {
+        fields.add(n);
+      }
+    }
+    if (emailSender != null && emailSender.isEnabled()) {
+      fields.add(Account.FieldName.REGISTER_NEW_EMAIL);
+    }
+    config.setEditableAccountFields(fields);
 
     final String gitwebUrl = cfg.getString("gitweb", null, "url");
     if (gitwebUrl != null) {

@@ -33,6 +33,7 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
+import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.contact.ContactStore;
 import com.google.gerrit.server.mail.EmailException;
@@ -68,6 +69,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
   private final Logger log = LoggerFactory.getLogger(getClass());
   private final ContactStore contactStore;
   private final AuthConfig authConfig;
+  private final Realm realm;
   private final RegisterNewEmailSender.Factory registerNewEmailFactory;
   private final SshKeyCache sshKeyCache;
   private final AccountByEmailCache byEmailCache;
@@ -80,13 +82,15 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
   @Inject
   AccountSecurityImpl(final Provider<ReviewDb> schema,
       final Provider<CurrentUser> currentUser, final ContactStore cs,
-      final AuthConfig ac, final RegisterNewEmailSender.Factory esf,
-      final SshKeyCache skc, final AccountByEmailCache abec,
-      final AccountCache uac, final AccountManager am,
+      final AuthConfig ac, final Realm r,
+      final RegisterNewEmailSender.Factory esf, final SshKeyCache skc,
+      final AccountByEmailCache abec, final AccountCache uac,
+      final AccountManager am,
       final ExternalIdDetailFactory.Factory externalIdDetailFactory) {
     super(schema, currentUser);
     contactStore = cs;
     authConfig = ac;
+    realm = r;
     registerNewEmailFactory = esf;
     sshKeyCache = skc;
     byEmailCache = abec;
@@ -174,6 +178,11 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
   @Override
   public void changeSshUserName(final String newName,
       final AsyncCallback<VoidResult> callback) {
+    if (!realm.allowsEdit(Account.FieldName.SSH_USER_NAME)) {
+      callback.onFailure(new NameAlreadyUsedException());
+      return;
+    }
+
     run(callback, new Action<VoidResult>() {
       @Override
       public VoidResult run(ReviewDb db) throws OrmException, Failure {
@@ -274,7 +283,9 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
       public Account run(ReviewDb db) throws OrmException, Failure {
         final Account me = db.accounts().get(getAccountId());
         final String oldEmail = me.getPreferredEmail();
-        me.setFullName(name != null && !name.isEmpty() ? name : null);
+        if (realm.allowsEdit(Account.FieldName.FULL_NAME)) {
+          me.setFullName(name != null && !name.isEmpty() ? name : null);
+        }
         me.setPreferredEmail(emailAddr);
         if (useContactInfo) {
           if (ContactInformation.hasAddress(info)

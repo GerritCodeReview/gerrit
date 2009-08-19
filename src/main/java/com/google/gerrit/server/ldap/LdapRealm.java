@@ -58,7 +58,7 @@ class LdapRealm implements Realm {
   private final String password;
 
   private final EmailExpander emailExpander;
-  private final String accountDisplayName;
+  private final String accountFullName;
   private final String accountEmailAddress;
   private final String accountSshUserName;
   private final LdapQuery accountQuery;
@@ -113,9 +113,9 @@ class LdapRealm implements Realm {
     // Account query
     //
     final Set<String> accountAtts = new HashSet<String>();
-    accountDisplayName = optdef(config, "accountDisplayName", "displayName");
-    if (accountDisplayName != null) {
-      accountAtts.add(accountDisplayName);
+    accountFullName = optdef(config, "accountFullName", "displayName");
+    if (accountFullName != null) {
+      accountAtts.add(accountFullName);
     }
     accountEmailAddress = optdef(config, "accountEmailAddress", "mail");
     if (accountEmailAddress != null) {
@@ -177,7 +177,7 @@ class LdapRealm implements Realm {
   public boolean allowsEdit(final Account.FieldName field) {
     switch (field) {
       case FULL_NAME:
-        return accountDisplayName == null; // only if not obtained from LDAP
+        return accountFullName == null; // only if not obtained from LDAP
 
       case SSH_USER_NAME:
         return accountSshUserName == null; // only if not obtained from LDAP
@@ -195,7 +195,7 @@ class LdapRealm implements Realm {
       try {
         final LdapQuery.Result m = findAccount(ctx, username);
 
-        who.setDisplayName(m.get(accountDisplayName));
+        who.setDisplayName(m.get(accountFullName));
         who.setSshUserName(m.get(accountSshUserName));
 
         if (accountEmailAddress != null) {

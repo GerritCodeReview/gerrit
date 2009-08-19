@@ -478,7 +478,7 @@ common deployments.
     #
     accountBase = ou=people,dc=example,dc=com
     accountPattern = (&(objectClass=person)(uid=${username}))
-    accountDisplayName = displayName
+    accountFullName = displayName
     accountEmailAddress = mail
     #
     groupBase = ou=groups,dc=example,dc=com
@@ -523,7 +523,7 @@ setting depends on the LDAP schema used by the directory server.
 +
 Default is `(uid=$\{username\})`, matching RFC 2307.
 
-[[ldap.accountDisplayName]]ldap.accountDisplayName::
+[[ldap.accountFullName]]ldap.accountFullName::
 +
 _(Optional)_ Name of an attribute on the user account object which
 contains the initial value for the user's full name field in Gerrit.

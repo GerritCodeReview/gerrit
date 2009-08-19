@@ -48,6 +48,14 @@ solutions.  With this setting enabled the authentication must
 take place in the web server or servlet container, and not from
 within Gerrit.
 +
+* `HTTP_LDAP`
++
+Exactly like `HTTP` (above), but additionally Gerrit pre-populates
+a user's full name and email address based on information obtained
+from the user's account object in LDAP.  The user's group membership
+is also pulled from LDAP, making any LDAP groups that a user is a
+member of available as groups in Gerrit.
++
 * `DEVELOPMENT_BECOME_ANY_ACCOUNT`
 +
 *DO NOT USE*.  Only for use in a development environment.
@@ -97,12 +105,16 @@ If not set, the redirect returns to the list of all open changes.
 auth.emailFormat::
 +
 Optional format string to construct user email addresses out of
-user login names.  Only used if auth.type is HTTP.
+user login names.  Only used if auth.type is `HTTP` or `HTTP_LDAP`.
 +
 This value can be set to a format string, where `\{0\}` is replaced
 with the login name.  E.g. "\{0\}+gerrit@example.com" with a user
 login name of "foo" will produce "foo+gerrit@example.com" during
 the first time user "foo" registers.
++
+If the site is using `HTTP_LDAP`, using this option is discouraged.
+Setting `ldap.accountEmailAddress` and importing the email address
+from the LDAP directory is generally preferred.
 
 auth.contributorAgreements::
 +
@@ -169,8 +181,11 @@ Maximum age, in minutes, to keep an entry in the cache.  If an
 entry has not been accessed in this period of time, it is removed
 from the cache.
 +
-Default is 129600 (90 days) for most caches; 5 minutes for cache
-"openid", 12 hours for cache "web_sessions".
+Default is 129600 (90 days) for most caches, except:
++
+* `"ldap_groups"`: default is 60 (1 hour)
+* `"openid"`: default is 5 (5 minutes)
+* `"web_sessions"`: default is 720 (12 hours)
 
 cache.<name>.memoryLimit::
 +
@@ -242,8 +257,18 @@ expire out.
 cache `"groups"`::
 +
 Caches the basic group information from the `account_groups` table,
-including the group owner, name, and description.  Group membership
-is cached under the `"accounts"` cache above.
+including the group owner, name, and description.
++
+Gerrit group membership obtained from the `account_group_members`
+table is cached under the `"accounts"` cache, above.  External group
+membership obtained from LDAP is cached under `"ldap_groups"`.
+
+cache `"ldap_groups"`::
++
+Caches the LDAP groups that a user belongs to, if LDAP has been
+configured on this server.  This cache should be configured with a
+low maxAge setting, to ensure LDAP modifications are picked up in
+a timely fashion.
 
 cache `"openid"`::
 +
@@ -422,6 +447,117 @@ gerrit.basePath and the repositories it contains.
 +
 Gerrit appends any necessary query arguments onto the end of this URL.
 For example, "?p=$project.git;h=$commit".
+
+
+Section ldap
+~~~~~~~~~~~~
+
+LDAP integration is only enabled if `auth.type` was set to
+`HTTP_LDAP`.  See above for a detailed description of the auth.type
+settings and their implications.
+
+An example LDAP configuration follows, and then discussion of the
+parameters introduced here.  Defaults were chosen to align closely
+with link:http://www.ietf.org/rfc/rfc2307.txt[RFC 2307], and many
+common deployments.
+
+====
+  [ldap]
+    server = ldap://ldap.example.com
+    #
+    accountBase = ou=people,dc=example,dc=com
+    accountPattern = (&(objectClass=person)(uid=${username}))
+    accountDisplayName = displayName
+    accountEmailAddress = mail
+    #
+    groupBase = ou=groups,dc=example,dc=com
+    groupMemberPattern = (&(objectClass=group)(member=${dn}))
+    groupName = cn
+====
+
+ldap.server::
++
+URL of the organization's LDAP server to query for user information
+and group membership from.  Must be of the form `ldap://host` or
+`ldaps://host` to bind with either a plaintext or SSL connection.
+
+ldap.username::
++
+_(Optional)_ Username to bind to the LDAP server with.  If not set,
+an anonymous connection to the LDAP server is attempted.
+
+ldap.password::
++
+_(Optional)_ Password for the user identified by `ldap.username`.
+If not set, an anonymous (or passwordless) connection to the LDAP
+server is attempted.
+
+ldap.accountBase::
++
+Root of the tree containing all user accounts.  This is typically
+of the form `ou=people,dc=example,dc=com`.
+
+ldap.accountPattern::
++
+Query pattern to use when searching for a user account.  This may be
+any valid LDAP query expression, including the standard `(&...)` and
+`(|...)` operators.  If auth.type is `HTTP_LDAP` then the variable
+`$\{username\}` is replaced with a parameter set to the username
+that was supplied by the HTTP server.
++
+This pattern is used to search the objects contained directly under
+the `ldap.accountBase` tree.  A typical setting for this parameter
+is `(uid=$\{username\})` or `(cn=$\{username\})`, but the proper
+setting depends on the LDAP schema used by the directory server.
++
+Default is `(uid=$\{username\})`, matching RFC 2307.
+
+ldap.accountDisplayName::
++
+_(Optional)_ Name of an attribute on the user account object which
+contains the initial value for the user's full name field in Gerrit.
+Typically this is the `displayName` property in LDAP, but could
+also be `legalName` or `cn`.
++
+Default is `displayName`, a common value for most servers.
+
+ldap.accountEmailAddress::
++
+_(Optional)_ Name of an attribute on the user account object which
+contains the user's Internet email address, as defined by this
+LDAP server.
++
+Default is `mail`, a common value for most servers.
+
+ldap.groupBase::
++
+Root of the tree containing all group objects.  This is typically
+of the form `ou=groups,dc=example,dc=com`.
+
+ldap.groupName::
++
+Name of an attribute on the group object which matches to the name
+of a group registered in the Gerrit database.  Typically this would
+be the display name of the group.
++
+Default is `cn`, a common value for most servers.
+
+ldap.groupMemberPattern::
++
+Query pattern to use when searching for the groups that a user
+account is currently a member of.  This may be any valid LDAP query
+expression, including the standard `(&...)` and `(|...)` operators.
++
+If auth.type is `HTTP_LDAP` then the variable `$\{username\}` is
+replaced with a parameter set to the username that was supplied
+by the HTTP server.  Other variables appearing in the pattern,
+such as `$\{fooBarAttribute\}`, are replaced with the value of the
+corresponding attribute (in this case, `fooBarAttribute`) as read
+from the user's account object matched under `ldap.accountBase`.
+Attributes such as `$\{dn\}` or `$\{uidNumber\}` may be useful.
++
+Default is `(memberUid=$\{username\})`, matching RFC 2307.
+
 
 Section mimetype
 ~~~~~~~~~~~~~~~~

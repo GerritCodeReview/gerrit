@@ -59,6 +59,7 @@ List caches available for flushing:
 	accounts_byemail
 	diff
 	groups
+	ldap_groups
 	openid
 	projects
 	sshkeys

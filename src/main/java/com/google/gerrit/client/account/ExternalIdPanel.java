@@ -54,7 +54,7 @@ class ExternalIdPanel extends Composite {
     });
     body.add(deleteIdentity);
 
-    switch (Gerrit.getConfig().getLoginType()) {
+    switch (Gerrit.getConfig().getAuthType()) {
       case OPENID: {
         final Button linkIdentity = new Button(Util.C.buttonLinkIdentity());
         linkIdentity.addClickHandler(new ClickHandler() {

@@ -312,7 +312,7 @@ public class Gerrit implements EntryPoint {
       addLink(menuRight, C.menuSettings(), Link.SETTINGS);
       menuRight.add(anchor(C.menuSignOut(), "logout"));
     } else {
-      switch (getConfig().getLoginType()) {
+      switch (getConfig().getAuthType()) {
         case HTTP:
         case HTTP_LDAP:
           break;

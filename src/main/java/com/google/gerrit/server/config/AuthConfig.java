@@ -16,7 +16,7 @@ package com.google.gerrit.server.config;
 
 import com.google.gerrit.client.reviewdb.AccountExternalId;
 import com.google.gerrit.client.reviewdb.AccountGroup;
-import com.google.gerrit.client.reviewdb.LoginType;
+import com.google.gerrit.client.reviewdb.AuthType;
 import com.google.gerrit.client.reviewdb.SystemConfig;
 import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.gwtjsonrpc.server.XsrfException;
@@ -33,7 +33,7 @@ import java.util.Set;
 /** Authentication related settings from {@code gerrit.config}. */
 @Singleton
 public class AuthConfig {
-  private final LoginType loginType;
+  private final AuthType loginType;
   private final String httpHeader;
   private final String logoutUrl;
   private final String[] trusted;
@@ -73,11 +73,11 @@ public class AuthConfig {
     return r;
   }
 
-  private static LoginType toType(final Config cfg) {
+  private static AuthType toType(final Config cfg) {
     if (isBecomeAnyoneEnabled()) {
-      return LoginType.DEVELOPMENT_BECOME_ANY_ACCOUNT;
+      return AuthType.DEVELOPMENT_BECOME_ANY_ACCOUNT;
     }
-    return ConfigUtil.getEnum(cfg, "auth", null, "type", LoginType.OPENID);
+    return ConfigUtil.getEnum(cfg, "auth", null, "type", AuthType.OPENID);
   }
 
   private static boolean isBecomeAnyoneEnabled() {
@@ -90,7 +90,7 @@ public class AuthConfig {
   }
 
   /** Type of user authentication used by this Gerrit server. */
-  public LoginType getLoginType() {
+  public AuthType getLoginType() {
     return loginType;
   }
 

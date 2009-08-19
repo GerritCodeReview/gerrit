@@ -71,7 +71,7 @@ public class SignInDialog extends AutoCenterDialogBox {
   public SignInDialog(final Mode signInMode, final String errorMsg) {
     super(/* auto hide */true, /* modal */true);
 
-    switch (Gerrit.getConfig().getLoginType()) {
+    switch (Gerrit.getConfig().getAuthType()) {
       case OPENID:
         panel = new OpenIdLoginPanel(signInMode, errorMsg);
         break;

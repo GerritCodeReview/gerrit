@@ -17,7 +17,7 @@ package com.google.gerrit.server.http;
 import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.gerrit.client.data.GerritConfig;
-import com.google.gerrit.client.reviewdb.LoginType;
+import com.google.gerrit.client.reviewdb.AuthType;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RemotePeer;
@@ -42,14 +42,14 @@ import java.net.SocketAddress;
 
 class WebModule extends FactoryModule {
   private final Provider<SshInfo> sshInfoProvider;
-  private final LoginType loginType;
+  private final AuthType loginType;
 
   @Inject
   WebModule(final Provider<SshInfo> sshInfoProvider, final AuthConfig authConfig) {
     this(sshInfoProvider, authConfig.getLoginType());
   }
 
-  WebModule(final Provider<SshInfo> sshInfoProvider, final LoginType loginType) {
+  WebModule(final Provider<SshInfo> sshInfoProvider, final AuthType loginType) {
     this.sshInfoProvider = sshInfoProvider;
     this.loginType = loginType;
   }

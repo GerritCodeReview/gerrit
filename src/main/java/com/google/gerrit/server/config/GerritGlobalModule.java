@@ -18,7 +18,7 @@ import static com.google.inject.Scopes.SINGLETON;
 import static com.google.inject.Stage.PRODUCTION;
 
 import com.google.gerrit.client.data.ApprovalTypes;
-import com.google.gerrit.client.reviewdb.LoginType;
+import com.google.gerrit.client.reviewdb.AuthType;
 import com.google.gerrit.git.ChangeMergeQueue;
 import com.google.gerrit.git.MergeOp;
 import com.google.gerrit.git.MergeQueue;
@@ -81,7 +81,7 @@ public class GerritGlobalModule extends FactoryModule {
     return cfg.createChildInjector(modules);
   }
 
-  private final LoginType loginType;
+  private final AuthType loginType;
 
   @Inject
   GerritGlobalModule(final AuthConfig authConfig,

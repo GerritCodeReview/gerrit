@@ -81,7 +81,7 @@ public class GerritConfigProvider implements Provider<GerritConfig> {
     config.setUseContactInfo(contactStore != null && contactStore.isEnabled());
     config.setAllowRegisterNewEmail(emailSender != null
         && emailSender.isEnabled());
-    config.setLoginType(authConfig.getLoginType());
+    config.setAuthType(authConfig.getLoginType());
     config.setWildProject(wildProject);
     config.setApprovalTypes(approvalTypes);
 

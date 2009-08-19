@@ -14,7 +14,7 @@
 
 package com.google.gerrit.client.reviewdb;
 
-public enum LoginType {
+public enum AuthType {
   /** Login relies upon the OpenID standard: {@link "http://openid.net/"} */
   OPENID,
 

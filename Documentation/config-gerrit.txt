@@ -29,7 +29,7 @@ Sample `gerrit.config`:
 
 See also link:config-sso.html[SSO configuration].
 
-auth.type::
+[[auth.type]]auth.type::
 +
 Type of user authentication employed by Gerrit.  The supported
 values are:
@@ -72,7 +72,7 @@ authentication is not possible.
 +
 By default, OpenID.
 
-auth.trustedOpenID::
+[[auth.trustedOpenID]]auth.trustedOpenID::
 +
 List of trusted OpenID providers.  Only used if `auth.type` was
 set to OpenID (the default).
@@ -88,12 +88,12 @@ end with `$`) or be a simple prefix (any other string).
 By default, the list contains two values, `http://` and `https://`,
 allowing Gerrit to trust any OpenID it receives.
 
-auth.httpHeader::
+[[auth.httpHeader]]auth.httpHeader::
 +
 HTTP header to trust the username from, or unset to select HTTP basic
 or digest authentication.  Only used if `auth.type` was set to HTTP.
 
-auth.logoutUrl::
+[[auth.logoutUrl]]auth.logoutUrl::
 +
 URL to redirect a browser to after the end-user has clicked on the
 "Sign Out" link in the upper right corner.  Organizations using an
@@ -102,7 +102,7 @@ to the SSO product's sign-out page.
 +
 If not set, the redirect returns to the list of all open changes.
 
-auth.emailFormat::
+[[auth.emailFormat]]auth.emailFormat::
 +
 Optional format string to construct user email addresses out of
 user login names.  Only used if auth.type is `HTTP` or `HTTP_LDAP`.
@@ -116,7 +116,7 @@ If the site is using `HTTP_LDAP`, using this option is discouraged.
 Setting `ldap.accountEmailAddress` and importing the email address
 from the LDAP directory is generally preferred.
 
-auth.contributorAgreements::
+[[auth.contributorAgreements]]auth.contributorAgreements::
 +
 Controls whether or not the contributor agreement features are
 enabled for the Gerrit site.  If enabled a user must complete a
@@ -155,7 +155,7 @@ By default, unset/false.
 [[cache]]Section cache
 ~~~~~~~~~~~~~~~~~~~~~~
 
-cache.directory::
+[[cache.directory]]cache.directory::
 +
 Path to a local directory where Gerrit can write cached entities for
 future lookup.  This local disk cache is used to retain potentially
@@ -166,16 +166,16 @@ If not absolute, the path is resolved relative to `$site_path`.
 +
 Default is unset, no disk cache.
 
-cache.maxAge::
+[[cache.maxAge]]cache.maxAge::
 	Default setting inherited by named caches; see below.
-cache.memoryLimit::
+[[cache.memoryLimit]]cache.memoryLimit::
 	Default setting inherited by named caches; see below.
-cache.diskLimit::
+[[cache.diskLimit]]cache.diskLimit::
 	Default setting inherited by named caches; see below.
-cache.diskBuffer::
+[[cache.diskBuffer]]cache.diskBuffer::
 	Default setting inherited by named caches; see below.
 
-cache.<name>.maxAge::
+[[cache.name.maxAge]]cache.<name>.maxAge::
 +
 Maximum age, in minutes, to keep an entry in the cache.  If an
 entry has not been accessed in this period of time, it is removed
@@ -187,14 +187,14 @@ Default is 129600 (90 days) for most caches, except:
 * `"openid"`: default is 5 (5 minutes)
 * `"web_sessions"`: default is 720 (12 hours)
 
-cache.<name>.memoryLimit::
+[[cache.name.memoryLimit]]cache.<name>.memoryLimit::
 +
 Maximum number of cache items to retain in memory.  Keep in mind
 this is total number of items, not bytes of heap used.
 +
 Default is 1024.
 
-cache.<name>.diskLimit::
+[[cache.name.diskLimit]]cache.<name>.diskLimit::
 +
 Maximum number of cache items to retain on disk, if this cache
 supports storing its items to disk.  Like memoryLimit, this is
@@ -203,7 +203,7 @@ for this cache is disabled.
 +
 Default is 16384.
 
-cache.<name>.diskBuffer::
+[[cache.name.diskBuffer]]cache.<name>.diskBuffer::
 +
 Number of bytes to buffer in memory before writing less frequently
 accessed cache items to disk, if this cache supports storing its
@@ -318,7 +318,7 @@ See also link:cmd-flush-caches.html[gerrit flush-caches].
 [[contactstore]]Section contactstore
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-contactstore.url::
+[[contactstore.url]]contactstore.url::
 +
 URL of the web based contact store Gerrit will send any offline
 contact information to when it collects the data from users as part
@@ -326,14 +326,14 @@ of a contributor agreement.
 +
 See link:config-contact.html[Contact Information].
 
-contactstore.appsec::
+[[contactstore.appsec]]contactstore.appsec::
 +
 Shared secret of the web based contact store.
 
 [[core]]Section core
 ~~~~~~~~~~~~~~~~~~~~
 
-core.packedGitWindowSize::
+[[core.packedGitWindowSize]]core.packedGitWindowSize::
 +
 Number of bytes of a pack file to load into memory in a single
 read operation.  This is the "page size" of the JGit buffer cache,
@@ -346,7 +346,7 @@ Default on JGit is 8 KiB on all platforms.
 +
 Common unit suffixes of 'k', 'm', or 'g' are supported.
 
-core.packedGitLimit::
+[[core.packedGitLimit]]core.packedGitLimit::
 +
 Maximum number of bytes to load and cache in memory from pack files.
 If JGit needs to access more than this many bytes it will unload less
@@ -358,7 +358,7 @@ Default on JGit is 10 MiB on all platforms.
 +
 Common unit suffixes of 'k', 'm', or 'g' are supported.
 
-core.deltaBaseCacheLimit::
+[[core.deltaBaseCaseLimit]]core.deltaBaseCacheLimit::
 +
 Maximum number of bytes to reserve for caching base objects
 that multiple deltafied objects reference.  By storing the entire
@@ -370,7 +370,7 @@ need to adjust this value.
 +
 Common unit suffixes of 'k', 'm', or 'g' are supported.
 
-core.packedGitOpenFiles::
+[[core.packedGitOpenFiles]]core.packedGitOpenFiles::
 +
 Maximum number of pack files to have open at once.  A pack file
 must be opened in order for any of its data to be available in
@@ -383,7 +383,7 @@ repository data manipulation.
 +
 Default on JGit is 128 file descriptors on all platforms.
 
-core.packedGitMmap::
+[[core.packedGitMmap]]core.packedGitMmap::
 +
 When true, JGit will use `mmap()` rather than `malloc()+read()`
 to load data from pack files.  The use of mmap can be problematic
@@ -402,7 +402,7 @@ much more predictable behavior.
 [[gerrit]]Section gerrit
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-gerrit.basePath::
+[[gerrit.basePath]]gerrit.basePath::
 +
 Local filesystem directory holding all Git repositories that
 Gerrit knows about and can process changes for.  A project
@@ -411,7 +411,7 @@ the path string `"$\{basePath}/$\{project_name}.git"`.
 +
 If relative, the path is resolved relative to `'$site_path'`.
 
-gerrit.canonicalWebUrl::
+[[gerrit.canonicalWebUrl]]gerrit.canonicalWebUrl::
 +
 The default URL for Gerrit to be accessed through.
 +
@@ -423,7 +423,7 @@ Setting this is highly recommended, as its necessary for the upload
 code invoked by "git push" or "repo upload" to output hyperlinks
 to the newly uploaded changes.
 
-gerrit.canonicalGitUrl::
+[[gerrit.canonicalGitUrl]]gerrit.canonicalGitUrl::
 +
 Optional base URL for repositories available over the anonymous git
 protocol.  For example, set this to `git://mirror.example.com/base/`
@@ -439,7 +439,7 @@ same host as Gerrit.
 
 See also link:config-gitweb.html[Gitweb Integration].
 
-gitweb.url::
+[[gitweb.url]]gitweb.url::
 +
 Optional URL of an affiliated gitweb service.  Defines the
 web location where a `gitweb.cgi` is installed to browse
@@ -475,29 +475,29 @@ common deployments.
     groupName = cn
 ====
 
-ldap.server::
+[[ldap.server]]ldap.server::
 +
 URL of the organization's LDAP server to query for user information
 and group membership from.  Must be of the form `ldap://host` or
 `ldaps://host` to bind with either a plaintext or SSL connection.
 
-ldap.username::
+[[ldap.username]]ldap.username::
 +
 _(Optional)_ Username to bind to the LDAP server with.  If not set,
 an anonymous connection to the LDAP server is attempted.
 
-ldap.password::
+[[ldap.password]]ldap.password::
 +
 _(Optional)_ Password for the user identified by `ldap.username`.
 If not set, an anonymous (or passwordless) connection to the LDAP
 server is attempted.
 
-ldap.accountBase::
+[[ldap.accountBase]]ldap.accountBase::
 +
 Root of the tree containing all user accounts.  This is typically
 of the form `ou=people,dc=example,dc=com`.
 
-ldap.accountPattern::
+[[ldap.accountPattern]]ldap.accountPattern::
 +
 Query pattern to use when searching for a user account.  This may be
 any valid LDAP query expression, including the standard `(&...)` and
@@ -512,7 +512,7 @@ setting depends on the LDAP schema used by the directory server.
 +
 Default is `(uid=$\{username\})`, matching RFC 2307.
 
-ldap.accountDisplayName::
+[[ldap.accountDisplayName]]ldap.accountDisplayName::
 +
 _(Optional)_ Name of an attribute on the user account object which
 contains the initial value for the user's full name field in Gerrit.
@@ -521,7 +521,7 @@ also be `legalName` or `cn`.
 +
 Default is `displayName`, a common value for most servers.
 
-ldap.accountEmailAddress::
+[[ldap.accountEmailAddress]]ldap.accountEmailAddress::
 +
 _(Optional)_ Name of an attribute on the user account object which
 contains the user's Internet email address, as defined by this
@@ -529,12 +529,12 @@ LDAP server.
 +
 Default is `mail`, a common value for most servers.
 
-ldap.groupBase::
+[[ldap.groupBase]]ldap.groupBase::
 +
 Root of the tree containing all group objects.  This is typically
 of the form `ou=groups,dc=example,dc=com`.
 
-ldap.groupName::
+[[ldap.groupName]]ldap.groupName::
 +
 Name of an attribute on the group object which matches to the name
 of a group registered in the Gerrit database.  Typically this would
@@ -542,7 +542,7 @@ be the display name of the group.
 +
 Default is `cn`, a common value for most servers.
 
-ldap.groupMemberPattern::
+[[ldap.groupMemberPattern]]ldap.groupMemberPattern::
 +
 Query pattern to use when searching for the groups that a user
 account is currently a member of.  This may be any valid LDAP query
@@ -562,7 +562,7 @@ Default is `(memberUid=$\{username\})`, matching RFC 2307.
 [[mimetype]]Section mimetype
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-mimetype.<name>.safe::
+[[mimetype.name.safe]]mimetype.<name>.safe::
 +
 If set to true, files with the MIME type `<name>` will be sent as
 direct downloads to the user's browser, rather than being wrapped up
@@ -587,7 +587,7 @@ Common examples:
 [[repo]]Section repo
 ~~~~~~~~~~~~~~~~~~~~
 
-repo.showDownloadCommand::
+[[repo.showDownloadCommand]]repo.showDownloadCommand::
 +
 If set to true, Gerrit advertises patch set downloads with the
 `repo download` command, assuming that all projects managed by this
@@ -598,35 +598,35 @@ By default, false, as not all instances will deploy repo.
 [[sendemail]]Section sendemail
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-sendemail.enable::
+[[sendemail.enable]]sendemail.enable::
 +
 If false Gerrit will not send email messages, for any reason,
 and all other properties of section sendemail are ignored.
 +
 By default, true, allowing notifications to be sent.
 
-sendemail.smtpServer::
+[[sendemail.smtpServer]]sendemail.smtpServer::
 +
 Hostname (or IP address) of a SMTP server that will relay
 messages generated by Gerrit to end users.
 +
 By default, 127.0.0.1 (aka localhost).
 
-sendemail.smtpServerPort::
+[[sendemail.smtpServerPort]]sendemail.smtpServerPort::
 +
 Port number of the SMTP server in sendemail.smtpserver.
 +
 By default, 25.
 
-sendemail.smtpUser::
+[[sendemail.smtpUser]]sendemail.smtpUser::
 +
 User name to authenticate with, if required for relay.
 
-sendemail.smtpPass::
+[[sendemail.smtpPass]]sendemail.smtpPass::
 +
 Password for the account named by sendemail.smtpUser.
 
-sendemail.allowrcpt::
+[[sendemail.allowrcpt]]sendemail.allowrcpt::
 +
 If present, each value adds one entry to the whitelist of email
 addresses that Gerrit can send email to.  If set to a complete
@@ -639,7 +639,7 @@ By default, unset, permitting delivery to any email address.
 [[sshd]] Section sshd
 ~~~~~~~~~~~~~~~~~~~~
 
-sshd.listenAddress::
+[[sshd.listenAddress]]sshd.listenAddress::
 +
 Specifies the local addresses the internal SSHD should listen
 for connections on.  The following forms may be used to specify
@@ -657,7 +657,7 @@ of them.
 +
 By default, *:29418.
 
-sshd.reuseAddress::
+[sshd.reuseAddress]]sshd.reuseAddress::
 +
 If true, permits the daemon to bind to the port even if the port
 is already in use.  If false, the daemon ensures the port is not
@@ -666,14 +666,14 @@ to permit fast restarts.
 +
 By default, true.
 
-sshd.tcpKeepAlive::
+[[sshd.tcpKeepAlive]]sshd.tcpKeepAlive::
 +
 If true, enables TCP keepalive messages to the other side, so
 the daemon can terminate connections if the peer disappears.
 +
 By default, true.
 
-sshd.cipher::
+[[sshd.cipher]]sshd.cipher::
 +
 Available ciphers.  To permit multiple ciphers, specify multiple
 `sshd.cipher` keys in the configuration file, one cipher name
@@ -686,7 +686,7 @@ Supported ciphers: aes128-cbc, aes128-cbc, aes256-cbc, blowfish-cbc,
 +
 By default, all supported ciphers except `none` are available.
 
-sshd.mac::
+[[sshd.mac]]sshd.mac::
 +
 Available MAC (message authentication code) algorithms.  To permit
 multiple algorithms, specify multiple `sshd.mac` keys in the
@@ -701,14 +701,14 @@ By default, all supported MACs are available.
 [[user]] Section user
 ~~~~~~~~~~~~~~~~~~~~
 
-name::
+[[user.name]]user.name::
 +
 Name that Gerrit calls itself in Git when it creates a new Git
 commit, such as a merge during change submission.
 +
 By default this is "Gerrit Code Review".
 
-email::
+[[user.email]]user.email::
 +
 Email address that Gerrit refers to itself as when it creates a
 new Git commit, such as a merge commit during change submission.

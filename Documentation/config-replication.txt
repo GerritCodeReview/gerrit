@@ -50,7 +50,7 @@ different hosts:
 To manually trigger replication at runtime, see
 link:cmd-replicate.html[gerrit replicate].
 
-File `replication.config`[[replication_config]]
+[[replication_config]]File `replication.config`
 -----------------------------------------------
 
 The optional file `'$site_path'/replication.config` is a Git-style
@@ -67,8 +67,8 @@ into different remote sections, so that replication to the slower
 connection does not starve out the faster local one.  The example
 file above does this.
 
-Section remote[[section_remote]]
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[[remote]]Section remote
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 In the keys below, the <name> portion is unused by Gerrit, but must be
 unique to distinguish the different sections if more than one remote
@@ -152,7 +152,7 @@ parallel pushing.
 By default, 1 thread.
 
 
-File `~/.ssh/config`[[ssh_config]]
+[[ssh_config]]File `~/.ssh/config`
 ----------------------------------
 
 If present, Gerrit reads and caches `~/.ssh/config` at startup, and

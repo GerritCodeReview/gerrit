@@ -24,8 +24,8 @@ Sample `gerrit.config`:
 	diskbuffer = 10 m
 ----
 
-Section auth
-~~~~~~~~~~~~
+[[auth]]Section auth
+~~~~~~~~~~~~~~~~~~~~
 
 See also link:config-sso.html[SSO configuration].
 
@@ -152,8 +152,8 @@ drops to 0, or close to 0:
 +
 By default, unset/false.
 
-Section cache[[section_cache]]
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[[cache]]Section cache
+~~~~~~~~~~~~~~~~~~~~~~
 
 cache.directory::
 +
@@ -213,7 +213,7 @@ Default is 5 MiB.
 +
 Common unit suffixes of 'k', 'm', or 'g' are supported.
 
-Standard Caches[[cache_names]]
+[[cache_names]]Standard Caches
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 cache `"accounts"`::
@@ -315,8 +315,8 @@ this cache is approximately 248 bytes, depending on the JVM.
 
 See also link:cmd-flush-caches.html[gerrit flush-caches].
 
-Section contactstore
-~~~~~~~~~~~~~~~~~~~~
+[[contactstore]]Section contactstore
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 contactstore.url::
 +
@@ -330,8 +330,8 @@ contactstore.appsec::
 +
 Shared secret of the web based contact store.
 
-Section core
-~~~~~~~~~~~~
+[[core]]Section core
+~~~~~~~~~~~~~~~~~~~~
 
 core.packedGitWindowSize::
 +
@@ -399,8 +399,8 @@ unused mapped spaces fast enough.
 Default on JGit is false. Although potentially slower, it yields
 much more predictable behavior.
 
-Section gerrit
-~~~~~~~~~~~~~~
+[[gerrit]]Section gerrit
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 gerrit.basePath::
 +
@@ -434,8 +434,8 @@ By default unset, as the git daemon must be configured externally
 by the system administrator, and might not even be running on the
 same host as Gerrit.
 
-Section gitweb[[section_gitweb]]
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[[gitweb]]Section gitweb
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 See also link:config-gitweb.html[Gitweb Integration].
 
@@ -449,8 +449,8 @@ Gerrit appends any necessary query arguments onto the end of this URL.
 For example, "?p=$project.git;h=$commit".
 
 
-Section ldap
-~~~~~~~~~~~~
+[[ldap]]Section ldap
+~~~~~~~~~~~~~~~~~~~~
 
 LDAP integration is only enabled if `auth.type` was set to
 `HTTP_LDAP`.  See above for a detailed description of the auth.type
@@ -559,8 +559,8 @@ Attributes such as `$\{dn\}` or `$\{uidNumber\}` may be useful.
 Default is `(memberUid=$\{username\})`, matching RFC 2307.
 
 
-Section mimetype
-~~~~~~~~~~~~~~~~
+[[mimetype]]Section mimetype
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 mimetype.<name>.safe::
 +
@@ -584,8 +584,8 @@ Common examples:
     safe = true
 ====
 
-Section repo
-~~~~~~~~~~~~
+[[repo]]Section repo
+~~~~~~~~~~~~~~~~~~~~
 
 repo.showDownloadCommand::
 +
@@ -595,8 +595,8 @@ instance are generally worked on with the repo multi-repository tool.
 +
 By default, false, as not all instances will deploy repo.
 
-Section sendemail
-~~~~~~~~~~~~~~~~~
+[[sendemail]]Section sendemail
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 sendemail.enable::
 +
@@ -636,8 +636,8 @@ email from Gerrit.
 +
 By default, unset, permitting delivery to any email address.
 
-Section sshd
-~~~~~~~~~~~~
+[[sshd]] Section sshd
+~~~~~~~~~~~~~~~~~~~~
 
 sshd.listenAddress::
 +
@@ -698,8 +698,8 @@ Supported MACs: hmac-md5, hmac-md5-96, hmac-sha1, hmac-sha1-96.
 +
 By default, all supported MACs are available.
 
-Section user
-~~~~~~~~~~~~
+[[user]] Section user
+~~~~~~~~~~~~~~~~~~~~
 
 name::
 +

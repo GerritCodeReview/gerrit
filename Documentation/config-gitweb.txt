@@ -37,7 +37,7 @@ high-traffic sites like kernel.org or repo.or.cz.
 See Also
 --------
 
-* link:config-gerrit.html#section_gitweb[Section gitweb]
+* link:config-gerrit.html#gitweb[Section gitweb]
 
 GERRIT
 ------

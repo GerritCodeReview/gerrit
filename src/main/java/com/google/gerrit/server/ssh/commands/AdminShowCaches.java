@@ -127,15 +127,15 @@ final class AdminShowCaches extends CacheCommand {
     }
 
     String suffix = "secs";
-    if (ttl > 60) {
+    if (ttl >= 60) {
       ttl /= 60;
       suffix = "mins";
     }
-    if (ttl > 60) {
+    if (ttl >= 60) {
       ttl /= 60;
       suffix = "hrs";
     }
-    if (ttl > 24) {
+    if (ttl >= 24) {
       ttl /= 24;
       suffix = "days";
     }

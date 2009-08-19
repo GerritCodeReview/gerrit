@@ -245,6 +245,17 @@ public class SshDaemon extends SshServer implements SshInfo {
       }
       return inetAddr;
     }
+
+    // No non-loopback address available? Try any address then.
+    //
+    for (final SocketAddress addr : listen) {
+      if (addr instanceof InetSocketAddress) {
+        return (InetSocketAddress) addr;
+      }
+    }
+
+    // We give up, with no valid address.
+    //
     return null;
   }
 

@@ -87,6 +87,11 @@ class SystemInfoServiceImpl implements SystemInfoService {
 
   public void daemonHostKeys(final AsyncCallback<List<SshHostKey>> callback) {
     final String hostIdent = hostIdent();
+    if (hostIdent == null) {
+      callback.onSuccess(Collections.<SshHostKey> emptyList());
+      return;
+    }
+
     final ArrayList<SshHostKey> r = new ArrayList<SshHostKey>(hostKeys.size());
     for (final PublicKey pub : hostKeys) {
       try {
@@ -132,6 +137,10 @@ class SystemInfoServiceImpl implements SystemInfoService {
 
   private String hostIdent() {
     InetSocketAddress addr = sshd.getAddress();
+    if (addr == null) {
+      return null;
+    }
+
     InetAddress ip = addr.getAddress();
     if (ip.isAnyLocalAddress()) {
       try {

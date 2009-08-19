@@ -99,7 +99,7 @@ class HttpLoginServlet extends HttpServlet {
     final StringBuilder rdr = new StringBuilder();
     rdr.append(urlProvider.get());
     rdr.append('#');
-    if (arsp.isNew()) {
+    if (arsp.isNew() && !token.startsWith(Link.REGISTER + ",")) {
       rdr.append(Link.REGISTER);
       rdr.append(',');
     }

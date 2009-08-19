@@ -335,7 +335,7 @@ class OpenIdServiceImpl implements OpenIdService {
     final StringBuilder rdr = new StringBuilder();
     rdr.append(urlProvider.get());
     rdr.append('#');
-    if (isNew) {
+    if (isNew && !token.startsWith(Link.REGISTER + ",")) {
       rdr.append(Link.REGISTER);
       rdr.append(',');
     }

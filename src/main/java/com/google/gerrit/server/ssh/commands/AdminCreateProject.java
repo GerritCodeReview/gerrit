@@ -24,6 +24,7 @@ import com.google.gerrit.client.reviewdb.Project.SubmitType;
 import com.google.gerrit.git.ReplicationQueue;
 import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.ssh.AdminCommand;
 import com.google.gerrit.server.ssh.BaseCommand;
 import com.google.gwtorm.client.OrmException;
@@ -65,6 +66,9 @@ final class AdminCreateProject extends BaseCommand {
 
   @Inject
   private GroupCache groupCache;
+
+  @Inject
+  private AuthConfig authConfig;
 
   @Inject
   private ReplicationQueue rq;
@@ -167,7 +171,7 @@ final class AdminCreateProject extends BaseCommand {
     }
 
     if (ownerName == null) {
-      ownerId = groupCache.getAdministrators();
+      ownerId = authConfig.getAdministratorsGroup();
     } else {
       AccountGroup ownerGroup = groupCache.lookup(ownerName);
       if (ownerGroup == null)  {

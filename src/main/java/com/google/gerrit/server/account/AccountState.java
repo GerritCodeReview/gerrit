@@ -15,22 +15,23 @@
 package com.google.gerrit.server.account;
 
 import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.client.reviewdb.AccountExternalId;
 import com.google.gerrit.client.reviewdb.AccountGroup;
 
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 public class AccountState {
   private final Account account;
-  private final Set<AccountGroup.Id> actualGroups;
-  private final Set<AccountGroup.Id> effectiveGroups;
-  private final Set<String> emails;
+  private final Set<AccountGroup.Id> internalGroups;
+  private final Collection<AccountExternalId> externalIds;
 
-  AccountState(final Account a, final Set<AccountGroup.Id> actual,
-      final Set<AccountGroup.Id> effective, final Set<String> e) {
-    this.account = a;
-    this.actualGroups = actual;
-    this.effectiveGroups = effective;
-    this.emails = e;
+  AccountState(final Account account, final Set<AccountGroup.Id> actualGroups,
+      final Collection<AccountExternalId> externalIds) {
+    this.account = account;
+    this.internalGroups = actualGroups;
+    this.externalIds = externalIds;
   }
 
   /** Get the cached account metadata. */
@@ -48,34 +49,22 @@ public class AccountState {
    * validated by Gerrit directly.
    */
   public Set<String> getEmailAddresses() {
+    final Set<String> emails = new HashSet<String>();
+    for (final AccountExternalId e : externalIds) {
+      if (e.getEmailAddress() != null && !e.getEmailAddress().isEmpty()) {
+        emails.add(e.getEmailAddress());
+      }
+    }
     return emails;
   }
 
-  /**
-   * Get the set of groups the user has been declared a member of.
-   * <p>
-   * The returned set is the complete set of the user's groups. This can be a
-   * superset of {@link #getEffectiveGroups()} if the user's account is not
-   * sufficiently trusted to enable additional access.
-   *
-   * @return active groups for this user.
-   */
-  public Set<AccountGroup.Id> getActualGroups() {
-    return actualGroups;
+  /** The external identities that identify the account holder. */
+  public Collection<AccountExternalId> getExternalIds() {
+    return externalIds;
   }
 
-  /**
-   * Get the set of groups the user is currently a member of.
-   * <p>
-   * The returned set may be a subset of {@link #getActualGroups()}. If the
-   * user's account is currently deemed to be untrusted then the effective group
-   * set is only the anonymous and registered user groups. To enable additional
-   * groups (and gain their granted permissions) the user must update their
-   * account to use only trusted authentication providers.
-   *
-   * @return active groups for this user.
-   */
-  public Set<AccountGroup.Id> getEffectiveGroups() {
-    return effectiveGroups;
+  /** The set of groups maintained directly within the Gerrit database. */
+  public Set<AccountGroup.Id> getInternalGroups() {
+    return internalGroups;
   }
 }

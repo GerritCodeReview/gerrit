@@ -21,6 +21,7 @@ import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.AccountGroupMember;
 import com.google.gerrit.client.reviewdb.AccountGroupMemberAudit;
 import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gerrit.client.reviewdb.AccountGroup.NameKey;
 import com.google.gerrit.client.rpc.NameAlreadyUsedException;
 import com.google.gerrit.client.rpc.NoSuchAccountException;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
@@ -154,7 +155,7 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
         assertAmGroupOwner(db, group);
         group.setDescription(description);
         db.accountGroups().update(Collections.singleton(group));
-        groupCache.evict(groupId);
+        groupCache.evict(group);
         return VoidResult.INSTANCE;
       }
     });
@@ -175,7 +176,7 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
 
         group.setOwnerGroupId(owner.getId());
         db.accountGroups().update(Collections.singleton(group));
-        groupCache.evict(groupId);
+        groupCache.evict(group);
         return VoidResult.INSTANCE;
       }
     });
@@ -188,14 +189,16 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
         final AccountGroup group = db.accountGroups().get(groupId);
         assertAmGroupOwner(db, group);
 
-        final AccountGroup.NameKey nameKey = new AccountGroup.NameKey(newName);
-        if (!nameKey.equals(group.getNameKey())) {
-          if (db.accountGroups().get(nameKey) != null) {
+        final AccountGroup.NameKey oldKey = group.getNameKey();
+        final AccountGroup.NameKey newKey = new AccountGroup.NameKey(newName);
+        if (!newKey.equals(oldKey)) {
+          if (db.accountGroups().get(newKey) != null) {
             throw new Failure(new NameAlreadyUsedException());
           }
-          group.setNameKey(nameKey);
+          group.setNameKey(newKey);
           db.accountGroups().update(Collections.singleton(group));
-          groupCache.evict(groupId);
+          groupCache.evict(group);
+          groupCache.evictAfterRename(oldKey);
         }
         return VoidResult.INSTANCE;
       }

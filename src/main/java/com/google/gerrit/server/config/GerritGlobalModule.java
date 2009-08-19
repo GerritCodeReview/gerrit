@@ -18,6 +18,7 @@ import static com.google.inject.Scopes.SINGLETON;
 import static com.google.inject.Stage.PRODUCTION;
 
 import com.google.gerrit.client.data.ApprovalTypes;
+import com.google.gerrit.client.reviewdb.LoginType;
 import com.google.gerrit.git.ChangeMergeQueue;
 import com.google.gerrit.git.MergeOp;
 import com.google.gerrit.git.MergeQueue;
@@ -35,9 +36,12 @@ import com.google.gerrit.server.MimeUtilFileTypeRegistry;
 import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
+import com.google.gerrit.server.account.DefaultRealm;
 import com.google.gerrit.server.account.EmailExpander;
 import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.cache.CachePool;
+import com.google.gerrit.server.ldap.LdapModule;
 import com.google.gerrit.server.mail.AbandonedSender;
 import com.google.gerrit.server.mail.AddReviewerSender;
 import com.google.gerrit.server.mail.CommentSender;
@@ -54,8 +58,11 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gerrit.server.workflow.FunctionState;
 import com.google.inject.Guice;
+import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Module;
+
+import org.spearce.jgit.lib.Config;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,12 +77,30 @@ public class GerritGlobalModule extends FactoryModule {
   public static Injector createInjector(final Injector db) {
     final Injector cfg = db.createChildInjector(new GerritConfigModule());
     final List<Module> modules = new ArrayList<Module>();
-    modules.add(new GerritGlobalModule());
+    modules.add(cfg.getInstance(GerritGlobalModule.class));
     return cfg.createChildInjector(modules);
+  }
+
+  private final LoginType loginType;
+
+  @Inject
+  GerritGlobalModule(final AuthConfig authConfig,
+      @GerritServerConfig final Config config) {
+    loginType = authConfig.getLoginType();
   }
 
   @Override
   protected void configure() {
+    switch (loginType) {
+      case HTTP_LDAP:
+        install(new LdapModule());
+        break;
+
+      default:
+        bind(Realm.class).to(DefaultRealm.class);
+        break;
+    }
+
     bind(ApprovalTypes.class).toProvider(ApprovalTypesProvider.class).in(
         SINGLETON);
     bind(EmailExpander.class).toProvider(EmailExpanderProvider.class).in(

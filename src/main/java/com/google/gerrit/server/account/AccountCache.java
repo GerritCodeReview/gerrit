@@ -19,7 +19,6 @@ import com.google.gerrit.client.reviewdb.AccountExternalId;
 import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.AccountGroupMember;
 import com.google.gerrit.client.reviewdb.ReviewDb;
-import com.google.gerrit.client.reviewdb.SystemConfig;
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.SelfPopulatingCache;
@@ -32,9 +31,9 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /** Caches important (but small) account state to avoid database hits. */
@@ -55,24 +54,17 @@ public class AccountCache {
   }
 
   private final SchemaFactory<ReviewDb> schema;
-  private final AuthConfig authConfig;
   private final SelfPopulatingCache<Account.Id, AccountState> self;
 
   private final Set<AccountGroup.Id> registered;
   private final Set<AccountGroup.Id> anonymous;
 
   @Inject
-  AccountCache(final SchemaFactory<ReviewDb> sf, final SystemConfig cfg,
-      final AuthConfig ac,
+  AccountCache(final SchemaFactory<ReviewDb> sf, final AuthConfig auth,
       @Named(CACHE_NAME) final Cache<Account.Id, AccountState> rawCache) {
     schema = sf;
-    authConfig = ac;
-
-    final HashSet<AccountGroup.Id> r = new HashSet<AccountGroup.Id>(2);
-    r.add(cfg.anonymousGroupId);
-    r.add(cfg.registeredGroupId);
-    registered = Collections.unmodifiableSet(r);
-    anonymous = Collections.singleton(cfg.anonymousGroupId);
+    registered = auth.getAnonymousGroups();
+    anonymous = auth.getRegisteredGroups();
 
     self = new SelfPopulatingCache<Account.Id, AccountState>(rawCache) {
       @Override
@@ -97,35 +89,23 @@ public class AccountCache {
         return missingAccount(who);
       }
 
-      final List<AccountExternalId> ids =
-          db.accountExternalIds().byAccount(who).toList();
-      Set<String> emails = new HashSet<String>();
-      for (AccountExternalId id : ids) {
-        if (id.getEmailAddress() != null && !id.getEmailAddress().isEmpty()) {
-          emails.add(id.getEmailAddress());
-        }
-      }
+      final Collection<AccountExternalId> externalIds =
+          Collections.unmodifiableCollection(db.accountExternalIds().byAccount(
+              who).toList());
 
-      Set<AccountGroup.Id> actual = new HashSet<AccountGroup.Id>();
+      Set<AccountGroup.Id> internalGroups = new HashSet<AccountGroup.Id>();
       for (AccountGroupMember g : db.accountGroupMembers().byAccount(who)) {
-        actual.add(g.getAccountGroupId());
+        internalGroups.add(g.getAccountGroupId());
       }
 
-      if (actual.isEmpty()) {
-        actual = registered;
+      if (internalGroups.isEmpty()) {
+        internalGroups = registered;
       } else {
-        actual.addAll(registered);
-        actual = Collections.unmodifiableSet(actual);
+        internalGroups.addAll(registered);
+        internalGroups = Collections.unmodifiableSet(internalGroups);
       }
 
-      final Set<AccountGroup.Id> effective;
-      if (authConfig.isIdentityTrustable(ids)) {
-        effective = actual;
-      } else {
-        effective = registered;
-      }
-
-      return new AccountState(account, actual, effective, emails);
+      return new AccountState(account, internalGroups, externalIds);
     } finally {
       db.close();
     }
@@ -133,8 +113,8 @@ public class AccountCache {
 
   private AccountState missingAccount(final Account.Id accountId) {
     final Account account = new Account(accountId);
-    final Set<String> emails = Collections.emptySet();
-    return new AccountState(account, anonymous, anonymous, emails);
+    final Collection<AccountExternalId> ids = Collections.emptySet();
+    return new AccountState(account, anonymous, ids);
   }
 
   public AccountState get(final Account.Id accountId) {

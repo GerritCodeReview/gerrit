@@ -26,7 +26,7 @@ import com.google.gerrit.client.reviewdb.PatchSetApproval;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.client.reviewdb.ApprovalCategory.Id;
-import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
@@ -50,7 +50,7 @@ public class FunctionState {
   }
 
   private final ApprovalTypes approvalTypes;
-  private final AccountCache accountCache;
+  private final IdentifiedUser.GenericFactory userFactory;
   private final ProjectCache projectCache;
 
   private final Map<ApprovalCategory.Id, Collection<PatchSetApproval>> approvals =
@@ -67,12 +67,12 @@ public class FunctionState {
 
   @Inject
   FunctionState(final ApprovalTypes approvalTypes, final ProjectCache pc,
-      final AccountCache ac, final GroupCache egc, @Assisted final Change c,
-      @Assisted final PatchSet.Id psId,
+      final IdentifiedUser.GenericFactory userFactory, final GroupCache egc,
+      @Assisted final Change c, @Assisted final PatchSet.Id psId,
       @Assisted final Collection<PatchSetApproval> all) {
     this.approvalTypes = approvalTypes;
+    this.userFactory = userFactory;
     projectCache = pc;
-    accountCache = ac;
 
     change = c;
     project = projectCache.get(change.getDest().getParentKey());
@@ -231,7 +231,7 @@ public class FunctionState {
     for (final ProjectRight r : getAllRights(a.getCategoryId())) {
       final Account.Id who = a.getAccountId();
       final AccountGroup.Id grp = r.getAccountGroupId();
-      if (accountCache.get(who).getEffectiveGroups().contains(grp)) {
+      if (userFactory.create(who).getEffectiveGroups().contains(grp)) {
         minAllowed = (short) Math.min(minAllowed, r.getMinValue());
         maxAllowed = (short) Math.max(maxAllowed, r.getMaxValue());
       }

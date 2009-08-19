@@ -12,37 +12,32 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server;
+package com.google.gerrit.server.account;
 
 import com.google.gerrit.client.reviewdb.AccountGroup;
-import com.google.gerrit.client.reviewdb.Change;
-import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 
-import java.util.Collections;
 import java.util.Set;
 
-/** An anonymous user who has not yet authenticated. */
-@Singleton
-public class AnonymousUser extends CurrentUser {
+public final class DefaultRealm implements Realm {
+  private final EmailExpander emailExpander;
+
   @Inject
-  AnonymousUser(final AuthConfig auth) {
-    super(auth);
+  DefaultRealm(final EmailExpander emailExpander) {
+    this.emailExpander = emailExpander;
   }
 
   @Override
-  public Set<AccountGroup.Id> getEffectiveGroups() {
-    return authConfig.getAnonymousGroups();
+  public AuthRequest authenticate(final AuthRequest who) {
+    if (who.getEmailAddress() == null && who.getLocalUser() != null
+        && emailExpander.canExpand(who.getLocalUser())) {
+      who.setEmailAddress(emailExpander.expand(who.getLocalUser()));
+    }
+    return who;
   }
 
   @Override
-  public Set<Change.Id> getStarredChanges() {
-    return Collections.emptySet();
-  }
-
-  @Override
-  public String toString() {
-    return "ANONYMOUS";
+  public Set<AccountGroup.Id> groups(final AccountState who) {
+    return who.getInternalGroups();
   }
 }

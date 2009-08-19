@@ -15,6 +15,7 @@
 package com.google.gerrit.server.config;
 
 import com.google.gerrit.client.reviewdb.AccountExternalId;
+import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.LoginType;
 import com.google.gerrit.client.reviewdb.SystemConfig;
 import com.google.gwtjsonrpc.server.SignedToken;
@@ -25,6 +26,9 @@ import com.google.inject.Singleton;
 import org.spearce.jgit.lib.Config;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 /** Authentication related settings from {@code gerrit.config}. */
 @Singleton
@@ -34,6 +38,10 @@ public class AuthConfig {
   private final String logoutUrl;
   private final String[] trusted;
   private final SignedToken emailReg;
+
+  private final AccountGroup.Id administratorGroup;
+  private final Set<AccountGroup.Id> anonymousGroups;
+  private final Set<AccountGroup.Id> registeredGroups;
 
   private final boolean allowGoogleAccountUpgrade;
 
@@ -45,6 +53,13 @@ public class AuthConfig {
     logoutUrl = cfg.getString("auth", null, "logouturl");
     trusted = toTrusted(cfg);
     emailReg = new SignedToken(5 * 24 * 60 * 60, s.registerEmailPrivateKey);
+
+    final HashSet<AccountGroup.Id> r = new HashSet<AccountGroup.Id>(2);
+    r.add(s.anonymousGroupId);
+    r.add(s.registeredGroupId);
+    registeredGroups = Collections.unmodifiableSet(r);
+    anonymousGroups = Collections.singleton(s.anonymousGroupId);
+    administratorGroup = s.adminGroupId;
 
     allowGoogleAccountUpgrade =
         cfg.getBoolean("auth", "allowgoogleaccountupgrade", false);
@@ -104,10 +119,26 @@ public class AuthConfig {
     return allowGoogleAccountUpgrade;
   }
 
+  /** Identity of the magic group with full powers. */
+  public AccountGroup.Id getAdministratorsGroup() {
+    return administratorGroup;
+  }
+
+  /** Groups that all users, including anonymous users, belong to. */
+  public Set<AccountGroup.Id> getAnonymousGroups() {
+    return anonymousGroups;
+  }
+
+  /** Groups that all users who have created an account belong to. */
+  public Set<AccountGroup.Id> getRegisteredGroups() {
+    return registeredGroups;
+  }
+
   public boolean isIdentityTrustable(final Collection<AccountExternalId> ids) {
     switch (getLoginType()) {
       case DEVELOPMENT_BECOME_ANY_ACCOUNT:
       case HTTP:
+      case HTTP_LDAP:
         // Its safe to assume yes for an HTTP authentication type, as the
         // only way in is through some external system that the admin trusts
         //

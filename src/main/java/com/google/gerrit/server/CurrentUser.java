@@ -16,7 +16,7 @@ package com.google.gerrit.server;
 
 import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.Change;
-import com.google.gerrit.client.reviewdb.SystemConfig;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.servlet.RequestScoped;
 
 import java.util.Set;
@@ -30,10 +30,10 @@ import java.util.Set;
  * @see IdentifiedUser
  */
 public abstract class CurrentUser {
-  protected final SystemConfig systemConfig;
+  protected final AuthConfig authConfig;
 
-  protected CurrentUser(final SystemConfig cfg) {
-    systemConfig = cfg;
+  protected CurrentUser(final AuthConfig authConfig) {
+    this.authConfig = authConfig;
   }
 
   /**
@@ -54,6 +54,6 @@ public abstract class CurrentUser {
 
   @Deprecated
   public final boolean isAdministrator() {
-    return getEffectiveGroups().contains(systemConfig.adminGroupId);
+    return getEffectiveGroups().contains(authConfig.getAdministratorsGroup());
   }
 }

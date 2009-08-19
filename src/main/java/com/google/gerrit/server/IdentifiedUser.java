@@ -19,9 +19,10 @@ import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.StarredChange;
-import com.google.gerrit.client.reviewdb.SystemConfig;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.account.Realm;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.Nullable;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
@@ -48,18 +49,20 @@ public class IdentifiedUser extends CurrentUser {
   /** Create an IdentifiedUser, ignoring any per-request state. */
   @Singleton
   public static class GenericFactory {
-    private final SystemConfig systemConfig;
+    private final AuthConfig authConfig;
     private final AccountCache accountCache;
+    private final Realm realm;
 
     @Inject
-    GenericFactory(final SystemConfig systemConfig,
-        final AccountCache accountCache) {
-      this.systemConfig = systemConfig;
+    GenericFactory(final AuthConfig authConfig,
+        final AccountCache accountCache, final Realm realm) {
+      this.authConfig = authConfig;
       this.accountCache = accountCache;
+      this.realm = realm;
     }
 
     public IdentifiedUser create(final Account.Id id) {
-      return new IdentifiedUser(systemConfig, accountCache, null, null, id);
+      return new IdentifiedUser(authConfig, accountCache, realm, null, null, id);
     }
   }
 
@@ -71,46 +74,55 @@ public class IdentifiedUser extends CurrentUser {
    */
   @Singleton
   public static class RequestFactory {
-    private final SystemConfig systemConfig;
+    private final AuthConfig authConfig;
     private final AccountCache accountCache;
+    private final Realm realm;
     private final Provider<SocketAddress> remotePeerProvider;
     private final Provider<ReviewDb> dbProvider;
 
     @Inject
-    RequestFactory(final SystemConfig systemConfig,
-        final AccountCache accountCache,
+    RequestFactory(final AuthConfig authConfig,
+        final AccountCache accountCache, final Realm realm,
         final @RemotePeer Provider<SocketAddress> remotePeerProvider,
         final Provider<ReviewDb> dbProvider) {
-      this.systemConfig = systemConfig;
+      this.authConfig = authConfig;
       this.accountCache = accountCache;
+      this.realm = realm;
       this.remotePeerProvider = remotePeerProvider;
       this.dbProvider = dbProvider;
     }
 
     public IdentifiedUser create(final Account.Id id) {
-      return new IdentifiedUser(systemConfig, accountCache, remotePeerProvider,
-          dbProvider, id);
+      return new IdentifiedUser(authConfig, accountCache, realm,
+          remotePeerProvider, dbProvider, id);
     }
   }
 
   private static final Logger log =
       LoggerFactory.getLogger(IdentifiedUser.class);
 
+  private final Realm realm;
   private final AccountCache accountCache;
+
   @Nullable
   private final Provider<SocketAddress> remotePeerProvider;
+
   @Nullable
   private final Provider<ReviewDb> dbProvider;
+
   private final Account.Id accountId;
 
   private AccountState state;
+  private Set<String> emailAddresses;
+  private Set<AccountGroup.Id> effectiveGroups;
   private Set<Change.Id> starredChanges;
 
-  private IdentifiedUser(final SystemConfig systemConfig,
-      final AccountCache accountCache,
+  private IdentifiedUser(final AuthConfig authConfig,
+      final AccountCache accountCache, final Realm realm,
       @Nullable final Provider<SocketAddress> remotePeerProvider,
       @Nullable final Provider<ReviewDb> dbProvider, final Account.Id id) {
-    super(systemConfig);
+    super(authConfig);
+    this.realm = realm;
     this.accountCache = accountCache;
     this.remotePeerProvider = remotePeerProvider;
     this.dbProvider = dbProvider;
@@ -134,12 +146,23 @@ public class IdentifiedUser extends CurrentUser {
   }
 
   public Set<String> getEmailAddresses() {
-    return state().getEmailAddresses();
+    if (emailAddresses == null) {
+      emailAddresses = state().getEmailAddresses();
+    }
+    return emailAddresses;
   }
 
   @Override
   public Set<AccountGroup.Id> getEffectiveGroups() {
-    return state().getEffectiveGroups();
+    if (effectiveGroups == null) {
+      if (authConfig.isIdentityTrustable(state().getExternalIds())) {
+        effectiveGroups = realm.groups(state());
+
+      } else {
+        effectiveGroups = authConfig.getRegisteredGroups();
+      }
+    }
+    return effectiveGroups;
   }
 
   @Override

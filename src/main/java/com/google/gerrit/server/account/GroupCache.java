@@ -16,10 +16,10 @@ package com.google.gerrit.server.account;
 
 import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.ReviewDb;
-import com.google.gerrit.client.reviewdb.SystemConfig;
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.SelfPopulatingCache;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
@@ -37,41 +37,50 @@ public class GroupCache {
     return new CacheModule() {
       @Override
       protected void configure() {
-        final TypeLiteral<Cache<AccountGroup.Id, AccountGroup>> type =
-            new TypeLiteral<Cache<AccountGroup.Id, AccountGroup>>() {};
-        core(type, CACHE_NAME);
+        final TypeLiteral<Cache<com.google.gwtorm.client.Key<?>, AccountGroup>> byId =
+            new TypeLiteral<Cache<com.google.gwtorm.client.Key<?>, AccountGroup>>() {};
+        core(byId, CACHE_NAME);
         bind(GroupCache.class);
       }
     };
   }
 
   private final SchemaFactory<ReviewDb> schema;
-  private final SelfPopulatingCache<AccountGroup.Id, AccountGroup> byId;
-
   private final AccountGroup.Id administrators;
+  private final SelfPopulatingCache<AccountGroup.Id, AccountGroup> byId;
+  private final SelfPopulatingCache<AccountGroup.NameKey, AccountGroup> byName;
 
   @Inject
-  GroupCache(final SchemaFactory<ReviewDb> sf, final SystemConfig cfg,
-      @Named(CACHE_NAME) final Cache<AccountGroup.Id, AccountGroup> rawCache) {
+  GroupCache(
+      final SchemaFactory<ReviewDb> sf,
+      final AuthConfig authConfig,
+      @Named(CACHE_NAME) final Cache<com.google.gwtorm.client.Key<?>, AccountGroup> rawAny) {
     schema = sf;
-    administrators = cfg.adminGroupId;
+    administrators = authConfig.getAdministratorsGroup();
 
-    byId = new SelfPopulatingCache<AccountGroup.Id, AccountGroup>(rawCache) {
-      @Override
-      public AccountGroup createEntry(final AccountGroup.Id key)
-          throws Exception {
-        return lookup(key);
-      }
+    byId =
+        new SelfPopulatingCache<AccountGroup.Id, AccountGroup>((Cache) rawAny) {
+          @Override
+          public AccountGroup createEntry(final AccountGroup.Id key)
+              throws Exception {
+            return lookup(key);
+          }
 
-      @Override
-      protected AccountGroup missing(final AccountGroup.Id key) {
-        return missingGroup(key);
-      }
-    };
-  }
+          @Override
+          protected AccountGroup missing(final AccountGroup.Id key) {
+            return missingGroup(key);
+          }
+        };
 
-  public final AccountGroup.Id getAdministrators() {
-    return administrators;
+    byName =
+        new SelfPopulatingCache<AccountGroup.NameKey, AccountGroup>(
+            (Cache) rawAny) {
+          @Override
+          public AccountGroup createEntry(final AccountGroup.NameKey key)
+              throws Exception {
+            return lookup(key);
+          }
+        };
   }
 
   private AccountGroup lookup(final AccountGroup.Id groupId)
@@ -98,28 +107,30 @@ public class GroupCache {
     return g;
   }
 
-  @SuppressWarnings("unchecked")
+  private AccountGroup lookup(final AccountGroup.NameKey groupName)
+      throws OrmException {
+    final ReviewDb db = schema.open();
+    try {
+      return db.accountGroups().get(groupName);
+    } finally {
+      db.close();
+    }
+  }
+
   public AccountGroup get(final AccountGroup.Id groupId) {
     return byId.get(groupId);
   }
 
-  public void evict(final AccountGroup.Id groupId) {
-    byId.remove(groupId);
+  public void evict(final AccountGroup group) {
+    byId.remove(group.getId());
+    byName.remove(group.getNameKey());
   }
 
-  public AccountGroup lookup(final String groupName) throws OrmException {
-    final ReviewDb db = schema.open();
-    try {
-      final AccountGroup.NameKey nameKey = new AccountGroup.NameKey(groupName);
+  public void evictAfterRename(final AccountGroup.NameKey oldName) {
+    byName.remove(oldName);
+  }
 
-      final AccountGroup group = db.accountGroups().get(nameKey);
-      if (group != null) {
-        return group;
-      } else {
-        return null;
-      }
-    } finally {
-      db.close();
-    }
+  public AccountGroup lookup(final String groupName) {
+    return byName.get(new AccountGroup.NameKey(groupName));
   }
 }

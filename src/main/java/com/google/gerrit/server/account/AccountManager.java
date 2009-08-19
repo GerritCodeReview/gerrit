@@ -34,18 +34,18 @@ public class AccountManager {
   private final SchemaFactory<ReviewDb> schema;
   private final AccountCache byIdCache;
   private final AccountByEmailCache byEmailCache;
-  private final EmailExpander emailExpander;
   private final AuthConfig authConfig;
+  private final Realm realm;
 
   @Inject
   AccountManager(final SchemaFactory<ReviewDb> schema,
       final AccountCache byIdCache, final AccountByEmailCache byEmailCache,
-      final EmailExpander emailExpander, final AuthConfig authConfig) {
+      final AuthConfig authConfig, final Realm accountMapper) {
     this.schema = schema;
     this.byIdCache = byIdCache;
     this.byEmailCache = byEmailCache;
-    this.emailExpander = emailExpander;
     this.authConfig = authConfig;
+    this.realm = accountMapper;
   }
 
   /**
@@ -74,7 +74,8 @@ public class AccountManager {
    * @throws AccountException the account does not exist, and cannot be created,
    *         or exists, but cannot be located.
    */
-  public AuthResult authenticate(final AuthRequest who) throws AccountException {
+  public AuthResult authenticate(AuthRequest who) throws AccountException {
+    who = realm.authenticate(who);
     try {
       final ReviewDb db = schema.open();
       try {
@@ -180,22 +181,8 @@ public class AccountManager {
     final Account account = new Account(newId);
     final AccountExternalId extId = createId(newId, who);
 
-    if (who.getLocalUser() != null && who.getEmailAddress() == null) {
-      // A SCHEMA_GERRIT account was authenticated by an external SSO
-      // solution. The external identity string actually contains a
-      // name that we can uniquely refer to the user by, so set
-      // account information based upon that name.
-      //
-      final String user = who.getLocalUser();
-      if (emailExpander.canExpand(user)) {
-        extId.setEmailAddress(emailExpander.expand(user));
-      }
-      account.setSshUserName(user);
-    } else if (who.getEmailAddress() != null) {
-      extId.setEmailAddress(who.getEmailAddress());
-    }
-
     extId.setLastUsedOn();
+    extId.setEmailAddress(who.getEmailAddress());
     account.setFullName(who.getDisplayName());
     account.setPreferredEmail(extId.getEmailAddress());
 

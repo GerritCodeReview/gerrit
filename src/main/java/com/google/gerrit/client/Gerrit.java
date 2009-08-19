@@ -314,6 +314,7 @@ public class Gerrit implements EntryPoint {
     } else {
       switch (getConfig().getLoginType()) {
         case HTTP:
+        case HTTP_LDAP:
           break;
 
         case OPENID:

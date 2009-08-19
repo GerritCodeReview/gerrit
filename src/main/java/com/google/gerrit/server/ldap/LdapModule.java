@@ -12,37 +12,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server;
+package com.google.gerrit.server.ldap;
+
+import static java.util.concurrent.TimeUnit.HOURS;
 
 import com.google.gerrit.client.reviewdb.AccountGroup;
-import com.google.gerrit.client.reviewdb.Change;
-import com.google.gerrit.server.config.AuthConfig;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import com.google.gerrit.server.account.Realm;
+import com.google.gerrit.server.cache.Cache;
+import com.google.gerrit.server.cache.CacheModule;
+import com.google.inject.Scopes;
+import com.google.inject.TypeLiteral;
 
-import java.util.Collections;
 import java.util.Set;
 
-/** An anonymous user who has not yet authenticated. */
-@Singleton
-public class AnonymousUser extends CurrentUser {
-  @Inject
-  AnonymousUser(final AuthConfig auth) {
-    super(auth);
-  }
+public class LdapModule extends CacheModule {
+  static final String GROUP_CACHE = "ldap_groups";
 
   @Override
-  public Set<AccountGroup.Id> getEffectiveGroups() {
-    return authConfig.getAnonymousGroups();
-  }
+  protected void configure() {
+    final TypeLiteral<Cache<String, Set<AccountGroup.Id>>> type =
+        new TypeLiteral<Cache<String, Set<AccountGroup.Id>>>() {};
 
-  @Override
-  public Set<Change.Id> getStarredChanges() {
-    return Collections.emptySet();
-  }
-
-  @Override
-  public String toString() {
-    return "ANONYMOUS";
+    core(type, GROUP_CACHE).timeToIdle(1, HOURS).timeToLive(1, HOURS);
+    bind(Realm.class).to(LdapRealm.class).in(Scopes.SINGLETON);
   }
 }

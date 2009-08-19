@@ -70,6 +70,7 @@ class WebModule extends FactoryModule {
         break;
 
       case HTTP:
+      case HTTP_LDAP:
         install(new HttpAuthModule());
         break;
 

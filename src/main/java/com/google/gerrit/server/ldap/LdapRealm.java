@@ -153,15 +153,15 @@ class LdapRealm implements Realm {
   }
 
   private static String optdef(final Config c, final String n, final String d) {
-    final String v = c.getString("ldap", null, n);
-    if (v == null) {
+    final String[] v = c.getStringList("ldap", null, n);
+    if (v == null || v.length == 0) {
       return d;
 
-    } else if ("".equals(v)) {
+    } else if (v[0] == null || "".equals(v[0])) {
       return null;
 
     } else {
-      return v;
+      return v[0];
     }
   }
 

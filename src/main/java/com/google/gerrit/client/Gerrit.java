@@ -28,6 +28,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Accessibility;
@@ -171,6 +172,19 @@ public class Gerrit implements EntryPoint {
     final RpcStatus rpcStatus = new RpcStatus(menuArea);
     JsonUtil.addRpcStartHandler(rpcStatus);
     JsonUtil.addRpcCompleteHandler(rpcStatus);
+
+    // Create a pointless error dialog, forcing it to attach to the DOM,
+    // initialize its images, and then detach it.
+    //
+    final ErrorDialog d = new ErrorDialog("");
+    d.setVisible(false);
+    RootPanel.get().add(d);
+    DeferredCommand.addCommand(new Command() {
+      @Override
+      public void execute() {
+        d.removeFromParent();
+      }
+    });
 
     final HostPageDataService hpd = GWT.create(HostPageDataService.class);
     hpd.load(new GerritCallback<HostPageData>() {

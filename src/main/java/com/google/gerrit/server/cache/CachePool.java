@@ -141,10 +141,6 @@ public class CachePool {
         mgr.addCache(c);
       }
 
-      // mgr.addCache(disk(named("diff")));
-      // mgr.addCache(disk(tti(named("web_sessions"), D_SESSIONAGE)));
-      // mgr.addCache(ttl(named("openid"), 5));
-
       return mgr;
     }
 

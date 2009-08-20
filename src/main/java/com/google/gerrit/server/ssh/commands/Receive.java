@@ -39,6 +39,7 @@ import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.PatchSetApproval;
 import com.google.gerrit.client.reviewdb.PatchSetInfo;
 import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gerrit.client.rpc.NoSuchAccountException;
 import com.google.gerrit.git.PatchSetImporter;
 import com.google.gerrit.git.ReplicationQueue;
 import com.google.gerrit.server.ChangeUtil;
@@ -94,7 +95,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.security.auth.login.AccountNotFoundException;
+
 
 /** Receives change upload over SSH using the Git receive-pack protocol. */
 final class Receive extends AbstractGitCommand {
@@ -115,7 +116,7 @@ final class Receive extends AbstractGitCommand {
   void addReviewer(final String nameOrEmail) throws CmdLineException {
     try {
       reviewerId.add(toAccountId(nameOrEmail));
-    } catch (AccountNotFoundException e) {
+    } catch (NoSuchAccountException e) {
       throw new CmdLineException(e.getMessage());
     } catch (OrmException e) {
       throw new CmdLineException("database is down");
@@ -126,7 +127,7 @@ final class Receive extends AbstractGitCommand {
   void addCC(final String nameOrEmail) throws CmdLineException {
     try {
       ccId.add(toAccountId(nameOrEmail));
-    } catch (AccountNotFoundException e) {
+    } catch (NoSuchAccountException e) {
       throw new CmdLineException(e.getMessage());
     } catch (OrmException e) {
       throw new CmdLineException("database is down");
@@ -371,10 +372,10 @@ final class Receive extends AbstractGitCommand {
   }
 
   private Account.Id toAccountId(final String nameOrEmail) throws OrmException,
-      AccountNotFoundException {
+      NoSuchAccountException {
     final Account a = accountResolver.find(nameOrEmail);
     if (a == null) {
-      throw new AccountNotFoundException("\"" + nameOrEmail
+      throw new NoSuchAccountException("\"" + nameOrEmail
           + "\" is not registered");
     }
     return a.getId();
@@ -713,7 +714,7 @@ final class Receive extends AbstractGitCommand {
         } else if (footerLine.matches(FooterKey.CC)) {
           cc.add(toAccountId(footerLine.getValue().trim()));
         }
-      } catch (AccountNotFoundException e) {
+      } catch (NoSuchAccountException e) {
         continue;
       }
     }
@@ -840,7 +841,7 @@ final class Receive extends AbstractGitCommand {
         } else if (footerLine.matches(FooterKey.CC)) {
           cc.add(toAccountId(footerLine.getValue().trim()));
         }
-      } catch (AccountNotFoundException e) {
+      } catch (NoSuchAccountException e) {
         continue;
       }
     }

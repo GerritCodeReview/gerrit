@@ -67,6 +67,7 @@ import org.spearce.jgit.lib.RefUpdate;
 import org.spearce.jgit.revwalk.FooterKey;
 import org.spearce.jgit.revwalk.FooterLine;
 import org.spearce.jgit.revwalk.RevCommit;
+import org.spearce.jgit.revwalk.RevFlag;
 import org.spearce.jgit.revwalk.RevObject;
 import org.spearce.jgit.revwalk.RevSort;
 import org.spearce.jgit.revwalk.RevTag;
@@ -195,7 +196,10 @@ final class Receive extends AbstractGitCommand {
       public void onPreReceive(final ReceivePack arg0,
           final Collection<ReceiveCommand> commands) {
         parseCommands(commands);
-        createNewChanges();
+        if (newChange != null
+            && newChange.getResult() == ReceiveCommand.Result.NOT_ATTEMPTED) {
+          createNewChanges();
+        }
         appendPatchSets();
       }
     });
@@ -527,6 +531,60 @@ final class Receive extends AbstractGitCommand {
       reject(cmd, "branch " + n + " not found");
       return;
     }
+
+    // Validate that the new commits are connected with the existing heads
+    // or tags of this repository. If they aren't, we want to abort. We do
+    // this check by coloring the tip CONNECTED and letting a RevWalk push
+    // that color through the graph until it reaches at least one of our
+    // already existing heads or tags. We then test to see if that color
+    // made it back onto that set.
+    //
+    try {
+      final RevWalk walk = rp.getRevWalk();
+      final RevFlag CONNECTED = walk.newFlag("CONNECTED");
+      walk.carry(CONNECTED);
+      walk.reset();
+      walk.sort(RevSort.TOPO);
+      walk.sort(RevSort.REVERSE, true);
+
+      final RevCommit tip = walk.parseCommit(newChange.getNewId());
+      tip.add(CONNECTED);
+      walk.markStart(tip);
+
+      final List<RevCommit> heads = new ArrayList<RevCommit>();
+      for (final Ref r : rp.getAdvertisedRefs().values()) {
+        if (isHead(r) || isTag(r)) {
+          try {
+            final RevCommit h = walk.parseCommit(r.getObjectId());
+            walk.markUninteresting(h);
+            heads.add(h);
+          } catch (IOException e) {
+            continue;
+          }
+        }
+      }
+
+      if (!heads.isEmpty()) {
+        while (walk.next() != null) {
+          /* nothing, just pump the RevWalk until its done */
+        }
+        boolean isConnected = false;
+        for (final RevCommit c : heads) {
+          if (c.has(CONNECTED)) {
+            isConnected = true;
+            break;
+          }
+        }
+        if (!isConnected) {
+          reject(newChange, "no common ancestry");
+          return;
+        }
+      }
+    } catch (IOException e) {
+      newChange.setResult(Result.REJECTED_MISSING_OBJECT);
+      log.error("Invalid pack upload; one or more objects weren't sent", e);
+      return;
+    }
   }
 
   private void parseNewPatchSetCommand(final ReceiveCommand cmd,
@@ -572,11 +630,6 @@ final class Receive extends AbstractGitCommand {
   }
 
   private void createNewChanges() {
-    if (newChange == null
-        || newChange.getResult() != ReceiveCommand.Result.NOT_ATTEMPTED) {
-      return;
-    }
-
     final List<RevCommit> toCreate = new ArrayList<RevCommit>();
     final RevWalk walk = rp.getRevWalk();
     walk.reset();
@@ -603,6 +656,8 @@ final class Receive extends AbstractGitCommand {
           continue;
         }
         if (!validCommitter(newChange, c)) {
+          // Not a change the user can propose? Abort as early as possible.
+          //
           return;
         }
         toCreate.add(c);
@@ -1252,6 +1307,10 @@ final class Receive extends AbstractGitCommand {
 
   private static void reject(final ReceiveCommand cmd, final String why) {
     cmd.setResult(ReceiveCommand.Result.REJECTED_OTHER_REASON, why);
+  }
+
+  private static boolean isTag(final Ref ref) {
+    return ref.getName().startsWith(Constants.R_TAGS);
   }
 
   private static boolean isTag(final ReceiveCommand cmd) {

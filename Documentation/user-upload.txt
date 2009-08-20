@@ -51,7 +51,7 @@ key's passphrase.  Consult `man ssh-agent`, or your SSH client's
 documentation, for more details on configuration of the agent
 process and how to add the private key.
 
-Testing Your SSH Connection[[test_ssh]]
+[[test_ssh]]Testing Your SSH Connection
 ---------------------------------------
 
 To verify your SSH key is working correctly, try using an SSH client
@@ -104,7 +104,7 @@ be sent through command line options.
 For more details on using `repo upload`, see `repo help upload`.
 
 
-git push: Create Changes[[push_create]]
+[[push_create]]git push: Create Changes
 ---------------------------------------
 
 To create new changes for review, simply push into the project's

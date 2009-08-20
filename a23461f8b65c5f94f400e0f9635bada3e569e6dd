@@ -1,0 +1,242 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAg3////U\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/ApproveCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-20T14:49:50Z",
+      "side": 1,
+      "message": "Isn\u0027t this unnecessary?  If you made the addOption method public in the upstream parser, we don\u0027t need to override the class here.",
+      "revId": "a23461f8b65c5f94f400e0f9635bada3e569e6dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAg3///+s\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/ApproveCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-20T14:49:50Z",
+      "side": 1,
+      "message": "If you instead make CmdOption also implement the Setter interface you can implement\n\n  public void addValue(Object value)\n\nand receive the value directly, without using reflection.  The advantage of doing this is you can then implement the range check inside of your addValue method, and not need to do it after-the-fact in the validateArguments method.\n\nThrowing CmdLineException when the value is out of range will cause args4j to toss the message back at the user, and immediately fail out.",
+      "revId": "a23461f8b65c5f94f400e0f9635bada3e569e6dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAg3////Y\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/ApproveCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-20T14:49:50Z",
+      "side": 1,
+      "message": "Please rethrow as a RuntimeException.  The command will fail with a non-zero exit status, and the full stack trace will be saved in the server log.  But if you remove the need for reflection, you shouldn\u0027t need this try/catch block.",
+      "revId": "a23461f8b65c5f94f400e0f9635bada3e569e6dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAg3////g\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/ApproveCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-20T14:49:50Z",
+      "side": 1,
+      "message": "Given how large this class is, I wonder if it shouldn\u0027t be pulled out into its own top-level type/file.",
+      "revId": "a23461f8b65c5f94f400e0f9635bada3e569e6dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAg3////Q\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/ApproveCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-20T14:49:50Z",
+      "side": 1,
+      "message": "As just mentioned on repo-discuss, I think this needs to actually identify a patch set, not just a change.  So maybe make this a PatchSet.Id and use a custom handler, e.g.:\n\n  class ApproveCommand {\n    @Argument(index \u003d 0, required \u003d true, usage\u003d\"Patch set to approve\")\n    private PatchSet.Id patchSetId;\n  }\n\n  package com.google.gerrit.pgm;\n\n  public class CmdLineParser {\n    static {\n      registerHandler(PatchSet.Id.class, PatchSetIdHandler.class);\n    }\n  }\n\n  class PatchSetIdHandler extends OptionHandler\u003cPatchSet.Id\u003e {\n    public PatchSetIdHandler(\n        final org.kohsuke.args4j.CmdLineParser parser,\n        final OptionDef option,\n        final Setter\u003c? super PatchSet.Id\u003e setter) {\n      super(parser, option, setter);\n    }\n\n    @Override\n    public int parseArguments(final Parameters params) throws CmdLineException {\n      final String idString \u003d params.getParameter(0);\n      final PatchSet.Id id;\n      try {\n        id \u003d PatchSet.Id.parse(idString);\n      } catch (IllegalArgumentException e) {\n        throw new CmdLineException(\"Invalid patch set: \" + idString);\n      } catch (NumberFormatException e) {\n        throw new CmdLineException(\"Invalid patch set: \" + idString);\n      }\n      setter.addValue(id);\n      return 1;\n    }\n\n    @Override\n    public String getDefaultMetaVariable() {\n      return \"CHANGE,PATCHSET\";\n    }\n  }\n\nIts a bit longer to declare, but it allows args4j to handle the parsing and failure reporting, and does it in a way that we can reuse it in other command line tools which might want a patch set to be specified on the command line.",
+      "revId": "a23461f8b65c5f94f400e0f9635bada3e569e6dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAg3////M\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/ApproveCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-20T14:49:50Z",
+      "side": 1,
+      "message": "Eh, sadly we are inconsistent about this in Gerrit.  I think its better called \"--message\" with \"-m\" as an alias.  This matches with `git commit` on the command line.  We also title the input box in the web UI \"Cover Message\", and the entity in the database is called ChangeMessage.  Sadly though we do also call it a comment (\"Publish Comments\") so I can see where one might expect this to be --comment.",
+      "revId": "a23461f8b65c5f94f400e0f9635bada3e569e6dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAg3///+g\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/ApproveCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-20T14:49:50Z",
+      "side": 1,
+      "message": "What is the reason we are printing to the user\u0027s console?  Maybe I\u0027m just too UNIXy, but I don\u0027t see any value in printing output if the command has successfully performed its task.",
+      "revId": "a23461f8b65c5f94f400e0f9635bada3e569e6dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAg3///+c\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/ApproveCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-20T14:49:50Z",
+      "side": 1,
+      "message": "Don\u0027t do this, it might leak server details to the client.  Instead use:\n\n  throw new Failure(CMD_ERR, \"cannot update change\", e);\n\nso that the server administrator gets the detailed exception information in his log, but the client gets a simple error message letting him/her know that the server couldn\u0027t complete their request.",
+      "revId": "a23461f8b65c5f94f400e0f9635bada3e569e6dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAg3///+k\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/ApproveCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-20T14:49:50Z",
+      "side": 1,
+      "message": "I think its better to do this in the transaction block above, just in case the administrator tries to delete the change between when you looked for it here, and later when you try to modify it.  Its just as acceptable to throw this error condition during that transaction block as it is to throw it here during argument validation.",
+      "revId": "a23461f8b65c5f94f400e0f9635bada3e569e6dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAg3///+4\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/ApproveCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-20T14:49:50Z",
+      "side": 1,
+      "message": "I think\n\n  if (c.getStatus().isClosed())\n\nis the better test for the state.  Its reasonable to publish an approval on a change that is submitted, but hasn\u0027t actually merged yet.  But right, we don\u0027t want approvals on a closed change.",
+      "revId": "a23461f8b65c5f94f400e0f9635bada3e569e6dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAg3///+0\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/ApproveCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-20T14:49:50Z",
+      "side": 1,
+      "message": "And this can just say \"Change is closed\".",
+      "revId": "a23461f8b65c5f94f400e0f9635bada3e569e6dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAg3///+w\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/ApproveCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-20T14:49:50Z",
+      "side": 1,
+      "message": "Near as I can tell, this block is never true.  The CmdOption is always set with required \u003d false.  And if required were equal to true, shouldn\u0027t args4j have caught that during command line parsing itself?  So I don\u0027t see why we would need this if block here.",
+      "revId": "a23461f8b65c5f94f400e0f9635bada3e569e6dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAg3///+o\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/ApproveCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-20T14:49:50Z",
+      "side": 1,
+      "message": "Above I suggested moving this into the CmdOption class as its addValue method.",
+      "revId": "a23461f8b65c5f94f400e0f9635bada3e569e6dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAg3////I\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/ApproveCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-20T14:49:50Z",
+      "side": 1,
+      "message": "Actually, you can take an injection for this:\n\n  @Inject\n  private ApprovalTypes approvalTypes;\n\nand then discover the categories you were looking for:\n\n  for (ApprovalType type : approvalTypes.getApprovalTypes()) {\n    final ApprovalCategory category \u003d type.getCategory();\n\n    // values are in sorted order, +2 through -2.\n    // same order shown on the web UI\n    //\n    for (ApprovalCategoryValue v : type.getValues()) {\n    }\n  }\n\nThere are also methods on ApprovalType to discover the min and max.  Sorry you wrote all this duplicated code when we already had the bulk of the logic available in ApprovalTypes.",
+      "revId": "a23461f8b65c5f94f400e0f9635bada3e569e6dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

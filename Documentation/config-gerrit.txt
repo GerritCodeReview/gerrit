@@ -530,6 +530,9 @@ contains the initial value for the user's full name field in Gerrit.
 Typically this is the `displayName` property in LDAP, but could
 also be `legalName` or `cn`.
 +
+If set, users will be unable to modify their full name field, as
+Gerrit will populate it only from the LDAP data.
++
 Default is `displayName`, a common value for most servers.
 
 [[ldap.accountEmailAddress]]ldap.accountEmailAddress::
@@ -537,6 +540,10 @@ Default is `displayName`, a common value for most servers.
 _(Optional)_ Name of an attribute on the user account object which
 contains the user's Internet email address, as defined by this
 LDAP server.
++
+If set, the preferred email address will be prefilled from LDAP,
+but users may still be able to register additional email address,
+and select a different preferred email address.
 +
 Default is `mail`, a common value for most servers.
 
@@ -548,6 +555,9 @@ Gerrit.  Typically this is the `uid` property in LDAP, but could
 also be `cn`.  Administrators should prefer to match the attribute
 corresponding to the user's workstation username, as this is what
 SSH clients will default to.
++
+If set, users will be unable to modify their SSH username field, as
+Gerrit will populate it only from the LDAP data.
 +
 Default is `uid`, a common value for most servers.
 

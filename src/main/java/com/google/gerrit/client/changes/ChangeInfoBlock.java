@@ -29,14 +29,15 @@ import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
 
 public class ChangeInfoBlock extends Composite {
-  private static final int R_OWNER = 0;
-  private static final int R_PROJECT = 1;
-  private static final int R_BRANCH = 2;
-  private static final int R_UPLOADED = 3;
-  private static final int R_UPDATED = 4;
-  private static final int R_STATUS = 5;
-  private static final int R_PERMALINK = 6;
-  private static final int R_CNT = 7;
+  private static final int R_CHANGE_ID = 0;
+  private static final int R_OWNER = 1;
+  private static final int R_PROJECT = 2;
+  private static final int R_BRANCH = 3;
+  private static final int R_UPLOADED = 4;
+  private static final int R_UPDATED = 5;
+  private static final int R_STATUS = 6;
+  private static final int R_PERMALINK = 7;
+  private static final int R_CNT = 8;
 
   private final Grid table;
 
@@ -45,6 +46,7 @@ public class ChangeInfoBlock extends Composite {
     table.setStyleName("gerrit-InfoBlock");
     table.addStyleName("gerrit-ChangeInfoBlock");
 
+    initRow(R_CHANGE_ID, "Change-Id: ");
     initRow(R_OWNER, Util.C.changeInfoBlockOwner());
     initRow(R_PROJECT, Util.C.changeInfoBlockProject());
     initRow(R_BRANCH, Util.C.changeInfoBlockBranch());
@@ -55,6 +57,7 @@ public class ChangeInfoBlock extends Composite {
     final CellFormatter fmt = table.getCellFormatter();
     fmt.addStyleName(0, 0, "topmost");
     fmt.addStyleName(0, 1, "topmost");
+    fmt.addStyleName(R_CHANGE_ID, 1, "changeid");
     fmt.addStyleName(R_CNT - 2, 0, "bottomheader");
     fmt.addStyleName(R_PERMALINK, 0, "permalink");
     fmt.addStyleName(R_PERMALINK, 1, "permalink");
@@ -69,6 +72,7 @@ public class ChangeInfoBlock extends Composite {
 
   public void display(final Change chg, final AccountInfoCache acc) {
     final Branch.NameKey dst = chg.getDest();
+    table.setText(R_CHANGE_ID, 1, chg.getKey().get());
     table.setWidget(R_OWNER, 1, AccountDashboardLink.link(acc, chg.getOwner()));
     table.setWidget(R_PROJECT, 1, new ProjectOpenLink(dst.getParentKey()));
     table.setText(R_BRANCH, 1, dst.getShortName());

@@ -686,6 +686,10 @@
 .gerrit-InfoBlock td.useridentity {
   white-space: nowrap;
 }
+.gerrit-ChangeInfoBlock td.changeid {
+  font-size: x-small;
+}
+
 
 .gerrit-PatchSetInfoBlock {
   margin-bottom: 10px;

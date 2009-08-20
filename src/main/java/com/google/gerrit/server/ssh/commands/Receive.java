@@ -172,13 +172,10 @@ final class Receive extends AbstractGitCommand {
   private Branch destBranch;
 
   private final List<Change.Id> allNewChanges = new ArrayList<Change.Id>();
-
-  private final Map<Change.Id, ReceiveCommand> addByChange =
-      new HashMap<Change.Id, ReceiveCommand>();
-  private final Map<ObjectId, Change> addByCommit =
-      new HashMap<ObjectId, Change>();
-  private final Map<Change.Id, Change> changeCache =
-      new HashMap<Change.Id, Change>();
+  private final Map<Change.Id, ReplaceRequest> replaceByChange =
+      new HashMap<Change.Id, ReplaceRequest>();
+  private final Map<RevCommit, ReplaceRequest> replaceByCommit =
+      new HashMap<RevCommit, ReplaceRequest>();
 
   private Map<ObjectId, Ref> refsById;
 
@@ -203,7 +200,7 @@ final class Receive extends AbstractGitCommand {
             && newChange.getResult() == ReceiveCommand.Result.NOT_ATTEMPTED) {
           createNewChanges();
         }
-        appendPatchSets();
+        doReplaces();
       }
     });
     rp.setPostReceiveHook(new PostReceiveHook() {
@@ -399,7 +396,7 @@ final class Receive extends AbstractGitCommand {
         // The referenced change must exist and must still be open.
         //
         final Change.Id changeId = Change.Id.parse(m.group(1));
-        parseNewPatchSetCommand(cmd, changeId);
+        parseReplaceCommand(cmd, changeId);
         continue;
       }
 
@@ -590,10 +587,19 @@ final class Receive extends AbstractGitCommand {
     }
   }
 
-  private void parseNewPatchSetCommand(final ReceiveCommand cmd,
+  private void parseReplaceCommand(final ReceiveCommand cmd,
       final Change.Id changeId) {
     if (cmd.getType() != ReceiveCommand.Type.CREATE) {
       reject(cmd, "invalid usage");
+      return;
+    }
+
+    final RevCommit newCommit;
+    try {
+      newCommit = rp.getRevWalk().parseCommit(cmd.getNewId());
+    } catch (IOException e) {
+      log.error("Cannot parse " + cmd.getNewId().name() + " as commit", e);
+      reject(cmd, "invalid commit");
       return;
     }
 
@@ -606,30 +612,36 @@ final class Receive extends AbstractGitCommand {
       return;
     }
     if (changeEnt == null) {
-      reject(cmd, "change " + changeId.get() + " not found");
+      reject(cmd, "change " + changeId + " not found");
       return;
     }
     if (!proj.getNameKey().equals(changeEnt.getDest().getParentKey())) {
-      reject(cmd, "change " + changeId.get() + " not in " + proj.getName());
-      return;
-    }
-    if (changeEnt.getStatus().isClosed()) {
-      reject(cmd, "change " + changeId.get() + " closed");
+      reject(cmd, "change " + changeId + " not found");
       return;
     }
 
-    if (addByChange.containsKey(changeId)) {
-      reject(cmd, "duplicate request");
-      return;
-    }
-    if (addByCommit.containsKey(cmd.getNewId())) {
-      reject(cmd, "duplicate request");
+    requestReplace(cmd, changeEnt, newCommit);
+  }
+
+  private void requestReplace(final ReceiveCommand cmd, final Change change,
+      final RevCommit newCommit) {
+    if (change.getStatus().isClosed()) {
+      reject(cmd, "change " + change.getId() + " closed");
       return;
     }
 
-    addByChange.put(changeId, cmd);
-    addByCommit.put(cmd.getNewId(), changeEnt);
-    changeCache.put(changeId, changeEnt);
+    final ReplaceRequest req =
+        new ReplaceRequest(change.getId(), newCommit, cmd);
+    if (replaceByChange.containsKey(req.ontoChange)) {
+      reject(cmd, "duplicate request");
+      return;
+    }
+    if (replaceByCommit.containsKey(req.newCommit)) {
+      reject(cmd, "duplicate request");
+      return;
+    }
+    replaceByChange.put(req.ontoChange, req);
+    replaceByCommit.put(req.newCommit, req);
   }
 
   private void createNewChanges() {
@@ -653,8 +665,8 @@ final class Receive extends AbstractGitCommand {
         if (c == null) {
           break;
         }
-        if (addByCommit.containsKey(c.copy())) {
-          // This commit is slated to replace an existing PatchSet.
+        if (replaceByCommit.containsKey(c)) {
+          // This commit was already scheduled to replace an existing PatchSet.
           //
           continue;
         }
@@ -663,6 +675,31 @@ final class Receive extends AbstractGitCommand {
           //
           return;
         }
+
+        final List<String> idList = c.getFooterLines(CHANGE_ID);
+        if (!idList.isEmpty()) {
+          final Change.Key key = new Change.Key(idList.get(idList.size() - 1));
+          final List<Change> changes =
+              db.changes().byProjectKey(proj.getNameKey(), key).toList();
+          if (changes.size() > 1) {
+            // WTF, multiple changes in this project have the same key?
+            // Since the commit is new, the user should recreate it with
+            // a different Change-Id. In practice, we should never see
+            // this error message as Change-Id should be unique.
+            //
+            reject(newChange, key.get() + " has duplicates");
+            return;
+
+          }
+
+          if (changes.size() == 1) {
+            // Schedule as a replacement to this one matching change.
+            //
+            requestReplace(newChange, changes.get(0), c);
+            continue;
+          }
+        }
+
         toCreate.add(c);
       }
     } catch (IOException e) {
@@ -671,9 +708,14 @@ final class Receive extends AbstractGitCommand {
       //
       newChange.setResult(Result.REJECTED_MISSING_OBJECT);
       log.error("Invalid pack upload; one or more objects weren't sent", e);
+      return;
+    } catch (OrmException e) {
+      log.error("Cannot query database to locate prior changes", e);
+      reject(newChange, "database error");
+      return;
     }
 
-    if (toCreate.isEmpty() && addByChange.isEmpty()) {
+    if (toCreate.isEmpty() && replaceByChange.isEmpty()) {
       reject(newChange, "no new changes");
       return;
     }
@@ -799,35 +841,33 @@ final class Receive extends AbstractGitCommand {
         || candidateFooterLine.matches(TESTED_BY);
   }
 
-  private void appendPatchSets() {
-    for (Map.Entry<Change.Id, ReceiveCommand> e : addByChange.entrySet()) {
-      final ReceiveCommand cmd = e.getValue();
-      final Change.Id changeId = e.getKey();
+  private void doReplaces() {
+    for (final ReplaceRequest request : replaceByChange.values()) {
       try {
-        appendPatchSet(changeId, cmd);
+        doReplace(request);
       } catch (IOException err) {
-        log.error("Error computing replacement patch for change " + changeId
-            + ", commit " + cmd.getNewId().name(), err);
-        reject(cmd, "diff error");
+        log.error("Error computing replacement patch for change "
+            + request.ontoChange + ", commit " + request.newCommit.name(), err);
+        reject(request.cmd, "diff error");
       } catch (OrmException err) {
-        log.error("Error storing replacement patch for change " + changeId
-            + ", commit " + cmd.getNewId().name(), err);
-        reject(cmd, "database error");
+        log.error("Error storing replacement patch for change "
+            + request.ontoChange + ", commit " + request.newCommit.name(), err);
+        reject(request.cmd, "database error");
       }
-      if (cmd.getResult() == ReceiveCommand.Result.NOT_ATTEMPTED) {
-        log.error("Replacement patch for change " + changeId + ", commit "
-            + cmd.getNewId().name() + " wasn't attempted."
+      if (request.cmd.getResult() == ReceiveCommand.Result.NOT_ATTEMPTED) {
+        log.error("Replacement patch for change " + request.ontoChange
+            + ", commit " + request.newCommit.name() + " wasn't attempted."
             + "  This is a bug in the receive process implementation.");
-        reject(cmd, "internal error");
+        reject(request.cmd, "internal error");
       }
     }
   }
 
-  private void appendPatchSet(final Change.Id changeId, final ReceiveCommand cmd)
-      throws IOException, OrmException {
-    final RevCommit c = rp.getRevWalk().parseCommit(cmd.getNewId());
+  private void doReplace(final ReplaceRequest request) throws IOException,
+      OrmException {
+    final RevCommit c = request.newCommit;
     rp.getRevWalk().parseBody(c);
-    if (!validCommitter(cmd, c)) {
+    if (!validCommitter(request.cmd, c)) {
       return;
     }
 
@@ -857,31 +897,26 @@ final class Receive extends AbstractGitCommand {
     result = db.run(new OrmRunnable<ReplaceResult, ReviewDb>() {
       public ReplaceResult run(final ReviewDb db, final Transaction txn,
           final boolean isRetry) throws OrmException {
-        final Change change;
-        if (isRetry) {
-          change = db.changes().get(changeId);
-          if (change == null) {
-            reject(cmd, "change " + changeId.get() + " not found");
-            return null;
-          }
-          if (change.getStatus().isClosed()) {
-            reject(cmd, "change " + changeId.get() + " closed");
-            return null;
-          }
-        } else {
-          change = changeCache.get(changeId);
+        final Change change = db.changes().get(request.ontoChange);
+        if (change == null) {
+          reject(request.cmd, "change " + request.ontoChange + " not found");
+          return null;
+        }
+        if (change.getStatus().isClosed()) {
+          reject(request.cmd, "change " + request.ontoChange + " closed");
+          return null;
         }
 
         final PatchSet.Id priorPatchSet = change.currentPatchSetId();
         final HashSet<ObjectId> existingRevisions = new HashSet<ObjectId>();
-        for (final PatchSet ps : db.patchSets().byChange(changeId)) {
+        for (final PatchSet ps : db.patchSets().byChange(request.ontoChange)) {
           if (ps.getRevision() != null) {
             final String revIdStr = ps.getRevision().get();
             try {
               existingRevisions.add(ObjectId.fromString(revIdStr));
             } catch (IllegalArgumentException e) {
               log.warn("Invalid revision in " + ps.getId() + ": " + revIdStr);
-              reject(cmd, "change state corrupt");
+              reject(request.cmd, "change state corrupt");
               return null;
             }
           }
@@ -890,7 +925,7 @@ final class Receive extends AbstractGitCommand {
         // Don't allow the same commit to appear twice on the same change
         //
         if (existingRevisions.contains(c.copy())) {
-          reject(cmd, "patch set exists");
+          reject(request.cmd, "patch set exists");
           return null;
         }
 
@@ -902,12 +937,13 @@ final class Receive extends AbstractGitCommand {
           try {
             final RevCommit prior = rp.getRevWalk().parseCommit(commitId);
             if (rp.getRevWalk().isMergedInto(prior, c)) {
-              reject(cmd, "squash commits first");
+              reject(request.cmd, "squash commits first");
               return null;
             }
           } catch (IOException e) {
-            log.error("Change " + changeId + " missing " + commitId.name(), e);
-            reject(cmd, "change state corrupt");
+            final String name = commitId.name();
+            log.error("Change " + change.getId() + " missing " + name, e);
+            reject(request.cmd, "change state corrupt");
             return null;
           }
         }
@@ -1025,7 +1061,7 @@ final class Receive extends AbstractGitCommand {
             + " in " + repo.getDirectory() + ": " + ru.getResult());
       }
       replication.scheduleUpdate(proj.getNameKey(), ru.getName());
-      cmd.setResult(ReceiveCommand.Result.OK);
+      request.cmd.setResult(ReceiveCommand.Result.OK);
 
       try {
         final ReplacePatchSetSender cm;
@@ -1088,6 +1124,19 @@ final class Receive extends AbstractGitCommand {
       throws IOException {
     final RevWalk rw = rp.getRevWalk();
     return rw.isMergedInto(commit, rw.parseCommit(ref.getObjectId()));
+  }
+
+  private static class ReplaceRequest {
+    final Change.Id ontoChange;
+    final RevCommit newCommit;
+    final ReceiveCommand cmd;
+
+    ReplaceRequest(final Change.Id toChange, final RevCommit newCommit,
+        final ReceiveCommand cmd) {
+      this.ontoChange = toChange;
+      this.newCommit = newCommit;
+      this.cmd = cmd;
+    }
   }
 
   private static class ReplaceResult {

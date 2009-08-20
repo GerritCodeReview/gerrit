@@ -19,6 +19,7 @@ SVN            = svn
 PUB_ROOT       = https://gerrit.googlecode.com/svn/documentation
 LOCAL_ROOT     = .published
 
+SCRIPTSDIR    := $(shell pwd)/javascript
 DOC_VERS      := $(shell git describe HEAD)
 DOC_VMM       := $(shell sh -c "echo $(DOC_VERS) | perl -pe 's,^v(\d+\.\d+)[\.-].*\$$,\$$1,'")
 PUB_DIR        = $(PUB_ROOT)/$(DOC_VMM)
@@ -50,10 +51,11 @@ clean:
 	rm -f *.html
 	rm -rf $(LOCAL_ROOT)
 
-$(DOC_HTML): %.html : %.txt
+$(DOC_HTML): %.html : %.txt $(SCRIPTSDIR)/toc.js
 	rm -f $@+ $@
-	$(ASCIIDOC) \
+	$(ASCIIDOC) --unsafe \
 		-a toc -a 'revision=$(DOC_VERS)' \
+		-a scriptsdir=$(SCRIPTSDIR) \
 		-b xhtml11 -f asciidoc.conf \
 		$(ASCIIDOC_EXTRA) -o $@+ $<
 	mv $@+ $@

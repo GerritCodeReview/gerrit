@@ -548,6 +548,10 @@ final class Receive extends AbstractGitCommand {
       reject(cmd, "change " + changeId.get() + " not found");
       return;
     }
+    if (!proj.getNameKey().equals(changeEnt.getDest().getParentKey())) {
+      reject(cmd, "change " + changeId.get() + " not in " + proj.getName());
+      return;
+    }
     if (changeEnt.getStatus().isClosed()) {
       reject(cmd, "change " + changeId.get() + " closed");
       return;
@@ -798,12 +802,6 @@ final class Receive extends AbstractGitCommand {
           }
           if (change.getStatus().isClosed()) {
             reject(cmd, "change " + changeId.get() + " closed");
-            return null;
-          }
-          if (change.getDest() == null
-              || !proj.getNameKey().equals(change.getDest().getParentKey())) {
-            reject(cmd, "change " + changeId.get() + " not in "
-                + proj.getName());
             return null;
           }
         } else {

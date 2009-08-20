@@ -155,6 +155,14 @@ public final class Change {
       id = newValue;
     }
 
+    /** Construct a key that is after all keys prefixed by this key. */
+    public Key max() {
+      final StringBuilder revEnd = new StringBuilder(get().length() + 1);
+      revEnd.append(get());
+      revEnd.append('\u9fa5');
+      return new Key(revEnd.toString());
+    }
+
     /** Parse a Change.Key out of a string representation. */
     public static Key parse(final String str) {
       final Key r = new Key();

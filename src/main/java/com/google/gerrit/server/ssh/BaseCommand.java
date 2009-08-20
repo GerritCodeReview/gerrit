@@ -156,7 +156,7 @@ public abstract class BaseCommand implements Command {
       list.add(r.toString());
     }
 
-    final CmdLineParser clp = new CmdLineParser(this);
+    final CmdLineParser clp = newCmdLineParserInstance(this);
     try {
       clp.parseArgument(list.toArray(new String[list.size()]));
     } catch (CmdLineException err) {
@@ -176,6 +176,10 @@ public abstract class BaseCommand implements Command {
       msg.write('\n');
       throw new UnloggedFailure(1, msg.toString());
     }
+  }
+
+  protected CmdLineParser newCmdLineParserInstance(Object bean) {
+    return new CmdLineParser(bean);
   }
 
   /**

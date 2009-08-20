@@ -240,13 +240,7 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
     filterBySortKey(result, db.changes().get(want), cmp, key);
     Collections.sort(result, cmp);
     if (limit < result.size()) {
-      // GWT emulation unfortunately lacks subList(int,int).
-      //
-      final List<Change> r = new ArrayList<Change>(limit);
-      for (int i = 0; i < limit; i++) {
-        r.add(result.get(i));
-      }
-      result = r;
+      result = result.subList(0, limit);
     }
     return new ListResultSet<Change>(result);
   }

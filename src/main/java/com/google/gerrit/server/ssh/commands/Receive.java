@@ -59,6 +59,7 @@ import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.spearce.jgit.errors.MissingObjectException;
 import org.spearce.jgit.lib.Constants;
 import org.spearce.jgit.lib.ObjectId;
 import org.spearce.jgit.lib.PersonIdent;
@@ -1090,7 +1091,9 @@ final class Receive extends AbstractGitCommand {
     String mergedIntoRef;
   }
 
-  private boolean validCommitter(final ReceiveCommand cmd, final RevCommit c) {
+  private boolean validCommitter(final ReceiveCommand cmd, final RevCommit c)
+      throws MissingObjectException, IOException {
+    rp.getRevWalk().parseBody(c);
     final PersonIdent committer = c.getCommitterIdent();
     final PersonIdent author = c.getAuthorIdent();
 

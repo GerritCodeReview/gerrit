@@ -247,10 +247,6 @@ specific versions of the client-side JavaScript code, Gerrit works
 on any JavaScript enabled browser which GWT can produce code for.
 This covers the majority of the popular browsers.
 
-The Gerrit project wants to offer offline support via the HTML 5
-standard and/or Google Gears plugin, both of which would require
-the UI to be rendered in JavaScript on the client side.
-
 The Gerrit project does not have the development resources necessary
 to support two parallel UI implementations (GWT based JavaScript
 and server-side rendering).  Consequently only one is implemented.

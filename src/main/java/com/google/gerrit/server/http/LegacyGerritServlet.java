@@ -32,7 +32,7 @@ import javax.servlet.http.HttpServletResponse;
  * <p>
  * This redirect exists to convert the older /Gerrit URL into the more modern
  * URL format which does not use a servlet name for the host page. We cannot do
- * the direct here in the server side, as it would lose any history token that
+ * the redirect here in the server side, as it would lose any history token that
  * appears in the URL. Instead we send an HTML page which instructs the browser
  * to replace the URL, but preserve the history token.
  */

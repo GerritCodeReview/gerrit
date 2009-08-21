@@ -106,6 +106,7 @@ final class Receive extends AbstractGitCommand {
 
   private static final FooterKey REVIEWED_BY = new FooterKey("Reviewed-by");
   private static final FooterKey TESTED_BY = new FooterKey("Tested-by");
+  private static final FooterKey CHANGE_ID = new FooterKey("Change-Id");
 
   private final Set<Account.Id> reviewerId = new HashSet<Account.Id>();
   private final Set<Account.Id> ccId = new HashSet<Account.Id>();
@@ -696,10 +697,33 @@ final class Receive extends AbstractGitCommand {
       throws OrmException, IOException {
     walk.parseBody(c);
 
-    final Transaction txn = db.beginTransaction();
     final Account.Id me = currentUser.getAccountId();
+    Change.Key changeKey = new Change.Key("I" + c.name());
+    final Set<Account.Id> reviewers = new HashSet<Account.Id>(reviewerId);
+    final Set<Account.Id> cc = new HashSet<Account.Id>(ccId);
+    for (final FooterLine footerLine : c.getFooterLines()) {
+      try {
+        if (footerLine.matches(CHANGE_ID)) {
+          final String v = footerLine.getValue().trim();
+          if (v.matches("^I[0-9a-f]{8,}.*$")) {
+            changeKey = new Change.Key(v);
+          }
+        } else if (isReviewer(footerLine)) {
+          reviewers.add(toAccountId(footerLine.getValue().trim()));
+        } else if (footerLine.matches(FooterKey.CC)) {
+          cc.add(toAccountId(footerLine.getValue().trim()));
+        }
+      } catch (AccountNotFoundException e) {
+        continue;
+      }
+    }
+    reviewers.remove(me);
+    cc.remove(me);
+    cc.removeAll(reviewers);
+
+    final Transaction txn = db.beginTransaction();
     final Change change =
-        new Change(new Change.Id(db.nextChangeId()), me, destBranch
+        new Change(changeKey, new Change.Id(db.nextChangeId()), me, destBranch
             .getNameKey());
     final PatchSet ps = new PatchSet(change.newPatchSetId());
     ps.setCreatedOn(change.getCreatedOn());
@@ -717,23 +741,6 @@ final class Receive extends AbstractGitCommand {
     final Set<Account.Id> haveApprovals = new HashSet<Account.Id>();
     final List<ApprovalType> allTypes = approvalTypes.getApprovalTypes();
     haveApprovals.add(me);
-
-    final Set<Account.Id> reviewers = new HashSet<Account.Id>(reviewerId);
-    final Set<Account.Id> cc = new HashSet<Account.Id>(ccId);
-    for (final FooterLine footerLine : c.getFooterLines()) {
-      try {
-        if (isReviewer(footerLine)) {
-          reviewers.add(toAccountId(footerLine.getValue().trim()));
-        } else if (footerLine.matches(FooterKey.CC)) {
-          cc.add(toAccountId(footerLine.getValue().trim()));
-        }
-      } catch (AccountNotFoundException e) {
-        continue;
-      }
-    }
-    reviewers.remove(me);
-    cc.remove(me);
-    cc.removeAll(reviewers);
 
     if (allTypes.size() > 0) {
       final Account.Id authorId =
@@ -948,8 +955,7 @@ final class Receive extends AbstractGitCommand {
             oldCC.add(a.getAccountId());
           }
 
-          if (a.getValue() < 0
-              && a.getPatchSetId().equals(priorPatchSet)) {
+          if (a.getValue() < 0 && a.getPatchSetId().equals(priorPatchSet)) {
             // If there was a negative vote on the prior patch set, carry it
             // into this patch set.
             //

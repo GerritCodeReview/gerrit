@@ -108,6 +108,9 @@ ON changes (open, dest_project_name, sort_key);
 CREATE INDEX changes_allClosed
 ON changes (open, status, sort_key);
 
+CREATE INDEX changes_key
+ON changes (change_key);
+
 
 -- *********************************************************************
 -- PatchSetApprovalAccess

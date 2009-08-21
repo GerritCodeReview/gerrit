@@ -153,6 +153,9 @@ CREATE INDEX changes_allClosed
 ON changes (status, sort_key)
 WHERE open = 'N';
 
+CREATE INDEX changes_key
+ON changes (change_key);
+
 
 -- *********************************************************************
 -- PatchSetApprovalAccess

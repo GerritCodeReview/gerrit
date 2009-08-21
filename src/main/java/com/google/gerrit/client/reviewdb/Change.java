@@ -17,6 +17,7 @@ package com.google.gerrit.client.reviewdb;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.IntKey;
 import com.google.gwtorm.client.RowVersion;
+import com.google.gwtorm.client.StringKey;
 
 import java.sql.Timestamp;
 
@@ -125,6 +126,38 @@ public final class Change {
     /** Parse a Change.Id out of a string representation. */
     public static Id parse(final String str) {
       final Id r = new Id();
+      r.fromString(str);
+      return r;
+    }
+  }
+
+  /** Globally unique identification of this change. */
+  public static class Key extends StringKey<com.google.gwtorm.client.Key<?>> {
+    private static final long serialVersionUID = 1L;
+
+    @Column(length = 60)
+    protected String id;
+
+    protected Key() {
+    }
+
+    public Key(final String id) {
+      this.id = id;
+    }
+
+    @Override
+    public String get() {
+      return id;
+    }
+
+    @Override
+    protected void set(String newValue) {
+      id = newValue;
+    }
+
+    /** Parse a Change.Key out of a string representation. */
+    public static Key parse(final String str) {
+      final Key r = new Key();
       r.fromString(str);
       return r;
     }
@@ -250,6 +283,10 @@ public final class Change {
   @Column
   protected Id changeId;
 
+  /** Globally assigned unique identifier of the change */
+  @Column
+  protected Key changeKey;
+
   /** optimistic locking */
   @Column
   @RowVersion
@@ -301,8 +338,9 @@ public final class Change {
   protected Change() {
   }
 
-  public Change(final Change.Id newId, final Account.Id ownedBy,
-      final Branch.NameKey forBranch) {
+  public Change(final Change.Key newKey, final Change.Id newId,
+      final Account.Id ownedBy, final Branch.NameKey forBranch) {
+    changeKey = newKey;
     changeId = newId;
     createdOn = new Timestamp(System.currentTimeMillis());
     lastUpdatedOn = createdOn;
@@ -317,6 +355,14 @@ public final class Change {
 
   public int getChangeId() {
     return changeId.get();
+  }
+
+  public Change.Key getKey() {
+    return changeKey;
+  }
+
+  public void setKey(final Change.Key k) {
+    changeKey = k;
   }
 
   public Timestamp getCreatedOn() {

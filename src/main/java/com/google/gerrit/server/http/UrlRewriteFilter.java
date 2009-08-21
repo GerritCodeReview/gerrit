@@ -52,7 +52,6 @@ class UrlRewriteFilter implements Filter {
     staticLinks.put("/starred", Link.MINE_STARRED);
     staticLinks.put("/settings", Link.SETTINGS);
 
-    staticLinks.put("/all_unclaimed", Link.ALL_UNCLAIMED);
     staticLinks.put("/all", Link.ALL_MERGED);
     staticLinks.put("/open", Link.ALL_OPEN);
 

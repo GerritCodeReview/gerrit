@@ -15,19 +15,14 @@
 package com.google.gerrit.server.http;
 
 import com.google.gerrit.client.Link;
-import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.RevId;
-import com.google.gerrit.client.reviewdb.ReviewDb;
-import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -48,7 +43,6 @@ class UrlRewriteFilter implements Filter {
   private static final Pattern CHANGE_ID = Pattern.compile("^/(\\d+)/?$");
   private static final Pattern REV_ID =
       Pattern.compile("^/r/([0-9a-fA-F]{4," + RevId.LEN + "})/?$");
-  private static final Pattern USER_PAGE = Pattern.compile("^/user/(.*)/?$");
   private static final Map<String, String> staticLinks;
   private static final Set<String> staticExtensions;
 
@@ -70,16 +64,11 @@ class UrlRewriteFilter implements Filter {
     staticExtensions.add(".png");
   }
 
-  private final SchemaFactory<ReviewDb> schema;
-  private FilterConfig config;
-
   @Inject
-  UrlRewriteFilter(final SchemaFactory<ReviewDb> sf) {
-    schema = sf;
+  UrlRewriteFilter() {
   }
 
   public void init(final FilterConfig config) {
-    this.config = config;
   }
 
   public void destroy() {
@@ -100,7 +89,6 @@ class UrlRewriteFilter implements Filter {
     } else if (staticLink(pathInfo, req, rsp)) {
     } else if (bareChangeId(pathInfo, req, rsp)) {
     } else if (bareRevisionId(pathInfo, req, rsp)) {
-    } else if (bareUserEmailDashboard(pathInfo, req, rsp)) {
 
     } else if (pathInfo.startsWith("/Gerrit/")) {
       final StringBuffer url = toGerrit(req);
@@ -186,56 +174,6 @@ class UrlRewriteFilter implements Filter {
     url.append(Link.toChangeQuery(rev));
     rsp.sendRedirect(url.toString());
     return true;
-  }
-
-  private boolean bareUserEmailDashboard(final String pathInfo,
-      final HttpServletRequest req, final HttpServletResponse rsp)
-      throws IOException {
-    final Matcher m = USER_PAGE.matcher(pathInfo);
-    if (!m.matches()) {
-      return false;
-    }
-
-    final String email = cleanEmail(m.group(1));
-    final List<Account> people;
-    try {
-      final ReviewDb db = schema.open();
-      try {
-        people = db.accounts().byPreferredEmail(email).toList();
-      } finally {
-        db.close();
-      }
-    } catch (OrmException e) {
-      config.getServletContext().log("Unable to query for " + email, e);
-      rsp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-      return true;
-    }
-
-    if (people.size() == 0) {
-      rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
-    } else if (people.size() == 1) {
-      final StringBuffer url = toGerrit(req);
-      url.append('#');
-      url.append(Link.toAccountDashboard(people.get(0).getId()));
-      rsp.sendRedirect(url.toString());
-    } else {
-      // TODO Someday this should be a menu of choices.
-      rsp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-    }
-    return true;
-  }
-
-  private static String cleanEmail(final String email) {
-    int dc = email.indexOf(",,");
-    if (dc >= 0) {
-      return email.substring(0, dc) + "@" + email.substring(dc + 2);
-    }
-
-    dc = email.indexOf(',');
-    if (dc >= 0) {
-      return email.substring(0, dc) + "@" + email.substring(dc + 1);
-    }
-    return email;
   }
 
   private static String pathInfo(final HttpServletRequest req) {

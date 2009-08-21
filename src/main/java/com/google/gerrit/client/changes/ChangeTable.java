@@ -171,7 +171,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
   }
 
   private void populateChangeRow(final int row, final ChangeInfo c) {
-    final String idstr = String.valueOf(c.getId().get());
+    final String idstr = c.getAbbreviatedKey();
     table.setWidget(row, C_ARROW, null);
     if (Gerrit.isSignedIn()) {
       setStar(row, c);

@@ -21,6 +21,7 @@ import java.sql.Timestamp;
 
 public class ChangeInfo {
   protected Change.Id id;
+  protected Change.Key key;
   protected Account.Id owner;
   protected String subject;
   protected Change.Status status;
@@ -35,6 +36,7 @@ public class ChangeInfo {
 
   public ChangeInfo(final Change c) {
     id = c.getId();
+    key = c.getKey();
     owner = c.getOwner();
     subject = c.getSubject();
     status = c.getStatus();
@@ -46,6 +48,15 @@ public class ChangeInfo {
 
   public Change.Id getId() {
     return id;
+  }
+
+  public Change.Key getKey() {
+    return key;
+  }
+
+  public String getAbbreviatedKey() {
+    final String s = key.get();
+    return s.substring(0, Math.min(s.length(), 9));
   }
 
   public Account.Id getOwner() {

@@ -302,8 +302,10 @@
 }
 
 .gerrit-ChangeTable .C_ID {
+  white-space: nowrap;
   width: 3.5em;
   text-align: right;
+  font-size: x-small;
 }
 
 .gerrit-ChangeTable .C_SUBJECT div {

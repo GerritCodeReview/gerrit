@@ -30,9 +30,7 @@ import com.google.gerrit.server.contact.ContactStoreProvider;
 import com.google.gerrit.server.openid.OpenIdModule;
 import com.google.gerrit.server.rpc.UiRpcModule;
 import com.google.gerrit.server.ssh.SshInfo;
-import com.google.gwtexpui.server.CacheControlFilter;
 import com.google.inject.Inject;
-import com.google.inject.Key;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 import com.google.inject.servlet.RequestScoped;
@@ -60,7 +58,6 @@ class WebModule extends FactoryModule {
       @Override
       protected void configureServlets() {
         filter("/*").through(RequestCleanupFilter.class);
-        filter("/*").through(UrlRewriteFilter.class);
       }
     });
 
@@ -87,22 +84,7 @@ class WebModule extends FactoryModule {
         throw new ProvisionException("Unsupported loginType: " + loginType);
     }
 
-    install(new ServletModule() {
-      @Override
-      protected void configureServlets() {
-        filter("/*").through(Key.get(CacheControlFilter.class));
-        bind(Key.get(CacheControlFilter.class)).in(SINGLETON);
-
-        serve("/").with(HostPageServlet.class);
-        serve("/Gerrit").with(LegacyGerritServlet.class);
-        serve("/cat/*").with(CatServlet.class);
-        serve("/logout").with(HttpLogoutServlet.class);
-        serve("/prettify/*").with(PrettifyServlet.class);
-        serve("/signout").with(HttpLogoutServlet.class);
-        serve("/ssh_info").with(SshServlet.class);
-        serve("/static/*").with(StaticServlet.class);
-      }
-    });
+    install(new UrlModule());
     install(new UiRpcModule());
     install(new GerritRequestModule());
 

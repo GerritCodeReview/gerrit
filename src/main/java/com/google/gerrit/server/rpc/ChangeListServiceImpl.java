@@ -301,7 +301,8 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
         for (final PatchSetApproval ca : db.patchSetApprovals().openByUser(id)) {
           openReviews.add(ca.getPatchSetId().getParentKey());
         }
-        for (final PatchSetApproval ca : db.patchSetApprovals().closedByUser(id)) {
+        for (final PatchSetApproval ca : db.patchSetApprovals()
+            .closedByUser(id)) {
           closedReviews.add(ca.getPatchSetId().getParentKey());
         }
 

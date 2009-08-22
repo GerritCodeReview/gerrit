@@ -55,7 +55,7 @@ $(DOC_HTML): %.html : %.txt $(SCRIPTSDIR)/toc.js
 	rm -f $@+ $@
 	$(ASCIIDOC) --unsafe \
 		-a toc -a 'revision=$(DOC_VERS)' \
-		-a scriptsdir=$(SCRIPTSDIR) \
+		-a 'scriptsdir=$(SCRIPTSDIR)' \
 		-b xhtml11 -f asciidoc.conf \
 		$(ASCIIDOC_EXTRA) -o $@+ $<
 	mv $@+ $@

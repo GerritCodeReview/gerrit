@@ -43,7 +43,7 @@ class SearchPanel extends Composite {
     setStyleName("gerrit-SearchPanel");
 
     searchBox = new NpTextBox();
-    searchBox.setVisibleLength(42);
+    searchBox.setVisibleLength(46);
     searchBox.setText(Gerrit.C.searchHint());
     searchBox.addStyleName("gerrit-InputFieldTypeHint");
     searchBox.addFocusHandler(new FocusHandler() {

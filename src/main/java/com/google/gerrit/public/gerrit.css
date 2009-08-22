@@ -302,9 +302,10 @@
 }
 
 .gerrit-ChangeTable .C_ID {
-  white-space: nowrap;
   width: 3.5em;
-  text-align: right;
+}
+.gerrit-ChangeTable .DataCell.C_ID {
+  font-family: monospace;
   font-size: x-small;
 }
 

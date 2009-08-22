@@ -863,12 +863,12 @@ final class Receive extends AbstractGitCommand {
     }
   }
 
-  private void doReplace(final ReplaceRequest request) throws IOException,
-      OrmException {
+  private PatchSet.Id doReplace(final ReplaceRequest request)
+      throws IOException, OrmException {
     final RevCommit c = request.newCommit;
     rp.getRevWalk().parseBody(c);
     if (!validCommitter(request.cmd, c)) {
-      return;
+      return null;
     }
 
     final Account.Id me = currentUser.getAccountId();
@@ -1080,6 +1080,7 @@ final class Receive extends AbstractGitCommand {
       }
     }
     sendMergedEmail(result);
+    return result != null ? result.info.getKey() : null;
   }
 
   private void insertDummyApproval(final ReplaceResult result,
@@ -1245,12 +1246,35 @@ final class Receive extends AbstractGitCommand {
         rw.markUninteresting(rw.parseCommit(cmd.getOldId()));
       }
 
-      final Map<ObjectId, Ref> changes = changeRefsById();
+      final Map<ObjectId, Ref> byCommit = changeRefsById();
+      final Map<Change.Key, Change.Id> byKey = openChangesByKey();
+      final List<ReplaceRequest> toClose = new ArrayList<ReplaceRequest>();
       RevCommit c;
       while ((c = rw.next()) != null) {
-        Ref r = changes.get(c.copy());
-        if (r != null) {
-          closeChange(cmd, PatchSet.Id.fromRef(r.getName()));
+        final Ref ref = byCommit.get(c.copy());
+        if (ref != null) {
+          closeChange(cmd, PatchSet.Id.fromRef(ref.getName()));
+          continue;
+        }
+
+        rw.parseBody(c);
+        for (final String changeId : c.getFooterLines(CHANGE_ID)) {
+          final Change.Id onto = byKey.get(new Change.Key(changeId));
+          if (onto != null) {
+            toClose.add(new ReplaceRequest(onto, c, cmd));
+            break;
+          }
+        }
+      }
+
+      for (final ReplaceRequest req : toClose) {
+        final PatchSet.Id psi = doReplace(req);
+        if (psi != null) {
+          closeChange(req.cmd, psi);
+        } else {
+          log.warn("Replacement of Change-Id " + req.ontoChange
+              + " with commit " + req.newCommit.name()
+              + " did not import the new patch set.");
         }
       }
     } catch (IOException e) {
@@ -1305,6 +1329,14 @@ final class Receive extends AbstractGitCommand {
       }
     }
     return refsById;
+  }
+
+  private Map<Change.Key, Change.Id> openChangesByKey() throws OrmException {
+    final Map<Change.Key, Change.Id> r = new HashMap<Change.Key, Change.Id>();
+    for (Change c : db.changes().byProjectOpenAll(proj.getNameKey())) {
+      r.put(c.getKey(), c.getId());
+    }
+    return r;
   }
 
   private void markChangeMergedByPush(final ReviewDb db, final Transaction txn,

@@ -70,6 +70,7 @@ import org.spearce.jgit.revwalk.FooterKey;
 import org.spearce.jgit.revwalk.FooterLine;
 import org.spearce.jgit.revwalk.RevCommit;
 import org.spearce.jgit.revwalk.RevFlag;
+import org.spearce.jgit.revwalk.RevFlagSet;
 import org.spearce.jgit.revwalk.RevObject;
 import org.spearce.jgit.revwalk.RevSort;
 import org.spearce.jgit.revwalk.RevTag;
@@ -541,36 +542,41 @@ final class Receive extends AbstractGitCommand {
     //
     try {
       final RevWalk walk = rp.getRevWalk();
-      final RevFlag CONNECTED = walk.newFlag("CONNECTED");
-      walk.carry(CONNECTED);
+
+      final RevFlag SIDE_NEW = walk.newFlag("NEW");
+      final RevFlag SIDE_HAVE = walk.newFlag("HAVE");
+      final RevFlagSet COMMON = new RevFlagSet();
+      COMMON.add(SIDE_NEW);
+      COMMON.add(SIDE_HAVE);
+      walk.carry(COMMON);
+
       walk.reset();
       walk.sort(RevSort.TOPO);
       walk.sort(RevSort.REVERSE, true);
 
       final RevCommit tip = walk.parseCommit(newChange.getNewId());
-      tip.add(CONNECTED);
+      tip.add(SIDE_NEW);
       walk.markStart(tip);
 
-      final List<RevCommit> heads = new ArrayList<RevCommit>();
+      boolean haveHeads = false;
       for (final Ref r : rp.getAdvertisedRefs().values()) {
         if (isHead(r) || isTag(r)) {
           try {
             final RevCommit h = walk.parseCommit(r.getObjectId());
-            walk.markUninteresting(h);
-            heads.add(h);
+            h.add(SIDE_HAVE);
+            walk.markStart(h);
+            haveHeads = true;
           } catch (IOException e) {
             continue;
           }
         }
       }
 
-      if (!heads.isEmpty()) {
-        while (walk.next() != null) {
-          /* nothing, just pump the RevWalk until its done */
-        }
+      if (haveHeads) {
         boolean isConnected = false;
-        for (final RevCommit c : heads) {
-          if (c.has(CONNECTED)) {
+        RevCommit c;
+        while ((c = walk.next()) != null) {
+          if (c.hasAll(COMMON)) {
             isConnected = true;
             break;
           }

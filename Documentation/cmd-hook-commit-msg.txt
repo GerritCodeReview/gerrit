@@ -10,13 +10,13 @@ DESCRIPTION
 
 A Git hook automatically invoked by `git commit`, and most other
 commit creation tools such as `git citool` or `git gui`.  The Gerrit
-Code Review implementation of this hook is a short shell script
-which automatically inserts a globally unique `Change-Id` tag in
-the footer of a commit message, providing Gerrit with a way to
-track commits across rebases.
+Code Review supplied implementation of this hook is a short shell
+script which automatically inserts a globally unique `Change-Id`
+tag in the footer of a commit message.  When present, Gerrit uses
+this tag to track commits across cherry-picks and rebases.
 
-Once installed in the user's local Git repository for a project,
-the hook will rewrite a commit message such as:
+After the hook has been installed in the user's local Git repository
+for a project, the hook will modify a commit message such as:
 
 ====
   Improve foo widget by attaching a bar.
@@ -27,7 +27,7 @@ the hook will rewrite a commit message such as:
   Signed-off-by: A. U. Thor <author@example.com>
 ====
 
-into the following message:
+by inserting a new `Change-Id: ` line in the footer:
 
 ====
   Improve foo widget by attaching a bar.
@@ -39,11 +39,17 @@ into the following message:
   Signed-off-by: A. U. Thor <author@example.com>
 ====
 
-The hook is reasonably intelligent at inserting the Change-Id line
-before any Signed-off-by or Acked-by lines placed at the end of
-the commit message by the author, but if no such lines are present
-then it will just insert a blank line, and add the Change-Id at
-the bottom of the message.
+The hook implementation is reasonably intelligent at inserting the
+Change-Id line before any Signed-off-by or Acked-by lines placed
+at the end of the commit message by the author, but if no such
+lines are present then it will just insert a blank line, and add
+the Change-Id at the bottom of the message.
+
+If a Change-Id line is already present in the message footer, the
+script will do nothing, leaving the existing Change-Id unmodified.
+This permits amending an existing commit, or allows the user to
+insert the Change-Id manually after copying it from an existing
+change viewed on the web.
 
 OBTAINING
 ---------

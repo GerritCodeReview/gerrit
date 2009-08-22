@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAhH///9w\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/http/UrlRewriteFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1002500
+      },
+      "writtenOn": "2009-08-22T13:55:31Z",
+      "side": 1,
+      "message": "Should @Inject stay here if the constructor doesn\u0027t expect any parameters anymore?",
+      "revId": "21344820d5b40b41c6ea540ff3390f3cd2290f1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

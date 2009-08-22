@@ -74,7 +74,7 @@ In the keys below, the <name> portion is unused by Gerrit, but must be
 unique to distinguish the different sections if more than one remote
 section appears in the file.
 
-remote.<name>.url::
+[[remote.name.url]]remote.<name>.url::
 +
 Address of the remote server to push to.  Multiple URLs may
 be specified within a single remote block, listing different
@@ -89,21 +89,21 @@ to the otherwise standard Git URL syntax.
 See link:http://www.kernel.org/pub/software/scm/git/docs/git-push.html#URLS[GIT URLS]
 for details on Git URL syntax.
 
-remote.<name>.receivepack::
+[[remote.name.receivepack]]remote.<name>.receivepack::
 +
 Path of the `git-receive-pack` executable on the remote system, if
 using the SSH transport.
 +
 Defaults to `git-receive-pack`.
 
-remote.<name>.uploadpack::
+[[remote.name.uploadpack]]remote.<name>.uploadpack::
 +
 Path of the `git-upload-pack` executable on the remote system, if
 using the SSH transport.
 +
 Defaults to `git-upload-pack`.
 
-remote.<name>.push::
+[[remote.name.push]]remote.<name>.push::
 +
 Standard Git refspec denoting what should be replicated.  Setting this
 to `+refs/heads/\*:refs/heads/\*` would mirror only the active
@@ -117,7 +117,7 @@ but excludes all others, including `refs/changes/*`.
 +
 Defaults to `+refs/\*:refs/*` (all refs) if not specified.
 
-remote.<name>.timeout::
+[[remote.name.timeout]]remote.<name>.timeout::
 +
 Number of seconds to wait for a network read or write to complete
 before giving up and declaring the remote side is not responding.
@@ -130,7 +130,7 @@ reasonable timeout value.
 +
 Defaults to 0 seconds, wait indefinitely.
 
-remote.<name>.replicationDelay::
+[[remote.name.replicationDelay]]remote.<name>.replicationDelay::
 +
 Number of seconds to wait before scheduling a remote push operation.
 Setting the delay to 0 effectively disables the delay, causing the
@@ -140,7 +140,7 @@ This is a Gerrit specific extension to the Git remote block.
 +
 By default, 15 seconds.
 
-remote.<name>.threads::
+[[remote.name.threads]]remote.<name>.threads::
 +
 Number of worker threads to dedicate to pushing to the repositories
 described by this remote.  Each thread can push one project at a

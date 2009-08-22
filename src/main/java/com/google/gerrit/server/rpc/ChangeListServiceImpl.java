@@ -210,7 +210,10 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
     if (query.matches("^[1-9][0-9]*$")) {
       want.add(Change.Id.parse(query));
 
-    } else if (query.matches("^I[0-9a-f]{4,}.*$")) {
+    } else if (query.matches("^[iI][0-9a-f]{4,}.*$")) {
+      if (query.startsWith("i")) {
+        query = "I" + query.substring(1);
+      }
       final Change.Key a = new Change.Key(query);
       final Change.Key b = a.max();
       filterBySortKey(result, db.changes().byKeyRange(a, b), cmp, key);

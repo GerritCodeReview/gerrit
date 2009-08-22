@@ -268,26 +268,6 @@ make undesired changes to the public repository.
 Gritty Details
 --------------
 
-Gerrit requires that the tuple `('username', 'public_key')`
-be unique.  When it gets a login request it scans all accounts
-whose SSH Username matches the name requested by the client, to
-see if any of them have the public key presented by the client.
-
-What this means is, say there's "john.doe@example.com" (me) and
-"john.doe@evil.com" (someone else - not me).  Gerrit will consider
-both accounts' public keys when I login, but only binds the session
-to the account whose key was presented.  If multiple accounts match
-the same key and same username, it denies the login.
-
-Given that most local names will be unique across a single Gerrit
-server, that means in practice most people will only be considering
-their own keys.  Since SSH keys (in theory) are globally unique,
-even if two people have the same local name, they still can't access
-each other's accounts.  But, if two people both used Debian's broken
-ssh-keygen and they have the same local name, they effectively lock
-each other out of Gerrit until one (or both) changes their key(s)
-to a more secure one.
-
 As Gerrit implements the entire SSH and Git server stack within its
 own process space, Gerrit maintains complete control over how the
 repository is updated, and what responses are sent to the `git push`

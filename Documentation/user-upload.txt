@@ -1,36 +1,36 @@
 Gerrit2 - Uploading Changes
 ===========================
 
-Gerrit supports three methods of uploading changes for review:
+Gerrit supports three methods of uploading changes:
 
 * Use `repo upload`, to create changes for review
 * Use `git push`, to create changes for review
 * Use `git push`, and bypass code review
 
-All three methods use SSH public key authentication, which must
+All three methods rely on SSH public key authentication, which must
 first be configured by the uploading user.
 
-SSH Authentication
-------------------
+SSH
+---
 
-Each user uploading changes to Gerrit must configure one
-or more SSH public keys.  The per-user SSH key list can be
-accessed over the web within Gerrit by `Settings` (or by visting
-`http://'hostname'/settings`) then accessing the `SSH Keys` tab.
+Each user uploading changes to Gerrit must configure one or more SSH
+public keys.  The per-user SSH key list can be accessed over the web
+within Gerrit by `Settings`, and then accessing the `SSH Keys` tab.
 
-To register a new SSH key for use with Gerrit, paste the contents
-of your `id_rsa.pub` or `id_dsa.pub` file into the text box and
-click the add button.
+[[configure_ssh]]
+Configuration
+~~~~~~~~~~~~~
 
-[NOTE]
-Gerrit only understands SSH version 2 public keys.  Keys may be
-supplied in either the OpenSSH format (key starts with `ssh-rsa`
-or `ssh-dss`) or the RFC 4716 format (file starts with `---- BEGIN
-SSH2 PUBLIC KEY ----`).
+To register a new SSH key for use with Gerrit, paste the contents of
+your `id_rsa.pub` or `id_dsa.pub` file into the text box and click
+the add button.  Gerrit only understands SSH version 2 public keys.
+Keys may be supplied in either the OpenSSH format (key starts with
+`ssh-rsa` or `ssh-dss`) or the RFC 4716 format (file starts with
+`---- BEGIN SSH2 PUBLIC KEY ----`).
 
-Typically your SSH keys are stored in your home directory, under
-`~/.ssh`.  If you don't have any keys yet, you can create a new
-one and protect it with a passphrase:
+Typically SSH keys are stored in your home directory, under `~/.ssh`.
+If you don't have any keys yet, you can create a new one and protect
+it with a passphrase:
 
 ====
   ssh-keygen -t rsa
@@ -44,15 +44,16 @@ and paste it into Gerrit's web interface:
 ====
 
 [TIP]
-Users who frequently use Gerrit to upload changes will also want
-to consider starting a `ssh-agent`, and adding their key to the
-list managed by the agent, to reduce the frequency of entering the
+Users who frequently upload changes will also want to consider
+starting a `ssh-agent`, and adding their private key to the list
+managed by the agent, to reduce the frequency of entering the
 key's passphrase.  Consult `man ssh-agent`, or your SSH client's
 documentation, for more details on configuration of the agent
 process and how to add the private key.
 
-[[test_ssh]]Testing Your SSH Connection
----------------------------------------
+[[test_ssh]]
+Testing Connections
+~~~~~~~~~~~~~~~~~~~
 
 To verify your SSH key is working correctly, try using an SSH client
 to connect to Gerrit's SSHD port.  By default Gerrit is running on
@@ -77,35 +78,19 @@ number from the second field:
   hostname 29418
 ====
 
-[TIP]
 If you are developing an automated tool to perform uploads to Gerrit,
 let the user supply the hostname or the web address for Gerrit,
 and obtain the port number on the fly from the `/ssh_info` URL.
 The returned output from this URL is always `'hostname' SP 'port'`,
-or `NOT_AVAILABLE` if the SSHD server isn't running.
+or `NOT_AVAILABLE` if the SSHD server is not currently running.
 
 
-repo upload: Create Changes
----------------------------
+git push
+--------
 
-To upload changes to a project using `repo`, ensure the manifest's
-review field has been configured to point to the Gerrit server.
-Only the hostname or the web address needs to be given in the
-manifest file. During upload `repo` will automatically determine the
-correct port number by reading `http://'reviewhostname'/ssh_info`
-when its invoked.
-
-Each new commit uploaded by `repo upload` will be converted into
-a change record on the server.  Other users (e.g. project owners)
-who have configured Gerrit to notify them of new changes will be
-automatically sent an email message.  Additional notifications can
-be sent through command line options.
-
-For more details on using `repo upload`, see `repo help upload`.
-
-
-[[push_create]]git push: Create Changes
----------------------------------------
+[[push_create]]
+Create Changes
+~~~~~~~~~~~~~~
 
 To create new changes for review, simply push into the project's
 magical `refs/for/'branch'` ref using any Git client tool:
@@ -177,8 +162,38 @@ branches, consider adding a custom remote block to your project's
 ====
 
 
-git push: Replace Changes
--------------------------
+[[push_replace]]
+Replace Changes
+~~~~~~~~~~~~~~~
+
+To add an additional patch set to a change, ensure Change-Id
+lines were created in the original commit messages, and just use
+`git push URL HEAD:refs/for/...` as <<push_create,described above>>.
+Gerrit Code Review will automatically match the commits back to
+their original changes by taking advantage of the Change-Id lines.
+
+If Change-Id lines are not present in the commit messages, consider
+amending the message and copying the line from the change's page
+on the web, and then using `git push` as described above.
+
+If Change-Id lines are not available, then the user must use the
+manual mapping technique described below.
+
+For more about Change-Ids, see link:user-changeid.html[Change-Id Lines].
+
+Manual Replacment Mapping
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.Deprecation Warning
+****
+The remainder of this section describes a manual method of replacing
+changes by matching each commit name to an existing change number.
+End-users should instead prefer to use Change-Id lines in their
+commit messages, as the process is then fully automated by Gerrit
+during normal uploads.
+
+See above for the preferred technique of replacing changes.
+****
 
 To add an additional patch set to a change, replacing it with an
 updated version of the same logical modification, send the new
@@ -225,8 +240,8 @@ won't do anything with it.  For this reason it is a good idea to
 always include the create change refspec when uploading replacements.
 
 
-git push: Bypass Review
------------------------
+Bypass Review
+~~~~~~~~~~~~~
 
 Changes (and annotated tags) can be pushed directly into a
 repository, bypassing the review process.  This is primarily useful
@@ -263,6 +278,52 @@ Project owners may wish to grant themselves `Push Annotated Tag`
 only at times when a new release is being prepared, and otherwise
 grant nothing at all.  This ensures that accidental pushes don't
 make undesired changes to the public repository.
+
+
+repo upload
+-----------
+
+repo is a multiple repository management tool, most commonly
+used by the Android Open Source Project.  For more details, see
+link:http://source.android.com/download/using-repo[using repo].
+
+[[repo_create]]
+Create Changes
+~~~~~~~~~~~~~~
+
+To upload changes to a project using `repo`, ensure the manifest's
+review field has been configured to point to the Gerrit server.
+Only the hostname or the web address needs to be given in the
+manifest file. During upload `repo` will automatically determine the
+correct port number by reading `http://'reviewhostname'/ssh_info`
+when its invoked.
+
+Each new commit uploaded by `repo upload` will be converted into
+a change record on the server.  Other users (e.g. project owners)
+who have configured Gerrit to notify them of new changes will be
+automatically sent an email message.  Additional notifications can
+be sent through command line options.
+
+For more details on using `repo upload`, see `repo help upload`.
+
+[[repo_replace]]
+Replace Changes
+~~~~~~~~~~~~~~~
+
+To replace changes, ensure Change-Id lines were created in the
+commit messages, and just use `repo upload` without the `\--replace`
+command line flag.  Gerrit Code Review will automatically match
+the commits back to their original changes by taking advantage of
+their Change-Id lines.
+
+If Change-Id lines are not present in the commit messages, consider
+amending the message and copying the line from the change's page
+on the web.
+
+If Change-Id lines are not available, then the user must use the much
+more manual mapping technique offered by `repo upload \--replace`.
+
+For more about Change-Ids, see link:user-changeid.html[Change-Id Lines].
 
 
 Gritty Details

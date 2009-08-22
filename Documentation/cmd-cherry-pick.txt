@@ -28,6 +28,11 @@ Change ids may be specified as either the change id (e.g. 1234)
 or as change id slash patch set number (e.g. 1234/8).  If the patch
 set number is not supplied, `/1` is assumed.
 
+The `\--close` command line option is now deprecated, as closing
+existing changes post cherry-pick is better handled simply by
+ensuring link:user-changeid.html[Change-Id lines] are present in
+each commit message.
+
 OBTAINING
 ---------
 To obtain the 'gerrit-cherry-pick' script use scp to copy it to

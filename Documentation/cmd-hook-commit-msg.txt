@@ -11,25 +11,25 @@ DESCRIPTION
 A Git hook automatically invoked by `git commit`, and most other
 commit creation tools such as `git citool` or `git gui`.  The Gerrit
 Code Review supplied implementation of this hook is a short shell
-script which automatically inserts a globally unique `Change-Id`
-tag in the footer of a commit message.  When present, Gerrit uses
-this tag to track commits across cherry-picks and rebases.
+script which automatically inserts a globally unique Change-Id tag
+in the footer of a commit message.  When present, Gerrit uses this
+tag to track commits across cherry-picks and rebases.
 
 After the hook has been installed in the user's local Git repository
 for a project, the hook will modify a commit message such as:
 
-====
+----
   Improve foo widget by attaching a bar.
 
   We want a bar, because it improves the foo by providing more
   wizbangery to the dowhatimeanery.
 
   Signed-off-by: A. U. Thor <author@example.com>
-====
+----
 
 by inserting a new `Change-Id: ` line in the footer:
 
-====
+----
   Improve foo widget by attaching a bar.
 
   We want a bar, because it improves the foo by providing more
@@ -37,7 +37,7 @@ by inserting a new `Change-Id: ` line in the footer:
 
   Change-Id: Ic8aaa0728a43936cd4c6e1ed590e01ba8f0fbf5b
   Signed-off-by: A. U. Thor <author@example.com>
-====
+----
 
 The hook implementation is reasonably intelligent at inserting the
 Change-Id line before any Signed-off-by or Acked-by lines placed
@@ -57,6 +57,31 @@ To obtain the 'commit-msg' script use scp to copy it to your
 local system:
 
   $ scp -P 29418 review.example.com:hooks/commit-msg .git/hooks
+
+SEE ALSO
+--------
+
+* link:user-changeid.html[Change-Id Lines]
+* link:http://www.kernel.org/pub/software/scm/git/docs/git-commit.html[git-commit(1)]
+* link:http://www.kernel.org/pub/software/scm/git/docs/githooks.html[githooks(5)]
+
+IMPLEMENTATION
+--------------
+
+The hook generates unique Change-Id lines by creating a virtual
+commit object within the local Git repository, and obtaining the
+SHA-1 hash from it.  Like any other Git commit, the following
+properties are included in the computation:
+
+* SHA-1 of the tree being committed
+* SHA-1 of the parent commit
+* Name, email address, timestamp of the author
+* Name, email address, timestamp of the committer
+* Proposed commit message (before Change-Id was inserted)
+
+Because the names of the tree and parent commit, as well as the
+committer timestamp are included in the hash computation, the output
+Change-Id is sufficiently unique.
 
 GERRIT
 ------

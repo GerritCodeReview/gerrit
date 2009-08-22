@@ -156,19 +156,6 @@ in any other project's `Access` administration tab.
 Per-Project
 ~~~~~~~~~~~
 
-Every project has a group designated as its owner.  Users who are
-members of the owner group can:
-
-* Change the project description
-* Change the owner of the project to another group
-* Create/delete a branch through the web UI (not SSH)
-* Grant/revoke access rights
-
-Note that project owners implicitly have branch creation or deletion
-through the web UI, but not through SSH.  To get SSH access project
-owners must grant an access right to their own group, just like
-for any other user.
-
 The per-project ACL is evaluated before the global
 `\-- All Projects \--` ACL, permitting some limited override
 capability to project owners.  This behavior is generally only
@@ -182,6 +169,22 @@ Categories
 Gerrit comes pre-configured with several default categories that
 can be granted to groups within projects, enabling functionality
 for that group's members.
+
+[[category_OWN]]
+Owner
+~~~~~
+
+The `Owner` category controls which groups can modify the project's
+configuration.  Users who are members of an owner group can:
+
+* Change the project description
+* Create/delete a branch through the web UI (not SSH)
+* Grant/revoke any access rights, including `Owner`
+
+Note that project owners implicitly have branch creation or deletion
+through the web UI, but not through SSH.  To get SSH branch access
+project owners must grant an access right to a group they are a
+member of, just like for any other user.
 
 [[category_READ]]
 Read Access
@@ -448,8 +451,8 @@ Ensure `category_id` is unique within your `approval_categories`
 table.  The default values `VRIF` and `CVRF` used for the categories
 described above are simply that, defaults, and have no special
 meaning to Gerrit.  The other standard category_id values like
-`READ`, `SUBM`, `pTAG` and `pHD` have special meaning and should
-not be modified or reused.
+`OWN`, `READ`, `SUBM`, `pTAG` and `pHD` have special meaning and
+should not be modified or reused.
 
 The `position` column of `approval_categories` controls which column
 of the 'Approvals' table the category appears in, providing some

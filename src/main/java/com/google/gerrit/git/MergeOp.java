@@ -107,6 +107,7 @@ public class MergeOp {
   private static final ApprovalCategory.Id VRIF =
       new ApprovalCategory.Id("VRIF");
   private static final FooterKey REVIEWED_ON = new FooterKey("Reviewed-on");
+  private static final FooterKey CHANGE_ID = new FooterKey("Change-Id");
 
   private final GerritServer server;
   private final SchemaFactory<ReviewDb> schemaFactory;
@@ -304,6 +305,7 @@ public class MergeOp {
       } catch (IOException e) {
         throw new MergeException("Invalid issue commit " + id, e);
       }
+      commit.changeKey = chg.getKey();
       commit.patchsetId = ps.getId();
       commit.originalOrder = commitOrder++;
 
@@ -586,6 +588,13 @@ public class MergeOp {
       // Doesn't end in a "Signed-off-by: ..." style line? Add another line
       // break to start a new paragraph for the reviewed-by tag lines.
       //
+      msgbuf.append('\n');
+    }
+
+    if (!contains(footers, CHANGE_ID, n.changeKey.get())) {
+      msgbuf.append(CHANGE_ID.getName());
+      msgbuf.append(": ");
+      msgbuf.append(n.changeKey.get());
       msgbuf.append('\n');
     }
 

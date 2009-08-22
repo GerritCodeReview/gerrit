@@ -14,6 +14,7 @@
 
 package com.google.gerrit.git;
 
+import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.PatchSet;
 
 import org.spearce.jgit.lib.AnyObjectId;
@@ -32,6 +33,9 @@ class CodeReviewCommit extends RevCommit {
    * queue will keep this member null.
    */
   PatchSet.Id patchsetId;
+
+  /** Unique key of the change itself. */
+  Change.Key changeKey;
 
   /**
    * Ordinal position of this commit within the submit queue.

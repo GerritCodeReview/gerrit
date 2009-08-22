@@ -120,7 +120,7 @@ XHTML document file.
 The global function `gerrit_addHistoryHook` accepts functions that
 accept a string parameter.  These functions are put into a list and
 invoked any time Gerrit shifts URLs.  You'll see page names like
-`/Gerrit#change,123` be passed to these functions, which in turn
+`/#change,123` be passed to these functions, which in turn
 are handed off to Google Analytics for tracking.  Our example hook
 above replaces '#' with '/' because Analytics won't track anchors.
 

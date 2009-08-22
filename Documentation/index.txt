@@ -4,15 +4,11 @@ Gerrit Code Review for Git
 User Guide
 ----------
 
+* link:http://source.android.com/submit-patches/workflow[Default Workflow]
 * link:cmd-index.html[Command Line Tools]
 * link:user-upload.html[Uploading Changes]
 * link:user-signedoffby.html[Signed-off-by Lines]
 * link:access-control.html[Access Controls]
-
-Features
---------
-
-* link:http://source.android.com/submit-patches/workflow[Default Workflow]
 
 Installation
 ------------

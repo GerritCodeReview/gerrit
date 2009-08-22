@@ -1,34 +1,39 @@
 Gerrit2 - Command Line Tools
 ============================
 
-Client Commands
----------------
+Client
+------
 
-Client commands can be downloaded via scp, and then executed on
-the client system.
+Client commands and hooks can be downloaded via scp from Gerrit's
+SSH daemon, and then executed on the client system.
+
+To download a client command or hook, use scp:
+
+  $ scp -P 29418 review.example.com:bin/gerrit-cherry-pick ~/bin
+  $ scp -P 29418 review.example.com:hooks/commit-msg .git/hooks
+
+For more details on how to determine the correct SSH port number,
+see link:user-upload.html#test_ssh[Testing Your SSH Connection].
+
+[[client_commands]]Commands
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 link:cmd-cherry-pick.html[gerrit-cherry-pick]::
   Download and cherry-pick one or more changes (commits).
 
-To download a client command, use scp:
+[[client_hooks]]Hooks
+~~~~~~~~~~~~~~~~~~~~~
 
-  $ scp -P 29418 review.example.com:bin/gerrit-cherry-pick ~/bin
-
-Client Hooks
-------------
-
-Client hooks can be downloaded via scp, and installed into a local
-Git repository.
+Client hooks can be installed into a local Git repository, improving
+the developer experience when working with a Gerrit Code Review
+server.
 
 link:cmd-hook-commit-msg.html[commit-msg]::
   Automatically generate `Change-Id: ` tags in commit messages.
 
-To download a client hook, use scp:
 
-  $ scp -P 29418 review.example.com:hooks/commit-msg .git/hooks
-
-Executing Commands
-------------------
+Server
+------
 
 Aside from the standard Git server side actions, Gerrit supports
 several other commands over its internal SSH daemon.  As Gerrit does
@@ -40,8 +45,8 @@ from an ssh client, for example:
 For more details on how to determine the correct SSH port number,
 see link:user-upload.html#test_ssh[Testing Your SSH Connection].
 
-User Commands
--------------
+[[user_commands]]User Commands
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 git upload-pack::
 	Standard Git server side command for client side `git fetch`.
@@ -58,8 +63,8 @@ link:cmd-ls-projects.html[gerrit ls-projects]::
 gerrit receive-pack::
 	Legacy alias for `git receive-pack`.
 
-Adminstrator Commands
----------------------
+[[admin_commands]]Adminstrator Commands
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 link:cmd-create-project.html[gerrit create-project]::
 	Create a new project and associated Git repository.

@@ -258,7 +258,8 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
     int spans[] = new int[column + 1];
     OUTER: while (row < table.getRowCount()) {
       int col = 0;
-      for (int cell = 0; cell < table.getCellCount(row); cell++) {
+      for (int cell = 0; row < table.getRowCount()
+          && cell < table.getCellCount(row); cell++) {
         while (col < column && 0 < spans[col]) {
           spans[col++]--;
         }

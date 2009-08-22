@@ -1,5 +1,5 @@
-Gerrit2 - Command Line Tool
-===========================
+Gerrit2 - Command Line Tools
+============================
 
 Client Commands
 ---------------

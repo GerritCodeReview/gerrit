@@ -54,11 +54,6 @@ public class ChangeInfo {
     return key;
   }
 
-  public String getAbbreviatedKey() {
-    final String s = key.get();
-    return s.substring(0, Math.min(s.length(), 9));
-  }
-
   public Account.Id getOwner() {
     return owner;
   }

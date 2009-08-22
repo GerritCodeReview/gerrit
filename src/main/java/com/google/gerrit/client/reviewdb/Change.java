@@ -163,6 +163,12 @@ public final class Change {
       return new Key(revEnd.toString());
     }
 
+    /** Obtain a shorter version of this key string, using a leading prefix. */
+    public String abbreviate() {
+      final String s = get();
+      return s.substring(0, Math.min(s.length(), 9));
+    }
+
     /** Parse a Change.Key out of a string representation. */
     public static Key parse(final String str) {
       final Key r = new Key();

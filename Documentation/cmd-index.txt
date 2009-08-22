@@ -14,6 +14,18 @@ To download a client command, use scp:
 
   $ scp -P 29418 review.example.com:bin/gerrit-cherry-pick ~/bin
 
+Client Hooks
+------------
+
+Client hooks can be downloaded via scp, and installed into a local
+Git repository.
+
+link:cmd-hook-commit-msg.html[commit-msg]::
+  Automatically generate `Change-Id: ` tags in commit messages.
+
+To download a client hook, use scp:
+
+  $ scp -P 29418 review.example.com:hooks/commit-msg .git/hooks
 
 Executing Commands
 ------------------

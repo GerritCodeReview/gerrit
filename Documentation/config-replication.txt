@@ -117,7 +117,7 @@ but excludes all others, including `refs/changes/*`.
 +
 Defaults to `+refs/\*:refs/*` (all refs) if not specified.
 
-remote.<name>.timeout:
+remote.<name>.timeout::
 +
 Number of seconds to wait for a network read or write to complete
 before giving up and declaring the remote side is not responding.

@@ -22,10 +22,12 @@
  */
 package com.google.gerrit.server.ssh.commands;
 
+import com.google.gerrit.pgm.Version;
 import com.google.gerrit.server.ssh.BaseCommand;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.spearce.jgit.util.RawParseUtils;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -235,9 +237,26 @@ final class ScpCommand extends BaseCommand {
   }
 
   private void readFile(final Entry ent) throws IOException {
-    final byte[] data = read(ent.path);
+    byte[] data = read(ent.path);
     if (data == null) {
       throw new FileNotFoundException(ent.path);
+    }
+
+    if (data.length > 3 && data[0] == '#' && data[1] == '!' && data[2] == '/') {
+      // Embed Gerrit's version number into the top of the script.
+      //
+      final String version = Version.getVersion();
+      final int lf = RawParseUtils.nextLF(data, 0);
+      if (version != null && lf < data.length) {
+        final byte[] versionHeader =
+            ("# From Gerrit Code Review " + version + "\n").getBytes("UTF-8");
+        final ByteArrayOutputStream buf;
+        buf = new ByteArrayOutputStream(data.length + versionHeader.length);
+        buf.write(data, 0, lf);
+        buf.write(versionHeader);
+        buf.write(data, lf, data.length - lf);
+        data = buf.toByteArray();
+      }
     }
 
     header(ent, data.length);

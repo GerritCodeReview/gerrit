@@ -1,0 +1,225 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAh3////A\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/ApproveCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-24T15:54:14Z",
+      "side": 1,
+      "message": "Given how ambiguous the inner class name \"Id\" can be I prefer to always specify the class name here, so \"PatchSet.Id\".",
+      "revId": "7573a33739934eb13f535adcc0aef58738ca14eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAh3///+o\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/ApproveCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-24T15:54:14Z",
+      "side": 1,
+      "message": "We should ensure the user can actually see this change.  Best way to do that is to:\n\n  @Inject\n  private ChangeControlFactory changeControlFactory;\n\n  final ChangeControl control \u003d changeControlFactory.validateFor(cid);\n  final Change c \u003d control.getChange();\n\nIf you reach this point, you have been promised two things:\n\n* The change exists in the database.\n* The user can actually see this change.\n\nIf one of those were to fail, an exception would be thrown, tossing you out of here and having the caller send a message back to the client.",
+      "revId": "7573a33739934eb13f535adcc0aef58738ca14eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAh3///+k\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/ApproveCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-24T15:54:14Z",
+      "side": 1,
+      "message": "If you use the changeControlFactory above, you won\u0027t need this test.",
+      "revId": "7573a33739934eb13f535adcc0aef58738ca14eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAh3///+c\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/ApproveCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-24T15:54:14Z",
+      "side": 1,
+      "message": "We need to validate that the user is permitted to use this value within this category on this change.  If they are not permitted to do that, we would automatically fix it in the web display code later on, but the ChangeMessage object would have a misleading first line saying the user performed something they weren\u0027t actually permitted to do.\n\nUnfortunately this validation code is some of the really old code in Gerrit 2, and is just a mess.  I think the shortest code you can use to accomplish this is something like:\n\n  @Inject\n  private FunctionState.Factory functionStateFactory;\n\n  final FunctionState fs \u003d fuctionStateFactory.create(c, patchSetId, Collections.emptyList());\n\n  fs.normalize(approvalTypes.getApprovalType(psa.getCategoryId()), psa);\n\nWhen normalize returns, psa.getValue() might be changed to be the minimum or maximum value the user is permitted to apply.  If ps.getValue() does not equal co.value(), I guess we have a choice, we could error out and tell the user they aren\u0027t permitted to use that approval, or we could continue with the normalized value.  I think we should prefer to error out, its easier to catch a misconfiguration of a build bot user account that way.",
+      "revId": "7573a33739934eb13f535adcc0aef58738ca14eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAh3///+8\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/ApproveCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-24T15:54:14Z",
+      "side": 1,
+      "message": "\\n here is not necessary.",
+      "revId": "7573a33739934eb13f535adcc0aef58738ca14eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAh3///+4\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/ApproveCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-24T15:54:14Z",
+      "side": 1,
+      "message": "\\n here is not necessary.",
+      "revId": "7573a33739934eb13f535adcc0aef58738ca14eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAh3///+w\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/ApproveCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-24T15:54:14Z",
+      "side": 1,
+      "message": "What are we catching here that we didn\u0027t catch above?\n\nNote that our caller already is catching Throwable, and sends an internal error message to the client, and a stack trace to the server log.  So we only need to be catching checked exceptions which we want to handle specially.  Given that we really aren\u0027t doing anything interesting in the above two catch blocks either, I wonder if we shouldn\u0027t just allow it all to be thrown up to the caller, the method is declared as \"throws Exception\".",
+      "revId": "7573a33739934eb13f535adcc0aef58738ca14eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAh3///+s\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/ApproveCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-24T15:54:14Z",
+      "side": 1,
+      "message": "This test is not necessary and should be removed.\n\nThe only ApprovalCategory objects which you are looping over are the ones that appear on the web, and which the user can select values from.",
+      "revId": "7573a33739934eb13f535adcc0aef58738ca14eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAh3////Y\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/CmdOption.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-24T15:54:14Z",
+      "side": 1,
+      "message": "Missing AOSP copyright header.",
+      "revId": "7573a33739934eb13f535adcc0aef58738ca14eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAh3////U\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/CmdOption.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-24T15:54:14Z",
+      "side": 1,
+      "message": "Please shift this entire class left one level of indentation; a top level class should appear at the left margin, not two spaces in.\n\nAlso, I don\u0027t see a reason to declare this public, its more or less private to the ApproveCommand class, so I\u0027d just make it package access.",
+      "revId": "7573a33739934eb13f535adcc0aef58738ca14eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAh3////Q\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/PatchSetIdHandler.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-24T15:54:14Z",
+      "side": 1,
+      "message": "Missing AOSP copyright header.",
+      "revId": "7573a33739934eb13f535adcc0aef58738ca14eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAh3////M\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/PatchSetIdHandler.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-24T15:54:14Z",
+      "side": 1,
+      "message": "Shift class left one level.",
+      "revId": "7573a33739934eb13f535adcc0aef58738ca14eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAh3////E\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/PatchSetIdHandler.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-24T15:54:14Z",
+      "side": 1,
+      "message": "Given how this is used by args4j, I think we might want it to be \"CHANGE,PATCHSET\" since that is the format we expect the value to be in.",
+      "revId": "7573a33739934eb13f535adcc0aef58738ca14eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

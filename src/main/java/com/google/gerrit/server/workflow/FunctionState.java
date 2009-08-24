@@ -16,7 +16,6 @@ package com.google.gerrit.server.workflow;
 
 import com.google.gerrit.client.data.ApprovalType;
 import com.google.gerrit.client.data.ApprovalTypes;
-import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
@@ -225,13 +224,14 @@ public class FunctionState {
    * If the record's value was modified, its automatically marked as dirty.
    */
   public void applyRightFloor(final PatchSetApproval a) {
+    final IdentifiedUser user = userFactory.create(a.getAccountId());
+
     // Find the maximal range actually granted to the user.
     //
     short minAllowed = 0, maxAllowed = 0;
     for (final ProjectRight r : getAllRights(a.getCategoryId())) {
-      final Account.Id who = a.getAccountId();
       final AccountGroup.Id grp = r.getAccountGroupId();
-      if (userFactory.create(who).getEffectiveGroups().contains(grp)) {
+      if (user.getEffectiveGroups().contains(grp)) {
         minAllowed = (short) Math.min(minAllowed, r.getMinValue());
         maxAllowed = (short) Math.max(maxAllowed, r.getMaxValue());
       }

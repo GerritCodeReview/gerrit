@@ -51,6 +51,7 @@ import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
+import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.OrmRunnable;
 import com.google.gwtorm.client.Transaction;
@@ -161,6 +162,9 @@ final class Receive extends AbstractGitCommand {
 
   @Inject
   private PatchSetImporter.Factory importFactory;
+
+  @Inject
+  private PatchSetInfoFactory patchSetInfoFactory;
 
   @Inject
   @CanonicalWebUrl
@@ -1259,7 +1263,7 @@ final class Receive extends AbstractGitCommand {
       while ((c = rw.next()) != null) {
         final Ref ref = byCommit.get(c.copy());
         if (ref != null) {
-          closeChange(cmd, PatchSet.Id.fromRef(ref.getName()));
+          closeChange(cmd, PatchSet.Id.fromRef(ref.getName()), c);
           continue;
         }
 
@@ -1276,7 +1280,7 @@ final class Receive extends AbstractGitCommand {
       for (final ReplaceRequest req : toClose) {
         final PatchSet.Id psi = doReplace(req);
         if (psi != null) {
-          closeChange(req.cmd, psi);
+          closeChange(req.cmd, psi, req.newCommit);
         } else {
           log.warn("Replacement of Change-Id " + req.ontoChange
               + " with commit " + req.newCommit.name()
@@ -1290,8 +1294,8 @@ final class Receive extends AbstractGitCommand {
     }
   }
 
-  private void closeChange(final ReceiveCommand cmd, final PatchSet.Id psi)
-      throws OrmException {
+  private void closeChange(final ReceiveCommand cmd, final PatchSet.Id psi,
+      final RevCommit commit) throws OrmException {
     final String refName = cmd.getRefName();
     final Change.Id cid = psi.getParentKey();
     final ReplaceResult result =
@@ -1317,6 +1321,7 @@ final class Receive extends AbstractGitCommand {
             final ReplaceResult result = new ReplaceResult();
             result.change = change;
             result.patchSet = ps;
+            result.info = patchSetInfoFactory.get(commit, psi);
             result.mergedIntoRef = refName;
             markChangeMergedByPush(db, txn, result);
             return result;

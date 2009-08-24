@@ -21,12 +21,13 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+ALTER TABLE system_config DROP max_session_age;
+
 BEGIN;
 
 SELECT check_schema_version(16);
 
 ALTER TABLE system_config DROP xsrf_private_key;
-ALTER TABLE system_config DROP max_session_age;
 ALTER TABLE system_config RENAME account_private_key TO register_email_private_key;
 ALTER TABLE changes ADD change_key VARCHAR(60);
 

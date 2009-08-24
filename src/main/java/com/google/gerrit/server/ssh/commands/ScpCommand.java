@@ -138,6 +138,14 @@ final class ScpCommand extends BaseCommand {
         throw new IOException("Unsupported mode");
       }
     } catch (IOException e) {
+      if (e.getClass() == IOException.class
+          && "Pipe closed".equals(e.getMessage())) {
+        // Ignore a pipe closed error, its the user disconnecting from us
+        // while we are waiting for them to stalk.
+        //
+        return;
+      }
+
       try {
         out.write(2);
         out.write(e.getMessage().getBytes());

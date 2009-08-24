@@ -281,6 +281,12 @@ configured on this server.  This cache should be configured with a
 low maxAge setting, to ensure LDAP modifications are picked up in
 a timely fashion.
 
+cache `"ldap_usernames"`::
++
+Caches a mapping of LDAP username to Gerrit account identity.  The
+cache automatically updates when a user first creates their account
+within Gerrit, so the cache expire time is largely irrelevant.
+
 cache `"openid"`::
 +
 If OpenID authentication is enabled, caches the OpenID discovery

@@ -22,10 +22,13 @@ import java.util.Set;
 
 public final class DefaultRealm implements Realm {
   private final EmailExpander emailExpander;
+  private final AccountByEmailCache byEmail;
 
   @Inject
-  DefaultRealm(final EmailExpander emailExpander) {
+  DefaultRealm(final EmailExpander emailExpander,
+      final AccountByEmailCache byEmail) {
     this.emailExpander = emailExpander;
+    this.byEmail = byEmail;
   }
 
   @Override
@@ -43,7 +46,22 @@ public final class DefaultRealm implements Realm {
   }
 
   @Override
+  public void onCreateAccount(final AuthRequest who, final Account account) {
+  }
+
+  @Override
   public Set<AccountGroup.Id> groups(final AccountState who) {
     return who.getInternalGroups();
+  }
+
+  @Override
+  public Account.Id lookup(final String accountName) {
+    if (emailExpander.canExpand(accountName)) {
+      final Set<Account.Id> c = byEmail.get(emailExpander.expand(accountName));
+      if (1 == c.size()) {
+        return c.iterator().next();
+      }
+    }
+    return null;
   }
 }

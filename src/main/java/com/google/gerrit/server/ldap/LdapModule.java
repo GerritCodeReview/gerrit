@@ -16,6 +16,7 @@ package com.google.gerrit.server.ldap;
 
 import static java.util.concurrent.TimeUnit.HOURS;
 
+import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.cache.Cache;
@@ -26,14 +27,18 @@ import com.google.inject.TypeLiteral;
 import java.util.Set;
 
 public class LdapModule extends CacheModule {
+  static final String USERNAME_CACHE = "ldap_usernames";
   static final String GROUP_CACHE = "ldap_groups";
 
   @Override
   protected void configure() {
-    final TypeLiteral<Cache<String, Set<AccountGroup.Id>>> type =
+    final TypeLiteral<Cache<String, Set<AccountGroup.Id>>> groups =
         new TypeLiteral<Cache<String, Set<AccountGroup.Id>>>() {};
+    final TypeLiteral<Cache<String, Account.Id>> usernames =
+        new TypeLiteral<Cache<String, Account.Id>>() {};
 
-    core(type, GROUP_CACHE).timeToIdle(1, HOURS).timeToLive(1, HOURS);
+    core(groups, GROUP_CACHE).timeToIdle(1, HOURS).timeToLive(1, HOURS);
+    core(usernames, USERNAME_CACHE);
     bind(Realm.class).to(LdapRealm.class).in(Scopes.SINGLETON);
   }
 }

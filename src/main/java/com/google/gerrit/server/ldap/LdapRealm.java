@@ -17,6 +17,7 @@ package com.google.gerrit.server.ldap;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountExternalId;
 import com.google.gerrit.client.reviewdb.AccountGroup;
+import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AuthRequest;
@@ -26,6 +27,8 @@ import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.SelfPopulatingCache;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
@@ -57,11 +60,13 @@ class LdapRealm implements Realm {
   private final String username;
   private final String password;
 
+  private final SchemaFactory<ReviewDb> schema;
   private final EmailExpander emailExpander;
   private final String accountFullName;
   private final String accountEmailAddress;
   private final String accountSshUserName;
   private final LdapQuery accountQuery;
+  private final SelfPopulatingCache<String, Account.Id> usernameCache;
 
   private final GroupCache groupCache;
   private final String groupName;
@@ -73,10 +78,13 @@ class LdapRealm implements Realm {
   LdapRealm(
       final GroupCache groupCache,
       final EmailExpander emailExpander,
+      final SchemaFactory<ReviewDb> schema,
       @Named(LdapModule.GROUP_CACHE) final Cache<String, Set<AccountGroup.Id>> rawGroup,
+      @Named(LdapModule.USERNAME_CACHE) final Cache<String, Account.Id> rawUsername,
       @GerritServerConfig final Config config) {
-    this.emailExpander = emailExpander;
     this.groupCache = groupCache;
+    this.emailExpander = emailExpander;
+    this.schema = schema;
 
     this.server = required(config, "server");
     this.username = optional(config, "username");
@@ -138,6 +146,13 @@ class LdapRealm implements Realm {
     if (accountQuery.getParameters().length == 0) {
       throw new IllegalArgumentException("No variables in ldap.accountPattern");
     }
+
+    usernameCache = new SelfPopulatingCache<String, Account.Id>(rawUsername) {
+      @Override
+      public Account.Id createEntry(final String username) throws Exception {
+        return queryForUsername(username);
+      }
+    };
   }
 
   private static String optional(final Config config, final String name) {
@@ -230,6 +245,11 @@ class LdapRealm implements Realm {
   }
 
   @Override
+  public void onCreateAccount(final AuthRequest who, final Account account) {
+    usernameCache.put(who.getLocalUser(), account.getId());
+  }
+
+  @Override
   public Set<AccountGroup.Id> groups(final AccountState who) {
     final HashSet<AccountGroup.Id> r = new HashSet<AccountGroup.Id>();
     r.addAll(membershipCache.get(findId(who.getExternalIds())));
@@ -291,6 +311,31 @@ class LdapRealm implements Realm {
       }
     }
     return null;
+  }
+
+  @Override
+  public Account.Id lookup(final String accountName) {
+    return usernameCache.get(accountName);
+  }
+
+  private Account.Id queryForUsername(final String username) {
+    try {
+      final ReviewDb db = schema.open();
+      try {
+        final List<AccountExternalId> candidates =
+            db.accountExternalIds().byExternal(
+                AccountExternalId.SCHEME_GERRIT + username).toList();
+        if (candidates.size() == 1) {
+          return candidates.get(0).getAccountId();
+        }
+        return null;
+      } finally {
+        db.close();
+      }
+    } catch (OrmException e) {
+      log.warn("Cannot query for username in database", e);
+      return null;
+    }
   }
 
   private DirContext open() throws NamingException {

@@ -25,5 +25,17 @@ public interface Realm {
 
   public AuthRequest authenticate(AuthRequest who) throws AccountException;
 
+  public void onCreateAccount(AuthRequest who, Account account);
+
   public Set<AccountGroup.Id> groups(AccountState who);
+
+  /**
+   * Locate an account whose local username is the given account name.
+   * <p>
+   * Generally this only works for local realms, such as one backed by an LDAP
+   * directory, or where there is an {@link EmailExpander} configured that knows
+   * how to convert the accountName into an email address, and then locate the
+   * user by that email address.
+   */
+  public Account.Id lookup(String accountName);
 }

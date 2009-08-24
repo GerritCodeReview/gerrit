@@ -25,16 +25,15 @@ import java.util.List;
 import java.util.Set;
 
 public class AccountResolver {
-  private final EmailExpander emailExpander;
+  private final Realm realm;
   private final AccountByEmailCache byEmail;
   private final AccountCache byId;
   private final Provider<ReviewDb> schema;
 
   @Inject
-  AccountResolver(final EmailExpander emailExpander,
-      final AccountByEmailCache byEmail, final AccountCache byId,
-      final Provider<ReviewDb> schema) {
-    this.emailExpander = emailExpander;
+  AccountResolver(final Realm realm, final AccountByEmailCache byEmail,
+      final AccountCache byId, final Provider<ReviewDb> schema) {
+    this.realm = realm;
     this.byEmail = byEmail;
     this.byId = byId;
     this.schema = schema;
@@ -64,11 +63,9 @@ public class AccountResolver {
       return findByEmail(nameOrEmail);
     }
 
-    if (emailExpander.canExpand(nameOrEmail)) {
-      final Account a = findByEmail(emailExpander.expand(nameOrEmail));
-      if (a != null) {
-        return a;
-      }
+    final Account.Id id = realm.lookup(nameOrEmail);
+    if (id != null) {
+      return byId.get(id).getAccount();
     }
 
     return oneAccount(schema.get().accounts().byFullName(nameOrEmail));

@@ -221,6 +221,7 @@ public class AccountManager {
     txn.commit();
 
     byEmailCache.evict(account.getPreferredEmail());
+    realm.onCreateAccount(who, account);
     return new AuthResult(newId, true);
   }
 

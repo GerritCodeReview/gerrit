@@ -63,8 +63,8 @@ public class AccountCache {
   AccountCache(final SchemaFactory<ReviewDb> sf, final AuthConfig auth,
       @Named(CACHE_NAME) final Cache<Account.Id, AccountState> rawCache) {
     schema = sf;
-    registered = auth.getAnonymousGroups();
-    anonymous = auth.getRegisteredGroups();
+    registered = auth.getRegisteredGroups();
+    anonymous = auth.getAnonymousGroups();
 
     self = new SelfPopulatingCache<Account.Id, AccountState>(rawCache) {
       @Override

@@ -29,14 +29,45 @@ import javax.naming.directory.SearchResult;
 
 /** Supports issuing parameterized queries against an LDAP data source. */
 class LdapQuery {
+  static enum SearchScope {
+    // Search only the base DN
+    //
+    OBJECT(SearchControls.OBJECT_SCOPE), //
+    BASE(SearchControls.OBJECT_SCOPE),
+
+    // Search all entries one level under the base DN
+    //
+    // Does not include the base DN, and does not include items below items
+    // under the base DN.
+    //
+    ONE(SearchControls.ONELEVEL_SCOPE),
+
+    // Search all entries under the base DN, including the base DN.
+    //
+    SUBTREE(SearchControls.SUBTREE_SCOPE), //
+    SUB(SearchControls.SUBTREE_SCOPE);
+
+    private final int scope;
+
+    SearchScope(final int scope) {
+      this.scope = scope;
+    }
+
+    int scope() {
+      return scope;
+    }
+  }
+
   private final String base;
+  private final SearchScope searchScope;
   private final String pattern;
   private final String[] patternArgs;
   private final String[] returnAttributes;
 
-  LdapQuery(final String base, final String pattern,
-      final Set<String> returnAttributes) {
+  LdapQuery(final String base, final SearchScope searchScope,
+      final String pattern, final Set<String> returnAttributes) {
     this.base = base;
+    this.searchScope = searchScope;
 
     final StringBuilder p = new StringBuilder();
     final List<String> a = new ArrayList<String>(4);
@@ -76,7 +107,7 @@ class LdapQuery {
     final SearchControls sc = new SearchControls();
     final NamingEnumeration<SearchResult> res;
 
-    sc.setSearchScope(SearchControls.ONELEVEL_SCOPE);
+    sc.setSearchScope(searchScope.scope());
     sc.setReturningAttributes(returnAttributes);
     res = ctx.search(base, pattern, bind(params), sc);
     try {

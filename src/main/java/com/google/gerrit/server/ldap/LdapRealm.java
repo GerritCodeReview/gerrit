@@ -26,7 +26,9 @@ import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.SelfPopulatingCache;
+import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.ldap.LdapQuery.SearchScope;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
@@ -96,9 +98,11 @@ class LdapRealm implements Realm {
     groupName = reqdef(config, "groupName", "cn");
     groupAtts.add(groupName);
     final String groupBase = required(config, "groupBase");
+    final SearchScope groupScope = scope(config, "groupScope");
     final String groupMemberPattern =
         reqdef(config, "groupMemberPattern", "(memberUid=${username})");
-    groupMemberQuery = new LdapQuery(groupBase, groupMemberPattern, groupAtts);
+    groupMemberQuery =
+        new LdapQuery(groupBase, groupScope, groupMemberPattern, groupAtts);
     if (groupMemberQuery.getParameters().length == 0) {
       throw new IllegalArgumentException(
           "No variables in ldap.groupMemberPattern");
@@ -140,9 +144,11 @@ class LdapRealm implements Realm {
       }
     }
     final String accountBase = required(config, "accountBase");
+    final SearchScope accountScope = scope(config, "accountScope");
     final String accountPattern =
         reqdef(config, "accountPattern", "(uid=${username})");
-    accountQuery = new LdapQuery(accountBase, accountPattern, accountAtts);
+    accountQuery =
+        new LdapQuery(accountBase, accountScope, accountPattern, accountAtts);
     if (accountQuery.getParameters().length == 0) {
       throw new IllegalArgumentException("No variables in ldap.accountPattern");
     }
@@ -153,6 +159,10 @@ class LdapRealm implements Realm {
         return queryForUsername(username);
       }
     };
+  }
+
+  private static SearchScope scope(final Config c, final String setting) {
+    return ConfigUtil.getEnum(c, "ldap", null, setting, SearchScope.SUBTREE);
   }
 
   private static String optional(final Config config, final String name) {

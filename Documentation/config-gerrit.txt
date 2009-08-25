@@ -514,6 +514,17 @@ server is attempted.
 Root of the tree containing all user accounts.  This is typically
 of the form `ou=people,dc=example,dc=com`.
 
+[[ldap.accountScope]]ldap.accountScope::
++
+Scope of the search performed for accounts.  Must be one of:
++
+* `one`: Search only one level below accountBase, but not recursive
+* `sub` or `subtree`: Search recursively below accountBase
+* `base` or `object`: Search exactly accountBase; probably not desired
+
++
+Default is `subtree` as many directories have several levels.
+
 [[ldap.accountPattern]]ldap.accountPattern::
 +
 Query pattern to use when searching for a user account.  This may be
@@ -571,6 +582,17 @@ Default is `uid`, a common value for most servers.
 +
 Root of the tree containing all group objects.  This is typically
 of the form `ou=groups,dc=example,dc=com`.
+
+[[ldap.groupScope]]ldap.groupScope::
++
+Scope of the search performed for group objects.  Must be one of:
++
+* `one`: Search only one level below groupBase, but not recursive
+* `sub` or `subtree`: Search recursively below groupBase
+* `base` or `object`: Search exactly groupBase; probably not desired
+
++
+Default is `subtree` as many directories have several levels.
 
 [[ldap.groupName]]ldap.groupName::
 +

@@ -84,7 +84,6 @@ import org.spearce.jgit.transport.ReceiveCommand.Result;
 import org.spearce.jgit.transport.ReceiveCommand.Type;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -176,7 +175,6 @@ final class Receive extends AbstractGitCommand {
   private ReceiveCommand newChange;
   private Branch destBranch;
 
-  private final List<Change.Id> allNewChanges = new ArrayList<Change.Id>();
   private final Map<Change.Id, ReplaceRequest> replaceByChange =
       new HashMap<Change.Id, ReplaceRequest>();
   private final Map<RevCommit, ReplaceRequest> replaceByCommit =
@@ -240,23 +238,6 @@ final class Receive extends AbstractGitCommand {
       }
     });
     rp.receive(in, out, err);
-
-    if (!allNewChanges.isEmpty() && canonicalWebUrl != null) {
-      // Make sure there isn't anything buffered; we want to give the
-      // push client a chance to display its status report before we
-      // show our own messages on standard error.
-      //
-      out.flush();
-
-      final String url = canonicalWebUrl;
-      final PrintWriter msg = toPrintWriter(err);
-      msg.write("\nNew Changes:\n");
-      for (final Change.Id c : allNewChanges) {
-        msg.write("  " + url + c.get() + "\n");
-      }
-      msg.write('\n');
-      msg.flush();
-    }
   }
 
   private void verifyActiveContributorAgreement() throws Failure {
@@ -827,8 +808,6 @@ final class Receive extends AbstractGitCommand {
           + repo.getDirectory() + ": " + ru.getResult());
     }
     replication.scheduleUpdate(proj.getNameKey(), ru.getName());
-
-    allNewChanges.add(change.getId());
 
     try {
       final CreateChangeSender cm;

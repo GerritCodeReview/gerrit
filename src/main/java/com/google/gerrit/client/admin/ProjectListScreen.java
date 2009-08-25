@@ -124,6 +124,7 @@ public class ProjectListScreen extends AccountScreen {
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
       fmt.addStyleName(row, 1, S_DATA_CELL);
+      fmt.addStyleName(row, 1, "C_PROJECT");
       fmt.addStyleName(row, 2, S_DATA_CELL);
 
       setRowItem(row, k);

@@ -323,6 +323,10 @@
   white-space: nowrap;
 }
 
+.gerrit-ChangeTable .DataCell.GroupName {
+  white-space: nowrap;
+}
+
 .gerrit-ChangeTable .IconHeader {
   border-top: 1px solid white;
   border-bottom: 1px solid white;

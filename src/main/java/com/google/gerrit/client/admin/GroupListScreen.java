@@ -155,6 +155,7 @@ public class GroupListScreen extends AccountScreen {
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
       fmt.addStyleName(row, 1, S_DATA_CELL);
+      fmt.addStyleName(row, 1, "GroupName");
       fmt.addStyleName(row, 2, S_DATA_CELL);
 
       setRowItem(row, k);

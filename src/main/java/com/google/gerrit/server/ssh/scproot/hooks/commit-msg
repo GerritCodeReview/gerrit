@@ -22,21 +22,34 @@ MSG="$1"
 # Check for, and add if missing, a unique Change-Id
 #
 add_ChangeId() {
-	if grep '^Change-Id: ' "$MSG" >/dev/null
+	clean_message=$(sed -e '
+		/^diff --git a\/.*/{
+			s///
+			q
+		}
+		/^Signed-off-by:/d
+		/^#/d
+	' "$MSG" | git stripspace)
+	if test -z "$clean_message"
+	then
+		return
+	fi
+
+	if grep -i '^Change-Id:' "$MSG" >/dev/null
 	then
 		return
 	fi
 
 	id=$(_gen_ChangeId)
-	out="$MSG.new"
-	ftt="$MSG.footers"
+	out="$MSG.OUT"
+	ftt="$MSG.FTT"
 	sed -e  '2,${
 			/^[A-Za-z][A-Za-z0-9-]*: /,$d
 		}' <"$MSG" >"$out"
 	sed -ne '2,${
 			/^[A-Za-z][A-Za-z0-9-]*: /,$p
 		}' <"$MSG" >"$ftt"
-	if ! [ -s "$ftt" ]
+	if ! test -s "$ftt"
 	then
 		echo >>"$out"
 	fi
@@ -54,7 +67,7 @@ _gen_ChangeIdInput() {
 	echo "author $(git var GIT_AUTHOR_IDENT)"
 	echo "committer $(git var GIT_COMMITTER_IDENT)"
 	echo
-	cat "$MSG"
+	printf '%s' "$clean_message"
 }
 _gen_ChangeId() {
 	_gen_ChangeIdInput |

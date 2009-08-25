@@ -51,8 +51,8 @@ import java.util.Map;
 import java.util.Set;
 
 /** Creates a {@link ChangeDetail} from a {@link Change}. */
-class ChangeDetailFactory extends Handler<ChangeDetail> {
-  interface Factory {
+public class ChangeDetailFactory extends Handler<ChangeDetail> {
+  public interface Factory {
     ChangeDetailFactory create(Change.Id id);
   }
 

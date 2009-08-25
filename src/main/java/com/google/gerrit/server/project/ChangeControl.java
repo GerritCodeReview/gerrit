@@ -90,6 +90,10 @@ public class ChangeControl {
     return new ChangeControl(projectControl.forAnonymousUser(), change);
   }
 
+  public ChangeControl forUser(final CurrentUser who) {
+    return new ChangeControl(projectControl.forUser(who), change);
+  }
+
   public CurrentUser getCurrentUser() {
     return getProjectControl().getCurrentUser();
   }

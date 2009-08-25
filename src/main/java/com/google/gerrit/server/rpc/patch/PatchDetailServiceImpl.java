@@ -18,6 +18,7 @@ import com.google.gerrit.client.data.ApprovalType;
 import com.google.gerrit.client.data.ApprovalTypes;
 import com.google.gerrit.client.data.PatchScript;
 import com.google.gerrit.client.data.PatchScriptSettings;
+import com.google.gerrit.client.patches.AddReviewerResult;
 import com.google.gerrit.client.patches.CommentDetail;
 import com.google.gerrit.client.patches.PatchDetailService;
 import com.google.gerrit.client.reviewdb.Account;
@@ -32,17 +33,18 @@ import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.PatchSetApproval;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.Patch.Key;
-import com.google.gerrit.client.rpc.NoSuchAccountException;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gerrit.server.BaseServiceImplementation;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.mail.AddReviewerSender;
 import com.google.gerrit.server.mail.CommentSender;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
@@ -64,44 +66,37 @@ import java.util.Set;
 class PatchDetailServiceImpl extends BaseServiceImplementation implements
     PatchDetailService {
   private final Logger log = LoggerFactory.getLogger(getClass());
-  private final AddReviewerSender.Factory addReviewerSenderFactory;
   private final CommentSender.Factory commentSenderFactory;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final ApprovalTypes approvalTypes;
-  private final AccountResolver accountResolver;
 
   private final AbandonChange.Factory abandonChangeFactory;
+  private final AddReviewer.Factory addReviewerFactory;
   private final CommentDetailFactory.Factory commentDetailFactory;
   private final PatchScriptFactory.Factory patchScriptFactoryFactory;
   private final SaveDraft.Factory saveDraftFactory;
-  private final ApprovalCategory.Id addReviewerCategoryId;
 
   @Inject
   PatchDetailServiceImpl(final Provider<ReviewDb> schema,
       final Provider<CurrentUser> currentUser,
-      final AddReviewerSender.Factory arsf, final CommentSender.Factory csf,
-      final PatchSetInfoFactory psif, final ApprovalTypes approvalTypes,
-      final AccountResolver accountResolver,
-
+      final CommentSender.Factory commentSenderFactory,
+      final PatchSetInfoFactory patchSetInfoFactory,
+      final ApprovalTypes approvalTypes,
       final AbandonChange.Factory abandonChangeFactory,
+      final AddReviewer.Factory addReviewerFactory,
       final CommentDetailFactory.Factory commentDetailFactory,
       final PatchScriptFactory.Factory patchScriptFactoryFactory,
       final SaveDraft.Factory saveDraftFactory) {
     super(schema, currentUser);
-    patchSetInfoFactory = psif;
-    addReviewerSenderFactory = arsf;
-    commentSenderFactory = csf;
+    this.patchSetInfoFactory = patchSetInfoFactory;
+    this.commentSenderFactory = commentSenderFactory;
     this.approvalTypes = approvalTypes;
-    this.accountResolver = accountResolver;
 
     this.abandonChangeFactory = abandonChangeFactory;
+    this.addReviewerFactory = addReviewerFactory;
     this.commentDetailFactory = commentDetailFactory;
     this.patchScriptFactoryFactory = patchScriptFactoryFactory;
     this.saveDraftFactory = saveDraftFactory;
-
-    final List<ApprovalType> allTypes = approvalTypes.getApprovalTypes();
-    addReviewerCategoryId =
-        allTypes.get(allTypes.size() - 1).getCategory().getId();
   }
 
   public void patchScript(final Patch.Key patchKey, final PatchSet.Id psa,
@@ -319,63 +314,8 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
   }
 
   public void addReviewers(final Change.Id id, final List<String> reviewers,
-      final AsyncCallback<VoidResult> callback) {
-    run(callback, new Action<VoidResult>() {
-      public VoidResult run(ReviewDb db) throws OrmException, Failure {
-        final Set<Account.Id> reviewerIds = new HashSet<Account.Id>();
-        final Change change = db.changes().get(id);
-        if (change == null) {
-          throw new Failure(new NoSuchEntityException());
-        }
-
-        for (final String email : reviewers) {
-          final Account who = accountResolver.find(email);
-          if (who == null) {
-            throw new Failure(new NoSuchAccountException(email));
-          }
-          reviewerIds.add(who.getId());
-        }
-
-        // Add the reviewer to the database
-        db.run(new OrmRunnable<VoidResult, ReviewDb>() {
-          public VoidResult run(ReviewDb db, Transaction txn, boolean retry)
-              throws OrmException {
-            return doAddReviewers(reviewerIds, change.currentPatchSetId(), db,
-                txn);
-          }
-        });
-
-        // Email the reviewer
-        try {
-          final AddReviewerSender cm;
-          cm = addReviewerSenderFactory.create(change);
-          cm.setFrom(getAccountId());
-          cm.setReviewDb(db);
-          cm.addReviewers(reviewerIds);
-          cm.send();
-        } catch (EmailException e) {
-          log.error("Cannot send review request by email for change " + id, e);
-          throw new Failure(e);
-        }
-        return VoidResult.INSTANCE;
-      }
-    });
-  }
-
-  private VoidResult doAddReviewers(final Set<Account.Id> reviewerIds,
-      final PatchSet.Id psid, final ReviewDb db, final Transaction txn)
-      throws OrmException {
-    for (Account.Id reviewer : reviewerIds) {
-      if (!db.patchSetApprovals().byPatchSetUser(psid, reviewer).iterator()
-          .hasNext()) {
-        // This reviewer has not entered an approval for this change yet.
-        PatchSetApproval myca =
-            new PatchSetApproval(new PatchSetApproval.Key(psid, reviewer,
-                addReviewerCategoryId), (short) 0);
-        db.patchSetApprovals().insert(Collections.singleton(myca), txn);
-      }
-    }
-    return VoidResult.INSTANCE;
+      final AsyncCallback<AddReviewerResult> callback) {
+    addReviewerFactory.create(id, reviewers).to(callback);
   }
 
   public void abandonChange(final PatchSet.Id patchSetId, final String message,

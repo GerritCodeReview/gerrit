@@ -14,11 +14,13 @@
 
 package com.google.gerrit.client.changes;
 
+import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.data.AccountInfoCache;
 import com.google.gerrit.client.data.ApprovalDetail;
 import com.google.gerrit.client.data.ApprovalType;
 import com.google.gerrit.client.data.ChangeDetail;
+import com.google.gerrit.client.patches.AddReviewerResult;
 import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
@@ -36,7 +38,7 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
-import com.google.gwtjsonrpc.client.VoidResult;
+import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -175,20 +177,39 @@ public class ApprovalTable extends Composite {
     reviewers.add(nameEmail);
 
     PatchUtil.DETAIL_SVC.addReviewers(changeId, reviewers,
-        new GerritCallback<VoidResult>() {
-          public void onSuccess(final VoidResult result) {
+        new GerritCallback<AddReviewerResult>() {
+          public void onSuccess(final AddReviewerResult result) {
             addMemberBox.setEnabled(true);
             addMemberBox.setText("");
-            Util.DETAIL_SVC.changeDetail(changeId,
-                new GerritCallback<ChangeDetail>() {
-                  public void onSuccess(final ChangeDetail r) {
-                    if (isAttached()) {
-                      setAccountInfoCache(r.getAccounts());
-                      display(r.getChange(), r.getMissingApprovals(), r
-                          .getApprovals());
-                    }
-                  }
-                });
+
+            if (!result.getErrors().isEmpty()) {
+              final SafeHtmlBuilder r = new SafeHtmlBuilder();
+              for (final AddReviewerResult.Error e : result.getErrors()) {
+                switch (e.getType()) {
+                  case ACCOUNT_NOT_FOUND:
+                    r.append(Util.M.accountNotFound(e.getName()));
+                    break;
+
+                  case CHANGE_NOT_VISIBLE:
+                    r.append(Util.M.changeNotVisibleTo(e.getName()));
+                    break;
+
+                  default:
+                    r.append(e.getName());
+                    r.append(" - ");
+                    r.append(e.getType());
+                    r.br();
+                    break;
+                }
+              }
+              new ErrorDialog(r).center();
+            }
+
+            final ChangeDetail r = result.getChange();
+            if (r != null) {
+              setAccountInfoCache(r.getAccounts());
+              display(r.getChange(), r.getMissingApprovals(), r.getApprovals());
+            }
           }
 
           @Override

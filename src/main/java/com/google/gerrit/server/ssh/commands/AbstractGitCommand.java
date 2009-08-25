@@ -43,8 +43,8 @@ abstract class AbstractGitCommand extends BaseCommand {
   private ProjectCache projectCache;
 
   protected Repository repo;
-  protected ProjectState cachedProj;
-  protected Project proj;
+  protected ProjectState projectState;
+  protected Project project;
 
   @Override
   public void start() {
@@ -74,19 +74,19 @@ abstract class AbstractGitCommand extends BaseCommand {
       projectName = projectName.substring(1);
     }
 
-    cachedProj = projectCache.get(new Project.NameKey(projectName));
-    if (cachedProj == null) {
+    projectState = projectCache.get(new Project.NameKey(projectName));
+    if (projectState == null) {
       throw new Failure(1, "fatal: '" + reqProjName + "': not a Gerrit project");
     }
 
-    proj = cachedProj.getProject();
+    project = projectState.getProject();
     if (!canPerform(ApprovalCategory.READ, (short) 1)) {
       throw new Failure(1, "fatal: '" + reqProjName + "': unknown project",
           new SecurityException("Account lacks Read permission"));
     }
 
     try {
-      repo = server.openRepository(proj.getName());
+      repo = server.openRepository(project.getName());
     } catch (RepositoryNotFoundException e) {
       throw new Failure(1, "fatal: '" + reqProjName + "': not a git archive", e);
     }
@@ -99,7 +99,7 @@ abstract class AbstractGitCommand extends BaseCommand {
 
   protected boolean canPerform(final ApprovalCategory.Id actionId,
       final short val) {
-    return cachedProj.controlFor(currentUser).canPerform(actionId, val);
+    return projectState.controlFor(currentUser).canPerform(actionId, val);
   }
 
   protected abstract void runImpl() throws IOException, Failure;

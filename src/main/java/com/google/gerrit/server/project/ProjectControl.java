@@ -68,6 +68,10 @@ public class ProjectControl {
     return state.controlForAnonymousUser();
   }
 
+  public ProjectControl forUser(final CurrentUser who) {
+    return state.controlFor(who);
+  }
+
   public ChangeControl controlFor(final Change change) {
     return new ChangeControl(this, change);
   }

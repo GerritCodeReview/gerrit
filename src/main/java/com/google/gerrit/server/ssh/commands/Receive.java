@@ -137,6 +137,9 @@ final class Receive extends AbstractGitCommand {
   }
 
   @Inject
+  private IdentifiedUser.GenericFactory identifiedUserFactory;
+
+  @Inject
   private IdentifiedUser currentUser;
 
   @Inject
@@ -186,10 +189,13 @@ final class Receive extends AbstractGitCommand {
 
   @Override
   protected void runImpl() throws IOException, Failure {
-    if (proj.isUseContributorAgreements()) {
+    if (project.isUseContributorAgreements()) {
       verifyActiveContributorAgreement();
     }
     refLogIdent = currentUser.newPersonIdent();
+
+    verifyProjectVisible("reviewer", reviewerId);
+    verifyProjectVisible("CC", ccId);
 
     rp = new ReceivePack(repo);
     rp.setAllowCreates(true);
@@ -233,7 +239,7 @@ final class Receive extends AbstractGitCommand {
               // We only schedule heads and tags for replication.
               // Change refs are scheduled when they are created.
               //
-              replication.scheduleUpdate(proj.getNameKey(), c.getRefName());
+              replication.scheduleUpdate(project.getNameKey(), c.getRefName());
             }
           }
         }
@@ -256,6 +262,17 @@ final class Receive extends AbstractGitCommand {
       }
       msg.write('\n');
       msg.flush();
+    }
+  }
+
+  private void verifyProjectVisible(final String type, final Set<Account.Id> who)
+      throws UnloggedFailure {
+    for (final Account.Id id : who) {
+      final IdentifiedUser user = identifiedUserFactory.create(id);
+      if (!projectState.controlFor(user).isVisible()) {
+        throw new UnloggedFailure(1, type + " "
+            + user.getAccount().getFullName() + " cannot access the project");
+      }
     }
   }
 
@@ -523,9 +540,9 @@ final class Receive extends AbstractGitCommand {
     try {
       destBranch =
           db.branches().get(
-              new Branch.NameKey(proj.getNameKey(), destBranchName));
+              new Branch.NameKey(project.getNameKey(), destBranchName));
     } catch (OrmException e) {
-      log.error("Cannot lookup branch " + proj + " " + destBranchName, e);
+      log.error("Cannot lookup branch " + project + " " + destBranchName, e);
       reject(cmd, "database error");
       return;
     }
@@ -625,7 +642,7 @@ final class Receive extends AbstractGitCommand {
       reject(cmd, "change " + changeId + " not found");
       return;
     }
-    if (!proj.getNameKey().equals(changeEnt.getDest().getParentKey())) {
+    if (!project.getNameKey().equals(changeEnt.getDest().getParentKey())) {
       reject(cmd, "change " + changeId + " not found");
       return;
     }
@@ -690,7 +707,7 @@ final class Receive extends AbstractGitCommand {
         if (!idList.isEmpty()) {
           final Change.Key key = new Change.Key(idList.get(idList.size() - 1));
           final List<Change> changes =
-              db.changes().byProjectKey(proj.getNameKey(), key).toList();
+              db.changes().byProjectKey(project.getNameKey(), key).toList();
           if (changes.size() > 1) {
             // WTF, multiple changes in this project have the same key?
             // Since the commit is new, the user should recreate it with
@@ -783,7 +800,7 @@ final class Receive extends AbstractGitCommand {
     ps.setUploader(me);
 
     final PatchSetImporter imp =
-        importFactory.create(db, proj.getNameKey(), repo, c, ps, true);
+        importFactory.create(db, project.getNameKey(), repo, c, ps, true);
     imp.setTransaction(txn);
     imp.run();
 
@@ -826,7 +843,7 @@ final class Receive extends AbstractGitCommand {
       throw new IOException("Failed to create ref " + ps.getRefName() + " in "
           + repo.getDirectory() + ": " + ru.getResult());
     }
-    replication.scheduleUpdate(proj.getNameKey(), ru.getName());
+    replication.scheduleUpdate(project.getNameKey(), ru.getName());
 
     allNewChanges.add(change.getId());
 
@@ -963,7 +980,7 @@ final class Receive extends AbstractGitCommand {
         ps.setUploader(currentUser.getAccountId());
 
         final PatchSetImporter imp =
-            importFactory.create(db, proj.getNameKey(), repo, c, ps, true);
+            importFactory.create(db, project.getNameKey(), repo, c, ps, true);
         imp.setTransaction(txn);
         try {
           imp.run();
@@ -1070,7 +1087,7 @@ final class Receive extends AbstractGitCommand {
         throw new IOException("Failed to create ref " + ps.getRefName()
             + " in " + repo.getDirectory() + ": " + ru.getResult());
       }
-      replication.scheduleUpdate(proj.getNameKey(), ru.getName());
+      replication.scheduleUpdate(project.getNameKey(), ru.getName());
       request.cmd.setResult(ReceiveCommand.Result.OK);
 
       try {
@@ -1183,7 +1200,7 @@ final class Receive extends AbstractGitCommand {
       return false;
     }
 
-    if (proj.isUseSignedOffBy()) {
+    if (project.isUseSignedOffBy()) {
       // If the project wants Signed-off-by / Acked-by lines, verify we
       // have them for the blamable parties involved on this change.
       //
@@ -1210,7 +1227,7 @@ final class Receive extends AbstractGitCommand {
   private void insertBranchEntity(final ReceiveCommand c) {
     try {
       final Branch.NameKey nameKey =
-          new Branch.NameKey(proj.getNameKey(), c.getRefName());
+          new Branch.NameKey(project.getNameKey(), c.getRefName());
       final Branch b = new Branch(nameKey);
       db.branches().insert(Collections.singleton(b));
     } catch (OrmException e) {
@@ -1229,7 +1246,7 @@ final class Receive extends AbstractGitCommand {
   private void deleteBranchEntity(final ReceiveCommand c) {
     try {
       final Branch.NameKey nameKey =
-          new Branch.NameKey(proj.getNameKey(), c.getRefName());
+          new Branch.NameKey(project.getNameKey(), c.getRefName());
       final Branch b = db.branches().get(nameKey);
       if (b != null) {
         db.branches().delete(Collections.singleton(b));
@@ -1306,7 +1323,7 @@ final class Receive extends AbstractGitCommand {
             final Change change = db.changes().get(cid);
             final PatchSet ps = db.patchSets().get(psi);
             if (change == null || ps == null) {
-              log.warn(proj.getName() + " " + psi + " is missing");
+              log.warn(project.getName() + " " + psi + " is missing");
               return null;
             }
 
@@ -1344,7 +1361,7 @@ final class Receive extends AbstractGitCommand {
 
   private Map<Change.Key, Change.Id> openChangesByKey() throws OrmException {
     final Map<Change.Key, Change.Id> r = new HashMap<Change.Key, Change.Id>();
-    for (Change c : db.changes().byProjectOpenAll(proj.getNameKey())) {
+    for (Change c : db.changes().byProjectOpenAll(project.getNameKey())) {
       r.put(c.getKey(), c.getId());
     }
     return r;
@@ -1394,7 +1411,8 @@ final class Receive extends AbstractGitCommand {
         cm.setFrom(currentUser.getAccountId());
         cm.setReviewDb(db);
         cm.setPatchSet(result.patchSet, result.info);
-        cm.setDest(new Branch.NameKey(proj.getNameKey(), result.mergedIntoRef));
+        cm.setDest(new Branch.NameKey(project.getNameKey(),
+            result.mergedIntoRef));
         cm.send();
       } catch (EmailException e) {
         final PatchSet.Id psi = result.patchSet.getId();

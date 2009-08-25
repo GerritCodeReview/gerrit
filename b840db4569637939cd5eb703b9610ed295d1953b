@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAiX///0s\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/ApproveCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-25T22:52:47Z",
+      "side": 1,
+      "message": "After reading the permission error below, and thinking about this more, maybe this should be UnloggedFailure so we don\u0027t get \"invalid patchset id\" messages in the the server log when the user makes a typo.",
+      "revId": "b840db4569637939cd5eb703b9610ed295d1953b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAiX///0o\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/ApproveCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-25T22:52:47Z",
+      "side": 1,
+      "message": "Also, maybe should be UnloggedFailure?",
+      "revId": "b840db4569637939cd5eb703b9610ed295d1953b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAiX///04\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/ApproveCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-25T22:52:47Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be \"Patch Set \", appending the \":\" after the patchSetId, so we get \"Patch Set 1: \" rather than \"Patch Set: 1\" ?",
+      "revId": "b840db4569637939cd5eb703b9610ed295d1953b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAiX///08\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/ApproveCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-25T22:52:47Z",
+      "side": 1,
+      "message": "I missed this on earlier readings, this should be patchSetId.  The message should match the patch set the user is approving, not the current patch set.  E.g. if a build server is behind and is updating status of patch set 1 after the user has already uploaded replacement patch set 2.",
+      "revId": "b840db4569637939cd5eb703b9610ed295d1953b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAiX///1A\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/ApproveCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-25T22:52:47Z",
+      "side": 1,
+      "message": "If I read the code right, psa is null if the user has never used this approval category on this patch set before as line 126 will obtain no object, so we NPE right here.",
+      "revId": "b840db4569637939cd5eb703b9610ed295d1953b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAiX///0w\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/ApproveCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-25T22:52:47Z",
+      "side": 1,
+      "message": "Hmm, maybe this is shorter as an error message:\n\n  throw new UnloggedFailure(CMD_ERR, co.name() + \"\u003d\" + co.value() + \" not permitted\");\n\nAlso I\u0027m suggesting an UnloggedFailure right here because I don\u0027t see a good reason for the stack trace to appear in the server log file if the user tries to do an approve where they aren\u0027t permitted to.",
+      "revId": "b840db4569637939cd5eb703b9610ed295d1953b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAiX///00\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/ApproveCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-25T22:52:47Z",
+      "side": 1,
+      "message": "Likewise with above, if user has never used this category before, we NPE right here.",
+      "revId": "b840db4569637939cd5eb703b9610ed295d1953b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

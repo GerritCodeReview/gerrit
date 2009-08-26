@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAin////k\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/scproot/hooks/commit-msg",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-26T05:09:50Z",
+      "side": 1,
+      "message": "Can\u0027t we use this sed, minus the /^signed-off-by:/d rule, to clean up $MSG before doing the splitting?  That would accomplish cutting off the diff --git part of the message buffer, without needing to rely on perl.",
+      "revId": "76a500ab75f7896e02ba086d4e8881f39803eded",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

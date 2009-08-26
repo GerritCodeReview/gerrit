@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAin///4U\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/ApproveCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-08-26T20:08:20Z",
+      "side": 1,
+      "message": "Little \"b\" boolean?  The object isn\u0027t necessary here.",
+      "revId": "9cedc85f46394528e84fac4c0b23350a40fd6dbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

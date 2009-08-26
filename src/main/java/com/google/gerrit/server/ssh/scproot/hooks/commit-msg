@@ -42,21 +42,18 @@ add_ChangeId() {
 
 	id=$(_gen_ChangeId)
 	out="$MSG.OUT"
-	ftt="$MSG.FTT"
-	sed -e  '2,${
-			/^[A-Za-z][A-Za-z0-9-]*: /,$d
-		}' <"$MSG" >"$out"
-	sed -ne '2,${
-			/^[A-Za-z][A-Za-z0-9-]*: /,$p
-		}' <"$MSG" >"$ftt"
-	if ! test -s "$ftt"
-	then
-		echo >>"$out"
-	fi
-	echo "Change-Id: I$id" >>"$out"
-	cat "$ftt" >>"$out"
+	perl -e "
+		\$c=\"Change-Id: I$id\\n\";
+		while (<>) {
+			if (/^(#|[A-Za-z][A-Za-z0-9-]*: |diff --git a\/)/) {
+				print \$c unless \$p;
+				\$p=1;
+			}
+			print;
+		}
+		print \$c unless \$p;" <"$MSG" >"$out"
 	mv -f "$out" "$MSG"
-	rm -f "$out" "$ftt"
+	rm -f "$out"
 }
 _gen_ChangeIdInput() {
 	echo "tree $(git write-tree)"

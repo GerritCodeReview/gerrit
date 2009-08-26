@@ -59,8 +59,14 @@ ALTER TABLE patch_set_approvals MODIFY COLUMN patch_set_id INT NOT NULL;
 ALTER TABLE patch_set_approvals DROP PRIMARY KEY;
 ALTER TABLE patch_set_approvals ADD PRIMARY KEY (change_id, patch_set_id, account_id, category_id);
 
-ALTER INDEX change_approvals_closedbyuser RENAME TO patch_set_approvals_closedbyuser;
-ALTER INDEX change_approvals_openbyuser RENAME TO patch_set_approvals_openbyuser;
+DROP INDEX change_approvals_closedbyuser on patch_set_approvals;
+DROP INDEX change_approvals_openbyuser ON patch_set_approvals;
+
+CREATE INDEX patch_set_approvals_openByUser
+ON patch_set_approvals (change_open, account_id);
+
+CREATE INDEX patch_set_approvals_closedByUser
+ON patch_set_approvals (change_open, account_id, change_sort_key);
 
 
 -- unique ssh_user_name

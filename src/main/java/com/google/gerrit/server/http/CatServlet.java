@@ -134,15 +134,13 @@ public class CatServlet extends HttpServlet {
     final Change.Id changeId = patchKey.getParentKey().getParentKey();
     final Project project;
     final PatchSet patchSet;
-    final Patch patch;
     try {
       final ReviewDb db = requestDb.get();
       final ChangeControl control = changeControl.validateFor(changeId);
 
       project = control.getProject();
       patchSet = db.patchSets().get(patchKey.getParentKey());
-      patch = db.patches().get(patchKey);
-      if (patchSet == null || patch == null) {
+      if (patchSet == null) {
         rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
         return;
       }
@@ -167,7 +165,7 @@ public class CatServlet extends HttpServlet {
     final byte[] blobData;
     final RevCommit fromCommit;
     final String suffix;
-    final String path = patch.getFileName();
+    final String path = patchKey.getFileName();
     try {
       final RevWalk rw = new RevWalk(repo);
       final RevCommit c;

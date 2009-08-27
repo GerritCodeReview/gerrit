@@ -58,6 +58,10 @@ public final class Patch {
       r.fromString(str);
       return r;
     }
+
+    public String getFileName() {
+      return get();
+    }
   }
 
   /** Type of modification made to the file path. */

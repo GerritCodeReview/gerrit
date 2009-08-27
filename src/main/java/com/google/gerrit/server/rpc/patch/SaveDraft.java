@@ -18,6 +18,7 @@ import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
+import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
@@ -59,10 +60,10 @@ class SaveDraft extends Handler<PatchLineComment> {
     }
 
     final Patch.Key patchKey = comment.getKey().getParentKey();
+    final PatchSet.Id patchSetId = patchKey.getParentKey();
     final Change.Id changeId = patchKey.getParentKey().getParentKey();
     changeControlFactory.validateFor(changeId);
-    final Patch patch = db.patches().get(patchKey);
-    if (patch == null) {
+    if (db.patchSets().get(patchSetId) == null) {
       throw new NoSuchChangeException(changeId);
     }
 
@@ -74,9 +75,8 @@ class SaveDraft extends Handler<PatchLineComment> {
       }
 
       final PatchLineComment nc =
-          new PatchLineComment(new PatchLineComment.Key(patch.getKey(),
-              ChangeUtil.messageUUID(db)), comment.getLine(), me, comment
-              .getParentUuid());
+          new PatchLineComment(new PatchLineComment.Key(patchKey, ChangeUtil
+              .messageUUID(db)), comment.getLine(), me, comment.getParentUuid());
       nc.setSide(comment.getSide());
       nc.setMessage(comment.getMessage());
       db.patchComments().insert(Collections.singleton(nc));

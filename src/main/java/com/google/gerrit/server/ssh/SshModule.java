@@ -16,13 +16,21 @@ package com.google.gerrit.server.ssh;
 
 import static com.google.inject.Scopes.SINGLETON;
 
+import com.google.gerrit.client.reviewdb.PatchSet;
+import com.google.gerrit.pgm.CmdLineParser;
+import com.google.gerrit.pgm.OptionHandlerFactory;
+import com.google.gerrit.pgm.OptionHandlerUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GerritRequestModule;
 import com.google.gerrit.server.ssh.commands.DefaultCommandModule;
+import com.google.gerrit.server.ssh.commands.PatchSetIdHandler;
+import com.google.inject.Key;
 import com.google.inject.Provider;
+import com.google.inject.TypeLiteral;
+import com.google.inject.assistedinject.FactoryProvider;
 import com.google.inject.servlet.RequestScoped;
 import com.google.inject.servlet.SessionScoped;
 
@@ -31,6 +39,7 @@ import org.apache.sshd.common.session.AbstractSession;
 import org.apache.sshd.server.CommandFactory;
 import org.apache.sshd.server.PublickeyAuthenticator;
 import org.apache.sshd.server.session.ServerSession;
+import org.kohsuke.args4j.spi.OptionHandler;
 
 import java.net.SocketAddress;
 
@@ -45,6 +54,7 @@ public class SshModule extends FactoryModule {
 
     configureSessionScope();
     configureRequestScope();
+    configureCmdLineParser();
 
     bind(SshInfo.class).to(SshDaemon.class).in(SINGLETON);
     factory(DispatchCommand.Factory.class);
@@ -84,5 +94,24 @@ public class SshModule extends FactoryModule {
     bind(IdentifiedUser.class).toProvider(SshCurrentUserProvider.class).in(
         SshScopes.REQUEST);
     bind(CurrentUser.class).to(IdentifiedUser.class);
+  }
+
+  private void configureCmdLineParser() {
+    factory(CmdLineParser.Factory.class);
+
+    registerOptionHandler(PatchSet.Id.class, PatchSetIdHandler.class);
+  }
+
+  private <T> void registerOptionHandler(Class<T> type,
+      Class<? extends OptionHandler<T>> impl) {
+    final Key<OptionHandlerFactory<T>> key = OptionHandlerUtil.keyFor(type);
+
+    final TypeLiteral<OptionHandlerFactory<T>> factoryType =
+        new TypeLiteral<OptionHandlerFactory<T>>() {};
+
+    final TypeLiteral<? extends OptionHandler<T>> implType =
+        TypeLiteral.get(impl);
+
+    bind(key).toProvider(FactoryProvider.newFactory(factoryType, implType));
   }
 }

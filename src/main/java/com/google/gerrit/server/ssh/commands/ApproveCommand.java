@@ -46,13 +46,9 @@ import java.util.Collections;
 import java.util.List;
 
 public class ApproveCommand extends BaseCommand {
-  static {
-    CmdLineParser.registerHandler(PatchSet.Id.class, PatchSetIdHandler.class);
-  }
-
   @Override
   protected final CmdLineParser newCmdLineParser() {
-    final CmdLineParser parser = new CmdLineParser(this);
+    final CmdLineParser parser = super.newCmdLineParser();
     for (CmdOption c : optionList) {
       parser.addOption(c, c);
     }

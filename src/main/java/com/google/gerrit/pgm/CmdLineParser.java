@@ -34,10 +34,22 @@
 
 package com.google.gerrit.pgm;
 
+import com.google.inject.Inject;
+import com.google.inject.Injector;
+import com.google.inject.Key;
+import com.google.inject.assistedinject.Assisted;
+
+import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.IllegalAnnotationError;
+import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.OptionDef;
+import org.kohsuke.args4j.spi.OptionHandler;
+import org.kohsuke.args4j.spi.Setter;
 
+import java.io.Writer;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 /**
  * Extended command line parser which handles --foo=value arguments.
@@ -47,7 +59,14 @@ import java.util.ArrayList;
  * --foo=value long option, so we convert from the GNU style format to the
  * args4j style format prior to invoking args4j for parsing.
  */
-public class CmdLineParser extends org.kohsuke.args4j.CmdLineParser {
+public class CmdLineParser {
+  public interface Factory {
+    CmdLineParser create(Object bean);
+  }
+
+  private final Injector injector;
+  private final MyParser parser;
+
   /**
    * Creates a new command line owner that parses arguments/options and set them
    * into the given object.
@@ -60,11 +79,29 @@ public class CmdLineParser extends org.kohsuke.args4j.CmdLineParser {
    * @throws IllegalAnnotationError if the option bean class is using args4j
    *         annotations incorrectly.
    */
-  public CmdLineParser(final Object bean) throws IllegalAnnotationError {
-    super(bean);
+  @Inject
+  public CmdLineParser(final Injector injector, @Assisted final Object bean)
+      throws IllegalAnnotationError {
+    this.injector = injector;
+    this.parser = new MyParser(bean);
   }
 
-  @Override
+  public void addArgument(Setter<?> setter, Argument a) {
+    parser.addArgument(setter, a);
+  }
+
+  public void addOption(Setter<?> setter, Option o) {
+    parser.addOption(setter, o);
+  }
+
+  public void printSingleLineUsage(Writer w, ResourceBundle rb) {
+    parser.printSingleLineUsage(w, rb);
+  }
+
+  public void printUsage(Writer out, ResourceBundle rb) {
+    parser.printUsage(out, rb);
+  }
+
   public void parseArgument(final String... args) throws CmdLineException {
     final ArrayList<String> tmp = new ArrayList<String>(args.length);
     for (int argi = 0; argi < args.length; argi++) {
@@ -87,6 +124,47 @@ public class CmdLineParser extends org.kohsuke.args4j.CmdLineParser {
       tmp.add(str);
     }
 
-    super.parseArgument(tmp.toArray(new String[tmp.size()]));
+    parser.parseArgument(tmp.toArray(new String[tmp.size()]));
+  }
+
+  private class MyParser extends org.kohsuke.args4j.CmdLineParser {
+    MyParser(final Object bean) {
+      super(bean);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    protected OptionHandler createOptionHandler(final OptionDef option,
+        final Setter setter) {
+      if (isHandlerSpecified(option) || isEnum(setter) || isPrimitive(setter)) {
+        return super.createOptionHandler(option, setter);
+      }
+
+      final Key<OptionHandlerFactory<?>> key =
+          OptionHandlerUtil.keyFor(setter.getType());
+      Injector i = injector;
+      while (i != null) {
+        if (i.getBindings().containsKey(key)) {
+          return i.getInstance(key).create(this, option, setter);
+        }
+        i = i.getParent();
+      }
+
+      return super.createOptionHandler(option, setter);
+    }
+
+    private boolean isHandlerSpecified(final OptionDef option) {
+      return option.handler() != OptionHandler.class;
+    }
+
+    @SuppressWarnings("unchecked")
+    private boolean isEnum(final Setter setter) {
+      return Enum.class.isAssignableFrom(setter.getType());
+    }
+
+    @SuppressWarnings("unchecked")
+    private boolean isPrimitive(final Setter setter) {
+      return setter.getType().isPrimitive();
+    }
   }
 }

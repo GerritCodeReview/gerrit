@@ -55,6 +55,9 @@ public abstract class BaseCommand implements Command {
   private ExitCallback exit;
 
   @Inject
+  private CmdLineParser.Factory cmdLineParserFactory;
+
+  @Inject
   private RequestCleanup cleanup;
 
   /** Text of the command line which lead up to invoking this instance. */
@@ -180,7 +183,7 @@ public abstract class BaseCommand implements Command {
 
   /** Construct a new parser for this command's received command line. */
   protected CmdLineParser newCmdLineParser() {
-    return new CmdLineParser(this);
+    return cmdLineParserFactory.create(this);
   }
 
   /**

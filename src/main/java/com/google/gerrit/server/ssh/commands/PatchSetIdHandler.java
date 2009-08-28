@@ -15,6 +15,8 @@
 package com.google.gerrit.server.ssh.commands;
 
 import com.google.gerrit.client.reviewdb.PatchSet;
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
@@ -24,8 +26,10 @@ import org.kohsuke.args4j.spi.Parameters;
 import org.kohsuke.args4j.spi.Setter;
 
 public class PatchSetIdHandler extends OptionHandler<PatchSet.Id> {
-  public PatchSetIdHandler(final CmdLineParser parser, final OptionDef option,
-      final Setter<? super PatchSet.Id> setter) {
+  @SuppressWarnings("unchecked")
+  @Inject
+  public PatchSetIdHandler(@Assisted final CmdLineParser parser,
+      @Assisted final OptionDef option, @Assisted final Setter setter) {
     super(parser, option, setter);
   }
 

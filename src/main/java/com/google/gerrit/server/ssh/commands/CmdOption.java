@@ -15,13 +15,16 @@
 package com.google.gerrit.server.ssh.commands;
 
 import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.OptionDef;
+import org.kohsuke.args4j.spi.OneArgumentOptionHandler;
 import org.kohsuke.args4j.spi.OptionHandler;
 import org.kohsuke.args4j.spi.Setter;
 
 import java.lang.annotation.Annotation;
 
-class CmdOption implements Option, Setter {
+class CmdOption implements Option, Setter<Short> {
   private String metaVar;
   private boolean multiValued;
   private String name;
@@ -57,8 +60,8 @@ class CmdOption implements Option, Setter {
   }
 
   @Override
-  public final Class<? extends OptionHandler> handler() {
-    return OptionHandler.class;
+  public final Class<? extends OptionHandler<Short>> handler() {
+    return Handler.class;
   }
 
   @Override
@@ -112,23 +115,53 @@ class CmdOption implements Option, Setter {
   }
 
   @Override
-  public void addValue(final Object value) throws CmdLineException {
-    Short val = (Short) value;
-    if (val < approvalMin || val > approvalMax) {
-      throw new CmdLineException(name() + " valid values are "
-          + approvalMin.toString() + ".." + approvalMax.toString());
-    }
-
-    this.value = (Short) value;
+  public void addValue(final Short val) {
+    this.value = val;
   }
 
   @Override
-  public Class getType() {
+  public Class<Short> getType() {
     return Short.class;
   }
 
   @Override
   public boolean isMultiValued() {
     return false;
+  }
+
+  public static class Handler extends OneArgumentOptionHandler<Short> {
+    private final CmdOption cmdOption;
+
+    public Handler(final CmdLineParser parser, final OptionDef option,
+        final Setter<Short> setter) {
+      super(parser, option, setter);
+      this.cmdOption = (CmdOption) setter;
+    }
+
+    @Override
+    protected Short parse(final String token) throws NumberFormatException,
+        CmdLineException {
+      String argument = token;
+      if (argument.startsWith("+")) {
+        argument = argument.substring(1);
+      }
+
+      final short value = Short.parseShort(argument);
+      final short min = cmdOption.approvalMin;
+      final short max = cmdOption.approvalMax;
+
+      if (value < min || value > max) {
+        final String name = cmdOption.name();
+        final String e =
+            "\"" + token + "\" must be in range " + format(min) + ".."
+                + format(max) + " for \"" + name + "\"";
+        throw new CmdLineException(owner, e);
+      }
+      return value;
+    }
+  }
+
+  static String format(final short min) {
+    return min > 0 ? "+" + min : Short.toString(min);
   }
 }

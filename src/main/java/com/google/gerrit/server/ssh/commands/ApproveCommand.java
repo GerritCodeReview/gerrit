@@ -206,7 +206,7 @@ public class ApproveCommand extends BaseCommand {
     }
   }
 
-  private void getApprovalNames() throws OrmException {
+  private void getApprovalNames() {
     optionList = new ArrayList<CmdOption>();
 
     for (ApprovalType type : approvalTypes.getApprovalTypes()) {
@@ -216,7 +216,8 @@ public class ApproveCommand extends BaseCommand {
 
       for (ApprovalCategoryValue v : type.getValues()) {
         usage +=
-            String.format("%4d", v.getValue()) + "  -  " + v.getName() + "\n";
+            String.format("%3s", CmdOption.format(v.getValue())) + ": "
+                + v.getName() + "\n";
       }
 
       optionList.add(new CmdOption("--"

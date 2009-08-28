@@ -36,12 +36,13 @@ public class PatchSetIdHandler extends OptionHandler<PatchSet.Id> {
   @Override
   public final int parseArguments(final Parameters params)
       throws CmdLineException {
-    final String idString = params.getParameter(0);
+    final String token = params.getParameter(0);
     final PatchSet.Id id;
     try {
-      id = PatchSet.Id.parse(idString);
+      id = PatchSet.Id.parse(token);
     } catch (IllegalArgumentException e) {
-      throw new CmdLineException(owner, "Invalid patch set: " + idString);
+      throw new CmdLineException(owner, "\"" + token
+          + "\" is not a valid patch set");
     }
 
     setter.addValue(id);

@@ -57,7 +57,7 @@ public class ApproveCommand extends BaseCommand {
 
   private static final int CMD_ERR = 3;
 
-  @Argument(index = 0, required = true, usage = "Patch set to approve")
+  @Argument(index = 0, required = true, metaVar = "CHANGE,PATCHSET", usage = "Patch set to approve")
   private PatchSet.Id patchSetId;
 
   @Option(name = "--message", aliases = "-m", usage = "Message to put on change/patchset", metaVar = "MESSAGE")

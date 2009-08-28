@@ -63,23 +63,30 @@ public class ApproveCommand extends BaseCommand {
 
   @Argument(index = 0, required = true, usage = "Patch set to approve")
   private PatchSet.Id patchSetId;
+
   @Option(name = "--message", aliases = "-m", usage = "Message to put on change/patchset", metaVar = "MESSAGE")
   private String changeComment;
+
   @Inject
   private ReviewDb db;
+
   @Inject
   private IdentifiedUser currentUser;
+
   @Inject
   private Factory commentSenderFactory;
+
   @Inject
   private PatchSetInfoFactory patchSetInfoFactory;
+
   @Inject
   private ApprovalTypes approvalTypes;
+
   @Inject
   private ChangeControl.Factory changeControlFactory;
+
   @Inject
   private FunctionState.Factory functionStateFactory;
-
 
   private List<CmdOption> optionList;
 
@@ -116,8 +123,8 @@ public class ApproveCommand extends BaseCommand {
           ApprovalCategory.Id category =
               new ApprovalCategory.Id(co.approvalKey());
           PatchSetApproval.Key psaKey =
-              new PatchSetApproval.Key(patchSetId, currentUser
-                  .getAccountId(), category);
+              new PatchSetApproval.Key(patchSetId, currentUser.getAccountId(),
+                  category);
           PatchSetApproval psa = db.patchSetApprovals().get(psaKey);
 
           Short score = co.value();
@@ -126,16 +133,16 @@ public class ApproveCommand extends BaseCommand {
             addApproval(psaKey, score, c, co, txn);
           } else {
             if (psa == null) {
-                score = 0;
-                addApproval(psaKey, score, c, co, txn);
+              score = 0;
+              addApproval(psaKey, score, c, co, txn);
             } else {
               score = psa.getValue();
             }
           }
 
           String message =
-            db.approvalCategoryValues().get(
-                new ApprovalCategoryValue.Id(category, score)).getName();
+              db.approvalCategoryValues().get(
+                  new ApprovalCategoryValue.Id(category, score)).getName();
           sb.append(" " + message + ";");
         }
 
@@ -175,8 +182,7 @@ public class ApproveCommand extends BaseCommand {
 
   private void addApproval(final PatchSetApproval.Key psaKey,
       final Short score, final Change c, final CmdOption co,
-      final Transaction txn) throws OrmException,
-      UnloggedFailure {
+      final Transaction txn) throws OrmException, UnloggedFailure {
     PatchSetApproval psa = db.patchSetApprovals().get(psaKey);
     boolean insert = false;
 
@@ -187,10 +193,9 @@ public class ApproveCommand extends BaseCommand {
 
     final List<PatchSetApproval> approvals = Collections.emptyList();
     final FunctionState fs =
-      functionStateFactory.create(c, patchSetId, approvals);
+        functionStateFactory.create(c, patchSetId, approvals);
     psa.setValue(score);
-    fs.normalize(
-        approvalTypes.getApprovalType(psa.getCategoryId()), psa);
+    fs.normalize(approvalTypes.getApprovalType(psa.getCategoryId()), psa);
     if (score != psa.getValue()) {
       throw new UnloggedFailure(CMD_ERR, co.name() + "=" + co.value()
           + " not permitted");
@@ -218,11 +223,10 @@ public class ApproveCommand extends BaseCommand {
             String.format("%4d", v.getValue()) + "  -  " + v.getName() + "\n";
       }
 
-      optionList.add(
-          new CmdOption(
-              "--" + category.getName().toLowerCase().replace(' ', '-'), usage,
-              category.getId().get(), type.getMin().getValue(),
-              type.getMax().getValue(), category.getName()));
+      optionList.add(new CmdOption("--"
+          + category.getName().toLowerCase().replace(' ', '-'), usage, category
+          .getId().get(), type.getMin().getValue(), type.getMax().getValue(),
+          category.getName()));
     }
   }
 }

@@ -41,7 +41,6 @@ import com.google.inject.Inject;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -85,7 +84,7 @@ public class ApproveCommand extends BaseCommand {
   private List<CmdOption> optionList;
 
   @Override
-  public final void start() throws IOException {
+  public final void start() {
     startThread(new CommandRunnable() {
       @Override
       public void run() throws Exception {

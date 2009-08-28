@@ -54,14 +54,14 @@ final class AdminFlushCaches extends CacheCommand {
     p = toPrintWriter(err);
     if (list) {
       if (all || caches.size() > 0) {
-        throw new Failure(1, "error: cannot use --list with --all or --cache");
+        throw error("error: cannot use --list with --all or --cache");
       }
       doList();
       return;
     }
 
     if (all && caches.size() > 0) {
-      throw new Failure(1, "error: cannot combine --all and --cache");
+      throw error("error: cannot combine --all and --cache");
     } else if (!all && caches.size() == 1 && caches.contains("all")) {
       caches.clear();
       all = true;
@@ -72,10 +72,14 @@ final class AdminFlushCaches extends CacheCommand {
     final SortedSet<String> names = cacheNames();
     for (final String n : caches) {
       if (!names.contains(n)) {
-        throw new Failure(1, "error: cache \"" + n + "\" not recognized");
+        throw error("error: cache \"" + n + "\" not recognized");
       }
     }
     doBulkFlush();
+  }
+
+  private static UnloggedFailure error(final String msg) {
+    return new UnloggedFailure(1, msg);
   }
 
   private void doList() {

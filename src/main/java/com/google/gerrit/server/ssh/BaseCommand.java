@@ -156,7 +156,7 @@ public abstract class BaseCommand implements Command {
       list.add(r.toString());
     }
 
-    final CmdLineParser clp = newCmdLineParserInstance(this);
+    final CmdLineParser clp = newCmdLineParser();
     try {
       clp.parseArgument(list.toArray(new String[list.size()]));
     } catch (CmdLineException err) {
@@ -178,8 +178,9 @@ public abstract class BaseCommand implements Command {
     }
   }
 
-  protected CmdLineParser newCmdLineParserInstance(Object bean) {
-    return new CmdLineParser(bean);
+  /** Construct a new parser for this command's received command line. */
+  protected CmdLineParser newCmdLineParser() {
+    return new CmdLineParser(this);
   }
 
   /**

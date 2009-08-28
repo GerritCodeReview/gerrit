@@ -51,13 +51,12 @@ public class ApproveCommand extends BaseCommand {
     CmdLineParser.registerHandler(PatchSet.Id.class, PatchSetIdHandler.class);
   }
 
-  protected final CmdLineParser newCmdLineParserInstance(final Object bean) {
-    CmdLineParser parser = new CmdLineParser(bean);
-
+  @Override
+  protected final CmdLineParser newCmdLineParser() {
+    final CmdLineParser parser = new CmdLineParser(this);
     for (CmdOption c : optionList) {
       parser.addOption(c, c);
     }
-
     return parser;
   }
 

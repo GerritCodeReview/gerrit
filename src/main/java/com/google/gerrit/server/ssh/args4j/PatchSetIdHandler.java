@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.ssh.commands;
+package com.google.gerrit.server.ssh.args4j;
 
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.inject.Inject;

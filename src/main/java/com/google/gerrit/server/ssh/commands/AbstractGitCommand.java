@@ -14,12 +14,9 @@
 
 package com.google.gerrit.server.ssh.commands;
 
-import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.server.GerritServer;
-import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.ssh.BaseCommand;
 import com.google.inject.Inject;
 
@@ -31,19 +28,12 @@ import java.io.IOException;
 
 abstract class AbstractGitCommand extends BaseCommand {
   @Argument(index = 0, metaVar = "PROJECT.git", required = true, usage = "project name")
-  private String reqProjName;
+  protected ProjectControl projectControl;
 
   @Inject
   protected GerritServer server;
 
-  @Inject
-  private IdentifiedUser currentUser;
-
-  @Inject
-  private ProjectCache projectCache;
-
   protected Repository repo;
-  protected ProjectState projectState;
   protected Project project;
 
   @Override
@@ -58,48 +48,20 @@ abstract class AbstractGitCommand extends BaseCommand {
   }
 
   private void service() throws IOException, Failure {
-    String projectName = reqProjName;
-    if (projectName.endsWith(".git")) {
-      // Be nice and drop the trailing ".git" suffix, which we never keep
-      // in our database, but clients might mistakenly provide anyway.
-      //
-      projectName = projectName.substring(0, projectName.length() - 4);
-    }
-    if (projectName.startsWith("/")) {
-      // Be nice and drop the leading "/" if supplied by an absolute path.
-      // We don't have a file system hierarchy, just a flat namespace in
-      // the database's Project entities. We never encode these with a
-      // leading '/' but users might accidentally include them in Git URLs.
-      //
-      projectName = projectName.substring(1);
-    }
+    project = projectControl.getProjectState().getProject();
 
-    projectState = projectCache.get(new Project.NameKey(projectName));
-    if (projectState == null) {
-      throw new Failure(1, "fatal: '" + reqProjName + "': not a Gerrit project");
-    }
-
-    project = projectState.getProject();
-    if (!canPerform(ApprovalCategory.READ, (short) 1)) {
-      throw new Failure(1, "fatal: '" + reqProjName + "': unknown project",
-          new SecurityException("Account lacks Read permission"));
-    }
-
+    final String name = project.getName();
     try {
-      repo = server.openRepository(project.getName());
+      repo = server.openRepository(name);
     } catch (RepositoryNotFoundException e) {
-      throw new Failure(1, "fatal: '" + reqProjName + "': not a git archive", e);
+      throw new Failure(1, "fatal: '" + name + "': not a git archive", e);
     }
+
     try {
       runImpl();
     } finally {
       repo.close();
     }
-  }
-
-  protected boolean canPerform(final ApprovalCategory.Id actionId,
-      final short val) {
-    return projectState.controlFor(currentUser).canPerform(actionId, val);
   }
 
   protected abstract void runImpl() throws IOException, Failure;

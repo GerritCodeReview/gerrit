@@ -269,7 +269,7 @@ final class Receive extends AbstractGitCommand {
       throws UnloggedFailure {
     for (final Account.Id id : who) {
       final IdentifiedUser user = identifiedUserFactory.create(id);
-      if (!projectState.controlFor(user).isVisible()) {
+      if (!projectControl.forUser(user).isVisible()) {
         throw new UnloggedFailure(1, type + " "
             + user.getAccount().getFullName() + " cannot access the project");
       }
@@ -1419,6 +1419,10 @@ final class Receive extends AbstractGitCommand {
         log.error("Cannot send email for submitted patch set " + psi, e);
       }
     }
+  }
+
+  private boolean canPerform(final ApprovalCategory.Id actionId, final short val) {
+    return projectControl.canPerform(actionId, val);
   }
 
   private static void reject(final ReceiveCommand cmd) {

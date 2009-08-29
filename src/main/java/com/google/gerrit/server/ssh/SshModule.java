@@ -25,8 +25,10 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GerritRequestModule;
+import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.ssh.commands.DefaultCommandModule;
 import com.google.gerrit.server.ssh.commands.PatchSetIdHandler;
+import com.google.gerrit.server.ssh.commands.ProjectControlHandler;
 import com.google.inject.Key;
 import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
@@ -100,6 +102,7 @@ public class SshModule extends FactoryModule {
     factory(CmdLineParser.Factory.class);
 
     registerOptionHandler(PatchSet.Id.class, PatchSetIdHandler.class);
+    registerOptionHandler(ProjectControl.class, ProjectControlHandler.class);
   }
 
   private <T> void registerOptionHandler(Class<T> type,

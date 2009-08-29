@@ -16,6 +16,7 @@ package com.google.gerrit.server.ssh;
 
 import static com.google.inject.Scopes.SINGLETON;
 
+import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.pgm.CmdLineParser;
 import com.google.gerrit.pgm.OptionHandlerFactory;
@@ -26,6 +27,7 @@ import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GerritRequestModule;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.ssh.commands.AccountIdHandler;
 import com.google.gerrit.server.ssh.commands.DefaultCommandModule;
 import com.google.gerrit.server.ssh.commands.PatchSetIdHandler;
 import com.google.gerrit.server.ssh.commands.ProjectControlHandler;
@@ -101,6 +103,7 @@ public class SshModule extends FactoryModule {
   private void configureCmdLineParser() {
     factory(CmdLineParser.Factory.class);
 
+    registerOptionHandler(Account.Id.class, AccountIdHandler.class);
     registerOptionHandler(PatchSet.Id.class, PatchSetIdHandler.class);
     registerOptionHandler(ProjectControl.class, ProjectControlHandler.class);
   }

@@ -57,7 +57,6 @@ import com.google.gwtorm.client.OrmRunnable;
 import com.google.gwtorm.client.Transaction;
 import com.google.inject.Inject;
 
-import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -115,25 +114,13 @@ final class Receive extends AbstractGitCommand {
   private final Set<Account.Id> ccId = new HashSet<Account.Id>();
 
   @Option(name = "--reviewer", aliases = {"--re"}, multiValued = true, metaVar = "EMAIL", usage = "request reviewer for change(s)")
-  void addReviewer(final String nameOrEmail) throws CmdLineException {
-    try {
-      reviewerId.add(toAccountId(nameOrEmail));
-    } catch (NoSuchAccountException e) {
-      throw new CmdLineException(e.getMessage());
-    } catch (OrmException e) {
-      throw new CmdLineException("database is down");
-    }
+  void addReviewer(final Account.Id id) {
+    reviewerId.add(id);
   }
 
   @Option(name = "--cc", aliases = {}, multiValued = true, metaVar = "EMAIL", usage = "CC user on change(s)")
-  void addCC(final String nameOrEmail) throws CmdLineException {
-    try {
-      ccId.add(toAccountId(nameOrEmail));
-    } catch (NoSuchAccountException e) {
-      throw new CmdLineException(e.getMessage());
-    } catch (OrmException e) {
-      throw new CmdLineException("database is down");
-    }
+  void addCC(final Account.Id id) {
+    ccId.add(id);
   }
 
   @Inject

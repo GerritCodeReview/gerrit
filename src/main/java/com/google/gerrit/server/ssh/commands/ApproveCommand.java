@@ -22,6 +22,7 @@ import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.ChangeMessage;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.PatchSetApproval;
+import com.google.gerrit.client.reviewdb.RevId;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.pgm.CmdLineParser;
 import com.google.gerrit.server.ChangeUtil;
@@ -32,9 +33,11 @@ import com.google.gerrit.server.mail.CommentSender.Factory;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.ssh.BaseCommand;
 import com.google.gerrit.server.workflow.FunctionState;
 import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.ResultSet;
 import com.google.gwtorm.client.Transaction;
 import com.google.inject.Inject;
 
@@ -43,7 +46,9 @@ import org.kohsuke.args4j.Option;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ApproveCommand extends BaseCommand {
   @Override
@@ -55,10 +60,13 @@ public class ApproveCommand extends BaseCommand {
     return parser;
   }
 
-  @Argument(index = 0, required = true, metaVar = "CHANGE,PATCHSET", usage = "Patch set to approve")
-  private PatchSet.Id patchSetId;
+  @Argument(index = 0, required = true, metaVar = "{COMMIT | CHANGE,PATCHSET}", usage = "patch to approve")
+  private String patchIdentity;
 
-  @Option(name = "--message", aliases = "-m", usage = "Message to put on change/patchset", metaVar = "MESSAGE")
+  @Option(name = "--project", aliases = "-p", usage = "project containing the patch set")
+  private ProjectControl projectControl;
+
+  @Option(name = "--message", aliases = "-m", usage = "cover message to publish on change", metaVar = "MESSAGE")
   private String changeComment;
 
   @Inject
@@ -92,26 +100,25 @@ public class ApproveCommand extends BaseCommand {
         initOptionList();
         parseCommandLine();
 
+        final PatchSet.Id patchSetId = parsePatchSetId();
+        final Change.Id changeId = patchSetId.getParentKey();
+        final ChangeControl changeControl =
+            changeControlFactory.validateFor(changeId);
+        final Change change = changeControl.getChange();
+
+        if (change.getStatus().isClosed()) {
+          throw error("change " + changeId + " is closed");
+        }
+        if (!inProject(change)) {
+          throw error("change " + changeId + " not in project "
+              + projectControl.getProject().getName());
+        }
+
         final Transaction txn = db.beginTransaction();
-
-        final PatchSet ps = db.patchSets().get(patchSetId);
-
-        if (ps == null) {
-          throw error("" + patchSetId + " no such patch set");
-        }
-
-        final Change.Id cid = ps.getId().getParentKey();
-        final ChangeControl control = changeControlFactory.validateFor(cid);
-        final Change c = control.getChange();
-
-        if (c.getStatus().isClosed()) {
-          throw error("change " + cid + " is closed");
-        }
-
-        StringBuffer sb = new StringBuffer();
-        sb.append("Patch Set ");
-        sb.append(patchSetId.get());
-        sb.append(": ");
+        final StringBuffer msgBuf = new StringBuffer();
+        msgBuf.append("Patch Set ");
+        msgBuf.append(patchSetId.get());
+        msgBuf.append(": ");
 
         for (ApproveOption co : optionList) {
           final ApprovalCategory.Id category = co.getCategoryId();
@@ -123,11 +130,11 @@ public class ApproveCommand extends BaseCommand {
           Short score = co.value();
 
           if (score != null) {
-            addApproval(psaKey, score, c, co, txn);
+            addApproval(psaKey, score, change, co, txn);
           } else {
             if (psa == null) {
               score = 0;
-              addApproval(psaKey, score, c, co, txn);
+              addApproval(psaKey, score, change, co, txn);
             } else {
               score = psa.getValue();
             }
@@ -136,28 +143,84 @@ public class ApproveCommand extends BaseCommand {
           String message =
               db.approvalCategoryValues().get(
                   new ApprovalCategoryValue.Id(category, score)).getName();
-          sb.append(" " + message + ";");
+          msgBuf.append(" " + message + ";");
         }
 
-        sb.deleteCharAt(sb.length() - 1);
-        sb.append("\n\n");
+        msgBuf.deleteCharAt(msgBuf.length() - 1);
+        msgBuf.append("\n\n");
 
         if (changeComment != null) {
-          sb.append(changeComment);
+          msgBuf.append(changeComment);
         }
 
         String uuid = ChangeUtil.messageUUID(db);
         ChangeMessage cm =
-            new ChangeMessage(new ChangeMessage.Key(cid, uuid), currentUser
-                .getAccountId());
-        cm.setMessage(sb.toString());
+            new ChangeMessage(new ChangeMessage.Key(changeId, uuid),
+                currentUser.getAccountId());
+        cm.setMessage(msgBuf.toString());
         db.changeMessages().insert(Collections.singleton(cm), txn);
-        ChangeUtil.updated(c);
-        db.changes().update(Collections.singleton(c), txn);
+        ChangeUtil.updated(change);
+        db.changes().update(Collections.singleton(change), txn);
         txn.commit();
-        sendMail(c, c.currentPatchSetId(), cm);
+        sendMail(change, change.currentPatchSetId(), cm);
       }
     });
+  }
+
+  private PatchSet.Id parsePatchSetId() throws UnloggedFailure, OrmException {
+    // By commit?
+    //
+    if (patchIdentity.matches("^([0-9a-fA-F]{4," + RevId.LEN + "})$")) {
+      final RevId id = new RevId(patchIdentity);
+      final ResultSet<PatchSet> patches;
+      if (id.isComplete()) {
+        patches = db.patchSets().byRevision(id);
+      } else {
+        patches = db.patchSets().byRevisionRange(id, id.max());
+      }
+
+      final Set<PatchSet.Id> matches = new HashSet<PatchSet.Id>();
+      for (final PatchSet ps : patches) {
+        final Change change = db.changes().get(ps.getId().getParentKey());
+        if (inProject(change)) {
+          matches.add(ps.getId());
+        }
+      }
+
+      switch (matches.size()) {
+        case 1:
+          return matches.iterator().next();
+        case 0:
+          throw error("\"" + patchIdentity + "\" no such patch set");
+        default:
+          throw error("\"" + patchIdentity + "\" matches multiple patch sets");
+      }
+    }
+
+    // By older style change,patchset?
+    //
+    if (patchIdentity.matches("^[1-9][0-9]*,[1-9][0-9]$")) {
+      final PatchSet.Id patchSetId;
+      try {
+        patchSetId = PatchSet.Id.parse(patchIdentity);
+      } catch (IllegalArgumentException e) {
+        throw error("\"" + patchIdentity + "\" is not a valid patch set");
+      }
+      if (db.patchSets().get(patchSetId) == null) {
+        throw error("\"" + patchIdentity + "\" no such patch set");
+      }
+      return patchSetId;
+    }
+
+    throw error("\"" + patchIdentity + "\" is not a valid patch set");
+  }
+
+  private boolean inProject(final Change change) {
+    if (projectControl == null) {
+      // No --project option, so they want every project.
+      return true;
+    }
+    return projectControl.getProject().getNameKey().equals(change.getProject());
   }
 
   private void sendMail(final Change c, final PatchSet.Id psid,
@@ -186,7 +249,7 @@ public class ApproveCommand extends BaseCommand {
 
     final List<PatchSetApproval> approvals = Collections.emptyList();
     final FunctionState fs =
-        functionStateFactory.create(c, patchSetId, approvals);
+        functionStateFactory.create(c, psaKey.getParentKey(), approvals);
     psa.setValue(score);
     fs.normalize(approvalTypes.getApprovalType(psa.getCategoryId()), psa);
     if (score != psa.getValue()) {
@@ -208,7 +271,7 @@ public class ApproveCommand extends BaseCommand {
     for (ApprovalType type : approvalTypes.getApprovalTypes()) {
       String usage = "";
       final ApprovalCategory category = type.getCategory();
-      usage = "Score for " + category.getName() + "\n";
+      usage = "score for " + category.getName() + "\n";
 
       for (ApprovalCategoryValue v : type.getValues()) {
         usage +=

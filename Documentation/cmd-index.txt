@@ -57,6 +57,9 @@ link:cmd-receive-pack.html[git receive-pack]::
 Also implements the magic associated with uploading commits for
 review.  See link:user-upload.html#push_create[Creating Changes].
 
+link:cmd-approve.html[gerrit approve]::
+	Approve a patch set from the command line.
+
 link:cmd-ls-projects.html[gerrit ls-projects]::
 	List projects visible to the caller.
 

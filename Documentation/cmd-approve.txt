@@ -1,0 +1,87 @@
+gerrit approve
+==============
+
+NAME
+----
+gerrit approve - Approve one or more patch sets
+
+SYNOPSIS
+--------
+[verse]
+'ssh' -p <port> <host> 'gerrit approve' [\--project <PROJECT>] [\--message <MESSAGE>] {COMMIT | CHANGEID,PATCHSET}...
+
+DESCRIPTION
+-----------
+Updates the current user's approval status of the specified patch
+sets, sending out email notifications and updating the database.
+
+Patch sets should be specified as complete or abbreviated commit
+SHA-1s.  If the same commit is available in multiple projects the
+\--project option may be used to limit where Gerrit searches for
+the change to only the contents of the specified project.
+
+For current backward compatibility with user tools patch sets may
+also be specified in the legacy 'CHANGEID,PATCHSET' format, such as
+'8242,2'.  Support for this legacy format is planned to be removed
+in a future edition of Gerrit Code Review.  Use of commit SHA-1s
+is strongly encouraged.
+
+OPTIONS
+-------
+
+\--project::
+-p::
+	Name of the project the intended changes are contained
+	within.  This option must be supplied before the commit
+	SHA-1 in order to take effect.
+
+\--message::
+-m::
+	Optional cover letter to include as part of the message
+	sent to reviewers when the approval states are updated.
+
+\--help::
+-h::
+	Display site-specific usage information, including the
+	complete listing of supported approval categories and values.
+
+\--code-review::
+\--verified::
+	Set the approval category to the value 'N'.  The exact
+	option names supported and the range of values permitted
+	differs per site, check the output of \--help, or contact
+	your site administrator for further details.
+
+ACCESS
+------
+Any user who has configured an SSH key.
+
+SCRIPTING
+---------
+This command is intended to be used in scripts.
+
+EXAMPLES
+--------
+
+Approve the change with commit c0ff33 as "Verified +1"
+=====
+	$ ssh -p 29418 review.example.com gerrit approve --verified=+1 c0ff33
+=====
+
+Mark the unmerged commits both "Verified +1" and "Code Review +2":
+====
+	$ ssh -p 29418 review.example.com gerrit approve \
+	--verified=+1 \
+	--code-review=+2 \
+	--project=this/project \
+	$(git rev-list origin/master..HEAD)
+====
+
+SEE ALSO
+--------
+
+* link:access-control.html[Access Controls]
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

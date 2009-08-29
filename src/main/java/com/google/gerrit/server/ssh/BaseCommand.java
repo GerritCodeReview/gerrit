@@ -17,6 +17,8 @@ package com.google.gerrit.server.ssh;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.pgm.CmdLineParser;
 import com.google.gerrit.server.RequestCleanup;
+import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.ssh.SshScopes.Context;
 import com.google.inject.Inject;
 
@@ -243,7 +245,13 @@ public abstract class BaseCommand implements Command {
             active.add(cmd);
           }
           SshScopes.current.set(context);
-          thunk.run();
+          try {
+            thunk.run();
+          } catch (NoSuchProjectException e) {
+            throw new UnloggedFailure(1, e.getMessage() + " no such project");
+          } catch (NoSuchChangeException e) {
+            throw new UnloggedFailure(1, e.getMessage() + " no such change");
+          }
           out.flush();
           err.flush();
         } catch (Throwable e) {

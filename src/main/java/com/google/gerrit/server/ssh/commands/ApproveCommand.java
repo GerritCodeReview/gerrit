@@ -55,8 +55,6 @@ public class ApproveCommand extends BaseCommand {
     return parser;
   }
 
-  private static final int CMD_ERR = 3;
-
   @Argument(index = 0, required = true, metaVar = "CHANGE,PATCHSET", usage = "Patch set to approve")
   private PatchSet.Id patchSetId;
 
@@ -99,7 +97,7 @@ public class ApproveCommand extends BaseCommand {
         final PatchSet ps = db.patchSets().get(patchSetId);
 
         if (ps == null) {
-          throw new UnloggedFailure(CMD_ERR, "Invalid patchset id");
+          throw error("" + patchSetId + " no such patch set");
         }
 
         final Change.Id cid = ps.getId().getParentKey();
@@ -107,7 +105,7 @@ public class ApproveCommand extends BaseCommand {
         final Change c = control.getChange();
 
         if (c.getStatus().isClosed()) {
-          throw new UnloggedFailure(CMD_ERR, "Change is closed.");
+          throw error("change " + cid + " is closed");
         }
 
         StringBuffer sb = new StringBuffer();
@@ -193,8 +191,7 @@ public class ApproveCommand extends BaseCommand {
     psa.setValue(score);
     fs.normalize(approvalTypes.getApprovalType(psa.getCategoryId()), psa);
     if (score != psa.getValue()) {
-      throw new UnloggedFailure(CMD_ERR, co.name() + "=" + co.value()
-          + " not permitted");
+      throw error(co.name() + "=" + co.value() + " not permitted");
     }
 
     psa.setGranted();
@@ -225,5 +222,9 @@ public class ApproveCommand extends BaseCommand {
           .getId().get(), type.getMin().getValue(), type.getMax().getValue(),
           category.getName()));
     }
+  }
+
+  private static UnloggedFailure error(final String msg) {
+    return new UnloggedFailure(1, msg);
   }
 }

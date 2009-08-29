@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.ssh.commands;
 
+import com.google.gerrit.client.data.ApprovalType;
+import com.google.gerrit.client.reviewdb.ApprovalCategory;
+
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
@@ -24,89 +27,56 @@ import org.kohsuke.args4j.spi.Setter;
 
 import java.lang.annotation.Annotation;
 
-class CmdOption implements Option, Setter<Short> {
-  private String metaVar;
-  private boolean multiValued;
-  private String name;
-  private boolean required;
-  private String usage;
-
-  private String approvalKey;
-  private Short approvalMax;
-  private Short approvalMin;
-  private String descrName;
+final class ApproveOption implements Option, Setter<Short> {
+  private final String name;
+  private final String usage;
+  private final ApprovalType type;
 
   private Short value;
 
-  public CmdOption(final String name, final String usage, final String key,
-      final Short min, final Short max, final String descrName) {
+  ApproveOption(final String name, final String usage, final ApprovalType type) {
     this.name = name;
     this.usage = usage;
-
-    this.metaVar = "";
-    this.multiValued = false;
-    this.required = false;
-    this.value = null;
-
-    this.approvalKey = key;
-    this.approvalMax = max;
-    this.approvalMin = min;
-    this.descrName = descrName;
+    this.type = type;
   }
 
   @Override
-  public final String[] aliases() {
+  public String[] aliases() {
     return new String[0];
   }
 
   @Override
-  public final Class<? extends OptionHandler<Short>> handler() {
+  public Class<? extends OptionHandler<Short>> handler() {
     return Handler.class;
   }
 
   @Override
-  public final String metaVar() {
-    return metaVar;
+  public String metaVar() {
+    return "N";
   }
 
   @Override
-  public final boolean multiValued() {
-    return multiValued;
+  public boolean multiValued() {
+    return false;
   }
 
   @Override
-  public final String name() {
+  public String name() {
     return name;
   }
 
   @Override
-  public final boolean required() {
-    return required;
+  public boolean required() {
+    return false;
   }
 
   @Override
-  public final String usage() {
+  public String usage() {
     return usage;
   }
 
-  public final Short value() {
+  public Short value() {
     return value;
-  }
-
-  public final String approvalKey() {
-    return approvalKey;
-  }
-
-  public final Short approvalMax() {
-    return approvalMax;
-  }
-
-  public final Short approvalMin() {
-    return approvalMin;
-  }
-
-  public final String descrName() {
-    return descrName;
   }
 
   @Override
@@ -129,13 +99,17 @@ class CmdOption implements Option, Setter<Short> {
     return false;
   }
 
+  ApprovalCategory.Id getCategoryId() {
+    return type.getCategory().getId();
+  }
+
   public static class Handler extends OneArgumentOptionHandler<Short> {
-    private final CmdOption cmdOption;
+    private final ApproveOption cmdOption;
 
     public Handler(final CmdLineParser parser, final OptionDef option,
         final Setter<Short> setter) {
       super(parser, option, setter);
-      this.cmdOption = (CmdOption) setter;
+      this.cmdOption = (ApproveOption) setter;
     }
 
     @Override
@@ -147,8 +121,8 @@ class CmdOption implements Option, Setter<Short> {
       }
 
       final short value = Short.parseShort(argument);
-      final short min = cmdOption.approvalMin;
-      final short max = cmdOption.approvalMax;
+      final short min = cmdOption.type.getMin().getValue();
+      final short max = cmdOption.type.getMax().getValue();
 
       if (value < min || value > max) {
         final String name = cmdOption.name();

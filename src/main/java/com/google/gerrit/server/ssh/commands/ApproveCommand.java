@@ -49,7 +49,7 @@ public class ApproveCommand extends BaseCommand {
   @Override
   protected final CmdLineParser newCmdLineParser() {
     final CmdLineParser parser = super.newCmdLineParser();
-    for (CmdOption c : optionList) {
+    for (ApproveOption c : optionList) {
       parser.addOption(c, c);
     }
     return parser;
@@ -82,14 +82,14 @@ public class ApproveCommand extends BaseCommand {
   @Inject
   private FunctionState.Factory functionStateFactory;
 
-  private List<CmdOption> optionList;
+  private List<ApproveOption> optionList;
 
   @Override
   public final void start() {
     startThread(new CommandRunnable() {
       @Override
       public void run() throws Exception {
-        getApprovalNames();
+        initOptionList();
         parseCommandLine();
 
         final Transaction txn = db.beginTransaction();
@@ -113,9 +113,8 @@ public class ApproveCommand extends BaseCommand {
         sb.append(patchSetId.get());
         sb.append(": ");
 
-        for (CmdOption co : optionList) {
-          ApprovalCategory.Id category =
-              new ApprovalCategory.Id(co.approvalKey());
+        for (ApproveOption co : optionList) {
+          final ApprovalCategory.Id category = co.getCategoryId();
           PatchSetApproval.Key psaKey =
               new PatchSetApproval.Key(patchSetId, currentUser.getAccountId(),
                   category);
@@ -175,7 +174,7 @@ public class ApproveCommand extends BaseCommand {
   }
 
   private void addApproval(final PatchSetApproval.Key psaKey,
-      final Short score, final Change c, final CmdOption co,
+      final Short score, final Change c, final ApproveOption co,
       final Transaction txn) throws OrmException, UnloggedFailure {
     PatchSetApproval psa = db.patchSetApprovals().get(psaKey);
     boolean insert = false;
@@ -203,8 +202,8 @@ public class ApproveCommand extends BaseCommand {
     }
   }
 
-  private void getApprovalNames() {
-    optionList = new ArrayList<CmdOption>();
+  private void initOptionList() {
+    optionList = new ArrayList<ApproveOption>();
 
     for (ApprovalType type : approvalTypes.getApprovalTypes()) {
       String usage = "";
@@ -213,14 +212,13 @@ public class ApproveCommand extends BaseCommand {
 
       for (ApprovalCategoryValue v : type.getValues()) {
         usage +=
-            String.format("%3s", CmdOption.format(v.getValue())) + ": "
+            String.format("%3s", ApproveOption.format(v.getValue())) + ": "
                 + v.getName() + "\n";
       }
 
-      optionList.add(new CmdOption("--"
-          + category.getName().toLowerCase().replace(' ', '-'), usage, category
-          .getId().get(), type.getMin().getValue(), type.getMax().getValue(),
-          category.getName()));
+      final String name =
+          "--" + category.getName().toLowerCase().replace(' ', '-');
+      optionList.add(new ApproveOption(name, usage, type));
     }
   }
 

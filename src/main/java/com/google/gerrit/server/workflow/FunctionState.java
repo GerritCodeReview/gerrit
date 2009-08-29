@@ -74,7 +74,7 @@ public class FunctionState {
     projectCache = pc;
 
     change = c;
-    project = projectCache.get(change.getDest().getParentKey());
+    project = projectCache.get(change.getProject());
 
     for (final PatchSetApproval ca : all) {
       if (psId.equals(ca.getPatchSetId())) {

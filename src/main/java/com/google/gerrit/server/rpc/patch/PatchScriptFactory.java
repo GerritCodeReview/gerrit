@@ -121,7 +121,7 @@ class PatchScriptFactory extends Handler<PatchScript> {
       throw new NoSuchChangeException(changeId);
     }
 
-    projectKey = change.getDest().getParentKey();
+    projectKey = change.getProject();
     try {
       git = server.openRepository(projectKey.get());
     } catch (RepositoryNotFoundException e) {

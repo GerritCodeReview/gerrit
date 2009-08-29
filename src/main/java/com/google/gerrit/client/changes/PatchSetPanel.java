@@ -146,7 +146,7 @@ class PatchSetPanel extends Composite implements OpenHandler<DisclosurePanel> {
 
   private void displayDownload() {
     final Branch.NameKey branchKey = changeDetail.getChange().getDest();
-    final Project.NameKey projectKey = branchKey.getParentKey();
+    final Project.NameKey projectKey = changeDetail.getChange().getProject();
     final String projectName = projectKey.get();
     final FlowPanel downloads = new FlowPanel();
 

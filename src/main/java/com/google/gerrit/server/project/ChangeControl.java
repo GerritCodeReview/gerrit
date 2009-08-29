@@ -52,7 +52,7 @@ public class ChangeControl {
     public ChangeControl controlFor(final Change change)
         throws NoSuchChangeException {
       try {
-        final Project.NameKey projectKey = change.getDest().getParentKey();
+        final Project.NameKey projectKey = change.getProject();
         return projectControl.validateFor(projectKey).controlFor(change);
       } catch (NoSuchProjectException e) {
         throw new NoSuchChangeException(change.getId(), e);

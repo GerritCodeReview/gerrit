@@ -407,6 +407,10 @@ public final class Change {
     return dest;
   }
 
+  public Project.NameKey getProject() {
+    return dest.getParentKey();
+  }
+
   public String getSubject() {
     return subject;
   }

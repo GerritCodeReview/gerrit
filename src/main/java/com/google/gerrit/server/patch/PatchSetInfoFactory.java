@@ -75,7 +75,7 @@ public class PatchSetInfoFactory {
       db = schemaFactory.open();
       final PatchSet patchSet = db.patchSets().get(patchSetId);
       final Change change = db.changes().get(patchSet.getId().getParentKey());
-      final Project.NameKey projectKey = change.getDest().getParentKey();
+      final Project.NameKey projectKey = change.getProject();
       final String projectName = projectKey.get();
       repo = gs.openRepository(projectName);
       final RevWalk rw = new RevWalk(repo);

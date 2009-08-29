@@ -267,7 +267,7 @@ public class ChangeScreen extends Screen {
       if (gw != null) {
         final Anchor revlink =
             new Anchor("(gitweb)", false, gw.toRevision(detail.getChange()
-                .getDest().getParentKey(), ps));
+                .getProject(), ps));
         revlink.addStyleName("gerrit-PatchSetLink");
         panel.getHeader().add(revlink);
       }

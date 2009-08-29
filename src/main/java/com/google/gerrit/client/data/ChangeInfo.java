@@ -40,7 +40,7 @@ public class ChangeInfo {
     owner = c.getOwner();
     subject = c.getSubject();
     status = c.getStatus();
-    project = new ProjectInfo(c.getDest().getParentKey());
+    project = new ProjectInfo(c.getProject());
     branch = c.getDest().getShortName();
     lastUpdatedOn = c.getLastUpdatedOn();
     sortKey = c.getSortKey();

@@ -200,7 +200,7 @@ public abstract class OutgoingEmail {
   /** Setup the message headers and envelope (TO, CC, BCC). */
   protected void init() {
     if (change != null && projectCache != null) {
-      projectState = projectCache.get(change.getDest().getParentKey());
+      projectState = projectCache.get(change.getProject());
       projectName =
           projectState != null ? projectState.getProject().getName() : null;
     } else {
@@ -482,7 +482,7 @@ public abstract class OutgoingEmail {
   protected Set<AccountGroup.Id> getProjectOwners() {
     final ProjectState r;
 
-    r = projectCache.get(change.getDest().getParentKey());
+    r = projectCache.get(change.getProject());
     return r != null ? r.getOwners() : Collections.<AccountGroup.Id> emptySet();
   }
 

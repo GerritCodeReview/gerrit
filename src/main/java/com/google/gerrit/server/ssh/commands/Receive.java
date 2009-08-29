@@ -642,7 +642,7 @@ final class Receive extends AbstractGitCommand {
       reject(cmd, "change " + changeId + " not found");
       return;
     }
-    if (!project.getNameKey().equals(changeEnt.getDest().getParentKey())) {
+    if (!project.getNameKey().equals(changeEnt.getProject())) {
       reject(cmd, "change " + changeId + " not found");
       return;
     }

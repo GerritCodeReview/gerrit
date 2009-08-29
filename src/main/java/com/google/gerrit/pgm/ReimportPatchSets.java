@@ -100,7 +100,7 @@ public class ReimportPatchSets extends AbstractProgram {
           continue;
         }
 
-        final Project.NameKey projectKey = c.getDest().getParentKey();
+        final Project.NameKey projectKey = c.getProject();
         final String projectName = projectKey.get();
         final Repository repo;
         try {

@@ -164,6 +164,10 @@ public abstract class BaseCommand implements Command {
     final CmdLineParser clp = newCmdLineParser();
     try {
       clp.parseArgument(list.toArray(new String[list.size()]));
+    } catch (IllegalArgumentException err) {
+      if (!help) {
+        throw new UnloggedFailure(1, "fatal: " + err.getMessage());
+      }
     } catch (CmdLineException err) {
       if (!help) {
         throw new UnloggedFailure(1, "fatal: " + err.getMessage());

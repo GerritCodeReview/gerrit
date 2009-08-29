@@ -33,6 +33,7 @@ import com.google.gerrit.server.mail.CommentSender.Factory;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.ssh.BaseCommand;
 import com.google.gerrit.server.workflow.FunctionState;
@@ -43,7 +44,10 @@ import com.google.inject.Inject;
 
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -51,6 +55,9 @@ import java.util.List;
 import java.util.Set;
 
 public class ApproveCommand extends BaseCommand {
+  private static final Logger log =
+      LoggerFactory.getLogger(ApproveCommand.class);
+
   @Override
   protected final CmdLineParser newCmdLineParser() {
     final CmdLineParser parser = super.newCmdLineParser();
@@ -60,8 +67,18 @@ public class ApproveCommand extends BaseCommand {
     return parser;
   }
 
-  @Argument(index = 0, required = true, metaVar = "{COMMIT | CHANGE,PATCHSET}", usage = "patch to approve")
-  private String patchIdentity;
+  private final Set<PatchSet.Id> patchSetIds = new HashSet<PatchSet.Id>();
+
+  @Argument(index = 0, required = true, multiValued = true, metaVar = "{COMMIT | CHANGE,PATCHSET}", usage = "patch to approve")
+  void addPatchSetId(final String token) {
+    try {
+      patchSetIds.addAll(parsePatchSetId(token));
+    } catch (UnloggedFailure e) {
+      throw new IllegalArgumentException(e.getMessage(), e);
+    } catch (OrmException e) {
+      throw new IllegalArgumentException("database error", e);
+    }
+  }
 
   @Option(name = "--project", aliases = "-p", usage = "project containing the patch set")
   private ProjectControl projectControl;
@@ -96,78 +113,96 @@ public class ApproveCommand extends BaseCommand {
   public final void start() {
     startThread(new CommandRunnable() {
       @Override
-      public void run() throws Exception {
+      public void run() throws Failure {
         initOptionList();
         parseCommandLine();
 
-        final PatchSet.Id patchSetId = parsePatchSetId();
-        final Change.Id changeId = patchSetId.getParentKey();
-        final ChangeControl changeControl =
-            changeControlFactory.validateFor(changeId);
-        final Change change = changeControl.getChange();
-
-        if (change.getStatus().isClosed()) {
-          throw error("change " + changeId + " is closed");
-        }
-        if (!inProject(change)) {
-          throw error("change " + changeId + " not in project "
-              + projectControl.getProject().getName());
-        }
-
-        final Transaction txn = db.beginTransaction();
-        final StringBuffer msgBuf = new StringBuffer();
-        msgBuf.append("Patch Set ");
-        msgBuf.append(patchSetId.get());
-        msgBuf.append(": ");
-
-        for (ApproveOption co : optionList) {
-          final ApprovalCategory.Id category = co.getCategoryId();
-          PatchSetApproval.Key psaKey =
-              new PatchSetApproval.Key(patchSetId, currentUser.getAccountId(),
-                  category);
-          PatchSetApproval psa = db.patchSetApprovals().get(psaKey);
-
-          Short score = co.value();
-
-          if (score != null) {
-            addApproval(psaKey, score, change, co, txn);
-          } else {
-            if (psa == null) {
-              score = 0;
-              addApproval(psaKey, score, change, co, txn);
-            } else {
-              score = psa.getValue();
-            }
+        boolean ok = true;
+        for (final PatchSet.Id patchSetId : patchSetIds) {
+          try {
+            approveOne(patchSetId);
+          } catch (UnloggedFailure e) {
+            ok = false;
+            writeError("error: " + e.getMessage() + "\n");
+          } catch (Exception e) {
+            ok = false;
+            writeError("fatal: internal server error while approving "
+                + patchSetId + "\n");
+            log.error("internal error while approving " + patchSetId);
           }
-
-          String message =
-              db.approvalCategoryValues().get(
-                  new ApprovalCategoryValue.Id(category, score)).getName();
-          msgBuf.append(" " + message + ";");
         }
-
-        msgBuf.deleteCharAt(msgBuf.length() - 1);
-        msgBuf.append("\n\n");
-
-        if (changeComment != null) {
-          msgBuf.append(changeComment);
+        if (!ok) {
+          throw new UnloggedFailure(1, "one or more approvals failed;"
+              + " review output above");
         }
-
-        String uuid = ChangeUtil.messageUUID(db);
-        ChangeMessage cm =
-            new ChangeMessage(new ChangeMessage.Key(changeId, uuid),
-                currentUser.getAccountId());
-        cm.setMessage(msgBuf.toString());
-        db.changeMessages().insert(Collections.singleton(cm), txn);
-        ChangeUtil.updated(change);
-        db.changes().update(Collections.singleton(change), txn);
-        txn.commit();
-        sendMail(change, change.currentPatchSetId(), cm);
       }
     });
   }
 
-  private PatchSet.Id parsePatchSetId() throws UnloggedFailure, OrmException {
+  private void approveOne(final PatchSet.Id patchSetId)
+      throws NoSuchChangeException, UnloggedFailure, OrmException,
+      PatchSetInfoNotAvailableException, EmailException {
+    final Change.Id changeId = patchSetId.getParentKey();
+    final ChangeControl changeControl =
+        changeControlFactory.validateFor(changeId);
+    final Change change = changeControl.getChange();
+    if (change.getStatus().isClosed()) {
+      throw error("change " + changeId + " is closed");
+    }
+
+    final Transaction txn = db.beginTransaction();
+    final StringBuffer msgBuf = new StringBuffer();
+    msgBuf.append("Patch Set ");
+    msgBuf.append(patchSetId.get());
+    msgBuf.append(": ");
+
+    for (ApproveOption co : optionList) {
+      final ApprovalCategory.Id category = co.getCategoryId();
+      PatchSetApproval.Key psaKey =
+          new PatchSetApproval.Key(patchSetId, currentUser.getAccountId(),
+              category);
+      PatchSetApproval psa = db.patchSetApprovals().get(psaKey);
+
+      Short score = co.value();
+
+      if (score != null) {
+        addApproval(psaKey, score, change, co, txn);
+      } else {
+        if (psa == null) {
+          score = 0;
+          addApproval(psaKey, score, change, co, txn);
+        } else {
+          score = psa.getValue();
+        }
+      }
+
+      String message =
+          db.approvalCategoryValues().get(
+              new ApprovalCategoryValue.Id(category, score)).getName();
+      msgBuf.append(" " + message + ";");
+    }
+
+    msgBuf.deleteCharAt(msgBuf.length() - 1);
+    msgBuf.append("\n\n");
+
+    if (changeComment != null) {
+      msgBuf.append(changeComment);
+    }
+
+    String uuid = ChangeUtil.messageUUID(db);
+    ChangeMessage cm =
+        new ChangeMessage(new ChangeMessage.Key(changeId, uuid), currentUser
+            .getAccountId());
+    cm.setMessage(msgBuf.toString());
+    db.changeMessages().insert(Collections.singleton(cm), txn);
+    ChangeUtil.updated(change);
+    db.changes().update(Collections.singleton(change), txn);
+    txn.commit();
+    sendMail(change, change.currentPatchSetId(), cm);
+  }
+
+  private Set<PatchSet.Id> parsePatchSetId(final String patchIdentity)
+      throws UnloggedFailure, OrmException {
     // By commit?
     //
     if (patchIdentity.matches("^([0-9a-fA-F]{4," + RevId.LEN + "})$")) {
@@ -189,7 +224,7 @@ public class ApproveCommand extends BaseCommand {
 
       switch (matches.size()) {
         case 1:
-          return matches.iterator().next();
+          return matches;
         case 0:
           throw error("\"" + patchIdentity + "\" no such patch set");
         default:
@@ -199,7 +234,7 @@ public class ApproveCommand extends BaseCommand {
 
     // By older style change,patchset?
     //
-    if (patchIdentity.matches("^[1-9][0-9]*,[1-9][0-9]$")) {
+    if (patchIdentity.matches("^[1-9][0-9]*,[1-9][0-9]*$")) {
       final PatchSet.Id patchSetId;
       try {
         patchSetId = PatchSet.Id.parse(patchIdentity);
@@ -209,7 +244,14 @@ public class ApproveCommand extends BaseCommand {
       if (db.patchSets().get(patchSetId) == null) {
         throw error("\"" + patchIdentity + "\" no such patch set");
       }
-      return patchSetId;
+      if (projectControl != null) {
+        final Change change = db.changes().get(patchSetId.getParentKey());
+        if (!inProject(change)) {
+          throw error("change " + change.getId() + " not in project "
+              + projectControl.getProject().getName());
+        }
+      }
+      return Collections.singleton(patchSetId);
     }
 
     throw error("\"" + patchIdentity + "\" is not a valid patch set");
@@ -282,6 +324,13 @@ public class ApproveCommand extends BaseCommand {
       final String name =
           "--" + category.getName().toLowerCase().replace(' ', '-');
       optionList.add(new ApproveOption(name, usage, type));
+    }
+  }
+
+  private void writeError(final String msg) {
+    try {
+      err.write(msg.getBytes(ENC));
+    } catch (IOException e) {
     }
   }
 

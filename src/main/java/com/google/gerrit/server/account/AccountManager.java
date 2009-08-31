@@ -25,6 +25,7 @@ import com.google.gwtorm.client.Transaction;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -175,16 +176,57 @@ public class AccountManager {
     if (authConfig.isAllowGoogleAccountUpgrade()
         && who.isScheme(OpenIdUtil.URL_GOOGLE + "?")
         && who.getEmailAddress() != null) {
-      final List<AccountExternalId> legacyAppEngine =
-          db.accountExternalIds().byExternal(
-              AccountExternalId.LEGACY_GAE + who.getEmailAddress()).toList();
+      final List<AccountExternalId> openId = new ArrayList<AccountExternalId>();
+      final List<AccountExternalId> v1 = new ArrayList<AccountExternalId>();
 
-      if (legacyAppEngine.size() == 1) {
+      for (final AccountExternalId extId : db.accountExternalIds()
+          .byEmailAddress(who.getEmailAddress())) {
+        if (extId.isScheme(OpenIdUtil.URL_GOOGLE + "?")) {
+          openId.add(extId);
+        } else if (extId.isScheme(AccountExternalId.LEGACY_GAE)) {
+          v1.add(extId);
+        }
+      }
+
+      if (!openId.isEmpty()) {
+        // The user has already registered with an OpenID from Google, but
+        // Google may have changed the user's OpenID identity if this server
+        // name has changed. Insert a new identity for the user.
+        //
+        final Account.Id accountId = openId.get(0).getAccountId();
+
+        if (openId.size() > 1) {
+          // Validate all matching identities are actually the same user.
+          //
+          for (final AccountExternalId extId : openId) {
+            if (!accountId.equals(extId.getAccountId())) {
+              throw new AccountException("Multiple user accounts for "
+                  + who.getEmailAddress() + " using Google Accounts provider");
+            }
+          }
+        }
+
+        final AccountExternalId newId = createId(accountId, who);
+        newId.setEmailAddress(who.getEmailAddress());
+        newId.setLastUsedOn();
+
+        if (openId.size() == 1) {
+          final AccountExternalId oldId = openId.get(0);
+          final Transaction txn = db.beginTransaction();
+          db.accountExternalIds().delete(Collections.singleton(oldId), txn);
+          db.accountExternalIds().insert(Collections.singleton(newId), txn);
+          txn.commit();
+        } else {
+          db.accountExternalIds().insert(Collections.singleton(newId));
+        }
+        return new AuthResult(accountId, false);
+
+      } else if (v1.size() == 1) {
         // Exactly one user was imported from Gerrit 1.x with this email
         // address. Upgrade their account by deleting the legacy import
         // identity and creating a new identity matching the token we have.
         //
-        final AccountExternalId oldId = legacyAppEngine.get(0);
+        final AccountExternalId oldId = v1.get(0);
         final AccountExternalId newId = createId(oldId.getAccountId(), who);
         newId.setEmailAddress(who.getEmailAddress());
         newId.setLastUsedOn();
@@ -194,7 +236,7 @@ public class AccountManager {
         txn.commit();
         return new AuthResult(newId.getAccountId(), false);
 
-      } else if (legacyAppEngine.size() > 1) {
+      } else if (v1.size() > 1) {
         throw new AccountException("Multiple Gerrit 1.x accounts found");
       }
     }

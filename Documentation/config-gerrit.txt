@@ -131,24 +131,18 @@ By default this is false (no agreements are used).
 
 auth.allowGoogleAccountUpgrade::
 +
-Allow old Gerrit1 users to seamlessly upgrade from Google Accounts
-on Google App Engine to OpenID authentication.  This should only be
-set to true on a Gerrit2 database that was imported from a Gerrit1
-database run on Google App Engine.  Having it enabled incurs an
-extra database query when new Google Account users register with
-the Gerrit2 server.
+Allows Google Account users to automatically update their Gerrit
+account when/if their Google Account OpenID identity token changes.
+Identity tokens can change if the server changes hostnames, or
+for other reasons known only to Google.  The upgrade path works
+by matching users by email address if the identity is not present,
+and then changing the identity.
 +
-Its strongly encouraged to unset this once the following query
-drops to 0, or close to 0:
+This setting also permits old Gerrit 1.x users to seamlessly upgrade
+from Google Accounts on Google App Engine to OpenID authentication.
 +
-====
-  SELECT COUNT(*) FROM account_external_ids e
-  WHERE e.external_id LIKE 'Google Account %'
-  AND NOT EXISTS (SELECT 1
-    FROM account_external_ids o
-    WHERE o.account_id = e.account_id
-	AND o.external_id LIKE '%.google.com%/id?id=%');
-====
+Having this enabled incurs an extra database query when Google
+Account users register with the Gerrit2 server.
 +
 By default, unset/false.
 

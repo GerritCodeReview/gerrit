@@ -306,7 +306,6 @@
 }
 .gerrit-ChangeTable .DataCell.C_ID {
   font-family: monospace;
-  font-size: x-small;
 }
 
 .gerrit-ChangeTable .C_SUBJECT div {

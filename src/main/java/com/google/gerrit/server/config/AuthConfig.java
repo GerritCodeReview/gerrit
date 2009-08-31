@@ -61,8 +61,12 @@ public class AuthConfig {
     anonymousGroups = Collections.singleton(s.anonymousGroupId);
     administratorGroup = s.adminGroupId;
 
-    allowGoogleAccountUpgrade =
-        cfg.getBoolean("auth", "allowgoogleaccountupgrade", false);
+    if (loginType == AuthType.OPENID) {
+      allowGoogleAccountUpgrade =
+          cfg.getBoolean("auth", "allowgoogleaccountupgrade", false);
+    } else {
+      allowGoogleAccountUpgrade = false;
+    }
   }
 
   private String[] toTrusted(final Config cfg) {

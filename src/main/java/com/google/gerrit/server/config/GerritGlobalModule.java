@@ -86,7 +86,7 @@ public class GerritGlobalModule extends FactoryModule {
   @Inject
   GerritGlobalModule(final AuthConfig authConfig,
       @GerritServerConfig final Config config) {
-    loginType = authConfig.getLoginType();
+    loginType = authConfig.getAuthType();
   }
 
   @Override

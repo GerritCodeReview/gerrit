@@ -85,7 +85,7 @@ public class GerritConfigProvider implements Provider<GerritConfig> {
     config.setUseRepoDownload(cfg.getBoolean("repo", null,
         "showdownloadcommand", false));
     config.setUseContactInfo(contactStore != null && contactStore.isEnabled());
-    config.setAuthType(authConfig.getLoginType());
+    config.setAuthType(authConfig.getAuthType());
     config.setWildProject(wildProject);
     config.setApprovalTypes(approvalTypes);
 

@@ -44,7 +44,7 @@ class WebModule extends FactoryModule {
 
   @Inject
   WebModule(final Provider<SshInfo> sshInfoProvider, final AuthConfig authConfig) {
-    this(sshInfoProvider, authConfig.getLoginType());
+    this(sshInfoProvider, authConfig.getAuthType());
   }
 
   WebModule(final Provider<SshInfo> sshInfoProvider, final AuthType loginType) {

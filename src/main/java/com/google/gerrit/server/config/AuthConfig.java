@@ -33,7 +33,7 @@ import java.util.Set;
 /** Authentication related settings from {@code gerrit.config}. */
 @Singleton
 public class AuthConfig {
-  private final AuthType loginType;
+  private final AuthType authType;
   private final String httpHeader;
   private final String logoutUrl;
   private final String[] trusted;
@@ -48,7 +48,7 @@ public class AuthConfig {
   @Inject
   AuthConfig(@GerritServerConfig final Config cfg, final SystemConfig s)
       throws XsrfException {
-    loginType = toType(cfg);
+    authType = toType(cfg);
     httpHeader = cfg.getString("auth", null, "httpheader");
     logoutUrl = cfg.getString("auth", null, "logouturl");
     trusted = toTrusted(cfg);
@@ -61,7 +61,7 @@ public class AuthConfig {
     anonymousGroups = Collections.singleton(s.anonymousGroupId);
     administratorGroup = s.adminGroupId;
 
-    if (loginType == AuthType.OPENID) {
+    if (authType == AuthType.OPENID) {
       allowGoogleAccountUpgrade =
           cfg.getBoolean("auth", "allowgoogleaccountupgrade", false);
     } else {
@@ -94,8 +94,8 @@ public class AuthConfig {
   }
 
   /** Type of user authentication used by this Gerrit server. */
-  public AuthType getLoginType() {
-    return loginType;
+  public AuthType getAuthType() {
+    return authType;
   }
 
   public String getLoginHttpHeader() {
@@ -130,7 +130,7 @@ public class AuthConfig {
   }
 
   public boolean isIdentityTrustable(final Collection<AccountExternalId> ids) {
-    switch (getLoginType()) {
+    switch (getAuthType()) {
       case DEVELOPMENT_BECOME_ANY_ACCOUNT:
       case HTTP:
       case HTTP_LDAP:

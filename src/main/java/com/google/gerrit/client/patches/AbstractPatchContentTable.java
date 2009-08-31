@@ -254,6 +254,12 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
 
   private void createCommentEditor(final int suggestRow, final int column,
       final int line, final short file, final String parentUuid) {
+    if (line < 1) {
+      // Refuse to create an editor before the start of the file.
+      //
+      return;
+    }
+
     int row = suggestRow;
     int spans[] = new int[column + 1];
     OUTER: while (row < table.getRowCount()) {

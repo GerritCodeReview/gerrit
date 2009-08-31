@@ -68,6 +68,11 @@ class SaveDraft extends Handler<PatchLineComment> {
 
     final Account.Id me = currentUser.getAccountId();
     if (comment.getKey().get() == null) {
+      if (comment.getLine() < 1) {
+        throw new IllegalStateException("Comment line must be >= 1, not "
+            + comment.getLine());
+      }
+
       final PatchLineComment nc =
           new PatchLineComment(new PatchLineComment.Key(patch.getKey(),
               ChangeUtil.messageUUID(db)), comment.getLine(), me, comment

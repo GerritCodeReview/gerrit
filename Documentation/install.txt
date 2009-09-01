@@ -19,7 +19,8 @@ MySQL:
 
 Optional Libraries:
 
-* link:http://sourceforge.net/project/showfiles.php?group_id=25357[c3p0 JDBC Driver]
+* link:http://commons.apache.org/pool/download_pool.cgi[Commons Pool]
+* link:http://commons.apache.org/dbcp/download_dbcp.cgi[Commons DBCP]
 * link:http://www.bouncycastle.org/java.html[Bouncy Castle Crypto API]
 
 
@@ -226,7 +227,8 @@ Install the required JDBC drivers by copying them into the
 their source projects:
 
 * link:http://jdbc.postgresql.org/download.html[PostgreSQL JDBC Driver]
-* link:http://sourceforge.net/project/showfiles.php?group_id=25357[c3p0 JDBC Driver]
+* link:http://commons.apache.org/pool/download_pool.cgi[Commons Pool]
+* link:http://commons.apache.org/dbcp/download_dbcp.cgi[Commons DBCP]
 
 Consider installing Bouncy Castle Cypto APIs into the
 `'$JETTY_HOME'/lib/plus` directory.  Some of the Bouncy Castle

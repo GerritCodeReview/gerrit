@@ -196,14 +196,23 @@ public class GerritServletConfig extends GuiceServletContextListener {
 
   private void closeDataSource(final DataSource ds) {
     try {
-      final Class<?> type = Class.forName("com.mchange.v2.c3p0.DataSources");
+      Class<?> type = Class.forName("org.apache.commons.dbcp.BasicDataSource");
+      if (type.isInstance(ds)) {
+        type.getMethod("close").invoke(ds);
+        return;
+      }
+    } catch (Throwable bad) {
+      // Oh well, its not a Commons DBCP pooled connection.
+    }
+
+    try {
+      Class<?> type = Class.forName("com.mchange.v2.c3p0.DataSources");
       if (type.isInstance(ds)) {
         type.getMethod("destroy", DataSource.class).invoke(null, ds);
         return;
       }
     } catch (Throwable bad) {
-      // Oh well, its not a c3p0 pooled connection. Too bad its
-      // not standardized how "good applications cleanup".
+      // Oh well, its not a c3p0 pooled connection.
     }
   }
 }

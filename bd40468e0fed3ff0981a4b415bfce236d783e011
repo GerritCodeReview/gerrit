@@ -1,0 +1,191 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAj3///2Y\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/AccountDashboardScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-01T14:59:09Z",
+      "side": 1,
+      "message": "Style nit: importing the ApprovalViewType might help you avoid needing to line-wrap this line, and line 44 below.",
+      "revId": "bd40468e0fed3ff0981a4b415bfce236d783e011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAj3///1w\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/AccountDashboardScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-01T14:59:09Z",
+      "side": 1,
+      "message": "This isn\u0027t always MINE.\n\nLater in the code you are assuming that MINE means use the current user identity to obtain the approvals that are interesting to be displayed in this section.  That\u0027s fine when this is your own dashboard.\n\nHowever, this same code is used when you click on someone\u0027s name and view their dashboard.  Its just that ownerId is set to that user\u0027s identity, rather than your own.\n\nIn such a case, when the section says \"Reviewable by Shawn Pearce\" and you are not me, wouldn\u0027t we expect to see my approval states in this section, and not your own?",
+      "revId": "bd40468e0fed3ff0981a4b415bfce236d783e011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAj3///2g\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-01T14:59:09Z",
+      "side": 1,
+      "message": "This style name is unused, did you miss some CSS or was this added for future definitions?",
+      "revId": "bd40468e0fed3ff0981a4b415bfce236d783e011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAj3///2c\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-01T14:59:09Z",
+      "side": 1,
+      "message": "Yikes, we are starting an RPC for every row in the table?  My concern with this is the browser can only issue 4 requests at a time to the server.  If a user has 50 items in their dashboard, which many do, this will take quite a few round-trips (13!) to completely load the status codes.  Worse, if the user navigates away before they are completely done loading, they will continue to load, as there is no way to cancel the queued RPCs.\n\nI would prefer having myApprovals and strongestApprovals take a Set\u003cChange.Id\u003e and return a Map\u003cChange.Id, Whatever\u003e, and make only one call to each method for the dashboard.",
+      "revId": "bd40468e0fed3ff0981a4b415bfce236d783e011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAj3///2U\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/reviewdb/PatchSetAccess.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-01T14:59:09Z",
+      "side": 1,
+      "message": "Delete this, you don\u0027t want the most recent patch set, you want the current patch set of the change.",
+      "revId": "bd40468e0fed3ff0981a4b415bfce236d783e011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAj3///2Q\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/rpc/patch/PatchDetailServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-01T14:59:09Z",
+      "side": 1,
+      "message": "No, use the current patch set:\n\n  // modify constructor to take this by injection\n  private final ChangeControl.Factory changeControlFactory;\n\n\n  final ChangeControl cc \u003d changeControlFactory.validateFor(id);\n  final PatchSet.Id ps_id \u003d cc.getChange().currentPatchSetId();\n  ...\n\nThe current patch set is what would be submitted right now, or what was actually submitted if the change is merged.  This may not necessarily be the most recent patch set uploaded onto the change.  Also, by using the changeControlFactory we validate that the user is authorized to see the change before we continue to access data about it; if they are not allowed to see it the method throws an exception.",
+      "revId": "bd40468e0fed3ff0981a4b415bfce236d783e011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAj3///2I\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/rpc/patch/PatchDetailServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-01T14:59:09Z",
+      "side": 1,
+      "message": "Style nit: I usually don\u0027t bother converting the result set into a list if I\u0027m only going to iterate it once.  Since the ResultSet type is Iterable, you can directly use it in the for (:) loop below.",
+      "revId": "bd40468e0fed3ff0981a4b415bfce236d783e011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAj3///18\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/rpc/patch/PatchDetailServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-01T14:59:09Z",
+      "side": 1,
+      "message": "These should be floored by the current ACL before being returned to the browser.  What can happen is the user can be given Code Review +2 permission, they +2 the change, and then the +2 permission is revoked.  Although the +2 is stored in the database, its an invalid +2 and needs to fall back to +1 or 0 based on some other ACL grant line.\n\n  // modify constructor to take these injections\n  private final FunctionState.Factory functionStateFactory;\n  private final ApprovalTypes approvalTypes;\n\n  final FunctionState fs \u003d\n      functionStateFactory.create(change, ps_id, Collections.emptyList());\n  fs.normalize(approvalTypes.getApprovalType(ca.getCategoryId()), ca);\n\nNo, its not pretty, this is one of the oldest sections of Gerrit 2 code and it practically just needs to be rewritten.  The API is very hard to use.  But when fs.normalize returns, ca.getValue() will return the highest value the granter is currently authorized to use.  This may be different from the value currently stored in the database if the ACL has been reduced.",
+      "revId": "bd40468e0fed3ff0981a4b415bfce236d783e011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAj3///2M\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/rpc/patch/PatchDetailServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-01T14:59:09Z",
+      "side": 1,
+      "message": "Again, use currentPatchSetId(), see above.",
+      "revId": "bd40468e0fed3ff0981a4b415bfce236d783e011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAj3///14\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/rpc/patch/PatchDetailServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-01T14:59:09Z",
+      "side": 1,
+      "message": "See above about flooring the PatchSetApproval before continuing with evaluation of its value.",
+      "revId": "bd40468e0fed3ff0981a4b415bfce236d783e011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAj3///10\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/rpc/patch/PatchDetailServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-01T14:59:09Z",
+      "side": 1,
+      "message": "This is a use of ApprovalDetail I had not considered.\n\nThe constructor which takes Account.Id is meant to take the Account.Id that all of these approvals belong to.  The ApprovalDetail object represents the *row* in the normal approval table, and thus this Account.Id is the user who made all of these approval marks.\n\nI would rather we come up with a more specialized return type for these methods, something like:\n\n  public class ApprovalSummary {\n    AccountInfoCache accounts;\n    Map\u003cApprovalCategory.Id, PatchSetApproval\u003e approvals;\n  }\n\nWhere the AccountInfoCache holds the name and email address of each user appearing in the values of the approvals map.\n\nBut given my remarks elsewhere in this review about batching the RPCs, the real return type would be Map\u003cChange.Id, ApprovalSummary\u003e.",
+      "revId": "bd40468e0fed3ff0981a4b415bfce236d783e011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

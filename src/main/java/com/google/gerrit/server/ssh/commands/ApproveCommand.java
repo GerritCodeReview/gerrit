@@ -29,7 +29,6 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.mail.CommentSender;
 import com.google.gerrit.server.mail.EmailException;
-import com.google.gerrit.server.mail.CommentSender.Factory;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
@@ -93,7 +92,7 @@ public class ApproveCommand extends BaseCommand {
   private IdentifiedUser currentUser;
 
   @Inject
-  private Factory commentSenderFactory;
+  private CommentSender.Factory commentSenderFactory;
 
   @Inject
   private PatchSetInfoFactory patchSetInfoFactory;

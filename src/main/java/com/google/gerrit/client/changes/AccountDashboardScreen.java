@@ -37,10 +37,12 @@ public class AccountDashboardScreen extends Screen {
   @Override
   protected void onInitUI() {
     super.onInitUI();
-    table = new ChangeTable();
-    byOwner = new ChangeTable.Section("");
-    forReview = new ChangeTable.Section("");
-    closed = new ChangeTable.Section("");
+    table = new ChangeTable(true);
+    byOwner = new ChangeTable.Section("",
+        ChangeTable.ApprovalViewType.STRONGEST);
+    forReview = new ChangeTable.Section("", ChangeTable.ApprovalViewType.MINE);
+    closed = new ChangeTable.Section("",
+        ChangeTable.ApprovalViewType.STRONGEST);
 
     table.addSection(byOwner);
     table.addSection(forReview);

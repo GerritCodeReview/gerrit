@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.rpc.patch;
 
+import com.google.gerrit.client.data.ApprovalDetail;
 import com.google.gerrit.client.data.ApprovalType;
 import com.google.gerrit.client.data.ApprovalTypes;
 import com.google.gerrit.client.data.PatchScript;
@@ -317,5 +318,61 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
   public void abandonChange(final PatchSet.Id patchSetId, final String message,
       final AsyncCallback<VoidResult> callback) {
     abandonChangeFactory.create(patchSetId, message).to(callback);
+  }
+
+  public void myApprovals(final Change.Id id,
+      final AsyncCallback<ApprovalDetail> callback) {
+    run(callback, new Action<ApprovalDetail>() {
+      public ApprovalDetail run(ReviewDb db) throws OrmException {
+        final Account.Id account = getAccountId();
+        final List<PatchSet> last_pset = db.patchSets().lastChange(id)
+            .toList();
+        if (last_pset.isEmpty()) {
+          return null;
+        }
+        final PatchSet.Id ps_id = last_pset.get(0).getId();
+        final List<PatchSetApproval> approvals = db.patchSetApprovals()
+            .byPatchSetUser(ps_id, account).toList();
+        final ApprovalDetail ad = new ApprovalDetail(account);
+        for (final PatchSetApproval ca : approvals) {
+          ad.add(ca);
+        }
+        return ad;
+      }
+    });
+  }
+
+  public void strongestApprovals(final Change.Id id,
+      final AsyncCallback<ApprovalDetail> callback) {
+    run(callback, new Action<ApprovalDetail>() {
+      public ApprovalDetail run(ReviewDb db) throws OrmException {
+        final List<PatchSet> last_pset = db.patchSets().lastChange(id)
+            .toList();
+        if (last_pset.isEmpty()) {
+          return null;
+        }
+        final PatchSet.Id ps_id = last_pset.get(0).getId();
+        final Map<ApprovalCategory.Id, PatchSetApproval> have =
+          new HashMap<ApprovalCategory.Id, PatchSetApproval>();
+        for (PatchSetApproval a : db.patchSetApprovals().byPatchSet(ps_id)) {
+          boolean keep = true;
+          if (have.containsKey(a.getCategoryId())) {
+            final short oldValue = have.get(a.getCategoryId()).getValue();
+            final short newValue = a.getValue();
+            keep = (Math.abs(oldValue) < Math.abs(newValue))
+              || ((Math.abs(oldValue) == Math.abs(newValue)
+                   && (newValue < oldValue)));
+          }
+          if (keep) {
+            have.put(a.getCategoryId(), a);
+          }
+        }
+        final ApprovalDetail ad = new ApprovalDetail(getAccountId());
+        for (PatchSetApproval a : have.values()) {
+          ad.add(a);
+        }
+        return ad;
+      }
+    });
   }
 }

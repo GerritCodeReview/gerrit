@@ -19,9 +19,14 @@ import static com.google.gerrit.client.FormatUtil.mediumFormat;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.Link;
 import com.google.gerrit.client.data.AccountInfoCache;
+import com.google.gerrit.client.data.ApprovalDetail;
+import com.google.gerrit.client.data.ApprovalType;
 import com.google.gerrit.client.data.ChangeInfo;
+import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.Change;
+import com.google.gerrit.client.reviewdb.PatchSetApproval;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountDashboardLink;
 import com.google.gerrit.client.ui.ChangeLink;
@@ -42,6 +47,7 @@ import com.google.gwtjsonrpc.client.VoidResult;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class ChangeTable extends NavigationTable<ChangeInfo> {
   private static final String S_C_ID = "C_ID";
@@ -58,12 +64,25 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
   private static final int C_PROJECT = 5;
   private static final int C_BRANCH = 6;
   private static final int C_LAST_UPDATE = 7;
-  private static final int COLUMNS = 8;
+  private static final int BASE_COLUMNS = 8;
 
   private final List<Section> sections;
   private AccountInfoCache accountCache = AccountInfoCache.empty();
+  private final List<ApprovalType> approvalTypes;
+  private final int columns;
 
   public ChangeTable() {
+    this(false);
+  }
+
+  public ChangeTable(boolean showApprovals) {
+    approvalTypes = Gerrit.getConfig().getApprovalTypes().getApprovalTypes();
+    if (showApprovals) {
+      columns = BASE_COLUMNS + approvalTypes.size();
+    } else {
+      columns = BASE_COLUMNS;
+    }
+
     keysNavigation.add(new PrevKeyCommand(0, 'k', Util.C.changeTablePrev()));
     keysNavigation.add(new NextKeyCommand(0, 'j', Util.C.changeTableNext()));
     keysNavigation.add(new OpenKeyCommand(0, 'o', Util.C.changeTableOpen()));
@@ -82,11 +101,15 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     table.setText(0, C_PROJECT, Util.C.changeTableColumnProject());
     table.setText(0, C_BRANCH, Util.C.changeTableColumnBranch());
     table.setText(0, C_LAST_UPDATE, Util.C.changeTableColumnLastUpdate());
+    for (int i = BASE_COLUMNS; i < columns; i++) {
+      table.setText(0, i, approvalTypes.get(i - BASE_COLUMNS).getCategory()
+          .getName());
+    }
 
     final FlexCellFormatter fmt = table.getFlexCellFormatter();
     fmt.addStyleName(0, C_STAR, S_ICON_HEADER);
     fmt.addStyleName(0, C_ID, S_C_ID);
-    for (int i = C_ID; i < COLUMNS; i++) {
+    for (int i = C_ID; i < columns; i++) {
       fmt.addStyleName(0, i, S_DATA_HEADER);
     }
 
@@ -146,7 +169,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     insertRow(row);
     table.setText(row, 0, Util.C.changeTableNone());
     final FlexCellFormatter fmt = table.getFlexCellFormatter();
-    fmt.setColSpan(row, 0, COLUMNS);
+    fmt.setColSpan(row, 0, columns);
     fmt.setStyleName(row, 0, S_EMPTY_SECTION);
   }
 
@@ -160,7 +183,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     super.applyDataRowStyle(row);
     final CellFormatter fmt = table.getCellFormatter();
     fmt.addStyleName(row, C_STAR, S_ICON_CELL);
-    for (int i = C_ID; i < COLUMNS; i++) {
+    for (int i = C_ID; i < columns; i++) {
       fmt.addStyleName(row, i, S_DATA_CELL);
     }
     fmt.addStyleName(row, C_ID, S_C_ID);
@@ -168,9 +191,48 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     fmt.addStyleName(row, C_PROJECT, S_C_PROJECT);
     fmt.addStyleName(row, C_BRANCH, S_C_PROJECT);
     fmt.addStyleName(row, C_LAST_UPDATE, S_C_LAST_UPDATE);
+    for (int i = BASE_COLUMNS; i < columns; i++) {
+      fmt.addStyleName(row, i, "approvalscore");
+    }
   }
 
-  private void populateChangeRow(final int row, final ChangeInfo c) {
+  GerritCallback<ApprovalDetail> approvalFormatter(final int row) {
+    return new GerritCallback<ApprovalDetail>() {
+      @Override
+      public void onSuccess(final ApprovalDetail detail) {
+        final CellFormatter fmt = table.getCellFormatter();
+        final Map<ApprovalCategory.Id, PatchSetApproval> am = detail
+            .getApprovalMap();
+        int col = BASE_COLUMNS;
+        for (final ApprovalType type : approvalTypes) {
+          final PatchSetApproval ca = am.get(type.getCategory().getId());
+          if (ca == null || ca.getValue() == 0) {
+            table.clearCell(row, col);
+          } else if (type.isMaxNegative(ca)) {
+            table.setWidget(row, col, Gerrit.ICONS.redNot().createImage());
+          } else if (type.isMaxPositive(ca)) {
+            table.setWidget(row, col, Gerrit.ICONS.greenCheck()
+                .createImage());
+          } else {
+            String vstr = String.valueOf(ca.getValue());
+            if (ca.getValue() > 0) {
+              vstr = "+" + vstr;
+              fmt.removeStyleName(row, col, "negscore");
+              fmt.addStyleName(row, col, "posscore");
+            } else {
+              fmt.addStyleName(row, col, "negscore");
+              fmt.removeStyleName(row, col, "posscore");
+            }
+            table.setText(row, col, vstr);
+          }
+          col++;
+        }
+      }
+    };
+  }
+
+  private void populateChangeRow(final int row, final ChangeInfo c,
+      final ApprovalViewType viewType) {
     final String idstr = c.getKey().abbreviate();
     table.setWidget(row, C_ARROW, null);
     if (Gerrit.isSignedIn()) {
@@ -191,6 +253,17 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
         new ProjectOpenLink(c.getProject().getKey()));
     table.setText(row, C_BRANCH, c.getBranch());
     table.setText(row, C_LAST_UPDATE, mediumFormat(c.getLastUpdatedOn()));
+    switch (viewType) {
+    case NONE:
+      break;
+    case MINE:
+      PatchUtil.DETAIL_SVC.myApprovals(c.getId(), approvalFormatter(row));
+      break;
+    case STRONGEST:
+      PatchUtil.DETAIL_SVC.strongestApprovals(c.getId(),
+          approvalFormatter(row));
+      break;
+    }
     setRowItem(row, c);
   }
 
@@ -221,7 +294,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
       s.titleRow = table.getRowCount();
       table.setText(s.titleRow, 0, s.titleText);
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
-      fmt.setColSpan(s.titleRow, 0, COLUMNS);
+      fmt.setColSpan(s.titleRow, 0, columns);
       fmt.addStyleName(s.titleRow, 0, S_SECTION_HEADER);
     } else {
       s.titleRow = -1;
@@ -285,20 +358,30 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     }
   }
 
+  public enum ApprovalViewType {
+    NONE, MINE, STRONGEST
+  }
+
   public static class Section {
     String titleText;
 
     ChangeTable parent;
+    ApprovalViewType viewType;
     int titleRow = -1;
     int dataBegin;
     int rows;
 
     public Section() {
-      this(null);
+      this(null, ApprovalViewType.NONE);
     }
 
     public Section(final String titleText) {
+      this(titleText, ApprovalViewType.NONE);
+    }
+
+    public Section(final String titleText, final ApprovalViewType view) {
       setTitleText(titleText);
+      setApprovalViewType(view);
     }
 
     public void setTitleText(final String text) {
@@ -306,6 +389,10 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
       if (titleRow >= 0) {
         parent.table.setText(titleRow, 0, titleText);
       }
+    }
+
+    public void setApprovalViewType(final ApprovalViewType view) {
+      viewType = view;
     }
 
     public void display(final List<ChangeInfo> changeList) {
@@ -333,7 +420,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
           rows++;
         }
         for (int i = 0; i < sz; i++) {
-          parent.populateChangeRow(dataBegin + i, changeList.get(i));
+          parent.populateChangeRow(dataBegin + i, changeList.get(i), viewType);
         }
       }
     }

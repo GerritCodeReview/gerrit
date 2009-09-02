@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAj3///xg\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1002378
+      },
+      "writtenOn": "2009-09-02T11:36:45Z",
+      "side": 1,
+      "message": "I was wondering where the AccountInfoCache came in.  I agree, and will add that for patch set 3.",
+      "parentUuid": "AAAAj3///ys\u003d",
+      "revId": "eb355c9f25334c6f3bb6e31ae2924c72b3b511cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAj3///zM\u003d",
         "filename": "src/main/java/com/google/gerrit/client/changes/ChangeTable.java",
         "patchSetId": 2
@@ -82,6 +100,24 @@
       "writtenOn": "2009-09-02T04:30:26Z",
       "side": 1,
       "message": "wouldn\u0027t summaries.putAll(map) be shorter here?",
+      "revId": "eb355c9f25334c6f3bb6e31ae2924c72b3b511cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAj3///xc\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/data/ApprovalSummarySet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1002378
+      },
+      "writtenOn": "2009-09-02T11:36:45Z",
+      "side": 1,
+      "message": "It would indeed.  I\u0027m more of a C++ person, and overlooked that method.  Thanks.",
+      "parentUuid": "AAAAj3///y4\u003d",
       "revId": "eb355c9f25334c6f3bb6e31ae2924c72b3b511cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

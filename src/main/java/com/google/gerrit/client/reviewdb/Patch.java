@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.reviewdb;
 
+import com.google.gerrit.client.rpc.CodedEnum;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.StringKey;
 
@@ -65,7 +66,7 @@ public final class Patch {
   }
 
   /** Type of modification made to the file path. */
-  public static enum ChangeType {
+  public static enum ChangeType implements CodedEnum {
     /** Path is being created/introduced by this patch. */
     ADDED('A'),
 
@@ -102,17 +103,17 @@ public final class Patch {
   }
 
   /** Type of formatting for this patch. */
-  public static enum PatchType {
+  public static enum PatchType implements CodedEnum {
     /**
      * A textual difference between two versions.
-     * 
+     *
      * <p>
      * A UNIFIED patch can be rendered in multiple ways. Most commonly, it is
      * rendered as a side by side display using two columns, left column for the
      * old version, right column for the new version. A UNIFIED patch can also
      * be formatted in a number of standard "patch script" styles, but typically
      * is formatted in the POSIX standard unified diff format.
-     * 
+     *
      * <p>
      * Usually Gerrit renders a UNIFIED patch in a
      * {@link com.google.gerrit.client.patches.PatchScreen.SideBySide} view,
@@ -124,12 +125,12 @@ public final class Patch {
 
     /**
      * Difference of two (or more) binary contents.
-     * 
+     *
      * <p>
      * A BINARY patch cannot be viewed in a text display, as it represents a
      * change in binary content at the associated path, for example, an image
      * file has been replaced with a different image.
-     * 
+     *
      * <p>
      * Gerrit can only render a BINARY file in a
      * {@link com.google.gerrit.client.patches.PatchScreen.Unified} view, as the
@@ -139,17 +140,17 @@ public final class Patch {
 
     /**
      * Difference of three or more textual contents.
-     * 
+     *
      * <p>
      * Git can produce an n-way unified diff, showing how a merge conflict was
      * resolved when two or more conflicting branches were merged together in a
      * single merge commit.
-     * 
+     *
      * <p>
      * This type of patch can only appear if there are two or more
      * {@link PatchSetAncestor} entities for the same parent {@link PatchSet},
      * as that denotes that the patch set is a merge commit.
-     * 
+     *
      * <p>
      * Gerrit can only render an N_WAY file in a
      * {@link com.google.gerrit.client.patches.PatchScreen.Unified} view, as it
@@ -180,19 +181,15 @@ public final class Patch {
     }
   }
 
-  @Column(name = Column.NONE)
   protected Key key;
 
   /** What sort of change is this to the path; see {@link ChangeType}. */
-  @Column
   protected char changeType;
 
   /** What type of patch is this; see {@link PatchType}. */
-  @Column
   protected char patchType;
 
   /** Number of published comments on this patch. */
-  @Column
   protected int nbrComments;
 
   /** Number of drafts by the current user; not persisted in the datastore. */
@@ -202,7 +199,6 @@ public final class Patch {
    * Original if {@link #changeType} is {@link ChangeType#COPIED} or
    * {@link ChangeType#RENAMED}.
    */
-  @Column(notNull = false)
   protected String sourceFileName;
 
   /** True if this patch has been reviewed by the current logged in user */

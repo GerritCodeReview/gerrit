@@ -14,36 +14,53 @@
 
 package org.spearce.jgit.lib;
 
+import static com.google.gerrit.server.ioutil.BasicSerialization.readFixInt32;
+import static com.google.gerrit.server.ioutil.BasicSerialization.readVarInt32;
+import static com.google.gerrit.server.ioutil.BasicSerialization.writeFixInt32;
+import static com.google.gerrit.server.ioutil.BasicSerialization.writeVarInt32;
+
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 public class ObjectIdSerialization {
-  public static void write(final ObjectOutputStream out, final AnyObjectId id)
+  public static void writeCanBeNull(final OutputStream out, final AnyObjectId id)
       throws IOException {
     if (id != null) {
-      out.writeBoolean(true);
-      out.writeInt(id.w1);
-      out.writeInt(id.w2);
-      out.writeInt(id.w3);
-      out.writeInt(id.w4);
-      out.writeInt(id.w5);
+      writeVarInt32(out, 1);
+      writeNotNull(out, id);
     } else {
-      out.writeBoolean(false);
+      writeVarInt32(out, 0);
     }
   }
 
-  public static ObjectId read(final ObjectInputStream in) throws IOException {
-    if (in.readBoolean()) {
-      final int w1 = in.readInt();
-      final int w2 = in.readInt();
-      final int w3 = in.readInt();
-      final int w4 = in.readInt();
-      final int w5 = in.readInt();
-      return new ObjectId(w1, w2, w3, w4, w5);
-    } else {
-      return null;
+  public static void writeNotNull(final OutputStream out, final AnyObjectId id)
+      throws IOException {
+    writeFixInt32(out, id.w1);
+    writeFixInt32(out, id.w2);
+    writeFixInt32(out, id.w3);
+    writeFixInt32(out, id.w4);
+    writeFixInt32(out, id.w5);
+  }
+
+  public static ObjectId readCanBeNull(final InputStream in) throws IOException {
+    switch (readVarInt32(in)) {
+      case 0:
+        return null;
+      case 1:
+        return readNotNull(in);
+      default:
+        throw new IOException("Invalid flag before ObjectId");
     }
+  }
+
+  public static ObjectId readNotNull(final InputStream in) throws IOException {
+    final int w1 = readFixInt32(in);
+    final int w2 = readFixInt32(in);
+    final int w3 = readFixInt32(in);
+    final int w4 = readFixInt32(in);
+    final int w5 = readFixInt32(in);
+    return new ObjectId(w1, w2, w3, w4, w5);
   }
 
   private ObjectIdSerialization() {

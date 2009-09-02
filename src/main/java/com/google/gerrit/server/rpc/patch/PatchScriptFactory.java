@@ -25,14 +25,14 @@ import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
-import com.google.gerrit.client.rpc.CorruptEntityException;
 import com.google.gerrit.server.FileTypeRegistry;
 import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.Nullable;
-import com.google.gerrit.server.patch.DiffCache;
-import com.google.gerrit.server.patch.DiffCacheContent;
-import com.google.gerrit.server.patch.DiffCacheKey;
+import com.google.gerrit.server.patch.PatchList;
+import com.google.gerrit.server.patch.PatchListCache;
+import com.google.gerrit.server.patch.PatchListEntry;
+import com.google.gerrit.server.patch.PatchListKey;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.rpc.Handler;
@@ -44,10 +44,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spearce.jgit.errors.RepositoryNotFoundException;
 import org.spearce.jgit.lib.ObjectId;
-import org.spearce.jgit.lib.ObjectWriter;
 import org.spearce.jgit.lib.Repository;
-import org.spearce.jgit.revwalk.RevCommit;
-import org.spearce.jgit.revwalk.RevWalk;
 
 import java.io.IOException;
 
@@ -65,7 +62,7 @@ class PatchScriptFactory extends Handler<PatchScript> {
 
   private final GerritServer server;
   private final FileTypeRegistry registry;
-  private final DiffCache diffCache;
+  private final PatchListCache patchListCache;
   private final ReviewDb db;
   private final ChangeControl.Factory changeControlFactory;
 
@@ -79,15 +76,19 @@ class PatchScriptFactory extends Handler<PatchScript> {
   private final Change.Id changeId;
 
   private Change change;
-  private Patch patch;
+  private PatchSet patchSet;
   private Project.NameKey projectKey;
   private Repository git;
 
   private ChangeControl control;
 
+  private ObjectId aId;
+
+  private ObjectId bId;
+
   @Inject
   PatchScriptFactory(final GerritServer gs, final FileTypeRegistry ftr,
-      final DiffCache dc, final ReviewDb db,
+      final PatchListCache patchListCache, final ReviewDb db,
       final ChangeControl.Factory changeControlFactory,
       @Assisted final Patch.Key patchKey,
       @Assisted("patchSetA") @Nullable final PatchSet.Id patchSetA,
@@ -95,7 +96,7 @@ class PatchScriptFactory extends Handler<PatchScript> {
       @Assisted final PatchScriptSettings settings) {
     this.server = gs;
     this.registry = ftr;
-    this.diffCache = dc;
+    this.patchListCache = patchListCache;
     this.db = db;
     this.changeControlFactory = changeControlFactory;
 
@@ -115,13 +116,15 @@ class PatchScriptFactory extends Handler<PatchScript> {
 
     control = changeControlFactory.validateFor(changeId);
     change = control.getChange();
-    patch = db.patches().get(patchKey);
-
-    if (patch == null) {
+    patchSet = db.patchSets().get(patchSetId);
+    if (patchSet == null) {
       throw new NoSuchChangeException(changeId);
     }
 
     projectKey = change.getProject();
+    aId = psa != null ? toObjectId(db, psa) : null;
+    bId = toObjectId(db, psb);
+
     try {
       git = server.openRepository(projectKey.get());
     } catch (RepositoryNotFoundException e) {
@@ -129,32 +132,28 @@ class PatchScriptFactory extends Handler<PatchScript> {
       throw new NoSuchChangeException(changeId, e);
     }
 
+    final String fileName = patchKey.getFileName();
     try {
-      final PatchScriptBuilder b = newBuilder();
-      final ObjectId bId = toObjectId(db, psb);
-      final ObjectId aId = psa == null ? ancestor(bId) : toObjectId(db, psa);
-
-      final DiffCacheKey key = keyFor(bId, aId);
-      final DiffCacheContent contentWS = get(key);
+      final PatchList list = listFor(keyFor(settings.getWhitespace()));
+      final PatchScriptBuilder b = newBuilder(list);
+      final PatchListEntry contentWS = list.get(fileName);
       final CommentDetail comments = allComments(db);
 
-      final DiffCacheContent contentActual;
-      if (settings.getWhitespace() != Whitespace.IGNORE_NONE) {
+      final PatchListEntry contentActual;
+      if (settings.getWhitespace() == Whitespace.IGNORE_NONE) {
+        contentActual = contentWS;
+      } else {
         // If we are ignoring whitespace in some form, we still need to know
         // where the post-image differs so we can ensure the post-image lines
         // are still packed for the client to display.
         //
-        final PatchScriptSettings s = new PatchScriptSettings(settings);
-        s.setWhitespace(Whitespace.IGNORE_NONE);
-        contentActual = get(new DiffCacheKey(projectKey, aId, bId, patch, s));
-      } else {
-        contentActual = contentWS;
+        contentActual = listFor(keyFor(Whitespace.IGNORE_NONE)).get(fileName);
       }
 
       try {
-        return b.toPatchScript(key, contentWS, comments, contentActual);
-      } catch (CorruptEntityException e) {
-        log.error("File content for " + key + " unavailable", e);
+        return b.toPatchScript(contentWS, comments, contentActual);
+      } catch (IOException e) {
+        log.error("File content unavailable", e);
         throw new NoSuchChangeException(changeId, e);
       }
     } finally {
@@ -162,21 +161,16 @@ class PatchScriptFactory extends Handler<PatchScript> {
     }
   }
 
-  private DiffCacheKey keyFor(final ObjectId bId, final ObjectId aId) {
-    return new DiffCacheKey(projectKey, aId, bId, patch, settings);
+  private PatchListKey keyFor(final Whitespace whitespace) {
+    return new PatchListKey(projectKey, aId, bId, whitespace);
   }
 
-  private DiffCacheContent get(final DiffCacheKey key)
+  private PatchList listFor(final PatchListKey key) {
+    return patchListCache.get(key);
+  }
+
+  private PatchScriptBuilder newBuilder(final PatchList list)
       throws NoSuchChangeException {
-    final DiffCacheContent r = diffCache.get(key);
-    if (r == null) {
-      log.error("Cache get failed for " + key);
-      throw new NoSuchChangeException(changeId);
-    }
-    return r;
-  }
-
-  private PatchScriptBuilder newBuilder() throws NoSuchChangeException {
     final PatchScriptSettings s = new PatchScriptSettings(settings);
 
     final int ctx = settings.getContext();
@@ -189,30 +183,9 @@ class PatchScriptFactory extends Handler<PatchScript> {
 
     final PatchScriptBuilder b = new PatchScriptBuilder(registry);
     b.setRepository(git);
-    b.setPatch(patch);
     b.setSettings(s);
+    b.setTrees(list.getOldId(), list.getNewId());
     return b;
-  }
-
-  private ObjectId ancestor(final ObjectId id) throws NoSuchChangeException {
-    try {
-      final RevCommit c = new RevWalk(git).parseCommit(id);
-      switch (c.getParentCount()) {
-        case 0:
-          return emptyTree();
-        case 1:
-          return c.getParent(0).getId();
-        default:
-          return null;
-      }
-    } catch (IOException e) {
-      log.error("Commit information for " + id.name() + " unavailable", e);
-      throw new NoSuchChangeException(changeId, e);
-    }
-  }
-
-  private ObjectId emptyTree() throws IOException {
-    return new ObjectWriter(git).writeCanonicalTree(new byte[0]);
   }
 
   private ObjectId toObjectId(final ReviewDb db, final PatchSet.Id psId)

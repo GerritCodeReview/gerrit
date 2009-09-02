@@ -37,9 +37,7 @@ import java.sql.Timestamp;
  *          |
  *          +- {@link PatchSetAncestor}: parents of this change's commit.
  *          |
- *          +- {@link Patch}: one file path modified by the change.
- *               |
- *               +- {@link PatchLineComment}: comment about a specific line
+ *          +- {@link PatchLineComment}: comment about a specific line
  * </pre>
  * <p>
  * <h5>PatchSets</h5>

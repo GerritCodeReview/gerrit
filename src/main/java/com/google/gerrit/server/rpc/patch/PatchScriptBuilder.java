@@ -20,19 +20,14 @@ import com.google.gerrit.client.data.PatchScriptSettings;
 import com.google.gerrit.client.data.SparseFileContent;
 import com.google.gerrit.client.data.PatchScript.DisplayMethod;
 import com.google.gerrit.client.patches.CommentDetail;
-import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
-import com.google.gerrit.client.rpc.CorruptEntityException;
 import com.google.gerrit.server.FileTypeRegistry;
-import com.google.gerrit.server.patch.DiffCacheContent;
-import com.google.gerrit.server.patch.DiffCacheKey;
+import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.patch.Text;
 
 import eu.medsea.mimeutil.MimeType;
 import eu.medsea.mimeutil.MimeUtil2;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.spearce.jgit.diff.Edit;
 import org.spearce.jgit.errors.CorruptObjectException;
 import org.spearce.jgit.errors.IncorrectObjectTypeException;
@@ -60,9 +55,6 @@ class PatchScriptBuilder {
   static final int MAX_CONTEXT = 5000000;
   static final int BIG_FILE = 9000;
 
-  private static final Logger log =
-      LoggerFactory.getLogger(PatchScriptBuilder.class);
-
   private static final Comparator<Edit> EDIT_SORT = new Comparator<Edit>() {
     @Override
     public int compare(final Edit o1, final Edit o2) {
@@ -72,9 +64,9 @@ class PatchScriptBuilder {
 
   private final List<String> header;
   private Repository db;
-  private Patch patch;
-  private Patch.Key patchKey;
   private PatchScriptSettings settings;
+  private ObjectId aId;
+  private ObjectId bId;
 
   private final Side a;
   private final Side b;
@@ -93,22 +85,22 @@ class PatchScriptBuilder {
     db = r;
   }
 
-  void setPatch(final Patch p) {
-    patch = p;
-    patchKey = patch.getKey();
-  }
-
   void setSettings(final PatchScriptSettings s) {
     settings = s;
+  }
+
+  void setTrees(final ObjectId a, final ObjectId b) {
+    aId = a;
+    bId = b;
   }
 
   private int context() {
     return settings.getContext();
   }
 
-  PatchScript toPatchScript(final DiffCacheKey key,
-      final DiffCacheContent contentWS, final CommentDetail comments,
-      final DiffCacheContent contentAct) throws CorruptEntityException {
+  PatchScript toPatchScript(final PatchListEntry contentWS,
+      final CommentDetail comments, final PatchListEntry contentAct)
+      throws IOException {
     if (contentAct.getFileHeader() instanceof CombinedFileHeader) {
       // For a diff --cc format we don't support converting it into
       // a patch script. Instead treat everything as a file header.
@@ -119,18 +111,15 @@ class PatchScriptBuilder {
           a.displayMethod, b.displayMethod);
     }
 
-    a.path = oldFileName(key, contentAct.getFileHeader());
-    b.path = newFileName(key, contentAct.getFileHeader());
+    a.path = oldName(contentAct);
+    b.path = newName(contentAct);
 
-    a.resolve(null, key.getOldId());
-    b.resolve(a, key.getNewId());
+    a.resolve(null, aId);
+    b.resolve(a, bId);
 
     edits = new ArrayList<Edit>(contentAct.getEdits());
     ensureCommentsVisible(comments);
-
-    if (contentAct.getFileHeader() != null) {
-      packHeader(contentAct.getFileHeader());
-    }
+    packHeader(contentAct.getFileHeader());
 
     if (a.mode == FileMode.GITLINK || b.mode == FileMode.GITLINK) {
 
@@ -165,33 +154,31 @@ class PatchScriptBuilder {
         a.displayMethod, b.displayMethod);
   }
 
-  private static String oldFileName(final DiffCacheKey key, final FileHeader fh) {
-    if (fh != null) {
-      if (FileMode.MISSING == fh.getOldMode()) {
+  private static String oldName(final PatchListEntry entry) {
+    switch (entry.getChangeType()) {
+      case ADDED:
         return null;
-      }
-      if (FileHeader.DEV_NULL.equals(fh.getOldName())) {
-        return null;
-      }
-      return fh.getOldName();
+      case DELETED:
+      case MODIFIED:
+        return entry.getNewName();
+      case COPIED:
+      case RENAMED:
+      default:
+        return entry.getOldName();
     }
-    if (key.getSourceFileName() != null) {
-      return key.getSourceFileName();
-    }
-    return key.getFileName();
   }
 
-  private static String newFileName(final DiffCacheKey key, final FileHeader fh) {
-    if (fh != null) {
-      if (FileMode.MISSING == fh.getNewMode()) {
+  private static String newName(final PatchListEntry entry) {
+    switch (entry.getChangeType()) {
+      case DELETED:
         return null;
-      }
-      if (FileHeader.DEV_NULL.equals(fh.getNewName())) {
-        return null;
-      }
-      return fh.getNewName();
+      case ADDED:
+      case MODIFIED:
+      case COPIED:
+      case RENAMED:
+      default:
+        return entry.getNewName();
     }
-    return key.getFileName();
   }
 
   private void ensureCommentsVisible(final CommentDetail comments) {
@@ -357,8 +344,7 @@ class PatchScriptBuilder {
     DisplayMethod displayMethod = DisplayMethod.DIFF;
     final SparseFileContent dst = new SparseFileContent();
 
-    void resolve(final Side other, final ObjectId within)
-        throws CorruptEntityException {
+    void resolve(final Side other, final ObjectId within) throws IOException {
       try {
         final TreeWalk tw = find(within);
 
@@ -405,8 +391,7 @@ class PatchScriptBuilder {
         dst.setMissingNewlineAtEnd(src.isMissingNewlineAtEnd());
         dst.setSize(src.size());
       } catch (IOException err) {
-        log.error("Cannot read " + within.name() + ":" + path, err);
-        throw new CorruptEntityException(patchKey);
+        throw new IOException("Cannot read " + within.name() + ":" + path, err);
       }
     }
 

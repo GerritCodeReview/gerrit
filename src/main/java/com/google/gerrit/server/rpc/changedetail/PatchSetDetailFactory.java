@@ -22,18 +22,20 @@ import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.patch.PatchList;
+import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.rpc.Handler;
 import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -45,6 +47,7 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
 
   private final PatchSetInfoFactory infoFactory;
   private final ReviewDb db;
+  private final PatchListCache patchListCache;
   private final ChangeControl.Factory changeControlFactory;
 
   private final PatchSet.Id psId;
@@ -55,10 +58,12 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
 
   @Inject
   PatchSetDetailFactory(final PatchSetInfoFactory psif, final ReviewDb db,
+      final PatchListCache patchListCache,
       final ChangeControl.Factory changeControlFactory,
       @Assisted final PatchSet.Id id) {
     this.infoFactory = psif;
     this.db = db;
+    this.patchListCache = patchListCache;
     this.changeControlFactory = changeControlFactory;
 
     this.psId = id;
@@ -75,43 +80,43 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
       }
     }
 
+    final PatchList list = patchListCache.get(control.getChange(), patchSet);
+    final List<Patch> patches = list.toPatchList(patchSet.getId());
+    final Map<Patch.Key, Patch> byKey = new HashMap<Patch.Key, Patch>();
+    for (final Patch p : patches) {
+      byKey.put(p.getKey(), p);
+    }
+
+    for (final PatchLineComment c : db.patchComments().published(psId)) {
+      final Patch p = byKey.get(c.getKey().getParentKey());
+      if (p != null) {
+        p.setCommentCount(p.getCommentCount() + 1);
+      }
+    }
+
     detail = new PatchSetDetail();
     detail.setPatchSet(patchSet);
 
     detail.setInfo(infoFactory.get(psId));
-    detail.setPatches(db.patches().byPatchSet(psId).toList());
+    detail.setPatches(patches);
 
-    if (control.getCurrentUser() instanceof IdentifiedUser) {
+    final CurrentUser user = control.getCurrentUser();
+    if (user instanceof IdentifiedUser) {
       // If we are signed in, compute the number of draft comments by the
       // current user on each of these patch files. This way they can more
       // quickly locate where they have pending drafts, and review them.
       //
-      final Account.Id me =
-          ((IdentifiedUser) control.getCurrentUser()).getAccountId();
-      final List<PatchLineComment> comments =
-          db.patchComments().draft(psId, me).toList();
-      if (!comments.isEmpty()) {
-        final Map<Patch.Key, Patch> byKey =
-            db.patches().toMap(detail.getPatches());
-        for (final PatchLineComment c : comments) {
-          final Patch p = byKey.get(c.getKey().getParentKey());
-          if (p != null) {
-            p.setDraftCount(p.getDraftCount() + 1);
-          }
+      final Account.Id me = ((IdentifiedUser) user).getAccountId();
+      for (final PatchLineComment c : db.patchComments().draft(psId, me)) {
+        final Patch p = byKey.get(c.getKey().getParentKey());
+        if (p != null) {
+          p.setDraftCount(p.getDraftCount() + 1);
         }
       }
 
-      // Get all the reviewed patches in one query
-      ResultSet<AccountPatchReview> reviews =
-          db.accountPatchReviews().byReviewer(me, psId);
-      HashSet<Patch.Key> reviewedPatches = new HashSet<Patch.Key>();
-      for (AccountPatchReview review : reviews) {
-        reviewedPatches.add(review.getKey().getPatchKey());
-      }
-
-      // Initialize the reviewed status of each patch
-      for (Patch p : detail.getPatches()) {
-        if (reviewedPatches.contains(p.getKey())) {
+      for (AccountPatchReview r : db.accountPatchReviews().byReviewer(me, psId)) {
+        final Patch p = byKey.get(r.getKey().getPatchKey());
+        if (p != null) {
           p.setReviewedByCurrentUser(true);
         }
       }

@@ -15,10 +15,24 @@
 package com.google.gerrit.client.data;
 
 import com.google.gerrit.client.reviewdb.AccountGeneralPreferences;
+import com.google.gerrit.client.rpc.CodedEnum;
 
 public class PatchScriptSettings {
-  public static enum Whitespace {
-    IGNORE_NONE, IGNORE_SPACE_AT_EOL, IGNORE_SPACE_CHANGE, IGNORE_ALL_SPACE;
+  public static enum Whitespace implements CodedEnum {
+    IGNORE_NONE('N'), //
+    IGNORE_SPACE_AT_EOL('E'), //
+    IGNORE_SPACE_CHANGE('S'), //
+    IGNORE_ALL_SPACE('A');
+
+    private final char code;
+
+    private Whitespace(final char c) {
+      code = c;
+    }
+
+    public char getCode() {
+      return code;
+    }
   }
 
   protected int context;

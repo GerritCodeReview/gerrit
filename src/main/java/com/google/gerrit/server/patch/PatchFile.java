@@ -15,7 +15,6 @@
 package com.google.gerrit.server.patch;
 
 import com.google.gerrit.client.reviewdb.Patch;
-import com.google.gerrit.client.reviewdb.RevId;
 import com.google.gerrit.client.rpc.CorruptEntityException;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
 
@@ -25,9 +24,9 @@ import org.spearce.jgit.errors.MissingObjectException;
 import org.spearce.jgit.lib.Constants;
 import org.spearce.jgit.lib.ObjectId;
 import org.spearce.jgit.lib.ObjectLoader;
-import org.spearce.jgit.lib.ObjectWriter;
 import org.spearce.jgit.lib.Repository;
 import org.spearce.jgit.revwalk.RevCommit;
+import org.spearce.jgit.revwalk.RevTree;
 import org.spearce.jgit.revwalk.RevWalk;
 import org.spearce.jgit.treewalk.TreeWalk;
 
@@ -37,32 +36,34 @@ import java.nio.charset.CharacterCodingException;
 /** State supporting processing of a single {@link Patch} instance. */
 public class PatchFile {
   private final Repository repo;
-  private final Patch patch;
-  private final ObjectId aTree;
-  private final ObjectId bTree;
+  private final PatchListEntry entry;
+  private final RevTree aTree;
+  private final RevTree bTree;
 
   private Text a;
   private Text b;
 
-  public PatchFile(final Repository repo, final RevId id, final Patch patch)
-      throws MissingObjectException, IncorrectObjectTypeException, IOException {
+  public PatchFile(final Repository repo, final PatchList patchList,
+      final String fileName) throws MissingObjectException,
+      IncorrectObjectTypeException, IOException {
     this.repo = repo;
-    this.patch = patch;
+    this.entry = patchList.get(fileName);
 
     final RevWalk rw = new RevWalk(repo);
-    final RevCommit bCommit = rw.parseCommit(ObjectId.fromString(id.get()));
-    if (bCommit.getParentCount() > 0) {
-      rw.parseHeaders(bCommit.getParent(0));
-      aTree = bCommit.getParent(0).getTree();
+    final RevCommit bCommit = rw.parseCommit(patchList.getNewId());
+    if (patchList.getOldId() != null) {
+      aTree = rw.parseTree(patchList.getOldId());
     } else {
-      aTree = emptyTree();
+      final RevCommit p = bCommit.getParent(0);
+      rw.parseHeaders(p);
+      aTree = p.getTree();
     }
     bTree = bCommit.getTree();
   }
 
   /**
    * Extract a line from the file, as a string.
-   * 
+   *
    * @param file the file index to extract.
    * @param line the line number to extract (1 based; 1 is the first line).
    * @return the string version of the file line.
@@ -76,17 +77,13 @@ public class PatchFile {
     switch (file) {
       case 0:
         if (a == null) {
-          String p = patch.getSourceFileName();
-          if (p == null) {
-            p = patch.getFileName();
-          }
-          a = load(aTree, p);
+          a = load(aTree, entry.getOldName());
         }
         return a.getLine(line - 1);
 
       case 1:
         if (b == null) {
-          b = load(bTree, patch.getFileName());
+          b = load(bTree, entry.getNewName());
         }
         return b.getLine(line - 1);
 
@@ -98,6 +95,9 @@ public class PatchFile {
   private Text load(final ObjectId tree, final String path)
       throws MissingObjectException, IncorrectObjectTypeException,
       CorruptObjectException, IOException {
+    if (path == null) {
+      return Text.EMPTY;
+    }
     final TreeWalk tw = TreeWalk.forPath(repo, path, tree);
     if (tw == null) {
       return Text.EMPTY;
@@ -111,9 +111,5 @@ public class PatchFile {
       throw new MissingObjectException(id, Constants.TYPE_BLOB);
     }
     return new Text(ldr.getCachedBytes());
-  }
-
-  private ObjectId emptyTree() throws IOException {
-    return new ObjectWriter(repo).writeCanonicalTree(new byte[0]);
   }
 }

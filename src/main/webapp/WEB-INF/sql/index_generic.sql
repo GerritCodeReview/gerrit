@@ -137,11 +137,6 @@ ON contributor_agreements (active, short_name);
 
 
 -- *********************************************************************
--- PatchAccess
---    @PrimaryKey covers: byPatchSet
-
-
--- *********************************************************************
 -- PatchLineCommentAccess
 --    @PrimaryKey covers: published, draft
 CREATE INDEX patch_comment_drafts

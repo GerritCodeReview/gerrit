@@ -18,10 +18,9 @@ import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.AccountProjectWatch;
 import com.google.gerrit.client.reviewdb.Change;
-import com.google.gerrit.client.reviewdb.PatchSetApproval;
 import com.google.gerrit.client.reviewdb.ChangeMessage;
-import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchSet;
+import com.google.gerrit.client.reviewdb.PatchSetApproval;
 import com.google.gerrit.client.reviewdb.PatchSetInfo;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.StarredChange;
@@ -31,6 +30,9 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.Nullable;
+import com.google.gerrit.server.patch.PatchList;
+import com.google.gerrit.server.patch.PatchListCache;
+import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ProjectCache;
@@ -85,6 +87,9 @@ public abstract class OutgoingEmail {
 
   @Inject
   private AccountCache accountCache;
+
+  @Inject
+  private PatchListCache patchListCache;
 
   @Inject
   private EmailSender emailSender;
@@ -418,18 +423,21 @@ public abstract class OutgoingEmail {
       appendText("\n");
     }
 
-    if (db != null && patchSet != null) {
+    if (patchSet != null) {
       appendText("---\n");
-      try {
-        for (Patch p : db.patches().byPatchSet(patchSet.getId())) {
-          appendText(p.getChangeType().getCode() + " " + p.getFileName() + "\n");
-        }
-      } catch (OrmException e) {
-        // Don't bother including the files if we get a failure,
-        // ensure we at least send the notification message.
+      for (PatchListEntry p : getPatchList().getPatches()) {
+        appendText(p.getChangeType().getCode() + " " + p.getNewName() + "\n");
       }
       appendText("\n");
     }
+  }
+
+  /** Get the patch list corresponding to this patch set. */
+  protected PatchList getPatchList() {
+    if (patchSet != null) {
+      return patchListCache.get(change, patchSet);
+    }
+    return null;
   }
 
   /** Lookup a human readable name for an account, usually the "full name". */

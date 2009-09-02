@@ -14,18 +14,11 @@
 
 package com.google.gerrit.git;
 
-import static com.google.gerrit.client.data.PatchScriptSettings.Whitespace.IGNORE_NONE;
-
-import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.PatchSetAncestor;
 import com.google.gerrit.client.reviewdb.PatchSetInfo;
-import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.RevId;
 import com.google.gerrit.client.reviewdb.ReviewDb;
-import com.google.gerrit.server.patch.DiffCache;
-import com.google.gerrit.server.patch.DiffCacheContent;
-import com.google.gerrit.server.patch.DiffCacheKey;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.Transaction;
@@ -33,14 +26,8 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import org.spearce.jgit.lib.Commit;
-import org.spearce.jgit.lib.ObjectId;
-import org.spearce.jgit.lib.ObjectWriter;
-import org.spearce.jgit.lib.Repository;
-import org.spearce.jgit.patch.CombinedFileHeader;
-import org.spearce.jgit.patch.FileHeader;
 import org.spearce.jgit.revwalk.RevCommit;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -50,27 +37,18 @@ import java.util.Map;
 /** Imports a {@link PatchSet} from a {@link Commit}. */
 public class PatchSetImporter {
   public interface Factory {
-    PatchSetImporter create(ReviewDb dstDb, Project.NameKey proj,
-        Repository srcRepo, RevCommit srcCommit, PatchSet dstPatchSet,
-        boolean isNewPatchSet);
+    PatchSetImporter create(ReviewDb dstDb, RevCommit srcCommit,
+        PatchSet dstPatchSet, boolean isNewPatchSet);
   }
 
-  private final DiffCache diffCache;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final ReviewDb db;
-  private final Project.NameKey projectKey;
-  private final Repository repo;
   private final RevCommit src;
   private final PatchSet dst;
   private final boolean isNew;
   private Transaction txn;
-  private org.spearce.jgit.patch.Patch gitpatch;
 
   private PatchSetInfo info;
-
-  private final Map<String, Patch> patchExisting = new HashMap<String, Patch>();
-  private final List<Patch> patchInsert = new ArrayList<Patch>();
-  private final List<Patch> patchUpdate = new ArrayList<Patch>();
 
   private final Map<Integer, PatchSetAncestor> ancestorExisting =
       new HashMap<Integer, PatchSetAncestor>();
@@ -80,16 +58,12 @@ public class PatchSetImporter {
       new ArrayList<PatchSetAncestor>();
 
   @Inject
-  PatchSetImporter(final DiffCache dc, final PatchSetInfoFactory psif,
-      @Assisted final ReviewDb dstDb, @Assisted final Project.NameKey proj,
-      @Assisted final Repository srcRepo, @Assisted final RevCommit srcCommit,
+  PatchSetImporter(final PatchSetInfoFactory psif,
+      @Assisted final ReviewDb dstDb, @Assisted final RevCommit srcCommit,
       @Assisted final PatchSet dstPatchSet,
       @Assisted final boolean isNewPatchSet) {
-    diffCache = dc;
     patchSetInfoFactory = psif;
     db = dstDb;
-    projectKey = proj;
-    repo = srcRepo;
     src = srcCommit;
     dst = dstPatchSet;
     isNew = isNewPatchSet;
@@ -103,18 +77,10 @@ public class PatchSetImporter {
     return info;
   }
 
-  public void run() throws IOException, OrmException {
-    gitpatch = readGitPatch();
-
+  public void run() throws OrmException {
     dst.setRevision(toRevId(src));
 
     if (!isNew) {
-      // If we aren't a new patch set then we need to load the existing
-      // files so we can update or delete them if there are corrections.
-      //
-      for (final Patch p : db.patches().byPatchSet(dst.getId())) {
-        patchExisting.put(p.getFileName(), p);
-      }
       for (final PatchSetAncestor a : db.patchSetAncestors().ancestorsOf(
           dst.getId())) {
         ancestorExisting.put(a.getPosition(), a);
@@ -123,9 +89,6 @@ public class PatchSetImporter {
 
     info = patchSetInfoFactory.get(src, dst.getId());
     importAncestors();
-    for (final FileHeader fh : gitpatch.getFiles()) {
-      importFile(fh);
-    }
 
     final boolean auto = txn == null;
     if (auto) {
@@ -134,12 +97,8 @@ public class PatchSetImporter {
     if (isNew) {
       db.patchSets().insert(Collections.singleton(dst), txn);
     }
-    db.patches().insert(patchInsert, txn);
     db.patchSetAncestors().insert(ancestorInsert, txn);
     if (!isNew) {
-      db.patches().update(patchUpdate, txn);
-      db.patches().delete(patchExisting.values(), txn);
-
       db.patchSetAncestors().update(ancestorUpdate, txn);
       db.patchSetAncestors().delete(ancestorExisting.values(), txn);
     }
@@ -162,145 +121,7 @@ public class PatchSetImporter {
     }
   }
 
-  private void importFile(final FileHeader fh) {
-    final String path;
-    if (fh.getChangeType() == FileHeader.ChangeType.DELETE) {
-      path = fh.getOldName();
-    } else {
-      path = fh.getNewName();
-    }
-
-    Patch p = patchExisting.remove(path);
-    if (p == null) {
-      p = new Patch(new Patch.Key(dst.getId(), path));
-      patchInsert.add(p);
-    } else {
-      p.setSourceFileName(null);
-      patchUpdate.add(p);
-    }
-
-    // Convert the ChangeType
-    //
-    if (fh.getChangeType() == FileHeader.ChangeType.ADD) {
-      p.setChangeType(Patch.ChangeType.ADDED);
-
-    } else if (fh.getChangeType() == FileHeader.ChangeType.MODIFY) {
-      p.setChangeType(Patch.ChangeType.MODIFIED);
-
-    } else if (fh.getChangeType() == FileHeader.ChangeType.DELETE) {
-      p.setChangeType(Patch.ChangeType.DELETED);
-
-    } else if (fh.getChangeType() == FileHeader.ChangeType.RENAME) {
-      p.setChangeType(Patch.ChangeType.RENAMED);
-      p.setSourceFileName(fh.getOldName());
-
-    } else if (fh.getChangeType() == FileHeader.ChangeType.COPY) {
-      p.setChangeType(Patch.ChangeType.COPIED);
-      p.setSourceFileName(fh.getOldName());
-    }
-
-    // Convert the PatchType
-    //
-    if (fh instanceof CombinedFileHeader) {
-      p.setPatchType(Patch.PatchType.N_WAY);
-
-    } else if (fh.getPatchType() == FileHeader.PatchType.GIT_BINARY) {
-      p.setPatchType(Patch.PatchType.BINARY);
-
-    } else if (fh.getPatchType() == FileHeader.PatchType.BINARY) {
-      p.setPatchType(Patch.PatchType.BINARY);
-    }
-
-    if (p.getPatchType() != Patch.PatchType.BINARY) {
-      final byte[] buf = fh.getBuffer();
-      for (int ptr = fh.getStartOffset(); ptr < fh.getEndOffset(); ptr++) {
-        if (buf[ptr] == '\0') {
-          // Its really binary, but Git couldn't see the nul early enough
-          // to realize its binary, and instead produced the diff.
-          //
-          // Force it to be a binary; it really should have been that.
-          //
-          p.setPatchType(Patch.PatchType.BINARY);
-          break;
-        }
-      }
-    }
-  }
-
   private static RevId toRevId(final RevCommit src) {
     return new RevId(src.getId().name());
-  }
-
-  private org.spearce.jgit.patch.Patch readGitPatch() throws IOException {
-    final List<String> args = new ArrayList<String>();
-    args.add("git");
-    args.add("--git-dir=.");
-    args.add("diff-tree");
-    args.add("-M");
-    args.add("--full-index");
-
-    final ObjectId a, b;
-    switch (src.getParentCount()) {
-      case 0:
-        args.add("--unified=1");
-        a = emptyTree();
-        b = src.getId();
-        break;
-      case 1:
-        args.add("--unified=1");
-        a = src.getParent(0).getId();
-        b = src.getId();
-        break;
-      default:
-        args.add("--cc");
-        a = null;
-        b = src.getId();
-        break;
-    }
-    if (a != null) {
-      args.add(a.name());
-    }
-    args.add(b.name());
-
-    final Process proc =
-        Runtime.getRuntime().exec(args.toArray(new String[args.size()]), null,
-            repo.getDirectory());
-    final org.spearce.jgit.patch.Patch p;
-    try {
-      p = new org.spearce.jgit.patch.Patch();
-      proc.getOutputStream().close();
-      proc.getErrorStream().close();
-      p.parse(proc.getInputStream());
-      proc.getInputStream().close();
-    } finally {
-      try {
-        if (proc.waitFor() != 0) {
-          throw new IOException("git diff-tree exited abnormally");
-        }
-      } catch (InterruptedException ie) {
-      }
-    }
-
-    for (final FileHeader fh : p.getFiles()) {
-      final DiffCacheKey k;
-
-      String srcName = null;
-      switch (fh.getChangeType()) {
-        case RENAME:
-        case COPY:
-          srcName = fh.getOldName();
-          break;
-      }
-
-      final String newName = fh.getNewName();
-      k = new DiffCacheKey(projectKey, a, b, newName, srcName, IGNORE_NONE);
-      diffCache.put(k, DiffCacheContent.create(fh));
-    }
-
-    return p;
-  }
-
-  private ObjectId emptyTree() throws IOException {
-    return new ObjectWriter(repo).writeCanonicalTree(new byte[0]);
   }
 }

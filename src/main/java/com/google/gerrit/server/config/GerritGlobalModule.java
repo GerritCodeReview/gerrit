@@ -52,7 +52,7 @@ import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.mail.RegisterNewEmailSender;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.mail.SmtpEmailSender;
-import com.google.gerrit.server.patch.DiffCache;
+import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.ssh.SshKeyCache;
@@ -121,8 +121,8 @@ public class GerritGlobalModule extends FactoryModule {
     bind(CachePool.class);
     install(AccountByEmailCache.module());
     install(AccountCache.module());
-    install(DiffCache.module());
     install(GroupCache.module());
+    install(PatchListCache.module());
     install(ProjectCache.module());
     install(SshKeyCache.module());
 

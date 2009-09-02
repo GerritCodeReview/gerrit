@@ -21,6 +21,7 @@ import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.config.Nullable;
@@ -30,6 +31,11 @@ import com.google.gerrit.server.rpc.Handler;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 class CommentDetailFactory extends Handler<CommentDetail> {
@@ -49,8 +55,6 @@ class CommentDetailFactory extends Handler<CommentDetail> {
 
   private final PatchSet.Id patchSetId;
   private final Change.Id changeId;
-
-  private Patch patch;
 
   @Inject
   CommentDetailFactory(final ReviewDb db,
@@ -77,31 +81,44 @@ class CommentDetailFactory extends Handler<CommentDetail> {
     validatePatchSetId(psb);
 
     final ChangeControl control = changeControlFactory.validateFor(changeId);
-    patch = db.patches().get(patchKey);
-    if (patch == null) {
-      throw new NoSuchChangeException(changeId);
+    final String pn = patchKey.getFileName();
+    final CommentDetail r = new CommentDetail(psa, psb);
+
+    final List<Patch> historyList = new ArrayList<Patch>();
+    final Map<PatchSet.Id, Patch> bySet = new HashMap<PatchSet.Id, Patch>();
+    for (final PatchSet ps : db.patchSets().byChange(changeId)) {
+      final Patch p = new Patch(new Patch.Key(ps.getId(), pn));
+      historyList.add(p);
+      bySet.put(ps.getId(), p);
     }
 
-    final String pn = patch.getFileName();
-    final CommentDetail r;
-
-    r = new CommentDetail(psa, psb != null ? psb : patchSetId);
-    for (PatchLineComment p : db.patchComments().published(changeId, pn)) {
-      if (r.include(p)) {
-        aic.want(p.getAuthor());
+    for (PatchLineComment c : db.patchComments().published(changeId, pn)) {
+      if (r.include(c)) {
+        aic.want(c.getAuthor());
+      }
+      final PatchSet.Id psId = c.getKey().getParentKey().getParentKey();
+      final Patch patch = bySet.get(psId);
+      if (patch != null) {
+        patch.setCommentCount(patch.getCommentCount() + 1);
       }
     }
 
-    if (control.getCurrentUser() instanceof IdentifiedUser) {
-      final Account.Id me =
-          ((IdentifiedUser) control.getCurrentUser()).getAccountId();
-      aic.want(me);
-      for (PatchLineComment p : db.patchComments().draft(changeId, pn, me)) {
-        r.include(p);
+    final CurrentUser user = control.getCurrentUser();
+    if (user instanceof IdentifiedUser) {
+      final Account.Id me = ((IdentifiedUser) user).getAccountId();
+      for (PatchLineComment c : db.patchComments().draft(changeId, pn, me)) {
+        if (r.include(c)) {
+          aic.want(me);
+        }
+        final PatchSet.Id psId = c.getKey().getParentKey().getParentKey();
+        final Patch patch = bySet.get(psId);
+        if (patch != null) {
+          patch.setDraftCount(patch.getDraftCount() + 1);
+        }
       }
     }
 
-    r.setHistory(db.patches().history(changeId, pn).toList());
+    r.setHistory(historyList);
     r.setAccountInfoCache(aic.create());
     return r;
   }

@@ -54,7 +54,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -217,21 +216,10 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
 
     final boolean iscurrent = psid.equals(r.change.currentPatchSetId());
     r.comments = db.patchComments().draft(psid, me).toList();
-    final Set<Patch.Key> patchKeys = new HashSet<Patch.Key>();
     for (final PatchLineComment c : r.comments) {
-      patchKeys.add(c.getKey().getParentKey());
-    }
-    final Map<Patch.Key, Patch> patches =
-        db.patches().toMap(db.patches().get(patchKeys));
-    for (final PatchLineComment c : r.comments) {
-      final Patch p = patches.get(c.getKey().getParentKey());
-      if (p != null) {
-        p.setCommentCount(p.getCommentCount() + 1);
-      }
       c.setStatus(PatchLineComment.Status.PUBLISHED);
       c.updated();
     }
-    db.patches().update(patches.values(), txn);
     db.patchComments().update(r.comments, txn);
 
     final StringBuilder msgbuf = new StringBuilder();

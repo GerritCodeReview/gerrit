@@ -4,7 +4,6 @@
 -- Cluster hot tables by their primary method of access
 --
 ALTER TABLE patch_sets CLUSTER ON patch_sets_pkey;
-ALTER TABLE patches CLUSTER ON patches_pkey;
 ALTER TABLE change_messages CLUSTER ON change_messages_pkey;
 ALTER TABLE patch_comments CLUSTER ON patch_comments_pkey;
 ALTER TABLE patch_set_approvals CLUSTER ON patch_set_approvals_pkey;
@@ -181,11 +180,6 @@ WHERE change_open = 'N';
 --    covers:             active
 CREATE INDEX contributor_agreements_active
 ON contributor_agreements (active, short_name);
-
-
--- *********************************************************************
--- PatchAccess
---    @PrimaryKey covers: byPatchSet
 
 
 -- *********************************************************************

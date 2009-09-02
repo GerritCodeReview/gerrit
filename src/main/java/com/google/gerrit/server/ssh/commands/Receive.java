@@ -786,8 +786,7 @@ final class Receive extends AbstractGitCommand {
     ps.setCreatedOn(change.getCreatedOn());
     ps.setUploader(me);
 
-    final PatchSetImporter imp =
-        importFactory.create(db, project.getNameKey(), repo, c, ps, true);
+    final PatchSetImporter imp = importFactory.create(db, c, ps, true);
     imp.setTransaction(txn);
     imp.run();
 
@@ -966,14 +965,9 @@ final class Receive extends AbstractGitCommand {
         ps.setCreatedOn(new Timestamp(System.currentTimeMillis()));
         ps.setUploader(currentUser.getAccountId());
 
-        final PatchSetImporter imp =
-            importFactory.create(db, project.getNameKey(), repo, c, ps, true);
+        final PatchSetImporter imp = importFactory.create(db, c, ps, true);
         imp.setTransaction(txn);
-        try {
-          imp.run();
-        } catch (IOException e) {
-          throw new OrmException(e);
-        }
+        imp.run();
 
         final Ref mergedInto = findMergedInto(change.getDest().get(), c);
         final ReplaceResult result = new ReplaceResult();

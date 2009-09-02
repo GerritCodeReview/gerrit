@@ -16,6 +16,7 @@ package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Link;
+import com.google.gerrit.client.changes.ChangeTable.ApprovalViewType;
 import com.google.gerrit.client.data.AccountDashboardInfo;
 import com.google.gerrit.client.data.AccountInfo;
 import com.google.gerrit.client.reviewdb.Account;
@@ -37,10 +38,10 @@ public class AccountDashboardScreen extends Screen {
   @Override
   protected void onInitUI() {
     super.onInitUI();
-    table = new ChangeTable();
-    byOwner = new ChangeTable.Section("");
-    forReview = new ChangeTable.Section("");
-    closed = new ChangeTable.Section("");
+    table = new ChangeTable(true);
+    byOwner = new ChangeTable.Section("", ApprovalViewType.STRONGEST, null);
+    forReview = new ChangeTable.Section("", ApprovalViewType.USER, ownerId);
+    closed = new ChangeTable.Section("", ApprovalViewType.STRONGEST, null);
 
     table.addSection(byOwner);
     table.addSection(forReview);

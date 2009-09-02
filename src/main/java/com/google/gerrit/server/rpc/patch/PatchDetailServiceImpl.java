@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.rpc.patch;
 
+import com.google.gerrit.client.data.AccountInfo;
+import com.google.gerrit.client.data.ApprovalSummary;
+import com.google.gerrit.client.data.ApprovalSummarySet;
 import com.google.gerrit.client.data.ApprovalType;
 import com.google.gerrit.client.data.ApprovalTypes;
 import com.google.gerrit.client.data.PatchScript;
@@ -41,6 +44,9 @@ import com.google.gerrit.server.mail.CommentSender;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
+import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.workflow.FunctionState;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
@@ -52,6 +58,7 @@ import com.google.inject.Provider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -68,7 +75,9 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
 
   private final AbandonChange.Factory abandonChangeFactory;
   private final AddReviewer.Factory addReviewerFactory;
+  private final ChangeControl.Factory changeControlFactory;
   private final CommentDetailFactory.Factory commentDetailFactory;
+  private final FunctionState.Factory functionStateFactory;
   private final PatchScriptFactory.Factory patchScriptFactoryFactory;
   private final SaveDraft.Factory saveDraftFactory;
 
@@ -80,7 +89,9 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
       final ApprovalTypes approvalTypes,
       final AbandonChange.Factory abandonChangeFactory,
       final AddReviewer.Factory addReviewerFactory,
+      final ChangeControl.Factory changeControlFactory,
       final CommentDetailFactory.Factory commentDetailFactory,
+      final FunctionState.Factory functionStateFactory,
       final PatchScriptFactory.Factory patchScriptFactoryFactory,
       final SaveDraft.Factory saveDraftFactory) {
     super(schema, currentUser);
@@ -90,7 +101,9 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
 
     this.abandonChangeFactory = abandonChangeFactory;
     this.addReviewerFactory = addReviewerFactory;
+    this.changeControlFactory = changeControlFactory;
     this.commentDetailFactory = commentDetailFactory;
+    this.functionStateFactory = functionStateFactory;
     this.patchScriptFactoryFactory = patchScriptFactoryFactory;
     this.saveDraftFactory = saveDraftFactory;
   }
@@ -317,5 +330,93 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
   public void abandonChange(final PatchSet.Id patchSetId, final String message,
       final AsyncCallback<VoidResult> callback) {
     abandonChangeFactory.create(patchSetId, message).to(callback);
+  }
+
+  public void userApprovals(final Set<Change.Id> cids, final Account.Id aid,
+      final AsyncCallback<ApprovalSummarySet> callback) {
+    run(callback, new Action<ApprovalSummarySet>() {
+      public ApprovalSummarySet run(ReviewDb db)
+        throws OrmException {
+        final Map<Change.Id, ApprovalSummary> approvals = new
+          HashMap<Change.Id, ApprovalSummary>();
+        final List<AccountInfo> accounts = new ArrayList<AccountInfo>();
+        accounts.add(new AccountInfo(db.accounts().get(aid)));
+
+        for (final Change.Id id : cids) {
+          try {
+            final ChangeControl cc = changeControlFactory.validateFor(id);
+            final Change change = cc.getChange();
+            final PatchSet.Id ps_id = change.currentPatchSetId();
+            final List<PatchSetApproval> psas =
+                new ArrayList<PatchSetApproval>();
+            final FunctionState fs =
+                functionStateFactory.create(change, ps_id, psas);
+
+            for (final PatchSetApproval ca : db.patchSetApprovals()
+                .byPatchSetUser(ps_id, aid)) {
+              fs.normalize(approvalTypes.getApprovalType(ca.getCategoryId()),
+                  ca);
+              psas.add(ca);
+            }
+
+            approvals.put(id, new ApprovalSummary(accounts, psas));
+          } catch (NoSuchChangeException nsce) {
+            /* The user has no access to see this change, so we
+             * simply do not provide any details about it.
+             */
+          }
+        }
+        return new ApprovalSummarySet(approvals);
+      }
+    });
+  }
+
+  public void strongestApprovals(final Set<Change.Id> cids,
+      final AsyncCallback<ApprovalSummarySet> callback) {
+    run(callback, new Action<ApprovalSummarySet>() {
+      public ApprovalSummarySet run(ReviewDb db)
+          throws OrmException {
+        final Map<Change.Id, ApprovalSummary> approvals = new
+          HashMap<Change.Id, ApprovalSummary>();
+
+        for (final Change.Id id : cids) {
+          try {
+            final ChangeControl cc = changeControlFactory.validateFor(id);
+            final Change change = cc.getChange();
+            final PatchSet.Id ps_id = change.currentPatchSetId();
+            final Map<ApprovalCategory.Id, PatchSetApproval> psas =
+                new HashMap<ApprovalCategory.Id, PatchSetApproval>();
+            final FunctionState fs =
+                functionStateFactory.create(change, ps_id, psas.values());
+            final Set<AccountInfo> accounts = new HashSet<AccountInfo>();
+
+            for (PatchSetApproval ca : db.patchSetApprovals()
+                .byPatchSet(ps_id)) {
+              fs.normalize(approvalTypes.getApprovalType(ca.getCategoryId()),
+                   ca);
+              boolean keep = true;
+              if (psas.containsKey(ca.getCategoryId())) {
+                final short oldValue = psas.get(ca.getCategoryId()).getValue();
+                final short newValue = ca.getValue();
+                keep = (Math.abs(oldValue) < Math.abs(newValue))
+                    || ((Math.abs(oldValue) == Math.abs(newValue)
+                        && (newValue < oldValue)));
+              }
+              if (keep) {
+                psas.put(ca.getCategoryId(), ca);
+              }
+            }
+
+            approvals.put(id, new ApprovalSummary(accounts, psas.values()));
+          } catch (NoSuchChangeException nsce) {
+            /* The user has no access to see this change, so we
+             * simply do not provide any details about it.
+             */
+          }
+        }
+
+        return new ApprovalSummarySet(approvals);
+      }
+    });
   }
 }

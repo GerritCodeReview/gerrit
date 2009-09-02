@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAAj3///ys\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-02T04:30:26Z",
+      "side": 1,
+      "message": "I think it would be nice if we could have tooltips showing who this user account is when you mouse over the cell.",
+      "revId": "eb355c9f25334c6f3bb6e31ae2924c72b3b511cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAj3///zM\u003d",
         "filename": "src/main/java/com/google/gerrit/client/changes/ChangeTable.java",
         "patchSetId": 2
@@ -19,6 +36,58 @@
     },
     {
       "key": {
+        "uuid": "AAAAj3///zA\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-02T04:30:26Z",
+      "side": 1,
+      "message": "There may be a bug in our gwtjsonrpc library that fails to compile Map\u003cChange.Id, ApprovalSummary\u003e.  It should in theory work, I thought I had Map\u003cK,V\u003e in at least one other type I was serializing over RPC, but perhaps its broken in the return type.\n\nI think your workaround is actually quite sane, and as you point out, may be more flexible in the long run.",
+      "parentUuid": "AAAAj3///zM\u003d",
+      "revId": "eb355c9f25334c6f3bb6e31ae2924c72b3b511cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAj3///y8\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/data/ApprovalSummary.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-02T04:30:26Z",
+      "side": 1,
+      "message": "Yea, usually I try to return only one AccountInfoCache per RPC.  Its not uncommon for the same name/email to appear multiple times in a dashboard (for example) so using one cache allows all occurrences to share the same strings, and makes it easier on the outgoing zip to deflate the response as small as possible.\n\nAlso, I\u0027m a lazy bastard.  Building one AIC is usually easier than building one per row.. just declare an AccountInfoCacheFactory in scope, call want(id) for each account we need, and just before the RPC ends, ask that factory to convert to an AIC instance.",
+      "revId": "eb355c9f25334c6f3bb6e31ae2924c72b3b511cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAj3///y4\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/data/ApprovalSummarySet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-02T04:30:26Z",
+      "side": 1,
+      "message": "wouldn\u0027t summaries.putAll(map) be shorter here?",
+      "revId": "eb355c9f25334c6f3bb6e31ae2924c72b3b511cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAj3///zI\u003d",
         "filename": "src/main/java/com/google/gerrit/client/patches/PatchDetailService.java",
         "patchSetId": 2
@@ -30,6 +99,40 @@
       "writtenOn": "2009-09-02T03:49:26Z",
       "side": 1,
       "message": "I forgot to remove this import.  I\u0027ll queue that for patch set 3.",
+      "revId": "eb355c9f25334c6f3bb6e31ae2924c72b3b511cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAj3///y0\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/rpc/patch/PatchDetailServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-02T04:30:26Z",
+      "side": 1,
+      "message": "Everything in here looks right to me, but I would prefer if you can use a single AccountInfoCache and an AccountInfoCacheFactory per RPC, because then we can pull the user data out of Ehcache rather than round-tripping to our database server, and below when you may be pulling data for multiple accounts in the strongestApprovals RPC you automatically only look up each user once.",
+      "revId": "eb355c9f25334c6f3bb6e31ae2924c72b3b511cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAj3///yw\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/rpc/patch/PatchDetailServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-02T04:30:26Z",
+      "side": 1,
+      "message": "FWIW, accounts is empty here.\n\nIf instead this was an AccountInfoCacheFactory you can do \"aic.want(ca.getAccountId())\" on 406 when you also put it into the psas map, and then the resulting AccountInfoCache will have the user information for a tooltip.",
       "revId": "eb355c9f25334c6f3bb6e31ae2924c72b3b511cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

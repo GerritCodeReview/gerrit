@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAj3///zM\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeTable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1002378
+      },
+      "writtenOn": "2009-09-02T03:49:26Z",
+      "side": 1,
+      "message": "Beyond the suffix (Set versus Map), I\u0027m not sure if I did something wrong with this -- when I tried to use a straight Map\u003cChange.Id, ApprovalSummary\u003e, I got an error (from GWT, I think) about the system being unable to typecast java.lang.Object to something serializable.\n\nOn the bright side, if there\u0027s any reason to move the account info cache up from the ApprovalSummary to this level, that is easier with the ApprovalSummarySet class.",
+      "revId": "eb355c9f25334c6f3bb6e31ae2924c72b3b511cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAj3///zI\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/patches/PatchDetailService.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1002378
+      },
+      "writtenOn": "2009-09-02T03:49:26Z",
+      "side": 1,
+      "message": "I forgot to remove this import.  I\u0027ll queue that for patch set 3.",
+      "revId": "eb355c9f25334c6f3bb6e31ae2924c72b3b511cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

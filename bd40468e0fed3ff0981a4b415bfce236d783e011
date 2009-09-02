@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAj3///0A\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/AccountDashboardScreen.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1002378
+      },
+      "writtenOn": "2009-09-02T00:52:05Z",
+      "side": 1,
+      "message": "Yes, I would expect to see that.  I had forgotten that it\u0027s possible to view another user\u0027s dashboard that way.",
+      "parentUuid": "AAAAj3///1w\u003d",
+      "revId": "bd40468e0fed3ff0981a4b415bfce236d783e011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAj3///2g\u003d",
         "filename": "src/main/java/com/google/gerrit/client/changes/ChangeTable.java",
         "patchSetId": 1
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAj3///z8\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1002378
+      },
+      "writtenOn": "2009-09-02T00:52:05Z",
+      "side": 1,
+      "message": "The style invocation was cargo culted in from ApprovalTable.java.  I\u0027ll drop this bit, unless you would prefer I copy the CSS style from that table as well -- I didn\u0027t have anything in mind for this style.",
+      "parentUuid": "AAAAj3///2g\u003d",
+      "revId": "bd40468e0fed3ff0981a4b415bfce236d783e011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAj3///2c\u003d",
         "filename": "src/main/java/com/google/gerrit/client/changes/ChangeTable.java",
         "patchSetId": 1
@@ -64,6 +100,24 @@
       "writtenOn": "2009-09-01T14:59:09Z",
       "side": 1,
       "message": "Yikes, we are starting an RPC for every row in the table?  My concern with this is the browser can only issue 4 requests at a time to the server.  If a user has 50 items in their dashboard, which many do, this will take quite a few round-trips (13!) to completely load the status codes.  Worse, if the user navigates away before they are completely done loading, they will continue to load, as there is no way to cancel the queued RPCs.\n\nI would prefer having myApprovals and strongestApprovals take a Set\u003cChange.Id\u003e and return a Map\u003cChange.Id, Whatever\u003e, and make only one call to each method for the dashboard.",
+      "revId": "bd40468e0fed3ff0981a4b415bfce236d783e011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAj3///z4\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1002378
+      },
+      "writtenOn": "2009-09-02T00:52:05Z",
+      "side": 1,
+      "message": "The hazards of debugging locally :)\n\nI\u0027ll restructure the code to batch those up.  Would it make sense to accumulate the change IDs here and have a new method on ChangeTable to fire off the RPC, or do you see a better way?",
+      "parentUuid": "AAAAj3///2c\u003d",
       "revId": "bd40468e0fed3ff0981a4b415bfce236d783e011",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

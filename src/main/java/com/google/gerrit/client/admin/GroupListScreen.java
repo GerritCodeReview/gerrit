@@ -19,17 +19,12 @@ import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.AccountScreen;
-import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
-import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
 
 import java.util.List;
@@ -58,7 +53,7 @@ public class GroupListScreen extends AccountScreen {
     super.onInitUI();
     setPageTitle(Util.C.groupListTitle());
 
-    groups = new GroupTable();
+    groups = new GroupTable(Link.ADMIN_GROUPS);
     add(groups);
 
     final VerticalPanel fp = new VerticalPanel();
@@ -97,68 +92,5 @@ public class GroupListScreen extends AccountScreen {
         History.newItem(Link.toAccountGroup(result));
       }
     });
-  }
-
-  private class GroupTable extends NavigationTable<AccountGroup> {
-    GroupTable() {
-      setSavePointerId(Link.ADMIN_GROUPS);
-      keysNavigation.add(new PrevKeyCommand(0, 'k', Util.C.groupListPrev()));
-      keysNavigation.add(new NextKeyCommand(0, 'j', Util.C.groupListNext()));
-      keysNavigation.add(new OpenKeyCommand(0, 'o', Util.C.groupListOpen()));
-      keysNavigation.add(new OpenKeyCommand(0, KeyCodes.KEY_ENTER, Util.C
-          .groupListOpen()));
-
-      table.setText(0, 1, Util.C.columnGroupName());
-      table.setText(0, 2, Util.C.columnGroupDescription());
-      table.addClickHandler(new ClickHandler() {
-        @Override
-        public void onClick(ClickEvent event) {
-          final Cell cell = table.getCellForEvent(event);
-          if (cell != null && cell.getCellIndex() != 1
-              && getRowItem(cell.getRowIndex()) != null) {
-            movePointerTo(cell.getRowIndex());
-          }
-        }
-      });
-
-      final FlexCellFormatter fmt = table.getFlexCellFormatter();
-      fmt.addStyleName(0, 1, S_DATA_HEADER);
-      fmt.addStyleName(0, 2, S_DATA_HEADER);
-    }
-
-    @Override
-    protected Object getRowItemKey(final AccountGroup item) {
-      return item.getId();
-    }
-
-    @Override
-    protected void onOpenRow(final int row) {
-      History.newItem(Link.toAccountGroup(getRowItem(row).getId()));
-    }
-
-    void display(final List<AccountGroup> result) {
-      while (1 < table.getRowCount())
-        table.removeRow(table.getRowCount() - 1);
-
-      for (final AccountGroup k : result) {
-        final int row = table.getRowCount();
-        table.insertRow(row);
-        applyDataRowStyle(row);
-        populate(row, k);
-      }
-    }
-
-    void populate(final int row, final AccountGroup k) {
-      table.setWidget(row, 1, new Hyperlink(k.getName(), Link.toAccountGroup(k
-          .getId())));
-      table.setText(row, 2, k.getDescription());
-
-      final FlexCellFormatter fmt = table.getFlexCellFormatter();
-      fmt.addStyleName(row, 1, S_DATA_CELL);
-      fmt.addStyleName(row, 1, "GroupName");
-      fmt.addStyleName(row, 2, S_DATA_CELL);
-
-      setRowItem(row, k);
-    }
   }
 }

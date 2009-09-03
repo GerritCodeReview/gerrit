@@ -21,6 +21,7 @@ import com.google.gerrit.client.data.SparseFileContent;
 import com.google.gerrit.client.data.PatchScript.DisplayMethod;
 import com.google.gerrit.client.patches.CommentDetail;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
+import com.google.gerrit.client.reviewdb.Patch.PatchType;
 import com.google.gerrit.server.FileTypeRegistry;
 import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.patch.Text;
@@ -37,13 +38,9 @@ import org.spearce.jgit.lib.FileMode;
 import org.spearce.jgit.lib.ObjectId;
 import org.spearce.jgit.lib.ObjectLoader;
 import org.spearce.jgit.lib.Repository;
-import org.spearce.jgit.patch.CombinedFileHeader;
-import org.spearce.jgit.patch.FileHeader;
 import org.spearce.jgit.revwalk.RevTree;
 import org.spearce.jgit.revwalk.RevWalk;
 import org.spearce.jgit.treewalk.TreeWalk;
-import org.spearce.jgit.util.IntList;
-import org.spearce.jgit.util.RawParseUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -101,14 +98,13 @@ class PatchScriptBuilder {
   PatchScript toPatchScript(final PatchListEntry contentWS,
       final CommentDetail comments, final PatchListEntry contentAct)
       throws IOException {
-    if (contentAct.getFileHeader() instanceof CombinedFileHeader) {
+    if (contentAct.getPatchType() == PatchType.N_WAY) {
       // For a diff --cc format we don't support converting it into
       // a patch script. Instead treat everything as a file header.
       //
-      edits = Collections.emptyList();
-      packHeader(contentAct.getFileHeader());
-      return new PatchScript(header, settings, a.dst, b.dst, edits,
-          a.displayMethod, b.displayMethod);
+      return new PatchScript(contentAct.getHeaderLines(), settings, a.dst,
+          b.dst, Collections.<Edit> emptyList(), a.displayMethod,
+          b.displayMethod);
     }
 
     a.path = oldName(contentAct);
@@ -119,7 +115,7 @@ class PatchScriptBuilder {
 
     edits = new ArrayList<Edit>(contentAct.getEdits());
     ensureCommentsVisible(comments);
-    packHeader(contentAct.getFileHeader());
+    header.addAll(contentAct.getHeaderLines());
 
     if (a.mode == FileMode.GITLINK || b.mode == FileMode.GITLINK) {
 
@@ -293,26 +289,6 @@ class PatchScriptBuilder {
 
     final Edit last = edits.get(edits.size() - 1);
     return last.getBeginA() + (b - last.getEndB());
-  }
-
-  private void packHeader(final FileHeader fh) {
-    final byte[] buf = fh.getBuffer();
-    final IntList m = RawParseUtils.lineMap(buf, fh.getStartOffset(), end(fh));
-    for (int i = 1; i < m.size() - 1; i++) {
-      final int b = m.get(i);
-      final int e = m.get(i + 1);
-      header.add(RawParseUtils.decode(Constants.CHARSET, buf, b, e));
-    }
-  }
-
-  private static int end(final FileHeader h) {
-    if (h instanceof CombinedFileHeader) {
-      return h.getEndOffset();
-    }
-    if (!h.getHunks().isEmpty()) {
-      return h.getHunks().get(0).getStartOffset();
-    }
-    return h.getEndOffset();
   }
 
   private void packContent() {

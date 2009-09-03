@@ -33,30 +33,30 @@ import org.spearce.jgit.lib.Constants;
 import org.spearce.jgit.lib.FileMode;
 import org.spearce.jgit.patch.CombinedFileHeader;
 import org.spearce.jgit.patch.FileHeader;
+import org.spearce.jgit.util.IntList;
+import org.spearce.jgit.util.RawParseUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 public class PatchListEntry {
+  private static final byte[] EMPTY_HEADER = {};
+
   static PatchListEntry empty(final String fileName) {
-    final StringBuilder buf = new StringBuilder();
-    buf.append("diff --git a/");
-    buf.append(fileName);
-    buf.append(" b/");
-    buf.append(fileName);
-    buf.append("\n\n");
-    return new PatchListEntry(parse(Constants.encode(buf.toString())));
+    return new PatchListEntry(ChangeType.MODIFIED, PatchType.UNIFIED, null,
+        fileName, EMPTY_HEADER, Collections.<Edit> emptyList());
   }
 
   private final ChangeType changeType;
   private final PatchType patchType;
   private final String oldName;
   private final String newName;
-  private final FileHeader header;
+  private final byte[] header;
   private final List<Edit> edits;
 
   PatchListEntry(final FileHeader hdr) {
@@ -99,7 +99,7 @@ public class PatchListEntry {
 
   private PatchListEntry(final ChangeType changeType,
       final PatchType patchType, final String oldName, final String newName,
-      final FileHeader header, final List<Edit> edits) {
+      final byte[] header, final List<Edit> edits) {
     this.changeType = changeType;
     this.patchType = patchType;
     this.oldName = oldName;
@@ -124,12 +124,19 @@ public class PatchListEntry {
     return newName;
   }
 
-  public FileHeader getFileHeader() {
-    return header;
-  }
-
   public List<Edit> getEdits() {
     return edits;
+  }
+
+  public List<String> getHeaderLines() {
+    final IntList m = RawParseUtils.lineMap(header, 0, header.length);
+    final List<String> headerLines = new ArrayList<String>(m.size() - 1);
+    for (int i = 1; i < m.size() - 1; i++) {
+      final int b = m.get(i);
+      final int e = m.get(i + 1);
+      headerLines.add(RawParseUtils.decode(Constants.CHARSET, header, b, e));
+    }
+    return headerLines;
   }
 
   Patch toPatch(final PatchSet.Id setId) {
@@ -145,9 +152,7 @@ public class PatchListEntry {
     writeEnum(out, patchType);
     writeString(out, oldName);
     writeString(out, newName);
-
-    final int hdrLen = end(header) - header.getStartOffset();
-    writeBytes(out, header.getBuffer(), header.getStartOffset(), hdrLen);
+    writeBytes(out, header);
 
     writeVarInt32(out, edits.size());
     for (final Edit e : edits) {
@@ -163,7 +168,7 @@ public class PatchListEntry {
     final PatchType patchType = readEnum(in, PatchType.values());
     final String oldName = readString(in);
     final String newName = readString(in);
-    final FileHeader hdr = parse(readBytes(in));
+    final byte[] hdr = readBytes(in);
 
     final int editCount = readVarInt32(in);
     final Edit[] editArray = new Edit[editCount];
@@ -179,21 +184,15 @@ public class PatchListEntry {
         Collections.unmodifiableList(Arrays.asList(editArray)));
   }
 
-  private static FileHeader parse(final byte[] buf) {
-    final org.spearce.jgit.patch.Patch p = new org.spearce.jgit.patch.Patch();
-    p.parse(buf, 0, buf.length);
-    return p.getFiles().get(0);
-  }
-
-  private static FileHeader compact(final FileHeader h) {
+  private static byte[] compact(final FileHeader h) {
     final int end = end(h);
     if (h.getStartOffset() == 0 && end == h.getBuffer().length) {
-      return h;
+      return h.getBuffer();
     }
 
     final byte[] buf = new byte[end - h.getStartOffset()];
     System.arraycopy(h.getBuffer(), h.getStartOffset(), buf, 0, buf.length);
-    return parse(buf);
+    return buf;
   }
 
   private static int end(final FileHeader h) {

@@ -25,13 +25,8 @@ public class PatchListEntryTest extends TestCase {
     final PatchListEntry e = PatchListEntry.empty(name);
     assertNull(e.getOldName());
     assertEquals(name, e.getNewName());
-
-    // I'm not sure why JGit is calling this binary, it may be because
-    // there are no edits on the file, which is fine.
-    //
-    assertSame(Patch.PatchType.BINARY, e.getPatchType());
+    assertSame(Patch.PatchType.UNIFIED, e.getPatchType());
     assertSame(Patch.ChangeType.MODIFIED, e.getChangeType());
-    assertNotNull(e.getFileHeader());
     assertTrue(e.getEdits().isEmpty());
   }
 }

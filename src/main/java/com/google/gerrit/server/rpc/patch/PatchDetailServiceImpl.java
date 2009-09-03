@@ -349,6 +349,10 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
               if (change.getStatus().isOpen()) {
                 fs.normalize(approvalTypes.getApprovalType(category), ca);
               }
+              if (ca.getValue() == 0
+                  || ApprovalCategory.SUBMIT.equals(category)) {
+                continue;
+              }
               psas.put(category, ca);
             }
 
@@ -389,6 +393,10 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
               final ApprovalCategory.Id category = ca.getCategoryId();
               if (change.getStatus().isOpen()) {
                 fs.normalize(approvalTypes.getApprovalType(category), ca);
+              }
+              if (ca.getValue() == 0
+                  || ApprovalCategory.SUBMIT.equals(category)) {
+                continue;
               }
               boolean keep = true;
               if (psas.containsKey(category)) {

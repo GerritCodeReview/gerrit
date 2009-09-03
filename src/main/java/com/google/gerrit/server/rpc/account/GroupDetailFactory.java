@@ -23,6 +23,7 @@ import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.account.NoSuchGroupException;
+import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.rpc.Handler;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
@@ -41,6 +42,7 @@ class GroupDetailFactory extends Handler<GroupDetail> {
   private final ReviewDb db;
   private final GroupControl.Factory groupControl;
   private final GroupCache groupCache;
+  private final Realm realm;
   private final AccountInfoCacheFactory aic;
 
   private final AccountGroup.Id groupId;
@@ -49,11 +51,13 @@ class GroupDetailFactory extends Handler<GroupDetail> {
   @Inject
   GroupDetailFactory(final ReviewDb db,
       final GroupControl.Factory groupControl, final GroupCache groupCache,
+      final Realm realm,
       final AccountInfoCacheFactory.Factory accountInfoCacheFactory,
       @Assisted final AccountGroup.Id groupId) {
     this.db = db;
     this.groupControl = groupControl;
     this.groupCache = groupCache;
+    this.realm = realm;
     this.aic = accountInfoCacheFactory.create();
 
     this.groupId = groupId;
@@ -66,6 +70,7 @@ class GroupDetailFactory extends Handler<GroupDetail> {
     final GroupDetail detail = new GroupDetail();
     detail.setGroup(group);
     detail.setOwnerGroup(groupCache.get(group.getOwnerGroupId()));
+    detail.setRealmProperties(realm.getProperties(group));
     if (!group.isAutomaticMembership()) {
       detail.setMembers(loadMembers());
     }

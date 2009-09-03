@@ -36,6 +36,7 @@ public interface AdminConstants extends Constants {
   String headingOwner();
   String headingDescription();
   String headingSubmitType();
+  String headingGroupProperties();
   String headingMembers();
   String headingCreateGroup();
   String headingAccessRights();

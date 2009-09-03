@@ -25,6 +25,7 @@ public class GroupDetail {
   protected AccountGroup group;
   protected List<AccountGroupMember> members;
   protected AccountGroup ownerGroup;
+  protected List<RealmProperty> realmProperties;
 
   public GroupDetail() {
   }
@@ -43,5 +44,26 @@ public class GroupDetail {
 
   public void setOwnerGroup(AccountGroup g) {
     ownerGroup = g;
+  }
+
+  public void setRealmProperties(List<RealmProperty> p) {
+    realmProperties = p;
+  }
+
+  public static class RealmProperty {
+    protected String name;
+    protected String value;
+
+    protected RealmProperty() {
+    }
+
+    public RealmProperty(final String n, final String v) {
+      name = n;
+      value = v;
+    }
+
+    public String getName() {
+      return name;
+    }
   }
 }

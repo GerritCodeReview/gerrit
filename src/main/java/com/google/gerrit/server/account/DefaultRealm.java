@@ -14,10 +14,13 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.gerrit.client.admin.GroupDetail.RealmProperty;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.inject.Inject;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 public final class DefaultRealm implements Realm {
@@ -63,5 +66,10 @@ public final class DefaultRealm implements Realm {
       }
     }
     return null;
+  }
+
+  @Override
+  public List<RealmProperty> getProperties(final AccountGroup group) {
+    return Collections.emptyList();
   }
 }

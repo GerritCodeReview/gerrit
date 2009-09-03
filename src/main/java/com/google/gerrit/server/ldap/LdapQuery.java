@@ -15,6 +15,7 @@
 package com.google.gerrit.server.ldap;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,8 @@ import javax.naming.directory.SearchResult;
 
 /** Supports issuing parameterized queries against an LDAP data source. */
 class LdapQuery {
+  static final Set<String> ALL_ATTRIBUTES = null;
+
   private final String base;
   private final SearchScope searchScope;
   private final String pattern;
@@ -65,8 +68,12 @@ class LdapQuery {
     this.patternArgs = new String[a.size()];
     a.toArray(this.patternArgs);
 
-    this.returnAttributes = new String[returnAttributes.size()];
-    returnAttributes.toArray(this.returnAttributes);
+    if (returnAttributes != null) {
+      this.returnAttributes = new String[returnAttributes.size()];
+      returnAttributes.toArray(this.returnAttributes);
+    } else {
+      this.returnAttributes = null;
+    }
   }
 
   String[] getParameters() {
@@ -107,10 +114,20 @@ class LdapQuery {
     private final Map<String, String> atts = new HashMap<String, String>();
 
     Result(final SearchResult sr) throws NamingException {
-      for (final String attName : returnAttributes) {
-        final Attribute a = sr.getAttributes().get(attName);
-        if (a != null && a.size() > 0) {
-          atts.put(attName, String.valueOf(a.get(0)));
+      if (returnAttributes != null) {
+        for (final String attName : returnAttributes) {
+          final Attribute a = sr.getAttributes().get(attName);
+          if (a != null && a.size() > 0) {
+            atts.put(attName, String.valueOf(a.get(0)));
+          }
+        }
+      } else {
+        NamingEnumeration<? extends Attribute> e = sr.getAttributes().getAll();
+        while (e.hasMoreElements()) {
+          final Attribute a = e.nextElement();
+          if (a.size() == 1) {
+            atts.put(a.getID(), String.valueOf(a.get(0)));
+          }
         }
       }
       atts.put("dn", sr.getNameInNamespace());
@@ -118,6 +135,15 @@ class LdapQuery {
 
     String get(final String attName) {
       return atts.get(attName);
+    }
+
+    Set<String> keySet() {
+      return Collections.unmodifiableSet(atts.keySet());
+    }
+
+    @Override
+    public String toString() {
+      return atts.get("dn");
     }
   }
 }

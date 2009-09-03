@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.ldap;
 
+import com.google.gerrit.client.admin.GroupDetail.RealmProperty;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountExternalId;
 import com.google.gerrit.client.reviewdb.AccountGroup;
@@ -38,11 +39,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spearce.jgit.lib.Config;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
@@ -53,6 +57,7 @@ import javax.naming.directory.InitialDirContext;
 
 @Singleton
 class LdapRealm implements Realm {
+  private static final String GROUPNAME = "groupname";
   private static final Logger log = LoggerFactory.getLogger(LdapRealm.class);
   private static final String LDAP = "com.sun.jndi.ldap.LdapCtxFactory";
   private static final String USERNAME = "username";
@@ -73,6 +78,7 @@ class LdapRealm implements Realm {
   private final String groupName;
   private boolean groupNeedsAccount;
   private final LdapQuery groupMemberQuery;
+  private final LdapQuery groupByNameQuery;
   private final SelfPopulatingCache<String, Set<AccountGroup.Id>> membershipCache;
 
   @Inject
@@ -106,6 +112,9 @@ class LdapRealm implements Realm {
       throw new IllegalArgumentException(
           "No variables in ldap.groupMemberPattern");
     }
+    groupByNameQuery =
+        new LdapQuery(groupBase, groupScope,
+            "(" + groupName + "=${groupname})", LdapQuery.ALL_ATTRIBUTES);
 
     membershipCache =
         new SelfPopulatingCache<String, Set<AccountGroup.Id>>(rawGroup) {
@@ -325,6 +334,67 @@ class LdapRealm implements Realm {
   @Override
   public Account.Id lookup(final String accountName) {
     return usernameCache.get(accountName);
+  }
+
+  @Override
+  public List<RealmProperty> getProperties(final AccountGroup group) {
+    if (!isLdapGroup(group)) {
+      return Collections.emptyList();
+    }
+
+    try {
+      final DirContext ctx = open();
+      try {
+        final Map<String, String> params = new HashMap<String, String>();
+        params.put(GROUPNAME, group.getName());
+
+        final List<RealmProperty> props = new ArrayList<RealmProperty>();
+        final List<LdapQuery.Result> q = groupByNameQuery.query(ctx, params);
+        switch (q.size()) {
+          case 0:
+            log.warn("Group \"" + group.getName() + "\" not found in LDAP.");
+            props.add(new RealmProperty("error", "NOT FOUND"));
+            break;
+
+          case 1:
+            for (final String name : q.get(0).keySet()) {
+              props.add(new RealmProperty(name, q.get(0).get(name)));
+            }
+            Collections.sort(props, new Comparator<RealmProperty>() {
+              @Override
+              public int compare(final RealmProperty a, final RealmProperty b) {
+                int sort = classOf(a) - classOf(b);
+                if (sort == 0) sort = a.getName().compareTo(b.getName());
+                return sort;
+              }
+
+              private int classOf(final RealmProperty p) {
+                final String n = p.getName();
+                if ("dn".equals(n) || "distinguishedName".equals(n)) return 0;
+                if ("cn".equals(n)) return 1;
+                return 5000;
+              }
+            });
+            break;
+
+          default:
+            log.warn("Group \"" + group.getName()
+                + "\" has multiple matches in LDAP: " + q);
+            props.add(new RealmProperty("error", "MULTIPLE MATCHES"));
+            break;
+        }
+        return props;
+      } finally {
+        try {
+          ctx.close();
+        } catch (NamingException e) {
+          log.warn("Cannot close LDAP query handle", e);
+        }
+      }
+    } catch (NamingException e) {
+      log.error("Cannot query LDAP directory for group " + group.getName(), e);
+      return Collections.emptyList();
+    }
   }
 
   private Account.Id queryForUsername(final String username) {

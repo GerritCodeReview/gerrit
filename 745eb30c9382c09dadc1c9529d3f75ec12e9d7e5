@@ -16,6 +16,24 @@
       "revId": "745eb30c9382c09dadc1c9529d3f75ec12e9d7e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAkH///9o\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeTable.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-03T14:54:13Z",
+      "side": 1,
+      "message": "From what I\u0027m reading on the web about the HTML title attribute, Netscape always ignores LF in the title attribute, but other browsers will honor it.  This is the best we can do without writing our own tooltip implementation in GWT, and that is not really a great idea.  I say its fine.",
+      "parentUuid": "AAAAkH///90\u003d",
+      "revId": "745eb30c9382c09dadc1c9529d3f75ec12e9d7e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

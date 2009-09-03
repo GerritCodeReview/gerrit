@@ -30,10 +30,17 @@ import java.util.Set;
  * @see IdentifiedUser
  */
 public abstract class CurrentUser {
+  private final AccessPath accessPath;
   protected final AuthConfig authConfig;
 
-  protected CurrentUser(final AuthConfig authConfig) {
+  protected CurrentUser(final AccessPath accessPath, final AuthConfig authConfig) {
+    this.accessPath = accessPath;
     this.authConfig = authConfig;
+  }
+
+  /** How this user is accessing the Gerrit Code Review application. */
+  public final AccessPath getAccessPath() {
+    return accessPath;
   }
 
   /**

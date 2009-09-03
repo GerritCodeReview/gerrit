@@ -15,6 +15,7 @@
 package com.google.gerrit.server.ssh;
 
 import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ssh.SshScopes.Context;
 import com.google.inject.Inject;
@@ -38,6 +39,6 @@ class SshCurrentUserProvider implements Provider<IdentifiedUser> {
     if (id == null) {
       throw new ProvisionException("User not yet authenticated");
     }
-    return factory.create(id);
+    return factory.create(AccessPath.SSH, id);
   }
 }

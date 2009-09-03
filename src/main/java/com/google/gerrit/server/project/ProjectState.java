@@ -56,8 +56,22 @@ public class ProjectState {
     return project;
   }
 
-  public Collection<ProjectRight> getRights() {
+  /** Get the rights that pertain only to this project. */
+  public Collection<ProjectRight> getLocalRights() {
     return rights;
+  }
+
+  /** Get the rights this project inherits from the wild project. */
+  public Collection<ProjectRight> getInheritedRights() {
+    if (isSpecialWildProject()) {
+      return Collections.emptyList();
+    }
+    return projectCache.getWildcardRights();
+  }
+
+  /** Is this the special wild project which manages inherited rights? */
+  public boolean isSpecialWildProject() {
+    return project.getNameKey().equals(projectCache.wildProject);
   }
 
   public Set<AccountGroup.Id> getOwners() {

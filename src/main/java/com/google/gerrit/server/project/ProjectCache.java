@@ -50,8 +50,8 @@ public class ProjectCache {
   }
 
   final AnonymousUser anonymousUser;
+  final Project.NameKey wildProject;
   private final SchemaFactory<ReviewDb> schema;
-  private final Project.NameKey wildProject;
   private final SelfPopulatingCache<Project.NameKey, ProjectState> byName;
 
   @Inject
@@ -83,8 +83,8 @@ public class ProjectCache {
   }
 
   /** Get the rights which are applied to all projects in the system. */
-  public Collection<ProjectRight> getWildcardRights() {
-    return get(wildProject).getRights();
+  Collection<ProjectRight> getWildcardRights() {
+    return get(wildProject).getLocalRights();
   }
 
   /**

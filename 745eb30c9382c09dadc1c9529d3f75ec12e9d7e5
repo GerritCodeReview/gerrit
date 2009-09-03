@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAkH///90\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/ChangeTable.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1002378
+      },
+      "writtenOn": "2009-09-03T04:28:19Z",
+      "side": 1,
+      "message": "This line is my only remaining qualm about this change: Chromium does what I want whether I write the newline as \\n or \u003cbr /\u003e, but I could not figure out how to make a multi-line tooltip work with Firefox.",
+      "revId": "745eb30c9382c09dadc1c9529d3f75ec12e9d7e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

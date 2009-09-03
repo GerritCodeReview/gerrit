@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.http;
 
-import static com.google.gerrit.server.cache.NamedCacheBinding.INFINITE;
+import static com.google.gerrit.server.cache.NamedCacheBinding.INFINITE_TIME;
 import static java.util.concurrent.TimeUnit.HOURS;
 
 import com.google.gerrit.client.reviewdb.Account;
@@ -23,6 +23,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.server.cache.EvictionPolicy;
 import com.google.gerrit.server.http.WebSessionManager.Key;
 import com.google.gerrit.server.http.WebSessionManager.Val;
 import com.google.inject.Inject;
@@ -45,7 +46,12 @@ public final class WebSession {
         final String cacheName = WebSessionManager.CACHE_NAME;
         final TypeLiteral<Cache<Key, Val>> type =
             new TypeLiteral<Cache<Key, Val>>() {};
-        disk(type, cacheName).timeToIdle(12, HOURS).timeToLive(INFINITE, HOURS);
+        disk(type, cacheName) //
+            .memoryLimit(1024) // reasonable default for many sites
+            .timeToIdle(12, HOURS) // expire sessions if they are inactive
+            .timeToLive(INFINITE_TIME, HOURS) // never expire a live session
+            .evictionPolicy(EvictionPolicy.LRU) // keep most recently used
+        ;
         bind(WebSessionManager.class);
         bind(WebSession.class).in(RequestScoped.class);
       }

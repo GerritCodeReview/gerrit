@@ -25,8 +25,11 @@ import java.util.concurrent.TimeUnit;
 final class CacheProvider<K, V> implements Provider<Cache<K, V>>,
     NamedCacheBinding, UnnamedCacheBinding {
   private final boolean disk;
-  private long timeToIdle = DEFAULT;
-  private long timeToLive = DEFAULT;
+  private int memoryLimit = 1024;
+  private int diskLimit = 16384;
+  private long timeToIdle = DEFAULT_TIME;
+  private long timeToLive = DEFAULT_TIME;
+  private EvictionPolicy evictionPolicy = EvictionPolicy.LFU;
   private String cacheName;
   private ProxyEhcache cache;
 
@@ -54,6 +57,14 @@ final class CacheProvider<K, V> implements Provider<Cache<K, V>>,
     return disk;
   }
 
+  int memoryLimit() {
+    return memoryLimit;
+  }
+
+  int diskLimit() {
+    return diskLimit;
+  }
+
   long timeToIdle() {
     return timeToIdle;
   }
@@ -62,11 +73,32 @@ final class CacheProvider<K, V> implements Provider<Cache<K, V>>,
     return timeToLive;
   }
 
+  EvictionPolicy evictionPolicy() {
+    return evictionPolicy;
+  }
+
   public NamedCacheBinding name(final String name) {
     if (cacheName != null) {
       throw new IllegalStateException("Cache name already set");
     }
     cacheName = name;
+    return this;
+  }
+
+  public NamedCacheBinding memoryLimit(final int objects) {
+    memoryLimit = objects;
+    return this;
+  }
+
+  public NamedCacheBinding diskLimit(final int objects) {
+    if (!disk) {
+      // TODO This should really be a compile time type error, but I'm
+      // too lazy to create the mess of permutations required to setup
+      // type safe returns for bindings in our little DSL.
+      //
+      throw new IllegalStateException("Cache is not disk based");
+    }
+    diskLimit = objects;
     return this;
   }
 
@@ -83,6 +115,12 @@ final class CacheProvider<K, V> implements Provider<Cache<K, V>>,
       throw new IllegalStateException("Cache timeToLive already set");
     }
     timeToLive = TimeUnit.SECONDS.convert(duration, unit);
+    return this;
+  }
+
+  @Override
+  public NamedCacheBinding evictionPolicy(final EvictionPolicy policy) {
+    evictionPolicy = policy;
     return this;
   }
 

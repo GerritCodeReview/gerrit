@@ -114,9 +114,10 @@ public class CachePool {
       for (CacheProvider<?, ?> p : caches.values()) {
         final String name = p.getName();
         final CacheConfiguration c = newCache(name);
+        c.setMemoryStoreEvictionPolicyFromObject(toPolicy(p.evictionPolicy()));
 
         {
-          int v = c.getMaxElementsInMemory();
+          int v = p.memoryLimit();
           c.setMaxElementsInMemory(getInt(name, "memorylimit", v));
         }
 
@@ -124,13 +125,13 @@ public class CachePool {
           long idle = p.timeToIdle();
           long live = p.timeToLive();
 
-          if (idle == NamedCacheBinding.DEFAULT)
+          if (idle == NamedCacheBinding.DEFAULT_TIME)
             idle = c.getTimeToIdleSeconds();
-          if (live == NamedCacheBinding.DEFAULT)
+          if (live == NamedCacheBinding.DEFAULT_TIME)
             live = c.getTimeToLiveSeconds();
 
           idle = getSeconds(name, "maxage", idle);
-          if (live == NamedCacheBinding.INFINITE) {
+          if (live == NamedCacheBinding.INFINITE_TIME) {
             // Keep the alive period infinite, rather than expiring.
           } else {
             live = Math.max(live, idle);
@@ -143,7 +144,7 @@ public class CachePool {
         }
 
         if (p.disk() && mgr.getDiskStoreConfiguration() != null) {
-          int v = c.getMaxElementsOnDisk();
+          int v = p.diskLimit();
           c.setMaxElementsOnDisk(getInt(name, "disklimit", v));
 
           v = c.getDiskSpoolBufferSizeMB() * MB;
@@ -157,6 +158,19 @@ public class CachePool {
       }
 
       return mgr;
+    }
+
+    private MemoryStoreEvictionPolicy toPolicy(final EvictionPolicy policy) {
+      switch (policy) {
+        case LFU:
+          return MemoryStoreEvictionPolicy.LFU;
+
+        case LRU:
+          return MemoryStoreEvictionPolicy.LRU;
+
+        default:
+          throw new IllegalArgumentException("Unsupported " + policy);
+      }
     }
 
     private int getInt(String name, String setting, int def) {

@@ -23,6 +23,7 @@ import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.server.cache.EvictionPolicy;
 import com.google.gerrit.server.cache.SelfPopulatingCache;
 import com.google.inject.Inject;
 import com.google.inject.Module;
@@ -55,7 +56,10 @@ public class PatchListCache {
       protected void configure() {
         final TypeLiteral<Cache<PatchListKey, PatchList>> type =
             new TypeLiteral<Cache<PatchListKey, PatchList>>() {};
-        disk(type, CACHE_NAME);
+        disk(type, CACHE_NAME) //
+            .memoryLimit(128) // very large items, cache only a few
+            .evictionPolicy(EvictionPolicy.LRU) // prefer most recent
+        ;
         bind(PatchListCache.class);
       }
     };

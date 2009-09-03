@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.openid;
 
+import static java.util.concurrent.TimeUnit.MINUTES;
+
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.http.RpcServletModule;
@@ -22,18 +24,22 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.servlet.ServletModule;
 
 import java.util.List;
-import static java.util.concurrent.TimeUnit.MINUTES;
 
 /** Servlets and RPC support related to OpenID authentication. */
 public class OpenIdModule extends ServletModule {
   @Override
   protected void configureServlets() {
     install(new CacheModule() {
+      @SuppressWarnings("unchecked")
       @Override
       protected void configure() {
         final TypeLiteral<Cache<String, List>> type =
             new TypeLiteral<Cache<String, List>>() {};
-        core(type, "openid").timeToIdle(5, MINUTES).timeToLive(5, MINUTES);
+        core(type, "openid") //
+            .timeToIdle(5, MINUTES) // don't cache too long, might be stale
+            .timeToLive(5, MINUTES) //
+            .memoryLimit(64) // short TTL means we won't have many entries
+        ;
       }
     });
 

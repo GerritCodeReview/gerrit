@@ -18,12 +18,21 @@ import java.util.concurrent.TimeUnit;
 
 /** Configure a cache declared within a {@link CacheModule} instance. */
 public interface NamedCacheBinding {
-  public static final long INFINITE = 0L;
-  public static final long DEFAULT = -1L;
+  public static final long INFINITE_TIME = 0L;
+  public static final long DEFAULT_TIME = -1L;
+
+  /** Set the number of objects to cache in memory. */
+  public NamedCacheBinding memoryLimit(int objects);
+
+  /** Set the number of objects to cache in memory. */
+  public NamedCacheBinding diskLimit(int objects);
 
   /** Set the time an element lives without access before being expired. */
   public NamedCacheBinding timeToIdle(long duration, TimeUnit durationUnits);
 
   /** Set the time an element lives since creation, before being expired. */
   public NamedCacheBinding timeToLive(long duration, TimeUnit durationUnits);
+
+  /** Set the eviction policy for elements when the cache is full. */
+  public NamedCacheBinding evictionPolicy(EvictionPolicy policy);
 }

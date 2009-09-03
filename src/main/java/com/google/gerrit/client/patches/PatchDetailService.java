@@ -14,8 +14,11 @@
 
 package com.google.gerrit.client.patches;
 
+import com.google.gerrit.client.data.ApprovalSummary;
+import com.google.gerrit.client.data.ApprovalSummarySet;
 import com.google.gerrit.client.data.PatchScript;
 import com.google.gerrit.client.data.PatchScriptSettings;
+import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.Patch;
@@ -56,6 +59,12 @@ public interface PatchDetailService extends RemoteJsonService {
   @SignInRequired
   void abandonChange(PatchSet.Id patchSetId, String message,
       AsyncCallback<VoidResult> callback);
+
+  void userApprovals(Set<Change.Id> cids, Account.Id aid,
+      AsyncCallback<ApprovalSummarySet> callback);
+
+  void strongestApprovals(Set<Change.Id> cids,
+      AsyncCallback<ApprovalSummarySet> callback);
 
   /**
    * Update the reviewed status for the patch.

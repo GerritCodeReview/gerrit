@@ -54,6 +54,15 @@ public class ProjectControl {
       }
       return c;
     }
+
+    public ProjectControl ownerFor(final Project.NameKey nameKey)
+        throws NoSuchProjectException {
+      final ProjectControl c = controlFor(nameKey);
+      if (!c.isOwner()) {
+        throw new NoSuchProjectException(nameKey);
+      }
+      return c;
+    }
   }
 
   private final CurrentUser user;

@@ -56,7 +56,7 @@ class ListBranches extends Handler<List<Branch>> {
   public List<Branch> call() throws NoSuchProjectException,
       RepositoryNotFoundException {
     final List<Branch> branches = new ArrayList<Branch>();
-    final ProjectControl c = projectControlFactory.validateFor(projectName);
+    final ProjectControl c = projectControlFactory.ownerFor(projectName);
     final Repository db = gerritServer.openRepository(projectName.get());
     try {
       for (final Ref ref : db.getAllRefs().values()) {

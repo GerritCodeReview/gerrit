@@ -171,7 +171,7 @@ class ProjectAdminServiceImpl extends BaseServiceImplementation implements
     run(callback, new Action<VoidResult>() {
       public VoidResult run(final ReviewDb db) throws OrmException, Failure,
           NoSuchProjectException {
-        final ProjectControl control = projectControlFactory.validateFor(name);
+        final ProjectControl control = projectControlFactory.ownerFor(name);
         if (!control.isOwner()) {
           throw new NoSuchProjectException(name);
         }

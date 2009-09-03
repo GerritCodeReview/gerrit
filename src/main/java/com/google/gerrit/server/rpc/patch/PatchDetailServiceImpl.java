@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.rpc.patch;
 
-import com.google.gerrit.client.data.AccountInfo;
 import com.google.gerrit.client.data.ApprovalSummary;
 import com.google.gerrit.client.data.ApprovalSummarySet;
 import com.google.gerrit.client.data.ApprovalType;
@@ -59,7 +58,6 @@ import com.google.inject.Provider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -347,9 +345,11 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
 
             for (final PatchSetApproval ca : db.patchSetApprovals()
                 .byPatchSetUser(ps_id, aid)) {
-              fs.normalize(approvalTypes.getApprovalType(ca.getCategoryId()),
-                  ca);
-              psas.put(ca.getCategoryId(), ca);
+              final ApprovalCategory.Id category = ca.getCategoryId();
+              if (change.getStatus().isOpen()) {
+                fs.normalize(approvalTypes.getApprovalType(category), ca);
+              }
+              psas.put(category, ca);
             }
 
             approvals.put(id, new ApprovalSummary(psas.values()));
@@ -386,11 +386,13 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
 
             for (PatchSetApproval ca : db.patchSetApprovals()
                 .byPatchSet(ps_id)) {
-              fs.normalize(approvalTypes.getApprovalType(ca.getCategoryId()),
-                   ca);
+              final ApprovalCategory.Id category = ca.getCategoryId();
+              if (change.getStatus().isOpen()) {
+                fs.normalize(approvalTypes.getApprovalType(category), ca);
+              }
               boolean keep = true;
-              if (psas.containsKey(ca.getCategoryId())) {
-                final short oldValue = psas.get(ca.getCategoryId()).getValue();
+              if (psas.containsKey(category)) {
+                final short oldValue = psas.get(category).getValue();
                 final short newValue = ca.getValue();
                 keep = (Math.abs(oldValue) < Math.abs(newValue))
                     || ((Math.abs(oldValue) == Math.abs(newValue)
@@ -398,7 +400,7 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
               }
               if (keep) {
                 aicFactory.want(ca.getAccountId());
-                psas.put(ca.getCategoryId(), ca);
+                psas.put(category, ca);
               }
             }
 

@@ -70,13 +70,15 @@ public abstract class SafeHtml {
 
   /** Convert bare http:// and https:// URLs into &lt;a href&gt; tags. */
   public SafeHtml linkify() {
+    final String part = "(?:" +
+		"[a-zA-Z0-9$_.+!*',%;:@=?#/-]" +
+		"|&(?!lt;|gt;)" +
+		")";
     return replaceAll(
         "(https?://" +
-          "[a-zA-Z0-9$_.+!*',%;:@&=?#/-]{2,}" +
-          "([(]" +
-          "[a-zA-Z0-9$_.+!*',%;:@&=?#/-]*" +
-          "[)])*" +
-          "[a-zA-Z0-9$_.+!*',%;:@&=?#/-]*" +
+          part + "{2,}" +
+          "(?:[(]" + part + "*" + "[)])*" +
+          part + "*" +
         ")",
         "<a href=\"$1\">$1</a>");
   }

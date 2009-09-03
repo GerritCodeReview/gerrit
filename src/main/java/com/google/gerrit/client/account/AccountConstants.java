@@ -35,6 +35,7 @@ public interface AccountConstants extends Constants {
   String tabContactInformation();
   String tabSshKeys();
   String tabWebIdentities();
+  String tabMyGroups();
   String tabAgreements();
 
   String buttonShowAddSshKey();

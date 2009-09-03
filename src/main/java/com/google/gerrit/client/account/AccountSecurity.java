@@ -16,6 +16,7 @@ package com.google.gerrit.client.account;
 
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountExternalId;
+import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.AccountSshKey;
 import com.google.gerrit.client.reviewdb.ContactInformation;
 import com.google.gerrit.client.reviewdb.ContributorAgreement;
@@ -43,6 +44,9 @@ public interface AccountSecurity extends RemoteJsonService {
 
   @SignInRequired
   void myExternalIds(AsyncCallback<List<AccountExternalId>> callback);
+
+  @SignInRequired
+  void myGroups(AsyncCallback<List<AccountGroup>> callback);
 
   @SignInRequired
   void deleteExternalIds(Set<AccountExternalId.Key> keys,

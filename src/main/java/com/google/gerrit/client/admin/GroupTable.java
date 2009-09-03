@@ -29,11 +29,15 @@ import java.util.List;
 
 
 public class GroupTable extends NavigationTable<AccountGroup> {
-  public GroupTable() {
-    this(null);
+  private final boolean enableLink;
+
+  public GroupTable(final boolean enableLink) {
+    this(enableLink, null);
   }
 
-  public GroupTable(final String pointerId) {
+  public GroupTable(final boolean enableLink, final String pointerId) {
+    this.enableLink = enableLink;
+
     setSavePointerId(pointerId);
     keysNavigation.add(new PrevKeyCommand(0, 'k', Util.C.groupListPrev()));
     keysNavigation.add(new NextKeyCommand(0, 'j', Util.C.groupListNext()));
@@ -82,8 +86,12 @@ public class GroupTable extends NavigationTable<AccountGroup> {
   }
 
   void populate(final int row, final AccountGroup k) {
-    table.setWidget(row, 1, new Hyperlink(k.getName(), Link.toAccountGroup(k
-        .getId())));
+    if (enableLink) {
+      table.setWidget(row, 1, new Hyperlink(k.getName(), Link.toAccountGroup(k
+          .getId())));
+    } else {
+      table.setText(row, 1, k.getName());
+    }
     table.setText(row, 2, k.getDescription());
 
     final FlexCellFormatter fmt = table.getFlexCellFormatter();

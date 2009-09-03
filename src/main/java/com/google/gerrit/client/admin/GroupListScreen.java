@@ -53,7 +53,7 @@ public class GroupListScreen extends AccountScreen {
     super.onInitUI();
     setPageTitle(Util.C.groupListTitle());
 
-    groups = new GroupTable(Link.ADMIN_GROUPS);
+    groups = new GroupTable(true /* hyperlink to admin */, Link.ADMIN_GROUPS);
     add(groups);
 
     final VerticalPanel fp = new VerticalPanel();

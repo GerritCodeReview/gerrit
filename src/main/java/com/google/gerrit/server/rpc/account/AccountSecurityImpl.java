@@ -18,6 +18,7 @@ import com.google.gerrit.client.account.AccountSecurity;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountAgreement;
 import com.google.gerrit.client.reviewdb.AccountExternalId;
+import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.AccountSshKey;
 import com.google.gerrit.client.reviewdb.ContactInformation;
 import com.google.gerrit.client.reviewdb.ContributorAgreement;
@@ -78,6 +79,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
   private final boolean useContactInfo;
 
   private final ExternalIdDetailFactory.Factory externalIdDetailFactory;
+  private final MyGroupsFactory.Factory myGroupsFactory;
 
   @Inject
   AccountSecurityImpl(final Provider<ReviewDb> schema,
@@ -86,7 +88,8 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
       final RegisterNewEmailSender.Factory esf, final SshKeyCache skc,
       final AccountByEmailCache abec, final AccountCache uac,
       final AccountManager am,
-      final ExternalIdDetailFactory.Factory externalIdDetailFactory) {
+      final ExternalIdDetailFactory.Factory externalIdDetailFactory,
+      final MyGroupsFactory.Factory myGroupsFactory) {
     super(schema, currentUser);
     contactStore = cs;
     authConfig = ac;
@@ -100,6 +103,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
     useContactInfo = contactStore != null && contactStore.isEnabled();
 
     this.externalIdDetailFactory = externalIdDetailFactory;
+    this.myGroupsFactory = myGroupsFactory;
   }
 
   public void mySshKeys(final AsyncCallback<List<AccountSshKey>> callback) {
@@ -218,6 +222,11 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
 
   public void myExternalIds(AsyncCallback<List<AccountExternalId>> callback) {
     externalIdDetailFactory.create().to(callback);
+  }
+
+  @Override
+  public void myGroups(final AsyncCallback<List<AccountGroup>> callback) {
+    myGroupsFactory.create().to(callback);
   }
 
   public void deleteExternalIds(final Set<AccountExternalId.Key> keys,

@@ -128,6 +128,14 @@ public class AccountSettings extends AccountScreen {
     }, Util.C.tabWebIdentities());
     tabTokens.add(Link.SETTINGS_WEBIDENT);
 
+    tabs.add(new LazyPanel() {
+      @Override
+      protected MyGroupsPanel createWidget() {
+        return new MyGroupsPanel();
+      }
+    }, Util.C.tabMyGroups());
+    tabTokens.add(Link.SETTINGS_MYGROUPS);
+
     if (Gerrit.getConfig().isUseContributorAgreements()) {
       tabs.add(new LazyPanel() {
         @Override

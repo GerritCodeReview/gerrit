@@ -18,6 +18,7 @@ import static com.google.gerrit.server.cache.NamedCacheBinding.INFINITE_TIME;
 import static java.util.concurrent.TimeUnit.HOURS;
 
 import com.google.gerrit.client.reviewdb.Account;
+import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
@@ -123,7 +124,10 @@ public final class WebSession {
   }
 
   CurrentUser getCurrentUser() {
-    return isSignedIn() ? identified.create(val.accountId) : anonymous;
+    if (isSignedIn()) {
+      return identified.create(AccessPath.WEB, val.accountId);
+    }
+    return anonymous;
   }
 
   public void login(final Account.Id id, final boolean rememberMe) {

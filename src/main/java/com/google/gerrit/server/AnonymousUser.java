@@ -28,7 +28,7 @@ import java.util.Set;
 public class AnonymousUser extends CurrentUser {
   @Inject
   AnonymousUser(final AuthConfig auth) {
-    super(auth);
+    super(AccessPath.UNKNOWN, auth);
   }
 
   @Override

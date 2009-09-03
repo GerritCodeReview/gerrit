@@ -93,7 +93,11 @@ final class GerritJsonServlet extends JsonServlet<GerritJsonServlet.GerritCall> 
 
     @Override
     public void onFailure(final Throwable error) {
-      if (error instanceof OrmException) {
+      if (error instanceof IllegalArgumentException
+          || error instanceof IllegalStateException) {
+        super.onFailure(error);
+      } else if (error instanceof OrmException
+          || error instanceof RuntimeException) {
         onInternalFailure(error);
       } else {
         super.onFailure(error);

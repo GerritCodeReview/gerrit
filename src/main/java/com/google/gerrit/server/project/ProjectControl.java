@@ -14,6 +14,11 @@
 
 package com.google.gerrit.server.project;
 
+import static com.google.gerrit.client.reviewdb.ApprovalCategory.PUSH_HEAD;
+import static com.google.gerrit.client.reviewdb.ApprovalCategory.PUSH_HEAD_CREATE;
+import static com.google.gerrit.client.reviewdb.ApprovalCategory.PUSH_HEAD_REPLACE;
+import static com.google.gerrit.client.reviewdb.ApprovalCategory.PUSH_TAG;
+
 import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.Change;
@@ -23,10 +28,15 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import org.spearce.jgit.lib.Constants;
+
 import java.util.Set;
 
 /** Access control management for a user accessing a project's data. */
 public class ProjectControl {
+  public static final int VISIBLE = 1 << 0;
+  public static final int OWNER = 1 << 1;
+
   public static class Factory {
     private final ProjectCache projectCache;
     private final Provider<CurrentUser> user;
@@ -48,11 +58,24 @@ public class ProjectControl {
 
     public ProjectControl validateFor(final Project.NameKey nameKey)
         throws NoSuchProjectException {
+      return validateFor(nameKey, VISIBLE);
+    }
+
+    public ProjectControl ownerFor(final Project.NameKey nameKey)
+        throws NoSuchProjectException {
+      return validateFor(nameKey, OWNER);
+    }
+
+    public ProjectControl validateFor(final Project.NameKey nameKey,
+        final int need) throws NoSuchProjectException {
       final ProjectControl c = controlFor(nameKey);
-      if (!c.isVisible()) {
-        throw new NoSuchProjectException(nameKey);
+      if ((need & VISIBLE) == VISIBLE && c.isVisible()) {
+        return c;
       }
-      return c;
+      if ((need & OWNER) == OWNER && c.isOwner()) {
+        return c;
+      }
+      throw new NoSuchProjectException(nameKey);
     }
   }
 
@@ -93,9 +116,59 @@ public class ProjectControl {
     return canPerform(ApprovalCategory.READ, (short) 1);
   }
 
+  /** Is this user a project owner? Ownership does not imply {@link #isVisible()} */
   public boolean isOwner() {
     return canPerform(ApprovalCategory.OWN, (short) 1)
         || getCurrentUser().isAdministrator();
+  }
+
+  /** Can this user create the given ref through this access path? */
+  public boolean canCreateRef(final String refname) {
+    switch (user.getAccessPath()) {
+      case WEB:
+        if (isOwner()) {
+          return true;
+        }
+        if (isHead(refname) && canPerform(PUSH_HEAD, PUSH_HEAD_CREATE)) {
+          return true;
+        }
+        return false;
+
+      case SSH:
+        if (isHead(refname) && canPerform(PUSH_HEAD, PUSH_HEAD_CREATE)) {
+          return true;
+        }
+        if (isTag(refname) && canPerform(PUSH_TAG, (short) 1)) {
+          return true;
+        }
+        return false;
+
+      default:
+        return false;
+    }
+  }
+
+  /** Can this user delete the given ref through this access path? */
+  public boolean canDeleteRef(final String refname) {
+    switch (user.getAccessPath()) {
+      case WEB:
+        if (isOwner()) {
+          return true;
+        }
+        if (isHead(refname) && canPerform(PUSH_HEAD, PUSH_HEAD_REPLACE)) {
+          return true;
+        }
+        return false;
+
+      case SSH:
+        if (isHead(refname) && canPerform(PUSH_HEAD, PUSH_HEAD_REPLACE)) {
+          return true;
+        }
+        return false;
+
+      default:
+        return false;
+    }
   }
 
   /**
@@ -115,7 +188,7 @@ public class ProjectControl {
       final short requireValue) {
     final Set<AccountGroup.Id> groups = user.getEffectiveGroups();
     int val = Integer.MIN_VALUE;
-    for (final ProjectRight pr : state.getRights()) {
+    for (final ProjectRight pr : state.getLocalRights()) {
       if (actionId.equals(pr.getApprovalCategoryId())
           && groups.contains(pr.getAccountGroupId())) {
         if (val < 0 && pr.getMaxValue() > 0) {
@@ -142,5 +215,13 @@ public class ProjectControl {
     }
 
     return val >= requireValue;
+  }
+
+  private static boolean isHead(final String refname) {
+    return refname.startsWith(Constants.R_HEADS);
+  }
+
+  private static boolean isTag(final String refname) {
+    return refname.startsWith(Constants.R_TAGS);
   }
 }

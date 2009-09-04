@@ -245,6 +245,7 @@ class SystemConfigProvider implements Provider<SystemConfig> {
     cat.setPosition((short) -1);
     cat.setFunctionName(NoOpFunction.NAME);
     vals = new ArrayList<ApprovalCategoryValue>();
+    vals.add(value(cat, 2, "Upload permission"));
     vals.add(value(cat, 1, "Read access"));
     vals.add(value(cat, -1, "No access"));
     c.approvalCategories().insert(Collections.singleton(cat), txn);

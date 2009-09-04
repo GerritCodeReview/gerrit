@@ -5,8 +5,12 @@
 jetty=$1
 if [ -z "$jetty" ]
 then
-	echo >&2 "usage: $0 jettydir"
-	exit 1
+        if [ -z "$JETTY_HOME" ]
+        then
+                echo >&2 "usage: $0 jettydir"
+                exit 1
+        fi
+        jetty=$JETTY_HOME
 fi
 if ! [ -f "$jetty/etc/jetty.xml" ]
 then

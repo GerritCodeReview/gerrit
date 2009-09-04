@@ -50,7 +50,6 @@ public class FunctionState {
 
   private final ApprovalTypes approvalTypes;
   private final IdentifiedUser.GenericFactory userFactory;
-  private final ProjectCache projectCache;
 
   private final Map<ApprovalCategory.Id, Collection<PatchSetApproval>> approvals =
       new HashMap<ApprovalCategory.Id, Collection<PatchSetApproval>>();
@@ -61,17 +60,17 @@ public class FunctionState {
   private final Map<ApprovalCategory.Id, Collection<ProjectRight>> allRights =
       new HashMap<ApprovalCategory.Id, Collection<ProjectRight>>();
   private Map<ApprovalCategory.Id, Collection<ProjectRight>> projectRights;
-  private Map<ApprovalCategory.Id, Collection<ProjectRight>> wildcardRights;
+  private Map<ApprovalCategory.Id, Collection<ProjectRight>> inheritedRights;
   private Set<PatchSetApproval> modified;
 
   @Inject
-  FunctionState(final ApprovalTypes approvalTypes, final ProjectCache pc,
+  FunctionState(final ApprovalTypes approvalTypes,
+      final ProjectCache projectCache,
       final IdentifiedUser.GenericFactory userFactory, final GroupCache egc,
       @Assisted final Change c, @Assisted final PatchSet.Id psId,
       @Assisted final Collection<PatchSetApproval> all) {
     this.approvalTypes = approvalTypes;
     this.userFactory = userFactory;
-    projectCache = pc;
 
     change = c;
     project = projectCache.get(change.getProject());
@@ -142,7 +141,7 @@ public class FunctionState {
 
   public Collection<ProjectRight> getProjectRights(final ApprovalCategory.Id id) {
     if (projectRights == null) {
-      projectRights = index(project.getRights());
+      projectRights = index(project.getLocalRights());
     }
     final Collection<ProjectRight> l = projectRights.get(id);
     return l != null ? l : Collections.<ProjectRight> emptySet();
@@ -153,10 +152,10 @@ public class FunctionState {
   }
 
   public Collection<ProjectRight> getWildcardRights(final ApprovalCategory.Id id) {
-    if (wildcardRights == null) {
-      wildcardRights = index(projectCache.getWildcardRights());
+    if (inheritedRights == null) {
+      inheritedRights = index(project.getInheritedRights());
     }
-    final Collection<ProjectRight> l = wildcardRights.get(id);
+    final Collection<ProjectRight> l = inheritedRights.get(id);
     return l != null ? l : Collections.<ProjectRight> emptySet();
   }
 

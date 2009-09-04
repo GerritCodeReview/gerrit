@@ -62,7 +62,8 @@ public class IdentifiedUser extends CurrentUser {
     }
 
     public IdentifiedUser create(final Account.Id id) {
-      return new IdentifiedUser(authConfig, accountCache, realm, null, null, id);
+      return new IdentifiedUser(AccessPath.UNKNOWN, authConfig, accountCache,
+          realm, null, null, id);
     }
   }
 
@@ -92,8 +93,9 @@ public class IdentifiedUser extends CurrentUser {
       this.dbProvider = dbProvider;
     }
 
-    public IdentifiedUser create(final Account.Id id) {
-      return new IdentifiedUser(authConfig, accountCache, realm,
+    public IdentifiedUser create(final AccessPath accessPath,
+        final Account.Id id) {
+      return new IdentifiedUser(accessPath, authConfig, accountCache, realm,
           remotePeerProvider, dbProvider, id);
     }
   }
@@ -117,11 +119,12 @@ public class IdentifiedUser extends CurrentUser {
   private Set<AccountGroup.Id> effectiveGroups;
   private Set<Change.Id> starredChanges;
 
-  private IdentifiedUser(final AuthConfig authConfig,
-      final AccountCache accountCache, final Realm realm,
+  private IdentifiedUser(final AccessPath accessPath,
+      final AuthConfig authConfig, final AccountCache accountCache,
+      final Realm realm,
       @Nullable final Provider<SocketAddress> remotePeerProvider,
       @Nullable final Provider<ReviewDb> dbProvider, final Account.Id id) {
-    super(authConfig);
+    super(accessPath, authConfig);
     this.realm = realm;
     this.accountCache = accountCache;
     this.remotePeerProvider = remotePeerProvider;

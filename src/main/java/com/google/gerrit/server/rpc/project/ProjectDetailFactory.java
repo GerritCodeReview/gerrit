@@ -20,10 +20,9 @@ import com.google.gerrit.client.data.ApprovalTypes;
 import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ProjectRight;
-import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gerrit.server.account.GroupCache;
-import com.google.gerrit.server.config.WildProjectName;
-import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.rpc.Handler;
 import com.google.inject.Inject;
@@ -39,51 +38,47 @@ import java.util.Set;
 
 class ProjectDetailFactory extends Handler<ProjectDetail> {
   interface Factory {
-    ProjectDetailFactory create(@Assisted("name") Project.NameKey name);
+    ProjectDetailFactory create(@Assisted Project.NameKey name);
   }
 
   private final ApprovalTypes approvalTypes;
   private final GroupCache groupCache;
-  private final ProjectCache projectCache;
-  private final Project.NameKey wildProject;
-  private final Project.NameKey projectName;
+  private final ProjectControl.Factory projectControlFactory;
 
-  private ProjectDetail detail;
+  private final Project.NameKey projectName;
   private Map<AccountGroup.Id, AccountGroup> groups;
 
   @Inject
   ProjectDetailFactory(final ApprovalTypes approvalTypes,
-      final GroupCache groupCache, final ProjectCache projectCache,
-      @WildProjectName final Project.NameKey wp,
-      @Assisted("name") final Project.NameKey name) {
+      final GroupCache groupCache,
+      final ProjectControl.Factory projectControlFactory,
+
+      @Assisted final Project.NameKey name) {
     this.approvalTypes = approvalTypes;
     this.groupCache = groupCache;
-    this.projectCache = projectCache;
-    this.wildProject = wp;
+    this.projectControlFactory = projectControlFactory;
+
     this.projectName = name;
   }
 
   @Override
-  public ProjectDetail call() throws NoSuchEntityException {
-    final ProjectState e = projectCache.get(projectName);
-    if (e == null) {
-      throw new NoSuchEntityException();
-    }
+  public ProjectDetail call() throws NoSuchProjectException {
+    final ProjectState projectState =
+        projectControlFactory.validateFor(projectName,
+            ProjectControl.OWNER | ProjectControl.VISIBLE).getProjectState();
 
-    detail = new ProjectDetail();
-    detail.setProject(e.getProject());
+    final ProjectDetail detail = new ProjectDetail();
+    detail.setProject(projectState.getProject());
 
     groups = new HashMap<AccountGroup.Id, AccountGroup>();
     final List<ProjectRight> rights = new ArrayList<ProjectRight>();
-    for (final ProjectRight p : e.getRights()) {
+    for (final ProjectRight p : projectState.getLocalRights()) {
       rights.add(p);
       wantGroup(p.getAccountGroupId());
     }
-    if (!wildProject.equals(e.getProject().getNameKey())) {
-      for (final ProjectRight p : projectCache.getWildcardRights()) {
-        rights.add(p);
-        wantGroup(p.getAccountGroupId());
-      }
+    for (final ProjectRight p : projectState.getInheritedRights()) {
+      rights.add(p);
+      wantGroup(p.getAccountGroupId());
     }
     loadGroups();
 

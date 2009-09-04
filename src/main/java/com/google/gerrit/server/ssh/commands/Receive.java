@@ -15,7 +15,6 @@
 package com.google.gerrit.server.ssh.commands;
 
 import static com.google.gerrit.client.reviewdb.ApprovalCategory.PUSH_HEAD;
-import static com.google.gerrit.client.reviewdb.ApprovalCategory.PUSH_HEAD_CREATE;
 import static com.google.gerrit.client.reviewdb.ApprovalCategory.PUSH_HEAD_REPLACE;
 import static com.google.gerrit.client.reviewdb.ApprovalCategory.PUSH_HEAD_UPDATE;
 import static com.google.gerrit.client.reviewdb.ApprovalCategory.PUSH_TAG;
@@ -431,11 +430,10 @@ final class Receive extends AbstractGitCommand {
   }
 
   private void parseCreate(final ReceiveCommand cmd) {
-    if (isHead(cmd) && canPerform(PUSH_HEAD, PUSH_HEAD_CREATE)) {
-      // Let the core receive process handle it
-
-    } else if (isTag(cmd) && canPerform(PUSH_TAG, (short) 1)) {
-      parseCreateTag(cmd);
+    if (projectControl.canCreateRef(cmd.getRefName())) {
+      if (isTag(cmd)) {
+        parseCreateTag(cmd);
+      }
 
     } else {
       reject(cmd);
@@ -499,7 +497,11 @@ final class Receive extends AbstractGitCommand {
   }
 
   private void parseRewindOrDelete(final ReceiveCommand cmd) {
-    if (isHead(cmd) && canPerform(PUSH_HEAD, PUSH_HEAD_REPLACE)) {
+    if (isHead(cmd) && cmd.getType() == Type.DELETE
+        && projectControl.canDeleteRef(cmd.getRefName())) {
+      // Let the core receive process handle it
+
+    } else if (isHead(cmd) && canPerform(PUSH_HEAD, PUSH_HEAD_REPLACE)) {
       // Let the core receive process handle it
 
     } else if (isHead(cmd) && cmd.getType() == Type.UPDATE_NONFASTFORWARD) {

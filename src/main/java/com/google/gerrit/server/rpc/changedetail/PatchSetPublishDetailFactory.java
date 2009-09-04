@@ -125,8 +125,8 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
   private void computeAllowed() {
     final Set<AccountGroup.Id> am = user.getEffectiveGroups();
     final ProjectState pe = projectCache.get(change.getProject());
-    computeAllowed(am, pe.getRights());
-    computeAllowed(am, projectCache.getWildcardRights());
+    computeAllowed(am, pe.getLocalRights());
+    computeAllowed(am, pe.getInheritedRights());
   }
 
   private void computeAllowed(final Set<AccountGroup.Id> am,

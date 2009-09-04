@@ -35,7 +35,7 @@ import java.util.List;
 
 class ListBranches extends Handler<List<Branch>> {
   interface Factory {
-    ListBranches create(@Assisted("name") Project.NameKey name);
+    ListBranches create(@Assisted Project.NameKey name);
   }
 
   private final ProjectControl.Factory projectControlFactory;
@@ -46,17 +46,22 @@ class ListBranches extends Handler<List<Branch>> {
   @Inject
   ListBranches(final ProjectControl.Factory projectControlFactory,
       final GerritServer gerritServer,
-      @Assisted("name") final Project.NameKey name) {
+
+      @Assisted final Project.NameKey name) {
     this.projectControlFactory = projectControlFactory;
     this.gerritServer = gerritServer;
+
     this.projectName = name;
   }
 
   @Override
   public List<Branch> call() throws NoSuchProjectException,
       RepositoryNotFoundException {
+    final ProjectControl projectControl =
+        projectControlFactory.validateFor(projectName, ProjectControl.OWNER
+            | ProjectControl.VISIBLE);
+
     final List<Branch> branches = new ArrayList<Branch>();
-    final ProjectControl c = projectControlFactory.ownerFor(projectName);
     final Repository db = gerritServer.openRepository(projectName.get());
     try {
       for (final Ref ref : db.getAllRefs().values()) {

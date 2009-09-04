@@ -95,7 +95,6 @@ class HttpLoginServlet extends HttpServlet {
       return;
     }
 
-    webSession.get().login(arsp.getAccountId(), false);
     final StringBuilder rdr = new StringBuilder();
     rdr.append(urlProvider.get());
     rdr.append('#');
@@ -104,6 +103,11 @@ class HttpLoginServlet extends HttpServlet {
       rdr.append(',');
     }
     rdr.append(token);
+
+    webSession.get().login(arsp.getAccountId(), false);
+    rsp.setHeader("Expires", "Fri, 01 Jan 1980 00:00:00 GMT");
+    rsp.setHeader("Pragma", "no-cache");
+    rsp.setHeader("Cache-Control", "no-cache, must-revalidate");
     rsp.sendRedirect(rdr.toString());
   }
 

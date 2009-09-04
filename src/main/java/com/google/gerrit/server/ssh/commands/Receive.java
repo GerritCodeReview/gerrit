@@ -178,8 +178,18 @@ final class Receive extends AbstractGitCommand {
 
   private Map<ObjectId, Ref> refsById;
 
+  protected boolean canUpload() {
+    return canPerform(ApprovalCategory.READ, (short) 2);
+  }
+
   @Override
   protected void runImpl() throws IOException, Failure {
+    if (!canUpload()) {
+      final String reqName = project.getName();
+      throw new Failure(1, "fatal: Upload denied for project '" + reqName + "'",
+          new SecurityException("Account lacks Upload permission"));
+    }
+
     if (project.isUseContributorAgreements()) {
       verifyActiveContributorAgreement();
     }

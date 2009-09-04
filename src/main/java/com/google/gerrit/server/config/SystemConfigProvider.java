@@ -245,6 +245,7 @@ class SystemConfigProvider implements Provider<SystemConfig> {
     cat.setPosition((short) -1);
     cat.setFunctionName(NoOpFunction.NAME);
     vals = new ArrayList<ApprovalCategoryValue>();
+    vals.add(value(cat, 2, "Upload permission"));
     vals.add(value(cat, 1, "Read access"));
     vals.add(value(cat, -1, "No access"));
     c.approvalCategories().insert(Collections.singleton(cat), txn);
@@ -254,7 +255,7 @@ class SystemConfigProvider implements Provider<SystemConfig> {
       final ProjectRight read =
           new ProjectRight(new ProjectRight.Key(DEFAULT_WILD_NAME, cat.getId(),
               sConfig.anonymousGroupId));
-      read.setMaxValue((short) 1);
+      read.setMaxValue((short) 2);
       read.setMinValue((short) 1);
       c.projectRights().insert(Collections.singleton(read));
     }

@@ -348,7 +348,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
         final AccountInfo ai = aic.get(ca.getAccountId());
 
         // Some web browsers ignore the embedded newline; some like it;
-        // so we include a space before the newline to accomodate both.
+        // so we include a space before the newline to accommodate both.
         //
         fmt.getElement(row, col).setTitle(
             acv.getName() + " \nby " + FormatUtil.nameEmail(ai));

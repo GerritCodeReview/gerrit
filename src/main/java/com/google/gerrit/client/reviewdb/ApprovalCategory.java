@@ -29,8 +29,7 @@ public final class ApprovalCategory {
       new ApprovalCategory.Id("READ");
 
   /** Id of the special "Own" category; manages a project. */
-  public static final ApprovalCategory.Id OWN =
-      new ApprovalCategory.Id("OWN");
+  public static final ApprovalCategory.Id OWN = new ApprovalCategory.Id("OWN");
 
   /** Id of the special "Push Annotated Tag" action (and category). */
   public static final ApprovalCategory.Id PUSH_TAG =

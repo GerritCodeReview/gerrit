@@ -22,7 +22,7 @@ import java.util.Date;
 
 /** Misc. formatting functions. */
 public class FormatUtil {
-  private static final long ONE_YEAR = 360L * 24 * 60 * 60 * 1000;
+  private static final long ONE_YEAR = 182L * 24 * 60 * 60 * 1000;
 
   private static final DateTimeFormat sTime =
       DateTimeFormat.getShortTimeFormat();

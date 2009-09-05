@@ -1,0 +1,85 @@
+daemon
+======
+
+NAME
+----
+daemon - Git enabled SSH daemon
+
+SYNOPSIS
+--------
+[verse]
+'java' -DGerritServer=PATH -jar gerrit.war 'daemon' [\--slave]
+
+DESCRIPTION
+-----------
+Runs the Gerrit SSH daemon on the local system, configured as per
+the local copy of link:config-gerrit.html[gerrit.config].
+
+The path to gerrit.config is read from the metadata database,
+which requires that all slaves (and master) reading from the same
+database must place gerrit.config at the same location on the local
+filesystem.  However, any option within gerrit.config, including
+link:config-gerrit.html#gerrit.basePath[gerrit.basePath] may be set
+to different values.
+
+OPTIONS
+-------
+
+-DGerritServer=PATH::
+	Path of the GerritServer.properties file, which describes
+	how to connect to the database.  To obtain a template of this
+	file get it from the WAR:
++
+====
+java -jar gerrit.war \--cat extra/GerritServer.properties_example >GerritServer.properties
+====
+
+\--slave::
+	Run in slave mode, permitting only read operations
+    by clients.  Commands which modify state such as
+    link:cmd-receive-pack.html[recieve-pack] (creates new changes
+    or updates existing ones) or link:cmd-approve.html[approve]
+    (sets approve marks) are disabled.
+
+CONTEXT
+-------
+This command can only be run on a server which has direct
+connectivity to the metadata database, and local access to the
+managed Git repositories.
+
+KNOWN ISSUES
+------------
+Slave daemon caches can quickly become out of date when modifications
+are made on the master.  The following configuration is suggested in
+a slave to reduce the maxAge for each cache entry, so that changes
+are recognized in a reasonable period of time:
+
+----
+[cache "accounts"]
+  maxAge = 5 min
+[cache "accounts_byemail"]
+  maxAge = 5 min
+[cache "diff"]
+  maxAge = 5 min
+[cache "groups"]
+  maxAge = 5 min
+[cache "projects"]
+  maxAge = 5 min
+[cache "sshkeys"]
+  maxAge = 5 min
+----
+
+and if LDAP support was enabled, also include:
+----
+[cache "ldap_groups"]
+  maxAge = 5 min
+[cache "ldap_usernames"]
+  maxAge = 5 min
+----
+
+Automatic cache coherency between master and slave systems is
+planned to be implemented in a future version.
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

@@ -27,13 +27,14 @@ public class DefaultCommandModule extends CommandModule {
     final CommandName git = Commands.named("git");
     final CommandName gerrit = Commands.named("gerrit");
 
+    // The following commands can be ran on a server in either Master or Slave
+    // mode. If a command should only be used on a server in one mode, but not
+    // both, it should be bound in both MasterCommandModule and
+    // SlaveCommandModule.
+
     command(gerrit).toProvider(new DispatchCommandProvider(gerrit));
-    command(gerrit, "approve").to(ApproveCommand.class);
-    command(gerrit, "create-project").to(AdminCreateProject.class);
     command(gerrit, "flush-caches").to(AdminFlushCaches.class);
     command(gerrit, "ls-projects").to(ListProjects.class);
-    command(gerrit, "receive-pack").to(Receive.class);
-    command(gerrit, "replicate").to(AdminReplicate.class);
     command(gerrit, "show-caches").to(AdminShowCaches.class);
     command(gerrit, "show-connections").to(AdminShowConnections.class);
     command(gerrit, "show-queue").to(AdminShowQueue.class);
@@ -44,7 +45,7 @@ public class DefaultCommandModule extends CommandModule {
 
     command("scp").to(ScpCommand.class);
 
-    // Honor the legacy hypenated forms as aliases for the non-hypenated forms
+    // Honor the legacy hyphenated forms as aliases for the non-hyphenated forms
     //
     command("git-upload-pack").to(Commands.key(git, "upload-pack"));
     command("git-receive-pack").to(Commands.key(git, "receive-pack"));

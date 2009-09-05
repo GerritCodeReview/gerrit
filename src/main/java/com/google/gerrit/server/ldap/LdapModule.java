@@ -37,7 +37,7 @@ public class LdapModule extends CacheModule {
     final TypeLiteral<Cache<String, Account.Id>> usernames =
         new TypeLiteral<Cache<String, Account.Id>>() {};
 
-    core(groups, GROUP_CACHE).timeToIdle(1, HOURS).timeToLive(1, HOURS);
+    core(groups, GROUP_CACHE).maxAge(1, HOURS);
     core(usernames, USERNAME_CACHE);
     bind(Realm.class).to(LdapRealm.class).in(Scopes.SINGLETON);
   }

@@ -14,58 +14,99 @@
 
 package com.google.gerrit.server.http;
 
+import static com.google.gerrit.server.ioutil.BasicSerialization.readFixInt64;
+import static com.google.gerrit.server.ioutil.BasicSerialization.readString;
+import static com.google.gerrit.server.ioutil.BasicSerialization.readVarInt32;
+import static com.google.gerrit.server.ioutil.BasicSerialization.writeBytes;
+import static com.google.gerrit.server.ioutil.BasicSerialization.writeFixInt64;
+import static com.google.gerrit.server.ioutil.BasicSerialization.writeString;
+import static com.google.gerrit.server.ioutil.BasicSerialization.writeVarInt32;
+import static java.util.concurrent.TimeUnit.HOURS;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
+
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.server.cache.Cache;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 
-import org.spearce.jgit.util.Base64;
-import org.spearce.jgit.util.NB;
-
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.security.SecureRandom;
-import java.util.concurrent.TimeUnit;
 
 @Singleton
 class WebSessionManager {
   static final String CACHE_NAME = "web_sessions";
 
-  private final int tokenLen;
+  static long now() {
+    return System.currentTimeMillis();
+  }
+
   private final SecureRandom prng;
   private final Cache<Key, Val> self;
 
   @Inject
   WebSessionManager(@Named(CACHE_NAME) final Cache<Key, Val> cache) {
-    tokenLen = 40 - 4;
     prng = new SecureRandom();
     self = cache;
   }
 
-  void updateRefreshCookieAt(final Val val) {
-    final long now = System.currentTimeMillis();
-    val.refreshCookieAt = now + self.getTimeToIdle(TimeUnit.MILLISECONDS) / 2;
-  }
-
   Key createKey(final Account.Id who) {
-    final int accountId = who.get();
-    final byte[] rnd = new byte[tokenLen];
-    prng.nextBytes(rnd);
+    try {
+      final int nonceLen = 20;
+      final ByteArrayOutputStream buf;
+      final byte[] rnd = new byte[nonceLen];
+      prng.nextBytes(rnd);
 
-    final byte[] buf = new byte[4 + tokenLen];
-    NB.encodeInt32(buf, 0, accountId);
-    System.arraycopy(rnd, 0, buf, 4, rnd.length);
+      buf = new ByteArrayOutputStream(3 + nonceLen);
+      writeVarInt32(buf, (int) Key.serialVersionUID);
+      writeVarInt32(buf, who.get());
+      writeBytes(buf, rnd);
 
-    return new Key(Base64.encodeBytes(rnd, Base64.DONT_BREAK_LINES));
+      return new Key(CookieBase64.encode(buf.toByteArray()));
+    } catch (IOException e) {
+      throw new RuntimeException("Cannot produce new account cookie", e);
+    }
   }
 
-  Val createVal(final Key key, final Account.Id who) {
-    final Val val = new Val(who);
+  Val createVal(final Key key, final Val val) {
+    return createVal(key, val.getAccountId(), val.isPersistentCookie());
+  }
+
+  Val createVal(final Key key, final Account.Id who, final boolean remember) {
+    // Refresh the cookie every hour or when it is half-expired.
+    // This reduces the odds that the user session will be kicked
+    // early but also avoids us needing to refresh the cookie on
+    // every single request.
+    //
+    final long halfAgeRefresh = self.getTimeToLive(MILLISECONDS) >>> 1;
+    final long minRefresh = MILLISECONDS.convert(1, HOURS);
+    final long refresh = Math.min(halfAgeRefresh, minRefresh);
+    final long refreshCookieAt = now() + refresh;
+
+    final Val val = new Val(who, refreshCookieAt, remember);
     self.put(key, val);
     return val;
+  }
+
+  int getCookieAge(final Val val) {
+    if (val.isPersistentCookie()) {
+      // Client may store the cookie until we would remove it from our
+      // own cache, after which it will certainly be invalid.
+      //
+      return (int) self.getTimeToLive(SECONDS);
+    } else {
+      // Client should not store the cookie, as the user asked for us
+      // to not remember them long-term. Sending -1 as the age will
+      // cause the cookie to be only for this "browser session", which
+      // is usually until the user exits their browser.
+      //
+      return -1;
+    }
   }
 
   Val get(final Key key) {
@@ -77,12 +118,16 @@ class WebSessionManager {
   }
 
   static final class Key implements Serializable {
-    static final long serialVersionUID = 1L;
+    static final long serialVersionUID = 2L;
 
-    transient String token;
+    private transient String token;
 
     Key(final String t) {
       token = t;
+    }
+
+    String getToken() {
+      return token;
     }
 
     @Override
@@ -96,36 +141,72 @@ class WebSessionManager {
     }
 
     private void writeObject(final ObjectOutputStream out) throws IOException {
-      out.writeUTF(token);
+      writeString(out, token);
     }
 
     private void readObject(final ObjectInputStream in) throws IOException {
-      token = in.readUTF();
+      token = readString(in);
     }
   }
 
   static final class Val implements Serializable {
     static final long serialVersionUID = Key.serialVersionUID;
 
-    transient Account.Id accountId;
-    transient long refreshCookieAt;
+    private transient Account.Id accountId;
+    private transient long refreshCookieAt;
+    private transient boolean persistentCookie;
 
-    Val(final Account.Id accountId) {
+    Val(final Account.Id accountId, final long refreshCookieAt,
+        final boolean persistentCookie) {
       this.accountId = accountId;
+      this.refreshCookieAt = refreshCookieAt;
+      this.persistentCookie = persistentCookie;
     }
 
-    int getCookieAge() {
-      return (int) ((refreshCookieAt - System.currentTimeMillis()) / 1000L);
+    Account.Id getAccountId() {
+      return accountId;
+    }
+
+    boolean needsCookieRefresh() {
+      return refreshCookieAt <= now();
+    }
+
+    boolean isPersistentCookie() {
+      return persistentCookie;
     }
 
     private void writeObject(final ObjectOutputStream out) throws IOException {
-      out.writeInt(accountId.get());
-      out.writeLong(refreshCookieAt);
+      writeVarInt32(out, 1);
+      writeVarInt32(out, accountId.get());
+
+      writeVarInt32(out, 2);
+      writeFixInt64(out, refreshCookieAt);
+
+      writeVarInt32(out, 3);
+      writeVarInt32(out, persistentCookie ? 1 : 0);
+
+      writeVarInt32(out, 0);
     }
 
     private void readObject(final ObjectInputStream in) throws IOException {
-      accountId = new Account.Id(in.readInt());
-      refreshCookieAt = in.readLong();
+      PARSE: for (;;) {
+        final int tag = readVarInt32(in);
+        switch (tag) {
+          case 0:
+            break PARSE;
+          case 1:
+            accountId = new Account.Id(readVarInt32(in));
+            continue;
+          case 2:
+            refreshCookieAt = readFixInt64(in);
+            continue;
+          case 3:
+            persistentCookie = readVarInt32(in) != 0;
+            continue;
+          default:
+            throw new IOException("Unknown tag found in object: " + tag);
+        }
+      }
     }
   }
 }

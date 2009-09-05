@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.cache;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
+
 import net.sf.ehcache.CacheException;
 import net.sf.ehcache.Ehcache;
 import net.sf.ehcache.Element;
@@ -71,9 +73,9 @@ final class SimpleCache<K, V> implements Cache<K, V> {
   }
 
   @Override
-  public long getTimeToIdle(final TimeUnit unit) {
-    final long idle = self.getCacheConfiguration().getTimeToIdleSeconds();
-    return unit.convert(idle, TimeUnit.SECONDS);
+  public long getTimeToLive(final TimeUnit unit) {
+    final long maxAge = self.getCacheConfiguration().getTimeToLiveSeconds();
+    return unit.convert(maxAge, SECONDS);
   }
 
   @Override

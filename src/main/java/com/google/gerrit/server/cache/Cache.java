@@ -34,10 +34,10 @@ public interface Cache<K, V> {
   public void remove(K key);
 
   /**
-   * Get the time an idle (not accessed) element will survive in the cache.
+   * Get the time an element will survive in the cache.
    *
    * @param unit desired units of the return value.
-   * @return time an item can live without being accessed before being purged.
+   * @return time an item can live before being purged.
    */
-  public long getTimeToIdle(TimeUnit unit);
+  public long getTimeToLive(TimeUnit unit);
 }

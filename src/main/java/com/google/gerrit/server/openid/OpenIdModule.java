@@ -36,8 +36,7 @@ public class OpenIdModule extends ServletModule {
         final TypeLiteral<Cache<String, List>> type =
             new TypeLiteral<Cache<String, List>>() {};
         core(type, "openid") //
-            .timeToIdle(5, MINUTES) // don't cache too long, might be stale
-            .timeToLive(5, MINUTES) //
+            .maxAge(5, MINUTES) // don't cache too long, might be stale
             .memoryLimit(64) // short TTL means we won't have many entries
         ;
       }

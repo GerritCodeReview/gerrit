@@ -160,15 +160,6 @@ If not absolute, the path is resolved relative to `$site_path`.
 +
 Default is unset, no disk cache.
 
-[[cache.maxAge]]cache.maxAge::
-	Default setting inherited by named caches; see below.
-[[cache.memoryLimit]]cache.memoryLimit::
-	Default setting inherited by named caches; see below.
-[[cache.diskLimit]]cache.diskLimit::
-	Default setting inherited by named caches; see below.
-[[cache.diskBuffer]]cache.diskBuffer::
-	Default setting inherited by named caches; see below.
-
 [[cache.name.maxAge]]cache.<name>.maxAge::
 +
 Maximum age to keep an entry in the cache.  If an entry has not
@@ -184,7 +175,9 @@ Values should use common unit suffixes to express their setting:
 * y, year, years (`1 year` is treated as `365 days`)
 
 +
-If a unit suffix is not specified, `minutes` is assumed.
+If a unit suffix is not specified, `minutes` is assumed.  If 0 is
+supplied, the maximum age is infinite and items are never purged
+except when the cache is full.
 +
 Default is `90 days` for most caches, except:
 +

@@ -14,6 +14,10 @@
 
 package com.google.gerrit.server.cache;
 
+import static com.google.gerrit.server.cache.EvictionPolicy.LFU;
+import static java.util.concurrent.TimeUnit.DAYS;
+import static java.util.concurrent.TimeUnit.SECONDS;
+
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
@@ -25,16 +29,23 @@ import java.util.concurrent.TimeUnit;
 final class CacheProvider<K, V> implements Provider<Cache<K, V>>,
     NamedCacheBinding, UnnamedCacheBinding {
   private final boolean disk;
-  private int memoryLimit = 1024;
-  private int diskLimit = 16384;
-  private long timeToIdle = DEFAULT_TIME;
-  private long timeToLive = DEFAULT_TIME;
-  private EvictionPolicy evictionPolicy = EvictionPolicy.LFU;
+  private int memoryLimit;
+  private int diskLimit;
+  private long maxAge;
+  private EvictionPolicy evictionPolicy;
   private String cacheName;
   private ProxyEhcache cache;
 
   CacheProvider(final boolean disk) {
     this.disk = disk;
+
+    memoryLimit(1024);
+    maxAge(90, DAYS);
+    evictionPolicy(LFU);
+
+    if (disk) {
+      diskLimit(16384);
+    }
   }
 
   @Inject
@@ -65,12 +76,8 @@ final class CacheProvider<K, V> implements Provider<Cache<K, V>>,
     return diskLimit;
   }
 
-  long timeToIdle() {
-    return timeToIdle;
-  }
-
-  long timeToLive() {
-    return timeToLive;
+  long maxAge() {
+    return maxAge;
   }
 
   EvictionPolicy evictionPolicy() {
@@ -102,19 +109,8 @@ final class CacheProvider<K, V> implements Provider<Cache<K, V>>,
     return this;
   }
 
-  public NamedCacheBinding timeToIdle(final long duration, final TimeUnit unit) {
-    if (timeToIdle >= 0) {
-      throw new IllegalStateException("Cache timeToIdle already set");
-    }
-    timeToIdle = TimeUnit.SECONDS.convert(duration, unit);
-    return this;
-  }
-
-  public NamedCacheBinding timeToLive(final long duration, final TimeUnit unit) {
-    if (timeToLive >= 0) {
-      throw new IllegalStateException("Cache timeToLive already set");
-    }
-    timeToLive = TimeUnit.SECONDS.convert(duration, unit);
+  public NamedCacheBinding maxAge(final long duration, final TimeUnit unit) {
+    maxAge = SECONDS.convert(duration, unit);
     return this;
   }
 

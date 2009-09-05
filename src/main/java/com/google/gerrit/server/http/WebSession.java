@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.http;
 
-import static com.google.gerrit.server.cache.NamedCacheBinding.INFINITE_TIME;
 import static java.util.concurrent.TimeUnit.HOURS;
 
 import com.google.gerrit.client.reviewdb.Account;
@@ -49,8 +48,7 @@ public final class WebSession {
             new TypeLiteral<Cache<Key, Val>>() {};
         disk(type, cacheName) //
             .memoryLimit(1024) // reasonable default for many sites
-            .timeToIdle(12, HOURS) // expire sessions if they are inactive
-            .timeToLive(INFINITE_TIME, HOURS) // never expire a live session
+            .maxAge(12, HOURS) // expire sessions if they are inactive
             .evictionPolicy(EvictionPolicy.LRU) // keep most recently used
         ;
         bind(WebSessionManager.class);
@@ -89,12 +87,15 @@ public final class WebSession {
       val = null;
     }
 
-    if (isSignedIn() && val.refreshCookieAt <= System.currentTimeMillis()) {
-      // Cookie is more than half old. Send it again to the client with a
-      // fresh expiration date.
+    if (isSignedIn() && val.needsCookieRefresh()) {
+      // Cookie is more than half old. Send the cookie again to the
+      // client with an updated expiration date. We don't dare to
+      // change the key token here because there may be other RPCs
+      // queued up in the browser whose xsrfKey would not get updated
+      // with the new token, causing them to fail.
       //
-      manager.updateRefreshCookieAt(val);
-      saveCookie(key.token, val.getCookieAge());
+      val = manager.createVal(key, val);
+      saveCookie();
     }
   }
 
@@ -116,16 +117,16 @@ public final class WebSession {
   }
 
   String getToken() {
-    return isSignedIn() ? key.token : null;
+    return isSignedIn() ? key.getToken() : null;
   }
 
-  boolean isTokenValid(final String keyIn) {
-    return isSignedIn() && key.token.equals(keyIn);
+  boolean isTokenValid(final String inputToken) {
+    return isSignedIn() && key.getToken().equals(inputToken);
   }
 
   CurrentUser getCurrentUser() {
     if (isSignedIn()) {
-      return identified.create(AccessPath.WEB, val.accountId);
+      return identified.create(AccessPath.WEB, val.getAccountId());
     }
     return anonymous;
   }
@@ -134,17 +135,8 @@ public final class WebSession {
     logout();
 
     key = manager.createKey(id);
-    val = manager.createVal(key, id);
-
-    final int age;
-    if (rememberMe) {
-      manager.updateRefreshCookieAt(val);
-      age = val.getCookieAge();
-    } else {
-      val.refreshCookieAt = Long.MAX_VALUE;
-      age = -1 /* don't store on client disk */;
-    }
-    saveCookie(key.token, age);
+    val = manager.createVal(key, id, rememberMe);
+    saveCookie();
   }
 
   public void logout() {
@@ -152,23 +144,34 @@ public final class WebSession {
       manager.destroy(key);
       key = null;
       val = null;
-      saveCookie("", 0 /* erase at client */);
+      saveCookie();
     }
   }
 
-  private void saveCookie(final String val, final int age) {
+  private void saveCookie() {
+    final String token;
+    final int ageSeconds;
+
+    if (key == null) {
+      token = "";
+      ageSeconds = 0 /* erase at client */;
+    } else {
+      token = key.getToken();
+      ageSeconds = manager.getCookieAge(val);
+    }
+
     if (outCookie == null) {
       String path = request.getContextPath();
       if (path.equals("")) {
         path = "/";
       }
-      outCookie = new Cookie(ACCOUNT_COOKIE, val);
+      outCookie = new Cookie(ACCOUNT_COOKIE, token);
       outCookie.setPath(path);
-      outCookie.setMaxAge(age);
+      outCookie.setMaxAge(ageSeconds);
       response.addCookie(outCookie);
     } else {
-      outCookie.setMaxAge(age);
-      outCookie.setValue(val);
+      outCookie.setValue(token);
+      outCookie.setMaxAge(ageSeconds);
     }
   }
 }

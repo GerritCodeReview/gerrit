@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.cache;
 
-import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -116,38 +115,16 @@ public class CachePool {
         final CacheConfiguration c = newCache(name);
         c.setMemoryStoreEvictionPolicyFromObject(toPolicy(p.evictionPolicy()));
 
-        {
-          int v = p.memoryLimit();
-          c.setMaxElementsInMemory(getInt(name, "memorylimit", v));
-        }
+        c.setMaxElementsInMemory(getInt(name, "memorylimit", p.memoryLimit()));
 
-        {
-          long idle = p.timeToIdle();
-          long live = p.timeToLive();
-
-          if (idle == NamedCacheBinding.DEFAULT_TIME)
-            idle = c.getTimeToIdleSeconds();
-          if (live == NamedCacheBinding.DEFAULT_TIME)
-            live = c.getTimeToLiveSeconds();
-
-          idle = getSeconds(name, "maxage", idle);
-          if (live == NamedCacheBinding.INFINITE_TIME) {
-            // Keep the alive period infinite, rather than expiring.
-          } else {
-            live = Math.max(live, idle);
-          }
-
-          c.setTimeToIdleSeconds(idle);
-          c.setTimeToLiveSeconds(live);
-          c.setEternal(c.getTimeToIdleSeconds() == 0
-              && c.getTimeToLiveSeconds() == 0);
-        }
+        c.setTimeToIdleSeconds(0);
+        c.setTimeToLiveSeconds(getSeconds(name, "maxage", p.maxAge()));
+        c.setEternal(c.getTimeToLiveSeconds() == 0);
 
         if (p.disk() && mgr.getDiskStoreConfiguration() != null) {
-          int v = p.diskLimit();
-          c.setMaxElementsOnDisk(getInt(name, "disklimit", v));
+          c.setMaxElementsOnDisk(getInt(name, "disklimit", p.diskLimit()));
 
-          v = c.getDiskSpoolBufferSizeMB() * MB;
+          int v = c.getDiskSpoolBufferSizeMB() * MB;
           v = getInt(name, "diskbuffer", v) / MB;
           c.setDiskSpoolBufferSizeMB(Math.max(1, v));
           c.setOverflowToDisk(c.getMaxElementsOnDisk() > 0);
@@ -173,14 +150,13 @@ public class CachePool {
       }
     }
 
-    private int getInt(String name, String setting, int def) {
-      return config.getInt("cache", name, setting, def);
+    private int getInt(String n, String s, int d) {
+      return config.getInt("cache", n, s, d);
     }
 
-    private long getSeconds(String n, String setting, long def) {
-      final long d = MINUTES.convert(def, SECONDS);
-      final long m;
-      m = ConfigUtil.getTimeUnit(config, "cache", n, setting, d, MINUTES);
+    private long getSeconds(String n, String s, long d) {
+      d = MINUTES.convert(d, SECONDS);
+      long m = ConfigUtil.getTimeUnit(config, "cache", n, s, d, MINUTES);
       return SECONDS.convert(m, MINUTES);
     }
 
@@ -222,21 +198,19 @@ public class CachePool {
     private void configureDefaultCache() {
       final CacheConfiguration c = new CacheConfiguration();
 
-      c.setMaxElementsInMemory(getInt(null, "memorylimit", 1024));
+      c.setMaxElementsInMemory(1024);
       c.setMemoryStoreEvictionPolicyFromObject(MemoryStoreEvictionPolicy.LFU);
 
-      final long defaultAge = SECONDS.convert(90, DAYS);
-      c.setTimeToIdleSeconds(getSeconds(null, "maxage", defaultAge));
-      c.setTimeToLiveSeconds(c.getTimeToIdleSeconds());
-      c.setEternal(c.getTimeToIdleSeconds() == 0);
+      c.setTimeToIdleSeconds(0);
+      c.setTimeToLiveSeconds(0 /* infinite */);
+      c.setEternal(true);
 
       if (mgr.getDiskStoreConfiguration() != null) {
-        c.setMaxElementsOnDisk(getInt(null, "disklimit", 16384));
+        c.setMaxElementsOnDisk(16384);
         c.setOverflowToDisk(false);
         c.setDiskPersistent(false);
 
-        final int diskbuffer = getInt(null, "diskbuffer", 5 * MB);
-        c.setDiskSpoolBufferSizeMB(Math.max(1, diskbuffer / MB));
+        c.setDiskSpoolBufferSizeMB(5);
         c.setDiskExpiryThreadIntervalSeconds(60 * 60);
       }
 

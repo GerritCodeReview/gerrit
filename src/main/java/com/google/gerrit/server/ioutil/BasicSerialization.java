@@ -49,6 +49,20 @@ public class BasicSerialization {
     return b;
   }
 
+  /** Read a fixed-width 64 bit integer in network byte order (big-endian). */
+  public static long readFixInt64(final InputStream input) throws IOException {
+    final long h = readFixInt32(input);
+    final long l = readFixInt32(input) & 0xFFFFFFFFL;
+    return (h << 32) | l;
+  }
+
+  /** Write a fixed-width 64 bit integer in network byte order (big-endian). */
+  public static void writeFixInt64(final OutputStream output, final long val)
+      throws IOException {
+    writeFixInt32(output, (int) (val >>> 32));
+    writeFixInt32(output, (int) (val & 0xFFFFFFFFL));
+  }
+
   /** Read a fixed-width 32 bit integer in network byte order (big-endian). */
   public static int readFixInt32(final InputStream input) throws IOException {
     final int b1 = safeRead(input);

@@ -21,9 +21,9 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.Link;
 import com.google.gerrit.client.data.AccountInfo;
 import com.google.gerrit.client.data.AccountInfoCache;
-import com.google.gerrit.client.data.ApprovalType;
 import com.google.gerrit.client.data.ApprovalSummary;
 import com.google.gerrit.client.data.ApprovalSummarySet;
+import com.google.gerrit.client.data.ApprovalType;
 import com.google.gerrit.client.data.ChangeInfo;
 import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.reviewdb.Account;
@@ -43,7 +43,6 @@ import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
@@ -61,6 +60,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
   private static final String S_C_SUBJECT = "C_SUBJECT";
   private static final String S_C_PROJECT = "C_PROJECT";
   private static final String S_C_LAST_UPDATE = "C_LAST_UPDATE";
+  private static final String S_C_APPROVAL = "C_APPROVAL";
   private static final String S_SECTION_HEADER = "SectionHeader";
   private static final String S_EMPTY_SECTION = "EmptySection";
 
@@ -206,6 +206,9 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     fmt.addStyleName(row, C_PROJECT, S_C_PROJECT);
     fmt.addStyleName(row, C_BRANCH, S_C_PROJECT);
     fmt.addStyleName(row, C_LAST_UPDATE, S_C_LAST_UPDATE);
+    for (int i = BASE_COLUMNS; i < columns; i++) {
+      fmt.addStyleName(row, i, S_C_APPROVAL);
+    }
   }
 
   private void populateChangeRow(final int row, final ChangeInfo c) {
@@ -309,45 +312,47 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
 
     for (final ApprovalType type : approvalTypes) {
       final PatchSetApproval ca = approvals.get(type.getCategory().getId());
-      Widget cellWidget;
+
+      fmt.removeStyleName(row, col, "negscore");
+      fmt.removeStyleName(row, col, "posscore");
 
       if (ca == null || ca.getValue() == 0) {
-        cellWidget = null;
-      } else if (type.isMaxNegative(ca)) {
-        cellWidget = Gerrit.ICONS.redNot().createImage();
-      } else if (type.isMaxPositive(ca)) {
-        cellWidget = Gerrit.ICONS.greenCheck().createImage();
-      } else {
-        String vstr = String.valueOf(ca.getValue());
-        if (ca.getValue() > 0) {
-          vstr = "+" + vstr;
-          fmt.removeStyleName(row, col, "negscore");
-          fmt.addStyleName(row, col, "posscore");
-        } else {
-          fmt.addStyleName(row, col, "negscore");
-          fmt.removeStyleName(row, col, "posscore");
-        }
-        table.setText(row, col, vstr);
-        cellWidget = new InlineLabel(vstr);
-      }
-
-      if (cellWidget == null) {
         table.clearCell(row, col);
+
       } else {
+        if (type.isMaxNegative(ca)) {
+          table.setWidget(row, col, Gerrit.ICONS.redNot().createImage());
+
+        } else if (type.isMaxPositive(ca)) {
+          table.setWidget(row, col, Gerrit.ICONS.greenCheck().createImage());
+
+        } else {
+          String vstr = String.valueOf(ca.getValue());
+          if (ca.getValue() > 0) {
+            vstr = "+" + vstr;
+            fmt.addStyleName(row, col, "posscore");
+          } else {
+            fmt.addStyleName(row, col, "negscore");
+          }
+          table.setText(row, col, vstr);
+        }
+
         final ApprovalCategoryValue acv = type.getValue(ca);
         final AccountInfo ai = aic.get(ca.getAccountId());
+
         // Some web browsers ignore the embedded newline; some like it;
         // so we include a space before the newline to accomodate both.
-        cellWidget.setTitle(acv.getName() + " \nby " +
-            FormatUtil.nameEmail(ai));
-        table.setWidget(row, col, cellWidget);
+        //
+        fmt.getElement(row, col).setTitle(
+            acv.getName() + " \nby " + FormatUtil.nameEmail(ai));
       }
+
       col++;
     }
   }
 
-  GerritCallback<ApprovalSummarySet> approvalFormatter(
-      final int dataBegin, final int rows) {
+  GerritCallback<ApprovalSummarySet> approvalFormatter(final int dataBegin,
+      final int rows) {
     return new GerritCallback<ApprovalSummarySet>() {
       @Override
       public void onSuccess(final ApprovalSummarySet as) {
@@ -459,12 +464,12 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
           case NONE:
             break;
           case USER:
-            PatchUtil.DETAIL_SVC.userApprovals(cids, ownerId,
-                parent.approvalFormatter(dataBegin, rows));
+            PatchUtil.DETAIL_SVC.userApprovals(cids, ownerId, parent
+                .approvalFormatter(dataBegin, rows));
             break;
           case STRONGEST:
-            PatchUtil.DETAIL_SVC.strongestApprovals(cids,
-                parent.approvalFormatter(dataBegin, rows));
+            PatchUtil.DETAIL_SVC.strongestApprovals(cids, parent
+                .approvalFormatter(dataBegin, rows));
             break;
         }
       }

@@ -326,10 +326,14 @@
   white-space: nowrap;
 }
 
-.gerrit-ChangeTable td.negscore {
+.gerrit-ChangeTable .DataCell.C_APPROVAL {
+  width: 0.5em;
+  text-align: center;
+}
+.gerrit-ChangeTable .DataCell.negscore {
   color: red;
 }
-.gerrit-ChangeTable td.posscore {
+.gerrit-ChangeTable .DataCell.posscore {
   color: #08a400;
 }
 

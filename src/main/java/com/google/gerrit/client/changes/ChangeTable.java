@@ -109,8 +109,16 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     table.setText(0, C_BRANCH, Util.C.changeTableColumnBranch());
     table.setText(0, C_LAST_UPDATE, Util.C.changeTableColumnLastUpdate());
     for (int i = BASE_COLUMNS; i < columns; i++) {
-      table.setText(0, i, approvalTypes.get(i - BASE_COLUMNS).getCategory()
-          .getName());
+      final ApprovalType type = approvalTypes.get(i - BASE_COLUMNS);
+      final ApprovalCategory cat = type.getCategory();
+      String text = cat.getAbbreviatedName();
+      if (text == null) {
+        text = cat.getName();
+      }
+      table.setText(0, i, text);
+      if (text != null) {
+        table.getCellFormatter().getElement(0, i).setTitle(cat.getName());
+      }
     }
 
     final FlexCellFormatter fmt = table.getFlexCellFormatter();

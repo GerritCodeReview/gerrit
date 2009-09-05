@@ -182,6 +182,7 @@ class SystemConfigProvider implements Provider<SystemConfig> {
 
     cat = new ApprovalCategory(new ApprovalCategory.Id("VRIF"), "Verified");
     cat.setPosition((short) 0);
+    cat.setAbbreviatedName("V");
     vals = new ArrayList<ApprovalCategoryValue>();
     vals.add(value(cat, 1, "Verified"));
     vals.add(value(cat, 0, "No score"));
@@ -199,6 +200,7 @@ class SystemConfigProvider implements Provider<SystemConfig> {
 
     cat = new ApprovalCategory(new ApprovalCategory.Id("CRVW"), "Code Review");
     cat.setPosition((short) 1);
+    cat.setAbbreviatedName("R");
     vals = new ArrayList<ApprovalCategoryValue>();
     vals.add(value(cat, 2, "Looks good to me, approved"));
     vals.add(value(cat, 1, "Looks good to me, but someone else must approve"));

@@ -85,6 +85,10 @@ public final class ApprovalCategory {
   @Column(length = 20)
   protected String name;
 
+  /** Abbreviated form of {@link #name} for display in very wide tables. */
+  @Column(length = 4, notNull = false)
+  protected String abbreviatedName;
+
   /**
    * Order of this category within the Approvals table when presented.
    * <p>
@@ -121,6 +125,14 @@ public final class ApprovalCategory {
 
   public void setName(final String n) {
     name = n;
+  }
+
+  public String getAbbreviatedName() {
+    return abbreviatedName;
+  }
+
+  public void setAbbreviatedName(final String n) {
+    abbreviatedName = n;
   }
 
   public short getPosition() {

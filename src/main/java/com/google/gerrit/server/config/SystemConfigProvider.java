@@ -201,6 +201,7 @@ class SystemConfigProvider implements Provider<SystemConfig> {
     cat = new ApprovalCategory(new ApprovalCategory.Id("CRVW"), "Code Review");
     cat.setPosition((short) 1);
     cat.setAbbreviatedName("R");
+    cat.setCopyMinScore(true);
     vals = new ArrayList<ApprovalCategoryValue>();
     vals.add(value(cat, 2, "Looks good to me, approved"));
     vals.add(value(cat, 1, "Looks good to me, but someone else must approve"));

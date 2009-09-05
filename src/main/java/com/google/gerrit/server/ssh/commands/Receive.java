@@ -1002,7 +1002,10 @@ final class Receive extends AbstractGitCommand {
             oldCC.add(a.getAccountId());
           }
 
-          if (a.getValue() < 0 && a.getPatchSetId().equals(priorPatchSet)) {
+          final ApprovalType type =
+              approvalTypes.getApprovalType(a.getCategoryId());
+          if (a.getPatchSetId().equals(priorPatchSet)
+              && type.getCategory().isCopyMinScore() && type.isMaxNegative(a)) {
             // If there was a negative vote on the prior patch set, carry it
             // into this patch set.
             //

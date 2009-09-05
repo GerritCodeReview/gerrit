@@ -106,6 +106,10 @@ public final class ApprovalCategory {
   @Column
   protected String functionName;
 
+  /** If set, the minimum score is copied during patch set replacement. */
+  @Column
+  protected boolean copyMinScore;
+
   protected ApprovalCategory() {
   }
 
@@ -153,5 +157,13 @@ public final class ApprovalCategory {
 
   public void setFunctionName(final String name) {
     functionName = name;
+  }
+
+  public boolean isCopyMinScore() {
+    return copyMinScore;
+  }
+
+  public void setCopyMinScore(final boolean copy) {
+    copyMinScore = copy;
   }
 }

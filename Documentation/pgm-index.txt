@@ -1,0 +1,23 @@
+Gerrit2 - Server Programs
+=========================
+
+Server side programs can be started by executing the WAR file
+through the Java command line.  For example:
+
+  $ java -jar gerrit.war program [options]
+
+[[programs]]Programs
+--------------------
+
+CreateSchema::
+  Initialize a new database schema.
+
+link:pgm-daemon.html[daemon]::
+  Git enabled SSH daemon.
+
+version::
+  Display the release version of Gerrit Code Review.
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

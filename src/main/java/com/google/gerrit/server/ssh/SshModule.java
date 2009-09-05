@@ -33,6 +33,8 @@ import com.google.gerrit.server.ssh.args4j.AccountIdHandler;
 import com.google.gerrit.server.ssh.args4j.PatchSetIdHandler;
 import com.google.gerrit.server.ssh.args4j.ProjectControlHandler;
 import com.google.gerrit.server.ssh.commands.DefaultCommandModule;
+import com.google.gerrit.server.ssh.commands.MasterCommandModule;
+import com.google.gerrit.server.ssh.commands.SlaveCommandModule;
 import com.google.inject.Key;
 import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
@@ -52,6 +54,15 @@ import java.net.SocketAddress;
 /** Configures standard dependencies for {@link SshDaemon}. */
 public class SshModule extends FactoryModule {
   private static final String NAME = "Gerrit Code Review";
+  private final boolean slave;
+
+  public SshModule() {
+    this(false);
+  }
+
+  public SshModule(final boolean slave) {
+    this.slave = slave;
+  }
 
   @Override
   protected void configure() {
@@ -74,6 +85,11 @@ public class SshModule extends FactoryModule {
     bind(KeyPairProvider.class).toProvider(HostKeyProvider.class).in(SINGLETON);
 
     install(new DefaultCommandModule());
+    if(slave) {
+      install(new SlaveCommandModule());
+    } else {
+      install(new MasterCommandModule());
+    }
   }
 
   private void configureSessionScope() {

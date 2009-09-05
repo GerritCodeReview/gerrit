@@ -320,6 +320,8 @@
 
 .gerrit-ChangeTable .C_LAST_UPDATE {
   white-space: nowrap;
+  text-align: right;
+  width: 1em;
 }
 
 .gerrit-ChangeTable .DataCell.GroupName {

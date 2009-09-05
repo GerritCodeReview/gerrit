@@ -22,12 +22,41 @@ import java.util.Date;
 
 /** Misc. formatting functions. */
 public class FormatUtil {
+  private static final long ONE_YEAR = 360L * 24 * 60 * 60 * 1000;
+
   private static final DateTimeFormat sTime =
       DateTimeFormat.getShortTimeFormat();
+  private static final DateTimeFormat sDate =
+      DateTimeFormat.getFormat("MMM d");
   private static final DateTimeFormat mDate =
       DateTimeFormat.getMediumDateFormat();
   private static final DateTimeFormat dtfmt =
       DateTimeFormat.getFormat(mDate.getPattern() + " " + sTime.getPattern());
+
+  /** Format a date using a really short format. */
+  public static String shortFormat(Date dt) {
+    if (dt == null) {
+      return "";
+    }
+
+    final Date now = new Date();
+    dt = new Date(dt.getTime());
+    if (mDate.format(now).equals(mDate.format(dt))) {
+      // Same day as today, report only the time.
+      //
+      return sTime.format(dt);
+
+    } else if (Math.abs(now.getTime() - dt.getTime()) < ONE_YEAR) {
+      // Within the last year, show a shorter date.
+      //
+      return sDate.format(dt);
+
+    } else {
+      // Report only date and year, its far away from now.
+      //
+      return mDate.format(dt);
+    }
+  }
 
   /** Format a date using the locale's medium length format. */
   public static String mediumFormat(final Date dt) {

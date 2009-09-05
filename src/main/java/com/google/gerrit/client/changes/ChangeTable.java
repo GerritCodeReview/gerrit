@@ -14,7 +14,7 @@
 
 package com.google.gerrit.client.changes;
 
-import static com.google.gerrit.client.FormatUtil.mediumFormat;
+import static com.google.gerrit.client.FormatUtil.shortFormat;
 
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
@@ -231,7 +231,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     table.setWidget(row, C_PROJECT,
         new ProjectOpenLink(c.getProject().getKey()));
     table.setText(row, C_BRANCH, c.getBranch());
-    table.setText(row, C_LAST_UPDATE, mediumFormat(c.getLastUpdatedOn()));
+    table.setText(row, C_LAST_UPDATE, shortFormat(c.getLastUpdatedOn()));
     setRowItem(row, c);
   }
 

@@ -27,6 +27,7 @@ import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.SelfPopulatingCache;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gwtorm.client.OrmException;
@@ -66,6 +67,7 @@ class LdapRealm implements Realm {
   private final String username;
   private final String password;
 
+  private final AuthConfig authConfig;
   private final SchemaFactory<ReviewDb> schema;
   private final EmailExpander emailExpander;
   private final String accountFullName;
@@ -83,12 +85,14 @@ class LdapRealm implements Realm {
 
   @Inject
   LdapRealm(
+      final AuthConfig authConfig,
       final GroupCache groupCache,
       final EmailExpander emailExpander,
       final SchemaFactory<ReviewDb> schema,
       @Named(LdapModule.GROUP_CACHE) final Cache<String, Set<AccountGroup.Id>> rawGroup,
       @Named(LdapModule.USERNAME_CACHE) final Cache<String, Account.Id> rawUsername,
       @GerritServerConfig final Config config) {
+    this.authConfig = authConfig;
     this.groupCache = groupCache;
     this.emailExpander = emailExpander;
     this.schema = schema;
@@ -319,7 +323,8 @@ class LdapRealm implements Realm {
   }
 
   private boolean isLdapGroup(final AccountGroup group) {
-    return group.isAutomaticMembership();
+    return group.isAutomaticMembership()
+        && !authConfig.getRegisteredGroups().contains(group.getId());
   }
 
   private static String findId(final Collection<AccountExternalId> ids) {

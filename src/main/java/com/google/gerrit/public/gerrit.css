@@ -297,10 +297,25 @@
   border-bottom: 1px solid #d4e9a9;
 }
 
-.gerrit-ChangeTable .ActiveRow {
-  background: #ffffcc;
+.gerrit-AccountDashboard.gerrit-ChangeTable tr {
+  color: #444444;
+  background: #F6F6F6;
+}
+.gerrit-AccountDashboard.gerrit-ChangeTable tr a {
+  color: #444444;
+  text-decoration: none;
+}
+.gerrit-AccountDashboard.gerrit-ChangeTable .NeedsReview {
+  font-weight: bold;
+  color: #000000;
+  background: #ffffff;
 }
 
+.gerrit-ChangeTable .ActiveRow,
+.gerrit-AccountDashboard.gerrit-ChangeTable .ActiveRow {
+  background: #ffffcc;
+}
+ 
 .gerrit-ChangeTable .C_ID {
   width: 3.5em;
 }
@@ -351,6 +366,7 @@
   background-color: #d4e9a9;
   font-style: italic;
   white-space: nowrap;
+  color: #000000;
 }
 
 .gerrit-ChangeTable .SectionHeader {
@@ -359,6 +375,7 @@
   background-color: #d4e9a9;
   white-space: nowrap;
   font-weight: bold;
+  color: #000000;
 }
 
 .gerrit-ChangeTable .EmptySection {

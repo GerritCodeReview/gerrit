@@ -39,6 +39,7 @@ public class AccountDashboardScreen extends Screen {
   protected void onInitUI() {
     super.onInitUI();
     table = new ChangeTable(true);
+    table.addStyleName("gerrit-AccountDashboard");
     byOwner = new ChangeTable.Section("", ApprovalViewType.STRONGEST, null);
     forReview = new ChangeTable.Section("", ApprovalViewType.USER, ownerId);
     closed = new ChangeTable.Section("", ApprovalViewType.STRONGEST, null);

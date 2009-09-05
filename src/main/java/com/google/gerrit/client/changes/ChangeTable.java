@@ -37,12 +37,15 @@ import com.google.gerrit.client.ui.ChangeLink;
 import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.client.ui.NeedsSignInKeyCommand;
 import com.google.gerrit.client.ui.ProjectOpenLink;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
@@ -63,6 +66,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
   private static final String S_C_APPROVAL = "C_APPROVAL";
   private static final String S_SECTION_HEADER = "SectionHeader";
   private static final String S_EMPTY_SECTION = "EmptySection";
+  private static final String S_NEEDS_REVIEW = "NeedsReview";
 
   private static final int C_STAR = 1;
   private static final int C_ID = 2;
@@ -303,12 +307,13 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     table.removeRow(row);
   }
 
-  private void displayApprovals(final int row, ApprovalSummary summary,
-      AccountInfoCache aic) {
+  private void displayApprovals(final int row, final ApprovalSummary summary,
+      final AccountInfoCache aic, final boolean highlightUnreviewed) {
     final CellFormatter fmt = table.getCellFormatter();
     final Map<ApprovalCategory.Id, PatchSetApproval> approvals =
         summary.getApprovalMap();
     int col = BASE_COLUMNS;
+    boolean haveReview = false;
 
     for (final ApprovalType type : approvalTypes) {
       final PatchSetApproval ca = approvals.get(type.getCategory().getId());
@@ -320,6 +325,8 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
         table.clearCell(row, col);
 
       } else {
+        haveReview = true;
+
         if (type.isMaxNegative(ca)) {
           table.setWidget(row, col, Gerrit.ICONS.redNot().createImage());
 
@@ -349,10 +356,14 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
 
       col++;
     }
+
+    final Element tr = DOM.getParent(fmt.getElement(row, 0));
+    UIObject.setStyleName(tr, S_NEEDS_REVIEW, !haveReview
+        && highlightUnreviewed);
   }
 
   GerritCallback<ApprovalSummarySet> approvalFormatter(final int dataBegin,
-      final int rows) {
+      final int rows, final boolean highlightUnreviewed) {
     return new GerritCallback<ApprovalSummarySet>() {
       @Override
       public void onSuccess(final ApprovalSummarySet as) {
@@ -361,7 +372,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
         for (int row = dataBegin; row < dataBegin + rows; row++) {
           final ChangeInfo c = getRowItem(row);
           if (ids.containsKey(c.getId())) {
-            displayApprovals(row, ids.get(c.getId()), aic);
+            displayApprovals(row, ids.get(c.getId()), aic, highlightUnreviewed);
           }
         }
       }
@@ -465,11 +476,11 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
             break;
           case USER:
             PatchUtil.DETAIL_SVC.userApprovals(cids, ownerId, parent
-                .approvalFormatter(dataBegin, rows));
+                .approvalFormatter(dataBegin, rows, true));
             break;
           case STRONGEST:
             PatchUtil.DETAIL_SVC.strongestApprovals(cids, parent
-                .approvalFormatter(dataBegin, rows));
+                .approvalFormatter(dataBegin, rows, false));
             break;
         }
       }

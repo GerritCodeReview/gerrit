@@ -213,6 +213,75 @@ public class CommitMsgHookTest extends HookTestCase {
             "\n" + //
             SOB1 + //
             SOB2));
+
+    assertEquals("a\n" + //
+        "\n" + //
+        "b: not a footer\nc\nd\ne\n" + //
+        "\n" + //
+        "f\ng\nh\n" + //
+        "\n" + //
+        "Change-Id: I8869aabd44b3017cd55d2d7e0d546a03e3931ee2\n" + //
+        SOB1 + //
+        SOB2,//
+        call("a\n" + //
+            "\n" + //
+            "b: not a footer\nc\nd\ne\n" + //
+            "\n" + //
+            "f\ng\nh\n" + //
+            "\n" + //
+            SOB1 + //
+            SOB2));
+  }
+
+  public void testNoteInMiddle() throws Exception {
+    assertEquals("a\n" + //
+        "\n" + //
+        "NOTE: This\n" + //
+        "does not fix it.\n" + //
+        "\n" + //
+        "Change-Id: I988a127969a6ee5e58db546aab74fc46e66847f8\n", //
+        call("a\n" + //
+            "\n" + //
+            "NOTE: This\n" + //
+            "does not fix it.\n"));
+  }
+
+  public void testKernelStyleFooter() throws Exception {
+    assertEquals("a\n" + //
+        "\n" + //
+        "Change-Id: I1bd787f9e7590a2ac82b02c404c955ffb21877c4\n" + //
+        SOB1 + //
+        "[ja: Fixed\n" + //
+        "     the indentation]\n" + //
+        SOB2, //
+        call("a\n" + //
+            "\n" + //
+            SOB1 + //
+            "[ja: Fixed\n" + //
+            "     the indentation]\n" + //
+            SOB2));
+  }
+
+  public void testChangeIdAfterBugOrIssue() throws Exception {
+    assertEquals("a\n" + //
+        "\n" + //
+        "Bug: 42\n" + //
+        "Change-Id: I8c0321227c4324e670b9ae8cf40eccc87af21b1b\n" + //
+        SOB1,//
+        call("a\n" + //
+            "\n" + //
+            "Bug: 42\n" + //
+            SOB1));
+
+    assertEquals("a\n" + //
+        "\n" + //
+        "Issue: 42\n" + //
+        "Change-Id: Ie66e07d89ae5b114c0975b49cf326e90331dd822\n" + //
+        SOB1,//
+        call("a\n" + //
+            "\n" + //
+            "Issue: 42\n" + //
+            SOB1));
   }
 
   private void hookDoesNotModify(final String in) throws Exception {

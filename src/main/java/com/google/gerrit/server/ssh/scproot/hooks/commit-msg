@@ -17,6 +17,7 @@
 # limitations under the License.
 # 
 
+CHANGE_ID_AFTER="Bug|Issue"
 MSG="$1"
 
 # Check for, and add if missing, a unique Change-Id
@@ -41,22 +42,43 @@ add_ChangeId() {
 	fi
 
 	id=$(_gen_ChangeId)
-	out="$MSG.OUT"
-	ftt="$MSG.FTT"
-	sed -e  '2,${
-			/^[A-Za-z][A-Za-z0-9-]*: /,$d
-		}' <"$MSG" >"$out"
-	sed -ne '2,${
-			/^[A-Za-z][A-Za-z0-9-]*: /,$p
-		}' <"$MSG" >"$ftt"
-	if ! test -s "$ftt"
-	then
-		echo >>"$out"
-	fi
-	echo "Change-Id: I$id" >>"$out"
-	cat "$ftt" >>"$out"
-	mv -f "$out" "$MSG"
-	rm -f "$out" "$ftt"
+	perl -e '
+		$MSG = shift;
+		$id = shift;
+		$CHANGE_ID_AFTER = shift;
+
+		undef $/;
+		open(I, $MSG); $_ = <I>; close I;
+		s|^diff --git a/.*||ms;
+		s|^#.*$||mg;
+		exit unless $_;
+
+		@message = split /\n/;
+		$haveFooter = 0;
+		$startFooter = @message;
+		for($line = @message - 1; $line >= 0; $line--) {
+			$_ = $message[$line];
+
+			($haveFooter++, next) if /^[a-zA-Z0-9-]+:/;
+			next if /^[ []/;
+			$startFooter = $line if ($haveFooter && /^\r?$/);
+			last;
+		}
+
+		@footer = @message[$startFooter+1..@message];
+		@message = @message[0..$startFooter];
+		push(@footer, "") unless @footer;
+
+		for ($line = 0; $line < @footer; $line++) {
+			$_ = $footer[$line];
+			next if /^($CHANGE_ID_AFTER):/i;
+			last;
+		}
+		splice(@footer, $line, 0, "Change-Id: I$id");
+
+		$_ = join("\n", @message, @footer);
+		open(O, ">$MSG"); print O; close O;
+	' "$MSG" "$id" "$CHANGE_ID_AFTER"
 }
 _gen_ChangeIdInput() {
 	echo "tree $(git write-tree)"

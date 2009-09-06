@@ -43,35 +43,63 @@ final class AdminShowCaches extends CacheCommand {
   private void display() {
     p = toPrintWriter(out);
 
+    p.print(String.format(//
+        "%1s %-18s %-4s|%-20s|  %-5s  |%-14s|\n" //
+        , "" //
+        , "Name" //
+        , "Max" //
+        , "Object Count" //
+        , "AvgGet" //
+        , "Hit Ratio" //
+    ));
+    p.print(String.format(//
+        "%1s %-18s %-4s|%6s %6s %6s|  %-5s   |%-4s %-4s %-4s|\n" //
+        , "" //
+        , "" //
+        , "Age" //
+        , "Disk" //
+        , "Mem" //
+        , "Cnt" //
+        , "" //
+        , "Disk" //
+        , "Mem" //
+        , "Agg" //
+    ));
+    p.println("------------------"
+        + "-------+--------------------+----------+--------------+");
     for (final Ehcache cache : getAllCaches()) {
       final CacheConfiguration cfg = cache.getCacheConfiguration();
       final boolean useDisk = cfg.isDiskPersistent() || cfg.isOverflowToDisk();
       final Statistics stat = cache.getStatistics();
-
-      p.print("cache \"" + cache.getName() + "\"");
-      if (useDisk) {
-        p.print(" (memory, disk)");
-      }
-      p.println(":");
-      fItemCount("items", stat.getObjectCount());
-      if (useDisk) {
-        fItemCount("items.memory", stat.getMemoryStoreObjectCount());
-        fItemCount("items.disk", stat.getDiskStoreObjectCount());
-      }
-      fItemCount("evictions", stat.getEvictionCount());
-
       final long total = stat.getCacheHits() + stat.getCacheMisses();
-      fTimeInterval("ttl.idle", cfg.getTimeToIdleSeconds());
-      fTimeInterval("ttl.live", cfg.getTimeToLiveSeconds());
-      fMilliseconds("avg.get", stat.getAverageGetTime());
-      fPercent("hit%", stat.getCacheHits(), total);
-      if (useDisk) {
-        fPercent("hit%.memory", stat.getInMemoryHits(), total);
-        fPercent("hit%.disk", stat.getOnDiskHits(), total);
-      }
 
-      p.println();
+      if (useDisk) {
+        p.print(String.format(//
+            "D %-18s %-4s|%6s %6s %6s| %7s  |%4s %4s %4s|\n" //
+            , cache.getName() //
+            , interval(cfg.getTimeToLiveSeconds()) //
+            , count(stat.getDiskStoreObjectCount()) //
+            , count(stat.getMemoryStoreObjectCount()) //
+            , count(stat.getObjectCount()) //
+            , duration(stat.getAverageGetTime()) //
+            , percent(stat.getOnDiskHits(), total) //
+            , percent(stat.getInMemoryHits(), total) //
+            , percent(stat.getCacheHits(), total) //
+            ));
+      } else {
+        p.print(String.format(//
+            "  %-18s %-4s|%6s %6s %6s| %7s  |%4s %4s %4s|\n" //
+            , cache.getName() //
+            , interval(cfg.getTimeToLiveSeconds()) //
+            , "", "" //
+            , count(stat.getObjectCount()) //
+            , duration(stat.getAverageGetTime()) //
+            , "", "" //
+            , percent(stat.getCacheHits(), total) //
+            ));
+      }
     }
+    p.println();
 
     final Runtime r = Runtime.getRuntime();
     final long mMax = r.maxMemory();
@@ -116,30 +144,60 @@ final class AdminShowCaches extends CacheCommand {
     p.println(String.format("  %1$-12s: %2$6.2f %3$s", name, value, suffix));
   }
 
-  private void fMilliseconds(final String name, final float ms) {
-    p.println(String.format("  %1$-12s: %2$6.2f ms", name, ms));
+  private String count(long cnt) {
+    if (cnt == 0) {
+      return "";
+    }
+    return String.format("%6d", cnt);
   }
 
-  private void fTimeInterval(final String name, double ttl) {
+  private String duration(double ms) {
+    if (Math.abs(ms) <= 0.05) {
+      return "";
+    }
+    String suffix = "ms";
+    if (ms >= 1000) {
+      ms /= 1000;
+      suffix = "s ";
+    }
+    return String.format("%4.1f%s", ms, suffix);
+  }
+
+  private String interval(double ttl) {
     if (ttl == 0) {
-      p.println(String.format("  %1$-12s:        inf", name));
-      return;
+      return "inf";
     }
 
-    String suffix = "secs";
+    String suffix = "s";
     if (ttl >= 60) {
       ttl /= 60;
-      suffix = "mins";
+      suffix = "m";
+
+      if (ttl >= 60) {
+        ttl /= 60;
+        suffix = "h";
+      }
+
+      if (ttl >= 24) {
+        ttl /= 24;
+        suffix = "d";
+
+        if (ttl >= 365) {
+          ttl /= 365;
+          suffix = "y";
+        }
+      }
     }
-    if (ttl >= 60) {
-      ttl /= 60;
-      suffix = "hrs";
+
+    return Integer.toString((int) ttl) + suffix;
+  }
+
+  private String percent(final long value, final long total) {
+    if (total <= 0) {
+      return "";
     }
-    if (ttl >= 24) {
-      ttl /= 24;
-      suffix = "days";
-    }
-    p.println(String.format("  %1$-12s: %2$6.2f %3$s", name, ttl, suffix));
+    final long pcent = (100 * value) / total;
+    return String.format("%3d%%", (int) pcent);
   }
 
   private void fPercent(final String name, final long value, final long total) {

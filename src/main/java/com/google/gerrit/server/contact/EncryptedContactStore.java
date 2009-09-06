@@ -37,6 +37,8 @@ import org.bouncycastle.openpgp.PGPPublicKey;
 import org.bouncycastle.openpgp.PGPPublicKeyRing;
 import org.bouncycastle.openpgp.PGPPublicKeyRingCollection;
 import org.bouncycastle.openpgp.PGPUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.spearce.jgit.util.NB;
 
 import java.io.ByteArrayOutputStream;
@@ -59,6 +61,8 @@ import java.util.TimeZone;
 /** Encrypts {@link ContactInformation} instances and saves them. */
 @Singleton
 class EncryptedContactStore implements ContactStore {
+  private static final Logger log =
+      LoggerFactory.getLogger(EncryptedContactStore.class);
   private static final TimeZone UTC = TimeZone.getTimeZone("UTC");
 
   private final SchemaFactory<ReviewDb> schema;
@@ -164,10 +168,13 @@ class EncryptedContactStore implements ContactStore {
       }
 
     } catch (IOException e) {
+      log.error("Cannot store encrypted contact information", e);
       throw new ContactInformationStoreException(e);
     } catch (PGPException e) {
+      log.error("Cannot store encrypted contact information", e);
       throw new ContactInformationStoreException(e);
     } catch (NoSuchProviderException e) {
+      log.error("Cannot store encrypted contact information", e);
       throw new ContactInformationStoreException(e);
     }
   }

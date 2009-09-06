@@ -745,15 +745,22 @@
   font-size: 8pt;
 }
 
-.gerrit-Change-MissingApprovalList {
-  margin-top: 5px;
+.gerrit-ChangeScreen .gerrit-ApprovalTable {
+  margin-top: 1em;
+  margin-bottom: 1em;
 }
-.gerrit-Change-MissingApproval {
-  font-weight: bold;
+.gerrit-MissingApprovalList {
+  margin-top: 5px;
+  margin-left: 1em;
+  padding-left: 1em;
+  margin-bottom: 0px;
+}
+.gerrit-MissingApproval {
+  font-size: small;
   white-space: nowrap;
 }
-
-.gerrit-Change-AddReviewer {
+.gerrit-AddReviewer {
+  margin-left: 1em;
   margin-top: 5px;
   white-space: nowrap;
 }

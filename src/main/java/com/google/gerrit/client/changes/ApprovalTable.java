@@ -32,11 +32,13 @@ import com.google.gerrit.client.ui.AccountDashboardLink;
 import com.google.gerrit.client.ui.AddMemberBox;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
@@ -49,7 +51,7 @@ import java.util.Set;
 public class ApprovalTable extends Composite {
   private final List<ApprovalType> types;
   private final Grid table;
-  private final Panel missing;
+  private final Widget missing;
   private final Panel addReviewer;
   private final AddMemberBox addMemberBox;
   private Change.Id changeId;
@@ -62,11 +64,15 @@ public class ApprovalTable extends Composite {
     table.addStyleName("gerrit-InfoTable");
     displayHeader();
 
-    missing = new FlowPanel();
-    missing.setStyleName("gerrit-Change-MissingApprovalList");
+    missing = new Widget() {
+      {
+        setElement(DOM.createElement("ul"));
+      }
+    };
+    missing.setStyleName("gerrit-MissingApprovalList");
 
     addReviewer = new FlowPanel();
-    addReviewer.setStyleName("gerrit-Change-AddReviewer");
+    addReviewer.setStyleName("gerrit-AddReviewer");
     addMemberBox = new AddMemberBox();
     addMemberBox.setAddButtonText(Util.C.approvalTableAddReviewer());
     addMemberBox.addClickHandler(new ClickHandler() {
@@ -83,6 +89,8 @@ public class ApprovalTable extends Composite {
     fp.add(missing);
     fp.add(addReviewer);
     initWidget(fp);
+
+    setStyleName("gerrit-ApprovalTable");
   }
 
   private void displayHeader() {
@@ -148,15 +156,19 @@ public class ApprovalTable extends Composite {
       }
     }
 
-    missing.clear();
+    final Element missingList = missing.getElement();
+    while (DOM.getChildCount(missingList) > 0) {
+      DOM.removeChild(missingList, DOM.getChild(missingList, 0));
+    }
+
     missing.setVisible(false);
     if (need != null) {
       for (final ApprovalType at : types) {
         if (need.contains(at.getCategory().getId())) {
-          final Label l =
-              new Label(Util.M.needApproval(at.getCategory().getName()));
-          l.setStyleName("gerrit-Change-MissingApproval");
-          missing.add(l);
+          final Element li = DOM.createElement("li");
+          li.setClassName("gerrit-MissingApproval");
+          DOM.setInnerText(li,Util.M.needApproval(at.getCategory().getName()));
+          DOM.appendChild(missingList, li);
           missing.setVisible(true);
         }
       }

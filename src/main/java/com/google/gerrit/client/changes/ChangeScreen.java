@@ -60,13 +60,12 @@ public class ChangeScreen extends Screen {
   private boolean starred;
   private PatchSet.Id currentPatchSet;
   private ChangeDescriptionBlock descriptionBlock;
+  private ApprovalTable approvals;
+
   private DisclosurePanel dependenciesPanel;
   private ChangeTable dependencies;
   private ChangeTable.Section dependsOn;
   private ChangeTable.Section neededBy;
-
-  private DisclosurePanel approvalsPanel;
-  private ApprovalTable approvals;
 
   private FlowPanel patchSetPanels;
 
@@ -171,6 +170,9 @@ public class ChangeScreen extends Screen {
     descriptionBlock = new ChangeDescriptionBlock();
     add(descriptionBlock);
 
+    approvals = new ApprovalTable();
+    add(approvals);
+
     dependencies = new ChangeTable();
     dependsOn = new ChangeTable.Section(Util.C.changeScreenDependsOn());
     neededBy = new ChangeTable.Section(Util.C.changeScreenNeededBy());
@@ -181,12 +183,6 @@ public class ChangeScreen extends Screen {
     dependenciesPanel.setContent(dependencies);
     dependenciesPanel.setWidth("95%");
     add(dependenciesPanel);
-
-    approvals = new ApprovalTable();
-    approvalsPanel = new DisclosurePanel(Util.C.changeScreenApprovals());
-    approvalsPanel.setContent(wrap(approvals));
-    dependenciesPanel.setWidth("95%");
-    add(approvalsPanel);
 
     patchSetPanels = new FlowPanel();
     add(patchSetPanels);
@@ -246,7 +242,6 @@ public class ChangeScreen extends Screen {
     }
 
     dependenciesPanel.setOpen(depsOpen);
-    approvalsPanel.setOpen(true);
   }
 
   private void addPatchSets(final ChangeDetail detail) {

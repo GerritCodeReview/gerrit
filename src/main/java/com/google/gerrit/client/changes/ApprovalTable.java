@@ -167,7 +167,8 @@ public class ApprovalTable extends Composite {
         if (need.contains(at.getCategory().getId())) {
           final Element li = DOM.createElement("li");
           li.setClassName("gerrit-MissingApproval");
-          DOM.setInnerText(li,Util.M.needApproval(at.getCategory().getName()));
+          DOM.setInnerText(li, Util.M.needApproval(at.getCategory().getName(),
+              at.getMax().formatValue(), at.getMax().getName()));
           DOM.appendChild(missingList, li);
           missing.setVisible(true);
         }

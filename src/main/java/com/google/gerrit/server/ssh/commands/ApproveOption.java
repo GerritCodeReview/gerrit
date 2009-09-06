@@ -16,6 +16,7 @@ package com.google.gerrit.server.ssh.commands;
 
 import com.google.gerrit.client.data.ApprovalType;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
+import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
 
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
@@ -121,21 +122,17 @@ final class ApproveOption implements Option, Setter<Short> {
       }
 
       final short value = Short.parseShort(argument);
-      final short min = cmdOption.type.getMin().getValue();
-      final short max = cmdOption.type.getMax().getValue();
+      final ApprovalCategoryValue min = cmdOption.type.getMin();
+      final ApprovalCategoryValue max = cmdOption.type.getMax();
 
-      if (value < min || value > max) {
+      if (value < min.getValue() || value > max.getValue()) {
         final String name = cmdOption.name();
         final String e =
-            "\"" + token + "\" must be in range " + format(min) + ".."
-                + format(max) + " for \"" + name + "\"";
+            "\"" + token + "\" must be in range " + min.formatValue() + ".."
+                + max.formatValue() + " for \"" + name + "\"";
         throw new CmdLineException(owner, e);
       }
       return value;
     }
-  }
-
-  static String format(final short min) {
-    return min > 0 ? "+" + min : Short.toString(min);
   }
 }

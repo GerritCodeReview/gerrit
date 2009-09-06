@@ -199,16 +199,7 @@ public class PublishCommentScreen extends AccountScreen implements ClickHandler 
 
       final ValueRadioButton b =
           new ValueRadioButton(buttonValue, ct.getCategory().getName());
-      final StringBuilder m = new StringBuilder();
-      if (buttonValue.getValue() == 0) {
-        m.append(' ');
-      } else if (buttonValue.getValue() > 0) {
-        m.append('+');
-      }
-      m.append(buttonValue.getValue());
-      m.append(' ');
-      m.append(buttonValue.getName());
-      b.setText(m.toString());
+      b.setText(buttonValue.format());
 
       if (lastState != null && patchSetId.equals(lastState.patchSetId)
           && lastState.approvals.containsKey(buttonValue.getCategoryId())) {

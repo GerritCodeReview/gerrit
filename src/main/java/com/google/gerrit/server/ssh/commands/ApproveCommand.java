@@ -315,9 +315,7 @@ public class ApproveCommand extends BaseCommand {
       usage = "score for " + category.getName() + "\n";
 
       for (ApprovalCategoryValue v : type.getValues()) {
-        usage +=
-            String.format("%3s", ApproveOption.format(v.getValue())) + ": "
-                + v.getName() + "\n";
+        usage += v.format() + "\n";
       }
 
       final String name =

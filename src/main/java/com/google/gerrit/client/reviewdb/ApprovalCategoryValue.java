@@ -87,4 +87,22 @@ public final class ApprovalCategoryValue {
   public void setName(final String n) {
     name = n;
   }
+
+  public String formatValue() {
+    if (getValue() < 0) {
+      return Short.toString(getValue());
+    } else if (getValue() == 0) {
+      return " 0";
+    } else {
+      return "+" + Short.toString(getValue());
+    }
+  }
+
+  public String format() {
+    final StringBuilder m = new StringBuilder();
+    m.append(formatValue());
+    m.append(' ');
+    m.append(getName());
+    return m.toString();
+  }
 }

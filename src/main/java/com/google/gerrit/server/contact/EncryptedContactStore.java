@@ -84,6 +84,21 @@ class EncryptedContactStore implements ContactStore {
     } catch (NoSuchAlgorithmException e) {
       throw new ProvisionException("Cannot create " + prngName, e);
     }
+
+    // Run a test encryption to verify the proper algorithms exist in
+    // our JVM and we are able to invoke them. This helps to identify
+    // a system configuration problem early at startup, rather than a
+    // lot later during runtime.
+    //
+    try {
+      encrypt("test", new Date(0), "test".getBytes("UTF-8"));
+    } catch (NoSuchProviderException e) {
+      throw new ProvisionException("PGP encryption not available", e);
+    } catch (PGPException e) {
+      throw new ProvisionException("PGP encryption not available", e);
+    } catch (IOException e) {
+      throw new ProvisionException("PGP encryption not available", e);
+    }
   }
 
   @Override
@@ -124,7 +139,9 @@ class EncryptedContactStore implements ContactStore {
       throws ContactInformationStoreException {
     try {
       final byte[] plainText = format(account, info).getBytes("UTF-8");
-      final byte[] encText = encrypt(dest, compress(account, plainText));
+      final String fileName = "account-" + account.getId();
+      final Date fileDate = account.getContactFiledOn();
+      final byte[] encText = encrypt(fileName, fileDate, plainText);
       final String encStr = new String(encText, "UTF-8");
 
       final Timestamp filedOn = account.getContactFiledOn();
@@ -179,11 +196,13 @@ class EncryptedContactStore implements ContactStore {
     }
   }
 
-  private byte[] encrypt(final PGPPublicKey dst, final byte[] zText)
-      throws NoSuchProviderException, PGPException, IOException {
+  private byte[] encrypt(final String name, final Date date,
+      final byte[] rawText) throws NoSuchProviderException, PGPException,
+      IOException {
+    final byte[] zText = compress(name, date, rawText);
     final PGPEncryptedDataGenerator cpk =
         new PGPEncryptedDataGenerator(PGPEncryptedData.CAST5, true, prng, "BC");
-    cpk.addMethod(dst);
+    cpk.addMethod(dest);
 
     final ByteArrayOutputStream buf = new ByteArrayOutputStream();
     final ArmoredOutputStream aout = new ArmoredOutputStream(buf);
@@ -195,21 +214,19 @@ class EncryptedContactStore implements ContactStore {
     return buf.toByteArray();
   }
 
-  private static byte[] compress(final Account account, final byte[] plainText)
-      throws IOException {
+  private static byte[] compress(final String fileName, Date fileDate,
+      final byte[] plainText) throws IOException {
     final ByteArrayOutputStream buf = new ByteArrayOutputStream();
     final PGPCompressedDataGenerator comdg;
-    final String name = "account-" + account.getId();
     final int len = plainText.length;
-    Date date = account.getContactFiledOn();
-    if (date == null) {
-      date = PGPLiteralData.NOW;
+    if (fileDate == null) {
+      fileDate = PGPLiteralData.NOW;
     }
 
     comdg = new PGPCompressedDataGenerator(PGPCompressedData.ZIP);
     final OutputStream out =
         new PGPLiteralDataGenerator().open(comdg.open(buf),
-            PGPLiteralData.BINARY, name, len, date);
+            PGPLiteralData.BINARY, fileName, len, fileDate);
     out.write(plainText);
     out.close();
     comdg.close();

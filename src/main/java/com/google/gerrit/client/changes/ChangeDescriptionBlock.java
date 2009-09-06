@@ -18,14 +18,12 @@ import com.google.gerrit.client.data.AccountInfoCache;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.PatchSetInfo;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 public class ChangeDescriptionBlock extends Composite {
-  private final DisclosurePanel descriptionPanel;
   private final ChangeInfoBlock infoBlock;
   private final HTML description;
 
@@ -33,14 +31,11 @@ public class ChangeDescriptionBlock extends Composite {
     infoBlock = new ChangeInfoBlock();
     description = new HTML();
     description.setStyleName("gerrit-ChangeScreen-Description");
-    descriptionPanel = new DisclosurePanel(Util.C.changeScreenDescription());
-    {
-      final HorizontalPanel hp = new HorizontalPanel();
-      hp.add(infoBlock);
-      hp.add(description);
-      descriptionPanel.setContent(hp);
-    }
-    initWidget(descriptionPanel);
+
+    final HorizontalPanel hp = new HorizontalPanel();
+    hp.add(infoBlock);
+    hp.add(description);
+    initWidget(hp);
   }
 
   public void display(final Change chg, final PatchSetInfo info,
@@ -53,7 +48,5 @@ public class ChangeDescriptionBlock extends Composite {
     msg = msg.replaceAll("\n\n", "</p><p>");
     msg = msg.replaceAll("\n", "<br />");
     SafeHtml.set(description, msg);
-
-    descriptionPanel.setOpen(true);
   }
 }

@@ -63,7 +63,6 @@ public interface ChangeConstants extends Constants {
   String prevPatchLinkIcon();
   String nextPatchLinkIcon();
 
-  String changeScreenDescription();
   String changeScreenDependencies();
   String changeScreenDependsOn();
   String changeScreenNeededBy();

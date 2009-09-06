@@ -18,7 +18,7 @@ import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
-/** Expands all {@link ComplexDisclosurePanel} in a parent panel. */
+/** Expands all {@link CommentPanel} in a parent panel. */
 public class ExpandAllCommand implements Command {
   private final Panel panel;
   protected final boolean open;
@@ -30,13 +30,13 @@ public class ExpandAllCommand implements Command {
 
   public void execute() {
     for (final Widget w : panel) {
-      if (w instanceof ComplexDisclosurePanel) {
-        expand((ComplexDisclosurePanel) w);
+      if (w instanceof CommentPanel) {
+        expand((CommentPanel) w);
       }
     }
   }
 
-  protected void expand(final ComplexDisclosurePanel w) {
+  protected void expand(final CommentPanel w) {
     w.setOpen(open);
   }
 }

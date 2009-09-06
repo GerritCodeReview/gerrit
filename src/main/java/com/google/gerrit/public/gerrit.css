@@ -64,8 +64,72 @@
   font-weight: bold;
 }
 
+.gerrit-BlockHeader {
+  font-size: small;
+  font-weight: bold;
+  background: #d4e9a9;
+  padding: 0.2em 0.2em 0.2em 0.5em;
+}
 
-/** TabPanel */
+
+/** CommentPanel **/
+.gerrit-CommentPanel {
+  -moz-border-radius-topleft: 8px;
+  -moz-border-radius-topright: 8px;
+  -moz-border-radius-bottomleft: 0;
+  -moz-border-radius-bottomright: 0;
+  
+  -webkit-border-top-left-radius: 8px;
+  -webkit-border-top-right-radius: 8px;
+  -webkit-border-bottom-left-radius: 0px;
+  -webkit-border-bottom-right-radius: 0px;
+
+  border-top: 1px solid lightgray;
+  border-left: 1px solid lightgray;
+  border-right: 1px solid lightgray;
+}
+.gerrit-CommentPanel-Last {
+  -moz-border-radius-bottomleft: 8px;
+  -moz-border-radius-bottomright: 8px;
+
+  -webkit-border-bottom-left-radius: 8px;
+  -webkit-border-bottom-right-radius: 8px;
+
+  border-bottom: 1px solid lightgray;
+}
+.gerrit-CommentPanel-Header {
+  cursor: pointer;
+  width: 100%;
+}
+.gerrit-CommentPanel-Summary {
+  color: #777777;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.gerrit-CommentPanel-AuthorCell {
+  font-weight: bold;
+  white-space: nowrap;
+}
+.gerrit-CommentPanel-SummaryCell {
+  width: 100%;
+}
+.gerrit-CommentPanel-DateCell {
+  white-space: nowrap;
+}
+.gerrit-CommentPanel-Message {
+  font-size: small;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+}
+.gerrit-CommentPanel-Message p {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+}
+
+
+/** TabPanel **/
 .gwt-TabBar {
   border-bottom: 1px solid black;
 }
@@ -600,18 +664,10 @@
   padding-top: 0.5em;
 }
 
-.gerrit-ChangeScreen .gerrit-ChangeMessages .header {
-  width: 35em;
-}
-.gerrit-ChangeScreen .gerrit-ChangeMessages .complexHeader {
-  width: 5em;
-}
-.gerrit-ChangeScreen .gerrit-ChangeMessages .content {
-  border-top: 3px solid #e3e3e3;
-}
-
-.gerrit-ChangeMessage-Message {
-  font-size: small;
+.gerrit-ChangeComments {
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+  width: 60em;
 }
 
 .gerrit-InfoTable {

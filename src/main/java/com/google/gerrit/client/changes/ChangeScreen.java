@@ -14,18 +14,20 @@
 
 package com.google.gerrit.client.changes;
 
-import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.Link;
+import com.google.gerrit.client.data.AccountInfo;
 import com.google.gerrit.client.data.AccountInfoCache;
 import com.google.gerrit.client.data.ChangeDetail;
 import com.google.gerrit.client.data.ChangeInfo;
 import com.google.gerrit.client.data.GitwebLink;
+import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.ChangeMessage;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
+import com.google.gerrit.client.ui.CommentPanel;
 import com.google.gerrit.client.ui.ComplexDisclosurePanel;
 import com.google.gerrit.client.ui.ExpandAllCommand;
 import com.google.gerrit.client.ui.LinkMenuBar;
@@ -42,8 +44,8 @@ import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.InlineLabel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
@@ -69,8 +71,7 @@ public class ChangeScreen extends Screen {
 
   private FlowPanel patchSetPanels;
 
-  private DisclosurePanel messagesPanel;
-  private Panel messagesContent;
+  private Panel comments;
 
   private KeyCommandSet keysNavigation;
   private KeyCommandSet keysAction;
@@ -187,11 +188,9 @@ public class ChangeScreen extends Screen {
     patchSetPanels = new FlowPanel();
     add(patchSetPanels);
 
-    messagesContent = new FlowPanel();
-    messagesContent.setStyleName("gerrit-ChangeMessages");
-    messagesPanel = new DisclosurePanel(Util.C.changeScreenMessages());
-    messagesPanel.setContent(messagesContent);
-    add(messagesPanel);
+    comments = new FlowPanel();
+    comments.setStyleName("gerrit-ChangeComments");
+    add(comments);
   }
 
   private void displayTitle(final String subject) {
@@ -226,7 +225,7 @@ public class ChangeScreen extends Screen {
         .getApprovals());
 
     addPatchSets(detail);
-    addMessages(detail);
+    addComments(detail);
 
     // If any dependency change is still open, show our dependency list.
     //
@@ -283,13 +282,17 @@ public class ChangeScreen extends Screen {
     currentPatchSet = currps.getId();
   }
 
-  private void addMessages(final ChangeDetail detail) {
-    messagesContent.clear();
+  private void addComments(final ChangeDetail detail) {
+    comments.clear();
+
+    final Label hdr = new Label(Util.C.changeScreenComments());
+    hdr.setStyleName("gerrit-BlockHeader");
+    comments.add(hdr);
 
     final AccountInfoCache accts = detail.getAccounts();
     final List<ChangeMessage> msgList = detail.getMessages();
     if (msgList.size() > 1) {
-      messagesContent.add(messagesMenuBar());
+      comments.add(messagesMenuBar());
     }
 
     final long AGE = 7 * 24 * 60 * 60 * 1000L;
@@ -297,46 +300,47 @@ public class ChangeScreen extends Screen {
 
     for (int i = 0; i < msgList.size(); i++) {
       final ChangeMessage msg = msgList.get(i);
-      final MessagePanel mp = new MessagePanel(msg);
-      final String panelHeader;
-      final ComplexDisclosurePanel panel;
 
+      final AccountInfo author;
       if (msg.getAuthor() != null) {
-        panelHeader = FormatUtil.nameEmail(accts.get(msg.getAuthor()));
+        author = accts.get(msg.getAuthor());
       } else {
-        panelHeader = Util.C.messageNoAuthor();
+        final Account gerrit = new Account(null);
+        gerrit.setFullName(Util.C.messageNoAuthor());
+        author = new AccountInfo(gerrit);
       }
 
+      boolean isRecent;
       if (i == msgList.size() - 1) {
-        mp.isRecent = true;
+        isRecent = true;
       } else {
         // TODO Instead of opening messages by strict age, do it by "unread"?
-        mp.isRecent = msg.getWrittenOn().after(aged);
+        isRecent = msg.getWrittenOn().after(aged);
       }
 
-      panel = new ComplexDisclosurePanel(panelHeader, mp.isRecent);
-      panel.getHeader().add(
-          new InlineLabel(Util.M.messageWrittenOn(FormatUtil.mediumFormat(msg
-              .getWrittenOn()))));
-      panel.setContent(mp);
-      messagesContent.add(panel);
+      final CommentPanel cp =
+          new CommentPanel(author, msg.getWrittenOn(), msg.getMessage());
+      cp.setRecent(isRecent);
+      if (i == msgList.size() - 1) {
+        cp.addStyleName("gerrit-CommentPanel-Last");
+        cp.setOpen(true);
+      }
+      comments.add(cp);
     }
 
     if (msgList.size() > 1) {
-      messagesContent.add(messagesMenuBar());
+      comments.add(messagesMenuBar());
     }
-    messagesPanel.setOpen(msgList.size() > 0);
-    messagesPanel.setVisible(msgList.size() > 0);
+    comments.setVisible(msgList.size() > 0);
   }
 
   private LinkMenuBar messagesMenuBar() {
-    final Panel c = messagesContent;
+    final Panel c = comments;
     final LinkMenuBar m = new LinkMenuBar();
     m.addItem(Util.C.messageExpandRecent(), new ExpandAllCommand(c, true) {
       @Override
-      protected void expand(final ComplexDisclosurePanel w) {
-        final MessagePanel mp = (MessagePanel) w.getContent();
-        w.setOpen(mp.isRecent);
+      protected void expand(final CommentPanel w) {
+        w.setOpen(w.isRecent());
       }
     });
     m.addItem(Util.C.messageExpandAll(), new ExpandAllCommand(c, true));
@@ -361,13 +365,6 @@ public class ChangeScreen extends Screen {
       }
     });
   }
-
-  private static FlowPanel wrap(final Widget w) {
-    final FlowPanel p = new FlowPanel();
-    p.add(w);
-    return p;
-  }
-
 
   public class DashboardKeyCommand extends KeyCommand {
     public DashboardKeyCommand(int mask, char key, String help) {

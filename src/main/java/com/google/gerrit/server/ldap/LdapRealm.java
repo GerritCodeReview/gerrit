@@ -73,14 +73,14 @@ class LdapRealm implements Realm {
   private final String accountFullName;
   private final String accountEmailAddress;
   private final String accountSshUserName;
-  private final LdapQuery accountQuery;
+  private final List<LdapQuery> accountQueryList;
   private final SelfPopulatingCache<String, Account.Id> usernameCache;
 
   private final GroupCache groupCache;
   private final String groupName;
   private boolean groupNeedsAccount;
-  private final LdapQuery groupMemberQuery;
-  private final LdapQuery groupByNameQuery;
+  private final List<LdapQuery> groupMemberQueryList;
+  private final List<LdapQuery> groupByNameQueryList;
   private final SelfPopulatingCache<String, Set<AccountGroup.Id>> membershipCache;
 
   @Inject
@@ -101,24 +101,30 @@ class LdapRealm implements Realm {
     this.username = optional(config, "username");
     this.password = optional(config, "password");
 
+    groupMemberQueryList = new ArrayList<LdapQuery>();
+    groupByNameQueryList = new ArrayList<LdapQuery>();
+
     // Group query
     //
     final Set<String> groupAtts = new HashSet<String>();
     groupName = reqdef(config, "groupName", "cn");
     groupAtts.add(groupName);
-    final String groupBase = required(config, "groupBase");
+    final List<String> groupBaseList = requiredList(config, "groupBase");
     final SearchScope groupScope = scope(config, "groupScope");
     final String groupMemberPattern =
         reqdef(config, "groupMemberPattern", "(memberUid=${username})");
-    groupMemberQuery =
-        new LdapQuery(groupBase, groupScope, groupMemberPattern, groupAtts);
-    if (groupMemberQuery.getParameters().length == 0) {
-      throw new IllegalArgumentException(
-          "No variables in ldap.groupMemberPattern");
+    for (String groupBase : groupBaseList) {
+        LdapQuery groupMemberQuery =
+          new LdapQuery(groupBase, groupScope, groupMemberPattern, groupAtts);
+      if (groupMemberQuery.getParameters().length == 0) {
+        throw new IllegalArgumentException(
+            "No variables in ldap.groupMemberPattern");
+      }
+      groupMemberQueryList.add(groupMemberQuery);
+      groupByNameQueryList.add(
+          new LdapQuery(groupBase, groupScope,
+              "(" + groupName + "=${groupname})", LdapQuery.ALL_ATTRIBUTES));
     }
-    groupByNameQuery =
-        new LdapQuery(groupBase, groupScope,
-            "(" + groupName + "=${groupname})", LdapQuery.ALL_ATTRIBUTES);
 
     membershipCache =
         new SelfPopulatingCache<String, Set<AccountGroup.Id>>(rawGroup) {
@@ -149,20 +155,26 @@ class LdapRealm implements Realm {
     if (accountSshUserName != null) {
       accountAtts.add(accountSshUserName);
     }
-    for (final String name : groupMemberQuery.getParameters()) {
+    for (final String name : groupMemberQueryList.get(0).getParameters()) {
       if (!USERNAME.equals(name)) {
         groupNeedsAccount = true;
         accountAtts.add(name);
       }
     }
-    final String accountBase = required(config, "accountBase");
+
     final SearchScope accountScope = scope(config, "accountScope");
     final String accountPattern =
         reqdef(config, "accountPattern", "(uid=${username})");
-    accountQuery =
+
+    final List<String> accountBaseList = requiredList(config, "accountBase");
+    accountQueryList = new ArrayList<LdapQuery>();
+    for(String accountBase : accountBaseList) {
+      LdapQuery accountQuery =
         new LdapQuery(accountBase, accountScope, accountPattern, accountAtts);
-    if (accountQuery.getParameters().length == 0) {
-      throw new IllegalArgumentException("No variables in ldap.accountPattern");
+      if (accountQuery.getParameters().length == 0) {
+        throw new IllegalArgumentException("No variables in ldap.accountPattern");
+      }
+      accountQueryList.add(accountQuery);
     }
 
     usernameCache = new SelfPopulatingCache<String, Account.Id>(rawUsername) {
@@ -188,6 +200,32 @@ class LdapRealm implements Realm {
     }
     return v;
   }
+
+  private static List<String> optionalList(final Config config, final String name) {
+    String s[] = config.getStringList("ldap", null, name);
+
+    if(s == null || s.length == 0) {
+      return null;
+    }
+
+    final List<String> vlist = new ArrayList<String>();
+    for(int i = 0; i < s.length; i++) {
+      vlist.add(s[i]);
+    }
+
+    return vlist;
+  }
+
+  private static List<String> requiredList(final Config config, final String name) {
+    List<String> vlist = optionalList(config, name);
+
+    if(vlist == null) {
+      throw new IllegalArgumentException("No ldap." + name + " configured");
+    }
+
+    return vlist;
+  }
+
 
   private static String optdef(final Config c, final String n, final String d) {
     final String[] v = c.getStringList("ldap", null, n);
@@ -302,17 +340,19 @@ class LdapRealm implements Realm {
       if (account == null) {
         account = findAccount(ctx, username);
       }
-      for (final String name : groupMemberQuery.getParameters()) {
+      for (final String name : groupMemberQueryList.get(0).getParameters()) {
         params.put(name, account.get(name));
       }
     }
 
     final Set<AccountGroup.Id> actual = new HashSet<AccountGroup.Id>();
-    for (LdapQuery.Result r : groupMemberQuery.query(ctx, params)) {
-      final String name = r.get(groupName);
-      final AccountGroup group = groupCache.lookup(name);
-      if (group != null && isLdapGroup(group)) {
-        actual.add(group.getId());
+    for (LdapQuery groupMemberQuery : groupMemberQueryList) {
+      for (LdapQuery.Result r : groupMemberQuery.query(ctx, params)) {
+        final String name = r.get(groupName);
+        final AccountGroup group = groupCache.lookup(name);
+        if (group != null && isLdapGroup(group)) {
+          actual.add(group.getId());
+        }
       }
     }
     if (actual.isEmpty()) {
@@ -354,7 +394,11 @@ class LdapRealm implements Realm {
         params.put(GROUPNAME, group.getName());
 
         final List<RealmProperty> props = new ArrayList<RealmProperty>();
-        final List<LdapQuery.Result> q = groupByNameQuery.query(ctx, params);
+        final List<LdapQuery.Result> q = new ArrayList<LdapQuery.Result>();
+        for (LdapQuery groupByNameQuery : groupByNameQueryList) {
+          q.addAll(groupByNameQuery.query(ctx, params));
+        }
+
         switch (q.size()) {
           case 0:
             log.warn("Group \"" + group.getName() + "\" not found in LDAP.");
@@ -438,7 +482,11 @@ class LdapRealm implements Realm {
     final HashMap<String, String> params = new HashMap<String, String>();
     params.put(USERNAME, username);
 
-    final List<LdapQuery.Result> res = accountQuery.query(ctx, params);
+    final List<LdapQuery.Result> res = new ArrayList<LdapQuery.Result>();
+    for(LdapQuery accountQuery : accountQueryList) {
+      res.addAll(accountQuery.query(ctx, params));
+    }
+
     switch (res.size()) {
       case 0:
         throw new AccountException("No such user:" + username);

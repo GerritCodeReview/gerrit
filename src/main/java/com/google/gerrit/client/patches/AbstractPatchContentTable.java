@@ -14,39 +14,42 @@
 
 package com.google.gerrit.client.patches;
 
-import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.PatchTable;
 import com.google.gerrit.client.changes.PublishCommentScreen;
 import com.google.gerrit.client.changes.Util;
+import com.google.gerrit.client.data.AccountInfo;
 import com.google.gerrit.client.data.AccountInfoCache;
 import com.google.gerrit.client.data.PatchScript;
 import com.google.gerrit.client.data.SparseFileContent;
+import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.reviewdb.PatchSet;
-import com.google.gerrit.client.ui.ComplexDisclosurePanel;
+import com.google.gerrit.client.ui.CommentPanel;
 import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.client.ui.NeedsSignInKeyCommand;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.InlineLabel;
+import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractPatchContentTable extends NavigationTable<Object> {
-  private static final long AGE = 7 * 24 * 60 * 60 * 1000L;
   protected PatchTable fileList;
   protected AccountInfoCache accountCache = AccountInfoCache.empty();
   protected Patch.Key patchKey;
@@ -55,8 +58,6 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
   protected boolean onlyOneHunk;
   protected String formatLanguage;
 
-  private final Timestamp aged =
-      new Timestamp(System.currentTimeMillis() - AGE);
   private final KeyCommandSet keysComment;
   private HandlerRegistration regComment;
 
@@ -242,7 +243,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
     createCommentEditor(suggestRow, column, line, file, null /* no parent */);
   }
 
-  protected void createReplyEditor(final LineCommentPanel currentPanel) {
+  protected void createReplyEditor(final PublishedCommentPanel currentPanel) {
     final int row = rowOf(currentPanel.getElement());
     if (row >= 0) {
       final int column = columnOf(currentPanel.getElement());
@@ -261,20 +262,27 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
     }
 
     int row = suggestRow;
-    int spans[] = new int[column + 1];
-    OUTER: while (row < table.getRowCount()) {
-      int col = 0;
-      for (int cell = 0; row < table.getRowCount()
-          && cell < table.getCellCount(row); cell++) {
-        while (col < column && 0 < spans[col]) {
-          spans[col++]--;
-        }
-        spans[col] = table.getFlexCellFormatter().getRowSpan(row, cell);
-        if (col == column) {
-          if (table.getWidget(row, cell) instanceof ComplexDisclosurePanel) {
-            row++;
-          } else {
-            break OUTER;
+    if (parentUuid != null) {
+      row++;
+    } else {
+      int spans[] = new int[column + 1];
+      OUTER: while (row < table.getRowCount()) {
+        int col = 0;
+        for (int cell = 0; row < table.getRowCount()
+            && cell < table.getCellCount(row); cell++) {
+          while (col < column && 0 < spans[col]) {
+            spans[col++]--;
+          }
+          spans[col] = table.getFlexCellFormatter().getRowSpan(row, cell);
+          if (col == column) {
+            final Widget w = table.getWidget(row, cell);
+            if (w instanceof CommentEditorPanel) {
+              break OUTER;
+            } else if (w instanceof CommentPanel) {
+              row++;
+            } else {
+              break OUTER;
+            }
           }
         }
       }
@@ -320,33 +328,35 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
     newComment.setMessage("");
 
     final CommentEditorPanel ed = new CommentEditorPanel(newComment);
-    boolean needInsert = true;
+    boolean isCommentRow = false;
+    boolean needInsert = false;
     if (row < table.getRowCount()) {
       for (int cell = 0; cell < table.getCellCount(row); cell++) {
         final Widget w = table.getWidget(row, cell);
-        if (w instanceof CommentEditorPanel
-            || w instanceof ComplexDisclosurePanel) {
-          needInsert = false;
-          break;
+        if (w instanceof CommentEditorPanel || w instanceof CommentPanel) {
+          if (column == cell) {
+            needInsert = true;
+          }
+          isCommentRow = true;
         }
       }
     }
-    if (needInsert) {
-      table.insertRow(row);
-      table.getCellFormatter().setStyleName(row, 0, S_ICON_CELL);
+    if (needInsert || !isCommentRow) {
+      insertRow(row);
+      styleCommentRow(row);
     }
     table.setWidget(row, column, ed);
-    table.getFlexCellFormatter().setStyleName(row, column, "Comment");
 
     int span = 1;
     for (int r = row + 1; r < table.getRowCount(); r++) {
       boolean hasComment = false;
       for (int c = 0; c < table.getCellCount(r); c++) {
         final Widget w = table.getWidget(r, c);
-        if (w instanceof ComplexDisclosurePanel
-            || w instanceof CommentEditorPanel) {
-          hasComment = true;
-          break;
+        if (w instanceof CommentPanel || w instanceof CommentEditorPanel) {
+          if (c != column) {
+            hasComment = true;
+            break;
+          }
         }
       }
       if (hasComment) {
@@ -372,11 +382,16 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
     ed.setFocus(true);
   }
 
+  protected void insertRow(final int row) {
+    table.insertRow(row);
+    table.getCellFormatter().setStyleName(row, 0, S_ICON_CELL);
+  }
+
   @Override
   protected void onOpenRow(final int row) {
     final Object item = getRowItem(row);
     if (item instanceof CommentList) {
-      for (final ComplexDisclosurePanel p : ((CommentList) item).panels) {
+      for (final CommentPanel p : ((CommentList) item).panels) {
         p.setOpen(!p.isOpen());
       }
     }
@@ -426,55 +441,43 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
     if (line.getStatus() == PatchLineComment.Status.DRAFT) {
       final CommentEditorPanel plc = new CommentEditorPanel(line);
       table.setWidget(row, col, plc);
-      table.getFlexCellFormatter().setStyleName(row, col, "Comment");
-      return;
-    }
 
-    final LineCommentPanel mp;
-    if (isLast) {
-      // Create a panel with a Reply button if we are looking at the
-      // last comment for this line.
-      mp = new LineCommentPanel(line, this);
     } else {
-      mp = new LineCommentPanel(line);
-    }
-    String panelHeader;
-    final ComplexDisclosurePanel panel;
+      final AccountInfo author;
+      if (line.getAuthor() != null) {
+        author = accountCache.get(line.getAuthor());
+      } else {
+        final Account gerrit = new Account(null);
+        gerrit.setFullName(Util.C.messageNoAuthor());
+        author = new AccountInfo(gerrit);
+      }
 
-    if (line.getAuthor() != null) {
-      panelHeader = FormatUtil.nameEmail(accountCache.get(line.getAuthor()));
-    } else {
-      panelHeader = Util.C.messageNoAuthor();
+      final PublishedCommentPanel panel =
+          new PublishedCommentPanel(author, line);
+      table.setWidget(row, col, panel);
+
+      CommentList l = (CommentList) getRowItem(row);
+      if (l == null) {
+        l = new CommentList();
+        setRowItem(row, l);
+      }
+      l.comments.add(line);
+      l.panels.add(panel);
     }
 
-    if (isLast) {
-      mp.isRecent = true;
-    } else {
-      // TODO Instead of opening messages by strict age, do it by "unread"?
-      mp.isRecent = line.getWrittenOn().after(aged);
-    }
+    styleCommentRow(row);
+  }
 
-    panel = new ComplexDisclosurePanel(panelHeader, mp.isRecent);
-    panel.getHeader().add(
-        new InlineLabel(Util.M.messageWrittenOn(FormatUtil.mediumFormat(line
-            .getWrittenOn()))));
-    panel.setContent(mp);
-    table.setWidget(row, col, panel);
-    table.getFlexCellFormatter().setStyleName(row, col, "Comment");
-
-    CommentList l = (CommentList) getRowItem(row);
-    if (l == null) {
-      l = new CommentList();
-      setRowItem(row, l);
-    }
-    l.comments.add(line);
-    l.panels.add(panel);
+  private void styleCommentRow(final int row) {
+    final CellFormatter fmt = table.getCellFormatter();
+    final Element iconCell = fmt.getElement(row, 0);
+    UIObject.setStyleName(DOM.getParent(iconCell), "CommentHolder", true);
   }
 
   protected static class CommentList {
     final List<PatchLineComment> comments = new ArrayList<PatchLineComment>();
-    final List<ComplexDisclosurePanel> panels =
-        new ArrayList<ComplexDisclosurePanel>();
+    final List<PublishedCommentPanel> panels =
+        new ArrayList<PublishedCommentPanel>();
   }
 
   protected class DoubleClickFlexTable extends MyFlexTable {
@@ -578,6 +581,25 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
     public void onKeyPress(final KeyPressEvent event) {
       ensurePointerVisible();
       moveToNextChunk(getCurrentRow());
+    }
+  }
+
+  private class PublishedCommentPanel extends CommentPanel implements
+      ClickHandler {
+    final PatchLineComment comment;
+
+    PublishedCommentPanel(final AccountInfo author, final PatchLineComment c) {
+      super(author, c.getWrittenOn(), c.getMessage());
+      this.comment = c;
+
+      final Button reply = new Button(PatchUtil.C.buttonReply());
+      reply.addClickHandler(this);
+      getButtonPanel().add(reply);
+    }
+
+    @Override
+    public void onClick(final ClickEvent event) {
+      createReplyEditor(this);
     }
   }
 }

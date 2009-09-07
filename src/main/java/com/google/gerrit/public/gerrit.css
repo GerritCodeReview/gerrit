@@ -127,6 +127,19 @@
   padding-top: 0.5em;
   padding-bottom: 0.5em;
 }
+.gerrit-CommentPanel-Buttons {
+  margin-left: 0.5em;
+}
+.gerrit-CommentPanel-Buttons .gwt-Button {
+  font-size: 7pt;
+  padding: 1px;
+}
+
+.gerrit-CommentEditorPanel textarea {
+  margin-left: 0.5em;
+  font-size: small;
+  font-family: Arial Unicode MS,Arial,sans-serif;
+}
 
 
 /** TabPanel **/
@@ -479,14 +492,14 @@
 .gerrit-PatchContentTable td {
   font-size: 8pt;
   font-family: monospace;
+  border-top: 1px solid transparent;
+  border-bottom: 1px solid transparent;
 }
 
 .gerrit-PatchContentTable .IconCell {
   width: 1px;
   padding: 0px;
   vertical-align: middle;
-  border-top: 1px solid transparent;
-  border-bottom: 1px solid transparent;
 }
 
 .gerrit-PatchContentTable .DiffText {
@@ -515,46 +528,15 @@
   color: #006000;
 }
 
-.gerrit-PatchContentTable .Comment {
-  padding: 0px;
+.gerrit-PatchContentTable tr.CommentHolder .DiffText {
+  background: #F2F4F7;
+  white-space: normal;
 }
-.gerrit-PatchContentTable .Comment table {
-  border-collapse: separate;
-  border-spacing: 0;
-}
-
-.gerrit-PatchLineCommentPanel {
-  width: 100%;
-}
-
-.gerrit-PatchContentTable .Comment td,
-.gerrit-PatchLineComment {
+.gerrit-PatchContentTable .gerrit-CommentPanel {
   font-family: Arial Unicode MS,Arial,sans-serif;
-  font-size: 8pt;
 }
-.gerrit-PatchContentTable td.Comment {
-  vertical-align: top;
-  border-left: 5px solid orange;
-}
-.gerrit-PatchContentTable .gwt-DisclosurePanel {
-  background: #fef8cb;
-  padding-right: 5px;
-}
-.gerrit-PatchContentTable .Comment .header {
-  width: 35em;
-}
-.gerrit-PatchContentTable .Comment .gwt-DisclosurePanel .header td {
-  white-space: nowrap;
-}
-.gerrit-PatchContentTable .Comment .complexHeader {
-  white-space: nowrap;
-  width: 5em;
-}
-.gerrit-PatchContentTable .Comment .complexHeader span {
-  white-space: nowrap;
-}
-.gerrit-PatchContentTable .Comment .content {
-  border-top: 3px solid #e3e3e3;
+.gerrit-PatchContentTable .gerrit-CommentPanel td {
+  font-family: Arial Unicode MS,Arial,sans-serif;
 }
 
 .gerrit-PatchContentTable .FileColumnHeader {
@@ -571,8 +553,6 @@
   text-align: right;
   border-right: thin solid #b0bdcc;
   padding-right: 0.2em;
-  border-top: 1px solid transparent;
-  border-bottom: 1px solid transparent;
 }
 
 .gerrit-PatchContentTable .NoLineLineNumber {
@@ -586,8 +566,6 @@
   padding-left: 0.2em;
   white-space: pre;
   padding-right: 0.2em;
-  border-top: 1px solid transparent;
-  border-bottom: 1px solid transparent;
 }
 
 .gerrit-PatchContentTable .FileLineNone {
@@ -829,40 +807,11 @@
   display: table;
 }
 
-.gerrit-SideBySideScreen-SideBySideTable td.Comment {
-  border-left: 5px solid orange;
-  border-right: 5px solid orange;
-  background: #fef8cb;
-}
-
 .gerrit-SideBySideScreen-LinkTable {
   width: 100%;
 }
 .gerrit-SideBySideScreen-LinkTable td {
   width: 33%;
-}
-
-.gerrit-CommentEditor {
-  background: lightgrey;
-  padding-left: 5px;
-  padding-right: 5px;
-  padding-top: 5px;
-  padding-bottom: 5px;
-}
-.gerrit-CommentEditor textarea {
-  font-size: small;
-}
-.gerrit-CommentEditor-Buttons {
-  margin-top: 5px;
-}
-.gerrit-CommentEditor-Buttons .gwt-Button {
-  margin-right: 5px;
-  font-size: 8pt;
-}
-.gerrit-CommentEditor-SavedDraft {
-  padding-left: 5em;
-  font-family: Arial Unicode MS,Arial,sans-serif;
-  font-size: 8pt;
 }
 
 .gerrit-PatchNoDifference {
@@ -1026,11 +975,6 @@
 
 /** PublishCommentsScreen **/
 
-.gerrit-PublishCommentsScreen .gwt-DisclosurePanel .header td {
-  font-weight: bold;
-  white-space: nowrap;
-}
-
 .gerrit-PublishCommentsScreen .gerrit-SmallHeading {
   font-size: small;
   font-weight: bold;
@@ -1047,7 +991,6 @@
 }
 .gerrit-PublishCommentsScreen .gerrit-CoverMessage {
   margin-left: 10px;
-  background: #d4e9a9;
   padding: 5px 5px 5px 5px;
 }
 .gerrit-PublishCommentsScreen .gerrit-CoverMessage textarea {
@@ -1057,8 +1000,9 @@
   font-size: smaller;
 }
 .gerrit-PublishCommentsScreen .gerrit-PatchComments {
-  margin-bottom: 10px;
-  margin-left: 10px;
+  margin-left: 1em;
+  margin-right: 0.5em;
+  margin-bottom: 0.5em;
 }
 .gerrit-PublishCommentsScreen .gwt-Hyperlink {
   white-space: nowrap;
@@ -1069,12 +1013,28 @@
   font-family: monospace;
   font-size: small;
   font-style: italic;
-  border-left: 3px solid #e3e3e3;
   padding-left: 3px;
 }
-.gerrit-PublishCommentsScreen .gerrit-PatchLineComment {
-  border-left: 3px solid #e3e3e3;
-  padding-left: 6px;
+.gerrit-PublishCommentsScreen .gerrit-CommentPanel {
+  border: none;
+  width: 35em;
+}
+.gerrit-PublishCommentsScreen .gerrit-CommentPanel-Content {
+  -moz-border-radius-topleft: 8px;
+  -moz-border-radius-topright: 8px;
+  -moz-border-radius-bottomleft: 8px;
+  -moz-border-radius-bottomright: 8px;
+  
+  -webkit-border-top-left-radius: 8px;
+  -webkit-border-top-right-radius: 8px;
+  -webkit-border-bottom-left-radius: 8px;
+  -webkit-border-bottom-right-radius: 8px;
+
+  border: 1px solid lightgray;
+  padding-bottom: 1px;
+}
+.gerrit-PublishCommentsScreen .gerrit-CommentPanel-DateCell {
+  display: none;
 }
 
 

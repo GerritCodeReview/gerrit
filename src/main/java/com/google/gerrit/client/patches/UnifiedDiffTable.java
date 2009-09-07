@@ -221,11 +221,20 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
     }
   }
 
+
+  @Override
+  protected void insertRow(final int row) {
+    super.insertRow(row);
+    final CellFormatter fmt = table.getCellFormatter();
+    fmt.addStyleName(row, PC - 2, "LineNumber");
+    fmt.addStyleName(row, PC - 1, "LineNumber");
+    fmt.addStyleName(row, PC, "DiffText");
+  }
+
   private int insert(final List<PatchLineComment> in, int row) {
     for (Iterator<PatchLineComment> ci = in.iterator(); ci.hasNext();) {
       final PatchLineComment c = ci.next();
-      table.insertRow(row);
-      table.getCellFormatter().setStyleName(row, 0, S_ICON_CELL);
+      insertRow(row);
       bindComment(row, PC, c, !ci.hasNext());
       row++;
     }

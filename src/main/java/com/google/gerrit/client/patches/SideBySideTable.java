@@ -23,6 +23,7 @@ import com.google.gerrit.client.data.EditList;
 import com.google.gerrit.client.data.PatchScript;
 import com.google.gerrit.client.data.SparseFileContent;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
+import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwtexpui.safehtml.client.PrettyFormatter;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
@@ -157,8 +158,7 @@ public class SideBySideTable extends AbstractPatchContentTable {
         while (ai.hasNext() && bi.hasNext()) {
           final PatchLineComment ac = ai.next();
           final PatchLineComment bc = bi.next();
-          table.insertRow(row);
-          table.getCellFormatter().setStyleName(row, 0, S_ICON_CELL);
+          insertRow(row);
           bindComment(row, COL_A, ac, !ai.hasNext());
           bindComment(row, COL_B, bc, !bi.hasNext());
           row++;
@@ -172,17 +172,25 @@ public class SideBySideTable extends AbstractPatchContentTable {
     }
   }
 
+  @Override
+  protected void insertRow(final int row) {
+    super.insertRow(row);
+    final CellFormatter fmt = table.getCellFormatter();
+    fmt.addStyleName(row, COL_A - 1, "LineNumber");
+    fmt.addStyleName(row, COL_A, "DiffText");
+    fmt.addStyleName(row, COL_B - 1, "LineNumber");
+    fmt.addStyleName(row, COL_B, "DiffText");
+  }
+
   private int finish(final Iterator<PatchLineComment> i, int row, final int col) {
     while (i.hasNext()) {
       final PatchLineComment c = i.next();
-      table.insertRow(row);
-      table.getCellFormatter().setStyleName(row, 0, S_ICON_CELL);
+      insertRow(row);
       bindComment(row, col, c, !i.hasNext());
       row++;
     }
     return row;
   }
-
 
   private void appendHeader(final SafeHtmlBuilder m) {
     m.openTr();

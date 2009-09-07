@@ -18,34 +18,54 @@ import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.data.AccountInfo;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.DoubleClickEvent;
+import com.google.gwt.event.dom.client.DoubleClickHandler;
+import com.google.gwt.event.dom.client.HasDoubleClickHandlers;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.InlineLabel;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
+import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 import java.util.Date;
 
-public class CommentPanel extends Composite {
+public class CommentPanel extends Composite implements HasDoubleClickHandlers {
   private static final int SUMMARY_LENGTH = 75;
-  private final Widget summary;
-  private final Widget content;
+  private final FlexTable header;
+  private final InlineLabel messageSummary;
+  private final FlowPanel content;
+  private final DoubleClickHTML messageText;
+  private FlowPanel buttons;
   private boolean recent;
 
   public CommentPanel(final AccountInfo author, final Date when, String message) {
-    message = message.trim();
+    this();
 
+    setMessageText(message);
+    setAuthorNameText(FormatUtil.name(author));
+    setDateText(FormatUtil.shortFormat(when));
+
+    final CellFormatter fmt = header.getCellFormatter();
+    fmt.getElement(0, 0).setTitle(FormatUtil.nameEmail(author));
+    fmt.getElement(0, 2).setTitle(FormatUtil.mediumFormat(when));
+  }
+
+  protected CommentPanel() {
     final FlowPanel body = new FlowPanel();
     initWidget(body);
     setStyleName("gerrit-CommentPanel");
 
-    summary = new InlineLabel(summarize(message));
-    summary.setStyleName("gerrit-CommentPanel-Summary");
+    messageSummary = new InlineLabel();
+    messageSummary.setStyleName("gerrit-CommentPanel-Summary");
 
-    final FlexTable header = new FlexTable();
+    header = new FlexTable();
     header.setStyleName("gerrit-CommentPanel-Header");
     header.addClickHandler(new ClickHandler() {
       @Override
@@ -53,22 +73,69 @@ public class CommentPanel extends Composite {
         setOpen(!isOpen());
       }
     });
-    header.setText(0, 0, FormatUtil.name(author));
-    header.setWidget(0, 1, summary);
-    header.setText(0, 2, FormatUtil.shortFormat(when));
+    header.setText(0, 0, "");
+    header.setWidget(0, 1, messageSummary);
+    header.setText(0, 2, "");
     final CellFormatter fmt = header.getCellFormatter();
     fmt.setStyleName(0, 0, "gerrit-CommentPanel-AuthorCell");
     fmt.setStyleName(0, 1, "gerrit-CommentPanel-SummaryCell");
     fmt.setStyleName(0, 2, "gerrit-CommentPanel-DateCell");
     fmt.setHorizontalAlignment(0, 2, HasHorizontalAlignment.ALIGN_RIGHT);
-    fmt.getElement(0, 0).setTitle(FormatUtil.nameEmail(author));
-    fmt.getElement(0, 2).setTitle(FormatUtil.mediumFormat(when));
     body.add(header);
 
-    content = new SafeHtmlBuilder().append(message).wikify().toBlockWidget();
-    content.setStyleName("gerrit-CommentPanel-Message");
+    content = new FlowPanel();
+    content.setStyleName("gerrit-CommentPanel-Content");
     content.setVisible(false);
     body.add(content);
+
+    messageText = new DoubleClickHTML();
+    messageText.setStyleName("gerrit-CommentPanel-Message");
+    content.add(messageText);
+  }
+
+  @Override
+  public HandlerRegistration addDoubleClickHandler(DoubleClickHandler handler) {
+    return messageText.addDoubleClickHandler(handler);
+  }
+
+  protected void setMessageText(String message) {
+    if (message == null) {
+      message = "";
+    } else {
+      message = message.trim();
+    }
+
+    messageSummary.setText(summarize(message));
+    SafeHtml.set(messageText, new SafeHtmlBuilder().append(message).wikify());
+  }
+
+  public void setAuthorNameText(final String nameText) {
+    header.setText(0, 0, nameText);
+  }
+
+  protected void setDateText(final String dateText) {
+    header.setText(0, 2, dateText);
+  }
+
+  protected void setMessageTextVisible(final boolean show) {
+    messageText.setVisible(show);
+  }
+
+  protected void addContent(final Widget w) {
+    if (buttons != null) {
+      content.insert(w, content.getWidgetIndex(buttons));
+    } else {
+      content.add(w);
+    }
+  }
+
+  protected Panel getButtonPanel() {
+    if (buttons == null) {
+      buttons = new FlowPanel();
+      buttons.setStyleName("gerrit-CommentPanel-Buttons");
+      content.add(buttons);
+    }
+    return buttons;
   }
 
   private static String summarize(final String message) {
@@ -103,7 +170,7 @@ public class CommentPanel extends Composite {
   }
 
   public void setOpen(final boolean open) {
-    summary.setVisible(!open);
+    messageSummary.setVisible(!open);
     content.setVisible(open);
   }
 
@@ -113,5 +180,12 @@ public class CommentPanel extends Composite {
 
   public void setRecent(final boolean r) {
     recent = r;
+  }
+
+  private static class DoubleClickHTML extends HTML implements
+      HasDoubleClickHandlers {
+    public HandlerRegistration addDoubleClickHandler(DoubleClickHandler handler) {
+      return addDomHandler(handler, DoubleClickEvent.getType());
+    }
   }
 }

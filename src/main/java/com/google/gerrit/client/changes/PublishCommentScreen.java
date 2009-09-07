@@ -17,7 +17,7 @@ package com.google.gerrit.client.changes;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.Link;
 import com.google.gerrit.client.data.ApprovalType;
-import com.google.gerrit.client.patches.LineCommentPanel;
+import com.google.gerrit.client.patches.CommentEditorPanel;
 import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
@@ -34,8 +34,6 @@ import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FormPanel;
@@ -46,7 +44,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
-import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtjsonrpc.client.VoidResult;
 
 import java.util.ArrayList;
@@ -70,6 +67,7 @@ public class PublishCommentScreen extends AccountScreen implements ClickHandler 
   private Button send;
   private Button cancel;
   private boolean saveStateOnUnload = true;
+  private List<CommentEditorPanel> commentEditors;
 
   public PublishCommentScreen(final PatchSet.Id psi) {
     patchSetId = psi;
@@ -227,6 +225,8 @@ public class PublishCommentScreen extends AccountScreen implements ClickHandler 
     }
 
     draftsPanel.clear();
+    commentEditors = new ArrayList<CommentEditorPanel>();
+
     if (!r.getDrafts().isEmpty()) {
       draftsPanel.add(new SmallHeading(Util.C.headingPatchComments()));
 
@@ -250,20 +250,33 @@ public class PublishCommentScreen extends AccountScreen implements ClickHandler 
 
         Label m;
 
-        m = new DoubleClickLinkLabel(patchKey);
-        m.setText(Util.M.lineHeader(c.getLine()));
-        m.setStyleName("gerrit-LineHeader");
-        panel.add(m);
-
-        m = new DoubleClickLinkLabel(patchKey);
-        SafeHtml.set(m.getElement(), LineCommentPanel.toSafeHtml(c));
-        m.setStyleName("gerrit-PatchLineComment");
-        panel.add(m);
+        final CommentEditorPanel editor = new CommentEditorPanel(c);
+        editor.setAuthorNameText(Util.M.lineHeader(c.getLine()));
+        editor.setOpen(false);
+        commentEditors.add(editor);
+        panel.add(editor);
       }
     }
   }
 
   private void onSend() {
+    final GerritCallback<VoidResult> afterSaveDraft =
+        new GerritCallback<VoidResult>() {
+          private int done;
+
+          @Override
+          public void onSuccess(final VoidResult result) {
+            if (++done == commentEditors.size()) {
+              onSend2();
+            }
+          }
+        };
+    for (final CommentEditorPanel p : commentEditors) {
+      p.saveDraft(afterSaveDraft);
+    }
+  }
+
+  private void onSend2() {
     final Map<ApprovalCategory.Id, ApprovalCategoryValue.Id> values =
         new HashMap<ApprovalCategory.Id, ApprovalCategoryValue.Id>();
     for (final ValueRadioButton b : approvalButtons) {
@@ -292,25 +305,6 @@ public class PublishCommentScreen extends AccountScreen implements ClickHandler 
     ValueRadioButton(final ApprovalCategoryValue v, final String label) {
       super(label);
       value = v;
-    }
-  }
-
-  private static class DoubleClickLinkLabel extends Label {
-    private final Patch.Key patchKey;
-
-    DoubleClickLinkLabel(final Patch.Key p) {
-      patchKey = p;
-      sinkEvents(Event.ONDBLCLICK);
-    }
-
-    @Override
-    public void onBrowserEvent(final Event event) {
-      switch (DOM.eventGetType(event)) {
-        case Event.ONDBLCLICK:
-          History.newItem(Link.toPatchSideBySide(patchKey), true);
-          break;
-      }
-      super.onBrowserEvent(event);
     }
   }
 

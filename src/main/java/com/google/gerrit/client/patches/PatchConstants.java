@@ -19,6 +19,7 @@ import com.google.gwt.i18n.client.Constants;
 public interface PatchConstants extends Constants {
   String draft();
 
+  String buttonReply();
   String buttonEdit();
   String buttonSave();
   String buttonCancel();
@@ -45,7 +46,7 @@ public interface PatchConstants extends Constants {
   String commentSaveDraft();
   String commentDiscard();
   String commentCancelEdit();
-  
+
   String whitespaceIgnoreLabel();
   String whitespaceIGNORE_NONE();
   String whitespaceIGNORE_SPACE_AT_EOL();

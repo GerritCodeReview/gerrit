@@ -16,65 +16,59 @@ package com.google.gerrit.client.patches;
 
 import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.ui.CommentPanel;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.DoubleClickEvent;
+import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Focusable;
-import com.google.gwt.user.client.ui.InlineLabel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
 import com.google.gwtjsonrpc.client.VoidResult;
 
 import java.sql.Timestamp;
 
-class CommentEditorPanel extends Composite implements ClickHandler {
+public class CommentEditorPanel extends CommentPanel implements ClickHandler,
+    DoubleClickHandler {
   private static final int INITIAL_COLS = 60;
   private static final int INITIAL_LINES = 5;
   private static final int MAX_LINES = 30;
+  private static final AsyncCallback<VoidResult> NULL_CALLBACK =
+      new AsyncCallback<VoidResult>() {
+        @Override
+        public void onFailure(Throwable caught) {
+        }
+
+        @Override
+        public void onSuccess(VoidResult result) {
+        }
+      };
+
   private PatchLineComment comment;
-  private final LineCommentPanel renderedPanel;
+
   private final NpTextArea text;
   private final Button edit;
   private final Button save;
   private final Button cancel;
   private final Button discard;
-  private final Label savedAt;
   private final Timer expandTimer;
 
-  CommentEditorPanel(final PatchLineComment plc) {
+  public CommentEditorPanel(final PatchLineComment plc) {
     comment = plc;
 
-    final FlowPanel body = new FlowPanel();
-    initWidget(body);
-    setStyleName("gerrit-CommentEditor");
-
-    renderedPanel = new LineCommentPanel(comment) {
-      {
-        sinkEvents(Event.ONDBLCLICK);
-      }
-
-      @Override
-      public void onBrowserEvent(final Event event) {
-        switch (DOM.eventGetType(event)) {
-          case Event.ONDBLCLICK:
-            edit();
-            break;
-        }
-        super.onBrowserEvent(event);
-      }
-    };
-    body.add(renderedPanel);
+    addStyleName("gerrit-CommentEditorPanel");
+    setAuthorNameText(PatchUtil.C.draft());
+    setMessageText(plc.getMessage());
+    addDoubleClickHandler(this);
 
     expandTimer = new Timer() {
       @Override
@@ -106,7 +100,7 @@ class CommentEditorPanel extends Composite implements ClickHandler {
           switch (event.getCharCode()) {
             case 's':
               event.preventDefault();
-              onSave();
+              onSave(NULL_CALLBACK);
               return;
 
             case 'd':
@@ -125,36 +119,29 @@ class CommentEditorPanel extends Composite implements ClickHandler {
         expandTimer.schedule(250);
       }
     });
-    body.add(text);
-
-    final FlowPanel buttons = new FlowPanel();
-    buttons.setStyleName("gerrit-CommentEditor-Buttons");
-    body.add(buttons);
+    addContent(text);
 
     edit = new Button();
     edit.setText(PatchUtil.C.buttonEdit());
     edit.addClickHandler(this);
-    buttons.add(edit);
+    getButtonPanel().add(edit);
 
     save = new Button();
     save.setText(PatchUtil.C.buttonSave());
     save.addClickHandler(this);
-    buttons.add(save);
+    getButtonPanel().add(save);
 
     cancel = new Button();
     cancel.setText(PatchUtil.C.buttonCancel());
     cancel.addClickHandler(this);
-    buttons.add(cancel);
+    getButtonPanel().add(cancel);
 
     discard = new Button();
     discard.setText(PatchUtil.C.buttonDiscard());
     discard.addClickHandler(this);
-    buttons.add(discard);
+    getButtonPanel().add(discard);
 
-    savedAt = new InlineLabel();
-    savedAt.setStyleName("gerrit-CommentEditor-SavedDraft");
-    buttons.add(savedAt);
-
+    setOpen(true);
     if (isNew()) {
       edit();
     } else {
@@ -175,6 +162,9 @@ class CommentEditorPanel extends Composite implements ClickHandler {
   }
 
   private void edit() {
+    if (!isOpen()) {
+      setOpen(true);
+    }
     text.setText(comment.getMessage());
     expandText();
     stateEdit(true);
@@ -183,14 +173,14 @@ class CommentEditorPanel extends Composite implements ClickHandler {
 
   private void render() {
     final Timestamp on = comment.getWrittenOn();
-    savedAt.setText(PatchUtil.M.draftSaved(new java.util.Date(on.getTime())));
-    renderedPanel.update(comment);
+    setDateText(PatchUtil.M.draftSaved(new java.util.Date(on.getTime())));
+    setMessageText(comment.getMessage());
     stateEdit(false);
   }
 
   private void stateEdit(final boolean inEdit) {
     expandTimer.cancel();
-    renderedPanel.setVisible(!inEdit);
+    setMessageTextVisible(!inEdit);
     edit.setVisible(!inEdit);
 
     text.setVisible(inEdit);
@@ -200,6 +190,9 @@ class CommentEditorPanel extends Composite implements ClickHandler {
   }
 
   void setFocus(final boolean take) {
+    if (take && !isOpen()) {
+      setOpen(true);
+    }
     if (text.isVisible()) {
       text.setFocus(take);
     } else if (take) {
@@ -212,13 +205,18 @@ class CommentEditorPanel extends Composite implements ClickHandler {
   }
 
   @Override
+  public void onDoubleClick(final DoubleClickEvent event) {
+    edit();
+  }
+
+  @Override
   public void onClick(final ClickEvent event) {
     final Widget sender = (Widget) event.getSource();
     if (sender == edit) {
       edit();
 
     } else if (sender == save) {
-      onSave();
+      onSave(NULL_CALLBACK);
 
     } else if (sender == cancel) {
       render();
@@ -228,7 +226,15 @@ class CommentEditorPanel extends Composite implements ClickHandler {
     }
   }
 
-  private void onSave() {
+  public void saveDraft(AsyncCallback<VoidResult> onSave) {
+    if (isOpen() && text.isVisible()) {
+      onSave(onSave);
+    } else {
+      onSave.onSuccess(VoidResult.INSTANCE);
+    }
+  }
+
+  private void onSave(final AsyncCallback<VoidResult> onSave) {
     expandTimer.cancel();
     final String txt = text.getText().trim();
     if ("".equals(txt)) {
@@ -253,6 +259,7 @@ class CommentEditorPanel extends Composite implements ClickHandler {
             cancel.setEnabled(true);
             discard.setEnabled(true);
             render();
+            onSave.onSuccess(VoidResult.INSTANCE);
           }
 
           @Override
@@ -262,6 +269,7 @@ class CommentEditorPanel extends Composite implements ClickHandler {
             cancel.setEnabled(true);
             discard.setEnabled(true);
             super.onFailure(caught);
+            onSave.onFailure(caught);
           }
         });
   }

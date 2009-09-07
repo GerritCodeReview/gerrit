@@ -260,19 +260,23 @@ public class PublishCommentScreen extends AccountScreen implements ClickHandler 
   }
 
   private void onSend() {
-    final GerritCallback<VoidResult> afterSaveDraft =
-        new GerritCallback<VoidResult>() {
-          private int done;
+    if (commentEditors.isEmpty()) {
+      onSend2();
+    } else {
+      final GerritCallback<VoidResult> afterSaveDraft =
+          new GerritCallback<VoidResult>() {
+            private int done;
 
-          @Override
-          public void onSuccess(final VoidResult result) {
-            if (++done == commentEditors.size()) {
-              onSend2();
+            @Override
+            public void onSuccess(final VoidResult result) {
+              if (++done == commentEditors.size()) {
+                onSend2();
+              }
             }
-          }
-        };
-    for (final CommentEditorPanel p : commentEditors) {
-      p.saveDraft(afterSaveDraft);
+          };
+      for (final CommentEditorPanel p : commentEditors) {
+        p.saveDraft(afterSaveDraft);
+      }
     }
   }
 

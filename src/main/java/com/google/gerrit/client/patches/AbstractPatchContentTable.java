@@ -66,6 +66,10 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
     keysNavigation.add(new PrevChunkKeyCmd(0, 'p', PatchUtil.C.chunkPrev()));
     keysNavigation.add(new NextChunkKeyCmd(0, 'n', PatchUtil.C.chunkNext()));
 
+    keysAction.add(new OpenKeyCommand(0, 'o', PatchUtil.C.expandComment()));
+    keysAction.add(new OpenKeyCommand(0, KeyCodes.KEY_ENTER, PatchUtil.C
+        .expandComment()));
+
     if (Gerrit.isSignedIn()) {
       keysAction.add(new InsertCommentCommand(0, 'c', PatchUtil.C
           .commentInsert()));

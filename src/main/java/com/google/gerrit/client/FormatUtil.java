@@ -94,7 +94,7 @@ public class FormatUtil {
       b.append(" <");
       b.append(acct.getPreferredEmail());
       b.append(">");
-    } else {
+    } else if (acct.getId() != null) {
       b.append(" (");
       b.append(acct.getId().get());
       b.append(")");

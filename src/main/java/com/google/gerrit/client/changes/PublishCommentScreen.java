@@ -248,8 +248,6 @@ public class PublishCommentScreen extends AccountScreen implements ClickHandler 
           priorFile = fn;
         }
 
-        Label m;
-
         final CommentEditorPanel editor = new CommentEditorPanel(c);
         editor.setAuthorNameText(Util.M.lineHeader(c.getLine()));
         editor.setOpen(true);

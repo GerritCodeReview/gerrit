@@ -26,8 +26,7 @@ public class FormatUtil {
 
   private static final DateTimeFormat sTime =
       DateTimeFormat.getShortTimeFormat();
-  private static final DateTimeFormat sDate =
-      DateTimeFormat.getFormat("MMM d");
+  private static final DateTimeFormat sDate = DateTimeFormat.getFormat("MMM d");
   private static final DateTimeFormat mDate =
       DateTimeFormat.getMediumDateFormat();
   private static final DateTimeFormat dtfmt =

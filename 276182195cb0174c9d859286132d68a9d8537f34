@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAln////0\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ldap/LdapRealm.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-08T01:05:23Z",
+      "side": 1,
+      "message": "IIRC getStringList returns String[0] when there are no elements, thus you will never get null here.",
+      "revId": "276182195cb0174c9d859286132d68a9d8537f34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAln////w\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ldap/LdapRealm.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-08T01:05:23Z",
+      "side": 1,
+      "message": "I think it would be better to return Collections.emptyList() instead of null here, that way the caller doesn\u0027t have to handle null.",
+      "revId": "276182195cb0174c9d859286132d68a9d8537f34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAln////s\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ldap/LdapRealm.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-08T01:05:23Z",
+      "side": 1,
+      "message": "This is easier than the loop above on 211:\n\n  return Arrays.asList(s);",
+      "revId": "276182195cb0174c9d859286132d68a9d8537f34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAln////o\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ldap/LdapRealm.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-08T01:05:23Z",
+      "side": 1,
+      "message": "Extra blank line.",
+      "revId": "276182195cb0174c9d859286132d68a9d8537f34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

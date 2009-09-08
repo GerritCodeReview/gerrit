@@ -252,7 +252,7 @@ public class PublishCommentScreen extends AccountScreen implements ClickHandler 
 
         final CommentEditorPanel editor = new CommentEditorPanel(c);
         editor.setAuthorNameText(Util.M.lineHeader(c.getLine()));
-        editor.setOpen(false);
+        editor.setOpen(true);
         commentEditors.add(editor);
         panel.add(editor);
       }

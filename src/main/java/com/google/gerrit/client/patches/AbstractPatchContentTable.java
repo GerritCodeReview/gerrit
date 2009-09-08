@@ -22,7 +22,6 @@ import com.google.gerrit.client.data.AccountInfo;
 import com.google.gerrit.client.data.AccountInfoCache;
 import com.google.gerrit.client.data.PatchScript;
 import com.google.gerrit.client.data.SparseFileContent;
-import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.reviewdb.PatchSet;
@@ -443,15 +442,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
       table.setWidget(row, col, plc);
 
     } else {
-      final AccountInfo author;
-      if (line.getAuthor() != null) {
-        author = accountCache.get(line.getAuthor());
-      } else {
-        final Account gerrit = new Account(null);
-        gerrit.setFullName(Util.C.messageNoAuthor());
-        author = new AccountInfo(gerrit);
-      }
-
+      final AccountInfo author = accountCache.get(line.getAuthor());
       final PublishedCommentPanel panel =
           new PublishedCommentPanel(author, line);
       table.setWidget(row, col, panel);

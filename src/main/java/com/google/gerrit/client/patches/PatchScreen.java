@@ -202,17 +202,6 @@ public abstract class PatchScreen extends Screen {
     keysNavigation.add(new UpToChangeCommand(0, 'u', PatchUtil.C.upToChange()));
     keysNavigation.add(new FileListCmd(0, 'f', PatchUtil.C.fileList()));
 
-    final Change.Id changeId = patchKey.getParentKey().getParentKey();
-    final String path = patchKey.get();
-    String fileName = path;
-    final int last = fileName.lastIndexOf('/');
-    if (last >= 0) {
-      fileName = fileName.substring(last + 1);
-    }
-
-    setWindowTitle(PatchUtil.M.patchWindowTitle(changeId.get(), fileName));
-    setPageTitle(PatchUtil.M.patchPageTitle(changeId.get(), path));
-
     historyTable = new HistoryTable(this);
     historyPanel = new DisclosurePanel(PatchUtil.C.patchHistoryTitle());
     historyPanel.setContent(historyTable);
@@ -461,6 +450,17 @@ public abstract class PatchScreen extends Screen {
 
   private void onResult() {
     if (script != null && comments != null) {
+      final Change.Key cid = script.getChangeId();
+      final String path = patchKey.get();
+      String fileName = path;
+      final int last = fileName.lastIndexOf('/');
+      if (last >= 0) {
+        fileName = fileName.substring(last + 1);
+      }
+
+      setWindowTitle(PatchUtil.M.patchWindowTitle(cid.abbreviate(), fileName));
+      setPageTitle(PatchUtil.M.patchPageTitle(cid.abbreviate(), path));
+
       historyTable.display(comments.getHistory());
       historyPanel.setVisible(true);
 

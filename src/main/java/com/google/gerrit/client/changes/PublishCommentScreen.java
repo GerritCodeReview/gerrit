@@ -76,8 +76,6 @@ public class PublishCommentScreen extends AccountScreen implements ClickHandler 
   protected void onInitUI() {
     super.onInitUI();
     addStyleName("gerrit-PublishCommentsScreen");
-    setPageTitle(Util.M.publishComments(patchSetId.getParentKey().get(),
-        patchSetId.get()));
 
     approvalButtons = new ArrayList<ValueRadioButton>();
     descBlock = new ChangeDescriptionBlock();
@@ -214,6 +212,8 @@ public class PublishCommentScreen extends AccountScreen implements ClickHandler 
   }
 
   private void display(final PatchSetPublishDetail r) {
+    setPageTitle(Util.M.publishComments(r.getChange().getKey().abbreviate(),
+        patchSetId.get()));
     descBlock.display(r.getChange(), r.getPatchSetInfo(), r.getAccounts());
 
     if (r.getChange().getStatus().isOpen()) {

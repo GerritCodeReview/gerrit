@@ -228,7 +228,7 @@ public abstract class OutgoingEmail {
     setHeader("Message-ID", "");
     setHeader("X-Gerrit-MessageType", messageClass);
     if (change != null) {
-      setHeader("X-Gerrit-ChangeId", "" + change.getChangeId());
+      setHeader("X-Gerrit-Change-Id", "" + change.getKey().get());
       setListIdHeader();
       setChangeUrlHeader();
       setCommitIdHeader();
@@ -302,7 +302,7 @@ public abstract class OutgoingEmail {
     subj.append(change.getDest().getShortName());
     subj.append("] ");
     subj.append("Change ");
-    subj.append(change.getChangeId());
+    subj.append(change.getKey().abbreviate());
     subj.append(": (");
     subj.append(projectName);
     subj.append(") ");
@@ -363,7 +363,7 @@ public abstract class OutgoingEmail {
     r.append('.');
     r.append(change.getCreatedOn().getTime());
     r.append('.');
-    r.append(change.getChangeId());
+    r.append(change.getKey().get());
     r.append('@');
     r.append(getGerritHost());
     r.append('>');

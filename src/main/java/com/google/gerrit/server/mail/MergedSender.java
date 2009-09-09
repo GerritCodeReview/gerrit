@@ -64,7 +64,7 @@ public class MergedSender extends ReplyToChangeSender {
 
   @Override
   protected void format() {
-    appendText("Change " + change.getChangeId());
+    appendText("Change " + change.getKey().abbreviate());
     if (patchSetInfo != null && patchSetInfo.getAuthor() != null
         && patchSetInfo.getAuthor().getName() != null) {
       appendText(" by ");

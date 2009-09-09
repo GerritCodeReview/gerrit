@@ -86,7 +86,8 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
       appendText("\n");
       appendText("\n");
 
-      appendText("I'd like you to reexamine change " + change.getId() + ".");
+      appendText("I'd like you to reexamine change "
+          + change.getKey().abbreviate() + ".");
       if (getChangeUrl() != null) {
         appendText("  Please visit\n");
         appendText("\n");
@@ -103,7 +104,7 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
   }
 
   private void formatDest() {
-    appendText("Change " + change.getId());
+    appendText("Change " + change.getKey().abbreviate());
     appendText(" (patch set " + patchSet.getPatchSetId() + ")");
     appendText(" for ");
     appendText(change.getDest().getShortName());

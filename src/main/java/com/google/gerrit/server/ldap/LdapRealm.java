@@ -442,13 +442,10 @@ class LdapRealm implements Realm {
     try {
       final ReviewDb db = schema.open();
       try {
-        final List<AccountExternalId> candidates =
-            db.accountExternalIds().byExternal(
-                AccountExternalId.SCHEME_GERRIT + username).toList();
-        if (candidates.size() == 1) {
-          return candidates.get(0).getAccountId();
-        }
-        return null;
+        final String id = AccountExternalId.SCHEME_GERRIT + username;
+        final AccountExternalId extId =
+            db.accountExternalIds().get(new AccountExternalId.Key(id));
+        return extId != null ? extId.getAccountId() : null;
       } finally {
         db.close();
       }

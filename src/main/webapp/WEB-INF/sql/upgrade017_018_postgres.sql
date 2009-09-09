@@ -27,6 +27,18 @@ AND NOT EXISTS (SELECT 1 FROM patch_comments p
                 AND p.file_name = patch_comments.file_name
                 AND p.uuid = patch_comments.parent_uuid);
 
+
+-- account_external_ids
+--
+DROP INDEX account_external_ids_byExt;
+
+CREATE INDEX account_external_ids_byAccount
+ON account_external_ids (account_id);
+
+ALTER TABLE account_external_ids DROP CONSTRAINT account_external_ids_pkey;
+ALTER TABLE account_external_ids ADD PRIMARY KEY (external_id);
+
+
 DROP TABLE patches;
 
 UPDATE schema_version SET version_nbr = 18;

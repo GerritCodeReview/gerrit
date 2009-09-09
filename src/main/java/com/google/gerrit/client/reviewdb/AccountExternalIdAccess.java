@@ -25,13 +25,10 @@ public interface AccountExternalIdAccess extends
   @PrimaryKey("key")
   AccountExternalId get(AccountExternalId.Key key) throws OrmException;
 
-  @Query("WHERE key.externalId = ? LIMIT 2")
-  ResultSet<AccountExternalId> byExternal(String id) throws OrmException;
-
-  @Query("WHERE key.accountId = ?")
+  @Query("WHERE accountId = ?")
   ResultSet<AccountExternalId> byAccount(Account.Id id) throws OrmException;
 
-  @Query("WHERE key.accountId = ? AND emailAddress = ?")
+  @Query("WHERE accountId = ? AND emailAddress = ?")
   ResultSet<AccountExternalId> byAccountEmail(Account.Id id, String email)
       throws OrmException;
 

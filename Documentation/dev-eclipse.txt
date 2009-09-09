@@ -58,10 +58,10 @@ may need to edit the pom.xml under gerrit to ensure your snapshot
 builds are used.
 
 [NOTE]
-If you import gwtorm, you also need to right click on `gwtorm`,
-Maven -> Update Project Configuration to force a compile of
-the generted ANTLR sources.  This should fix the compile errors
-identified after import.
+Some of the source code is generated with ANTLR sources.  To
+build these files, you need to right click on the imported project,
+Maven -> Update Project Configuration.  This should fix the compile
+errors identified after import.
 
 If you also want a source project for JGit, import the top level
 jgit directory using General -> Existing Projects, selecting only

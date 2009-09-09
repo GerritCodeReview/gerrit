@@ -183,6 +183,7 @@ class PatchScriptFactory extends Handler<PatchScript> {
 
     final PatchScriptBuilder b = new PatchScriptBuilder(registry);
     b.setRepository(git);
+    b.setChange(change);
     b.setSettings(s);
     b.setTrees(list.getOldId(), list.getNewId());
     return b;

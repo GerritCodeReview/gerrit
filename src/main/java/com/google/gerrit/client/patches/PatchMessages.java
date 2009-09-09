@@ -19,8 +19,8 @@ import com.google.gwt.i18n.client.Messages;
 import java.util.Date;
 
 public interface PatchMessages extends Messages {
-  String patchWindowTitle(int id, String file);
-  String patchPageTitle(int id, String path);
+  String patchWindowTitle(String changeId, String file);
+  String patchPageTitle(String changeId, String path);
   String patchSkipRegion(@PluralCount int lineCnt);
   String draftSaved(Date when);
 }

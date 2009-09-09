@@ -193,16 +193,16 @@ public class ChangeScreen extends Screen {
     add(comments);
   }
 
-  private void displayTitle(final String subject) {
+  private void displayTitle(final Change.Key changeId, final String subject) {
     final StringBuilder titleBuf = new StringBuilder();
     if (LocaleInfo.getCurrentLocale().isRTL()) {
       if (subject != null) {
         titleBuf.append(subject);
         titleBuf.append(" :");
       }
-      titleBuf.append(Util.M.changeScreenTitleId(changeId.get()));
+      titleBuf.append(Util.M.changeScreenTitleId(changeId.abbreviate()));
     } else {
-      titleBuf.append(Util.M.changeScreenTitleId(changeId.get()));
+      titleBuf.append(Util.M.changeScreenTitleId(changeId.abbreviate()));
       if (subject != null) {
         titleBuf.append(": ");
         titleBuf.append(subject);
@@ -212,7 +212,7 @@ public class ChangeScreen extends Screen {
   }
 
   private void display(final ChangeDetail detail) {
-    displayTitle(detail.getChange().getSubject());
+    displayTitle(detail.getChange().getKey(), detail.getChange().getSubject());
 
     dependencies.setAccountInfoCache(detail.getAccounts());
     approvals.setAccountInfoCache(detail.getAccounts());

@@ -20,6 +20,7 @@ import com.google.gerrit.client.data.PatchScriptSettings;
 import com.google.gerrit.client.data.SparseFileContent;
 import com.google.gerrit.client.data.PatchScript.DisplayMethod;
 import com.google.gerrit.client.patches.CommentDetail;
+import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.reviewdb.Patch.PatchType;
 import com.google.gerrit.server.FileTypeRegistry;
@@ -61,6 +62,7 @@ class PatchScriptBuilder {
 
   private final List<String> header;
   private Repository db;
+  private Change change;
   private PatchScriptSettings settings;
   private ObjectId aId;
   private ObjectId bId;
@@ -80,6 +82,10 @@ class PatchScriptBuilder {
 
   void setRepository(final Repository r) {
     db = r;
+  }
+
+  void setChange(final Change c) {
+    this.change = c;
   }
 
   void setSettings(final PatchScriptSettings s) {
@@ -102,9 +108,9 @@ class PatchScriptBuilder {
       // For a diff --cc format we don't support converting it into
       // a patch script. Instead treat everything as a file header.
       //
-      return new PatchScript(contentAct.getHeaderLines(), settings, a.dst,
-          b.dst, Collections.<Edit> emptyList(), a.displayMethod,
-          b.displayMethod);
+      return new PatchScript(change.getKey(), contentAct.getHeaderLines(),
+          settings, a.dst, b.dst, Collections.<Edit> emptyList(),
+          a.displayMethod, b.displayMethod);
     }
 
     a.path = oldName(contentAct);
@@ -146,8 +152,8 @@ class PatchScriptBuilder {
       ensureCommentsVisible(comments);
     }
 
-    return new PatchScript(header, settings, a.dst, b.dst, edits,
-        a.displayMethod, b.displayMethod);
+    return new PatchScript(change.getKey(), header, settings, a.dst, b.dst,
+        edits, a.displayMethod, b.displayMethod);
   }
 
   private static String oldName(final PatchListEntry entry) {

@@ -22,7 +22,7 @@ public interface ChangeMessages extends Messages {
   String changesReviewableBy(String fullName);
   String changesOpenInProject(String string);
 
-  String changeScreenTitleId(int id);
+  String changeScreenTitleId(String changeId);
   String patchSetHeader(int id);
   String loadingPatchSet(int id);
   String patchSetAction(String action, int id);
@@ -37,7 +37,7 @@ public interface ChangeMessages extends Messages {
   String otherFrom(String sourcePath);
 
   String needApproval(String categoryName, String value, String valueName);
-  String publishComments(int change, int ps);
+  String publishComments(String changeId, int ps);
   String lineHeader(int line);
 
   String changeQueryWindowTitle(String query);

@@ -17,6 +17,7 @@ package com.google.gerrit.client.data;
 
 
 import com.google.gerrit.client.data.PatchScriptSettings.Whitespace;
+import com.google.gerrit.client.reviewdb.Change;
 
 import org.spearce.jgit.diff.Edit;
 
@@ -27,6 +28,7 @@ public class PatchScript {
     NONE, DIFF, IMG
   }
 
+  protected Change.Key changeId;
   protected List<String> header;
   protected PatchScriptSettings settings;
   protected SparseFileContent a;
@@ -35,8 +37,11 @@ public class PatchScript {
   protected DisplayMethod displayMethodA;
   protected DisplayMethod displayMethodB;
 
-  public PatchScript(final List<String> h, final PatchScriptSettings s, final SparseFileContent ca,
-      final SparseFileContent cb, final List<Edit> e, final DisplayMethod ma, final DisplayMethod mb) {
+  public PatchScript(final Change.Key ck, final List<String> h,
+      final PatchScriptSettings s, final SparseFileContent ca,
+      final SparseFileContent cb, final List<Edit> e, final DisplayMethod ma,
+      final DisplayMethod mb) {
+    changeId = ck;
     header = h;
     settings = s;
     a = ca;
@@ -47,6 +52,10 @@ public class PatchScript {
   }
 
   protected PatchScript() {
+  }
+
+  public Change.Key getChangeId() {
+    return changeId;
   }
 
   public DisplayMethod getDisplayMethodA() {

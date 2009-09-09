@@ -251,8 +251,15 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
     if (row >= 0) {
       final int column = columnOf(currentPanel.getElement());
       final PatchLineComment c = currentPanel.comment;
-      final PatchLineComment.Key k = c.getKey();
-      createCommentEditor(row, column, c.getLine(), c.getSide(), k.get());
+      final String uuid = c.getKey().get();
+      final PatchSet.Id psId = c.getKey().getParentKey().getParentKey();
+      final short file;
+      if (idSideB.equals(psId)) {
+        file = 1;
+      } else {
+        file = 0;
+      }
+      createCommentEditor(row, column, c.getLine(), file, uuid);
     }
   }
 

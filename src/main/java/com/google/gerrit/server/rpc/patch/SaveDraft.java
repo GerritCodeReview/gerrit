@@ -74,6 +74,15 @@ class SaveDraft extends Handler<PatchLineComment> {
             + comment.getLine());
       }
 
+      if (comment.getParentUuid() != null) {
+        final PatchLineComment parent =
+            db.patchComments().get(
+                new PatchLineComment.Key(patchKey, comment.getParentUuid()));
+        if (parent == null || parent.getSide() != comment.getSide()) {
+          throw new IllegalStateException("Parent comment must be on same side");
+        }
+      }
+
       final PatchLineComment nc =
           new PatchLineComment(new PatchLineComment.Key(patchKey, ChangeUtil
               .messageUUID(db)), comment.getLine(), me, comment.getParentUuid());

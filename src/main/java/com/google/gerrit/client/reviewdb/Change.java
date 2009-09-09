@@ -361,14 +361,19 @@ public final class Change {
     setStatus(Status.NEW);
   }
 
+  /** Legacy 32 bit integer identity for a change. */
+  @Deprecated
   public Change.Id getId() {
     return changeId;
   }
 
+  /** Legacy 32 bit integer identity for a change. */
+  @Deprecated
   public int getChangeId() {
     return changeId.get();
   }
 
+  /** The Change-Id tag out of the initial commit, or a natural key. */
   public Change.Key getKey() {
     return changeKey;
   }

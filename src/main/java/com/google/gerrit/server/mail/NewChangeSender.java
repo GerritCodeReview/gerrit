@@ -92,7 +92,7 @@ public abstract class NewChangeSender extends OutgoingEmail {
   }
 
   private void formatDest() {
-    appendText("Change " + change.getId());
+    appendText("Change " + change.getKey().abbreviate());
     appendText(" for ");
     appendText(change.getDest().getShortName());
     appendText(" in ");

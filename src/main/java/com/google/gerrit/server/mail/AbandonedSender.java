@@ -41,7 +41,7 @@ public class AbandonedSender extends ReplyToChangeSender {
   @Override
   protected void format() {
     appendText(getNameFor(fromId));
-    appendText(" has abandoned change " + change.getChangeId() + ":\n");
+    appendText(" has abandoned change " + change.getKey().abbreviate() + ":\n");
     appendText("\n");
     formatCoverLetter();
   }

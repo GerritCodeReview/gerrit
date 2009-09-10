@@ -15,7 +15,7 @@
 package com.google.gerrit.server.ssh.commands;
 
 import com.google.gerrit.client.reviewdb.Project;
-import com.google.gerrit.server.GerritServer;
+import com.google.gerrit.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.ssh.BaseCommand;
 import com.google.inject.Inject;
@@ -31,7 +31,7 @@ abstract class AbstractGitCommand extends BaseCommand {
   protected ProjectControl projectControl;
 
   @Inject
-  protected GerritServer server;
+  protected GitRepositoryManager repoManager;
 
   protected Repository repo;
   protected Project project;
@@ -52,7 +52,7 @@ abstract class AbstractGitCommand extends BaseCommand {
 
     final String name = project.getName();
     try {
-      repo = server.openRepository(name);
+      repo = repoManager.openRepository(name);
     } catch (RepositoryNotFoundException e) {
       throw new Failure(1, "fatal: '" + name + "': not a git archive", e);
     }

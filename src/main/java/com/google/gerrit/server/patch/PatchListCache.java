@@ -20,7 +20,7 @@ import com.google.gerrit.client.data.PatchScriptSettings.Whitespace;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.Project;
-import com.google.gerrit.server.GerritServer;
+import com.google.gerrit.git.GitRepositoryManager;
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.EvictionPolicy;
@@ -65,13 +65,13 @@ public class PatchListCache {
     };
   }
 
-  private final GerritServer server;
+  private final GitRepositoryManager repoManager;
   private final SelfPopulatingCache<PatchListKey, PatchList> self;
 
   @Inject
-  PatchListCache(final GerritServer gs,
+  PatchListCache(final GitRepositoryManager grm,
       @Named(CACHE_NAME) final Cache<PatchListKey, PatchList> raw) {
-    server = gs;
+    repoManager = grm;
     self = new SelfPopulatingCache<PatchListKey, PatchList>(raw) {
       @Override
       protected PatchList createEntry(final PatchListKey key) throws Exception {
@@ -98,7 +98,7 @@ public class PatchListCache {
 
   private PatchList compute(final PatchListKey key)
       throws MissingObjectException, IncorrectObjectTypeException, IOException {
-    final Repository repo = server.openRepository(key.projectKey.get());
+    final Repository repo = repoManager.openRepository(key.projectKey.get());
     try {
       return readPatchList(key, repo);
     } finally {

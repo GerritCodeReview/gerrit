@@ -21,8 +21,8 @@ import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.Project.SubmitType;
+import com.google.gerrit.git.GitRepositoryManager;
 import com.google.gerrit.git.ReplicationQueue;
-import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.ssh.AdminCommand;
@@ -62,7 +62,7 @@ final class AdminCreateProject extends BaseCommand {
   private ReviewDb db;
 
   @Inject
-  private GerritServer gs;
+  private GitRepositoryManager repoManager;
 
   @Inject
   private GroupCache groupCache;
@@ -94,9 +94,9 @@ final class AdminCreateProject extends BaseCommand {
 
           createProject(txn);
 
-          Repository repo  = gs.createRepository(projectName);
+          Repository repo  = repoManager.createRepository(projectName);
           repo.create(true);
-          gs.setProjectDescription(projectName, projectDescription);
+          repoManager.setProjectDescription(projectName, projectDescription);
 
           txn.commit();
 

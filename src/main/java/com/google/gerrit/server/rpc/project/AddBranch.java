@@ -19,8 +19,8 @@ import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.InvalidNameException;
 import com.google.gerrit.client.rpc.InvalidRevisionException;
+import com.google.gerrit.git.GitRepositoryManager;
 import com.google.gerrit.git.ReplicationQueue;
-import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
@@ -57,7 +57,7 @@ class AddBranch extends Handler<List<Branch>> {
   private final ProjectControl.Factory projectControlFactory;
   private final ListBranches.Factory listBranchesFactory;
   private final IdentifiedUser identifiedUser;
-  private final GerritServer gerritServer;
+  private final GitRepositoryManager repoManager;
   private final ReplicationQueue replication;
   private final ReviewDb db;
 
@@ -68,7 +68,7 @@ class AddBranch extends Handler<List<Branch>> {
   @Inject
   AddBranch(final ProjectControl.Factory projectControlFactory,
       final ListBranches.Factory listBranchesFactory,
-      final IdentifiedUser identifiedUser, final GerritServer gerritServer,
+      final IdentifiedUser identifiedUser, final GitRepositoryManager repoManager,
       final ReplicationQueue replication, final ReviewDb db,
 
       @Assisted Project.NameKey projectName,
@@ -77,7 +77,7 @@ class AddBranch extends Handler<List<Branch>> {
     this.projectControlFactory = projectControlFactory;
     this.listBranchesFactory = listBranchesFactory;
     this.identifiedUser = identifiedUser;
-    this.gerritServer = gerritServer;
+    this.repoManager = repoManager;
     this.replication = replication;
     this.db = db;
 
@@ -108,7 +108,7 @@ class AddBranch extends Handler<List<Branch>> {
     }
 
     final Branch.NameKey name = new Branch.NameKey(projectName, refname);
-    final Repository repo = gerritServer.openRepository(projectName.get());
+    final Repository repo = repoManager.openRepository(projectName.get());
     try {
       final ObjectId revid = parseStartingRevision(repo);
       final RevWalk rw = verifyConnected(repo, revid);

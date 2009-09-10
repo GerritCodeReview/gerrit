@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.ssh;
 
-import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Key;
@@ -126,7 +125,7 @@ public class SshDaemon extends SshServer implements SshInfo {
   private volatile IoAcceptor acceptor;
 
   @Inject
-  SshDaemon(final GerritServer srv, final CommandFactory commandFactory,
+  SshDaemon(final CommandFactory commandFactory,
       final PublickeyAuthenticator userAuth,
       final KeyPairProvider hostKeyProvider,
       @GerritServerConfig final Config cfg) {

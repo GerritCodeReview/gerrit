@@ -21,7 +21,6 @@ import com.google.gwt.user.client.rpc.StatusCodeException;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.user.client.AutoCenterDialogBox;
 import com.google.gwtjsonrpc.client.RemoteJsonException;
@@ -57,15 +56,13 @@ public class ErrorDialog extends AutoCenterDialogBox {
   /** Create a dialog box to show a single message string. */
   public ErrorDialog(final String message) {
     this();
-    body.add(label(message, "gerrit-ErrorDialog-ErrorMessage"));
+    body.add(new Label(message));
   }
 
   /** Create a dialog box to show a single message string. */
   public ErrorDialog(final SafeHtml message) {
     this();
-    final Widget w = message.toBlockWidget();
-    w.addStyleName("gerrit-ErrorDialog-ErrorMessage");
-    body.add(w);
+    body.add(message.toBlockWidget());
   }
 
   /** Create a dialog box to nicely format an exception. */
@@ -94,7 +91,7 @@ public class ErrorDialog extends AutoCenterDialogBox {
     }
 
     body.add(label(cn, "gerrit-ErrorDialog-ErrorType"));
-    body.add(label(what.getMessage(), "gerrit-ErrorDialog-ErrorMessage"));
+    body.add(new Label(what.getMessage()));
   }
 
   private static Label label(final String what, final String style) {

@@ -56,9 +56,8 @@ public class AccountManager {
     try {
       final ReviewDb db = schema.open();
       try {
-        final List<AccountExternalId> matches =
-            db.accountExternalIds().byExternal(externalId).toList();
-        return !matches.isEmpty();
+        return db.accountExternalIds().get(
+            new AccountExternalId.Key(externalId)) != null;
       } finally {
         db.close();
       }
@@ -80,33 +79,19 @@ public class AccountManager {
     try {
       final ReviewDb db = schema.open();
       try {
-        final List<AccountExternalId> matches =
-            db.accountExternalIds().byExternal(who.getExternalId()).toList();
-        switch (matches.size()) {
-          case 0:
-            // New account, automatically create and return.
-            //
-            return create(db, who);
+        final AccountExternalId id =
+            db.accountExternalIds().get(
+                new AccountExternalId.Key(who.getExternalId()));
+        if (id == null) {
+          // New account, automatically create and return.
+          //
+          return create(db, who);
 
-          case 1: {
-            // Account exists, return the identity to the caller.
-            //
-            final AccountExternalId id = matches.get(0);
-            update(db, who, id);
-            return new AuthResult(id.getAccountId(), false);
-          }
-
-          default: {
-            final StringBuilder r = new StringBuilder();
-            r.append("Multiple accounts match \"");
-            r.append(who.getExternalId());
-            r.append("\":");
-            for (AccountExternalId e : matches) {
-              r.append(' ');
-              r.append(e.getAccountId());
-            }
-            throw new AccountException(r.toString());
-          }
+        } else {
+          // Account exists, return the identity to the caller.
+          //
+          update(db, who, id);
+          return new AuthResult(id.getAccountId(), false);
         }
 
       } finally {
@@ -270,7 +255,7 @@ public class AccountManager {
   private static AccountExternalId createId(final Account.Id newId,
       final AuthRequest who) {
     final String ext = who.getExternalId();
-    return new AccountExternalId(new AccountExternalId.Key(newId, ext));
+    return new AccountExternalId(newId, new AccountExternalId.Key(ext));
   }
 
   /**
@@ -286,32 +271,23 @@ public class AccountManager {
     try {
       final ReviewDb db = schema.open();
       try {
-        final List<AccountExternalId> matches =
-            db.accountExternalIds().byExternal(who.getExternalId()).toList();
-        switch (matches.size()) {
-          case 0: {
-            final AccountExternalId extId = createId(to, who);
-            extId.setEmailAddress(who.getEmailAddress());
-            extId.setLastUsedOn();
-            db.accountExternalIds().insert(Collections.singleton(extId));
-            if (who.getEmailAddress() != null) {
-              byEmailCache.evict(who.getEmailAddress());
-              byIdCache.evict(to);
-            }
-            break;
+        AccountExternalId extId =
+            db.accountExternalIds().get(
+                new AccountExternalId.Key(who.getExternalId()));
+        if (extId != null) {
+          if (!extId.getAccountId().equals(to)) {
+            throw new AccountException("Identity in use by another account");
           }
-
-          case 1: {
-            final AccountExternalId extId = matches.get(0);
-            if (!extId.getAccountId().equals(to)) {
-              throw new AccountException("Identity already used");
-            }
-            update(db, who, extId);
-            break;
+          update(db, who, extId);
+        } else {
+          extId = createId(to, who);
+          extId.setEmailAddress(who.getEmailAddress());
+          extId.setLastUsedOn();
+          db.accountExternalIds().insert(Collections.singleton(extId));
+          if (who.getEmailAddress() != null) {
+            byEmailCache.evict(who.getEmailAddress());
+            byIdCache.evict(to);
           }
-
-          default:
-            throw new AccountException("Identity already used");
         }
 
       } finally {

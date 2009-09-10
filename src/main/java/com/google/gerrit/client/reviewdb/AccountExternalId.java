@@ -26,27 +26,17 @@ public final class AccountExternalId {
   public static final String SCHEME_MAILTO = "mailto:";
   public static final String LEGACY_GAE = "Google Account ";
 
-  public static class Key extends StringKey<Account.Id> {
+  public static class Key extends StringKey<com.google.gwtorm.client.Key<?>> {
     private static final long serialVersionUID = 1L;
-
-    @Column
-    protected Account.Id accountId;
 
     @Column
     protected String externalId;
 
     protected Key() {
-      accountId = new Account.Id();
     }
 
-    public Key(final Account.Id a, final String e) {
-      accountId = a;
+    public Key(final String e) {
       externalId = e;
-    }
-
-    @Override
-    public Account.Id getParentKey() {
-      return accountId;
     }
 
     @Override
@@ -94,6 +84,9 @@ public final class AccountExternalId {
   @Column(name = Column.NONE)
   protected Key key;
 
+  @Column
+  protected Account.Id accountId;
+
   @Column(notNull = false)
   protected String emailAddress;
 
@@ -109,9 +102,11 @@ public final class AccountExternalId {
   /**
    * Create a new binding to an external identity.
    *
+   * @param who the account this binds to.
    * @param k the binding key.
    */
-  public AccountExternalId(final AccountExternalId.Key k) {
+  public AccountExternalId(final Account.Id who, final AccountExternalId.Key k) {
+    accountId = who;
     key = k;
   }
 
@@ -121,7 +116,7 @@ public final class AccountExternalId {
 
   /** Get local id of this account, to link with in other entities */
   public Account.Id getAccountId() {
-    return key.accountId;
+    return accountId;
   }
 
   public String getExternalId() {

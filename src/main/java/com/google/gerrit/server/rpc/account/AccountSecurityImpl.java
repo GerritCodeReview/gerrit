@@ -234,19 +234,20 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
     run(callback, new Action<Set<AccountExternalId.Key>>() {
       public Set<AccountExternalId.Key> run(final ReviewDb db)
           throws OrmException, Failure {
-        // Don't permit deletes unless they are for our own account
-        //
-        final Account.Id me = getAccountId();
-        for (final AccountExternalId.Key keyId : keys) {
-          if (!me.equals(keyId.getParentKey()))
-            throw new Failure(new NoSuchEntityException());
-        }
-
         // Determine the records we will allow the user to remove.
         //
+        final Account.Id me = getAccountId();
         final Map<AccountExternalId.Key, AccountExternalId> all =
             db.accountExternalIds()
                 .toMap(db.accountExternalIds().byAccount(me));
+
+        // Don't permit deletes unless they are for our own account
+        //
+        for (final AccountExternalId.Key keyId : keys) {
+          if (!all.containsKey(keyId))
+            throw new Failure(new NoSuchEntityException());
+        }
+
         final AccountExternalId mostRecent =
             AccountExternalId.mostRecent(all.values());
         final Set<AccountExternalId.Key> removed =

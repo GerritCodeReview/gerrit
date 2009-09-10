@@ -450,7 +450,7 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
     addAll(result, db.accounts().suggestByFullName(a, b, 10));
     for (AccountExternalId extId : db.accountExternalIds()
         .suggestByEmailAddress(a, b, 10)) {
-      result.add(extId.getKey().getParentKey());
+      result.add(extId.getAccountId());
     }
     return result;
   }

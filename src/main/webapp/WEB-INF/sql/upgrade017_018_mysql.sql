@@ -28,6 +28,18 @@ AND NOT EXISTS (SELECT 1 FROM copy_patch_comments1 r
 DROP TEMPORARY TABLE copy_patch_comments1;
 DROP TEMPORARY TABLE copy_patch_comments2;
 
+
+-- account_external_ids
+--
+DROP INDEX account_external_ids_byExt;
+
+CREATE INDEX account_external_ids_byAccount
+ON account_external_ids (account_id);
+
+ALTER TABLE account_external_ids DROP PRIMARY KEY;
+ALTER TABLE account_external_ids ADD PRIMARY KEY (external_id);
+
+
 DROP TABLE patches;
 
 UPDATE schema_version SET version_nbr = 18;

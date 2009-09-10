@@ -22,10 +22,9 @@ ON accounts (full_name);
 
 -- *********************************************************************
 -- AccountExternalIdAccess
---    @PrimaryKey covers: byAccount
---    covers:             byExternal
-CREATE INDEX account_external_ids_byExt
-ON account_external_ids (external_id);
+--    covers:             byAccount
+CREATE INDEX account_external_ids_byAccount
+ON account_external_ids (account_id);
 
 --    covers:             byEmailAddress, suggestByEmailAddress
 CREATE INDEX account_external_ids_byEmail

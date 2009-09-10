@@ -27,6 +27,7 @@ import com.google.inject.Singleton;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.Writer;
 import java.util.Collections;
 import java.util.List;
 
@@ -70,6 +71,10 @@ public class BecomeAnyAccountLoginServlet extends HttpServlet {
   @Override
   protected void doPost(final HttpServletRequest req,
       final HttpServletResponse rsp) throws IOException {
+    rsp.setHeader("Expires", "Fri, 01 Jan 1980 00:00:00 GMT");
+    rsp.setHeader("Pragma", "no-cache");
+    rsp.setHeader("Cache-Control", "no-cache, must-revalidate");
+
     final List<Account> accounts;
     if (req.getParameter("ssh_user_name") != null) {
       accounts = bySshUserName(rsp, req.getParameter("ssh_user_name"));
@@ -95,14 +100,19 @@ public class BecomeAnyAccountLoginServlet extends HttpServlet {
 
     if (accounts.size() == 1) {
       final Account account = accounts.get(0);
-      rsp.setHeader("Expires", "Fri, 01 Jan 1980 00:00:00 GMT");
-      rsp.setHeader("Pragma", "no-cache");
-      rsp.setHeader("Cache-Control", "no-cache, must-revalidate");
       webSession.get().login(account.getId(), false);
       rsp.sendRedirect(urlProvider.get());
 
     } else {
-      rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
+      rsp.setContentType("text/html");
+      rsp.setCharacterEncoding(HtmlDomUtil.ENC);
+      final Writer out = rsp.getWriter();
+      out.write("<html>");
+      out.write("<body>");
+      out.write("<h1>Account Not Found</h1>");
+      out.write("</body>");
+      out.write("</html>");
+      out.close();
     }
   }
 

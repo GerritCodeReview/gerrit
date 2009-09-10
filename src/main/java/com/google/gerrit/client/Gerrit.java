@@ -30,6 +30,7 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.Accessibility;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -122,11 +123,23 @@ public class Gerrit implements EntryPoint {
     return getUserAccount() != null;
   }
 
-  /**
-   * Sign the user into the application.
-   */
+  /** Sign the user into the application. */
   public static void doSignIn() {
-    new SignInDialog().center();
+    switch (myConfig.getAuthType()) {
+      case HTTP:
+      case HTTP_LDAP:
+        Location.assign("login/" + History.getToken());
+        break;
+
+      case DEVELOPMENT_BECOME_ANY_ACCOUNT:
+        Location.assign("become");
+        break;
+
+      case OPENID:
+      default:
+        new SignInDialog().center();
+        break;
+    }
   }
 
   public void onModuleLoad() {

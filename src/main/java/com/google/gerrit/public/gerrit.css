@@ -297,13 +297,13 @@
   margin-bottom: 15px;
 }
 
-.gerrit-ErrorDialog-ErrorMessage {
-}
-
 .gerrit-ErrorDialog-Buttons {
   width: 100%;
   margin-top: 15px;
   text-align: right;
+}
+.gerrit-ErrorDialog-Buttons .gwt-Button {
+  margin-left: 2em;
 }
 
 

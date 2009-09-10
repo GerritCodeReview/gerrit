@@ -16,6 +16,7 @@ package com.google.gerrit.client.rpc;
 
 import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.NotSignedInDialog;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.InvocationException;
@@ -27,7 +28,7 @@ import com.google.gwtjsonrpc.client.ServerUnavailableException;
 public abstract class GerritCallback<T> implements AsyncCallback<T> {
   public void onFailure(final Throwable caught) {
     if (isNotSignedIn(caught) || isInvalidXSRF(caught)) {
-      new ErrorDialog(RpcConstants.C.errorNotSignedIn()).center();
+      new NotSignedInDialog().center();
 
     } else if (isNoSuchEntity(caught)) {
       new ErrorDialog(Gerrit.C.notFoundBody()).center();

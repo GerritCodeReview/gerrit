@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAmX///+U\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/rpc/InvalidSshUserNameException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2009-09-10T23:58:22Z",
+      "side": 1,
+      "message": "Why red color here?",
+      "revId": "36dc24877be698421e5ff7ecef8a224ab2b15040",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

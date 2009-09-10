@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAmH////I\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/SshDaemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-10T02:03:00Z",
+      "side": 1,
+      "message": "Import should have been removed in prior commit where the GerritServer injection was removed from the constructor.  Therefore, this edit is not necessary in this commit.",
+      "revId": "ae604704c878116d50327eefc78f085938fbf4b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

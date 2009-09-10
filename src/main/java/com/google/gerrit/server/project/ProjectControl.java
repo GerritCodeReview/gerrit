@@ -206,7 +206,7 @@ public class ProjectControl {
       }
     }
     if (val == Integer.MIN_VALUE && actionId.canInheritFromWildProject()) {
-      for (final ProjectRight pr : state.projectCache.getWildcardRights()) {
+      for (final ProjectRight pr : state.getInheritedRights()) {
         if (actionId.equals(pr.getApprovalCategoryId())
             && groups.contains(pr.getAccountGroupId())) {
           val = Math.max(pr.getMaxValue(), val);

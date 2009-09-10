@@ -15,122 +15,14 @@
 package com.google.gerrit.server.account;
 
 import com.google.gerrit.client.reviewdb.AccountGroup;
-import com.google.gerrit.client.reviewdb.ReviewDb;
-import com.google.gerrit.server.cache.Cache;
-import com.google.gerrit.server.cache.CacheModule;
-import com.google.gerrit.server.cache.SelfPopulatingCache;
-import com.google.gerrit.server.config.AuthConfig;
-import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.SchemaFactory;
-import com.google.inject.Inject;
-import com.google.inject.Module;
-import com.google.inject.Singleton;
-import com.google.inject.TypeLiteral;
-import com.google.inject.name.Named;
 
 /** Tracks group objects in memory for efficient access. */
-@Singleton
-public class GroupCache {
-  private static final String CACHE_NAME = "groups";
+public interface GroupCache {
+  public AccountGroup get(AccountGroup.Id groupId);
 
-  public static Module module() {
-    return new CacheModule() {
-      @Override
-      protected void configure() {
-        final TypeLiteral<Cache<com.google.gwtorm.client.Key<?>, AccountGroup>> byId =
-            new TypeLiteral<Cache<com.google.gwtorm.client.Key<?>, AccountGroup>>() {};
-        core(byId, CACHE_NAME);
-        bind(GroupCache.class);
-      }
-    };
-  }
+  public void evict(AccountGroup group);
 
-  private final SchemaFactory<ReviewDb> schema;
-  private final AccountGroup.Id administrators;
-  private final SelfPopulatingCache<AccountGroup.Id, AccountGroup> byId;
-  private final SelfPopulatingCache<AccountGroup.NameKey, AccountGroup> byName;
+  public void evictAfterRename(AccountGroup.NameKey oldName);
 
-  @Inject
-  GroupCache(
-      final SchemaFactory<ReviewDb> sf,
-      final AuthConfig authConfig,
-      @Named(CACHE_NAME) final Cache<com.google.gwtorm.client.Key<?>, AccountGroup> rawAny) {
-    schema = sf;
-    administrators = authConfig.getAdministratorsGroup();
-
-    byId =
-        new SelfPopulatingCache<AccountGroup.Id, AccountGroup>((Cache) rawAny) {
-          @Override
-          public AccountGroup createEntry(final AccountGroup.Id key)
-              throws Exception {
-            return lookup(key);
-          }
-
-          @Override
-          protected AccountGroup missing(final AccountGroup.Id key) {
-            return missingGroup(key);
-          }
-        };
-
-    byName =
-        new SelfPopulatingCache<AccountGroup.NameKey, AccountGroup>(
-            (Cache) rawAny) {
-          @Override
-          public AccountGroup createEntry(final AccountGroup.NameKey key)
-              throws Exception {
-            return lookup(key);
-          }
-        };
-  }
-
-  private AccountGroup lookup(final AccountGroup.Id groupId)
-      throws OrmException {
-    final ReviewDb db = schema.open();
-    try {
-      final AccountGroup group = db.accountGroups().get(groupId);
-      if (group != null) {
-        return group;
-      } else {
-        return missingGroup(groupId);
-      }
-    } finally {
-      db.close();
-    }
-  }
-
-  private AccountGroup missingGroup(final AccountGroup.Id groupId) {
-    final AccountGroup.NameKey name =
-        new AccountGroup.NameKey("Deleted Group" + groupId.toString());
-    final AccountGroup g = new AccountGroup(name, groupId);
-    g.setAutomaticMembership(true);
-    g.setOwnerGroupId(administrators);
-    return g;
-  }
-
-  private AccountGroup lookup(final AccountGroup.NameKey groupName)
-      throws OrmException {
-    final ReviewDb db = schema.open();
-    try {
-      return db.accountGroups().get(groupName);
-    } finally {
-      db.close();
-    }
-  }
-
-  public AccountGroup get(final AccountGroup.Id groupId) {
-    return byId.get(groupId);
-  }
-
-  public void evict(final AccountGroup group) {
-    byId.remove(group.getId());
-    byName.remove(group.getNameKey());
-  }
-
-  public void evictAfterRename(final AccountGroup.NameKey oldName) {
-    byName.remove(oldName);
-  }
-
-  public AccountGroup lookup(final String groupName) {
-    return byName.get(new AccountGroup.NameKey(groupName));
-  }
+  public AccountGroup lookup(String groupName);
 }

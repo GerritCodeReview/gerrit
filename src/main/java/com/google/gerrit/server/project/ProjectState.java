@@ -18,9 +18,11 @@ import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ProjectRight;
-import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gwtorm.client.OrmException;
+import com.google.gerrit.server.config.WildProjectName;
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -29,18 +31,35 @@ import java.util.Set;
 
 /** Cached information on a project. */
 public class ProjectState {
-  final ProjectCache projectCache;
+  public interface Factory {
+    ProjectState create(Project project, Collection<ProjectRight> localRights,
+        InheritedRights inheritedRights);
+  }
+
+  public interface InheritedRights {
+    Collection<ProjectRight> get();
+  }
+
+  private final AnonymousUser anonymousUser;
+  private final Project.NameKey wildProject;
+
   private final Project project;
-  private final Collection<ProjectRight> rights;
+  private final Collection<ProjectRight> localRights;
+  private final InheritedRights inheritedRights;
   private final Set<AccountGroup.Id> owners;
 
-  protected ProjectState(final ProjectCache pc, final ReviewDb db,
-      final Project p) throws OrmException {
-    projectCache = pc;
-    project = p;
-    rights =
-        Collections.unmodifiableCollection(db.projectRights().byProject(
-            project.getNameKey()).toList());
+  @Inject
+  protected ProjectState(final AnonymousUser anonymousUser,
+      @WildProjectName final Project.NameKey wildProject,
+      @Assisted final Project project,
+      @Assisted final Collection<ProjectRight> rights,
+      @Assisted final InheritedRights inheritedRights) {
+    this.anonymousUser = anonymousUser;
+    this.wildProject = wildProject;
+
+    this.project = project;
+    this.localRights = rights;
+    this.inheritedRights = inheritedRights;
 
     final HashSet<AccountGroup.Id> groups = new HashSet<AccountGroup.Id>();
     for (final ProjectRight right : rights) {
@@ -58,7 +77,7 @@ public class ProjectState {
 
   /** Get the rights that pertain only to this project. */
   public Collection<ProjectRight> getLocalRights() {
-    return rights;
+    return localRights;
   }
 
   /** Get the rights this project inherits from the wild project. */
@@ -66,12 +85,12 @@ public class ProjectState {
     if (isSpecialWildProject()) {
       return Collections.emptyList();
     }
-    return projectCache.getWildcardRights();
+    return inheritedRights.get();
   }
 
   /** Is this the special wild project which manages inherited rights? */
   public boolean isSpecialWildProject() {
-    return project.getNameKey().equals(projectCache.wildProject);
+    return project.getNameKey().equals(wildProject);
   }
 
   public Set<AccountGroup.Id> getOwners() {
@@ -79,7 +98,7 @@ public class ProjectState {
   }
 
   public ProjectControl controlForAnonymousUser() {
-    return controlFor(projectCache.anonymousUser);
+    return controlFor(anonymousUser);
   }
 
   public ProjectControl controlFor(final CurrentUser user) {

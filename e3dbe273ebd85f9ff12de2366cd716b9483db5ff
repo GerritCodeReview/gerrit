@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAmH////o\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/GerritPersonIdent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-10T01:56:15Z",
+      "side": 1,
+      "message": "Unnecessary blank line.",
+      "revId": "e3dbe273ebd85f9ff12de2366cd716b9483db5ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAmH////s\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/GerritPersonIdent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-10T01:56:15Z",
+      "side": 1,
+      "message": "Unnecessary blank line.",
+      "revId": "e3dbe273ebd85f9ff12de2366cd716b9483db5ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAmH////k\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/GerritPersonIdentProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-10T01:56:15Z",
+      "side": 1,
+      "message": "Unnecessary blank line.",
+      "revId": "e3dbe273ebd85f9ff12de2366cd716b9483db5ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAmH////g\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/GerritPersonIdentProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-10T01:56:15Z",
+      "side": 1,
+      "message": "Please do all of this work in the constructor, it is O(N) to perform the lookup.  The value cannot change during execution.  No sense to keep doing it on every get.",
+      "revId": "e3dbe273ebd85f9ff12de2366cd716b9483db5ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAmH////c\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/GerritPersonIdentProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-10T01:56:15Z",
+      "side": 1,
+      "message": "Never should be null.  Its legacy code if GerritServer used to do this.  We shouldn\u0027t need this \"gerrit@localhost\" default here anymore.",
+      "revId": "e3dbe273ebd85f9ff12de2366cd716b9483db5ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAmH////Y\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/GerritPersonIdentProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-10T01:56:15Z",
+      "side": 1,
+      "message": "Unnecessary blank line.",
+      "revId": "e3dbe273ebd85f9ff12de2366cd716b9483db5ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAmH////U\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/mail/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-10T01:56:15Z",
+      "side": 1,
+      "message": "Please inset a blank line above this block and below it.  Its a formatting glitch that we didn\u0027t have a blank line between the two fields before.",
+      "revId": "e3dbe273ebd85f9ff12de2366cd716b9483db5ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

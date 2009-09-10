@@ -126,7 +126,7 @@ public class SshDaemon extends SshServer implements SshInfo {
   private volatile IoAcceptor acceptor;
 
   @Inject
-  SshDaemon(final GerritServer srv, final CommandFactory commandFactory,
+  SshDaemon(final CommandFactory commandFactory,
       final PublickeyAuthenticator userAuth,
       final KeyPairProvider hostKeyProvider,
       @GerritServerConfig final Config cfg) {

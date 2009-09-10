@@ -27,10 +27,8 @@ import org.spearce.jgit.errors.RepositoryNotFoundException;
 import org.spearce.jgit.lib.Config;
 import org.spearce.jgit.lib.Constants;
 import org.spearce.jgit.lib.LockFile;
-import org.spearce.jgit.lib.PersonIdent;
 import org.spearce.jgit.lib.Repository;
 import org.spearce.jgit.lib.RepositoryCache;
-import org.spearce.jgit.lib.UserConfig;
 import org.spearce.jgit.lib.RepositoryCache.FileKey;
 
 import java.io.File;
@@ -41,14 +39,12 @@ import java.io.IOException;
 public class GerritServer {
   private static final Logger log = LoggerFactory.getLogger(GerritServer.class);
   private final File sitePath;
-  private final Config gerritConfigFile;
   private final File basepath;
 
   @Inject
   GerritServer(final SystemConfig sConfig, @SitePath final File path,
       @GerritServerConfig final Config cfg, final AuthConfig authConfig) {
     sitePath = path;
-    gerritConfigFile = cfg;
 
     final String basePath = cfg.getString("gerrit", null, "basepath");
     if (basePath != null) {
@@ -60,10 +56,6 @@ public class GerritServer {
     } else {
       basepath = null;
     }
-  }
-
-  private Config getGerritConfig() {
-    return gerritConfigFile;
   }
 
   /**
@@ -183,16 +175,4 @@ public class GerritServer {
     return false; // is a reasonable name
   }
 
-  /** Get a new identity representing this Gerrit server in Git. */
-  public PersonIdent newGerritPersonIdent() {
-    String name = getGerritConfig().getString("user", null, "name");
-    if (name == null) {
-      name = "Gerrit Code Review";
-    }
-    String email = getGerritConfig().get(UserConfig.KEY).getCommitterEmail();
-    if (email == null || email.length() == 0) {
-      email = "gerrit@localhost";
-    }
-    return new PersonIdent(name, email);
-  }
 }

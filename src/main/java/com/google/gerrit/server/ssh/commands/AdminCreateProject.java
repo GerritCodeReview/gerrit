@@ -164,7 +164,7 @@ final class AdminCreateProject extends BaseCommand {
     throw new Failure(1, "Parameter must have boolean value (true, false)");
   }
 
-  private void validateParameters() throws Failure, OrmException {
+  private void validateParameters() throws Failure {
     if (projectName.endsWith(".git")) {
       projectName = projectName.substring(0,
           projectName.length() - ".git".length());

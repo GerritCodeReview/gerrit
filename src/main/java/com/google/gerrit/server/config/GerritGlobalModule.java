@@ -20,6 +20,7 @@ import static com.google.inject.Stage.PRODUCTION;
 import com.google.gerrit.client.data.ApprovalTypes;
 import com.google.gerrit.client.reviewdb.AuthType;
 import com.google.gerrit.git.ChangeMergeQueue;
+import com.google.gerrit.git.GitRepositoryManager;
 import com.google.gerrit.git.MergeOp;
 import com.google.gerrit.git.MergeQueue;
 import com.google.gerrit.git.PatchSetImporter;
@@ -32,7 +33,6 @@ import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.FileTypeRegistry;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.GerritPersonIdentProvider;
-import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.MimeUtilFileTypeRegistry;
 import com.google.gerrit.server.account.AccountByEmailCache;
@@ -134,7 +134,7 @@ public class GerritGlobalModule extends FactoryModule {
 
     factory(AccountInfoCacheFactory.Factory.class);
 
-    bind(GerritServer.class);
+    bind(GitRepositoryManager.class);
     bind(FileTypeRegistry.class).to(MimeUtilFileTypeRegistry.class);
     bind(WorkQueue.class);
 

@@ -17,7 +17,7 @@ package com.google.gerrit.server.rpc.project;
 import com.google.gerrit.client.admin.ProjectDetail;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
-import com.google.gerrit.server.GerritServer;
+import com.google.gerrit.git.GitRepositoryManager;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
@@ -37,7 +37,7 @@ class ChangeProjectSettings extends Handler<ProjectDetail> {
   private final ProjectControl.Factory projectControlFactory;
   private final ProjectCache projectCache;
   private final ReviewDb db;
-  private final GerritServer server;
+  private final GitRepositoryManager repoManager;
 
   private final Project update;
 
@@ -46,14 +46,13 @@ class ChangeProjectSettings extends Handler<ProjectDetail> {
       final ProjectDetailFactory.Factory projectDetailFactory,
       final ProjectControl.Factory projectControlFactory,
       final ProjectCache projectCache, final ReviewDb db,
-      final GerritServer server,
-
+      final GitRepositoryManager grm,
       @Assisted final Project update) {
     this.projectDetailFactory = projectDetailFactory;
     this.projectControlFactory = projectControlFactory;
     this.projectCache = projectCache;
     this.db = db;
-    this.server = server;
+    this.repoManager = grm;
 
     this.update = update;
   }
@@ -74,7 +73,7 @@ class ChangeProjectSettings extends Handler<ProjectDetail> {
     projectCache.evict(proj);
 
     if (!projectControl.getProjectState().isSpecialWildProject()) {
-      server.setProjectDescription(projectName.get(), update.getDescription());
+      repoManager.setProjectDescription(projectName.get(), update.getDescription());
     }
 
     return projectDetailFactory.create(projectName).call();

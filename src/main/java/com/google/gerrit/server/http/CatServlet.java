@@ -19,8 +19,8 @@ import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gerrit.git.GitRepositoryManager;
 import com.google.gerrit.server.FileTypeRegistry;
-import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.client.OrmException;
@@ -66,16 +66,16 @@ import javax.servlet.http.HttpServletResponse;
 public class CatServlet extends HttpServlet {
   private static final MimeType ZIP = new MimeType("application/zip");
   private final Provider<ReviewDb> requestDb;
-  private final GerritServer server;
+  private final GitRepositoryManager repoManager;
   private final SecureRandom rng;
   private final FileTypeRegistry registry;
   private final ChangeControl.Factory changeControl;
 
   @Inject
-  CatServlet(final GerritServer gs, final Provider<ReviewDb> sf,
+  CatServlet(final GitRepositoryManager grm, final Provider<ReviewDb> sf,
       final FileTypeRegistry ftr, final ChangeControl.Factory ccf) {
     requestDb = sf;
-    server = gs;
+    repoManager = grm;
     rng = new SecureRandom();
     registry = ftr;
     changeControl = ccf;
@@ -155,7 +155,7 @@ public class CatServlet extends HttpServlet {
 
     final Repository repo;
     try {
-      repo = server.openRepository(project.getNameKey().get());
+      repo = repoManager.openRepository(project.getNameKey().get());
     } catch (RepositoryNotFoundException e) {
       getServletContext().log("Cannot open repository", e);
       rsp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

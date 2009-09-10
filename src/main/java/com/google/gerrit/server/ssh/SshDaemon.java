@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.ssh;
 
-import com.google.gerrit.server.GerritServer;
+import com.google.gerrit.git.GitRepositoryManager;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Key;

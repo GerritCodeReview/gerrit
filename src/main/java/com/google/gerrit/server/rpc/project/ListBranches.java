@@ -16,7 +16,7 @@ package com.google.gerrit.server.rpc.project;
 
 import com.google.gerrit.client.reviewdb.Branch;
 import com.google.gerrit.client.reviewdb.Project;
-import com.google.gerrit.server.GerritServer;
+import com.google.gerrit.git.GitRepositoryManager;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.rpc.Handler;
@@ -39,17 +39,17 @@ class ListBranches extends Handler<List<Branch>> {
   }
 
   private final ProjectControl.Factory projectControlFactory;
-  private final GerritServer gerritServer;
+  private final GitRepositoryManager repoManager;
 
   private final Project.NameKey projectName;
 
   @Inject
   ListBranches(final ProjectControl.Factory projectControlFactory,
-      final GerritServer gerritServer,
+      final GitRepositoryManager repoManager,
 
       @Assisted final Project.NameKey name) {
     this.projectControlFactory = projectControlFactory;
-    this.gerritServer = gerritServer;
+    this.repoManager = repoManager;
 
     this.projectName = name;
   }
@@ -62,7 +62,7 @@ class ListBranches extends Handler<List<Branch>> {
             | ProjectControl.VISIBLE);
 
     final List<Branch> branches = new ArrayList<Branch>();
-    final Repository db = gerritServer.openRepository(projectName.get());
+    final Repository db = repoManager.openRepository(projectName.get());
     try {
       for (final Ref ref : db.getAllRefs().values()) {
         final String name = ref.getOrigName();

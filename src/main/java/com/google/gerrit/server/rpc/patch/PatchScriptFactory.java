@@ -25,8 +25,8 @@ import com.google.gerrit.client.reviewdb.PatchLineComment;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gerrit.git.GitRepositoryManager;
 import com.google.gerrit.server.FileTypeRegistry;
-import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.Nullable;
 import com.google.gerrit.server.patch.PatchList;
@@ -60,7 +60,7 @@ class PatchScriptFactory extends Handler<PatchScript> {
   private static final Logger log =
       LoggerFactory.getLogger(PatchScriptFactory.class);
 
-  private final GerritServer server;
+  private final GitRepositoryManager repoManager;
   private final FileTypeRegistry registry;
   private final PatchListCache patchListCache;
   private final ReviewDb db;
@@ -87,14 +87,14 @@ class PatchScriptFactory extends Handler<PatchScript> {
   private ObjectId bId;
 
   @Inject
-  PatchScriptFactory(final GerritServer gs, final FileTypeRegistry ftr,
+  PatchScriptFactory(final GitRepositoryManager grm, final FileTypeRegistry ftr,
       final PatchListCache patchListCache, final ReviewDb db,
       final ChangeControl.Factory changeControlFactory,
       @Assisted final Patch.Key patchKey,
       @Assisted("patchSetA") @Nullable final PatchSet.Id patchSetA,
       @Assisted("patchSetB") final PatchSet.Id patchSetB,
       @Assisted final PatchScriptSettings settings) {
-    this.server = gs;
+    this.repoManager = grm;
     this.registry = ftr;
     this.patchListCache = patchListCache;
     this.db = db;
@@ -126,7 +126,7 @@ class PatchScriptFactory extends Handler<PatchScript> {
     bId = toObjectId(db, psb);
 
     try {
-      git = server.openRepository(projectKey.get());
+      git = repoManager.openRepository(projectKey.get());
     } catch (RepositoryNotFoundException e) {
       log.error("Repository " + projectKey + " not found", e);
       throw new NoSuchChangeException(changeId, e);

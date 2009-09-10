@@ -27,7 +27,6 @@ import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.Nullable;
@@ -110,7 +109,7 @@ public class MergeOp {
   private static final FooterKey REVIEWED_ON = new FooterKey("Reviewed-on");
   private static final FooterKey CHANGE_ID = new FooterKey("Change-Id");
 
-  private final GerritServer server;
+  private final GitRepositoryManager repoManager;
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final ProjectCache projectCache;
   private final FunctionState.Factory functionState;
@@ -137,7 +136,7 @@ public class MergeOp {
   private RefUpdate branchUpdate;
 
   @Inject
-  MergeOp(final GerritServer gs, final SchemaFactory<ReviewDb> sf,
+  MergeOp(final GitRepositoryManager grm, final SchemaFactory<ReviewDb> sf,
       final ProjectCache pc, final FunctionState.Factory fs,
       final ReplicationQueue rq, final MergedSender.Factory msf,
       final MergeFailSender.Factory mfsf,
@@ -146,7 +145,7 @@ public class MergeOp {
       final IdentifiedUser.GenericFactory iuf,
       @GerritPersonIdent final PersonIdent myIdent,
       @Assisted final Branch.NameKey branch) {
-    server = gs;
+    repoManager = grm;
     schemaFactory = sf;
     functionState = fs;
     projectCache = pc;
@@ -215,7 +214,7 @@ public class MergeOp {
   private void openRepository() throws MergeException {
     final String name = destBranch.getParentKey().get();
     try {
-      db = server.openRepository(name);
+      db = repoManager.openRepository(name);
     } catch (RepositoryNotFoundException notGit) {
       final String m = "Repository \"" + name + "\" unknown.";
       throw new MergeException(m, notGit);

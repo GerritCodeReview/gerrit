@@ -25,8 +25,8 @@ import com.google.gerrit.client.reviewdb.PatchSetInfo;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.StarredChange;
 import com.google.gerrit.client.reviewdb.UserIdentity;
+import com.google.gerrit.git.GitRepositoryManager;
 import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.CanonicalWebUrl;
@@ -81,7 +81,7 @@ public abstract class OutgoingEmail {
   protected ReviewDb db;
 
   @Inject
-  protected GerritServer server;
+  protected GitRepositoryManager server;
 
   @Inject
   private ProjectCache projectCache;

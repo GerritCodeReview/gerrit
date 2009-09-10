@@ -21,7 +21,7 @@ import com.google.gerrit.client.reviewdb.PatchSetInfo;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.UserIdentity;
-import com.google.gerrit.server.GerritServer;
+import com.google.gerrit.git.GitRepositoryManager;
 import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
@@ -44,15 +44,15 @@ import java.util.Set;
  */
 @Singleton
 public class PatchSetInfoFactory {
-  private final GerritServer gs;
+  private final GitRepositoryManager repoManager;
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final AccountByEmailCache byEmailCache;
 
   @Inject
-  public PatchSetInfoFactory(final GerritServer gs,
+  public PatchSetInfoFactory(final GitRepositoryManager grm,
       final SchemaFactory<ReviewDb> schemaFactory,
       final AccountByEmailCache byEmailCache) {
-    this.gs = gs;
+    this.repoManager = grm;
     this.schemaFactory = schemaFactory;
     this.byEmailCache = byEmailCache;
   }
@@ -77,7 +77,7 @@ public class PatchSetInfoFactory {
       final Change change = db.changes().get(patchSet.getId().getParentKey());
       final Project.NameKey projectKey = change.getProject();
       final String projectName = projectKey.get();
-      repo = gs.openRepository(projectName);
+      repo = repoManager.openRepository(projectName);
       final RevWalk rw = new RevWalk(repo);
       final RevCommit src =
           rw.parseCommit(ObjectId.fromString(patchSet.getRevision().get()));

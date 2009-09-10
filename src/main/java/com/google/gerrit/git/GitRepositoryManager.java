@@ -12,10 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server;
+package com.google.gerrit.git;
 
-import com.google.gerrit.client.reviewdb.SystemConfig;
-import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePath;
 import com.google.inject.Inject;
@@ -34,16 +32,15 @@ import org.spearce.jgit.lib.RepositoryCache.FileKey;
 import java.io.File;
 import java.io.IOException;
 
-/** Global server-side state for Gerrit. */
+/** Class managing Git repositories. */
 @Singleton
-public class GerritServer {
-  private static final Logger log = LoggerFactory.getLogger(GerritServer.class);
+public class GitRepositoryManager {
+  private static final Logger log = LoggerFactory.getLogger(GitRepositoryManager.class);
   private final File sitePath;
   private final File basepath;
 
   @Inject
-  GerritServer(final SystemConfig sConfig, @SitePath final File path,
-      @GerritServerConfig final Config cfg, final AuthConfig authConfig) {
+  GitRepositoryManager(@SitePath final File path, @GerritServerConfig final Config cfg) {
     sitePath = path;
 
     final String basePath = cfg.getString("gerrit", null, "basepath");

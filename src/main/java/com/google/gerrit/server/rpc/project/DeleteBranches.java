@@ -17,8 +17,8 @@ package com.google.gerrit.server.rpc.project;
 import com.google.gerrit.client.reviewdb.Branch;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gerrit.git.GitRepositoryManager;
 import com.google.gerrit.git.ReplicationQueue;
-import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.rpc.Handler;
@@ -47,7 +47,7 @@ class DeleteBranches extends Handler<Set<Branch.NameKey>> {
   }
 
   private final ProjectControl.Factory projectControlFactory;
-  private final GerritServer gerritServer;
+  private final GitRepositoryManager repoManager;
   private final ReplicationQueue replication;
   private final ReviewDb db;
 
@@ -56,12 +56,12 @@ class DeleteBranches extends Handler<Set<Branch.NameKey>> {
 
   @Inject
   DeleteBranches(final ProjectControl.Factory projectControlFactory,
-      final GerritServer gerritServer, final ReplicationQueue replication,
+      final GitRepositoryManager repoManager, final ReplicationQueue replication,
       final ReviewDb db,
 
       @Assisted Project.NameKey name, @Assisted Set<Branch.NameKey> toRemove) {
     this.projectControlFactory = projectControlFactory;
-    this.gerritServer = gerritServer;
+    this.repoManager = repoManager;
     this.replication = replication;
     this.db = db;
 
@@ -86,7 +86,7 @@ class DeleteBranches extends Handler<Set<Branch.NameKey>> {
     }
 
     final Set<Branch.NameKey> deleted = new HashSet<Branch.NameKey>();
-    final Repository r = gerritServer.openRepository(projectName.get());
+    final Repository r = repoManager.openRepository(projectName.get());
     try {
       for (final Branch.NameKey branchKey : toRemove) {
         final Branch b = db.branches().get(branchKey);

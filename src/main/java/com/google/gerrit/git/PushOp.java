@@ -14,7 +14,6 @@
 
 package com.google.gerrit.git;
 
-import com.google.gerrit.server.GerritServer;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -58,7 +57,7 @@ class PushOp implements Runnable {
   private static final Logger log = PushReplication.log;
   static final String MIRROR_ALL = "..all..";
 
-  private final GerritServer server;
+  private final GitRepositoryManager repoManager;
   private final PushReplication.ReplicationConfig pool;
   private final RemoteConfig config;
 
@@ -70,9 +69,9 @@ class PushOp implements Runnable {
   private Repository db;
 
   @Inject
-  PushOp(final GerritServer gs, final PushReplication.ReplicationConfig p,
+  PushOp(final GitRepositoryManager grm, final PushReplication.ReplicationConfig p,
       final RemoteConfig c, @Assisted final String d, @Assisted final URIish u) {
-    server = gs;
+    repoManager = grm;
     pool = p;
     config = c;
     projectName = d;
@@ -99,7 +98,7 @@ class PushOp implements Runnable {
       // created and scheduled for a future point in time.)
       //
       pool.notifyStarting(this);
-      db = server.openRepository(projectName);
+      db = repoManager.openRepository(projectName);
       runImpl();
     } catch (RepositoryNotFoundException e) {
       log.error("Cannot replicate " + projectName + "; " + e.getMessage());

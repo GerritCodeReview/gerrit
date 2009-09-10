@@ -20,7 +20,6 @@ import com.google.gwt.i18n.client.Constants;
 public interface RpcConstants extends Constants {
   public static final RpcConstants C = GWT.create(RpcConstants.class);
 
-  String errorNotSignedIn();
   String errorServerUnavailable();
   String errorRemoteJsonException();
 }

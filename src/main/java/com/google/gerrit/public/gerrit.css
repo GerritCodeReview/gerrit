@@ -302,6 +302,9 @@
   margin-top: 15px;
   text-align: right;
 }
+.gerrit-ErrorDialog-Buttons .gwt-Button {
+  margin-left: 2em;
+}
 
 
 /** Screen **/

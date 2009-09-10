@@ -30,6 +30,9 @@ public interface GerritConstants extends Constants {
   String errorDialogTitle();
   String errorDialogClose();
 
+  String notSignedInTitle();
+  String notSignedInBody();
+
   String notFoundTitle();
   String notFoundBody();
   String nameAlreadyUsedBody();

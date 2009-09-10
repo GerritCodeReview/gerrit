@@ -131,6 +131,7 @@
   margin-left: 0.5em;
 }
 .gerrit-CommentPanel-Buttons .gwt-Button {
+  margin-right: 2em;
   font-size: 7pt;
   padding: 1px;
 }

@@ -51,39 +51,27 @@ public abstract class GerritCallback<T> implements AsyncCallback<T> {
     }
   }
 
-  public static boolean isInvalidXSRF(final Throwable caught) {
+  private static boolean isInvalidXSRF(final Throwable caught) {
     return caught instanceof InvocationException
         && caught.getMessage().equals(JsonUtil.ERROR_INVALID_XSRF);
   }
 
-  public static boolean isNotSignedIn(final Throwable caught) {
-    if (caught instanceof NotSignedInException) {
-      return true;
-    }
+  private static boolean isNotSignedIn(final Throwable caught) {
     return caught instanceof RemoteJsonException
         && caught.getMessage().equals(NotSignedInException.MESSAGE);
   }
 
-  public static boolean isNoSuchEntity(final Throwable caught) {
-    if (caught instanceof NoSuchEntityException) {
-      return true;
-    }
+  protected static boolean isNoSuchEntity(final Throwable caught) {
     return caught instanceof RemoteJsonException
         && caught.getMessage().equals(NoSuchEntityException.MESSAGE);
   }
 
-  public static boolean isNoSuchAccount(final Throwable caught) {
-    if (caught instanceof NoSuchAccountException) {
-      return true;
-    }
+  private static boolean isNoSuchAccount(final Throwable caught) {
     return caught instanceof RemoteJsonException
         && caught.getMessage().startsWith(NoSuchAccountException.MESSAGE);
   }
 
-  public static boolean isNameAlreadyUsed(final Throwable caught) {
-    if (caught instanceof NameAlreadyUsedException) {
-      return true;
-    }
+  private static boolean isNameAlreadyUsed(final Throwable caught) {
     return caught instanceof RemoteJsonException
         && caught.getMessage().equals(NameAlreadyUsedException.MESSAGE);
   }

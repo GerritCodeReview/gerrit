@@ -30,6 +30,8 @@ import com.google.gerrit.git.ReplicationQueue;
 import com.google.gerrit.git.WorkQueue;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.FileTypeRegistry;
+import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.MimeUtilFileTypeRegistry;
@@ -63,6 +65,7 @@ import com.google.inject.Injector;
 import com.google.inject.Module;
 
 import org.spearce.jgit.lib.Config;
+import org.spearce.jgit.lib.PersonIdent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -117,6 +120,9 @@ public class GerritGlobalModule extends FactoryModule {
     bind(CanonicalWebUrlProvider.class).in(SINGLETON);
     bind(String.class).annotatedWith(CanonicalWebUrl.class).toProvider(
         CanonicalWebUrlProvider.class);
+
+    bind(PersonIdent.class).annotatedWith(GerritPersonIdent.class).toProvider(
+        GerritPersonIdentProvider.class);
 
     bind(CachePool.class);
     install(AccountByEmailCache.module());

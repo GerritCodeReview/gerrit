@@ -25,6 +25,7 @@ import com.google.gerrit.client.reviewdb.PatchSetInfo;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.StarredChange;
 import com.google.gerrit.client.reviewdb.UserIdentity;
+import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
@@ -104,6 +105,11 @@ public abstract class OutgoingEmail {
   @CanonicalWebUrl
   @Nullable
   private Provider<String> urlProvider;
+
+  @Inject
+  @GerritPersonIdent
+  private PersonIdent gerritIdent;
+
   private ProjectState projectState;
 
   protected OutgoingEmail(final Change c, final String mc) {
@@ -260,8 +266,7 @@ public abstract class OutgoingEmail {
       return toAddress(fromId);
     }
 
-    final PersonIdent pi = server.newGerritPersonIdent();
-    return new Address(pi.getName(), pi.getEmailAddress());
+    return new Address(gerritIdent.getName(), gerritIdent.getEmailAddress());
   }
 
   private void setListIdHeader() {

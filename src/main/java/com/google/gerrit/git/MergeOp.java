@@ -26,6 +26,7 @@ import com.google.gerrit.client.reviewdb.PatchSetApproval;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.GerritServer;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.CanonicalWebUrl;
@@ -143,6 +144,7 @@ public class MergeOp {
       @CanonicalWebUrl @Nullable final Provider<String> cwu,
       final ApprovalTypes approvalTypes, final PatchSetInfoFactory psif,
       final IdentifiedUser.GenericFactory iuf,
+      @GerritPersonIdent final PersonIdent myIdent,
       @Assisted final Branch.NameKey branch) {
     server = gs;
     schemaFactory = sf;
@@ -156,7 +158,7 @@ public class MergeOp {
     patchSetInfoFactory = psif;
     identifiedUserFactory = iuf;
 
-    myIdent = server.newGerritPersonIdent();
+    this.myIdent = myIdent;
     destBranch = branch;
     toMerge = new ArrayList<CodeReviewCommit>();
     status = new HashMap<Change.Id, CommitMergeStatus>();

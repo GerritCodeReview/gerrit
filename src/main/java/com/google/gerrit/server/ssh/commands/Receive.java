@@ -42,6 +42,7 @@ import com.google.gerrit.client.rpc.NoSuchAccountException;
 import com.google.gerrit.git.PatchSetImporter;
 import com.google.gerrit.git.ReplicationQueue;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.config.CanonicalWebUrl;
@@ -159,6 +160,10 @@ final class Receive extends AbstractGitCommand {
   @CanonicalWebUrl
   @Nullable
   private String canonicalWebUrl;
+
+  @Inject
+  @GerritPersonIdent
+  private PersonIdent gerritIdent;
 
   private ReceivePack rp;
   private PersonIdent refLogIdent;
@@ -1171,10 +1176,9 @@ final class Receive extends AbstractGitCommand {
     // This seems to happen all too often, due to users not paying any
     // attention to what they are doing.
     //
-    final PersonIdent serverIdent = server.newGerritPersonIdent();
     if (c.getParentCount() > 1
-        && author.getName().equals(serverIdent.getName())
-        && author.getEmailAddress().equals(serverIdent.getEmailAddress())) {
+        && author.getName().equals(gerritIdent.getName())
+        && author.getEmailAddress().equals(gerritIdent.getEmailAddress())) {
       reject(cmd, "do not amend merges not made by you");
       return false;
     }

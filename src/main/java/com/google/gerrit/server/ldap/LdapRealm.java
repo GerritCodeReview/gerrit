@@ -117,7 +117,7 @@ class LdapRealm implements Realm {
     for (String groupBase : groupBaseList) {
       LdapQuery groupMemberQuery =
           new LdapQuery(groupBase, groupScope, groupMemberPattern, groupAtts);
-      if (groupMemberQuery.getParameters().length == 0) {
+      if (groupMemberQuery.getParameters().isEmpty()) {
         throw new IllegalArgumentException(
             "No variables in ldap.groupMemberPattern");
       }
@@ -171,7 +171,7 @@ class LdapRealm implements Realm {
     for (String accountBase : accountBaseList) {
       LdapQuery accountQuery =
           new LdapQuery(accountBase, accountScope, accountPattern, accountAtts);
-      if (accountQuery.getParameters().length == 0) {
+      if (accountQuery.getParameters().isEmpty()) {
         throw new IllegalArgumentException(
             "No variables in ldap.accountPattern");
       }

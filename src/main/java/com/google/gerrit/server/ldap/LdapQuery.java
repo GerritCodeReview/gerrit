@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.ldap;
 
+import com.google.gerrit.server.ParamertizedString;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -34,8 +36,7 @@ class LdapQuery {
 
   private final String base;
   private final SearchScope searchScope;
-  private final String pattern;
-  private final String[] patternArgs;
+  private final ParamertizedString pattern;
   private final String[] returnAttributes;
 
   LdapQuery(final String base, final SearchScope searchScope,
@@ -43,30 +44,7 @@ class LdapQuery {
     this.base = base;
     this.searchScope = searchScope;
 
-    final StringBuilder p = new StringBuilder();
-    final List<String> a = new ArrayList<String>(4);
-    int i = 0;
-    while (i < pattern.length()) {
-      final int b = pattern.indexOf("${", i);
-      if (b < 0) {
-        break;
-      }
-      final int e = pattern.indexOf("}", b + 2);
-      if (e < 0) {
-        break;
-      }
-
-      p.append(pattern.substring(i, b));
-      p.append("{" + a.size() + "}");
-      a.add(pattern.substring(b + 2, e));
-      i = e + 1;
-    }
-    if (i < pattern.length()) {
-      p.append(pattern.substring(i));
-    }
-    this.pattern = p.toString();
-    this.patternArgs = new String[a.size()];
-    a.toArray(this.patternArgs);
+    this.pattern = new ParamertizedString(pattern);
 
     if (returnAttributes != null) {
       this.returnAttributes = new String[returnAttributes.size()];
@@ -76,8 +54,8 @@ class LdapQuery {
     }
   }
 
-  String[] getParameters() {
-    return patternArgs;
+  List<String> getParameters() {
+    return pattern.getParameterNames();
   }
 
   List<Result> query(final DirContext ctx, final Map<String, String> params)
@@ -87,7 +65,7 @@ class LdapQuery {
 
     sc.setSearchScope(searchScope.scope());
     sc.setReturningAttributes(returnAttributes);
-    res = ctx.search(base, pattern, bind(params), sc);
+    res = ctx.search(base, pattern.getRawPattern(), pattern.bind(params), sc);
     try {
       final List<Result> r = new ArrayList<Result>();
       while (res.hasMore()) {
@@ -97,17 +75,6 @@ class LdapQuery {
     } finally {
       res.close();
     }
-  }
-
-  private String[] bind(final Map<String, String> params) {
-    final String[] r = new String[patternArgs.length];
-    for (int i = 0; i < r.length; i++) {
-      r[i] = params.get(patternArgs[i]);
-      if (r[i] == null) {
-        r[i] = "";
-      }
-    }
-    return r;
   }
 
   class Result {

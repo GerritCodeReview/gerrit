@@ -315,6 +315,29 @@ limitations under the License.
       </plugin>
 
       <plugin>
+        <groupId>org.scala-tools</groupId>
+        <artifactId>maven-scala-plugin</artifactId>
+        <version>2.11</version>
+        <executions>
+          <execution>
+            <id>scala-compile-first</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>add-source</goal>
+              <goal>compile</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>scala-test-compile</id>
+            <phase>process-test-resources</phase>
+            <goals>
+              <goal>testCompile</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>gwt-maven-plugin</artifactId>
         <version>1.1</version>
@@ -658,6 +681,13 @@ limitations under the License.
       <version>${gwtVersion}</version>
       <scope>provided</scope>
     </dependency>
+    
+    <dependency>
+      <groupId>org.scala-lang</groupId>
+      <artifactId>scala-library</artifactId>
+      <version>2.7.5</version>
+    </dependency>
+    
     <dependency>
     	<groupId>com.google.gimd</groupId>
     	<artifactId>gimd</artifactId>
@@ -675,12 +705,24 @@ limitations under the License.
       <id>gerrit-maven-repository</id>
       <url>http://gerrit.googlecode.com/svn/mavenrepo/</url>
     </repository>
+    
+    <repository>
+      <id>scala-tools.org</id>
+      <name>Scala-tools Maven2 Repository</name>
+      <url>http://scala-tools.org/repo-releases</url>
+    </repository>
   </repositories>
 
   <pluginRepositories>
     <pluginRepository>
       <id>gwt-maven-plugins</id>
       <url>http://snapshots.repository.codehaus.org/</url>
+    </pluginRepository>
+    
+    <pluginRepository>
+      <id>scala-tools.org</id>
+      <name>Scala-tools Maven2 Repository</name>
+      <url>http://scala-tools.org/repo-releases</url>
     </pluginRepository>
   </pluginRepositories>
 </project>

@@ -27,7 +27,8 @@ public class AccountState {
   private final Set<AccountGroup.Id> internalGroups;
   private final Collection<AccountExternalId> externalIds;
 
-  AccountState(final Account account, final Set<AccountGroup.Id> actualGroups,
+  public AccountState(final Account account,
+      final Set<AccountGroup.Id> actualGroups,
       final Collection<AccountExternalId> externalIds) {
     this.account = account;
     this.internalGroups = actualGroups;

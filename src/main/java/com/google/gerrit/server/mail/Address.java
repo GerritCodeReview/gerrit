@@ -15,8 +15,25 @@
 package com.google.gerrit.server.mail;
 
 class Address {
-  String name;
-  String email;
+  static Address parse(final String in) {
+    final int lt = in.indexOf('<');
+    final int gt = in.indexOf('>');
+    final int at = in.indexOf("@");
+    if (0 <= lt && lt < gt && lt + 1 < at && at + 1 < gt) {
+      final String email = in.substring(lt + 1, gt).trim();
+      final String name = in.substring(0, lt).trim();
+      return new Address(name.length() > 0 ? name : null, email);
+    }
+
+    if (lt < 0 && gt < 0 && 0 < at && at < in.length() - 1) {
+      return new Address(in);
+    }
+
+    throw new IllegalArgumentException("Invalid email address: " + in);
+  }
+
+  final String name;
+  final String email;
 
   Address(String email) {
     this(null, email);

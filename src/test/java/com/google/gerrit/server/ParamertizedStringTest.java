@@ -32,6 +32,19 @@ public class ParamertizedStringTest extends TestCase {
     assertEquals("", p.replace(a));
   }
 
+  public void testAsis1() {
+    final ParamertizedString p = ParamertizedString.asis("${bar}c");
+    assertEquals("${bar}c", p.getPattern());
+    assertEquals("${bar}c", p.getRawPattern());
+    assertTrue(p.getParameterNames().isEmpty());
+
+    final Map<String, String> a = new HashMap<String, String>();
+    a.put("bar", "frobinator");
+    assertNotNull(p.bind(a));
+    assertEquals(0, p.bind(a).length);
+    assertEquals("${bar}c", p.replace(a));
+  }
+
   public void testReplace1() {
     final ParamertizedString p = new ParamertizedString("${bar}c");
     assertEquals("${bar}c", p.getPattern());

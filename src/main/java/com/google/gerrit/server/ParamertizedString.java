@@ -22,10 +22,22 @@ import java.util.Map;
 
 /** Performs replacements on strings such as <code>Hello ${user}</code>. */
 public class ParamertizedString {
+  /** Obtain a string which has no parameters and always produces the value. */
+  public static ParamertizedString asis(final String constant) {
+    return new ParamertizedString(new Constant(constant));
+  }
+
   private final String pattern;
   private final String rawPattern;
   private final List<Format> patternOps;
   private final List<String> patternArgs;
+
+  private ParamertizedString(final Constant c) {
+    pattern = c.text;
+    rawPattern = c.text;
+    patternOps = Collections.<Format> singletonList(c);
+    patternArgs = Collections.emptyList();
+  }
 
   public ParamertizedString(final String pattern) {
     final StringBuilder raw = new StringBuilder();

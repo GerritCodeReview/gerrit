@@ -26,7 +26,6 @@ import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.reviewdb.StarredChange;
 import com.google.gerrit.client.reviewdb.UserIdentity;
 import com.google.gerrit.git.GitRepositoryManager;
-import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.CanonicalWebUrl;
@@ -42,7 +41,6 @@ import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import org.spearce.jgit.lib.PersonIdent;
 import org.spearce.jgit.util.SystemReader;
 
 import java.net.MalformedURLException;
@@ -93,6 +91,9 @@ public abstract class OutgoingEmail {
   private PatchListCache patchListCache;
 
   @Inject
+  private FromAddressGenerator fromAddressGenerator;
+
+  @Inject
   private EmailSender emailSender;
 
   @Inject
@@ -105,10 +106,6 @@ public abstract class OutgoingEmail {
   @CanonicalWebUrl
   @Nullable
   private Provider<String> urlProvider;
-
-  @Inject
-  @GerritPersonIdent
-  private PersonIdent gerritIdent;
 
   private ProjectState projectState;
 
@@ -219,7 +216,7 @@ public abstract class OutgoingEmail {
       projectName = null;
     }
 
-    smtpFromAddress = computeFrom();
+    smtpFromAddress = fromAddressGenerator.from(fromId);
     if (changeMessage != null && changeMessage.getWrittenOn() != null) {
       setHeader("Date", new Date(changeMessage.getWrittenOn().getTime()));
     } else {
@@ -232,6 +229,19 @@ public abstract class OutgoingEmail {
       setChangeSubjectHeader();
     }
     setHeader("Message-ID", "");
+
+    if (fromId != null) {
+      // If we have a user that this message is supposedly caused by
+      // but the From header on the email does not match the user as
+      // it is a generic header for this Gerrit server, include the
+      // Reply-To header with the current user's email address.
+      //
+      final Address a = toAddress(fromId);
+      if (a != null && !smtpFromAddress.email.equals(a.email)) {
+        setHeader("Reply-To", a.email);
+      }
+    }
+
     setHeader("X-Gerrit-MessageType", messageClass);
     if (change != null) {
       setHeader("X-Gerrit-Change-Id", "" + change.getKey().get());
@@ -259,14 +269,6 @@ public abstract class OutgoingEmail {
         }
       }
     }
-  }
-
-  private Address computeFrom() {
-    if (fromId != null) {
-      return toAddress(fromId);
-    }
-
-    return new Address(gerritIdent.getName(), gerritIdent.getEmailAddress());
   }
 
   private void setListIdHeader() {

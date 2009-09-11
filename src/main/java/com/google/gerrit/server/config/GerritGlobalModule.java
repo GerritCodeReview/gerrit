@@ -49,6 +49,8 @@ import com.google.gerrit.server.mail.AddReviewerSender;
 import com.google.gerrit.server.mail.CommentSender;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.mail.EmailSender;
+import com.google.gerrit.server.mail.FromAddressGenerator;
+import com.google.gerrit.server.mail.FromAddressGeneratorProvider;
 import com.google.gerrit.server.mail.MergeFailSender;
 import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.mail.RegisterNewEmailSender;
@@ -147,7 +149,10 @@ public class GerritGlobalModule extends FactoryModule {
     factory(MergeOp.Factory.class);
     factory(ReloadSubmitQueueOp.Factory.class);
 
+    bind(FromAddressGenerator.class).toProvider(
+        FromAddressGeneratorProvider.class).in(SINGLETON);
     bind(EmailSender.class).to(SmtpEmailSender.class).in(SINGLETON);
+
     factory(PatchSetImporter.Factory.class);
     bind(PatchSetInfoFactory.class);
     bind(IdentifiedUser.GenericFactory.class).in(SINGLETON);

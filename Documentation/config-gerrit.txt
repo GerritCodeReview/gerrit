@@ -655,6 +655,43 @@ and all other properties of section sendemail are ignored.
 +
 By default, true, allowing notifications to be sent.
 
+[[sendemail.from]]sendemail.from::
++
+Designates what name and address Gerrit will place in the From
+field of any generated email messages.  The supported values are:
++
+* `USER`
++
+Gerrit will set the From header to use the current user's
+Full Name and Preferred Email.  This may cause messsages to be
+classified as spam if the user's domain has SPF or DKIM enabled
+and <<sendemail.smtpServer,sendemail.smtpServer>> is not a trusted
+relay for that domain.
++
+* `MIXED`
++
+Shorthand for `$\{user\} (Code Review) <review@example.com>` where
+`review@example.com` is the same as <<user.email,user.email>>.
+See below for a description of how the replacement is handled.
++
+* `SERVER`
++
+Gerrit will set the From header to the same name and address
+it records in any commits Gerrit creates.  This is set by
+<<user.name,user.name>> and <<user.email,user.email>>, or guessed
+from the local operating system.
++
+* 'Code Review' `<`'review'`@`'example.com'`>`
++
+If set to a name and email address in brackets, Gerrit will use
+this name and email address for any messages, overriding the name
+that may have been selected for commits by user.name and user.email.
+Optionally, the name portion may contain the placeholder `$\{user\}`,
+which is replaced by the Full Name of the current user.
+
++
+By default, MIXED.
+
 [[sendemail.smtpServer]]sendemail.smtpServer::
 +
 Hostname (or IP address) of a SMTP server that will relay

@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAAmn////Q\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/reviewdb/Account.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-11T02:14:26Z",
+      "side": 1,
+      "message": "{@link #sshUserName} is sufficient here.",
+      "revId": "36dc24877be698421e5ff7ecef8a224ab2b15040",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAmn////U\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/reviewdb/Account.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-11T02:14:26Z",
+      "side": 1,
+      "message": "Must be final.\n\nName should be ALL_UPPER_CASE style.\n\nAlso, why two different classes in the remaining characters?  Why not have it just be one character class?\n\nAnd \"+-.\" is dangerous, its read as \"all characters in the range + through .\" which is not the intent.  To include \"-\" in a character class, make it the last character in the class, e.g. \"[a-z-]\".",
+      "revId": "36dc24877be698421e5ff7ecef8a224ab2b15040",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAmX///+U\u003d",
         "filename": "src/main/java/com/google/gerrit/client/rpc/InvalidSshUserNameException.java",
         "patchSetId": 1
@@ -13,6 +47,41 @@
       "writtenOn": "2009-09-10T23:58:22Z",
       "side": 1,
       "message": "Why red color here?",
+      "revId": "36dc24877be698421e5ff7ecef8a224ab2b15040",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAmn////M\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/rpc/InvalidSshUserNameException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-11T02:14:26Z",
+      "side": 1,
+      "message": "Its red because you have space-before-tab in the leading indentation of the line.  Please fix to be only spaces.\n\nAlso, don\u0027t give the user the raw pattern, its a mess to read.  If you really want to do that, limit the pattern even more.  But at that point we might as well just say:\n\n  pattern \u003d \"^[a-zA-Z][a-zA-Z0-9_.-]*$\"\n\nBut that is still very messy for the user to read.",
+      "parentUuid": "AAAAmX///+U\u003d",
+      "revId": "36dc24877be698421e5ff7ecef8a224ab2b15040",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAmn////I\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/rpc/account/AccountSecurityImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-11T02:14:26Z",
+      "side": 1,
+      "message": "Should be final.",
       "revId": "36dc24877be698421e5ff7ecef8a224ab2b15040",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

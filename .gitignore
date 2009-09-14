@@ -9,3 +9,4 @@
 /src/main/webapp/gerrit
 /src/main/webapp/WEB-INF/lib
 /hs_err_pid*.log
+/.manager

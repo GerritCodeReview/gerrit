@@ -350,7 +350,7 @@ limitations under the License.
         <executions>
           <execution>
             <goals>
-              <goal>compile</goal>                    
+              <goal>compile</goal>
             </goals>
           </execution>
         </executions>
@@ -449,7 +449,7 @@ limitations under the License.
                 </copy>
 
                 <apply executable="gzip" addsourcefile="false">
-                  <arg value="-9"/> 
+                  <arg value="-9"/>
                   <fileset dir="${m}"
                            includes="**/*.html,**/*.css"/>
                   <redirector>
@@ -681,13 +681,13 @@ limitations under the License.
       <version>${gwtVersion}</version>
       <scope>provided</scope>
     </dependency>
-    
+
     <dependency>
       <groupId>org.scala-lang</groupId>
       <artifactId>scala-library</artifactId>
       <version>2.7.5</version>
     </dependency>
-    
+
     <dependency>
     	<groupId>com.google.gimd</groupId>
     	<artifactId>gimd</artifactId>
@@ -705,7 +705,7 @@ limitations under the License.
       <id>gerrit-maven-repository</id>
       <url>http://gerrit.googlecode.com/svn/mavenrepo/</url>
     </repository>
-    
+
     <repository>
       <id>scala-tools.org</id>
       <name>Scala-tools Maven2 Repository</name>
@@ -718,7 +718,7 @@ limitations under the License.
       <id>gwt-maven-plugins</id>
       <url>http://snapshots.repository.codehaus.org/</url>
     </pluginRepository>
-    
+
     <pluginRepository>
       <id>scala-tools.org</id>
       <name>Scala-tools Maven2 Repository</name>

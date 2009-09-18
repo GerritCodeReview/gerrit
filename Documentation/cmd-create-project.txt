@@ -55,6 +55,10 @@ Defaults to `Administrators` if not specified.
 \--description::
 	Initial description of the project.  If not specified,
 	no description is stored.
++
+Description values containing spaces should be quoted in single quotes
+(\').  This most likely requires double quoting the value, for example
+`\--description "\'A description string\'"`.
 
 \--submit-type::
 	Action used by Gerrit to submit an approved change to its
@@ -87,6 +91,17 @@ Create a new project called `tools/gerrit`:
 ====
 	$ ssh -p 29418 review.example.com gerrit create-project --name tools/gerrit.git
 ====
+
+Create a new project with a description:
+
+====
+	$ ssh -p 29418 review.example.com gerrit create-project --name tool.git --description "'Tools used by build system'" 
+====
+
+Note that it is necessary to quote the description twice.  The local
+shell needs double quotes around the value to ensure the single quotes
+are passed through SSH as-is to the remote Gerrit server, which uses
+the single quotes to delimit the value.
 
 REPLICATION
 -----------

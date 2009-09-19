@@ -10,11 +10,12 @@ SYNOPSIS
 [verse]
 'ssh' -p <port> <host> 'gerrit create-project' \
 \--name <NAME> \
-[\--owner <OWNER>] \
+[--branch <REF>] \
+[\--owner <GROUP>] \
 [\--description <DESC>] \
 [\--submit-type <TYPE>] \
-[\--use-contributor-agreements {true|false}] \
-[\--use-signed-off-by {true|false}]
+[\--use-contributor-agreements] \
+[\--use-signed-off-by]
 
 DESCRIPTION
 -----------
@@ -43,6 +44,10 @@ OPTIONS
 	Required; name of the project to create.  If name ends with
 	`.git` the suffix will be automatically removed.
 
+\--branch::
+	Name of the initial branch in the newly created project.
+	Defaults to 'master'.
+
 \--owner::
 	Name of the group which will initially own this repository.
 	The specified group must already be defined within Gerrit.
@@ -64,13 +69,13 @@ Description values containing spaces should be quoted in single quotes
 	Action used by Gerrit to submit an approved change to its
 	destination branch.  Supported options are:
 +
-* fast-forward-only: produces a strictly linear history.
-* merge-if-necessary: create a merge commit when required.
-* merge-always: always create a merge commit.
-* cherry-pick: always cherry-pick the commit.
+* FAST_FORWARD_ONLY: produces a strictly linear history.
+* MERGE_IF_NECESSARY: create a merge commit when required.
+* MERGE_ALWAYS: always create a merge commit.
+* CHERRY_PICK: always cherry-pick the commit.
 
 +
-Defaults to fast-forward-only.  For more details see
+Defaults to MERGE_IF_NECESSARY.  For more details see
 link:project-setup.html#submit_type[Change Submit Actions].
 
 \--use-contributor-agreements::
@@ -108,13 +113,13 @@ REPLICATION
 The remote repository creation is performed by a Bourne shell script:
 
 ====
-  mkdir -p '/base/project.git' && cd '/base/project.git' && git init --bare
+  mkdir -p '/base/project.git' && cd '/base/project.git' && git init --bare && git update-ref HEAD refs/heads/master
 ====
 
-For this to work successfully the remote system must be able to
-run arbitrary shell scripts, and must have `git` in the user's PATH
-environment variable.  Administrators can run this command by hand
-to establish a new empty repository if necessary.
+For this to work successfully the remote system must be able to run
+arbitrary shell scripts, and must have `git` in the user's PATH
+environment variable.  Administrators could also run this command line
+by hand to establish a new empty repository.
 
 SEE ALSO
 --------

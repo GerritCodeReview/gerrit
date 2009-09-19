@@ -53,6 +53,7 @@ public interface ReplicationQueue {
    * that the project will be created at the remote sites as well.
    *
    * @param project of the project to be created.
+   * @param head name HEAD should point at (must be {@code refs/heads/...}).
    */
-  void replicateNewProject(Project.NameKey project);
+  void replicateNewProject(Project.NameKey project, String head);
 }

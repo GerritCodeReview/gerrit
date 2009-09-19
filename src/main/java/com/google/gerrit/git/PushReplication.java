@@ -174,7 +174,7 @@ public class PushReplication implements ReplicationQueue {
     return result;
   }
 
-  public void replicateNewProject(Project.NameKey projectName) {
+  public void replicateNewProject(Project.NameKey projectName, String head) {
     if (!isEnabled()) {
       return;
     }
@@ -188,13 +188,12 @@ public class PushReplication implements ReplicationQueue {
       Iterator<URIish> uriIter = uriList.iterator();
 
       while (uriIter.hasNext()) {
-          replicateProject(uriIter.next());
+          replicateProject(uriIter.next(), head);
       }
     }
   }
 
-
-  private void replicateProject(final URIish replicateURI) {
+  private void replicateProject(final URIish replicateURI, final String head) {
     SshSessionFactory sshFactory = SshSessionFactory.getInstance();
     Session sshSession;
     String projectPath = QuotedString.BOURNE.quote(replicateURI.getPath());
@@ -208,7 +207,8 @@ public class PushReplication implements ReplicationQueue {
     OutputStream errStream  = createErrStream();
     String cmd = "mkdir -p " + projectPath
     + "&& cd " + projectPath
-    + "&& git init --bare";
+    + "&& git init --bare"
+    + "&& git symbolic-ref HEAD " + QuotedString.BOURNE.quote(head);
 
     try {
       sshSession = sshFactory.getSession(replicateURI.getUser(),

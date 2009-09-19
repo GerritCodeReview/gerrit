@@ -66,6 +66,7 @@ import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Module;
+import com.google.inject.Provider;
 
 import org.spearce.jgit.lib.Config;
 import org.spearce.jgit.lib.PersonIdent;
@@ -76,14 +77,22 @@ import java.util.List;
 /** Starts global state with standard dependencies. */
 public class GerritGlobalModule extends FactoryModule {
   public static Injector createInjector() {
-    return createInjector(Guice
-        .createInjector(PRODUCTION, new DatabaseModule()));
+    final Injector db = Guice.createInjector(PRODUCTION, new DatabaseModule());
+    final CanonicalWebUrlModule canonicalWebUrl = new CanonicalWebUrlModule() {
+      @Override
+      protected Class<? extends Provider<String>> provider() {
+        return CanonicalWebUrlProvider.class;
+      }
+    };
+    return createInjector(db, canonicalWebUrl);
   }
 
-  public static Injector createInjector(final Injector db) {
+  public static Injector createInjector(final Injector db,
+      final CanonicalWebUrlModule canonicalWebUrl) {
     final Injector cfg = db.createChildInjector(new GerritConfigModule());
     final List<Module> modules = new ArrayList<Module>();
     modules.add(cfg.getInstance(GerritGlobalModule.class));
+    modules.add(canonicalWebUrl);
     return cfg.createChildInjector(modules);
   }
 
@@ -112,17 +121,6 @@ public class GerritGlobalModule extends FactoryModule {
     bind(EmailExpander.class).toProvider(EmailExpanderProvider.class).in(
         SINGLETON);
     bind(AnonymousUser.class);
-
-    // Note that the CanonicalWebUrl itself must not be a singleton, but its
-    // provider must be.
-    //
-    // If the value was not configured in the system configuration data the
-    // provider may try to guess it from the current HTTP request, if we are
-    // running in an HTTP environment.
-    //
-    bind(CanonicalWebUrlProvider.class).in(SINGLETON);
-    bind(String.class).annotatedWith(CanonicalWebUrl.class).toProvider(
-        CanonicalWebUrlProvider.class);
 
     bind(PersonIdent.class).annotatedWith(GerritPersonIdent.class).toProvider(
         GerritPersonIdentProvider.class);

@@ -20,7 +20,7 @@ import com.google.gerrit.git.PushAllProjectsOp;
 import com.google.gerrit.git.ReloadSubmitQueueOp;
 import com.google.gerrit.git.WorkQueue;
 import com.google.gerrit.server.cache.CachePool;
-import com.google.gerrit.server.config.CanonicalWebUrlProvider;
+import com.google.gerrit.server.config.CanonicalWebUrlModule;
 import com.google.gerrit.server.config.DatabaseModule;
 import com.google.gerrit.server.config.GerritGlobalModule;
 import com.google.gerrit.server.ssh.SshDaemon;
@@ -30,6 +30,7 @@ import com.google.inject.CreationException;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
+import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 import com.google.inject.servlet.GuiceServletContextListener;
 import com.google.inject.spi.Message;
@@ -80,7 +81,14 @@ public class GerritServletConfig extends GuiceServletContextListener {
         throw new CreationException(Collections.singleton(first));
       }
 
-      sysInjector = GerritGlobalModule.createInjector(dbInjector);
+      sysInjector =
+          GerritGlobalModule.createInjector(dbInjector,
+              new CanonicalWebUrlModule() {
+                @Override
+                protected Class<? extends Provider<String>> provider() {
+                  return HttpCanonicalWebUrlProvider.class;
+                }
+              });
       sshInjector = createSshInjector();
       webInjector = createWebInjector();
 
@@ -93,7 +101,7 @@ public class GerritServletConfig extends GuiceServletContextListener {
       // injection here because the HTTP environment is not visible
       // to the core server modules.
       //
-      sysInjector.getInstance(CanonicalWebUrlProvider.class)
+      sysInjector.getInstance(HttpCanonicalWebUrlProvider.class)
           .setHttpServletRequest(
               webInjector.getProvider(HttpServletRequest.class));
     }

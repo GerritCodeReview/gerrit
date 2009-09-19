@@ -23,10 +23,13 @@ import com.google.gerrit.client.reviewdb.AccountSshKey;
 import com.google.gerrit.client.reviewdb.ContactInformation;
 import com.google.gerrit.client.reviewdb.ContributorAgreement;
 import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gerrit.client.reviewdb.UserDb;
 import com.google.gerrit.client.rpc.ContactInformationStoreException;
 import com.google.gerrit.client.rpc.InvalidSshKeyException;
 import com.google.gerrit.client.rpc.NameAlreadyUsedException;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
+import com.google.gerrit.scala.JFunction1;
+import com.google.gerrit.scala.ScalaUtil;
 import com.google.gerrit.server.BaseServiceImplementation;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountByEmailCache;
@@ -41,6 +44,8 @@ import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.mail.RegisterNewEmailSender;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gerrit.server.ssh.SshUtil;
+import com.google.gimd.Snapshot;
+import com.google.gimd.modification.DatabaseModification;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtjsonrpc.server.ValidToken;
@@ -50,9 +55,14 @@ import com.google.gwtorm.client.Transaction;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import com.google.gimd.Snapshot;
+import com.google.gimd.modification.DatabaseModification;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spearce.jgit.util.Base64;
+
+import scala.Tuple2;
 
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
@@ -77,12 +87,13 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
   private final AccountCache accountCache;
   private final AccountManager accountManager;
   private final boolean useContactInfo;
+  private final UserDb userDb;
 
   private final ExternalIdDetailFactory.Factory externalIdDetailFactory;
   private final MyGroupsFactory.Factory myGroupsFactory;
 
   @Inject
-  AccountSecurityImpl(final Provider<ReviewDb> schema,
+  AccountSecurityImpl(final Provider<ReviewDb> schema, final UserDb userDb,
       final Provider<CurrentUser> currentUser, final ContactStore cs,
       final AuthConfig ac, final Realm r,
       final RegisterNewEmailSender.Factory esf, final SshKeyCache skc,
@@ -99,6 +110,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
     byEmailCache = abec;
     accountCache = uac;
     accountManager = am;
+    this.userDb = userDb;
 
     useContactInfo = contactStore != null && contactStore.isEnabled();
 
@@ -190,31 +202,48 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
     run(callback, new Action<VoidResult>() {
       @Override
       public VoidResult run(ReviewDb db) throws OrmException, Failure {
-        final Account me = db.accounts().get(getAccountId());
-        if (me == null) {
-          throw new Failure(new NoSuchEntityException());
-        }
-        final Account other;
-        if (newName != null) {
-          other = db.accounts().bySshUserName(newName);
-        } else {
-          other = null;
-        }
+        final ChangeSshUserNameResult result = userDb.modifyAndReturn(ScalaUtil.fun1(
+          new JFunction1<Snapshot, scala.Tuple2<DatabaseModification, ChangeSshUserNameResult>>() {
 
-        if (other != null) {
-          if (other.getId().equals(me.getId())) {
-            return VoidResult.INSTANCE;
-          } else {
-            throw new Failure(new NameAlreadyUsedException());
+            @Override
+            public Tuple2<DatabaseModification, ChangeSshUserNameResult> apply(Snapshot snapshot)
+              throws Failure, OrmException {
+              final Account me = userDb.byOldId(getAccountId().get(), snapshot);
+              if (me == null) {
+                throw new Failure(new NoSuchEntityException());
+              }
+              final Account other;
+              if (newName != null) {
+                other = userDb.bySshUserName(newName, snapshot);
+              } else {
+                other = null;
+              }
+
+              DatabaseModification modif = userDb.emptyModification();
+
+              if (other != null) {
+                if (other.getId().equals(me.getId())) {
+                  return ScalaUtil.tuple2(modif, null);
+                } else {
+                  throw new Failure(new NameAlreadyUsedException());
+                }
+              }
+
+              final String oldName = me.getSshUserName();
+              me.setSshUserName(newName);
+              modif = userDb.updateAccount(me, modif, snapshot);
+
+              return ScalaUtil.tuple2(modif, new ChangeSshUserNameResult(me, oldName));
+            }
+
           }
-        }
+        ));
 
-        final String oldName = me.getSshUserName();
-        me.setSshUserName(newName);
-        db.accounts().update(Collections.singleton(me));
-        uncacheSshKeys(oldName);
-        uncacheSshKeys(newName);
-        accountCache.evict(me.getId());
+        if (result != null) {
+          uncacheSshKeys(result.oldName);
+          uncacheSshKeys(result.account.getSshUserName());
+          accountCache.evict(result.account.getId());
+        }
         return VoidResult.INSTANCE;
       }
     });
@@ -292,12 +321,26 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
       final ContactInformation info, final AsyncCallback<Account> callback) {
     run(callback, new Action<Account>() {
       public Account run(ReviewDb db) throws OrmException, Failure {
-        final Account me = db.accounts().get(getAccountId());
-        final String oldEmail = me.getPreferredEmail();
-        if (realm.allowsEdit(Account.FieldName.FULL_NAME)) {
-          me.setFullName(name != null && !name.isEmpty() ? name : null);
-        }
-        me.setPreferredEmail(emailAddr);
+        final UpdateContactResult result = userDb.modifyAndReturn(ScalaUtil.fun1(
+          new JFunction1<Snapshot, scala.Tuple2<DatabaseModification, UpdateContactResult>>() {
+
+            @Override
+            public Tuple2<DatabaseModification, UpdateContactResult> apply(Snapshot snapshot)
+              throws OrmException {
+              final Account me = userDb.byOldId(getAccountId().get(), snapshot);
+              final String oldEmail = me.getPreferredEmail();
+              if (realm.allowsEdit(Account.FieldName.FULL_NAME)) {
+                me.setFullName(name != null && !name.isEmpty() ? name : null);
+              }
+              me.setPreferredEmail(emailAddr);
+              DatabaseModification modif = userDb.emptyModification();
+              modif = userDb.updateAccount(me, modif, snapshot);
+              return ScalaUtil.tuple2(modif, new UpdateContactResult(me, oldEmail));
+            }
+
+          }
+        ));
+        final Account me = result.account;
         if (useContactInfo) {
           if (ContactInformation.hasAddress(info)
               || (me.isContactFiled() && ContactInformation.hasData(info))) {
@@ -311,9 +354,8 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
             }
           }
         }
-        db.accounts().update(Collections.singleton(me));
-        if (!eq(oldEmail, me.getPreferredEmail())) {
-          byEmailCache.evict(oldEmail);
+        if (!eq(result.oldEmail, me.getPreferredEmail())) {
+          byEmailCache.evict(result.oldEmail);
           byEmailCache.evict(me.getPreferredEmail());
         }
         accountCache.evict(me.getId());
@@ -387,6 +429,26 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
       callback.onFailure(e);
     } catch (AccountException e) {
       callback.onFailure(e);
+    }
+  }
+
+  private static class UpdateContactResult {
+    public final Account account;
+    public final String oldEmail;
+
+    public UpdateContactResult(Account account, String oldEmail) {
+      this.account = account;
+      this.oldEmail = oldEmail;
+    }
+  }
+
+  private static class ChangeSshUserNameResult {
+    public final Account account;
+    public final String oldName;
+
+    public ChangeSshUserNameResult(Account account, String oldName) {
+      this.account = account;
+      this.oldName = oldName;
     }
   }
 }

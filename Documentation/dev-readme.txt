@@ -116,6 +116,12 @@ the JavaScript happens to be.
   mvn package -DgwtStyle=DETAILED
 ====
 
+On Mac OS X ensure 'Java For Mac OS X 10.5 Upate 4' has been installed,
+and that `JAVA_HOME` is set to `/System/Library/Frameworks/JavaVM.framework/Versions/1.6/Home`.
+You can check this by running `java -version` and looking for
+`build 1.6.0_13-b03-211`.  Versions of Java 6 prior to this version
+crash during the build due to a bug in the JIT compiler.
+
 Production Compile
 ------------------
 

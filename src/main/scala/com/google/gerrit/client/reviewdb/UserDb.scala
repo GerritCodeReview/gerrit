@@ -36,6 +36,8 @@ final class UserDb @Inject()(@GerritServerConfig private val cfg: Config) {
 
   private object AccountType extends UserType[Account] {
 
+    override val children = Seq(new NestedMember("generalPreferences", GeneralPreferencesType))
+
     def fields = List(
       FieldSpec("accountId", StringField, _.sha1Id),
       FieldSpec("fullName", StringField, _.fullName),
@@ -59,7 +61,28 @@ final class UserDb @Inject()(@GerritServerConfig private val cfg: Config) {
       account.registeredOn =
               new java.sql.Timestamp(m.one("registeredOn").timestampField.value.getTime)
       account.sha1Id = m.one("accountId").stringField.value
+      val preferences = GeneralPreferencesType.
+              toUserObject(m.one("generalPreferences").messageField.value)
+      account.setGeneralPreferences(preferences)
       account
+    }
+  }
+
+  private object GeneralPreferencesType extends UserType[AccountGeneralPreferences] {
+    def fields = List(
+      FieldSpec("defaultContext", IntField, _.defaultContext.toInt),
+      FieldSpec("maximumPageSize", IntField, _.maximumPageSize.toInt),
+      FieldSpec("showSiteHeader", StringField, _.showSiteHeader.toString),
+      FieldSpec("useFlashClipboard", StringField, _.useFlashClipboard.toString)
+      )
+
+    def toUserObject(m: Message) = {
+      val p = new AccountGeneralPreferences
+      p.setDefaultContext(m.one("defaultContext").intField.value.toShort)
+      p.setMaximumPageSize(m.one("maximumPageSize").intField.value.toShort)
+      p.setShowSiteHeader(m.one("showSiteHeader").stringField.value == "true")
+      p.setUseFlashClipboard(m.one("useFlashClipboard").stringField.value == "true")
+      p
     }
   }
 

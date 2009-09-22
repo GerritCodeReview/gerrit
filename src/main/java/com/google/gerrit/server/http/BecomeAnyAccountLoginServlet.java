@@ -15,11 +15,10 @@
 package com.google.gerrit.server.http;
 
 import com.google.gerrit.client.reviewdb.Account;
-import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gerrit.client.reviewdb.UserDb;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.Nullable;
 import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -39,18 +38,17 @@ import javax.servlet.http.HttpServletResponse;
 @SuppressWarnings("serial")
 @Singleton
 public class BecomeAnyAccountLoginServlet extends HttpServlet {
-  private final SchemaFactory<ReviewDb> schema;
+  private final UserDb userDb;
   private final Provider<WebSession> webSession;
   private final Provider<String> urlProvider;
   private final byte[] raw;
 
   @Inject
-  BecomeAnyAccountLoginServlet(final Provider<WebSession> ws,
-      final SchemaFactory<ReviewDb> sf,
+  BecomeAnyAccountLoginServlet(final Provider<WebSession> ws, final UserDb userDb,
       final @CanonicalWebUrl @Nullable Provider<String> up,
       final ServletContext servletContext) throws IOException {
     webSession = ws;
-    schema = sf;
+    this.userDb = userDb;
     urlProvider = up;
 
     final String hostPageName = "WEB-INF/BecomeAnyAccount.html";
@@ -119,14 +117,8 @@ public class BecomeAnyAccountLoginServlet extends HttpServlet {
   private List<Account> bySshUserName(final HttpServletResponse rsp,
       final String userName) {
     try {
-      final ReviewDb db = schema.open();
-      try {
-        final Account account = db.accounts().bySshUserName(userName);
-        return account != null ? Collections.<Account> singletonList(account)
-            : Collections.<Account> emptyList();
-      } finally {
-        db.close();
-      }
+      final Account account = userDb.bySshUserName(userName, userDb.latestSnapshot());
+      return Collections.<Account> singletonList(account);
     } catch (OrmException e) {
       getServletContext().log("cannot query database", e);
       return Collections.<Account> emptyList();
@@ -135,17 +127,7 @@ public class BecomeAnyAccountLoginServlet extends HttpServlet {
 
   private List<Account> byPreferredEmail(final HttpServletResponse rsp,
       final String email) {
-    try {
-      final ReviewDb db = schema.open();
-      try {
-        return db.accounts().byPreferredEmail(email).toList();
-      } finally {
-        db.close();
-      }
-    } catch (OrmException e) {
-      getServletContext().log("cannot query database", e);
-      return Collections.<Account> emptyList();
-    }
+    return userDb.byPreferredEmail(email, userDb.latestSnapshot()).toList();
   }
 
   private List<Account> byAccountId(final HttpServletResponse rsp,
@@ -157,14 +139,8 @@ public class BecomeAnyAccountLoginServlet extends HttpServlet {
       return Collections.<Account> emptyList();
     }
     try {
-      final ReviewDb db = schema.open();
-      try {
-        final Account account = db.accounts().get(id);
-        return account != null ? Collections.<Account> singletonList(account)
-            : Collections.<Account> emptyList();
-      } finally {
-        db.close();
-      }
+      final Account account = userDb.byOldId(id.get(), userDb.latestSnapshot());
+      return Collections.<Account> singletonList(account);
     } catch (OrmException e) {
       getServletContext().log("cannot query database", e);
       return Collections.<Account> emptyList();

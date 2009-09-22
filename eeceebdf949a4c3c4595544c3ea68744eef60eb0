@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAAm3///WU\u003d",
+        "filename": "src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-22T16:03:44Z",
+      "side": 1,
+      "message": "Change this to be:\n\n  Injector sshInjector \u003d sysInjector.createChildInjector(\n    new SshModule(),\n    new SlaveCommandModule()\n  );\n\n\nLikewise over in GerritServletConfig, at the other SshModule constructor call site, add in the master command module.",
+      "revId": "eeceebdf949a4c3c4595544c3ea68744eef60eb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAm3///YI\u003d",
         "filename": "src/main/java/com/google/gerrit/server/ssh/SshModule.java",
         "patchSetId": 3
@@ -13,6 +30,109 @@
       "writtenOn": "2009-09-22T00:47:51Z",
       "side": 1,
       "message": "I don\u0027t think this is exactly what you had in mind.  I\u0027m very new to Guice, so let me know if there is a different API I could use to avoid the logic in configure().",
+      "revId": "eeceebdf949a4c3c4595544c3ea68744eef60eb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAm3///WY\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/SshModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-22T16:03:44Z",
+      "side": 1,
+      "message": "Its not.  Remove all of this code from here, install only the DefaultCommandModule at this point.  Over in Daemon and GerritServletConfig you should add the other module to the Guice injector.",
+      "parentUuid": "AAAAm3///YI\u003d",
+      "revId": "eeceebdf949a4c3c4595544c3ea68744eef60eb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAm3///Ws\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/DefaultCommandModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-22T16:03:44Z",
+      "side": 1,
+      "message": "This binding must go into master mode, as in slave mode there is nothing to bind to (gerrit receive-pack does not exist).",
+      "revId": "eeceebdf949a4c3c4595544c3ea68744eef60eb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAm3///Wo\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/DefaultCommandModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-22T16:03:44Z",
+      "side": 1,
+      "message": "Binding must go in master mode.",
+      "revId": "eeceebdf949a4c3c4595544c3ea68744eef60eb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAm3///Wk\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/DefaultCommandModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-22T16:03:44Z",
+      "side": 1,
+      "message": "Binding must go in master mode.",
+      "revId": "eeceebdf949a4c3c4595544c3ea68744eef60eb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAm3///Wg\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/ErrorSlaveMode.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-22T16:03:44Z",
+      "side": 1,
+      "message": "Style-nit: unnecessary blank line.",
+      "revId": "eeceebdf949a4c3c4595544c3ea68744eef60eb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAm3///Wc\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/ErrorSlaveMode.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-22T16:03:44Z",
+      "side": 1,
+      "message": "Don\u0027t start a thread to report the error.\n\nInstead use:\n\n      String msg \u003d \"error: ....\\n\";\n      err.write(msg.getBytes(ENC));\n      err.flush();\n      onExit(1);",
       "revId": "eeceebdf949a4c3c4595544c3ea68744eef60eb0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -20,6 +20,7 @@ import com.google.gerrit.client.reviewdb.AccountExternalId;
 import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gerrit.client.reviewdb.UserDb;
 import com.google.gerrit.client.ui.SuggestService;
 import com.google.gerrit.server.BaseServiceImplementation;
 import com.google.gerrit.server.CurrentUser;
@@ -42,15 +43,17 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
   private final ProjectCache projectCache;
   private final AccountCache accountCache;
   private final Provider<CurrentUser> currentUser;
+  private final UserDb userDb;
 
   @Inject
-  SuggestServiceImpl(final Provider<ReviewDb> schema,
+  SuggestServiceImpl(final Provider<ReviewDb> schema, final UserDb userDb,
       final ProjectCache projectCache, final AccountCache accountCache,
       final Provider<CurrentUser> currentUser) {
     super(schema, currentUser);
     this.projectCache = projectCache;
     this.accountCache = accountCache;
     this.currentUser = currentUser;
+    this.userDb = userDb;
   }
 
   public void suggestProjectNameKey(final String query, final int limit,
@@ -86,18 +89,18 @@ class SuggestServiceImpl extends BaseServiceImplementation implements
 
         final LinkedHashMap<Account.Id, AccountInfo> r =
             new LinkedHashMap<Account.Id, AccountInfo>();
-        for (final Account p : db.accounts().suggestByFullName(a, b, n)) {
+        for (final Account p : userDb.suggestByFullName(a, b, n, userDb.latestSnapshot())) {
           r.put(p.getId(), new AccountInfo(p));
         }
         if (r.size() < n) {
-          for (final Account p : db.accounts().suggestByPreferredEmail(a, b,
-              n - r.size())) {
+          for (final Account p : userDb.suggestByPreferredEmail(a, b,
+              n - r.size(), userDb.latestSnapshot())) {
             r.put(p.getId(), new AccountInfo(p));
           }
         }
         if (r.size() < n) {
-          for (final AccountExternalId e : db.accountExternalIds()
-              .suggestByEmailAddress(a, b, n - r.size())) {
+          for (final AccountExternalId e : userDb.suggestByEmail(a, b, n - r.size(),
+              userDb.latestSnapshot())) {
             if (!r.containsKey(e.getAccountId())) {
               final Account p = accountCache.get(e.getAccountId()).getAccount();
               final AccountInfo info = new AccountInfo(p);

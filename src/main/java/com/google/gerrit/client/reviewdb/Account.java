@@ -118,6 +118,8 @@ public final class Account {
   @Column(name = Column.NONE)
   AccountGeneralPreferences generalPreferences;
 
+  String sha1Id;
+
   protected Account() {
   }
 

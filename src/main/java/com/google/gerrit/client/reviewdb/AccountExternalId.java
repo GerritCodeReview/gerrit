@@ -96,6 +96,8 @@ public final class AccountExternalId {
   /** <i>computed value</i> is this identity trusted by the site administrator? */
   protected boolean trusted;
 
+  String sha1Id;
+
   protected AccountExternalId() {
   }
 

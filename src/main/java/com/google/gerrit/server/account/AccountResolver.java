@@ -15,11 +15,10 @@
 package com.google.gerrit.server.account;
 
 import com.google.gerrit.client.reviewdb.Account;
-import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gerrit.client.reviewdb.UserDb;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.ResultSet;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 
 import java.util.List;
 import java.util.Set;
@@ -28,15 +27,15 @@ public class AccountResolver {
   private final Realm realm;
   private final AccountByEmailCache byEmail;
   private final AccountCache byId;
-  private final Provider<ReviewDb> schema;
+  private final UserDb userDb;
 
   @Inject
   AccountResolver(final Realm realm, final AccountByEmailCache byEmail,
-      final AccountCache byId, final Provider<ReviewDb> schema) {
+      final AccountCache byId, final UserDb userDb) {
     this.realm = realm;
     this.byEmail = byEmail;
     this.byId = byId;
-    this.schema = schema;
+    this.userDb = userDb;
   }
 
   /**
@@ -68,7 +67,7 @@ public class AccountResolver {
       return byId.get(id).getAccount();
     }
 
-    return oneAccount(schema.get().accounts().byFullName(nameOrEmail));
+    return oneAccount(userDb.byFullName(nameOrEmail, userDb.latestSnapshot()));
   }
 
   private Account findByEmail(final String email) {

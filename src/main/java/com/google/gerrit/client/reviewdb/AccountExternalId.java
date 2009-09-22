@@ -155,4 +155,30 @@ public final class AccountExternalId {
   public void setTrusted(final boolean t) {
     trusted = t;
   }
+
+  /**
+   * This method which identical to getId.get() is introduced as a temporary work-around for Scala
+   * compiler crash reported as: http://lampsvn.epfl.ch/trac/scala/ticket/1539
+   * In this compiler crashes as soon as Account.Id class is being referenced from Scala code.
+   * TODO: Remove this method as soon as Scala 2.8 is being used
+   */
+  int getRawAccountId() {
+    return accountId.get();
+  }
+
+  /**
+   * TODO: Remove this method as soon as Scala 2.8 is being used
+   * @see #getRawAccountId()
+   */
+  String getRawExternalId() {
+    return key.get();
+  }
+
+  /**
+   * TODO: Remove this method as soon as Scala 2.8 is being used
+   * @see #getRawAccountId()
+   */
+  static AccountExternalId getInstance(int rawOldAccountId, String rawExternalId) {
+    return new AccountExternalId(new Account.Id(rawOldAccountId), new Key(rawExternalId));
+  }
 }

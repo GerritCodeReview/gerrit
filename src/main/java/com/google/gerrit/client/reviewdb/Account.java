@@ -139,6 +139,16 @@ public final class Account {
     return accountId;
   }
 
+  /**
+   * This method which identical to getId.get() is introduced as a temporary work-around for Scala
+   * compiler crash reported as: http://lampsvn.epfl.ch/trac/scala/ticket/1539
+   * In this compiler crashes as soon as Account.Id class is being referenced from Scala code.
+   * TODO: Remove this method as soon as Scala 2.8 is being used
+   */
+  int getRawId() {
+    return accountId.get();
+  }
+
   /** Get the full name of the user ("Given-name Surname" style). */
   public String getFullName() {
     return fullName;
@@ -192,5 +202,15 @@ public final class Account {
 
   public void setContactFiled() {
     contactFiledOn = new Timestamp(System.currentTimeMillis());
+  }
+
+  /**
+   * TODO: Remove this method as soon as Scala 2.8 is being used
+   * @see com.google.gerrit.client.reviewdb.Account#getRawId() 
+   */
+  static Account getInstance(int rawId) {
+    Account a = new Account();
+    a.accountId = new Id(rawId);
+    return a;
   }
 }

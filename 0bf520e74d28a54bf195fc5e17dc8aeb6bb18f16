@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAm3///RM\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/account/SshPanel.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 450,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-22T20:36:27Z",
+      "side": 1,
+      "message": "Nope, there really isn\u0027t an easy way in GWT to disambiguate between character entered by user and special character used for e.g. navigation in field.\n\nPart of that stems from the fact that both \u0027!\u0027 and KEY_PAGEUP have the same value here.  :-(",
+      "revId": "0bf520e74d28a54bf195fc5e17dc8aeb6bb18f16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

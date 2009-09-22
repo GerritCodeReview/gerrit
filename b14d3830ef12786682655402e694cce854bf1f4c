@@ -1,0 +1,242 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAm3///Tc\u003d",
+        "filename": "src/main/scala/com/google/gerrit/client/reviewdb/UserDb.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-22T20:18:26Z",
+      "side": 1,
+      "message": "Lets call this auth.accountRepository instead.\n\nI want this documented in Documentation/config-gerrit.txt in the same commit that is adding the code to reference it.\n\nThe method returns null if the value was not defined.  Don\u0027t crash with an NPE, it does not help the administrator to understand why Gerrit won\u0027t start.  Instead throw an exception that explains the specific key from the configuration file was missing and is required to start Gerrit.",
+      "revId": "b14d3830ef12786682655402e694cce854bf1f4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAm3///TY\u003d",
+        "filename": "src/main/scala/com/google/gerrit/client/reviewdb/UserDb.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-22T20:18:26Z",
+      "side": 1,
+      "message": "I\u0027d rather have this also able to be specified in the configuration file, but defaulting to refs/heads/accounts if null (not specified).\n\nAs for configuration name, perhaps auth.userBranch.  So the logic might be:\n\n  var ref \u003d cfg.getString(\"auth\", null, \"userBranch\");\n  if (ref \u003d\u003d null)\n    ref \u003d \"refs/heads/accounts\";\n  if (!ref.startsWith(Constants.R_HEADS))\n    ref \u003d Constants.R_HEADS + ref;",
+      "revId": "b14d3830ef12786682655402e694cce854bf1f4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAm3///TQ\u003d",
+        "filename": "src/main/scala/com/google/gerrit/client/reviewdb/UserDb.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-22T20:18:26Z",
+      "side": 1,
+      "message": "Unnecessary blank line.",
+      "revId": "b14d3830ef12786682655402e694cce854bf1f4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAm3///TM\u003d",
+        "filename": "src/main/scala/com/google/gerrit/client/reviewdb/UserDb.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-22T20:18:26Z",
+      "side": 1,
+      "message": "Unnecessary blank line.",
+      "revId": "b14d3830ef12786682655402e694cce854bf1f4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAm3///S4\u003d",
+        "filename": "src/main/scala/com/google/gerrit/client/reviewdb/UserDb.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-22T20:18:26Z",
+      "side": 1,
+      "message": "I thought this was going to be the uuid or sha1id string?",
+      "revId": "b14d3830ef12786682655402e694cce854bf1f4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAm3///TE\u003d",
+        "filename": "src/main/scala/com/google/gerrit/client/reviewdb/UserDb.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-22T20:18:26Z",
+      "side": 1,
+      "message": "Unnecessary blank line.",
+      "revId": "b14d3830ef12786682655402e694cce854bf1f4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAm3///Sw\u003d",
+        "filename": "src/main/scala/com/google/gerrit/client/reviewdb/UserDb.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-22T20:18:26Z",
+      "side": 1,
+      "message": "Hmm, I think I would prefer ssh-user-names for the directory name, there is something about file paths that makes hypens a nicer separator between words than camelCaseNaming.",
+      "revId": "b14d3830ef12786682655402e694cce854bf1f4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAm3///S0\u003d",
+        "filename": "src/main/scala/com/google/gerrit/client/reviewdb/UserDb.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-22T20:18:26Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be sshUserName ?",
+      "revId": "b14d3830ef12786682655402e694cce854bf1f4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAm3///TA\u003d",
+        "filename": "src/main/scala/com/google/gerrit/client/reviewdb/UserDb.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-22T20:18:26Z",
+      "side": 1,
+      "message": "Unnecessary blank line.",
+      "revId": "b14d3830ef12786682655402e694cce854bf1f4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAm3///So\u003d",
+        "filename": "src/main/scala/com/google/gerrit/client/reviewdb/UserDb.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-22T20:18:26Z",
+      "side": 1,
+      "message": "For \"get\" queries where we want exactly one object I think I favored returning null in gwtorm when the value didn\u0027t exist, but throwing when there were 2 or more matches.",
+      "revId": "b14d3830ef12786682655402e694cce854bf1f4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAm3///Sk\u003d",
+        "filename": "src/main/scala/com/google/gerrit/client/reviewdb/UserDb.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-22T20:18:26Z",
+      "side": 1,
+      "message": "For \"get\" queries where we want exactly one object I think I favored returning null in gwtorm when the value didn\u0027t exist, but throwing when there were 2 or more matches.",
+      "revId": "b14d3830ef12786682655402e694cce854bf1f4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAm3///SA\u003d",
+        "filename": "src/main/scala/com/google/gerrit/client/reviewdb/UserDb.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-22T20:18:26Z",
+      "side": 1,
+      "message": "Why do you need to define this?  Why can\u0027t the closure in Java do the query, get the object and handle, update the object, and pass the handle and updated object to the modify routine?\n\nIs it the Pair/Tuple2 type from Scala being a pain to use in Java?",
+      "revId": "b14d3830ef12786682655402e694cce854bf1f4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAm3///Sg\u003d",
+        "filename": "src/main/scala/com/google/gerrit/client/reviewdb/UserDb.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-22T20:18:26Z",
+      "side": 1,
+      "message": "I think this method and toJavaIterator should be pulled into some sort of DAO base class within Gerrit, you will need it for several things.",
+      "revId": "b14d3830ef12786682655402e694cce854bf1f4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAm3///R8\u003d",
+        "filename": "src/main/scala/com/google/gerrit/client/reviewdb/UserDb.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-22T20:18:26Z",
+      "side": 1,
+      "message": "Since you effectively have 3 top level file types to query, please make all of the query methods consistent:\n\n* queryAccount\n* queryExternalId\n* querySshUsename",
+      "revId": "b14d3830ef12786682655402e694cce854bf1f4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

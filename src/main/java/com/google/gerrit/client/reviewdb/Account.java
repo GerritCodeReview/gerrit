@@ -92,31 +92,31 @@ public final class Account {
   }
 
   @Column
-  protected Id accountId;
+  Id accountId;
 
   /** Date and time the user registered with the review server. */
   @Column
-  protected Timestamp registeredOn;
+  Timestamp registeredOn;
 
   /** Full name of the user ("Given-name Surname" style). */
   @Column(notNull = false)
-  protected String fullName;
+  String fullName;
 
   /** Email address the user prefers to be contacted through. */
   @Column(notNull = false)
-  protected String preferredEmail;
+  String preferredEmail;
 
   /** Username to authenticate as through SSH connections. */
   @Column(notNull = false)
-  protected String sshUserName;
+  String sshUserName;
 
   /** When did the user last give us contact information? Null if never. */
   @Column(notNull = false)
-  protected Timestamp contactFiledOn;
+  Timestamp contactFiledOn;
 
   /** This user's preferences */
   @Column(name = Column.NONE)
-  protected AccountGeneralPreferences generalPreferences;
+  AccountGeneralPreferences generalPreferences;
 
   protected Account() {
   }

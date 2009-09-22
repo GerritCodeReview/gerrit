@@ -25,6 +25,7 @@ import com.google.gerrit.client.reviewdb.ContributorAgreement;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.ContactInformationStoreException;
 import com.google.gerrit.client.rpc.InvalidSshKeyException;
+import com.google.gerrit.client.rpc.InvalidSshUserNameException;
 import com.google.gerrit.client.rpc.NameAlreadyUsedException;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gerrit.server.BaseServiceImplementation;
@@ -64,9 +65,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 class AccountSecurityImpl extends BaseServiceImplementation implements
     AccountSecurity {
+
+  private static final Pattern SSH_USER_NAME_PATTERN = Pattern.compile(Account.SSH_USER_NAME_PATTERN);
+
   private final Logger log = LoggerFactory.getLogger(getClass());
   private final ContactStore contactStore;
   private final AuthConfig authConfig;
@@ -193,6 +198,9 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
         final Account me = db.accounts().get(getAccountId());
         if (me == null) {
           throw new Failure(new NoSuchEntityException());
+        }
+        if (newName != null && !SSH_USER_NAME_PATTERN.matcher(newName).matches()) {
+          throw new Failure(new InvalidSshUserNameException());
         }
         final Account other;
         if (newName != null) {

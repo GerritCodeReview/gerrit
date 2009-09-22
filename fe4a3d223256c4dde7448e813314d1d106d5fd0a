@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAm3///Tw\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/account/SshPanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2009-09-22T20:11:57Z",
+      "side": 1,
+      "message": "Is testing on a message instead of testing on instance a good idea?",
+      "revId": "fe4a3d223256c4dde7448e813314d1d106d5fd0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAm3///Ts\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/account/SshPanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 450,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2009-09-22T20:11:57Z",
+      "side": 1,
+      "message": "By no means I\u0027m expert on GWT but this looks like a fairly standard functionality to filter on text entered by user.\n\nIsn\u0027t there any util class or something?",
+      "revId": "fe4a3d223256c4dde7448e813314d1d106d5fd0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

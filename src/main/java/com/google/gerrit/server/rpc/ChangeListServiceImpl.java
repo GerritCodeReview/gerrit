@@ -29,6 +29,7 @@ import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.RevId;
 import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gerrit.client.reviewdb.UserDb;
 import com.google.gerrit.client.reviewdb.StarredChange;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gerrit.server.BaseServiceImplementation;
@@ -88,9 +89,10 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
   private final Provider<CurrentUser> currentUser;
   private final ChangeControl.Factory changeControlFactory;
   private final AccountInfoCacheFactory.Factory accountInfoCacheFactory;
+  private final UserDb userDb;
 
   @Inject
-  ChangeListServiceImpl(final Provider<ReviewDb> schema,
+  ChangeListServiceImpl(final Provider<ReviewDb> schema, final UserDb userDb,
       final Provider<CurrentUser> currentUser,
       final ChangeControl.Factory changeControlFactory,
       final AccountInfoCacheFactory.Factory accountInfoCacheFactory) {
@@ -98,6 +100,7 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
     this.currentUser = currentUser;
     this.changeControlFactory = changeControlFactory;
     this.accountInfoCacheFactory = accountInfoCacheFactory;
+    this.userDb = userDb;
   }
 
   private boolean canRead(final Change c) {
@@ -183,7 +186,7 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
       @Override
       ResultSet<Change> query(ReviewDb db, int lim, String key)
           throws OrmException {
-        return searchQuery(db, query, lim, key, QUERY_PREV);
+        return searchQuery(db, userDb, query, lim, key, QUERY_PREV);
       }
     });
   }
@@ -195,12 +198,12 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
       @Override
       ResultSet<Change> query(ReviewDb db, int lim, String key)
           throws OrmException {
-        return searchQuery(db, query, lim, key, QUERY_NEXT);
+        return searchQuery(db, userDb, query, lim, key, QUERY_NEXT);
       }
     });
   }
 
-  private ResultSet<Change> searchQuery(final ReviewDb db, String query,
+  private ResultSet<Change> searchQuery(final ReviewDb db, final UserDb userDb, String query,
       final int limit, final String key, final Comparator<Change> cmp)
       throws OrmException {
     List<Change> result = new ArrayList<Change>();
@@ -236,12 +239,12 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
     } else if (query.contains("owner:")) {
       String[] parsedQuery = query.split(":");
       if (parsedQuery.length > 1) {
-        filterBySortKey(result, changesCreatedBy(db, parsedQuery[1]), cmp, key);
+        filterBySortKey(result, changesCreatedBy(db, userDb, parsedQuery[1]), cmp, key);
       }
     } else if (query.contains("reviewer:")) {
       String[] parsedQuery = query.split(":");
       if (parsedQuery.length > 1) {
-        want.addAll(changesReviewedBy(db, parsedQuery[1]));
+        want.addAll(changesReviewedBy(db, userDb, parsedQuery[1]));
       }
     }
 
@@ -441,15 +444,14 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
    * @return a set of all the account ID's matching the given user name in
    *         either of the following columns: ssh name, email address, full name
    */
-  private static Set<Account.Id> getAccountSources(final ReviewDb db,
+  private static Set<Account.Id> getAccountSources(final UserDb userDb,
       final String userName) throws OrmException {
     Set<Account.Id> result = new HashSet<Account.Id>();
     String a = userName;
     String b = userName + "\u9fa5";
-    addAll(result, db.accounts().suggestBySshUserName(a, b, 10));
-    addAll(result, db.accounts().suggestByFullName(a, b, 10));
-    for (AccountExternalId extId : db.accountExternalIds()
-        .suggestByEmailAddress(a, b, 10)) {
+    addAll(result, userDb.suggestBySshUserName(a, b, 10, userDb.latestSnapshot()));
+    addAll(result, userDb.suggestByFullName(a, b, 10, userDb.latestSnapshot()));
+    for (AccountExternalId extId : userDb.suggestByEmail(a, b, 10, userDb.latestSnapshot())) {
       result.add(extId.getAccountId());
     }
     return result;
@@ -467,10 +469,10 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
    *         the email addresses. The returned changes are unique and sorted by
    *         time stamp, newer first.
    */
-  private List<Change> changesCreatedBy(final ReviewDb db, final String userName)
-      throws OrmException {
+  private List<Change> changesCreatedBy(final ReviewDb db, final UserDb userDb,
+                                        final String userName) throws OrmException {
     final List<Change> resultChanges = new ArrayList<Change>();
-    for (Account.Id account : getAccountSources(db, userName)) {
+    for (Account.Id account : getAccountSources(userDb, userName)) {
       for (Change change : db.changes().byOwnerOpen(account)) {
         resultChanges.add(change);
       }
@@ -487,10 +489,10 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
    *         email addresses. The returned changes are unique and sorted by time
    *         stamp, newer first.
    */
-  private Set<Change.Id> changesReviewedBy(final ReviewDb db,
+  private Set<Change.Id> changesReviewedBy(final ReviewDb db, final UserDb userDb,
       final String userName) throws OrmException {
     final Set<Change.Id> resultChanges = new HashSet<Change.Id>();
-    for (Account.Id account : getAccountSources(db, userName)) {
+    for (Account.Id account : getAccountSources(userDb, userName)) {
       for (PatchSetApproval a : db.patchSetApprovals().openByUser(account)) {
         resultChanges.add(a.getPatchSetId().getParentKey());
       }

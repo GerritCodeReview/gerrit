@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAm3///V8\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/reviewdb/Account.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-22T16:23:06Z",
+      "side": 1,
+      "message": "Forget it.  Lets just make the pattern:\n\n  \"^[a-zA-Z][a-zA-Z0-9._-]+$\"",
+      "revId": "0d9fce18b2c75ef60fdd174e47e2ca2287191d74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

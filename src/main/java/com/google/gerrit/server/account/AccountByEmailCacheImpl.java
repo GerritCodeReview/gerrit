@@ -16,7 +16,7 @@ package com.google.gerrit.server.account;
 
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountExternalId;
-import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gerrit.client.reviewdb.UserDb;
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.SelfPopulatingCache;
@@ -50,13 +50,13 @@ public class AccountByEmailCacheImpl implements AccountByEmailCache {
     };
   }
 
-  private final SchemaFactory<ReviewDb> schema;
+  private final UserDb userDb;
   private final SelfPopulatingCache<String, Set<Account.Id>> self;
 
   @Inject
-  AccountByEmailCacheImpl(final SchemaFactory<ReviewDb> schema,
+  AccountByEmailCacheImpl(final UserDb userDb,
       @Named(CACHE_NAME) final Cache<String, Set<Account.Id>> rawCache) {
-    this.schema = schema;
+    this.userDb = userDb;
     this.self = new SelfPopulatingCache<String, Set<Account.Id>>(rawCache) {
       @Override
       protected Set<Account.Id> createEntry(final String key) throws Exception {
@@ -71,19 +71,14 @@ public class AccountByEmailCacheImpl implements AccountByEmailCache {
   }
 
   private Set<Account.Id> lookup(final String email) throws OrmException {
-    final ReviewDb db = schema.open();
-    try {
-      final HashSet<Account.Id> r = new HashSet<Account.Id>();
-      for (Account a : db.accounts().byPreferredEmail(email)) {
-        r.add(a.getId());
-      }
-      for (AccountExternalId a : db.accountExternalIds().byEmailAddress(email)) {
-        r.add(a.getAccountId());
-      }
-      return pack(r);
-    } finally {
-      db.close();
+    final HashSet<Account.Id> r = new HashSet<Account.Id>();
+    for (Account a : userDb.byPreferredEmail(email, userDb.latestSnapshot())) {
+      r.add(a.getId());
     }
+    for (AccountExternalId a : userDb.byEmail(email, userDb.latestSnapshot())) {
+      r.add(a.getAccountId());
+    }
+    return pack(r);
   }
 
   public Set<Account.Id> get(final String email) {

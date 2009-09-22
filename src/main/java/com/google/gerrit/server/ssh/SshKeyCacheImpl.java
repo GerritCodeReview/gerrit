@@ -17,6 +17,7 @@ package com.google.gerrit.server.ssh;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountSshKey;
 import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gerrit.client.reviewdb.UserDb;
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.SelfPopulatingCache;
@@ -55,12 +56,14 @@ public class SshKeyCacheImpl implements SshKeyCache {
   }
 
   private final SchemaFactory<ReviewDb> schema;
+  private final UserDb userDb;
   private final SelfPopulatingCache<String, Iterable<SshKeyCacheEntry>> self;
 
   @Inject
-  SshKeyCacheImpl(final SchemaFactory<ReviewDb> schema,
+  SshKeyCacheImpl(final SchemaFactory<ReviewDb> schema, final UserDb userDb,
       @Named(CACHE_NAME) final Cache<String, Iterable<SshKeyCacheEntry>> raw) {
     this.schema = schema;
+    this.userDb = userDb;
     self = new SelfPopulatingCache<String, Iterable<SshKeyCacheEntry>>(raw) {
       @Override
       protected Iterable<SshKeyCacheEntry> createEntry(final String username)
@@ -87,7 +90,7 @@ public class SshKeyCacheImpl implements SshKeyCache {
       throws Exception {
     final ReviewDb db = schema.open();
     try {
-      final Account user = db.accounts().bySshUserName(username);
+      final Account user = userDb.bySshUserName(username, userDb.latestSnapshot());
       if (user == null) {
         return Collections.<SshKeyCacheEntry> emptyList();
       }

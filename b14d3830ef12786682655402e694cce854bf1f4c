@@ -87,6 +87,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAm3///Ro\u003d",
+        "filename": "src/main/scala/com/google/gerrit/client/reviewdb/UserDb.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2009-09-22T20:36:39Z",
+      "side": 1,
+      "message": "Look at definition of AccountType.\n\nMy idea was that eventually you will want to get rid of Integer IDs so it makes sense to have accountId stroing SHA1 in DB schema.",
+      "parentUuid": "AAAAm3///S4\u003d",
+      "revId": "b14d3830ef12786682655402e694cce854bf1f4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAm3///TE\u003d",
         "filename": "src/main/scala/com/google/gerrit/client/reviewdb/UserDb.scala",
         "patchSetId": 1
@@ -138,6 +156,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAm3///Rk\u003d",
+        "filename": "src/main/scala/com/google/gerrit/client/reviewdb/UserDb.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2009-09-22T20:36:39Z",
+      "side": 1,
+      "message": "Yes, thanks for catching this.",
+      "parentUuid": "AAAAm3///S0\u003d",
+      "revId": "b14d3830ef12786682655402e694cce854bf1f4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAm3///TA\u003d",
         "filename": "src/main/scala/com/google/gerrit/client/reviewdb/UserDb.scala",
         "patchSetId": 1
@@ -172,6 +208,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAm3///Rc\u003d",
+        "filename": "src/main/scala/com/google/gerrit/client/reviewdb/UserDb.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2009-09-22T20:36:39Z",
+      "side": 1,
+      "message": "Ok, I\u0027ll change this logic.",
+      "parentUuid": "AAAAm3///So\u003d",
+      "revId": "b14d3830ef12786682655402e694cce854bf1f4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAm3///Sk\u003d",
         "filename": "src/main/scala/com/google/gerrit/client/reviewdb/UserDb.scala",
         "patchSetId": 1
@@ -200,6 +254,24 @@
       "writtenOn": "2009-09-22T20:18:26Z",
       "side": 1,
       "message": "Why do you need to define this?  Why can\u0027t the closure in Java do the query, get the object and handle, update the object, and pass the handle and updated object to the modify routine?\n\nIs it the Pair/Tuple2 type from Scala being a pain to use in Java?",
+      "revId": "b14d3830ef12786682655402e694cce854bf1f4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAm3///RQ\u003d",
+        "filename": "src/main/scala/com/google/gerrit/client/reviewdb/UserDb.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2009-09-22T20:36:39Z",
+      "side": 1,
+      "message": "No, it\u0027s worse actually.\n\nI forgot to mention this in e-mail. What happens is that you get an account using UserDb.byId method but you do no get a handle.\n\nSo ugly work-around is to run a query second time, and wrap this into updateAccount method. This is a serious flaw, I know that but I have no clue how to fix this.",
+      "parentUuid": "AAAAm3///SA\u003d",
       "revId": "b14d3830ef12786682655402e694cce854bf1f4c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

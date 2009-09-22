@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAm3///XY\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/reviewdb/Account.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2009-09-22T03:44:09Z",
+      "side": 1,
+      "message": "I cannot parse this:\nAnd \"+-.\" is dangerous, its read as \"all characters in the range + through .\" which is not the intent.\n\nI believe I tested this regexp quite carefully but if rearranging in second class is necessary then I\u0027m find with doing that.\n\nWhen it comes to different classes I thought it might be slightly more readable to some random reader. My idea was that someone can easily see that a-zA-Z0-9 is allowed which people usually use for ssh user names but if someone needs to know more then can focus on parsing second character class that contain escaped \\\" which reduces readability slightly more.",
+      "parentUuid": "AAAAmn////U\u003d",
+      "revId": "36dc24877be698421e5ff7ecef8a224ab2b15040",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAmX///+U\u003d",
         "filename": "src/main/java/com/google/gerrit/client/rpc/InvalidSshUserNameException.java",
         "patchSetId": 1

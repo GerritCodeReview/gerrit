@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAm3///YI\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/SshModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2009-09-22T00:47:51Z",
+      "side": 1,
+      "message": "I don\u0027t think this is exactly what you had in mind.  I\u0027m very new to Guice, so let me know if there is a different API I could use to avoid the logic in configure().",
+      "revId": "eeceebdf949a4c3c4595544c3ea68744eef60eb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

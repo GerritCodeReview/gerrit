@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAm3///Rw\u003d",
+        "filename": "src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-22T20:27:14Z",
+      "side": 1,
+      "message": "Oh, of course, I forgot you need that conditional here.  How about instead:\n\n  List\u003cModule\u003e sshModules \u003d new ArrayList\u003cModule\u003e();\n  sshModules.add(new SshModule());\n  if (slave) {\n    sshModules.add(new SlaveCommandModule());\n  } else {\n    sshModules.add(new MasterCommandModule());\n  }\n\n  Injector sshInjector \u003d sysInjector.createChildInjector(sshModules);",
+      "revId": "57c04166675b0f7174a36de915a0ebe2fa4781bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

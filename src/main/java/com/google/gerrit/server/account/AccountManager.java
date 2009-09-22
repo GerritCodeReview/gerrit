@@ -18,12 +18,18 @@ import com.google.gerrit.client.openid.OpenIdUtil;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountExternalId;
 import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gerrit.client.reviewdb.UserDb;
+import com.google.gerrit.scala.JFunction1;
+import com.google.gerrit.scala.ScalaUtil;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.gwtorm.client.Transaction;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+
+import com.google.gimd.Snapshot;
+import com.google.gimd.modification.DatabaseModification;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,6 +39,7 @@ import java.util.List;
 @Singleton
 public class AccountManager {
   private final SchemaFactory<ReviewDb> schema;
+  private final UserDb userDb;
   private final AccountCache byIdCache;
   private final AccountByEmailCache byEmailCache;
   private final AuthConfig authConfig;
@@ -40,9 +47,11 @@ public class AccountManager {
 
   @Inject
   AccountManager(final SchemaFactory<ReviewDb> schema,
+      final UserDb userDb,
       final AccountCache byIdCache, final AccountByEmailCache byEmailCache,
       final AuthConfig authConfig, final Realm accountMapper) {
     this.schema = schema;
+    this.userDb = userDb;
     this.byIdCache = byIdCache;
     this.byEmailCache = byEmailCache;
     this.authConfig = authConfig;
@@ -104,51 +113,65 @@ public class AccountManager {
 
   private void update(final ReviewDb db, final AuthRequest who,
       final AccountExternalId extId) throws OrmException, AccountException {
-    final Transaction txn = db.beginTransaction();
-    final Account account = db.accounts().get(extId.getAccountId());
-    boolean updateAccount = false;
-    if (account == null) {
+
+    UpdateResult result = userDb.modifyAndReturn(ScalaUtil.fun1(new JFunction1<Snapshot,
+            scala.Tuple2<DatabaseModification, UpdateResult>>() {
+
+      @Override
+      public scala.Tuple2<DatabaseModification, UpdateResult> apply(Snapshot snapshot)
+              throws OrmException {
+
+        final Account account = userDb.byOldId(extId.getAccountId().get(), snapshot);
+        boolean updateAccount = false;
+
+        // If the email address was modified by the authentication provider,
+        // update our records to match the changed email.
+        //
+        final String newEmail = who.getEmailAddress();
+        final String oldEmail = extId.getEmailAddress();
+        if (newEmail != null && !newEmail.equals(oldEmail)) {
+          if (oldEmail != null && oldEmail.equals(account.getPreferredEmail())) {
+            updateAccount = true;
+            account.setPreferredEmail(newEmail);
+          }
+
+          extId.setEmailAddress(newEmail);
+        }
+
+        if (!realm.allowsEdit(Account.FieldName.FULL_NAME)
+                && !eq(account.getFullName(), who.getDisplayName())) {
+          updateAccount = true;
+          account.setFullName(who.getDisplayName());
+        }
+        if (!realm.allowsEdit(Account.FieldName.SSH_USER_NAME)
+                && !eq(account.getSshUserName(), who.getSshUserName())) {
+          updateAccount = true;
+          account.setSshUserName(who.getSshUserName());
+        }
+
+        DatabaseModification modif = userDb.emptyModification();
+
+        extId.setLastUsedOn();
+        modif = userDb.updateExternalId(extId, modif, snapshot);
+        if (updateAccount) {
+          modif = userDb.updateAccount(account, modif, snapshot);
+        }
+
+        return ScalaUtil.tuple2(modif, new UpdateResult(account, updateAccount, oldEmail, newEmail));
+      }
+
+    }));
+
+    if (result.account == null) {
       throw new AccountException("Account has been deleted");
     }
 
-    // If the email address was modified by the authentication provider,
-    // update our records to match the changed email.
-    //
-    final String newEmail = who.getEmailAddress();
-    final String oldEmail = extId.getEmailAddress();
-    if (newEmail != null && !newEmail.equals(oldEmail)) {
-      if (oldEmail != null && oldEmail.equals(account.getPreferredEmail())) {
-        updateAccount = true;
-        account.setPreferredEmail(newEmail);
-      }
-
-      extId.setEmailAddress(newEmail);
+    if (result.newEmail != null && !result.newEmail.equals(result.oldEmail)) {
+      byEmailCache.evict(result.oldEmail);
+      byEmailCache.evict(result.newEmail);
     }
-
-    if (!realm.allowsEdit(Account.FieldName.FULL_NAME)
-        && !eq(account.getFullName(), who.getDisplayName())) {
-      updateAccount = true;
-      account.setFullName(who.getDisplayName());
-    }
-    if (!realm.allowsEdit(Account.FieldName.SSH_USER_NAME)
-        && !eq(account.getSshUserName(), who.getSshUserName())) {
-      updateAccount = true;
-      account.setSshUserName(who.getSshUserName());
-    }
-
-    extId.setLastUsedOn();
-    db.accountExternalIds().update(Collections.singleton(extId), txn);
-    if (updateAccount) {
-      db.accounts().update(Collections.singleton(account), txn);
-    }
-    txn.commit();
-
-    if (newEmail != null && !newEmail.equals(oldEmail)) {
-      byEmailCache.evict(oldEmail);
-      byEmailCache.evict(newEmail);
-    }
-    if (updateAccount) {
-      byIdCache.evict(account.getId());
+    if (result.modifiedAccount) {
+      byIdCache.evict(result.account.getId());
     }
   }
 
@@ -158,6 +181,7 @@ public class AccountManager {
 
   private AuthResult create(final ReviewDb db, final AuthRequest who)
       throws OrmException, AccountException {
+    //TODO: Not sure what to do with this code, is it still needed?
     if (authConfig.isAllowGoogleAccountUpgrade()
         && who.isScheme(OpenIdUtil.URL_GOOGLE + "?")
         && who.getEmailAddress() != null) {
@@ -235,17 +259,22 @@ public class AccountManager {
     account.setFullName(who.getDisplayName());
     account.setPreferredEmail(extId.getEmailAddress());
 
-    if (who.getSshUserName() != null
-        && db.accounts().bySshUserName(who.getSshUserName()) == null) {
-      // Only set if the name hasn't been used yet, but was given to us.
-      //
-      account.setSshUserName(who.getSshUserName());
-    }
+    userDb.modify(ScalaUtil.fun1(new JFunction1<Snapshot, DatabaseModification>() {
 
-    final Transaction txn = db.beginTransaction();
-    db.accounts().insert(Collections.singleton(account), txn);
-    db.accountExternalIds().insert(Collections.singleton(extId), txn);
-    txn.commit();
+      @Override
+      public DatabaseModification apply(Snapshot s) throws OrmException {
+        if (who.getSshUserName() != null
+            && userDb.bySshUserName(who.getSshUserName(), s) == null) {
+          // Only set if the name hasn't been used yet, but was given to us.
+          //
+          account.setSshUserName(who.getSshUserName());
+        }
+
+        final DatabaseModification empty = userDb.emptyModification();
+        return userDb.insertExternalId(userDb.insertAccount(empty, account), extId);
+      }
+
+    }));
 
     byEmailCache.evict(account.getPreferredEmail());
     realm.onCreateAccount(who, account);
@@ -295,6 +324,20 @@ public class AccountManager {
       }
     } catch (OrmException e) {
       throw new AccountException("Cannot link identity", e);
+    }
+  }
+
+  private static class UpdateResult {
+    public final Account account;
+    public final Boolean modifiedAccount;
+    public final String oldEmail;
+    public final String newEmail;
+
+    UpdateResult(Account account, Boolean modifiedAccount, String oldEmail, String newEmail) {
+      this.account = account;
+      this.modifiedAccount = modifiedAccount;
+      this.oldEmail = oldEmail;
+      this.newEmail = newEmail;
     }
   }
 }

@@ -19,6 +19,7 @@ import com.google.gerrit.client.reviewdb.AccountExternalId;
 import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.AccountGroupMember;
 import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gerrit.client.reviewdb.UserDb;
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.SelfPopulatingCache;
@@ -55,17 +56,19 @@ public class AccountCacheImpl implements AccountCache {
   }
 
   private final SchemaFactory<ReviewDb> schema;
+  private final UserDb userDb;
   private final SelfPopulatingCache<Account.Id, AccountState> self;
 
   private final Set<AccountGroup.Id> registered;
   private final Set<AccountGroup.Id> anonymous;
 
   @Inject
-  AccountCacheImpl(final SchemaFactory<ReviewDb> sf, final AuthConfig auth,
+  AccountCacheImpl(final SchemaFactory<ReviewDb> sf, final AuthConfig auth, final UserDb userDb,
       @Named(CACHE_NAME) final Cache<Account.Id, AccountState> rawCache) {
     schema = sf;
     registered = auth.getRegisteredGroups();
     anonymous = auth.getAnonymousGroups();
+    this.userDb = userDb;
 
     self = new SelfPopulatingCache<Account.Id, AccountState>(rawCache) {
       @Override
@@ -83,7 +86,7 @@ public class AccountCacheImpl implements AccountCache {
   private AccountState lookup(final Account.Id who) throws OrmException {
     final ReviewDb db = schema.open();
     try {
-      final Account account = db.accounts().get(who);
+      final Account account = userDb.byOldId(who.get(), userDb.latestSnapshot());
       if (account == null) {
         // Account no longer exists? They are anonymous.
         //
@@ -91,8 +94,8 @@ public class AccountCacheImpl implements AccountCache {
       }
 
       final Collection<AccountExternalId> externalIds =
-          Collections.unmodifiableCollection(db.accountExternalIds().byAccount(
-              who).toList());
+          Collections.unmodifiableCollection(userDb.byAccount(who.get(),
+                  userDb.latestSnapshot()).toList());
 
       Set<AccountGroup.Id> internalGroups = new HashSet<AccountGroup.Id>();
       for (AccountGroupMember g : db.accountGroupMembers().byAccount(who)) {

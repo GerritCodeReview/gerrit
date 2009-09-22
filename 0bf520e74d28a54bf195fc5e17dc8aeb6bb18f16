@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAAm3///RA\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/account/SshPanel.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2009-09-22T21:45:22Z",
+      "side": 1,
+      "message": "A bug here has been fixed but my question still remains:\nWhy testing equality of Strings instead of equality of types?\n\nI know that exception might get wrapped so simple instanceof won\u0027t work reliably but unwrapping exceptions recursively would work.",
+      "revId": "0bf520e74d28a54bf195fc5e17dc8aeb6bb18f16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAm3///RM\u003d",
         "filename": "src/main/java/com/google/gerrit/client/account/SshPanel.java",
         "patchSetId": 2

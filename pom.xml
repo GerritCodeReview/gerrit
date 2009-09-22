@@ -676,6 +676,11 @@ limitations under the License.
       <version>${gwtVersion}</version>
       <scope>provided</scope>
     </dependency>
+    <dependency>
+      <groupId>com.google.gimd</groupId>
+      <artifactId>gimd</artifactId>
+      <version>1.0.0-SNAPSHOT</version>
+    </dependency>
   </dependencies>
 
   <repositories>

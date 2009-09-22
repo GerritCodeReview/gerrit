@@ -106,6 +106,10 @@ public final class Account {
   @Column(notNull = false)
   protected String preferredEmail;
 
+  /** Regular expression that {@link #sshUserName} must match (not enforced in this class). */
+  public static final String SSH_USER_NAME_PATTERN =
+    "^[a-zA-Z]([a-zA-Z0-9]|[!\"#$%&*+-.=?^_{|}~])+$";
+
   /** Username to authenticate as through SSH connections. */
   @Column(notNull = false)
   protected String sshUserName;

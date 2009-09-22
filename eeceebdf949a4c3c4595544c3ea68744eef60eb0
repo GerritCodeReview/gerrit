@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAm3///WA\u003d",
+        "filename": "src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2009-09-22T16:31:12Z",
+      "side": 1,
+      "message": "Ah, very nice.",
+      "parentUuid": "AAAAm3///WU\u003d",
+      "revId": "eeceebdf949a4c3c4595544c3ea68744eef60eb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAm3///YI\u003d",
         "filename": "src/main/java/com/google/gerrit/server/ssh/SshModule.java",
         "patchSetId": 3
@@ -71,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAm3///WM\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/DefaultCommandModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2009-09-22T16:31:12Z",
+      "side": 1,
+      "message": "I left this here, so if the user calls git receive-pack, the system calls gerrit receive-pack, which returns the slave-mode error.  I thought this would be easier than moving it to both slave and master command modules.  Let me know if you\u0027d prefer for me to remove it from the default module.",
+      "parentUuid": "AAAAm3///Ws\u003d",
+      "revId": "eeceebdf949a4c3c4595544c3ea68744eef60eb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAm3///Wo\u003d",
         "filename": "src/main/java/com/google/gerrit/server/ssh/commands/DefaultCommandModule.java",
         "patchSetId": 3
@@ -82,6 +118,24 @@
       "writtenOn": "2009-09-22T16:03:44Z",
       "side": 1,
       "message": "Binding must go in master mode.",
+      "revId": "eeceebdf949a4c3c4595544c3ea68744eef60eb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAm3///WI\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/DefaultCommandModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2009-09-22T16:31:12Z",
+      "side": 1,
+      "message": "See comment above - this is just so the calls get routed to the right place when the user sends a different form of the command.",
+      "parentUuid": "AAAAm3///Wo\u003d",
       "revId": "eeceebdf949a4c3c4595544c3ea68744eef60eb0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -133,6 +187,24 @@
       "writtenOn": "2009-09-22T16:03:44Z",
       "side": 1,
       "message": "Don\u0027t start a thread to report the error.\n\nInstead use:\n\n      String msg \u003d \"error: ....\\n\";\n      err.write(msg.getBytes(ENC));\n      err.flush();\n      onExit(1);",
+      "revId": "eeceebdf949a4c3c4595544c3ea68744eef60eb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAm3///WE\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/ErrorSlaveMode.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2009-09-22T16:31:12Z",
+      "side": 1,
+      "message": "Good call",
+      "parentUuid": "AAAAm3///Wc\u003d",
       "revId": "eeceebdf949a4c3c4595544c3ea68744eef60eb0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

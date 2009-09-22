@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAm3///UM\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/reviewdb/Account.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-22T19:53:21Z",
+      "side": 1,
+      "message": "IMHO, createInstance or newInstance is a better name.",
+      "revId": "953e11dc213f4159a0f63dde51ed64d5ee0810b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAm3///UI\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/reviewdb/AccountExternalId.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-22T19:53:21Z",
+      "side": 1,
+      "message": "Again, createInstance or newInstance is perhaps a better name.",
+      "revId": "953e11dc213f4159a0f63dde51ed64d5ee0810b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAm3///Uo\u003d",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 662,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-22T19:47:29Z",
+      "side": 1,
+      "message": "Tab before space here and next two lines, we only use 2 space indent in our pom.",
+      "revId": "719647b596bad8d1f371316bd51e34ff1fb9c0e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

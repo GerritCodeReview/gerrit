@@ -36,19 +36,19 @@ public final class AccountGeneralPreferences {
 
   /** Default number of lines of context when viewing a patch. */
   @Column
-  protected short defaultContext;
+  short defaultContext;
 
   /** Number of changes to show in a screen. */
   @Column
-  protected short maximumPageSize;
+  short maximumPageSize;
 
   /** Should the site header be displayed when logged in ? */
   @Column
-  protected boolean showSiteHeader;
+  boolean showSiteHeader;
 
   /** Should the Flash helper movie be used to copy text to the clipboard? */
   @Column
-  protected boolean useFlashClipboard;
+  boolean useFlashClipboard;
 
   public AccountGeneralPreferences() {
   }

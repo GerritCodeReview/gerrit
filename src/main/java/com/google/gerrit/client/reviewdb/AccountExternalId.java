@@ -82,16 +82,16 @@ public final class AccountExternalId {
   }
 
   @Column(name = Column.NONE)
-  protected Key key;
+  Key key;
 
   @Column
-  protected Account.Id accountId;
+  Account.Id accountId;
 
   @Column(notNull = false)
-  protected String emailAddress;
+  String emailAddress;
 
   @Column(notNull = false)
-  protected Timestamp lastUsedOn;
+  Timestamp lastUsedOn;
 
   /** <i>computed value</i> is this identity trusted by the site administrator? */
   protected boolean trusted;

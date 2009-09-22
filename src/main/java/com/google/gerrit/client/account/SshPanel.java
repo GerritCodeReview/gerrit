@@ -22,6 +22,7 @@ import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountSshKey;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.InvalidSshKeyException;
+import com.google.gerrit.client.rpc.InvalidSshUserNameException;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.client.ui.TextSaveButtonListener;
@@ -29,6 +30,9 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
@@ -43,6 +47,7 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
@@ -93,6 +98,7 @@ class SshPanel extends Composite {
     if (Gerrit.isSignedIn()) {
       userNameTxt.setText(Gerrit.getUserAccount().getSshUserName());
     }
+    userNameTxt.addKeyPressHandler(new SshUserNameValidator());
     userNameTxt.addStyleName("gerrit-SshPanel-username");
     userNameTxt.setVisibleLength(16);
     userNameTxt.setReadOnly(!canEditSshUserName());
@@ -229,13 +235,17 @@ class SshPanel extends Composite {
   }
 
   void doChangeUserName() {
-    if(!canEditSshUserName()){
+    if (!canEditSshUserName()) {
       return;
     }
 
     String newName = userNameTxt.getText();
     if ("".equals(newName)) {
       newName = null;
+    }
+    if (newName != null && !newName.matches(Account.SSH_USER_NAME_PATTERN)) {
+      invalidUserName();
+      return;
     }
 
     userNameTxt.setEnabled(false);
@@ -256,9 +266,18 @@ class SshPanel extends Composite {
           public void onFailure(final Throwable caught) {
             userNameTxt.setEnabled(true);
             changeUserName.setEnabled(true);
-            super.onFailure(caught);
+            if (InvalidSshUserNameException.MESSAGE.equals(caught.getMessage())) {
+              invalidUserName();
+            } else {
+              super.onFailure(caught);
+            }
           }
         });
+  }
+
+  void invalidUserName() {
+    userNameTxt.setFocus(true);
+    new ErrorDialog(Util.C.invalidSshUserName()).center();
   }
 
   void doBrowse() {
@@ -421,6 +440,53 @@ class SshPanel extends Composite {
   private void showAddKeyBlock(final boolean show) {
     showAddKeyBlock.setVisible(!show);
     addKeyBlock.setVisible(show);
+  }
+
+  private final class SshUserNameValidator implements KeyPressHandler {
+    @Override
+    public void onKeyPress(final KeyPressEvent event) {
+      final char code = event.getCharCode();
+      switch (code) {
+        case KeyCodes.KEY_ALT:
+        case KeyCodes.KEY_BACKSPACE:
+        case KeyCodes.KEY_CTRL:
+        case KeyCodes.KEY_DELETE:
+        case KeyCodes.KEY_DOWN:
+        case KeyCodes.KEY_END:
+        case KeyCodes.KEY_ENTER:
+        case KeyCodes.KEY_ESCAPE:
+        case KeyCodes.KEY_HOME:
+        case KeyCodes.KEY_LEFT:
+        case KeyCodes.KEY_PAGEDOWN:
+        case KeyCodes.KEY_PAGEUP:
+        case KeyCodes.KEY_RIGHT:
+        case KeyCodes.KEY_SHIFT:
+        case KeyCodes.KEY_TAB:
+        case KeyCodes.KEY_UP:
+          // Allow these, even if one of their assigned codes is
+          // identical to an ASCII character we do not want to
+          // allow in the box.
+          //
+          // We still want to let the user move around the input box
+          // with their arrow keys, or to move between fields using tab.
+          // Invalid characters introduced will be caught through the
+          // server's own validation of the input data.
+          //
+          break;
+
+        default:
+          final TextBox box = (TextBox) event.getSource();
+          final String re;
+          if (box.getCursorPos() == 0)
+            re = Account.SSH_USER_NAME_PATTERN_FIRST;
+          else
+            re = Account.SSH_USER_NAME_PATTERN_REST;
+          if (!String.valueOf(code).matches("^" + re + "$")) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+      }
+    }
   }
 
   private class SshKeyTable extends FancyFlexTable<AccountSshKey> {

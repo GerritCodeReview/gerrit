@@ -59,6 +59,13 @@ public final class Account {
     FULL_NAME, SSH_USER_NAME, REGISTER_NEW_EMAIL;
   }
 
+  public static final String SSH_USER_NAME_PATTERN_FIRST = "[a-zA-Z]";
+  public static final String SSH_USER_NAME_PATTERN_REST = "[a-zA-Z0-9._-]";
+
+  /** Regular expression that {@link #sshUserName} must match. */
+  public static final String SSH_USER_NAME_PATTERN =
+      "^" + SSH_USER_NAME_PATTERN_FIRST + SSH_USER_NAME_PATTERN_REST + "+$";
+
   /** Key local to Gerrit to identify a user. */
   public static class Id extends IntKey<com.google.gwtorm.client.Key<?>> {
     private static final long serialVersionUID = 1L;
@@ -105,10 +112,6 @@ public final class Account {
   /** Email address the user prefers to be contacted through. */
   @Column(notNull = false)
   protected String preferredEmail;
-
-  /** Regular expression that {@link #sshUserName} must match (not enforced in this class). */
-  public static final String SSH_USER_NAME_PATTERN =
-    "^[a-zA-Z][a-zA-Z0-9._-]+$";
 
   /** Username to authenticate as through SSH connections. */
   @Column(notNull = false)

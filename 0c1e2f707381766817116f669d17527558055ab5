@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAm3///JY\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/reviewdb/Account.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-23T19:08:40Z",
+      "side": 1,
+      "message": "I think you need a (name \u003d \"account_id\") in the annotation here so this continues to read from the current account_id column in the SQL database.",
+      "revId": "0c1e2f707381766817116f669d17527558055ab5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAm3///JU\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/reviewdb/AccountExternalId.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-23T19:08:40Z",
+      "side": 1,
+      "message": "Also needs name \u003d \"account_id\" in the annotation.",
+      "revId": "0c1e2f707381766817116f669d17527558055ab5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

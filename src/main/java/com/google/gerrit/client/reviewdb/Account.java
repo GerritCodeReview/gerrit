@@ -123,6 +123,9 @@ public final class Account {
   @Column(name = Column.NONE)
   AccountGeneralPreferences generalPreferences;
 
+  /** Account id which is a unique (world-wide) SHA-1 value */
+  String accountId;
+
   protected Account() {
   }
 

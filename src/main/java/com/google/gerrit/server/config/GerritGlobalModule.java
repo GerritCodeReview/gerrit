@@ -19,6 +19,7 @@ import static com.google.inject.Stage.PRODUCTION;
 
 import com.google.gerrit.client.data.ApprovalTypes;
 import com.google.gerrit.client.reviewdb.AuthType;
+import com.google.gerrit.client.reviewdb.UserDb;
 import com.google.gerrit.git.ChangeMergeQueue;
 import com.google.gerrit.git.GitRepositoryManager;
 import com.google.gerrit.git.MergeOp;
@@ -164,5 +165,7 @@ public class GerritGlobalModule extends FactoryModule {
     factory(MergeFailSender.Factory.class);
     factory(ReplacePatchSetSender.Factory.class);
     factory(RegisterNewEmailSender.Factory.class);
+
+    bind(UserDb.class);
   }
 }

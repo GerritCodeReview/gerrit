@@ -88,6 +88,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAm3///CA\u003d",
+        "filename": "src/main/scala/com/google/gerrit/client/reviewdb/UserDb.scala",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-23T23:59:15Z",
+      "side": 1,
+      "message": "Yes, squash Ib408c2ba into this.",
+      "parentUuid": "AAAAm3///DE\u003d",
+      "revId": "ebab0689be5e8abae56653c3ffc62fa146e5b6c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAm3///Fs\u003d",
         "filename": "src/main/scala/com/google/gerrit/client/reviewdb/UserDb.scala",
         "patchSetId": 4
@@ -117,6 +135,24 @@
       "side": 1,
       "message": "We will fail miserably if there is a null value returned by _.fullName as we assume in whole Gimd codebase that optional values are declared explicitly to be optional.\n\nOuch, this is a serious flaw in current design as there is not way to specify optional field. This is my omission. What we basically need to do is to define something like FieldSpecOptional and define flattening operation on fields.\n\nActually, it fits perfectly into proposal of refactoring FieldSpec we discussed earlier. In order to address this problem one needs to:\n  * define that a field is optional (using FieldSpec)\n  * define a default value if field is missing\n\nThis way FieldSpec, and UserType in general can easily handle conversion in both directions.\n\nAs for know this issue blocks whole conversion :-(",
       "parentUuid": "AAAAm3///Fs\u003d",
+      "revId": "ebab0689be5e8abae56653c3ffc62fa146e5b6c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAm3///B8\u003d",
+        "filename": "src/main/scala/com/google/gerrit/client/reviewdb/UserDb.scala",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-23T23:59:15Z",
+      "side": 1,
+      "message": "I think this goes back to my old argument that if a field is set to its \"default value\" we don\u0027t include it in the message.  Where here \"default value\" is null.   :-)  Anyway.\n\nYes, you probably need a different variant of FieldSpec that knows what the \"field does not exist\" magic value is, which for these string/timestamp fields in Gerrit is always null, but could be None for some more Scala oriented application.",
+      "parentUuid": "AAAAm3///C8\u003d",
       "revId": "ebab0689be5e8abae56653c3ffc62fa146e5b6c5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -273,6 +309,24 @@
       "side": 1,
       "message": "No, our old friend called NPE will show up. :(\n\nImplicitly nullable types sucks. :-(\n\nWhat is desired behavior if fullName is null? It should not match a predicate, right?",
       "parentUuid": "AAAAm3///FE\u003d",
+      "revId": "ebab0689be5e8abae56653c3ffc62fa146e5b6c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAm3///Bw\u003d",
+        "filename": "src/main/scala/com/google/gerrit/client/reviewdb/UserDb.scala",
+        "patchSetId": 4
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-23T23:59:15Z",
+      "side": 1,
+      "message": "If the name is null, it should not match the predicate.  That is the existing behavior in SQL, and the behavior Gerrit is expecting for this operation.  If the name isn\u0027t supplied, how do we sort it between two defined strings?  Since we lack the name, we cannot make a reasonable compare.  :-)\n\nThat nicely resolves the issue that the sort step on the next line doesn\u0027t have to worry about nulls, because they were filtered out.",
+      "parentUuid": "AAAAm3///Co\u003d",
       "revId": "ebab0689be5e8abae56653c3ffc62fa146e5b6c5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -446,6 +500,24 @@
       "side": 1,
       "message": "Yes, I was planning to do this refactoring once I get initial version of this code going through review.\n\nDo you want me to upload new cl with this stuff implemented?",
       "parentUuid": "AAAAm3///EY\u003d",
+      "revId": "ebab0689be5e8abae56653c3ffc62fa146e5b6c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAm3///Bs\u003d",
+        "filename": "src/main/scala/com/google/gerrit/client/reviewdb/UserDb.scala",
+        "patchSetId": 4
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-23T23:59:15Z",
+      "side": 1,
+      "message": "Given how much of a change it makes in this API, yes, I think we should squash that into this commit and get a more consistent initial version of how this would look.",
+      "parentUuid": "AAAAm3///CQ\u003d",
       "revId": "ebab0689be5e8abae56653c3ffc62fa146e5b6c5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

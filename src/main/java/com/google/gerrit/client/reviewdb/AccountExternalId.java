@@ -85,7 +85,8 @@ public final class AccountExternalId {
   Key key;
 
   @Column
-  Account.Id accountId;
+  @Deprecated
+  Account.Id oldAccountId;
 
   @Column(notNull = false)
   String emailAddress;
@@ -106,7 +107,7 @@ public final class AccountExternalId {
    * @param k the binding key.
    */
   public AccountExternalId(final Account.Id who, final AccountExternalId.Key k) {
-    accountId = who;
+    oldAccountId = who;
     key = k;
   }
 
@@ -116,7 +117,7 @@ public final class AccountExternalId {
 
   /** Get local id of this account, to link with in other entities */
   public Account.Id getAccountId() {
-    return accountId;
+    return oldAccountId;
   }
 
   public String getExternalId() {

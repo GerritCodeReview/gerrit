@@ -70,6 +70,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAm3///DE\u003d",
+        "filename": "src/main/scala/com/google/gerrit/client/reviewdb/UserDb.scala",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2009-09-23T23:37:18Z",
+      "side": 1,
+      "message": "For general preferences see change Ib408c2ba. Do you want me to squash that change into this one?\n\nNot sure how I missed contactFiledOn. I\u0027ll add it to this change.",
+      "parentUuid": "AAAAm3///F0\u003d",
+      "revId": "ebab0689be5e8abae56653c3ffc62fa146e5b6c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAm3///Fs\u003d",
         "filename": "src/main/scala/com/google/gerrit/client/reviewdb/UserDb.scala",
         "patchSetId": 4
@@ -81,6 +99,24 @@
       "writtenOn": "2009-09-23T22:53:01Z",
       "side": 1,
       "message": "Won\u0027t this cause a null value in the field?  Or do we automatically skip a StringField if it is given a null value?\n\nSame problem 2 lines below on preferredEmail.",
+      "revId": "ebab0689be5e8abae56653c3ffc62fa146e5b6c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAm3///C8\u003d",
+        "filename": "src/main/scala/com/google/gerrit/client/reviewdb/UserDb.scala",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2009-09-23T23:37:18Z",
+      "side": 1,
+      "message": "We will fail miserably if there is a null value returned by _.fullName as we assume in whole Gimd codebase that optional values are declared explicitly to be optional.\n\nOuch, this is a serious flaw in current design as there is not way to specify optional field. This is my omission. What we basically need to do is to define something like FieldSpecOptional and define flattening operation on fields.\n\nActually, it fits perfectly into proposal of refactoring FieldSpec we discussed earlier. In order to address this problem one needs to:\n  * define that a field is optional (using FieldSpec)\n  * define a default value if field is missing\n\nThis way FieldSpec, and UserType in general can easily handle conversion in both directions.\n\nAs for know this issue blocks whole conversion :-(",
+      "parentUuid": "AAAAm3///Fs\u003d",
       "revId": "ebab0689be5e8abae56653c3ffc62fa146e5b6c5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +157,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAm3///C4\u003d",
+        "filename": "src/main/scala/com/google/gerrit/client/reviewdb/UserDb.scala",
+        "patchSetId": 4
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2009-09-23T23:37:18Z",
+      "side": 1,
+      "message": "It will. See discussion above.",
+      "parentUuid": "AAAAm3///Fo\u003d",
+      "revId": "ebab0689be5e8abae56653c3ffc62fa146e5b6c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAm3///Fk\u003d",
         "filename": "src/main/scala/com/google/gerrit/client/reviewdb/UserDb.scala",
         "patchSetId": 4
@@ -132,6 +186,24 @@
       "writtenOn": "2009-09-23T22:53:01Z",
       "side": 1,
       "message": "No, needs to be a hash of externalId.",
+      "revId": "ebab0689be5e8abae56653c3ffc62fa146e5b6c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAm3///C0\u003d",
+        "filename": "src/main/scala/com/google/gerrit/client/reviewdb/UserDb.scala",
+        "patchSetId": 4
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2009-09-23T23:37:18Z",
+      "side": 1,
+      "message": "Oh, yes. Thanks for spotting this.",
+      "parentUuid": "AAAAm3///Fk\u003d",
       "revId": "ebab0689be5e8abae56653c3ffc62fa146e5b6c5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -189,6 +261,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAm3///Co\u003d",
+        "filename": "src/main/scala/com/google/gerrit/client/reviewdb/UserDb.scala",
+        "patchSetId": 4
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2009-09-23T23:37:18Z",
+      "side": 1,
+      "message": "No, our old friend called NPE will show up. :(\n\nImplicitly nullable types sucks. :-(\n\nWhat is desired behavior if fullName is null? It should not match a predicate, right?",
+      "parentUuid": "AAAAm3///FE\u003d",
+      "revId": "ebab0689be5e8abae56653c3ffc62fa146e5b6c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAm3///FI\u003d",
         "filename": "src/main/scala/com/google/gerrit/client/reviewdb/UserDb.scala",
         "patchSetId": 4
@@ -217,6 +307,24 @@
       "writtenOn": "2009-09-23T22:53:01Z",
       "side": 1,
       "message": "This won\u0027t work, queryAccount doesn\u0027t populate sshUserName.",
+      "revId": "ebab0689be5e8abae56653c3ffc62fa146e5b6c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAm3///Ck\u003d",
+        "filename": "src/main/scala/com/google/gerrit/client/reviewdb/UserDb.scala",
+        "patchSetId": 4
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2009-09-23T23:37:18Z",
+      "side": 1,
+      "message": "Good point. Thanks.",
+      "parentUuid": "AAAAm3///FM\u003d",
       "revId": "ebab0689be5e8abae56653c3ffc62fa146e5b6c5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -291,6 +399,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAm3///Cg\u003d",
+        "filename": "src/main/scala/com/google/gerrit/client/reviewdb/UserDb.scala",
+        "patchSetId": 4
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2009-09-23T23:37:18Z",
+      "side": 1,
+      "message": "It doesn\u0027t.\n\nOh well, so many bugs in one piece of code...",
+      "parentUuid": "AAAAm3///Ek\u003d",
+      "revId": "ebab0689be5e8abae56653c3ffc62fa146e5b6c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAm3///EY\u003d",
         "filename": "src/main/scala/com/google/gerrit/client/reviewdb/UserDb.scala",
         "patchSetId": 4
@@ -302,6 +428,24 @@
       "writtenOn": "2009-09-23T22:53:01Z",
       "side": 1,
       "message": "I thought the caller was going to actually keep track of the handle and pass it, so you don\u0027t have to do this query?",
+      "revId": "ebab0689be5e8abae56653c3ffc62fa146e5b6c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAm3///CQ\u003d",
+        "filename": "src/main/scala/com/google/gerrit/client/reviewdb/UserDb.scala",
+        "patchSetId": 4
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2009-09-23T23:37:18Z",
+      "side": 1,
+      "message": "Yes, I was planning to do this refactoring once I get initial version of this code going through review.\n\nDo you want me to upload new cl with this stuff implemented?",
+      "parentUuid": "AAAAm3///EY\u003d",
       "revId": "ebab0689be5e8abae56653c3ffc62fa146e5b6c5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

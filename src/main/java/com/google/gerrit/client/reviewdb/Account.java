@@ -91,8 +91,9 @@ public final class Account {
     }
   }
 
-  @Column
-  Id accountId;
+  @Column(name = "account_id")
+  @Deprecated
+  Id oldAccountId;
 
   /** Date and time the user registered with the review server. */
   @Column
@@ -131,7 +132,7 @@ public final class Account {
    * @param newId unique id, see {@link ReviewDb#nextAccountId()}.
    */
   public Account(final Account.Id newId) {
-    accountId = newId;
+    oldAccountId = newId;
     registeredOn = new Timestamp(System.currentTimeMillis());
 
     generalPreferences = new AccountGeneralPreferences();
@@ -140,7 +141,7 @@ public final class Account {
 
   /** Get local id of this account, to link with in other entities */
   public Account.Id getId() {
-    return accountId;
+    return oldAccountId;
   }
 
   /** Get the full name of the user ("Given-name Surname" style). */

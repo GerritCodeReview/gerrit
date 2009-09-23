@@ -332,7 +332,7 @@ limitations under the License.
         <executions>
           <execution>
             <goals>
-              <goal>compile</goal>                    
+              <goal>compile</goal>
             </goals>
           </execution>
         </executions>
@@ -431,7 +431,7 @@ limitations under the License.
                 </copy>
 
                 <apply executable="gzip" addsourcefile="false">
-                  <arg value="-9"/> 
+                  <arg value="-9"/>
                   <fileset dir="${m}"
                            includes="**/*.html,**/*.css"/>
                   <redirector>

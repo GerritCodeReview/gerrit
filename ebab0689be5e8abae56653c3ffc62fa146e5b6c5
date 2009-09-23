@@ -1,0 +1,344 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAm3///GU\u003d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-23T22:53:01Z",
+      "side": 1,
+      "message": "*sigh* good point, but is unrelated to this change, so this block should be removed from the commit and a different commit created to address that issue.  or open a bug against me in JIRA to fix that in the docs.  :-)",
+      "revId": "ebab0689be5e8abae56653c3ffc62fa146e5b6c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAm3///GQ\u003d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-23T22:53:01Z",
+      "side": 1,
+      "message": "I think we should specifically state \"Location of bare git repository ...\" here.",
+      "revId": "ebab0689be5e8abae56653c3ffc62fa146e5b6c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAm3///GI\u003d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-23T22:53:01Z",
+      "side": 1,
+      "message": "Please add a paragraph describing how values which don\u0027t start with \"refs/\" are automatically prefixed with \"refs/heads\".",
+      "revId": "ebab0689be5e8abae56653c3ffc62fa146e5b6c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAm3///F0\u003d",
+        "filename": "src/main/scala/com/google/gerrit/client/reviewdb/UserDb.scala",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-23T22:53:01Z",
+      "side": 1,
+      "message": "Missing:\n\n* contactFiledOn\n* generalPreferences",
+      "revId": "ebab0689be5e8abae56653c3ffc62fa146e5b6c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAm3///Fs\u003d",
+        "filename": "src/main/scala/com/google/gerrit/client/reviewdb/UserDb.scala",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-23T22:53:01Z",
+      "side": 1,
+      "message": "Won\u0027t this cause a null value in the field?  Or do we automatically skip a StringField if it is given a null value?\n\nSame problem 2 lines below on preferredEmail.",
+      "revId": "ebab0689be5e8abae56653c3ffc62fa146e5b6c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAm3///Fw\u003d",
+        "filename": "src/main/scala/com/google/gerrit/client/reviewdb/UserDb.scala",
+        "patchSetId": 4
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-23T22:53:01Z",
+      "side": 1,
+      "message": "I think I would prefer \"ssh-users\" for this directory name.",
+      "revId": "ebab0689be5e8abae56653c3ffc62fa146e5b6c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAm3///Fo\u003d",
+        "filename": "src/main/scala/com/google/gerrit/client/reviewdb/UserDb.scala",
+        "patchSetId": 4
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-23T22:53:01Z",
+      "side": 1,
+      "message": "I think lastUsedOn is optional/nullable, so wouldn\u0027t the construction function NPE in such cases?",
+      "revId": "ebab0689be5e8abae56653c3ffc62fa146e5b6c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAm3///Fk\u003d",
+        "filename": "src/main/scala/com/google/gerrit/client/reviewdb/UserDb.scala",
+        "patchSetId": 4
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-23T22:53:01Z",
+      "side": 1,
+      "message": "No, needs to be a hash of externalId.",
+      "revId": "ebab0689be5e8abae56653c3ffc62fa146e5b6c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAm3///Fc\u003d",
+        "filename": "src/main/scala/com/google/gerrit/client/reviewdb/UserDb.scala",
+        "patchSetId": 4
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-23T22:53:01Z",
+      "side": 1,
+      "message": "Typo in error message on \"wrong number\"",
+      "revId": "ebab0689be5e8abae56653c3ffc62fa146e5b6c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAm3///FY\u003d",
+        "filename": "src/main/scala/com/google/gerrit/client/reviewdb/UserDb.scala",
+        "patchSetId": 4
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-23T22:53:01Z",
+      "side": 1,
+      "message": "Should return null, not throw.",
+      "revId": "ebab0689be5e8abae56653c3ffc62fa146e5b6c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAm3///FE\u003d",
+        "filename": "src/main/scala/com/google/gerrit/client/reviewdb/UserDb.scala",
+        "patchSetId": 4
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-23T22:53:01Z",
+      "side": 1,
+      "message": "Does Scala\u0027s definition of \u003e\u003d for String handle x.fullName being null?",
+      "revId": "ebab0689be5e8abae56653c3ffc62fa146e5b6c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAm3///FI\u003d",
+        "filename": "src/main/scala/com/google/gerrit/client/reviewdb/UserDb.scala",
+        "patchSetId": 4
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-23T22:53:01Z",
+      "side": 1,
+      "message": "Does Scala\u0027s definition of \u003e\u003d for String handle x.preferredEmail being null?",
+      "revId": "ebab0689be5e8abae56653c3ffc62fa146e5b6c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAm3///FM\u003d",
+        "filename": "src/main/scala/com/google/gerrit/client/reviewdb/UserDb.scala",
+        "patchSetId": 4
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-23T22:53:01Z",
+      "side": 1,
+      "message": "This won\u0027t work, queryAccount doesn\u0027t populate sshUserName.",
+      "revId": "ebab0689be5e8abae56653c3ffc62fa146e5b6c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAm3///Eo\u003d",
+        "filename": "src/main/scala/com/google/gerrit/client/reviewdb/UserDb.scala",
+        "patchSetId": 4
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-23T22:53:01Z",
+      "side": 1,
+      "message": "I really think the methods in this section could have names that more clearly defined they were dealing with the identity, and not the account.",
+      "revId": "ebab0689be5e8abae56653c3ffc62fa146e5b6c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAm3///E0\u003d",
+        "filename": "src/main/scala/com/google/gerrit/client/reviewdb/UserDb.scala",
+        "patchSetId": 4
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-23T22:53:01Z",
+      "side": 1,
+      "message": "Should return null, not throw.",
+      "revId": "ebab0689be5e8abae56653c3ffc62fa146e5b6c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAm3///Es\u003d",
+        "filename": "src/main/scala/com/google/gerrit/client/reviewdb/UserDb.scala",
+        "patchSetId": 4
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-23T22:53:01Z",
+      "side": 1,
+      "message": "Again, is it OK that x.emailAddress is null here?",
+      "revId": "ebab0689be5e8abae56653c3ffc62fa146e5b6c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAm3///Ek\u003d",
+        "filename": "src/main/scala/com/google/gerrit/client/reviewdb/UserDb.scala",
+        "patchSetId": 4
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-23T22:53:01Z",
+      "side": 1,
+      "message": "How does sshUserName get pushed to the SshUserName message?",
+      "revId": "ebab0689be5e8abae56653c3ffc62fa146e5b6c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAm3///EY\u003d",
+        "filename": "src/main/scala/com/google/gerrit/client/reviewdb/UserDb.scala",
+        "patchSetId": 4
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-23T22:53:01Z",
+      "side": 1,
+      "message": "I thought the caller was going to actually keep track of the handle and pass it, so you don\u0027t have to do this query?",
+      "revId": "ebab0689be5e8abae56653c3ffc62fa146e5b6c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAm3///Ec\u003d",
+        "filename": "src/main/scala/com/google/gerrit/client/reviewdb/UserDb.scala",
+        "patchSetId": 4
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-23T22:53:01Z",
+      "side": 1,
+      "message": "I thought you were going to pull this and toJavaIterator into a utility object?",
+      "revId": "ebab0689be5e8abae56653c3ffc62fa146e5b6c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAm3///Eg\u003d",
+        "filename": "src/main/scala/com/google/gerrit/client/reviewdb/UserDb.scala",
+        "patchSetId": 4
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-23T22:53:01Z",
+      "side": 1,
+      "message": "Missing space between words in error message.",
+      "revId": "ebab0689be5e8abae56653c3ffc62fa146e5b6c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

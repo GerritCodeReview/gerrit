@@ -295,6 +295,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAm3///KY\u003d",
+        "filename": "src/main/scala/com/google/gerrit/client/reviewdb/UserDb.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2009-09-23T18:53:53Z",
+      "side": 1,
+      "message": "Agreed but let\u0027s just leave it here for a while and refactor in future changes.\n\nRebasing around 20 commits all the time is not very convenient workflow.",
+      "parentUuid": "AAAAm3///Sg\u003d",
+      "revId": "b14d3830ef12786682655402e694cce854bf1f4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAm3///R8\u003d",
         "filename": "src/main/scala/com/google/gerrit/client/reviewdb/UserDb.scala",
         "patchSetId": 1
@@ -306,6 +324,24 @@
       "writtenOn": "2009-09-22T20:18:26Z",
       "side": 1,
       "message": "Since you effectively have 3 top level file types to query, please make all of the query methods consistent:\n\n* queryAccount\n* queryExternalId\n* querySshUsename",
+      "revId": "b14d3830ef12786682655402e694cce854bf1f4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAm3///KU\u003d",
+        "filename": "src/main/scala/com/google/gerrit/client/reviewdb/UserDb.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1002353
+      },
+      "writtenOn": "2009-09-23T18:53:53Z",
+      "side": 1,
+      "message": "There is a difference between query and find. Query returns Iterator but find returns Option.\n\nBut I\u0027ll rename query to queryAccount and queryExtId to queryExternalId.",
+      "parentUuid": "AAAAm3///R8\u003d",
       "revId": "b14d3830ef12786682655402e694cce854bf1f4c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

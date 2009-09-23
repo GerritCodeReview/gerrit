@@ -8,6 +8,10 @@ The optional file `'$site_path'/gerrit.config` is a Git-style config
 file that controls many host specific settings for Gerrit.
 
 [NOTE]
+It appears that gerrit.config is not optional anymore so more docs should be probably
+updated, right?
+
+[NOTE]
 The contents of the `gerrit.config` file are cached at startup
 by Gerrit.  If you modify any propeties in this file, Gerrit needs
 to be restarted before it will use the new values.
@@ -28,6 +32,16 @@ Sample `gerrit.config`:
 ~~~~~~~~~~~~~~~~~~~~
 
 See also link:config-sso.html[SSO configuration].
+
+[[auth.accountRepository]]auth.accountRepository (*required*)::
++
+Location of repository where user account information is stored. The repository is managed by Gimd.
+
+[[auth.accountBranch]]auth.accountBranch::
++
+The name of Git reference to a branch that stores user account information.
++
+By default `refs/heads/accounts`.
 
 [[auth.type]]auth.type::
 +

@@ -22,6 +22,7 @@ import com.google.gerrit.client.reviewdb.AccountGeneralPreferences;
 import com.google.gerrit.client.reviewdb.AccountProjectWatch;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gerrit.client.reviewdb.UserDb;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gerrit.server.BaseServiceImplementation;
 import com.google.gerrit.server.IdentifiedUser;
@@ -35,6 +36,13 @@ import com.google.gwtorm.client.Transaction;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import scala.Tuple2;
+
+import com.google.gimd.modification.DatabaseModification;
+import com.google.gimd.Snapshot;
+import com.google.gimd.javaglue.JFunction1;
+import com.google.gimd.javaglue.ScalaUtil;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -47,9 +55,10 @@ class AccountServiceImpl extends BaseServiceImplementation implements
   private final AccountCache accountCache;
   private final ProjectControl.Factory projectControlFactory;
   private final AgreementInfoFactory.Factory agreementInfoFactory;
+  private final UserDb userDb;
 
   @Inject
-  AccountServiceImpl(final Provider<ReviewDb> schema,
+  AccountServiceImpl(final Provider<ReviewDb> schema, final UserDb userDb,
       final Provider<IdentifiedUser> identifiedUser,
       final AccountCache accountCache,
       final ProjectControl.Factory projectControlFactory,
@@ -59,6 +68,7 @@ class AccountServiceImpl extends BaseServiceImplementation implements
     this.accountCache = accountCache;
     this.projectControlFactory = projectControlFactory;
     this.agreementInfoFactory = agreementInfoFactory;
+    this.userDb = userDb;
   }
 
   public void myAccount(final AsyncCallback<Account> callback) {
@@ -69,13 +79,25 @@ class AccountServiceImpl extends BaseServiceImplementation implements
       final AsyncCallback<VoidResult> callback) {
     run(callback, new Action<VoidResult>() {
       public VoidResult run(final ReviewDb db) throws OrmException, Failure {
-        final Account a = db.accounts().get(getAccountId());
-        if (a == null) {
+        Account account = userDb.modifyAndReturn(ScalaUtil.fun1(
+          new JFunction1<Snapshot, scala.Tuple2<DatabaseModification, Account>>() {
+
+            @Override
+            public Tuple2<DatabaseModification, Account> apply(Snapshot snapshot)
+              throws OrmException {
+              final Account a = userDb.byOldId(getAccountId().get(), snapshot);
+              a.setGeneralPreferences(pref);
+              DatabaseModification modif = userDb.emptyModification();
+              modif = userDb.updateAccount(a, modif, snapshot);
+              return ScalaUtil.tuple2(modif, a);
+            }
+          }
+        ));
+
+        if (account == null) {
           throw new Failure(new NoSuchEntityException());
         }
-        a.setGeneralPreferences(pref);
-        db.accounts().update(Collections.singleton(a));
-        accountCache.evict(a.getId());
+        accountCache.evict(account.getId());
         return VoidResult.INSTANCE;
       }
     });

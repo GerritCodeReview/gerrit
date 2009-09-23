@@ -18,16 +18,39 @@ import com.google.gerrit.server.cache.CachePool;
 import com.google.gerrit.server.config.GerritGlobalModule;
 import com.google.gerrit.server.ssh.SshDaemon;
 import com.google.gerrit.server.ssh.SshModule;
+import com.google.gerrit.server.ssh.commands.MasterCommandModule;
+import com.google.gerrit.server.ssh.commands.SlaveCommandModule;
 import com.google.inject.Injector;
+import com.google.inject.Module;
+
+import org.kohsuke.args4j.Option;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /** Run only the SSH daemon portions of Gerrit. */
 public class Daemon extends AbstractProgram {
+
+  @Option(name = "--slave", usage = "support fetch only")
+  boolean slave;
+
   @Override
   public int run() throws Exception {
     Injector sysInjector = GerritGlobalModule.createInjector();
-    Injector sshInjector = sysInjector.createChildInjector(new SshModule());
+    Injector sshInjector = createSshInjector(sysInjector);
     sysInjector.getInstance(CachePool.class).start();
     sshInjector.getInstance(SshDaemon.class).start();
     return never();
+  }
+
+  private Injector createSshInjector(final Injector sysInjector) {
+    final List<Module> modules = new ArrayList<Module>();
+    modules.add(new SshModule());
+    if (slave) {
+      modules.add(new SlaveCommandModule());
+    } else {
+      modules.add(new MasterCommandModule());
+    }
+    return sysInjector.createChildInjector(modules);
   }
 }

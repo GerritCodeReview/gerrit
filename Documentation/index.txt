@@ -17,6 +17,7 @@ Installation
 * link:licenses.html[Licenses and Notices]
 * link:install.html[Installation Guide]
 * link:project-setup.html[Project Setup]
+* link:pgm-index.html[Server Programs]
 
 Configuration
 -------------

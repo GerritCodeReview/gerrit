@@ -45,7 +45,9 @@ final class UserDb @Inject()(@GerritServerConfig private val cfg: Config) {
 
   private object AccountType extends UserType[Account] {
 
-    def fields = List(
+    val prefFields = GeneralPreferencesType.fields map (substituteGeneralPreferences _)
+
+    def fields = prefFields ++ List(
       FieldSpec("accountId", StringField, _.accountId),
       FieldSpec("fullName", StringField, _.fullName),
       FieldSpec("oldAccountId", IntField, _.getRawOldAccountId),
@@ -68,7 +70,32 @@ final class UserDb @Inject()(@GerritServerConfig private val cfg: Config) {
       account.registeredOn =
               new java.sql.Timestamp(m.one("registeredOn").timestampField.value.getTime)
       account.accountId = m.one("accountId").stringField.value
+      val preferences = GeneralPreferencesType.toUserObject(m)
+      account.setGeneralPreferences(preferences)
       account
+    }
+
+    private def substituteGeneralPreferences(x: FieldSpec[AccountGeneralPreferences, _]):
+      FieldSpec[Account, _] = x match {
+        case FieldSpec(name, f1, f2) => FieldSpec(name, f1, (y: Account) => f2(y.generalPreferences))
+      }
+  }
+
+  private object GeneralPreferencesType extends UserType[AccountGeneralPreferences] {
+    def fields = List(
+      FieldSpec("defaultContext", IntField, _.defaultContext.toInt),
+      FieldSpec("maximumPageSize", IntField, _.maximumPageSize.toInt),
+      FieldSpec("showSiteHeader", StringField, _.showSiteHeader.toString),
+      FieldSpec("useFlashClipboard", StringField, _.useFlashClipboard.toString)
+      )
+
+    def toUserObject(m: Message) = {
+      val p = new AccountGeneralPreferences
+      p.setDefaultContext(m.one("defaultContext").intField.value.toShort)
+      p.setMaximumPageSize(m.one("maximumPageSize").intField.value.toShort)
+      p.setShowSiteHeader(m.one("showSiteHeader").stringField.value == "true")
+      p.setUseFlashClipboard(m.one("useFlashClipboard").stringField.value == "true")
+      p
     }
   }
 

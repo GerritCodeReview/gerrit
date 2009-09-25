@@ -461,7 +461,7 @@ class LdapRealm implements Realm {
     env.put(Context.PROVIDER_URL, server);
     if (username != null) {
       env.put(Context.SECURITY_PRINCIPAL, username);
-      env.put(Context.SECURITY_CREDENTIALS, password);
+      env.put(Context.SECURITY_CREDENTIALS, password != null ? password : "");
     }
     return new InitialDirContext(env);
   }

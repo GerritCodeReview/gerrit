@@ -35,6 +35,7 @@ public abstract class PrettyFormatter {
     STYLES.put("java", c);
     STYLES.put("js", c);
     STYLES.put("css", c);
+    STYLES.put("scala", c);
 
     MultiLineStyle xml = new MultiLineStyle.Simple("<!--", "-->");
     STYLES.put("xml", xml);

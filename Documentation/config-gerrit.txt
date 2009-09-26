@@ -537,6 +537,10 @@ contains the initial value for the user's full name field in Gerrit.
 Typically this is the `displayName` property in LDAP, but could
 also be `legalName` or `cn`.
 +
+Attribute values may be concatenated with literal strings, for
+example to join given name and surname together use the pattern
+`$\{givenName\} $\{SN\}`.
++
 If set, users will be unable to modify their full name field, as
 Gerrit will populate it only from the LDAP data.
 +
@@ -547,6 +551,11 @@ Default is `displayName`, a common value for most servers.
 _(Optional)_ Name of an attribute on the user account object which
 contains the user's Internet email address, as defined by this
 LDAP server.
++
+Attribute values may be concatenated with literal strings,
+for example to set the email address to the lowercase form
+of sAMAccountName followed by a constant domain name, use
+`$\{sAMAccountName.toLowerCase\}@example.com`.
 +
 If set, the preferred email address will be prefilled from LDAP,
 but users may still be able to register additional email address,
@@ -562,6 +571,14 @@ Gerrit.  Typically this is the `uid` property in LDAP, but could
 also be `cn`.  Administrators should prefer to match the attribute
 corresponding to the user's workstation username, as this is what
 SSH clients will default to.
++
+Attribute values may also be forced to lowercase, or to uppercase in
+an expression.  For example, `$\{sAMAccountName.toLowerCase\}` will
+force the value of sAMAccountName, if defined, to be all lowercase.
+The suffix `.toUpperCase` can be used for the other direction.
+The suffix `.localPart` can be used to split attribute values of
+the form 'user@example.com' and return only the left hand side, for
+example `$\{userPrincipalName.localPart\}` would provide only 'user'.
 +
 If set, users will be unable to modify their SSH username field, as
 Gerrit will populate it only from the LDAP data.

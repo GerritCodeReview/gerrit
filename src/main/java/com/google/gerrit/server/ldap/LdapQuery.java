@@ -104,8 +104,8 @@ class LdapQuery {
       return atts.get(attName);
     }
 
-    Set<String> keySet() {
-      return Collections.unmodifiableSet(atts.keySet());
+    Map<String, String> map() {
+      return Collections.unmodifiableMap(atts);
     }
 
     @Override

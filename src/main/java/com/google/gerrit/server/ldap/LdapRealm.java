@@ -19,6 +19,7 @@ import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountExternalId;
 import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gerrit.server.ParamertizedString;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AuthRequest;
@@ -71,9 +72,9 @@ class LdapRealm implements Realm {
   private final AuthConfig authConfig;
   private final SchemaFactory<ReviewDb> schema;
   private final EmailExpander emailExpander;
-  private final String accountFullName;
-  private final String accountEmailAddress;
-  private final String accountSshUserName;
+  private final ParamertizedString accountFullName;
+  private final ParamertizedString accountEmailAddress;
+  private final ParamertizedString accountSshUserName;
   private final List<LdapQuery> accountQueryList;
   private final SelfPopulatingCache<String, Account.Id> usernameCache;
 
@@ -143,17 +144,17 @@ class LdapRealm implements Realm {
     // Account query
     //
     final Set<String> accountAtts = new HashSet<String>();
-    accountFullName = optdef(config, "accountFullName", "displayName");
+    accountFullName = paramString(config, "accountFullName", "displayName");
     if (accountFullName != null) {
-      accountAtts.add(accountFullName);
+      accountAtts.addAll(accountFullName.getParameterNames());
     }
-    accountEmailAddress = optdef(config, "accountEmailAddress", "mail");
+    accountEmailAddress = paramString(config, "accountEmailAddress", "mail");
     if (accountEmailAddress != null) {
-      accountAtts.add(accountEmailAddress);
+      accountAtts.addAll(accountEmailAddress.getParameterNames());
     }
-    accountSshUserName = optdef(config, "accountSshUserName", "uid");
+    accountSshUserName = paramString(config, "accountSshUserName", "uid");
     if (accountSshUserName != null) {
-      accountAtts.add(accountSshUserName);
+      accountAtts.addAll(accountSshUserName.getParameterNames());
     }
     for (final String name : groupMemberQueryList.get(0).getParameters()) {
       if (!USERNAME.equals(name)) {
@@ -240,6 +241,17 @@ class LdapRealm implements Realm {
     return v;
   }
 
+  private static ParamertizedString paramString(Config c, String n, String d) {
+    String expression = optdef(c, n, d);
+    if (expression == null) {
+      return null;
+    } else if (expression.contains("${")) {
+      return new ParamertizedString(expression);
+    } else {
+      return new ParamertizedString("${" + expression + "}");
+    }
+  }
+
   @Override
   public boolean allowsEdit(final Account.FieldName field) {
     switch (field) {
@@ -254,6 +266,14 @@ class LdapRealm implements Realm {
     }
   }
 
+  private static String apply(ParamertizedString p, LdapQuery.Result m) {
+    if (p == null) {
+      return null;
+    }
+    String r = p.replace(m.map());
+    return r.isEmpty() ? null : r;
+  }
+
   public AuthRequest authenticate(final AuthRequest who)
       throws AccountException {
     final String username = who.getLocalUser();
@@ -262,11 +282,11 @@ class LdapRealm implements Realm {
       try {
         final LdapQuery.Result m = findAccount(ctx, username);
 
-        who.setDisplayName(m.get(accountFullName));
-        who.setSshUserName(m.get(accountSshUserName));
+        who.setDisplayName(apply(accountFullName, m));
+        who.setSshUserName(apply(accountSshUserName, m));
 
         if (accountEmailAddress != null) {
-          who.setEmailAddress(m.get(accountEmailAddress));
+          who.setEmailAddress(apply(accountEmailAddress, m));
 
         } else if (emailExpander.canExpand(username)) {
           // If LDAP cannot give us a valid email address for this user
@@ -398,7 +418,7 @@ class LdapRealm implements Realm {
             break;
 
           case 1:
-            for (final String name : q.get(0).keySet()) {
+            for (final String name : q.get(0).map().keySet()) {
               props.add(new RealmProperty(name, q.get(0).get(name)));
             }
             Collections.sort(props, new Comparator<RealmProperty>() {

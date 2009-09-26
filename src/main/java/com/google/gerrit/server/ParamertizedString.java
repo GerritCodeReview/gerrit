@@ -30,18 +30,18 @@ public class ParamertizedString {
   private final String pattern;
   private final String rawPattern;
   private final List<Format> patternOps;
-  private final List<String> patternArgs;
+  private final List<Parameter> parameters;
 
   private ParamertizedString(final Constant c) {
     pattern = c.text;
     rawPattern = c.text;
     patternOps = Collections.<Format> singletonList(c);
-    patternArgs = Collections.emptyList();
+    parameters = Collections.emptyList();
   }
 
   public ParamertizedString(final String pattern) {
     final StringBuilder raw = new StringBuilder();
-    final List<String> args = new ArrayList<String>(4);
+    final List<Parameter> prs = new ArrayList<Parameter>(4);
     final List<Format> ops = new ArrayList<Format>(4);
 
     int i = 0;
@@ -58,9 +58,24 @@ public class ParamertizedString {
       raw.append(pattern.substring(i, b));
       ops.add(new Constant(pattern.substring(i, b)));
 
-      raw.append("{" + args.size() + "}");
-      args.add(pattern.substring(b + 2, e));
-      ops.add(new Parameter(pattern.substring(b + 2, e)));
+      String expr = pattern.substring(b + 2, e);
+      Function function;
+      int lastDot = expr.lastIndexOf('.');
+      if (lastDot < 0) {
+        function = NOOP;
+      } else {
+        function = FUNCTIONS.get(expr.substring(lastDot + 1));
+        if (function == null) {
+          function = NOOP;
+        } else {
+          expr = expr.substring(0, lastDot);
+        }
+      }
+
+      final Parameter p = new Parameter(expr, function);
+      raw.append("{" + prs.size() + "}");
+      prs.add(p);
+      ops.add(p);
 
       i = e + 1;
     }
@@ -72,7 +87,7 @@ public class ParamertizedString {
     this.pattern = pattern;
     this.rawPattern = raw.toString();
     this.patternOps = Collections.unmodifiableList(ops);
-    this.patternArgs = Collections.unmodifiableList(args);
+    this.parameters = Collections.unmodifiableList(prs);
   }
 
   /** Get the original pattern given to the constructor. */
@@ -87,17 +102,20 @@ public class ParamertizedString {
 
   /** Get the list of parameter names, ordered by appearance in the pattern. */
   public List<String> getParameterNames() {
-    return patternArgs;
+    final ArrayList<String> r = new ArrayList<String>(parameters.size());
+    for (Parameter p : parameters) {
+      r.add(p.name);
+    }
+    return Collections.unmodifiableList(r);
   }
 
   /** Convert a map of parameters into a value array for binding. */
   public String[] bind(final Map<String, String> params) {
-    final String[] r = new String[patternArgs.size()];
+    final String[] r = new String[parameters.size()];
     for (int i = 0; i < r.length; i++) {
-      r[i] = params.get(patternArgs.get(i));
-      if (r[i] == null) {
-        r[i] = "";
-      }
+      final StringBuilder b = new StringBuilder();
+      parameters.get(i).format(b, params);
+      r[i] = b.toString();
     }
     return r;
   }
@@ -113,10 +131,6 @@ public class ParamertizedString {
 
   public Builder replace(final String name, final String value) {
     return new Builder().replace(name, value);
-  }
-
-  public Builder replace() {
-    return new Builder();
   }
 
   @Override
@@ -157,17 +171,56 @@ public class ParamertizedString {
 
   private static class Parameter extends Format {
     private final String name;
+    private final Function function;
 
-    Parameter(final String name) {
+    Parameter(final String name, final Function function) {
       this.name = name;
+      this.function = function;
     }
 
     @Override
     void format(StringBuilder b, Map<String, String> p) {
       String v = p.get(name);
-      if (v != null) {
-        b.append(v);
+      if (v == null) {
+        v = "";
       }
+      b.append(function.apply(v));
     }
+  }
+
+  private static abstract class Function {
+    abstract String apply(String a);
+  }
+
+  private static final Map<String, Function> FUNCTIONS = initFunctions();
+  private static final Function NOOP = new Function() {
+    @Override
+    String apply(String a) {
+      return a;
+    }
+  };
+
+  private static Map<String, Function> initFunctions() {
+    final HashMap<String, Function> m = new HashMap<String, Function>();
+    m.put("toLowerCase", new Function() {
+      @Override
+      String apply(String a) {
+        return a.toLowerCase();
+      }
+    });
+    m.put("toUpperCase", new Function() {
+      @Override
+      String apply(String a) {
+        return a.toUpperCase();
+      }
+    });
+    m.put("localPart", new Function() {
+      @Override
+      String apply(String a) {
+        int at = a.indexOf('@');
+        return at < 0 ? a : a.substring(0, at);
+      }
+    });
+    return Collections.unmodifiableMap(m);
   }
 }

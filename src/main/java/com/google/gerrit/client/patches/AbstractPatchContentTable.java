@@ -254,7 +254,9 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
       final String uuid = c.getKey().get();
       final PatchSet.Id psId = c.getKey().getParentKey().getParentKey();
       final short file;
-      if (idSideB.equals(psId)) {
+      if (idSideA == null) {
+        file = c.getSide();
+      } else if (idSideB.equals(psId)) {
         file = 1;
       } else {
         file = 0;

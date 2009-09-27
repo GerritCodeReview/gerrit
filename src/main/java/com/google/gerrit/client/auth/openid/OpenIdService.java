@@ -12,16 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.openid;
+package com.google.gerrit.client.auth.openid;
 
-import com.google.gwt.i18n.client.Messages;
+import com.google.gerrit.client.SignInDialog;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwtjsonrpc.client.AllowCrossSiteRequest;
+import com.google.gwtjsonrpc.client.RemoteJsonService;
 
-public interface LoginMessages extends Messages {
-  String signInAt(String hostname);
-  String registerAt(String hostname);
-  String linkAt(String hostname);
-
-  String signInWith(String who);
-  String registerWith(String who);
-  String linkWith(String who);
+public interface OpenIdService extends RemoteJsonService {
+  @AllowCrossSiteRequest
+  void discover(String openidIdentifier, SignInDialog.Mode mode,
+      boolean remember, String returnToken,
+      AsyncCallback<DiscoveryResult> callback);
 }

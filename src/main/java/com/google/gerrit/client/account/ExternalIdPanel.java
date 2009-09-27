@@ -17,7 +17,7 @@ package com.google.gerrit.client.account;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.SignInDialog;
-import com.google.gerrit.client.openid.OpenIdUtil;
+import com.google.gerrit.client.auth.openid.OpenIdUtil;
 import com.google.gerrit.client.reviewdb.AccountExternalId;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.FancyFlexTable;

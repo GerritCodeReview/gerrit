@@ -12,26 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.openid;
+package com.google.gerrit.client.auth.openid;
 
-import java.util.Map;
+import com.google.gwt.i18n.client.Constants;
 
-public final class DiscoveryResult {
-  public boolean validProvider;
-  public String providerUrl;
-  public Map<String, String> providerArgs;
+public interface LoginConstants extends Constants {
+  String buttonSignIn();
+  String buttonRegister();
+  String buttonLinkId();
 
-  protected DiscoveryResult() {
-  }
+  String rememberMe();
+  String notSupported();
 
-  public DiscoveryResult(final boolean valid, final String redirect,
-      final Map<String, String> args) {
-    validProvider = valid;
-    providerUrl = redirect;
-    providerArgs = args;
-  }
+  String nameGoogle();
+  String nameYahoo();
 
-  public DiscoveryResult(final boolean fail) {
-    this(false, null, null);
-  }
+  String whatIsOpenIDHtml();
 }

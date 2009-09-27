@@ -12,20 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.openid;
+package com.google.gerrit.client.auth.openid;
 
-import com.google.gwt.i18n.client.Constants;
+import com.google.gwt.i18n.client.Messages;
 
-public interface LoginConstants extends Constants {
-  String buttonSignIn();
-  String buttonRegister();
-  String buttonLinkId();
+public interface LoginMessages extends Messages {
+  String signInAt(String hostname);
+  String registerAt(String hostname);
+  String linkAt(String hostname);
 
-  String rememberMe();
-  String notSupported();
-
-  String nameGoogle();
-  String nameYahoo();
-
-  String whatIsOpenIDHtml();
+  String signInWith(String who);
+  String registerWith(String who);
+  String linkWith(String who);
 }

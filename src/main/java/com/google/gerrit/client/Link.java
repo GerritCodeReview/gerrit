@@ -22,6 +22,8 @@ import com.google.gerrit.client.admin.AccountGroupScreen;
 import com.google.gerrit.client.admin.GroupListScreen;
 import com.google.gerrit.client.admin.ProjectAdminScreen;
 import com.google.gerrit.client.admin.ProjectListScreen;
+import com.google.gerrit.client.auth.openid.OpenIdSignInDialog;
+import com.google.gerrit.client.auth.userpass.UserPassSignInDialog;
 import com.google.gerrit.client.changes.AccountDashboardScreen;
 import com.google.gerrit.client.changes.AllAbandonedChangesScreen;
 import com.google.gerrit.client.changes.AllMergedChangesScreen;
@@ -265,7 +267,16 @@ public class Link implements ValueChangeHandler<String> {
       final String[] args = skip(p, token).split(",");
       final SignInDialog.Mode mode = SignInDialog.Mode.valueOf(args[0]);
       final String msg = KeyUtil.decode(args[1]);
-      new SignInDialog(mode, msg).center();
+      switch (Gerrit.getConfig().getAuthType()) {
+        case OPENID:
+          new OpenIdSignInDialog(mode, msg).center();
+          break;
+        case LDAP:
+          new UserPassSignInDialog(msg).center();
+          break;
+        default:
+          return null;
+      }
       switch (mode) {
         case SIGN_IN:
           return select(ALL_OPEN);

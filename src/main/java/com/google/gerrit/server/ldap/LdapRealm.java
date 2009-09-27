@@ -18,6 +18,7 @@ import com.google.gerrit.client.admin.GroupDetail.RealmProperty;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountExternalId;
 import com.google.gerrit.client.reviewdb.AccountGroup;
+import com.google.gerrit.client.reviewdb.AuthType;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.server.ParamertizedString;
 import com.google.gerrit.server.account.AccountException;
@@ -282,6 +283,13 @@ class LdapRealm implements Realm {
       try {
         final LdapQuery.Result m = findAccount(ctx, username);
 
+        if (authConfig.getAuthType() == AuthType.LDAP) {
+          // We found the user account, but we need to verify
+          // the password matches it before we can continue.
+          //
+          authenticate(m.getDN(), who.getPassword());
+        }
+
         who.setDisplayName(apply(accountFullName, m));
         who.setSshUserName(apply(accountSshUserName, m));
 
@@ -312,6 +320,7 @@ class LdapRealm implements Realm {
         }
       }
     } catch (NamingException e) {
+      log.error("Cannot query LDAP to autenticate user", e);
       throw new AccountException("Cannot query LDAP for account", e);
     }
   }
@@ -484,6 +493,19 @@ class LdapRealm implements Realm {
       env.put(Context.SECURITY_CREDENTIALS, password != null ? password : "");
     }
     return new InitialDirContext(env);
+  }
+
+  private void authenticate(String dn, String password) throws AccountException {
+    final Properties env = new Properties();
+    env.put(Context.INITIAL_CONTEXT_FACTORY, LDAP);
+    env.put(Context.PROVIDER_URL, server);
+    env.put(Context.SECURITY_PRINCIPAL, dn);
+    env.put(Context.SECURITY_CREDENTIALS, password != null ? password : "");
+    try {
+      new InitialDirContext(env).close();
+    } catch (NamingException e) {
+      throw new AccountException("Incorrect username or password", e);
+    }
   }
 
   private LdapQuery.Result findAccount(final DirContext ctx,

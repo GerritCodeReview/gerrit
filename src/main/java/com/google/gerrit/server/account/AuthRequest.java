@@ -49,6 +49,7 @@ public class AuthRequest {
   }
 
   private final String externalId;
+  private String password;
   private String displayName;
   private String emailAddress;
   private String sshUserName;
@@ -70,6 +71,14 @@ public class AuthRequest {
       return getExternalId().substring(SCHEME_GERRIT.length());
     }
     return null;
+  }
+
+  public String getPassword() {
+    return password;
+  }
+
+  public void setPassword(final String pass) {
+    password = pass;
   }
 
   public String getDisplayName() {

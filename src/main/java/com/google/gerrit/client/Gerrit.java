@@ -14,6 +14,8 @@
 
 package com.google.gerrit.client;
 
+import com.google.gerrit.client.auth.openid.OpenIdSignInDialog;
+import com.google.gerrit.client.auth.userpass.UserPassSignInDialog;
 import com.google.gerrit.client.data.GerritConfig;
 import com.google.gerrit.client.data.SystemInfoService;
 import com.google.gerrit.client.reviewdb.Account;
@@ -128,16 +130,19 @@ public class Gerrit implements EntryPoint {
     switch (myConfig.getAuthType()) {
       case HTTP:
       case HTTP_LDAP:
-        Location.assign("login/" + History.getToken());
+        Location.assign(Location.getPath() + "login/" + History.getToken());
         break;
 
       case DEVELOPMENT_BECOME_ANY_ACCOUNT:
-        Location.assign("become");
+        Location.assign(Location.getPath() + "become");
         break;
 
       case OPENID:
-      default:
-        new SignInDialog().center();
+        new OpenIdSignInDialog(SignInDialog.Mode.SIGN_IN, null).center();
+        break;
+
+      case LDAP:
+        new UserPassSignInDialog(null).center();
         break;
     }
   }
@@ -202,7 +207,7 @@ public class Gerrit implements EntryPoint {
   }
 
   private static void initHostname() {
-    myHost = Window.Location.getHostName();
+    myHost = Location.getHostName();
     final int d1 = myHost.indexOf('.');
     if (d1 < 0) {
       return;
@@ -235,7 +240,7 @@ public class Gerrit implements EntryPoint {
   /*-{ hook(url); }-*/;
 
   private static void dispatchHistoryHooks(final String historyToken) {
-    final String url = Window.Location.getPath() + "#" + historyToken;
+    final String url = Location.getPath() + "#" + historyToken;
     for (final JavaScriptObject hook : historyHooks) {
       callHistoryHook(hook, url);
     }
@@ -336,6 +341,8 @@ public class Gerrit implements EntryPoint {
               new SignInDialog(SignInDialog.Mode.REGISTER).center();
             }
           });
+          // fall through
+        case LDAP:
           menuRight.addItem(C.menuSignIn(), new Command() {
             public void execute() {
               doSignIn();

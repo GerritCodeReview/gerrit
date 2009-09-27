@@ -17,6 +17,7 @@ package com.google.gerrit.client.account;
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.SignInDialog;
+import com.google.gerrit.client.auth.openid.OpenIdSignInDialog;
 import com.google.gerrit.client.auth.openid.OpenIdUtil;
 import com.google.gerrit.client.reviewdb.AccountExternalId;
 import com.google.gerrit.client.rpc.GerritCallback;
@@ -60,7 +61,7 @@ class ExternalIdPanel extends Composite {
         linkIdentity.addClickHandler(new ClickHandler() {
           @Override
           public void onClick(final ClickEvent event) {
-            doLinkIdentity();
+            new OpenIdSignInDialog(SignInDialog.Mode.LINK_IDENTIY, null).center();
           }
         });
         body.add(linkIdentity);
@@ -69,11 +70,6 @@ class ExternalIdPanel extends Composite {
     }
 
     initWidget(body);
-  }
-
-  void doLinkIdentity() {
-    final SignInDialog d = new SignInDialog(SignInDialog.Mode.LINK_IDENTIY);
-    d.center();
   }
 
   @Override

@@ -108,6 +108,7 @@ public class GerritGlobalModule extends FactoryModule {
   protected void configure() {
     switch (loginType) {
       case HTTP_LDAP:
+      case LDAP:
         install(new LdapModule());
         break;
 

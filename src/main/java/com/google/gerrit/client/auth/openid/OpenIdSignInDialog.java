@@ -24,13 +24,15 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Cookies;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.FormSubmitCompleteEvent;
@@ -43,9 +45,8 @@ import com.google.gwtexpui.globalkey.client.NpTextBox;
 
 import java.util.Map;
 
-public class OpenIdLoginPanel extends Composite implements
+public class OpenIdSignInDialog extends SignInDialog implements
     FormPanel.SubmitHandler {
-  private final SignInDialog.Mode mode;
   private final LoginIcons icons;
   private final FlowPanel panelWidget;
   private final FormPanel form;
@@ -61,9 +62,9 @@ public class OpenIdLoginPanel extends Composite implements
   private CheckBox rememberId;
   private boolean discovering;
 
-  public OpenIdLoginPanel(final SignInDialog.Mode requestedMode,
+  public OpenIdSignInDialog(final SignInDialog.Mode requestedMode,
       final String initialErrorMsg) {
-    mode = requestedMode;
+    super(requestedMode);
 
     icons = GWT.create(LoginIcons.class);
 
@@ -83,7 +84,7 @@ public class OpenIdLoginPanel extends Composite implements
     panelWidget = new FlowPanel();
     panelWidget.add(form);
     panelWidget.add(redirectForm);
-    initWidget(panelWidget);
+    add(panelWidget);
 
     createHeaderLogo();
     createHeaderText();
@@ -99,11 +100,16 @@ public class OpenIdLoginPanel extends Composite implements
     formBody.add(new HTML(OpenIdUtil.C.whatIsOpenIDHtml()));
   }
 
-  public void setFocus(final boolean take) {
-    if (take) {
-      providerId.selectAll();
-    }
-    providerId.setFocus(take);
+  @Override
+  public void show() {
+    super.show();
+    providerId.selectAll();
+    DeferredCommand.addCommand(new Command() {
+      @Override
+      public void execute() {
+        providerId.setFocus(true);
+      }
+    });
   }
 
   private void createHeaderLogo() {
@@ -135,21 +141,21 @@ public class OpenIdLoginPanel extends Composite implements
 
   private void createErrorBox() {
     errorLine = new FlowPanel();
-    errorLine.setVisible(false);
+    DOM.setStyleAttribute(errorLine.getElement(), "visibility", "hidden");
+    errorLine.setStyleName("gerrit-OpenID-errorline");
 
     errorMsg = new InlineLabel();
-    errorLine.setStyleName("gerrit-OpenID-errorline");
     errorLine.add(errorMsg);
     formBody.add(errorLine);
   }
 
   private void showError(final String msgText) {
     errorMsg.setText(msgText);
-    errorLine.setVisible(true);
+    DOM.setStyleAttribute(errorLine.getElement(), "visibility", "");
   }
 
   private void hideError() {
-    errorLine.setVisible(false);
+    DOM.setStyleAttribute(errorLine.getElement(), "visibility", "hidden");
   }
 
   private void createIdentBox() {

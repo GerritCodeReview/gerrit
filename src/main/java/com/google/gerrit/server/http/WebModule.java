@@ -27,6 +27,7 @@ import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GerritRequestModule;
 import com.google.gerrit.server.contact.ContactStore;
 import com.google.gerrit.server.contact.ContactStoreProvider;
+import com.google.gerrit.server.ldap.LdapAuthModule;
 import com.google.gerrit.server.openid.OpenIdModule;
 import com.google.gerrit.server.rpc.UiRpcModule;
 import com.google.gerrit.server.ssh.SshInfo;
@@ -69,6 +70,10 @@ class WebModule extends FactoryModule {
       case HTTP:
       case HTTP_LDAP:
         install(new HttpAuthModule());
+        break;
+
+      case LDAP:
+        install(new LdapAuthModule());
         break;
 
       case DEVELOPMENT_BECOME_ANY_ACCOUNT:

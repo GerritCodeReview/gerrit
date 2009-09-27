@@ -14,10 +14,6 @@
 
 package com.google.gerrit.client;
 
-import com.google.gerrit.client.auth.openid.OpenIdLoginPanel;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.user.client.AutoCenterDialogBox;
 
 /** Prompts the user to sign in to their account. */
@@ -26,46 +22,16 @@ public class SignInDialog extends AutoCenterDialogBox {
     SIGN_IN, LINK_IDENTIY, REGISTER;
   }
 
-  private Widget panel;
-
-  /**
-   * Create a new dialog to handle user sign in.
-   */
-  public SignInDialog() {
-    this(Mode.SIGN_IN);
-  }
+  protected final SignInDialog.Mode mode;
 
   /**
    * Create a new dialog to handle user sign in.
    *
    * @param signInMode type of mode the login will perform.
    */
-  public SignInDialog(final Mode signInMode) {
-    this(signInMode, null);
-  }
-
-  /**
-   * Create a new dialog to handle user sign in.
-   *
-   * @param signInMode type of mode the login will perform.
-   * @param errorMsg error message to display, if non-null.
-   */
-  public SignInDialog(final Mode signInMode, final String errorMsg) {
+  protected SignInDialog(final Mode signInMode) {
     super(/* auto hide */true, /* modal */true);
-
-    switch (Gerrit.getConfig().getAuthType()) {
-      case OPENID:
-        panel = new OpenIdLoginPanel(signInMode, errorMsg);
-        break;
-
-      default: {
-        final FlowPanel fp = new FlowPanel();
-        fp.add(new Label(Gerrit.C.loginTypeUnsupported()));
-        panel = fp;
-        break;
-      }
-    }
-    add(panel);
+    mode = signInMode;
 
     switch (signInMode) {
       case LINK_IDENTIY:
@@ -77,14 +43,6 @@ public class SignInDialog extends AutoCenterDialogBox {
       default:
         setText(Gerrit.C.signInDialogTitle());
         break;
-    }
-  }
-
-  @Override
-  public void show() {
-    super.show();
-    if (panel instanceof OpenIdLoginPanel) {
-      ((OpenIdLoginPanel) panel).setFocus(true);
     }
   }
 }

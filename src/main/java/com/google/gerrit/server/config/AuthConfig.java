@@ -134,6 +134,7 @@ public class AuthConfig {
       case DEVELOPMENT_BECOME_ANY_ACCOUNT:
       case HTTP:
       case HTTP_LDAP:
+      case LDAP:
         // Its safe to assume yes for an HTTP authentication type, as the
         // only way in is through some external system that the admin trusts
         //

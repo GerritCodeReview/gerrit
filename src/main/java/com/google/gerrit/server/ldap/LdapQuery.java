@@ -78,9 +78,11 @@ class LdapQuery {
   }
 
   class Result {
+    private final String dn;
     private final Map<String, String> atts = new HashMap<String, String>();
 
     Result(final SearchResult sr) throws NamingException {
+      dn = sr.getNameInNamespace();
       if (returnAttributes != null) {
         for (final String attName : returnAttributes) {
           final Attribute a = sr.getAttributes().get(attName);
@@ -97,7 +99,11 @@ class LdapQuery {
           }
         }
       }
-      atts.put("dn", sr.getNameInNamespace());
+      atts.put("dn", dn);
+    }
+
+    String getDN() {
+      return dn;
     }
 
     String get(final String attName) {
@@ -110,7 +116,7 @@ class LdapQuery {
 
     @Override
     public String toString() {
-      return atts.get("dn");
+      return getDN();
     }
   }
 }

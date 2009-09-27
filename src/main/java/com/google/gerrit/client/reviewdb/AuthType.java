@@ -39,6 +39,14 @@ public enum AuthType {
    */
   HTTP_LDAP,
 
+  /**
+   * Login collects username and password through a web form, and binds to LDAP.
+   * <p>
+   * Unlike {@link #HTTP_LDAP}, Gerrit presents a sign-in dialog to the user and
+   * makes the connection to the LDAP server on their behalf.
+   */
+  LDAP,
+
   /** Development mode to enable becoming anyone you want. */
   DEVELOPMENT_BECOME_ANY_ACCOUNT;
 }

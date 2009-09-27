@@ -56,6 +56,13 @@ from the user's account object in LDAP.  The user's group membership
 is also pulled from LDAP, making any LDAP groups that a user is a
 member of available as groups in Gerrit.
 +
+* `LDAP`
++
+Gerrit prompts the user to enter a username and a password, which
+it then verifies by performing a simple bind against the configured
+<<ldap.server,ldap.server>>.  In this configuration the web server
+is not involved in the user authentication process.
++
 * `DEVELOPMENT_BECOME_ANY_ACCOUNT`
 +
 *DO NOT USE*.  Only for use in a development environment.
@@ -105,16 +112,17 @@ If not set, the redirect returns to the list of all open changes.
 [[auth.emailFormat]]auth.emailFormat::
 +
 Optional format string to construct user email addresses out of
-user login names.  Only used if auth.type is `HTTP` or `HTTP_LDAP`.
+user login names.  Only used if auth.type is `HTTP`, `HTTP_LDAP`
+or `LDAP`.
 +
 This value can be set to a format string, where `\{0\}` is replaced
 with the login name.  E.g. "\{0\}+gerrit@example.com" with a user
 login name of "foo" will produce "foo+gerrit@example.com" during
 the first time user "foo" registers.
 +
-If the site is using `HTTP_LDAP`, using this option is discouraged.
-Setting `ldap.accountEmailAddress` and importing the email address
-from the LDAP directory is generally preferred.
+If the site is using `HTTP_LDAP` or `LDAP`, using this option is
+discouraged.  Setting `ldap.accountEmailAddress` and importing the
+email address from the LDAP directory is generally preferred.
 
 [[auth.contributorAgreements]]auth.contributorAgreements::
 +
@@ -460,8 +468,8 @@ For example, "?p=$project.git;h=$commit".
 ~~~~~~~~~~~~~~~~~~~~
 
 LDAP integration is only enabled if `auth.type` was set to
-`HTTP_LDAP`.  See above for a detailed description of the auth.type
-settings and their implications.
+`HTTP_LDAP` or `LDAP`.  See above for a detailed description of
+the auth.type settings and their implications.
 
 An example LDAP configuration follows, and then discussion of the
 parameters introduced here.  Defaults were chosen to align closely
@@ -487,6 +495,10 @@ common deployments.
 URL of the organization's LDAP server to query for user information
 and group membership from.  Must be of the form `ldap://host` or
 `ldaps://host` to bind with either a plaintext or SSL connection.
++
+If auth.type is `LDAP` this setting should use `ldaps://` to
+ensure the end user's plaintext password is transmitted only over
+an encrypted connection.
 
 [[ldap.username]]ldap.username::
 +
@@ -521,7 +533,9 @@ Query pattern to use when searching for a user account.  This may be
 any valid LDAP query expression, including the standard `(&...)` and
 `(|...)` operators.  If auth.type is `HTTP_LDAP` then the variable
 `$\{username\}` is replaced with a parameter set to the username
-that was supplied by the HTTP server.
+that was supplied by the HTTP server.  If auth.type is `LDAP` then
+the variable `$\{username\}` is replaced by the string entered by
+the end user.
 +
 This pattern is used to search the objects contained directly under
 the `ldap.accountBase` tree.  A typical setting for this parameter

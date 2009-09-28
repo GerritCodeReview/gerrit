@@ -14,6 +14,9 @@
 
 package com.google.gerrit.git;
 
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.MINUTES;
+
 import com.google.gerrit.client.data.ApprovalType;
 import com.google.gerrit.client.data.ApprovalTypes;
 import com.google.gerrit.client.reviewdb.Account;
@@ -111,6 +114,10 @@ public class MergeOp {
   private static final FooterKey REVIEWED_ON = new FooterKey("Reviewed-on");
   private static final FooterKey CHANGE_ID = new FooterKey("Change-Id");
 
+  /** Amount of time to wait between submit and checking for missing deps. */
+  private static final long DEPENDENCY_DELAY =
+      MILLISECONDS.convert(15, MINUTES);
+
   private final GitRepositoryManager repoManager;
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final ProjectCache projectCache;
@@ -122,6 +129,7 @@ public class MergeOp {
   private final ApprovalTypes approvalTypes;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
+  private final MergeQueue mergeQueue;
 
   private final PersonIdent myIdent;
   private final Branch.NameKey destBranch;
@@ -147,7 +155,7 @@ public class MergeOp {
       final ApprovalTypes approvalTypes, final PatchSetInfoFactory psif,
       final IdentifiedUser.GenericFactory iuf,
       @GerritPersonIdent final PersonIdent myIdent,
-      @Assisted final Branch.NameKey branch) {
+      final MergeQueue mergeQueue, @Assisted final Branch.NameKey branch) {
     repoManager = grm;
     schemaFactory = sf;
     functionState = fs;
@@ -159,6 +167,7 @@ public class MergeOp {
     this.approvalTypes = approvalTypes;
     patchSetInfoFactory = psif;
     identifiedUserFactory = iuf;
+    this.mergeQueue = mergeQueue;
 
     this.myIdent = myIdent;
     destBranch = branch;
@@ -332,7 +341,7 @@ public class MergeOp {
         continue;
       }
 
-      commit.changeKey = chg.getKey();
+      commit.change = chg;
       commit.patchsetId = ps.getId();
       commit.originalOrder = commitOrder++;
       commits.put(changeId, commit);
@@ -461,7 +470,7 @@ public class MergeOp {
     if (merged.size() == 1) {
       final CodeReviewCommit c = merged.get(0);
       msgbuf.append("Merge change ");
-      msgbuf.append(c.changeKey.abbreviate());
+      msgbuf.append(c.change.getKey().abbreviate());
     } else {
       final ArrayList<CodeReviewCommit> o;
       o = new ArrayList<CodeReviewCommit>(merged);
@@ -475,7 +484,7 @@ public class MergeOp {
 
       msgbuf.append("Merge changes ");
       for (final Iterator<CodeReviewCommit> i = o.iterator(); i.hasNext();) {
-        msgbuf.append(i.next().changeKey.abbreviate());
+        msgbuf.append(i.next().change.getKey().abbreviate());
         if (i.hasNext()) {
           msgbuf.append(',');
         }
@@ -639,10 +648,10 @@ public class MergeOp {
       msgbuf.append('\n');
     }
 
-    if (!contains(footers, CHANGE_ID, n.changeKey.get())) {
+    if (!contains(footers, CHANGE_ID, n.change.getKey().get())) {
       msgbuf.append(CHANGE_ID.getName());
       msgbuf.append(": ");
-      msgbuf.append(n.changeKey.get());
+      msgbuf.append(n.change.getKey().get());
       msgbuf.append('\n');
     }
 
@@ -870,38 +879,7 @@ public class MergeOp {
         }
 
         case MISSING_DEPENDENCY: {
-          String txt =
-              "Change could not be merged because of a missing dependency.";
-          if (!isAlreadySent(c, txt)) {
-            if (commit.missing != null && !commit.missing.isEmpty()) {
-              StringBuilder m = new StringBuilder();
-              m.append(txt);
-              m.append("\n");
-
-              m.append("\n");
-
-              m.append("The following commits must also be submitted:\n");
-              m.append("\n");
-              for (CodeReviewCommit missingCommit : commit.missing) {
-                loadChangeInfo(missingCommit);
-                m.append("* ");
-                m.append(missingCommit.abbreviate(db).name());
-                if (missingCommit.patchsetId != null) {
-                  m.append(" (patch set ");
-                  m.append(missingCommit.patchsetId.get());
-                  m.append(" of ");
-                  m.append(missingCommit.changeKey.abbreviate());
-                  m.append(")");
-                } else {
-                  m.append(" (no change associated with commit)");
-                }
-                m.append("\n");
-              }
-
-              txt = m.toString();
-            }
-            sendMergeFail(c, message(c, txt), false);
-          }
+          dependencyError(commit);
           break;
         }
 
@@ -912,6 +890,102 @@ public class MergeOp {
     }
   }
 
+  private void dependencyError(final CodeReviewCommit commit) {
+    final Change c = commit.change;
+    if (commit.missing == null) {
+      commit.missing = new ArrayList<CodeReviewCommit>();
+    }
+
+    boolean submitStillPossible = commit.missing.size() > 0;
+    for (CodeReviewCommit missingCommit : commit.missing) {
+      loadChangeInfo(missingCommit);
+
+      if (missingCommit.patchsetId == null) {
+        // The commit doesn't have a patch set, so it cannot be
+        // submitted to the branch.
+        //
+        submitStillPossible = false;
+        break;
+      }
+
+      if (!missingCommit.change.currentPatchSetId().equals(
+          missingCommit.patchsetId)) {
+        // If the missing commit is not the current patch set,
+        // the change must be rebased to use the proper parent.
+        //
+        submitStillPossible = false;
+        break;
+      }
+    }
+
+    final long now = System.currentTimeMillis();
+    final long waitUntil = c.getLastUpdatedOn().getTime() + DEPENDENCY_DELAY;
+    if (submitStillPossible && now < waitUntil) {
+      // If we waited a short while we might still be able to get
+      // this change submitted. Reschedule an attempt in a bit.
+      //
+      mergeQueue.recheckAfter(destBranch, waitUntil - now, MILLISECONDS);
+
+    } else if (submitStillPossible) {
+      // It would be possible to submit the change if the missing
+      // dependencies are also submitted. Perhaps the user just
+      // forgot to submit those.
+      //
+      String txt =
+          "Change could not be merged because of a missing dependency.";
+      if (!isAlreadySent(c, txt)) {
+        StringBuilder m = new StringBuilder();
+        m.append(txt);
+        m.append("\n");
+
+        m.append("\n");
+
+        m.append("The following changes must also be submitted:\n");
+        m.append("\n");
+        for (CodeReviewCommit missingCommit : commit.missing) {
+          m.append("* ");
+          m.append(missingCommit.change.getKey().get());
+          m.append("\n");
+        }
+        txt = m.toString();
+      }
+
+      sendMergeFail(c, message(c, txt), false);
+
+    } else {
+      // It is impossible to submit this change as-is. The author
+      // needs to rebase it in order to work around the missing
+      // dependencies.
+      //
+      StringBuilder m = new StringBuilder();
+      m.append("Change cannot be merged due"
+          + " to unsatisfiable dependencies.\n");
+      m.append("\n");
+      m.append("The following dependency errors were found:\n");
+      m.append("\n");
+      for (CodeReviewCommit missingCommit : commit.missing) {
+        if (missingCommit.patchsetId != null) {
+          m.append("* Depends on patch set ");
+          m.append(missingCommit.patchsetId.get());
+          m.append(" of ");
+          m.append(missingCommit.change.getKey().abbreviate());
+          m.append(", however the current patch set is ");
+          m.append(missingCommit.change.currentPatchSetId().get());
+          m.append(".\n");
+
+        } else {
+          m.append("* Depends on commit ");
+          m.append(missingCommit.name());
+          m.append(" which has no change associated with it.\n");
+        }
+      }
+      m.append("\n");
+      m.append("Please rebase the change and upload a replacement commit.");
+
+      setNew(c, message(c, m.toString()));
+    }
+  }
+
   private void loadChangeInfo(final CodeReviewCommit commit) {
     if (commit.patchsetId == null) {
       try {
@@ -919,9 +993,8 @@ public class MergeOp {
             schema.patchSets().byRevision(new RevId(commit.name())).toList();
         if (matches.size() == 1) {
           final PatchSet ps = matches.get(0);
-          final Change c = schema.changes().get(ps.getId().getParentKey());
           commit.patchsetId = ps.getId();
-          commit.changeKey = c.getKey();
+          commit.change = schema.changes().get(ps.getId().getParentKey());
         }
       } catch (OrmException e) {
       }

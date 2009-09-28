@@ -16,8 +16,12 @@ package com.google.gerrit.git;
 
 import com.google.gerrit.client.reviewdb.Branch;
 
+import java.util.concurrent.TimeUnit;
+
 public interface MergeQueue {
   void merge(Branch.NameKey branch);
 
   void schedule(Branch.NameKey branch);
+
+  void recheckAfter(Branch.NameKey branch, long delay, TimeUnit delayUnit);
 }

@@ -35,14 +35,12 @@ class CodeReviewCommit extends RevCommit {
    * Unique key of the PatchSet entity from the code review system.
    * <p>
    * This value is only available on commits that have a PatchSet represented in
-   * the code review system and whose PatchSet is in the current submit queue.
-   * Merge commits created during the merge or commits that aren't in the submit
-   * queue will keep this member null.
+   * the code review system.
    */
   PatchSet.Id patchsetId;
 
-  /** Unique key of the change itself. */
-  Change.Key changeKey;
+  /** The change containing {@link #patchsetId} . */
+  Change change;
 
   /**
    * Ordinal position of this commit within the submit queue.
@@ -67,7 +65,7 @@ class CodeReviewCommit extends RevCommit {
 
   void copyFrom(final CodeReviewCommit src) {
     patchsetId = src.patchsetId;
-    changeKey = src.changeKey;
+    change = src.change;
     originalOrder = src.originalOrder;
     statusCode = src.statusCode;
     missing = src.missing;

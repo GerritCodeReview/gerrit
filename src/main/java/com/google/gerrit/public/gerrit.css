@@ -1094,6 +1094,7 @@
   vertical-align: middle;
   margin-right: 5px;
   color: blue;
+  cursor: pointer;
 }
 .gerrit-OpenID-directlink:hover {
   text-decoration: underline;

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAnH///8c\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ldap/LdapRealm.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-28T18:56:45Z",
+      "side": 0,
+      "message": "This should stay, the groupName should still be retrieved when we obtain the group from the directory.",
+      "revId": "d3aed4c416d4d5531a1ff6e5adf8dba6db087e87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

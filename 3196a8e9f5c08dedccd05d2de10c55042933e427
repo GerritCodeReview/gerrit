@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAnH///8k\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ldap/LdapQuery.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-28T18:56:45Z",
+      "side": 1,
+      "message": "Unnecessary trailing whitespace, but also you probably don\u0027t need to line wrap right here, the throws should fit on the same line as the declaration and still be under 80 characters.",
+      "revId": "3196a8e9f5c08dedccd05d2de10c55042933e427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAnH///8o\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ldap/LdapQuery.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-28T18:56:45Z",
+      "side": 1,
+      "message": "You need to rebase against the lastest master.  I changed this method to be returning a Map\u003cString,String\u003e, which you no longer have in this result object.",
+      "revId": "3196a8e9f5c08dedccd05d2de10c55042933e427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAnH///8U\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ldap/LdapRealm.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-28T18:56:45Z",
+      "side": 1,
+      "message": "I think we would prefer to call this accountMemberOf to match with accountFullName and accountSshUserName.\n\nAlso, please add this to the documentation in Documentation/config-gerrit.txt.",
+      "revId": "3196a8e9f5c08dedccd05d2de10c55042933e427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAnH///8Y\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ldap/LdapRealm.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-28T18:56:45Z",
+      "side": 1,
+      "message": "This should be accountAtts as you are trying to pull the memberOf attribute from the account object, not the group object.",
+      "revId": "3196a8e9f5c08dedccd05d2de10c55042933e427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAnH///8M\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ldap/LdapRealm.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-28T18:56:45Z",
+      "side": 1,
+      "message": "This makes no sense, you are querying for the groups the user is a member of right here.  That\u0027s not what you wanted to do.\n\nI think what you really wanted to do was before this loop get the memberOf attribute from the account LdapQuery.Result object and then for each of those results, get the group by its DN in the directory, and fetch its name.  Then you can use the common name of the group in Gerrit, rather than the full LDAP NAME\u003e",
+      "revId": "3196a8e9f5c08dedccd05d2de10c55042933e427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -26,6 +26,7 @@ import java.util.Set;
 import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
 import javax.naming.directory.Attribute;
+import javax.naming.directory.BasicAttribute;
 import javax.naming.directory.DirContext;
 import javax.naming.directory.SearchControls;
 import javax.naming.directory.SearchResult;
@@ -78,14 +79,14 @@ class LdapQuery {
   }
 
   class Result {
-    private final Map<String, String> atts = new HashMap<String, String>();
+    private final Map<String, Attribute> atts = new HashMap<String, Attribute>();
 
     Result(final SearchResult sr) throws NamingException {
       if (returnAttributes != null) {
         for (final String attName : returnAttributes) {
           final Attribute a = sr.getAttributes().get(attName);
           if (a != null && a.size() > 0) {
-            atts.put(attName, String.valueOf(a.get(0)));
+            atts.put(attName, a);
           }
         }
       } else {
@@ -93,14 +94,19 @@ class LdapQuery {
         while (e.hasMoreElements()) {
           final Attribute a = e.nextElement();
           if (a.size() == 1) {
-            atts.put(a.getID(), String.valueOf(a.get(0)));
+            atts.put(a.getID(), a);
           }
         }
       }
-      atts.put("dn", sr.getNameInNamespace());
+      atts.put("dn", new BasicAttribute("dn", sr.getNameInNamespace()));
     }
 
-    String get(final String attName) {
+    String get(final String attName) 
+        throws NamingException {
+      return String.valueOf(atts.get(attName).get(0));
+    }
+
+    Attribute getAll(final String attName) {
       return atts.get(attName);
     }
 
@@ -110,7 +116,12 @@ class LdapQuery {
 
     @Override
     public String toString() {
-      return atts.get("dn");
+      String data = "";
+      try {
+          String.valueOf(atts.get("dn").get(0));
+      } catch (NamingException e) {
+      }
+      return data;
     }
   }
 }

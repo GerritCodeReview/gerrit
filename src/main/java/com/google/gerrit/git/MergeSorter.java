@@ -14,9 +14,6 @@
 
 package com.google.gerrit.git;
 
-import org.spearce.jgit.errors.IncorrectObjectTypeException;
-import org.spearce.jgit.lib.Constants;
-import org.spearce.jgit.lib.Ref;
 import org.spearce.jgit.revwalk.RevCommit;
 import org.spearce.jgit.revwalk.RevCommitList;
 import org.spearce.jgit.revwalk.RevFlag;
@@ -31,41 +28,25 @@ import java.util.Set;
 
 class MergeSorter {
   private final RevWalk rw;
-  private final RevCommit base;
   private final RevFlag CAN_MERGE;
   private final Set<RevCommit> accepted;
 
-  MergeSorter(final RevWalk walk, final RevCommit branchHead)
-      throws IOException {
+  MergeSorter(final RevWalk walk, final Set<RevCommit> alreadyAccepted,
+      final RevFlag flagCAN_MERGE) {
     rw = walk;
-    CAN_MERGE = rw.newFlag("CAN_MERGE");
-    base = branchHead;
-
-    accepted = new HashSet<RevCommit>();
-    for (final Ref r : rw.getRepository().getAllRefs().values()) {
-      if (r.getName().startsWith(Constants.R_HEADS)
-          || r.getName().startsWith(Constants.R_TAGS)) {
-        try {
-          accepted.add(rw.parseCommit(r.getObjectId()));
-        } catch (IncorrectObjectTypeException iote) {
-          // Not a commit? Skip over it.
-        }
-      }
-    }
+    CAN_MERGE = flagCAN_MERGE;
+    accepted = alreadyAccepted;
   }
 
   Collection<CodeReviewCommit> sort(final Collection<CodeReviewCommit> incoming)
       throws IOException {
     final Set<CodeReviewCommit> heads = new HashSet<CodeReviewCommit>();
-    final Set<CodeReviewCommit> sort = prepareList(incoming);
+    final Set<CodeReviewCommit> sort = new HashSet<CodeReviewCommit>(incoming);
     while (!sort.isEmpty()) {
       final CodeReviewCommit n = removeOne(sort);
 
       rw.resetRetain(CAN_MERGE);
       rw.markStart(n);
-      if (base != null) {
-        rw.markUninteresting(base);
-      }
       for (RevCommit c : accepted) {
         rw.markUninteresting(c);
       }
@@ -100,18 +81,6 @@ class MergeSorter {
       heads.add(n);
     }
     return heads;
-  }
-
-  private Set<CodeReviewCommit> prepareList(
-      final Collection<CodeReviewCommit> in) {
-    final HashSet<CodeReviewCommit> sort = new HashSet<CodeReviewCommit>();
-    for (final CodeReviewCommit c : in) {
-      if (!c.has(CAN_MERGE)) {
-        c.add(CAN_MERGE);
-        sort.add(c);
-      }
-    }
-    return sort;
   }
 
   private static <T> T removeOne(final Collection<T> c) {

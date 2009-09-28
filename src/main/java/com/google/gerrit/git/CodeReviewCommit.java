@@ -18,12 +18,19 @@ import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.PatchSet;
 
 import org.spearce.jgit.lib.AnyObjectId;
+import org.spearce.jgit.lib.ObjectId;
 import org.spearce.jgit.revwalk.RevCommit;
 
 import java.util.List;
 
 /** Extended commit entity with code review specific metadata. */
 class CodeReviewCommit extends RevCommit {
+  static CodeReviewCommit error(final CommitMergeStatus s) {
+    final CodeReviewCommit r = new CodeReviewCommit(ObjectId.zeroId());
+    r.statusCode = s;
+    return r;
+  }
+
   /**
    * Unique key of the PatchSet entity from the code review system.
    * <p>
@@ -56,5 +63,13 @@ class CodeReviewCommit extends RevCommit {
 
   CodeReviewCommit(final AnyObjectId id) {
     super(id);
+  }
+
+  void copyFrom(final CodeReviewCommit src) {
+    patchsetId = src.patchsetId;
+    changeKey = src.changeKey;
+    originalOrder = src.originalOrder;
+    statusCode = src.statusCode;
+    missing = src.missing;
   }
 }

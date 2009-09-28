@@ -37,5 +37,11 @@ enum CommitMergeStatus {
   REVISION_GONE,
 
   /** */
-  CRISS_CROSS_MERGE;
+  CRISS_CROSS_MERGE,
+
+  /** */
+  CANNOT_CHERRY_PICK_ROOT,
+
+  /** */
+  NOT_FAST_FORWARD;
 }

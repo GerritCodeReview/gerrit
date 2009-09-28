@@ -24,6 +24,7 @@ import com.google.gerrit.client.reviewdb.ChangeMessage;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.PatchSetApproval;
 import com.google.gerrit.client.reviewdb.Project;
+import com.google.gerrit.client.reviewdb.RevId;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -65,6 +66,7 @@ import org.spearce.jgit.merge.ThreeWayMerger;
 import org.spearce.jgit.revwalk.FooterKey;
 import org.spearce.jgit.revwalk.FooterLine;
 import org.spearce.jgit.revwalk.RevCommit;
+import org.spearce.jgit.revwalk.RevFlag;
 import org.spearce.jgit.revwalk.RevSort;
 import org.spearce.jgit.revwalk.RevWalk;
 
@@ -126,13 +128,14 @@ public class MergeOp {
   private Project destProject;
   private final List<CodeReviewCommit> toMerge;
   private List<Change> submitted;
-  private final Map<Change.Id, CommitMergeStatus> status;
-  private final Map<Change.Id, CodeReviewCommit> newCommits;
+  private final Map<Change.Id, CodeReviewCommit> commits;
   private ReviewDb schema;
   private Repository db;
   private RevWalk rw;
+  private RevFlag CAN_MERGE;
   private CodeReviewCommit branchTip;
   private CodeReviewCommit mergeTip;
+  private Set<RevCommit> alreadyAccepted;
   private RefUpdate branchUpdate;
 
   @Inject
@@ -160,8 +163,7 @@ public class MergeOp {
     this.myIdent = myIdent;
     destBranch = branch;
     toMerge = new ArrayList<CodeReviewCommit>();
-    status = new HashMap<Change.Id, CommitMergeStatus>();
-    newCommits = new HashMap<Change.Id, CodeReviewCommit>();
+    commits = new HashMap<Change.Id, CodeReviewCommit>();
   }
 
   public void merge() throws MergeException {
@@ -228,16 +230,31 @@ public class MergeOp {
     };
     rw.sort(RevSort.TOPO);
     rw.sort(RevSort.COMMIT_TIME_DESC, true);
+    CAN_MERGE = rw.newFlag("CAN_MERGE");
   }
 
   private void openBranch() throws MergeException {
+    alreadyAccepted = new HashSet<RevCommit>();
+
     try {
       branchUpdate = db.updateRef(destBranch.get());
       if (branchUpdate.getOldObjectId() != null) {
         branchTip =
             (CodeReviewCommit) rw.parseCommit(branchUpdate.getOldObjectId());
+        alreadyAccepted.add(branchTip);
       } else {
         branchTip = null;
+      }
+
+      for (final Ref r : rw.getRepository().getAllRefs().values()) {
+        if (r.getName().startsWith(Constants.R_HEADS)
+            || r.getName().startsWith(Constants.R_TAGS)) {
+          try {
+            alreadyAccepted.add(rw.parseCommit(r.getObjectId()));
+          } catch (IncorrectObjectTypeException iote) {
+            // Not a commit? Skip over it.
+          }
+        }
       }
     } catch (IOException e) {
       throw new MergeException("Cannot open branch", e);
@@ -260,8 +277,10 @@ public class MergeOp {
 
     int commitOrder = 0;
     for (final Change chg : submitted) {
+      final Change.Id changeId = chg.getId();
       if (chg.currentPatchSetId() == null) {
-        status.put(chg.getId(), CommitMergeStatus.NO_PATCH_SET);
+        commits.put(changeId, CodeReviewCommit
+            .error(CommitMergeStatus.NO_PATCH_SET));
         continue;
       }
 
@@ -273,7 +292,8 @@ public class MergeOp {
       }
       if (ps == null || ps.getRevision() == null
           || ps.getRevision().get() == null) {
-        status.put(chg.getId(), CommitMergeStatus.NO_PATCH_SET);
+        commits.put(changeId, CodeReviewCommit
+            .error(CommitMergeStatus.NO_PATCH_SET));
         continue;
       }
 
@@ -282,7 +302,8 @@ public class MergeOp {
       try {
         id = ObjectId.fromString(idstr);
       } catch (IllegalArgumentException iae) {
-        status.put(chg.getId(), CommitMergeStatus.NO_PATCH_SET);
+        commits.put(changeId, CodeReviewCommit
+            .error(CommitMergeStatus.NO_PATCH_SET));
         continue;
       }
 
@@ -296,7 +317,8 @@ public class MergeOp {
         // want to merge the issue. We can't safely do that if the
         // tip is not reachable.
         //
-        status.put(chg.getId(), CommitMergeStatus.REVISION_GONE);
+        commits.put(changeId, CodeReviewCommit
+            .error(CommitMergeStatus.REVISION_GONE));
         continue;
       }
 
@@ -304,11 +326,16 @@ public class MergeOp {
       try {
         commit = (CodeReviewCommit) rw.parseCommit(id);
       } catch (IOException e) {
-        throw new MergeException("Invalid issue commit " + id, e);
+        log.error("Invalid commit " + id.name() + " on " + chg.getKey(), e);
+        commits.put(changeId, CodeReviewCommit
+            .error(CommitMergeStatus.REVISION_GONE));
+        continue;
       }
+
       commit.changeKey = chg.getKey();
       commit.patchsetId = ps.getId();
       commit.originalOrder = commitOrder++;
+      commits.put(changeId, commit);
 
       if (branchTip != null) {
         // If this commit is already merged its a bug in the queuing code
@@ -318,7 +345,6 @@ public class MergeOp {
         try {
           if (rw.isMergedInto(commit, branchTip)) {
             commit.statusCode = CommitMergeStatus.ALREADY_MERGED;
-            status.put(chg.getId(), commit.statusCode);
             continue;
           }
         } catch (IOException err) {
@@ -326,6 +352,7 @@ public class MergeOp {
         }
       }
 
+      commit.add(CAN_MERGE);
       toMerge.add(commit);
     }
   }
@@ -333,15 +360,9 @@ public class MergeOp {
   private void reduceToMinimalMerge() throws MergeException {
     final Collection<CodeReviewCommit> heads;
     try {
-      heads = new MergeSorter(rw, branchTip).sort(toMerge);
+      heads = new MergeSorter(rw, alreadyAccepted, CAN_MERGE).sort(toMerge);
     } catch (IOException e) {
       throw new MergeException("Branch head sorting failed", e);
-    }
-
-    for (final CodeReviewCommit c : toMerge) {
-      if (c.statusCode != null) {
-        status.put(c.patchsetId.getParentKey(), c.statusCode);
-      }
     }
 
     toMerge.clear();
@@ -371,39 +392,41 @@ public class MergeOp {
       }
     }
 
-    // If this project only permits fast-forwards, abort everything else.
-    //
     if (destProject.getSubmitType() == Project.SubmitType.FAST_FORWARD_ONLY) {
+      // If this project only permits fast-forwards, abort everything else.
+      //
       while (!toMerge.isEmpty()) {
         final CodeReviewCommit n = toMerge.remove(0);
-        n.statusCode = CommitMergeStatus.PATH_CONFLICT;
-        status.put(n.patchsetId.getParentKey(), n.statusCode);
+        n.statusCode = CommitMergeStatus.NOT_FAST_FORWARD;
       }
-      return;
+
+    } else {
+      // For every other commit do a pair-wise merge.
+      //
+      while (!toMerge.isEmpty()) {
+        mergeOneCommit(toMerge.remove(0));
+      }
     }
+  }
 
-    // For every other commit do a pair-wise merge.
-    //
-    while (!toMerge.isEmpty()) {
-      final CodeReviewCommit n = toMerge.remove(0);
-      final Merger m = MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.newMerger(db);
-      try {
-        if (m.merge(new AnyObjectId[] {mergeTip, n})) {
-          writeMergeCommit(m, n);
+  private void mergeOneCommit(final CodeReviewCommit n) throws MergeException {
+    final Merger m = MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.newMerger(db);
+    try {
+      if (m.merge(new AnyObjectId[] {mergeTip, n})) {
+        writeMergeCommit(m, n);
 
-        } else {
-          failed(n, CommitMergeStatus.PATH_CONFLICT);
-        }
-      } catch (IOException e) {
-        if (e.getMessage().startsWith("Multiple merge bases for")) {
-          try {
-            failed(n, CommitMergeStatus.CRISS_CROSS_MERGE);
-          } catch (IOException e2) {
-            throw new MergeException("Cannot merge " + n.name(), e);
-          }
-        } else {
+      } else {
+        failed(n, CommitMergeStatus.PATH_CONFLICT);
+      }
+    } catch (IOException e) {
+      if (e.getMessage().startsWith("Multiple merge bases for")) {
+        try {
+          failed(n, CommitMergeStatus.CRISS_CROSS_MERGE);
+        } catch (IOException e2) {
           throw new MergeException("Cannot merge " + n.name(), e);
         }
+      } else {
+        throw new MergeException("Cannot merge " + n.name(), e);
       }
     }
   }
@@ -416,12 +439,7 @@ public class MergeOp {
     rw.markUninteresting(mergeTip);
     CodeReviewCommit failed;
     while ((failed = (CodeReviewCommit) rw.next()) != null) {
-      if (failed.patchsetId == null) {
-        continue;
-      }
-
       failed.statusCode = failure;
-      status.put(failed.patchsetId.getParentKey(), failed.statusCode);
     }
     return failed;
   }
@@ -500,27 +518,14 @@ public class MergeOp {
       rw.sort(RevSort.TOPO);
       rw.sort(RevSort.REVERSE, true);
       rw.markStart(mergeTip);
-      if (branchTip != null) {
-        rw.markUninteresting(branchTip);
-      } else {
-        for (final Ref r : db.getAllRefs().values()) {
-          if (r.getName().startsWith(Constants.R_HEADS)
-              || r.getName().startsWith(Constants.R_TAGS)) {
-            try {
-              rw.markUninteresting(rw.parseCommit(r.getObjectId()));
-            } catch (IncorrectObjectTypeException iote) {
-              // Not a commit? Skip over it.
-            }
-          }
-        }
+      for (RevCommit c : alreadyAccepted) {
+        rw.markUninteresting(c);
       }
 
       CodeReviewCommit c;
       while ((c = (CodeReviewCommit) rw.next()) != null) {
         if (c.patchsetId != null) {
           c.statusCode = CommitMergeStatus.CLEAN_MERGE;
-          status.put(c.patchsetId.getParentKey(), c.statusCode);
-
           if (branchUpdate.getRefLogIdent() == null) {
             setRefLogIdent(getSubmitter(c.patchsetId));
           }
@@ -545,26 +550,70 @@ public class MergeOp {
 
       m = MergeStrategy.SIMPLE_TWO_WAY_IN_CORE.newMerger(db);
       try {
-        if (n.getParentCount() != 1) {
-          // We don't support cherry-picking a merge commit.
+        if (mergeTip == null) {
+          // The branch is unborn. Take a fast-forward resolution to
+          // create the branch.
           //
-          n.statusCode = CommitMergeStatus.PATH_CONFLICT;
-          status.put(n.patchsetId.getParentKey(), n.statusCode);
-          continue;
-        }
+          mergeTip = n;
+          n.statusCode = CommitMergeStatus.CLEAN_MERGE;
 
-        m.setBase(n.getParent(0));
-        if (m.merge(mergeTip, n)) {
-          writeCherryPickCommit(m, n);
+        } else if (n.getParentCount() == 0) {
+          // Refuse to merge a root commit into an existing branch,
+          // we cannot obtain a delta for the cherry-pick to apply.
+          //
+          n.statusCode = CommitMergeStatus.CANNOT_CHERRY_PICK_ROOT;
+
+        } else if (n.getParentCount() == 1) {
+          // If there is only one parent, a cherry-pick can be done by
+          // taking the delta relative to that one parent and redoing
+          // that on the current merge tip.
+          //
+          m.setBase(n.getParent(0));
+          if (m.merge(mergeTip, n)) {
+            writeCherryPickCommit(m, n);
+
+          } else {
+            n.statusCode = CommitMergeStatus.PATH_CONFLICT;
+          }
 
         } else {
-          n.statusCode = CommitMergeStatus.PATH_CONFLICT;
-          status.put(n.patchsetId.getParentKey(), n.statusCode);
+          // There are multiple parents, so this is a merge commit. We
+          // don't want to cherry-pick the merge as clients can't easily
+          // rebase their history with that merge present and replaced
+          // by an equivalent merge with a different first parent. So
+          // instead behave as though MERGE_IF_NECESSARY was configured.
+          //
+          if (hasDependenciesMet(n)) {
+            if (rw.isMergedInto(mergeTip, n)) {
+              mergeTip = n;
+            } else {
+              mergeOneCommit(n);
+            }
+            markCleanMerges();
+
+          } else {
+            // One or more dependencies were not met. The status was
+            // already marked on the commit so we have nothing further
+            // to perform at this time.
+            //
+          }
         }
+
       } catch (IOException e) {
         throw new MergeException("Cannot merge " + n.name(), e);
       }
     }
+  }
+
+  private boolean hasDependenciesMet(final CodeReviewCommit n)
+      throws IOException {
+    // Oddly we can determine this by running the merge sorter and
+    // look for the one commit to come out as a result. This works
+    // as the merge sorter checks the dependency chain as part of
+    // its logic trying to find a minimal merge path.
+    //
+    return new MergeSorter(rw, alreadyAccepted, CAN_MERGE).sort(
+        Collections.singleton(n)).contains(n);
   }
 
   private void writeCherryPickCommit(final Merger m, final CodeReviewCommit n)
@@ -695,10 +744,12 @@ public class MergeOp {
     mergeCommit.setMessage(msgbuf.toString());
 
     final ObjectId id = m.getObjectWriter().writeCommit(mergeCommit);
-    mergeTip = (CodeReviewCommit) rw.parseCommit(id);
-    n.statusCode = CommitMergeStatus.CLEAN_PICK;
-    status.put(n.patchsetId.getParentKey(), n.statusCode);
-    newCommits.put(n.patchsetId.getParentKey(), mergeTip);
+    final CodeReviewCommit newCommit = (CodeReviewCommit) rw.parseCommit(id);
+    newCommit.copyFrom(n);
+    newCommit.statusCode = CommitMergeStatus.CLEAN_PICK;
+    commits.put(newCommit.patchsetId.getParentKey(), newCommit);
+
+    mergeTip = newCommit;
     setRefLogIdent(submitAudit);
   }
 
@@ -753,7 +804,8 @@ public class MergeOp {
 
   private void updateChangeStatus() {
     for (final Change c : submitted) {
-      final CommitMergeStatus s = status.get(c.getId());
+      final CodeReviewCommit commit = commits.get(c.getId());
+      final CommitMergeStatus s = commit != null ? commit.statusCode : null;
       if (s == null) {
         // Shouldn't ever happen, but leave the change alone. We'll pick
         // it up on the next pass.
@@ -770,7 +822,6 @@ public class MergeOp {
         }
 
         case CLEAN_PICK: {
-          final CodeReviewCommit commit = newCommits.get(c.getId());
           final String txt =
               "Change has been successfully cherry-picked as " + commit.name()
                   + ".";
@@ -800,48 +851,57 @@ public class MergeOp {
           break;
         }
 
+        case CANNOT_CHERRY_PICK_ROOT: {
+          final String txt =
+              "Cannot cherry-pick an initial commit onto an existing branch.\n"
+                  + "\n"
+                  + "Please merge the change locally and upload the merge commit for review.";
+          setNew(c, message(c, txt));
+          break;
+        }
+
+        case NOT_FAST_FORWARD: {
+          final String txt =
+              "Project policy requires all submissions to be a fast-forward.\n"
+                  + "\n"
+                  + "Please rebase the change locally and upload again for review.";
+          setNew(c, message(c, txt));
+          break;
+        }
+
         case MISSING_DEPENDENCY: {
-          ChangeMessage msg = null;
-          try {
-            final String txt =
-                "Change could not be merged because of a missing dependency. As soon as its dependencies are submitted, the change will be submitted.";
-            final List<ChangeMessage> msgList =
-                schema.changeMessages().byChange(c.getId()).toList();
-            if (msgList.size() > 0) {
-              final ChangeMessage last = msgList.get(msgList.size() - 1);
-              if (last.getAuthor() == null && txt.equals(last.getMessage())) {
-                // The last message was written by us, and it said this
-                // same message already. Its unlikely anything has changed
-                // that would cause us to need to repeat ourselves.
-                //
-                break;
+          String txt =
+              "Change could not be merged because of a missing dependency.";
+          if (!isAlreadySent(c, txt)) {
+            if (commit.missing != null && !commit.missing.isEmpty()) {
+              StringBuilder m = new StringBuilder();
+              m.append(txt);
+              m.append("\n");
+
+              m.append("\n");
+
+              m.append("The following commits must also be submitted:\n");
+              m.append("\n");
+              for (CodeReviewCommit missingCommit : commit.missing) {
+                loadChangeInfo(missingCommit);
+                m.append("* ");
+                m.append(missingCommit.abbreviate(db).name());
+                if (missingCommit.patchsetId != null) {
+                  m.append(" (patch set ");
+                  m.append(missingCommit.patchsetId.get());
+                  m.append(" of ");
+                  m.append(missingCommit.changeKey.abbreviate());
+                  m.append(")");
+                } else {
+                  m.append(" (no change associated with commit)");
+                }
+                m.append("\n");
               }
+
+              txt = m.toString();
             }
-
-            msg = message(c, txt);
-            schema.changeMessages().insert(Collections.singleton(msg));
-          } catch (OrmException e) {
+            sendMergeFail(c, message(c, txt), false);
           }
-
-          try {
-            final MergeFailSender cm = mergeFailSenderFactory.create(c);
-            final PatchSetApproval submitter =
-                getSubmitter(c.currentPatchSetId());
-            if (submitter != null) {
-              cm.setFrom(submitter.getAccountId());
-            }
-            cm.setReviewDb(schema);
-            cm.setPatchSet(schema.patchSets().get(c.currentPatchSetId()));
-            cm.setChangeMessage(msg);
-            cm.send();
-          } catch (OrmException e) {
-            log.error("Cannot submit patch set for Change " + c.getId()
-                + " due to a missing dependency.", e);
-          } catch (EmailException e) {
-            log.error("Cannot submit patch set for Change " + c.getId()
-                + " due to a missing dependency.", e);
-          }
-
           break;
         }
 
@@ -849,6 +909,46 @@ public class MergeOp {
           setNew(c, message(c, "Unspecified merge failure: " + s.name()));
           break;
       }
+    }
+  }
+
+  private void loadChangeInfo(final CodeReviewCommit commit) {
+    if (commit.patchsetId == null) {
+      try {
+        List<PatchSet> matches =
+            schema.patchSets().byRevision(new RevId(commit.name())).toList();
+        if (matches.size() == 1) {
+          final PatchSet ps = matches.get(0);
+          final Change c = schema.changes().get(ps.getId().getParentKey());
+          commit.patchsetId = ps.getId();
+          commit.changeKey = c.getKey();
+        }
+      } catch (OrmException e) {
+      }
+    }
+  }
+
+  private boolean isAlreadySent(final Change c, final String prefix) {
+    try {
+      final List<ChangeMessage> msgList =
+          schema.changeMessages().byChange(c.getId()).toList();
+      if (msgList.size() > 0) {
+        final ChangeMessage last = msgList.get(msgList.size() - 1);
+        if (last.getAuthor() == null && last.getMessage().startsWith(prefix)) {
+          // The last message was written by us, and it said this
+          // same message already. Its unlikely anything has changed
+          // that would cause us to need to repeat ourselves.
+          //
+          return true;
+        }
+      }
+
+      // The last message was not sent by us, or doesn't match the text
+      // we are about to send.
+      //
+      return false;
+    } catch (OrmException e) {
+      return true;
     }
   }
 
@@ -966,8 +1066,14 @@ public class MergeOp {
   }
 
   private void setNew(Change c, ChangeMessage msg) {
+    sendMergeFail(c, msg, true);
+  }
+
+  private void sendMergeFail(Change c, ChangeMessage msg, boolean makeNew) {
     for (int attempts = 0; attempts < 10; attempts++) {
-      c.setStatus(Change.Status.NEW);
+      if (makeNew) {
+        c.setStatus(Change.Status.NEW);
+      }
       ChangeUtil.updated(c);
       try {
         final Transaction txn = schema.beginTransaction();
@@ -1002,11 +1108,9 @@ public class MergeOp {
       cm.setChangeMessage(msg);
       cm.send();
     } catch (OrmException e) {
-      log.error("Cannot submit patch set for Change " + c.getId()
-          + " due to a path conflict.", e);
+      log.error("Cannot send email notifications about merge failure", e);
     } catch (EmailException e) {
-      log.error("Cannot submit patch set for Change " + c.getId()
-          + " due to a path conflict.", e);
+      log.error("Cannot send email notifications about merge failure", e);
     }
   }
 }

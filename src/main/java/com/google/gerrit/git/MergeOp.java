@@ -442,9 +442,8 @@ public class MergeOp {
     final StringBuilder msgbuf = new StringBuilder();
     if (merged.size() == 1) {
       final CodeReviewCommit c = merged.get(0);
-      final Change.Id changeId = c.patchsetId.getParentKey();
       msgbuf.append("Merge change ");
-      msgbuf.append(changeId);
+      msgbuf.append(c.changeKey.abbreviate());
     } else {
       final ArrayList<CodeReviewCommit> o;
       o = new ArrayList<CodeReviewCommit>(merged);
@@ -458,8 +457,7 @@ public class MergeOp {
 
       msgbuf.append("Merge changes ");
       for (final Iterator<CodeReviewCommit> i = o.iterator(); i.hasNext();) {
-        final Change.Id id = i.next().patchsetId.getParentKey();
-        msgbuf.append(id);
+        msgbuf.append(i.next().changeKey.abbreviate());
         if (i.hasNext()) {
           msgbuf.append(',');
         }

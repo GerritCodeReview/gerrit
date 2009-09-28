@@ -32,8 +32,8 @@ the downloads page at the project site:
 
 * http://code.google.com/p/gerrit/downloads/list[Gerrit Downloads]
 
-Download any current `*.war` package. The war will be referred to as 
-`gerrit.war` from this point forward, so you may find it easier to 
+Download any current `*.war` package. The war will be referred to as
+`gerrit.war` from this point forward, so you may find it easier to
 rename the downloaded file.
 
 

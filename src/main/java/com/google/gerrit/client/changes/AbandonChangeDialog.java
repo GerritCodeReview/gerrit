@@ -70,7 +70,7 @@ public class AbandonChangeDialog extends AutoCenterDialogBox {
       @Override
       public void onClick(final ClickEvent event) {
         sendButton.setEnabled(false);
-        PatchUtil.DETAIL_SVC.abandonChange(psid, message.getText().trim(),
+        Util.MANAGE_SVC.abandonChange(psid, message.getText().trim(),
             new GerritCallback<VoidResult>() {
               public void onSuccess(VoidResult result) {
                 if (appCallback != null) {

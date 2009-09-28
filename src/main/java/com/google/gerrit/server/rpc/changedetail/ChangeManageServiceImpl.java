@@ -24,10 +24,13 @@ import com.google.inject.Inject;
 
 class ChangeManageServiceImpl implements ChangeManageService {
   private final SubmitAction.Factory submitAction;
+  private final AbandonChange.Factory abandonChangeFactory;
 
   @Inject
-  ChangeManageServiceImpl(final SubmitAction.Factory patchSetAction) {
+  ChangeManageServiceImpl(final SubmitAction.Factory patchSetAction,
+      final AbandonChange.Factory abandonChangeFactory) {
     this.submitAction = patchSetAction;
+    this.abandonChangeFactory = abandonChangeFactory;
   }
 
   public void patchSetAction(final ApprovalCategoryValue.Id value,
@@ -39,5 +42,10 @@ class ChangeManageServiceImpl implements ChangeManageService {
     } else {
       cb.onFailure(new IllegalArgumentException(value + " not supported"));
     }
+  }
+
+  public void abandonChange(final PatchSet.Id patchSetId, final String message,
+      final AsyncCallback<VoidResult> callback) {
+    abandonChangeFactory.create(patchSetId, message).to(callback);
   }
 }

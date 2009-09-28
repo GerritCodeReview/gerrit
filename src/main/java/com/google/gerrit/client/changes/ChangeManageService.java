@@ -25,4 +25,8 @@ public interface ChangeManageService extends RemoteJsonService {
   @SignInRequired
   void patchSetAction(ApprovalCategoryValue.Id value, PatchSet.Id patchSetId,
       AsyncCallback<VoidResult> callback);
+
+  @SignInRequired
+  void abandonChange(PatchSet.Id patchSetId, String message,
+      AsyncCallback<VoidResult> callback);
 }

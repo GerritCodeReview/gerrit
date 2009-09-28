@@ -71,7 +71,6 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final ApprovalTypes approvalTypes;
 
-  private final AbandonChange.Factory abandonChangeFactory;
   private final AccountInfoCacheFactory.Factory accountInfoCacheFactory;
   private final AddReviewer.Factory addReviewerFactory;
   private final ChangeControl.Factory changeControlFactory;
@@ -86,7 +85,6 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
       final CommentSender.Factory commentSenderFactory,
       final PatchSetInfoFactory patchSetInfoFactory,
       final ApprovalTypes approvalTypes,
-      final AbandonChange.Factory abandonChangeFactory,
       final AccountInfoCacheFactory.Factory accountInfoCacheFactory,
       final AddReviewer.Factory addReviewerFactory,
       final ChangeControl.Factory changeControlFactory,
@@ -99,7 +97,6 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
     this.commentSenderFactory = commentSenderFactory;
     this.approvalTypes = approvalTypes;
 
-    this.abandonChangeFactory = abandonChangeFactory;
     this.accountInfoCacheFactory = accountInfoCacheFactory;
     this.addReviewerFactory = addReviewerFactory;
     this.changeControlFactory = changeControlFactory;
@@ -315,11 +312,6 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
   public void addReviewers(final Change.Id id, final List<String> reviewers,
       final AsyncCallback<AddReviewerResult> callback) {
     addReviewerFactory.create(id, reviewers).to(callback);
-  }
-
-  public void abandonChange(final PatchSet.Id patchSetId, final String message,
-      final AsyncCallback<VoidResult> callback) {
-    abandonChangeFactory.create(patchSetId, message).to(callback);
   }
 
   public void userApprovals(final Set<Change.Id> cids, final Account.Id aid,

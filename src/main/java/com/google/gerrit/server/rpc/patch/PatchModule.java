@@ -28,7 +28,6 @@ public class PatchModule extends RpcServletModule {
     install(new FactoryModule() {
       @Override
       protected void configure() {
-        factory(AbandonChange.Factory.class);
         factory(AddReviewer.Factory.class);
         factory(CommentDetailFactory.Factory.class);
         factory(PatchScriptFactory.Factory.class);

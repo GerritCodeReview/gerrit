@@ -18,6 +18,7 @@ import static com.google.gerrit.client.reviewdb.ApprovalCategory.SUBMIT;
 
 import com.google.gerrit.client.data.ApprovalType;
 import com.google.gerrit.client.data.ApprovalTypes;
+import com.google.gerrit.client.data.ChangeDetail;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.PatchSetApproval;
@@ -26,10 +27,11 @@ import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gerrit.git.MergeQueue;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.rpc.Handler;
 import com.google.gerrit.server.workflow.CategoryFunction;
 import com.google.gerrit.server.workflow.FunctionState;
-import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.Transaction;
 import com.google.inject.Inject;
@@ -39,7 +41,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-class SubmitAction extends Handler<VoidResult> {
+class SubmitAction extends Handler<ChangeDetail> {
   interface Factory {
     SubmitAction create(PatchSet.Id patchSetId);
   }
@@ -49,25 +51,29 @@ class SubmitAction extends Handler<VoidResult> {
   private final ApprovalTypes approvalTypes;
   private final FunctionState.Factory functionState;
   private final IdentifiedUser user;
+  private final ChangeDetailFactory.Factory changeDetailFactory;
 
   private final PatchSet.Id patchSetId;
 
   @Inject
   SubmitAction(final ReviewDb db, final MergeQueue mq, final ApprovalTypes at,
       final FunctionState.Factory fs, final IdentifiedUser user,
+      final ChangeDetailFactory.Factory changeDetailFactory,
       @Assisted final PatchSet.Id patchSetId) {
     this.db = db;
     this.merger = mq;
     this.approvalTypes = at;
     this.functionState = fs;
     this.user = user;
+    this.changeDetailFactory = changeDetailFactory;
 
     this.patchSetId = patchSetId;
   }
 
   @Override
-  public VoidResult call() throws OrmException, NoSuchEntityException,
-      IllegalStateException {
+  public ChangeDetail call() throws OrmException, NoSuchEntityException,
+      IllegalStateException, PatchSetInfoNotAvailableException,
+      NoSuchChangeException {
     final Change change = db.changes().get(patchSetId.getParentKey());
     if (change == null) {
       throw new NoSuchEntityException();
@@ -147,6 +153,6 @@ class SubmitAction extends Handler<VoidResult> {
       merger.merge(change.getDest());
     }
 
-    return VoidResult.INSTANCE;
+    return changeDetailFactory.create(change.getId()).call();
   }
 }

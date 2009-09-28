@@ -14,19 +14,17 @@
 
 package com.google.gerrit.client.changes;
 
-import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
+import com.google.gerrit.client.data.ChangeDetail;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.rpc.SignInRequired;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.RemoteJsonService;
-import com.google.gwtjsonrpc.client.VoidResult;
 
 public interface ChangeManageService extends RemoteJsonService {
   @SignInRequired
-  void patchSetAction(ApprovalCategoryValue.Id value, PatchSet.Id patchSetId,
-      AsyncCallback<VoidResult> callback);
+  void submit(PatchSet.Id patchSetId, AsyncCallback<ChangeDetail> callback);
 
   @SignInRequired
   void abandonChange(PatchSet.Id patchSetId, String message,
-      AsyncCallback<VoidResult> callback);
+      AsyncCallback<ChangeDetail> callback);
 }

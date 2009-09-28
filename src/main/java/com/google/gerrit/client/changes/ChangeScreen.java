@@ -32,7 +32,6 @@ import com.google.gerrit.client.ui.ComplexDisclosurePanel;
 import com.google.gerrit.client.ui.ExpandAllCommand;
 import com.google.gerrit.client.ui.LinkMenuBar;
 import com.google.gerrit.client.ui.NeedsSignInKeyCommand;
-import com.google.gerrit.client.ui.RefreshListener;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -125,9 +124,6 @@ public class ChangeScreen extends Screen {
         new ScreenLoadCallback<ChangeDetail>(this) {
           @Override
           protected void preDisplay(final ChangeDetail r) {
-            if (starChange != null) {
-              setStarred(r.isStarred());
-            }
             display(r);
           }
         });
@@ -211,8 +207,12 @@ public class ChangeScreen extends Screen {
     setPageTitle(titleBuf.toString());
   }
 
-  private void display(final ChangeDetail detail) {
+  void display(final ChangeDetail detail) {
     displayTitle(detail.getChange().getKey(), detail.getChange().getSubject());
+
+    if (starChange != null) {
+      setStarred(detail.isStarred());
+    }
 
     dependencies.setAccountInfoCache(detail.getAccounts());
     approvals.setAccountInfoCache(detail.getAccounts());
@@ -252,7 +252,7 @@ public class ChangeScreen extends Screen {
       final ComplexDisclosurePanel panel =
           new ComplexDisclosurePanel(Util.M.patchSetHeader(ps.getPatchSetId()),
               ps == currps);
-      final PatchSetPanel psp = new PatchSetPanel(detail, ps);
+      final PatchSetPanel psp = new PatchSetPanel(this, detail, ps);
       panel.setContent(psp);
 
       final InlineLabel revtxt = new InlineLabel(ps.getRevision().get() + " ");
@@ -268,11 +268,6 @@ public class ChangeScreen extends Screen {
 
       if (ps == currps) {
         psp.ensureLoaded(detail.getCurrentPatchSetDetail());
-        psp.addRefreshListener(new RefreshListener() {
-          public void onSuggestRefresh() {
-            refresh();
-          }
-        });
       } else {
         panel.addOpenHandler(psp);
       }

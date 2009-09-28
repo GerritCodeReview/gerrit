@@ -14,7 +14,7 @@
 
 package com.google.gerrit.client.changes;
 
-import com.google.gerrit.client.patches.PatchUtil;
+import com.google.gerrit.client.data.ChangeDetail;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.SmallHeading;
@@ -26,23 +26,19 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
 import com.google.gwtexpui.user.client.AutoCenterDialogBox;
-import com.google.gwtjsonrpc.client.VoidResult;
 
 public class AbandonChangeDialog extends AutoCenterDialogBox {
-
   private final FlowPanel panel;
   private final NpTextArea message;
   private final Button sendButton;
   private final Button cancelButton;
   private final PatchSet.Id psid;
-  private final AsyncCallback<?> appCallback;
 
   public AbandonChangeDialog(final PatchSet.Id psi,
-      final AsyncCallback<?> callback) {
+      final AsyncCallback<ChangeDetail> callback) {
     super(/* auto hide */true, /* modal */true);
 
     psid = psi;
-    appCallback = callback;
     addStyleName("gerrit-AbandonChangeDialog");
     setText(Util.C.abandonChangeTitle());
 
@@ -71,10 +67,10 @@ public class AbandonChangeDialog extends AutoCenterDialogBox {
       public void onClick(final ClickEvent event) {
         sendButton.setEnabled(false);
         Util.MANAGE_SVC.abandonChange(psid, message.getText().trim(),
-            new GerritCallback<VoidResult>() {
-              public void onSuccess(VoidResult result) {
-                if (appCallback != null) {
-                  appCallback.onSuccess(null);
+            new GerritCallback<ChangeDetail>() {
+              public void onSuccess(ChangeDetail result) {
+                if (callback != null) {
+                  callback.onSuccess(result);
                 }
                 hide();
               }
@@ -93,6 +89,9 @@ public class AbandonChangeDialog extends AutoCenterDialogBox {
     cancelButton.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(final ClickEvent event) {
+        if (callback != null) {
+          callback.onFailure(null);
+        }
         hide();
       }
     });

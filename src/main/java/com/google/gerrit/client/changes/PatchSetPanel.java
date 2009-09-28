@@ -16,20 +16,19 @@ package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.data.ApprovalType;
 import com.google.gerrit.client.data.ChangeDetail;
 import com.google.gerrit.client.data.PatchSetDetail;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
-import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.client.reviewdb.Branch;
+import com.google.gerrit.client.reviewdb.Change;
+import com.google.gerrit.client.reviewdb.ChangeMessage;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.PatchSetInfo;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.UserIdentity;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountDashboardLink;
-import com.google.gerrit.client.ui.RefreshListener;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.OpenEvent;
@@ -45,10 +44,8 @@ import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
-import com.google.gwtjsonrpc.client.VoidResult;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
 import java.util.Set;
 
 class PatchSetPanel extends Composite implements OpenHandler<DisclosurePanel> {
@@ -57,43 +54,22 @@ class PatchSetPanel extends Composite implements OpenHandler<DisclosurePanel> {
   private static final int R_DOWNLOAD = 2;
   private static final int R_CNT = 3;
 
+  private final ChangeScreen changeScreen;
   private final ChangeDetail changeDetail;
   private final PatchSet patchSet;
   private final FlowPanel body;
-  private List<RefreshListener> refreshListeners;
 
   private Grid infoTable;
   private Panel actionsPanel;
   private PatchTable patchTable;
 
-  PatchSetPanel(final ChangeDetail detail, final PatchSet ps) {
+  PatchSetPanel(final ChangeScreen parent, final ChangeDetail detail,
+      final PatchSet ps) {
+    changeScreen = parent;
     changeDetail = detail;
     patchSet = ps;
     body = new FlowPanel();
     initWidget(body);
-  }
-
-  public void addRefreshListener(final RefreshListener r) {
-    if (refreshListeners == null) {
-      refreshListeners = new ArrayList<RefreshListener>();
-    }
-    if (!refreshListeners.contains(r)) {
-      refreshListeners.add(r);
-    }
-  }
-
-  public void removeRefreshListener(final RefreshListener r) {
-    if (refreshListeners != null) {
-      refreshListeners.remove(r);
-    }
-  }
-
-  protected void fireOnSuggestRefresh() {
-    if (refreshListeners != null) {
-      for (final RefreshListener r : refreshListeners) {
-        r.onSuggestRefresh();
-      }
-    }
   }
 
   /**
@@ -136,9 +112,6 @@ class PatchSetPanel extends Composite implements OpenHandler<DisclosurePanel> {
       populateCommentAction();
       if (changeDetail.isCurrentPatchSet(detail)) {
         populateActions(detail);
-        if (changeDetail.canAbandon()) {
-          populateAbandonAction();
-        }
       }
     }
     body.add(patchTable);
@@ -233,42 +206,24 @@ class PatchSetPanel extends Composite implements OpenHandler<DisclosurePanel> {
   }
 
   private void populateActions(final PatchSetDetail detail) {
-    if (changeDetail.getChange().getStatus().isClosed()) {
-      // Generic actions aren't allowed on closed changes.
-      //
-      return;
-    }
-
-    final Set<ApprovalCategory.Id> allowed = changeDetail.getCurrentActions();
+    final boolean isOpen = changeDetail.getChange().getStatus().isOpen();
+    Set<ApprovalCategory.Id> allowed = changeDetail.getCurrentActions();
     if (allowed == null) {
-      // No set of actions, perhaps the user is not signed in?
-      return;
+      allowed = Collections.emptySet();
     }
 
-    for (final ApprovalType at : Gerrit.getConfig().getApprovalTypes()
-        .getActionTypes()) {
-      final ApprovalCategoryValue max = at.getMax();
-      if (max == null || max.getValue() <= 0) {
-        // No positive assertion, don't draw a button.
-        continue;
-      }
-      if (!allowed.contains(at.getCategory().getId())) {
-        // User isn't permitted to invoke this.
-        continue;
-      }
-
+    if (isOpen && allowed.contains(ApprovalCategory.SUBMIT)) {
       final Button b =
-          new Button(Util.M.patchSetAction(at.getCategory().getName(), detail
-              .getPatchSet().getPatchSetId()));
+          new Button(Util.M
+              .submitPatchSet(detail.getPatchSet().getPatchSetId()));
       b.addClickHandler(new ClickHandler() {
         @Override
         public void onClick(final ClickEvent event) {
           b.setEnabled(false);
-          Util.MANAGE_SVC.patchSetAction(max.getId(), patchSet.getId(),
-              new GerritCallback<VoidResult>() {
-                public void onSuccess(VoidResult result) {
-                  actionsPanel.remove(b);
-                  fireOnSuggestRefresh();
+          Util.MANAGE_SVC.submit(patchSet.getId(),
+              new GerritCallback<ChangeDetail>() {
+                public void onSuccess(ChangeDetail result) {
+                  onSubmitResult(result);
                 }
 
                 @Override
@@ -281,25 +236,26 @@ class PatchSetPanel extends Composite implements OpenHandler<DisclosurePanel> {
       });
       actionsPanel.add(b);
     }
-  }
 
-  private void populateAbandonAction() {
-    final Button b = new Button(Util.C.buttonAbandonChangeBegin());
-    b.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(final ClickEvent event) {
-        new AbandonChangeDialog(patchSet.getId(), new AsyncCallback<Object>() {
-          public void onSuccess(Object result) {
-            actionsPanel.remove(b);
-            fireOnSuggestRefresh();
-          }
+    if (changeDetail.canAbandon()) {
+      final Button b = new Button(Util.C.buttonAbandonChangeBegin());
+      b.addClickHandler(new ClickHandler() {
+        @Override
+        public void onClick(final ClickEvent event) {
+          new AbandonChangeDialog(patchSet.getId(),
+              new AsyncCallback<ChangeDetail>() {
+                public void onSuccess(ChangeDetail result) {
+                  changeScreen.display(result);
+                }
 
-          public void onFailure(Throwable caught) {
-          }
-        }).center();
-      }
-    });
-    actionsPanel.add(b);
+                public void onFailure(Throwable caught) {
+                  b.setEnabled(true);
+                }
+              }).center();
+        }
+      });
+      actionsPanel.add(b);
+    }
   }
 
   private void populateCommentAction() {
@@ -329,5 +285,27 @@ class PatchSetPanel extends Composite implements OpenHandler<DisclosurePanel> {
   private void initRow(final int row, final String name) {
     infoTable.setText(row, 0, name);
     infoTable.getCellFormatter().addStyleName(row, 0, "header");
+  }
+
+  private void onSubmitResult(final ChangeDetail result) {
+    if (result.getChange().getStatus() == Change.Status.NEW) {
+      // The submit failed. Try to locate the message and display
+      // it to the user, it should be the last one created by Gerrit.
+      //
+      ChangeMessage msg = null;
+      if (result.getMessages() != null && result.getMessages().size() > 0) {
+        for (int i = result.getMessages().size() - 1; i >= 0; i--) {
+          if (result.getMessages().get(i).getAuthor() == null) {
+            msg = result.getMessages().get(i);
+            break;
+          }
+        }
+      }
+
+      if (msg != null) {
+        new SubmitFailureDialog(result, msg).center();
+      }
+    }
+    changeScreen.display(result);
   }
 }

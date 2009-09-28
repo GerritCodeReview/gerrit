@@ -14,20 +14,22 @@
 
 package com.google.gerrit.server.rpc.changedetail;
 
+import com.google.gerrit.client.data.ChangeDetail;
 import com.google.gerrit.client.reviewdb.Change;
-import com.google.gerrit.client.reviewdb.PatchSetApproval;
 import com.google.gerrit.client.reviewdb.ChangeMessage;
 import com.google.gerrit.client.reviewdb.PatchSet;
+import com.google.gerrit.client.reviewdb.PatchSetApproval;
 import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gerrit.client.rpc.NoSuchEntityException;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.Nullable;
 import com.google.gerrit.server.mail.AbandonedSender;
 import com.google.gerrit.server.mail.EmailException;
+import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.rpc.Handler;
-import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.OrmRunnable;
 import com.google.gwtorm.client.Transaction;
@@ -37,7 +39,7 @@ import com.google.inject.assistedinject.Assisted;
 import java.util.Collections;
 import java.util.List;
 
-class AbandonChange extends Handler<VoidResult> {
+class AbandonChange extends Handler<ChangeDetail> {
   interface Factory {
     AbandonChange create(PatchSet.Id patchSetId, String message);
   }
@@ -46,6 +48,7 @@ class AbandonChange extends Handler<VoidResult> {
   private final ReviewDb db;
   private final IdentifiedUser currentUser;
   private final AbandonedSender.Factory abandonedSenderFactory;
+  private final ChangeDetailFactory.Factory changeDetailFactory;
 
   private final PatchSet.Id patchSetId;
   @Nullable
@@ -55,20 +58,22 @@ class AbandonChange extends Handler<VoidResult> {
   AbandonChange(final ChangeControl.Factory changeControlFactory,
       final ReviewDb db, final IdentifiedUser currentUser,
       final AbandonedSender.Factory abandonedSenderFactory,
+      final ChangeDetailFactory.Factory changeDetailFactory,
       @Assisted final PatchSet.Id patchSetId,
       @Assisted @Nullable final String message) {
     this.changeControlFactory = changeControlFactory;
     this.db = db;
     this.currentUser = currentUser;
     this.abandonedSenderFactory = abandonedSenderFactory;
+    this.changeDetailFactory = changeDetailFactory;
 
     this.patchSetId = patchSetId;
     this.message = message;
   }
 
   @Override
-  public VoidResult call() throws NoSuchChangeException, OrmException,
-      EmailException {
+  public ChangeDetail call() throws NoSuchChangeException, OrmException,
+      EmailException, NoSuchEntityException, PatchSetInfoNotAvailableException {
     final Change.Id changeId = patchSetId.getParentKey();
     final ChangeControl control = changeControlFactory.validateFor(changeId);
     if (!control.canAbandon()) {
@@ -108,7 +113,7 @@ class AbandonChange extends Handler<VoidResult> {
       cm.send();
     }
 
-    return VoidResult.INSTANCE;
+    return changeDetailFactory.create(changeId).call();
   }
 
   private Boolean doAbandonChange(final String message, final Change change,

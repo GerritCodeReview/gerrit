@@ -15,11 +15,9 @@
 package com.google.gerrit.server.rpc.changedetail;
 
 import com.google.gerrit.client.changes.ChangeManageService;
-import com.google.gerrit.client.reviewdb.ApprovalCategory;
-import com.google.gerrit.client.reviewdb.ApprovalCategoryValue;
+import com.google.gerrit.client.data.ChangeDetail;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.inject.Inject;
 
 class ChangeManageServiceImpl implements ChangeManageService {
@@ -33,19 +31,13 @@ class ChangeManageServiceImpl implements ChangeManageService {
     this.abandonChangeFactory = abandonChangeFactory;
   }
 
-  public void patchSetAction(final ApprovalCategoryValue.Id value,
-      final PatchSet.Id patchSetId, final AsyncCallback<VoidResult> cb) {
-    final ApprovalCategory.Id category = value.getParentKey();
-    if (ApprovalCategory.SUBMIT.equals(category) && value.get() == 1) {
-      submitAction.create(patchSetId).to(cb);
-
-    } else {
-      cb.onFailure(new IllegalArgumentException(value + " not supported"));
-    }
+  public void submit(final PatchSet.Id patchSetId,
+      final AsyncCallback<ChangeDetail> cb) {
+    submitAction.create(patchSetId).to(cb);
   }
 
   public void abandonChange(final PatchSet.Id patchSetId, final String message,
-      final AsyncCallback<VoidResult> callback) {
+      final AsyncCallback<ChangeDetail> callback) {
     abandonChangeFactory.create(patchSetId, message).to(callback);
   }
 }

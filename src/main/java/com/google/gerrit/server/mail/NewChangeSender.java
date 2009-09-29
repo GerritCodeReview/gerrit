@@ -70,6 +70,7 @@ public abstract class NewChangeSender extends OutgoingEmail {
       if (changeUrl != null) {
         appendText("\n");
         appendText("    " + changeUrl + "\n");
+        appendText("    " + pullUrl + "\n");
         appendText("\n");
       }
       appendText("\n");

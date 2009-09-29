@@ -34,6 +34,24 @@
       "revId": "d3aed4c416d4d5531a1ff6e5adf8dba6db087e87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAnX///8g\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ldap/LdapRealm.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-29T17:39:10Z",
+      "side": 0,
+      "message": "No, groupAtts tells us what attributes to obtain from the group, in this case \"cn\", so we can use that name to query Gerrit\u0027s account_groups table for a matching group object in Gerrit.  It has nothing to do with the user account attributes.",
+      "parentUuid": "AAAAnX///8s\u003d",
+      "revId": "d3aed4c416d4d5531a1ff6e5adf8dba6db087e87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

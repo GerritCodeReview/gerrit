@@ -102,6 +102,24 @@
       "revId": "3196a8e9f5c08dedccd05d2de10c55042933e427",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAnX///8c\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ldap/LdapRealm.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-09-29T17:39:10Z",
+      "side": 1,
+      "message": "Given that memberOf is an attribute of the user account, that would make sense.",
+      "parentUuid": "AAAAnX///8o\u003d",
+      "revId": "3196a8e9f5c08dedccd05d2de10c55042933e427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

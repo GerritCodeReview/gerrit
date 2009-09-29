@@ -16,6 +16,24 @@
       "revId": "d3aed4c416d4d5531a1ff6e5adf8dba6db087e87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAnX///8s\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ldap/LdapRealm.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1002619
+      },
+      "writtenOn": "2009-09-29T17:33:46Z",
+      "side": 0,
+      "message": "The groupAtts was only being used to look up group membership. See groupByNameQueryList",
+      "parentUuid": "AAAAnH///8c\u003d",
+      "revId": "d3aed4c416d4d5531a1ff6e5adf8dba6db087e87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

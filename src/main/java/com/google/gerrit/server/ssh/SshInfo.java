@@ -22,4 +22,6 @@ public interface SshInfo {
   InetSocketAddress getAddress();
 
   Collection<PublicKey> getHostKeys();
+
+  String getSshdAddress();
 }

@@ -33,18 +33,10 @@ import com.google.inject.Provider;
 
 import org.spearce.jgit.lib.Config;
 
-import java.net.Inet6Address;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
 import java.util.HashSet;
 import java.util.Set;
 
 public class GerritConfigProvider implements Provider<GerritConfig> {
-  private static boolean isIPv6(final InetAddress ip) {
-    return ip instanceof Inet6Address
-        && ip.getHostName().equals(ip.getHostAddress());
-  }
-
   private final Realm realm;
   private final Config cfg;
   private final String canonicalWebUrl;
@@ -105,23 +97,7 @@ public class GerritConfigProvider implements Provider<GerritConfig> {
       config.setGitwebLink(new GitwebLink(gitwebUrl));
     }
 
-    final InetSocketAddress addr =
-        sshInfo != null ? sshInfo.getAddress() : null;
-    if (addr != null) {
-      final InetAddress ip = addr.getAddress();
-      String host;
-      if (ip != null && ip.isAnyLocalAddress()) {
-        host = "";
-      } else if (isIPv6(ip)) {
-        host = "[" + addr.getHostName() + "]";
-      } else {
-        host = addr.getHostName();
-      }
-      if (addr.getPort() != 22) {
-        host += ":" + addr.getPort();
-      }
-      config.setSshdAddress(host);
-    }
+    config.setSshdAddress(sshInfo != null ? sshInfo.getSshdAddress() : null);
 
     return config;
   }

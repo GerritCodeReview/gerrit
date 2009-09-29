@@ -16,6 +16,8 @@ package com.google.gerrit.server.mail;
 
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.Change;
+import com.google.gerrit.server.ssh.SshInfo;
+import com.google.inject.Inject;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -24,6 +26,9 @@ import java.util.Set;
 
 /** Sends an email alerting a user to a new change for them to review. */
 public abstract class NewChangeSender extends OutgoingEmail {
+  @Inject
+  private SshInfo sshInfo;
+
   private final Set<Account.Id> reviewers = new HashSet<Account.Id>();
   private final Set<Account.Id> extraCC = new HashSet<Account.Id>();
 
@@ -57,11 +62,14 @@ public abstract class NewChangeSender extends OutgoingEmail {
   }
 
   private void formatSalutation() {
+    final String changeUrl = getChangeUrl();
+    final String pullUrl = getPullUrl();
+
     if (reviewers.isEmpty()) {
       formatDest();
-      if (getChangeUrl() != null) {
+      if (changeUrl != null) {
         appendText("\n");
-        appendText("    " + getChangeUrl() + "\n");
+        appendText("    " + changeUrl + "\n");
         appendText("\n");
       }
       appendText("\n");
@@ -77,10 +85,18 @@ public abstract class NewChangeSender extends OutgoingEmail {
       appendText("\n");
 
       appendText("I'd like you to do a code review.");
-      if (getChangeUrl() != null) {
+      if (changeUrl != null) {
         appendText("  Please visit\n");
         appendText("\n");
-        appendText("    " + getChangeUrl() + "\n");
+        appendText("    " + changeUrl + "\n");
+        appendText("    " + pullUrl + "\n");
+        appendText("\n");
+        appendText("to review the following change:\n");
+
+      } else {
+        appendText("  Please execute\n");
+        appendText("\n");
+        appendText("    " + pullUrl + "\n");
         appendText("\n");
         appendText("to review the following change:\n");
       }
@@ -98,5 +114,20 @@ public abstract class NewChangeSender extends OutgoingEmail {
     appendText(" in ");
     appendText(projectName);
     appendText(":\n");
+  }
+
+  private String getPullUrl() {
+    final StringBuilder r = new StringBuilder();
+    r.append("git pull ssh://");
+    String sshAddress = sshInfo.getSshdAddress();
+    if (sshAddress.startsWith(":") || "".equals(sshAddress)) {
+      r.append(getGerritHost());
+    }
+    r.append(sshAddress);
+    r.append("/");
+    r.append(projectName);
+    r.append(" ");
+    r.append(patchSet.getRefName());
+    return r.toString();
   }
 }

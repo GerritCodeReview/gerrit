@@ -16,6 +16,7 @@ package com.google.gerrit.server.mail;
 
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.Change;
+import com.google.gerrit.server.ssh.SshInfo;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -29,6 +30,9 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
   public static interface Factory {
     public ReplacePatchSetSender create(Change change);
   }
+
+  @Inject
+  private SshInfo sshInfo;
 
   private final Set<Account.Id> reviewers = new HashSet<Account.Id>();
   private final Set<Account.Id> extraCC = new HashSet<Account.Id>();
@@ -67,11 +71,17 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
   }
 
   private void formatSalutation() {
+    final String changeUrl = getChangeUrl();
+    final String pullUrl = getPullUrl();
+
     if (reviewers.isEmpty()) {
       formatDest();
-      if (getChangeUrl() != null) {
+      if (changeUrl != null || pullUrl != null) {
         appendText("\n");
-        appendText("    " + getChangeUrl() + "\n");
+        if (changeUrl != null) {
+          appendText("    " + changeUrl + "\n");
+        }
+        appendText("    " + pullUrl + "\n");
         appendText("\n");
       }
       appendText("\n");
@@ -88,10 +98,19 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
 
       appendText("I'd like you to reexamine change "
           + change.getKey().abbreviate() + ".");
-      if (getChangeUrl() != null) {
+      if (changeUrl != null) {
         appendText("  Please visit\n");
         appendText("\n");
-        appendText("    " + getChangeUrl() + "\n");
+        appendText("    " + changeUrl + "\n");
+        appendText("    " + pullUrl + "\n");
+        appendText("\n");
+        appendText("to look at patch set " + patchSet.getPatchSetId());
+        appendText(":\n");
+
+      } else {
+        appendText("  Please execute\n");
+        appendText("\n");
+        appendText("    " + pullUrl + "\n");
         appendText("\n");
         appendText("to look at patch set " + patchSet.getPatchSetId());
         appendText(":\n");
@@ -111,5 +130,20 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
     appendText(" in ");
     appendText(projectName);
     appendText(":\n");
+  }
+
+  private String getPullUrl() {
+    final StringBuilder r = new StringBuilder();
+    r.append("git pull ssh://");
+    String sshAddress = sshInfo.getSshdAddress();
+    if (sshAddress.startsWith(":") || "".equals(sshAddress)) {
+      r.append(getGerritHost());
+    }
+    r.append(sshAddress);
+    r.append("/");
+    r.append(projectName);
+    r.append(" ");
+    r.append(patchSet.getRefName());
+    return r.toString();
   }
 }

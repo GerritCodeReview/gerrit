@@ -63,6 +63,7 @@ import org.slf4j.LoggerFactory;
 import org.spearce.jgit.lib.Config;
 
 import java.io.IOException;
+import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
@@ -115,6 +116,11 @@ public class SshDaemon extends SshServer implements SshInfo {
       return host + ":" + inetAddr.getPort();
     }
     return addr.toString();
+  }
+
+  private static boolean isIPv6(final InetAddress ip) {
+    return ip instanceof Inet6Address
+        && ip.getHostName().equals(ip.getHostAddress());
   }
 
   private final List<SocketAddress> listen;
@@ -178,6 +184,25 @@ public class SshDaemon extends SshServer implements SshInfo {
   @Override
   public InetSocketAddress getAddress() {
     return preferredAddress;
+  }
+
+  public String getSshdAddress() {
+    if (preferredAddress != null) {
+      final InetAddress ip = preferredAddress.getAddress();
+      String host;
+      if (ip != null && ip.isAnyLocalAddress()) {
+        host = "";
+      } else if (isIPv6(ip)) {
+        host = "[" + preferredAddress.getHostName() + "]";
+      } else {
+        host = preferredAddress.getHostName();
+      }
+      if (preferredAddress.getPort() != 22) {
+        host += ":" + preferredAddress.getPort();
+      }
+      return host;
+    }
+    return null;
   }
 
   public IoAcceptor getIoAcceptor() {

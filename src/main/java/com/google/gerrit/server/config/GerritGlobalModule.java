@@ -47,14 +47,12 @@ import com.google.gerrit.server.ldap.LdapModule;
 import com.google.gerrit.server.mail.AbandonedSender;
 import com.google.gerrit.server.mail.AddReviewerSender;
 import com.google.gerrit.server.mail.CommentSender;
-import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.mail.EmailSender;
 import com.google.gerrit.server.mail.FromAddressGenerator;
 import com.google.gerrit.server.mail.FromAddressGeneratorProvider;
 import com.google.gerrit.server.mail.MergeFailSender;
 import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.mail.RegisterNewEmailSender;
-import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.mail.SmtpEmailSender;
 import com.google.gerrit.server.patch.PatchListCacheImpl;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
@@ -158,12 +156,9 @@ public class GerritGlobalModule extends FactoryModule {
     factory(FunctionState.Factory.class);
 
     factory(AbandonedSender.Factory.class);
-    factory(AddReviewerSender.Factory.class);
-    factory(CreateChangeSender.Factory.class);
     factory(CommentSender.Factory.class);
     factory(MergedSender.Factory.class);
     factory(MergeFailSender.Factory.class);
-    factory(ReplacePatchSetSender.Factory.class);
     factory(RegisterNewEmailSender.Factory.class);
   }
 }

@@ -56,8 +56,11 @@ import java.util.Set;
 
 import javax.naming.Context;
 import javax.naming.NamingException;
+import javax.naming.NamingEnumeration;
 import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
+import javax.naming.directory.Attribute;
+import javax.naming.directory.Attributes;
 
 @Singleton
 class LdapRealm implements Realm {
@@ -81,6 +84,7 @@ class LdapRealm implements Realm {
 
   private final GroupCache groupCache;
   private final String groupName;
+  private final String memberField;
   private boolean groupNeedsAccount;
   private final List<LdapQuery> groupMemberQueryList;
   private final List<LdapQuery> groupByNameQueryList;
@@ -111,7 +115,9 @@ class LdapRealm implements Realm {
     //
     final Set<String> groupAtts = new HashSet<String>();
     groupName = reqdef(config, "groupName", "cn");
-    groupAtts.add(groupName);
+    memberField = reqdef(config, "memberField", "memberOf");
+
+    groupAtts.add(memberField);
     final List<String> groupBaseList = requiredList(config, "groupBase");
     final SearchScope groupScope = scope(config, "groupScope");
     final String groupMemberPattern =
@@ -369,10 +375,21 @@ class LdapRealm implements Realm {
     final Set<AccountGroup.Id> actual = new HashSet<AccountGroup.Id>();
     for (LdapQuery groupMemberQuery : groupMemberQueryList) {
       for (LdapQuery.Result r : groupMemberQuery.query(ctx, params)) {
-        final String name = r.get(groupName);
-        final AccountGroup group = groupCache.lookup(name);
-        if (group != null && isLdapGroup(group)) {
-          actual.add(group.getId());
+        NamingEnumeration groups = r.getAll(memberField).getAll();
+        while (groups.hasMore()) {
+           final String dn = String.valueOf(groups.next());
+           try {
+               String attrs[] = { "displayName" };
+               Attributes ldapGroup = ctx.getAttributes(dn, attrs);
+               String name = String.valueOf(ldapGroup.get("displayName"));
+               name = name.replace("displayName: ", "");
+               final AccountGroup group = groupCache.lookup(name);
+               if (group != null && isLdapGroup(group)) {
+                 actual.add(group.getId());
+               }
+           } catch (NamingException e) {
+               // group not found
+           }
         }
       }
     }

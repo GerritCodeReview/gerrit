@@ -26,6 +26,7 @@ import java.util.Set;
 import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
 import javax.naming.directory.Attribute;
+import javax.naming.directory.BasicAttribute;
 import javax.naming.directory.DirContext;
 import javax.naming.directory.SearchControls;
 import javax.naming.directory.SearchResult;
@@ -78,16 +79,16 @@ class LdapQuery {
   }
 
   class Result {
-    private final String dn;
-    private final Map<String, String> atts = new HashMap<String, String>();
+    private final Map<String, Attribute> atts = new HashMap<String, Attribute>();
+    private final Map<String, String> attsSingle = new HashMap<String, String>();
 
     Result(final SearchResult sr) throws NamingException {
-      dn = sr.getNameInNamespace();
       if (returnAttributes != null) {
         for (final String attName : returnAttributes) {
           final Attribute a = sr.getAttributes().get(attName);
           if (a != null && a.size() > 0) {
-            atts.put(attName, String.valueOf(a.get(0)));
+            atts.put(attName, a);
+            attsSingle.put(attName, String.valueOf(a.get(0)));
           }
         }
       } else {
@@ -95,28 +96,39 @@ class LdapQuery {
         while (e.hasMoreElements()) {
           final Attribute a = e.nextElement();
           if (a.size() == 1) {
-            atts.put(a.getID(), String.valueOf(a.get(0)));
+            atts.put(a.getID(), a);
+            attsSingle.put(a.getID(), String.valueOf(a.get(0)));
           }
         }
       }
-      atts.put("dn", dn);
+      atts.put("dn", new BasicAttribute("dn", sr.getNameInNamespace()));
+      attsSingle.put("dn", sr.getNameInNamespace());
     }
 
-    String getDN() {
-      return dn;
+    String getDN() throws NamingException {
+      return get("dn");
     }
 
-    String get(final String attName) {
+    String get(final String attName) throws NamingException {
+      return String.valueOf(atts.get(attName).get(0));
+    }
+
+    Attribute getAll(final String attName) {
       return atts.get(attName);
     }
 
     Map<String, String> map() {
-      return Collections.unmodifiableMap(atts);
+      return Collections.unmodifiableMap(attsSingle);
     }
 
     @Override
     public String toString() {
-      return getDN();
+      String data = "";
+      try {
+          String.valueOf(atts.get("dn").get(0));
+      } catch (NamingException e) {
+      }
+      return data;
     }
   }
 }

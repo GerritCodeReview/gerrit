@@ -20,6 +20,5 @@ import com.google.gerrit.client.reviewdb.Account;
 /** Data sent as part of the host page, to bootstrap the UI. */
 public class HostPageData {
   public Account userAccount;
-  public String xsrfToken;
   public GerritConfig config;
 }

@@ -50,7 +50,6 @@ import javax.servlet.http.HttpServletResponse;
 @Singleton
 public class HostPageServlet extends HttpServlet {
   private final Provider<CurrentUser> currentUser;
-  private final Provider<WebSession> webSession;
   private final File sitePath;
   private final GerritConfig config;
   private final Provider<String> urlProvider;
@@ -58,14 +57,12 @@ public class HostPageServlet extends HttpServlet {
   private final Document hostDoc;
 
   @Inject
-  HostPageServlet(final Provider<CurrentUser> cu,
-      final Provider<WebSession> ws, @SitePath final File path,
+  HostPageServlet(final Provider<CurrentUser> cu, @SitePath final File path,
       final GerritConfig gc,
       @CanonicalWebUrl @Nullable final Provider<String> up,
       @CanonicalWebUrl @Nullable final String configuredUrl,
       final ServletContext servletContext) throws IOException {
     currentUser = cu;
-    webSession = ws;
     urlProvider = up;
     sitePath = path;
     config = gc;
@@ -211,7 +208,6 @@ public class HostPageServlet extends HttpServlet {
 
     final CurrentUser user = currentUser.get();
     if (user instanceof IdentifiedUser) {
-      pageData.xsrfToken = webSession.get().getToken();
       pageData.userAccount = ((IdentifiedUser) user).getAccount();
     }
 

@@ -30,6 +30,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
@@ -46,7 +47,9 @@ import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwtexpui.clippy.client.CopyableLabel;
 import com.google.gwtexpui.user.client.UserAgent;
 import com.google.gwtexpui.user.client.ViewSite;
+import com.google.gwtjsonrpc.client.JsonDefTarget;
 import com.google.gwtjsonrpc.client.JsonUtil;
+import com.google.gwtjsonrpc.client.XsrfManager;
 
 import java.util.ArrayList;
 
@@ -189,14 +192,22 @@ public class Gerrit implements EntryPoint {
     final RpcStatus rpcStatus = new RpcStatus(menuArea);
     JsonUtil.addRpcStartHandler(rpcStatus);
     JsonUtil.addRpcCompleteHandler(rpcStatus);
+    JsonUtil.setDefaultXsrfManager(new XsrfManager() {
+      @Override
+      public String getToken(JsonDefTarget proxy) {
+        return Cookies.getCookie("GerritAccount");
+      }
+
+      @Override
+      public void setToken(JsonDefTarget proxy, String token) {
+        // Ignore the request, we always rely upon the cookie.
+      }
+    });
 
     final HostPageDataService hpd = GWT.create(HostPageDataService.class);
     hpd.load(new GerritCallback<HostPageData>() {
       public void onSuccess(final HostPageData result) {
         myConfig = result.config;
-        if (result.xsrfToken != null) {
-          JsonUtil.getDefaultXsrfManager().setToken(null, result.xsrfToken);
-        }
         if (result.userAccount != null) {
           myAccount = result.userAccount;
           applyUserPreferences();

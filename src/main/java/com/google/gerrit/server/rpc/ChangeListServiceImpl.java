@@ -154,6 +154,32 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
     });
   }
 
+  public void byProjectClosedPrev(final Project.NameKey project,
+      final Change.Status s, final String pos, final int pageSize,
+      final AsyncCallback<SingleListChangeInfo> callback) {
+    run(callback, new QueryPrev(pageSize, pos) {
+      @Override
+      ResultSet<Change> query(ReviewDb db, int slim, String sortKey)
+          throws OrmException {
+        return db.changes().byProjectClosedPrev(s.getCode(), project, sortKey,
+            slim);
+      }
+    });
+  }
+
+  public void byProjectClosedNext(final Project.NameKey project,
+      final Change.Status s, final String pos, final int pageSize,
+      final AsyncCallback<SingleListChangeInfo> callback) {
+    run(callback, new QueryNext(pageSize, pos) {
+      @Override
+      ResultSet<Change> query(ReviewDb db, int slim, String sortKey)
+          throws OrmException {
+        return db.changes().byProjectClosedNext(s.getCode(), project, sortKey,
+            slim);
+      }
+    });
+  }
+
   public void allClosedPrev(final Change.Status s, final String pos,
       final int pageSize, final AsyncCallback<SingleListChangeInfo> callback) {
     run(callback, new QueryPrev(pageSize, pos) {

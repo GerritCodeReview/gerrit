@@ -36,7 +36,7 @@ import com.google.gerrit.client.ui.AccountDashboardLink;
 import com.google.gerrit.client.ui.ChangeLink;
 import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.client.ui.NeedsSignInKeyCommand;
-import com.google.gerrit.client.ui.ProjectOpenLink;
+import com.google.gerrit.client.ui.ProjectLink;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -233,7 +233,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     table.setWidget(row, C_SUBJECT, new TableChangeLink(s, c));
     table.setWidget(row, C_OWNER, link(c.getOwner()));
     table.setWidget(row, C_PROJECT,
-        new ProjectOpenLink(c.getProject().getKey()));
+        new ProjectLink(c.getProject().getKey(), c.getStatus()));
     table.setText(row, C_BRANCH, c.getBranch());
     table.setText(row, C_LAST_UPDATE, shortFormat(c.getLastUpdatedOn()));
     setRowItem(row, c);

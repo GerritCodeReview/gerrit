@@ -43,6 +43,20 @@ public interface ChangeListService extends RemoteJsonService {
   void byProjectOpenNext(Project.NameKey project, String pos, int limit,
       AsyncCallback<SingleListChangeInfo> callback);
 
+  /**
+   * Get all closed changes with same status, more recent than pos, fetching at
+   * most limit rows.
+   */
+  void byProjectClosedPrev(Project.NameKey project, Change.Status status,
+      String pos, int limit, AsyncCallback<SingleListChangeInfo> callback);
+
+  /**
+   * Get all closed changes with same status, older than pos, fetching at most
+   * limit rows.
+   */
+  void byProjectClosedNext(Project.NameKey project, Change.Status status,
+      String pos, int limit, AsyncCallback<SingleListChangeInfo> callback);
+
   /** Get all closed changes more recent than pos, fetching at most limit rows. */
   void allClosedPrev(Change.Status status, String pos, int limit,
       AsyncCallback<SingleListChangeInfo> callback);
@@ -76,7 +90,7 @@ public interface ChangeListService extends RemoteJsonService {
 
   /**
    * Add and/or remove changes from the set of starred changes of the caller.
-   * 
+   *
    * @param req the add and remove cluster.
    */
   @SignInRequired

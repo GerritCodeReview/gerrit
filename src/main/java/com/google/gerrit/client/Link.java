@@ -28,6 +28,8 @@ import com.google.gerrit.client.changes.AccountDashboardScreen;
 import com.google.gerrit.client.changes.AllAbandonedChangesScreen;
 import com.google.gerrit.client.changes.AllMergedChangesScreen;
 import com.google.gerrit.client.changes.AllOpenChangesScreen;
+import com.google.gerrit.client.changes.ByProjectAbandonedChangesScreen;
+import com.google.gerrit.client.changes.ByProjectMergedChangesScreen;
 import com.google.gerrit.client.changes.ByProjectOpenChangesScreen;
 import com.google.gerrit.client.changes.ChangeQueryResultsScreen;
 import com.google.gerrit.client.changes.ChangeScreen;
@@ -43,6 +45,7 @@ import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.Patch;
 import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.Project;
+import com.google.gerrit.client.reviewdb.Change.Status;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -108,8 +111,19 @@ public class Link implements ValueChangeHandler<String> {
     return "admin,project," + n.toString() + "," + tab;
   }
 
-  public static String toProjectOpen(final Project.NameKey proj) {
-    return "project,open," + proj.toString() + ",n,z";
+  public static String toProject(final Project.NameKey proj, Status status) {
+    switch (status) {
+      case ABANDONED:
+        return "project,abandoned," + proj.toString() + ",n,z";
+
+      case MERGED:
+        return "project,merged," + proj.toString() + ",n,z";
+
+      case NEW:
+      case SUBMITTED:
+      default:
+        return "project,open," + proj.toString() + ",n,z";
+    }
   }
 
   public static String toChangeQuery(final String query) {
@@ -193,6 +207,22 @@ public class Link implements ValueChangeHandler<String> {
         final String s = skip(p, token);
         final int c = s.indexOf(',');
         return new ByProjectOpenChangesScreen(Project.NameKey.parse(s
+            .substring(0, c)), s.substring(c + 1));
+      }
+
+      p = "project,merged,";
+      if (token.startsWith(p)) {
+        final String s = skip(p, token);
+        final int c = s.indexOf(',');
+        return new ByProjectMergedChangesScreen(Project.NameKey.parse(s
+            .substring(0, c)), s.substring(c + 1));
+      }
+
+      p = "project,abandoned,";
+      if (token.startsWith(p)) {
+        final String s = skip(p, token);
+        final int c = s.indexOf(',');
+        return new ByProjectAbandonedChangesScreen(Project.NameKey.parse(s
             .substring(0, c)), s.substring(c + 1));
       }
     }

@@ -15,24 +15,42 @@
 package com.google.gerrit.client.ui;
 
 import com.google.gerrit.client.Link;
+import com.google.gerrit.client.changes.ByProjectAbandonedChangesScreen;
+import com.google.gerrit.client.changes.ByProjectMergedChangesScreen;
 import com.google.gerrit.client.changes.ByProjectOpenChangesScreen;
+import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.Project;
+import com.google.gerrit.client.reviewdb.Change.Status;
 
 /** Link to the open changes of a project. */
-public class ProjectOpenLink extends DirectScreenLink {
+public class ProjectLink extends DirectScreenLink {
   private Project.NameKey project;
+  private Status status;
 
-  public ProjectOpenLink(final Project.NameKey proj) {
-    this(proj.get(), proj);
+  public ProjectLink(final Project.NameKey proj, Change.Status stat) {
+    this(proj.get(), proj, stat);
   }
 
-  public ProjectOpenLink(final String text, final Project.NameKey proj) {
-    super(text, Link.toProjectOpen(proj));
+  public ProjectLink(final String text, final Project.NameKey proj,
+      Change.Status stat) {
+    super(text, Link.toProject(proj, stat));
+    status = stat;
     project = proj;
   }
 
   @Override
   protected Screen createScreen() {
-    return new ByProjectOpenChangesScreen(project, "n,z");
+    switch (status) {
+      case ABANDONED:
+        return new ByProjectAbandonedChangesScreen(project, "n,z");
+
+      case MERGED:
+        return new ByProjectMergedChangesScreen(project, "n,z");
+
+      case NEW:
+      case SUBMITTED:
+      default:
+        return new ByProjectOpenChangesScreen(project, "n,z");
+    }
   }
 }

@@ -16,6 +16,24 @@
       "revId": "574b992dbce6f9c236c4088ebf0384012846cba9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAn3///1I\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/Link.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2009-10-02T15:53:02Z",
+      "side": 1,
+      "message": "I agree with Brad on this, it seems like a much cleaner way to go.",
+      "parentUuid": "AAAAn3///1Q\u003d",
+      "revId": "574b992dbce6f9c236c4088ebf0384012846cba9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

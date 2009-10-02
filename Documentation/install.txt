@@ -225,10 +225,10 @@ jump directly to change 4543.
 Download and unzip a release version of Jetty.  From here on we
 call the unpacked directory `$JETTY_HOME`.
 
-* link:http://dist.codehaus.org/jetty/[Jetty Downloads]
+* link:http://www.eclipse.org/jetty/downloads.php[Jetty Downloads]
 
 Install the required JDBC drivers by copying them into the
-`'$JETTY_HOME'/lib/plus` directory.  Drivers can be obtained from
+`'$JETTY_HOME'/lib/ext` directory.  Drivers can be obtained from
 their source projects:
 
 * link:http://jdbc.postgresql.org/download.html[PostgreSQL JDBC Driver]
@@ -236,7 +236,7 @@ their source projects:
 * link:http://commons.apache.org/dbcp/download_dbcp.cgi[Commons DBCP]
 
 Consider installing Bouncy Castle Cypto APIs into the
-`'$JETTY_HOME'/lib/plus` directory.  Some of the Bouncy Castle
+`'$JETTY_HOME'/lib/ext` directory.  Some of the Bouncy Castle
 implementations are faster than then ones that come in the JRE,
 and they may support additional encryption algorithms:
 
@@ -244,20 +244,21 @@ and they may support additional encryption algorithms:
 
 Copy Gerrit into the deployment:
 ====
-  java -jar gerrit.war --cat extra/jetty6/gerrit.xml >$JETTY_HOME/contexts/gerrit.xml
-  cp gerrit.war $JETTY_HOME/webapps/gerrit.war
-
-  rm -f $JETTY_HOME/contexts/test.xml
+  cd $JETTY_HOME
+  cp ~/gerrit.war webapps/gerrit.war
+  java -jar webapps/gerrit.war --cat extra/jetty7/gerrit.xml >contexts/gerrit.xml
+  rm -f contexts/test.xml
 ====
 
 Edit `'$JETTY_HOME'/contexts/gerrit.xml` to correctly configure
 the database and outgoing SMTP connections, especially the user
 and password fields.
 
-If OpenID authentication is being used, you may need to increase
-the header buffer size parameter, due to very long header lines.
+If OpenID authentication (or certain enterprise single-sign-on
+solutions) is being used, you may need to increase the
+header buffer size parameter, due to very long header lines.
 Add the following to `'$JETTY_HOME'/etc/jetty.xml` under
-`org.mortbay.jetty.nio.SelectChannelConnector`:
+`org.eclipse.jetty.server.nio.SelectChannelConnector`:
 
 ====
   <Set name="headerBufferSize">16384</Set>
@@ -267,7 +268,7 @@ To start automatically when the system boots, create a start
 script and modify it for your configuration:
 
 ====
-  java -jar gerrit.war --cat extra/jetty6/gerrit-jetty.sh >/etc/init.d/gerrit-jetty.sh
+  java -jar gerrit.war --cat extra/jetty7/gerrit-jetty.sh >/etc/init.d/gerrit-jetty.sh
   vi /etc/init.d/gerrit-jetty.sh
 ====
 
@@ -289,7 +290,8 @@ Port 443 (HTTPS / SSL)
 To deploy on port 443 with SSL enabled, unpack the SSL proxy handling
 rule into `'$JETTY_HOME'/etc`:
 ====
-  java -jar gerrit.war --cat extra/jetty6/jetty_sslproxy.xml >$JETTY_HOME/etc/jetty_sslproxy.xml
+  cd $JETTY_HOME
+  java -jar webapps/gerrit.war --cat extra/jetty7/jetty_sslproxy.xml >etc/jetty_sslproxy.xml
 ====
 
 Create a start script like the one above, configuring Jetty to

@@ -59,18 +59,19 @@ public abstract class NewChangeSender extends OutgoingEmail {
   protected void format() {
     formatSalutation();
     formatChangeDetail();
+
+    appendText("\n");
+    appendText("  " + getPullUrl() + "\n");
   }
 
   private void formatSalutation() {
     final String changeUrl = getChangeUrl();
-    final String pullUrl = getPullUrl();
 
     if (reviewers.isEmpty()) {
       formatDest();
       if (changeUrl != null) {
         appendText("\n");
         appendText("    " + changeUrl + "\n");
-        appendText("    " + pullUrl + "\n");
         appendText("\n");
       }
       appendText("\n");
@@ -90,14 +91,6 @@ public abstract class NewChangeSender extends OutgoingEmail {
         appendText("  Please visit\n");
         appendText("\n");
         appendText("    " + changeUrl + "\n");
-        appendText("    " + pullUrl + "\n");
-        appendText("\n");
-        appendText("to review the following change:\n");
-
-      } else {
-        appendText("  Please execute\n");
-        appendText("\n");
-        appendText("    " + pullUrl + "\n");
         appendText("\n");
         appendText("to review the following change:\n");
       }

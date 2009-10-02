@@ -86,7 +86,7 @@ Create a Gerrit specific user within the database and assign it a
 password, create a database, and give the user full rights:
 
 ====
-  CREATE USER gerrit2 IDENTIFIED BY 'secret';
+  CREATE USER 'gerrit2'@'localhost' IDENTIFIED BY 'secret';
   CREATE DATABASE reviewdb;
   GRANT ALL ON reviewdb.* TO 'gerrit2'@'localhost';
   FLUSH PRIVILEGES;

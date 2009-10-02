@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAn3///1Q\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/Link.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2009-10-02T14:50:26Z",
+      "side": 1,
+      "message": "Would it make sense to modify ByProjectOpenChangesScreen to take in a parameter for the status, instead of creating 2 new classes?  I think the logic is identical in all 3 classes.",
+      "revId": "574b992dbce6f9c236c4088ebf0384012846cba9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

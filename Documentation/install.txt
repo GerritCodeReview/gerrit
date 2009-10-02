@@ -244,7 +244,7 @@ and they may support additional encryption algorithms:
 
 Copy Gerrit into the deployment:
 ====
-  java -jar gerrit.war --cat extra/jetty_gerrit.xml >$JETTY_HOME/contexts/gerrit.xml
+  java -jar gerrit.war --cat extra/jetty6/gerrit.xml >$JETTY_HOME/contexts/gerrit.xml
   cp gerrit.war $JETTY_HOME/webapps/gerrit.war
 
   rm -f $JETTY_HOME/contexts/test.xml
@@ -304,7 +304,7 @@ Port 443 (HTTPS / SSL)
 To deploy on port 443 with SSL enabled, unpack the SSL proxy handling
 rule into `'$JETTY_HOME'/etc`:
 ====
-  java -jar gerrit.war --cat extra/jetty_sslproxy.xml >$JETTY_HOME/etc/jetty_sslproxy.xml
+  java -jar gerrit.war --cat extra/jetty6/jetty_sslproxy.xml >$JETTY_HOME/etc/jetty_sslproxy.xml
 ====
 
 Create a start script like the one above, configuring Jetty to

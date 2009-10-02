@@ -25,7 +25,7 @@ then
 	touch "$ctx"
 else
 	rm -f "$jetty/contexts/test.xml" &&
-	java -jar $war --cat extra/jetty_gerrit.xml >"$ctx" &&
+	java -jar $war --cat extra/jetty6/gerrit.xml >"$ctx" &&
 
 	echo >&2
 	echo >&2 "You need to copy JDBC drivers to $jetty/lib/plus"

@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAAn3///0o\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/Link.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-10-02T17:18:28Z",
+      "side": 1,
+      "message": "Please write this as:\n\n  case NEW:\n  case SUBMITTED:\n  default:\n\nSo its more clear that the NEW and SUBMITTED cases are meant to use the open view.",
+      "revId": "574b992dbce6f9c236c4088ebf0384012846cba9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAn3///1Q\u003d",
         "filename": "src/main/java/com/google/gerrit/client/Link.java",
         "patchSetId": 1
@@ -31,6 +48,41 @@
       "side": 1,
       "message": "I agree with Brad on this, it seems like a much cleaner way to go.",
       "parentUuid": "AAAAn3///1Q\u003d",
+      "revId": "574b992dbce6f9c236c4088ebf0384012846cba9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAn3///0s\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/Link.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-10-02T17:18:28Z",
+      "side": 1,
+      "message": "Reusing one class is complicated.\n\nThe translated messages are different.  The token used in the URL is different.  Either way you need a few conditionals to select the correct data.  I just assume do that here over do it in some common screen class.  They already inherit from the same base class for the bulk of the work.\n\nI agree with what Lars has done here.",
+      "parentUuid": "AAAAn3///1I\u003d",
+      "revId": "574b992dbce6f9c236c4088ebf0384012846cba9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAn3///0k\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/ui/ProjectLink.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-10-02T17:18:28Z",
+      "side": 1,
+      "message": "Again, please spell out the cases:\n\n  case NEW:\n  case SUBMITTED:\n  default:",
       "revId": "574b992dbce6f9c236c4088ebf0384012846cba9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

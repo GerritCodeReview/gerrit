@@ -2,6 +2,74 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAAn3///yA\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ldap/LdapQuery.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-10-03T19:13:20Z",
+      "side": 1,
+      "message": "Perhaps this one line should be outside of the if a.size() \u003d\u003d 1 since the Attribute object can hold multiple values just fine.",
+      "revId": "d3accefb4999c4d014984bf64267af7bba54fec8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAn3///x8\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ldap/LdapQuery.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-10-03T19:13:20Z",
+      "side": 1,
+      "message": "data is never assigned, so this method always returns \"\".\n\nHow about instead use:\n\n  public String toString() {\n    try {\n      return getDN();\n    } catch (NamingException e) {\n      return \"\";\n    }\n  }\n\nas then you can\u0027t forget to return the proper value, and you aren\u0027t duplicating the logic which appears in the getDN method above?",
+      "revId": "d3accefb4999c4d014984bf64267af7bba54fec8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAn3///x4\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ldap/LdapRealm.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-10-03T19:13:20Z",
+      "side": 1,
+      "message": "Please don\u0027t use Vector, use List/ArrayList.",
+      "revId": "d3accefb4999c4d014984bf64267af7bba54fec8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAn3///x0\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ldap/LdapRealm.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-10-03T19:13:20Z",
+      "side": 1,
+      "message": "This class is a singleton, there is only one instance of it in the server and all user sessions reuse that one instance.  This map cannot be an instance member because we would run into data corruption problems as each user session thread tries to mutate the map concurrently.",
+      "revId": "d3accefb4999c4d014984bf64267af7bba54fec8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAn3///yY\u003d",
         "filename": "src/main/java/com/google/gerrit/server/ldap/LdapRealm.java",
         "patchSetId": 3
@@ -19,6 +87,58 @@
     },
     {
       "key": {
+        "uuid": "AAAAn3///xw\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ldap/LdapRealm.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-10-03T19:13:20Z",
+      "side": 1,
+      "message": "This name and default looks good, please add documentation for it.",
+      "parentUuid": "AAAAn3///yY\u003d",
+      "revId": "d3accefb4999c4d014984bf64267af7bba54fec8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAn3///xQ\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ldap/LdapRealm.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-10-03T19:13:20Z",
+      "side": 1,
+      "message": "Not all directory servers work the same way.\n\nThere are two common approaches for user-group management:\n\n* Groups that a user belongs to are enumerated in the user account in a multi-value attribute such as \"memberOf\".  This is the approach used by ActiveDirectory.\n* Users that belong to a group are enumerated in the group object as a multi-value attribute, such as \"member\" or \"memberUid\".  This is the approach used by OpenLDAP.\n\nTypically a server supports only one of these approaches, not both.  I run servers which support the latter approach, aka the OpenLDAP style.  Many Gerrit admins also run servers which need the former approach, as they are in ActiveDirectory environments.  Therefore, Gerrit must support both approaches.\n\nHere we need to keep the old code that looped through groupMemberQueryList AND use your new code, allowing both blocks to populate the actual set.",
+      "revId": "d3accefb4999c4d014984bf64267af7bba54fec8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAn3///xg\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ldap/LdapRealm.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-10-03T19:13:20Z",
+      "side": 1,
+      "message": "Shouldn\u0027t groups.next be returning a String?  Would it not be better to cast to a String here, so that if it is not a String we don\u0027t get an unpredictable result from the real type\u0027s toString method but instead crash out with an exception letting us know this code is broken?",
+      "revId": "d3accefb4999c4d014984bf64267af7bba54fec8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAn3///yU\u003d",
         "filename": "src/main/java/com/google/gerrit/server/ldap/LdapRealm.java",
         "patchSetId": 3
@@ -30,6 +150,109 @@
       "writtenOn": "2009-10-03T18:14:03Z",
       "side": 1,
       "message": "This will probably need to respect ldap.groupScope. If the rest looks ok, I\u0027ll add that part in before submitting.",
+      "revId": "d3accefb4999c4d014984bf64267af7bba54fec8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAn3///xs\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ldap/LdapRealm.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-10-03T19:13:20Z",
+      "side": 1,
+      "message": "No, there is no need to respect groupScope here.\n\ngroupScope is used to limit the part of the tree you are searching when you only have the group name in hand.  When you have the full DN in hand because you pulled the full DN off the user it isn\u0027t necessary to test it against groupScope, you know exactly where in the directory to go for that information.  groupScope is usually only relevant in directory trees that use different OUs for offices in different countries, and you want to avoid contacting every global office in your company network just to find the group of coworkers who sit in the same cube as you.",
+      "parentUuid": "AAAAn3///yU\u003d",
+      "revId": "d3accefb4999c4d014984bf64267af7bba54fec8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAn3///xo\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ldap/LdapRealm.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-10-03T19:13:20Z",
+      "side": 1,
+      "message": "Don\u0027t do this to cache the recursive group lookup.  There are several problems with your approach as is.\n\nFirst, your cache is not thread safe.  As I said above this instance is reused between threads, so concurrent puts is entirely possible.  Concurrent puts to a naked HashMap is unsafe and can corrupt the map structure resulting in random runtime crashes like NullPointerExceptions.\n\nSecond, your cache has no way to expire its entries.  Imagine group Bar was taken out of group Everyone in the directory server.  Users who are in Bar would continue to be in group Everyone for the rest of time, until Gerrit restarted.  Gerrit uses Ehcache and sets time-to-live records so that we can promise a time bound to the administrator of how long an entry will persist in Gerrit before we refresh it from the directory.  Administrators who need fast turn around on directory changes can set shorter time-to-live through cache.*.maxAge entries in their configuration files.  Administrators who need a change to be reflected RIGHT NOW can also force a cache flush remotely by `ssh gerrit flush-caches`.  This cache lacks those properties and thus is not suitable.\n\nGerrit already caches User -\u003e Group associations in this class, its the membershipCache.  This method, queryForGroups, is called only when the entry in membershipCache has expired, or is not yet loaded.  Typically entries live for 12 hours in this cache, and are also automatically refreshed when a user signs in.\n\nSo just take the cache out.",
+      "revId": "d3accefb4999c4d014984bf64267af7bba54fec8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAn3///xc\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ldap/LdapRealm.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-10-03T19:13:20Z",
+      "side": 1,
+      "message": "Like above, should we be able to unpack a String here without String.valueOf?",
+      "revId": "d3accefb4999c4d014984bf64267af7bba54fec8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAn3///xk\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ldap/LdapRealm.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-10-03T19:13:20Z",
+      "side": 1,
+      "message": "I don\u0027t understand why this replace is needed, is it because you are parsing the toString return value from Attribute?  If so, please don\u0027t do that, it depends on the behavior of that method not changing.  There are specific methods on Attribute to acquire the first value, use those instead.",
+      "revId": "d3accefb4999c4d014984bf64267af7bba54fec8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAn3///xY\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ldap/LdapRealm.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-10-03T19:13:20Z",
+      "side": 1,
+      "message": "Same as above about downcast to String.",
+      "revId": "d3accefb4999c4d014984bf64267af7bba54fec8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAn3///xU\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ldap/LdapRealm.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-10-03T19:13:20Z",
+      "side": 1,
+      "message": "Why are we ignoring a directory server exception here?  If we can\u0027t acquire the groups we should fail fast by letting the exception throw and let the administrator know, not proceed to return a collection which is perhaps missing groups required for the user to have access to projects.",
       "revId": "d3accefb4999c4d014984bf64267af7bba54fec8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

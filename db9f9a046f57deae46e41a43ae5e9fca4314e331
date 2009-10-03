@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAn3///yc\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ldap/LdapRealm.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1002619
+      },
+      "writtenOn": "2009-10-03T18:14:03Z",
+      "side": 0,
+      "message": "This is the part you commented about last time that I don\u0027t think we need anymore.",
+      "revId": "db9f9a046f57deae46e41a43ae5e9fca4314e331",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

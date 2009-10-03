@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAn3///yY\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ldap/LdapRealm.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1002619
+      },
+      "writtenOn": "2009-10-03T18:14:03Z",
+      "side": 1,
+      "message": "If this method is acceptable, I\u0027ll add it to the docs.",
+      "revId": "d3accefb4999c4d014984bf64267af7bba54fec8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAn3///yU\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ldap/LdapRealm.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1002619
+      },
+      "writtenOn": "2009-10-03T18:14:03Z",
+      "side": 1,
+      "message": "This will probably need to respect ldap.groupScope. If the rest looks ok, I\u0027ll add that part in before submitting.",
+      "revId": "d3accefb4999c4d014984bf64267af7bba54fec8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -599,6 +599,14 @@ Gerrit will populate it only from the LDAP data.
 +
 Default is `uid`, a common value for most servers.
 
+[[ldap.accountMemberField]ldap.accountMemberField::
++
+_(Optional)_ Name of an attribute on the user account object which
+contains the groups the user is part of. Typically used for ActiveDirectory
+servers.
++
+Default is `memberOf`, to correspond with ActiveDirectory's default.
+
 [[ldap.groupBase]]ldap.groupBase::
 +
 Root of the tree containing all group objects.  This is typically

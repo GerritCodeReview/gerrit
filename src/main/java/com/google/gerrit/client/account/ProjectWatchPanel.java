@@ -15,10 +15,11 @@
 package com.google.gerrit.client.account;
 
 import com.google.gerrit.client.reviewdb.AccountProjectWatch;
+import com.google.gerrit.client.reviewdb.Change.Status;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.client.ui.ProjectNameSuggestOracle;
-import com.google.gerrit.client.ui.ProjectOpenLink;
+import com.google.gerrit.client.ui.ProjectLink;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -222,7 +223,7 @@ class ProjectWatchPanel extends Composite {
 
     void populate(final int row, final AccountProjectWatchInfo k) {
       table.setWidget(row, 1, new CheckBox());
-      table.setWidget(row, 2, new ProjectOpenLink(k.getProject().getNameKey()));
+      table.setWidget(row, 2, new ProjectLink(k.getProject().getNameKey(), Status.NEW));
       {
         final CheckBox notifyNewChanges = new CheckBox();
         notifyNewChanges.addClickHandler(new ClickHandler() {

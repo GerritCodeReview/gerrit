@@ -21,7 +21,7 @@ import com.google.gerrit.client.reviewdb.Branch;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.ui.AccountDashboardLink;
 import com.google.gerrit.client.ui.ChangeLink;
-import com.google.gerrit.client.ui.ProjectOpenLink;
+import com.google.gerrit.client.ui.ProjectLink;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
@@ -74,7 +74,7 @@ public class ChangeInfoBlock extends Composite {
     final Branch.NameKey dst = chg.getDest();
     table.setText(R_CHANGE_ID, 1, chg.getKey().get());
     table.setWidget(R_OWNER, 1, AccountDashboardLink.link(acc, chg.getOwner()));
-    table.setWidget(R_PROJECT, 1, new ProjectOpenLink(chg.getProject()));
+    table.setWidget(R_PROJECT, 1, new ProjectLink(chg.getProject(), chg.getStatus()));
     table.setText(R_BRANCH, 1, dst.getShortName());
     table.setText(R_UPLOADED, 1, mediumFormat(chg.getCreatedOn()));
     table.setText(R_UPDATED, 1, mediumFormat(chg.getLastUpdatedOn()));

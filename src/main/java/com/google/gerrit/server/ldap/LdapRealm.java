@@ -53,11 +53,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.Vector;
 
 import javax.naming.Context;
 import javax.naming.NamingException;
+import javax.naming.NamingEnumeration;
 import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
+import javax.naming.directory.Attribute;
+import javax.naming.directory.Attributes;
 
 @Singleton
 class LdapRealm implements Realm {
@@ -76,15 +80,17 @@ class LdapRealm implements Realm {
   private final ParamertizedString accountFullName;
   private final ParamertizedString accountEmailAddress;
   private final ParamertizedString accountSshUserName;
+  private final String accountMemberField;
   private final List<LdapQuery> accountQueryList;
   private final SelfPopulatingCache<String, Account.Id> usernameCache;
 
   private final GroupCache groupCache;
   private final String groupName;
   private boolean groupNeedsAccount;
-  private final List<LdapQuery> groupMemberQueryList;
   private final List<LdapQuery> groupByNameQueryList;
   private final SelfPopulatingCache<String, Set<AccountGroup.Id>> membershipCache;
+
+  private final HashMap<String, Vector<String>> groupNames;
 
   @Inject
   LdapRealm(
@@ -104,26 +110,17 @@ class LdapRealm implements Realm {
     this.username = optional(config, "username");
     this.password = optional(config, "password");
 
-    groupMemberQueryList = new ArrayList<LdapQuery>();
+    this.groupNames = new HashMap<String, Vector<String>>();
+
     groupByNameQueryList = new ArrayList<LdapQuery>();
 
     // Group query
     //
-    final Set<String> groupAtts = new HashSet<String>();
     groupName = reqdef(config, "groupName", "cn");
-    groupAtts.add(groupName);
+
     final List<String> groupBaseList = requiredList(config, "groupBase");
     final SearchScope groupScope = scope(config, "groupScope");
-    final String groupMemberPattern =
-        reqdef(config, "groupMemberPattern", "(memberUid=${username})");
     for (String groupBase : groupBaseList) {
-      LdapQuery groupMemberQuery =
-          new LdapQuery(groupBase, groupScope, groupMemberPattern, groupAtts);
-      if (groupMemberQuery.getParameters().isEmpty()) {
-        throw new IllegalArgumentException(
-            "No variables in ldap.groupMemberPattern");
-      }
-      groupMemberQueryList.add(groupMemberQuery);
       groupByNameQueryList.add(new LdapQuery(groupBase, groupScope, "("
           + groupName + "=${groupname})", LdapQuery.ALL_ATTRIBUTES));
     }
@@ -157,11 +154,9 @@ class LdapRealm implements Realm {
     if (accountSshUserName != null) {
       accountAtts.addAll(accountSshUserName.getParameterNames());
     }
-    for (final String name : groupMemberQueryList.get(0).getParameters()) {
-      if (!USERNAME.equals(name)) {
-        groupNeedsAccount = true;
-        accountAtts.add(name);
-      }
+    accountMemberField = reqdef(config, "accountMemberField", "memberOf");
+    if (accountMemberField != null) {
+      accountAtts.add(accountMemberField);
     }
 
     final SearchScope accountScope = scope(config, "accountScope");
@@ -355,32 +350,59 @@ class LdapRealm implements Realm {
   private Set<AccountGroup.Id> queryForGroups(final DirContext ctx,
       final String username, LdapQuery.Result account) throws NamingException,
       AccountException {
-    final HashMap<String, String> params = new HashMap<String, String>();
-    params.put(USERNAME, username);
-    if (groupNeedsAccount) {
-      if (account == null) {
-        account = findAccount(ctx, username);
-      }
-      for (final String name : groupMemberQueryList.get(0).getParameters()) {
-        params.put(name, account.get(name));
-      }
+    if (account == null) {
+      account = findAccount(ctx, username);
     }
 
     final Set<AccountGroup.Id> actual = new HashSet<AccountGroup.Id>();
-    for (LdapQuery groupMemberQuery : groupMemberQueryList) {
-      for (LdapQuery.Result r : groupMemberQuery.query(ctx, params)) {
-        final String name = r.get(groupName);
-        final AccountGroup group = groupCache.lookup(name);
-        if (group != null && isLdapGroup(group)) {
-          actual.add(group.getId());
-        }
-      }
+    NamingEnumeration groups = account.getAll(accountMemberField).getAll();
+    while (groups.hasMore()) {
+       final String dn = String.valueOf(groups.next());
+       if (!groupNames.containsKey(dn)) {
+           // cache the parents for recursive group support
+           groupNames.put(dn, groupsFor(ctx, dn));
+       }
+       for (String cn : groupNames.get(dn)) {
+           AccountGroup group = groupCache.lookup(cn);
+           if (null != group && isLdapGroup(group)) {
+               actual.add(group.getId());
+           }
+       }
     }
     if (actual.isEmpty()) {
       return Collections.emptySet();
     } else {
       return Collections.unmodifiableSet(actual);
     }
+  }
+
+  /*
+   * We store the group names because LDAP doesn't support a query
+   * that will tell us whether a user is part of a parent group
+   */
+  private Vector<String> groupsFor(DirContext ctx, String dn) {
+      Vector<String> out = new Vector<String>();
+      String parentDn;
+      try {
+          // add the current item's name
+          String attNames[] = { groupName, accountMemberField };
+          Attributes groupAtts = ctx.getAttributes(dn, attNames);
+          String cn = String.valueOf(groupAtts.get(groupName));
+          cn = cn.replace(groupName + ": ", "");
+          out.add(cn);
+
+          // get its parents
+          Attribute parentAttrs = ctx.getAttributes(dn).get(accountMemberField);
+          if (parentAttrs != null) {
+              NamingEnumeration parents = parentAttrs.getAll();
+              while (parents.hasMore()) {
+                  parentDn = String.valueOf(parents.next());
+                  out.addAll(groupsFor(ctx, parentDn));
+              }
+          }
+      } catch (NamingException e) {
+      }
+      return out;
   }
 
   private boolean isLdapGroup(final AccountGroup group) {

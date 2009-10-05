@@ -31,7 +31,7 @@ DROP TEMPORARY TABLE copy_patch_comments2;
 
 -- account_external_ids
 --
-DROP INDEX account_external_ids_byExt;
+DROP INDEX account_external_ids_byExt ON account_external_ids;
 
 CREATE INDEX account_external_ids_byAccount
 ON account_external_ids (account_id);

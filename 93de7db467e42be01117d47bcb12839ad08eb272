@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAoH///+s\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ldap/LdapRealm.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 1002619
+      },
+      "writtenOn": "2009-10-06T14:56:48Z",
+      "side": 1,
+      "message": "I have to keep this for our servers at least. I get memberOf DNs back from the server that don\u0027t exist when you query for them directly.",
+      "revId": "93de7db467e42be01117d47bcb12839ad08eb272",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

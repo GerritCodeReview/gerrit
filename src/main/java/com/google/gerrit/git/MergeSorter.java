@@ -14,10 +14,10 @@
 
 package com.google.gerrit.git;
 
-import org.spearce.jgit.revwalk.RevCommit;
-import org.spearce.jgit.revwalk.RevCommitList;
-import org.spearce.jgit.revwalk.RevFlag;
-import org.spearce.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevCommitList;
+import org.eclipse.jgit.revwalk.RevFlag;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 import java.io.IOException;
 import java.util.ArrayList;

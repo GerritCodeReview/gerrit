@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.query;
 
-import org.spearce.jgit.lib.AbbreviatedObjectId;
-import org.spearce.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.AbbreviatedObjectId;
+import org.eclipse.jgit.lib.ObjectId;
 
 
 /** Predicate for a field of {@link ObjectId}. */

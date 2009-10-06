@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package org.spearce.jgit.lib;
+package org.eclipse.jgit.lib;
 
 import static com.google.gerrit.server.ioutil.BasicSerialization.readFixInt32;
 import static com.google.gerrit.server.ioutil.BasicSerialization.readVarInt32;

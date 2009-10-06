@@ -24,7 +24,7 @@ import eu.medsea.mimeutil.MimeUtil2;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.spearce.jgit.lib.Config;
+import org.eclipse.jgit.lib.Config;
 
 import java.security.AccessController;
 import java.security.PrivilegedAction;

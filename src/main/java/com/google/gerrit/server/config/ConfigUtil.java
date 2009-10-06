@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server.config;
 
-import static org.spearce.jgit.util.StringUtils.equalsIgnoreCase;
+import static org.eclipse.jgit.util.StringUtils.equalsIgnoreCase;
 
-import org.spearce.jgit.lib.Config;
+import org.eclipse.jgit.lib.Config;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.TimeUnit;

@@ -18,8 +18,8 @@ import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gwtorm.client.OrmException;
 
-import org.spearce.jgit.util.Base64;
-import org.spearce.jgit.util.NB;
+import org.eclipse.jgit.util.Base64;
+import org.eclipse.jgit.util.NB;
 
 public class ChangeUtil {
   private static int uuidPrefix;

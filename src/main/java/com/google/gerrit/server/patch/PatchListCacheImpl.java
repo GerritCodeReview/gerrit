@@ -31,14 +31,14 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 
-import org.spearce.jgit.errors.IncorrectObjectTypeException;
-import org.spearce.jgit.errors.MissingObjectException;
-import org.spearce.jgit.lib.AnyObjectId;
-import org.spearce.jgit.lib.ObjectId;
-import org.spearce.jgit.lib.ObjectWriter;
-import org.spearce.jgit.lib.Repository;
-import org.spearce.jgit.revwalk.RevCommit;
-import org.spearce.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectWriter;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -141,7 +141,7 @@ public class PatchListCacheImpl implements PatchListCache {
       args.add(b.name());
     }
 
-    final org.spearce.jgit.patch.Patch p = new org.spearce.jgit.patch.Patch();
+    final org.eclipse.jgit.patch.Patch p = new org.eclipse.jgit.patch.Patch();
     final Process diffProcess = exec(repo, args);
     try {
       diffProcess.getOutputStream().close();

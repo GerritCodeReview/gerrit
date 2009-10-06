@@ -37,12 +37,12 @@ package com.google.gerrit.testutil;
 
 import junit.framework.TestCase;
 
-import org.spearce.jgit.lib.FileBasedConfig;
-import org.spearce.jgit.lib.PersonIdent;
-import org.spearce.jgit.lib.Repository;
-import org.spearce.jgit.lib.RepositoryCache;
-import org.spearce.jgit.util.NB;
-import org.spearce.jgit.util.SystemReader;
+import org.eclipse.jgit.lib.FileBasedConfig;
+import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.RepositoryCache;
+import org.eclipse.jgit.util.NB;
+import org.eclipse.jgit.util.SystemReader;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -169,8 +169,12 @@ public abstract class LocalDiskRepositoryTestCase extends TestCase {
       System.err.println(msg);
   }
 
+  protected Repository createWorkRepository() throws IOException {
+    return createRepository(false/* not bare */);
+  }
+
   /** Creates a new empty repository. */
-  protected Repository createRepository(boolean bare) throws IOException {
+  private Repository createRepository(boolean bare) throws IOException {
     final String uniqueId = System.currentTimeMillis() + "_" + (testCount++);
     final String gitdirName = "test" + uniqueId + (bare ? "" : "/") + ".git";
     final File gitdir = new File(trash, gitdirName).getCanonicalFile();

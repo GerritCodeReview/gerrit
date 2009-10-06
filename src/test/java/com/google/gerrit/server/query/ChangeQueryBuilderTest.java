@@ -24,7 +24,7 @@ import static com.google.gerrit.server.query.Predicate.or;
 
 import junit.framework.TestCase;
 
-import org.spearce.jgit.lib.AbbreviatedObjectId;
+import org.eclipse.jgit.lib.AbbreviatedObjectId;
 
 public class ChangeQueryBuilderTest extends TestCase {
   private static OperatorPredicate f(final String name, final String value) {

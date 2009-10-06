@@ -19,7 +19,7 @@ import static com.google.inject.Scopes.SINGLETON;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.inject.AbstractModule;
 
-import org.spearce.jgit.lib.Config;
+import org.eclipse.jgit.lib.Config;
 
 import java.io.File;
 

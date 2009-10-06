@@ -21,8 +21,8 @@ import com.google.gerrit.server.ssh.BaseCommand;
 import com.google.inject.Inject;
 
 import org.kohsuke.args4j.Argument;
-import org.spearce.jgit.errors.RepositoryNotFoundException;
-import org.spearce.jgit.lib.Repository;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
 

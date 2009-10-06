@@ -29,16 +29,16 @@ import com.jcraft.jsch.Session;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.spearce.jgit.errors.ConfigInvalidException;
-import org.spearce.jgit.lib.Config;
-import org.spearce.jgit.lib.FileBasedConfig;
-import org.spearce.jgit.transport.OpenSshConfig;
-import org.spearce.jgit.transport.RefSpec;
-import org.spearce.jgit.transport.RemoteConfig;
-import org.spearce.jgit.transport.SshConfigSessionFactory;
-import org.spearce.jgit.transport.SshSessionFactory;
-import org.spearce.jgit.transport.URIish;
-import org.spearce.jgit.util.QuotedString;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.FileBasedConfig;
+import org.eclipse.jgit.transport.OpenSshConfig;
+import org.eclipse.jgit.transport.RefSpec;
+import org.eclipse.jgit.transport.RemoteConfig;
+import org.eclipse.jgit.transport.SshConfigSessionFactory;
+import org.eclipse.jgit.transport.SshSessionFactory;
+import org.eclipse.jgit.transport.URIish;
+import org.eclipse.jgit.util.QuotedString;
 
 import java.io.File;
 import java.io.IOException;

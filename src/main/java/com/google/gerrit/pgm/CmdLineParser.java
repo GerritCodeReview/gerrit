@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2008, Shawn O. Pearce <spearce@spearce.org>
  *
- * (Taken from JGit org.spearce.jgit.pgm.opt.CmdLineParser.)
+ * (Taken from JGit org.eclipse.jgit.pgm.opt.CmdLineParser.)
  *
  * All rights reserved.
  *

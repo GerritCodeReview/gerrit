@@ -25,8 +25,8 @@ import com.google.gwtorm.client.Transaction;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
-import org.spearce.jgit.lib.Commit;
-import org.spearce.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.lib.Commit;
+import org.eclipse.jgit.revwalk.RevCommit;
 
 import java.util.ArrayList;
 import java.util.Collections;

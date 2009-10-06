@@ -22,7 +22,7 @@ import com.google.inject.Singleton;
 import org.apache.commons.net.smtp.AuthSMTPClient;
 import org.apache.commons.net.smtp.SMTPClient;
 import org.apache.commons.net.smtp.SMTPReply;
-import org.spearce.jgit.lib.Config;
+import org.eclipse.jgit.lib.Config;
 
 import java.io.BufferedWriter;
 import java.io.IOException;

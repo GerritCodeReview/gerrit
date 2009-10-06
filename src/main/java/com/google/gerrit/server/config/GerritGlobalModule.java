@@ -66,8 +66,8 @@ import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.google.inject.Provider;
 
-import org.spearce.jgit.lib.Config;
-import org.spearce.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.PersonIdent;
 
 import java.util.ArrayList;
 import java.util.List;

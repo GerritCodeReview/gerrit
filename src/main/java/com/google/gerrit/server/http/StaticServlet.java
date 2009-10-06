@@ -19,7 +19,7 @@ import com.google.gwt.user.server.rpc.RPCServletUtils;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import org.spearce.jgit.util.NB;
+import org.eclipse.jgit.util.NB;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;

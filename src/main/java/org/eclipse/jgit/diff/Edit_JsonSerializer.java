@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package org.spearce.jgit.diff;
+package org.eclipse.jgit.diff;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwtjsonrpc.client.JsonSerializer;

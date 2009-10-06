@@ -14,7 +14,7 @@
 
 package com.google.gerrit.client.data;
 
-import org.spearce.jgit.diff.Edit;
+import org.eclipse.jgit.diff.Edit;
 
 import java.util.Iterator;
 import java.util.List;

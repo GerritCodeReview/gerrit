@@ -28,13 +28,13 @@ import com.google.gerrit.client.reviewdb.PatchSet;
 import com.google.gerrit.client.reviewdb.Patch.ChangeType;
 import com.google.gerrit.client.reviewdb.Patch.PatchType;
 
-import org.spearce.jgit.diff.Edit;
-import org.spearce.jgit.lib.Constants;
-import org.spearce.jgit.lib.FileMode;
-import org.spearce.jgit.patch.CombinedFileHeader;
-import org.spearce.jgit.patch.FileHeader;
-import org.spearce.jgit.util.IntList;
-import org.spearce.jgit.util.RawParseUtils;
+import org.eclipse.jgit.diff.Edit;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.patch.CombinedFileHeader;
+import org.eclipse.jgit.patch.FileHeader;
+import org.eclipse.jgit.util.IntList;
+import org.eclipse.jgit.util.RawParseUtils;
 
 import java.io.IOException;
 import java.io.InputStream;

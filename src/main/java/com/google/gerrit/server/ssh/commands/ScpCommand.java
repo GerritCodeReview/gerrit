@@ -27,7 +27,7 @@ import com.google.gerrit.server.ssh.BaseCommand;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.spearce.jgit.util.RawParseUtils;
+import org.eclipse.jgit.util.RawParseUtils;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;

@@ -17,7 +17,7 @@ package com.google.gerrit.server.ssh;
 import com.google.gerrit.server.http.SshServlet;
 
 import org.apache.sshd.server.ShellFactory;
-import org.spearce.jgit.lib.Constants;
+import org.eclipse.jgit.lib.Constants;
 
 import java.io.IOException;
 import java.io.InputStream;

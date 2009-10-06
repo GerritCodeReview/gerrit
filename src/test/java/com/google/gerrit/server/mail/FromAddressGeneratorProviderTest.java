@@ -28,8 +28,8 @@ import com.google.gerrit.server.account.AccountState;
 
 import junit.framework.TestCase;
 
-import org.spearce.jgit.lib.Config;
-import org.spearce.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.PersonIdent;
 
 import java.util.Collections;
 

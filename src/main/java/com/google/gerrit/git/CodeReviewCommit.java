@@ -17,9 +17,9 @@ package com.google.gerrit.git;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.PatchSet;
 
-import org.spearce.jgit.lib.AnyObjectId;
-import org.spearce.jgit.lib.ObjectId;
-import org.spearce.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.revwalk.RevCommit;
 
 import java.util.List;
 

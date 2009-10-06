@@ -20,11 +20,11 @@ import com.google.inject.ProvisionException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.spearce.jgit.errors.ConfigInvalidException;
-import org.spearce.jgit.lib.Config;
-import org.spearce.jgit.lib.FileBasedConfig;
-import org.spearce.jgit.lib.WindowCache;
-import org.spearce.jgit.lib.WindowCacheConfig;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.FileBasedConfig;
+import org.eclipse.jgit.lib.WindowCache;
+import org.eclipse.jgit.lib.WindowCacheConfig;
 
 import java.io.File;
 import java.io.IOException;

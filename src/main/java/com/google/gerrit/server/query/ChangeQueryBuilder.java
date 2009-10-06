@@ -17,7 +17,7 @@ package com.google.gerrit.server.query;
 import com.google.gerrit.client.reviewdb.RevId;
 import com.google.inject.Singleton;
 
-import org.spearce.jgit.lib.AbbreviatedObjectId;
+import org.eclipse.jgit.lib.AbbreviatedObjectId;
 
 /**
  * Parses a query string meant to be applied to change objects.

@@ -23,7 +23,7 @@ import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import org.spearce.jgit.lib.Config;
+import org.eclipse.jgit.lib.Config;
 
 import java.util.Collection;
 import java.util.Collections;

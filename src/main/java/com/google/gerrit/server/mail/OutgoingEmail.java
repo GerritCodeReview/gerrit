@@ -41,7 +41,7 @@ import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import org.spearce.jgit.util.SystemReader;
+import org.eclipse.jgit.util.SystemReader;
 
 import java.net.MalformedURLException;
 import java.net.URL;

@@ -22,8 +22,8 @@ import com.google.gerrit.server.patch.PatchList;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
-import org.spearce.jgit.errors.RepositoryNotFoundException;
-import org.spearce.jgit.lib.Repository;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
 import java.util.Collections;

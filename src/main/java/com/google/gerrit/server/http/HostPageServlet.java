@@ -27,8 +27,8 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
-import org.spearce.jgit.lib.Constants;
-import org.spearce.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectId;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 

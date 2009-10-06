@@ -20,7 +20,7 @@ import net.sf.ehcache.Ehcache;
 import net.sf.ehcache.Statistics;
 import net.sf.ehcache.config.CacheConfiguration;
 
-import org.spearce.jgit.lib.WindowCacheStatAccessor;
+import org.eclipse.jgit.lib.WindowCacheStatAccessor;
 
 import java.io.PrintWriter;
 

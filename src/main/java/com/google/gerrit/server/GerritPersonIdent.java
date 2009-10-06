@@ -21,7 +21,7 @@ import com.google.inject.BindingAnnotation;
 import java.lang.annotation.Retention;
 
 /**
- * Marker on a {@link org.spearce.jgit.lib.PersonIdent} pointing to the identity representing Gerrit
+ * Marker on a {@link org.eclipse.jgit.lib.PersonIdent} pointing to the identity representing Gerrit
  * server itself.
  */
 @Retention(RUNTIME)

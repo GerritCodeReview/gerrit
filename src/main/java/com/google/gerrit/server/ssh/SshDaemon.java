@@ -60,7 +60,7 @@ import org.apache.sshd.server.kex.DHG14;
 import org.apache.sshd.server.session.ServerSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.spearce.jgit.lib.Config;
+import org.eclipse.jgit.lib.Config;
 
 import java.io.IOException;
 import java.net.Inet6Address;

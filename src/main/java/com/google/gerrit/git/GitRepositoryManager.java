@@ -21,13 +21,13 @@ import com.google.inject.Singleton;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.spearce.jgit.errors.RepositoryNotFoundException;
-import org.spearce.jgit.lib.Config;
-import org.spearce.jgit.lib.Constants;
-import org.spearce.jgit.lib.LockFile;
-import org.spearce.jgit.lib.Repository;
-import org.spearce.jgit.lib.RepositoryCache;
-import org.spearce.jgit.lib.RepositoryCache.FileKey;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.LockFile;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.RepositoryCache;
+import org.eclipse.jgit.lib.RepositoryCache.FileKey;
 
 import java.io.File;
 import java.io.IOException;

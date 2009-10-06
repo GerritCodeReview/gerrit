@@ -52,7 +52,7 @@ package com.google.gerrit.server.ssh.scproot.hooks;
 
 import com.google.gerrit.testutil.LocalDiskRepositoryTestCase;
 
-import org.spearce.jgit.lib.Repository;
+import org.eclipse.jgit.lib.Repository;
 
 import java.io.File;
 import java.net.URISyntaxException;
@@ -64,7 +64,7 @@ public abstract class HookTestCase extends LocalDiskRepositoryTestCase {
   @Override
   protected void setUp() throws Exception {
     super.setUp();
-    repository = createRepository(false /* not bare */);
+    repository = createWorkRepository();
   }
 
   protected File getHook(final String name) {

@@ -16,9 +16,9 @@ package com.google.gerrit.server.patch;
 
 import com.google.gerrit.client.data.SparseFileContent;
 
-import org.spearce.jgit.diff.RawText;
-import org.spearce.jgit.lib.Constants;
-import org.spearce.jgit.util.RawParseUtils;
+import org.eclipse.jgit.diff.RawText;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.util.RawParseUtils;
 
 public class Text extends RawText {
   public static final Text EMPTY = new Text(new byte[0]);

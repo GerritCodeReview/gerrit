@@ -19,9 +19,9 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
-import org.spearce.jgit.lib.Config;
-import org.spearce.jgit.lib.PersonIdent;
-import org.spearce.jgit.lib.UserConfig;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.UserConfig;
 
 /** Provides {@link PersonIdent} annotated with {@link GerritPersonIdent}. */
 @Singleton

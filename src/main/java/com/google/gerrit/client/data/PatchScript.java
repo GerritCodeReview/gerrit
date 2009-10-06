@@ -19,7 +19,7 @@ package com.google.gerrit.client.data;
 import com.google.gerrit.client.data.PatchScriptSettings.Whitespace;
 import com.google.gerrit.client.reviewdb.Change;
 
-import org.spearce.jgit.diff.Edit;
+import org.eclipse.jgit.diff.Edit;
 
 import java.util.List;
 

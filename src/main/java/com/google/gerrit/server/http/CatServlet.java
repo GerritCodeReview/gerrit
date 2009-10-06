@@ -30,14 +30,14 @@ import com.google.inject.Singleton;
 
 import eu.medsea.mimeutil.MimeType;
 
-import org.spearce.jgit.errors.RepositoryNotFoundException;
-import org.spearce.jgit.lib.Constants;
-import org.spearce.jgit.lib.ObjectId;
-import org.spearce.jgit.lib.Repository;
-import org.spearce.jgit.revwalk.RevCommit;
-import org.spearce.jgit.revwalk.RevWalk;
-import org.spearce.jgit.treewalk.TreeWalk;
-import org.spearce.jgit.util.NB;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.util.NB;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

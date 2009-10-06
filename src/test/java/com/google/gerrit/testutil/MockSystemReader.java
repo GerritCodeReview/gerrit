@@ -32,9 +32,9 @@
 
 package com.google.gerrit.testutil;
 
-import org.spearce.jgit.lib.Constants;
-import org.spearce.jgit.lib.FileBasedConfig;
-import org.spearce.jgit.util.SystemReader;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.FileBasedConfig;
+import org.eclipse.jgit.util.SystemReader;
 
 import java.util.HashMap;
 import java.util.Map;

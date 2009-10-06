@@ -24,7 +24,7 @@
   <inherits name='com.google.gwtexpui.progress.Progress'/>
   <inherits name='com.google.gwtexpui.safehtml.SafeHtml'/>
   <inherits name='com.google.gerrit.UserAgent'/>
-  <inherits name='org.spearce.jgit.JGit'/>
+  <inherits name='org.eclipse.jgit.JGit'/>
   <stylesheet src='gerrit.css' />
   <stylesheet src='prettify20090521/prettify.css' />
   <extend-property name="locale" values="en"/>

@@ -33,7 +33,7 @@ import com.google.inject.Singleton;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.spearce.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.PersonIdent;
 
 import java.net.InetAddress;
 import java.net.InetSocketAddress;

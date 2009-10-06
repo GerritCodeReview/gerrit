@@ -23,7 +23,7 @@ import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 
 import org.bouncycastle.openpgp.PGPPublicKey;
-import org.spearce.jgit.lib.Config;
+import org.eclipse.jgit.lib.Config;
 
 import java.io.File;
 import java.net.MalformedURLException;

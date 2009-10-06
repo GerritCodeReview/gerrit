@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.ssh.commands;
 
-import org.spearce.jgit.transport.UploadPack;
+import org.eclipse.jgit.transport.UploadPack;
 
 import java.io.IOException;
 

@@ -39,7 +39,7 @@ import org.bouncycastle.openpgp.PGPPublicKeyRingCollection;
 import org.bouncycastle.openpgp.PGPUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.spearce.jgit.util.NB;
+import org.eclipse.jgit.util.NB;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;

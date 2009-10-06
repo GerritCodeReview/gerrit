@@ -23,10 +23,10 @@ import com.google.gerrit.server.rpc.Handler;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
-import org.spearce.jgit.errors.RepositoryNotFoundException;
-import org.spearce.jgit.lib.Constants;
-import org.spearce.jgit.lib.Ref;
-import org.spearce.jgit.lib.Repository;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -31,8 +31,8 @@ import com.google.gwtorm.client.Transaction;
 import com.google.inject.Inject;
 
 import org.kohsuke.args4j.Option;
-import org.spearce.jgit.lib.Constants;
-import org.spearce.jgit.lib.Repository;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.Repository;
 
 import java.io.PrintWriter;
 import java.util.Collections;

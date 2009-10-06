@@ -21,7 +21,7 @@ import com.google.inject.BindingAnnotation;
 import java.lang.annotation.Retention;
 
 /**
- * Marker on {@link org.spearce.jgit.lib.Config} holding {@code gerrit.config} .
+ * Marker on {@link org.eclipse.jgit.lib.Config} holding {@code gerrit.config} .
  * <p>
  * The {@code gerrit.config} file contains almost all site-wide configuration
  * settings for the Gerrit Code Review server.

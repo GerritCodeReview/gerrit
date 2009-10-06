@@ -19,7 +19,7 @@ import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
-import org.spearce.jgit.util.Base64;
+import org.eclipse.jgit.util.Base64;
 
 import java.io.UnsupportedEncodingException;
 

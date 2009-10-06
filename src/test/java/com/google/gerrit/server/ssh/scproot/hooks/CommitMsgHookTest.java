@@ -14,22 +14,38 @@
 
 package com.google.gerrit.server.ssh.scproot.hooks;
 
-import org.spearce.jgit.dircache.DirCache;
-import org.spearce.jgit.dircache.DirCacheBuilder;
-import org.spearce.jgit.dircache.DirCacheEntry;
-import org.spearce.jgit.lib.Commit;
-import org.spearce.jgit.lib.Constants;
-import org.spearce.jgit.lib.FileMode;
-import org.spearce.jgit.lib.ObjectId;
-import org.spearce.jgit.lib.ObjectWriter;
-import org.spearce.jgit.lib.RefUpdate;
+import org.eclipse.jgit.dircache.DirCache;
+import org.eclipse.jgit.dircache.DirCacheBuilder;
+import org.eclipse.jgit.dircache.DirCacheEntry;
+import org.eclipse.jgit.lib.Commit;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.FileMode;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectWriter;
+import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.RefUpdate;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
+import java.util.TimeZone;
 
 public class CommitMsgHookTest extends HookTestCase {
   private final String SOB1 = "Signed-off-by: J Author <ja@example.com>\n";
   private final String SOB2 = "Signed-off-by: J Committer <jc@example.com>\n";
+
+  @Override
+  protected void setUp() throws Exception {
+    super.setUp();
+    final Date when = author.getWhen();
+    final TimeZone tz = author.getTimeZone();
+
+    author = new PersonIdent("J. Author", "ja@example.com");
+    author = new PersonIdent(author, when, tz);
+
+    committer = new PersonIdent("J. Committer", "jc@example.com");
+    committer = new PersonIdent(committer, when, tz);
+  }
 
   public void testEmptyMessages() throws Exception {
     // Empty input must yield empty output so commit will abort.

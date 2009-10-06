@@ -16,17 +16,17 @@ package com.google.gerrit.server.patch;
 
 import static com.google.gerrit.server.ioutil.BasicSerialization.readEnum;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeEnum;
-import static org.spearce.jgit.lib.ObjectIdSerialization.readCanBeNull;
-import static org.spearce.jgit.lib.ObjectIdSerialization.readNotNull;
-import static org.spearce.jgit.lib.ObjectIdSerialization.writeCanBeNull;
-import static org.spearce.jgit.lib.ObjectIdSerialization.writeNotNull;
+import static org.eclipse.jgit.lib.ObjectIdSerialization.readCanBeNull;
+import static org.eclipse.jgit.lib.ObjectIdSerialization.readNotNull;
+import static org.eclipse.jgit.lib.ObjectIdSerialization.writeCanBeNull;
+import static org.eclipse.jgit.lib.ObjectIdSerialization.writeNotNull;
 
 import com.google.gerrit.client.data.PatchScriptSettings.Whitespace;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.server.config.Nullable;
 
-import org.spearce.jgit.lib.AnyObjectId;
-import org.spearce.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.ObjectId;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

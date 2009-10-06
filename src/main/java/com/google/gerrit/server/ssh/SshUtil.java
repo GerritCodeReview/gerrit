@@ -22,7 +22,7 @@ import org.apache.sshd.common.KeyPairProvider;
 import org.apache.sshd.common.session.AttributeKey;
 import org.apache.sshd.common.util.Buffer;
 import org.apache.sshd.server.CommandFactory.Command;
-import org.spearce.jgit.lib.Constants;
+import org.eclipse.jgit.lib.Constants;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -28,7 +28,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import org.spearce.jgit.lib.Constants;
+import org.eclipse.jgit.lib.Constants;
 
 import java.util.Set;
 

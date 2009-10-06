@@ -31,7 +31,7 @@ package com.google.gerrit.server.ioutil;
 
 import com.google.gerrit.client.rpc.CodedEnum;
 
-import org.spearce.jgit.util.NB;
+import org.eclipse.jgit.util.NB;
 
 import java.io.EOFException;
 import java.io.IOException;

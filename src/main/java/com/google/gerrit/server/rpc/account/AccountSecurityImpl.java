@@ -53,7 +53,7 @@ import com.google.inject.Provider;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.spearce.jgit.util.Base64;
+import org.eclipse.jgit.util.Base64;
 
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;

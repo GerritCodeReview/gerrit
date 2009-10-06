@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAoH///+U\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/config/SystemConfigProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-10-06T15:09:27Z",
+      "side": 1,
+      "message": "This should be +2 right here.  By default a new server should encourage read and upload on all projects, because we encourage open source usage.  :-)",
+      "revId": "57e6aaf042d84b8711e463e552bd7ec8e125e55c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAoH///+Q\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ssh/commands/Receive.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-10-06T15:09:27Z",
+      "side": 1,
+      "message": "Move this inside of the if block, its only used in that scope.",
+      "revId": "57e6aaf042d84b8711e463e552bd7ec8e125e55c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAoH///+I\u003d",
+        "filename": "src/main/webapp/WEB-INF/sql/upgrade018_019_mysql.sql",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-10-06T15:09:27Z",
+      "side": 1,
+      "message": "Should be 19.",
+      "revId": "57e6aaf042d84b8711e463e552bd7ec8e125e55c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAoH///+M\u003d",
+        "filename": "src/main/webapp/WEB-INF/sql/upgrade018_019_postgres.sql",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-10-06T15:09:27Z",
+      "side": 1,
+      "message": "Should say 19 here.\n\nAlso, you need to edit ReviewDb to set the current schema version number to 19.",
+      "revId": "57e6aaf042d84b8711e463e552bd7ec8e125e55c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

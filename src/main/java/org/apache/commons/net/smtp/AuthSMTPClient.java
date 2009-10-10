@@ -95,7 +95,8 @@ public class AuthSMTPClient extends SMTPClient {
     boolean ok = SMTPReply.isPositiveCompletion(sendCommand("EHLO", name));
     authTypes = "";
     for (String line : getReplyStrings()) {
-      if (line != null && line.startsWith("250 AUTH ")) {
+      if (line != null &&
+          (line.startsWith("250 AUTH ") || line.startsWith("250-AUTH ")) {
         authTypes = line;
         break;
       }

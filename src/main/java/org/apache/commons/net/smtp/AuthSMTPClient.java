@@ -106,7 +106,7 @@ public class AuthSMTPClient extends SMTPClient {
 
   public boolean auth(String smtpUser, String smtpPass) throws IOException {
     List<String> types = Arrays.asList(authTypes.split(" "));
-    if (types.isEmpty()) {
+    if ("".equals(authTypes)) {
       // Server didn't advertise authentication support.
       //
       return true;

@@ -96,7 +96,7 @@ public class AuthSMTPClient extends SMTPClient {
     authTypes = "";
     for (String line : getReplyStrings()) {
       if (line != null &&
-          (line.startsWith("250 AUTH ") || line.startsWith("250-AUTH ")) {
+          (line.startsWith("250 AUTH ") || line.startsWith("250-AUTH "))) {
         authTypes = line;
         break;
       }

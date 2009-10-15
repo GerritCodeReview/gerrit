@@ -38,7 +38,7 @@ OBTAINING
 To obtain the 'gerrit-cherry-pick' script use scp to copy it to
 your local system:
 
-  $ scp -P 29418 gerrit.example.com:bin/gerrit-cherry-pick ~/bin
+  $ scp -p -P 29418 gerrit.example.com:bin/gerrit-cherry-pick ~/bin/
 
 GERRIT
 ------

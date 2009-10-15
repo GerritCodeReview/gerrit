@@ -56,7 +56,7 @@ OBTAINING
 To obtain the 'commit-msg' script use scp to copy it to your
 local system:
 
-  $ scp -P 29418 review.example.com:hooks/commit-msg .git/hooks
+  $ scp -p -P 29418 review.example.com:hooks/commit-msg .git/hooks/
 
 SEE ALSO
 --------

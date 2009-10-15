@@ -9,8 +9,8 @@ SSH daemon, and then executed on the client system.
 
 To download a client command or hook, use scp:
 
-  $ scp -P 29418 review.example.com:bin/gerrit-cherry-pick ~/bin
-  $ scp -P 29418 review.example.com:hooks/commit-msg .git/hooks
+  $ scp -p -P 29418 review.example.com:bin/gerrit-cherry-pick ~/bin/
+  $ scp -p -P 29418 review.example.com:hooks/commit-msg .git/hooks/
 
 For more details on how to determine the correct SSH port number,
 see link:user-upload.html#test_ssh[Testing Your SSH Connection].

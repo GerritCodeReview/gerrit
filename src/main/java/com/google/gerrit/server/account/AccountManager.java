@@ -50,23 +50,6 @@ public class AccountManager {
   }
 
   /**
-   * True if user identified by this external identity string has an account.
-   */
-  public boolean exists(final String externalId) throws AccountException {
-    try {
-      final ReviewDb db = schema.open();
-      try {
-        return db.accountExternalIds().get(
-            new AccountExternalId.Key(externalId)) != null;
-      } finally {
-        db.close();
-      }
-    } catch (OrmException e) {
-      throw new AccountException("Cannot lookup account " + externalId, e);
-    }
-  }
-
-  /**
    * Authenticate the user, potentially creating a new account if they are new.
    *
    * @param who identity of the user, with any details we received about them.

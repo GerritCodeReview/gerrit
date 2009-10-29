@@ -471,10 +471,12 @@ LDAP integration is only enabled if `auth.type` was set to
 `HTTP_LDAP` or `LDAP`.  See above for a detailed description of
 the auth.type settings and their implications.
 
-An example LDAP configuration follows, and then discussion of the
-parameters introduced here.  Defaults were chosen to align closely
-with link:http://www.ietf.org/rfc/rfc2307.txt[RFC 2307], and many
-common deployments.
+An example LDAP configuration follows, and then discussion of
+the parameters introduced here.  Suitable defaults for most
+parameters are automatically guessed based on the type of server
+detected during startup.  The guessed defaults support both
+link:http://www.ietf.org/rfc/rfc2307.txt[RFC 2307] and Active
+Directory.
 
 ====
   [ldap]
@@ -499,6 +501,14 @@ and group membership from.  Must be of the form `ldap://host` or
 If auth.type is `LDAP` this setting should use `ldaps://` to
 ensure the end user's plaintext password is transmitted only over
 an encrypted connection.
+
+[[ldap.sslVerify]]ldap.sslVerify::
++
+If false and ldap.server is an `ldaps://` style URL, Gerrit
+will not verify the server certificate when it connects to
+perform a query.
++
+By default, true, requiring the certificate to be verified.
 
 [[ldap.username]]ldap.username::
 +
@@ -542,7 +552,9 @@ the `ldap.accountBase` tree.  A typical setting for this parameter
 is `(uid=$\{username\})` or `(cn=$\{username\})`, but the proper
 setting depends on the LDAP schema used by the directory server.
 +
-Default is `(uid=$\{username\})`, matching RFC 2307.
+Default is `(uid=$\{username\})` for RFC 2307 servers,
+and `(&(objectClass=user)(sAMAccountName=${username}))`
+for Active Directory.
 
 [[ldap.accountFullName]]ldap.accountFullName::
 +
@@ -558,7 +570,8 @@ example to join given name and surname together use the pattern
 If set, users will be unable to modify their full name field, as
 Gerrit will populate it only from the LDAP data.
 +
-Default is `displayName`, a common value for most servers.
+Default is `displayName` for RFC 2307 servers,
+and `${givenName} ${sn}` for Active Directory.
 
 [[ldap.accountEmailAddress]]ldap.accountEmailAddress::
 +
@@ -575,7 +588,7 @@ If set, the preferred email address will be prefilled from LDAP,
 but users may still be able to register additional email address,
 and select a different preferred email address.
 +
-Default is `mail`, a common value for most servers.
+Default is `mail`.
 
 [[ldap.accountSshUserName]]ldap.accountSshUserName::
 +
@@ -597,7 +610,8 @@ example `$\{userPrincipalName.localPart\}` would provide only 'user'.
 If set, users will be unable to modify their SSH username field, as
 Gerrit will populate it only from the LDAP data.
 +
-Default is `uid`, a common value for most servers.
+Default is `uid` for RFC 2307 servers,
+and `${sAMAccountName.toLowerCase}` for Active Directory.
 
 [[ldap.accountMemberField]ldap.accountMemberField::
 +
@@ -605,7 +619,8 @@ _(Optional)_ Name of an attribute on the user account object which
 contains the groups the user is part of. Typically used for ActiveDirectory
 servers.
 +
-Default is `memberOf`, to correspond with ActiveDirectory's default.
+Default is unset for RFC 2307 servers (disabled)
+and `memberOf` for Active Directory.
 
 [[ldap.groupBase]]ldap.groupBase::
 +
@@ -629,7 +644,7 @@ Name of an attribute on the group object which matches to the name
 of a group registered in the Gerrit database.  Typically this would
 be the display name of the group.
 +
-Default is `cn`, a common value for most servers.
+Default is `cn`.
 
 [[ldap.groupMemberPattern]]ldap.groupMemberPattern::
 +
@@ -645,7 +660,8 @@ corresponding attribute (in this case, `fooBarAttribute`) as read
 from the user's account object matched under `ldap.accountBase`.
 Attributes such as `$\{dn\}` or `$\{uidNumber\}` may be useful.
 +
-Default is `(memberUid=$\{username\})`, matching RFC 2307.
+Default is `(memberUid=$\{username\})` for RFC 2307,
+and unset (disabled) for Active Directory.
 
 
 [[mimetype]]Section mimetype

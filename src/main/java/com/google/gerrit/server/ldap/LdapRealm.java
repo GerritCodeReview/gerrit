@@ -32,15 +32,16 @@ import com.google.gerrit.server.cache.SelfPopulatingCache;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.ioutil.BlindSSLSocketFactory;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 
+import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.eclipse.jgit.lib.Config;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -55,12 +56,13 @@ import java.util.Properties;
 import java.util.Set;
 
 import javax.naming.Context;
-import javax.naming.NamingException;
 import javax.naming.NamingEnumeration;
-import javax.naming.directory.DirContext;
-import javax.naming.directory.InitialDirContext;
+import javax.naming.NamingException;
 import javax.naming.directory.Attribute;
 import javax.naming.directory.Attributes;
+import javax.naming.directory.DirContext;
+import javax.naming.directory.InitialDirContext;
+import javax.net.ssl.SSLSocketFactory;
 
 @Singleton
 class LdapRealm implements Realm {
@@ -72,6 +74,8 @@ class LdapRealm implements Realm {
   private final String server;
   private final String username;
   private final String password;
+  private final LdapType type;
+  private final boolean sslVerify;
 
   private final AuthConfig authConfig;
   private final SchemaFactory<ReviewDb> schema;
@@ -107,27 +111,44 @@ class LdapRealm implements Realm {
     this.server = required(config, "server");
     this.username = optional(config, "username");
     this.password = optional(config, "password");
+    this.sslVerify = config.getBoolean("ldap", "sslverify", true);
+    this.type = discoverLdapType();
 
     groupMemberQueryList = new ArrayList<LdapQuery>();
     groupByNameQueryList = new ArrayList<LdapQuery>();
+    accountQueryList = new ArrayList<LdapQuery>();
+
+    final Set<String> groupAtts = new HashSet<String>();
+    final Set<String> accountAtts = new HashSet<String>();
 
     // Group query
     //
-    final Set<String> groupAtts = new HashSet<String>();
-    groupName = reqdef(config, "groupName", "cn");
+    groupName = reqdef(config, "groupName", type.groupName());
     groupAtts.add(groupName);
-    final List<String> groupBaseList = requiredList(config, "groupBase");
+
     final SearchScope groupScope = scope(config, "groupScope");
     final String groupMemberPattern =
-        reqdef(config, "groupMemberPattern", "(memberUid=${username})");
-    for (String groupBase : groupBaseList) {
-      LdapQuery groupMemberQuery =
-          new LdapQuery(groupBase, groupScope, groupMemberPattern, groupAtts);
-      if (groupMemberQuery.getParameters().isEmpty()) {
-        throw new IllegalArgumentException(
-            "No variables in ldap.groupMemberPattern");
+        optdef(config, "groupMemberPattern", type.groupMemberPattern());
+
+    for (String groupBase : optionalList(config, "groupBase")) {
+      if (groupMemberPattern != null) {
+        final LdapQuery groupMemberQuery =
+            new LdapQuery(groupBase, groupScope, groupMemberPattern, groupAtts);
+        if (groupMemberQuery.getParameters().isEmpty()) {
+          throw new IllegalArgumentException(
+              "No variables in ldap.groupMemberPattern");
+        }
+
+        for (final String name : groupMemberQuery.getParameters()) {
+          if (!USERNAME.equals(name)) {
+            groupNeedsAccount = true;
+            accountAtts.add(name);
+          }
+        }
+
+        groupMemberQueryList.add(groupMemberQuery);
       }
-      groupMemberQueryList.add(groupMemberQuery);
+
       groupByNameQueryList.add(new LdapQuery(groupBase, groupScope, "("
           + groupName + "=${groupname})", LdapQuery.ALL_ATTRIBUTES));
     }
@@ -148,38 +169,29 @@ class LdapRealm implements Realm {
 
     // Account query
     //
-    final Set<String> accountAtts = new HashSet<String>();
-    accountFullName = paramString(config, "accountFullName", "displayName");
+    accountFullName = paramString(config, "accountFullName", type.accountFullName());
     if (accountFullName != null) {
       accountAtts.addAll(accountFullName.getParameterNames());
     }
-    accountEmailAddress = paramString(config, "accountEmailAddress", "mail");
+    accountEmailAddress = paramString(config, "accountEmailAddress", type.accountEmailAddress());
     if (accountEmailAddress != null) {
       accountAtts.addAll(accountEmailAddress.getParameterNames());
     }
-    accountSshUserName = paramString(config, "accountSshUserName", "uid");
+    accountSshUserName = paramString(config, "accountSshUserName", type.accountSshUserName());
     if (accountSshUserName != null) {
       accountAtts.addAll(accountSshUserName.getParameterNames());
     }
-    accountMemberField = reqdef(config, "accountMemberField", "memberOf");
+    accountMemberField = optdef(config, "accountMemberField", type.accountMemberField());
     if (accountMemberField != null) {
       accountAtts.add(accountMemberField);
-    }
-    for (final String name : groupMemberQueryList.get(0).getParameters()) {
-      if (!USERNAME.equals(name)) {
-        groupNeedsAccount = true;
-        accountAtts.add(name);
-      }
     }
 
     final SearchScope accountScope = scope(config, "accountScope");
     final String accountPattern =
-        reqdef(config, "accountPattern", "(uid=${username})");
+        reqdef(config, "accountPattern", type.accountPattern());
 
-    final List<String> accountBaseList = requiredList(config, "accountBase");
-    accountQueryList = new ArrayList<LdapQuery>();
-    for (String accountBase : accountBaseList) {
-      LdapQuery accountQuery =
+    for (String accountBase : requiredList(config, "accountBase")) {
+      final LdapQuery accountQuery =
           new LdapQuery(accountBase, accountScope, accountPattern, accountAtts);
       if (accountQuery.getParameters().isEmpty()) {
         throw new IllegalArgumentException(
@@ -363,40 +375,51 @@ class LdapRealm implements Realm {
   private Set<AccountGroup.Id> queryForGroups(final DirContext ctx,
       final String username, LdapQuery.Result account) throws NamingException,
       AccountException {
-    if (account == null) {
-      account = findAccount(ctx, username);
-    }
-
-    final HashMap<String, String> params = new HashMap<String, String>();
-    params.put(USERNAME, username);
-    if (groupNeedsAccount) {
-      for (final String name : groupMemberQueryList.get(0).getParameters()) {
-        params.put(name, account.get(name));
-      }
-    }
-
     final Set<AccountGroup.Id> actual = new HashSet<AccountGroup.Id>();
-    for (LdapQuery groupMemberQuery : groupMemberQueryList) {
-      for (LdapQuery.Result r : groupMemberQuery.query(ctx, params)) {
-        final String name = r.get(groupName);
-        final AccountGroup group = groupCache.lookup(name);
-        if (group != null && isLdapGroup(group)) {
-          actual.add(group.getId());
+
+    if (!groupMemberQueryList.isEmpty()) {
+      final HashMap<String, String> params = new HashMap<String, String>();
+
+      if (groupNeedsAccount) {
+        if (account == null) {
+          account = findAccount(ctx, username);
+        }
+        for (final String name : groupMemberQueryList.get(0).getParameters()) {
+          params.put(name, account.get(name));
+        }
+      }
+
+      params.put(USERNAME, username);
+
+      for (LdapQuery groupMemberQuery : groupMemberQueryList) {
+        for (LdapQuery.Result r : groupMemberQuery.query(ctx, params)) {
+          final String name = r.get(groupName);
+          final AccountGroup group = groupCache.lookup(name);
+          if (group != null && isLdapGroup(group)) {
+            actual.add(group.getId());
+          }
         }
       }
     }
 
-    NamingEnumeration<?> groups = account.getAll(accountMemberField).getAll();
-    while (groups.hasMore()) {
-       final String dn = (String) groups.next();
+    if (accountMemberField != null) {
+      if (account == null) {
+        account = findAccount(ctx, username);
+      }
 
-       for (String cn : groupsFor(ctx, dn)) {
-           AccountGroup group = groupCache.lookup(cn);
-           if (null != group && isLdapGroup(group)) {
-               actual.add(group.getId());
-           }
-       }
+      NamingEnumeration<?> groups = account.getAll(accountMemberField).getAll();
+      while (groups.hasMore()) {
+        final String dn = (String) groups.next();
+
+        for (String name : groupsFor(ctx, dn)) {
+          AccountGroup group = groupCache.lookup(name);
+          if (group != null && isLdapGroup(group)) {
+            actual.add(group.getId());
+          }
+        }
+      }
     }
+
     if (actual.isEmpty()) {
       return Collections.emptySet();
     } else {
@@ -404,34 +427,30 @@ class LdapRealm implements Realm {
     }
   }
 
-  /*
-   * We store the group names because LDAP doesn't support a query
-   * that will tell us whether a user is part of a parent group
-   */
-  private ArrayList<String> groupsFor(DirContext ctx, String dn) {
-      ArrayList<String> out = new ArrayList<String>();
-      String parentDn;
+  private Set<String> groupsFor(final DirContext ctx, final String groupDN) {
+    final Set<String> groupNames = new HashSet<String>();
+    try {
+      // Determine this group's name.
+      //
+      final String attNames[] = {groupName, accountMemberField};
+      final Attributes groupAtts = ctx.getAttributes(groupDN, attNames);
+      final String name = (String) groupAtts.get(groupName).get();
+      groupNames.add(name);
 
-      try {
-          // add the current item's name
-          String attNames[] = { groupName, accountMemberField };
-          Attributes groupAtts = ctx.getAttributes(dn, attNames);
-          String cn = (String) groupAtts.get(groupName).get();
-          out.add(cn);
-
-          // get its parents
-          Attribute parentAttrs = ctx.getAttributes(dn).get(accountMemberField);
-          if (parentAttrs != null) {
-              NamingEnumeration<?> parents = parentAttrs.getAll();
-              while (parents.hasMore()) {
-                  parentDn = String.valueOf(parents.next());
-                  out.addAll(groupsFor(ctx, parentDn));
-              }
-          }
-      } catch (NamingException e) {
-          log.warn("Could not find dn", e);
+      // Recursively identify the groups it is a member of.
+      //
+      final Attribute in = ctx.getAttributes(groupDN).get(accountMemberField);
+      if (in != null) {
+        final NamingEnumeration<?> otherGroups = in.getAll();
+        while (otherGroups.hasMore()) {
+          final String otherDN = (String) otherGroups.next();
+          groupNames.addAll(groupsFor(ctx, otherDN));
+        }
       }
-      return out;
+    } catch (NamingException e) {
+      log.warn("Could not find group " + groupDN, e);
+    }
+    return groupNames;
   }
 
   private boolean isLdapGroup(final AccountGroup group) {
@@ -535,11 +554,21 @@ class LdapRealm implements Realm {
     }
   }
 
-  private DirContext open() throws NamingException {
+  private Properties createContextProperties() {
     final Properties env = new Properties();
     env.put(Context.INITIAL_CONTEXT_FACTORY, LDAP);
     env.put(Context.PROVIDER_URL, server);
+    if (server.startsWith("ldaps:") && !sslVerify) {
+      Class<? extends SSLSocketFactory> factory = BlindSSLSocketFactory.class;
+      env.put("java.naming.ldap.factory.socket", factory.getName());
+    }
+    return env;
+  }
+
+  private DirContext open() throws NamingException {
+    final Properties env = createContextProperties();
     if (username != null) {
+      env.put(Context.SECURITY_AUTHENTICATION, "simple");
       env.put(Context.SECURITY_PRINCIPAL, username);
       env.put(Context.SECURITY_CREDENTIALS, password != null ? password : "");
     }
@@ -547,15 +576,29 @@ class LdapRealm implements Realm {
   }
 
   private void authenticate(String dn, String password) throws AccountException {
-    final Properties env = new Properties();
-    env.put(Context.INITIAL_CONTEXT_FACTORY, LDAP);
-    env.put(Context.PROVIDER_URL, server);
+    final Properties env = createContextProperties();
+    env.put(Context.SECURITY_AUTHENTICATION, "simple");
     env.put(Context.SECURITY_PRINCIPAL, dn);
     env.put(Context.SECURITY_CREDENTIALS, password != null ? password : "");
     try {
       new InitialDirContext(env).close();
     } catch (NamingException e) {
       throw new AccountException("Incorrect username or password", e);
+    }
+  }
+
+  private LdapType discoverLdapType() {
+    try {
+      final DirContext ctx = open();
+      try {
+        return LdapType.guessType(ctx);
+      } finally {
+        ctx.close();
+      }
+    } catch (NamingException e) {
+      log.warn("Cannot discover type of LDAP server at " + server
+          + ", assuming the server is RFC 2307 compliant.", e);
+      return LdapType.RFC_2307;
     }
   }
 

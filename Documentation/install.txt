@@ -88,6 +88,7 @@ password, create a database, and give the user full rights:
 ====
   CREATE USER 'gerrit2'@'localhost' IDENTIFIED BY 'secret';
   CREATE DATABASE reviewdb;
+  ALTER DATABASE reviewdb charset=latin1;
   GRANT ALL ON reviewdb.* TO 'gerrit2'@'localhost';
   FLUSH PRIVILEGES;
 ====

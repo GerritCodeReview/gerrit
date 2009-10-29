@@ -32,12 +32,10 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
-import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
 import com.google.gwtjsonrpc.client.VoidResult;
@@ -64,9 +62,6 @@ public class AccountGroupScreen extends AccountScreen {
   private AddMemberBox addMemberBox;
   private Button delMember;
 
-  private Panel realmProperties;
-  private Grid realmPropertiesTable;
-
   public AccountGroupScreen(final AccountGroup.Id toShow) {
     groupId = toShow;
   }
@@ -89,7 +84,6 @@ public class AccountGroupScreen extends AccountScreen {
     initName();
     initOwner();
     initDescription();
-    initRealmProperties();
     initMemberList();
   }
 
@@ -180,17 +174,6 @@ public class AccountGroupScreen extends AccountScreen {
     new TextSaveButtonListener(descTxt, saveDesc);
   }
 
-  private void initRealmProperties() {
-    realmPropertiesTable = new Grid(0, 0);
-    realmPropertiesTable.setStyleName("gerrit-InfoBlock");
-
-    realmProperties = new FlowPanel();
-    realmProperties.add(new SmallHeading(Util.C.headingGroupProperties()));
-    realmProperties.add(realmPropertiesTable);
-
-    add(realmProperties);
-  }
-
   private void initMemberList() {
     addMemberBox = new AddMemberBox();
 
@@ -229,24 +212,6 @@ public class AccountGroupScreen extends AccountScreen {
       ownerTxt.setText(Util.M.deletedGroup(group.getOwnerGroupId().get()));
     }
     descTxt.setText(group.getDescription());
-
-    final List<GroupDetail.RealmProperty> propertyList = result.realmProperties;
-    if (!propertyList.isEmpty()) {
-      final int cnt = propertyList.size();
-      final CellFormatter fmt = realmPropertiesTable.getCellFormatter();
-      realmProperties.setVisible(true);
-      realmPropertiesTable.resize(cnt, 2);
-      for (int i = 0; i < cnt; i++) {
-        fmt.addStyleName(i, 0, "header");
-        realmPropertiesTable.setText(i, 0, propertyList.get(i).name);
-        realmPropertiesTable.setText(i, 1, propertyList.get(i).value);
-      }
-      fmt.addStyleName(0, 0, "topmost");
-      fmt.addStyleName(0, 1, "topmost");
-      fmt.addStyleName(cnt - 1, 0, "bottomheader");
-    } else {
-      realmProperties.setVisible(false);
-    }
 
     if (group.isAutomaticMembership()) {
       memberPanel.setVisible(false);

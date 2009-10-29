@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.ldap;
 
-import com.google.gerrit.client.admin.GroupDetail.RealmProperty;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountExternalId;
 import com.google.gerrit.client.reviewdb.AccountGroup;
@@ -47,11 +46,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
@@ -59,14 +56,12 @@ import javax.naming.Context;
 import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
 import javax.naming.directory.Attribute;
-import javax.naming.directory.Attributes;
 import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
 import javax.net.ssl.SSLSocketFactory;
 
 @Singleton
 class LdapRealm implements Realm {
-  private static final String GROUPNAME = "groupname";
   private static final Logger log = LoggerFactory.getLogger(LdapRealm.class);
   private static final String LDAP = "com.sun.jndi.ldap.LdapCtxFactory";
   private static final String USERNAME = "username";
@@ -88,10 +83,8 @@ class LdapRealm implements Realm {
   private final SelfPopulatingCache<String, Account.Id> usernameCache;
 
   private final GroupCache groupCache;
-  private final String groupName;
   private boolean groupNeedsAccount;
   private final List<LdapQuery> groupMemberQueryList;
-  private final List<LdapQuery> groupByNameQueryList;
   private final SelfPopulatingCache<String, Set<AccountGroup.Id>> membershipCache;
 
   @Inject
@@ -115,7 +108,6 @@ class LdapRealm implements Realm {
     this.type = discoverLdapType();
 
     groupMemberQueryList = new ArrayList<LdapQuery>();
-    groupByNameQueryList = new ArrayList<LdapQuery>();
     accountQueryList = new ArrayList<LdapQuery>();
 
     final Set<String> groupAtts = new HashSet<String>();
@@ -123,8 +115,6 @@ class LdapRealm implements Realm {
 
     // Group query
     //
-    groupName = reqdef(config, "groupName", type.groupName());
-    groupAtts.add(groupName);
 
     final SearchScope groupScope = scope(config, "groupScope");
     final String groupMemberPattern =
@@ -148,9 +138,6 @@ class LdapRealm implements Realm {
 
         groupMemberQueryList.add(groupMemberQuery);
       }
-
-      groupByNameQueryList.add(new LdapQuery(groupBase, groupScope, "("
-          + groupName + "=${groupname})", LdapQuery.ALL_ATTRIBUTES));
     }
 
     membershipCache =
@@ -393,11 +380,7 @@ class LdapRealm implements Realm {
 
       for (LdapQuery groupMemberQuery : groupMemberQueryList) {
         for (LdapQuery.Result r : groupMemberQuery.query(ctx, params)) {
-          final String name = r.get(groupName);
-          final AccountGroup group = groupCache.lookup(name);
-          if (group != null && isLdapGroup(group)) {
-            actual.add(group.getId());
-          }
+          memberOfGroup(actual, r.getDN());
         }
       }
     }
@@ -407,16 +390,13 @@ class LdapRealm implements Realm {
         account = findAccount(ctx, username);
       }
 
+      final Set<String> groupDNs = new HashSet<String>();
       NamingEnumeration<?> groups = account.getAll(accountMemberField).getAll();
       while (groups.hasMore()) {
-        final String dn = (String) groups.next();
-
-        for (String name : groupsFor(ctx, dn)) {
-          AccountGroup group = groupCache.lookup(name);
-          if (group != null && isLdapGroup(group)) {
-            actual.add(group.getId());
-          }
-        }
+        recursivelyExpandGroups(groupDNs, ctx, (String) groups.next());
+      }
+      for (String dn : groupDNs) {
+        memberOfGroup(actual, dn);
       }
     }
 
@@ -427,35 +407,32 @@ class LdapRealm implements Realm {
     }
   }
 
-  private Set<String> groupsFor(final DirContext ctx, final String groupDN) {
-    final Set<String> groupNames = new HashSet<String>();
-    try {
-      // Determine this group's name.
-      //
-      final String attNames[] = {groupName, accountMemberField};
-      final Attributes groupAtts = ctx.getAttributes(groupDN, attNames);
-      final String name = (String) groupAtts.get(groupName).get();
-      groupNames.add(name);
+  private void memberOfGroup(final Set<AccountGroup.Id> actual, final String dn) {
+    final AccountGroup group;
 
-      // Recursively identify the groups it is a member of.
-      //
-      final Attribute in = ctx.getAttributes(groupDN).get(accountMemberField);
-      if (in != null) {
-        final NamingEnumeration<?> otherGroups = in.getAll();
-        while (otherGroups.hasMore()) {
-          final String otherDN = (String) otherGroups.next();
-          groupNames.addAll(groupsFor(ctx, otherDN));
-        }
-      }
-    } catch (NamingException e) {
-      log.warn("Could not find group " + groupDN, e);
+    group = groupCache.get(new AccountGroup.ExternalNameKey(dn));
+    if (group != null) {
+      actual.add(group.getId());
     }
-    return groupNames;
   }
 
-  private boolean isLdapGroup(final AccountGroup group) {
-    return group.isAutomaticMembership()
-        && !authConfig.getRegisteredGroups().contains(group.getId());
+  private void recursivelyExpandGroups(final Set<String> groupDNs,
+      final DirContext ctx, final String groupDN) {
+    if (groupDNs.add(groupDN)) {
+      // Recursively identify the groups it is a member of.
+      //
+      try {
+        final Attribute in = ctx.getAttributes(groupDN).get(accountMemberField);
+        if (in != null) {
+          final NamingEnumeration<?> groups = in.getAll();
+          while (groups.hasMore()) {
+            recursivelyExpandGroups(groupDNs, ctx, (String) groups.next());
+          }
+        }
+      } catch (NamingException e) {
+        log.warn("Could not find group " + groupDN, e);
+      }
+    }
   }
 
   private static String findId(final Collection<AccountExternalId> ids) {
@@ -470,71 +447,6 @@ class LdapRealm implements Realm {
   @Override
   public Account.Id lookup(final String accountName) {
     return usernameCache.get(accountName);
-  }
-
-  @Override
-  public List<RealmProperty> getProperties(final AccountGroup group) {
-    if (!isLdapGroup(group)) {
-      return Collections.emptyList();
-    }
-
-    try {
-      final DirContext ctx = open();
-      try {
-        final Map<String, String> params = new HashMap<String, String>();
-        params.put(GROUPNAME, group.getName());
-
-        final List<RealmProperty> props = new ArrayList<RealmProperty>();
-        final List<LdapQuery.Result> q = new ArrayList<LdapQuery.Result>();
-        for (LdapQuery groupByNameQuery : groupByNameQueryList) {
-          q.addAll(groupByNameQuery.query(ctx, params));
-        }
-
-        switch (q.size()) {
-          case 0:
-            log.warn("Group \"" + group.getName() + "\" not found in LDAP.");
-            props.add(new RealmProperty("error", "NOT FOUND"));
-            break;
-
-          case 1:
-            for (final String name : q.get(0).map().keySet()) {
-              props.add(new RealmProperty(name, q.get(0).get(name)));
-            }
-            Collections.sort(props, new Comparator<RealmProperty>() {
-              @Override
-              public int compare(final RealmProperty a, final RealmProperty b) {
-                int sort = classOf(a) - classOf(b);
-                if (sort == 0) sort = a.getName().compareTo(b.getName());
-                return sort;
-              }
-
-              private int classOf(final RealmProperty p) {
-                final String n = p.getName();
-                if ("dn".equals(n) || "distinguishedName".equals(n)) return 0;
-                if ("cn".equals(n)) return 1;
-                return 5000;
-              }
-            });
-            break;
-
-          default:
-            log.warn("Group \"" + group.getName()
-                + "\" has multiple matches in LDAP: " + q);
-            props.add(new RealmProperty("error", "MULTIPLE MATCHES"));
-            break;
-        }
-        return props;
-      } finally {
-        try {
-          ctx.close();
-        } catch (NamingException e) {
-          log.warn("Cannot close LDAP query handle", e);
-        }
-      }
-    } catch (NamingException e) {
-      log.error("Cannot query LDAP directory for group " + group.getName(), e);
-      return Collections.emptyList();
-    }
   }
 
   private Account.Id queryForUsername(final String username) {

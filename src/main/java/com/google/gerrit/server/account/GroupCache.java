@@ -20,6 +20,8 @@ import com.google.gerrit.client.reviewdb.AccountGroup;
 public interface GroupCache {
   public AccountGroup get(AccountGroup.Id groupId);
 
+  public AccountGroup get(AccountGroup.ExternalNameKey externalName);
+
   public void evict(AccountGroup group);
 
   public void evictAfterRename(AccountGroup.NameKey oldName);

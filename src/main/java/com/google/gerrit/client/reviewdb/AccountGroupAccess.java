@@ -29,6 +29,9 @@ public interface AccountGroupAccess extends
   @SecondaryKey("name")
   AccountGroup get(AccountGroup.NameKey name) throws OrmException;
 
+  @SecondaryKey("externalName")
+  AccountGroup get(AccountGroup.ExternalNameKey name) throws OrmException;
+
   @Query("ORDER BY name")
   ResultSet<AccountGroup> all() throws OrmException;
 

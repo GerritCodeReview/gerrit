@@ -14,11 +14,9 @@
 
 package com.google.gerrit.server.account;
 
-import com.google.gerrit.client.admin.GroupDetail;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountGroup;
 
-import java.util.List;
 import java.util.Set;
 
 public interface Realm {
@@ -40,7 +38,4 @@ public interface Realm {
    * user by that email address.
    */
   public Account.Id lookup(String accountName);
-
-  /** Obtain detailed properties about this group, for display to owners. */
-  public List<GroupDetail.RealmProperty> getProperties(AccountGroup group);
 }

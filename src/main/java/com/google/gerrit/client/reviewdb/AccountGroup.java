@@ -46,6 +46,32 @@ public final class AccountGroup {
     }
   }
 
+  /** Distinguished name, within organization directory server. */
+  public static class ExternalNameKey extends
+      StringKey<com.google.gwtorm.client.Key<?>> {
+    private static final long serialVersionUID = 1L;
+
+    @Column
+    protected String name;
+
+    protected ExternalNameKey() {
+    }
+
+    public ExternalNameKey(final String n) {
+      name = n;
+    }
+
+    @Override
+    public String get() {
+      return name;
+    }
+
+    @Override
+    protected void set(String newValue) {
+      name = newValue;
+    }
+  }
+
   /** Synthetic key to link to within the database */
   public static class Id extends IntKey<com.google.gwtorm.client.Key<?>> {
     private static final long serialVersionUID = 1L;
@@ -102,6 +128,10 @@ public final class AccountGroup {
   @Column
   protected boolean automaticMembership;
 
+  /** Distinguished name in the directory server. */
+  @Column(notNull = false)
+  protected ExternalNameKey externalName;
+
   protected AccountGroup() {
   }
 
@@ -145,10 +175,18 @@ public final class AccountGroup {
   }
 
   public boolean isAutomaticMembership() {
-    return automaticMembership;
+    return automaticMembership || externalName != null;
   }
 
   public void setAutomaticMembership(final boolean auto) {
     automaticMembership = auto;
+  }
+
+  public ExternalNameKey getExternalNameKey() {
+    return externalName;
+  }
+
+  public void setExternalNameKey(final ExternalNameKey k) {
+    externalName = k;
   }
 }

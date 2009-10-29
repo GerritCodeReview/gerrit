@@ -38,8 +38,6 @@ abstract class LdapType {
     return RFC_2307;
   }
 
-  abstract String groupName();
-
   abstract String groupMemberPattern();
 
   abstract String accountFullName();
@@ -53,11 +51,6 @@ abstract class LdapType {
   abstract String accountPattern();
 
   private static class Rfc2307 extends LdapType {
-    @Override
-    String groupName() {
-      return "cn";
-    }
-
     @Override
     String groupMemberPattern() {
       return "(memberUid=${username})";
@@ -112,11 +105,6 @@ abstract class LdapType {
         }
       }
       defaultDomain = b.toString();
-    }
-
-    @Override
-    String groupName() {
-      return "cn";
     }
 
     @Override

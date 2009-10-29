@@ -50,6 +50,7 @@ public class GroupCacheImpl implements GroupCache {
   private final AccountGroup.Id administrators;
   private final SelfPopulatingCache<AccountGroup.Id, AccountGroup> byId;
   private final SelfPopulatingCache<AccountGroup.NameKey, AccountGroup> byName;
+  private final SelfPopulatingCache<AccountGroup.ExternalNameKey, AccountGroup> byExternalName;
 
   @Inject
   GroupCacheImpl(
@@ -78,6 +79,16 @@ public class GroupCacheImpl implements GroupCache {
             (Cache) rawAny) {
           @Override
           public AccountGroup createEntry(final AccountGroup.NameKey key)
+              throws Exception {
+            return lookup(key);
+          }
+        };
+
+    byExternalName =
+        new SelfPopulatingCache<AccountGroup.ExternalNameKey, AccountGroup>(
+            (Cache) rawAny) {
+          @Override
+          public AccountGroup createEntry(final AccountGroup.ExternalNameKey key)
               throws Exception {
             return lookup(key);
           }
@@ -118,6 +129,16 @@ public class GroupCacheImpl implements GroupCache {
     }
   }
 
+  private AccountGroup lookup(final AccountGroup.ExternalNameKey externalName)
+      throws OrmException {
+    final ReviewDb db = schema.open();
+    try {
+      return db.accountGroups().get(externalName);
+    } finally {
+      db.close();
+    }
+  }
+
   public AccountGroup get(final AccountGroup.Id groupId) {
     return byId.get(groupId);
   }
@@ -125,6 +146,7 @@ public class GroupCacheImpl implements GroupCache {
   public void evict(final AccountGroup group) {
     byId.remove(group.getId());
     byName.remove(group.getNameKey());
+    byExternalName.remove(group.getExternalNameKey());
   }
 
   public void evictAfterRename(final AccountGroup.NameKey oldName) {
@@ -133,5 +155,9 @@ public class GroupCacheImpl implements GroupCache {
 
   public AccountGroup lookup(final String groupName) {
     return byName.get(new AccountGroup.NameKey(groupName));
+  }
+
+  public AccountGroup get(final AccountGroup.ExternalNameKey externalName) {
+    return byExternalName.get(externalName);
   }
 }

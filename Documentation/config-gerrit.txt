@@ -489,7 +489,6 @@ Directory.
     #
     groupBase = ou=groups,dc=example,dc=com
     groupMemberPattern = (&(objectClass=group)(member=${dn}))
-    groupName = cn
 ====
 
 [[ldap.server]]ldap.server::
@@ -637,14 +636,6 @@ Scope of the search performed for group objects.  Must be one of:
 
 +
 Default is `subtree` as many directories have several levels.
-
-[[ldap.groupName]]ldap.groupName::
-+
-Name of an attribute on the group object which matches to the name
-of a group registered in the Gerrit database.  Typically this would
-be the display name of the group.
-+
-Default is `cn`.
 
 [[ldap.groupMemberPattern]]ldap.groupMemberPattern::
 +

@@ -407,8 +407,7 @@ class LdapRealm implements Realm {
    * We store the group names because LDAP doesn't support a query
    * that will tell us whether a user is part of a parent group
    */
-  private ArrayList<String> groupsFor(DirContext ctx, String dn)
-    throws NamingException {
+  private ArrayList<String> groupsFor(DirContext ctx, String dn) {
       ArrayList<String> out = new ArrayList<String>();
       String parentDn;
 

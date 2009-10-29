@@ -385,7 +385,8 @@ class LdapRealm implements Realm {
         }
       }
     }
-    NamingEnumeration groups = account.getAll(accountMemberField).getAll();
+
+    NamingEnumeration<?> groups = account.getAll(accountMemberField).getAll();
     while (groups.hasMore()) {
        final String dn = (String) groups.next();
 
@@ -421,7 +422,7 @@ class LdapRealm implements Realm {
           // get its parents
           Attribute parentAttrs = ctx.getAttributes(dn).get(accountMemberField);
           if (parentAttrs != null) {
-              NamingEnumeration parents = parentAttrs.getAll();
+              NamingEnumeration<?> parents = parentAttrs.getAll();
               while (parents.hasMore()) {
                   parentDn = String.valueOf(parents.next());
                   out.addAll(groupsFor(ctx, parentDn));

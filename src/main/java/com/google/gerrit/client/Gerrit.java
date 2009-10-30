@@ -349,7 +349,7 @@ public class Gerrit implements EntryPoint {
         case OPENID:
           menuRight.addItem(C.menuRegister(), new Command() {
             public void execute() {
-              new SignInDialog(SignInDialog.Mode.REGISTER).center();
+              new OpenIdSignInDialog(SignInDialog.Mode.REGISTER, null).center();
             }
           });
           // fall through

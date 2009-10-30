@@ -17,7 +17,7 @@ package com.google.gerrit.client;
 import com.google.gwtexpui.user.client.AutoCenterDialogBox;
 
 /** Prompts the user to sign in to their account. */
-public class SignInDialog extends AutoCenterDialogBox {
+public abstract class SignInDialog extends AutoCenterDialogBox {
   public static enum Mode {
     SIGN_IN, LINK_IDENTIY, REGISTER;
   }

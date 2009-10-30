@@ -55,6 +55,7 @@ public class AccountCacheImpl implements AccountCache {
   }
 
   private final SchemaFactory<ReviewDb> schema;
+  private final GroupCache groupCache;
   private final SelfPopulatingCache<Account.Id, AccountState> self;
 
   private final Set<AccountGroup.Id> registered;
@@ -62,10 +63,12 @@ public class AccountCacheImpl implements AccountCache {
 
   @Inject
   AccountCacheImpl(final SchemaFactory<ReviewDb> sf, final AuthConfig auth,
+      final GroupCache groupCache,
       @Named(CACHE_NAME) final Cache<Account.Id, AccountState> rawCache) {
     schema = sf;
     registered = auth.getRegisteredGroups();
     anonymous = auth.getAnonymousGroups();
+    this.groupCache = groupCache;
 
     self = new SelfPopulatingCache<Account.Id, AccountState>(rawCache) {
       @Override
@@ -96,7 +99,11 @@ public class AccountCacheImpl implements AccountCache {
 
       Set<AccountGroup.Id> internalGroups = new HashSet<AccountGroup.Id>();
       for (AccountGroupMember g : db.accountGroupMembers().byAccount(who)) {
-        internalGroups.add(g.getAccountGroupId());
+        final AccountGroup.Id groupId = g.getAccountGroupId();
+        final AccountGroup group = groupCache.get(groupId);
+        if (group != null && group.getType() == AccountGroup.Type.INTERNAL) {
+          internalGroups.add(groupId);
+        }
       }
 
       if (internalGroups.isEmpty()) {

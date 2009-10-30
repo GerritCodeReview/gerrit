@@ -41,11 +41,11 @@ class LdapQuery {
   private final String[] returnAttributes;
 
   LdapQuery(final String base, final SearchScope searchScope,
-      final String pattern, final Set<String> returnAttributes) {
+      final ParamertizedString pattern, final Set<String> returnAttributes) {
     this.base = base;
     this.searchScope = searchScope;
 
-    this.pattern = new ParamertizedString(pattern);
+    this.pattern = pattern;
 
     if (returnAttributes != null) {
       this.returnAttributes = new String[returnAttributes.size()];

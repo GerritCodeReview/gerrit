@@ -104,6 +104,17 @@ public final class AccountGroup {
     }
   }
 
+  public static enum Type {
+    /** System defined and managed group, e.g. anonymous users. */
+    SYSTEM,
+
+    /** Group defined within our database. */
+    INTERNAL,
+
+    /** Group defined by external LDAP database. */
+    LDAP;
+  }
+
   /** Unique name of this group within the system. */
   @Column
   protected NameKey name;
@@ -125,8 +136,8 @@ public final class AccountGroup {
   protected String description;
 
   /** Is the membership managed by some external means? */
-  @Column
-  protected boolean automaticMembership;
+  @Column(length = 8)
+  protected String groupType;
 
   /** Distinguished name in the directory server. */
   @Column(notNull = false)
@@ -174,12 +185,12 @@ public final class AccountGroup {
     ownerGroupId = id;
   }
 
-  public boolean isAutomaticMembership() {
-    return automaticMembership || externalName != null;
+  public Type getType() {
+    return Type.valueOf(groupType);
   }
 
-  public void setAutomaticMembership(final boolean auto) {
-    automaticMembership = auto;
+  public void setType(final Type t) {
+    groupType = t.name();
   }
 
   public ExternalNameKey getExternalNameKey() {

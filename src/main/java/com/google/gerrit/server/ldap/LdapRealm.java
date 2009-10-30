@@ -49,6 +49,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
@@ -65,6 +66,7 @@ class LdapRealm implements Realm {
   private static final Logger log = LoggerFactory.getLogger(LdapRealm.class);
   private static final String LDAP = "com.sun.jndi.ldap.LdapCtxFactory";
   private static final String USERNAME = "username";
+  private static final String GROUPNAME = "groupname";
 
   private final String server;
   private final String username;
@@ -84,6 +86,9 @@ class LdapRealm implements Realm {
 
   private final GroupCache groupCache;
   private boolean groupNeedsAccount;
+  private final List<String> groupBases;
+  private final SearchScope groupScope;
+  private final ParamertizedString groupPattern;
   private final List<LdapQuery> groupMemberQueryList;
   private final SelfPopulatingCache<String, Set<AccountGroup.Id>> membershipCache;
 
@@ -110,20 +115,23 @@ class LdapRealm implements Realm {
     groupMemberQueryList = new ArrayList<LdapQuery>();
     accountQueryList = new ArrayList<LdapQuery>();
 
-    final Set<String> groupAtts = new HashSet<String>();
     final Set<String> accountAtts = new HashSet<String>();
 
     // Group query
     //
 
-    final SearchScope groupScope = scope(config, "groupScope");
+    groupBases = optionalList(config, "groupBase");
+    groupScope = scope(config, "groupScope");
+    groupPattern =
+        paramString(config, "groupPattern", type.groupPattern());
     final String groupMemberPattern =
         optdef(config, "groupMemberPattern", type.groupMemberPattern());
 
-    for (String groupBase : optionalList(config, "groupBase")) {
+    for (String groupBase : groupBases) {
       if (groupMemberPattern != null) {
         final LdapQuery groupMemberQuery =
-            new LdapQuery(groupBase, groupScope, groupMemberPattern, groupAtts);
+            new LdapQuery(groupBase, groupScope, new ParamertizedString(
+                groupMemberPattern), Collections.<String> emptySet());
         if (groupMemberQuery.getParameters().isEmpty()) {
           throw new IllegalArgumentException(
               "No variables in ldap.groupMemberPattern");
@@ -179,7 +187,8 @@ class LdapRealm implements Realm {
 
     for (String accountBase : requiredList(config, "accountBase")) {
       final LdapQuery accountQuery =
-          new LdapQuery(accountBase, accountScope, accountPattern, accountAtts);
+          new LdapQuery(accountBase, accountScope, new ParamertizedString(
+              accountPattern), accountAtts);
       if (accountQuery.getParameters().isEmpty()) {
         throw new IllegalArgumentException(
             "No variables in ldap.accountPattern");
@@ -362,7 +371,7 @@ class LdapRealm implements Realm {
   private Set<AccountGroup.Id> queryForGroups(final DirContext ctx,
       final String username, LdapQuery.Result account) throws NamingException,
       AccountException {
-    final Set<AccountGroup.Id> actual = new HashSet<AccountGroup.Id>();
+    final Set<String> groupDNs = new HashSet<String>();
 
     if (!groupMemberQueryList.isEmpty()) {
       final HashMap<String, String> params = new HashMap<String, String>();
@@ -380,7 +389,7 @@ class LdapRealm implements Realm {
 
       for (LdapQuery groupMemberQuery : groupMemberQueryList) {
         for (LdapQuery.Result r : groupMemberQuery.query(ctx, params)) {
-          memberOfGroup(actual, r.getDN());
+          groupDNs.add(r.getDN());
         }
       }
     }
@@ -390,13 +399,19 @@ class LdapRealm implements Realm {
         account = findAccount(ctx, username);
       }
 
-      final Set<String> groupDNs = new HashSet<String>();
       NamingEnumeration<?> groups = account.getAll(accountMemberField).getAll();
       while (groups.hasMore()) {
         recursivelyExpandGroups(groupDNs, ctx, (String) groups.next());
       }
-      for (String dn : groupDNs) {
-        memberOfGroup(actual, dn);
+    }
+
+    final Set<AccountGroup.Id> actual = new HashSet<AccountGroup.Id>();
+    for (String dn : groupDNs) {
+      final AccountGroup group;
+
+      group = groupCache.get(new AccountGroup.ExternalNameKey(dn));
+      if (group != null && group.getType() == AccountGroup.Type.LDAP) {
+        actual.add(group.getId());
       }
     }
 
@@ -404,15 +419,6 @@ class LdapRealm implements Realm {
       return Collections.emptySet();
     } else {
       return Collections.unmodifiableSet(actual);
-    }
-  }
-
-  private void memberOfGroup(final Set<AccountGroup.Id> actual, final String dn) {
-    final AccountGroup group;
-
-    group = groupCache.get(new AccountGroup.ExternalNameKey(dn));
-    if (group != null) {
-      actual.add(group.getId());
     }
   }
 
@@ -447,6 +453,39 @@ class LdapRealm implements Realm {
   @Override
   public Account.Id lookup(final String accountName) {
     return usernameCache.get(accountName);
+  }
+
+  @Override
+  public Set<AccountGroup.ExternalNameKey> lookupGroups(String name) {
+    final Set<AccountGroup.ExternalNameKey> out;
+    final ParamertizedString filter =
+        ParamertizedString.asis(groupPattern.replace(GROUPNAME, name)
+            .toString());
+    final Map<String, String> params = Collections.<String, String> emptyMap();
+
+    out = new HashSet<AccountGroup.ExternalNameKey>();
+    try {
+      final DirContext ctx = open();
+      try {
+        for (String groupBase : groupBases) {
+          final LdapQuery query =
+              new LdapQuery(groupBase, groupScope, filter, Collections
+                  .<String> emptySet());
+          for (LdapQuery.Result res : query.query(ctx, params)) {
+            out.add(new AccountGroup.ExternalNameKey(res.getDN()));
+          }
+        }
+      } finally {
+        try {
+          ctx.close();
+        } catch (NamingException e) {
+          log.warn("Cannot close LDAP query handle", e);
+        }
+      }
+    } catch (NamingException e) {
+      log.warn("Cannot query LDAP for groups matching requested name", e);
+    }
+    return out;
   }
 
   private Account.Id queryForUsername(final String username) {

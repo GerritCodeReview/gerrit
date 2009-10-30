@@ -28,6 +28,8 @@ public interface AdminConstants extends Constants {
   String buttonRenameGroup();
   String buttonCreateGroup();
   String buttonChangeGroupOwner();
+  String buttonChangeGroupType();
+  String buttonSelectGroup();
   String buttonAddProjectRight();
   String buttonSaveChanges();
   String useContributorAgreements();
@@ -36,7 +38,9 @@ public interface AdminConstants extends Constants {
   String headingOwner();
   String headingDescription();
   String headingSubmitType();
+  String headingGroupType();
   String headingMembers();
+  String headingExternalGroup();
   String headingCreateGroup();
   String headingAccessRights();
   String headingAgreements();
@@ -45,6 +49,10 @@ public interface AdminConstants extends Constants {
   String projectSubmitType_MERGE_ALWAYS();
   String projectSubmitType_MERGE_IF_NECESSARY();
   String projectSubmitType_CHERRY_PICK();
+
+  String groupType_SYSTEM();
+  String groupType_INTERNAL();
+  String groupType_LDAP();
 
   String columnMember();
   String columnEmailAddress();
@@ -73,4 +81,7 @@ public interface AdminConstants extends Constants {
   String projectAdminTabGeneral();
   String projectAdminTabBranches();
   String projectAdminTabAccess();
+
+  String noGroupSelected();
+  String errorNoMatchingGroups();
 }

@@ -66,8 +66,10 @@ class GroupDetailFactory extends Handler<GroupDetail> {
     final GroupDetail detail = new GroupDetail();
     detail.setGroup(group);
     detail.setOwnerGroup(groupCache.get(group.getOwnerGroupId()));
-    if (!group.isAutomaticMembership()) {
-      detail.setMembers(loadMembers());
+    switch (group.getType()) {
+      case INTERNAL:
+        detail.setMembers(loadMembers());
+        break;
     }
     detail.setAccounts(aic.create());
     return detail;

@@ -114,7 +114,7 @@ public class GroupCacheImpl implements GroupCache {
     final AccountGroup.NameKey name =
         new AccountGroup.NameKey("Deleted Group" + groupId.toString());
     final AccountGroup g = new AccountGroup(name, groupId);
-    g.setAutomaticMembership(true);
+    g.setType(AccountGroup.Type.SYSTEM);
     g.setOwnerGroupId(administrators);
     return g;
   }

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.admin;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.data.AccountInfoCache;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountGroup;
@@ -27,15 +28,24 @@ import com.google.gerrit.client.ui.AddMemberBox;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.client.ui.TextSaveButtonListener;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
+import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
 import com.google.gwtjsonrpc.client.VoidResult;
@@ -58,9 +68,19 @@ public class AccountGroupScreen extends AccountScreen {
   private NpTextArea descTxt;
   private Button saveDesc;
 
+  private Label typeSystem;
+  private ListBox typeSelect;
+  private Button saveType;
+
   private Panel memberPanel;
   private AddMemberBox addMemberBox;
   private Button delMember;
+
+  private Panel externalPanel;
+  private Label externalName;
+  private NpTextBox externalNameFilter;
+  private Button externalNameSearch;
+  private Grid externalMatches;
 
   public AccountGroupScreen(final AccountGroup.Id toShow) {
     groupId = toShow;
@@ -84,7 +104,9 @@ public class AccountGroupScreen extends AccountScreen {
     initName();
     initOwner();
     initDescription();
+    initGroupType();
     initMemberList();
+    initExternal();
   }
 
   private void initName() {
@@ -174,6 +196,36 @@ public class AccountGroupScreen extends AccountScreen {
     new TextSaveButtonListener(descTxt, saveDesc);
   }
 
+  private void initGroupType() {
+    typeSystem = new Label(Util.C.groupType_SYSTEM());
+
+    typeSelect = new ListBox();
+    typeSelect.addItem(Util.C.groupType_INTERNAL(), AccountGroup.Type.INTERNAL.name());
+    typeSelect.addItem(Util.C.groupType_LDAP(), AccountGroup.Type.LDAP.name());
+    typeSelect.addChangeHandler(new ChangeHandler() {
+      @Override
+      public void onChange(ChangeEvent event) {
+        saveType.setEnabled(true);
+      }
+    });
+
+    saveType = new Button(Util.C.buttonChangeGroupType());
+    saveType.setEnabled(false);
+    saveType.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        onSaveType();
+      }
+    });
+
+    final VerticalPanel fp = new VerticalPanel();
+    fp.add(new SmallHeading(Util.C.headingGroupType()));
+    fp.add(typeSystem);
+    fp.add(typeSelect);
+    fp.add(saveType);
+    add(fp);
+  }
+
   private void initMemberList() {
     addMemberBox = new AddMemberBox();
 
@@ -202,6 +254,160 @@ public class AccountGroupScreen extends AccountScreen {
     add(memberPanel);
   }
 
+  private void initExternal() {
+    externalName = new Label();
+
+    externalNameFilter = new NpTextBox();
+    externalNameFilter.setVisibleLength(30);
+    externalNameFilter.addKeyPressHandler(new KeyPressHandler() {
+      @Override
+      public void onKeyPress(final KeyPressEvent event) {
+        if (event.getCharCode() == KeyCodes.KEY_ENTER) {
+          doExternalSearch();
+        }
+      }
+    });
+
+    externalNameSearch = new Button(Gerrit.C.searchButton());
+    externalNameSearch.addClickHandler(new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event) {
+        doExternalSearch();
+      }
+    });
+
+    externalMatches = new Grid();
+    externalMatches.setStyleName("gerrit-InfoTable");
+    externalMatches.setVisible(false);
+
+    final FlowPanel searchLine = new FlowPanel();
+    searchLine.add(externalNameFilter);
+    searchLine.add(externalNameSearch);
+
+    externalPanel = new VerticalPanel();
+    externalPanel.add(new SmallHeading(Util.C.headingExternalGroup()));
+    externalPanel.add(externalName);
+    externalPanel.add(searchLine);
+    externalPanel.add(externalMatches);
+    add(externalPanel);
+  }
+
+  private void setType(final AccountGroup.Type newType) {
+    final boolean system = newType == AccountGroup.Type.SYSTEM;
+
+    typeSystem.setVisible(system);
+    typeSelect.setVisible(!system);
+    saveType.setVisible(!system);
+    memberPanel.setVisible(newType == AccountGroup.Type.INTERNAL);
+    externalPanel.setVisible(newType == AccountGroup.Type.LDAP);
+    externalNameFilter.setText(groupNameTxt.getText());
+
+    if (!system) {
+      for (int i = 0; i < typeSelect.getItemCount(); i++) {
+        if (newType.name().equals(typeSelect.getValue(i))) {
+          typeSelect.setSelectedIndex(i);
+          break;
+        }
+      }
+    }
+
+    saveType.setEnabled(false);
+  }
+
+  private void onSaveType() {
+    final int idx = typeSelect.getSelectedIndex();
+    final AccountGroup.Type newType =
+        AccountGroup.Type.valueOf(typeSelect.getValue(idx));
+
+    typeSelect.setEnabled(false);
+    saveType.setEnabled(false);
+
+    Util.GROUP_SVC.changeGroupType(groupId, newType,
+        new GerritCallback<VoidResult>() {
+          @Override
+          public void onSuccess(VoidResult result) {
+            typeSelect.setEnabled(true);
+            setType(newType);
+          }
+
+          @Override
+          public void onFailure(Throwable caught) {
+            typeSelect.setEnabled(true);
+            saveType.setEnabled(true);
+            super.onFailure(caught);
+          }
+        });
+  }
+
+  private void doExternalSearch() {
+    externalNameFilter.setEnabled(false);
+    externalNameSearch.setEnabled(false);
+    Util.GROUP_SVC.searchExternalGroups(externalNameFilter.getText(),
+        new GerritCallback<List<AccountGroup.ExternalNameKey>>() {
+          @Override
+          public void onSuccess(List<AccountGroup.ExternalNameKey> result) {
+            final CellFormatter fmt = externalMatches.getCellFormatter();
+
+            if (result.isEmpty()) {
+              externalMatches.resize(1, 1);
+              externalMatches.setText(0, 0, Util.C.errorNoMatchingGroups());
+              fmt.setStyleName(0, 0, "header");
+              return;
+            }
+
+            externalMatches.resize(1 + result.size(), 2);
+
+            externalMatches.setText(0, 0, Util.C.columnGroupName());
+            externalMatches.setText(0, 1, "");
+            fmt.setStyleName(0, 0, "header");
+            fmt.setStyleName(0, 1, "header");
+
+            for (int row = 0; row < result.size(); row++) {
+              final AccountGroup.ExternalNameKey key = result.get(row);
+              final Button b = new Button(Util.C.buttonSelectGroup());
+              b.addClickHandler(new ClickHandler() {
+                @Override
+                public void onClick(ClickEvent event) {
+                  setExternalGroup(key);
+                }
+              });
+              externalMatches.setText(1 + row, 0, key.get());
+              externalMatches.setWidget(1 + row, 1, b);
+              fmt.setStyleName(1 + row, 1, "rightmost");
+            }
+            externalMatches.setVisible(true);
+
+            externalNameFilter.setEnabled(true);
+            externalNameSearch.setEnabled(true);
+          }
+
+          @Override
+          public void onFailure(Throwable caught) {
+            externalNameFilter.setEnabled(true);
+            externalNameSearch.setEnabled(true);
+            super.onFailure(caught);
+          }
+        });
+  }
+
+  private void setExternalGroup(final AccountGroup.ExternalNameKey key) {
+    externalMatches.setVisible(false);
+
+    Util.GROUP_SVC.changeExternalGroup(groupId, key,
+        new GerritCallback<VoidResult>() {
+          @Override
+          public void onSuccess(VoidResult result) {
+            externalName.setText(key.get());
+          }
+
+          @Override
+          public void onFailure(Throwable caught) {
+            externalMatches.setVisible(true);
+            super.onFailure(caught);
+          }
+        });
+  }
+
   private void display(final GroupDetail result) {
     final AccountGroup group = result.group;
     setPageTitle(Util.M.group(group.getName()));
@@ -213,13 +419,19 @@ public class AccountGroupScreen extends AccountScreen {
     }
     descTxt.setText(group.getDescription());
 
-    if (group.isAutomaticMembership()) {
-      memberPanel.setVisible(false);
-    } else {
-      memberPanel.setVisible(true);
-      accounts = result.accounts;
-      members.display(result.members);
+    switch (group.getType()) {
+      case INTERNAL:
+        accounts = result.accounts;
+        members.display(result.members);
+        break;
+
+      case LDAP:
+        externalName.setText(group.getExternalNameKey() != null ? group
+            .getExternalNameKey().get() : Util.C.noGroupSelected());
+        break;
     }
+
+    setType(group.getType());
   }
 
   void doAddNew() {

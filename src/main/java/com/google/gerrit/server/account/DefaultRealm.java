@@ -18,6 +18,7 @@ import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.inject.Inject;
 
+import java.util.Collections;
 import java.util.Set;
 
 public final class DefaultRealm implements Realm {
@@ -63,5 +64,10 @@ public final class DefaultRealm implements Realm {
       }
     }
     return null;
+  }
+
+  @Override
+  public Set<AccountGroup.ExternalNameKey> lookupGroups(String name) {
+    return Collections.emptySet();
   }
 }

@@ -32,8 +32,7 @@ public interface GroupAdminService extends RemoteJsonService {
   void createGroup(String newName, AsyncCallback<AccountGroup.Id> callback);
 
   @SignInRequired
-  void groupDetail(AccountGroup.Id groupId,
-      AsyncCallback<GroupDetail> callback);
+  void groupDetail(AccountGroup.Id groupId, AsyncCallback<GroupDetail> callback);
 
   @SignInRequired
   void changeGroupDescription(AccountGroup.Id groupId, String description,
@@ -46,6 +45,18 @@ public interface GroupAdminService extends RemoteJsonService {
   @SignInRequired
   void renameGroup(AccountGroup.Id groupId, String newName,
       AsyncCallback<VoidResult> callback);
+
+  @SignInRequired
+  void changeGroupType(AccountGroup.Id groupId, AccountGroup.Type newType,
+      AsyncCallback<VoidResult> callback);
+
+  @SignInRequired
+  void changeExternalGroup(AccountGroup.Id groupId,
+      AccountGroup.ExternalNameKey bindTo, AsyncCallback<VoidResult> callback);
+
+  @SignInRequired
+  void searchExternalGroups(String searchFilter,
+      AsyncCallback<List<AccountGroup.ExternalNameKey>> callback);
 
   @SignInRequired
   void addGroupMember(AccountGroup.Id groupId, String nameOrEmail,

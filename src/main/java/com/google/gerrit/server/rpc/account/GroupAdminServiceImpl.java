@@ -21,7 +21,6 @@ import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.AccountGroupMember;
 import com.google.gerrit.client.reviewdb.AccountGroupMemberAudit;
 import com.google.gerrit.client.reviewdb.ReviewDb;
-import com.google.gerrit.client.reviewdb.AccountGroup.NameKey;
 import com.google.gerrit.client.rpc.NameAlreadyUsedException;
 import com.google.gerrit.client.rpc.NoSuchAccountException;
 import com.google.gerrit.client.rpc.NoSuchEntityException;
@@ -32,6 +31,7 @@ import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.account.NoSuchGroupException;
+import com.google.gerrit.server.account.Realm;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
@@ -51,6 +51,7 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
   private final Provider<IdentifiedUser> identifiedUser;
   private final AccountCache accountCache;
   private final AccountResolver accountResolver;
+  private final Realm accountRealm;
   private final GroupCache groupCache;
   private final GroupControl.Factory groupControlFactory;
   private final GroupDetailFactory.Factory groupDetailFactory;
@@ -59,13 +60,14 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
   GroupAdminServiceImpl(final Provider<ReviewDb> schema,
       final Provider<IdentifiedUser> currentUser,
       final AccountCache accountCache, final AccountResolver accountResolver,
-      final GroupCache groupCache,
+      final Realm accountRealm, final GroupCache groupCache,
       final GroupControl.Factory groupControlFactory,
       final GroupDetailFactory.Factory groupDetailFactory) {
     super(schema, currentUser);
     this.identifiedUser = currentUser;
     this.accountCache = accountCache;
     this.accountResolver = accountResolver;
+    this.accountRealm = accountRealm;
     this.groupCache = groupCache;
     this.groupControlFactory = groupControlFactory;
     this.groupDetailFactory = groupDetailFactory;
@@ -122,6 +124,7 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
             new AccountGroup(nameKey, new AccountGroup.Id(db
                 .nextAccountGroupId()));
         group.setNameKey(nameKey);
+        group.setType(AccountGroup.Type.INTERNAL);
         group.setDescription("");
 
         final Account.Id me = getAccountId();
@@ -205,13 +208,57 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
     });
   }
 
+  public void changeGroupType(final AccountGroup.Id groupId,
+      final AccountGroup.Type newType, final AsyncCallback<VoidResult> callback) {
+    run(callback, new Action<VoidResult>() {
+      public VoidResult run(final ReviewDb db) throws OrmException, Failure {
+        final AccountGroup group = db.accountGroups().get(groupId);
+        assertAmGroupOwner(db, group);
+        group.setType(newType);
+        db.accountGroups().update(Collections.singleton(group));
+        groupCache.evict(group);
+        return VoidResult.INSTANCE;
+      }
+    });
+  }
+
+  public void changeExternalGroup(final AccountGroup.Id groupId,
+      final AccountGroup.ExternalNameKey bindTo,
+      final AsyncCallback<VoidResult> callback) {
+    run(callback, new Action<VoidResult>() {
+      public VoidResult run(final ReviewDb db) throws OrmException, Failure {
+        final AccountGroup group = db.accountGroups().get(groupId);
+        assertAmGroupOwner(db, group);
+        group.setExternalNameKey(bindTo);
+        db.accountGroups().update(Collections.singleton(group));
+        groupCache.evict(group);
+        return VoidResult.INSTANCE;
+      }
+    });
+  }
+
+  public void searchExternalGroups(final String searchFilter,
+      final AsyncCallback<List<AccountGroup.ExternalNameKey>> callback) {
+    final ArrayList<AccountGroup.ExternalNameKey> matches =
+        new ArrayList<AccountGroup.ExternalNameKey>(accountRealm
+            .lookupGroups(searchFilter));
+    Collections.sort(matches, new Comparator<AccountGroup.ExternalNameKey>() {
+      @Override
+      public int compare(AccountGroup.ExternalNameKey a,
+          AccountGroup.ExternalNameKey b) {
+        return a.get().compareTo(b.get());
+      }
+    });
+    callback.onSuccess(matches);
+  }
+
   public void addGroupMember(final AccountGroup.Id groupId,
       final String nameOrEmail, final AsyncCallback<GroupDetail> callback) {
     run(callback, new Action<GroupDetail>() {
       public GroupDetail run(ReviewDb db) throws OrmException, Failure,
           NoSuchGroupException {
         final GroupControl control = groupControlFactory.validateFor(groupId);
-        if (control.getAccountGroup().isAutomaticMembership()) {
+        if (control.getAccountGroup().getType() != AccountGroup.Type.INTERNAL) {
           throw new Failure(new NameAlreadyUsedException());
         }
 
@@ -246,7 +293,7 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
       public VoidResult run(final ReviewDb db) throws OrmException,
           NoSuchGroupException, Failure {
         final GroupControl control = groupControlFactory.validateFor(groupId);
-        if (control.getAccountGroup().isAutomaticMembership()) {
+        if (control.getAccountGroup().getType() != AccountGroup.Type.INTERNAL) {
           throw new Failure(new NameAlreadyUsedException());
         }
 

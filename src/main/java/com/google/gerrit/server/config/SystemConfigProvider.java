@@ -140,7 +140,7 @@ class SystemConfigProvider implements Provider<SystemConfig> {
             new AccountGroup.Id(c.nextAccountGroupId()));
     anonymous.setDescription("Any user, signed-in or not");
     anonymous.setOwnerGroupId(admin.getId());
-    anonymous.setAutomaticMembership(true);
+    anonymous.setType(AccountGroup.Type.SYSTEM);
     c.accountGroups().insert(Collections.singleton(anonymous));
 
     final AccountGroup registered =
@@ -148,7 +148,7 @@ class SystemConfigProvider implements Provider<SystemConfig> {
             new AccountGroup.Id(c.nextAccountGroupId()));
     registered.setDescription("Any signed-in user");
     registered.setOwnerGroupId(admin.getId());
-    registered.setAutomaticMembership(true);
+    anonymous.setType(AccountGroup.Type.SYSTEM);
     c.accountGroups().insert(Collections.singleton(registered));
 
     File sitePath = new File(".").getAbsoluteFile();

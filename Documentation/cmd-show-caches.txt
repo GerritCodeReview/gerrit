@@ -27,43 +27,27 @@ EXAMPLES
 
 ====
 	$ ssh -p 29418 review.example.com gerrit show-caches
-	cache "diff" (memory, disk):
-	  items       :           16519
-	  items.memory:             153
-	  items.disk  :           16384
-	  evictions   :               0
-	  ttl.idle    :  90.00 days
-	  ttl.live    :        inf
-	  avg.get     :   0.67 ms
-	  hit%        :  85%
-	  hit%.memory :  55%
-	  hit%.disk   :  30%
-
-	cache "openid":
-	  items       :               8
-	  evictions   :               0
-	  ttl.idle    :   5.00 mins
-	  ttl.live    :   5.00 mins
-	  avg.get     :   1.00 ms
-	  hit%        :   5%
-
-	cache "sshkeys":
-	  items       :               4
-	  evictions   :               0
-	  ttl.idle    :  90.00 days
-	  ttl.live    :        inf
-	  avg.get     :   0.06 ms
-	  hit%        :  92%
+	  Name               Max |Object Count        |  AvgGet  |Hit Ratio     |
+	                     Age |  Disk    Mem    Cnt|          |Disk Mem  Agg |
+	-------------------------+--------------------+----------+--------------+
+	  accounts           90d |                 295|          |           99%|
+	  accounts_byemail   90d |                 109|          |           97%|
+	D diff               90d |  2695    128   2707|   0.4ms  | 11%  86%  98%|
+	  groups             90d |                  94|          |           80%|
+	  openid             5m  |                  30|   0.4ms  |            9%|
+	  projects           90d |                 188|          |           99%|
+	  sshkeys            90d |                   9|          |           94%|
+	D web_sessions       12h |           30     30|          |  0%  99%  99%|
 
 	JGit Buffer Cache:
-	  open files  :               9
-	  loaded      :   9.99 mb
-	  mem%        :   3%
+	  open files  :              23
+	  loaded      :   6.82 mb
+	  mem%        :   2%
 
 	JVM Heap:
 	  max         : 880.00 mb
-	  inuse       : 166.96 mb
-	  mem%        :  57%
+	  inuse       : 136.57 mb
+	  mem%        :  44%
 ====
 
 SEE ALSO

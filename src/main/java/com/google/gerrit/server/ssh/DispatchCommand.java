@@ -65,6 +65,11 @@ final class DispatchCommand extends BaseCommand {
       args = "";
     }
 
+    if (name.equals("help") || name.equals("--help") || name.equals("-h")) {
+      usage();
+      return;
+    }
+
     final Provider<Command> p = commands.get(name);
     if (p != null) {
       final Command cmd = p.get();
@@ -98,14 +103,25 @@ final class DispatchCommand extends BaseCommand {
 
   private void usage() throws IOException, UnsupportedEncodingException {
     final StringBuilder usage = new StringBuilder();
-    usage.append("usage: " + prefix + " COMMAND [ARGS]\n");
+    if (prefix.indexOf(' ') < 0) {
+      usage.append("usage: " + prefix + " COMMAND [ARGS]\n");
+    }
     usage.append("\n");
     usage.append("Available commands of " + prefix + " are:\n");
+    usage.append("\n");
     for (Map.Entry<String, Provider<Command>> e : commands.entrySet()) {
       usage.append("   ");
       usage.append(e.getKey());
       usage.append("\n");
     }
+    usage.append("\n");
+
+    usage.append("See '");
+    if (prefix.indexOf(' ') < 0) {
+      usage.append(prefix);
+      usage.append(' ');
+    }
+    usage.append("COMMAND --help' for more information.\n");
     usage.append("\n");
     err.write(usage.toString().getBytes("UTF-8"));
     err.flush();

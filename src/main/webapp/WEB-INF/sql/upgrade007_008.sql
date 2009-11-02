@@ -18,7 +18,7 @@ VALUES
 UPDATE project_rights
 SET max_value = 2
 WHERE max_value = 1
-  AND category_id = 'pTAG'; 
+  AND category_id = 'pTAG';
 
 UPDATE project_rights
 SET min_value = max_value, max_value = min_value

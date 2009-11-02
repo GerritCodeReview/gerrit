@@ -85,7 +85,7 @@ AND (SELECT COUNT(*) FROM accounts b
 AND account_id <> (SELECT s.account_id FROM account_ssh_keys r, accounts s
                    WHERE s.ssh_user_name = accounts.ssh_user_name
                    AND r.account_id = s.account_id
-                   AND r.last_used_on = 
+                   AND r.last_used_on =
                      (SELECT MAX(k.last_used_on)
                       FROM account_ssh_keys k, accounts b
                       WHERE b.ssh_user_name = accounts.ssh_user_name

@@ -33,7 +33,7 @@ import com.google.gwt.user.client.ui.InlineHyperlink;
 public abstract class DirectScreenLink extends InlineHyperlink {
   /**
    * Creates a link with its text and target history token specified.
-   * 
+   *
    * @param text the hyperlink's text
    * @param historyToken the history token to which it will link
    */

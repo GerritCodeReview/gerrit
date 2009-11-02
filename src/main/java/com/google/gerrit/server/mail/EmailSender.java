@@ -23,7 +23,7 @@ public interface EmailSender {
 
   /**
    * Sends an email message.
-   * 
+   *
    * @param from who the message is from.
    * @param rcpt one or more address where the message will be delivered to.
    *        This list overrides any To or CC headers in {@code headers}.

@@ -38,7 +38,7 @@ EXAMPLES
 	  hit%        :  85%
 	  hit%.memory :  55%
 	  hit%.disk   :  30%
-	
+
 	cache "openid":
 	  items       :               8
 	  evictions   :               0
@@ -46,7 +46,7 @@ EXAMPLES
 	  ttl.live    :   5.00 mins
 	  avg.get     :   1.00 ms
 	  hit%        :   5%
-	
+
 	cache "sshkeys":
 	  items       :               4
 	  evictions   :               0
@@ -54,12 +54,12 @@ EXAMPLES
 	  ttl.live    :        inf
 	  avg.get     :   0.06 ms
 	  hit%        :  92%
-	
+
 	JGit Buffer Cache:
 	  open files  :               9
 	  loaded      :   9.99 mb
 	  mem%        :   3%
-	
+
 	JVM Heap:
 	  max         : 880.00 mb
 	  inuse       : 166.96 mb

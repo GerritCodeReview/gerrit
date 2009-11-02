@@ -13,7 +13,7 @@ PRIMARY KEY (account_id, change_id, patch_set_id, file_name)
 INSERT INTO approval_categories
 (name, position, function_name, category_id)
 VALUES
-('Owner', -1, 'NoOp', 'OWN'); 
+('Owner', -1, 'NoOp', 'OWN');
 
 INSERT INTO approval_category_values
 (category_id, value, name)

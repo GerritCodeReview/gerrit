@@ -105,7 +105,7 @@ public class ComplexDisclosurePanel extends Composite implements
 
   /**
    * Changes the visible state of this panel's content.
-   * 
+   *
    * @param isOpen <code>true</code> to open, <code>false</code> to close
    */
   public void setOpen(final boolean isOpen) {

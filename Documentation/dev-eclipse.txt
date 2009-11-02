@@ -103,7 +103,7 @@ creates a state that produces a corrupt production build.
 Launch Gerrit
 -------------
 
-Open Run->Debug Configurations... 
+Open Run->Debug Configurations...
 
 Under Java Application find `gerrit_debug` (not Mac OS X)
 or `gerrit_macos` (Mac OS X only) to start the GWT hosted

@@ -19,7 +19,7 @@ import com.google.gwtorm.client.IntKey;
 
 /**
  * An agreement {@link Account} must acknowledge to contribute changes.
- * 
+ *
  * @see AccountAgreement
  */
 public final class ContributorAgreement {
@@ -79,7 +79,7 @@ public final class ContributorAgreement {
 
   /**
    * Create a new agreement.
-   * 
+   *
    * @param newId unique id, see {@link ReviewDb#nextAccountId()}.
    * @param name a short title/name for the agreement.
    */

@@ -26,7 +26,7 @@ public class ToggleStarRequest {
 
   /**
    * Request an update to the change's star status.
-   * 
+   *
    * @param id unique id of the change, must not be null.
    * @param on true if the change should now be starred; false if it should now
    *        be not starred.

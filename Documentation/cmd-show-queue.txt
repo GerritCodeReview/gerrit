@@ -35,7 +35,7 @@ DISPLAY
 S::
 	Current state of the task.  States are:
 +
-* `D`: task is complete, but hasn't released its worker yet. 
+* `D`: task is complete, but hasn't released its worker yet.
 * `C`: task has been cancelled, but hasn't left the queue yet.
 * `R`: task is actively running on a worker thread.
 * `W`: task is ready to run, waiting for a worker thread.

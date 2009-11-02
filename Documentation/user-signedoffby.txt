@@ -57,7 +57,7 @@ using your real name (sorry, no pseudonyms or anonymous contributions.)
 
 Some people also put extra tags at the end.  They'll just be ignored for
 now, but you can do this to mark internal company procedures or just
-point out some special detail about the sign-off. 
+point out some special detail about the sign-off.
 
 If you are a subsystem or branch maintainer, sometimes you need to slightly
 modify patches you receive in order to merge them, because the code is not

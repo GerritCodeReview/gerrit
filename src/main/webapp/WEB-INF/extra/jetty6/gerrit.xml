@@ -45,7 +45,7 @@
         <Set name="username">gerrit2</Set>
         <Set name="password">secretkey</Set>
 -->
-<!--  MySQL 
+<!--  MySQL
         <Set name="driverClassName">com.mysql.jdbc.Driver</Set>
         <Set name="url">jdbc:mysql://localhost/reviewdb?user=gerrit2&amp;password=secretkey</Set>
 -->

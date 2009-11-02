@@ -100,7 +100,7 @@ Create a new project called `tools/gerrit`:
 Create a new project with a description:
 
 ====
-	$ ssh -p 29418 review.example.com gerrit create-project --name tool.git --description "'Tools used by build system'" 
+	$ ssh -p 29418 review.example.com gerrit create-project --name tool.git --description "'Tools used by build system'"
 ====
 
 Note that it is necessary to quote the description twice.  The local

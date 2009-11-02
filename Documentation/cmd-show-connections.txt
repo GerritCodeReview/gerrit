@@ -68,7 +68,7 @@ With reverse DNS lookup (default):
 	--------------------------------------------------------------
 	 14:02:47 00:00:00  jdoe            jdoe-desktop.example.com
 	 [ gerrit-show-connections ]
-	
+
 	--
 ====
 
@@ -79,7 +79,7 @@ Without reverse DNS lookup:
 	--------------------------------------------------------------
 	 14:02:48 00:00:00  a/1001240       10.0.0.1
 	 [ gerrit-show-connections -n ]
-	
+
 	--
 ====
 

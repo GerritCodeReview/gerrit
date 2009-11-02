@@ -13,7 +13,7 @@
 
       var r = '/Gerrit';
       if (href.length >= r.length
-       && href.substring(href.length - r.length) == r) { 
+       && href.substring(href.length - r.length) == r) {
         href = href.substring(0, href.length - r.length + 1) + token;
       } else {
         href = '.' + token;

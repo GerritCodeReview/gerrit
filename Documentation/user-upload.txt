@@ -223,10 +223,10 @@ For example, consider the following sequence of events:
 
   $ git rebase -i HEAD~3               ; # edit "A", insert D before B
                                        ; # now series is A'-D-B'-C'
-  $ git push ... 
-      HEAD:refs/for/master 
-      HEAD~3:refs/changes/1500 
-      HEAD~1:refs/changes/1501 
+  $ git push ...
+      HEAD:refs/for/master
+      HEAD~3:refs/changes/1500
+      HEAD~1:refs/changes/1501
       HEAD~0:refs/changes/1502         ; # upload replacements
 ====
 

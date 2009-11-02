@@ -20,7 +20,7 @@ import eu.medsea.mimeutil.MimeUtil2;
 public interface FileTypeRegistry {
   /**
    * Get the most specific MIME type available for a file.
-   * 
+   *
    * @param path name of the file. The base name (component after the last '/')
    *        may be used to help determine the MIME type, such as by examining
    *        the extension (portion after the last '.' if present).
@@ -35,7 +35,7 @@ public interface FileTypeRegistry {
 
   /**
    * Is this content type safe to transmit to a browser directly?
-   * 
+   *
    * @param type the MIME type of the file content.
    * @return true if the Gerrit administrator wants to permit this content to be
    *         served as-is; false if the administrator does not trust this

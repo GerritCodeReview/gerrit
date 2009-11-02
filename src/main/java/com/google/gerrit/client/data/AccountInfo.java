@@ -38,7 +38,7 @@ public class AccountInfo {
 
   /**
    * Create an account description from a real data store record.
-   * 
+   *
    * @param a the data store record holding the specific account details.
    */
   public AccountInfo(final Account a) {

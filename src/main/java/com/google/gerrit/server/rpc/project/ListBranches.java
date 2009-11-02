@@ -29,10 +29,12 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 class ListBranches extends Handler<List<Branch>> {
   interface Factory {
@@ -65,8 +67,25 @@ class ListBranches extends Handler<List<Branch>> {
     final List<Branch> branches = new ArrayList<Branch>();
     final Repository db = repoManager.openRepository(projectName.get());
     try {
-      for (final Ref ref : db.getAllRefs().values()) {
-        final String name = ref.getOrigName();
+      final Map<String, Ref> all = db.getAllRefs();
+
+      if (!all.containsKey(Constants.HEAD)) {
+        // The branch pointed to by HEAD doesn't exist yet. Fake
+        // that it exists by returning a Ref with no ObjectId.
+        //
+        try {
+          final String head = db.getFullBranch();
+          if (head != null && head.startsWith(Constants.R_REFS)) {
+            all.put(Constants.HEAD, new Ref(Ref.Storage.LOOSE, Constants.HEAD,
+                head, null));
+          }
+        } catch (IOException e) {
+          // Ignore the failure reading HEAD.
+        }
+      }
+
+      for (final Ref ref : all.values()) {
+        final String name = ref.getName();
         if (name.startsWith(Constants.R_HEADS)) {
           final Branch b = new Branch(new Branch.NameKey(projectName, name));
           if (ref.getObjectId() != null) {

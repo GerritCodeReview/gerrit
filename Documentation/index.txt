@@ -6,6 +6,7 @@ User Guide
 
 * link:http://source.android.com/submit-patches/workflow[Default Workflow]
 * link:cmd-index.html[Command Line Tools]
+* link:pgm-index.html[Server Programs]
 * link:user-upload.html[Uploading Changes]
 * link:user-changeid.html[Change-Id Lines]
 * link:user-signedoffby.html[Signed-off-by Lines]
@@ -17,7 +18,6 @@ Installation
 * link:licenses.html[Licenses and Notices]
 * link:install.html[Installation Guide]
 * link:project-setup.html[Project Setup]
-* link:pgm-index.html[Server Programs]
 
 Configuration
 -------------

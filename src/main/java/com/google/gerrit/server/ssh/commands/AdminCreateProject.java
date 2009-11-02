@@ -16,7 +16,6 @@ package com.google.gerrit.server.ssh.commands;
 
 import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.ApprovalCategory;
-import com.google.gerrit.client.reviewdb.Branch;
 import com.google.gerrit.client.reviewdb.Project;
 import com.google.gerrit.client.reviewdb.ProjectRight;
 import com.google.gerrit.client.reviewdb.ReviewDb;
@@ -30,9 +29,9 @@ import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.Transaction;
 import com.google.inject.Inject;
 
-import org.kohsuke.args4j.Option;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
+import org.kohsuke.args4j.Option;
 
 import java.io.PrintWriter;
 import java.util.Collections;
@@ -130,10 +129,6 @@ final class AdminCreateProject extends BaseCommand {
     pr.setMaxValue((short) 1);
     pr.setMinValue((short) 1);
     db.projectRights().insert(Collections.singleton(pr), txn);
-
-    final Branch newBranch =
-        new Branch(new Branch.NameKey(newProjectNameKey, branch));
-    db.branches().insert(Collections.singleton(newBranch), txn);
   }
 
   private void validateParameters() throws Failure {

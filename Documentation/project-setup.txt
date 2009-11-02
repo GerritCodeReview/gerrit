@@ -47,10 +47,7 @@ protocol, don't forget to create a `git-daemon-export-ok` file:
 Register Project
 ~~~~~~~~~~~~~~~~
 
-At least two inserts are needed to register a project with Gerrit:
-one to define the project exists, and another to define a branch
-that changes can be uploaded to for code review.  Additional branches
-may be defined if desired.
+One insert is needed to register a project with Gerrit.
 
 [NOTE]
 Note that the `.git` suffix is not typically included in the
@@ -68,13 +65,6 @@ for a project named `project`.
   (nextval('project_id')
   ,'N'
   ,'M'
-  ,'new/project');
-
-  INSERT INTO branches
-  (branch_name
-  ,project_name)
-  VALUES
-  ('refs/heads/master'
   ,'new/project');
 ====
 

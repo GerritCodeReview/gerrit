@@ -16,7 +16,6 @@ package com.google.gerrit.server.rpc.project;
 
 import com.google.gerrit.client.reviewdb.Branch;
 import com.google.gerrit.client.reviewdb.Project;
-import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.client.rpc.InvalidNameException;
 import com.google.gerrit.client.rpc.InvalidRevisionException;
 import com.google.gerrit.git.GitRepositoryManager;
@@ -25,12 +24,9 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.rpc.Handler;
-import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.Constants;
@@ -40,9 +36,10 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.ObjectWalk;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 
 class AddBranch extends Handler<List<Branch>> {
@@ -59,7 +56,6 @@ class AddBranch extends Handler<List<Branch>> {
   private final IdentifiedUser identifiedUser;
   private final GitRepositoryManager repoManager;
   private final ReplicationQueue replication;
-  private final ReviewDb db;
 
   private final Project.NameKey projectName;
   private final String branchName;
@@ -69,7 +65,7 @@ class AddBranch extends Handler<List<Branch>> {
   AddBranch(final ProjectControl.Factory projectControlFactory,
       final ListBranches.Factory listBranchesFactory,
       final IdentifiedUser identifiedUser, final GitRepositoryManager repoManager,
-      final ReplicationQueue replication, final ReviewDb db,
+      final ReplicationQueue replication,
 
       @Assisted Project.NameKey projectName,
       @Assisted("branchName") String branchName,
@@ -79,7 +75,6 @@ class AddBranch extends Handler<List<Branch>> {
     this.identifiedUser = identifiedUser;
     this.repoManager = repoManager;
     this.replication = replication;
-    this.db = db;
 
     this.projectName = projectName;
     this.branchName = branchName;
@@ -87,7 +82,7 @@ class AddBranch extends Handler<List<Branch>> {
   }
 
   @Override
-  public List<Branch> call() throws NoSuchProjectException, OrmException,
+  public List<Branch> call() throws NoSuchProjectException,
       InvalidNameException, InvalidRevisionException, IOException {
     final ProjectControl projectControl =
         projectControlFactory.validateFor(projectName, ProjectControl.OWNER
@@ -140,9 +135,6 @@ class AddBranch extends Handler<List<Branch>> {
     } finally {
       repo.close();
     }
-
-    final Branch newBranch = new Branch(name);
-    db.branches().insert(Collections.singleton(newBranch));
 
     return listBranchesFactory.create(projectName).call();
   }

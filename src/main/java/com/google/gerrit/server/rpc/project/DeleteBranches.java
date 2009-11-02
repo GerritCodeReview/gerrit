@@ -16,24 +16,21 @@ package com.google.gerrit.server.rpc.project;
 
 import com.google.gerrit.client.reviewdb.Branch;
 import com.google.gerrit.client.reviewdb.Project;
-import com.google.gerrit.client.reviewdb.ReviewDb;
 import com.google.gerrit.git.GitRepositoryManager;
 import com.google.gerrit.git.ReplicationQueue;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.rpc.Handler;
-import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -49,21 +46,19 @@ class DeleteBranches extends Handler<Set<Branch.NameKey>> {
   private final ProjectControl.Factory projectControlFactory;
   private final GitRepositoryManager repoManager;
   private final ReplicationQueue replication;
-  private final ReviewDb db;
 
   private final Project.NameKey projectName;
   private final Set<Branch.NameKey> toRemove;
 
   @Inject
   DeleteBranches(final ProjectControl.Factory projectControlFactory,
-      final GitRepositoryManager repoManager, final ReplicationQueue replication,
-      final ReviewDb db,
+      final GitRepositoryManager repoManager,
+      final ReplicationQueue replication,
 
       @Assisted Project.NameKey name, @Assisted Set<Branch.NameKey> toRemove) {
     this.projectControlFactory = projectControlFactory;
     this.repoManager = repoManager;
     this.replication = replication;
-    this.db = db;
 
     this.projectName = name;
     this.toRemove = toRemove;
@@ -71,7 +66,7 @@ class DeleteBranches extends Handler<Set<Branch.NameKey>> {
 
   @Override
   public Set<Branch.NameKey> call() throws NoSuchProjectException,
-      RepositoryNotFoundException, OrmException {
+      RepositoryNotFoundException {
     final ProjectControl projectControl =
         projectControlFactory.validateFor(projectName, ProjectControl.OWNER
             | ProjectControl.VISIBLE);
@@ -89,14 +84,10 @@ class DeleteBranches extends Handler<Set<Branch.NameKey>> {
     final Repository r = repoManager.openRepository(projectName.get());
     try {
       for (final Branch.NameKey branchKey : toRemove) {
-        final Branch b = db.branches().get(branchKey);
-        if (b == null) {
-          continue;
-        }
-
+        final String refname = branchKey.get();
         final RefUpdate.Result result;
         try {
-          final RefUpdate u = r.updateRef(b.getName());
+          final RefUpdate u = r.updateRef(refname);
           u.setForceUpdate(true);
           result = u.delete();
         } catch (IOException e) {
@@ -109,9 +100,8 @@ class DeleteBranches extends Handler<Set<Branch.NameKey>> {
           case NO_CHANGE:
           case FAST_FORWARD:
           case FORCED:
-            db.branches().delete(Collections.singleton(b));
             deleted.add(branchKey);
-            replication.scheduleUpdate(projectName, b.getName());
+            replication.scheduleUpdate(projectName, refname);
             break;
 
           case REJECTED_CURRENT_BRANCH:

@@ -17,7 +17,7 @@ package com.google.gerrit.client.reviewdb;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.StringKey;
 
-/** Registered line of development within a {@link Project}. */
+/** Line of development within a {@link Project}. */
 public final class Branch {
   public static final String R_HEADS = "refs/heads/";
   public static final String R_REFS = "refs/";
@@ -69,8 +69,8 @@ public final class Branch {
     }
   }
 
-  @Column(name = Column.NONE)
   protected NameKey name;
+  protected RevId revision;
 
   protected Branch() {
   }
@@ -89,5 +89,13 @@ public final class Branch {
 
   public String getShortName() {
     return name.getShortName();
+  }
+
+  public RevId getRevision() {
+    return revision;
+  }
+
+  public void setRevision(final RevId id) {
+    revision = id;
   }
 }

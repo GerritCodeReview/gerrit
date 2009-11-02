@@ -57,9 +57,6 @@ import com.google.gwtorm.client.OrmRunnable;
 import com.google.gwtorm.client.Transaction;
 import com.google.inject.Inject;
 
-import org.kohsuke.args4j.Option;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -81,6 +78,9 @@ import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.transport.ReceivePack;
 import org.eclipse.jgit.transport.ReceiveCommand.Result;
 import org.eclipse.jgit.transport.ReceiveCommand.Type;
+import org.kohsuke.args4j.Option;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -168,7 +168,7 @@ final class Receive extends AbstractGitCommand {
   private ReceivePack rp;
   private PersonIdent refLogIdent;
   private ReceiveCommand newChange;
-  private Branch destBranch;
+  private Branch.NameKey destBranch;
 
   private final List<Change.Id> allNewChanges = new ArrayList<Change.Id>();
   private final Map<Change.Id, ReplaceRequest> replaceByChange =
@@ -223,11 +223,9 @@ final class Receive extends AbstractGitCommand {
             if (isHead(c)) {
               switch (c.getType()) {
                 case CREATE:
-                  insertBranchEntity(c);
                   autoCloseChanges(c);
                   break;
                 case DELETE:
-                  deleteBranchEntity(c);
                   break;
                 case UPDATE:
                 case UPDATE_NONFASTFORWARD:
@@ -541,15 +539,30 @@ final class Receive extends AbstractGitCommand {
       destBranchName = Constants.R_HEADS + destBranchName;
     }
 
-    try {
-      destBranch =
-          db.branches().get(
-              new Branch.NameKey(project.getNameKey(), destBranchName));
-    } catch (OrmException e) {
-      log.error("Cannot lookup branch " + project + " " + destBranchName, e);
-      reject(cmd, "database error");
-      return;
+    if (rp.getAdvertisedRefs().containsKey(destBranchName)) {
+      // We advertised the branch to the client so we know
+      // the branch exists. Target this branch for the upload.
+      //
+      destBranch = new Branch.NameKey(project.getNameKey(), destBranchName);
+
+    } else {
+      // We didn't advertise the branch, because it doesn't exist yet.
+      // Allow it anyway if HEAD is a symbolic reference to the name.
+      //
+      final String head;
+      try {
+        head = repo.getFullBranch();
+      } catch (IOException e) {
+        log.error("Cannot read HEAD symref", e);
+        reject(cmd, "internal error");
+        return;
+      }
+
+      if (head.equals(destBranchName)) {
+        destBranch = new Branch.NameKey(project.getNameKey(), destBranchName);
+      }
     }
+
     if (destBranch == null) {
       String n = destBranchName;
       if (n.startsWith(Constants.R_HEADS))
@@ -797,8 +810,7 @@ final class Receive extends AbstractGitCommand {
 
     final Transaction txn = db.beginTransaction();
     final Change change =
-        new Change(changeKey, new Change.Id(db.nextChangeId()), me, destBranch
-            .getNameKey());
+        new Change(changeKey, new Change.Id(db.nextChangeId()), me, destBranch);
     final PatchSet ps = new PatchSet(change.newPatchSetId());
     ps.setCreatedOn(change.getCreatedOn());
     ps.setUploader(me);
@@ -1238,46 +1250,6 @@ final class Receive extends AbstractGitCommand {
     }
 
     return true;
-  }
-
-  private void insertBranchEntity(final ReceiveCommand c) {
-    try {
-      final Branch.NameKey nameKey =
-          new Branch.NameKey(project.getNameKey(), c.getRefName());
-      final Branch b = new Branch(nameKey);
-      db.branches().insert(Collections.singleton(b));
-    } catch (OrmException e) {
-      final String msg = "database failure creating " + c.getRefName();
-      log.error(msg, e);
-
-      try {
-        err.write(("remote error: " + msg + "\n").getBytes("UTF-8"));
-        err.flush();
-      } catch (IOException e2) {
-        // Ignore errors writing to the client
-      }
-    }
-  }
-
-  private void deleteBranchEntity(final ReceiveCommand c) {
-    try {
-      final Branch.NameKey nameKey =
-          new Branch.NameKey(project.getNameKey(), c.getRefName());
-      final Branch b = db.branches().get(nameKey);
-      if (b != null) {
-        db.branches().delete(Collections.singleton(b));
-      }
-    } catch (OrmException e) {
-      final String msg = "database failure deleting " + c.getRefName();
-      log.error(msg, e);
-
-      try {
-        err.write(("remote error: " + msg + "\n").getBytes("UTF-8"));
-        err.flush();
-      } catch (IOException e2) {
-        // Ignore errors writing to the client
-      }
-    }
   }
 
   private void autoCloseChanges(final ReceiveCommand cmd) {

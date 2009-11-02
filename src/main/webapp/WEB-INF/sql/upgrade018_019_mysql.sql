@@ -29,4 +29,6 @@ UPDATE account_groups SET group_type = 'INTERNAL' WHERE group_type IS NULL;
 ALTER TABLE account_groups MODIFY group_type VARCHAR(8) NOT NULL;
 ALTER TABLE account_groups DROP automatic_membership;
 
+DROP TABLE branches;
+
 UPDATE schema_version SET version_nbr = 19;

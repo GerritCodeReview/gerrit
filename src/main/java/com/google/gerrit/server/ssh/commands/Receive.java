@@ -938,41 +938,57 @@ final class Receive extends AbstractGitCommand {
         }
 
         final PatchSet.Id priorPatchSet = change.currentPatchSetId();
-        final HashSet<ObjectId> existingRevisions = new HashSet<ObjectId>();
         for (final PatchSet ps : db.patchSets().byChange(request.ontoChange)) {
-          if (ps.getRevision() != null) {
-            final String revIdStr = ps.getRevision().get();
-            try {
-              existingRevisions.add(ObjectId.fromString(revIdStr));
-            } catch (IllegalArgumentException e) {
-              log.warn("Invalid revision in " + ps.getId() + ": " + revIdStr);
-              reject(request.cmd, "change state corrupt");
-              return null;
-            }
+          if (ps.getRevision() == null) {
+            reject(request.cmd, "change state corrupt");
+            return null;
           }
-        }
 
-        // Don't allow the same commit to appear twice on the same change
-        //
-        if (existingRevisions.contains(c.copy())) {
-          reject(request.cmd, "patch set exists");
-          return null;
-        }
+          final String revIdStr = ps.getRevision().get();
+          final ObjectId commitId;
+          try {
+            commitId = ObjectId.fromString(revIdStr);
+          } catch (IllegalArgumentException e) {
+            log.warn("Invalid revision in " + ps.getId() + ": " + revIdStr);
+            reject(request.cmd, "change state corrupt");
+            return null;
+          }
 
-        // Don't allow a change to directly depend upon itself. This is a
-        // very common error due to users making a new commit rather than
-        // amending when trying to address review comments.
-        //
-        for (final ObjectId commitId : existingRevisions) {
           try {
             final RevCommit prior = rp.getRevWalk().parseCommit(commitId);
+
+            // Don't allow a change to directly depend upon itself. This is a
+            // very common error due to users making a new commit rather than
+            // amending when trying to address review comments.
+            //
             if (rp.getRevWalk().isMergedInto(prior, c)) {
               reject(request.cmd, "squash commits first");
               return null;
             }
+
+            // Don't allow the same commit to appear twice on the same change
+            //
+            if (c == prior) {
+              reject(request.cmd, "commit already exists");
+              return null;
+            }
+
+            // Don't allow the same tree if the commit message is unmodified,
+            // else warn that only the message changed.
+            //
+            if (priorPatchSet.equals(ps.getId())
+                && c.getTree() == prior.getTree()) {
+              if (c.getFullMessage().equals(prior.getFullMessage())) {
+                reject(request.cmd, "no changes made");
+                return null;
+              } else {
+                err.write(Constants
+                    .encode("warning: Only commit message changed in "
+                        + change.getKey().abbreviate() + "\n"));
+              }
+            }
           } catch (IOException e) {
-            final String name = commitId.name();
-            log.error("Change " + change.getId() + " missing " + name, e);
+            log.error("Change " + change.getId() + " missing " + revIdStr, e);
             reject(request.cmd, "change state corrupt");
             return null;
           }

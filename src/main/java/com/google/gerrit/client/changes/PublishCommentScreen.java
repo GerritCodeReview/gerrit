@@ -133,19 +133,15 @@ public class PublishCommentScreen extends AccountScreen implements ClickHandler 
   @Override
   protected void onUnload() {
     super.onUnload();
-    if (saveStateOnUnload) {
-      lastState = new SavedState(this);
-    }
+    lastState = saveStateOnUnload ? new SavedState(this) : null;
   }
 
   @Override
   public void onClick(final ClickEvent event) {
     final Widget sender = (Widget) event.getSource();
     if (send == sender) {
-      lastState = null;
       onSend();
     } else if (cancel == sender) {
-      lastState = null;
       saveStateOnUnload = false;
       goChange();
     }
@@ -290,6 +286,7 @@ public class PublishCommentScreen extends AccountScreen implements ClickHandler 
         new HashSet<ApprovalCategoryValue.Id>(values.values()),
         new GerritCallback<VoidResult>() {
           public void onSuccess(final VoidResult result) {
+            saveStateOnUnload = false;
             goChange();
           }
         });

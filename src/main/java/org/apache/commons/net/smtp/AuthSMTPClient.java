@@ -14,9 +14,9 @@
 
 package org.apache.commons.net.smtp;
 
+import org.eclipse.jgit.util.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.eclipse.jgit.util.Base64;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -95,8 +95,8 @@ public class AuthSMTPClient extends SMTPClient {
     boolean ok = SMTPReply.isPositiveCompletion(sendCommand("EHLO", name));
     authTypes = "";
     for (String line : getReplyStrings()) {
-      if (line != null &&
-          (line.startsWith("250 AUTH ") || line.startsWith("250-AUTH "))) {
+      if (line != null
+          && (line.startsWith("250 AUTH ") || line.startsWith("250-AUTH "))) {
         authTypes = line;
         break;
       }

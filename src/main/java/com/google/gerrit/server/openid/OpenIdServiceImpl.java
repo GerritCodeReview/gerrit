@@ -165,10 +165,15 @@ class OpenIdServiceImpl implements OpenIdService {
       //
       return true;
 
-    } else {
-      // We might already have this account on file. Look for it.
-      //
-      return accountManager.equals(aReq.getIdentity());
+    }
+
+    // We might already have this account on file. Look for it.
+    //
+    try {
+      return accountManager.exists(aReq.getIdentity());
+    } catch (AccountException e) {
+      log.warn("Cannot determine if user account exists", e);
+      return true;
     }
   }
 

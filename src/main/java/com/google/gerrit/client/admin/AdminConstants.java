@@ -64,6 +64,7 @@ public interface AdminConstants extends Constants {
   String columnRightRange();
 
   String columnBranchName();
+  String columnBranchRevision();
   String initialRevision();
   String buttonAddBranch();
   String buttonDeleteBranch();

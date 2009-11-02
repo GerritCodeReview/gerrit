@@ -212,12 +212,13 @@ public class ProjectBranchesPanel extends Composite {
     BranchesTable() {
       table.setWidth("");
       table.setText(0, 2, Util.C.columnBranchName());
-      table.setHTML(0, 3, "&nbsp;");
+      table.setText(0, 3, Util.C.columnBranchRevision());
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
       fmt.addStyleName(0, 1, S_ICON_HEADER);
       fmt.addStyleName(0, 2, S_DATA_HEADER);
       fmt.addStyleName(0, 3, S_DATA_HEADER);
+      fmt.addStyleName(0, 4, S_DATA_HEADER);
     }
 
     void deleteChecked() {
@@ -265,17 +266,21 @@ public class ProjectBranchesPanel extends Composite {
 
       table.setWidget(row, 1, new CheckBox());
       table.setText(row, 2, k.getShortName());
+
+      if (k.getRevision() != null) {
+        table.setText(row, 3, k.getRevision().get());
+      }
+
       if (c != null) {
-        table.setWidget(row, 3, new Anchor("(gitweb)", false, c.toBranch(k
+        table.setWidget(row, 4, new Anchor("(gitweb)", false, c.toBranch(k
             .getNameKey())));
-      } else {
-        table.setHTML(row, 3, "&nbsp;");
       }
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
       fmt.addStyleName(row, 1, S_ICON_CELL);
       fmt.addStyleName(row, 2, S_DATA_CELL);
       fmt.addStyleName(row, 3, S_DATA_CELL);
+      fmt.addStyleName(row, 4, S_DATA_CELL);
 
       setRowItem(row, k);
     }

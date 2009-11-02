@@ -16,6 +16,7 @@ package com.google.gerrit.server.rpc.project;
 
 import com.google.gerrit.client.reviewdb.Branch;
 import com.google.gerrit.client.reviewdb.Project;
+import com.google.gerrit.client.reviewdb.RevId;
 import com.google.gerrit.git.GitRepositoryManager;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
@@ -68,6 +69,9 @@ class ListBranches extends Handler<List<Branch>> {
         final String name = ref.getOrigName();
         if (name.startsWith(Constants.R_HEADS)) {
           final Branch b = new Branch(new Branch.NameKey(projectName, name));
+          if (ref.getObjectId() != null) {
+            b.setRevision(new RevId(ref.getObjectId().name()));
+          }
           branches.add(b);
         }
       }

@@ -760,7 +760,21 @@ By default, 127.0.0.1 (aka localhost).
 +
 Port number of the SMTP server in sendemail.smtpserver.
 +
-By default, 25.
+By default, 25, or 465 if smtpEncryption is 'ssl'.
+
+[[sendemail.smtpEncryption]]sendemail.smtpEncryption::
++
+Specify the encryption to use, either 'ssl' or 'tls'.
++
+By default, 'none', indicating no encryption is used.
+
+[[sendemail.sslVerify]]sendemail.sslVerify::
++
+If false and sendemail.smtpEncryption is 'ssl' or 'tls', Gerrit
+will not verify the server certificate when it connects to send
+an email message.
++
+By default, true, requiring the certificate to be verified.
 
 [[sendemail.smtpUser]]sendemail.smtpUser::
 +

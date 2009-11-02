@@ -14,12 +14,15 @@
 
 package org.apache.commons.net.smtp;
 
+import com.google.gerrit.server.ioutil.BlindSSLSocketFactory;
+
 import org.eclipse.jgit.util.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.SocketException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
@@ -29,6 +32,7 @@ import java.util.Set;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
+import javax.net.ssl.SSLSocketFactory;
 
 public class AuthSMTPClient extends SMTPClient {
   private static final Logger log =
@@ -39,6 +43,29 @@ public class AuthSMTPClient extends SMTPClient {
 
   public AuthSMTPClient(final String charset) {
     super(charset);
+  }
+
+  public void enableSSL(final boolean verify) {
+    _socketFactory_ = sslFactory(verify);
+  }
+
+  public boolean startTLS(final String hostname, final int port,
+      final boolean verify) throws SocketException, IOException {
+    if (sendCommand("STARTTLS") != 220) {
+      return false;
+    }
+
+    _socket_ = sslFactory(verify).createSocket(_socket_, hostname, port, true);
+    _connectAction_();
+    return true;
+  }
+
+  private static SSLSocketFactory sslFactory(final boolean verify) {
+    if (verify) {
+      return (SSLSocketFactory) SSLSocketFactory.getDefault();
+    } else {
+      return (SSLSocketFactory) BlindSSLSocketFactory.getDefault();
+    }
   }
 
   public void setAllowRcpt(final String[] allowed) {

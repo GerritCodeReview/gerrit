@@ -15,6 +15,7 @@
 package com.google.gerrit.server.mail;
 
 import com.google.gerrit.pgm.Version;
+import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -34,12 +35,18 @@ import java.util.Map;
 /** Sends email via a nearby SMTP server. */
 @Singleton
 public class SmtpEmailSender implements EmailSender {
+  public static enum Encryption {
+    NONE, SSL, TLS;
+  }
+
   private final boolean enabled;
 
   private String smtpHost;
   private int smtpPort;
   private String smtpUser;
   private String smtpPass;
+  private Encryption smtpEncryption;
+  private boolean sslVerify;
   private String[] allowrcpt;
 
   @Inject
@@ -50,7 +57,26 @@ public class SmtpEmailSender implements EmailSender {
     if (smtpHost == null) {
       smtpHost = "127.0.0.1";
     }
-    smtpPort = cfg.getInt("sendemail", null, "smtpserverport", 25);
+
+    smtpEncryption =
+        ConfigUtil.getEnum(cfg, "sendemail", null, "smtpencryption",
+            Encryption.NONE);
+    sslVerify = cfg.getBoolean("sendemail", null, "sslverify", true);
+
+    final int defaultPort;
+    switch (smtpEncryption) {
+      case SSL:
+        defaultPort = 465;
+        break;
+
+      case NONE:
+      case TLS:
+      default:
+        defaultPort = 25;
+        break;
+    }
+    smtpPort = cfg.getInt("sendemail", null, "smtpserverport", defaultPort);
+
     smtpUser = cfg.getString("sendemail", null, "smtpuser");
     smtpPass = cfg.getString("sendemail", null, "smtpuserpass");
     allowrcpt = cfg.getStringList("sendemail", null, "allowrcpt");
@@ -136,6 +162,11 @@ public class SmtpEmailSender implements EmailSender {
   private SMTPClient open() throws EmailException {
     final AuthSMTPClient client = new AuthSMTPClient("UTF-8");
     client.setAllowRcpt(allowrcpt);
+
+    if (smtpEncryption == Encryption.SSL) {
+      client.enableSSL(sslVerify);
+    }
+
     try {
       client.connect(smtpHost, smtpPort);
       if (!SMTPReply.isPositiveCompletion(client.getReplyCode())) {
@@ -145,6 +176,17 @@ public class SmtpEmailSender implements EmailSender {
         String e = client.getReplyString();
         throw new EmailException("SMTP server rejected login: " + e);
       }
+
+      if (smtpEncryption == Encryption.TLS) {
+        if (!client.startTLS(smtpHost, smtpPort, sslVerify)) {
+          throw new EmailException("SMTP server does not support TLS");
+        }
+        if (!client.login()) {
+          String e = client.getReplyString();
+          throw new EmailException("SMTP server rejected login: " + e);
+        }
+      }
+
       if (smtpUser != null && !client.auth(smtpUser, smtpPass)) {
         String e = client.getReplyString();
         throw new EmailException("SMTP server rejected auth: " + e);

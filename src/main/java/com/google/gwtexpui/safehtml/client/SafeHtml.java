@@ -22,6 +22,8 @@ import com.google.gwt.user.client.ui.HasHTML;
 import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.Widget;
 
+import java.util.List;
+
 /** Immutable string safely placed as HTML without further escaping. */
 public abstract class SafeHtml {
   /** @return the existing HTML property of a widget. */
@@ -171,6 +173,21 @@ public abstract class SafeHtml {
    */
   public SafeHtml replaceAll(final String regex, final String repl) {
     return new SafeHtmlString(asString().replaceAll(regex, repl));
+  }
+
+  /**
+   * Go through the {@link RegexFindReplace} list, calling {@link #replaceAll()}
+   * on the HTML string for every find/replace pair in the list.
+   */
+  public SafeHtml replaceAll(final List<RegexFindReplace> findReplaceList) {
+    if (findReplaceList == null) {
+      return this;
+    }
+    String html = this.asString();
+    for (RegexFindReplace findReplace : findReplaceList) {
+      html = html.replaceAll(findReplace.find(), findReplace.replace());
+    }
+    return new SafeHtmlString(html);
   }
 
   /** @return a GWT block display widget displaying this HTML. */

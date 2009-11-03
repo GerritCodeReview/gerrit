@@ -28,11 +28,13 @@ import com.google.gerrit.server.config.WildProjectName;
 import com.google.gerrit.server.contact.ContactStore;
 import com.google.gerrit.server.mail.EmailSender;
 import com.google.gerrit.server.ssh.SshInfo;
+import com.google.gwtexpui.safehtml.client.RegexFindReplace;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import org.eclipse.jgit.lib.Config;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -98,6 +100,19 @@ public class GerritConfigProvider implements Provider<GerritConfig> {
     }
 
     config.setSshdAddress(sshInfo != null ? sshInfo.getSshdAddress() : null);
+
+    ArrayList<String> commentLinkNames =
+        new ArrayList<String>(cfg.getSubsections("CommentLink"));
+    ArrayList<RegexFindReplace> commentLinks =
+        new ArrayList<RegexFindReplace>(commentLinkNames.size());
+    for (String commentLinkName : commentLinkNames) {
+      String match = cfg.getString("commentlink", commentLinkName, "match");
+      String link =
+          "<a href=\"" + cfg.getString("commentlink", commentLinkName, "link")
+              + "\">$&</a>";
+      commentLinks.add(new RegexFindReplace(match, link));
+    }
+    config.setCommentLinks(commentLinks);
 
     return config;
   }

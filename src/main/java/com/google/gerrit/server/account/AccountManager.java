@@ -50,14 +50,15 @@ public class AccountManager {
   }
 
   /**
-   * True if user identified by this external identity string has an account.
+   * @return user identified by this external identity string, or null.
    */
-  public boolean exists(final String externalId) throws AccountException {
+  public Account.Id lookup(final String externalId) throws AccountException {
     try {
       final ReviewDb db = schema.open();
       try {
-        return db.accountExternalIds().get(
-            new AccountExternalId.Key(externalId)) != null;
+        final AccountExternalId ext =
+            db.accountExternalIds().get(new AccountExternalId.Key(externalId));
+        return ext != null ? ext.getAccountId() : null;
       } finally {
         db.close();
       }

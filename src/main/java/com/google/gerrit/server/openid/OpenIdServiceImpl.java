@@ -20,6 +20,7 @@ import com.google.gerrit.client.SignInDialog.Mode;
 import com.google.gerrit.client.auth.openid.DiscoveryResult;
 import com.google.gerrit.client.auth.openid.OpenIdService;
 import com.google.gerrit.client.auth.openid.OpenIdUtil;
+import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.UrlEncoded;
 import com.google.gerrit.server.account.AccountException;
@@ -73,6 +74,7 @@ class OpenIdServiceImpl implements OpenIdService {
   private static final String P_MODE = "gerrit.mode";
   private static final String P_TOKEN = "gerrit.token";
   private static final String P_REMEMBER = "gerrit.remember";
+  private static final String P_CLAIMED = "gerrit.claimed";
   private static final int LASTID_AGE = 365 * 24 * 60 * 60; // seconds
 
   private static final String OPENID_MODE = "openid.mode";
@@ -170,7 +172,7 @@ class OpenIdServiceImpl implements OpenIdService {
     // We might already have this account on file. Look for it.
     //
     try {
-      return !accountManager.exists(aReq.getIdentity());
+      return accountManager.lookup(aReq.getIdentity()) == null;
     } catch (AccountException e) {
       log.warn("Cannot determine if user account exists", e);
       return true;
@@ -189,11 +191,14 @@ class OpenIdServiceImpl implements OpenIdService {
     //
     final SignInDialog.Mode mode = signInMode(req);
     final String openidIdentifier = req.getParameter("openid.identity");
+    final String claimedIdentifier = req.getParameter(P_CLAIMED);
     final String returnToken = req.getParameter(P_TOKEN);
     final boolean remember = "1".equals(req.getParameter(P_REMEMBER));
+    final String rediscoverIdentifier =
+        claimedIdentifier != null ? claimedIdentifier : openidIdentifier;
     final State state;
 
-    state = init(openidIdentifier, mode, remember, returnToken);
+    state = init(rediscoverIdentifier, mode, remember, returnToken);
     if (state == null) {
       // Re-discovery must have failed, we can't run a login.
       //
@@ -214,8 +219,7 @@ class OpenIdServiceImpl implements OpenIdService {
     final VerificationResult result =
         manager.verify(state.retTo.toString(), new ParameterList(req
             .getParameterMap()), state.discovered);
-    final Identifier user = result.getVerifiedId();
-    if (user == null /* authentication failure */) {
+    if (result.getVerifiedId() == null /* authentication failure */) {
       if ("Nonce verification failed.".equals(result.getStatusMsg())) {
         // We might be suffering from clock skew on this system.
         //
@@ -258,7 +262,7 @@ class OpenIdServiceImpl implements OpenIdService {
     }
 
     final com.google.gerrit.server.account.AuthRequest areq =
-        new com.google.gerrit.server.account.AuthRequest(user.getIdentifier());
+        new com.google.gerrit.server.account.AuthRequest(openidIdentifier);
 
     if (sregRsp != null) {
       areq.setDisplayName(sregRsp.getAttributeValue("fullname"));
@@ -281,6 +285,51 @@ class OpenIdServiceImpl implements OpenIdService {
       areq.setEmailAddress(fetchRsp.getAttributeValue("Email"));
     }
 
+    if (claimedIdentifier != null) {
+      // The user used a claimed identity which has delegated to the verified
+      // identity we have in our AuthRequest above. We still should have a
+      // link between the two, so set one up if not present.
+      //
+      Account.Id claimedId = accountManager.lookup(claimedIdentifier);
+      Account.Id actualId = accountManager.lookup(areq.getExternalId());
+
+      if (claimedId != null && actualId != null) {
+        if (claimedId.equals(actualId)) {
+          // Both link to the same account, that's what we expected.
+        } else {
+          // This is (for now) a fatal error. There are two records
+          // for what might be the same user.
+          //
+          log.error("OpenID accounts disagree over user identity:\n"
+              + "  Claimed ID: " + claimedId + " is " + claimedIdentifier
+              + "\n" + "  Delgate ID: " + actualId + " is "
+              + areq.getExternalId());
+          cancelWithError(req, rsp, "Contact site administrator");
+          return;
+        }
+
+      } else if (claimedId == null && actualId != null) {
+        // Older account, the actual was already created but the claimed
+        // was missing due to a bug in Gerrit. Link the claimed.
+        //
+        final com.google.gerrit.server.account.AuthRequest linkReq =
+            new com.google.gerrit.server.account.AuthRequest(claimedIdentifier);
+        linkReq.setDisplayName(areq.getDisplayName());
+        linkReq.setEmailAddress(areq.getEmailAddress());
+        accountManager.link(actualId, linkReq);
+
+      } else if (claimedId != null && actualId == null) {
+        // Claimed account already exists, but it smells like the user has
+        // changed their delegate to point to a different provider. Link
+        // the new provider.
+        //
+        accountManager.link(claimedId, areq);
+
+      } else {
+        // Both are null, we are going to create a new account below.
+      }
+    }
+
     try {
       switch (mode) {
         case REGISTER:
@@ -291,13 +340,21 @@ class OpenIdServiceImpl implements OpenIdService {
           final Cookie lastId = new Cookie(OpenIdUtil.LASTID_COOKIE, "");
           lastId.setPath(req.getContextPath() + "/");
           if (remember) {
-            lastId.setValue(user.getIdentifier());
+            lastId.setValue(rediscoverIdentifier);
             lastId.setMaxAge(LASTID_AGE);
           } else {
             lastId.setMaxAge(0);
           }
           rsp.addCookie(lastId);
           webSession.get().login(arsp.getAccountId(), remember);
+          if (arsp.isNew() && claimedIdentifier != null) {
+            final com.google.gerrit.server.account.AuthRequest linkReq =
+                new com.google.gerrit.server.account.AuthRequest(
+                    claimedIdentifier);
+            linkReq.setDisplayName(areq.getDisplayName());
+            linkReq.setEmailAddress(areq.getEmailAddress());
+            accountManager.link(arsp.getAccountId(), linkReq);
+          }
           callback(arsp.isNew(), req, rsp);
           break;
 
@@ -391,6 +448,9 @@ class OpenIdServiceImpl implements OpenIdService {
     }
     if (remember) {
       retTo.put(P_REMEMBER, "1");
+    }
+    if (discovered.hasClaimedIdentifier()) {
+      retTo.put(P_CLAIMED, discovered.getClaimedIdentifier().getIdentifier());
     }
     return new State(discovered, retTo, contextUrl);
   }

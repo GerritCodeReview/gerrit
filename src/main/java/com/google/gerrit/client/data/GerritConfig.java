@@ -17,7 +17,9 @@ package com.google.gerrit.client.data;
 import com.google.gerrit.client.reviewdb.Account;
 import com.google.gerrit.client.reviewdb.AuthType;
 import com.google.gerrit.client.reviewdb.Project;
+import com.google.gwtexpui.safehtml.client.RegexFindReplace;
 
+import java.util.List;
 import java.util.Set;
 
 public class GerritConfig implements Cloneable {
@@ -33,6 +35,7 @@ public class GerritConfig implements Cloneable {
   protected Project.NameKey wildProject;
   protected ApprovalTypes approvalTypes;
   protected Set<Account.FieldName> editableAccountFields;
+  protected List<RegexFindReplace> commentLinks;
 
   public String getCanonicalUrl() {
     return canonicalUrl;
@@ -127,5 +130,13 @@ public class GerritConfig implements Cloneable {
 
   public void setEditableAccountFields(final Set<Account.FieldName> af) {
     editableAccountFields = af;
+  }
+
+  public List<RegexFindReplace> getCommentLinks() {
+    return commentLinks;
+  }
+
+  public void setCommentLinks(final List<RegexFindReplace> cl) {
+    commentLinks = cl;
   }
 }

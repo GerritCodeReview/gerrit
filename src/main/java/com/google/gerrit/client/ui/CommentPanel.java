@@ -15,6 +15,7 @@
 package com.google.gerrit.client.ui;
 
 import com.google.gerrit.client.FormatUtil;
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.data.AccountInfo;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -106,7 +107,9 @@ public class CommentPanel extends Composite implements HasDoubleClickHandlers {
     }
 
     messageSummary.setText(summarize(message));
-    SafeHtml.set(messageText, new SafeHtmlBuilder().append(message).wikify());
+    SafeHtml msg = new SafeHtmlBuilder().append(message);
+    msg.setFindReplaceList(Gerrit.getConfig().getCommentLinks());
+    SafeHtml.set(messageText, msg.wikify().runFindReplaceList());
   }
 
   public void setAuthorNameText(final String nameText) {

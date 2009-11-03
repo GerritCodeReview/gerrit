@@ -14,18 +14,20 @@
 
 package com.google.gerrit.client.changes;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.reviewdb.ChangeMessage;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
 public class MessagePanel extends Composite {
   boolean isRecent;
 
   public MessagePanel(final ChangeMessage msg) {
-    final Widget l =
-        new SafeHtmlBuilder().append(msg.getMessage().trim()).wikify()
-            .toBlockWidget();
+    SafeHtml message = new SafeHtmlBuilder().append(msg.getMessage().trim());
+    message.setFindReplaceList(Gerrit.getConfig().getCommentLinks());
+    final Widget l = message.wikify().runFindReplaceList().toBlockWidget();
     l.setStyleName("gerrit-ChangeMessage-Message");
     initWidget(l);
   }

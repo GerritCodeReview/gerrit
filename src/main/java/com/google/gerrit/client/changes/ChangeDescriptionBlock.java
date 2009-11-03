@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.changes;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.data.AccountInfoCache;
 import com.google.gerrit.client.reviewdb.Change;
 import com.google.gerrit.client.reviewdb.PatchSetInfo;
@@ -44,6 +45,8 @@ public class ChangeDescriptionBlock extends Composite {
 
     SafeHtml msg = new SafeHtmlBuilder().append(info.getMessage());
     msg = msg.linkify();
+    msg.setFindReplaceList(Gerrit.getConfig().getCommentLinks());
+    msg = msg.runFindReplaceList();
     msg = new SafeHtmlBuilder().openElement("p").append(msg).closeElement("p");
     msg = msg.replaceAll("\n\n", "</p><p>");
     msg = msg.replaceAll("\n", "<br />");

@@ -990,6 +990,7 @@ final class Receive extends AbstractGitCommand {
             //
             if (priorPatchSet.equals(ps.getId())
                 && c.getTree() == prior.getTree()) {
+              rp.getRevWalk().parseBody(prior);
               if (c.getFullMessage().equals(prior.getFullMessage())) {
                 reject(request.cmd, "no changes made");
                 return null;

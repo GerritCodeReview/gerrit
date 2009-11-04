@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAo3///6M\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/MessagePanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000253
+      },
+      "writtenOn": "2009-11-04T06:35:36Z",
+      "side": 1,
+      "message": "I played around with this a bit more, and I didn\u0027t notice one problem.  If I set\n\n match \u003d issue\\\\s*(\\\\d+)\nand\n link \u003d http://code.google.com/p/gerrit/issues/detail?id\u003d$1\n\nand expand link to link \u003d \"\u003ca href\u003d\\\"\" + link + \"\\\"\u003e$1\u003c/a\u003e\"\nthen it replaces \"issue xx\" with a hyperlink text \"xx\" - it drops the \"issue\" string.  I can\u0027t think of a good way to work around this, other than specifying the full link html in the config file.  Any thoughts?",
+      "parentUuid": "AAAAo3///6g\u003d",
+      "revId": "c6f00304628afc904f1c515405e800411464fcaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAo3///7w\u003d",
         "filename": "src/main/java/com/google/gerrit/server/http/GerritConfigProvider.java",
         "patchSetId": 1

@@ -283,11 +283,18 @@ class LdapRealm implements Realm {
     }
   }
 
-  private static String apply(ParamertizedString p, LdapQuery.Result m) {
+  private static String apply(ParamertizedString p, LdapQuery.Result m)
+      throws NamingException {
     if (p == null) {
       return null;
     }
-    String r = p.replace(m.map());
+
+    final Map<String, String> values = new HashMap<String, String>();
+    for (final String name : m.attributes()) {
+      values.put(name, m.get(name));
+    }
+
+    String r = p.replace(values);
     return r.isEmpty() ? null : r;
   }
 
@@ -399,9 +406,12 @@ class LdapRealm implements Realm {
         account = findAccount(ctx, username);
       }
 
-      NamingEnumeration<?> groups = account.getAll(accountMemberField).getAll();
-      while (groups.hasMore()) {
-        recursivelyExpandGroups(groupDNs, ctx, (String) groups.next());
+      final Attribute groupAtt = account.getAll(accountMemberField);
+      if (groupAtt != null) {
+        final NamingEnumeration<?> groups = groupAtt.getAll();
+        while (groups.hasMore()) {
+          recursivelyExpandGroups(groupDNs, ctx, (String) groups.next());
+        }
       }
     }
 

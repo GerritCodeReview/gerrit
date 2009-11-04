@@ -80,29 +80,25 @@ class LdapQuery {
 
   class Result {
     private final Map<String, Attribute> atts = new HashMap<String, Attribute>();
-    private final Map<String, String> attsSingle = new HashMap<String, String>();
 
-    Result(final SearchResult sr) throws NamingException {
+    Result(final SearchResult sr) {
       if (returnAttributes != null) {
         for (final String attName : returnAttributes) {
           final Attribute a = sr.getAttributes().get(attName);
           if (a != null && a.size() > 0) {
             atts.put(attName, a);
-            attsSingle.put(attName, String.valueOf(a.get(0)));
           }
         }
+
       } else {
         NamingEnumeration<? extends Attribute> e = sr.getAttributes().getAll();
         while (e.hasMoreElements()) {
           final Attribute a = e.nextElement();
           atts.put(a.getID(), a);
-          if (a.size() == 1) {
-            attsSingle.put(a.getID(), String.valueOf(a.get(0)));
-          }
         }
       }
+
       atts.put("dn", new BasicAttribute("dn", sr.getNameInNamespace()));
-      attsSingle.put("dn", sr.getNameInNamespace());
     }
 
     String getDN() throws NamingException {
@@ -110,15 +106,16 @@ class LdapQuery {
     }
 
     String get(final String attName) throws NamingException {
-      return String.valueOf(atts.get(attName).get(0));
+      final Attribute att = getAll(attName);
+      return att != null && 0 < att.size() ? String.valueOf(att.get(0)) : null;
     }
 
     Attribute getAll(final String attName) {
       return atts.get(attName);
     }
 
-    Map<String, String> map() {
-      return Collections.unmodifiableMap(attsSingle);
+    Set<String> attributes() {
+      return Collections.unmodifiableSet(atts.keySet());
     }
 
     @Override

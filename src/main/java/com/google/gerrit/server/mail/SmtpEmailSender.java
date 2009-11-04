@@ -78,7 +78,7 @@ public class SmtpEmailSender implements EmailSender {
     smtpPort = cfg.getInt("sendemail", null, "smtpserverport", defaultPort);
 
     smtpUser = cfg.getString("sendemail", null, "smtpuser");
-    smtpPass = cfg.getString("sendemail", null, "smtpuserpass");
+    smtpPass = cfg.getString("sendemail", null, "smtppass");
     allowrcpt = cfg.getStringList("sendemail", null, "allowrcpt");
   }
 

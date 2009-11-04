@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAo3///18\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/MessagePanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-11-04T21:00:43Z",
+      "side": 1,
+      "message": "According to MDC[1] $\u0026 expands to the entire matched string.\n\nSo we could take link as you have it above and compute the replacement string to actually be:\n\n  repl \u003d \"\u003ca href\u003d\\\"\" + link + \"\\\"\u003e$\u0026\u003c/a\u003e\"\n\n[1] https://developer.mozilla.org/en/Core_JavaScript_1.5_Reference/Global_Objects/String/replace\n\nThe other option is to wrap the match in parens and increment every $n reference in link by one, such that $1 could then be used inside the anchor for the entire expression.  I\u0027d probably do that on the server side inside of GerritConfigProvider, as it only needs to be done once and it might be easier to perform when you have the full power of Java\u0027s String and java.util.regex available to you.",
+      "parentUuid": "AAAAo3///6M\u003d",
+      "revId": "c6f00304628afc904f1c515405e800411464fcaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAo3///7w\u003d",
         "filename": "src/main/java/com/google/gerrit/server/http/GerritConfigProvider.java",
         "patchSetId": 1
@@ -173,6 +191,24 @@
       "side": 1,
       "message": "That makes sense, but lots of extra logic...\n\nInternally, we use multiple bug tracking servers.  It won\u0027t be a problem for us because issues have the project name in the identifier, like with Jira GERRIT-XXX and ANDROID-YYY\n\nMaybe you could change the policy for Bug tags with google code issues?  We could parse out \"gerrit issue \\d+\" and \"android issue \\d+\", but it will be a pain to enforce.",
       "parentUuid": "AAAAo3///7I\u003d",
+      "revId": "c6f00304628afc904f1c515405e800411464fcaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAo3///14\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/http/GerritConfigProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-11-04T21:00:43Z",
+      "side": 1,
+      "message": "Changing policy on bug tags isn\u0027t going to be easy.  It\u0027ll probably be easier to fix gerrit in the long run.  :-(",
+      "parentUuid": "AAAAo3///6k\u003d",
       "revId": "c6f00304628afc904f1c515405e800411464fcaa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

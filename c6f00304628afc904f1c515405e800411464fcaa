@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAo3///7E\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/MessagePanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-11-04T03:14:09Z",
+      "side": 1,
+      "message": "I think you should handle the expansion of the link value in the configuration into the HTML a href as part of GerritConfigProvider, when you parse the configuration.  Everyone will want the behavior you just described.  Lets do it for them rather than make them repeat it.",
+      "parentUuid": "AAAAo3///7Y\u003d",
+      "revId": "c6f00304628afc904f1c515405e800411464fcaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAo3///7w\u003d",
         "filename": "src/main/java/com/google/gerrit/server/http/GerritConfigProvider.java",
         "patchSetId": 1
@@ -83,6 +101,24 @@
       "side": 1,
       "message": "The gitweb idea is awesome, I\u0027ll see if I can grab the project name very easily...\n\nI see your point with differences per-project.  hrm.  I can add a \"project\" line to each commentlink section, and have empty default to all except projects which already have a commentlink section with the same name.  The logic might get a little hairy, but it is the best I can think of.\n\n [commentlink \"issue\"]\n   match \u003d issue (\\d+)\n   link \u003d http://code.google.com/p/gerrit/issues/detail?id\u003d$1\n   project \u003d tools/gerrit\n   project \u003d tools/repo\n\n [commentlink \"issue\"]\n   match \u003d issue (\\d+)\n   link \u003d http://code.google.com/p/android/issues/detail?id\u003d$1\n(this is used for everything except tools/gerrit and tools/repo)",
       "parentUuid": "AAAAo3///7o\u003d",
+      "revId": "c6f00304628afc904f1c515405e800411464fcaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAo3///7I\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/http/GerritConfigProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-11-04T03:14:09Z",
+      "side": 1,
+      "message": "Your project idea is a good one, but you can\u0027t tell the two blocks in your example above apart once they have been parsed into memory, they appear in the same collection.  :-(\n\nAnother way to do this is to name the commentlink in one location, and in another bind them to a project.  So we could do:\n\n  [commentlink \"issue-gerrit\"]\n    match \u003d issue (\\d+)\n    link \u003d http://code.google.com/p/gerrit/issues/detail?id\u003d$1\n\n  [commentlink \"issue-android\"]\n    match \u003d issue (\\d+)\n    link \u003d http://code.google.com/p/android/issues/detail?id\u003d$1\n\n  [project \"tools/gerrit\"]\n    commentlink \u003d issue-gerrit\n\nAnd maybe have the logic work as follows:\n\n* If no project.*.commentlink is declared for a given project, use all commentlinks which are not mentioned in another project.*.commentlink field.\n* If a project.*.commentlink is declared for a given project, use only those commentlinks and no others.\n\nYes, its a bit tricky when you parse in the configuration file to keep track of those.  But I can\u0027t think of another way right now to manage it.",
+      "parentUuid": "AAAAo3///7U\u003d",
       "revId": "c6f00304628afc904f1c515405e800411464fcaa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

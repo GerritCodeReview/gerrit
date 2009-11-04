@@ -133,6 +133,7 @@ class SystemConfigProvider implements Provider<SystemConfig> {
         new AccountGroup(new AccountGroup.NameKey("Administrators"),
             new AccountGroup.Id(c.nextAccountGroupId()));
     admin.setDescription("Gerrit Site Administrators");
+    admin.setType(AccountGroup.Type.INTERNAL);
     c.accountGroups().insert(Collections.singleton(admin));
 
     final AccountGroup anonymous =

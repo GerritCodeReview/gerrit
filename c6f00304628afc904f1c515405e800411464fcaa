@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAo3///7k\u003d",
+        "filename": "src/main/java/com/google/gerrit/client/changes/MessagePanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-11-04T02:47:04Z",
+      "side": 1,
+      "message": "Hmmph.  We somehow need to be able to rewrite a match of\n\n  issue 12\n\nto\n \n  \u003ca href\u003d\"http://bugs/?id\u003d12\"\u003eissue 12\u003c/a\u003e\n\nIdeally we do this by the user only having to enter the URL in the commentlink.*.link part of gerrit.config, and we automatically make link generate this HTML.  This way the comment is shown as-is, but we text is linkified with the proper target underneath.\n\nWe probably also need to run this after wikify to keep it from expanding and linking the URL twice.",
+      "revId": "c6f00304628afc904f1c515405e800411464fcaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAo3///7w\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/http/GerritConfigProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-11-04T02:47:04Z",
+      "side": 1,
+      "message": "FWIW I wouldn\u0027t bother with this temporary list.  Just use cfg.getSubsections in the for loop and allocate commentLinks with the default allocation size.  Its not critical we allocate that at the right size.",
+      "revId": "c6f00304628afc904f1c515405e800411464fcaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAo3///7o\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/http/GerritConfigProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-11-04T02:47:04Z",
+      "side": 1,
+      "message": "This part is case insensitive and Git tradition has made it all lowercase.  I\u0027d like to stick with that tradition here, which means we call it \"commentlink\".\n\nThis is nagging at me as perhaps being the wrong name, but I think you are right, this is a really flexible feature that can be used to grep anything in a comment and generate a link, so this is pretty good.\n\nThinking longer term here, we probably need to somehow support this on a per-project basis.  E.g. on this site tools/gerrit uses a different issue tracker than tools/repo, which still uses a different issue tracker from all of the other platform/* projects.  So we need 3 different regex rules that are selected based on project.\n\nBetter, we should be able to define additional regex rules that need project names to produce hyperlinks, here\u0027s an example:\n\n  [commentlink \"issue\"]\n    match \u003d issue (\\d+)\n    link \u003d http://code.google.com/p/gerrit/issues/detail?id\u003d$1\n\n  [commentlink \"gitweb\"]\n    match \u003d ((?!I)[0-9a-f]{8,40})\n    link \u003d http://android.git.kernel.org/?p\u003d${project};a\u003dcommit;h\u003d$1\n\nWhich is pretty darn cool actually.",
+      "revId": "c6f00304628afc904f1c515405e800411464fcaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -330,6 +330,45 @@ this cache is approximately 248 bytes, depending on the JVM.
 
 See also link:cmd-flush-caches.html[gerrit flush-caches].
 
+
+[[commentlink]]Section commentlink
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Comment links are find/replace strings applied to change descriptions,
+patch comments, and in-line code comments to turn set strings into
+hyperlinks.  One common use is for linking to bug-tracking systems.
+
+In the following example configuration the 'changeid' comment link
+will match typical Gerrit Change-Id values and create a hyperlink to
+changes which reference it.  The second configuration 'bugzilla' will
+hyperlink terms such as 'bug 42' to an external bug tracker, supplying
+the argument record number '42' for display.
+
+====
+  [commentlink "changeid"]
+    match = (I[0-9a-f]{8,40})
+    link = "#q,$1,n,z"
+
+  [commentlink "bugzilla"]
+    match = bug\\s+(\\d+)
+    link = http://bugs.example.com/show_bug.cgi?d=$1
+====
+
+[[commentlink.<name>.match]]commentlink.<name>.match::
++
+A regex string used to search.  The whole match string will be turned into
+a hyperlink.  You can get portions of the string with regex groupings - for
+example, `match = issue\\s*(\\d+)`
++
+Note the configuration file parser eats one level of backslashes, so using
+the regex code `\s` requires `\\s` in the configuration file.
+
+[[commentlink.<name>.link]]commentlink.<name>.link::
++
+The URL to use when creating a hyperlink out of all strings found using the
+match regex.  You can specify portions of the match with regex groups - for
+example, `link = http://bugs.example.com/show_bug.cgi?d=$1 `
+
+
 [[contactstore]]Section contactstore
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

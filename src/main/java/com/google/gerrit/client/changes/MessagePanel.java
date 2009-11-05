@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.changes;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.reviewdb.ChangeMessage;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
@@ -25,7 +26,7 @@ public class MessagePanel extends Composite {
   public MessagePanel(final ChangeMessage msg) {
     final Widget l =
         new SafeHtmlBuilder().append(msg.getMessage().trim()).wikify()
-            .toBlockWidget();
+            .replaceAll(Gerrit.getConfig().getCommentLinks()).toBlockWidget();
     l.setStyleName("gerrit-ChangeMessage-Message");
     initWidget(l);
   }

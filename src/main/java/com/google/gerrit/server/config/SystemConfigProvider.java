@@ -38,13 +38,13 @@ import java.util.Collections;
 import java.util.List;
 
 /** Loads the {@link SystemConfig} from the database. */
-class SystemConfigProvider implements Provider<SystemConfig> {
+public class SystemConfigProvider implements Provider<SystemConfig> {
   private static final Project.NameKey DEFAULT_WILD_NAME =
       new Project.NameKey("-- All Projects --");
   private final SchemaFactory<ReviewDb> schema;
 
   @Inject
-  SystemConfigProvider(final SchemaFactory<ReviewDb> sf) {
+  public SystemConfigProvider(final SchemaFactory<ReviewDb> sf) {
     schema = sf;
   }
 

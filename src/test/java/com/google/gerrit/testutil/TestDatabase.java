@@ -15,6 +15,7 @@
 package com.google.gerrit.testutil;
 
 import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gerrit.server.config.SystemConfigProvider;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.gwtorm.jdbc.Database;
@@ -80,6 +81,12 @@ public class TestDatabase implements SchemaFactory<ReviewDb> {
   @Override
   public ReviewDb open() throws OrmException {
     return getDatabase().open();
+  }
+
+  /** Ensure the database schema has been created and initialized. */
+  public TestDatabase create() {
+    new SystemConfigProvider(this).get();
+    return this;
   }
 
   /** Drop this database from memory so it no longer exists. */

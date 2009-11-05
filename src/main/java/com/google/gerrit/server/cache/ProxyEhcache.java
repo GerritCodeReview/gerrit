@@ -26,6 +26,9 @@ import net.sf.ehcache.event.RegisteredEventListeners;
 import net.sf.ehcache.exceptionhandler.CacheExceptionHandler;
 import net.sf.ehcache.extension.CacheExtension;
 import net.sf.ehcache.loader.CacheLoader;
+import net.sf.ehcache.statistics.CacheUsageListener;
+import net.sf.ehcache.statistics.LiveCacheStatistics;
+import net.sf.ehcache.statistics.sampled.SampledCacheStatistics;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -335,5 +338,48 @@ final class ProxyEhcache implements Ehcache {
 
   public void unregisterCacheLoader(CacheLoader cacheLoader) {
     self().unregisterCacheLoader(cacheLoader);
+  }
+
+  public Object getInternalContext() {
+    return self.getInternalContext();
+  }
+
+  public LiveCacheStatistics getLiveCacheStatistics() throws IllegalStateException {
+    return self.getLiveCacheStatistics();
+  }
+
+  public SampledCacheStatistics getSampledCacheStatistics() {
+    return self.getSampledCacheStatistics();
+  }
+
+  public int getSizeBasedOnAccuracy(int statisticsAccuracy) throws IllegalArgumentException,
+      IllegalStateException, CacheException {
+    return self.getSizeBasedOnAccuracy(statisticsAccuracy);
+  }
+
+  public boolean isSampledStatisticsEnabled() {
+    return self.isSampledStatisticsEnabled();
+  }
+
+  public boolean isStatisticsEnabled() {
+    return self.isStatisticsEnabled();
+  }
+
+  public void registerCacheUsageListener(CacheUsageListener cacheUsageListener)
+      throws IllegalStateException {
+    self.registerCacheUsageListener(cacheUsageListener);
+  }
+
+  public void removeCacheUsageListener(CacheUsageListener cacheUsageListener)
+      throws IllegalStateException {
+    self.removeCacheUsageListener(cacheUsageListener);
+  }
+
+  public void setSampledStatisticsEnabled(boolean enableStatistics) {
+    self.setSampledStatisticsEnabled(enableStatistics);
+  }
+
+  public void setStatisticsEnabled(boolean enableStatistics) {
+    self.setStatisticsEnabled(enableStatistics);
   }
 }

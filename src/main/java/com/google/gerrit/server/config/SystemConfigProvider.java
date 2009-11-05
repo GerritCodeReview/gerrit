@@ -149,7 +149,7 @@ class SystemConfigProvider implements Provider<SystemConfig> {
             new AccountGroup.Id(c.nextAccountGroupId()));
     registered.setDescription("Any signed-in user");
     registered.setOwnerGroupId(admin.getId());
-    anonymous.setType(AccountGroup.Type.SYSTEM);
+    registered.setType(AccountGroup.Type.SYSTEM);
     c.accountGroups().insert(Collections.singleton(registered));
 
     File sitePath = new File(".").getAbsoluteFile();

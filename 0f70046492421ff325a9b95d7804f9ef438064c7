@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAo3///z8\u003d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-11-05T01:58:04Z",
+      "side": 1,
+      "message": "Can we have a more concrete example?\n\nE.g. you could use the following:\n\n  In the following example configuration the \u0027changeid\u0027 comment link will\n  match typical Gerrit Change-Id values and create a hyperlink to changes\n  which reference it.  The second configuration \u0027bugzilla\u0027 will hyperlinks\n  terms such as \u0027bug 42\u0027 to an external bug tracker, supplying the\n  argument record number \u002742\u0027 for display.\n\n  \u003d\u003d\u003d\u003d\n    [commentlink \"changeid\"]\n      match \u003d (I[0-9a-f]{8,40}\n      link \u003d \"#q,$1,n,z\"\n\n    [commentlink \"bugzilla\"]\n      match \u003d bug\\\\s+(\\\\d+)\n      link \u003d http://bugs.example.com/show_bug.cgi?d\u003d$1\n  \u003d\u003d\u003d\u003d",
+      "revId": "0f70046492421ff325a9b95d7804f9ef438064c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAo3///0A\u003d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-11-05T01:58:04Z",
+      "side": 1,
+      "message": "Use `` around the example so `match \u003d ...` so it formats in a different font on the web.\n\nI\u0027d put the note about backslash in a new paragraph.  E.g.:\n\n  +\n  Note the configuration file parser eats one level of backslashes,\n  so using the regexp code `\\s` requires `\\\\s` in the configuration\n  file.",
+      "revId": "0f70046492421ff325a9b95d7804f9ef438064c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAo3///z4\u003d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-11-05T01:58:04Z",
+      "side": 1,
+      "message": "Same as above about using ``, but also please don\u0027t use our own issue tracker URL in the abstract documentation as an example.  Make one up in the example.com domain like I did in the example block above.",
+      "revId": "0f70046492421ff325a9b95d7804f9ef438064c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

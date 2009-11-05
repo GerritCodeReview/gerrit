@@ -256,6 +256,14 @@ class SystemConfigProvider implements Provider<SystemConfig> {
       final ProjectRight read =
           new ProjectRight(new ProjectRight.Key(DEFAULT_WILD_NAME, cat.getId(),
               sConfig.anonymousGroupId));
+      read.setMaxValue((short) 1);
+      read.setMinValue((short) 1);
+      c.projectRights().insert(Collections.singleton(read));
+    }
+    {
+      final ProjectRight read =
+          new ProjectRight(new ProjectRight.Key(DEFAULT_WILD_NAME, cat.getId(),
+              sConfig.registeredGroupId));
       read.setMaxValue((short) 2);
       read.setMinValue((short) 1);
       c.projectRights().insert(Collections.singleton(read));

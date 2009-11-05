@@ -38,13 +38,13 @@ import java.util.Collections;
 import java.util.List;
 
 /** Loads the {@link SystemConfig} from the database. */
-class SystemConfigProvider implements Provider<SystemConfig> {
+public class SystemConfigProvider implements Provider<SystemConfig> {
   private static final Project.NameKey DEFAULT_WILD_NAME =
       new Project.NameKey("-- All Projects --");
   private final SchemaFactory<ReviewDb> schema;
 
   @Inject
-  SystemConfigProvider(final SchemaFactory<ReviewDb> sf) {
+  public SystemConfigProvider(final SchemaFactory<ReviewDb> sf) {
     schema = sf;
   }
 
@@ -133,6 +133,7 @@ class SystemConfigProvider implements Provider<SystemConfig> {
         new AccountGroup(new AccountGroup.NameKey("Administrators"),
             new AccountGroup.Id(c.nextAccountGroupId()));
     admin.setDescription("Gerrit Site Administrators");
+    admin.setType(AccountGroup.Type.INTERNAL);
     c.accountGroups().insert(Collections.singleton(admin));
 
     final AccountGroup anonymous =
@@ -148,7 +149,7 @@ class SystemConfigProvider implements Provider<SystemConfig> {
             new AccountGroup.Id(c.nextAccountGroupId()));
     registered.setDescription("Any signed-in user");
     registered.setOwnerGroupId(admin.getId());
-    anonymous.setType(AccountGroup.Type.SYSTEM);
+    registered.setType(AccountGroup.Type.SYSTEM);
     c.accountGroups().insert(Collections.singleton(registered));
 
     File sitePath = new File(".").getAbsoluteFile();
@@ -255,6 +256,14 @@ class SystemConfigProvider implements Provider<SystemConfig> {
       final ProjectRight read =
           new ProjectRight(new ProjectRight.Key(DEFAULT_WILD_NAME, cat.getId(),
               sConfig.anonymousGroupId));
+      read.setMaxValue((short) 1);
+      read.setMinValue((short) 1);
+      c.projectRights().insert(Collections.singleton(read));
+    }
+    {
+      final ProjectRight read =
+          new ProjectRight(new ProjectRight.Key(DEFAULT_WILD_NAME, cat.getId(),
+              sConfig.registeredGroupId));
       read.setMaxValue((short) 2);
       read.setMinValue((short) 1);
       c.projectRights().insert(Collections.singleton(read));

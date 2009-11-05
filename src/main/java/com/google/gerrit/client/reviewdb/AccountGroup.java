@@ -176,6 +176,7 @@ public final class AccountGroup {
     name = newName;
     groupId = newId;
     ownerGroupId = groupId;
+    setType(Type.INTERNAL);
   }
 
   public AccountGroup.Id getId() {

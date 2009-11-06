@@ -45,6 +45,8 @@ different hosts:
     push = +refs/heads/*
     push = +refs/tags/*
     threads = 3
+    authGroup = Public Mirror Group
+    authGroup = Second Public Mirror Group
 ====
 
 To manually trigger replication at runtime, see
@@ -151,6 +153,14 @@ parallel pushing.
 +
 By default, 1 thread.
 
+[[remote.name.authGroup]]remote.<name>.authGroup::
++
+Specifies the name of a group that the remote should use to access
+the repositories. In the project admin web interface the read access
+can be specified for this group to control if a project should be
+replicated or not to the remote.
++
+By default, anonymous group.
 
 [[ssh_config]]File `~/.ssh/config`
 ----------------------------------

@@ -15,7 +15,12 @@
 package com.google.gerrit.git;
 
 import com.google.gerrit.client.reviewdb.Project;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.ReplicationUser;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.SitePath;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectControl;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -27,8 +32,6 @@ import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.FileBasedConfig;
@@ -39,6 +42,8 @@ import org.eclipse.jgit.transport.SshConfigSessionFactory;
 import org.eclipse.jgit.transport.SshSessionFactory;
 import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.util.QuotedString;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -188,7 +193,7 @@ public class PushReplication implements ReplicationQueue {
       Iterator<URIish> uriIter = uriList.iterator();
 
       while (uriIter.hasNext()) {
-          replicateProject(uriIter.next(), head);
+        replicateProject(uriIter.next(), head);
       }
     }
   }
@@ -198,21 +203,22 @@ public class PushReplication implements ReplicationQueue {
     Session sshSession;
     String projectPath = QuotedString.BOURNE.quote(replicateURI.getPath());
 
-    if(!usingSSH(replicateURI)) {
+    if (!usingSSH(replicateURI)) {
       log.warn("Cannot create new project on remote site since the connection "
           + "method is not SSH: " + replicateURI.toString());
       return;
     }
 
-    OutputStream errStream  = createErrStream();
-    String cmd = "mkdir -p " + projectPath
-    + "&& cd " + projectPath
-    + "&& git init --bare"
-    + "&& git symbolic-ref HEAD " + QuotedString.BOURNE.quote(head);
+    OutputStream errStream = createErrStream();
+    String cmd =
+        "mkdir -p " + projectPath + "&& cd " + projectPath
+            + "&& git init --bare" + "&& git symbolic-ref HEAD "
+            + QuotedString.BOURNE.quote(head);
 
     try {
-      sshSession = sshFactory.getSession(replicateURI.getUser(),
-          replicateURI.getPass(), replicateURI.getHost(), replicateURI.getPort());
+      sshSession =
+          sshFactory.getSession(replicateURI.getUser(), replicateURI.getPass(),
+              replicateURI.getHost(), replicateURI.getPort());
       sshSession.connect();
 
       Channel channel = sshSession.openChannel("exec");
@@ -228,15 +234,16 @@ public class PushReplication implements ReplicationQueue {
         try {
           final int delay = 50;
           Thread.sleep(delay);
-        } catch (InterruptedException e) { }
+        } catch (InterruptedException e) {
+        }
       }
       channel.disconnect();
       sshSession.disconnect();
-    } catch(JSchException e) {
+    } catch (JSchException e) {
       log.error("Communication error when trying to replicate to: "
-          + replicateURI.toString() + "\n"
-          + "Error reported: " + e.getMessage() + "\n"
-          + "Error in communication: " + errStream.toString());
+          + replicateURI.toString() + "\n" + "Error reported: "
+          + e.getMessage() + "\n" + "Error in communication: "
+          + errStream.toString());
     }
   }
 
@@ -270,10 +277,8 @@ public class PushReplication implements ReplicationQueue {
 
   private boolean usingSSH(final URIish uri) {
     final String scheme = uri.getScheme();
-    if (!uri.isRemote())
-      return false;
-    if (scheme != null && scheme.toLowerCase().contains("ssh"))
-      return true;
+    if (!uri.isRemote()) return false;
+    if (scheme != null && scheme.toLowerCase().contains("ssh")) return true;
     if (scheme == null && uri.getHost() != null && uri.getPath() != null)
       return true;
     return false;
@@ -285,15 +290,31 @@ public class PushReplication implements ReplicationQueue {
     private final WorkQueue.Executor pool;
     private final Map<URIish, PushOp> pending = new HashMap<URIish, PushOp>();
     private final PushOp.Factory opFactory;
+    private final ProjectControl.Factory projectControlFactory;
 
     ReplicationConfig(final Injector injector, final WorkQueue workQueue,
         final RemoteConfig rc, final Config cfg) {
+
       remote = rc;
       delay = Math.max(0, getInt(rc, cfg, "replicationdelay", 15));
 
       final int poolSize = Math.max(0, getInt(rc, cfg, "threads", 1));
       final String poolName = "ReplicateTo-" + rc.getName();
       pool = workQueue.createQueue(poolSize, poolName);
+
+      AuthConfig authConfig = injector.getInstance(AuthConfig.class);
+      String[] authGroups =
+          cfg.getStringList("remote", rc.getName(), "authGroup");
+      final ReplicationUser remoteUser =
+          ReplicationUser.create(authConfig, authGroups);
+
+      projectControlFactory =
+          injector.createChildInjector(new AbstractModule() {
+            @Override
+            protected void configure() {
+              bind(CurrentUser.class).toInstance(remoteUser);
+            }
+          }).getInstance(ProjectControl.Factory.class);
 
       opFactory = injector.createChildInjector(new AbstractModule() {
         @Override
@@ -314,6 +335,15 @@ public class PushReplication implements ReplicationQueue {
 
     void schedule(final Project.NameKey project, final String ref,
         final URIish uri) {
+      try {
+        if (!projectControlFactory.controlFor(project).isVisible()) {
+          return;
+        }
+      } catch (NoSuchProjectException e1) {
+        log.error("Internal error: project " + project
+            + " not found during replication");
+        return;
+      }
       synchronized (pending) {
         PushOp e = pending.get(uri);
         if (e == null) {

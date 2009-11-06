@@ -61,6 +61,35 @@ public class SafeHtml_WikifyListTest extends TestCase {
     , n.asString());
   }
 
+  public void testBulletList4() {
+    final SafeHtml o = html("To see this bug, you have to:\n" //
+        + "* Be on IMAP or EAS (not on POP)\n"//
+        + "* Be very unlucky\n");
+    final SafeHtml n = o.wikify();
+    assertNotSame(o, n);
+    assertEquals("<p>To see this bug, you have to:</p>" //
+        + BEGIN_LIST //
+        + item("Be on IMAP or EAS (not on POP)") //
+        + item("Be very unlucky") //
+        + END_LIST //
+    , n.asString());
+  }
+
+  public void testBulletList5() {
+    final SafeHtml o = html("To see this bug,\n" //
+        + "you have to:\n" //
+        + "* Be on IMAP or EAS (not on POP)\n"//
+        + "* Be very unlucky\n");
+    final SafeHtml n = o.wikify();
+    assertNotSame(o, n);
+    assertEquals("<p>To see this bug, you have to:</p>" //
+        + BEGIN_LIST //
+        + item("Be on IMAP or EAS (not on POP)") //
+        + item("Be very unlucky") //
+        + END_LIST //
+    , n.asString());
+  }
+
   public void testDashList1() {
     final SafeHtml o = html("A\n\n- line 1\n- 2nd line");
     final SafeHtml n = o.wikify();

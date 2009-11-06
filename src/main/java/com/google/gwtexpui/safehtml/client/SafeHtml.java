@@ -105,32 +105,62 @@ public abstract class SafeHtml {
         for (final String line : p.split("\n")) {
           r.openSpan();
           r.setStyleName("gwtexpui-SafeHtml-WikiPreFormat");
-          r.append(new SafeHtmlString(line));
+          r.append(asis(line));
           r.closeSpan();
           r.br();
         }
         r.closeElement("p");
 
       } else if (isList(p)) {
-        r.openElement("ul");
-        r.setStyleName("gwtexpui-SafeHtml-WikiList");
-        for (String line : p.split("\n")) {
-          if (line.startsWith("-") || line.startsWith("*")) {
-            line = line.substring(1).trim();
-          }
-          r.openElement("li");
-          r.append(new SafeHtmlString(line));
-          r.closeElement("li");
-        }
-        r.closeElement("ul");
+        wikifyList(r, p);
 
       } else {
         r.openElement("p");
-        r.append(new SafeHtmlString(p));
+        r.append(asis(p));
         r.closeElement("p");
       }
     }
     return r.toSafeHtml();
+  }
+
+  private void wikifyList(final SafeHtmlBuilder r, final String p) {
+    boolean in_ul = false;
+    boolean in_p = false;
+    for (String line : p.split("\n")) {
+      if (line.startsWith("-") || line.startsWith("*")) {
+        if (!in_ul) {
+          if (in_p) {
+            in_p = false;
+            r.closeElement("p");
+          }
+
+          in_ul = true;
+          r.openElement("ul");
+          r.setStyleName("gwtexpui-SafeHtml-WikiList");
+        }
+        line = line.substring(1).trim();
+
+      } else if (!in_ul) {
+        if (!in_p) {
+          in_p = true;
+          r.openElement("p");
+        } else {
+          r.append(' ');
+        }
+        r.append(asis(line));
+        continue;
+      }
+
+      r.openElement("li");
+      r.append(asis(line));
+      r.closeElement("li");
+    }
+
+    if (in_ul) {
+      r.closeElement("ul");
+    } else if (in_p) {
+      r.closeElement("p");
+    }
   }
 
   private static boolean isPreFormat(final String p) {

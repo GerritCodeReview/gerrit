@@ -206,8 +206,9 @@ public abstract class SafeHtml {
   }
 
   /**
-   * Go through the {@link RegexFindReplace} list, calling {@link #replaceAll()}
-   * on the HTML string for every find/replace pair in the list.
+   * Go through the {@link RegexFindReplace} list, calling
+   * {@link #replaceAll(String,String)} on the HTML string for every
+   * find/replace pair in the list.
    */
   public SafeHtml replaceAll(final List<RegexFindReplace> findReplaceList) {
     if (findReplaceList == null) {

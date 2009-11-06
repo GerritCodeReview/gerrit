@@ -35,7 +35,7 @@ import javax.servlet.http.HttpServletResponse;
  * these resources to have very long expiration times.
  * <p>
  * To use, add the following block to your <code>web.xml</code>:
- * 
+ *
  * <pre>
  * &lt;filter&gt;
  *     &lt;filter-name&gt;CacheControl&lt;/filter-name&gt;

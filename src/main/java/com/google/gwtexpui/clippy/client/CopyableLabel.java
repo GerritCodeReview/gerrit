@@ -75,7 +75,7 @@ public class CopyableLabel extends Composite implements HasText {
 
   /**
    * Create a new label
-   * 
+   *
    * @param str initial content
    */
   public CopyableLabel(final String str) {
@@ -84,7 +84,7 @@ public class CopyableLabel extends Composite implements HasText {
 
   /**
    * Create a new label
-   * 
+   *
    * @param str initial content
    * @param showLabel if true, the content is shown, if false it is hidden from
    *        view and only the copy icon is displayed.

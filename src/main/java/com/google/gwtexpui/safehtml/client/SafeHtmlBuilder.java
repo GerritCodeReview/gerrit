@@ -158,7 +158,7 @@ public class SafeHtmlBuilder extends SafeHtml {
    * After the element is open the attributes may be manipulated until the next
    * <code>append</code>, <code>openElement</code>, <code>closeSelf</code> or
    * <code>closeElement</code> call.
-   * 
+   *
    * @param tagName name of the HTML element to open.
    */
   public SafeHtmlBuilder openElement(final String tagName) {
@@ -176,7 +176,7 @@ public class SafeHtmlBuilder extends SafeHtml {
 
   /**
    * Get an attribute of the last opened element.
-   * 
+   *
    * @param name name of the attribute to read.
    * @return the attribute value, as a string. The empty string if the attribute
    *         has not been assigned a value. The returned string is the raw
@@ -190,7 +190,7 @@ public class SafeHtmlBuilder extends SafeHtml {
 
   /**
    * Set an attribute of the last opened element.
-   * 
+   *
    * @param name name of the attribute to set.
    * @param value value to assign; any existing value is replaced. The value is
    *        escaped (if necessary) during the assignment.
@@ -204,7 +204,7 @@ public class SafeHtmlBuilder extends SafeHtml {
 
   /**
    * Set an attribute of the last opened element.
-   * 
+   *
    * @param name name of the attribute to set.
    * @param value value to assign, any existing value is replaced.
    */
@@ -218,7 +218,7 @@ public class SafeHtmlBuilder extends SafeHtml {
    * If the attribute is not yet assigned, this method sets the attribute. If
    * the attribute is already assigned, the new value is appended onto the end,
    * after appending a single space to delimit the values.
-   * 
+   *
    * @param name name of the attribute to append onto.
    * @param value additional value to append.
    */

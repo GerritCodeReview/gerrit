@@ -50,7 +50,7 @@ public class ViewSite<V extends View> extends Composite {
    * The view will be attached to the DOM tree within a hidden container,
    * permitting its <code>onLoad()</code> method to execute and update the DOM
    * without the user seeing the result.
-   * 
+   *
    * @param view the next view to display.
    */
   public void setView(final V view) {
@@ -66,7 +66,7 @@ public class ViewSite<V extends View> extends Composite {
 
   /**
    * Invoked after the view becomes the current view and has been made visible.
-   * 
+   *
    * @param view the view being displayed.
    */
   protected void onShowView(final V view) {

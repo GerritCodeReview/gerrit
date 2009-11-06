@@ -91,7 +91,7 @@ public abstract class SafeHtml {
    * Lines that start with whitespace are assumed to be preformatted, and are
    * formatted by the <code>gwtexpui-SafeHtml-WikiPreFormat</code> CSS class. By
    * default this class is:
-   * 
+   *
    * <pre>
    *   white-space: pre;
    *   font-family: monospace;
@@ -179,7 +179,7 @@ public abstract class SafeHtml {
    * <b>WARNING:</b> This replacement is being performed against an otherwise
    * safe HTML string. The caller must ensure that the replacement does not
    * introduce cross-site scripting attack entry points.
-   * 
+   *
    * @param regex regular expression pattern to match the substring with.
    * @param repl replacement expression. Capture groups within
    *        <code>regex</code> can be referenced with <code>$<i>n</i></code>.
@@ -195,7 +195,7 @@ public abstract class SafeHtml {
    * <b>WARNING:</b> This replacement is being performed against an otherwise
    * safe HTML string. The caller must ensure that the replacement does not
    * introduce cross-site scripting attack entry points.
-   * 
+   *
    * @param regex regular expression pattern to match substrings with.
    * @param repl replacement expression. Capture groups within
    *        <code>regex</code> can be referenced with <code>$<i>n</i></code>.

@@ -64,7 +64,7 @@ public class AutoCenterDialogBox extends PluginSafeDialogBox {
    * <p>
    * Subclasses may override (but should ensure they still call super.onResize)
    * to implement custom logic when a window resize occurs.
-   * 
+   *
    * @param width new browser window width
    * @param height new browser window height
    */

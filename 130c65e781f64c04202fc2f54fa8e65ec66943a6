@@ -1,0 +1,208 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAo3///p0\u003d",
+        "filename": "Documentation/config-replication.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-11-06T15:38:18Z",
+      "side": 1,
+      "message": "See how remote.\u003cname\u003e.url describes multiple values are permitted?  Given your example block above I think its worth mentioning it here too, so readers know they can set more than one group.",
+      "revId": "130c65e781f64c04202fc2f54fa8e65ec66943a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAo3///p4\u003d",
+        "filename": "Documentation/config-replication.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-11-06T15:38:18Z",
+      "side": 1,
+      "message": "I think I would prefer the default to mean access control is ignored, to remain compatible with current installs, but that might cause the code to become too complex to read.",
+      "revId": "130c65e781f64c04202fc2f54fa8e65ec66943a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAo3///pY\u003d",
+        "filename": "src/main/java/com/google/gerrit/git/PushReplication.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-11-06T15:38:18Z",
+      "side": 1,
+      "message": "This entire hunk (line 196 through 246) is correcting formatting damage in the file, but is confusing to read relative to your change.  It should be easy to pull out into its own commit.  I would prefer it if you pulled this into a commit that comes before your replication change, so the formatting is first corrected, and then the logic is modified.",
+      "revId": "130c65e781f64c04202fc2f54fa8e65ec66943a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAo3///pU\u003d",
+        "filename": "src/main/java/com/google/gerrit/git/PushReplication.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-11-06T15:38:18Z",
+      "side": 1,
+      "message": "These two lines are also formatting damage.  If you can pull them into the same patch as the other hunk, great.",
+      "revId": "130c65e781f64c04202fc2f54fa8e65ec66943a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAo3///pQ\u003d",
+        "filename": "src/main/java/com/google/gerrit/git/PushReplication.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-11-06T15:38:18Z",
+      "side": 1,
+      "message": "Please don\u0027t pull from an Injector if you can avoid it.  The AuthConfig case is moot here given my comments in ReplicationUser to create an assisted injection factory, but you\u0027ll still need the ReplicationUser.Factory, so these comments are still relevant.\n\nInstead of pulling from an Injector, declare the dependency in PushReplication\u0027s constructor, store it as a private final field like workQueue is, and pass it down just like workQueue.  Its a couple more lines of code but it better documents our dependencies and avoids reflective use of an Injector.\n\nIn theory this makes it easier to unit test this chunk of code by creating the appropriate mocks for the dependencies.  We have really crappy unit tests in Gerrit, but I\u0027d like to start paying back that technical debt incrementally, so I\u0027d like to avoid getting into corners which make it harder to do that.",
+      "revId": "130c65e781f64c04202fc2f54fa8e65ec66943a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAo3///pM\u003d",
+        "filename": "src/main/java/com/google/gerrit/git/PushReplication.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-11-06T15:38:18Z",
+      "side": 1,
+      "message": "The reason GroupCache doesn\u0027t work here is because this object is being constructed before the GroupCache\u0027s underlying Ehcache is even allocated.\n\nLong story short, you can\u0027t read from any caches this early in the object initialization cycle.\n\nThe better alternative here is to just read directly from the ReviewDb.  ReviewDb should be available at this point in the object initialization, we already had to open a connection and query to do \"SELECT site_path FROM system_config\" just so we can reach this point and have the replication.config file loaded.  So it is available.\n\nI do dislike the idea of depending upon the entire database at this point in the code, that does make it really hard to mock and test.  But I dislike the on-the-fly group resolution inside of ReplicationUser even more.\n\nSo.  I suggest add a Provider\u003cReviewDb\u003e as a dependency just like WorkQueue is, thread it down through to here, and then you can open a connection and query the groups by hand:\n\n  private static Set\u003cAccountGroup.Id\u003e groupsFor(Provider\u003cReviewDb\u003e dbProvider,\n    String[] groupNames) {\n    final Set\u003cAccountGroup.Id\u003e result \u003d new HashSet\u003cAccountGroup.Id\u003e();\n    final ReviewDb db \u003d dbProvider.get();\n    try {\n      for (String name : groupNames) {\n        AccountGroup group \u003d db.accountGroups().get(\n          new AccountGroup.NameKey(name));\n        if (group \u003d\u003d null) {\n          log.warn(\"Group \\\"\" + name + \"\\\" not in database,\"\n            + \" removing from authGroup\");\n        } else {\n          result.add(group.getId());\n        }\n      }\n    } finally {\n      db.close();\n    }\n    return result;\n  }\n\nTo avoid also depending on AuthConfig here I think I would mix in the anonymous and registered groups inside of ReplicationUser\u0027s constructor.  Make a copy of the incoming group set, add the proper other set from the AuthConfig, make that unmodifiable, and store as an instance member.",
+      "revId": "130c65e781f64c04202fc2f54fa8e65ec66943a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAo3///pw\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ReplicationUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-11-06T15:38:18Z",
+      "side": 1,
+      "message": "Missing AOSP copyright header.",
+      "revId": "130c65e781f64c04202fc2f54fa8e65ec66943a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAo3///ps\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ReplicationUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-11-06T15:38:18Z",
+      "side": 1,
+      "message": "For clarity in the code we never import a .Id or .Key class directly.  Instead we always mention the enclosing class, so here use Set\u003cAccountGroup.Id\u003e.",
+      "revId": "130c65e781f64c04202fc2f54fa8e65ec66943a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAo3///po\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ReplicationUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-11-06T15:38:18Z",
+      "side": 1,
+      "message": "Also use Set\u003cAccountGroup.Id\u003e",
+      "revId": "130c65e781f64c04202fc2f54fa8e65ec66943a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAo3///pc\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ReplicationUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-11-06T15:38:18Z",
+      "side": 1,
+      "message": "IIRC this should be an unmodifiable set.",
+      "revId": "130c65e781f64c04202fc2f54fa8e65ec66943a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAo3///pk\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ReplicationUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-11-06T15:38:18Z",
+      "side": 1,
+      "message": "Should be\n\n  return Collections.emptySet();",
+      "revId": "130c65e781f64c04202fc2f54fa8e65ec66943a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAo3///pg\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ReplicationUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-11-06T15:38:18Z",
+      "side": 1,
+      "message": "Don\u0027t use a static factory method.  Use Guice instead:\n\n  public interface Factory {\n    ReplicationUser create(@Assisted String[] groupNames);\n  }\n\n  @Inject\n  ReplicationUser(AuthConfig authConfig, @Assisted String[] groupNames) {\n    ...\n  }\n\nand you\u0027ll have to add to GerritGlobalModule:\n\n  factory(ReplicationUser.Factory.class);\n\nThen instead of creating ReplicationUser directly we get a handle to ReplicationUser.Factory and call create on it, passing in the group names.  Guice will wire in AuthConfig for us.\n\nA good example of this pattern is the ListBranches class.  There are many of them actually, I use this trick a lot within Gerrit.",
+      "revId": "130c65e781f64c04202fc2f54fa8e65ec66943a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

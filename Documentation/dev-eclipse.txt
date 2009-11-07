@@ -40,8 +40,8 @@ http://m2eclipse.codehaus.org/[m2eclipse]
 Code Formatter Settings
 -----------------------
 
-Import GoogleFormat.xml using Window -> Preferences -> Java ->
-Code Style -> Formatter -> Import...
+Import `tools/GoogleFormat.xml` using Window -> Preferences ->
+Java -> Code Style -> Formatter -> Import...
 
 This will define the 'Google Format' profile, which the project
 settings prefer when formatting source code.
@@ -59,7 +59,7 @@ builds are used.
 
 [NOTE]
 Some of the source code is generated with ANTLR sources.  To
-build these files, you need to right click on the imported project,
+build these files, you need to right click on the imported projects,
 Maven -> Update Project Configuration.  This should fix the compile
 errors identified after import.
 
@@ -74,18 +74,9 @@ Configure Database
 You may have already done this step earlier, based on the
 instructions in link:dev-readme.html[Developer Setup].
 
-* Open gerrit/src/main/java
-* Copy `GerritServer.properties_example` to `GerritServer.properties`
+* Navigate to gerrit-war/src/main/webapp/WEB-INF/extra/
+* Copy `GerritServer.properties_example` to `gerrit-parent/GerritServer.properties`
 * Configure your database for debugging in hosted mode.
-
-Bootstrap Compile
------------------
-
-From the command line we have to bootstrap the environment:
-
-----
-  ./to_hosted.sh
-----
 
 Production Compile
 ------------------
@@ -96,17 +87,15 @@ Production Compile
   mvn clean package
 ----
 
-to create a production build.  The `./to_hosted.sh` used above
-to setup the development environment for Eclipse hosted mode also
-creates a state that produces a corrupt production build.
+to create a production build.
 
 Launch Gerrit
 -------------
 
 Open Run->Debug Configurations...
 
-Under Java Application find `gerrit_debug` (not Mac OS X)
-or `gerrit_macos` (Mac OS X only) to start the GWT hosted
+Under Java Application find `gwtui_any` (not Mac OS X)
+or `gwtui_mac` (Mac OS X only) to start the GWT hosted
 mode browser and debug through Eclipse.
 
 Final Setup

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2009 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.google.gerrit</groupId>
+    <artifactId>gerrit-parent</artifactId>
+    <version>2.0.25-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>gerrit-war</artifactId>
+  <name>Gerrit Code Review - WAR</name>
+  <packaging>war</packaging>
+
+  <description>
+    Gerrit packaged as a standard web application archive
+  </description>
+
+  <dependencies>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>com.google.gerrit</groupId>
+      <artifactId>gerrit-gwtui</artifactId>
+      <type>war</type>
+      <scope>runtime</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>com.google.gerrit</groupId>
+      <artifactId>gerrit-main</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>bouncycastle</groupId>
+      <artifactId>bcprov-jdk15</artifactId>
+      <version>140</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>bouncycastle</groupId>
+      <artifactId>bcpg-jdk15</artifactId>
+      <version>140</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.google.gerrit</groupId>
+      <artifactId>gerrit-sshd</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.google.gerrit</groupId>
+      <artifactId>gerrit-httpd</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.google.gerrit</groupId>
+      <artifactId>gerrit-pgm</artifactId>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <configuration>
+          <warName>gerrit-${project.version}</warName>
+          <archiveClasses>true</archiveClasses>
+          <archive>
+            <addMavenDescriptor>false</addMavenDescriptor>
+            <manifestEntries>
+              <Main-Class>Main</Main-Class>
+              <Implementation-Title>Gerrit Code Review</Implementation-Title>
+              <Implementation-Version>${project.version}</Implementation-Version>
+            </manifestEntries>
+          </archive>
+          <overlays>
+            <overlay>
+              <groupId>com.google.gerrit</groupId>
+              <artifactId>gerrit-main</artifactId>
+              <type>jar</type>
+              <includes>
+                <include>Main.class</include>
+                <include>com/google/gerrit/main/*.class</include>
+              </includes>
+            </overlay>
+          </overlays>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>fix-output</id>
+            <phase>process-classes</phase>
+            <configuration>
+              <tasks>
+                <property name="dst" location="${project.build.directory}/${project.build.finalName}" />
+                <property name="app" location="${dst}/gerrit" />
+
+                <copy tofile="${dst}/LICENSES.txt"
+                      file="${basedir}/../Documentation/licenses.txt"
+                      overwrite="true" />
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>

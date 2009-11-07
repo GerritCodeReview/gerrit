@@ -43,8 +43,7 @@ gwtorm supports (or add the necessary dialect support to gwtorm,
 and then configure your workspace anyway).
 
 ====
-  cd src/main/java
-  cp GerritServer.properties_example GerritServer.properties
+  cp gerrit-war/src/main/webapp/WEB-INF/extra/GerritServer.properties_example GerritServer.properties
 ====
 
 Now edit GerritServer.properties to uncomment the database you are
@@ -104,7 +103,7 @@ From the command line:
 Output WAR will be placed in:
 
 ====
-  target/gerrit-*.war
+  gerrit-war/target/gerrit-*.war
 ====
 
 When debugging browser specific issues use gwtStyle `DETAILED` so

@@ -18,30 +18,71 @@ limitations under the License.
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>gerrit</groupId>
-  <artifactId>gerrit</artifactId>
-  <packaging>war</packaging>
+
+  <groupId>com.google.gerrit</groupId>
+  <artifactId>gerrit-parent</artifactId>
+  <packaging>pom</packaging>
   <version>2.0.25-SNAPSHOT</version>
-  <name>gerrit</name>
-  <description>Gerrit - Web Based Code Review</description>
-  <url>http://android.git.kernel.org/?p=tools/gerrit.git</url>
+
+  <name>Gerrit Code Review - Parent</name>
+  <url>http://code.google.com/p/gerrit/</url>
+
+  <description>
+    Gerrit - Web Based Code Review
+  </description>
 
   <mailingLists>
     <mailingList>
       <name>repo-discuss mailing list</name>
       <post>repo-discuss@googlegroups.com</post>
+      <archive>http://groups.google.com/group/repo-discuss</archive>
+      <subscribe>http://groups.google.com/group/repo-discuss/subscribe</subscribe>
     </mailingList>
   </mailingLists>
 
-  <developers>
-    <developer>
-      <name>Shawn O. Pearce</name>
-      <email>sop@google.com</email>
-      <roles>
-        <role>Maintainer</role>
-      </roles>
-    </developer>
-  </developers>
+  <issueManagement>
+    <url>http://code.google.com/p/gerrit/issues/list</url>
+    <system>Google Code</system>
+  </issueManagement>
+
+  <properties>
+    <jgitVersion>0.6.0-23-g36af95b7</jgitVersion>
+    <gwtormVersion>1.1.2</gwtormVersion>
+    <gwtjsonrpcVersion>1.1.1</gwtjsonrpcVersion>
+    <gwtexpuiVersion>1.1.4-SNAPSHOT</gwtexpuiVersion>
+    <gwtVersion>1.7.0</gwtVersion>
+    <slf4jVersion>1.5.8</slf4jVersion>
+    <guiceVersion>2.0</guiceVersion>
+
+    <gwtStyle>OBF</gwtStyle>
+
+    <project.build.sourceEncoding>
+      UTF-8
+    </project.build.sourceEncoding>
+    <project.reporting.outputEncoding>
+      UTF-8
+    </project.reporting.outputEncoding>
+  </properties>
+
+  <modules>
+    <module>gerrit-patch-commonsnet</module>
+    <module>gerrit-patch-gwtexpui</module>
+    <module>gerrit-patch-jgit</module>
+
+    <module>gerrit-util-cli</module>
+    <module>gerrit-util-ssl</module>
+
+    <module>gerrit-common</module>
+    <module>gerrit-httpd</module>
+    <module>gerrit-main</module>
+    <module>gerrit-pgm</module>
+    <module>gerrit-reviewdb</module>
+    <module>gerrit-server</module>
+    <module>gerrit-sshd</module>
+    <module>gerrit-war</module>
+
+    <module>gerrit-gwtui</module>
+  </modules>
 
   <licenses>
     <license>
@@ -252,203 +293,34 @@ limitations under the License.
     </license>
   </licenses>
 
-  <properties>
-    <jgitVersion>0.6.0-23-g36af95b7</jgitVersion>
-    <gwtormVersion>1.1.2</gwtormVersion>
-    <gwtjsonrpcVersion>1.1.1</gwtjsonrpcVersion>
-    <gwtexpuiVersion>1.1.4-SNAPSHOT</gwtexpuiVersion>
-    <gwtVersion>1.7.0</gwtVersion>
-    <gwtStyle>OBF</gwtStyle>
-    <project.build.sourceEncoding>
-      UTF-8
-    </project.build.sourceEncoding>
-    <project.reporting.outputEncoding>
-      UTF-8
-    </project.reporting.outputEncoding>
-  </properties>
-
   <build>
     <resources>
       <resource>
-        <directory>src/main/java</directory>
-        <includes>
-          <include>log4j.properties</include>
-          <include>com/google/gerrit/client/GerritVersion.properties</include>
-          <include>com/google/gerrit/server/ssh/scproot/**</include>
-        </includes>
+        <directory>${basedir}/src/main/java</directory>
+        <excludes>
+          <exclude>**/*.gwt.xml</exclude>
+          <exclude>**/*.java</exclude>
+        </excludes>
       </resource>
     </resources>
 
     <plugins>
       <plugin>
-        <artifactId>maven-clean-plugin</artifactId>
-        <version>2.2</version>
-        <configuration>
-          <filesets>
-            <fileset>
-              <directory>src/main/webapp</directory>
-              <includes>
-                <include>gerrit</include>
-                <include>WEB-INF/lib</include>
-              </includes>
-              <followSymlinks>false</followSymlinks>
-            </fileset>
-          </filesets>
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>org.antlr</groupId>
-        <artifactId>antlr3-maven-plugin</artifactId>
-        <version>3.1.1</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>antlr</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.0.2</version>
         <configuration>
           <source>1.6</source>
           <target>1.6</target>
+          <encoding>UTF-8</encoding>
         </configuration>
       </plugin>
 
       <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>gwt-maven-plugin</artifactId>
-        <version>1.1</version>
-        <configuration>
-          <module>com.google.gerrit.Gerrit</module>
-          <output>${project.build.directory}/${project.name}-${project.version}</output>
-          <extraJvmArgs>-Xmx512m</extraJvmArgs>
-          <style>${gwtStyle}</style>
-        </configuration>
+        <artifactId>maven-source-plugin</artifactId>
         <executions>
           <execution>
             <goals>
-              <goal>compile</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-war-plugin</artifactId>
-        <configuration>
-          <warSourceExcludes>WEB-INF/web-jetty.xml</warSourceExcludes>
-          <archiveClasses>true</archiveClasses>
-          <archive>
-            <manifest>
-              <mainClass>ExecutableWarMain</mainClass>
-            </manifest>
-            <manifestEntries>
-              <Executable-War-Package>com.google.gerrit.pgm</Executable-War-Package>
-            </manifestEntries>
-          </archive>
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>make-executable</id>
-            <phase>generate-resources</phase>
-            <goals>
-              <goal>unpack</goal>
-            </goals>
-            <configuration>
-              <artifactItems>
-                <artifactItem>
-                  <groupId>gerrit</groupId>
-                  <artifactId>executablewar</artifactId>
-                  <overWrite>true</overWrite>
-                  <outputDirectory>${project.build.directory}/executablewar</outputDirectory>
-                  <includes>**/*.class</includes>
-                </artifactItem>
-                <artifactItem>
-                  <groupId>gerrit</groupId>
-                  <artifactId>gerrit-keyapplet</artifactId>
-                  <overWrite>true</overWrite>
-                  <outputDirectory>${project.build.directory}/gerrit-keyapplet</outputDirectory>
-                  <includes>**/*</includes>
-                </artifactItem>
-              </artifactItems>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-
-      <plugin>
-        <artifactId>maven-antrun-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>generate-version</id>
-            <phase>generate-resources</phase>
-            <configuration>
-              <tasks>
-                <property name="s" location="${basedir}/src/main/java/"/>
-                <exec executable="git" outputproperty="v">
-                  <arg value="describe"/>
-                  <arg value="HEAD"/>
-                </exec>
-                <echo file="${s}/com/google/gerrit/client/GerritVersion.properties">version=${v}</echo>
-              </tasks>
-            </configuration>
-            <goals>
-              <goal>run</goal>
-            </goals>
-          </execution>
-
-          <execution>
-            <id>fix-output</id>
-            <phase>process-classes</phase>
-            <configuration>
-              <tasks>
-                <property name="d" location="${basedir}/target/${project.name}-${project.version}"/>
-                <property name="m" location="${d}/gerrit"/>
-                <property name="keyapplet" location="${basedir}/target/gerrit-keyapplet"/>
-
-                <copy todir="${d}">
-                  <fileset dir="${basedir}/target/executablewar" includes="**/*"/>
-                </copy>
-
-                <copy tofile="${d}/LICENSES.txt"
-                      file="${basedir}/Documentation/licenses.txt"
-                      overwrite="true"/>
-                <copy todir="${d}/WEB-INF/extra">
-                  <fileset dir="${basedir}/src/main/java">
-                    <include name="GerritServer.properties_example"/>
-                  </fileset>
-                </copy>
-
-                <apply executable="gzip" addsourcefile="false">
-                  <arg value="-9"/>
-                  <fileset dir="${m}"
-                           includes="**/*.html,**/*.css"/>
-                  <redirector>
-                    <inputmapper type="glob" from="*" to="${m}/*"/>
-                    <outputmapper type="glob" from="*" to="${m}/*.gz"/>
-                  </redirector>
-                </apply>
-
-                <zip
-                    destfile="${m}/gerrit-keyapplet.cache.jar"
-                    compress="true">
-                  <fileset dir="${keyapplet}" includes="**/*"/>
-                </zip>
-              </tasks>
-            </configuration>
-            <goals>
-              <goal>run</goal>
+              <goal>jar</goal>
             </goals>
           </execution>
         </executions>
@@ -458,231 +330,438 @@ limitations under the License.
 
   <dependencies>
     <dependency>
-      <groupId>gwtorm</groupId>
-      <artifactId>gwtorm</artifactId>
-      <version>${gwtormVersion}</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>gwtorm</groupId>
-      <artifactId>gwtorm</artifactId>
-      <version>${gwtormVersion}</version>
-      <classifier>sources</classifier>
-      <scope>provided</scope>
-      <type>jar</type>
-    </dependency>
-
-    <dependency>
-      <groupId>gwtjsonrpc</groupId>
-      <artifactId>gwtjsonrpc</artifactId>
-      <version>${gwtjsonrpcVersion}</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>gwtjsonrpc</groupId>
-      <artifactId>gwtjsonrpc</artifactId>
-      <version>${gwtjsonrpcVersion}</version>
-      <classifier>sources</classifier>
-      <scope>provided</scope>
-      <type>jar</type>
-    </dependency>
-
-    <dependency>
-      <groupId>gwtexpui</groupId>
-      <artifactId>gwtexpui</artifactId>
-      <version>${gwtexpuiVersion}</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>gwtexpui</groupId>
-      <artifactId>gwtexpui</artifactId>
-      <version>${gwtexpuiVersion}</version>
-      <classifier>sources</classifier>
-      <scope>provided</scope>
-      <type>jar</type>
-    </dependency>
-
-    <dependency>
-      <groupId>gerrit</groupId>
-      <artifactId>executablewar</artifactId>
-      <version>1.2</version>
-      <scope>provided</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>gerrit</groupId>
-      <artifactId>gerrit-keyapplet</artifactId>
-      <version>1.0</version>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.openid4java</groupId>
-      <artifactId>openid4java-consumer</artifactId>
-      <version>0.9.5</version>
-      <scope>compile</scope>
-      <exclusions>
-        <exclusion>
-          <!-- jug-1.1 is LGPL, and the source has been lost -->
-          <groupId>jug</groupId>
-          <artifactId>jug</artifactId>
-        </exclusion>
-        <exclusion>
-          <!-- not required on Java 5 or later -->
-          <groupId>xml-apis</groupId>
-          <artifactId>xml-apis</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.sshd</groupId>
-      <artifactId>sshd-core</artifactId>
-      <version>0.2.0</version>
-      <scope>compile</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>net.sf.ehcache</groupId>
-      <artifactId>ehcache-core</artifactId>
-      <version>1.7.0</version>
-    </dependency>
-
-    <dependency>
-      <groupId>args4j</groupId>
-      <artifactId>args4j</artifactId>
-      <version>2.0.16</version>
-    </dependency>
-
-    <dependency>
-      <groupId>com.google.code.guice</groupId>
-      <artifactId>guice</artifactId>
-      <version>2.0</version>
-    </dependency>
-    <dependency>
-      <groupId>com.google.code.guice</groupId>
-      <artifactId>guice-servlet</artifactId>
-      <version>2.0</version>
-    </dependency>
-    <dependency>
-      <groupId>com.google.code.guice</groupId>
-      <artifactId>guice-assistedinject</artifactId>
-      <version>2.0</version>
-    </dependency>
-    <dependency>
-      <!-- required by Guice (whose POM is fake and lacks it) -->
-      <groupId>aopalliance</groupId>
-      <artifactId>aopalliance</artifactId>
-      <version>1.0</version>
-    </dependency>
-
-    <dependency>
-      <groupId>commons-net</groupId>
-      <artifactId>commons-net</artifactId>
-      <version>2.0</version>
-    </dependency>
-
-    <dependency>
-      <groupId>eu.medsea.mimeutil</groupId>
-      <artifactId>mime-util</artifactId>
-      <version>2.1.2</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.antlr</groupId>
-      <artifactId>antlr</artifactId>
-      <version>3.1.1</version>
-      <scope>compile</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>bouncycastle</groupId>
-      <artifactId>bcpg-jdk15</artifactId>
-      <version>140</version>
-      <scope>provided</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-log4j12</artifactId>
-      <version>1.5.8</version>
-      <scope>runtime</scope>
-      <exclusions>
-        <exclusion>
-          <groupId>javax.mail</groupId>
-          <artifactId>mail</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>javax.jms</groupId>
-          <artifactId>jms</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>com.sun.jdmk</groupId>
-          <artifactId>jmxtools</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>com.sun.jmx</groupId>
-          <artifactId>jmxri</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-
-    <dependency>
-      <groupId>org.eclipse</groupId>
-      <artifactId>jgit</artifactId>
-      <version>${jgitVersion}</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.eclipse</groupId>
-      <artifactId>jgit</artifactId>
-      <version>${jgitVersion}</version>
-      <classifier>sources</classifier>
-      <scope>provided</scope>
-      <type>jar</type>
-    </dependency>
-
-    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>3.8.2</version>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>com.h2database</groupId>
-      <artifactId>h2</artifactId>
-      <version>1.2.122</version>
       <scope>test</scope>
     </dependency>
 
     <dependency>
       <groupId>org.easymock</groupId>
       <artifactId>easymock</artifactId>
-      <version>2.5.1</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.easymock</groupId>
-      <artifactId>easymockclassextension</artifactId>
-      <version>2.4</version>
       <scope>test</scope>
     </dependency>
 
-    <!-- GWT -->
     <dependency>
-      <groupId>com.google.gwt</groupId>
-      <artifactId>gwt-servlet</artifactId>
-      <version>${gwtVersion}</version>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.google.gwt</groupId>
-      <artifactId>gwt-user</artifactId>
-      <version>${gwtVersion}</version>
-      <scope>provided</scope>
+      <groupId>org.easymock</groupId>
+      <artifactId>easymockclassextension</artifactId>
+      <scope>test</scope>
     </dependency>
   </dependencies>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>com.google.gerrit</groupId>
+        <artifactId>gerrit-patch-commonsnet</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.google.gerrit</groupId>
+        <artifactId>gerrit-patch-gwtexpui</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.google.gerrit</groupId>
+        <artifactId>gerrit-patch-gwtexpui</artifactId>
+        <version>${project.version}</version>
+        <classifier>sources</classifier>
+      </dependency>
+
+      <dependency>
+        <groupId>com.google.gerrit</groupId>
+        <artifactId>gerrit-patch-jgit</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.google.gerrit</groupId>
+        <artifactId>gerrit-patch-jgit</artifactId>
+        <version>${project.version}</version>
+        <classifier>sources</classifier>
+      </dependency>
+
+      <dependency>
+        <groupId>com.google.gerrit</groupId>
+        <artifactId>gerrit-common</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.google.gerrit</groupId>
+        <artifactId>gerrit-common</artifactId>
+        <version>${project.version}</version>
+        <classifier>sources</classifier>
+      </dependency>
+
+      <dependency>
+        <groupId>com.google.gerrit</groupId>
+        <artifactId>gerrit-gwtui</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.google.gerrit</groupId>
+        <artifactId>gerrit-gwtui</artifactId>
+        <version>${project.version}</version>
+        <type>war</type>
+      </dependency>
+
+      <dependency>
+        <groupId>com.google.gerrit</groupId>
+        <artifactId>gerrit-httpd</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.google.gerrit</groupId>
+        <artifactId>gerrit-main</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.google.gerrit</groupId>
+        <artifactId>gerrit-pgm</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.google.gerrit</groupId>
+        <artifactId>gerrit-reviewdb</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.google.gerrit</groupId>
+        <artifactId>gerrit-reviewdb</artifactId>
+        <version>${project.version}</version>
+        <classifier>sources</classifier>
+      </dependency>
+
+      <dependency>
+        <groupId>com.google.gerrit</groupId>
+        <artifactId>gerrit-server</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.google.gerrit</groupId>
+        <artifactId>gerrit-sshd</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.google.gerrit</groupId>
+        <artifactId>gerrit-war</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.google.gerrit</groupId>
+        <artifactId>gerrit-war</artifactId>
+        <version>${project.version}</version>
+        <type>war</type>
+      </dependency>
+
+      <dependency>
+        <groupId>com.google.gerrit</groupId>
+        <artifactId>gerrit-util-cli</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.google.gerrit</groupId>
+        <artifactId>gerrit-util-ssl</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>gwtorm</groupId>
+        <artifactId>gwtorm</artifactId>
+        <version>${gwtormVersion}</version>
+      </dependency>
+      <dependency>
+        <groupId>gwtorm</groupId>
+        <artifactId>gwtorm</artifactId>
+        <version>${gwtormVersion}</version>
+        <classifier>sources</classifier>
+      </dependency>
+
+      <dependency>
+        <groupId>gwtjsonrpc</groupId>
+        <artifactId>gwtjsonrpc</artifactId>
+        <version>${gwtjsonrpcVersion}</version>
+      </dependency>
+      <dependency>
+        <groupId>gwtjsonrpc</groupId>
+        <artifactId>gwtjsonrpc</artifactId>
+        <version>${gwtjsonrpcVersion}</version>
+        <classifier>sources</classifier>
+      </dependency>
+
+      <dependency>
+        <groupId>gwtexpui</groupId>
+        <artifactId>gwtexpui</artifactId>
+        <version>${gwtexpuiVersion}</version>
+      </dependency>
+      <dependency>
+        <groupId>gwtexpui</groupId>
+        <artifactId>gwtexpui</artifactId>
+        <version>${gwtexpuiVersion}</version>
+        <classifier>sources</classifier>
+      </dependency>
+
+      <dependency>
+        <groupId>gerrit</groupId>
+        <artifactId>gerrit-keyapplet</artifactId>
+        <version>1.0</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.openid4java</groupId>
+        <artifactId>openid4java-consumer</artifactId>
+        <version>0.9.5</version>
+        <exclusions>
+          <exclusion>
+            <!-- jug-1.1 is LGPL, and the source has been lost -->
+            <groupId>jug</groupId>
+            <artifactId>jug</artifactId>
+          </exclusion>
+          <exclusion>
+            <!-- not required on Java 5 or later -->
+            <groupId>xml-apis</groupId>
+            <artifactId>xml-apis</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.sshd</groupId>
+        <artifactId>sshd-core</artifactId>
+        <version>0.2.0</version>
+      </dependency>
+
+      <dependency>
+        <groupId>net.sf.ehcache</groupId>
+        <artifactId>ehcache-core</artifactId>
+        <version>1.7.0</version>
+      </dependency>
+
+      <dependency>
+        <groupId>args4j</groupId>
+        <artifactId>args4j</artifactId>
+        <version>2.0.16</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.google.code.guice</groupId>
+        <artifactId>guice</artifactId>
+        <version>${guiceVersion}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.google.code.guice</groupId>
+        <artifactId>guice-servlet</artifactId>
+        <version>${guiceVersion}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.google.code.guice</groupId>
+        <artifactId>guice-assistedinject</artifactId>
+        <version>${guiceVersion}</version>
+      </dependency>
+
+      <dependency>
+        <!-- required by Guice (whose POM is fake and lacks it) -->
+        <groupId>aopalliance</groupId>
+        <artifactId>aopalliance</artifactId>
+        <version>1.0</version>
+      </dependency>
+
+      <dependency>
+        <groupId>commons-net</groupId>
+        <artifactId>commons-net</artifactId>
+        <version>2.0</version>
+      </dependency>
+
+      <dependency>
+        <groupId>commons-codec</groupId>
+        <artifactId>commons-codec</artifactId>
+        <version>1.3</version>
+      </dependency>
+
+      <dependency>
+        <groupId>eu.medsea.mimeutil</groupId>
+        <artifactId>mime-util</artifactId>
+        <version>2.1.2</version>
+        <exclusions>
+          <exclusion>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+
+      <dependency>
+        <groupId>org.antlr</groupId>
+        <artifactId>antlr</artifactId>
+        <version>3.1.1</version>
+        <exclusions>
+          <exclusion>
+            <groupId>org.antlr</groupId>
+            <artifactId>stringtemplate</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>antlr</groupId>
+            <artifactId>antlr</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+
+      <dependency>
+        <groupId>bouncycastle</groupId>
+        <artifactId>bcpg-jdk15</artifactId>
+        <version>140</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>${slf4jVersion}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-log4j12</artifactId>
+        <version>${slf4jVersion}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>log4j</groupId>
+        <artifactId>log4j</artifactId>
+        <version>1.2.15</version>
+        <exclusions>
+          <exclusion>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>javax.jms</groupId>
+            <artifactId>jms</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>com.sun.jdmk</groupId>
+            <artifactId>jmxtools</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>com.sun.jmx</groupId>
+            <artifactId>jmxri</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+
+      <dependency>
+        <groupId>org.eclipse</groupId>
+        <artifactId>jgit</artifactId>
+        <version>${jgitVersion}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.eclipse</groupId>
+        <artifactId>jgit</artifactId>
+        <version>${jgitVersion}</version>
+        <classifier>sources</classifier>
+      </dependency>
+
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>3.8.2</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.h2database</groupId>
+        <artifactId>h2</artifactId>
+        <version>1.2.122</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.easymock</groupId>
+        <artifactId>easymock</artifactId>
+        <version>2.5.1</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.easymock</groupId>
+        <artifactId>easymockclassextension</artifactId>
+        <version>2.4</version>
+      </dependency>
+
+      <dependency>
+        <groupId>javax.servlet</groupId>
+        <artifactId>servlet-api</artifactId>
+        <version>2.5</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.google.gwt</groupId>
+        <artifactId>gwt-servlet</artifactId>
+        <version>${gwtVersion}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.google.gwt</groupId>
+        <artifactId>gwt-user</artifactId>
+        <version>${gwtVersion}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.google.gwt</groupId>
+        <artifactId>gwt-dev</artifactId>
+        <version>${gwtVersion}</version>
+        <classifier>${platform}</classifier>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <profiles>
+    <profile>
+      <id>gwt-dev-windows</id>
+      <properties>
+        <platform>windows</platform>
+      </properties>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+        <os>
+          <family>windows</family>
+        </os>
+      </activation>
+    </profile>
+
+    <profile>
+      <id>gwt-dev-mac</id>
+      <properties>
+        <platform>mac</platform>
+      </properties>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+        <os>
+          <family>mac</family>
+        </os>
+      </activation>
+    </profile>
+
+    <profile>
+      <id>gwt-dev-linux</id>
+      <properties>
+        <platform>linux</platform>
+      </properties>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+        <os>
+          <name>linux</name>
+        </os>
+      </activation>
+    </profile>
+  </profiles>
 
   <repositories>
     <repository>

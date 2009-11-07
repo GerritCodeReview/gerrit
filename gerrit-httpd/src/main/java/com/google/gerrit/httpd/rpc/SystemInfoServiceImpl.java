@@ -1,0 +1,78 @@
+// Copyright (C) 2008 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package com.google.gerrit.httpd.rpc;
+
+import com.google.gerrit.common.data.SshHostKey;
+import com.google.gerrit.common.data.SystemInfoService;
+import com.google.gerrit.reviewdb.ContributorAgreement;
+import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.server.ssh.SshInfo;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.SchemaFactory;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+
+import com.jcraft.jsch.HostKey;
+import com.jcraft.jsch.JSch;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+class SystemInfoServiceImpl implements SystemInfoService {
+  private static final JSch JSCH = new JSch();
+
+  private final SchemaFactory<ReviewDb> schema;
+  private final List<HostKey> hostKeys;
+  private final Provider<HttpServletRequest> httpRequest;
+
+  @Inject
+  SystemInfoServiceImpl(final SchemaFactory<ReviewDb> sf, final SshInfo daemon,
+      final Provider<HttpServletRequest> hsr) {
+    schema = sf;
+    hostKeys = daemon.getHostKeys();
+    httpRequest = hsr;
+  }
+
+  public void contributorAgreements(
+      final AsyncCallback<List<ContributorAgreement>> callback) {
+    try {
+      final ReviewDb db = schema.open();
+      try {
+        callback.onSuccess(db.contributorAgreements().active().toList());
+      } finally {
+        db.close();
+      }
+    } catch (OrmException e) {
+      callback.onFailure(e);
+    }
+  }
+
+  public void daemonHostKeys(final AsyncCallback<List<SshHostKey>> callback) {
+    final ArrayList<SshHostKey> r = new ArrayList<SshHostKey>(hostKeys.size());
+    for (final HostKey hk : hostKeys) {
+      String host = hk.getHost();
+      if (host.startsWith("*:")) {
+        final String port = host.substring(2);
+        host = "[" + httpRequest.get().getServerName() + "]:" + port;
+      }
+      final String fp = hk.getFingerPrint(JSCH);
+      r.add(new SshHostKey(host, hk.getType() + " " + hk.getKey(), fp));
+    }
+    callback.onSuccess(r);
+  }
+}

@@ -47,7 +47,7 @@ Maven from a source download obtained directly from Git:
   git clone git://android.git.kernel.org/tools/gerrit.git
   cd gerrit
   mvn clean package
-  cp target/gerrit-*.war ...YOUR.DEST.../gerrit.war
+  cp gerrit-war/target/gerrit-*.war ...YOUR.DEST.../gerrit.war
 ====
 
 The first build may take a while as dependencies are searched

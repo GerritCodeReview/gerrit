@@ -1,0 +1,138 @@
+// Copyright (C) 2009 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package com.google.gerrit.sshd.commands;
+
+import com.google.gerrit.common.data.ApprovalType;
+import com.google.gerrit.reviewdb.ApprovalCategory;
+import com.google.gerrit.reviewdb.ApprovalCategoryValue;
+
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.OptionDef;
+import org.kohsuke.args4j.spi.OneArgumentOptionHandler;
+import org.kohsuke.args4j.spi.OptionHandler;
+import org.kohsuke.args4j.spi.Setter;
+
+import java.lang.annotation.Annotation;
+
+final class ApproveOption implements Option, Setter<Short> {
+  private final String name;
+  private final String usage;
+  private final ApprovalType type;
+
+  private Short value;
+
+  ApproveOption(final String name, final String usage, final ApprovalType type) {
+    this.name = name;
+    this.usage = usage;
+    this.type = type;
+  }
+
+  @Override
+  public String[] aliases() {
+    return new String[0];
+  }
+
+  @Override
+  public Class<? extends OptionHandler<Short>> handler() {
+    return Handler.class;
+  }
+
+  @Override
+  public String metaVar() {
+    return "N";
+  }
+
+  @Override
+  public boolean multiValued() {
+    return false;
+  }
+
+  @Override
+  public String name() {
+    return name;
+  }
+
+  @Override
+  public boolean required() {
+    return false;
+  }
+
+  @Override
+  public String usage() {
+    return usage;
+  }
+
+  public Short value() {
+    return value;
+  }
+
+  @Override
+  public Class<? extends Annotation> annotationType() {
+    return null;
+  }
+
+  @Override
+  public void addValue(final Short val) {
+    this.value = val;
+  }
+
+  @Override
+  public Class<Short> getType() {
+    return Short.class;
+  }
+
+  @Override
+  public boolean isMultiValued() {
+    return false;
+  }
+
+  ApprovalCategory.Id getCategoryId() {
+    return type.getCategory().getId();
+  }
+
+  public static class Handler extends OneArgumentOptionHandler<Short> {
+    private final ApproveOption cmdOption;
+
+    public Handler(final CmdLineParser parser, final OptionDef option,
+        final Setter<Short> setter) {
+      super(parser, option, setter);
+      this.cmdOption = (ApproveOption) setter;
+    }
+
+    @Override
+    protected Short parse(final String token) throws NumberFormatException,
+        CmdLineException {
+      String argument = token;
+      if (argument.startsWith("+")) {
+        argument = argument.substring(1);
+      }
+
+      final short value = Short.parseShort(argument);
+      final ApprovalCategoryValue min = cmdOption.type.getMin();
+      final ApprovalCategoryValue max = cmdOption.type.getMax();
+
+      if (value < min.getValue() || value > max.getValue()) {
+        final String name = cmdOption.name();
+        final String e =
+            "\"" + token + "\" must be in range " + min.formatValue() + ".."
+                + max.formatValue() + " for \"" + name + "\"";
+        throw new CmdLineException(owner, e);
+      }
+      return value;
+    }
+  }
+}

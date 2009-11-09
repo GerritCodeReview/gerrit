@@ -104,6 +104,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAo3///iQ\u003d",
+        "filename": "src/main/java/com/google/gerrit/git/PushReplication.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1001814
+      },
+      "writtenOn": "2009-11-09T20:44:09Z",
+      "side": 1,
+      "message": "I am having problems to get guice to not throw an exception when seeing \nProvider\u003cReviewDb\u003e. I do this:\n\u003ccode\u003e\n  private final Injector injector;\n  private final WorkQueue workQueue;\n  private final List\u003cReplicationConfig\u003e configs;\n  private final Provider\u003cReviewDb\u003e providerDb;\n\n  @Inject\n  PushReplication(final Injector i, final WorkQueue wq,\n      @SitePath final File sitePath, Provider\u003cReviewDb\u003e pdb)\n      throws ConfigInvalidException, IOException {\n    injector \u003d i;\n    workQueue \u003d wq;\n    configs \u003d allConfigs(sitePath);\n    providerDb \u003d pdb;\n  }\n\u003c/code\u003e\nBasically guice throws an exception when pdb is to be injected. \nI have tried putting stuff in GerritGlobalModule.java but it feels a big guessing game at this point. Sorry to bother you about this, but could you provide help I would appreciate it.",
+      "parentUuid": "AAAAo3///pM\u003d",
+      "revId": "130c65e781f64c04202fc2f54fa8e65ec66943a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAo3///pw\u003d",
         "filename": "src/main/java/com/google/gerrit/server/ReplicationUser.java",
         "patchSetId": 1

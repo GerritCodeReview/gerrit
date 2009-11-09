@@ -122,6 +122,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAo3///iI\u003d",
+        "filename": "src/main/java/com/google/gerrit/git/PushReplication.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-11-09T20:50:50Z",
+      "side": 1,
+      "message": "Hmm, you are right, Guice won\u0027t inject Provider\u003cReviewDb\u003e unless you are in a per-request scope.\n\nInstead of Provider\u003cReviewDb\u003e use SchemaFactory\u003cReviewDb\u003e.  Instead of get() use open().  Otherwise it should be the same.\n\nThe difference between Provider\u003cReviewDb\u003e and SchemaFactory\u003cReviewDb\u003e is subtle.  The former will reuse an open database connection in the same web or ssh request, and will ensure the connection is automatically closed when the request terminates... thus you shouldn\u0027t close it yourself.  The SchemaFactory\u003cReviewDb\u003e however always produces a new connection and its the caller\u0027s responsibility to close the handle when they are done with it.  Because of this, its available in any injection scope.\n\nHere you aren\u0027t in a per-request scope so Guice is refusing to give you a Provider\u003cReviewDb\u003e, but instead is able to give you a SchemaFactory\u003cReviewDb\u003e.\n\nSorry for the confusion.  There are very few contexts within Gerrit that aren\u0027t per-request... this is unfortunately one of them.  Thus I just assumed Provider\u003cReviewDb\u003e would work, as its usually the right thing since almost everything is per-request.",
+      "parentUuid": "AAAAo3///iQ\u003d",
+      "revId": "130c65e781f64c04202fc2f54fa8e65ec66943a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAo3///pw\u003d",
         "filename": "src/main/java/com/google/gerrit/server/ReplicationUser.java",
         "patchSetId": 1

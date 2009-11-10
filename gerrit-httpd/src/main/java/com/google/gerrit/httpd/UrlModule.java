@@ -54,6 +54,7 @@ class UrlModule extends ServletModule {
 
     serve("/Main.class").with(notFound());
     serve("/com/google/gerrit/main/*").with(notFound());
+    serve("/servlet/*").with(notFound());
 
     serve("/all").with(screen(PageLinks.ALL_MERGED));
     serve("/mine").with(screen(PageLinks.MINE));

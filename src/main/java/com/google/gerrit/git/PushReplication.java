@@ -14,8 +14,16 @@
 
 package com.google.gerrit.git;
 
+import com.google.gerrit.client.reviewdb.AccountGroup;
 import com.google.gerrit.client.reviewdb.Project;
+import com.google.gerrit.client.reviewdb.ReviewDb;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.ReplicationUser;
 import com.google.gerrit.server.config.SitePath;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectControl;
+import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -47,9 +55,11 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /** Manages automatic replication to remote repositories. */
@@ -72,12 +82,18 @@ public class PushReplication implements ReplicationQueue {
   private final Injector injector;
   private final WorkQueue workQueue;
   private final List<ReplicationConfig> configs;
+  private final SchemaFactory<ReviewDb> database;
+  private final ReplicationUser.Factory replicationUserFactory;
 
   @Inject
   PushReplication(final Injector i, final WorkQueue wq,
-      @SitePath final File sitePath) throws ConfigInvalidException, IOException {
+      @SitePath final File sitePath, final ReplicationUser.Factory ruf,
+      final SchemaFactory<ReviewDb> db) throws ConfigInvalidException,
+      IOException {
     injector = i;
     workQueue = wq;
+    database = db;
+    replicationUserFactory = ruf;
     configs = allConfigs(sitePath);
   }
 
@@ -152,7 +168,8 @@ public class PushReplication implements ReplicationQueue {
         c.addPushRefSpec(spec);
       }
 
-      r.add(new ReplicationConfig(injector, workQueue, c, cfg));
+      r.add(new ReplicationConfig(injector, workQueue, c, cfg, database,
+          replicationUserFactory));
     }
     return Collections.unmodifiableList(r);
   }
@@ -285,15 +302,36 @@ public class PushReplication implements ReplicationQueue {
     private final WorkQueue.Executor pool;
     private final Map<URIish, PushOp> pending = new HashMap<URIish, PushOp>();
     private final PushOp.Factory opFactory;
+    private final ProjectControl.Factory projectControlFactory;
+    private final boolean authEnabled;
 
     ReplicationConfig(final Injector injector, final WorkQueue workQueue,
-        final RemoteConfig rc, final Config cfg) {
+        final RemoteConfig rc, final Config cfg, SchemaFactory<ReviewDb> db,
+        final ReplicationUser.Factory replicationUserFactory) {
+
       remote = rc;
       delay = Math.max(0, getInt(rc, cfg, "replicationdelay", 15));
 
       final int poolSize = Math.max(0, getInt(rc, cfg, "threads", 1));
       final String poolName = "ReplicateTo-" + rc.getName();
       pool = workQueue.createQueue(poolSize, poolName);
+
+      String[] authGroupNames =
+          cfg.getStringList("remote", rc.getName(), "authGroup");
+      authEnabled = authGroupNames.length > 0;
+      Set<AccountGroup.Id> authGroups =
+          ReplicationConfig.groupsFor(db, authGroupNames);
+
+      final ReplicationUser remoteUser =
+          replicationUserFactory.create(authGroups);
+
+      projectControlFactory =
+          injector.createChildInjector(new AbstractModule() {
+            @Override
+            protected void configure() {
+              bind(CurrentUser.class).toInstance(remoteUser);
+            }
+          }).getInstance(ProjectControl.Factory.class);
 
       opFactory = injector.createChildInjector(new AbstractModule() {
         @Override
@@ -307,6 +345,30 @@ public class PushReplication implements ReplicationQueue {
       }).getInstance(PushOp.Factory.class);
     }
 
+    private static Set<AccountGroup.Id> groupsFor(
+        SchemaFactory<ReviewDb> dbfactory, String[] groupNames) {
+      final Set<AccountGroup.Id> result = new HashSet<AccountGroup.Id>();
+      ReviewDb db = null;
+      try {
+        db = dbfactory.open();
+        for (String name : groupNames) {
+          AccountGroup group =
+              db.accountGroups().get(new AccountGroup.NameKey(name));
+          if (group == null) {
+            log.warn("Group \"" + name + "\" not in database,"
+                + " removing from authGroup");
+          } else {
+            result.add(group.getId());
+          }
+        }
+      } catch (OrmException e) {
+        log.error("Database error: " + e);
+      } finally {
+        db.close();
+      }
+      return result;
+    }
+
     private int getInt(final RemoteConfig rc, final Config cfg,
         final String name, final int defValue) {
       return cfg.getInt("remote", rc.getName(), name, defValue);
@@ -314,6 +376,16 @@ public class PushReplication implements ReplicationQueue {
 
     void schedule(final Project.NameKey project, final String ref,
         final URIish uri) {
+      try {
+        if (authEnabled
+            && !projectControlFactory.controlFor(project).isVisible()) {
+          return;
+        }
+      } catch (NoSuchProjectException e1) {
+        log.error("Internal error: project " + project
+            + " not found during replication");
+        return;
+      }
       synchronized (pending) {
         PushOp e = pending.get(uri);
         if (e == null) {

@@ -35,6 +35,7 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.MimeUtilFileTypeRegistry;
+import com.google.gerrit.server.ReplicationUser;
 import com.google.gerrit.server.account.AccountByEmailCacheImpl;
 import com.google.gerrit.server.account.AccountCacheImpl;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
@@ -45,7 +46,6 @@ import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.cache.CachePool;
 import com.google.gerrit.server.ldap.LdapModule;
 import com.google.gerrit.server.mail.AbandonedSender;
-import com.google.gerrit.server.mail.AddReviewerSender;
 import com.google.gerrit.server.mail.CommentSender;
 import com.google.gerrit.server.mail.EmailSender;
 import com.google.gerrit.server.mail.FromAddressGenerator;
@@ -160,5 +160,6 @@ public class GerritGlobalModule extends FactoryModule {
     factory(MergedSender.Factory.class);
     factory(MergeFailSender.Factory.class);
     factory(RegisterNewEmailSender.Factory.class);
+    factory(ReplicationUser.Factory.class);
   }
 }

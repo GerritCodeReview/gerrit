@@ -23,5 +23,8 @@ public enum AccessPath {
   WEB,
 
   /** Access through an SSH command, e.g. git fetch or push. */
-  SSH;
+  SSH,
+
+  /** Access through replication */
+  REPLICATION;
 }

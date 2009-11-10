@@ -21,6 +21,7 @@ import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.Lifecycle;
 import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GerritRequestModule;
@@ -76,6 +77,13 @@ public class SshModule extends FactoryModule {
     bind(KeyPairProvider.class).toProvider(HostKeyProvider.class).in(SINGLETON);
 
     install(new DefaultCommandModule());
+
+    install(new Lifecycle.Module() {
+      @Override
+      protected void configure() {
+        listener().to(SshDaemon.class);
+      }
+    });
   }
 
   private void configureSessionScope() {

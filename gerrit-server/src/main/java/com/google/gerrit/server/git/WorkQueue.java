@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.gerrit.server.LifecycleListener;
 import com.google.inject.Singleton;
 
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /** Delayed execution of tasks using a background thread pool. */
 @Singleton
-public class WorkQueue {
+public class WorkQueue implements LifecycleListener{
   private Executor defaultQueue;
   private final CopyOnWriteArrayList<Executor> queues =
       new CopyOnWriteArrayList<Executor>();
@@ -65,8 +66,11 @@ public class WorkQueue {
     return r;
   }
 
+  public void start() {
+  }
+
   /** Shutdown all queues, aborting any pending tasks that haven't started. */
-  public void shutdown() {
+  public void stop() {
     for (final Executor p : queues) {
       p.shutdown();
       boolean isTerminated;

@@ -24,6 +24,7 @@ import com.google.gerrit.server.FileTypeRegistry;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.Lifecycle;
 import com.google.gerrit.server.MimeUtilFileTypeRegistry;
 import com.google.gerrit.server.account.AccountByEmailCacheImpl;
 import com.google.gerrit.server.account.AccountCacheImpl;
@@ -157,5 +158,13 @@ public class GerritGlobalModule extends FactoryModule {
     factory(MergedSender.Factory.class);
     factory(MergeFailSender.Factory.class);
     factory(RegisterNewEmailSender.Factory.class);
+
+    install(new Lifecycle.Module() {
+      @Override
+      protected void configure() {
+        listener().to(CachePool.class);
+        listener().to(WorkQueue.class);
+      }
+    });
   }
 }

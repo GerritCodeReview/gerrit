@@ -17,6 +17,7 @@ package com.google.gerrit.server.cache;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+import com.google.gerrit.server.LifecycleListener;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePath;
@@ -40,7 +41,7 @@ import java.util.Map;
 
 /** Pool of all declared caches created by {@link CacheModule}s. */
 @Singleton
-public class CachePool {
+public class CachePool implements LifecycleListener {
   private static final Logger log = LoggerFactory.getLogger(CachePool.class);
 
   private final Config config;

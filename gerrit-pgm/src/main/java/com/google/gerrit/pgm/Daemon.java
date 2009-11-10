@@ -14,9 +14,9 @@
 
 package com.google.gerrit.pgm;
 
-import com.google.gerrit.server.cache.CachePool;
+import com.google.gerrit.server.Lifecycle;
 import com.google.gerrit.server.config.GerritGlobalModule;
-import com.google.gerrit.sshd.SshDaemon;
+import com.google.gerrit.server.config.GerritMasterLifecycle;
 import com.google.gerrit.sshd.SshModule;
 import com.google.gerrit.sshd.commands.MasterCommandModule;
 import com.google.gerrit.sshd.commands.SlaveCommandModule;
@@ -38,8 +38,7 @@ public class Daemon extends AbstractProgram {
   public int run() throws Exception {
     Injector sysInjector = GerritGlobalModule.createInjector();
     Injector sshInjector = createSshInjector(sysInjector);
-    sysInjector.getInstance(CachePool.class).start();
-    sshInjector.getInstance(SshDaemon.class).start();
+    Lifecycle.start(sysInjector, sshInjector);
     return never();
   }
 
@@ -50,6 +49,7 @@ public class Daemon extends AbstractProgram {
       modules.add(new SlaveCommandModule());
     } else {
       modules.add(new MasterCommandModule());
+      modules.add(new GerritMasterLifecycle());
     }
     return sysInjector.createChildInjector(modules);
   }

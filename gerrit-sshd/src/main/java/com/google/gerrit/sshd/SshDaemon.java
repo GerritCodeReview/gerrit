@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd;
 
+import com.google.gerrit.server.LifecycleListener;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.inject.Inject;
@@ -103,7 +104,8 @@ import java.util.List;
  * </pre>
  */
 @Singleton
-public class SshDaemon extends SshServer implements SshInfo {
+public class SshDaemon extends SshServer implements SshInfo,
+    LifecycleListener {
   private static final int IANA_SSH_PORT = 22;
   private static final int DEFAULT_PORT = 29418;
 
@@ -192,7 +194,7 @@ public class SshDaemon extends SshServer implements SshInfo {
   }
 
   @Override
-  public synchronized void start() throws IOException {
+  public synchronized void start() {
     if (acceptor == null) {
       checkConfig();
 
@@ -201,7 +203,11 @@ public class SshDaemon extends SshServer implements SshInfo {
       handler.setServer(this);
       ain.setHandler(handler);
       ain.setReuseAddress(reuseAddress);
-      ain.bind(listen);
+      try {
+        ain.bind(listen);
+      } catch (IOException e) {
+        throw new IllegalStateException("Cannot bind to " + addressList(), e);
+      }
       acceptor = ain;
 
       log.info("Started Gerrit SSHD on " + addressList());

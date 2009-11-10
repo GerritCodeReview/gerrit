@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAo3///eA\u003d",
+        "filename": "Documentation/config-replication.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-11-10T22:52:41Z",
+      "side": 1,
+      "message": "Type on \u003cname\u003e",
+      "revId": "1e66050aaf8c0646434a859e65a07927264bc0cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAo3///d4\u003d",
+        "filename": "Documentation/config-replication.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-11-10T22:52:41Z",
+      "side": 1,
+      "message": "Style-nit: trailing whitespace.",
+      "revId": "1e66050aaf8c0646434a859e65a07927264bc0cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAo3///d8\u003d",
+        "filename": "Documentation/config-replication.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-11-10T22:52:41Z",
+      "side": 1,
+      "message": "Style-nit: trailing whitespace.",
+      "revId": "1e66050aaf8c0646434a859e65a07927264bc0cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAo3///d0\u003d",
+        "filename": "src/main/java/com/google/gerrit/git/PushReplication.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-11-10T22:52:41Z",
+      "side": 1,
+      "message": "Style-nit: We don\u0027t include class name when calling private static method in same class its declared in.",
+      "revId": "1e66050aaf8c0646434a859e65a07927264bc0cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAo3///dw\u003d",
+        "filename": "src/main/java/com/google/gerrit/git/PushReplication.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-11-10T22:52:41Z",
+      "side": 1,
+      "message": "This is bad practice.  Because you assigned null to this field you missed the potential NullPointerException in the finally block.\n\nA better idiom is:\n\n  try {\n    final ReviewDb db \u003d dbfactory.open();\n    try {\n      ....\n    } finally {\n      db.close();\n    }\n  } catch (OrmException e) {\n    ...\n  }\n\nBecause there is no way for control to reach db.close unless the allocation actually succeed.  Further, the compiler can validate this for you, and if you break the assumption when changing code, it\u0027ll yell.",
+      "revId": "1e66050aaf8c0646434a859e65a07927264bc0cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAo3///ds\u003d",
+        "filename": "src/main/java/com/google/gerrit/server/ReplicationUser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2009-11-10T22:52:41Z",
+      "side": 1,
+      "message": "I would suggest creating a copy of the input collection, adding the registered groups to it, and making it unmodifiable before storing into the instance member.  Basically we don\u0027t know anything about the life of the collection we were passed, a caller could mutate it on us from a different thread and that might break this class\u0027s thread-safety around getEffectiveGroups.  Better to code defensively and just make the copy.",
+      "revId": "1e66050aaf8c0646434a859e65a07927264bc0cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

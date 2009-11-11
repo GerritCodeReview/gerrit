@@ -18,6 +18,7 @@ import static com.google.inject.Scopes.SINGLETON;
 import static com.google.inject.Stage.PRODUCTION;
 
 import com.google.gerrit.common.data.ApprovalTypes;
+import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.AuthType;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.FileTypeRegistry;
@@ -159,5 +160,14 @@ public class GerritGlobalModule extends FactoryModule {
     factory(MergeFailSender.Factory.class);
     factory(RegisterNewEmailSender.Factory.class);
     factory(ReplicationUser.Factory.class);
+
+    install(new LifecycleModule() {
+      @Override
+      protected void configure() {
+        listener().to(GitRepositoryManager.Lifecycle.class);
+        listener().to(CachePool.Lifecycle.class);
+        listener().to(WorkQueue.Lifecycle.class);
+      }
+    });
   }
 }

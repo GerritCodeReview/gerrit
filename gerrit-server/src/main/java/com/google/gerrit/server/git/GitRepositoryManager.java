@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.gerrit.lifecycle.LifecycleListener;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePath;
 import com.google.inject.Inject;
@@ -27,6 +28,8 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.LockFile;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryCache;
+import org.eclipse.jgit.lib.WindowCache;
+import org.eclipse.jgit.lib.WindowCacheConfig;
 import org.eclipse.jgit.lib.RepositoryCache.FileKey;
 
 import java.io.File;
@@ -36,6 +39,27 @@ import java.io.IOException;
 @Singleton
 public class GitRepositoryManager {
   private static final Logger log = LoggerFactory.getLogger(GitRepositoryManager.class);
+
+  public static class Lifecycle implements LifecycleListener {
+    private final Config cfg;
+
+    @Inject
+    Lifecycle(@GerritServerConfig final Config cfg) {
+      this.cfg = cfg;
+    }
+
+    @Override
+    public void start() {
+      final WindowCacheConfig c = new WindowCacheConfig();
+      c.fromConfig(cfg);
+      WindowCache.reconfigure(c);
+    }
+
+    @Override
+    public void stop() {
+    }
+  }
+
   private final File sitePath;
   private final File basepath;
 

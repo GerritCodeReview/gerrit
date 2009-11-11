@@ -16,6 +16,7 @@ package com.google.gerrit.sshd;
 
 import static com.google.inject.Scopes.SINGLETON;
 
+import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.PatchSet;
@@ -76,6 +77,13 @@ public class SshModule extends FactoryModule {
     bind(KeyPairProvider.class).toProvider(HostKeyProvider.class).in(SINGLETON);
 
     install(new DefaultCommandModule());
+
+    install(new LifecycleModule() {
+      @Override
+      protected void configure() {
+        listener().to(SshDaemon.class);
+      }
+    });
   }
 
   private void configureSessionScope() {

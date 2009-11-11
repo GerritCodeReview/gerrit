@@ -17,6 +17,7 @@ package com.google.gerrit.server.cache;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+import com.google.gerrit.lifecycle.LifecycleListener;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePath;
@@ -43,6 +44,25 @@ import java.util.Map;
 public class CachePool {
   private static final Logger log = LoggerFactory.getLogger(CachePool.class);
 
+  public static class Lifecycle implements LifecycleListener {
+    private final CachePool cachePool;
+
+    @Inject
+    Lifecycle(final CachePool cachePool) {
+      this.cachePool = cachePool;
+    }
+
+    @Override
+    public void start() {
+      cachePool.start();
+    }
+
+    @Override
+    public void stop() {
+      cachePool.stop();
+    }
+  }
+
   private final Config config;
   private final File sitePath;
 
@@ -57,8 +77,7 @@ public class CachePool {
     this.caches = new HashMap<String, CacheProvider<?, ?>>();
   }
 
-  /** Start the cache pool. The pool must be started before any access occurs. */
-  public void start() {
+  private void start() {
     synchronized (lock) {
       if (manager != null) {
         throw new IllegalStateException("Cache pool has already been started");
@@ -71,8 +90,7 @@ public class CachePool {
     }
   }
 
-  /** Stop the cache pool. The pool should be stopped before terminating. */
-  public void stop() {
+  private void stop() {
     synchronized (lock) {
       if (manager != null) {
         manager.shutdown();

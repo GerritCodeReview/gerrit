@@ -16,38 +16,30 @@ package com.google.gerrit.httpd;
 
 import static com.google.inject.Stage.PRODUCTION;
 
-import com.google.gerrit.server.cache.CachePool;
+import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.server.config.CanonicalWebUrlModule;
 import com.google.gerrit.server.config.DatabaseModule;
 import com.google.gerrit.server.config.GerritGlobalModule;
-import com.google.gerrit.server.git.PushAllProjectsOp;
-import com.google.gerrit.server.git.ReloadSubmitQueueOp;
-import com.google.gerrit.server.git.WorkQueue;
-import com.google.gerrit.sshd.SshDaemon;
+import com.google.gerrit.server.config.MasterNodeStartup;
 import com.google.gerrit.sshd.SshModule;
 import com.google.gerrit.sshd.commands.MasterCommandModule;
-import com.google.inject.ConfigurationException;
 import com.google.inject.CreationException;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.google.inject.Provider;
-import com.google.inject.ProvisionException;
 import com.google.inject.servlet.GuiceServletContextListener;
 import com.google.inject.spi.Message;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.http.HttpServletRequest;
-import javax.sql.DataSource;
 
 /** Configures the web application environment for Gerrit Code Review. */
 public class WebAppInitializer extends GuiceServletContextListener {
@@ -58,9 +50,10 @@ public class WebAppInitializer extends GuiceServletContextListener {
   private Injector sysInjector;
   private Injector webInjector;
   private Injector sshInjector;
+  private LifecycleManager manager;
 
   private synchronized void init() {
-    if (sysInjector == null) {
+    if (manager == null) {
       try {
         dbInjector = Guice.createInjector(PRODUCTION, new DatabaseModule());
       } catch (CreationException ce) {
@@ -105,12 +98,21 @@ public class WebAppInitializer extends GuiceServletContextListener {
       sysInjector.getInstance(HttpCanonicalWebUrlProvider.class)
           .setHttpServletRequest(
               webInjector.getProvider(HttpServletRequest.class));
+
+      manager = new LifecycleManager();
+      manager.add(dbInjector);
+      manager.add(sysInjector);
+      manager.add(sshInjector);
+      manager.add(webInjector);
     }
   }
 
   private Injector createSshInjector() {
-    return sysInjector.createChildInjector(new SshModule(),
-        new MasterCommandModule());
+    final List<Module> modules = new ArrayList<Module>();
+    modules.add(new SshModule());
+    modules.add(new MasterCommandModule());
+    modules.add(new MasterNodeStartup());
+    return sysInjector.createChildInjector(modules);
   }
 
   private Injector createWebInjector() {
@@ -129,100 +131,15 @@ public class WebAppInitializer extends GuiceServletContextListener {
   public void contextInitialized(final ServletContextEvent event) {
     super.contextInitialized(event);
     init();
-
-    try {
-      sysInjector.getInstance(CachePool.class).start();
-    } catch (ConfigurationException e) {
-      log.error("Unable to start CachePool", e);
-    } catch (ProvisionException e) {
-      log.error("Unable to start CachePool", e);
-    }
-
-    try {
-      sysInjector.getInstance(PushAllProjectsOp.Factory.class).create(null)
-          .start(30, TimeUnit.SECONDS);
-    } catch (ConfigurationException e) {
-      log.error("Unable to restart replication queue", e);
-    } catch (ProvisionException e) {
-      log.error("Unable to restart replication queue", e);
-    }
-
-    try {
-      sysInjector.getInstance(ReloadSubmitQueueOp.Factory.class).create()
-          .start(15, TimeUnit.SECONDS);
-    } catch (ConfigurationException e) {
-      log.error("Unable to restart merge queue", e);
-    } catch (ProvisionException e) {
-      log.error("Unable to restart merge queue", e);
-    }
-
-    try {
-      sshInjector.getInstance(SshDaemon.class).start();
-    } catch (ConfigurationException e) {
-      log.error("Unable to start SSHD", e);
-    } catch (ProvisionException e) {
-      log.error("Unable to start SSHD", e);
-    } catch (IOException e) {
-      log.error("Unable to start SSHD", e);
-    }
+    manager.start();
   }
 
   @Override
   public void contextDestroyed(final ServletContextEvent event) {
-    try {
-      if (sshInjector != null) {
-        sshInjector.getInstance(SshDaemon.class).stop();
-      }
-    } catch (ConfigurationException e) {
-    } catch (ProvisionException e) {
+    if (manager != null) {
+      manager.stop();
+      manager = null;
     }
-
-    try {
-      if (sysInjector != null) {
-        sysInjector.getInstance(WorkQueue.class).shutdown();
-      }
-    } catch (ConfigurationException e) {
-    } catch (ProvisionException e) {
-    }
-
-    try {
-      if (sysInjector != null) {
-        sysInjector.getInstance(CachePool.class).stop();
-      }
-    } catch (ConfigurationException e) {
-    } catch (ProvisionException e) {
-    }
-
-    try {
-      if (dbInjector != null) {
-        closeDataSource(dbInjector.getInstance(DatabaseModule.DS));
-      }
-    } catch (ConfigurationException ce) {
-    } catch (ProvisionException ce) {
-    }
-
     super.contextDestroyed(event);
-  }
-
-  private void closeDataSource(final DataSource ds) {
-    try {
-      Class<?> type = Class.forName("org.apache.commons.dbcp.BasicDataSource");
-      if (type.isInstance(ds)) {
-        type.getMethod("close").invoke(ds);
-        return;
-      }
-    } catch (Throwable bad) {
-      // Oh well, its not a Commons DBCP pooled connection.
-    }
-
-    try {
-      Class<?> type = Class.forName("com.mchange.v2.c3p0.DataSources");
-      if (type.isInstance(ds)) {
-        type.getMethod("destroy", DataSource.class).invoke(null, ds);
-        return;
-      }
-    } catch (Throwable bad) {
-      // Oh well, its not a c3p0 pooled connection.
-    }
   }
 }

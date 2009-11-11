@@ -14,9 +14,11 @@
 
 package com.google.gerrit.server.config;
 
+import com.google.gerrit.lifecycle.LifecycleListener;
 import com.google.gwtorm.jdbc.SimpleDataSource;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
+import com.google.inject.Singleton;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -30,9 +32,31 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 /** Provides access to the {@code ReviewDb} DataSource. */
-final class ReviewDbDataSourceProvider implements Provider<DataSource> {
+@Singleton
+final class ReviewDbDataSourceProvider implements Provider<DataSource>,
+    LifecycleListener {
+  private DataSource ds;
+
   @Override
-  public DataSource get() {
+  public synchronized DataSource get() {
+    if (ds == null) {
+      ds = open();
+    }
+    return ds;
+  }
+
+  @Override
+  public void start() {
+  }
+
+  @Override
+  public synchronized void stop() {
+    if (ds != null) {
+      closeDataSource(ds);
+    }
+  }
+
+  private DataSource open() {
     final String dsName = "java:comp/env/jdbc/ReviewDb";
     try {
       return (DataSource) new InitialContext().lookup(dsName);
@@ -78,5 +102,27 @@ final class ReviewDbDataSourceProvider implements Provider<DataSource> {
       }
     }
     return dbprop;
+  }
+
+  private void closeDataSource(final DataSource ds) {
+    try {
+      Class<?> type = Class.forName("org.apache.commons.dbcp.BasicDataSource");
+      if (type.isInstance(ds)) {
+        type.getMethod("close").invoke(ds);
+        return;
+      }
+    } catch (Throwable bad) {
+      // Oh well, its not a Commons DBCP pooled connection.
+    }
+
+    try {
+      Class<?> type = Class.forName("com.mchange.v2.c3p0.DataSources");
+      if (type.isInstance(ds)) {
+        type.getMethod("destroy", DataSource.class).invoke(null, ds);
+        return;
+      }
+    } catch (Throwable bad) {
+      // Oh well, its not a c3p0 pooled connection.
+    }
   }
 }

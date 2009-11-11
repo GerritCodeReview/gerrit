@@ -16,22 +16,12 @@ package com.google.gerrit.server.config;
 
 import static com.google.inject.Scopes.SINGLETON;
 
-import com.google.gerrit.reviewdb.ReviewDb;
-import com.google.gerrit.reviewdb.SystemConfig;
-import com.google.gwtorm.client.SchemaFactory;
-import com.google.gwtorm.jdbc.Database;
-import com.google.inject.TypeLiteral;
+import com.google.inject.AbstractModule;
 
-/** Loads the database with standard dependencies. */
-public class DatabaseModule extends FactoryModule {
+/** Creates {@link AuthConfig} from {@link GerritServerConfig}. */
+public class AuthConfigModule extends AbstractModule {
   @Override
   protected void configure() {
-    bind(new TypeLiteral<SchemaFactory<ReviewDb>>() {}).to(
-        new TypeLiteral<Database<ReviewDb>>() {}).in(SINGLETON);
-    bind(new TypeLiteral<Database<ReviewDb>>() {}).toProvider(
-        ReviewDbDatabaseProvider.class).in(SINGLETON);
-
-    bind(SystemConfig.class).toProvider(SystemConfigProvider.class).in(
-        SINGLETON);
+    bind(AuthConfig.class).in(SINGLETON);
   }
 }

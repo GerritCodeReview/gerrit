@@ -14,23 +14,19 @@
 
 package com.google.gerrit.pgm;
 
-import static com.google.inject.Stage.PRODUCTION;
-
 import com.google.gerrit.httpd.HttpCanonicalWebUrlProvider;
 import com.google.gerrit.httpd.WebModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.pgm.http.jetty.JettyEnv;
 import com.google.gerrit.pgm.http.jetty.JettyModule;
+import com.google.gerrit.server.config.AuthConfigModule;
 import com.google.gerrit.server.config.CanonicalWebUrlModule;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;
-import com.google.gerrit.server.config.DatabaseModule;
-import com.google.gerrit.server.config.GerritConfigModule;
 import com.google.gerrit.server.config.GerritGlobalModule;
 import com.google.gerrit.server.config.MasterNodeStartup;
 import com.google.gerrit.sshd.SshModule;
 import com.google.gerrit.sshd.commands.MasterCommandModule;
 import com.google.gerrit.sshd.commands.SlaveCommandModule;
-import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.google.inject.Provider;
@@ -45,7 +41,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 /** Run SSH daemon portions of Gerrit. */
-public class Daemon extends AbstractProgram {
+public class Daemon extends SiteProgram {
   private static final Logger log = LoggerFactory.getLogger(Daemon.class);
 
   @Option(name = "--enable-httpd", usage = "Enable the internal HTTP daemon")
@@ -92,8 +88,8 @@ public class Daemon extends AbstractProgram {
       throw die("--enable-httpd currently requires --enable-sshd");
     }
 
-    dbInjector = Guice.createInjector(PRODUCTION, new DatabaseModule());
-    cfgInjector = dbInjector.createChildInjector(new GerritConfigModule());
+    dbInjector = createDbInjector();
+    cfgInjector = createCfgInjector();
     sysInjector = createSysInjector();
     manager.add(dbInjector, cfgInjector, sysInjector);
 
@@ -119,6 +115,12 @@ public class Daemon extends AbstractProgram {
 
   private String myVersion() {
     return com.google.gerrit.common.Version.getVersion();
+  }
+
+  private Injector createCfgInjector() {
+    final List<Module> modules = new ArrayList<Module>();
+    modules.add(new AuthConfigModule());
+    return dbInjector.createChildInjector(modules);
   }
 
   private Injector createSysInjector() {

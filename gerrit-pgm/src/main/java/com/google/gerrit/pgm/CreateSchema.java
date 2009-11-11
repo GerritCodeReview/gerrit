@@ -14,21 +14,19 @@
 
 package com.google.gerrit.pgm;
 
-import static com.google.inject.Stage.PRODUCTION;
-
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.SchemaVersion;
 import com.google.gerrit.reviewdb.SystemConfig;
-import com.google.gerrit.server.config.DatabaseModule;
 import com.google.gwtorm.client.SchemaFactory;
-import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+
+import java.util.Collections;
 
 /**
  * Creates the Gerrit 2 database schema.
  */
-public class CreateSchema extends AbstractProgram {
+public class CreateSchema extends SiteProgram {
   @Inject
   private SystemConfig systemConfig;
 
@@ -37,12 +35,11 @@ public class CreateSchema extends AbstractProgram {
 
   @Override
   public int run() throws Exception {
-    final Injector injector =
-        Guice.createInjector(PRODUCTION, new DatabaseModule());
+    final Injector injector = createDbInjector();
     injector.injectMembers(this);
 
     final SchemaVersion sv;
-    final ReviewDb db = schema.open();
+    ReviewDb db = schema.open();
     try {
       sv = db.schemaVersion().get(new SchemaVersion.Key());
     } finally {
@@ -51,6 +48,20 @@ public class CreateSchema extends AbstractProgram {
     if (sv == null) {
       System.err.println("Schema failed to initialize");
       return 1;
+    }
+
+    if (!getSitePath().getAbsolutePath().equals(systemConfig.sitePath)) {
+      // If the site path in the database doesn't match our command
+      // line argument, update it.
+      //
+      db = schema.open();
+      try {
+        systemConfig = db.systemConfig().get(new SystemConfig.Key());
+        systemConfig.sitePath = getSitePath().getAbsolutePath();
+        db.systemConfig().update(Collections.singleton(systemConfig));
+      } finally {
+        db.close();
+      }
     }
 
     System.out.println("Gerrit Code Review initialized.");

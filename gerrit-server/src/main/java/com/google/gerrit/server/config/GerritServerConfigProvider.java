@@ -28,7 +28,7 @@ import java.io.File;
 import java.io.IOException;
 
 /** Provides {@link Config} annotated with {@link GerritServerConfig}. */
-public class GerritServerConfigProvider implements Provider<Config> {
+class GerritServerConfigProvider implements Provider<Config> {
   private static final Logger log =
       LoggerFactory.getLogger(GerritServerConfigProvider.class);
 

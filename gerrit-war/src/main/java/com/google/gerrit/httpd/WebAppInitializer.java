@@ -19,6 +19,7 @@ import static com.google.inject.Stage.PRODUCTION;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.server.config.CanonicalWebUrlModule;
 import com.google.gerrit.server.config.DatabaseModule;
+import com.google.gerrit.server.config.GerritConfigModule;
 import com.google.gerrit.server.config.GerritGlobalModule;
 import com.google.gerrit.server.config.MasterNodeStartup;
 import com.google.gerrit.sshd.SshModule;
@@ -47,6 +48,7 @@ public class WebAppInitializer extends GuiceServletContextListener {
       LoggerFactory.getLogger(WebAppInitializer.class);
 
   private Injector dbInjector;
+  private Injector cfgInjector;
   private Injector sysInjector;
   private Injector webInjector;
   private Injector sshInjector;
@@ -75,14 +77,8 @@ public class WebAppInitializer extends GuiceServletContextListener {
         throw new CreationException(Collections.singleton(first));
       }
 
-      sysInjector =
-          GerritGlobalModule.createInjector(dbInjector,
-              new CanonicalWebUrlModule() {
-                @Override
-                protected Class<? extends Provider<String>> provider() {
-                  return HttpCanonicalWebUrlProvider.class;
-                }
-              });
+      cfgInjector = dbInjector.createChildInjector(new GerritConfigModule());
+      sysInjector = createSysInjector();
       sshInjector = createSshInjector();
       webInjector = createWebInjector();
 
@@ -107,11 +103,23 @@ public class WebAppInitializer extends GuiceServletContextListener {
     }
   }
 
+  private Injector createSysInjector() {
+    final List<Module> modules = new ArrayList<Module>();
+    modules.add(cfgInjector.getInstance(GerritGlobalModule.class));
+    modules.add(new CanonicalWebUrlModule() {
+      @Override
+      protected Class<? extends Provider<String>> provider() {
+        return HttpCanonicalWebUrlProvider.class;
+      }
+    });
+    modules.add(new MasterNodeStartup());
+    return cfgInjector.createChildInjector(modules);
+  }
+
   private Injector createSshInjector() {
     final List<Module> modules = new ArrayList<Module>();
     modules.add(new SshModule());
     modules.add(new MasterCommandModule());
-    modules.add(new MasterNodeStartup());
     return sysInjector.createChildInjector(modules);
   }
 

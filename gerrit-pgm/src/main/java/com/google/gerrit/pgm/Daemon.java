@@ -14,46 +14,173 @@
 
 package com.google.gerrit.pgm;
 
+import static com.google.inject.Stage.PRODUCTION;
+
+import com.google.gerrit.httpd.HttpCanonicalWebUrlProvider;
+import com.google.gerrit.httpd.WebModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
+import com.google.gerrit.pgm.http.jetty.JettyEnv;
+import com.google.gerrit.pgm.http.jetty.JettyModule;
+import com.google.gerrit.server.config.CanonicalWebUrlModule;
+import com.google.gerrit.server.config.CanonicalWebUrlProvider;
+import com.google.gerrit.server.config.DatabaseModule;
+import com.google.gerrit.server.config.GerritConfigModule;
 import com.google.gerrit.server.config.GerritGlobalModule;
 import com.google.gerrit.server.config.MasterNodeStartup;
 import com.google.gerrit.sshd.SshModule;
 import com.google.gerrit.sshd.commands.MasterCommandModule;
 import com.google.gerrit.sshd.commands.SlaveCommandModule;
+import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
+import com.google.inject.Provider;
 
 import org.kohsuke.args4j.Option;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/** Run only the SSH daemon portions of Gerrit. */
+import javax.servlet.http.HttpServletRequest;
+
+/** Run SSH daemon portions of Gerrit. */
 public class Daemon extends AbstractProgram {
+  private static final Logger log = LoggerFactory.getLogger(Daemon.class);
+
+  @Option(name = "--enable-httpd", usage = "Enable the internal HTTP daemon")
+  private Boolean httpd;
+
+  @Option(name = "--disable-httpd", usage = "Disable the internal HTTP daemon")
+  void setDisableHttpd(final boolean arg) {
+    httpd = false;
+  }
+
+  @Option(name = "--enable-sshd", usage = "Enable the internal SSH daemon")
+  private boolean sshd = true;
+
+  @Option(name = "--disable-sshd", usage = "Disable the internal SSH daemon")
+  void setDisableSshd(final boolean arg) {
+    sshd = false;
+  }
 
   @Option(name = "--slave", usage = "support fetch only")
-  boolean slave;
+  private boolean slave;
+
+  private final LifecycleManager manager = new LifecycleManager();
+  private Injector dbInjector;
+  private Injector cfgInjector;
+  private Injector sysInjector;
+  private Injector sshInjector;
+  private Injector webInjector;
+  private Injector httpdInjector;
 
   @Override
   public int run() throws Exception {
-    Injector sysInjector = GerritGlobalModule.createInjector();
-    Injector sshInjector = createSshInjector(sysInjector);
+    if (httpd == null) {
+      httpd = !slave;
+    }
 
-    final LifecycleManager mgr = new LifecycleManager();
-    mgr.add(sysInjector, sshInjector);
-    mgr.start();
-    return never();
+    if (!httpd && !sshd) {
+      throw die("No services enabled, nothing to do");
+    }
+    if (slave && httpd) {
+      throw die("Cannot combine --slave and --enable-httpd");
+    }
+    if (httpd && !sshd) {
+      // TODO Support HTTP without SSH.
+      throw die("--enable-httpd currently requires --enable-sshd");
+    }
+
+    dbInjector = Guice.createInjector(PRODUCTION, new DatabaseModule());
+    cfgInjector = dbInjector.createChildInjector(new GerritConfigModule());
+    sysInjector = createSysInjector();
+    manager.add(dbInjector, cfgInjector, sysInjector);
+
+    if (sshd) {
+      initSshd();
+    }
+
+    if (httpd) {
+      initHttpd();
+    }
+
+    manager.start();
+    log.info("Gerrit Code Review " + myVersion() + " ready");
+    RuntimeShutdown.add(new Runnable() {
+      public void run() {
+        log.info("caught shutdown, cleaning up");
+        manager.stop();
+      }
+    });
+    RuntimeShutdown.waitFor();
+    return 0;
   }
 
-  private Injector createSshInjector(final Injector sysInjector) {
+  private String myVersion() {
+    return com.google.gerrit.common.Version.getVersion();
+  }
+
+  private Injector createSysInjector() {
+    final List<Module> modules = new ArrayList<Module>();
+    modules.add(cfgInjector.getInstance(GerritGlobalModule.class));
+    if (httpd) {
+      modules.add(new CanonicalWebUrlModule() {
+        @Override
+        protected Class<? extends Provider<String>> provider() {
+          return HttpCanonicalWebUrlProvider.class;
+        }
+      });
+    } else {
+      modules.add(new CanonicalWebUrlModule() {
+        @Override
+        protected Class<? extends Provider<String>> provider() {
+          return CanonicalWebUrlProvider.class;
+        }
+      });
+    }
+    if (!slave) {
+      modules.add(new MasterNodeStartup());
+    }
+    return cfgInjector.createChildInjector(modules);
+  }
+
+  private void initSshd() {
+    sshInjector = createSshInjector();
+    manager.add(sshInjector);
+  }
+
+  private Injector createSshInjector() {
     final List<Module> modules = new ArrayList<Module>();
     modules.add(new SshModule());
     if (slave) {
       modules.add(new SlaveCommandModule());
     } else {
       modules.add(new MasterCommandModule());
-      modules.add(new MasterNodeStartup());
     }
+    return sysInjector.createChildInjector(modules);
+  }
+
+  private void initHttpd() {
+    webInjector = createWebInjector();
+
+    sysInjector.getInstance(HttpCanonicalWebUrlProvider.class)
+        .setHttpServletRequest(
+            webInjector.getProvider(HttpServletRequest.class));
+
+    httpdInjector = createHttpdInjector();
+    manager.add(webInjector, httpdInjector);
+  }
+
+  private Injector createWebInjector() {
+    final List<Module> modules = new ArrayList<Module>();
+    modules.add(sshInjector.getInstance(WebModule.class));
+    return sysInjector.createChildInjector(modules);
+  }
+
+  private Injector createHttpdInjector() {
+    final List<Module> modules = new ArrayList<Module>();
+    modules.add(new JettyModule(new JettyEnv(webInjector)));
     return sysInjector.createChildInjector(modules);
   }
 }

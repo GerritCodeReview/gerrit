@@ -3,17 +3,20 @@ daemon
 
 NAME
 ----
-daemon - Git enabled SSH daemon
+daemon - Gerrit network server
 
 SYNOPSIS
 --------
 [verse]
-'java' -DGerritServer=PATH -jar gerrit.war 'daemon' [\--slave]
+'java' -DGerritServer=PATH -jar gerrit.war 'daemon'
+	[\--enable-httpd | \--disable-httpd]
+	[\--enable-sshd | \--disable-sshd]
+	[\--slave]
 
 DESCRIPTION
 -----------
-Runs the Gerrit SSH daemon on the local system, configured as per
-the local copy of link:config-gerrit.html[gerrit.config].
+Runs the Gerrit network daemon on the local system, configured as
+per the local copy of link:config-gerrit.html[gerrit.config].
 
 The path to gerrit.config is read from the metadata database,
 which requires that all slaves (and master) reading from the same
@@ -34,12 +37,24 @@ OPTIONS
 java -jar gerrit.war \--cat extra/GerritServer.properties_example >GerritServer.properties
 ====
 
+\--enable-httpd::
+\--disable-httpd::
+	Enable (or disable) the internal HTTP daemon, answering
+	web requests.  Enabled by default.
+
+\--enable-sshd::
+\--disable-sshd::
+	Enable (or disable) the internal SSH daemon, answering SSH
+	clients and remotely executed commands.  Enabled by default.
+
 \--slave::
 	Run in slave mode, permitting only read operations
     by clients.  Commands which modify state such as
     link:cmd-receive-pack.html[recieve-pack] (creates new changes
     or updates existing ones) or link:cmd-approve.html[approve]
     (sets approve marks) are disabled.
++
+This option automatically implies '\--disable-httpd \--enable-sshd'.
 
 CONTEXT
 -------

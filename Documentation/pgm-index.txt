@@ -13,7 +13,7 @@ CreateSchema::
   Initialize a new database schema.
 
 link:pgm-daemon.html[daemon]::
-  Git enabled SSH daemon.
+  Gerrit HTTP, SSH network server.
 
 version::
   Display the release version of Gerrit Code Review.

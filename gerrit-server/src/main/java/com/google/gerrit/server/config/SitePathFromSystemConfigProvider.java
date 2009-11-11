@@ -21,11 +21,11 @@ import com.google.inject.Provider;
 import java.io.File;
 
 /** Provides {@link java.io.File} annotated with {@link SitePath}. */
-public class SitePathProvider implements Provider<File> {
+public class SitePathFromSystemConfigProvider implements Provider<File> {
   private final File path;
 
   @Inject
-  SitePathProvider(final SystemConfig config) {
+  SitePathFromSystemConfigProvider(final SystemConfig config) {
     final String p = config.sitePath;
     path = new File(p != null && p.length() > 0 ? p : ".").getAbsoluteFile();
   }

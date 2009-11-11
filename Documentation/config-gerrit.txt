@@ -453,6 +453,78 @@ unused mapped spaces fast enough.
 Default on JGit is false. Although potentially slower, it yields
 much more predictable behavior.
 
+[[database]]Section database
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The database section configures where Gerrit stores its metadata
+records about user accounts and change reviews.
+
+====
+	[database]
+		type = postgres
+		hostname = localhost
+		database = reviewdb
+		username = gerrit2
+		password = s3kr3t
+====
+
+[[database.type]]database.type::
++
+Type of database server to connect to.  If set this value will be
+used to automatically create correct database.driver and database.url
+values to open the connection.
++
+* `Postgres` or `PostgreSQL`
++
+Connect to a PostgreSQL database server.
++
+* `H2`
++
+Connect to a local (or remote) H2 database.
++
+* `MySQL`
++
+Connect to a MySQL database server.
+
++
+If not specified, database.driver and database.url are used as-is,
+and if they are also not specified, defaults to H2.
+
+[[database.hostname]]database.hostname::
++
+Hostname of the database server.  Defaults to 'localhost'.
+
+[[database.port]]database.port::
++
+Port number of the database server.  Defaults to the default port
+of the server named by database.type.
+
+[[database.database]]database.database::
++
+For PostgreSQL or MySQL, the name of the database on the server.
++
+For H2, this is the path to the database, and if not absolute is
+relative to `$site_path`.
+
+[[database.username]]database.username::
++
+Username to connect to the database server as.
+
+[[database.password]]database.password::
++
+Password to authenticate to the database server with.
+
+[[database.driver]]database.driver::
++
+Name of the JDBC driver class to connect to the database.
+Setting this usually isn't necessary, set database.type instead.
+
+[[database.url]]database.url::
++
+JDBC style URL for the database.  Setting this usually isn't
+necessary, set database.type instead.
+
+
 [[gerrit]]Section gerrit
 ~~~~~~~~~~~~~~~~~~~~~~~~
 

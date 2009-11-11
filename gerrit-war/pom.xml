@@ -79,21 +79,6 @@ limitations under the License.
     </dependency>
 
     <dependency>
-      <groupId>commons-dbcp</groupId>
-      <artifactId>commons-dbcp</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>com.h2database</groupId>
-      <artifactId>h2</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>postgresql</groupId>
-      <artifactId>postgresql</artifactId>
-    </dependency>
-
-    <dependency>
       <groupId>com.google.gerrit</groupId>
       <artifactId>gerrit-sshd</artifactId>
     </dependency>

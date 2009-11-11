@@ -16,23 +16,15 @@ package com.google.gerrit.server.config;
 
 import static com.google.inject.Scopes.SINGLETON;
 
-import com.google.gerrit.reviewdb.Project;
 import com.google.inject.AbstractModule;
 
 import org.eclipse.jgit.lib.Config;
 
-import java.io.File;
-
-/** Injection for the really primitive configuration data. */
-public class GerritConfigModule extends AbstractModule {
+/** Creates {@link GerritServerConfig}. */
+public class GerritServerConfigModule extends AbstractModule {
   @Override
   protected void configure() {
-    bind(File.class).annotatedWith(SitePath.class).toProvider(
-        SitePathProvider.class).in(SINGLETON);
-    bind(Project.NameKey.class).annotatedWith(WildProjectName.class)
-        .toProvider(WildProjectNameProvider.class).in(SINGLETON);
     bind(Config.class).annotatedWith(GerritServerConfig.class).toProvider(
         GerritServerConfigProvider.class).in(SINGLETON);
-    bind(AuthConfig.class).in(SINGLETON);
   }
 }

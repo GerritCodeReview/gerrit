@@ -18,6 +18,7 @@ import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.reviewdb.AuthType;
+import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.FileTypeRegistry;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -86,6 +87,8 @@ public class GerritGlobalModule extends FactoryModule {
         break;
     }
 
+    bind(Project.NameKey.class).annotatedWith(WildProjectName.class)
+        .toProvider(WildProjectNameProvider.class).in(SINGLETON);
     bind(ApprovalTypes.class).toProvider(ApprovalTypesProvider.class).in(
         SINGLETON);
     bind(EmailExpander.class).toProvider(EmailExpanderProvider.class).in(

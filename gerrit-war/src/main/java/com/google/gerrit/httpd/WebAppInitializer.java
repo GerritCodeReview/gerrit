@@ -14,33 +14,42 @@
 
 package com.google.gerrit.httpd;
 
+import static com.google.inject.Scopes.SINGLETON;
 import static com.google.inject.Stage.PRODUCTION;
 
 import com.google.gerrit.server.Lifecycle;
+import com.google.gerrit.server.config.AuthConfigModule;
 import com.google.gerrit.server.config.CanonicalWebUrlModule;
 import com.google.gerrit.server.config.DatabaseModule;
-import com.google.gerrit.server.config.GerritConfigModule;
 import com.google.gerrit.server.config.GerritGlobalModule;
 import com.google.gerrit.server.config.GerritMasterLifecycle;
+import com.google.gerrit.server.config.GerritServerConfigModule;
+import com.google.gerrit.server.config.SitePath;
+import com.google.gerrit.server.config.SitePathFromSystemConfigProvider;
 import com.google.gerrit.sshd.SshModule;
 import com.google.gerrit.sshd.commands.MasterCommandModule;
+import com.google.inject.AbstractModule;
 import com.google.inject.CreationException;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.Key;
 import com.google.inject.Module;
 import com.google.inject.Provider;
+import com.google.inject.name.Names;
 import com.google.inject.servlet.GuiceServletContextListener;
 import com.google.inject.spi.Message;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.http.HttpServletRequest;
+import javax.sql.DataSource;
 
 /** Configures the web application environment for Gerrit Code Review. */
 public class WebAppInitializer extends GuiceServletContextListener {
@@ -56,7 +65,7 @@ public class WebAppInitializer extends GuiceServletContextListener {
   private synchronized void init() {
     if (sysInjector == null) {
       try {
-        dbInjector = Guice.createInjector(PRODUCTION, new DatabaseModule());
+        dbInjector = createDbInjector();
       } catch (CreationException ce) {
         final Message first = ce.getErrorMessages().iterator().next();
         final StringBuilder buf = new StringBuilder();
@@ -76,7 +85,7 @@ public class WebAppInitializer extends GuiceServletContextListener {
         throw new CreationException(Collections.singleton(first));
       }
 
-      cfgInjector = dbInjector.createChildInjector(new GerritConfigModule());
+      cfgInjector = createCfgInjector();
       sysInjector = createSysInjector();
       sshInjector = createSshInjector();
       webInjector = createWebInjector();
@@ -94,6 +103,34 @@ public class WebAppInitializer extends GuiceServletContextListener {
           .setHttpServletRequest(
               webInjector.getProvider(HttpServletRequest.class));
     }
+  }
+
+  private Injector createDbInjector() {
+    final List<Module> modules = new ArrayList<Module>();
+    modules.add(new Lifecycle.Module() {
+      @Override
+      protected void configure() {
+        bind(Key.get(DataSource.class, Names.named("ReviewDb"))).toProvider(
+            ReviewDbDataSourceProvider.class).in(SINGLETON);
+        listener().to(ReviewDbDataSourceProvider.class);
+      }
+    });
+    modules.add(new DatabaseModule());
+    return Guice.createInjector(PRODUCTION, modules);
+  }
+
+  private Injector createCfgInjector() {
+    final List<Module> modules = new ArrayList<Module>();
+    modules.add(new AbstractModule() {
+      @Override
+      protected void configure() {
+        bind(File.class).annotatedWith(SitePath.class).toProvider(
+            SitePathFromSystemConfigProvider.class).in(SINGLETON);
+      }
+    });
+    modules.add(new GerritServerConfigModule());
+    modules.add(new AuthConfigModule());
+    return dbInjector.createChildInjector(modules);
   }
 
   private Injector createSysInjector() {

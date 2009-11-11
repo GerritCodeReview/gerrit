@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.config;
+package com.google.gerrit.httpd;
 
 import com.google.gerrit.server.LifecycleListener;
 import com.google.gwtorm.jdbc.SimpleDataSource;

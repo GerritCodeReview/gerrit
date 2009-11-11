@@ -42,7 +42,7 @@ import com.google.inject.servlet.ServletModule;
 
 import java.net.SocketAddress;
 
-class WebModule extends FactoryModule {
+public class WebModule extends FactoryModule {
   private final Provider<SshInfo> sshInfoProvider;
   private final Provider<SshKeyCache> sshKeyCacheProvider;
   private final AuthType loginType;

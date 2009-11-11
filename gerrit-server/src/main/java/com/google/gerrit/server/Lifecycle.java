@@ -55,6 +55,9 @@ public final class Lifecycle {
         new LinkedHashMap<LifecycleListener, Boolean>();
 
     for (final Injector injector : injectors) {
+      if (injector == null) {
+        continue;
+      }
       for (final Binding<LifecycleListener> binding : get(injector)) {
         found.put(binding.getProvider().get(), true);
       }

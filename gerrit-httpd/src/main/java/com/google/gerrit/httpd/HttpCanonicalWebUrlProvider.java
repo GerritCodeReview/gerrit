@@ -27,7 +27,7 @@ import org.eclipse.jgit.lib.Config;
 import javax.servlet.http.HttpServletRequest;
 
 /** Sets {@link CanonicalWebUrl} to current HTTP request if not configured. */
-class HttpCanonicalWebUrlProvider extends CanonicalWebUrlProvider {
+public class HttpCanonicalWebUrlProvider extends CanonicalWebUrlProvider {
   private Provider<HttpServletRequest> requestProvider;
 
   @Inject
@@ -36,7 +36,7 @@ class HttpCanonicalWebUrlProvider extends CanonicalWebUrlProvider {
   }
 
   @Inject(optional = true)
-  void setHttpServletRequest(final Provider<HttpServletRequest> hsr) {
+  public void setHttpServletRequest(final Provider<HttpServletRequest> hsr) {
     requestProvider = hsr;
   }
 

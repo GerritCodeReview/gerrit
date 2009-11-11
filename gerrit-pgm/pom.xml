@@ -35,6 +35,12 @@ limitations under the License.
   <dependencies>
     <dependency>
       <groupId>com.google.gerrit</groupId>
+      <artifactId>gerrit-main</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>com.google.gerrit</groupId>
       <artifactId>gerrit-util-cli</artifactId>
     </dependency>
 
@@ -46,6 +52,16 @@ limitations under the License.
     <dependency>
       <groupId>com.google.gerrit</groupId>
       <artifactId>gerrit-sshd</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.google.gerrit</groupId>
+      <artifactId>gerrit-httpd</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-servlet</artifactId>
     </dependency>
   </dependencies>
 </project>

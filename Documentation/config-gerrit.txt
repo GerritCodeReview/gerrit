@@ -503,6 +503,145 @@ Gerrit appends any necessary query arguments onto the end of this URL.
 For example, "?p=$project.git;h=$commit".
 
 
+[[httpd]] Section httpd
+~~~~~~~~~~~~~~~~~~~~~~~
+
+The httpd section configures the embedded servlet container.
+
+[[httpd.listenUrl]]httpd.listenUrl::
++
+Specifies the URLs the internal HTTP daemon should listen for
+connections on.  The special hostname '\*' may be used to listen
+on all local addresses.  A context path may optionally be included,
+placing Gerrit Code Review's web address within a subdirectory of
+the server.
++
+Multiple protocol schemes are supported:
++
+* `http://`'hostname'`:`'port'
++
+Plain-text HTTP protocol.  If port is not supplied, defaults to 80,
+the standard HTTP port.
++
+* `https://`'hostname'`:`'port'
++
+SSL encrypted HTTP protocol.  If port is not supplied, defaults to
+443, the standard HTTPS port.
++
+Externally facing production sites are encouraged to use a reverse
+proxy configuration and `proxy-https://` (below), rather than using
+the embedded servlet container to implement the SSL processing.
+The proxy server with SSL support is probably easier to configure,
+provides more configuration options to control cipher usage, and
+is likely using natively compiled encryption algorithms, resulting
+in higher throughput.
++
+* `proxy-http://`'hostname'`:`'port'
++
+Plain-text HTTP relayed from a reverse proxy.  If port is not
+supplied, defaults to 8080.
++
+Like http, but additional header parsing features are
+enabled to honor X-Forwarded-For, X-Forwarded-Host and
+X-Forwarded-Server.  These headers are typically set by Apache's
+link:http://httpd.apache.org/docs/2.2/mod/mod_proxy.html#x-headers[mod_proxy].
++
+* `proxy-https://`'hostname'`:`'port'
++
+Plain text HTTP relayed from a reverse proxy that has already
+handled the SSL encryption/decryption.  If port is not supplied,
+defaults to 8080.
++
+Behaves exactly like proxy-http, but also sets the scheme to assume
+'https://' is the proper URL back to the server.
+
++
+If multiple values are supplied, the daemon will listen on all
+of them.
++
+By default, http://*:8080.
+
+[[httpd.reuseAddress]]httpd.reuseAddress::
++
+If true, permits the daemon to bind to the port even if the port
+is already in use.  If false, the daemon ensures the port is not
+in use before starting.  Busy sites may need to set this to true
+to permit fast restarts.
++
+By default, true.
+
+[[httpd.requestHeaderSize]]httpd.requestHeaderSize::
++
+Size, in bytes, of the buffer used to parse the HTTP headers of an
+incoming HTTP request.  The entire request headers, including any
+cookies sent by the browser, must fit within this buffer, otherwise
+the server aborts with the response '413 Request Entity Too Large'.
++
+One buffer of this size is allocated per active connection.
+Allocating a buffer that is too large wastes memory that cannot be
+reclaimed, allocating a buffer that is too small may cause unexpected
+errors caused by very long Referer URLs or large cookie values.
++
+By default, 16384 (16 K), which is sufficient for most OpenID and
+other web-based single-sign-on integrations.
+
+[[httpd.sslKeyStore]]httpd.sslKeyStore::
++
+Path of the Java keystore containing the server's SSL certificate
+and private key.  This keystore is required for `https://` in URL.
++
+To create a self-signed certificate for simple internal usage:
++
+====
+   keytool -keystore keystore -alias jetty -genkey -keyalg RSA
+   chmod 600 keystore
+====
++
+If not absolute, the path is resolved relative to `$site_path`.
++
+By default, `$site_path/keystore`.
+
+[[httpd.sslKeyPassword]]httpd.sslKeyPassword::
++
+Password used to decrypt the private portion of the sslKeyStore.
+Java key stores require a password, even if the administrator
+doesn't want to enable one.
++
+If set to the empty string the embedded server will prompt for the
+password during startup.
++
+By default, `gerrit`.
+
+[[httpd.acceptorThreads]]httpd.acceptorThreads::
++
+Number of worker threads dedicated to accepting new incoming TCP
+connections and allocate them connection-specific resources.
++
+By default, 2, which should be suitable for most high-traffic sites.
+
+[[httpd.minThreads]]httpd.minThreads::
++
+Minimum number of spare threads to keep in the worker thread pool.
+This number must be at least 1 larger than httpd.acceptorThreads
+multipled by the number of httpd.listenUrls configured.
++
+By default, 5, suitable for most lower-volume traffic sites.
+
+[[httpd.maxThreads]]httpd.maxThreads::
++
+Maximum number of threads to permit in the worker thread pool.
++
+By default 25, suitable for most lower-volume traffic sites.
+
+[[httpd.maxQueued]]httpd.maxQueued::
++
+Maximum number of client connections which can enter the worker
+thread pool waiting for a worker thread to become available.
+0 disables the queue and permits infinite number of connections.
++
+By default 50.
+
+
 [[ldap]]Section ldap
 ~~~~~~~~~~~~~~~~~~~~
 

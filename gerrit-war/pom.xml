@@ -37,7 +37,8 @@ limitations under the License.
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>
-      <scope>provided</scope>
+      <!-- compile, not provided. our embedded Jetty needs this -->
+      <scope>compile</scope>
     </dependency>
 
     <dependency>

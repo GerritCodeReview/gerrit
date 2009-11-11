@@ -1,15 +1,18 @@
 Gerrit2 - Licenses
 ==================
 
-Gerrit itself is licensed under the Apache License, 2.0.  Gerrit
-however also includes software covered by the Apache license,
-the new style BSD license, and the MIT license.
+Gerrit itself is licensed under the Apache License, 2.0.  Gerrit's
+executable distributions also include many other software components
+covered by additional licenses.
+
+Included Components
+-------------------
 
 [grid="all"]
 `---------------------------`------------------------------
 Included Package            License
 -----------------------------------------------------------
-Gerrit                      <<apache2,Apache License 2.0>>
+Gerrit Code Review          <<apache2,Apache License 2.0>>
 gwtexpui                    <<apache2,Apache License 2.0>>
 gwtjsonrpc                  <<apache2,Apache License 2.0>>
 gwtorm                      <<apache2,Apache License 2.0>>
@@ -33,6 +36,8 @@ OpenXRI                     <<apache2,Apache License 2.0>>
 Neko HTML                   <<apache2,Apache License 2.0>>
 Ehcache                     <<apache2,Apache License 2.0>>
 mime-util                   <<apache2,Apache License 2.0>>
+Jetty						<<apache2,Apache License 2.0>>, or link:http://www.eclipse.org/legal/epl-v10.html[EPL]
+Java Servlet API            <<cddl,CDDL>>
 ICU4J                       <<icu4j,ICU4J License>>
 JGit                        <<jgit,New-Style BSD>>
 JSch                        <<sshd,New-Style BSD>>
@@ -81,10 +86,12 @@ and/or the
 link:http://www.bouncycastle.org/java.html[Bouncy Castle Crypto API]
 to be installed by the end-user.
 
+Licenses
+--------
 
 [[apache2]]
 Apache License 2.0
-------------------
+~~~~~~~~~~~~~~~~~~
 
 ----
                                  Apache License
@@ -290,9 +297,17 @@ Apache License 2.0
    limitations under the License.
 ----
 
+
+[[cddl]]
+Common Development and Distribution License (CDDL)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* link:https://glassfish.dev.java.net/public/CDDLv1.0.html[Original]
+
+
 [[sshd]]
 Apache SSHD - Notice
---------------------
+~~~~~~~~~~~~~~~~~~~~
 
 * link:http://svn.apache.org/viewvc/mina/sshd/trunk/NOTICE.txt?view=markup[Original]
 
@@ -356,7 +371,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 [[postgresql]]
 PostgreSQL JDBC Driver - New Style BSD
---------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 * link:http://jdbc.postgresql.org/license.html[Original]
 
@@ -391,7 +406,7 @@ POSSIBILITY OF SUCH DAMAGE.
 
 [[h2]]
 H2 Database - EPL or modified MPL
----------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 * link:http://www.h2database.com/html/license.html[Complete Terms]
 
@@ -401,7 +416,7 @@ MPL 1.1 (Mozilla Public License) or under the (unmodified) EPL 1.0
 
 [[asm]]
 ObjectWeb ASM - New Style BSD
------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 * link:http://svn.forge.objectweb.org/cgi-bin/viewcvs.cgi/asm/trunk/asm/LICENSE.txt[Original]
 
@@ -438,7 +453,7 @@ ObjectWeb ASM - New Style BSD
 
 [[antlr]]
 ANTLR - New Style BSD
----------------------
+~~~~~~~~~~~~~~~~~~~~~
 
 * link:http://www.antlr.org/license.html[Original]
 
@@ -476,7 +491,7 @@ POSSIBILITY OF SUCH DAMAGE.
 
 [[jgit]]
 JGit - New Style BSD
---------------------
+~~~~~~~~~~~~~~~~~~~~
 
 * link:http://repo.or.cz/w/egit.git?a=blob;f=org.spearce.jgit/LICENSE;hb=HEAD[Original]
 
@@ -517,14 +532,14 @@ JGit - New Style BSD
 
 [[args4j]]
 args4j - MIT License
---------------------
+~~~~~~~~~~~~~~~~~~~~
 
 * link:https://args4j.dev.java.net/[Home]
 * link:http://www.opensource.org/licenses/mit-license.php[Canonical MIT License]
 
 [[slf4j]]
 SLF4J - MIT License
--------------------
+~~~~~~~~~~~~~~~~~~~
 
 * link:http://www.slf4j.org/license.html[Original]
 
@@ -554,7 +569,7 @@ SLF4J - MIT License
 
 [[clippy]]
 Clippy - MIT License
---------------------
+~~~~~~~~~~~~~~~~~~~~
 
 * link:http://github.com/mojombo/clippy/tree/master[Site]
 
@@ -585,7 +600,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 [[icu4j]]
 ICU4J License
--------------
+~~~~~~~~~~~~~
 
 * link:http://source.icu-project.org/repos/icu/icu4j/tags/release-3-4-4/license.html[Original]
 

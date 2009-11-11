@@ -15,7 +15,6 @@
 package com.google.gerrit.server.config;
 
 import static com.google.inject.Scopes.SINGLETON;
-import static com.google.inject.Stage.PRODUCTION;
 
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.reviewdb.AuthType;
@@ -59,40 +58,13 @@ import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ProjectCacheImpl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.workflow.FunctionState;
-import com.google.inject.Guice;
 import com.google.inject.Inject;
-import com.google.inject.Injector;
-import com.google.inject.Module;
-import com.google.inject.Provider;
 
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /** Starts global state with standard dependencies. */
 public class GerritGlobalModule extends FactoryModule {
-  public static Injector createInjector() {
-    final Injector db = Guice.createInjector(PRODUCTION, new DatabaseModule());
-    final CanonicalWebUrlModule canonicalWebUrl = new CanonicalWebUrlModule() {
-      @Override
-      protected Class<? extends Provider<String>> provider() {
-        return CanonicalWebUrlProvider.class;
-      }
-    };
-    return createInjector(db, canonicalWebUrl);
-  }
-
-  public static Injector createInjector(final Injector db,
-      final CanonicalWebUrlModule canonicalWebUrl) {
-    final Injector cfg = db.createChildInjector(new GerritConfigModule());
-    final List<Module> modules = new ArrayList<Module>();
-    modules.add(cfg.getInstance(GerritGlobalModule.class));
-    modules.add(canonicalWebUrl);
-    return cfg.createChildInjector(modules);
-  }
-
   private final AuthType loginType;
 
   @Inject

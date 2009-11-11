@@ -53,6 +53,7 @@ limitations under the License.
     <gwtVersion>1.7.0</gwtVersion>
     <slf4jVersion>1.5.8</slf4jVersion>
     <guiceVersion>2.0</guiceVersion>
+    <jettyVersion>7.0.0.v20091005</jettyVersion>
 
     <gwtStyle>OBF</gwtStyle>
 
@@ -699,6 +700,12 @@ limitations under the License.
           <groupId>postgresql</groupId>
           <artifactId>postgresql</artifactId>
           <version>8.4-701.jdbc4</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-servlet</artifactId>
+        <version>${jettyVersion}</version>
       </dependency>
 
       <dependency>

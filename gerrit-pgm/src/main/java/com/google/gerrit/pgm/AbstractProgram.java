@@ -68,11 +68,26 @@ public abstract class AbstractProgram {
       return 1;
     }
 
-    return run();
+    try {
+      return run();
+    } catch (Die err) {
+      System.err.println("fatal: " + err.getMessage());
+      return 128;
+    }
   }
 
   private static Injector emptyInjector() {
     return Guice.createInjector(Collections.<Module> emptyList());
+  }
+
+  /** Create a new exception to indicate we won't continue. */
+  protected static Die die(String why) {
+    return new Die(why);
+  }
+
+  /** Create a new exception to indicate we won't continue. */
+  protected static Die die(String why, Throwable cause) {
+    return new Die(why, cause);
   }
 
   /** Method that never returns, e.g. to keep a daemon running. */

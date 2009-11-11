@@ -162,6 +162,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(new Lifecycle.Module() {
       @Override
       protected void configure() {
+        listener().to(JGitWindowCacheConfiguration.class);
         listener().to(CachePool.class);
         listener().to(WorkQueue.class);
       }

@@ -18,13 +18,11 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.FileBasedConfig;
-import org.eclipse.jgit.lib.WindowCache;
-import org.eclipse.jgit.lib.WindowCacheConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -58,10 +56,6 @@ public class GerritServerConfigProvider implements Provider<Config> {
     } catch (ConfigInvalidException e) {
       throw new ProvisionException(e.getMessage(), e);
     }
-
-    final WindowCacheConfig c = new WindowCacheConfig();
-    c.fromConfig(cfg);
-    WindowCache.reconfigure(c);
 
     return cfg;
   }

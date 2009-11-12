@@ -159,13 +159,16 @@ class PatchSetPanel extends Composite implements OpenHandler<DisclosurePanel> {
       // Use our SSH daemon URL as its the only way they can get
       // to the project (that we know of anyway).
       //
-      final String sshAddr = Gerrit.getConfig().getSshdAddress();
+      String sshAddr = Gerrit.getConfig().getSshdAddress();
       final StringBuilder r = new StringBuilder();
       r.append("git pull ssh://");
       r.append(Gerrit.getUserAccount().getSshUserName());
       r.append("@");
       if (sshAddr.startsWith("*:") || "".equals(sshAddr)) {
         r.append(Window.Location.getHostName());
+      }
+      if (sshAddr.startsWith("*")) {
+        sshAddr = sshAddr.substring(1);
       }
       r.append(sshAddr);
       r.append("/");

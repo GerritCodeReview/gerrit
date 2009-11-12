@@ -86,8 +86,7 @@ public class AuthConfig {
 
   private static boolean isBecomeAnyoneEnabled() {
     try {
-      String s = "com.google.gerrit.server.http.BecomeAnyAccountLoginServlet";
-      return Boolean.getBoolean(s);
+      return Boolean.getBoolean("com.google.gerrit.httpd.auth.become");
     } catch (SecurityException se) {
       return false;
     }

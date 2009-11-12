@@ -32,5 +32,5 @@
 <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-startupUrl /&#10;-war ${resource_loc:/gerrit-gwtui/target}/gwt-hosted-mode&#10;-server com.google.gerrit.gwtdebug.GerritDebugLauncher&#10;com.google.gerrit.GerritGwtUI"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="gerrit-gwtdbug"/>
 <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.maven.ide.eclipse.launchconfig.sourcepathProvider"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-XstartOnFirstThread&#10;-Xmx256M&#10;-DGerritServer=${resource_loc:/gerrit-parent/GerritServer.properties}&#10;-Dcom.google.gerrit.httpd.BecomeAnyAccountLoginServlet=true"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-XstartOnFirstThread&#10;-Xmx256M&#10;-DGerritServer=${resource_loc:/gerrit-parent/GerritServer.properties}&#10;-Dcom.google.gerrit.httpd.auth.become=true"/>
 </launchConfiguration>

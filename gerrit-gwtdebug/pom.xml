@@ -56,6 +56,18 @@ limitations under the License.
     </dependency>
 
     <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
       <groupId>bouncycastle</groupId>
       <artifactId>bcprov-jdk15</artifactId>
       <version>140</version>

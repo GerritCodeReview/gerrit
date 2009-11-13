@@ -8,7 +8,8 @@ daemon - Gerrit network server
 SYNOPSIS
 --------
 [verse]
-'java' -DGerritServer=PATH -jar gerrit.war 'daemon'
+'java' -jar gerrit.war 'daemon'
+	-d <SITE_PATH>
 	[\--enable-httpd | \--disable-httpd]
 	[\--enable-sshd | \--disable-sshd]
 	[\--console-log]
@@ -28,6 +29,11 @@ to different values.
 
 OPTIONS
 -------
+
+-d::
+\--site-path::
+	Location of the gerrit.config file, and all other per-site
+	configuration data, supporting libaries and log files.
 
 \--enable-httpd::
 \--disable-httpd::

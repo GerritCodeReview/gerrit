@@ -43,6 +43,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
   private final Config cfg;
   private final String canonicalWebUrl;
   private final AuthConfig authConfig;
+  private final GitWebConfig gitWebConfig;
   private final Project.NameKey wildProject;
   private final SshInfo sshInfo;
   private final ApprovalTypes approvalTypes;
@@ -53,12 +54,13 @@ class GerritConfigProvider implements Provider<GerritConfig> {
   @Inject
   GerritConfigProvider(final Realm r, @GerritServerConfig final Config gsc,
       @CanonicalWebUrl @Nullable final String cwu, final AuthConfig ac,
-      @WildProjectName final Project.NameKey wp, final SshInfo si,
-      final ApprovalTypes at, final ContactStore cs) {
+      final GitWebConfig gwc, @WildProjectName final Project.NameKey wp,
+      final SshInfo si, final ApprovalTypes at, final ContactStore cs) {
     realm = r;
     cfg = gsc;
     canonicalWebUrl = cwu;
     authConfig = ac;
+    gitWebConfig = gwc;
     sshInfo = si;
     wildProject = wp;
     approvalTypes = at;
@@ -94,9 +96,8 @@ class GerritConfigProvider implements Provider<GerritConfig> {
     }
     config.setEditableAccountFields(fields);
 
-    final String gitwebUrl = cfg.getString("gitweb", null, "url");
-    if (gitwebUrl != null) {
-      config.setGitwebLink(new GitwebLink(gitwebUrl));
+    if (gitWebConfig.getUrl() != null) {
+      config.setGitwebLink(new GitwebLink(gitWebConfig.getUrl()));
     }
 
     if (sshInfo != null && !sshInfo.getHostKeys().isEmpty()) {

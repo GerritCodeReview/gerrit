@@ -20,8 +20,6 @@ import com.google.gerrit.server.config.SitePath;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
@@ -31,6 +29,8 @@ import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.lib.WindowCache;
 import org.eclipse.jgit.lib.WindowCacheConfig;
 import org.eclipse.jgit.lib.RepositoryCache.FileKey;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -77,6 +77,11 @@ public class GitRepositoryManager {
     } else {
       basepath = null;
     }
+  }
+
+  /** @return base directory under which all projects are stored. */
+  public File getBasePath() {
+    return basepath;
   }
 
   /**

@@ -21,6 +21,7 @@ import com.google.gerrit.httpd.auth.become.BecomeAnyAccountLoginServlet;
 import com.google.gerrit.httpd.auth.container.HttpAuthModule;
 import com.google.gerrit.httpd.auth.ldap.LdapAuthModule;
 import com.google.gerrit.httpd.auth.openid.OpenIdModule;
+import com.google.gerrit.httpd.gitweb.GitWebModule;
 import com.google.gerrit.httpd.rpc.UiRpcModule;
 import com.google.gerrit.reviewdb.AuthType;
 import com.google.gerrit.server.CurrentUser;
@@ -34,7 +35,9 @@ import com.google.gerrit.server.contact.ContactStore;
 import com.google.gerrit.server.contact.ContactStoreProvider;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gerrit.server.ssh.SshKeyCache;
+import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
+import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 import com.google.inject.servlet.RequestScoped;
@@ -45,20 +48,24 @@ import java.net.SocketAddress;
 public class WebModule extends FactoryModule {
   private final Provider<SshInfo> sshInfoProvider;
   private final Provider<SshKeyCache> sshKeyCacheProvider;
-  private final AuthType loginType;
+  private final AuthType authType;
+  private final GitWebConfig gitWebConfig;
 
   @Inject
   WebModule(final Provider<SshInfo> sshInfoProvider,
       final Provider<SshKeyCache> sshKeyCacheProvider,
-      final AuthConfig authConfig) {
-    this(sshInfoProvider, sshKeyCacheProvider, authConfig.getAuthType());
-  }
-
-  WebModule(final Provider<SshInfo> sshInfoProvider,
-      final Provider<SshKeyCache> sshKeyCacheProvider, final AuthType loginType) {
+      final AuthConfig authConfig, final Injector creatingInjector) {
     this.sshInfoProvider = sshInfoProvider;
     this.sshKeyCacheProvider = sshKeyCacheProvider;
-    this.loginType = loginType;
+    this.authType = authConfig.getAuthType();
+
+    this.gitWebConfig =
+        creatingInjector.createChildInjector(new AbstractModule() {
+          @Override
+          protected void configure() {
+            bind(GitWebConfig.class);
+          }
+        }).getInstance(GitWebConfig.class);
   }
 
   @Override
@@ -70,7 +77,7 @@ public class WebModule extends FactoryModule {
       }
     });
 
-    switch (loginType) {
+    switch (authType) {
       case OPENID:
         install(new OpenIdModule());
         break;
@@ -94,7 +101,7 @@ public class WebModule extends FactoryModule {
         break;
 
       default:
-        throw new ProvisionException("Unsupported loginType: " + loginType);
+        throw new ProvisionException("Unsupported loginType: " + authType);
     }
 
     install(new UrlModule());
@@ -103,6 +110,11 @@ public class WebModule extends FactoryModule {
 
     bind(SshInfo.class).toProvider(sshInfoProvider);
     bind(SshKeyCache.class).toProvider(sshKeyCacheProvider);
+
+    bind(GitWebConfig.class).toInstance(gitWebConfig);
+    if (gitWebConfig.getGitwebCGI() != null) {
+      install(new GitWebModule());
+    }
 
     bind(ContactStore.class).toProvider(ContactStoreProvider.class).in(
         SINGLETON);

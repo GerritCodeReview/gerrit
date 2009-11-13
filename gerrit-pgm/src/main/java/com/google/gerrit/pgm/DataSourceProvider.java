@@ -142,7 +142,7 @@ public final class DataSourceProvider implements Provider<DataSource>,
         if (url == null) {
           String database = optional(cfg, "database");
           if (database == null || database.isEmpty()) {
-            database = "ReviewDB";
+            database = "db/ReviewDB";
           }
 
           File db = new File(database);

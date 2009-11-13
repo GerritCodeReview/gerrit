@@ -28,8 +28,6 @@ import org.apache.commons.dbcp.BasicDataSource;
 import org.eclipse.jgit.lib.Config;
 
 import java.io.File;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.sql.SQLException;
 import java.util.Properties;
 

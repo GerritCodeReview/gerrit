@@ -60,7 +60,7 @@ public class Daemon extends SiteProgram {
     sshd = false;
   }
 
-  @Option(name = "--slave", usage = "support fetch only")
+  @Option(name = "--slave", usage = "Support fetch only; implies --disable-httpd")
   private boolean slave;
 
   private final LifecycleManager manager = new LifecycleManager();

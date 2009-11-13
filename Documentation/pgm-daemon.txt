@@ -28,15 +28,6 @@ to different values.
 OPTIONS
 -------
 
--DGerritServer=PATH::
-	Path of the GerritServer.properties file, which describes
-	how to connect to the database.  To obtain a template of this
-	file get it from the WAR:
-+
-====
-java -jar gerrit.war \--cat extra/GerritServer.properties_example >GerritServer.properties
-====
-
 \--enable-httpd::
 \--disable-httpd::
 	Enable (or disable) the internal HTTP daemon, answering

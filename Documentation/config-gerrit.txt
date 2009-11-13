@@ -1127,6 +1127,30 @@ If not set, Gerrit generates this as "gerrit@`hostname`", where
 By default, not set, generating the value at startup.
 
 
+File `secure.config`
+--------------------
+The optional file `'$site_path'/secure.config` overrides (or
+supplements) the settings supplied by `'$site_path'/gerrit.config`.
+The file should be readable only by the daemon process and can be
+used to contain private configuration entries that wouldn't normally
+be exposed to everyone.
+
+Sample `secure.config`:
+----
+[database]
+	username = webuser
+	password = s3kr3t
+
+[ldap]
+	password = l3tm3srch
+
+[httpd]
+	sslKeyPassword = g3rr1t
+
+[sendemail]
+	smtpPass = sp@m
+----
+
 File `replication.config`
 -------------------------
 

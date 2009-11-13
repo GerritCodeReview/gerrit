@@ -41,11 +41,13 @@ class GerritServerConfigProvider implements Provider<Config> {
 
   @Override
   public Config get() {
-    final File cfgPath = new File(sitePath, "gerrit.config");
-    final FileBasedConfig cfg = new FileBasedConfig(cfgPath);
+    final File gerrit_config = new File(sitePath, "gerrit.config");
+    final File secure_config = new File(sitePath, "secure.config");
+
+    FileBasedConfig cfg = new FileBasedConfig(gerrit_config);
 
     if (!cfg.getFile().exists()) {
-      log.info("No " + cfgPath.getAbsolutePath() + "; assuming defaults");
+      log.info("No " + gerrit_config.getAbsolutePath() + "; assuming defaults");
       return cfg;
     }
 
@@ -55,6 +57,17 @@ class GerritServerConfigProvider implements Provider<Config> {
       throw new ProvisionException(e.getMessage(), e);
     } catch (ConfigInvalidException e) {
       throw new ProvisionException(e.getMessage(), e);
+    }
+
+    if (secure_config.exists()) {
+      cfg = new FileBasedConfig(cfg, secure_config);
+      try {
+        cfg.load();
+      } catch (IOException e) {
+        throw new ProvisionException(e.getMessage(), e);
+      } catch (ConfigInvalidException e) {
+        throw new ProvisionException(e.getMessage(), e);
+      }
     }
 
     return cfg;

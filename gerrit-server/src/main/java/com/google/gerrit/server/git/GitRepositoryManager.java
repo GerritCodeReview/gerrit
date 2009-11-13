@@ -29,16 +29,22 @@ import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.lib.WindowCache;
 import org.eclipse.jgit.lib.WindowCacheConfig;
 import org.eclipse.jgit.lib.RepositoryCache.FileKey;
+import org.eclipse.jgit.util.NB;
+import org.eclipse.jgit.util.RawParseUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /** Class managing Git repositories. */
 @Singleton
 public class GitRepositoryManager {
   private static final Logger log = LoggerFactory.getLogger(GitRepositoryManager.class);
+
+  private static final String UNNAMED =
+      "Unnamed repository; edit this file to name it for gitweb.";
 
   public static class Lifecycle implements LifecycleListener {
     private final Config cfg;
@@ -148,9 +154,45 @@ public class GitRepositoryManager {
   }
 
   /**
+   * Read the {@code GIT_DIR/description} file for gitweb.
+   * <p>
+   * NB: This code should really be in JGit, as a member of the Repository
+   * object. Until it moves there, its here.
+   *
+   * @param name the repository name, relative to the base directory.
+   * @return description text; null if no description has been configured.
+   * @throws RepositoryNotFoundException the named repository does not exist.
+   * @throws IOException the description file exists, but is not readable by
+   *         this process.
+   */
+  public String getProjectDescription(final String name)
+      throws RepositoryNotFoundException, IOException {
+    final Repository e = openRepository(name);
+    final File d = new File(e.getDirectory(), "description");
+
+    String description;
+    try {
+      description = RawParseUtils.decode(NB.readFully(d));
+    } catch (FileNotFoundException err) {
+      return null;
+    }
+
+    if (description != null) {
+      description = description.trim();
+      if (description.isEmpty()) {
+        description = null;
+      }
+      if (UNNAMED.equals(description)) {
+        description = null;
+      }
+    }
+    return description;
+  }
+
+  /**
    * Set the {@code GIT_DIR/description} file for gitweb.
    * <p>
-   * NB: This code should really be in JGit, as a member of the Repostiory
+   * NB: This code should really be in JGit, as a member of the Repository
    * object. Until it moves there, its here.
    *
    * @param name the repository name, relative to the base directory.

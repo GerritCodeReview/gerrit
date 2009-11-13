@@ -9,14 +9,17 @@ through the Java command line.  For example:
 [[programs]]Programs
 --------------------
 
-CreateSchema::
-  Initialize a new database schema.
+link:pgm-init.html[init]::
+  Initialize a new Gerrit server installation
 
 link:pgm-daemon.html[daemon]::
   Gerrit HTTP, SSH network server.
 
 version::
   Display the release version of Gerrit Code Review.
+
+CreateSchema::
+  Initialize a new database schema.
 
 GERRIT
 ------

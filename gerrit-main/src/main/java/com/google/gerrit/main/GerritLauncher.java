@@ -53,7 +53,7 @@ public final class GerritLauncher {
       System.err.println("usage: java -jar " + jar + " command [ARG ...]");
       System.err.println();
       System.err.println("The most commonly used commands are:");
-      System.err.println("  daemon         Run the internal SSH daemon");
+      System.err.println("  daemon         Run the Gerrit network daemons");
       System.err.println("  version        Display the build version number");
       System.err.println();
       System.err.println("  ls             List files available for cat");

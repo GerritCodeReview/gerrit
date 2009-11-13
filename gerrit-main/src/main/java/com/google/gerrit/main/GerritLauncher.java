@@ -20,6 +20,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.net.JarURLConnection;
@@ -219,10 +220,18 @@ public final class GerritLauncher {
     }
 
     final Object res;
-    if ((main.getModifiers() & Modifier.STATIC) == Modifier.STATIC) {
-      res = main.invoke(null, new Object[] {argv});
-    } else {
-      res = main.invoke(clazz.newInstance(), new Object[] {argv});
+    try {
+      if ((main.getModifiers() & Modifier.STATIC) == Modifier.STATIC) {
+        res = main.invoke(null, new Object[] {argv});
+      } else {
+        res = main.invoke(clazz.newInstance(), new Object[] {argv});
+      }
+    } catch (InvocationTargetException ite) {
+      if (ite.getCause() instanceof Exception)
+        throw (Exception) ite.getCause();
+      else if (ite.getCause() instanceof Error)
+        throw (Error) ite.getCause();
+      throw ite;
     }
     if (res instanceof Number) {
       System.exit(((Number) res).intValue());

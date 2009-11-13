@@ -63,6 +63,9 @@ public class Daemon extends SiteProgram {
   @Option(name = "--slave", usage = "Support fetch only; implies --disable-httpd")
   private boolean slave;
 
+  @Option(name = "--console-log", usage = "Log to console (not $site_path/logs)")
+  private boolean consoleLog;
+
   private final LifecycleManager manager = new LifecycleManager();
   private Injector dbInjector;
   private Injector cfgInjector;
@@ -86,6 +89,11 @@ public class Daemon extends SiteProgram {
     if (httpd && !sshd) {
       // TODO Support HTTP without SSH.
       throw die("--enable-httpd currently requires --enable-sshd");
+    }
+
+    if (consoleLog) {
+    } else {
+      manager.add(ErrorLogFile.start(getSitePath()));
     }
 
     dbInjector = createDbInjector();

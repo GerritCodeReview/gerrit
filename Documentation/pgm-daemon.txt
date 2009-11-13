@@ -11,6 +11,7 @@ SYNOPSIS
 'java' -DGerritServer=PATH -jar gerrit.war 'daemon'
 	[\--enable-httpd | \--disable-httpd]
 	[\--enable-sshd | \--disable-sshd]
+	[\--console-log]
 	[\--slave]
 
 DESCRIPTION
@@ -47,11 +48,22 @@ OPTIONS
 +
 This option automatically implies '\--disable-httpd \--enable-sshd'.
 
+\--console-log::
+	Send log messages to the console, instead of to the standard
+	log file '$site_path/logs/error_log'.
+
 CONTEXT
 -------
 This command can only be run on a server which has direct
 connectivity to the metadata database, and local access to the
 managed Git repositories.
+
+LOGGING
+-------
+Error and warning messages from the server are automatically written
+to the log file under '$site_path/logs/error_log'.  This log file
+is automatically rotated at 12:00 AM GMT each day, allowing an
+external log cleaning service to clean up the prior logs.
 
 KNOWN ISSUES
 ------------

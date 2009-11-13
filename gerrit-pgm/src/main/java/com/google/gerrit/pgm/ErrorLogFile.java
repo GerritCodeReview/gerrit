@@ -1,0 +1,105 @@
+// Copyright (C) 2009 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package com.google.gerrit.pgm;
+
+import com.google.gerrit.lifecycle.LifecycleListener;
+
+import org.apache.log4j.Appender;
+import org.apache.log4j.DailyRollingFileAppender;
+import org.apache.log4j.Level;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PatternLayout;
+import org.apache.log4j.helpers.OnlyOnceErrorHandler;
+import org.apache.log4j.spi.ErrorHandler;
+import org.apache.log4j.spi.LoggingEvent;
+
+import java.io.File;
+
+public class ErrorLogFile {
+  public static LifecycleListener start(final File sitePath) {
+    final File logdir = new File(sitePath, "logs");
+    if (!logdir.exists() && !logdir.mkdirs()) {
+      throw new Die("Cannot create log directory: " + logdir);
+    }
+
+    final PatternLayout layout = new PatternLayout();
+    layout.setConversionPattern("[%d] %-5p %c %x: %m%n");
+
+    final DailyRollingFileAppender dst = new DailyRollingFileAppender();
+    dst.setName("error_log");
+    dst.setLayout(layout);
+    dst.setEncoding("UTF-8");
+    dst.setFile(new File(logdir, "error_log").getAbsolutePath());
+    dst.setImmediateFlush(true);
+    dst.setAppend(true);
+    dst.setThreshold(Level.INFO);
+    dst.setErrorHandler(new DieErrorHandler());
+    dst.activateOptions();
+    dst.setErrorHandler(new OnlyOnceErrorHandler());
+
+    final Logger root = LogManager.getRootLogger();
+    root.removeAllAppenders();
+    root.addAppender(dst);
+
+    return new LifecycleListener() {
+      @Override
+      public void start() {
+      }
+
+      @Override
+      public void stop() {
+        LogManager.shutdown();
+      }
+    };
+  }
+
+  private ErrorLogFile() {
+  }
+
+  private static final class DieErrorHandler implements ErrorHandler {
+    @Override
+    public void error(String message, Exception e, int errorCode,
+        LoggingEvent event) {
+      error(e != null ? e.getMessage() : message);
+    }
+
+    @Override
+    public void error(String message, Exception e, int errorCode) {
+      error(e != null ? e.getMessage() : message);
+    }
+
+    @Override
+    public void error(String message) {
+      throw new Die("Cannot open log file: " + message);
+    }
+
+    @Override
+    public void activateOptions() {
+    }
+
+    @Override
+    public void setAppender(Appender appender) {
+    }
+
+    @Override
+    public void setBackupAppender(Appender appender) {
+    }
+
+    @Override
+    public void setLogger(Logger logger) {
+    }
+  }
+}

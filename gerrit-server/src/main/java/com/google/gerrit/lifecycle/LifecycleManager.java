@@ -23,19 +23,27 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 /** Tracks and executes registered {@link LifecycleListener}s. */
 public class LifecycleManager {
-  private final List<Injector> injectors = new ArrayList<Injector>();
-  private LifecycleListener[] listeners;
+  private final LinkedHashMap<LifecycleListener, Boolean> listeners =
+      new LinkedHashMap<LifecycleListener, Boolean>();
+
+  private boolean started;
+
+  /** Add a single listener. */
+  public void add(final LifecycleListener listener) {
+    listeners.put(listener, true);
+  }
 
   /** Add all {@link LifecycleListener}s registered in the Injector. */
   public void add(final Injector injector) {
-    if (listeners != null) {
+    if (started) {
       throw new IllegalStateException("Already started");
     }
-    injectors.add(injector);
+    for (final Binding<LifecycleListener> binding : get(injector)) {
+      add(binding.getProvider().get());
+    }
   }
 
   /** Add all {@link LifecycleListener}s registered in the Injectors. */
@@ -47,10 +55,9 @@ public class LifecycleManager {
 
   /** Start all listeners, in the order they were registered. */
   public void start() {
-    if (listeners == null) {
-      listeners = all();
-
-      for (LifecycleListener obj : listeners) {
+    if (!started) {
+      started = true;
+      for (LifecycleListener obj : listeners.keySet()) {
         obj.start();
       }
     }
@@ -58,9 +65,12 @@ public class LifecycleManager {
 
   /** Stop all listeners, in the reverse order they were registered. */
   public void stop() {
-    if (listeners != null) {
-      for (int i = listeners.length - 1; 0 <= i; i--) {
-        final LifecycleListener obj = listeners[i];
+    if (started) {
+      final List<LifecycleListener> t =
+          new ArrayList<LifecycleListener>(listeners.keySet());
+
+      for (int i = t.size() - 1; 0 <= i; i--) {
+        final LifecycleListener obj = t.get(i);
         try {
           obj.stop();
         } catch (Throwable err) {
@@ -68,26 +78,8 @@ public class LifecycleManager {
         }
       }
 
-      listeners = null;
+      started = false;
     }
-  }
-
-  private LifecycleListener[] all() {
-    final Map<LifecycleListener, Boolean> found =
-        new LinkedHashMap<LifecycleListener, Boolean>();
-
-    for (final Injector injector : injectors) {
-      if (injector == null) {
-        continue;
-      }
-      for (final Binding<LifecycleListener> binding : get(injector)) {
-        found.put(binding.getProvider().get(), true);
-      }
-    }
-
-    final LifecycleListener[] a = new LifecycleListener[found.size()];
-    found.keySet().toArray(a);
-    return a;
   }
 
   private static List<Binding<LifecycleListener>> get(Injector i) {

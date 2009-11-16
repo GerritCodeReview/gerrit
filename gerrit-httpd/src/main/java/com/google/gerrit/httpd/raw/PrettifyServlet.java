@@ -29,6 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @Singleton
 public class PrettifyServlet extends HttpServlet {
+  private static final long serialVersionUID = 1L;
   private static final String VERSION = "20090521";
 
   private final byte[] content;

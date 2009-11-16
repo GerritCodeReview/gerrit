@@ -15,6 +15,8 @@
 package com.google.gerrit.server.query;
 
 public class QueryParseException extends Exception {
+  private static final long serialVersionUID = 1L;
+
   public QueryParseException(final String message) {
     super(message);
   }

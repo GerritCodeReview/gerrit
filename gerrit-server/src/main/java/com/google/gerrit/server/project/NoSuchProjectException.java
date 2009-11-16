@@ -18,6 +18,8 @@ import com.google.gerrit.reviewdb.Project;
 
 /** Indicates the project does not exist. */
 public class NoSuchProjectException extends Exception {
+  private static final long serialVersionUID = 1L;
+
   public NoSuchProjectException(final Project.NameKey key) {
     this(key, null);
   }

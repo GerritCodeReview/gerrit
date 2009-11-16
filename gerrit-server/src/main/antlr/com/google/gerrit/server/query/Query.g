@@ -33,6 +33,8 @@ package com.google.gerrit.server.query;
 }
 @members {
   static class QueryParseInternalException extends RuntimeException {
+    private static final long serialVersionUID = 1L;
+
     QueryParseInternalException(final String msg) {
       super(msg);
     }

@@ -16,6 +16,8 @@ package com.google.gerrit.server.account;
 
 /** An account processing error thrown by {@link AccountManager}. */
 public class AccountException extends Exception {
+  private static final long serialVersionUID = 1L;
+
   public AccountException(final String message) {
     super(message);
   }

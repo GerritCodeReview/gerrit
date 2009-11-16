@@ -70,6 +70,8 @@ class UrlModule extends ServletModule {
 
   private Key<HttpServlet> notFound() {
     return key(new HttpServlet() {
+      private static final long serialVersionUID = 1L;
+
       @Override
       protected void doGet(final HttpServletRequest req,
           final HttpServletResponse rsp) throws IOException {
@@ -80,6 +82,8 @@ class UrlModule extends ServletModule {
 
   private Key<HttpServlet> screen(final String target) {
     return key(new HttpServlet() {
+      private static final long serialVersionUID = 1L;
+
       @Override
       protected void doGet(final HttpServletRequest req,
           final HttpServletResponse rsp) throws IOException {
@@ -90,6 +94,8 @@ class UrlModule extends ServletModule {
 
   private Key<HttpServlet> legacyGerritScreen() {
     return key(new HttpServlet() {
+      private static final long serialVersionUID = 1L;
+
       @Override
       protected void doGet(final HttpServletRequest req,
           final HttpServletResponse rsp) throws IOException {
@@ -101,6 +107,8 @@ class UrlModule extends ServletModule {
 
   private Key<HttpServlet> changeQuery() {
     return key(new HttpServlet() {
+      private static final long serialVersionUID = 1L;
+
       @Override
       protected void doGet(final HttpServletRequest req,
           final HttpServletResponse rsp) throws IOException {

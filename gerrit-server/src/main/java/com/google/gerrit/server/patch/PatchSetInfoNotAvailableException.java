@@ -15,6 +15,7 @@
 package com.google.gerrit.server.patch;
 
 public final class PatchSetInfoNotAvailableException extends Exception {
+  private static final long serialVersionUID = 1L;
 
   public PatchSetInfoNotAvailableException(Exception cause) {
     super(cause);

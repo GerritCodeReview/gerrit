@@ -18,6 +18,8 @@ import com.google.gerrit.reviewdb.Change;
 
 /** Indicates the change does not exist. */
 public class NoSuchChangeException extends Exception {
+  private static final long serialVersionUID = 1L;
+
   public NoSuchChangeException(final Change.Id key) {
     this(key, null);
   }

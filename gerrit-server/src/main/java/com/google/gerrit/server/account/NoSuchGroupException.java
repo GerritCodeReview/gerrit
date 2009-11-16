@@ -18,6 +18,8 @@ import com.google.gerrit.reviewdb.AccountGroup;
 
 /** Indicates the account group does not exist. */
 public class NoSuchGroupException extends Exception {
+  private static final long serialVersionUID = 1L;
+
   public NoSuchGroupException(final AccountGroup.Id key) {
     this(key, null);
   }

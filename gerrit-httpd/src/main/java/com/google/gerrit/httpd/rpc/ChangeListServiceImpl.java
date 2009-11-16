@@ -359,7 +359,6 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
       final AsyncCallback<SingleListChangeInfo> callback) {
     run(callback, new Action<SingleListChangeInfo>() {
       public SingleListChangeInfo run(final ReviewDb db) throws OrmException {
-        final Account.Id me = getAccountId();
         final AccountInfoCacheFactory ac = accountInfoCacheFactory.create();
         final SingleListChangeInfo d = new SingleListChangeInfo();
         final Set<Change.Id> starred = currentUser.get().getStarredChanges();
@@ -538,7 +537,6 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
     }
 
     public SingleListChangeInfo run(final ReviewDb db) throws OrmException {
-      final Account.Id me = getAccountId();
       final AccountInfoCacheFactory ac = accountInfoCacheFactory.create();
       final SingleListChangeInfo d = new SingleListChangeInfo();
       final Set<Change.Id> starred = currentUser.get().getStarredChanges();

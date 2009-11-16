@@ -14,21 +14,15 @@
 
 package com.google.gerrit.server.auth.ldap;
 
-import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
 import javax.naming.directory.Attribute;
 import javax.naming.directory.Attributes;
 import javax.naming.directory.DirContext;
-import javax.naming.directory.SearchControls;
-import javax.naming.directory.SearchResult;
 
 abstract class LdapType {
   static final LdapType RFC_2307 = new Rfc2307();
 
   static LdapType guessType(final DirContext ctx) throws NamingException {
-    final SearchControls cons = new SearchControls();
-    final NamingEnumeration<SearchResult> res;
-
     final Attributes rootAtts = ctx.getAttributes("");
     Attribute supported = rootAtts.get("supportedCapabilities");
     if (supported != null && supported.contains("1.2.840.113556.1.4.800")) {

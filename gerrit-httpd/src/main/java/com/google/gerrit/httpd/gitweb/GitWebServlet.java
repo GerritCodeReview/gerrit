@@ -291,7 +291,6 @@ class GitWebServlet extends HttpServlet {
     }
 
     final Map<String, String> params = getParameters(req);
-    final String action = params.get("a");
     if (deniedActions.contains(params.get("a"))) {
       rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
       return;
@@ -307,7 +306,6 @@ class GitWebServlet extends HttpServlet {
     }
 
     final ProjectControl project;
-    final boolean anonymousRead;
     try {
       final Project.NameKey nameKey = new Project.NameKey(name);
       project = projectControl.validateFor(nameKey);

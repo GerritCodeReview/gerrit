@@ -49,8 +49,6 @@ final class ScpCommand extends BaseCommand {
   private boolean opt_r;
   private boolean opt_t;
   private boolean opt_f;
-  private boolean opt_v;
-  private boolean opt_p;
   private String root;
 
   private TreeMap<String, Entry> toc;
@@ -70,7 +68,6 @@ final class ScpCommand extends BaseCommand {
               opt_f = true;
               break;
             case 'p':
-              opt_p = true;
               break;
             case 'r':
               opt_r = true;
@@ -79,7 +76,6 @@ final class ScpCommand extends BaseCommand {
               opt_t = true;
               break;
             case 'v':
-              opt_v = true;
               break;
           }
         }

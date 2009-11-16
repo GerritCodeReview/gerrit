@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.git;
 
-import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.config.Nullable;
@@ -27,7 +26,6 @@ import com.google.inject.assistedinject.Assisted;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashSet;
 import java.util.concurrent.TimeUnit;
 
 public class PushAllProjectsOp extends DefaultQueueOp {
@@ -63,7 +61,6 @@ public class PushAllProjectsOp extends DefaultQueueOp {
   }
 
   public void run() {
-    final HashSet<Branch.NameKey> pending = new HashSet<Branch.NameKey>();
     try {
       final ReviewDb db = schema.open();
       try {

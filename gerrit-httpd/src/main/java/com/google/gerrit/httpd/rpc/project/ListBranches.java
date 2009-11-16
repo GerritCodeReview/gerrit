@@ -60,9 +60,8 @@ class ListBranches extends Handler<List<Branch>> {
   @Override
   public List<Branch> call() throws NoSuchProjectException,
       RepositoryNotFoundException {
-    final ProjectControl projectControl =
-        projectControlFactory.validateFor(projectName, ProjectControl.OWNER
-            | ProjectControl.VISIBLE);
+    projectControlFactory.validateFor(projectName, ProjectControl.OWNER
+        | ProjectControl.VISIBLE);
 
     final List<Branch> branches = new ArrayList<Branch>();
     final Repository db = repoManager.openRepository(projectName.get());

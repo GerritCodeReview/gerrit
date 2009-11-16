@@ -28,7 +28,6 @@ import com.google.gerrit.reviewdb.ChangeMessage;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetAncestor;
 import com.google.gerrit.reviewdb.PatchSetApproval;
-import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.RevId;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
@@ -90,7 +89,6 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
       PatchSetInfoNotAvailableException, NoSuchChangeException {
     control = changeControlFactory.validateFor(changeId);
     final Change change = control.getChange();
-    final Project proj = control.getProject();
     final PatchSet patch = db.patchSets().get(change.currentPatchSetId());
     if (patch == null) {
       throw new NoSuchEntityException();

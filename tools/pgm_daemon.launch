@@ -16,5 +16,5 @@
 <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="daemon&#10;--console-log"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="gerrit-war"/>
 <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.maven.ide.eclipse.launchconfig.sourcepathProvider"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xmx256M&#10;-DGerritServer=${resource_loc:/gerrit-parent/GerritServer.properties}"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xmx256M"/>
 </launchConfiguration>

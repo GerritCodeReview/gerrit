@@ -25,9 +25,10 @@ package com.google.gerrit.sshd.commands;
 import com.google.gerrit.common.Version;
 import com.google.gerrit.sshd.BaseCommand;
 
+import org.apache.sshd.server.Environment;
+import org.eclipse.jgit.util.RawParseUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.eclipse.jgit.util.RawParseUtils;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -89,7 +90,7 @@ final class ScpCommand extends BaseCommand {
   }
 
   @Override
-  public void start() {
+  public void start(final Environment env) {
     startThread(new Runnable() {
       public void run() {
         runImp();

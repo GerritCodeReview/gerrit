@@ -17,7 +17,7 @@ package com.google.gerrit.sshd;
 import com.google.inject.AbstractModule;
 import com.google.inject.binder.LinkedBindingBuilder;
 
-import org.apache.sshd.server.CommandFactory.Command;
+import org.apache.sshd.server.Command;
 
 /** Module to register commands in the SSH daemon. */
 public abstract class CommandModule extends AbstractModule {

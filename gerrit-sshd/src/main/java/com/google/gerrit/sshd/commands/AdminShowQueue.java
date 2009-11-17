@@ -20,6 +20,8 @@ import com.google.gerrit.sshd.AdminCommand;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.inject.Inject;
 
+import org.apache.sshd.server.Environment;
+
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
@@ -37,7 +39,7 @@ final class AdminShowQueue extends BaseCommand {
   private PrintWriter p;
 
   @Override
-  public void start() {
+  public void start(final Environment env) {
     startThread(new CommandRunnable() {
       @Override
       public void run() throws Exception {

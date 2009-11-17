@@ -58,9 +58,10 @@ import java.util.Set;
 public class JettyServer {
   static class Lifecycle implements LifecycleListener {
     private final JettyServer server;
+
     @Inject
     Lifecycle(final JettyServer server) {
-      this.server=server;
+      this.server = server;
     }
 
     @Override
@@ -129,7 +130,7 @@ public class JettyServer {
 
       } else if ("https".equals(u.getScheme())) {
         final SslSelectChannelConnector ssl = new SslSelectChannelConnector();
-        final File keystore = getFile(cfg, "sslkeystore", "keystore");
+        final File keystore = getFile(cfg, "sslkeystore", "etc/keystore");
         String password = cfg.getString("httpd", null, "sslkeypassword");
         if (password == null) {
           password = "gerrit";

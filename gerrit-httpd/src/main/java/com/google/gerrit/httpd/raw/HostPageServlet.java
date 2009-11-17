@@ -51,21 +51,19 @@ import javax.servlet.http.HttpServletResponse;
 @Singleton
 public class HostPageServlet extends HttpServlet {
   private final Provider<CurrentUser> currentUser;
-  private final File sitePath;
   private final GerritConfig config;
   private final Provider<String> urlProvider;
   private final boolean wantSSL;
   private final Document hostDoc;
 
   @Inject
-  HostPageServlet(final Provider<CurrentUser> cu, @SitePath final File path,
-      final GerritConfig gc,
+  HostPageServlet(final Provider<CurrentUser> cu,
+      @SitePath final File sitePath, final GerritConfig gc,
       @CanonicalWebUrl @Nullable final Provider<String> up,
       @CanonicalWebUrl @Nullable final String configuredUrl,
       final ServletContext servletContext) throws IOException {
     currentUser = cu;
     urlProvider = up;
-    sitePath = path;
     config = gc;
     wantSSL = configuredUrl != null && configuredUrl.startsWith("https:");
 
@@ -74,14 +72,16 @@ public class HostPageServlet extends HttpServlet {
     if (hostDoc == null) {
       throw new FileNotFoundException("No " + pageName + " in webapp");
     }
+
+    final File etc = new File(sitePath, "etc");
     fixModuleReference(hostDoc, servletContext);
-    injectCssFile(hostDoc, "gerrit_sitecss", sitePath, "GerritSite.css");
-    injectXmlFile(hostDoc, "gerrit_header", sitePath, "GerritSiteHeader.html");
-    injectXmlFile(hostDoc, "gerrit_footer", sitePath, "GerritSiteFooter.html");
+    injectCssFile(hostDoc, "gerrit_sitecss", etc, "GerritSite.css");
+    injectXmlFile(hostDoc, "gerrit_header", etc, "GerritSiteHeader.html");
+    injectXmlFile(hostDoc, "gerrit_footer", etc, "GerritSiteFooter.html");
   }
 
   private void injectXmlFile(final Document hostDoc, final String id,
-      final File sitePath, final String fileName) throws IOException {
+      final File etc, final String fileName) throws IOException {
     final Element banner = HtmlDomUtil.find(hostDoc, id);
     if (banner == null) {
       return;
@@ -91,7 +91,7 @@ public class HostPageServlet extends HttpServlet {
       banner.removeChild(banner.getFirstChild());
     }
 
-    final Document html = HtmlDomUtil.parseFile(sitePath, fileName);
+    final Document html = HtmlDomUtil.parseFile(etc, fileName);
     if (html == null) {
       banner.getParentNode().removeChild(banner);
       return;
@@ -102,7 +102,7 @@ public class HostPageServlet extends HttpServlet {
   }
 
   private void injectCssFile(final Document hostDoc, final String id,
-      final File sitePath, final String fileName) throws IOException {
+      final File etc, final String fileName) throws IOException {
     final Element banner = HtmlDomUtil.find(hostDoc, id);
     if (banner == null) {
       return;
@@ -112,7 +112,7 @@ public class HostPageServlet extends HttpServlet {
       banner.removeChild(banner.getFirstChild());
     }
 
-    final String css = HtmlDomUtil.readFile(sitePath, fileName);
+    final String css = HtmlDomUtil.readFile(etc, fileName);
     if (css == null) {
       banner.getParentNode().removeChild(banner);
       return;

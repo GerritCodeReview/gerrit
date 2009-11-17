@@ -75,6 +75,8 @@ public class Init extends SiteProgram {
     ui = ConsoleUI.getInstance(batchMode);
 
     try {
+      upgradeFrom_Pre2_0_25();
+
       initSitePath();
       inject();
       initGit();
@@ -93,16 +95,59 @@ public class Init extends SiteProgram {
     return 0;
   }
 
+  private void upgradeFrom_Pre2_0_25() throws IOException {
+    final File sitePath = getSitePath();
+
+    boolean isPre2_0_25 = false;
+    final String[] etcFiles =
+        {"gerrit.config", "secure.config", "replication.config",
+            "ssh_host_rsa_key", "ssh_host_rsa_key.pub", "ssh_host_dsa_key",
+            "ssh_host_dsa_key.pub", "ssh_host_key", "contact_information.pub",
+            "gitweb_config.perl", "keystore", "GerritSite.css",
+            "GerritSiteFooter.html", "GerritSiteHeader.html"};
+    for (String name : etcFiles) {
+      if (new File(sitePath, name).exists()) {
+        isPre2_0_25 = true;
+        break;
+      }
+    }
+
+    if (isPre2_0_25) {
+      if (!ui.yesno("Upgrade '%s'", sitePath.getCanonicalPath())) {
+        throw die("aborted by user");
+      }
+
+      final File etc_dir = new File(sitePath, "etc");
+      if (!etc_dir.exists() && !etc_dir.mkdirs()) {
+        throw die("Cannot create directory " + etc_dir);
+      }
+      for (String name : etcFiles) {
+        final File src = new File(sitePath, name);
+        final File dst = new File(etc_dir, name);
+        if (src.exists()) {
+          if (dst.exists()) {
+            throw die("File " + src + " would overwrite " + dst);
+          }
+          if (!src.renameTo(dst)) {
+            throw die("Cannot rename " + src + " to " + dst);
+          }
+        }
+      }
+    }
+  }
+
   private void initSitePath() throws IOException, InterruptedException {
     final File sitePath = getSitePath();
 
-    final File gerrit_config = new File(sitePath, "gerrit.config");
-    final File secure_config = new File(sitePath, "secure.config");
-    final File replication_config = new File(sitePath, "replication.config");
+    final File etc_dir = new File(sitePath, "etc");
     final File lib_dir = new File(sitePath, "lib");
     final File logs_dir = new File(sitePath, "logs");
     final File static_dir = new File(sitePath, "static");
     final File cache_dir = new File(sitePath, "cache");
+
+    final File gerrit_config = new File(etc_dir, "gerrit.config");
+    final File secure_config = new File(etc_dir, "secure.config");
+    final File replication_config = new File(etc_dir, "replication.config");
 
     if (gerrit_config.exists()) {
       if (!gerrit_config.exists()) {
@@ -116,6 +161,9 @@ public class Init extends SiteProgram {
 
       if (!sitePath.mkdirs()) {
         throw die("Cannot make directory " + sitePath);
+      }
+      if (!etc_dir.mkdir()) {
+        throw die("Cannot make directory " + etc_dir);
       }
       deleteOnFailure = true;
 
@@ -139,16 +187,17 @@ public class Init extends SiteProgram {
       }
     }
 
+    etc_dir.mkdir();
+    lib_dir.mkdir();
+    logs_dir.mkdir();
+    static_dir.mkdir();
+
     if (!secure_config.exists()) {
       chmod600(secure_config);
     }
     if (!replication_config.exists()) {
       replication_config.createNewFile();
     }
-
-    lib_dir.mkdir();
-    logs_dir.mkdir();
-    static_dir.mkdir();
   }
 
   private void initGit() throws OrmException, IOException {
@@ -412,14 +461,15 @@ public class Init extends SiteProgram {
         .setSHA1("6327a5f7a3dc45e0fd735adb5d08c5a74c05c20c").download();
     loadSiteLib();
 
+    final File etc_dir = new File(getSitePath(), "etc");
     System.err.print("Generating SSH host key ...");
     System.err.flush();
     if (SecurityUtils.isBouncyCastleRegistered()) {
       // Generate the SSH daemon host key using ssh-keygen.
       //
       final String comment = "gerrit-code-review@" + hostname();
-      final File rsa = new File(getSitePath(), "ssh_host_rsa_key");
-      final File dsa = new File(getSitePath(), "ssh_host_dsa_key");
+      final File rsa = new File(etc_dir, "ssh_host_rsa_key");
+      final File dsa = new File(etc_dir, "ssh_host_dsa_key");
 
       System.err.print(" rsa...");
       System.err.flush();
@@ -448,7 +498,7 @@ public class Init extends SiteProgram {
       // short period of time. We try to reduce that risk by creating
       // the key within a temporary directory.
       //
-      final File tmpdir = new File(getSitePath(), "tmp.sshkeygen");
+      final File tmpdir = new File(etc_dir, "tmp.sshkeygen");
       if (!tmpdir.mkdir()) {
         throw die("Cannot create directory " + tmpdir);
       }
@@ -466,7 +516,7 @@ public class Init extends SiteProgram {
       p.loadKeys(); // forces the key to generate.
       chmod600(tmpkey);
 
-      final File key = new File(getSitePath(), keyname);
+      final File key = new File(etc_dir, keyname);
       if (!tmpkey.renameTo(key)) {
         throw die("Cannot rename " + tmpkey + " to " + key);
       }
@@ -522,7 +572,8 @@ public class Init extends SiteProgram {
       final String dname =
           "CN=" + certName + ",OU=Gerrit Code Review,O=" + domainOf(certName);
 
-      final File tmpdir = new File(getSitePath(), "tmp.sslcertgen");
+      final File etc_dir = new File(getSitePath(), "etc");
+      final File tmpdir = new File(etc_dir, "tmp.sslcertgen");
       if (!tmpdir.mkdir()) {
         throw die("Cannot create directory " + tmpdir);
       }
@@ -541,7 +592,7 @@ public class Init extends SiteProgram {
       }).waitFor();
       chmod600(tmpstore);
 
-      final File store = new File(getSitePath(), "keystore");
+      final File store = new File(etc_dir, "keystore");
       if (!tmpstore.renameTo(store)) {
         throw die("Cannot rename " + tmpstore + " to " + store);
       }

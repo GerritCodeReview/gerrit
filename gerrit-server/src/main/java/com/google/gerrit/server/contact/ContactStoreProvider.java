@@ -63,7 +63,7 @@ public class ContactStoreProvider implements Provider<ContactStore> {
     }
 
     final String storeAPPSEC = config.getString("contactstore", null, "appsec");
-    final File pubkey = new File(sitePath, "contact_information.pub");
+    final File pubkey = new File(sitePath, "etc/contact_information.pub");
     if (!pubkey.exists()) {
       throw new ProvisionException("PGP public key file \""
           + pubkey.getAbsolutePath() + "\" not found");

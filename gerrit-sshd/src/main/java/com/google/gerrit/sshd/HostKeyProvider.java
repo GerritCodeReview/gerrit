@@ -38,9 +38,10 @@ class HostKeyProvider implements Provider<KeyPairProvider> {
 
   @Override
   public KeyPairProvider get() {
-    final File anyKey = new File(sitePath, "ssh_host_key");
-    final File rsaKey = new File(sitePath, "ssh_host_rsa_key");
-    final File dsaKey = new File(sitePath, "ssh_host_dsa_key");
+    final File etc = new File(sitePath, "etc");
+    final File anyKey = new File(etc, "ssh_host_key");
+    final File rsaKey = new File(etc, "ssh_host_rsa_key");
+    final File dsaKey = new File(etc, "ssh_host_dsa_key");
 
     final List<String> keys = new ArrayList<String>(2);
     if (rsaKey.exists()) {
@@ -63,6 +64,9 @@ class HostKeyProvider implements Provider<KeyPairProvider> {
       //
       final SimpleGeneratorHostKeyProvider keyp;
 
+      if (!etc.exists() && !etc.mkdirs()) {
+        throw new ProvisionException("Cannot create directory " + etc);
+      }
       keyp = new SimpleGeneratorHostKeyProvider();
       keyp.setPath(anyKey.getAbsolutePath());
       return keyp;

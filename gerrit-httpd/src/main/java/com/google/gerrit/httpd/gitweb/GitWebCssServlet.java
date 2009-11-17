@@ -55,8 +55,8 @@ abstract class GitWebCssServlet extends HttpServlet {
     }
 
     @Override
-    protected File path(File sitePath, GitWebConfig gitWebConfig) {
-      return new File(sitePath, "GerritSite.css");
+    protected File path(File etc, GitWebConfig gitWebConfig) {
+      return new File(etc, "GerritSite.css");
     }
   }
 
@@ -69,7 +69,7 @@ abstract class GitWebCssServlet extends HttpServlet {
     }
 
     @Override
-    protected File path(File sitePath, GitWebConfig gitWebConfig) {
+    protected File path(File etc, GitWebConfig gitWebConfig) {
       return gitWebConfig.getGitwebCSS();
     }
   }
@@ -80,7 +80,7 @@ abstract class GitWebCssServlet extends HttpServlet {
 
   GitWebCssServlet(@SitePath final File sitePath,
       final GitWebConfig gitWebConfig) throws IOException {
-    final File src = path(sitePath, gitWebConfig);
+    final File src = path(new File(sitePath, "etc"), gitWebConfig);
     final File dir = src.getParentFile();
     final String name = src.getName();
     final String raw = HtmlDomUtil.readFile(dir, name);

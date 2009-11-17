@@ -131,7 +131,8 @@ public class PushReplication implements ReplicationQueue {
 
   private List<ReplicationConfig> allConfigs(final File path)
       throws ConfigInvalidException, IOException {
-    final File cfgFile = new File(path, "replication.config");
+    final File etc = new File(path, "etc");
+    final File cfgFile = new File(etc, "replication.config");
     final FileBasedConfig cfg = new FileBasedConfig(cfgFile);
 
     if (!cfg.getFile().exists()) {

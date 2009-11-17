@@ -41,8 +41,9 @@ class GerritServerConfigProvider implements Provider<Config> {
 
   @Override
   public Config get() {
-    final File gerrit_config = new File(sitePath, "gerrit.config");
-    final File secure_config = new File(sitePath, "secure.config");
+    final File etc = new File(sitePath, "etc");
+    final File gerrit_config = new File(etc, "gerrit.config");
+    final File secure_config = new File(etc, "secure.config");
 
     FileBasedConfig cfg = new FileBasedConfig(gerrit_config);
 

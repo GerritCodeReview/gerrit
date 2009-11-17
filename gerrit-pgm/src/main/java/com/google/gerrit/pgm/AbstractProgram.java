@@ -69,6 +69,7 @@ public abstract class AbstractProgram {
     }
 
     try {
+      ProxyUtil.configureHttpProxy();
       return run();
     } catch (Die err) {
       System.err.println("fatal: " + err.getMessage());

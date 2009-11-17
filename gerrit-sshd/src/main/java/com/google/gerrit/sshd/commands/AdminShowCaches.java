@@ -20,6 +20,7 @@ import net.sf.ehcache.Ehcache;
 import net.sf.ehcache.Statistics;
 import net.sf.ehcache.config.CacheConfiguration;
 
+import org.apache.sshd.server.Environment;
 import org.eclipse.jgit.lib.WindowCacheStatAccessor;
 
 import java.io.PrintWriter;
@@ -30,7 +31,7 @@ final class AdminShowCaches extends CacheCommand {
   private PrintWriter p;
 
   @Override
-  public void start() {
+  public void start(final Environment env) {
     startThread(new CommandRunnable() {
       @Override
       public void run() throws Exception {

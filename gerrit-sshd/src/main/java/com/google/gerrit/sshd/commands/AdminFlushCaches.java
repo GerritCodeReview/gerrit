@@ -18,6 +18,7 @@ import com.google.gerrit.sshd.AdminCommand;
 
 import net.sf.ehcache.Ehcache;
 
+import org.apache.sshd.server.Environment;
 import org.kohsuke.args4j.Option;
 
 import java.io.PrintWriter;
@@ -40,7 +41,7 @@ final class AdminFlushCaches extends CacheCommand {
   private PrintWriter p;
 
   @Override
-  public void start() {
+  public void start(final Environment env) {
     startThread(new CommandRunnable() {
       @Override
       public void run() throws Exception {

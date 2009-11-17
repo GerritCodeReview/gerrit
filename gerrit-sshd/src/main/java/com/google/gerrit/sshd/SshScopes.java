@@ -19,7 +19,7 @@ import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
 import com.google.inject.Scope;
 
-import org.apache.sshd.common.session.AttributeKey;
+import org.apache.sshd.common.Session.AttributeKey;
 import org.apache.sshd.server.session.ServerSession;
 
 import java.util.HashMap;

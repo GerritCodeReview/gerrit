@@ -20,9 +20,10 @@ import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.inject.Inject;
 
-import org.kohsuke.args4j.Argument;
+import org.apache.sshd.server.Environment;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Repository;
+import org.kohsuke.args4j.Argument;
 
 import java.io.IOException;
 
@@ -37,7 +38,7 @@ abstract class AbstractGitCommand extends BaseCommand {
   protected Project project;
 
   @Override
-  public void start() {
+  public void start(final Environment env) {
     startThread(new CommandRunnable() {
       @Override
       public void run() throws Exception {

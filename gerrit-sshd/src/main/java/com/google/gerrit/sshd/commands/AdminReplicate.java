@@ -22,6 +22,7 @@ import com.google.gerrit.sshd.AdminCommand;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.inject.Inject;
 
+import org.apache.sshd.server.Environment;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
@@ -51,7 +52,7 @@ final class AdminReplicate extends BaseCommand {
   private ProjectCache projectCache;
 
   @Override
-  public void start() {
+  public void start(final Environment env) {
     startThread(new CommandRunnable() {
       @Override
       public void run() throws Exception {

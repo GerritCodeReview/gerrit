@@ -19,7 +19,8 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
-import org.apache.sshd.server.CommandFactory.Command;
+import org.apache.sshd.server.Command;
+import org.apache.sshd.server.Environment;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -46,7 +47,7 @@ final class DispatchCommand extends BaseCommand {
   }
 
   @Override
-  public void start() throws IOException {
+  public void start(final Environment env) throws IOException {
     if (commandLine.isEmpty()) {
       usage();
       return;
@@ -92,7 +93,7 @@ final class DispatchCommand extends BaseCommand {
           bc.setCommandPrefix(commandPrefix + " " + name);
         bc.setCommandLine(args);
       }
-      cmd.start();
+      cmd.start(env);
     } else {
       final String msg = prefix + ": " + name + ": not found\n";
       err.write(msg.getBytes(ENC));

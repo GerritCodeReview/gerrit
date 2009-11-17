@@ -18,10 +18,11 @@ import com.google.gerrit.sshd.SshScopes.Context;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
+import org.apache.sshd.server.Command;
 import org.apache.sshd.server.CommandFactory;
-import org.apache.sshd.server.CommandFactory.Command;
-import org.apache.sshd.server.CommandFactory.ExitCallback;
-import org.apache.sshd.server.CommandFactory.SessionAware;
+import org.apache.sshd.server.Environment;
+import org.apache.sshd.server.ExitCallback;
+import org.apache.sshd.server.SessionAware;
 import org.apache.sshd.server.session.ServerSession;
 
 import java.io.IOException;
@@ -56,6 +57,8 @@ class CommandFactoryProvider implements Provider<CommandFactory> {
     private OutputStream err;
     private ExitCallback exit;
     private ServerSession session;
+    private Context ctx;
+    private DispatchCommand cmd;
 
     Trampoline(final String cmdLine) {
       commandLine = cmdLine;
@@ -81,19 +84,40 @@ class CommandFactoryProvider implements Provider<CommandFactory> {
       this.session = session;
     }
 
-    public void start() throws IOException {
-      final Context old = SshScopes.current.get();
-      try {
-        SshScopes.current.set(new Context(session));
-        final DispatchCommand c = dispatcher.get();
-        c.setCommandLine(commandLine);
-        c.setInputStream(in);
-        c.setOutputStream(out);
-        c.setErrorStream(err);
-        c.setExitCallback(exit);
-        c.start();
-      } finally {
-        SshScopes.current.set(old);
+    public void start(final Environment env) throws IOException {
+      synchronized (this) {
+        final Context old = SshScopes.current.get();
+        try {
+          ctx = new Context(session);
+          SshScopes.current.set(ctx);
+
+          cmd = dispatcher.get();
+          cmd.setCommandLine(commandLine);
+          cmd.setInputStream(in);
+          cmd.setOutputStream(out);
+          cmd.setErrorStream(err);
+          cmd.setExitCallback(exit);
+          cmd.start(env);
+        } finally {
+          SshScopes.current.set(old);
+        }
+      }
+    }
+
+    @Override
+    public void destroy() {
+      synchronized (this) {
+        if (cmd != null) {
+          final Context old = SshScopes.current.get();
+          try {
+            SshScopes.current.set(ctx);
+            cmd.destroy();
+          } finally {
+            ctx = null;
+            cmd = null;
+            SshScopes.current.set(old);
+          }
+        }
       }
     }
   }

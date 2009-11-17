@@ -16,7 +16,7 @@ package com.google.gerrit.sshd;
 
 import com.google.inject.Key;
 
-import org.apache.sshd.server.CommandFactory;
+import org.apache.sshd.server.Command;
 
 import java.lang.annotation.Annotation;
 
@@ -28,17 +28,17 @@ public class Commands {
   /** Magic value signaling the top level. */
   public static final CommandName CMD_ROOT = named(ROOT);
 
-  public static Key<CommandFactory.Command> key(final String name) {
+  public static Key<Command> key(final String name) {
     return key(named(name));
   }
 
-  public static Key<CommandFactory.Command> key(final CommandName name) {
-    return Key.get(CommandFactory.Command.class, name);
+  public static Key<Command> key(final CommandName name) {
+    return Key.get(Command.class, name);
   }
 
-  public static Key<CommandFactory.Command> key(final CommandName parent,
+  public static Key<Command> key(final CommandName parent,
       final String name) {
-    return Key.get(CommandFactory.Command.class, named(parent, name));
+    return Key.get(Command.class, named(parent, name));
   }
 
   /** Create a CommandName annotation for the supplied name. */

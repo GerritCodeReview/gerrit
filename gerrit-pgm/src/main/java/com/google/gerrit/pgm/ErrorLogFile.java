@@ -17,6 +17,7 @@ package com.google.gerrit.pgm;
 import com.google.gerrit.lifecycle.LifecycleListener;
 
 import org.apache.log4j.Appender;
+import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.DailyRollingFileAppender;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
@@ -29,6 +30,22 @@ import org.apache.log4j.spi.LoggingEvent;
 import java.io.File;
 
 public class ErrorLogFile {
+  public static void errorOnlyConsole() {
+    LogManager.resetConfiguration();
+
+    final PatternLayout layout = new PatternLayout();
+    layout.setConversionPattern("%-5p %c %x: %m%n");
+
+    final ConsoleAppender dst = new ConsoleAppender();
+    dst.setLayout(layout);
+    dst.setTarget("System.err");
+    dst.setThreshold(Level.ERROR);
+
+    final Logger root = LogManager.getRootLogger();
+    root.removeAllAppenders();
+    root.addAppender(dst);
+  }
+
   public static LifecycleListener start(final File sitePath) {
     final File logdir = new File(sitePath, "logs");
     if (!logdir.exists() && !logdir.mkdirs()) {

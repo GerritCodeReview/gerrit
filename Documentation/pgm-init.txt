@@ -1,0 +1,51 @@
+init
+====
+
+NAME
+----
+init - Initialize a new Gerrit server installation
+
+SYNOPSIS
+--------
+[verse]
+'java' -jar gerrit.war 'init'
+	-d <SITE_PATH>
+	[\--batch]
+	[\--import-projects]
+
+DESCRIPTION
+-----------
+Creates a new Gerrit server installation, interactively prompting
+for some basic setup prior to writing default configuration files
+into a newly created `$site_path`.
+
+If run an an existing `$site_path`, init will upgrade some resources
+as necessary.  This can be useful to import newly created projects.
+
+OPTIONS
+-------
+\--batch::
+	Run in batch mode, skipping interactive prompts.  Reasonable
+	configuration defaults are chosen based on the whims of
+	the Gerrit developers.
+
+\--import-projects::
+	Recursively search
+	link:config-gerrit.html#gerrit.basePath[gerrit.basePath]
+	for any Git repositories not yet registered as a project,
+	and initializes a new project for them.
+
+-d::
+\--site-path::
+	Location of the gerrit.config file, and all other per-site
+	configuration data, supporting libaries and log files.
+
+CONTEXT
+-------
+This command can only be run on a server which has direct
+connectivity to the metadata database, and local access to the
+managed Git repositories.
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

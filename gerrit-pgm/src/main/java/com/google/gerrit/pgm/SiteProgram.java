@@ -31,19 +31,22 @@ import com.google.inject.name.Names;
 import org.kohsuke.args4j.Option;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.sql.DataSource;
 
 public abstract class SiteProgram extends AbstractProgram {
-  private boolean siteLibLoaded;
-
   @Option(name = "--site-path", aliases = {"-d"}, usage = "Local directory containing site data")
   private File sitePath = new File(".");
 
@@ -58,29 +61,37 @@ public abstract class SiteProgram extends AbstractProgram {
 
   /** Load extra JARs from {@code lib/} subdirectory of {@link #getSitePath()} */
   protected void loadSiteLib() {
-    if (!siteLibLoaded) {
-      final File libdir = new File(getSitePath(), "lib");
-      final File[] list = libdir.listFiles();
-      if (list != null) {
-        final List<File> toLoad = new ArrayList<File>();
-        for (final File u : list) {
-          if (u.isFile() && (u.getName().endsWith(".jar") //
-              || u.getName().endsWith(".zip"))) {
-            toLoad.add(u);
-          }
+    final File libdir = new File(getSitePath(), "lib");
+    final File[] list = libdir.listFiles(new FileFilter() {
+      @Override
+      public boolean accept(File path) {
+        if (!path.isFile()) {
+          return false;
         }
-        addToClassLoader(toLoad);
+        return path.getName().endsWith(".jar") //
+            || path.getName().endsWith(".zip");
       }
-
-      siteLibLoaded = true;
+    });
+    if (list != null && 0 < list.length) {
+      Arrays.sort(list, new Comparator<File>() {
+        @Override
+        public int compare(File a, File b) {
+          return a.getName().compareTo(b.getName());
+        }
+      });
+      addToClassLoader(list);
     }
   }
 
-  private void addToClassLoader(final List<File> additionalLocations) {
+  private void addToClassLoader(final File[] additionalLocations) {
     final ClassLoader cl = getClass().getClassLoader();
     if (!(cl instanceof URLClassLoader)) {
       throw noAddURL("Not loaded by URLClassLoader", null);
     }
+
+    final URLClassLoader ucl = (URLClassLoader) cl;
+    final Set<URL> have = new HashSet<URL>();
+    have.addAll(Arrays.asList(ucl.getURLs()));
 
     final Method m;
     try {
@@ -92,17 +103,20 @@ public abstract class SiteProgram extends AbstractProgram {
       throw noAddURL("Method addURL not available", e);
     }
 
-    for (final File u : additionalLocations) {
+    for (final File path : additionalLocations) {
       try {
-        m.invoke(cl, u.toURI().toURL());
+        final URL url = path.toURI().toURL();
+        if (have.add(url)) {
+          m.invoke(cl, url);
+        }
       } catch (MalformedURLException e) {
-        throw noAddURL("addURL " + u + " failed", e);
+        throw noAddURL("addURL " + path + " failed", e);
       } catch (IllegalArgumentException e) {
-        throw noAddURL("addURL " + u + " failed", e);
+        throw noAddURL("addURL " + path + " failed", e);
       } catch (IllegalAccessException e) {
-        throw noAddURL("addURL " + u + " failed", e);
+        throw noAddURL("addURL " + path + " failed", e);
       } catch (InvocationTargetException e) {
-        throw noAddURL("addURL " + u + " failed", e.getCause());
+        throw noAddURL("addURL " + path + " failed", e.getCause());
       }
     }
   }

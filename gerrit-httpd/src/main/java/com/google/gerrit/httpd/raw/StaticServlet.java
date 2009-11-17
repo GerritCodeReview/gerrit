@@ -19,7 +19,7 @@ import com.google.gwt.user.server.rpc.RPCServletUtils;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import org.eclipse.jgit.util.NB;
+import org.eclipse.jgit.util.IO;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -72,7 +72,7 @@ public class StaticServlet extends HttpServlet {
     final FileInputStream in = new FileInputStream(p);
     try {
       final byte[] r = new byte[(int) in.getChannel().size()];
-      NB.readFully(in, r, 0, r.length);
+      IO.readFully(in, r, 0, r.length);
       return r;
     } finally {
       in.close();

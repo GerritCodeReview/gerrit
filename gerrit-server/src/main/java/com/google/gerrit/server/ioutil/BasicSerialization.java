@@ -31,7 +31,7 @@ package com.google.gerrit.server.ioutil;
 
 import com.google.gerrit.reviewdb.CodedEnum;
 
-import org.eclipse.jgit.util.NB;
+import org.eclipse.jgit.util.IO;
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -116,7 +116,7 @@ public class BasicSerialization {
       return NO_BYTES;
     }
     final byte[] buf = new byte[len];
-    NB.readFully(input, buf, 0, len);
+    IO.readFully(input, buf, 0, len);
     return buf;
   }
 

@@ -50,8 +50,7 @@
 
 package com.google.gerrit.sshd.scproot.hooks;
 
-import com.google.gerrit.testutil.LocalDiskRepositoryTestCase;
-
+import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.lib.Repository;
 
 import java.io.File;

@@ -37,9 +37,9 @@ import org.bouncycastle.openpgp.PGPPublicKey;
 import org.bouncycastle.openpgp.PGPPublicKeyRing;
 import org.bouncycastle.openpgp.PGPPublicKeyRingCollection;
 import org.bouncycastle.openpgp.PGPUtil;
+import org.eclipse.jgit.util.IO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.eclipse.jgit.util.NB;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -173,7 +173,7 @@ class EncryptedContactStore implements ContactStore {
         final byte[] dst = new byte[2];
         final InputStream in = c.getInputStream();
         try {
-          NB.readFully(in, dst, 0, 2);
+          IO.readFully(in, dst, 0, 2);
         } finally {
           in.close();
         }

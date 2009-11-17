@@ -14,7 +14,7 @@
 
 package org.eclipse.jgit.lib;
 
-import org.eclipse.jgit.util.NB;
+import org.eclipse.jgit.util.IO;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -49,7 +49,7 @@ public class ObjectIdSerialization {
 
   public static ObjectId readNotNull(final InputStream in) throws IOException {
     final byte[] b = new byte[20];
-    NB.readFully(in, b, 0, 20);
+    IO.readFully(in, b, 0, 20);
     return ObjectId.fromRaw(b);
   }
 

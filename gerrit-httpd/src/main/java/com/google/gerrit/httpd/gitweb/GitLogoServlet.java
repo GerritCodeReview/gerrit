@@ -33,7 +33,7 @@ import com.google.gerrit.httpd.GitWebConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import org.eclipse.jgit.util.NB;
+import org.eclipse.jgit.util.IO;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -52,7 +52,7 @@ class GitLogoServlet extends HttpServlet {
   GitLogoServlet(final GitWebConfig gitWebConfig) throws IOException {
     byte[] png;
     try {
-      png = NB.readFully(gitWebConfig.getGitLogoPNG());
+      png = IO.readFully(gitWebConfig.getGitLogoPNG());
     } catch (FileNotFoundException e) {
       png = null;
     }

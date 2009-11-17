@@ -34,8 +34,13 @@ limitations under the License.
 
   <dependencies>
     <dependency>
-      <groupId>org.eclipse</groupId>
-      <artifactId>jgit</artifactId>
+      <groupId>org.eclipse.jgit</groupId>
+      <artifactId>org.eclipse.jgit</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.eclipse.jgit</groupId>
+      <artifactId>org.eclipse.jgit.junit</artifactId>
     </dependency>
 
     <dependency>

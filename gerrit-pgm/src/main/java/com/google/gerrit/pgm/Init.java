@@ -78,6 +78,8 @@ public class Init extends SiteProgram {
       upgradeFrom_Pre2_0_25();
 
       initSitePath();
+      deleteOnFailure = false;
+
       inject();
       initGit();
     } catch (Exception failure) {

@@ -59,6 +59,14 @@ public abstract class SiteProgram extends AbstractProgram {
     return path;
   }
 
+  /** Ensures we are running inside of a valid site, otherwise throws a Die. */
+  protected void mustHaveValidSite() throws Die {
+    if (!new File(new File(getSitePath(), "etc"), "gerrit.config").exists()) {
+      throw die("not a Gerrit site: '" + getSitePath() + "'\n"
+          + "Perhaps you need to run init first?");
+    }
+  }
+
   /** Load extra JARs from {@code lib/} subdirectory of {@link #getSitePath()} */
   protected void loadSiteLib() {
     final File libdir = new File(getSitePath(), "lib");

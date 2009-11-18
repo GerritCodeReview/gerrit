@@ -150,9 +150,7 @@ public class Init extends SiteProgram {
     final File replication_config = new File(etc_dir, "replication.config");
 
     if (gerrit_config.exists()) {
-      if (!gerrit_config.exists()) {
-        throw die("'" + sitePath + "' is not a Gerrit server site");
-      }
+
     } else if (!gerrit_config.exists()) {
       ui.header("Gerrit Code Review %s", version());
       if (!ui.yesno("Initialize '%s'", sitePath.getCanonicalPath())) {

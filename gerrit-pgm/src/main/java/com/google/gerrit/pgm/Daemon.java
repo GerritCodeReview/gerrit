@@ -76,6 +76,8 @@ public class Daemon extends SiteProgram {
 
   @Override
   public int run() throws Exception {
+    mustHaveValidSite();
+
     if (httpd == null) {
       httpd = !slave;
     }

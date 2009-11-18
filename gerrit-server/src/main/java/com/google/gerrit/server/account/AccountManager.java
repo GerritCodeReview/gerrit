@@ -280,11 +280,23 @@ public class AccountManager {
             throw new AccountException("Identity in use by another account");
           }
           update(db, who, extId);
+
         } else {
+          final Transaction txn = db.beginTransaction();
           extId = createId(to, who);
           extId.setEmailAddress(who.getEmailAddress());
           extId.setLastUsedOn();
-          db.accountExternalIds().insert(Collections.singleton(extId));
+          db.accountExternalIds().insert(Collections.singleton(extId), txn);
+
+          if (who.getEmailAddress() != null) {
+            final Account a = db.accounts().get(to);
+            if (a.getPreferredEmail() == null) {
+              a.setPreferredEmail(who.getEmailAddress());
+              db.accounts().update(Collections.singleton(a), txn);
+            }
+          }
+          txn.commit();
+
           if (who.getEmailAddress() != null) {
             byEmailCache.evict(who.getEmailAddress());
             byIdCache.evict(to);

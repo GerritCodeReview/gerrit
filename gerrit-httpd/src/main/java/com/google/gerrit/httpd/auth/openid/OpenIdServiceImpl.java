@@ -28,6 +28,7 @@ import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.SelfPopulatingCache;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.Nullable;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtorm.client.KeyUtil;
@@ -36,6 +37,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 
+import org.eclipse.jgit.lib.Config;
 import org.openid4java.consumer.ConsumerException;
 import org.openid4java.consumer.ConsumerManager;
 import org.openid4java.consumer.VerificationResult;
@@ -52,10 +54,14 @@ import org.openid4java.message.ax.FetchResponse;
 import org.openid4java.message.sreg.SRegMessage;
 import org.openid4java.message.sreg.SRegRequest;
 import org.openid4java.message.sreg.SRegResponse;
+import org.openid4java.util.HttpClientFactory;
+import org.openid4java.util.ProxyProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 import javax.servlet.http.Cookie;
@@ -97,7 +103,33 @@ class OpenIdServiceImpl implements OpenIdService {
       final Provider<IdentifiedUser> iu,
       @CanonicalWebUrl @Nullable final Provider<String> up,
       @Named("openid") final Cache<String, List> openidCache,
-      final AccountManager am) throws ConsumerException {
+      @GerritServerConfig final Config config, final AccountManager am)
+      throws ConsumerException, MalformedURLException {
+
+    if (config.getString("http", null, "proxy") != null) {
+      final URL proxyUrl = new URL(config.getString("http", null, "proxy"));
+      String username = config.getString("http", null, "proxyUsername");
+      String password = config.getString("http", null, "proxyPassword");
+
+      final String userInfo = proxyUrl.getUserInfo();
+      if (userInfo != null) {
+        int c = userInfo.indexOf(':');
+        if (0 < c) {
+          username = userInfo.substring(0, c);
+          password = userInfo.substring(c + 1);
+        } else {
+          username = userInfo;
+        }
+      }
+
+      final ProxyProperties proxy = new ProxyProperties();
+      proxy.setProxyHostName(proxyUrl.getHost());
+      proxy.setProxyPort(proxyUrl.getPort());
+      proxy.setUserName(username);
+      proxy.setPassword(password);
+      HttpClientFactory.setProxyProperties(proxy);
+    }
+
     webSession = cf;
     identifiedUser = iu;
     urlProvider = up;
@@ -117,9 +149,9 @@ class OpenIdServiceImpl implements OpenIdService {
     };
   }
 
-  public void discover(final String openidIdentifier,
-      final SignInMode mode, final boolean remember,
-      final String returnToken, final AsyncCallback<DiscoveryResult> callback) {
+  public void discover(final String openidIdentifier, final SignInMode mode,
+      final boolean remember, final String returnToken,
+      final AsyncCallback<DiscoveryResult> callback) {
     final State state;
     state = init(openidIdentifier, mode, remember, returnToken);
     if (state == null) {
@@ -429,9 +461,8 @@ class OpenIdServiceImpl implements OpenIdService {
     rsp.sendRedirect(rdr.toString());
   }
 
-  private State init(final String openidIdentifier,
-      final SignInMode mode, final boolean remember,
-      final String returnToken) {
+  private State init(final String openidIdentifier, final SignInMode mode,
+      final boolean remember, final String returnToken) {
     final List<?> list = discoveryCache.get(openidIdentifier);
     if (list == null || list.isEmpty()) {
       return null;

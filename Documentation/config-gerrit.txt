@@ -575,8 +575,27 @@ Gerrit appends any necessary query arguments onto the end of this URL.
 For example, "?p=$project.git;h=$commit".
 
 
-[[httpd]] Section httpd
-~~~~~~~~~~~~~~~~~~~~~~~
+[[http]]Section http
+~~~~~~~~~~~~~~~~~~~~
+
+[[http.proxy]]http.proxy::
+	URL of the proxy server when making outgoing HTTP
+	connections for OpenID login transactions.  Syntax
+	should be `http://`'hostname'`:`'port'.
+
+[[http.proxyUsername]]http.proxyUsername::
+	Optional username to authenticate to the HTTP proxy with.
+	This property is honored only if the username does not 
+	appear in the http.proxy property above.
+
+[[http.proxyPassword]]http.proxyPassword::
+	Optional password to authenticate to the HTTP proxy with.
+	This property is honored only if the password does not 
+	appear in the http.proxy property above.
+
+
+[[httpd]]Section httpd
+~~~~~~~~~~~~~~~~~~~~~~
 
 The httpd section configures the embedded servlet container.
 

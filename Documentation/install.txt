@@ -159,8 +159,9 @@ If you choose to install the Bouncy Castle Crypto APIs (see below)
 you must create an RSA, DSA, or both, host keys for the daemon:
 
 ====
-  ssh-keygen -t rsa -P '' -f ssh_host_rsa_key
-  ssh-keygen -t dsa -P '' -f ssh_host_dsa_key
+  mkdir etc
+  ssh-keygen -t rsa -P '' -f etc/ssh_host_rsa_key
+  ssh-keygen -t dsa -P '' -f etc/ssh_host_dsa_key
 ====
 
 These keys are used as the host keys for the internal SSH daemon
@@ -172,8 +173,8 @@ be readable *only* by the account that is executing Gerrit2's web
 application container.  It is a security risk to make these files
 readable by anyone else.
 
-If you don't install Bouncy Castle, Gerrit will automatically
-create a host key and save a copy to `'$site_path'/ssh_host_key`
+If you don't install Bouncy Castle, Gerrit will automatically create
+a host key and save a copy to `'$site_path'/etc/ssh_host_key`
 during first startup.  For this to work correctly, Gerrit will
 require write access to the directory.
 
@@ -186,7 +187,7 @@ any Git repository stored within it.
 
 ====
   mkdir /srv/git
-  git config --file '$site_path'/gerrit.config gerrit.basePath /srv/git
+  git config --file '$site_path'/etc/gerrit.config gerrit.basePath /srv/git
 ====
 
 You may wish to consider also exporting this directory over the
@@ -298,7 +299,7 @@ rule into `'$JETTY_HOME'/etc`:
 Create a start script like the one above, configuring Jetty to
 listen on another port, such as 127.0.0.1:8081.
 
-Set `gerrit.canonicalWebUrl` in `'$site_path'/gerrit.config`
+Set `gerrit.canonicalWebUrl` in `'$site_path'/etc/gerrit.config`
 to an `https://` style URL for your application, so that non-SSL
 connections are automatically upgraded to SSL by issuing a redirect.
 Gerrit does not currently support a dual http/https usage on the

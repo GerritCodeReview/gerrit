@@ -13,10 +13,10 @@ being used, ensure it uses a full mirror, so the `refs/changes/*`
 namespace is available.
 
 ====
-  git config --file $site_path/gerrit.config gitweb.url http://example.com/gitweb.cgi
+  git config --file $site_path/etc/gerrit.config gitweb.url http://example.com/gitweb.cgi
 ====
 
-After updating `'$site_path'/gerrit.config`, the Gerrit server must
+After updating `'$site_path'/etc/gerrit.config`, the Gerrit server must
 be restarted and clients must reload the host page to see the change.
 
 Access Control

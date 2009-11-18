@@ -1,18 +1,18 @@
 Gerrit2 - Configuration
 =======================
 
-File `gerrit.config`
---------------------
+File `etc/gerrit.config`
+------------------------
 
-The optional file `'$site_path'/gerrit.config` is a Git-style config
-file that controls many host specific settings for Gerrit.
+The optional file `'$site_path'/etc/gerrit.config` is a Git-style
+config file that controls many host specific settings for Gerrit.
 
 [NOTE]
-The contents of the `gerrit.config` file are cached at startup
+The contents of the `etc/gerrit.config` file are cached at startup
 by Gerrit.  If you modify any propeties in this file, Gerrit needs
 to be restarted before it will use the new values.
 
-Sample `gerrit.config`:
+Sample `etc/gerrit.config`:
 ----
 [core]
 	packedGitLimit = 200 m
@@ -690,7 +690,7 @@ To create a self-signed certificate for simple internal usage:
 +
 If not absolute, the path is resolved relative to `$site_path`.
 +
-By default, `$site_path/keystore`.
+By default, `$site_path/etc/keystore`.
 
 [[httpd.sslKeyPassword]]httpd.sslKeyPassword::
 +
@@ -1146,15 +1146,15 @@ If not set, Gerrit generates this as "gerrit@`hostname`", where
 By default, not set, generating the value at startup.
 
 
-File `secure.config`
---------------------
-The optional file `'$site_path'/secure.config` overrides (or
-supplements) the settings supplied by `'$site_path'/gerrit.config`.
+File `etc/secure.config`
+-------------------------
+The optional file `'$site_path'/etc/secure.config` overrides (or
+supplements) the settings supplied by `'$site_path'/etc/gerrit.config`.
 The file should be readable only by the daemon process and can be
 used to contain private configuration entries that wouldn't normally
 be exposed to everyone.
 
-Sample `secure.config`:
+Sample `etc/secure.config`:
 ----
 [database]
 	username = webuser
@@ -1170,10 +1170,10 @@ Sample `secure.config`:
 	smtpPass = sp@m
 ----
 
-File `replication.config`
--------------------------
+File `etc/replication.config`
+-----------------------------
 
-The optional file `'$site_path'/replication.config` controls how
+The optional file `'$site_path'/etc/replication.config` controls how
 Gerrit automatically replicates changes it makes to any of the Git
 repositories under its control.
 
@@ -1199,9 +1199,7 @@ Local filesystem directory holding the site customization assets.
 Placing this directory under version control and/or backup is a
 good idea.
 +
-SSH key files (`ssh_host_rsa_key` and `ssh_host_dsa_key` or
-`ssh_host_key`) in this directory provide the host keys for the
-internal SSH daemon.
+Files in this directory provide additional configuration.
 +
 Other files support site customization.
 +

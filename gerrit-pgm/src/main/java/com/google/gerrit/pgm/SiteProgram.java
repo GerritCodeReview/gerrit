@@ -21,13 +21,17 @@ import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.DatabaseModule;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SitePath;
+import com.google.gwtorm.client.OrmException;
 import com.google.inject.AbstractModule;
+import com.google.inject.CreationException;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Module;
 import com.google.inject.name.Names;
+import com.google.inject.spi.Message;
 
+import org.apache.commons.dbcp.SQLNestedException;
 import org.kohsuke.args4j.Option;
 
 import java.io.File;
@@ -37,6 +41,7 @@ import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -156,6 +161,37 @@ public abstract class SiteProgram extends AbstractProgram {
     });
     modules.add(new GerritServerConfigModule());
     modules.add(new DatabaseModule());
-    return Guice.createInjector(PRODUCTION, modules);
+
+    try {
+      return Guice.createInjector(PRODUCTION, modules);
+    } catch (CreationException ce) {
+      final Message first = ce.getErrorMessages().iterator().next();
+      Throwable why = first.getCause();
+
+      if (why instanceof SQLException) {
+        throw die("Cannot connect to SQL database", why);
+      }
+      if (why instanceof OrmException && why.getCause() != null
+          && "Unable to determine driver URL".equals(why.getMessage())) {
+        why = why.getCause();
+        if (why instanceof SQLNestedException
+            && why.getCause() != null
+            && why.getMessage().startsWith(
+                "Cannot create PoolableConnectionFactory")) {
+          throw die("Cannot connect to SQL database", why.getCause());
+        }
+        throw die("Cannot connect to SQL database", why);
+      }
+
+      final StringBuilder buf = new StringBuilder();
+      buf.append(why.getMessage());
+      why = why.getCause();
+      while (why != null) {
+        buf.append("\n  caused by ");
+        buf.append(why.toString());
+        why = why.getCause();
+      }
+      throw die(buf.toString(), new RuntimeException("DbInjector failed", ce));
+    }
   }
 }

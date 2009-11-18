@@ -23,6 +23,8 @@ import com.google.inject.Provider;
 
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class AccountResolver {
   private final Realm realm;
@@ -49,6 +51,11 @@ public class AccountResolver {
    *         there are multiple candidates.
    */
   public Account find(final String nameOrEmail) throws OrmException {
+    Matcher m = Pattern.compile("^.* \\(([1-9][0-9]*)\\)$").matcher(nameOrEmail);
+    if (m.matches()) {
+      return byId.get(Account.Id.parse(m.group(1))).getAccount();
+    }
+
     if (nameOrEmail.matches("^[1-9][0-9]*$")) {
       return byId.get(Account.Id.parse(nameOrEmail)).getAccount();
     }

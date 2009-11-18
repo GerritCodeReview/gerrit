@@ -75,6 +75,9 @@ link:cmd-create-project.html[gerrit create-project]::
 link:cmd-flush-caches.html[gerrit flush-caches]::
 	Flush some/all server caches from memory.
 
+link:cmd-gsql.html[gerrit gsql]::
+	Administrative interface to active database.
+
 link:cmd-show-caches.html[gerrit show-caches]::
 	Display current cache statistics.
 

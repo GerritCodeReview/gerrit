@@ -15,6 +15,9 @@ link:pgm-init.html[init]::
 link:pgm-daemon.html[daemon]::
   Gerrit HTTP, SSH network server.
 
+link:pgm-gsql.html[gsql]::
+	Administrative interface to idle database.
+
 version::
   Display the release version of Gerrit Code Review.
 

@@ -1,0 +1,58 @@
+// Copyright (C) 2009 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package com.google.gerrit.pgm;
+
+import com.google.gerrit.lifecycle.LifecycleManager;
+import com.google.gerrit.server.config.FactoryModule;
+import com.google.gerrit.sshd.commands.QueryShell;
+import com.google.gerrit.sshd.commands.QueryShell.Factory;
+import com.google.inject.Injector;
+
+import java.io.IOException;
+
+/** Run Gerrit's SQL query tool */
+public class Gsql extends SiteProgram {
+  private final LifecycleManager manager = new LifecycleManager();
+  private Injector dbInjector;
+
+  @Override
+  public int run() throws Exception {
+    mustHaveValidSite();
+
+    dbInjector = createDbInjector();
+    manager.add(dbInjector);
+    manager.start();
+    RuntimeShutdown.add(new Runnable() {
+      public void run() {
+        try {
+          System.in.close();
+        } catch (IOException e) {
+        }
+        manager.stop();
+      }
+    });
+    shellFactory().create(System.in, System.out).run();
+    return 0;
+  }
+
+  private Factory shellFactory() {
+    return dbInjector.createChildInjector(new FactoryModule() {
+      @Override
+      protected void configure() {
+        factory(QueryShell.Factory.class);
+      }
+    }).getInstance(QueryShell.Factory.class);
+  }
+}

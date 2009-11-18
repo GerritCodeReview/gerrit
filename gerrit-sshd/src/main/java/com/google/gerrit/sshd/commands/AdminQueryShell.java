@@ -14,21 +14,26 @@
 
 package com.google.gerrit.sshd.commands;
 
-import com.google.gerrit.sshd.CommandModule;
-import com.google.gerrit.sshd.CommandName;
-import com.google.gerrit.sshd.Commands;
+import com.google.gerrit.sshd.AdminCommand;
+import com.google.gerrit.sshd.BaseCommand;
+import com.google.inject.Inject;
 
+import org.apache.sshd.server.Environment;
 
-/** Register the commands a Gerrit server in master mode supports. */
-public class MasterCommandModule extends CommandModule {
+/** Opens a query processor. */
+@AdminCommand
+final class AdminQueryShell extends BaseCommand {
+  @Inject
+  private QueryShell.Factory factory;
+
   @Override
-  protected void configure() {
-    final CommandName gerrit = Commands.named("gerrit");
-
-    command(gerrit, "approve").to(ApproveCommand.class);
-    command(gerrit, "create-project").to(AdminCreateProject.class);
-    command(gerrit, "gsql").to(AdminQueryShell.class);
-    command(gerrit, "receive-pack").to(Receive.class);
-    command(gerrit, "replicate").to(AdminReplicate.class);
+  public void start(final Environment env) {
+    startThread(new CommandRunnable() {
+      @Override
+      public void run() throws Exception {
+        parseCommandLine();
+        factory.create(in, out).run();
+      }
+    });
   }
 }

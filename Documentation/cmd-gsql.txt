@@ -1,0 +1,48 @@
+gerrit gsql
+===========
+
+NAME
+----
+gerrit gsql - Administrative interface to active database
+
+SYNOPSIS
+--------
+[verse]
+'ssh' -p <port> <host> 'gerrit gsql'
+
+DESCRIPTION
+-----------
+Provides interactive query support directly against the underlying
+SQL database used by the host Gerrit server.  All SQL statements
+are supported, including SELECT, UPDATE, INSERT, DELETE and ALTER.
+
+ACCESS
+------
+Caller must be a member of the privileged 'Administrators' group.
+
+SCRIPTING
+---------
+Intended for interactive use only.
+
+EXAMPLES
+--------
+To manually correct a user's SSH user name:
+
+====
+	$ ssh -p 29418 review.example.com gerrit gsql
+	Welcome to Gerrit Code Review v2.0.25
+	(PostgreSQL 8.3.8)
+
+	Type '\h' for help.  Type '\r' to clear the buffer.
+
+	gerrit> update accounts set ssh_user_name = 'alice' where account_id=1;       
+	UPDATE 1; 1 ms
+	gerrit> \q
+	Bye
+
+	$ ssh -p 29418 review.example.com gerrit flush-caches --cache sshkeys --cache accounts
+====
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

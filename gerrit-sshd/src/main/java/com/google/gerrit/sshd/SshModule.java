@@ -32,6 +32,7 @@ import com.google.gerrit.sshd.args4j.AccountIdHandler;
 import com.google.gerrit.sshd.args4j.PatchSetIdHandler;
 import com.google.gerrit.sshd.args4j.ProjectControlHandler;
 import com.google.gerrit.sshd.commands.DefaultCommandModule;
+import com.google.gerrit.sshd.commands.QueryShell;
 import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.gerrit.util.cli.OptionHandlerFactory;
 import com.google.gerrit.util.cli.OptionHandlerUtil;
@@ -67,6 +68,7 @@ public class SshModule extends FactoryModule {
     install(SshKeyCacheImpl.module());
     bind(SshInfo.class).to(SshDaemon.class).in(SINGLETON);
     factory(DispatchCommand.Factory.class);
+    factory(QueryShell.Factory.class);
 
     bind(DispatchCommandProvider.class).annotatedWith(Commands.CMD_ROOT)
         .toInstance(new DispatchCommandProvider(NAME, Commands.CMD_ROOT));

@@ -17,6 +17,9 @@ package com.google.gerrit.server.account;
 import com.google.gerrit.common.auth.openid.OpenIdUrls;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountExternalId;
+import com.google.gerrit.reviewdb.AccountGroup;
+import com.google.gerrit.reviewdb.AccountGroupMember;
+import com.google.gerrit.reviewdb.AccountGroupMemberAudit;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gwtorm.client.OrmException;
@@ -28,6 +31,7 @@ import com.google.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /** Tracks authentication related details for user accounts. */
 @Singleton
@@ -37,16 +41,26 @@ public class AccountManager {
   private final AccountByEmailCache byEmailCache;
   private final AuthConfig authConfig;
   private final Realm realm;
+  private final AtomicBoolean firstAccount;
 
   @Inject
   AccountManager(final SchemaFactory<ReviewDb> schema,
       final AccountCache byIdCache, final AccountByEmailCache byEmailCache,
-      final AuthConfig authConfig, final Realm accountMapper) {
+      final AuthConfig authConfig, final Realm accountMapper)
+      throws OrmException {
     this.schema = schema;
     this.byIdCache = byIdCache;
     this.byEmailCache = byEmailCache;
     this.authConfig = authConfig;
     this.realm = accountMapper;
+
+    firstAccount = new AtomicBoolean();
+    final ReviewDb db = schema.open();
+    try {
+      firstAccount.set(db.accounts().anyAccounts().toList().isEmpty());
+    } finally {
+      db.close();
+    }
   }
 
   /**
@@ -246,6 +260,20 @@ public class AccountManager {
     final Transaction txn = db.beginTransaction();
     db.accounts().insert(Collections.singleton(account), txn);
     db.accountExternalIds().insert(Collections.singleton(extId), txn);
+
+    if (firstAccount.get() && firstAccount.compareAndSet(true, false)) {
+      // This is the first user account on our site. Assume this user
+      // is going to be the site's administrator and just make them that
+      // to bootstrap the authentication database.
+      //
+      final AccountGroup.Id admin = authConfig.getAdministratorsGroup();
+      final AccountGroupMember m =
+          new AccountGroupMember(new AccountGroupMember.Key(newId, admin));
+      db.accountGroupMembers().insert(Collections.singleton(m), txn);
+      db.accountGroupMembersAudit().insert(
+          Collections.singleton(new AccountGroupMemberAudit(m, newId)), txn);
+    }
+
     txn.commit();
 
     byEmailCache.evict(account.getPreferredEmail());

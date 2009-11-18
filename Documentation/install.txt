@@ -399,42 +399,10 @@ within the SSL enabled virtual host.
 Administrator Setup
 -------------------
 
-Login to Gerrit through the web interface, so that a user account
-is initialized for you.
-
-Add your newly created account to the "Administrators" group,
-so that you can manage the site through the web interface:
-
-====
-  INSERT INTO account_group_members
-    (account_id, group_id)
-  VALUES (
-    (SELECT account_id FROM accounts
-     WHERE preferred_email='you@example.com'),
-    (SELECT admin_group_id FROM system_config)
-  );
-====
-
-You can also get your `account_id` from the web UI, under Settings,
-if you don't want to use a SELECT subquery above, or your email
-address wasn't prefilled automatically.
-
-Group memberships are cached, so you need to either restart Gerrit,
-or try flushing the caches over SSH.
-
-Since SSH cache flushing requires being in the "Administrators"
-group you may run into a chicken-and-egg problem, where you cannot
-flush the cache to make yourself an administrator because you are
-not yet an administrator.  Therefore, restarting the application
-is the recommended bootstrap technique.
-
-To flush the server's caches over SSH, ensure you have an SSH key
-(you can add one through the web UI under Settings, SSH Keys),
-and then run:
-
-====
-  ssh -p 29418 you@example.com gerrit flush-caches
-====
+Sign in to Gerrit through the web interface.  The first user
+to register or sign-in will be automatically placed into the
+Administrators group.  All subsequent users will be treated as
+unprivileged users.
 
 
 Project Setup

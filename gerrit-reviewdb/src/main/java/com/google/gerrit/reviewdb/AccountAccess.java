@@ -48,4 +48,6 @@ public interface AccountAccess extends Access<Account, Account.Id> {
   ResultSet<Account> suggestBySshUserName(String nameA, String nameB, int limit)
       throws OrmException;
 
+  @Query("LIMIT 1")
+  ResultSet<Account> anyAccounts() throws OrmException;
 }

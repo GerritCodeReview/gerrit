@@ -31,6 +31,9 @@ public abstract class AbstractProgram {
   private final Object sleepLock = new Object();
   private boolean running = true;
 
+  @Option(name = "--show-stack-trace", usage = "display stack trace on failure")
+  private boolean showStackTrace;
+
   @Option(name = "--help", usage = "display this help text", aliases = {"-h"})
   private boolean help;
 
@@ -72,13 +75,17 @@ public abstract class AbstractProgram {
       ProxyUtil.configureHttpProxy();
       return run();
     } catch (Die err) {
-      final Throwable cause = err.getCause();
-      final String diemsg = err.getMessage();
-      if (cause != null && !cause.getMessage().equals(diemsg)) {
-        System.err.println("fatal: "
-            + cause.getMessage().replaceAll("\n", "\nfatal: "));
+      if (showStackTrace) {
+        err.printStackTrace();
+      } else {
+        final Throwable cause = err.getCause();
+        final String diemsg = err.getMessage();
+        if (cause != null && !cause.getMessage().equals(diemsg)) {
+          System.err.println("fatal: "
+              + cause.getMessage().replaceAll("\n", "\nfatal: "));
+        }
+        System.err.println("fatal: " + diemsg.replaceAll("\n", "\nfatal: "));
       }
-      System.err.println("fatal: " + diemsg.replaceAll("\n", "\nfatal: "));
       return 128;
     }
   }

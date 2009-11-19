@@ -14,6 +14,8 @@
 
 package com.google.gerrit.pgm;
 
+import static com.google.gerrit.pgm.util.DataSourceProvider.Context.SINGLE_USER;
+
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.SchemaVersion;
@@ -36,7 +38,7 @@ public class CreateSchema extends SiteProgram {
 
   @Override
   public int run() throws Exception {
-    final Injector injector = createDbInjector();
+    final Injector injector = createDbInjector(SINGLE_USER);
     injector.injectMembers(this);
 
     final SchemaVersion sv;

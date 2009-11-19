@@ -41,8 +41,8 @@ public final class DataSourceProvider implements Provider<DataSource>,
 
   @Inject
   DataSourceProvider(@SitePath final File sitePath,
-      @GerritServerConfig final Config cfg) {
-    ds = open(sitePath, cfg);
+      @GerritServerConfig final Config cfg, Context ctx) {
+    ds = open(sitePath, cfg, ctx);
   }
 
   @Override
@@ -65,11 +65,16 @@ public final class DataSourceProvider implements Provider<DataSource>,
     }
   }
 
+  public static enum Context {
+    SINGLE_USER, MULTI_USER;
+  }
+
   public static enum Type {
     DEFAULT, JDBC, POSTGRES, POSTGRESQL, H2, MYSQL;
   }
 
-  private DataSource open(final File sitePath, final Config cfg) {
+  private DataSource open(final File sitePath, final Config cfg,
+      final Context context) {
     Type type = ConfigUtil.getEnum(cfg, "database", null, "type", Type.DEFAULT);
     String driver = optional(cfg, "driver");
     String url = optional(cfg, "url");
@@ -203,6 +208,9 @@ public final class DataSourceProvider implements Provider<DataSource>,
       usePool = true;
     }
     usePool = cfg.getBoolean("database", "connectionpool", usePool);
+    if (context == Context.SINGLE_USER) {
+      usePool = false;
+    }
 
     if (usePool) {
       final BasicDataSource ds = new BasicDataSource();

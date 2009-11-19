@@ -140,7 +140,7 @@ public abstract class SiteProgram extends AbstractProgram {
   }
 
   /** @return provides database connectivity and site path. */
-  protected Injector createDbInjector() {
+  protected Injector createDbInjector(final DataSourceProvider.Context context) {
     loadSiteLib();
 
     final File sitePath = getSitePath();
@@ -154,6 +154,7 @@ public abstract class SiteProgram extends AbstractProgram {
     modules.add(new LifecycleModule() {
       @Override
       protected void configure() {
+        bind(DataSourceProvider.Context.class).toInstance(context);
         bind(Key.get(DataSource.class, Names.named("ReviewDb"))).toProvider(
             DataSourceProvider.class).in(SINGLETON);
         listener().to(DataSourceProvider.class);

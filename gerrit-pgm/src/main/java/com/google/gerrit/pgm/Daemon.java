@@ -14,6 +14,8 @@
 
 package com.google.gerrit.pgm;
 
+import static com.google.gerrit.pgm.util.DataSourceProvider.Context.MULTI_USER;
+
 import com.google.gerrit.httpd.HttpCanonicalWebUrlProvider;
 import com.google.gerrit.httpd.WebModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
@@ -101,7 +103,7 @@ public class Daemon extends SiteProgram {
       manager.add(ErrorLogFile.start(getSitePath()));
     }
 
-    dbInjector = createDbInjector();
+    dbInjector = createDbInjector(MULTI_USER);
     cfgInjector = createCfgInjector();
     sysInjector = createSysInjector();
     manager.add(dbInjector, cfgInjector, sysInjector);

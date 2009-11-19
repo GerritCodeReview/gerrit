@@ -15,6 +15,7 @@
 package com.google.gerrit.pgm;
 
 import static com.google.gerrit.pgm.util.DataSourceProvider.Type.H2;
+import static com.google.gerrit.pgm.util.DataSourceProvider.Context.SINGLE_USER;
 
 import com.google.gerrit.pgm.util.ConsoleUI;
 import com.google.gerrit.pgm.util.DataSourceProvider;
@@ -636,7 +637,7 @@ public class Init extends SiteProgram {
   }
 
   private void inject() {
-    dbInjector = createDbInjector();
+    dbInjector = createDbInjector(SINGLE_USER);
     sysInjector = createSysInjector();
     sysInjector.injectMembers(this);
   }

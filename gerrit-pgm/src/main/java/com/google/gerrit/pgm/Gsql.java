@@ -14,6 +14,8 @@
 
 package com.google.gerrit.pgm;
 
+import static com.google.gerrit.pgm.util.DataSourceProvider.Context.SINGLE_USER;
+
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.pgm.util.RuntimeShutdown;
 import com.google.gerrit.pgm.util.SiteProgram;
@@ -33,7 +35,7 @@ public class Gsql extends SiteProgram {
   public int run() throws Exception {
     mustHaveValidSite();
 
-    dbInjector = createDbInjector();
+    dbInjector = createDbInjector(SINGLE_USER);
     manager.add(dbInjector);
     manager.start();
     RuntimeShutdown.add(new Runnable() {

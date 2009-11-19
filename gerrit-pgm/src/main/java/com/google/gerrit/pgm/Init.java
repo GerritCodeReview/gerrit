@@ -531,11 +531,18 @@ public class Init extends SiteProgram {
       throws IOException, InterruptedException {
     ui.header("HTTP Daemon");
 
-    final boolean reverseProxy =
-        ui.yesno("Behind reverse HTTP proxy (e.g. Apache mod_proxy)");
+    final boolean reverseProxy;
+    if (ui.isBatch()) {
+      reverseProxy = false;
+    } else {
+      reverseProxy =
+          ui.yesno("Behind reverse HTTP proxy (e.g. Apache mod_proxy)");
+    }
 
     final boolean useSSL;
-    if (reverseProxy) {
+    if (ui.isBatch()) {
+      useSSL = false;
+    } else if (reverseProxy) {
       useSSL = ui.yesno("Does the proxy server use https:// (SSL)");
     } else {
       useSSL = ui.yesno("Use https:// (SSL)");

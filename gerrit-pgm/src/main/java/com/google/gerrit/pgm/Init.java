@@ -14,8 +14,13 @@
 
 package com.google.gerrit.pgm;
 
-import static com.google.gerrit.pgm.DataSourceProvider.Type.H2;
+import static com.google.gerrit.pgm.util.DataSourceProvider.Type.H2;
 
+import com.google.gerrit.pgm.util.ConsoleUI;
+import com.google.gerrit.pgm.util.DataSourceProvider;
+import com.google.gerrit.pgm.util.ErrorLogFile;
+import com.google.gerrit.pgm.util.LibraryDownloader;
+import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.reviewdb.AuthType;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.pgm;
 
+import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.SchemaVersion;
 import com.google.gerrit.reviewdb.SystemConfig;

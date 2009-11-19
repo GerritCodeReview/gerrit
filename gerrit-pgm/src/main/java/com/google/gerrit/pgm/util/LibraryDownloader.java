@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.pgm;
+package com.google.gerrit.pgm.util;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.util.HttpSupport;
@@ -32,7 +32,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /** Get optional or required 3rd party library files into $site_path/lib. */
-class LibraryDownloader {
+public class LibraryDownloader {
   private final ConsoleUI console;
   private final File libDirectory;
   private boolean required;
@@ -41,32 +41,32 @@ class LibraryDownloader {
   private String sha1;
   private File dst;
 
-  LibraryDownloader(final ConsoleUI console, final File sitePath) {
+  public LibraryDownloader(final ConsoleUI console, final File sitePath) {
     this.console = console;
     this.libDirectory = new File(sitePath, "lib");
   }
 
-  LibraryDownloader setRequired(final boolean required) {
+  public LibraryDownloader setRequired(final boolean required) {
     this.required = required;
     return this;
   }
 
-  LibraryDownloader setName(final String name) {
+  public LibraryDownloader setName(final String name) {
     this.name = name;
     return this;
   }
 
-  LibraryDownloader setJarUrl(final String url) {
+  public LibraryDownloader setJarUrl(final String url) {
     this.jarUrl = url;
     return this;
   }
 
-  LibraryDownloader setSHA1(final String sha1) {
+  public LibraryDownloader setSHA1(final String sha1) {
     this.sha1 = sha1;
     return this;
   }
 
-  void download() {
+  public void download() {
     if (jarUrl == null || !jarUrl.contains("/")) {
       throw new IllegalStateException("Invalid JarUrl for " + name);
     }

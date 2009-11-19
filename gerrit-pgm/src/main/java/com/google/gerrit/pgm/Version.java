@@ -14,6 +14,8 @@
 
 package com.google.gerrit.pgm;
 
+import com.google.gerrit.pgm.util.AbstractProgram;
+
 /** Display the version of Gerrit. */
 public class Version extends AbstractProgram {
   @Override

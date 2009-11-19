@@ -181,10 +181,16 @@ public class QueryShell {
     println("");
   }
 
-  private void showTable(final String tableName) {
+  private void showTable(String tableName) {
     final DatabaseMetaData meta;
     try {
       meta = connection.getMetaData();
+
+      if (meta.storesUpperCaseIdentifiers()) {
+        tableName = tableName.toUpperCase();
+      } else if (meta.storesLowerCaseIdentifiers()) {
+        tableName = tableName.toLowerCase();
+      }
     } catch (SQLException e) {
       error(e);
       return;
@@ -193,6 +199,10 @@ public class QueryShell {
     try {
       ResultSet rs = meta.getColumns(null, null, tableName, null);
       try {
+        if (!rs.next()) {
+          throw new SQLException("Table " + tableName + " not found");
+        }
+
         println("                     Table " + tableName);
         showResultSet(rs, "COLUMN_NAME", "TYPE_NAME");
       } finally {
@@ -200,6 +210,7 @@ public class QueryShell {
       }
     } catch (SQLException e) {
       error(e);
+      return;
     }
 
     try {
@@ -215,6 +226,7 @@ public class QueryShell {
       }
     } catch (SQLException e) {
       error(e);
+      return;
     }
 
     println("");
@@ -261,14 +273,8 @@ public class QueryShell {
     if (show != null && 0 < show.length) {
       final int colCnt = meta.getColumnCount();
       columnMap = new int[show.length];
-      for (int colId = 0; colId < colCnt; colId++) {
-        final String name = meta.getColumnName(colId + 1);
-        for (int j = 0; j < show.length; j++) {
-          if (show[j].equalsIgnoreCase(name)) {
-            columnMap[j] = colId + 1;
-            break;
-          }
-        }
+      for (int j = 0; j < show.length; j++) {
+        columnMap[j] = rs.findColumn(show[j]);
       }
     } else {
       final int colCnt = meta.getColumnCount();

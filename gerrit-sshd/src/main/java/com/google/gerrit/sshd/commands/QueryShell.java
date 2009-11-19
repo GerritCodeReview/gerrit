@@ -38,6 +38,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /** Simple interactive SQL query tool. */
 public class QueryShell {
@@ -170,7 +172,10 @@ public class QueryShell {
       ResultSet rs = meta.getTables(null, null, null, types);
       try {
         println("                     List of relations");
-        showResultSet(rs, "TABLE_SCHEM", "TABLE_NAME", "TABLE_TYPE");
+        showResultSet(rs, //
+            Identity.create(rs, "TABLE_SCHEM"), //
+            Identity.create(rs, "TABLE_NAME"), //
+            Identity.create(rs, "TABLE_TYPE"));
       } finally {
         rs.close();
       }
@@ -204,7 +209,31 @@ public class QueryShell {
         }
 
         println("                     Table " + tableName);
-        showResultSet(rs, "COLUMN_NAME", "TYPE_NAME");
+        showResultSet(rs, //
+            Identity.create(rs, "COLUMN_NAME"), //
+            new Function("TYPE") {
+              @Override
+              String apply(final ResultSet rs) throws SQLException {
+                String type = rs.getString("TYPE_NAME");
+                switch (rs.getInt("DATA_TYPE")) {
+                  case java.sql.Types.CHAR:
+                  case java.sql.Types.VARCHAR:
+                    type += "(" + rs.getInt("COLUMN_SIZE") + ")";
+                    break;
+                }
+
+                String def = rs.getString("COLUMN_DEF");
+                if (def != null && !def.isEmpty()) {
+                  type += " DEFAULT " + def;
+                }
+
+                int nullable = rs.getInt("NULLABLE");
+                if (nullable == DatabaseMetaData.columnNoNulls) {
+                  type += " NOT NULL";
+                }
+                return type;
+              }
+            });
       } finally {
         rs.close();
       }
@@ -216,10 +245,40 @@ public class QueryShell {
     try {
       ResultSet rs = meta.getIndexInfo(null, null, tableName, false, true);
       try {
-        if (rs.next()) {
-          println("");
-          println("Indexes on " + tableName + ":");
-          showResultSet(rs, "INDEX_NAME", "NON_UNIQUE", "COLUMN_NAME");
+        Map<String, IndexInfo> indexes = new TreeMap<String, IndexInfo>();
+        while (rs.next()) {
+          final String indexName = rs.getString("INDEX_NAME");
+          IndexInfo def = indexes.get(indexName);
+          if (def == null) {
+            def = new IndexInfo();
+            def.name = indexName;
+            indexes.put(indexName, def);
+          }
+
+          if (!rs.getBoolean("NON_UNIQUE")) {
+            def.unique = true;
+          }
+
+          final int pos = rs.getInt("ORDINAL_POSITION");
+          final String col = rs.getString("COLUMN_NAME");
+          String desc = rs.getString("ASC_OR_DESC");
+          if ("D".equals(desc)) {
+            desc = " DESC";
+          } else {
+            desc = "";
+          }
+          def.addColumn(pos, col + desc);
+
+          String filter = rs.getString("FILTER_CONDITION");
+          if (filter != null && !filter.isEmpty()) {
+            def.filter.append(filter);
+          }
+        }
+
+        println("");
+        println("Indexes on " + tableName + ":");
+        for (IndexInfo def : indexes.values()) {
+          println("  " + def);
         }
       } finally {
         rs.close();
@@ -265,56 +324,50 @@ public class QueryShell {
     }
   }
 
-  private int showResultSet(final ResultSet rs, String... show)
+  private int showResultSet(final ResultSet rs, Function... show)
       throws SQLException {
     final ResultSetMetaData meta = rs.getMetaData();
 
-    final int[] columnMap;
+    final Function[] columnMap;
     if (show != null && 0 < show.length) {
-      final int colCnt = meta.getColumnCount();
-      columnMap = new int[show.length];
-      for (int j = 0; j < show.length; j++) {
-        columnMap[j] = rs.findColumn(show[j]);
-      }
+      columnMap = show;
+
     } else {
       final int colCnt = meta.getColumnCount();
-      columnMap = new int[colCnt];
-      for (int colId = 0; colId < colCnt; colId++)
-        columnMap[colId] = colId + 1;
+      columnMap = new Function[colCnt];
+      for (int colId = 0; colId < colCnt; colId++) {
+        final int p = colId + 1;
+        final String name = meta.getColumnLabel(p);
+        columnMap[colId] = new Identity(p, name);
+      }
     }
 
     final int colCnt = columnMap.length;
-    final String[] names = new String[colCnt];
     final int[] widths = new int[colCnt];
     for (int c = 0; c < colCnt; c++) {
-      final int colId = columnMap[c];
-      names[c] = meta.getColumnLabel(colId);
-      widths[c] = names[c].length();
+      widths[c] = columnMap[c].name.length();
     }
 
     final List<String[]> rows = new ArrayList<String[]>();
     while (rs.next()) {
       final String[] row = new String[columnMap.length];
       for (int c = 0; c < colCnt; c++) {
-        final int colId = columnMap[c];
-        String val = rs.getString(colId);
-        if (val == null) {
-          val = "NULL";
+        row[c] = columnMap[c].apply(rs);
+        if (row[c] == null) {
+          row[c] = "NULL";
         }
-        row[c] = val;
-        widths[c] = Math.max(widths[c], val.length());
+        widths[c] = Math.max(widths[c], row[c].length());
       }
       rows.add(row);
     }
 
     final StringBuilder b = new StringBuilder();
     for (int c = 0; c < colCnt; c++) {
-      final int colId = columnMap[c];
       if (0 < c) {
         b.append(" | ");
       }
 
-      String n = names[c];
+      String n = columnMap[c].name;
       if (widths[c] < n.length()) {
         n = n.substring(0, widths[c]);
       }
@@ -345,7 +398,6 @@ public class QueryShell {
       b.append(' ');
 
       for (int c = 0; c < colCnt; c++) {
-        final int colId = columnMap[c];
         final int max = widths[c];
         if (0 < c) {
           b.append(" | ");
@@ -434,5 +486,67 @@ public class QueryShell {
 
     help.append("\n");
     print(help.toString());
+  }
+
+  private static abstract class Function {
+    final String name;
+
+    Function(final String name) {
+      this.name = name;
+    }
+
+    abstract String apply(ResultSet rs) throws SQLException;
+  }
+
+  private static class Identity extends Function {
+    static Identity create(final ResultSet rs, final String name)
+        throws SQLException {
+      return new Identity(rs.findColumn(name), name);
+    }
+
+    final int colId;
+
+    Identity(final int colId, final String name) {
+      super(name);
+      this.colId = colId;
+    }
+
+    @Override
+    String apply(final ResultSet rs) throws SQLException {
+      return rs.getString(colId);
+    }
+  }
+
+  private static class IndexInfo {
+    String name;
+    boolean unique;
+    final Map<Integer, String> columns = new TreeMap<Integer, String>();
+    final StringBuilder filter = new StringBuilder();
+
+    void addColumn(int pos, String column) {
+      columns.put(Integer.valueOf(pos), column);
+    }
+
+    @Override
+    public String toString() {
+      final StringBuilder r = new StringBuilder();
+      r.append(name);
+      if (unique) {
+        r.append(" UNIQUE");
+      }
+      r.append(" (");
+      boolean first = true;
+      for (String c : columns.values()) {
+        if (!first) r.append(", ");
+        r.append(c);
+        first = false;
+      }
+      r.append(")");
+      if (filter.length() > 0) {
+        r.append(" WHERE ");
+        r.append(filter);
+      }
+      return r.toString();
+    }
   }
 }

@@ -112,7 +112,7 @@ public class WorkQueue {
         @Override
         public Thread newThread(final Runnable task) {
           final Thread t = parent.newThread(task);
-          t.setName(prefix + "-thread-" + tid.getAndIncrement());
+          t.setName(prefix + "-" + tid.getAndIncrement());
           return t;
         }
       });

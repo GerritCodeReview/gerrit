@@ -25,6 +25,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GerritRequestModule;
+import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gerrit.sshd.args4j.AccountGroupIdHandler;
@@ -74,6 +75,9 @@ public class SshModule extends FactoryModule {
         .toInstance(new DispatchCommandProvider(NAME, Commands.CMD_ROOT));
     bind(CommandFactoryProvider.class);
     bind(CommandFactory.class).toProvider(CommandFactoryProvider.class);
+
+    bind(WorkQueue.Executor.class).annotatedWith(CommandExecutor.class)
+        .toProvider(CommandExecutorProvider.class).in(SINGLETON);
 
     bind(PublickeyAuthenticator.class).to(DatabasePubKeyAuth.class);
     bind(KeyPairProvider.class).toProvider(HostKeyProvider.class).in(SINGLETON);

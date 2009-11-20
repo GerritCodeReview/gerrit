@@ -16,6 +16,7 @@ package com.google.gerrit.sshd;
 
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.server.RequestCleanup;
+import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.sshd.SshScopes.Context;
@@ -43,6 +44,7 @@ import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Future;
 
 public abstract class BaseCommand implements Command {
   private static final Logger log = LoggerFactory.getLogger(BaseCommand.class);
@@ -62,6 +64,13 @@ public abstract class BaseCommand implements Command {
 
   @Inject
   private RequestCleanup cleanup;
+
+  @Inject
+  @CommandExecutor
+  private WorkQueue.Executor executor;
+
+  /** The task, as scheduled on a worker thread. */
+  private Future<?> task;
 
   /** Text of the command line which lead up to invoking this instance. */
   protected String commandPrefix = "";
@@ -104,6 +113,9 @@ public abstract class BaseCommand implements Command {
 
   @Override
   public void destroy() {
+    if (task != null && !task.isDone()) {
+      task.cancel(true);
+    }
   }
 
   /**
@@ -243,46 +255,27 @@ public abstract class BaseCommand implements Command {
    * @param thunk the runnable to execute on the thread, performing the
    *        command's logic.
    */
-  protected void startThread(final CommandRunnable thunk) {
-    final Context context = SshScopes.getContext();
-    final List<Command> active = context.session.getAttribute(SshUtil.ACTIVE);
-    final Command cmd = this;
-    new Thread(threadName()) {
-      @Override
-      public void run() {
-        int rc = 0;
-        try {
-          synchronized (active) {
-            active.add(cmd);
-          }
-          SshScopes.current.set(context);
-          try {
-            thunk.run();
-          } catch (NoSuchProjectException e) {
-            throw new UnloggedFailure(1, e.getMessage() + " no such project");
-          } catch (NoSuchChangeException e) {
-            throw new UnloggedFailure(1, e.getMessage() + " no such change");
-          }
-          out.flush();
-          err.flush();
-        } catch (Throwable e) {
-          try {
-            out.flush();
-          } catch (Throwable e2) {
-          }
-          try {
-            err.flush();
-          } catch (Throwable e2) {
-          }
-          rc = handleError(e);
-        } finally {
-          synchronized (active) {
-            active.remove(cmd);
-          }
-          onExit(rc);
-        }
-      }
-    }.start();
+  protected synchronized void startThread(final CommandRunnable thunk) {
+    final List<Command> active =
+        SshScopes.getContext().session.getAttribute(SshUtil.ACTIVE);
+    synchronized (active) {
+      active.add(BaseCommand.this);
+    }
+
+    final TaskThunk tt = new TaskThunk(thunk);
+    if (isAdminCommand()) {
+      // Admin commands should not block the main work threads (there
+      // might be an interactive shell there), nor should they wait
+      // for the main work threads.
+      //
+      new Thread(tt, tt.toString()).start();
+    } else {
+      task = executor.submit(tt);
+    }
+  }
+
+  private final boolean isAdminCommand() {
+    return getClass().getAnnotation(AdminCommand.class) != null;
   }
 
   /**
@@ -309,13 +302,6 @@ public abstract class BaseCommand implements Command {
       //
       throw new RuntimeException("JVM lacks " + ENC + " encoding", e);
     }
-  }
-
-  private String threadName() {
-    final ServerSession session = SshScopes.getContext().session;
-    final String who = session.getUsername();
-    final Account.Id id = session.getAttribute(SshUtil.CURRENT_ACCOUNT);
-    return "SSH " + getFullCommandLine() + " / " + who + " " + id;
   }
 
   private int handleError(final Throwable e) {
@@ -386,6 +372,65 @@ public abstract class BaseCommand implements Command {
       return commandPrefix;
     else
       return commandPrefix + " " + commandLine;
+  }
+
+  private final class TaskThunk implements Runnable {
+    private final CommandRunnable thunk;
+    private final Context context;
+
+    private TaskThunk(final CommandRunnable thunk) {
+      this.thunk = thunk;
+      this.context = SshScopes.getContext();
+    }
+
+    @Override
+    public void run() {
+      final Thread thisThread = Thread.currentThread();
+      final String thisName = thisThread.getName();
+      int rc = 0;
+      try {
+        thisThread.setName(toString());
+        SshScopes.current.set(context);
+        try {
+          thunk.run();
+        } catch (NoSuchProjectException e) {
+          throw new UnloggedFailure(1, e.getMessage() + " no such project");
+        } catch (NoSuchChangeException e) {
+          throw new UnloggedFailure(1, e.getMessage() + " no such change");
+        }
+        out.flush();
+        err.flush();
+      } catch (Throwable e) {
+        try {
+          out.flush();
+        } catch (Throwable e2) {
+        }
+        try {
+          err.flush();
+        } catch (Throwable e2) {
+        }
+        rc = handleError(e);
+      } finally {
+        try {
+          List<Command> active = context.session.getAttribute(SshUtil.ACTIVE);
+          synchronized (active) {
+            active.remove(BaseCommand.this);
+          }
+          onExit(rc);
+        } finally {
+          SshScopes.current.set(null);
+          thisThread.setName(thisName);
+        }
+      }
+    }
+
+    @Override
+    public String toString() {
+      final ServerSession session = context.session;
+      final String who = session.getUsername();
+      final Account.Id id = session.getAttribute(SshUtil.CURRENT_ACCOUNT);
+      return "SSH " + getFullCommandLine() + " / " + who + " " + id;
+    }
   }
 
   /** Runnable function which can throw an exception. */

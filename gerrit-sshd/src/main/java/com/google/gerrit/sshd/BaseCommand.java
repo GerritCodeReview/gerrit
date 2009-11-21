@@ -14,9 +14,9 @@
 
 package com.google.gerrit.sshd;
 
-import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.server.RequestCleanup;
 import com.google.gerrit.server.git.WorkQueue;
+import com.google.gerrit.server.git.WorkQueue.CancelableRunnable;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.sshd.SshScopes.Context;
@@ -256,12 +256,6 @@ public abstract class BaseCommand implements Command {
    *        command's logic.
    */
   protected synchronized void startThread(final CommandRunnable thunk) {
-    final List<Command> active =
-        SshScopes.getContext().session.getAttribute(SshUtil.ACTIVE);
-    synchronized (active) {
-      active.add(BaseCommand.this);
-    }
-
     final TaskThunk tt = new TaskThunk(thunk);
     if (isAdminCommand()) {
       // Admin commands should not block the main work threads (there
@@ -374,7 +368,7 @@ public abstract class BaseCommand implements Command {
       return commandPrefix + " " + commandLine;
   }
 
-  private final class TaskThunk implements Runnable {
+  private final class TaskThunk implements CancelableRunnable {
     private final CommandRunnable thunk;
     private final Context context;
 
@@ -384,12 +378,22 @@ public abstract class BaseCommand implements Command {
     }
 
     @Override
+    public void cancel() {
+      try {
+        SshScopes.current.set(context);
+        onExit(15);
+      } finally {
+        SshScopes.current.set(null);
+      }
+    }
+
+    @Override
     public void run() {
       final Thread thisThread = Thread.currentThread();
       final String thisName = thisThread.getName();
       int rc = 0;
       try {
-        thisThread.setName(toString());
+        thisThread.setName("SSH " + toString());
         SshScopes.current.set(context);
         try {
           thunk.run();
@@ -412,10 +416,6 @@ public abstract class BaseCommand implements Command {
         rc = handleError(e);
       } finally {
         try {
-          List<Command> active = context.session.getAttribute(SshUtil.ACTIVE);
-          synchronized (active) {
-            active.remove(BaseCommand.this);
-          }
           onExit(rc);
         } finally {
           SshScopes.current.set(null);
@@ -428,8 +428,7 @@ public abstract class BaseCommand implements Command {
     public String toString() {
       final ServerSession session = context.session;
       final String who = session.getUsername();
-      final Account.Id id = session.getAttribute(SshUtil.CURRENT_ACCOUNT);
-      return "SSH " + getFullCommandLine() + " / " + who + " " + id;
+      return getFullCommandLine() + " (" + who + ")";
     }
   }
 

@@ -15,14 +15,14 @@
 package com.google.gerrit.server.git;
 
 import com.google.gerrit.lifecycle.LifecycleListener;
+import com.google.gerrit.server.util.IdGenerator;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.Delayed;
 import java.util.concurrent.ExecutionException;
@@ -32,6 +32,7 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /** Delayed execution of tasks using a background thread pool. */
@@ -56,8 +57,14 @@ public class WorkQueue {
   }
 
   private Executor defaultQueue;
-  private final CopyOnWriteArrayList<Executor> queues =
-      new CopyOnWriteArrayList<Executor>();
+  private final IdGenerator idGenerator;
+  private final CopyOnWriteArrayList<Executor> queues;
+
+  @Inject
+  WorkQueue(final IdGenerator idGenerator) {
+    this.idGenerator = idGenerator;
+    this.queues = new CopyOnWriteArrayList<Executor>();
+  }
 
   /** Get the default work queue, for miscellaneous tasks. */
   public synchronized Executor getDefaultQueue() {
@@ -85,6 +92,23 @@ public class WorkQueue {
     return r;
   }
 
+  /** Locate a task by its unique id, null if no task matches. */
+  public Task<?> getTask(final int id) {
+    Task<?> result = null;
+    for (final Executor e : queues) {
+      final Task<?> t = e.getTask(id);
+      if (t != null) {
+        if (result != null) {
+          // Don't return the task if we have a duplicate. Lie instead.
+          return null;
+        } else {
+          result = t;
+        }
+      }
+    }
+    return result;
+  }
+
   private void stop() {
     for (final Executor p : queues) {
       p.shutdown();
@@ -101,8 +125,8 @@ public class WorkQueue {
   }
 
   /** An isolated queue. */
-  public static class Executor extends ScheduledThreadPoolExecutor {
-    private final Set<Task<?>> active = new HashSet<Task<?>>();
+  public class Executor extends ScheduledThreadPoolExecutor {
+    private final ConcurrentHashMap<Integer, Task<?>> all;
 
     Executor(final int corePoolSize, final String prefix) {
       super(corePoolSize, new ThreadFactory() {
@@ -116,12 +140,25 @@ public class WorkQueue {
           return t;
         }
       });
+
+      all = new ConcurrentHashMap<Integer, Task<?>>( //
+          corePoolSize << 1, // table size
+          0.75f, // load factor
+          corePoolSize + 4 // concurrency level
+          );
     }
 
     @Override
     protected <V> RunnableScheduledFuture<V> decorateTask(
-        final Runnable runnable, final RunnableScheduledFuture<V> task) {
-      return new Task<V>(runnable, super.decorateTask(runnable, task));
+        final Runnable runnable, RunnableScheduledFuture<V> r) {
+      r = super.decorateTask(runnable, r);
+      for (;;) {
+        final int id = idGenerator.next();
+        final Task<V> task = new Task<V>(runnable, r, this, id);
+        if (all.putIfAbsent(task.getTaskId(), task) == null) {
+          return task;
+        }
+      }
     }
 
     @Override
@@ -131,29 +168,28 @@ public class WorkQueue {
     }
 
     @Override
-    protected void beforeExecute(Thread t, Runnable r) {
-      super.beforeExecute(t, r);
-      synchronized (active) {
-        active.add((Task<?>) r);
-      }
+    protected void afterExecute(Runnable r, Throwable t) {
+      remove((Task<?>) r);
+      super.afterExecute(r, t);
     }
 
-    @Override
-    protected void afterExecute(Runnable r, Throwable t) {
-      super.afterExecute(r, t);
-      synchronized (active) {
-        active.remove(r);
-      }
+    void remove(final Task<?> task) {
+      all.remove(task.getTaskId(), task);
+    }
+
+    Task<?> getTask(final int id) {
+      return all.get(id);
     }
 
     void addAllTo(final List<Task<?>> list) {
-      synchronized (active) {
-        list.addAll(active);
-      }
-      for (final Runnable task : getQueue()) { // iterator is thread safe
-        list.add((Task<?>) task);
-      }
+      list.addAll(all.values()); // iterator is thread safe
     }
+  }
+
+  /** Runnable needing to know it was canceled. */
+  public interface CancelableRunnable extends Runnable {
+    /** Notifies the runnable it was canceled. */
+    public void cancel();
   }
 
   /** A wrapper around a scheduled Runnable, as maintained in the queue. */
@@ -179,25 +215,30 @@ public class WorkQueue {
 
     private final Runnable runnable;
     private final RunnableScheduledFuture<V> task;
-    private volatile boolean running;
+    private final Executor executor;
+    private final int taskId;
+    private final AtomicBoolean running;
 
-    Task(Runnable runnable, RunnableScheduledFuture<V> task) {
+    Task(Runnable runnable, RunnableScheduledFuture<V> task, Executor executor,
+        int taskId) {
       this.runnable = runnable;
       this.task = task;
+      this.executor = executor;
+      this.taskId = taskId;
+      this.running = new AtomicBoolean();
     }
 
-    /** Get the Runnable this task executes. */
-    public Runnable getRunnable() {
-      return runnable;
+    public int getTaskId() {
+      return taskId;
     }
 
     public State getState() {
-      if (isDone() && !isPeriodic()) {
-        return State.DONE;
-      } else if (isRunning()) {
-        return State.RUNNING;
-      } else if (isCancelled()) {
+      if (isCancelled()) {
         return State.CANCELLED;
+      } else if (isDone() && !isPeriodic()) {
+        return State.DONE;
+      } else if (running.get()) {
+        return State.RUNNING;
       }
 
       final long delay = getDelay(TimeUnit.MILLISECONDS);
@@ -211,7 +252,24 @@ public class WorkQueue {
     }
 
     public boolean cancel(boolean mayInterruptIfRunning) {
-      return task.cancel(mayInterruptIfRunning);
+      if (task.cancel(mayInterruptIfRunning)) {
+        // Tiny abuse of running: if the task needs to know it was
+        // canceled (to clean up resources) and it hasn't started
+        // yet the task's run method won't execute. So we tag it
+        // as running and allow it to clean up. This ensures we do
+        // not invoke cancel twice.
+        //
+        if (runnable instanceof CancelableRunnable
+            && running.compareAndSet(false, true)) {
+          ((CancelableRunnable) runnable).cancel();
+        }
+        executor.remove(this);
+        executor.purge();
+        return true;
+
+      } else {
+        return false;
+      }
     }
 
     public int compareTo(Delayed o) {
@@ -235,10 +293,6 @@ public class WorkQueue {
       return task.isCancelled();
     }
 
-    public boolean isRunning() {
-      return running;
-    }
-
     public boolean isDone() {
       return task.isDone();
     }
@@ -248,11 +302,14 @@ public class WorkQueue {
     }
 
     public void run() {
-      try {
-        running = true;
-        task.run();
-      } finally {
-        running = false;
+      if (running.compareAndSet(false, true)) {
+        try {
+          task.run();
+        } finally {
+          if (isPeriodic()) {
+            running.set(false);
+          }
+        }
       }
     }
 

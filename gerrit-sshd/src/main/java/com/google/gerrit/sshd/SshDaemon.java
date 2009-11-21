@@ -17,6 +17,7 @@ package com.google.gerrit.sshd;
 import com.google.gerrit.lifecycle.LifecycleListener;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.ssh.SshInfo;
+import com.google.gerrit.server.util.IdGenerator;
 import com.google.inject.Inject;
 import com.google.inject.Key;
 import com.google.inject.Singleton;
@@ -143,7 +144,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   @Inject
   SshDaemon(final CommandFactory commandFactory,
       final PublickeyAuthenticator userAuth,
-      final KeyPairProvider hostKeyProvider,
+      final KeyPairProvider hostKeyProvider, final IdGenerator idGenerator,
       @GerritServerConfig final Config cfg) {
     setPort(IANA_SSH_PORT /* never used */);
 
@@ -178,7 +179,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
 
         final ServerSession s = (ServerSession) super.createSession(io);
         s.setAttribute(SshUtil.REMOTE_PEER, io.getRemoteAddress());
-        s.setAttribute(SshUtil.ACTIVE, new ArrayList<Command>(2));
+        s.setAttribute(SshUtil.SESSION_ID, idGenerator.next());
         s.setAttribute(SshScopes.sessionMap, new HashMap<Key<?>, Object>());
         return s;
       }

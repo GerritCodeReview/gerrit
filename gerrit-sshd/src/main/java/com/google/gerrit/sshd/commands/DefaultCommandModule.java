@@ -43,6 +43,8 @@ public class DefaultCommandModule extends CommandModule {
     command(git, "receive-pack").to(Commands.key(gerrit, "receive-pack"));
     command(git, "upload-pack").to(Upload.class);
 
+    command("ps").to(AdminShowCaches.class);
+    command("kill").to(AdminKill.class);
     command("scp").to(ScpCommand.class);
 
     // Honor the legacy hyphenated forms as aliases for the non-hyphenated forms

@@ -33,6 +33,11 @@ OPTIONS
 DISPLAY
 -------
 
+Session::
+	Unique session identifier on this server.  Session
+	identifiers have a period of 2\^32-1 and start from a
+	random value.
+
 Start::
 	Time (local to the server) that this connection started.
 
@@ -52,34 +57,24 @@ Remote Host::
 	Reverse lookup hostname, or if -n option is used, the remote
 	IP address.
 
-[ second line ]::
-	Command(s) actively being executed on this connection.
-	With SSH channel multiplexing a single connection can
-	perform multiple commands, or a connection can be idle,
-	performing nothing at all.
-
 EXAMPLES
 --------
 
 With reverse DNS lookup (default):
 ====
 	$ ssh -p 29418 review.example.com gerrit show-connections
-	    Start     Idle   User            Remote Host
+	Session     Start     Idle   User            Remote Host
 	--------------------------------------------------------------
-	 14:02:47 00:00:00  jdoe            jdoe-desktop.example.com
-	 [ gerrit-show-connections ]
-
+	3abf31e6 20:09:02 00:00:00  jdoe            jdoe-desktop.example.com
 	--
 ====
 
 Without reverse DNS lookup:
 ====
 	$ ssh -p 29418 review.example.com gerrit show-connections -n
-	    Start     Idle   User            Remote Host
+	Session     Start     Idle   User            Remote Host
 	--------------------------------------------------------------
-	 14:02:48 00:00:00  a/1001240       10.0.0.1
-	 [ gerrit-show-connections -n ]
-
+	3abf31e6 20:09:02 00:00:00  a/1001240       10.0.0.1
 	--
 ====
 

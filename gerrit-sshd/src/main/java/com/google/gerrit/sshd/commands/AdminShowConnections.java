@@ -15,6 +15,7 @@
 package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.reviewdb.Account;
+import com.google.gerrit.server.util.IdGenerator;
 import com.google.gerrit.sshd.AdminCommand;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.gerrit.sshd.SshDaemon;
@@ -23,7 +24,6 @@ import com.google.inject.Inject;
 
 import org.apache.mina.core.service.IoAcceptor;
 import org.apache.mina.core.session.IoSession;
-import org.apache.sshd.server.Command;
 import org.apache.sshd.server.Environment;
 import org.apache.sshd.server.session.ServerSession;
 import org.kohsuke.args4j.Option;
@@ -84,31 +84,31 @@ final class AdminShowConnections extends BaseCommand {
     });
 
     final long now = System.currentTimeMillis();
-    p.print(String.format(" %8s %8s   %-15s %s\n", "Start", "Idle", "User",
-        "Remote Host"));
+    p.print(String.format("%-8s %8s %8s   %-15s %s\n", //
+        "Session", "Start", "Idle", "User", "Remote Host"));
     p.print("--------------------------------------------------------------\n");
     for (final IoSession io : list) {
       ServerSession s = (ServerSession) ServerSession.getSession(io, true);
-      List<Command> active = s != null ? s.getAttribute(SshUtil.ACTIVE) : null;
 
       final SocketAddress remoteAddress = io.getRemoteAddress();
       final long start = io.getCreationTime();
       final long idle = now - io.getLastIoTime();
+      final Integer id = s != null ? s.getAttribute(SshUtil.SESSION_ID) : null;
 
-      p.print(String.format(" %8s %8s  %-15.15s %.30s\n", time(now, start),
-          age(idle), username(s), hostname(remoteAddress)));
-      if (active != null) {
-        synchronized (active) {
-          for (final Command cmd : active) {
-            p.print(String.format(" [ %s ]\n", cmd.toString()));
-          }
-        }
-      }
-      p.print("\n");
+      p.print(String.format("%8s %8s %8s  %-15.15s %.30s\n", //
+          id(id), //
+          time(now, start), //
+          age(idle), //
+          username(s), //
+          hostname(remoteAddress)));
     }
     p.print("--\n");
 
     p.flush();
+  }
+
+  private static String id(final Integer id) {
+    return id != null ? IdGenerator.format(id) : "";
   }
 
   private static String time(final long now, final long time) {

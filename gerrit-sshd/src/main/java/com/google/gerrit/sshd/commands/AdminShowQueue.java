@@ -16,11 +16,13 @@ package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.WorkQueue.Task;
+import com.google.gerrit.server.util.IdGenerator;
 import com.google.gerrit.sshd.AdminCommand;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.inject.Inject;
 
 import org.apache.sshd.server.Environment;
+import org.kohsuke.args4j.Option;
 
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
@@ -33,13 +35,27 @@ import java.util.concurrent.TimeUnit;
 /** Display the current work queue. */
 @AdminCommand
 final class AdminShowQueue extends BaseCommand {
+  @Option(name = "-w", usage = "display without line width truncation")
+  private boolean wide;
+
   @Inject
   private WorkQueue workQueue;
 
   private PrintWriter p;
+  private int columns = 80;
+  private int taskNameWidth;
 
   @Override
   public void start(final Environment env) {
+    String s = env.getEnv().get(Environment.ENV_COLUMNS);
+    if (s != null && !s.isEmpty()) {
+      try {
+        columns = Integer.parseInt(s);
+      } catch (NumberFormatException err) {
+        columns = 80;
+      }
+    }
+
     startThread(new CommandRunnable() {
       @Override
       public void run() throws Exception {
@@ -74,8 +90,12 @@ final class AdminShowQueue extends BaseCommand {
       }
     });
 
-    p.print(String.format(" %1s  %-12s  %s\n", "S", "Start", "Task"));
-    p.print("--------------------------------------------------------------\n");
+    taskNameWidth = wide ? Integer.MAX_VALUE : columns - 8 - 12 - 8 - 4;
+
+    p.print(String.format("%-8s %-12s %-8s %s\n", //
+        "Task", "State", "", "Command"));
+    p.print("----------------------------------------------"
+        + "--------------------------------\n");
 
     final long now = System.currentTimeMillis();
     for (final Task<?> task : pending) {
@@ -88,20 +108,25 @@ final class AdminShowQueue extends BaseCommand {
         case CANCELLED:
         case RUNNING:
         case READY:
-          start = "";
+          start = format(state);
           break;
         default:
           start = time(now, delay);
           break;
       }
 
-      p.print(String.format(" %1s  %12s  %s\n", format(state), start,
-          format(task)));
+      p.print(String.format("%8s %-12s %-8s %s\n", //
+          id(task.getTaskId()), start, "", format(task)));
     }
-    p.print("--------------------------------------------------------------\n");
+    p.print("----------------------------------------------"
+        + "--------------------------------\n");
     p.print("  " + pending.size() + " tasks\n");
 
     p.flush();
+  }
+
+  private static String id(final int id) {
+    return IdGenerator.format(id);
   }
 
   private static String time(final long now, final long delay) {
@@ -112,24 +137,29 @@ final class AdminShowQueue extends BaseCommand {
     return new SimpleDateFormat("MMM-dd HH:mm").format(when);
   }
 
-  private static String format(final Task<?> task) {
-    return task.getRunnable().toString();
+  private String format(final Task<?> task) {
+    String s = task.toString();
+    if (s.length() < taskNameWidth) {
+      return s;
+    } else {
+      return s.substring(0, taskNameWidth);
+    }
   }
 
   private static String format(final Task.State state) {
     switch (state) {
       case DONE:
-        return "D";
+        return "....... done";
       case CANCELLED:
-        return "C";
+        return "..... killed";
       case RUNNING:
-        return "R";
+        return "";
       case READY:
-        return "W";
+        return "waiting ....";
       case SLEEPING:
-        return "S";
+        return "sleeping";
       default:
-        return " ";
+        return state.toString();
     }
   }
 }

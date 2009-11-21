@@ -59,6 +59,7 @@ import com.google.gerrit.server.patch.PatchListCacheImpl;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ProjectCacheImpl;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.util.IdGenerator;
 import com.google.gerrit.server.workflow.FunctionState;
 import com.google.inject.Inject;
 
@@ -99,6 +100,7 @@ public class GerritGlobalModule extends FactoryModule {
     bind(PersonIdent.class).annotatedWith(GerritPersonIdent.class).toProvider(
         GerritPersonIdentProvider.class);
 
+    bind(IdGenerator.class);
     bind(CachePool.class);
     install(AccountByEmailCacheImpl.module());
     install(AccountCacheImpl.module());

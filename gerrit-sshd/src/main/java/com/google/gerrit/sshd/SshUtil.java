@@ -21,7 +21,6 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.sshd.common.KeyPairProvider;
 import org.apache.sshd.common.Session.AttributeKey;
 import org.apache.sshd.common.util.Buffer;
-import org.apache.sshd.server.Command;
 import org.eclipse.jgit.lib.Constants;
 
 import java.io.BufferedReader;
@@ -34,7 +33,6 @@ import java.security.PublicKey;
 import java.security.interfaces.DSAPublicKey;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
-import java.util.List;
 
 /** Utilities to support SSH operations. */
 public class SshUtil {
@@ -46,9 +44,9 @@ public class SshUtil {
   public static final AttributeKey<SocketAddress> REMOTE_PEER =
       new AttributeKey<SocketAddress>();
 
-  /** Server session attribute holding the current commands. */
-  public static final AttributeKey<List<Command>> ACTIVE =
-      new AttributeKey<List<Command>>();
+  /** Server session attribute holding a unique session id. */
+  public static final AttributeKey<Integer> SESSION_ID =
+      new AttributeKey<Integer>();
 
   /**
    * Parse a public key into its Java type.

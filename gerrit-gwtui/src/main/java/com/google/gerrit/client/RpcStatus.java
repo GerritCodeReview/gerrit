@@ -18,10 +18,10 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwtjsonrpc.client.RpcCompleteEvent;
-import com.google.gwtjsonrpc.client.RpcCompleteHandler;
-import com.google.gwtjsonrpc.client.RpcStartEvent;
-import com.google.gwtjsonrpc.client.RpcStartHandler;
+import com.google.gwtjsonrpc.client.event.RpcCompleteEvent;
+import com.google.gwtjsonrpc.client.event.RpcCompleteHandler;
+import com.google.gwtjsonrpc.client.event.RpcStartEvent;
+import com.google.gwtjsonrpc.client.event.RpcStartHandler;
 
 public class RpcStatus implements RpcStartHandler, RpcCompleteHandler {
   private static int hideDepth;

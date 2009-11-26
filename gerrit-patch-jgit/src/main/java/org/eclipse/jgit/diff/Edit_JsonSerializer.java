@@ -15,7 +15,7 @@
 package org.eclipse.jgit.diff;
 
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwtjsonrpc.client.JsonSerializer;
+import com.google.gwtjsonrpc.client.impl.JsonSerializer;
 
 public class Edit_JsonSerializer extends JsonSerializer<Edit> {
   public static final Edit_JsonSerializer INSTANCE = new Edit_JsonSerializer();

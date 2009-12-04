@@ -136,7 +136,7 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
     r.append("git pull ssh://");
     if (host.startsWith("*:")) {
       r.append(getGerritHost());
-      r.append(host.substring(2));
+      r.append(host.substring(1));
     } else {
       r.append(host);
     }

@@ -722,7 +722,8 @@ final class Receive extends AbstractGitCommand {
 
         final List<String> idList = c.getFooterLines(CHANGE_ID);
         if (!idList.isEmpty()) {
-          final Change.Key key = new Change.Key(idList.get(idList.size() - 1));
+          final String idStr = idList.get(idList.size() - 1).trim();
+          final Change.Key key = new Change.Key(idStr);
           final List<Change> changes =
               db.changes().byProjectKey(project.getNameKey(), key).toList();
           if (changes.size() > 1) {
@@ -1275,7 +1276,7 @@ final class Receive extends AbstractGitCommand {
 
         rw.parseBody(c);
         for (final String changeId : c.getFooterLines(CHANGE_ID)) {
-          final Change.Id onto = byKey.get(new Change.Key(changeId));
+          final Change.Id onto = byKey.get(new Change.Key(changeId.trim()));
           if (onto != null) {
             toClose.add(new ReplaceRequest(onto, c, cmd));
             break;

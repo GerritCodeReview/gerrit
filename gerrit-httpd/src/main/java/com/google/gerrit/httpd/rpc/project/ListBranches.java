@@ -84,9 +84,18 @@ class ListBranches extends Handler<List<Branch>> {
       }
 
       for (final Ref ref : all.values()) {
-        final String name = ref.getName();
-        if (name.startsWith(Constants.R_HEADS)) {
-          final Branch b = new Branch(new Branch.NameKey(projectName, name));
+        if (Constants.HEAD.equals(ref.getOrigName())) {
+          final Branch b = createBranch(Constants.HEAD);
+          String target = ref.getName();
+          if (target.startsWith(Constants.R_HEADS)) {
+            target = target.substring(Constants.R_HEADS.length());
+          }
+          b.setRevision(new RevId(target));
+          branches.add(b);
+        }
+
+        if (ref.getName().startsWith(Constants.R_HEADS)) {
+          final Branch b = createBranch(ref.getName());
           if (ref.getObjectId() != null) {
             b.setRevision(new RevId(ref.getObjectId().name()));
           }
@@ -103,5 +112,9 @@ class ListBranches extends Handler<List<Branch>> {
       }
     });
     return branches;
+  }
+
+  private Branch createBranch(final String name) {
+    return new Branch(new Branch.NameKey(projectName, name));
   }
 }

@@ -41,7 +41,7 @@ import java.util.zip.ZipFile;
 /** Main class for a JAR file to run code from "WEB-INF/lib". */
 public final class GerritLauncher {
   private static final String pkg = "com.google.gerrit.pgm";
-  private static final String NOT_ARCHIVED = "NOT_ARCHIVED";
+  public static final String NOT_ARCHIVED = "NOT_ARCHIVED";
 
   public static void main(final String argv[]) throws Exception {
     System.exit(mainImpl(argv));
@@ -330,7 +330,36 @@ public final class GerritLauncher {
   private static boolean temporaryDirectoryFound;
   private static File temporaryDirectory;
 
-  private static File createTempFile(String prefix, String suffix)
+  /**
+   * Creates a temporary file within the application's unpack location.
+   * <p>
+   * The launcher unpacks the nested JAR files into a temporary directory,
+   * allowing the classes to be loaded from local disk with standard Java APIs.
+   * This method constructs a new temporary file in the same directory.
+   * <p>
+   * The method first tries to create {@code prefix + suffix} within the
+   * directory under the assumption that a given {@code prefix + suffix}
+   * combination is made at most once per JVM execution. If this fails (e.g. the
+   * named file already exists) a mangled unique name is used and returned
+   * instead, with the unique string appearing between the prefix and suffix.
+   * <p>
+   * Files created by this method will be automatically deleted by the JVM when
+   * it terminates. If the returned file is converted into a directory by the
+   * caller, the caller must arrange for the contents to be deleted before the
+   * directory is.
+   * <p>
+   * If supported by the underlying operating system, the temporary directory
+   * which contains these temporary files is accessible only by the user running
+   * the JVM.
+   *
+   * @param prefix prefix of the file name.
+   * @param suffix suffix of the file name.
+   * @return the path of the temporary file. The returned object exists in the
+   *         filesystem as a file; caller may need to delete and recreate as a
+   *         directory if a directory was preferred.
+   * @throws IOException the file could not be created.
+   */
+  public static File createTempFile(String prefix, String suffix)
       throws IOException {
     if (!temporaryDirectoryFound) {
       final File d = File.createTempFile("gerrit_", "_app", tmproot());

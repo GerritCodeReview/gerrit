@@ -39,20 +39,27 @@ import org.eclipse.jetty.server.ssl.SslSelectChannelConnector;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.FilterMapping;
 import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.eclipse.jetty.util.thread.ThreadPool;
 import org.eclipse.jgit.lib.Config;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 @Singleton
 public class JettyServer {
@@ -86,6 +93,9 @@ public class JettyServer {
 
   private final File sitePath;
   private final Server httpd;
+
+  /** Location on disk where our WAR file was unpacked to. */
+  private Resource baseResource;
 
   @Inject
   JettyServer(@GerritServerConfig final Config cfg,
@@ -277,8 +287,7 @@ public class JettyServer {
     // need to unpack them into yet another temporary directory prior to
     // serving to clients.
     //
-    final File war = GerritLauncher.getDistributionArchive();
-    app.setBaseResource(Resource.newResource("jar:" + war.toURI() + "!/"));
+    app.setBaseResource(getBaseResource());
 
     // Perform the same binding as our web.xml would do, but instead
     // of using the listener to create the injector pass the one we
@@ -298,8 +307,93 @@ public class JettyServer {
     // we need to bind is the default static resource servlet from
     // the Jetty container.
     //
-    app.addServlet(DefaultServlet.class, "/");
+    final ServletHolder ds = app.addServlet(DefaultServlet.class, "/");
+    ds.setInitParameter("dirAllowed", "false");
+    ds.setInitParameter("redirectWelcome", "false");
+    ds.setInitParameter("useFileMappedBuffer", "false");
+    ds.setInitParameter("gzip", "true");
 
+    app.setWelcomeFiles(new String[0]);
     return app;
+  }
+
+  private Resource getBaseResource() throws IOException {
+    if (baseResource == null) {
+      try {
+        baseResource = unpackWar();
+      } catch (FileNotFoundException err) {
+          throw err;
+      }
+    }
+    return baseResource;
+  }
+
+  private Resource unpackWar() throws IOException {
+    final File srcwar = GerritLauncher.getDistributionArchive();
+
+    // Obtain our local temporary directory, but it comes back as a file
+    // so we have to switch it to be a directory post creation.
+    //
+    File dstwar = GerritLauncher.createTempFile("gerrit_", "war");
+    if (!dstwar.delete() || !dstwar.mkdir()) {
+      throw new IOException("Cannot mkdir " + dstwar.getAbsolutePath());
+    }
+
+    // Jetty normally refuses to serve out of a symlinked directory, as
+    // a security feature. Try to resolve out any symlinks in the path.
+    //
+    try {
+      dstwar = dstwar.getCanonicalFile();
+    } catch (IOException e) {
+      dstwar = dstwar.getAbsoluteFile();
+    }
+
+    final ZipFile zf = new ZipFile(srcwar);
+    try {
+      final Enumeration<? extends ZipEntry> e = zf.entries();
+      while (e.hasMoreElements()) {
+        final ZipEntry ze = e.nextElement();
+        final String name = ze.getName();
+
+        if (ze.isDirectory()) continue;
+        if (name.startsWith("WEB-INF/")) continue;
+        if (name.startsWith("META-INF/")) continue;
+        if (name.startsWith("com/google/gerrit/main/")) continue;
+        if (name.equals("Main.class")) continue;
+
+        final File rawtmp = new File(dstwar, name);
+        mkdir(rawtmp.getParentFile());
+        rawtmp.deleteOnExit();
+
+        final FileOutputStream rawout = new FileOutputStream(rawtmp);
+        try {
+          final InputStream in = zf.getInputStream(ze);
+          try {
+            final byte[] buf = new byte[4096];
+            int n;
+            while ((n = in.read(buf, 0, buf.length)) > 0) {
+              rawout.write(buf, 0, n);
+            }
+          } finally {
+            in.close();
+          }
+        } finally {
+          rawout.close();
+        }
+      }
+    } finally {
+      zf.close();
+    }
+
+    return Resource.newResource(dstwar.toURI());
+  }
+
+  private void mkdir(final File dir) throws IOException {
+    if (!dir.isDirectory()) {
+      mkdir(dir.getParentFile());
+      if (!dir.mkdir())
+        throw new IOException("Cannot mkdir " + dir.getAbsolutePath());
+      dir.deleteOnExit();
+    }
   }
 }

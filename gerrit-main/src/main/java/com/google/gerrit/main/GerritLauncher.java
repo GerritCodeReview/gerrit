@@ -330,7 +330,7 @@ public final class GerritLauncher {
   private static File createTempFile(String prefix, String suffix)
       throws IOException {
     if (!temporaryDirectoryFound) {
-      final File d = File.createTempFile("gerrit_", "_app");
+      final File d = File.createTempFile("gerrit_", "_app", tmproot());
       if (d.delete() && d.mkdir()) {
         // Try to lock the directory down to be accessible by us.
         // We first have to remove all permissions, then add back
@@ -367,6 +367,45 @@ public final class GerritLauncher {
 
     final File tmp = File.createTempFile(prefix, suffix, temporaryDirectory);
     tmp.deleteOnExit();
+    return tmp;
+  }
+
+  private static File tmproot() {
+    // Try to find the user's home directory. If we can't find it
+    // return null so the JVM's default temporary directory is used
+    // instead. This is probably /tmp or /var/tmp.
+    //
+    String userHome = System.getProperty("user.home");
+    if (userHome == null || "".equals(userHome)) {
+      userHome = System.getenv("HOME");
+      if (userHome == null || "".equals(userHome)) {
+        System.err.println("warning: cannot determine home directory");
+        System.err.println("warning: using system temporary directory instead");
+        return null;
+      }
+    }
+
+    // Ensure the home directory exists. If it doesn't, try to make it.
+    //
+    final File home = new File(userHome);
+    if (!home.exists()) {
+      if (home.mkdirs()) {
+        System.err.println("warning: created " + home.getAbsolutePath());
+      } else {
+        System.err.println("warning: " + home.getAbsolutePath() + " not found");
+        System.err.println("warning: using system temporary directory instead");
+        return null;
+      }
+    }
+
+    // Use $HOME/.gerritcodereview/tmp for our temporary file area.
+    //
+    final File tmp = new File(new File(home, ".gerritcodereview"), "tmp");
+    if (!tmp.exists() && !tmp.mkdirs()) {
+      System.err.println("warning: cannot create " + tmp.getAbsolutePath());
+      System.err.println("warning: using system temporary directory instead");
+      return null;
+    }
     return tmp;
   }
 

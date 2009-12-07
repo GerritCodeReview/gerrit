@@ -53,6 +53,7 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashSet;
@@ -322,7 +323,11 @@ public class JettyServer {
       try {
         baseResource = unpackWar();
       } catch (FileNotFoundException err) {
+        if (err.getMessage() == GerritLauncher.NOT_ARCHIVED) {
+          baseResource = useDeveloperBuild();
+        } else {
           throw err;
+        }
       }
     }
     return baseResource;
@@ -395,5 +400,59 @@ public class JettyServer {
         throw new IOException("Cannot mkdir " + dir.getAbsolutePath());
       dir.deleteOnExit();
     }
+  }
+
+  private Resource useDeveloperBuild() throws IOException {
+    // Find ourselves in the CLASSPATH. We should be a loose class file.
+    //
+    URL u = getClass().getResource(getClass().getSimpleName() + ".class");
+    if (u == null) {
+      throw new FileNotFoundException("Cannot find web application root");
+    }
+    if (!"file".equals(u.getProtocol())) {
+      throw new FileNotFoundException("Cannot find web root from " + u);
+    }
+
+    // Pop up to the top level classes folder that contains us.
+    //
+    File dir = new File(u.getPath());
+    String myName = getClass().getName();
+    for (;;) {
+      int dot = myName.lastIndexOf('.');
+      if (dot < 0) {
+        dir = dir.getParentFile();
+        break;
+      }
+      myName = myName.substring(0, dot);
+      dir = dir.getParentFile();
+    }
+
+    // We should be in a Maven style output, that is $jar/target/classes.
+    //
+    if (!dir.getName().equals("classes")) {
+      throw new FileNotFoundException("Cannot find web root from " + u);
+    }
+    dir = dir.getParentFile(); // pop classes
+    if (!dir.getName().equals("target")) {
+      throw new FileNotFoundException("Cannot find web root from " + u);
+    }
+    dir = dir.getParentFile(); // pop target
+    dir = dir.getParentFile(); // pop the module we are in
+
+    // Drop down into gerrit-gwtui to find the WAR assets we need.
+    //
+    dir = new File(new File(dir, "gerrit-gwtui"), "target");
+    final File[] entries = dir.listFiles();
+    if (entries == null) {
+      throw new FileNotFoundException("No " + dir);
+    }
+    for (File e : entries) {
+      if (e.isDirectory() /* must be a directory */
+          && e.getName().startsWith("gerrit-gwtui-")
+          && new File(e, "gerrit/gerrit.nocache.js").isFile()) {
+        return Resource.newResource(e.toURI());
+      }
+    }
+    throw new FileNotFoundException("No " + dir + "/gerrit-gwtui-*");
   }
 }

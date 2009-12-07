@@ -41,6 +41,10 @@ public final class GerritLauncher {
   private static final String NOT_ARCHIVED = "NOT_ARCHIVED";
 
   public static void main(final String argv[]) throws Exception {
+    System.exit(mainImpl(argv));
+  }
+
+  private static int mainImpl(final String argv[]) throws Exception {
     if (argv.length == 0) {
       File me;
       try {
@@ -62,7 +66,7 @@ public final class GerritLauncher {
       System.err.println("  ls             List files available for cat");
       System.err.println("  cat FILE       Display a file from the archive");
       System.err.println();
-      System.exit(1);
+      return 1;
     }
 
     if ("-v".equals(argv[0]) || "--version".equals(argv[0])) {
@@ -77,10 +81,10 @@ public final class GerritLauncher {
       // Copy the contents of a file to System.out
       //
       if (argv.length == 2) {
-        cat(argv[1]);
+        return cat(argv[1]);
       } else {
         System.err.println("usage: cat FILE");
-        System.exit(1);
+        return 1;
       }
 
     } else if ("ls".equals(cmd) || "-l".equals(cmd) || "--ls".equals(cmd)) {
@@ -88,9 +92,10 @@ public final class GerritLauncher {
       //
       if (argv.length == 1) {
         ls();
+        return 0;
       } else {
         System.err.println("usage: ls");
-        System.exit(1);
+        return 1;
       }
 
     } else {
@@ -98,7 +103,7 @@ public final class GerritLauncher {
       //
       final ClassLoader cl = libClassLoader();
       Thread.currentThread().setContextClassLoader(cl);
-      runMain(cl, argv);
+      return invokeProgram(cl, argv);
     }
   }
 
@@ -122,7 +127,7 @@ public final class GerritLauncher {
     }
   }
 
-  private static void cat(String fileName) throws IOException {
+  private static int cat(String fileName) throws IOException {
     while (fileName.startsWith("/")) {
       fileName = fileName.substring(1);
     }
@@ -137,7 +142,7 @@ public final class GerritLauncher {
     final InputStream in = GerritLauncher.class.getResourceAsStream(name);
     if (in == null) {
       System.err.println("error: no such file " + fileName);
-      System.exit(1);
+      return 1;
     }
 
     try {
@@ -153,6 +158,7 @@ public final class GerritLauncher {
     } finally {
       in.close();
     }
+    return 0;
   }
 
   private static void ls() throws IOException {
@@ -182,8 +188,8 @@ public final class GerritLauncher {
     }
   }
 
-  private static void runMain(final ClassLoader loader, final String[] origArgv)
-      throws Exception {
+  private static int invokeProgram(final ClassLoader loader,
+      final String[] origArgv) throws Exception {
     String name = origArgv[0];
     final String[] argv = new String[origArgv.length - 1];
     System.arraycopy(origArgv, 1, argv, 0, argv.length);
@@ -204,8 +210,7 @@ public final class GerritLauncher {
     } catch (ClassNotFoundException cnfe) {
       System.err.println("fatal: unknown command " + name);
       System.err.println("      (no " + pkg + "." + name + ")");
-      System.exit(1);
-      return;
+      return 1;
     }
 
     final Method main;
@@ -213,12 +218,10 @@ public final class GerritLauncher {
       main = clazz.getMethod("main", argv.getClass());
     } catch (SecurityException e) {
       System.err.println("fatal: unknown command " + name);
-      System.exit(1);
-      return;
+      return 1;
     } catch (NoSuchMethodException e) {
       System.err.println("fatal: unknown command " + name);
-      System.exit(1);
-      return;
+      return 1;
     }
 
     final Object res;
@@ -229,16 +232,18 @@ public final class GerritLauncher {
         res = main.invoke(clazz.newInstance(), new Object[] {argv});
       }
     } catch (InvocationTargetException ite) {
-      if (ite.getCause() instanceof Exception)
+      if (ite.getCause() instanceof Exception) {
         throw (Exception) ite.getCause();
-      else if (ite.getCause() instanceof Error)
+      } else if (ite.getCause() instanceof Error) {
         throw (Error) ite.getCause();
-      throw ite;
+      } else {
+        throw ite;
+      }
     }
     if (res instanceof Number) {
-      System.exit(((Number) res).intValue());
+      return ((Number) res).intValue();
     } else {
-      System.exit(0);
+      return 0;
     }
   }
 

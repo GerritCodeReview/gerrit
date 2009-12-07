@@ -69,42 +69,21 @@ public final class GerritLauncher {
       return 1;
     }
 
+    // Special cases, a few global options actually are programs.
+    //
     if ("-v".equals(argv[0]) || "--version".equals(argv[0])) {
-      // Special case, jump into the "Version" command which is
-      // compiled somewhere in our library packages.
-      //
-      argv[0] = "Version";
+      argv[0] = "version";
+    } else if ("-p".equals(argv[0]) || "--cat".equals(argv[0])) {
+      argv[0] = "cat";
+    } else if ("-l".equals(argv[0]) || "--ls".equals(argv[0])) {
+      argv[0] = "ls";
     }
 
-    final String cmd = argv[0];
-    if ("cat".equals(cmd) || "-p".equals(cmd) || "--cat".equals(cmd)) {
-      // Copy the contents of a file to System.out
-      //
-      if (argv.length == 2) {
-        return cat(argv[1]);
-      } else {
-        System.err.println("usage: cat FILE");
-        return 1;
-      }
-
-    } else if ("ls".equals(cmd) || "-l".equals(cmd) || "--ls".equals(cmd)) {
-      // List the available files under WEB-INF/
-      //
-      if (argv.length == 1) {
-        ls();
-        return 0;
-      } else {
-        System.err.println("usage: ls");
-        return 1;
-      }
-
-    } else {
-      // Run an arbitrary application class
-      //
-      final ClassLoader cl = libClassLoader();
-      Thread.currentThread().setContextClassLoader(cl);
-      return invokeProgram(cl, argv);
-    }
+    // Run the application class
+    //
+    final ClassLoader cl = libClassLoader();
+    Thread.currentThread().setContextClassLoader(cl);
+    return invokeProgram(cl, argv);
   }
 
   private static String getVersion(final File me) {
@@ -124,67 +103,6 @@ public final class GerritLauncher {
       }
     } catch (IOException e) {
       return "";
-    }
-  }
-
-  private static int cat(String fileName) throws IOException {
-    while (fileName.startsWith("/")) {
-      fileName = fileName.substring(1);
-    }
-
-    String name;
-    if (fileName.equals("LICENSES.txt")) {
-      name = fileName;
-    } else {
-      name = "WEB-INF/" + fileName;
-    }
-
-    final InputStream in = GerritLauncher.class.getResourceAsStream(name);
-    if (in == null) {
-      System.err.println("error: no such file " + fileName);
-      return 1;
-    }
-
-    try {
-      try {
-        final byte[] buf = new byte[4096];
-        int n;
-        while ((n = in.read(buf)) >= 0) {
-          System.out.write(buf, 0, n);
-        }
-      } finally {
-        System.out.flush();
-      }
-    } finally {
-      in.close();
-    }
-    return 0;
-  }
-
-  private static void ls() throws IOException {
-    final ZipFile zf = new ZipFile(getDistributionArchive());
-    try {
-      final Enumeration<? extends ZipEntry> e = zf.entries();
-      while (e.hasMoreElements()) {
-        final ZipEntry ze = e.nextElement();
-        String name = ze.getName();
-        boolean show = false;
-        show |= name.startsWith("WEB-INF/");
-        show |= name.equals("LICENSES.txt");
-
-        show &= !ze.isDirectory();
-        show &= !name.startsWith("WEB-INF/classes/");
-        show &= !name.startsWith("WEB-INF/lib/");
-        show &= !name.equals("WEB-INF/web.xml");
-        if (show) {
-          if (name.startsWith("WEB-INF/")) {
-            name = name.substring("WEB-INF/".length());
-          }
-          System.out.println(name);
-        }
-      }
-    } finally {
-      zf.close();
     }
   }
 

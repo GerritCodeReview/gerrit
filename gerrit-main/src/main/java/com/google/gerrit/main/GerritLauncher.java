@@ -14,6 +14,9 @@ package com.google.gerrit.main;
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import static java.util.concurrent.TimeUnit.DAYS;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -406,6 +409,25 @@ public final class GerritLauncher {
       System.err.println("warning: using system temporary directory instead");
       return null;
     }
+
+    // Try to clean up any stale empty directories. Assume any empty
+    // directory that is older than 7 days is one of these dead ones
+    // that we can clean up.
+    //
+    final File[] tmpEntries = tmp.listFiles();
+    if (tmpEntries != null) {
+      final long now = System.currentTimeMillis();
+      final long expired = now - MILLISECONDS.convert(7, DAYS);
+      for (final File tmpEntry : tmpEntries) {
+        if (tmpEntry.isDirectory() && tmpEntry.lastModified() < expired) {
+          final String[] all = tmpEntry.list();
+          if (all == null || all.length == 0) {
+            tmpEntry.delete();
+          }
+        }
+      }
+    }
+
     return tmp;
   }
 

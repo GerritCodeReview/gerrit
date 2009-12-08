@@ -1,5 +1,5 @@
-Gerrit2 - System Design
-=======================
+Gerrit Code Review - System Design
+==================================
 
 Objective
 ---------
@@ -64,9 +64,9 @@ the functionality and code were starting to become drastically
 different, a different name was needed. Gerrit calls back to the
 original namesake of Rietveld, Gerrit Rietveld, a Dutch architect.
 
-Gerrit2 is a complete rewrite of the Gerrit fork, completely changing
-the implementation from Python on Google App Engine, to Java on a
-J2EE servlet container and a SQL database.
+Gerrit 2.x is a complete rewrite of the Gerrit fork, completely
+changing the implementation from Python on Google App Engine, to Java
+on a J2EE servlet container and a SQL database.
 
 * link:http://video.google.com/videoplay?docid=-8502904076440714866[Mondrian Code Review On The Web]
 * link:http://code.google.com/p/rietveld/[Rietveld - Code Review for Subversion]

@@ -1,5 +1,5 @@
-Gerrit i18n
-===========
+Gerrit Code Review - i18n
+=========================
 
 Aside from actually writing translations, there's some issues with
 the way the code produces output.  Most of the UI should support

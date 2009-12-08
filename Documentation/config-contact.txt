@@ -1,5 +1,5 @@
-Gerrit2 - Contact Information
-=============================
+Gerrit Code Review - Contact Information
+========================================
 
 To help ensure contributor privacy, but still support gathering of
 contributor agreements as necessary, Gerrit encrypts all offline

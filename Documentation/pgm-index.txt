@@ -1,5 +1,5 @@
-Gerrit2 - Server Programs
-=========================
+Gerrit Code Review - Server Programs
+====================================
 
 Server side programs can be started by executing the WAR file
 through the Java command line.  For example:

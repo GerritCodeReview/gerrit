@@ -1,7 +1,7 @@
-Gerrit2 - Site Customization
-============================
+Gerrit Code Review - Site Customization
+=======================================
 
-Gerrit2 supports some customization of the HTML it sends to
+Gerrit supports some customization of the HTML it sends to
 the browser, allowing organizations to alter the look and
 feel of the application to fit with their general scheme.
 

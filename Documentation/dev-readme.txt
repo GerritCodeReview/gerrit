@@ -1,8 +1,8 @@
-Gerrit2 - Developer Setup
-=========================
+Gerrit Code Review - Developer Setup
+====================================
 
 You need Apache Maven to compile the code, and a SQL database
-to house the Gerrit2 metadata.  PostgreSQL is currently the only
+to house the review metadata.  PostgreSQL is currently the only
 supported database.
 
 To create a new client workspace:

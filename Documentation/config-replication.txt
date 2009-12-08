@@ -1,5 +1,5 @@
-Gerrit2 Git Replication
-=======================
+Gerrit Code Review - Git Replication
+====================================
 
 Gerrit can automatically push any changes it makes to its managed Git
 repositories to another system.  Usually this would be configured to

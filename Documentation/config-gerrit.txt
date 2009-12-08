@@ -1,5 +1,5 @@
-Gerrit2 - Configuration
-=======================
+Gerrit Code Review - Configuration
+==================================
 
 File `etc/gerrit.config`
 ------------------------
@@ -150,7 +150,7 @@ This setting also permits old Gerrit 1.x users to seamlessly upgrade
 from Google Accounts on Google App Engine to OpenID authentication.
 +
 Having this enabled incurs an extra database query when Google
-Account users register with the Gerrit2 server.
+Account users register with the Gerrit server.
 +
 By default, unset/false.
 

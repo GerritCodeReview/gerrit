@@ -1,9 +1,9 @@
-Gerrit2 - Licenses
-==================
+Gerrit Code Review - Licenses
+=============================
 
-Gerrit itself is licensed under the Apache License, 2.0.  Gerrit's
-executable distributions also include many other software components
-covered by additional licenses.
+Gerrit itself is licensed under the <<apache2,Apache License 2.0>>.
+Gerrit's executable distributions also include many other software
+components that are covered by additional licenses.
 
 Included Components
 -------------------

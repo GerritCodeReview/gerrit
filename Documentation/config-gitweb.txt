@@ -1,8 +1,9 @@
-Gerrit2 - Gitweb Integration
-============================
+Gerrit Code Review - Gitweb Integration
+=======================================
 
-Gerrit2 can generate hyperlinks to gitweb, allowing users to jump
-from Gerrit content to the same information, but shown by gitweb.
+Gerrit Code Review can generate hyperlinks to gitweb, allowing users
+to jump from Gerrit content to the same information, but shown by
+gitweb.
 
 To enable the gitweb integration, set gitweb.url with the URL of
 your gitweb CGI.

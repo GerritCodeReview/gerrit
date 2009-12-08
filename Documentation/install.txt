@@ -1,5 +1,5 @@
-Gerrit2 - Installation Guide
-============================
+Gerrit Code Review - Installation Guide
+=======================================
 
 You need a SQL database to house the Gerrit2 metadata.  Currently
 H2, MySQL and PostgreSQL are the only supported databases.

@@ -1,5 +1,5 @@
-Gerrit2 - Project Configuration
-===============================
+Gerrit Code Review - Project Configuration
+==========================================
 
 All Git repositories under gerrit.basePath must be registered in
 the Gerrit database in order to be accessed through SSH, or through

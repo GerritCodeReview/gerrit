@@ -1,7 +1,7 @@
-Gerrit2 - Single Sign-On Security
-=================================
+Gerrit Code Review - Single Sign-On Security
+============================================
 
-Gerrit2 supports integration with some types of single sign-on
+Gerrit supports integration with some types of single sign-on
 security solutions, making it possible for end-users to setup
 and manage accounts, without administrator involvement.
 

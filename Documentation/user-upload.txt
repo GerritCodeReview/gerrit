@@ -1,5 +1,5 @@
-Gerrit2 - Uploading Changes
-===========================
+Gerrit Code Review - Uploading Changes
+======================================
 
 Gerrit supports three methods of uploading changes:
 

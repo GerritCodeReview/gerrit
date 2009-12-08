@@ -14,9 +14,10 @@
 
 package com.google.gerrit.pgm;
 
-import static com.google.gerrit.pgm.util.DataSourceProvider.Type.H2;
 import static com.google.gerrit.pgm.util.DataSourceProvider.Context.SINGLE_USER;
+import static com.google.gerrit.pgm.util.DataSourceProvider.Type.H2;
 
+import com.google.gerrit.main.GerritLauncher;
 import com.google.gerrit.pgm.util.ConsoleUI;
 import com.google.gerrit.pgm.util.DataSourceProvider;
 import com.google.gerrit.pgm.util.ErrorLogFile;
@@ -47,8 +48,13 @@ import org.eclipse.jgit.util.SystemReader;
 import org.kohsuke.args4j.Option;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.InetAddress;
+import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -147,12 +153,14 @@ public class Init extends SiteProgram {
   private void initSitePath() throws IOException, InterruptedException {
     final File sitePath = getSitePath();
 
+    final File bin_dir = new File(sitePath, "bin");
     final File etc_dir = new File(sitePath, "etc");
     final File lib_dir = new File(sitePath, "lib");
     final File logs_dir = new File(sitePath, "logs");
     final File static_dir = new File(sitePath, "static");
     final File cache_dir = new File(sitePath, "cache");
 
+    final File gerrit_sh = new File(bin_dir, "gerrit.sh");
     final File gerrit_config = new File(etc_dir, "gerrit.config");
     final File secure_config = new File(etc_dir, "secure.config");
     final File replication_config = new File(etc_dir, "replication.config");
@@ -179,6 +187,7 @@ public class Init extends SiteProgram {
       init_database(cfg, sec);
       init_auth(cfg, sec);
       init_sendemail(cfg, sec);
+      init_container(cfg, bin_dir);
       init_sshd(cfg, sec);
       init_httpd(cfg, sec);
 
@@ -193,16 +202,21 @@ public class Init extends SiteProgram {
       }
     }
 
+    bin_dir.mkdir();
     etc_dir.mkdir();
     lib_dir.mkdir();
     logs_dir.mkdir();
     static_dir.mkdir();
 
     if (!secure_config.exists()) {
-      chmod600(secure_config);
+      chmod(0600, secure_config);
     }
     if (!replication_config.exists()) {
       replication_config.createNewFile();
+    }
+    if (!gerrit_sh.exists()) {
+      extract(gerrit_sh, "WEB-INF/extra/bin/gerrit.sh");
+      chmod(0755, gerrit_sh);
     }
   }
 
@@ -273,7 +287,7 @@ public class Init extends SiteProgram {
       throw new IOException("Cannot lock " + path);
     }
     try {
-      chmod600(new File(path.getParentFile(), path.getName() + ".lock"));
+      chmod(0600, new File(path.getParentFile(), path.getName() + ".lock"));
       lf.write(out);
       if (!lf.commit()) {
         throw new IOException("Cannot commit write to " + path);
@@ -283,18 +297,25 @@ public class Init extends SiteProgram {
     }
   }
 
-  private static void chmod600(final File path) throws IOException {
+  private static void chmod(final int mode, final File path) throws IOException {
     if (!path.exists() && !path.createNewFile()) {
       throw new IOException("Cannot create " + path);
     }
-    path.setWritable(false, false /* all */);
     path.setReadable(false, false /* all */);
+    path.setWritable(false, false /* all */);
     path.setExecutable(false, false /* all */);
 
-    path.setWritable(true, true /* owner only */);
-    path.setReadable(true, true /* owner only */);
-    if (path.isDirectory()) {
+    path.setReadable((mode & 0400) == 0400, true /* owner only */);
+    path.setWritable((mode & 0200) == 0200, true /* owner only */);
+    if (path.isDirectory() || (mode & 0100) == 0100) {
       path.setExecutable(true, true /* owner only */);
+    }
+
+    if ((mode & 0044) == 0044) {
+      path.setReadable(true, false /* all */);
+    }
+    if ((mode & 0011) == 0011) {
+      path.setExecutable(true, false /* all */);
     }
   }
 
@@ -452,6 +473,48 @@ public class Init extends SiteProgram {
     set(sec, "sendemail", "smtpPass", password);
   }
 
+  private void init_container(final Config cfg, final File bin_dir)
+      throws IOException {
+    ui.header("Container Process");
+
+    String javaHome = System.getProperty("java.home");
+    if (!ui.yesno("Use %s", javaHome)) {
+      final String guess = "AUTO SELECT";
+      javaHome = ui.readString(guess, "Path of JAVA_HOME");
+      if (javaHome == guess) {
+        javaHome = null;
+      }
+    }
+    set(cfg, "container", "javaHome", javaHome);
+
+    String user = ui.readString(username(), "Local username to run as");
+    set(cfg, "container", "user", user);
+
+    File mywar;
+    try {
+      mywar = GerritLauncher.getDistributionArchive();
+    } catch (FileNotFoundException e) {
+      System.err.println("warn: Cannot find gerrit.war; skipping java.start");
+      mywar = null;
+    }
+    if (mywar != null) {
+      String war = null;
+
+      if (ui.yesno("Run from %s", mywar.getAbsolutePath())) {
+        war = mywar.getAbsolutePath();
+
+      } else {
+        if (!ui.isBatch()) {
+          System.err.format("Copying gerrit.war to %s", bin_dir);
+          System.err.println();
+        }
+        copy(new File(bin_dir, "gerrit.war"), new FileInputStream(mywar));
+      }
+
+      set(cfg, "container", "war", war);
+    }
+  }
+
   private void init_sshd(final Config cfg, final Config sec)
       throws IOException, InterruptedException {
     ui.header("SSH Daemon");
@@ -508,7 +571,7 @@ public class Init extends SiteProgram {
       if (!tmpdir.mkdir()) {
         throw die("Cannot create directory " + tmpdir);
       }
-      chmod600(tmpdir);
+      chmod(0600, tmpdir);
 
       final String keyname = "ssh_host_key";
       final File tmpkey = new File(tmpdir, keyname);
@@ -520,7 +583,7 @@ public class Init extends SiteProgram {
       p.setPath(tmpkey.getAbsolutePath());
       p.setAlgorithm("RSA");
       p.loadKeys(); // forces the key to generate.
-      chmod600(tmpkey);
+      chmod(0600, tmpkey);
 
       final File key = new File(etc_dir, keyname);
       if (!tmpkey.renameTo(key)) {
@@ -590,7 +653,7 @@ public class Init extends SiteProgram {
       if (!tmpdir.mkdir()) {
         throw die("Cannot create directory " + tmpdir);
       }
-      chmod600(tmpdir);
+      chmod(0600, tmpdir);
 
       final File tmpstore = new File(tmpdir, "keystore");
       Runtime.getRuntime().exec(new String[] {"keytool", //
@@ -603,7 +666,7 @@ public class Init extends SiteProgram {
           "-dname", dname, //
           "-keypass", ssl_pass, //
       }).waitFor();
-      chmod600(tmpstore);
+      chmod(0600, tmpstore);
 
       final File store = new File(etc_dir, "keystore");
       if (!tmpstore.renameTo(store)) {
@@ -718,6 +781,35 @@ public class Init extends SiteProgram {
     }
     if (!path.delete() && path.exists()) {
       System.err.println("warn: Cannot remove " + path);
+    }
+  }
+
+  private static void extract(final File dst, final String path)
+      throws IOException {
+    final URL u = GerritLauncher.class.getClassLoader().getResource(path);
+    if (u == null) {
+      System.err.println("warn: Cannot read " + path);
+      return;
+    }
+    copy(dst, u.openStream());
+  }
+
+  private static void copy(final File dst, final InputStream in)
+      throws FileNotFoundException, IOException {
+    try {
+      dst.getParentFile().mkdirs();
+      final FileOutputStream out = new FileOutputStream(dst);
+      try {
+        final byte[] buf = new byte[4096];
+        int n;
+        while (0 < (n = in.read(buf))) {
+          out.write(buf, 0, n);
+        }
+      } finally {
+        out.close();
+      }
+    } finally {
+      in.close();
     }
   }
 }

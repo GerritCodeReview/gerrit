@@ -384,6 +384,50 @@ See link:config-contact.html[Contact Information].
 +
 Shared secret of the web based contact store.
 
+
+[[container]]Section container
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+These settings are applied only if Gerrit is started as the container
+process through Gerrit's 'gerrit.sh' rc.d compatible wrapper script.
+
+[[container.heapLimit]]container.heapLimit::
++
+Maximum heap size of the Java process running Gerrit, in bytes.
+This property is translated into the '-Xmx' flag for the JVM.
++
+Default is platform and JVM specific.
++
+Common unit suffixes of 'k', 'm', or 'g' are supported.
+
+[[container.javaHome]]container.javaHome::
++
+Path of the JRE/JDK installation to run Gerrit with.  If not set, the
+Gerrit startup script will attempt to search your system and guess
+a suitable JRE.  Overrides the environment variable 'JAVA_HOME'.
+
+[[container.javaOptions]]container.javaOptions::
++
+Additional options to pass along to the Java runtime.  If multiple
+values are configured, they are passed in order on the command line,
+separated by spaces.  These options are appended onto 'JAVA_OPTIONS'.
+
+[[container.user]]container.user::
++
+Login name (or UID) of the operating system user the Gerrit JVM
+will execute as.  If not set, defaults to the user who launched
+the 'gerrit.sh' wrapper script.
+
+[[container.war]]container.war::
++
+Path of the JAR file to start daemon execution with.  This should
+be the path of the local 'gerrit.war' archive.  Overrides the
+environment variable 'GERRIT_WAR'.
++
+If not set, defaults to '$site_path/bin/gerrit.war', or to
+'$HOME/gerrit.war'.
+
+
 [[core]]Section core
 ~~~~~~~~~~~~~~~~~~~~
 

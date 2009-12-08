@@ -457,7 +457,11 @@ public final class GerritLauncher {
       }
     }
 
-    return tmp;
+    try {
+      return tmp.getCanonicalFile();
+    } catch (IOException e) {
+      return tmp;
+    }
   }
 
   private GerritLauncher() {

@@ -398,7 +398,7 @@ case "$ACTION" in
         echo $PID >"$GERRIT_PID"
       fi
 
-      echo "STARTED Gerrit `date`" 
+      echo OK
     fi
   ;;
 

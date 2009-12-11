@@ -349,7 +349,7 @@ fi
 ##################################################
 case "$ACTION" in
   start)
-    echo -n "Starting Gerrit Code Review: "
+    printf '%s' "Starting Gerrit Code Review: "
 
     if test 1 = "$NO_START" ; then 
       echo "Not starting gerrit - NO_START=1 in /etc/default/gerrit"
@@ -401,7 +401,7 @@ case "$ACTION" in
   ;;
 
   stop)
-    echo -n "Stopping Gerrit Code Review: "
+    printf '%s' "Stopping Gerrit Code Review: "
 
     if test 1 = "$START_STOP_DAEMON" && type start-stop-daemon >/dev/null 2>&1
     then

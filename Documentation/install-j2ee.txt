@@ -1,0 +1,32 @@
+Gerrit Code Review - J2EE Installation
+======================================
+
+Gerrit binary distributions include a standalone Jetty container, but
+are packaged as a standard WAR file to permit easy deployment to other
+existing container installations if a standalone daemon is not
+preferred by the administartor.
+
+Gerrit Code Review can be installed into any J2EE servlet container,
+including popular open source containers such as Jetty or Tomcat, or
+any commerical server which supports the J2EE servlet specification.
+
+Complete the link:install.html#database_setup[database setup] and
+link:install.html#init_site_path[site initialization] tasks described
+in the standard installation documentation.
+
+Deploy the 'gerrit.war' file to your application server.
+
+Configure the JNDI DataSource 'jdbc/ReviewDb' for the gerrit web
+application context to point to the database you created above.  Don't
+forget to ensure your JNDI configuration can load the necessary JDBC
+drivers.  You may wish to ensure connection pooling is configured and
+enabled within the DataSource.
+
+('Optional') Add Bouncy Castle Crypto API to the web application's
+classpath.  Usually its best to load this library from the servlet
+container's extensions directory, but gerrit.war could also be
+manually repackaged to include it within 'WEB-INF/lib/'.
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

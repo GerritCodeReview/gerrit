@@ -1,31 +1,12 @@
 Gerrit Code Review - Installation Guide
 =======================================
 
-You need a SQL database to house the Gerrit2 metadata.  Currently
-H2, MySQL and PostgreSQL are the only supported databases.
+You need a SQL database to house the review metadata.  Currently H2,
+MySQL and PostgreSQL are the only supported databases.
 
-Important Links
+[[download]]
+Download Gerrit
 ---------------
-
-PostgreSQL:
-
-* http://www.postgresql.org/docs/[Documentation]
-* link:http://jdbc.postgresql.org/download.html[JDBC Driver]
-
-MySQL:
-
-* http://dev.mysql.com/doc/[Documentation]
-* http://dev.mysql.com/downloads/connector/j/5.0.html[JDBC Driver]
-
-Optional Libraries:
-
-* link:http://commons.apache.org/pool/download_pool.cgi[Commons Pool]
-* link:http://commons.apache.org/dbcp/download_dbcp.cgi[Commons DBCP]
-* link:http://www.bouncycastle.org/java.html[Bouncy Castle Crypto API]
-
-
-Downloading Gerrit
-------------------
 
 Current and past binary releases of Gerrit can be obtained from
 the downloads page at the project site:
@@ -36,172 +17,146 @@ Download any current `*.war` package. The war will be referred to as
 `gerrit.war` from this point forward, so you may find it easier to
 rename the downloaded file.
 
+If you would prefer to build Gerrit directly from source, review
+the notes under link:dev-readme.html[developer setup].
 
-Building Gerrit From Source
----------------------------
+[[createdb]]
+Database Setup
+--------------
 
-Alternatively, you can build the application distribution using
-Maven from a source download obtained directly from Git:
+[[createdb_h2]]
+H2
+~~
 
-====
-  git clone git://android.git.kernel.org/tools/gerrit.git
-  cd gerrit
-  mvn clean package
-  cp gerrit-war/target/gerrit-*.war ...YOUR.DEST.../gerrit.war
-====
+During init Gerrit will automatically configure the embedded H2
+database.  No additional configuration is necessary.  Using the
+embedded H2 database is the easiest way to get a Gerrit site up
+and running.
 
-The first build may take a while as dependencies are searched
-for and downloaded from Maven distribution repositories.
-
-Apache Maven:
-
-* http://maven.apache.org/download.html[Download]
-* http://maven.apache.org/run-maven/index.html[Running Maven]
-
-
-Setting up the Database
------------------------
-
+[[createdb_postgres]]
 PostgreSQL
 ~~~~~~~~~~
 
-Create a Gerrit specific user as a normal user (no superuser access)
-and assign it an encrypted password:
+Create a user for the web application within Postgres, assign it a
+password, create a database to store the metadata, and grant the user
+full rights on the newly created database:
 
-====
+----
   createuser -A -D -P -E gerrit2
-====
-
-Create the database to store the Gerrit metadata, and set the user
-you just created as the owner of that database:
-
-====
   createdb -E UTF-8 -O gerrit2 reviewdb
-====
+----
 
+[[createdb_mysql]]
 MySQL
 ~~~~~
 
-Create a Gerrit specific user within the database and assign it a
-password, create a database, and give the user full rights:
+Create a user for the web application within the database, assign it a
+password, create a database, and give the newly created user full
+rights on it:
 
-====
+----
+  mysql
+
   CREATE USER 'gerrit2'@'localhost' IDENTIFIED BY 'secret';
   CREATE DATABASE reviewdb;
   ALTER DATABASE reviewdb charset=latin1;
   GRANT ALL ON reviewdb.* TO 'gerrit2'@'localhost';
   FLUSH PRIVILEGES;
-====
+----
 
 
-Initialize the Schema
----------------------
+[[init]]
+Initialize the Site
+-------------------
 
-Create the Gerrit 2 Tables
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+Gerrit stores configuration files, the server's SSH keys, and the
+managed Git repositories under a local directory, typically referred
+to as `'$site_path'`.  If the embedded H2 database is being used,
+its data files will also be stored under this directory.
 
-Either run CreateSchema from the command line:
+Initialize a new site directory by running the init command, passing
+the path of the site directory to be created as an argument to the
+'-d' option.  Its recommended that Gerrit Code Review be given its
+own user account on the host system:
 
-====
-  java -jar gerrit.war --cat extra/GerritServer.properties_example >GerritServer.properties
-  edit GerritServer.properties
+----
+  sudo adduser gerrit2
+  sudo su gerrit2
+  cd ~gerrit2
 
-  java -jar gerrit.war CreateSchema
-====
+  java -jar gerrit.war init -d review_site
+----
 
-Or, run the application once in a container to force it to initialize
-the database schema before accessing it.  (See below for deployment
-setup documentation.)  If you use this approach, it is recommended
-that you stop the application before continuing with the setup.
+If run from an interactive terminal, 'init' will prompt through a
+series of configuration questions, including gathering information
+about the database created above.  If the terminal is not interactive
+init will make some reasonable default selections, and will use the
+embedded H2 database.
 
-Add Indexes
-~~~~~~~~~~~
+Init may need to download additional JARs to support optional selected
+functionality.  If a download fails a URL will be displayed and init
+will wait for the user to manually download the JAR and store it in
+the target location.
 
-A script should be run to create the query indexes, so Gerrit
-can avoid table scans when looking up information.  Run the
-index script through your database's query tool.
+When 'init' is complete, the daemon will be automatically started
+in the background and your web browser will open to the site:
 
-PostgreSQL:
+----
+  Initialized /home/gerrit2/review_site
+  Executing /home/gerrit2/review_site/bin/gerrit.sh start
+  Starting Gerrit Code Review: OK
+  Waiting for server to start ... OK
+  Opening browser ...
+----
 
-====
-  java -jar gerrit.war --cat sql/index_postgres.sql | psql reviewdb -U gerrit2 -W
-====
+When the browser opens, sign in to Gerrit through the web interface.
+The first user to sign-in and register an account will be
+automatically placed into the fully privileged Administrators group,
+permitting server management over the web and over SSH.  Subsequent
+users will be automatically registered as unprivileged users.
 
-MySQL:
 
-====
-  java -jar gerrit.war --cat sql/index_generic.sql | mysql reviewdb -u gerrit2 -p
-  java -jar gerrit.war --cat sql/mysql_nextval.sql | mysql reviewdb -u gerrit2 -p
-====
+[[project_setup]]
+Project Setup
+-------------
 
-Configure site_path
-~~~~~~~~~~~~~~~~~~~
+See link:project-setup.html[Project Setup] for further details on
+how to register a new project with Gerrit.  This step is necessary
+if existing Git repositories were not imported during 'init'.
 
-This directory holds server-specific configuration files and
-assets used to customize the deployment.  Gerrit needs read
-access (but not write access) to the directory.  The path
-is stored in `system_config.site_path`, so you will need to
-update the database with this value.
 
-====
-  mkdir /home/gerrit2/cfg
-  cd /home/gerrit2/cfg
+[[rc.d]]
+Start/Stop Daemon
+-----------------
 
-  UPDATE system_config SET site_path='/home/gerrit2/cfg'
-====
-
-When '$site_path' is referenced below, it refers to the path set in the SQL above.
-
-SSH Host Keys
-~~~~~~~~~~~~~
-
-If you choose to install the Bouncy Castle Crypto APIs (see below)
-you must create an RSA, DSA, or both, host keys for the daemon:
-
-====
-  mkdir etc
-  ssh-keygen -t rsa -P '' -f etc/ssh_host_rsa_key
-  ssh-keygen -t dsa -P '' -f etc/ssh_host_dsa_key
-====
-
-These keys are used as the host keys for the internal SSH daemon
-run by Gerrit.  You may wish to backup these key files to ensure
-they can be restored in the event of a disaster.
-
-The private key files (`ssh_host_rsa_key`, `ssh_host_dsa_key`) should
-be readable *only* by the account that is executing Gerrit2's web
-application container.  It is a security risk to make these files
-readable by anyone else.
-
-If you don't install Bouncy Castle, Gerrit will automatically create
-a host key and save a copy to `'$site_path'/etc/ssh_host_key`
-during first startup.  For this to work correctly, Gerrit will
-require write access to the directory.
-
-Create Git Repository Base
-~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-This directory holds the Git repositories that Gerrit knows about
-and can service.  Gerrit needs write access to this directory and
-any Git repository stored within it.
+To control the Gerrit Code Review daemon that is running in the
+background, use the rc.d style start script created by 'init':
 
 ====
-  mkdir /srv/git
-  git config --file '$site_path'/etc/gerrit.config gerrit.basePath /srv/git
+  review_site/bin/gerrit.sh start
+  review_site/bin/gerrit.sh stop
+  review_site/bin/gerrit.sh restart
 ====
 
-You may wish to consider also exporting this directory over the
-anonymous git:// protocol, as it is more efficient than Gerrit's
-internal ssh daemon.  See the `git-daemon` documentation for details
-on how to configure this if anonymous access is desired.
+('Optional') Link the gerrit.sh script into rc3.d so the daemon
+automatically starts and stops with the operating system:
 
-* http://www.kernel.org/pub/software/scm/git/docs/git-daemon.html[man git-daemon]
+====
+  sudo ln -snf `pwd`/review_site/bin/gerrit.sh /etc/init.d/gerrit.sh
+  sudo ln -snf ../init.d/gerrit.sh /etc/rc3.d/S90gerrit
+====
 
-Futher Configuration
-~~~~~~~~~~~~~~~~~~~~
+To install Gerrit into an existing servlet container instead of using
+the embedded Jetty server, see
+link:install-j2ee.html[J2EE installation].
 
-Gerrit2 supports some site-specific customizations.  These are
-optional and are not required to run a server, but may be desired.
+
+[[customize]]
+Site Customization
+------------------
+
+Gerrit Code Review supports some site-specific customization options.
+For more information, see the related topic in this manual:
 
 * link:config-sso.html[Single Sign-On Systems]
 * link:config-replication.html[Git Replication/Mirroring]
@@ -210,206 +165,26 @@ optional and are not required to run a server, but may be desired.
 * link:config-gerrit.html[Other System Settings]
 
 
-Application Deployment
------------------------
+[[anonymous_access]]
+Anonymous Access
+----------------
 
-Jetty
-~~~~~
+Exporting the Git repository directory
+(link:config-gerrit.html#gerrit.basePath[gerrit.basePath]) over the
+anonymous, unencrypted git:// protocol is more efficient than
+Gerrit's internal SSH daemon.  See the `git-daemon` documentation
+for details on how to configure this if anonymous access is desired.
 
-[NOTE]
-The instructions listed here were tested with Jetty 6.1.14 or later.
-These are known to not work on much older versions, such as 6.1.3.
-
-These directions will configure Gerrit as the default web
-application, allowing URLs like `http://example.com/4543` to
-jump directly to change 4543.
-
-Download and unzip a release version of Jetty.  From here on we
-call the unpacked directory `$JETTY_HOME`.
-
-* link:http://www.eclipse.org/jetty/downloads.php[Jetty Downloads]
-
-Install the required JDBC drivers by copying them into the
-`'$JETTY_HOME'/lib/ext` directory.  Drivers can be obtained from
-their source projects:
-
-* link:http://jdbc.postgresql.org/download.html[PostgreSQL JDBC Driver]
-* link:http://commons.apache.org/pool/download_pool.cgi[Commons Pool]
-* link:http://commons.apache.org/dbcp/download_dbcp.cgi[Commons DBCP]
-
-Consider installing Bouncy Castle Cypto APIs into the
-`'$JETTY_HOME'/lib/ext` directory.  Some of the Bouncy Castle
-implementations are faster than then ones that come in the JRE,
-and they may support additional encryption algorithms:
-
-* link:http://www.bouncycastle.org/java.html[Bouncy Castle Crypto API]
-
-Copy Gerrit into the deployment:
-====
-  cd $JETTY_HOME
-  cp ~/gerrit.war webapps/gerrit.war
-  java -jar webapps/gerrit.war --cat extra/jetty7/gerrit.xml >contexts/gerrit.xml
-  rm -f contexts/test.xml
-====
-
-Edit `'$JETTY_HOME'/contexts/gerrit.xml` to correctly configure
-the database and outgoing SMTP connections, especially the user
-and password fields.
-
-If OpenID authentication (or certain enterprise single-sign-on
-solutions) is being used, you may need to increase the
-header buffer size parameter, due to very long header lines.
-Add the following to `'$JETTY_HOME'/etc/jetty.xml` under
-`org.eclipse.jetty.server.nio.SelectChannelConnector`:
-
-====
-  <Set name="headerBufferSize">16384</Set>
-====
-
-To start automatically when the system boots, create a start
-script and modify it for your configuration:
-
-====
-  java -jar gerrit.war --cat extra/jetty7/gerrit-jetty.sh >/etc/init.d/gerrit-jetty.sh
-  vi /etc/init.d/gerrit-jetty.sh
-====
-
-[TIP]
-Under Jetty, restarting the web application (e.g. after modifying
-`system_config`) is as simple as touching the context config file:
-`'$JETTY_HOME'/contexts/gerrit.xml`
-
-Port 80
-^^^^^^^
-
-To deploy on port 80, you should configure Jetty to listen on another
-port, such as 127.0.0.1:8081 (like the start script above does)
-and then follow the <<apache2,reverse proxy>> section below.
-
-Port 443 (HTTPS / SSL)
-^^^^^^^^^^^^^^^^^^^^^^
-
-To deploy on port 443 with SSL enabled, unpack the SSL proxy handling
-rule into `'$JETTY_HOME'/etc`:
-====
-  cd $JETTY_HOME
-  java -jar webapps/gerrit.war --cat extra/jetty7/jetty_sslproxy.xml >etc/jetty_sslproxy.xml
-====
-
-Create a start script like the one above, configuring Jetty to
-listen on another port, such as 127.0.0.1:8081.
-
-Set `gerrit.canonicalWebUrl` in `'$site_path'/etc/gerrit.config`
-to an `https://` style URL for your application, so that non-SSL
-connections are automatically upgraded to SSL by issuing a redirect.
-Gerrit does not currently support a dual http/https usage on the
-same site as it doesn't know when to upgrade a non-secure connection
-to a secure one if data needs to be protected.
-
-Follow the <<apache2,reverse proxy>> section below to setup an
-Apache2 server to handle SSL for Jetty.
+* http://www.kernel.org/pub/software/scm/git/docs/git-daemon.html[man git-daemon]
 
 
-[[other_containers]]Other Servlet Containers
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+External Documentation Links
+----------------------------
 
-Deploy the `gerrit-*.war` file to your application server as
-`gerrit.war`.
+* http://www.postgresql.org/docs/[PostgreSQL Documentation]
+* http://dev.mysql.com/doc/[MySQL Documentation]
+* http://www.kernel.org/pub/software/scm/git/docs/git-daemon.html[git-daemon]
 
-Configure the JNDI DataSource `jdbc/ReviewDb` for the Gerrit web
-application context to point to the database you just created.
-Don't forget to ensure your JNDI configuration can load the
-necessary JDBC drivers.
-
-('Optional') Add Bouncy Castle Crypto API to the web application's
-classpath.  Usually its best to load this library from the servlet
-container's extensions directory, but gerrit.war could also be
-manually repacked to include it.
-
-[[apache2]]Apache2 Reverse Proxy
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Enable the necessary Apache2 modules:
-
-====
-  a2enmod proxy_http
-  a2enmod disk_cache   ; # optional, but helps performance
-
-  a2enmod ssl          ; # optional, needed for HTTPS / SSL
-  a2enmod headers      ; # optional, needed for HTTPS / SSL
-====
-
-then setup a VirtualHost to proxy to Gerrit's servlet container,
-setting the `ProxyPass` line to use the port number you configured
-in your servlet container's configuration:
-
-=======================================
-	<VirtualHost *>
-	  ServerName review.example.com
-	#
-	  ProxyRequests Off
-	  ProxyVia Off
-	  ProxyPreserveHost On
-	#
-	  <Proxy *>
-		Order deny,allow
-		Allow from all
-	  </Proxy>
-	  ProxyPass / http://127.0.0.1:8081/
-	#
-	  <IfModule mod_disk_cache.c>
-		CacheEnable disk /
-		CacheIgnoreHeaders Set-Cookie
-	  </IfModule>
-	</VirtualHost>
-=======================================
-
-if you are using SSL with a Jetty container:
-
-====
-	<VirtualHost *:443>
-	  ServerName review.example.com
-	#
-	  SSLEngine on
-	  SSLCertificateFile    conf/server.crt
-	  SSLCertificateKeyFile conf/server.key
-	#
-	  ProxyRequests Off
-	  ProxyVia Off
-	  ProxyPreserveHost On
-	  ProxyPass / http://127.0.0.1:8081/
-	  RequestHeader set X-Forwarded-Scheme https
-	#
-	  <IfModule mod_disk_cache.c>
-		CacheEnable disk /
-		CacheIgnoreHeaders Set-Cookie
-	  </IfModule>
-	</VirtualHost>
-====
-
-See the Apache `mod_ssl` documentation for more details on how to
-configure SSL within the server, like controlling how strong of an
-encryption algorithm is required.
-
-For Gerrit, the only difference between plain HTTP and HTTPS is
-adding the "`RequestHeader set X-Forwarded-Scheme https`" line
-within the SSL enabled virtual host.
-
-
-Administrator Setup
--------------------
-
-Sign in to Gerrit through the web interface.  The first user
-to register or sign-in will be automatically placed into the
-Administrators group.  All subsequent users will be treated as
-unprivileged users.
-
-
-Project Setup
--------------
-
-See link:project-setup.html[Project Setup] for further details on
-how to register a project with Gerrit.
 
 GERRIT
 ------

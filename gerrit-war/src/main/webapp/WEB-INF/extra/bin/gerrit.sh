@@ -356,6 +356,8 @@ case "$ACTION" in
       exit 0
     fi
 
+    test -z "$UID" && UID=`id -u`
+
     if test 1 = "$START_STOP_DAEMON" && type start-stop-daemon >/dev/null 2>&1
     then
       test $UID = 0 && CH_USER="-c $GERRIT_USER"
@@ -381,7 +383,7 @@ case "$ACTION" in
         fi
       fi
 
-      if test -n "$GERRIT_USER" ; then 
+      if test $UID = 0 && -n "$GERRIT_USER" ; then 
         touch "$GERRIT_PID"
         chown $GERRIT_USER "$GERRIT_PID"
         su - $GERRIT_USER -c "

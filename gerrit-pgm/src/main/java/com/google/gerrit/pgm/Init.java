@@ -17,10 +17,12 @@ package com.google.gerrit.pgm;
 import static com.google.gerrit.pgm.util.DataSourceProvider.Context.SINGLE_USER;
 import static com.google.gerrit.pgm.util.DataSourceProvider.Type.H2;
 
+import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.main.GerritLauncher;
 import com.google.gerrit.pgm.util.ConsoleUI;
 import com.google.gerrit.pgm.util.DataSourceProvider;
 import com.google.gerrit.pgm.util.ErrorLogFile;
+import com.google.gerrit.pgm.util.IoUtil;
 import com.google.gerrit.pgm.util.LibraryDownloader;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.reviewdb.AuthType;
@@ -39,12 +41,14 @@ import com.google.inject.Module;
 
 import org.apache.sshd.common.util.SecurityUtils;
 import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileBasedConfig;
 import org.eclipse.jgit.lib.LockFile;
 import org.eclipse.jgit.lib.RepositoryCache.FileKey;
 import org.eclipse.jgit.util.SystemReader;
+import org.h2.util.StartBrowser;
 import org.kohsuke.args4j.Option;
 
 import java.io.File;
@@ -54,6 +58,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
+import java.net.Socket;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -81,11 +88,26 @@ public class Init extends SiteProgram {
   private Injector dbInjector;
   private Injector sysInjector;
 
+  private File site_path;
+  private File bin_dir;
+  private File cache_dir;
+  private File etc_dir;
+  private File lib_dir;
+  private File logs_dir;
+  private File static_dir;
+
+  private File gerrit_sh;
+  private File gerrit_config;
+  private File secure_config;
+  private File replication_config;
+
   @Override
   public int run() throws Exception {
     ErrorLogFile.errorOnlyConsole();
     ui = ConsoleUI.getInstance(batchMode);
+    initPathLocations();
 
+    final boolean isNew = !site_path.exists();
     try {
       upgradeFrom_Pre2_0_25();
 
@@ -105,13 +127,39 @@ public class Init extends SiteProgram {
       }
       throw failure;
     }
+
     System.err.println("Initialized " + getSitePath().getCanonicalPath());
+
+    if (isNew) {
+      if (IoUtil.isWin32()) {
+        System.err.println("Automatic startup not supported on this platform.");
+
+      } else {
+        start();
+        openBrowser();
+      }
+    }
+
     return 0;
   }
 
-  private void upgradeFrom_Pre2_0_25() throws IOException {
-    final File sitePath = getSitePath();
+  private void initPathLocations() {
+    site_path = getSitePath();
 
+    bin_dir = new File(site_path, "bin");
+    cache_dir = new File(site_path, "cache");
+    etc_dir = new File(site_path, "etc");
+    lib_dir = new File(site_path, "lib");
+    logs_dir = new File(site_path, "logs");
+    static_dir = new File(site_path, "static");
+
+    gerrit_sh = new File(bin_dir, "gerrit.sh");
+    gerrit_config = new File(etc_dir, "gerrit.config");
+    secure_config = new File(etc_dir, "secure.config");
+    replication_config = new File(etc_dir, "replication.config");
+  }
+
+  private void upgradeFrom_Pre2_0_25() throws IOException {
     boolean isPre2_0_25 = false;
     final String[] etcFiles =
         {"gerrit.config", "secure.config", "replication.config",
@@ -120,23 +168,22 @@ public class Init extends SiteProgram {
             "gitweb_config.perl", "keystore", "GerritSite.css",
             "GerritSiteFooter.html", "GerritSiteHeader.html"};
     for (String name : etcFiles) {
-      if (new File(sitePath, name).exists()) {
+      if (new File(site_path, name).exists()) {
         isPre2_0_25 = true;
         break;
       }
     }
 
     if (isPre2_0_25) {
-      if (!ui.yesno("Upgrade '%s'", sitePath.getCanonicalPath())) {
+      if (!ui.yesno("Upgrade '%s'", site_path.getCanonicalPath())) {
         throw die("aborted by user");
       }
 
-      final File etc_dir = new File(sitePath, "etc");
       if (!etc_dir.exists() && !etc_dir.mkdirs()) {
         throw die("Cannot create directory " + etc_dir);
       }
       for (String name : etcFiles) {
-        final File src = new File(sitePath, name);
+        final File src = new File(site_path, name);
         final File dst = new File(etc_dir, name);
         if (src.exists()) {
           if (dst.exists()) {
@@ -151,30 +198,16 @@ public class Init extends SiteProgram {
   }
 
   private void initSitePath() throws IOException, InterruptedException {
-    final File sitePath = getSitePath();
-
-    final File bin_dir = new File(sitePath, "bin");
-    final File etc_dir = new File(sitePath, "etc");
-    final File lib_dir = new File(sitePath, "lib");
-    final File logs_dir = new File(sitePath, "logs");
-    final File static_dir = new File(sitePath, "static");
-    final File cache_dir = new File(sitePath, "cache");
-
-    final File gerrit_sh = new File(bin_dir, "gerrit.sh");
-    final File gerrit_config = new File(etc_dir, "gerrit.config");
-    final File secure_config = new File(etc_dir, "secure.config");
-    final File replication_config = new File(etc_dir, "replication.config");
-
     if (gerrit_config.exists()) {
 
     } else if (!gerrit_config.exists()) {
       ui.header("Gerrit Code Review %s", version());
-      if (!ui.yesno("Initialize '%s'", sitePath.getCanonicalPath())) {
+      if (!ui.yesno("Initialize '%s'", site_path.getCanonicalPath())) {
         throw die("aborted by user");
       }
 
-      if (!sitePath.mkdirs()) {
-        throw die("Cannot make directory " + sitePath);
+      if (!site_path.mkdirs()) {
+        throw die("Cannot make directory " + site_path);
       }
       if (!etc_dir.mkdir()) {
         throw die("Cannot make directory " + etc_dir);
@@ -187,7 +220,7 @@ public class Init extends SiteProgram {
       init_database(cfg, sec);
       init_auth(cfg, sec);
       init_sendemail(cfg, sec);
-      init_container(cfg, bin_dir);
+      init_container(cfg);
       init_sshd(cfg, sec);
       init_httpd(cfg, sec);
 
@@ -359,7 +392,7 @@ public class Init extends SiteProgram {
     switch (db_type) {
       case H2:
         userPassAuth = false;
-        new File(getSitePath(), "db").mkdirs();
+        new File(site_path, "db").mkdirs();
         break;
 
       case JDBC: {
@@ -473,8 +506,7 @@ public class Init extends SiteProgram {
     set(sec, "sendemail", "smtpPass", password);
   }
 
-  private void init_container(final Config cfg, final File bin_dir)
-      throws IOException {
+  private void init_container(final Config cfg) throws IOException {
     ui.header("Container Process");
 
     String javaHome = System.getProperty("java.home");
@@ -680,6 +712,103 @@ public class Init extends SiteProgram {
       set(cfg, "gerrit", "canonicalWebUrl", "https://" + certName + ":"
           + httpd_port + context);
     }
+  }
+
+  private void start() {
+    final String[] argv = {gerrit_sh.getAbsolutePath(), "start"};
+    final Process proc;
+    try {
+      System.err.println("Executing " + argv[0] + " " + argv[1]);
+      proc = Runtime.getRuntime().exec(argv);
+    } catch (IOException e) {
+      System.err.println("error: cannot start Gerrit: " + e.getMessage());
+      return;
+    }
+
+    try {
+      proc.getOutputStream().close();
+    } catch (IOException e) {
+    }
+
+    IoUtil.copyWithThread(proc.getInputStream(), System.err);
+    IoUtil.copyWithThread(proc.getErrorStream(), System.err);
+
+    for (;;) {
+      try {
+        final int rc = proc.waitFor();
+        if (rc != 0) {
+          System.err.println("error: cannot start Gerrit: exit status " + rc);
+        }
+        break;
+      } catch (InterruptedException e) {
+        // retry
+      }
+    }
+  }
+
+  private void openBrowser() throws IOException, ConfigInvalidException {
+    if (ui.isBatch()) {
+      return;
+    }
+
+    final FileBasedConfig cfg = new FileBasedConfig(gerrit_config);
+    cfg.load();
+    String url = cfg.getString("httpd", null, "listenUrl");
+    if (url == null) {
+      return;
+    }
+
+    if (url.startsWith("proxy-")) {
+      url = url.substring("proxy-".length());
+    }
+    if (!url.endsWith("/")) {
+      url += "/";
+    }
+    url += "#" + PageLinks.ADMIN_PROJECTS;
+
+    // If the URL uses * it means all addresses on this system, use the
+    // current hostname instead so the user can login from any host.
+    //
+    final URI uri;
+    try {
+      final URI u = new URI(url);
+      if (u.getHost() == null
+          && (u.getAuthority().equals("*") || u.getAuthority().startsWith("*:"))) {
+        final int s = url.indexOf('*');
+        url = url.substring(0, s) + hostname() + url.substring(s + 1);
+      }
+      uri = new URI(url);
+    } catch (URISyntaxException e) {
+      System.err.println("error: invalid httpd.listenUrl: " + url);
+      return;
+    }
+
+    String hostname = uri.getHost();
+    int port = uri.getPort();
+    if (port < 0) {
+      port = "https".equals(uri.getScheme()) ? 443 : 80;
+    }
+
+    System.err.print("Waiting for server to start ... ");
+    System.err.flush();
+    for (;;) {
+      final Socket s;
+      try {
+        s = new Socket(hostname, port);
+      } catch (IOException e) {
+        try {
+          Thread.sleep(100);
+        } catch (InterruptedException ie) {
+        }
+        continue;
+      }
+      s.close();
+      break;
+    }
+    System.err.println("OK");
+
+    System.err.println("Opening browser ...");
+    StartBrowser.openURL(url);
   }
 
   private <T extends Enum<?>> void set(Config cfg, String section, String name,

@@ -1,0 +1,77 @@
+Gerrit Code Review - Apache 2 Reverse Proxy
+===========================================
+
+Description
+-----------
+
+Gerrit can be configured to run behind an Apache server using
+'mod_proxy'.  This allows Apache to bind to the privileged ports 80
+(or 443 for SSL), as well as offloads the SSL processing overhead
+from Java to optimized native C code.
+
+
+Configuration
+------------
+
+Enable the necessary Apache2 modules:
+
+----
+  a2enmod proxy_http
+  a2enmod ssl          ; # optional, needed for HTTPS / SSL
+----
+
+Ensure `'$site_path'/etc/gerrit.config` has the property
+link:config-gerrit.html#httpd.listenUrl[httpd.listenUrl] configured
+to use 'proxy-http://' or 'proxy-https://' and a free port number.
+This may have already been configured if proxy support was enabled
+during 'init'.
+
+----
+  [httpd]
+  	listenUrl = proxy-http://127.0.0.1:8081/r/
+----
+
+Configure an Apache VirtualHost to proxy to the Gerrit daemon, setting
+the 'ProxyPass' line to use the 'http://' URL configured above.
+
+----
+	<VirtualHost *>
+	  ServerName review.example.com
+
+	  ProxyRequests Off
+	  ProxyVia Off
+	  ProxyPreserveHost On
+
+	  <Proxy *>
+		Order deny,allow
+		Allow from all
+	  </Proxy>
+
+	  ProxyPass /r/ http://127.0.0.1:8081/r/
+	</VirtualHost>
+----
+
+SSL
+~~~
+
+To enable Apache to perform the SSL processing, use 'proxy-https://'
+in httpd.listenUrl within Gerrit's configuration file, and enable
+the SSL engine in the Apache VirtualHost block:
+
+----
+	<VirtualHost *:443>
+	  SSLEngine on
+	  SSLCertificateFile    conf/server.crt
+	  SSLCertificateKeyFile conf/server.key
+
+	  ... same as above ...
+	</VirtualHost>
+----
+
+See the Apache 'mod_ssl' documentation for more details on how to
+configure SSL within the server, like controlling how strong of an
+encryption algorithm is required.
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

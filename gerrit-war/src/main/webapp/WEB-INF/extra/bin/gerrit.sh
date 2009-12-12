@@ -292,7 +292,8 @@ ulimit -m unlimited    ; # max memory size
 ulimit -n $GERRIT_FDS  ; # open files
 ulimit -t unlimited    ; # cpu time
 ulimit -t unlimited    ; # virtual memory
-ulimit -x unlimited    ; # file locks
+
+ulimit -x unlimited    2>/dev/null ; # file locks
 
 #####################################################
 # This is how the Gerrit server will be started

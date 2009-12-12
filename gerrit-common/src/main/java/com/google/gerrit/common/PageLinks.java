@@ -39,7 +39,6 @@ public class PageLinks {
   public static final String ALL_MERGED = "all,merged,n,z";
   public static final String ALL_OPEN = "all,open,n,z";
 
-  public static final String ADMIN_PEOPLE = "admin,people";
   public static final String ADMIN_GROUPS = "admin,groups";
   public static final String ADMIN_PROJECTS = "admin,projects";
 

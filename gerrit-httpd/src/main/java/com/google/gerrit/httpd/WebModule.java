@@ -29,8 +29,10 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.config.AuthConfig;
+import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GerritRequestModule;
+import com.google.gerrit.server.config.Nullable;
 import com.google.gerrit.server.contact.ContactStore;
 import com.google.gerrit.server.contact.ContactStoreProvider;
 import com.google.gerrit.server.ssh.SshInfo;
@@ -49,15 +51,19 @@ public class WebModule extends FactoryModule {
   private final Provider<SshInfo> sshInfoProvider;
   private final Provider<SshKeyCache> sshKeyCacheProvider;
   private final AuthType authType;
+  private final boolean wantSSL;
   private final GitWebConfig gitWebConfig;
 
   @Inject
   WebModule(final Provider<SshInfo> sshInfoProvider,
       final Provider<SshKeyCache> sshKeyCacheProvider,
-      final AuthConfig authConfig, final Injector creatingInjector) {
+      final AuthConfig authConfig,
+      @CanonicalWebUrl @Nullable final String canonicalUrl,
+      final Injector creatingInjector) {
     this.sshInfoProvider = sshInfoProvider;
     this.sshKeyCacheProvider = sshKeyCacheProvider;
     this.authType = authConfig.getAuthType();
+    this.wantSSL = canonicalUrl != null && canonicalUrl.startsWith("https:");
 
     this.gitWebConfig =
         creatingInjector.createChildInjector(new AbstractModule() {
@@ -76,6 +82,10 @@ public class WebModule extends FactoryModule {
         filter("/*").through(RequestCleanupFilter.class);
       }
     });
+
+    if (wantSSL) {
+      install(new RequireSslFilter.Module());
+    }
 
     switch (authType) {
       case OPENID:

@@ -19,8 +19,7 @@ import com.google.gerrit.common.data.HostPageData;
 import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.config.CanonicalWebUrl;
-import com.google.gerrit.server.config.Nullable;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gwt.user.server.rpc.RPCServletUtils;
 import com.google.gwtjsonrpc.server.JsonServlet;
@@ -28,6 +27,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.w3c.dom.Document;
@@ -52,20 +52,15 @@ import javax.servlet.http.HttpServletResponse;
 public class HostPageServlet extends HttpServlet {
   private final Provider<CurrentUser> currentUser;
   private final GerritConfig config;
-  private final Provider<String> urlProvider;
-  private final boolean wantSSL;
   private final Document hostDoc;
 
   @Inject
   HostPageServlet(final Provider<CurrentUser> cu,
       @SitePath final File sitePath, final GerritConfig gc,
-      @CanonicalWebUrl @Nullable final Provider<String> up,
-      @CanonicalWebUrl @Nullable final String configuredUrl,
-      final ServletContext servletContext) throws IOException {
+      @GerritServerConfig final Config cfg, final ServletContext servletContext)
+      throws IOException {
     currentUser = cu;
-    urlProvider = up;
     config = gc;
-    wantSSL = configuredUrl != null && configuredUrl.startsWith("https:");
 
     final String pageName = "HostPage.html";
     hostDoc = HtmlDomUtil.parseFile(getClass(), pageName);
@@ -187,23 +182,6 @@ public class HostPageServlet extends HttpServlet {
   @Override
   protected void doGet(final HttpServletRequest req,
       final HttpServletResponse rsp) throws IOException {
-    // If we wanted SSL, but the user didn't come to us over an SSL channel,
-    // force it to be SSL by issuing a protocol redirect. Try to keep the
-    // name "localhost" in case this is an SSH port tunnel.
-    //
-    if (wantSSL && !isSecure(req)) {
-      final StringBuffer reqUrl = req.getRequestURL();
-      if (isLocalHost(req)) {
-        reqUrl.replace(0, reqUrl.indexOf(":"), "https");
-      } else {
-        reqUrl.setLength(0);
-        reqUrl.append(urlProvider.get());
-      }
-      rsp.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
-      rsp.setHeader("Location", reqUrl.toString());
-      return;
-    }
-
     final HostPageData pageData = new HostPageData();
     pageData.config = config;
 
@@ -236,14 +214,5 @@ public class HostPageServlet extends HttpServlet {
     } finally {
       out.close();
     }
-  }
-
-  private static boolean isSecure(final HttpServletRequest req) {
-    return "https".equals(req.getScheme()) || req.isSecure();
-  }
-
-  private static boolean isLocalHost(final HttpServletRequest req) {
-    return "localhost".equals(req.getServerName())
-        || "127.0.0.1".equals(req.getServerName());
   }
 }

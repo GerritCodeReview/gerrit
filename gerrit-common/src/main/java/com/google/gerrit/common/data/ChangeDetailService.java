@@ -19,7 +19,10 @@ import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.RemoteJsonService;
+import com.google.gwtjsonrpc.client.RpcImpl;
+import com.google.gwtjsonrpc.client.RpcImpl.Version;
 
+@RpcImpl(version = Version.V2_0)
 public interface ChangeDetailService extends RemoteJsonService {
   void changeDetail(Change.Id id, AsyncCallback<ChangeDetail> callback);
 

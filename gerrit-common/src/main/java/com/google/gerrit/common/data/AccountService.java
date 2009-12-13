@@ -20,11 +20,14 @@ import com.google.gerrit.reviewdb.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.AccountProjectWatch;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.RemoteJsonService;
+import com.google.gwtjsonrpc.client.RpcImpl;
 import com.google.gwtjsonrpc.client.VoidResult;
+import com.google.gwtjsonrpc.client.RpcImpl.Version;
 
 import java.util.List;
 import java.util.Set;
 
+@RpcImpl(version = Version.V2_0)
 public interface AccountService extends RemoteJsonService {
   @SignInRequired
   void myAccount(AsyncCallback<Account> callback);

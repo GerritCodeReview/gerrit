@@ -18,7 +18,10 @@ import com.google.gerrit.common.auth.SignInMode;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.AllowCrossSiteRequest;
 import com.google.gwtjsonrpc.client.RemoteJsonService;
+import com.google.gwtjsonrpc.client.RpcImpl;
+import com.google.gwtjsonrpc.client.RpcImpl.Version;
 
+@RpcImpl(version = Version.V2_0)
 public interface OpenIdService extends RemoteJsonService {
   @AllowCrossSiteRequest
   void discover(String openidIdentifier, SignInMode mode,

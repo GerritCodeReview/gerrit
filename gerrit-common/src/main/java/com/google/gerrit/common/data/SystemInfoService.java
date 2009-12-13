@@ -19,9 +19,12 @@ import com.google.gerrit.reviewdb.ContributorAgreement;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.AllowCrossSiteRequest;
 import com.google.gwtjsonrpc.client.RemoteJsonService;
+import com.google.gwtjsonrpc.client.RpcImpl;
+import com.google.gwtjsonrpc.client.RpcImpl.Version;
 
 import java.util.List;
 
+@RpcImpl(version = Version.V2_0)
 public interface SystemInfoService extends RemoteJsonService {
   @AllowCrossSiteRequest
   void daemonHostKeys(AsyncCallback<List<SshHostKey>> callback);

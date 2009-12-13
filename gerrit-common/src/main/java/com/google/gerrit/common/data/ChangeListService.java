@@ -20,10 +20,13 @@ import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.RemoteJsonService;
+import com.google.gwtjsonrpc.client.RpcImpl;
 import com.google.gwtjsonrpc.client.VoidResult;
+import com.google.gwtjsonrpc.client.RpcImpl.Version;
 
 import java.util.Set;
 
+@RpcImpl(version = Version.V2_0)
 public interface ChangeListService extends RemoteJsonService {
   /** Get all open changes more recent than pos, fetching at most limit rows. */
   void allOpenPrev(String pos, int limit,

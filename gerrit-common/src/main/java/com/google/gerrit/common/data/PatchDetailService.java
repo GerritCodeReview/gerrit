@@ -24,11 +24,14 @@ import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.Patch.Key;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.RemoteJsonService;
+import com.google.gwtjsonrpc.client.RpcImpl;
 import com.google.gwtjsonrpc.client.VoidResult;
+import com.google.gwtjsonrpc.client.RpcImpl.Version;
 
 import java.util.List;
 import java.util.Set;
 
+@RpcImpl(version = Version.V2_0)
 public interface PatchDetailService extends RemoteJsonService {
   void patchScript(Patch.Key key, PatchSet.Id a, PatchSet.Id b,
       PatchScriptSettings settings, AsyncCallback<PatchScript> callback);

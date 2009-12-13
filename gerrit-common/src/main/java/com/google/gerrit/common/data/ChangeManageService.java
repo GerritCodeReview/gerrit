@@ -18,7 +18,10 @@ import com.google.gerrit.common.auth.SignInRequired;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.RemoteJsonService;
+import com.google.gwtjsonrpc.client.RpcImpl;
+import com.google.gwtjsonrpc.client.RpcImpl.Version;
 
+@RpcImpl(version = Version.V2_0)
 public interface ChangeManageService extends RemoteJsonService {
   @SignInRequired
   void submit(PatchSet.Id patchSetId, AsyncCallback<ChangeDetail> callback);

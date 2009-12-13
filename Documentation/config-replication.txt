@@ -153,7 +153,7 @@ parallel pushing.
 +
 By default, 1 thread.
 
-[[remote.name.authGroup]]remote.<name>.authGroup:
+[[remote.name.authGroup]]remote.<name>.authGroup::
 +
 Specifies the name of a group that the remote should use to access
 the repositories. Multiple authGroups may be specified within a

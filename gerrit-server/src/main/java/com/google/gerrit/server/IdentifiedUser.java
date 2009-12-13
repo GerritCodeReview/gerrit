@@ -211,35 +211,32 @@ public class IdentifiedUser extends CurrentUser {
 
   public PersonIdent newRefLogIdent(final Date when, final TimeZone tz) {
     final Account ua = getAccount();
+
     String name = ua.getFullName();
-    if (name == null) {
+    if (name == null || name.isEmpty()) {
       name = ua.getPreferredEmail();
     }
-    if (name == null) {
+    if (name == null || name.isEmpty()) {
       name = "Anonymous Coward";
     }
 
-    final String userId = "account-" + ua.getId().toString();
-    final String user;
-    if (ua.getSshUserName() != null) {
-      user = ua.getSshUserName() + "|" + userId;
-    } else {
-      user = userId;
+    String user = ua.getSshUserName();
+    if (user == null) {
+      user = "";
     }
+    user = user + "|" + "account-" + ua.getId().toString();
 
     String host = null;
-    final SocketAddress remotePeer =
-        remotePeerProvider != null ? remotePeerProvider.get() : null;
-    if (remotePeer instanceof InetSocketAddress) {
-      final InetSocketAddress sa = (InetSocketAddress) remotePeer;
-      final InetAddress in = sa.getAddress();
-      if (in != null) {
-        host = in.getCanonicalHostName();
-      } else {
-        host = sa.getHostName();
+    if (remotePeerProvider != null) {
+      final SocketAddress remotePeer = remotePeerProvider.get();
+      if (remotePeer instanceof InetSocketAddress) {
+        final InetSocketAddress sa = (InetSocketAddress) remotePeer;
+        final InetAddress in = sa.getAddress();
+
+        host = in != null ? in.getCanonicalHostName() : sa.getHostName();
       }
     }
-    if (host == null) {
+    if (host == null || host.isEmpty()) {
       host = "unknown";
     }
 

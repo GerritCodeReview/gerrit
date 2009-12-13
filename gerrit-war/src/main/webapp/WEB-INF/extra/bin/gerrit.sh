@@ -29,9 +29,10 @@
 #
 # NO_START
 #   If set to "1" disables Gerrit from starting.
-
-# Set to 0 if you do not want to use start-stop-daemon (especially on SUSE boxes)
-START_STOP_DAEMON=1
+#
+# START_STOP_DAEMON
+#   If set to "0" disables using start-stop-daemon.  This may need to
+#   be set on SuSE systems.
 
 usage() {
     me=`basename "$0"`
@@ -137,7 +138,8 @@ while test $# -gt 0 ; do
   esac
 done
 
-NO_START=0
+test -z "$NO_START" && NO_START=0
+test -z "$START_STOP_DAEMON" && START_STOP_DAEMON=1
 
 ##################################################
 # See if there's a default configuration file
@@ -383,11 +385,11 @@ case "$ACTION" in
         fi
       fi
 
-      if test $UID = 0 && -n "$GERRIT_USER" ; then 
+      if test $UID = 0 -a -n "$GERRIT_USER" ; then 
         touch "$GERRIT_PID"
         chown $GERRIT_USER "$GERRIT_PID"
         su - $GERRIT_USER -c "
-          $RUN_EXEC $RUN_Arg1 '$RUN_Arg2' $RUN_Arg3 $RUN_ARGS & ;
+          $RUN_EXEC $RUN_Arg1 '$RUN_Arg2' $RUN_Arg3 $RUN_ARGS &
           PID=\$! ;
           disown \$PID ;
           echo \$PID >\"$GERRIT_PID\""

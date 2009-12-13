@@ -632,44 +632,52 @@ public class Init extends SiteProgram {
       throws IOException, InterruptedException {
     ui.header("HTTP Daemon");
 
-    final boolean reverseProxy;
+    final boolean useProxy;
+    final String proxyName, proxyPort;
     if (ui.isBatch()) {
-      reverseProxy = false;
+      useProxy = false;
+      proxyName = null;
+      proxyPort = null;
     } else {
-      reverseProxy =
-          ui.yesno("Behind reverse HTTP proxy (e.g. Apache mod_proxy)");
+      useProxy = ui.yesno("Behind reverse HTTP proxy (e.g. Apache mod_proxy)");
+      proxyName = ui.readString(hostname(), "Proxy server name");
+      proxyPort = ui.readString("443", "Proxy server port");
     }
 
     final boolean useSSL;
     if (ui.isBatch()) {
       useSSL = false;
-    } else if (reverseProxy) {
-      useSSL = ui.yesno("Does the proxy server use https:// (SSL)");
+    } else if (useProxy) {
+      useSSL = ui.yesno("Proxy uses https:// (SSL)");
     } else {
       useSSL = ui.yesno("Use https:// (SSL)");
     }
 
     final String scheme = useSSL ? "https" : "http";
     final String port_def = useSSL ? "8443" : "8080";
-    String httpd_hostname = ui.readString(reverseProxy ? "localhost" : "*", //
+    String httpd_hostname = ui.readString(useProxy ? "localhost" : "*", //
         "Gerrit HTTP listens on address");
-    String httpd_port = ui.readString(reverseProxy ? "8081" : port_def, //
+    String httpd_port = ui.readString(useProxy ? "8081" : port_def, //
         "Gerrit HTTP listens on port");
 
     String context = "/";
-    if (reverseProxy) {
+    if (useProxy) {
       context = ui.readString("/", "Gerrit's subdirectory on proxy server");
       if (!context.endsWith("/")) {
         context += "/";
       }
     }
 
-    final String httpd_url = (reverseProxy ? "proxy-" : "") //
+    final String httpd_url = (useProxy ? "proxy-" : "") //
         + scheme + "://" + httpd_hostname + ":" + httpd_port + context;
     set(cfg, "httpd", "listenUrl", httpd_url);
 
-    if (useSSL && !reverseProxy
-        && ui.yesno("Create self-signed SSL certificate")) {
+    if (useSSL && useProxy) {
+      final String port = "443".equals(proxyPort) ? "" : ":" + proxyPort;
+      set(cfg, "gerrit", "canonicalWebUrl", //
+          "https://" + proxyName + port + context);
+
+    } else if (useSSL && ui.yesno("Create self-signed SSL certificate")) {
       final String certName =
           ui.readString("*".equals(httpd_hostname) ? hostname()
               : httpd_hostname, "Certificate server name");

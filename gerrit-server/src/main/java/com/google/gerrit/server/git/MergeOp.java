@@ -548,7 +548,7 @@ public class MergeOp {
   private void setRefLogIdent(final PatchSetApproval submitAudit) {
     if (submitAudit != null) {
       branchUpdate.setRefLogIdent(identifiedUserFactory.create(
-          submitAudit.getAccountId()).newPersonIdent());
+          submitAudit.getAccountId()).newRefLogIdent());
     }
   }
 
@@ -744,12 +744,11 @@ public class MergeOp {
       log.error("Can't read approval records for " + n.patchsetId, e);
     }
 
-    final PersonIdent submitIdent = toPersonIdent(submitAudit);
     final Commit mergeCommit = new Commit(db);
     mergeCommit.setTreeId(m.getResultTreeId());
     mergeCommit.setParentIds(new ObjectId[] {mergeTip});
     mergeCommit.setAuthor(n.getAuthorIdent());
-    mergeCommit.setCommitter(submitIdent != null ? submitIdent : myIdent);
+    mergeCommit.setCommitter(toCommitterIdent(submitAudit));
     mergeCommit.setMessage(msgbuf.toString());
 
     final ObjectId id = m.getObjectWriter().writeCommit(mergeCommit);
@@ -781,12 +780,12 @@ public class MergeOp {
     return false;
   }
 
-  private PersonIdent toPersonIdent(final PatchSetApproval audit) {
-    if (audit == null) {
-      return null;
+  private PersonIdent toCommitterIdent(final PatchSetApproval audit) {
+    if (audit != null) {
+      return identifiedUserFactory.create(audit.getAccountId())
+          .newCommitterIdent(audit.getGranted(), myIdent.getTimeZone());
     }
-    return identifiedUserFactory.create(audit.getAccountId()).newPersonIdent(
-        audit.getGranted(), myIdent.getTimeZone());
+    return myIdent;
   }
 
   private void updateBranch() throws MergeException {

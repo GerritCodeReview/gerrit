@@ -193,7 +193,7 @@ final class Receive extends AbstractGitCommand {
     if (project.isUseContributorAgreements()) {
       verifyActiveContributorAgreement();
     }
-    refLogIdent = currentUser.newPersonIdent();
+    refLogIdent = currentUser.newRefLogIdent();
 
     verifyProjectVisible("reviewer", reviewerId);
     verifyProjectVisible("CC", ccId);

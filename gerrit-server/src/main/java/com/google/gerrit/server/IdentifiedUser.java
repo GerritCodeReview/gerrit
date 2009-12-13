@@ -23,6 +23,7 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.config.AuthConfig;
+import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.Nullable;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
@@ -31,13 +32,16 @@ import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
 
+import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.util.SystemReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.eclipse.jgit.lib.PersonIdent;
 
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
+import java.net.MalformedURLException;
 import java.net.SocketAddress;
+import java.net.URL;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
@@ -50,20 +54,23 @@ public class IdentifiedUser extends CurrentUser {
   @Singleton
   public static class GenericFactory {
     private final AuthConfig authConfig;
-    private final AccountCache accountCache;
+    private final Provider<String> canonicalUrl;
     private final Realm realm;
+    private final AccountCache accountCache;
 
     @Inject
     GenericFactory(final AuthConfig authConfig,
-        final AccountCache accountCache, final Realm realm) {
+        final @CanonicalWebUrl Provider<String> canonicalUrl,
+        final Realm realm, final AccountCache accountCache) {
       this.authConfig = authConfig;
-      this.accountCache = accountCache;
+      this.canonicalUrl = canonicalUrl;
       this.realm = realm;
+      this.accountCache = accountCache;
     }
 
     public IdentifiedUser create(final Account.Id id) {
-      return new IdentifiedUser(AccessPath.UNKNOWN, authConfig, accountCache,
-          realm, null, null, id);
+      return new IdentifiedUser(AccessPath.UNKNOWN, authConfig, canonicalUrl,
+          realm, accountCache, null, null, id);
     }
   }
 
@@ -76,33 +83,40 @@ public class IdentifiedUser extends CurrentUser {
   @Singleton
   public static class RequestFactory {
     private final AuthConfig authConfig;
-    private final AccountCache accountCache;
+    private final Provider<String> canonicalUrl;
     private final Realm realm;
+    private final AccountCache accountCache;
+
     private final Provider<SocketAddress> remotePeerProvider;
     private final Provider<ReviewDb> dbProvider;
 
     @Inject
     RequestFactory(final AuthConfig authConfig,
-        final AccountCache accountCache, final Realm realm,
+        final @CanonicalWebUrl Provider<String> canonicalUrl,
+        final Realm realm, final AccountCache accountCache,
+
         final @RemotePeer Provider<SocketAddress> remotePeerProvider,
         final Provider<ReviewDb> dbProvider) {
       this.authConfig = authConfig;
-      this.accountCache = accountCache;
+      this.canonicalUrl = canonicalUrl;
       this.realm = realm;
+      this.accountCache = accountCache;
+
       this.remotePeerProvider = remotePeerProvider;
       this.dbProvider = dbProvider;
     }
 
     public IdentifiedUser create(final AccessPath accessPath,
         final Account.Id id) {
-      return new IdentifiedUser(accessPath, authConfig, accountCache, realm,
-          remotePeerProvider, dbProvider, id);
+      return new IdentifiedUser(accessPath, authConfig, canonicalUrl, realm,
+          accountCache, remotePeerProvider, dbProvider, id);
     }
   }
 
   private static final Logger log =
       LoggerFactory.getLogger(IdentifiedUser.class);
 
+  private final Provider<String> canonicalUrl;
   private final Realm realm;
   private final AccountCache accountCache;
 
@@ -120,11 +134,12 @@ public class IdentifiedUser extends CurrentUser {
   private Set<Change.Id> starredChanges;
 
   private IdentifiedUser(final AccessPath accessPath,
-      final AuthConfig authConfig, final AccountCache accountCache,
-      final Realm realm,
+      final AuthConfig authConfig, final Provider<String> canonicalUrl,
+      final Realm realm, final AccountCache accountCache,
       @Nullable final Provider<SocketAddress> remotePeerProvider,
       @Nullable final Provider<ReviewDb> dbProvider, final Account.Id id) {
     super(accessPath, authConfig);
+    this.canonicalUrl = canonicalUrl;
     this.realm = realm;
     this.accountCache = accountCache;
     this.remotePeerProvider = remotePeerProvider;
@@ -190,11 +205,11 @@ public class IdentifiedUser extends CurrentUser {
     return starredChanges;
   }
 
-  public PersonIdent newPersonIdent() {
-    return newPersonIdent(new Date(), TimeZone.getDefault());
+  public PersonIdent newRefLogIdent() {
+    return newRefLogIdent(new Date(), TimeZone.getDefault());
   }
 
-  public PersonIdent newPersonIdent(final Date when, final TimeZone tz) {
+  public PersonIdent newRefLogIdent(final Date when, final TimeZone tz) {
     final Account ua = getAccount();
     String name = ua.getFullName();
     if (name == null) {
@@ -229,6 +244,47 @@ public class IdentifiedUser extends CurrentUser {
     }
 
     return new PersonIdent(name, user + "@" + host, when, tz);
+  }
+
+  public PersonIdent newCommitterIdent(final Date when, final TimeZone tz) {
+    final Account ua = getAccount();
+    String name = ua.getFullName();
+    String email = ua.getPreferredEmail();
+
+    if (email == null || email.isEmpty()) {
+      // No preferred email is configured. Use a generic identity so we
+      // don't leak an address the user may have given us, but doesn't
+      // necessarily want to publish through Git records.
+      //
+      String user = ua.getSshUserName();
+      if (user == null || user.isEmpty()) {
+        user = "account-" + ua.getId().toString();
+      }
+
+      String host;
+      if (canonicalUrl.get() != null) {
+        try {
+          host = new URL(canonicalUrl.get()).getHost();
+        } catch (MalformedURLException e) {
+          host = SystemReader.getInstance().getHostname();
+        }
+      } else {
+        host = SystemReader.getInstance().getHostname();
+      }
+
+      email = user + "@" + host;
+    }
+
+    if (name == null || name.isEmpty()) {
+      final int at = email.indexOf('@');
+      if (0 < at) {
+        name = email.substring(0, at);
+      } else {
+        name = "Anonymous Coward";
+      }
+    }
+
+    return new PersonIdent(name, email, when, tz);
   }
 
   @Override

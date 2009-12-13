@@ -112,7 +112,7 @@ class AddBranch extends Handler<List<Branch>> {
         final RefUpdate u = repo.updateRef(refname);
         u.setExpectedOldObjectId(ObjectId.zeroId());
         u.setNewObjectId(revid);
-        u.setRefLogIdent(identifiedUser.newPersonIdent());
+        u.setRefLogIdent(identifiedUser.newRefLogIdent());
         u.setRefLogMessage("created via web from " + startingRevision, false);
         final RefUpdate.Result result = u.update(rw);
         switch (result) {

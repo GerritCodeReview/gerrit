@@ -30,6 +30,7 @@ public final class IoUtil {
   public static void copyWithThread(final InputStream src,
       final OutputStream dst) {
     new Thread("IoUtil-Copy") {
+      @Override
       public void run() {
         try {
           final byte[] buf = new byte[256];

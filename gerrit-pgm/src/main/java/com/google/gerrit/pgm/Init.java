@@ -888,10 +888,6 @@ public class Init extends SiteProgram {
     if (url.startsWith("proxy-")) {
       url = url.substring("proxy-".length());
     }
-    if (!url.endsWith("/")) {
-      url += "/";
-    }
-    url += "#" + PageLinks.ADMIN_PROJECTS;
 
     final URI uri;
     try {
@@ -921,8 +917,16 @@ public class Init extends SiteProgram {
     }
     System.err.println("OK");
 
+    url = cfg.getString("gerrit", null, "canonicalWebUrl");
+    if (url == null || url.isEmpty()) {
+      url = uri.toString();
+    }
+    if (!url.endsWith("/")) {
+      url += "/";
+    }
+    url += "#" + PageLinks.ADMIN_PROJECTS;
     System.err.println("Opening browser ...");
-    StartBrowser.openURL(uri.toString());
+    StartBrowser.openURL(url);
   }
 
   private static URI toURI(String url) throws URISyntaxException {

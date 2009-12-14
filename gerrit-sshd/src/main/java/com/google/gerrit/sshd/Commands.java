@@ -16,7 +16,7 @@ package com.google.gerrit.sshd;
 
 import com.google.inject.Key;
 
-import org.apache.sshd.server.Command;
+import org.apache.sshd.server.CommandFactory.Command;
 
 import java.lang.annotation.Annotation;
 

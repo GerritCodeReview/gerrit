@@ -24,9 +24,9 @@ import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.inject.Inject;
 
 import org.apache.sshd.common.SshException;
-import org.apache.sshd.server.Command;
-import org.apache.sshd.server.Environment;
-import org.apache.sshd.server.ExitCallback;
+import org.apache.sshd.server.CommandFactory.Command;
+import org.apache.sshd.server.CommandFactory.ExitCallback;
+import org.apache.sshd.server.ShellFactory.Environment;
 import org.apache.sshd.server.session.ServerSession;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
@@ -111,7 +111,6 @@ public abstract class BaseCommand implements Command {
     this.commandLine = line;
   }
 
-  @Override
   public void destroy() {
     if (task != null && !task.isDone()) {
       task.cancel(true);

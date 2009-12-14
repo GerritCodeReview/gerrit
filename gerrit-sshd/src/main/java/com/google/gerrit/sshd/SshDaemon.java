@@ -30,7 +30,6 @@ import org.apache.mina.core.session.IoSession;
 import org.apache.mina.transport.socket.SocketSessionConfig;
 import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 import org.apache.sshd.SshServer;
-import org.apache.sshd.common.Channel;
 import org.apache.sshd.common.Cipher;
 import org.apache.sshd.common.Compression;
 import org.apache.sshd.common.KeyExchange;
@@ -55,18 +54,16 @@ import org.apache.sshd.common.signature.SignatureDSA;
 import org.apache.sshd.common.signature.SignatureRSA;
 import org.apache.sshd.common.util.Buffer;
 import org.apache.sshd.common.util.SecurityUtils;
-import org.apache.sshd.server.Command;
 import org.apache.sshd.server.CommandFactory;
 import org.apache.sshd.server.PublickeyAuthenticator;
-import org.apache.sshd.server.TcpIpForwardFilter;
+import org.apache.sshd.server.ServerChannel;
+import org.apache.sshd.server.SessionFactory;
 import org.apache.sshd.server.UserAuth;
 import org.apache.sshd.server.auth.UserAuthPublicKey;
-import org.apache.sshd.server.channel.ChannelDirectTcpip;
 import org.apache.sshd.server.channel.ChannelSession;
 import org.apache.sshd.server.kex.DHG1;
 import org.apache.sshd.server.kex.DHG14;
 import org.apache.sshd.server.session.ServerSession;
-import org.apache.sshd.server.session.SessionFactory;
 import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -500,15 +497,13 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
 
   @SuppressWarnings("unchecked")
   private void initChannels() {
-    setChannelFactories(Arrays.<NamedFactory<Channel>> asList(
-        new ChannelSession.Factory(), //
-        new ChannelDirectTcpip.Factory() //
+    setChannelFactories(Arrays.<NamedFactory<ServerChannel>> asList(
+        new ChannelSession.Factory() //
         ));
   }
 
   @SuppressWarnings("unchecked")
   private void initSubsystems() {
-    setSubsystemFactories(Collections.<NamedFactory<Command>> emptyList());
   }
 
   @SuppressWarnings("unchecked")
@@ -519,16 +514,5 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   }
 
   private void initTcpIpForwardFilter() {
-    setTcpIpForwardFilter(new TcpIpForwardFilter() {
-      @Override
-      public boolean canConnect(InetSocketAddress address, ServerSession session) {
-        return false;
-      }
-
-      @Override
-      public boolean canListen(InetSocketAddress address, ServerSession session) {
-        return false;
-      }
-    });
   }
 }

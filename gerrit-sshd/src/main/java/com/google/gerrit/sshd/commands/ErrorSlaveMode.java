@@ -16,8 +16,6 @@ package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.sshd.BaseCommand;
 
-import org.apache.sshd.server.Environment;
-
 import java.io.IOException;
 
 /**
@@ -27,7 +25,7 @@ import java.io.IOException;
  */
 final class ErrorSlaveMode extends BaseCommand {
   @Override
-  public void start(final Environment env) {
+  public void start() {
     String msg =
         "error: That command is disabled on this server.\n\n"
             + "Please use the master server URL.\n";

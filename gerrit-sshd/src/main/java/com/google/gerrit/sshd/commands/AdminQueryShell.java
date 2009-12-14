@@ -18,8 +18,6 @@ import com.google.gerrit.sshd.AdminCommand;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.inject.Inject;
 
-import org.apache.sshd.server.Environment;
-
 /** Opens a query processor. */
 @AdminCommand
 final class AdminQueryShell extends BaseCommand {
@@ -27,7 +25,7 @@ final class AdminQueryShell extends BaseCommand {
   private QueryShell.Factory factory;
 
   @Override
-  public void start(final Environment env) {
+  public void start() {
     startThread(new CommandRunnable() {
       @Override
       public void run() throws Exception {

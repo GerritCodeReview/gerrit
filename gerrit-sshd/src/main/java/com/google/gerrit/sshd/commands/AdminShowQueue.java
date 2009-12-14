@@ -21,7 +21,6 @@ import com.google.gerrit.sshd.AdminCommand;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.inject.Inject;
 
-import org.apache.sshd.server.Environment;
 import org.kohsuke.args4j.Option;
 
 import java.io.PrintWriter;
@@ -46,8 +45,8 @@ final class AdminShowQueue extends BaseCommand {
   private int taskNameWidth;
 
   @Override
-  public void start(final Environment env) {
-    String s = env.getEnv().get(Environment.ENV_COLUMNS);
+  public void start() {
+    String s = null;
     if (s != null && !s.isEmpty()) {
       try {
         columns = Integer.parseInt(s);

@@ -20,7 +20,7 @@ import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
 
-import org.apache.sshd.server.Command;
+import org.apache.sshd.server.CommandFactory.Command;
 
 import java.lang.annotation.Annotation;
 import java.util.Collections;

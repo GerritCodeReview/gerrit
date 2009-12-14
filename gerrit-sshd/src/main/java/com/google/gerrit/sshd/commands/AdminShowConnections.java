@@ -24,7 +24,6 @@ import com.google.inject.Inject;
 
 import org.apache.mina.core.service.IoAcceptor;
 import org.apache.mina.core.session.IoSession;
-import org.apache.sshd.server.Environment;
 import org.apache.sshd.server.session.ServerSession;
 import org.kohsuke.args4j.Option;
 
@@ -51,7 +50,7 @@ final class AdminShowConnections extends BaseCommand {
   private SshDaemon daemon;
 
   @Override
-  public void start(final Environment env) {
+  public void start() {
     startThread(new CommandRunnable() {
       @Override
       public void run() throws Exception {

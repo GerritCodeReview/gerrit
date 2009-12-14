@@ -19,7 +19,7 @@ import com.google.gerrit.reviewdb.AccountSshKey;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.sshd.common.KeyPairProvider;
-import org.apache.sshd.common.Session.AttributeKey;
+import org.apache.sshd.common.session.AttributeKey;
 import org.apache.sshd.common.util.Buffer;
 import org.eclipse.jgit.lib.Constants;
 

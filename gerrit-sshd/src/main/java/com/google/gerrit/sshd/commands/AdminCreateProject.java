@@ -29,7 +29,6 @@ import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.Transaction;
 import com.google.inject.Inject;
 
-import org.apache.sshd.server.Environment;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
 import org.kohsuke.args4j.Option;
@@ -77,7 +76,7 @@ final class AdminCreateProject extends BaseCommand {
   private ReplicationQueue rq;
 
   @Override
-  public void start(final Environment env) {
+  public void start() {
     startThread(new CommandRunnable() {
       @Override
       public void run() throws Exception {

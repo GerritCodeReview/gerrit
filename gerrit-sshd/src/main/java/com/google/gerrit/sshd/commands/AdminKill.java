@@ -21,7 +21,6 @@ import com.google.gerrit.sshd.AdminCommand;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.inject.Inject;
 
-import org.apache.sshd.server.Environment;
 import org.kohsuke.args4j.Argument;
 
 import java.io.PrintWriter;
@@ -46,7 +45,7 @@ final class AdminKill extends BaseCommand {
   }
 
   @Override
-  public void start(final Environment env) {
+  public void start() {
     startThread(new CommandRunnable() {
       @Override
       public void run() throws Exception {

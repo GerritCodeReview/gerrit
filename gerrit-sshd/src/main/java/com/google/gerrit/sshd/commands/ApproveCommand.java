@@ -41,7 +41,6 @@ import com.google.gwtorm.client.ResultSet;
 import com.google.gwtorm.client.Transaction;
 import com.google.inject.Inject;
 
-import org.apache.sshd.server.Environment;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
@@ -110,7 +109,7 @@ public class ApproveCommand extends BaseCommand {
   private List<ApproveOption> optionList;
 
   @Override
-  public final void start(final Environment env) {
+  public final void start() {
     startThread(new CommandRunnable() {
       @Override
       public void run() throws Failure {

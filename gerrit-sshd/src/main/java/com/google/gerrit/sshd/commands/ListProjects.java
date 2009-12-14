@@ -24,8 +24,6 @@ import com.google.gerrit.sshd.BaseCommand;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 
-import org.apache.sshd.server.Environment;
-
 import java.io.PrintWriter;
 
 final class ListProjects extends BaseCommand {
@@ -43,7 +41,7 @@ final class ListProjects extends BaseCommand {
   private Project.NameKey wildProject;
 
   @Override
-  public void start(final Environment env) {
+  public void start() {
     startThread(new CommandRunnable() {
       @Override
       public void run() throws Exception {

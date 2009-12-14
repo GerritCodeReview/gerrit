@@ -43,7 +43,8 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
     schema = sf;
   }
 
-  public boolean authenticate(final String username,
+  @Override
+  public boolean hasKey(final String username,
       final PublicKey suppliedKey, final ServerSession session) {
     final Iterable<SshKeyCacheEntry> keyList = sshKeyCache.get(username);
     final SshKeyCacheEntry key = find(keyList, suppliedKey);

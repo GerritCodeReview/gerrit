@@ -14,10 +14,7 @@
 
 package com.google.gerrit.sshd;
 
-import org.apache.sshd.common.Factory;
-import org.apache.sshd.server.Command;
-import org.apache.sshd.server.Environment;
-import org.apache.sshd.server.ExitCallback;
+import org.apache.sshd.server.ShellFactory;
 import org.eclipse.jgit.lib.Constants;
 
 import java.io.IOException;
@@ -31,9 +28,9 @@ import java.io.OutputStream;
  * server without supplying a command will get a reasonable error message, but
  * cannot continue further.
  */
-class NoShell implements Factory<Command> {
-  public Command create() {
-    return new Command() {
+class NoShell implements ShellFactory {
+  public Shell createShell() {
+    return new Shell() {
       private InputStream in;
       private OutputStream out;
       private OutputStream err;

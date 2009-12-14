@@ -62,22 +62,13 @@ public abstract class ConsoleUI {
   public abstract void header(String fmt, Object... args);
 
   /** Request the user to answer a yes/no question. */
-  public abstract boolean yesno(String fmt, Object... args);
+  public abstract boolean yesno(Boolean def, String fmt, Object... args);
 
   /** Prints a message asking the user to let us know when its safe to continue. */
   public abstract void waitForUser();
 
   /** Prompt the user for a string, suggesting a default, and returning choice. */
-  public final String readString(String def, String fmt, Object... args) {
-    if (def != null && def.isEmpty()) {
-      def = null;
-    }
-    return readStringImpl(def, fmt, args);
-  }
-
-  /** Prompt the user for a string, suggesting a default, and returning choice. */
-  protected abstract String readStringImpl(String def, String fmt,
-      Object... args);
+  public abstract String readString(String def, String fmt, Object... args);
 
   /** Prompt the user for a password, returning the string; null if blank. */
   public abstract String password(String fmt, Object... args);
@@ -85,7 +76,6 @@ public abstract class ConsoleUI {
   /** Prompt the user to make a choice from an enumeration's values. */
   public abstract <T extends Enum<?>> T readEnum(T def, String fmt,
       Object... args);
-
 
   private static class Interactive extends ConsoleUI {
     private final Console console;
@@ -100,12 +90,26 @@ public abstract class ConsoleUI {
     }
 
     @Override
-    public boolean yesno(String fmt, Object... args) {
+    public boolean yesno(Boolean def, String fmt, Object... args) {
       final String prompt = String.format(fmt, args);
       for (;;) {
-        final String yn = console.readLine("%-30s [y/n]? ", prompt);
+        String y = "y";
+        String n = "n";
+        if (def != null) {
+          if (def) {
+            y = "Y";
+          } else {
+            n = "N";
+          }
+        }
+
+        String yn = console.readLine("%-30s [%s/%s]? ", prompt, y, n);
         if (yn == null) {
           throw abort();
+        }
+        yn = yn.trim();
+        if (def != null && yn.isEmpty()) {
+          return def;
         }
         if (yn.equalsIgnoreCase("y") || yn.equalsIgnoreCase("yes")) {
           return true;
@@ -124,7 +128,7 @@ public abstract class ConsoleUI {
     }
 
     @Override
-    protected String readStringImpl(String def, String fmt, Object... args) {
+    public String readString(String def, String fmt, Object... args) {
       final String prompt = String.format(fmt, args);
       String r;
       if (def != null) {
@@ -208,12 +212,12 @@ public abstract class ConsoleUI {
     }
 
     @Override
-    public boolean yesno(String fmt, Object... args) {
-      return true;
+    public boolean yesno(Boolean def, String fmt, Object... args) {
+      return def != null ? def : true;
     }
 
     @Override
-    protected String readStringImpl(String def, String fmt, Object... args) {
+    public String readString(String def, String fmt, Object... args) {
       return def;
     }
 

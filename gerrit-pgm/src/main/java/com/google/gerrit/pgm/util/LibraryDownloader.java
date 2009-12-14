@@ -101,7 +101,7 @@ public class LibraryDownloader {
         msg.append("  in the library, but will also function without it.\n");
       }
       msg.append("Download and install it now");
-      return console.yesno(msg.toString(), name);
+      return console.yesno(true, msg.toString(), name);
     }
   }
 
@@ -138,7 +138,7 @@ public class LibraryDownloader {
       if (dst.exists()) {
         verifyFileChecksum();
 
-      } else if (!console.yesno("Continue without this library")) {
+      } else if (!console.yesno(!required, "Continue without this library")) {
         throw new Die("aborted by user");
       }
     }
@@ -214,8 +214,9 @@ public class LibraryDownloader {
           dst.delete();
           throw new Die(dst + " SHA-1 checksum does not match");
 
-        } else if (!console.yesno("error: SHA-1 checksum does not match\n"
-            + "Use %s anyway", dst.getName())) {
+        } else if (!console.yesno(null /* force an answer */,
+            "error: SHA-1 checksum does not match\n" + "Use %s anyway",//
+            dst.getName())) {
           dst.delete();
           throw new Die("aborted by user");
         }

@@ -139,6 +139,10 @@ public class PushReplication implements ReplicationQueue {
       log.warn("No " + cfg.getFile() + "; not replicating");
       return Collections.emptyList();
     }
+    if (cfg.getFile().length() == 0) {
+      log.info("Empty " + cfg.getFile() + "; not replicating");
+      return Collections.emptyList();
+    }
 
     try {
       cfg.load();

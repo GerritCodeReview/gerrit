@@ -252,7 +252,14 @@ public class JettyServer {
       throws MalformedURLException, IOException {
     final Set<String> paths = new HashSet<String>();
     for (URI u : listenURLs(cfg)) {
-      paths.add(u.getPath() != null ? u.getPath() : "/");
+      String p = u.getPath();
+      if (p == null || p.isEmpty()) {
+        p = "/";
+      }
+      while (1 < p.length() && p.endsWith("/")) {
+        p = p.substring(p.length() - 1);
+      }
+      paths.add(p);
     }
 
     final List<ContextHandler> all = new ArrayList<ContextHandler>();

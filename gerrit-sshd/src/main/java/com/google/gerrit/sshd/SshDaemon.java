@@ -27,6 +27,7 @@ import com.jcraft.jsch.JSchException;
 
 import org.apache.mina.core.service.IoAcceptor;
 import org.apache.mina.core.session.IoSession;
+import org.apache.mina.transport.socket.DefaultSocketSessionConfig;
 import org.apache.mina.transport.socket.SocketSessionConfig;
 import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 import org.apache.sshd.SshServer;
@@ -207,6 +208,8 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
       handler.setServer(this);
       ain.setHandler(handler);
       ain.setReuseAddress(reuseAddress);
+      ((DefaultSocketSessionConfig)ain.getSessionConfig()).setReceiveBufferSize(1024*1024);
+      ((DefaultSocketSessionConfig)ain.getSessionConfig()).setSendBufferSize(1024*1024);
       try {
         ain.bind(listen);
       } catch (IOException e) {

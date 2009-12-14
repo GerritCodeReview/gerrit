@@ -28,6 +28,7 @@ import org.apache.commons.dbcp.BasicDataSource;
 import org.eclipse.jgit.lib.Config;
 
 import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Properties;
 
@@ -152,7 +153,12 @@ public final class DataSourceProvider implements Provider<DataSource>,
 
           File db = new File(database);
           if (!db.isAbsolute()) {
-            db = new File(sitePath, database).getAbsoluteFile();
+            db = new File(sitePath, database);
+            try {
+              db = db.getCanonicalFile();
+            } catch (IOException e) {
+              db = db.getAbsoluteFile();
+            }
           }
           url = pfx + db.toURI().toString();
         }

@@ -12,6 +12,7 @@ SYNOPSIS
 	-d <SITE_PATH>
 	[\--batch]
 	[\--import-projects]
+	[\--no-auto-start]
 
 DESCRIPTION
 -----------
@@ -34,6 +35,12 @@ OPTIONS
 	link:config-gerrit.html#gerrit.basePath[gerrit.basePath]
 	for any Git repositories not yet registered as a project,
 	and initializes a new project for them.
+
+\--no-auto-start::
+	Don't automatically start the daemon after initializing a
+	newly created site path.  This permits the administartor
+	to inspect and modify the configuration before the daemon
+	is started.
 
 -d::
 \--site-path::

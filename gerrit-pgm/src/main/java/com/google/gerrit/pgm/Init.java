@@ -77,6 +77,9 @@ public class Init extends SiteProgram {
   @Option(name = "--import-projects", usage = "Import git repositories as projects")
   private boolean importProjects;
 
+  @Option(name = "--no-auto-start", usage = "Don't automatically start daemon after init")
+  private boolean noAutoStart;
+
   @Inject
   private GitRepositoryManager repositoryManager;
 
@@ -130,7 +133,7 @@ public class Init extends SiteProgram {
 
     System.err.println("Initialized " + getSitePath().getCanonicalPath());
 
-    if (isNew) {
+    if (isNew && !noAutoStart) {
       if (IoUtil.isWin32()) {
         System.err.println("Automatic startup not supported on this platform.");
 

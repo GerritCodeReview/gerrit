@@ -87,6 +87,7 @@ public class Init extends SiteProgram {
   @Inject
   private SchemaFactory<ReviewDb> schema;
 
+  private boolean isNew;
   private boolean deleteOnFailure;
   private ConsoleUI ui;
   private Injector dbInjector;
@@ -113,7 +114,18 @@ public class Init extends SiteProgram {
     ui = ConsoleUI.getInstance(batchMode);
     initPathLocations();
 
-    final boolean isNew = !site_path.exists();
+    if (site_path.exists()) {
+      final String[] contents = site_path.list();
+      if (contents != null)
+        isNew = contents.length == 0;
+      else if (site_path.isDirectory())
+        throw die("Cannot access " + site_path);
+      else
+        throw die("Not a directory: " + site_path);
+    } else {
+      isNew = true;
+    }
+
     try {
       upgradeFrom2_0();
 
@@ -188,9 +200,7 @@ public class Init extends SiteProgram {
         throw die("aborted by user");
       }
 
-      if (!etc_dir.exists() && !etc_dir.mkdirs()) {
-        throw die("Cannot create directory " + etc_dir);
-      }
+      mkdir(etc_dir);
       for (String name : etcFiles) {
         final File src = new File(site_path, name);
         final File dst = new File(etc_dir, name);
@@ -210,24 +220,21 @@ public class Init extends SiteProgram {
       ConfigInvalidException {
     ui.header("Gerrit Code Review %s", version());
 
-    if (!gerrit_config.exists()) {
+    if (isNew) {
       if (!ui.yesno(true, "Create '%s'", site_path.getCanonicalPath())) {
         throw die("aborted by user");
       }
-      if (!site_path.mkdirs()) {
+      if (!site_path.isDirectory() && !site_path.mkdirs()) {
         throw die("Cannot make directory " + site_path);
-      }
-      if (!etc_dir.mkdir()) {
-        throw die("Cannot make directory " + etc_dir);
       }
       deleteOnFailure = true;
     }
 
-    bin_dir.mkdir();
-    etc_dir.mkdir();
-    lib_dir.mkdir();
-    logs_dir.mkdir();
-    static_dir.mkdir();
+    mkdir(bin_dir);
+    mkdir(etc_dir);
+    mkdir(lib_dir);
+    mkdir(logs_dir);
+    mkdir(static_dir);
 
     cfg.load();
     sec.load();
@@ -335,6 +342,12 @@ public class Init extends SiteProgram {
       }
     } finally {
       lf.unlock();
+    }
+  }
+
+  private static void mkdir(final File path) {
+    if (!path.isDirectory() && !path.mkdir()) {
+      throw die("Cannot make directory " + path);
     }
   }
 

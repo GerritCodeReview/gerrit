@@ -735,10 +735,10 @@ public class Init extends SiteProgram {
       return;
     }
 
-    String ssl_pass = httpd.get("sslKeyPassword");
+    String ssl_pass = sec.getString("http", null, "sslKeyPassword");
     if (ssl_pass == null || ssl_pass.isEmpty()) {
       ssl_pass = SignedToken.generateRandomKey();
-      httpd.set("sslKeyPassword", ssl_pass);
+      sec.setString("httpd", null, "sslKeyPassword", ssl_pass);
     }
 
     hostname = ui.readString(hostname, "Certificate server name");

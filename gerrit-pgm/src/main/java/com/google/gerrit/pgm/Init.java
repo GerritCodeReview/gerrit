@@ -28,6 +28,7 @@ import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.reviewdb.AuthType;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.SystemConfig;
 import com.google.gerrit.reviewdb.Project.SubmitType;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -134,6 +135,7 @@ public class Init extends SiteProgram {
       deleteOnFailure = false;
 
       inject();
+      updateSystemConfig();
       initGit();
     } catch (Exception failure) {
       if (deleteOnFailure) {
@@ -265,6 +267,24 @@ public class Init extends SiteProgram {
     if (!gerrit_sh.exists()) {
       extract(gerrit_sh, "WEB-INF/extra/bin/gerrit.sh");
       chmod(0755, gerrit_sh);
+    }
+  }
+
+  private void updateSystemConfig() throws OrmException {
+    final ReviewDb db = schema.open();
+    try {
+      final SystemConfig sc = db.systemConfig().get(new SystemConfig.Key());
+      if (sc == null) {
+        throw die("No record in system_config table");
+      }
+      try {
+        sc.sitePath = getSitePath().getCanonicalPath();
+      } catch (IOException e) {
+        sc.sitePath = getSitePath().getAbsolutePath();
+      }
+      db.systemConfig().update(Collections.singleton(sc));
+    } finally {
+      db.close();
     }
   }
 

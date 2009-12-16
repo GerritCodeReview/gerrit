@@ -21,9 +21,7 @@ import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.config.AuthConfig;
-import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.config.Nullable;
 import com.google.gerrit.server.config.WildProjectName;
 import com.google.gerrit.server.contact.ContactStore;
 import com.google.gerrit.server.mail.EmailSender;
@@ -41,7 +39,6 @@ import java.util.Set;
 class GerritConfigProvider implements Provider<GerritConfig> {
   private final Realm realm;
   private final Config cfg;
-  private final String canonicalWebUrl;
   private final AuthConfig authConfig;
   private final GitWebConfig gitWebConfig;
   private final Project.NameKey wildProject;
@@ -53,12 +50,11 @@ class GerritConfigProvider implements Provider<GerritConfig> {
 
   @Inject
   GerritConfigProvider(final Realm r, @GerritServerConfig final Config gsc,
-      @CanonicalWebUrl @Nullable final String cwu, final AuthConfig ac,
-      final GitWebConfig gwc, @WildProjectName final Project.NameKey wp,
-      final SshInfo si, final ApprovalTypes at, final ContactStore cs) {
+      final AuthConfig ac, final GitWebConfig gwc,
+      @WildProjectName final Project.NameKey wp, final SshInfo si,
+      final ApprovalTypes at, final ContactStore cs) {
     realm = r;
     cfg = gsc;
-    canonicalWebUrl = cwu;
     authConfig = ac;
     gitWebConfig = gwc;
     sshInfo = si;
@@ -74,7 +70,11 @@ class GerritConfigProvider implements Provider<GerritConfig> {
 
   private GerritConfig create() {
     final GerritConfig config = new GerritConfig();
-    config.setCanonicalUrl(canonicalWebUrl);
+    switch (authConfig.getAuthType()) {
+      case LDAP:
+        config.setRegisterUrl(cfg.getString("auth", null, "registerurl"));
+        break;
+    }
     config.setUseContributorAgreements(cfg.getBoolean("auth",
         "contributoragreements", false));
     config.setGitDaemonUrl(cfg.getString("gerrit", null, "canonicalgiturl"));

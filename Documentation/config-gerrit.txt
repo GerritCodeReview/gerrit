@@ -109,6 +109,13 @@ to the SSO product's sign-out page.
 +
 If not set, the redirect returns to the list of all open changes.
 
+[[auth.registerUrl]]auth.registerUrl::
++
+Target for the "Register" link in the upper right corner.  Used only
+when auth.type is `LDAP`.
++
+If not set, no "Register" link is displayed.
+
 [[auth.emailFormat]]auth.emailFormat::
 +
 Optional format string to construct user email addresses out of

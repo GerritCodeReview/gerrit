@@ -314,6 +314,7 @@ public class Gerrit implements EntryPoint {
     menuRight.clear();
 
     final boolean signedIn = isSignedIn();
+    final GerritConfig cfg = getConfig();
     LinkMenuBar m;
 
     m = new LinkMenuBar();
@@ -345,7 +346,7 @@ public class Gerrit implements EntryPoint {
       addLink(menuRight, C.menuSettings(), PageLinks.SETTINGS);
       menuRight.add(anchor(C.menuSignOut(), "logout"));
     } else {
-      switch (getConfig().getAuthType()) {
+      switch (cfg.getAuthType()) {
         case HTTP:
         case HTTP_LDAP:
           break;
@@ -356,8 +357,17 @@ public class Gerrit implements EntryPoint {
               new OpenIdSignInDialog(SignInMode.REGISTER, null).center();
             }
           });
-          // fall through
+          menuRight.addItem(C.menuSignIn(), new Command() {
+            public void execute() {
+              doSignIn();
+            }
+          });
+          break;
+
         case LDAP:
+          if (cfg.getRegisterUrl() != null) {
+            menuRight.add(anchor(C.menuRegister(), cfg.getRegisterUrl()));
+          }
           menuRight.addItem(C.menuSignIn(), new Command() {
             public void execute() {
               doSignIn();

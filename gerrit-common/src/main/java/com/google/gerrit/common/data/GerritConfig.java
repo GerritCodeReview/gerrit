@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Set;
 
 public class GerritConfig implements Cloneable {
-  protected String canonicalUrl;
+  protected String registerUrl;
   protected GitwebLink gitweb;
   protected boolean useContributorAgreements;
   protected boolean useContactInfo;
@@ -37,12 +37,12 @@ public class GerritConfig implements Cloneable {
   protected Set<Account.FieldName> editableAccountFields;
   protected List<RegexFindReplace> commentLinks;
 
-  public String getCanonicalUrl() {
-    return canonicalUrl;
+  public String getRegisterUrl() {
+    return registerUrl;
   }
 
-  public void setCanonicalUrl(final String u) {
-    canonicalUrl = u;
+  public void setRegisterUrl(final String u) {
+    registerUrl = u;
   }
 
   public AuthType getAuthType() {

@@ -19,6 +19,7 @@ import com.google.gerrit.reviewdb.AccountSshKey;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.sshd.common.KeyPairProvider;
+import org.apache.sshd.common.SshException;
 import org.apache.sshd.common.Session.AttributeKey;
 import org.apache.sshd.common.util.Buffer;
 import org.eclipse.jgit.lib.Constants;
@@ -66,9 +67,11 @@ public class SshUtil {
         throw new InvalidKeySpecException("No key string");
       }
       final byte[] bin = Base64.decodeBase64(Constants.encodeASCII(s));
-      return new Buffer(bin).getPublicKey();
+      return new Buffer(bin).getRawPublicKey();
     } catch (RuntimeException re) {
       throw new InvalidKeySpecException("Cannot parse key", re);
+    } catch (SshException e) {
+      throw new InvalidKeySpecException("Cannot parse key", e);
     }
   }
 
@@ -104,7 +107,7 @@ public class SshUtil {
 
       final PublicKey key =
           new Buffer(Base64.decodeBase64(Constants.encodeASCII(strBuf
-              .toString()))).getPublicKey();
+              .toString()))).getRawPublicKey();
       if (key instanceof RSAPublicKey) {
         strBuf.insert(0, KeyPairProvider.SSH_RSA + " ");
 
@@ -121,12 +124,6 @@ public class SshUtil {
     } catch (IOException e) {
       return keyStr;
     } catch (RuntimeException re) {
-      return keyStr;
-    } catch (NoSuchAlgorithmException e) {
-      return keyStr;
-    } catch (InvalidKeySpecException e) {
-      return keyStr;
-    } catch (NoSuchProviderException e) {
       return keyStr;
     }
   }

@@ -28,7 +28,6 @@ import com.jcraft.jsch.JSchException;
 import org.apache.mina.core.service.IoAcceptor;
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.transport.socket.SocketSessionConfig;
-import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 import org.apache.sshd.SshServer;
 import org.apache.sshd.common.Channel;
 import org.apache.sshd.common.Cipher;
@@ -57,8 +56,8 @@ import org.apache.sshd.common.util.Buffer;
 import org.apache.sshd.common.util.SecurityUtils;
 import org.apache.sshd.server.Command;
 import org.apache.sshd.server.CommandFactory;
+import org.apache.sshd.server.ForwardingFilter;
 import org.apache.sshd.server.PublickeyAuthenticator;
-import org.apache.sshd.server.TcpIpForwardFilter;
 import org.apache.sshd.server.UserAuth;
 import org.apache.sshd.server.auth.UserAuthPublicKey;
 import org.apache.sshd.server.channel.ChannelDirectTcpip;
@@ -136,7 +135,6 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   }
 
   private final List<SocketAddress> listen;
-  private final boolean reuseAddress;
   private final boolean keepAlive;
   private final List<HostKey> hostKeys;
   private volatile IoAcceptor acceptor;
@@ -161,7 +159,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     initMacs(cfg);
     initSignatures();
     initChannels();
-    initTcpIpForwardFilter();
+    initForwardingFilter();
     initSubsystems();
     initCompression();
     initUserAuth(userAuth);
@@ -202,17 +200,18 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     if (acceptor == null) {
       checkConfig();
 
-      final NioSocketAcceptor ain = new NioSocketAcceptor();
+      acceptor = createAcceptor();
+      configure(acceptor);
+
       final SessionFactory handler = getSessionFactory();
       handler.setServer(this);
-      ain.setHandler(handler);
-      ain.setReuseAddress(reuseAddress);
+      acceptor.setHandler(handler);
+
       try {
-        ain.bind(listen);
+        acceptor.bind(listen);
       } catch (IOException e) {
         throw new IllegalStateException("Cannot bind to " + addressList(), e);
       }
-      acceptor = ain;
 
       log.info("Started Gerrit SSHD on " + addressList());
     }
@@ -243,7 +242,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     final ArrayList<HostKey> r = new ArrayList<HostKey>();
     for (final PublicKey pub : keys) {
       final Buffer buf = new Buffer();
-      buf.putPublicKey(pub);
+      buf.putRawPublicKey(pub);
       final byte[] keyBin = buf.getCompactData();
 
       for (final SocketAddress addr : listen) {
@@ -518,8 +517,18 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     setPublickeyAuthenticator(pubkey);
   }
 
-  private void initTcpIpForwardFilter() {
-    setTcpIpForwardFilter(new TcpIpForwardFilter() {
+  private void initForwardingFilter() {
+    setForwardingFilter(new ForwardingFilter() {
+      @Override
+      public boolean canForwardAgent(ServerSession session) {
+        return false;
+      }
+
+      @Override
+      public boolean canForwardX11(ServerSession session) {
+        return false;
+      }
+
       @Override
       public boolean canConnect(InetSocketAddress address, ServerSession session) {
         return false;

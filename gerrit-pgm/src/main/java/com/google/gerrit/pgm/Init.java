@@ -511,7 +511,8 @@ public class Init extends SiteProgram {
     switch (auth_type) {
       case LDAP:
       case HTTP_LDAP: {
-        String server = ldap.string("LDAP server", "server", "ldap://localhost");
+        String server =
+            ldap.string("LDAP server", "server", "ldap://localhost");
         if (server != null //
             && !server.startsWith("ldap://") //
             && !server.startsWith("ldaps://")) {

@@ -83,6 +83,14 @@ public class CachePool {
         throw new IllegalStateException("Cache pool has already been started");
       }
 
+      try {
+        System.setProperty("net.sf.ehcache.skipUpdateCheck", "" + true);
+      } catch (SecurityException e) {
+        // Ignore it, the system is just going to ping some external page
+        // using a background thread and there's not much we can do about
+        // it now.
+      }
+
       manager = new CacheManager(new Factory().toConfiguration());
       for (CacheProvider<?, ?> p : caches.values()) {
         p.bind(manager.getEhcache(p.getName()));

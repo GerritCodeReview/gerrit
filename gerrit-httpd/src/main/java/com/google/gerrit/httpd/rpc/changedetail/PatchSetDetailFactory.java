@@ -81,6 +81,10 @@ class PatchSetDetailFactory extends Handler<PatchSetDetail> {
     }
 
     final PatchList list = patchListCache.get(control.getChange(), patchSet);
+    if (list == null) {
+      throw new NoSuchEntityException();
+    }
+
     final List<Patch> patches = list.toPatchList(patchSet.getId());
     final Map<Patch.Key, Patch> byKey = new HashMap<Patch.Key, Patch>();
     for (final Patch p : patches) {

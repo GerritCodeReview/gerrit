@@ -487,22 +487,23 @@ public class Init extends SiteProgram {
   }
 
   private void init_auth() {
-    final Section cfg = new Section("auth");
+    final Section auth = new Section("auth");
+    final Section ldap = new Section("ldap");
     ui.header("User Authentication");
 
     final AuthType auth_type =
-        cfg.select("Authentication method", "type", AuthType.OPENID);
+        auth.select("Authentication method", "type", AuthType.OPENID);
 
     switch (auth_type) {
       case HTTP:
       case HTTP_LDAP: {
-        String hdr = cfg.get("httpHeader");
+        String hdr = auth.get("httpHeader");
         if (ui.yesno(hdr != null, "Get username from custom HTTP header")) {
-          cfg.string("Username HTTP header", "httpHeader", "SM_USER");
+          auth.string("Username HTTP header", "httpHeader", "SM_USER");
         } else if (hdr != null) {
-          cfg.unset("httpHeader");
+          auth.unset("httpHeader");
         }
-        cfg.string("SSO logout URL", "logoutUrl", null);
+        auth.string("SSO logout URL", "logoutUrl", null);
         break;
       }
     }
@@ -510,7 +511,7 @@ public class Init extends SiteProgram {
     switch (auth_type) {
       case LDAP:
       case HTTP_LDAP: {
-        String server = cfg.string("LDAP server", "server", "ldap://localhost");
+        String server = ldap.string("LDAP server", "server", "ldap://localhost");
         if (server != null //
             && !server.startsWith("ldap://") //
             && !server.startsWith("ldaps://")) {
@@ -519,15 +520,15 @@ public class Init extends SiteProgram {
           } else {
             server = "ldap://" + server;
           }
-          cfg.set("server", server);
+          ldap.set("server", server);
         }
 
-        cfg.string("LDAP username", "username", null);
-        cfg.password("username", "password");
+        ldap.string("LDAP username", "username", null);
+        ldap.password("username", "password");
 
         final String def_dn = dnOf(server);
-        String aBase = cfg.string("Account BaseDN", "accountBase", def_dn);
-        String gBase = cfg.string("Group BaseDN", "groupBase", aBase);
+        String aBase = ldap.string("Account BaseDN", "accountBase", def_dn);
+        String gBase = ldap.string("Group BaseDN", "groupBase", aBase);
         break;
       }
     }

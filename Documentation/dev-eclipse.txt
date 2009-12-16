@@ -1,9 +1,9 @@
 Gerrit Code Review - Eclipse Setup
 ==================================
 
-This document is about installing Gerrit into an Eclipse workspace
-for development and debugging, especially with the GWT hosted
-mode debugger.
+This document is about configuring Gerrit Code Review into an
+Eclipse workspace for development and debugging with the GWT
+hosted mode debugger.
 
 You will need to have the GWT (Google Web Toolkit) 1.7 SDK installed
 on your system.  A Java 6 or later SDK is also required to run
@@ -29,6 +29,7 @@ Create a user library called `GWT_17`:
 * Select `gwt-user.jar` from the $(GWT_SDK) directory.
 * Select `gwt-dev-$(OS).jar` from the $(GWT_SDK) directory.
 
+
 Maven Plugin
 ------------
 
@@ -52,66 +53,53 @@ Import Projects
 
 Import pom.xml using General -> Maven Projects
 
-If you also want source projects for gwtorm, gwtjsonrpc or sshd,
-import their top-level directories the same way.  Note that you
-may need to edit the pom.xml under gerrit to ensure your snapshot
-builds are used.
-
-[NOTE]
-Some of the source code is generated with ANTLR sources.  To
-build these files, you need to right click on the imported projects,
-Maven -> Update Project Configuration.  This should fix the compile
-errors identified after import.
-
-If you also want a source project for JGit, import the top level
-jgit directory using General -> Existing Projects, selecting only
-the `org.spearce.jgit` and `org.spearce.jgit.test` projects.
+Some of the source code is generated with ANTLR sources.  To build
+these files, right click on the imported projects, Maven -> Update
+Project Configuration.  This will resolve compile errors identified
+after import.
 
 
-Configure Database
-------------------
+Site Initialization
+-------------------
 
-You may have already done this step earlier, based on the
-instructions in link:dev-readme.html[Developer Setup].
+link:dev-readme.html#build[Build] once on the command line and
+then follow link:dev-readme.html#init[Site Initialization] in the
+Developer Setup guide to configure a local site for testing.
 
-* Navigate to gerrit-war/src/main/webapp/WEB-INF/extra/
-* Copy `GerritServer.properties_example` to `gerrit-parent/GerritServer.properties`
-* Configure your database for debugging in hosted mode.
 
-Production Compile
-------------------
+Testing
+-------
 
-*Always* use
+Running the Daemon
+~~~~~~~~~~~~~~~~~~
 
-----
-  mvn clean package
-----
+Duplicate the existing `pgm_daemon` launch configuration:
 
-to create a production build.
+* Run -> Debug Configurations ...
+* Java Application -> `pgm_daemon`
+* Right click, Duplicate
 
-Launch Gerrit
--------------
+* Modify the name to be unique.
 
-Open Run->Debug Configurations...
+* Switch to Arguments tab.
+* Edit the -d flag to match the path used during 'init'.  The
+  template launch configuration resolves to ../test_site since
+  that is what the documentation recommends.
 
-Under Java Application find `gwtui_any` (not Mac OS X)
-or `gwtui_mac` (Mac OS X only) to start the GWT hosted
-mode browser and debug through Eclipse.
+* Switch to Common tab.
+* Change Save as to be Local file.
 
-Final Setup
------------
 
-Since you are creating a Gerrit instance for testing, you need to
-also follow the other steps outlined under "Initialize the Schema"
-in the Installation Guide.  Note that the database has already been
-created if you launched Gerrit at least once.
+Running Hosted Mode
+~~~~~~~~~~~~~~~~~~~
 
-Note that Bouncy Castle Crypto is automatically installed in the
-classpath when debugging with hosted mode, so you will need to
-create SSH keys with `ssh-keygen`.
+* Copy
+  `gerrit-war/src/main/webapp/WEB-INF/extra/GerritServer.properties_example`
+  to
+  `gerrit-parent/GerritServer.properties`.
+* Edit to match your database parameters.
+* Run the `gwtui_any` or `gwtui_mac` launch configuration.
 
-* link:install.html[Installation Guide]
-* link:project-setup.html[Project Setup]
 
 GERRIT
 ------

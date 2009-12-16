@@ -1,148 +1,151 @@
 Gerrit Code Review - Developer Setup
 ====================================
 
-You need Apache Maven to compile the code, and a SQL database
-to house the review metadata.  PostgreSQL is currently the only
-supported database.
+Apache Maven is needed to compile the code, and a SQL database
+to house the review metadata.  H2 is recommended for development
+databases, as it requires no external server process.
 
-To create a new client workspace:
+Get the Source
+--------------
 
-====
-  mkdir gerrit2
-  cd gerrit2
-  repo init -u git://android.git.kernel.org/tools/manifest.git
-====
+Create a new client workspace:
 
-Important Links
----------------
-
-Google Web Toolkit:
-
-* http://code.google.com/webtoolkit/download.html[Download]
-
-Apache Maven:
-
-* http://maven.apache.org/download.html[Download]
-* http://maven.apache.org/run-maven/index.html[Running]
-
-PostgreSQL:
-
-* http://www.postgresql.org/download/[Download]
-* http://www.postgresql.org/docs/[Documentation]
-
-Apache SSHD:
-
-* http://mina.apache.org/sshd/[SSHD]
-
-
-Setting up the Database
------------------------
-
-You'll need to configure your development workspace to use a database
-gwtorm supports (or add the necessary dialect support to gwtorm,
-and then configure your workspace anyway).
-
-====
-  cp gerrit-war/src/main/webapp/WEB-INF/extra/GerritServer.properties_example GerritServer.properties
-====
-
-Now edit GerritServer.properties to uncomment the database you are
-going to use, and possibly update properties such as "user" and
-"password" to reflect the actual connection information used.
-
-====
-  # PostgreSQL
-  database.driver = org.postgresql.Driver
-  database.url = jdbc:postgresql:reviewdb
-  database.user = gerrit2
-  database.password = letmein
-====
-
-PostgreSQL Setup
-~~~~~~~~~~~~~~~~
-
-Initialize and start PostgreSQL (where $data is the location of your data):
-
-====
-  initdb --locale en_US.UTF-8 -D $data
-  postmaster -D $data >/tmp/logfile 2>&1 &
-====
-
-Create the JDBC user as a normal user (no superuser access) and
-assign it an encrypted password:
-
-====
-  createuser -A -D -P -E gerrit2
-====
-
-Create the database listed in your GerritServer.properties and set
-the JDBC user as the owner of that database:
-
-====
-  createdb -E UTF-8 -O gerrit2 reviewdb
-====
+----
+  git clone git://android.git.kernel.org/tools/gerrit.git
+  cd gerrit
+----
 
 
 Configuring Eclipse
 -------------------
 
-If you want to use the Eclipse IDE for development work, please
-see link:dev-eclipse.html[Eclipse Setup] for more details on how
-to configure your workspace.
+To use the Eclipse IDE for development, please see
+link:dev-eclipse.html[Eclipse Setup] for more details on how to
+configure the workspace with the Maven build scripts.
 
 
+[[build]]
 Building
 --------
 
 From the command line:
 
-====
-  mvn clean package
-====
+----
+  mvn package
+----
 
-Output WAR will be placed in:
+Output executable WAR will be placed in:
 
-====
+----
   gerrit-war/target/gerrit-*.war
-====
+----
 
-When debugging browser specific issues use gwtStyle `DETAILED` so
-the resulting JavaScript more closely matches the Java sources.
-For example, this can help narrow down what code line 30,400 in
-the JavaScript happens to be.
+Mac OS X
+~~~~~~~~
+On Mac OS X ensure "Java For Mac OS X 10.5 Upate 4" (or later) has
+been installed, and that `JAVA_HOME` is set to
+"/System/Library/Frameworks/JavaVM.framework/Versions/1.6/Home".
+Check the installed version by running `java -version` and looking
+for 'build 1.6.0_13-b03-211'.  Versions of Java 6 prior to this
+version crash during the build due to a bug in the JIT compiler.
 
-====
+
+[[init]]
+Site Initialization
+-------------------
+
+After compiling (above), run Gerrit's 'init' command to create a
+testing site for development use:
+
+----
+  java -jar gerrit-war/target/gerrit-*.war init -d ../test_site
+----
+
+Accept defaults by pressing Enter until 'init' completes, or add
+the '\--batch' command line option to avoid them entirely.  It is
+recommended to change the listen addresses from '*' to 'localhost' to
+prevent outside connections from contacting the development instance.
+
+The daemon will automatically start in the background and a web
+browser will launch to the start page, enabling login via OpenID.
+
+Shutdown the daemon after registering the administrator account
+through the web interface:
+
+----
+  ../test_site/bin/gerrit.sh stop
+----
+
+
+Testing
+-------
+
+Running the Daemon
+~~~~~~~~~~~~~~~~~~
+
+The daemon can be directly launched from the build area, without
+copying to the test site:
+
+----
+  java -jar gerrit-war/target/gerrit-*.war daemon -d ../test_site
+----
+
+
+Querying the Database
+~~~~~~~~~~~~~~~~~~~~~
+
+The embedded H2 database can be queried and updated from the
+command line.  If the daemon is not currently running:
+
+----
+  java -jar gerrit-war/target/gerrit-*.war gsql -d ../test_site
+----
+
+Or, if it is running and the database is in use, connect over SSH
+using an administrator user account:
+
+----
+  ssh -p 29418 user@localhost gerrit gsql
+----
+
+
+Debugging JavaScript
+~~~~~~~~~~~~~~~~~~~~
+
+When debugging browser specific issues use gwtStyle `DETAILED`
+so the resulting JavaScript more closely matches the Java sources.
+This can be used to help narrow down what code line 30,400 in the
+JavaScript happens to be.
+
+----
   mvn package -DgwtStyle=DETAILED
-====
+----
 
-On Mac OS X ensure 'Java For Mac OS X 10.5 Upate 4' has been installed,
-and that `JAVA_HOME` is set to `/System/Library/Frameworks/JavaVM.framework/Versions/1.6/Home`.
-You can check this by running `java -version` and looking for
-`build 1.6.0_13-b03-211`.  Versions of Java 6 prior to this version
-crash during the build due to a bug in the JIT compiler.
 
-Production Compile
-------------------
+Release Builds
+--------------
 
-*Always* use
+To create a release build for a production server, or deployment
+through the download site:
 
 ----
+  ./tools/version.sh --release
   mvn clean package
+  git reset --hard
 ----
 
-to create a production build.  The `./to_hosted.sh` script that
-setups the development environment for Eclipse hosted mode also
-creates a state that produces a corrupt production build.
+The first script, 'tools/version.sh' updates the pom.xml files with
+the current build number from Git, so the version appears in the
+embedded JAR file names, and in the final WAR file name.
 
-Final Setup
------------
+A clean build is necesary to ensure different versions of the
+same dependency don't wind up in the output WAR.  If a dependency
+changes versions, Maven often leaves the old version in the WAR,
+and also includes the new version, resulting in an ambiguous class
+loading order at runtime.
 
-Since you are creating a Gerrit instance for testing, you need to
-also follow the other steps outlined under "Initialize the Schema"
-in the Installation Guide:
-
-* link:install.html[Installation Guide]
-* link:project-setup.html[Project Setup]
+The final command replaces all modified files with their last
+committed revisions, undoing the edits made by 'tools/version.sh'.
 
 
 Client-Server RPC
@@ -153,8 +156,8 @@ system that comes with GWT.  This buys us automatic XSRF protection.
 It also makes all of the messages readable and writable by any JSON
 implementation, facilitating "mashups" and 3rd party clients.
 
-The programming API is virtually identical (you just need to extend
-RemoteJsonService instead of RemoteService).
+The programming API is virtually identical, except service interfaces
+extend RemoteJsonService instead of RemoteService.
 
 
 Why GWT?
@@ -162,6 +165,34 @@ Why GWT?
 
 We like it.  Plus we can write Java code once and run it both in
 the browser and on the server side.
+
+
+External Links
+--------------
+
+Google Web Toolkit:
+
+* http://code.google.com/webtoolkit/download.html[Download]
+
+Apache Maven:
+
+* http://maven.apache.org/download.html[Download]
+* http://maven.apache.org/run-maven/index.html[Running]
+
+Apache SSHD:
+
+* http://mina.apache.org/sshd/[SSHD]
+
+H2:
+
+* http://www.h2database.com/[H2]
+* http://www.h2database.com/html/grammar.html[SQL Reference]
+
+PostgreSQL:
+
+* http://www.postgresql.org/download/[Download]
+* http://www.postgresql.org/docs/[Documentation]
+
 
 GERRIT
 ------

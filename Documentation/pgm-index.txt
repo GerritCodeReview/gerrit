@@ -21,9 +21,6 @@ link:pgm-gsql.html[gsql]::
 version::
   Display the release version of Gerrit Code Review.
 
-CreateSchema::
-  Initialize a new database schema.
-
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

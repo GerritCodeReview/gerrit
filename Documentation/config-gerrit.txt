@@ -345,35 +345,54 @@ patch comments, and in-line code comments to turn set strings into
 hyperlinks.  One common use is for linking to bug-tracking systems.
 
 In the following example configuration the 'changeid' comment link
-will match typical Gerrit Change-Id values and create a hyperlink to
-changes which reference it.  The second configuration 'bugzilla' will
-hyperlink terms such as 'bug 42' to an external bug tracker, supplying
-the argument record number '42' for display.
+will match typical Gerrit Change-Id values and create a hyperlink
+to changes which reference it.  The second configuration 'bugzilla'
+will hyperlink terms such as 'bug 42' to an external bug tracker,
+supplying the argument record number '42' for display.  The third
+configuration 'tracker' uses raw HTML to more preciously control
+how the replacement is displayed to the user.
 
-====
-  [commentlink "changeid"]
-    match = (I[0-9a-f]{8,40})
-    link = "#q,$1,n,z"
+----
+[commentlink "changeid"]
+  match = (I[0-9a-f]{8,40})
+  link = "#q,$1,n,z"
 
-  [commentlink "bugzilla"]
-    match = bug\\s+(\\d+)
-    link = http://bugs.example.com/show_bug.cgi?d=$1
-====
+[commentlink "bugzilla"]
+  match = (bug\\s+)(\\d+)
+  link = http://bugs.example.com/show_bug.cgi?id=$2
 
-[[commentlink.<name>.match]]commentlink.<name>.match::
+[commentlink "tracker"]
+  match = ([Bb]ug:\\s+)(\\d+)
+  html = $1<a href=\"http://trak.example.com/$2\">$2</a>
+----
+
+[[commentlink.name.match]]commentlink.<name>.match::
 +
-A regex string used to search.  The whole match string will be turned into
-a hyperlink.  You can get portions of the string with regex groupings - for
-example, `match = issue\\s*(\\d+)`
+A JavaScript regular expression to match positions to be replaced
+with a hyperlink.  Subexpressions of the matched string can be
+stored using groups and accessed with `$'n'` syntax, where 'n'
+is the group number, starting from 1.
 +
-Note the configuration file parser eats one level of backslashes, so using
-the regex code `\s` requires `\\s` in the configuration file.
+The configuration file parser eats one level of backslashes, so
+the character class `\s` requires `\\s` in the configuration file.
++
+A common pattern to match is `bug\\s+(\\d+)`.
 
-[[commentlink.<name>.link]]commentlink.<name>.link::
+[[commentlink.name.link]]commentlink.<name>.link::
 +
-The URL to use when creating a hyperlink out of all strings found using the
-match regex.  You can specify portions of the match with regex groups - for
-example, `link = http://bugs.example.com/show_bug.cgi?d=$1 `
+The URL to direct the user to whenever the regular expression is
+matched.  Groups in the match expression may be accessed as `$'n'`.
++
+The link property is used only when the html property is not present.
+
+[[commentlink.name.html]]commentlink.<name>.html::
++
+HTML to replace the entire matched string with.  If present,
+this property overrides the link property above.  Groups in the
+match expression may be accessed as `$'n'`.
++
+The configuration file eats double quotes, so escaping them as
+`\"` is necessary to protect them from the parser.
 
 
 [[contactstore]]Section contactstore

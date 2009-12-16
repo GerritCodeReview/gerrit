@@ -34,6 +34,7 @@ import org.eclipse.jgit.lib.Config;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 class GerritConfigProvider implements Provider<GerritConfig> {
@@ -104,18 +105,17 @@ class GerritConfigProvider implements Provider<GerritConfig> {
       config.setSshdAddress(sshInfo.getHostKeys().get(0).getHost());
     }
 
-    ArrayList<String> commentLinkNames =
-        new ArrayList<String>(cfg.getSubsections("CommentLink"));
-    ArrayList<RegexFindReplace> commentLinks =
-        new ArrayList<RegexFindReplace>(commentLinkNames.size());
-    for (String commentLinkName : commentLinkNames) {
-      String match = cfg.getString("commentlink", commentLinkName, "match");
-      String link =
-          "<a href=\"" + cfg.getString("commentlink", commentLinkName, "link")
-              + "\">$&</a>";
-      commentLinks.add(new RegexFindReplace(match, link));
+    List<RegexFindReplace> links = new ArrayList<RegexFindReplace>();
+    for (String name : cfg.getSubsections("commentlink")) {
+      String match = cfg.getString("commentlink", name, "match");
+      String link = cfg.getString("commentlink", name, "link");
+      String html = cfg.getString("commentlink", name, "html");
+      if (html == null || html.isEmpty()) {
+        html = "<a href=\"" + link + "\">$&</a>";
+      }
+      links.add(new RegexFindReplace(match, html));
     }
-    config.setCommentLinks(commentLinks);
+    config.setCommentLinks(links);
 
     return config;
   }

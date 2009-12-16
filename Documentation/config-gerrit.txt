@@ -15,13 +15,13 @@ to be restarted before it will use the new values.
 Sample `etc/gerrit.config`:
 ----
 [core]
-	packedGitLimit = 200 m
+  packedGitLimit = 200 m
 
 [cache]
-	directory = /var/cache/gerrit2
+  directory = /var/cache/gerrit2
 
 [cache "diff"]
-	diskbuffer = 10 m
+  diskbuffer = 10 m
 ----
 
 [[auth]]Section auth
@@ -529,14 +529,14 @@ much more predictable behavior.
 The database section configures where Gerrit stores its metadata
 records about user accounts and change reviews.
 
-====
-	[database]
-		type = postgres
-		hostname = localhost
-		database = reviewdb
-		username = gerrit2
-		password = s3kr3t
-====
+----
+[database]
+  type = postgres
+  hostname = localhost
+  database = reviewdb
+  username = gerrit2
+  password = s3kr3t
+----
 
 [[database.type]]database.type::
 +
@@ -649,19 +649,22 @@ For example, "?p=$project.git;h=$commit".
 ~~~~~~~~~~~~~~~~~~~~
 
 [[http.proxy]]http.proxy::
-	URL of the proxy server when making outgoing HTTP
-	connections for OpenID login transactions.  Syntax
-	should be `http://`'hostname'`:`'port'.
++
+URL of the proxy server when making outgoing HTTP
+connections for OpenID login transactions.  Syntax
+should be `http://`'hostname'`:`'port'.
 
 [[http.proxyUsername]]http.proxyUsername::
-	Optional username to authenticate to the HTTP proxy with.
-	This property is honored only if the username does not 
-	appear in the http.proxy property above.
++
+Optional username to authenticate to the HTTP proxy with.
+This property is honored only if the username does not 
+appear in the http.proxy property above.
 
 [[http.proxyPassword]]http.proxyPassword::
-	Optional password to authenticate to the HTTP proxy with.
-	This property is honored only if the password does not 
-	appear in the http.proxy property above.
++
+Optional password to authenticate to the HTTP proxy with.
+This property is honored only if the password does not 
+appear in the http.proxy property above.
 
 
 [[httpd]]Section httpd
@@ -753,10 +756,10 @@ and private key.  This keystore is required for `https://` in URL.
 +
 To create a self-signed certificate for simple internal usage:
 +
-====
-   keytool -keystore keystore -alias jetty -genkey -keyalg RSA
-   chmod 600 keystore
-====
+----
+keytool -keystore keystore -alias jetty -genkey -keyalg RSA
+chmod 600 keystore
+----
 +
 If not absolute, the path is resolved relative to `$site_path`.
 +
@@ -817,18 +820,18 @@ detected during startup.  The guessed defaults support both
 link:http://www.ietf.org/rfc/rfc2307.txt[RFC 2307] and Active
 Directory.
 
-====
-  [ldap]
-    server = ldap://ldap.example.com
-    #
-    accountBase = ou=people,dc=example,dc=com
-    accountPattern = (&(objectClass=person)(uid=${username}))
-    accountFullName = displayName
-    accountEmailAddress = mail
-    #
-    groupBase = ou=groups,dc=example,dc=com
-    groupMemberPattern = (&(objectClass=group)(member=${dn}))
-====
+----
+[ldap]
+  server = ldap://ldap.example.com
+
+  accountBase = ou=people,dc=example,dc=com
+  accountPattern = (&(objectClass=person)(uid=${username}))
+  accountFullName = displayName
+  accountEmailAddress = mail
+
+  groupBase = ou=groups,dc=example,dc=com
+  groupMemberPattern = (&(objectClass=group)(member=${dn}))
+----
 
 [[ldap.server]]ldap.server::
 +
@@ -1019,16 +1022,19 @@ or the wildcard `\*/*` to match all types.
 By default, false for all MIME types.
 
 Common examples:
-====
-  [mimetype "image/*"]
-    safe = true
-  [mimetype "application/pdf"]
-    safe = true
-  [mimetype "application/msword"]
-    safe = true
-  [mimetype "application/vnd.ms-excel"]
-    safe = true
-====
+----
+[mimetype "image/*"]
+  safe = true
+
+[mimetype "application/pdf"]
+  safe = true
+
+[mimetype "application/msword"]
+  safe = true
+
+[mimetype "application/vnd.ms-excel"]
+  safe = true
+----
 
 [[repo]]Section repo
 ~~~~~~~~~~~~~~~~~~~~
@@ -1235,17 +1241,17 @@ be exposed to everyone.
 Sample `etc/secure.config`:
 ----
 [database]
-	username = webuser
-	password = s3kr3t
+  username = webuser
+  password = s3kr3t
 
 [ldap]
-	password = l3tm3srch
+  password = l3tm3srch
 
 [httpd]
-	sslKeyPassword = g3rr1t
+  sslKeyPassword = g3rr1t
 
 [sendemail]
-	smtpPass = sp@m
+  smtpPass = sp@m
 ----
 
 File `etc/replication.config`

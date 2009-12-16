@@ -398,7 +398,7 @@
   width: 3.5em;
 }
 .gerrit-ChangeTable .DataCell.C_ID {
-  font-family: monospace;
+  font-family: 'Lucida Console', 'Lucida Sans Typewriter', Monaco, monospace;
 }
 
 .gerrit-ChangeTable .C_SUBJECT div {
@@ -492,7 +492,7 @@
 }
 .gerrit-PatchContentTable td {
   font-size: 8pt;
-  font-family: monospace;
+  font-family: 'Lucida Console', 'Lucida Sans Typewriter', Monaco, monospace;
   border-top: 1px solid transparent;
   border-bottom: 1px solid transparent;
 }
@@ -557,7 +557,7 @@
 }
 
 .gerrit-PatchContentTable .NoLineLineNumber {
-  font-family: monospace;
+  font-family: 'Lucida Console', 'Lucida Sans Typewriter', Monaco, monospace;
   width: 3.5em;
   padding-left: 0.2em;
   padding-right: 0.2em;
@@ -635,8 +635,8 @@
 
 .gerrit-ChangeScreen-Description {
   white-space: pre;
-  font-family: monospace;
-  font-size: small;
+  font-family: 'Lucida Console', 'Lucida Sans Typewriter', Monaco, monospace;
+  font-size: 8pt;
 }
 .gerrit-ChangeScreen-Description p {
   margin-top: 0px;
@@ -750,7 +750,7 @@
 
 .gerrit-InfoBlock td.command {
   white-space: pre;
-  font-family: monospace;
+  font-family: 'Lucida Console', 'Lucida Sans Typewriter', Monaco, monospace;
   font-size: 12px;
 }
 
@@ -836,7 +836,7 @@
 
 /** AccountSettings  **/
 .gerrit-SshPanel-username {
-  font-family: monospace;
+  font-family: 'Lucida Console', 'Lucida Sans Typewriter', Monaco, monospace;
   font-size: small;
   margin-right: 0.2em;
 }
@@ -844,7 +844,7 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
-  font-family: monospace;
+  font-family: 'Lucida Console', 'Lucida Sans Typewriter', Monaco, monospace;
   font-size: small;
 }
 .gerrit-SshKeyPanel-Invalid {
@@ -893,13 +893,13 @@
 .gerrit-SshHostKeyPanel-FingerprintData {
   margin-left: 2em;
   white-space: nowrap;
-  font-family: monospace;
+  font-family: 'Lucida Console', 'Lucida Sans Typewriter', Monaco, monospace;
   font-size: small;
 }
 .gerrit-SshHostKeyPanel-KnownHostEntry {
   margin-left: 2em;
   white-space: nowrap;
-  font-family: monospace;
+  font-family: 'Lucida Console', 'Lucida Sans Typewriter', Monaco, monospace;
   font-size: small;
   overflow: hidden;
   width: 80em;
@@ -969,7 +969,7 @@
   white-space: nowrap;
 }
 .gerrit-ProjectAdmin-ApprovalCategoryValue {
-  font-family: monospace;
+  font-family: 'Lucida Console', 'Lucida Sans Typewriter', Monaco, monospace;
   font-size: small;
 }
 
@@ -1011,7 +1011,7 @@
 }
 .gerrit-PublishCommentsScreen .gerrit-LineHeader {
   white-space: nowrap;
-  font-family: monospace;
+  font-family: 'Lucida Console', 'Lucida Sans Typewriter', Monaco, monospace;
   font-size: small;
   font-style: italic;
   padding-left: 3px;

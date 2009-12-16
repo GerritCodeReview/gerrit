@@ -60,7 +60,7 @@ public class SystemConfigProviderTest extends TestCase {
       assertTrue(cause instanceof SQLException);
 
       final String msg = cause.getMessage();
-      assertEquals("Table SCHEMA_VERSION not found", msg.split(";")[0]);
+      assertEquals("Table \"SCHEMA_VERSION\" not found", msg.split(";")[0]);
     }
 
     // Create the schema using the current schema version.

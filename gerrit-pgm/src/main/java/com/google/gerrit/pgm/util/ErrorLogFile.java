@@ -30,6 +30,8 @@ import org.apache.log4j.spi.LoggingEvent;
 import java.io.File;
 
 public class ErrorLogFile {
+  static final String LOG_NAME = "error_log";
+
   public static void errorOnlyConsole() {
     LogManager.resetConfiguration();
 
@@ -56,10 +58,10 @@ public class ErrorLogFile {
     layout.setConversionPattern("[%d] %-5p %c %x: %m%n");
 
     final DailyRollingFileAppender dst = new DailyRollingFileAppender();
-    dst.setName("error_log");
+    dst.setName(LOG_NAME);
     dst.setLayout(layout);
     dst.setEncoding("UTF-8");
-    dst.setFile(new File(logdir, "error_log").getAbsolutePath());
+    dst.setFile(new File(logdir, LOG_NAME).getAbsolutePath());
     dst.setImmediateFlush(true);
     dst.setAppend(true);
     dst.setThreshold(Level.INFO);

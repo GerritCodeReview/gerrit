@@ -169,7 +169,10 @@ public class WorkQueue {
 
     @Override
     protected void afterExecute(Runnable r, Throwable t) {
-      remove((Task<?>) r);
+      final Task<?> task = (Task<?>) r;
+      if (!task.isPeriodic()) {
+        remove(task);
+      }
       super.afterExecute(r, t);
     }
 

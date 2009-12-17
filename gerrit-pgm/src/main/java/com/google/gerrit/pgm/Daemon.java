@@ -21,6 +21,7 @@ import com.google.gerrit.httpd.WebModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.pgm.http.jetty.JettyEnv;
 import com.google.gerrit.pgm.http.jetty.JettyModule;
+import com.google.gerrit.pgm.util.LogFileCompressor;
 import com.google.gerrit.pgm.util.ErrorLogFile;
 import com.google.gerrit.pgm.util.RuntimeShutdown;
 import com.google.gerrit.pgm.util.SiteProgram;
@@ -140,6 +141,7 @@ public class Daemon extends SiteProgram {
 
   private Injector createSysInjector() {
     final List<Module> modules = new ArrayList<Module>();
+    modules.add(new LogFileCompressor.Module());
     modules.add(cfgInjector.getInstance(GerritGlobalModule.class));
     if (httpd) {
       modules.add(new CanonicalWebUrlModule() {

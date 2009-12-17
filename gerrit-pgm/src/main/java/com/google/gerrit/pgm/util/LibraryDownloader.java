@@ -46,27 +46,29 @@ public class LibraryDownloader {
     this.libDirectory = new File(sitePath, "lib");
   }
 
-  public LibraryDownloader setRequired(final boolean required) {
-    this.required = required;
-    return this;
-  }
-
-  public LibraryDownloader setName(final String name) {
+  public void setName(final String name) {
     this.name = name;
-    return this;
   }
 
-  public LibraryDownloader setJarUrl(final String url) {
+  public void setJarUrl(final String url) {
     this.jarUrl = url;
-    return this;
   }
 
-  public LibraryDownloader setSHA1(final String sha1) {
+  public void setSHA1(final String sha1) {
     this.sha1 = sha1;
-    return this;
   }
 
-  public void download() {
+  public void downloadRequired() {
+    this.required = true;
+    download();
+  }
+
+  public void downloadOptional() {
+    this.required = false;
+    download();
+  }
+
+  private void download() {
     if (jarUrl == null || !jarUrl.contains("/")) {
       throw new IllegalStateException("Invalid JarUrl for " + name);
     }

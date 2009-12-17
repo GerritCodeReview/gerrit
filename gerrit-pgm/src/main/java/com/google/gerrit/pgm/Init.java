@@ -23,7 +23,7 @@ import com.google.gerrit.pgm.util.ConsoleUI;
 import com.google.gerrit.pgm.util.DataSourceProvider;
 import com.google.gerrit.pgm.util.ErrorLogFile;
 import com.google.gerrit.pgm.util.IoUtil;
-import com.google.gerrit.pgm.util.LibraryDownloader;
+import com.google.gerrit.pgm.util.Libraries;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.reviewdb.AuthType;
 import com.google.gerrit.reviewdb.Project;
@@ -91,6 +91,7 @@ public class Init extends SiteProgram {
   private boolean isNew;
   private boolean deleteOnFailure;
   private ConsoleUI ui;
+  private Libraries libraries;
   private Injector dbInjector;
   private Injector sysInjector;
 
@@ -113,6 +114,7 @@ public class Init extends SiteProgram {
   public int run() throws Exception {
     ErrorLogFile.errorOnlyConsole();
     ui = ConsoleUI.getInstance(batchMode);
+    libraries = new Libraries(ui, getSitePath());
     initPathLocations();
 
     if (site_path.exists()) {
@@ -389,9 +391,7 @@ public class Init extends SiteProgram {
   private void downloadOptionalLibraries() {
     // Download and install BouncyCastle if the user wants to use it.
     //
-    createDownloader().setRequired(false).setName("Bouncy Castle Crypto v144")
-        .setJarUrl("http://www.bouncycastle.org/download/bcprov-jdk16-144.jar")
-        .setSHA1("6327a5f7a3dc45e0fd735adb5d08c5a74c05c20c").download();
+    libraries.bouncyCastle.downloadOptional();
     loadSiteLib();
   }
 
@@ -421,12 +421,7 @@ public class Init extends SiteProgram {
 
     switch (db_type) {
       case MYSQL:
-        createDownloader()
-            .setRequired(true)
-            .setName("MySQL Connector/J 5.1.10")
-            .setJarUrl(
-                "http://repo2.maven.org/maven2/mysql/mysql-connector-java/5.1.10/mysql-connector-java-5.1.10.jar")
-            .setSHA1("b83574124f1a00d6f70d56ba64aa52b8e1588e6d").download();
+        libraries.mysqlDriver.downloadRequired();
         loadSiteLib();
         break;
     }
@@ -997,10 +992,6 @@ public class Init extends SiteProgram {
       }
     });
     return dbInjector.createChildInjector(modules);
-  }
-
-  private LibraryDownloader createDownloader() {
-    return new LibraryDownloader(ui, getSitePath());
   }
 
   private static String version() {

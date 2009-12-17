@@ -258,16 +258,12 @@ public class Init extends SiteProgram {
       System.err.println();
     }
 
-    if (!secure_config.exists()) {
-      chmod(0600, secure_config);
-    }
     if (!replication_config.exists()) {
       replication_config.createNewFile();
     }
-    if (!gerrit_sh.exists()) {
-      extract(gerrit_sh, "WEB-INF/extra/bin/gerrit.sh");
-      chmod(0755, gerrit_sh);
-    }
+
+    extract(gerrit_sh, Init.class, "gerrit.sh");
+    chmod(0755, gerrit_sh);
   }
 
   private void updateSystemConfig() throws OrmException {
@@ -371,10 +367,7 @@ public class Init extends SiteProgram {
     }
   }
 
-  private static void chmod(final int mode, final File path) throws IOException {
-    if (!path.exists() && !path.createNewFile()) {
-      throw new IOException("Cannot create " + path);
-    }
+  private static void chmod(final int mode, final File path) {
     path.setReadable(false, false /* all */);
     path.setWritable(false, false /* all */);
     path.setExecutable(false, false /* all */);
@@ -1074,14 +1067,30 @@ public class Init extends SiteProgram {
     }
   }
 
-  private static void extract(final File dst, final String path)
-      throws IOException {
-    final URL u = GerritLauncher.class.getClassLoader().getResource(path);
-    if (u == null) {
-      System.err.println("warn: Cannot read " + path);
-      return;
+  private static void extract(final File dst, final Class<?> sibling,
+      final String name) throws IOException {
+    final InputStream in = open(sibling, name);
+    if (in != null) {
+      copy(dst, in);
     }
-    copy(dst, u.openStream());
+  }
+
+  private static InputStream open(final Class<?> sibling, final String name)
+      throws IOException {
+    final URL u = sibling.getResource(name);
+    if (u == null) {
+      String pkg = sibling.getName();
+      int end = pkg.lastIndexOf('.');
+      if (0 < end) {
+        pkg = pkg.substring(0, end + 1);
+        pkg = pkg.replace('.', '/');
+      } else {
+        pkg = "";
+      }
+      System.err.println("warn: Cannot read " + pkg + name);
+      return null;
+    }
+    return u.openStream();
   }
 
   private static void copy(final File dst, final InputStream in)

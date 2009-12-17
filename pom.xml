@@ -295,16 +295,6 @@ limitations under the License.
   </licenses>
 
   <build>
-    <resources>
-      <resource>
-        <directory>${basedir}/src/main/java</directory>
-        <excludes>
-          <exclude>**/*.gwt.xml</exclude>
-          <exclude>**/*.java</exclude>
-        </excludes>
-      </resource>
-    </resources>
-
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>

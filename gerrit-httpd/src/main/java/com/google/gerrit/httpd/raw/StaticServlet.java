@@ -14,7 +14,7 @@
 
 package com.google.gerrit.httpd.raw;
 
-import com.google.gerrit.server.config.SitePath;
+import com.google.gerrit.server.config.SitePaths;
 import com.google.gwt.user.server.rpc.RPCServletUtils;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -91,8 +91,8 @@ public class StaticServlet extends HttpServlet {
   private final File staticBase;
 
   @Inject
-  StaticServlet(@SitePath final File sitePath) {
-    staticBase = new File(sitePath, "static");
+  StaticServlet(final SitePaths site) {
+    staticBase = site.static_dir;
   }
 
   private File local(final HttpServletRequest req) {

@@ -23,6 +23,7 @@ import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.SchemaVersion;
 import com.google.gerrit.reviewdb.SystemConfig;
 import com.google.gerrit.server.config.SitePath;
+import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.config.WildProjectNameProvider;
 import com.google.gerrit.server.workflow.NoOpFunction;
 import com.google.gerrit.server.workflow.SubmitFunction;
@@ -46,16 +47,20 @@ public class SchemaCreator {
   private static final Project.NameKey DEFAULT_WILD_NAME =
       new Project.NameKey("-- All Projects --");
 
-  private final File sitePath;
+  private final @SitePath
+  File site_path;
 
   private final ScriptRunner index_generic;
   private final ScriptRunner index_postgres;
   private final ScriptRunner mysql_nextval;
 
   @Inject
-  public SchemaCreator(final @SitePath File sitePath) {
-    this.sitePath = sitePath;
+  public SchemaCreator(final SitePaths site) {
+    this(site.site_path);
+  }
 
+  public SchemaCreator(final @SitePath File site) {
+    site_path = site;
     index_generic = new ScriptRunner("index_generic.sql");
     index_postgres = new ScriptRunner("index_postgres.sql");
     mysql_nextval = new ScriptRunner("mysql_nextval.sql");
@@ -98,23 +103,23 @@ public class SchemaCreator {
 
   private SystemConfig initSystemConfig(final ReviewDb c) throws OrmException {
     final AccountGroup admin =
-        new AccountGroup(new AccountGroup.NameKey("Administrators"), new AccountGroup.Id(c
-            .nextAccountGroupId()));
+        new AccountGroup(new AccountGroup.NameKey("Administrators"),
+            new AccountGroup.Id(c.nextAccountGroupId()));
     admin.setDescription("Gerrit Site Administrators");
     admin.setType(AccountGroup.Type.INTERNAL);
     c.accountGroups().insert(Collections.singleton(admin));
 
     final AccountGroup anonymous =
-        new AccountGroup(new AccountGroup.NameKey("Anonymous Users"), new AccountGroup.Id(c
-            .nextAccountGroupId()));
+        new AccountGroup(new AccountGroup.NameKey("Anonymous Users"),
+            new AccountGroup.Id(c.nextAccountGroupId()));
     anonymous.setDescription("Any user, signed-in or not");
     anonymous.setOwnerGroupId(admin.getId());
     anonymous.setType(AccountGroup.Type.SYSTEM);
     c.accountGroups().insert(Collections.singleton(anonymous));
 
     final AccountGroup registered =
-        new AccountGroup(new AccountGroup.NameKey("Registered Users"), new AccountGroup.Id(c
-            .nextAccountGroupId()));
+        new AccountGroup(new AccountGroup.NameKey("Registered Users"),
+            new AccountGroup.Id(c.nextAccountGroupId()));
     registered.setDescription("Any signed-in user");
     registered.setOwnerGroupId(admin.getId());
     registered.setType(AccountGroup.Type.SYSTEM);
@@ -126,9 +131,9 @@ public class SchemaCreator {
     s.anonymousGroupId = anonymous.getId();
     s.registeredGroupId = registered.getId();
     try {
-      s.sitePath = sitePath.getCanonicalPath();
+      s.sitePath = site_path.getCanonicalPath();
     } catch (IOException e) {
-      s.sitePath = sitePath.getAbsolutePath();
+      s.sitePath = site_path.getAbsolutePath();
     }
     c.systemConfig().insert(Collections.singleton(s));
     return s;
@@ -160,8 +165,8 @@ public class SchemaCreator {
     txn.commit();
   }
 
-  private void initCodeReviewCategory(final ReviewDb c, final SystemConfig sConfig)
-      throws OrmException {
+  private void initCodeReviewCategory(final ReviewDb c,
+      final SystemConfig sConfig) throws OrmException {
     final Transaction txn = c.beginTransaction();
     final ApprovalCategory cat;
     final ArrayList<ApprovalCategoryValue> vals;
@@ -203,7 +208,8 @@ public class SchemaCreator {
     txn.commit();
   }
 
-  private void initReadCategory(final ReviewDb c, final SystemConfig sConfig) throws OrmException {
+  private void initReadCategory(final ReviewDb c, final SystemConfig sConfig)
+      throws OrmException {
     final Transaction txn = c.beginTransaction();
     final ApprovalCategory cat;
     final ArrayList<ApprovalCategoryValue> vals;
@@ -269,14 +275,16 @@ public class SchemaCreator {
     cat.setFunctionName(NoOpFunction.NAME);
     vals = new ArrayList<ApprovalCategoryValue>();
     vals.add(value(cat, ApprovalCategory.PUSH_TAG_SIGNED, "Create Signed Tag"));
-    vals.add(value(cat, ApprovalCategory.PUSH_TAG_ANNOTATED, "Create Annotated Tag"));
+    vals.add(value(cat, ApprovalCategory.PUSH_TAG_ANNOTATED,
+        "Create Annotated Tag"));
     vals.add(value(cat, ApprovalCategory.PUSH_TAG_ANY, "Create Any Tag"));
     c.approvalCategories().insert(Collections.singleton(cat), txn);
     c.approvalCategoryValues().insert(vals, txn);
     txn.commit();
   }
 
-  private void initPushUpdateBranchCategory(final ReviewDb c) throws OrmException {
+  private void initPushUpdateBranchCategory(final ReviewDb c)
+      throws OrmException {
     final Transaction txn = c.beginTransaction();
     final ApprovalCategory cat;
     final ArrayList<ApprovalCategoryValue> vals;
@@ -287,14 +295,16 @@ public class SchemaCreator {
     vals = new ArrayList<ApprovalCategoryValue>();
     vals.add(value(cat, ApprovalCategory.PUSH_HEAD_UPDATE, "Update Branch"));
     vals.add(value(cat, ApprovalCategory.PUSH_HEAD_CREATE, "Create Branch"));
-    vals.add(value(cat, ApprovalCategory.PUSH_HEAD_REPLACE, "Force Push Branch; Delete Branch"));
+    vals.add(value(cat, ApprovalCategory.PUSH_HEAD_REPLACE,
+        "Force Push Branch; Delete Branch"));
     c.approvalCategories().insert(Collections.singleton(cat), txn);
     c.approvalCategoryValues().insert(vals, txn);
     txn.commit();
   }
 
-  private static ApprovalCategoryValue value(final ApprovalCategory cat, final int value,
-      final String name) {
-    return new ApprovalCategoryValue(new ApprovalCategoryValue.Id(cat.getId(), (short) value), name);
+  private static ApprovalCategoryValue value(final ApprovalCategory cat,
+      final int value, final String name) {
+    return new ApprovalCategoryValue(new ApprovalCategoryValue.Id(cat.getId(),
+        (short) value), name);
   }
 }

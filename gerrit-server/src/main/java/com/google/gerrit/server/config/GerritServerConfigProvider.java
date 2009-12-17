@@ -24,7 +24,6 @@ import org.eclipse.jgit.lib.FileBasedConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.io.IOException;
 
 /** Provides {@link Config} annotated with {@link GerritServerConfig}. */
@@ -32,23 +31,20 @@ class GerritServerConfigProvider implements Provider<Config> {
   private static final Logger log =
       LoggerFactory.getLogger(GerritServerConfigProvider.class);
 
-  private final File sitePath;
+  private final SitePaths site;
 
   @Inject
-  GerritServerConfigProvider(@SitePath final File path) {
-    sitePath = path;
+  GerritServerConfigProvider(final SitePaths site) {
+    this.site = site;
   }
 
   @Override
   public Config get() {
-    final File etc = new File(sitePath, "etc");
-    final File gerrit_config = new File(etc, "gerrit.config");
-    final File secure_config = new File(etc, "secure.config");
-
-    FileBasedConfig cfg = new FileBasedConfig(gerrit_config);
+    FileBasedConfig cfg = new FileBasedConfig(site.gerrit_config);
 
     if (!cfg.getFile().exists()) {
-      log.info("No " + gerrit_config.getAbsolutePath() + "; assuming defaults");
+      log.info("No " + site.gerrit_config.getAbsolutePath()
+          + "; assuming defaults");
       return cfg;
     }
 
@@ -60,8 +56,8 @@ class GerritServerConfigProvider implements Provider<Config> {
       throw new ProvisionException(e.getMessage(), e);
     }
 
-    if (secure_config.exists()) {
-      cfg = new FileBasedConfig(cfg, secure_config);
+    if (site.secure_config.exists()) {
+      cfg = new FileBasedConfig(cfg, site.secure_config);
       try {
         cfg.load();
       } catch (IOException e) {

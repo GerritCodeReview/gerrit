@@ -20,7 +20,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import com.google.gerrit.lifecycle.LifecycleListener;
 import com.google.gerrit.main.GerritLauncher;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.config.SitePath;
+import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
@@ -92,17 +92,16 @@ public class JettyServer {
     }
   }
 
-  private final File sitePath;
+  private final SitePaths site;
   private final Server httpd;
 
   /** Location on disk where our WAR file was unpacked to. */
   private Resource baseResource;
 
   @Inject
-  JettyServer(@GerritServerConfig final Config cfg,
-      @SitePath final File sitePath, final JettyEnv env)
-      throws MalformedURLException, IOException {
-    this.sitePath = sitePath;
+  JettyServer(@GerritServerConfig final Config cfg, final SitePaths site,
+      final JettyEnv env) throws MalformedURLException, IOException {
+    this.site = site;
 
     Handler app = makeContext(env, cfg);
 
@@ -231,12 +230,7 @@ public class JettyServer {
     if (path == null || path.length() == 0) {
       path = def;
     }
-
-    File loc = new File(path);
-    if (!loc.isAbsolute()) {
-      loc = new File(sitePath, path);
-    }
-    return loc;
+    return site.resolve(path);
   }
 
   private ThreadPool threadPool(Config cfg) {

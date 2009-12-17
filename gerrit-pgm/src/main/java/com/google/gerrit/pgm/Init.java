@@ -15,61 +15,39 @@
 package com.google.gerrit.pgm;
 
 import static com.google.gerrit.pgm.util.DataSourceProvider.Context.SINGLE_USER;
-import static com.google.gerrit.pgm.util.DataSourceProvider.Type.H2;
+import static com.google.inject.Stage.PRODUCTION;
 
 import com.google.gerrit.common.PageLinks;
-import com.google.gerrit.main.GerritLauncher;
+import com.google.gerrit.pgm.init.Browser;
+import com.google.gerrit.pgm.init.InitFlags;
+import com.google.gerrit.pgm.init.InitModule;
+import com.google.gerrit.pgm.init.ReloadSiteLibrary;
+import com.google.gerrit.pgm.init.SitePathInitializer;
 import com.google.gerrit.pgm.util.ConsoleUI;
-import com.google.gerrit.pgm.util.DataSourceProvider;
+import com.google.gerrit.pgm.util.Die;
 import com.google.gerrit.pgm.util.ErrorLogFile;
 import com.google.gerrit.pgm.util.IoUtil;
-import com.google.gerrit.pgm.util.Libraries;
 import com.google.gerrit.pgm.util.SiteProgram;
-import com.google.gerrit.reviewdb.AuthType;
-import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.reviewdb.ReviewDb;
-import com.google.gerrit.reviewdb.Project.SubmitType;
-import com.google.gerrit.server.config.ConfigUtil;
+import com.google.gerrit.server.config.SitePath;
+import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.git.GitProjectImporter;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.mail.SmtpEmailSender.Encryption;
 import com.google.gerrit.server.schema.SchemaUpdater;
-import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.AbstractModule;
+import com.google.inject.CreationException;
+import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Module;
+import com.google.inject.spi.Message;
 
-import org.apache.sshd.common.util.SecurityUtils;
-import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.FileBasedConfig;
-import org.eclipse.jgit.lib.LockFile;
-import org.eclipse.jgit.lib.RepositoryCache.FileKey;
-import org.eclipse.jgit.util.SystemReader;
-import org.h2.util.StartBrowser;
 import org.kohsuke.args4j.Option;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.InetAddress;
-import java.net.Socket;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /** Initialize a new Gerrit installation. */
 public class Init extends SiteProgram {
@@ -82,953 +60,198 @@ public class Init extends SiteProgram {
   @Option(name = "--no-auto-start", usage = "Don't automatically start daemon after init")
   private boolean noAutoStart;
 
-  @Inject
-  private SchemaUpdater schemaUpdater;
-
-  @Inject
-  private GitRepositoryManager repositoryManager;
-
-  @Inject
-  private SchemaFactory<ReviewDb> schema;
-
-  private boolean isNew;
-  private boolean deleteOnFailure;
-  private ConsoleUI ui;
-  private Libraries libraries;
-  private Injector dbInjector;
-  private Injector sysInjector;
-
-  private File site_path;
-  private File bin_dir;
-  private File etc_dir;
-  private File lib_dir;
-  private File logs_dir;
-  private File static_dir;
-
-  private File gerrit_sh;
-  private File gerrit_config;
-  private File secure_config;
-  private File replication_config;
-
-  private FileBasedConfig cfg;
-  private FileBasedConfig sec;
-
   @Override
   public int run() throws Exception {
     ErrorLogFile.errorOnlyConsole();
-    ui = ConsoleUI.getInstance(batchMode);
-    libraries = new Libraries(ui, getSitePath());
-    initPathLocations();
 
-    if (site_path.exists()) {
-      final String[] contents = site_path.list();
-      if (contents != null)
-        isNew = contents.length == 0;
-      else if (site_path.isDirectory())
-        throw die("Cannot access " + site_path);
-      else
-        throw die("Not a directory: " + site_path);
-    } else {
-      isNew = true;
-    }
+    final SiteInit init = createSiteInit();
+    init.flags.importProjects = importProjects;
+    init.flags.autoStart = !noAutoStart && init.site.isNew;
 
+    final SiteRun run;
     try {
-      upgradeFrom2_0();
+      init.initializer.run();
+      init.flags.deleteOnFailure = false;
 
-      initSitePath();
-      generateSshHostKeys();
-      deleteOnFailure = false;
-
-      inject();
-      schemaUpdater.update();
-      initGit();
+      run = createSiteRun(init);
+      run.schemaUpdater.update();
+      run.importGit();
     } catch (Exception failure) {
-      if (deleteOnFailure) {
+      if (init.flags.deleteOnFailure) {
         recursiveDelete(getSitePath());
       }
       throw failure;
     } catch (Error failure) {
-      if (deleteOnFailure) {
+      if (init.flags.deleteOnFailure) {
         recursiveDelete(getSitePath());
       }
       throw failure;
     }
 
     System.err.println("Initialized " + getSitePath().getCanonicalPath());
-
-    if (isNew && !noAutoStart) {
-      if (IoUtil.isWin32()) {
-        System.err.println("Automatic startup not supported on this platform.");
-
-      } else {
-        start();
-        openBrowser();
-      }
-    }
-
+    run.start();
     return 0;
   }
 
-  private void initPathLocations() {
-    site_path = getSitePath();
+  static class SiteInit {
+    final SitePaths site;
+    final InitFlags flags;
+    final ConsoleUI ui;
+    final SitePathInitializer initializer;
 
-    bin_dir = new File(site_path, "bin");
-    etc_dir = new File(site_path, "etc");
-    lib_dir = new File(site_path, "lib");
-    logs_dir = new File(site_path, "logs");
-    static_dir = new File(site_path, "static");
-
-    gerrit_sh = new File(bin_dir, "gerrit.sh");
-    gerrit_config = new File(etc_dir, "gerrit.config");
-    secure_config = new File(etc_dir, "secure.config");
-    replication_config = new File(etc_dir, "replication.config");
-
-    cfg = new FileBasedConfig(gerrit_config);
-    sec = new FileBasedConfig(secure_config);
+    @Inject
+    SiteInit(final SitePaths site, final InitFlags flags, final ConsoleUI ui,
+        final SitePathInitializer initializer) {
+      this.site = site;
+      this.flags = flags;
+      this.ui = ui;
+      this.initializer = initializer;
+    }
   }
 
-  private void upgradeFrom2_0() throws IOException {
-    boolean isPre2_1 = false;
-    final String[] etcFiles =
-        {"gerrit.config", "secure.config", "replication.config",
-            "ssh_host_rsa_key", "ssh_host_rsa_key.pub", "ssh_host_dsa_key",
-            "ssh_host_dsa_key.pub", "ssh_host_key", "contact_information.pub",
-            "gitweb_config.perl", "keystore", "GerritSite.css",
-            "GerritSiteFooter.html", "GerritSiteHeader.html"};
-    for (String name : etcFiles) {
-      if (new File(site_path, name).exists()) {
-        isPre2_1 = true;
-        break;
-      }
-    }
+  private SiteInit createSiteInit() {
+    final ConsoleUI ui = ConsoleUI.getInstance(batchMode);
+    final File sitePath = getSitePath();
+    final List<Module> m = new ArrayList<Module>();
 
-    if (isPre2_1) {
-      if (!ui.yesno(true, "Upgrade '%s'", site_path.getCanonicalPath())) {
-        throw die("aborted by user");
-      }
-
-      mkdir(etc_dir);
-      for (String name : etcFiles) {
-        final File src = new File(site_path, name);
-        final File dst = new File(etc_dir, name);
-        if (src.exists()) {
-          if (dst.exists()) {
-            throw die("File " + src + " would overwrite " + dst);
+    m.add(new InitModule());
+    m.add(new AbstractModule() {
+      @Override
+      protected void configure() {
+        bind(ConsoleUI.class).toInstance(ui);
+        bind(File.class).annotatedWith(SitePath.class).toInstance(sitePath);
+        bind(ReloadSiteLibrary.class).toInstance(new ReloadSiteLibrary() {
+          @Override
+          public void reload() {
+            Init.super.loadSiteLib();
           }
-          if (!src.renameTo(dst)) {
-            throw die("Cannot rename " + src + " to " + dst);
+        });
+      }
+    });
+
+    try {
+      return Guice.createInjector(PRODUCTION, m).getInstance(SiteInit.class);
+    } catch (CreationException ce) {
+      final Message first = ce.getErrorMessages().iterator().next();
+      Throwable why = first.getCause();
+
+      if (why instanceof Die) {
+        throw (Die) why;
+      }
+
+      final StringBuilder buf = new StringBuilder();
+      buf.append(why.getMessage());
+      why = why.getCause();
+      while (why != null) {
+        buf.append("\n  caused by ");
+        buf.append(why.toString());
+        why = why.getCause();
+      }
+      throw die(buf.toString(), new RuntimeException("InitInjector failed", ce));
+    }
+  }
+
+  static class SiteRun {
+    final ConsoleUI ui;
+    final SitePaths site;
+    final InitFlags flags;
+    final SchemaUpdater schemaUpdater;
+    final GitRepositoryManager repositoryManager;
+    final GitProjectImporter gitProjectImporter;
+    final Browser browser;
+
+    @Inject
+    SiteRun(final ConsoleUI ui, final SitePaths site, final InitFlags flags,
+        final SchemaUpdater schemaUpdater,
+        final GitRepositoryManager repositoryManager,
+        final GitProjectImporter gitProjectImporter, final Browser browser) {
+      this.ui = ui;
+      this.site = site;
+      this.flags = flags;
+      this.schemaUpdater = schemaUpdater;
+      this.repositoryManager = repositoryManager;
+      this.gitProjectImporter = gitProjectImporter;
+      this.browser = browser;
+    }
+
+    void importGit() throws OrmException, IOException {
+      if (flags.importProjects) {
+        System.err.println("Scanning " + repositoryManager.getBasePath());
+        gitProjectImporter.run(new GitProjectImporter.Messages() {
+          @Override
+          public void warning(String msg) {
+            System.err.println(msg);
+            System.err.flush();
           }
-        }
+        });
       }
     }
-  }
 
-  private void initSitePath() throws IOException, InterruptedException,
-      ConfigInvalidException {
-    ui.header("Gerrit Code Review %s", version());
+    void start() throws IOException {
+      if (flags.autoStart) {
+        if (IoUtil.isWin32()) {
+          System.err.println("Automatic startup not supported on Win32.");
 
-    if (isNew) {
-      if (!ui.yesno(true, "Create '%s'", site_path.getCanonicalPath())) {
-        throw die("aborted by user");
-      }
-      if (!site_path.isDirectory() && !site_path.mkdirs()) {
-        throw die("Cannot make directory " + site_path);
-      }
-      deleteOnFailure = true;
-    }
-
-    mkdir(bin_dir);
-    mkdir(etc_dir);
-    mkdir(lib_dir);
-    mkdir(logs_dir);
-    mkdir(static_dir);
-
-    cfg.load();
-    sec.load();
-
-    downloadOptionalLibraries();
-    init_gerrit_basepath();
-    init_database();
-    init_auth();
-    init_sendemail();
-    init_container();
-    init_sshd();
-    init_httpd();
-    init_cache();
-
-    cfg.save();
-    saveSecureConfig(sec);
-
-    if (ui != null) {
-      System.err.println();
-    }
-
-    if (!replication_config.exists()) {
-      replication_config.createNewFile();
-    }
-
-    extract(gerrit_sh, Init.class, "gerrit.sh");
-    chmod(0755, gerrit_sh);
-  }
-
-  private void initGit() throws OrmException, IOException {
-    final File root = repositoryManager.getBasePath();
-    if (root != null && importProjects) {
-      System.err.println("Scanning projects under " + root);
-      final ReviewDb db = schema.open();
-      try {
-        final HashSet<String> have = new HashSet<String>();
-        for (Project p : db.projects().all()) {
-          have.add(p.getName());
-        }
-        importProjects(root, "", db, have);
-      } finally {
-        db.close();
-      }
-    }
-  }
-
-  private void importProjects(final File dir, final String prefix,
-      final ReviewDb db, final Set<String> have) throws OrmException,
-      IOException {
-    final File[] ls = dir.listFiles();
-    if (ls == null) {
-      return;
-    }
-
-    for (File f : ls) {
-      if (".".equals(f.getName()) || "..".equals(f.getName())) {
-      } else if (FileKey.isGitRepository(f)) {
-        String name = f.getName();
-        if (name.equals(".git")) {
-          name = prefix.substring(0, prefix.length() - 1);
-        } else if (name.endsWith(".git")) {
-          name = prefix + name.substring(0, name.length() - 4);
         } else {
-          name = prefix + name;
-          System.err.println("Ignoring non-standard name '" + name + "'");
-          continue;
-        }
-
-        if (have.contains(name)) {
-          continue;
-        }
-
-        final Project.NameKey nameKey = new Project.NameKey(name);
-        final Project.Id idKey = new Project.Id(db.nextProjectId());
-        final Project p = new Project(nameKey, idKey);
-
-        p.setDescription(repositoryManager.getProjectDescription(name));
-        p.setSubmitType(SubmitType.MERGE_IF_NECESSARY);
-        p.setUseContributorAgreements(false);
-        p.setUseSignedOffBy(false);
-        db.projects().insert(Collections.singleton(p));
-
-      } else if (f.isDirectory()) {
-        importProjects(f, prefix + f.getName() + "/", db, have);
-      }
-    }
-  }
-
-  private void saveSecureConfig(final FileBasedConfig sec) throws IOException {
-    final byte[] out = Constants.encode(sec.toText());
-    final File path = sec.getFile();
-    final LockFile lf = new LockFile(path);
-    if (!lf.lock()) {
-      throw new IOException("Cannot lock " + path);
-    }
-    try {
-      chmod(0600, new File(path.getParentFile(), path.getName() + ".lock"));
-      lf.write(out);
-      if (!lf.commit()) {
-        throw new IOException("Cannot commit write to " + path);
-      }
-    } finally {
-      lf.unlock();
-    }
-  }
-
-  private static void mkdir(final File path) {
-    if (!path.isDirectory() && !path.mkdir()) {
-      throw die("Cannot make directory " + path);
-    }
-  }
-
-  private static void chmod(final int mode, final File path) {
-    path.setReadable(false, false /* all */);
-    path.setWritable(false, false /* all */);
-    path.setExecutable(false, false /* all */);
-
-    path.setReadable((mode & 0400) == 0400, true /* owner only */);
-    path.setWritable((mode & 0200) == 0200, true /* owner only */);
-    if (path.isDirectory() || (mode & 0100) == 0100) {
-      path.setExecutable(true, true /* owner only */);
-    }
-
-    if ((mode & 0044) == 0044) {
-      path.setReadable(true, false /* all */);
-    }
-    if ((mode & 0011) == 0011) {
-      path.setExecutable(true, false /* all */);
-    }
-  }
-
-  private void downloadOptionalLibraries() {
-    // Download and install BouncyCastle if the user wants to use it.
-    //
-    libraries.bouncyCastle.downloadOptional();
-    loadSiteLib();
-  }
-
-  private void init_gerrit_basepath() {
-    final Section cfg = new Section("gerrit");
-    ui.header("Git Repositories");
-
-    File d = cfg.path("Location of Git repositories", "basePath", "git");
-    if (d == null) {
-      throw die("gerrit.basePath is required");
-    }
-    if (d.exists()) {
-      if (!importProjects && d.list() != null && d.list().length > 0) {
-        importProjects = ui.yesno(true, "Import existing repositories");
-      }
-    } else if (!d.mkdirs()) {
-      throw die("Cannot create " + d);
-    }
-  }
-
-  private void init_database() {
-    final Section cfg = new Section("database");
-    ui.header("SQL Database");
-
-    final DataSourceProvider.Type db_type =
-        cfg.select("Database server type", "type", H2);
-
-    switch (db_type) {
-      case MYSQL:
-        libraries.mysqlDriver.downloadRequired();
-        loadSiteLib();
-        break;
-    }
-
-    final boolean userPassAuth;
-    switch (db_type) {
-      case H2: {
-        userPassAuth = false;
-        String path = cfg.get("database");
-        if (path == null) {
-          path = "db/ReviewDB";
-          cfg.set("database", path);
-        }
-        File db = resolve(path);
-        if (db == null) {
-          throw die("database.database must be supplied for H2");
-        }
-        db = db.getParentFile();
-        if (!db.exists() && !db.mkdirs()) {
-          throw die("cannot create database.database " + db.getAbsolutePath());
-        }
-        break;
-      }
-
-      case JDBC: {
-        userPassAuth = true;
-        cfg.string("Driver class name", "driver", null);
-        cfg.string("URL", "url", null);
-        break;
-      }
-
-      case POSTGRES:
-      case POSTGRESQL:
-      case MYSQL: {
-        userPassAuth = true;
-        final String defPort = "(" + db_type.toString() + " default)";
-        cfg.string("Server hostname", "hostname", "localhost");
-        cfg.string("Server port", "port", defPort, true);
-        cfg.string("Database name", "database", "reviewdb");
-        break;
-      }
-
-      default:
-        throw die("internal bug, database " + db_type + " not supported");
-    }
-
-    if (userPassAuth) {
-      cfg.string("Database username", "username", username());
-      cfg.password("username", "password");
-    }
-  }
-
-  private void init_auth() {
-    final Section auth = new Section("auth");
-    final Section ldap = new Section("ldap");
-    ui.header("User Authentication");
-
-    final AuthType auth_type =
-        auth.select("Authentication method", "type", AuthType.OPENID);
-
-    switch (auth_type) {
-      case HTTP:
-      case HTTP_LDAP: {
-        String hdr = auth.get("httpHeader");
-        if (ui.yesno(hdr != null, "Get username from custom HTTP header")) {
-          auth.string("Username HTTP header", "httpHeader", "SM_USER");
-        } else if (hdr != null) {
-          auth.unset("httpHeader");
-        }
-        auth.string("SSO logout URL", "logoutUrl", null);
-        break;
-      }
-    }
-
-    switch (auth_type) {
-      case LDAP:
-      case HTTP_LDAP: {
-        String server =
-            ldap.string("LDAP server", "server", "ldap://localhost");
-        if (server != null //
-            && !server.startsWith("ldap://") //
-            && !server.startsWith("ldaps://")) {
-          if (ui.yesno(false, "Use SSL")) {
-            server = "ldaps://" + server;
-          } else {
-            server = "ldap://" + server;
-          }
-          ldap.set("server", server);
-        }
-
-        ldap.string("LDAP username", "username", null);
-        ldap.password("username", "password");
-
-        final String def_dn = dnOf(server);
-        String aBase = ldap.string("Account BaseDN", "accountBase", def_dn);
-        String gBase = ldap.string("Group BaseDN", "groupBase", aBase);
-        break;
-      }
-    }
-  }
-
-  private void init_sendemail() {
-    final Section cfg = new Section("sendemail");
-    ui.header("Email Delivery");
-
-    final String hostname =
-        cfg.string("SMTP server hostname", "smtpServer", "localhost");
-    cfg.string("SMTP server port", "smtpServerPort", "(default)", true);
-    final Encryption enc =
-        cfg.select("SMTP encryption", "smtpEncryption", Encryption.NONE, true);
-
-    String username = null;
-    if ((enc != null && enc != Encryption.NONE) || !isLocal(hostname)) {
-      username = username();
-    }
-    cfg.string("SMTP username", "smtpUser", username);
-    cfg.password("smtpUser", "smtpPass");
-  }
-
-  private void init_container() throws IOException {
-    final Section cfg = new Section("container");
-    ui.header("Container Process");
-
-    cfg.string("Run as", "user", username());
-    cfg.string("Java runtime", "javaHome", System.getProperty("java.home"));
-
-    final File siteWar = new File(bin_dir, "gerrit.war");
-    File myWar;
-    try {
-      myWar = GerritLauncher.getDistributionArchive();
-    } catch (FileNotFoundException e) {
-      System.err.println("warn: Cannot find gerrit.war");
-      myWar = null;
-    }
-
-    String path = cfg.get("war");
-    if (path != null) {
-      path = cfg.string("Gerrit runtime", "war", //
-          myWar != null ? myWar.getAbsolutePath() : null);
-      if (path == null || path.isEmpty()) {
-        throw die("container.war is required");
-      }
-
-    } else if (myWar != null) {
-      final boolean copy;
-      if (siteWar.exists()) {
-        copy = ui.yesno(true, "Upgrade %s", siteWar.getPath());
-      } else {
-        copy = ui.yesno(true, "Copy gerrit.war to %s", siteWar.getPath());
-        if (copy) {
-          cfg.unset("war");
-        } else {
-          cfg.set("war", myWar.getAbsolutePath());
-        }
-      }
-      if (copy) {
-        if (!ui.isBatch()) {
-          System.err.format("Copying gerrit.war to %s", siteWar.getPath());
-          System.err.println();
-        }
-        copy(siteWar, new FileInputStream(myWar));
-      }
-    }
-  }
-
-  private void init_sshd() {
-    final Section cfg = new Section("sshd");
-    ui.header("SSH Daemon");
-
-    String hostname = "*", port = "29418";
-    String listenAddress = cfg.get("listenAddress");
-    if (listenAddress != null && !listenAddress.isEmpty()) {
-      if (listenAddress.startsWith("[")) {
-        final int hostEnd = listenAddress.indexOf(']');
-        if (0 < hostEnd) {
-          hostname = listenAddress.substring(1, hostEnd);
-          if (hostEnd + 1 < listenAddress.length() //
-              && listenAddress.charAt(hostEnd + 1) == ':') {
-            port = listenAddress.substring(hostEnd + 2);
+          startDaemon();
+          if (!ui.isBatch()) {
+            browser.open(PageLinks.ADMIN_PROJECTS);
           }
         }
-
-      } else {
-        final int hostEnd = listenAddress.indexOf(':');
-        if (0 < hostEnd) {
-          hostname = listenAddress.substring(0, hostEnd);
-          port = listenAddress.substring(hostEnd + 1);
-        } else {
-          hostname = listenAddress;
-        }
       }
     }
 
-    hostname = ui.readString(hostname, "Listen on address");
-    port = ui.readString(port, "Listen on port");
-    cfg.set("listenAddress", hostname + ":" + port);
-  }
-
-  private void init_httpd() throws IOException, InterruptedException {
-    final Section httpd = new Section("httpd");
-    ui.header("HTTP Daemon");
-
-    boolean proxy = false, ssl = false;
-    String address = "*", port = null, context = "/";
-    String listenUrl = httpd.get("listenUrl");
-    if (listenUrl != null && !listenUrl.isEmpty()) {
+    void startDaemon() {
+      final String[] argv = {site.gerrit_sh.getAbsolutePath(), "start"};
+      final Process proc;
       try {
-        final URI uri = toURI(listenUrl);
-        proxy = uri.getScheme().startsWith("proxy-");
-        ssl = uri.getScheme().endsWith("https");
-        address = isAnyAddress(new URI(listenUrl)) ? "*" : uri.getHost();
-        port = String.valueOf(uri.getPort());
-        context = uri.getPath();
-      } catch (URISyntaxException e) {
-        System.err.println("warning: invalid httpd.listenUrl " + listenUrl);
-      }
-    }
-
-    proxy = ui.yesno(proxy, "Behind reverse proxy");
-
-    if (proxy) {
-      ssl = ui.yesno(ssl, "Proxy uses SSL (https://)");
-      context = ui.readString(context, "Subdirectory on proxy server");
-    } else {
-      ssl = ui.yesno(ssl, "Use SSL (https://)");
-      context = "/";
-    }
-
-    address = ui.readString(address, "Listen on address");
-
-    if (port == null) {
-      if (proxy) {
-        port = "8081";
-      } else if (ssl) {
-        port = "8443";
-      } else {
-        port = "8080";
-      }
-    }
-    port = ui.readString(port, "Listen on port");
-
-    final StringBuilder urlbuf = new StringBuilder();
-    urlbuf.append(proxy ? "proxy-" : "");
-    urlbuf.append(ssl ? "https" : "http");
-    urlbuf.append("://");
-    urlbuf.append(address);
-    urlbuf.append(":");
-    urlbuf.append(port);
-    urlbuf.append(context);
-    httpd.set("listenUrl", urlbuf.toString());
-
-    URI uri;
-    try {
-      uri = toURI(httpd.get("listenUrl"));
-      if (uri.getScheme().startsWith("proxy-")) {
-        // If its a proxy URL, assume the reverse proxy is on our system
-        // at the protocol standard ports (so omit the ports from the URL).
-        //
-        String s = uri.getScheme().substring("proxy-".length());
-        uri = new URI(s + "://" + uri.getHost() + uri.getPath());
-      }
-    } catch (URISyntaxException e) {
-      throw die("invalid httpd.listenUrl");
-    }
-    final Section gerrit = new Section("gerrit");
-    if (gerrit.get("canonicalWebUrl") != null
-        || (!proxy && ssl)
-        || ConfigUtil.getEnum(cfg, "auth", null, "type", AuthType.OPENID) == AuthType.OPENID) {
-      gerrit.string("Canonical URL", "canonicalWebUrl", uri.toString());
-    }
-
-    generateSslCertificate();
-  }
-
-  private void generateSslCertificate() throws IOException,
-      InterruptedException {
-    final Section httpd = new Section("httpd");
-    final String listenUrl = httpd.get("listenUrl");
-
-    if (!listenUrl.startsWith("https://")) {
-      // We aren't responsible for SSL processing.
-      //
-      return;
-    }
-
-    String hostname;
-    try {
-      String url = cfg.getString("gerrit", null, "canonicalWebUrl");
-      if (url == null || url.isEmpty()) {
-        url = listenUrl;
-      }
-      hostname = toURI(url).getHost();
-    } catch (URISyntaxException e) {
-      System.err.println("Invalid httpd.listenUrl, not checking certificate");
-      return;
-    }
-
-    final File store = new File(etc_dir, "keystore");
-    if (!ui.yesno(!store.exists(), "Create new self-signed SSL certificate")) {
-      return;
-    }
-
-    String ssl_pass = sec.getString("http", null, "sslKeyPassword");
-    if (ssl_pass == null || ssl_pass.isEmpty()) {
-      ssl_pass = SignedToken.generateRandomKey();
-      sec.setString("httpd", null, "sslKeyPassword", ssl_pass);
-    }
-
-    hostname = ui.readString(hostname, "Certificate server name");
-    final String validity =
-        ui.readString("365", "Certificate expires in (days)");
-
-    final String dname =
-        "CN=" + hostname + ",OU=Gerrit Code Review,O=" + domainOf(hostname);
-
-    final File tmpdir = new File(etc_dir, "tmp.sslcertgen");
-    if (!tmpdir.mkdir()) {
-      throw die("Cannot create directory " + tmpdir);
-    }
-    chmod(0600, tmpdir);
-
-    final File tmpstore = new File(tmpdir, "keystore");
-    Runtime.getRuntime().exec(new String[] {"keytool", //
-        "-keystore", tmpstore.getAbsolutePath(), //
-        "-storepass", ssl_pass, //
-        "-genkeypair", //
-        "-alias", hostname, //
-        "-keyalg", "RSA", //
-        "-validity", validity, //
-        "-dname", dname, //
-        "-keypass", ssl_pass, //
-    }).waitFor();
-    chmod(0600, tmpstore);
-
-    if (!tmpstore.renameTo(store)) {
-      throw die("Cannot rename " + tmpstore + " to " + store);
-    }
-    if (!tmpdir.delete()) {
-      throw die("Cannot delete " + tmpdir);
-    }
-  }
-
-  private void init_cache() {
-    final Section cfg = new Section("cache");
-    String path = cfg.get("directory");
-
-    if (path != null && path.isEmpty()) {
-      // Explicitly set to empty implies the administrator has
-      // disabled the on disk cache and doesn't want it enabled.
-      //
-      return;
-    }
-
-    if (path == null) {
-      path = "cache";
-      cfg.set("directory", path);
-    }
-
-    final File loc = resolve(path);
-    if (!loc.exists() && !loc.mkdirs()) {
-      throw die("cannot create cache.directory " + loc.getAbsolutePath());
-    }
-  }
-
-  private File resolve(final String path) {
-    if (path != null && !path.isEmpty()) {
-      File loc = new File(path);
-      if (!loc.isAbsolute()) {
-        loc = new File(site_path, path);
-      }
-      return loc;
-    }
-    return null;
-  }
-
-  private void generateSshHostKeys() throws InterruptedException, IOException {
-    final File key = new File(etc_dir, "ssh_host_key");
-    final File rsa = new File(etc_dir, "ssh_host_rsa_key");
-    final File dsa = new File(etc_dir, "ssh_host_dsa_key");
-
-    if (!key.exists() && !rsa.exists() && !dsa.exists()) {
-      System.err.print("Generating SSH host key ...");
-      System.err.flush();
-
-      if (SecurityUtils.isBouncyCastleRegistered()) {
-        // Generate the SSH daemon host key using ssh-keygen.
-        //
-        final String comment = "gerrit-code-review@" + hostname();
-
-        System.err.print(" rsa...");
-        System.err.flush();
-        Runtime.getRuntime().exec(new String[] {"ssh-keygen", //
-            "-q" /* quiet */, //
-            "-t", "rsa", //
-            "-P", "", //
-            "-C", comment, //
-            "-f", rsa.getAbsolutePath() //
-            }).waitFor();
-
-        System.err.print(" dsa...");
-        System.err.flush();
-        Runtime.getRuntime().exec(new String[] {"ssh-keygen", //
-            "-q" /* quiet */, //
-            "-t", "dsa", //
-            "-P", "", //
-            "-C", comment, //
-            "-f", dsa.getAbsolutePath() //
-            }).waitFor();
-
-      } else {
-        // Generate the SSH daemon host key ourselves. This is complex
-        // because SimpleGeneratorHostKeyProvider doesn't mark the data
-        // file as only readable by us, exposing the private key for a
-        // short period of time. We try to reduce that risk by creating
-        // the key within a temporary directory.
-        //
-        final File tmpdir = new File(etc_dir, "tmp.sshkeygen");
-        if (!tmpdir.mkdir()) {
-          throw die("Cannot create directory " + tmpdir);
-        }
-        chmod(0600, tmpdir);
-
-        final File tmpkey = new File(tmpdir, key.getName());
-        final SimpleGeneratorHostKeyProvider p;
-
-        System.err.print(" rsa(simple)...");
-        System.err.flush();
-        p = new SimpleGeneratorHostKeyProvider();
-        p.setPath(tmpkey.getAbsolutePath());
-        p.setAlgorithm("RSA");
-        p.loadKeys(); // forces the key to generate.
-        chmod(0600, tmpkey);
-
-        if (!tmpkey.renameTo(key)) {
-          throw die("Cannot rename " + tmpkey + " to " + key);
-        }
-        if (!tmpdir.delete()) {
-          throw die("Cannot delete " + tmpdir);
-        }
-      }
-      System.err.println(" done");
-    }
-  }
-
-  private void start() {
-    final String[] argv = {gerrit_sh.getAbsolutePath(), "start"};
-    final Process proc;
-    try {
-      System.err.println("Executing " + argv[0] + " " + argv[1]);
-      proc = Runtime.getRuntime().exec(argv);
-    } catch (IOException e) {
-      System.err.println("error: cannot start Gerrit: " + e.getMessage());
-      return;
-    }
-
-    try {
-      proc.getOutputStream().close();
-    } catch (IOException e) {
-    }
-
-    IoUtil.copyWithThread(proc.getInputStream(), System.err);
-    IoUtil.copyWithThread(proc.getErrorStream(), System.err);
-
-    for (;;) {
-      try {
-        final int rc = proc.waitFor();
-        if (rc != 0) {
-          System.err.println("error: cannot start Gerrit: exit status " + rc);
-        }
-        break;
-      } catch (InterruptedException e) {
-        // retry
-      }
-    }
-  }
-
-  private void openBrowser() throws IOException {
-    if (ui.isBatch()) {
-      return;
-    }
-
-    String url = cfg.getString("httpd", null, "listenUrl");
-    if (url == null) {
-      return;
-    }
-
-    if (url.startsWith("proxy-")) {
-      url = url.substring("proxy-".length());
-    }
-
-    final URI uri;
-    try {
-      uri = toURI(url);
-    } catch (URISyntaxException e) {
-      System.err.println("error: invalid httpd.listenUrl: " + url);
-      return;
-    }
-    final String hostname = uri.getHost();
-    final int port = portOf(uri);
-
-    System.err.print("Waiting for server to start ... ");
-    System.err.flush();
-    for (;;) {
-      final Socket s;
-      try {
-        s = new Socket(hostname, port);
+        System.err.println("Executing " + argv[0] + " " + argv[1]);
+        proc = Runtime.getRuntime().exec(argv);
       } catch (IOException e) {
-        try {
-          Thread.sleep(100);
-        } catch (InterruptedException ie) {
-        }
-        continue;
+        System.err.println("error: cannot start Gerrit: " + e.getMessage());
+        return;
       }
-      s.close();
-      break;
-    }
-    System.err.println("OK");
 
-    url = cfg.getString("gerrit", null, "canonicalWebUrl");
-    if (url == null || url.isEmpty()) {
-      url = uri.toString();
+      try {
+        proc.getOutputStream().close();
+      } catch (IOException e) {
+      }
+
+      IoUtil.copyWithThread(proc.getInputStream(), System.err);
+      IoUtil.copyWithThread(proc.getErrorStream(), System.err);
+
+      for (;;) {
+        try {
+          final int rc = proc.waitFor();
+          if (rc != 0) {
+            System.err.println("error: cannot start Gerrit: exit status " + rc);
+          }
+          break;
+        } catch (InterruptedException e) {
+          // retry
+        }
+      }
     }
-    if (!url.endsWith("/")) {
-      url += "/";
-    }
-    url += "#" + PageLinks.ADMIN_PROJECTS;
-    System.err.println("Opening browser ...");
-    StartBrowser.openURL(url);
+
   }
 
-  private static URI toURI(String url) throws URISyntaxException {
-    final URI u = new URI(url);
-    if (isAnyAddress(u)) {
-      // If the URL uses * it means all addresses on this system, use the
-      // current hostname instead in the returned URI.
-      //
-      final int s = url.indexOf('*');
-      url = url.substring(0, s) + hostname() + url.substring(s + 1);
-    }
-    return new URI(url);
+  private SiteRun createSiteRun(final SiteInit init) {
+    return createSysInjector(init).getInstance(SiteRun.class);
   }
 
-  private static boolean isAnyAddress(final URI u) {
-    return u.getHost() == null
-        && (u.getAuthority().equals("*") || u.getAuthority().startsWith("*:"));
-  }
-
-  private static int portOf(final URI uri) {
-    int port = uri.getPort();
-    if (port < 0) {
-      port = "https".equals(uri.getScheme()) ? 443 : 80;
-    }
-    return port;
-  }
-
-  private void inject() {
-    dbInjector = createDbInjector(SINGLE_USER);
-    sysInjector = createSysInjector();
-    sysInjector.injectMembers(this);
-  }
-
-  private Injector createSysInjector() {
+  private Injector createSysInjector(final SiteInit init) {
     final List<Module> modules = new ArrayList<Module>();
     modules.add(new AbstractModule() {
       @Override
       protected void configure() {
+        bind(ConsoleUI.class).toInstance(init.ui);
+        bind(InitFlags.class).toInstance(init.flags);
+
         bind(GitRepositoryManager.class);
+        bind(GitProjectImporter.class);
       }
     });
-    return dbInjector.createChildInjector(modules);
-  }
-
-  private static String version() {
-    return com.google.gerrit.common.Version.getVersion();
-  }
-
-  private static String username() {
-    return System.getProperty("user.name");
-  }
-
-  private static String hostname() {
-    return SystemReader.getInstance().getHostname();
-  }
-
-  private static boolean isLocal(final String hostname) {
-    try {
-      return InetAddress.getByName(hostname).isLoopbackAddress();
-    } catch (UnknownHostException e) {
-      return false;
-    }
-  }
-
-  private static String dnOf(String name) {
-    if (name != null) {
-      int p = name.indexOf("://");
-      if (0 < p) {
-        name = name.substring(p + 3);
-      }
-
-      p = name.indexOf(".");
-      if (0 < p) {
-        name = name.substring(p + 1);
-        name = "DC=" + name.replaceAll("\\.", ",DC=");
-      } else {
-        name = null;
-      }
-    }
-    return name;
-  }
-
-  private static String domainOf(String name) {
-    if (name != null) {
-      int p = name.indexOf("://");
-      if (0 < p) {
-        name = name.substring(p + 3);
-      }
-      p = name.indexOf(".");
-      if (0 < p) {
-        name = name.substring(p + 1);
-      }
-    }
-    return name;
+    return createDbInjector(SINGLE_USER).createChildInjector(modules);
   }
 
   private static void recursiveDelete(File path) {
@@ -1041,171 +264,5 @@ public class Init extends SiteProgram {
     if (!path.delete() && path.exists()) {
       System.err.println("warn: Cannot remove " + path);
     }
-  }
-
-  private static void extract(final File dst, final Class<?> sibling,
-      final String name) throws IOException {
-    final InputStream in = open(sibling, name);
-    if (in != null) {
-      copy(dst, in);
-    }
-  }
-
-  private static InputStream open(final Class<?> sibling, final String name)
-      throws IOException {
-    final URL u = sibling.getResource(name);
-    if (u == null) {
-      String pkg = sibling.getName();
-      int end = pkg.lastIndexOf('.');
-      if (0 < end) {
-        pkg = pkg.substring(0, end + 1);
-        pkg = pkg.replace('.', '/');
-      } else {
-        pkg = "";
-      }
-      System.err.println("warn: Cannot read " + pkg + name);
-      return null;
-    }
-    return u.openStream();
-  }
-
-  private static void copy(final File dst, final InputStream in)
-      throws FileNotFoundException, IOException {
-    try {
-      dst.getParentFile().mkdirs();
-      final FileOutputStream out = new FileOutputStream(dst);
-      try {
-        final byte[] buf = new byte[4096];
-        int n;
-        while (0 < (n = in.read(buf))) {
-          out.write(buf, 0, n);
-        }
-      } finally {
-        out.close();
-      }
-    } finally {
-      in.close();
-    }
-  }
-
-  private class Section {
-    final String section;
-
-    Section(final String section) {
-      this.section = section;
-    }
-
-    String get(String name) {
-      return cfg.getString(section, null, name);
-    }
-
-    void set(final String name, final String value) {
-      final ArrayList<String> all = new ArrayList<String>();
-      all.addAll(Arrays.asList(cfg.getStringList(section, null, name)));
-
-      if (value != null) {
-        if (all.size() == 0 || all.size() == 1) {
-          cfg.setString(section, null, name, value);
-        } else {
-          all.set(0, value);
-          cfg.setStringList(section, null, name, all);
-        }
-
-      } else if (all.size() == 0) {
-      } else if (all.size() == 1) {
-        cfg.unset(section, null, name);
-      } else {
-        all.remove(0);
-        cfg.setStringList(section, null, name, all);
-      }
-    }
-
-    void unset(String name) {
-      set(name, null);
-    }
-
-    String string(final String title, final String name, final String dv) {
-      return string(title, name, dv, false);
-    }
-
-    String string(final String title, final String name, final String dv,
-        final boolean nullIfDefault) {
-      final String ov = get(name);
-      String nv = ui.readString(ov != null ? ov : dv, "%s", title);
-      if (nullIfDefault && nv == dv) {
-        nv = null;
-      }
-      if (!eq(ov, nv)) {
-        set(name, nv);
-      }
-      return nv;
-    }
-
-    File path(final String title, final String name, final String defValue) {
-      return resolve(string(title, name, defValue));
-    }
-
-    <T extends Enum<?>> T select(final String title, final String name,
-        final T defValue) {
-      return select(title, name, defValue, false);
-    }
-
-    <T extends Enum<?>> T select(final String title, final String name,
-        final T defValue, final boolean nullIfDefault) {
-      final boolean set = get(name) != null;
-      T oldValue = ConfigUtil.getEnum(cfg, section, null, name, defValue);
-      T newValue = ui.readEnum(oldValue, "%s", title);
-      if (nullIfDefault && newValue == defValue) {
-        newValue = null;
-      }
-      if (!set || oldValue != newValue) {
-        if (newValue != null) {
-          set(name, newValue.name());
-        } else {
-          unset(name);
-        }
-      }
-      return newValue;
-    }
-
-    String password(final String username, final String password) {
-      final String ov = sec.getString(section, null, password);
-
-      String user = sec.getString(section, null, username);
-      if (user == null) {
-        user = get(username);
-      }
-
-      if (user == null) {
-        sec.unset(section, null, password);
-        return null;
-      }
-
-      if (ov != null) {
-        // If the user already has a password stored, try to reuse it
-        // rather than prompting for a whole new one.
-        //
-        if (ui.isBatch() || !ui.yesno(false, "Change %s's password", user)) {
-          return ov;
-        }
-      }
-
-      final String nv = ui.password("%s's password", user);
-      if (!eq(ov, nv)) {
-        if (nv != null) {
-          sec.setString(section, null, password, nv);
-        } else {
-          sec.unset(section, null, password);
-        }
-      }
-      return nv;
-    }
-  }
-
-  private static boolean eq(final String a, final String b) {
-    if (a == null && b == null) {
-      return true;
-    }
-    return a != null ? a.equals(b) : false;
   }
 }

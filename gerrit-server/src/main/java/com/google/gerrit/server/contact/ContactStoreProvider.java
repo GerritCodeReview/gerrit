@@ -16,7 +16,7 @@ package com.google.gerrit.server.contact;
 
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.config.SitePath;
+import com.google.gerrit.server.config.SitePaths;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -32,14 +32,14 @@ import java.net.URL;
 /** Creates the {@link ContactStore} based on the configuration. */
 public class ContactStoreProvider implements Provider<ContactStore> {
   private final Config config;
-  private final File sitePath;
+  private final SitePaths site;
   private final SchemaFactory<ReviewDb> schema;
 
   @Inject
   ContactStoreProvider(@GerritServerConfig final Config config,
-      @SitePath final File sitePath, final SchemaFactory<ReviewDb> schema) {
+      final SitePaths site, final SchemaFactory<ReviewDb> schema) {
     this.config = config;
-    this.sitePath = sitePath;
+    this.site = site;
     this.schema = schema;
   }
 
@@ -63,7 +63,7 @@ public class ContactStoreProvider implements Provider<ContactStore> {
     }
 
     final String storeAPPSEC = config.getString("contactstore", null, "appsec");
-    final File pubkey = new File(sitePath, "etc/contact_information.pub");
+    final File pubkey = site.contact_information_pub;
     if (!pubkey.exists()) {
       throw new ProvisionException("PGP public key file \""
           + pubkey.getAbsolutePath() + "\" not found");

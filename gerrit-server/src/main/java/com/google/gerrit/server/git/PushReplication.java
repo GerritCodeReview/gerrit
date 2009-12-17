@@ -19,7 +19,7 @@ import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.ReplicationUser;
-import com.google.gerrit.server.config.SitePath;
+import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gwtorm.client.OrmException;
@@ -48,7 +48,6 @@ import org.eclipse.jgit.util.QuotedString;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URISyntaxException;
@@ -86,15 +85,14 @@ public class PushReplication implements ReplicationQueue {
   private final ReplicationUser.Factory replicationUserFactory;
 
   @Inject
-  PushReplication(final Injector i, final WorkQueue wq,
-      @SitePath final File sitePath, final ReplicationUser.Factory ruf,
-      final SchemaFactory<ReviewDb> db) throws ConfigInvalidException,
-      IOException {
+  PushReplication(final Injector i, final WorkQueue wq, final SitePaths site,
+      final ReplicationUser.Factory ruf, final SchemaFactory<ReviewDb> db)
+      throws ConfigInvalidException, IOException {
     injector = i;
     workQueue = wq;
     database = db;
     replicationUserFactory = ruf;
-    configs = allConfigs(sitePath);
+    configs = allConfigs(site);
   }
 
   @Override
@@ -129,11 +127,9 @@ public class PushReplication implements ReplicationQueue {
     return pat.substring(0, n) + val + pat.substring(n + 3 + key.length());
   }
 
-  private List<ReplicationConfig> allConfigs(final File path)
+  private List<ReplicationConfig> allConfigs(final SitePaths site)
       throws ConfigInvalidException, IOException {
-    final File etc = new File(path, "etc");
-    final File cfgFile = new File(etc, "replication.config");
-    final FileBasedConfig cfg = new FileBasedConfig(cfgFile);
+    final FileBasedConfig cfg = new FileBasedConfig(site.replication_config);
 
     if (!cfg.getFile().exists()) {
       log.warn("No " + cfg.getFile() + "; not replicating");
@@ -150,7 +146,8 @@ public class PushReplication implements ReplicationQueue {
       throw new ConfigInvalidException("Config file " + cfg.getFile()
           + " is invalid: " + e.getMessage(), e);
     } catch (IOException e) {
-      throw new IOException("Cannot read " + cfgFile + ": " + e.getMessage(), e);
+      throw new IOException("Cannot read " + cfg.getFile() + ": "
+          + e.getMessage(), e);
     }
 
     final List<ReplicationConfig> r = new ArrayList<ReplicationConfig>();

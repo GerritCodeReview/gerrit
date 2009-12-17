@@ -185,8 +185,12 @@ public abstract class SiteProgram extends AbstractProgram {
       }
 
       final StringBuilder buf = new StringBuilder();
-      buf.append(why.getMessage());
-      why = why.getCause();
+      if (why != null) {
+        buf.append(why.getMessage());
+        why = why.getCause();
+      } else {
+        buf.append(first.getMessage());
+      }
       while (why != null) {
         buf.append("\n  caused by ");
         buf.append(why.toString());

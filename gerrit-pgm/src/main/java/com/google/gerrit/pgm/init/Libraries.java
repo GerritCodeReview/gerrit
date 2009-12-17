@@ -12,12 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.pgm.util;
+package com.google.gerrit.pgm.init;
+
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,19 +30,20 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
 /** Standard {@link LibraryDownloader} instances derived from configuration. */
-public class Libraries {
+@Singleton
+class Libraries {
   private static final String RESOURCE_FILE =
       "com/google/gerrit/pgm/libraries.config";
 
-  private final ConsoleUI ui;
-  private final File sitePath;
+  private final Provider<LibraryDownloader> downloadProvider;
 
-  public LibraryDownloader bouncyCastle;
-  public LibraryDownloader mysqlDriver;
+  /* final */LibraryDownloader bouncyCastle;
+  /* final */LibraryDownloader mysqlDriver;
 
-  public Libraries(final ConsoleUI ui, final File sitePath) {
-    this.ui = ui;
-    this.sitePath = sitePath;
+  @Inject
+  Libraries(final Provider<LibraryDownloader> downloadProvider) {
+    this.downloadProvider = downloadProvider;
+
     init();
   }
 
@@ -70,7 +74,7 @@ public class Libraries {
   private void init(final Field field, final Config cfg)
       throws IllegalArgumentException, IllegalAccessException {
     final String n = field.getName();
-    final LibraryDownloader dl = new LibraryDownloader(ui, sitePath);
+    final LibraryDownloader dl = downloadProvider.get();
     dl.setName(get(cfg, n, "name"));
     dl.setJarUrl(get(cfg, n, "url"));
     dl.setSHA1(get(cfg, n, "sha1"));

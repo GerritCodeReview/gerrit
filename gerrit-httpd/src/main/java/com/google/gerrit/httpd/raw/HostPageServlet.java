@@ -20,7 +20,7 @@ import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.config.SitePath;
+import com.google.gerrit.server.config.SitePaths;
 import com.google.gwt.user.server.rpc.RPCServletUtils;
 import com.google.gwtjsonrpc.server.JsonServlet;
 import com.google.inject.Inject;
@@ -55,10 +55,9 @@ public class HostPageServlet extends HttpServlet {
   private final Document hostDoc;
 
   @Inject
-  HostPageServlet(final Provider<CurrentUser> cu,
-      @SitePath final File sitePath, final GerritConfig gc,
-      @GerritServerConfig final Config cfg, final ServletContext servletContext)
-      throws IOException {
+  HostPageServlet(final Provider<CurrentUser> cu, final SitePaths site,
+      final GerritConfig gc, @GerritServerConfig final Config cfg,
+      final ServletContext servletContext) throws IOException {
     currentUser = cu;
     config = gc;
 
@@ -68,15 +67,14 @@ public class HostPageServlet extends HttpServlet {
       throw new FileNotFoundException("No " + pageName + " in webapp");
     }
 
-    final File etc = new File(sitePath, "etc");
     fixModuleReference(hostDoc, servletContext);
-    injectCssFile(hostDoc, "gerrit_sitecss", etc, "GerritSite.css");
-    injectXmlFile(hostDoc, "gerrit_header", etc, "GerritSiteHeader.html");
-    injectXmlFile(hostDoc, "gerrit_footer", etc, "GerritSiteFooter.html");
+    injectCssFile(hostDoc, "gerrit_sitecss", site.site_css);
+    injectXmlFile(hostDoc, "gerrit_header", site.site_header);
+    injectXmlFile(hostDoc, "gerrit_footer", site.site_footer);
   }
 
   private void injectXmlFile(final Document hostDoc, final String id,
-      final File etc, final String fileName) throws IOException {
+      final File src) throws IOException {
     final Element banner = HtmlDomUtil.find(hostDoc, id);
     if (banner == null) {
       return;
@@ -86,7 +84,7 @@ public class HostPageServlet extends HttpServlet {
       banner.removeChild(banner.getFirstChild());
     }
 
-    final Document html = HtmlDomUtil.parseFile(etc, fileName);
+    Document html = HtmlDomUtil.parseFile(src.getParentFile(), src.getName());
     if (html == null) {
       banner.getParentNode().removeChild(banner);
       return;
@@ -97,7 +95,7 @@ public class HostPageServlet extends HttpServlet {
   }
 
   private void injectCssFile(final Document hostDoc, final String id,
-      final File etc, final String fileName) throws IOException {
+      final File src) throws IOException {
     final Element banner = HtmlDomUtil.find(hostDoc, id);
     if (banner == null) {
       return;
@@ -107,7 +105,7 @@ public class HostPageServlet extends HttpServlet {
       banner.removeChild(banner.getFirstChild());
     }
 
-    final String css = HtmlDomUtil.readFile(etc, fileName);
+    final String css = HtmlDomUtil.readFile(src.getParentFile(), src.getName());
     if (css == null) {
       banner.getParentNode().removeChild(banner);
       return;

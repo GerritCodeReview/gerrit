@@ -12,20 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.config;
+package com.google.gerrit.pgm.init;
 
-import static com.google.inject.Scopes.SINGLETON;
-
-import com.google.inject.AbstractModule;
-
-import org.eclipse.jgit.lib.Config;
-
-/** Creates {@link GerritServerConfig}. */
-public class GerritServerConfigModule extends AbstractModule {
-  @Override
-  protected void configure() {
-    bind(SitePaths.class);
-    bind(Config.class).annotatedWith(GerritServerConfig.class).toProvider(
-        GerritServerConfigProvider.class).in(SINGLETON);
-  }
+/** A single step in the site initialization process. */
+public interface InitStep {
+  public void run() throws Exception;
 }

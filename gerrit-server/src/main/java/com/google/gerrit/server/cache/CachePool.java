@@ -20,7 +20,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import com.google.gerrit.lifecycle.LifecycleListener;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.config.SitePath;
+import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
@@ -31,9 +31,9 @@ import net.sf.ehcache.config.Configuration;
 import net.sf.ehcache.config.DiskStoreConfiguration;
 import net.sf.ehcache.store.MemoryStoreEvictionPolicy;
 
+import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.eclipse.jgit.lib.Config;
 
 import java.io.File;
 import java.util.HashMap;
@@ -64,16 +64,16 @@ public class CachePool {
   }
 
   private final Config config;
-  private final File sitePath;
+  private final SitePaths site;
 
   private final Object lock = new Object();
   private final Map<String, CacheProvider<?, ?>> caches;
   private CacheManager manager;
 
   @Inject
-  CachePool(@GerritServerConfig final Config cfg, @SitePath final File sitePath) {
+  CachePool(@GerritServerConfig final Config cfg, final SitePaths site) {
     this.config = cfg;
-    this.sitePath = sitePath;
+    this.site = site;
     this.caches = new HashMap<String, CacheProvider<?, ?>>();
   }
 
@@ -198,16 +198,9 @@ public class CachePool {
         return;
       }
 
-      String path = config.getString("cache", null, "directory");
-      if (path == null || path.length() == 0) {
-        return;
-      }
-
-      File loc = new File(path);
-      if (!loc.isAbsolute()) {
-        loc = new File(sitePath, path);
-      }
-      if (loc.exists() || loc.mkdirs()) {
+      File loc = site.resolve(config.getString("cache", null, "directory"));
+      if (loc == null) {
+      } else if (loc.exists() || loc.mkdirs()) {
         if (loc.canWrite()) {
           final DiskStoreConfiguration c = new DiskStoreConfiguration();
           c.setPath(loc.getAbsolutePath());

@@ -18,6 +18,7 @@ import com.google.gerrit.lifecycle.LifecycleListener;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gerrit.server.util.IdGenerator;
+import com.google.gerrit.server.util.SocketUtil;
 import com.google.inject.Inject;
 import com.google.inject.Key;
 import com.google.inject.Singleton;
@@ -71,11 +72,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.net.Inet6Address;
-import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
-import java.net.UnknownHostException;
 import java.security.InvalidKeyException;
 import java.security.KeyPair;
 import java.security.PublicKey;
@@ -111,28 +109,6 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   private static final int DEFAULT_PORT = 29418;
 
   private static final Logger log = LoggerFactory.getLogger(SshDaemon.class);
-
-  private static String format(final SocketAddress addr) {
-    if (addr instanceof InetSocketAddress) {
-      final InetSocketAddress inetAddr = (InetSocketAddress) addr;
-      final InetAddress hostAddr = inetAddr.getAddress();
-      String host;
-      if (hostAddr.isAnyLocalAddress()) {
-        host = "*";
-      } else if (inetAddr.getPort() == IANA_SSH_PORT && !isIPv6(hostAddr)) {
-        return inetAddr.getHostName();
-      } else {
-        host = "[" + hostAddr.getHostName() + "]";
-      }
-      return host + ":" + inetAddr.getPort();
-    }
-    return addr.toString();
-  }
-
-  private static boolean isIPv6(final InetAddress ip) {
-    return ip instanceof Inet6Address
-        && ip.getHostName().equals(ip.getHostAddress());
-  }
 
   private final List<SocketAddress> listen;
   private final boolean keepAlive;
@@ -256,7 +232,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
         }
 
         try {
-          r.add(new HostKey(format(inetAddr), keyBin));
+          r.add(new HostKey(SocketUtil.format(inetAddr, IANA_SSH_PORT), keyBin));
         } catch (JSchException e) {
           log.warn("Cannot format SSHD host key", e);
         }
@@ -284,7 +260,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   private String addressList() {
     final StringBuilder r = new StringBuilder();
     for (Iterator<SocketAddress> i = listen.iterator(); i.hasNext();) {
-      r.append(format(i.next()));
+      r.append(SocketUtil.format(i.next(), IANA_SSH_PORT));
       if (i.hasNext()) {
         r.append(", ");
       }
@@ -302,63 +278,12 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
 
     for (final String desc : want) {
       try {
-        bind.add(toSocketAddress(desc));
+        bind.add(SocketUtil.resolve(desc, DEFAULT_PORT));
       } catch (IllegalArgumentException e) {
         log.error("Bad sshd.listenaddress: " + desc + ": " + e.getMessage());
       }
     }
     return bind;
-  }
-
-  private SocketAddress toSocketAddress(final String desc) {
-    String hostStr;
-    String portStr;
-
-    if (desc.startsWith("[")) {
-      // IPv6, as a raw IP address.
-      //
-      final int hostEnd = desc.indexOf(']');
-      if (hostEnd < 0) {
-        throw new IllegalArgumentException("invalid IPv6 representation");
-      }
-
-      hostStr = desc.substring(1, hostEnd);
-      portStr = desc.substring(hostEnd + 1);
-    } else {
-      // IPv4, or a host name.
-      //
-      final int hostEnd = desc.indexOf(':');
-      hostStr = 0 <= hostEnd ? desc.substring(0, hostEnd) : desc;
-      portStr = 0 <= hostEnd ? desc.substring(hostEnd) : "";
-    }
-
-    if ("*".equals(hostStr)) {
-      hostStr = "";
-    }
-    if (portStr.startsWith(":")) {
-      portStr = portStr.substring(1);
-    }
-
-    final int port;
-    if (portStr.length() > 0) {
-      try {
-        port = Integer.parseInt(portStr);
-      } catch (NumberFormatException e) {
-        throw new IllegalArgumentException("invalid port");
-      }
-    } else {
-      port = DEFAULT_PORT;
-    }
-
-    if (hostStr.length() > 0) {
-      try {
-        return new InetSocketAddress(InetAddress.getByName(hostStr), port);
-      } catch (UnknownHostException e) {
-        throw new IllegalArgumentException(e.getMessage(), e);
-      }
-    } else {
-      return new InetSocketAddress(port);
-    }
   }
 
   @SuppressWarnings("unchecked")

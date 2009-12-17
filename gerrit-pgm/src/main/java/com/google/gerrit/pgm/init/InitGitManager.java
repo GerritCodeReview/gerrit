@@ -1,0 +1,55 @@
+// Copyright (C) 2009 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package com.google.gerrit.pgm.init;
+
+import static com.google.gerrit.pgm.init.InitUtil.die;
+
+import com.google.gerrit.pgm.util.ConsoleUI;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+
+import java.io.File;
+
+/** Initialize the GitRepositoryManager configuration section. */
+@Singleton
+class InitGitManager implements InitStep {
+  private final InitFlags flags;
+  private final ConsoleUI ui;
+  private final Section gerrit;
+
+  @Inject
+  InitGitManager(final InitFlags flags, final ConsoleUI ui,
+      final Section.Factory sections) {
+    this.flags = flags;
+    this.ui = ui;
+    this.gerrit = sections.get("gerrit");
+  }
+
+  public void run() {
+    ui.header("Git Repositories");
+
+    File d = gerrit.path("Location of Git repositories", "basePath", "git");
+    if (d == null) {
+      throw die("gerrit.basePath is required");
+    }
+    if (d.exists()) {
+      if (!flags.importProjects && d.list() != null && d.list().length > 0) {
+        flags.importProjects = ui.yesno(true, "Import existing repositories");
+      }
+    } else if (!d.mkdirs()) {
+      throw die("Cannot create " + d);
+    }
+  }
+}

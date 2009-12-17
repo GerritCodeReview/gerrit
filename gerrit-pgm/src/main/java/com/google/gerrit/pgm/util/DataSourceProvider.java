@@ -17,7 +17,7 @@ package com.google.gerrit.pgm.util;
 import com.google.gerrit.lifecycle.LifecycleListener;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.config.SitePath;
+import com.google.gerrit.server.config.SitePaths;
 import com.google.gwtorm.jdbc.SimpleDataSource;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -41,9 +41,9 @@ public final class DataSourceProvider implements Provider<DataSource>,
   private final DataSource ds;
 
   @Inject
-  DataSourceProvider(@SitePath final File sitePath,
+  DataSourceProvider(final SitePaths site,
       @GerritServerConfig final Config cfg, Context ctx) {
-    ds = open(sitePath, cfg, ctx);
+    ds = open(site, cfg, ctx);
   }
 
   @Override
@@ -74,7 +74,7 @@ public final class DataSourceProvider implements Provider<DataSource>,
     DEFAULT, JDBC, POSTGRES, POSTGRESQL, H2, MYSQL;
   }
 
-  private DataSource open(final File sitePath, final Config cfg,
+  private DataSource open(final SitePaths site, final Config cfg,
       final Context context) {
     Type type = ConfigUtil.getEnum(cfg, "database", null, "type", Type.DEFAULT);
     String driver = optional(cfg, "driver");
@@ -151,14 +151,11 @@ public final class DataSourceProvider implements Provider<DataSource>,
             database = "db/ReviewDB";
           }
 
-          File db = new File(database);
-          if (!db.isAbsolute()) {
-            db = new File(sitePath, database);
-            try {
-              db = db.getCanonicalFile();
-            } catch (IOException e) {
-              db = db.getAbsoluteFile();
-            }
+          File db = site.resolve(database);
+          try {
+            db = db.getCanonicalFile();
+          } catch (IOException e) {
+            db = db.getAbsoluteFile();
           }
           url = pfx + db.toURI().toString();
         }

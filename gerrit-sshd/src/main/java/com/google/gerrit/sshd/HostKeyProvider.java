@@ -14,7 +14,7 @@
 
 package com.google.gerrit.sshd;
 
-import com.google.gerrit.server.config.SitePath;
+import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
@@ -22,26 +22,24 @@ import com.google.inject.ProvisionException;
 import org.apache.sshd.common.KeyPairProvider;
 import org.apache.sshd.common.keyprovider.FileKeyPairProvider;
 import org.apache.sshd.common.util.SecurityUtils;
-import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 class HostKeyProvider implements Provider<KeyPairProvider> {
-  private final File sitePath;
+  private final SitePaths site;
 
   @Inject
-  HostKeyProvider(@SitePath final File sitePath) {
-    this.sitePath = sitePath;
+  HostKeyProvider(final SitePaths site) {
+    this.site = site;
   }
 
   @Override
   public KeyPairProvider get() {
-    final File etc = new File(sitePath, "etc");
-    final File anyKey = new File(etc, "ssh_host_key");
-    final File rsaKey = new File(etc, "ssh_host_rsa_key");
-    final File dsaKey = new File(etc, "ssh_host_dsa_key");
+    final File anyKey = site.ssh_key;
+    final File rsaKey = site.ssh_rsa;
+    final File dsaKey = site.ssh_dsa;
 
     final List<String> keys = new ArrayList<String>(2);
     if (rsaKey.exists()) {
@@ -60,18 +58,8 @@ class HostKeyProvider implements Provider<KeyPairProvider> {
     }
 
     if (keys.isEmpty()) {
-      // No administrator created host key? Generate and save our own.
-      //
-      final SimpleGeneratorHostKeyProvider keyp;
-
-      if (!etc.exists() && !etc.mkdirs()) {
-        throw new ProvisionException("Cannot create directory " + etc);
-      }
-      keyp = new SimpleGeneratorHostKeyProvider();
-      keyp.setPath(anyKey.getAbsolutePath());
-      return keyp;
+      throw new ProvisionException("No SSH keys under " + site.etc_dir);
     }
-
     if (!SecurityUtils.isBouncyCastleRegistered()) {
       throw new ProvisionException("Bouncy Castle Crypto not installed;"
           + " needed to read server host keys: " + keys + "");

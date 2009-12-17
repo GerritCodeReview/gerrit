@@ -17,27 +17,25 @@ package com.google.gerrit.server.schema;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.SchemaVersion;
 import com.google.gerrit.reviewdb.SystemConfig;
-import com.google.gerrit.server.config.SitePath;
+import com.google.gerrit.server.config.SitePaths;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 
 /** Creates or updates the current database schema. */
 public class SchemaUpdater {
   private final SchemaFactory<ReviewDb> schema;
-  private final File sitePath;
+  private final SitePaths site;
   private final SchemaCreator creator;
 
   @Inject
-  SchemaUpdater(final SchemaFactory<ReviewDb> schema,
-      final @SitePath File sitePath,
+  SchemaUpdater(final SchemaFactory<ReviewDb> schema, final SitePaths site,
       final SchemaCreator creator) {
     this.schema = schema;
-    this.sitePath = sitePath;
+    this.site = site;
     this.creator = creator;
   }
 
@@ -70,9 +68,9 @@ public class SchemaUpdater {
       throw new OrmException("No record in system_config table");
     }
     try {
-      sc.sitePath = sitePath.getCanonicalPath();
+      sc.sitePath = site.site_path.getCanonicalPath();
     } catch (IOException e) {
-      sc.sitePath = sitePath.getAbsolutePath();
+      sc.sitePath = site.site_path.getAbsolutePath();
     }
     db.systemConfig().update(Collections.singleton(sc));
   }

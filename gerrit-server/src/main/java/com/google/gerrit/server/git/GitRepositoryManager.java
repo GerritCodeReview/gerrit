@@ -16,7 +16,7 @@ package com.google.gerrit.server.git;
 
 import com.google.gerrit.lifecycle.LifecycleListener;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.config.SitePath;
+import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -41,7 +41,8 @@ import java.io.IOException;
 /** Class managing Git repositories. */
 @Singleton
 public class GitRepositoryManager {
-  private static final Logger log = LoggerFactory.getLogger(GitRepositoryManager.class);
+  private static final Logger log =
+      LoggerFactory.getLogger(GitRepositoryManager.class);
 
   private static final String UNNAMED =
       "Unnamed repository; edit this file to name it for gitweb.";
@@ -66,28 +67,20 @@ public class GitRepositoryManager {
     }
   }
 
-  private final File sitePath;
-  private final File basepath;
+  private final File basePath;
 
   @Inject
-  GitRepositoryManager(@SitePath final File path, @GerritServerConfig final Config cfg) {
-    sitePath = path;
-
-    final String basePath = cfg.getString("gerrit", null, "basepath");
-    if (basePath != null) {
-      File root = new File(basePath);
-      if (!root.isAbsolute()) {
-        root = new File(sitePath, basePath);
-      }
-      basepath = root;
-    } else {
-      basepath = null;
+  GitRepositoryManager(final SitePaths site,
+      @GerritServerConfig final Config cfg) {
+    basePath = site.resolve(cfg.getString("gerrit", null, "basePath"));
+    if (basePath == null) {
+      throw new IllegalStateException("gerrit.basePath must be configured");
     }
   }
 
   /** @return base directory under which all projects are stored. */
   public File getBasePath() {
-    return basepath;
+    return basePath;
   }
 
   /**
@@ -101,16 +94,12 @@ public class GitRepositoryManager {
    */
   public Repository openRepository(String name)
       throws RepositoryNotFoundException {
-    if (basepath == null) {
-      throw new RepositoryNotFoundException("No gerrit.basepath configured");
-    }
-
     if (isUnreasonableName(name)) {
       throw new RepositoryNotFoundException("Invalid name: " + name);
     }
 
     try {
-      final FileKey loc = FileKey.lenient(new File(basepath, name));
+      final FileKey loc = FileKey.lenient(new File(basePath, name));
       return RepositoryCache.open(loc);
     } catch (IOException e1) {
       final RepositoryNotFoundException e2;
@@ -131,10 +120,6 @@ public class GitRepositoryManager {
    */
   public Repository createRepository(String name)
       throws RepositoryNotFoundException {
-    if (basepath == null) {
-      throw new RepositoryNotFoundException("No gerrit.basepath configured");
-    }
-
     if (isUnreasonableName(name)) {
       throw new RepositoryNotFoundException("Invalid name: " + name);
     }
@@ -143,7 +128,7 @@ public class GitRepositoryManager {
       if (!name.endsWith(".git")) {
         name = name + ".git";
       }
-      final FileKey loc = FileKey.exact(new File(basepath, name));
+      final FileKey loc = FileKey.exact(new File(basePath, name));
       return RepositoryCache.open(loc, false);
     } catch (IOException e1) {
       final RepositoryNotFoundException e2;
@@ -242,5 +227,4 @@ public class GitRepositoryManager {
 
     return false; // is a reasonable name
   }
-
 }

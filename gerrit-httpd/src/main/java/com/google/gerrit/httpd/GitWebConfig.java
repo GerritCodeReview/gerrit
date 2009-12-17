@@ -15,7 +15,7 @@
 package com.google.gerrit.httpd;
 
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.config.SitePath;
+import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.Config;
@@ -33,7 +33,7 @@ public class GitWebConfig {
   private final File git_logo_png;
 
   @Inject
-  GitWebConfig(@SitePath final File sitePath,
+  GitWebConfig(final SitePaths sitePaths,
       @GerritServerConfig final Config cfg) {
     final String cfgUrl = cfg.getString("gitweb", null, "url");
     final String cfgCgi = cfg.getString("gitweb", null, "cgi");
@@ -65,10 +65,7 @@ public class GitWebConfig {
       // Use the CGI script configured by the administrator, failing if it
       // cannot be used as specified.
       //
-      cgi = new File(cfgCgi);
-      if (!cgi.isAbsolute()) {
-        cgi = new File(sitePath, cfgCgi).getAbsoluteFile();
-      }
+      cgi = sitePaths.resolve(cfgCgi);
       if (!cgi.isFile()) {
         throw new IllegalStateException("Cannot find gitweb.cgi: " + cgi);
       }

@@ -31,7 +31,7 @@ package com.google.gerrit.httpd.gitweb;
 
 import com.google.gerrit.httpd.GitWebConfig;
 import com.google.gerrit.httpd.HtmlDomUtil;
-import com.google.gerrit.server.config.SitePath;
+import com.google.gerrit.server.config.SitePaths;
 import com.google.gwt.user.server.rpc.RPCServletUtils;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -50,13 +50,8 @@ abstract class GitWebCssServlet extends HttpServlet {
   @Singleton
   static class Site extends GitWebCssServlet {
     @Inject
-    Site(@SitePath File sp, GitWebConfig gwc) throws IOException {
-      super(sp, gwc);
-    }
-
-    @Override
-    protected File path(File etc, GitWebConfig gitWebConfig) {
-      return new File(etc, "GerritSite.css");
+    Site(SitePaths paths, GitWebConfig gwc) throws IOException {
+      super(paths.site_css, gwc);
     }
   }
 
@@ -64,13 +59,8 @@ abstract class GitWebCssServlet extends HttpServlet {
   @Singleton
   static class Default extends GitWebCssServlet {
     @Inject
-    Default(@SitePath File sp, GitWebConfig gwc) throws IOException {
-      super(sp, gwc);
-    }
-
-    @Override
-    protected File path(File etc, GitWebConfig gitWebConfig) {
-      return gitWebConfig.getGitwebCSS();
+    Default(GitWebConfig gwc) throws IOException {
+      super(gwc.getGitwebCSS(), gwc);
     }
   }
 
@@ -78,9 +68,8 @@ abstract class GitWebCssServlet extends HttpServlet {
   private final byte[] raw_css;
   private final byte[] gz_css;
 
-  GitWebCssServlet(@SitePath final File sitePath,
-      final GitWebConfig gitWebConfig) throws IOException {
-    final File src = path(new File(sitePath, "etc"), gitWebConfig);
+  GitWebCssServlet(final File src, final GitWebConfig gitWebConfig)
+      throws IOException {
     final File dir = src.getParentFile();
     final String name = src.getName();
     final String raw = HtmlDomUtil.readFile(dir, name);
@@ -92,8 +81,6 @@ abstract class GitWebCssServlet extends HttpServlet {
       gz_css = null;
     }
   }
-
-  protected abstract File path(File sitePath, GitWebConfig gitWebConfig);
 
   @Override
   protected void doGet(final HttpServletRequest req,

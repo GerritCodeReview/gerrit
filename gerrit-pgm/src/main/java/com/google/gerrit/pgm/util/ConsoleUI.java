@@ -70,6 +70,18 @@ public abstract class ConsoleUI {
   /** Prompt the user for a string, suggesting a default, and returning choice. */
   public abstract String readString(String def, String fmt, Object... args);
 
+  /** Prompt the user for an integer value, suggesting a default. */
+  public int readInt(int def, String fmt, Object... args) {
+    for (;;) {
+      String p = readString(String.valueOf(def), fmt, args);
+      try {
+        return Integer.parseInt(p.trim(), 10);
+      } catch (NumberFormatException e) {
+        System.err.println("error: Invalid integer format: " + p.trim());
+      }
+    }
+  }
+
   /** Prompt the user for a password, returning the string; null if blank. */
   public abstract String password(String fmt, Object... args);
 

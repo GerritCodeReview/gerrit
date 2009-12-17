@@ -12,7 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.pgm.util;
+package com.google.gerrit.pgm.init;
+
+import com.google.gerrit.pgm.util.ConsoleUI;
+import com.google.gerrit.pgm.util.Die;
+import com.google.gerrit.server.config.SitePaths;
+import com.google.inject.Inject;
 
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.util.HttpSupport;
@@ -32,38 +37,43 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /** Get optional or required 3rd party library files into $site_path/lib. */
-public class LibraryDownloader {
-  private final ConsoleUI console;
-  private final File libDirectory;
+class LibraryDownloader {
+  private final ConsoleUI ui;
+  private final File lib_dir;
+  private final ReloadSiteLibrary reload;
+
   private boolean required;
   private String name;
   private String jarUrl;
   private String sha1;
   private File dst;
 
-  public LibraryDownloader(final ConsoleUI console, final File sitePath) {
-    this.console = console;
-    this.libDirectory = new File(sitePath, "lib");
+  @Inject
+  LibraryDownloader(final ReloadSiteLibrary reload, final ConsoleUI ui,
+      final SitePaths site) {
+    this.ui = ui;
+    this.lib_dir = site.lib_dir;
+    this.reload = reload;
   }
 
-  public void setName(final String name) {
+  void setName(final String name) {
     this.name = name;
   }
 
-  public void setJarUrl(final String url) {
+  void setJarUrl(final String url) {
     this.jarUrl = url;
   }
 
-  public void setSHA1(final String sha1) {
+  void setSHA1(final String sha1) {
     this.sha1 = sha1;
   }
 
-  public void downloadRequired() {
+  void downloadRequired() {
     this.required = true;
     download();
   }
 
-  public void downloadOptional() {
+  void downloadOptional() {
     this.required = false;
     download();
   }
@@ -82,14 +92,14 @@ public class LibraryDownloader {
       name = jarName;
     }
 
-    dst = new File(libDirectory, jarName);
+    dst = new File(lib_dir, jarName);
     if (!dst.exists() && shouldGet()) {
       doGet();
     }
   }
 
   private boolean shouldGet() {
-    if (console.isBatch()) {
+    if (ui.isBatch()) {
       return required;
 
     } else {
@@ -103,13 +113,13 @@ public class LibraryDownloader {
         msg.append("  in the library, but will also function without it.\n");
       }
       msg.append("Download and install it now");
-      return console.yesno(true, msg.toString(), name);
+      return ui.yesno(true, msg.toString(), name);
     }
   }
 
   private void doGet() {
-    if (!libDirectory.exists() && !libDirectory.mkdirs()) {
-      throw new Die("Cannot create " + libDirectory);
+    if (!lib_dir.exists() && !lib_dir.mkdirs()) {
+      throw new Die("Cannot create " + lib_dir);
     }
 
     try {
@@ -118,7 +128,7 @@ public class LibraryDownloader {
     } catch (IOException err) {
       dst.delete();
 
-      if (console.isBatch()) {
+      if (ui.isBatch()) {
         throw new Die("error: Cannot get " + jarUrl, err);
       }
 
@@ -135,15 +145,17 @@ public class LibraryDownloader {
       System.err.println();
       System.err.flush();
 
-      console.waitForUser();
+      ui.waitForUser();
 
       if (dst.exists()) {
         verifyFileChecksum();
 
-      } else if (!console.yesno(!required, "Continue without this library")) {
+      } else if (!ui.yesno(!required, "Continue without this library")) {
         throw new Die("aborted by user");
       }
     }
+
+    reload.reload();
   }
 
   private void doGetByHttp() throws IOException {
@@ -212,11 +224,11 @@ public class LibraryDownloader {
           System.err.println("Checksum " + dst.getName() + " OK");
           System.err.flush();
 
-        } else if (console.isBatch()) {
+        } else if (ui.isBatch()) {
           dst.delete();
           throw new Die(dst + " SHA-1 checksum does not match");
 
-        } else if (!console.yesno(null /* force an answer */,
+        } else if (!ui.yesno(null /* force an answer */,
             "error: SHA-1 checksum does not match\n" + "Use %s anyway",//
             dst.getName())) {
           dst.delete();

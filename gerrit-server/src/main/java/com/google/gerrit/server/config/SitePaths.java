@@ -52,7 +52,7 @@ public final class SitePaths {
   public final boolean isNew;
 
   @Inject
-  SitePaths(final @SitePath File sitePath) throws FileNotFoundException {
+  public SitePaths(final @SitePath File sitePath) throws FileNotFoundException {
     site_path = sitePath;
 
     bin_dir = new File(site_path, "bin");

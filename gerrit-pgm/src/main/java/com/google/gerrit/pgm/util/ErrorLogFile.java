@@ -30,6 +30,7 @@ import org.apache.log4j.spi.LoggingEvent;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class ErrorLogFile {
   static final String LOG_NAME = "error_log";
@@ -64,7 +65,7 @@ public class ErrorLogFile {
     dst.setName(LOG_NAME);
     dst.setLayout(layout);
     dst.setEncoding("UTF-8");
-    dst.setFile(new File(logdir, LOG_NAME).getAbsolutePath());
+    dst.setFile(new File(resolve(logdir), LOG_NAME).getPath());
     dst.setImmediateFlush(true);
     dst.setAppend(true);
     dst.setThreshold(Level.INFO);
@@ -86,6 +87,14 @@ public class ErrorLogFile {
         LogManager.shutdown();
       }
     };
+  }
+
+  private static File resolve(final File logs_dir) {
+    try {
+      return logs_dir.getCanonicalFile();
+    } catch (IOException e) {
+      return logs_dir.getAbsoluteFile();
+    }
   }
 
   private ErrorLogFile() {

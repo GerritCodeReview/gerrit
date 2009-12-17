@@ -69,7 +69,15 @@ public class LogFileCompressor implements Runnable {
 
   @Inject
   LogFileCompressor(final SitePaths site) {
-    logs_dir = site.logs_dir;
+    logs_dir = resolve(site.logs_dir);
+  }
+
+  private static File resolve(final File logs_dir) {
+    try {
+      return logs_dir.getCanonicalFile();
+    } catch (IOException e) {
+      return logs_dir.getAbsoluteFile();
+    }
   }
 
   @Override

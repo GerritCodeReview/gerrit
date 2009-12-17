@@ -15,6 +15,7 @@
 package com.google.gerrit.pgm.util;
 
 import com.google.gerrit.lifecycle.LifecycleListener;
+import com.google.gerrit.server.config.SitePaths;
 
 import org.apache.log4j.Appender;
 import org.apache.log4j.ConsoleAppender;
@@ -28,6 +29,7 @@ import org.apache.log4j.spi.ErrorHandler;
 import org.apache.log4j.spi.LoggingEvent;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 
 public class ErrorLogFile {
   static final String LOG_NAME = "error_log";
@@ -48,8 +50,9 @@ public class ErrorLogFile {
     root.addAppender(dst);
   }
 
-  public static LifecycleListener start(final File sitePath) {
-    final File logdir = new File(sitePath, "logs");
+  public static LifecycleListener start(final File sitePath)
+      throws FileNotFoundException {
+    final File logdir = new SitePaths(sitePath).logs_dir;
     if (!logdir.exists() && !logdir.mkdirs()) {
       throw new Die("Cannot create log directory: " + logdir);
     }

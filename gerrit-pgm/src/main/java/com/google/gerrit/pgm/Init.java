@@ -28,11 +28,11 @@ import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.reviewdb.AuthType;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
-import com.google.gerrit.reviewdb.SystemConfig;
 import com.google.gerrit.reviewdb.Project.SubmitType;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.mail.SmtpEmailSender.Encryption;
+import com.google.gerrit.server.schema.SchemaUpdater;
 import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
@@ -81,6 +81,9 @@ public class Init extends SiteProgram {
 
   @Option(name = "--no-auto-start", usage = "Don't automatically start daemon after init")
   private boolean noAutoStart;
+
+  @Inject
+  private SchemaUpdater schemaUpdater;
 
   @Inject
   private GitRepositoryManager repositoryManager;
@@ -137,7 +140,7 @@ public class Init extends SiteProgram {
       deleteOnFailure = false;
 
       inject();
-      updateSystemConfig();
+      schemaUpdater.update();
       initGit();
     } catch (Exception failure) {
       if (deleteOnFailure) {
@@ -266,24 +269,6 @@ public class Init extends SiteProgram {
 
     extract(gerrit_sh, Init.class, "gerrit.sh");
     chmod(0755, gerrit_sh);
-  }
-
-  private void updateSystemConfig() throws OrmException {
-    final ReviewDb db = schema.open();
-    try {
-      final SystemConfig sc = db.systemConfig().get(new SystemConfig.Key());
-      if (sc == null) {
-        throw die("No record in system_config table");
-      }
-      try {
-        sc.sitePath = getSitePath().getCanonicalPath();
-      } catch (IOException e) {
-        sc.sitePath = getSitePath().getAbsolutePath();
-      }
-      db.systemConfig().update(Collections.singleton(sc));
-    } finally {
-      db.close();
-    }
   }
 
   private void initGit() throws OrmException, IOException {

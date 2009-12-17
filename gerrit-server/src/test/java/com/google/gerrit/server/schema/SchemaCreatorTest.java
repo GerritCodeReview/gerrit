@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.config;
+package com.google.gerrit.server.schema;
 
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.ApprovalCategory;
@@ -22,6 +22,8 @@ import com.google.gerrit.reviewdb.ProjectRight;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.SchemaVersion;
 import com.google.gerrit.reviewdb.SystemConfig;
+import com.google.gerrit.server.config.SystemConfigProvider;
+import com.google.gerrit.server.config.WildProjectNameProvider;
 import com.google.gerrit.server.workflow.NoOpFunction;
 import com.google.gerrit.server.workflow.SubmitFunction;
 import com.google.gerrit.testutil.TestDatabase;
@@ -33,7 +35,7 @@ import java.io.File;
 import java.sql.SQLException;
 import java.util.HashSet;
 
-public class SystemConfigProviderTest extends TestCase {
+public class SchemaCreatorTest extends TestCase {
   private ApprovalCategory.Id codeReview = new ApprovalCategory.Id("CRVW");
   private TestDatabase db;
 
@@ -65,6 +67,7 @@ public class SystemConfigProviderTest extends TestCase {
 
     // Create the schema using the current schema version.
     //
+    db.create();
     final SystemConfig config = getSystemConfig();
     final SchemaVersion version = getSchemaVersion();
     assertNotNull(version);
@@ -89,7 +92,8 @@ public class SystemConfigProviderTest extends TestCase {
     assertTrue(20 < config.registerEmailPrivateKey.length());
   }
 
-  public void testSubsequentGetReads() {
+  public void testSubsequentGetReads() throws OrmException {
+    db.create();
     final SystemConfig exp = getSystemConfig();
     final SystemConfig act = getSystemConfig();
 
@@ -102,6 +106,7 @@ public class SystemConfigProviderTest extends TestCase {
   }
 
   public void testCreateSchema_Group_Administrators() throws OrmException {
+    db.create();
     final SystemConfig config = getSystemConfig();
     final ReviewDb c = db.open();
     try {
@@ -116,6 +121,7 @@ public class SystemConfigProviderTest extends TestCase {
   }
 
   public void testCreateSchema_Group_AnonymousUsers() throws OrmException {
+    db.create();
     final SystemConfig config = getSystemConfig();
     final ReviewDb c = db.open();
     try {
@@ -130,6 +136,7 @@ public class SystemConfigProviderTest extends TestCase {
   }
 
   public void testCreateSchema_Group_RegisteredUsers() throws OrmException {
+    db.create();
     final SystemConfig config = getSystemConfig();
     final ReviewDb c = db.open();
     try {
@@ -308,12 +315,14 @@ public class SystemConfigProviderTest extends TestCase {
 
   public void testCreateSchema_DefaultAccess_AnonymousUsers()
       throws OrmException {
+    db.create();
     final SystemConfig config = getSystemConfig();
     assertDefaultRight(config.anonymousGroupId, ApprovalCategory.READ, 1, 1);
   }
 
   public void testCreateSchema_DefaultAccess_RegisteredUsers()
       throws OrmException {
+    db.create();
     final SystemConfig config = getSystemConfig();
     assertDefaultRight(config.registeredGroupId, ApprovalCategory.READ, 1, 2);
     assertDefaultRight(config.registeredGroupId, codeReview, -1, 1);
@@ -321,6 +330,7 @@ public class SystemConfigProviderTest extends TestCase {
 
   public void testCreateSchema_DefaultAccess_Administrators()
       throws OrmException {
+    db.create();
     final SystemConfig config = getSystemConfig();
     assertDefaultRight(config.adminGroupId, ApprovalCategory.READ, 1, 1);
   }

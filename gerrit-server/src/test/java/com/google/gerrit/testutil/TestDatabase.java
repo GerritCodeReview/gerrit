@@ -15,12 +15,13 @@
 package com.google.gerrit.testutil;
 
 import com.google.gerrit.reviewdb.ReviewDb;
-import com.google.gerrit.server.config.SystemConfigProvider;
+import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.gwtorm.jdbc.Database;
 import com.google.gwtorm.jdbc.SimpleDataSource;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
@@ -55,6 +56,7 @@ public class TestDatabase implements SchemaFactory<ReviewDb> {
 
   private Connection openHandle;
   private Database<ReviewDb> database;
+  private boolean created;
 
   public TestDatabase() throws OrmException {
     try {
@@ -84,8 +86,16 @@ public class TestDatabase implements SchemaFactory<ReviewDb> {
   }
 
   /** Ensure the database schema has been created and initialized. */
-  public TestDatabase create() {
-    new SystemConfigProvider(this).get();
+  public TestDatabase create() throws OrmException {
+    if (!created) {
+      created = true;
+      final ReviewDb c = open();
+      try {
+        new SchemaCreator(new File(".")).create(c);
+      } finally {
+        c.close();
+      }
+    }
     return this;
   }
 

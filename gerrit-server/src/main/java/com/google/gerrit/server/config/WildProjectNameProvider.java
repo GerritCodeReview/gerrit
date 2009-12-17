@@ -9,9 +9,9 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 
-class WildProjectNameProvider implements Provider<Project.NameKey> {
+public class WildProjectNameProvider implements Provider<Project.NameKey> {
   /** Project.Id meaning "any and all projects on this server". */
-  static final Project.Id WILD_PROJECT_ID = new Project.Id(0);
+  public static final Project.Id WILD_PROJECT_ID = new Project.Id(0);
 
   private final SchemaFactory<ReviewDb> schema;
 

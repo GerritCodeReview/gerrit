@@ -17,6 +17,8 @@ CLUSTER;
 --
 CREATE LANGUAGE plpgsql;
 
+delimiter //
+
 CREATE OR REPLACE FUNCTION
 check_schema_version (exp INT)
 RETURNS VARCHAR(255)
@@ -34,7 +36,9 @@ BEGIN
   RETURN 'OK';
 END;
 $$ LANGUAGE plpgsql;
+//
 
+delimiter ;
 
 -- Indexes to support @Query
 --

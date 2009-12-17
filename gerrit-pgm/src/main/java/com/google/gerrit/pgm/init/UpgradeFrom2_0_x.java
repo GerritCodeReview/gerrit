@@ -42,7 +42,7 @@ import java.util.Properties;
 /** Upgrade from a 2.0.x site to a 2.1 site. */
 @Singleton
 class UpgradeFrom2_0_x implements InitStep {
-  private static final String[] etcFiles = {"gerrit.config", //
+  static final String[] etcFiles = {"gerrit.config", //
       "secure.config", //
       "replication.config", //
       "ssh_host_rsa_key", //
@@ -78,7 +78,7 @@ class UpgradeFrom2_0_x implements InitStep {
     this.etc_dir = site.etc_dir;
   }
 
-  public boolean isNeedUpgrade() {
+  boolean isNeedUpgrade() {
     for (String name : etcFiles) {
       if (new File(site_path, name).exists()) {
         return true;

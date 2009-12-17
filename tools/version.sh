@@ -33,18 +33,6 @@ case "$V" in
 v*) V=$(echo "$V" | perl -pe s/^v//) ;;
 esac
 
-case "$V" in
-*-SNAPSHOT)
-	POM_V=$V
-	;;
-*-[1-9]*-g[0-9a-f]*)
-	POM_V=$(echo "$V" | perl -pe 's/-(\d+-g.*)$/.$1/')
-	;;
-*)
-	POM_V=$V
-	;;
-esac
-
 perl -pi -e '
 	if ($ARGV ne $old_argv) {
 		$seen_version = 0;

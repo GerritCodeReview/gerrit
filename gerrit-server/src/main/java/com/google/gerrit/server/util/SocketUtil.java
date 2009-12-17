@@ -23,7 +23,8 @@ import java.net.UnknownHostException;
 public final class SocketUtil {
   /** True if this InetAddress is a raw IPv6 in dotted quad notation. */
   public static boolean isIPv6(final InetAddress ip) {
-    return ip instanceof Inet6Address && ip.getHostName().equals(ip.getHostAddress());
+    return ip instanceof Inet6Address
+        && ip.getHostName().equals(ip.getHostAddress());
   }
 
   /** Get the name or IP address, or {@code *} if this address is a wildcard IP. */
@@ -41,6 +42,9 @@ public final class SocketUtil {
   public static String format(final SocketAddress s, final int defaultPort) {
     if (s instanceof InetSocketAddress) {
       final InetSocketAddress addr = (InetSocketAddress) s;
+      if (addr.getPort() == defaultPort) {
+        return safeHostname(hostname(addr));
+      }
       return format(hostname(addr), addr.getPort());
     }
     return s.toString();
@@ -48,10 +52,14 @@ public final class SocketUtil {
 
   /** Format an address string into {@code host:port} or {@code *:port} syntax. */
   public static String format(String hostname, int port) {
+    return safeHostname(hostname) + ":" + port;
+  }
+
+  private static String safeHostname(String hostname) {
     if (0 <= hostname.indexOf(':')) {
       hostname = "[" + hostname + "]";
     }
-    return hostname + ":" + port;
+    return hostname;
   }
 
   /** Parse an address string such as {@code host:port} or {@code *:port}. */
@@ -64,7 +72,7 @@ public final class SocketUtil {
       //
       final int hostEnd = desc.indexOf(']');
       if (hostEnd < 0) {
-        throw new IllegalArgumentException("invalid IPv6 representation");
+        throw new IllegalArgumentException("invalid IPv6: " + desc);
       }
 
       hostStr = desc.substring(1, hostEnd);
@@ -89,7 +97,7 @@ public final class SocketUtil {
       try {
         port = Integer.parseInt(portStr);
       } catch (NumberFormatException e) {
-        throw new IllegalArgumentException("invalid port");
+        throw new IllegalArgumentException("invalid port: " + desc);
       }
     } else {
       port = defaultPort;
@@ -103,7 +111,8 @@ public final class SocketUtil {
   }
 
   /** Parse and resolve an address string, looking up the IP address. */
-  public static InetSocketAddress resolve(final String desc, final int defaultPort) {
+  public static InetSocketAddress resolve(final String desc,
+      final int defaultPort) {
     final InetSocketAddress addr = parse(desc, defaultPort);
     if (addr.getAddress() != null && addr.getAddress().isAnyLocalAddress()) {
       return addr;
@@ -113,7 +122,7 @@ public final class SocketUtil {
         final InetAddress host = InetAddress.getByName(addr.getHostName());
         return new InetSocketAddress(host, addr.getPort());
       } catch (UnknownHostException e) {
-        throw new IllegalArgumentException(e.getMessage(), e);
+        throw new IllegalArgumentException("unknown host: " + desc, e);
       }
     }
   }

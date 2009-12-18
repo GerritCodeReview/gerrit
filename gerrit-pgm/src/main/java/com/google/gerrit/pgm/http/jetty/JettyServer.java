@@ -17,8 +17,8 @@ package com.google.gerrit.pgm.http.jetty;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+import com.google.gerrit.launcher.GerritLauncher;
 import com.google.gerrit.lifecycle.LifecycleListener;
-import com.google.gerrit.main.GerritLauncher;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
@@ -364,7 +364,7 @@ public class JettyServer {
         if (ze.isDirectory()) continue;
         if (name.startsWith("WEB-INF/")) continue;
         if (name.startsWith("META-INF/")) continue;
-        if (name.startsWith("com/google/gerrit/main/")) continue;
+        if (name.startsWith("com/google/gerrit/launcher/")) continue;
         if (name.equals("Main.class")) continue;
 
         final File rawtmp = new File(dstwar, name);

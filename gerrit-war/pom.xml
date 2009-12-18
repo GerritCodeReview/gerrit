@@ -117,7 +117,7 @@ limitations under the License.
               <type>jar</type>
               <includes>
                 <include>Main.class</include>
-                <include>com/google/gerrit/main/*.class</include>
+                <include>com/google/gerrit/launcher/*.class</include>
               </includes>
             </overlay>
           </overlays>

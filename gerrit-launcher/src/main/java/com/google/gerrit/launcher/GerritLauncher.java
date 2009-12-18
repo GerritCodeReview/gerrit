@@ -1,4 +1,4 @@
-package com.google.gerrit.main;
+package com.google.gerrit.launcher;
 
 // Copyright (C) 2009 The Android Open Source Project
 //

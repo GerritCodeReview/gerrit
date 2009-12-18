@@ -16,12 +16,46 @@
 public final class Main {
   // We don't do any real work here because we need to import
   // the archive lookup code and we cannot import a class in
-  // the default package.  So this is just a tiny springboard
+  // the default package. So this is just a tiny springboard
   // to jump into the real main code.
   //
 
   public static void main(final String argv[]) throws Exception {
-    com.google.gerrit.main.GerritLauncher.main(argv);
+    if (onSupportedJavaVersion()) {
+      com.google.gerrit.launcher.GerritLauncher.main(argv);
+
+    } else {
+      System.exit(1);
+    }
+  }
+
+  private static boolean onSupportedJavaVersion() {
+    final String version = System.getProperty("java.specification.version");
+    if (1.6 <= parse(version)) {
+      return true;
+
+    } else {
+      System.err.println("fatal: Gerrit Code Review requires Java 6 or later");
+      System.err.println("       (trying to run on Java " + version + ")");
+      return false;
+    }
+  }
+
+  private static double parse(String version) {
+    if (version == null || version.length() == 0) {
+      return 0.0;
+    }
+
+    try {
+      final int fd = version.indexOf('.');
+      final int sd = version.indexOf('.', fd + 1);
+      if (0 < sd) {
+        version = version.substring(0, sd);
+      }
+      return Double.parseDouble(version);
+    } catch (NumberFormatException e) {
+      return 0.0;
+    }
   }
 
   private Main() {

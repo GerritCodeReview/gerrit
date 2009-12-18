@@ -53,7 +53,7 @@ class UrlModule extends ServletModule {
     serve("/static/*").with(StaticServlet.class);
 
     serve("/Main.class").with(notFound());
-    serve("/com/google/gerrit/main/*").with(notFound());
+    serve("/com/google/gerrit/launcher/*").with(notFound());
     serve("/servlet/*").with(notFound());
 
     serve("/all").with(screen(PageLinks.ALL_MERGED));

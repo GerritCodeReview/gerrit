@@ -75,6 +75,7 @@ limitations under the License.
 
     <module>gerrit-common</module>
     <module>gerrit-httpd</module>
+    <module>gerrit-launcher</module>
     <module>gerrit-main</module>
     <module>gerrit-pgm</module>
     <module>gerrit-reviewdb</module>
@@ -398,6 +399,12 @@ limitations under the License.
       <dependency>
         <groupId>com.google.gerrit</groupId>
         <artifactId>gerrit-httpd</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.google.gerrit</groupId>
+        <artifactId>gerrit-launcher</artifactId>
         <version>${project.version}</version>
       </dependency>
 

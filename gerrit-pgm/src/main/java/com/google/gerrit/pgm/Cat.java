@@ -14,7 +14,7 @@
 
 package com.google.gerrit.pgm;
 
-import com.google.gerrit.main.GerritLauncher;
+import com.google.gerrit.launcher.GerritLauncher;
 import com.google.gerrit.pgm.util.AbstractProgram;
 
 import org.kohsuke.args4j.Argument;

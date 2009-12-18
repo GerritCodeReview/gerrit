@@ -129,23 +129,8 @@ To create a release build for a production server, or deployment
 through the download site:
 
 ----
-  ./tools/version.sh --release
-  mvn clean package
-  git reset --hard
+  ./tools/release.sh
 ----
-
-The first script, 'tools/version.sh' updates the pom.xml files with
-the current build number from Git, so the version appears in the
-embedded JAR file names, and in the final WAR file name.
-
-A clean build is necesary to ensure different versions of the
-same dependency don't wind up in the output WAR.  If a dependency
-changes versions, Maven often leaves the old version in the WAR,
-and also includes the new version, resulting in an ambiguous class
-loading order at runtime.
-
-The final command replaces all modified files with their last
-committed revisions, undoing the edits made by 'tools/version.sh'.
 
 
 Client-Server RPC

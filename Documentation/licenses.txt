@@ -37,6 +37,7 @@ Neko HTML                   <<apache2,Apache License 2.0>>
 Ehcache                     <<apache2,Apache License 2.0>>
 mime-util                   <<apache2,Apache License 2.0>>
 Jetty						<<apache2,Apache License 2.0>>, or link:http://www.eclipse.org/legal/epl-v10.html[EPL]
+Google Code Prettify        <<apache2,Apache License 2.0>>
 Java Servlet API            <<cddl,CDDL>>
 ICU4J                       <<icu4j,ICU4J License>>
 JGit                        <<jgit,New-Style BSD>>

@@ -127,6 +127,7 @@ public class LogFileCompressor implements Runnable {
         } finally {
           out.close();
         }
+        tmp.setReadOnly();
       } finally {
         in.close();
       }

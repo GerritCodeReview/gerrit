@@ -209,8 +209,13 @@ public class CopyableLabel extends Composite implements HasText {
 
     textLabel.setVisible(false);
     textBox.setVisible(true);
-    textBox.selectAll();
-    textBox.setFocus(true);
+    DeferredCommand.addCommand(new Command() {
+      @Override
+      public void execute() {
+        textBox.selectAll();
+        textBox.setFocus(true);
+      }
+    });
   }
 
   private void hideTextBox() {

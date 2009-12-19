@@ -27,6 +27,7 @@ import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.MasterNodeStartup;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePathFromSystemConfigProvider;
+import com.google.gerrit.server.schema.DataSourceProvider;
 import com.google.gerrit.sshd.SshModule;
 import com.google.gerrit.sshd.commands.MasterCommandModule;
 import com.google.inject.AbstractModule;
@@ -57,6 +58,7 @@ public class WebAppInitializer extends GuiceServletContextListener {
   private static final Logger log =
       LoggerFactory.getLogger(WebAppInitializer.class);
 
+  private File sitePath;
   private Injector dbInjector;
   private Injector cfgInjector;
   private Injector sysInjector;
@@ -66,6 +68,11 @@ public class WebAppInitializer extends GuiceServletContextListener {
 
   private synchronized void init() {
     if (manager == null) {
+      final String path = System.getProperty("gerrit.site_path");
+      if (path != null) {
+        sitePath = new File(path);
+      }
+
       try {
         dbInjector = createDbInjector();
       } catch (CreationException ce) {
@@ -115,28 +122,50 @@ public class WebAppInitializer extends GuiceServletContextListener {
 
   private Injector createDbInjector() {
     final List<Module> modules = new ArrayList<Module>();
-    modules.add(new LifecycleModule() {
-      @Override
-      protected void configure() {
-        bind(Key.get(DataSource.class, Names.named("ReviewDb"))).toProvider(
-            ReviewDbDataSourceProvider.class).in(SINGLETON);
-        listener().to(ReviewDbDataSourceProvider.class);
-      }
-    });
+    if (sitePath != null) {
+      modules.add(new LifecycleModule() {
+        @Override
+        protected void configure() {
+          bind(File.class).annotatedWith(SitePath.class).toInstance(sitePath);
+          bind(DataSourceProvider.Context.class).toInstance(
+              DataSourceProvider.Context.MULTI_USER);
+          bind(Key.get(DataSource.class, Names.named("ReviewDb"))).toProvider(
+              DataSourceProvider.class).in(SINGLETON);
+          listener().to(DataSourceProvider.class);
+        }
+      });
+      modules.add(new GerritServerConfigModule());
+
+    } else {
+      modules.add(new LifecycleModule() {
+        @Override
+        protected void configure() {
+          bind(Key.get(DataSource.class, Names.named("ReviewDb"))).toProvider(
+              ReviewDbDataSourceProvider.class).in(SINGLETON);
+          listener().to(ReviewDbDataSourceProvider.class);
+        }
+      });
+    }
     modules.add(new DatabaseModule());
     return Guice.createInjector(PRODUCTION, modules);
   }
 
   private Injector createCfgInjector() {
     final List<Module> modules = new ArrayList<Module>();
-    modules.add(new AbstractModule() {
-      @Override
-      protected void configure() {
-        bind(File.class).annotatedWith(SitePath.class).toProvider(
-            SitePathFromSystemConfigProvider.class).in(SINGLETON);
-      }
-    });
-    modules.add(new GerritServerConfigModule());
+    if (sitePath == null) {
+      // If we didn't get the site path from the system property
+      // we need to get it from the database, as that's our old
+      // method of locating the site path on disk.
+      //
+      modules.add(new AbstractModule() {
+        @Override
+        protected void configure() {
+          bind(File.class).annotatedWith(SitePath.class).toProvider(
+              SitePathFromSystemConfigProvider.class).in(SINGLETON);
+        }
+      });
+      modules.add(new GerritServerConfigModule());
+    }
     modules.add(new AuthConfigModule());
     return dbInjector.createChildInjector(modules);
   }

@@ -82,9 +82,9 @@ Duplicate the existing `pgm_daemon` launch configuration:
 * Modify the name to be unique.
 
 * Switch to Arguments tab.
-* Edit the -d flag to match the path used during 'init'.  The
-  template launch configuration resolves to ../test_site since
-  that is what the documentation recommends.
+* Edit the `-d` program argument flag to match the path used during
+  'init'.  The template launch configuration resolves to ../test_site
+  since that is what the documentation recommends.
 
 * Switch to Common tab.
 * Change Save as to be Local file.
@@ -93,12 +93,22 @@ Duplicate the existing `pgm_daemon` launch configuration:
 Running Hosted Mode
 ~~~~~~~~~~~~~~~~~~~
 
-* Copy
-  `gerrit-war/src/main/webapp/WEB-INF/extra/GerritServer.properties_example`
-  to
-  `gerrit-parent/GerritServer.properties`.
-* Edit to match your database parameters.
-* Run the `gwtui_any` or `gwtui_mac` launch configuration.
+Duplicate the existing `gwtui_any` (or `gwtui_mac` if on Mac OS X)
+launch configuration:
+
+* Run -> Debug Configurations ...
+* Java Application -> `gwtui_any`
+* Right click, Duplicate
+
+* Modify the name to be unique.
+
+* Switch to Arguments tab.
+* Edit the `-Dgerrit.site_path=` VM argument to match the path
+  used during 'init'.  The template launch configuration resolves
+  to ../test_site since that is what the documentation recommends.
+
+* Switch to Common tab.
+* Change Save as to be Local file.
 
 
 GERRIT

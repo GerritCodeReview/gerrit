@@ -14,7 +14,7 @@
 
 package com.google.gerrit.pgm;
 
-import static com.google.gerrit.pgm.util.DataSourceProvider.Context.SINGLE_USER;
+import static com.google.gerrit.server.schema.DataSourceProvider.Context.SINGLE_USER;
 import static com.google.inject.Stage.PRODUCTION;
 
 import com.google.gerrit.common.PageLinks;

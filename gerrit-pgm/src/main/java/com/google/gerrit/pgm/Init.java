@@ -30,6 +30,7 @@ import com.google.gerrit.pgm.util.IoUtil;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gerrit.server.git.GitProjectImporter;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.schema.SchemaUpdater;
@@ -176,12 +177,16 @@ public class Init extends SiteProgram {
 
     void importGit() throws OrmException, IOException {
       if (flags.importProjects) {
-        System.err.println("Scanning " + repositoryManager.getBasePath());
         gitProjectImporter.run(new GitProjectImporter.Messages() {
           @Override
-          public void warning(String msg) {
+          public void info(String msg) {
             System.err.println(msg);
             System.err.flush();
+          }
+
+          @Override
+          public void warning(String msg) {
+            info(msg);
           }
         });
       }
@@ -247,7 +252,7 @@ public class Init extends SiteProgram {
         bind(ConsoleUI.class).toInstance(init.ui);
         bind(InitFlags.class).toInstance(init.flags);
 
-        bind(GitRepositoryManager.class);
+        bind(GitRepositoryManager.class).to(LocalDiskRepositoryManager.class);
         bind(GitProjectImporter.class);
       }
     });

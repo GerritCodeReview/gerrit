@@ -34,7 +34,7 @@ import com.google.gerrit.httpd.GitWebConfig;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.inject.Inject;
@@ -77,12 +77,12 @@ class GitWebServlet extends HttpServlet {
   private final Set<String> deniedActions;
   private final int bufferSize = 8192;
   private final File gitwebCgi;
-  private final GitRepositoryManager repoManager;
+  private final LocalDiskRepositoryManager repoManager;
   private final ProjectControl.Factory projectControl;
   private final EnvList _env;
 
   @Inject
-  GitWebServlet(final GitRepositoryManager repoManager,
+  GitWebServlet(final LocalDiskRepositoryManager repoManager,
       final ProjectControl.Factory projectControl,
       final SitePaths site, final GerritConfig gerritConfig,
       final GitWebConfig gitWebConfig) throws IOException {

@@ -24,7 +24,6 @@ public abstract class KeyCommand implements KeyPressHandler {
   public static final int M_CTRL = 1 << 16;
   public static final int M_ALT = 2 << 16;
   public static final int M_META = 4 << 16;
-  private static final String KS = "gwtexpui-globalkey-KeyboardShortcuts-Key";
 
   public static boolean same(final KeyCommand a, final KeyCommand b) {
     return a.getClass() == b.getClass() && a.helpText.equals(b.helpText);
@@ -51,26 +50,26 @@ public abstract class KeyCommand implements KeyPressHandler {
     final SafeHtmlBuilder b = new SafeHtmlBuilder();
 
     if ((keyMask & M_CTRL) == M_CTRL) {
-      modifier(b, Util.C.keyCtrl());
+      modifier(b, KeyConstants.I.keyCtrl());
     }
     if ((keyMask & M_ALT) == M_ALT) {
-      modifier(b, Util.C.keyAlt());
+      modifier(b, KeyConstants.I.keyAlt());
     }
     if ((keyMask & M_META) == M_META) {
-      modifier(b, Util.C.keyMeta());
+      modifier(b, KeyConstants.I.keyMeta());
     }
 
     final char c = (char) (keyMask & 0xffff);
     switch (c) {
       case KeyCodes.KEY_ENTER:
-        namedKey(b, Util.C.keyEnter());
+        namedKey(b, KeyConstants.I.keyEnter());
         break;
       case KeyCodes.KEY_ESCAPE:
-        namedKey(b, Util.C.keyEsc());
+        namedKey(b, KeyConstants.I.keyEsc());
         break;
       default:
         b.openSpan();
-        b.setStyleName(KS);
+        b.setStyleName(KeyResources.I.css().helpKey());
         b.append(String.valueOf(c));
         b.closeSpan();
         break;
@@ -87,7 +86,7 @@ public abstract class KeyCommand implements KeyPressHandler {
   private void namedKey(final SafeHtmlBuilder b, final String name) {
     b.append('<');
     b.openSpan();
-    b.setStyleName(KS);
+    b.setStyleName(KeyResources.I.css().helpKey());
     b.append(name);
     b.closeSpan();
     b.append(">");

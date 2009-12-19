@@ -24,10 +24,12 @@ import com.google.gwt.user.client.ui.Label;
  * The bar is 200 pixels wide and 20 pixels high. To keep the implementation
  * simple and lightweight this dimensions are fixed and shouldn't be modified by
  * style overrides in client code or CSS.
- * <p>
- * Style name: <code>gwtexpui-ProgressMeter</code>
  */
 public class ProgressBar extends Composite {
+  static {
+    ProgressResources.I.css().ensureInjected();
+  }
+
   private final String callerText;
   private final Label bar;
   private final Label msg;
@@ -47,14 +49,14 @@ public class ProgressBar extends Composite {
     }
 
     final FlowPanel body = new FlowPanel();
-    body.setStyleName("gwtexpui-ProgressBar");
+    body.setStyleName(ProgressResources.I.css().container());
 
     msg = new Label(callerText);
-    msg.setStyleName("gwtexpui-ProgressBar-Text");
+    msg.setStyleName(ProgressResources.I.css().text());
     body.add(msg);
 
     bar = new Label("");
-    bar.setStyleName("gwtexpui-ProgressBar-Bar");
+    bar.setStyleName(ProgressResources.I.css().bar());
     body.add(bar);
 
     initWidget(body);

@@ -17,7 +17,7 @@ package com.google.gwtexpui.safehtml.client;
 import junit.framework.TestCase;
 
 public class SafeHtml_WikifyListTest extends TestCase {
-  private static final String BEGIN_LIST = "<ul class=\"gwtexpui-SafeHtml-WikiList\">";
+  private static final String BEGIN_LIST = "<ul class=\"wikiList\">";
   private static final String END_LIST = "</ul>";
 
   private static String item(String raw) {

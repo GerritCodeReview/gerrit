@@ -12,13 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gwtexpui.globalkey.client;
+package com.google.gwtexpui.progress.client;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.resources.client.ClientBundle;
 
-public class Util {
-  public static final KeyConstants C = GWT.create(KeyConstants.class);
+public interface ProgressResources extends ClientBundle {
+  public static final ProgressResources I = GWT.create(ProgressResources.class);
 
-  private Util() {
-  }
+  @Source("progress.css")
+  ProgressCss css();
 }

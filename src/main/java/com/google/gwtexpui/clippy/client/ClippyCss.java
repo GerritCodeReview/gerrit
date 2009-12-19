@@ -12,22 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gwtexpui.globalkey.client;
+package com.google.gwtexpui.clippy.client;
 
-import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.resources.client.CssResource;
 
-/** Hides the given popup panel when invoked. */
-public class HidePopupPanelCommand extends KeyCommand {
-  private final PopupPanel panel;
-
-  public HidePopupPanelCommand(int mask, int key, PopupPanel panel) {
-    super(mask, key, KeyConstants.I.closeCurrentDialog());
-    this.panel = panel;
-  }
-
-  @Override
-  public void onKeyPress(final KeyPressEvent event) {
-    panel.hide();
-  }
+public interface ClippyCss extends CssResource {
+  String label();
+  String control();
 }

@@ -14,7 +14,7 @@
  limitations under the License.
 -->
 <module>
+  <inherits name='com.google.gwt.resources.Resources'/>
   <inherits name="com.google.gwtexpui.safehtml.SafeHtml"/>
   <inherits name="com.google.gwtexpui.user.User"/>
-  <stylesheet src='gwtexpui_clippy1.cache.css' />
 </module>

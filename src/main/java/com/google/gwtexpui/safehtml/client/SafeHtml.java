@@ -14,6 +14,7 @@
 
 package com.google.gwtexpui.safehtml.client;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.HTML;
@@ -26,6 +27,43 @@ import java.util.List;
 
 /** Immutable string safely placed as HTML without further escaping. */
 public abstract class SafeHtml {
+  public static final SafeHtmlResources RESOURCES;
+
+  static {
+    if (GWT.isClient()) {
+      RESOURCES = GWT.create(SafeHtmlResources.class);
+      RESOURCES.css().ensureInjected();
+
+    } else {
+      RESOURCES = new SafeHtmlResources() {
+        @Override
+        public SafeHtmlCss css() {
+          return new SafeHtmlCss() {
+            public String wikiList() {
+              return "wikiList";
+            }
+
+            public String wikiPreFormat() {
+              return "wikiPreFormat";
+            }
+
+            public boolean ensureInjected() {
+              return false;
+            }
+
+            public String getName() {
+              return null;
+            }
+
+            public String getText() {
+              return null;
+            }
+          };
+        }
+      };
+    }
+  }
+
   /** @return the existing HTML property of a widget. */
   public static SafeHtml get(final HasHTML t) {
     return new SafeHtmlString(t.getHTML());
@@ -89,13 +127,7 @@ public abstract class SafeHtml {
    * Apply {@link #linkify()}, and "\n\n" to &lt;p&gt;.
    * <p>
    * Lines that start with whitespace are assumed to be preformatted, and are
-   * formatted by the <code>gwtexpui-SafeHtml-WikiPreFormat</code> CSS class. By
-   * default this class is:
-   *
-   * <pre>
-   *   white-space: pre;
-   *   font-family: monospace;
-   * </pre>
+   * formatted by the {@link SafeHtmlCss#wikiPreFormat()} CSS class.
    */
   public SafeHtml wikify() {
     final SafeHtmlBuilder r = new SafeHtmlBuilder();
@@ -104,7 +136,7 @@ public abstract class SafeHtml {
         r.openElement("p");
         for (final String line : p.split("\n")) {
           r.openSpan();
-          r.setStyleName("gwtexpui-SafeHtml-WikiPreFormat");
+          r.setStyleName(RESOURCES.css().wikiPreFormat());
           r.append(asis(line));
           r.closeSpan();
           r.br();
@@ -136,7 +168,7 @@ public abstract class SafeHtml {
 
           in_ul = true;
           r.openElement("ul");
-          r.setStyleName("gwtexpui-SafeHtml-WikiList");
+          r.setStyleName(RESOURCES.css().wikiList());
         }
         line = line.substring(1).trim();
 

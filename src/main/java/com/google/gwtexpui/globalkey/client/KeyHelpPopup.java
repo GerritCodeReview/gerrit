@@ -39,15 +39,13 @@ import java.util.List;
 
 public class KeyHelpPopup extends PluginSafePopupPanel implements
     KeyPressHandler {
-  private static final String S = "gwtexpui-globalkey-KeyboardShortcuts";
-
   private final FocusPanel focus;
 
   public KeyHelpPopup() {
     super(true/* autohide */, true/* modal */);
-    setStyleName(S);
+    setStyleName(KeyResources.I.css().helpPopup());
 
-    final Anchor closer = new Anchor(Util.C.closeButton());
+    final Anchor closer = new Anchor(KeyConstants.I.closeButton());
     closer.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(final ClickEvent event) {
@@ -56,18 +54,19 @@ public class KeyHelpPopup extends PluginSafePopupPanel implements
     });
 
     final Grid header = new Grid(1, 3);
-    header.setStyleName(S + "-Header");
-    header.setText(0, 0, Util.C.keyboardShortcuts());
+    header.setStyleName(KeyResources.I.css().helpHeader());
+    header.setText(0, 0, KeyConstants.I.keyboardShortcuts());
     header.setWidget(0, 2, closer);
 
     final CellFormatter fmt = header.getCellFormatter();
-    fmt.addStyleName(0, 1, S + "-HeaderGlue");
+    fmt.addStyleName(0, 1, KeyResources.I.css().helpHeaderGlue());
     fmt.setHorizontalAlignment(0, 2, HasHorizontalAlignment.ALIGN_RIGHT);
 
     final Grid lists = new Grid(0, 7);
-    lists.setStyleName(S + "-Table");
+    lists.setStyleName(KeyResources.I.css().helpTable());
     populate(lists);
-    lists.getCellFormatter().addStyleName(0, 3, S + "-TableGlue");
+    lists.getCellFormatter().addStyleName(0, 3,
+        KeyResources.I.css().helpTableGlue());
 
     final FlowPanel body = new FlowPanel();
     body.add(header);
@@ -144,7 +143,8 @@ public class KeyHelpPopup extends PluginSafePopupPanel implements
       lists.resizeRows(row + 1);
     }
     lists.setText(row, col + 2, set.getName());
-    lists.getCellFormatter().addStyleName(row, col + 2, S + "-GroupTitle");
+    lists.getCellFormatter().addStyleName(row, col + 2,
+        KeyResources.I.css().helpGroup());
     row++;
 
     return formatKeys(lists, row, col, set, null);
@@ -173,12 +173,12 @@ public class KeyHelpPopup extends PluginSafePopupPanel implements
           final SafeHtmlBuilder b = new SafeHtmlBuilder();
           b.append(SafeHtml.get(lists, r, col + 0));
           b.append(" ");
-          b.append(Util.C.orOtherKey());
+          b.append(KeyConstants.I.orOtherKey());
           b.append(" ");
           if (prefix != null) {
             b.append(prefix);
             b.append(" ");
-            b.append(Util.C.thenOtherKey());
+            b.append(KeyConstants.I.thenOtherKey());
             b.append(" ");
           }
           b.append(k.describeKeyStroke());
@@ -191,7 +191,7 @@ public class KeyHelpPopup extends PluginSafePopupPanel implements
         final SafeHtmlBuilder b = new SafeHtmlBuilder();
         b.append(prefix);
         b.append(" ");
-        b.append(Util.C.thenOtherKey());
+        b.append(KeyConstants.I.thenOtherKey());
         b.append(" ");
         b.append(k.describeKeyStroke());
         SafeHtml.set(lists, row, col + 0, b);
@@ -201,8 +201,8 @@ public class KeyHelpPopup extends PluginSafePopupPanel implements
       lists.setText(row, col + 1, ":");
       lists.setText(row, col + 2, k.getHelpText());
 
-      fmt.addStyleName(row, col + 0, S + "-TableKeyStroke");
-      fmt.addStyleName(row, col + 1, S + "-TableSeparator");
+      fmt.addStyleName(row, col + 0, KeyResources.I.css().helpKeyStroke());
+      fmt.addStyleName(row, col + 1, KeyResources.I.css().helpSeparator());
       row++;
     }
 

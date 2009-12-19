@@ -27,7 +27,7 @@ public class ShowHelpCommand extends KeyCommand {
   private static KeyHelpPopup current;
 
   public ShowHelpCommand() {
-    super(0, '?', Util.C.showHelp());
+    super(0, '?', KeyConstants.I.showHelp());
   }
 
   @Override

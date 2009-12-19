@@ -38,6 +38,10 @@ public class GlobalKey {
   private static CloseHandler<PopupPanel> restoreGlobal;
   private static Timer restoreTimer;
 
+  static {
+    KeyResources.I.css().ensureInjected();
+  }
+
   private static void initEvents() {
     if (active == null) {
       DocWidget.get().addKeyPressHandler(new KeyPressHandler() {
@@ -145,7 +149,7 @@ public class GlobalKey {
     State(final Widget r) {
       root = r;
 
-      app = new KeyCommandSet(Util.C.applicationSection());
+      app = new KeyCommandSet(KeyConstants.I.applicationSection());
       app.add(ShowHelpCommand.INSTANCE);
 
       all = new KeyCommandSet();

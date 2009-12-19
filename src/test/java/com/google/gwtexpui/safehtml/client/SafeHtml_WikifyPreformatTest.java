@@ -17,7 +17,7 @@ package com.google.gwtexpui.safehtml.client;
 import junit.framework.TestCase;
 
 public class SafeHtml_WikifyPreformatTest extends TestCase {
-  private static final String B = "<span class=\"gwtexpui-SafeHtml-WikiPreFormat\">";
+  private static final String B = "<span class=\"wikiPreFormat\">";
   private static final String E = "</span><br />";
 
   private static String pre(String raw) {

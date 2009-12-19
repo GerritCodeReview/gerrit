@@ -14,20 +14,12 @@
 
 package com.google.gwtexpui.globalkey.client;
 
-import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.resources.client.ClientBundle;
 
-/** Hides the given popup panel when invoked. */
-public class HidePopupPanelCommand extends KeyCommand {
-  private final PopupPanel panel;
+public interface KeyResources extends ClientBundle {
+  public static final KeyResources I = GWT.create(KeyResources.class);
 
-  public HidePopupPanelCommand(int mask, int key, PopupPanel panel) {
-    super(mask, key, KeyConstants.I.closeCurrentDialog());
-    this.panel = panel;
-  }
-
-  @Override
-  public void onKeyPress(final KeyPressEvent event) {
-    panel.hide();
-  }
+  @Source("key.css")
+  KeyCss css();
 }

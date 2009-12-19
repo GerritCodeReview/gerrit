@@ -43,14 +43,16 @@ import com.google.gwtexpui.user.client.UserAgent;
  * one-click copying of the content onto the system clipboard. The label (if
  * visible) can also be clicked, switching from a label to an input box,
  * allowing the user to copy the text with a keyboard shortcut.
- * <p>
- * Style name: <code>gwtexpui-Clippy</code>
  */
 public class CopyableLabel extends Composite implements HasText {
   private static final int SWF_WIDTH = 110;
   private static final int SWF_HEIGHT = 14;
   private static String swfUrl;
   private static boolean flashEnabled = true;
+
+  static {
+    ClippyResources.I.css().ensureInjected();
+  }
 
   public static boolean isFlashEnabled() {
     return flashEnabled;
@@ -91,13 +93,12 @@ public class CopyableLabel extends Composite implements HasText {
    */
   public CopyableLabel(final String str, final boolean showLabel) {
     content = new FlowPanel();
-    content.setStyleName("gwtexpui-Clippy");
     initWidget(content);
 
     text = str;
     if (showLabel) {
       textLabel = new InlineLabel(getText());
-      textLabel.setStyleName("gwtexpui-Clippy-Label");
+      textLabel.setStyleName(ClippyResources.I.css().label());
       textLabel.addClickHandler(new ClickHandler() {
         @Override
         public void onClick(final ClickEvent event) {
@@ -115,7 +116,7 @@ public class CopyableLabel extends Composite implements HasText {
       final SafeHtmlBuilder h = new SafeHtmlBuilder();
 
       h.openElement("span");
-      h.setStyleName("gwtexpui-Clippy-Control");
+      h.setStyleName(ClippyResources.I.css().control());
 
       h.openElement("object");
       h.setWidth(SWF_WIDTH);

@@ -32,15 +32,16 @@ import java.util.Set;
 /** Imports all projects found within the repository manager. */
 public class GitProjectImporter {
   public interface Messages {
+    void info(String msg);
     void warning(String msg);
   }
 
-  private final GitRepositoryManager repositoryManager;
+  private final LocalDiskRepositoryManager repositoryManager;
   private final SchemaFactory<ReviewDb> schema;
   private Messages messages;
 
   @Inject
-  GitProjectImporter(final GitRepositoryManager repositoryManager,
+  GitProjectImporter(final LocalDiskRepositoryManager repositoryManager,
       final SchemaFactory<ReviewDb> schema) {
     this.repositoryManager = repositoryManager;
     this.schema = schema;
@@ -48,6 +49,7 @@ public class GitProjectImporter {
 
   public void run(final Messages msg) throws OrmException, IOException {
     messages = msg;
+    messages.info("Scanning " + repositoryManager.getBasePath());
     final ReviewDb db = schema.open();
     try {
       final HashSet<String> have = new HashSet<String>();

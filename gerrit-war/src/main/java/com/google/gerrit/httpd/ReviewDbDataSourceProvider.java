@@ -15,17 +15,9 @@
 package com.google.gerrit.httpd;
 
 import com.google.gerrit.lifecycle.LifecycleListener;
-import com.google.gwtorm.jdbc.SimpleDataSource;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
-
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.sql.SQLException;
-import java.util.Map;
-import java.util.Properties;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -61,47 +53,8 @@ final class ReviewDbDataSourceProvider implements Provider<DataSource>,
     try {
       return (DataSource) new InitialContext().lookup(dsName);
     } catch (NamingException namingErr) {
-      final Properties p = readGerritDataSource();
-      if (p == null) {
-        throw new ProvisionException("Initialization error:\n"
-            + "  * No DataSource " + dsName + "\n"
-            + "  * No -DGerritServer=GerritServer.properties"
-            + " on Java command line", namingErr);
-      }
-
-      try {
-        return new SimpleDataSource(p);
-      } catch (SQLException se) {
-        throw new ProvisionException("Database unavailable", se);
-      }
+      throw new ProvisionException("No DataSource " + dsName, namingErr);
     }
-  }
-
-  private static Properties readGerritDataSource() throws ProvisionException {
-    final Properties srvprop = new Properties();
-    String name = System.getProperty("GerritServer");
-    if (name == null) {
-      name = "GerritServer.properties";
-    }
-    try {
-      final InputStream in = new FileInputStream(name);
-      try {
-        srvprop.load(in);
-      } finally {
-        in.close();
-      }
-    } catch (IOException e) {
-      throw new ProvisionException("Cannot read " + name, e);
-    }
-
-    final Properties dbprop = new Properties();
-    for (final Map.Entry<Object, Object> e : srvprop.entrySet()) {
-      final String key = (String) e.getKey();
-      if (key.startsWith("database.")) {
-        dbprop.put(key.substring("database.".length()), e.getValue());
-      }
-    }
-    return dbprop;
   }
 
   private void closeDataSource(final DataSource ds) {

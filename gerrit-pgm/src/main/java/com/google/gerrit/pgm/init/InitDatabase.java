@@ -16,11 +16,11 @@ package com.google.gerrit.pgm.init;
 
 import static com.google.gerrit.pgm.init.InitUtil.die;
 import static com.google.gerrit.pgm.init.InitUtil.username;
-import static com.google.gerrit.pgm.util.DataSourceProvider.Type.H2;
+import static com.google.gerrit.server.schema.DataSourceProvider.Type.H2;
 
 import com.google.gerrit.pgm.util.ConsoleUI;
-import com.google.gerrit.pgm.util.DataSourceProvider;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.schema.DataSourceProvider;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 

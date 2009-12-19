@@ -344,6 +344,8 @@ public class GerritDebugLauncher extends ServletContainerLauncher {
         System.getProperty("build.compiler",
             "org.eclipse.jdt.core.JDTCompilerAdapter");
     System.setProperty("build.compiler", antJavaC);
+
+    System.setProperty("Gerrit.GwtDevMode", "" + true);
   }
 
   @Override
@@ -377,6 +379,10 @@ public class GerritDebugLauncher extends ServletContainerLauncher {
     File top = warDir.getParentFile().getParentFile().getParentFile();
     File app = new File(top, "gerrit-war/src/main/webapp");
     File webxml = new File(app, "WEB-INF/web.xml");
+
+    // Jetty won't start unless this directory exists.
+    if (!warDir.exists() && !warDir.mkdirs())
+      logger.branch(TreeLogger.ERROR, "Cannot create "+warDir, null);
 
     // Create a new web app in the war directory.
     //

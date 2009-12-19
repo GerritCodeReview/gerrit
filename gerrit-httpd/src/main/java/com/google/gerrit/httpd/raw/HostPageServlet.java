@@ -50,6 +50,8 @@ import javax.servlet.http.HttpServletResponse;
 @SuppressWarnings("serial")
 @Singleton
 public class HostPageServlet extends HttpServlet {
+  private static final boolean IS_DEV = Boolean.getBoolean("Gerrit.GwtDevMode");
+
   private final Provider<CurrentUser> currentUser;
   private final GerritConfig config;
   private final Document hostDoc;
@@ -67,7 +69,14 @@ public class HostPageServlet extends HttpServlet {
       throw new FileNotFoundException("No " + pageName + " in webapp");
     }
 
-    fixModuleReference(hostDoc, servletContext);
+    if (!IS_DEV) {
+      final Element devmode = HtmlDomUtil.find(hostDoc, "gerrit_gwtdevmode");
+      if (devmode != null) {
+        devmode.getParentNode().removeChild(devmode);
+      }
+      fixModuleReference(hostDoc, servletContext);
+    }
+
     injectCssFile(hostDoc, "gerrit_sitecss", site.site_css);
     injectXmlFile(hostDoc, "gerrit_header", site.site_header);
     injectXmlFile(hostDoc, "gerrit_footer", site.site_footer);

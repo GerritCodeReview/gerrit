@@ -26,6 +26,9 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -41,6 +44,8 @@ import javax.servlet.http.HttpServletResponse;
 @SuppressWarnings("serial")
 @Singleton
 public class BecomeAnyAccountLoginServlet extends HttpServlet {
+  private static final boolean IS_DEV = Boolean.getBoolean("Gerrit.GwtDevMode");
+
   private final SchemaFactory<ReviewDb> schema;
   private final Provider<WebSession> webSession;
   private final Provider<String> urlProvider;
@@ -56,12 +61,17 @@ public class BecomeAnyAccountLoginServlet extends HttpServlet {
     urlProvider = up;
 
     final String pageName = "BecomeAnyAccount.html";
-    final String doc = HtmlDomUtil.readFile(getClass(), pageName);
+    final Document doc = HtmlDomUtil.parseFile(getClass(), pageName);
     if (doc == null) {
       throw new FileNotFoundException("No " + pageName + " in webapp");
     }
-
-    raw = doc.getBytes(HtmlDomUtil.ENC);
+    if (!IS_DEV) {
+      final Element devmode = HtmlDomUtil.find(doc, "gerrit_gwtdevmode");
+      if (devmode != null) {
+        devmode.getParentNode().removeChild(devmode);
+      }
+    }
+    raw = HtmlDomUtil.toUTF8(doc);
   }
 
   @Override

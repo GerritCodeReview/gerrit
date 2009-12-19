@@ -71,6 +71,7 @@ public class CopyableLabel extends Composite implements HasText {
 
   private final FlowPanel content;
   private String text;
+  private int visibleLen;
   private Label textLabel;
   private TextBox textBox;
   private Element swf;
@@ -96,6 +97,8 @@ public class CopyableLabel extends Composite implements HasText {
     initWidget(content);
 
     text = str;
+    visibleLen = text.length();
+
     if (showLabel) {
       textLabel = new InlineLabel(getText());
       textLabel.setStyleName(ClippyResources.I.css().label());
@@ -108,6 +111,19 @@ public class CopyableLabel extends Composite implements HasText {
       content.add(textLabel);
     }
     embedMovie();
+  }
+
+  /**
+   * Change the text which is displayed in the clickable label.
+   *
+   * @param text the new preview text, should be shorter than the original text
+   *        which would be copied to the clipboard.
+   */
+  public void setPreviewText(final String text) {
+    if (textLabel != null) {
+      textLabel.setText(text);
+      visibleLen = text.length();
+    }
   }
 
   private void embedMovie() {
@@ -164,7 +180,7 @@ public class CopyableLabel extends Composite implements HasText {
     if (textBox == null) {
       textBox = new TextBox();
       textBox.setText(getText());
-      textBox.setVisibleLength(getText().length());
+      textBox.setVisibleLength(visibleLen);
       textBox.addKeyPressHandler(new KeyPressHandler() {
         @Override
         public void onKeyPress(final KeyPressEvent event) {

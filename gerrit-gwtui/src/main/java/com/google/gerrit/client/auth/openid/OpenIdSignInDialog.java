@@ -27,13 +27,13 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -50,7 +50,7 @@ import java.util.Map;
 
 public class OpenIdSignInDialog extends SignInDialog implements
     FormPanel.SubmitHandler {
-  private final LoginIcons icons;
+  private final LoginResources icons;
   private final FlowPanel panelWidget;
   private final FormPanel form;
   private final FlowPanel formBody;
@@ -69,7 +69,7 @@ public class OpenIdSignInDialog extends SignInDialog implements
       final String initialErrorMsg) {
     super(requestedMode);
 
-    icons = GWT.create(LoginIcons.class);
+    icons = GWT.create(LoginResources.class);
 
     formBody = new FlowPanel();
     formBody.setStyleName("gerrit-OpenID-loginform");
@@ -118,7 +118,7 @@ public class OpenIdSignInDialog extends SignInDialog implements
   private void createHeaderLogo() {
     final FlowPanel headerLogo = new FlowPanel();
     headerLogo.setStyleName("gerrit-OpenID-logobox");
-    headerLogo.add(icons.openidLogo().createImage());
+    headerLogo.add(new Image(icons.openidLogo()));
     formBody.add(headerLogo);
   }
 
@@ -221,7 +221,7 @@ public class OpenIdSignInDialog extends SignInDialog implements
   }
 
   private void link(final String identUrl, final String who,
-      final AbstractImagePrototype icon) {
+      final ImageResource icon) {
     final ClickHandler i = new ClickHandler() {
       @Override
       public void onClick(final ClickEvent event) {
@@ -235,7 +235,7 @@ public class OpenIdSignInDialog extends SignInDialog implements
     final FlowPanel line = new FlowPanel();
     line.addStyleName("gerrit-OpenID-directlink");
 
-    final Image img = icon.createImage();
+    final Image img = new Image(icon);
     img.addClickHandler(i);
     line.add(img);
 

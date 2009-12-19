@@ -1,4 +1,4 @@
-// Copyright (C) 2008 The Android Open Source Project
+// Copyright (C) 2009 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,19 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client;
+package com.google.gerrit.client.auth.openid;
 
-import com.google.gwt.user.client.ui.AbstractImagePrototype;
-import com.google.gwt.user.client.ui.ImageBundle;
+import com.google.gwt.resources.client.ClientBundle;
+import com.google.gwt.resources.client.ImageResource;
 
-public interface GerritIcons extends ImageBundle {
-  public AbstractImagePrototype arrowRight();
+public interface LoginResources extends ClientBundle {
+  @Source("openidLogo.png")
+  public ImageResource openidLogo();
 
-  public AbstractImagePrototype starOpen();
+  @Source("iconGoogle.gif")
+  public ImageResource iconGoogle();
 
-  public AbstractImagePrototype starFilled();
-
-  public AbstractImagePrototype greenCheck();
-
-  public AbstractImagePrototype redNot();
+  @Source("iconYahoo.gif")
+  public ImageResource iconYahoo();
 }

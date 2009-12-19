@@ -60,7 +60,7 @@ import java.util.ArrayList;
 public class Gerrit implements EntryPoint {
   public static final GerritConstants C = GWT.create(GerritConstants.class);
   public static final GerritMessages M = GWT.create(GerritMessages.class);
-  public static final GerritIcons ICONS = GWT.create(GerritIcons.class);
+  public static final GerritResources RESOURCES = GWT.create(GerritResources.class);
   public static final SystemInfoService SYSTEM_SVC;
 
   private static String myHost;
@@ -156,6 +156,7 @@ public class Gerrit implements EntryPoint {
 
   public void onModuleLoad() {
     UserAgent.assertNotInIFrame();
+    RESOURCES.css().ensureInjected();
     initHostname();
     Window.setTitle(M.windowTitle1(myHost));
     initHistoryHooks();

@@ -43,8 +43,8 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
@@ -245,18 +245,18 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
   }
 
   private void setStar(final int row, final ChangeInfo c) {
-    final AbstractImagePrototype star;
+    final ImageResource star;
     if (c.isStarred()) {
-      star = Gerrit.ICONS.starFilled();
+      star = Gerrit.RESOURCES.starFilled();
     } else {
-      star = Gerrit.ICONS.starOpen();
+      star = Gerrit.RESOURCES.starOpen();
     }
 
     final Widget i = table.getWidget(row, C_STAR);
     if (i instanceof Image) {
-      star.applyTo((Image) i);
+      ((Image) i).setResource(star);
     } else {
-      table.setWidget(row, C_STAR, star.createImage());
+      table.setWidget(row, C_STAR, new Image(star));
     }
   }
 
@@ -329,10 +329,10 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
         haveReview = true;
 
         if (type.isMaxNegative(ca)) {
-          table.setWidget(row, col, Gerrit.ICONS.redNot().createImage());
+          table.setWidget(row, col, new Image(Gerrit.RESOURCES.redNot()));
 
         } else if (type.isMaxPositive(ca)) {
-          table.setWidget(row, col, Gerrit.ICONS.greenCheck().createImage());
+          table.setWidget(row, col, new Image(Gerrit.RESOURCES.greenCheck()));
 
         } else {
           String vstr = String.valueOf(ca.getValue());

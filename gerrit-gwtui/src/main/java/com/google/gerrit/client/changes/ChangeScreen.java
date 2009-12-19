@@ -132,9 +132,9 @@ public class ChangeScreen extends Screen {
 
   private void setStarred(final boolean s) {
     if (s) {
-      Gerrit.ICONS.starFilled().applyTo(starChange);
+      starChange.setResource(Gerrit.RESOURCES.starFilled());
     } else {
-      Gerrit.ICONS.starOpen().applyTo(starChange);
+      starChange.setResource(Gerrit.RESOURCES.starOpen());
     }
     starred = s;
   }
@@ -153,7 +153,7 @@ public class ChangeScreen extends Screen {
       keysAction.add(new PublishCommentsKeyCommand(0, 'r', Util.C
           .keyPublishComments()));
 
-      starChange = Gerrit.ICONS.starOpen().createImage();
+      starChange = new Image(Gerrit.RESOURCES.starOpen());
       starChange.setStyleName("gerrit-ChangeScreen-StarIcon");
       starChange.setVisible(Gerrit.isSignedIn());
       starChange.addClickHandler(new ClickHandler() {

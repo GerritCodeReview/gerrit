@@ -55,7 +55,7 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
   private ScrollPanel parentScrollPanel;
 
   protected NavigationTable() {
-    pointer = Gerrit.ICONS.arrowRight().createImage();
+    pointer = new Image(Gerrit.RESOURCES.arrowRight());
     keysNavigation = new KeyCommandSet(Gerrit.C.sectionNavigation());
     keysAction = new KeyCommandSet(Gerrit.C.sectionActions());
   }

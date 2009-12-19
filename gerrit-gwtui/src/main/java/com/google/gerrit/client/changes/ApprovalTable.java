@@ -37,6 +37,7 @@ import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
@@ -258,10 +259,10 @@ public class ApprovalTable extends Composite {
       }
 
       if (type.isMaxNegative(ca)) {
-        table.setWidget(row, col, Gerrit.ICONS.redNot().createImage());
+        table.setWidget(row, col, new Image(Gerrit.RESOURCES.redNot()));
 
       } else if (type.isMaxPositive(ca)) {
-        table.setWidget(row, col, Gerrit.ICONS.greenCheck().createImage());
+        table.setWidget(row, col, new Image(Gerrit.RESOURCES.greenCheck()));
 
       } else {
         String vstr = String.valueOf(ca.getValue());

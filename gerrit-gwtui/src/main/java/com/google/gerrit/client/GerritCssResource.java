@@ -12,15 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.auth.openid;
+package com.google.gerrit.client;
 
-import com.google.gwt.user.client.ui.AbstractImagePrototype;
-import com.google.gwt.user.client.ui.ImageBundle;
+import com.google.gwt.resources.client.CssResource;
 
-public interface LoginIcons extends ImageBundle {
-  public AbstractImagePrototype openidLogo();
-
-  public AbstractImagePrototype iconGoogle();
-
-  public AbstractImagePrototype iconYahoo();
+public interface GerritCssResource extends CssResource {
+  String greenCheckClass();
 }

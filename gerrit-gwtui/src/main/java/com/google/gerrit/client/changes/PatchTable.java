@@ -31,6 +31,7 @@ import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.IncrementalCommand;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
@@ -202,7 +203,7 @@ public class PatchTable extends Composite {
           }
 
           if (reviewed) {
-            table.setWidget(row, col, Gerrit.ICONS.greenCheck().createImage());
+            table.setWidget(row, col, new Image(Gerrit.RESOURCES.greenCheck()));
           } else {
             table.clearCell(row, col);
           }
@@ -399,7 +400,9 @@ public class PatchTable extends Composite {
         m.openTd();
         m.setStyleName(S_DATA_CELL);
         if (p.isReviewedByCurrentUser()) {
-          m.append(SafeHtml.asis(Gerrit.ICONS.greenCheck().getHTML()));
+          m.openDiv();
+          m.setStyleName(Gerrit.RESOURCES.css().greenCheckClass());
+          m.closeSelf();
         }
         m.closeTd();
       }

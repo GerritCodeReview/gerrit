@@ -15,6 +15,7 @@
 -->
 <module rename-to="gerrit">
   <inherits name='com.google.gwt.user.User'/>
+  <inherits name='com.google.gwt.resources.Resources'/>
   <inherits name='com.google.gwt.user.theme.chrome.Chrome'/>
   <inherits name='com.google.gwtexpui.css.CSS'/>
   <inherits name='com.google.gwtexpui.clippy.Clippy'/>

@@ -23,6 +23,7 @@ import java.util.Collection;
 /** Association of an external account identifier to a local {@link Account}. */
 public final class AccountExternalId {
   public static final String SCHEME_GERRIT = "gerrit:";
+  public static final String SCHEME_UUID = "uuid:";
   public static final String SCHEME_MAILTO = "mailto:";
   public static final String LEGACY_GAE = "Google Account ";
 

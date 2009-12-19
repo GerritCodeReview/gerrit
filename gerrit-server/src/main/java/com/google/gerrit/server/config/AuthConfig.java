@@ -162,6 +162,13 @@ public class AuthConfig {
       return true;
     }
 
+    if (id.isScheme(AccountExternalId.SCHEME_UUID)) {
+      // UUID identities are absolutely meaningless and cannot be
+      // constructed through any normal login process we use.
+      //
+      return true;
+    }
+
     for (final String p : trusted) {
       if (matches(p, id)) {
         return true;

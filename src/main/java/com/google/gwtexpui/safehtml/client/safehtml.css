@@ -15,7 +15,7 @@
 
 .wikiPreFormat {
   white-space: pre;
-  font-family: monospace;
+  font-family: 'Lucida Console', 'Lucida Sans Typewriter', Monaco, monospace;
   font-size: small;
 }
 

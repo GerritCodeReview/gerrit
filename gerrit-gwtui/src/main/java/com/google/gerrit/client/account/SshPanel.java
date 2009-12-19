@@ -561,7 +561,7 @@ class SshPanel extends Composite {
         fmt.addStyleName(row, 2, S_INVALID);
       }
       table.setText(row, 3, k.getAlgorithm());
-      table.setText(row, 4, elide(k.getEncodedKey()));
+      table.setText(row, 4, elide(k.getEncodedKey(), 40));
       table.setText(row, 5, k.getComment());
       table.setText(row, 6, FormatUtil.mediumFormat(k.getLastUsedOn()));
       table.setText(row, 7, FormatUtil.mediumFormat(k.getStoredOn()));
@@ -577,12 +577,12 @@ class SshPanel extends Composite {
 
       setRowItem(row, k);
     }
+  }
 
-    String elide(final String s) {
-      if (s == null || s.length() < 40) {
-        return s;
-      }
-      return s.substring(0, 30) + "..." + s.substring(s.length() - 10);
+  static String elide(final String s, final int len) {
+    if (s == null || s.length() < len || len <= 10) {
+      return s;
     }
+    return s.substring(0, len - 10) + "..." + s.substring(s.length() - 10);
   }
 }

@@ -39,8 +39,10 @@ class SshHostKeyPanel extends Composite {
       final HTML hdr = new HTML(Util.C.sshHostKeyKnownHostEntry());
       hdr.setStyleName("gerrit-SshHostKeyPanel-Heading");
       body.add(hdr);
-      final CopyableLabel lbl =
-          new CopyableLabel(info.getHostIdent() + " " + info.getHostKey());
+
+      final CopyableLabel lbl;
+      lbl = new CopyableLabel(info.getHostIdent() + " " + info.getHostKey());
+      lbl.setPreviewText(SshPanel.elide(lbl.getText(), 80));
       lbl.addStyleName("gerrit-SshHostKeyPanel-KnownHostEntry");
       body.add(lbl);
     }

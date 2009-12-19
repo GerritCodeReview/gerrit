@@ -901,13 +901,7 @@
   white-space: nowrap;
   font-family: 'Lucida Console', 'Lucida Sans Typewriter', Monaco, monospace;
   font-size: small;
-  overflow: hidden;
   width: 80em;
-}
-.gerrit-SshHostKeyPanel-KnownHostEntry .gwtexpui-Clippy-Control {
-  display: block;
-  margin-left: 0px;
-  margin-top: 2px;
 }
 
 .gerrit-ContributorAgreement-Button {

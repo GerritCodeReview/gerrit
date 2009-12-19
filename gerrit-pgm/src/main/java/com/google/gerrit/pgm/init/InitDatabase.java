@@ -82,7 +82,6 @@ class InitDatabase implements InitStep {
         break;
       }
 
-      case POSTGRES:
       case POSTGRESQL:
       case MYSQL: {
         userPassAuth = true;

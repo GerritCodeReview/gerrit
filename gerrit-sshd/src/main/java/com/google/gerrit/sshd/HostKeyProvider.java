@@ -22,6 +22,7 @@ import com.google.inject.ProvisionException;
 import org.apache.sshd.common.KeyPairProvider;
 import org.apache.sshd.common.keyprovider.FileKeyPairProvider;
 import org.apache.sshd.common.util.SecurityUtils;
+import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -37,33 +38,42 @@ class HostKeyProvider implements Provider<KeyPairProvider> {
 
   @Override
   public KeyPairProvider get() {
-    final File anyKey = site.ssh_key;
+    final File objKey = site.ssh_key;
     final File rsaKey = site.ssh_rsa;
     final File dsaKey = site.ssh_dsa;
 
-    final List<String> keys = new ArrayList<String>(2);
+    final List<String> stdKeys = new ArrayList<String>(2);
     if (rsaKey.exists()) {
-      keys.add(rsaKey.getAbsolutePath());
+      stdKeys.add(rsaKey.getAbsolutePath());
     }
     if (dsaKey.exists()) {
-      keys.add(dsaKey.getAbsolutePath());
+      stdKeys.add(dsaKey.getAbsolutePath());
     }
 
-    if (anyKey.exists() && !keys.isEmpty()) {
-      // If both formats of host key exist, we don't know which format
-      // should be authoritative. Complain and abort.
-      //
-      keys.add(anyKey.getAbsolutePath());
-      throw new ProvisionException("Multiple host keys exist: " + keys);
-    }
+    if (objKey.exists()) {
+      if (stdKeys.isEmpty()) {
+        SimpleGeneratorHostKeyProvider p = new SimpleGeneratorHostKeyProvider();
+        p.setPath(objKey.getAbsolutePath());
+        return p;
 
-    if (keys.isEmpty()) {
-      throw new ProvisionException("No SSH keys under " + site.etc_dir);
+      } else {
+        // Both formats of host key exist, we don't know which format
+        // should be authoritative. Complain and abort.
+        //
+        stdKeys.add(objKey.getAbsolutePath());
+        throw new ProvisionException("Multiple host keys exist: " + stdKeys);
+      }
+
+    } else {
+      if (stdKeys.isEmpty()) {
+        throw new ProvisionException("No SSH keys under " + site.etc_dir);
+      }
+      if (!SecurityUtils.isBouncyCastleRegistered()) {
+        throw new ProvisionException("Bouncy Castle Crypto not installed;"
+            + " needed to read server host keys: " + stdKeys + "");
+      }
+      return new FileKeyPairProvider(stdKeys
+          .toArray(new String[stdKeys.size()]));
     }
-    if (!SecurityUtils.isBouncyCastleRegistered()) {
-      throw new ProvisionException("Bouncy Castle Crypto not installed;"
-          + " needed to read server host keys: " + keys + "");
-    }
-    return new FileKeyPairProvider(keys.toArray(new String[keys.size()]));
   }
 }

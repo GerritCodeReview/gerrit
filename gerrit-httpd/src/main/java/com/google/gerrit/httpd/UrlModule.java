@@ -20,7 +20,6 @@ import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.httpd.raw.CatServlet;
 import com.google.gerrit.httpd.raw.HostPageServlet;
 import com.google.gerrit.httpd.raw.LegacyGerritServlet;
-import com.google.gerrit.httpd.raw.PrettifyServlet;
 import com.google.gerrit.httpd.raw.SshInfoServlet;
 import com.google.gerrit.httpd.raw.StaticServlet;
 import com.google.gerrit.reviewdb.RevId;
@@ -47,7 +46,6 @@ class UrlModule extends ServletModule {
     serve("/Gerrit/*").with(legacyGerritScreen());
     serve("/cat/*").with(CatServlet.class);
     serve("/logout").with(HttpLogoutServlet.class);
-    serve("/prettify/*").with(PrettifyServlet.class);
     serve("/signout").with(HttpLogoutServlet.class);
     serve("/ssh_info").with(SshInfoServlet.class);
     serve("/static/*").with(StaticServlet.class);

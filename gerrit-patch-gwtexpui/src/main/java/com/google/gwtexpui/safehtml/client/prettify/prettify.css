@@ -1,5 +1,18 @@
 /* Pretty printing styles. Used with prettify.js. */
 
+@external .str;
+@external .kwd;
+@external .com;
+@external .typ;
+@external .lit;
+@external .pun;
+@external .pln;
+@external .tag;
+@external .atn;
+@external .atv;
+@external .dec;
+@external .prettyprint;
+
 .str { color: #080; }
 .kwd { color: #008; }
 .com { color: #800; }

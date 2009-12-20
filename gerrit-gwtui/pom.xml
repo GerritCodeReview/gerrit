@@ -155,7 +155,6 @@ limitations under the License.
         <configuration>
           <module>com.google.gerrit.GerritGwtUI</module>
           <extraJvmArgs>-Xmx512m</extraJvmArgs>
-          <style>${gwtStyle}</style>
         </configuration>
         <executions>
           <execution>

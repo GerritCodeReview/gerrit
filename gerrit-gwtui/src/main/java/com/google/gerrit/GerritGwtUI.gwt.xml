@@ -29,6 +29,7 @@
 
   <extend-property name='locale' values='en'/>
   <set-property-fallback name='locale' value='en'/>
+  <set-property name='locale' value='en'/>
 
   <entry-point class='com.google.gerrit.client.Gerrit'/>
 </module>

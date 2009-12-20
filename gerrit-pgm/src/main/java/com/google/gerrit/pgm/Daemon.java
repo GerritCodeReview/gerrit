@@ -14,7 +14,7 @@
 
 package com.google.gerrit.pgm;
 
-import static com.google.gerrit.pgm.util.DataSourceProvider.Context.MULTI_USER;
+import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_USER;
 
 import com.google.gerrit.httpd.HttpCanonicalWebUrlProvider;
 import com.google.gerrit.httpd.WebModule;

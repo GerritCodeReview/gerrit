@@ -64,6 +64,7 @@ class ListBranches extends Handler<List<Branch>> {
         | ProjectControl.VISIBLE);
 
     final List<Branch> branches = new ArrayList<Branch>();
+    Branch headBranch = null;
     final Repository db = repoManager.openRepository(projectName.get());
     try {
       final Map<String, Ref> all = db.getAllRefs();
@@ -84,14 +85,18 @@ class ListBranches extends Handler<List<Branch>> {
       }
 
       for (final Ref ref : all.values()) {
-        if (Constants.HEAD.equals(ref.getOrigName())) {
-          final Branch b = createBranch(Constants.HEAD);
+        if (Constants.HEAD.equals(ref.getOrigName())
+            && !ref.getOrigName().equals(ref.getName())) {
+          // HEAD is a symbolic reference to another branch, instead of
+          // showing the resolved value, show the name it references.
+          //
+          headBranch = createBranch(Constants.HEAD);
           String target = ref.getName();
           if (target.startsWith(Constants.R_HEADS)) {
             target = target.substring(Constants.R_HEADS.length());
           }
-          b.setRevision(new RevId(target));
-          branches.add(b);
+          headBranch.setRevision(new RevId(target));
+          continue;
         }
 
         if (ref.getName().startsWith(Constants.R_HEADS)) {
@@ -111,6 +116,9 @@ class ListBranches extends Handler<List<Branch>> {
         return a.getName().compareTo(b.getName());
       }
     });
+    if (headBranch != null) {
+      branches.add(0, headBranch);
+    }
     return branches;
   }
 

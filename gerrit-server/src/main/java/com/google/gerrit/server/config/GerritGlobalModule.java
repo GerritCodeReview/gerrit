@@ -37,6 +37,7 @@ import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.auth.ldap.LdapModule;
 import com.google.gerrit.server.cache.CachePool;
 import com.google.gerrit.server.git.ChangeMergeQueue;
+import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.MergeQueue;
@@ -111,7 +112,7 @@ public class GerritGlobalModule extends FactoryModule {
     factory(AccountInfoCacheFactory.Factory.class);
     factory(ProjectState.Factory.class);
 
-    bind(GitRepositoryManager.class);
+    bind(GitRepositoryManager.class).to(LocalDiskRepositoryManager.class);
     bind(FileTypeRegistry.class).to(MimeUtilFileTypeRegistry.class);
     bind(WorkQueue.class);
 
@@ -141,7 +142,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(new LifecycleModule() {
       @Override
       protected void configure() {
-        listener().to(GitRepositoryManager.Lifecycle.class);
+        listener().to(LocalDiskRepositoryManager.Lifecycle.class);
         listener().to(CachePool.Lifecycle.class);
         listener().to(WorkQueue.Lifecycle.class);
       }

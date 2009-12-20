@@ -12,10 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.pgm.util;
+package com.google.gerrit.server.schema;
+
+import static com.google.gerrit.server.config.ConfigUtil.getEnum;
 
 import com.google.gerrit.lifecycle.LifecycleListener;
-import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gwtorm.jdbc.SimpleDataSource;
@@ -71,132 +72,87 @@ public final class DataSourceProvider implements Provider<DataSource>,
   }
 
   public static enum Type {
-    DEFAULT, JDBC, POSTGRES, POSTGRESQL, H2, MYSQL;
+    H2, POSTGRESQL, MYSQL, JDBC;
   }
 
   private DataSource open(final SitePaths site, final Config cfg,
       final Context context) {
-    Type type = ConfigUtil.getEnum(cfg, "database", null, "type", Type.DEFAULT);
+    Type type = getEnum(cfg, "database", null, "type", Type.values(), null);
     String driver = optional(cfg, "driver");
     String url = optional(cfg, "url");
     String username = optional(cfg, "username");
     String password = optional(cfg, "password");
-    String hostname = optional(cfg, "hostname");
-    String port = optional(cfg, "port");
-    if (hostname == null) {
-      hostname = "localhost";
-    }
 
-    if (Type.DEFAULT == type && (driver == null || driver.isEmpty())) {
-      if (url != null && url.isEmpty()) {
-
-        if (url.startsWith("jdbc:postgresql:")) {
-          type = Type.POSTGRES;
-        } else if (url.startsWith("postgresql:")) {
-          url = "jdbc:" + url;
-          type = Type.POSTGRES;
-        } else if (url.startsWith("postgres:")) {
-          url = "jdbc:postgresql:" + url.substring(url.indexOf(':') + 1);
-          type = Type.POSTGRES;
-
-        } else if (url.startsWith("jdbc:h2:")) {
+    if (url == null || url.isEmpty()) {
+      if (type == null) {
+        if (url != null && !url.isEmpty()) {
+          type = Type.JDBC;
+        } else {
           type = Type.H2;
-        } else if (url.startsWith("h2:")) {
-          url = "jdbc:" + url;
-          type = Type.H2;
-
-        } else if (url.startsWith("jdbc:mysql:")) {
-          type = Type.MYSQL;
-        } else if (url.startsWith("mysql:")) {
-          url = "jdbc:" + url;
-          type = Type.MYSQL;
-
         }
-
-      } else if (url == null || url.isEmpty()) {
-        type = Type.H2;
-      }
-    }
-
-    switch (type) {
-      case POSTGRES:
-      case POSTGRESQL: {
-        final String pfx = "jdbc:postgresql://";
-        driver = "org.postgresql.Driver";
-        if (url == null) {
-          final StringBuilder b = new StringBuilder();
-          b.append(pfx);
-          b.append(hostname);
-          if (port != null && !port.isEmpty()) {
-            b.append(":");
-            b.append(port);
-          }
-          b.append("/");
-          b.append(required(cfg, "database"));
-          url = b.toString();
-        }
-        if (url == null || !url.startsWith(pfx)) {
-          throw new IllegalArgumentException("database.url must be " + pfx
-              + " and not " + url);
-        }
-        break;
       }
 
-      case H2: {
-        final String pfx = "jdbc:h2:";
-        driver = "org.h2.Driver";
-        if (url == null) {
+      switch (type) {
+        case H2: {
           String database = optional(cfg, "database");
           if (database == null || database.isEmpty()) {
             database = "db/ReviewDB";
           }
-
           File db = site.resolve(database);
           try {
             db = db.getCanonicalFile();
           } catch (IOException e) {
             db = db.getAbsoluteFile();
           }
-          url = pfx + db.toURI().toString();
+          url = "jdbc:h2:" + db.toURI().toString();
+          break;
         }
-        if (url == null || !url.startsWith(pfx)) {
-          throw new IllegalArgumentException("database.url must be " + pfx
-              + " and not " + url);
-        }
-        break;
-      }
 
-      case MYSQL: {
-        final String pfx = "jdbc:mysql://";
-        driver = "com.mysql.jdbc.Driver";
-        if (url == null) {
+        case POSTGRESQL: {
           final StringBuilder b = new StringBuilder();
-          b.append(pfx);
-          b.append(hostname);
-          if (port != null && !port.isEmpty()) {
-            b.append(":");
-            b.append(port);
-          }
+          b.append("jdbc:postgresql://");
+          b.append(hostname(optional(cfg, "hostname")));
+          b.append(port(optional(cfg, "port")));
           b.append("/");
           b.append(required(cfg, "database"));
           url = b.toString();
+          break;
         }
-        if (url == null || !url.startsWith(pfx)) {
-          throw new IllegalArgumentException("database.url must be " + pfx
-              + " and not " + url);
-        }
-        break;
-      }
 
-      case DEFAULT:
-      case JDBC:
-      default:
-        driver = required(cfg, "driver");
-        url = required(cfg, "url");
-        if (!url.startsWith("jdbc:")) {
-          throw new IllegalArgumentException("database.url must be jdbc: style");
+        case MYSQL: {
+          final StringBuilder b = new StringBuilder();
+          b.append("jdbc:mysql://");
+          b.append(hostname(optional(cfg, "hostname")));
+          b.append(port(optional(cfg, "port")));
+          b.append("/");
+          b.append(required(cfg, "database"));
+          url = b.toString();
+          break;
         }
-        break;
+
+        case JDBC:
+          driver = required(cfg, "driver");
+          url = required(cfg, "url");
+          break;
+
+        default:
+          throw new IllegalArgumentException(type + " not supported");
+      }
+    }
+
+    if (driver == null || driver.isEmpty()) {
+      if (url.startsWith("jdbc:h2:")) {
+        driver = "org.h2.Driver";
+
+      } else if (url.startsWith("jdbc:postgresql:")) {
+        driver = "org.postgresql.Driver";
+
+      } else if (url.startsWith("jdbc:mysql:")) {
+        driver = "com.mysql.jdbc.Driver";
+
+      } else {
+        throw new IllegalArgumentException("database.driver must be set");
+      }
     }
 
     boolean usePool;
@@ -250,6 +206,23 @@ public final class DataSourceProvider implements Provider<DataSource>,
         throw new ProvisionException("Database unavailable", se);
       }
     }
+  }
+
+  private static String hostname(String hostname) {
+    if (hostname == null || hostname.isEmpty()) {
+      hostname = "localhost";
+
+    } else if (hostname.contains(":") && !hostname.startsWith("[")) {
+      hostname = "[" + hostname + "]";
+    }
+    return hostname;
+  }
+
+  private static String port(String port) {
+    if (port != null && !port.isEmpty()) {
+      return ":" + port;
+    }
+    return "";
   }
 
   private static String optional(final Config config, final String name) {

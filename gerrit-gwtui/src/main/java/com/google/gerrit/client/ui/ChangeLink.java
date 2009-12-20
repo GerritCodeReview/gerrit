@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.ui;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.ChangeScreen;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.ChangeInfo;
@@ -41,7 +42,11 @@ public class ChangeLink extends DirectScreenLink {
   }
 
   @Override
-  protected Screen createScreen() {
+  public void go() {
+    Gerrit.display(getTargetHistoryToken(), createScreen());
+  }
+
+  private Screen createScreen() {
     return info != null ? new ChangeScreen(info) : new ChangeScreen(id);
   }
 }

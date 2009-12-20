@@ -49,7 +49,8 @@ public class AccountDashboardLink extends DirectScreenLink {
   }
 
   @Override
-  protected Screen createScreen() {
-    return new AccountDashboardScreen(accountId);
+  public void go() {
+    Gerrit.display(getTargetHistoryToken(), //
+        new AccountDashboardScreen(accountId));
   }
 }

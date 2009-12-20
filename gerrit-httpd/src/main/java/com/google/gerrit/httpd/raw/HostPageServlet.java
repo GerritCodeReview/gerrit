@@ -74,9 +74,9 @@ public class HostPageServlet extends HttpServlet {
       if (devmode != null) {
         devmode.getParentNode().removeChild(devmode);
       }
-      fixModuleReference(hostDoc, servletContext);
     }
 
+    fixModuleReference(hostDoc, servletContext);
     injectCssFile(hostDoc, "gerrit_sitecss", site.site_css);
     injectXmlFile(hostDoc, "gerrit_header", site.site_header);
     injectXmlFile(hostDoc, "gerrit_footer", site.site_footer);
@@ -147,10 +147,14 @@ public class HostPageServlet extends HttpServlet {
     w.write("_obj=");
     JsonServlet.defaultGsonBuilder().create().toJson(obj, w);
     w.write(";\n// -->\n");
+    asScript(scriptNode);
+    scriptNode.appendChild(hostDoc.createCDATASection(w.toString()));
+  }
+
+  private void asScript(final Element scriptNode) {
     scriptNode.removeAttribute("id");
     scriptNode.setAttribute("type", "text/javascript");
     scriptNode.setAttribute("language", "javascript");
-    scriptNode.appendChild(hostDoc.createCDATASection(w.toString()));
   }
 
   private void fixModuleReference(final Document hostDoc,
@@ -159,31 +163,33 @@ public class HostPageServlet extends HttpServlet {
     if (scriptNode == null) {
       throw new IOException("No gerrit_module to rewrite in host document");
     }
-    scriptNode.removeAttribute("id");
 
-    final String src = scriptNode.getAttribute("src");
-    InputStream in = servletContext.getResourceAsStream("/" + src);
-    if (in == null) {
-      throw new IOException("No " + src + " in webapp root");
-    }
-
-    final MessageDigest md = Constants.newMessageDigest();
-    try {
-      try {
-        final byte[] buf = new byte[1024];
-        int n;
-        while ((n = in.read(buf)) > 0) {
-          md.update(buf, 0, n);
-        }
-      } finally {
-        in.close();
+    String src = "gerrit/gerrit.nocache.js";
+    if (!IS_DEV) {
+      InputStream in = servletContext.getResourceAsStream("/" + src);
+      if (in == null) {
+        throw new IOException("No " + src + " in webapp root");
       }
-    } catch (IOException e) {
-      throw new IOException("Failed reading " + src, e);
-    }
 
-    final String vstr = ObjectId.fromRaw(md.digest()).name();
-    scriptNode.setAttribute("src", src + "?content=" + vstr);
+      final MessageDigest md = Constants.newMessageDigest();
+      try {
+        try {
+          final byte[] buf = new byte[1024];
+          int n;
+          while ((n = in.read(buf)) > 0) {
+            md.update(buf, 0, n);
+          }
+        } finally {
+          in.close();
+        }
+      } catch (IOException e) {
+        throw new IOException("Failed reading " + src, e);
+      }
+
+      src += "?content=" + ObjectId.fromRaw(md.digest()).name();
+    }
+    scriptNode.setAttribute("src", src);
+    asScript(scriptNode);
   }
 
   @Override

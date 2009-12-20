@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.admin;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.HistoryHandler;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
@@ -58,7 +59,7 @@ public class GroupListScreen extends AccountScreen {
     add(groups);
 
     final VerticalPanel fp = new VerticalPanel();
-    fp.setStyleName("gerrit-AddSshKeyPanel");
+    fp.setStyleName(Gerrit.RESOURCES.css().addSshKeyPanel());
     fp.add(new SmallHeading(Util.C.headingCreateGroup()));
 
     addTxt = new NpTextBox();

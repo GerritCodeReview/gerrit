@@ -45,10 +45,10 @@ public class RegisterScreen extends AccountScreen {
     final FlowPanel formBody = new FlowPanel();
 
     final FlowPanel contactGroup = new FlowPanel();
-    contactGroup.setStyleName("gerrit-RegisterScreen-Section");
+    contactGroup.setStyleName(Gerrit.RESOURCES.css().registerScreenSection());
     contactGroup.add(new SmallHeading(Util.C.welcomeReviewContact()));
     final HTML whereFrom = new HTML(Util.C.welcomeContactFrom());
-    whereFrom.setStyleName("gerrit-RegisterScreen-Explain");
+    whereFrom.setStyleName(Gerrit.RESOURCES.css().registerScreenExplain());
     contactGroup.add(whereFrom);
     contactGroup.add(new ContactPanelShort() {
       @Override
@@ -66,10 +66,10 @@ public class RegisterScreen extends AccountScreen {
     formBody.add(contactGroup);
 
     final FlowPanel sshKeyGroup = new FlowPanel();
-    sshKeyGroup.setStyleName("gerrit-RegisterScreen-Section");
+    sshKeyGroup.setStyleName(Gerrit.RESOURCES.css().registerScreenSection());
     sshKeyGroup.add(new SmallHeading(Util.C.welcomeSshKeyHeading()));
     final HTML whySshKey = new HTML(Util.C.welcomeSshKeyText());
-    whySshKey.setStyleName("gerrit-RegisterScreen-Explain");
+    whySshKey.setStyleName(Gerrit.RESOURCES.css().registerScreenExplain());
     sshKeyGroup.add(whySshKey);
     sshKeyGroup.add(new SshPanel() {
       {
@@ -79,13 +79,13 @@ public class RegisterScreen extends AccountScreen {
     formBody.add(sshKeyGroup);
 
     final FlowPanel choices = new FlowPanel();
-    choices.setStyleName("gerrit-RegisterScreen-NextLinks");
+    choices.setStyleName(Gerrit.RESOURCES.css().registerScreenNextLinks());
     if (Gerrit.getConfig().isUseContributorAgreements()) {
       final FlowPanel agreementGroup = new FlowPanel();
-      agreementGroup.setStyleName("gerrit-RegisterScreen-Section");
+      agreementGroup.setStyleName(Gerrit.RESOURCES.css().registerScreenSection());
       agreementGroup.add(new SmallHeading(Util.C.welcomeAgreementHeading()));
       final HTML whyAgreement = new HTML(Util.C.welcomeAgreementText());
-      whyAgreement.setStyleName("gerrit-RegisterScreen-Explain");
+      whyAgreement.setStyleName(Gerrit.RESOURCES.css().registerScreenExplain());
       agreementGroup.add(whyAgreement);
 
       choices.add(new InlineHyperlink(Util.C.newAgreement(),

@@ -81,8 +81,8 @@ class ContactPanelShort extends Composite {
     emailPick = new ListBox();
 
     final Grid infoPlainText = new Grid(2, 2);
-    infoPlainText.setStyleName("gerrit-InfoBlock");
-    infoPlainText.addStyleName("gerrit-AccountInfoBlock");
+    infoPlainText.setStyleName(Gerrit.RESOURCES.css().infoBlock());
+    infoPlainText.addStyleName(Gerrit.RESOURCES.css().accountInfoBlock());
 
     body.add(infoPlainText);
 
@@ -103,9 +103,9 @@ class ContactPanelShort extends Composite {
     row(infoPlainText, 0, Util.C.contactFieldFullName(), nameTxt);
     row(infoPlainText, 1, Util.C.contactFieldEmail(), emailLine);
 
-    infoPlainText.getCellFormatter().addStyleName(0, 0, "topmost");
-    infoPlainText.getCellFormatter().addStyleName(0, 1, "topmost");
-    infoPlainText.getCellFormatter().addStyleName(1, 0, "bottomheader");
+    infoPlainText.getCellFormatter().addStyleName(0, 0, Gerrit.RESOURCES.css().topmost());
+    infoPlainText.getCellFormatter().addStyleName(0, 1, Gerrit.RESOURCES.css().topmost());
+    infoPlainText.getCellFormatter().addStyleName(1, 0, Gerrit.RESOURCES.css().bottomheader());
 
     save = new Button(Util.C.buttonSaveChanges());
     save.setEnabled(false);
@@ -233,7 +233,7 @@ class ContactPanelShort extends Composite {
       final Widget field) {
     info.setText(row, labelIdx, name);
     info.setWidget(row, fieldIdx, field);
-    info.getCellFormatter().addStyleName(row, 0, "header");
+    info.getCellFormatter().addStyleName(row, 0, Gerrit.RESOURCES.css().header());
   }
 
   protected void display(final Account userAccount) {

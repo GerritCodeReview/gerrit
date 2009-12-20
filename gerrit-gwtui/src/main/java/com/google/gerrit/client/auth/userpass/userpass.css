@@ -13,6 +13,20 @@
  * limitations under the License.
  */
 
-@sprite .greenCheckClass {
-  gwt-image: "greenCheck";
+.loginForm {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.error {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.error span {
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 10px;
+  padding-right: 10px;
+  background: #fff1a8;
 }

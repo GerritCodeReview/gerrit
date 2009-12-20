@@ -1,70 +1,94 @@
-#gerrit_topmenu {
+/* Copyright (C) 2009 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http: *www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@external .gwt-Button;
+@external .gwt-TabBarFirst;
+@external .gwt-TabBarItem;
+@external .gwt-TabBarItem-selected;
+@external .gwt-TabBarRest;
+@external .gwt-TabPanelBottom;
+@external .gwt-TextBox;
+@external .gwt-Hyperlink;
+@external .gwt-CheckBox;
+@external .gwt-DisclosurePanel;
+@external .gwt-InlineLabel;
+@external .gwt-InlineHyperlink;
+@external .gwt-RadioButton;
+
+@external .smallHeading;
+
+@sprite .greenCheckClass {
+  gwt-image: "greenCheck";
+}
+
+.gerritTopMenu {
   font-size: 9pt;
   padding-top: 5px;
   padding-left: 5px;
   padding-right: 5px;
   background: #d4e9a9;
 }
-#gerrit_body {
+.gerritBody {
   font-size: 11pt;
   padding-left: 5px;
   padding-right: 5px;
   width: 98%;
 }
-#gerrit_pagefooter {
-  clear: both;
-  margin-top: 15px;
-  padding-top: 2px;
-  margin-bottom: 15px;
-}
-#gerrit_btmmenu {
- clear: both;
-}
-#gerrit_btmmenu .gerrit-version,
-#gerrit_btmmenu .gerrit-keyhelp {
+
+.version,
+.keyhelp {
   color: #a0adcc;
   right: 0;
   padding-right: 10px;
   text-align: right;
 }
-#gerrit_btmmenu .gerrit-version a,
-#gerrit_btmmenu .gerrit-version a:visited,
-#gerrit_btmmenu .gerrit-version a:hover {
+
+.version a,
+.version a:visited,
+.version a:hover {
   color: #2a5db0;
 }
 
 
 /** Widgets **/
-.gwt-Button {
-  white-space: nowrap;
-}
-
-.gerrit-Hyperlink {
+.hyperlink {
   text-decoration: underline;
 }
 
-.gerrit-AccountName {
+.accountName {
   white-space: nowrap;
 }
 
-.gerrit-visualtab {
+.visualtab {
   border: 1px dotted red;
 }
 
-.gerrit-whitespaceerror {
+.whitespaceerror {
   background: red;
 }
 
-.gerrit-InputFieldTypeHint {
+.inputFieldTypeHint {
   color: grey;
 }
 
-.gerrit-SmallHeading {
+.smallHeading {
   margin-top: 5px;
   font-weight: bold;
 }
 
-.gerrit-BlockHeader {
+.blockHeader {
   font-size: small;
   font-weight: bold;
   background: #d4e9a9;
@@ -73,146 +97,120 @@
 
 
 /** CommentPanel **/
-.gerrit-CommentPanel {
-  -moz-border-radius-topleft: 8px;
-  -moz-border-radius-topright: 8px;
-  -moz-border-radius-bottomleft: 0;
-  -moz-border-radius-bottomright: 0;
-
-  -webkit-border-top-left-radius: 8px;
-  -webkit-border-top-right-radius: 8px;
-  -webkit-border-bottom-left-radius: 0px;
-  -webkit-border-bottom-right-radius: 0px;
-
+.commentPanel {
   border-top: 1px solid lightgray;
   border-left: 1px solid lightgray;
   border-right: 1px solid lightgray;
 }
-.gerrit-CommentPanel-Last {
-  -moz-border-radius-bottomleft: 8px;
-  -moz-border-radius-bottomright: 8px;
-
-  -webkit-border-bottom-left-radius: 8px;
-  -webkit-border-bottom-right-radius: 8px;
-
+.commentPanelLast {
   border-bottom: 1px solid lightgray;
 }
-.gerrit-CommentPanel-Header {
+
+@if user.agent safari {
+  .commentPanel {
+    \-webkit-border-top-left-radius: 8px;
+    \-webkit-border-top-right-radius: 8px;
+    \-webkit-border-bottom-left-radius: 0px;
+    \-webkit-border-bottom-right-radius: 0px;
+  }
+  .commentPanelLast {
+    \-webkit-border-bottom-left-radius: 8px;
+    \-webkit-border-bottom-right-radius: 8px;
+  }
+}
+
+@if user.agent gecko1_8 {
+  .commentPanel {
+    \-moz-border-radius-topleft: 8px;
+    \-moz-border-radius-topright: 8px;
+    \-moz-border-radius-bottomleft: 0;
+    \-moz-border-radius-bottomright: 0;
+  }
+  .commentPanelLast {
+    \-moz-border-radius-bottomleft: 8px;
+    \-moz-border-radius-bottomright: 8px;
+  }
+}
+
+.commentPanelHeader {
   cursor: pointer;
   width: 100%;
 }
-.gerrit-CommentPanel-Summary {
+.commentPanelSummary {
   color: #777777;
   white-space: nowrap;
   overflow: hidden;
 }
-.gerrit-CommentPanel-AuthorCell {
+.commentPanelAuthorCell {
   font-weight: bold;
   white-space: nowrap;
 }
-.gerrit-CommentPanel-SummaryCell {
+.commentPanelSummaryCell {
   width: 100%;
 }
-.gerrit-CommentPanel-DateCell {
+.commentPanelDateCell {
   white-space: nowrap;
 }
-.gerrit-CommentPanel-Message {
+.commentPanelMessage {
   font-size: small;
   padding-left: 0.5em;
   padding-right: 0.5em;
 }
-.gerrit-CommentPanel-Message p {
+.commentPanelMessage p {
   margin-top: 0px;
   margin-bottom: 0px;
   padding-top: 0.5em;
   padding-bottom: 0.5em;
 }
-.gerrit-CommentPanel-Buttons {
+.commentPanelButtons {
   margin-left: 0.5em;
 }
-.gerrit-CommentPanel-Buttons .gwt-Button {
+.commentPanelButtons .gwt-Button {
   margin-right: 2em;
   font-size: 7pt;
   padding: 1px;
 }
 
-.gerrit-CommentEditorPanel textarea {
+.commentEditorPanel textarea {
   margin-left: 0.5em;
   font-size: small;
   font-family: Arial Unicode MS,Arial,sans-serif;
 }
 
 
-/** TabPanel **/
-.gwt-TabBar {
-  border-bottom: 1px solid black;
-}
-.gwt-TabBar .gwt-TabBarFirst {
-  display: none;
-}
-.gwt-TabBar .gwt-TabBarItem {
-  margin: 0px;
-  background: #d4e9a9;
-  padding-top: 0.5em;
-  padding-bottom: 1px;
-  padding-left: 1em;
-  padding-right: 1em;
-  border-right: 1px solid black;
-}
-.gwt-TabBar .gwt-TabBarItem-selected {
-  background: #ffffcc;
-}
-.gwt-TabBar .gwt-TabBarRest {
-  background: #d4e9a9;
-  padding-top: 0.5em;
-  padding-bottom: 1px;
-}
-.gwt-TabBar .gwt-TabPanelBottom {
-  background: #d4e9a9;
-  border-top: 1px solid black;
-  border-left: none;
-  border-right: none;
-  border-bottom: none;
-  padding: 1px;
-}
-.gwt-TabPanel .gwt-TabPanelBottom {
-  border: none;
-}
-
-
 /** Menu **/
-.gerrit-LinkMenuBar {
+.linkMenuBar {
   font-size: 9pt;
   display: inline;
   white-space: nowrap;
 }
-.gerrit-MenuItem {
+.menuItem {
   padding-left: 5px;
   padding-right: 5px;
 }
-.gerrit-LinkMenuItem-NotLast {
+.linkMenuItemNotLast {
   border-right: 1px solid black;
 }
 
-.gerrit-topmenu {
+.topmenu {
   width: 100%;
 }
-.gerrit-topmenu-TDmenu {
+.topmenuTDmenu {
   vertical-align: top;
 }
-.gerrit-topmenu-TDglue {
+.topmenuTDglue {
   width: 100%;
 }
-.gerrit-topmenu-menuLeft {
+.topmenuMenuLeft {
   width: 300px;
   border-left: 1px solid #d4e9a9;
   border-right: 1px solid #d4e9a9;
   border-bottom: 1px solid #d4e9a9;
 }
-.gerrit-topmenu-menuLeft .gwt-TabBarFirst {
+.topmenuMenuLeft .gwt-TabBarFirst {
   display: none;
 }
-.gerrit-topmenu-menuLeft .gwt-TabBarItem {
+.topmenuMenuLeft .gwt-TabBarItem {
   margin: 0px;
   background: #d4e9a9;
   padding-top: 0px;
@@ -221,14 +219,14 @@
   padding-right: 1em;
   border-right: 1px solid black;
 }
-.gerrit-topmenu-menuLeft .gwt-TabBarItem-selected {
+.topmenuMenuLeft .gwt-TabBarItem-selected {
   background: #ffffcc;
 }
-.gerrit-topmenu-menuLeft .gwt-TabBarRest {
+.topmenuMenuLeft .gwt-TabBarRest {
   background: #d4e9a9;
   padding-top: 0px;
 }
-.gerrit-topmenu-menuLeft .gwt-TabPanelBottom {
+.topmenuMenuLeft .gwt-TabPanelBottom {
   background: #d4e9a9;
   border-top: none;
   border-left: none;
@@ -236,43 +234,43 @@
   border-bottom: none;
   padding: 1px;
 }
-.gerrit-topmenu-menuLeft .gerrit-MenuItem {
+.topmenuMenuLeft .menuItem {
   padding-left: 1em;
   padding-right: 1em;
   border-right: none;
 }
 
-.gerrit-topmenu-menuRight {
+.topmenuMenuRight {
   float: right;
   text-align: right;
 }
-.gerrit-MenuBarUserName {
+.menuBarUserName {
   font-weight: bold;
   padding-left: 5px;
   padding-right: 5px;
   white-space: nowrap;
 }
-.gerrit-SearchPanel {
+.searchPanel {
   white-space: nowrap;
 }
-.gerrit-SearchPanel .gwt-TextBox {
+.searchPanel .gwt-TextBox {
   font-size: 7pt;
 }
-.gerrit-SearchPanel .gwt-Button {
+.searchPanel .gwt-Button {
   font-size: 7pt;
   margin-left: 2px;
   padding: 1px;
 }
 
 /** RPC Status **/
-.gerrit-RpcStatusPanel {
+.rpcStatusPanel {
   position: absolute;
   left: 50%;
   float: left;
   top: 6px;
 }
 
-.gerrit-RpcStatus {
+.rpcStatus {
   padding-top: 4px;
   padding-bottom: 4px;
   padding-left: 10px;
@@ -281,37 +279,37 @@
   font-weight: bold;
 }
 
-.gerrit-RpcStatus-Loading {
+.rpcStatusLoading {
   background: #FFF1A8;
 }
 
 
 /** Error Dialog **/
-.gerrit-ErrorDialog {
+.errorDialog {
   margin: 10px 10px 10px 10px;
 }
 
-.gerrit-ErrorDialog-ErrorType {
+.errorDialogErrorType {
   font-weight: bold;
   white-space: nowrap;
   margin-bottom: 15px;
 }
 
-.gerrit-ErrorDialog-Buttons {
+.errorDialogButtons {
   width: 100%;
   margin-top: 15px;
   text-align: right;
 }
-.gerrit-ErrorDialog-Buttons .gwt-Button {
+.errorDialogButtons .gwt-Button {
   margin-left: 2em;
 }
 
 
 /** Screen **/
-.gerrit-Screen {
+.screen {
 }
 
-.gerrit-ScreenHeader {
+.screenHeader {
   white-space: nowrap;
   font-size: 16pt;
   margin: 3px 0 8px;
@@ -321,19 +319,19 @@
 
 
 /** ChangeTable **/
-.gerrit-ChangeTable {
+.changeTable {
   border-collapse: separate;
   border-spacing: 0;
 }
 
-.gerrit-ChangeTable .IconCell {
+.changeTable .iconCell {
   width: 1px;
   padding: 0px;
   vertical-align: middle;
   border-bottom: 1px solid #d4e9a9;
 }
 
-.gerrit-ChangeTable .ChangeTypeCell {
+.changeTable .changeTypeCell {
   width: 1px;
   padding-left: 5px;
   padding-right: 5px;
@@ -342,103 +340,103 @@
   vertical-align: top;
 }
 
-.gerrit-ChangeTable .CommentCell {
+.changeTable .commentCell {
   text-align: right;
   font-weight: bold;
   white-space: nowrap;
 }
-.gerrit-ChangeTable .CommentCell span.Drafts {
+.changeTable .commentCell span.drafts {
   color: #ff5555;
 }
 
-.gerrit-ChangeTable .FilePathCell {
+.changeTable .filePathCell {
   white-space: nowrap;
 }
 
-.gerrit-ChangeTable .FilePathCell .SourceFilePath {
+.changeTable .sourceFilePath {
   font-style: italic;
   font-size: 9pt;
 }
 
-.gerrit-ChangeTable .DiffLinkCell {
+.changeTable .diffLinkCell {
   white-space: nowrap;
 }
 
-.gerrit-ChangeTable .LeftMostCell {
+.changeTable .leftMostCell {
   border-left: 1px solid #d4e9a9;
 }
 
-.gerrit-ChangeTable .DataCell {
+.changeTable .dataCell {
   padding-left: 5px;
   padding-right: 5px;
   border-right: 1px solid #d4e9a9;
   border-bottom: 1px solid #d4e9a9;
 }
 
-.gerrit-AccountDashboard.gerrit-ChangeTable tr {
+.accountDashboard.changeTable tr {
   color: #444444;
   background: #F6F6F6;
 }
-.gerrit-AccountDashboard.gerrit-ChangeTable tr a {
+.accountDashboard.changeTable tr a {
   color: #444444;
   text-decoration: none;
 }
-.gerrit-AccountDashboard.gerrit-ChangeTable .NeedsReview {
+.accountDashboard.changeTable .needsReview {
   font-weight: bold;
   color: #000000;
   background: #ffffff;
 }
 
-.gerrit-ChangeTable .ActiveRow,
-.gerrit-AccountDashboard.gerrit-ChangeTable .ActiveRow {
+.changeTable .activeRow, 
+.accountDashboard.changeTable .activeRow {
   background: #ffffcc;
 }
 
-.gerrit-ChangeTable .C_ID {
+.changeTable .cID {
   width: 3.5em;
 }
-.gerrit-ChangeTable .DataCell.C_ID {
+.changeTable .dataCell.cID {
   font-family: 'Lucida Console', 'Lucida Sans Typewriter', Monaco, monospace;
 }
 
-.gerrit-ChangeTable .C_SUBJECT div {
+.changeTable .cSUBJECT div {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
 }
 
-.gerrit-ChangeTable .C_PROJECT {
+.changeTable .cPROJECT {
   white-space: nowrap;
 }
 
-.gerrit-ChangeTable .C_LAST_UPDATE {
+.changeTable .cLastUpdate {
   white-space: nowrap;
   text-align: right;
   width: 1em;
 }
 
-.gerrit-ChangeTable .DataCell.GroupName {
+.changeTable .groupName {
   white-space: nowrap;
 }
 
-.gerrit-ChangeTable .DataCell.C_APPROVAL {
+.changeTable .cAPPROVAL {
   width: 0.5em;
   text-align: center;
 }
-.gerrit-ChangeTable .DataCell.negscore {
+.changeTable .dataCell.negscore {
   color: red;
 }
-.gerrit-ChangeTable .DataCell.posscore {
+.changeTable .dataCell.posscore {
   color: #08a400;
 }
 
-.gerrit-ChangeTable .IconHeader {
+.changeTable .iconHeader {
   border-top: 1px solid white;
   border-bottom: 1px solid white;
   background-color: #d4e9a9;
 }
 
-.gerrit-ChangeTable .DataHeader {
+.changeTable .dataHeader {
   border: 1px solid white;
   padding: 2px 6px 1px;
   background-color: #d4e9a9;
@@ -447,7 +445,7 @@
   color: #000000;
 }
 
-.gerrit-ChangeTable .SectionHeader {
+.changeTable .sectionHeader {
   border-top: 8px solid white;
   padding: 2px 6px 1px;
   background-color: #d4e9a9;
@@ -456,7 +454,7 @@
   color: #000000;
 }
 
-.gerrit-ChangeTable .EmptySection {
+.changeTable .emptySection {
   border-left: 1px solid #d4e9a9;
   border-right: 1px solid #d4e9a9;
   border-bottom: 1px solid #d4e9a9;
@@ -464,90 +462,90 @@
   padding-left: 25px;
 }
 
-.gerrit-ChangeTable-PrevNextLinks {
+.changeTablePrevNextLinks {
   float: right;
   padding-right: 5px;
 }
-.gerrit-ChangeTable-PrevNextLinks td {
+.changeTablePrevNextLinks td {
   width: 5em;
   text-align: right;
 }
-.gerrit-ChangeTable-PrevNextLinks .gwt-Hyperlink {
+.changeTablePrevNextLinks .gwt-Hyperlink {
   font-size: 9pt;
   color: #2a5db0;
 }
 
 
 /** PatchScreen **/
-.gerrit-PatchScreen-DisplayControls .gwt-CheckBox {
+.patchScreenDisplayControls .gwt-CheckBox {
   margin-right: 1em;
 }
 
 
 /** PatchContentTable **/
-.gerrit-PatchContentTable {
+.patchContentTable {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
 }
-.gerrit-PatchContentTable td {
+.patchContentTable td {
   font-size: 8pt;
   font-family: 'Lucida Console', 'Lucida Sans Typewriter', Monaco, monospace;
   border-top: 1px solid transparent;
   border-bottom: 1px solid transparent;
 }
 
-.gerrit-PatchContentTable .IconCell {
+.patchContentTable .iconCell {
   width: 1px;
   padding: 0px;
   vertical-align: middle;
 }
 
-.gerrit-PatchContentTable .DiffText {
+.patchContentTable .diffText {
   white-space: pre;
   padding-left: 0.2em;
 }
 
-.gerrit-PatchContentTable .DiffText-FILE_HEADER {
+.patchContentTable .diffTextFileHeader {
   color: grey;
   font-weight: bold;
 }
-.gerrit-PatchContentTable .DiffText-NO_LF {
+.patchContentTable .diffTextNoLF {
   color: grey;
   font-weight: bold;
 }
-.gerrit-PatchContentTable .DiffText-HUNK_HEADER {
+.patchContentTable .diffTextHunkHeader {
   color: blue;
 }
-.gerrit-PatchContentTable .DiffText-DELETE {
+.patchContentTable .diffTextDELETE {
   color: #a00000;
 }
-.gerrit-PatchContentTable .DiffText-CONTEXT {
+.patchContentTable .diffTextCONTEXT {
   color: grey;
 }
-.gerrit-PatchContentTable .DiffText-INSERT {
+.patchContentTable .diffTextINSERT {
   color: #006000;
 }
 
-.gerrit-PatchContentTable tr.CommentHolder .DiffText {
+.patchContentTable tr.commentHolder .diffText {
   background: #F2F4F7;
   white-space: normal;
 }
-.gerrit-PatchContentTable .gerrit-CommentPanel {
+.patchContentTable .commentPanel {
   font-family: Arial Unicode MS,Arial,sans-serif;
 }
-.gerrit-PatchContentTable .gerrit-CommentPanel td {
+.patchContentTable .commentPanel td {
   font-family: Arial Unicode MS,Arial,sans-serif;
 }
 
-.gerrit-PatchContentTable .FileColumnHeader {
+.patchContentTable .fileColumnHeader {
   background: #d4e9a9;
   font-family: Arial Unicode MS,Arial,sans-serif;
   font-weight: bold;
   text-align: center;
 }
 
-.gerrit-PatchContentTable .LineNumber {
+.patchContentTable .lineNumber {
   padding-left: 0.2em;
   white-space: pre;
   width: 3.5em;
@@ -556,111 +554,111 @@
   padding-right: 0.2em;
 }
 
-.gerrit-PatchContentTable .NoLineLineNumber {
+.patchContentTable .noLineLineNumber {
   font-family: 'Lucida Console', 'Lucida Sans Typewriter', Monaco, monospace;
   width: 3.5em;
   padding-left: 0.2em;
   padding-right: 0.2em;
 }
 
-.gerrit-PatchContentTable .FileLine {
+.patchContentTable .fileLine {
   padding-left: 0.2em;
   white-space: pre;
   padding-right: 0.2em;
 }
 
-.gerrit-PatchContentTable .FileLineNone {
+.patchContentTable .fileLineNone {
   background: #eeeeee;
 }
-.gerrit-PatchContentTable .FileLine-DELETE {
+.patchContentTable .fileLineDELETE {
   background: #ffeeee;
 }
-.gerrit-PatchContentTable .FileLine-CONTEXT {
+.patchContentTable .fileLineCONTEXT {
 }
-.gerrit-PatchContentTable .FileLine-INSERT {
+.patchContentTable .fileLineINSERT {
   background: #ddffdd;
 }
 
-.gerrit-PatchContentTable .SkipLine {
+.patchContentTable .skipLine {
   font-family: Arial Unicode MS,Arial,sans-serif;
   text-align: center;
   font-style: italic;
   background: lightblue;
 }
-.gerrit-PatchContentTable .SkipLine div {
+.patchContentTable .skipLine div {
   display: inline;
 }
 
-.gerrit-PatchContentTable .ActiveRow {
+.patchContentTable .activeRow {
   background: #ffffcc;
 }
-.gerrit-PatchContentTable .ActiveRow td.IconCell,
-.gerrit-PatchContentTable .ActiveRow td.LineNumber,
-.gerrit-PatchContentTable .ActiveRow td.FileLine,
-.gerrit-PatchContentTable .ActiveRow td.DiffText {
+.patchContentTable .activeRow td.iconCell,
+.patchContentTable .activeRow td.lineNumber,
+.patchContentTable .activeRow td.fileLine,
+.patchContentTable .activeRow td.diffText {
   border-top: 1px solid blue;
   border-bottom: 1px solid blue;
 }
 
 
 /** Change **/
-.gerrit-ChangeScreen-StarIcon {
+.changeScreenStarIcon {
   margin-right: 5px;
 }
 
-.gerrit-ChangeScreen .gwt-DisclosurePanel .header td {
+.changeScreen .gwt-DisclosurePanel .header td {
   font-weight: bold;
   white-space: nowrap;
 }
 
-.gerrit-ChangeScreen .gwt-DisclosurePanel .complexHeader {
+.changeScreen .gwt-DisclosurePanel .complexHeader {
   white-space: nowrap;
 }
-.gerrit-ChangeScreen .gwt-DisclosurePanel .complexHeader span {
+.changeScreen .gwt-DisclosurePanel .complexHeader span {
   white-space: nowrap;
 }
 
-.gerrit-PatchSetRevision {
+.patchSetRevision {
   padding-left: 20px;
   font-size: 8pt;
 }
-.gerrit-PatchSetLink {
+.patchSetLink {
   padding-left: 0.5em;
   font-size: 8pt;
 }
 
-.gerrit-ChangeScreen .gwt-DisclosurePanel .content {
+.changeScreen .gwt-DisclosurePanel .content {
   margin-bottom: 10px;
 }
 
-.gerrit-ChangeScreen-Description {
+.changeScreenDescription {
   white-space: pre;
   font-family: 'Lucida Console', 'Lucida Sans Typewriter', Monaco, monospace;
   font-size: 8pt;
 }
-.gerrit-ChangeScreen-Description p {
+.changeScreenDescription p {
   margin-top: 0px;
   padding-top: 0.5em;
 }
 
-.gerrit-ChangeComments {
+.changeComments {
   margin-left: 0.5em;
   margin-right: 0.5em;
   width: 60em;
 }
 
-.gerrit-InfoTable {
+.infoTable {
   border-collapse: collapse;
   border-spacing: 0;
 }
 
-.gerrit-InfoTable td {
+.infoTable td {
   border-left: 1px solid #d4e9a9;
   border-bottom: 1px solid #d4e9a9;
   padding: 2px 6px 1px;
 }
 
-.gerrit-InfoTable td.header {
+.infoTable td.header {
   background-color: #d4e9a9;
   border-left: 1px solid white;
   font-weight: normal;
@@ -671,31 +669,31 @@
   white-space: nowrap;
 }
 
-.gerrit-InfoTable td.leftmost  {
+.infoTable td.leftmost  {
 }
 
-.gerrit-InfoTable td.rightmost  {
+.infoTable td.rightmost  {
   border-right: 1px solid #d4e9a9;
 }
 
-.gerrit-InfoTable td.approvalrole {
+.infoTable td.approvalrole {
   width: 5em;
   border-left: none;
   font-style: italic;
   white-space: nowrap;
 }
 
-.gerrit-InfoTable td.approvalscore {
+.infoTable td.approvalscore {
   text-align: center;
 }
-.gerrit-InfoTable td.negscore {
+.infoTable td.negscore {
   color: red;
 }
-.gerrit-InfoTable td.posscore {
+.infoTable td.posscore {
   color: #08a400;
 }
 
-.gerrit-InfoTable td.approvalhint {
+.infoTable td.approvalhint {
   white-space: nowrap;
   background-left: 1px none;
   background-bottom: 1px none;
@@ -703,16 +701,16 @@
   color: #444444;
 }
 
-.gerrit-ChangeInfoBlock {
+.changeInfoBlock {
   margin-right: 15px;
 }
 
-.gerrit-InfoBlock {
+.infoBlock {
   border-collapse: collapse;
   border-spacing: 0;
 }
 
-.gerrit-InfoBlock td {
+.infoBlock td {
   padding: 2px 4px 2px 6px;
   border-right: 1px solid #d4e9a9;
   border-bottom: 1px solid #d4e9a9;
@@ -720,81 +718,81 @@
   white-space: nowrap;
 }
 
-.gerrit-InfoBlock td.topmost {
+.infoBlock td.topmost {
   border-top: 1px solid #d4e9a9;
 }
 
-.gerrit-InfoBlock td.header {
+.infoBlock td.header {
   border-bottom: 1px solid white;
   background-color: #d4e9a9;
   font-style: italic;
   text-align: right;
 }
 
-.gerrit-InfoBlock td.bottomheader {
+.infoBlock td.bottomheader {
   border-bottom: 1px solid #d4e9a9;
 }
 
-.gerrit-InfoBlock td.closedstate {
+.infoBlock td.closedstate {
   font-weight: bold;
 }
 
-.gerrit-InfoBlock td.permalink {
+.infoBlock td.permalink {
   border-right: 1px none;
   border-bottom: 1px none;
   text-align: right;
 }
-.gerrit-InfoBlock td.permalink div div {
+.infoBlock td.permalink div div {
   display: inline;
 }
 
-.gerrit-InfoBlock td.command {
+.infoBlock td.command {
   white-space: pre;
   font-family: 'Lucida Console', 'Lucida Sans Typewriter', Monaco, monospace;
   font-size: 12px;
 }
 
-.gerrit-InfoBlock td.useridentity {
+.infoBlock td.useridentity {
   white-space: nowrap;
 }
-.gerrit-ChangeInfoBlock td.changeid {
+.changeInfoBlock td.changeid {
   font-size: x-small;
 }
 
 
-.gerrit-PatchSetInfoBlock {
+.patchSetInfoBlock {
   margin-bottom: 10px;
 }
-.gerrit-PatchSetUserIdentity {
+.patchSetUserIdentity {
   white-space: nowrap;
 }
-.gerrit-PatchSetUserIdentity .gwt-InlineLabel {
+.patchSetUserIdentity .gwt-InlineLabel {
   margin-left: 0.2em;
 }
 
-.gerrit-PatchSetActions {
+.patchSetActions {
   margin-bottom: 10px;
 }
-.gerrit-PatchSetActions .gwt-Button {
+.patchSetActions .gwt-Button {
   margin-right: 5px;
   font-size: 8pt;
 }
 
-.gerrit-ChangeScreen .gerrit-ApprovalTable {
+.changeScreen .approvalTable {
   margin-top: 1em;
   margin-bottom: 1em;
 }
-.gerrit-MissingApprovalList {
+.missingApprovalList {
   margin-top: 5px;
   margin-left: 1em;
   padding-left: 1em;
   margin-bottom: 0px;
 }
-.gerrit-MissingApproval {
+.missingApproval {
   font-size: small;
   white-space: nowrap;
 }
-.gerrit-AddReviewer {
+.addReviewer {
   margin-left: 1em;
   margin-top: 5px;
   white-space: nowrap;
@@ -802,20 +800,20 @@
 
 
 /** SideBySideScreen **/
-.gerrit-SideBySideScreen-SideBySideTable {
+.sideBySideScreenSideBySideTable {
   width: 100%;
   border: 1px solid #B0BDCC;
   display: table;
 }
 
-.gerrit-SideBySideScreen-LinkTable {
+.sideBySideScreenLinkTable {
   width: 100%;
 }
-.gerrit-SideBySideScreen-LinkTable td {
+.sideBySideScreenLinkTable td {
   width: 33%;
 }
 
-.gerrit-PatchNoDifference {
+.patchNoDifference {
   margin-top: 1em;
   margin-bottom: 2em;
   margin-left: 1em;
@@ -824,79 +822,79 @@
 }
 
 /** Patch History Table **/
-.gerrit-PatchHistoryTable {
+.patchHistoryTable {
   width: auto;
   margin-bottom: 10px;
 }
 
-.gerrit-PatchHistoryTable .DataCell {
+.patchHistoryTable .dataCell {
   white-space: nowrap;
 }
 
 
 /** AccountSettings  **/
-.gerrit-SshPanel-username {
+.sshPanelUsername {
   font-family: 'Lucida Console', 'Lucida Sans Typewriter', Monaco, monospace;
   font-size: small;
   margin-right: 0.2em;
 }
-.gerrit-SshKeyPanel-EncodedKey {
+.sshKeyPanelEncodedKey {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
   font-family: 'Lucida Console', 'Lucida Sans Typewriter', Monaco, monospace;
   font-size: small;
 }
-.gerrit-SshKeyPanel-Invalid {
+.sshKeyPanelInvalid {
   white-space: nowrap;
   color: red;
   font-weight: bold;
 }
-.gerrit-Identity-UntrustedExternalId {
+.identityUntrustedExternalId {
   white-space: nowrap;
   color: red;
   font-weight: bold;
 }
 
-.gerrit-AccountInfoBlock {
+.accountInfoBlock {
   margin-bottom: 10px;
 }
-.gerrit-AccountContactPrivacyDetails {
+.accountContactPrivacyDetails {
   margin-left: 10px;
   margin-top: 5px;
   margin-bottom: 5px;
   width: 40em;
 }
-.gerrit-AccountContactOnFile {
+.accountContactOnFile {
   margin-left: 10px;
   margin-top: 5px;
   margin-bottom: 5px;
   font-weight: bold;
 }
 
-.gerrit-AddSshKeyPanel {
+.addSshKeyPanel {
   margin-top: 10px;
   background-color: #d4e9a9;
   padding: 5px 5px 5px 5px;
 }
 
-.gerrit-SshHostKeyPanel {
+.sshHostKeyPanel {
   margin-top: 10px;
   border: 1px solid #d4e9a9;
   padding: 5px 5px 5px 5px;
 }
-.gerrit-SshHostKeyPanel-Heading {
+.sshHostKeyPanelHeading {
   white-space: nowrap;
   margin-top: 5px;
   margin-left: 1em;
 }
-.gerrit-SshHostKeyPanel-FingerprintData {
+.sshHostKeyPanelFingerprintData {
   margin-left: 2em;
   white-space: nowrap;
   font-family: 'Lucida Console', 'Lucida Sans Typewriter', Monaco, monospace;
   font-size: small;
 }
-.gerrit-SshHostKeyPanel-KnownHostEntry {
+.sshHostKeyPanelKnownHostEntry {
   margin-left: 2em;
   white-space: nowrap;
   font-family: 'Lucida Console', 'Lucida Sans Typewriter', Monaco, monospace;
@@ -904,11 +902,11 @@
   width: 80em;
 }
 
-.gerrit-ContributorAgreement-Button {
+.contributorAgreementButton {
   font-weight: bold;
 }
 
-.gerrit-ContributorAgreement-ShortDescription {
+.contributorAgreementShortDescription {
   margin-left: 20px;
   margin-right: 20px;
   margin-bottom: 10px;
@@ -916,53 +914,53 @@
   border: 1px solid #b0bdcc;
 }
 
-.gerrit-ContributorAgreement-AlreadySubmitted {
+.contributorAgreementAlreadySubmitted {
   margin-left: 20px;
   margin-right: 20px;
   padding: 5px 5px 5px 5px;
   color: red;
 }
 
-.gerrit-ContributorAgreement-Legal {
+.contributorAgreementLegal {
   margin-left: 20px;
   margin-right: 20px;
   padding: 5px 5px 5px 5px;
   border: 1px solid #b0bdcc;
 }
 
-.gerrit-RegisterScreen-Section {
+.registerScreenSection {
   margin-top: 2em;
 }
-.gerrit-RegisterScreen-Explain {
+.registerScreenExplain {
   margin-left: 10px;
   margin-top: 5px;
   margin-bottom: 5px;
   width: 45em;
 }
-.gerrit-RegisterScreen-NextLinks {
+.registerScreenNextLinks {
   margin-top: 2em;
 }
-.gerrit-RegisterScreen-NextLinks .gwt-InlineHyperlink {
+.registerScreenNextLinks .gwt-InlineHyperlink {
   margin-left: 2em;
   white-space: nowrap;
 }
-.gerrit-RegisterScreen-Section .gerrit-ChangeTable {
+.registerScreenSection .changeTable {
   width: 45em;
 }
-.gerrit-RegisterScreen-Section .gerrit-AddSshKeyPanel {
+.registerScreenSection .addSshKeyPanel {
   background: none;
 }
-.gerrit-RegisterScreen-Section .gerrit-SshHostKeyPanel {
+.registerScreenSection .sshHostKeyPanel {
   border: none;
 }
-.gerrit-RegisterScreen-Section .gerrit-SshHostKeyPanel .gerrit-SshHostKeyPanel-KnownHostEntry {
+.registerScreenSection .sshHostKeyPanel .sshHostKeyPanelKnownHostEntry {
   width: 45em;
 }
 
-.gerrit-ProjectAdmin-ApprovalCategoryRangeLine {
+.projectAdminApprovalCategoryRangeLine {
   white-space: nowrap;
 }
-.gerrit-ProjectAdmin-ApprovalCategoryValue {
+.projectAdminApprovalCategoryValue {
   font-family: 'Lucida Console', 'Lucida Sans Typewriter', Monaco, monospace;
   font-size: small;
 }
@@ -970,12 +968,12 @@
 
 /** PublishCommentsScreen **/
 
-.gerrit-PublishCommentsScreen .gerrit-SmallHeading {
+.publishCommentsScreen .smallHeading {
   font-size: small;
   font-weight: bold;
   white-space: nowrap;
 }
-.gerrit-PublishCommentsScreen .gerrit-ApprovalCategoryList {
+.publishCommentsScreen .approvalCategoryList {
   margin-bottom: 10px;
   margin-left: 10px;
   background: #d4e9a9;
@@ -984,138 +982,87 @@
   padding-top: 2px;
   padding-bottom: 2px;
 }
-.gerrit-PublishCommentsScreen .gerrit-CoverMessage {
+.publishCommentsScreen .coverMessage {
   margin-left: 10px;
   padding: 5px 5px 5px 5px;
 }
-.gerrit-PublishCommentsScreen .gerrit-CoverMessage textarea {
+.publishCommentsScreen .coverMessage textarea {
   font-size: small;
 }
-.gerrit-PublishCommentsScreen .gerrit-ApprovalCategoryList .gwt-RadioButton {
+.publishCommentsScreen .approvalCategoryList .gwt-RadioButton {
   font-size: smaller;
 }
-.gerrit-PublishCommentsScreen .gerrit-PatchComments {
+.publishCommentsScreen .patchComments {
   margin-left: 1em;
   margin-right: 0.5em;
   margin-bottom: 0.5em;
 }
-.gerrit-PublishCommentsScreen .gwt-Hyperlink {
+.publishCommentsScreen .gwt-Hyperlink {
   white-space: nowrap;
   font-size: small;
 }
-.gerrit-PublishCommentsScreen .gerrit-LineHeader {
+.publishCommentsScreen .lineHeader {
   white-space: nowrap;
   font-family: 'Lucida Console', 'Lucida Sans Typewriter', Monaco, monospace;
   font-size: small;
   font-style: italic;
   padding-left: 3px;
 }
-.gerrit-PublishCommentsScreen .gerrit-CommentPanel {
+.publishCommentsScreen .commentPanel {
   border: none;
   width: 35em;
 }
-.gerrit-PublishCommentsScreen .gerrit-CommentPanel-Content {
-  -moz-border-radius-topleft: 8px;
-  -moz-border-radius-topright: 8px;
-  -moz-border-radius-bottomleft: 8px;
-  -moz-border-radius-bottomright: 8px;
-
-  -webkit-border-top-left-radius: 8px;
-  -webkit-border-top-right-radius: 8px;
-  -webkit-border-bottom-left-radius: 8px;
-  -webkit-border-bottom-right-radius: 8px;
-
+.commentPanelContent {
   border: 1px solid lightgray;
   padding-bottom: 1px;
 }
-.gerrit-PublishCommentsScreen .gerrit-CommentPanel-DateCell {
+@if user.agent safari {
+  .commentPanelContent {
+    \-webkit-border-radius: 8px;
+  }
+}
+@if user.agent gecko1_8 {
+  .commentPanelContent {
+    \-moz-border-radius: 8px;
+  }
+}
+
+.publishCommentsScreen .commentPanelDateCell {
   display: none;
 }
 
 
 /** AbandonChangeDialog **/
 
-.gerrit-AbandonChangeDialog .gwt-DisclosurePanel .header td {
+.abandonChangeDialog .gwt-DisclosurePanel .header td {
   font-weight: bold;
   white-space: nowrap;
 }
 
-.gerrit-AbandonChangeDialog .gerrit-SmallHeading {
+.abandonChangeDialog .smallHeading {
   font-size: small;
   font-weight: bold;
   white-space: nowrap;
 }
-.gerrit-AbandonChangeDialog .gerrit-AbandonMessage {
+.abandonChangeDialog .abandonMessage {
   margin-left: 10px;
   background: #d4e9a9;
   padding: 5px 5px 5px 5px;
 }
-.gerrit-AbandonChangeDialog .gerrit-AbandonMessage textarea {
+.abandonChangeDialog .abandonMessage textarea {
   font-size: small;
 }
-.gerrit-AbandonChangeDialog .gwt-Hyperlink {
+.abandonChangeDialog .gwt-Hyperlink {
   white-space: nowrap;
   font-size: small;
-}
-
-
-/** OpenIdLoginPanel **/
-.gerrit-OpenID-loginform {
-  margin-left: 10px;
-  margin-right: 10px;
-}
-
-.gerrit-OpenID-logobox {
-  width: 98%;
-  text-align: right;
-}
-
-.gerrit-OpenID-loginline {
-  margin-bottom: 10px;
-}
-.gerrit-OpenID-loginline div {
-  white-space: nowrap;
-}
-
-.gerrit-OpenID-openid_identifier {
-  background: #ffffff url(openidlogin_bg1.cache.gif) no-repeat scroll 5px 50%;
-  padding-left: 25px;
-  border: 1px solid #999999;
-  margin-right: 5px;
-}
-
-.gerrit-OpenID-directlink {
-  vertical-align: middle;
-  margin-right: 5px;
-  color: blue;
-  cursor: pointer;
-}
-.gerrit-OpenID-directlink:hover {
-  text-decoration: underline;
-}
-.gerrit-OpenID-directlink img {
-  margin-right: 3px;
-  border: 0 none;
-}
-
-.gerrit-OpenID-errorline {
-  padding-top: 5px;
-  padding-bottom: 5px;
-}
-.gerrit-OpenID-errorline span {
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 10px;
-  padding-right: 10px;
-  background: #fff1a8;
 }
 
 
 /** PatchBrowserPopup **/
-.gerrit-PatchBrowserPopup {
+.patchBrowserPopup {
   opacity: 0.90;
 }
-.gerrit-PatchBrowserPopup-Body {
+.patchBrowserPopupBody {
   background: #ffffff;
   margin: 4px;
   opacity: 0.90;

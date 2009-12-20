@@ -12,10 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client;
+package com.google.gerrit.client.auth.openid;
 
-import com.google.gwt.resources.client.CssResource;
+import com.google.gwt.i18n.client.Messages;
 
-public interface GerritCssResource extends CssResource {
-  String greenCheckClass();
+public interface OpenIdMessages extends Messages {
+  String signInAt(String hostname);
+  String registerAt(String hostname);
+  String linkAt(String hostname);
+
+  String signInWith(String who);
+  String registerWith(String who);
+  String linkWith(String who);
 }

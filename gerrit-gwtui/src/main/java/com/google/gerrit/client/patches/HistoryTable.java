@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.patches;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.reviewdb.Patch;
@@ -35,9 +36,9 @@ class HistoryTable extends FancyFlexTable<Patch> {
   final List<HistoryRadio> all = new ArrayList<HistoryRadio>();
 
   HistoryTable(final PatchScreen parent) {
-    setStyleName("gerrit-PatchHistoryTable");
+    setStyleName(Gerrit.RESOURCES.css().patchHistoryTable());
     screen = parent;
-    table.addStyleName("gerrit-ChangeTable");
+    table.addStyleName(Gerrit.RESOURCES.css().changeTable());
   }
 
   void onClick(final HistoryRadio b) {
@@ -116,28 +117,28 @@ class HistoryTable extends FancyFlexTable<Patch> {
     m.openTr();
 
     m.openTd();
-    m.addStyleName(S_ICON_HEADER);
-    m.addStyleName("LeftMostCell");
+    m.addStyleName(Gerrit.RESOURCES.css().iconHeader());
+    m.addStyleName(Gerrit.RESOURCES.css().leftMostCell());
     m.nbsp();
     m.closeTd();
 
     m.openTd();
-    m.setStyleName(S_DATA_HEADER);
+    m.setStyleName(Gerrit.RESOURCES.css().dataHeader());
     m.nbsp();
     m.closeTd();
 
     m.openTd();
-    m.setStyleName(S_DATA_HEADER);
+    m.setStyleName(Gerrit.RESOURCES.css().dataHeader());
     m.append(PatchUtil.C.patchHeaderOld());
     m.closeTd();
 
     m.openTd();
-    m.setStyleName(S_DATA_HEADER);
+    m.setStyleName(Gerrit.RESOURCES.css().dataHeader());
     m.append(PatchUtil.C.patchHeaderNew());
     m.closeTd();
 
     m.openTd();
-    m.setStyleName(S_DATA_HEADER);
+    m.setStyleName(Gerrit.RESOURCES.css().dataHeader());
     m.append(Util.C.patchTableColumnComments());
     m.closeTd();
 
@@ -148,13 +149,13 @@ class HistoryTable extends FancyFlexTable<Patch> {
     m.openTr();
 
     m.openTd();
-    m.addStyleName(S_ICON_CELL);
-    m.addStyleName("LeftMostCell");
+    m.addStyleName(Gerrit.RESOURCES.css().iconCell());
+    m.addStyleName(Gerrit.RESOURCES.css().leftMostCell());
     m.nbsp();
     m.closeTd();
 
     m.openTd();
-    m.setStyleName(S_DATA_CELL);
+    m.setStyleName(Gerrit.RESOURCES.css().dataCell());
     m.setAttribute("align", "right");
     if (k != null) {
       final PatchSet.Id psId = k.getKey().getParentKey();
@@ -165,17 +166,17 @@ class HistoryTable extends FancyFlexTable<Patch> {
     m.closeTd();
 
     m.openTd();
-    m.setStyleName(S_DATA_CELL);
+    m.setStyleName(Gerrit.RESOURCES.css().dataCell());
     m.nbsp();
     m.closeTd();
 
     m.openTd();
-    m.setStyleName(S_DATA_CELL);
+    m.setStyleName(Gerrit.RESOURCES.css().dataCell());
     m.nbsp();
     m.closeTd();
 
     m.openTd();
-    m.setStyleName(S_DATA_CELL);
+    m.setStyleName(Gerrit.RESOURCES.css().dataCell());
     if (k != null && k.getCommentCount() > 0) {
       m.append(Util.M.patchTableComments(k.getCommentCount()));
     } else {

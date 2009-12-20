@@ -85,7 +85,7 @@ public abstract class AllSingleListScreen extends Screen {
     add(table);
 
     final HorizontalPanel buttons = new HorizontalPanel();
-    buttons.setStyleName("gerrit-ChangeTable-PrevNextLinks");
+    buttons.setStyleName(Gerrit.RESOURCES.css().changeTablePrevNextLinks());
     buttons.add(prev);
     buttons.add(next);
     add(buttons);

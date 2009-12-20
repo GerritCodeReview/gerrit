@@ -99,7 +99,7 @@ class SshPanel extends Composite {
       userNameTxt.setText(Gerrit.getUserAccount().getSshUserName());
     }
     userNameTxt.addKeyPressHandler(new SshUserNameValidator());
-    userNameTxt.addStyleName("gerrit-SshPanel-username");
+    userNameTxt.addStyleName(Gerrit.RESOURCES.css().sshPanelUsername());
     userNameTxt.setVisibleLength(16);
     userNameTxt.setReadOnly(!canEditSshUserName());
 
@@ -115,8 +115,8 @@ class SshPanel extends Composite {
     new TextSaveButtonListener(userNameTxt, changeUserName);
 
     final Grid userInfo = new Grid(1, 2);
-    userInfo.setStyleName("gerrit-InfoBlock");
-    userInfo.addStyleName("gerrit-AccountInfoBlock");
+    userInfo.setStyleName(Gerrit.RESOURCES.css().infoBlock());
+    userInfo.addStyleName(Gerrit.RESOURCES.css().accountInfoBlock());
     body.add(userInfo);
 
     final FlowPanel userNameRow = new FlowPanel();
@@ -124,10 +124,10 @@ class SshPanel extends Composite {
     userNameRow.add(changeUserName);
 
     row(userInfo, 0, Util.C.sshUserName(), userNameRow);
-    userInfo.getCellFormatter().addStyleName(0, 0, "topmost");
-    userInfo.getCellFormatter().addStyleName(0, 0, "topmost");
-    userInfo.getCellFormatter().addStyleName(0, 1, "topmost");
-    userInfo.getCellFormatter().addStyleName(0, 0, "bottomheader");
+    userInfo.getCellFormatter().addStyleName(0, 0, Gerrit.RESOURCES.css().topmost());
+    userInfo.getCellFormatter().addStyleName(0, 0, Gerrit.RESOURCES.css().topmost());
+    userInfo.getCellFormatter().addStyleName(0, 1, Gerrit.RESOURCES.css().topmost());
+    userInfo.getCellFormatter().addStyleName(0, 0, Gerrit.RESOURCES.css().bottomheader());
 
     showAddKeyBlock = new Button(Util.C.buttonShowAddSshKey());
     showAddKeyBlock.addClickHandler(new ClickHandler() {
@@ -155,7 +155,7 @@ class SshPanel extends Composite {
 
     addKeyBlock = new VerticalPanel();
     addKeyBlock.setVisible(false);
-    addKeyBlock.setStyleName("gerrit-AddSshKeyPanel");
+    addKeyBlock.setStyleName(Gerrit.RESOURCES.css().addSshKeyPanel());
     addKeyBlock.add(new SmallHeading(Util.C.addSshKeyPanelHeader()));
     addKeyBlock.add(new HTML(Util.C.addSshKeyHelp()));
 
@@ -225,7 +225,7 @@ class SshPanel extends Composite {
       final Widget field) {
     info.setText(row, labelIdx, name);
     info.setWidget(row, fieldIdx, field);
-    info.getCellFormatter().addStyleName(row, 0, "header");
+    info.getCellFormatter().addStyleName(row, 0, Gerrit.RESOURCES.css().header());
   }
 
   void setKeyTableVisible(final boolean on) {
@@ -490,8 +490,6 @@ class SshPanel extends Composite {
   }
 
   private class SshKeyTable extends FancyFlexTable<AccountSshKey> {
-    private static final String S_INVALID = "gerrit-SshKeyPanel-Invalid";
-
     SshKeyTable() {
       table.setWidth("");
       table.setText(0, 3, Util.C.sshKeyAlgorithm());
@@ -501,13 +499,13 @@ class SshPanel extends Composite {
       table.setText(0, 7, Util.C.sshKeyStored());
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
-      fmt.addStyleName(0, 1, S_ICON_HEADER);
-      fmt.addStyleName(0, 2, S_DATA_HEADER);
-      fmt.addStyleName(0, 3, S_DATA_HEADER);
-      fmt.addStyleName(0, 4, S_DATA_HEADER);
-      fmt.addStyleName(0, 5, S_DATA_HEADER);
-      fmt.addStyleName(0, 6, S_DATA_HEADER);
-      fmt.addStyleName(0, 7, S_DATA_HEADER);
+      fmt.addStyleName(0, 1, Gerrit.RESOURCES.css().iconHeader());
+      fmt.addStyleName(0, 2, Gerrit.RESOURCES.css().dataHeader());
+      fmt.addStyleName(0, 3, Gerrit.RESOURCES.css().dataHeader());
+      fmt.addStyleName(0, 4, Gerrit.RESOURCES.css().dataHeader());
+      fmt.addStyleName(0, 5, Gerrit.RESOURCES.css().dataHeader());
+      fmt.addStyleName(0, 6, Gerrit.RESOURCES.css().dataHeader());
+      fmt.addStyleName(0, 7, Gerrit.RESOURCES.css().dataHeader());
     }
 
     void deleteChecked() {
@@ -555,10 +553,10 @@ class SshPanel extends Composite {
       table.setWidget(row, 1, new CheckBox());
       if (k.isValid()) {
         table.setText(row, 2, "");
-        fmt.removeStyleName(row, 2, S_INVALID);
+        fmt.removeStyleName(row, 2, Gerrit.RESOURCES.css().sshKeyPanelInvalid());
       } else {
         table.setText(row, 2, Util.C.sshKeyInvalid());
-        fmt.addStyleName(row, 2, S_INVALID);
+        fmt.addStyleName(row, 2, Gerrit.RESOURCES.css().sshKeyPanelInvalid());
       }
       table.setText(row, 3, k.getAlgorithm());
       table.setText(row, 4, elide(k.getEncodedKey(), 40));
@@ -566,14 +564,14 @@ class SshPanel extends Composite {
       table.setText(row, 6, FormatUtil.mediumFormat(k.getLastUsedOn()));
       table.setText(row, 7, FormatUtil.mediumFormat(k.getStoredOn()));
 
-      fmt.addStyleName(row, 1, S_ICON_CELL);
-      fmt.addStyleName(row, 2, S_ICON_CELL);
-      fmt.addStyleName(row, 4, "gerrit-SshKeyPanel-EncodedKey");
+      fmt.addStyleName(row, 1, Gerrit.RESOURCES.css().iconCell());
+      fmt.addStyleName(row, 2, Gerrit.RESOURCES.css().iconCell());
+      fmt.addStyleName(row, 4, Gerrit.RESOURCES.css().sshKeyPanelEncodedKey());
       for (int c = 3; c <= 7; c++) {
-        fmt.addStyleName(row, c, S_DATA_CELL);
+        fmt.addStyleName(row, c, Gerrit.RESOURCES.css().dataCell());
       }
-      fmt.addStyleName(row, 6, "C_LAST_UPDATE");
-      fmt.addStyleName(row, 7, "C_LAST_UPDATE");
+      fmt.addStyleName(row, 6, Gerrit.RESOURCES.css().cLastUpdate());
+      fmt.addStyleName(row, 7, Gerrit.RESOURCES.css().cLastUpdate());
 
       setRowItem(row, k);
     }

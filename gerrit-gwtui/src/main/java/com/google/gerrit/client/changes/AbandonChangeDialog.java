@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.changes;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.common.data.ChangeDetail;
@@ -39,7 +40,7 @@ public class AbandonChangeDialog extends AutoCenterDialogBox {
     super(/* auto hide */true, /* modal */true);
 
     psid = psi;
-    addStyleName("gerrit-AbandonChangeDialog");
+    addStyleName(Gerrit.RESOURCES.css().abandonChangeDialog());
     setText(Util.C.abandonChangeTitle());
 
     panel = new FlowPanel();
@@ -48,7 +49,7 @@ public class AbandonChangeDialog extends AutoCenterDialogBox {
     panel.add(new SmallHeading(Util.C.headingAbandonMessage()));
 
     final FlowPanel mwrap = new FlowPanel();
-    mwrap.setStyleName("gerrit-AbandonMessage");
+    mwrap.setStyleName(Gerrit.RESOURCES.css().abandonMessage());
     panel.add(mwrap);
 
     message = new NpTextArea();
@@ -58,7 +59,6 @@ public class AbandonChangeDialog extends AutoCenterDialogBox {
     mwrap.add(message);
 
     final FlowPanel buttonPanel = new FlowPanel();
-    buttonPanel.setStyleName("gerrit-CommentEditor-Buttons");
     panel.add(buttonPanel);
 
     sendButton = new Button(Util.C.buttonAbandonChangeSend());

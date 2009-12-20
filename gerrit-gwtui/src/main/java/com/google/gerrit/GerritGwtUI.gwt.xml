@@ -25,7 +25,6 @@
   <inherits name='com.google.gerrit.Common'/>
   <inherits name='com.google.gerrit.UserAgent'/>
   <inherits name='org.eclipse.jgit.JGit'/>
-  <stylesheet src='gerrit.css' />
 
   <extend-property name='locale' values='en'/>
   <set-property-fallback name='locale' value='en'/>

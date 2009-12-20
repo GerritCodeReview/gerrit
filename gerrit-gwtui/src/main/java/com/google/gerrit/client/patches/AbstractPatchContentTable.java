@@ -90,7 +90,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
       keysComment = null;
     }
 
-    table.setStyleName("gerrit-PatchContentTable");
+    table.setStyleName(Gerrit.RESOURCES.css().patchContentTable());
   }
 
   void notifyDraftDelta(final int delta) {
@@ -397,7 +397,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
 
   protected void insertRow(final int row) {
     table.insertRow(row);
-    table.getCellFormatter().setStyleName(row, 0, S_ICON_CELL);
+    table.getCellFormatter().setStyleName(row, 0, Gerrit.RESOURCES.css().iconCell());
   }
 
   @Override
@@ -476,7 +476,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
   private void styleCommentRow(final int row) {
     final CellFormatter fmt = table.getCellFormatter();
     final Element iconCell = fmt.getElement(row, 0);
-    UIObject.setStyleName(DOM.getParent(iconCell), "CommentHolder", true);
+    UIObject.setStyleName(DOM.getParent(iconCell), Gerrit.RESOURCES.css().commentHolder(), true);
   }
 
   protected static class CommentList {

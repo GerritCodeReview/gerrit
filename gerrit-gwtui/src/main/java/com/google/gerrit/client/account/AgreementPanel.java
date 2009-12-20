@@ -15,6 +15,7 @@
 package com.google.gerrit.client.account;
 
 import com.google.gerrit.client.FormatUtil;
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.common.PageLinks;
@@ -64,7 +65,7 @@ class AgreementPanel extends Composite {
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
       for (int c = 1; c <= 4; c++) {
-        fmt.addStyleName(0, c, S_DATA_HEADER);
+        fmt.addStyleName(0, c, Gerrit.RESOURCES.css().dataHeader());
       }
     }
 
@@ -129,9 +130,9 @@ class AgreementPanel extends Composite {
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
       for (int c = 1; c <= 4; c++) {
-        fmt.addStyleName(row, c, S_DATA_CELL);
+        fmt.addStyleName(row, c, Gerrit.RESOURCES.css().dataCell());
       }
-      fmt.addStyleName(row, 4, "C_LAST_UPDATE");
+      fmt.addStyleName(row, 4, Gerrit.RESOURCES.css().cLastUpdate());
 
       setRowItem(row, k);
     }

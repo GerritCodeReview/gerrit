@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.patches;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.CommentPanel;
 import com.google.gerrit.reviewdb.PatchLineComment;
@@ -65,7 +66,7 @@ public class CommentEditorPanel extends CommentPanel implements ClickHandler,
   public CommentEditorPanel(final PatchLineComment plc) {
     comment = plc;
 
-    addStyleName("gerrit-CommentEditorPanel");
+    addStyleName(Gerrit.RESOURCES.css().commentEditorPanel());
     setAuthorNameText(PatchUtil.C.draft());
     setMessageText(plc.getMessage());
     addDoubleClickHandler(this);

@@ -60,15 +60,6 @@ import java.util.Map;
 import java.util.Set;
 
 public class ChangeTable extends NavigationTable<ChangeInfo> {
-  private static final String S_C_ID = "C_ID";
-  private static final String S_C_SUBJECT = "C_SUBJECT";
-  private static final String S_C_PROJECT = "C_PROJECT";
-  private static final String S_C_LAST_UPDATE = "C_LAST_UPDATE";
-  private static final String S_C_APPROVAL = "C_APPROVAL";
-  private static final String S_SECTION_HEADER = "SectionHeader";
-  private static final String S_EMPTY_SECTION = "EmptySection";
-  private static final String S_NEEDS_REVIEW = "NeedsReview";
-
   private static final int C_STAR = 1;
   private static final int C_ID = 2;
   private static final int C_SUBJECT = 3;
@@ -127,10 +118,10 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     }
 
     final FlexCellFormatter fmt = table.getFlexCellFormatter();
-    fmt.addStyleName(0, C_STAR, S_ICON_HEADER);
-    fmt.addStyleName(0, C_ID, S_C_ID);
+    fmt.addStyleName(0, C_STAR, Gerrit.RESOURCES.css().iconHeader());
+    fmt.addStyleName(0, C_ID, Gerrit.RESOURCES.css().cID());
     for (int i = C_ID; i < columns; i++) {
-      fmt.addStyleName(0, i, S_DATA_HEADER);
+      fmt.addStyleName(0, i, Gerrit.RESOURCES.css().dataHeader());
     }
 
     table.addClickHandler(new ClickHandler() {
@@ -190,7 +181,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     table.setText(row, 0, Util.C.changeTableNone());
     final FlexCellFormatter fmt = table.getFlexCellFormatter();
     fmt.setColSpan(row, 0, columns);
-    fmt.setStyleName(row, 0, S_EMPTY_SECTION);
+    fmt.setStyleName(row, 0, Gerrit.RESOURCES.css().emptySection());
   }
 
   private void insertChangeRow(final int row) {
@@ -202,17 +193,17 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
   protected void applyDataRowStyle(final int row) {
     super.applyDataRowStyle(row);
     final CellFormatter fmt = table.getCellFormatter();
-    fmt.addStyleName(row, C_STAR, S_ICON_CELL);
+    fmt.addStyleName(row, C_STAR, Gerrit.RESOURCES.css().iconCell());
     for (int i = C_ID; i < columns; i++) {
-      fmt.addStyleName(row, i, S_DATA_CELL);
+      fmt.addStyleName(row, i, Gerrit.RESOURCES.css().dataCell());
     }
-    fmt.addStyleName(row, C_ID, S_C_ID);
-    fmt.addStyleName(row, C_SUBJECT, S_C_SUBJECT);
-    fmt.addStyleName(row, C_PROJECT, S_C_PROJECT);
-    fmt.addStyleName(row, C_BRANCH, S_C_PROJECT);
-    fmt.addStyleName(row, C_LAST_UPDATE, S_C_LAST_UPDATE);
+    fmt.addStyleName(row, C_ID, Gerrit.RESOURCES.css().cID());
+    fmt.addStyleName(row, C_SUBJECT, Gerrit.RESOURCES.css().cSUBJECT());
+    fmt.addStyleName(row, C_PROJECT, Gerrit.RESOURCES.css().cPROJECT());
+    fmt.addStyleName(row, C_BRANCH, Gerrit.RESOURCES.css().cPROJECT());
+    fmt.addStyleName(row, C_LAST_UPDATE, Gerrit.RESOURCES.css().cLastUpdate());
     for (int i = BASE_COLUMNS; i < columns; i++) {
-      fmt.addStyleName(row, i, S_C_APPROVAL);
+      fmt.addStyleName(row, i, Gerrit.RESOURCES.css().cAPPROVAL());
     }
   }
 
@@ -233,8 +224,8 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     }
     table.setWidget(row, C_SUBJECT, new TableChangeLink(s, c));
     table.setWidget(row, C_OWNER, link(c.getOwner()));
-    table.setWidget(row, C_PROJECT,
-        new ProjectLink(c.getProject().getKey(), c.getStatus()));
+    table.setWidget(row, C_PROJECT, new ProjectLink(c.getProject().getKey(), c
+        .getStatus()));
     table.setText(row, C_BRANCH, c.getBranch());
     table.setText(row, C_LAST_UPDATE, shortFormat(c.getLastUpdatedOn()));
     setRowItem(row, c);
@@ -268,7 +259,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
       table.setText(s.titleRow, 0, s.titleText);
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
       fmt.setColSpan(s.titleRow, 0, columns);
-      fmt.addStyleName(s.titleRow, 0, S_SECTION_HEADER);
+      fmt.addStyleName(s.titleRow, 0, Gerrit.RESOURCES.css().sectionHeader());
     } else {
       s.titleRow = -1;
     }
@@ -319,8 +310,8 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     for (final ApprovalType type : approvalTypes) {
       final PatchSetApproval ca = approvals.get(type.getCategory().getId());
 
-      fmt.removeStyleName(row, col, "negscore");
-      fmt.removeStyleName(row, col, "posscore");
+      fmt.removeStyleName(row, col, Gerrit.RESOURCES.css().negscore());
+      fmt.removeStyleName(row, col, Gerrit.RESOURCES.css().posscore());
 
       if (ca == null || ca.getValue() == 0) {
         table.clearCell(row, col);
@@ -338,9 +329,9 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
           String vstr = String.valueOf(ca.getValue());
           if (ca.getValue() > 0) {
             vstr = "+" + vstr;
-            fmt.addStyleName(row, col, "posscore");
+            fmt.addStyleName(row, col, Gerrit.RESOURCES.css().posscore());
           } else {
-            fmt.addStyleName(row, col, "negscore");
+            fmt.addStyleName(row, col, Gerrit.RESOURCES.css().negscore());
           }
           table.setText(row, col, vstr);
         }
@@ -359,7 +350,7 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
     }
 
     final Element tr = DOM.getParent(fmt.getElement(row, 0));
-    UIObject.setStyleName(tr, S_NEEDS_REVIEW, !haveReview
+    UIObject.setStyleName(tr, Gerrit.RESOURCES.css().needsReview(), !haveReview
         && highlightUnreviewed);
   }
 

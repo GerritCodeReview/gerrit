@@ -35,7 +35,6 @@ class SubmitFailureDialog extends AutoCenterDialogBox {
     body.add(msgText);
 
     final FlowPanel buttonPanel = new FlowPanel();
-    buttonPanel.setStyleName("gerrit-CommentEditor-Buttons");
     Button close = new Button(Util.C.buttonClose());
     close.addClickHandler(new ClickHandler() {
       @Override

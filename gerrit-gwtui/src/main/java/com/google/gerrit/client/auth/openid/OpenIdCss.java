@@ -12,10 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.auth.userpass;
+package com.google.gerrit.client.auth.openid;
 
-import com.google.gwt.i18n.client.Messages;
+import com.google.gwt.resources.client.CssResource;
 
-public interface LoginMessages extends Messages {
-  String signInAt(String hostname);
+interface OpenIdCss extends CssResource {
+  String loginForm();
+  String logo();
+  String loginLine();
+  String identifier();
+  String directLink();
+  String error();
 }

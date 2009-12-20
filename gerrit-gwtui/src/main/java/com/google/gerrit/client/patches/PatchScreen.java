@@ -218,7 +218,7 @@ public abstract class PatchScreen extends Screen {
     initDisplayControls();
 
     noDifference = new Label(PatchUtil.C.noDifference());
-    noDifference.setStyleName("gerrit-PatchNoDifference");
+    noDifference.setStyleName(Gerrit.RESOURCES.css().patchNoDifference());
     noDifference.setVisible(false);
 
     contentTable = createContentTable();
@@ -226,7 +226,7 @@ public abstract class PatchScreen extends Screen {
 
     add(createNextPrevLinks());
     contentPanel = new FlowPanel();
-    contentPanel.setStyleName("gerrit-SideBySideScreen-SideBySideTable");
+    contentPanel.setStyleName(Gerrit.RESOURCES.css().sideBySideScreenSideBySideTable());
     contentPanel.add(noDifference);
     contentPanel.add(contentTable);
     add(contentPanel);
@@ -256,7 +256,7 @@ public abstract class PatchScreen extends Screen {
 
   private void initDisplayControls() {
     final Grid displayControls = new Grid(0, 5);
-    displayControls.setStyleName("gerrit-PatchScreen-DisplayControls");
+    displayControls.setStyleName(Gerrit.RESOURCES.css().patchScreenDisplayControls());
     add(displayControls);
 
     createIgnoreWhitespace(displayControls, 0, 0);
@@ -353,7 +353,7 @@ public abstract class PatchScreen extends Screen {
   private Widget createNextPrevLinks() {
     final Grid table = new Grid(1, 3);
     final CellFormatter fmt = table.getCellFormatter();
-    table.setStyleName("gerrit-SideBySideScreen-LinkTable");
+    table.setStyleName(Gerrit.RESOURCES.css().sideBySideScreenLinkTable());
     fmt.setHorizontalAlignment(0, 0, HasHorizontalAlignment.ALIGN_LEFT);
     fmt.setHorizontalAlignment(0, 1, HasHorizontalAlignment.ALIGN_CENTER);
     fmt.setHorizontalAlignment(0, 2, HasHorizontalAlignment.ALIGN_RIGHT);

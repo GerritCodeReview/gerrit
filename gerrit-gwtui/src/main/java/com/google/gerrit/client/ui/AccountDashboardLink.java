@@ -15,6 +15,7 @@
 package com.google.gerrit.client.ui;
 
 import com.google.gerrit.client.FormatUtil;
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.AccountDashboardScreen;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.AccountInfo;
@@ -43,7 +44,7 @@ public class AccountDashboardLink extends DirectScreenLink {
 
   public AccountDashboardLink(final String text, final Account.Id ai) {
     super(text, PageLinks.toAccountDashboard(ai));
-    addStyleName("gerrit-AccountName");
+    addStyleName(Gerrit.RESOURCES.css().accountName());
     accountId = ai;
   }
 

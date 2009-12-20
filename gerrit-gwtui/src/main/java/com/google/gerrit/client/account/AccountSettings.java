@@ -67,8 +67,8 @@ public class AccountSettings extends AccountScreen {
     }
 
     info = new Grid(4, 2);
-    info.setStyleName("gerrit-InfoBlock");
-    info.addStyleName("gerrit-AccountInfoBlock");
+    info.setStyleName(Gerrit.RESOURCES.css().infoBlock());
+    info.addStyleName(Gerrit.RESOURCES.css().accountInfoBlock());
     add(info);
 
     infoRow(0, Util.C.fullName());
@@ -77,9 +77,9 @@ public class AccountSettings extends AccountScreen {
     infoRow(3, Util.C.accountId());
 
     final CellFormatter fmt = info.getCellFormatter();
-    fmt.addStyleName(0, 0, "topmost");
-    fmt.addStyleName(0, 1, "topmost");
-    fmt.addStyleName(3, 0, "bottomheader");
+    fmt.addStyleName(0, 0, Gerrit.RESOURCES.css().topmost());
+    fmt.addStyleName(0, 1, Gerrit.RESOURCES.css().topmost());
+    fmt.addStyleName(3, 0, Gerrit.RESOURCES.css().bottomheader());
 
     tabTokens = new ArrayList<String>();
     tabs = new TabPanel();
@@ -156,7 +156,7 @@ public class AccountSettings extends AccountScreen {
 
   private void infoRow(final int row, final String name) {
     info.setText(row, labelIdx, name);
-    info.getCellFormatter().addStyleName(row, 0, "header");
+    info.getCellFormatter().addStyleName(row, 0, Gerrit.RESOURCES.css().header());
   }
 
   void display(final Account account) {

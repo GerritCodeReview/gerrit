@@ -41,12 +41,12 @@ public class RpcStatus implements RpcStartHandler, RpcCompleteHandler {
 
   RpcStatus(final Panel p) {
     final FlowPanel r = new FlowPanel();
-    r.setStyleName("gerrit-RpcStatusPanel");
+    r.setStyleName(Gerrit.RESOURCES.css().rpcStatusPanel());
     p.add(r);
 
     loading = new InlineLabel();
     loading.setText(Gerrit.C.rpcStatusLoading());
-    loading.setStyleName("gerrit-RpcStatus");
+    loading.setStyleName(Gerrit.RESOURCES.css().rpcStatus());
     loading.addStyleDependentName("Loading");
     loading.setVisible(false);
     r.add(loading);

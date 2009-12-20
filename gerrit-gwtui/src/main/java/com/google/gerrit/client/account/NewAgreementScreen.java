@@ -117,7 +117,7 @@ public class NewAgreementScreen extends AccountScreen {
         .add(new SmallHeading(Util.C.newAgreementReviewLegalHeading()));
 
     agreementHtml = new HTML();
-    agreementHtml.setStyleName("gerrit-ContributorAgreement-Legal");
+    agreementHtml.setStyleName(Gerrit.RESOURCES.css().contributorAgreementLegal());
     agreementGroup.add(agreementHtml);
     formBody.add(agreementGroup);
 
@@ -175,13 +175,13 @@ public class NewAgreementScreen extends AccountScreen {
 
     for (final ContributorAgreement cla : available) {
       final RadioButton r = new RadioButton("cla_id", cla.getShortName());
-      r.addStyleName("gerrit-ContributorAgreement-Button");
+      r.addStyleName(Gerrit.RESOURCES.css().contributorAgreementButton());
       radios.add(r);
 
       if (mySigned.contains(cla.getId())) {
         r.setEnabled(false);
         final Label l = new Label(Util.C.newAgreementAlreadySubmitted());
-        l.setStyleName("gerrit-ContributorAgreement-AlreadySubmitted");
+        l.setStyleName(Gerrit.RESOURCES.css().contributorAgreementAlreadySubmitted());
         radios.add(l);
       } else {
         r.addClickHandler(new ClickHandler() {
@@ -195,7 +195,7 @@ public class NewAgreementScreen extends AccountScreen {
       if (cla.getShortDescription() != null
           && !cla.getShortDescription().equals("")) {
         final Label l = new Label(cla.getShortDescription());
-        l.setStyleName("gerrit-ContributorAgreement-ShortDescription");
+        l.setStyleName(Gerrit.RESOURCES.css().contributorAgreementShortDescription());
         radios.add(l);
       }
     }

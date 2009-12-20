@@ -83,20 +83,20 @@ public class ProjectBranchesPanel extends Composite {
 
   private void initBranches(final Panel body) {
     final FlowPanel addPanel = new FlowPanel();
-    addPanel.setStyleName("gerrit-AddSshKeyPanel");
+    addPanel.setStyleName(Gerrit.RESOURCES.css().addSshKeyPanel());
 
     final Grid addGrid = new Grid(2, 2);
 
     nameTxtBox = new NpTextBox();
     nameTxtBox.setVisibleLength(50);
     nameTxtBox.setText(Util.C.defaultBranchName());
-    nameTxtBox.addStyleName("gerrit-InputFieldTypeHint");
+    nameTxtBox.addStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
     nameTxtBox.addFocusHandler(new FocusHandler() {
       @Override
       public void onFocus(FocusEvent event) {
         if (Util.C.defaultBranchName().equals(nameTxtBox.getText())) {
           nameTxtBox.setText("");
-          nameTxtBox.removeStyleName("gerrit-InputFieldTypeHint");
+          nameTxtBox.removeStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
         }
       }
     });
@@ -105,7 +105,7 @@ public class ProjectBranchesPanel extends Composite {
       public void onBlur(BlurEvent event) {
         if ("".equals(nameTxtBox.getText())) {
           nameTxtBox.setText(Util.C.defaultBranchName());
-          nameTxtBox.addStyleName("gerrit-InputFieldTypeHint");
+          nameTxtBox.addStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
         }
       }
     });
@@ -115,13 +115,13 @@ public class ProjectBranchesPanel extends Composite {
     irevTxtBox = new NpTextBox();
     irevTxtBox.setVisibleLength(50);
     irevTxtBox.setText(Util.C.defaultRevisionSpec());
-    irevTxtBox.addStyleName("gerrit-InputFieldTypeHint");
+    irevTxtBox.addStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
     irevTxtBox.addFocusHandler(new FocusHandler() {
       @Override
       public void onFocus(FocusEvent event) {
         if (Util.C.defaultRevisionSpec().equals(irevTxtBox.getText())) {
           irevTxtBox.setText("");
-          irevTxtBox.removeStyleName("gerrit-InputFieldTypeHint");
+          irevTxtBox.removeStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
         }
       }
     });
@@ -130,7 +130,7 @@ public class ProjectBranchesPanel extends Composite {
       public void onBlur(BlurEvent event) {
         if ("".equals(irevTxtBox.getText())) {
           irevTxtBox.setText(Util.C.defaultRevisionSpec());
-          irevTxtBox.addStyleName("gerrit-InputFieldTypeHint");
+          irevTxtBox.addStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
         }
       }
     });
@@ -215,10 +215,10 @@ public class ProjectBranchesPanel extends Composite {
       table.setText(0, 3, Util.C.columnBranchRevision());
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
-      fmt.addStyleName(0, 1, S_ICON_HEADER);
-      fmt.addStyleName(0, 2, S_DATA_HEADER);
-      fmt.addStyleName(0, 3, S_DATA_HEADER);
-      fmt.addStyleName(0, 4, S_DATA_HEADER);
+      fmt.addStyleName(0, 1, Gerrit.RESOURCES.css().iconHeader());
+      fmt.addStyleName(0, 2, Gerrit.RESOURCES.css().dataHeader());
+      fmt.addStyleName(0, 3, Gerrit.RESOURCES.css().dataHeader());
+      fmt.addStyleName(0, 4, Gerrit.RESOURCES.css().dataHeader());
     }
 
     void deleteChecked() {
@@ -277,10 +277,10 @@ public class ProjectBranchesPanel extends Composite {
       }
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
-      fmt.addStyleName(row, 1, S_ICON_CELL);
-      fmt.addStyleName(row, 2, S_DATA_CELL);
-      fmt.addStyleName(row, 3, S_DATA_CELL);
-      fmt.addStyleName(row, 4, S_DATA_CELL);
+      fmt.addStyleName(row, 1, Gerrit.RESOURCES.css().iconCell());
+      fmt.addStyleName(row, 2, Gerrit.RESOURCES.css().dataCell());
+      fmt.addStyleName(row, 3, Gerrit.RESOURCES.css().dataCell());
+      fmt.addStyleName(row, 4, Gerrit.RESOURCES.css().dataCell());
 
       setRowItem(row, k);
     }

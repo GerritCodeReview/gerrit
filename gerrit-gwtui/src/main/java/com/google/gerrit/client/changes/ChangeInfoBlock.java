@@ -16,6 +16,7 @@ package com.google.gerrit.client.changes;
 
 import static com.google.gerrit.client.FormatUtil.mediumFormat;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.ui.AccountDashboardLink;
 import com.google.gerrit.client.ui.ChangeLink;
 import com.google.gerrit.client.ui.ProjectLink;
@@ -43,8 +44,8 @@ public class ChangeInfoBlock extends Composite {
 
   public ChangeInfoBlock() {
     table = new Grid(R_CNT, 2);
-    table.setStyleName("gerrit-InfoBlock");
-    table.addStyleName("gerrit-ChangeInfoBlock");
+    table.setStyleName(Gerrit.RESOURCES.css().infoBlock());
+    table.addStyleName(Gerrit.RESOURCES.css().changeInfoBlock());
 
     initRow(R_CHANGE_ID, "Change-Id: ");
     initRow(R_OWNER, Util.C.changeInfoBlockOwner());
@@ -55,19 +56,19 @@ public class ChangeInfoBlock extends Composite {
     initRow(R_STATUS, Util.C.changeInfoBlockStatus());
 
     final CellFormatter fmt = table.getCellFormatter();
-    fmt.addStyleName(0, 0, "topmost");
-    fmt.addStyleName(0, 1, "topmost");
-    fmt.addStyleName(R_CHANGE_ID, 1, "changeid");
-    fmt.addStyleName(R_CNT - 2, 0, "bottomheader");
-    fmt.addStyleName(R_PERMALINK, 0, "permalink");
-    fmt.addStyleName(R_PERMALINK, 1, "permalink");
+    fmt.addStyleName(0, 0, Gerrit.RESOURCES.css().topmost());
+    fmt.addStyleName(0, 1, Gerrit.RESOURCES.css().topmost());
+    fmt.addStyleName(R_CHANGE_ID, 1, Gerrit.RESOURCES.css().changeid());
+    fmt.addStyleName(R_CNT - 2, 0, Gerrit.RESOURCES.css().bottomheader());
+    fmt.addStyleName(R_PERMALINK, 0, Gerrit.RESOURCES.css().permalink());
+    fmt.addStyleName(R_PERMALINK, 1, Gerrit.RESOURCES.css().permalink());
 
     initWidget(table);
   }
 
   private void initRow(final int row, final String name) {
     table.setText(row, 0, name);
-    table.getCellFormatter().addStyleName(row, 0, "header");
+    table.getCellFormatter().addStyleName(row, 0, Gerrit.RESOURCES.css().header());
   }
 
   public void display(final Change chg, final AccountInfoCache acc) {
@@ -81,9 +82,9 @@ public class ChangeInfoBlock extends Composite {
     table.setText(R_STATUS, 1, Util.toLongString(chg.getStatus()));
 
     if (chg.getStatus().isClosed()) {
-      table.getCellFormatter().addStyleName(R_STATUS, 1, "closedstate");
+      table.getCellFormatter().addStyleName(R_STATUS, 1, Gerrit.RESOURCES.css().closedstate());
     } else {
-      table.getCellFormatter().removeStyleName(R_STATUS, 1, "closedstate");
+      table.getCellFormatter().removeStyleName(R_STATUS, 1, Gerrit.RESOURCES.css().closedstate());
     }
 
     final FlowPanel fp = new FlowPanel();

@@ -28,6 +28,9 @@ public interface Resources extends ClientBundle {
   @Source("prettify.js")
   TextResource core();
 
+  @Source("lang-apollo.js")
+  TextResource lang_apollo();
+
   @Source("lang-css.js")
   TextResource lang_css();
 

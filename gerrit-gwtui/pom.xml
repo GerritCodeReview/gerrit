@@ -216,8 +216,11 @@ limitations under the License.
                 <mkdir dir="${app}"/>
                 <apply executable="gzip" addsourcefile="false">
                   <arg value="-9"/>
-                  <fileset dir="${app}"
-                           includes="**/*.html,**/*.css"/>
+                  <fileset dir="${app}">
+                    <include name="**/*.html"/>
+                    <include name="**/*.css"/>
+                    <include name="deferredjs/**/*.js"/>
+                  </fileset>
                   <redirector>
                     <inputmapper type="glob" from="*" to="${app}/*"/>
                     <outputmapper type="glob" from="*" to="${app}/*.gz"/>

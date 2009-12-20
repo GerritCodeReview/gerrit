@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.ui;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.HistoryHandler;
 import com.google.gerrit.client.changes.ByProjectAbandonedChangesScreen;
 import com.google.gerrit.client.changes.ByProjectMergedChangesScreen;
@@ -39,7 +40,11 @@ public class ProjectLink extends DirectScreenLink {
   }
 
   @Override
-  protected Screen createScreen() {
+  public void go() {
+    Gerrit.display(getTargetHistoryToken(), createScreen());
+  }
+
+  private Screen createScreen() {
     switch (status) {
       case ABANDONED:
         return new ByProjectAbandonedChangesScreen(project, "n,z");

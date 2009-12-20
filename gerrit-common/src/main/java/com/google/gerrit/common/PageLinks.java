@@ -35,9 +35,10 @@ public class PageLinks {
   public static final String MINE_STARRED = "mine,starred";
   public static final String MINE_DRAFTS = "mine,drafts";
 
-  public static final String ALL_ABANDONED = "all,abandoned,n,z";
-  public static final String ALL_MERGED = "all,merged,n,z";
-  public static final String ALL_OPEN = "all,open,n,z";
+  public static final String TOP = "n,z";
+  public static final String ALL_ABANDONED = "all,abandoned," + TOP;
+  public static final String ALL_MERGED = "all,merged," + TOP;
+  public static final String ALL_OPEN = "all,open," + TOP;
 
   public static final String ADMIN_GROUPS = "admin,groups";
   public static final String ADMIN_PROJECTS = "admin,projects";
@@ -59,7 +60,7 @@ public class PageLinks {
   }
 
   public static String toChangeQuery(final String query) {
-    return "q," + KeyUtil.encode(query) + ",n,z";
+    return "q," + KeyUtil.encode(query) + "," + TOP;
   }
 
   protected PageLinks() {

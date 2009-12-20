@@ -16,7 +16,6 @@ package com.google.gerrit.client.ui;
 
 import com.google.gerrit.client.HistoryHandler;
 import com.google.gerrit.client.changes.PatchTable;
-import com.google.gerrit.client.patches.PatchScreen;
 import com.google.gerrit.reviewdb.Patch;
 
 public abstract class PatchLink extends DirectScreenLink {
@@ -31,35 +30,38 @@ public abstract class PatchLink extends DirectScreenLink {
    * @param historyToken The history token
    * @param parentPatchTable The table used to display this link
    */
-  public PatchLink(final String text, final Patch.Key patchKey, final int patchIndex,
-      final String historyToken, PatchTable parentPatchTable) {
+  public PatchLink(final String text, final Patch.Key patchKey,
+      final int patchIndex, final String historyToken,
+      PatchTable parentPatchTable) {
     super(text, historyToken);
     this.patchKey = patchKey;
     this.patchIndex = patchIndex;
     this.parentPatchTable = parentPatchTable;
   }
 
-  public static class SideBySide extends PatchLink {
-    public SideBySide(final String text, final Patch.Key patchKey, final int patchIndex,
-        PatchTable parentPatchTable) {
-      super(text, patchKey, patchIndex, HistoryHandler.toPatchSideBySide(patchKey), parentPatchTable);
-    }
+  @Override
+  public void go() {
+    HistoryHandler.patch( //
+        getTargetHistoryToken(), //
+        patchKey, //
+        patchIndex, //
+        parentPatchTable //
+        );
+  }
 
-    @Override
-    protected Screen createScreen() {
-      return new PatchScreen.SideBySide(patchKey, patchIndex, parentPatchTable);
+  public static class SideBySide extends PatchLink {
+    public SideBySide(final String text, final Patch.Key patchKey,
+        final int patchIndex, PatchTable parentPatchTable) {
+      super(text, patchKey, patchIndex, HistoryHandler
+          .toPatchSideBySide(patchKey), parentPatchTable);
     }
   }
 
   public static class Unified extends PatchLink {
-    public Unified(final String text, final Patch.Key patchKey, final int patchIndex,
-        PatchTable parentPatchTable) {
-      super(text, patchKey, patchIndex, HistoryHandler.toPatchUnified(patchKey), parentPatchTable);
-    }
-
-    @Override
-    protected Screen createScreen() {
-      return new PatchScreen.Unified(patchKey, patchIndex, parentPatchTable);
+    public Unified(final String text, final Patch.Key patchKey,
+        final int patchIndex, PatchTable parentPatchTable) {
+      super(text, patchKey, patchIndex,
+          HistoryHandler.toPatchUnified(patchKey), parentPatchTable);
     }
   }
 }

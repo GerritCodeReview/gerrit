@@ -55,6 +55,8 @@ limitations under the License.
     <guiceVersion>2.0</guiceVersion>
     <jettyVersion>7.0.1.v20091125</jettyVersion>
 
+    <gwt.soyc>false</gwt.soyc>
+
     <project.build.sourceEncoding>
       UTF-8
     </project.build.sourceEncoding>

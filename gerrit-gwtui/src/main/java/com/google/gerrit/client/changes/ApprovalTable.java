@@ -62,7 +62,7 @@ public class ApprovalTable extends Composite {
   public ApprovalTable() {
     types = Gerrit.getConfig().getApprovalTypes().getApprovalTypes();
     table = new Grid(1, 3 + types.size());
-    table.addStyleName("gerrit-InfoTable");
+    table.addStyleName(Gerrit.RESOURCES.css().infoTable());
     displayHeader();
 
     missing = new Widget() {
@@ -70,10 +70,10 @@ public class ApprovalTable extends Composite {
         setElement(DOM.createElement("ul"));
       }
     };
-    missing.setStyleName("gerrit-MissingApprovalList");
+    missing.setStyleName(Gerrit.RESOURCES.css().missingApprovalList());
 
     addReviewer = new FlowPanel();
-    addReviewer.setStyleName("gerrit-AddReviewer");
+    addReviewer.setStyleName(Gerrit.RESOURCES.css().addReviewer());
     addMemberBox = new AddMemberBox();
     addMemberBox.setAddButtonText(Util.C.approvalTableAddReviewer());
     addMemberBox.addClickHandler(new ClickHandler() {
@@ -91,7 +91,7 @@ public class ApprovalTable extends Composite {
     fp.add(addReviewer);
     initWidget(fp);
 
-    setStyleName("gerrit-ApprovalTable");
+    setStyleName(Gerrit.RESOURCES.css().approvalTable());
   }
 
   private void displayHeader() {
@@ -107,22 +107,21 @@ public class ApprovalTable extends Composite {
 
   private void header(final int col, final String title) {
     table.setText(0, col, title);
-    table.getCellFormatter().addStyleName(0, col, "header");
+    table.getCellFormatter().addStyleName(0, col, Gerrit.RESOURCES.css().header());
   }
 
   private void applyEdgeStyles(final int row) {
     final CellFormatter fmt = table.getCellFormatter();
-    fmt.addStyleName(row, 0, "leftmost");
-    fmt.addStyleName(row, 0, "reviewer");
-    fmt.addStyleName(row, 1, "approvalrole");
-    fmt.addStyleName(row, 1 + types.size(), "rightmost");
-    fmt.addStyleName(row, 2 + types.size(), "approvalhint");
+    fmt.addStyleName(row, 0, Gerrit.RESOURCES.css().leftmost());
+    fmt.addStyleName(row, 1, Gerrit.RESOURCES.css().approvalrole());
+    fmt.addStyleName(row, 1 + types.size(), Gerrit.RESOURCES.css().rightmost());
+    fmt.addStyleName(row, 2 + types.size(), Gerrit.RESOURCES.css().approvalhint());
   }
 
   private void applyScoreStyles(final int row) {
     final CellFormatter fmt = table.getCellFormatter();
     for (int col = 0; col < types.size(); col++) {
-      fmt.addStyleName(row, 2 + col, "approvalscore");
+      fmt.addStyleName(row, 2 + col, Gerrit.RESOURCES.css().approvalscore());
     }
   }
 
@@ -167,7 +166,7 @@ public class ApprovalTable extends Composite {
       for (final ApprovalType at : types) {
         if (need.contains(at.getCategory().getId())) {
           final Element li = DOM.createElement("li");
-          li.setClassName("gerrit-MissingApproval");
+          li.setClassName(Gerrit.RESOURCES.css().missingApproval());
           DOM.setInnerText(li, Util.M.needApproval(at.getCategory().getName(),
               at.getMax().formatValue(), at.getMax().getName()));
           DOM.appendChild(missingList, li);
@@ -268,11 +267,11 @@ public class ApprovalTable extends Composite {
         String vstr = String.valueOf(ca.getValue());
         if (ca.getValue() > 0) {
           vstr = "+" + vstr;
-          fmt.removeStyleName(row, col, "negscore");
-          fmt.addStyleName(row, col, "posscore");
+          fmt.removeStyleName(row, col, Gerrit.RESOURCES.css().negscore());
+          fmt.addStyleName(row, col, Gerrit.RESOURCES.css().posscore());
         } else {
-          fmt.addStyleName(row, col, "negscore");
-          fmt.removeStyleName(row, col, "posscore");
+          fmt.addStyleName(row, col, Gerrit.RESOURCES.css().negscore());
+          fmt.removeStyleName(row, col, Gerrit.RESOURCES.css().posscore());
         }
         table.setText(row, col, vstr);
       }

@@ -137,12 +137,12 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
     final boolean clear = 0 <= currentRow && currentRow < table.getRowCount();
     if (clear) {
       final Element tr = DOM.getParent(fmt.getElement(currentRow, C_ARROW));
-      UIObject.setStyleName(tr, S_ACTIVE_ROW, false);
+      UIObject.setStyleName(tr, Gerrit.RESOURCES.css().activeRow(), false);
     }
     if (newRow >= 0) {
       table.setWidget(newRow, C_ARROW, pointer);
       final Element tr = DOM.getParent(fmt.getElement(newRow, C_ARROW));
-      UIObject.setStyleName(tr, S_ACTIVE_ROW, true);
+      UIObject.setStyleName(tr, Gerrit.RESOURCES.css().activeRow(), true);
       if (scroll) {
         scrollIntoView(tr);
       }

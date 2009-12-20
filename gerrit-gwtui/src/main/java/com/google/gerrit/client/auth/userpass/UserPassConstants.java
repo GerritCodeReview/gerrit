@@ -12,18 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.auth.openid;
+package com.google.gerrit.client.auth.userpass;
 
-import com.google.gwt.resources.client.ClientBundle;
-import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.i18n.client.Constants;
 
-public interface LoginResources extends ClientBundle {
-  @Source("openidLogo.png")
-  public ImageResource openidLogo();
-
-  @Source("iconGoogle.gif")
-  public ImageResource iconGoogle();
-
-  @Source("iconYahoo.gif")
-  public ImageResource iconYahoo();
+public interface UserPassConstants extends Constants {
+  String buttonSignIn();
+  String username();
+  String password();
+  String invalidLogin();
+  String usernameRequired();
+  String passwordRequired();
 }

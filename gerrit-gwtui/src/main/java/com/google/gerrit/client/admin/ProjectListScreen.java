@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.admin;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.HistoryHandler;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.AccountScreen;
@@ -56,7 +57,7 @@ public class ProjectListScreen extends AccountScreen {
     add(projects);
 
     final VerticalPanel fp = new VerticalPanel();
-    fp.setStyleName("gerrit-AddSshKeyPanel");
+    fp.setStyleName(Gerrit.RESOURCES.css().addSshKeyPanel());
     fp.add(new SmallHeading(Util.C.headingCreateGroup()));
   }
 
@@ -89,8 +90,8 @@ public class ProjectListScreen extends AccountScreen {
       });
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
-      fmt.addStyleName(0, 1, S_DATA_HEADER);
-      fmt.addStyleName(0, 2, S_DATA_HEADER);
+      fmt.addStyleName(0, 1, Gerrit.RESOURCES.css().dataHeader());
+      fmt.addStyleName(0, 2, Gerrit.RESOURCES.css().dataHeader());
     }
 
     @Override
@@ -124,9 +125,9 @@ public class ProjectListScreen extends AccountScreen {
       table.setText(row, 2, k.getDescription());
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
-      fmt.addStyleName(row, 1, S_DATA_CELL);
-      fmt.addStyleName(row, 1, "C_PROJECT");
-      fmt.addStyleName(row, 2, S_DATA_CELL);
+      fmt.addStyleName(row, 1, Gerrit.RESOURCES.css().dataCell());
+      fmt.addStyleName(row, 1, Gerrit.RESOURCES.css().cPROJECT());
+      fmt.addStyleName(row, 2, Gerrit.RESOURCES.css().dataCell());
 
       setRowItem(row, k);
     }

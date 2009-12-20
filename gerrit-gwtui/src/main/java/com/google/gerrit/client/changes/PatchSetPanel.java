@@ -78,20 +78,20 @@ class PatchSetPanel extends Composite implements OpenHandler<DisclosurePanel> {
    */
   public void ensureLoaded(final PatchSetDetail detail) {
     infoTable = new Grid(R_CNT, 2);
-    infoTable.setStyleName("gerrit-InfoBlock");
-    infoTable.addStyleName("gerrit-PatchSetInfoBlock");
+    infoTable.setStyleName(Gerrit.RESOURCES.css().infoBlock());
+    infoTable.addStyleName(Gerrit.RESOURCES.css().patchSetInfoBlock());
 
     initRow(R_AUTHOR, Util.C.patchSetInfoAuthor());
     initRow(R_COMMITTER, Util.C.patchSetInfoCommitter());
     initRow(R_DOWNLOAD, Util.C.patchSetInfoDownload());
 
     final CellFormatter itfmt = infoTable.getCellFormatter();
-    itfmt.addStyleName(0, 0, "topmost");
-    itfmt.addStyleName(0, 1, "topmost");
-    itfmt.addStyleName(R_CNT - 1, 0, "bottomheader");
-    itfmt.addStyleName(R_AUTHOR, 1, "useridentity");
-    itfmt.addStyleName(R_COMMITTER, 1, "useridentity");
-    itfmt.addStyleName(R_DOWNLOAD, 1, "command");
+    itfmt.addStyleName(0, 0, Gerrit.RESOURCES.css().topmost());
+    itfmt.addStyleName(0, 1, Gerrit.RESOURCES.css().topmost());
+    itfmt.addStyleName(R_CNT - 1, 0, Gerrit.RESOURCES.css().bottomheader());
+    itfmt.addStyleName(R_AUTHOR, 1, Gerrit.RESOURCES.css().useridentity());
+    itfmt.addStyleName(R_COMMITTER, 1, Gerrit.RESOURCES.css().useridentity());
+    itfmt.addStyleName(R_DOWNLOAD, 1, Gerrit.RESOURCES.css().command());
 
     final PatchSetInfo info = detail.getInfo();
     displayUserIdentity(R_AUTHOR, info.getAuthor());
@@ -106,7 +106,7 @@ class PatchSetPanel extends Composite implements OpenHandler<DisclosurePanel> {
     body.add(infoTable);
 
     actionsPanel = new FlowPanel();
-    actionsPanel.setStyleName("gerrit-PatchSetActions");
+    actionsPanel.setStyleName(Gerrit.RESOURCES.css().patchSetActions());
     body.add(actionsPanel);
     if (Gerrit.isSignedIn()) {
       populateCommentAction();
@@ -188,14 +188,14 @@ class PatchSetPanel extends Composite implements OpenHandler<DisclosurePanel> {
     }
 
     final FlowPanel fp = new FlowPanel();
-    fp.setStyleName("gerrit-PatchSetUserIdentity");
+    fp.setStyleName(Gerrit.RESOURCES.css().patchSetUserIdentity());
     if (who.getName() != null) {
       final Account.Id aId = who.getAccount();
       if (aId != null) {
         fp.add(new AccountDashboardLink(who.getName(), aId));
       } else {
         final InlineLabel lbl = new InlineLabel(who.getName());
-        lbl.setStyleName("gerrit-AccountName");
+        lbl.setStyleName(Gerrit.RESOURCES.css().accountName());
         fp.add(lbl);
       }
     }
@@ -287,7 +287,7 @@ class PatchSetPanel extends Composite implements OpenHandler<DisclosurePanel> {
 
   private void initRow(final int row, final String name) {
     infoTable.setText(row, 0, name);
-    infoTable.getCellFormatter().addStyleName(row, 0, "header");
+    infoTable.getCellFormatter().addStyleName(row, 0, Gerrit.RESOURCES.css().header());
   }
 
   private void onSubmitResult(final ChangeDetail result) {

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.account;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.common.data.SshHostKey;
 import com.google.gwt.user.client.ui.Composite;
@@ -25,25 +26,25 @@ import com.google.gwtexpui.clippy.client.CopyableLabel;
 class SshHostKeyPanel extends Composite {
   SshHostKeyPanel(final SshHostKey info) {
     final FlowPanel body = new FlowPanel();
-    body.setStyleName("gerrit-SshHostKeyPanel");
+    body.setStyleName(Gerrit.RESOURCES.css().sshHostKeyPanel());
     body.add(new SmallHeading(Util.C.sshHostKeyTitle()));
     {
       final Label fpLbl = new Label(Util.C.sshHostKeyFingerprint());
-      fpLbl.setStyleName("gerrit-SshHostKeyPanel-Heading");
+      fpLbl.setStyleName(Gerrit.RESOURCES.css().sshHostKeyPanelHeading());
       body.add(fpLbl);
       final Label fpVal = new Label(info.getFingerprint());
-      fpVal.setStyleName("gerrit-SshHostKeyPanel-FingerprintData");
+      fpVal.setStyleName(Gerrit.RESOURCES.css().sshHostKeyPanelFingerprintData());
       body.add(fpVal);
     }
     {
       final HTML hdr = new HTML(Util.C.sshHostKeyKnownHostEntry());
-      hdr.setStyleName("gerrit-SshHostKeyPanel-Heading");
+      hdr.setStyleName(Gerrit.RESOURCES.css().sshHostKeyPanelHeading());
       body.add(hdr);
 
       final CopyableLabel lbl;
       lbl = new CopyableLabel(info.getHostIdent() + " " + info.getHostKey());
       lbl.setPreviewText(SshPanel.elide(lbl.getText(), 80));
-      lbl.addStyleName("gerrit-SshHostKeyPanel-KnownHostEntry");
+      lbl.addStyleName(Gerrit.RESOURCES.css().sshHostKeyPanelKnownHostEntry());
       body.add(lbl);
     }
     initWidget(body);

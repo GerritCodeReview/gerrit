@@ -12,20 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.auth.openid;
+package com.google.gerrit.client.auth.userpass;
 
-import com.google.gwt.i18n.client.Constants;
+import com.google.gwt.resources.client.CssResource;
 
-public interface LoginConstants extends Constants {
-  String buttonSignIn();
-  String buttonRegister();
-  String buttonLinkId();
-
-  String rememberMe();
-  String notSupported();
-
-  String nameGoogle();
-  String nameYahoo();
-
-  String whatIsOpenIDHtml();
+public interface UserPassCss extends CssResource {
+  String loginForm();
+  String error();
 }

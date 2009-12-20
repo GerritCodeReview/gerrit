@@ -41,18 +41,18 @@ class SearchPanel extends Composite {
   SearchPanel() {
     final FlowPanel body = new FlowPanel();
     initWidget(body);
-    setStyleName("gerrit-SearchPanel");
+    setStyleName(Gerrit.RESOURCES.css().searchPanel());
 
     searchBox = new NpTextBox();
     searchBox.setVisibleLength(46);
     searchBox.setText(Gerrit.C.searchHint());
-    searchBox.addStyleName("gerrit-InputFieldTypeHint");
+    searchBox.addStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
     searchBox.addFocusHandler(new FocusHandler() {
       @Override
       public void onFocus(FocusEvent event) {
         if (Gerrit.C.searchHint().equals(searchBox.getText())) {
           searchBox.setText("");
-          searchBox.removeStyleName("gerrit-InputFieldTypeHint");
+          searchBox.removeStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
         }
       }
     });
@@ -61,7 +61,7 @@ class SearchPanel extends Composite {
       public void onBlur(BlurEvent event) {
         if ("".equals(searchBox.getText())) {
           searchBox.setText(Gerrit.C.searchHint());
-          searchBox.addStyleName("gerrit-InputFieldTypeHint");
+          searchBox.addStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
         }
       }
     });
@@ -95,10 +95,10 @@ class SearchPanel extends Composite {
   void setText(final String query) {
     if (query == null || query.equals("")) {
       searchBox.setText(Gerrit.C.searchHint());
-      searchBox.addStyleName("gerrit-InputFieldTypeHint");
+      searchBox.addStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
     } else {
       searchBox.setText(query);
-      searchBox.removeStyleName("gerrit-InputFieldTypeHint");
+      searchBox.removeStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
     }
   }
 

@@ -20,7 +20,6 @@ import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.common.auth.SignInMode;
 import com.google.gerrit.common.auth.openid.DiscoveryResult;
 import com.google.gerrit.common.auth.openid.OpenIdUrls;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.FormElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -50,7 +49,10 @@ import java.util.Map;
 
 public class OpenIdSignInDialog extends SignInDialog implements
     FormPanel.SubmitHandler {
-  private final LoginResources icons;
+  static {
+    OpenIdResources.I.css().ensureInjected();
+  }
+
   private final FlowPanel panelWidget;
   private final FormPanel form;
   private final FlowPanel formBody;
@@ -69,10 +71,8 @@ public class OpenIdSignInDialog extends SignInDialog implements
       final String initialErrorMsg) {
     super(requestedMode);
 
-    icons = GWT.create(LoginResources.class);
-
     formBody = new FlowPanel();
-    formBody.setStyleName("gerrit-OpenID-loginform");
+    formBody.setStyleName(OpenIdResources.I.css().loginForm());
 
     form = new FormPanel();
     form.setMethod(FormPanel.METHOD_GET);
@@ -94,8 +94,8 @@ public class OpenIdSignInDialog extends SignInDialog implements
     createErrorBox();
     createIdentBox();
 
-    link(OpenIdUrls.URL_GOOGLE, OpenIdUtil.C.nameGoogle(), icons.iconGoogle());
-    link(OpenIdUrls.URL_YAHOO, OpenIdUtil.C.nameYahoo(), icons.iconYahoo());
+    link(OpenIdUrls.URL_GOOGLE, OpenIdUtil.C.nameGoogle(), OpenIdResources.I.iconGoogle());
+    link(OpenIdUrls.URL_YAHOO, OpenIdUtil.C.nameYahoo(), OpenIdResources.I.iconYahoo());
 
     if (initialErrorMsg != null) {
       showError(initialErrorMsg);
@@ -117,8 +117,8 @@ public class OpenIdSignInDialog extends SignInDialog implements
 
   private void createHeaderLogo() {
     final FlowPanel headerLogo = new FlowPanel();
-    headerLogo.setStyleName("gerrit-OpenID-logobox");
-    headerLogo.add(new Image(icons.openidLogo()));
+    headerLogo.setStyleName(OpenIdResources.I.css().logo());
+    headerLogo.add(new Image(OpenIdResources.I.openidLogo()));
     formBody.add(headerLogo);
   }
 
@@ -145,7 +145,7 @@ public class OpenIdSignInDialog extends SignInDialog implements
   private void createErrorBox() {
     errorLine = new FlowPanel();
     DOM.setStyleAttribute(errorLine.getElement(), "visibility", "hidden");
-    errorLine.setStyleName("gerrit-OpenID-errorline");
+    errorLine.setStyleName(OpenIdResources.I.css().error());
 
     errorMsg = new InlineLabel();
     errorLine.add(errorMsg);
@@ -163,14 +163,14 @@ public class OpenIdSignInDialog extends SignInDialog implements
 
   private void createIdentBox() {
     final FlowPanel group = new FlowPanel();
-    group.setStyleName("gerrit-OpenID-loginline");
+    group.setStyleName(OpenIdResources.I.css().loginLine());
 
     final FlowPanel line1 = new FlowPanel();
     group.add(line1);
 
     providerId = new NpTextBox();
     providerId.setVisibleLength(60);
-    providerId.setStyleName("gerrit-OpenID-openid_identifier");
+    providerId.setStyleName(OpenIdResources.I.css().identifier());
     providerId.setTabIndex(0);
     providerId.addKeyPressHandler(new KeyPressHandler() {
       @Override
@@ -233,7 +233,7 @@ public class OpenIdSignInDialog extends SignInDialog implements
     };
 
     final FlowPanel line = new FlowPanel();
-    line.addStyleName("gerrit-OpenID-directlink");
+    line.addStyleName(OpenIdResources.I.css().directLink());
 
     final Image img = new Image(icon);
     img.addClickHandler(i);

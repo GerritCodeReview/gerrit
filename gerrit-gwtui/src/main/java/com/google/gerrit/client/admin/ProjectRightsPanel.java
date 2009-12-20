@@ -100,7 +100,7 @@ public class ProjectRightsPanel extends Composite {
 
   private void initRights(final Panel body) {
     final FlowPanel addPanel = new FlowPanel();
-    addPanel.setStyleName("gerrit-AddSshKeyPanel");
+    addPanel.setStyleName(Gerrit.RESOURCES.css().addSshKeyPanel());
 
     final Grid addGrid = new Grid(4, 2);
 
@@ -145,13 +145,13 @@ public class ProjectRightsPanel extends Composite {
     nameTxt = new SuggestBox(new AccountGroupSuggestOracle(), nameTxtBox);
     nameTxtBox.setVisibleLength(50);
     nameTxtBox.setText(Util.C.defaultAccountGroupName());
-    nameTxtBox.addStyleName("gerrit-InputFieldTypeHint");
+    nameTxtBox.addStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
     nameTxtBox.addFocusHandler(new FocusHandler() {
       @Override
       public void onFocus(FocusEvent event) {
         if (Util.C.defaultAccountGroupName().equals(nameTxtBox.getText())) {
           nameTxtBox.setText("");
-          nameTxtBox.removeStyleName("gerrit-InputFieldTypeHint");
+          nameTxtBox.removeStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
         }
       }
     });
@@ -160,7 +160,7 @@ public class ProjectRightsPanel extends Composite {
       public void onBlur(BlurEvent event) {
         if ("".equals(nameTxtBox.getText())) {
           nameTxtBox.setText(Util.C.defaultAccountGroupName());
-          nameTxtBox.addStyleName("gerrit-InputFieldTypeHint");
+          nameTxtBox.addStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
         }
       }
     });
@@ -323,10 +323,10 @@ public class ProjectRightsPanel extends Composite {
       table.setText(0, 4, Util.C.columnRightRange());
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
-      fmt.addStyleName(0, 1, S_ICON_HEADER);
-      fmt.addStyleName(0, 2, S_DATA_HEADER);
-      fmt.addStyleName(0, 3, S_DATA_HEADER);
-      fmt.addStyleName(0, 4, S_DATA_HEADER);
+      fmt.addStyleName(0, 1, Gerrit.RESOURCES.css().iconHeader());
+      fmt.addStyleName(0, 2, Gerrit.RESOURCES.css().dataHeader());
+      fmt.addStyleName(0, 3, Gerrit.RESOURCES.css().dataHeader());
+      fmt.addStyleName(0, 4, Gerrit.RESOURCES.css().dataHeader());
     }
 
     void deleteChecked() {
@@ -409,11 +409,11 @@ public class ProjectRightsPanel extends Composite {
       }
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
-      fmt.addStyleName(row, 1, S_ICON_CELL);
-      fmt.addStyleName(row, 2, S_DATA_CELL);
-      fmt.addStyleName(row, 3, S_DATA_CELL);
-      fmt.addStyleName(row, 4, S_DATA_CELL);
-      fmt.addStyleName(row, 4, "gerrit-ProjectAdmin-ApprovalCategoryRangeLine");
+      fmt.addStyleName(row, 1, Gerrit.RESOURCES.css().iconCell());
+      fmt.addStyleName(row, 2, Gerrit.RESOURCES.css().dataCell());
+      fmt.addStyleName(row, 3, Gerrit.RESOURCES.css().dataCell());
+      fmt.addStyleName(row, 4, Gerrit.RESOURCES.css().dataCell());
+      fmt.addStyleName(row, 4, Gerrit.RESOURCES.css().projectAdminApprovalCategoryRangeLine());
 
       setRowItem(row, k);
     }
@@ -421,7 +421,7 @@ public class ProjectRightsPanel extends Composite {
     private void formatValue(final SafeHtmlBuilder m, final short v,
         final ApprovalCategoryValue e) {
       m.openSpan();
-      m.setStyleName("gerrit-ProjectAdmin-ApprovalCategoryValue");
+      m.setStyleName(Gerrit.RESOURCES.css().projectAdminApprovalCategoryValue());
       if (v == 0) {
         m.append(' ');
       } else if (v > 0) {

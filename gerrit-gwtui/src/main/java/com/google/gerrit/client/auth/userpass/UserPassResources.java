@@ -12,21 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client.auth.openid;
+package com.google.gerrit.client.auth.userpass;
 
-import com.google.gerrit.common.auth.openid.OpenIdService;
 import com.google.gwt.core.client.GWT;
-import com.google.gwtjsonrpc.client.JsonUtil;
+import com.google.gwt.resources.client.ClientBundle;
 
-public class OpenIdUtil {
-  public static final OpenIdConstants C;
-  public static final OpenIdMessages M;
-  public static final OpenIdService SVC;
+interface UserPassResources extends ClientBundle {
+  static final UserPassResources I = GWT.create(UserPassResources.class);
 
-  static {
-    C = GWT.create(OpenIdConstants.class);
-    M = GWT.create(OpenIdMessages.class);
-    SVC = GWT.create(OpenIdService.class);
-    JsonUtil.bind(SVC, "rpc/OpenIdService");
-  }
+  @Source("userpass.css")
+  UserPassCss css();
 }

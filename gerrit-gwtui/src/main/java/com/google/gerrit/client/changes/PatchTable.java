@@ -256,7 +256,7 @@ public class PatchTable extends Composite {
           text = Util.M.otherFrom(patch.getSourceFileName());
         }
         final Label line = new Label(text);
-        line.setStyleName("SourceFilePath");
+        line.setStyleName(Gerrit.RESOURCES.css().sourceFilePath());
         final FlowPanel cell = new FlowPanel();
         cell.add(nameCol);
         cell.add(line);
@@ -283,32 +283,32 @@ public class PatchTable extends Composite {
 
       // Cursor
       m.openTd();
-      m.addStyleName(S_ICON_HEADER);
-      m.addStyleName("LeftMostCell");
+      m.addStyleName(Gerrit.RESOURCES.css().iconHeader());
+      m.addStyleName(Gerrit.RESOURCES.css().leftMostCell());
       m.nbsp();
       m.closeTd();
 
       // Mode
       m.openTd();
-      m.setStyleName(S_ICON_HEADER);
+      m.setStyleName(Gerrit.RESOURCES.css().iconHeader());
       m.nbsp();
       m.closeTd();
 
       // "File path"
       m.openTd();
-      m.setStyleName(S_DATA_HEADER);
+      m.setStyleName(Gerrit.RESOURCES.css().dataHeader());
       m.append(Util.C.patchTableColumnName());
       m.closeTd();
 
       // "Comments"
       m.openTd();
-      m.setStyleName(S_DATA_HEADER);
+      m.setStyleName(Gerrit.RESOURCES.css().dataHeader());
       m.append(Util.C.patchTableColumnComments());
       m.closeTd();
 
       // "Diff"
       m.openTd();
-      m.setStyleName(S_DATA_HEADER);
+      m.setStyleName(Gerrit.RESOURCES.css().dataHeader());
       m.setAttribute("colspan", 3);
       m.append(Util.C.patchTableColumnDiff());
       m.closeTd();
@@ -316,7 +316,7 @@ public class PatchTable extends Composite {
       // "Reviewed"
       if (Gerrit.isSignedIn()) {
         m.openTd();
-        m.setStyleName(S_ICON_HEADER);
+        m.setStyleName(Gerrit.RESOURCES.css().iconHeader());
         m.append(Util.C.reviewed());
         m.closeTd();
       }
@@ -328,24 +328,24 @@ public class PatchTable extends Composite {
       m.openTr();
 
       m.openTd();
-      m.addStyleName(S_ICON_CELL);
-      m.addStyleName("LeftMostCell");
+      m.addStyleName(Gerrit.RESOURCES.css().iconCell());
+      m.addStyleName(Gerrit.RESOURCES.css().leftMostCell());
       m.nbsp();
       m.closeTd();
 
       m.openTd();
-      m.setStyleName("ChangeTypeCell");
+      m.setStyleName(Gerrit.RESOURCES.css().changeTypeCell());
       m.append(p.getChangeType().getCode());
       m.closeTd();
 
       m.openTd();
-      m.addStyleName(S_DATA_CELL);
-      m.addStyleName("FilePathCell");
+      m.addStyleName(Gerrit.RESOURCES.css().dataCell());
+      m.addStyleName(Gerrit.RESOURCES.css().filePathCell());
       m.closeTd();
 
       m.openTd();
-      m.addStyleName(S_DATA_CELL);
-      m.addStyleName("CommentCell");
+      m.addStyleName(Gerrit.RESOURCES.css().dataCell());
+      m.addStyleName(Gerrit.RESOURCES.css().commentCell());
       appendCommentCount(m, p);
       m.closeTd();
 
@@ -398,7 +398,7 @@ public class PatchTable extends Composite {
       // Green check mark if the user is logged in and they reviewed that file
       if (Gerrit.isSignedIn()) {
         m.openTd();
-        m.setStyleName(S_DATA_CELL);
+        m.setStyleName(Gerrit.RESOURCES.css().dataCell());
         if (p.isReviewedByCurrentUser()) {
           m.openDiv();
           m.setStyleName(Gerrit.RESOURCES.css().greenCheckClass());
@@ -419,7 +419,7 @@ public class PatchTable extends Composite {
           m.append(", ");
         }
         m.openSpan();
-        m.setStyleName("Drafts");
+        m.setStyleName(Gerrit.RESOURCES.css().drafts());
         m.append(Util.M.patchTableDrafts(p.getDraftCount()));
         m.closeSpan();
       }
@@ -427,8 +427,8 @@ public class PatchTable extends Composite {
 
     private void openlink(final SafeHtmlBuilder m, final int colspan) {
       m.openTd();
-      m.addStyleName(S_DATA_CELL);
-      m.addStyleName("DiffLinkCell");
+      m.addStyleName(Gerrit.RESOURCES.css().dataCell());
+      m.addStyleName(Gerrit.RESOURCES.css().diffLinkCell());
       m.setAttribute("colspan", colspan);
     }
 
@@ -439,8 +439,8 @@ public class PatchTable extends Composite {
 
     private void emptycell(final SafeHtmlBuilder m, final int colspan) {
       m.openTd();
-      m.addStyleName(S_DATA_CELL);
-      m.addStyleName("DiffLinkCell");
+      m.addStyleName(Gerrit.RESOURCES.css().dataCell());
+      m.addStyleName(Gerrit.RESOURCES.css().diffLinkCell());
       m.setAttribute("colspan", colspan);
       m.nbsp();
       m.closeTd();

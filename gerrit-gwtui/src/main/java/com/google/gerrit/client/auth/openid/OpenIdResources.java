@@ -14,14 +14,26 @@
 
 package com.google.gerrit.client.auth.openid;
 
-import com.google.gwt.i18n.client.Messages;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.resources.client.ClientBundle;
+import com.google.gwt.resources.client.DataResource;
+import com.google.gwt.resources.client.ImageResource;
 
-public interface LoginMessages extends Messages {
-  String signInAt(String hostname);
-  String registerAt(String hostname);
-  String linkAt(String hostname);
+interface OpenIdResources extends ClientBundle {
+  static final OpenIdResources I = GWT.create(OpenIdResources.class);
 
-  String signInWith(String who);
-  String registerWith(String who);
-  String linkWith(String who);
+  @Source("openid.css")
+  OpenIdCss css();
+
+  @Source("identifierBackground.gif")
+  DataResource identifierBackground();
+
+  @Source("openidLogo.png")
+  ImageResource openidLogo();
+
+  @Source("iconGoogle.gif")
+  ImageResource iconGoogle();
+
+  @Source("iconYahoo.gif")
+  ImageResource iconYahoo();
 }

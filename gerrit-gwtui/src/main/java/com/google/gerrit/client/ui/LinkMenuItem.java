@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.ui;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.AnchorElement;
 import com.google.gwt.user.client.DOM;
@@ -27,7 +28,7 @@ public class LinkMenuItem extends InlineHyperlink {
 
   public LinkMenuItem(final String text, final String targetHistoryToken) {
     super(text, targetHistoryToken);
-    setStyleName("gerrit-MenuItem");
+    setStyleName(Gerrit.RESOURCES.css().menuItem());
     Accessibility.setRole(getElement(), Accessibility.ROLE_MENUITEM);
   }
 

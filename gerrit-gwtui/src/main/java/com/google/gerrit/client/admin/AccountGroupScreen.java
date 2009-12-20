@@ -278,7 +278,7 @@ public class AccountGroupScreen extends AccountScreen {
     });
 
     externalMatches = new Grid();
-    externalMatches.setStyleName("gerrit-InfoTable");
+    externalMatches.setStyleName(Gerrit.RESOURCES.css().infoTable());
     externalMatches.setVisible(false);
 
     final FlowPanel searchLine = new FlowPanel();
@@ -352,7 +352,7 @@ public class AccountGroupScreen extends AccountScreen {
             if (result.isEmpty()) {
               externalMatches.resize(1, 1);
               externalMatches.setText(0, 0, Util.C.errorNoMatchingGroups());
-              fmt.setStyleName(0, 0, "header");
+              fmt.setStyleName(0, 0, Gerrit.RESOURCES.css().header());
               return;
             }
 
@@ -360,8 +360,8 @@ public class AccountGroupScreen extends AccountScreen {
 
             externalMatches.setText(0, 0, Util.C.columnGroupName());
             externalMatches.setText(0, 1, "");
-            fmt.setStyleName(0, 0, "header");
-            fmt.setStyleName(0, 1, "header");
+            fmt.setStyleName(0, 0, Gerrit.RESOURCES.css().header());
+            fmt.setStyleName(0, 1, Gerrit.RESOURCES.css().header());
 
             for (int row = 0; row < result.size(); row++) {
               final AccountGroup.ExternalNameKey key = result.get(row);
@@ -374,7 +374,7 @@ public class AccountGroupScreen extends AccountScreen {
               });
               externalMatches.setText(1 + row, 0, key.get());
               externalMatches.setWidget(1 + row, 1, b);
-              fmt.setStyleName(1 + row, 1, "rightmost");
+              fmt.setStyleName(1 + row, 1, Gerrit.RESOURCES.css().rightmost());
             }
             externalMatches.setVisible(true);
 
@@ -467,9 +467,9 @@ public class AccountGroupScreen extends AccountScreen {
       table.setText(0, 3, Util.C.columnEmailAddress());
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
-      fmt.addStyleName(0, 1, S_ICON_HEADER);
-      fmt.addStyleName(0, 2, S_DATA_HEADER);
-      fmt.addStyleName(0, 3, S_DATA_HEADER);
+      fmt.addStyleName(0, 1, Gerrit.RESOURCES.css().iconHeader());
+      fmt.addStyleName(0, 2, Gerrit.RESOURCES.css().dataHeader());
+      fmt.addStyleName(0, 3, Gerrit.RESOURCES.css().dataHeader());
     }
 
     void deleteChecked() {
@@ -524,9 +524,9 @@ public class AccountGroupScreen extends AccountScreen {
       table.setText(row, 3, accounts.get(accountId).getPreferredEmail());
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
-      fmt.addStyleName(row, 1, S_ICON_CELL);
-      fmt.addStyleName(row, 2, S_DATA_CELL);
-      fmt.addStyleName(row, 3, S_DATA_CELL);
+      fmt.addStyleName(row, 1, Gerrit.RESOURCES.css().iconCell());
+      fmt.addStyleName(row, 2, Gerrit.RESOURCES.css().dataCell());
+      fmt.addStyleName(row, 3, Gerrit.RESOURCES.css().dataCell());
 
       setRowItem(row, k);
     }

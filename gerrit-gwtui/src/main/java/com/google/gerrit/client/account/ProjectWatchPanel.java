@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.account;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.client.ui.ProjectLink;
@@ -52,19 +53,18 @@ class ProjectWatchPanel extends Composite {
 
     {
       final FlowPanel fp = new FlowPanel();
-      fp.setStyleName("gerrit-ProjectWatchPanel-AddPanel");
 
       final NpTextBox box = new NpTextBox();
       nameTxt = new SuggestBox(new ProjectNameSuggestOracle(), box);
       box.setVisibleLength(50);
       box.setText(Util.C.defaultProjectName());
-      box.addStyleName("gerrit-InputFieldTypeHint");
+      box.addStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
       box.addFocusHandler(new FocusHandler() {
         @Override
         public void onFocus(FocusEvent event) {
           if (Util.C.defaultProjectName().equals(box.getText())) {
             box.setText("");
-            box.removeStyleName("gerrit-InputFieldTypeHint");
+            box.removeStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
           }
         }
       });
@@ -73,7 +73,7 @@ class ProjectWatchPanel extends Composite {
         public void onBlur(BlurEvent event) {
           if ("".equals(box.getText())) {
             box.setText(Util.C.defaultProjectName());
-            box.addStyleName("gerrit-InputFieldTypeHint");
+            box.addStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
           }
         }
       });
@@ -152,9 +152,9 @@ class ProjectWatchPanel extends Composite {
       table.setText(0, 3, Util.C.watchedProjectColumnEmailNotifications());
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
-      fmt.addStyleName(0, 1, S_ICON_HEADER);
-      fmt.addStyleName(0, 2, S_DATA_HEADER);
-      fmt.addStyleName(0, 3, S_DATA_HEADER);
+      fmt.addStyleName(0, 1, Gerrit.RESOURCES.css().iconHeader());
+      fmt.addStyleName(0, 2, Gerrit.RESOURCES.css().dataHeader());
+      fmt.addStyleName(0, 3, Gerrit.RESOURCES.css().dataHeader());
       fmt.setRowSpan(0, 0, 2);
       fmt.setRowSpan(0, 1, 2);
       fmt.setRowSpan(0, 2, 2);
@@ -164,9 +164,9 @@ class ProjectWatchPanel extends Composite {
       table.setText(1, 0, Util.C.watchedProjectColumnNewChanges());
       table.setText(1, 1, Util.C.watchedProjectColumnAllComments());
       table.setText(1, 2, Util.C.watchedProjectColumnSubmittedChanges());
-      fmt.addStyleName(1, 0, S_DATA_HEADER);
-      fmt.addStyleName(1, 1, S_DATA_HEADER);
-      fmt.addStyleName(1, 2, S_DATA_HEADER);
+      fmt.addStyleName(1, 0, Gerrit.RESOURCES.css().dataHeader());
+      fmt.addStyleName(1, 1, Gerrit.RESOURCES.css().dataHeader());
+      fmt.addStyleName(1, 2, Gerrit.RESOURCES.css().dataHeader());
     }
 
     void deleteChecked() {
@@ -301,11 +301,11 @@ class ProjectWatchPanel extends Composite {
       }
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
-      fmt.addStyleName(row, 1, S_ICON_CELL);
-      fmt.addStyleName(row, 2, S_DATA_CELL);
-      fmt.addStyleName(row, 3, S_DATA_CELL);
-      fmt.addStyleName(row, 4, S_DATA_CELL);
-      fmt.addStyleName(row, 5, S_DATA_CELL);
+      fmt.addStyleName(row, 1, Gerrit.RESOURCES.css().iconCell());
+      fmt.addStyleName(row, 2, Gerrit.RESOURCES.css().dataCell());
+      fmt.addStyleName(row, 3, Gerrit.RESOURCES.css().dataCell());
+      fmt.addStyleName(row, 4, Gerrit.RESOURCES.css().dataCell());
+      fmt.addStyleName(row, 5, Gerrit.RESOURCES.css().dataCell());
 
       setRowItem(row, k);
     }

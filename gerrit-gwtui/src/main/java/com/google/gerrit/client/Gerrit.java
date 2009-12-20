@@ -20,8 +20,8 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.LinkMenuBar;
 import com.google.gerrit.client.ui.LinkMenuItem;
 import com.google.gerrit.client.ui.Screen;
-import com.google.gerrit.common.Version;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.common.Version;
 import com.google.gerrit.common.auth.SignInMode;
 import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.common.data.HostPageData;
@@ -156,31 +156,41 @@ public class Gerrit implements EntryPoint {
 
   public void onModuleLoad() {
     UserAgent.assertNotInIFrame();
+
+    RESOURCES.gwt_override().ensureInjected();
     RESOURCES.css().ensureInjected();
+
+    final RootPanel gTopMenu = RootPanel.get("gerrit_topmenu");
+    final RootPanel gStarting = RootPanel.get("gerrit_startinggerrit");
+    final RootPanel gBody = RootPanel.get("gerrit_body");
+    final RootPanel gBottomMenu = RootPanel.get("gerrit_btmmenu");
+
+    gTopMenu.setStyleName(RESOURCES.css().gerritTopMenu());
+    gBody.setStyleName(RESOURCES.css().gerritBody());
+
     initHostname();
     Window.setTitle(M.windowTitle1(myHost));
     initHistoryHooks();
-    populateBottomMenu();
+    populateBottomMenu(gBottomMenu);
 
-    final RootPanel menuArea = RootPanel.get("gerrit_topmenu");
     final Grid menuLine = new Grid(1, 3);
     menuLeft = new TabPanel();
     menuRight = new LinkMenuBar();
     searchPanel = new SearchPanel();
-    menuLeft.setStyleName("gerrit-topmenu-menuLeft");
-    menuLine.setStyleName("gerrit-topmenu");
-    menuArea.add(menuLine);
+    menuLeft.setStyleName(RESOURCES.css().topmenuMenuLeft());
+    menuLine.setStyleName(RESOURCES.css().topmenu());
+    gTopMenu.add(menuLine);
     final FlowPanel menuRightPanel = new FlowPanel();
-    menuRightPanel.setStyleName("gerrit-topmenu-menuRight");
+    menuRightPanel.setStyleName(RESOURCES.css().topmenuMenuRight());
     menuRightPanel.add(menuRight);
     menuRightPanel.add(searchPanel);
     menuLine.setWidget(0, 0, menuLeft);
     menuLine.setWidget(0, 1, new FlowPanel());
     menuLine.setWidget(0, 2, menuRightPanel);
     final CellFormatter fmt = menuLine.getCellFormatter();
-    fmt.setStyleName(0, 0, "gerrit-topmenu-TDmenu");
-    fmt.setStyleName(0, 1, "gerrit-topmenu-TDglue");
-    fmt.setStyleName(0, 2, "gerrit-topmenu-TDmenu");
+    fmt.setStyleName(0, 0, RESOURCES.css().topmenuTDmenu());
+    fmt.setStyleName(0, 1, RESOURCES.css().topmenuTDglue());
+    fmt.setStyleName(0, 2, RESOURCES.css().topmenuTDmenu());
 
     siteHeader = RootPanel.get("gerrit_header");
     siteFooter = RootPanel.get("gerrit_footer");
@@ -192,9 +202,9 @@ public class Gerrit implements EntryPoint {
         view.onShowView();
       }
     };
-    RootPanel.get("gerrit_body").add(body);
+    gBody.add(body);
 
-    final RpcStatus rpcStatus = new RpcStatus(menuArea);
+    final RpcStatus rpcStatus = new RpcStatus(gTopMenu);
     JsonUtil.addRpcStartHandler(rpcStatus);
     JsonUtil.addRpcCompleteHandler(rpcStatus);
     JsonUtil.setDefaultXsrfManager(new XsrfManager() {
@@ -217,7 +227,7 @@ public class Gerrit implements EntryPoint {
           myAccount = result.userAccount;
           applyUserPreferences();
         }
-        onModuleLoad2();
+        onModuleLoad2(gStarting);
       }
     });
   }
@@ -262,16 +272,14 @@ public class Gerrit implements EntryPoint {
     }
   }
 
-  private static void populateBottomMenu() {
-    final RootPanel btmmenu = RootPanel.get("gerrit_btmmenu");
-
+  private static void populateBottomMenu(final RootPanel btmmenu) {
     final Label keyHelp = new Label(C.keyHelp());
-    keyHelp.setStyleName("gerrit-keyhelp");
+    keyHelp.setStyleName(RESOURCES.css().keyhelp());
     btmmenu.add(keyHelp);
 
     final String vs = getVersion();
     final HTML version = new HTML(M.poweredBy(vs));
-    version.setStyleName("gerrit-version");
+    version.setStyleName(RESOURCES.css().version());
     btmmenu.add(version);
   }
 
@@ -288,13 +296,11 @@ public class Gerrit implements EntryPoint {
     return myVersion;
   }
 
-  private void onModuleLoad2() {
-
+  private void onModuleLoad2(final RootPanel starting) {
     refreshMenuBar();
 
-    final RootPanel sg = RootPanel.get("gerrit_startinggerrit");
-    sg.getElement().getParentElement().removeChild(sg.getElement());
-    RootPanel.detachNow(sg);
+    starting.getElement().getParentElement().removeChild(starting.getElement());
+    RootPanel.detachNow(starting);
 
     History.addValueChangeHandler(new HistoryHandler());
     JumpKeys.register(body);
@@ -397,13 +403,13 @@ public class Gerrit implements EntryPoint {
   private static void whoAmI() {
     final String name = FormatUtil.nameEmail(getUserAccount());
     final InlineLabel l = new InlineLabel(name);
-    l.setStyleName("gerrit-MenuBarUserName");
+    l.setStyleName(RESOURCES.css().menuBarUserName());
     menuRight.add(l);
   }
 
   private static Anchor anchor(final String text, final String to) {
     final Anchor a = new Anchor(text, to);
-    a.setStyleName("gerrit-MenuItem");
+    a.setStyleName(RESOURCES.css().menuItem());
     Accessibility.setRole(a.getElement(), Accessibility.ROLE_MENUITEM);
     return a;
   }

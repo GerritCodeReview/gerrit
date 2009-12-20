@@ -15,11 +15,15 @@
 package com.google.gerrit.client;
 
 import com.google.gwt.resources.client.ClientBundle;
+import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.resources.client.ImageResource;
 
 public interface GerritResources extends ClientBundle {
-  @Source("gerrit2.css")
-  GerritCssResource css();
+  @Source("gerrit.css")
+  GerritCss css();
+
+  @Source("gwt_override.css")
+  CssResource gwt_override();
 
   @Source("arrowRight.gif")
   public ImageResource arrowRight();

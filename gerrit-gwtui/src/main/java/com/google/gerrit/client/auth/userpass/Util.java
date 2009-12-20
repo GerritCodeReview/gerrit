@@ -19,8 +19,8 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwtjsonrpc.client.JsonUtil;
 
 public class Util {
-  public static final LoginConstants C = GWT.create(LoginConstants.class);
-  public static final LoginMessages M = GWT.create(LoginMessages.class);
+  public static final UserPassConstants C = GWT.create(UserPassConstants.class);
+  public static final UserPassMessages M = GWT.create(UserPassMessages.class);
   public static final UserPassAuthService SVC;
 
   static {

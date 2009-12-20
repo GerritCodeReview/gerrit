@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.ui;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.Accessibility;
 import com.google.gwt.user.client.ui.Composite;
@@ -26,7 +27,7 @@ public class LinkMenuBar extends Composite {
   public LinkMenuBar() {
     body = new FlowPanel();
     initWidget(body);
-    setStyleName("gerrit-LinkMenuBar");
+    setStyleName(Gerrit.RESOURCES.css().linkMenuBar());
     Accessibility.setRole(getElement(), Accessibility.ROLE_MENUBAR);
   }
 
@@ -49,9 +50,8 @@ public class LinkMenuBar extends Composite {
   public void add(final Widget i) {
     if (body.getWidgetCount() > 0) {
       final Widget p = body.getWidget(body.getWidgetCount() - 1);
-      p.addStyleName("gerrit-LinkMenuItem-NotLast");
+      p.addStyleName(Gerrit.RESOURCES.css().linkMenuItemNotLast());
     }
-    i.addStyleName("gerrit-LinkMenuItem");
     body.add(i);
   }
 }

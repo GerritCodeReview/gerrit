@@ -61,13 +61,13 @@ public class CommentPanel extends Composite implements HasDoubleClickHandlers {
   protected CommentPanel() {
     final FlowPanel body = new FlowPanel();
     initWidget(body);
-    setStyleName("gerrit-CommentPanel");
+    setStyleName(Gerrit.RESOURCES.css().commentPanel());
 
     messageSummary = new InlineLabel();
-    messageSummary.setStyleName("gerrit-CommentPanel-Summary");
+    messageSummary.setStyleName(Gerrit.RESOURCES.css().commentPanelSummary());
 
     header = new FlexTable();
-    header.setStyleName("gerrit-CommentPanel-Header");
+    header.setStyleName(Gerrit.RESOURCES.css().commentPanelHeader());
     header.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(ClickEvent event) {
@@ -78,19 +78,19 @@ public class CommentPanel extends Composite implements HasDoubleClickHandlers {
     header.setWidget(0, 1, messageSummary);
     header.setText(0, 2, "");
     final CellFormatter fmt = header.getCellFormatter();
-    fmt.setStyleName(0, 0, "gerrit-CommentPanel-AuthorCell");
-    fmt.setStyleName(0, 1, "gerrit-CommentPanel-SummaryCell");
-    fmt.setStyleName(0, 2, "gerrit-CommentPanel-DateCell");
+    fmt.setStyleName(0, 0, Gerrit.RESOURCES.css().commentPanelAuthorCell());
+    fmt.setStyleName(0, 1, Gerrit.RESOURCES.css().commentPanelSummaryCell());
+    fmt.setStyleName(0, 2, Gerrit.RESOURCES.css().commentPanelDateCell());
     fmt.setHorizontalAlignment(0, 2, HasHorizontalAlignment.ALIGN_RIGHT);
     body.add(header);
 
     content = new FlowPanel();
-    content.setStyleName("gerrit-CommentPanel-Content");
+    content.setStyleName(Gerrit.RESOURCES.css().commentPanelContent());
     content.setVisible(false);
     body.add(content);
 
     messageText = new DoubleClickHTML();
-    messageText.setStyleName("gerrit-CommentPanel-Message");
+    messageText.setStyleName(Gerrit.RESOURCES.css().commentPanelMessage());
     content.add(messageText);
   }
 
@@ -134,7 +134,7 @@ public class CommentPanel extends Composite implements HasDoubleClickHandlers {
   protected Panel getButtonPanel() {
     if (buttons == null) {
       buttons = new FlowPanel();
-      buttons.setStyleName("gerrit-CommentPanel-Buttons");
+      buttons.setStyleName(Gerrit.RESOURCES.css().commentPanelButtons());
       content.add(buttons);
     }
     return buttons;

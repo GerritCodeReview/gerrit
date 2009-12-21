@@ -71,14 +71,6 @@
   white-space: nowrap;
 }
 
-.visualtab {
-  border: 1px dotted red;
-}
-
-.whitespaceerror {
-  background: red;
-}
-
 .inputFieldTypeHint {
   color: grey;
 }

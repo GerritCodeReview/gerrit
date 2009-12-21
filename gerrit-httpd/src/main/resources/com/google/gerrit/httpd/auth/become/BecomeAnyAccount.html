@@ -1,25 +1,74 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
 <html>
   <head>
     <title>Gerrit Code Review</title>
+    <script id="gerrit_gwtdevmode">
+      (function () {
+        var pn = 'gwt.codesvr';
+        var cn = 'gerrit.' + pn;
+
+        var p_start = window.location.search.indexOf(pn + '=');
+        if (p_start != -1) {
+          p_start = p_start + pn.length + 1;
+          var p_end = window.location.search.indexOf(";", p_start);
+          if (p_end == -1) p_end = window.location.search.length;
+          var v = window.location.search.substring(p_start, p_end);
+
+          var e = new Date();
+          e.setDate(e.getDate() + 1);
+          document.cookie = cn + "=" + v + ';expires=' + e.toGMTString();
+
+        } else if (document.cookie.length != 0) {
+          var c_start = document.cookie.indexOf(cn + '=');
+          if (c_start != -1) {
+            c_start = c_start + cn.length + 1;
+            var c_end = document.cookie.indexOf(";", c_start);
+            if (c_end == -1) c_end = document.cookie.length;
+            var v = document.cookie.substring(c_start, c_end);
+            window.location.replace('?' + pn + '=' + v + document.location.hash);
+          }
+        }
+      })();
+    </script>
   </head>
   <body>
-    <form method="GET">
-      <b>ssh_user_name:</b>
-      <input type="text" size="30" name="ssh_user_name" />
-      <input type="submit" value="Become Account" />
-    </form>
+    <h2>Sign In</h2>
+    <table border="0">
+      <tr>
+        <th>SSH Username:</th>
+        <td>
+          <form method="GET">
+            <input type="text" size="30" name="ssh_user_name" />
+            <input type="submit" value="Become Account" />
+          </form>
+        </td>
+      </tr>
 
-    <form method="GET">
-      <b>preferred_email:</b>
-      <input type="text" size="30" name="preferred_email" />
-      <input type="submit" value="Become Account" />
-    </form>
+      <tr>
+        <th>Email Address:</th>
+        <td>
+          <form method="GET">
+            <input type="text" size="30" name="preferred_email" />
+            <input type="submit" value="Become Account" />
+          </form>
+        </td>
+      </tr>
 
-    <form method="GET">
-      <b>account_id:</b>
-      <input type="text" size="12" name="account_id" />
-      <input type="submit" value="Become Account" />
+      <tr>
+        <th>Account ID:</th>
+        <td>
+          <form method="GET">
+            <input type="text" size="12" name="account_id" />
+            <input type="submit" value="Become Account" />
+          </form>
+        </td>
+      </tr>
+    </table>
+
+    <hr />
+    <h2>Register</h2>
+    <form method="POST">
+      <input type="hidden" name="action" value="create_account" />
+      <input type="submit" value="New Account" />
     </form>
   </body>
 </html>

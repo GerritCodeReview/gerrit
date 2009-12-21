@@ -21,7 +21,7 @@ public class AuthResult {
   private final Account.Id accountId;
   private final boolean isNew;
 
-  AuthResult(final Account.Id accountId, final boolean isNew) {
+  public AuthResult(final Account.Id accountId, final boolean isNew) {
     this.accountId = accountId;
     this.isNew = isNew;
   }

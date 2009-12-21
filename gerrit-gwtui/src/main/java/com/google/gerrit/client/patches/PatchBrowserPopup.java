@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.patches;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.PatchTable;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.reviewdb.Patch;
@@ -44,12 +45,12 @@ class PatchBrowserPopup extends PluginSafeDialogBox implements
     sp = new ScrollPanel(fileList);
 
     final FlowPanel body = new FlowPanel();
-    body.setStyleName("gerrit-PatchBrowserPopup-Body");
+    body.setStyleName(Gerrit.RESOURCES.css().patchBrowserPopupBody());
     body.add(sp);
 
     setText(Util.M.patchSetHeader(callerKey.getParentKey().get()));
     setWidget(body);
-    addStyleName("gerrit-PatchBrowserPopup");
+    addStyleName(Gerrit.RESOURCES.css().patchBrowserPopup());
   }
 
   @Override

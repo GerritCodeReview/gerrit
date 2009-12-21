@@ -14,6 +14,9 @@
 
 package com.google.gwtexpui.safehtml.client;
 
+import com.google.gwt.resources.client.TextResource;
+import com.google.gwtexpui.safehtml.client.prettify.Resources;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -122,10 +125,32 @@ public abstract class PrettyFormatter {
   }
 
   private static class Pretty extends PrettyFormatter {
+    static {
+      Resources.I.css().ensureInjected();
+
+      eval(Resources.I.core());
+      eval(Resources.I.lang_css());
+      eval(Resources.I.lang_hs());
+      eval(Resources.I.lang_lisp());
+      eval(Resources.I.lang_lua());
+      eval(Resources.I.lang_ml());
+      eval(Resources.I.lang_proto());
+      eval(Resources.I.lang_sql());
+      eval(Resources.I.lang_vb());
+      eval(Resources.I.lang_wiki());
+    }
+
     static final boolean loaded = isLoaded();
 
     private static native boolean isLoaded()
-    /*-{ return $wnd['prettyPrintOne'] != null }-*/;
+    /*-{ return window.prettyPrintOne != null }-*/;
+
+    private static void eval(final TextResource core) {
+      eval(core.getText());
+    }
+
+    private static native void eval(String js)
+    /*-{ eval(js); }-*/;
 
     private final String srcType;
     private final MultiLineStyle commentStyle;
@@ -170,6 +195,6 @@ public abstract class PrettyFormatter {
     }
 
     private static native String prettifyNative(String srcText, String srcType)
-    /*-{ return $wnd.prettyPrintOne(srcText, srcType); }-*/;
+    /*-{ return prettyPrintOne(srcText, srcType); }-*/;
   }
 }

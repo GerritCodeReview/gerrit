@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.ui;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.user.client.DOM;
@@ -30,26 +31,18 @@ public abstract class FancyFlexTable<RowItem> extends Composite {
   private static final FancyFlexTableImpl impl =
       GWT.create(FancyFlexTableImpl.class);
 
-  protected static final String MY_STYLE = "gerrit-ChangeTable";
-  protected static final String S_ICON_HEADER = "IconHeader";
-  protected static final String S_DATA_HEADER = "DataHeader";
-  protected static final String S_ICON_CELL = "IconCell";
-  protected static final String S_DATA_CELL = "DataCell";
-  protected static final String S_LEFT_MOST_CELL = "LeftMostCell";
-  protected static final String S_ACTIVE_ROW = "ActiveRow";
-
   protected static final int C_ARROW = 0;
 
   protected final MyFlexTable table;
 
   protected FancyFlexTable() {
     table = createFlexTable();
-    table.addStyleName(MY_STYLE);
+    table.addStyleName(Gerrit.RESOURCES.css().changeTable());
     table.setWidth("100%");
     initWidget(table);
 
     table.setText(0, C_ARROW, "");
-    table.getCellFormatter().addStyleName(0, C_ARROW, S_ICON_HEADER);
+    table.getCellFormatter().addStyleName(0, C_ARROW, Gerrit.RESOURCES.css().iconHeader());
   }
 
   protected MyFlexTable createFlexTable() {
@@ -113,8 +106,8 @@ public abstract class FancyFlexTable<RowItem> extends Composite {
   }
 
   protected void applyDataRowStyle(final int newRow) {
-    table.getCellFormatter().addStyleName(newRow, C_ARROW, S_ICON_CELL);
-    table.getCellFormatter().addStyleName(newRow, C_ARROW, S_LEFT_MOST_CELL);
+    table.getCellFormatter().addStyleName(newRow, C_ARROW, Gerrit.RESOURCES.css().iconCell());
+    table.getCellFormatter().addStyleName(newRow, C_ARROW, Gerrit.RESOURCES.css().leftMostCell());
   }
 
   /**

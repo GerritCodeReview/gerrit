@@ -2,9 +2,36 @@
   <head>
     <title>Gerrit Code Review</title>
     <meta name="gwt:property" content="locale=en_US" />
-    <script id="gerrit_hostpagedata"></script>
-    <script id="gerrit_module" type="text/javascript" language="javascript" src="gerrit/gerrit.nocache.js"></script>
-    <script src="prettify/20090521.js" type="text/javascript" language="javascript" defer="true"></script>
+    <script id="gerrit_gwtdevmode">
+      (function () {
+        var pn = 'gwt.codesvr';
+        var cn = 'gerrit.' + pn;
+
+        var p_start = window.location.search.indexOf(pn + '=');
+        if (p_start != -1) {
+          p_start = p_start + pn.length + 1;
+          var p_end = window.location.search.indexOf(";", p_start);
+          if (p_end == -1) p_end = window.location.search.length;
+          var v = window.location.search.substring(p_start, p_end);
+
+          var e = new Date();
+          e.setDate(e.getDate() + 1);
+          document.cookie = cn + "=" + v + ';expires=' + e.toGMTString();
+
+        } else if (document.cookie.length != 0) {
+          var c_start = document.cookie.indexOf(cn + '=');
+          if (c_start != -1) {
+            c_start = c_start + cn.length + 1;
+            var c_end = document.cookie.indexOf(";", c_start);
+            if (c_end == -1) c_end = document.cookie.length;
+            var v = document.cookie.substring(c_start, c_end);
+            window.location.replace('?' + pn + '=' + v + document.location.hash);
+          }
+        }
+      })();
+    </script>
+    <script id="gerrit_hostpagedata" defer="defer"></script>
+    <script id="gerrit_module"       defer="defer"></script>
     <style  id="gerrit_sitecss" type="text/css"></style>
     <link rel="icon" type="image/gif" href="favicon.ico" />
   </head>
@@ -18,9 +45,9 @@
       </noscript>
     </div>
     <div id="gerrit_body"></div>
-    <div id="gerrit_pagefooter">
+    <div style="clear: both; margin-top: 15px; padding-top: 2px; margin-bottom: 15px;">
       <div id="gerrit_footer"></div>
-      <div id="gerrit_btmmenu"></div>
+      <div id="gerrit_btmmenu" style="clear: both;"></div>
     </div>
     <iframe src="javascript:''" id="__gwt_historyFrame" tabIndex='-1' style="position:absolute;width:0;height:0;border:0"></iframe>
   </body>

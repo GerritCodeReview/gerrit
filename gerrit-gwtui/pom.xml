@@ -38,7 +38,7 @@ limitations under the License.
       <groupId>com.google.gwt</groupId>
       <artifactId>gwt-user</artifactId>
       <version>${gwtVersion}</version>
-      <scope>provided</scope>
+      <scope>compile</scope>
     </dependency>
 
     <dependency>
@@ -151,11 +151,11 @@ limitations under the License.
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>gwt-maven-plugin</artifactId>
-        <version>1.1</version>
+        <version>1.2</version>
         <configuration>
           <module>com.google.gerrit.GerritGwtUI</module>
           <extraJvmArgs>-Xmx512m</extraJvmArgs>
-          <style>${gwtStyle}</style>
+          <soyc>${gwt.soyc}</soyc>
         </configuration>
         <executions>
           <execution>
@@ -216,8 +216,11 @@ limitations under the License.
                 <mkdir dir="${app}"/>
                 <apply executable="gzip" addsourcefile="false">
                   <arg value="-9"/>
-                  <fileset dir="${app}"
-                           includes="**/*.html,**/*.css"/>
+                  <fileset dir="${app}">
+                    <include name="**/*.html"/>
+                    <include name="**/*.css"/>
+                    <include name="deferredjs/**/*.js"/>
+                  </fileset>
                   <redirector>
                     <inputmapper type="glob" from="*" to="${app}/*"/>
                     <outputmapper type="glob" from="*" to="${app}/*.gz"/>

@@ -14,18 +14,13 @@
 
 package com.google.gerrit.client.auth.openid;
 
-import com.google.gwt.i18n.client.Constants;
+import com.google.gwt.resources.client.CssResource;
 
-public interface LoginConstants extends Constants {
-  String buttonSignIn();
-  String buttonRegister();
-  String buttonLinkId();
-
-  String rememberMe();
-  String notSupported();
-
-  String nameGoogle();
-  String nameYahoo();
-
-  String whatIsOpenIDHtml();
+interface OpenIdCss extends CssResource {
+  String loginForm();
+  String logo();
+  String loginLine();
+  String identifier();
+  String directLink();
+  String error();
 }

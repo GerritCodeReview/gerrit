@@ -19,6 +19,7 @@ import static com.google.gerrit.client.patches.PatchLine.Type.DELETE;
 import static com.google.gerrit.client.patches.PatchLine.Type.INSERT;
 import static com.google.gerrit.client.patches.PatchLine.Type.REPLACE;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.common.data.CommentDetail;
 import com.google.gerrit.common.data.EditList;
 import com.google.gerrit.common.data.PatchScript;
@@ -177,10 +178,10 @@ public class SideBySideTable extends AbstractPatchContentTable {
   protected void insertRow(final int row) {
     super.insertRow(row);
     final CellFormatter fmt = table.getCellFormatter();
-    fmt.addStyleName(row, COL_A - 1, "LineNumber");
-    fmt.addStyleName(row, COL_A, "DiffText");
-    fmt.addStyleName(row, COL_B - 1, "LineNumber");
-    fmt.addStyleName(row, COL_B, "DiffText");
+    fmt.addStyleName(row, COL_A - 1, Gerrit.RESOURCES.css().lineNumber());
+    fmt.addStyleName(row, COL_A, Gerrit.RESOURCES.css().diffText());
+    fmt.addStyleName(row, COL_B - 1, Gerrit.RESOURCES.css().lineNumber());
+    fmt.addStyleName(row, COL_B, Gerrit.RESOURCES.css().diffText());
   }
 
   private int finish(final Iterator<PatchLineComment> i, int row, final int col) {
@@ -197,28 +198,28 @@ public class SideBySideTable extends AbstractPatchContentTable {
     m.openTr();
 
     m.openTd();
-    m.addStyleName(S_ICON_CELL);
-    m.addStyleName("FileColumnHeader");
+    m.addStyleName(Gerrit.RESOURCES.css().iconCell());
+    m.addStyleName(Gerrit.RESOURCES.css().fileColumnHeader());
     m.closeTd();
 
     m.openTd();
-    m.addStyleName("FileColumnHeader");
-    m.addStyleName("LineNumber");
+    m.addStyleName(Gerrit.RESOURCES.css().fileColumnHeader());
+    m.addStyleName(Gerrit.RESOURCES.css().lineNumber());
     m.closeTd();
 
     m.openTd();
-    m.setStyleName("FileColumnHeader");
+    m.setStyleName(Gerrit.RESOURCES.css().fileColumnHeader());
     m.setAttribute("width", "50%");
     m.append(PatchUtil.C.patchHeaderOld());
     m.closeTd();
 
     m.openTd();
-    m.addStyleName("FileColumnHeader");
-    m.addStyleName("LineNumber");
+    m.addStyleName(Gerrit.RESOURCES.css().fileColumnHeader());
+    m.addStyleName(Gerrit.RESOURCES.css().lineNumber());
     m.closeTd();
 
     m.openTd();
-    m.setStyleName("FileColumnHeader");
+    m.setStyleName(Gerrit.RESOURCES.css().fileColumnHeader());
     m.setAttribute("width", "50%");
     m.append(PatchUtil.C.patchHeaderNew());
     m.closeTd();
@@ -230,11 +231,11 @@ public class SideBySideTable extends AbstractPatchContentTable {
     m.openTr();
 
     m.openTd();
-    m.setStyleName(S_ICON_CELL);
+    m.setStyleName(Gerrit.RESOURCES.css().iconCell());
     m.closeTd();
 
     m.openTd();
-    m.setStyleName("SkipLine");
+    m.setStyleName(Gerrit.RESOURCES.css().skipLine());
     m.setAttribute("colspan", 4);
     m.append(PatchUtil.M.patchSkipRegion(skipCnt));
     m.closeTd();
@@ -246,7 +247,7 @@ public class SideBySideTable extends AbstractPatchContentTable {
     m.setAttribute("valign", "top");
 
     m.openTd();
-    m.setStyleName(S_ICON_CELL);
+    m.setStyleName(Gerrit.RESOURCES.css().iconCell());
     m.closeTd();
   }
 
@@ -262,25 +263,35 @@ public class SideBySideTable extends AbstractPatchContentTable {
       final int lineNumberMinusOne, final PatchLine.Type type,
       final SafeHtml lineHtml) {
     m.openTd();
-    m.setStyleName("LineNumber");
+    m.setStyleName(Gerrit.RESOURCES.css().lineNumber());
     m.append(lineNumberMinusOne + 1);
     m.closeTd();
 
     m.openTd();
-    m.addStyleName("FileLine");
-    m.addStyleName("FileLine-" + type.name());
+    m.addStyleName(Gerrit.RESOURCES.css().fileLine());
+    switch(type){
+      case CONTEXT:
+        m.addStyleName(Gerrit.RESOURCES.css().fileLineCONTEXT());
+        break;
+      case DELETE:
+        m.addStyleName(Gerrit.RESOURCES.css().fileLineDELETE());
+        break;
+      case INSERT:
+        m.addStyleName(Gerrit.RESOURCES.css().fileLineINSERT());
+        break;
+    }
     m.append(lineHtml);
     m.closeTd();
   }
 
   private void appendLineNone(final SafeHtmlBuilder m) {
     m.openTd();
-    m.setStyleName("LineNumber");
+    m.setStyleName(Gerrit.RESOURCES.css().lineNumber());
     m.closeTd();
 
     m.openTd();
-    m.addStyleName("FileLine");
-    m.addStyleName("FileLineNone");
+    m.addStyleName(Gerrit.RESOURCES.css().fileLine());
+    m.addStyleName(Gerrit.RESOURCES.css().fileLineNone());
     m.closeTd();
   }
 

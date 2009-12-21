@@ -48,14 +48,14 @@ limitations under the License.
   <properties>
     <jgitVersion>0.5.1.51-g96b2e76</jgitVersion>
     <gwtormVersion>1.1.2</gwtormVersion>
-    <gwtjsonrpcVersion>1.2.0</gwtjsonrpcVersion>
-    <gwtexpuiVersion>1.1.4</gwtexpuiVersion>
-    <gwtVersion>1.7.0</gwtVersion>
+    <gwtjsonrpcVersion>1.2.1-SNAPSHOT</gwtjsonrpcVersion>
+    <gwtexpuiVersion>1.2.0-SNAPSHOT</gwtexpuiVersion>
+    <gwtVersion>2.0.0</gwtVersion>
     <slf4jVersion>1.5.8</slf4jVersion>
     <guiceVersion>2.0</guiceVersion>
     <jettyVersion>7.0.1.v20091125</jettyVersion>
 
-    <gwtStyle>OBF</gwtStyle>
+    <gwt.soyc>false</gwt.soyc>
 
     <project.build.sourceEncoding>
       UTF-8
@@ -752,51 +752,9 @@ limitations under the License.
         <groupId>com.google.gwt</groupId>
         <artifactId>gwt-dev</artifactId>
         <version>${gwtVersion}</version>
-        <classifier>${platform}</classifier>
       </dependency>
     </dependencies>
   </dependencyManagement>
-
-  <profiles>
-    <profile>
-      <id>gwt-dev-windows</id>
-      <properties>
-        <platform>windows</platform>
-      </properties>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-        <os>
-          <family>windows</family>
-        </os>
-      </activation>
-    </profile>
-
-    <profile>
-      <id>gwt-dev-mac</id>
-      <properties>
-        <platform>mac</platform>
-      </properties>
-      <activation>
-        <activeByDefault>false</activeByDefault>
-        <os>
-          <family>mac</family>
-        </os>
-      </activation>
-    </profile>
-
-    <profile>
-      <id>gwt-dev-linux</id>
-      <properties>
-        <platform>linux</platform>
-      </properties>
-      <activation>
-        <activeByDefault>false</activeByDefault>
-        <os>
-          <name>linux</name>
-        </os>
-      </activation>
-    </profile>
-  </profiles>
 
   <repositories>
     <repository>

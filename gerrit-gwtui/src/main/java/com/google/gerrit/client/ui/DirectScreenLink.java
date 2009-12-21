@@ -16,7 +16,6 @@ package com.google.gerrit.client.ui;
 
 import static com.google.gerrit.client.ui.LinkMenuItem.impl;
 
-import com.google.gerrit.client.Gerrit;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.InlineHyperlink;
@@ -50,10 +49,5 @@ public abstract class DirectScreenLink extends InlineHyperlink {
   }
 
   /** Create the screen and start rendering, updating the browser history. */
-  public void go() {
-    Gerrit.display(getTargetHistoryToken(), createScreen());
-  }
-
-  /** Create the screen this link wants to display. */
-  protected abstract Screen createScreen();
+  public abstract void go();
 }

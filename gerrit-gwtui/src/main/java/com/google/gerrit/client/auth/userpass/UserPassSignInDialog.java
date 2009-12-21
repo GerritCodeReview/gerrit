@@ -41,6 +41,10 @@ import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
 
 public class UserPassSignInDialog extends SignInDialog {
+  static {
+    UserPassResources.I.css().ensureInjected();
+  }
+
   private final FlowPanel formBody;
 
   private FlowPanel errorLine;
@@ -55,7 +59,7 @@ public class UserPassSignInDialog extends SignInDialog {
     super(SignInMode.SIGN_IN);
 
     formBody = new FlowPanel();
-    formBody.setStyleName("gerrit-OpenID-loginform");
+    formBody.setStyleName(UserPassResources.I.css().loginForm());
     add(formBody);
 
     createHeaderText();
@@ -88,7 +92,7 @@ public class UserPassSignInDialog extends SignInDialog {
   private void createErrorBox() {
     errorLine = new FlowPanel();
     DOM.setStyleAttribute(errorLine.getElement(), "visibility", "hidden");
-    errorLine.setStyleName("gerrit-OpenID-errorline");
+    errorLine.setStyleName(UserPassResources.I.css().error());
 
     errorMsg = new InlineLabel();
     errorLine.add(errorMsg);
@@ -132,7 +136,7 @@ public class UserPassSignInDialog extends SignInDialog {
     });
 
     final FlowPanel buttons = new FlowPanel();
-    buttons.setStyleName("gerrit-ErrorDialog-Buttons");
+    buttons.setStyleName(Gerrit.RESOURCES.css().errorDialogButtons());
 
     login = new Button();
     login.setText(Util.C.buttonSignIn());

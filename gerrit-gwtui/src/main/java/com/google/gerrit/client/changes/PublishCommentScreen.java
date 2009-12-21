@@ -76,7 +76,7 @@ public class PublishCommentScreen extends AccountScreen implements ClickHandler 
   @Override
   protected void onInitUI() {
     super.onInitUI();
-    addStyleName("gerrit-PublishCommentsScreen");
+    addStyleName(Gerrit.RESOURCES.css().publishCommentsScreen());
 
     approvalButtons = new ArrayList<ValueRadioButton>();
     descBlock = new ChangeDescriptionBlock();
@@ -101,7 +101,6 @@ public class PublishCommentScreen extends AccountScreen implements ClickHandler 
     body.add(draftsPanel);
 
     final FlowPanel buttonRow = new FlowPanel();
-    buttonRow.setStyleName("gerrit-CommentEditor-Buttons");
     body.add(buttonRow);
 
     send = new Button(Util.C.buttonPublishCommentsSend());
@@ -152,7 +151,7 @@ public class PublishCommentScreen extends AccountScreen implements ClickHandler 
     body.add(new SmallHeading(Util.C.headingCoverMessage()));
 
     final VerticalPanel mwrap = new VerticalPanel();
-    mwrap.setStyleName("gerrit-CoverMessage");
+    mwrap.setStyleName(Gerrit.RESOURCES.css().coverMessage());
     body.add(mwrap);
 
     message = new NpTextArea();
@@ -176,7 +175,7 @@ public class PublishCommentScreen extends AccountScreen implements ClickHandler 
     body.add(new SmallHeading(ct.getCategory().getName() + ":"));
 
     final VerticalPanel vp = new VerticalPanel();
-    vp.setStyleName("gerrit-ApprovalCategoryList");
+    vp.setStyleName(Gerrit.RESOURCES.css().approvalCategoryList());
     final List<ApprovalCategoryValue> lst =
         new ArrayList<ApprovalCategoryValue>(ct.getValues());
     Collections.reverse(lst);
@@ -233,7 +232,7 @@ public class PublishCommentScreen extends AccountScreen implements ClickHandler 
         final String fn = patchKey.get();
         if (!fn.equals(priorFile)) {
           panel = new FlowPanel();
-          panel.addStyleName("gerrit-PatchComments");
+          panel.addStyleName(Gerrit.RESOURCES.css().patchComments());
           draftsPanel.add(panel);
           // Parent table can be null here since we are not showing any
           // next/previous links

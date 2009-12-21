@@ -28,7 +28,7 @@ public class NotSignedInDialog extends AutoCenterDialogBox {
     setText(Gerrit.C.notSignedInTitle());
 
     final FlowPanel buttons = new FlowPanel();
-    buttons.setStyleName("gerrit-ErrorDialog-Buttons");
+    buttons.setStyleName(Gerrit.RESOURCES.css().errorDialogButtons());
 
     final Button signin = new Button();
     signin.setText(Gerrit.C.menuSignIn());
@@ -52,7 +52,7 @@ public class NotSignedInDialog extends AutoCenterDialogBox {
     buttons.add(close);
 
     final FlowPanel center = new FlowPanel();
-    center.setStyleName("gerrit-ErrorDialog");
+    center.setStyleName(Gerrit.RESOURCES.css().errorDialog());
     center.add(new HTML(Gerrit.C.notSignedInBody()));
     center.add(buttons);
     add(center);

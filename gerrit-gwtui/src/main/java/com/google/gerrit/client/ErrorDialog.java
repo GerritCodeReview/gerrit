@@ -35,7 +35,7 @@ public class ErrorDialog extends AutoCenterDialogBox {
 
     body = new FlowPanel();
     final FlowPanel buttons = new FlowPanel();
-    buttons.setStyleName("gerrit-ErrorDialog-Buttons");
+    buttons.setStyleName(Gerrit.RESOURCES.css().errorDialogButtons());
     final Button closey = new Button();
     closey.setText(Gerrit.C.errorDialogClose());
     closey.addClickHandler(new ClickHandler() {
@@ -47,7 +47,7 @@ public class ErrorDialog extends AutoCenterDialogBox {
     buttons.add(closey);
 
     final FlowPanel center = new FlowPanel();
-    center.setStyleName("gerrit-ErrorDialog");
+    center.setStyleName(Gerrit.RESOURCES.css().errorDialog());
     center.add(body);
     center.add(buttons);
     add(center);
@@ -90,13 +90,9 @@ public class ErrorDialog extends AutoCenterDialogBox {
       }
     }
 
-    body.add(label(cn, "gerrit-ErrorDialog-ErrorType"));
+    final Label r = new Label(cn);
+    r.setStyleName(Gerrit.RESOURCES.css().errorDialogErrorType());
+    body.add(r);
     body.add(new Label(what.getMessage()));
-  }
-
-  private static Label label(final String what, final String style) {
-    final Label r = new Label(what);
-    r.setStyleName(style);
-    return r;
   }
 }

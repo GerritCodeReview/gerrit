@@ -97,11 +97,11 @@ class ExternalIdPanel extends Composite {
       table.setText(0, 5, Util.C.webIdIdentity());
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
-      fmt.addStyleName(0, 1, S_ICON_HEADER);
-      fmt.addStyleName(0, 2, S_DATA_HEADER);
-      fmt.addStyleName(0, 3, S_DATA_HEADER);
-      fmt.addStyleName(0, 4, S_DATA_HEADER);
-      fmt.addStyleName(0, 5, S_DATA_HEADER);
+      fmt.addStyleName(0, 1, Gerrit.RESOURCES.css().iconHeader());
+      fmt.addStyleName(0, 2, Gerrit.RESOURCES.css().dataHeader());
+      fmt.addStyleName(0, 3, Gerrit.RESOURCES.css().dataHeader());
+      fmt.addStyleName(0, 4, Gerrit.RESOURCES.css().dataHeader());
+      fmt.addStyleName(0, 5, Gerrit.RESOURCES.css().dataHeader());
     }
 
     void deleteChecked() {
@@ -195,7 +195,7 @@ class ExternalIdPanel extends Composite {
         table.setText(row, 3, "");
       } else {
         table.setText(row, 3, Util.C.untrustedProvider());
-        fmt.addStyleName(row, 3, "gerrit-Identity-UntrustedExternalId");
+        fmt.addStyleName(row, 3, Gerrit.RESOURCES.css().identityUntrustedExternalId());
       }
       if (k.getEmailAddress() != null && k.getEmailAddress().length() > 0) {
         table.setText(row, 4, k.getEmailAddress());
@@ -204,12 +204,12 @@ class ExternalIdPanel extends Composite {
       }
       table.setText(row, 5, describe(k));
 
-      fmt.addStyleName(row, 1, S_ICON_CELL);
-      fmt.addStyleName(row, 2, S_DATA_CELL);
-      fmt.addStyleName(row, 3, S_DATA_CELL);
-      fmt.addStyleName(row, 3, "C_LAST_UPDATE");
-      fmt.addStyleName(row, 4, S_DATA_CELL);
-      fmt.addStyleName(row, 5, S_DATA_CELL);
+      fmt.addStyleName(row, 1, Gerrit.RESOURCES.css().iconCell());
+      fmt.addStyleName(row, 2, Gerrit.RESOURCES.css().dataCell());
+      fmt.addStyleName(row, 3, Gerrit.RESOURCES.css().dataCell());
+      fmt.addStyleName(row, 3, Gerrit.RESOURCES.css().cLastUpdate());
+      fmt.addStyleName(row, 4, Gerrit.RESOURCES.css().dataCell());
+      fmt.addStyleName(row, 5, Gerrit.RESOURCES.css().dataCell());
 
       setRowItem(row, k);
     }

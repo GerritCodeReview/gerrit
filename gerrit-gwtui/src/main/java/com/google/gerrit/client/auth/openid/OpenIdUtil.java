@@ -19,13 +19,13 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwtjsonrpc.client.JsonUtil;
 
 public class OpenIdUtil {
-  public static final LoginConstants C;
-  public static final LoginMessages M;
+  public static final OpenIdConstants C;
+  public static final OpenIdMessages M;
   public static final OpenIdService SVC;
 
   static {
-    C = GWT.create(LoginConstants.class);
-    M = GWT.create(LoginMessages.class);
+    C = GWT.create(OpenIdConstants.class);
+    M = GWT.create(OpenIdMessages.class);
     SVC = GWT.create(OpenIdService.class);
     JsonUtil.bind(SVC, "rpc/OpenIdService");
   }

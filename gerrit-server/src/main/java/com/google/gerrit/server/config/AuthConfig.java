@@ -78,18 +78,7 @@ public class AuthConfig {
   }
 
   private static AuthType toType(final Config cfg) {
-    if (isBecomeAnyoneEnabled()) {
-      return AuthType.DEVELOPMENT_BECOME_ANY_ACCOUNT;
-    }
     return ConfigUtil.getEnum(cfg, "auth", null, "type", AuthType.OPENID);
-  }
-
-  private static boolean isBecomeAnyoneEnabled() {
-    try {
-      return Boolean.getBoolean("com.google.gerrit.httpd.auth.become");
-    } catch (SecurityException se) {
-      return false;
-    }
   }
 
   /** Type of user authentication used by this Gerrit server. */
@@ -169,6 +158,13 @@ public class AuthConfig {
       // mailto identities are created by sending a unique validation
       // token to the address and asking them to come back to the site
       // with that token.
+      //
+      return true;
+    }
+
+    if (id.isScheme(AccountExternalId.SCHEME_UUID)) {
+      // UUID identities are absolutely meaningless and cannot be
+      // constructed through any normal login process we use.
       //
       return true;
     }

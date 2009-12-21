@@ -36,7 +36,6 @@ limitations under the License.
     <dependency>
       <groupId>com.google.gwt</groupId>
       <artifactId>gwt-dev</artifactId>
-      <classifier>${platform}</classifier>
     </dependency>
 
     <dependency>

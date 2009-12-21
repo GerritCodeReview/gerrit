@@ -132,9 +132,9 @@ public class ChangeScreen extends Screen {
 
   private void setStarred(final boolean s) {
     if (s) {
-      Gerrit.ICONS.starFilled().applyTo(starChange);
+      starChange.setResource(Gerrit.RESOURCES.starFilled());
     } else {
-      Gerrit.ICONS.starOpen().applyTo(starChange);
+      starChange.setResource(Gerrit.RESOURCES.starOpen());
     }
     starred = s;
   }
@@ -142,7 +142,7 @@ public class ChangeScreen extends Screen {
   @Override
   protected void onInitUI() {
     super.onInitUI();
-    addStyleName("gerrit-ChangeScreen");
+    addStyleName(Gerrit.RESOURCES.css().changeScreen());
 
     keysNavigation = new KeyCommandSet(Gerrit.C.sectionNavigation());
     keysAction = new KeyCommandSet(Gerrit.C.sectionActions());
@@ -153,8 +153,8 @@ public class ChangeScreen extends Screen {
       keysAction.add(new PublishCommentsKeyCommand(0, 'r', Util.C
           .keyPublishComments()));
 
-      starChange = Gerrit.ICONS.starOpen().createImage();
-      starChange.setStyleName("gerrit-ChangeScreen-StarIcon");
+      starChange = new Image(Gerrit.RESOURCES.starOpen());
+      starChange.setStyleName(Gerrit.RESOURCES.css().changeScreenStarIcon());
       starChange.setVisible(Gerrit.isSignedIn());
       starChange.addClickHandler(new ClickHandler() {
         @Override
@@ -186,7 +186,7 @@ public class ChangeScreen extends Screen {
     add(patchSetPanels);
 
     comments = new FlowPanel();
-    comments.setStyleName("gerrit-ChangeComments");
+    comments.setStyleName(Gerrit.RESOURCES.css().changeComments());
     add(comments);
   }
 
@@ -257,13 +257,13 @@ public class ChangeScreen extends Screen {
       panel.setContent(psp);
 
       final InlineLabel revtxt = new InlineLabel(ps.getRevision().get() + " ");
-      revtxt.addStyleName("gerrit-PatchSetRevision");
+      revtxt.addStyleName(Gerrit.RESOURCES.css().patchSetRevision());
       panel.getHeader().add(revtxt);
       if (gw != null) {
         final Anchor revlink =
             new Anchor("(gitweb)", false, gw.toRevision(detail.getChange()
                 .getProject(), ps));
-        revlink.addStyleName("gerrit-PatchSetLink");
+        revlink.addStyleName(Gerrit.RESOURCES.css().patchSetLink());
         panel.getHeader().add(revlink);
       }
 
@@ -282,7 +282,7 @@ public class ChangeScreen extends Screen {
     comments.clear();
 
     final Label hdr = new Label(Util.C.changeScreenComments());
-    hdr.setStyleName("gerrit-BlockHeader");
+    hdr.setStyleName(Gerrit.RESOURCES.css().blockHeader());
     comments.add(hdr);
 
     final AccountInfoCache accts = detail.getAccounts();
@@ -318,7 +318,7 @@ public class ChangeScreen extends Screen {
           new CommentPanel(author, msg.getWrittenOn(), msg.getMessage());
       cp.setRecent(isRecent);
       if (i == msgList.size() - 1) {
-        cp.addStyleName("gerrit-CommentPanel-Last");
+        cp.addStyleName(Gerrit.RESOURCES.css().commentPanelLast());
         cp.setOpen(true);
       }
       comments.add(cp);

@@ -14,13 +14,9 @@
 
 package com.google.gerrit.client.auth.userpass;
 
-import com.google.gwt.i18n.client.Constants;
+import com.google.gwt.resources.client.CssResource;
 
-public interface LoginConstants extends Constants {
-  String buttonSignIn();
-  String username();
-  String password();
-  String invalidLogin();
-  String usernameRequired();
-  String passwordRequired();
+public interface UserPassCss extends CssResource {
+  String loginForm();
+  String error();
 }

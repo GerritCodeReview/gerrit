@@ -112,13 +112,13 @@ using an administrator user account:
 Debugging JavaScript
 ~~~~~~~~~~~~~~~~~~~~
 
-When debugging browser specific issues use gwtStyle `DETAILED`
+When debugging browser specific issues use `-Dgwt.style=DETAILED`
 so the resulting JavaScript more closely matches the Java sources.
 This can be used to help narrow down what code line 30,400 in the
 JavaScript happens to be.
 
 ----
-  mvn package -DgwtStyle=DETAILED
+  mvn package -Dgwt.style=DETAILED
 ----
 
 

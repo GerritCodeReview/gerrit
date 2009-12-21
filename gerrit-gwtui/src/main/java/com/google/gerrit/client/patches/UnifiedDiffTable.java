@@ -18,6 +18,7 @@ import static com.google.gerrit.client.patches.PatchLine.Type.CONTEXT;
 import static com.google.gerrit.client.patches.PatchLine.Type.DELETE;
 import static com.google.gerrit.client.patches.PatchLine.Type.INSERT;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.common.data.CommentDetail;
 import com.google.gerrit.common.data.EditList;
 import com.google.gerrit.common.data.PatchScript;
@@ -227,9 +228,9 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
   protected void insertRow(final int row) {
     super.insertRow(row);
     final CellFormatter fmt = table.getCellFormatter();
-    fmt.addStyleName(row, PC - 2, "LineNumber");
-    fmt.addStyleName(row, PC - 1, "LineNumber");
-    fmt.addStyleName(row, PC, "DiffText");
+    fmt.addStyleName(row, PC - 2, Gerrit.RESOURCES.css().lineNumber());
+    fmt.addStyleName(row, PC - 1, Gerrit.RESOURCES.css().lineNumber());
+    fmt.addStyleName(row, PC, Gerrit.RESOURCES.css().diffText());
   }
 
   private int insert(final List<PatchLineComment> in, int row) {
@@ -248,8 +249,8 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
     padLineNumber(m);
 
     m.openTd();
-    m.addStyleName("DiffText");
-    m.addStyleName("DiffText-FILE_HEADER");
+    m.addStyleName(Gerrit.RESOURCES.css().diffText());
+    m.addStyleName(Gerrit.RESOURCES.css().diffTextFileHeader());
     m.append(line);
     m.closeTd();
     closeLine(m);
@@ -261,8 +262,8 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
     padLineNumber(m);
 
     m.openTd();
-    m.addStyleName("DiffText");
-    m.addStyleName("DiffText-HUNK_HEADER");
+    m.addStyleName(Gerrit.RESOURCES.css().diffText());
+    m.addStyleName(Gerrit.RESOURCES.css().diffTextHunkHeader());
     m.append("@@ -");
     appendRange(m, hunk.getCurA() + 1, hunk.getEndA() - hunk.getCurA());
     m.append(" +");
@@ -298,19 +299,21 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
       final PrettyFormatter fmtA, final PrettyFormatter fmtB) {
     final String text = src.get(i);
     m.openTd();
-    m.addStyleName("DiffText");
-    m.addStyleName("DiffText-" + type.name());
+    m.addStyleName(Gerrit.RESOURCES.css().diffText());
     switch (type) {
       case CONTEXT:
+        m.addStyleName(Gerrit.RESOURCES.css().diffTextCONTEXT());
         m.nbsp();
         m.append(fmtA.format(text));
         fmtB.update(text);
         break;
       case DELETE:
+        m.addStyleName(Gerrit.RESOURCES.css().diffTextDELETE());
         m.append("-");
         m.append(fmtA.format(text));
         break;
       case INSERT:
+        m.addStyleName(Gerrit.RESOURCES.css().diffTextINSERT());
         m.append("+");
         m.append(fmtB.format(text));
         break;
@@ -323,8 +326,8 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
     padLineNumber(m);
     padLineNumber(m);
     m.openTd();
-    m.addStyleName("DiffText");
-    m.addStyleName("DiffText-NO_LF");
+    m.addStyleName(Gerrit.RESOURCES.css().diffText());
+    m.addStyleName(Gerrit.RESOURCES.css().diffTextNoLF());
     m.append("\\ No newline at end of file");
     m.closeTd();
     closeLine(m);
@@ -334,7 +337,7 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
     m.openTr();
     m.setAttribute("valign", "top");
     m.openTd();
-    m.setStyleName(S_ICON_CELL);
+    m.setStyleName(Gerrit.RESOURCES.css().iconCell());
     m.closeTd();
   }
 
@@ -344,13 +347,13 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
 
   private void padLineNumber(final SafeHtmlBuilder m) {
     m.openTd();
-    m.setStyleName("LineNumber");
+    m.setStyleName(Gerrit.RESOURCES.css().lineNumber());
     m.closeTd();
   }
 
   private void appendLineNumber(final SafeHtmlBuilder m, final int idx) {
     m.openTd();
-    m.setStyleName("LineNumber");
+    m.setStyleName(Gerrit.RESOURCES.css().lineNumber());
     m.append(idx + 1);
     m.closeTd();
   }

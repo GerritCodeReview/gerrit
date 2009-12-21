@@ -31,7 +31,7 @@ public class ChangeDescriptionBlock extends Composite {
   public ChangeDescriptionBlock() {
     infoBlock = new ChangeInfoBlock();
     description = new HTML();
-    description.setStyleName("gerrit-ChangeScreen-Description");
+    description.setStyleName(Gerrit.RESOURCES.css().changeScreenDescription());
 
     final HorizontalPanel hp = new HorizontalPanel();
     hp.add(infoBlock);

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.ui;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.admin.Util;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -40,13 +41,13 @@ public class AddMemberBox extends Composite {
 
     nameTxtBox.setVisibleLength(50);
     nameTxtBox.setText(Util.C.defaultAccountName());
-    nameTxtBox.addStyleName("gerrit-InputFieldTypeHint");
+    nameTxtBox.addStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
     nameTxtBox.addFocusHandler(new FocusHandler() {
       @Override
       public void onFocus(final FocusEvent event) {
         if (Util.C.defaultAccountName().equals(nameTxtBox.getText())) {
           nameTxtBox.setText("");
-          nameTxtBox.removeStyleName("gerrit-InputFieldTypeHint");
+          nameTxtBox.removeStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
         }
       }
     });
@@ -55,12 +56,11 @@ public class AddMemberBox extends Composite {
       public void onBlur(final BlurEvent event) {
         if ("".equals(nameTxtBox.getText())) {
           nameTxtBox.setText(Util.C.defaultAccountName());
-          nameTxtBox.addStyleName("gerrit-InputFieldTypeHint");
+          nameTxtBox.addStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
         }
       }
     });
 
-    addPanel.setStyleName("gerrit-ProjectWatchPanel-AddPanel");
     addPanel.add(nameTxt);
     addPanel.add(addMember);
 

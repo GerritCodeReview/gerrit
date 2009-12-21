@@ -55,14 +55,14 @@ class ContactPanelFull extends ContactPanelShort {
     faxTxt.setMaxLength(30);
 
     final Grid infoSecure = new Grid(4, 2);
-    infoSecure.setStyleName("gerrit-InfoBlock");
-    infoSecure.addStyleName("gerrit-AccountInfoBlock");
+    infoSecure.setStyleName(Gerrit.RESOURCES.css().infoBlock());
+    infoSecure.addStyleName(Gerrit.RESOURCES.css().accountInfoBlock());
 
     final HTML privhtml = new HTML(Util.C.contactPrivacyDetailsHtml());
-    privhtml.setStyleName("gerrit-AccountContactPrivacyDetails");
+    privhtml.setStyleName(Gerrit.RESOURCES.css().accountContactPrivacyDetails());
 
     hasContact = new Label();
-    hasContact.setStyleName("gerrit-AccountContactOnFile");
+    hasContact.setStyleName(Gerrit.RESOURCES.css().accountContactOnFile());
     hasContact.setVisible(false);
 
     if (Gerrit.getConfig().isUseContactInfo()) {
@@ -76,9 +76,9 @@ class ContactPanelFull extends ContactPanelShort {
     row(infoSecure, 2, Util.C.contactFieldPhone(), phoneTxt);
     row(infoSecure, 3, Util.C.contactFieldFax(), faxTxt);
 
-    infoSecure.getCellFormatter().addStyleName(0, 0, "topmost");
-    infoSecure.getCellFormatter().addStyleName(0, 1, "topmost");
-    infoSecure.getCellFormatter().addStyleName(3, 0, "bottomheader");
+    infoSecure.getCellFormatter().addStyleName(0, 0, Gerrit.RESOURCES.css().topmost());
+    infoSecure.getCellFormatter().addStyleName(0, 1, Gerrit.RESOURCES.css().topmost());
+    infoSecure.getCellFormatter().addStyleName(3, 0, Gerrit.RESOURCES.css().bottomheader());
 
     final TextSaveButtonListener sbl = new TextSaveButtonListener(save);
     addressTxt.addKeyPressHandler(sbl);

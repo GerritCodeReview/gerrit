@@ -14,10 +14,16 @@
 
 package com.google.gerrit.httpd.auth.become;
 
+import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.reviewdb.Account;
+import com.google.gerrit.reviewdb.AccountExternalId;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.server.account.AccountException;
+import com.google.gerrit.server.account.AccountManager;
+import com.google.gerrit.server.account.AuthRequest;
+import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.Nullable;
 import com.google.gwtorm.client.OrmException;
@@ -26,12 +32,15 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Writer;
-import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServlet;
@@ -41,27 +50,37 @@ import javax.servlet.http.HttpServletResponse;
 @SuppressWarnings("serial")
 @Singleton
 public class BecomeAnyAccountLoginServlet extends HttpServlet {
+  private static final boolean IS_DEV = Boolean.getBoolean("Gerrit.GwtDevMode");
+
   private final SchemaFactory<ReviewDb> schema;
   private final Provider<WebSession> webSession;
   private final Provider<String> urlProvider;
+  private final AccountManager accountManager;
   private final byte[] raw;
 
   @Inject
   BecomeAnyAccountLoginServlet(final Provider<WebSession> ws,
       final SchemaFactory<ReviewDb> sf,
       final @CanonicalWebUrl @Nullable Provider<String> up,
-      final ServletContext servletContext) throws IOException {
+      final AccountManager am, final ServletContext servletContext)
+      throws IOException {
     webSession = ws;
     schema = sf;
     urlProvider = up;
+    accountManager = am;
 
     final String pageName = "BecomeAnyAccount.html";
-    final String doc = HtmlDomUtil.readFile(getClass(), pageName);
+    final Document doc = HtmlDomUtil.parseFile(getClass(), pageName);
     if (doc == null) {
       throw new FileNotFoundException("No " + pageName + " in webapp");
     }
-
-    raw = doc.getBytes(HtmlDomUtil.ENC);
+    if (!IS_DEV) {
+      final Element devmode = HtmlDomUtil.find(doc, "gerrit_gwtdevmode");
+      if (devmode != null) {
+        devmode.getParentNode().removeChild(devmode);
+      }
+    }
+    raw = HtmlDomUtil.toUTF8(doc);
   }
 
   @Override
@@ -77,15 +96,18 @@ public class BecomeAnyAccountLoginServlet extends HttpServlet {
     rsp.setHeader("Pragma", "no-cache");
     rsp.setHeader("Cache-Control", "no-cache, must-revalidate");
 
-    final List<Account> accounts;
-    if (req.getParameter("ssh_user_name") != null) {
-      accounts = bySshUserName(rsp, req.getParameter("ssh_user_name"));
+    final AuthResult res;
+    if ("create_account".equals(req.getParameter("action"))) {
+      res = create();
+
+    } else if (req.getParameter("ssh_user_name") != null) {
+      res = bySshUserName(rsp, req.getParameter("ssh_user_name"));
 
     } else if (req.getParameter("preferred_email") != null) {
-      accounts = byPreferredEmail(rsp, req.getParameter("preferred_email"));
+      res = byPreferredEmail(rsp, req.getParameter("preferred_email"));
 
     } else if (req.getParameter("account_id") != null) {
-      accounts = byAccountId(rsp, req.getParameter("account_id"));
+      res = byAccountId(rsp, req.getParameter("account_id"));
 
     } else {
       rsp.setContentType("text/html");
@@ -100,10 +122,17 @@ public class BecomeAnyAccountLoginServlet extends HttpServlet {
       return;
     }
 
-    if (accounts.size() == 1) {
-      final Account account = accounts.get(0);
-      webSession.get().login(account.getId(), false);
-      rsp.sendRedirect(urlProvider.get());
+    if (res != null) {
+      webSession.get().login(res.getAccountId(), false);
+      final StringBuilder rdr = new StringBuilder();
+      rdr.append(urlProvider.get());
+      rdr.append('#');
+      if (res.isNew()) {
+        rdr.append(PageLinks.REGISTER);
+        rdr.append(',');
+      }
+      rdr.append(PageLinks.MINE);
+      rsp.sendRedirect(rdr.toString());
 
     } else {
       rsp.setContentType("text/html");
@@ -118,58 +147,69 @@ public class BecomeAnyAccountLoginServlet extends HttpServlet {
     }
   }
 
-  private List<Account> bySshUserName(final HttpServletResponse rsp,
+  private AuthResult auth(final Account account) {
+    return account != null ? new AuthResult(account.getId(), false) : null;
+  }
+
+  private AuthResult bySshUserName(final HttpServletResponse rsp,
       final String userName) {
     try {
       final ReviewDb db = schema.open();
       try {
-        final Account account = db.accounts().bySshUserName(userName);
-        return account != null ? Collections.<Account> singletonList(account)
-            : Collections.<Account> emptyList();
+        return auth(db.accounts().bySshUserName(userName));
       } finally {
         db.close();
       }
     } catch (OrmException e) {
       getServletContext().log("cannot query database", e);
-      return Collections.<Account> emptyList();
+      return null;
     }
   }
 
-  private List<Account> byPreferredEmail(final HttpServletResponse rsp,
+  private AuthResult byPreferredEmail(final HttpServletResponse rsp,
       final String email) {
     try {
       final ReviewDb db = schema.open();
       try {
-        return db.accounts().byPreferredEmail(email).toList();
+        List<Account> matches = db.accounts().byPreferredEmail(email).toList();
+        return matches.size() == 1 ? auth(matches.get(0)) : null;
       } finally {
         db.close();
       }
     } catch (OrmException e) {
       getServletContext().log("cannot query database", e);
-      return Collections.<Account> emptyList();
+      return null;
     }
   }
 
-  private List<Account> byAccountId(final HttpServletResponse rsp,
+  private AuthResult byAccountId(final HttpServletResponse rsp,
       final String idStr) {
     final Account.Id id;
     try {
       id = Account.Id.parse(idStr);
     } catch (NumberFormatException nfe) {
-      return Collections.<Account> emptyList();
+      return null;
     }
     try {
       final ReviewDb db = schema.open();
       try {
-        final Account account = db.accounts().get(id);
-        return account != null ? Collections.<Account> singletonList(account)
-            : Collections.<Account> emptyList();
+        return auth(db.accounts().get(id));
       } finally {
         db.close();
       }
     } catch (OrmException e) {
       getServletContext().log("cannot query database", e);
-      return Collections.<Account> emptyList();
+      return null;
+    }
+  }
+
+  private AuthResult create() {
+    String fakeId = AccountExternalId.SCHEME_UUID + UUID.randomUUID();
+    try {
+      return accountManager.authenticate(new AuthRequest(fakeId));
+    } catch (AccountException e) {
+      getServletContext().log("cannot create new account", e);
+      return null;
     }
   }
 }

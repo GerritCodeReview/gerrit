@@ -15,8 +15,8 @@
 -->
 <module rename-to="gerrit">
   <inherits name='com.google.gwt.user.User'/>
+  <inherits name='com.google.gwt.resources.Resources'/>
   <inherits name='com.google.gwt.user.theme.chrome.Chrome'/>
-  <inherits name='com.google.gwtexpui.css.CSS'/>
   <inherits name='com.google.gwtexpui.clippy.Clippy'/>
   <inherits name='com.google.gwtexpui.globalkey.GlobalKey'/>
   <inherits name='com.google.gwtexpui.progress.Progress'/>
@@ -25,8 +25,10 @@
   <inherits name='com.google.gerrit.Common'/>
   <inherits name='com.google.gerrit.UserAgent'/>
   <inherits name='org.eclipse.jgit.JGit'/>
-  <stylesheet src='gerrit.css' />
-  <extend-property name="locale" values="en"/>
+
+  <extend-property name='locale' values='en'/>
+  <set-property-fallback name='locale' value='en'/>
+  <set-property name='locale' value='en'/>
 
   <entry-point class='com.google.gerrit.client.Gerrit'/>
 </module>

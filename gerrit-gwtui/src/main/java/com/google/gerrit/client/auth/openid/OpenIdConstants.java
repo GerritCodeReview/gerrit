@@ -14,13 +14,18 @@
 
 package com.google.gerrit.client.auth.openid;
 
-import com.google.gwt.user.client.ui.AbstractImagePrototype;
-import com.google.gwt.user.client.ui.ImageBundle;
+import com.google.gwt.i18n.client.Constants;
 
-public interface LoginIcons extends ImageBundle {
-  public AbstractImagePrototype openidLogo();
+public interface OpenIdConstants extends Constants {
+  String buttonSignIn();
+  String buttonRegister();
+  String buttonLinkId();
 
-  public AbstractImagePrototype iconGoogle();
+  String rememberMe();
+  String notSupported();
 
-  public AbstractImagePrototype iconYahoo();
+  String nameGoogle();
+  String nameYahoo();
+
+  String whatIsOpenIDHtml();
 }

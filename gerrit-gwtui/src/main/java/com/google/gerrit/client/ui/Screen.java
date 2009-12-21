@@ -31,7 +31,7 @@ public abstract class Screen extends View {
 
   protected Screen() {
     initWidget(new FlowPanel());
-    setStyleName("gerrit-Screen");
+    setStyleName(Gerrit.RESOURCES.css().screen());
   }
 
   @Override
@@ -50,7 +50,7 @@ public abstract class Screen extends View {
     me.add(header = new FlowPanel());
     me.add(body = new FlowPanel());
 
-    header.setStyleName("gerrit-ScreenHeader");
+    header.setStyleName(Gerrit.RESOURCES.css().screenHeader());
     header.add(headerText = new InlineLabel());
   }
 

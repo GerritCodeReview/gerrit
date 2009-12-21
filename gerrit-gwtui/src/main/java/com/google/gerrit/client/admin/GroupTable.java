@@ -14,6 +14,7 @@
 
 package com.google.gerrit.client.admin;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.HistoryHandler;
 import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.reviewdb.AccountGroup;
@@ -59,8 +60,8 @@ public class GroupTable extends NavigationTable<AccountGroup> {
     });
 
     final FlexCellFormatter fmt = table.getFlexCellFormatter();
-    fmt.addStyleName(0, 1, S_DATA_HEADER);
-    fmt.addStyleName(0, 2, S_DATA_HEADER);
+    fmt.addStyleName(0, 1, Gerrit.RESOURCES.css().dataHeader());
+    fmt.addStyleName(0, 2, Gerrit.RESOURCES.css().dataHeader());
   }
 
   @Override
@@ -95,9 +96,9 @@ public class GroupTable extends NavigationTable<AccountGroup> {
     table.setText(row, 2, k.getDescription());
 
     final FlexCellFormatter fmt = table.getFlexCellFormatter();
-    fmt.addStyleName(row, 1, S_DATA_CELL);
-    fmt.addStyleName(row, 1, "GroupName");
-    fmt.addStyleName(row, 2, S_DATA_CELL);
+    fmt.addStyleName(row, 1, Gerrit.RESOURCES.css().dataCell());
+    fmt.addStyleName(row, 1, Gerrit.RESOURCES.css().groupName());
+    fmt.addStyleName(row, 2, Gerrit.RESOURCES.css().dataCell());
 
     setRowItem(row, k);
   }

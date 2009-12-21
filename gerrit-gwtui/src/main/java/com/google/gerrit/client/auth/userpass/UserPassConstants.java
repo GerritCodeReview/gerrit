@@ -1,4 +1,4 @@
-// Copyright (C) 2008 The Android Open Source Project
+// Copyright (C) 2009 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,19 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.client;
+package com.google.gerrit.client.auth.userpass;
 
-import com.google.gwt.user.client.ui.AbstractImagePrototype;
-import com.google.gwt.user.client.ui.ImageBundle;
+import com.google.gwt.i18n.client.Constants;
 
-public interface GerritIcons extends ImageBundle {
-  public AbstractImagePrototype arrowRight();
-
-  public AbstractImagePrototype starOpen();
-
-  public AbstractImagePrototype starFilled();
-
-  public AbstractImagePrototype greenCheck();
-
-  public AbstractImagePrototype redNot();
+public interface UserPassConstants extends Constants {
+  String buttonSignIn();
+  String username();
+  String password();
+  String invalidLogin();
+  String usernameRequired();
+  String passwordRequired();
 }

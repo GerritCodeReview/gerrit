@@ -14,11 +14,12 @@
 
 package com.google.gerrit.client.ui;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gwt.user.client.ui.Label;
 
 public class SmallHeading extends Label {
   public SmallHeading() {
-    setStyleName("gerrit-SmallHeading");
+    setStyleName(Gerrit.RESOURCES.css().smallHeading());
   }
 
   public SmallHeading(final String text) {

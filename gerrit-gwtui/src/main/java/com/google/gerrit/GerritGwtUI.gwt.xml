@@ -18,6 +18,7 @@
   <inherits name='com.google.gwt.resources.Resources'/>
   <inherits name='com.google.gwt.user.theme.chrome.Chrome'/>
   <inherits name='com.google.gwtexpui.clippy.Clippy'/>
+  <inherits name='com.google.gwtexpui.css.CSS'/>
   <inherits name='com.google.gwtexpui.globalkey.GlobalKey'/>
   <inherits name='com.google.gwtexpui.progress.Progress'/>
   <inherits name='com.google.gwtexpui.safehtml.SafeHtml'/>

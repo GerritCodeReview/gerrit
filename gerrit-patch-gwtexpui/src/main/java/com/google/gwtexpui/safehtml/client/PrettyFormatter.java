@@ -108,13 +108,13 @@ public abstract class PrettyFormatter {
 
 
   private static SafeHtml showTabAfterSpace(SafeHtml src) {
-    return src.replaceFirst("^(  *\t)",
-        "<span class=\"gerrit-whitespaceerror\">$1</span>");
+    return src.replaceFirst("^(  *\t)", "<span class=\""
+        + Resources.I.css().whitespaceerror() + "\">$1</span>");
   }
 
   private static SafeHtml showTrailingWhitespace(SafeHtml src) {
-    return src.replaceFirst("([ \t][ \t]*)(\r?\n?)$",
-        "<span class=\"gerrit-whitespaceerror\">$1</span>$2");
+    return src.replaceFirst("([ \t][ \t]*)(\r?\n?)$", "<span class=\""
+        + Resources.I.css().whitespaceerror() + "\">$1</span>$2");
   }
 
   protected SafeHtml prettify(SafeHtml line) {
@@ -123,6 +123,7 @@ public abstract class PrettyFormatter {
 
   private static class Pretty extends PrettyFormatter {
     static {
+      Resources.I.prettify_css().ensureInjected();
       Resources.I.css().ensureInjected();
 
       eval(Resources.I.core());

@@ -23,7 +23,10 @@ public interface Resources extends ClientBundle {
   public static final Resources I = GWT.create(Resources.class);
 
   @Source("prettify.css")
-  CssResource css();
+  CssResource prettify_css();
+
+  @Source("gerrit.css")
+  PrettyCss css();
 
   @Source("prettify.js")
   TextResource core();

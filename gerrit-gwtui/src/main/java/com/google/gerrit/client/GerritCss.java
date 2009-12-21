@@ -166,6 +166,4 @@ public interface GerritCss extends CssResource {
   String topmost();
   String useridentity();
   String version();
-  String visualtab();
-  String whitespaceerror();
 }

@@ -172,7 +172,7 @@ public class QueryShell {
       ResultSet rs = meta.getTables(null, null, null, types);
       try {
         println("                     List of relations");
-        showResultSet(rs, //
+        showResultSet(rs, false, //
             Identity.create(rs, "TABLE_SCHEM"), //
             Identity.create(rs, "TABLE_NAME"), //
             Identity.create(rs, "TABLE_TYPE"));
@@ -209,7 +209,7 @@ public class QueryShell {
         }
 
         println("                     Table " + tableName);
-        showResultSet(rs, //
+        showResultSet(rs, true, //
             Identity.create(rs, "COLUMN_NAME"), //
             new Function("TYPE") {
               @Override
@@ -305,7 +305,7 @@ public class QueryShell {
       if (hasResultSet) {
         final ResultSet rs = statement.getResultSet();
         try {
-          final int rowCount = showResultSet(rs);
+          final int rowCount = showResultSet(rs, false);
           final long ms = System.currentTimeMillis() - start;
           println("(" + rowCount + (rowCount == 1 ? " row" : " rows") //
               + "; " + ms + " ms)");
@@ -324,8 +324,8 @@ public class QueryShell {
     }
   }
 
-  private int showResultSet(final ResultSet rs, Function... show)
-      throws SQLException {
+  private int showResultSet(final ResultSet rs, boolean alreadyOnRow,
+      Function... show) throws SQLException {
     final ResultSetMetaData meta = rs.getMetaData();
 
     final Function[] columnMap;
@@ -349,7 +349,7 @@ public class QueryShell {
     }
 
     final List<String[]> rows = new ArrayList<String[]>();
-    while (rs.next()) {
+    while (alreadyOnRow || rs.next()) {
       final String[] row = new String[columnMap.length];
       for (int c = 0; c < colCnt; c++) {
         row[c] = columnMap[c].apply(rs);
@@ -359,6 +359,7 @@ public class QueryShell {
         widths[c] = Math.max(widths[c], row[c].length());
       }
       rows.add(row);
+      alreadyOnRow = false;
     }
 
     final StringBuilder b = new StringBuilder();

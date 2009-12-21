@@ -28,10 +28,12 @@ import com.google.gerrit.server.workflow.NoOpFunction;
 import com.google.gerrit.server.workflow.SubmitFunction;
 import com.google.gerrit.testutil.TestDatabase;
 import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.jdbc.JdbcSchema;
 
 import junit.framework.TestCase;
 
 import java.io.File;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashSet;
 
@@ -51,18 +53,23 @@ public class SchemaCreatorTest extends TestCase {
     super.tearDown();
   }
 
-  public void testGetCauses_CreateSchema() throws OrmException {
+  public void testGetCauses_CreateSchema() throws OrmException, SQLException {
     // Initially the schema should be empty.
     //
-    try {
-      getSchemaVersion();
-      fail("Brand new test database has schema_version table");
-    } catch (OrmException e) {
-      final Throwable cause = e.getCause();
-      assertTrue(cause instanceof SQLException);
-
-      final String msg = cause.getMessage();
-      assertEquals("Table \"SCHEMA_VERSION\" not found", msg.split(";")[0]);
+    {
+      final JdbcSchema d = (JdbcSchema) db.open();
+      try {
+        final String[] types = {"TABLE", "VIEW"};
+        final ResultSet rs =
+            d.getConnection().getMetaData().getTables(null, null, null, types);
+        try {
+          assertFalse(rs.next());
+        } finally {
+          rs.close();
+        }
+      } finally {
+        d.close();
+      }
     }
 
     // Create the schema using the current schema version.

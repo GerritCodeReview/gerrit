@@ -2,32 +2,10 @@ Gerrit Code Review - Eclipse Setup
 ==================================
 
 This document is about configuring Gerrit Code Review into an
-Eclipse workspace for development and debugging with the GWT
-hosted mode debugger.
+Eclipse workspace for development and debugging with GWT.
 
-You will need to have the GWT (Google Web Toolkit) 1.7 SDK installed
-on your system.  A Java 6 or later SDK is also required to run
-GWT's compiler and runtime.
-
-GWT requires the Sun JDK (or OpenJDK).  The GWT "hosted mode"
-environment (Eclipse debugger or "make web-shell") does not work
-under libgcj.
-
-
-User Library
-------------
-
-Create a user library called `GWT_17`:
-
-* Window > Preferences
-* Java > Build Path > User Libraries
-
-* New
-* Name: `GWT_17`
-* Add JARs...
-
-* Select `gwt-user.jar` from the $(GWT_SDK) directory.
-* Select `gwt-dev-$(OS).jar` from the $(GWT_SDK) directory.
+Java 6 or later SDK is also required to run GWT's compiler and
+runtime debugging environment.
 
 
 Maven Plugin
@@ -93,11 +71,10 @@ Duplicate the existing `pgm_daemon` launch configuration:
 Running Hosted Mode
 ~~~~~~~~~~~~~~~~~~~
 
-Duplicate the existing `gwtui_any` (or `gwtui_mac` if on Mac OS X)
-launch configuration:
+Duplicate the existing `gwtui_dbg` launch configuration:
 
 * Run -> Debug Configurations ...
-* Java Application -> `gwtui_any`
+* Java Application -> `gwtui_dbg`
 * Right click, Duplicate
 
 * Modify the name to be unique.

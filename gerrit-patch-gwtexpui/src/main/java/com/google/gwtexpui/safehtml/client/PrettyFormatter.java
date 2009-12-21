@@ -52,7 +52,7 @@ public abstract class PrettyFormatter {
   }
 
   public static PrettyFormatter newFormatter(String lang) {
-    return Pretty.loaded ? new Pretty(lang) : new PassThrough();
+    return new Pretty(lang);
   }
 
   private boolean showWhiteSpaceErrors;
@@ -121,9 +121,6 @@ public abstract class PrettyFormatter {
     return line;
   }
 
-  private static class PassThrough extends PrettyFormatter {
-  }
-
   private static class Pretty extends PrettyFormatter {
     static {
       Resources.I.css().ensureInjected();
@@ -139,11 +136,6 @@ public abstract class PrettyFormatter {
       eval(Resources.I.lang_vb());
       eval(Resources.I.lang_wiki());
     }
-
-    static final boolean loaded = isLoaded();
-
-    private static native boolean isLoaded()
-    /*-{ return window.prettyPrintOne != null }-*/;
 
     private static void eval(final TextResource core) {
       eval(core.getText());

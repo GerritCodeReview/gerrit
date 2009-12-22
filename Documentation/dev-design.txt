@@ -524,8 +524,8 @@ per second (QPS).
   QPD = Changes_Day * Revisions_Change * Reviewers_Change * (4 + F + F * C)
       = 400         * 2.0              * 1.0              * (4 + 4 + 4 * 2)
       = 12,800
-  QPS = QPD / 8_Hours / 60_Seconds
-      = 26
+  QPS = QPD / 8_Hours / 60_Minutes / 60_Seconds
+      = 0.43
 ----
 
 Gerrit serves most requests in under 60 ms when using the loopback

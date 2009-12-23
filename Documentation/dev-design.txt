@@ -517,7 +517,7 @@ page after comments are published.
 
 This WAG'd estimate boils down to <12,800 HTTP requests per day
 (QPD). Assuming these are evenly distributed over an 8 hour work day
-in a single time zone, we are looking at approximately 26 queries
+in a single time zone, we are looking at approximately 0.43 queries
 per second (QPS).
 
 ----
@@ -535,7 +535,7 @@ sufficient for a site with the estimated load described above.
 
 Given a more realistic estimate of 79 changes per day (from the
 Linux kernel) suggests only 2,528 queries per day, and a much lower
-5.2 QPS when spread out over an 8 hour work day.
+0.08 QPS when spread out over an 8 hour work day.
 
 Disk Usage
 ~~~~~~~~~~

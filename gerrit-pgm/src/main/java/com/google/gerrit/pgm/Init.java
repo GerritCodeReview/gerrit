@@ -34,8 +34,10 @@ import com.google.gerrit.server.git.GitProjectImporter;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gerrit.server.schema.SchemaUpdater;
+import com.google.gerrit.server.schema.UpdateUI;
 import com.google.gerrit.server.util.HostPlatform;
 import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.StatementExecutor;
 import com.google.inject.AbstractModule;
 import com.google.inject.CreationException;
 import com.google.inject.Guice;
@@ -76,7 +78,7 @@ public class Init extends SiteProgram {
       init.flags.deleteOnFailure = false;
 
       run = createSiteRun(init);
-      run.schemaUpdater.update();
+      run.upgradeSchema();
       run.importGit();
     } catch (Exception failure) {
       if (init.flags.deleteOnFailure) {
@@ -174,6 +176,39 @@ public class Init extends SiteProgram {
       this.repositoryManager = repositoryManager;
       this.gitProjectImporter = gitProjectImporter;
       this.browser = browser;
+    }
+
+    void upgradeSchema() throws OrmException {
+      schemaUpdater.update(new UpdateUI() {
+        @Override
+        public void message(String msg) {
+          System.err.println(msg);
+          System.err.flush();
+        }
+
+        @Override
+        public void pruneSchema(StatementExecutor e, List<String> pruneList)
+            throws OrmException {
+          StringBuilder msg = new StringBuilder();
+          msg.append("Execute the following SQL to drop unused objects:\n");
+          msg.append("\n");
+          for (String sql : pruneList) {
+            msg.append("  ");
+            msg.append(sql);
+            msg.append(";\n");
+          }
+
+          if (ui.isBatch()) {
+            System.err.print(msg);
+            System.err.flush();
+
+          } else if (ui.yesno(true, "%s\nExecute now", msg)) {
+            for (String sql : pruneList) {
+              e.execute(sql);
+            }
+          }
+        }
+      });
     }
 
     void importGit() throws OrmException, IOException {

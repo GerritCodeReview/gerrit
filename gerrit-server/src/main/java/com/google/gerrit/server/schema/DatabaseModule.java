@@ -12,11 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.config;
+package com.google.gerrit.server.schema;
 
 import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.server.config.FactoryModule;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.gwtorm.jdbc.Database;
 import com.google.inject.TypeLiteral;
@@ -25,6 +26,8 @@ import com.google.inject.TypeLiteral;
 public class DatabaseModule extends FactoryModule {
   @Override
   protected void configure() {
+    install(new SchemaVersion.Module());
+
     bind(new TypeLiteral<SchemaFactory<ReviewDb>>() {}).to(
         new TypeLiteral<Database<ReviewDb>>() {}).in(SINGLETON);
     bind(new TypeLiteral<Database<ReviewDb>>() {}).toProvider(

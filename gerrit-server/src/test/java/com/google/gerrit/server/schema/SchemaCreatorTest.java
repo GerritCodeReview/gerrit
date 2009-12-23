@@ -20,9 +20,7 @@ import com.google.gerrit.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ProjectRight;
 import com.google.gerrit.reviewdb.ReviewDb;
-import com.google.gerrit.reviewdb.SchemaVersion;
 import com.google.gerrit.reviewdb.SystemConfig;
-import com.google.gerrit.server.config.SystemConfigProvider;
 import com.google.gerrit.server.config.WildProjectNameProvider;
 import com.google.gerrit.server.workflow.NoOpFunction;
 import com.google.gerrit.server.workflow.SubmitFunction;
@@ -75,11 +73,8 @@ public class SchemaCreatorTest extends TestCase {
     // Create the schema using the current schema version.
     //
     db.create();
-    final SystemConfig config = getSystemConfig();
-    final SchemaVersion version = getSchemaVersion();
-    assertNotNull(version);
-    assertEquals(ReviewDb.VERSION, version.versionNbr);
-
+    db.assertSchemaVersion();
+    final SystemConfig config = db.getSystemConfig();
     assertNotNull(config);
     assertNotNull(config.adminGroupId);
     assertNotNull(config.anonymousGroupId);
@@ -101,8 +96,8 @@ public class SchemaCreatorTest extends TestCase {
 
   public void testSubsequentGetReads() throws OrmException {
     db.create();
-    final SystemConfig exp = getSystemConfig();
-    final SystemConfig act = getSystemConfig();
+    final SystemConfig exp = db.getSystemConfig();
+    final SystemConfig act = db.getSystemConfig();
 
     assertNotSame(exp, act);
     assertEquals(exp.adminGroupId, act.adminGroupId);
@@ -114,7 +109,7 @@ public class SchemaCreatorTest extends TestCase {
 
   public void testCreateSchema_Group_Administrators() throws OrmException {
     db.create();
-    final SystemConfig config = getSystemConfig();
+    final SystemConfig config = db.getSystemConfig();
     final ReviewDb c = db.open();
     try {
       final AccountGroup admin = c.accountGroups().get(config.adminGroupId);
@@ -129,7 +124,7 @@ public class SchemaCreatorTest extends TestCase {
 
   public void testCreateSchema_Group_AnonymousUsers() throws OrmException {
     db.create();
-    final SystemConfig config = getSystemConfig();
+    final SystemConfig config = db.getSystemConfig();
     final ReviewDb c = db.open();
     try {
       final AccountGroup anon = c.accountGroups().get(config.anonymousGroupId);
@@ -144,7 +139,7 @@ public class SchemaCreatorTest extends TestCase {
 
   public void testCreateSchema_Group_RegisteredUsers() throws OrmException {
     db.create();
-    final SystemConfig config = getSystemConfig();
+    final SystemConfig config = db.getSystemConfig();
     final ReviewDb c = db.open();
     try {
       final AccountGroup reg = c.accountGroups().get(config.registeredGroupId);
@@ -323,14 +318,14 @@ public class SchemaCreatorTest extends TestCase {
   public void testCreateSchema_DefaultAccess_AnonymousUsers()
       throws OrmException {
     db.create();
-    final SystemConfig config = getSystemConfig();
+    final SystemConfig config = db.getSystemConfig();
     assertDefaultRight(config.anonymousGroupId, ApprovalCategory.READ, 1, 1);
   }
 
   public void testCreateSchema_DefaultAccess_RegisteredUsers()
       throws OrmException {
     db.create();
-    final SystemConfig config = getSystemConfig();
+    final SystemConfig config = db.getSystemConfig();
     assertDefaultRight(config.registeredGroupId, ApprovalCategory.READ, 1, 2);
     assertDefaultRight(config.registeredGroupId, codeReview, -1, 1);
   }
@@ -338,7 +333,7 @@ public class SchemaCreatorTest extends TestCase {
   public void testCreateSchema_DefaultAccess_Administrators()
       throws OrmException {
     db.create();
-    final SystemConfig config = getSystemConfig();
+    final SystemConfig config = db.getSystemConfig();
     assertDefaultRight(config.adminGroupId, ApprovalCategory.READ, 1, 1);
   }
 
@@ -359,19 +354,6 @@ public class SchemaCreatorTest extends TestCase {
       assertEquals(category, right.getApprovalCategoryId());
       assertEquals(min, right.getMinValue());
       assertEquals(max, right.getMaxValue());
-    } finally {
-      c.close();
-    }
-  }
-
-  private SystemConfig getSystemConfig() {
-    return new SystemConfigProvider(db).get();
-  }
-
-  private SchemaVersion getSchemaVersion() throws OrmException {
-    final ReviewDb c = db.open();
-    try {
-      return c.schemaVersion().get(new SchemaVersion.Key());
     } finally {
       c.close();
     }

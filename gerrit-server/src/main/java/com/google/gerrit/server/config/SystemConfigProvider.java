@@ -14,9 +14,11 @@
 
 package com.google.gerrit.server.config;
 
+import com.google.gerrit.reviewdb.CurrentSchemaVersion;
 import com.google.gerrit.reviewdb.ReviewDb;
-import com.google.gerrit.reviewdb.SchemaVersion;
 import com.google.gerrit.reviewdb.SystemConfig;
+import com.google.gerrit.server.schema.Current;
+import com.google.gerrit.server.schema.SchemaVersion;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
@@ -29,9 +31,14 @@ import java.util.List;
 public class SystemConfigProvider implements Provider<SystemConfig> {
   private final SchemaFactory<ReviewDb> schema;
 
+  @Current
+  private final Provider<SchemaVersion> version;
+
   @Inject
-  public SystemConfigProvider(final SchemaFactory<ReviewDb> sf) {
-    schema = sf;
+  public SystemConfigProvider(final SchemaFactory<ReviewDb> schemaFactory,
+      @Current final Provider<SchemaVersion> version) {
+    this.schema = schemaFactory;
+    this.version = version;
   }
 
   @Override
@@ -39,15 +46,17 @@ public class SystemConfigProvider implements Provider<SystemConfig> {
     try {
       final ReviewDb db = schema.open();
       try {
-        SchemaVersion sVer = getSchemaVersion(db);
+        final CurrentSchemaVersion sVer = getSchemaVersion(db);
+        final int eVer = version.get().getVersionNbr();
 
         if (sVer == null) {
           throw new OrmException("Schema not yet initialized."
               + "  Run init to initialize the schema.");
         }
-        if (sVer.versionNbr != ReviewDb.VERSION) {
-          throw new OrmException("Unsupported schema version " + sVer.versionNbr
-              + "; expected schema version " + ReviewDb.VERSION + ".  Run init to upgrade.");
+        if (sVer.versionNbr != eVer) {
+          throw new OrmException("Unsupported schema version "
+              + sVer.versionNbr + "; expected schema version " + eVer
+              + ".  Run init to upgrade.");
         }
 
         final List<SystemConfig> all = db.systemConfig().all().toList();
@@ -57,8 +66,8 @@ public class SystemConfigProvider implements Provider<SystemConfig> {
           case 0:
             throw new OrmException("system_config table is empty");
           default:
-            throw new OrmException("system_config must have exactly 1 row;" + " found "
-                + all.size() + " rows instead");
+            throw new OrmException("system_config must have exactly 1 row;"
+                + " found " + all.size() + " rows instead");
         }
       } finally {
         db.close();
@@ -68,9 +77,9 @@ public class SystemConfigProvider implements Provider<SystemConfig> {
     }
   }
 
-  private SchemaVersion getSchemaVersion(final ReviewDb db) {
+  private CurrentSchemaVersion getSchemaVersion(final ReviewDb db) {
     try {
-      return db.schemaVersion().get(new SchemaVersion.Key());
+      return db.schemaVersion().get(new CurrentSchemaVersion.Key());
     } catch (OrmException e) {
       return null;
     }

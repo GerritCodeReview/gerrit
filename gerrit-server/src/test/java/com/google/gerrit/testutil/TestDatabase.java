@@ -14,12 +14,22 @@
 
 package com.google.gerrit.testutil;
 
+import com.google.gerrit.reviewdb.CurrentSchemaVersion;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.SystemConfig;
+import com.google.gerrit.server.config.SystemConfigProvider;
+import com.google.gerrit.server.schema.Current;
 import com.google.gerrit.server.schema.SchemaCreator;
+import com.google.gerrit.server.schema.SchemaVersion;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.gwtorm.jdbc.Database;
 import com.google.gwtorm.jdbc.SimpleDataSource;
+import com.google.inject.Guice;
+import com.google.inject.Key;
+import com.google.inject.Provider;
+
+import junit.framework.TestCase;
 
 import java.io.File;
 import java.sql.Connection;
@@ -57,6 +67,7 @@ public class TestDatabase implements SchemaFactory<ReviewDb> {
   private Connection openHandle;
   private Database<ReviewDb> database;
   private boolean created;
+  private SchemaVersion schemaVersion;
 
   public TestDatabase() throws OrmException {
     try {
@@ -71,6 +82,10 @@ public class TestDatabase implements SchemaFactory<ReviewDb> {
       // Build the access layer around the connection factory.
       //
       database = new Database<ReviewDb>(dataSource, ReviewDb.class);
+
+      schemaVersion =
+          Guice.createInjector(new SchemaVersion.Module()).getBinding(
+              Key.get(SchemaVersion.class, Current.class)).getProvider().get();
     } catch (SQLException e) {
       throw new OrmException(e);
     }
@@ -91,7 +106,7 @@ public class TestDatabase implements SchemaFactory<ReviewDb> {
       created = true;
       final ReviewDb c = open();
       try {
-        new SchemaCreator(new File(".")).create(c);
+        new SchemaCreator(new File("."), schemaVersion).create(c);
       } finally {
         c.close();
       }
@@ -111,5 +126,27 @@ public class TestDatabase implements SchemaFactory<ReviewDb> {
       openHandle = null;
       database = null;
     }
+  }
+
+  public SystemConfig getSystemConfig() {
+    return new SystemConfigProvider(this, new Provider<SchemaVersion>() {
+      public SchemaVersion get() {
+        return schemaVersion;
+      }
+    }).get();
+  }
+
+  public CurrentSchemaVersion getSchemaVersion() throws OrmException {
+    final ReviewDb c = open();
+    try {
+      return c.schemaVersion().get(new CurrentSchemaVersion.Key());
+    } finally {
+      c.close();
+    }
+  }
+
+  public void assertSchemaVersion() throws OrmException {
+    final CurrentSchemaVersion act = getSchemaVersion();
+    TestCase.assertEquals(schemaVersion.getVersionNbr(), act.versionNbr);
   }
 }

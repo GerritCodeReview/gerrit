@@ -12,15 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.reviewdb;
+package com.google.gerrit.server.schema;
 
-import com.google.gwtorm.client.Access;
 import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.PrimaryKey;
+import com.google.gwtorm.client.StatementExecutor;
 
-/** Access interface for {@link CurrentSchemaVersion}. */
-public interface SchemaVersionAccess extends
-    Access<CurrentSchemaVersion, CurrentSchemaVersion.Key> {
-  @PrimaryKey("singleton")
-  CurrentSchemaVersion get(CurrentSchemaVersion.Key key) throws OrmException;
+import java.util.List;
+
+public interface UpdateUI {
+  void message(String msg);
+
+  void pruneSchema(StatementExecutor e, List<String> pruneList)
+      throws OrmException;
 }

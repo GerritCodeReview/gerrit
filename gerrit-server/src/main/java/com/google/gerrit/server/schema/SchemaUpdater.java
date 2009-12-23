@@ -14,15 +14,17 @@
 
 package com.google.gerrit.server.schema;
 
+import com.google.gerrit.reviewdb.CurrentSchemaVersion;
 import com.google.gerrit.reviewdb.ReviewDb;
-import com.google.gerrit.reviewdb.SchemaVersion;
 import com.google.gerrit.reviewdb.SystemConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Collections;
 
 /** Creates or updates the current database schema. */
@@ -30,23 +32,32 @@ public class SchemaUpdater {
   private final SchemaFactory<ReviewDb> schema;
   private final SitePaths site;
   private final SchemaCreator creator;
+  private final Provider<SchemaVersion> updater;
 
   @Inject
   SchemaUpdater(final SchemaFactory<ReviewDb> schema, final SitePaths site,
-      final SchemaCreator creator) {
+      final SchemaCreator creator, @Current final Provider<SchemaVersion> update) {
     this.schema = schema;
     this.site = site;
     this.creator = creator;
+    this.updater = update;
   }
 
-  public void update() throws OrmException {
+  public void update(final UpdateUI ui) throws OrmException {
     final ReviewDb db = schema.open();
     try {
-      final SchemaVersion version = getSchemaVersion(db);
+      final SchemaVersion u = updater.get();
+      final CurrentSchemaVersion version = getSchemaVersion(db);
       if (version == null) {
         creator.create(db);
 
       } else {
+        try {
+          u.check(ui, version, db);
+        } catch (SQLException e) {
+          throw new OrmException("Cannot upgrade schema", e);
+        }
+
         updateSystemConfig(db);
       }
     } finally {
@@ -54,9 +65,9 @@ public class SchemaUpdater {
     }
   }
 
-  private SchemaVersion getSchemaVersion(final ReviewDb db) {
+  private CurrentSchemaVersion getSchemaVersion(final ReviewDb db) {
     try {
-      return db.schemaVersion().get(new SchemaVersion.Key());
+      return db.schemaVersion().get(new CurrentSchemaVersion.Key());
     } catch (OrmException e) {
       return null;
     }

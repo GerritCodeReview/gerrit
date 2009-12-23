@@ -17,10 +17,10 @@ package com.google.gerrit.server.schema;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.ApprovalCategoryValue;
+import com.google.gerrit.reviewdb.CurrentSchemaVersion;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ProjectRight;
 import com.google.gerrit.reviewdb.ReviewDb;
-import com.google.gerrit.reviewdb.SchemaVersion;
 import com.google.gerrit.reviewdb.SystemConfig;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePaths;
@@ -30,6 +30,7 @@ import com.google.gerrit.server.workflow.SubmitFunction;
 import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.Transaction;
+import com.google.gwtorm.jdbc.JdbcExecutor;
 import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.schema.sql.DialectH2;
 import com.google.gwtorm.schema.sql.DialectMySQL;
@@ -50,17 +51,21 @@ public class SchemaCreator {
   private final @SitePath
   File site_path;
 
+  private final int versionNbr;
   private final ScriptRunner index_generic;
   private final ScriptRunner index_postgres;
   private final ScriptRunner mysql_nextval;
 
   @Inject
-  public SchemaCreator(final SitePaths site) {
-    this(site.site_path);
+  public SchemaCreator(final SitePaths site,
+      @Current final SchemaVersion version) {
+    this(site.site_path, version);
   }
 
-  public SchemaCreator(final @SitePath File site) {
+  public SchemaCreator(final @SitePath File site,
+      @Current final SchemaVersion version) {
     site_path = site;
+    versionNbr = version.getVersionNbr();
     index_generic = new ScriptRunner("index_generic.sql");
     index_postgres = new ScriptRunner("index_postgres.sql");
     mysql_nextval = new ScriptRunner("mysql_nextval.sql");
@@ -68,11 +73,15 @@ public class SchemaCreator {
 
   public void create(final ReviewDb db) throws OrmException {
     final JdbcSchema jdbc = (JdbcSchema) db;
+    final JdbcExecutor e = new JdbcExecutor(jdbc);
+    try {
+      jdbc.updateSchema(e);
+    } finally {
+      e.close();
+    }
 
-    jdbc.createSchema();
-
-    final SchemaVersion sVer = SchemaVersion.create();
-    sVer.versionNbr = ReviewDb.VERSION;
+    final CurrentSchemaVersion sVer = CurrentSchemaVersion.create();
+    sVer.versionNbr = versionNbr;
     db.schemaVersion().insert(Collections.singleton(sVer));
 
     final SystemConfig sConfig = initSystemConfig(db);

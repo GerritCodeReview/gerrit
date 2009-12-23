@@ -14,19 +14,11 @@
 
 package com.google.gerrit.pgm.util;
 
-import org.eclipse.jgit.util.StringUtils;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
 public final class IoUtil {
-  public static final boolean isWin32() {
-    final String osDotName = System.getProperty("os.name");
-    return osDotName != null
-        && StringUtils.toLowerCase(osDotName).indexOf("windows") != -1;
-  }
-
   public static void copyWithThread(final InputStream src,
       final OutputStream dst) {
     new Thread("IoUtil-Copy") {

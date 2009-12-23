@@ -30,10 +30,11 @@ import com.google.gerrit.pgm.util.IoUtil;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gerrit.server.git.GitProjectImporter;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gerrit.server.schema.SchemaUpdater;
+import com.google.gerrit.server.util.HostPlatform;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.AbstractModule;
 import com.google.inject.CreationException;
@@ -194,7 +195,7 @@ public class Init extends SiteProgram {
 
     void start() throws IOException {
       if (flags.autoStart) {
-        if (IoUtil.isWin32()) {
+        if (HostPlatform.isWin32()) {
           System.err.println("Automatic startup not supported on Win32.");
 
         } else {

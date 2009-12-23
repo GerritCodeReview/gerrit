@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.config;
 
+import com.google.gerrit.server.util.HostPlatform;
+
 import junit.framework.TestCase;
 
 import java.io.File;
@@ -84,7 +86,7 @@ public class SitePathsTest extends TestCase {
     assertNotNull(site.resolve("a"));
     assertEquals(new File(root, "a"), site.resolve("a"));
 
-    final String pfx = isWin32() ? "C:/" : "/";
+    final String pfx = HostPlatform.isWin32() ? "C:/" : "/";
     assertNotNull(site.resolve(pfx + "a"));
     assertEquals(new File(pfx + "a"), site.resolve(pfx + "a"));
   }
@@ -92,11 +94,5 @@ public class SitePathsTest extends TestCase {
   private File random() {
     final File t = new File("target");
     return new File(t, "random-name-" + UUID.randomUUID().toString());
-  }
-
-  private static boolean isWin32() {
-    final String osDotName = System.getProperty("os.name");
-    return osDotName != null
-        && osDotName.toLowerCase().indexOf("windows") != -1;
   }
 }

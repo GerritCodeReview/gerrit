@@ -1,0 +1,157 @@
+// Copyright (C) 2009 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package com.google.gerrit.server.schema;
+
+import com.google.gerrit.reviewdb.CurrentSchemaVersion;
+import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.StatementExecutor;
+import com.google.gwtorm.jdbc.JdbcExecutor;
+import com.google.gwtorm.jdbc.JdbcSchema;
+import com.google.inject.AbstractModule;
+import com.google.inject.Provider;
+
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Collections;
+
+/** A version of the database schema. */
+public abstract class SchemaVersion {
+  /** The current schema version. */
+  private static final Class<? extends SchemaVersion> C = Schema_19.class;
+
+  public static class Module extends AbstractModule {
+    @Override
+    protected void configure() {
+      bind(SchemaVersion.class).annotatedWith(Current.class).to(C);
+    }
+  }
+
+  private final Provider<? extends SchemaVersion> prior;
+  private final int versionNbr;
+
+  protected SchemaVersion(final Provider<? extends SchemaVersion> prior) {
+    this.prior = prior;
+    this.versionNbr = guessVersion(getClass());
+  }
+
+  private static int guessVersion(Class<?> c) {
+    String n = c.getName();
+    n = n.substring(n.lastIndexOf('_') + 1);
+    while (n.startsWith("0"))
+      n = n.substring(1);
+    return Integer.parseInt(n);
+  }
+
+  protected SchemaVersion(final Provider<? extends SchemaVersion> prior,
+      final int versionNbr) {
+    this.prior = prior;
+    this.versionNbr = versionNbr;
+  }
+
+  /** @return the {@link CurrentSchemaVersion#versionNbr} this step targets. */
+  public final int getVersionNbr() {
+    return versionNbr;
+  }
+
+  public final void check(CurrentSchemaVersion curr, ReviewDb db)
+      throws OrmException, SQLException {
+    if (curr.versionNbr == versionNbr) {
+      // Nothing to do, we are at the correct schema.
+      //
+    } else {
+      upgradeFrom(curr, db);
+    }
+  }
+
+  /** Runs check on the prior schema version, and then upgrades. */
+  protected void upgradeFrom(CurrentSchemaVersion curr, ReviewDb db)
+      throws OrmException, SQLException {
+    final JdbcSchema s = (JdbcSchema) db;
+
+    prior.get().check(curr, db);
+    preUpdateSchema(db);
+
+    final JdbcExecutor e = new JdbcExecutor(s);
+    try {
+      s.updateSchema(e);
+    } finally {
+      e.close();
+    }
+
+    migrateData(db);
+
+    final boolean[] prune = new boolean[1];
+    s.pruneSchema(new StatementExecutor() {
+      public void execute(String sql) {
+        if (!prune[0]) {
+          System.err.println("Run the following SQL by hand"
+              + " to remove outdated schema elements:");
+          System.err.println();
+          prune[0] = true;
+        }
+        System.err.println("  " + sql + ";");
+        System.err.flush();
+      }
+    });
+    if (prune[0]) {
+      System.err.println();
+      System.err.flush();
+    }
+
+    finish(curr, db);
+  }
+
+  /** Invoke before updateSchema adds new columns/tables. */
+  protected void preUpdateSchema(ReviewDb db) throws OrmException, SQLException {
+  }
+
+  /**
+   * Invoked between updateSchema (adds new columns/tables) and pruneSchema
+   * (removes deleted columns/tables).
+   */
+  @SuppressWarnings("unused")
+  protected void migrateData(ReviewDb db) throws OrmException, SQLException {
+  }
+
+  /** Mark the current schema version. */
+  protected void finish(CurrentSchemaVersion curr, ReviewDb db)
+      throws OrmException {
+    curr.versionNbr = versionNbr;
+    db.schemaVersion().update(Collections.singleton(curr));
+  }
+
+  /** Rename an existing column. */
+  protected void renameColumn(ReviewDb db, String table, String from, String to)
+      throws OrmException {
+    final JdbcSchema s = (JdbcSchema) db;
+    final JdbcExecutor e = new JdbcExecutor(s);
+    try {
+      s.renameField(e, table, from, to);
+    } finally {
+      e.close();
+    }
+  }
+
+  /** Execute a SQL statement. */
+  protected void execute(ReviewDb db, String sql) throws SQLException {
+    Statement s = ((JdbcSchema) db).getConnection().createStatement();
+    try {
+      s.execute(sql);
+    } finally {
+      s.close();
+    }
+  }
+}

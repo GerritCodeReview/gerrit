@@ -18,10 +18,10 @@ import static com.google.inject.Scopes.SINGLETON;
 import static com.google.inject.Stage.PRODUCTION;
 
 import com.google.gerrit.lifecycle.LifecycleModule;
-import com.google.gerrit.server.config.DatabaseModule;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.schema.DataSourceProvider;
+import com.google.gerrit.server.schema.DatabaseModule;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.AbstractModule;
 import com.google.inject.CreationException;

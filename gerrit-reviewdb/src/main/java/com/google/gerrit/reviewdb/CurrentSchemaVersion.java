@@ -18,7 +18,7 @@ import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.StringKey;
 
 /** Current version of the database schema, to facilitate live upgrades. */
-public final class SchemaVersion {
+public final class CurrentSchemaVersion {
   public static final class Key extends
       StringKey<com.google.gwtorm.client.Key<?>> {
     private static final long serialVersionUID = 1L;
@@ -43,9 +43,9 @@ public final class SchemaVersion {
   }
 
   /** Construct a new, unconfigured instance. */
-  public static SchemaVersion create() {
-    final SchemaVersion r = new SchemaVersion();
-    r.singleton = new SchemaVersion.Key();
+  public static CurrentSchemaVersion create() {
+    final CurrentSchemaVersion r = new CurrentSchemaVersion();
+    r.singleton = new CurrentSchemaVersion.Key();
     return r;
   }
 
@@ -56,6 +56,6 @@ public final class SchemaVersion {
   @Column
   public transient int versionNbr;
 
-  protected SchemaVersion() {
+  protected CurrentSchemaVersion() {
   }
 }

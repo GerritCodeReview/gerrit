@@ -31,7 +31,7 @@ import com.google.gwtorm.client.Sequence;
  * </ul>
  */
 public interface ReviewDb extends Schema {
-  public static final int VERSION = 19;
+  /* If you change anything, update SchemaVersion.C to use a new version. */
 
   @Relation
   SchemaVersionAccess schemaVersion();

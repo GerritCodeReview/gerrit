@@ -986,19 +986,29 @@ final class Receive extends AbstractGitCommand {
               return null;
             }
 
-            // Don't allow the same tree if the commit message is unmodified,
-            // else warn that only the message changed.
+            // Don't allow the same tree if the commit message is unmodified
+            // or no parents were updated (rebase), else warn that only part
+            // of the commit was modified.
             //
             if (priorPatchSet.equals(ps.getId())
                 && c.getTree() == prior.getTree()) {
               rp.getRevWalk().parseBody(prior);
-              if (c.getFullMessage().equals(prior.getFullMessage())) {
+              final boolean messageEq =
+                  c.getFullMessage().equals(prior.getFullMessage());
+              final boolean parentsEq = parentsEqual(c, prior);
+
+              if (messageEq && parentsEq) {
                 reject(request.cmd, "no changes made");
                 return null;
               } else {
-                err.write(Constants
-                    .encode("warning: Only commit message changed in "
-                        + change.getKey().abbreviate() + "\n"));
+                err.write(Constants.encode("warning: " //
+                    + change.getKey().abbreviate() + ": " //
+                    + " no files changed, but" //
+                    + (!messageEq ? " message updated" : "") //
+                    + (!messageEq && !parentsEq ? " and" : "") //
+                    + (!parentsEq ? " was rebased" : "") //
+                    + "\n" //
+                ));
               }
             }
           } catch (IOException e) {
@@ -1139,6 +1149,18 @@ final class Receive extends AbstractGitCommand {
     }
     sendMergedEmail(result);
     return result != null ? result.info.getKey() : null;
+  }
+
+  static boolean parentsEqual(RevCommit a, RevCommit b) {
+    if (a.getParentCount() != b.getParentCount()) {
+      return false;
+    }
+    for (int i = 0; i < a.getParentCount(); i++) {
+      if (a.getParent(i) != b.getParent(i)) {
+        return false;
+      }
+    }
+    return true;
   }
 
   private void insertDummyApproval(final ReplaceResult result,

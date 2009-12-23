@@ -14,6 +14,8 @@
 
 package com.google.gerrit.sshd.scproot.hooks;
 
+import com.google.gerrit.server.util.HostPlatform;
+
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEntry;
@@ -35,7 +37,23 @@ public class CommitMsgHookTest extends HookTestCase {
   private final String SOB2 = "Signed-off-by: J Committer <jc@example.com>\n";
 
   @Override
+  public void runBare() throws Throwable {
+    try {
+      super.runBare();
+    } catch (SkipTestOnThisPlatform e) {
+      System.err.println(" - Skipping " + getName() + " on this system");
+    }
+  }
+
+  private static class SkipTestOnThisPlatform extends RuntimeException {
+  }
+
+  @Override
   protected void setUp() throws Exception {
+    if (HostPlatform.isWin32()) {
+      throw new SkipTestOnThisPlatform();
+    }
+
     super.setUp();
     final Date when = author.getWhen();
     final TimeZone tz = author.getTimeZone();

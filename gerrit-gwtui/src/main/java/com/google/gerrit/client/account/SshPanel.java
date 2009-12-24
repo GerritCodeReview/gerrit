@@ -23,7 +23,7 @@ import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.client.ui.TextSaveButtonListener;
 import com.google.gerrit.common.data.SshHostKey;
 import com.google.gerrit.common.errors.InvalidSshKeyException;
-import com.google.gerrit.common.errors.InvalidSshUserNameException;
+import com.google.gerrit.common.errors.InvalidUserNameException;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountSshKey;
 import com.google.gwt.core.client.GWT;
@@ -96,15 +96,15 @@ class SshPanel extends Composite {
 
     userNameTxt = new NpTextBox();
     if (Gerrit.isSignedIn()) {
-      userNameTxt.setText(Gerrit.getUserAccount().getSshUserName());
+      userNameTxt.setText(Gerrit.getUserAccount().getUserName());
     }
-    userNameTxt.addKeyPressHandler(new SshUserNameValidator());
+    userNameTxt.addKeyPressHandler(new UserNameValidator());
     userNameTxt.addStyleName(Gerrit.RESOURCES.css().sshPanelUsername());
     userNameTxt.setVisibleLength(16);
-    userNameTxt.setReadOnly(!canEditSshUserName());
+    userNameTxt.setReadOnly(!canEditUserName());
 
-    changeUserName = new Button(Util.C.buttonChangeSshUserName());
-    changeUserName.setVisible(canEditSshUserName());
+    changeUserName = new Button(Util.C.buttonChangeUserName());
+    changeUserName.setVisible(canEditUserName());
     changeUserName.setEnabled(false);
     changeUserName.addClickHandler(new ClickHandler() {
       @Override
@@ -123,7 +123,7 @@ class SshPanel extends Composite {
     userNameRow.add(userNameTxt);
     userNameRow.add(changeUserName);
 
-    row(userInfo, 0, Util.C.sshUserName(), userNameRow);
+    row(userInfo, 0, Util.C.userName(), userNameRow);
     userInfo.getCellFormatter().addStyleName(0, 0, Gerrit.RESOURCES.css().topmost());
     userInfo.getCellFormatter().addStyleName(0, 0, Gerrit.RESOURCES.css().topmost());
     userInfo.getCellFormatter().addStyleName(0, 1, Gerrit.RESOURCES.css().topmost());
@@ -217,8 +217,8 @@ class SshPanel extends Composite {
     initWidget(body);
   }
 
-  private boolean canEditSshUserName() {
-    return Gerrit.getConfig().canEdit(Account.FieldName.SSH_USER_NAME);
+  private boolean canEditUserName() {
+    return Gerrit.getConfig().canEdit(Account.FieldName.USER_NAME);
   }
 
   protected void row(final Grid info, final int row, final String name,
@@ -235,7 +235,7 @@ class SshPanel extends Composite {
   }
 
   void doChangeUserName() {
-    if (!canEditSshUserName()) {
+    if (!canEditUserName()) {
       return;
     }
 
@@ -243,7 +243,7 @@ class SshPanel extends Composite {
     if ("".equals(newName)) {
       newName = null;
     }
-    if (newName != null && !newName.matches(Account.SSH_USER_NAME_PATTERN)) {
+    if (newName != null && !newName.matches(Account.USER_NAME_PATTERN)) {
       invalidUserName();
       return;
     }
@@ -251,14 +251,14 @@ class SshPanel extends Composite {
     userNameTxt.setEnabled(false);
     changeUserName.setEnabled(false);
 
-    final String newSshUserName = newName;
-    Util.ACCOUNT_SEC.changeSshUserName(newSshUserName,
+    final String newUserName = newName;
+    Util.ACCOUNT_SEC.changeUserName(newUserName,
         new GerritCallback<VoidResult>() {
           public void onSuccess(final VoidResult result) {
             userNameTxt.setEnabled(true);
             changeUserName.setEnabled(false);
             if (Gerrit.isSignedIn()) {
-              Gerrit.getUserAccount().setSshUserName(newSshUserName);
+              Gerrit.getUserAccount().setUserName(newUserName);
             }
           }
 
@@ -266,7 +266,7 @@ class SshPanel extends Composite {
           public void onFailure(final Throwable caught) {
             userNameTxt.setEnabled(true);
             changeUserName.setEnabled(true);
-            if (InvalidSshUserNameException.MESSAGE.equals(caught.getMessage())) {
+            if (InvalidUserNameException.MESSAGE.equals(caught.getMessage())) {
               invalidUserName();
             } else {
               super.onFailure(caught);
@@ -277,7 +277,7 @@ class SshPanel extends Composite {
 
   void invalidUserName() {
     userNameTxt.setFocus(true);
-    new ErrorDialog(Util.C.invalidSshUserName()).center();
+    new ErrorDialog(Util.C.invalidUserName()).center();
   }
 
   void doBrowse() {
@@ -411,9 +411,9 @@ class SshPanel extends Composite {
     Util.ACCOUNT_SVC.myAccount(new GerritCallback<Account>() {
       public void onSuccess(final Account result) {
         if (Gerrit.isSignedIn()) {
-          Gerrit.getUserAccount().setSshUserName(result.getSshUserName());
+          Gerrit.getUserAccount().setUserName(result.getUserName());
         }
-        userNameTxt.setText(result.getSshUserName());
+        userNameTxt.setText(result.getUserName());
         userNameTxt.setEnabled(true);
       }
     });
@@ -442,7 +442,7 @@ class SshPanel extends Composite {
     addKeyBlock.setVisible(show);
   }
 
-  private final class SshUserNameValidator implements KeyPressHandler {
+  private final class UserNameValidator implements KeyPressHandler {
     @Override
     public void onKeyPress(final KeyPressEvent event) {
       final char code = event.getCharCode();
@@ -478,9 +478,9 @@ class SshPanel extends Composite {
           final TextBox box = (TextBox) event.getSource();
           final String re;
           if (box.getCursorPos() == 0)
-            re = Account.SSH_USER_NAME_PATTERN_FIRST;
+            re = Account.USER_NAME_PATTERN_FIRST;
           else
-            re = Account.SSH_USER_NAME_PATTERN_REST;
+            re = Account.USER_NAME_PATTERN_REST;
           if (!String.valueOf(code).matches("^" + re + "$")) {
             event.preventDefault();
             event.stopPropagation();

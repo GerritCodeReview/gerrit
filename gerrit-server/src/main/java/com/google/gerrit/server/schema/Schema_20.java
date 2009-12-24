@@ -12,19 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.common.errors;
+package com.google.gerrit.server.schema;
 
-import com.google.gerrit.reviewdb.Account;
+import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gwtorm.client.OrmException;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 
-/** Error indicating the SSH user name does not match {@link Account#SSH_USER_NAME_PATTERN} pattern. */
-public class InvalidSshUserNameException extends Exception {
+import java.sql.SQLException;
 
-  private static final long serialVersionUID = 1L;
-
-  public static final String MESSAGE = "Invalid SSH user name.";
-
-  public InvalidSshUserNameException() {
-    super(MESSAGE);
+class Schema_20 extends SchemaVersion {
+  @Inject
+  Schema_20(Provider<Schema_19> prior) {
+    super(prior);
   }
 
+  @Override
+  protected void preUpdateSchema(ReviewDb db) throws OrmException, SQLException {
+    renameColumn(db, "accounts", "ssh_user_name", "userName");
+  }
 }

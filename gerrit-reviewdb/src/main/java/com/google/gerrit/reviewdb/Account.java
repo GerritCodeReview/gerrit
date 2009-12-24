@@ -56,18 +56,18 @@ import java.sql.Timestamp;
  */
 public final class Account {
   public static enum FieldName {
-    FULL_NAME, SSH_USER_NAME, REGISTER_NEW_EMAIL;
+    FULL_NAME, USER_NAME, REGISTER_NEW_EMAIL;
   }
 
-  public static final String SSH_USER_NAME_PATTERN_FIRST = "[a-zA-Z]";
-  public static final String SSH_USER_NAME_PATTERN_REST = "[a-zA-Z0-9._-]";
-  public static final String SSH_USER_NAME_PATTERN_LAST = "[a-zA-Z0-9]";
+  public static final String USER_NAME_PATTERN_FIRST = "[a-zA-Z]";
+  public static final String USER_NAME_PATTERN_REST = "[a-zA-Z0-9._-]";
+  public static final String USER_NAME_PATTERN_LAST = "[a-zA-Z0-9]";
 
-  /** Regular expression that {@link #sshUserName} must match. */
-  public static final String SSH_USER_NAME_PATTERN = "^" + //
-      SSH_USER_NAME_PATTERN_FIRST + //
-      SSH_USER_NAME_PATTERN_REST + "*" + //
-      SSH_USER_NAME_PATTERN_LAST + //
+  /** Regular expression that {@link #userName} must match. */
+  public static final String USER_NAME_PATTERN = "^" + //
+      USER_NAME_PATTERN_FIRST + //
+      USER_NAME_PATTERN_REST + "*" + //
+      USER_NAME_PATTERN_LAST + //
       "$";
 
   /** Key local to Gerrit to identify a user. */
@@ -117,9 +117,13 @@ public final class Account {
   @Column(notNull = false)
   protected String preferredEmail;
 
-  /** Username to authenticate as through SSH connections. */
+  /** Username to authenticate as. */
   @Column(notNull = false)
-  protected String sshUserName;
+  protected String userName;
+
+  /** Password for the account. */
+  @Column(notNull = false)
+  protected transient String passwordHash;
 
   /** When did the user last give us contact information? Null if never. */
   @Column(notNull = false)
@@ -170,14 +174,24 @@ public final class Account {
     preferredEmail = addr;
   }
 
-  /** Get the name the user logins as through SSH. */
-  public String getSshUserName() {
-    return sshUserName;
+  /** Get the name the user logins as. */
+  public String getUserName() {
+    return userName;
   }
 
-  /** Set the name the user logins as through SSH. */
-  public void setSshUserName(final String name) {
-    sshUserName = name;
+  /** Set the name the user logins as. */
+  public void setUserName(final String name) {
+    userName = name;
+  }
+
+  /** Get the hashed password for the user, if known. */
+  public String getPasswordHash() {
+    return passwordHash;
+  }
+
+  /** Set the hashed password. */
+  public void setPasswordHash(final String hash) {
+    passwordHash = hash;
   }
 
   /** Get the date and time the user first registered. */

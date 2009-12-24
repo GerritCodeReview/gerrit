@@ -452,7 +452,7 @@ class GitWebServlet extends HttpServlet {
     String remoteUser = null;
     if (project.getCurrentUser() instanceof IdentifiedUser) {
       final IdentifiedUser u = (IdentifiedUser) project.getCurrentUser();
-      final String user = u.getAccount().getSshUserName();
+      final String user = u.getAccount().getUserName();
       env.set("GERRIT_SSH_USER_NAME", user);
       if (user != null && !user.isEmpty()) {
         remoteUser = user;

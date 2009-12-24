@@ -470,7 +470,7 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
     Set<Account.Id> result = new HashSet<Account.Id>();
     String a = userName;
     String b = userName + "\u9fa5";
-    addAll(result, db.accounts().suggestBySshUserName(a, b, 10));
+    addAll(result, db.accounts().suggestByUserName(a, b, 10));
     addAll(result, db.accounts().suggestByFullName(a, b, 10));
     for (AccountExternalId extId : db.accountExternalIds()
         .suggestByEmailAddress(a, b, 10)) {

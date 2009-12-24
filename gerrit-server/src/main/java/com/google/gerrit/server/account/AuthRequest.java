@@ -31,7 +31,7 @@ public class AuthRequest {
   public static AuthRequest forUser(final String username) {
     final AuthRequest r;
     r = new AuthRequest(SCHEME_GERRIT + username);
-    r.setSshUserName(username);
+    r.setUserName(username);
     return r;
   }
 
@@ -52,7 +52,7 @@ public class AuthRequest {
   private String password;
   private String displayName;
   private String emailAddress;
-  private String sshUserName;
+  private String userName;
 
   public AuthRequest(final String externalId) {
     this.externalId = externalId;
@@ -97,11 +97,11 @@ public class AuthRequest {
     emailAddress = email != null && email.length() > 0 ? email : null;
   }
 
-  public String getSshUserName() {
-    return sshUserName;
+  public String getUserName() {
+    return userName;
   }
 
-  public void setSshUserName(final String user) {
-    sshUserName = user;
+  public void setUserName(final String user) {
+    userName = user;
   }
 }

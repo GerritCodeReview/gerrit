@@ -17,7 +17,7 @@ package com.google.gerrit.httpd.rpc.account;
 import com.google.gerrit.common.data.AccountSecurity;
 import com.google.gerrit.common.errors.ContactInformationStoreException;
 import com.google.gerrit.common.errors.InvalidSshKeyException;
-import com.google.gerrit.common.errors.InvalidSshUserNameException;
+import com.google.gerrit.common.errors.InvalidUserNameException;
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.httpd.rpc.BaseServiceImplementation;
@@ -66,7 +66,7 @@ import java.util.regex.Pattern;
 class AccountSecurityImpl extends BaseServiceImplementation implements
     AccountSecurity {
 
-  private static final Pattern SSH_USER_NAME_PATTERN = Pattern.compile(Account.SSH_USER_NAME_PATTERN);
+  private static final Pattern SSH_USER_NAME_PATTERN = Pattern.compile(Account.USER_NAME_PATTERN);
 
   private final Logger log = LoggerFactory.getLogger(getClass());
   private final ContactStore contactStore;
@@ -162,7 +162,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
   }
 
   private void uncacheSshKeys(final Account.Id me) {
-    uncacheSshKeys(accountCache.get(me).getAccount().getSshUserName());
+    uncacheSshKeys(accountCache.get(me).getAccount().getUserName());
   }
 
   private void uncacheSshKeys(final String userName) {
@@ -170,9 +170,9 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
   }
 
   @Override
-  public void changeSshUserName(final String newName,
+  public void changeUserName(final String newName,
       final AsyncCallback<VoidResult> callback) {
-    if (!realm.allowsEdit(Account.FieldName.SSH_USER_NAME)) {
+    if (!realm.allowsEdit(Account.FieldName.USER_NAME)) {
       callback.onFailure(new NameAlreadyUsedException());
       return;
     }
@@ -185,11 +185,11 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
           throw new Failure(new NoSuchEntityException());
         }
         if (newName != null && !SSH_USER_NAME_PATTERN.matcher(newName).matches()) {
-          throw new Failure(new InvalidSshUserNameException());
+          throw new Failure(new InvalidUserNameException());
         }
         final Account other;
         if (newName != null) {
-          other = db.accounts().bySshUserName(newName);
+          other = db.accounts().byUserName(newName);
         } else {
           other = null;
         }
@@ -202,8 +202,8 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
           }
         }
 
-        final String oldName = me.getSshUserName();
-        me.setSshUserName(newName);
+        final String oldName = me.getUserName();
+        me.setUserName(newName);
         db.accounts().update(Collections.singleton(me));
         uncacheSshKeys(oldName);
         uncacheSshKeys(newName);

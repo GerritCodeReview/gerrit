@@ -40,7 +40,7 @@ abstract class LdapType {
 
   abstract String accountEmailAddress();
 
-  abstract String accountSshUserName();
+  abstract String accountUserName();
 
   abstract String accountMemberField();
 
@@ -68,7 +68,7 @@ abstract class LdapType {
     }
 
     @Override
-    String accountSshUserName() {
+    String accountUserName() {
       return "uid";
     }
 
@@ -129,7 +129,7 @@ abstract class LdapType {
     }
 
     @Override
-    String accountSshUserName() {
+    String accountUserName() {
       return "${sAMAccountName.toLowerCase}";
     }
 

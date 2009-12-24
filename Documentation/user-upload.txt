@@ -60,12 +60,12 @@ to connect to Gerrit's SSHD port.  By default Gerrit is running on
 port 29418, using the same hostname as the web server:
 
 ====
-  $ ssh -p 29418 sshusername@hostname
+  $ ssh -p 29418 username@hostname
   gerrit: no shell available
   Connection to hostname closed.
 ====
 
-In the command above, `sshusername` was configured on the `SSH Keys`
+In the command above, `username` was configured on the `SSH Keys`
 tab of the `Settings` screen.  If it is not set, propose a name
 and use `Change Username` to select the name.
 
@@ -96,7 +96,7 @@ To create new changes for review, simply push into the project's
 magical `refs/for/'branch'` ref using any Git client tool:
 
 ====
-  git push ssh://sshusername@hostname:29418/projectname HEAD:refs/for/branchname
+  git push ssh://username@hostname:29418/projectname HEAD:refs/for/branchname
 ====
 
 E.g. `john.doe` can use git push to upload new changes for the
@@ -202,7 +202,7 @@ SHA-1 starts with `c0ffee` as a new patch set for change number
 `1979`, use the push refspec `c0ffee:refs/changes/1979` as below:
 
 ====
-  git push ssh://sshusername@hostname:29418/projectname c0ffee:refs/changes/1979
+  git push ssh://username@hostname:29418/projectname c0ffee:refs/changes/1979
 ====
 
 This form can be combined together with `refs/for/'branchname'`

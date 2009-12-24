@@ -113,7 +113,7 @@ public class SshKeyCacheImpl implements SshKeyCache {
       throws Exception {
     final ReviewDb db = schema.open();
     try {
-      final Account user = db.accounts().bySshUserName(username);
+      final Account user = db.accounts().byUserName(username);
       if (user == null) {
         return Collections.<SshKeyCacheEntry> emptyList();
       }

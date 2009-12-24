@@ -30,8 +30,8 @@ public interface AccountAccess extends Access<Account, Account.Id> {
   @Query("WHERE preferredEmail = ? LIMIT 2")
   ResultSet<Account> byPreferredEmail(String email) throws OrmException;
 
-  @SecondaryKey("sshUserName")
-  Account bySshUserName(String userName) throws OrmException;
+  @SecondaryKey("userName")
+  Account byUserName(String userName) throws OrmException;
 
   @Query("WHERE fullName = ? LIMIT 2")
   ResultSet<Account> byFullName(String name) throws OrmException;
@@ -44,8 +44,8 @@ public interface AccountAccess extends Access<Account, Account.Id> {
   ResultSet<Account> suggestByPreferredEmail(String nameA, String nameB,
       int limit) throws OrmException;
 
-  @Query("WHERE sshUserName >= ? AND sshUserName <= ? ORDER BY sshUserName LIMIT ?")
-  ResultSet<Account> suggestBySshUserName(String nameA, String nameB, int limit)
+  @Query("WHERE userName >= ? AND userName <= ? ORDER BY userName LIMIT ?")
+  ResultSet<Account> suggestByUserName(String nameA, String nameB, int limit)
       throws OrmException;
 
   @Query("LIMIT 1")

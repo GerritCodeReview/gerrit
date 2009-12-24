@@ -79,7 +79,7 @@ class LdapRealm implements Realm {
   private final EmailExpander emailExpander;
   private final ParamertizedString accountFullName;
   private final ParamertizedString accountEmailAddress;
-  private final ParamertizedString accountSshUserName;
+  private final ParamertizedString accountUserName;
   private final String accountMemberField;
   private final List<LdapQuery> accountQueryList;
   private final SelfPopulatingCache<String, Account.Id> usernameCache;
@@ -172,9 +172,9 @@ class LdapRealm implements Realm {
     if (accountEmailAddress != null) {
       accountAtts.addAll(accountEmailAddress.getParameterNames());
     }
-    accountSshUserName = paramString(config, "accountSshUserName", type.accountSshUserName());
-    if (accountSshUserName != null) {
-      accountAtts.addAll(accountSshUserName.getParameterNames());
+    accountUserName = paramString(config, "accountSshUserName", type.accountUserName());
+    if (accountUserName != null) {
+      accountAtts.addAll(accountUserName.getParameterNames());
     }
     accountMemberField = optdef(config, "accountMemberField", type.accountMemberField());
     if (accountMemberField != null) {
@@ -275,8 +275,8 @@ class LdapRealm implements Realm {
       case FULL_NAME:
         return accountFullName == null; // only if not obtained from LDAP
 
-      case SSH_USER_NAME:
-        return accountSshUserName == null; // only if not obtained from LDAP
+      case USER_NAME:
+        return accountUserName == null; // only if not obtained from LDAP
 
       default:
         return true;
@@ -314,7 +314,7 @@ class LdapRealm implements Realm {
         }
 
         who.setDisplayName(apply(accountFullName, m));
-        who.setSshUserName(apply(accountSshUserName, m));
+        who.setUserName(apply(accountUserName, m));
 
         if (accountEmailAddress != null) {
           who.setEmailAddress(apply(accountEmailAddress, m));

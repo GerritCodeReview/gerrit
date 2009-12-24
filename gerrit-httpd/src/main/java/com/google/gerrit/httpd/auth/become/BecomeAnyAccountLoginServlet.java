@@ -100,8 +100,8 @@ public class BecomeAnyAccountLoginServlet extends HttpServlet {
     if ("create_account".equals(req.getParameter("action"))) {
       res = create();
 
-    } else if (req.getParameter("ssh_user_name") != null) {
-      res = bySshUserName(rsp, req.getParameter("ssh_user_name"));
+    } else if (req.getParameter("user_name") != null) {
+      res = byUserName(rsp, req.getParameter("user_name"));
 
     } else if (req.getParameter("preferred_email") != null) {
       res = byPreferredEmail(rsp, req.getParameter("preferred_email"));
@@ -151,12 +151,12 @@ public class BecomeAnyAccountLoginServlet extends HttpServlet {
     return account != null ? new AuthResult(account.getId(), false) : null;
   }
 
-  private AuthResult bySshUserName(final HttpServletResponse rsp,
+  private AuthResult byUserName(final HttpServletResponse rsp,
       final String userName) {
     try {
       final ReviewDb db = schema.open();
       try {
-        return auth(db.accounts().bySshUserName(userName));
+        return auth(db.accounts().byUserName(userName));
       } finally {
         db.close();
       }

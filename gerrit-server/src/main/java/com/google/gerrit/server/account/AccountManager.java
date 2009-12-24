@@ -145,10 +145,10 @@ public class AccountManager {
       updateAccount = true;
       account.setFullName(who.getDisplayName());
     }
-    if (!realm.allowsEdit(Account.FieldName.SSH_USER_NAME)
-        && !eq(account.getSshUserName(), who.getSshUserName())) {
+    if (!realm.allowsEdit(Account.FieldName.USER_NAME)
+        && !eq(account.getUserName(), who.getUserName())) {
       updateAccount = true;
-      account.setSshUserName(who.getSshUserName());
+      account.setUserName(who.getUserName());
     }
 
     extId.setLastUsedOn();
@@ -250,11 +250,11 @@ public class AccountManager {
     account.setFullName(who.getDisplayName());
     account.setPreferredEmail(extId.getEmailAddress());
 
-    if (who.getSshUserName() != null
-        && db.accounts().bySshUserName(who.getSshUserName()) == null) {
+    if (who.getUserName() != null
+        && db.accounts().byUserName(who.getUserName()) == null) {
       // Only set if the name hasn't been used yet, but was given to us.
       //
-      account.setSshUserName(who.getSshUserName());
+      account.setUserName(who.getUserName());
     }
 
     final Transaction txn = db.beginTransaction();

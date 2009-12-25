@@ -55,6 +55,7 @@ import com.google.gerrit.server.mail.MergeFailSender;
 import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.mail.RegisterNewEmailSender;
 import com.google.gerrit.server.mail.SmtpEmailSender;
+import com.google.gerrit.server.password.PasswordModule;
 import com.google.gerrit.server.patch.PatchListCacheImpl;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ProjectCacheImpl;
@@ -136,6 +137,8 @@ public class GerritGlobalModule extends FactoryModule {
     factory(MergeFailSender.Factory.class);
     factory(RegisterNewEmailSender.Factory.class);
     factory(ReplicationUser.Factory.class);
+
+    install(new PasswordModule());
 
     install(new LifecycleModule() {
       @Override

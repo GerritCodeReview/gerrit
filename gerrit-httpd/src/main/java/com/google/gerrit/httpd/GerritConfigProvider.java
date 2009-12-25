@@ -72,6 +72,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
   private GerritConfig create() {
     final GerritConfig config = new GerritConfig();
     switch (authConfig.getAuthType()) {
+      case USERNAME_PASSWORD:
       case LDAP:
         config.setRegisterUrl(cfg.getString("auth", null, "registerurl"));
         break;

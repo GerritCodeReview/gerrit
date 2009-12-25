@@ -322,6 +322,7 @@ public class HistoryHandler implements ValueChangeHandler<String> {
             case OPENID:
               new OpenIdSignInDialog(mode, msg).center();
               break;
+            case USERNAME_PASSWORD:
             case LDAP:
               new UserPassSignInDialog(msg).center();
               break;

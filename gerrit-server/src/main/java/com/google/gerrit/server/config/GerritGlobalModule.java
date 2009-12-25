@@ -35,10 +35,11 @@ import com.google.gerrit.server.account.EmailExpander;
 import com.google.gerrit.server.account.GroupCacheImpl;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.auth.ldap.LdapModule;
+import com.google.gerrit.server.auth.userpass.UserPassModule;
 import com.google.gerrit.server.cache.CachePool;
 import com.google.gerrit.server.git.ChangeMergeQueue;
-import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.MergeQueue;
 import com.google.gerrit.server.git.PatchSetImporter;
@@ -84,6 +85,10 @@ public class GerritGlobalModule extends FactoryModule {
       case HTTP_LDAP:
       case LDAP:
         install(new LdapModule());
+        break;
+
+      case USERNAME_PASSWORD:
+        install(new UserPassModule());
         break;
 
       default:

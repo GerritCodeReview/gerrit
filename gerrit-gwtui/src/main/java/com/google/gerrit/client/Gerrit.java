@@ -148,6 +148,7 @@ public class Gerrit implements EntryPoint {
         new OpenIdSignInDialog(SignInMode.SIGN_IN, null).center();
         break;
 
+      case USERNAME_PASSWORD:
       case LDAP:
         new UserPassSignInDialog(null).center();
         break;
@@ -371,6 +372,7 @@ public class Gerrit implements EntryPoint {
           });
           break;
 
+        case USERNAME_PASSWORD:
         case LDAP:
           if (cfg.getRegisterUrl() != null) {
             menuRight.add(anchor(C.menuRegister(), cfg.getRegisterUrl()));

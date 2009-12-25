@@ -19,8 +19,8 @@ import static com.google.inject.Scopes.SINGLETON;
 import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.httpd.auth.become.BecomeAnyAccountLoginServlet;
 import com.google.gerrit.httpd.auth.container.HttpAuthModule;
-import com.google.gerrit.httpd.auth.ldap.LdapAuthModule;
 import com.google.gerrit.httpd.auth.openid.OpenIdModule;
+import com.google.gerrit.httpd.auth.userpass.UserPassAuthModule;
 import com.google.gerrit.httpd.gitweb.GitWebModule;
 import com.google.gerrit.httpd.rpc.UiRpcModule;
 import com.google.gerrit.reviewdb.AuthType;
@@ -97,8 +97,9 @@ public class WebModule extends FactoryModule {
         install(new HttpAuthModule());
         break;
 
+      case USERNAME_PASSWORD:
       case LDAP:
-        install(new LdapAuthModule());
+        install(new UserPassAuthModule());
         break;
 
       case DEVELOPMENT_BECOME_ANY_ACCOUNT:

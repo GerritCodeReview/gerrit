@@ -15,6 +15,9 @@
 package com.google.gerrit.reviewdb;
 
 public enum AuthType {
+  /** Login uses our own internal user and password table. */
+  USERNAME_PASSWORD,
+
   /** Login relies upon the OpenID standard: {@link "http://openid.net/"} */
   OPENID,
 

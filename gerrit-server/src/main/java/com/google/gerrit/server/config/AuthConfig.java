@@ -120,6 +120,7 @@ public class AuthConfig {
   public boolean isIdentityTrustable(final Collection<AccountExternalId> ids) {
     switch (getAuthType()) {
       case DEVELOPMENT_BECOME_ANY_ACCOUNT:
+      case USERNAME_PASSWORD:
       case HTTP:
       case HTTP_LDAP:
       case LDAP:

@@ -32,7 +32,27 @@ limitations under the License.
     Commons server routines
   </description>
 
+  <repositories>
+    <repository>
+      <name>ObjectWeb Maven Repository</name>
+      <id>objectweb-releases</id>
+      <url>http://maven.objectweb.org/maven2</url>
+    </repository>
+  </repositories>
+
   <dependencies>
+    <dependency>
+      <groupId>asm</groupId>
+      <artifactId>asm</artifactId>
+      <version>3.2</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.google.gwt</groupId>
+      <artifactId>gwt-user</artifactId>
+      <version>${gwtVersion}</version>
+    </dependency>
+
     <dependency>
       <groupId>org.eclipse.jgit</groupId>
       <artifactId>org.eclipse.jgit</artifactId>

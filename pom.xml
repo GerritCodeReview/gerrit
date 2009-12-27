@@ -768,8 +768,23 @@ limitations under the License.
     </repository>
 
     <repository>
+      <id>gerrit-snapshot-repository</id>
+      <url>http://gerrit.googlecode.com/svn/mavenrepo/snapshots/</url>
+    </repository>
+
+    <repository>
       <id>java.net-repository</id>
       <url>http://download.java.net/maven/2/</url>
+    </repository>
+
+    <repository>
+      <id>gson</id>
+      <url>http://google-gson.googlecode.com/svn/mavenrepo/</url>
+    </repository>
+
+    <repository>
+      <id>objectweb-repository</id>
+      <url>http://maven.objectweb.org/maven2/</url>
     </repository>
   </repositories>
 

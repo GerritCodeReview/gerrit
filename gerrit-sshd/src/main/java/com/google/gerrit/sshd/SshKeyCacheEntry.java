@@ -24,6 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.security.PublicKey;
+import java.sql.Timestamp;
 import java.util.Collections;
 
 class SshKeyCacheEntry {
@@ -32,10 +33,14 @@ class SshKeyCacheEntry {
 
   private final AccountSshKey.Id id;
   private final PublicKey publicKey;
+  private Timestamp lastUsed;
+
+  private final int HOUR_MS = 3600 * 1000;
 
   SshKeyCacheEntry(final AccountSshKey.Id i, final PublicKey k) {
     id = i;
     publicKey = k;
+    lastUsed = null;
   }
 
   Account.Id getAccount() {
@@ -50,10 +55,15 @@ class SshKeyCacheEntry {
     try {
       final ReviewDb db = schema.open();
       try {
-        final AccountSshKey k = db.accountSshKeys().get(id);
-        if (k != null) {
-          k.setLastUsedOn();
-          db.accountSshKeys().update(Collections.singleton(k));
+        if (lastUsed == null
+            || (lastUsed != null && lastUsed.getTime() + HOUR_MS < System
+                .currentTimeMillis())) {
+          final AccountSshKey k = db.accountSshKeys().get(id);
+          if (k != null) {
+            k.setLastUsedOn();
+            lastUsed = k.getLastUsedOn();
+            db.accountSshKeys().update(Collections.singleton(k));
+          }
         }
       } finally {
         db.close();

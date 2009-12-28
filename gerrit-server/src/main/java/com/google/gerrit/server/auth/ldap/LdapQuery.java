@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.auth.ldap;
 
-import com.google.gerrit.server.ParamertizedString;
+import com.google.gerrit.common.data.ParamertizedString;
 
 import java.util.ArrayList;
 import java.util.Collections;

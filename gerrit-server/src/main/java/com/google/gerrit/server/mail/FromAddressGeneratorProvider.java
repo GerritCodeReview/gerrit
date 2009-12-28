@@ -16,7 +16,7 @@ package com.google.gerrit.server.mail;
 
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.ParamertizedString;
+import com.google.gerrit.common.data.ParamertizedString;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;

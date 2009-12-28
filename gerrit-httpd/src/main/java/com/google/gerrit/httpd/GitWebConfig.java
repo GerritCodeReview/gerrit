@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd;
 
+import com.google.gerrit.common.data.GitWebType;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
@@ -31,6 +32,7 @@ public class GitWebConfig {
   private final File gitweb_cgi;
   private final File gitweb_css;
   private final File git_logo_png;
+  private GitWebType type;
 
   @Inject
   GitWebConfig(final SitePaths sitePaths,
@@ -38,8 +40,24 @@ public class GitWebConfig {
     final String cfgUrl = cfg.getString("gitweb", null, "url");
     final String cfgCgi = cfg.getString("gitweb", null, "cgi");
 
+    type = GitWebType.fromName(cfg.getString("gitweb", null, "type"));
+    type.setBranch(cfg.getString("gitweb", null, "branch"));
+    type.setProject(cfg.getString("gitweb", null, "project"));
+    type.setRevision(cfg.getString("gitweb", null, "revision"));
+
+    if (type.getBranch() == null) {
+      log.warn("No Pattern specified for gitweb.branch, disabling.");
+      type = null;
+    } else if (type.getProject() == null) {
+      log.warn("No Pattern specified for gitweb.project, disabling.");
+      type = null;
+    } else if (type.getRevision() == null) {
+      log.warn("No Pattern specified for gitweb.revision, disabling.");
+      type = null;
+    }
+
     if ((cfgUrl != null && cfgUrl.isEmpty())
-        || (cfgCgi != null && cfgCgi.isEmpty())) {
+        || (cfgCgi != null && cfgCgi.isEmpty()) || type == null) {
       // Either setting was explicitly set to the empty string disabling
       // gitweb for this server. Disable the configuration.
       //
@@ -101,6 +119,11 @@ public class GitWebConfig {
     gitweb_cgi = cgi;
     gitweb_css = css;
     git_logo_png = logo;
+  }
+
+  /** @return GitWebType for gitweb viewer. */
+  public GitWebType getGitWebType() {
+    return type;
   }
 
   /**

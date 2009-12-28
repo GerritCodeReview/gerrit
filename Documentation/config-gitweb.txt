@@ -35,10 +35,20 @@ If your repository set is large and you are expecting a lot
 of users, you may want to look at the caching forks used by
 high-traffic sites like kernel.org or repo.or.cz.
 
+Alternatives to gitweb
+----------------------
+There are other alternatives to gitweb that can also be used with
+Gerrit, such as cgit.
+
+cgit can be used by specifying `gitweb.type` to be 'cgit'.
+
+It is also possible to define custom patterns.
+
 See Also
 --------
 
 * link:config-gerrit.html#gitweb[Section gitweb]
+* link:http://hjemli.net/git/cgit/[cgit]
 
 GERRIT
 ------

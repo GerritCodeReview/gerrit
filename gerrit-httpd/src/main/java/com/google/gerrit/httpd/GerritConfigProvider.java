@@ -98,7 +98,8 @@ class GerritConfigProvider implements Provider<GerritConfig> {
     config.setEditableAccountFields(fields);
 
     if (gitWebConfig.getUrl() != null) {
-      config.setGitwebLink(new GitwebLink(gitWebConfig.getUrl()));
+      config.setGitwebLink(new GitwebLink(gitWebConfig.getUrl(), gitWebConfig
+          .getGitWebType()));
     }
 
     if (sshInfo != null && !sshInfo.getHostKeys().isEmpty()) {

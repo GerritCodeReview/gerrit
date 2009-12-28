@@ -650,6 +650,36 @@ gerrit.basePath and the repositories it contains.
 Gerrit appends any necessary query arguments onto the end of this URL.
 For example, "?p=$project.git;h=$commit".
 
+[[gitweb.type]]gitweb.type::
++
+Optional type of affiliated gitweb service. This allows using
+alternatives to gitweb, such as cgit.
++
+Valid values are `gitweb`, `cgit` or `custom`.
+
+[[gitweb.type]]gitweb.revision::
++
+Optional pattern to use for constructing the gitweb URL when pointing
+at a specific commit when `custom` is used above.
++
+Valid replacements are `$\{project\}` for the project name in Gerrit
+and `$\{commit\}` for the SHA1 hash for the commit.
+
+[[gitweb.type]]gitweb.project::
++
+Optional pattern to use for constructing the gitweb URL when pointing
+at a specific project when `custom` is used above.
++
+Valid replacements are `$\{project\}` for the project name in Gerrit.
+
+[[gitweb.type]]gitweb.branch::
++
+Optional pattern to use for constructing the gitweb URL when pointing
+at a specific branch when `custom` is used above.
++
+Valid replacements are `$\{project\}` for the project name in Gerrit
+and `$\{branch\}` for the name of the branch.
+
 
 [[http]]Section http
 ~~~~~~~~~~~~~~~~~~~~

@@ -18,67 +18,46 @@ import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gwt.http.client.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 /** Link to an external gitweb server. */
 public class GitwebLink {
   protected String baseUrl;
 
+  protected GitWebType type;
+
   protected GitwebLink() {
   }
 
-  public GitwebLink(final String base) {
-    baseUrl = base + "?";
+  public GitwebLink(final String base, final GitWebType gitWebType) {
+    baseUrl = base;
+    type = gitWebType;
   }
 
   public String toRevision(final Project.NameKey project, final PatchSet ps) {
-    final StringBuilder r = new StringBuilder();
-    p(r, project);
-    a(r, "commit");
-    h(r, ps);
-    return baseUrl + r;
+    ParamertizedString pattern = new ParamertizedString(type.getRevision());
+
+    final Map<String, String> p = new HashMap<String, String>();
+    p.put("project", URL.encodeComponent(project.get()));
+    p.put("commit", URL.encodeComponent(ps.getRevision().get()));
+    return baseUrl + pattern.replace(p);
   }
 
   public String toProject(final Project.NameKey project) {
-    final StringBuilder r = new StringBuilder();
-    p(r, project);
-    a(r, "summary");
-    return baseUrl + r;
+    ParamertizedString pattern = new ParamertizedString(type.getProject());
+
+    final Map<String, String> p = new HashMap<String, String>();
+    p.put("project", URL.encodeComponent(project.get()));
+    return baseUrl + pattern.replace(p);
   }
 
   public String toBranch(final Branch.NameKey branch) {
-    final StringBuilder r = new StringBuilder();
-    p(r, branch.getParentKey());
-    h(r, branch);
-    a(r, "shortlog");
-    return baseUrl + r;
-  }
+    ParamertizedString pattern = new ParamertizedString(type.getBranch());
 
-  private static void p(final StringBuilder r, final Project.NameKey project) {
-    String n = project.get();
-    if (!n.endsWith(".git")) {
-      n += ".git";
-    }
-    var(r, "p", n);
-  }
-
-  private static void h(final StringBuilder r, final PatchSet ps) {
-    var(r, "h", ps.getRevision().get());
-  }
-
-  private static void h(final StringBuilder r, final Branch.NameKey branch) {
-    var(r, "h", branch.get());
-  }
-
-  private static void a(final StringBuilder r, final String where) {
-    var(r, "a", where);
-  }
-
-  private static void var(final StringBuilder r, final String n, final String v) {
-    if (r.length() > 0) {
-      r.append(";");
-    }
-    r.append(n);
-    r.append("=");
-    r.append(URL.encodeComponent(v));
+    final Map<String, String> p = new HashMap<String, String>();
+    p.put("project", URL.encodeComponent(branch.getParentKey().get()));
+    p.put("branch", URL.encodeComponent(branch.get()));
+    return baseUrl + pattern.replace(p);
   }
 }

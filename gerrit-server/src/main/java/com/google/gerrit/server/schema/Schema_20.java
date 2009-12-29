@@ -12,27 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.sshd;
+package com.google.gerrit.server.schema;
 
-import com.google.gerrit.reviewdb.Account;
-import com.google.gerrit.reviewdb.AccountSshKey;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 
-import java.security.PublicKey;
-
-class SshKeyCacheEntry {
-  private final AccountSshKey.Id id;
-  private final PublicKey publicKey;
-
-  SshKeyCacheEntry(final AccountSshKey.Id i, final PublicKey k) {
-    id = i;
-    publicKey = k;
-  }
-
-  Account.Id getAccount() {
-    return id.getParentKey();
-  }
-
-  boolean match(final PublicKey inkey) {
-    return publicKey.equals(inkey);
+class Schema_20 extends SchemaVersion {
+  @Inject
+  Schema_20(Provider<Schema_19> prior) {
+    super(prior);
   }
 }

@@ -53,8 +53,6 @@ public interface AccountConstants extends Constants {
   String sshKeyAlgorithm();
   String sshKeyKey();
   String sshKeyComment();
-  String sshKeyLastUsed();
-  String sshKeyStored();
 
   String addSshKeyPanelHeader();
   String addSshKeyHelp();
@@ -65,7 +63,6 @@ public interface AccountConstants extends Constants {
   String sshHostKeyFingerprint();
   String sshHostKeyKnownHostEntry();
 
-  String webIdLastUsed();
   String webIdStatus();
   String webIdEmail();
   String webIdIdentity();

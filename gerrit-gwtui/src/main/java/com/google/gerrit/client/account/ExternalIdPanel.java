@@ -14,7 +14,6 @@
 
 package com.google.gerrit.client.account;
 
-import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.auth.openid.OpenIdSignInDialog;
 import com.google.gerrit.client.auth.openid.OpenIdUtil;
@@ -91,17 +90,15 @@ class ExternalIdPanel extends Composite {
   private class IdTable extends FancyFlexTable<AccountExternalId> {
     IdTable() {
       table.setWidth("");
-      table.setText(0, 2, Util.C.webIdLastUsed());
-      table.setText(0, 3, Util.C.webIdStatus());
-      table.setText(0, 4, Util.C.webIdEmail());
-      table.setText(0, 5, Util.C.webIdIdentity());
+      table.setText(0, 2, Util.C.webIdStatus());
+      table.setText(0, 3, Util.C.webIdEmail());
+      table.setText(0, 4, Util.C.webIdIdentity());
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
       fmt.addStyleName(0, 1, Gerrit.RESOURCES.css().iconHeader());
       fmt.addStyleName(0, 2, Gerrit.RESOURCES.css().dataHeader());
       fmt.addStyleName(0, 3, Gerrit.RESOURCES.css().dataHeader());
       fmt.addStyleName(0, 4, Gerrit.RESOURCES.css().dataHeader());
-      fmt.addStyleName(0, 5, Gerrit.RESOURCES.css().dataHeader());
     }
 
     void deleteChecked() {
@@ -176,31 +173,24 @@ class ExternalIdPanel extends Composite {
       } else {
         table.setText(row, 1, "");
       }
-      if (k.getLastUsedOn() != null) {
-        table.setText(row, 2, FormatUtil.mediumFormat(k.getLastUsedOn()));
-      } else {
-        table.setText(row, 2, "");
-      }
       if (k.isTrusted()) {
-        table.setText(row, 3, "");
+        table.setText(row, 2, "");
       } else {
-        table.setText(row, 3, Util.C.untrustedProvider());
-        fmt.addStyleName(row, 3, Gerrit.RESOURCES.css()
+        table.setText(row, 2, Util.C.untrustedProvider());
+        fmt.addStyleName(row, 2, Gerrit.RESOURCES.css()
             .identityUntrustedExternalId());
       }
       if (k.getEmailAddress() != null && k.getEmailAddress().length() > 0) {
-        table.setText(row, 4, k.getEmailAddress());
+        table.setText(row, 3, k.getEmailAddress());
       } else {
-        table.setText(row, 4, "");
+        table.setText(row, 3, "");
       }
-      table.setText(row, 5, describe(k));
+      table.setText(row, 4, describe(k));
 
       fmt.addStyleName(row, 1, Gerrit.RESOURCES.css().iconCell());
       fmt.addStyleName(row, 2, Gerrit.RESOURCES.css().dataCell());
       fmt.addStyleName(row, 3, Gerrit.RESOURCES.css().dataCell());
-      fmt.addStyleName(row, 3, Gerrit.RESOURCES.css().cLastUpdate());
       fmt.addStyleName(row, 4, Gerrit.RESOURCES.css().dataCell());
-      fmt.addStyleName(row, 5, Gerrit.RESOURCES.css().dataCell());
 
       setRowItem(row, k);
     }

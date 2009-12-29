@@ -17,8 +17,6 @@ package com.google.gerrit.reviewdb;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.IntKey;
 
-import java.sql.Timestamp;
-
 /** An SSH key approved for use by an {@link Account}. */
 public final class AccountSshKey {
   public static class Id extends IntKey<Account.Id> {
@@ -62,13 +60,7 @@ public final class AccountSshKey {
   protected String sshPublicKey;
 
   @Column
-  protected Timestamp storedOn;
-
-  @Column
   protected boolean valid;
-
-  @Column(notNull = false)
-  protected Timestamp lastUsedOn;
 
   protected AccountSshKey() {
   }
@@ -76,7 +68,6 @@ public final class AccountSshKey {
   public AccountSshKey(final AccountSshKey.Id i, final String pub) {
     id = i;
     sshPublicKey = pub;
-    storedOn = new Timestamp(System.currentTimeMillis());
     valid = true; // We can assume it is fine.
   }
 
@@ -131,23 +122,11 @@ public final class AccountSshKey {
     return parts[2];
   }
 
-  public Timestamp getStoredOn() {
-    return storedOn;
-  }
-
   public boolean isValid() {
     return valid;
   }
 
   public void setInvalid() {
     valid = false;
-  }
-
-  public Timestamp getLastUsedOn() {
-    return lastUsedOn;
-  }
-
-  public void setLastUsedOn() {
-    lastUsedOn = new Timestamp(System.currentTimeMillis());
   }
 }

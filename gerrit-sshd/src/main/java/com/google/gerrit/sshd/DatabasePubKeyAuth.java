@@ -15,8 +15,6 @@
 package com.google.gerrit.sshd;
 
 import com.google.gerrit.reviewdb.AccountSshKey;
-import com.google.gerrit.reviewdb.ReviewDb;
-import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -35,12 +33,10 @@ import java.security.PublicKey;
 @Singleton
 class DatabasePubKeyAuth implements PublickeyAuthenticator {
   private final SshKeyCacheImpl sshKeyCache;
-  private final SchemaFactory<ReviewDb> schema;
 
   @Inject
-  DatabasePubKeyAuth(final SshKeyCacheImpl skc, final SchemaFactory<ReviewDb> sf) {
+  DatabasePubKeyAuth(final SshKeyCacheImpl skc) {
     sshKeyCache = skc;
-    schema = sf;
   }
 
   public boolean authenticate(final String username,
@@ -63,7 +59,6 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
       }
     }
 
-    key.updateLastUsed(schema);
     session.setAttribute(SshUtil.CURRENT_ACCOUNT, key.getAccount());
     return true;
   }

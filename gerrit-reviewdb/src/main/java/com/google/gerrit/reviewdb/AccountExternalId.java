@@ -17,8 +17,6 @@ package com.google.gerrit.reviewdb;
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.StringKey;
 
-import java.sql.Timestamp;
-
 /** Association of an external account identifier to a local {@link Account}. */
 public final class AccountExternalId {
   public static final String SCHEME_GERRIT = "gerrit:";
@@ -59,9 +57,6 @@ public final class AccountExternalId {
   @Column(notNull = false)
   protected String emailAddress;
 
-  @Column(notNull = false)
-  protected Timestamp lastUsedOn;
-
   /** <i>computed value</i> is this identity trusted by the site administrator? */
   protected boolean trusted;
 
@@ -101,14 +96,6 @@ public final class AccountExternalId {
 
   public void setEmailAddress(final String e) {
     emailAddress = e;
-  }
-
-  public Timestamp getLastUsedOn() {
-    return lastUsedOn;
-  }
-
-  public void setLastUsedOn() {
-    lastUsedOn = new Timestamp(System.currentTimeMillis());
   }
 
   public boolean isScheme(final String scheme) {

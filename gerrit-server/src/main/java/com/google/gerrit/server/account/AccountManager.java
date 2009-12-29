@@ -21,7 +21,6 @@ import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AccountGroupMember;
 import com.google.gerrit.reviewdb.AccountGroupMemberAudit;
 import com.google.gerrit.reviewdb.ReviewDb;
-import com.google.gerrit.reviewdb.AccountExternalId.Key;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
@@ -151,7 +150,6 @@ public class AccountManager {
       account.setSshUserName(who.getSshUserName());
     }
 
-    extId.setLastUsedOn();
     db.accountExternalIds().update(Collections.singleton(extId), txn);
     if (updateAccount) {
       db.accounts().update(Collections.singleton(account), txn);
@@ -208,7 +206,6 @@ public class AccountManager {
 
         final AccountExternalId newId = createId(accountId, who);
         newId.setEmailAddress(who.getEmailAddress());
-        newId.setLastUsedOn();
 
         if (openId.size() == 1) {
           final AccountExternalId oldId = openId.get(0);
@@ -229,7 +226,7 @@ public class AccountManager {
         final AccountExternalId oldId = v1.get(0);
         final AccountExternalId newId = createId(oldId.getAccountId(), who);
         newId.setEmailAddress(who.getEmailAddress());
-        newId.setLastUsedOn();
+
         final Transaction txn = db.beginTransaction();
         db.accountExternalIds().delete(Collections.singleton(oldId), txn);
         db.accountExternalIds().insert(Collections.singleton(newId), txn);
@@ -245,7 +242,6 @@ public class AccountManager {
     final Account account = new Account(newId);
     final AccountExternalId extId = createId(newId, who);
 
-    extId.setLastUsedOn();
     extId.setEmailAddress(who.getEmailAddress());
     account.setFullName(who.getDisplayName());
     account.setPreferredEmail(extId.getEmailAddress());
@@ -313,7 +309,6 @@ public class AccountManager {
           final Transaction txn = db.beginTransaction();
           extId = createId(to, who);
           extId.setEmailAddress(who.getEmailAddress());
-          extId.setLastUsedOn();
           db.accountExternalIds().insert(Collections.singleton(extId), txn);
 
           if (who.getEmailAddress() != null) {

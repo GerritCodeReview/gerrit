@@ -15,7 +15,6 @@
 package com.google.gerrit.client.account;
 
 import com.google.gerrit.client.ErrorDialog;
-import com.google.gerrit.client.FormatUtil;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.FancyFlexTable;
@@ -495,8 +494,6 @@ class SshPanel extends Composite {
       table.setText(0, 3, Util.C.sshKeyAlgorithm());
       table.setText(0, 4, Util.C.sshKeyKey());
       table.setText(0, 5, Util.C.sshKeyComment());
-      table.setText(0, 6, Util.C.sshKeyLastUsed());
-      table.setText(0, 7, Util.C.sshKeyStored());
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
       fmt.addStyleName(0, 1, Gerrit.RESOURCES.css().iconHeader());
@@ -504,8 +501,6 @@ class SshPanel extends Composite {
       fmt.addStyleName(0, 3, Gerrit.RESOURCES.css().dataHeader());
       fmt.addStyleName(0, 4, Gerrit.RESOURCES.css().dataHeader());
       fmt.addStyleName(0, 5, Gerrit.RESOURCES.css().dataHeader());
-      fmt.addStyleName(0, 6, Gerrit.RESOURCES.css().dataHeader());
-      fmt.addStyleName(0, 7, Gerrit.RESOURCES.css().dataHeader());
     }
 
     void deleteChecked() {
@@ -561,17 +556,13 @@ class SshPanel extends Composite {
       table.setText(row, 3, k.getAlgorithm());
       table.setText(row, 4, elide(k.getEncodedKey(), 40));
       table.setText(row, 5, k.getComment());
-      table.setText(row, 6, FormatUtil.mediumFormat(k.getLastUsedOn()));
-      table.setText(row, 7, FormatUtil.mediumFormat(k.getStoredOn()));
 
       fmt.addStyleName(row, 1, Gerrit.RESOURCES.css().iconCell());
       fmt.addStyleName(row, 2, Gerrit.RESOURCES.css().iconCell());
       fmt.addStyleName(row, 4, Gerrit.RESOURCES.css().sshKeyPanelEncodedKey());
-      for (int c = 3; c <= 7; c++) {
+      for (int c = 3; c <= 5; c++) {
         fmt.addStyleName(row, c, Gerrit.RESOURCES.css().dataCell());
       }
-      fmt.addStyleName(row, 6, Gerrit.RESOURCES.css().cLastUpdate());
-      fmt.addStyleName(row, 7, Gerrit.RESOURCES.css().cLastUpdate());
 
       setRowItem(row, k);
     }

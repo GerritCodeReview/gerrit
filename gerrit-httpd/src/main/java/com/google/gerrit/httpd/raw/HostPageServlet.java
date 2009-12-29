@@ -19,7 +19,6 @@ import com.google.gerrit.common.data.HostPageData;
 import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gwt.user.server.rpc.RPCServletUtils;
 import com.google.gwtjsonrpc.server.JsonServlet;
@@ -27,9 +26,10 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -50,111 +50,39 @@ import javax.servlet.http.HttpServletResponse;
 @SuppressWarnings("serial")
 @Singleton
 public class HostPageServlet extends HttpServlet {
+  private static final Logger log =
+      LoggerFactory.getLogger(HostPageServlet.class);
   private static final boolean IS_DEV = Boolean.getBoolean("Gerrit.GwtDevMode");
 
   private final Provider<CurrentUser> currentUser;
   private final GerritConfig config;
-  private final Document hostDoc;
+  private final SitePaths site;
+  private final Document template;
+  private volatile Page page;
 
   @Inject
-  HostPageServlet(final Provider<CurrentUser> cu, final SitePaths site,
-      final GerritConfig gc, @GerritServerConfig final Config cfg,
-      final ServletContext servletContext) throws IOException {
+  HostPageServlet(final Provider<CurrentUser> cu, final SitePaths sp,
+      final GerritConfig gc, final ServletContext servletContext)
+      throws IOException {
     currentUser = cu;
     config = gc;
+    site = sp;
 
     final String pageName = "HostPage.html";
-    hostDoc = HtmlDomUtil.parseFile(getClass(), pageName);
-    if (hostDoc == null) {
+    template = HtmlDomUtil.parseFile(getClass(), pageName);
+    if (template == null) {
       throw new FileNotFoundException("No " + pageName + " in webapp");
     }
 
     if (!IS_DEV) {
-      final Element devmode = HtmlDomUtil.find(hostDoc, "gerrit_gwtdevmode");
+      final Element devmode = HtmlDomUtil.find(template, "gerrit_gwtdevmode");
       if (devmode != null) {
         devmode.getParentNode().removeChild(devmode);
       }
     }
 
-    fixModuleReference(hostDoc, servletContext);
-    injectCssFile(hostDoc, "gerrit_sitecss", site.site_css);
-    injectXmlFile(hostDoc, "gerrit_header", site.site_header);
-    injectXmlFile(hostDoc, "gerrit_footer", site.site_footer);
-  }
-
-  private void injectXmlFile(final Document hostDoc, final String id,
-      final File src) throws IOException {
-    final Element banner = HtmlDomUtil.find(hostDoc, id);
-    if (banner == null) {
-      return;
-    }
-
-    while (banner.getFirstChild() != null) {
-      banner.removeChild(banner.getFirstChild());
-    }
-
-    Document html = HtmlDomUtil.parseFile(src.getParentFile(), src.getName());
-    if (html == null) {
-      banner.getParentNode().removeChild(banner);
-      return;
-    }
-
-    final Element content = html.getDocumentElement();
-    banner.appendChild(hostDoc.importNode(content, true));
-  }
-
-  private void injectCssFile(final Document hostDoc, final String id,
-      final File src) throws IOException {
-    final Element banner = HtmlDomUtil.find(hostDoc, id);
-    if (banner == null) {
-      return;
-    }
-
-    while (banner.getFirstChild() != null) {
-      banner.removeChild(banner.getFirstChild());
-    }
-
-    final String css = HtmlDomUtil.readFile(src.getParentFile(), src.getName());
-    if (css == null) {
-      banner.getParentNode().removeChild(banner);
-      return;
-    }
-
-    banner.removeAttribute("id");
-    banner.appendChild(hostDoc.createCDATASection("\n" + css + "\n"));
-  }
-
-  private void injectJson(final Document hostDoc, final String id,
-      final Object obj) {
-    final Element scriptNode = HtmlDomUtil.find(hostDoc, id);
-    if (scriptNode == null) {
-      return;
-    }
-
-    while (scriptNode.getFirstChild() != null) {
-      scriptNode.removeChild(scriptNode.getFirstChild());
-    }
-
-    if (obj == null) {
-      scriptNode.getParentNode().removeChild(scriptNode);
-      return;
-    }
-
-    final StringWriter w = new StringWriter();
-    w.write("<!--\n");
-    w.write("var ");
-    w.write(id);
-    w.write("_obj=");
-    JsonServlet.defaultGsonBuilder().create().toJson(obj, w);
-    w.write(";\n// -->\n");
-    asScript(scriptNode);
-    scriptNode.appendChild(hostDoc.createCDATASection(w.toString()));
-  }
-
-  private void asScript(final Element scriptNode) {
-    scriptNode.removeAttribute("id");
-    scriptNode.setAttribute("type", "text/javascript");
-    scriptNode.setAttribute("language", "javascript");
+    fixModuleReference(template, servletContext);
+    page = new Page();
   }
 
   private void fixModuleReference(final Document hostDoc,
@@ -192,6 +120,55 @@ public class HostPageServlet extends HttpServlet {
     asScript(scriptNode);
   }
 
+  private void injectJson(final Document hostDoc, final String id,
+      final Object obj) {
+    final Element scriptNode = HtmlDomUtil.find(hostDoc, id);
+    if (scriptNode == null) {
+      return;
+    }
+
+    while (scriptNode.getFirstChild() != null) {
+      scriptNode.removeChild(scriptNode.getFirstChild());
+    }
+
+    if (obj == null) {
+      scriptNode.getParentNode().removeChild(scriptNode);
+      return;
+    }
+
+    final StringWriter w = new StringWriter();
+    w.write("<!--\n");
+    w.write("var ");
+    w.write(id);
+    w.write("_obj=");
+    JsonServlet.defaultGsonBuilder().create().toJson(obj, w);
+    w.write(";\n// -->\n");
+    asScript(scriptNode);
+    scriptNode.appendChild(hostDoc.createCDATASection(w.toString()));
+  }
+
+  private static void asScript(final Element scriptNode) {
+    scriptNode.removeAttribute("id");
+    scriptNode.setAttribute("type", "text/javascript");
+    scriptNode.setAttribute("language", "javascript");
+  }
+
+  private Page get() {
+    Page p = page;
+    if (p.isStale()) {
+      final Page newPage;
+      try {
+        newPage = new Page();
+      } catch (IOException e) {
+        log.error("Cannot refresh site header/footer", e);
+        return p;
+      }
+      p = newPage;
+      page = p;
+    }
+    return p;
+  }
+
   @Override
   protected void doGet(final HttpServletRequest req,
       final HttpServletResponse rsp) throws IOException {
@@ -203,7 +180,7 @@ public class HostPageServlet extends HttpServlet {
       pageData.userAccount = ((IdentifiedUser) user).getAccount();
     }
 
-    final Document peruser = HtmlDomUtil.clone(hostDoc);
+    final Document peruser = HtmlDomUtil.clone(get().hostDoc);
     injectJson(peruser, "gerrit_hostpagedata", pageData);
 
     final byte[] raw = HtmlDomUtil.toUTF8(peruser);
@@ -226,6 +203,85 @@ public class HostPageServlet extends HttpServlet {
       out.write(tosend);
     } finally {
       out.close();
+    }
+  }
+
+  private static class FileInfo {
+    private final File path;
+    private final long time;
+
+    FileInfo(final File p) {
+      path = p;
+      time = path.lastModified();
+    }
+
+    boolean isStale() {
+      return time != path.lastModified();
+    }
+  }
+
+  private class Page {
+    final Document hostDoc;
+
+    private final FileInfo css;
+    private final FileInfo header;
+    private final FileInfo footer;
+
+    Page() throws IOException {
+      hostDoc = HtmlDomUtil.clone(template);
+      css = injectCssFile(hostDoc, "gerrit_sitecss", site.site_css);
+      header = injectXmlFile(hostDoc, "gerrit_header", site.site_header);
+      footer = injectXmlFile(hostDoc, "gerrit_footer", site.site_footer);
+    }
+
+    boolean isStale() {
+      return css.isStale() || header.isStale() || footer.isStale();
+    }
+
+    private FileInfo injectCssFile(final Document hostDoc, final String id,
+        final File src) throws IOException {
+      final FileInfo info = new FileInfo(src);
+      final Element banner = HtmlDomUtil.find(hostDoc, id);
+      if (banner == null) {
+        return info;
+      }
+
+      while (banner.getFirstChild() != null) {
+        banner.removeChild(banner.getFirstChild());
+      }
+
+      String css = HtmlDomUtil.readFile(src.getParentFile(), src.getName());
+      if (css == null) {
+        banner.getParentNode().removeChild(banner);
+        return info;
+      }
+
+      banner.removeAttribute("id");
+      banner.appendChild(hostDoc.createCDATASection("\n" + css + "\n"));
+      return info;
+    }
+
+    private FileInfo injectXmlFile(final Document hostDoc, final String id,
+        final File src) throws IOException {
+      final FileInfo info = new FileInfo(src);
+      final Element banner = HtmlDomUtil.find(hostDoc, id);
+      if (banner == null) {
+        return info;
+      }
+
+      while (banner.getFirstChild() != null) {
+        banner.removeChild(banner.getFirstChild());
+      }
+
+      Document html = HtmlDomUtil.parseFile(src.getParentFile(), src.getName());
+      if (html == null) {
+        banner.getParentNode().removeChild(banner);
+        return info;
+      }
+
+      final Element content = html.getDocumentElement();
+      banner.appendChild(hostDoc.importNode(content, true));
+      return info;
     }
   }
 }

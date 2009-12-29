@@ -41,6 +41,10 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
 
 /** Utility functions to deal with HTML using W3C DOM operations. */
 public class HtmlDomUtil {
@@ -146,7 +150,9 @@ public class HtmlDomUtil {
     try {
       try {
         try {
-          return newBuilder().parse(in);
+          final Document doc = newBuilder().parse(in);
+          compact(doc);
+          return doc;
         } catch (SAXException e) {
           throw new IOException("Error reading " + name, e);
         } catch (ParserConfigurationException e) {
@@ -157,6 +163,21 @@ public class HtmlDomUtil {
       }
     } catch (IOException e) {
       throw new IOException("Error reading " + name, e);
+    }
+  }
+
+  private static void compact(final Document doc) {
+    try {
+      final String expr = "//text()[normalize-space(.) = '']";
+      final XPathFactory xp = XPathFactory.newInstance();
+      final XPathExpression e = xp.newXPath().compile(expr);
+      NodeList empty = (NodeList) e.evaluate(doc, XPathConstants.NODESET);
+      for (int i = 0; i < empty.getLength(); i++) {
+        Node node = empty.item(i);
+        node.getParentNode().removeChild(node);
+      }
+    } catch (XPathExpressionException e) {
+      // Don't do the whitespace removal.
     }
   }
 
@@ -175,17 +196,14 @@ public class HtmlDomUtil {
   }
 
   /** Parse an XHTML file from the local drive and return the instance. */
-  public static Document parseFile(final File parentDir, final String name)
-      throws IOException {
-    if (parentDir == null) {
-      return null;
-    }
-    final File path = new File(parentDir, name);
+  public static Document parseFile(final File path) throws IOException {
     try {
       final InputStream in = new FileInputStream(path);
       try {
         try {
-          return newBuilder().parse(in);
+          final Document doc = newBuilder().parse(in);
+          compact(doc);
+          return doc;
         } catch (SAXException e) {
           throw new IOException("Error reading " + path, e);
         } catch (ParserConfigurationException e) {
@@ -239,6 +257,7 @@ public class HtmlDomUtil {
     factory.setValidating(false);
     factory.setExpandEntityReferences(false);
     factory.setIgnoringComments(true);
+    factory.setCoalescing(true);
     final DocumentBuilder parser = factory.newDocumentBuilder();
     return parser;
   }

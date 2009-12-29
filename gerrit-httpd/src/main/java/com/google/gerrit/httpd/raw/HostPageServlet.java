@@ -53,6 +53,7 @@ public class HostPageServlet extends HttpServlet {
   private static final Logger log =
       LoggerFactory.getLogger(HostPageServlet.class);
   private static final boolean IS_DEV = Boolean.getBoolean("Gerrit.GwtDevMode");
+  private static final String HPD_ID = "gerrit_hostpagedata";
 
   private final Provider<CurrentUser> currentUser;
   private final GerritConfig config;
@@ -120,31 +121,8 @@ public class HostPageServlet extends HttpServlet {
     asScript(scriptNode);
   }
 
-  private void injectJson(final Document hostDoc, final String id,
-      final Object obj) {
-    final Element scriptNode = HtmlDomUtil.find(hostDoc, id);
-    if (scriptNode == null) {
-      return;
-    }
-
-    while (scriptNode.getFirstChild() != null) {
-      scriptNode.removeChild(scriptNode.getFirstChild());
-    }
-
-    if (obj == null) {
-      scriptNode.getParentNode().removeChild(scriptNode);
-      return;
-    }
-
-    final StringWriter w = new StringWriter();
-    w.write("<!--\n");
-    w.write("var ");
-    w.write(id);
-    w.write("_obj=");
-    JsonServlet.defaultGsonBuilder().create().toJson(obj, w);
-    w.write(";\n// -->\n");
-    asScript(scriptNode);
-    scriptNode.appendChild(hostDoc.createCDATASection(w.toString()));
+  private void json(final Object data, final StringWriter w) {
+    JsonServlet.defaultGsonBuilder().create().toJson(data, w);
   }
 
   private static void asScript(final Element scriptNode) {
@@ -172,22 +150,26 @@ public class HostPageServlet extends HttpServlet {
   @Override
   protected void doGet(final HttpServletRequest req,
       final HttpServletResponse rsp) throws IOException {
-    final HostPageData pageData = new HostPageData();
-    pageData.config = config;
+    final Page page = get();
+    final byte[] raw;
 
     final CurrentUser user = currentUser.get();
     if (user instanceof IdentifiedUser) {
-      pageData.userAccount = ((IdentifiedUser) user).getAccount();
+      final StringWriter w = new StringWriter();
+      w.write(HPD_ID + ".account=");
+      json(((IdentifiedUser) user).getAccount(), w);
+      w.write(";");
+      final byte[] userData = w.toString().getBytes("UTF-8");
+
+      raw = concat(page.part1, userData, page.part2);
+    } else {
+      raw = page.full;
     }
 
-    final Document peruser = HtmlDomUtil.clone(get().hostDoc);
-    injectJson(peruser, "gerrit_hostpagedata", pageData);
-
-    final byte[] raw = HtmlDomUtil.toUTF8(peruser);
     final byte[] tosend;
     if (RPCServletUtils.acceptsGzipEncoding(req)) {
       rsp.setHeader("Content-Encoding", "gzip");
-      tosend = HtmlDomUtil.compress(raw);
+      tosend = raw == page.full ? page.full_gz : HtmlDomUtil.compress(raw);
     } else {
       tosend = raw;
     }
@@ -206,6 +188,20 @@ public class HostPageServlet extends HttpServlet {
     }
   }
 
+  private static byte[] concat(byte[] p1, byte[] p2, byte[] p3) {
+    final byte[] r = new byte[p1.length + p2.length + p3.length];
+    int p = 0;
+    p = append(p1, r, p);
+    p = append(p2, r, p);
+    p = append(p3, r, p);
+    return r;
+  }
+
+  private static int append(byte[] src, final byte[] dst, int p) {
+    System.arraycopy(src, 0, dst, p, src.length);
+    return p + src.length;
+  }
+
   private static class FileInfo {
     private final File path;
     private final long time;
@@ -221,17 +217,47 @@ public class HostPageServlet extends HttpServlet {
   }
 
   private class Page {
-    final Document hostDoc;
-
     private final FileInfo css;
     private final FileInfo header;
     private final FileInfo footer;
 
+    final byte[] part1;
+    final byte[] part2;
+    final byte[] full;
+    final byte[] full_gz;
+
     Page() throws IOException {
-      hostDoc = HtmlDomUtil.clone(template);
+      Document hostDoc = HtmlDomUtil.clone(template);
+
       css = injectCssFile(hostDoc, "gerrit_sitecss", site.site_css);
       header = injectXmlFile(hostDoc, "gerrit_header", site.site_header);
       footer = injectXmlFile(hostDoc, "gerrit_footer", site.site_footer);
+
+      final HostPageData pageData = new HostPageData();
+      pageData.config = config;
+
+      final StringWriter w = new StringWriter();
+      w.write("var " + HPD_ID + "=");
+      json(pageData, w);
+      w.write(";");
+
+      final Element data = HtmlDomUtil.find(hostDoc, HPD_ID);
+      if (data == null) {
+        throw new IOException("No " + HPD_ID + " in host page HTML");
+      }
+      asScript(data);
+      data.appendChild(hostDoc.createTextNode(w.toString()));
+      data.appendChild(hostDoc.createComment(HPD_ID));
+
+      final String raw = HtmlDomUtil.toString(hostDoc);
+      final int p = raw.indexOf("<!--" + HPD_ID);
+      if (p < 0) {
+        throw new IOException("No tag in transformed host page HTML");
+      }
+      part1 = raw.substring(0, p).getBytes("UTF-8");
+      part2 = raw.substring(raw.indexOf('>', p) + 1).getBytes("UTF-8");
+      full = concat(part1, part2, new byte[0]);
+      full_gz = HtmlDomUtil.compress(full);
     }
 
     boolean isStale() {
@@ -273,7 +299,7 @@ public class HostPageServlet extends HttpServlet {
         banner.removeChild(banner.getFirstChild());
       }
 
-      Document html = HtmlDomUtil.parseFile(src.getParentFile(), src.getName());
+      Document html = HtmlDomUtil.parseFile(src);
       if (html == null) {
         banner.getParentNode().removeChild(banner);
         return info;

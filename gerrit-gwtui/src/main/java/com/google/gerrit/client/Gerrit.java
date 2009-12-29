@@ -223,8 +223,8 @@ public class Gerrit implements EntryPoint {
     hpd.load(new GerritCallback<HostPageData>() {
       public void onSuccess(final HostPageData result) {
         myConfig = result.config;
-        if (result.userAccount != null) {
-          myAccount = result.userAccount;
+        if (result.account != null) {
+          myAccount = result.account;
           applyUserPreferences();
         }
         onModuleLoad2(gStarting);

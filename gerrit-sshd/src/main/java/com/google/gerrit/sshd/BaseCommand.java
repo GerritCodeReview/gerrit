@@ -50,6 +50,11 @@ public abstract class BaseCommand implements Command {
   private static final Logger log = LoggerFactory.getLogger(BaseCommand.class);
   public static final String ENC = "UTF-8";
 
+  private static final int PRIVATE_STATUS = 1 << 30;
+  static final int STATUS_CANCEL = PRIVATE_STATUS | 1;
+  static final int STATUS_NOT_FOUND = PRIVATE_STATUS | 2;
+  static final int STATUS_NOT_ADMIN = PRIVATE_STATUS | 3;
+
   @Option(name = "--help", usage = "display this help text", aliases = {"-h"})
   private boolean help;
 
@@ -381,7 +386,7 @@ public abstract class BaseCommand implements Command {
     public void cancel() {
       try {
         SshScopes.current.set(context);
-        onExit(15);
+        onExit(STATUS_CANCEL);
       } finally {
         SshScopes.current.set(null);
       }
@@ -393,6 +398,7 @@ public abstract class BaseCommand implements Command {
       final String thisName = thisThread.getName();
       int rc = 0;
       try {
+        context.started = System.currentTimeMillis();
         thisThread.setName("SSH " + toString());
         SshScopes.current.set(context);
         try {

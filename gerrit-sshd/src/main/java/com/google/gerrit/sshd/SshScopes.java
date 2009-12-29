@@ -30,10 +30,15 @@ class SshScopes {
   static class Context {
     final ServerSession session;
     final Map<Key<?>, Object> map;
+    final long created;
+    volatile long started;
+    volatile long finished;
 
     Context(final ServerSession s) {
       session = s;
       map = new HashMap<Key<?>, Object>();
+      created = System.currentTimeMillis();
+      started = created;
     }
   }
 

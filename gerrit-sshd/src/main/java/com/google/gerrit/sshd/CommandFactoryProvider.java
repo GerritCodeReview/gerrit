@@ -34,11 +34,14 @@ import java.io.OutputStream;
  */
 class CommandFactoryProvider implements Provider<CommandFactory> {
   private final DispatchCommandProvider dispatcher;
+  private final SshLog log;
 
   @Inject
   CommandFactoryProvider(
-      @CommandName(Commands.ROOT) final DispatchCommandProvider d) {
+      @CommandName(Commands.ROOT) final DispatchCommandProvider d,
+      final SshLog l) {
     dispatcher = d;
+    log = l;
   }
 
   @Override
@@ -59,6 +62,7 @@ class CommandFactoryProvider implements Provider<CommandFactory> {
     private ServerSession session;
     private Context ctx;
     private DispatchCommand cmd;
+    private boolean logged;
 
     Trampoline(final String cmdLine) {
       commandLine = cmdLine;
@@ -96,10 +100,48 @@ class CommandFactoryProvider implements Provider<CommandFactory> {
           cmd.setInputStream(in);
           cmd.setOutputStream(out);
           cmd.setErrorStream(err);
-          cmd.setExitCallback(exit);
+          cmd.setExitCallback(new ExitCallback() {
+            @Override
+            public void onExit(int rc, String exitMessage) {
+              exit.onExit(translateExit(rc), exitMessage);
+              log(rc);
+            }
+
+            @Override
+            public void onExit(int rc) {
+              exit.onExit(translateExit(rc));
+              log(rc);
+            }
+          });
           cmd.start(env);
         } finally {
           SshScopes.current.set(old);
+        }
+      }
+    }
+
+    private int translateExit(final int rc) {
+      switch (rc) {
+        case BaseCommand.STATUS_NOT_ADMIN:
+          return 1;
+
+        case BaseCommand.STATUS_CANCEL:
+          return 15 /* SIGKILL */;
+
+        case BaseCommand.STATUS_NOT_FOUND:
+          return 127 /* POSIX not found */;
+
+        default:
+          return rc;
+      }
+    }
+
+    private void log(final int rc) {
+      synchronized (this) {
+        if (!logged) {
+          ctx.finished = System.currentTimeMillis();
+          log.onExecute(ctx, commandLine, rc);
+          logged = true;
         }
       }
     }
@@ -112,6 +154,7 @@ class CommandFactoryProvider implements Provider<CommandFactory> {
           try {
             SshScopes.current.set(ctx);
             cmd.destroy();
+            log(BaseCommand.STATUS_CANCEL);
           } finally {
             ctx = null;
             cmd = null;

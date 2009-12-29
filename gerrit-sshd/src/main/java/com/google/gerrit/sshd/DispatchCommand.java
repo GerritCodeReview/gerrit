@@ -79,7 +79,7 @@ final class DispatchCommand extends BaseCommand {
         if (!u.isAdministrator()) {
           err.write("fatal: Not a Gerrit administrator\n".getBytes(ENC));
           err.flush();
-          onExit(1);
+          onExit(BaseCommand.STATUS_NOT_ADMIN);
           return;
         }
       }
@@ -98,7 +98,7 @@ final class DispatchCommand extends BaseCommand {
       final String msg = prefix + ": " + name + ": not found\n";
       err.write(msg.getBytes(ENC));
       err.flush();
-      onExit(127);
+      onExit(BaseCommand.STATUS_NOT_FOUND);
     }
   }
 

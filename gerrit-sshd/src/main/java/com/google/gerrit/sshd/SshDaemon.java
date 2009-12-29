@@ -26,6 +26,8 @@ import com.google.inject.Singleton;
 import com.jcraft.jsch.HostKey;
 import com.jcraft.jsch.JSchException;
 
+import org.apache.mina.core.future.IoFuture;
+import org.apache.mina.core.future.IoFutureListener;
 import org.apache.mina.core.service.IoAcceptor;
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.transport.socket.SocketSessionConfig;
@@ -119,7 +121,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   SshDaemon(final CommandFactory commandFactory,
       final PublickeyAuthenticator userAuth,
       final KeyPairProvider hostKeyProvider, final IdGenerator idGenerator,
-      @GerritServerConfig final Config cfg) {
+      @GerritServerConfig final Config cfg, final SshLog sshLog) {
     setPort(IANA_SSH_PORT /* never used */);
 
     listen = parseListen(cfg);
@@ -155,6 +157,20 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
         s.setAttribute(SshUtil.REMOTE_PEER, io.getRemoteAddress());
         s.setAttribute(SshUtil.SESSION_ID, idGenerator.next());
         s.setAttribute(SshScopes.sessionMap, new HashMap<Key<?>, Object>());
+
+        // Log a session close without authentication as a failure.
+        //
+        io.getCloseFuture().addListener(new IoFutureListener<IoFuture>() {
+          @Override
+          public void operationComplete(IoFuture future) {
+            if (s.getUsername() == null /* not authenticated */) {
+              String username = s.getAttribute(SshUtil.AUTH_ATTEMPTED_AS);
+              if (username != null) {
+                sshLog.onAuthFail(s, username);
+              }
+            }
+          }
+        });
         return s;
       }
     });

@@ -37,6 +37,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -46,6 +47,9 @@ public class SshKeyCacheImpl implements SshKeyCache {
   private static final Logger log =
       LoggerFactory.getLogger(SshKeyCacheImpl.class);
   private static final String CACHE_NAME = "sshkeys";
+
+  static final Iterable<SshKeyCacheEntry> NO_SUCH_USER = none();
+  static final Iterable<SshKeyCacheEntry> NO_KEYS = none();
 
   public static Module module() {
     return new CacheModule() {
@@ -58,6 +62,11 @@ public class SshKeyCacheImpl implements SshKeyCache {
         bind(SshKeyCache.class).to(SshKeyCacheImpl.class);
       }
     };
+  }
+
+  private static Iterable<SshKeyCacheEntry> none() {
+    return Collections.unmodifiableCollection(Arrays
+        .asList(new SshKeyCacheEntry[0]));
   }
 
   private final SchemaFactory<ReviewDb> schema;
@@ -115,7 +124,7 @@ public class SshKeyCacheImpl implements SshKeyCache {
     try {
       final Account user = db.accounts().bySshUserName(username);
       if (user == null) {
-        return Collections.<SshKeyCacheEntry> emptyList();
+        return NO_SUCH_USER;
       }
 
       final List<SshKeyCacheEntry> kl = new ArrayList<SshKeyCacheEntry>(4);
@@ -123,7 +132,7 @@ public class SshKeyCacheImpl implements SshKeyCache {
         add(db, kl, k);
       }
       if (kl.isEmpty()) {
-        return Collections.<SshKeyCacheEntry> emptyList();
+        return NO_KEYS;
       }
       return Collections.unmodifiableList(kl);
     } finally {

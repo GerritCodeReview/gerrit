@@ -97,6 +97,7 @@ public class LogFileCompressor implements Runnable {
   private boolean isLive(final File entry) {
     final String name = entry.getName();
     return ErrorLogFile.LOG_NAME.equals(name) //
+        || "sshd_log".equals(name) //
         || name.endsWith(".pid");
   }
 

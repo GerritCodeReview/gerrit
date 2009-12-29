@@ -67,6 +67,7 @@ public class SshModule extends FactoryModule {
     configureCmdLineParser();
 
     install(SshKeyCacheImpl.module());
+    bind(SshLog.class);
     bind(SshInfo.class).to(SshDaemon.class).in(SINGLETON);
     factory(DispatchCommand.Factory.class);
     factory(QueryShell.Factory.class);
@@ -87,6 +88,7 @@ public class SshModule extends FactoryModule {
     install(new LifecycleModule() {
       @Override
       protected void configure() {
+        listener().to(SshLog.class);
         listener().to(SshDaemon.class);
       }
     });

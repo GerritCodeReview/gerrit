@@ -49,6 +49,13 @@ public class SshUtil {
   public static final AttributeKey<Integer> SESSION_ID =
       new AttributeKey<Integer>();
 
+  /** Username the last authentication tried to perform as. */
+  static final AttributeKey<String> AUTH_ATTEMPTED_AS =
+      new AttributeKey<String>();
+
+  /** Error message from last authentication attempt. */
+  static final AttributeKey<String> AUTH_ERROR = new AttributeKey<String>();
+
   /**
    * Parse a public key into its Java type.
    *

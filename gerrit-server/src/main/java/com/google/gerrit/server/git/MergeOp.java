@@ -496,17 +496,25 @@ public class MergeOp {
       msgbuf.append(destBranch.getShortName());
     }
     msgbuf.append("\n\n* changes:\n");
+
+    PatchSetApproval submitter = null;
     for (final CodeReviewCommit c : merged) {
       msgbuf.append("  ");
       msgbuf.append(c.getShortMessage());
       msgbuf.append("\n");
+
+      PatchSetApproval s = getSubmitter(c.patchsetId);
+      if (submitter == null
+          || (s != null && s.getGranted().compareTo(submitter.getGranted()) > 0)) {
+        submitter = s;
+      }
     }
 
     final Commit mergeCommit = new Commit(db);
     mergeCommit.setTreeId(m.getResultTreeId());
     mergeCommit.setParentIds(new ObjectId[] {mergeTip, n});
-    mergeCommit.setAuthor(myIdent);
-    mergeCommit.setCommitter(mergeCommit.getAuthor());
+    mergeCommit.setAuthor(toCommitterIdent(submitter));
+    mergeCommit.setCommitter(myIdent);
     mergeCommit.setMessage(msgbuf.toString());
 
     final ObjectId id = m.getObjectWriter().writeCommit(mergeCommit);

@@ -22,6 +22,7 @@ import com.google.inject.servlet.ServletModule;
 public class LdapAuthModule extends ServletModule {
   @Override
   protected void configureServlets() {
+    serve("/login/*").with(LoginRedirectServlet.class);
     install(new RpcServletModule(UiRpcModule.PREFIX) {
       @Override
       protected void configureServlets() {

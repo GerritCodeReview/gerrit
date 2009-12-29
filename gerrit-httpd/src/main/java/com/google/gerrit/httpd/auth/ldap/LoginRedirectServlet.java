@@ -29,6 +29,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Servlet bound to {@code /login/*} to redirect after user/pass sign-in.
+ * <p>
+ * This servlet is required because user authentication is done over RPC, but if
+ * the RPC is successful we need to force the host page to fully reload to pick
+ * up the account information, as we don't support updating the UI on the fly
+ * after a sign-in.
+ */
 @Singleton
 class LoginRedirectServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;

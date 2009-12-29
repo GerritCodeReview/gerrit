@@ -469,21 +469,14 @@ public class MergeOp {
     final StringBuilder msgbuf = new StringBuilder();
     if (merged.size() == 1) {
       final CodeReviewCommit c = merged.get(0);
-      msgbuf.append("Merge change ");
-      msgbuf.append(c.change.getKey().abbreviate());
-    } else {
-      final ArrayList<CodeReviewCommit> o;
-      o = new ArrayList<CodeReviewCommit>(merged);
-      Collections.sort(o, new Comparator<CodeReviewCommit>() {
-        public int compare(final CodeReviewCommit a, final CodeReviewCommit b) {
-          final Change.Id aId = a.patchsetId.getParentKey();
-          final Change.Id bId = b.patchsetId.getParentKey();
-          return aId.get() - bId.get();
-        }
-      });
+      rw.parseBody(c);
+      msgbuf.append("Merge \"");
+      msgbuf.append(c.getShortMessage());
+      msgbuf.append("\"");
 
+    } else {
       msgbuf.append("Merge changes ");
-      for (final Iterator<CodeReviewCommit> i = o.iterator(); i.hasNext();) {
+      for (final Iterator<CodeReviewCommit> i = merged.iterator(); i.hasNext();) {
         msgbuf.append(i.next().change.getKey().abbreviate());
         if (i.hasNext()) {
           msgbuf.append(',');
@@ -495,14 +488,19 @@ public class MergeOp {
       msgbuf.append(" into ");
       msgbuf.append(destBranch.getShortName());
     }
-    msgbuf.append("\n\n* changes:\n");
+
+    if (merged.size() > 1) {
+      msgbuf.append("\n\n* changes:\n");
+      for (final CodeReviewCommit c : merged) {
+        rw.parseBody(c);
+        msgbuf.append("  ");
+        msgbuf.append(c.getShortMessage());
+        msgbuf.append("\n");
+      }
+    }
 
     PatchSetApproval submitter = null;
     for (final CodeReviewCommit c : merged) {
-      msgbuf.append("  ");
-      msgbuf.append(c.getShortMessage());
-      msgbuf.append("\n");
-
       PatchSetApproval s = getSubmitter(c.patchsetId);
       if (submitter == null
           || (s != null && s.getGranted().compareTo(submitter.getGranted()) > 0)) {

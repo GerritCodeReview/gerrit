@@ -18,7 +18,6 @@ import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.StringKey;
 
 import java.sql.Timestamp;
-import java.util.Collection;
 
 /** Association of an external account identifier to a local {@link Account}. */
 public final class AccountExternalId {
@@ -51,37 +50,6 @@ public final class AccountExternalId {
     }
   }
 
-  /**
-   * Select the most recently used identity from a list of identities.
-   *
-   * @param all all known identities
-   * @return most recently used login identity; null if none matches.
-   */
-  public static AccountExternalId mostRecent(Collection<AccountExternalId> all) {
-    AccountExternalId mostRecent = null;
-    for (final AccountExternalId e : all) {
-      final Timestamp lastUsed = e.getLastUsedOn();
-      if (lastUsed == null) {
-        // Identities without logins have never been used, so
-        // they can't be the most recent.
-        //
-        continue;
-      }
-
-      if (e.isScheme(SCHEME_MAILTO)) {
-        // Don't ever consider an email address as a "recent login"
-        //
-        continue;
-      }
-
-      if (mostRecent == null
-          || lastUsed.getTime() > mostRecent.getLastUsedOn().getTime()) {
-        mostRecent = e;
-      }
-    }
-    return mostRecent;
-  }
-
   @Column(name = Column.NONE)
   protected Key key;
 
@@ -96,6 +64,9 @@ public final class AccountExternalId {
 
   /** <i>computed value</i> is this identity trusted by the site administrator? */
   protected boolean trusted;
+
+  /** <i>computed value</i> can this identity be removed from the account? */
+  protected boolean canDelete;
 
   protected AccountExternalId() {
   }
@@ -155,5 +126,13 @@ public final class AccountExternalId {
 
   public void setTrusted(final boolean t) {
     trusted = t;
+  }
+
+  public boolean canDelete() {
+    return canDelete;
+  }
+
+  public void setCanDelete(final boolean t) {
+    canDelete = t;
   }
 }

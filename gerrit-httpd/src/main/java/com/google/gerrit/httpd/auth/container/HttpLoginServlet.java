@@ -106,7 +106,7 @@ class HttpLoginServlet extends HttpServlet {
     }
     rdr.append(token);
 
-    webSession.get().login(arsp.getAccountId(), false);
+    webSession.get().login(arsp, false);
     rsp.setHeader("Expires", "Fri, 01 Jan 1980 00:00:00 GMT");
     rsp.setHeader("Pragma", "no-cache");
     rsp.setHeader("Cache-Control", "no-cache, must-revalidate");

@@ -14,11 +14,13 @@
 
 package com.google.gerrit.httpd.rpc.account;
 
+import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.AccountExternalId;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AuthConfig;
+import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 
 import java.util.Collections;
@@ -32,21 +34,31 @@ class ExternalIdDetailFactory extends Handler<List<AccountExternalId>> {
   private final ReviewDb db;
   private final IdentifiedUser user;
   private final AuthConfig authConfig;
+  private final WebSession session;
 
   @Inject
   ExternalIdDetailFactory(final ReviewDb db, final IdentifiedUser user,
-      final AuthConfig authConfig) {
+      final AuthConfig authConfig, final WebSession session) {
     this.db = db;
     this.user = user;
     this.authConfig = authConfig;
+    this.session = session;
   }
 
   @Override
-  public List<AccountExternalId> call() throws Exception {
+  public List<AccountExternalId> call() throws OrmException {
+    final AccountExternalId.Key last = session.getLastLoginExternalId();
     final List<AccountExternalId> ids =
         db.accountExternalIds().byAccount(user.getAccountId()).toList();
+
     for (final AccountExternalId e : ids) {
       e.setTrusted(authConfig.isIdentityTrustable(Collections.singleton(e)));
+
+      // The identity can be deleted only if its not the one used to
+      // establish this web session, and if only if an identity was
+      // actually used to establish this web session.
+      //
+      e.setCanDelete(last != null && !last.equals(e.getKey()));
     }
     return ids;
   }

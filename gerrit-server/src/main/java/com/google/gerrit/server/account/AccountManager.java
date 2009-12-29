@@ -21,6 +21,7 @@ import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AccountGroupMember;
 import com.google.gerrit.reviewdb.AccountGroupMemberAudit;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.AccountExternalId.Key;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
@@ -94,9 +95,8 @@ public class AccountManager {
     try {
       final ReviewDb db = schema.open();
       try {
-        final AccountExternalId id =
-            db.accountExternalIds().get(
-                new AccountExternalId.Key(who.getExternalId()));
+        final AccountExternalId.Key key = id(who);
+        final AccountExternalId id = db.accountExternalIds().get(key);
         if (id == null) {
           // New account, automatically create and return.
           //
@@ -106,7 +106,7 @@ public class AccountManager {
           // Account exists, return the identity to the caller.
           //
           update(db, who, id);
-          return new AuthResult(id.getAccountId(), false);
+          return new AuthResult(id.getAccountId(), key, false);
         }
 
       } finally {
@@ -219,7 +219,7 @@ public class AccountManager {
         } else {
           db.accountExternalIds().insert(Collections.singleton(newId));
         }
-        return new AuthResult(accountId, false);
+        return new AuthResult(accountId, newId.getKey(), false);
 
       } else if (v1.size() == 1) {
         // Exactly one user was imported from Gerrit 1.x with this email
@@ -234,7 +234,7 @@ public class AccountManager {
         db.accountExternalIds().delete(Collections.singleton(oldId), txn);
         db.accountExternalIds().insert(Collections.singleton(newId), txn);
         txn.commit();
-        return new AuthResult(newId.getAccountId(), false);
+        return new AuthResult(newId.getAccountId(), newId.getKey(), false);
 
       } else if (v1.size() > 1) {
         throw new AccountException("Multiple Gerrit 1.x accounts found");
@@ -278,7 +278,7 @@ public class AccountManager {
 
     byEmailCache.evict(account.getPreferredEmail());
     realm.onCreateAccount(who, account);
-    return new AuthResult(newId, true);
+    return new AuthResult(newId, extId.getKey(), true);
   }
 
   private static AccountExternalId createId(final Account.Id newId,
@@ -292,17 +292,17 @@ public class AccountManager {
    *
    * @param to account to link the identity onto.
    * @param who the additional identity.
+   * @return the result of linking the identity to the user.
    * @throws AccountException the identity belongs to a different account, or it
    *         cannot be linked at this time.
    */
-  public void link(final Account.Id to, final AuthRequest who)
+  public AuthResult link(final Account.Id to, final AuthRequest who)
       throws AccountException {
     try {
       final ReviewDb db = schema.open();
       try {
-        AccountExternalId extId =
-            db.accountExternalIds().get(
-                new AccountExternalId.Key(who.getExternalId()));
+        final AccountExternalId.Key key = id(who);
+        AccountExternalId extId = db.accountExternalIds().get(key);
         if (extId != null) {
           if (!extId.getAccountId().equals(to)) {
             throw new AccountException("Identity in use by another account");
@@ -331,11 +331,17 @@ public class AccountManager {
           }
         }
 
+        return new AuthResult(to, key, false);
+
       } finally {
         db.close();
       }
     } catch (OrmException e) {
       throw new AccountException("Cannot link identity", e);
     }
+  }
+
+  private static AccountExternalId.Key id(final AuthRequest who) {
+    return new AccountExternalId.Key(who.getExternalId());
   }
 }

@@ -55,11 +55,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -79,6 +76,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
   private final AccountManager accountManager;
   private final boolean useContactInfo;
 
+  private final DeleteExternalIds.Factory deleteExternalIdsFactory;
   private final ExternalIdDetailFactory.Factory externalIdDetailFactory;
   private final MyGroupsFactory.Factory myGroupsFactory;
 
@@ -89,6 +87,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
       final RegisterNewEmailSender.Factory esf, final SshKeyCache skc,
       final AccountByEmailCache abec, final AccountCache uac,
       final AccountManager am,
+      final DeleteExternalIds.Factory deleteExternalIdsFactory,
       final ExternalIdDetailFactory.Factory externalIdDetailFactory,
       final MyGroupsFactory.Factory myGroupsFactory) {
     super(schema, currentUser);
@@ -103,6 +102,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
 
     useContactInfo = contactStore != null && contactStore.isEnabled();
 
+    this.deleteExternalIdsFactory = deleteExternalIdsFactory;
     this.externalIdDetailFactory = externalIdDetailFactory;
     this.myGroupsFactory = myGroupsFactory;
   }
@@ -224,61 +224,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
 
   public void deleteExternalIds(final Set<AccountExternalId.Key> keys,
       final AsyncCallback<Set<AccountExternalId.Key>> callback) {
-    run(callback, new Action<Set<AccountExternalId.Key>>() {
-      public Set<AccountExternalId.Key> run(final ReviewDb db)
-          throws OrmException, Failure {
-        // Determine the records we will allow the user to remove.
-        //
-        final Account.Id me = getAccountId();
-        final Map<AccountExternalId.Key, AccountExternalId> all =
-            db.accountExternalIds()
-                .toMap(db.accountExternalIds().byAccount(me));
-
-        // Don't permit deletes unless they are for our own account
-        //
-        for (final AccountExternalId.Key keyId : keys) {
-          if (!all.containsKey(keyId))
-            throw new Failure(new NoSuchEntityException());
-        }
-
-        final AccountExternalId mostRecent =
-            AccountExternalId.mostRecent(all.values());
-        final Set<AccountExternalId.Key> removed =
-            new HashSet<AccountExternalId.Key>();
-        final List<AccountExternalId> toDelete =
-            new ArrayList<AccountExternalId>();
-        for (final AccountExternalId.Key k : keys) {
-          final AccountExternalId e = all.get(k);
-          if (e == null) {
-            // Its already gone, tell the client its gone
-            //
-            removed.add(k);
-
-          } else if (e == mostRecent) {
-            // Don't delete the most recently accessed identity; the
-            // user might lock themselves out of the account.
-            //
-            continue;
-
-          } else {
-            toDelete.add(e);
-            removed.add(e.getKey());
-          }
-        }
-
-        if (!toDelete.isEmpty()) {
-          final Transaction txn = db.beginTransaction();
-          db.accountExternalIds().delete(toDelete, txn);
-          txn.commit();
-          accountCache.evict(me);
-          for (AccountExternalId e : toDelete) {
-            byEmailCache.evict(e.getEmailAddress());
-          }
-        }
-
-        return removed;
-      }
-    });
+    deleteExternalIdsFactory.create(keys).to(callback);
   }
 
   public void updateContact(final String name, final String emailAddr,

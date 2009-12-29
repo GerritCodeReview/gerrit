@@ -163,20 +163,6 @@ class ExternalIdPanel extends Composite {
       for (final AccountExternalId k : result) {
         addOneId(k);
       }
-
-      final AccountExternalId mostRecent = AccountExternalId.mostRecent(result);
-      if (mostRecent != null) {
-        for (int row = 1; row < table.getRowCount(); row++) {
-          if (getRowItem(row) == mostRecent) {
-            // Remove the box from the most recent row, this prevents
-            // the user from trying to delete the identity they last used
-            // to login, possibly locking themselves out of the account.
-            //
-            table.setHTML(row, 1, "&nbsp;");
-            break;
-          }
-        }
-      }
     }
 
     void addOneId(final AccountExternalId k) {
@@ -185,7 +171,11 @@ class ExternalIdPanel extends Composite {
       table.insertRow(row);
       applyDataRowStyle(row);
 
-      table.setWidget(row, 1, new CheckBox());
+      if (k.canDelete()) {
+        table.setWidget(row, 1, new CheckBox());
+      } else {
+        table.setText(row, 1, "");
+      }
       if (k.getLastUsedOn() != null) {
         table.setText(row, 2, FormatUtil.mediumFormat(k.getLastUsedOn()));
       } else {
@@ -195,7 +185,8 @@ class ExternalIdPanel extends Composite {
         table.setText(row, 3, "");
       } else {
         table.setText(row, 3, Util.C.untrustedProvider());
-        fmt.addStyleName(row, 3, Gerrit.RESOURCES.css().identityUntrustedExternalId());
+        fmt.addStyleName(row, 3, Gerrit.RESOURCES.css()
+            .identityUntrustedExternalId());
       }
       if (k.getEmailAddress() != null && k.getEmailAddress().length() > 0) {
         table.setText(row, 4, k.getEmailAddress());

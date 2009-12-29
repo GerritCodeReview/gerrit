@@ -361,10 +361,10 @@ class OpenIdServiceImpl implements OpenIdService {
     }
 
     try {
+      final com.google.gerrit.server.account.AuthResult arsp;
       switch (mode) {
         case REGISTER:
         case SIGN_IN:
-          final com.google.gerrit.server.account.AuthResult arsp;
           arsp = accountManager.authenticate(areq);
 
           final Cookie lastId = new Cookie(OpenIdUrls.LASTID_COOKIE, "");
@@ -376,7 +376,7 @@ class OpenIdServiceImpl implements OpenIdService {
             lastId.setMaxAge(0);
           }
           rsp.addCookie(lastId);
-          webSession.get().login(arsp.getAccountId(), remember);
+          webSession.get().login(arsp, remember);
           if (arsp.isNew() && claimedIdentifier != null) {
             final com.google.gerrit.server.account.AuthRequest linkReq =
                 new com.google.gerrit.server.account.AuthRequest(
@@ -388,10 +388,12 @@ class OpenIdServiceImpl implements OpenIdService {
           callback(arsp.isNew(), req, rsp);
           break;
 
-        case LINK_IDENTIY:
-          accountManager.link(identifiedUser.get().getAccountId(), areq);
+        case LINK_IDENTIY: {
+          arsp = accountManager.link(identifiedUser.get().getAccountId(), areq);
+          webSession.get().login(arsp, remember);
           callback(false, req, rsp);
           break;
+        }
       }
     } catch (AccountException e) {
       log.error("OpenID authentication failure", e);

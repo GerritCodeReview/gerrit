@@ -26,6 +26,7 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.gerrit.reviewdb.Account;
+import com.google.gerrit.reviewdb.AccountExternalId;
 import com.google.gerrit.server.cache.Cache;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -74,10 +75,15 @@ class WebSessionManager {
   }
 
   Val createVal(final Key key, final Val val) {
-    return createVal(key, val.getAccountId(), val.isPersistentCookie());
+    final Account.Id who = val.getAccountId();
+    final boolean remember = val.isPersistentCookie();
+    final AccountExternalId.Key lastLogin = val.getExternalId();
+
+    return createVal(key, who, remember, lastLogin);
   }
 
-  Val createVal(final Key key, final Account.Id who, final boolean remember) {
+  Val createVal(final Key key, final Account.Id who, final boolean remember,
+      final AccountExternalId.Key lastLogin) {
     // Refresh the cookie every hour or when it is half-expired.
     // This reduces the odds that the user session will be kicked
     // early but also avoids us needing to refresh the cookie on
@@ -88,7 +94,7 @@ class WebSessionManager {
     final long refresh = Math.min(halfAgeRefresh, minRefresh);
     final long refreshCookieAt = now() + refresh;
 
-    final Val val = new Val(who, refreshCookieAt, remember);
+    final Val val = new Val(who, refreshCookieAt, remember, lastLogin);
     self.put(key, val);
     return val;
   }
@@ -155,16 +161,22 @@ class WebSessionManager {
     private transient Account.Id accountId;
     private transient long refreshCookieAt;
     private transient boolean persistentCookie;
+    private transient AccountExternalId.Key externalId;
 
     Val(final Account.Id accountId, final long refreshCookieAt,
-        final boolean persistentCookie) {
+        final boolean persistentCookie, final AccountExternalId.Key externalId) {
       this.accountId = accountId;
       this.refreshCookieAt = refreshCookieAt;
       this.persistentCookie = persistentCookie;
+      this.externalId = externalId;
     }
 
     Account.Id getAccountId() {
       return accountId;
+    }
+
+    AccountExternalId.Key getExternalId() {
+      return externalId;
     }
 
     boolean needsCookieRefresh() {
@@ -185,6 +197,11 @@ class WebSessionManager {
       writeVarInt32(out, 3);
       writeVarInt32(out, persistentCookie ? 1 : 0);
 
+      if (externalId != null) {
+        writeVarInt32(out, 4);
+        writeString(out, externalId.get());
+      }
+
       writeVarInt32(out, 0);
     }
 
@@ -202,6 +219,9 @@ class WebSessionManager {
             continue;
           case 3:
             persistentCookie = readVarInt32(in) != 0;
+            continue;
+          case 4:
+            externalId = new AccountExternalId.Key(readString(in));
             continue;
           default:
             throw new IOException("Unknown tag found in object: " + tag);

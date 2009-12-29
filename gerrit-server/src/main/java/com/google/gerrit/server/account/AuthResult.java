@@ -15,20 +15,29 @@
 package com.google.gerrit.server.account;
 
 import com.google.gerrit.reviewdb.Account;
+import com.google.gerrit.reviewdb.AccountExternalId;
 
 /** Result from {@link AccountManager#authenticate(AuthRequest)}. */
 public class AuthResult {
   private final Account.Id accountId;
+  private final AccountExternalId.Key externalId;
   private final boolean isNew;
 
-  public AuthResult(final Account.Id accountId, final boolean isNew) {
+  public AuthResult(final Account.Id accountId,
+      final AccountExternalId.Key externalId, final boolean isNew) {
     this.accountId = accountId;
+    this.externalId = externalId;
     this.isNew = isNew;
   }
 
   /** Identity of the user account that was authenticated into. */
   public Account.Id getAccountId() {
     return accountId;
+  }
+
+  /** External identity used to authenticate the user. */
+  public AccountExternalId.Key getExternalId() {
+    return externalId;
   }
 
   /**

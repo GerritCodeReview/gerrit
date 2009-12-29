@@ -123,7 +123,7 @@ public class BecomeAnyAccountLoginServlet extends HttpServlet {
     }
 
     if (res != null) {
-      webSession.get().login(res.getAccountId(), false);
+      webSession.get().login(res, false);
       final StringBuilder rdr = new StringBuilder();
       rdr.append(urlProvider.get());
       rdr.append('#');
@@ -148,7 +148,10 @@ public class BecomeAnyAccountLoginServlet extends HttpServlet {
   }
 
   private AuthResult auth(final Account account) {
-    return account != null ? new AuthResult(account.getId(), false) : null;
+    if (account != null) {
+      return new AuthResult(account.getId(), null, false);
+    }
+    return null;
   }
 
   private AuthResult bySshUserName(final HttpServletResponse rsp,

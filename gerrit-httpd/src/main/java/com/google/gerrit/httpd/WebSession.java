@@ -19,10 +19,12 @@ import static java.util.concurrent.TimeUnit.HOURS;
 import com.google.gerrit.httpd.WebSessionManager.Key;
 import com.google.gerrit.httpd.WebSessionManager.Val;
 import com.google.gerrit.reviewdb.Account;
+import com.google.gerrit.reviewdb.AccountExternalId;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.EvictionPolicy;
@@ -124,6 +126,10 @@ public final class WebSession {
     return isSignedIn() && key.getToken().equals(inputToken);
   }
 
+  public AccountExternalId.Key getLastLoginExternalId() {
+    return val != null ? val.getExternalId() : null;
+  }
+
   CurrentUser getCurrentUser() {
     if (isSignedIn()) {
       return identified.create(AccessPath.WEB, val.getAccountId());
@@ -131,11 +137,14 @@ public final class WebSession {
     return anonymous;
   }
 
-  public void login(final Account.Id id, final boolean rememberMe) {
+  public void login(final AuthResult res, final boolean rememberMe) {
+    final Account.Id id = res.getAccountId();
+    final AccountExternalId.Key identity = res.getExternalId();
+
     logout();
 
     key = manager.createKey(id);
-    val = manager.createVal(key, id, rememberMe);
+    val = manager.createVal(key, id, rememberMe, identity);
     saveCookie();
   }
 

@@ -123,10 +123,14 @@ class SshPanel extends Composite {
     userNameRow.add(changeUserName);
 
     row(userInfo, 0, Util.C.sshUserName(), userNameRow);
-    userInfo.getCellFormatter().addStyleName(0, 0, Gerrit.RESOURCES.css().topmost());
-    userInfo.getCellFormatter().addStyleName(0, 0, Gerrit.RESOURCES.css().topmost());
-    userInfo.getCellFormatter().addStyleName(0, 1, Gerrit.RESOURCES.css().topmost());
-    userInfo.getCellFormatter().addStyleName(0, 0, Gerrit.RESOURCES.css().bottomheader());
+    userInfo.getCellFormatter().addStyleName(0, 0,
+        Gerrit.RESOURCES.css().topmost());
+    userInfo.getCellFormatter().addStyleName(0, 0,
+        Gerrit.RESOURCES.css().topmost());
+    userInfo.getCellFormatter().addStyleName(0, 1,
+        Gerrit.RESOURCES.css().topmost());
+    userInfo.getCellFormatter().addStyleName(0, 0,
+        Gerrit.RESOURCES.css().bottomheader());
 
     showAddKeyBlock = new Button(Util.C.buttonShowAddSshKey());
     showAddKeyBlock.addClickHandler(new ClickHandler() {
@@ -224,7 +228,8 @@ class SshPanel extends Composite {
       final Widget field) {
     info.setText(row, labelIdx, name);
     info.setWidget(row, fieldIdx, field);
-    info.getCellFormatter().addStyleName(row, 0, Gerrit.RESOURCES.css().header());
+    info.getCellFormatter().addStyleName(row, 0,
+        Gerrit.RESOURCES.css().header());
   }
 
   void setKeyTableVisible(final boolean on) {
@@ -575,7 +580,9 @@ class SshPanel extends Composite {
       table.setWidget(row, 1, new CheckBox());
       if (k.isValid()) {
         table.setText(row, 2, "");
-        fmt.removeStyleName(row, 2, Gerrit.RESOURCES.css().sshKeyPanelInvalid());
+        fmt
+            .removeStyleName(row, 2, Gerrit.RESOURCES.css()
+                .sshKeyPanelInvalid());
       } else {
         table.setText(row, 2, Util.C.sshKeyInvalid());
         fmt.addStyleName(row, 2, Gerrit.RESOURCES.css().sshKeyPanelInvalid());

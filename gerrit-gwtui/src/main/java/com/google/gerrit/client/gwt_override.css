@@ -22,6 +22,9 @@
 @external .gwt-TabPanel;
 @external .gwt-TabPanelBottom;
 
+@def trim-color #D4E9A9;
+
+
 .gwt-Button {
   white-space: nowrap;
 }
@@ -34,7 +37,7 @@
 }
 .gwt-TabBar .gwt-TabBarItem {
   margin: 0px;
-  background: #d4e9a9;
+  background: trim-color;
   padding-top: 0.5em;
   padding-bottom: 1px;
   padding-left: 1em;
@@ -45,12 +48,12 @@
   background: #ffffcc;
 }
 .gwt-TabBar .gwt-TabBarRest {
-  background: #d4e9a9;
+  background: trim-color;
   padding-top: 0.5em;
   padding-bottom: 1px;
 }
 .gwt-TabBar .gwt-TabPanelBottom {
-  background: #d4e9a9;
+  background: trim-color;
   border-top: 1px solid black;
   border-left: none;
   border-right: none;

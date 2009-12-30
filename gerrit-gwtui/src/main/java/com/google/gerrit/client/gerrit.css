@@ -29,6 +29,13 @@
 
 @external .smallHeading;
 
+@def black #000000;
+@def white #ffffff;
+@def trim-color #D4E9A9;
+@def norm-font  Arial Unicode MS, Arial, sans-serif;
+@def mono-font 'Lucida Console', 'Lucida Sans Typewriter', Monaco, monospace;
+
+
 @sprite .greenCheckClass {
   gwt-image: "greenCheck";
 }
@@ -38,7 +45,7 @@
   padding-top: 5px;
   padding-left: 5px;
   padding-right: 5px;
-  background: #d4e9a9;
+  background: trim-color;
 }
 .gerritBody {
   font-size: 11pt;
@@ -83,7 +90,7 @@
 .blockHeader {
   font-size: small;
   font-weight: bold;
-  background: #d4e9a9;
+  background: trim-color;
   padding: 0.2em 0.2em 0.2em 0.5em;
 }
 
@@ -166,7 +173,7 @@
 .commentEditorPanel textarea {
   margin-left: 0.5em;
   font-size: small;
-  font-family: Arial Unicode MS,Arial,sans-serif;
+  font-family: norm-font;
 }
 
 
@@ -195,16 +202,16 @@
 }
 .topmenuMenuLeft {
   width: 300px;
-  border-left: 1px solid #d4e9a9;
-  border-right: 1px solid #d4e9a9;
-  border-bottom: 1px solid #d4e9a9;
+  border-left: 1px solid trim-color;
+  border-right: 1px solid trim-color;
+  border-bottom: 1px solid trim-color;
 }
 .topmenuMenuLeft .gwt-TabBarFirst {
   display: none;
 }
 .topmenuMenuLeft .gwt-TabBarItem {
   margin: 0px;
-  background: #d4e9a9;
+  background: trim-color;
   padding-top: 0px;
   padding-bottom: 1px;
   padding-left: 1em;
@@ -215,11 +222,11 @@
   background: #ffffcc;
 }
 .topmenuMenuLeft .gwt-TabBarRest {
-  background: #d4e9a9;
+  background: trim-color;
   padding-top: 0px;
 }
 .topmenuMenuLeft .gwt-TabPanelBottom {
-  background: #d4e9a9;
+  background: trim-color;
   border-top: none;
   border-left: none;
   border-right: none;
@@ -320,15 +327,15 @@
   width: 1px;
   padding: 0px;
   vertical-align: middle;
-  border-bottom: 1px solid #d4e9a9;
+  border-bottom: 1px solid trim-color;
 }
 
 .changeTable .changeTypeCell {
   width: 1px;
   padding-left: 5px;
   padding-right: 5px;
-  border-right: 1px solid #d4e9a9;
-  border-bottom: 1px solid #d4e9a9;
+  border-right: 1px solid trim-color;
+  border-bottom: 1px solid trim-color;
   vertical-align: top;
 }
 
@@ -355,14 +362,14 @@
 }
 
 .changeTable .leftMostCell {
-  border-left: 1px solid #d4e9a9;
+  border-left: 1px solid trim-color;
 }
 
 .changeTable .dataCell {
   padding-left: 5px;
   padding-right: 5px;
-  border-right: 1px solid #d4e9a9;
-  border-bottom: 1px solid #d4e9a9;
+  border-right: 1px solid trim-color;
+  border-bottom: 1px solid trim-color;
 }
 
 .accountDashboard.changeTable tr {
@@ -375,8 +382,8 @@
 }
 .accountDashboard.changeTable .needsReview {
   font-weight: bold;
-  color: #000000;
-  background: #ffffff;
+  color: black;
+  background: white;
 }
 
 .changeTable .activeRow, 
@@ -388,7 +395,7 @@
   width: 3.5em;
 }
 .changeTable .dataCell.cID {
-  font-family: 'Lucida Console', 'Lucida Sans Typewriter', Monaco, monospace;
+  font-family: mono-font;
 }
 
 .changeTable .cSUBJECT div {
@@ -425,31 +432,31 @@
 .changeTable .iconHeader {
   border-top: 1px solid white;
   border-bottom: 1px solid white;
-  background-color: #d4e9a9;
+  background-color: trim-color;
 }
 
 .changeTable .dataHeader {
   border: 1px solid white;
   padding: 2px 6px 1px;
-  background-color: #d4e9a9;
+  background-color: trim-color;
   font-style: italic;
   white-space: nowrap;
-  color: #000000;
+  color: black;
 }
 
 .changeTable .sectionHeader {
   border-top: 8px solid white;
   padding: 2px 6px 1px;
-  background-color: #d4e9a9;
+  background-color: trim-color;
   white-space: nowrap;
   font-weight: bold;
-  color: #000000;
+  color: black;
 }
 
 .changeTable .emptySection {
-  border-left: 1px solid #d4e9a9;
-  border-right: 1px solid #d4e9a9;
-  border-bottom: 1px solid #d4e9a9;
+  border-left: 1px solid trim-color;
+  border-right: 1px solid trim-color;
+  border-bottom: 1px solid trim-color;
   font-style: italic;
   padding-left: 25px;
 }
@@ -482,7 +489,7 @@
 }
 .patchContentTable td {
   font-size: 8pt;
-  font-family: 'Lucida Console', 'Lucida Sans Typewriter', Monaco, monospace;
+  font-family: mono-font;
   border-top: 1px solid transparent;
   border-bottom: 1px solid transparent;
 }
@@ -524,15 +531,15 @@
   white-space: normal;
 }
 .patchContentTable .commentPanel {
-  font-family: Arial Unicode MS,Arial,sans-serif;
+  font-family: norm-font;
 }
 .patchContentTable .commentPanel td {
-  font-family: Arial Unicode MS,Arial,sans-serif;
+  font-family: norm-font;
 }
 
 .patchContentTable .fileColumnHeader {
-  background: #d4e9a9;
-  font-family: Arial Unicode MS,Arial,sans-serif;
+  background: trim-color;
+  font-family: norm-font;
   font-weight: bold;
   text-align: center;
 }
@@ -547,7 +554,7 @@
 }
 
 .patchContentTable .noLineLineNumber {
-  font-family: 'Lucida Console', 'Lucida Sans Typewriter', Monaco, monospace;
+  font-family: mono-font;
   width: 3.5em;
   padding-left: 0.2em;
   padding-right: 0.2em;
@@ -572,7 +579,7 @@
 }
 
 .patchContentTable .skipLine {
-  font-family: Arial Unicode MS,Arial,sans-serif;
+  font-family: norm-font;
   text-align: center;
   font-style: italic;
   background: lightblue;
@@ -625,7 +632,7 @@
 
 .changeScreenDescription {
   white-space: pre;
-  font-family: 'Lucida Console', 'Lucida Sans Typewriter', Monaco, monospace;
+  font-family: mono-font;
   font-size: 8pt;
 }
 .changeScreenDescription p {
@@ -645,13 +652,13 @@
 }
 
 .infoTable td {
-  border-left: 1px solid #d4e9a9;
-  border-bottom: 1px solid #d4e9a9;
+  border-left: 1px solid trim-color;
+  border-bottom: 1px solid trim-color;
   padding: 2px 6px 1px;
 }
 
 .infoTable td.header {
-  background-color: #d4e9a9;
+  background-color: trim-color;
   border-left: 1px solid white;
   font-weight: normal;
   padding: 2px 4px 0 6px;
@@ -665,7 +672,7 @@
 }
 
 .infoTable td.rightmost  {
-  border-right: 1px solid #d4e9a9;
+  border-right: 1px solid trim-color;
 }
 
 .infoTable td.approvalrole {
@@ -704,25 +711,25 @@
 
 .infoBlock td {
   padding: 2px 4px 2px 6px;
-  border-right: 1px solid #d4e9a9;
-  border-bottom: 1px solid #d4e9a9;
+  border-right: 1px solid trim-color;
+  border-bottom: 1px solid trim-color;
   text-align: left;
   white-space: nowrap;
 }
 
 .infoBlock td.topmost {
-  border-top: 1px solid #d4e9a9;
+  border-top: 1px solid trim-color;
 }
 
 .infoBlock td.header {
   border-bottom: 1px solid white;
-  background-color: #d4e9a9;
+  background-color: trim-color;
   font-style: italic;
   text-align: right;
 }
 
 .infoBlock td.bottomheader {
-  border-bottom: 1px solid #d4e9a9;
+  border-bottom: 1px solid trim-color;
 }
 
 .infoBlock td.closedstate {
@@ -740,7 +747,7 @@
 
 .infoBlock td.command {
   white-space: pre;
-  font-family: 'Lucida Console', 'Lucida Sans Typewriter', Monaco, monospace;
+  font-family: mono-font;
   font-size: 12px;
 }
 
@@ -826,7 +833,7 @@
 
 /** AccountSettings  **/
 .sshPanelUsername {
-  font-family: 'Lucida Console', 'Lucida Sans Typewriter', Monaco, monospace;
+  font-family: mono-font;
   font-size: small;
   margin-right: 0.2em;
 }
@@ -834,7 +841,7 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
-  font-family: 'Lucida Console', 'Lucida Sans Typewriter', Monaco, monospace;
+  font-family: mono-font;
   font-size: small;
 }
 .sshKeyPanelInvalid {
@@ -866,13 +873,13 @@
 
 .addSshKeyPanel {
   margin-top: 10px;
-  background-color: #d4e9a9;
+  background-color: trim-color;
   padding: 5px 5px 5px 5px;
 }
 
 .sshHostKeyPanel {
   margin-top: 10px;
-  border: 1px solid #d4e9a9;
+  border: 1px solid trim-color;
   padding: 5px 5px 5px 5px;
 }
 .sshHostKeyPanelHeading {
@@ -883,13 +890,13 @@
 .sshHostKeyPanelFingerprintData {
   margin-left: 2em;
   white-space: nowrap;
-  font-family: 'Lucida Console', 'Lucida Sans Typewriter', Monaco, monospace;
+  font-family: mono-font;
   font-size: small;
 }
 .sshHostKeyPanelKnownHostEntry {
   margin-left: 2em;
   white-space: nowrap;
-  font-family: 'Lucida Console', 'Lucida Sans Typewriter', Monaco, monospace;
+  font-family: mono-font;
   font-size: small;
   width: 80em;
 }
@@ -953,7 +960,7 @@
   white-space: nowrap;
 }
 .projectAdminApprovalCategoryValue {
-  font-family: 'Lucida Console', 'Lucida Sans Typewriter', Monaco, monospace;
+  font-family: mono-font;
   font-size: small;
 }
 
@@ -968,7 +975,7 @@
 .publishCommentsScreen .approvalCategoryList {
   margin-bottom: 10px;
   margin-left: 10px;
-  background: #d4e9a9;
+  background: trim-color;
   width: 25em;
   white-space: nowrap;
   padding-top: 2px;
@@ -995,7 +1002,7 @@
 }
 .publishCommentsScreen .lineHeader {
   white-space: nowrap;
-  font-family: 'Lucida Console', 'Lucida Sans Typewriter', Monaco, monospace;
+  font-family: mono-font;
   font-size: small;
   font-style: italic;
   padding-left: 3px;
@@ -1038,7 +1045,7 @@
 }
 .abandonChangeDialog .abandonMessage {
   margin-left: 10px;
-  background: #d4e9a9;
+  background: trim-color;
   padding: 5px 5px 5px 5px;
 }
 .abandonChangeDialog .abandonMessage textarea {
@@ -1055,7 +1062,7 @@
   opacity: 0.90;
 }
 .patchBrowserPopupBody {
-  background: #ffffff;
+  background: white;
   margin: 4px;
   opacity: 0.90;
 }

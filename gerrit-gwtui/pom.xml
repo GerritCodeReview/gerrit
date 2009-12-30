@@ -38,18 +38,15 @@ limitations under the License.
       <groupId>com.google.gwt</groupId>
       <artifactId>gwt-user</artifactId>
       <version>${gwtVersion}</version>
-      <scope>compile</scope>
     </dependency>
 
     <dependency>
       <groupId>gwtexpui</groupId>
       <artifactId>gwtexpui</artifactId>
-      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>gwtexpui</groupId>
       <artifactId>gwtexpui</artifactId>
-      <scope>compile</scope>
       <classifier>sources</classifier>
       <type>jar</type>
     </dependency>
@@ -57,12 +54,10 @@ limitations under the License.
     <dependency>
       <groupId>gwtjsonrpc</groupId>
       <artifactId>gwtjsonrpc</artifactId>
-      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>gwtjsonrpc</groupId>
       <artifactId>gwtjsonrpc</artifactId>
-      <scope>compile</scope>
       <classifier>sources</classifier>
       <type>jar</type>
     </dependency>
@@ -70,12 +65,10 @@ limitations under the License.
     <dependency>
       <groupId>gwtorm</groupId>
       <artifactId>gwtorm</artifactId>
-      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>gwtorm</groupId>
       <artifactId>gwtorm</artifactId>
-      <scope>compile</scope>
       <classifier>sources</classifier>
       <type>jar</type>
     </dependency>
@@ -84,13 +77,11 @@ limitations under the License.
       <groupId>com.google.gerrit</groupId>
       <artifactId>gerrit-reviewdb</artifactId>
       <version>${project.version}</version>
-      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>com.google.gerrit</groupId>
       <artifactId>gerrit-reviewdb</artifactId>
       <version>${project.version}</version>
-      <scope>compile</scope>
       <classifier>sources</classifier>
       <type>jar</type>
     </dependency>
@@ -99,13 +90,11 @@ limitations under the License.
       <groupId>com.google.gerrit</groupId>
       <artifactId>gerrit-common</artifactId>
       <version>${project.version}</version>
-      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>com.google.gerrit</groupId>
       <artifactId>gerrit-common</artifactId>
       <version>${project.version}</version>
-      <scope>compile</scope>
       <classifier>sources</classifier>
       <type>jar</type>
     </dependency>
@@ -114,13 +103,11 @@ limitations under the License.
       <groupId>com.google.gerrit</groupId>
       <artifactId>gerrit-patch-jgit</artifactId>
       <version>${project.version}</version>
-      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>com.google.gerrit</groupId>
       <artifactId>gerrit-patch-jgit</artifactId>
       <version>${project.version}</version>
-      <scope>compile</scope>
       <classifier>sources</classifier>
       <type>jar</type>
     </dependency>
@@ -128,12 +115,10 @@ limitations under the License.
     <dependency>
       <groupId>org.eclipse.jgit</groupId>
       <artifactId>org.eclipse.jgit</artifactId>
-      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.eclipse.jgit</groupId>
       <artifactId>org.eclipse.jgit</artifactId>
-      <scope>compile</scope>
       <classifier>sources</classifier>
       <type>jar</type>
     </dependency>
@@ -142,13 +127,11 @@ limitations under the License.
       <groupId>com.google.gerrit</groupId>
       <artifactId>gerrit-patch-gwtexpui</artifactId>
       <version>${project.version}</version>
-      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>com.google.gerrit</groupId>
       <artifactId>gerrit-patch-gwtexpui</artifactId>
       <version>${project.version}</version>
-      <scope>compile</scope>
       <classifier>sources</classifier>
       <type>jar</type>
     </dependency>

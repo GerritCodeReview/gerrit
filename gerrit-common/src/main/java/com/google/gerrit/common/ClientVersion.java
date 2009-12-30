@@ -14,13 +14,11 @@
 
 package com.google.gerrit.common;
 
-import com.google.gwt.i18n.client.Constants;
+import com.google.gwt.resources.client.ClientBundle;
+import com.google.gwt.resources.client.TextResource;
 
-/**
- * Automatically generated version code.
- * <p>
- * Do not translate this constants interface.
- */
-public interface Version extends Constants {
-  String version();
+public interface ClientVersion extends ClientBundle {
+  /** Version number of this client software build. */
+  @Source("Version")
+  TextResource version();
 }

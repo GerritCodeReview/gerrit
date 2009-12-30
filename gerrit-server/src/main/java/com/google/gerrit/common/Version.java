@@ -14,9 +14,10 @@
 
 package com.google.gerrit.common;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Properties;
+import java.io.InputStreamReader;
 
 public class Version {
   private static final String version;
@@ -30,18 +31,24 @@ public class Version {
   }
 
   private static String loadVersion() {
-    InputStream in = Version.class.getResourceAsStream("Version.properties");
+    InputStream in = Version.class.getResourceAsStream("Version");
     if (in == null) {
       return null;
     }
     try {
-      final Properties p = new Properties();
+      BufferedReader r = new BufferedReader(new InputStreamReader(in, "UTF-8"));
       try {
-        p.load(in);
+        String vs = r.readLine();
+        if (vs != null && vs.startsWith("v")) {
+          vs = vs.substring(1);
+        }
+        if (vs != null && vs.isEmpty()) {
+          vs = null;
+        }
+        return vs;
       } finally {
-        in.close();
+        r.close();
       }
-      return p.getProperty("version");
     } catch (IOException e) {
       return null;
     }

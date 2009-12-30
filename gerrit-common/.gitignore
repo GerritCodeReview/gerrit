@@ -2,4 +2,3 @@
 /.classpath
 /.project
 /.settings/org.maven.ide.eclipse.prefs
-/src/main/resources/com/google/gerrit/common/Version.properties

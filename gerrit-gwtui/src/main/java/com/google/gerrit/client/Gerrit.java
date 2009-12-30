@@ -20,8 +20,8 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.LinkMenuBar;
 import com.google.gerrit.client.ui.LinkMenuItem;
 import com.google.gerrit.client.ui.Screen;
+import com.google.gerrit.common.ClientVersion;
 import com.google.gerrit.common.PageLinks;
-import com.google.gerrit.common.Version;
 import com.google.gerrit.common.auth.SignInMode;
 import com.google.gerrit.common.data.GerritConfig;
 import com.google.gerrit.common.data.HostPageData;
@@ -65,7 +65,6 @@ public class Gerrit implements EntryPoint {
   public static final SystemInfoService SYSTEM_SVC;
 
   private static String myHost;
-  private static String myVersion;
   private static GerritConfig myConfig;
   private static Account myAccount;
 
@@ -322,23 +321,20 @@ public class Gerrit implements EntryPoint {
     keyHelp.setStyleName(RESOURCES.css().keyhelp());
     btmmenu.add(keyHelp);
 
-    final String vs = getVersion();
+    String vs;
+    if (GWT.isScript()) {
+      final ClientVersion v = GWT.create(ClientVersion.class);
+      vs = v.version().getText();
+      if (vs.startsWith("v")) {
+        vs = vs.substring(1);
+      }
+    } else {
+      vs = "dev";
+    }
+
     final HTML version = new HTML(M.poweredBy(vs));
     version.setStyleName(RESOURCES.css().version());
     btmmenu.add(version);
-  }
-
-  /** @return version number of the Gerrit application software */
-  public static String getVersion() {
-    if (myVersion == null) {
-      if (GWT.isScript()) {
-        final Version v = GWT.create(Version.class);
-        myVersion = v.version();
-      } else {
-        myVersion = "dev";
-      }
-    }
-    return myVersion;
   }
 
   private void onModuleLoad2(final RootPanel starting) {

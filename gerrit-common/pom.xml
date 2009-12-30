@@ -67,14 +67,14 @@ limitations under the License.
             <phase>generate-resources</phase>
             <configuration>
               <tasks>
-                <property name="src" location="${basedir}/src/main/resources/" />
-                <property name="pkg" location="${src}/com/google/gerrit/common" />
+                <property name="dst" location="${project.build.outputDirectory}" />
+                <property name="pkg" location="${dst}/com/google/gerrit/common" />
                 <mkdir dir="${pkg}" />
                 <exec executable="git" outputproperty="v">
                   <arg value="describe"/>
                   <arg value="HEAD"/>
                 </exec>
-                <echo file="${pkg}/Version.properties">version=${v}</echo>
+                <echo file="${pkg}/Version">${v}</echo>
               </tasks>
             </configuration>
             <goals>

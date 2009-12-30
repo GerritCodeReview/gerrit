@@ -15,7 +15,7 @@
 package com.google.gerrit.client.admin;
 
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.HistoryHandler;
+import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.AccountScreen;
@@ -91,7 +91,7 @@ public class GroupListScreen extends AccountScreen {
 
     Util.GROUP_SVC.createGroup(newName, new GerritCallback<AccountGroup.Id>() {
       public void onSuccess(final AccountGroup.Id result) {
-        History.newItem(HistoryHandler.toAccountGroup(result));
+        History.newItem(Dispatcher.toAccountGroup(result));
       }
     });
   }

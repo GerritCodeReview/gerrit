@@ -22,7 +22,7 @@ import com.google.gerrit.reviewdb.Account;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.InlineHyperlink;
+import com.google.gerrit.client.ui.InlineHyperlink;
 
 public class RegisterScreen extends AccountScreen {
   private final String nextToken;

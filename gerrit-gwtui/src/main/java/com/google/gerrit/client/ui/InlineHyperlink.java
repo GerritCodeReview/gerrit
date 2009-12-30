@@ -14,30 +14,23 @@
 
 package com.google.gerrit.client.ui;
 
-import static com.google.gerrit.client.ui.LinkMenuItem.impl;
+import static com.google.gerrit.client.ui.Hyperlink.impl;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.ui.InlineHyperlink;
 
-/**
- * Link to a Screen which can carry richer payload.
- * <p>
- * A standard Hyperlink widget which updates the current history token when
- * activated, but subclasses are able to create the Screen instance themselves,
- * passing additional data into the Screen's constructor. This may permit the
- * screen to show some limited information early, before RPCs required to fully
- * populate it are even started.
- */
-public abstract class DirectScreenLink extends InlineHyperlink {
+/** Standard GWT hyperlink with late updating of the token. */
+public class InlineHyperlink extends
+    com.google.gwt.user.client.ui.InlineHyperlink {
   /**
    * Creates a link with its text and target history token specified.
    *
    * @param text the hyperlink's text
-   * @param historyToken the history token to which it will link
+   * @param token the history token to which it will link
    */
-  protected DirectScreenLink(final String text, final String historyToken) {
-    super(text, historyToken);
+  public InlineHyperlink(final String text, final String token) {
+    super(text, token);
   }
 
   @Override
@@ -45,9 +38,13 @@ public abstract class DirectScreenLink extends InlineHyperlink {
     if (DOM.eventGetType(event) == Event.ONCLICK && impl.handleAsClick(event)) {
       DOM.eventPreventDefault(event);
       go();
+    } else {
+      super.onBrowserEvent(event);
     }
   }
 
   /** Create the screen and start rendering, updating the browser history. */
-  public abstract void go();
+  public void go() {
+    Gerrit.display(getTargetHistoryToken());
+  }
 }

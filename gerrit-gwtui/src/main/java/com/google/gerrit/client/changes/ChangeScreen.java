@@ -370,9 +370,9 @@ public class ChangeScreen extends Screen {
     @Override
     public void onKeyPress(final KeyPressEvent event) {
       if (Gerrit.isSignedIn()) {
-        Gerrit.display(PageLinks.MINE, true);
+        Gerrit.display(PageLinks.MINE);
       } else {
-        Gerrit.display(PageLinks.ALL_OPEN, true);
+        Gerrit.display(PageLinks.ALL_OPEN);
       }
     }
   }

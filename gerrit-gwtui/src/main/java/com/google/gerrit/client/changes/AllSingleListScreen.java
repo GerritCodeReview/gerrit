@@ -24,7 +24,7 @@ import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Hyperlink;
+import com.google.gerrit.client.ui.Hyperlink;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 
 import java.util.List;

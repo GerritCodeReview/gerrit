@@ -14,10 +14,10 @@
 
 package com.google.gerrit.client.account;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.AccountScreen;
 import com.google.gerrit.common.PageLinks;
-import com.google.gwt.user.client.History;
 import com.google.gwtjsonrpc.client.VoidResult;
 
 public class ValidateEmailScreen extends AccountScreen {
@@ -44,7 +44,7 @@ public class ValidateEmailScreen extends AccountScreen {
 
           @Override
           protected void postDisplay() {
-            History.newItem(PageLinks.SETTINGS_CONTACT, true);
+            Gerrit.display(PageLinks.SETTINGS_CONTACT);
           }
         });
   }

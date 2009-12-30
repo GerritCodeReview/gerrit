@@ -31,7 +31,6 @@ import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.DeferredCommand;
-import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -67,9 +66,9 @@ public class OpenIdSignInDialog extends SignInDialog implements
   private CheckBox rememberId;
   private boolean discovering;
 
-  public OpenIdSignInDialog(final SignInMode requestedMode,
+  public OpenIdSignInDialog(final SignInMode requestedMode, final String token,
       final String initialErrorMsg) {
-    super(requestedMode);
+    super(requestedMode, token);
 
     formBody = new FlowPanel();
     formBody.setStyleName(OpenIdResources.I.css().loginForm());
@@ -94,8 +93,10 @@ public class OpenIdSignInDialog extends SignInDialog implements
     createErrorBox();
     createIdentBox();
 
-    link(OpenIdUrls.URL_GOOGLE, OpenIdUtil.C.nameGoogle(), OpenIdResources.I.iconGoogle());
-    link(OpenIdUrls.URL_YAHOO, OpenIdUtil.C.nameYahoo(), OpenIdResources.I.iconYahoo());
+    link(OpenIdUrls.URL_GOOGLE, OpenIdUtil.C.nameGoogle(), OpenIdResources.I
+        .iconGoogle());
+    link(OpenIdUrls.URL_YAHOO, OpenIdUtil.C.nameYahoo(), OpenIdResources.I
+        .iconYahoo());
 
     if (initialErrorMsg != null) {
       showError(initialErrorMsg);
@@ -313,7 +314,6 @@ public class OpenIdSignInDialog extends SignInDialog implements
     hideError();
 
     final boolean remember = rememberId != null && rememberId.getValue();
-    final String token = History.getToken();
     OpenIdUtil.SVC.discover(openidIdentifier, mode, remember, token,
         new GerritCallback<DiscoveryResult>() {
           public void onSuccess(final DiscoveryResult result) {

@@ -15,14 +15,14 @@
 package com.google.gerrit.client.admin;
 
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.HistoryHandler;
+import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.user.client.History;
-import com.google.gwt.user.client.ui.Hyperlink;
+import com.google.gerrit.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
 
@@ -71,7 +71,7 @@ public class GroupTable extends NavigationTable<AccountGroup> {
 
   @Override
   protected void onOpenRow(final int row) {
-    History.newItem(HistoryHandler.toAccountGroup(getRowItem(row).getId()));
+    History.newItem(Dispatcher.toAccountGroup(getRowItem(row).getId()));
   }
 
   public void display(final List<AccountGroup> result) {
@@ -88,7 +88,7 @@ public class GroupTable extends NavigationTable<AccountGroup> {
 
   void populate(final int row, final AccountGroup k) {
     if (enableLink) {
-      table.setWidget(row, 1, new Hyperlink(k.getName(), HistoryHandler.toAccountGroup(k
+      table.setWidget(row, 1, new Hyperlink(k.getName(), Dispatcher.toAccountGroup(k
           .getId())));
     } else {
       table.setText(row, 1, k.getName());

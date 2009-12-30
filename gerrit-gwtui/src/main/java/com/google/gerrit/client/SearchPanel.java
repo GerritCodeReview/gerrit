@@ -136,10 +136,9 @@ class SearchPanel extends Composite {
     searchBox.setFocus(false);
 
     if (query.matches("^[1-9][0-9]*$")) {
-      final Change.Id ck = Change.Id.parse(query);
-      Gerrit.display(PageLinks.toChange(ck), new ChangeScreen(ck));
+      Gerrit.display(PageLinks.toChange(Change.Id.parse(query)));
     } else {
-      Gerrit.display(PageLinks.toChangeQuery(query), true);
+      Gerrit.display(PageLinks.toChangeQuery(query));
     }
   }
 }

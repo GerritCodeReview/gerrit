@@ -15,7 +15,7 @@
 package com.google.gerrit.client.ui;
 
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.HistoryHandler;
+import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.changes.ByProjectAbandonedChangesScreen;
 import com.google.gerrit.client.changes.ByProjectMergedChangesScreen;
 import com.google.gerrit.client.changes.ByProjectOpenChangesScreen;
@@ -24,7 +24,7 @@ import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.Change.Status;
 
 /** Link to the open changes of a project. */
-public class ProjectLink extends DirectScreenLink {
+public class ProjectLink extends InlineHyperlink {
   private Project.NameKey project;
   private Status status;
 
@@ -34,7 +34,7 @@ public class ProjectLink extends DirectScreenLink {
 
   public ProjectLink(final String text, final Project.NameKey proj,
       Change.Status stat) {
-    super(text, HistoryHandler.toProject(proj, stat));
+    super(text, Dispatcher.toProject(proj, stat));
     status = stat;
     project = proj;
   }

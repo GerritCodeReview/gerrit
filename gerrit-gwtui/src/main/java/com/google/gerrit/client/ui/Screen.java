@@ -26,6 +26,7 @@ public abstract class Screen extends View {
   private FlowPanel header;
   private InlineLabel headerText;
   private FlowPanel body;
+  private String token;
   private boolean requiresSignIn;
   private String windowTitle;
 
@@ -73,6 +74,31 @@ public abstract class Screen extends View {
 
   protected final void add(final Widget w) {
     body.add(w);
+  }
+
+  /** Get the history token for this screen. */
+  public String getToken() {
+    return token;
+  }
+
+  /** Set the history token for this screen. */
+  public void setToken(final String t) {
+    assert t != null && !t.isEmpty();
+    token = t;
+
+    if (isCurrentView()) {
+      Gerrit.updateImpl(token);
+    }
+  }
+
+  /**
+   * If this view can display the given token, update it.
+   *
+   * @param newToken token the UI wants to show.
+   * @return true if this view can show the token immediately, false if not.
+   */
+  public boolean displayToken(String newToken) {
+    return false;
   }
 
   /** Set whether or not {@link Gerrit#isSignedIn()} must be true. */

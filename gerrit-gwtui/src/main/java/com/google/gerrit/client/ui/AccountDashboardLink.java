@@ -23,7 +23,7 @@ import com.google.gerrit.common.data.AccountInfoCache;
 import com.google.gerrit.reviewdb.Account;
 
 /** Link to any user's account dashboard. */
-public class AccountDashboardLink extends DirectScreenLink {
+public class AccountDashboardLink extends InlineHyperlink {
   /** Create a link after locating account details from an active cache. */
   public static AccountDashboardLink link(final AccountInfoCache cache,
       final Account.Id id) {

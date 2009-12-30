@@ -50,6 +50,7 @@ import com.google.gerrit.client.changes.PatchTable;
 import com.google.gerrit.client.changes.PublishCommentScreen;
 import com.google.gerrit.client.patches.PatchScreen;
 import com.google.gerrit.client.ui.Screen;
+import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.auth.SignInMode;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountGroup;
@@ -60,11 +61,9 @@ import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.Change.Status;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwtorm.client.KeyUtil;
 
-public class HistoryHandler implements ValueChangeHandler<String> {
+public class Dispatcher {
   public static String toPatchSideBySide(final Patch.Key id) {
     return toPatch("sidebyside", id);
   }
@@ -100,34 +99,31 @@ public class HistoryHandler implements ValueChangeHandler<String> {
     }
   }
 
-  public void onValueChange(final ValueChangeEvent<String> event) {
-    final String token = event.getValue();
+  void display(final String token) {
+    assert token != null;
     try {
       select(token);
     } catch (RuntimeException err) {
       GWT.log("Error parsing history token: " + token, err);
-      Gerrit.display(new NotFoundScreen());
+      Gerrit.display(token, new NotFoundScreen());
     }
   }
 
   private static void select(final String token) {
-    if (token == null) {
-      Gerrit.display(new NotFoundScreen());
-
-    } else if (token.startsWith("patch,")) {
+    if (token.startsWith("patch,")) {
       patch(token, null, 0, null);
 
     } else if (token.startsWith("change,publish,")) {
       publish(token);
 
     } else if (MINE.equals(token) || token.startsWith("mine,")) {
-      Gerrit.display(mine(token));
+      Gerrit.display(token, mine(token));
 
     } else if (token.startsWith("all,")) {
-      Gerrit.display(all(token));
+      Gerrit.display(token, all(token));
 
     } else if (token.startsWith("project,")) {
-      Gerrit.display(project(token));
+      Gerrit.display(token, project(token));
 
     } else if (SETTINGS.equals(token) //
         || REGISTER.equals(token) //
@@ -141,7 +137,7 @@ public class HistoryHandler implements ValueChangeHandler<String> {
       admin(token);
 
     } else {
-      Gerrit.display(core(token));
+      Gerrit.display(token, core(token));
     }
   }
 
@@ -240,7 +236,7 @@ public class HistoryHandler implements ValueChangeHandler<String> {
   private static void publish(final String token) {
     new RunAsyncCallback() {
       public void onSuccess() {
-        Gerrit.display(select());
+        Gerrit.display(token, select());
       }
 
       private Screen select() {
@@ -260,7 +256,7 @@ public class HistoryHandler implements ValueChangeHandler<String> {
       final int patchIndex, final PatchTable patchTable) {
     GWT.runAsync(new RunAsyncCallback() {
       public void onSuccess() {
-        Gerrit.display(select());
+        Gerrit.display(token, select());
       }
 
       private Screen select() {
@@ -296,7 +292,7 @@ public class HistoryHandler implements ValueChangeHandler<String> {
   private static void settings(final String token) {
     GWT.runAsync(new RunAsyncCallback() {
       public void onSuccess() {
-        Gerrit.display(select());
+        Gerrit.display(token, select());
       }
 
       private Screen select() {
@@ -318,12 +314,13 @@ public class HistoryHandler implements ValueChangeHandler<String> {
           final String[] args = skip(p, token).split(",");
           final SignInMode mode = SignInMode.valueOf(args[0]);
           final String msg = KeyUtil.decode(args[1]);
+          final String to = PageLinks.MINE;
           switch (Gerrit.getConfig().getAuthType()) {
             case OPENID:
-              new OpenIdSignInDialog(mode, msg).center();
+              new OpenIdSignInDialog(mode, to, msg).center();
               break;
             case LDAP:
-              new UserPassSignInDialog(msg).center();
+              new UserPassSignInDialog(to, msg).center();
               break;
             default:
               return null;
@@ -356,7 +353,7 @@ public class HistoryHandler implements ValueChangeHandler<String> {
   private static void admin(final String token) {
     GWT.runAsync(new RunAsyncCallback() {
       public void onSuccess() {
-        Gerrit.display(select());
+        Gerrit.display(token, select());
       }
 
       private Screen select() {

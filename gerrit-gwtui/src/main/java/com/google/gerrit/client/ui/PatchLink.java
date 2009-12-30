@@ -14,11 +14,12 @@
 
 package com.google.gerrit.client.ui;
 
-import com.google.gerrit.client.HistoryHandler;
+import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.changes.PatchTable;
 import com.google.gerrit.reviewdb.Patch;
+import com.google.gwt.user.client.History;
 
-public abstract class PatchLink extends DirectScreenLink {
+public abstract class PatchLink extends InlineHyperlink {
   protected Patch.Key patchKey;
   protected int patchIndex;
   protected PatchTable parentPatchTable;
@@ -41,7 +42,7 @@ public abstract class PatchLink extends DirectScreenLink {
 
   @Override
   public void go() {
-    HistoryHandler.patch( //
+    Dispatcher.patch( //
         getTargetHistoryToken(), //
         patchKey, //
         patchIndex, //
@@ -52,7 +53,7 @@ public abstract class PatchLink extends DirectScreenLink {
   public static class SideBySide extends PatchLink {
     public SideBySide(final String text, final Patch.Key patchKey,
         final int patchIndex, PatchTable parentPatchTable) {
-      super(text, patchKey, patchIndex, HistoryHandler
+      super(text, patchKey, patchIndex, Dispatcher
           .toPatchSideBySide(patchKey), parentPatchTable);
     }
   }
@@ -61,7 +62,7 @@ public abstract class PatchLink extends DirectScreenLink {
     public Unified(final String text, final Patch.Key patchKey,
         final int patchIndex, PatchTable parentPatchTable) {
       super(text, patchKey, patchIndex,
-          HistoryHandler.toPatchUnified(patchKey), parentPatchTable);
+          Dispatcher.toPatchUnified(patchKey), parentPatchTable);
     }
   }
 }

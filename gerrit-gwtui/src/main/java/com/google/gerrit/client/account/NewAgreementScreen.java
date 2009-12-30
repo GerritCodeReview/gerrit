@@ -218,7 +218,7 @@ public class NewAgreementScreen extends AccountScreen {
     Util.ACCOUNT_SEC.enterAgreement(current.getId(),
         new GerritCallback<VoidResult>() {
           public void onSuccess(final VoidResult result) {
-            Gerrit.display(nextToken, true);
+            Gerrit.display(nextToken);
           }
 
           @Override

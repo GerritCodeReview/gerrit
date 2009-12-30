@@ -18,13 +18,13 @@ import static com.google.gerrit.reviewdb.AccountGeneralPreferences.DEFAULT_CONTE
 import static com.google.gerrit.reviewdb.AccountGeneralPreferences.WHOLE_FILE_CONTEXT;
 
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.HistoryHandler;
+import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.changes.ChangeScreen;
 import com.google.gerrit.client.changes.PatchTable;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.ChangeLink;
-import com.google.gerrit.client.ui.DirectScreenLink;
+import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.CommentDetail;
@@ -144,10 +144,10 @@ public abstract class PatchScreen extends Screen {
   private HandlerRegistration regNavigation;
 
   /** Link to the screen for the previous file, null if not applicable */
-  private DirectScreenLink previousFileLink;
+  private InlineHyperlink previousFileLink;
 
   /** Link to the screen for the next file, null if not applicable */
-  private DirectScreenLink nextFileLink;
+  private InlineHyperlink nextFileLink;
 
   private static final char SHORTCUT_PREVIOUS_FILE = '[';
   private static final char SHORTCUT_NEXT_FILE = ']';
@@ -244,7 +244,7 @@ public abstract class PatchScreen extends Screen {
     }
   }
 
-  private void installLinkShortCut(final DirectScreenLink link, char shortcut,
+  private void installLinkShortCut(final InlineHyperlink link, char shortcut,
       String help) {
     keysNavigation.add(new KeyCommand(0, shortcut, help) {
       @Override
@@ -483,7 +483,7 @@ public abstract class PatchScreen extends Screen {
         contentTable = new UnifiedDiffTable();
         contentTable.fileList = fileList;
         contentPanel.add(contentTable);
-        History.newItem(HistoryHandler.toPatchUnified(patchKey), false);
+        setToken(Dispatcher.toPatchUnified(patchKey));
       }
 
       if (hasDifferences) {

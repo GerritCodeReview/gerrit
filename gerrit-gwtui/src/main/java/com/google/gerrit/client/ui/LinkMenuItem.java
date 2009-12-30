@@ -15,17 +15,10 @@
 package com.google.gerrit.client.ui;
 
 import com.google.gerrit.client.Gerrit;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.AnchorElement;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Accessibility;
-import com.google.gwt.user.client.ui.InlineHyperlink;
-import com.google.gwt.user.client.ui.impl.HyperlinkImpl;
 
 public class LinkMenuItem extends InlineHyperlink {
-  static final HyperlinkImpl impl = GWT.create(HyperlinkImpl.class);
-
   public LinkMenuItem(final String text, final String targetHistoryToken) {
     super(text, targetHistoryToken);
     setStyleName(Gerrit.RESOURCES.css().menuItem());
@@ -33,10 +26,8 @@ public class LinkMenuItem extends InlineHyperlink {
   }
 
   @Override
-  public void onBrowserEvent(Event event) {
-    super.onBrowserEvent(event);
-    if (DOM.eventGetType(event) == Event.ONCLICK && impl.handleAsClick(event)) {
-      AnchorElement.as(getElement()).blur();
-    }
+  public void go() {
+    super.go();
+    AnchorElement.as(getElement()).blur();
   }
 }

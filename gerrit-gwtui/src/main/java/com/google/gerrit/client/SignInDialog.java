@@ -20,15 +20,18 @@ import com.google.gwtexpui.user.client.AutoCenterDialogBox;
 /** Prompts the user to sign in to their account. */
 public abstract class SignInDialog extends AutoCenterDialogBox {
   protected final SignInMode mode;
+  protected final String token;
 
   /**
    * Create a new dialog to handle user sign in.
    *
    * @param signInMode type of mode the login will perform.
+   * @param token the token to jump to after sign-in is complete.
    */
-  protected SignInDialog(final SignInMode signInMode) {
+  protected SignInDialog(final SignInMode signInMode, final String token) {
     super(/* auto hide */true, /* modal */true);
-    mode = signInMode;
+    this.mode = signInMode;
+    this.token = token;
 
     switch (signInMode) {
       case LINK_IDENTIY:

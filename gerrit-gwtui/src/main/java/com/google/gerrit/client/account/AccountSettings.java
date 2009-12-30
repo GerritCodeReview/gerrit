@@ -44,6 +44,18 @@ public class AccountSettings extends AccountScreen {
   }
 
   @Override
+  public boolean displayToken(String token) {
+    final int tabIdx = tabTokens.indexOf(token);
+    if (0 <= tabIdx) {
+      tabs.selectTab(tabIdx);
+      setToken(token);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  @Override
   protected void onLoad() {
     super.onLoad();
 
@@ -149,14 +161,15 @@ public class AccountSettings extends AccountScreen {
     tabs.addSelectionHandler(new SelectionHandler<Integer>() {
       @Override
       public void onSelection(final SelectionEvent<Integer> event) {
-        Gerrit.display(tabTokens.get(event.getSelectedItem()), false);
+        setToken(tabTokens.get(event.getSelectedItem()));
       }
     });
   }
 
   private void infoRow(final int row, final String name) {
     info.setText(row, labelIdx, name);
-    info.getCellFormatter().addStyleName(row, 0, Gerrit.RESOURCES.css().header());
+    info.getCellFormatter().addStyleName(row, 0,
+        Gerrit.RESOURCES.css().header());
   }
 
   void display(final Account account) {

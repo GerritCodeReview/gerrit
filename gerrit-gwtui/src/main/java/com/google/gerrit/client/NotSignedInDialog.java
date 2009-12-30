@@ -16,6 +16,7 @@ package com.google.gerrit.client;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
@@ -36,7 +37,7 @@ public class NotSignedInDialog extends AutoCenterDialogBox {
       @Override
       public void onClick(ClickEvent event) {
         hide();
-        Gerrit.doSignIn();
+        Gerrit.doSignIn(History.getToken());
       }
     });
     buttons.add(signin);

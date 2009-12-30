@@ -29,7 +29,6 @@ import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.DeferredCommand;
-import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -55,8 +54,8 @@ public class UserPassSignInDialog extends SignInDialog {
   private TextBox username;
   private TextBox password;
 
-  public UserPassSignInDialog(final String initialErrorMsg) {
-    super(SignInMode.SIGN_IN);
+  public UserPassSignInDialog(final String token, final String initialErrorMsg) {
+    super(SignInMode.SIGN_IN, token);
 
     formBody = new FlowPanel();
     formBody.setStyleName(UserPassResources.I.css().loginForm());
@@ -199,9 +198,9 @@ public class UserPassSignInDialog extends SignInDialog {
     Util.SVC.authenticate(user, pass, new GerritCallback<LoginResult>() {
       public void onSuccess(final LoginResult result) {
         if (result.success) {
-          String token = History.getToken();
-          if (result.isNew && !token.startsWith(PageLinks.REGISTER + ",")) {
-            token = PageLinks.REGISTER + "," + token;
+          String to = token;
+          if (result.isNew && !to.startsWith(PageLinks.REGISTER + ",")) {
+            to = PageLinks.REGISTER + "," + to;
           }
 
           // Unfortunately we no longer support updating the web UI when the
@@ -209,7 +208,7 @@ public class UserPassSignInDialog extends SignInDialog {
           // that isn't easy because we might need to change the anchor. So
           // we bounce through a little redirection servlet on the server.
           //
-          Location.replace(Location.getPath() + "login/" + token);
+          Location.replace(Location.getPath() + "login/" + to);
         } else {
           showError(Util.C.invalidLogin());
           enable(true);

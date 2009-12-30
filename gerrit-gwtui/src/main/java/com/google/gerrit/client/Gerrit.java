@@ -60,7 +60,8 @@ import java.util.ArrayList;
 public class Gerrit implements EntryPoint {
   public static final GerritConstants C = GWT.create(GerritConstants.class);
   public static final GerritMessages M = GWT.create(GerritMessages.class);
-  public static final GerritResources RESOURCES = GWT.create(GerritResources.class);
+  public static final GerritResources RESOURCES =
+      GWT.create(GerritResources.class);
   public static final SystemInfoService SYSTEM_SVC;
 
   private static String myHost;
@@ -73,6 +74,7 @@ public class Gerrit implements EntryPoint {
   private static RootPanel siteHeader;
   private static RootPanel siteFooter;
   private static SearchPanel searchPanel;
+  private static final Dispatcher dispatcher = new Dispatcher();
   private static ViewSite<Screen> body;
 
   static {
@@ -80,26 +82,62 @@ public class Gerrit implements EntryPoint {
     JsonUtil.bind(SYSTEM_SVC, "rpc/SystemInfoService");
   }
 
-  public static void display(final String historyToken, final boolean go) {
-    History.newItem(historyToken, go);
-    if (!go && historyHooks != null) {
-      dispatchHistoryHooks(historyToken);
+  /**
+   * Load the screen at the given location, displaying when ready.
+   * <p>
+   * If the URL is not already pointing at this location, a new item will be
+   * added to the browser's history when the screen is fully loaded and
+   * displayed on the UI.
+   *
+   * @param token location to parse, load, and render.
+   */
+  public static void display(final String token) {
+    if (body.getView() == null || !body.getView().displayToken(token)) {
+      dispatcher.display(token);
     }
   }
 
-  public static void display(final String historyToken, final Screen view) {
-    History.newItem(historyToken, false);
-    display(view);
-    if (historyHooks != null) {
-      dispatchHistoryHooks(historyToken);
-    }
-  }
-
-  public static void display(final Screen view) {
+  /**
+   * Load the screen passed, assuming token can be used to locate it.
+   * <p>
+   * The screen is loaded in the background. When it is ready to be visible a
+   * new item will be added to the browser's history, the screen will be made
+   * visible, and the window title may be updated.
+   * <p>
+   * If {@link Screen#isRequiresSignIn()} is true and the user is not signed in
+   * yet the screen instance will be discarded, sign-in will take place, and
+   * will redirect to this location upon success.
+   *
+   * @param token location that refers to {@code view}.
+   * @param view the view to load.
+   */
+  public static void display(final String token, final Screen view) {
     if (view.isRequiresSignIn() && !isSignedIn()) {
-      doSignIn();
+      doSignIn(token);
     } else {
+      view.setToken(token);
       body.setView(view);
+    }
+  }
+
+  /**
+   * Update the current history token after a screen change.
+   * <p>
+   * The caller has already updated the UI, but wants to publish a different
+   * history token for the current browser state. This really only makes sense
+   * if the caller is a {@code TabPanel} and is firing an event when the tab
+   * changed to a different part.
+   *
+   * @param token new location that is already visible.
+   */
+  public static void updateImpl(final String token) {
+    History.newItem(token, false);
+
+    if (historyHooks != null) {
+      // Because we blocked firing the event our history hooks won't be
+      // informed of the current token. Manually fire the event to them.
+      //
+      dispatchHistoryHooks(token);
     }
   }
 
@@ -133,11 +171,11 @@ public class Gerrit implements EntryPoint {
   }
 
   /** Sign the user into the application. */
-  public static void doSignIn() {
+  public static void doSignIn(final String token) {
     switch (myConfig.getAuthType()) {
       case HTTP:
       case HTTP_LDAP:
-        Location.assign(Location.getPath() + "login/" + History.getToken());
+        Location.assign(Location.getPath() + "login/" + token);
         break;
 
       case DEVELOPMENT_BECOME_ANY_ACCOUNT:
@@ -145,11 +183,11 @@ public class Gerrit implements EntryPoint {
         break;
 
       case OPENID:
-        new OpenIdSignInDialog(SignInMode.SIGN_IN, null).center();
+        new OpenIdSignInDialog(SignInMode.SIGN_IN, token, null).center();
         break;
 
       case LDAP:
-        new UserPassSignInDialog(null).center();
+        new UserPassSignInDialog(token, null).center();
         break;
     }
   }
@@ -198,6 +236,13 @@ public class Gerrit implements EntryPoint {
     body = new ViewSite<Screen>() {
       @Override
       protected void onShowView(Screen view) {
+        final String token = view.getToken();
+        if (!token.equals(History.getToken())) {
+          History.newItem(token, false);
+          if (historyHooks != null) {
+            dispatchHistoryHooks(token);
+          }
+        }
         super.onShowView(view);
         view.onShowView();
       }
@@ -302,17 +347,21 @@ public class Gerrit implements EntryPoint {
     starting.getElement().getParentElement().removeChild(starting.getElement());
     RootPanel.detachNow(starting);
 
-    History.addValueChangeHandler(new HistoryHandler());
+    History.addValueChangeHandler(new ValueChangeHandler<String>() {
+      public void onValueChange(final ValueChangeEvent<String> event) {
+        display(event.getValue());
+      }
+    });
     JumpKeys.register(body);
 
     if ("".equals(History.getToken())) {
       if (isSignedIn()) {
-        History.newItem(PageLinks.MINE);
+        display(PageLinks.MINE);
       } else {
-        History.newItem(PageLinks.ALL_OPEN);
+        display(PageLinks.ALL_OPEN);
       }
     } else {
-      History.fireCurrentHistoryState();
+      display(History.getToken());
     }
   }
 
@@ -361,12 +410,13 @@ public class Gerrit implements EntryPoint {
         case OPENID:
           menuRight.addItem(C.menuRegister(), new Command() {
             public void execute() {
-              new OpenIdSignInDialog(SignInMode.REGISTER, null).center();
+              final String to = History.getToken();
+              new OpenIdSignInDialog(SignInMode.REGISTER, to, null).center();
             }
           });
           menuRight.addItem(C.menuSignIn(), new Command() {
             public void execute() {
-              doSignIn();
+              doSignIn(History.getToken());
             }
           });
           break;
@@ -377,7 +427,7 @@ public class Gerrit implements EntryPoint {
           }
           menuRight.addItem(C.menuSignIn(), new Command() {
             public void execute() {
-              doSignIn();
+              doSignIn(History.getToken());
             }
           });
           break;

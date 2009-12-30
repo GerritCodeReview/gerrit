@@ -14,8 +14,8 @@
 
 package com.google.gerrit.client.admin;
 
+import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.HistoryHandler;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.AccountScreen;
 import com.google.gerrit.common.data.ProjectDetail;
@@ -45,6 +45,18 @@ public class ProjectAdminScreen extends AccountScreen {
   }
 
   @Override
+  public boolean displayToken(String token) {
+    final int tabIdx = tabTokens.indexOf(token);
+    if (0 <= tabIdx) {
+      tabs.selectTab(tabIdx);
+      setToken(token);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  @Override
   protected void onLoad() {
     super.onLoad();
     Util.PROJECT_SVC.projectDetail(projectName,
@@ -71,7 +83,7 @@ public class ProjectAdminScreen extends AccountScreen {
         return new ProjectInfoPanel(projectName);
       }
     }, Util.C.projectAdminTabGeneral());
-    tabTokens.add(HistoryHandler.toProjectAdmin(projectName, INFO_TAB));
+    tabTokens.add(Dispatcher.toProjectAdmin(projectName, INFO_TAB));
 
     if (!Gerrit.getConfig().getWildProject().equals(projectName)) {
       tabs.add(new LazyPanel() {
@@ -80,7 +92,7 @@ public class ProjectAdminScreen extends AccountScreen {
           return new ProjectBranchesPanel(projectName);
         }
       }, Util.C.projectAdminTabBranches());
-      tabTokens.add(HistoryHandler.toProjectAdmin(projectName, BRANCH_TAB));
+      tabTokens.add(Dispatcher.toProjectAdmin(projectName, BRANCH_TAB));
     }
 
     tabs.add(new LazyPanel() {
@@ -89,12 +101,12 @@ public class ProjectAdminScreen extends AccountScreen {
         return new ProjectRightsPanel(projectName);
       }
     }, Util.C.projectAdminTabAccess());
-    tabTokens.add(HistoryHandler.toProjectAdmin(projectName, ACCESS_TAB));
+    tabTokens.add(Dispatcher.toProjectAdmin(projectName, ACCESS_TAB));
 
     tabs.addSelectionHandler(new SelectionHandler<Integer>() {
       @Override
       public void onSelection(final SelectionEvent<Integer> event) {
-        Gerrit.display(tabTokens.get(event.getSelectedItem()), false);
+        setToken(tabTokens.get(event.getSelectedItem()));
       }
     });
   }

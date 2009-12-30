@@ -24,6 +24,7 @@ import com.google.gerrit.common.auth.openid.OpenIdUrls;
 import com.google.gerrit.reviewdb.AccountExternalId;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
@@ -61,7 +62,8 @@ class ExternalIdPanel extends Composite {
         linkIdentity.addClickHandler(new ClickHandler() {
           @Override
           public void onClick(final ClickEvent event) {
-            new OpenIdSignInDialog(SignInMode.LINK_IDENTIY, null).center();
+            final String to = History.getToken();
+            new OpenIdSignInDialog(SignInMode.LINK_IDENTIY, to, null).center();
           }
         });
         body.add(linkIdentity);

@@ -16,7 +16,7 @@ package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.patches.PatchScreen;
-import com.google.gerrit.client.ui.DirectScreenLink;
+import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.client.ui.PatchLink;
 import com.google.gerrit.reviewdb.Patch;
@@ -102,7 +102,7 @@ public class PatchTable extends Composite {
   /**
    * @return a link to the previous file in this patch set, or null.
    */
-  public DirectScreenLink getPreviousPatchLink(int index, PatchScreen.Type patchType) {
+  public InlineHyperlink getPreviousPatchLink(int index, PatchScreen.Type patchType) {
     if (0 < index)
       return createLink(index - 1, patchType, SafeHtml.asis(Util.C
           .prevPatchLinkIcon()), null);
@@ -112,7 +112,7 @@ public class PatchTable extends Composite {
   /**
    * @return a link to the next file in this patch set, or null.
    */
-  public DirectScreenLink getNextPatchLink(int index, PatchScreen.Type patchType) {
+  public InlineHyperlink getNextPatchLink(int index, PatchScreen.Type patchType) {
     if (index < patchList.size() - 1)
       return createLink(index + 1, patchType, null, SafeHtml.asis(Util.C
           .nextPatchLinkIcon()));
@@ -457,8 +457,8 @@ public class PatchTable extends Composite {
       if (link instanceof FlowPanel) {
         link = ((FlowPanel) link).getWidget(0);
       }
-      if (link instanceof DirectScreenLink) {
-        ((DirectScreenLink) link).go();
+      if (link instanceof InlineHyperlink) {
+        ((InlineHyperlink) link).go();
       }
     }
   }

@@ -22,7 +22,7 @@ import com.google.gerrit.reviewdb.Change;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.DOM;
 
-public class ChangeLink extends DirectScreenLink {
+public class ChangeLink extends InlineHyperlink {
   public static String permalink(final Change.Id c) {
     return GWT.getHostPageBaseURL() + c.get();
   }

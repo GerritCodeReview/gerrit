@@ -43,7 +43,7 @@ public abstract class ScreenLoadCallback<T> extends GerritCallback<T> {
   @Override
   public void onFailure(final Throwable caught) {
     if (isNoSuchEntity(caught)) {
-      Gerrit.display(new NotFoundScreen());
+      Gerrit.display(screen.getToken(), new NotFoundScreen());
     } else {
       super.onFailure(caught);
     }

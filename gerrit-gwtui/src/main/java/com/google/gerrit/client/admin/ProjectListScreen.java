@@ -15,7 +15,7 @@
 package com.google.gerrit.client.admin;
 
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.HistoryHandler;
+import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.AccountScreen;
 import com.google.gerrit.client.ui.NavigationTable;
@@ -26,7 +26,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.user.client.History;
-import com.google.gwt.user.client.ui.Hyperlink;
+import com.google.gerrit.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
@@ -105,7 +105,7 @@ public class ProjectListScreen extends AccountScreen {
     }
 
     private String link(final Project item) {
-      return HistoryHandler.toProjectAdmin(item.getNameKey(), ProjectAdminScreen.INFO_TAB);
+      return Dispatcher.toProjectAdmin(item.getNameKey(), ProjectAdminScreen.INFO_TAB);
     }
 
     void display(final List<Project> result) {

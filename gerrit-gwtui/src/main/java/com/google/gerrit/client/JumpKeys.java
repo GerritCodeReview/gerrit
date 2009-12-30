@@ -29,13 +29,13 @@ class JumpKeys {
     jumps.add(new KeyCommand(0, 'o', Gerrit.C.jumpAllOpen()) {
       @Override
       public void onKeyPress(final KeyPressEvent event) {
-        Gerrit.display(PageLinks.ALL_OPEN, true);
+        Gerrit.display(PageLinks.ALL_OPEN);
       }
     });
     jumps.add(new KeyCommand(0, 'm', Gerrit.C.jumpAllMerged()) {
       @Override
       public void onKeyPress(final KeyPressEvent event) {
-        Gerrit.display(PageLinks.ALL_MERGED, true);
+        Gerrit.display(PageLinks.ALL_MERGED);
       }
     });
 
@@ -43,19 +43,19 @@ class JumpKeys {
       jumps.add(new KeyCommand(0, 'i', Gerrit.C.jumpMine()) {
         @Override
         public void onKeyPress(final KeyPressEvent event) {
-          Gerrit.display(PageLinks.MINE, true);
+          Gerrit.display(PageLinks.MINE);
         }
       });
       jumps.add(new KeyCommand(0, 'd', Gerrit.C.jumpMineDrafts()) {
         @Override
         public void onKeyPress(final KeyPressEvent event) {
-          Gerrit.display(PageLinks.MINE_DRAFTS, true);
+          Gerrit.display(PageLinks.MINE_DRAFTS);
         }
       });
       jumps.add(new KeyCommand(0, 's', Gerrit.C.jumpMineStarred()) {
         @Override
         public void onKeyPress(final KeyPressEvent event) {
-          Gerrit.display(PageLinks.MINE_STARRED, true);
+          Gerrit.display(PageLinks.MINE_STARRED);
         }
       });
     }

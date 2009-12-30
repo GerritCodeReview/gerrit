@@ -21,6 +21,8 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gwt.user.server.rpc.RPCServletUtils;
+import com.google.gwtexpui.linker.server.Permutation;
+import com.google.gwtexpui.linker.server.PermutationSelector;
 import com.google.gwtjsonrpc.server.JsonServlet;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -40,8 +42,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.StringWriter;
 import java.security.MessageDigest;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -59,12 +64,14 @@ public class HostPageServlet extends HttpServlet {
   private final GerritConfig config;
   private final SitePaths site;
   private final Document template;
+  private final String noCacheName;
+  private final PermutationSelector selector;
   private volatile Page page;
 
   @Inject
   HostPageServlet(final Provider<CurrentUser> cu, final SitePaths sp,
       final GerritConfig gc, final ServletContext servletContext)
-      throws IOException {
+      throws IOException, ServletException {
     currentUser = cu;
     config = gc;
     site = sp;
@@ -75,26 +82,23 @@ public class HostPageServlet extends HttpServlet {
       throw new FileNotFoundException("No " + pageName + " in webapp");
     }
 
-    if (!IS_DEV) {
+    if (HtmlDomUtil.find(template, "gerrit_module") == null) {
+      throw new ServletException("No gerrit_module in " + pageName);
+    }
+    if (HtmlDomUtil.find(template, HPD_ID) == null) {
+      throw new ServletException("No " + HPD_ID + " in " + pageName);
+    }
+
+    final String src = "gerrit/gerrit.nocache.js";
+    selector = new PermutationSelector("gerrit");
+    if (IS_DEV) {
+      noCacheName = src;
+    } else {
       final Element devmode = HtmlDomUtil.find(template, "gerrit_gwtdevmode");
       if (devmode != null) {
         devmode.getParentNode().removeChild(devmode);
       }
-    }
 
-    fixModuleReference(template, servletContext);
-    page = new Page();
-  }
-
-  private void fixModuleReference(final Document hostDoc,
-      final ServletContext servletContext) throws IOException {
-    final Element scriptNode = HtmlDomUtil.find(hostDoc, "gerrit_module");
-    if (scriptNode == null) {
-      throw new IOException("No gerrit_module to rewrite in host document");
-    }
-
-    String src = "gerrit/gerrit.nocache.js";
-    if (!IS_DEV) {
       InputStream in = servletContext.getResourceAsStream("/" + src);
       if (in == null) {
         throw new IOException("No " + src + " in webapp root");
@@ -114,21 +118,16 @@ public class HostPageServlet extends HttpServlet {
       } catch (IOException e) {
         throw new IOException("Failed reading " + src, e);
       }
-
-      src += "?content=" + ObjectId.fromRaw(md.digest()).name();
+      final String id = ObjectId.fromRaw(md.digest()).name();
+      noCacheName = src + "?content=" + id;
+      selector.init(servletContext);
     }
-    scriptNode.setAttribute("src", src);
-    asScript(scriptNode);
+
+    page = new Page();
   }
 
   private void json(final Object data, final StringWriter w) {
     JsonServlet.defaultGsonBuilder().create().toJson(data, w);
-  }
-
-  private static void asScript(final Element scriptNode) {
-    scriptNode.removeAttribute("id");
-    scriptNode.setAttribute("type", "text/javascript");
-    scriptNode.setAttribute("language", "javascript");
   }
 
   private Page get() {
@@ -150,7 +149,7 @@ public class HostPageServlet extends HttpServlet {
   @Override
   protected void doGet(final HttpServletRequest req,
       final HttpServletResponse rsp) throws IOException {
-    final Page page = get();
+    final Page.Content page = get().get(selector.select(req));
     final byte[] raw;
 
     final CurrentUser user = currentUser.get();
@@ -220,11 +219,7 @@ public class HostPageServlet extends HttpServlet {
     private final FileInfo css;
     private final FileInfo header;
     private final FileInfo footer;
-
-    final byte[] part1;
-    final byte[] part2;
-    final byte[] full;
-    final byte[] full_gz;
+    private final Map<Permutation, Content> permutations;
 
     Page() throws IOException {
       Document hostDoc = HtmlDomUtil.clone(template);
@@ -242,26 +237,60 @@ public class HostPageServlet extends HttpServlet {
       w.write(";");
 
       final Element data = HtmlDomUtil.find(hostDoc, HPD_ID);
-      if (data == null) {
-        throw new IOException("No " + HPD_ID + " in host page HTML");
-      }
       asScript(data);
       data.appendChild(hostDoc.createTextNode(w.toString()));
       data.appendChild(hostDoc.createComment(HPD_ID));
 
-      final String raw = HtmlDomUtil.toString(hostDoc);
-      final int p = raw.indexOf("<!--" + HPD_ID);
-      if (p < 0) {
-        throw new IOException("No tag in transformed host page HTML");
+      permutations = new HashMap<Permutation, Content>();
+      for (Permutation p : selector.getPermutations()) {
+        final Document d = HtmlDomUtil.clone(hostDoc);
+        Element nocache = HtmlDomUtil.find(d, "gerrit_module");
+        nocache.getParentNode().removeChild(nocache);
+        p.inject(d);
+        permutations.put(p, new Content(d));
       }
-      part1 = raw.substring(0, p).getBytes("UTF-8");
-      part2 = raw.substring(raw.indexOf('>', p) + 1).getBytes("UTF-8");
-      full = concat(part1, part2, new byte[0]);
-      full_gz = HtmlDomUtil.compress(full);
+
+      Element nocache = HtmlDomUtil.find(hostDoc, "gerrit_module");
+      asScript(nocache);
+      nocache.setAttribute("src", noCacheName);
+      permutations.put(null, new Content(hostDoc));
+    }
+
+    Content get(Permutation p) {
+      Content c = permutations.get(p);
+      if (c == null) {
+        c = permutations.get(null);
+      }
+      return c;
     }
 
     boolean isStale() {
       return css.isStale() || header.isStale() || footer.isStale();
+    }
+
+    private void asScript(final Element scriptNode) {
+      scriptNode.removeAttribute("id");
+      scriptNode.setAttribute("type", "text/javascript");
+      scriptNode.setAttribute("language", "javascript");
+    }
+
+    class Content {
+      final byte[] part1;
+      final byte[] part2;
+      final byte[] full;
+      final byte[] full_gz;
+
+      Content(Document hostDoc) throws IOException {
+        final String raw = HtmlDomUtil.toString(hostDoc);
+        final int p = raw.indexOf("<!--" + HPD_ID);
+        if (p < 0) {
+          throw new IOException("No tag in transformed host page HTML");
+        }
+        part1 = raw.substring(0, p).getBytes("UTF-8");
+        part2 = raw.substring(raw.indexOf('>', p) + 1).getBytes("UTF-8");
+        full = concat(part1, part2, new byte[0]);
+        full_gz = HtmlDomUtil.compress(full);
+      }
     }
 
     private FileInfo injectCssFile(final Document hostDoc, final String id,

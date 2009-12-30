@@ -181,7 +181,20 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
     final Iterator<PatchLine> iLine = lines.iterator();
     while (iLine.hasNext()) {
       final PatchLine l = iLine.next();
-      final String n = "DiffText-" + l.getType().name();
+      final String n;
+      switch (l.getType()) {
+        case CONTEXT:
+          n = Gerrit.RESOURCES.css().diffTextCONTEXT();
+          break;
+        case DELETE:
+          n = Gerrit.RESOURCES.css().diffTextDELETE();
+          break;
+        case INSERT:
+          n = Gerrit.RESOURCES.css().diffTextINSERT();
+          break;
+        default:
+          continue;
+      }
       while (!fmt.getStyleName(row, PC).contains(n)) {
         row++;
       }

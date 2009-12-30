@@ -159,7 +159,6 @@ limitations under the License.
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>gwt-maven-plugin</artifactId>
-        <version>1.2</version>
         <configuration>
           <module>com.google.gerrit.GerritGwtUI</module>
           <extraJvmArgs>-Xmx512m</extraJvmArgs>

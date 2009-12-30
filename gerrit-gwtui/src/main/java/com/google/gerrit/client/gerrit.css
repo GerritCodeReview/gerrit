@@ -150,6 +150,9 @@
 .commentPanelDateCell {
   white-space: nowrap;
 }
+.commentPanelContent {
+  padding-bottom: 1px;
+}
 .commentPanelMessage {
   font-size: small;
   padding-left: 0.5em;
@@ -1011,21 +1014,6 @@
   border: none;
   width: 35em;
 }
-.commentPanelContent {
-  border: 1px solid lightgray;
-  padding-bottom: 1px;
-}
-@if user.agent safari {
-  .commentPanelContent {
-    \-webkit-border-radius: 8px;
-  }
-}
-@if user.agent gecko1_8 {
-  .commentPanelContent {
-    \-moz-border-radius: 8px;
-  }
-}
-
 .publishCommentsScreen .commentPanelDateCell {
   display: none;
 }

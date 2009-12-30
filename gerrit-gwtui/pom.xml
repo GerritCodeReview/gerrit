@@ -157,6 +157,53 @@ limitations under the License.
   <build>
     <plugins>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>get-keyapplet</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>copy</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>gerrit</groupId>
+                  <artifactId>gerrit-keyapplet</artifactId>
+                  <version>${keyappletVersion}</version>
+                  <outputDirectory>${project.build.directory}/${project.build.finalName}/gerrit</outputDirectory>
+                  <destFileName>gerrit-keyapplet-${keyappletVersion}.cache.jar</destFileName>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>name-keyapplet</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <property name="dst" location="${project.build.outputDirectory}" />
+                <property name="pkg" location="${dst}/com/google/gerrit/client/account"/>
+                <mkdir dir="${pkg}"/>
+                <echo file="${pkg}/keyapplet_jar">gerrit-keyapplet-${keyappletVersion}.cache.jar</echo>
+              </tasks>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>gwt-maven-plugin</artifactId>
         <configuration>
@@ -174,47 +221,14 @@ limitations under the License.
       </plugin>
 
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>get-keyapplet</id>
-            <phase>generate-resources</phase>
-            <goals>
-              <goal>unpack</goal>
-            </goals>
-            <configuration>
-              <artifactItems>
-                <artifactItem>
-                  <groupId>gerrit</groupId>
-                  <artifactId>gerrit-keyapplet</artifactId>
-                  <overWrite>true</overWrite>
-                  <outputDirectory>${project.build.directory}/gerrit-keyapplet</outputDirectory>
-                  <includes>**/*</includes>
-                </artifactItem>
-              </artifactItems>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-war-plugin</artifactId>
-        <configuration>
-          <packagingExcludes>WEB-INF/classes/**,WEB-INF/lib/**</packagingExcludes>
-          <archive>
-            <addMavenDescriptor>false</addMavenDescriptor>
-          </archive>
-        </configuration>
-      </plugin>
-
-      <plugin>
         <artifactId>maven-antrun-plugin</artifactId>
         <executions>
           <execution>
             <id>compress-html</id>
-            <phase>process-classes</phase>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
             <configuration>
               <tasks>
                 <property name="dst" location="${project.build.directory}/${project.build.finalName}"/>
@@ -235,34 +249,19 @@ limitations under the License.
                 </apply>
               </tasks>
             </configuration>
-            <goals>
-              <goal>run</goal>
-            </goals>
-          </execution>
-
-          <execution>
-            <id>include-keyapplet</id>
-            <phase>process-classes</phase>
-            <configuration>
-              <tasks>
-                <property name="dst" location="${project.build.directory}/${project.build.finalName}"/>
-                <property name="app" location="${dst}/gerrit"/>
-                <property name="src" location="${basedir}/target/gerrit-keyapplet" />
-
-                <mkdir dir="${app}"/>
-                <zip
-                    destfile="${app}/gerrit-keyapplet.cache.jar"
-                    compress="true"
-                    level="9">
-                  <fileset dir="${src}" includes="**/*" />
-                </zip>
-              </tasks>
-            </configuration>
-            <goals>
-              <goal>run</goal>
-            </goals>
           </execution>
         </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <configuration>
+          <packagingExcludes>WEB-INF/classes/**,WEB-INF/lib/**</packagingExcludes>
+          <archive>
+            <addMavenDescriptor>false</addMavenDescriptor>
+          </archive>
+        </configuration>
       </plugin>
     </plugins>
   </build>

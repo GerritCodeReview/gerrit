@@ -33,9 +33,8 @@ import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.i18n.client.LocaleInfo;
-import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.DeferredCommand;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
@@ -77,6 +76,7 @@ class SshPanel extends Composite {
   private Button clearNew;
   private Button addNew;
   private Button browse;
+  private Timer appletLoadTimer;
   private NpTextArea addTxt;
   private Button delSel;
 
@@ -184,7 +184,7 @@ class SshPanel extends Composite {
         doBrowse();
       }
     });
-    browse.setVisible(GWT.isScript() && (!loadedApplet || applet != null));
+    browse.setVisible(!loadedApplet || applet != null);
     buttons.add(browse);
 
     addNew = new Button(Util.C.buttonAddSshKey());
@@ -281,12 +281,13 @@ class SshPanel extends Composite {
 
   void doBrowse() {
     browse.setEnabled(false);
+
     if (!loadedApplet) {
       applet = DOM.createElement("applet");
       applet.setAttribute("code",
           "com.google.gerrit.keyapplet.ReadPublicKey.class");
       applet.setAttribute("archive", GWT.getModuleBaseURL()
-          + "gerrit-keyapplet.cache.jar?v=" + Gerrit.getVersion());
+          + AccountResources.I.keyapplet_jar().getText());
       applet.setAttribute("mayscript", "true");
       applet.setAttribute("width", "0");
       applet.setAttribute("height", "0");
@@ -297,14 +298,27 @@ class SshPanel extends Composite {
       // new applet tag we just created above, and actually load the
       // applet into the runtime.
       //
-      DeferredCommand.addCommand(new Command() {
-        public void execute() {
-          doBrowse();
+      appletLoadTimer = new Timer() {
+        private int attempts;
+
+        @Override
+        public void run() {
+          if (isAppletRunning(applet)) {
+            appletLoadTimer = null;
+            cancel();
+            doBrowse();
+          } else if (30000 / 200 < attempts++) {
+            appletLoadTimer = null;
+            cancel();
+            noBrowse();
+          }
         }
-      });
+      };
+      appletLoadTimer.scheduleRepeating(200);
       return;
     }
-    if (applet == null) {
+
+    if (applet == null || !isAppletRunning(applet)) {
       // If the applet element is null, the applet was determined
       // to have failed to load, and we are dead. Hide the button.
       //
@@ -354,6 +368,9 @@ class SshPanel extends Composite {
     browse.setVisible(false);
     new ErrorDialog(Util.C.sshJavaAppletNotAvailable()).center();
   }
+
+  private static native boolean isAppletRunning(Element keyapp)
+  /*-{ return keyapp['openPublicKey'] ? true : false }-*/;
 
   private static native String openPublicKey(Element keyapp)
   /*-{ var r = keyapp.openPublicKey(); return r == null ? null : ''+r; }-*/;
@@ -434,6 +451,16 @@ class SshPanel extends Composite {
         }
       }
     });
+  }
+
+  @Override
+  protected void onUnload() {
+    if (appletLoadTimer != null) {
+      appletLoadTimer.cancel();
+      appletLoadTimer = null;
+    }
+
+    super.onUnload();
   }
 
   private void showAddKeyBlock(final boolean show) {

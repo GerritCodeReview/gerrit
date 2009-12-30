@@ -54,6 +54,7 @@ limitations under the License.
     <slf4jVersion>1.5.8</slf4jVersion>
     <guiceVersion>2.0</guiceVersion>
     <jettyVersion>7.0.1.v20091125</jettyVersion>
+    <keyappletVersion>1.0</keyappletVersion>
 
     <gwt.soyc>false</gwt.soyc>
 
@@ -442,12 +443,6 @@ limitations under the License.
         <artifactId>gwtexpui</artifactId>
         <version>${gwtexpuiVersion}</version>
         <classifier>sources</classifier>
-      </dependency>
-
-      <dependency>
-        <groupId>gerrit</groupId>
-        <artifactId>gerrit-keyapplet</artifactId>
-        <version>1.0</version>
       </dependency>
 
       <dependency>

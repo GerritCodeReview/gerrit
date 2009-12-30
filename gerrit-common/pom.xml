@@ -47,11 +47,13 @@ limitations under the License.
     <dependency>
       <groupId>com.google.gerrit</groupId>
       <artifactId>gerrit-reviewdb</artifactId>
+      <version>${project.version}</version>
     </dependency>
 
     <dependency>
       <groupId>com.google.gerrit</groupId>
       <artifactId>gerrit-patch-jgit</artifactId>
+      <version>${project.version}</version>
     </dependency>
   </dependencies>
 

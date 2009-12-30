@@ -44,6 +44,7 @@ limitations under the License.
     <dependency>
       <groupId>com.google.gerrit</groupId>
       <artifactId>gerrit-gwtui</artifactId>
+      <version>${project.version}</version>
       <type>war</type>
       <scope>runtime</scope>
     </dependency>
@@ -51,6 +52,7 @@ limitations under the License.
     <dependency>
       <groupId>com.google.gerrit</groupId>
       <artifactId>gerrit-main</artifactId>
+      <version>${project.version}</version>
       <scope>provided</scope>
     </dependency>
 
@@ -81,16 +83,19 @@ limitations under the License.
     <dependency>
       <groupId>com.google.gerrit</groupId>
       <artifactId>gerrit-sshd</artifactId>
+      <version>${project.version}</version>
     </dependency>
 
     <dependency>
       <groupId>com.google.gerrit</groupId>
       <artifactId>gerrit-httpd</artifactId>
+      <version>${project.version}</version>
     </dependency>
 
     <dependency>
       <groupId>com.google.gerrit</groupId>
       <artifactId>gerrit-pgm</artifactId>
+      <version>${project.version}</version>
     </dependency>
   </dependencies>
 

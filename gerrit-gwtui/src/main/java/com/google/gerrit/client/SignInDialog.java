@@ -30,6 +30,8 @@ public abstract class SignInDialog extends AutoCenterDialogBox {
    */
   protected SignInDialog(final SignInMode signInMode, final String token) {
     super(/* auto hide */true, /* modal */true);
+    setGlassEnabled(true);
+
     this.mode = signInMode;
     this.token = token;
 

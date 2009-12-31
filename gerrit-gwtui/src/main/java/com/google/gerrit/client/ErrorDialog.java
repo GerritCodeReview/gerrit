@@ -17,27 +17,35 @@ package com.google.gerrit.client;
 import com.google.gerrit.client.rpc.RpcConstants;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.StatusCodeException;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
-import com.google.gwtexpui.user.client.AutoCenterDialogBox;
+import com.google.gwtexpui.user.client.PluginSafePopupPanel;
 import com.google.gwtjsonrpc.client.RemoteJsonException;
 
 /** A dialog box showing an error message, when bad things happen. */
-public class ErrorDialog extends AutoCenterDialogBox {
+public class ErrorDialog extends PluginSafePopupPanel {
+  private final Label text;
   private final FlowPanel body;
 
   protected ErrorDialog() {
-    super(/* auto hide */true, /* modal */true);
-    setText(Gerrit.C.errorDialogTitle());
+    super(/* auto hide */false, /* modal */true);
+    setGlassEnabled(true);
+    getGlassElement().addClassName(Gerrit.RESOURCES.css().errorDialogGlass());
+
+    text = new Label();
+    text.setStyleName(Gerrit.RESOURCES.css().errorDialogTitle());
 
     body = new FlowPanel();
+
     final FlowPanel buttons = new FlowPanel();
     buttons.setStyleName(Gerrit.RESOURCES.css().errorDialogButtons());
+
     final Button closey = new Button();
-    closey.setText(Gerrit.C.errorDialogClose());
+    closey.setText(Gerrit.C.errorDialogContinue());
     closey.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(ClickEvent event) {
@@ -47,10 +55,17 @@ public class ErrorDialog extends AutoCenterDialogBox {
     buttons.add(closey);
 
     final FlowPanel center = new FlowPanel();
-    center.setStyleName(Gerrit.RESOURCES.css().errorDialog());
+    center.add(text);
     center.add(body);
     center.add(buttons);
+
+    setText(Gerrit.C.errorDialogTitle());
+    addStyleName(Gerrit.RESOURCES.css().errorDialog());
     add(center);
+
+    int l = Window.getScrollLeft() + 20;
+    int t = Window.getScrollTop() + 20;
+    setPopupPosition(l, t);
   }
 
   /** Create a dialog box to show a single message string. */
@@ -94,5 +109,14 @@ public class ErrorDialog extends AutoCenterDialogBox {
     r.setStyleName(Gerrit.RESOURCES.css().errorDialogErrorType());
     body.add(r);
     body.add(new Label(what.getMessage()));
+  }
+
+  public void setText(final String t) {
+    text.setText(t);
+  }
+
+  @Override
+  public void center() {
+    show();
   }
 }

@@ -288,22 +288,45 @@
 
 /** Error Dialog **/
 .errorDialog {
-  margin: 10px 10px 10px 10px;
+  background: none;
+  border: none;
+  padding: 10px;
+  width: 600px;
+  color: white;
+  font-size: 15px;
+  font-family: verdana;
 }
-
+.errorDialogGlass {
+  opacity: 0.75;
+}
+@if user.agent safari {
+  .errorDialogGlass {
+    opacity: 0.80;
+  }
+}
+@if user.agent ie6 ie8 {
+  /* IE just doesn't do opacity the way we want, make our dialog
+   * stand out in a way that it can't be missed against the page
+   */
+  .errorDialog {
+    color: black;
+    background: darkgray;
+    border: 10px groove lightgrey;
+  }
+}
+.errorDialogTitle {
+  font-size: 30px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
 .errorDialogErrorType {
   font-weight: bold;
   white-space: nowrap;
   margin-bottom: 15px;
 }
-
 .errorDialogButtons {
   width: 100%;
   margin-top: 15px;
-  text-align: right;
-}
-.errorDialogButtons .gwt-Button {
-  margin-left: 2em;
 }
 
 

@@ -14,37 +14,14 @@
 
 package com.google.gerrit.client.changes;
 
+import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.reviewdb.ChangeMessage;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
-import com.google.gwtexpui.user.client.AutoCenterDialogBox;
 
-class SubmitFailureDialog extends AutoCenterDialogBox {
+class SubmitFailureDialog extends ErrorDialog {
   SubmitFailureDialog(final ChangeDetail result, final ChangeMessage msg) {
+    super(new SafeHtmlBuilder().append(msg.getMessage().trim()).wikify());
     setText(Util.C.submitFailed());
-
-    final FlowPanel body = new FlowPanel();
-    final Widget msgText =
-        new SafeHtmlBuilder().append(msg.getMessage().trim()).wikify()
-            .toBlockWidget();
-    body.add(msgText);
-
-    final FlowPanel buttonPanel = new FlowPanel();
-    Button close = new Button(Util.C.buttonClose());
-    close.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(ClickEvent event) {
-        hide();
-      }
-    });
-    buttonPanel.add(close);
-    body.add(buttonPanel);
-
-    add(body);
   }
 }

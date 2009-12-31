@@ -37,7 +37,8 @@ public class AbandonChangeDialog extends AutoCenterDialogBox {
 
   public AbandonChangeDialog(final PatchSet.Id psi,
       final AsyncCallback<ChangeDetail> callback) {
-    super(/* auto hide */true, /* modal */true);
+    super(/* auto hide */false, /* modal */true);
+    setGlassEnabled(true);
 
     psid = psi;
     addStyleName(Gerrit.RESOURCES.css().abandonChangeDialog());

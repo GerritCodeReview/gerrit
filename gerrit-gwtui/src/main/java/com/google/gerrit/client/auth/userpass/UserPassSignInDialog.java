@@ -56,6 +56,7 @@ public class UserPassSignInDialog extends SignInDialog {
 
   public UserPassSignInDialog(final String token, final String initialErrorMsg) {
     super(SignInMode.SIGN_IN, token);
+    setAutoHideEnabled(false);
 
     formBody = new FlowPanel();
     formBody.setStyleName(UserPassResources.I.css().loginForm());
@@ -148,7 +149,7 @@ public class UserPassSignInDialog extends SignInDialog {
     buttons.add(login);
 
     close = new Button();
-    close.setText(Gerrit.C.errorDialogClose());
+    close.setText(Gerrit.C.signInDialogClose());
     close.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(ClickEvent event) {

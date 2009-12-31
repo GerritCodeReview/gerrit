@@ -16,6 +16,7 @@ package com.google.gerrit.client;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -25,12 +26,11 @@ import com.google.gwtexpui.user.client.AutoCenterDialogBox;
 /** A dialog box telling the user they are not signed in. */
 public class NotSignedInDialog extends AutoCenterDialogBox {
   public NotSignedInDialog() {
-    super(/* auto hide */true, /* modal */true);
+    super(/* auto hide */false, /* modal */true);
+    setGlassEnabled(true);
     setText(Gerrit.C.notSignedInTitle());
 
     final FlowPanel buttons = new FlowPanel();
-    buttons.setStyleName(Gerrit.RESOURCES.css().errorDialogButtons());
-
     final Button signin = new Button();
     signin.setText(Gerrit.C.menuSignIn());
     signin.addClickHandler(new ClickHandler() {
@@ -43,7 +43,8 @@ public class NotSignedInDialog extends AutoCenterDialogBox {
     buttons.add(signin);
 
     final Button close = new Button();
-    close.setText(Gerrit.C.errorDialogClose());
+    DOM.setStyleAttribute(close.getElement(), "marginLeft", "200px");
+    close.setText(Gerrit.C.signInDialogClose());
     close.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(ClickEvent event) {
@@ -53,11 +54,10 @@ public class NotSignedInDialog extends AutoCenterDialogBox {
     buttons.add(close);
 
     final FlowPanel center = new FlowPanel();
-    center.setStyleName(Gerrit.RESOURCES.css().errorDialog());
     center.add(new HTML(Gerrit.C.notSignedInBody()));
     center.add(buttons);
     add(center);
 
-    setWidth("40em");
+    center.setWidth("400px");
   }
 }

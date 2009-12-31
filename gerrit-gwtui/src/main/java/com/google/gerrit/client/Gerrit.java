@@ -33,6 +33,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.History;
@@ -54,6 +55,7 @@ import com.google.gwtexpui.user.client.ViewSite;
 import com.google.gwtjsonrpc.client.JsonDefTarget;
 import com.google.gwtjsonrpc.client.JsonUtil;
 import com.google.gwtjsonrpc.client.XsrfManager;
+import com.google.gwtorm.client.KeyUtil;
 
 import java.util.ArrayList;
 
@@ -193,6 +195,21 @@ public class Gerrit implements EntryPoint {
 
   public void onModuleLoad() {
     UserAgent.assertNotInIFrame();
+
+    KeyUtil.setEncoderImpl(new KeyUtil.Encoder() {
+      @Override
+      public String encode(final String e) {
+        return fixPathImpl(URL.encodeComponent(e));
+      }
+
+      @Override
+      public String decode(final String e) {
+        return URL.decodeComponent(e);
+      }
+
+      private native String fixPathImpl(String path)
+      /*-{ return path.replace(/%2F/g, "/"); }-*/;
+    });
 
     RESOURCES.gwt_override().ensureInjected();
     RESOURCES.css().ensureInjected();

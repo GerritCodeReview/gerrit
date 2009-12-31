@@ -958,7 +958,7 @@ public class MergeOp {
         txt = m.toString();
       }
 
-      sendMergeFail(c, message(c, txt), false);
+      sendMergeFail(c, message(c, txt), false, false);
 
     } else {
       // It is impossible to submit this change as-is. The author
@@ -1154,10 +1154,11 @@ public class MergeOp {
   }
 
   private void setNew(Change c, ChangeMessage msg) {
-    sendMergeFail(c, msg, true);
+    sendMergeFail(c, msg, true, true);
   }
 
-  private void sendMergeFail(Change c, ChangeMessage msg, final boolean makeNew) {
+  private void sendMergeFail(Change c, ChangeMessage msg,
+      final boolean makeNew, final boolean useSubmitter) {
     try {
       schema.changeMessages().insert(Collections.singleton(msg));
     } catch (OrmException err) {
@@ -1189,10 +1190,12 @@ public class MergeOp {
     }
 
     try {
-      final PatchSetApproval submitter = getSubmitter(c.currentPatchSetId());
       final MergeFailSender cm = mergeFailSenderFactory.create(c);
-      if (submitter != null) {
-        cm.setFrom(submitter.getAccountId());
+      if (useSubmitter) {
+        final PatchSetApproval submitter = getSubmitter(c.currentPatchSetId());
+        if (submitter != null) {
+          cm.setFrom(submitter.getAccountId());
+        }
       }
       cm.setReviewDb(schema);
       cm.setPatchSet(schema.patchSets().get(c.currentPatchSetId()));

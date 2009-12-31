@@ -23,6 +23,7 @@ import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ProjectRight;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.NoSuchGroupException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
@@ -43,6 +44,7 @@ class AddProjectRight extends Handler<ProjectDetail> {
   private final ProjectDetailFactory.Factory projectDetailFactory;
   private final ProjectControl.Factory projectControlFactory;
   private final ProjectCache projectCache;
+  private final GroupCache groupCache;
   private final ReviewDb db;
   private final ApprovalTypes approvalTypes;
 
@@ -55,8 +57,8 @@ class AddProjectRight extends Handler<ProjectDetail> {
   @Inject
   AddProjectRight(final ProjectDetailFactory.Factory projectDetailFactory,
       final ProjectControl.Factory projectControlFactory,
-      final ProjectCache projectCache, final ReviewDb db,
-      final ApprovalTypes approvalTypes,
+      final ProjectCache projectCache, final GroupCache groupCache,
+      final ReviewDb db, final ApprovalTypes approvalTypes,
 
       @Assisted final Project.NameKey projectName,
       @Assisted final ApprovalCategory.Id categoryId,
@@ -65,6 +67,7 @@ class AddProjectRight extends Handler<ProjectDetail> {
     this.projectDetailFactory = projectDetailFactory;
     this.projectControlFactory = projectControlFactory;
     this.projectCache = projectCache;
+    this.groupCache = groupCache;
     this.approvalTypes = approvalTypes;
     this.db = db;
 
@@ -104,7 +107,7 @@ class AddProjectRight extends Handler<ProjectDetail> {
           + " or range " + min + ".." + max);
     }
 
-    final AccountGroup group = db.accountGroups().get(groupName);
+    final AccountGroup group = groupCache.get(groupName);
     if (group == null) {
       throw new NoSuchGroupException(groupName);
     }

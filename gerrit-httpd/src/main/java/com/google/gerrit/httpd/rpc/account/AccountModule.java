@@ -16,7 +16,6 @@ package com.google.gerrit.httpd.rpc.account;
 
 import com.google.gerrit.httpd.rpc.RpcServletModule;
 import com.google.gerrit.httpd.rpc.UiRpcModule;
-import com.google.gerrit.server.account.ChangeUserName;
 import com.google.gerrit.server.config.FactoryModule;
 
 public class AccountModule extends RpcServletModule {
@@ -30,10 +29,12 @@ public class AccountModule extends RpcServletModule {
       @Override
       protected void configure() {
         factory(AgreementInfoFactory.Factory.class);
+        factory(CreateGroup.Factory.class);
         factory(DeleteExternalIds.Factory.class);
         factory(ExternalIdDetailFactory.Factory.class);
         factory(GroupDetailFactory.Factory.class);
         factory(MyGroupsFactory.Factory.class);
+        factory(RenameGroup.Factory.class);
       }
     });
     rpc(AccountSecurityImpl.class);

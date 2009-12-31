@@ -19,18 +19,15 @@ import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.PrimaryKey;
 import com.google.gwtorm.client.Query;
 import com.google.gwtorm.client.ResultSet;
-import com.google.gwtorm.client.SecondaryKey;
 
 public interface AccountGroupAccess extends
     Access<AccountGroup, AccountGroup.Id> {
   @PrimaryKey("groupId")
   AccountGroup get(AccountGroup.Id id) throws OrmException;
 
-  @SecondaryKey("name")
-  AccountGroup get(AccountGroup.NameKey name) throws OrmException;
-
-  @SecondaryKey("externalName")
-  AccountGroup get(AccountGroup.ExternalNameKey name) throws OrmException;
+  @Query("WHERE externalName = ?")
+  ResultSet<AccountGroup> byExternalName(AccountGroup.ExternalNameKey name)
+      throws OrmException;
 
   @Query("ORDER BY name")
   ResultSet<AccountGroup> all() throws OrmException;

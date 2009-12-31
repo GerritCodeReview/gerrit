@@ -72,7 +72,6 @@ ON account_external_ids (email_address);
 
 -- *********************************************************************
 -- AccountGroupAccess
---    @SecondaryKey("name") covers:  all, suggestByName
 CREATE INDEX account_groups_ownedByGroup
 ON account_groups (owner_group_id);
 

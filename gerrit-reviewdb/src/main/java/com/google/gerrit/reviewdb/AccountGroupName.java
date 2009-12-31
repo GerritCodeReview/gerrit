@@ -12,21 +12,31 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.account;
+package com.google.gerrit.reviewdb;
 
-import com.google.gerrit.reviewdb.AccountGroup;
+import com.google.gwtorm.client.Column;
 
-import java.util.Collection;
+/** Unique name of an {@link AccountGroup}. */
+public class AccountGroupName {
+  @Column(id = 1)
+  protected AccountGroup.NameKey name;
 
-/** Tracks group objects in memory for efficient access. */
-public interface GroupCache {
-  public AccountGroup get(AccountGroup.Id groupId);
+  @Column(id = 2)
+  protected AccountGroup.Id groupId;
 
-  public AccountGroup get(AccountGroup.NameKey name);
+  protected AccountGroupName() {
+  }
 
-  public Collection<AccountGroup> get(AccountGroup.ExternalNameKey externalName);
+  public AccountGroupName(AccountGroup.NameKey name, AccountGroup.Id groupId) {
+    this.name = name;
+    this.groupId = groupId;
+  }
 
-  public void evict(AccountGroup group);
+  public AccountGroup.NameKey getNameKey() {
+    return name;
+  }
 
-  public void evictAfterRename(AccountGroup.NameKey oldName);
+  public AccountGroup.Id getId() {
+    return groupId;
+  }
 }

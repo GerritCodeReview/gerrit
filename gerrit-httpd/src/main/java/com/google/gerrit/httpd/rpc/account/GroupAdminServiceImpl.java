@@ -54,6 +54,9 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
   private final Realm accountRealm;
   private final GroupCache groupCache;
   private final GroupControl.Factory groupControlFactory;
+
+  private final CreateGroup.Factory createGroupFactory;
+  private final RenameGroup.Factory renameGroupFactory;
   private final GroupDetailFactory.Factory groupDetailFactory;
 
   @Inject
@@ -62,6 +65,8 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
       final AccountCache accountCache, final AccountResolver accountResolver,
       final Realm accountRealm, final GroupCache groupCache,
       final GroupControl.Factory groupControlFactory,
+      final CreateGroup.Factory createGroupFactory,
+      final RenameGroup.Factory renameGroupFactory,
       final GroupDetailFactory.Factory groupDetailFactory) {
     super(schema, currentUser);
     this.identifiedUser = currentUser;
@@ -70,6 +75,8 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
     this.accountRealm = accountRealm;
     this.groupCache = groupCache;
     this.groupControlFactory = groupControlFactory;
+    this.createGroupFactory = createGroupFactory;
+    this.renameGroupFactory = renameGroupFactory;
     this.groupDetailFactory = groupDetailFactory;
   }
 
@@ -112,37 +119,7 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
 
   public void createGroup(final String newName,
       final AsyncCallback<AccountGroup.Id> callback) {
-    run(callback, new Action<AccountGroup.Id>() {
-      public AccountGroup.Id run(final ReviewDb db) throws OrmException,
-          Failure {
-        final AccountGroup.NameKey nameKey = new AccountGroup.NameKey(newName);
-        if (db.accountGroups().get(nameKey) != null) {
-          throw new Failure(new NameAlreadyUsedException());
-        }
-
-        final AccountGroup group =
-            new AccountGroup(nameKey, new AccountGroup.Id(db
-                .nextAccountGroupId()));
-        group.setNameKey(nameKey);
-        group.setType(AccountGroup.Type.INTERNAL);
-        group.setDescription("");
-
-        final Account.Id me = getAccountId();
-        final AccountGroupMember m =
-            new AccountGroupMember(
-                new AccountGroupMember.Key(me, group.getId()));
-
-        final Transaction txn = db.beginTransaction();
-        db.accountGroups().insert(Collections.singleton(group), txn);
-        db.accountGroupMembers().insert(Collections.singleton(m), txn);
-        db.accountGroupMembersAudit().insert(
-            Collections.singleton(new AccountGroupMemberAudit(m, me)), txn);
-        txn.commit();
-        accountCache.evict(m.getAccountId());
-
-        return group.getId();
-      }
-    });
+    createGroupFactory.create(newName).to(callback);
   }
 
   public void groupDetail(final AccountGroup.Id groupId,
@@ -172,7 +149,7 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
         assertAmGroupOwner(db, group);
 
         final AccountGroup owner =
-            db.accountGroups().get(new AccountGroup.NameKey(newOwnerName));
+            groupCache.get(new AccountGroup.NameKey(newOwnerName));
         if (owner == null) {
           throw new Failure(new NoSuchEntityException());
         }
@@ -187,25 +164,7 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
 
   public void renameGroup(final AccountGroup.Id groupId, final String newName,
       final AsyncCallback<VoidResult> callback) {
-    run(callback, new Action<VoidResult>() {
-      public VoidResult run(final ReviewDb db) throws OrmException, Failure {
-        final AccountGroup group = db.accountGroups().get(groupId);
-        assertAmGroupOwner(db, group);
-
-        final AccountGroup.NameKey oldKey = group.getNameKey();
-        final AccountGroup.NameKey newKey = new AccountGroup.NameKey(newName);
-        if (!newKey.equals(oldKey)) {
-          if (db.accountGroups().get(newKey) != null) {
-            throw new Failure(new NameAlreadyUsedException());
-          }
-          group.setNameKey(newKey);
-          db.accountGroups().update(Collections.singleton(group));
-          groupCache.evict(group);
-          groupCache.evictAfterRename(oldKey);
-        }
-        return VoidResult.INSTANCE;
-      }
-    });
+    renameGroupFactory.create(groupId, newName).to(callback);
   }
 
   public void changeGroupType(final AccountGroup.Id groupId,

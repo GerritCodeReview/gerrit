@@ -422,11 +422,11 @@ class LdapRealm implements Realm {
 
     final Set<AccountGroup.Id> actual = new HashSet<AccountGroup.Id>();
     for (String dn : groupDNs) {
-      final AccountGroup group;
-
-      group = groupCache.get(new AccountGroup.ExternalNameKey(dn));
-      if (group != null && group.getType() == AccountGroup.Type.LDAP) {
-        actual.add(group.getId());
+      for (AccountGroup group : groupCache
+          .get(new AccountGroup.ExternalNameKey(dn))) {
+        if (group.getType() == AccountGroup.Type.LDAP) {
+          actual.add(group.getId());
+        }
       }
     }
 

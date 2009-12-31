@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git;
 
 import com.google.gerrit.reviewdb.AccountGroup;
+import com.google.gerrit.reviewdb.AccountGroupName;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
@@ -353,8 +354,8 @@ public class PushReplication implements ReplicationQueue {
         final ReviewDb db = dbfactory.open();
         try {
           for (String name : groupNames) {
-            AccountGroup group =
-                db.accountGroups().get(new AccountGroup.NameKey(name));
+            AccountGroupName group =
+                db.accountGroupNames().get(new AccountGroup.NameKey(name));
             if (group == null) {
               log.warn("Group \"" + name + "\" not in database,"
                   + " removing from authGroup");

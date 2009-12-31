@@ -15,6 +15,7 @@
 package com.google.gerrit.server.account;
 
 import com.google.gerrit.reviewdb.AccountGroup;
+import com.google.gerrit.reviewdb.AccountGroupName;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
@@ -27,6 +28,8 @@ import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
+
+import java.util.Collection;
 
 /** Tracks group objects in memory for efficient access. */
 @Singleton
@@ -50,7 +53,7 @@ public class GroupCacheImpl implements GroupCache {
   private final AccountGroup.Id administrators;
   private final SelfPopulatingCache<AccountGroup.Id, AccountGroup> byId;
   private final SelfPopulatingCache<AccountGroup.NameKey, AccountGroup> byName;
-  private final SelfPopulatingCache<AccountGroup.ExternalNameKey, AccountGroup> byExternalName;
+  private final SelfPopulatingCache<AccountGroup.ExternalNameKey, Collection<AccountGroup>> byExternalName;
 
   @Inject
   GroupCacheImpl(
@@ -85,11 +88,11 @@ public class GroupCacheImpl implements GroupCache {
         };
 
     byExternalName =
-        new SelfPopulatingCache<AccountGroup.ExternalNameKey, AccountGroup>(
+        new SelfPopulatingCache<AccountGroup.ExternalNameKey, Collection<AccountGroup>>(
             (Cache) rawAny) {
           @Override
-          public AccountGroup createEntry(final AccountGroup.ExternalNameKey key)
-              throws Exception {
+          public Collection<AccountGroup> createEntry(
+              final AccountGroup.ExternalNameKey key) throws Exception {
             return lookup(key);
           }
         };
@@ -119,21 +122,23 @@ public class GroupCacheImpl implements GroupCache {
     return g;
   }
 
-  private AccountGroup lookup(final AccountGroup.NameKey groupName)
+  private AccountGroup lookup(final AccountGroup.NameKey name)
       throws OrmException {
+    final AccountGroupName r;
     final ReviewDb db = schema.open();
     try {
-      return db.accountGroups().get(groupName);
+      r = db.accountGroupNames().get(name);
     } finally {
       db.close();
     }
+    return r != null ? get(r.getId()) : null;
   }
 
-  private AccountGroup lookup(final AccountGroup.ExternalNameKey externalName)
-      throws OrmException {
+  private Collection<AccountGroup> lookup(
+      final AccountGroup.ExternalNameKey name) throws OrmException {
     final ReviewDb db = schema.open();
     try {
-      return db.accountGroups().get(externalName);
+      return db.accountGroups().byExternalName(name).toList();
     } finally {
       db.close();
     }
@@ -153,11 +158,12 @@ public class GroupCacheImpl implements GroupCache {
     byName.remove(oldName);
   }
 
-  public AccountGroup lookup(final String groupName) {
-    return byName.get(new AccountGroup.NameKey(groupName));
+  public AccountGroup get(final AccountGroup.NameKey name) {
+    return byName.get(name);
   }
 
-  public AccountGroup get(final AccountGroup.ExternalNameKey externalName) {
+  public Collection<AccountGroup> get(
+      final AccountGroup.ExternalNameKey externalName) {
     return byExternalName.get(externalName);
   }
 }

@@ -29,24 +29,34 @@ public class ReplicationUser extends CurrentUser {
     ReplicationUser create(@Assisted Set<AccountGroup.Id> authGroups);
   }
 
-  private Set<AccountGroup.Id> effectiveGroups;
+  private final Set<AccountGroup.Id> effectiveGroups;
 
   @Inject
   protected ReplicationUser(AuthConfig authConfig,
       @Assisted Set<AccountGroup.Id> authGroups) {
     super(AccessPath.REPLICATION, authConfig);
-    effectiveGroups = new HashSet<AccountGroup.Id>(authGroups);
 
-    if (effectiveGroups.isEmpty()) {
-      effectiveGroups.addAll(authConfig.getRegisteredGroups());
+    if (authGroups.isEmpty()) {
+      // Only include the registered groups if no specific groups
+      // were provided. This allows an administrator to configure
+      // a replication user with a narrower view of the system than
+      // all other users, such as when replicating from an internal
+      // company server to a public open source distribution site.
+      //
+      effectiveGroups = authConfig.getRegisteredGroups();
+
+    } else {
+      effectiveGroups = copy(authGroups);
     }
+  }
 
-    effectiveGroups = Collections.unmodifiableSet(effectiveGroups);
+  private static Set<AccountGroup.Id> copy(Set<AccountGroup.Id> groups) {
+    return Collections.unmodifiableSet(new HashSet<AccountGroup.Id>(groups));
   }
 
   @Override
   public Set<AccountGroup.Id> getEffectiveGroups() {
-    return Collections.unmodifiableSet(effectiveGroups);
+    return effectiveGroups;
   }
 
   @Override

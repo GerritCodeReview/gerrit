@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.account;
 
+import static com.google.gerrit.reviewdb.AccountExternalId.SCHEME_USERNAME;
+
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountExternalId;
 import com.google.gerrit.reviewdb.AccountGroup;
@@ -33,11 +35,22 @@ public class AccountState {
     this.account = account;
     this.internalGroups = actualGroups;
     this.externalIds = externalIds;
+    this.account.setUserName(getUserName(externalIds));
   }
 
   /** Get the cached account metadata. */
   public Account getAccount() {
     return account;
+  }
+
+  /**
+   * Get the username, if one has been declared for this user.
+   * <p>
+   * The username is the {@link AccountExternalId} using the scheme
+   * {@link AccountExternalId#SCHEME_USERNAME}.
+   */
+  public String getUserName() {
+    return account.getUserName();
   }
 
   /**
@@ -67,5 +80,14 @@ public class AccountState {
   /** The set of groups maintained directly within the Gerrit database. */
   public Set<AccountGroup.Id> getInternalGroups() {
     return internalGroups;
+  }
+
+  private static String getUserName(Collection<AccountExternalId> ids) {
+    for (AccountExternalId id : ids) {
+      if (id.isScheme(SCHEME_USERNAME)) {
+        return id.getSchemeRest();
+      }
+    }
+    return null;
   }
 }

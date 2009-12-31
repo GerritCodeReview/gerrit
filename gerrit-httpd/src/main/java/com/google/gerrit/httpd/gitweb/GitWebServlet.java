@@ -191,9 +191,9 @@ class GitWebServlet extends HttpServlet {
       }
       if (gerritConfig.getSshdAddress() != null) {
         String sshAddr = gerritConfig.getSshdAddress();
-        p.print("if ($ENV{'GERRIT_SSH_USER_NAME'}) {\n");
+        p.print("if ($ENV{'GERRIT_USER_NAME'}) {\n");
         p.print("  push @git_base_url_list, join('', 'ssh://'");
-        p.print(", $ENV{'GERRIT_SSH_USER_NAME'}");
+        p.print(", $ENV{'GERRIT_USER_NAME'}");
         p.print(", '@'");
         if (sshAddr.startsWith("*:") || "".equals(sshAddr)) {
           p.print(", $ENV{'SERVER_NAME'}");
@@ -452,8 +452,8 @@ class GitWebServlet extends HttpServlet {
     String remoteUser = null;
     if (project.getCurrentUser() instanceof IdentifiedUser) {
       final IdentifiedUser u = (IdentifiedUser) project.getCurrentUser();
-      final String user = u.getAccount().getSshUserName();
-      env.set("GERRIT_SSH_USER_NAME", user);
+      final String user = u.getUserName();
+      env.set("GERRIT_USER_NAME", user);
       if (user != null && !user.isEmpty()) {
         remoteUser = user;
       } else {

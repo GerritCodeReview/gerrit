@@ -25,6 +25,10 @@ public interface AccountExternalIdAccess extends
   @PrimaryKey("key")
   AccountExternalId get(AccountExternalId.Key key) throws OrmException;
 
+  @Query("WHERE key >= ? AND key <= ? ORDER BY key LIMIT ?")
+  ResultSet<AccountExternalId> suggestByKey(AccountExternalId.Key keyA,
+      AccountExternalId.Key keyB, int limit) throws OrmException;
+
   @Query("WHERE accountId = ?")
   ResultSet<AccountExternalId> byAccount(Account.Id id) throws OrmException;
 

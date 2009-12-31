@@ -182,7 +182,7 @@ class SshLog implements LifecycleListener {
         );
 
     event.setProperty(P_SESSION, id(s.getAttribute(SshUtil.SESSION_ID)));
-    event.setProperty(P_USER_NAME, u.getAccount().getSshUserName());
+    event.setProperty(P_USER_NAME, u.getUserName());
     event.setProperty(P_ACCOUNT_ID, "a/" + u.getAccountId().toString());
 
     return event;

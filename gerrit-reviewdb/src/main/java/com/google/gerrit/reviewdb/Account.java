@@ -56,18 +56,18 @@ import java.sql.Timestamp;
  */
 public final class Account {
   public static enum FieldName {
-    FULL_NAME, SSH_USER_NAME, REGISTER_NEW_EMAIL;
+    FULL_NAME, USER_NAME, REGISTER_NEW_EMAIL;
   }
 
-  public static final String SSH_USER_NAME_PATTERN_FIRST = "[a-zA-Z]";
-  public static final String SSH_USER_NAME_PATTERN_REST = "[a-zA-Z0-9._-]";
-  public static final String SSH_USER_NAME_PATTERN_LAST = "[a-zA-Z0-9]";
+  public static final String USER_NAME_PATTERN_FIRST = "[a-zA-Z]";
+  public static final String USER_NAME_PATTERN_REST = "[a-zA-Z0-9._-]";
+  public static final String USER_NAME_PATTERN_LAST = "[a-zA-Z0-9]";
 
-  /** Regular expression that {@link #sshUserName} must match. */
-  public static final String SSH_USER_NAME_PATTERN = "^" + //
-      SSH_USER_NAME_PATTERN_FIRST + //
-      SSH_USER_NAME_PATTERN_REST + "*" + //
-      SSH_USER_NAME_PATTERN_LAST + //
+  /** Regular expression that {@link #userName} must match. */
+  public static final String USER_NAME_PATTERN = "^" + //
+      USER_NAME_PATTERN_FIRST + //
+      USER_NAME_PATTERN_REST + "*" + //
+      USER_NAME_PATTERN_LAST + //
       "$";
 
   /** Key local to Gerrit to identify a user. */
@@ -117,17 +117,16 @@ public final class Account {
   @Column(id = 4, notNull = false)
   protected String preferredEmail;
 
-  /** Username to authenticate as through SSH connections. */
-  @Column(id = 5, notNull = false)
-  protected String sshUserName;
-
   /** When did the user last give us contact information? Null if never. */
-  @Column(id = 6, notNull = false)
+  @Column(id = 5, notNull = false)
   protected Timestamp contactFiledOn;
 
   /** This user's preferences */
-  @Column(id = 7, name = Column.NONE)
+  @Column(id = 6, name = Column.NONE)
   protected AccountGeneralPreferences generalPreferences;
+
+  /** <i>computed</i> the username selected from the identities. */
+  protected String userName;
 
   protected Account() {
   }
@@ -170,16 +169,6 @@ public final class Account {
     preferredEmail = addr;
   }
 
-  /** Get the name the user logins as through SSH. */
-  public String getSshUserName() {
-    return sshUserName;
-  }
-
-  /** Set the name the user logins as through SSH. */
-  public void setSshUserName(final String name) {
-    sshUserName = name;
-  }
-
   /** Get the date and time the user first registered. */
   public Timestamp getRegisteredOn() {
     return registeredOn;
@@ -203,5 +192,15 @@ public final class Account {
 
   public void setContactFiled() {
     contactFiledOn = new Timestamp(System.currentTimeMillis());
+  }
+
+  /** @return the computed user name for this account */
+  public String getUserName() {
+    return userName;
+  }
+
+  /** Update the computed user name property. */
+  public void setUserName(final String userName) {
+    this.userName = userName;
   }
 }

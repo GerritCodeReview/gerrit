@@ -27,7 +27,4 @@ public interface AccountSshKeyAccess extends
 
   @Query("WHERE id.accountId = ?")
   ResultSet<AccountSshKey> byAccount(Account.Id id) throws OrmException;
-
-  @Query("WHERE id.accountId = ? AND valid = true")
-  ResultSet<AccountSshKey> valid(Account.Id id) throws OrmException;
 }

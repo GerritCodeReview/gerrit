@@ -159,6 +159,11 @@ public class IdentifiedUser extends CurrentUser {
     return accountId;
   }
 
+  /** @return the user's user name; null if one has not been selected/assigned. */
+  public String getUserName() {
+    return state().getUserName();
+  }
+
   public Account getAccount() {
     return state().getAccount();
   }
@@ -220,7 +225,7 @@ public class IdentifiedUser extends CurrentUser {
       name = "Anonymous Coward";
     }
 
-    String user = ua.getSshUserName();
+    String user = getUserName();
     if (user == null) {
       user = "";
     }
@@ -253,7 +258,7 @@ public class IdentifiedUser extends CurrentUser {
       // don't leak an address the user may have given us, but doesn't
       // necessarily want to publish through Git records.
       //
-      String user = ua.getSshUserName();
+      String user = getUserName();
       if (user == null || user.isEmpty()) {
         user = "account-" + ua.getId().toString();
       }

@@ -153,8 +153,8 @@ class PatchSetPanel extends Composite implements OpenHandler<DisclosurePanel> {
 
     } else if (Gerrit.isSignedIn() && Gerrit.getUserAccount() != null
         && Gerrit.getConfig().getSshdAddress() != null
-        && Gerrit.getUserAccount().getSshUserName() != null
-        && Gerrit.getUserAccount().getSshUserName().length() > 0) {
+        && Gerrit.getUserAccount().getUserName() != null
+        && Gerrit.getUserAccount().getUserName().length() > 0) {
       // The user is signed in and anonymous access isn't allowed.
       // Use our SSH daemon URL as its the only way they can get
       // to the project (that we know of anyway).
@@ -162,7 +162,7 @@ class PatchSetPanel extends Composite implements OpenHandler<DisclosurePanel> {
       String sshAddr = Gerrit.getConfig().getSshdAddress();
       final StringBuilder r = new StringBuilder();
       r.append("git pull ssh://");
-      r.append(Gerrit.getUserAccount().getSshUserName());
+      r.append(Gerrit.getUserAccount().getUserName());
       r.append("@");
       if (sshAddr.startsWith("*:") || "".equals(sshAddr)) {
         r.append(Window.Location.getHostName());

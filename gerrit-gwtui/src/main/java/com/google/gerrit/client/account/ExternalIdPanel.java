@@ -201,7 +201,12 @@ class ExternalIdPanel extends Composite {
       if (k.isScheme(AccountExternalId.SCHEME_GERRIT)) {
         // A local user identity should just be itself.
         //
-        return k.getSchemeRest(AccountExternalId.SCHEME_GERRIT);
+        return k.getSchemeRest();
+
+      } else if (k.isScheme(AccountExternalId.SCHEME_USERNAME)) {
+        // A local user identity should just be itself.
+        //
+        return k.getSchemeRest();
 
       } else if (k.isScheme(AccountExternalId.SCHEME_MAILTO)) {
         // Describe a mailto address as just its email address, which

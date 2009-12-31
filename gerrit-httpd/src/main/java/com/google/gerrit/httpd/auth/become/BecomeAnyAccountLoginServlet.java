@@ -14,6 +14,8 @@
 
 package com.google.gerrit.httpd.auth.become;
 
+import static com.google.gerrit.reviewdb.AccountExternalId.SCHEME_USERNAME;
+
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.httpd.WebSession;
@@ -154,12 +156,21 @@ public class BecomeAnyAccountLoginServlet extends HttpServlet {
     return null;
   }
 
+  private AuthResult auth(final AccountExternalId account) {
+    if (account != null) {
+      return new AuthResult(account.getAccountId(), null, false);
+    }
+    return null;
+  }
+
   private AuthResult bySshUserName(final HttpServletResponse rsp,
       final String userName) {
     try {
       final ReviewDb db = schema.open();
       try {
-        return auth(db.accounts().bySshUserName(userName));
+        AccountExternalId.Key key =
+            new AccountExternalId.Key(SCHEME_USERNAME, userName);
+        return auth(db.accountExternalIds().get(key));
       } finally {
         db.close();
       }

@@ -169,6 +169,12 @@ public class AuthConfig {
       return true;
     }
 
+    if (id.isScheme(AccountExternalId.SCHEME_USERNAME)) {
+      // We can trust their username, its local to our server only.
+      //
+      return true;
+    }
+
     for (final String p : trusted) {
       if (matches(p, id)) {
         return true;

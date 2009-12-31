@@ -14,6 +14,8 @@
 
 package com.google.gerrit.httpd.rpc.account;
 
+import static com.google.gerrit.reviewdb.AccountExternalId.SCHEME_USERNAME;
+
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.AccountExternalId;
@@ -58,7 +60,11 @@ class ExternalIdDetailFactory extends Handler<List<AccountExternalId>> {
       // establish this web session, and if only if an identity was
       // actually used to establish this web session.
       //
-      e.setCanDelete(last != null && !last.equals(e.getKey()));
+      if (e.isScheme(SCHEME_USERNAME)) {
+        e.setCanDelete(false);
+      } else {
+        e.setCanDelete(last != null && !last.equals(e.getKey()));
+      }
     }
     return ids;
   }

@@ -45,6 +45,15 @@ import java.util.concurrent.Callable;
  *        operation completed successfully.
  */
 public abstract class Handler<T> implements Callable<T> {
+  public static <T> Handler<T> wrap(final Callable<T> r) {
+    return new Handler<T>() {
+      @Override
+      public T call() throws Exception {
+        return r.call();
+      }
+    };
+  }
+
   /**
    * Run the operation and pass the result to the callback.
    *

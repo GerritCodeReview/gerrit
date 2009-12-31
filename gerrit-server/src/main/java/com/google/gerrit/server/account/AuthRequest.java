@@ -17,6 +17,8 @@ package com.google.gerrit.server.account;
 import static com.google.gerrit.reviewdb.AccountExternalId.SCHEME_GERRIT;
 import static com.google.gerrit.reviewdb.AccountExternalId.SCHEME_MAILTO;
 
+import com.google.gerrit.reviewdb.AccountExternalId;
+
 /**
  * Information for {@link AccountManager#authenticate(AuthRequest)}.
  * <p>
@@ -29,9 +31,10 @@ import static com.google.gerrit.reviewdb.AccountExternalId.SCHEME_MAILTO;
 public class AuthRequest {
   /** Create a request for a local username, such as from LDAP. */
   public static AuthRequest forUser(final String username) {
-    final AuthRequest r;
-    r = new AuthRequest(SCHEME_GERRIT + username);
-    r.setSshUserName(username);
+    final AccountExternalId.Key i =
+        new AccountExternalId.Key(SCHEME_GERRIT, username);
+    final AuthRequest r = new AuthRequest(i.get());
+    r.setUserName(username);
     return r;
   }
 
@@ -42,8 +45,9 @@ public class AuthRequest {
    * an existing user account.
    */
   public static AuthRequest forEmail(final String email) {
-    final AuthRequest r;
-    r = new AuthRequest(SCHEME_MAILTO + email);
+    final AccountExternalId.Key i =
+        new AccountExternalId.Key(SCHEME_MAILTO, email);
+    final AuthRequest r = new AuthRequest(i.get());
     r.setEmailAddress(email);
     return r;
   }
@@ -52,7 +56,7 @@ public class AuthRequest {
   private String password;
   private String displayName;
   private String emailAddress;
-  private String sshUserName;
+  private String userName;
 
   public AuthRequest(final String externalId) {
     this.externalId = externalId;
@@ -97,11 +101,11 @@ public class AuthRequest {
     emailAddress = email != null && email.length() > 0 ? email : null;
   }
 
-  public String getSshUserName() {
-    return sshUserName;
+  public String getUserName() {
+    return userName;
   }
 
-  public void setSshUserName(final String user) {
-    sshUserName = user;
+  public void setUserName(final String user) {
+    userName = user;
   }
 }

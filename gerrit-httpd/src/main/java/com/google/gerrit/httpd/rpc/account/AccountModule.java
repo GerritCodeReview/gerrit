@@ -16,6 +16,7 @@ package com.google.gerrit.httpd.rpc.account;
 
 import com.google.gerrit.httpd.rpc.RpcServletModule;
 import com.google.gerrit.httpd.rpc.UiRpcModule;
+import com.google.gerrit.server.account.ChangeUserName;
 import com.google.gerrit.server.config.FactoryModule;
 
 public class AccountModule extends RpcServletModule {

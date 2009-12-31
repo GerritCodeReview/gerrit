@@ -16,15 +16,14 @@ package com.google.gerrit.common.errors;
 
 import com.google.gerrit.reviewdb.Account;
 
-/** Error indicating the SSH user name does not match {@link Account#SSH_USER_NAME_PATTERN} pattern. */
-public class InvalidSshUserNameException extends Exception {
+/** Error indicating the SSH user name does not match {@link Account#USER_NAME_PATTERN} pattern. */
+public class InvalidUserNameException extends Exception {
 
   private static final long serialVersionUID = 1L;
 
-  public static final String MESSAGE = "Invalid SSH user name.";
+  public static final String MESSAGE = "Invalid user name.";
 
-  public InvalidSshUserNameException() {
+  public InvalidUserNameException() {
     super(MESSAGE);
   }
-
 }

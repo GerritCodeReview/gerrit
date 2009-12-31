@@ -15,18 +15,24 @@
 package com.google.gerrit.server.account;
 
 import com.google.gerrit.common.auth.openid.OpenIdUrls;
+import com.google.gerrit.common.errors.InvalidUserNameException;
+import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountExternalId;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AccountGroupMember;
 import com.google.gerrit.reviewdb.AccountGroupMemberAudit;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.gwtorm.client.Transaction;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,23 +42,31 @@ import java.util.concurrent.atomic.AtomicBoolean;
 /** Tracks authentication related details for user accounts. */
 @Singleton
 public class AccountManager {
+  private static final Logger log =
+      LoggerFactory.getLogger(AccountManager.class);
+
   private final SchemaFactory<ReviewDb> schema;
   private final AccountCache byIdCache;
   private final AccountByEmailCache byEmailCache;
   private final AuthConfig authConfig;
   private final Realm realm;
+  private final IdentifiedUser.GenericFactory userFactory;
+  private final ChangeUserName.Factory changeUserNameFactory;
   private final AtomicBoolean firstAccount;
 
   @Inject
   AccountManager(final SchemaFactory<ReviewDb> schema,
       final AccountCache byIdCache, final AccountByEmailCache byEmailCache,
-      final AuthConfig authConfig, final Realm accountMapper)
-      throws OrmException {
+      final AuthConfig authConfig, final Realm accountMapper,
+      final IdentifiedUser.GenericFactory userFactory,
+      final ChangeUserName.Factory changeUserNameFactory) throws OrmException {
     this.schema = schema;
     this.byIdCache = byIdCache;
     this.byEmailCache = byEmailCache;
     this.authConfig = authConfig;
     this.realm = accountMapper;
+    this.userFactory = userFactory;
+    this.changeUserNameFactory = changeUserNameFactory;
 
     firstAccount = new AtomicBoolean();
     final ReviewDb db = schema.open();
@@ -144,10 +158,10 @@ public class AccountManager {
       updateAccount = true;
       account.setFullName(who.getDisplayName());
     }
-    if (!realm.allowsEdit(Account.FieldName.SSH_USER_NAME)
-        && !eq(account.getSshUserName(), who.getSshUserName())) {
+    if (!realm.allowsEdit(Account.FieldName.USER_NAME)
+        && !eq(account.getUserName(), who.getUserName())) {
       updateAccount = true;
-      account.setSshUserName(who.getSshUserName());
+      account.setUserName(who.getUserName());
     }
 
     db.accountExternalIds().update(Collections.singleton(extId), txn);
@@ -246,13 +260,6 @@ public class AccountManager {
     account.setFullName(who.getDisplayName());
     account.setPreferredEmail(extId.getEmailAddress());
 
-    if (who.getSshUserName() != null
-        && db.accounts().bySshUserName(who.getSshUserName()) == null) {
-      // Only set if the name hasn't been used yet, but was given to us.
-      //
-      account.setSshUserName(who.getSshUserName());
-    }
-
     final Transaction txn = db.beginTransaction();
     db.accounts().insert(Collections.singleton(account), txn);
     db.accountExternalIds().insert(Collections.singleton(extId), txn);
@@ -271,6 +278,23 @@ public class AccountManager {
     }
 
     txn.commit();
+
+    if (who.getUserName() != null) {
+      // Only set if the name hasn't been used yet, but was given to us.
+      //
+      IdentifiedUser user = userFactory.create(newId);
+      try {
+        changeUserNameFactory.create(db, user, who.getUserName()).call();
+      } catch (NameAlreadyUsedException e) {
+        log.error("Cannot assign user name \"" + who.getUserName()
+            + "\" to account " + newId + "; name already in use.");
+      } catch (InvalidUserNameException e) {
+        log.error("Cannot assign user name \"" + who.getUserName()
+            + "\" to account " + newId + "; name does not conform.");
+      } catch (OrmException e) {
+        log.error("Cannot assign user name", e);
+      }
+    }
 
     byEmailCache.evict(account.getPreferredEmail());
     realm.onCreateAccount(who, account);

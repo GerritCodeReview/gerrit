@@ -17,10 +17,10 @@ package com.google.gerrit.httpd.rpc.account;
 import com.google.gerrit.common.data.AccountSecurity;
 import com.google.gerrit.common.errors.ContactInformationStoreException;
 import com.google.gerrit.common.errors.InvalidSshKeyException;
-import com.google.gerrit.common.errors.InvalidSshUserNameException;
 import com.google.gerrit.common.errors.NameAlreadyUsedException;
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.httpd.rpc.BaseServiceImplementation;
+import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountAgreement;
 import com.google.gerrit.reviewdb.AccountExternalId;
@@ -30,11 +30,13 @@ import com.google.gerrit.reviewdb.ContactInformation;
 import com.google.gerrit.reviewdb.ContributorAgreement;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
+import com.google.gerrit.server.account.ChangeUserName;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.contact.ContactStore;
@@ -58,17 +60,14 @@ import java.io.UnsupportedEncodingException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-import java.util.regex.Pattern;
 
 class AccountSecurityImpl extends BaseServiceImplementation implements
     AccountSecurity {
-
-  private static final Pattern SSH_USER_NAME_PATTERN = Pattern.compile(Account.SSH_USER_NAME_PATTERN);
-
   private final Logger log = LoggerFactory.getLogger(getClass());
   private final ContactStore contactStore;
   private final AuthConfig authConfig;
   private final Realm realm;
+  private final Provider<IdentifiedUser> user;
   private final RegisterNewEmailSender.Factory registerNewEmailFactory;
   private final SshKeyCache sshKeyCache;
   private final AccountByEmailCache byEmailCache;
@@ -76,6 +75,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
   private final AccountManager accountManager;
   private final boolean useContactInfo;
 
+  private final ChangeUserName.CurrentUser changeUserNameFactory;
   private final DeleteExternalIds.Factory deleteExternalIdsFactory;
   private final ExternalIdDetailFactory.Factory externalIdDetailFactory;
   private final MyGroupsFactory.Factory myGroupsFactory;
@@ -83,10 +83,11 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
   @Inject
   AccountSecurityImpl(final Provider<ReviewDb> schema,
       final Provider<CurrentUser> currentUser, final ContactStore cs,
-      final AuthConfig ac, final Realm r,
+      final AuthConfig ac, final Realm r, final Provider<IdentifiedUser> u,
       final RegisterNewEmailSender.Factory esf, final SshKeyCache skc,
       final AccountByEmailCache abec, final AccountCache uac,
       final AccountManager am,
+      final ChangeUserName.CurrentUser changeUserNameFactory,
       final DeleteExternalIds.Factory deleteExternalIdsFactory,
       final ExternalIdDetailFactory.Factory externalIdDetailFactory,
       final MyGroupsFactory.Factory myGroupsFactory) {
@@ -94,6 +95,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
     contactStore = cs;
     authConfig = ac;
     realm = r;
+    user = u;
     registerNewEmailFactory = esf;
     sshKeyCache = skc;
     byEmailCache = abec;
@@ -102,6 +104,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
 
     useContactInfo = contactStore != null && contactStore.isEnabled();
 
+    this.changeUserNameFactory = changeUserNameFactory;
     this.deleteExternalIdsFactory = deleteExternalIdsFactory;
     this.externalIdDetailFactory = externalIdDetailFactory;
     this.myGroupsFactory = myGroupsFactory;
@@ -110,7 +113,8 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
   public void mySshKeys(final AsyncCallback<List<AccountSshKey>> callback) {
     run(callback, new Action<List<AccountSshKey>>() {
       public List<AccountSshKey> run(ReviewDb db) throws OrmException {
-        return db.accountSshKeys().byAccount(getAccountId()).toList();
+        IdentifiedUser u = user.get();
+        return db.accountSshKeys().byAccount(u.getAccountId()).toList();
       }
     });
   }
@@ -120,7 +124,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
     run(callback, new Action<AccountSshKey>() {
       public AccountSshKey run(final ReviewDb db) throws OrmException, Failure {
         int max = 0;
-        final Account.Id me = getAccountId();
+        final Account.Id me = user.get().getAccountId();
         for (final AccountSshKey k : db.accountSshKeys().byAccount(me)) {
           max = Math.max(max, k.getKey().get());
         }
@@ -132,7 +136,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
           throw new Failure(e);
         }
         db.accountSshKeys().insert(Collections.singleton(key));
-        uncacheSshKeys(me);
+        uncacheSshKeys();
         return key;
       }
     });
@@ -142,7 +146,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
       final AsyncCallback<VoidResult> callback) {
     run(callback, new Action<VoidResult>() {
       public VoidResult run(final ReviewDb db) throws OrmException, Failure {
-        final Account.Id me = getAccountId();
+        final Account.Id me = user.get().getAccountId();
         for (final AccountSshKey.Id keyId : ids) {
           if (!me.equals(keyId.getParentKey()))
             throw new Failure(new NoSuchEntityException());
@@ -153,7 +157,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
           final Transaction txn = db.beginTransaction();
           db.accountSshKeys().delete(k, txn);
           txn.commit();
-          uncacheSshKeys(me);
+          uncacheSshKeys();
         }
 
         return VoidResult.INSTANCE;
@@ -161,56 +165,18 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
     });
   }
 
-  private void uncacheSshKeys(final Account.Id me) {
-    uncacheSshKeys(accountCache.get(me).getAccount().getSshUserName());
-  }
-
-  private void uncacheSshKeys(final String userName) {
-    sshKeyCache.evict(userName);
+  private void uncacheSshKeys() {
+    sshKeyCache.evict(user.get().getUserName());
   }
 
   @Override
   public void changeSshUserName(final String newName,
       final AsyncCallback<VoidResult> callback) {
-    if (!realm.allowsEdit(Account.FieldName.SSH_USER_NAME)) {
+    if (realm.allowsEdit(Account.FieldName.USER_NAME)) {
+      Handler.wrap(changeUserNameFactory.create(newName)).to(callback);
+    } else {
       callback.onFailure(new NameAlreadyUsedException());
-      return;
     }
-
-    run(callback, new Action<VoidResult>() {
-      @Override
-      public VoidResult run(ReviewDb db) throws OrmException, Failure {
-        final Account me = db.accounts().get(getAccountId());
-        if (me == null) {
-          throw new Failure(new NoSuchEntityException());
-        }
-        if (newName != null && !SSH_USER_NAME_PATTERN.matcher(newName).matches()) {
-          throw new Failure(new InvalidSshUserNameException());
-        }
-        final Account other;
-        if (newName != null) {
-          other = db.accounts().bySshUserName(newName);
-        } else {
-          other = null;
-        }
-
-        if (other != null) {
-          if (other.getId().equals(me.getId())) {
-            return VoidResult.INSTANCE;
-          } else {
-            throw new Failure(new NameAlreadyUsedException());
-          }
-        }
-
-        final String oldName = me.getSshUserName();
-        me.setSshUserName(newName);
-        db.accounts().update(Collections.singleton(me));
-        uncacheSshKeys(oldName);
-        uncacheSshKeys(newName);
-        accountCache.evict(me.getId());
-        return VoidResult.INSTANCE;
-      }
-    });
   }
 
   public void myExternalIds(AsyncCallback<List<AccountExternalId>> callback) {
@@ -231,7 +197,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
       final ContactInformation info, final AsyncCallback<Account> callback) {
     run(callback, new Action<Account>() {
       public Account run(ReviewDb db) throws OrmException, Failure {
-        final Account me = db.accounts().get(getAccountId());
+        final Account me = db.accounts().get(user.get().getAccountId());
         final String oldEmail = me.getPreferredEmail();
         if (realm.allowsEdit(Account.FieldName.FULL_NAME)) {
           me.setFullName(name != null && !name.isEmpty() ? name : null);
@@ -278,7 +244,8 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
         }
 
         final AccountAgreement a =
-            new AccountAgreement(new AccountAgreement.Key(getAccountId(), id));
+            new AccountAgreement(new AccountAgreement.Key(user.get()
+                .getAccountId(), id));
         if (cla.isAutoVerify()) {
           a.review(AccountAgreement.Status.VERIFIED, null);
         }
@@ -318,7 +285,8 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
         callback.onFailure(new IllegalStateException("Invalid token"));
         return;
       }
-      accountManager.link(getAccountId(), AuthRequest.forEmail(newEmail));
+      accountManager.link(user.get().getAccountId(), AuthRequest
+          .forEmail(newEmail));
       callback.onSuccess(VoidResult.INSTANCE);
     } catch (XsrfException e) {
       callback.onFailure(e);

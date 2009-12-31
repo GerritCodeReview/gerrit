@@ -14,6 +14,8 @@
 
 package com.google.gerrit.httpd.rpc;
 
+import static com.google.gerrit.reviewdb.AccountExternalId.SCHEME_USERNAME;
+
 import com.google.gerrit.common.data.AccountDashboardInfo;
 import com.google.gerrit.common.data.ChangeInfo;
 import com.google.gerrit.common.data.ChangeListService;
@@ -470,8 +472,12 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
     Set<Account.Id> result = new HashSet<Account.Id>();
     String a = userName;
     String b = userName + "\u9fa5";
-    addAll(result, db.accounts().suggestBySshUserName(a, b, 10));
     addAll(result, db.accounts().suggestByFullName(a, b, 10));
+    for (AccountExternalId extId : db.accountExternalIds().suggestByKey(
+        new AccountExternalId.Key(SCHEME_USERNAME, a),
+        new AccountExternalId.Key(SCHEME_USERNAME, b), 10)) {
+      result.add(extId.getAccountId());
+    }
     for (AccountExternalId extId : db.accountExternalIds()
         .suggestByEmailAddress(a, b, 10)) {
       result.add(extId.getAccountId());

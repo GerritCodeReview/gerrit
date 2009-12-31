@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.auth.ldap;
 
+import static com.google.gerrit.reviewdb.AccountExternalId.*;
+
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountExternalId;
 import com.google.gerrit.reviewdb.AccountGroup;
@@ -278,7 +280,7 @@ class LdapRealm implements Realm {
       case FULL_NAME:
         return accountFullName == null; // only if not obtained from LDAP
 
-      case SSH_USER_NAME:
+      case USER_NAME:
         return accountSshUserName == null; // only if not obtained from LDAP
 
       default:
@@ -317,7 +319,7 @@ class LdapRealm implements Realm {
         }
 
         who.setDisplayName(apply(accountFullName, m));
-        who.setSshUserName(apply(accountSshUserName, m));
+        who.setUserName(apply(accountSshUserName, m));
 
         if (accountEmailAddress != null) {
           who.setEmailAddress(apply(accountEmailAddress, m));
@@ -457,7 +459,7 @@ class LdapRealm implements Realm {
   private static String findId(final Collection<AccountExternalId> ids) {
     for (final AccountExternalId i : ids) {
       if (i.isScheme(AccountExternalId.SCHEME_GERRIT)) {
-        return i.getSchemeRest(AccountExternalId.SCHEME_GERRIT);
+        return i.getSchemeRest();
       }
     }
     return null;
@@ -505,9 +507,9 @@ class LdapRealm implements Realm {
     try {
       final ReviewDb db = schema.open();
       try {
-        final String id = AccountExternalId.SCHEME_GERRIT + username;
         final AccountExternalId extId =
-            db.accountExternalIds().get(new AccountExternalId.Key(id));
+            db.accountExternalIds().get(
+                new AccountExternalId.Key(SCHEME_GERRIT, username));
         return extId != null ? extId.getAccountId() : null;
       } finally {
         db.close();

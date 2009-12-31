@@ -19,9 +19,24 @@ import com.google.gwtorm.client.StringKey;
 
 /** Association of an external account identifier to a local {@link Account}. */
 public final class AccountExternalId {
+  /**
+   * Scheme used for {@link AuthType#LDAP}, {@link AuthType#HTTP}, and
+   * {@link AuthType#HTTP_LDAP} usernames.
+   * <p>
+   * The name {@code gerrit:} was a very poor choice.
+   */
   public static final String SCHEME_GERRIT = "gerrit:";
+
+  /** Scheme used for randomly created identities constructed by a UUID. */
   public static final String SCHEME_UUID = "uuid:";
+
+  /** Scheme used to represent only an email address. */
   public static final String SCHEME_MAILTO = "mailto:";
+
+  /** Scheme for the username used to authenticate an account, e.g. over SSH. */
+  public static final String SCHEME_USERNAME = "username:";
+
+  /** Very old scheme from Gerrit Code Review 1.x imports. */
   public static final String LEGACY_GAE = "Google Account ";
 
   public static class Key extends StringKey<com.google.gwtorm.client.Key<?>> {
@@ -31,6 +46,13 @@ public final class AccountExternalId {
     protected String externalId;
 
     protected Key() {
+    }
+
+    public Key(String scheme, final String identity) {
+      if (!scheme.endsWith(":")) {
+        scheme += ":";
+      }
+      externalId = scheme + identity;
     }
 
     public Key(final String e) {
@@ -103,8 +125,10 @@ public final class AccountExternalId {
     return id != null && id.startsWith(scheme);
   }
 
-  public String getSchemeRest(final String scheme) {
-    return isScheme(scheme) ? getExternalId().substring(scheme.length()) : null;
+  public String getSchemeRest() {
+    String id = getExternalId();
+    int c = id.indexOf(':');
+    return 0 < c ? id.substring(c + 1) : null;
   }
 
   public boolean isTrusted() {

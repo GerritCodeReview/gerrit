@@ -14,8 +14,10 @@
 
 package com.google.gerrit.sshd;
 
+import static com.google.gerrit.reviewdb.AccountExternalId.SCHEME_USERNAME;
+
 import com.google.gerrit.common.errors.InvalidSshKeyException;
-import com.google.gerrit.reviewdb.Account;
+import com.google.gerrit.reviewdb.AccountExternalId;
 import com.google.gerrit.reviewdb.AccountSshKey;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.cache.Cache;
@@ -122,14 +124,18 @@ public class SshKeyCacheImpl implements SshKeyCache {
       throws Exception {
     final ReviewDb db = schema.open();
     try {
-      final Account user = db.accounts().bySshUserName(username);
+      final AccountExternalId.Key key =
+          new AccountExternalId.Key(SCHEME_USERNAME, username);
+      final AccountExternalId user = db.accountExternalIds().get(key);
       if (user == null) {
         return NO_SUCH_USER;
       }
 
       final List<SshKeyCacheEntry> kl = new ArrayList<SshKeyCacheEntry>(4);
-      for (final AccountSshKey k : db.accountSshKeys().valid(user.getId())) {
-        add(db, kl, k);
+      for (AccountSshKey k : db.accountSshKeys().byAccount(user.getAccountId())) {
+        if (k.isValid()) {
+          add(db, kl, k);
+        }
       }
       if (kl.isEmpty()) {
         return NO_KEYS;

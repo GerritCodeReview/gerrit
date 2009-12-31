@@ -122,8 +122,7 @@ class LdapRealm implements Realm {
 
     groupBases = optionalList(config, "groupBase");
     groupScope = scope(config, "groupScope");
-    groupPattern =
-        paramString(config, "groupPattern", type.groupPattern());
+    groupPattern = paramString(config, "groupPattern", type.groupPattern());
     final String groupMemberPattern =
         optdef(config, "groupMemberPattern", type.groupMemberPattern());
 
@@ -164,19 +163,23 @@ class LdapRealm implements Realm {
 
     // Account query
     //
-    accountFullName = paramString(config, "accountFullName", type.accountFullName());
+    accountFullName =
+        paramString(config, "accountFullName", type.accountFullName());
     if (accountFullName != null) {
       accountAtts.addAll(accountFullName.getParameterNames());
     }
-    accountEmailAddress = paramString(config, "accountEmailAddress", type.accountEmailAddress());
+    accountEmailAddress =
+        paramString(config, "accountEmailAddress", type.accountEmailAddress());
     if (accountEmailAddress != null) {
       accountAtts.addAll(accountEmailAddress.getParameterNames());
     }
-    accountSshUserName = paramString(config, "accountSshUserName", type.accountSshUserName());
+    accountSshUserName =
+        paramString(config, "accountSshUserName", type.accountSshUserName());
     if (accountSshUserName != null) {
       accountAtts.addAll(accountSshUserName.getParameterNames());
     }
-    accountMemberField = optdef(config, "accountMemberField", type.accountMemberField());
+    accountMemberField =
+        optdef(config, "accountMemberField", type.accountMemberField());
     if (accountMemberField != null) {
       accountAtts.add(accountMemberField);
     }

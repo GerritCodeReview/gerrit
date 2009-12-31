@@ -28,6 +28,7 @@ import com.google.gerrit.pgm.util.Die;
 import com.google.gerrit.pgm.util.ErrorLogFile;
 import com.google.gerrit.pgm.util.IoUtil;
 import com.google.gerrit.pgm.util.SiteProgram;
+import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitProjectImporter;
@@ -37,7 +38,10 @@ import com.google.gerrit.server.schema.SchemaUpdater;
 import com.google.gerrit.server.schema.UpdateUI;
 import com.google.gerrit.server.util.HostPlatform;
 import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.SchemaFactory;
 import com.google.gwtorm.client.StatementExecutor;
+import com.google.gwtorm.jdbc.JdbcExecutor;
+import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.inject.AbstractModule;
 import com.google.inject.CreationException;
 import com.google.inject.Guice;
@@ -160,6 +164,7 @@ public class Init extends SiteProgram {
     final SitePaths site;
     final InitFlags flags;
     final SchemaUpdater schemaUpdater;
+    final SchemaFactory<ReviewDb> schema;
     final GitRepositoryManager repositoryManager;
     final GitProjectImporter gitProjectImporter;
     final Browser browser;
@@ -167,18 +172,21 @@ public class Init extends SiteProgram {
     @Inject
     SiteRun(final ConsoleUI ui, final SitePaths site, final InitFlags flags,
         final SchemaUpdater schemaUpdater,
+        final SchemaFactory<ReviewDb> schema,
         final GitRepositoryManager repositoryManager,
         final GitProjectImporter gitProjectImporter, final Browser browser) {
       this.ui = ui;
       this.site = site;
       this.flags = flags;
       this.schemaUpdater = schemaUpdater;
+      this.schema = schema;
       this.repositoryManager = repositoryManager;
       this.gitProjectImporter = gitProjectImporter;
       this.browser = browser;
     }
 
     void upgradeSchema() throws OrmException {
+      final List<String> pruneList = new ArrayList<String>();
       schemaUpdater.update(new UpdateUI() {
         @Override
         public void message(String msg) {
@@ -187,28 +195,45 @@ public class Init extends SiteProgram {
         }
 
         @Override
-        public void pruneSchema(StatementExecutor e, List<String> pruneList)
-            throws OrmException {
-          StringBuilder msg = new StringBuilder();
-          msg.append("Execute the following SQL to drop unused objects:\n");
-          msg.append("\n");
-          for (String sql : pruneList) {
-            msg.append("  ");
-            msg.append(sql);
-            msg.append(";\n");
-          }
-
-          if (ui.isBatch()) {
-            System.err.print(msg);
-            System.err.flush();
-
-          } else if (ui.yesno(true, "%s\nExecute now", msg)) {
-            for (String sql : pruneList) {
-              e.execute(sql);
+        public void pruneSchema(StatementExecutor e, List<String> prune) {
+          for (String p : prune) {
+            if (!pruneList.contains(p)) {
+              pruneList.add(p);
             }
           }
         }
       });
+
+      if (!pruneList.isEmpty()) {
+        StringBuilder msg = new StringBuilder();
+        msg.append("Execute the following SQL to drop unused objects:\n");
+        msg.append("\n");
+        for (String sql : pruneList) {
+          msg.append("  ");
+          msg.append(sql);
+          msg.append(";\n");
+        }
+
+        if (ui.isBatch()) {
+          System.err.print(msg);
+          System.err.flush();
+
+        } else if (ui.yesno(true, "%s\nExecute now", msg)) {
+          final JdbcSchema db = (JdbcSchema) schema.open();
+          try {
+            final JdbcExecutor e = new JdbcExecutor(db);
+            try {
+              for (String sql : pruneList) {
+                e.execute(sql);
+              }
+            } finally {
+              e.close();
+            }
+          } finally {
+            db.close();
+          }
+        }
+      }
     }
 
     void importGit() throws OrmException, IOException {

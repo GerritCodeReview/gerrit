@@ -27,7 +27,6 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
-import com.google.gwtorm.client.Transaction;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -131,13 +130,9 @@ public class AccountManager {
   }
 
   private void update(final ReviewDb db, final AuthRequest who,
-      final AccountExternalId extId) throws OrmException, AccountException {
-    final Transaction txn = db.beginTransaction();
-    final Account account = db.accounts().get(extId.getAccountId());
-    boolean updateAccount = false;
-    if (account == null) {
-      throw new AccountException("Account has been deleted");
-    }
+      final AccountExternalId extId) throws OrmException {
+    final IdentifiedUser user = userFactory.create(extId.getAccountId());
+    Account toUpdate = null;
 
     // If the email address was modified by the authentication provider,
     // update our records to match the changed email.
@@ -145,38 +140,49 @@ public class AccountManager {
     final String newEmail = who.getEmailAddress();
     final String oldEmail = extId.getEmailAddress();
     if (newEmail != null && !newEmail.equals(oldEmail)) {
-      if (oldEmail != null && oldEmail.equals(account.getPreferredEmail())) {
-        updateAccount = true;
-        account.setPreferredEmail(newEmail);
+      if (oldEmail != null
+          && oldEmail.equals(user.getAccount().getPreferredEmail())) {
+        toUpdate = load(toUpdate, user.getAccountId(), db);
+        toUpdate.setPreferredEmail(newEmail);
       }
 
       extId.setEmailAddress(newEmail);
+      db.accountExternalIds().update(Collections.singleton(extId));
     }
 
     if (!realm.allowsEdit(Account.FieldName.FULL_NAME)
-        && !eq(account.getFullName(), who.getDisplayName())) {
-      updateAccount = true;
-      account.setFullName(who.getDisplayName());
-    }
-    if (!realm.allowsEdit(Account.FieldName.USER_NAME)
-        && !eq(account.getUserName(), who.getUserName())) {
-      updateAccount = true;
-      account.setUserName(who.getUserName());
+        && !eq(user.getAccount().getFullName(), who.getDisplayName())) {
+      toUpdate = load(toUpdate, user.getAccountId(), db);
+      toUpdate.setFullName(who.getDisplayName());
     }
 
-    db.accountExternalIds().update(Collections.singleton(extId), txn);
-    if (updateAccount) {
-      db.accounts().update(Collections.singleton(account), txn);
+    if (!realm.allowsEdit(Account.FieldName.USER_NAME)
+        && !eq(user.getUserName(), who.getUserName())) {
+      changeUserNameFactory.create(db, user, who.getUserName());
     }
-    txn.commit();
+
+    if (toUpdate != null) {
+      db.accounts().update(Collections.singleton(toUpdate));
+    }
 
     if (newEmail != null && !newEmail.equals(oldEmail)) {
       byEmailCache.evict(oldEmail);
       byEmailCache.evict(newEmail);
     }
-    if (updateAccount) {
-      byIdCache.evict(account.getId());
+    if (toUpdate != null) {
+      byIdCache.evict(toUpdate.getId());
     }
+  }
+
+  private Account load(Account toUpdate, Account.Id accountId, ReviewDb db)
+      throws OrmException {
+    if (toUpdate == null) {
+      toUpdate = db.accounts().get(accountId);
+      if (toUpdate == null) {
+        throw new OrmException("Account " + accountId + " has been deleted");
+      }
+    }
+    return toUpdate;
   }
 
   private static boolean eq(final String a, final String b) {
@@ -223,10 +229,8 @@ public class AccountManager {
 
         if (openId.size() == 1) {
           final AccountExternalId oldId = openId.get(0);
-          final Transaction txn = db.beginTransaction();
-          db.accountExternalIds().delete(Collections.singleton(oldId), txn);
-          db.accountExternalIds().insert(Collections.singleton(newId), txn);
-          txn.commit();
+          db.accountExternalIds().upsert(Collections.singleton(newId));
+          db.accountExternalIds().delete(Collections.singleton(oldId));
         } else {
           db.accountExternalIds().insert(Collections.singleton(newId));
         }
@@ -241,10 +245,8 @@ public class AccountManager {
         final AccountExternalId newId = createId(oldId.getAccountId(), who);
         newId.setEmailAddress(who.getEmailAddress());
 
-        final Transaction txn = db.beginTransaction();
-        db.accountExternalIds().delete(Collections.singleton(oldId), txn);
-        db.accountExternalIds().insert(Collections.singleton(newId), txn);
-        txn.commit();
+        db.accountExternalIds().upsert(Collections.singleton(newId));
+        db.accountExternalIds().delete(Collections.singleton(oldId));
         return new AuthResult(newId.getAccountId(), newId.getKey(), false);
 
       } else if (v1.size() > 1) {
@@ -260,9 +262,8 @@ public class AccountManager {
     account.setFullName(who.getDisplayName());
     account.setPreferredEmail(extId.getEmailAddress());
 
-    final Transaction txn = db.beginTransaction();
-    db.accounts().insert(Collections.singleton(account), txn);
-    db.accountExternalIds().insert(Collections.singleton(extId), txn);
+    db.accounts().insert(Collections.singleton(account));
+    db.accountExternalIds().insert(Collections.singleton(extId));
 
     if (firstAccount.get() && firstAccount.compareAndSet(true, false)) {
       // This is the first user account on our site. Assume this user
@@ -272,12 +273,10 @@ public class AccountManager {
       final AccountGroup.Id admin = authConfig.getAdministratorsGroup();
       final AccountGroupMember m =
           new AccountGroupMember(new AccountGroupMember.Key(newId, admin));
-      db.accountGroupMembers().insert(Collections.singleton(m), txn);
       db.accountGroupMembersAudit().insert(
-          Collections.singleton(new AccountGroupMemberAudit(m, newId)), txn);
+          Collections.singleton(new AccountGroupMemberAudit(m, newId)));
+      db.accountGroupMembers().insert(Collections.singleton(m));
     }
-
-    txn.commit();
 
     if (who.getUserName() != null) {
       // Only set if the name hasn't been used yet, but was given to us.
@@ -330,19 +329,17 @@ public class AccountManager {
           update(db, who, extId);
 
         } else {
-          final Transaction txn = db.beginTransaction();
           extId = createId(to, who);
           extId.setEmailAddress(who.getEmailAddress());
-          db.accountExternalIds().insert(Collections.singleton(extId), txn);
+          db.accountExternalIds().insert(Collections.singleton(extId));
 
           if (who.getEmailAddress() != null) {
             final Account a = db.accounts().get(to);
             if (a.getPreferredEmail() == null) {
               a.setPreferredEmail(who.getEmailAddress());
-              db.accounts().update(Collections.singleton(a), txn);
+              db.accounts().update(Collections.singleton(a));
             }
           }
-          txn.commit();
 
           if (who.getEmailAddress() != null) {
             byEmailCache.evict(who.getEmailAddress());

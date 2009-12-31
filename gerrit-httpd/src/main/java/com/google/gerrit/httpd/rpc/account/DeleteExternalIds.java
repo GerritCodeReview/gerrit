@@ -21,7 +21,6 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountByEmailCache;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.Transaction;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -73,9 +72,7 @@ class DeleteExternalIds extends Handler<Set<AccountExternalId.Key>> {
     }
 
     if (!toDelete.isEmpty()) {
-      final Transaction txn = db.beginTransaction();
-      db.accountExternalIds().delete(toDelete, txn);
-      txn.commit();
+      db.accountExternalIds().delete(toDelete);
       accountCache.evict(user.getAccountId());
       for (AccountExternalId e : toDelete) {
         byEmailCache.evict(e.getEmailAddress());

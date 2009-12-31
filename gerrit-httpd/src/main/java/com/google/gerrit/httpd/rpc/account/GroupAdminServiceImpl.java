@@ -35,7 +35,6 @@ import com.google.gerrit.server.account.Realm;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.Transaction;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -231,12 +230,10 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
         AccountGroupMember m = db.accountGroupMembers().get(key);
         if (m == null) {
           m = new AccountGroupMember(key);
-          final Transaction txn = db.beginTransaction();
-          db.accountGroupMembers().insert(Collections.singleton(m), txn);
           db.accountGroupMembersAudit().insert(
               Collections.singleton(new AccountGroupMemberAudit(m,
-                  getAccountId())), txn);
-          txn.commit();
+                  getAccountId())));
+          db.accountGroupMembers().insert(Collections.singleton(m));
           accountCache.evict(m.getAccountId());
         }
 
@@ -279,19 +276,18 @@ class GroupAdminServiceImpl extends BaseServiceImplementation implements
               }
             }
 
-            final Transaction txn = db.beginTransaction();
-            db.accountGroupMembers().delete(Collections.singleton(m), txn);
             if (audit != null) {
               audit.removed(me);
-              db.accountGroupMembersAudit().update(
-                  Collections.singleton(audit), txn);
+              db.accountGroupMembersAudit()
+                  .update(Collections.singleton(audit));
             } else {
               audit = new AccountGroupMemberAudit(m, me);
               audit.removedLegacy();
-              db.accountGroupMembersAudit().insert(
-                  Collections.singleton(audit), txn);
+              db.accountGroupMembersAudit()
+                  .insert(Collections.singleton(audit));
             }
-            txn.commit();
+
+            db.accountGroupMembers().delete(Collections.singleton(m));
             accountCache.evict(m.getAccountId());
           }
         }

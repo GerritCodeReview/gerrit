@@ -436,8 +436,12 @@ public final class Change {
    * <p>
    * <b>Note: This makes the change dirty. Call update() after.</b>
    */
-  public PatchSet.Id newPatchSetId() {
-    return new PatchSet.Id(changeId, ++nbrPatchSets);
+  public void nextPatchSetId() {
+    ++nbrPatchSets;
+  }
+
+  public PatchSet.Id currPatchSetId() {
+    return new PatchSet.Id(changeId, nbrPatchSets);
   }
 
   public Status getStatus() {

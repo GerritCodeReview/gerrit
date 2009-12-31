@@ -30,6 +30,7 @@ import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gwtorm.client.AtomicUpdate;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.OrmRunnable;
 import com.google.gwtorm.client.Transaction;
@@ -79,7 +80,7 @@ class AbandonChange extends Handler<ChangeDetail> {
     if (!control.canAbandon()) {
       throw new NoSuchChangeException(changeId);
     }
-    final Change change = control.getChange();
+    Change change = control.getChange();
     final PatchSet patch = db.patchSets().get(patchSetId);
     if (patch == null) {
       throw new NoSuchChangeException(changeId);
@@ -89,22 +90,37 @@ class AbandonChange extends Handler<ChangeDetail> {
         new ChangeMessage(new ChangeMessage.Key(changeId, ChangeUtil
             .messageUUID(db)), currentUser.getAccountId());
     final StringBuilder msgBuf =
-        new StringBuilder("Patch Set " + change.currentPatchSetId().get()
-            + ": Abandoned");
+        new StringBuilder("Patch Set " + patchSetId.get() + ": Abandoned");
     if (message != null && message.length() > 0) {
       msgBuf.append("\n\n");
       msgBuf.append(message);
     }
     cmsg.setMessage(msgBuf.toString());
 
-    Boolean dbSuccess = db.run(new OrmRunnable<Boolean, ReviewDb>() {
-      public Boolean run(ReviewDb db, Transaction txn, boolean retry)
-          throws OrmException {
-        return doAbandonChange(message, change, patchSetId, cmsg, db, txn);
+    change = db.changes().atomicUpdate(changeId, new AtomicUpdate<Change>() {
+      @Override
+      public Change update(Change change) {
+        if (change.getStatus().isOpen()
+            && change.currentPatchSetId().equals(patchSetId)) {
+          change.setStatus(Change.Status.ABANDONED);
+          ChangeUtil.updated(change);
+          return change;
+        } else {
+          return null;
+        }
       }
     });
 
-    if (dbSuccess) {
+    if (change != null) {
+      db.changeMessages().insert(Collections.singleton(cmsg));
+
+      final List<PatchSetApproval> approvals =
+          db.patchSetApprovals().byChange(changeId).toList();
+      for (PatchSetApproval a : approvals) {
+        a.cache(change);
+      }
+      db.patchSetApprovals().update(approvals);
+
       // Email the reviewers
       final AbandonedSender cm = abandonedSenderFactory.create(change);
       cm.setFrom(currentUser.getAccountId());
@@ -114,30 +130,5 @@ class AbandonChange extends Handler<ChangeDetail> {
     }
 
     return changeDetailFactory.create(changeId).call();
-  }
-
-  private Boolean doAbandonChange(final String message, final Change change,
-      final PatchSet.Id psid, final ChangeMessage cm, final ReviewDb db,
-      final Transaction txn) throws OrmException {
-
-    // Check to make sure the change status and current patchset ID haven't
-    // changed while the user was typing an abandon message
-    if (change.getStatus().isOpen() && change.currentPatchSetId().equals(psid)) {
-      change.setStatus(Change.Status.ABANDONED);
-      ChangeUtil.updated(change);
-
-      final List<PatchSetApproval> approvals =
-          db.patchSetApprovals().byChange(change.getId()).toList();
-      for (PatchSetApproval a : approvals) {
-        a.cache(change);
-      }
-      db.patchSetApprovals().update(approvals, txn);
-
-      db.changeMessages().insert(Collections.singleton(cm), txn);
-      db.changes().update(Collections.singleton(change), txn);
-      return Boolean.TRUE;
-    }
-
-    return Boolean.FALSE;
   }
 }

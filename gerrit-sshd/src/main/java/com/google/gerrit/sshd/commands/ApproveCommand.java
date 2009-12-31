@@ -38,7 +38,6 @@ import com.google.gerrit.sshd.BaseCommand;
 import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.ResultSet;
-import com.google.gwtorm.client.Transaction;
 import com.google.inject.Inject;
 
 import org.apache.sshd.server.Environment;
@@ -150,7 +149,6 @@ public class ApproveCommand extends BaseCommand {
       throw error("change " + changeId + " is closed");
     }
 
-    final Transaction txn = db.beginTransaction();
     final StringBuffer msgBuf = new StringBuffer();
     msgBuf.append("Patch Set ");
     msgBuf.append(patchSetId.get());
@@ -166,11 +164,11 @@ public class ApproveCommand extends BaseCommand {
       Short score = co.value();
 
       if (score != null) {
-        addApproval(psaKey, score, change, co, txn);
+        addApproval(psaKey, score, change, co);
       } else {
         if (psa == null) {
           score = 0;
-          addApproval(psaKey, score, change, co, txn);
+          addApproval(psaKey, score, change, co);
         } else {
           score = psa.getValue();
         }
@@ -194,10 +192,9 @@ public class ApproveCommand extends BaseCommand {
         new ChangeMessage(new ChangeMessage.Key(changeId, uuid), currentUser
             .getAccountId());
     cm.setMessage(msgBuf.toString());
-    db.changeMessages().insert(Collections.singleton(cm), txn);
-    ChangeUtil.updated(change);
-    db.changes().update(Collections.singleton(change), txn);
-    txn.commit();
+    db.changeMessages().insert(Collections.singleton(cm));
+
+    ChangeUtil.touch(change, db);
     sendMail(change, change.currentPatchSetId(), cm);
   }
 
@@ -279,16 +276,9 @@ public class ApproveCommand extends BaseCommand {
   }
 
   private void addApproval(final PatchSetApproval.Key psaKey,
-      final Short score, final Change c, final ApproveOption co,
-      final Transaction txn) throws OrmException, UnloggedFailure {
-    PatchSetApproval psa = db.patchSetApprovals().get(psaKey);
-    boolean insert = false;
-
-    if (psa == null) {
-      insert = true;
-      psa = new PatchSetApproval(psaKey, score);
-    }
-
+      final Short score, final Change c, final ApproveOption co)
+      throws OrmException, UnloggedFailure {
+    final PatchSetApproval psa = new PatchSetApproval(psaKey, score);
     final List<PatchSetApproval> approvals = Collections.emptyList();
     final FunctionState fs =
         functionStateFactory.create(c, psaKey.getParentKey(), approvals);
@@ -299,12 +289,7 @@ public class ApproveCommand extends BaseCommand {
     }
 
     psa.setGranted();
-
-    if (insert) {
-      db.patchSetApprovals().insert(Collections.singleton(psa), txn);
-    } else {
-      db.patchSetApprovals().update(Collections.singleton(psa), txn);
-    }
+    db.patchSetApprovals().upsert(Collections.singleton(psa));
   }
 
   private void initOptionList() {

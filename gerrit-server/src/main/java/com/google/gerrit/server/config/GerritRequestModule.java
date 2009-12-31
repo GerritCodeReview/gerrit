@@ -24,6 +24,7 @@ import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.mail.AddReviewerSender;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
+import com.google.gerrit.server.patch.PublishComments;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.inject.servlet.RequestScoped;
@@ -47,6 +48,7 @@ public class GerritRequestModule extends FactoryModule {
     //
     factory(AddReviewerSender.Factory.class);
     factory(CreateChangeSender.Factory.class);
+    factory(PublishComments.Factory.class);
     factory(ReplacePatchSetSender.Factory.class);
   }
 }

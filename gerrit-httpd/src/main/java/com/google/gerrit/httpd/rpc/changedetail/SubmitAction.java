@@ -32,8 +32,8 @@ import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.workflow.CategoryFunction;
 import com.google.gerrit.server.workflow.FunctionState;
+import com.google.gwtorm.client.AtomicUpdate;
 import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.Transaction;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -74,7 +74,8 @@ class SubmitAction extends Handler<ChangeDetail> {
   public ChangeDetail call() throws OrmException, NoSuchEntityException,
       IllegalStateException, PatchSetInfoNotAvailableException,
       NoSuchChangeException {
-    final Change change = db.changes().get(patchSetId.getParentKey());
+    final Change.Id changeId = patchSetId.getParentKey();
+    Change change = db.changes().get(changeId);
     if (change == null) {
       throw new NoSuchEntityException();
     }
@@ -84,7 +85,7 @@ class SubmitAction extends Handler<ChangeDetail> {
           + " not current");
     }
     if (change.getStatus().isClosed()) {
-      throw new IllegalStateException("Change" + change.getId() + " is closed");
+      throw new IllegalStateException("Change" + changeId + " is closed");
     }
 
     final List<PatchSetApproval> allApprovals =
@@ -94,10 +95,8 @@ class SubmitAction extends Handler<ChangeDetail> {
     final PatchSetApproval.Key ak =
         new PatchSetApproval.Key(patchSetId, user.getAccountId(), SUBMIT);
     PatchSetApproval myAction = null;
-    boolean isnew = true;
     for (final PatchSetApproval ca : allApprovals) {
       if (ak.equals(ca.getKey())) {
-        isnew = false;
         myAction = ca;
         myAction.setValue((short) 1);
         myAction.setGranted();
@@ -132,27 +131,23 @@ class SubmitAction extends Handler<ChangeDetail> {
           + " not permitted");
     }
 
-    if (change.getStatus() == Change.Status.NEW) {
-      change.setStatus(Change.Status.SUBMITTED);
-      ChangeUtil.updated(change);
-    }
+    db.patchSetApprovals().upsert(Collections.singleton(myAction));
 
-    final Transaction txn = db.beginTransaction();
-    db.changes().update(Collections.singleton(change), txn);
-    if (change.getStatus().isClosed()) {
-      db.patchSetApprovals().update(fs.getDirtyChangeApprovals(), txn);
-    }
-    if (isnew) {
-      db.patchSetApprovals().insert(Collections.singleton(myAction), txn);
-    } else {
-      db.patchSetApprovals().update(Collections.singleton(myAction), txn);
-    }
-    txn.commit();
+    change = db.changes().atomicUpdate(changeId, new AtomicUpdate<Change>() {
+      @Override
+      public Change update(Change change) {
+        if (change.getStatus() == Change.Status.NEW) {
+          change.setStatus(Change.Status.SUBMITTED);
+          ChangeUtil.updated(change);
+        }
+        return change;
+      }
+    });
 
     if (change.getStatus() == Change.Status.SUBMITTED) {
       merger.merge(change.getDest());
     }
 
-    return changeDetailFactory.create(change.getId()).call();
+    return changeDetailFactory.create(changeId).call();
   }
 }

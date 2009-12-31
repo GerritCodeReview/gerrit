@@ -26,7 +26,6 @@ import com.google.gerrit.server.git.ReplicationQueue;
 import com.google.gerrit.sshd.AdminCommand;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.Transaction;
 import com.google.inject.Inject;
 
 import org.apache.sshd.server.Environment;
@@ -89,16 +88,12 @@ final class AdminCreateProject extends BaseCommand {
         try {
           validateParameters();
 
-          Transaction txn = db.beginTransaction();
-
-          createProject(txn);
-
           Repository repo = repoManager.createRepository(projectName);
           repo.create(true);
           repo.writeSymref(Constants.HEAD, branch);
           repoManager.setProjectDescription(projectName, projectDescription);
 
-          txn.commit();
+          createProject();
 
           rq.replicateNewProject(new Project.NameKey(projectName), branch);
         } catch (Exception e) {
@@ -111,23 +106,23 @@ final class AdminCreateProject extends BaseCommand {
     });
   }
 
-  private void createProject(Transaction txn) throws OrmException {
+  private void createProject() throws OrmException {
     final Project.NameKey newProjectNameKey = new Project.NameKey(projectName);
-    final Project newProject = new Project(newProjectNameKey);
-
-    newProject.setDescription(projectDescription);
-    newProject.setSubmitType(submitType);
-    newProject.setUseContributorAgreements(contributorAgreements);
-    newProject.setUseSignedOffBy(signedOffBy);
-
-    db.projects().insert(Collections.singleton(newProject), txn);
 
     final ProjectRight.Key prk =
         new ProjectRight.Key(newProjectNameKey, ApprovalCategory.OWN, ownerId);
     final ProjectRight pr = new ProjectRight(prk);
     pr.setMaxValue((short) 1);
     pr.setMinValue((short) 1);
-    db.projectRights().insert(Collections.singleton(pr), txn);
+    db.projectRights().insert(Collections.singleton(pr));
+
+    final Project newProject = new Project(newProjectNameKey);
+    newProject.setDescription(projectDescription);
+    newProject.setSubmitType(submitType);
+    newProject.setUseContributorAgreements(contributorAgreements);
+    newProject.setUseSignedOffBy(signedOffBy);
+
+    db.projects().insert(Collections.singleton(newProject));
   }
 
   private void validateParameters() throws Failure {

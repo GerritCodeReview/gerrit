@@ -117,11 +117,9 @@ public class ChangeUserName implements Callable<VoidResult> {
 
     // If we have any older user names, remove them.
     //
-    if (!old.isEmpty()) {
-      db.accountExternalIds().delete(old);
-      for (AccountExternalId i : old) {
-        sshKeyCache.evict(i.getSchemeRest());
-      }
+    db.accountExternalIds().delete(old);
+    for (AccountExternalId i : old) {
+      sshKeyCache.evict(i.getSchemeRest());
     }
 
     accountCache.evict(user.getAccountId());

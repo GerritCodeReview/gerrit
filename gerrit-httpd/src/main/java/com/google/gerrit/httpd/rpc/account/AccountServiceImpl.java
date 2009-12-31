@@ -31,7 +31,6 @@ import com.google.gerrit.server.project.ProjectControl;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.Transaction;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -153,14 +152,7 @@ class AccountServiceImpl extends BaseServiceImplementation implements
             throw new Failure(new NoSuchEntityException());
         }
 
-        final List<AccountProjectWatch> k =
-            db.accountProjectWatches().get(keys).toList();
-        if (!k.isEmpty()) {
-          final Transaction txn = db.beginTransaction();
-          db.accountProjectWatches().delete(k, txn);
-          txn.commit();
-        }
-
+        db.accountProjectWatches().deleteKeys(keys);
         return VoidResult.INSTANCE;
       }
     });

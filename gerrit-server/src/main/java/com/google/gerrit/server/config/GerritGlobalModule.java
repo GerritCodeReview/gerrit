@@ -37,11 +37,10 @@ import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.auth.ldap.LdapModule;
 import com.google.gerrit.server.cache.CachePool;
 import com.google.gerrit.server.git.ChangeMergeQueue;
-import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gerrit.server.git.MergeOp;
 import com.google.gerrit.server.git.MergeQueue;
-import com.google.gerrit.server.git.PatchSetImporter;
 import com.google.gerrit.server.git.PushAllProjectsOp;
 import com.google.gerrit.server.git.PushReplication;
 import com.google.gerrit.server.git.ReloadSubmitQueueOp;
@@ -127,7 +126,6 @@ public class GerritGlobalModule extends FactoryModule {
         FromAddressGeneratorProvider.class).in(SINGLETON);
     bind(EmailSender.class).to(SmtpEmailSender.class).in(SINGLETON);
 
-    factory(PatchSetImporter.Factory.class);
     bind(PatchSetInfoFactory.class);
     bind(IdentifiedUser.GenericFactory.class).in(SINGLETON);
     factory(FunctionState.Factory.class);

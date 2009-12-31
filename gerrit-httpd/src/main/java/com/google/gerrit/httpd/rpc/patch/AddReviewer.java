@@ -30,13 +30,11 @@ import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.mail.AddReviewerSender;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.OrmRunnable;
-import com.google.gwtorm.client.Transaction;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -114,22 +112,18 @@ class AddReviewer extends Handler<AddReviewerResult> {
     // Add the reviewers to the database
     //
     final Set<Account.Id> added = new HashSet<Account.Id>();
-    db.run(new OrmRunnable<Object, ReviewDb>() {
-      public Object run(ReviewDb db, Transaction txn, boolean retry)
-          throws OrmException {
-        final PatchSet.Id psid = control.getChange().currentPatchSetId();
-        for (final Account.Id reviewer : reviewerIds) {
-          if (!exists(psid, reviewer)) {
-            // This reviewer has not entered an approval for this change yet.
-            //
-            final PatchSetApproval myca = dummyApproval(psid, reviewer);
-            db.patchSetApprovals().insert(Collections.singleton(myca), txn);
-            added.add(reviewer);
-          }
-        }
-        return null;
+    final List<PatchSetApproval> toInsert = new ArrayList<PatchSetApproval>();
+    final PatchSet.Id psid = control.getChange().currentPatchSetId();
+    for (final Account.Id reviewer : reviewerIds) {
+      if (!exists(psid, reviewer)) {
+        // This reviewer has not entered an approval for this change yet.
+        //
+        final PatchSetApproval myca = dummyApproval(psid, reviewer);
+        toInsert.add(myca);
+        added.add(reviewer);
       }
-    });
+    }
+    db.patchSetApprovals().insert(toInsert);
 
     // Email the reviewers
     //

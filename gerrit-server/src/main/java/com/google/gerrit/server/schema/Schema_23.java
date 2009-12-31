@@ -18,7 +18,6 @@ import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AccountGroupName;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.Transaction;
 import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -53,11 +52,7 @@ class Schema_23 extends SchemaVersion {
     } finally {
       queryStmt.close();
     }
-    if (!names.isEmpty()) {
-      Transaction t = db.beginTransaction();
-      db.accountGroupNames().insert(names, t);
-      t.commit();
-    }
+    db.accountGroupNames().insert(names);
   }
 
   private AccountGroup.NameKey toKey(final String name) {

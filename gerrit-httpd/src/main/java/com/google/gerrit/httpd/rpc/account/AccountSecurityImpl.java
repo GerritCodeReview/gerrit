@@ -48,7 +48,6 @@ import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtjsonrpc.server.ValidToken;
 import com.google.gwtjsonrpc.server.XsrfException;
 import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.Transaction;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -152,13 +151,8 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
             throw new Failure(new NoSuchEntityException());
         }
 
-        final List<AccountSshKey> k = db.accountSshKeys().get(ids).toList();
-        if (!k.isEmpty()) {
-          final Transaction txn = db.beginTransaction();
-          db.accountSshKeys().delete(k, txn);
-          txn.commit();
-          uncacheSshKeys();
-        }
+        db.accountSshKeys().deleteKeys(ids);
+        uncacheSshKeys();
 
         return VoidResult.INSTANCE;
       }

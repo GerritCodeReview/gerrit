@@ -41,7 +41,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.ResultSet;
-import com.google.gwtorm.client.Transaction;
 import com.google.gwtorm.client.impl.ListResultSet;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -402,8 +401,8 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
       public VoidResult run(final ReviewDb db) throws OrmException {
         final Account.Id me = getAccountId();
         final Set<Change.Id> existing = currentUser.get().getStarredChanges();
-        final ArrayList<StarredChange> add = new ArrayList<StarredChange>();
-        final ArrayList<StarredChange> remove = new ArrayList<StarredChange>();
+        List<StarredChange> add = new ArrayList<StarredChange>();
+        List<StarredChange.Key> remove = new ArrayList<StarredChange.Key>();
 
         if (req.getAddSet() != null) {
           for (final Change.Id id : req.getAddSet()) {
@@ -415,18 +414,12 @@ public class ChangeListServiceImpl extends BaseServiceImplementation implements
 
         if (req.getRemoveSet() != null) {
           for (final Change.Id id : req.getRemoveSet()) {
-            if (existing.contains(id)) {
-              remove.add(new StarredChange(new StarredChange.Key(me, id)));
-            }
+            remove.add(new StarredChange.Key(me, id));
           }
         }
 
-        if (!add.isEmpty() || !remove.isEmpty()) {
-          final Transaction txn = db.beginTransaction();
-          db.starredChanges().insert(add);
-          db.starredChanges().delete(remove);
-          txn.commit();
-        }
+        db.starredChanges().insert(add);
+        db.starredChanges().deleteKeys(remove);
         return VoidResult.INSTANCE;
       }
     });

@@ -43,15 +43,16 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.workflow.CategoryFunction;
 import com.google.gerrit.server.workflow.FunctionState;
+import com.google.gwtorm.client.AtomicUpdate;
+import com.google.gwtorm.client.OrmConcurrencyException;
 import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.OrmRunnable;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.gwtorm.client.Transaction;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -72,6 +73,8 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -1066,52 +1069,14 @@ public class MergeOp {
   }
 
   private void setMerged(Change c, ChangeMessage msg) {
+    final Change.Id changeId = c.getId();
     final PatchSet.Id merged = c.currentPatchSetId();
-    PatchSetApproval submitter = null;
-    for (int attempts = 0; attempts < 10; attempts++) {
-      c.setStatus(Change.Status.MERGED);
-      ChangeUtil.updated(c);
-      try {
-        final Transaction txn = schema.beginTransaction();
 
-        // Flatten out all existing approvals based upon the current
-        // permissions. Once the change is closed the approvals are
-        // not updated at presentation view time, so we need to make.
-        // sure they are accurate now. This way if permissions get
-        // modified in the future, historical records stay accurate.
-        //
-        final List<PatchSetApproval> approvals =
-            schema.patchSetApprovals().byChange(c.getId()).toList();
-        final FunctionState fs = functionState.create(c, merged, approvals);
-        for (ApprovalType at : approvalTypes.getApprovalTypes()) {
-          CategoryFunction.forCategory(at.getCategory()).run(at, fs);
-        }
-        for (PatchSetApproval a : approvals) {
-          if (a.getValue() > 0
-              && ApprovalCategory.SUBMIT.equals(a.getCategoryId())
-              && a.getPatchSetId().equals(merged)) {
-            if (submitter == null
-                || a.getGranted().compareTo(submitter.getGranted()) > 0) {
-              submitter = a;
-            }
-          }
-          a.cache(c);
-        }
-        schema.patchSetApprovals().update(approvals, txn);
-
-        if (msg != null) {
-          if (submitter != null && msg.getAuthor() == null) {
-            msg.setAuthor(submitter.getAccountId());
-          }
-          schema.changeMessages().insert(Collections.singleton(msg), txn);
-        }
-        schema.changes().update(Collections.singleton(c), txn);
-        txn.commit();
-        break;
-      } catch (OrmException e) {
-        final Change.Id id = c.getId();
-        try {
-          c = schema.changes().get(id);
+    try {
+      schema.changes().atomicUpdate(changeId, new AtomicUpdate<Change>() {
+        @Override
+        public Change update(Change c) {
+          c.setStatus(Change.Status.MERGED);
           if (!merged.equals(c.currentPatchSetId())) {
             // Uncool; the patch set changed after we merged it.
             // Go back to the patch set that was actually merged.
@@ -1122,9 +1087,54 @@ public class MergeOp {
               log.error("Cannot read merged patch set " + merged, e1);
             }
           }
-        } catch (OrmException e2) {
-          log.error("Cannot set change " + id + " to merged " + merged, e2);
+          ChangeUtil.updated(c);
+          return c;
         }
+      });
+    } catch (OrmConcurrencyException err) {
+    } catch (OrmException err) {
+      log.warn("Cannot update change status", err);
+    }
+
+    // Flatten out all existing approvals based upon the current
+    // permissions. Once the change is closed the approvals are
+    // not updated at presentation view time, so we need to make.
+    // sure they are accurate now. This way if permissions get
+    // modified in the future, historical records stay accurate.
+    //
+    PatchSetApproval submitter = null;
+    try {
+      c.setStatus(Change.Status.MERGED);
+      final List<PatchSetApproval> approvals =
+          schema.patchSetApprovals().byChange(changeId).toList();
+      final FunctionState fs = functionState.create(c, merged, approvals);
+      for (ApprovalType at : approvalTypes.getApprovalTypes()) {
+        CategoryFunction.forCategory(at.getCategory()).run(at, fs);
+      }
+      for (PatchSetApproval a : approvals) {
+        if (a.getValue() > 0
+            && ApprovalCategory.SUBMIT.equals(a.getCategoryId())
+            && a.getPatchSetId().equals(merged)) {
+          if (submitter == null
+              || a.getGranted().compareTo(submitter.getGranted()) > 0) {
+            submitter = a;
+          }
+        }
+        a.cache(c);
+      }
+      schema.patchSetApprovals().update(approvals);
+    } catch (OrmException err) {
+      log.warn("Cannot normalize approvals for change " + changeId, err);
+    }
+
+    if (msg != null) {
+      if (submitter != null && msg.getAuthor() == null) {
+        msg.setAuthor(submitter.getAccountId());
+      }
+      try {
+        schema.changeMessages().insert(Collections.singleton(msg));
+      } catch (OrmException err) {
+        log.warn("Cannot store message on change", err);
       }
     }
 
@@ -1147,31 +1157,34 @@ public class MergeOp {
     sendMergeFail(c, msg, true);
   }
 
-  private void sendMergeFail(Change c, ChangeMessage msg, boolean makeNew) {
-    for (int attempts = 0; attempts < 10; attempts++) {
-      if (makeNew) {
-        c.setStatus(Change.Status.NEW);
-      }
-      ChangeUtil.updated(c);
+  private void sendMergeFail(Change c, ChangeMessage msg, final boolean makeNew) {
+    try {
+      schema.changeMessages().insert(Collections.singleton(msg));
+    } catch (OrmException err) {
+      log.warn("Cannot record merge failure message", err);
+    }
+
+    if (makeNew) {
       try {
-        final Transaction txn = schema.beginTransaction();
-        schema.changes().update(Collections.singleton(c), txn);
-        if (msg != null) {
-          schema.changeMessages().insert(Collections.singleton(msg), txn);
-        }
-        txn.commit();
-        break;
-      } catch (OrmException e) {
-        try {
-          c = schema.changes().get(c.getId());
-          if (c.getStatus().isClosed()) {
-            // Someone else marked it close while we noticed a failure.
-            // That's fine, leave it closed.
-            //
-            break;
+        schema.changes().atomicUpdate(c.getId(), new AtomicUpdate<Change>() {
+          @Override
+          public Change update(Change c) {
+            if (c.getStatus().isOpen()) {
+              c.setStatus(Change.Status.NEW);
+              ChangeUtil.updated(c);
+            }
+            return c;
           }
-        } catch (OrmException e2) {
-        }
+        });
+      } catch (OrmConcurrencyException err) {
+      } catch (OrmException err) {
+        log.warn("Cannot update change status", err);
+      }
+    } else {
+      try {
+        ChangeUtil.touch(c, schema);
+      } catch (OrmException err) {
+        log.warn("Cannot update change timestamp", err);
       }
     }
 

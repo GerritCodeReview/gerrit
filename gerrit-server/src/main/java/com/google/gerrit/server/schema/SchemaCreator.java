@@ -28,7 +28,6 @@ import com.google.gerrit.server.workflow.NoOpFunction;
 import com.google.gerrit.server.workflow.SubmitFunction;
 import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.Transaction;
 import com.google.gwtorm.jdbc.JdbcExecutor;
 import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.schema.sql.DialectH2;
@@ -158,7 +157,6 @@ public class SchemaCreator {
   }
 
   private void initVerifiedCategory(final ReviewDb c) throws OrmException {
-    final Transaction txn = c.beginTransaction();
     final ApprovalCategory cat;
     final ArrayList<ApprovalCategoryValue> vals;
 
@@ -169,14 +167,12 @@ public class SchemaCreator {
     vals.add(value(cat, 1, "Verified"));
     vals.add(value(cat, 0, "No score"));
     vals.add(value(cat, -1, "Fails"));
-    c.approvalCategories().insert(Collections.singleton(cat), txn);
-    c.approvalCategoryValues().insert(vals, txn);
-    txn.commit();
+    c.approvalCategories().insert(Collections.singleton(cat));
+    c.approvalCategoryValues().insert(vals);
   }
 
   private void initCodeReviewCategory(final ReviewDb c,
       final SystemConfig sConfig) throws OrmException {
-    final Transaction txn = c.beginTransaction();
     final ApprovalCategory cat;
     final ArrayList<ApprovalCategoryValue> vals;
 
@@ -190,9 +186,8 @@ public class SchemaCreator {
     vals.add(value(cat, 0, "No score"));
     vals.add(value(cat, -1, "I would prefer that you didn't submit this"));
     vals.add(value(cat, -2, "Do not submit"));
-    c.approvalCategories().insert(Collections.singleton(cat), txn);
-    c.approvalCategoryValues().insert(vals, txn);
-    txn.commit();
+    c.approvalCategories().insert(Collections.singleton(cat));
+    c.approvalCategoryValues().insert(vals);
 
     final ProjectRight approve =
         new ProjectRight(new ProjectRight.Key(DEFAULT_WILD_NAME, cat.getId(),
@@ -203,7 +198,6 @@ public class SchemaCreator {
   }
 
   private void initOwnerCategory(final ReviewDb c) throws OrmException {
-    final Transaction txn = c.beginTransaction();
     final ApprovalCategory cat;
     final ArrayList<ApprovalCategoryValue> vals;
 
@@ -212,14 +206,12 @@ public class SchemaCreator {
     cat.setFunctionName(NoOpFunction.NAME);
     vals = new ArrayList<ApprovalCategoryValue>();
     vals.add(value(cat, 1, "Administer All Settings"));
-    c.approvalCategories().insert(Collections.singleton(cat), txn);
-    c.approvalCategoryValues().insert(vals, txn);
-    txn.commit();
+    c.approvalCategories().insert(Collections.singleton(cat));
+    c.approvalCategoryValues().insert(vals);
   }
 
   private void initReadCategory(final ReviewDb c, final SystemConfig sConfig)
       throws OrmException {
-    final Transaction txn = c.beginTransaction();
     final ApprovalCategory cat;
     final ArrayList<ApprovalCategoryValue> vals;
 
@@ -230,9 +222,9 @@ public class SchemaCreator {
     vals.add(value(cat, 2, "Upload permission"));
     vals.add(value(cat, 1, "Read access"));
     vals.add(value(cat, -1, "No access"));
-    c.approvalCategories().insert(Collections.singleton(cat), txn);
-    c.approvalCategoryValues().insert(vals, txn);
-    txn.commit();
+    c.approvalCategories().insert(Collections.singleton(cat));
+    c.approvalCategoryValues().insert(vals);
+
     {
       final ProjectRight read =
           new ProjectRight(new ProjectRight.Key(DEFAULT_WILD_NAME, cat.getId(),
@@ -260,7 +252,6 @@ public class SchemaCreator {
   }
 
   private void initSubmitCategory(final ReviewDb c) throws OrmException {
-    final Transaction txn = c.beginTransaction();
     final ApprovalCategory cat;
     final ArrayList<ApprovalCategoryValue> vals;
 
@@ -269,13 +260,11 @@ public class SchemaCreator {
     cat.setFunctionName(SubmitFunction.NAME);
     vals = new ArrayList<ApprovalCategoryValue>();
     vals.add(value(cat, 1, "Submit"));
-    c.approvalCategories().insert(Collections.singleton(cat), txn);
-    c.approvalCategoryValues().insert(vals, txn);
-    txn.commit();
+    c.approvalCategories().insert(Collections.singleton(cat));
+    c.approvalCategoryValues().insert(vals);
   }
 
   private void initPushTagCategory(final ReviewDb c) throws OrmException {
-    final Transaction txn = c.beginTransaction();
     final ApprovalCategory cat;
     final ArrayList<ApprovalCategoryValue> vals;
 
@@ -287,14 +276,12 @@ public class SchemaCreator {
     vals.add(value(cat, ApprovalCategory.PUSH_TAG_ANNOTATED,
         "Create Annotated Tag"));
     vals.add(value(cat, ApprovalCategory.PUSH_TAG_ANY, "Create Any Tag"));
-    c.approvalCategories().insert(Collections.singleton(cat), txn);
-    c.approvalCategoryValues().insert(vals, txn);
-    txn.commit();
+    c.approvalCategories().insert(Collections.singleton(cat));
+    c.approvalCategoryValues().insert(vals);
   }
 
   private void initPushUpdateBranchCategory(final ReviewDb c)
       throws OrmException {
-    final Transaction txn = c.beginTransaction();
     final ApprovalCategory cat;
     final ArrayList<ApprovalCategoryValue> vals;
 
@@ -306,9 +293,8 @@ public class SchemaCreator {
     vals.add(value(cat, ApprovalCategory.PUSH_HEAD_CREATE, "Create Branch"));
     vals.add(value(cat, ApprovalCategory.PUSH_HEAD_REPLACE,
         "Force Push Branch; Delete Branch"));
-    c.approvalCategories().insert(Collections.singleton(cat), txn);
-    c.approvalCategoryValues().insert(vals, txn);
-    txn.commit();
+    c.approvalCategories().insert(Collections.singleton(cat));
+    c.approvalCategoryValues().insert(vals);
   }
 
   private static ApprovalCategoryValue value(final ApprovalCategory cat,

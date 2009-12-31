@@ -21,7 +21,6 @@ import com.google.gerrit.reviewdb.AccountExternalId;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.AccountExternalId.Key;
 import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.Transaction;
 import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -60,11 +59,7 @@ class Schema_22 extends SchemaVersion {
     } finally {
       queryStmt.close();
     }
-    if (!ids.isEmpty()) {
-      Transaction t = db.beginTransaction();
-      db.accountExternalIds().insert(ids, t);
-      t.commit();
-    }
+    db.accountExternalIds().insert(ids);
   }
 
   private Key toKey(final String userName) {

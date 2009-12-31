@@ -16,10 +16,13 @@ package com.google.gerrit.server;
 
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gwtorm.client.OrmConcurrencyException;
 import com.google.gwtorm.client.OrmException;
 
 import org.eclipse.jgit.util.Base64;
 import org.eclipse.jgit.util.NB;
+
+import java.util.Collections;
 
 public class ChangeUtil {
   private static int uuidPrefix;
@@ -47,6 +50,16 @@ public class ChangeUtil {
     }
     NB.encodeInt32(raw, 0, uuidPrefix);
     NB.encodeInt32(raw, 4, uuidSeq--);
+  }
+
+  public static void touch(final Change change, ReviewDb db)
+      throws OrmException {
+    try {
+      updated(change);
+      db.changes().update(Collections.singleton(change));
+    } catch (OrmConcurrencyException e) {
+      // Ignore a concurrent update, we just wanted to tag it as newer.
+    }
   }
 
   public static void updated(final Change c) {

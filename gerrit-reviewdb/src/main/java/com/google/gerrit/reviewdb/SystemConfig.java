@@ -25,7 +25,7 @@ public final class SystemConfig {
 
     private static final String VALUE = "X";
 
-    @Column(length = 1)
+    @Column(id = 1, length = 1)
     protected String one = VALUE;
 
     public Key() {
@@ -49,29 +49,29 @@ public final class SystemConfig {
     return r;
   }
 
-  @Column
+  @Column(id = 1)
   protected Key singleton;
 
   /** Private key to sign account identification cookies. */
-  @Column(length = 36)
+  @Column(id = 2, length = 36)
   public transient String registerEmailPrivateKey;
 
   /**
    * Local filesystem location of header/footer/CSS configuration files
    */
-  @Column(notNull = false)
+  @Column(id = 3, notNull = false)
   public transient String sitePath;
 
   /** Identity of the administration group; those with full access. */
-  @Column
+  @Column(id = 4)
   public AccountGroup.Id adminGroupId;
 
   /** Identity of the anonymous group, which permits anyone. */
-  @Column
+  @Column(id = 5)
   public AccountGroup.Id anonymousGroupId;
 
   /** Identity of the registered users group, which permits anyone. */
-  @Column
+  @Column(id = 6)
   public AccountGroup.Id registeredGroupId;
 
   protected SystemConfig() {

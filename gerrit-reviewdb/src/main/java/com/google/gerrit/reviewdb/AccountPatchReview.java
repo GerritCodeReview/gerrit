@@ -25,10 +25,10 @@ public final class AccountPatchReview {
   public static class Key extends CompoundKey<Account.Id> {
     private static final long serialVersionUID = 1L;
 
-    @Column
+    @Column(id = 1)
     protected Account.Id accountId;
 
-    @Column(name = Column.NONE)
+    @Column(id = 2, name = Column.NONE)
     protected Patch.Key patchKey;
 
     protected Key() {
@@ -56,7 +56,7 @@ public final class AccountPatchReview {
     }
   }
 
-  @Column(name = Column.NONE)
+  @Column(id = 1, name = Column.NONE)
   protected AccountPatchReview.Key key;
 
   protected AccountPatchReview() {

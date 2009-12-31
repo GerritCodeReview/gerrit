@@ -24,13 +24,13 @@ public final class PatchSetApproval {
   public static class Key extends CompoundKey<PatchSet.Id> {
     private static final long serialVersionUID = 1L;
 
-    @Column(name = Column.NONE)
+    @Column(id = 1, name = Column.NONE)
     protected PatchSet.Id patchSetId;
 
-    @Column
+    @Column(id = 2)
     protected Account.Id accountId;
 
-    @Column
+    @Column(id = 3)
     protected ApprovalCategory.Id categoryId;
 
     protected Key() {
@@ -57,7 +57,7 @@ public final class PatchSetApproval {
     }
   }
 
-  @Column(name = Column.NONE)
+  @Column(id = 1, name = Column.NONE)
   protected Key key;
 
   /**
@@ -74,18 +74,18 @@ public final class PatchSetApproval {
    * and in the negative and positive direction a magnitude can be assumed.The
    * further from 0 the more assertive the approval.
    */
-  @Column
+  @Column(id = 2)
   protected short value;
 
-  @Column
+  @Column(id = 3)
   protected Timestamp granted;
 
   /** <i>Cached copy of Change.open.</i> */
-  @Column
+  @Column(id = 4)
   protected boolean changeOpen;
 
   /** <i>Cached copy of Change.sortKey</i>; only if {@link #changeOpen} = false */
-  @Column(length = 16, notNull = false)
+  @Column(id = 5, length = 16, notNull = false)
   protected String changeSortKey;
 
   protected PatchSetApproval() {

@@ -48,7 +48,7 @@ public final class ApprovalCategory {
   public static class Id extends StringKey<Key<?>> {
     private static final long serialVersionUID = 1L;
 
-    @Column(length = 4)
+    @Column(id = 1, length = 4)
     protected String id;
 
     protected Id() {
@@ -78,15 +78,15 @@ public final class ApprovalCategory {
   }
 
   /** Internal short unique identifier for this category. */
-  @Column
+  @Column(id = 1)
   protected Id categoryId;
 
   /** Unique name for this category, shown in the web interface to users. */
-  @Column(length = 20)
+  @Column(id = 2, length = 20)
   protected String name;
 
   /** Abbreviated form of {@link #name} for display in very wide tables. */
-  @Column(length = 4, notNull = false)
+  @Column(id = 3, length = 4, notNull = false)
   protected String abbreviatedName;
 
   /**
@@ -99,15 +99,15 @@ public final class ApprovalCategory {
    * If >= 0 this category is shown in the Approvals table, sorted along with
    * its siblings by <code>position, name</code>.
    */
-  @Column
+  @Column(id = 4)
   protected short position;
 
   /** Identity of the function used to aggregate the category's value. */
-  @Column
+  @Column(id = 5)
   protected String functionName;
 
   /** If set, the minimum score is copied during patch set replacement. */
-  @Column
+  @Column(id = 6)
   protected boolean copyMinScore;
 
   protected ApprovalCategory() {

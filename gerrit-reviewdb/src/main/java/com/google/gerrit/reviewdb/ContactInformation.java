@@ -18,16 +18,16 @@ import com.google.gwtorm.client.Column;
 
 /** Non-Internet contact details, such as a postal address and telephone. */
 public final class ContactInformation {
-  @Column(length = Integer.MAX_VALUE, notNull = false)
+  @Column(id = 1, length = Integer.MAX_VALUE, notNull = false)
   protected String address;
 
-  @Column(notNull = false, length = 40)
+  @Column(id = 2, notNull = false, length = 40)
   protected String country;
 
-  @Column(notNull = false, length = 30)
+  @Column(id = 3, notNull = false, length = 30)
   protected String phoneNbr;
 
-  @Column(notNull = false, length = 30)
+  @Column(id = 4, notNull = false, length = 30)
   protected String faxNbr;
 
   public ContactInformation() {

@@ -35,19 +35,19 @@ public final class AccountGeneralPreferences {
   public static final short[] PAGESIZE_CHOICES = {10, 25, 50, 100};
 
   /** Default number of lines of context when viewing a patch. */
-  @Column
+  @Column(id = 1)
   protected short defaultContext;
 
   /** Number of changes to show in a screen. */
-  @Column
+  @Column(id = 2)
   protected short maximumPageSize;
 
   /** Should the site header be displayed when logged in ? */
-  @Column
+  @Column(id = 3)
   protected boolean showSiteHeader;
 
   /** Should the Flash helper movie be used to copy text to the clipboard? */
-  @Column
+  @Column(id = 4)
   protected boolean useFlashClipboard;
 
   public AccountGeneralPreferences() {

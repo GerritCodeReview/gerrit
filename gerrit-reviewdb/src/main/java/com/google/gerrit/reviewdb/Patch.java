@@ -22,10 +22,10 @@ public final class Patch {
   public static class Key extends StringKey<PatchSet.Id> {
     private static final long serialVersionUID = 1L;
 
-    @Column(name = Column.NONE)
+    @Column(id = 1, name = Column.NONE)
     protected PatchSet.Id patchSetId;
 
-    @Column
+    @Column(id = 2)
     protected String fileName;
 
     protected Key() {

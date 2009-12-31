@@ -22,10 +22,10 @@ public final class AccountGroupMember {
   public static class Key extends CompoundKey<Account.Id> {
     private static final long serialVersionUID = 1L;
 
-    @Column
+    @Column(id = 1)
     protected Account.Id accountId;
 
-    @Column
+    @Column(id = 2)
     protected AccountGroup.Id groupId;
 
     protected Key() {
@@ -53,7 +53,7 @@ public final class AccountGroupMember {
     }
   }
 
-  @Column(name = Column.NONE)
+  @Column(id = 1, name = Column.NONE)
   protected Key key;
 
   protected AccountGroupMember() {

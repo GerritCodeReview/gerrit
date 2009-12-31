@@ -22,13 +22,13 @@ public final class ProjectRight {
   public static class Key extends CompoundKey<Project.NameKey> {
     private static final long serialVersionUID = 1L;
 
-    @Column
+    @Column(id = 1)
     protected Project.NameKey projectName;
 
-    @Column
+    @Column(id = 2)
     protected ApprovalCategory.Id categoryId;
 
-    @Column
+    @Column(id = 3)
     protected AccountGroup.Id groupId;
 
     protected Key() {
@@ -59,13 +59,13 @@ public final class ProjectRight {
     }
   }
 
-  @Column(name = Column.NONE)
+  @Column(id = 1, name = Column.NONE)
   protected Key key;
 
-  @Column
+  @Column(id = 2)
   protected short minValue;
 
-  @Column
+  @Column(id = 3)
   protected short maxValue;
 
   protected ProjectRight() {

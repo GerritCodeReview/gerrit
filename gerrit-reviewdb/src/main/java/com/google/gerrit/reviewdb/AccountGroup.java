@@ -25,7 +25,7 @@ public final class AccountGroup {
       StringKey<com.google.gwtorm.client.Key<?>> {
     private static final long serialVersionUID = 1L;
 
-    @Column(length = 40)
+    @Column(id = 1, length = 40)
     protected String name;
 
     protected NameKey() {
@@ -51,7 +51,7 @@ public final class AccountGroup {
       StringKey<com.google.gwtorm.client.Key<?>> {
     private static final long serialVersionUID = 1L;
 
-    @Column
+    @Column(id = 1)
     protected String name;
 
     protected ExternalNameKey() {
@@ -76,7 +76,7 @@ public final class AccountGroup {
   public static class Id extends IntKey<com.google.gwtorm.client.Key<?>> {
     private static final long serialVersionUID = 1L;
 
-    @Column
+    @Column(id = 1)
     protected int id;
 
     protected Id() {
@@ -141,11 +141,11 @@ public final class AccountGroup {
   }
 
   /** Unique name of this group within the system. */
-  @Column
+  @Column(id = 1)
   protected NameKey name;
 
   /** Unique identity, to link entities as {@link #name} can change. */
-  @Column
+  @Column(id = 2)
   protected Id groupId;
 
   /**
@@ -153,19 +153,19 @@ public final class AccountGroup {
    * <p>
    * This can be a self-reference to indicate the group's members manage itself.
    */
-  @Column
+  @Column(id = 3)
   protected Id ownerGroupId;
 
   /** A textual description of the group's purpose. */
-  @Column(length = Integer.MAX_VALUE, notNull = false)
+  @Column(id = 4, length = Integer.MAX_VALUE, notNull = false)
   protected String description;
 
   /** Is the membership managed by some external means? */
-  @Column(length = 8)
+  @Column(id = 5, length = 8)
   protected String groupType;
 
   /** Distinguished name in the directory server. */
-  @Column(notNull = false)
+  @Column(id = 6, notNull = false)
   protected ExternalNameKey externalName;
 
   protected AccountGroup() {

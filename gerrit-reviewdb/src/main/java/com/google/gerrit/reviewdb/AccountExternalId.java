@@ -27,7 +27,7 @@ public final class AccountExternalId {
   public static class Key extends StringKey<com.google.gwtorm.client.Key<?>> {
     private static final long serialVersionUID = 1L;
 
-    @Column
+    @Column(id = 1)
     protected String externalId;
 
     protected Key() {
@@ -48,13 +48,13 @@ public final class AccountExternalId {
     }
   }
 
-  @Column(name = Column.NONE)
+  @Column(id = 1, name = Column.NONE)
   protected Key key;
 
-  @Column
+  @Column(id = 2)
   protected Account.Id accountId;
 
-  @Column(notNull = false)
+  @Column(id = 3, notNull = false)
   protected String emailAddress;
 
   /** <i>computed value</i> is this identity trusted by the site administrator? */

@@ -26,7 +26,7 @@ public final class ContributorAgreement {
   public static class Id extends IntKey<com.google.gwtorm.client.Key<?>> {
     private static final long serialVersionUID = 1L;
 
-    @Column(name = "cla_id")
+    @Column(id = 1, name = "cla_id")
     protected int id;
 
     protected Id() {
@@ -47,31 +47,31 @@ public final class ContributorAgreement {
     }
   }
 
-  @Column
+  @Column(id = 1)
   protected Id id;
 
   /** Is this an active agreement contributors can use. */
-  @Column
+  @Column(id = 2)
   protected boolean active;
 
   /** Does this agreement require the {@link Account} to have contact details? */
-  @Column
+  @Column(id = 3)
   protected boolean requireContactInformation;
 
   /** Does this agreement automatically verify new accounts? */
-  @Column
+  @Column(id = 4)
   protected boolean autoVerify;
 
   /** A short name for the agreement. */
-  @Column(length = 40)
+  @Column(id = 5, length = 40)
   protected String shortName;
 
   /** A short one-line description text to appear next to the name. */
-  @Column(notNull = false)
+  @Column(id = 6, notNull = false)
   protected String shortDescription;
 
   /** Web address of the agreement documentation. */
-  @Column
+  @Column(id = 7)
   protected String agreementUrl;
 
   protected ContributorAgreement() {

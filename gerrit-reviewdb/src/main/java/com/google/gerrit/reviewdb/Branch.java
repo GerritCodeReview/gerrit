@@ -26,10 +26,10 @@ public final class Branch {
   public static class NameKey extends StringKey<Project.NameKey> {
     private static final long serialVersionUID = 1L;
 
-    @Column
+    @Column(id = 1)
     protected Project.NameKey projectName;
 
-    @Column
+    @Column(id = 2)
     protected String branchName;
 
     protected NameKey() {

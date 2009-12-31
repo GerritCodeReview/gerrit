@@ -24,13 +24,13 @@ public final class AccountGroupMemberAudit {
   public static class Key extends CompoundKey<Account.Id> {
     private static final long serialVersionUID = 1L;
 
-    @Column
+    @Column(id = 1)
     protected Account.Id accountId;
 
-    @Column
+    @Column(id = 2)
     protected AccountGroup.Id groupId;
 
-    @Column
+    @Column(id = 3)
     protected Timestamp addedOn;
 
     protected Key() {
@@ -55,16 +55,16 @@ public final class AccountGroupMemberAudit {
     }
   }
 
-  @Column(name = Column.NONE)
+  @Column(id = 1, name = Column.NONE)
   protected Key key;
 
-  @Column
+  @Column(id = 2)
   protected Account.Id addedBy;
 
-  @Column(notNull = false)
+  @Column(id = 3, notNull = false)
   protected Account.Id removedBy;
 
-  @Column(notNull = false)
+  @Column(id = 4, notNull = false)
   protected Timestamp removedOn;
 
   protected AccountGroupMemberAudit() {

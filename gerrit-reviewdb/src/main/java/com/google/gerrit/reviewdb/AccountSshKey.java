@@ -22,10 +22,10 @@ public final class AccountSshKey {
   public static class Id extends IntKey<Account.Id> {
     private static final long serialVersionUID = 1L;
 
-    @Column
+    @Column(id = 1)
     protected Account.Id accountId;
 
-    @Column
+    @Column(id = 2)
     protected int seq;
 
     protected Id() {
@@ -53,13 +53,13 @@ public final class AccountSshKey {
     }
   }
 
-  @Column(name = Column.NONE)
+  @Column(id = 1, name = Column.NONE)
   protected AccountSshKey.Id id;
 
-  @Column(length = Integer.MAX_VALUE)
+  @Column(id = 2, length = Integer.MAX_VALUE)
   protected String sshPublicKey;
 
-  @Column
+  @Column(id = 3)
   protected boolean valid;
 
   protected AccountSshKey() {

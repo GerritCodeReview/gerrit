@@ -22,10 +22,10 @@ public class StarredChange {
   public static class Key extends CompoundKey<Account.Id> {
     private static final long serialVersionUID = 1L;
 
-    @Column
+    @Column(id = 1)
     protected Account.Id accountId;
 
-    @Column
+    @Column(id = 2)
     protected Change.Id changeId;
 
     protected Key() {
@@ -49,7 +49,7 @@ public class StarredChange {
     }
   }
 
-  @Column(name = Column.NONE)
+  @Column(id = 1, name = Column.NONE)
   protected Key key;
 
   protected StarredChange() {

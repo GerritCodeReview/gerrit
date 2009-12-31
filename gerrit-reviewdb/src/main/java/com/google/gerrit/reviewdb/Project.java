@@ -25,7 +25,7 @@ public final class Project {
       StringKey<com.google.gwtorm.client.Key<?>> {
     private static final long serialVersionUID = 1L;
 
-    @Column
+    @Column(id = 1)
     protected String name;
 
     protected NameKey() {
@@ -57,7 +57,7 @@ public final class Project {
   public static class Id extends IntKey<com.google.gwtorm.client.Key<?>> {
     private static final long serialVersionUID = 1L;
 
-    @Column
+    @Column(id = 1)
     protected int id;
 
     protected Id() {
@@ -107,22 +107,22 @@ public final class Project {
     }
   }
 
-  @Column
+  @Column(id = 1)
   protected NameKey name;
 
-  @Column
+  @Column(id = 2)
   protected Id projectId;
 
-  @Column(length = Integer.MAX_VALUE, notNull = false)
+  @Column(id = 3, length = Integer.MAX_VALUE, notNull = false)
   protected String description;
 
-  @Column
+  @Column(id = 4)
   protected boolean useContributorAgreements;
 
-  @Column
+  @Column(id = 5)
   protected boolean useSignedOffBy;
 
-  @Column
+  @Column(id = 6)
   protected char submitType;
 
   protected Project() {

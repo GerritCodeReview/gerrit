@@ -24,10 +24,10 @@ public final class PatchLineComment {
   public static class Key extends StringKey<Patch.Key> {
     private static final long serialVersionUID = 1L;
 
-    @Column(name = Column.NONE)
+    @Column(id = 1, name = Column.NONE)
     protected Patch.Key patchKey;
 
-    @Column(length = 40)
+    @Column(id = 2, length = 40)
     protected String uuid;
 
     protected Key() {
@@ -83,35 +83,38 @@ public final class PatchLineComment {
     }
   }
 
-  @Column(name = Column.NONE)
+  @Column(id = 1, name = Column.NONE)
   protected Key key;
 
   /** Line number this comment applies to; it should display after the line. */
-  @Column
+  @Column(id = 2)
   protected int lineNbr;
 
   /** Who wrote this comment. */
-  @Column(name = "author_id")
+  @Column(id = 3, name = "author_id")
   protected Account.Id author;
 
   /** When this comment was drafted. */
-  @Column
+  @Column(id = 4)
   protected Timestamp writtenOn;
 
   /** Current publication state of the comment; see {@link Status}. */
-  @Column
+  @Column(id = 5)
   protected char status;
 
   /** Which file is this comment; 0 is ancestor, 1 is new version. */
-  @Column
+  @Column(id = 6)
   protected short side;
 
   /** The text left by the user. */
-  @Column(notNull = false, length = Integer.MAX_VALUE)
+  @Column(id = 7, notNull = false, length = Integer.MAX_VALUE)
   protected String message;
 
-  /** The parent of this comment, or null if this is the first comment on this line */
-  @Column(length = 40, notNull = false)
+  /**
+   * The parent of this comment, or null if this is the first comment on this
+   * line
+   */
+  @Column(id = 8, length = 40, notNull = false)
   protected String parentUuid;
 
   protected PatchLineComment() {

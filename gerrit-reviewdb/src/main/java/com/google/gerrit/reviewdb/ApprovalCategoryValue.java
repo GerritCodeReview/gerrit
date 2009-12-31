@@ -22,10 +22,10 @@ public final class ApprovalCategoryValue {
   public static class Id extends ShortKey<ApprovalCategory.Id> {
     private static final long serialVersionUID = 1L;
 
-    @Column
+    @Column(id = 1)
     protected ApprovalCategory.Id categoryId;
 
-    @Column
+    @Column(id = 2)
     protected short value;
 
     protected Id() {
@@ -53,10 +53,10 @@ public final class ApprovalCategoryValue {
     }
   }
 
-  @Column(name = Column.NONE)
+  @Column(id = 1, name = Column.NONE)
   protected Id key;
 
-  @Column(length = 50)
+  @Column(id = 2, length = 50)
   protected String name;
 
   protected ApprovalCategoryValue() {

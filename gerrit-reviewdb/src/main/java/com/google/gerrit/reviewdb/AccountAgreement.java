@@ -24,10 +24,10 @@ public final class AccountAgreement implements AbstractAgreement {
   public static class Key extends CompoundKey<Account.Id> {
     private static final long serialVersionUID = 1L;
 
-    @Column
+    @Column(id = 1)
     protected Account.Id accountId;
 
-    @Column
+    @Column(id = 2)
     protected ContributorAgreement.Id claId;
 
     protected Key() {
@@ -51,22 +51,22 @@ public final class AccountAgreement implements AbstractAgreement {
     }
   }
 
-  @Column(name = Column.NONE)
+  @Column(id = 1, name = Column.NONE)
   protected Key key;
 
-  @Column
+  @Column(id = 2)
   protected Timestamp acceptedOn;
 
-  @Column
+  @Column(id = 3)
   protected char status;
 
-  @Column(notNull = false)
+  @Column(id = 4, notNull = false)
   protected Account.Id reviewedBy;
 
-  @Column(notNull = false)
+  @Column(id = 5, notNull = false)
   protected Timestamp reviewedOn;
 
-  @Column(notNull = false, length = Integer.MAX_VALUE)
+  @Column(id = 6, notNull = false, length = Integer.MAX_VALUE)
   protected String reviewComments;
 
   protected AccountAgreement() {

@@ -20,7 +20,7 @@ import com.google.gwtorm.client.Column;
 public final class RevId {
   public static final int LEN = 40;
 
-  @Column(length = LEN)
+  @Column(id = 1, length = LEN)
   protected String id;
 
   protected RevId() {

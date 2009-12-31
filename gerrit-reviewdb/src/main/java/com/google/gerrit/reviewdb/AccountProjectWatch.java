@@ -22,10 +22,10 @@ public final class AccountProjectWatch {
   public static class Key extends CompoundKey<Account.Id> {
     private static final long serialVersionUID = 1L;
 
-    @Column
+    @Column(id = 1)
     protected Account.Id accountId;
 
-    @Column
+    @Column(id = 2)
     protected Project.NameKey projectName;
 
     protected Key() {
@@ -49,19 +49,19 @@ public final class AccountProjectWatch {
     }
   }
 
-  @Column(name = Column.NONE)
+  @Column(id = 1, name = Column.NONE)
   protected Key key;
 
   /** Automatically send email notifications of new changes? */
-  @Column
+  @Column(id = 2)
   protected boolean notifyNewChanges;
 
   /** Automatically receive comments published to this project */
-  @Column
+  @Column(id = 3)
   protected boolean notifyAllComments;
 
   /** Automatically receive changes submitted to this project */
-  @Column
+  @Column(id = 4)
   protected boolean notifySubmittedChanges;
 
   protected AccountProjectWatch() {

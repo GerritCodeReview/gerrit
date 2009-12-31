@@ -74,7 +74,7 @@ public final class Account {
   public static class Id extends IntKey<com.google.gwtorm.client.Key<?>> {
     private static final long serialVersionUID = 1L;
 
-    @Column
+    @Column(id = 1)
     protected int id;
 
     protected Id() {
@@ -102,31 +102,31 @@ public final class Account {
     }
   }
 
-  @Column
+  @Column(id = 1)
   protected Id accountId;
 
   /** Date and time the user registered with the review server. */
-  @Column
+  @Column(id = 2)
   protected Timestamp registeredOn;
 
   /** Full name of the user ("Given-name Surname" style). */
-  @Column(notNull = false)
+  @Column(id = 3, notNull = false)
   protected String fullName;
 
   /** Email address the user prefers to be contacted through. */
-  @Column(notNull = false)
+  @Column(id = 4, notNull = false)
   protected String preferredEmail;
 
   /** Username to authenticate as through SSH connections. */
-  @Column(notNull = false)
+  @Column(id = 5, notNull = false)
   protected String sshUserName;
 
   /** When did the user last give us contact information? Null if never. */
-  @Column(notNull = false)
+  @Column(id = 6, notNull = false)
   protected Timestamp contactFiledOn;
 
   /** This user's preferences */
-  @Column(name = Column.NONE)
+  @Column(id = 7, name = Column.NONE)
   protected AccountGeneralPreferences generalPreferences;
 
   protected Account() {

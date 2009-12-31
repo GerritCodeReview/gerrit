@@ -22,10 +22,10 @@ public final class PatchSetAncestor {
   public static class Id extends IntKey<PatchSet.Id> {
     private static final long serialVersionUID = 1L;
 
-    @Column(name = Column.NONE)
+    @Column(id = 1, name = Column.NONE)
     protected PatchSet.Id patchSetId;
 
-    @Column
+    @Column(id = 2)
     protected int position;
 
     protected Id() {
@@ -53,10 +53,10 @@ public final class PatchSetAncestor {
     }
   }
 
-  @Column(name = Column.NONE)
+  @Column(id = 1, name = Column.NONE)
   protected Id key;
 
-  @Column
+  @Column(id = 2)
   protected RevId ancestorRevision;
 
   protected PatchSetAncestor() {

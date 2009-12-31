@@ -24,10 +24,10 @@ public final class ChangeMessage {
   public static class Key extends StringKey<Change.Id> {
     private static final long serialVersionUID = 1L;
 
-    @Column
+    @Column(id = 1)
     protected Change.Id changeId;
 
-    @Column(length = 40)
+    @Column(id = 2, length = 40)
     protected String uuid;
 
     protected Key() {
@@ -55,19 +55,19 @@ public final class ChangeMessage {
     }
   }
 
-  @Column(name = Column.NONE)
+  @Column(id = 1, name = Column.NONE)
   protected Key key;
 
   /** Who wrote this comment; null if it was written by the Gerrit system. */
-  @Column(name = "author_id", notNull = false)
+  @Column(id = 2, name = "author_id", notNull = false)
   protected Account.Id author;
 
   /** When this comment was drafted. */
-  @Column
+  @Column(id = 3)
   protected Timestamp writtenOn;
 
   /** The text left by the user. */
-  @Column(notNull = false, length = Integer.MAX_VALUE)
+  @Column(id = 4, notNull = false, length = Integer.MAX_VALUE)
   protected String message;
 
   protected ChangeMessage() {

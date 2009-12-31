@@ -101,7 +101,7 @@ public final class Change {
   public static class Id extends IntKey<com.google.gwtorm.client.Key<?>> {
     private static final long serialVersionUID = 1L;
 
-    @Column
+    @Column(id = 1)
     protected int id;
 
     protected Id() {
@@ -133,7 +133,7 @@ public final class Change {
   public static class Key extends StringKey<com.google.gwtorm.client.Key<?>> {
     private static final long serialVersionUID = 1L;
 
-    @Column(length = 60)
+    @Column(id = 1, length = 60)
     protected String id;
 
     protected Key() {
@@ -292,20 +292,20 @@ public final class Change {
   }
 
   /** Locally assigned unique identifier of the change */
-  @Column
+  @Column(id = 1)
   protected Id changeId;
 
   /** Globally assigned unique identifier of the change */
-  @Column
+  @Column(id = 2)
   protected Key changeKey;
 
   /** optimistic locking */
-  @Column
+  @Column(id = 3)
   @RowVersion
   protected int rowVersion;
 
   /** When this change was first introduced into the database. */
-  @Column
+  @Column(id = 4)
   protected Timestamp createdOn;
 
   /**
@@ -313,38 +313,38 @@ public final class Change {
    * <p>
    * Note, this update timestamp includes its children.
    */
-  @Column
+  @Column(id = 5)
   protected Timestamp lastUpdatedOn;
 
   /** A {@link #lastUpdatedOn} ASC,{@link #changeId} ASC for sorting. */
-  @Column(length = 16)
+  @Column(id = 6, length = 16)
   protected String sortKey;
 
-  @Column(name = "owner_account_id")
+  @Column(id = 7, name = "owner_account_id")
   protected Account.Id owner;
 
   /** The branch (and project) this change merges into. */
-  @Column
+  @Column(id = 8)
   protected Branch.NameKey dest;
 
   /** Is the change currently open? Set to {@link #status}.isOpen(). */
-  @Column
+  @Column(id = 9)
   protected boolean open;
 
   /** Current state code; see {@link Status}. */
-  @Column
+  @Column(id = 10)
   protected char status;
 
   /** The total number of {@link PatchSet} children in this Change. */
-  @Column
+  @Column(id = 11)
   protected int nbrPatchSets;
 
   /** The current patch set. */
-  @Column
+  @Column(id = 12)
   protected int currentPatchSetId;
 
   /** Subject from the current patch set. */
-  @Column
+  @Column(id = 13)
   protected String subject;
 
   protected Change() {

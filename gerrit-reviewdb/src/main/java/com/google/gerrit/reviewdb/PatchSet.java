@@ -31,10 +31,10 @@ public final class PatchSet {
   public static class Id extends IntKey<Change.Id> {
     private static final long serialVersionUID = 1L;
 
-    @Column
+    @Column(id = 1)
     protected Change.Id changeId;
 
-    @Column
+    @Column(id = 2)
     protected int patchSetId;
 
     protected Id() {
@@ -84,17 +84,17 @@ public final class PatchSet {
     }
   }
 
-  @Column(name = Column.NONE)
+  @Column(id = 1, name = Column.NONE)
   protected Id id;
 
-  @Column(notNull = false)
+  @Column(id = 2, notNull = false)
   protected RevId revision;
 
-  @Column(name = "uploader_account_id")
+  @Column(id = 3, name = "uploader_account_id")
   protected Account.Id uploader;
 
   /** When this patch set was first introduced onto the change. */
-  @Column
+  @Column(id = 4)
   protected Timestamp createdOn;
 
   protected PatchSet() {

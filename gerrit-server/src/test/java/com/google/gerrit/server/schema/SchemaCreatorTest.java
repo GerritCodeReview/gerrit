@@ -21,7 +21,6 @@ import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ProjectRight;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.SystemConfig;
-import com.google.gerrit.server.config.WildProjectNameProvider;
 import com.google.gerrit.server.workflow.NoOpFunction;
 import com.google.gerrit.server.workflow.SubmitFunction;
 import com.google.gerrit.testutil.TestDatabase;
@@ -155,12 +154,13 @@ public class SchemaCreatorTest extends TestCase {
   public void testCreateSchema_WildCardProject() throws OrmException {
     final ReviewDb c = db.create().open();
     try {
+      final SystemConfig cfg;
       final Project all;
 
-      all = c.projects().get(WildProjectNameProvider.WILD_PROJECT_ID);
+      cfg = c.systemConfig().get(new SystemConfig.Key());
+      all = c.projects().get(cfg.wildProjectName);
       assertNotNull(all);
       assertEquals("-- All Projects --", all.getName());
-      assertEquals(new Project.Id(0), all.getId());
       assertFalse(all.isUseContributorAgreements());
       assertFalse(all.isUseSignedOffBy());
     } finally {
@@ -341,10 +341,12 @@ public class SchemaCreatorTest extends TestCase {
       final ApprovalCategory.Id category, int min, int max) throws OrmException {
     final ReviewDb c = db.open();
     try {
+      final SystemConfig cfg;
       final Project all;
       final ProjectRight right;
 
-      all = c.projects().get(WildProjectNameProvider.WILD_PROJECT_ID);
+      cfg = c.systemConfig().get(new SystemConfig.Key());
+      all = c.projects().get(cfg.wildProjectName);
       right = c.projectRights().get( //
           new ProjectRight.Key(all.getNameKey(), category, group));
 

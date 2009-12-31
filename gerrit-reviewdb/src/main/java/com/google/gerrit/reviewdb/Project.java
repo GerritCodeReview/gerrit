@@ -15,7 +15,6 @@
 package com.google.gerrit.reviewdb;
 
 import com.google.gwtorm.client.Column;
-import com.google.gwtorm.client.IntKey;
 import com.google.gwtorm.client.StringKey;
 
 /** Projects match a source code repository managed by Gerrit */
@@ -53,31 +52,6 @@ public final class Project {
     }
   }
 
-  /** Synthetic key to link to within the database */
-  public static class Id extends IntKey<com.google.gwtorm.client.Key<?>> {
-    private static final long serialVersionUID = 1L;
-
-    @Column(id = 1)
-    protected int id;
-
-    protected Id() {
-    }
-
-    public Id(final int id) {
-      this.id = id;
-    }
-
-    @Override
-    public int get() {
-      return id;
-    }
-
-    @Override
-    protected void set(int newValue) {
-      id = newValue;
-    }
-  }
-
   public static enum SubmitType {
     FAST_FORWARD_ONLY('F'),
 
@@ -110,33 +84,25 @@ public final class Project {
   @Column(id = 1)
   protected NameKey name;
 
-  @Column(id = 2)
-  protected Id projectId;
-
-  @Column(id = 3, length = Integer.MAX_VALUE, notNull = false)
+  @Column(id = 2, length = Integer.MAX_VALUE, notNull = false)
   protected String description;
 
-  @Column(id = 4)
+  @Column(id = 3)
   protected boolean useContributorAgreements;
 
-  @Column(id = 5)
+  @Column(id = 4)
   protected boolean useSignedOffBy;
 
-  @Column(id = 6)
+  @Column(id = 5)
   protected char submitType;
 
   protected Project() {
   }
 
-  public Project(final Project.NameKey newName, final Project.Id newId) {
+  public Project(final Project.NameKey newName) {
     name = newName;
-    projectId = newId;
     useContributorAgreements = true;
     setSubmitType(SubmitType.MERGE_IF_NECESSARY);
-  }
-
-  public Project.Id getId() {
-    return projectId;
   }
 
   public Project.NameKey getNameKey() {

@@ -24,7 +24,6 @@ import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.SystemConfig;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.config.WildProjectNameProvider;
 import com.google.gerrit.server.workflow.NoOpFunction;
 import com.google.gerrit.server.workflow.SubmitFunction;
 import com.google.gwtjsonrpc.server.SignedToken;
@@ -139,6 +138,7 @@ public class SchemaCreator {
     s.adminGroupId = admin.getId();
     s.anonymousGroupId = anonymous.getId();
     s.registeredGroupId = registered.getId();
+    s.wildProjectName = DEFAULT_WILD_NAME;
     try {
       s.sitePath = site_path.getCanonicalPath();
     } catch (IOException e) {
@@ -151,7 +151,7 @@ public class SchemaCreator {
   private void initWildCardProject(final ReviewDb c) throws OrmException {
     final Project p;
 
-    p = new Project(DEFAULT_WILD_NAME, WildProjectNameProvider.WILD_PROJECT_ID);
+    p = new Project(DEFAULT_WILD_NAME);
     p.setDescription("Rights inherited by all other projects");
     p.setUseContributorAgreements(false);
     c.projects().insert(Collections.singleton(p));

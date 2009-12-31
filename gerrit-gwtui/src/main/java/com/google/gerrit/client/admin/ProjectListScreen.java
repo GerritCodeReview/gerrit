@@ -14,10 +14,11 @@
 
 package com.google.gerrit.client.admin;
 
-import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.Dispatcher;
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.AccountScreen;
+import com.google.gerrit.client.ui.Hyperlink;
 import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.common.PageLinks;
@@ -26,7 +27,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.user.client.History;
-import com.google.gerrit.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
@@ -96,7 +96,7 @@ public class ProjectListScreen extends AccountScreen {
 
     @Override
     protected Object getRowItemKey(final Project item) {
-      return item.getId();
+      return item.getNameKey();
     }
 
     @Override

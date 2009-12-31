@@ -113,9 +113,7 @@ final class AdminCreateProject extends BaseCommand {
 
   private void createProject(Transaction txn) throws OrmException {
     final Project.NameKey newProjectNameKey = new Project.NameKey(projectName);
-
-    final Project newProject =
-        new Project(newProjectNameKey, new Project.Id(db.nextProjectId()));
+    final Project newProject = new Project(newProjectNameKey);
 
     newProject.setDescription(projectDescription);
     newProject.setSubmitType(submitType);

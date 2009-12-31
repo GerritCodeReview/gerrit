@@ -19,14 +19,10 @@ import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.PrimaryKey;
 import com.google.gwtorm.client.Query;
 import com.google.gwtorm.client.ResultSet;
-import com.google.gwtorm.client.SecondaryKey;
 
 public interface ProjectAccess extends Access<Project, Project.NameKey> {
   @PrimaryKey("name")
   Project get(Project.NameKey name) throws OrmException;
-
-  @SecondaryKey("projectId")
-  Project get(Project.Id id) throws OrmException;
 
   @Query("ORDER BY name")
   ResultSet<Project> all() throws OrmException;

@@ -74,6 +74,10 @@ public final class SystemConfig {
   @Column(id = 6)
   public AccountGroup.Id registeredGroupId;
 
+  /** Identity of the project  */
+  @Column(id = 7)
+  public Project.NameKey wildProjectName;
+
   protected SystemConfig() {
   }
 }

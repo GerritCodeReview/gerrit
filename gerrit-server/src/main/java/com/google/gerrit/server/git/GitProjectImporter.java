@@ -94,8 +94,7 @@ public class GitProjectImporter {
         }
 
         final Project.NameKey nameKey = new Project.NameKey(name);
-        final Project.Id idKey = new Project.Id(db.nextProjectId());
-        final Project p = new Project(nameKey, idKey);
+        final Project p = new Project(nameKey);
 
         p.setDescription(repositoryManager.getProjectDescription(name));
         p.setSubmitType(SubmitType.MERGE_IF_NECESSARY);

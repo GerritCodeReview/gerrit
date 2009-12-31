@@ -1,45 +1,33 @@
+// Copyright (C) 2009 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 package com.google.gerrit.server.config;
 
 import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.SystemConfig;
-import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.ProvisionException;
 
 public class WildProjectNameProvider implements Provider<Project.NameKey> {
-  /** Project.Id meaning "any and all projects on this server". */
-  public static final Project.Id WILD_PROJECT_ID = new Project.Id(0);
-
-  private final SchemaFactory<ReviewDb> schema;
+  private final Project.NameKey name;
 
   @Inject
-  WildProjectNameProvider(final SchemaFactory<ReviewDb> schema,
-  /*
-   * Unused, but we need to force it to load before we do, otherwise we risk
-   * reading an empty database without the wild project being in the database.
-   * Asking for it should ensures Guice loads it first.
-   */
-  final SystemConfig config) {
-    this.schema = schema;
+  WildProjectNameProvider(final SystemConfig config) {
+    name = config.wildProjectName;
   }
 
   public Project.NameKey get() {
-    try {
-      final ReviewDb db = schema.open();
-      try {
-        final Project p = db.projects().get(WILD_PROJECT_ID);
-        if (p == null) {
-          throw new ProvisionException("No project " + WILD_PROJECT_ID);
-        }
-        return p.getNameKey();
-      } finally {
-        db.close();
-      }
-    } catch (OrmException e) {
-      throw new ProvisionException("Cannot load " + WILD_PROJECT_ID, e);
-    }
+    return name;
   }
 }

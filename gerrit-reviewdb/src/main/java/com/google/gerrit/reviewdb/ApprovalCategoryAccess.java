@@ -19,15 +19,11 @@ import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.PrimaryKey;
 import com.google.gwtorm.client.Query;
 import com.google.gwtorm.client.ResultSet;
-import com.google.gwtorm.client.SecondaryKey;
 
 public interface ApprovalCategoryAccess extends
     Access<ApprovalCategory, ApprovalCategory.Id> {
   @PrimaryKey("categoryId")
   ApprovalCategory get(ApprovalCategory.Id id) throws OrmException;
-
-  @SecondaryKey("name")
-  ApprovalCategory byName(String name) throws OrmException;
 
   @Query("ORDER BY position, name")
   ResultSet<ApprovalCategory> all() throws OrmException;

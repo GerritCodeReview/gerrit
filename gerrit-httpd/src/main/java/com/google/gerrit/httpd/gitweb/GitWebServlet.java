@@ -83,9 +83,9 @@ class GitWebServlet extends HttpServlet {
 
   @Inject
   GitWebServlet(final LocalDiskRepositoryManager repoManager,
-      final ProjectControl.Factory projectControl,
-      final SitePaths site, final GerritConfig gerritConfig,
-      final GitWebConfig gitWebConfig) throws IOException {
+      final ProjectControl.Factory projectControl, final SitePaths site,
+      final GerritConfig gerritConfig, final GitWebConfig gitWebConfig)
+      throws IOException {
     this.repoManager = repoManager;
     this.projectControl = projectControl;
     this.gitwebCgi = gitWebConfig.getGitwebCGI();
@@ -472,18 +472,21 @@ class GitWebServlet extends HttpServlet {
     new Thread(new Runnable() {
       public void run() {
         try {
-          final byte[] buf = new byte[bufferSize];
-          int remaining = contentLength;
-          while (0 < remaining) {
-            final int max = Math.max(buf.length, remaining);
-            final int n = src.read(buf, 0, max);
-            if (n < 0) {
-              throw new EOFException("Expected " + remaining + " more bytes");
+          try {
+            final byte[] buf = new byte[bufferSize];
+            int remaining = contentLength;
+            while (0 < remaining) {
+              final int max = Math.max(buf.length, remaining);
+              final int n = src.read(buf, 0, max);
+              if (n < 0) {
+                throw new EOFException("Expected " + remaining + " more bytes");
+              }
+              dst.write(buf, 0, n);
+              remaining -= n;
             }
-            dst.write(buf, 0, n);
-            remaining -= n;
+          } finally {
+            dst.close();
           }
-          dst.close();
         } catch (IOException e) {
           log.debug("Unexpected error copying input to CGI", e);
         }
@@ -497,11 +500,14 @@ class GitWebServlet extends HttpServlet {
         try {
           final BufferedReader br =
               new BufferedReader(new InputStreamReader(in, "ISO-8859-1"));
-          String line;
-          while ((line = br.readLine()) != null) {
-            log.error("CGI: " + line);
+          try {
+            String line;
+            while ((line = br.readLine()) != null) {
+              log.error("CGI: " + line);
+            }
+          } finally {
+            br.close();
           }
-          br.close();
         } catch (IOException e) {
           log.debug("Unexpected error copying stderr from CGI", e);
         }

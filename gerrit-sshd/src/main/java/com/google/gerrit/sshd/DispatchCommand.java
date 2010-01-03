@@ -37,6 +37,7 @@ final class DispatchCommand extends BaseCommand {
   private final Provider<CurrentUser> currentUser;
   private final String prefix;
   private final Map<String, Provider<Command>> commands;
+  private Command cmd;
 
   @Inject
   DispatchCommand(final Provider<CurrentUser> cu, @Assisted final String pfx,
@@ -74,6 +75,11 @@ final class DispatchCommand extends BaseCommand {
     final Provider<Command> p = commands.get(name);
     if (p != null) {
       final Command cmd = p.get();
+
+      synchronized (this) {
+        this.cmd = cmd;
+      }
+
       if (cmd.getClass().getAnnotation(AdminCommand.class) != null) {
         final CurrentUser u = currentUser.get();
         if (!u.isAdministrator()) {
@@ -99,6 +105,16 @@ final class DispatchCommand extends BaseCommand {
       err.write(msg.getBytes(ENC));
       err.flush();
       onExit(BaseCommand.STATUS_NOT_FOUND);
+    }
+  }
+
+  @Override
+  public void destroy() {
+    synchronized (this) {
+      if (cmd != null) {
+        cmd.destroy();
+        cmd = null;
+      }
     }
   }
 

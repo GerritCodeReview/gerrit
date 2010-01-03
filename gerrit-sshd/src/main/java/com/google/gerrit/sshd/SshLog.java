@@ -308,7 +308,12 @@ class SshLog implements LifecycleListener {
       Object val = event.getMDC(key);
       buf.append(' ');
       if (val != null) {
-        buf.append(val);
+        String s = val.toString();
+        if (0 <= s.indexOf(' ')) {
+          buf.append(QuotedString.BOURNE.quote(s));
+        } else {
+          buf.append(val);
+        }
       } else {
         buf.append('-');
       }

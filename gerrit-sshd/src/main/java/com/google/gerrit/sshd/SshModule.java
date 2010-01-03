@@ -22,6 +22,7 @@ import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.PeerDaemonUser;
 import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GerritRequestModule;
@@ -66,6 +67,7 @@ public class SshModule extends FactoryModule {
     bind(SshInfo.class).to(SshDaemon.class).in(SINGLETON);
     factory(DispatchCommand.Factory.class);
     factory(QueryShell.Factory.class);
+    factory(PeerDaemonUser.Factory.class);
 
     bind(DispatchCommandProvider.class).annotatedWith(Commands.CMD_ROOT)
         .toInstance(new DispatchCommandProvider(NAME, Commands.CMD_ROOT));

@@ -16,7 +16,9 @@ package com.google.gerrit.sshd;
 
 import com.google.gerrit.reviewdb.AccountSshKey;
 import com.google.gerrit.server.AccessPath;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.PeerDaemonUser;
 import com.google.gerrit.sshd.SshScope.Context;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -24,11 +26,16 @@ import com.google.inject.Singleton;
 
 import org.apache.mina.core.future.IoFuture;
 import org.apache.mina.core.future.IoFutureListener;
+import org.apache.sshd.common.KeyPairProvider;
 import org.apache.sshd.server.PublickeyAuthenticator;
 import org.apache.sshd.server.session.ServerSession;
 
 import java.net.SocketAddress;
+import java.security.KeyPair;
 import java.security.PublicKey;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Authenticates by public key through {@link AccountSshKey} entities.
@@ -38,18 +45,49 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
   private final SshKeyCacheImpl sshKeyCache;
   private final SshLog log;
   private final IdentifiedUser.GenericFactory userFactory;
+  private final PeerDaemonUser.Factory peerFactory;
+  private final Set<PublicKey> myHostKeys;
 
   @Inject
   DatabasePubKeyAuth(final SshKeyCacheImpl skc, final SshLog l,
-      final IdentifiedUser.GenericFactory uf) {
+      final IdentifiedUser.GenericFactory uf, final PeerDaemonUser.Factory pf,
+      final KeyPairProvider hostKeyProvider) {
     sshKeyCache = skc;
     log = l;
     userFactory = uf;
+    peerFactory = pf;
+    myHostKeys = myHostKeys(hostKeyProvider);
+  }
+
+  private static Set<PublicKey> myHostKeys(KeyPairProvider p) {
+    final Set<PublicKey> keys = new HashSet<PublicKey>(2);
+    addPublicKey(keys, p, KeyPairProvider.SSH_RSA);
+    addPublicKey(keys, p, KeyPairProvider.SSH_DSS);
+    return keys;
+  }
+
+  private static void addPublicKey(final Collection<PublicKey> out,
+      final KeyPairProvider p, final String type) {
+    final KeyPair pair = p.loadKey(type);
+    if (pair != null && pair.getPublic() != null) {
+      out.add(pair.getPublic());
+    }
   }
 
   public boolean authenticate(final String username,
       final PublicKey suppliedKey, final ServerSession session) {
     final SshSession sd = session.getAttribute(SshSession.KEY);
+
+    if (PeerDaemonUser.USER_NAME.equals(username)) {
+      if (myHostKeys.contains(suppliedKey)) {
+        PeerDaemonUser user = peerFactory.create(sd.getRemoteAddress());
+        return success(username, session, sd, user);
+
+      } else {
+        sd.authenticationError(username, "no-matching-key");
+        return false;
+      }
+    }
 
     final Iterable<SshKeyCacheEntry> keyList = sshKeyCache.get(username);
     final SshKeyCacheEntry key = find(keyList, suppliedKey);
@@ -79,8 +117,13 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
       }
     }
 
+    return success(username, session, sd, createUser(sd, key));
+  }
+
+  private boolean success(final String username, final ServerSession session,
+      final SshSession sd, final CurrentUser user) {
     if (sd.getCurrentUser() == null) {
-      sd.authenticationSuccess(username, createUser(sd, key));
+      sd.authenticationSuccess(username, user);
 
       // If this is the first time we've authenticated this
       // session, record a login event in the log and add

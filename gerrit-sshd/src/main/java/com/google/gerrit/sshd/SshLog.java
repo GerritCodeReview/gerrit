@@ -17,6 +17,7 @@ package com.google.gerrit.sshd;
 import com.google.gerrit.lifecycle.LifecycleListener;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.PeerDaemonUser;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.gerrit.sshd.SshScope.Context;
@@ -179,6 +180,10 @@ class SshLog implements LifecycleListener {
       IdentifiedUser u = (IdentifiedUser) user;
       userName = u.getAccount().getUserName();
       accountId = "a/" + u.getAccountId().toString();
+
+    } else if (user instanceof PeerDaemonUser) {
+      userName = PeerDaemonUser.USER_NAME;
+
     }
 
     event.setProperty(P_USER_NAME, userName);

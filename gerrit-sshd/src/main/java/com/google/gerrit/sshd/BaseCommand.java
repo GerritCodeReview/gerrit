@@ -23,6 +23,7 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.sshd.SshScope.Context;
 import com.google.gerrit.util.cli.CmdLineParser;
+import com.google.gerrit.util.cli.EndOfOptionsHandler;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -59,6 +60,9 @@ public abstract class BaseCommand implements Command {
 
   @Option(name = "--help", usage = "display this help text", aliases = {"-h"})
   private boolean help;
+
+  @Option(name = "--", usage = "end of options", handler = EndOfOptionsHandler.class)
+  private boolean endOfOptions;
 
   protected InputStream in;
   protected OutputStream out;

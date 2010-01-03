@@ -43,6 +43,7 @@ public final class SitePaths {
   public final File ssh_key;
   public final File ssh_rsa;
   public final File ssh_dsa;
+  public final File peer_keys;
 
   public final File site_css;
   public final File site_header;
@@ -75,6 +76,7 @@ public final class SitePaths {
     ssh_key = new File(etc_dir, "ssh_host_key");
     ssh_rsa = new File(etc_dir, "ssh_host_rsa_key");
     ssh_dsa = new File(etc_dir, "ssh_host_dsa_key");
+    peer_keys = new File(etc_dir, "peer_keys");
 
     site_css = new File(etc_dir, "GerritSite.css");
     site_header = new File(etc_dir, "GerritSiteHeader.html");

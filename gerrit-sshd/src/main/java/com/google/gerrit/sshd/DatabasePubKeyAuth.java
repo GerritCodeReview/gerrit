@@ -19,21 +19,33 @@ import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PeerDaemonUser;
+import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.sshd.SshScope.Context;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.mina.core.future.IoFuture;
 import org.apache.mina.core.future.IoFutureListener;
 import org.apache.sshd.common.KeyPairProvider;
+import org.apache.sshd.common.SshException;
+import org.apache.sshd.common.util.Buffer;
 import org.apache.sshd.server.PublickeyAuthenticator;
 import org.apache.sshd.server.session.ServerSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.net.SocketAddress;
 import java.security.KeyPair;
 import java.security.PublicKey;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -42,21 +54,26 @@ import java.util.Set;
  */
 @Singleton
 class DatabasePubKeyAuth implements PublickeyAuthenticator {
+  private static final Logger log =
+      LoggerFactory.getLogger(DatabasePubKeyAuth.class);
+
   private final SshKeyCacheImpl sshKeyCache;
-  private final SshLog log;
+  private final SshLog sshLog;
   private final IdentifiedUser.GenericFactory userFactory;
   private final PeerDaemonUser.Factory peerFactory;
   private final Set<PublicKey> myHostKeys;
+  private volatile PeerKeyCache peerKeyCache;
 
   @Inject
   DatabasePubKeyAuth(final SshKeyCacheImpl skc, final SshLog l,
       final IdentifiedUser.GenericFactory uf, final PeerDaemonUser.Factory pf,
-      final KeyPairProvider hostKeyProvider) {
+      final SitePaths site, final KeyPairProvider hostKeyProvider) {
     sshKeyCache = skc;
-    log = l;
+    sshLog = l;
     userFactory = uf;
     peerFactory = pf;
     myHostKeys = myHostKeys(hostKeyProvider);
+    peerKeyCache = new PeerKeyCache(site.peer_keys);
   }
 
   private static Set<PublicKey> myHostKeys(KeyPairProvider p) {
@@ -79,7 +96,8 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
     final SshSession sd = session.getAttribute(SshSession.KEY);
 
     if (PeerDaemonUser.USER_NAME.equals(username)) {
-      if (myHostKeys.contains(suppliedKey)) {
+      if (myHostKeys.contains(suppliedKey)
+          || getPeerKeys().contains(suppliedKey)) {
         PeerDaemonUser user = peerFactory.create(sd.getRemoteAddress());
         return success(username, session, sd, user);
 
@@ -120,6 +138,15 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
     return success(username, session, sd, createUser(sd, key));
   }
 
+  private Set<PublicKey> getPeerKeys() {
+    PeerKeyCache p = peerKeyCache;
+    if (!p.isCurrent()) {
+      p = p.reload();
+      peerKeyCache = p;
+    }
+    return p.keys;
+  }
+
   private boolean success(final String username, final ServerSession session,
       final SshSession sd, final CurrentUser user) {
     if (sd.getCurrentUser() == null) {
@@ -132,7 +159,7 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
       Context ctx = new Context(sd);
       Context old = SshScope.set(ctx);
       try {
-        log.onLogin();
+        sshLog.onLogin();
       } finally {
         SshScope.set(old);
       }
@@ -144,7 +171,7 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
               final Context ctx = new Context(sd);
               final Context old = SshScope.set(ctx);
               try {
-                log.onLogout();
+                sshLog.onLogout();
               } finally {
                 SshScope.set(old);
               }
@@ -173,5 +200,63 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
       }
     }
     return null;
+  }
+
+  private static class PeerKeyCache {
+    private final File path;
+    private final long modified;
+    final Set<PublicKey> keys;
+
+    PeerKeyCache(final File path) {
+      this.path = path;
+      this.modified = path.lastModified();
+      this.keys = read(path);
+    }
+
+    private static Set<PublicKey> read(File path) {
+      try {
+        final BufferedReader br = new BufferedReader(new FileReader(path));
+        try {
+          final Set<PublicKey> keys = new HashSet<PublicKey>();
+          String line;
+          while ((line = br.readLine()) != null) {
+            line = line.trim();
+            if (line.startsWith("#") || line.isEmpty()) {
+              continue;
+            }
+
+            try {
+              byte[] bin = Base64.decodeBase64(line.getBytes("ISO-8859-1"));
+              keys.add(new Buffer(bin).getRawPublicKey());
+            } catch (RuntimeException e) {
+              logBadKey(path, line, e);
+            } catch (SshException e) {
+              logBadKey(path, line, e);
+            }
+          }
+          return Collections.unmodifiableSet(keys);
+        } finally {
+          br.close();
+        }
+      } catch (FileNotFoundException noFile) {
+        return Collections.emptySet();
+
+      } catch (IOException err) {
+        log.error("Cannot read " + path, err);
+        return Collections.emptySet();
+      }
+    }
+
+    private static void logBadKey(File path, String line, Exception e) {
+      log.warn("Invalid key in " + path + ":\n  " + line, e);
+    }
+
+    boolean isCurrent() {
+      return path.lastModified() == modified;
+    }
+
+    PeerKeyCache reload() {
+      return new PeerKeyCache(path);
+    }
   }
 }

@@ -149,7 +149,7 @@ public class HostPageServlet extends HttpServlet {
   @Override
   protected void doGet(final HttpServletRequest req,
       final HttpServletResponse rsp) throws IOException {
-    final Page.Content page = get().get(selector.select(req));
+    final Page.Content page = get().get(select(req));
     final byte[] raw;
 
     final CurrentUser user = currentUser.get();
@@ -185,6 +185,17 @@ public class HostPageServlet extends HttpServlet {
     } finally {
       out.close();
     }
+  }
+
+  private Permutation select(final HttpServletRequest req) {
+    if ("0".equals(req.getParameter("s"))) {
+      // If s=0 is used in the URL, the user has explicitly asked us
+      // to not perform selection on the server side, perhaps due to
+      // it incorrectly guessing their user agent.
+      //
+      return null;
+    }
+    return selector.select(req);
   }
 
   private static byte[] concat(byte[] p1, byte[] p2, byte[] p3) {

@@ -123,6 +123,11 @@ public class ChangeControl {
     ;
   }
 
+  /** Can this user add a patch set to this change? */
+  public boolean canAddPatchSet() {
+    return true;
+  }
+
   /** Is this user the owner of the change? */
   public boolean isOwner() {
     if (getCurrentUser() instanceof IdentifiedUser) {

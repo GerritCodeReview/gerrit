@@ -52,6 +52,7 @@ import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
+import com.google.gerrit.server.project.RefControl;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.OrmRunnable;
 import com.google.gwtorm.client.Transaction;
@@ -502,7 +503,8 @@ final class Receive extends AbstractGitCommand {
   }
 
   private void parseUpdate(final ReceiveCommand cmd) {
-    if (isHead(cmd) && canPerform(PUSH_HEAD, PUSH_HEAD_UPDATE)) {
+    if (isHead(cmd) && canPerform(PUSH_HEAD, PUSH_HEAD_UPDATE)
+        && projectControl.canUploadToRef(cmd.getRefName())) {
       // Let the core receive process handle it
     } else {
       reject(cmd);
@@ -514,7 +516,8 @@ final class Receive extends AbstractGitCommand {
         && projectControl.canDeleteRef(cmd.getRefName())) {
       // Let the core receive process handle it
 
-    } else if (isHead(cmd) && canPerform(PUSH_HEAD, PUSH_HEAD_REPLACE)) {
+    } else if (isHead(cmd) && canPerform(PUSH_HEAD, PUSH_HEAD_REPLACE)
+        && projectControl.canUploadToRef(cmd.getRefName())) {
       // Let the core receive process handle it
 
     } else if (isHead(cmd) && cmd.getType() == Type.UPDATE_NONFASTFORWARD) {
@@ -569,6 +572,12 @@ final class Receive extends AbstractGitCommand {
         n = n.substring(Constants.R_HEADS.length());
       reject(cmd, "branch " + n + " not found");
       return;
+    }
+
+    if (!projectControl.canUploadToRef(destBranch.get())) {
+      final String reqName = project.getName();
+      final String branchName = destBranch.get();
+      reject(cmd, "branch " + branchName + " is locked");
     }
 
     // Validate that the new commits are connected with the existing heads
@@ -943,6 +952,11 @@ final class Receive extends AbstractGitCommand {
         final Change change = db.changes().get(request.ontoChange);
         if (change == null) {
           reject(request.cmd, "change " + request.ontoChange + " not found");
+          return null;
+        }
+        if (!projectControl.controlFor(change).canAddPatchSet()) {
+          reject(request.cmd,
+              "cannot add a patchset to change " + request.ontoChange);
           return null;
         }
         if (change.getStatus().isClosed()) {

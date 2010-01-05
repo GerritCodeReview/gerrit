@@ -28,6 +28,10 @@ public final class ApprovalCategory {
   public static final ApprovalCategory.Id READ =
       new ApprovalCategory.Id("READ");
 
+  /** Id of the special "Upload" action (and category). */
+  public static final ApprovalCategory.Id UPLOAD =
+      new ApprovalCategory.Id("UPLD");
+
   /** Id of the special "Own" category; manages a project. */
   public static final ApprovalCategory.Id OWN = new ApprovalCategory.Id("OWN");
 

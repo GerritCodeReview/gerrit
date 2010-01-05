@@ -21,6 +21,7 @@ import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ProjectRight;
+import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
@@ -71,18 +72,25 @@ class ProjectDetailFactory extends Handler<ProjectDetail> {
     detail.setProject(projectState.getProject());
 
     groups = new HashMap<AccountGroup.Id, AccountGroup>();
-    final List<ProjectRight> rights = new ArrayList<ProjectRight>();
+    final List<ProjectRight> projectRights = new ArrayList<ProjectRight>();
     for (final ProjectRight p : projectState.getLocalRights()) {
-      rights.add(p);
+      projectRights.add(p);
       wantGroup(p.getAccountGroupId());
     }
     for (final ProjectRight p : projectState.getInheritedRights()) {
-      rights.add(p);
+      projectRights.add(p);
       wantGroup(p.getAccountGroupId());
+    }
+
+    final List<RefRight> refRights = new ArrayList<RefRight>();
+    for (final RefRight r : projectState.getRefRights()) {
+      refRights.add(r);
+      wantGroup(r.getAccountGroupId());
     }
     loadGroups();
 
-    Collections.sort(rights, new Comparator<ProjectRight>() {
+    // TODO: sort the RefRights and ProjectRights together.
+    Collections.sort(projectRights, new Comparator<ProjectRight>() {
       @Override
       public int compare(final ProjectRight a, final ProjectRight b) {
         int rc = categoryOf(a).compareTo(categoryOf(b));
@@ -106,7 +114,8 @@ class ProjectDetailFactory extends Handler<ProjectDetail> {
       }
     });
 
-    detail.setRights(rights);
+    detail.setProjectRights(projectRights);
+    detail.setRefRights(refRights);
     detail.setGroups(groups);
     return detail;
   }

@@ -15,9 +15,11 @@
 package com.google.gerrit.server.workflow;
 
 import com.google.gerrit.common.data.ApprovalType;
+import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.ProjectRight;
+import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.server.CurrentUser;
 
 import java.util.HashMap;
@@ -89,9 +91,30 @@ public abstract class CategoryFunction {
 
   public boolean isValid(final CurrentUser user, final ApprovalType at,
       final FunctionState state) {
-    for (final ProjectRight pr : state.getAllRights(at)) {
+    if (state.getRefRights(at).isEmpty()) {
+      return isProjectStateValid(user, at, state);
+    } else {
+      return isRefStateValid(user, at, state);
+    }
+  }
+
+  private boolean isProjectStateValid(final CurrentUser user, final ApprovalType at,
+      final FunctionState state) {
+    for (final ProjectRight pr : state.getAllProjectRights(at)) {
       if (user.getEffectiveGroups().contains(pr.getAccountGroupId())
           && (pr.getMinValue() < 0 || pr.getMaxValue() > 0)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private boolean isRefStateValid(final CurrentUser user, final ApprovalType at,
+      final FunctionState state) {
+    for (final RefRight refRight : state.getRefRights(at)) {
+      final AccountGroup.Id grp = refRight.getAccountGroupId();
+      if (user.getEffectiveGroups().contains(grp)
+          && (refRight.getMinValue() < 0 || refRight.getMaxValue() > 0)) {
         return true;
       }
     }

@@ -17,6 +17,7 @@ package com.google.gerrit.common.data;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ProjectRight;
+import com.google.gerrit.reviewdb.RefRight;
 
 import java.util.List;
 import java.util.Map;
@@ -24,7 +25,8 @@ import java.util.Map;
 public class ProjectDetail {
   public Project project;
   public Map<AccountGroup.Id, AccountGroup> groups;
-  public List<ProjectRight> rights;
+  public List<ProjectRight> projectRights;
+  public List<RefRight> refRights;
 
   public ProjectDetail() {
   }
@@ -37,7 +39,11 @@ public class ProjectDetail {
     groups = g;
   }
 
-  public void setRights(final List<ProjectRight> r) {
-    rights = r;
+  public void setProjectRights(final List<ProjectRight> r) {
+    projectRights = r;
+  }
+
+  public void setRefRights(final List<RefRight> rights) {
+    refRights = rights;
   }
 }

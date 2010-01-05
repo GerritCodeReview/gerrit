@@ -1,0 +1,208 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAArX////A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/BranchControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-05T23:58:03Z",
+      "side": 1,
+      "message": "Don\u0027t forget our AOSP copyright header in new files.  Even though this is still only a discussion patch, its a good habit to always include the header as soon as you create the new file in your workspace.",
+      "revId": "ab3f37bfd6f09b2769a030ed18bae488b4e8b379",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAArX///+U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/BranchControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-05T23:58:03Z",
+      "side": 1,
+      "message": "I think this should be called RefControl, and should take a String ref name, not a Branch.NameKey.",
+      "revId": "ab3f37bfd6f09b2769a030ed18bae488b4e8b379",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAArX///+8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/BranchControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-05T23:58:03Z",
+      "side": 1,
+      "message": "This should be more fine-grained.  See my comments in Receive, we\u0027re talking about:\n\n  boolean canCreate();  // create a new branch/tag\n  boolean canDelete();  // delete existing branch/tag\n  boolean canUpload();  // propose a change or patch set\n  boolean canReplace();  // can forcefully update existing",
+      "revId": "ab3f37bfd6f09b2769a030ed18bae488b4e8b379",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAArX///+g\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Receive.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-05T23:58:03Z",
+      "side": 1,
+      "message": "Here\u0027s a subtle problem for you to solve.\n\ncanUpload is the READ +2 permission on the project.\n\nIf we start to permit the READ +2 permission to be specified on a per-branch basis, what do we do here?  If the user has:\n\n* READ +1 on the project\n* but not READ +2\n* but has READ +2 on master\n\nshould we still let them through this check?",
+      "revId": "ab3f37bfd6f09b2769a030ed18bae488b4e8b379",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAArX///+k\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Receive.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-05T23:58:03Z",
+      "side": 1,
+      "message": "Food for thought, I\u0027d like to perhaps define a hook that runs before PreReceiveHook in JGit that allows us to reject the pack data before its sent by the client if certain things fail.\n\nOne of the things that can fail is canUpload().\n\nIf a user can upload to branch master but not branch foo we need to allow them through the canUpload() method call above at line 192 but we don\u0027t want to permit them to give us data when we later discover that they can\u0027t upload to the refs/for/foo.  Unfortunately JGit is calling PreReceiveHook too late.",
+      "revId": "ab3f37bfd6f09b2769a030ed18bae488b4e8b379",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAArX///+4\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Receive.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-05T23:58:03Z",
+      "side": 1,
+      "message": "This is a branch create.  Fortunately its going through projectControl.canCreateRef.  The web UI for the same feature (project admin \u003e branches tab) also goes through projectControl.canCreateRef.  So you only need to implement branch creation policy inside of that method.\n\nWhy does this matter?\n\nOne of the things we might want to do is branch permissions by wild card.  E.g. we want a rule like \"Ed can create any branch that starts with refs/heads/eds_work/\".  So Ed can create the branch \"refs/heads/eds_work/my_stuff\" but not \"refs/heads/shawns_work\".\n\nWe want this to support experimental sandbox stuff.  People on the team should be able to create a branch in their own area so they can collaborate in a sandbox without stepping on the main work branches.\n\nI would actually suggest changing the canCreateRef(String) API to be obtaining a RefControl object:\n\n  public RefControl controlForRef(String refName);\n\nand then define inside of RefControl the API for canCreate:\n\n  public RefControl {\n    public boolean canCreate();\n    public boolean canUpload();\n    public boolean canDelete();\n    ...\n  }\n\nHere, RefControl is actually the BranchControl class you made.  Except I\u0027m calling it RefControl because it might also control the ability to modify tags, which are just like branches, just called tags... so we should use the generic \"ref\" term to describe both.",
+      "revId": "ab3f37bfd6f09b2769a030ed18bae488b4e8b379",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAArX///+s\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Receive.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-05T23:58:03Z",
+      "side": 1,
+      "message": "This is Push Branch +1.  It should go through the RefControl.",
+      "revId": "ab3f37bfd6f09b2769a030ed18bae488b4e8b379",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAArX///+0\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Receive.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 523,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-05T23:58:03Z",
+      "side": 1,
+      "message": "This is a branch delete (Push Branch +3).\n\nLike above with create we should shift this into a RefControl object instead.\n\nLike with canCreateRef if you break the API you\u0027ll find the other caller in the web UI code.",
+      "revId": "ab3f37bfd6f09b2769a030ed18bae488b4e8b379",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAArX///+w\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Receive.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-05T23:58:03Z",
+      "side": 1,
+      "message": "This is the Push Branch +3 permission in a non-delete case (forced update).  You need to pass it through the RefControl to determine if Push Branch +3 exists for this branch.",
+      "revId": "ab3f37bfd6f09b2769a030ed18bae488b4e8b379",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAArX///+o\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Receive.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-05T23:58:03Z",
+      "side": 1,
+      "message": "I think this actually might be too early to reject at.\n\nYes, we have a branch name, but I wonder if we shouldn\u0027t permit the crazy case of:\n\n* upload a change for branch \"foo\" via refs/for/foo using Change-Id\n* have write access to branch \"master\" be revoked\n* amend your change for \"foo\"\n* upload the replacement to refs/for/master\n\nToday this would trigger the replacement on the original change, but it wouldn\u0027t change the destination branch of that change, it would still be considered to be for the foo branch, even though the replacement was uploaded to refs/for/master.\n\nBut, if we are going to say \"you shouldn\u0027t do that\" then yes, this is the proper place to do the check and reject.\n\nLike the other places, I think this should be part of RefControl.",
+      "revId": "ab3f37bfd6f09b2769a030ed18bae488b4e8b379",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAArX///+c\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Receive.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 789,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-05T23:58:03Z",
+      "side": 1,
+      "message": "If your answer above is we should allow uploads to refs/for/master to do a replacement to a change on refs/for/foo even though you don\u0027t have upload access to branch master then right here is where you need to check the final target branch of master.\n\nGiven how complex that sentence just was, we probably don\u0027t want to do that...",
+      "revId": "ab3f37bfd6f09b2769a030ed18bae488b4e8b379",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAArX///+Y\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Receive.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 969,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-05T23:58:03Z",
+      "side": 1,
+      "message": "This is a patch set replacement (adding a new patch set to an existing change).\n\nBefore this line you should validate that the user can upload onto branch change.getDestBranch().\n\nWe probably want this check made through ChangeControl:\n\n  public ChangeControl {\n    boolean canAddPatchSet();\n  }\n\nBonus points if you pass the replacement RevCommit and in, so the ChangeControl can examine the argument if it wants.\n\nWhy?\n\nWe might want to later also enforce that the original author is maintained as the author the new commit, to ensure attribution remains intact.",
+      "revId": "ab3f37bfd6f09b2769a030ed18bae488b4e8b379",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -18,6 +18,7 @@ import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ProjectRight;
+import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.WildProjectName;
@@ -33,7 +34,7 @@ import java.util.Set;
 public class ProjectState {
   public interface Factory {
     ProjectState create(Project project, Collection<ProjectRight> localRights,
-        InheritedRights inheritedRights);
+        InheritedRights inheritedRights, Collection<RefRight> refRights);
   }
 
   public interface InheritedRights {
@@ -45,6 +46,7 @@ public class ProjectState {
 
   private final Project project;
   private final Collection<ProjectRight> localRights;
+  private final Collection<RefRight> refRights;
   private final InheritedRights inheritedRights;
   private final Set<AccountGroup.Id> owners;
 
@@ -53,13 +55,15 @@ public class ProjectState {
       @WildProjectName final Project.NameKey wildProject,
       @Assisted final Project project,
       @Assisted final Collection<ProjectRight> rights,
-      @Assisted final InheritedRights inheritedRights) {
+      @Assisted final InheritedRights inheritedRights,
+      @Assisted final Collection<RefRight> refRights) {
     this.anonymousUser = anonymousUser;
     this.wildProject = wildProject;
 
     this.project = project;
     this.localRights = rights;
     this.inheritedRights = inheritedRights;
+    this.refRights = refRights;
 
     final HashSet<AccountGroup.Id> groups = new HashSet<AccountGroup.Id>();
     for (final ProjectRight right : rights) {
@@ -86,6 +90,11 @@ public class ProjectState {
       return Collections.emptyList();
     }
     return inheritedRights.get();
+  }
+
+  /** Get the ref access rights for this project */
+  public Collection<RefRight> getRefRights() {
+    return refRights;
   }
 
   /** Is this the special wild project which manages inherited rights? */

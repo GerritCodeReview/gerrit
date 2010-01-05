@@ -24,11 +24,13 @@ import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ProjectRight;
+import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.reviewdb.ApprovalCategory.Id;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.RefControl;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -61,6 +63,7 @@ public class FunctionState {
       new HashMap<ApprovalCategory.Id, Collection<ProjectRight>>();
   private Map<ApprovalCategory.Id, Collection<ProjectRight>> projectRights;
   private Map<ApprovalCategory.Id, Collection<ProjectRight>> inheritedRights;
+  private Map<ApprovalCategory.Id, Collection<RefRight>> refRights;
   private Set<PatchSetApproval> modified;
 
   @Inject
@@ -135,13 +138,26 @@ public class FunctionState {
     return Collections.emptySet();
   }
 
+  public Collection<RefRight> getRefRights(final ApprovalType at) {
+    return getRefRights(id(at));
+  }
+
+  public Collection<RefRight> getRefRights(final ApprovalCategory.Id id) {
+    if (refRights == null) {
+      refRights =
+          indexRefRights(project.getRefRights(), change.getDest().get());
+    }
+    final Collection<RefRight> l = refRights.get(id);
+    return l != null ? l : Collections.<RefRight> emptySet();
+  }
+
   public Collection<ProjectRight> getProjectRights(final ApprovalType at) {
     return getProjectRights(id(at));
   }
 
   public Collection<ProjectRight> getProjectRights(final ApprovalCategory.Id id) {
     if (projectRights == null) {
-      projectRights = index(project.getLocalRights());
+      projectRights = indexProjectRights(project.getLocalRights());
     }
     final Collection<ProjectRight> l = projectRights.get(id);
     return l != null ? l : Collections.<ProjectRight> emptySet();
@@ -153,17 +169,18 @@ public class FunctionState {
 
   public Collection<ProjectRight> getWildcardRights(final ApprovalCategory.Id id) {
     if (inheritedRights == null) {
-      inheritedRights = index(project.getInheritedRights());
+      inheritedRights = indexProjectRights(project.getInheritedRights());
     }
     final Collection<ProjectRight> l = inheritedRights.get(id);
     return l != null ? l : Collections.<ProjectRight> emptySet();
   }
 
-  public Collection<ProjectRight> getAllRights(final ApprovalType at) {
-    return getAllRights(id(at));
+  public Collection<ProjectRight> getAllProjectRights(final ApprovalType at) {
+    return getAllProjectRights(id(at));
   }
 
-  public Collection<ProjectRight> getAllRights(final ApprovalCategory.Id id) {
+  public Collection<ProjectRight> getAllProjectRights(
+      final ApprovalCategory.Id id) {
     Collection<ProjectRight> l = allRights.get(id);
     if (l == null) {
       l = new ArrayList<ProjectRight>();
@@ -175,7 +192,25 @@ public class FunctionState {
     return l;
   }
 
-  private static Map<Id, Collection<ProjectRight>> index(
+  private static Map<Id, Collection<RefRight>> indexRefRights(
+      final Collection<RefRight> rights, final String destRef) {
+    final HashMap<ApprovalCategory.Id, Collection<RefRight>> categoryRights;
+    categoryRights = new HashMap<ApprovalCategory.Id, Collection<RefRight>>();
+
+    for (final RefRight r : rights) {
+      if (RefControl.matches(destRef, r.getRefPattern())) {
+        Collection<RefRight> l = categoryRights.get(r.getApprovalCategoryId());
+        if (l == null) {
+          l = new ArrayList<RefRight>();
+          categoryRights.put(r.getApprovalCategoryId(), l);
+        }
+        l.add(r);
+      }
+    }
+    return categoryRights;
+  }
+
+  private static Map<Id, Collection<ProjectRight>> indexProjectRights(
       final Collection<ProjectRight> rights) {
     final HashMap<ApprovalCategory.Id, Collection<ProjectRight>> r;
 
@@ -228,11 +263,22 @@ public class FunctionState {
     // Find the maximal range actually granted to the user.
     //
     short minAllowed = 0, maxAllowed = 0;
-    for (final ProjectRight r : getAllRights(a.getCategoryId())) {
-      final AccountGroup.Id grp = r.getAccountGroupId();
-      if (user.getEffectiveGroups().contains(grp)) {
-        minAllowed = (short) Math.min(minAllowed, r.getMinValue());
-        maxAllowed = (short) Math.max(maxAllowed, r.getMaxValue());
+
+    if (getRefRights(a.getCategoryId()).isEmpty()) {
+      for (final ProjectRight r : getAllProjectRights(a.getCategoryId())) {
+        final AccountGroup.Id grp = r.getAccountGroupId();
+        if (user.getEffectiveGroups().contains(grp)) {
+          minAllowed = (short) Math.min(minAllowed, r.getMinValue());
+          maxAllowed = (short) Math.max(maxAllowed, r.getMaxValue());
+        }
+      }
+    } else {
+      for (final RefRight refRight : getRefRights(a.getCategoryId())) {
+        final AccountGroup.Id grp = refRight.getAccountGroupId();
+        if (user.getEffectiveGroups().contains(grp)) {
+          minAllowed = (short) Math.min(minAllowed, refRight.getMinValue());
+          maxAllowed = (short) Math.max(maxAllowed, refRight.getMaxValue());
+        }
       }
     }
 

@@ -19,6 +19,7 @@ import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ProjectRight;
+import com.google.gerrit.reviewdb.RefRight;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.RemoteJsonService;
 import com.google.gwtjsonrpc.client.RpcImpl;
@@ -42,12 +43,12 @@ public interface ProjectAdminService extends RemoteJsonService {
       AsyncCallback<ProjectDetail> callback);
 
   @SignInRequired
-  void deleteRight(Project.NameKey projectName, Set<ProjectRight.Key> ids,
+  void deleteProjectRights(Project.NameKey projectName, Set<ProjectRight.Key> ids,
       AsyncCallback<VoidResult> callback);
 
   @SignInRequired
   void addRight(Project.NameKey projectName, ApprovalCategory.Id categoryId,
-      String groupName, short min, short max,
+      String groupName, String refName, short min, short max,
       AsyncCallback<ProjectDetail> callback);
 
   @SignInRequired
@@ -61,4 +62,8 @@ public interface ProjectAdminService extends RemoteJsonService {
   @SignInRequired
   void deleteBranch(Project.NameKey projectName, Set<Branch.NameKey> ids,
       AsyncCallback<Set<Branch.NameKey>> callback);
+
+  @SignInRequired
+  void deleteRefRights(Project.NameKey projectName, Set<RefRight.Key> ids,
+      AsyncCallback<VoidResult> callback);
 }

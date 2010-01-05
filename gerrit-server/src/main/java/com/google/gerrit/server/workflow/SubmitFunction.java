@@ -19,6 +19,7 @@ import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ProjectRight;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.project.RefControl;
 
 /**
  * Computes if the submit function can be used.
@@ -56,6 +57,7 @@ public class SubmitFunction extends CategoryFunction {
     if (state.getChange().getStatus() != Change.Status.NEW) {
       return false;
     }
+
     for (final ApprovalType t : state.getApprovalTypes()) {
       if (!state.isValid(t)) {
         return false;

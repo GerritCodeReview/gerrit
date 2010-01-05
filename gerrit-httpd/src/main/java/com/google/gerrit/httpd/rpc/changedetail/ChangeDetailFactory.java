@@ -34,6 +34,7 @@ import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.workflow.CategoryFunction;
 import com.google.gerrit.server.workflow.FunctionState;
 import com.google.gwtorm.client.OrmException;
@@ -150,6 +151,7 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
           currentActions.add(at.getCategory().getId());
         }
       }
+
       detail.setMissingApprovals(missingApprovals);
       detail.setCurrentActions(currentActions);
     }

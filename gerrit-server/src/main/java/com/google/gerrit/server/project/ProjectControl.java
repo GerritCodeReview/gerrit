@@ -28,7 +28,6 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import org.eclipse.jgit.lib.Constants;
 
 import java.util.Set;
 
@@ -99,6 +98,10 @@ public class ProjectControl {
     return new ChangeControl(this, change);
   }
 
+  public RefControl controlForRef(String refName) {
+    return new RefControl(this, refName);
+  }
+
   public CurrentUser getCurrentUser() {
     return user;
   }
@@ -123,52 +126,13 @@ public class ProjectControl {
   }
 
   /** Can this user create the given ref through this access path? */
-  public boolean canCreateRef(final String refname) {
-    switch (user.getAccessPath()) {
-      case WEB:
-        if (isOwner()) {
-          return true;
-        }
-        if (isHead(refname) && canPerform(PUSH_HEAD, PUSH_HEAD_CREATE)) {
-          return true;
-        }
-        return false;
-
-      case SSH:
-        if (isHead(refname) && canPerform(PUSH_HEAD, PUSH_HEAD_CREATE)) {
-          return true;
-        }
-        if (isTag(refname) && canPerform(PUSH_TAG, (short) 1)) {
-          return true;
-        }
-        return false;
-
-      default:
-        return false;
-    }
+  public boolean canCreateRef(final String refName) {
+    return controlForRef(refName).canCreate();
   }
 
   /** Can this user delete the given ref through this access path? */
-  public boolean canDeleteRef(final String refname) {
-    switch (user.getAccessPath()) {
-      case WEB:
-        if (isOwner()) {
-          return true;
-        }
-        if (isHead(refname) && canPerform(PUSH_HEAD, PUSH_HEAD_REPLACE)) {
-          return true;
-        }
-        return false;
-
-      case SSH:
-        if (isHead(refname) && canPerform(PUSH_HEAD, PUSH_HEAD_REPLACE)) {
-          return true;
-        }
-        return false;
-
-      default:
-        return false;
-    }
+  public boolean canDeleteRef(final String refName) {
+    return controlForRef(refName).canDelete();
   }
 
   /**
@@ -217,11 +181,7 @@ public class ProjectControl {
     return val >= requireValue;
   }
 
-  private static boolean isHead(final String refname) {
-    return refname.startsWith(Constants.R_HEADS);
-  }
-
-  private static boolean isTag(final String refname) {
-    return refname.startsWith(Constants.R_TAGS);
+  public boolean canModifyRef(String refName) {
+    return controlForRef(refName).canUpload();
   }
 }

@@ -15,10 +15,13 @@
 package com.google.gerrit.server.workflow;
 
 import com.google.gerrit.common.data.ApprovalType;
+import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ProjectRight;
+import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.project.RefControl;
 
 /**
  * Computes if the submit function can be used.
@@ -41,8 +44,14 @@ public class SubmitFunction extends CategoryFunction {
   @Override
   public boolean isValid(final CurrentUser user, final ApprovalType at,
       final FunctionState state) {
+    return isProjectStateValid(user, at, state)
+        && isRefStateValid(user, at, state);
+  }
+
+  private boolean isProjectStateValid(final CurrentUser user, final ApprovalType at,
+      final FunctionState state) {
     if (valid(at, state)) {
-      for (final ProjectRight pr : state.getAllRights(at)) {
+      for (final ProjectRight pr : state.getAllProjectRights(at)) {
         if (user.getEffectiveGroups().contains(pr.getAccountGroupId())
             && pr.getMaxValue() > 0) {
           return true;
@@ -51,6 +60,21 @@ public class SubmitFunction extends CategoryFunction {
     }
     return false;
   }
+
+  private boolean isRefStateValid(final CurrentUser user, final ApprovalType at,
+      final FunctionState state) {
+    String destRef = state.getChange().getDest().get();
+    for (final RefRight refRight : state.getRefRights(at)) {
+      if (RefControl.matches(destRef, refRight.getRefPattern())) {
+        final AccountGroup.Id grp = refRight.getAccountGroupId();
+        if (user.getEffectiveGroups().contains(grp)) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
 
   private static boolean valid(final ApprovalType at, final FunctionState state) {
     if (state.getChange().getStatus() != Change.Status.NEW) {

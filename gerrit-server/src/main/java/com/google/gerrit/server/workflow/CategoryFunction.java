@@ -89,7 +89,7 @@ public abstract class CategoryFunction {
 
   public boolean isValid(final CurrentUser user, final ApprovalType at,
       final FunctionState state) {
-    for (final ProjectRight pr : state.getAllRights(at)) {
+    for (final ProjectRight pr : state.getAllProjectRights(at)) {
       if (user.getEffectiveGroups().contains(pr.getAccountGroupId())
           && (pr.getMinValue() < 0 || pr.getMaxValue() > 0)) {
         return true;

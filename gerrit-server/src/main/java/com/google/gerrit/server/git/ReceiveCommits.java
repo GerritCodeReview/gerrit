@@ -55,6 +55,7 @@ import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.RefControl;
 import com.google.gwtorm.client.AtomicUpdate;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
@@ -515,7 +516,8 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
   }
 
   private void parseUpdate(final ReceiveCommand cmd) {
-    if (isHead(cmd) && canPerform(PUSH_HEAD, PUSH_HEAD_UPDATE)) {
+    RefControl refControl = projectControl.controlForRef(cmd.getRefName());
+    if (isHead(cmd) && refControl.canPerform(PUSH_HEAD, PUSH_HEAD_UPDATE)) {
       // Let the core receive process handle it
     } else {
       reject(cmd);
@@ -523,11 +525,12 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
   }
 
   private void parseRewindOrDelete(final ReceiveCommand cmd) {
+    RefControl refControl = projectControl.controlForRef(cmd.getRefName());
     if (isHead(cmd) && cmd.getType() == Type.DELETE
         && projectControl.canDeleteRef(cmd.getRefName())) {
       // Let the core receive process handle it
 
-    } else if (isHead(cmd) && canPerform(PUSH_HEAD, PUSH_HEAD_REPLACE)) {
+    } else if (isHead(cmd) && refControl.canPerform(PUSH_HEAD, PUSH_HEAD_REPLACE)) {
       // Let the core receive process handle it
 
     } else if (isHead(cmd) && cmd.getType() == Type.UPDATE_NONFASTFORWARD) {
@@ -582,6 +585,11 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
         n = n.substring(Constants.R_HEADS.length());
       reject(cmd, "branch " + n + " not found");
       return;
+    }
+
+    if (!projectControl.canUploadToRef(destBranch.get())) {
+      String branchName = destBranch.get();
+      reject(cmd);
     }
 
     // Validate that the new commits are connected with the existing heads
@@ -951,6 +959,11 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     Change change = db.changes().get(request.ontoChange);
     if (change == null) {
       reject(request.cmd, "change " + request.ontoChange + " not found");
+      return null;
+    }
+    if (!projectControl.controlFor(change).canAddPatchSet()) {
+      reject(request.cmd,
+          "cannot add a patchset to change " + request.ontoChange);
       return null;
     }
     if (change.getStatus().isClosed()) {

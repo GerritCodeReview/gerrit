@@ -21,6 +21,7 @@ import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.httpd.rpc.Handler;
+import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetApproval;
@@ -29,6 +30,7 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.MergeQueue;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
+import com.google.gerrit.server.project.RefControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.workflow.CategoryFunction;
 import com.google.gerrit.server.workflow.FunctionState;
@@ -130,6 +132,10 @@ class SubmitAction extends Handler<ChangeDetail> {
     if (myAction.getValue() <= 0) {
       throw new IllegalStateException(actionType.getCategory().getName()
           + " not permitted");
+    }
+
+    if (!new RefControl(user, change.getDest().get()).canUpload()) {
+      throw new IllegalStateException("Branch '" + change.getDest().get() + "' cannot be written to.");
     }
 
     if (change.getStatus() == Change.Status.NEW) {

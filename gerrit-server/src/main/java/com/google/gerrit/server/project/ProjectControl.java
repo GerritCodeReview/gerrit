@@ -123,22 +123,26 @@ public class ProjectControl {
   }
 
   /** Can this user create the given ref through this access path? */
-  public boolean canCreateRef(final String refname) {
+  public boolean canCreateRef(final String refName) {
+    RefControl refControl = new RefControl(getCurrentUser(), refName);
+    if (!refControl.canCreate()) {
+      return false;
+    }
     switch (user.getAccessPath()) {
       case WEB:
         if (isOwner()) {
           return true;
         }
-        if (isHead(refname) && canPerform(PUSH_HEAD, PUSH_HEAD_CREATE)) {
+        if (isHead(refName) && canPerform(PUSH_HEAD, PUSH_HEAD_CREATE)) {
           return true;
         }
         return false;
 
       case SSH:
-        if (isHead(refname) && canPerform(PUSH_HEAD, PUSH_HEAD_CREATE)) {
+        if (isHead(refName) && canPerform(PUSH_HEAD, PUSH_HEAD_CREATE)) {
           return true;
         }
-        if (isTag(refname) && canPerform(PUSH_TAG, (short) 1)) {
+        if (isTag(refName) && canPerform(PUSH_TAG, (short) 1)) {
           return true;
         }
         return false;

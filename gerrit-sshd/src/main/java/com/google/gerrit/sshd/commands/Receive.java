@@ -52,6 +52,7 @@ import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
+import com.google.gerrit.server.project.BranchControl;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.OrmRunnable;
 import com.google.gwtorm.client.Transaction;
@@ -182,6 +183,10 @@ final class Receive extends AbstractGitCommand {
     return canPerform(ApprovalCategory.READ, (short) 2);
   }
 
+  protected boolean branchWriteAllowed() {
+    return new BranchControl(currentUser, destBranch).canModify();
+  }
+
   @Override
   protected void runImpl() throws IOException, Failure {
     if (!canUpload()) {
@@ -189,6 +194,7 @@ final class Receive extends AbstractGitCommand {
       throw new Failure(1, "fatal: Upload denied for project '" + reqName + "'",
           new SecurityException("Account lacks Upload permission"));
     }
+
 
     if (project.isUseContributorAgreements()) {
       verifyActiveContributorAgreement();
@@ -208,6 +214,7 @@ final class Receive extends AbstractGitCommand {
       public void onPreReceive(final ReceivePack arg0,
           final Collection<ReceiveCommand> commands) {
         parseCommands(commands);
+
         if (newChange != null
             && newChange.getResult() == ReceiveCommand.Result.NOT_ATTEMPTED) {
           createNewChanges();
@@ -244,6 +251,8 @@ final class Receive extends AbstractGitCommand {
         }
       }
     });
+
+
     rp.receive(in, out, err);
 
     if (!allNewChanges.isEmpty() && canonicalWebUrl != null) {
@@ -535,6 +544,7 @@ final class Receive extends AbstractGitCommand {
 
     newChange = cmd;
     String destBranchName = cmd.getRefName().substring(NEW_CHANGE.length());
+    System.err.println("destBranchName " + destBranchName);
     if (!destBranchName.startsWith(Constants.R_REFS)) {
       destBranchName = Constants.R_HEADS + destBranchName;
     }
@@ -543,7 +553,9 @@ final class Receive extends AbstractGitCommand {
       // We advertised the branch to the client so we know
       // the branch exists. Target this branch for the upload.
       //
+
       destBranch = new Branch.NameKey(project.getNameKey(), destBranchName);
+      System.err.println("DestBranch set to " + destBranchName);
 
     } else {
       // We didn't advertise the branch, because it doesn't exist yet.
@@ -558,17 +570,26 @@ final class Receive extends AbstractGitCommand {
         return;
       }
 
+      System.err.println("head " + head);
       if (head.equals(destBranchName)) {
         destBranch = new Branch.NameKey(project.getNameKey(), destBranchName);
+        System.err.println("head is destBranchName " + destBranch.get());
       }
     }
 
     if (destBranch == null) {
+      System.err.println("destBranch is null");
       String n = destBranchName;
       if (n.startsWith(Constants.R_HEADS))
         n = n.substring(Constants.R_HEADS.length());
       reject(cmd, "branch " + n + " not found");
       return;
+    }
+
+    if (!branchWriteAllowed()) {
+      final String reqName = project.getName();
+      final String branchName = destBranch.get();
+      reject(cmd, "branch " + branchName + " is locked");
     }
 
     // Validate that the new commits are connected with the existing heads

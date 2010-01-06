@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AAAArX///9I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/BranchControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1002957
+      },
+      "writtenOn": "2010-01-06T21:41:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAArX////A\u003d",
+      "revId": "ab3f37bfd6f09b2769a030ed18bae488b4e8b379",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAArX///+U\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/BranchControl.java",
         "patchSetId": 1
@@ -47,6 +65,24 @@
       "writtenOn": "2010-01-05T23:58:03Z",
       "side": 1,
       "message": "I think this should be called RefControl, and should take a String ref name, not a Branch.NameKey.",
+      "revId": "ab3f37bfd6f09b2769a030ed18bae488b4e8b379",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAArX///9E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/BranchControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002957
+      },
+      "writtenOn": "2010-01-06T21:41:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAArX///+U\u003d",
       "revId": "ab3f37bfd6f09b2769a030ed18bae488b4e8b379",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +123,24 @@
     },
     {
       "key": {
+        "uuid": "AAAArX///9U\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Receive.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1002957
+      },
+      "writtenOn": "2010-01-06T21:41:30Z",
+      "side": 1,
+      "message": "Can you clarify what READ +2 represents? It doesn\u0027t seem to be  mentioned in http://gerrit.googlecode.com/svn/documentation/2.1/access-control.html and I am confused...\n\nI *think* it means \"can submit a change for review\"?\n\nIf that is the case, then I think that we probably want to scrap the concept of project only access control, and default to \"all branches\" when nothing is specified, and default to only \"those b ranches specified\" when there is something specified...",
+      "parentUuid": "AAAArX///+g\u003d",
+      "revId": "ab3f37bfd6f09b2769a030ed18bae488b4e8b379",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAArX///+k\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Receive.java",
         "patchSetId": 1
@@ -98,6 +152,24 @@
       "writtenOn": "2010-01-05T23:58:03Z",
       "side": 1,
       "message": "Food for thought, I\u0027d like to perhaps define a hook that runs before PreReceiveHook in JGit that allows us to reject the pack data before its sent by the client if certain things fail.\n\nOne of the things that can fail is canUpload().\n\nIf a user can upload to branch master but not branch foo we need to allow them through the canUpload() method call above at line 192 but we don\u0027t want to permit them to give us data when we later discover that they can\u0027t upload to the refs/for/foo.  Unfortunately JGit is calling PreReceiveHook too late.",
+      "revId": "ab3f37bfd6f09b2769a030ed18bae488b4e8b379",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAArX///9Q\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Receive.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1002957
+      },
+      "writtenOn": "2010-01-06T21:41:30Z",
+      "side": 1,
+      "message": "Is it possible to get the branches from JGit and perform the check directly in Gerrit, in canUpload()?",
+      "parentUuid": "AAAArX///+k\u003d",
       "revId": "ab3f37bfd6f09b2769a030ed18bae488b4e8b379",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -183,6 +255,24 @@
       "writtenOn": "2010-01-05T23:58:03Z",
       "side": 1,
       "message": "I think this actually might be too early to reject at.\n\nYes, we have a branch name, but I wonder if we shouldn\u0027t permit the crazy case of:\n\n* upload a change for branch \"foo\" via refs/for/foo using Change-Id\n* have write access to branch \"master\" be revoked\n* amend your change for \"foo\"\n* upload the replacement to refs/for/master\n\nToday this would trigger the replacement on the original change, but it wouldn\u0027t change the destination branch of that change, it would still be considered to be for the foo branch, even though the replacement was uploaded to refs/for/master.\n\nBut, if we are going to say \"you shouldn\u0027t do that\" then yes, this is the proper place to do the check and reject.\n\nLike the other places, I think this should be part of RefControl.",
+      "revId": "ab3f37bfd6f09b2769a030ed18bae488b4e8b379",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAArX///9M\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Receive.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 1002957
+      },
+      "writtenOn": "2010-01-06T21:41:30Z",
+      "side": 1,
+      "message": "I don\u0027t think we should let people modify a branch that they don\u0027t have access to, even if it is for a commit that they are replacing that used to be in another branch. Locked down is locked down, right?\n\nI see how it might be annoying to have to redo a change if you used the wrong branch the first time, though... Perhaps there is some Git magic that can let you do that painlessly?",
+      "parentUuid": "AAAArX///+o\u003d",
       "revId": "ab3f37bfd6f09b2769a030ed18bae488b4e8b379",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

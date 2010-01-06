@@ -141,6 +141,24 @@
     },
     {
       "key": {
+        "uuid": "AAAArX///88\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Receive.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2010-01-06T22:02:53Z",
+      "side": 1,
+      "message": "I can reply for this one since I put it there. READ +2 controls upload permission.\n\nIt\u0027s \"can I do a git push to this project?\"",
+      "parentUuid": "AAAArX///9U\u003d",
+      "revId": "ab3f37bfd6f09b2769a030ed18bae488b4e8b379",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAArX///+k\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Receive.java",
         "patchSetId": 1

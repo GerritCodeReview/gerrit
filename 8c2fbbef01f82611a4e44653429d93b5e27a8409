@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAArX///7w\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/SubmitAction.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-07T19:11:50Z",
+      "side": 1,
+      "message": "What does canUpload imply?  Its that we can create a new change for review.\n\nReally you want to know, \"can I submit here\"?\n\nThat should be taken care of above by fs.normalize(), which will call to SubmitFunction, and use the logic inside that class.  So we probably don\u0027t even need to modify SubmitAction.",
+      "revId": "8c2fbbef01f82611a4e44653429d93b5e27a8409",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAArX///8E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-07T19:11:50Z",
+      "side": 1,
+      "message": "I think this entire method should move its current body into RefControl\u0027s canCreate method, and make itself just delegate into RefControl... or be deleted altogether.\n\nI don\u0027t see any value in having RefControl be able to block this method from returning true, but otherwise be unable to make a decision on its own.",
+      "revId": "8c2fbbef01f82611a4e44653429d93b5e27a8409",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAArX///8A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-07T19:11:50Z",
+      "side": 1,
+      "message": "We probably should use a factory pattern to build these.  And perhaps allow the ProjectControl class to be responsible for creating the RefControls.  This way we can pass through access control data from the project but we can also allow the ProjectControl in the future to possibly return different RefControl implementations depending on project policy settings.",
+      "revId": "8c2fbbef01f82611a4e44653429d93b5e27a8409",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAArX///8I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-07T19:11:50Z",
+      "side": 1,
+      "message": "We should document these functions earlier rather than later so we\u0027re all on the same page about the intent of the return value.  It should be clear here what abilities the user has implied when canUpload is returning true.",
+      "revId": "8c2fbbef01f82611a4e44653429d93b5e27a8409",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAArX///78\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/workflow/SubmitFunction.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-07T19:11:50Z",
+      "side": 1,
+      "message": "NAK.\n\nWhat does canCreate imply?  It means we can create a new branch where there was no branch before.\n\nThis class is about deciding if we can submit a change.  We should be able to submit a change to an existing branch, even if we can\u0027t create this branch if it were missing.\n\nHowever... I am willing to say that we probably shouldn\u0027t be able to submit a change on a branch, causing it to be automatically created, if the branch doesn\u0027t yet exist and we don\u0027t have create permission on that branch.  But that\u0027s a rather complex concept and is something we can\u0027t get ourselves into right now because Receive would have refused to let you create a new change record, because the target branch doesn\u0027t exist.",
+      "revId": "8c2fbbef01f82611a4e44653429d93b5e27a8409",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAArX///74\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/workflow/SubmitFunction.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-07T19:11:50Z",
+      "side": 1,
+      "message": "Really what you care about in this class is this loop.\n\nIn this loop we are walking through all SUBMIT +1 ProjectRight records, and testing to see if any of them are assigned toa  group that the user is a member of.\n\nSo here we really want to be examining the per-ref rights collection, not the project collection.",
+      "revId": "8c2fbbef01f82611a4e44653429d93b5e27a8409",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAArX///70\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/workflow/SubmitFunction.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-07T19:11:50Z",
+      "side": 1,
+      "message": "We also indirectly care about this call.\n\nFunctionState has cached the ProjectRight records for this project.  We actually need it to cache the per-ref right records so calls like this take those into consideration.  We need to test for cases like when Code Review +2 is only granted to \"DrNo\" group on the cupcake branch.",
+      "revId": "8c2fbbef01f82611a4e44653429d93b5e27a8409",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAArX///7s\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Receive.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-07T19:11:50Z",
+      "side": 1,
+      "message": "I\u0027d prefer to call this canUploadToBranch() since its really testng the canUpload feature of this branch\u0027s RefControl.\n\nBut otherwise this class looks sane.  At least as far as enforcing READ +2 on a per-branch basis goes.\n\nI thought you would have taken my comments from patch set 1 inside of Receive.java and used those to annotate the other places where writing authorization occurs with at least placeholder method calls that can be filled in later.",
+      "revId": "8c2fbbef01f82611a4e44653429d93b5e27a8409",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

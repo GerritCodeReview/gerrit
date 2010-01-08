@@ -209,6 +209,24 @@
       "revId": "c78a2c3bff4d684146fa53547898e61f0c9687de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAArX///6A\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Receive.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-08T22:08:25Z",
+      "side": 1,
+      "message": "I think we want to move these canPerform(A, B) calls to be unique methods on RefControl and then invoke those instead.\n\nSo something like:\n\n  canPerform(PUSH_HEAD, PUSH_HEAD_UPDATE) --\u003e RefControl.canUpdateHead()\n  canPerform(PUSH_HEAD, PUSH_HEAD_REPLACE) --\u003e RefControl.canReplaceHead()\n\netc.",
+      "parentUuid": "AAAArX///6M\u003d",
+      "revId": "c78a2c3bff4d684146fa53547898e61f0c9687de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

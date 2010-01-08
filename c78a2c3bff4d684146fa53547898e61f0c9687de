@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAArX///64\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/ChangeDetailFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-08T15:57:30Z",
+      "side": 1,
+      "message": "This file currently doesn\u0027t need to change.  You added an unnecessary import here.",
+      "revId": "c78a2c3bff4d684146fa53547898e61f0c9687de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAArX///68\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/SubmitAction.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-08T15:57:30Z",
+      "side": 1,
+      "message": "You have unnecessary imports in this file now.  I think you can just remove it from the change altogether since we\u0027ve figured out you only need to change SubmitFunction.",
+      "revId": "c78a2c3bff4d684146fa53547898e61f0c9687de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAArX///7A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-08T15:57:30Z",
+      "side": 1,
+      "message": "Odd to call this canModifyRef when you are delegating to canUpload.",
+      "revId": "c78a2c3bff4d684146fa53547898e61f0c9687de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAArX///7E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-08T15:57:30Z",
+      "side": 1,
+      "message": "Do we mean \"submit\" as in \"can push the submit button\"?  Or do we mean \"upload\" as in \"can upload a new change for review, or upload an existing patch set onto an existing change\"?  Within Gerrit\u0027s code base we never call the latter \"submit\".",
+      "revId": "c78a2c3bff4d684146fa53547898e61f0c9687de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAArX///60\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Receive.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-08T15:57:30Z",
+      "side": 1,
+      "message": "Might be easier to just say\n\n  return projectControl.controlForRef(destBranch.get()).canUpload()",
+      "revId": "c78a2c3bff4d684146fa53547898e61f0c9687de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAArX///6w\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Receive.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-08T15:57:30Z",
+      "side": 1,
+      "message": "I think we want to replace that canPerform call entirely and have the RefControl make the decision here.  Ditto with all of the other places where we are doing calls.",
+      "revId": "c78a2c3bff4d684146fa53547898e61f0c9687de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

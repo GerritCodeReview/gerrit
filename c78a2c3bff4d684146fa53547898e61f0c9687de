@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAArX///6c\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/ChangeDetailFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1002957
+      },
+      "writtenOn": "2010-01-08T21:45:57Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "AAAArX///64\u003d",
+      "revId": "c78a2c3bff4d684146fa53547898e61f0c9687de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAArX///68\u003d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/SubmitAction.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2010-01-08T15:57:30Z",
       "side": 1,
       "message": "You have unnecessary imports in this file now.  I think you can just remove it from the change altogether since we\u0027ve figured out you only need to change SubmitFunction.",
+      "revId": "c78a2c3bff4d684146fa53547898e61f0c9687de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAArX///6Y\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/SubmitAction.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1002957
+      },
+      "writtenOn": "2010-01-08T21:45:57Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "AAAArX///68\u003d",
       "revId": "c78a2c3bff4d684146fa53547898e61f0c9687de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAArX///6U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1002957
+      },
+      "writtenOn": "2010-01-08T21:45:57Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "AAAArX///7A\u003d",
+      "revId": "c78a2c3bff4d684146fa53547898e61f0c9687de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAArX///7E\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
         "patchSetId": 3
@@ -64,6 +118,24 @@
       "writtenOn": "2010-01-08T15:57:30Z",
       "side": 1,
       "message": "Do we mean \"submit\" as in \"can push the submit button\"?  Or do we mean \"upload\" as in \"can upload a new change for review, or upload an existing patch set onto an existing change\"?  Within Gerrit\u0027s code base we never call the latter \"submit\".",
+      "revId": "c78a2c3bff4d684146fa53547898e61f0c9687de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAArX///6Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1002957
+      },
+      "writtenOn": "2010-01-08T21:45:57Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "AAAArX///7E\u003d",
       "revId": "c78a2c3bff4d684146fa53547898e61f0c9687de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "AAAArX///6k\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Receive.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1002957
+      },
+      "writtenOn": "2010-01-08T21:45:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAArX///60\u003d",
+      "revId": "c78a2c3bff4d684146fa53547898e61f0c9687de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAArX///6w\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Receive.java",
         "patchSetId": 3
@@ -98,6 +188,24 @@
       "writtenOn": "2010-01-08T15:57:30Z",
       "side": 1,
       "message": "I think we want to replace that canPerform call entirely and have the RefControl make the decision here.  Ditto with all of the other places where we are doing calls.",
+      "revId": "c78a2c3bff4d684146fa53547898e61f0c9687de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAArX///6M\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Receive.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 1002957
+      },
+      "writtenOn": "2010-01-08T21:45:57Z",
+      "side": 1,
+      "message": "Can you clarify please? Do you mean you\u0027d prefer to have one call for each of the canPerform() \u0026\u0026 canModify() calls in this class, or do you mean you want to replace all canPerform() calls in this class to calls to RefControl?",
+      "parentUuid": "AAAArX///6w\u003d",
       "revId": "c78a2c3bff4d684146fa53547898e61f0c9687de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

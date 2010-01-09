@@ -29,9 +29,6 @@ The CSS rules are inlined into the top of the HTML page, inside
 of a `<style>` tag.  These rules can be used to support styling
 the elements within either the header or the footer.
 
-If any of these files are created, deleted or modified you need to
-restart the web application to make the changes take effect.
-
 The *.html files must be valid XHTML, with one root element,
 typically a single `<div>` tag.  The server parses it as XML, and
 then inserts the root element into the host page.  If a file has
@@ -56,7 +53,7 @@ HTTP Caching
 
 The header, footer, and CSS files are inlined into the host page,
 which is always sent with a no-cache header.  Clients will see any
-changes immediately after the Gerrit server has been restarted.
+changes immediately after they are made.
 
 Assets under `'$site_path'/static` whose file name matches one of the
 following patterns are served with a 1 year expiration, permitting
@@ -71,7 +68,7 @@ very aggressive caching by clients and edge-proxies:
 
 All other assets under `'$site_path'/static` are served with a 5
 minute expire, permitting some (limited) caching.  It may take up
-to 5 minutes after Gerrit restart before clients see the changes.
+to 5 minutes after making a change, before clients see the changes.
 
 It is recommended that static images used in the site header
 or footer be named with a unique caching file name, for example

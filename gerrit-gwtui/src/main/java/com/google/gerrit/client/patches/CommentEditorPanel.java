@@ -30,8 +30,6 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.Focusable;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
 import com.google.gwtjsonrpc.client.VoidResult;
@@ -276,12 +274,9 @@ public class CommentEditorPanel extends CommentPanel implements ClickHandler,
   }
 
   private void notifyDraftDelta(final int delta) {
-    Widget p = getParent();
-    if (p != null) {
-      p = p.getParent();
-      if (p != null) {
-        ((AbstractPatchContentTable) p).notifyDraftDelta(delta);
-      }
+    CommentEditorContainer c = getContainer();
+    if (c != null) {
+      c.notifyDraftDelta(delta);
     }
   }
 
@@ -316,24 +311,20 @@ public class CommentEditorPanel extends CommentPanel implements ClickHandler,
   }
 
   private void removeUI() {
-    final FlexTable table = (FlexTable) getParent();
-    final int nRows = table.getRowCount();
-    for (int row = 0; row < nRows; row++) {
-      final int nCells = table.getCellCount(row);
-      for (int cell = 0; cell < nCells; cell++) {
-        if (table.getWidget(row, cell) == this) {
-          AbstractPatchContentTable.destroyEditor(table, row, cell);
-          Widget p = table;
-          while (p != null) {
-            if (p instanceof Focusable) {
-              ((Focusable) p).setFocus(true);
-              break;
-            }
-            p = p.getParent();
-          }
-          return;
-        }
-      }
+    CommentEditorContainer c = getContainer();
+    if (c != null) {
+      c.remove(this);
     }
+  }
+
+  private CommentEditorContainer getContainer() {
+    Widget p = getParent();
+    while (p != null) {
+      if (p instanceof CommentEditorContainer) {
+        return (CommentEditorContainer) p;
+      }
+      p = p.getParent();
+    }
+    return null;
   }
 }

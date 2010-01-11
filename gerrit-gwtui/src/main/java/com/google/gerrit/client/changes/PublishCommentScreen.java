@@ -15,6 +15,7 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.patches.CommentEditorContainer;
 import com.google.gerrit.client.patches.CommentEditorPanel;
 import com.google.gerrit.client.patches.PatchUtil;
 import com.google.gerrit.client.rpc.GerritCallback;
@@ -55,7 +56,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class PublishCommentScreen extends AccountScreen implements ClickHandler {
+public class PublishCommentScreen extends AccountScreen implements
+    ClickHandler, CommentEditorContainer {
   private static SavedState lastState;
 
   private final PatchSet.Id patchSetId;
@@ -63,7 +65,7 @@ public class PublishCommentScreen extends AccountScreen implements ClickHandler 
   private ChangeDescriptionBlock descBlock;
   private Panel approvalPanel;
   private NpTextArea message;
-  private Panel draftsPanel;
+  private FlowPanel draftsPanel;
   private Button send;
   private Button cancel;
   private boolean saveStateOnUnload = true;
@@ -144,6 +146,39 @@ public class PublishCommentScreen extends AccountScreen implements ClickHandler 
     } else if (cancel == sender) {
       saveStateOnUnload = false;
       goChange();
+    }
+  }
+
+  @Override
+  public void notifyDraftDelta(int delta) {
+  }
+
+  @Override
+  public void remove(CommentEditorPanel editor) {
+    commentEditors.remove(editor);
+
+    // The editor should be embedded into a panel holding all
+    // editors for the same file.
+    //
+    FlowPanel parent = (FlowPanel) editor.getParent();
+    parent.remove(editor);
+
+    // If the panel now holds no editors, remove it.
+    //
+    int editorCount = 0;
+    for (Widget w : parent) {
+      if (w instanceof CommentEditorPanel) {
+        editorCount++;
+      }
+    }
+    if (editorCount == 0) {
+      parent.removeFromParent();
+    }
+
+    // If that was the last file with a draft, remove the heading.
+    //
+    if (draftsPanel.getWidgetCount() == 1) {
+      draftsPanel.clear();
     }
   }
 

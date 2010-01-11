@@ -39,7 +39,7 @@ import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.Focusable;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
@@ -50,7 +50,8 @@ import com.google.gwtexpui.globalkey.client.KeyCommandSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AbstractPatchContentTable extends NavigationTable<Object> {
+public abstract class AbstractPatchContentTable extends NavigationTable<Object>
+    implements CommentEditorContainer {
   protected PatchTable fileList;
   protected AccountInfoCache accountCache = AccountInfoCache.empty();
   protected Patch.Key patchKey;
@@ -94,9 +95,31 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
     table.setStyleName(Gerrit.RESOURCES.css().patchContentTable());
   }
 
-  void notifyDraftDelta(final int delta) {
+  public void notifyDraftDelta(final int delta) {
     if (fileList != null) {
       fileList.notifyDraftDelta(patchKey, delta);
+    }
+  }
+
+  @Override
+  public void remove(CommentEditorPanel panel) {
+    final int nRows = table.getRowCount();
+    for (int row = 0; row < nRows; row++) {
+      final int nCells = table.getCellCount(row);
+      for (int cell = 0; cell < nCells; cell++) {
+        if (table.getWidget(row, cell) == panel) {
+          destroyEditor(row, cell);
+          Widget p = table;
+          while (p != null) {
+            if (p instanceof Focusable) {
+              ((Focusable) p).setFocus(true);
+              break;
+            }
+            p = p.getParent();
+          }
+          return;
+        }
+      }
     }
   }
 
@@ -416,7 +439,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object> 
     accountCache = aic;
   }
 
-  static void destroyEditor(final FlexTable table, final int row, final int col) {
+  private void destroyEditor(final int row, final int col) {
     table.clearCell(row, col);
     final int span = table.getFlexCellFormatter().getRowSpan(row, col);
     boolean removeRow = true;

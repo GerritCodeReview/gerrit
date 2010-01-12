@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd.rpc.changedetail;
 
+import com.google.gerrit.common.ChangeHookRunner;
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.httpd.rpc.Handler;
@@ -54,13 +55,15 @@ class AbandonChange extends Handler<ChangeDetail> {
   @Nullable
   private final String message;
 
+  private final ChangeHookRunner hooks;
+
   @Inject
   AbandonChange(final ChangeControl.Factory changeControlFactory,
       final ReviewDb db, final IdentifiedUser currentUser,
       final AbandonedSender.Factory abandonedSenderFactory,
       final ChangeDetailFactory.Factory changeDetailFactory,
       @Assisted final PatchSet.Id patchSetId,
-      @Assisted @Nullable final String message) {
+      @Assisted @Nullable final String message, final ChangeHookRunner hooks) {
     this.changeControlFactory = changeControlFactory;
     this.db = db;
     this.currentUser = currentUser;
@@ -69,6 +72,7 @@ class AbandonChange extends Handler<ChangeDetail> {
 
     this.patchSetId = patchSetId;
     this.message = message;
+    this.hooks = hooks;
   }
 
   @Override
@@ -112,6 +116,8 @@ class AbandonChange extends Handler<ChangeDetail> {
       cm.setChangeMessage(cmsg);
       cm.send();
     }
+
+    hooks.doChangeAbandonedHook(change, currentUser.getAccount(), message);
 
     return changeDetailFactory.create(changeId).call();
   }

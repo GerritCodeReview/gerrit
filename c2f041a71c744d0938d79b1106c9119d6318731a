@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAr3///9o\u003d",
+        "filename": "Documentation/config-hooks.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003060
+      },
+      "writtenOn": "2010-01-12T17:34:27Z",
+      "side": 1,
+      "message": "Sorry, I based this file off the one in the previous hook that Zach did.",
+      "parentUuid": "AAAAr3////M\u003d",
+      "revId": "c2f041a71c744d0938d79b1106c9119d6318731a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAr3////I\u003d",
         "filename": "Documentation/config-hooks.txt",
         "patchSetId": 1
@@ -88,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAr3///9s\u003d",
+        "filename": "gerrit-common/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1003060
+      },
+      "writtenOn": "2010-01-12T17:34:27Z",
+      "side": 1,
+      "message": "Sorry, netbeans added this automatically for me.",
+      "parentUuid": "AAAAr3////A\u003d",
+      "revId": "c2f041a71c744d0938d79b1106c9119d6318731a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAr3///+8\u003d",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/GitRepositoryManager.java",
         "patchSetId": 1
@@ -122,6 +158,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAr3///9k\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003060
+      },
+      "writtenOn": "2010-01-12T17:34:27Z",
+      "side": 1,
+      "message": "Good point, I missed that.",
+      "parentUuid": "AAAAr3///+4\u003d",
+      "revId": "c2f041a71c744d0938d79b1106c9119d6318731a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAr3///+0\u003d",
         "filename": "gerrit-common/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
         "patchSetId": 1
@@ -133,6 +187,24 @@
       "writtenOn": "2010-01-12T16:19:18Z",
       "side": 1,
       "message": "Style-nit:  We don\u0027t use @author tags.  Git log/blame is sufficient to annotate who contributed what.",
+      "revId": "c2f041a71c744d0938d79b1106c9119d6318731a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///9g\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003060
+      },
+      "writtenOn": "2010-01-12T17:34:27Z",
+      "side": 1,
+      "message": "Netbeans added this for me again, will remove.",
+      "parentUuid": "AAAAr3///+0\u003d",
       "revId": "c2f041a71c744d0938d79b1106c9119d6318731a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -184,6 +256,24 @@
       "writtenOn": "2010-01-12T16:19:18Z",
       "side": 1,
       "message": "This should never be static singleton like this.  You actually want Guice to create your class and manage it for you.  Add the annotation @Singleton to your class, move it into the gerrit-server project, declare parameters in your constructor for the types you must have (like GitRepositoryManager) and Guice will mostly just do the right thing and pass you the data you need, and only make one of you.",
+      "revId": "c2f041a71c744d0938d79b1106c9119d6318731a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///9c\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1003060
+      },
+      "writtenOn": "2010-01-12T17:34:27Z",
+      "side": 1,
+      "message": "Thank you, I wasn\u0027t sure quite how guice worked and initially just wanted to get this code functional so that we could use it.",
+      "parentUuid": "AAAAr3///+o\u003d",
       "revId": "c2f041a71c744d0938d79b1106c9119d6318731a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

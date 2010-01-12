@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd.rpc.patch;
 
+import com.google.gerrit.common.ChangeHookRunner;
 import com.google.gerrit.common.data.AddReviewerResult;
 import com.google.gerrit.common.data.ApprovalSummary;
 import com.google.gerrit.common.data.ApprovalSummarySet;
@@ -79,6 +80,8 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
   private final PatchScriptFactory.Factory patchScriptFactoryFactory;
   private final SaveDraft.Factory saveDraftFactory;
 
+  private final ChangeHookRunner hooks;
+
   @Inject
   PatchDetailServiceImpl(final Provider<ReviewDb> schema,
       final Provider<CurrentUser> currentUser,
@@ -91,7 +94,8 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
       final CommentDetailFactory.Factory commentDetailFactory,
       final FunctionState.Factory functionStateFactory,
       final PatchScriptFactory.Factory patchScriptFactoryFactory,
-      final SaveDraft.Factory saveDraftFactory) {
+      final SaveDraft.Factory saveDraftFactory,
+      final ChangeHookRunner hooks) {
     super(schema, currentUser);
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.commentSenderFactory = commentSenderFactory;
@@ -104,6 +108,7 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
     this.functionStateFactory = functionStateFactory;
     this.patchScriptFactoryFactory = patchScriptFactoryFactory;
     this.saveDraftFactory = saveDraftFactory;
+    this.hooks = hooks;
   }
 
   public void patchScript(final Patch.Key patchKey, final PatchSet.Id psa,
@@ -180,6 +185,7 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
           log.error("Failed to obtain PatchSetInfo for patch set " + psid, e);
           throw new Failure(e);
         }
+        
         return VoidResult.INSTANCE;
       }
     });
@@ -247,11 +253,16 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
     for (PatchSetApproval a : db.patchSetApprovals().byPatchSetUser(psid, me)) {
       have.put(a.getCategoryId(), a);
     }
+
+    final Map<String, Short> approvalsMap = new HashMap<String, Short>();
+
     for (final ApprovalType at : approvalTypes.getApprovalTypes()) {
       final ApprovalCategoryValue.Id v = values.get(at.getCategory().getId());
       if (v == null) {
         continue;
       }
+
+      approvalsMap.put(v.getParentKey().get(), v.get());
 
       final ApprovalCategoryValue val = at.getValue(v.get());
       if (val == null) {
@@ -306,6 +317,9 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
 
     ChangeUtil.updated(r.change);
     db.changes().update(Collections.singleton(r.change), txn);
+
+    hooks.doCommentAddedHook(r.change, db.accounts().get(me), messageText, approvalsMap);
+    
     return r;
   }
 

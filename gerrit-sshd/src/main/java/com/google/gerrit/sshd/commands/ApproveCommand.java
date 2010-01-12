@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.gerrit.common.ChangeHookRunner;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.reviewdb.ApprovalCategory;
@@ -49,8 +50,10 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class ApproveCommand extends BaseCommand {
@@ -106,6 +109,9 @@ public class ApproveCommand extends BaseCommand {
   @Inject
   private FunctionState.Factory functionStateFactory;
 
+  @Inject
+  private ChangeHookRunner hooks;
+
   private List<ApproveOption> optionList;
 
   @Override
@@ -154,6 +160,9 @@ public class ApproveCommand extends BaseCommand {
     msgBuf.append(patchSetId.get());
     msgBuf.append(": ");
 
+    final Map<ApprovalCategory.Id, ApprovalCategoryValue.Id> approvalsMap =
+        new HashMap<ApprovalCategory.Id, ApprovalCategoryValue.Id>();
+
     for (ApproveOption co : optionList) {
       final ApprovalCategory.Id category = co.getCategoryId();
       PatchSetApproval.Key psaKey =
@@ -174,10 +183,12 @@ public class ApproveCommand extends BaseCommand {
         }
       }
 
-      String message =
-          db.approvalCategoryValues().get(
-              new ApprovalCategoryValue.Id(category, score)).getName();
+      final ApprovalCategoryValue.Id val =
+          new ApprovalCategoryValue.Id(category, score);
+
+      String message = db.approvalCategoryValues().get(val).getName();
       msgBuf.append(" " + message + ";");
+      approvalsMap.put(category, val);
     }
 
     msgBuf.deleteCharAt(msgBuf.length() - 1);
@@ -196,6 +207,9 @@ public class ApproveCommand extends BaseCommand {
 
     ChangeUtil.touch(change, db);
     sendMail(change, change.currentPatchSetId(), cm);
+
+    hooks.doCommentAddedHook(change, currentUser.getAccount(), changeComment,
+        approvalsMap);
   }
 
   private Set<PatchSet.Id> parsePatchSetId(final String patchIdentity)

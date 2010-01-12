@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.gerrit.common.ChangeHookRunner;
+import com.google.gerrit.common.data.AccountInfoCache;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 
@@ -32,6 +34,7 @@ import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.Nullable;
 import com.google.gerrit.server.mail.EmailException;
@@ -149,6 +152,9 @@ public class MergeOp {
   private Set<RevCommit> alreadyAccepted;
   private RefUpdate branchUpdate;
 
+  private final ChangeHookRunner hooks;
+  private final AccountCache accountCache;
+
   @Inject
   MergeOp(final GitRepositoryManager grm, final SchemaFactory<ReviewDb> sf,
       final ProjectCache pc, final FunctionState.Factory fs,
@@ -158,7 +164,8 @@ public class MergeOp {
       final ApprovalTypes approvalTypes, final PatchSetInfoFactory psif,
       final IdentifiedUser.GenericFactory iuf,
       @GerritPersonIdent final PersonIdent myIdent,
-      final MergeQueue mergeQueue, @Assisted final Branch.NameKey branch) {
+      final MergeQueue mergeQueue, @Assisted final Branch.NameKey branch,
+      final ChangeHookRunner hooks, final AccountCache accountCache) {
     repoManager = grm;
     schemaFactory = sf;
     functionState = fs;
@@ -171,6 +178,8 @@ public class MergeOp {
     patchSetInfoFactory = psif;
     identifiedUserFactory = iuf;
     this.mergeQueue = mergeQueue;
+    this.hooks = hooks;
+    this.accountCache = accountCache;
 
     this.myIdent = myIdent;
     destBranch = branch;
@@ -1150,6 +1159,12 @@ public class MergeOp {
       log.error("Cannot send email for submitted patch set " + c.getId(), e);
     } catch (EmailException e) {
       log.error("Cannot send email for submitted patch set " + c.getId(), e);
+    }
+
+    try {
+        hooks.doChangeMergedHook(c, accountCache.get(submitter.getAccountId()).getAccount(), schema.patchSets().get(c.currentPatchSetId()));
+    } catch (OrmException ex) {
+        log.error("Cannot run hook for submitted patch set " + c.getId(), ex);
     }
   }
 

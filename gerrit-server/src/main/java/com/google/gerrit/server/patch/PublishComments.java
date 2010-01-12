@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.patch;
 
+import com.google.gerrit.common.ChangeHookRunner;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.reviewdb.ApprovalCategory;
@@ -65,6 +66,7 @@ public class PublishComments implements Callable<VoidResult> {
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final ChangeControl.Factory changeControlFactory;
   private final FunctionState.Factory functionStateFactory;
+  private final ChangeHookRunner hooks;
 
   private final PatchSet.Id patchSetId;
   private final String messageText;
@@ -82,6 +84,7 @@ public class PublishComments implements Callable<VoidResult> {
       final PatchSetInfoFactory patchSetInfoFactory,
       final ChangeControl.Factory changeControlFactory,
       final FunctionState.Factory functionStateFactory,
+      final ChangeHookRunner hooks,
 
       @Assisted final PatchSet.Id patchSetId,
       @Assisted final String messageText,
@@ -93,6 +96,7 @@ public class PublishComments implements Callable<VoidResult> {
     this.commentSenderFactory = commentSenderFactory;
     this.changeControlFactory = changeControlFactory;
     this.functionStateFactory = functionStateFactory;
+    this.hooks = hooks;
 
     this.patchSetId = patchSetId;
     this.messageText = messageText;
@@ -121,6 +125,7 @@ public class PublishComments implements Callable<VoidResult> {
 
     touchChange();
     email();
+    fireHook();
     return VoidResult.INSTANCE;
   }
 
@@ -277,5 +282,15 @@ public class PublishComments implements Callable<VoidResult> {
     } catch (PatchSetInfoNotAvailableException e) {
       log.error("Failed to obtain PatchSetInfo for patch set " + patchSetId, e);
     }
+  }
+
+  private void fireHook() {
+    final Map<ApprovalCategory.Id, ApprovalCategoryValue.Id> changed =
+        new HashMap<ApprovalCategory.Id, ApprovalCategoryValue.Id>();
+    for (ApprovalCategoryValue.Id v : approvals) {
+      changed.put(v.getParentKey(), v);
+    }
+
+    hooks.doCommentAddedHook(change, user.getAccount(), messageText, changed);
   }
 }

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.gerrit.common.ChangeHookRunner;
 import static com.google.gerrit.reviewdb.ApprovalCategory.PUSH_HEAD;
 import static com.google.gerrit.reviewdb.ApprovalCategory.PUSH_HEAD_REPLACE;
 import static com.google.gerrit.reviewdb.ApprovalCategory.PUSH_HEAD_UPDATE;
@@ -152,6 +153,9 @@ final class Receive extends AbstractGitCommand {
 
   @Inject
   private PatchSetInfoFactory patchSetInfoFactory;
+
+  @Inject
+  private ChangeHookRunner hooks;
 
   @Inject
   @CanonicalWebUrl
@@ -870,6 +874,8 @@ final class Receive extends AbstractGitCommand {
     } catch (EmailException e) {
       log.error("Cannot send email for new change " + change.getId(), e);
     }
+
+    hooks.doPatchsetCreatedHook(change, ps);
   }
 
   private static boolean isReviewer(final FooterLine candidateFooterLine) {
@@ -1132,6 +1138,8 @@ final class Receive extends AbstractGitCommand {
           insertDummyApproval(result, reviewer, catId, db);
         }
       }
+
+      hooks.doPatchsetCreatedHook(result.change, ps);
     }
 
     final RefUpdate ru = repo.updateRef(ps.getRefName());
@@ -1447,6 +1455,8 @@ final class Receive extends AbstractGitCommand {
         final PatchSet.Id psi = result.patchSet.getId();
         log.error("Cannot send email for submitted patch set " + psi, e);
       }
+
+      hooks.doChangeMergedHook(result.change, currentUser.getAccount(), result.patchSet);
     }
   }
 

@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAr3///+A\u003d",
+        "filename": "Documentation/config-hooks.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1001792
+      },
+      "writtenOn": "2010-01-12T16:45:32Z",
+      "side": 1,
+      "message": "How about this:\n\n  comment-added \u003cchange id\u003e \u003crepo name\u003e \u003cbranch\u003e \u003ccomment author\u003e [\u003capproval category\u003e:\u003capproval value\u003e]*\n\nand have the comment sent to stdin. \n\n\u003capproval category\u003e could be either the name (\"Code Review\") or id (\"CRVW\"). Whichever one chosen would need a constraint to not include whatever delimiter used here. I think I\u0027d prefer the id.\n\n\u003capproval value\u003e would be the numerical value (-1, 0, +2, etc). \n\nWe also customize the categories so we need this flexibility.",
+      "parentUuid": "AAAAr3////I\u003d",
+      "revId": "c2f041a71c744d0938d79b1106c9119d6318731a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAr3////E\u003d",
         "filename": "gerrit-common/pom.xml",
         "patchSetId": 1

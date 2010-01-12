@@ -1,0 +1,293 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAr3////M\u003d",
+        "filename": "Documentation/config-hooks.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-12T16:19:18Z",
+      "side": 1,
+      "message": "Header should say \"Gerrit Code Review - Hooks\"",
+      "revId": "c2f041a71c744d0938d79b1106c9119d6318731a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3////I\u003d",
+        "filename": "Documentation/config-hooks.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-12T16:19:18Z",
+      "side": 1,
+      "message": "The categories verified and approved aren\u0027t fixed, they can be altered, and indeed, I run servers with different categories than the stock ones.\n\nSo we can\u0027t rely on the command line argument position like this when we pass data into the hook.\n\nYou need to either use command line flags to the hook to tell it what the different items are, environment variables, or we need to pass the data in via stdin and use a formatted data stream that the hook can read.  Given that its compelling to be able to write a hook in Bourne shell script, we probably would need a formatted data stream to be incredibly simple to parse in shell (so no JSON).  That also makes it hard to pass in the comment.",
+      "revId": "c2f041a71c744d0938d79b1106c9119d6318731a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3////E\u003d",
+        "filename": "gerrit-common/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-12T16:19:18Z",
+      "side": 1,
+      "message": "Style-nit: Blank lines between dependency blocks.",
+      "revId": "c2f041a71c744d0938d79b1106c9119d6318731a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3////A\u003d",
+        "filename": "gerrit-common/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-12T16:19:18Z",
+      "side": 1,
+      "message": "Don\u0027t add version tags here, the versions should be set in the top level pom so they are consistent across the entire build.",
+      "revId": "c2f041a71c744d0938d79b1106c9119d6318731a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///+8\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/GitRepositoryManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-12T16:19:18Z",
+      "side": 1,
+      "message": "Don\u0027t move this into common.  The gerrit-common package is meant for code that is shared between the GWT UI and the server.  This code can\u0027t be compiled by the GWT compiler because it references types which aren\u0027t translateable into JavaScript.  So it doesn\u0027t belong in common.",
+      "revId": "c2f041a71c744d0938d79b1106c9119d6318731a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///+4\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-12T16:19:18Z",
+      "side": 1,
+      "message": "Copyright probably should be 2010 at this point.",
+      "revId": "c2f041a71c744d0938d79b1106c9119d6318731a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///+0\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-12T16:19:18Z",
+      "side": 1,
+      "message": "Style-nit:  We don\u0027t use @author tags.  Git log/blame is sufficient to annotate who contributed what.",
+      "revId": "c2f041a71c744d0938d79b1106c9119d6318731a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///+w\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-12T16:19:18Z",
+      "side": 1,
+      "message": "You probably should take an injection for SitePaths and move this into the SitePaths class.  You can\u0027t assume that \".\" is the site path directory.",
+      "revId": "c2f041a71c744d0938d79b1106c9119d6318731a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///+s\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-12T16:19:18Z",
+      "side": 1,
+      "message": "This should never be null.  You should be able to take an injection for GitRepositoryManager in your constructor and declare the field final.",
+      "revId": "c2f041a71c744d0938d79b1106c9119d6318731a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///+o\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-12T16:19:18Z",
+      "side": 1,
+      "message": "This should never be static singleton like this.  You actually want Guice to create your class and manage it for you.  Add the annotation @Singleton to your class, move it into the gerrit-server project, declare parameters in your constructor for the types you must have (like GitRepositoryManager) and Guice will mostly just do the right thing and pass you the data you need, and only make one of you.",
+      "revId": "c2f041a71c744d0938d79b1106c9119d6318731a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///+k\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-12T16:19:18Z",
+      "side": 1,
+      "message": "Instead of using our own thread and thread queue, maybe you should use the existing WorkQueue class:\n\n  private final WorkQueue.Executor queue;\n\n  ChangeHookRunner(WorkQueue workQueue) {\n    queue \u003d workQueue.createQueue(1, \"hooks\");\n  }\n\nThe advantage of reusing WorkQueue is we can see the jobs that are pending in `gerrit show-queue` and we can terminate jobs via `kill` over SSH.  Its also based on the Java 5 thread pool code so its pretty stable.",
+      "revId": "c2f041a71c744d0938d79b1106c9119d6318731a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///+g\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-12T16:19:18Z",
+      "side": 1,
+      "message": "We probably should resolve all of these relative to site path.\n\nSo really I think what you need here is something like this:\n\n  ChangeHookRunner(..., SitePaths paths, @GerritSiteConfig Config config) {\n    hooksPath \u003d paths.resolve(getValue(config, \"hooks\", \"path\", \"hooks\");\n\n    patchsetCreatedHook \u003d paths.resolve(getValue(config, \"hooks\", \"patchsetCreatedHook\",\n        new File(hooksPath, \"patchset-created\").getPath());\n  }",
+      "revId": "c2f041a71c744d0938d79b1106c9119d6318731a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///+c\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-12T16:19:18Z",
+      "side": 1,
+      "message": "Since you cd\u0027d into the directory, you could just use \".\" here.",
+      "revId": "c2f041a71c744d0938d79b1106c9119d6318731a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///+Y\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-12T16:19:18Z",
+      "side": 1,
+      "message": "You should make it more clear in the documentation that the exit status of the hook is ignored... and that the hooks are run int he background after the activity has taken place.\n\nMoreover, because the hooks are run in the background after the activity, a hook might not be notified about an event if the server is shutdown before the hook can be invoked.",
+      "revId": "c2f041a71c744d0938d79b1106c9119d6318731a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///+Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-12T16:19:18Z",
+      "side": 1,
+      "message": "This is why Guice is so cool.\n\nJust declare in your constructor the parameters you need.  They will be automatically provided to you when someone else has declared they need you.  Done.  :-)",
+      "revId": "c2f041a71c744d0938d79b1106c9119d6318731a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///+U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1147,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-12T16:19:18Z",
+      "side": 1,
+      "message": "You should use the AccountCache class to get the account, rather than reading the database for it.",
+      "revId": "c2f041a71c744d0938d79b1106c9119d6318731a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///+M\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Receive.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 880,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-12T16:19:18Z",
+      "side": 1,
+      "message": "Instead of ChangeHookRunner.get() in this code, add the following to the class:\n\n  @Inject\n  ChangeHookRunner hooks;\n\nYour object will be automatically pulled in by Guice and made available for use here.",
+      "revId": "c2f041a71c744d0938d79b1106c9119d6318731a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

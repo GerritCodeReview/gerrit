@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.gerrit.common.ChangeHookRunner;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.reviewdb.ApprovalCategory;
@@ -50,8 +51,10 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class ApproveCommand extends BaseCommand {
@@ -107,6 +110,9 @@ public class ApproveCommand extends BaseCommand {
   @Inject
   private FunctionState.Factory functionStateFactory;
 
+  @Inject
+  private ChangeHookRunner hooks;
+
   private List<ApproveOption> optionList;
 
   @Override
@@ -156,6 +162,8 @@ public class ApproveCommand extends BaseCommand {
     msgBuf.append(patchSetId.get());
     msgBuf.append(": ");
 
+    final Map<String, Short> approvalsMap = new HashMap<String, Short>();
+
     for (ApproveOption co : optionList) {
       final ApprovalCategory.Id category = co.getCategoryId();
       PatchSetApproval.Key psaKey =
@@ -180,6 +188,8 @@ public class ApproveCommand extends BaseCommand {
           db.approvalCategoryValues().get(
               new ApprovalCategoryValue.Id(category, score)).getName();
       msgBuf.append(" " + message + ";");
+
+      approvalsMap.put(category.get(), score);
     }
 
     msgBuf.deleteCharAt(msgBuf.length() - 1);
@@ -198,6 +208,9 @@ public class ApproveCommand extends BaseCommand {
     ChangeUtil.updated(change);
     db.changes().update(Collections.singleton(change), txn);
     txn.commit();
+
+    hooks.doCommentAddedHook(change, currentUser.getAccount(), changeComment, approvalsMap);
+
     sendMail(change, change.currentPatchSetId(), cm);
   }
 

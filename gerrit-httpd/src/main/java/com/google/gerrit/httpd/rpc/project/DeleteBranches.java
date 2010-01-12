@@ -17,7 +17,7 @@ package com.google.gerrit.httpd.rpc.project;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.GitRepositoryManager;
 import com.google.gerrit.server.git.ReplicationQueue;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;

@@ -32,7 +32,7 @@ import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitProjectImporter;
-import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.GitRepositoryManager;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gerrit.server.schema.SchemaUpdater;
 import com.google.gerrit.server.schema.UpdateUI;

@@ -21,7 +21,7 @@ import com.google.gerrit.reviewdb.ProjectRight;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.Project.SubmitType;
 import com.google.gerrit.server.config.AuthConfig;
-import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.GitRepositoryManager;
 import com.google.gerrit.server.git.ReplicationQueue;
 import com.google.gerrit.sshd.AdminCommand;
 import com.google.gerrit.sshd.BaseCommand;

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd.rpc.patch;
 
+import com.google.gerrit.common.ChangeHookRunner;
 import com.google.gerrit.common.data.AddReviewerResult;
 import com.google.gerrit.common.data.ApprovalSummary;
 import com.google.gerrit.common.data.ApprovalSummarySet;
@@ -180,6 +181,7 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
           log.error("Failed to obtain PatchSetInfo for patch set " + psid, e);
           throw new Failure(e);
         }
+        
         return VoidResult.INSTANCE;
       }
     });
@@ -247,10 +249,20 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
     for (PatchSetApproval a : db.patchSetApprovals().byPatchSetUser(psid, me)) {
       have.put(a.getCategoryId(), a);
     }
+
+    String verified = "";
+    String approved = "";
+
     for (final ApprovalType at : approvalTypes.getApprovalTypes()) {
       final ApprovalCategoryValue.Id v = values.get(at.getCategory().getId());
       if (v == null) {
         continue;
+      }
+
+      if (v.getParentKey().get().equalsIgnoreCase("VRIF")) {
+          verified = Short.toString(v.get());
+      } else if (v.getParentKey().get().equalsIgnoreCase("CVRW")) {
+          approved = Short.toString(v.get());
       }
 
       final ApprovalCategoryValue val = at.getValue(v.get());
@@ -306,6 +318,9 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
 
     ChangeUtil.updated(r.change);
     db.changes().update(Collections.singleton(r.change), txn);
+
+    ChangeHookRunner.get().doCommentAddedHook(r.change, db.accounts().get(me), verified, approved, messageText);
+    
     return r;
   }
 

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.gerrit.common.ChangeHookRunner;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.reviewdb.ApprovalCategory;
@@ -156,6 +157,9 @@ public class ApproveCommand extends BaseCommand {
     msgBuf.append(patchSetId.get());
     msgBuf.append(": ");
 
+    String verified = "";
+    String approved = "";
+
     for (ApproveOption co : optionList) {
       final ApprovalCategory.Id category = co.getCategoryId();
       PatchSetApproval.Key psaKey =
@@ -180,6 +184,12 @@ public class ApproveCommand extends BaseCommand {
           db.approvalCategoryValues().get(
               new ApprovalCategoryValue.Id(category, score)).getName();
       msgBuf.append(" " + message + ";");
+
+      if (category.get().equalsIgnoreCase("VRIF")) {
+          verified = Short.toString(score);
+      } else if (category.get().equalsIgnoreCase("CVRW")) {
+          approved = Short.toString(score);
+      }
     }
 
     msgBuf.deleteCharAt(msgBuf.length() - 1);
@@ -198,6 +208,9 @@ public class ApproveCommand extends BaseCommand {
     ChangeUtil.updated(change);
     db.changes().update(Collections.singleton(change), txn);
     txn.commit();
+
+    ChangeHookRunner.get().doCommentAddedHook(change, currentUser.getAccount(), verified, approved, changeComment);
+
     sendMail(change, change.currentPatchSetId(), cm);
   }
 

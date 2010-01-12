@@ -1,0 +1,62 @@
+Gerrit2 - Hooks
+===============
+Gerrit does not run any of the standard git hooks in the repositories it works
+with, but it does have its own hook mechanism included. Gerrit looks in
+`$\{site_path\}/hooks/` for executables with names listed below.
+
+The environment will have GIT_DIR set to the full path of the affected git
+repository so that git commands can be easily run.
+
+Make sure your hook scripts are executable if running on *nix.
+
+patchset-created
+----------------
+
+This is called whenever a patchset is created (this includes new changes)
+
+====
+  patchset-created <change id> <repo name> <branch> <sha1> <patchset id>
+====
+
+comment-added
+-------------
+
+This is called whenever a comment is added to a change.
+NOTE: <verified> and <approved> will give the users current scoring, rather than
+the scoring added/removed in this comment. (So if User1 verifies a change, any
+future comments from that user for that patchset will have <verified> set to
+"1")
+
+====
+  comment-added <change id> <repo name> <branch> <comment author> <verified> <approved> <comment>
+====
+
+change-merged
+-------------
+
+Called whenever a change has been merged.
+
+====
+  change-merged <change id> <repo name> <branch> <submiter> <sha1>
+====
+
+change-abandoned
+----------------
+
+Called whenever a change has been abandoned.
+
+====
+  change-abandoned <change id> <repo name> <branch> <abandoner> <reason>
+====
+
+
+Configuration Settings
+----------------------
+
+It is possible to change where gerrit looks for hooks, and what filenames it
+looks for by adding a [hooks] section to gerrit.config.
+
+Gerrit will use the value of hooks.path for the hooks directory, and the values
+of hooks.patchsetCreatedHook, hooks.commentAddedHook, hooks.changeMergedHook and
+hooks.changeAbandonedHook for the filenames for the hooks.
+

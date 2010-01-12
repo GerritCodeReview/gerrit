@@ -14,11 +14,14 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.gerrit.GitRepositoryManager;
 import com.google.gerrit.lifecycle.LifecycleListener;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+
+import com.google.gerrit.common.ChangeHookRunner;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
@@ -72,6 +75,11 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
   @Inject
   LocalDiskRepositoryManager(final SitePaths site,
       @GerritServerConfig final Config cfg) {
+
+    // TODO: I don't fully understand how gerrit works, but I need a
+    //       GitRepositoryManager and a Config.
+    ChangeHookRunner.get().configure(this, cfg, site.site_path);
+
     basePath = site.resolve(cfg.getString("gerrit", null, "basePath"));
     if (basePath == null) {
       throw new IllegalStateException("gerrit.basePath must be configured");

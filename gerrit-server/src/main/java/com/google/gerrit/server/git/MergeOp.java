@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.gerrit.GitRepositoryManager;
+import com.google.gerrit.common.ChangeHookRunner;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 
@@ -1140,6 +1142,11 @@ public class MergeOp {
       log.error("Cannot send email for submitted patch set " + c.getId(), e);
     } catch (EmailException e) {
       log.error("Cannot send email for submitted patch set " + c.getId(), e);
+    }
+    try {
+      ChangeHookRunner.get().doChangeMergedHook(c, schema.accounts().get(submitter.getAccountId()), schema.patchSets().get(c.currentPatchSetId()));
+    } catch (OrmException ex) {
+      log.error("Cannot run hook for submitted patch set " + c.getId(), ex);
     }
   }
 

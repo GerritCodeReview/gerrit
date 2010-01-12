@@ -24,7 +24,7 @@ import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.EvictionPolicy;
 import com.google.gerrit.server.cache.SelfPopulatingCache;
-import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.GitRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd.rpc.changedetail;
 
+import com.google.gerrit.common.ChangeHookRunner;
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.httpd.rpc.Handler;
@@ -112,6 +113,8 @@ class AbandonChange extends Handler<ChangeDetail> {
       cm.setChangeMessage(cmsg);
       cm.send();
     }
+
+    ChangeHookRunner.get().doChangeAbandonedHook(change, currentUser.getAccount(), message);
 
     return changeDetailFactory.create(changeId).call();
   }

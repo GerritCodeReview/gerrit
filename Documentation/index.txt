@@ -29,6 +29,7 @@ Configuration
 * link:config-headerfooter.html[Site Header/Footer]
 * link:config-sso.html[Single Sign-On Systems]
 * link:config-apache2.html[Apache 2 Reverse Proxy]
+* link:config-hooks.html[Hooks]
 
 Developer Documentation
 -----------------------

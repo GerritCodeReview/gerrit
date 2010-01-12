@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd.rpc.patch;
 
+import com.google.gerrit.common.ChangeHookRunner;
 import com.google.gerrit.common.data.AddReviewerResult;
 import com.google.gerrit.common.data.ApprovalSummary;
 import com.google.gerrit.common.data.ApprovalSummarySet;
@@ -39,6 +40,7 @@ import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.Patch.Key;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.mail.CommentSender;
 import com.google.gerrit.server.mail.EmailException;
@@ -79,6 +81,10 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
   private final PatchScriptFactory.Factory patchScriptFactoryFactory;
   private final SaveDraft.Factory saveDraftFactory;
 
+  private final ChangeHookRunner hooks;
+
+  private final Provider<IdentifiedUser> user;
+
   @Inject
   PatchDetailServiceImpl(final Provider<ReviewDb> schema,
       final Provider<CurrentUser> currentUser,
@@ -91,7 +97,9 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
       final CommentDetailFactory.Factory commentDetailFactory,
       final FunctionState.Factory functionStateFactory,
       final PatchScriptFactory.Factory patchScriptFactoryFactory,
-      final SaveDraft.Factory saveDraftFactory) {
+      final SaveDraft.Factory saveDraftFactory,
+      final ChangeHookRunner hooks,
+      final Provider<IdentifiedUser> user) {
     super(schema, currentUser);
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.commentSenderFactory = commentSenderFactory;
@@ -104,6 +112,8 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
     this.functionStateFactory = functionStateFactory;
     this.patchScriptFactoryFactory = patchScriptFactoryFactory;
     this.saveDraftFactory = saveDraftFactory;
+    this.hooks = hooks;
+    this.user = user;
   }
 
   public void patchScript(final Patch.Key patchKey, final PatchSet.Id psa,
@@ -247,11 +257,16 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
     for (PatchSetApproval a : db.patchSetApprovals().byPatchSetUser(psid, me)) {
       have.put(a.getCategoryId(), a);
     }
+
+    final Map<ApprovalCategory.Id, ApprovalCategoryValue.Id> approvalsMap = new HashMap<ApprovalCategory.Id, ApprovalCategoryValue.Id>();
+
     for (final ApprovalType at : approvalTypes.getApprovalTypes()) {
       final ApprovalCategoryValue.Id v = values.get(at.getCategory().getId());
       if (v == null) {
         continue;
       }
+
+      approvalsMap.put(v.getParentKey(), v);
 
       final ApprovalCategoryValue val = at.getValue(v.get());
       if (val == null) {
@@ -306,6 +321,8 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
 
     ChangeUtil.updated(r.change);
     db.changes().update(Collections.singleton(r.change), txn);
+
+    hooks.doCommentAddedHook(r.change, user.get().getAccount(), messageText, approvalsMap);
     return r;
   }
 

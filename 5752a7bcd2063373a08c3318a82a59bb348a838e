@@ -243,6 +243,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAr3///4I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-13T17:43:01Z",
+      "side": 1,
+      "message": "OK, I guess its reasonable to stat each time before we push it into the queue.\n\nShould we stat again immediately before invoking?  What if the hook is removed while there are a few tasks for it queued up?",
+      "parentUuid": "AAAAr3///4Y\u003d",
+      "revId": "5752a7bcd2063373a08c3318a82a59bb348a838e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAr3///48\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
         "patchSetId": 3

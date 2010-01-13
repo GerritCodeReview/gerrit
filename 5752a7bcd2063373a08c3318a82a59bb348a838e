@@ -125,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAr3///0M\u003d",
+        "filename": "Documentation/config-hooks.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003060
+      },
+      "writtenOn": "2010-01-13T23:13:41Z",
+      "side": 1,
+      "message": "The hooks are going to be called only by gerrit I imagine, so the input will be well defined, I think just assuming you consume the next one is fine.",
+      "parentUuid": "AAAAr3///34\u003d",
+      "revId": "5752a7bcd2063373a08c3318a82a59bb348a838e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAr3///5Q\u003d",
         "filename": "Documentation/config-hooks.txt",
         "patchSetId": 3
@@ -315,6 +333,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAr3///1c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1003060
+      },
+      "writtenOn": "2010-01-13T23:13:41Z",
+      "side": 1,
+      "message": "Moving the check to just before invoking is probably more sensible.",
+      "parentUuid": "AAAAr3///4I\u003d",
+      "revId": "5752a7bcd2063373a08c3318a82a59bb348a838e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAr3///48\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
         "patchSetId": 3
@@ -326,6 +362,24 @@
       "writtenOn": "2010-01-13T17:16:12Z",
       "side": 1,
       "message": "change.getId() is currently deprecated, i\u0027m trying to remove it from most user visible areas.  Do we really want that exposed to the hook?  Rather then change.getKey() which returns the \"Change-Id\" field shown on the page or in the commit message?",
+      "revId": "5752a7bcd2063373a08c3318a82a59bb348a838e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///1U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1003060
+      },
+      "writtenOn": "2010-01-13T23:13:41Z",
+      "side": 1,
+      "message": "Are you deprecating the numeric Ids entirely? We prefer them cos they make smaller nicer-looking urls.",
+      "parentUuid": "AAAAr3///48\u003d",
       "revId": "5752a7bcd2063373a08c3318a82a59bb348a838e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

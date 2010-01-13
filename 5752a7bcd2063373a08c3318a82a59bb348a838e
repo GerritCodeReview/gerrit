@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAr3///4g\u003d",
+        "filename": "Documentation/config-hooks.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003060
+      },
+      "writtenOn": "2010-01-13T17:40:14Z",
+      "side": 1,
+      "message": "Comment Author just has the persons name at present, I can change this tho.\n\nI do pass an empty string for the comment if one wasn\u0027t added.\n\nDoing parameters for everything might be a better call (same for all the others?) so that in future adding new parameters won\u0027t break things.",
+      "parentUuid": "AAAAr3///5I\u003d",
+      "revId": "5752a7bcd2063373a08c3318a82a59bb348a838e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAr3///5Q\u003d",
         "filename": "Documentation/config-hooks.txt",
         "patchSetId": 3
@@ -81,6 +99,24 @@
       "writtenOn": "2010-01-13T17:16:12Z",
       "side": 1,
       "message": "Should we also document these in the Documentation/config-gerrit.txt file?",
+      "revId": "5752a7bcd2063373a08c3318a82a59bb348a838e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///4c\u003d",
+        "filename": "Documentation/config-hooks.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003060
+      },
+      "writtenOn": "2010-01-13T17:40:14Z",
+      "side": 1,
+      "message": "Will do",
+      "parentUuid": "AAAAr3///5U\u003d",
       "revId": "5752a7bcd2063373a08c3318a82a59bb348a838e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -189,6 +225,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAr3///4Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1003060
+      },
+      "writtenOn": "2010-01-13T17:40:14Z",
+      "side": 1,
+      "message": "I personally prefer being able to enable and disable them whilst the server is running.",
+      "parentUuid": "AAAAr3///5A\u003d",
+      "revId": "5752a7bcd2063373a08c3318a82a59bb348a838e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAr3///48\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
         "patchSetId": 3
@@ -223,6 +277,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAr3///4Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1003060
+      },
+      "writtenOn": "2010-01-13T17:40:14Z",
+      "side": 1,
+      "message": "I\u0027ll change this.",
+      "parentUuid": "AAAAr3///44\u003d",
+      "revId": "5752a7bcd2063373a08c3318a82a59bb348a838e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAr3///40\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
         "patchSetId": 3
@@ -234,6 +306,24 @@
       "writtenOn": "2010-01-13T17:16:12Z",
       "side": 1,
       "message": "Why delay by a full second?  Why not just use execute and allow the hook to run as soon as it can?",
+      "revId": "5752a7bcd2063373a08c3318a82a59bb348a838e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///4U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1003060
+      },
+      "writtenOn": "2010-01-13T17:40:14Z",
+      "side": 1,
+      "message": "No reason, changed.",
+      "parentUuid": "AAAAr3///40\u003d",
       "revId": "5752a7bcd2063373a08c3318a82a59bb348a838e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

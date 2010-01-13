@@ -71,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAr3///4E\u003d",
+        "filename": "Documentation/config-hooks.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1001792
+      },
+      "writtenOn": "2010-01-13T17:58:08Z",
+      "side": 1,
+      "message": "If you want this to be easily bash parseable and cross-platform, I\u0027d recommend using one character option names (-c \u003cid\u003e -p \u003cname\u003e, etc). getopts does not support long names, getopt does but only on linux, not BSD. \n\nOf course that would mean you couldn\u0027t do --CRVW, it\u0027d have to be something like \n\n  -r CRVW\u003d2 -r VRIF\u003d1\n\nBasically long options are a pain in bash without using something external, like http://code.google.com/p/shflags/ . \n\nI don\u0027t feel too strongly about it though, since my hooks will probably by python or ruby.",
+      "parentUuid": "AAAAr3///5I\u003d",
+      "revId": "5752a7bcd2063373a08c3318a82a59bb348a838e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAr3///5Q\u003d",
         "filename": "Documentation/config-hooks.txt",
         "patchSetId": 3

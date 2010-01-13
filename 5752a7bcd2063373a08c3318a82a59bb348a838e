@@ -1,0 +1,242 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAr3///5c\u003d",
+        "filename": "Documentation/config-hooks.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-13T17:16:12Z",
+      "side": 1,
+      "message": "I think AsciiDoc requires that the marker line of \u003d\u003d\u003d have the same length as the line above it.",
+      "revId": "5752a7bcd2063373a08c3318a82a59bb348a838e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///5M\u003d",
+        "filename": "Documentation/config-hooks.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-13T17:16:12Z",
+      "side": 1,
+      "message": "We probably should say \u003cproject name\u003e since that\u0027s the name you want to pass down, not the repository path.  (The repository path is in GIT_DIR.)",
+      "revId": "5752a7bcd2063373a08c3318a82a59bb348a838e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///5I\u003d",
+        "filename": "Documentation/config-hooks.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-13T17:16:12Z",
+      "side": 1,
+      "message": "What format does \u003ccomment author\u003e have?\n\nDo we promise to always pass an empty string for \u003ccomment\u003e so the script can know that the remaining items are not the comment?\n\nIf we\u0027re doing variable argument parsing here for the approval categories, I wonder if it isn\u0027t just as easy for the script to take option arguments for everything:\n\n  --change \u003cid\u003e\n  --project \u003cname\u003e\n  --author \"\u003cname\u003e \u003cemail\u003e\"\n  --message \u003cmsg\u003e\n  --CRVW\n  --VRIF\n  ...\n\nOr something like that.",
+      "revId": "5752a7bcd2063373a08c3318a82a59bb348a838e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///5Q\u003d",
+        "filename": "Documentation/config-hooks.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-13T17:16:12Z",
+      "side": 1,
+      "message": "typo: submitter",
+      "revId": "5752a7bcd2063373a08c3318a82a59bb348a838e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///5U\u003d",
+        "filename": "Documentation/config-hooks.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-13T17:16:12Z",
+      "side": 1,
+      "message": "Should we also document these in the Documentation/config-gerrit.txt file?",
+      "revId": "5752a7bcd2063373a08c3318a82a59bb348a838e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///5Y\u003d",
+        "filename": "Documentation/config-hooks.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-13T17:16:12Z",
+      "side": 1,
+      "message": "Please add our standard documentation footer here to link back to the main index.",
+      "revId": "5752a7bcd2063373a08c3318a82a59bb348a838e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///4w\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/patch/PatchDetailServiceImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-13T17:16:12Z",
+      "side": 1,
+      "message": "Unnecessary edit... which added trailing whitespace.",
+      "revId": "5752a7bcd2063373a08c3318a82a59bb348a838e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///4o\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/patch/PatchDetailServiceImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-13T17:16:12Z",
+      "side": 1,
+      "message": "You should be able to use the IdentifiedUser just like you did in Receive.  Though since this is in a singleton service you\u0027ll have to declare it as its Provider:\n\n  private final Provider\u003cIdentifiedUser\u003e user;\n\n  user.get().getAccount()",
+      "revId": "5752a7bcd2063373a08c3318a82a59bb348a838e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///4s\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/patch/PatchDetailServiceImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-13T17:16:12Z",
+      "side": 1,
+      "message": "Trailing whitespace.",
+      "revId": "5752a7bcd2063373a08c3318a82a59bb348a838e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///5E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-13T17:16:12Z",
+      "side": 1,
+      "message": "Should also be final.",
+      "revId": "5752a7bcd2063373a08c3318a82a59bb348a838e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///5A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-13T17:16:12Z",
+      "side": 1,
+      "message": "The hook can\u0027t be null because the constructor ensured we assigned a non-null value to it.\n\nShould we be doing the hook stat test on each invocation?  Or should we do it only once when the ChangeHookRunner is initially constructed?  If we do it once during construction we avoid stat calls on each change, but we can\u0027t enable or disable the hook at runtime without restarting the server.",
+      "revId": "5752a7bcd2063373a08c3318a82a59bb348a838e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///48\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-13T17:16:12Z",
+      "side": 1,
+      "message": "change.getId() is currently deprecated, i\u0027m trying to remove it from most user visible areas.  Do we really want that exposed to the hook?  Rather then change.getKey() which returns the \"Change-Id\" field shown on the page or in the commit message?",
+      "revId": "5752a7bcd2063373a08c3318a82a59bb348a838e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///44\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-13T17:16:12Z",
+      "side": 1,
+      "message": "Should we use name and email here?\n\nAlso, name can be null.  We call those \"Anonymous Coward\" in the web UI.  What will null do here in the middle of the list when we pass this into ProcessBuilder?  Isn\u0027t that going to crash with a NPE?",
+      "revId": "5752a7bcd2063373a08c3318a82a59bb348a838e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///40\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-13T17:16:12Z",
+      "side": 1,
+      "message": "Why delay by a full second?  Why not just use execute and allow the hook to run as soon as it can?",
+      "revId": "5752a7bcd2063373a08c3318a82a59bb348a838e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

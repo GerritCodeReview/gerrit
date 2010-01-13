@@ -89,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAr3///38\u003d",
+        "filename": "Documentation/config-hooks.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-13T18:06:20Z",
+      "side": 1,
+      "message": "Well, its not too hard to do long options in Bourne shell:\n\n  while test $# -gt 0\n  do\n    case \"$1\" in\n    --message) shift ;  message\u003d$1 ;;\n    --author) shift ; author\u003d$1 ;;\n    esac\n    shift\n  done\n\nBut its gets hairy when you get an option you don\u0027t recognize.  Should you also consume the next argument under the assumption that is the value of that option you didn\u0027t know?  Or should you use --foo\u003dvalue format to avoid this:\n\n  while test $# -gt 0\n  do\n    case \"$1\" in\n    --message\u003d*) message\u003d${1#--message\u003d} ;;\n    --author\u003d*) author\u003d${1#--author\u003d} ;;\n    esac\n    shift\n  done\n\nOriginally I was thinking about having hooks be more like daemons that Gerrit talks to over a socket.  That would certainly require that your daemon be written in something more complex than shell.  But it would also allow a hook to be hosted externally from the server, and thus allow a project owner to add a hook which the server administrator doesn\u0027t have to trust... because its not even running on the server.\n\nGitHub supports this sort of idea, as does Google Code Project Hosting, by sending messages over HTTP to a remote web server.  You can\u0027t influence the outcome of the action, but you can receive notification of the action.  They use roughly the same protocol, its a JSON payload over HTTP.\n\nI think what\u0027ll happen is, we merge this change, and sometime later, we add the network based hooks as an alternative mechanism.",
+      "parentUuid": "AAAAr3///4E\u003d",
+      "revId": "5752a7bcd2063373a08c3318a82a59bb348a838e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAr3///5Q\u003d",
         "filename": "Documentation/config-hooks.txt",
         "patchSetId": 3

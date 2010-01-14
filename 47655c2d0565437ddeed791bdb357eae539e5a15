@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAr3///xQ\u003d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 691,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-14T15:13:36Z",
+      "side": 1,
+      "message": "Use `\u0027$site_path\u0027/hooks` style here.  The rest of the documentation call is $site_path, not $sitepath, and the \u0027\u0027 around $site_path will make it stand out from the /hooks part, while the `` overall will make it show up in a different type face.",
+      "revId": "47655c2d0565437ddeed791bdb357eae539e5a15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///xM\u003d",
+        "filename": "Documentation/config-hooks.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-14T15:13:36Z",
+      "side": 1,
+      "message": "See my remark in config-gerrit.txt, we try to write this as `\u0027$site_path\u0027/hooks` in the documentation.",
+      "revId": "47655c2d0565437ddeed791bdb357eae539e5a15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///xI\u003d",
+        "filename": "Documentation/config-hooks.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-14T15:13:36Z",
+      "side": 1,
+      "message": "If --sha1 is the commit SHA-1, maybe we should just call it --commit ?",
+      "revId": "47655c2d0565437ddeed791bdb357eae539e5a15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///xE\u003d",
+        "filename": "Documentation/config-hooks.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-14T15:13:36Z",
+      "side": 1,
+      "message": "Maybe we want --commit instead of --sha1?",
+      "revId": "47655c2d0565437ddeed791bdb357eae539e5a15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///xA\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-14T15:13:36Z",
+      "side": 1,
+      "message": "Sorry I missed this before... but I\u0027d rather the map key be the ApprovalCategory.Id object, and the map value be the ApprovalCategoryValue object.  It means this method has a bit more work to do in the formatting (has to unpack an extra method call I think for each item) but it makes the API signature more clear to callers.",
+      "revId": "47655c2d0565437ddeed791bdb357eae539e5a15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///w8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-14T15:13:36Z",
+      "side": 1,
+      "message": "Should be private.",
+      "revId": "47655c2d0565437ddeed791bdb357eae539e5a15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///w4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-14T15:13:36Z",
+      "side": 1,
+      "message": "I think you can use execute instead of schedule, and then you don\u0027t need to pass in a delay and a TimeUnit.  Which should be more clear than passing in a 0 second delay.",
+      "revId": "47655c2d0565437ddeed791bdb357eae539e5a15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

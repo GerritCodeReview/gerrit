@@ -15,6 +15,7 @@
 package com.google.gerrit.server.mail;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -40,8 +41,46 @@ abstract class EmailHeader {
 
     @Override
     void write(Writer w) throws IOException {
-      w.write(value);
+      if (needsQuotedPrintable(value)) {
+        w.write(quotedPrintable(value));
+      } else {
+        w.write(value);
+      }
     }
+  }
+
+  static boolean needsQuotedPrintable(java.lang.String value) {
+    for (int i = 0; i < value.length(); i++) {
+      if (value.charAt(i) < ' ' || '~' < value.charAt(i)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  static java.lang.String quotedPrintable(java.lang.String value)
+      throws UnsupportedEncodingException {
+    final StringBuilder r = new StringBuilder();
+    final byte[] encoded = value.getBytes("UTF-8");
+
+    r.append("=?UTF-8?Q?");
+    for (int i = 0; i < encoded.length; i++) {
+      byte b = encoded[i];
+      if (b == ' ') {
+        r.append('_');
+
+      } else if (b == '=' || b == '"' || b == '_' || b < ' ' || '~' <= b) {
+        r.append('=');
+        r.append(Integer.toHexString((b >>> 4) & 0x0f).toUpperCase());
+        r.append(Integer.toHexString(b & 0x0f).toUpperCase());
+
+      } else {
+        r.append((char) b);
+      }
+    }
+    r.append("?=");
+
+    return r.toString();
   }
 
   static class Date extends EmailHeader {

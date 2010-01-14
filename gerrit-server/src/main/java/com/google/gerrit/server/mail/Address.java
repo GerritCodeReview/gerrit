@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.mail;
 
+import java.io.UnsupportedEncodingException;
+
 class Address {
   static Address parse(final String in) {
     final int lt = in.indexOf('<');
@@ -46,10 +48,14 @@ class Address {
 
   @Override
   public String toString() {
-    return toHeaderString();
+    try {
+      return toHeaderString();
+    } catch (UnsupportedEncodingException e) {
+      throw new RuntimeException("Cannot encode address", e);
+    }
   }
 
-  String toHeaderString() {
+  String toHeaderString() throws UnsupportedEncodingException {
     if (name != null) {
       return quotedPhrase(name) + " <" + email + ">";
     } else if (isSimple()) {
@@ -71,10 +77,14 @@ class Address {
     return true;
   }
 
-  private static String quotedPhrase(final String name) {
+  private static String quotedPhrase(final String name)
+      throws UnsupportedEncodingException {
+    if (EmailHeader.needsQuotedPrintable(name)) {
+      return EmailHeader.quotedPrintable(name);
+    }
     for (int i = 0; i < name.length(); i++) {
       final char c = name.charAt(i);
-      if (c < ' ' || 0x7F <= c || MUST_QUOTE_NAME.indexOf(c) != -1) {
+      if (MUST_QUOTE_NAME.indexOf(c) != -1) {
         return wrapInQuotes(name);
       }
     }

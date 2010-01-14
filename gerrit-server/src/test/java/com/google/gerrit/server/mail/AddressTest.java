@@ -16,6 +16,8 @@ package com.google.gerrit.server.mail;
 
 import junit.framework.TestCase;
 
+import java.io.UnsupportedEncodingException;
+
 public class AddressTest extends TestCase {
   public void testParse_NameEmail1() {
     final Address a = Address.parse("A U Thor <author@example.com>");
@@ -106,6 +108,10 @@ public class AddressTest extends TestCase {
     assertEquals("\"A \\\" C\" <a@a>", format("A \" C", "a@a"));
   }
 
+  public void testToHeaderString_NameEmail6() {
+    assertEquals("=?UTF-8?Q?A_=E2=82=AC_B?= <a@a>", format("A \u20ac B", "a@a"));
+  }
+
   public void testToHeaderString_Email1() {
     assertEquals("a@a", format(null, "a@a"));
   }
@@ -115,6 +121,10 @@ public class AddressTest extends TestCase {
   }
 
   private static String format(final String name, final String email) {
-    return new Address(name, email).toHeaderString();
+    try {
+      return new Address(name, email).toHeaderString();
+    } catch (UnsupportedEncodingException e) {
+      throw new RuntimeException("Cannot encode address", e);
+    }
   }
 }

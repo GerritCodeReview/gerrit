@@ -69,9 +69,8 @@ for a project named `project`.
 ====
 
 [NOTE]
-On MySQL use `nextval_project_id()` to obtain the next value in the
-sequences.  This is contained in the `sql/mysql_nextval.sql` script,
-available from `java -jar gerrit.war --cat sql/mysql_nextval.sql`.
+On MySQL use `nextval_project_id()` to obtain the next value in
+the sequences.
 
 [[submit_type]]
 Change Submit Action

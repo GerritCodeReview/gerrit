@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAr3///xo\u003d",
+        "filename": "Documentation/config-hooks.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1001792
+      },
+      "writtenOn": "2010-01-14T03:37:15Z",
+      "side": 1,
+      "message": "Should probably change this to not imply any ordering, since you\u0027re doing named parameters.",
+      "revId": "b506d57e5f0c564cb40cf76a3a8548daa053c187",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///xk\u003d",
+        "filename": "Documentation/config-hooks.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1001792
+      },
+      "writtenOn": "2010-01-14T03:37:15Z",
+      "side": 1,
+      "message": "I\u0027d change this for consistency:\n\n  comment-added --change \u003cchange id\u003e --project \u003cproject name\u003e --branch \u003cbranch\u003e --author \u003ccomment \nauthor\u003e --comment \u003ccomment\u003e [--\u003capproval category id\u003e \u003cscore\u003e --\u003capproval category id\u003e \u003cscore\u003e ...]",
+      "revId": "b506d57e5f0c564cb40cf76a3a8548daa053c187",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

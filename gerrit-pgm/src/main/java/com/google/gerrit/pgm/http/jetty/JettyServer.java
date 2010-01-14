@@ -251,7 +251,7 @@ public class JettyServer {
         p = "/";
       }
       while (1 < p.length() && p.endsWith("/")) {
-        p = p.substring(p.length() - 1);
+        p = p.substring(0, p.length() - 1);
       }
       paths.add(p);
     }

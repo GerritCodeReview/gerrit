@@ -57,20 +57,14 @@ for a project named `project`.
 
 ====
   INSERT INTO projects
-  (project_id
-   ,use_contributor_agreements
+  (use_contributor_agreements
    ,submit_type
    ,name)
   VALUES
-  (nextval('project_id')
-  ,'N'
+  ('N'
   ,'M'
   ,'new/project');
 ====
-
-[NOTE]
-On MySQL use `nextval_project_id()` to obtain the next value in
-the sequences.
 
 [[submit_type]]
 Change Submit Action

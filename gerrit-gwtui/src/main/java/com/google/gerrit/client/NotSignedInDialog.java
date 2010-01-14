@@ -48,6 +48,7 @@ public class NotSignedInDialog extends AutoCenterDialogBox {
     close.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(ClickEvent event) {
+        Gerrit.deleteSessionCookie();
         hide();
       }
     });

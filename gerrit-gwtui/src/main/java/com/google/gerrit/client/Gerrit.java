@@ -65,6 +65,7 @@ public class Gerrit implements EntryPoint {
   public static final GerritResources RESOURCES =
       GWT.create(GerritResources.class);
   public static final SystemInfoService SYSTEM_SVC;
+  private static final String SESSION_COOKIE = "GerritAccount";
 
   private static String myHost;
   private static GerritConfig myConfig;
@@ -193,6 +194,12 @@ public class Gerrit implements EntryPoint {
     }
   }
 
+  static void deleteSessionCookie() {
+    Cookies.removeCookie(SESSION_COOKIE);
+    myAccount = null;
+    refreshMenuBar();
+  }
+
   public void onModuleLoad() {
     UserAgent.assertNotInIFrame();
 
@@ -271,7 +278,7 @@ public class Gerrit implements EntryPoint {
     JsonUtil.setDefaultXsrfManager(new XsrfManager() {
       @Override
       public String getToken(JsonDefTarget proxy) {
-        return Cookies.getCookie("GerritAccount");
+        return Cookies.getCookie(SESSION_COOKIE);
       }
 
       @Override

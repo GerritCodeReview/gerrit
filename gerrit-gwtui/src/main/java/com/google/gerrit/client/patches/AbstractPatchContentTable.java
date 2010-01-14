@@ -68,6 +68,8 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
     keysNavigation.add(new NextKeyCommand(0, 'j', PatchUtil.C.lineNext()));
     keysNavigation.add(new PrevChunkKeyCmd(0, 'p', PatchUtil.C.chunkPrev()));
     keysNavigation.add(new NextChunkKeyCmd(0, 'n', PatchUtil.C.chunkNext()));
+    keysNavigation.add(new PrevCommentCmd(0, 'P', PatchUtil.C.commentPrev()));
+    keysNavigation.add(new NextCommentCmd(0, 'N', PatchUtil.C.commentNext()));
 
     keysAction.add(new OpenKeyCommand(0, 'o', PatchUtil.C.expandComment()));
     keysAction.add(new OpenKeyCommand(0, KeyCodes.KEY_ENTER, PatchUtil.C
@@ -256,6 +258,55 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
         break;
       }
     }
+  }
+
+  private void moveToPrevComment(int row) {
+    while (0 <= row && isComment(row)) {
+      row--;
+    }
+    for (; 0 <= row; row--) {
+      if (isComment(row)) {
+        movePointerTo(row, false);
+        scrollIntoView(oneBefore(row), oneAfter(row));
+        return;
+      }
+    }
+
+    // No prior comment found? Try to hit the first line in the file.
+    //
+    for (row = 0; row < table.getRowCount(); row++) {
+      if (getRowItem(row) != null) {
+        movePointerTo(row);
+        break;
+      }
+    }
+  }
+
+  private void moveToNextComment(int row) {
+    final int max = table.getRowCount();
+    while (row < max && isComment(row)) {
+      row++;
+    }
+    for (; row < max; row++) {
+      if (isComment(row)) {
+        movePointerTo(row, false);
+        scrollIntoView(oneBefore(row), oneAfter(row));
+        return;
+      }
+    }
+
+    // No next comment found? Try to hit the last line in the file.
+    //
+    for (row = max - 1; row >= 0; row--) {
+      if (getRowItem(row) != null) {
+        movePointerTo(row);
+        break;
+      }
+    }
+  }
+
+  private boolean isComment(int row) {
+    return getRowItem(row) instanceof CommentList;
   }
 
   /** Invoked when the user clicks on a table cell. */
@@ -610,6 +661,30 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
     public void onKeyPress(final KeyPressEvent event) {
       ensurePointerVisible();
       moveToNextChunk(getCurrentRow());
+    }
+  }
+
+  public class PrevCommentCmd extends KeyCommand {
+    public PrevCommentCmd(int mask, int key, String help) {
+      super(mask, key, help);
+    }
+
+    @Override
+    public void onKeyPress(final KeyPressEvent event) {
+      ensurePointerVisible();
+      moveToPrevComment(getCurrentRow());
+    }
+  }
+
+  public class NextCommentCmd extends KeyCommand {
+    public NextCommentCmd(int mask, int key, String help) {
+      super(mask, key, help);
+    }
+
+    @Override
+    public void onKeyPress(final KeyPressEvent event) {
+      ensurePointerVisible();
+      moveToNextComment(getCurrentRow());
     }
   }
 

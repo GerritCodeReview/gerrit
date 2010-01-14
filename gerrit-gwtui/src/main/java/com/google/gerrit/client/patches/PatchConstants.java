@@ -39,6 +39,8 @@ public interface PatchConstants extends Constants {
   String lineNext();
   String chunkPrev();
   String chunkNext();
+  String commentPrev();
+  String commentNext();
   String fileList();
   String expandComment();
 

@@ -19,6 +19,7 @@ import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.SystemConfig;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.jdbc.JdbcSchema;
+import com.google.gwtorm.schema.sql.DialectMySQL;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -35,9 +36,10 @@ class Schema_21 extends SchemaVersion {
 
   @Override
   protected void migrateData(ReviewDb db) throws OrmException, SQLException {
+    JdbcSchema jdbc = (JdbcSchema) db;
     SystemConfig sc = db.systemConfig().get(new SystemConfig.Key());
 
-    Statement s = ((JdbcSchema) db).getConnection().createStatement();
+    Statement s = jdbc.getConnection().createStatement();
     try {
       ResultSet r;
 
@@ -49,6 +51,10 @@ class Schema_21 extends SchemaVersion {
         sc.wildProjectName = new Project.NameKey(r.getString(1));
       } finally {
         r.close();
+      }
+
+      if (jdbc.getDialect() instanceof DialectMySQL) {
+        s.execute("DROP FUNCTION nextval_project_id");
       }
     } finally {
       s.close();

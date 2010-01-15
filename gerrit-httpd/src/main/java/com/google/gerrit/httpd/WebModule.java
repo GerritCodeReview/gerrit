@@ -118,6 +118,7 @@ public class WebModule extends FactoryModule {
     install(new UrlModule());
     install(new UiRpcModule());
     install(new GerritRequestModule());
+    install(new ProjectServlet.Module());
 
     bind(SshInfo.class).toProvider(sshInfoProvider);
     bind(SshKeyCache.class).toProvider(sshKeyCacheProvider);

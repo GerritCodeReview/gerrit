@@ -633,6 +633,12 @@ limitations under the License.
       </dependency>
 
       <dependency>
+        <groupId>org.eclipse.jgit</groupId>
+        <artifactId>org.eclipse.jgit.http.server</artifactId>
+        <version>${jgitVersion}</version>
+      </dependency>
+
+      <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
         <version>3.8.2</version>

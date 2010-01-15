@@ -49,6 +49,7 @@ class UrlModule extends ServletModule {
     serve("/signout").with(HttpLogoutServlet.class);
     serve("/ssh_info").with(SshInfoServlet.class);
     serve("/static/*").with(StaticServlet.class);
+    serve("/p/*").with(ProjectServlet.class);
 
     serve("/Main.class").with(notFound());
     serve("/com/google/gerrit/launcher/*").with(notFound());

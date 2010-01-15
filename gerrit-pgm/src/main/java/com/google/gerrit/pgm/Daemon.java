@@ -21,8 +21,9 @@ import com.google.gerrit.httpd.WebModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.pgm.http.jetty.JettyEnv;
 import com.google.gerrit.pgm.http.jetty.JettyModule;
-import com.google.gerrit.pgm.util.LogFileCompressor;
+import com.google.gerrit.pgm.http.jetty.ProjectQoSFilter;
 import com.google.gerrit.pgm.util.ErrorLogFile;
+import com.google.gerrit.pgm.util.LogFileCompressor;
 import com.google.gerrit.pgm.util.RuntimeShutdown;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.server.config.AuthConfigModule;
@@ -193,6 +194,7 @@ public class Daemon extends SiteProgram {
 
   private Injector createWebInjector() {
     final List<Module> modules = new ArrayList<Module>();
+    modules.add(sshInjector.getInstance(ProjectQoSFilter.Module.class));
     modules.add(sshInjector.getInstance(WebModule.class));
     return sysInjector.createChildInjector(modules);
   }

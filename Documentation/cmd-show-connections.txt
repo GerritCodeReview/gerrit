@@ -49,9 +49,9 @@ Idle::
 	alive resets the idle timer, about once a minute.
 
 User::
-	The SSH User Name of the account that is authenticated on
-	this connection.  If the -n option is used, this column
-	shows the Account Id instead.
+	The username of the account that is authenticated on this
+	connection.  If the -n option is used, this column shows
+	the Account Id instead.
 
 Remote Host::
 	Reverse lookup hostname, or if -n option is used, the remote

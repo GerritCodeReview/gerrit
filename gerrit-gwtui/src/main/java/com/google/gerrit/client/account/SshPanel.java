@@ -97,13 +97,13 @@ class SshPanel extends Composite {
     final FlowPanel body = new FlowPanel();
 
     userNameTxt = new NpTextBox();
-    userNameTxt.addKeyPressHandler(new SshUserNameValidator());
+    userNameTxt.addKeyPressHandler(new UserNameValidator());
     userNameTxt.addStyleName(Gerrit.RESOURCES.css().sshPanelUsername());
     userNameTxt.setVisibleLength(16);
-    userNameTxt.setReadOnly(!canEditSshUserName());
+    userNameTxt.setReadOnly(!canEditUserName());
 
-    changeUserName = new Button(Util.C.buttonChangeSshUserName());
-    changeUserName.setVisible(canEditSshUserName());
+    changeUserName = new Button(Util.C.buttonChangeUserName());
+    changeUserName.setVisible(canEditUserName());
     changeUserName.setEnabled(false);
     changeUserName.addClickHandler(new ClickHandler() {
       @Override
@@ -122,7 +122,7 @@ class SshPanel extends Composite {
     userNameRow.add(userNameTxt);
     userNameRow.add(changeUserName);
 
-    row(userInfo, 0, Util.C.sshUserName(), userNameRow);
+    row(userInfo, 0, Util.C.userName(), userNameRow);
     userInfo.getCellFormatter().addStyleName(0, 0,
         Gerrit.RESOURCES.css().topmost());
     userInfo.getCellFormatter().addStyleName(0, 0,
@@ -220,7 +220,7 @@ class SshPanel extends Composite {
     initWidget(body);
   }
 
-  private boolean canEditSshUserName() {
+  private boolean canEditUserName() {
     return Gerrit.getConfig().canEdit(Account.FieldName.USER_NAME);
   }
 
@@ -239,7 +239,7 @@ class SshPanel extends Composite {
   }
 
   void doChangeUserName() {
-    if (!canEditSshUserName()) {
+    if (!canEditUserName()) {
       return;
     }
 
@@ -279,7 +279,7 @@ class SshPanel extends Composite {
 
   void invalidUserName() {
     userNameTxt.setFocus(true);
-    new ErrorDialog(Util.C.invalidSshUserName()).center();
+    new ErrorDialog(Util.C.invalidUserName()).center();
   }
 
   void doBrowse() {
@@ -477,7 +477,7 @@ class SshPanel extends Composite {
     addKeyBlock.setVisible(show);
   }
 
-  private final class SshUserNameValidator implements KeyPressHandler {
+  private final class UserNameValidator implements KeyPressHandler {
     @Override
     public void onKeyPress(final KeyPressEvent event) {
       final char code = event.getCharCode();

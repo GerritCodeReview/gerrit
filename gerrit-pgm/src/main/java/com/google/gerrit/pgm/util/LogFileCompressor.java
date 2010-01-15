@@ -98,6 +98,7 @@ public class LogFileCompressor implements Runnable {
     final String name = entry.getName();
     return ErrorLogFile.LOG_NAME.equals(name) //
         || "sshd_log".equals(name) //
+        || "httpd_log".equals(name) //
         || name.endsWith(".pid");
   }
 

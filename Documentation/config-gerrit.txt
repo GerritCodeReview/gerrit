@@ -841,6 +841,15 @@ password during startup.
 +
 By default, `gerrit`.
 
+[[httpd.requestLog]]httpd.requestLog::
++
+Enable (or disable) the `'$site_path'/logs/httpd_log` request log.
+If enabled, an NCSA combined log format request log file is written
+out by the internal HTTP daemon.
++
+By default, true if httpd.listenUrl uses http:// or https://,
+and false if httpd.listenUrl uses proxy-http:// or proxy-https://.
+
 [[httpd.acceptorThreads]]httpd.acceptorThreads::
 +
 Number of worker threads dedicated to accepting new incoming TCP

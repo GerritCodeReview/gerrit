@@ -19,10 +19,12 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.gerrit.launcher.GerritLauncher;
 import com.google.gerrit.lifecycle.LifecycleListener;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.servlet.GuiceFilter;
 import com.google.inject.servlet.GuiceServletContextListener;
@@ -34,6 +36,7 @@ import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.ContextHandler;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
+import org.eclipse.jetty.server.handler.RequestLogHandler;
 import org.eclipse.jetty.server.nio.SelectChannelConnector;
 import org.eclipse.jetty.server.ssl.SslSelectChannelConnector;
 import org.eclipse.jetty.servlet.DefaultServlet;
@@ -95,19 +98,28 @@ public class JettyServer {
   private final SitePaths site;
   private final Server httpd;
 
+  private boolean reverseProxy;
+
   /** Location on disk where our WAR file was unpacked to. */
   private Resource baseResource;
 
   @Inject
   JettyServer(@GerritServerConfig final Config cfg, final SitePaths site,
-      final JettyEnv env) throws MalformedURLException, IOException {
+      final JettyEnv env, final Provider<CurrentUser> userProvider)
+      throws MalformedURLException, IOException {
     this.site = site;
-
-    Handler app = makeContext(env, cfg);
 
     httpd = new Server();
     httpd.setConnectors(listen(cfg));
     httpd.setThreadPool(threadPool(cfg));
+
+    Handler app = makeContext(env, cfg);
+    if (cfg.getBoolean("httpd", "requestlog", !reverseProxy)) {
+      RequestLogHandler handler = new RequestLogHandler();
+      handler.setRequestLog(new HttpLog(site, userProvider));
+      handler.setHandler(app);
+      app = handler;
+    }
     httpd.setHandler(app);
 
     httpd.setStopAtShutdown(false);
@@ -128,6 +140,7 @@ public class JettyServer {
     final boolean reuseAddress = cfg.getBoolean("httpd", "reuseaddress", true);
     final int acceptors = cfg.getInt("httpd", "acceptorThreads", 2);
 
+    reverseProxy = true;
     final Connector[] connectors = new Connector[listenUrls.length];
     for (int idx = 0; idx < listenUrls.length; idx++) {
       final URI u = listenUrls[idx];
@@ -135,6 +148,7 @@ public class JettyServer {
       final SelectChannelConnector c;
 
       if ("http".equals(u.getScheme())) {
+        reverseProxy = false;
         defaultPort = 80;
         c = new SelectChannelConnector();
 
@@ -150,6 +164,7 @@ public class JettyServer {
         ssl.setKeyPassword(password);
         ssl.setTrustPassword(password);
 
+        reverseProxy = false;
         defaultPort = 443;
         c = ssl;
 

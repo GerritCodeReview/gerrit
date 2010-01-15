@@ -45,8 +45,8 @@ public class AccountCacheImpl implements AccountCache {
     return new CacheModule() {
       @Override
       protected void configure() {
-        final TypeLiteral<Cache<Account.Id, AccountState>> type =
-            new TypeLiteral<Cache<Account.Id, AccountState>>() {};
+        final TypeLiteral<Cache<Object, AccountState>> type =
+            new TypeLiteral<Cache<Object, AccountState>>() {};
         core(type, CACHE_NAME);
         bind(AccountCacheImpl.class);
         bind(AccountCache.class).to(AccountCacheImpl.class);
@@ -56,7 +56,8 @@ public class AccountCacheImpl implements AccountCache {
 
   private final SchemaFactory<ReviewDb> schema;
   private final GroupCache groupCache;
-  private final SelfPopulatingCache<Account.Id, AccountState> self;
+  private final SelfPopulatingCache<Account.Id, AccountState> byId;
+  private final SelfPopulatingCache<String, AccountState> byName;
 
   private final Set<AccountGroup.Id> registered;
   private final Set<AccountGroup.Id> anonymous;
@@ -64,13 +65,13 @@ public class AccountCacheImpl implements AccountCache {
   @Inject
   AccountCacheImpl(final SchemaFactory<ReviewDb> sf, final AuthConfig auth,
       final GroupCache groupCache,
-      @Named(CACHE_NAME) final Cache<Account.Id, AccountState> rawCache) {
+      @Named(CACHE_NAME) final Cache<Object, AccountState> rawCache) {
     schema = sf;
     registered = auth.getRegisteredGroups();
     anonymous = auth.getAnonymousGroups();
     this.groupCache = groupCache;
 
-    self = new SelfPopulatingCache<Account.Id, AccountState>(rawCache) {
+    byId = new SelfPopulatingCache<Account.Id, AccountState>((Cache) rawCache) {
       @Override
       protected AccountState createEntry(Account.Id key) throws Exception {
         return lookup(key);
@@ -81,42 +82,69 @@ public class AccountCacheImpl implements AccountCache {
         return missingAccount(key);
       }
     };
+
+    byName = new SelfPopulatingCache<String, AccountState>((Cache) rawCache) {
+      @Override
+      protected AccountState createEntry(String username) throws Exception {
+        return lookup(username);
+      }
+    };
   }
 
   private AccountState lookup(final Account.Id who) throws OrmException {
     final ReviewDb db = schema.open();
     try {
-      final Account account = db.accounts().get(who);
-      if (account == null) {
-        // Account no longer exists? They are anonymous.
-        //
-        return missingAccount(who);
-      }
-
-      final Collection<AccountExternalId> externalIds =
-          Collections.unmodifiableCollection(db.accountExternalIds().byAccount(
-              who).toList());
-
-      Set<AccountGroup.Id> internalGroups = new HashSet<AccountGroup.Id>();
-      for (AccountGroupMember g : db.accountGroupMembers().byAccount(who)) {
-        final AccountGroup.Id groupId = g.getAccountGroupId();
-        final AccountGroup group = groupCache.get(groupId);
-        if (group != null && group.getType() == AccountGroup.Type.INTERNAL) {
-          internalGroups.add(groupId);
-        }
-      }
-
-      if (internalGroups.isEmpty()) {
-        internalGroups = registered;
-      } else {
-        internalGroups.addAll(registered);
-        internalGroups = Collections.unmodifiableSet(internalGroups);
-      }
-
-      return new AccountState(account, internalGroups, externalIds);
+      return load(db, who);
     } finally {
       db.close();
     }
+  }
+
+  private AccountState lookup(final String username) throws OrmException {
+    final ReviewDb db = schema.open();
+    try {
+      AccountExternalId.Key key =
+          new AccountExternalId.Key(AccountExternalId.SCHEME_USERNAME, username);
+      AccountExternalId id = db.accountExternalIds().get(key);
+      if (id == null) {
+        return null;
+      }
+      return load(db, id.getAccountId());
+    } finally {
+      db.close();
+    }
+  }
+
+  private AccountState load(final ReviewDb db, final Account.Id who)
+      throws OrmException {
+    final Account account = db.accounts().get(who);
+    if (account == null) {
+      // Account no longer exists? They are anonymous.
+      //
+      return missingAccount(who);
+    }
+
+    final Collection<AccountExternalId> externalIds =
+        Collections.unmodifiableCollection(db.accountExternalIds().byAccount(
+            who).toList());
+
+    Set<AccountGroup.Id> internalGroups = new HashSet<AccountGroup.Id>();
+    for (AccountGroupMember g : db.accountGroupMembers().byAccount(who)) {
+      final AccountGroup.Id groupId = g.getAccountGroupId();
+      final AccountGroup group = groupCache.get(groupId);
+      if (group != null && group.getType() == AccountGroup.Type.INTERNAL) {
+        internalGroups.add(groupId);
+      }
+    }
+
+    if (internalGroups.isEmpty()) {
+      internalGroups = registered;
+    } else {
+      internalGroups.addAll(registered);
+      internalGroups = Collections.unmodifiableSet(internalGroups);
+    }
+
+    return new AccountState(account, internalGroups, externalIds);
   }
 
   private AccountState missingAccount(final Account.Id accountId) {
@@ -126,10 +154,19 @@ public class AccountCacheImpl implements AccountCache {
   }
 
   public AccountState get(final Account.Id accountId) {
-    return self.get(accountId);
+    return byId.get(accountId);
+  }
+
+  @Override
+  public AccountState getByUsername(String username) {
+    return byName.get(username);
   }
 
   public void evict(final Account.Id accountId) {
-    self.remove(accountId);
+    byId.remove(accountId);
+  }
+
+  public void evictByUsername(String username) {
+    byName.remove(username);
   }
 }

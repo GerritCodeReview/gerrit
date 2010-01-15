@@ -20,6 +20,7 @@ import com.google.gerrit.common.errors.InvalidSshKeyException;
 import com.google.gerrit.reviewdb.AccountExternalId;
 import com.google.gerrit.reviewdb.AccountSshKey;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.SelfPopulatingCache;
@@ -73,11 +74,15 @@ public class SshKeyCacheImpl implements SshKeyCache {
 
   private final SchemaFactory<ReviewDb> schema;
   private final SelfPopulatingCache<String, Iterable<SshKeyCacheEntry>> self;
+  private final AccountCache accountCache;
 
   @Inject
   SshKeyCacheImpl(final SchemaFactory<ReviewDb> schema,
+      final AccountCache accountCache,
       @Named(CACHE_NAME) final Cache<String, Iterable<SshKeyCacheEntry>> raw) {
     this.schema = schema;
+    this.accountCache = accountCache;
+
     self = new SelfPopulatingCache<String, Iterable<SshKeyCacheEntry>>(raw) {
       @Override
       protected Iterable<SshKeyCacheEntry> createEntry(final String username)
@@ -98,6 +103,7 @@ public class SshKeyCacheImpl implements SshKeyCache {
 
   public void evict(String username) {
     self.remove(username);
+    accountCache.evictByUsername(username);
   }
 
   @Override

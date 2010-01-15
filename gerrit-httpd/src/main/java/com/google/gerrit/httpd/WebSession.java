@@ -148,6 +148,12 @@ public final class WebSession {
     saveCookie();
   }
 
+  /** Set the user account for this current request only. */
+  void setUserAccountId(Account.Id id) {
+    key = new Key("id:" + id);
+    val = new Val(id, 0, false, null);
+  }
+
   public void logout() {
     if (val != null) {
       manager.destroy(key);

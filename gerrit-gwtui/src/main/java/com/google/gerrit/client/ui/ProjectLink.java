@@ -15,10 +15,10 @@
 package com.google.gerrit.client.ui;
 
 import com.google.gerrit.client.Gerrit;
-import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.changes.ByProjectAbandonedChangesScreen;
 import com.google.gerrit.client.changes.ByProjectMergedChangesScreen;
 import com.google.gerrit.client.changes.ByProjectOpenChangesScreen;
+import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.Change.Status;
@@ -34,7 +34,7 @@ public class ProjectLink extends InlineHyperlink {
 
   public ProjectLink(final String text, final Project.NameKey proj,
       Change.Status stat) {
-    super(text, Dispatcher.toProject(proj, stat));
+    super(text, PageLinks.toProject(proj, stat));
     status = stat;
     project = proj;
   }

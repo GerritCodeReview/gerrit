@@ -18,6 +18,8 @@ import com.google.gerrit.common.data.AccountInfo;
 import com.google.gerrit.common.data.ChangeInfo;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.Change.Status;
 import com.google.gwtorm.client.KeyUtil;
 
 public class PageLinks {
@@ -61,6 +63,21 @@ public class PageLinks {
 
   public static String toChangeQuery(final String query) {
     return "q," + KeyUtil.encode(query) + "," + TOP;
+  }
+
+  public static String toProject(final Project.NameKey proj, Status status) {
+    switch (status) {
+      case ABANDONED:
+        return "project,abandoned," + proj.toString() + ",n,z";
+
+      case MERGED:
+        return "project,merged," + proj.toString() + ",n,z";
+
+      case NEW:
+      case SUBMITTED:
+      default:
+        return "project,open," + proj.toString() + ",n,z";
+    }
   }
 
   protected PageLinks() {

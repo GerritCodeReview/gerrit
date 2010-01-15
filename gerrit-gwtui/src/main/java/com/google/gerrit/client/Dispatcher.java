@@ -58,7 +58,6 @@ import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.Patch;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.reviewdb.Change.Status;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwtorm.client.KeyUtil;
@@ -82,21 +81,6 @@ public class Dispatcher {
 
   public static String toProjectAdmin(final Project.NameKey n, final String tab) {
     return "admin,project," + n.toString() + "," + tab;
-  }
-
-  public static String toProject(final Project.NameKey proj, Status status) {
-    switch (status) {
-      case ABANDONED:
-        return "project,abandoned," + proj.toString() + ",n,z";
-
-      case MERGED:
-        return "project,merged," + proj.toString() + ",n,z";
-
-      case NEW:
-      case SUBMITTED:
-      default:
-        return "project,open," + proj.toString() + ",n,z";
-    }
   }
 
   void display(final String token) {

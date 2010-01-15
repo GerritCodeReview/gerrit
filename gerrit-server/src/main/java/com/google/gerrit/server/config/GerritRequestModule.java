@@ -21,6 +21,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RequestCleanup;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.GroupControl;
+import com.google.gerrit.server.git.ReceiveCommits;
 import com.google.gerrit.server.mail.AddReviewerSender;
 import com.google.gerrit.server.mail.CreateChangeSender;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
@@ -42,6 +43,8 @@ public class GerritRequestModule extends FactoryModule {
     bind(ChangeControl.Factory.class).in(SINGLETON);
     bind(GroupControl.Factory.class).in(SINGLETON);
     bind(ProjectControl.Factory.class).in(SINGLETON);
+
+    factory(ReceiveCommits.Factory.class);
 
     // Not really per-request, but dammit, I don't know where else to
     // easily park this stuff.

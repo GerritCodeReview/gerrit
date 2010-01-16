@@ -120,6 +120,7 @@ public interface GerritCss extends CssResource {
   String needsReview();
   String negscore();
   String noLineLineNumber();
+  String noborder();
   String patchBrowserPopup();
   String patchBrowserPopupBody();
   String patchComments();
@@ -160,6 +161,7 @@ public interface GerritCss extends CssResource {
   String sshKeyPanelEncodedKey();
   String sshKeyPanelInvalid();
   String sshPanelUsername();
+  String sshPanelPassword();
   String topmenu();
   String topmenuMenuLeft();
   String topmenuMenuRight();

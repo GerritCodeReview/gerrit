@@ -29,6 +29,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.ChangeUserName;
+import com.google.gerrit.server.account.GeneratePassword;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.FactoryModule;
@@ -136,6 +137,7 @@ public class WebModule extends FactoryModule {
     bind(AccountManager.class);
     bind(ChangeUserName.CurrentUser.class);
     factory(ChangeUserName.Factory.class);
+    factory(GeneratePassword.Factory.class);
 
     bind(SocketAddress.class).annotatedWith(RemotePeer.class).toProvider(
         HttpRemotePeerProvider.class).in(RequestScoped.class);

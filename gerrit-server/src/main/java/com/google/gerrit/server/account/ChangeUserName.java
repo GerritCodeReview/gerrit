@@ -100,6 +100,13 @@ public class ChangeUserName implements Callable<VoidResult> {
       try {
         final AccountExternalId id =
             new AccountExternalId(user.getAccountId(), key);
+
+        for (AccountExternalId i : old) {
+          if (i.getPassword() != null) {
+            id.setPassword(i.getPassword());
+          }
+        }
+
         db.accountExternalIds().insert(Collections.singleton(id));
       } catch (OrmDuplicateKeyException dupeErr) {
         // If we are using this identity, don't report the exception.

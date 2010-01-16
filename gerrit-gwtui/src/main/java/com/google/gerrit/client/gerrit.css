@@ -754,6 +754,10 @@
   text-align: right;
 }
 
+.infoBlock td.noborder {
+  border-right: none;
+}
+
 .infoBlock td.bottomheader {
   border-bottom: 1px solid trim-color;
 }
@@ -861,7 +865,10 @@
 .sshPanelUsername {
   font-family: mono-font;
   font-size: small;
-  margin-right: 0.2em;
+}
+.sshPanelPassword {
+  font-family: mono-font;
+  font-size: small;
 }
 .sshKeyPanelEncodedKey {
   white-space: nowrap;

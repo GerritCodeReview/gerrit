@@ -79,6 +79,9 @@ public final class AccountExternalId {
   @Column(id = 3, notNull = false)
   protected String emailAddress;
 
+  @Column(id = 4, notNull = false)
+  protected String password;
+
   /** <i>computed value</i> is this identity trusted by the site administrator? */
   protected boolean trusted;
 
@@ -129,6 +132,14 @@ public final class AccountExternalId {
     String id = getExternalId();
     int c = id.indexOf(':');
     return 0 < c ? id.substring(c + 1) : null;
+  }
+
+  public String getPassword() {
+    return password;
+  }
+
+  public void setPassword(String p) {
+    password = p;
   }
 
   public boolean isTrusted() {

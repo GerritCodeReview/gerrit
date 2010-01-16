@@ -46,7 +46,9 @@ public interface AccountConstants extends Constants {
   String buttonAddSshKey();
 
   String userName();
+  String password();
   String buttonChangeUserName();
+  String buttonGeneratePassword();
   String invalidUserName();
 
   String sshKeyInvalid();

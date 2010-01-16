@@ -43,7 +43,11 @@ public interface AccountSecurity extends RemoteJsonService {
       AsyncCallback<VoidResult> callback);
 
   @SignInRequired
-  void changeSshUserName(String newName, AsyncCallback<VoidResult> callback);
+  void changeUserName(String newName, AsyncCallback<VoidResult> callback);
+
+  @SignInRequired
+  void generatePassword(AccountExternalId.Key key,
+      AsyncCallback<AccountExternalId> callback);
 
   @SignInRequired
   void myExternalIds(AsyncCallback<List<AccountExternalId>> callback);

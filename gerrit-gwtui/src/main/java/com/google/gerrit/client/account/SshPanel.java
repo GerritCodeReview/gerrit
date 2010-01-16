@@ -14,48 +14,34 @@
 
 package com.google.gerrit.client.account;
 
-import static com.google.gerrit.reviewdb.AccountExternalId.SCHEME_USERNAME;
-
 import com.google.gerrit.client.ErrorDialog;
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.client.ui.SmallHeading;
-import com.google.gerrit.client.ui.TextSaveButtonListener;
 import com.google.gerrit.common.data.SshHostKey;
 import com.google.gerrit.common.errors.InvalidSshKeyException;
-import com.google.gerrit.common.errors.InvalidUserNameException;
-import com.google.gerrit.reviewdb.Account;
-import com.google.gerrit.reviewdb.AccountExternalId;
 import com.google.gerrit.reviewdb.AccountSshKey;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
-import com.google.gwtexpui.globalkey.client.NpTextBox;
 import com.google.gwtjsonrpc.client.RemoteJsonException;
 import com.google.gwtjsonrpc.client.VoidResult;
 
@@ -68,11 +54,6 @@ class SshPanel extends Composite {
   private static Element applet;
   private static String appletErrorInvalidKey;
   private static String appletErrorSecurity;
-
-  private int labelIdx, fieldIdx;
-
-  private NpTextBox userNameTxt;
-  private Button changeUserName;
 
   private SshKeyTable keys;
 
@@ -89,51 +70,8 @@ class SshPanel extends Composite {
   private Panel serverKeys;
 
   SshPanel() {
-    if (LocaleInfo.getCurrentLocale().isRTL()) {
-      labelIdx = 1;
-      fieldIdx = 0;
-    } else {
-      labelIdx = 0;
-      fieldIdx = 1;
-    }
-
     final FlowPanel body = new FlowPanel();
-
-    userNameTxt = new NpTextBox();
-    userNameTxt.addKeyPressHandler(new UserNameValidator());
-    userNameTxt.addStyleName(Gerrit.RESOURCES.css().sshPanelUsername());
-    userNameTxt.setVisibleLength(16);
-    userNameTxt.setReadOnly(!canEditUserName());
-
-    changeUserName = new Button(Util.C.buttonChangeUserName());
-    changeUserName.setVisible(canEditUserName());
-    changeUserName.setEnabled(false);
-    changeUserName.addClickHandler(new ClickHandler() {
-      @Override
-      public void onClick(final ClickEvent event) {
-        doChangeUserName();
-      }
-    });
-    new TextSaveButtonListener(userNameTxt, changeUserName);
-
-    final Grid userInfo = new Grid(1, 2);
-    userInfo.setStyleName(Gerrit.RESOURCES.css().infoBlock());
-    userInfo.addStyleName(Gerrit.RESOURCES.css().accountInfoBlock());
-    body.add(userInfo);
-
-    final FlowPanel userNameRow = new FlowPanel();
-    userNameRow.add(userNameTxt);
-    userNameRow.add(changeUserName);
-
-    row(userInfo, 0, Util.C.userName(), userNameRow);
-    userInfo.getCellFormatter().addStyleName(0, 0,
-        Gerrit.RESOURCES.css().topmost());
-    userInfo.getCellFormatter().addStyleName(0, 0,
-        Gerrit.RESOURCES.css().topmost());
-    userInfo.getCellFormatter().addStyleName(0, 1,
-        Gerrit.RESOURCES.css().topmost());
-    userInfo.getCellFormatter().addStyleName(0, 0,
-        Gerrit.RESOURCES.css().bottomheader());
+    body.add(new UsernamePanel());
 
     showAddKeyBlock = new Button(Util.C.buttonShowAddSshKey());
     showAddKeyBlock.addClickHandler(new ClickHandler() {
@@ -224,66 +162,10 @@ class SshPanel extends Composite {
     initWidget(body);
   }
 
-  private boolean canEditUserName() {
-    return Gerrit.getConfig().canEdit(Account.FieldName.USER_NAME);
-  }
-
-  protected void row(final Grid info, final int row, final String name,
-      final Widget field) {
-    info.setText(row, labelIdx, name);
-    info.setWidget(row, fieldIdx, field);
-    info.getCellFormatter().addStyleName(row, 0,
-        Gerrit.RESOURCES.css().header());
-  }
-
   void setKeyTableVisible(final boolean on) {
     keys.setVisible(on);
     deleteKey.setVisible(on);
     closeAddKeyBlock.setVisible(on);
-  }
-
-  void doChangeUserName() {
-    if (!canEditUserName()) {
-      return;
-    }
-
-    String newName = userNameTxt.getText();
-    if ("".equals(newName)) {
-      newName = null;
-    }
-    if (newName != null && !newName.matches(Account.USER_NAME_PATTERN)) {
-      invalidUserName();
-      return;
-    }
-
-    userNameTxt.setEnabled(false);
-    changeUserName.setEnabled(false);
-
-    final String newUserName = newName;
-    Util.ACCOUNT_SEC.changeSshUserName(newUserName,
-        new GerritCallback<VoidResult>() {
-          public void onSuccess(final VoidResult result) {
-            Gerrit.getUserAccount().setUserName(newUserName);
-            userNameTxt.setEnabled(true);
-            changeUserName.setEnabled(false);
-          }
-
-          @Override
-          public void onFailure(final Throwable caught) {
-            userNameTxt.setEnabled(true);
-            changeUserName.setEnabled(true);
-            if (InvalidUserNameException.MESSAGE.equals(caught.getMessage())) {
-              invalidUserName();
-            } else {
-              super.onFailure(caught);
-            }
-          }
-        });
-  }
-
-  void invalidUserName() {
-    userNameTxt.setFocus(true);
-    new ErrorDialog(Util.C.invalidUserName()).center();
   }
 
   void doBrowse() {
@@ -431,23 +313,6 @@ class SshPanel extends Composite {
   protected void onLoad() {
     super.onLoad();
 
-    userNameTxt.setEnabled(false);
-    Util.ACCOUNT_SEC
-        .myExternalIds(new GerritCallback<List<AccountExternalId>>() {
-          public void onSuccess(final List<AccountExternalId> result) {
-            String userName = null;
-            for (AccountExternalId i : result) {
-              if (i.isScheme(SCHEME_USERNAME)) {
-                userName = i.getSchemeRest();
-                break;
-              }
-            }
-            Gerrit.getUserAccount().setUserName(userName);
-            userNameTxt.setText(userName);
-            userNameTxt.setEnabled(true);
-          }
-        });
-
     Util.ACCOUNT_SEC.mySshKeys(new GerritCallback<List<AccountSshKey>>() {
       public void onSuccess(final List<AccountSshKey> result) {
         keys.display(result);
@@ -480,53 +345,6 @@ class SshPanel extends Composite {
   private void showAddKeyBlock(final boolean show) {
     showAddKeyBlock.setVisible(!show);
     addKeyBlock.setVisible(show);
-  }
-
-  private final class UserNameValidator implements KeyPressHandler {
-    @Override
-    public void onKeyPress(final KeyPressEvent event) {
-      final char code = event.getCharCode();
-      switch (code) {
-        case KeyCodes.KEY_ALT:
-        case KeyCodes.KEY_BACKSPACE:
-        case KeyCodes.KEY_CTRL:
-        case KeyCodes.KEY_DELETE:
-        case KeyCodes.KEY_DOWN:
-        case KeyCodes.KEY_END:
-        case KeyCodes.KEY_ENTER:
-        case KeyCodes.KEY_ESCAPE:
-        case KeyCodes.KEY_HOME:
-        case KeyCodes.KEY_LEFT:
-        case KeyCodes.KEY_PAGEDOWN:
-        case KeyCodes.KEY_PAGEUP:
-        case KeyCodes.KEY_RIGHT:
-        case KeyCodes.KEY_SHIFT:
-        case KeyCodes.KEY_TAB:
-        case KeyCodes.KEY_UP:
-          // Allow these, even if one of their assigned codes is
-          // identical to an ASCII character we do not want to
-          // allow in the box.
-          //
-          // We still want to let the user move around the input box
-          // with their arrow keys, or to move between fields using tab.
-          // Invalid characters introduced will be caught through the
-          // server's own validation of the input data.
-          //
-          break;
-
-        default:
-          final TextBox box = (TextBox) event.getSource();
-          final String re;
-          if (box.getCursorPos() == 0)
-            re = Account.USER_NAME_PATTERN_FIRST;
-          else
-            re = Account.USER_NAME_PATTERN_REST;
-          if (!String.valueOf(code).matches("^" + re + "$")) {
-            event.preventDefault();
-            event.stopPropagation();
-          }
-      }
-    }
   }
 
   private class SshKeyTable extends FancyFlexTable<AccountSshKey> {

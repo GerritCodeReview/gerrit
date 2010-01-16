@@ -45,6 +45,7 @@ class ExternalIdPanel extends Composite {
 
   ExternalIdPanel() {
     final FlowPanel body = new FlowPanel();
+    body.add(new UsernamePanel());
 
     identites = new IdTable();
     body.add(identites);
@@ -80,10 +81,7 @@ class ExternalIdPanel extends Composite {
   @Override
   protected void onLoad() {
     super.onLoad();
-    refresh();
-  }
 
-  private void refresh() {
     Util.ACCOUNT_SEC
         .myExternalIds(new GerritCallback<List<AccountExternalId>>() {
           public void onSuccess(final List<AccountExternalId> result) {

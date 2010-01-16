@@ -37,6 +37,7 @@ import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.ChangeUserName;
+import com.google.gerrit.server.account.GeneratePassword;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.contact.ContactStore;
@@ -74,6 +75,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
   private final AccountManager accountManager;
   private final boolean useContactInfo;
 
+  private final GeneratePassword.Factory generatePasswordFactory;
   private final ChangeUserName.CurrentUser changeUserNameFactory;
   private final DeleteExternalIds.Factory deleteExternalIdsFactory;
   private final ExternalIdDetailFactory.Factory externalIdDetailFactory;
@@ -86,6 +88,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
       final RegisterNewEmailSender.Factory esf, final SshKeyCache skc,
       final AccountByEmailCache abec, final AccountCache uac,
       final AccountManager am,
+      final GeneratePassword.Factory generatePasswordFactory,
       final ChangeUserName.CurrentUser changeUserNameFactory,
       final DeleteExternalIds.Factory deleteExternalIdsFactory,
       final ExternalIdDetailFactory.Factory externalIdDetailFactory,
@@ -103,6 +106,7 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
 
     useContactInfo = contactStore != null && contactStore.isEnabled();
 
+    this.generatePasswordFactory = generatePasswordFactory;
     this.changeUserNameFactory = changeUserNameFactory;
     this.deleteExternalIdsFactory = deleteExternalIdsFactory;
     this.externalIdDetailFactory = externalIdDetailFactory;
@@ -164,13 +168,19 @@ class AccountSecurityImpl extends BaseServiceImplementation implements
   }
 
   @Override
-  public void changeSshUserName(final String newName,
+  public void changeUserName(final String newName,
       final AsyncCallback<VoidResult> callback) {
     if (realm.allowsEdit(Account.FieldName.USER_NAME)) {
       Handler.wrap(changeUserNameFactory.create(newName)).to(callback);
     } else {
       callback.onFailure(new NameAlreadyUsedException());
     }
+  }
+
+  @Override
+  public void generatePassword(AccountExternalId.Key key,
+      AsyncCallback<AccountExternalId> callback) {
+    Handler.wrap(generatePasswordFactory.create(key)).to(callback);
   }
 
   public void myExternalIds(AsyncCallback<List<AccountExternalId>> callback) {

@@ -17,6 +17,7 @@ package com.google.gerrit.httpd;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.Nullable;
@@ -131,7 +132,8 @@ public class ProjectServlet extends GitServlet {
 
     @Override
     public Repository open(HttpServletRequest req, String projectName)
-        throws RepositoryNotFoundException {
+        throws RepositoryNotFoundException, ServiceNotAuthorizedException,
+        ServiceNotEnabledException {
       if (projectName.endsWith(".git")) {
         // Be nice and drop the trailing ".git" suffix, which we never keep
         // in our database, but clients might mistakenly provide anyway.
@@ -151,9 +153,16 @@ public class ProjectServlet extends GitServlet {
       final ProjectControl pc;
       try {
         final Project.NameKey nameKey = new Project.NameKey(projectName);
-        pc = projectControlFactory.validateFor(nameKey);
+        pc = projectControlFactory.controlFor(nameKey);
       } catch (NoSuchProjectException err) {
         throw new RepositoryNotFoundException(projectName);
+      }
+      if (!pc.isVisible()) {
+        if (pc.getCurrentUser() instanceof AnonymousUser) {
+          throw new ServiceNotAuthorizedException();
+        } else {
+          throw new ServiceNotEnabledException();
+        }
       }
       req.setAttribute(ATT_CONTROL, pc);
 

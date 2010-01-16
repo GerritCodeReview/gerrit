@@ -127,9 +127,11 @@ public class ChangeUserName implements Callable<VoidResult> {
     db.accountExternalIds().delete(old);
     for (AccountExternalId i : old) {
       sshKeyCache.evict(i.getSchemeRest());
+      accountCache.evictByUsername(i.getSchemeRest());
     }
 
     accountCache.evict(user.getAccountId());
+    accountCache.evictByUsername(newUsername);
     sshKeyCache.evict(newUsername);
     return VoidResult.INSTANCE;
   }

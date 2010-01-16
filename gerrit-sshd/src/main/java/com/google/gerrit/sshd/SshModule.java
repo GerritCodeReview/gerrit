@@ -47,6 +47,7 @@ import com.google.inject.servlet.SessionScoped;
 import org.apache.sshd.common.KeyPairProvider;
 import org.apache.sshd.common.session.AbstractSession;
 import org.apache.sshd.server.CommandFactory;
+import org.apache.sshd.server.PasswordAuthenticator;
 import org.apache.sshd.server.PublickeyAuthenticator;
 import org.apache.sshd.server.session.ServerSession;
 import org.kohsuke.args4j.spi.OptionHandler;
@@ -81,6 +82,7 @@ public class SshModule extends FactoryModule {
         .toProvider(CommandExecutorProvider.class).in(SINGLETON);
 
     bind(PublickeyAuthenticator.class).to(DatabasePubKeyAuth.class);
+    bind(PasswordAuthenticator.class).to(DatabasePasswordAuth.class);
     bind(KeyPairProvider.class).toProvider(HostKeyProvider.class).in(SINGLETON);
 
     install(new DefaultCommandModule());

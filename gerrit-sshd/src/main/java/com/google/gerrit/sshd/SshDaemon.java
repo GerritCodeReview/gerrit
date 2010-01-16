@@ -60,8 +60,10 @@ import org.apache.sshd.common.util.SecurityUtils;
 import org.apache.sshd.server.Command;
 import org.apache.sshd.server.CommandFactory;
 import org.apache.sshd.server.ForwardingFilter;
+import org.apache.sshd.server.PasswordAuthenticator;
 import org.apache.sshd.server.PublickeyAuthenticator;
 import org.apache.sshd.server.UserAuth;
+import org.apache.sshd.server.auth.UserAuthPassword;
 import org.apache.sshd.server.auth.UserAuthPublicKey;
 import org.apache.sshd.server.channel.ChannelDirectTcpip;
 import org.apache.sshd.server.channel.ChannelSession;
@@ -119,6 +121,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
 
   @Inject
   SshDaemon(final CommandFactory commandFactory,
+      final PasswordAuthenticator passAuth,
       final PublickeyAuthenticator userAuth,
       final KeyPairProvider hostKeyProvider, final IdGenerator idGenerator,
       @GerritServerConfig final Config cfg, final SshLog sshLog) {
@@ -140,7 +143,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     initForwardingFilter();
     initSubsystems();
     initCompression();
-    initUserAuth(userAuth);
+    initUserAuth(passAuth, userAuth);
     setKeyPairProvider(hostKeyProvider);
     setCommandFactory(commandFactory);
     setShellFactory(new NoShell());
@@ -452,9 +455,11 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   }
 
   @SuppressWarnings("unchecked")
-  private void initUserAuth(final PublickeyAuthenticator pubkey) {
-    setUserAuthFactories(Arrays
-        .<NamedFactory<UserAuth>> asList(new UserAuthPublicKey.Factory()));
+  private void initUserAuth(final PasswordAuthenticator pass,
+      final PublickeyAuthenticator pubkey) {
+    setUserAuthFactories(Arrays.<NamedFactory<UserAuth>> asList(
+        new UserAuthPublicKey.Factory(), new UserAuthPassword.Factory()));
+    setPasswordAuthenticator(pass);
     setPublickeyAuthenticator(pubkey);
   }
 

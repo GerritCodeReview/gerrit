@@ -53,6 +53,17 @@ public class AccountState {
     return account.getUserName();
   }
 
+  /** @return the password matching the requested username; or null. */
+  public String getPassword(String username) {
+    for (AccountExternalId id : getExternalIds()) {
+      if (id.isScheme(AccountExternalId.SCHEME_USERNAME)
+          && username.equals(id.getSchemeRest())) {
+        return id.getPassword();
+      }
+    }
+    return null;
+  }
+
   /**
    * All email addresses registered to this account.
    * <p>

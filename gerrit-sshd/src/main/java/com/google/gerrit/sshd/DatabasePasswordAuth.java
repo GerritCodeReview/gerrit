@@ -1,4 +1,4 @@
-// Copyright (C) 2008 The Android Open Source Project
+// Copyright (C) 2010 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,61 +18,50 @@ import static com.google.gerrit.sshd.SshUtil.AUTH_ATTEMPTED_AS;
 import static com.google.gerrit.sshd.SshUtil.AUTH_ERROR;
 import static com.google.gerrit.sshd.SshUtil.CURRENT_ACCOUNT;
 
-import com.google.gerrit.reviewdb.AccountSshKey;
+import com.google.gerrit.reviewdb.AccountExternalId;
+import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.sshd.SshScopes.Context;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import org.apache.mina.core.future.IoFuture;
 import org.apache.mina.core.future.IoFutureListener;
-import org.apache.sshd.server.PublickeyAuthenticator;
+import org.apache.sshd.server.PasswordAuthenticator;
 import org.apache.sshd.server.session.ServerSession;
 
-import java.security.PublicKey;
-
 /**
- * Authenticates by public key through {@link AccountSshKey} entities.
+ * Authenticates by password through {@link AccountExternalId} entities.
  */
 @Singleton
-class DatabasePubKeyAuth implements PublickeyAuthenticator {
-  private final SshKeyCacheImpl sshKeyCache;
+class DatabasePasswordAuth implements PasswordAuthenticator {
+  private final AccountCache accountCache;
   private final SshLog log;
 
   @Inject
-  DatabasePubKeyAuth(final SshKeyCacheImpl skc, final SshLog l) {
-    sshKeyCache = skc;
+  DatabasePasswordAuth(final AccountCache ac, final SshLog l) {
+    accountCache = ac;
     log = l;
   }
 
-  public boolean authenticate(final String username,
-      final PublicKey suppliedKey, final ServerSession session) {
-    final Iterable<SshKeyCacheEntry> keyList = sshKeyCache.get(username);
-    final SshKeyCacheEntry key = find(keyList, suppliedKey);
-    if (key == null) {
-      final String err;
-      if (keyList == SshKeyCacheImpl.NO_SUCH_USER) {
-        err = "user-not-found";
-      } else if (keyList == SshKeyCacheImpl.NO_KEYS) {
-        err = "key-list-empty";
-      } else {
-        err = "no-matching-key";
-      }
-      return fail(username, session, err);
+  @Override
+  public boolean authenticate(final String username, final String password,
+      final ServerSession session) {
+    AccountState state = accountCache.getByUsername(username);
+    if (state == null) {
+      return fail(username, session, "user-not-found");
     }
 
-    // Double check that all of the keys are for the same user account.
-    // This should have been true when the cache factory method loaded
-    // the list into memory, but we want to be extra paranoid about our
-    // security check to ensure there aren't two users sharing the same
-    // user name on the server.
-    //
-    for (final SshKeyCacheEntry otherKey : keyList) {
-      if (!key.getAccount().equals(otherKey.getAccount())) {
-        return fail(username, session, "keys-cross-accounts");
-      }
+    final String p = state.getPassword(username);
+    if (p == null) {
+      return fail(username, session, "no-password");
     }
 
-    if (session.setAttribute(CURRENT_ACCOUNT, key.getAccount()) == null) {
+    if (!p.equals(password)) {
+      return fail(username, session, "incorrect-password");
+    }
+
+    if (session.setAttribute(CURRENT_ACCOUNT, state.getAccount().getId()) == null) {
       // If this is the first time we've authenticated this
       // session, record a login event in the log and add
       // a close listener to record a logout event.
@@ -109,15 +98,5 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
     session.setAttribute(AUTH_ATTEMPTED_AS, username);
     session.setAttribute(AUTH_ERROR, err);
     return false;
-  }
-
-  private SshKeyCacheEntry find(final Iterable<SshKeyCacheEntry> keyList,
-      final PublicKey suppliedKey) {
-    for (final SshKeyCacheEntry k : keyList) {
-      if (k.match(suppliedKey)) {
-        return k;
-      }
-    }
-    return null;
   }
 }

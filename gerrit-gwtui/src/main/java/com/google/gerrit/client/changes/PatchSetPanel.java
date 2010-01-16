@@ -29,6 +29,7 @@ import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetInfo;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.UserIdentity;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.OpenEvent;
@@ -137,41 +138,70 @@ class PatchSetPanel extends Composite implements OpenHandler<DisclosurePanel> {
       downloads.add(new CopyableLabel(r.toString()));
     }
 
-    if (changeDetail.isAllowsAnonymous()
-        && Gerrit.getConfig().getGitDaemonUrl() != null) {
-      // Anonymous Git is claimed to be available, and this project
-      // isn't secured. The anonymous Git daemon will be much more
-      // efficient than our own SSH daemon, so prefer offering it.
-      //
-      final StringBuilder r = new StringBuilder();
+    if (changeDetail.isAllowsAnonymous()) {
+      if (Gerrit.getConfig().getGitDaemonUrl() != null) {
+        StringBuilder r = new StringBuilder();
+        r.append("git pull ");
+        r.append(Gerrit.getConfig().getGitDaemonUrl());
+        r.append(projectName);
+        r.append(" ");
+        r.append(patchSet.getRefName());
+        downloads.add(new CopyableLabel(r.toString()));
+      }
+
+      StringBuilder r = new StringBuilder();
       r.append("git pull ");
-      r.append(Gerrit.getConfig().getGitDaemonUrl());
+      r.append(GWT.getHostPageBaseURL());
+      r.append("p/");
       r.append(projectName);
       r.append(" ");
       r.append(patchSet.getRefName());
       downloads.add(new CopyableLabel(r.toString()));
 
-    } else if (Gerrit.isSignedIn() && Gerrit.getUserAccount() != null
-        && Gerrit.getConfig().getSshdAddress() != null
+    } else if (Gerrit.isSignedIn()
         && Gerrit.getUserAccount().getUserName() != null
         && Gerrit.getUserAccount().getUserName().length() > 0) {
       // The user is signed in and anonymous access isn't allowed.
-      // Use our SSH daemon URL as its the only way they can get
-      // to the project (that we know of anyway).
       //
-      String sshAddr = Gerrit.getConfig().getSshdAddress();
+      if (Gerrit.getConfig().getSshdAddress() != null) {
+        String sshAddr = Gerrit.getConfig().getSshdAddress();
+        final StringBuilder r = new StringBuilder();
+        r.append("git pull ssh://");
+        r.append(Gerrit.getUserAccount().getUserName());
+        r.append("@");
+        if (sshAddr.startsWith("*:") || "".equals(sshAddr)) {
+          r.append(Window.Location.getHostName());
+        }
+        if (sshAddr.startsWith("*")) {
+          sshAddr = sshAddr.substring(1);
+        }
+        r.append(sshAddr);
+        r.append("/");
+        r.append(projectName);
+        r.append(" ");
+        r.append(patchSet.getRefName());
+        downloads.add(new CopyableLabel(r.toString()));
+      }
+
+      String base = GWT.getHostPageBaseURL();
+      int p = base.indexOf("://");
+      int s = base.indexOf('/', p + 3);
+      if (s < 0) {
+        s = base.length();
+      }
+      String host = base.substring(p + 3, s);
+      if (host.contains("@")) {
+        host = host.substring(host.indexOf('@') + 1);
+      }
+
       final StringBuilder r = new StringBuilder();
-      r.append("git pull ssh://");
+      r.append("git pull ");
+      r.append(base.substring(0, p + 3));
       r.append(Gerrit.getUserAccount().getUserName());
-      r.append("@");
-      if (sshAddr.startsWith("*:") || "".equals(sshAddr)) {
-        r.append(Window.Location.getHostName());
-      }
-      if (sshAddr.startsWith("*")) {
-        sshAddr = sshAddr.substring(1);
-      }
-      r.append(sshAddr);
-      r.append("/");
+      r.append('@');
+      r.append(host);
+      r.append(base.substring(s));
+      r.append("p/");
       r.append(projectName);
       r.append(" ");
       r.append(patchSet.getRefName());
@@ -287,7 +317,8 @@ class PatchSetPanel extends Composite implements OpenHandler<DisclosurePanel> {
 
   private void initRow(final int row, final String name) {
     infoTable.setText(row, 0, name);
-    infoTable.getCellFormatter().addStyleName(row, 0, Gerrit.RESOURCES.css().header());
+    infoTable.getCellFormatter().addStyleName(row, 0,
+        Gerrit.RESOURCES.css().header());
   }
 
   private void onSubmitResult(final ChangeDetail result) {

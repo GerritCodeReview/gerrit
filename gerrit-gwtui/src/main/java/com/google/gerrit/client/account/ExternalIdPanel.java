@@ -165,6 +165,11 @@ class ExternalIdPanel extends Composite {
     }
 
     void addOneId(final AccountExternalId k) {
+      if (k.isScheme(AccountExternalId.SCHEME_USERNAME)) {
+        // Don't display the username as an identity here.
+        return;
+      }
+
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
       final int row = table.getRowCount();
       table.insertRow(row);

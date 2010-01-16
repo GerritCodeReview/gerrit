@@ -14,20 +14,22 @@
 
 package com.google.gerrit.sshd;
 
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RequestCleanup;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.WorkQueue.CancelableRunnable;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.sshd.SshScopes.Context;
+import com.google.gerrit.sshd.SshScope.Context;
 import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import org.apache.sshd.common.SshException;
 import org.apache.sshd.server.Command;
 import org.apache.sshd.server.Environment;
 import org.apache.sshd.server.ExitCallback;
-import org.apache.sshd.server.session.ServerSession;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.Option;
@@ -73,6 +75,12 @@ public abstract class BaseCommand implements Command {
   @Inject
   @CommandExecutor
   private WorkQueue.Executor executor;
+
+  @Inject
+  private Provider<CurrentUser> userProvider;
+
+  @Inject
+  private Provider<SshScope.Context> contextProvider;
 
   /** The task, as scheduled on a worker thread. */
   private Future<?> task;
@@ -324,14 +332,17 @@ public abstract class BaseCommand implements Command {
 
     if (e instanceof UnloggedFailure) {
     } else {
-      final ServerSession session = SshScopes.getContext().session;
       final StringBuilder m = new StringBuilder();
-      m.append("Internal server error (");
-      m.append("user ");
-      m.append(session.getUsername());
-      m.append(" account ");
-      m.append(session.getAttribute(SshUtil.CURRENT_ACCOUNT));
-      m.append(") during ");
+      m.append("Internal server error");
+      if (userProvider.get() instanceof IdentifiedUser) {
+        final IdentifiedUser u = (IdentifiedUser) userProvider.get();
+        m.append(" (user ");
+        m.append(u.getAccount().getUserName());
+        m.append(" account ");
+        m.append(u.getAccountId());
+        m.append(")");
+      }
+      m.append(" during ");
       m.append(getFullCommandLine());
       log.error(m.toString(), e);
     }
@@ -376,19 +387,28 @@ public abstract class BaseCommand implements Command {
   private final class TaskThunk implements CancelableRunnable {
     private final CommandRunnable thunk;
     private final Context context;
+    private final String taskName;
 
     private TaskThunk(final CommandRunnable thunk) {
       this.thunk = thunk;
-      this.context = SshScopes.getContext();
+      this.context = contextProvider.get();
+
+      StringBuilder m = new StringBuilder();
+      m.append(getFullCommandLine());
+      if (userProvider.get() instanceof IdentifiedUser) {
+        IdentifiedUser u = (IdentifiedUser) userProvider.get();
+        m.append(" (" + u.getAccount().getUserName() + ")");
+      }
+      this.taskName = m.toString();
     }
 
     @Override
     public void cancel() {
+      final Context old = SshScope.set(context);
       try {
-        SshScopes.current.set(context);
         onExit(STATUS_CANCEL);
       } finally {
-        SshScopes.current.set(null);
+        SshScope.set(old);
       }
     }
 
@@ -397,10 +417,10 @@ public abstract class BaseCommand implements Command {
       final Thread thisThread = Thread.currentThread();
       final String thisName = thisThread.getName();
       int rc = 0;
+      final Context old = SshScope.set(context);
       try {
         context.started = System.currentTimeMillis();
-        thisThread.setName("SSH " + toString());
-        SshScopes.current.set(context);
+        thisThread.setName("SSH " + taskName);
         try {
           thunk.run();
         } catch (NoSuchProjectException e) {
@@ -424,7 +444,7 @@ public abstract class BaseCommand implements Command {
         try {
           onExit(rc);
         } finally {
-          SshScopes.current.set(null);
+          SshScope.set(old);
           thisThread.setName(thisName);
         }
       }
@@ -432,9 +452,7 @@ public abstract class BaseCommand implements Command {
 
     @Override
     public String toString() {
-      final ServerSession session = context.session;
-      final String who = session.getUsername();
-      return getFullCommandLine() + " (" + who + ")";
+      return taskName;
     }
   }
 

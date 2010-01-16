@@ -14,13 +14,12 @@
 
 package com.google.gerrit.sshd;
 
-import static com.google.gerrit.sshd.SshUtil.AUTH_ATTEMPTED_AS;
-import static com.google.gerrit.sshd.SshUtil.AUTH_ERROR;
-import static com.google.gerrit.sshd.SshUtil.CURRENT_ACCOUNT;
-
 import com.google.gerrit.reviewdb.AccountSshKey;
-import com.google.gerrit.sshd.SshScopes.Context;
+import com.google.gerrit.server.AccessPath;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.sshd.SshScope.Context;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import org.apache.mina.core.future.IoFuture;
@@ -28,6 +27,7 @@ import org.apache.mina.core.future.IoFutureListener;
 import org.apache.sshd.server.PublickeyAuthenticator;
 import org.apache.sshd.server.session.ServerSession;
 
+import java.net.SocketAddress;
 import java.security.PublicKey;
 
 /**
@@ -37,15 +37,20 @@ import java.security.PublicKey;
 class DatabasePubKeyAuth implements PublickeyAuthenticator {
   private final SshKeyCacheImpl sshKeyCache;
   private final SshLog log;
+  private final IdentifiedUser.GenericFactory userFactory;
 
   @Inject
-  DatabasePubKeyAuth(final SshKeyCacheImpl skc, final SshLog l) {
+  DatabasePubKeyAuth(final SshKeyCacheImpl skc, final SshLog l,
+      final IdentifiedUser.GenericFactory uf) {
     sshKeyCache = skc;
     log = l;
+    userFactory = uf;
   }
 
   public boolean authenticate(final String username,
       final PublicKey suppliedKey, final ServerSession session) {
+    final SshSession sd = session.getAttribute(SshSession.KEY);
+
     final Iterable<SshKeyCacheEntry> keyList = sshKeyCache.get(username);
     final SshKeyCacheEntry key = find(keyList, suppliedKey);
     if (key == null) {
@@ -57,7 +62,8 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
       } else {
         err = "no-matching-key";
       }
-      return fail(username, session, err);
+      sd.authenticationError(username, err);
+      return false;
     }
 
     // Double check that all of the keys are for the same user account.
@@ -68,34 +74,36 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
     //
     for (final SshKeyCacheEntry otherKey : keyList) {
       if (!key.getAccount().equals(otherKey.getAccount())) {
-        return fail(username, session, "keys-cross-accounts");
+        sd.authenticationError(username, "keys-cross-accounts");
+        return false;
       }
     }
 
-    if (session.setAttribute(CURRENT_ACCOUNT, key.getAccount()) == null) {
+    if (sd.getCurrentUser() == null) {
+      sd.authenticationSuccess(username, createUser(sd, key));
+
       // If this is the first time we've authenticated this
       // session, record a login event in the log and add
       // a close listener to record a logout event.
       //
-      final Context ctx = new Context(session);
-      final Context old = SshScopes.current.get();
+      Context ctx = new Context(sd);
+      Context old = SshScope.set(ctx);
       try {
-        SshScopes.current.set(ctx);
         log.onLogin();
       } finally {
-        SshScopes.current.set(old);
+        SshScope.set(old);
       }
 
       session.getIoSession().getCloseFuture().addListener(
           new IoFutureListener<IoFuture>() {
             @Override
             public void operationComplete(IoFuture future) {
-              final Context old = SshScopes.current.get();
+              final Context ctx = new Context(sd);
+              final Context old = SshScope.set(ctx);
               try {
-                SshScopes.current.set(ctx);
                 log.onLogout();
               } finally {
-                SshScopes.current.set(old);
+                SshScope.set(old);
               }
             }
           });
@@ -104,11 +112,14 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
     return true;
   }
 
-  private static boolean fail(final String username,
-      final ServerSession session, final String err) {
-    session.setAttribute(AUTH_ATTEMPTED_AS, username);
-    session.setAttribute(AUTH_ERROR, err);
-    return false;
+  private IdentifiedUser createUser(final SshSession sd,
+      final SshKeyCacheEntry key) {
+    return userFactory.create(AccessPath.SSH, new Provider<SocketAddress>() {
+      @Override
+      public SocketAddress get() {
+        return sd.getRemoteAddress();
+      }
+    }, key.getAccount());
   }
 
   private SshKeyCacheEntry find(final Iterable<SshKeyCacheEntry> keyList,

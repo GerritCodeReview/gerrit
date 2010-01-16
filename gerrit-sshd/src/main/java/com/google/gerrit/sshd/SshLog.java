@@ -15,10 +15,11 @@
 package com.google.gerrit.sshd;
 
 import com.google.gerrit.lifecycle.LifecycleListener;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.util.IdGenerator;
-import com.google.gerrit.sshd.SshScopes.Context;
+import com.google.gerrit.sshd.SshScope.Context;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -31,14 +32,10 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.spi.ErrorHandler;
 import org.apache.log4j.spi.LoggingEvent;
-import org.apache.sshd.server.session.ServerSession;
 import org.eclipse.jgit.util.QuotedString;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
-import java.net.SocketAddress;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -55,15 +52,12 @@ class SshLog implements LifecycleListener {
   private static final String P_EXEC = "executionTime";
   private static final String P_STATUS = "status";
 
-  private final Provider<ServerSession> session;
-  private final Provider<IdentifiedUser> user;
+  private final Provider<SshSession> session;
   private final AsyncAppender async;
 
   @Inject
-  SshLog(final Provider<ServerSession> session,
-      final Provider<IdentifiedUser> user, final SitePaths site) {
+  SshLog(final Provider<SshSession> session, final SitePaths site) {
     this.session = session;
-    this.user = user;
 
     final DailyRollingFileAppender dst = new DailyRollingFileAppender();
     dst.setName(LOG_NAME);
@@ -95,20 +89,16 @@ class SshLog implements LifecycleListener {
   }
 
   void onLogin() {
-    final ServerSession s = session.get();
-    final SocketAddress addr = s.getIoSession().getRemoteAddress();
-    async.append(log("LOGIN FROM " + format(addr)));
+    async.append(log("LOGIN FROM " + session.get().getRemoteAddressAsString()));
   }
 
-  void onAuthFail(final ServerSession s, final String username) {
-    final SocketAddress addr = s.getIoSession().getRemoteAddress();
-
+  void onAuthFail(final SshSession sd) {
     final LoggingEvent event = new LoggingEvent( //
         Logger.class.getName(), // fqnOfCategoryClass
         null, // logger (optional)
         System.currentTimeMillis(), // when
         Level.INFO, // level
-        "AUTH FAILURE FROM " + format(addr), // message text
+        "AUTH FAILURE FROM " + sd.getRemoteAddressAsString(), // message text
         "SSHD", // thread name
         null, // exception information
         null, // current NDC string
@@ -116,10 +106,10 @@ class SshLog implements LifecycleListener {
         null // MDC properties
         );
 
-    event.setProperty(P_SESSION, id(s.getAttribute(SshUtil.SESSION_ID)));
-    event.setProperty(P_USER_NAME, username);
+    event.setProperty(P_SESSION, id(sd.getSessionId()));
+    event.setProperty(P_USER_NAME, sd.getUsername());
 
-    final String error = s.getAttribute(SshUtil.AUTH_ERROR);
+    final String error = sd.getAuthenticationError();
     if (error != null) {
       event.setProperty(P_STATUS, error);
     }
@@ -165,8 +155,8 @@ class SshLog implements LifecycleListener {
   }
 
   private LoggingEvent log(final String msg) {
-    final ServerSession s = session.get();
-    final IdentifiedUser u = user.get();
+    final SshSession sd = session.get();
+    final CurrentUser user = sd.getCurrentUser();
 
     final LoggingEvent event = new LoggingEvent( //
         Logger.class.getName(), // fqnOfCategoryClass
@@ -181,32 +171,24 @@ class SshLog implements LifecycleListener {
         null // MDC properties
         );
 
-    event.setProperty(P_SESSION, id(s.getAttribute(SshUtil.SESSION_ID)));
-    event.setProperty(P_USER_NAME, u.getUserName());
-    event.setProperty(P_ACCOUNT_ID, "a/" + u.getAccountId().toString());
+    event.setProperty(P_SESSION, id(sd.getSessionId()));
+
+    String userName = "-", accountId = "-";
+
+    if (user instanceof IdentifiedUser) {
+      IdentifiedUser u = (IdentifiedUser) user;
+      userName = u.getAccount().getUserName();
+      accountId = "a/" + u.getAccountId().toString();
+    }
+
+    event.setProperty(P_USER_NAME, userName);
+    event.setProperty(P_ACCOUNT_ID, accountId);
 
     return event;
   }
 
-  private static String format(final SocketAddress remote) {
-    if (remote instanceof InetSocketAddress) {
-      final InetSocketAddress sa = (InetSocketAddress) remote;
-
-      final InetAddress in = sa.getAddress();
-      if (in != null) {
-        return in.getHostAddress();
-      }
-
-      final String hostName = sa.getHostName();
-      if (hostName != null) {
-        return hostName;
-      }
-    }
-    return remote.toString();
-  }
-
-  private static String id(final Integer id) {
-    return id != null ? IdGenerator.format(id) : "";
+  private static String id(final int id) {
+    return IdGenerator.format(id);
   }
 
   private static File resolve(final File logs_dir) {

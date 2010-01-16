@@ -14,12 +14,13 @@
 
 package com.google.gerrit.sshd.commands;
 
-import com.google.gerrit.reviewdb.Account;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.gerrit.sshd.AdminCommand;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.gerrit.sshd.SshDaemon;
-import com.google.gerrit.sshd.SshUtil;
+import com.google.gerrit.sshd.SshSession;
 import com.google.inject.Inject;
 
 import org.apache.mina.core.service.IoAcceptor;
@@ -89,17 +90,17 @@ final class AdminShowConnections extends BaseCommand {
     p.print("--------------------------------------------------------------\n");
     for (final IoSession io : list) {
       ServerSession s = (ServerSession) ServerSession.getSession(io, true);
+      SshSession sd = s != null ? s.getAttribute(SshSession.KEY) : null;
 
       final SocketAddress remoteAddress = io.getRemoteAddress();
       final long start = io.getCreationTime();
       final long idle = now - io.getLastIoTime();
-      final Integer id = s != null ? s.getAttribute(SshUtil.SESSION_ID) : null;
 
       p.print(String.format("%8s %8s %8s  %-15.15s %.30s\n", //
-          id(id), //
+          id(sd), //
           time(now, start), //
           age(idle), //
-          username(s), //
+          username(sd), //
           hostname(remoteAddress)));
     }
     p.print("--\n");
@@ -107,8 +108,8 @@ final class AdminShowConnections extends BaseCommand {
     p.flush();
   }
 
-  private static String id(final Integer id) {
-    return id != null ? IdGenerator.format(id) : "";
+  private static String id(final SshSession sd) {
+    return sd != null ? IdGenerator.format(sd.getSessionId()) : "";
   }
 
   private static String time(final long now, final long time) {
@@ -131,15 +132,26 @@ final class AdminShowConnections extends BaseCommand {
     return String.format("%02d:%02d:%02d", hr, min, sec);
   }
 
-  private String username(final ServerSession s) {
-    if (s == null) {
+  private String username(final SshSession sd) {
+    if (sd == null) {
       return "";
-    } else if (numeric) {
-      final Account.Id id = s.getAttribute(SshUtil.CURRENT_ACCOUNT);
-      return id != null ? "a/" + id.toString() : "";
+    }
+
+    final CurrentUser user = sd.getCurrentUser();
+    if (user instanceof IdentifiedUser) {
+      IdentifiedUser u = (IdentifiedUser) user;
+
+      if (!numeric) {
+        String name = u.getAccount().getUserName();
+        if (name != null && !name.isEmpty()) {
+          return name;
+        }
+      }
+
+      return "a/" + u.getAccountId().toString();
+
     } else {
-      final String user = s.getUsername();
-      return user != null ? user : "";
+      return "";
     }
   }
 

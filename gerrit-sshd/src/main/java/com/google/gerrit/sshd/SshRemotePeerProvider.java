@@ -14,22 +14,23 @@
 
 package com.google.gerrit.sshd;
 
-import com.google.gerrit.server.CurrentUser;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
+import java.net.SocketAddress;
+
 @Singleton
-class SshCurrentUserProvider implements Provider<CurrentUser> {
+class SshRemotePeerProvider implements Provider<SocketAddress> {
   private final Provider<SshSession> session;
 
   @Inject
-  SshCurrentUserProvider(final Provider<SshSession> s) {
+  SshRemotePeerProvider(final Provider<SshSession> s) {
     session = s;
   }
 
   @Override
-  public CurrentUser get() {
-    return session.get().getCurrentUser();
+  public SocketAddress get() {
+    return session.get().getRemoteAddress();
   }
 }

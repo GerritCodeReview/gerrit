@@ -14,7 +14,7 @@
 
 package com.google.gerrit.sshd;
 
-import com.google.gerrit.sshd.SshScopes.Context;
+import com.google.gerrit.sshd.SshScope.Context;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -59,7 +59,6 @@ class CommandFactoryProvider implements Provider<CommandFactory> {
     private OutputStream out;
     private OutputStream err;
     private ExitCallback exit;
-    private ServerSession session;
     private Context ctx;
     private DispatchCommand cmd;
     private boolean logged;
@@ -85,16 +84,13 @@ class CommandFactoryProvider implements Provider<CommandFactory> {
     }
 
     public void setSession(final ServerSession session) {
-      this.session = session;
+      this.ctx = new Context(session.getAttribute(SshSession.KEY));
     }
 
     public void start(final Environment env) throws IOException {
       synchronized (this) {
-        final Context old = SshScopes.current.get();
+        final Context old = SshScope.set(ctx);
         try {
-          ctx = new Context(session);
-          SshScopes.current.set(ctx);
-
           cmd = dispatcher.get();
           cmd.setCommandLine(commandLine);
           cmd.setInputStream(in);
@@ -115,7 +111,7 @@ class CommandFactoryProvider implements Provider<CommandFactory> {
           });
           cmd.start(env);
         } finally {
-          SshScopes.current.set(old);
+          SshScope.set(old);
         }
       }
     }
@@ -150,15 +146,14 @@ class CommandFactoryProvider implements Provider<CommandFactory> {
     public void destroy() {
       synchronized (this) {
         if (cmd != null) {
-          final Context old = SshScopes.current.get();
+          final Context old = SshScope.set(ctx);
           try {
-            SshScopes.current.set(ctx);
             cmd.destroy();
             log(BaseCommand.STATUS_CANCEL);
           } finally {
             ctx = null;
             cmd = null;
-            SshScopes.current.set(old);
+            SshScope.set(old);
           }
         }
       }

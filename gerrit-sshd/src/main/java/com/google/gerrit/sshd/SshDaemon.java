@@ -20,7 +20,6 @@ import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.gerrit.server.util.SocketUtil;
 import com.google.inject.Inject;
-import com.google.inject.Key;
 import com.google.inject.Singleton;
 
 import com.jcraft.jsch.HostKey;
@@ -85,7 +84,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -157,20 +155,18 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
         }
 
         final ServerSession s = (ServerSession) super.createSession(io);
-        s.setAttribute(SshUtil.REMOTE_PEER, io.getRemoteAddress());
-        s.setAttribute(SshUtil.SESSION_ID, idGenerator.next());
-        s.setAttribute(SshScopes.sessionMap, new HashMap<Key<?>, Object>());
+        final int id = idGenerator.next();
+        final SocketAddress peer = io.getRemoteAddress();
+        final SshSession sd = new SshSession(id, peer);
+        s.setAttribute(SshSession.KEY, sd);
 
         // Log a session close without authentication as a failure.
         //
         io.getCloseFuture().addListener(new IoFutureListener<IoFuture>() {
           @Override
           public void operationComplete(IoFuture future) {
-            if (s.getUsername() == null /* not authenticated */) {
-              String username = s.getAttribute(SshUtil.AUTH_ATTEMPTED_AS);
-              if (username != null) {
-                sshLog.onAuthFail(s, username);
-              }
+            if (sd.isAuthenticationError()) {
+              sshLog.onAuthFail(sd);
             }
           }
         });

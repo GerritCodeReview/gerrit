@@ -38,18 +38,14 @@ import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.gerrit.util.cli.OptionHandlerFactory;
 import com.google.gerrit.util.cli.OptionHandlerUtil;
 import com.google.inject.Key;
-import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
 import com.google.inject.assistedinject.FactoryProvider;
 import com.google.inject.servlet.RequestScoped;
-import com.google.inject.servlet.SessionScoped;
 
 import org.apache.sshd.common.KeyPairProvider;
-import org.apache.sshd.common.session.AbstractSession;
 import org.apache.sshd.server.CommandFactory;
 import org.apache.sshd.server.PasswordAuthenticator;
 import org.apache.sshd.server.PublickeyAuthenticator;
-import org.apache.sshd.server.session.ServerSession;
 import org.kohsuke.args4j.spi.OptionHandler;
 
 import java.net.SocketAddress;
@@ -60,10 +56,8 @@ public class SshModule extends FactoryModule {
 
   @Override
   protected void configure() {
-    bindScope(SessionScoped.class, SshScopes.SESSION);
-    bindScope(RequestScoped.class, SshScopes.REQUEST);
+    bindScope(RequestScoped.class, SshScope.REQUEST);
 
-    configureSessionScope();
     configureRequestScope();
     configureCmdLineParser();
 
@@ -96,30 +90,20 @@ public class SshModule extends FactoryModule {
     });
   }
 
-  private void configureSessionScope() {
-    bind(ServerSession.class).toProvider(new Provider<ServerSession>() {
-      @Override
-      public ServerSession get() {
-        return SshScopes.getContext().session;
-      }
-    }).in(SshScopes.SESSION);
-    bind(AbstractSession.class).to(ServerSession.class).in(SshScopes.SESSION);
-
-    bind(SocketAddress.class).annotatedWith(RemotePeer.class).toProvider(
-        new Provider<SocketAddress>() {
-          @Override
-          public SocketAddress get() {
-            return SshScopes.getContext().session
-                .getAttribute(SshUtil.REMOTE_PEER);
-          }
-        }).in(SshScopes.SESSION);
-  }
-
   private void configureRequestScope() {
+    bind(SshScope.Context.class).toProvider(SshScope.ContextProvider.class);
+
+    bind(SshSession.class).toProvider(SshScope.SshSessionProvider.class).in(
+        SshScope.REQUEST);
+    bind(SocketAddress.class).annotatedWith(RemotePeer.class).toProvider(
+        SshRemotePeerProvider.class).in(SshScope.REQUEST);
+
+    bind(CurrentUser.class).toProvider(SshCurrentUserProvider.class).in(
+        SshScope.REQUEST);
+    bind(IdentifiedUser.class).toProvider(SshIdentifiedUserProvider.class).in(
+        SshScope.REQUEST);
+
     install(new GerritRequestModule());
-    bind(IdentifiedUser.class).toProvider(SshCurrentUserProvider.class).in(
-        SshScopes.REQUEST);
-    bind(CurrentUser.class).to(IdentifiedUser.class);
   }
 
   private void configureCmdLineParser() {

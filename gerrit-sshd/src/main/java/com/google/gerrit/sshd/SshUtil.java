@@ -14,20 +14,17 @@
 
 package com.google.gerrit.sshd;
 
-import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountSshKey;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.sshd.common.KeyPairProvider;
 import org.apache.sshd.common.SshException;
-import org.apache.sshd.common.Session.AttributeKey;
 import org.apache.sshd.common.util.Buffer;
 import org.eclipse.jgit.lib.Constants;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
-import java.net.SocketAddress;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.PublicKey;
@@ -37,25 +34,6 @@ import java.security.spec.InvalidKeySpecException;
 
 /** Utilities to support SSH operations. */
 public class SshUtil {
-  /** Server session attribute holding the {@link Account.Id}. */
-  public static final AttributeKey<Account.Id> CURRENT_ACCOUNT =
-      new AttributeKey<Account.Id>();
-
-  /** Server session attribute holding the remote {@link SocketAddress}. */
-  public static final AttributeKey<SocketAddress> REMOTE_PEER =
-      new AttributeKey<SocketAddress>();
-
-  /** Server session attribute holding a unique session id. */
-  public static final AttributeKey<Integer> SESSION_ID =
-      new AttributeKey<Integer>();
-
-  /** Username the last authentication tried to perform as. */
-  static final AttributeKey<String> AUTH_ATTEMPTED_AS =
-      new AttributeKey<String>();
-
-  /** Error message from last authentication attempt. */
-  static final AttributeKey<String> AUTH_ERROR = new AttributeKey<String>();
-
   /**
    * Parse a public key into its Java type.
    *

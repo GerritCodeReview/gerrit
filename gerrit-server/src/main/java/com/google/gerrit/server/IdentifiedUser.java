@@ -69,8 +69,13 @@ public class IdentifiedUser extends CurrentUser {
     }
 
     public IdentifiedUser create(final Account.Id id) {
-      return new IdentifiedUser(AccessPath.UNKNOWN, authConfig, canonicalUrl,
-          realm, accountCache, null, null, id);
+      return create(AccessPath.UNKNOWN, null, id);
+    }
+
+    public IdentifiedUser create(AccessPath accessPath,
+        Provider<SocketAddress> remotePeerProvider, Account.Id id) {
+      return new IdentifiedUser(accessPath, authConfig, canonicalUrl, realm,
+          accountCache, remotePeerProvider, null, id);
     }
   }
 

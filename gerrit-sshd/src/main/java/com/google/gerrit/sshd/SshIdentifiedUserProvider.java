@@ -14,22 +14,30 @@
 
 package com.google.gerrit.sshd;
 
+import com.google.gerrit.common.errors.NotSignedInException;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
 
 @Singleton
-class SshCurrentUserProvider implements Provider<CurrentUser> {
+class SshIdentifiedUserProvider implements Provider<IdentifiedUser> {
   private final Provider<SshSession> session;
 
   @Inject
-  SshCurrentUserProvider(final Provider<SshSession> s) {
+  SshIdentifiedUserProvider(final Provider<SshSession> s) {
     session = s;
   }
 
   @Override
-  public CurrentUser get() {
-    return session.get().getCurrentUser();
+  public IdentifiedUser get() {
+    final CurrentUser user = session.get().getCurrentUser();
+    if (user instanceof IdentifiedUser) {
+      return (IdentifiedUser) user;
+    }
+    throw new ProvisionException(NotSignedInException.MESSAGE,
+        new NotSignedInException());
   }
 }

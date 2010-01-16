@@ -56,7 +56,9 @@ class NoShell implements Factory<Command> {
       }
 
       public void start(final Environment env) throws IOException {
-        err.write(Constants.encodeASCII("gerrit: no shell available\n"));
+        err.write(Constants.encodeASCII("gerrit: no shell available\r\n"));
+        err.flush();
+
         in.close();
         out.close();
         err.close();

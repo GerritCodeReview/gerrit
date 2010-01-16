@@ -527,6 +527,7 @@ class SshPanel extends Composite {
   private class SshKeyTable extends FancyFlexTable<AccountSshKey> {
     SshKeyTable() {
       table.setWidth("");
+      table.setText(0, 2, Util.C.sshKeyStatus());
       table.setText(0, 3, Util.C.sshKeyAlgorithm());
       table.setText(0, 4, Util.C.sshKeyKey());
       table.setText(0, 5, Util.C.sshKeyComment());
@@ -584,9 +585,8 @@ class SshPanel extends Composite {
       table.setWidget(row, 1, new CheckBox());
       if (k.isValid()) {
         table.setText(row, 2, "");
-        fmt
-            .removeStyleName(row, 2, Gerrit.RESOURCES.css()
-                .sshKeyPanelInvalid());
+        fmt.removeStyleName(row, 2, //
+            Gerrit.RESOURCES.css().sshKeyPanelInvalid());
       } else {
         table.setText(row, 2, Util.C.sshKeyInvalid());
         fmt.addStyleName(row, 2, Gerrit.RESOURCES.css().sshKeyPanelInvalid());
@@ -596,9 +596,8 @@ class SshPanel extends Composite {
       table.setText(row, 5, k.getComment());
 
       fmt.addStyleName(row, 1, Gerrit.RESOURCES.css().iconCell());
-      fmt.addStyleName(row, 2, Gerrit.RESOURCES.css().iconCell());
       fmt.addStyleName(row, 4, Gerrit.RESOURCES.css().sshKeyPanelEncodedKey());
-      for (int c = 3; c <= 5; c++) {
+      for (int c = 2; c <= 5; c++) {
         fmt.addStyleName(row, c, Gerrit.RESOURCES.css().dataCell());
       }
 

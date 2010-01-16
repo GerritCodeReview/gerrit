@@ -53,6 +53,7 @@ public interface AccountConstants extends Constants {
   String sshKeyAlgorithm();
   String sshKeyKey();
   String sshKeyComment();
+  String sshKeyStatus();
 
   String addSshKeyPanelHeader();
   String addSshKeyHelp();

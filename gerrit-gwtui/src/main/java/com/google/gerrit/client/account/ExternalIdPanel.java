@@ -24,6 +24,8 @@ import com.google.gerrit.common.auth.openid.OpenIdUrls;
 import com.google.gerrit.reviewdb.AccountExternalId;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -48,6 +50,7 @@ class ExternalIdPanel extends Composite {
     body.add(identites);
 
     deleteIdentity = new Button(Util.C.buttonDeleteIdentity());
+    deleteIdentity.setEnabled(false);
     deleteIdentity.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(final ClickEvent event) {
@@ -90,6 +93,8 @@ class ExternalIdPanel extends Composite {
   }
 
   private class IdTable extends FancyFlexTable<AccountExternalId> {
+    private ValueChangeHandler<Boolean> updateDeleteHandler;
+
     IdTable() {
       table.setWidth("");
       table.setText(0, 2, Util.C.webIdStatus());
@@ -101,6 +106,13 @@ class ExternalIdPanel extends Composite {
       fmt.addStyleName(0, 2, Gerrit.RESOURCES.css().dataHeader());
       fmt.addStyleName(0, 3, Gerrit.RESOURCES.css().dataHeader());
       fmt.addStyleName(0, 4, Gerrit.RESOURCES.css().dataHeader());
+
+      updateDeleteHandler = new ValueChangeHandler<Boolean>() {
+        @Override
+        public void onValueChange(ValueChangeEvent<Boolean> event) {
+          updateDeleteButton();
+        }
+      };
     }
 
     void deleteChecked() {
@@ -119,12 +131,13 @@ class ExternalIdPanel extends Composite {
           keys.add(k.getKey());
         }
       }
-      if (!keys.isEmpty()) {
+      if (keys.isEmpty()) {
+        updateDeleteButton();
+      } else {
         deleteIdentity.setEnabled(false);
         Util.ACCOUNT_SEC.deleteExternalIds(keys,
             new GerritCallback<Set<AccountExternalId.Key>>() {
               public void onSuccess(final Set<AccountExternalId.Key> removed) {
-                deleteIdentity.setEnabled(true);
                 for (int row = 1; row < table.getRowCount();) {
                   final AccountExternalId k = getRowItem(row);
                   if (k != null && removed.contains(k.getKey())) {
@@ -133,15 +146,34 @@ class ExternalIdPanel extends Composite {
                     row++;
                   }
                 }
+                updateDeleteButton();
               }
 
               @Override
               public void onFailure(Throwable caught) {
-                deleteIdentity.setEnabled(true);
+                updateDeleteButton();
                 super.onFailure(caught);
               }
             });
       }
+    }
+
+    void updateDeleteButton() {
+      int off = 0;
+      boolean on = false;
+      for (int row = 1; row < table.getRowCount(); row++) {
+        if (table.getWidget(row, 1) == null) {
+          off++;
+        } else {
+          CheckBox sel = (CheckBox) table.getWidget(row, 1);
+          if (sel.getValue()) {
+            on = true;
+            break;
+          }
+        }
+      }
+      deleteIdentity.setVisible(off < table.getRowCount() - 1);
+      deleteIdentity.setEnabled(on);
     }
 
     void display(final List<AccountExternalId> result) {
@@ -162,6 +194,7 @@ class ExternalIdPanel extends Composite {
       for (final AccountExternalId k : result) {
         addOneId(k);
       }
+      updateDeleteButton();
     }
 
     void addOneId(final AccountExternalId k) {
@@ -176,7 +209,9 @@ class ExternalIdPanel extends Composite {
       applyDataRowStyle(row);
 
       if (k.canDelete()) {
-        table.setWidget(row, 1, new CheckBox());
+        final CheckBox sel = new CheckBox();
+        sel.addValueChangeHandler(updateDeleteHandler);
+        table.setWidget(row, 1, sel);
       } else {
         table.setText(row, 1, "");
       }

@@ -108,7 +108,7 @@ import java.util.List;
 @Singleton
 public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   private static final int IANA_SSH_PORT = 22;
-  private static final int DEFAULT_PORT = 29418;
+  public static final int DEFAULT_PORT = 29418;
 
   private static final Logger log = LoggerFactory.getLogger(SshDaemon.class);
 

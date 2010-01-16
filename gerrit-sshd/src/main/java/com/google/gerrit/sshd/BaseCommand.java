@@ -45,8 +45,6 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.Future;
 
 public abstract class BaseCommand implements Command {
@@ -61,6 +59,7 @@ public abstract class BaseCommand implements Command {
   @Option(name = "--help", usage = "display this help text", aliases = {"-h"})
   private boolean help;
 
+  @SuppressWarnings("unused")
   @Option(name = "--", usage = "end of options", handler = EndOfOptionsHandler.class)
   private boolean endOfOptions;
 
@@ -90,10 +89,10 @@ public abstract class BaseCommand implements Command {
   private Future<?> task;
 
   /** Text of the command line which lead up to invoking this instance. */
-  protected String commandPrefix = "";
+  private String commandName = "";
 
-  /** Unparsed rest of the command line. */
-  protected String commandLine = "";
+  /** Unparsed command line options. */
+  private String[] argv;
 
   public void setInputStream(final InputStream in) {
     this.in = in;
@@ -111,21 +110,12 @@ public abstract class BaseCommand implements Command {
     this.exit = callback;
   }
 
-  public void setCommandPrefix(final String prefix) {
-    this.commandPrefix = prefix;
+  void setName(final String prefix) {
+    this.commandName = prefix;
   }
 
-  /**
-   * Set the command line to be evaluated by this command.
-   * <p>
-   * If this command is being invoked from a higher level
-   * {@link DispatchCommand} then only the portion after the command name (that
-   * is, the arguments) is supplied.
-   *
-   * @param line the command line received from the client.
-   */
-  public void setCommandLine(final String line) {
-    this.commandLine = line;
+  public void setArguments(final String[] argv) {
+    this.argv = argv;
   }
 
   @Override
@@ -154,50 +144,16 @@ public abstract class BaseCommand implements Command {
   /**
    * Parses the command line argument, injecting parsed values into fields.
    * <p>
-   * This method must be explicitly invoked to cause a parse. When parsing,
-   * arguments are split out of and read from the {@link #commandLine} field.
+   * This method must be explicitly invoked to cause a parse.
    *
-   * @throws Failure if the command line arguments were invalid.
+   * @throws UnloggedFailure if the command line arguments were invalid.
    * @see Option
    * @see Argument
    */
-  protected void parseCommandLine() throws Failure {
-    final List<String> list = new ArrayList<String>();
-    boolean inquote = false;
-    StringBuilder r = new StringBuilder();
-    for (int ip = 0; ip < commandLine.length();) {
-      final char b = commandLine.charAt(ip++);
-      switch (b) {
-        case '\t':
-        case ' ':
-          if (inquote)
-            r.append(b);
-          else if (r.length() > 0) {
-            list.add(r.toString());
-            r = new StringBuilder();
-          }
-          continue;
-        case '\'':
-          inquote = !inquote;
-          continue;
-        case '\\':
-          if (inquote || ip == commandLine.length())
-            r.append(b); // literal within a quote
-          else
-            r.append(commandLine.charAt(ip++));
-          continue;
-        default:
-          r.append(b);
-          continue;
-      }
-    }
-    if (r.length() > 0) {
-      list.add(r.toString());
-    }
-
+  protected void parseCommandLine() throws UnloggedFailure {
     final CmdLineParser clp = newCmdLineParser();
     try {
-      clp.parseArgument(list.toArray(new String[list.size()]));
+      clp.parseArgument(argv);
     } catch (IllegalArgumentException err) {
       if (!help) {
         throw new UnloggedFailure(1, "fatal: " + err.getMessage());
@@ -210,15 +166,20 @@ public abstract class BaseCommand implements Command {
 
     if (help) {
       final StringWriter msg = new StringWriter();
-      msg.write(commandPrefix);
+      msg.write(commandName);
       clp.printSingleLineUsage(msg, null);
       msg.write('\n');
 
       msg.write('\n');
       clp.printUsage(msg, null);
       msg.write('\n');
+      msg.write(usage());
       throw new UnloggedFailure(1, msg.toString());
     }
+  }
+
+  protected String usage() {
+    return "";
   }
 
   /** Construct a new parser for this command's received command line. */
@@ -347,7 +308,7 @@ public abstract class BaseCommand implements Command {
         m.append(")");
       }
       m.append(" during ");
-      m.append(getFullCommandLine());
+      m.append(contextProvider.get().getCommandLine());
       log.error(m.toString(), e);
     }
 
@@ -374,20 +335,6 @@ public abstract class BaseCommand implements Command {
     }
   }
 
-  @Override
-  public String toString() {
-    return getFullCommandLine();
-  }
-
-  private String getFullCommandLine() {
-    if (commandPrefix.isEmpty())
-      return commandLine;
-    else if (commandLine.isEmpty())
-      return commandPrefix;
-    else
-      return commandPrefix + " " + commandLine;
-  }
-
   private final class TaskThunk implements CancelableRunnable {
     private final CommandRunnable thunk;
     private final Context context;
@@ -398,7 +345,7 @@ public abstract class BaseCommand implements Command {
       this.context = contextProvider.get();
 
       StringBuilder m = new StringBuilder();
-      m.append(getFullCommandLine());
+      m.append(context.getCommandLine());
       if (userProvider.get() instanceof IdentifiedUser) {
         IdentifiedUser u = (IdentifiedUser) userProvider.get();
         m.append(" (" + u.getAccount().getUserName() + ")");

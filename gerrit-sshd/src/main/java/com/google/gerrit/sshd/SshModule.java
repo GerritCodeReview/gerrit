@@ -33,6 +33,7 @@ import com.google.gerrit.sshd.args4j.AccountGroupIdHandler;
 import com.google.gerrit.sshd.args4j.AccountIdHandler;
 import com.google.gerrit.sshd.args4j.PatchSetIdHandler;
 import com.google.gerrit.sshd.args4j.ProjectControlHandler;
+import com.google.gerrit.sshd.args4j.SocketAddressHandler;
 import com.google.gerrit.sshd.commands.DefaultCommandModule;
 import com.google.gerrit.sshd.commands.QueryShell;
 import com.google.gerrit.util.cli.CmdLineParser;
@@ -53,8 +54,6 @@ import java.net.SocketAddress;
 
 /** Configures standard dependencies for {@link SshDaemon}. */
 public class SshModule extends FactoryModule {
-  private static final String NAME = "Gerrit Code Review";
-
   @Override
   protected void configure() {
     bindScope(RequestScoped.class, SshScope.REQUEST);
@@ -70,7 +69,7 @@ public class SshModule extends FactoryModule {
     factory(PeerDaemonUser.Factory.class);
 
     bind(DispatchCommandProvider.class).annotatedWith(Commands.CMD_ROOT)
-        .toInstance(new DispatchCommandProvider(NAME, Commands.CMD_ROOT));
+        .toInstance(new DispatchCommandProvider("", Commands.CMD_ROOT));
     bind(CommandFactoryProvider.class);
     bind(CommandFactory.class).toProvider(CommandFactoryProvider.class);
 
@@ -115,6 +114,7 @@ public class SshModule extends FactoryModule {
     registerOptionHandler(AccountGroup.Id.class, AccountGroupIdHandler.class);
     registerOptionHandler(PatchSet.Id.class, PatchSetIdHandler.class);
     registerOptionHandler(ProjectControl.class, ProjectControlHandler.class);
+    registerOptionHandler(SocketAddress.class, SocketAddressHandler.class);
   }
 
   private <T> void registerOptionHandler(Class<T> type,

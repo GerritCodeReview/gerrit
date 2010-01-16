@@ -15,15 +15,18 @@
 package com.google.gerrit.sshd;
 
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.sshd.args4j.SubcommandHandler;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 import org.apache.sshd.server.Command;
 import org.apache.sshd.server.Environment;
+import org.kohsuke.args4j.Argument;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -39,6 +42,12 @@ final class DispatchCommand extends BaseCommand {
   private final Map<String, Provider<Command>> commands;
   private Command cmd;
 
+  @Argument(index = 0, required = true, metaVar = "COMMAND", handler = SubcommandHandler.class)
+  private String commandName;
+
+  @Argument(index = 1, multiValued = true, metaVar = "ARG")
+  private List<String> args = new ArrayList<String>();
+
   @Inject
   DispatchCommand(final Provider<CurrentUser> cu, @Assisted final String pfx,
       @Assisted final Map<String, Provider<Command>> all) {
@@ -49,63 +58,56 @@ final class DispatchCommand extends BaseCommand {
 
   @Override
   public void start(final Environment env) throws IOException {
-    if (commandLine.isEmpty()) {
-      usage();
-      return;
-    }
+    try {
+      parseCommandLine();
 
-    final String name, args;
-    int sp = commandLine.indexOf(' ');
-    if (0 < sp) {
-      name = commandLine.substring(0, sp);
-      while (Character.isWhitespace(commandLine.charAt(sp))) {
-        sp++;
+      final Provider<Command> p = commands.get(commandName);
+      if (p == null) {
+        String msg =
+            (prefix.isEmpty() ? "Gerrit Code Review" : prefix) + ": "
+                + commandName + ": not found";
+        throw new UnloggedFailure(1, msg);
       }
-      args = commandLine.substring(sp);
-    } else {
-      name = commandLine;
-      args = "";
-    }
 
-    if (name.equals("help") || name.equals("--help") || name.equals("-h")) {
-      usage();
-      return;
-    }
-
-    final Provider<Command> p = commands.get(name);
-    if (p != null) {
       final Command cmd = p.get();
+
+      if (isAdminCommand(cmd) && !currentUser.get().isAdministrator()) {
+        final String msg = "fatal: Not a Gerrit administrator";
+        throw new UnloggedFailure(BaseCommand.STATUS_NOT_ADMIN, msg);
+      }
+
+      if (cmd instanceof BaseCommand) {
+        final BaseCommand bc = (BaseCommand) cmd;
+        if (prefix.isEmpty())
+          bc.setName(commandName);
+        else
+          bc.setName(prefix + " " + commandName);
+        bc.setArguments(args.toArray(new String[args.size()]));
+
+      } else if (!args.isEmpty()) {
+        throw new UnloggedFailure(1, commandName + " does not take arguments");
+      }
+
+      provideStateTo(cmd);
 
       synchronized (this) {
         this.cmd = cmd;
       }
-
-      if (cmd.getClass().getAnnotation(AdminCommand.class) != null) {
-        final CurrentUser u = currentUser.get();
-        if (!u.isAdministrator()) {
-          err.write("fatal: Not a Gerrit administrator\n".getBytes(ENC));
-          err.flush();
-          onExit(BaseCommand.STATUS_NOT_ADMIN);
-          return;
-        }
-      }
-
-      provideStateTo(cmd);
-      if (cmd instanceof BaseCommand) {
-        final BaseCommand bc = (BaseCommand) cmd;
-        if (commandPrefix.isEmpty())
-          bc.setCommandPrefix(name);
-        else
-          bc.setCommandPrefix(commandPrefix + " " + name);
-        bc.setCommandLine(args);
-      }
       cmd.start(env);
-    } else {
-      final String msg = prefix + ": " + name + ": not found\n";
+
+    } catch (UnloggedFailure e) {
+      String msg = e.getMessage();
+      if (!msg.endsWith("\n")) {
+        msg += "\n";
+      }
       err.write(msg.getBytes(ENC));
       err.flush();
-      onExit(BaseCommand.STATUS_NOT_FOUND);
+      onExit(e.exitCode);
     }
+  }
+
+  private boolean isAdminCommand(final Command cmd) {
+    return cmd.getClass().getAnnotation(AdminCommand.class) != null;
   }
 
   @Override
@@ -118,13 +120,15 @@ final class DispatchCommand extends BaseCommand {
     }
   }
 
-  private void usage() throws IOException, UnsupportedEncodingException {
+  @Override
+  protected String usage() {
     final StringBuilder usage = new StringBuilder();
-    if (prefix.indexOf(' ') < 0) {
-      usage.append("usage: " + prefix + " COMMAND [ARGS]\n");
+    usage.append("Available commands");
+    if (!prefix.isEmpty()) {
+      usage.append(" of ");
+      usage.append(prefix);
     }
-    usage.append("\n");
-    usage.append("Available commands of " + prefix + " are:\n");
+    usage.append(" are:\n");
     usage.append("\n");
     for (Map.Entry<String, Provider<Command>> e : commands.entrySet()) {
       usage.append("   ");
@@ -140,8 +144,6 @@ final class DispatchCommand extends BaseCommand {
     }
     usage.append("COMMAND --help' for more information.\n");
     usage.append("\n");
-    err.write(usage.toString().getBytes("UTF-8"));
-    err.flush();
-    onExit(1);
+    return usage.toString();
   }
 }

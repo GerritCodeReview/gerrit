@@ -42,6 +42,17 @@ public class SshSession {
     this.remoteAsString = format(remoteAddress);
   }
 
+  SshSession(SshSession parent, SocketAddress peer, CurrentUser user) {
+    this.sessionId = parent.sessionId;
+    this.remoteAddress = peer;
+    if (parent.remoteAddress == peer) {
+      this.remoteAsString = parent.remoteAsString;
+    } else {
+      this.remoteAsString = format(peer) + "/" + parent.remoteAsString;
+    }
+    this.identity = user;
+  }
+
   /** Unique session number, assigned during connect. */
   public int getSessionId() {
     return sessionId;

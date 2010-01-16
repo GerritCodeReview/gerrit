@@ -54,11 +54,14 @@ class SshLog implements LifecycleListener {
   private static final String P_STATUS = "status";
 
   private final Provider<SshSession> session;
+  private final Provider<Context> context;
   private final AsyncAppender async;
 
   @Inject
-  SshLog(final Provider<SshSession> session, final SitePaths site) {
+  SshLog(final Provider<SshSession> session, final Provider<Context> context,
+      final SitePaths site) {
     this.session = session;
+    this.context = context;
 
     final DailyRollingFileAppender dst = new DailyRollingFileAppender();
     dst.setName(LOG_NAME);
@@ -118,7 +121,11 @@ class SshLog implements LifecycleListener {
     async.append(event);
   }
 
-  void onExecute(final Context ctx, final String commandLine, int exitValue) {
+  void onExecute(int exitValue) {
+    final Context ctx = context.get();
+    ctx.finished = System.currentTimeMillis();
+
+    final String commandLine = ctx.getCommandLine();
     String cmd = QuotedString.BOURNE.quote(commandLine);
     if (cmd == commandLine) {
       cmd = "'" + commandLine + "'";

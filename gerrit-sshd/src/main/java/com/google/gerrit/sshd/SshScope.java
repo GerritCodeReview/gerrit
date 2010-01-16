@@ -26,17 +26,26 @@ import java.util.Map;
 class SshScope {
   static class Context {
     private final SshSession session;
+    private final String commandLine;
     private final Map<Key<?>, Object> map;
 
     final long created;
     volatile long started;
     volatile long finished;
 
-    Context(final SshSession s) {
+    Context(final SshSession s, final String c) {
       session = s;
+      commandLine = c;
       map = new HashMap<Key<?>, Object>();
-      created = System.currentTimeMillis();
-      started = created;
+
+      final long now = System.currentTimeMillis();
+      created = now;
+      started = now;
+      finished = now;
+    }
+
+    String getCommandLine() {
+      return commandLine;
     }
 
     synchronized <T> T get(Key<T> key, Provider<T> creator) {

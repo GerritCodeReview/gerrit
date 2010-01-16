@@ -18,6 +18,7 @@ import com.google.gerrit.sshd.CommandModule;
 import com.google.gerrit.sshd.CommandName;
 import com.google.gerrit.sshd.Commands;
 import com.google.gerrit.sshd.DispatchCommandProvider;
+import com.google.gerrit.sshd.SuExec;
 
 
 /** Register the basic commands any Gerrit server should support. */
@@ -52,5 +53,7 @@ public class DefaultCommandModule extends CommandModule {
     command("git-upload-pack").to(Commands.key(git, "upload-pack"));
     command("git-receive-pack").to(Commands.key(git, "receive-pack"));
     command("gerrit-receive-pack").to(Commands.key(git, "receive-pack"));
+
+    command("suexec").to(SuExec.class);
   }
 }

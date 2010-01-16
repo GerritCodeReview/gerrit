@@ -156,7 +156,7 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
       // session, record a login event in the log and add
       // a close listener to record a logout event.
       //
-      Context ctx = new Context(sd);
+      Context ctx = new Context(sd, null);
       Context old = SshScope.set(ctx);
       try {
         sshLog.onLogin();
@@ -168,7 +168,7 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
           new IoFutureListener<IoFuture>() {
             @Override
             public void operationComplete(IoFuture future) {
-              final Context ctx = new Context(sd);
+              final Context ctx = new Context(sd, null);
               final Context old = SshScope.set(ctx);
               try {
                 sshLog.onLogout();

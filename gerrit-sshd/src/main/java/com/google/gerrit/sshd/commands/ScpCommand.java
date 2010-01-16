@@ -56,10 +56,7 @@ final class ScpCommand extends BaseCommand {
   private IOException error;
 
   @Override
-  public void setCommandLine(final String line) {
-    super.setCommandLine(line);
-
-    final String[] args = line.split(" ");
+  public void setArguments(final String[] args) {
     root = "";
     for (int i = 0; i < args.length; i++) {
       if (args[i].charAt(0) == '-') {

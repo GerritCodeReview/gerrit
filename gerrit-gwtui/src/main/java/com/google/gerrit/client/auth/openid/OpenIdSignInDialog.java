@@ -211,8 +211,15 @@ public class OpenIdSignInDialog extends SignInDialog implements
       rememberId.setTabIndex(1);
       group.add(rememberId);
 
-      final String last = Cookies.getCookie(OpenIdUrls.LASTID_COOKIE);
+      String last = Cookies.getCookie(OpenIdUrls.LASTID_COOKIE);
       if (last != null && !"".equals(last)) {
+        if (last.startsWith("\"") && last.endsWith("\"")) {
+          // Dequote the value. We shouldn't have to do this, but
+          // something is causing some Google Account tokens to get
+          // wrapped up in double quotes when obtained from the cookie.
+          //
+          last = last.substring(1, last.length() - 2);
+        }
         providerId.setText(last);
         rememberId.setValue(true);
       }

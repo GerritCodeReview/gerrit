@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAr3///jU\u003d",
+        "filename": "gerrit-main/.settings/org.eclipse.jdt.core.prefs",
+        "patchSetId": 6
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1002957
+      },
+      "writtenOn": "2010-01-21T00:35:18Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "AAAAr3///ks\u003d",
+      "revId": "dd2686dee434da0662bfb1084d6d572a4bf3b781",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAr3///kY\u003d",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/RefRight.java",
         "patchSetId": 6
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAr3///jQ\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/RefRight.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1002957
+      },
+      "writtenOn": "2010-01-21T00:35:18Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "AAAAr3///kc\u003d",
+      "revId": "dd2686dee434da0662bfb1084d6d572a4bf3b781",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAr3///kU\u003d",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/RefRightAccess.java",
         "patchSetId": 6
@@ -64,6 +100,24 @@
       "writtenOn": "2010-01-20T22:31:55Z",
       "side": 1,
       "message": "This class is fine, aside from the possibly unused methods below.",
+      "revId": "dd2686dee434da0662bfb1084d6d572a4bf3b781",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///jM\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/RefRightAccess.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1002957
+      },
+      "writtenOn": "2010-01-21T00:35:18Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "AAAAr3///kU\u003d",
       "revId": "dd2686dee434da0662bfb1084d6d572a4bf3b781",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -121,6 +175,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAr3///jE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 1002957
+      },
+      "writtenOn": "2010-01-21T00:35:18Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "AAAAr3///js\u003d",
+      "revId": "dd2686dee434da0662bfb1084d6d572a4bf3b781",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAr3///jo\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 6
@@ -132,6 +204,24 @@
       "writtenOn": "2010-01-20T22:31:55Z",
       "side": 1,
       "message": "NAK.   I think you should be getting a RefControl for refName and asking refControl.canPerform(PUSH_HEAD, PUSH_HEAD_REPLACE).",
+      "revId": "dd2686dee434da0662bfb1084d6d572a4bf3b781",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///jA\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 531,
+      "author": {
+        "id": 1002957
+      },
+      "writtenOn": "2010-01-21T00:35:18Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "AAAAr3///jo\u003d",
       "revId": "dd2686dee434da0662bfb1084d6d572a4bf3b781",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -155,6 +245,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAr3///jI\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 1002957
+      },
+      "writtenOn": "2010-01-21T00:35:18Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "AAAAr3///jk\u003d",
+      "revId": "dd2686dee434da0662bfb1084d6d572a4bf3b781",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAr3///kQ\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
         "patchSetId": 6
@@ -166,6 +274,24 @@
       "writtenOn": "2010-01-20T22:31:55Z",
       "side": 1,
       "message": "Style-nit: No space between constructor name and (",
+      "revId": "dd2686dee434da0662bfb1084d6d572a4bf3b781",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///ik\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1002957
+      },
+      "writtenOn": "2010-01-21T00:35:18Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "AAAAr3///kQ\u003d",
       "revId": "dd2686dee434da0662bfb1084d6d572a4bf3b781",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -189,6 +315,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAr3///i8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1002957
+      },
+      "writtenOn": "2010-01-21T00:35:18Z",
+      "side": 1,
+      "message": "I can see some value in exposing the refName, but I don\u0027t know if it is important to expose the projectControl, since you probably have to have it already if you\u0027re getting a RefControl, since the creation of a RefControl at this point requires one to go through a ProjectControl...",
+      "parentUuid": "AAAAr3///kM\u003d",
+      "revId": "dd2686dee434da0662bfb1084d6d572a4bf3b781",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAr3///j8\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
         "patchSetId": 6
@@ -200,6 +344,24 @@
       "writtenOn": "2010-01-20T22:31:55Z",
       "side": 1,
       "message": "This method is logically correct.\n\nBut its basically what we call canPerform(...) in ProjectControl.  Maybe you should abstract it into a canPerform here, because then you can reuse this new canPerform function inside of canUpload() too, and reduce code duplication.",
+      "revId": "dd2686dee434da0662bfb1084d6d572a4bf3b781",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///i4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1002957
+      },
+      "writtenOn": "2010-01-21T00:35:18Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "AAAAr3///j8\u003d",
       "revId": "dd2686dee434da0662bfb1084d6d572a4bf3b781",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -223,6 +385,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAr3///i0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1002957
+      },
+      "writtenOn": "2010-01-21T00:35:18Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "AAAAr3///kA\u003d",
+      "revId": "dd2686dee434da0662bfb1084d6d572a4bf3b781",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAr3///kI\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
         "patchSetId": 6
@@ -234,6 +414,24 @@
       "writtenOn": "2010-01-20T22:31:55Z",
       "side": 1,
       "message": "Should we be looking at the project\u0027s RefRights collection here and not the ProjectRight collection?  I mean, we\u0027re scoped to a ref right now, wouldn\u0027t we want to honor that ref\u0027s permissions?\n\nThis comment applies to all canPerform invocations in this class.",
+      "revId": "dd2686dee434da0662bfb1084d6d572a4bf3b781",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///iw\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1002957
+      },
+      "writtenOn": "2010-01-21T00:35:18Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "AAAAr3///kI\u003d",
       "revId": "dd2686dee434da0662bfb1084d6d572a4bf3b781",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -257,6 +455,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAr3///is\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1002957
+      },
+      "writtenOn": "2010-01-21T00:35:18Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "AAAAr3///kE\u003d",
+      "revId": "dd2686dee434da0662bfb1084d6d572a4bf3b781",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAr3///j4\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
         "patchSetId": 6
@@ -268,6 +484,24 @@
       "writtenOn": "2010-01-20T22:31:55Z",
       "side": 1,
       "message": "I\u0027d prefer refPattern.endsWith(\"/*\") as that is the rule Git uses within the remote.name.fetch and remote.name.push pattern matching algorithm.\n\nAlso, this method logic seems backwards to read.  Maybe reorder it:\n\n  if (refPattern.endsWith(\"/*\") {\n    return refName.startsWith(refPattern.substring(0, refPattern.length() - 1);\n  } else {\n    return refName.equals(refPattern);\n  }\n\nAnd yes, we want only length - 1 in the \"/*\" case because we want to verify the \"/\" appears immediately before the * to avoid having \"refs/heads/*\" matching \"refs/heads_and_other_crap\".",
+      "revId": "dd2686dee434da0662bfb1084d6d572a4bf3b781",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///io\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1002957
+      },
+      "writtenOn": "2010-01-21T00:35:18Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "AAAAr3///j4\u003d",
       "revId": "dd2686dee434da0662bfb1084d6d572a4bf3b781",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -291,6 +525,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAr3///ig\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaVersion.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1002957
+      },
+      "writtenOn": "2010-01-21T00:35:18Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "AAAAr3///ko\u003d",
+      "revId": "dd2686dee434da0662bfb1084d6d572a4bf3b781",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAr3///j0\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/workflow/FunctionState.java",
         "patchSetId": 6
@@ -308,6 +560,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAr3///iY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/workflow/FunctionState.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1002957
+      },
+      "writtenOn": "2010-01-21T00:35:18Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "AAAAr3///j0\u003d",
+      "revId": "dd2686dee434da0662bfb1084d6d572a4bf3b781",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAr3///jw\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/workflow/FunctionState.java",
         "patchSetId": 6
@@ -319,6 +589,24 @@
       "writtenOn": "2010-01-20T22:31:55Z",
       "side": 1,
       "message": "This isn\u0027t sufficient.\n\nYou are scanning *ALL* rights granted in the project, but the rights are to a specific set of branches.  You need to take the destination branch of the change into account when deciding which RefRight objects to consider in this loop.\n\nAlso, how do we resolve the conflict between a ProjectRight grant and a RefRight grant?  E.g. what if the same group is granted Code Review -2..+2 at the ProjectRight level and Code Review -1..+1 on the RefRight level?  This code as it stands now will use -2..+2.  Do we want that?  I\u0027d think we would want to favor the RefRight over the ProjectRight... just like we favor the local ProjectRight over the inherited ProjectRight from --All Projects--.",
+      "revId": "dd2686dee434da0662bfb1084d6d572a4bf3b781",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///ic\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/workflow/FunctionState.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1002957
+      },
+      "writtenOn": "2010-01-21T00:35:18Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "AAAAr3///jw\u003d",
       "revId": "dd2686dee434da0662bfb1084d6d572a4bf3b781",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

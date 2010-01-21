@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAr3///go\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-21T17:06:30Z",
+      "side": 1,
+      "message": "See my remarks in FunctionState, but there\u0027s a question on whether project rules should even be used if there are ref rules for this category matching this ref.",
+      "revId": "2b119d55ada764e93893c7b503399c361ec732a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///gs\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/workflow/CategoryFunction.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-21T17:06:30Z",
+      "side": 1,
+      "message": "Hmm.  I wonder, shouldn\u0027t this also consider the RefRight instances since this method is probably also used for Code Review and Verified?",
+      "revId": "2b119d55ada764e93893c7b503399c361ec732a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///g4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/workflow/FunctionState.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-21T17:06:30Z",
+      "side": 1,
+      "message": "I would do this filtering inside of the getRefRights method.  Like as part of the index operation.",
+      "revId": "2b119d55ada764e93893c7b503399c361ec732a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///g0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/workflow/FunctionState.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-21T17:06:30Z",
+      "side": 1,
+      "message": "NAK, this is going to break existing projects.\n\nIf a user has Code Review +2 at the project level, this will squash it to 0 unless he also has Code Review +2 on the current branch.  If there are no per-branch permissions in this project, that doesn\u0027t make any sense, does it?\n\nI think what you really want is something more like this:\n\n  IF there exists RefRight for a.getCategoryId()\n      for this destRef\n      for ANY group:\n  THEN\n      min \u003d min from RefRights\n      max \u003d max from RefRights\n  ELSE\n      min \u003d min from ProjectRights\n      max \u003d max from ProjectRights\n   FI\n\nThat way project level access rules are used unless there are branch level rules.  If there are branch level rules, then the branch level rules are the only thing that is used.\n\nDoes that seem reasonable?",
+      "revId": "2b119d55ada764e93893c7b503399c361ec732a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///gw\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/workflow/SubmitFunction.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-21T17:06:30Z",
+      "side": 1,
+      "message": "Why are we testing both?  Wouldn\u0027t we want to use the RefRight only if they are more specific?  (See my remarks in FunctionState.)",
+      "revId": "2b119d55ada764e93893c7b503399c361ec732a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

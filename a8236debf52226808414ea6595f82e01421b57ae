@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAr3///ek\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-21T21:43:06Z",
+      "side": 1,
+      "message": "Don\u0027t you mean val !\u003d MIN_VALUE ?\n\nAlso, don\u0027t we want to use the RefRight controls even if the user isn\u0027t a member of the group?\n\nHere\u0027s a concrete example of what I\u0027m thinking:\n\n  ProjectRight:\n    Group:  Developers\n    Push Branch:  +1 .. +1\n\n  RefRight:\n    Group:  DrNo\n    RefPattern:  refs/heads/cupcake\n    Push Branch:  +1 .. +1\n\nWhen a user is a member of \"Developers\" but not \"DrNo\" and they try to use Push Branch against refs/heads/cupcake, shouldn\u0027t they get rejected here?",
+      "revId": "a8236debf52226808414ea6595f82e01421b57ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///eg\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-21T21:43:06Z",
+      "side": 1,
+      "message": "Why not just move the call to projectControl.canPerform(...) down to here, so we avoid that cost when there are branch controls that matter?",
+      "revId": "a8236debf52226808414ea6595f82e01421b57ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

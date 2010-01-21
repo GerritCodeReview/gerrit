@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAr3///fc\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1002957
+      },
+      "writtenOn": "2010-01-21T21:01:57Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "AAAAr3///go\u003d",
+      "revId": "2b119d55ada764e93893c7b503399c361ec732a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAr3///gs\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/workflow/CategoryFunction.java",
         "patchSetId": 7
@@ -30,6 +48,24 @@
       "writtenOn": "2010-01-21T17:06:30Z",
       "side": 1,
       "message": "Hmm.  I wonder, shouldn\u0027t this also consider the RefRight instances since this method is probably also used for Code Review and Verified?",
+      "revId": "2b119d55ada764e93893c7b503399c361ec732a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///fM\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/workflow/CategoryFunction.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1002957
+      },
+      "writtenOn": "2010-01-21T21:01:57Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "AAAAr3///gs\u003d",
       "revId": "2b119d55ada764e93893c7b503399c361ec732a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAr3///gA\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/workflow/FunctionState.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1002957
+      },
+      "writtenOn": "2010-01-21T21:01:57Z",
+      "side": 1,
+      "message": "Yes, it\u0027s much better to filter it out earlier.",
+      "parentUuid": "AAAAr3///g4\u003d",
+      "revId": "2b119d55ada764e93893c7b503399c361ec732a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAr3///g0\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/workflow/FunctionState.java",
         "patchSetId": 7
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAr3///f0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/workflow/FunctionState.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1002957
+      },
+      "writtenOn": "2010-01-21T21:01:57Z",
+      "side": 1,
+      "message": "Yes, I got confused trying to apply ref right rules for groups of which a user wasn\u0027t part of. This makes much more sense.\n\nThanks",
+      "parentUuid": "AAAAr3///g0\u003d",
+      "revId": "2b119d55ada764e93893c7b503399c361ec732a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAr3///gw\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/workflow/SubmitFunction.java",
         "patchSetId": 7
@@ -81,6 +153,24 @@
       "writtenOn": "2010-01-21T17:06:30Z",
       "side": 1,
       "message": "Why are we testing both?  Wouldn\u0027t we want to use the RefRight only if they are more specific?  (See my remarks in FunctionState.)",
+      "revId": "2b119d55ada764e93893c7b503399c361ec732a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///fY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/workflow/SubmitFunction.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1002957
+      },
+      "writtenOn": "2010-01-21T21:01:57Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "AAAAr3///gw\u003d",
       "revId": "2b119d55ada764e93893c7b503399c361ec732a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

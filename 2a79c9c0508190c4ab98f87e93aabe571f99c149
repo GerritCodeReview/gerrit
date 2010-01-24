@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAr3///YA\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/AddRefRight.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-24T00:20:28Z",
+      "side": 1,
+      "message": "Right now I\u0027m OK with just rejecting it like this.  We can always come back later and extend support to it if necessary.",
+      "revId": "2a79c9c0508190c4ab98f87e93aabe571f99c149",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

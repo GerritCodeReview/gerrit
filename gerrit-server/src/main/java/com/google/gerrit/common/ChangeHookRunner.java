@@ -142,11 +142,12 @@ public class ChangeHookRunner {
      * Fire the Comment Added Hook.
      *
      * @param change The change itself.
+     * @param patchSet The patchset this comment is related to.
      * @param account The gerrit user who commited the change.
      * @param comment The comment given.
      * @param approvals Map of Approval Categories and Scores
      */
-    public void doCommentAddedHook(final Change change, final Account account, final String comment, final Map<ApprovalCategory.Id, ApprovalCategoryValue.Id> approvals) {
+    public void doCommentAddedHook(final Change change, final Account account, final PatchSet patchSet, final String comment, final Map<ApprovalCategory.Id, ApprovalCategoryValue.Id> approvals) {
         final List<String> args = new ArrayList<String>();
         args.add(commentAddedHook.getAbsolutePath());
 
@@ -158,6 +159,8 @@ public class ChangeHookRunner {
         args.add(change.getDest().getShortName());
         args.add("--author");
         args.add(getDisplayName(account));
+        args.add("--commit");
+        args.add(patchSet.getRevision().get());
         args.add("--comment");
         args.add(comment == null ? "" : comment);
         for (Map.Entry<ApprovalCategory.Id, ApprovalCategoryValue.Id> approval : approvals.entrySet()) {

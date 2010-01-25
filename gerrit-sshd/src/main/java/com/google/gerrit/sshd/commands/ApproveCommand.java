@@ -208,7 +208,7 @@ public class ApproveCommand extends BaseCommand {
     ChangeUtil.touch(change, db);
     sendMail(change, change.currentPatchSetId(), cm);
 
-    hooks.doCommentAddedHook(change, currentUser.getAccount(), changeComment,
+    hooks.doCommentAddedHook(change, currentUser.getAccount(), db.patchSets().get(patchSetId), changeComment,
         approvalsMap);
   }
 

@@ -291,6 +291,6 @@ public class PublishComments implements Callable<VoidResult> {
       changed.put(v.getParentKey(), v);
     }
 
-    hooks.doCommentAddedHook(change, user.getAccount(), messageText, changed);
+    hooks.doCommentAddedHook(change, user.getAccount(), patchSet, messageText, changed);
   }
 }

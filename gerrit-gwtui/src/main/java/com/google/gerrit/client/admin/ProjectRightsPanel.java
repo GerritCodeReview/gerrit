@@ -135,10 +135,6 @@ public class ProjectRightsPanel extends Composite {
       }
       catBox.addItem(c.getName(), c.getId().get());
     }
-    if (catBox.getItemCount() > 0) {
-      catBox.setSelectedIndex(0);
-      updateCategorySelection();
-    }
 
     addGrid.setText(0, 0, Util.C.columnApprovalCategory() + ":");
     addGrid.setWidget(0, 1, catBox);
@@ -207,6 +203,11 @@ public class ProjectRightsPanel extends Composite {
     body.add(rights);
     body.add(delRight);
     body.add(addPanel);
+
+    if (catBox.getItemCount() > 0) {
+      catBox.setSelectedIndex(0);
+      updateCategorySelection();
+    }
   }
 
   void display(final ProjectDetail result) {

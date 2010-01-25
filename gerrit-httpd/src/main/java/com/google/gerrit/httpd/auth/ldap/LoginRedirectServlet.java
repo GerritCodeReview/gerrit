@@ -18,13 +18,13 @@ import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.auth.SignInMode;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.server.config.CanonicalWebUrl;
-import com.google.gerrit.server.config.Nullable;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 import java.io.IOException;
 
+import javax.annotation.Nullable;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

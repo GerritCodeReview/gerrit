@@ -75,7 +75,7 @@ class DeleteBranches extends Handler<Set<Branch.NameKey>> {
       if (!projectName.equals(k.getParentKey())) {
         throw new IllegalArgumentException("All keys must be from same project");
       }
-      if (!projectControl.canDeleteRef(k.get())) {
+      if (!projectControl.controlForRef(k).canDelete()) {
         throw new IllegalStateException("Cannot delete " + k.getShortName());
       }
     }

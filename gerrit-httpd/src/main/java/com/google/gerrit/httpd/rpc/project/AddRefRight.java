@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2010 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,14 +17,16 @@ package com.google.gerrit.httpd.rpc.project;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.common.data.ProjectDetail;
+import com.google.gerrit.common.errors.InvalidNameException;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.reviewdb.ProjectRight;
+import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.NoSuchGroupException;
+import com.google.gerrit.server.config.Nullable;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
@@ -32,12 +34,17 @@ import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.Repository;
+
 import java.util.Collections;
 
-class AddProjectRight extends Handler<ProjectDetail> {
+class AddRefRight extends Handler<ProjectDetail> {
   interface Factory {
-    AddProjectRight create(@Assisted Project.NameKey projectName,
-        @Assisted ApprovalCategory.Id categoryId, @Assisted String groupName,
+    AddRefRight create(@Assisted Project.NameKey projectName,
+        @Assisted ApprovalCategory.Id categoryId,
+        @Assisted("groupName") String groupName,
+        @Nullable @Assisted("refPattern") String refPattern,
         @Assisted("min") short min, @Assisted("max") short max);
   }
 
@@ -51,19 +58,21 @@ class AddProjectRight extends Handler<ProjectDetail> {
   private final Project.NameKey projectName;
   private final ApprovalCategory.Id categoryId;
   private final AccountGroup.NameKey groupName;
+  private final String refPattern;
   private final short min;
   private final short max;
 
   @Inject
-  AddProjectRight(final ProjectDetailFactory.Factory projectDetailFactory,
+  AddRefRight(final ProjectDetailFactory.Factory projectDetailFactory,
       final ProjectControl.Factory projectControlFactory,
       final ProjectCache projectCache, final GroupCache groupCache,
       final ReviewDb db, final ApprovalTypes approvalTypes,
 
       @Assisted final Project.NameKey projectName,
       @Assisted final ApprovalCategory.Id categoryId,
-      @Assisted final String groupName, @Assisted("min") final short min,
-      @Assisted("max") final short max) {
+      @Assisted("groupName") final String groupName,
+      @Nullable @Assisted("refPattern") final String refPattern,
+      @Assisted("min") final short min, @Assisted("max") final short max) {
     this.projectDetailFactory = projectDetailFactory;
     this.projectControlFactory = projectControlFactory;
     this.projectCache = projectCache;
@@ -74,6 +83,7 @@ class AddProjectRight extends Handler<ProjectDetail> {
     this.projectName = projectName;
     this.categoryId = categoryId;
     this.groupName = new AccountGroup.NameKey(groupName);
+    this.refPattern = refPattern;
 
     if (min <= max) {
       this.min = min;
@@ -86,20 +96,9 @@ class AddProjectRight extends Handler<ProjectDetail> {
 
   @Override
   public ProjectDetail call() throws NoSuchProjectException, OrmException,
-      NoSuchGroupException {
+      NoSuchGroupException, InvalidNameException {
     final ProjectControl projectControl =
         projectControlFactory.ownerFor(projectName);
-
-    if (projectControl.getProjectState().isSpecialWildProject()
-        && ApprovalCategory.OWN.equals(categoryId)) {
-      // Giving out control of the WILD_PROJECT to other groups beyond
-      // Administrators is dangerous. Having control over WILD_PROJECT
-      // is about the same as having Administrator access as users are
-      // able to affect grants in all projects on the system.
-      //
-      throw new IllegalArgumentException("Cannot give " + categoryId.get()
-          + " on " + projectName + " " + groupName);
-    }
 
     final ApprovalType at = approvalTypes.getApprovalType(categoryId);
     if (at == null || at.getValue(min) == null || at.getValue(max) == null) {
@@ -107,25 +106,74 @@ class AddProjectRight extends Handler<ProjectDetail> {
           + " or range " + min + ".." + max);
     }
 
+    String refPattern = this.refPattern;
+    if (refPattern == null || refPattern.isEmpty()) {
+      if (categoryId.equals(ApprovalCategory.SUBMIT)
+          || categoryId.equals(ApprovalCategory.PUSH_HEAD)) {
+        // Explicitly related to a branch head.
+        refPattern = "refs/heads/*";
+
+      } else if (!at.getCategory().isAction()) {
+        // Non actions are approval votes on a change, assume these apply
+        // to branch heads only.
+        refPattern = "refs/heads/*";
+
+      } else if (categoryId.equals(ApprovalCategory.PUSH_TAG)) {
+        // Explicitly related to the tag namespace.
+        refPattern = "refs/tags/*";
+
+      } else if (categoryId.equals(ApprovalCategory.READ)
+          || categoryId.equals(ApprovalCategory.OWN)) {
+        // Currently these are project-wide rights, so apply that way.
+        refPattern = "refs/*";
+
+      } else {
+        // Assume project wide for the default.
+        refPattern = "refs/*";
+      }
+    }
+    while (refPattern.startsWith("/")) {
+      refPattern = refPattern.substring(1);
+    }
+    if (!refPattern.startsWith(Constants.R_REFS)) {
+      refPattern = Constants.R_HEADS + refPattern;
+    }
+    if (refPattern.endsWith("/*")) {
+      final String prefix = refPattern.substring(0, refPattern.length() - 2);
+      if (!Repository.isValidRefName(prefix)) {
+        throw new InvalidNameException();
+      }
+    } else {
+      if (!Repository.isValidRefName(refPattern)) {
+        throw new InvalidNameException();
+      }
+    }
+
+    // TODO Support per-branch READ access.
+    if (ApprovalCategory.READ.equals(categoryId)
+        && !refPattern.equals("refs/*")) {
+      throw new UnsupportedOperationException("READ on " + refPattern
+          + " not yet supported.");
+    }
+
     final AccountGroup group = groupCache.get(groupName);
     if (group == null) {
       throw new NoSuchGroupException(groupName);
     }
-
-    final ProjectRight.Key key =
-        new ProjectRight.Key(projectName, categoryId, group.getId());
-    ProjectRight pr = db.projectRights().get(key);
-    if (pr == null) {
-      pr = new ProjectRight(key);
-      pr.setMinValue(min);
-      pr.setMaxValue(max);
-      db.projectRights().insert(Collections.singleton(pr));
+    final RefRight.Key key =
+        new RefRight.Key(projectName, new RefRight.RefPattern(refPattern),
+            categoryId, group.getId());
+    RefRight rr = db.refRights().get(key);
+    if (rr == null) {
+      rr = new RefRight(key);
+      rr.setMinValue(min);
+      rr.setMaxValue(max);
+      db.refRights().insert(Collections.singleton(rr));
     } else {
-      pr.setMinValue(min);
-      pr.setMaxValue(max);
-      db.projectRights().update(Collections.singleton(pr));
+      rr.setMinValue(min);
+      rr.setMaxValue(max);
+      db.refRights().update(Collections.singleton(rr));
     }
-
     projectCache.evict(projectControl.getProject());
     return projectDetailFactory.create(projectName).call();
   }

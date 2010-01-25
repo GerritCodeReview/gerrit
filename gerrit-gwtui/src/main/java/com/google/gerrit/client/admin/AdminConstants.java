@@ -62,6 +62,7 @@ public interface AdminConstants extends Constants {
   String columnProjectDescription();
   String columnApprovalCategory();
   String columnRightRange();
+  String columnRefName();
 
   String columnBranchName();
   String columnBranchRevision();

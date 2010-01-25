@@ -15,7 +15,7 @@
 package com.google.gerrit.server.project;
 
 import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.reviewdb.ProjectRight;
+import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
@@ -76,7 +76,7 @@ public class ProjectCacheImpl implements ProjectCache {
 
     this.inheritedRights = new ProjectState.InheritedRights() {
       @Override
-      public Collection<ProjectRight> get() {
+      public Collection<RefRight> get() {
         return ProjectCacheImpl.this.get(wildProject).getLocalRights();
       }
     };
@@ -90,8 +90,8 @@ public class ProjectCacheImpl implements ProjectCache {
         return null;
       }
 
-      final Collection<ProjectRight> rights =
-          Collections.unmodifiableCollection(db.projectRights().byProject(
+      final Collection<RefRight> rights =
+          Collections.unmodifiableCollection(db.refRights().byProject(
               p.getNameKey()).toList());
 
       return projectStateFactory.create(p, rights, inheritedRights);

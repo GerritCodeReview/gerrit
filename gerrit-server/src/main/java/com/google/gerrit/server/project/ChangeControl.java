@@ -78,28 +78,34 @@ public class ChangeControl {
     }
   }
 
-  private final ProjectControl projectControl;
+  private final RefControl refControl;
   private final Change change;
 
-  ChangeControl(final ProjectControl p, final Change c) {
-    this.projectControl = p;
+  ChangeControl(final RefControl r, final Change c) {
+    this.refControl = r;
     this.change = c;
   }
 
   public ChangeControl forAnonymousUser() {
-    return new ChangeControl(projectControl.forAnonymousUser(), change);
+    return new ChangeControl(getRefControl().getProjectControl()
+        .forAnonymousUser().controlForRef(getChange().getDest()), getChange());
   }
 
   public ChangeControl forUser(final CurrentUser who) {
-    return new ChangeControl(projectControl.forUser(who), change);
+    return new ChangeControl(getRefControl().getProjectControl().forUser(who)
+        .controlForRef(getChange().getDest()), getChange());
+  }
+
+  public RefControl getRefControl() {
+    return refControl;
   }
 
   public CurrentUser getCurrentUser() {
-    return getProjectControl().getCurrentUser();
+    return getRefControl().getCurrentUser();
   }
 
   public ProjectControl getProjectControl() {
-    return projectControl;
+    return getRefControl().getProjectControl();
   }
 
   public Project getProject() {
@@ -112,15 +118,21 @@ public class ChangeControl {
 
   /** Can this user see this change? */
   public boolean isVisible() {
-    return getProjectControl().isVisible();
+    return getRefControl().isVisible();
   }
 
   /** Can this user abandon this change? */
   public boolean canAbandon() {
     return isOwner() // owner (aka creator) of the change can abandon
+        || getRefControl().isOwner() // branch owner can abandon
         || getProjectControl().isOwner() // project owner can abandon
         || getCurrentUser().isAdministrator() // site administers are god
     ;
+  }
+
+  /** Can this user add a patch set to this change? */
+  public boolean canAddPatchSet() {
+    return getRefControl().canUpload();
   }
 
   /** Is this user the owner of the change? */

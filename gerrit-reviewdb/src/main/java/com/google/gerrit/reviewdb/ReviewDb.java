@@ -88,9 +88,6 @@ public interface ReviewDb extends Schema {
   ProjectAccess projects();
 
   @Relation
-  ProjectRightAccess projectRights();
-
-  @Relation
   ChangeAccess changes();
 
   @Relation
@@ -107,6 +104,9 @@ public interface ReviewDb extends Schema {
 
   @Relation
   PatchLineCommentAccess patchComments();
+
+  @Relation
+  RefRightAccess refRights();
 
   /** Create the next unique id for an {@link Account}. */
   @Sequence(startWith = 1000000)

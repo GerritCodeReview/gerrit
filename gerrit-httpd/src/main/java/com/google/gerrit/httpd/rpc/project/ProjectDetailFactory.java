@@ -20,7 +20,7 @@ import com.google.gerrit.common.data.ProjectDetail;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.reviewdb.ProjectRight;
+import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
@@ -71,28 +71,31 @@ class ProjectDetailFactory extends Handler<ProjectDetail> {
     detail.setProject(projectState.getProject());
 
     groups = new HashMap<AccountGroup.Id, AccountGroup>();
-    final List<ProjectRight> rights = new ArrayList<ProjectRight>();
-    for (final ProjectRight p : projectState.getLocalRights()) {
-      rights.add(p);
-      wantGroup(p.getAccountGroupId());
+    final List<RefRight> refRights = new ArrayList<RefRight>();
+    for (final RefRight r : projectState.getLocalRights()) {
+      refRights.add(r);
+      wantGroup(r.getAccountGroupId());
     }
-    for (final ProjectRight p : projectState.getInheritedRights()) {
-      rights.add(p);
-      wantGroup(p.getAccountGroupId());
+    for (final RefRight r : projectState.getInheritedRights()) {
+      refRights.add(r);
+      wantGroup(r.getAccountGroupId());
     }
     loadGroups();
 
-    Collections.sort(rights, new Comparator<ProjectRight>() {
+    Collections.sort(refRights, new Comparator<RefRight>() {
       @Override
-      public int compare(final ProjectRight a, final ProjectRight b) {
+      public int compare(final RefRight a, final RefRight b) {
         int rc = categoryOf(a).compareTo(categoryOf(b));
+        if (rc == 0) {
+          rc = a.getRefPattern().compareTo(b.getRefPattern());
+        }
         if (rc == 0) {
           rc = groupOf(a).compareTo(groupOf(b));
         }
         return rc;
       }
 
-      private String categoryOf(final ProjectRight r) {
+      private String categoryOf(final RefRight r) {
         final ApprovalType type =
             approvalTypes.getApprovalType(r.getApprovalCategoryId());
         if (type == null) {
@@ -101,12 +104,12 @@ class ProjectDetailFactory extends Handler<ProjectDetail> {
         return type.getCategory().getName();
       }
 
-      private String groupOf(final ProjectRight r) {
+      private String groupOf(final RefRight r) {
         return groups.get(r.getAccountGroupId()).getName();
       }
     });
 
-    detail.setRights(rights);
+    detail.setRights(refRights);
     detail.setGroups(groups);
     return detail;
   }

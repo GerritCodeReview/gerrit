@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAr3///To\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/patches/SideBySideTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1002957
+      },
+      "writtenOn": "2010-01-25T19:35:59Z",
+      "side": 1,
+      "message": "It\u0027s probably because I do not understand how the servlet works, but shouldn\u0027t this be:\n\ndownloadLink(m, patchKey, \"0\");\n\nand the one below be:\n\ndownloadLink(m, new Patch.Key(idSideA, patchKey.get()), \"1\");",
+      "revId": "d91338bbcadfb161e250bfd6e8bde1d1ece3329a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

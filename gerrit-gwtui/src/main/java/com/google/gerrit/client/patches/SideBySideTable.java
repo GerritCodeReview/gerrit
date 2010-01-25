@@ -24,11 +24,14 @@ import com.google.gerrit.common.data.CommentDetail;
 import com.google.gerrit.common.data.EditList;
 import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.data.SparseFileContent;
+import com.google.gerrit.reviewdb.Patch;
 import com.google.gerrit.reviewdb.PatchLineComment;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwtexpui.safehtml.client.PrettyFormatter;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
+import com.google.gwtorm.client.KeyUtil;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -73,7 +76,7 @@ public class SideBySideTable extends AbstractPatchContentTable {
     final SafeHtmlBuilder nc = new SafeHtmlBuilder();
 
     fmtB.setShowWhiteSpaceErrors(true);
-    appendHeader(nc);
+    appendHeader(script, nc);
     lines.add(null);
 
     int lastB = 0;
@@ -194,7 +197,7 @@ public class SideBySideTable extends AbstractPatchContentTable {
     return row;
   }
 
-  private void appendHeader(final SafeHtmlBuilder m) {
+  private void appendHeader(PatchScript script, final SafeHtmlBuilder m) {
     m.openTr();
 
     m.openTd();
@@ -211,6 +214,14 @@ public class SideBySideTable extends AbstractPatchContentTable {
     m.setStyleName(Gerrit.RESOURCES.css().fileColumnHeader());
     m.setAttribute("width", "50%");
     m.append(PatchUtil.C.patchHeaderOld());
+    m.br();
+    if (0 < script.getA().size()) {
+      if (idSideA == null) {
+        downloadLink(m, patchKey, "1");
+      } else {
+        downloadLink(m, new Patch.Key(idSideA, patchKey.get()), "0");
+      }
+    }
     m.closeTd();
 
     m.openTd();
@@ -222,9 +233,22 @@ public class SideBySideTable extends AbstractPatchContentTable {
     m.setStyleName(Gerrit.RESOURCES.css().fileColumnHeader());
     m.setAttribute("width", "50%");
     m.append(PatchUtil.C.patchHeaderNew());
+    m.br();
+    if (0 < script.getA().size()) {
+      downloadLink(m, patchKey, "0");
+    }
     m.closeTd();
 
     m.closeTr();
+  }
+
+  private void downloadLink(final SafeHtmlBuilder m, final Patch.Key key,
+      final String side) {
+    final String base = GWT.getHostPageBaseURL() + "cat/";
+    m.openAnchor();
+    m.setAttribute("href", base + KeyUtil.encode(key.toString()) + "^" + side);
+    m.append(PatchUtil.C.download());
+    m.closeAnchor();
   }
 
   private void appendSkipLine(final SafeHtmlBuilder m, final int skipCnt) {
@@ -269,7 +293,7 @@ public class SideBySideTable extends AbstractPatchContentTable {
 
     m.openTd();
     m.addStyleName(Gerrit.RESOURCES.css().fileLine());
-    switch(type){
+    switch (type) {
       case CONTEXT:
         m.addStyleName(Gerrit.RESOURCES.css().fileLineCONTEXT());
         break;

@@ -17,7 +17,7 @@ package com.google.gerrit.server.workflow;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Change;
-import com.google.gerrit.reviewdb.ProjectRight;
+import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.server.CurrentUser;
 
 /**
@@ -42,7 +42,7 @@ public class SubmitFunction extends CategoryFunction {
   public boolean isValid(final CurrentUser user, final ApprovalType at,
       final FunctionState state) {
     if (valid(at, state)) {
-      for (final ProjectRight pr : state.getAllRights(at)) {
+      for (final RefRight pr : state.getAllRights(at)) {
         if (user.getEffectiveGroups().contains(pr.getAccountGroupId())
             && pr.getMaxValue() > 0) {
           return true;

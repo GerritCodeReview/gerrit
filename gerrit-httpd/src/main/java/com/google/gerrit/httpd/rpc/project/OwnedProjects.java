@@ -18,7 +18,7 @@ import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.reviewdb.ProjectRight;
+import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -59,7 +59,7 @@ class OwnedProjects extends Handler<List<Project>> {
       final HashSet<Project.NameKey> seen = new HashSet<Project.NameKey>();
       result = new ArrayList<Project>();
       for (final AccountGroup.Id groupId : user.getEffectiveGroups()) {
-        for (final ProjectRight r : db.projectRights().byCategoryGroup(
+        for (final RefRight r : db.refRights().byCategoryGroup(
             ApprovalCategory.OWN, groupId)) {
           final Project.NameKey name = r.getProjectNameKey();
           if (!seen.add(name)) {

@@ -17,7 +17,7 @@ package com.google.gerrit.server.workflow;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.PatchSetApproval;
-import com.google.gerrit.reviewdb.ProjectRight;
+import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.server.CurrentUser;
 
 import java.util.HashMap;
@@ -89,7 +89,7 @@ public abstract class CategoryFunction {
 
   public boolean isValid(final CurrentUser user, final ApprovalType at,
       final FunctionState state) {
-    for (final ProjectRight pr : state.getAllRights(at)) {
+    for (final RefRight pr : state.getAllRights(at)) {
       if (user.getEffectiveGroups().contains(pr.getAccountGroupId())
           && (pr.getMinValue() < 0 || pr.getMaxValue() > 0)) {
         return true;

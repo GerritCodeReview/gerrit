@@ -26,7 +26,7 @@ import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.reviewdb.ProjectRight;
+import com.google.gerrit.reviewdb.RefRight;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -64,6 +64,7 @@ public class ProjectRightsPanel extends Composite {
   private ListBox rangeMaxBox;
   private NpTextBox nameTxtBox;
   private SuggestBox nameTxt;
+  private NpTextBox referenceTxt;
 
   public ProjectRightsPanel(final Project.NameKey toShow) {
     projectName = toShow;
@@ -93,6 +94,7 @@ public class ProjectRightsPanel extends Composite {
     final boolean canAdd = on && catBox.getItemCount() > 0;
     addRight.setEnabled(canAdd);
     nameTxtBox.setEnabled(canAdd);
+    referenceTxt.setEnabled(canAdd);
     catBox.setEnabled(canAdd);
     rangeMinBox.setEnabled(canAdd);
     rangeMaxBox.setEnabled(canAdd);
@@ -102,7 +104,7 @@ public class ProjectRightsPanel extends Composite {
     final FlowPanel addPanel = new FlowPanel();
     addPanel.setStyleName(Gerrit.RESOURCES.css().addSshKeyPanel());
 
-    final Grid addGrid = new Grid(4, 2);
+    final Grid addGrid = new Grid(5, 2);
 
     catBox = new ListBox();
     rangeMinBox = new ListBox();
@@ -111,7 +113,7 @@ public class ProjectRightsPanel extends Composite {
     catBox.addChangeHandler(new ChangeHandler() {
       @Override
       public void onChange(final ChangeEvent event) {
-        populateRangeBoxes();
+        updateCategorySelection();
       }
     });
     for (final ApprovalType at : Gerrit.getConfig().getApprovalTypes()
@@ -135,7 +137,7 @@ public class ProjectRightsPanel extends Composite {
     }
     if (catBox.getItemCount() > 0) {
       catBox.setSelectedIndex(0);
-      populateRangeBoxes();
+      updateCategorySelection();
     }
 
     addGrid.setText(0, 0, Util.C.columnApprovalCategory() + ":");
@@ -151,7 +153,8 @@ public class ProjectRightsPanel extends Composite {
       public void onFocus(FocusEvent event) {
         if (Util.C.defaultAccountGroupName().equals(nameTxtBox.getText())) {
           nameTxtBox.setText("");
-          nameTxtBox.removeStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
+          nameTxtBox.removeStyleName(Gerrit.RESOURCES.css()
+              .inputFieldTypeHint());
         }
       }
     });
@@ -167,11 +170,18 @@ public class ProjectRightsPanel extends Composite {
     addGrid.setText(1, 0, Util.C.columnGroupName() + ":");
     addGrid.setWidget(1, 1, nameTxt);
 
-    addGrid.setText(2, 0, Util.C.columnRightRange() + ":");
-    addGrid.setWidget(2, 1, rangeMinBox);
+    referenceTxt = new NpTextBox();
+    referenceTxt.setVisibleLength(50);
+    referenceTxt.setText("");
 
-    addGrid.setText(3, 0, "");
-    addGrid.setWidget(3, 1, rangeMaxBox);
+    addGrid.setText(2, 0, Util.C.columnRefName() + ":");
+    addGrid.setWidget(2, 1, referenceTxt);
+
+    addGrid.setText(3, 0, Util.C.columnRightRange() + ":");
+    addGrid.setWidget(3, 1, rangeMinBox);
+
+    addGrid.setText(4, 0, "");
+    addGrid.setWidget(4, 1, rangeMaxBox);
 
     addRight = new Button(Util.C.buttonAddProjectRight());
     addRight.addClickHandler(new ClickHandler() {
@@ -241,6 +251,8 @@ public class ProjectRightsPanel extends Composite {
       return;
     }
 
+    final String refPattern = referenceTxt.getText();
+
     if (min.getValue() > max.getValue()) {
       // If the user selects it backwards in the web UI, help them out
       // by reversing the order to what we would expect.
@@ -253,10 +265,12 @@ public class ProjectRightsPanel extends Composite {
 
     addRight.setEnabled(false);
     Util.PROJECT_SVC.addRight(projectName, at.getCategory().getId(), groupName,
-        min.getValue(), max.getValue(), new GerritCallback<ProjectDetail>() {
+        refPattern, min.getValue(), max.getValue(),
+        new GerritCallback<ProjectDetail>() {
           public void onSuccess(final ProjectDetail result) {
             addRight.setEnabled(true);
             nameTxt.setText("");
+            referenceTxt.setText("");
             display(result);
           }
 
@@ -268,7 +282,7 @@ public class ProjectRightsPanel extends Composite {
         });
   }
 
-  private void populateRangeBoxes() {
+  private void updateCategorySelection() {
     final int idx = catBox.getSelectedIndex();
     final ApprovalType at;
     if (idx >= 0) {
@@ -279,133 +293,148 @@ public class ProjectRightsPanel extends Composite {
       at = null;
     }
 
-    if (at != null && !at.getValues().isEmpty()) {
-      int curIndex = 0, minIndex = -1, maxIndex = -1;
-      rangeMinBox.clear();
-      rangeMaxBox.clear();
-      for (final ApprovalCategoryValue v : at.getValues()) {
-        final String vStr = String.valueOf(v.getValue());
-        String nStr = vStr + ": " + v.getName();
-        if (v.getValue() > 0) {
-          nStr = "+" + nStr;
-        }
-
-        rangeMinBox.addItem(nStr, vStr);
-        rangeMaxBox.addItem(nStr, vStr);
-
-        if (v.getValue() < 0) {
-          minIndex = curIndex;
-        }
-        if (maxIndex < 0 && v.getValue() > 0) {
-          maxIndex = curIndex;
-        }
-
-        curIndex++;
-      }
-      if (ApprovalCategory.READ.equals(at.getCategory().getId())) {
-        // Special case; for READ the most logical range is just
-        // +1 READ, so assume that as the default for both.
-        minIndex = maxIndex;
-      }
-      rangeMinBox.setSelectedIndex(minIndex >= 0 ? minIndex : 0);
-      rangeMaxBox.setSelectedIndex(maxIndex >= 0 ? maxIndex : curIndex - 1);
-    } else {
+    if (at == null || at.getValues().isEmpty()) {
       rangeMinBox.setEnabled(false);
       rangeMaxBox.setEnabled(false);
+      referenceTxt.setEnabled(false);
+      addRight.setEnabled(false);
+      return;
     }
+
+    // TODO Support per-branch READ access.
+    if (ApprovalCategory.READ.equals(at.getCategory().getId())) {
+      referenceTxt.setText("");
+      referenceTxt.setEnabled(false);
+    } else {
+      referenceTxt.setEnabled(true);
+    }
+
+    int curIndex = 0, minIndex = -1, maxIndex = -1;
+    rangeMinBox.clear();
+    rangeMaxBox.clear();
+    for (final ApprovalCategoryValue v : at.getValues()) {
+      final String vStr = String.valueOf(v.getValue());
+      String nStr = vStr + ": " + v.getName();
+      if (v.getValue() > 0) {
+        nStr = "+" + nStr;
+      }
+
+      rangeMinBox.addItem(nStr, vStr);
+      rangeMaxBox.addItem(nStr, vStr);
+
+      if (v.getValue() < 0) {
+        minIndex = curIndex;
+      }
+      if (maxIndex < 0 && v.getValue() > 0) {
+        maxIndex = curIndex;
+      }
+
+      curIndex++;
+    }
+    if (ApprovalCategory.READ.equals(at.getCategory().getId())) {
+      // Special case; for READ the most logical range is just
+      // +1 READ, so assume that as the default for both.
+      minIndex = maxIndex;
+    }
+    rangeMinBox.setSelectedIndex(minIndex >= 0 ? minIndex : 0);
+    rangeMaxBox.setSelectedIndex(maxIndex >= 0 ? maxIndex : curIndex - 1);
+
+    addRight.setEnabled(true);
   }
 
-  private class RightsTable extends FancyFlexTable<ProjectRight> {
+  private class RightsTable extends FancyFlexTable<RefRight> {
     RightsTable() {
       table.setWidth("");
       table.setText(0, 2, Util.C.columnApprovalCategory());
       table.setText(0, 3, Util.C.columnGroupName());
-      table.setText(0, 4, Util.C.columnRightRange());
+      table.setText(0, 4, Util.C.columnRefName());
+      table.setText(0, 5, Util.C.columnRightRange());
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
       fmt.addStyleName(0, 1, Gerrit.RESOURCES.css().iconHeader());
       fmt.addStyleName(0, 2, Gerrit.RESOURCES.css().dataHeader());
       fmt.addStyleName(0, 3, Gerrit.RESOURCES.css().dataHeader());
       fmt.addStyleName(0, 4, Gerrit.RESOURCES.css().dataHeader());
+      fmt.addStyleName(0, 5, Gerrit.RESOURCES.css().dataHeader());
     }
 
     void deleteChecked() {
-      final HashSet<ProjectRight.Key> ids = new HashSet<ProjectRight.Key>();
+      final HashSet<RefRight.Key> refRightIds = new HashSet<RefRight.Key>();
       for (int row = 1; row < table.getRowCount(); row++) {
-        final ProjectRight k = getRowItem(row);
-        if (k != null && table.getWidget(row, 1) instanceof CheckBox
+        RefRight r = getRowItem(row);
+        if (r != null && table.getWidget(row, 1) instanceof CheckBox
             && ((CheckBox) table.getWidget(row, 1)).getValue()) {
-          ids.add(k.getKey());
+          refRightIds.add(r.getKey());
         }
       }
-      if (!ids.isEmpty()) {
-        Util.PROJECT_SVC.deleteRight(projectName, ids,
-            new GerritCallback<VoidResult>() {
-              public void onSuccess(final VoidResult result) {
-                for (int row = 1; row < table.getRowCount();) {
-                  final ProjectRight k = getRowItem(row);
-                  if (k != null && ids.contains(k.getKey())) {
-                    table.removeRow(row);
-                  } else {
-                    row++;
-                  }
+
+      GerritCallback<VoidResult> updateTable =
+          new GerritCallback<VoidResult>() {
+            @Override
+            public void onSuccess(final VoidResult result) {
+              for (int row = 1; row < table.getRowCount();) {
+                RefRight r = getRowItem(row);
+                if (r != null && refRightIds.contains(r.getKey())) {
+                  table.removeRow(row);
+                } else {
+                  row++;
                 }
               }
-            });
+            }
+          };
+      if (!refRightIds.isEmpty()) {
+        Util.PROJECT_SVC.deleteRight(projectName, refRightIds, updateTable);
       }
     }
 
     void display(final Map<AccountGroup.Id, AccountGroup> groups,
-        final List<ProjectRight> result) {
+        final List<RefRight> refRights) {
       while (1 < table.getRowCount())
         table.removeRow(table.getRowCount() - 1);
 
-      for (final ProjectRight k : result) {
+      for (final RefRight r : refRights) {
         final int row = table.getRowCount();
         table.insertRow(row);
         applyDataRowStyle(row);
-        populate(row, groups, k);
+        populate(row, groups, r);
       }
     }
 
     void populate(final int row,
-        final Map<AccountGroup.Id, AccountGroup> groups, final ProjectRight k) {
+        final Map<AccountGroup.Id, AccountGroup> groups, final RefRight r) {
       final GerritConfig config = Gerrit.getConfig();
       final ApprovalType ar =
-          config.getApprovalTypes().getApprovalType(k.getApprovalCategoryId());
-      final AccountGroup group = groups.get(k.getAccountGroupId());
+          config.getApprovalTypes().getApprovalType(r.getApprovalCategoryId());
+      final AccountGroup group = groups.get(r.getAccountGroupId());
 
-      if (Gerrit.getConfig().getWildProject().equals(k.getProjectNameKey())
-          && !Gerrit.getConfig().getWildProject().equals(projectName)) {
-        table.setText(row, 1, "");
-      } else {
-        table.setWidget(row, 1, new CheckBox());
-      }
+      table.setWidget(row, 1, new CheckBox());
 
       if (ar != null) {
         table.setText(row, 2, ar.getCategory().getName());
       } else {
-        table.setText(row, 2, k.getApprovalCategoryId().get());
+        table.setText(row, 2, r.getApprovalCategoryId().get());
       }
 
       if (group != null) {
         table.setText(row, 3, group.getName());
       } else {
-        table.setText(row, 3, Util.M.deletedGroup(k.getAccountGroupId().get()));
+        table.setText(row, 3, Util.M.deletedGroup(r.getAccountGroupId().get()));
       }
+
+      table.setText(row, 4, r.getRefPattern());
 
       {
         final SafeHtmlBuilder m = new SafeHtmlBuilder();
         final ApprovalCategoryValue min, max;
-        min = ar != null ? ar.getValue(k.getMinValue()) : null;
-        max = ar != null ? ar.getValue(k.getMaxValue()) : null;
+        min = ar != null ? ar.getValue(r.getMinValue()) : null;
+        max = ar != null ? ar.getValue(r.getMaxValue()) : null;
 
-        formatValue(m, k.getMinValue(), min);
-        if (k.getMinValue() != k.getMaxValue()) {
+        formatValue(m, r.getMinValue(), min);
+        if (r.getMinValue() != r.getMaxValue()) {
           m.br();
-          formatValue(m, k.getMaxValue(), max);
+          formatValue(m, r.getMaxValue(), max);
         }
-        SafeHtml.set(table, row, 4, m);
+        SafeHtml.set(table, row, 5, m);
       }
 
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
@@ -413,15 +442,19 @@ public class ProjectRightsPanel extends Composite {
       fmt.addStyleName(row, 2, Gerrit.RESOURCES.css().dataCell());
       fmt.addStyleName(row, 3, Gerrit.RESOURCES.css().dataCell());
       fmt.addStyleName(row, 4, Gerrit.RESOURCES.css().dataCell());
-      fmt.addStyleName(row, 4, Gerrit.RESOURCES.css().projectAdminApprovalCategoryRangeLine());
+      fmt.addStyleName(row, 5, Gerrit.RESOURCES.css().dataCell());
+      fmt.addStyleName(row, 5, Gerrit.RESOURCES.css()
+          .projectAdminApprovalCategoryRangeLine());
 
-      setRowItem(row, k);
+      setRowItem(row, r);
     }
 
     private void formatValue(final SafeHtmlBuilder m, final short v,
         final ApprovalCategoryValue e) {
       m.openSpan();
-      m.setStyleName(Gerrit.RESOURCES.css().projectAdminApprovalCategoryValue());
+      m
+          .setStyleName(Gerrit.RESOURCES.css()
+              .projectAdminApprovalCategoryValue());
       if (v == 0) {
         m.append(' ');
       } else if (v > 0) {

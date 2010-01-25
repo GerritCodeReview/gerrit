@@ -27,7 +27,7 @@ import com.google.gerrit.reviewdb.PatchLineComment;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.PatchSetInfo;
-import com.google.gerrit.reviewdb.ProjectRight;
+import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
@@ -37,6 +37,7 @@ import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.RefControl;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -130,9 +131,12 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
   }
 
   private void computeAllowed(final Set<AccountGroup.Id> am,
-      final Collection<ProjectRight> list) {
-    for (final ProjectRight r : list) {
+      final Collection<RefRight> list) {
+    for (final RefRight r : list) {
       if (!am.contains(r.getAccountGroupId())) {
+        continue;
+      }
+      if (!RefControl.matches(change.getDest().get(), r.getRefPattern())) {
         continue;
       }
 

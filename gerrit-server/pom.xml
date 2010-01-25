@@ -123,6 +123,12 @@ limitations under the License.
       <artifactId>h2</artifactId>
       <scope>test</scope>
     </dependency>
+
+    <dependency>
+      <groupId>com.google.code.findbugs</groupId>
+      <artifactId>jsr305</artifactId>
+      <version>1.3.9</version>
+    </dependency>
   </dependencies>
 
   <build>

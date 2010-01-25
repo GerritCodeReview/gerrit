@@ -19,7 +19,6 @@ import com.google.inject.assistedinject.Assisted;
 
 import com.jcraft.jsch.JSchException;
 
-import org.slf4j.Logger;
 import org.eclipse.jgit.errors.NoRemoteRepositoryException;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -35,6 +34,7 @@ import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.eclipse.jgit.transport.Transport;
 import org.eclipse.jgit.transport.URIish;
+import org.slf4j.Logger;
 
 import java.io.IOException;
 import java.util.ArrayList;

@@ -18,6 +18,7 @@ import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gwt.http.client.URL;
+
 import java.util.HashMap;
 import java.util.Map;
 

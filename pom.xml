@@ -697,6 +697,12 @@ limitations under the License.
         <artifactId>gwt-dev</artifactId>
         <version>${gwtVersion}</version>
       </dependency>
+
+      <dependency>
+        <groupId>com.google.code.findbugs</groupId>
+        <artifactId>jsr305</artifactId>
+        <version>1.3.9</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 

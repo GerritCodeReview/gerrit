@@ -17,7 +17,6 @@ package com.google.gerrit.client.ui;
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.changes.PatchTable;
 import com.google.gerrit.reviewdb.Patch;
-import com.google.gwt.user.client.History;
 
 public abstract class PatchLink extends InlineHyperlink {
   protected Patch.Key patchKey;

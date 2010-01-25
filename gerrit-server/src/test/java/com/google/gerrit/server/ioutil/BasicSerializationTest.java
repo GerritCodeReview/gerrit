@@ -15,11 +15,11 @@
 package com.google.gerrit.server.ioutil;
 
 import static com.google.gerrit.server.ioutil.BasicSerialization.readFixInt64;
+import static com.google.gerrit.server.ioutil.BasicSerialization.readString;
 import static com.google.gerrit.server.ioutil.BasicSerialization.readVarInt32;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeFixInt64;
-import static com.google.gerrit.server.ioutil.BasicSerialization.writeVarInt32;
-import static com.google.gerrit.server.ioutil.BasicSerialization.readString;
 import static com.google.gerrit.server.ioutil.BasicSerialization.writeString;
+import static com.google.gerrit.server.ioutil.BasicSerialization.writeVarInt32;
 
 import junit.framework.TestCase;
 

@@ -14,8 +14,8 @@
 
 package com.google.gerrit.client.admin;
 
-import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.Dispatcher;
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.AccountScreen;

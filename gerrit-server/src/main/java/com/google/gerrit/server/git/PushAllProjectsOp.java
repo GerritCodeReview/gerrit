@@ -16,7 +16,6 @@ package com.google.gerrit.server.git;
 
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
-import com.google.gerrit.server.config.Nullable;
 import com.google.gerrit.server.config.WildProjectName;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
@@ -27,6 +26,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.TimeUnit;
+
+import javax.annotation.Nullable;
 
 public class PushAllProjectsOp extends DefaultQueueOp {
   public interface Factory {

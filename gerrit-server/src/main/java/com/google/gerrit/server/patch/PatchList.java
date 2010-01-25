@@ -26,7 +26,6 @@ import static org.eclipse.jgit.lib.ObjectIdSerialization.writeNotNull;
 
 import com.google.gerrit.reviewdb.Patch;
 import com.google.gerrit.reviewdb.PatchSet;
-import com.google.gerrit.server.config.Nullable;
 
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
@@ -44,6 +43,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.zip.DeflaterOutputStream;
 import java.util.zip.InflaterInputStream;
+
+import javax.annotation.Nullable;
 
 public class PatchList implements Serializable {
   private static final long serialVersionUID = PatchListKey.serialVersionUID;

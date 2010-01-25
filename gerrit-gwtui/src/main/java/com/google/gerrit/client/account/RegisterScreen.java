@@ -16,13 +16,13 @@ package com.google.gerrit.client.account;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.ui.AccountScreen;
+import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gerrit.client.ui.InlineHyperlink;
 
 public class RegisterScreen extends AccountScreen {
   private final String nextToken;

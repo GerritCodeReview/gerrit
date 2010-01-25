@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAr3///UQ\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/AddRefRight.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1002957
+      },
+      "writtenOn": "2010-01-25T19:14:59Z",
+      "side": 1,
+      "message": "Is there a reason why we don\u0027t use \"javax.annotation.Nullable\"?",
+      "revId": "40da5650ebfd80e53b2cc5f51144d7478877a7e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///UM\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1002957
+      },
+      "writtenOn": "2010-01-25T19:14:59Z",
+      "side": 1,
+      "message": "Would it make sense to collapse the RefControl and ProjectControl classes together? This looks awkward to me",
+      "revId": "40da5650ebfd80e53b2cc5f51144d7478877a7e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

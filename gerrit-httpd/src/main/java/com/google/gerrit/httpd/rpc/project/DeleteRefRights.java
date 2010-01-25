@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2010 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@ package com.google.gerrit.httpd.rpc.project;
 
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.reviewdb.ProjectRight;
+import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
@@ -29,10 +29,10 @@ import com.google.inject.assistedinject.Assisted;
 import java.util.Collections;
 import java.util.Set;
 
-class DeleteProjectRights extends Handler<VoidResult> {
+class DeleteRefRights extends Handler<VoidResult> {
   interface Factory {
-    DeleteProjectRights create(@Assisted Project.NameKey projectName,
-        @Assisted Set<ProjectRight.Key> toRemove);
+    DeleteRefRights create(@Assisted Project.NameKey projectName,
+        @Assisted Set<RefRight.Key> toRemove);
   }
 
   private final ProjectControl.Factory projectControlFactory;
@@ -40,14 +40,14 @@ class DeleteProjectRights extends Handler<VoidResult> {
   private final ReviewDb db;
 
   private final Project.NameKey projectName;
-  private final Set<ProjectRight.Key> toRemove;
+  private final Set<RefRight.Key> toRemove;
 
   @Inject
-  DeleteProjectRights(final ProjectControl.Factory projectControlFactory,
+  DeleteRefRights(final ProjectControl.Factory projectControlFactory,
       final ProjectCache projectCache, final ReviewDb db,
 
       @Assisted final Project.NameKey projectName,
-      @Assisted final Set<ProjectRight.Key> toRemove) {
+      @Assisted final Set<RefRight.Key> toRemove) {
     this.projectControlFactory = projectControlFactory;
     this.projectCache = projectCache;
     this.db = db;
@@ -61,16 +61,16 @@ class DeleteProjectRights extends Handler<VoidResult> {
     final ProjectControl projectControl =
         projectControlFactory.ownerFor(projectName);
 
-    for (final ProjectRight.Key k : toRemove) {
+    for (final RefRight.Key k : toRemove) {
       if (!projectName.equals(k.getProjectNameKey())) {
         throw new IllegalArgumentException("All keys must be from same project");
       }
     }
 
-    for (final ProjectRight.Key k : toRemove) {
-      final ProjectRight m = db.projectRights().get(k);
+    for (final RefRight.Key k : toRemove) {
+      final RefRight m = db.refRights().get(k);
       if (m != null) {
-        db.projectRights().delete(Collections.singleton(m));
+        db.refRights().delete(Collections.singleton(m));
       }
     }
     projectCache.evict(projectControl.getProject());

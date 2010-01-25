@@ -19,7 +19,7 @@ import com.google.gerrit.common.data.ProjectDetail;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.reviewdb.ProjectRight;
+import com.google.gerrit.reviewdb.RefRight;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.inject.Inject;
@@ -29,72 +29,79 @@ import java.util.Set;
 
 class ProjectAdminServiceImpl implements ProjectAdminService {
   private final AddBranch.Factory addBranchFactory;
-  private final AddProjectRight.Factory addProjectRightFactory;
   private final ChangeProjectSettings.Factory changeProjectSettingsFactory;
   private final DeleteBranches.Factory deleteBranchesFactory;
-  private final DeleteProjectRights.Factory deleteProjectRightsFactory;
   private final ListBranches.Factory listBranchesFactory;
   private final OwnedProjects.Factory ownedProjectsFactory;
   private final ProjectDetailFactory.Factory projectDetailFactory;
+  private final AddRefRight.Factory addRefRightFactory;
+  private final DeleteRefRights.Factory deleteRefRightsFactory;
 
   @Inject
   ProjectAdminServiceImpl(final AddBranch.Factory addBranchFactory,
-      final AddProjectRight.Factory addProjectRightFactory,
       final ChangeProjectSettings.Factory changeProjectSettingsFactory,
       final DeleteBranches.Factory deleteBranchesFactory,
-      final DeleteProjectRights.Factory deleteProjectRightFactory,
       final ListBranches.Factory listBranchesFactory,
       final OwnedProjects.Factory ownedProjectsFactory,
-      final ProjectDetailFactory.Factory projectDetailFactory) {
+      final ProjectDetailFactory.Factory projectDetailFactory,
+      final AddRefRight.Factory addRefRightFactory,
+      final DeleteRefRights.Factory deleteRefRightsFactory) {
     this.addBranchFactory = addBranchFactory;
-    this.addProjectRightFactory = addProjectRightFactory;
     this.changeProjectSettingsFactory = changeProjectSettingsFactory;
     this.deleteBranchesFactory = deleteBranchesFactory;
-    this.deleteProjectRightsFactory = deleteProjectRightFactory;
     this.listBranchesFactory = listBranchesFactory;
     this.ownedProjectsFactory = ownedProjectsFactory;
     this.projectDetailFactory = projectDetailFactory;
+    this.addRefRightFactory = addRefRightFactory;
+    this.deleteRefRightsFactory = deleteRefRightsFactory;
   }
 
+  @Override
   public void ownedProjects(final AsyncCallback<List<Project>> callback) {
     ownedProjectsFactory.create().to(callback);
   }
 
+  @Override
   public void projectDetail(final Project.NameKey projectName,
       final AsyncCallback<ProjectDetail> callback) {
     projectDetailFactory.create(projectName).to(callback);
   }
 
+  @Override
   public void changeProjectSettings(final Project update,
       final AsyncCallback<ProjectDetail> callback) {
     changeProjectSettingsFactory.create(update).to(callback);
   }
 
+  @Override
   public void deleteRight(final Project.NameKey projectName,
-      final Set<ProjectRight.Key> toRemove,
-      final AsyncCallback<VoidResult> callback) {
-    deleteProjectRightsFactory.create(projectName, toRemove).to(callback);
+      final Set<RefRight.Key> toRemove, final AsyncCallback<VoidResult> callback) {
+    deleteRefRightsFactory.create(projectName, toRemove).to(callback);
   }
 
+  @Override
   public void addRight(final Project.NameKey projectName,
       final ApprovalCategory.Id categoryId, final String groupName,
-      final short min, final short max,
+      final String refPattern, final short min, final short max,
       final AsyncCallback<ProjectDetail> callback) {
-    addProjectRightFactory.create(projectName, categoryId, groupName, min, max)
-        .to(callback);
+    addRefRightFactory.create(projectName, categoryId, groupName, refPattern,
+        min, max).to(callback);
   }
 
+  @Override
   public void listBranches(final Project.NameKey projectName,
       final AsyncCallback<List<Branch>> callback) {
     listBranchesFactory.create(projectName).to(callback);
   }
 
+  @Override
   public void deleteBranch(final Project.NameKey projectName,
       final Set<Branch.NameKey> toRemove,
       final AsyncCallback<Set<Branch.NameKey>> callback) {
     deleteBranchesFactory.create(projectName, toRemove).to(callback);
   }
 
+  @Override
   public void addBranch(final Project.NameKey projectName,
       final String branchName, final String startingRevision,
       final AsyncCallback<List<Branch>> callback) {

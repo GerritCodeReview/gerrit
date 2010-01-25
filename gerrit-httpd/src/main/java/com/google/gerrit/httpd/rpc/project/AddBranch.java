@@ -24,6 +24,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ReplicationQueue;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.RefControl;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -35,6 +36,7 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.ObjectWalk;
+import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,7 +66,8 @@ class AddBranch extends Handler<List<Branch>> {
   @Inject
   AddBranch(final ProjectControl.Factory projectControlFactory,
       final ListBranches.Factory listBranchesFactory,
-      final IdentifiedUser identifiedUser, final GitRepositoryManager repoManager,
+      final IdentifiedUser identifiedUser,
+      final GitRepositoryManager repoManager,
       final ReplicationQueue replication,
 
       @Assisted Project.NameKey projectName,
@@ -98,15 +101,17 @@ class AddBranch extends Handler<List<Branch>> {
     if (!Repository.isValidRefName(refname)) {
       throw new InvalidNameException();
     }
-    if (!projectControl.canCreateRef(refname)) {
-      throw new IllegalStateException("Cannot create " + refname);
-    }
 
     final Branch.NameKey name = new Branch.NameKey(projectName, refname);
+    final RefControl refControl = projectControl.controlForRef(name);
     final Repository repo = repoManager.openRepository(projectName.get());
     try {
       final ObjectId revid = parseStartingRevision(repo);
       final RevWalk rw = verifyConnected(repo, revid);
+      final RevObject object = rw.parseAny(revid);
+      if (!refControl.canCreate(rw, object)) {
+        throw new IllegalStateException("Cannot create " + refname);
+      }
 
       try {
         final RefUpdate u = repo.updateRef(refname);

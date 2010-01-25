@@ -14,21 +14,15 @@
 
 package com.google.gerrit.server.project;
 
-import static com.google.gerrit.reviewdb.ApprovalCategory.PUSH_HEAD;
-import static com.google.gerrit.reviewdb.ApprovalCategory.PUSH_HEAD_CREATE;
-import static com.google.gerrit.reviewdb.ApprovalCategory.PUSH_HEAD_REPLACE;
-import static com.google.gerrit.reviewdb.ApprovalCategory.PUSH_TAG;
-
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.ApprovalCategory;
+import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.reviewdb.ProjectRight;
+import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.server.CurrentUser;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-
-import org.eclipse.jgit.lib.Constants;
 
 import java.util.Set;
 
@@ -96,7 +90,15 @@ public class ProjectControl {
   }
 
   public ChangeControl controlFor(final Change change) {
-    return new ChangeControl(this, change);
+    return new ChangeControl(controlForRef(change.getDest()), change);
+  }
+
+  public RefControl controlForRef(Branch.NameKey ref) {
+    return controlForRef(ref.get());
+  }
+
+  public RefControl controlForRef(String refName) {
+    return new RefControl(this, refName);
   }
 
   public CurrentUser getCurrentUser() {
@@ -113,62 +115,28 @@ public class ProjectControl {
 
   /** Can this user see this project exists? */
   public boolean isVisible() {
-    return canPerform(ApprovalCategory.READ, (short) 1);
+    return canPerformOnAnyRef(ApprovalCategory.READ, (short) 1);
   }
 
   /** Is this user a project owner? Ownership does not imply {@link #isVisible()} */
   public boolean isOwner() {
-    return canPerform(ApprovalCategory.OWN, (short) 1)
+    return canPerformOnAllRefs(ApprovalCategory.OWN, (short) 1)
         || getCurrentUser().isAdministrator();
   }
 
-  /** Can this user create the given ref through this access path? */
-  public boolean canCreateRef(final String refname) {
-    switch (user.getAccessPath()) {
-      case WEB:
-        if (isOwner()) {
-          return true;
-        }
-        if (isHead(refname) && canPerform(PUSH_HEAD, PUSH_HEAD_CREATE)) {
-          return true;
-        }
-        return false;
-
-      case SSH:
-        if (isHead(refname) && canPerform(PUSH_HEAD, PUSH_HEAD_CREATE)) {
-          return true;
-        }
-        if (isTag(refname) && canPerform(PUSH_TAG, (short) 1)) {
-          return true;
-        }
-        return false;
-
-      default:
-        return false;
-    }
+  /** @return true if the user can upload to at least one reference */
+  public boolean canUploadToAtLeastOneRef() {
+    return canPerformOnAnyRef(ApprovalCategory.READ, (short) 2);
   }
 
-  /** Can this user delete the given ref through this access path? */
-  public boolean canDeleteRef(final String refname) {
-    switch (user.getAccessPath()) {
-      case WEB:
-        if (isOwner()) {
-          return true;
-        }
-        if (isHead(refname) && canPerform(PUSH_HEAD, PUSH_HEAD_REPLACE)) {
-          return true;
-        }
-        return false;
+  private boolean canPerformOnAnyRef(ApprovalCategory.Id actionId,
+      short requireValue) {
+    return canPerform(actionId, requireValue, null /* any ref */);
+  }
 
-      case SSH:
-        if (isHead(refname) && canPerform(PUSH_HEAD, PUSH_HEAD_REPLACE)) {
-          return true;
-        }
-        return false;
-
-      default:
-        return false;
-    }
+  private boolean canPerformOnAllRefs(ApprovalCategory.Id actionId,
+      short requireValue) {
+    return canPerform(actionId, requireValue, "refs/*");
   }
 
   /**
@@ -181,15 +149,19 @@ public class ProjectControl {
    * @param actionId unique action id.
    * @param requireValue minimum value the application needs to perform this
    *        action.
+   * @param refPattern if null, matches any RefRight, otherwise matches only
+   *        those RefRights with the pattern exactly equal to the input.
    * @return true if the action can be performed; false if the user lacks the
    *         necessary permission.
    */
-  public boolean canPerform(final ApprovalCategory.Id actionId,
-      final short requireValue) {
+  private boolean canPerform(final ApprovalCategory.Id actionId,
+      final short requireValue, final String refPattern) {
     final Set<AccountGroup.Id> groups = user.getEffectiveGroups();
     int val = Integer.MIN_VALUE;
-    for (final ProjectRight pr : state.getLocalRights()) {
+
+    for (final RefRight pr : state.getLocalRights()) {
       if (actionId.equals(pr.getApprovalCategoryId())
+          && (refPattern == null || refPattern.equals(pr.getRefPattern()))
           && groups.contains(pr.getAccountGroupId())) {
         if (val < 0 && pr.getMaxValue() > 0) {
           // If one of the user's groups had denied them access, but
@@ -205,9 +177,11 @@ public class ProjectControl {
         }
       }
     }
+
     if (val == Integer.MIN_VALUE && actionId.canInheritFromWildProject()) {
-      for (final ProjectRight pr : state.getInheritedRights()) {
+      for (final RefRight pr : state.getInheritedRights()) {
         if (actionId.equals(pr.getApprovalCategoryId())
+            && (refPattern == null || refPattern.equals(pr.getRefPattern()))
             && groups.contains(pr.getAccountGroupId())) {
           val = Math.max(pr.getMaxValue(), val);
         }
@@ -215,13 +189,5 @@ public class ProjectControl {
     }
 
     return val >= requireValue;
-  }
-
-  private static boolean isHead(final String refname) {
-    return refname.startsWith(Constants.R_HEADS);
-  }
-
-  private static boolean isTag(final String refname) {
-    return refname.startsWith(Constants.R_TAGS);
   }
 }

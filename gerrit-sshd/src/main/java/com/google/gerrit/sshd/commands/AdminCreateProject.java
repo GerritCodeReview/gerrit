@@ -17,7 +17,7 @@ package com.google.gerrit.sshd.commands;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.reviewdb.ProjectRight;
+import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.Project.SubmitType;
 import com.google.gerrit.server.config.AuthConfig;
@@ -109,12 +109,13 @@ final class AdminCreateProject extends BaseCommand {
   private void createProject() throws OrmException {
     final Project.NameKey newProjectNameKey = new Project.NameKey(projectName);
 
-    final ProjectRight.Key prk =
-        new ProjectRight.Key(newProjectNameKey, ApprovalCategory.OWN, ownerId);
-    final ProjectRight pr = new ProjectRight(prk);
+    final RefRight.Key prk =
+        new RefRight.Key(newProjectNameKey, new RefRight.RefPattern("refs/*"),
+            ApprovalCategory.OWN, ownerId);
+    final RefRight pr = new RefRight(prk);
     pr.setMaxValue((short) 1);
     pr.setMinValue((short) 1);
-    db.projectRights().insert(Collections.singleton(pr));
+    db.refRights().insert(Collections.singleton(pr));
 
     final Project newProject = new Project(newProjectNameKey);
     newProject.setDescription(projectDescription);

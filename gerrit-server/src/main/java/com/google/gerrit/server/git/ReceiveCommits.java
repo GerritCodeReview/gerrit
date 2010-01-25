@@ -14,13 +14,6 @@
 
 package com.google.gerrit.server.git;
 
-import static com.google.gerrit.reviewdb.ApprovalCategory.PUSH_HEAD;
-import static com.google.gerrit.reviewdb.ApprovalCategory.PUSH_HEAD_REPLACE;
-import static com.google.gerrit.reviewdb.ApprovalCategory.PUSH_HEAD_UPDATE;
-import static com.google.gerrit.reviewdb.ApprovalCategory.PUSH_TAG;
-import static com.google.gerrit.reviewdb.ApprovalCategory.PUSH_TAG_ANNOTATED;
-import static com.google.gerrit.reviewdb.ApprovalCategory.PUSH_TAG_ANY;
-
 import com.google.gerrit.common.ChangeHookRunner;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.ApprovalType;
@@ -55,6 +48,7 @@ import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.RefControl;
 import com.google.gwtorm.client.AtomicUpdate;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
@@ -74,14 +68,12 @@ import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevFlagSet;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevSort;
-import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PostReceiveHook;
 import org.eclipse.jgit.transport.PreReceiveHook;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.transport.ReceivePack;
 import org.eclipse.jgit.transport.ReceiveCommand.Result;
-import org.eclipse.jgit.transport.ReceiveCommand.Type;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -234,7 +226,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
 
   /** Determine if the user can upload commits. */
   public Capable canUpload() {
-    if (!projectControl.canPerform(ApprovalCategory.READ, (short) 2)) {
+    if (!projectControl.canUploadToAtLeastOneRef()) {
       String reqName = project.getName();
       return new Capable("Upload denied for project '" + reqName + "'");
     }
@@ -444,8 +436,11 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
           continue;
 
         case DELETE:
+          parseDelete(cmd);
+          continue;
+
         case UPDATE_NONFASTFORWARD:
-          parseRewindOrDelete(cmd);
+          parseRewind(cmd);
           continue;
       }
 
@@ -456,85 +451,68 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
   }
 
   private void parseCreate(final ReceiveCommand cmd) {
-    if (projectControl.canCreateRef(cmd.getRefName())) {
-      if (isTag(cmd)) {
-        parseCreateTag(cmd);
-      }
+    final RevObject obj;
+    try {
+      obj = rp.getRevWalk().parseAny(cmd.getNewId());
+    } catch (IOException err) {
+      log.error("Invalid object " + cmd.getNewId().name() + " for "
+          + cmd.getRefName() + " creation", err);
+      reject(cmd, "invalid object");
+      return;
+    }
 
+    RefControl ctl = projectControl.controlForRef(cmd.getRefName());
+    if (ctl.canCreate(rp.getRevWalk(), obj)) {
+      // Let the core receive process handle it
     } else {
       reject(cmd);
-    }
-  }
-
-  private void parseCreateTag(final ReceiveCommand cmd) {
-    try {
-      final RevObject obj = rp.getRevWalk().parseAny(cmd.getNewId());
-      if (!(obj instanceof RevTag)) {
-        reject(cmd, "not annotated tag");
-        return;
-      }
-
-      if (canPerform(PUSH_TAG, PUSH_TAG_ANY)) {
-        // If we can push any tag, validation is sufficient at this point.
-        //
-        return;
-      }
-
-      final RevTag tag = (RevTag) obj;
-      final PersonIdent tagger = tag.getTaggerIdent();
-      if (tagger == null) {
-        reject(cmd, "no tagger");
-        return;
-      }
-
-      final String email = tagger.getEmailAddress();
-      if (!currentUser.getEmailAddresses().contains(email)) {
-        reject(cmd, "invalid tagger " + email);
-        return;
-      }
-
-      if (tag.getFullMessage().contains("-----BEGIN PGP SIGNATURE-----\n")) {
-        // Signed tags are currently assumed valid, as we don't have a GnuPG
-        // key ring to validate them against, and we might be missing the
-        // necessary (but currently optional) BouncyCastle Crypto libraries.
-        //
-      } else if (canPerform(PUSH_TAG, PUSH_TAG_ANNOTATED)) {
-        // User is permitted to push an unsigned annotated tag.
-        //
-      } else {
-        reject(cmd, "must be signed");
-        return;
-      }
-
-      // Let the core receive process handle it
-      //
-    } catch (IOException e) {
-      log.error("Bad tag " + cmd.getRefName() + " " + cmd.getNewId().name(), e);
-      reject(cmd, "invalid object");
     }
   }
 
   private void parseUpdate(final ReceiveCommand cmd) {
-    if (isHead(cmd) && canPerform(PUSH_HEAD, PUSH_HEAD_UPDATE)) {
+    RefControl ctl = projectControl.controlForRef(cmd.getRefName());
+    if (ctl.canUpdate()) {
       // Let the core receive process handle it
     } else {
       reject(cmd);
     }
   }
 
-  private void parseRewindOrDelete(final ReceiveCommand cmd) {
-    if (isHead(cmd) && cmd.getType() == Type.DELETE
-        && projectControl.canDeleteRef(cmd.getRefName())) {
+  private void parseDelete(final ReceiveCommand cmd) {
+    RefControl ctl = projectControl.controlForRef(cmd.getRefName());
+    if (ctl.canDelete()) {
       // Let the core receive process handle it
-
-    } else if (isHead(cmd) && canPerform(PUSH_HEAD, PUSH_HEAD_REPLACE)) {
-      // Let the core receive process handle it
-
-    } else if (isHead(cmd) && cmd.getType() == Type.UPDATE_NONFASTFORWARD) {
-      cmd.setResult(ReceiveCommand.Result.REJECTED_NONFASTFORWARD);
-
     } else {
       reject(cmd);
+    }
+  }
+
+  private void parseRewind(final ReceiveCommand cmd) {
+    final RevObject oldObject, newObject;
+    try {
+      oldObject = rp.getRevWalk().parseAny(cmd.getOldId());
+    } catch (IOException err) {
+      log.error("Invalid object " + cmd.getOldId().name() + " for "
+          + cmd.getRefName() + " forced update", err);
+      reject(cmd, "invalid object");
+      return;
+    }
+
+    try {
+      newObject = rp.getRevWalk().parseAny(cmd.getNewId());
+    } catch (IOException err) {
+      log.error("Invalid object " + cmd.getNewId().name() + " for "
+          + cmd.getRefName() + " forced update", err);
+      reject(cmd, "invalid object");
+      return;
+    }
+
+    RefControl ctl = projectControl.controlForRef(cmd.getRefName());
+    if (oldObject instanceof RevCommit && newObject instanceof RevCommit
+        && ctl.canForceUpdate()) {
+      // Let the core receive process handle it
+    } else {
+      cmd.setResult(ReceiveCommand.Result.REJECTED_NONFASTFORWARD);
     }
   }
 
@@ -582,6 +560,10 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
         n = n.substring(Constants.R_HEADS.length());
       reject(cmd, "branch " + n + " not found");
       return;
+    }
+
+    if (!projectControl.controlForRef(destBranch).canUpload()) {
+      reject(cmd);
     }
 
     // Validate that the new commits are connected with the existing heads
@@ -955,6 +937,10 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     }
     if (change.getStatus().isClosed()) {
       reject(request.cmd, "change " + request.ontoChange + " closed");
+      return null;
+    }
+    if (!projectControl.controlFor(change).canAddPatchSet()) {
+      reject(request.cmd, "cannot replace " + request.ontoChange);
       return null;
     }
 
@@ -1486,10 +1472,6 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
 
   private static RevId toRevId(final RevCommit src) {
     return new RevId(src.getId().name());
-  }
-
-  private boolean canPerform(final ApprovalCategory.Id actionId, final short val) {
-    return projectControl.canPerform(actionId, val);
   }
 
   private static void reject(final ReceiveCommand cmd) {

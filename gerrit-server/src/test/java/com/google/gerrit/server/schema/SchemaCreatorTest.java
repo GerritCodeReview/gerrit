@@ -18,7 +18,7 @@ import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.reviewdb.ProjectRight;
+import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.SystemConfig;
 import com.google.gerrit.server.workflow.NoOpFunction;
@@ -319,36 +319,43 @@ public class SchemaCreatorTest extends TestCase {
       throws OrmException {
     db.create();
     final SystemConfig config = db.getSystemConfig();
-    assertDefaultRight(config.anonymousGroupId, ApprovalCategory.READ, 1, 1);
+    assertDefaultRight("refs/*", config.anonymousGroupId,
+        ApprovalCategory.READ, 1, 1);
   }
 
   public void testCreateSchema_DefaultAccess_RegisteredUsers()
       throws OrmException {
     db.create();
     final SystemConfig config = db.getSystemConfig();
-    assertDefaultRight(config.registeredGroupId, ApprovalCategory.READ, 1, 2);
-    assertDefaultRight(config.registeredGroupId, codeReview, -1, 1);
+    assertDefaultRight("refs/*", config.registeredGroupId,
+        ApprovalCategory.READ, 1, 2);
+    assertDefaultRight("refs/heads/*", config.registeredGroupId, codeReview,
+        -1, 1);
   }
 
   public void testCreateSchema_DefaultAccess_Administrators()
       throws OrmException {
     db.create();
     final SystemConfig config = db.getSystemConfig();
-    assertDefaultRight(config.adminGroupId, ApprovalCategory.READ, 1, 1);
+    assertDefaultRight("refs/*", config.adminGroupId, ApprovalCategory.READ, 1,
+        1);
   }
 
-  private void assertDefaultRight(final AccountGroup.Id group,
-      final ApprovalCategory.Id category, int min, int max) throws OrmException {
+  private void assertDefaultRight(final String pattern,
+      final AccountGroup.Id group, final ApprovalCategory.Id category, int min,
+      int max) throws OrmException {
     final ReviewDb c = db.open();
     try {
       final SystemConfig cfg;
       final Project all;
-      final ProjectRight right;
+      final RefRight right;
 
       cfg = c.systemConfig().get(new SystemConfig.Key());
       all = c.projects().get(cfg.wildProjectName);
-      right = c.projectRights().get( //
-          new ProjectRight.Key(all.getNameKey(), category, group));
+      right =
+          c.refRights().get(
+              new RefRight.Key(all.getNameKey(), new RefRight.RefPattern(
+                  pattern), category, group));
 
       assertNotNull(right);
       assertEquals(all.getNameKey(), right.getProjectNameKey());

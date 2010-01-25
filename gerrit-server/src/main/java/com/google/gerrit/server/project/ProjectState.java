@@ -17,7 +17,7 @@ package com.google.gerrit.server.project;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.reviewdb.ProjectRight;
+import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.WildProjectName;
@@ -32,19 +32,19 @@ import java.util.Set;
 /** Cached information on a project. */
 public class ProjectState {
   public interface Factory {
-    ProjectState create(Project project, Collection<ProjectRight> localRights,
+    ProjectState create(Project project, Collection<RefRight> localRights,
         InheritedRights inheritedRights);
   }
 
   public interface InheritedRights {
-    Collection<ProjectRight> get();
+    Collection<RefRight> get();
   }
 
   private final AnonymousUser anonymousUser;
   private final Project.NameKey wildProject;
 
   private final Project project;
-  private final Collection<ProjectRight> localRights;
+  private final Collection<RefRight> localRights;
   private final InheritedRights inheritedRights;
   private final Set<AccountGroup.Id> owners;
 
@@ -52,7 +52,7 @@ public class ProjectState {
   protected ProjectState(final AnonymousUser anonymousUser,
       @WildProjectName final Project.NameKey wildProject,
       @Assisted final Project project,
-      @Assisted final Collection<ProjectRight> rights,
+      @Assisted final Collection<RefRight> rights,
       @Assisted final InheritedRights inheritedRights) {
     this.anonymousUser = anonymousUser;
     this.wildProject = wildProject;
@@ -62,7 +62,7 @@ public class ProjectState {
     this.inheritedRights = inheritedRights;
 
     final HashSet<AccountGroup.Id> groups = new HashSet<AccountGroup.Id>();
-    for (final ProjectRight right : rights) {
+    for (final RefRight right : rights) {
       if (ApprovalCategory.OWN.equals(right.getApprovalCategoryId())
           && right.getMaxValue() > 0) {
         groups.add(right.getAccountGroupId());
@@ -76,12 +76,12 @@ public class ProjectState {
   }
 
   /** Get the rights that pertain only to this project. */
-  public Collection<ProjectRight> getLocalRights() {
+  public Collection<RefRight> getLocalRights() {
     return localRights;
   }
 
   /** Get the rights this project inherits from the wild project. */
-  public Collection<ProjectRight> getInheritedRights() {
+  public Collection<RefRight> getInheritedRights() {
     if (isSpecialWildProject()) {
       return Collections.emptyList();
     }

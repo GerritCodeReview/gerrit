@@ -19,7 +19,7 @@ import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.reviewdb.CurrentSchemaVersion;
 import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.reviewdb.ProjectRight;
+import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.SystemConfig;
 import com.google.gerrit.server.config.SitePath;
@@ -189,12 +189,13 @@ public class SchemaCreator {
     c.approvalCategories().insert(Collections.singleton(cat));
     c.approvalCategoryValues().insert(vals);
 
-    final ProjectRight approve =
-        new ProjectRight(new ProjectRight.Key(DEFAULT_WILD_NAME, cat.getId(),
+    final RefRight approve =
+        new RefRight(new RefRight.Key(DEFAULT_WILD_NAME,
+            new RefRight.RefPattern("refs/heads/*"), cat.getId(),
             sConfig.registeredGroupId));
     approve.setMaxValue((short) 1);
     approve.setMinValue((short) -1);
-    c.projectRights().insert(Collections.singleton(approve));
+    c.refRights().insert(Collections.singleton(approve));
   }
 
   private void initOwnerCategory(final ReviewDb c) throws OrmException {
@@ -225,29 +226,30 @@ public class SchemaCreator {
     c.approvalCategories().insert(Collections.singleton(cat));
     c.approvalCategoryValues().insert(vals);
 
+    final RefRight.RefPattern pattern = new RefRight.RefPattern("refs/*");
     {
-      final ProjectRight read =
-          new ProjectRight(new ProjectRight.Key(DEFAULT_WILD_NAME, cat.getId(),
-              sConfig.anonymousGroupId));
+      final RefRight read =
+          new RefRight(new RefRight.Key(DEFAULT_WILD_NAME, pattern,
+              cat.getId(), sConfig.anonymousGroupId));
       read.setMaxValue((short) 1);
       read.setMinValue((short) 1);
-      c.projectRights().insert(Collections.singleton(read));
+      c.refRights().insert(Collections.singleton(read));
     }
     {
-      final ProjectRight read =
-          new ProjectRight(new ProjectRight.Key(DEFAULT_WILD_NAME, cat.getId(),
-              sConfig.registeredGroupId));
+      final RefRight read =
+          new RefRight(new RefRight.Key(DEFAULT_WILD_NAME, pattern,
+              cat.getId(), sConfig.registeredGroupId));
       read.setMaxValue((short) 2);
       read.setMinValue((short) 1);
-      c.projectRights().insert(Collections.singleton(read));
+      c.refRights().insert(Collections.singleton(read));
     }
     {
-      final ProjectRight read =
-          new ProjectRight(new ProjectRight.Key(DEFAULT_WILD_NAME, cat.getId(),
-              sConfig.adminGroupId));
+      final RefRight read =
+          new RefRight(new RefRight.Key(DEFAULT_WILD_NAME, pattern,
+              cat.getId(), sConfig.adminGroupId));
       read.setMaxValue((short) 1);
       read.setMinValue((short) 1);
-      c.projectRights().insert(Collections.singleton(read));
+      c.refRights().insert(Collections.singleton(read));
     }
   }
 

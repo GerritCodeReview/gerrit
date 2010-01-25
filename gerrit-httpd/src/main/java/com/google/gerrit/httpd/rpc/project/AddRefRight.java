@@ -26,7 +26,6 @@ import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.NoSuchGroupException;
-import com.google.gerrit.server.config.Nullable;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
@@ -38,6 +37,8 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
 
 import java.util.Collections;
+
+import javax.annotation.Nullable;
 
 class AddRefRight extends Handler<ProjectDetail> {
   interface Factory {

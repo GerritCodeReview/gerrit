@@ -16,6 +16,7 @@ package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
+import com.google.gerrit.client.ui.Hyperlink;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.data.ChangeInfo;
 import com.google.gerrit.common.data.SingleListChangeInfo;
@@ -24,7 +25,6 @@ import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gerrit.client.ui.Hyperlink;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 
 import java.util.List;

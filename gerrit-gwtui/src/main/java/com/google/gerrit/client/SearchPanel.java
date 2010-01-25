@@ -14,7 +14,6 @@
 
 package com.google.gerrit.client;
 
-import com.google.gerrit.client.changes.ChangeScreen;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gwt.event.dom.client.BlurEvent;

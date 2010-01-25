@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAr3///UE\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/project/AddRefRight.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-25T19:17:35Z",
+      "side": 1,
+      "message": "Not a good one.  After this gets submitted, please replace all uses of our @Nullable annotation with javax.annotation.Nullable.",
+      "parentUuid": "AAAAr3///UQ\u003d",
+      "revId": "40da5650ebfd80e53b2cc5f51144d7478877a7e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAr3///UM\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 11
@@ -30,6 +48,24 @@
       "writtenOn": "2010-01-25T19:14:59Z",
       "side": 1,
       "message": "Would it make sense to collapse the RefControl and ProjectControl classes together? This looks awkward to me",
+      "revId": "40da5650ebfd80e53b2cc5f51144d7478877a7e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///UA\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-25T19:17:35Z",
+      "side": 1,
+      "message": "I don\u0027t want to collapse them together, but we could add these forAnonymousUser and forUser methods into RefControl and have them recreate the RefControl via the parent ProjectControl.  Then here we can use refControl.forAnonymousUser rather than having to fetch the ProjectControl first to recreate the RefControl.\n\nHmm, that might be worthwhile.",
+      "parentUuid": "AAAAr3///UM\u003d",
       "revId": "40da5650ebfd80e53b2cc5f51144d7478877a7e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

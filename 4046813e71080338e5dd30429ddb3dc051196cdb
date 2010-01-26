@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAr3///Rs\u003d",
+        "filename": "gerrit-httpd/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-26T00:01:57Z",
+      "side": 1,
+      "message": "Don\u0027t include version, its inherited from the root.",
+      "revId": "4046813e71080338e5dd30429ddb3dc051196cdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///Ro\u003d",
+        "filename": "gerrit-server/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-26T00:01:57Z",
+      "side": 1,
+      "message": "Don\u0027t include \u003cversion\u003e, it should come from the root level pom, so we only have to change it once to upgrade.",
+      "revId": "4046813e71080338e5dd30429ddb3dc051196cdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///Rk\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaVersion.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-26T00:01:57Z",
+      "side": 1,
+      "message": "Whoa.  You just reverted the active schema from 25 to 24!",
+      "revId": "4046813e71080338e5dd30429ddb3dc051196cdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

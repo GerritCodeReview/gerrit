@@ -24,7 +24,6 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
-import com.google.gerrit.server.config.Nullable;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.OutOfScopeException;
@@ -47,6 +46,8 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.TimeZone;
+
+import javax.annotation.Nullable;
 
 /** An authenticated user. */
 public class IdentifiedUser extends CurrentUser {

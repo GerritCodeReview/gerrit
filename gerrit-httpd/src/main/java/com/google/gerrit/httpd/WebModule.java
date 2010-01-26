@@ -34,7 +34,6 @@ import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.FactoryModule;
 import com.google.gerrit.server.config.GerritRequestModule;
-import com.google.gerrit.server.config.Nullable;
 import com.google.gerrit.server.contact.ContactStore;
 import com.google.gerrit.server.contact.ContactStoreProvider;
 import com.google.gerrit.server.ssh.SshInfo;
@@ -48,6 +47,8 @@ import com.google.inject.servlet.RequestScoped;
 import com.google.inject.servlet.ServletModule;
 
 import java.net.SocketAddress;
+
+import javax.annotation.Nullable;
 
 public class WebModule extends FactoryModule {
   private final Provider<SshInfo> sshInfoProvider;

@@ -23,7 +23,6 @@ import static org.eclipse.jgit.lib.ObjectIdSerialization.writeNotNull;
 
 import com.google.gerrit.common.data.PatchScriptSettings.Whitespace;
 import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.server.config.Nullable;
 
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
@@ -32,6 +31,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+
+import javax.annotation.Nullable;
 
 public class PatchListKey implements Serializable {
   static final long serialVersionUID = 9L;

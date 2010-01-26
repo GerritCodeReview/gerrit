@@ -14,11 +14,10 @@
 
 package com.google.gerrit.server.git;
 
-import com.google.gerrit.common.ChangeHookRunner;
-import com.google.gerrit.common.data.AccountInfoCache;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 
+import com.google.gerrit.common.ChangeHookRunner;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.reviewdb.Account;
@@ -36,7 +35,6 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.config.CanonicalWebUrl;
-import com.google.gerrit.server.config.Nullable;
 import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.mail.MergeFailSender;
 import com.google.gerrit.server.mail.MergedSender;
@@ -49,9 +47,7 @@ import com.google.gerrit.server.workflow.FunctionState;
 import com.google.gwtorm.client.AtomicUpdate;
 import com.google.gwtorm.client.OrmConcurrencyException;
 import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.OrmRunnable;
 import com.google.gwtorm.client.SchemaFactory;
-import com.google.gwtorm.client.Transaction;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
@@ -90,6 +86,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import javax.annotation.Nullable;
 
 /**
  * Merges changes in submission order into a single branch.

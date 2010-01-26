@@ -14,14 +14,14 @@
 
 package com.google.gerrit.server.auth.ldap;
 
-import static com.google.gerrit.reviewdb.AccountExternalId.*;
+import static com.google.gerrit.reviewdb.AccountExternalId.SCHEME_GERRIT;
 
+import com.google.gerrit.common.data.ParamertizedString;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountExternalId;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AuthType;
 import com.google.gerrit.reviewdb.ReviewDb;
-import com.google.gerrit.common.data.ParamertizedString;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AuthRequest;

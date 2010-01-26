@@ -18,7 +18,6 @@ import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.CanonicalWebUrl;
-import com.google.gerrit.server.config.Nullable;
 import com.google.gerrit.server.git.ReceiveCommits;
 import com.google.gerrit.server.git.ReceiveCommits.MessageListener;
 import com.google.inject.Inject;
@@ -30,6 +29,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashSet;
 import java.util.Set;
+
+import javax.annotation.Nullable;
 
 /** Receives change upload over SSH using the Git receive-pack protocol. */
 final class Receive extends AbstractGitCommand {

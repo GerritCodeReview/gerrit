@@ -219,6 +219,14 @@ public class AccountGroupScreen extends AccountScreen {
       }
     });
 
+    switch (Gerrit.getConfig().getAuthType()) {
+      case HTTP_LDAP:
+      case LDAP:
+        break;
+      default:
+        return;
+    }
+
     final VerticalPanel fp = new VerticalPanel();
     fp.add(new SmallHeading(Util.C.headingGroupType()));
     fp.add(typeSystem);

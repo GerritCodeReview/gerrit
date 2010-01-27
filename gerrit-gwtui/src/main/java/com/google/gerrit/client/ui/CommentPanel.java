@@ -107,8 +107,9 @@ public class CommentPanel extends Composite implements HasDoubleClickHandlers {
     }
 
     messageSummary.setText(summarize(message));
-    SafeHtml.set(messageText, new SafeHtmlBuilder().append(message).wikify()
-        .replaceAll(Gerrit.getConfig().getCommentLinks()));
+    SafeHtml buf = new SafeHtmlBuilder().append(message).wikify();
+    buf = CommentLinkProcessor.apply(buf);
+    SafeHtml.set(messageText, buf);
   }
 
   public void setAuthorNameText(final String nameText) {

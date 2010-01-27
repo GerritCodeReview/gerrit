@@ -20,6 +20,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.AllowCrossSiteRequest;
 import com.google.gwtjsonrpc.client.RemoteJsonService;
 import com.google.gwtjsonrpc.client.RpcImpl;
+import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtjsonrpc.client.RpcImpl.Version;
 
 import java.util.List;
@@ -31,4 +32,6 @@ public interface SystemInfoService extends RemoteJsonService {
 
   @SignInRequired
   void contributorAgreements(AsyncCallback<List<ContributorAgreement>> callback);
+
+  void clientError(String message, AsyncCallback<VoidResult> callback);
 }

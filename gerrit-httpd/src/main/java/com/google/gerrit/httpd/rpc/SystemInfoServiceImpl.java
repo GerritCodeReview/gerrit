@@ -20,6 +20,7 @@ import com.google.gerrit.reviewdb.ContributorAgreement;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
@@ -28,12 +29,18 @@ import com.google.inject.Provider;
 import com.jcraft.jsch.HostKey;
 import com.jcraft.jsch.JSch;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 class SystemInfoServiceImpl implements SystemInfoService {
+  private static final Logger log =
+      LoggerFactory.getLogger(SystemInfoServiceImpl.class);
+
   private static final JSch JSCH = new JSch();
 
   private final SchemaFactory<ReviewDb> schema;
@@ -74,5 +81,14 @@ class SystemInfoServiceImpl implements SystemInfoService {
       r.add(new SshHostKey(host, hk.getType() + " " + hk.getKey(), fp));
     }
     callback.onSuccess(r);
+  }
+
+  @Override
+  public void clientError(String message, AsyncCallback<VoidResult> callback) {
+    HttpServletRequest r = httpRequest.get();
+    String ua = r.getHeader("User-Agent");
+    message = message.replaceAll("\n", "\n  ");
+    log.error("Client UI JavaScript error: User-Agent=" + ua + ": " + message);
+    callback.onSuccess(VoidResult.INSTANCE);
   }
 }

@@ -29,6 +29,7 @@ import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gwtexpui.safehtml.client.RegexFindReplace;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.ProvisionException;
 
 import org.eclipse.jgit.lib.Config;
 
@@ -36,6 +37,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 class GerritConfigProvider implements Provider<GerritConfig> {
   private final Realm realm;
@@ -109,6 +112,19 @@ class GerritConfigProvider implements Provider<GerritConfig> {
     List<RegexFindReplace> links = new ArrayList<RegexFindReplace>();
     for (String name : cfg.getSubsections("commentlink")) {
       String match = cfg.getString("commentlink", name, "match");
+
+      // Unfortunately this validation isn't entirely complete. Clients
+      // can have exceptions trying to evaluate the pattern if they don't
+      // support a token used, even if the server does support the token.
+      //
+      // At the minimum, we can trap problems related to unmatched groups.
+      try {
+        Pattern.compile(match);
+      } catch (PatternSyntaxException e) {
+        throw new ProvisionException("Invalid pattern \"" + match
+            + "\" in commentlink." + name + ".match: " + e.getMessage());
+      }
+
       String link = cfg.getString("commentlink", name, "link");
       String html = cfg.getString("commentlink", name, "html");
       if (html == null || html.isEmpty()) {

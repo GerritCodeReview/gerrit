@@ -20,6 +20,7 @@ public interface PatchConstants extends Constants {
   String draft();
 
   String buttonReply();
+  String buttonReplyDone();
   String buttonEdit();
   String buttonSave();
   String buttonCancel();

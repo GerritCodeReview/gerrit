@@ -18,6 +18,7 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.PatchTable;
 import com.google.gerrit.client.changes.PublishCommentScreen;
 import com.google.gerrit.client.changes.Util;
+import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.CommentPanel;
 import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.client.ui.NeedsSignInKeyCommand;
@@ -46,6 +47,7 @@ import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
 import com.google.gwtexpui.globalkey.client.KeyCommand;
 import com.google.gwtexpui.globalkey.client.KeyCommandSet;
+import com.google.gwtjsonrpc.client.VoidResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -319,10 +321,11 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
    */
   protected void createCommentEditor(final int suggestRow, final int column,
       final int line, final short file) {
-    createCommentEditor(suggestRow, column, line, file, null /* no parent */);
+    createCommentEditor(suggestRow, column, line, file, null, "");
   }
 
-  protected void createReplyEditor(final PublishedCommentPanel currentPanel) {
+  protected void createReplyEditor(final PublishedCommentPanel currentPanel,
+      String message) {
     final int row = rowOf(currentPanel.getElement());
     if (row >= 0) {
       final int column = columnOf(currentPanel.getElement());
@@ -337,12 +340,13 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
       } else {
         file = 0;
       }
-      createCommentEditor(row, column, c.getLine(), file, uuid);
+      createCommentEditor(row, column, c.getLine(), file, uuid, message);
     }
   }
 
   private void createCommentEditor(final int suggestRow, final int column,
-      final int line, final short file, final String parentUuid) {
+      final int line, final short file, final String parentUuid,
+      final String message) {
     if (line < 1) {
       // Refuse to create an editor before the start of the file.
       //
@@ -413,7 +417,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
         new PatchLineComment(new PatchLineComment.Key(parentKey, null), line,
             Gerrit.getUserAccount().getId(), parentUuid);
     newComment.setSide(side);
-    newComment.setMessage("");
+    newComment.setMessage(message);
 
     final CommentEditorPanel ed = new CommentEditorPanel(newComment);
     boolean isCommentRow = false;
@@ -458,21 +462,30 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
       table.getFlexCellFormatter().setRowSpan(row, column, span);
     }
 
-    for (int r = row - 1; r > 0; r--) {
-      if (getRowItem(r) instanceof CommentList) {
-        continue;
-      } else if (getRowItem(r) != null) {
-        movePointerTo(r);
-        break;
+    if ("".equals(message)) {
+      for (int r = row - 1; r > 0; r--) {
+        if (getRowItem(r) instanceof CommentList) {
+          continue;
+        } else if (getRowItem(r) != null) {
+          movePointerTo(r);
+          break;
+        }
       }
+      ed.setFocus(true);
+    } else {
+      ed.saveDraft(new GerritCallback<VoidResult>() {
+        @Override
+        public void onSuccess(VoidResult result) {
+          ed.setOpen(false);
+        }
+      });
     }
-
-    ed.setFocus(true);
   }
 
   protected void insertRow(final int row) {
     table.insertRow(row);
-    table.getCellFormatter().setStyleName(row, 0, Gerrit.RESOURCES.css().iconCell());
+    table.getCellFormatter().setStyleName(row, 0,
+        Gerrit.RESOURCES.css().iconCell());
   }
 
   @Override
@@ -551,7 +564,8 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
   private void styleCommentRow(final int row) {
     final CellFormatter fmt = table.getCellFormatter();
     final Element iconCell = fmt.getElement(row, 0);
-    UIObject.setStyleName(DOM.getParent(iconCell), Gerrit.RESOURCES.css().commentHolder(), true);
+    UIObject.setStyleName(DOM.getParent(iconCell), Gerrit.RESOURCES.css()
+        .commentHolder(), true);
   }
 
   protected static class CommentList {
@@ -691,19 +705,29 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
   private class PublishedCommentPanel extends CommentPanel implements
       ClickHandler {
     final PatchLineComment comment;
+    final Button reply;
+    final Button replyDone;
 
     PublishedCommentPanel(final AccountInfo author, final PatchLineComment c) {
       super(author, c.getWrittenOn(), c.getMessage());
       this.comment = c;
 
-      final Button reply = new Button(PatchUtil.C.buttonReply());
+      reply = new Button(PatchUtil.C.buttonReply());
       reply.addClickHandler(this);
       getButtonPanel().add(reply);
+
+      replyDone = new Button(PatchUtil.C.buttonReplyDone());
+      replyDone.addClickHandler(this);
+      getButtonPanel().add(replyDone);
     }
 
     @Override
     public void onClick(final ClickEvent event) {
-      createReplyEditor(this);
+      if (reply == event.getSource()) {
+        createReplyEditor(this, "");
+      } else if (replyDone == event.getSource()) {
+        createReplyEditor(this, "Done");
+      }
     }
   }
 }

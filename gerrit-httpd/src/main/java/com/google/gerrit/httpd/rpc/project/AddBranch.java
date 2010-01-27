@@ -88,8 +88,7 @@ class AddBranch extends Handler<List<Branch>> {
   public List<Branch> call() throws NoSuchProjectException,
       InvalidNameException, InvalidRevisionException, IOException {
     final ProjectControl projectControl =
-        projectControlFactory.validateFor(projectName, ProjectControl.OWNER
-            | ProjectControl.VISIBLE);
+        projectControlFactory.controlFor(projectName);
 
     String refname = branchName;
     while (refname.startsWith("/")) {

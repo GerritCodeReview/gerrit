@@ -19,8 +19,10 @@ import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.NoSuchRefException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.RefControl;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
@@ -57,13 +59,17 @@ class DeleteRefRights extends Handler<VoidResult> {
   }
 
   @Override
-  public VoidResult call() throws NoSuchProjectException, OrmException {
+  public VoidResult call() throws NoSuchProjectException, OrmException,
+      NoSuchRefException {
     final ProjectControl projectControl =
-        projectControlFactory.ownerFor(projectName);
+        projectControlFactory.controlFor(projectName);
 
     for (final RefRight.Key k : toRemove) {
       if (!projectName.equals(k.getProjectNameKey())) {
         throw new IllegalArgumentException("All keys must be from same project");
+      }
+      if (!controlForRef(projectControl, k.getRefPattern()).isOwner()) {
+        throw new NoSuchRefException(k.getRefPattern());
       }
     }
 
@@ -75,5 +81,12 @@ class DeleteRefRights extends Handler<VoidResult> {
     }
     projectCache.evict(projectControl.getProject());
     return VoidResult.INSTANCE;
+  }
+
+  private RefControl controlForRef(ProjectControl p, String ref) {
+    if (ref.endsWith("/*")) {
+      ref = ref.substring(0, ref.length() - 1);
+    }
+    return p.controlForRef(ref);
   }
 }

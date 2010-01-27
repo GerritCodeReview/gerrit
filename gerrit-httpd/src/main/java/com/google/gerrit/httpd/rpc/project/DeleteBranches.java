@@ -68,8 +68,7 @@ class DeleteBranches extends Handler<Set<Branch.NameKey>> {
   public Set<Branch.NameKey> call() throws NoSuchProjectException,
       RepositoryNotFoundException {
     final ProjectControl projectControl =
-        projectControlFactory.validateFor(projectName, ProjectControl.OWNER
-            | ProjectControl.VISIBLE);
+        projectControlFactory.controlFor(projectName);
 
     for (Branch.NameKey k : toRemove) {
       if (!projectName.equals(k.getParentKey())) {

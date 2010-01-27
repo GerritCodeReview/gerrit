@@ -84,6 +84,10 @@ public final class RefRight {
       return projectName;
     }
 
+    public String getRefPattern() {
+      return refPattern.get();
+    }
+
     @Override
     public com.google.gwtorm.client.Key<?>[] members() {
       return new com.google.gwtorm.client.Key<?>[] {refPattern, categoryId,

@@ -18,6 +18,7 @@ import com.google.gerrit.common.errors.CorruptEntityException;
 import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.NoSuchRefException;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.VoidResult;
 import com.google.gwtorm.client.OrmException;
@@ -66,6 +67,9 @@ public abstract class Handler<T> implements Callable<T> {
         callback.onSuccess(r);
       }
     } catch (NoSuchProjectException e) {
+      callback.onFailure(new NoSuchEntityException());
+
+    } catch (NoSuchRefException e) {
       callback.onFailure(new NoSuchEntityException());
 
     } catch (NoSuchChangeException e) {

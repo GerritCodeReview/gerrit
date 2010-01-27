@@ -124,6 +124,12 @@ public class ProjectControl {
         || getCurrentUser().isAdministrator();
   }
 
+  /** Does this user have ownership on at least one reference name? */
+  public boolean isOwnerAnyRef() {
+    return canPerformOnAnyRef(ApprovalCategory.OWN, (short) 1)
+        || getCurrentUser().isAdministrator();
+  }
+
   /** @return true if the user can upload to at least one reference */
   public boolean canUploadToAtLeastOneRef() {
     return canPerformOnAnyRef(ApprovalCategory.READ, (short) 2);

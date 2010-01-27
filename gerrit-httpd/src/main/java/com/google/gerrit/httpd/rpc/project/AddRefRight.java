@@ -27,8 +27,10 @@ import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.NoSuchGroupException;
 import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.NoSuchRefException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.RefControl;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -97,9 +99,9 @@ class AddRefRight extends Handler<ProjectDetail> {
 
   @Override
   public ProjectDetail call() throws NoSuchProjectException, OrmException,
-      NoSuchGroupException, InvalidNameException {
+      NoSuchGroupException, InvalidNameException, NoSuchRefException {
     final ProjectControl projectControl =
-        projectControlFactory.ownerFor(projectName);
+        projectControlFactory.controlFor(projectName);
 
     final ApprovalType at = approvalTypes.getApprovalType(categoryId);
     if (at == null || at.getValue(min) == null || at.getValue(max) == null) {
@@ -150,6 +152,10 @@ class AddRefRight extends Handler<ProjectDetail> {
       }
     }
 
+    if (!controlForRef(projectControl, refPattern).isOwner()) {
+      throw new NoSuchRefException(refPattern);
+    }
+
     // TODO Support per-branch READ access.
     if (ApprovalCategory.READ.equals(categoryId)
         && !refPattern.equals("refs/*")) {
@@ -177,5 +183,12 @@ class AddRefRight extends Handler<ProjectDetail> {
     }
     projectCache.evict(projectControl.getProject());
     return projectDetailFactory.create(projectName).call();
+  }
+
+  private RefControl controlForRef(ProjectControl p, String ref) {
+    if (ref.endsWith("/*")) {
+      ref = ref.substring(0, ref.length() - 1);
+    }
+    return p.controlForRef(ref);
   }
 }

@@ -66,8 +66,10 @@ class OwnedProjects extends Handler<List<Project>> {
             continue;
           }
           try {
-            ProjectControl c = projectControlFactory.ownerFor(name);
-            result.add(c.getProject());
+            ProjectControl c = projectControlFactory.controlFor(name);
+            if (c.isOwnerAnyRef()) {
+              result.add(c.getProject());
+            }
           } catch (NoSuchProjectException e) {
             continue;
           }

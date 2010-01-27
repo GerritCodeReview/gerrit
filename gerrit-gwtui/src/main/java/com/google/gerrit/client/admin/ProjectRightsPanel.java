@@ -408,7 +408,11 @@ public class ProjectRightsPanel extends Composite {
           config.getApprovalTypes().getApprovalType(r.getApprovalCategoryId());
       final AccountGroup group = groups.get(r.getAccountGroupId());
 
-      table.setWidget(row, 1, new CheckBox());
+      if (Gerrit.getConfig().getWildProject().equals(r.getProjectNameKey())) {
+        table.setText(row, 1, "");
+      } else {
+        table.setWidget(row, 1, new CheckBox());
+      }
 
       if (ar != null) {
         table.setText(row, 2, ar.getCategory().getName());

@@ -18,6 +18,7 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.changes.PatchTable;
 import com.google.gerrit.client.changes.PublishCommentScreen;
 import com.google.gerrit.client.changes.Util;
+import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.CommentPanel;
 import com.google.gerrit.client.ui.NavigationTable;
 import com.google.gerrit.client.ui.NeedsSignInKeyCommand;
@@ -319,101 +320,79 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
    */
   protected void createCommentEditor(final int suggestRow, final int column,
       final int line, final short file) {
-    createCommentEditor(suggestRow, column, line, file, null /* no parent */);
-  }
-
-  protected void createReplyEditor(final PublishedCommentPanel currentPanel) {
-    final int row = rowOf(currentPanel.getElement());
-    if (row >= 0) {
-      final int column = columnOf(currentPanel.getElement());
-      final PatchLineComment c = currentPanel.comment;
-      final String uuid = c.getKey().get();
-      final PatchSet.Id psId = c.getKey().getParentKey().getParentKey();
-      final short file;
-      if (idSideA == null) {
-        file = c.getSide();
-      } else if (idSideB.equals(psId)) {
-        file = 1;
-      } else {
-        file = 0;
-      }
-      createCommentEditor(row, column, c.getLine(), file, uuid);
-    }
-  }
-
-  private void createCommentEditor(final int suggestRow, final int column,
-      final int line, final short file, final String parentUuid) {
-    if (line < 1) {
-      // Refuse to create an editor before the start of the file.
-      //
-      return;
-    }
-
-    int row = suggestRow;
-    if (parentUuid != null) {
-      row++;
-    } else {
-      int spans[] = new int[column + 1];
-      OUTER: while (row < table.getRowCount()) {
-        int col = 0;
-        for (int cell = 0; row < table.getRowCount()
-            && cell < table.getCellCount(row); cell++) {
-          while (col < column && 0 < spans[col]) {
-            spans[col++]--;
-          }
-          spans[col] = table.getFlexCellFormatter().getRowSpan(row, cell);
-          if (col == column) {
-            final Widget w = table.getWidget(row, cell);
-            if (w instanceof CommentEditorPanel) {
-              break OUTER;
-            } else if (w instanceof CommentPanel) {
-              row++;
+    if (Gerrit.isSignedIn()) {
+      if (1 <= line) {
+        final Patch.Key parentKey;
+        final short side;
+        switch (file) {
+          case 0:
+            if (idSideA == null) {
+              parentKey = new Patch.Key(idSideB, patchKey.get());
+              side = (short) 0;
             } else {
-              break OUTER;
+              parentKey = new Patch.Key(idSideA, patchKey.get());
+              side = (short) 1;
             }
+            break;
+          case 1:
+            parentKey = new Patch.Key(idSideB, patchKey.get());
+            side = (short) 1;
+            break;
+          default:
+            throw new RuntimeException("unexpected file id " + file);
+        }
+
+        final PatchLineComment newComment =
+            new PatchLineComment(new PatchLineComment.Key(parentKey, null),
+                line, Gerrit.getUserAccount().getId(), null);
+        newComment.setSide(side);
+        newComment.setMessage("");
+
+        createCommentEditor(suggestRow, column, newComment).setFocus(true);
+      }
+    } else {
+      Gerrit.doSignIn(History.getToken());
+    }
+  }
+
+  private CommentEditorPanel createCommentEditor(final int suggestRow,
+      final int column, final PatchLineComment newComment) {
+    int row = suggestRow;
+    int spans[] = new int[column + 1];
+    FIND_ROW: while (row < table.getRowCount()) {
+      int col = 0;
+      for (int cell = 0; row < table.getRowCount()
+          && cell < table.getCellCount(row); cell++) {
+        while (col < column && 0 < spans[col]) {
+          spans[col++]--;
+        }
+        spans[col] = table.getFlexCellFormatter().getRowSpan(row, cell);
+        if (col == column) {
+          final Widget w = table.getWidget(row, cell);
+          if (w instanceof CommentEditorPanel) {
+            // Don't insert two editors on the same position, it doesn't make
+            // any sense to the user.
+            //
+            return ((CommentEditorPanel) w);
+
+          } else if (w instanceof CommentPanel) {
+            if (newComment != null && newComment.getParentUuid() != null) {
+              // If we are a reply, we were given the exact row to insert
+              // ourselves at. We should be before this panel so break.
+              //
+              break FIND_ROW;
+            }
+            row++;
+          } else {
+            break FIND_ROW;
           }
         }
       }
     }
-    if (row < table.getRowCount() && column < table.getCellCount(row)
-        && table.getWidget(row, column) instanceof CommentEditorPanel) {
-      // Don't insert two editors on the same position, it doesn't make
-      // any sense to the user.
-      //
-      ((CommentEditorPanel) table.getWidget(row, column)).setFocus(true);
-      return;
-    }
 
-    if (!Gerrit.isSignedIn()) {
-      Gerrit.doSignIn(History.getToken());
-      return;
+    if (newComment == null) {
+      return null;
     }
-
-    final Patch.Key parentKey;
-    final short side;
-    switch (file) {
-      case 0:
-        if (idSideA == null) {
-          parentKey = new Patch.Key(idSideB, patchKey.get());
-          side = (short) 0;
-        } else {
-          parentKey = new Patch.Key(idSideA, patchKey.get());
-          side = (short) 1;
-        }
-        break;
-      case 1:
-        parentKey = new Patch.Key(idSideB, patchKey.get());
-        side = (short) 1;
-        break;
-      default:
-        throw new RuntimeException("unexpected file id " + file);
-    }
-
-    final PatchLineComment newComment =
-        new PatchLineComment(new PatchLineComment.Key(parentKey, null), line,
-            Gerrit.getUserAccount().getId(), parentUuid);
-    newComment.setSide(side);
-    newComment.setMessage("");
 
     final CommentEditorPanel ed = new CommentEditorPanel(newComment);
     boolean isCommentRow = false;
@@ -467,7 +446,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
       }
     }
 
-    ed.setFocus(true);
+    return ed;
   }
 
   protected void insertRow(final int row) {
@@ -691,19 +670,92 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
   private class PublishedCommentPanel extends CommentPanel implements
       ClickHandler {
     final PatchLineComment comment;
+    final Button reply;
+    final Button replyDone;
 
     PublishedCommentPanel(final AccountInfo author, final PatchLineComment c) {
       super(author, c.getWrittenOn(), c.getMessage());
       this.comment = c;
 
-      final Button reply = new Button(PatchUtil.C.buttonReply());
+      reply = new Button(PatchUtil.C.buttonReply());
       reply.addClickHandler(this);
       getButtonPanel().add(reply);
+
+      replyDone = new Button(PatchUtil.C.buttonReplyDone());
+      replyDone.addClickHandler(this);
+      getButtonPanel().add(replyDone);
     }
 
     @Override
     public void onClick(final ClickEvent event) {
-      createReplyEditor(this);
+      if (Gerrit.isSignedIn()) {
+        if (reply == event.getSource()) {
+          createReplyEditor();
+        } else if (replyDone == event.getSource()) {
+          cannedReply(PatchUtil.C.cannedReplyDone());
+        }
+
+      } else {
+        Gerrit.doSignIn(History.getToken());
+      }
+    }
+
+    private void createReplyEditor() {
+      final PatchLineComment newComment = newComment();
+      newComment.setMessage("");
+      createEditor(newComment).setFocus(true);
+    }
+
+    private void cannedReply(String message) {
+      CommentEditorPanel p = createEditor(null);
+      if (p == null) {
+        final PatchLineComment newComment = newComment();
+        newComment.setMessage(message);
+
+        enable(false);
+        PatchUtil.DETAIL_SVC.saveDraft(newComment,
+            new GerritCallback<PatchLineComment>() {
+              public void onSuccess(final PatchLineComment result) {
+                enable(true);
+                notifyDraftDelta(1);
+                createEditor(result).setOpen(false);
+              }
+
+              @Override
+              public void onFailure(Throwable caught) {
+                enable(true);
+                super.onFailure(caught);
+              }
+            });
+      } else {
+        if (!p.isOpen()) {
+          p.setOpen(true);
+        }
+        p.setFocus(true);
+      }
+    }
+
+    private CommentEditorPanel createEditor(final PatchLineComment newComment) {
+      int row = rowOf(getElement());
+      int column = columnOf(getElement());
+      return createCommentEditor(row + 1, column, newComment);
+    }
+
+    private PatchLineComment newComment() {
+      PatchLineComment newComment =
+          new PatchLineComment(new PatchLineComment.Key(comment.getKey()
+              .getParentKey(), null), comment.getLine(), Gerrit
+              .getUserAccount().getId(), comment.getKey().get());
+      newComment.setSide(comment.getSide());
+      return newComment;
+    }
+
+    private void enable(boolean on) {
+      for (Widget w : getButtonPanel()) {
+        if (w instanceof Button) {
+          ((Button) w).setEnabled(on);
+        }
+      }
     }
   }
 }

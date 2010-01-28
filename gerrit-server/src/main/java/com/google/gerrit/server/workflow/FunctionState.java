@@ -22,12 +22,13 @@ import com.google.gerrit.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetApproval;
-import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.reviewdb.ApprovalCategory.Id;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.RefControl;
 import com.google.inject.Inject;
@@ -58,10 +59,7 @@ public class FunctionState {
       new HashMap<ApprovalCategory.Id, Boolean>();
   private final Change change;
   private final ProjectState project;
-  private final Map<ApprovalCategory.Id, List<RefRight>> allRights =
-      new HashMap<ApprovalCategory.Id, List<RefRight>>();
-  private Map<ApprovalCategory.Id, List<RefRight>> refRights;
-  private Map<ApprovalCategory.Id, List<RefRight>> inheritedRights;
+
   private Set<PatchSetApproval> modified;
 
   @Inject
@@ -92,12 +90,8 @@ public class FunctionState {
     return approvalTypes.getApprovalTypes();
   }
 
-  public Change getChange() {
+  Change getChange() {
     return change;
-  }
-
-  public Project getProject() {
-    return project.getProject();
   }
 
   public void valid(final ApprovalType at, final boolean v) {
@@ -122,68 +116,11 @@ public class FunctionState {
     return l != null ? l : Collections.<PatchSetApproval> emptySet();
   }
 
-  public void dirty(final PatchSetApproval ap) {
+  private void dirty(final PatchSetApproval ap) {
     if (modified == null) {
       modified = new HashSet<PatchSetApproval>();
     }
     modified.add(ap);
-  }
-
-  public Collection<PatchSetApproval> getDirtyChangeApprovals() {
-    if (modified != null) {
-      return modified;
-    }
-    return Collections.emptySet();
-  }
-
-  private List<RefRight> getRefRights(final ApprovalCategory.Id id) {
-    if (refRights == null) {
-      refRights = index(project.getLocalRights());
-    }
-    final List<RefRight> l = refRights.get(id);
-    return l != null ? l : Collections.<RefRight> emptyList();
-  }
-
-  private List<RefRight> getWildcardRights(final ApprovalCategory.Id id) {
-    if (inheritedRights == null) {
-      inheritedRights = index(project.getInheritedRights());
-    }
-    final List<RefRight> l = inheritedRights.get(id);
-    return l != null ? l : Collections.<RefRight> emptyList();
-  }
-
-  public Collection<RefRight> getAllRights(final ApprovalType at) {
-    return getAllRights(id(at));
-  }
-
-  public List<RefRight> getAllRights(final ApprovalCategory.Id id) {
-    List<RefRight> l = allRights.get(id);
-    if (l == null) {
-      l = new ArrayList<RefRight>();
-      l.addAll(getRefRights(id));
-      l.addAll(getWildcardRights(id));
-      Collections.sort(l, RefRight.REF_PATTERN_ORDER);
-      l = Collections.unmodifiableList(RefControl.filterMostSpecific(l));
-      allRights.put(id, l);
-    }
-    return l;
-  }
-
-  private Map<Id, List<RefRight>> index(final Collection<RefRight> rights) {
-    final HashMap<ApprovalCategory.Id, List<RefRight>> r;
-
-    r = new HashMap<ApprovalCategory.Id, List<RefRight>>();
-    for (final RefRight pr : rights) {
-      if (RefControl.matches(change.getDest().get(), pr.getRefPattern())) {
-        List<RefRight> l = r.get(pr.getApprovalCategoryId());
-        if (l == null) {
-          l = new ArrayList<RefRight>();
-          r.put(pr.getApprovalCategoryId(), l);
-        }
-        l.add(pr);
-      }
-    }
-    return r;
   }
 
   /**
@@ -192,7 +129,7 @@ public class FunctionState {
    * <p>
    * If the record's value was modified, its automatically marked as dirty.
    */
-  public void applyTypeFloor(final ApprovalType at, final PatchSetApproval a) {
+  private void applyTypeFloor(final ApprovalType at, final PatchSetApproval a) {
     final ApprovalCategoryValue atMin = at.getMin();
 
     if (atMin != null && a.getValue() < atMin.getValue()) {
@@ -217,13 +154,14 @@ public class FunctionState {
    * <p>
    * If the record's value was modified, its automatically marked as dirty.
    */
-  public void applyRightFloor(final PatchSetApproval a) {
+  private void applyRightFloor(final PatchSetApproval a) {
     final IdentifiedUser user = userFactory.create(a.getAccountId());
+    RefControl rc = controlFor(user);
 
     // Find the maximal range actually granted to the user.
     //
     short minAllowed = 0, maxAllowed = 0;
-    for (final RefRight r : getAllRights(a.getCategoryId())) {
+    for (final RefRight r : rc.getAllRights(a.getCategoryId())) {
       final AccountGroup.Id grp = r.getAccountGroupId();
       if (user.getEffectiveGroups().contains(grp)) {
         minAllowed = (short) Math.min(minAllowed, r.getMinValue());
@@ -242,6 +180,12 @@ public class FunctionState {
       a.setValue(maxAllowed);
       dirty(a);
     }
+  }
+
+  RefControl controlFor(final CurrentUser user) {
+    ProjectControl pc = project.controlFor(user);
+    RefControl rc = pc.controlForRef(change.getDest().get());
+    return rc;
   }
 
   /** Run <code>applyTypeFloor</code>, <code>applyRightFloor</code>. */

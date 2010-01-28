@@ -19,6 +19,7 @@ import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.project.RefControl;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -89,7 +90,8 @@ public abstract class CategoryFunction {
 
   public boolean isValid(final CurrentUser user, final ApprovalType at,
       final FunctionState state) {
-    for (final RefRight pr : state.getAllRights(at)) {
+    RefControl rc = state.controlFor(user);
+    for (final RefRight pr : rc.getAllRights(at.getCategory().getId())) {
       if (user.getEffectiveGroups().contains(pr.getAccountGroupId())
           && (pr.getMinValue() < 0 || pr.getMaxValue() > 0)) {
         return true;

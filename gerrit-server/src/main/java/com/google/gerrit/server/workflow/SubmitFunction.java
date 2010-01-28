@@ -19,6 +19,7 @@ import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.project.RefControl;
 
 /**
  * Computes if the submit function can be used.
@@ -42,7 +43,8 @@ public class SubmitFunction extends CategoryFunction {
   public boolean isValid(final CurrentUser user, final ApprovalType at,
       final FunctionState state) {
     if (valid(at, state)) {
-      for (final RefRight pr : state.getAllRights(at)) {
+      RefControl rc = state.controlFor(user);
+      for (final RefRight pr : rc.getAllRights(at.getCategory().getId())) {
         if (user.getEffectiveGroups().contains(pr.getAccountGroupId())
             && pr.getMaxValue() > 0) {
           return true;

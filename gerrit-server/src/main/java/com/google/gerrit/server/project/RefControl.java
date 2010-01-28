@@ -249,6 +249,14 @@ public class RefControl {
     return filter(projectControl.getProjectState().getInheritedRights(), actionId);
   }
 
+  public List<RefRight> getAllRights(final ApprovalCategory.Id id) {
+    List<RefRight> l = new ArrayList<RefRight>();
+    l.addAll(getLocalRights(id));
+    l.addAll(getInheritedRights(id));
+    Collections.sort(l, RefRight.REF_PATTERN_ORDER);
+    return Collections.unmodifiableList(RefControl.filterMostSpecific(l));
+  }
+
   private List<RefRight> filter(Collection<RefRight> all,
       ApprovalCategory.Id actionId) {
     List<RefRight> mine = new ArrayList<RefRight>(all.size());

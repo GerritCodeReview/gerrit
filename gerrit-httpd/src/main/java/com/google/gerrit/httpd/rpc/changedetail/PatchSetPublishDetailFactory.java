@@ -42,7 +42,9 @@ import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -126,17 +128,29 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
   private void computeAllowed() {
     final Set<AccountGroup.Id> am = user.getEffectiveGroups();
     final ProjectState pe = projectCache.get(change.getProject());
-    computeAllowed(am, pe.getLocalRights());
-    computeAllowed(am, pe.getInheritedRights());
+    List<RefRight> allRights = new ArrayList<RefRight>();
+    allRights.addAll(filterMatching(pe.getLocalRights()));
+    allRights.addAll(filterMatching(pe.getInheritedRights()));
+    Collections.sort(allRights, RefRight.REF_PATTERN_ORDER);
+    allRights = RefControl.filterMostSpecific(allRights);
+    computeAllowed(am, allRights);
+  }
+
+  private List<RefRight> filterMatching(Collection<RefRight> rights) {
+    List<RefRight> result = new ArrayList<RefRight>();
+    for (RefRight right : rights) {
+      if (RefControl.matches(change.getDest().get(), right.getRefPattern())) {
+        result.add(right);
+      }
+    }
+    return result;
   }
 
   private void computeAllowed(final Set<AccountGroup.Id> am,
-      final Collection<RefRight> list) {
+      final List<RefRight> list) {
+
     for (final RefRight r : list) {
       if (!am.contains(r.getAccountGroupId())) {
-        continue;
-      }
-      if (!RefControl.matches(change.getDest().get(), r.getRefPattern())) {
         continue;
       }
 

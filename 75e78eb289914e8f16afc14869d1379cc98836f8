@@ -331,6 +331,24 @@
       "revId": "75e78eb289914e8f16afc14869d1379cc98836f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///Es\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/workflow/FunctionState.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-28T18:44:09Z",
+      "side": 1,
+      "message": "Doh, you are correct.  I missed that RefControl.matches line in the index method last night.  Thanks.",
+      "parentUuid": "AAAAr3///E4\u003d",
+      "revId": "75e78eb289914e8f16afc14869d1379cc98836f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

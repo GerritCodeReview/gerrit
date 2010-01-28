@@ -40,6 +40,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -183,9 +184,19 @@ public class RefControl {
   private boolean canPerform(ApprovalCategory.Id actionId, short level) {
     final Set<AccountGroup.Id> groups = getCurrentUser().getEffectiveGroups();
     int val = Integer.MIN_VALUE;
-    for (final RefRight right : getLocalRights()) {
-      if (right.getApprovalCategoryId().equals(actionId)
-          && groups.contains(right.getAccountGroupId())) {
+
+    List<RefRight> allRights = new ArrayList<RefRight>();
+    allRights.addAll(getLocalRights(actionId));
+
+    if (actionId.canInheritFromWildProject()) {
+      allRights.addAll(getInheritedRights(actionId));
+    }
+
+    // Sort in descending refPattern length
+    Collections.sort(allRights, RefRight.REF_PATTERN_ORDER);
+
+    for (RefRight right : filterMostSpecific(allRights)) {
+      if (groups.contains(right.getAccountGroupId())) {
         if (val < 0 && right.getMaxValue() > 0) {
           // If one of the user's groups had denied them access, but
           // this group grants them access, prefer the grant over
@@ -200,31 +211,50 @@ public class RefControl {
         }
       }
     }
-
-    if (val == Integer.MIN_VALUE && actionId.canInheritFromWildProject()) {
-      for (final RefRight pr : getInheritedRights()) {
-        if (actionId.equals(pr.getApprovalCategoryId())
-            && groups.contains(pr.getAccountGroupId())) {
-          val = Math.max(pr.getMaxValue(), val);
-        }
-      }
-    }
-
     return val >= level;
   }
 
-  private Collection<RefRight> getLocalRights() {
-    return filter(projectControl.getProjectState().getLocalRights());
+  public static List<RefRight> filterMostSpecific(List<RefRight> actionRights) {
+    // Grab the first set of RefRight which have the same refPattern
+    // those are the most specific RefRights we have, and are the
+    // we will consider to verify if this action can be performed.
+    // We do this so that one can override the ref rights for a specific
+    // project on a specific branch
+    boolean sameRefPattern = true;
+    List<RefRight> mostSpecific = new ArrayList<RefRight>();
+    String currentRefPattern = null;
+    int i = 0;
+    while (sameRefPattern && i < actionRights.size()) {
+      if (currentRefPattern == null) {
+        currentRefPattern = actionRights.get(i).getRefPattern();
+        mostSpecific.add(actionRights.get(i));
+        i++;
+      } else {
+        if (currentRefPattern.equals(actionRights.get(i).getRefPattern())) {
+          mostSpecific.add(actionRights.get(i));
+          i++;
+        } else {
+          sameRefPattern = false;
+        }
+      }
+    }
+    return mostSpecific;
   }
 
-  private Collection<RefRight> getInheritedRights() {
-    return filter(projectControl.getProjectState().getInheritedRights());
+  private List<RefRight> getLocalRights(ApprovalCategory.Id actionId) {
+    return filter(projectControl.getProjectState().getLocalRights(), actionId);
   }
 
-  private Collection<RefRight> filter(Collection<RefRight> all) {
+  private List<RefRight> getInheritedRights(ApprovalCategory.Id actionId) {
+    return filter(projectControl.getProjectState().getInheritedRights(), actionId);
+  }
+
+  private List<RefRight> filter(Collection<RefRight> all,
+      ApprovalCategory.Id actionId) {
     List<RefRight> mine = new ArrayList<RefRight>(all.size());
     for (RefRight right : all) {
-      if (matches(getRefName(), right.getRefPattern())) {
+      if (matches(getRefName(), right.getRefPattern()) &&
+          right.getApprovalCategoryId().equals(actionId)) {
         mine.add(right);
       }
     }

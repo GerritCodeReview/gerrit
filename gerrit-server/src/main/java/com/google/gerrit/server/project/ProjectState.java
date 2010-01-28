@@ -83,7 +83,7 @@ public class ProjectState {
   /** Get the rights this project inherits from the wild project. */
   public Collection<RefRight> getInheritedRights() {
     if (isSpecialWildProject()) {
-      return Collections.emptyList();
+      return Collections.emptySet();
     }
     return inheritedRights.get();
   }

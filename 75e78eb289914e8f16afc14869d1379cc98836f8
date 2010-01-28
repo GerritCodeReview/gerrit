@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAr3///FM\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/RefRight.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1002957
+      },
+      "writtenOn": "2010-01-28T18:32:03Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "AAAAr3///HU\u003d",
+      "revId": "75e78eb289914e8f16afc14869d1379cc98836f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAr3///HQ\u003d",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/RefRight.java",
         "patchSetId": 1
@@ -47,6 +65,24 @@
       "writtenOn": "2010-01-28T02:05:14Z",
       "side": 1,
       "message": "We should declare a singleton instance of this, there is no reason for callers to make their own just to sort objects.",
+      "revId": "75e78eb289914e8f16afc14869d1379cc98836f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///FI\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/RefRight.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1002957
+      },
+      "writtenOn": "2010-01-28T18:32:03Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "AAAAr3///HQ\u003d",
       "revId": "75e78eb289914e8f16afc14869d1379cc98836f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAr3///FE\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/RefRight.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1002957
+      },
+      "writtenOn": "2010-01-28T18:32:03Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "AAAAr3///HM\u003d",
+      "revId": "75e78eb289914e8f16afc14869d1379cc98836f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAr3///HI\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCacheImpl.java",
         "patchSetId": 1
@@ -81,6 +135,24 @@
       "writtenOn": "2010-01-28T02:05:14Z",
       "side": 1,
       "message": "Because RefControl sorts the RefRights before use, there isn\u0027t a need for List\u003cRefRight\u003e.  So why make the API change from List to Collection on these?",
+      "revId": "75e78eb289914e8f16afc14869d1379cc98836f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///E8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1002957
+      },
+      "writtenOn": "2010-01-28T18:32:03Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "AAAAr3///HI\u003d",
       "revId": "75e78eb289914e8f16afc14869d1379cc98836f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -104,6 +176,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAr3///FA\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1002957
+      },
+      "writtenOn": "2010-01-28T18:32:03Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "AAAAr3///HE\u003d",
+      "revId": "75e78eb289914e8f16afc14869d1379cc98836f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAr3///HA\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
         "patchSetId": 1
@@ -115,6 +205,24 @@
       "writtenOn": "2010-01-28T02:05:14Z",
       "side": 1,
       "message": "Why don\u0027t we do this filtering in the getLocal and getInherited methods?  Just pass in the actionId and do it as part of the \"is it matching my ref\" loop.",
+      "revId": "75e78eb289914e8f16afc14869d1379cc98836f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///FQ\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1002957
+      },
+      "writtenOn": "2010-01-28T18:32:03Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "AAAAr3///HA\u003d",
       "revId": "75e78eb289914e8f16afc14869d1379cc98836f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -138,6 +246,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAr3///FU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1002957
+      },
+      "writtenOn": "2010-01-28T18:32:03Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "AAAAr3///G8\u003d",
+      "revId": "75e78eb289914e8f16afc14869d1379cc98836f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAr3///G4\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/workflow/FunctionState.java",
         "patchSetId": 1
@@ -155,6 +281,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAr3///FY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/workflow/FunctionState.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1002957
+      },
+      "writtenOn": "2010-01-28T18:32:03Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "AAAAr3///G4\u003d",
+      "revId": "75e78eb289914e8f16afc14869d1379cc98836f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAr3///G0\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/workflow/FunctionState.java",
         "patchSetId": 1
@@ -166,6 +310,24 @@
       "writtenOn": "2010-01-28T02:05:14Z",
       "side": 1,
       "message": "Hmmph.  Is it just me, or do we never actually consider the destination branch in this class?  I think we didn\u0027t fully implement the per-branch access controls we thought we did here.\n\nSolution?  Change the use of ProjectControl in this class to use RefControl.. and ask the RefControl for the rights.  It can then use this method (and make it private!) to return the collection to the FunctionState caller.\n\nBetter, you could start to consider pushing the caches here inside of FunctionState into RefControl, since RefControl is also a transient object instance.  That would help us get rid of FunctionState in the future.",
+      "revId": "75e78eb289914e8f16afc14869d1379cc98836f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3///E4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/workflow/FunctionState.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1002957
+      },
+      "writtenOn": "2010-01-28T18:32:03Z",
+      "side": 1,
+      "message": "We consider the destination branch (change.getDest().get()) when the caches get created. Is that not enough?\n\nI agree with your suggestions, but I\u0027d rather experiment with this in another change, if possible. I am not completely ready to rip this thing apart",
+      "parentUuid": "AAAAr3///G0\u003d",
       "revId": "75e78eb289914e8f16afc14869d1379cc98836f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

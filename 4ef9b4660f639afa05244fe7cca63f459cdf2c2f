@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAr3///Dc\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/workflow/FunctionState.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-01-28T23:55:45Z",
+      "side": 0,
+      "message": "If we\u0027re deleting this... why can\u0027t we also remove the dirty method above it and the modified collection?  It seems to me that this collection can\u0027t be read now, so its useless and could go.",
+      "revId": "4ef9b4660f639afa05244fe7cca63f459cdf2c2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

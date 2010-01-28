@@ -24,27 +24,27 @@ import com.google.gerrit.server.config.WildProjectName;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /** Cached information on a project. */
 public class ProjectState {
   public interface Factory {
-    ProjectState create(Project project, Collection<RefRight> localRights,
+    ProjectState create(Project project, List<RefRight> localRights,
         InheritedRights inheritedRights);
   }
 
   public interface InheritedRights {
-    Collection<RefRight> get();
+    List<RefRight> get();
   }
 
   private final AnonymousUser anonymousUser;
   private final Project.NameKey wildProject;
 
   private final Project project;
-  private final Collection<RefRight> localRights;
+  private final List<RefRight> localRights;
   private final InheritedRights inheritedRights;
   private final Set<AccountGroup.Id> owners;
 
@@ -52,7 +52,7 @@ public class ProjectState {
   protected ProjectState(final AnonymousUser anonymousUser,
       @WildProjectName final Project.NameKey wildProject,
       @Assisted final Project project,
-      @Assisted final Collection<RefRight> rights,
+      @Assisted final List<RefRight> rights,
       @Assisted final InheritedRights inheritedRights) {
     this.anonymousUser = anonymousUser;
     this.wildProject = wildProject;
@@ -76,12 +76,12 @@ public class ProjectState {
   }
 
   /** Get the rights that pertain only to this project. */
-  public Collection<RefRight> getLocalRights() {
+  public List<RefRight> getLocalRights() {
     return localRights;
   }
 
   /** Get the rights this project inherits from the wild project. */
-  public Collection<RefRight> getInheritedRights() {
+  public List<RefRight> getInheritedRights() {
     if (isSpecialWildProject()) {
       return Collections.emptyList();
     }

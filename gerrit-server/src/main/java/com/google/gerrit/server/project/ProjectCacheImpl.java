@@ -29,8 +29,8 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 
-import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 /** Cache of project information, including access rights. */
 @Singleton
@@ -76,7 +76,7 @@ public class ProjectCacheImpl implements ProjectCache {
 
     this.inheritedRights = new ProjectState.InheritedRights() {
       @Override
-      public Collection<RefRight> get() {
+      public List<RefRight> get() {
         return ProjectCacheImpl.this.get(wildProject).getLocalRights();
       }
     };
@@ -90,8 +90,8 @@ public class ProjectCacheImpl implements ProjectCache {
         return null;
       }
 
-      final Collection<RefRight> rights =
-          Collections.unmodifiableCollection(db.refRights().byProject(
+      final List<RefRight> rights =
+          Collections.unmodifiableList(db.refRights().byProject(
               p.getNameKey()).toList());
 
       return projectStateFactory.create(p, rights, inheritedRights);

@@ -58,10 +58,10 @@ public class FunctionState {
       new HashMap<ApprovalCategory.Id, Boolean>();
   private final Change change;
   private final ProjectState project;
-  private final Map<ApprovalCategory.Id, Collection<RefRight>> allRights =
-      new HashMap<ApprovalCategory.Id, Collection<RefRight>>();
-  private Map<ApprovalCategory.Id, Collection<RefRight>> RefRights;
-  private Map<ApprovalCategory.Id, Collection<RefRight>> inheritedRights;
+  private final Map<ApprovalCategory.Id, List<RefRight>> allRights =
+      new HashMap<ApprovalCategory.Id, List<RefRight>>();
+  private Map<ApprovalCategory.Id, List<RefRight>> refRights;
+  private Map<ApprovalCategory.Id, List<RefRight>> inheritedRights;
   private Set<PatchSetApproval> modified;
 
   @Inject
@@ -136,53 +136,46 @@ public class FunctionState {
     return Collections.emptySet();
   }
 
-  public Collection<RefRight> getRefRights(final ApprovalType at) {
-    return getRefRights(id(at));
-  }
-
-  public Collection<RefRight> getRefRights(final ApprovalCategory.Id id) {
-    if (RefRights == null) {
-      RefRights = index(project.getLocalRights());
+  private List<RefRight> getRefRights(final ApprovalCategory.Id id) {
+    if (refRights == null) {
+      refRights = index(project.getLocalRights());
     }
-    final Collection<RefRight> l = RefRights.get(id);
-    return l != null ? l : Collections.<RefRight> emptySet();
+    final List<RefRight> l = refRights.get(id);
+    return l != null ? l : Collections.<RefRight> emptyList();
   }
 
-  public Collection<RefRight> getWildcardRights(final ApprovalType at) {
-    return getWildcardRights(id(at));
-  }
-
-  public Collection<RefRight> getWildcardRights(final ApprovalCategory.Id id) {
+  private List<RefRight> getWildcardRights(final ApprovalCategory.Id id) {
     if (inheritedRights == null) {
       inheritedRights = index(project.getInheritedRights());
     }
-    final Collection<RefRight> l = inheritedRights.get(id);
-    return l != null ? l : Collections.<RefRight> emptySet();
+    final List<RefRight> l = inheritedRights.get(id);
+    return l != null ? l : Collections.<RefRight> emptyList();
   }
 
   public Collection<RefRight> getAllRights(final ApprovalType at) {
     return getAllRights(id(at));
   }
 
-  public Collection<RefRight> getAllRights(final ApprovalCategory.Id id) {
-    Collection<RefRight> l = allRights.get(id);
+  public List<RefRight> getAllRights(final ApprovalCategory.Id id) {
+    List<RefRight> l = allRights.get(id);
     if (l == null) {
       l = new ArrayList<RefRight>();
       l.addAll(getRefRights(id));
       l.addAll(getWildcardRights(id));
-      l = Collections.unmodifiableCollection(l);
+      Collections.sort(l, new RefRight.RefPatternOrder());
+      l = Collections.unmodifiableList(l);
       allRights.put(id, l);
     }
     return l;
   }
 
-  private Map<Id, Collection<RefRight>> index(final Collection<RefRight> rights) {
-    final HashMap<ApprovalCategory.Id, Collection<RefRight>> r;
+  private Map<Id, List<RefRight>> index(final Collection<RefRight> rights) {
+    final HashMap<ApprovalCategory.Id, List<RefRight>> r;
 
-    r = new HashMap<ApprovalCategory.Id, Collection<RefRight>>();
+    r = new HashMap<ApprovalCategory.Id, List<RefRight>>();
     for (final RefRight pr : rights) {
       if (RefControl.matches(change.getDest().get(), pr.getRefPattern())) {
-        Collection<RefRight> l = r.get(pr.getApprovalCategoryId());
+        List<RefRight> l = r.get(pr.getApprovalCategoryId());
         if (l == null) {
           l = new ArrayList<RefRight>();
           r.put(pr.getApprovalCategoryId(), l);
@@ -229,8 +222,14 @@ public class FunctionState {
 
     // Find the maximal range actually granted to the user.
     //
+
+    List<RefRight> actionRights = getAllRights(a.getCategoryId());
+
+    boolean sameRefPattern = true;
+    List<RefRight> mostSpecific = RefControl.filterMostSpecific(actionRights);
+
     short minAllowed = 0, maxAllowed = 0;
-    for (final RefRight r : getAllRights(a.getCategoryId())) {
+    for (final RefRight r : mostSpecific) {
       final AccountGroup.Id grp = r.getAccountGroupId();
       if (user.getEffectiveGroups().contains(grp)) {
         minAllowed = (short) Math.min(minAllowed, r.getMinValue());

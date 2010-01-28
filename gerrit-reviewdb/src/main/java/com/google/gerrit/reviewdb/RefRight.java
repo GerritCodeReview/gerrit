@@ -18,6 +18,8 @@ import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.CompoundKey;
 import com.google.gwtorm.client.StringKey;
 
+import java.util.Comparator;
+
 /** Grant to use an {@link ApprovalCategory} in the scope of a git ref. */
 public final class RefRight {
   public static class RefPattern extends
@@ -146,4 +148,20 @@ public final class RefRight {
   public void setMaxValue(final short m) {
     maxValue = m;
   }
+
+  private static class RefPatternOrder implements Comparator<RefRight> {
+
+    @Override
+    public int compare(RefRight a, RefRight b) {
+      int aLength = a.getRefPattern().length();
+      int bLength = b.getRefPattern().length();
+      if ((bLength - aLength) == 0) {
+        return a.getApprovalCategoryId().get()
+            .compareTo(b.getApprovalCategoryId().get());
+      }
+      return bLength - aLength;
+    }
+  }
+
+  public static final RefPatternOrder REF_PATTERN_ORDER = new RefPatternOrder();
 }

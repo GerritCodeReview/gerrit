@@ -1,4 +1,4 @@
-// Copyright (C) 2009The Android Open Source Project
+// Copyright (C) 2009 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,10 +17,19 @@ package com.google.gerrit.reviewdb;
 import com.google.gwtorm.client.Access;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.PrimaryKey;
+import com.google.gwtorm.client.Query;
+import com.google.gwtorm.client.ResultSet;
 
 
 public interface AccountGroupNameAccess extends
     Access<AccountGroupName, AccountGroup.NameKey> {
   @PrimaryKey("name")
   AccountGroupName get(AccountGroup.NameKey name) throws OrmException;
+
+  @Query("ORDER BY name")
+  ResultSet<AccountGroupName> all();
+
+  @Query("WHERE name.name >= ? AND name.name <= ? ORDER BY name LIMIT ?")
+  ResultSet<AccountGroupName> suggestByName(String nameA, String nameB,
+      int limit) throws OrmException;
 }

@@ -25,7 +25,7 @@ public final class AccountGroup {
       StringKey<com.google.gwtorm.client.Key<?>> {
     private static final long serialVersionUID = 1L;
 
-    @Column(id = 1, length = 40)
+    @Column(id = 1)
     protected String name;
 
     protected NameKey() {

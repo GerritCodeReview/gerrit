@@ -32,11 +32,23 @@ public class AccountGroupName {
     this.groupId = groupId;
   }
 
+  public AccountGroupName(AccountGroup group) {
+    this(group.getNameKey(), group.getId());
+  }
+
+  public String getName() {
+    return getNameKey().get();
+  }
+
   public AccountGroup.NameKey getNameKey() {
     return name;
   }
 
   public AccountGroup.Id getId() {
     return groupId;
+  }
+
+  public void setId(AccountGroup.Id id) {
+    groupId = id;
   }
 }

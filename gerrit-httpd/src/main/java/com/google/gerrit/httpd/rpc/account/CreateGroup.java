@@ -69,7 +69,7 @@ class CreateGroup extends Handler<AccountGroup.Id> {
     db.accountGroups().insert(Collections.singleton(group));
 
     try {
-      final AccountGroupName n = new AccountGroupName(key, id);
+      final AccountGroupName n = new AccountGroupName(group);
       db.accountGroupNames().insert(Collections.singleton(n));
     } catch (OrmDuplicateKeyException dupeErr) {
       db.accountGroups().delete(Collections.singleton(group));

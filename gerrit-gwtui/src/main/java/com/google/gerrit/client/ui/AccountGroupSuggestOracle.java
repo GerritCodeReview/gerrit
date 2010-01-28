@@ -16,7 +16,7 @@ package com.google.gerrit.client.ui;
 
 import com.google.gerrit.client.RpcStatus;
 import com.google.gerrit.client.rpc.GerritCallback;
-import com.google.gerrit.reviewdb.AccountGroup;
+import com.google.gerrit.reviewdb.AccountGroupName;
 import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwtexpui.safehtml.client.HighlightSuggestOracle;
 
@@ -30,11 +30,11 @@ public class AccountGroupSuggestOracle extends HighlightSuggestOracle {
     RpcStatus.hide(new Runnable() {
       public void run() {
         SuggestUtil.SVC.suggestAccountGroup(req.getQuery(), req.getLimit(),
-            new GerritCallback<List<AccountGroup>>() {
-              public void onSuccess(final List<AccountGroup> result) {
+            new GerritCallback<List<AccountGroupName>>() {
+              public void onSuccess(final List<AccountGroupName> result) {
                 final ArrayList<AccountGroupSuggestion> r =
                     new ArrayList<AccountGroupSuggestion>(result.size());
-                for (final AccountGroup p : result) {
+                for (final AccountGroupName p : result) {
                   r.add(new AccountGroupSuggestion(p));
                 }
                 callback.onSuggestionsReady(req, new Response(r));
@@ -46,9 +46,9 @@ public class AccountGroupSuggestOracle extends HighlightSuggestOracle {
 
   private static class AccountGroupSuggestion implements
       SuggestOracle.Suggestion {
-    private final AccountGroup info;
+    private final AccountGroupName info;
 
-    AccountGroupSuggestion(final AccountGroup k) {
+    AccountGroupSuggestion(final AccountGroupName k) {
       info = k;
     }
 

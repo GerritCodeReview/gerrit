@@ -14,7 +14,7 @@
 
 package com.google.gerrit.common.data;
 
-import com.google.gerrit.reviewdb.AccountGroup;
+import com.google.gerrit.reviewdb.AccountGroupName;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwtjsonrpc.client.RemoteJsonService;
@@ -32,5 +32,5 @@ public interface SuggestService extends RemoteJsonService {
       AsyncCallback<List<AccountInfo>> callback);
 
   void suggestAccountGroup(String query, int limit,
-      AsyncCallback<List<AccountGroup>> callback);
+      AsyncCallback<List<AccountGroupName>> callback);
 }

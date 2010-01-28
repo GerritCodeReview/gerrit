@@ -15,6 +15,7 @@
 package com.google.gerrit.server.schema;
 
 import com.google.gerrit.reviewdb.AccountGroup;
+import com.google.gerrit.reviewdb.AccountGroupName;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.reviewdb.CurrentSchemaVersion;
@@ -115,6 +116,8 @@ public class SchemaCreator {
     admin.setDescription("Gerrit Site Administrators");
     admin.setType(AccountGroup.Type.INTERNAL);
     c.accountGroups().insert(Collections.singleton(admin));
+    c.accountGroupNames().insert(
+        Collections.singleton(new AccountGroupName(admin)));
 
     final AccountGroup anonymous =
         new AccountGroup(new AccountGroup.NameKey("Anonymous Users"),
@@ -123,6 +126,8 @@ public class SchemaCreator {
     anonymous.setOwnerGroupId(admin.getId());
     anonymous.setType(AccountGroup.Type.SYSTEM);
     c.accountGroups().insert(Collections.singleton(anonymous));
+    c.accountGroupNames().insert(
+        Collections.singleton(new AccountGroupName(anonymous)));
 
     final AccountGroup registered =
         new AccountGroup(new AccountGroup.NameKey("Registered Users"),
@@ -131,6 +136,8 @@ public class SchemaCreator {
     registered.setOwnerGroupId(admin.getId());
     registered.setType(AccountGroup.Type.SYSTEM);
     c.accountGroups().insert(Collections.singleton(registered));
+    c.accountGroupNames().insert(
+        Collections.singleton(new AccountGroupName(registered)));
 
     final SystemConfig s = SystemConfig.create();
     s.registerEmailPrivateKey = SignedToken.generateRandomKey();

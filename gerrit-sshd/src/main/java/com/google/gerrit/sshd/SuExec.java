@@ -114,7 +114,7 @@ public final class SuExec extends BaseCommand {
     }
 
     return new SshSession(session.get(), peer, userFactory.create(
-        AccessPath.SSH, new Provider<SocketAddress>() {
+        AccessPath.SSH_COMMAND, new Provider<SocketAddress>() {
           @Override
           public SocketAddress get() {
             return peer;

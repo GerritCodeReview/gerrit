@@ -121,7 +121,7 @@ public class RefControl {
   public boolean canCreate(RevWalk rw, RevObject object) {
     boolean owner;
     switch (getCurrentUser().getAccessPath()) {
-      case WEB:
+      case WEB_UI:
         owner = isOwner();
         break;
 
@@ -179,10 +179,10 @@ public class RefControl {
    */
   public boolean canDelete() {
     switch (getCurrentUser().getAccessPath()) {
-      case WEB:
+      case WEB_UI:
         return isOwner() || canPerform(PUSH_HEAD, PUSH_HEAD_REPLACE);
 
-      case SSH:
+      case GIT:
         return canPerform(PUSH_HEAD, PUSH_HEAD_REPLACE);
 
       default:

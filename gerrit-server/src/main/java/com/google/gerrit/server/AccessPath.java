@@ -19,11 +19,14 @@ public enum AccessPath {
   /** An unknown access path, probably should not be special. */
   UNKNOWN,
 
-  /** Access through the web interface. */
-  WEB,
+  /** Access through the web UI. */
+  WEB_UI,
 
-  /** Access through an SSH command, e.g. git fetch or push. */
-  SSH,
+  /** Access through an SSH command that is not invoked by Git. */
+  SSH_COMMAND,
+
+  /** Access from a Git client using any Git protocol. */
+  GIT,
 
   /** Access through replication */
   REPLICATION;

@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.project;
 
+import static com.google.gerrit.reviewdb.ApprovalCategory.FORGE_AUTHOR;
+import static com.google.gerrit.reviewdb.ApprovalCategory.FORGE_COMMITTER;
+import static com.google.gerrit.reviewdb.ApprovalCategory.FORGE_IDENTITY;
 import static com.google.gerrit.reviewdb.ApprovalCategory.OWN;
 import static com.google.gerrit.reviewdb.ApprovalCategory.PUSH_HEAD;
 import static com.google.gerrit.reviewdb.ApprovalCategory.PUSH_HEAD_CREATE;
@@ -21,7 +24,6 @@ import static com.google.gerrit.reviewdb.ApprovalCategory.PUSH_HEAD_REPLACE;
 import static com.google.gerrit.reviewdb.ApprovalCategory.PUSH_HEAD_UPDATE;
 import static com.google.gerrit.reviewdb.ApprovalCategory.PUSH_TAG;
 import static com.google.gerrit.reviewdb.ApprovalCategory.PUSH_TAG_ANNOTATED;
-import static com.google.gerrit.reviewdb.ApprovalCategory.PUSH_TAG_ANY;
 import static com.google.gerrit.reviewdb.ApprovalCategory.PUSH_TAG_SIGNED;
 import static com.google.gerrit.reviewdb.ApprovalCategory.READ;
 
@@ -49,6 +51,9 @@ import java.util.Set;
 public class RefControl {
   private final ProjectControl projectControl;
   private final String refName;
+
+  private Boolean canForgeAuthor;
+  private Boolean canForgeCommitter;
 
   RefControl(final ProjectControl projectControl, final String refName) {
     this.projectControl = projectControl;
@@ -128,24 +133,28 @@ public class RefControl {
       return owner || canPerform(PUSH_HEAD, PUSH_HEAD_CREATE);
 
     } else if (object instanceof RevTag) {
+      final RevTag tag = (RevTag) object;
       try {
-        rw.parseBody(object);
+        rw.parseBody(tag);
       } catch (IOException e) {
         return false;
       }
 
-      final RevTag tag = (RevTag) object;
-
-      // Require the tagger to be present and match the current user's
-      // email address, unless PUSH_ANY_TAG was granted.
+      // If tagger is present, require it matches the user's email.
       //
       final PersonIdent tagger = tag.getTaggerIdent();
-      if (tagger == null || !(getCurrentUser() instanceof IdentifiedUser)) {
-        return owner || canPerform(PUSH_TAG, PUSH_TAG_ANY);
-      }
-      final IdentifiedUser user = (IdentifiedUser) getCurrentUser();
-      if (!user.getEmailAddresses().contains(tagger.getEmailAddress())) {
-        return owner || canPerform(PUSH_TAG, PUSH_TAG_ANY);
+      if (tagger != null) {
+        boolean valid;
+        if (getCurrentUser() instanceof IdentifiedUser) {
+          final IdentifiedUser user = (IdentifiedUser) getCurrentUser();
+          final String addr = tagger.getEmailAddress();
+          valid = user.getEmailAddresses().contains(addr);
+        } else {
+          valid = false;
+        }
+        if (!valid && !owner && !canPerform(FORGE_IDENTITY, FORGE_COMMITTER)) {
+          return false;
+        }
       }
 
       // If the tag has a PGP signature, allow a lower level of permission
@@ -179,6 +188,22 @@ public class RefControl {
       default:
         return false;
     }
+  }
+
+  /** @return true if this user can forge the author line in a commit. */
+  public boolean canForgeAuthor() {
+    if (canForgeAuthor == null) {
+      canForgeAuthor = canPerform(FORGE_IDENTITY, FORGE_AUTHOR);
+    }
+    return canForgeAuthor;
+  }
+
+  /** @return true if this user can forge the committer line in a commit. */
+  public boolean canForgeCommitter() {
+    if (canForgeCommitter == null) {
+      canForgeCommitter = canPerform(FORGE_IDENTITY, FORGE_COMMITTER);
+    }
+    return canForgeCommitter;
   }
 
   private boolean canPerform(ApprovalCategory.Id actionId, short level) {

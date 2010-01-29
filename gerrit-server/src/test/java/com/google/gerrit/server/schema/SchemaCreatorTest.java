@@ -233,7 +233,7 @@ public class SchemaCreatorTest extends TestCase {
       cat = c.approvalCategories().get(ApprovalCategory.PUSH_TAG);
       assertNotNull(cat);
       assertEquals(ApprovalCategory.PUSH_TAG, cat.getId());
-      assertEquals("Push Annotated Tag", cat.getName());
+      assertEquals("Push Tag", cat.getName());
       assertNull(cat.getAbbreviatedName());
       assertEquals(NoOpFunction.NAME, cat.getFunctionName());
       assertTrue(cat.isAction());
@@ -242,8 +242,7 @@ public class SchemaCreatorTest extends TestCase {
     }
     assertValueRange(ApprovalCategory.PUSH_TAG, //
         ApprovalCategory.PUSH_TAG_SIGNED, //
-        ApprovalCategory.PUSH_TAG_ANNOTATED, //
-        ApprovalCategory.PUSH_TAG_ANY);
+        ApprovalCategory.PUSH_TAG_ANNOTATED);
   }
 
   public void testCreateSchema_ApprovalCategory_PushHead() throws OrmException {

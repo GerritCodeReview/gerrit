@@ -36,7 +36,6 @@ public final class ApprovalCategory {
       new ApprovalCategory.Id("pTAG");
   public static final short PUSH_TAG_SIGNED = 1;
   public static final short PUSH_TAG_ANNOTATED = 2;
-  public static final short PUSH_TAG_ANY = 3;
 
   /** Id of the special "Push Branch" action (and category). */
   public static final ApprovalCategory.Id PUSH_HEAD =
@@ -44,6 +43,12 @@ public final class ApprovalCategory {
   public static final short PUSH_HEAD_UPDATE = 1;
   public static final short PUSH_HEAD_CREATE = 2;
   public static final short PUSH_HEAD_REPLACE = 3;
+
+  /** Id of the special "Forge Identity" category. */
+  public static final ApprovalCategory.Id FORGE_IDENTITY =
+      new ApprovalCategory.Id("FORG");
+  public static final short FORGE_AUTHOR = 1;
+  public static final short FORGE_COMMITTER = 2;
 
   public static class Id extends StringKey<Key<?>> {
     private static final long serialVersionUID = 1L;

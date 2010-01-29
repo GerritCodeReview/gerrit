@@ -70,14 +70,14 @@ class ListBranches extends Handler<List<Branch>> {
       final Map<String, Ref> all = db.getAllRefs();
 
       if (!all.containsKey(Constants.HEAD)) {
-        // The branch pointed to by HEAD doesn't exist yet. Fake
-        // that it exists by returning a Ref with no ObjectId.
+        // The branch pointed to by HEAD doesn't exist yet, so getAllRefs
+        // filtered it out. If we ask for it individually we can find the
+        // underlying target and put it into the map anyway.
         //
         try {
-          final String head = db.getFullBranch();
-          if (head != null && head.startsWith(Constants.R_REFS)) {
-            all.put(Constants.HEAD, new Ref(Ref.Storage.LOOSE, Constants.HEAD,
-                head, null));
+          Ref head = db.getRef(Constants.HEAD);
+          if (head != null) {
+            all.put(Constants.HEAD, head);
           }
         } catch (IOException e) {
           // Ignore the failure reading HEAD.
@@ -85,13 +85,12 @@ class ListBranches extends Handler<List<Branch>> {
       }
 
       for (final Ref ref : all.values()) {
-        if (Constants.HEAD.equals(ref.getOrigName())
-            && !ref.getOrigName().equals(ref.getName())) {
+        if (Constants.HEAD.equals(ref.getName()) && ref.isSymbolic()) {
           // HEAD is a symbolic reference to another branch, instead of
           // showing the resolved value, show the name it references.
           //
           headBranch = createBranch(Constants.HEAD);
-          String target = ref.getName();
+          String target = ref.getTarget().getName();
           if (target.startsWith(Constants.R_HEADS)) {
             target = target.substring(Constants.R_HEADS.length());
           }

@@ -30,6 +30,7 @@ import com.google.inject.Inject;
 
 import org.apache.sshd.server.Environment;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.kohsuke.args4j.Option;
 
@@ -90,7 +91,11 @@ final class AdminCreateProject extends BaseCommand {
 
           Repository repo = repoManager.createRepository(projectName);
           repo.create(true);
-          repo.writeSymref(Constants.HEAD, branch);
+
+          RefUpdate u = repo.updateRef(Constants.HEAD);
+          u.disableRefLog();
+          u.link(branch);
+
           repoManager.setProjectDescription(projectName, projectDescription);
 
           createProject();

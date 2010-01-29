@@ -22,6 +22,7 @@ import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.verify;
 import static org.eclipse.jgit.lib.Constants.HEAD;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
+import static org.eclipse.jgit.lib.Ref.Storage.LOOSE;
 
 import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Project;
@@ -34,9 +35,11 @@ import com.google.gwtorm.server.StandardKeyEncoder;
 import org.easymock.IExpectationSetters;
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectIdRef;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.SymbolicRef;
 
 import java.io.IOException;
 import java.util.LinkedHashMap;
@@ -112,13 +115,13 @@ public class ListBranchesTest extends LocalDiskRepositoryTestCase {
   }
 
 
-  private List<Branch> permitted(boolean getFullBranch)
+  private List<Branch> permitted(boolean getHead)
       throws NoSuchProjectException, IOException {
     validate().andReturn(pc);
     expect(grm.openRepository(eq(name.get()))).andReturn(mockDb);
     expect(mockDb.getAllRefs()).andDelegateTo(realDb);
-    if (getFullBranch) {
-      expect(mockDb.getFullBranch()).andDelegateTo(realDb);
+    if (getHead) {
+      expect(mockDb.getRef(HEAD)).andDelegateTo(realDb);
     }
     mockDb.close();
     expectLastCall();
@@ -216,9 +219,10 @@ public class ListBranchesTest extends LocalDiskRepositoryTestCase {
 
   public void testSortByName() throws Exception {
     Map<String, Ref> u = new LinkedHashMap<String, Ref>();
-    u.put("foo", new Ref(Ref.Storage.LOOSE, R_HEADS + "foo", idA));
-    u.put("bar", new Ref(Ref.Storage.LOOSE, R_HEADS + "bar", idA));
-    u.put(HEAD, new Ref(Ref.Storage.LOOSE, HEAD, R_HEADS + "master", null));
+    u.put("foo", new ObjectIdRef.Unpeeled(LOOSE, R_HEADS + "foo", idA));
+    u.put("bar", new ObjectIdRef.Unpeeled(LOOSE, R_HEADS + "bar", idA));
+    u.put(HEAD, new SymbolicRef(HEAD, new ObjectIdRef.Unpeeled(LOOSE, R_HEADS
+        + "master", null)));
 
     validate().andReturn(pc);
     expect(grm.openRepository(eq(name.get()))).andReturn(mockDb);

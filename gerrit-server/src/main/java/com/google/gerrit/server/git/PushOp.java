@@ -202,7 +202,7 @@ class PushOp implements Runnable {
       final Map<String, Ref> remote = listRemote(tn);
 
       for (final Ref src : local.values()) {
-        final RefSpec spec = matchSrc(src.getOrigName());
+        final RefSpec spec = matchSrc(src.getName());
         if (spec != null) {
           final Ref dst = remote.get(spec.getDestination());
           if (dst == null || !src.getObjectId().equals(dst.getObjectId())) {
@@ -214,7 +214,7 @@ class PushOp implements Runnable {
       }
 
       for (final Ref ref : remote.values()) {
-        if (!isHEAD(ref)) {
+        if (!Constants.HEAD.equals(ref.getName())) {
           final RefSpec spec = matchDst(ref.getName());
           if (spec != null && !local.containsKey(spec.getSource())) {
             // No longer on local side, request removal.
@@ -283,9 +283,5 @@ class PushOp implements Runnable {
     final String dst = spec.getDestination();
     final boolean force = spec.isForceUpdate();
     cmds.add(new RemoteRefUpdate(db, null, dst, force, null, null));
-  }
-
-  private static boolean isHEAD(final Ref ref) {
-    return Constants.HEAD.equals(ref.getOrigName());
   }
 }

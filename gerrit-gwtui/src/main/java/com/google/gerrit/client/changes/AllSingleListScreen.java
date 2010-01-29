@@ -15,6 +15,7 @@
 package com.google.gerrit.client.changes;
 
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.changes.ChangeTable.ApprovalViewType;
 import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.Hyperlink;
 import com.google.gerrit.client.ui.Screen;
@@ -70,7 +71,7 @@ public abstract class AllSingleListScreen extends Screen {
     next = new Hyperlink(Util.C.pagedChangeListNext(), true, "");
     next.setVisible(false);
 
-    table = new ChangeTable() {
+    table = new ChangeTable(true) {
       {
         keysNavigation.add(new DoLinkCommand(0, 'p', Util.C
             .changeTablePagePrev(), prev));
@@ -78,7 +79,7 @@ public abstract class AllSingleListScreen extends Screen {
             .changeTablePageNext(), next));
       }
     };
-    section = new ChangeTable.Section();
+    section = new ChangeTable.Section(null, ApprovalViewType.STRONGEST, null);
 
     table.addSection(section);
     table.setSavePointerId(anchorPrefix);

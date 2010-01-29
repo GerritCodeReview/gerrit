@@ -449,6 +449,12 @@ region.  This category is a `MaxWithBlock` type, which means that
 the lowest negative value if present blocks a submit, while the
 highest positive value is required to enable submit.
 
+There is also a `MaxNoBlock` category which still requires the
+highest positive value to submit, but the lowest negative value will
+not block the change, and does not carry over between patch sets.
+This level is mostly useful for automated code-reviews that may
+have false-negatives that shouldn't block the change.
+
 [NOTE]
 A restart is required after making database changes.
 See <<restart_changes,below>>.

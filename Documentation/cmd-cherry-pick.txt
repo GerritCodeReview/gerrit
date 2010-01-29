@@ -35,10 +35,12 @@ each commit message.
 
 OBTAINING
 ---------
-To obtain the 'gerrit-cherry-pick' script use scp to copy it to
-your local system:
+To obtain the 'gerrit-cherry-pick' script use scp, curl or wget to
+copy it to your local system:
 
   $ scp -p -P 29418 gerrit.example.com:bin/gerrit-cherry-pick ~/bin/
+
+  $ curl http://gerrit.example.com/tools/bin/gerrit-cherry-pick
 
 GERRIT
 ------

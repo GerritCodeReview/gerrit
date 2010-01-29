@@ -59,6 +59,7 @@ import com.google.gerrit.server.patch.PatchListCacheImpl;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ProjectCacheImpl;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.tools.ToolsCatalog;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.gerrit.server.workflow.FunctionState;
 import com.google.inject.Inject;
@@ -114,6 +115,7 @@ public class GerritGlobalModule extends FactoryModule {
     bind(GitRepositoryManager.class).to(LocalDiskRepositoryManager.class);
     bind(FileTypeRegistry.class).to(MimeUtilFileTypeRegistry.class);
     bind(WorkQueue.class);
+    bind(ToolsCatalog.class);
 
     bind(ReplicationQueue.class).to(PushReplication.class).in(SINGLETON);
     factory(PushAllProjectsOp.Factory.class);

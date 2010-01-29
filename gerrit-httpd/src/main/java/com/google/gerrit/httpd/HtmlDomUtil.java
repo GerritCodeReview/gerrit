@@ -125,6 +125,15 @@ public class HtmlDomUtil {
     form.appendChild(in);
   }
 
+  /** Construct a new empty document. */
+  public static Document newDocument() {
+    try {
+      return newBuilder().newDocument();
+    } catch (ParserConfigurationException e) {
+      throw new RuntimeException("Cannot create new document", e);
+    }
+  }
+
   /** Clone a document so it can be safely modified on a per-request basis. */
   public static Document clone(final Document doc) throws IOException {
     final Document d;

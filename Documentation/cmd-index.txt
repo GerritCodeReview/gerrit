@@ -4,13 +4,16 @@ Gerrit Code Review - Command Line Tools
 Client
 ------
 
-Client commands and hooks can be downloaded via scp from Gerrit's
-SSH daemon, and then executed on the client system.
+Client commands and hooks can be downloaded via scp, wget or curl
+from Gerrit's daemon, and then executed on the client system.
 
-To download a client command or hook, use scp:
+To download a client command or hook, use scp or an http client:
 
   $ scp -p -P 29418 review.example.com:bin/gerrit-cherry-pick ~/bin/
   $ scp -p -P 29418 review.example.com:hooks/commit-msg .git/hooks/
+
+  $ curl http://review.example.com/tools/bin/gerrit-cherry-pick
+  $ curl http://review.example.com/tools/hooks/commit-msg
 
 For more details on how to determine the correct SSH port number,
 see link:user-upload.html#test_ssh[Testing Your SSH Connection].

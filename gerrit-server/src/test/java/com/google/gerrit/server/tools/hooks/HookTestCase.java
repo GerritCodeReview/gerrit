@@ -48,7 +48,7 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 // ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-package com.google.gerrit.sshd.scproot.hooks;
+package com.google.gerrit.server.tools.hooks;
 
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.eclipse.jgit.lib.Repository;
@@ -67,7 +67,7 @@ public abstract class HookTestCase extends LocalDiskRepositoryTestCase {
   }
 
   protected File getHook(final String name) {
-    final String scproot = "com/google/gerrit/sshd/scproot";
+    final String scproot = "com/google/gerrit/server/tools/root";
     final String path = scproot + "/hooks/" + name;
     final URL url = cl().getResource(path);
     if (url == null) {

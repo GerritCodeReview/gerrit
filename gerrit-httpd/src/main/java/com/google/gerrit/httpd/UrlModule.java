@@ -22,6 +22,7 @@ import com.google.gerrit.httpd.raw.HostPageServlet;
 import com.google.gerrit.httpd.raw.LegacyGerritServlet;
 import com.google.gerrit.httpd.raw.SshInfoServlet;
 import com.google.gerrit.httpd.raw.StaticServlet;
+import com.google.gerrit.httpd.raw.ToolServlet;
 import com.google.gerrit.reviewdb.RevId;
 import com.google.gwtexpui.server.CacheControlFilter;
 import com.google.inject.Key;
@@ -49,6 +50,7 @@ class UrlModule extends ServletModule {
     serve("/signout").with(HttpLogoutServlet.class);
     serve("/ssh_info").with(SshInfoServlet.class);
     serve("/static/*").with(StaticServlet.class);
+    serve("/tools/*").with(ToolServlet.class);
 
     filter("/p/*").through(ProjectAccessPathFilter.class);
     filter("/p/*").through(ProjectDigestFilter.class);

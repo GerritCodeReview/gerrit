@@ -22,25 +22,19 @@
  */
 package com.google.gerrit.sshd.commands;
 
-import com.google.gerrit.common.Version;
+import com.google.gerrit.server.tools.ToolsCatalog;
+import com.google.gerrit.server.tools.ToolsCatalog.Entry;
 import com.google.gerrit.sshd.BaseCommand;
+import com.google.inject.Inject;
 
 import org.apache.sshd.server.Environment;
-import org.eclipse.jgit.util.RawParseUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.TreeMap;
 
 final class ScpCommand extends BaseCommand {
   private static final String TYPE_DIR = "D";
@@ -52,7 +46,8 @@ final class ScpCommand extends BaseCommand {
   private boolean opt_f;
   private String root;
 
-  private TreeMap<String, Entry> toc;
+  @Inject
+  private ToolsCatalog toc;
   private IOException error;
 
   @Override
@@ -101,7 +96,6 @@ final class ScpCommand extends BaseCommand {
         throw error;
       }
 
-      readToc();
       if (opt_f) {
         if (root.startsWith("/")) {
           root = root.substring(1);
@@ -117,10 +111,10 @@ final class ScpCommand extends BaseCommand {
         if (ent == null) {
           throw new IOException(root + " not found");
 
-        } else if (TYPE_FILE.equals(ent.type)) {
+        } else if (Entry.Type.FILE == ent.getType()) {
           readFile(ent);
 
-        } else if (TYPE_DIR.equals(ent.type)) {
+        } else if (Entry.Type.DIR == ent.getType()) {
           if (!opt_r) {
             throw new IOException(root + " not a regular file");
           }
@@ -152,43 +146,6 @@ final class ScpCommand extends BaseCommand {
     }
   }
 
-  private void readToc() throws IOException {
-    toc = new TreeMap<String, Entry>();
-    final BufferedReader br =
-        new BufferedReader(new InputStreamReader(new ByteArrayInputStream(
-            read("TOC")), "UTF-8"));
-    String line;
-    while ((line = br.readLine()) != null) {
-      if (line.length() > 0 && !line.startsWith("#")) {
-        final Entry e = new Entry(TYPE_FILE, line);
-        toc.put(e.path, e);
-      }
-    }
-
-    final List<Entry> all = new ArrayList<Entry>(toc.values());
-    for (Entry e : all) {
-      String path = dirOf(e.path);
-      while (path != null) {
-        Entry d = toc.get(path);
-        if (d == null) {
-          d = new Entry(TYPE_DIR, 0755, path);
-          toc.put(d.path, d);
-        }
-        d.children.add(e);
-        path = dirOf(path);
-        e = d;
-      }
-    }
-
-    final Entry top = new Entry(TYPE_DIR, 0755, "");
-    for (Entry e : toc.values()) {
-      if (dirOf(e.path) == null) {
-        top.children.add(e);
-      }
-    }
-    toc.put(top.path, top);
-  }
-
   private String readLine() throws IOException {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     for (;;) {
@@ -203,62 +160,10 @@ final class ScpCommand extends BaseCommand {
     }
   }
 
-  private static String nameOf(String path) {
-    final int s = path.lastIndexOf('/');
-    return s < 0 ? path : path.substring(s + 1);
-  }
-
-  private static String dirOf(String path) {
-    final int s = path.lastIndexOf('/');
-    return s < 0 ? null : path.substring(0, s);
-  }
-
-  private static byte[] read(String path) {
-    final InputStream in =
-        ScpCommand.class.getClassLoader().getResourceAsStream(
-            "com/google/gerrit/sshd/scproot/" + path);
-    if (in == null) {
-      return null;
-    }
-    try {
-      final ByteArrayOutputStream out = new ByteArrayOutputStream();
-      try {
-        final byte[] buf = new byte[8192];
-        int n;
-        while ((n = in.read(buf, 0, buf.length)) > 0) {
-          out.write(buf, 0, n);
-        }
-      } finally {
-        in.close();
-      }
-      return out.toByteArray();
-    } catch (Exception e) {
-      log.debug("Cannot read " + path, e);
-      return null;
-    }
-  }
-
   private void readFile(final Entry ent) throws IOException {
-    byte[] data = read(ent.path);
+    byte[] data = ent.getBytes();
     if (data == null) {
-      throw new FileNotFoundException(ent.path);
-    }
-
-    if (data.length > 3 && data[0] == '#' && data[1] == '!' && data[2] == '/') {
-      // Embed Gerrit's version number into the top of the script.
-      //
-      final String version = Version.getVersion();
-      final int lf = RawParseUtils.nextLF(data, 0);
-      if (version != null && lf < data.length) {
-        final byte[] versionHeader =
-            ("# From Gerrit Code Review " + version + "\n").getBytes("UTF-8");
-        final ByteArrayOutputStream buf;
-        buf = new ByteArrayOutputStream(data.length + versionHeader.length);
-        buf.write(data, 0, lf);
-        buf.write(versionHeader);
-        buf.write(data, lf, data.length - lf);
-        data = buf.toByteArray();
-      }
+      throw new FileNotFoundException(ent.getPath());
     }
 
     header(ent, data.length);
@@ -273,8 +178,8 @@ final class ScpCommand extends BaseCommand {
     header(dir, 0);
     readAck();
 
-    for (Entry e : dir.children) {
-      if (TYPE_DIR.equals(e.type)) {
+    for (Entry e : dir.getChildren()) {
+      if (Entry.Type.DIR == e.getType()) {
         readDir(e);
       } else {
         readFile(e);
@@ -289,12 +194,19 @@ final class ScpCommand extends BaseCommand {
   private void header(final Entry dir, final int len) throws IOException,
       UnsupportedEncodingException {
     final StringBuilder buf = new StringBuilder();
-    buf.append(dir.type);
-    buf.append(dir.mode); // perms
+    switch(dir.getType()){
+      case DIR:
+        buf.append(TYPE_DIR);
+        break;
+      case FILE:
+        buf.append(TYPE_FILE);
+        break;
+    }
+    buf.append("0" + Integer.toOctalString(dir.getMode())); // perms
     buf.append(" ");
     buf.append(len); // length
     buf.append(" ");
-    buf.append(nameOf(dir.path));
+    buf.append(dir.getName());
     buf.append("\n");
     out.write(buf.toString().getBytes("UTF-8"));
     out.flush();
@@ -314,31 +226,6 @@ final class ScpCommand extends BaseCommand {
         break;
       case 2:
         throw new IOException("Received nack: " + readLine());
-    }
-  }
-
-  private static class Entry {
-    String type;
-    String mode;
-    String path;
-    List<Entry> children;
-
-    Entry(String type, String line) {
-      this.type = type;
-      int s = line.indexOf(' ');
-      mode = line.substring(0, s);
-      path = line.substring(s + 1);
-
-      if (!mode.startsWith("0")) {
-        mode = "0" + mode;
-      }
-    }
-
-    Entry(String type, int mode, String path) {
-      this.type = type;
-      this.mode = "0" + Integer.toOctalString(mode);
-      this.path = path;
-      this.children = new ArrayList<Entry>();
     }
   }
 }

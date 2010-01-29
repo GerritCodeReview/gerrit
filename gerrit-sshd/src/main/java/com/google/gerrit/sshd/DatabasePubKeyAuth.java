@@ -184,12 +184,13 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
 
   private IdentifiedUser createUser(final SshSession sd,
       final SshKeyCacheEntry key) {
-    return userFactory.create(AccessPath.SSH, new Provider<SocketAddress>() {
-      @Override
-      public SocketAddress get() {
-        return sd.getRemoteAddress();
-      }
-    }, key.getAccount());
+    return userFactory.create(AccessPath.SSH_COMMAND,
+        new Provider<SocketAddress>() {
+          @Override
+          public SocketAddress get() {
+            return sd.getRemoteAddress();
+          }
+        }, key.getAccount());
   }
 
   private SshKeyCacheEntry find(final Iterable<SshKeyCacheEntry> keyList,

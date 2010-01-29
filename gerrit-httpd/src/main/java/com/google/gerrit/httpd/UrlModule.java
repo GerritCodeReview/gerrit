@@ -50,6 +50,7 @@ class UrlModule extends ServletModule {
     serve("/ssh_info").with(SshInfoServlet.class);
     serve("/static/*").with(StaticServlet.class);
 
+    filter("/p/*").through(ProjectAccessPathFilter.class);
     filter("/p/*").through(ProjectDigestFilter.class);
     serve("/p/*").with(ProjectServlet.class);
 

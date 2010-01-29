@@ -39,7 +39,7 @@ public class PeerDaemonUser extends CurrentUser {
 
   @Inject
   protected PeerDaemonUser(AuthConfig authConfig, @Assisted SocketAddress peer) {
-    super(AccessPath.SSH, authConfig);
+    super(AccessPath.SSH_COMMAND, authConfig);
 
     final HashSet<AccountGroup.Id> g = new HashSet<AccountGroup.Id>();
     g.add(authConfig.getAdministratorsGroup());

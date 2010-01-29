@@ -105,11 +105,12 @@ class DatabasePasswordAuth implements PasswordAuthenticator {
 
   private IdentifiedUser createUser(final SshSession sd,
       final AccountState state) {
-    return userFactory.create(AccessPath.SSH, new Provider<SocketAddress>() {
-      @Override
-      public SocketAddress get() {
-        return sd.getRemoteAddress();
-      }
-    }, state.getAccount().getId());
+    return userFactory.create(AccessPath.SSH_COMMAND,
+        new Provider<SocketAddress>() {
+          @Override
+          public SocketAddress get() {
+            return sd.getRemoteAddress();
+          }
+        }, state.getAccount().getId());
   }
 }

@@ -64,6 +64,7 @@ public final class WebSession {
   private final WebSessionManager manager;
   private final AnonymousUser anonymous;
   private final IdentifiedUser.RequestFactory identified;
+  private AccessPath accessPath = AccessPath.WEB_UI;
   private Cookie outCookie;
 
   private Key key;
@@ -132,7 +133,7 @@ public final class WebSession {
 
   CurrentUser getCurrentUser() {
     if (isSignedIn()) {
-      return identified.create(AccessPath.WEB, val.getAccountId());
+      return identified.create(accessPath, val.getAccountId());
     }
     return anonymous;
   }
@@ -146,6 +147,11 @@ public final class WebSession {
     key = manager.createKey(id);
     val = manager.createVal(key, id, rememberMe, identity);
     saveCookie();
+  }
+
+  /** Change the access path from the default of {@link AccessPath#WEB_UI}. */
+  void setAccessPath(AccessPath path) {
+    accessPath = path;
   }
 
   /** Set the user account for this current request only. */

@@ -46,6 +46,7 @@ import com.google.gerrit.server.mail.EmailException;
 import com.google.gerrit.server.mail.MergedSender;
 import com.google.gerrit.server.mail.ReplacePatchSetSender;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
+import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.RefControl;
 import com.google.gwtorm.client.AtomicUpdate;
@@ -156,6 +157,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
 
   private ReceiveCommand newChange;
   private Branch.NameKey destBranch;
+  private RefControl destBranchCtl;
 
   private final List<Change.Id> allNewChanges = new ArrayList<Change.Id>();
   private final Map<Change.Id, ReplaceRequest> replaceByChange =
@@ -464,6 +466,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
 
     RefControl ctl = projectControl.controlForRef(cmd.getRefName());
     if (ctl.canCreate(rp.getRevWalk(), obj)) {
+      validateNewCommits(ctl, cmd);
       // Let the core receive process handle it
     } else {
       reject(cmd);
@@ -473,6 +476,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
   private void parseUpdate(final ReceiveCommand cmd) {
     RefControl ctl = projectControl.controlForRef(cmd.getRefName());
     if (ctl.canUpdate()) {
+      validateNewCommits(ctl, cmd);
       // Let the core receive process handle it
     } else {
       reject(cmd);
@@ -511,6 +515,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     RefControl ctl = projectControl.controlForRef(cmd.getRefName());
     if (oldObject instanceof RevCommit && newObject instanceof RevCommit
         && ctl.canForceUpdate()) {
+      validateNewCommits(ctl, cmd);
       // Let the core receive process handle it
     } else {
       cmd.setResult(ReceiveCommand.Result.REJECTED_NONFASTFORWARD);
@@ -563,7 +568,8 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       return;
     }
 
-    if (!projectControl.controlForRef(destBranch).canUpload()) {
+    destBranchCtl = projectControl.controlForRef(destBranch);
+    if (!destBranchCtl.canUpload()) {
       reject(cmd);
     }
 
@@ -710,7 +716,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
           //
           continue;
         }
-        if (!validCommitter(newChange, c)) {
+        if (!validCommit(destBranchCtl, newChange, c)) {
           // Not a change the user can propose? Abort as early as possible.
           //
           return;
@@ -905,9 +911,6 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       throws IOException, OrmException {
     final RevCommit c = request.newCommit;
     rp.getRevWalk().parseBody(c);
-    if (!validCommitter(request.cmd, c)) {
-      return null;
-    }
 
     final Account.Id me = currentUser.getAccountId();
     final Set<Account.Id> reviewers = new HashSet<Account.Id>(reviewerId);
@@ -940,8 +943,13 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       reject(request.cmd, "change " + request.ontoChange + " closed");
       return null;
     }
-    if (!projectControl.controlFor(change).canAddPatchSet()) {
+
+    final ChangeControl changeCtl = projectControl.controlFor(change);
+    if (!changeCtl.canAddPatchSet()) {
       reject(request.cmd, "cannot replace " + request.ontoChange);
+      return null;
+    }
+    if (!validCommit(changeCtl.getRefControl(), request.cmd, c)) {
       return null;
     }
 
@@ -1244,8 +1252,34 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     String mergedIntoRef;
   }
 
-  private boolean validCommitter(final ReceiveCommand cmd, final RevCommit c)
-      throws MissingObjectException, IOException {
+  private void validateNewCommits(RefControl ctl, ReceiveCommand cmd) {
+    final RevWalk walk = rp.getRevWalk();
+    walk.reset();
+    walk.sort(RevSort.NONE);
+    try {
+      walk.markStart(walk.parseCommit(cmd.getNewId()));
+      for (final Ref r : rp.getAdvertisedRefs().values()) {
+        try {
+          walk.markUninteresting(walk.parseCommit(r.getObjectId()));
+        } catch (IOException e) {
+          continue;
+        }
+      }
+
+      RevCommit c;
+      while ((c = walk.next()) != null) {
+        if (!validCommit(ctl, cmd, c)) {
+          break;
+        }
+      }
+    } catch (IOException err) {
+      cmd.setResult(Result.REJECTED_MISSING_OBJECT);
+      log.error("Invalid pack upload; one or more objects weren't sent", err);
+    }
+  }
+
+  private boolean validCommit(final RefControl ctl, final ReceiveCommand cmd,
+      final RevCommit c) throws MissingObjectException, IOException {
     rp.getRevWalk().parseBody(c);
     final PersonIdent committer = c.getCommitterIdent();
     final PersonIdent author = c.getAuthorIdent();
@@ -1261,9 +1295,18 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       return false;
     }
 
+    // Require that author matches the uploader.
+    //
+    if (!currentUser.getEmailAddresses().contains(author.getEmailAddress())
+        && !ctl.canForgeAuthor()) {
+      reject(cmd, "you are not author " + author.getEmailAddress());
+      return false;
+    }
+
     // Require that committer matches the uploader.
     //
-    if (!currentUser.getEmailAddresses().contains(committer.getEmailAddress())) {
+    if (!currentUser.getEmailAddresses().contains(committer.getEmailAddress())
+        && !ctl.canForgeCommitter()) {
       reject(cmd, "you are not committer " + committer.getEmailAddress());
       return false;
     }
@@ -1283,7 +1326,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
           }
         }
       }
-      if (!sboAuthor && !sboCommitter && !sboMe) {
+      if (!sboAuthor && !sboCommitter && !sboMe && !ctl.canForgeCommitter()) {
         reject(cmd, "not Signed-off-by author/committer/uploader");
         return false;
       }
@@ -1308,6 +1351,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       while ((c = rw.next()) != null) {
         final Ref ref = byCommit.get(c.copy());
         if (ref != null) {
+          rw.parseBody(c);
           closeChange(cmd, PatchSet.Id.fromRef(ref.getName()), c);
           continue;
         }

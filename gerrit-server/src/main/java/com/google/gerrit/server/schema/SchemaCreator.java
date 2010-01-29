@@ -91,6 +91,7 @@ public class SchemaCreator {
     initSubmitCategory(db);
     initPushTagCategory(db);
     initPushUpdateBranchCategory(db);
+    initForgeIdentityCategory(db, sConfig);
     initWildCardProject(db);
 
     final SqlDialect d = jdbc.getDialect();
@@ -277,14 +278,15 @@ public class SchemaCreator {
     final ApprovalCategory cat;
     final ArrayList<ApprovalCategoryValue> vals;
 
-    cat = new ApprovalCategory(ApprovalCategory.PUSH_TAG, "Push Annotated Tag");
+    cat = new ApprovalCategory(ApprovalCategory.PUSH_TAG, "Push Tag");
     cat.setPosition((short) -1);
     cat.setFunctionName(NoOpFunction.NAME);
     vals = new ArrayList<ApprovalCategoryValue>();
     vals.add(value(cat, ApprovalCategory.PUSH_TAG_SIGNED, "Create Signed Tag"));
     vals.add(value(cat, ApprovalCategory.PUSH_TAG_ANNOTATED,
         "Create Annotated Tag"));
-    vals.add(value(cat, ApprovalCategory.PUSH_TAG_ANY, "Create Any Tag"));
+    vals.add(value(cat, ApprovalCategory.PUSH_TAG_LIGHTWEIGHT,
+        "Create Lightweight Tag"));
     c.approvalCategories().insert(Collections.singleton(cat));
     c.approvalCategoryValues().insert(vals);
   }
@@ -304,6 +306,32 @@ public class SchemaCreator {
         "Force Push Branch; Delete Branch"));
     c.approvalCategories().insert(Collections.singleton(cat));
     c.approvalCategoryValues().insert(vals);
+  }
+
+  private void initForgeIdentityCategory(final ReviewDb c,
+      final SystemConfig sConfig) throws OrmException {
+    final ApprovalCategory cat;
+    final ArrayList<ApprovalCategoryValue> values;
+
+    cat =
+        new ApprovalCategory(ApprovalCategory.FORGE_IDENTITY, "Forge Identity");
+    cat.setPosition((short) -1);
+    cat.setFunctionName(NoOpFunction.NAME);
+    values = new ArrayList<ApprovalCategoryValue>();
+    values.add(value(cat, ApprovalCategory.FORGE_AUTHOR,
+        "Forge Author Identity"));
+    values.add(value(cat, ApprovalCategory.FORGE_COMMITTER,
+        "Forge Committer or Tagger Identity"));
+    c.approvalCategories().insert(Collections.singleton(cat));
+    c.approvalCategoryValues().insert(values);
+
+    RefRight right =
+        new RefRight(new RefRight.Key(sConfig.wildProjectName,
+            new RefRight.RefPattern("refs/*"), ApprovalCategory.FORGE_IDENTITY,
+            sConfig.registeredGroupId));
+    right.setMinValue(ApprovalCategory.FORGE_AUTHOR);
+    right.setMaxValue(ApprovalCategory.FORGE_AUTHOR);
+    c.refRights().insert(Collections.singleton(right));
   }
 
   private static ApprovalCategoryValue value(final ApprovalCategory cat,

@@ -264,5 +264,5 @@ public abstract class SafeHtml {
   }
 
   /** @return a clean HTML string safe for inclusion in any context. */
-  abstract String asString();
+  public abstract String asString();
 }

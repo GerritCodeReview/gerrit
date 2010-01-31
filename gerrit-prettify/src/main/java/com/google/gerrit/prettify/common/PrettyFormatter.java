@@ -17,13 +17,73 @@ package com.google.gerrit.prettify.common;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 
+import org.eclipse.jgit.diff.Edit;
+import org.eclipse.jgit.diff.ReplaceEdit;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public abstract class PrettyFormatter {
+  public static abstract class EditFilter {
+    protected abstract int getBegin(Edit e);
+
+    protected abstract int getEnd(Edit e);
+
+    protected abstract String getStyleName();
+
+    protected final boolean in(int line, Edit e) {
+      return getBegin(e) <= line && line < getEnd(e);
+    }
+
+    protected final boolean after(int line, Edit e) {
+      return getEnd(e) < line;
+    }
+  }
+
+  public static final EditFilter A = new EditFilter() {
+    @Override
+    protected String getStyleName() {
+      return "wdd";
+    }
+
+    @Override
+    protected int getBegin(Edit e) {
+      return e.getBeginA();
+    }
+
+    @Override
+    protected int getEnd(Edit e) {
+      return e.getEndA();
+    }
+  };
+
+  public static final EditFilter B = new EditFilter() {
+    @Override
+    protected String getStyleName() {
+      return "wdi";
+    }
+
+    @Override
+    protected int getBegin(Edit e) {
+      return e.getBeginB();
+    }
+
+    @Override
+    protected int getEnd(Edit e) {
+      return e.getEndB();
+    }
+  };
+
   protected List<String> lines = Collections.emptyList();
+  protected EditFilter side = A;
+  protected List<Edit> lineEdits = Collections.emptyList();
   protected PrettySettings settings;
+
+  private int col;
+  private int line;
+  private Tag lastTag;
+  private StringBuilder buf;
 
   /** @return the line of formatted HTML. */
   public SafeHtml getLine(int lineNo) {
@@ -33,6 +93,14 @@ public abstract class PrettyFormatter {
   /** @return the number of lines in this formatter. */
   public int size() {
     return lines.size();
+  }
+
+  public void setEditFilter(EditFilter f) {
+    side = f;
+  }
+
+  public void setEditList(List<Edit> all) {
+    lineEdits = all;
   }
 
   /**
@@ -49,10 +117,12 @@ public abstract class PrettyFormatter {
     String html = prettify(toHTML(srcText));
     int pos = 0;
     int textChunkStart = 0;
-    int col = 0;
-    Tag lastTag = Tag.NULL;
 
-    StringBuilder buf = new StringBuilder();
+    lastTag = Tag.NULL;
+    col = 0;
+    line = 0;
+
+    buf = new StringBuilder();
     while (pos <= html.length()) {
       int tagStart = html.indexOf('<', pos);
 
@@ -62,7 +132,7 @@ public abstract class PrettyFormatter {
         assert lastTag == Tag.NULL;
         pos = html.length();
         if (textChunkStart < pos) {
-          col = htmlText(col, buf, html.substring(textChunkStart, pos));
+          htmlText(html.substring(textChunkStart, pos));
         }
         if (0 < buf.length()) {
           lines.add(buf.toString());
@@ -82,7 +152,7 @@ public abstract class PrettyFormatter {
       //
       if (textChunkStart < tagStart) {
         lastTag.open(buf, html);
-        col = htmlText(col, buf, html.substring(textChunkStart, tagStart));
+        htmlText(html.substring(textChunkStart, tagStart));
       }
       textChunkStart = pos;
 
@@ -91,6 +161,7 @@ public abstract class PrettyFormatter {
         lines.add(buf.toString());
         buf = new StringBuilder();
         col = 0;
+        line++;
 
       } else if (html.charAt(tagStart + 1) == '/') {
         lastTag = lastTag.pop(buf, html);
@@ -99,18 +170,18 @@ public abstract class PrettyFormatter {
         lastTag = new Tag(lastTag, tagStart, tagEnd);
       }
     }
+    buf = null;
   }
 
-  private int htmlText(int col, StringBuilder buf, String txt) {
+  private void htmlText(String txt) {
     int pos = 0;
-
     while (pos < txt.length()) {
       int start = txt.indexOf('&', pos);
       if (start < 0) {
         break;
       }
 
-      col = cleanText(col, buf, txt, pos, start);
+      cleanText(txt, pos, start);
       pos = txt.indexOf(';', start + 1) + 1;
 
       if (settings.getLineLength() <= col) {
@@ -122,10 +193,10 @@ public abstract class PrettyFormatter {
       col++;
     }
 
-    return cleanText(col, buf, txt, pos, txt.length());
+    cleanText(txt, pos, txt.length());
   }
 
-  private int cleanText(int col, StringBuilder buf, String txt, int pos, int end) {
+  private void cleanText(String txt, int pos, int end) {
     while (pos < end) {
       int free = settings.getLineLength() - col;
       if (free <= 0) {
@@ -142,7 +213,6 @@ public abstract class PrettyFormatter {
       col += n;
       pos += n;
     }
-    return col;
   }
 
   /** Run the prettify engine over the text and return the result. */
@@ -212,7 +282,7 @@ public abstract class PrettyFormatter {
   }
 
   private String toHTML(String src) {
-    SafeHtml html = new SafeHtmlBuilder().append(src);
+    SafeHtml html = colorLineEdits(src);
 
     // The prettify parsers don't like &#39; as an entity for the
     // single quote character. Replace them all out so we don't
@@ -234,6 +304,74 @@ public abstract class PrettyFormatter {
     }
 
     return html.asString();
+  }
+
+  private SafeHtml colorLineEdits(String src) {
+    SafeHtmlBuilder buf = new SafeHtmlBuilder();
+
+    int lIdx = 0;
+    Edit lCur = lIdx < lineEdits.size() ? lineEdits.get(lIdx) : null;
+
+    int pos = 0;
+    int line = 0;
+    while (pos < src.length()) {
+      if (lCur instanceof ReplaceEdit && side.in(line, lCur)) {
+        List<Edit> wordEdits = ((ReplaceEdit) lCur).getInternalEdits();
+        if (!wordEdits.isEmpty()) {
+          // Copy the result using the word edits to guide us.
+          //
+
+          int last = 0;
+          for (Edit w : wordEdits) {
+            int b = side.getBegin(w);
+            int e = side.getEnd(w);
+
+            // If there is text between edits, copy it as-is.
+            //
+            int cnt = b - last;
+            if (0 < cnt) {
+              buf.append(src.substring(pos, pos + cnt));
+              pos += cnt;
+              last = b;
+            }
+
+            // If this is an edit, wrap it in a span.
+            //
+            cnt = e - b;
+            if (0 < cnt) {
+              buf.openSpan();
+              buf.setStyleName(side.getStyleName());
+              buf.append(src.substring(pos, pos + cnt));
+              buf.closeSpan();
+              pos += cnt;
+              last = e;
+            }
+          }
+
+          // We've consumed the entire region, so we are on the end.
+          // Fall through, what's left of this edit is only the tail
+          // of the final line.
+          //
+          line = side.getEnd(lCur) - 1;
+        }
+      }
+
+      int lf = src.indexOf('\n', pos);
+      if (lf < 0)
+        lf = src.length();
+      else
+        lf++;
+
+      buf.append(src.substring(pos, lf));
+      pos = lf;
+      line++;
+
+      if (lCur != null && side.after(line, lCur)) {
+        lIdx++;
+        lCur = lIdx < lineEdits.size() ? lineEdits.get(lIdx) : null;
+      }
+    }
+    return buf;
   }
 
   private SafeHtml showTabAfterSpace(SafeHtml src) {

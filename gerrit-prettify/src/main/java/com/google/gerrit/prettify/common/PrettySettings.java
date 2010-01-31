@@ -23,7 +23,7 @@ public class PrettySettings {
   protected boolean showTabs;
 
   public PrettySettings() {
-    showWhiteSpaceErrors = false;
+    showWhiteSpaceErrors = true;
     lineLength = 100;
     tabSize = 2;
     showTabs = true;

@@ -17,5 +17,6 @@
   <source path='diff' includes='
       Edit.java
       Edit_JsonSerializer.java
+      ReplaceEdit.java
     '/>
 </module>

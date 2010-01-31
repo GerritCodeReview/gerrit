@@ -25,6 +25,8 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EditDeserializer implements JsonDeserializer<Edit>,
     JsonSerializer<Edit> {
@@ -34,14 +36,28 @@ public class EditDeserializer implements JsonDeserializer<Edit>,
       return null;
     }
     if (!json.isJsonArray()) {
-      throw new JsonParseException("Expected array of 4for Edit type");
+      throw new JsonParseException("Expected array for Edit type");
     }
 
-    final JsonArray a = (JsonArray) json;
-    if (a.size() != 4) {
+    final JsonArray o = (JsonArray) json;
+    final int cnt = o.size();
+    if (cnt < 4 || cnt % 4 != 0) {
       throw new JsonParseException("Expected array of 4 for Edit type");
     }
-    return new Edit(get(a, 0), get(a, 1), get(a, 2), get(a, 3));
+
+    if (4 == cnt) {
+      return new Edit(get(o, 0), get(o, 1), get(o, 2), get(o, 3));
+    }
+
+    List<Edit> l = new ArrayList<Edit>((cnt / 4) - 1);
+    for (int i = 4; i < cnt;) {
+      int as = get(o, i++);
+      int ae = get(o, i++);
+      int bs = get(o, i++);
+      int be = get(o, i++);
+      l.add(new Edit(as, ae, bs, be));
+    }
+    return new ReplaceEdit(get(o, 0), get(o, 1), get(o, 2), get(o, 3), l);
   }
 
   private static int get(final JsonArray a, final int idx)
@@ -63,10 +79,19 @@ public class EditDeserializer implements JsonDeserializer<Edit>,
       return new JsonNull();
     }
     final JsonArray a = new JsonArray();
+    add(a, src);
+    if (src instanceof ReplaceEdit) {
+      for (Edit e : ((ReplaceEdit) src).getInternalEdits()) {
+        add(a, e);
+      }
+    }
+    return a;
+  }
+
+  private void add(final JsonArray a, final Edit src) {
     a.add(new JsonPrimitive(src.getBeginA()));
     a.add(new JsonPrimitive(src.getEndA()));
     a.add(new JsonPrimitive(src.getBeginB()));
     a.add(new JsonPrimitive(src.getEndB()));
-    return a;
   }
 }

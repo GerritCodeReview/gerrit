@@ -123,10 +123,11 @@ class PatchScriptBuilder {
     a.path = oldName(contentAct);
     b.path = newName(contentAct);
 
+    edits = new ArrayList<Edit>(contentAct.getEdits());
+
     a.resolve(null, aId);
     b.resolve(a, bId);
 
-    edits = new ArrayList<Edit>(contentAct.getEdits());
     ensureCommentsVisible(comments);
     header.addAll(contentAct.getHeaderLines());
 
@@ -389,9 +390,16 @@ class PatchScriptBuilder {
         if (!reuse && displayMethod == DisplayMethod.DIFF) {
           PrettySettings s = new PrettySettings(settings.getPrettySettings());
           s.setFileName(path);
-          s.setShowWhiteSpaceErrors(other != null /* side B */);
 
           src = prettyFactory.get();
+          if (other == null /* side A */) {
+            src.setEditFilter(PrettyFormatter.A);
+            s.setShowWhiteSpaceErrors(false);
+          } else {
+            src.setEditFilter(PrettyFormatter.B);
+            s.setShowWhiteSpaceErrors(s.isShowWhiteSpaceErrors());
+          }
+          src.setEditList(edits);
           src.format(s, Text.asString(srcContent, null));
         }
 

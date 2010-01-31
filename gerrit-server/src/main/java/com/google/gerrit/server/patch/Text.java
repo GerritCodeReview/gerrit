@@ -15,18 +15,20 @@
 package com.google.gerrit.server.patch;
 
 import org.eclipse.jgit.diff.RawText;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.mozilla.universalchardet.UniversalDetector;
 
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 
 public class Text extends RawText {
   public static final byte[] NO_BYTES = {};
   public static final Text EMPTY = new Text(NO_BYTES);
 
-  public static String asString(byte[] content, String encoding)
-      throws UnsupportedEncodingException {
+  public static String asString(byte[] content, String encoding) {
+    return new String(content, charset(content, encoding));
+  }
+
+  private static Charset charset(byte[] content, String encoding) {
     if (encoding == null) {
       UniversalDetector d = new UniversalDetector(null);
       d.handleData(content, 0, content.length);
@@ -36,8 +38,10 @@ public class Text extends RawText {
     if (encoding == null) {
       encoding = "ISO-8859-1";
     }
-    return new String(content, encoding);
+    return Charset.forName(encoding);
   }
+
+  private Charset charset;
 
   public Text(final byte[] r) {
     super(r);
@@ -48,11 +52,34 @@ public class Text extends RawText {
   }
 
   public String getLine(final int i) {
-    final int s = lines.get(i + 1);
-    int e = lines.get(i + 2);
+    return getLines(i, i + 1);
+  }
+
+  public String getLines(final int begin, final int end) {
+    if (begin == end) {
+      return "";
+    }
+
+    final int s = getLineStart(begin);
+    int e = getLineEnd(end - 1);
     if (content[e - 1] == '\n') {
       e--;
     }
-    return RawParseUtils.decode(Constants.CHARSET, content, s, e);
+    return decode(s, e);
+  }
+
+  private String decode(final int s, int e) {
+    if (charset == null) {
+      charset = charset(content, null);
+    }
+    return RawParseUtils.decode(charset, content, s, e);
+  }
+
+  private int getLineStart(final int i) {
+    return lines.get(i + 1);
+  }
+
+  private int getLineEnd(final int i) {
+    return lines.get(i + 2);
   }
 }

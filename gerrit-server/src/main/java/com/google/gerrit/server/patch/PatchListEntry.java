@@ -29,6 +29,7 @@ import com.google.gerrit.reviewdb.Patch.ChangeType;
 import com.google.gerrit.reviewdb.Patch.PatchType;
 
 import org.eclipse.jgit.diff.Edit;
+import org.eclipse.jgit.diff.ReplaceEdit;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.patch.CombinedFileHeader;
@@ -59,7 +60,7 @@ public class PatchListEntry {
   private final byte[] header;
   private final List<Edit> edits;
 
-  PatchListEntry(final FileHeader hdr) {
+  PatchListEntry(final FileHeader hdr, List<Edit> editList) {
     changeType = toChangeType(hdr);
     patchType = toPatchType(hdr);
 
@@ -93,7 +94,7 @@ public class PatchListEntry {
         || hdr.getNewMode() == FileMode.GITLINK) {
       edits = Collections.emptyList();
     } else {
-      edits = Collections.unmodifiableList(hdr.toEditList());
+      edits = Collections.unmodifiableList(editList);
     }
   }
 
@@ -156,11 +157,25 @@ public class PatchListEntry {
 
     writeVarInt32(out, edits.size());
     for (final Edit e : edits) {
-      writeVarInt32(out, e.getBeginA());
-      writeVarInt32(out, e.getEndA());
-      writeVarInt32(out, e.getBeginB());
-      writeVarInt32(out, e.getEndB());
+      write(out, e);
+
+      if (e instanceof ReplaceEdit) {
+        ReplaceEdit r = (ReplaceEdit) e;
+        writeVarInt32(out, r.getInternalEdits().size());
+        for (Edit i : r.getInternalEdits()) {
+          write(out, i);
+        }
+      } else {
+        writeVarInt32(out, 0);
+      }
     }
+  }
+
+  private void write(final OutputStream out, final Edit e) throws IOException {
+    writeVarInt32(out, e.getBeginA());
+    writeVarInt32(out, e.getEndA());
+    writeVarInt32(out, e.getBeginB());
+    writeVarInt32(out, e.getEndB());
   }
 
   static PatchListEntry readFrom(final InputStream in) throws IOException {
@@ -173,15 +188,32 @@ public class PatchListEntry {
     final int editCount = readVarInt32(in);
     final Edit[] editArray = new Edit[editCount];
     for (int i = 0; i < editCount; i++) {
-      final int beginA = readVarInt32(in);
-      final int endA = readVarInt32(in);
-      final int beginB = readVarInt32(in);
-      final int endB = readVarInt32(in);
-      editArray[i] = new Edit(beginA, endA, beginB, endB);
+      editArray[i] = readEdit(in);
+
+      int innerCount = readVarInt32(in);
+      if (0 < innerCount) {
+        Edit[] inner = new Edit[innerCount];
+        for (int innerIdx = 0; innerIdx < innerCount; innerIdx++) {
+          inner[innerIdx] = readEdit(in);
+        }
+        editArray[i] = new ReplaceEdit(editArray[i], toList(inner));
+      }
     }
 
     return new PatchListEntry(changeType, patchType, oldName, newName, hdr,
-        Collections.unmodifiableList(Arrays.asList(editArray)));
+        toList(editArray));
+  }
+
+  private static List<Edit> toList(Edit[] l) {
+    return Collections.unmodifiableList(Arrays.asList(l));
+  }
+
+  private static Edit readEdit(final InputStream in) throws IOException {
+    final int beginA = readVarInt32(in);
+    final int endA = readVarInt32(in);
+    final int beginB = readVarInt32(in);
+    final int endB = readVarInt32(in);
+    return  new Edit(beginA, endA, beginB, endB);
   }
 
   private static byte[] compact(final FileHeader h) {

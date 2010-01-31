@@ -31,18 +31,28 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 
+import org.eclipse.jgit.diff.Edit;
+import org.eclipse.jgit.diff.MyersDiff;
+import org.eclipse.jgit.diff.ReplaceEdit;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectWriter;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.patch.FileHeader;
+import org.eclipse.jgit.patch.FileHeader.PatchType;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.treewalk.TreeWalk;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /** Provides a cached list of {@link PatchListEntry}. */
@@ -109,7 +119,8 @@ public class PatchListCacheImpl implements PatchListCache {
 
   private PatchList readPatchList(final PatchListKey key, final Repository repo)
       throws IOException {
-    final RevCommit b = new RevWalk(repo).parseCommit(key.getNewId());
+    final RevWalk rw = new RevWalk(repo);
+    final RevCommit b = rw.parseCommit(key.getNewId());
     final AnyObjectId a = aFor(key, repo, b);
 
     final List<String> args = new ArrayList<String>();
@@ -163,12 +174,92 @@ public class PatchListCacheImpl implements PatchListCache {
       }
     }
 
+    RevTree aTree = a != null ? rw.parseCommit(a).getTree() : null;
+    RevTree bTree = b.getTree();
+
     final int cnt = p.getFiles().size();
     final PatchListEntry[] entries = new PatchListEntry[cnt];
     for (int i = 0; i < cnt; i++) {
-      entries[i] = new PatchListEntry(p.getFiles().get(i));
+      entries[i] = newEntry(repo, aTree, bTree, p.getFiles().get(i));
     }
     return new PatchList(a, b, entries);
+  }
+
+  private static PatchListEntry newEntry(Repository repo, RevTree aTree,
+      RevTree bTree, FileHeader fileHeader) throws IOException {
+    if (fileHeader.getHunks().isEmpty()) {
+      return new PatchListEntry(fileHeader, Collections.<Edit> emptyList());
+    }
+
+    List<Edit> edits = fileHeader.toEditList();
+
+    // Bypass the longer task of looking for replacement edits if
+    // there cannot be a replacement within plain text.
+    //
+    if (aTree == null /* want combined diff */) {
+      return new PatchListEntry(fileHeader, edits);
+    }
+    if (fileHeader.getPatchType() != PatchType.UNIFIED || edits.isEmpty()) {
+      return new PatchListEntry(fileHeader, edits);
+    }
+    switch (fileHeader.getChangeType()) {
+      case ADD:
+      case DELETE:
+        return new PatchListEntry(fileHeader, edits);
+    }
+
+    Text aContent = null;
+    Text bContent = null;
+
+    for (int i = 0; i < edits.size(); i++) {
+      Edit e = edits.get(i);
+
+      if (e.getType() == Edit.Type.REPLACE) {
+        if (aContent == null) {
+          edits = new ArrayList<Edit>(edits);
+          aContent = read(repo, fileHeader.getOldName(), aTree);
+          bContent = read(repo, fileHeader.getNewName(), bTree);
+        }
+
+        CharText a = new CharText(aContent, e.getBeginA(), e.getEndA());
+        CharText b = new CharText(bContent, e.getBeginB(), e.getEndB());
+
+        List<Edit> wordEdits = new MyersDiff(a, b).getEdits();
+        for (int j = 0; j < wordEdits.size() - 1;) {
+          Edit c = wordEdits.get(j);
+          Edit n = wordEdits.get(j + 1);
+
+          if (n.getBeginA() - c.getEndA() <= 2
+              || n.getBeginB() - c.getEndB() <= 2) {
+            // This edit is incredibly close to the start of the next.
+            // Combine them together.
+            //
+            wordEdits.set(j, new Edit(c.getBeginA(), n.getEndA(),
+                c.getBeginB(), n.getEndB()));
+            wordEdits.remove(j + 1);
+            continue;
+          }
+
+          j++;
+        }
+        edits.set(i, new ReplaceEdit(e, wordEdits));
+      }
+    }
+
+    return new PatchListEntry(fileHeader, edits);
+  }
+
+  private static Text read(Repository repo, String path, RevTree tree)
+      throws IOException {
+    TreeWalk tw = TreeWalk.forPath(repo, path, tree);
+    if (tw == null || tw.getFileMode(0).getObjectType() != Constants.OBJ_BLOB) {
+      return Text.EMPTY;
+    }
+    ObjectLoader ldr = repo.openObject(tw.getObjectId(0));
+    if (ldr == null) {
+      return Text.EMPTY;
+    }
+    return new Text(ldr.getCachedBytes());
   }
 
   private static AnyObjectId aFor(final PatchListKey key,

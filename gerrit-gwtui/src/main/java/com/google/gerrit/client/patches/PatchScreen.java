@@ -32,6 +32,8 @@ import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.data.PatchScriptSettings;
 import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.common.data.PatchScriptSettings.Whitespace;
+import com.google.gerrit.prettify.client.ClientSideFormatter;
+import com.google.gerrit.prettify.common.PrettyFactory;
 import com.google.gerrit.reviewdb.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.Patch;
@@ -63,6 +65,8 @@ import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtjsonrpc.client.VoidResult;
 
 public abstract class PatchScreen extends Screen {
+  static final PrettyFactory PRETTY = ClientSideFormatter.FACTORY;
+
   public static class SideBySide extends PatchScreen {
     public SideBySide(final Patch.Key id, final int patchIndex,
         final PatchTable patchTable) {

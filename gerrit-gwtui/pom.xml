@@ -125,12 +125,12 @@ limitations under the License.
 
     <dependency>
       <groupId>com.google.gerrit</groupId>
-      <artifactId>gerrit-patch-gwtexpui</artifactId>
+      <artifactId>gerrit-prettify</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>com.google.gerrit</groupId>
-      <artifactId>gerrit-patch-gwtexpui</artifactId>
+      <artifactId>gerrit-prettify</artifactId>
       <version>${project.version}</version>
       <classifier>sources</classifier>
       <type>jar</type>

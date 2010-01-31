@@ -34,6 +34,7 @@ public class PatchModule extends RpcServletModule {
         factory(SaveDraft.Factory.class);
       }
     });
+    bind(PatchScriptBuilder.class);
     rpc(PatchDetailServiceImpl.class);
   }
 }

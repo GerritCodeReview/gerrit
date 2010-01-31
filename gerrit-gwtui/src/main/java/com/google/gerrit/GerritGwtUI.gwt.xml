@@ -23,7 +23,7 @@
   <inherits name='com.google.gwtexpui.linker.ServerPlannedIFrameLinker'/>
   <inherits name='com.google.gwtexpui.progress.Progress'/>
   <inherits name='com.google.gwtexpui.safehtml.SafeHtml'/>
-  <inherits name='com.google.gwtexpui.safehtml.PrettyFormatter'/>
+  <inherits name='com.google.gerrit.prettify.PrettyFormatter'/>
   <inherits name='com.google.gerrit.Common'/>
   <inherits name='com.google.gerrit.UserAgent'/>
   <inherits name='org.eclipse.jgit.JGit'/>

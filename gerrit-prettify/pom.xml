@@ -25,17 +25,27 @@ limitations under the License.
     <version>2.1-SNAPSHOT</version>
   </parent>
 
-  <artifactId>gerrit-patch-gwtexpui</artifactId>
-  <name>Gerrit Code Review - Patch gwtexpui</name>
+  <artifactId>gerrit-prettify</artifactId>
+  <name>Gerrit Code Review - Prettify</name>
 
   <description>
-    Hacks to expose package-private data from gwtexpui to Gerrit
+    Prettify based syntax highlighting
   </description>
 
   <dependencies>
     <dependency>
       <groupId>gwtexpui</groupId>
       <artifactId>gwtexpui</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.google.code.guice</groupId>
+      <artifactId>guice</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>rhino</groupId>
+      <artifactId>js</artifactId>
     </dependency>
 
     <dependency>

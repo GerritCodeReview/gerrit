@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2010 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,11 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gwtexpui.safehtml.client.prettify;
+// Mozilla Rhino is not IE 6.
+//
+window._pr_isIE6 = function () { return false; };
 
-import com.google.gwt.resources.client.CssResource;
-
-public interface PrettyCss extends CssResource {
-  String visualtab();
-  String whitespaceerror();
-}
+// Expose the function at the top level to simplify calls.
+//
+prettyPrintOne = window.prettyPrintOne;
+PR = window.PR;

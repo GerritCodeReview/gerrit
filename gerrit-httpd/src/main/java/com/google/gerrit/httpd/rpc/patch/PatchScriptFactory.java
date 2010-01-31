@@ -26,7 +26,6 @@ import com.google.gerrit.reviewdb.PatchLineComment;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
-import com.google.gerrit.server.FileTypeRegistry;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchList;
@@ -37,6 +36,7 @@ import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -62,7 +62,7 @@ class PatchScriptFactory extends Handler<PatchScript> {
       LoggerFactory.getLogger(PatchScriptFactory.class);
 
   private final GitRepositoryManager repoManager;
-  private final FileTypeRegistry registry;
+  private final Provider<PatchScriptBuilder> builderFactory;
   private final PatchListCache patchListCache;
   private final ReviewDb db;
   private final ChangeControl.Factory changeControlFactory;
@@ -88,7 +88,8 @@ class PatchScriptFactory extends Handler<PatchScript> {
   private ObjectId bId;
 
   @Inject
-  PatchScriptFactory(final GitRepositoryManager grm, final FileTypeRegistry ftr,
+  PatchScriptFactory(final GitRepositoryManager grm,
+      Provider<PatchScriptBuilder> builderFactory,
       final PatchListCache patchListCache, final ReviewDb db,
       final ChangeControl.Factory changeControlFactory,
       @Assisted final Patch.Key patchKey,
@@ -96,7 +97,7 @@ class PatchScriptFactory extends Handler<PatchScript> {
       @Assisted("patchSetB") final PatchSet.Id patchSetB,
       @Assisted final PatchScriptSettings settings) {
     this.repoManager = grm;
-    this.registry = ftr;
+    this.builderFactory = builderFactory;
     this.patchListCache = patchListCache;
     this.db = db;
     this.changeControlFactory = changeControlFactory;
@@ -182,7 +183,7 @@ class PatchScriptFactory extends Handler<PatchScript> {
     else
       throw new NoSuchChangeException(changeId);
 
-    final PatchScriptBuilder b = new PatchScriptBuilder(registry);
+    final PatchScriptBuilder b = builderFactory.get();
     b.setRepository(git);
     b.setChange(change);
     b.setSettings(s);

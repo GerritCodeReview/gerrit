@@ -16,4 +16,6 @@
 <module>
   <inherits name='com.google.gwt.resources.Resources'/>
   <inherits name='com.google.gwtexpui.safehtml.SafeHtml'/>
+  <source path='common' />
+  <source path='client' />
 </module>

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.common.data;
 
+import com.google.gerrit.prettify.common.PrettySettings;
 import com.google.gerrit.reviewdb.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.CodedEnum;
 
@@ -37,15 +38,26 @@ public class PatchScriptSettings {
 
   protected int context;
   protected Whitespace whitespace;
+  protected PrettySettings pretty;
 
   public PatchScriptSettings() {
     context = AccountGeneralPreferences.DEFAULT_CONTEXT;
     whitespace = Whitespace.IGNORE_NONE;
+    pretty = new PrettySettings();
   }
 
   public PatchScriptSettings(final PatchScriptSettings s) {
     context = s.context;
     whitespace = s.whitespace;
+    pretty = new PrettySettings(s.pretty);
+  }
+
+  public PrettySettings getPrettySettings() {
+    return pretty;
+  }
+
+  public void setPrettySettings(PrettySettings s) {
+    pretty = s;
   }
 
   public int getContext() {

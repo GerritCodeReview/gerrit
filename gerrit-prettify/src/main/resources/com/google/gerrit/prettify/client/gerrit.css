@@ -13,10 +13,17 @@
  * limitations under the License.
  */
 
-.visualtab {
-  border: 1px dotted red;
+@external .wse;
+@external .vt;
+
+.wse {
+  background: red;
 }
 
-.whitespaceerror {
-  background: red;
+.vt {
+  border-left: 1px dotted red;
+}
+
+.wse .vt {
+  border-left: 2px dotted black;
 }

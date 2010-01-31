@@ -20,12 +20,16 @@ import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.data.PatchScriptSettings;
 import com.google.gerrit.common.data.SparseFileContent;
 import com.google.gerrit.common.data.PatchScript.DisplayMethod;
+import com.google.gerrit.prettify.common.PrettyFactory;
+import com.google.gerrit.prettify.common.PrettyFormatter;
+import com.google.gerrit.prettify.common.PrettySettings;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchLineComment;
 import com.google.gerrit.reviewdb.Patch.PatchType;
 import com.google.gerrit.server.FileTypeRegistry;
 import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.patch.Text;
+import com.google.inject.Inject;
 
 import eu.medsea.mimeutil.MimeType;
 import eu.medsea.mimeutil.MimeUtil2;
@@ -61,6 +65,7 @@ class PatchScriptBuilder {
   };
 
   private final List<String> header;
+  private final PrettyFactory prettyFactory;
   private Repository db;
   private Change change;
   private PatchScriptSettings settings;
@@ -73,8 +78,10 @@ class PatchScriptBuilder {
   private List<Edit> edits;
   private final FileTypeRegistry registry;
 
-  PatchScriptBuilder(final FileTypeRegistry ftr) {
+  @Inject
+  PatchScriptBuilder(final FileTypeRegistry ftr, final PrettyFactory pf) {
     header = new ArrayList<String>();
+    prettyFactory = pf;
     a = new Side();
     b = new Side();
     registry = ftr;
@@ -125,19 +132,19 @@ class PatchScriptBuilder {
 
     if (a.mode == FileMode.GITLINK || b.mode == FileMode.GITLINK) {
 
-    } else if (a.src == b.src && a.src.size() <= context()
+    } else if (a.src == b.src && a.size() <= context()
         && contentAct.getEdits().isEmpty()) {
       // Odd special case; the files are identical (100% rename or copy)
       // and the user has asked for context that is larger than the file.
       // Send them the entire file, with an empty edit after the last line.
       //
-      for (int i = 0; i < a.src.size(); i++) {
-        a.src.addLineTo(a.dst, i);
+      for (int i = 0; i < a.size(); i++) {
+        a.addLine(i);
       }
       edits = new ArrayList<Edit>(1);
-      edits.add(new Edit(a.src.size(), a.src.size()));
+      edits.add(new Edit(a.size(), a.size()));
     } else {
-      if (BIG_FILE < Math.max(a.src.size(), b.src.size()) && 25 < context()) {
+      if (BIG_FILE < Math.max(a.size(), b.size()) && 25 < context()) {
         settings.setContext(25);
       }
       packContent();
@@ -298,19 +305,19 @@ class PatchScriptBuilder {
   }
 
   private void packContent() {
-    EditList list = new EditList(edits, context(), a.src.size(), b.src.size());
+    EditList list = new EditList(edits, context(), a.size(), b.size());
     for (final EditList.Hunk hunk : list.getHunks()) {
       while (hunk.next()) {
         if (hunk.isContextLine()) {
-          a.src.addLineTo(a.dst, hunk.getCurA());
+          a.addLine(hunk.getCurA());
           hunk.incBoth();
 
         } else if (hunk.isDeletedA()) {
-          a.src.addLineTo(a.dst, hunk.getCurA());
+          a.addLine(hunk.getCurA());
           hunk.incA();
 
         } else if (hunk.isInsertedB()) {
-          b.src.addLineTo(b.dst, hunk.getCurB());
+          b.addLine(hunk.getCurB());
           hunk.incB();
         }
       }
@@ -321,10 +328,19 @@ class PatchScriptBuilder {
     String path;
     ObjectId id;
     FileMode mode;
-    Text src;
+    byte[] srcContent;
+    PrettyFormatter src;
     MimeType mimeType = MimeUtil2.UNKNOWN_MIME_TYPE;
     DisplayMethod displayMethod = DisplayMethod.DIFF;
     final SparseFileContent dst = new SparseFileContent();
+
+    int size() {
+      return src != null ? src.size() : 0;
+    }
+
+    void addLine(int line) {
+      dst.addLine(line, src.getLine(line));
+    }
 
     void resolve(final Side other, final ObjectId within) throws IOException {
       try {
@@ -337,29 +353,29 @@ class PatchScriptBuilder {
             other != null && other.id.equals(id) && other.mode == mode;
 
         if (reuse) {
-          src = other.src;
+          srcContent = other.srcContent;
 
         } else if (mode.getObjectType() == Constants.OBJ_BLOB) {
           final ObjectLoader ldr = db.openObject(id);
           if (ldr == null) {
             throw new MissingObjectException(id, Constants.TYPE_BLOB);
           }
-          final byte[] data = ldr.getCachedBytes();
+          srcContent = ldr.getCachedBytes();
           if (ldr.getType() != Constants.OBJ_BLOB) {
             throw new IncorrectObjectTypeException(id, Constants.TYPE_BLOB);
           }
-          src = new Text(data);
 
         } else {
-          src = Text.EMPTY;
+          srcContent = Text.NO_BYTES;
         }
 
         if (reuse) {
           mimeType = other.mimeType;
           displayMethod = other.displayMethod;
+          src = other.src;
 
-        } else if (src.getContent().length > 0 && FileMode.SYMLINK != mode) {
-          mimeType = registry.getMimeType(path, src.getContent());
+        } else if (srcContent.length > 0 && FileMode.SYMLINK != mode) {
+          mimeType = registry.getMimeType(path, srcContent);
           if ("image".equals(mimeType.getMediaType())
               && registry.isSafeInline(mimeType)) {
             displayMethod = DisplayMethod.IMG;
@@ -370,8 +386,19 @@ class PatchScriptBuilder {
           displayMethod = DisplayMethod.NONE;
         }
 
-        dst.setMissingNewlineAtEnd(src.isMissingNewlineAtEnd());
-        dst.setSize(src.size());
+        if (displayMethod == DisplayMethod.DIFF) {
+          PrettySettings s = new PrettySettings(settings.getPrettySettings());
+          s.setFileName(path);
+          s.setShowWhiteSpaceErrors(other != null /* side B */);
+
+          src = prettyFactory.get();
+          src.format(s, Text.asString(srcContent, null));
+        }
+
+        if (srcContent.length > 0 && srcContent[srcContent.length - 1] != '\n') {
+          dst.setMissingNewlineAtEnd(true);
+        }
+        dst.setSize(size());
       } catch (IOException err) {
         throw new IOException("Cannot read " + within.name() + ":" + path, err);
       }

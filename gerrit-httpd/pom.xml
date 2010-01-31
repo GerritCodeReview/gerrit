@@ -79,5 +79,11 @@ limitations under the License.
       <artifactId>gerrit-server</artifactId>
       <version>${project.version}</version>
     </dependency>
+
+    <dependency>
+      <groupId>com.google.gerrit</groupId>
+      <artifactId>gerrit-prettify</artifactId>
+      <version>${project.version}</version>
+    </dependency>
   </dependencies>
 </project>

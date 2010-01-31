@@ -12,21 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gwtexpui.safehtml.client.prettify;
+package com.google.gerrit.prettify.client;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.resources.client.TextResource;
 
-public interface Resources extends ClientBundle {
-  public static final Resources I = GWT.create(Resources.class);
+/** Loads the minimized form of prettify into the client. */
+interface Resources extends ClientBundle {
+  static final Resources I = GWT.create(Resources.class);
 
   @Source("prettify.css")
   CssResource prettify_css();
 
   @Source("gerrit.css")
-  PrettyCss css();
+  CssResource gerrit_css();
 
   @Source("prettify.js")
   TextResource core();

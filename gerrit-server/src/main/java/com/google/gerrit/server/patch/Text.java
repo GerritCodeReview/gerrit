@@ -14,14 +14,30 @@
 
 package com.google.gerrit.server.patch;
 
-import com.google.gerrit.common.data.SparseFileContent;
-
 import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.util.RawParseUtils;
+import org.mozilla.universalchardet.UniversalDetector;
+
+import java.io.UnsupportedEncodingException;
 
 public class Text extends RawText {
-  public static final Text EMPTY = new Text(new byte[0]);
+  public static final byte[] NO_BYTES = {};
+  public static final Text EMPTY = new Text(NO_BYTES);
+
+  public static String asString(byte[] content, String encoding)
+      throws UnsupportedEncodingException {
+    if (encoding == null) {
+      UniversalDetector d = new UniversalDetector(null);
+      d.handleData(content, 0, content.length);
+      d.dataEnd();
+      encoding = d.getDetectedCharset();
+    }
+    if (encoding == null) {
+      encoding = "ISO-8859-1";
+    }
+    return new String(content, encoding);
+  }
 
   public Text(final byte[] r) {
     super(r);
@@ -38,9 +54,5 @@ public class Text extends RawText {
       e--;
     }
     return RawParseUtils.decode(Constants.CHARSET, content, s, e);
-  }
-
-  public void addLineTo(final SparseFileContent out, final int i) {
-    out.addLine(i, getLine(i));
   }
 }

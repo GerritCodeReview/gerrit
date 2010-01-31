@@ -14,6 +14,8 @@
 
 package com.google.gerrit.common.data;
 
+import com.google.gwtexpui.safehtml.client.SafeHtml;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,12 +46,12 @@ public class SparseFileContent {
     missingNewlineAtEnd = missing;
   }
 
-  public String get(final int idx) {
+  public SafeHtml get(final int idx) {
     final String line = getLine(idx);
     if (line == null) {
       throw new ArrayIndexOutOfBoundsException(idx);
     }
-    return line;
+    return SafeHtml.asis(line);
   }
 
   public boolean contains(final int idx) {
@@ -91,6 +93,10 @@ public class SparseFileContent {
         low = mid + 1;
     } while (low < high);
     return null;
+  }
+
+  public void addLine(final int i, final SafeHtml content) {
+    addLine(i, content.asString());
   }
 
   public void addLine(final int i, final String content) {

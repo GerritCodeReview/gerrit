@@ -29,7 +29,7 @@ import com.google.gerrit.reviewdb.Patch;
 import com.google.gerrit.reviewdb.PatchLineComment;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
-import com.google.gwtexpui.safehtml.client.PrettyFormatter;
+import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 import com.google.gwtorm.client.KeyUtil;
 
@@ -89,10 +89,6 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
     final SparseFileContent a = script.getA();
     final SparseFileContent b = script.getB();
     final SafeHtmlBuilder nc = new SafeHtmlBuilder();
-    final PrettyFormatter fmtA = PrettyFormatter.newFormatter(formatLanguage);
-    final PrettyFormatter fmtB = PrettyFormatter.newFormatter(formatLanguage);
-
-    fmtB.setShowWhiteSpaceErrors(true);
 
     // Display the patch header
     for (final String line : script.getPatchHeader()) {
@@ -144,7 +140,7 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
           openLine(nc);
           appendLineNumber(nc, hunk.getCurA());
           appendLineNumber(nc, hunk.getCurB());
-          appendLineText(nc, CONTEXT, a, hunk.getCurA(), fmtA, fmtB);
+          appendLineText(nc, CONTEXT, a, hunk.getCurA());
           closeLine(nc);
           hunk.incBoth();
           lines.add(new PatchLine(CONTEXT, hunk.getCurA(), hunk.getCurB()));
@@ -153,7 +149,7 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
           openLine(nc);
           appendLineNumber(nc, hunk.getCurA());
           padLineNumber(nc);
-          appendLineText(nc, DELETE, a, hunk.getCurA(), fmtA, fmtB);
+          appendLineText(nc, DELETE, a, hunk.getCurA());
           closeLine(nc);
           hunk.incA();
           lines.add(new PatchLine(DELETE, hunk.getCurA(), 0));
@@ -164,7 +160,7 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
           openLine(nc);
           padLineNumber(nc);
           appendLineNumber(nc, hunk.getCurB());
-          appendLineText(nc, INSERT, b, hunk.getCurB(), fmtA, fmtB);
+          appendLineText(nc, INSERT, b, hunk.getCurB());
           closeLine(nc);
           hunk.incB();
           lines.add(new PatchLine(INSERT, 0, hunk.getCurB()));
@@ -308,27 +304,25 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
   }
 
   private void appendLineText(final SafeHtmlBuilder m,
-      final PatchLine.Type type, final SparseFileContent src, final int i,
-      final PrettyFormatter fmtA, final PrettyFormatter fmtB) {
-    final String text = src.get(i);
+      final PatchLine.Type type, final SparseFileContent src, final int i) {
+    final SafeHtml text = src.get(i);
     m.openTd();
     m.addStyleName(Gerrit.RESOURCES.css().diffText());
     switch (type) {
       case CONTEXT:
         m.addStyleName(Gerrit.RESOURCES.css().diffTextCONTEXT());
         m.nbsp();
-        m.append(fmtA.format(text));
-        fmtB.update(text);
+        m.append(text);
         break;
       case DELETE:
         m.addStyleName(Gerrit.RESOURCES.css().diffTextDELETE());
         m.append("-");
-        m.append(fmtA.format(text));
+        m.append(text);
         break;
       case INSERT:
         m.addStyleName(Gerrit.RESOURCES.css().diffTextINSERT());
         m.append("+");
-        m.append(fmtB.format(text));
+        m.append(text);
         break;
     }
     m.closeTd();

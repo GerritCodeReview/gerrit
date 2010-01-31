@@ -386,7 +386,7 @@ class PatchScriptBuilder {
           displayMethod = DisplayMethod.NONE;
         }
 
-        if (displayMethod == DisplayMethod.DIFF) {
+        if (!reuse && displayMethod == DisplayMethod.DIFF) {
           PrettySettings s = new PrettySettings(settings.getPrettySettings());
           s.setFileName(path);
           s.setShowWhiteSpaceErrors(other != null /* side B */);

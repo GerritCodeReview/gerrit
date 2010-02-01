@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAr3//+7E\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/patch/PatchScriptFactory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-01T19:30:56Z",
+      "side": 1,
+      "message": "Unnecessary introduction of a blank line.",
+      "revId": "869a957865c806d203fca797f854b5c0677111af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3//+7I\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/patch/PatchScriptFactory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-01T19:30:56Z",
+      "side": 1,
+      "message": "Unnecessary introduction of a blank line.",
+      "revId": "869a957865c806d203fca797f854b5c0677111af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3//+7A\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/patch/PatchScriptFactory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-01T19:30:56Z",
+      "side": 1,
+      "message": "Needs to be in the try block.  An OutOfMemoryError here, or any exception in that constructor, could leak the connection.",
+      "revId": "869a957865c806d203fca797f854b5c0677111af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAr3//+70\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/patch/PatchScriptFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-01T18:50:11Z",
+      "side": 1,
+      "message": "Everything from here down MUST be in a try/finally block so that we cannot possibly leak that database connection.  Right now if the patch set comes back as null (missing in the database) we\u0027d leak the connection, creating an easy DOS attack.",
+      "revId": "545645af1bbe92123e3d14a4c340b81fbbe1e5fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

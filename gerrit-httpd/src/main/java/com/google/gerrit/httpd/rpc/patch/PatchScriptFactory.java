@@ -35,6 +35,7 @@ import com.google.gerrit.server.patch.PatchListKey;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
@@ -64,7 +65,7 @@ class PatchScriptFactory extends Handler<PatchScript> {
   private final GitRepositoryManager repoManager;
   private final Provider<PatchScriptBuilder> builderFactory;
   private final PatchListCache patchListCache;
-  private final ReviewDb db;
+  private final SchemaFactory<ReviewDb> schemaFactory;
   private final ChangeControl.Factory changeControlFactory;
 
   private final Patch.Key patchKey;
@@ -90,7 +91,7 @@ class PatchScriptFactory extends Handler<PatchScript> {
   @Inject
   PatchScriptFactory(final GitRepositoryManager grm,
       Provider<PatchScriptBuilder> builderFactory,
-      final PatchListCache patchListCache, final ReviewDb db,
+      final PatchListCache patchListCache, final SchemaFactory<ReviewDb> sf,
       final ChangeControl.Factory changeControlFactory,
       @Assisted final Patch.Key patchKey,
       @Assisted("patchSetA") @Nullable final PatchSet.Id patchSetA,
@@ -99,7 +100,7 @@ class PatchScriptFactory extends Handler<PatchScript> {
     this.repoManager = grm;
     this.builderFactory = builderFactory;
     this.patchListCache = patchListCache;
-    this.db = db;
+    this.schemaFactory = sf;
     this.changeControlFactory = changeControlFactory;
 
     this.patchKey = patchKey;
@@ -118,48 +119,57 @@ class PatchScriptFactory extends Handler<PatchScript> {
 
     control = changeControlFactory.validateFor(changeId);
     change = control.getChange();
-    patchSet = db.patchSets().get(patchSetId);
-    if (patchSet == null) {
-      throw new NoSuchChangeException(changeId);
-    }
-
-    projectKey = change.getProject();
-    aId = psa != null ? toObjectId(db, psa) : null;
-    bId = toObjectId(db, psb);
-
+    ReviewDb db = null;
     try {
-      git = repoManager.openRepository(projectKey.get());
-    } catch (RepositoryNotFoundException e) {
-      log.error("Repository " + projectKey + " not found", e);
-      throw new NoSuchChangeException(changeId, e);
-    }
-
-    final String fileName = patchKey.getFileName();
-    try {
-      final PatchList list = listFor(keyFor(settings.getWhitespace()));
-      final PatchScriptBuilder b = newBuilder(list);
-      final PatchListEntry contentWS = list.get(fileName);
-      final CommentDetail comments = allComments(db);
-
-      final PatchListEntry contentActual;
-      if (settings.getWhitespace() == Whitespace.IGNORE_NONE) {
-        contentActual = contentWS;
-      } else {
-        // If we are ignoring whitespace in some form, we still need to know
-        // where the post-image differs so we can ensure the post-image lines
-        // are still packed for the client to display.
-        //
-        contentActual = listFor(keyFor(Whitespace.IGNORE_NONE)).get(fileName);
+      db = schemaFactory.open();
+      patchSet = db.patchSets().get(patchSetId);
+      if (patchSet == null) {
+        throw new NoSuchChangeException(changeId);
       }
+
+      projectKey = change.getProject();
+      aId = psa != null ? toObjectId(db, psa) : null;
+      bId = toObjectId(db, psb);
 
       try {
-        return b.toPatchScript(contentWS, comments, contentActual);
-      } catch (IOException e) {
-        log.error("File content unavailable", e);
+        git = repoManager.openRepository(projectKey.get());
+      } catch (RepositoryNotFoundException e) {
+        log.error("Repository " + projectKey + " not found", e);
         throw new NoSuchChangeException(changeId, e);
       }
+
+      final String fileName = patchKey.getFileName();
+      try {
+        final PatchList list = listFor(keyFor(settings.getWhitespace()));
+        final PatchScriptBuilder b = newBuilder(list);
+        final PatchListEntry contentWS = list.get(fileName);
+        final CommentDetail comments = allComments(db);
+
+        final PatchListEntry contentActual;
+        if (settings.getWhitespace() == Whitespace.IGNORE_NONE) {
+          contentActual = contentWS;
+        } else {
+          // If we are ignoring whitespace in some form, we still need to know
+          // where the post-image differs so we can ensure the post-image lines
+          // are still packed for the client to display.
+          //
+          contentActual = listFor(keyFor(Whitespace.IGNORE_NONE)).get(fileName);
+        }
+
+        try {
+          return b.toPatchScript(contentWS, comments, contentActual);
+        } catch (IOException e) {
+          log.error("File content unavailable", e);
+          throw new NoSuchChangeException(changeId, e);
+        }
+      } finally {
+        git.close();
+
+      }
     } finally {
-      git.close();
+      if (db != null) {
+        db.close();
+      }
     }
   }
 

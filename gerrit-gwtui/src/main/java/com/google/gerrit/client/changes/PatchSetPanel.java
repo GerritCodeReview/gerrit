@@ -110,7 +110,7 @@ class PatchSetPanel extends Composite implements OpenHandler<DisclosurePanel> {
     actionsPanel.setStyleName(Gerrit.RESOURCES.css().patchSetActions());
     body.add(actionsPanel);
     if (Gerrit.isSignedIn()) {
-      populateCommentAction();
+      populateReviewAction();
       if (changeDetail.isCurrentPatchSet(detail)) {
         populateActions(detail);
       }
@@ -291,8 +291,8 @@ class PatchSetPanel extends Composite implements OpenHandler<DisclosurePanel> {
     }
   }
 
-  private void populateCommentAction() {
-    final Button b = new Button(Util.C.buttonPublishCommentsBegin());
+  private void populateReviewAction() {
+    final Button b = new Button(Util.C.buttonReview());
     b.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(final ClickEvent event) {

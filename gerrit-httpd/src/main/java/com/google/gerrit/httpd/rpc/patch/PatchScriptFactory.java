@@ -35,6 +35,7 @@ import com.google.gerrit.server.patch.PatchListKey;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
@@ -64,7 +65,7 @@ class PatchScriptFactory extends Handler<PatchScript> {
   private final GitRepositoryManager repoManager;
   private final Provider<PatchScriptBuilder> builderFactory;
   private final PatchListCache patchListCache;
-  private final ReviewDb db;
+  private final SchemaFactory<ReviewDb> schemaFactory;
   private final ChangeControl.Factory changeControlFactory;
 
   private final Patch.Key patchKey;
@@ -90,7 +91,7 @@ class PatchScriptFactory extends Handler<PatchScript> {
   @Inject
   PatchScriptFactory(final GitRepositoryManager grm,
       Provider<PatchScriptBuilder> builderFactory,
-      final PatchListCache patchListCache, final ReviewDb db,
+      final PatchListCache patchListCache, final SchemaFactory<ReviewDb> sf,
       final ChangeControl.Factory changeControlFactory,
       @Assisted final Patch.Key patchKey,
       @Assisted("patchSetA") @Nullable final PatchSet.Id patchSetA,
@@ -99,7 +100,7 @@ class PatchScriptFactory extends Handler<PatchScript> {
     this.repoManager = grm;
     this.builderFactory = builderFactory;
     this.patchListCache = patchListCache;
-    this.db = db;
+    this.schemaFactory = sf;
     this.changeControlFactory = changeControlFactory;
 
     this.patchKey = patchKey;
@@ -118,6 +119,7 @@ class PatchScriptFactory extends Handler<PatchScript> {
 
     control = changeControlFactory.validateFor(changeId);
     change = control.getChange();
+    ReviewDb db = schemaFactory.open();
     patchSet = db.patchSets().get(patchSetId);
     if (patchSet == null) {
       throw new NoSuchChangeException(changeId);
@@ -160,6 +162,7 @@ class PatchScriptFactory extends Handler<PatchScript> {
       }
     } finally {
       git.close();
+      db.close();
     }
   }
 

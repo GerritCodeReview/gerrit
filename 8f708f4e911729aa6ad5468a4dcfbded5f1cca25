@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAr3//+7g\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/patch/PatchScriptFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-01T19:06:39Z",
+      "side": 1,
+      "message": "Please don\u0027t assign null.  I would prefer the idiom to be:\n\n  ReviewDb db \u003d schemaFactory.open();\n  try {\n  } finally {\n    db.close();\n  }\n\nAs then the Java compiler can promise us the value cannot be null at use sites, and its clear what the scope of the value is.",
+      "revId": "8f708f4e911729aa6ad5468a4dcfbded5f1cca25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3//+7c\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/patch/PatchScriptFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-01T19:06:39Z",
+      "side": 1,
+      "message": "This is too late.  The call b.toPatchScript on line 160 above is the expensive line.  You need to close the connection before running that line of code.  Which may require a bigger refactoring in order to ensure the database connection can be cleanly closed down before that starts.  Maybe pull all of the database access code into its own method?",
+      "revId": "8f708f4e911729aa6ad5468a4dcfbded5f1cca25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

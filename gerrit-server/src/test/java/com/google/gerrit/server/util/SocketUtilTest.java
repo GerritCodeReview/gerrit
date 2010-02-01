@@ -118,10 +118,10 @@ public class SocketUtilTest extends TestCase {
         resolve("[localhost]", 80));
 
     try {
-      resolve("invalid.name.localdomain:12", 80);
+      resolve("invalid.name.test.:12", 80);
       fail("did not throw exception");
     } catch (IllegalArgumentException e) {
-      assertEquals("unknown host: invalid.name.localdomain:12", e.getMessage());
+      assertEquals("unknown host: invalid.name.test.:12", e.getMessage());
     }
   }
 }

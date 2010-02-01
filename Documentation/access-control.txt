@@ -29,7 +29,7 @@ placed into this group.
 Membership in the 'Administrators' group does not imply any other
 access rights.  Administrators do not automatically get code review
 approval or submit rights in projects.  This is a feature designed
-to permit adminstrative users to otherwise access Gerrit as any
+to permit administrative users to otherwise access Gerrit as any
 other normal user would, without needing two different accounts.
 
 Anonymous Users
@@ -117,19 +117,49 @@ groups in an approval category.  For example, a user is a member of
 `Foo Leads`, and the following ACLs are granted on a project:
 
 [grid="all"]
-`----------------`-------------`-------
-Group            Category       Range
----------------------------------------
-Anonymous Users  Code Review     -1..+1
-Registered Users Code Review     -1..+2
-Foo Leads        Code Review     -2..0
----------------------------------------
+`---------------`---------------`-------------`-------
+Group            Reference Name Category       Range
+------------------------------------------------------
+Anonymous Users  refs/heads/*   Code Review     -1..+1
+Registered Users refs/heads/*   Code Review     -1..+2
+Foo Leads        refs/heads/*   Code Review     -2..0
+------------------------------------------------------
 
 Then the effective range permitted to be used by the user is
 `-2..+2`, as the user is a member of all three groups (see above
 about the system groups) and the maximum range is chosen (so the
 lowest value granted to any group, and the highest value granted
 to any group).
+
+Reference-level access control is also possible.
+
+Permissions can be set on a single reference name to match one
+branch (e.g. `refs/heads/master`), or on a reference namespace
+(e.g. `refs/heads/*`) to match any branch starting with that
+prefix. So a permission with `refs/heads/*` will match
+`refs/heads/master` and `refs/heads/experimental`, etc.
+
+When evaluating a reference-level access right, Gerrit will use
+the most specific set of access rights to determine if the user
+is allowed to perform a given action. For example, if a user
+tries to review a change destined for branch `refs/heads/qa`
+in project `tools/gerrit`, and the following ACLs are granted:
+
+[grid="all"]
+`---------------`----------------`-------------`-------
+Group            Reference Name  Category       Range
+-------------------------------------------------------
+Anonymous Users  refs/heads/*    Code Review     -1..+1
+Registered Users refs/heads/*    Code Review     -1..+1
+Foo Leads        refs/heads/*    Code Review     -2..+2
+QA Leads         refs/heads/qa   Code Review     -2..+2
+-------------------------------------------------------
+
+Then this user will have `Code Review -2..+2` if he is a member
+of `QA Leads`, and will not have any rights if not. Inherited ACLs
+from the `\-- All Projects \--` project thus allow system wide
+lock-down of a branch, by granting a permission to a limited group
+of users on that branch.
 
 OpenID Authentication
 ~~~~~~~~~~~~~~~~~~~~~

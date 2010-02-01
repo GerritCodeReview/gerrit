@@ -53,7 +53,7 @@ class Schema_27 extends SchemaVersion {
         stmt.execute("ALTER TABLE account_groups"
             + " ALTER COLUMN name VARCHAR(255)");
         stmt.execute("ALTER TABLE account_group_names"
-            + " ALTER COLUMN name VARCHAR(255)");
+            + " ALTER COLUMN name VARCHAR(255) NOT NULL");
 
       } else if (dialect instanceof DialectMySQL) {
         stmt.execute("ALTER TABLE account_groups MODIFY name VARCHAR(255)");

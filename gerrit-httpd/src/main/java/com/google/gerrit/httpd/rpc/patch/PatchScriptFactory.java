@@ -35,6 +35,7 @@ import com.google.gerrit.server.patch.PatchListKey;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.client.OrmException;
+import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
@@ -64,7 +65,7 @@ class PatchScriptFactory extends Handler<PatchScript> {
   private final GitRepositoryManager repoManager;
   private final Provider<PatchScriptBuilder> builderFactory;
   private final PatchListCache patchListCache;
-  private final ReviewDb db;
+  private final SchemaFactory<ReviewDb> schemaFactory;
   private final ChangeControl.Factory changeControlFactory;
 
   private final Patch.Key patchKey;
@@ -90,7 +91,7 @@ class PatchScriptFactory extends Handler<PatchScript> {
   @Inject
   PatchScriptFactory(final GitRepositoryManager grm,
       Provider<PatchScriptBuilder> builderFactory,
-      final PatchListCache patchListCache, final ReviewDb db,
+      final PatchListCache patchListCache, final SchemaFactory<ReviewDb> sf,
       final ChangeControl.Factory changeControlFactory,
       @Assisted final Patch.Key patchKey,
       @Assisted("patchSetA") @Nullable final PatchSet.Id patchSetA,
@@ -99,7 +100,7 @@ class PatchScriptFactory extends Handler<PatchScript> {
     this.repoManager = grm;
     this.builderFactory = builderFactory;
     this.patchListCache = patchListCache;
-    this.db = db;
+    this.schemaFactory = sf;
     this.changeControlFactory = changeControlFactory;
 
     this.patchKey = patchKey;
@@ -118,15 +119,7 @@ class PatchScriptFactory extends Handler<PatchScript> {
 
     control = changeControlFactory.validateFor(changeId);
     change = control.getChange();
-    patchSet = db.patchSets().get(patchSetId);
-    if (patchSet == null) {
-      throw new NoSuchChangeException(changeId);
-    }
-
-    projectKey = change.getProject();
-    aId = psa != null ? toObjectId(db, psa) : null;
-    bId = toObjectId(db, psb);
-
+    final CommentDetail comments = allComments();
     try {
       git = repoManager.openRepository(projectKey.get());
     } catch (RepositoryNotFoundException e) {
@@ -139,7 +132,7 @@ class PatchScriptFactory extends Handler<PatchScript> {
       final PatchList list = listFor(keyFor(settings.getWhitespace()));
       final PatchScriptBuilder b = newBuilder(list);
       final PatchListEntry contentWS = list.get(fileName);
-      final CommentDetail comments = allComments(db);
+
 
       final PatchListEntry contentActual;
       if (settings.getWhitespace() == Whitespace.IGNORE_NONE) {
@@ -160,6 +153,7 @@ class PatchScriptFactory extends Handler<PatchScript> {
       }
     } finally {
       git.close();
+
     }
   }
 
@@ -220,18 +214,32 @@ class PatchScriptFactory extends Handler<PatchScript> {
     }
   }
 
-  private CommentDetail allComments(final ReviewDb db) throws OrmException {
+  private CommentDetail allComments()
+      throws OrmException, NoSuchChangeException {
+    ReviewDb db = schemaFactory.open();
     final CommentDetail r = new CommentDetail(psa, psb);
-    final String pn = patchKey.get();
-    for (PatchLineComment p : db.patchComments().published(changeId, pn)) {
-      r.include(p);
-    }
+    try {
+      patchSet = db.patchSets().get(patchSetId);
+      if (patchSet == null) {
+        throw new NoSuchChangeException(changeId);
+      }
 
-    if (control.getCurrentUser() instanceof IdentifiedUser) {
-      for (PatchLineComment p : db.patchComments().draft(changeId, pn,
-          ((IdentifiedUser) control.getCurrentUser()).getAccountId())) {
+      projectKey = change.getProject();
+      aId = psa != null ? toObjectId(db, psa) : null;
+      bId = toObjectId(db, psb);
+      final String pn = patchKey.get();
+      for (PatchLineComment p : db.patchComments().published(changeId, pn)) {
         r.include(p);
       }
+
+      if (control.getCurrentUser() instanceof IdentifiedUser) {
+        for (PatchLineComment p : db.patchComments().draft(changeId, pn,
+            ((IdentifiedUser) control.getCurrentUser()).getAccountId())) {
+          r.include(p);
+        }
+      }
+    } finally {
+      db.close();
     }
     return r;
   }

@@ -16,6 +16,24 @@
       "revId": "545645af1bbe92123e3d14a4c340b81fbbe1e5fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3//+7s\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/patch/PatchScriptFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1002957
+      },
+      "writtenOn": "2010-02-01T18:54:30Z",
+      "side": 1,
+      "message": "Of course! I didn\u0027t see that the try / finally didn\u0027t include that block. Sorry.",
+      "parentUuid": "AAAAr3//+70\u003d",
+      "revId": "545645af1bbe92123e3d14a4c340b81fbbe1e5fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

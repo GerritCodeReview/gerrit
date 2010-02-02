@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAr3//+1o\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-02T19:15:04Z",
+      "side": 1,
+      "message": "See my comment in patch set 1 about using getOutputStream.  But you also need to commit the lock file:\n\n  try {\n    OutputStream os \u003d lf.getOutputStream();\n    try {\n      ... do the copy to os ...\n    } finally {\n      os.close();\n    }\n    if (!lf.commit())\n      throw new IOException(\"Cannot commit \" + dst);\n  } finally {\n    lf.unlock();\n  }",
+      "revId": "0a341d477e91bbecfadd30f115b29c4163842802",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

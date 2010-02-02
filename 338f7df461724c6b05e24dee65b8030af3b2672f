@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAr3//+2g\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitContainer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-02T19:10:49Z",
+      "side": 1,
+      "message": "Please kill the debugging statements.  :-)",
+      "revId": "338f7df461724c6b05e24dee65b8030af3b2672f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3//+2c\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-02T19:10:49Z",
+      "side": 1,
+      "message": "You can do this easier without the temporary byte array output stream in memory:\n\n  OutputStream os \u003d lf.getOutputStream();\n  try {\n    ... do the copy loop ...\n  } finally {\n    os.close();\n  }",
+      "revId": "338f7df461724c6b05e24dee65b8030af3b2672f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

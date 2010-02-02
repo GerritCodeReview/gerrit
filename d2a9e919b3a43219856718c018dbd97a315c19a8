@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAr3//+1c\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-02T19:27:44Z",
+      "side": 1,
+      "message": "Style-nit: Unnecessary blank line.",
+      "revId": "d2a9e919b3a43219856718c018dbd97a315c19a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

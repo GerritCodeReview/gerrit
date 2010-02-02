@@ -21,6 +21,7 @@ import org.eclipse.jgit.lib.FileBasedConfig;
 import org.eclipse.jgit.lib.LockFile;
 import org.eclipse.jgit.util.SystemReader;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -169,15 +170,25 @@ class InitUtil {
       throws FileNotFoundException, IOException {
     try {
       dst.getParentFile().mkdirs();
-      final FileOutputStream out = new FileOutputStream(dst);
+      LockFile lf = new LockFile(dst);
+      if (!lf.lock()) {
+        throw new IOException("Cannot lock " + dst);
+      }
       try {
-        final byte[] buf = new byte[4096];
-        int n;
-        while (0 < (n = in.read(buf))) {
-          out.write(buf, 0, n);
+
+        final ByteArrayOutputStream out = new ByteArrayOutputStream();
+        try {
+          final byte[] buf = new byte[4096];
+          int n;
+          while (0 < (n = in.read(buf))) {
+            out.write(buf, 0, n);
+          }
+        } finally {
+          out.close();
         }
+        lf.write(out.toByteArray());
       } finally {
-        out.close();
+        lf.unlock();
       }
     } finally {
       in.close();

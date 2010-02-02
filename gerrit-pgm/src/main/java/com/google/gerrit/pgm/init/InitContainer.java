@@ -59,6 +59,7 @@ class InitContainer implements InitStep {
     }
 
     String path = container.get("war");
+    System.out.println("1-PATH:" + path);
     if (path != null) {
       path = container.string("Gerrit runtime", "war", //
           myWar != null ? myWar.getAbsolutePath() : null);
@@ -66,7 +67,11 @@ class InitContainer implements InitStep {
         throw die("container.war is required");
       }
 
+      System.out.println("1-PATH:" + path);
+      System.out.println("1-myWar:" + myWar);
     } else if (myWar != null) {
+      System.out.println("2-PATH:" + path);
+      System.out.println("2-myWar:" + myWar);
       final boolean copy;
       final File siteWar = site.gerrit_war;
       if (siteWar.exists()) {

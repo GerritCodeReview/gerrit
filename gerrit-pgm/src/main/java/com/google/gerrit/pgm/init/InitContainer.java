@@ -65,7 +65,6 @@ class InitContainer implements InitStep {
       if (path == null || path.isEmpty()) {
         throw die("container.war is required");
       }
-
     } else if (myWar != null) {
       final boolean copy;
       final File siteWar = site.gerrit_war;

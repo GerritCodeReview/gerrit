@@ -143,7 +143,7 @@ class AddRefRight extends Handler<ProjectDetail> {
     }
     if (refPattern.endsWith("/*")) {
       final String prefix = refPattern.substring(0, refPattern.length() - 2);
-      if (!Repository.isValidRefName(prefix)) {
+      if (!"refs".equals(prefix) && !Repository.isValidRefName(prefix)) {
         throw new InvalidNameException();
       }
     } else {

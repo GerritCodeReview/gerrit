@@ -86,7 +86,7 @@ class AddRefRight extends Handler<ProjectDetail> {
     this.projectName = projectName;
     this.categoryId = categoryId;
     this.groupName = new AccountGroup.NameKey(groupName);
-    this.refPattern = refPattern;
+    this.refPattern = refPattern != null ? refPattern.trim() : null;
 
     if (min <= max) {
       this.min = min;

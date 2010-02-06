@@ -183,6 +183,7 @@ public class RefControl {
         return isOwner() || canPerform(PUSH_HEAD, PUSH_HEAD_REPLACE);
 
       case GIT:
+      case SSH_COMMAND:
         return canPerform(PUSH_HEAD, PUSH_HEAD_REPLACE);
 
       default:

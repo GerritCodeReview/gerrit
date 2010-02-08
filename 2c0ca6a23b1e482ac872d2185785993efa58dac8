@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAr3//+rE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-08T16:48:38Z",
+      "side": 1,
+      "message": "NAK.  We should fix ReceivePack to be changing its access path to type GIT.  I must have missed that when I changed the AccessPath code.  I\u0027ll send a patch for review in a minute.",
+      "revId": "2c0ca6a23b1e482ac872d2185785993efa58dac8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

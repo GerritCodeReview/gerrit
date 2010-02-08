@@ -348,6 +348,13 @@ public class GerritDebugLauncher extends ServletContainerLauncher {
     System.setProperty("Gerrit.GwtDevMode", "" + true);
   }
 
+  private String bindAddress = null;
+
+  @Override
+  public void setBindAddress(String bindAddress) {
+    this.bindAddress = bindAddress;
+  }
+
   @Override
   public ServletContainer start(TreeLogger logger, int port, File warDir)
       throws Exception {
@@ -363,6 +370,9 @@ public class GerritDebugLauncher extends ServletContainerLauncher {
     System.setProperty("org.mortbay.xml.XmlParser.Validating", "false");
 
     AbstractConnector connector = getConnector();
+    if (bindAddress != null) {
+      connector.setHost(bindAddress.toString());
+    }
     connector.setPort(port);
 
     // Don't share ports with an existing process.

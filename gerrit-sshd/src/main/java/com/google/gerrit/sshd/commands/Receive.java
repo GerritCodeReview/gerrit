@@ -20,6 +20,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.git.ReceiveCommits;
 import com.google.gerrit.server.git.ReceiveCommits.MessageListener;
+import com.google.gerrit.sshd.AbstractGitCommand;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.transport.ReceivePack;

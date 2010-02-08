@@ -12,13 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.sshd.commands;
+package com.google.gerrit.sshd;
 
 import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.server.AccessPath;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ProjectControl;
-import com.google.gerrit.sshd.BaseCommand;
+import com.google.gerrit.sshd.SshScope.Context;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import org.apache.sshd.server.Environment;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -26,26 +29,55 @@ import org.eclipse.jgit.lib.Repository;
 import org.kohsuke.args4j.Argument;
 
 import java.io.IOException;
+import java.net.SocketAddress;
 
-abstract class AbstractGitCommand extends BaseCommand {
+public abstract class AbstractGitCommand extends BaseCommand {
   @Argument(index = 0, metaVar = "PROJECT.git", required = true, usage = "project name")
   protected ProjectControl projectControl;
 
   @Inject
-  protected GitRepositoryManager repoManager;
+  private GitRepositoryManager repoManager;
+
+  @Inject
+  private SshSession session;
+
+  @Inject
+  private SshScope.Context context;
+
+  @Inject
+  private IdentifiedUser user;
+
+  @Inject
+  private IdentifiedUser.GenericFactory userFactory;
 
   protected Repository repo;
   protected Project project;
 
   @Override
   public void start(final Environment env) {
-    startThread(new CommandRunnable() {
-      @Override
-      public void run() throws Exception {
-        parseCommandLine();
-        AbstractGitCommand.this.service();
-      }
-    });
+    final Context ctx = new Context(newSession(), context.getCommandLine());
+    final Context old = SshScope.set(ctx);
+    try {
+      startThread(new CommandRunnable() {
+        @Override
+        public void run() throws Exception {
+          parseCommandLine();
+          AbstractGitCommand.this.service();
+        }
+      });
+    } finally {
+      SshScope.set(old);
+    }
+  }
+
+  private SshSession newSession() {
+    return new SshSession(session, session.getRemoteAddress(), userFactory
+        .create(AccessPath.GIT, new Provider<SocketAddress>() {
+          @Override
+          public SocketAddress get() {
+            return session.getRemoteAddress();
+          }
+        }, user.getAccountId()));
   }
 
   private void service() throws IOException, Failure {

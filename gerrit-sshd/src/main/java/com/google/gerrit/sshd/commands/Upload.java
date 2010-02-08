@@ -14,6 +14,8 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.gerrit.sshd.AbstractGitCommand;
+
 import org.eclipse.jgit.transport.UploadPack;
 
 import java.io.IOException;

@@ -174,7 +174,7 @@ public class PatchListCacheImpl implements PatchListCache {
       }
     }
 
-    RevTree aTree = a != null ? rw.parseCommit(a).getTree() : null;
+    RevTree aTree = a != null ? rw.parseTree(a) : null;
     RevTree bTree = b.getTree();
 
     final int cnt = p.getFiles().size();

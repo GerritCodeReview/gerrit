@@ -128,18 +128,22 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
   private void computeAllowed() {
     final Set<AccountGroup.Id> am = user.getEffectiveGroups();
     final ProjectState pe = projectCache.get(change.getProject());
-    List<RefRight> allRights = new ArrayList<RefRight>();
-    allRights.addAll(filterMatching(pe.getLocalRights()));
-    allRights.addAll(filterMatching(pe.getInheritedRights()));
-    Collections.sort(allRights, RefRight.REF_PATTERN_ORDER);
-    allRights = RefControl.filterMostSpecific(allRights);
-    computeAllowed(am, allRights);
+    for (ApprovalCategory.Id category : approvalTypes.getApprovalCategories()) {
+      List<RefRight> categoryRights = new ArrayList<RefRight>();
+      categoryRights.addAll(filterMatching(pe.getLocalRights(), category));
+      categoryRights.addAll(filterMatching(pe.getInheritedRights(), category));
+      Collections.sort(categoryRights, RefRight.REF_PATTERN_ORDER);
+      categoryRights = RefControl.filterMostSpecific(categoryRights);
+      computeAllowed(am, categoryRights, category);
+    }
   }
 
-  private List<RefRight> filterMatching(Collection<RefRight> rights) {
+  private List<RefRight> filterMatching(Collection<RefRight> rights,
+      ApprovalCategory.Id category) {
     List<RefRight> result = new ArrayList<RefRight>();
     for (RefRight right : rights) {
-      if (RefControl.matches(change.getDest().get(), right.getRefPattern())) {
+      if (RefControl.matches(change.getDest().get(), right.getRefPattern())
+          && category.equals(right.getApprovalCategoryId())) {
         result.add(right);
       }
     }
@@ -147,17 +151,17 @@ final class PatchSetPublishDetailFactory extends Handler<PatchSetPublishDetail> 
   }
 
   private void computeAllowed(final Set<AccountGroup.Id> am,
-      final List<RefRight> list) {
+      final List<RefRight> list, ApprovalCategory.Id category) {
+
+    Set<ApprovalCategoryValue.Id> s = allowed.get(category);
+    if (s == null) {
+      s = new HashSet<ApprovalCategoryValue.Id>();
+      allowed.put(category, s);
+    }
 
     for (final RefRight r : list) {
       if (!am.contains(r.getAccountGroupId())) {
         continue;
-      }
-
-      Set<ApprovalCategoryValue.Id> s = allowed.get(r.getApprovalCategoryId());
-      if (s == null) {
-        s = new HashSet<ApprovalCategoryValue.Id>();
-        allowed.put(r.getApprovalCategoryId(), s);
       }
 
       final ApprovalType at =

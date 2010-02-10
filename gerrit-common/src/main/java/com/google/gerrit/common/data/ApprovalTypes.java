@@ -19,6 +19,7 @@ import com.google.gerrit.reviewdb.ApprovalCategory;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class ApprovalTypes {
   protected List<ApprovalType> approvalTypes;
@@ -45,6 +46,10 @@ public class ApprovalTypes {
 
   public ApprovalType getApprovalType(final ApprovalCategory.Id id) {
     return byCategory().get(id);
+  }
+
+  public Set<ApprovalCategory.Id> getApprovalCategories() {
+    return byCategory().keySet();
   }
 
   private Map<ApprovalCategory.Id, ApprovalType> byCategory() {

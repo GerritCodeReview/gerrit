@@ -109,16 +109,6 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     ReceiveCommits create(ProjectControl projectControl, Repository repository);
   }
 
-  public interface MessageListener {
-    public static final MessageListener DISABLED = new MessageListener() {
-      @Override
-      public void warn(String msg) {
-      }
-    };
-
-    void warn(String msg) throws IOException;
-  }
-
   public static class Capable {
     public static final Capable OK = new Capable("OK");
 
@@ -133,7 +123,6 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     }
   }
 
-  private MessageListener messages = MessageListener.DISABLED;
   private final Set<Account.Id> reviewerId = new HashSet<Account.Id>();
   private final Set<Account.Id> ccId = new HashSet<Account.Id>();
 
@@ -207,11 +196,6 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     rp.setPostReceiveHook(this);
   }
 
-  /** Set the logger where warning messages are sent to the user. */
-  public void setMessageListener(MessageListener logger) {
-    this.messages = logger;
-  }
-
   /** Add reviewers for new (or updated) changes. */
   public void addReviewers(Collection<Account.Id> who) {
     reviewerId.addAll(who);
@@ -244,11 +228,6 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     } else {
       return Capable.OK;
     }
-  }
-
-  /** @return the set of new changes, if any were created during receive. */
-  public List<Change.Id> getNewChanges() {
-    return allNewChanges;
   }
 
   public void onPreReceive(final ReceivePack arg0,
@@ -286,6 +265,16 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
           replication.scheduleUpdate(project.getNameKey(), c.getRefName());
         }
       }
+    }
+
+    if (!allNewChanges.isEmpty() && canonicalWebUrl != null) {
+      final String url = canonicalWebUrl;
+      rp.sendMessage("");
+      rp.sendMessage("New Changes:");
+      for (final Change.Id c : allNewChanges) {
+        rp.sendMessage("  " + url + c.get());
+      }
+      rp.sendMessage("");
     }
   }
 
@@ -1003,7 +992,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
             reject(request.cmd, "no changes made");
             return null;
           } else {
-            messages.warn(change.getKey().abbreviate() + ": " //
+            rp.sendMessage("warning: " + change.getKey().abbreviate() + ": " //
                 + " no files changed, but" //
                 + (!messageEq ? " message updated" : "") //
                 + (!messageEq && !parentsEq ? " and" : "") //

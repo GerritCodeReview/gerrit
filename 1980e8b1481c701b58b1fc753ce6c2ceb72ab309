@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAr3//+bo\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-11T23:15:56Z",
+      "side": 1,
+      "message": "Maybe we should just limit it to refs/heads/ instead?  refs/heads/ is the branch namespace.  You really shouldn\u0027t be uploading a commit for review onto a non-branch.\n\nWe also could fix this via permissions.  Change READ to actually be:\n\n  READ +1..+1 refs/*\n  READ +1..+2 refs/heads/*\n\nand that leaves room for the site administrator to change the behavior and permit uploads on a non-refs/heads/ name if they so choose, simply by granting READ +2 on the proper name.\n\nBut right now we are hardcoded to require READ to be on refs/* only.  We\u0027d have to relax this restriction when adding an access control.  And change the defaults.\n\nThoughts?",
+      "revId": "1980e8b1481c701b58b1fc753ce6c2ceb72ab309",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

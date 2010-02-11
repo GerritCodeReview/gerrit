@@ -98,7 +98,7 @@ public class RefControl {
    *         ref
    */
   public boolean canUpload() {
-    return canPerform(READ, (short) 2);
+    return !refName.startsWith("refs/tags") && canPerform(READ, (short) 2);
   }
 
   /** @return true if the user can update the reference as a fast-forward. */

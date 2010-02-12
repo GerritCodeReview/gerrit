@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAr3//+bc\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapRealm.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-12T16:47:05Z",
+      "side": 1,
+      "message": "You can\u0027t make this mutable.  The LdapRealm object is a singleton in the virtual machine, with concurrent authentication attempts all using the same object.  Updating the fields from within the authenticate() method as you are doing below might allow \"bob\" to login as \"alice\" if they both logged in at exactly the same time.",
+      "revId": "8ec3adc36ae3f2363d344521d02755a2b385db0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3//+bY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapRealm.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-12T16:47:05Z",
+      "side": 1,
+      "message": "As I mentioned above, you can\u0027t do this assignment here.  Why does this fix the bug you are trying to fix?  You need to find another way to accomplish that without modifying this class\u0027s members.",
+      "revId": "8ec3adc36ae3f2363d344521d02755a2b385db0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

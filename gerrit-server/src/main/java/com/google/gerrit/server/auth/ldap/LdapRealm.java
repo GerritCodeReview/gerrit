@@ -71,8 +71,8 @@ class LdapRealm implements Realm {
   private static final String GROUPNAME = "groupname";
 
   private final String server;
-  private final String username;
-  private final String password;
+  private String username;
+  private String password;
   private final LdapType type;
   private final boolean sslVerify;
 
@@ -305,17 +305,30 @@ class LdapRealm implements Realm {
 
   public AuthRequest authenticate(final AuthRequest who)
       throws AccountException {
-    final String username = who.getLocalUser();
+    // Get the LDAP authentication username and password
+    // from the user's input.
+    //
+    final String authUsername = who.getLocalUser();
+    final String authPassword = who.getPassword();
+
+    // If the LDAP binding username and password are not set in the
+    // gerrit.config file, use the values supplied by the user.
+    //
+    if (this.username == null) {
+      this.username = authUsername;
+      this.password = authPassword;
+    }
+
     try {
       final DirContext ctx = open();
       try {
-        final LdapQuery.Result m = findAccount(ctx, username);
+        final LdapQuery.Result m = findAccount(ctx, authUsername);
 
         if (authConfig.getAuthType() == AuthType.LDAP) {
           // We found the user account, but we need to verify
           // the password matches it before we can continue.
           //
-          authenticate(m.getDN(), who.getPassword());
+          authenticate(m.getDN(), authPassword);
         }
 
         who.setDisplayName(apply(accountFullName, m));
@@ -324,12 +337,12 @@ class LdapRealm implements Realm {
         if (accountEmailAddress != null) {
           who.setEmailAddress(apply(accountEmailAddress, m));
 
-        } else if (emailExpander.canExpand(username)) {
+        } else if (emailExpander.canExpand(authUsername)) {
           // If LDAP cannot give us a valid email address for this user
           // try expanding it through the older email expander code which
           // assumes a user name within a domain.
           //
-          who.setEmailAddress(emailExpander.expand(username));
+          who.setEmailAddress(emailExpander.expand(authUsername));
         }
 
         // Fill the cache with the user's current groups. We've already
@@ -338,7 +351,7 @@ class LdapRealm implements Realm {
         // in the middle of authenticating the user, its likely we will
         // need to know what access rights they have soon.
         //
-        membershipCache.put(username, queryForGroups(ctx, username, m));
+        membershipCache.put(authUsername, queryForGroups(ctx, authUsername, m));
         return who;
       } finally {
         try {

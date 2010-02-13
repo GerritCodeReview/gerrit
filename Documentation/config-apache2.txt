@@ -31,8 +31,10 @@ during 'init'.
   	listenUrl = proxy-http://127.0.0.1:8081/r/
 ----
 
-Configure an Apache VirtualHost to proxy to the Gerrit daemon, setting
-the 'ProxyPass' line to use the 'http://' URL configured above.
+Configure an Apache VirtualHost to proxy to the Gerrit daemon,
+setting the 'ProxyPass' line to use the 'http://' URL configured
+above.  Ensure the path of ProxyPass and httpd.listenUrl match,
+or links will redirect to incorrect locations.
 
 ----
 	<VirtualHost *>

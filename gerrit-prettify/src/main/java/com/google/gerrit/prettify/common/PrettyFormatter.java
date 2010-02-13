@@ -381,15 +381,17 @@ public abstract class PrettyFormatter {
   }
 
   private SafeHtml showTabAfterSpace(SafeHtml src) {
-    src = src.replaceFirst("^(  *\t)", "<span class=\"wse\">$1</span>");
-    src = src.replaceAll("\n(  *\t)", "\n<span class=\"wse\">$1</span>");
+    final String m = "( ( |<span[^>]*>|</span>)*\t)";
+    final String r = "<span class=\"wse\">$1</span>";
+    src = src.replaceFirst("^" + m, r);
+    src = src.replaceAll("\n" + m, "\n" + r);
     return src;
   }
 
   private SafeHtml showTrailingWhitespace(SafeHtml src) {
     final String r = "<span class=\"wse\">$1</span>$2";
-    src = src.replaceAll("([ \t][ \t]*)(\r?\n)", r);
-    src = src.replaceFirst("([ \t][ \t]*)(\r?\n?)$", r);
+    src = src.replaceAll("([ \t][ \t]*)(\r?(</span>)?\n)", r);
+    src = src.replaceFirst("([ \t][ \t]*)(\r?(</span>)?\n?)$", r);
     return src;
   }
 }

@@ -59,7 +59,6 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
   protected PatchSet.Id idSideA;
   protected PatchSet.Id idSideB;
   protected boolean onlyOneHunk;
-  protected String formatLanguage;
 
   private final KeyCommandSet keysComment;
   private HandlerRegistration regComment;
@@ -145,7 +144,6 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
 
     final String pathName = patchKey.get();
     int ext = pathName.lastIndexOf('.');
-    formatLanguage = ext > 0 ? pathName.substring(ext + 1).toLowerCase() : null;
 
     render(s);
   }

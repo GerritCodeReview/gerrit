@@ -190,6 +190,10 @@ public class PatchListCacheImpl implements PatchListCache {
     if (fileHeader.getHunks().isEmpty()) {
       return new PatchListEntry(fileHeader, Collections.<Edit> emptyList());
     }
+    if (fileHeader.getOldMode().getObjectType() != Constants.OBJ_BLOB
+        || fileHeader.getNewMode().getObjectType() != Constants.OBJ_BLOB) {
+      return new PatchListEntry(fileHeader, Collections.<Edit> emptyList());
+    }
 
     List<Edit> edits = fileHeader.toEditList();
 

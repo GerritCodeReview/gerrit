@@ -38,6 +38,7 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectWriter;
@@ -188,6 +189,13 @@ public class PatchListCacheImpl implements PatchListCache {
   private static PatchListEntry newEntry(Repository repo, RevTree aTree,
       RevTree bTree, FileHeader fileHeader) throws IOException {
     if (fileHeader.getHunks().isEmpty()) {
+      return new PatchListEntry(fileHeader, Collections.<Edit> emptyList());
+    }
+
+    final FileMode oldMode = fileHeader.getOldMode();
+    final FileMode newMode = fileHeader.getNewMode();
+
+    if (oldMode == FileMode.GITLINK || newMode == FileMode.GITLINK) {
       return new PatchListEntry(fileHeader, Collections.<Edit> emptyList());
     }
 

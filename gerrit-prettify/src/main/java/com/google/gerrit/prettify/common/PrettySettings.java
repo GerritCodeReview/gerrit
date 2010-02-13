@@ -21,12 +21,14 @@ public class PrettySettings {
   protected int lineLength;
   protected int tabSize;
   protected boolean showTabs;
+  protected boolean syntaxHighlighting;
 
   public PrettySettings() {
     showWhiteSpaceErrors = true;
     lineLength = 100;
     tabSize = 2;
     showTabs = true;
+    syntaxHighlighting = true;
   }
 
   public PrettySettings(PrettySettings pretty) {
@@ -35,6 +37,7 @@ public class PrettySettings {
     lineLength = pretty.lineLength;
     tabSize = pretty.tabSize;
     showTabs = pretty.showTabs;
+    syntaxHighlighting = pretty.syntaxHighlighting;
   }
 
   public String getFilename() {
@@ -80,5 +83,13 @@ public class PrettySettings {
   public PrettySettings setShowTabs(final boolean show) {
     showTabs = show;
     return this;
+  }
+
+  public boolean isSyntaxHighlighting() {
+    return syntaxHighlighting;
+  }
+
+  public void setSyntaxHighlighting(final boolean on) {
+    syntaxHighlighting = on;
   }
 }

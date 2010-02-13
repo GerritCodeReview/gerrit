@@ -114,7 +114,13 @@ public abstract class PrettyFormatter {
     settings = how;
     lines = new ArrayList<String>();
 
-    String html = prettify(toHTML(srcText));
+    String html = toHTML(srcText);
+    if (settings.isSyntaxHighlighting()) {
+      html = prettify(html);
+    } else {
+      html = html.replaceAll("\n", "<br />");
+    }
+
     int pos = 0;
     int textChunkStart = 0;
 

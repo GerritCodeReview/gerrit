@@ -88,6 +88,7 @@ public abstract class PatchScreen extends Screen {
     public Unified(final Patch.Key id, final int patchIndex,
         final PatchTable patchTable) {
       super(id, patchIndex, patchTable);
+      scriptSettings.getPrettySettings().setSyntaxHighlighting(false);
     }
 
     @Override

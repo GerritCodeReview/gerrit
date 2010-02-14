@@ -40,6 +40,7 @@ import com.google.gwtjsonrpc.client.VoidResult;
 class PreferencePanel extends Composite {
   private CheckBox showSiteHeader;
   private CheckBox useFlashClipboard;
+  private CheckBox enableKeyboardShortcuts;
   private ListBox defaultContext;
   private ListBox maximumPageSize;
   private Button save;
@@ -65,6 +66,9 @@ class PreferencePanel extends Composite {
 
     useFlashClipboard = new CheckBox(Util.C.useFlashClipboard());
     useFlashClipboard.addClickHandler(onClickSave);
+
+    enableKeyboardShortcuts = new CheckBox(Util.C.enableKeyboardShortcuts());
+    enableKeyboardShortcuts.addClickHandler(onClickSave);
 
     maximumPageSize = new ListBox();
     for (final short v : PAGESIZE_CHOICES) {
@@ -92,7 +96,7 @@ class PreferencePanel extends Composite {
       labelIdx = 0;
       fieldIdx = 1;
     }
-    final Grid formGrid = new Grid(4, 2);
+    final Grid formGrid = new Grid(5, 2);
 
     int row = 0;
     formGrid.setText(row, labelIdx, "");
@@ -101,6 +105,10 @@ class PreferencePanel extends Composite {
 
     formGrid.setText(row, labelIdx, "");
     formGrid.setWidget(row, fieldIdx, useFlashClipboard);
+    row++;
+
+    formGrid.setText(row, labelIdx, "");
+    formGrid.setWidget(row, fieldIdx, enableKeyboardShortcuts);
     row++;
 
     formGrid.setText(row, labelIdx, Util.C.maximumPageSizeFieldLabel());
@@ -140,6 +148,7 @@ class PreferencePanel extends Composite {
   private void enable(final boolean on) {
     showSiteHeader.setEnabled(on);
     useFlashClipboard.setEnabled(on);
+    enableKeyboardShortcuts.setEnabled(on);
     maximumPageSize.setEnabled(on);
     defaultContext.setEnabled(on);
   }
@@ -147,6 +156,7 @@ class PreferencePanel extends Composite {
   private void display(final AccountGeneralPreferences p) {
     showSiteHeader.setValue(p.isShowSiteHeader());
     useFlashClipboard.setValue(p.isUseFlashClipboard());
+    enableKeyboardShortcuts.setValue(p.isEnableKeyboardShortcuts());
     setListBox(maximumPageSize, DEFAULT_PAGESIZE, p.getMaximumPageSize());
     setListBox(defaultContext, DEFAULT_CONTEXT, p.getDefaultContext());
   }
@@ -177,6 +187,7 @@ class PreferencePanel extends Composite {
     final AccountGeneralPreferences p = new AccountGeneralPreferences();
     p.setShowSiteHeader(showSiteHeader.getValue());
     p.setUseFlashClipboard(useFlashClipboard.getValue());
+    p.setEnableKeyboardShortcuts(enableKeyboardShortcuts.getValue());
     p.setMaximumPageSize(getListBox(maximumPageSize, DEFAULT_PAGESIZE));
     p.setDefaultContext(getListBox(defaultContext, DEFAULT_CONTEXT));
 

@@ -217,7 +217,7 @@ public abstract class NavigationTable<RowItem> extends FancyFlexTable<RowItem> {
   }
 
   public void setRegisterKeys(final boolean on) {
-    if (on && isAttached()) {
+    if (on && isAttached() && Gerrit.getConfig().isEnableKeyboardShortcuts()) {
       if (regNavigation == null) {
         regNavigation = GlobalKey.add(this, keysNavigation);
       }

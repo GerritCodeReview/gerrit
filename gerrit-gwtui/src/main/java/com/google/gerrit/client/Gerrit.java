@@ -372,7 +372,9 @@ public class Gerrit implements EntryPoint {
         display(event.getValue());
       }
     });
-    JumpKeys.register(body);
+    if (myConfig.isEnableKeyboardShortcuts()) {
+      JumpKeys.register(body);
+    }
 
     if ("".equals(History.getToken())) {
       if (isSignedIn()) {
@@ -462,6 +464,12 @@ public class Gerrit implements EntryPoint {
   public static void applyUserPreferences() {
     final AccountGeneralPreferences p = myAccount.getGeneralPreferences();
     CopyableLabel.setFlashEnabled(p.isUseFlashClipboard());
+    myConfig.setEnableKeyboardShortcuts(p.isEnableKeyboardShortcuts());
+    if (p.isEnableKeyboardShortcuts()) {
+      searchPanel.setEnableFocusKey(true);
+    } else {
+      searchPanel.setEnableFocusKey(false);
+    }
     if (siteHeader != null) {
       siteHeader.setVisible(p.isShowSiteHeader());
     }

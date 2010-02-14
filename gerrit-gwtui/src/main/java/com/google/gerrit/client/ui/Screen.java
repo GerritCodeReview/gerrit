@@ -122,6 +122,8 @@ public abstract class Screen extends View {
     if (windowTitle != null) {
       Gerrit.setWindowTitle(this, windowTitle);
     }
-    registerKeys();
+    if (Gerrit.getConfig().isEnableKeyboardShortcuts()) {
+      registerKeys();
+    }
   }
 }

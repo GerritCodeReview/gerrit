@@ -101,10 +101,8 @@ class SearchPanel extends Composite {
     }
   }
 
-  @Override
-  protected void onLoad() {
-    super.onLoad();
-    if (regFocus == null) {
+  void setEnableFocusKey(final boolean on) {
+    if (regFocus == null && on) {
       regFocus =
           GlobalKey.addApplication(this, new KeyCommand(0, '/', Gerrit.C
               .keySearch()) {
@@ -115,7 +113,15 @@ class SearchPanel extends Composite {
               searchBox.selectAll();
             }
           });
+    } else if (regFocus != null) {
+      regFocus.removeHandler();
+      regFocus = null;
     }
+  }
+
+  @Override
+  protected void onLoad() {
+    super.onLoad();
   }
 
   @Override

@@ -75,6 +75,7 @@ public class Gerrit implements EntryPoint {
   private static LinkMenuBar menuRight;
   private static RootPanel siteHeader;
   private static RootPanel siteFooter;
+  private static RootPanel bottomMenu;
   private static SearchPanel searchPanel;
   private static final Dispatcher dispatcher = new Dispatcher();
   private static ViewSite<Screen> body;
@@ -224,7 +225,6 @@ public class Gerrit implements EntryPoint {
     final RootPanel gTopMenu = RootPanel.get("gerrit_topmenu");
     final RootPanel gStarting = RootPanel.get("gerrit_startinggerrit");
     final RootPanel gBody = RootPanel.get("gerrit_body");
-    final RootPanel gBottomMenu = RootPanel.get("gerrit_btmmenu");
 
     gTopMenu.setStyleName(RESOURCES.css().gerritTopMenu());
     gBody.setStyleName(RESOURCES.css().gerritBody());
@@ -232,7 +232,6 @@ public class Gerrit implements EntryPoint {
     initHostname();
     Window.setTitle(M.windowTitle1(myHost));
     initHistoryHooks();
-    populateBottomMenu(gBottomMenu);
 
     final Grid menuLine = new Grid(1, 3);
     menuLeft = new TabPanel();
@@ -255,6 +254,8 @@ public class Gerrit implements EntryPoint {
 
     siteHeader = RootPanel.get("gerrit_header");
     siteFooter = RootPanel.get("gerrit_footer");
+    bottomMenu = RootPanel.get("gerrit_btmmenu");
+    populateBottomMenu();
 
     body = new ViewSite<Screen>() {
       @Override
@@ -340,10 +341,14 @@ public class Gerrit implements EntryPoint {
     }
   }
 
-  private static void populateBottomMenu(final RootPanel btmmenu) {
-    final Label keyHelp = new Label(C.keyHelp());
-    keyHelp.setStyleName(RESOURCES.css().keyhelp());
-    btmmenu.add(keyHelp);
+  private static void populateBottomMenu() {
+    bottomMenu.clear();
+
+    if (myConfig != null && myConfig.isEnableKeyboardShortcuts()) {
+      final Label keyHelp = new Label(C.keyHelp());
+      keyHelp.setStyleName(RESOURCES.css().keyhelp());
+      bottomMenu.add(keyHelp);
+    }
 
     String vs;
     if (GWT.isScript()) {
@@ -358,7 +363,7 @@ public class Gerrit implements EntryPoint {
 
     final HTML version = new HTML(M.poweredBy(vs));
     version.setStyleName(RESOURCES.css().version());
-    btmmenu.add(version);
+    bottomMenu.add(version);
   }
 
   private void onModuleLoad2(final RootPanel starting) {
@@ -372,7 +377,9 @@ public class Gerrit implements EntryPoint {
         display(event.getValue());
       }
     });
-    JumpKeys.register(body);
+    if (myConfig.isEnableKeyboardShortcuts()) {
+      JumpKeys.register(body);
+    }
 
     if ("".equals(History.getToken())) {
       if (isSignedIn()) {
@@ -462,6 +469,13 @@ public class Gerrit implements EntryPoint {
   public static void applyUserPreferences() {
     final AccountGeneralPreferences p = myAccount.getGeneralPreferences();
     CopyableLabel.setFlashEnabled(p.isUseFlashClipboard());
+    myConfig.setEnableKeyboardShortcuts(p.isEnableKeyboardShortcuts());
+    if (p.isEnableKeyboardShortcuts()) {
+      searchPanel.setEnableFocusKey(true);
+    } else {
+      searchPanel.setEnableFocusKey(false);
+    }
+    populateBottomMenu();
     if (siteHeader != null) {
       siteHeader.setVisible(p.isShowSiteHeader());
     }

@@ -129,7 +129,8 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
   @Override
   public void setRegisterKeys(final boolean on) {
     super.setRegisterKeys(on);
-    if (on && keysComment != null && regComment == null) {
+    if (on && keysComment != null && regComment == null
+        && Gerrit.getConfig().isEnableKeyboardShortcuts()) {
       regComment = GlobalKey.add(this, keysComment);
     } else if (!on && regComment != null) {
       regComment.removeHandler();

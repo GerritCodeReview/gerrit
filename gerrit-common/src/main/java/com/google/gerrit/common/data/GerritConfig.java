@@ -36,6 +36,7 @@ public class GerritConfig implements Cloneable {
   protected ApprovalTypes approvalTypes;
   protected Set<Account.FieldName> editableAccountFields;
   protected List<RegexFindReplace> commentLinks;
+  protected boolean enableKeyboardShortcuts;
 
   public String getRegisterUrl() {
     return registerUrl;
@@ -138,5 +139,13 @@ public class GerritConfig implements Cloneable {
 
   public void setCommentLinks(final List<RegexFindReplace> cl) {
     commentLinks = cl;
+  }
+
+  public boolean isEnableKeyboardShortcuts() {
+    return enableKeyboardShortcuts;
+  }
+
+  public void setEnableKeyboardShortcuts(final boolean r) {
+    enableKeyboardShortcuts = r;
   }
 }

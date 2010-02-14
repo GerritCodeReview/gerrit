@@ -462,6 +462,7 @@ public class Gerrit implements EntryPoint {
   public static void applyUserPreferences() {
     final AccountGeneralPreferences p = myAccount.getGeneralPreferences();
     CopyableLabel.setFlashEnabled(p.isUseFlashClipboard());
+    myConfig.setEnableKeyboardShortcuts(p.isEnableKeyboardShortcuts());
     if (siteHeader != null) {
       siteHeader.setVisible(p.isShowSiteHeader());
     }

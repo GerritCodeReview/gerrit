@@ -50,6 +50,10 @@ public final class AccountGeneralPreferences {
   @Column(id = 4)
   protected boolean useFlashClipboard;
 
+  /** Should keyboard shortcuts be enabled? */
+  @Column(id = 5)
+  protected boolean enableKeyboardShortcuts;
+
   public AccountGeneralPreferences() {
   }
 
@@ -87,10 +91,19 @@ public final class AccountGeneralPreferences {
     useFlashClipboard = b;
   }
 
+  public boolean isEnableKeyboardShortcuts() {
+    return enableKeyboardShortcuts;
+  }
+
+  public void setEnableKeyboardShortcuts(final boolean b) {
+    enableKeyboardShortcuts = b;
+  }
+
   public void resetToDefaults() {
     defaultContext = DEFAULT_CONTEXT;
     maximumPageSize = DEFAULT_PAGESIZE;
     showSiteHeader = true;
     useFlashClipboard = true;
+    enableKeyboardShortcuts = true;
   }
 }

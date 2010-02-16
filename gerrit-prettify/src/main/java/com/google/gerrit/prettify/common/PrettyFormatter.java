@@ -480,9 +480,18 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
     }
 
     int dot = srcType.lastIndexOf('.');
+    if (dot < 0) {
+      return null;
+    }
+
     if (0 < dot) {
       srcType = srcType.substring(dot + 1);
     }
+
+    if ("txt".equalsIgnoreCase(srcType)) {
+      return null;
+    }
+
     return srcType;
   }
 }

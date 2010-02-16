@@ -80,19 +80,13 @@ class ServerPrettyFactory implements PrettyFactory, Provider<PrettyFormatter> {
   public PrettyFormatter get() {
     return new PrettyFormatter() {
       @Override
-      protected String prettify(String html) {
-        return prettyPrintOne(html, settings);
+      protected String prettify(String html, String type) {
+        return prettyPrintOne(html, type, settings);
       }
     };
   }
 
-  private String prettyPrintOne(String srcText, PrettySettings how) {
-    String srcType = how.getFilename();
-    int dot = srcType.lastIndexOf('.');
-    if (0 < dot) {
-      srcType = srcType.substring(dot + 1);
-    }
-
+  private String prettyPrintOne(String srcText, String type, PrettySettings how) {
     Context cx = contextFactory.enterContext();
     try {
       Scriptable callScope = cx.newObject(sharedScope);
@@ -110,7 +104,7 @@ class ServerPrettyFactory implements PrettyFactory, Provider<PrettyFormatter> {
 
       callScope.put("window", callScope, callWindow);
       callScope.put("srcText", callScope, srcText);
-      callScope.put("srcType", callScope, srcType);
+      callScope.put("srcType", callScope, type);
       String call = "prettyPrintOne(srcText, srcType)";
 
       return cx.evaluateString(callScope, call, "<call>", 1, null).toString();

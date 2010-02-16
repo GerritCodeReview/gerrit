@@ -21,9 +21,9 @@ import static com.google.gerrit.client.patches.PatchLine.Type.REPLACE;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.common.data.CommentDetail;
-import com.google.gerrit.common.data.EditList;
 import com.google.gerrit.common.data.PatchScript;
-import com.google.gerrit.common.data.SparseFileContent;
+import com.google.gerrit.prettify.common.EditList;
+import com.google.gerrit.prettify.common.SparseHtmlFile;
 import com.google.gerrit.reviewdb.Patch;
 import com.google.gerrit.reviewdb.PatchLineComment;
 import com.google.gwt.core.client.GWT;
@@ -67,8 +67,8 @@ public class SideBySideTable extends AbstractPatchContentTable {
 
   @Override
   protected void render(final PatchScript script) {
-    final SparseFileContent a = script.getA();
-    final SparseFileContent b = script.getB();
+    final SparseHtmlFile a = script.getSparseHtmlFileA();
+    final SparseHtmlFile b = script.getSparseHtmlFileB();
     final ArrayList<PatchLine> lines = new ArrayList<PatchLine>();
     final SafeHtmlBuilder nc = new SafeHtmlBuilder();
 
@@ -86,7 +86,7 @@ public class SideBySideTable extends AbstractPatchContentTable {
       while (hunk.next()) {
         if (hunk.isContextLine()) {
           openLine(nc);
-          final SafeHtml ctx = a.get(hunk.getCurA());
+          final SafeHtml ctx = a.getSafeHtmlLine(hunk.getCurA());
           appendLineText(nc, hunk.getCurA(), CONTEXT, ctx);
           if (ignoreWS && b.contains(hunk.getCurB())) {
             appendLineText(nc, hunk.getCurB(), CONTEXT, b, hunk.getCurB());
@@ -273,8 +273,8 @@ public class SideBySideTable extends AbstractPatchContentTable {
 
   private void appendLineText(final SafeHtmlBuilder m,
       final int lineNumberMinusOne, final PatchLine.Type type,
-      final SparseFileContent src, final int i) {
-    appendLineText(m, lineNumberMinusOne, type, src.get(i));
+      final SparseHtmlFile src, final int i) {
+    appendLineText(m, lineNumberMinusOne, type, src.getSafeHtmlLine(i));
   }
 
   private void appendLineText(final SafeHtmlBuilder m,

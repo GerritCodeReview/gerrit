@@ -305,18 +305,32 @@ class LdapRealm implements Realm {
 
   public AuthRequest authenticate(final AuthRequest who)
       throws AccountException {
-    final String username = who.getLocalUser();
+
     try {
-      final DirContext ctx = open();
+      DirContext ctx = null;
+      AuthType authType = authConfig.getAuthType();
+      String username = who.getLocalUser();
+      String password = who.getPassword();
+
+      if (this.username != null) {
+        // bind using username and password from gerrit.config file
+        ctx = open();
+
+        if (authType == AuthType.LDAP) {
+          // bind again to check dialog values
+          ctx = authenticate(username, password);
+        }
+      } else if (authType == AuthType.LDAP) {
+        // bind using dialog values
+        ctx = authenticate(username, password);
+        // cache values for reuse in later queries
+      } else {
+        // bind anonymously
+        ctx = open();
+      }
+
       try {
         final LdapQuery.Result m = findAccount(ctx, username);
-
-        if (authConfig.getAuthType() == AuthType.LDAP) {
-          // We found the user account, but we need to verify
-          // the password matches it before we can continue.
-          //
-          authenticate(m.getDN(), who.getPassword());
-        }
 
         who.setDisplayName(apply(accountFullName, m));
         who.setUserName(apply(accountSshUserName, m));
@@ -541,16 +555,15 @@ class LdapRealm implements Realm {
     return new InitialDirContext(env);
   }
 
-  private void authenticate(String dn, String password) throws AccountException {
+  private DirContext authenticate(String username, String password)
+      throws AccountException, NamingException {
     final Properties env = createContextProperties();
-    env.put(Context.SECURITY_AUTHENTICATION, "simple");
-    env.put(Context.SECURITY_PRINCIPAL, dn);
-    env.put(Context.SECURITY_CREDENTIALS, password != null ? password : "");
-    try {
-      new InitialDirContext(env).close();
-    } catch (NamingException e) {
-      throw new AccountException("Incorrect username or password", e);
+    if (username != null) {
+      env.put(Context.SECURITY_AUTHENTICATION, "simple");
+      env.put(Context.SECURITY_PRINCIPAL, username);
+      env.put(Context.SECURITY_CREDENTIALS, password != null ? password : "");
     }
+    return new InitialDirContext(env);
   }
 
   private LdapType discoverLdapType() {

@@ -15,14 +15,11 @@
 package com.google.gerrit.httpd.rpc.patch;
 
 import com.google.gerrit.common.data.CommentDetail;
-import com.google.gerrit.common.data.EditList;
 import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.data.PatchScriptSettings;
-import com.google.gerrit.common.data.SparseFileContent;
 import com.google.gerrit.common.data.PatchScript.DisplayMethod;
-import com.google.gerrit.prettify.common.PrettyFactory;
-import com.google.gerrit.prettify.common.PrettyFormatter;
-import com.google.gerrit.prettify.common.PrettySettings;
+import com.google.gerrit.prettify.common.EditList;
+import com.google.gerrit.prettify.common.SparseFileContent;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchLineComment;
 import com.google.gerrit.reviewdb.Patch.PatchType;
@@ -65,7 +62,6 @@ class PatchScriptBuilder {
   };
 
   private final List<String> header;
-  private final PrettyFactory prettyFactory;
   private Repository db;
   private Change change;
   private PatchScriptSettings settings;
@@ -77,11 +73,11 @@ class PatchScriptBuilder {
 
   private List<Edit> edits;
   private final FileTypeRegistry registry;
+  private int context;
 
   @Inject
-  PatchScriptBuilder(final FileTypeRegistry ftr, final PrettyFactory pf) {
+  PatchScriptBuilder(final FileTypeRegistry ftr) {
     header = new ArrayList<String>();
-    prettyFactory = pf;
     a = new Side();
     b = new Side();
     registry = ftr;
@@ -97,15 +93,12 @@ class PatchScriptBuilder {
 
   void setSettings(final PatchScriptSettings s) {
     settings = s;
+    context = settings.getContext();
   }
 
   void setTrees(final ObjectId a, final ObjectId b) {
     aId = a;
     bId = b;
-  }
-
-  private int context() {
-    return settings.getContext();
   }
 
   PatchScript toPatchScript(final PatchListEntry contentWS,
@@ -133,7 +126,7 @@ class PatchScriptBuilder {
 
     if (a.mode == FileMode.GITLINK || b.mode == FileMode.GITLINK) {
 
-    } else if (a.src == b.src && a.size() <= context()
+    } else if (a.src == b.src && a.size() <= context
         && contentAct.getEdits().isEmpty()) {
       // Odd special case; the files are identical (100% rename or copy)
       // and the user has asked for context that is larger than the file.
@@ -144,9 +137,22 @@ class PatchScriptBuilder {
       }
       edits = new ArrayList<Edit>(1);
       edits.add(new Edit(a.size(), a.size()));
+
     } else {
-      if (BIG_FILE < Math.max(a.size(), b.size()) && 25 < context()) {
-        settings.setContext(25);
+      if (BIG_FILE < Math.max(a.size(), b.size())) {
+        // IF the file is really large, we disable things to avoid choking
+        // the browser client.
+        //
+        settings.setContext(Math.min(25, context));
+        settings.getPrettySettings().setSyntaxHighlighting(false);
+        context = settings.getContext();
+
+      } else if (settings.getPrettySettings().isSyntaxHighlighting()) {
+        // In order to syntax highlight the file properly we need to
+        // give the client the complete file contents. So force our
+        // context temporarily to the complete file size.
+        //
+        context = MAX_CONTEXT;
       }
       packContent();
     }
@@ -306,7 +312,7 @@ class PatchScriptBuilder {
   }
 
   private void packContent() {
-    EditList list = new EditList(edits, context(), a.size(), b.size());
+    EditList list = new EditList(edits, context, a.size(), b.size());
     for (final EditList.Hunk hunk : list.getHunks()) {
       while (hunk.next()) {
         if (hunk.isContextLine()) {
@@ -330,7 +336,7 @@ class PatchScriptBuilder {
     ObjectId id;
     FileMode mode;
     byte[] srcContent;
-    PrettyFormatter src;
+    Text src;
     MimeType mimeType = MimeUtil2.UNKNOWN_MIME_TYPE;
     DisplayMethod displayMethod = DisplayMethod.DIFF;
     final SparseFileContent dst = new SparseFileContent();
@@ -387,26 +393,19 @@ class PatchScriptBuilder {
           displayMethod = DisplayMethod.NONE;
         }
 
-        if (!reuse && displayMethod == DisplayMethod.DIFF) {
-          PrettySettings s = new PrettySettings(settings.getPrettySettings());
-          s.setFileName(path);
-
-          src = prettyFactory.get();
-          if (other == null /* side A */) {
-            src.setEditFilter(PrettyFormatter.A);
-            s.setShowWhiteSpaceErrors(false);
+        if (!reuse) {
+          if (srcContent == Text.NO_BYTES) {
+            src = Text.EMPTY;
           } else {
-            src.setEditFilter(PrettyFormatter.B);
-            s.setShowWhiteSpaceErrors(s.isShowWhiteSpaceErrors());
+            src = new Text(srcContent);
           }
-          src.setEditList(edits);
-          src.format(s, Text.asString(srcContent, null));
         }
 
         if (srcContent.length > 0 && srcContent[srcContent.length - 1] != '\n') {
           dst.setMissingNewlineAtEnd(true);
         }
         dst.setSize(size());
+        dst.setPath(path);
       } catch (IOException err) {
         throw new IOException("Cannot read " + within.name() + ":" + path, err);
       }

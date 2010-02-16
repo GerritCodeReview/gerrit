@@ -39,16 +39,6 @@ limitations under the License.
     </dependency>
 
     <dependency>
-      <groupId>com.google.code.guice</groupId>
-      <artifactId>guice</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>rhino</groupId>
-      <artifactId>js</artifactId>
-    </dependency>
-
-    <dependency>
       <groupId>com.google.gerrit</groupId>
       <artifactId>gerrit-patch-jgit</artifactId>
       <version>${project.version}</version>

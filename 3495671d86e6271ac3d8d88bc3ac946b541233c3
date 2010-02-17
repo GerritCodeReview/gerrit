@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAr3//+TY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapRealm.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-17T17:25:14Z",
+      "side": 1,
+      "message": "Don\u0027t initialize this to null.  Leave it unset.  We actually need to ensure its not null by the time we reach the try below because the finally clause will close it, and assumes it is not null.",
+      "revId": "3495671d86e6271ac3d8d88bc3ac946b541233c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3//+TU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapRealm.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-17T17:25:14Z",
+      "side": 1,
+      "message": "You just discarded the initial connection.  What I really meant for here was to discard the connection used for authentication.  So change this to:\n\n  authenticate(username, password).close();\n\n  ctx \u003d open();\n\nThat way if the username or password from the end-user isn\u0027t valid, we won\u0027t leak the generic connection created by the administrator from the configuration file when the exception gets thrown up the stack.",
+      "revId": "3495671d86e6271ac3d8d88bc3ac946b541233c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3//+TM\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapRealm.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-17T17:25:14Z",
+      "side": 1,
+      "message": "How can username be null here?  If it is null, why are we opening an anonymous connection?  Shouldn\u0027t we fail?  A null username here implies the user submitted the login dialog without a username entered.  That\u0027s not a valid username to authenticate with.  So we should reject it outright without even talking to the LDAP directory server.",
+      "revId": "3495671d86e6271ac3d8d88bc3ac946b541233c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

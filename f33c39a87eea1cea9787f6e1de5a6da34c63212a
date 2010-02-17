@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAr3//+TQ\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapRealm.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-17T17:25:14Z",
+      "side": 0,
+      "message": "Don\u0027t remove this try/catch block.  We still should do the try/catch here and throw as AccountException.  All you needed to do here was drop the .close() and change it to return the new DirContext.",
+      "revId": "f33c39a87eea1cea9787f6e1de5a6da34c63212a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

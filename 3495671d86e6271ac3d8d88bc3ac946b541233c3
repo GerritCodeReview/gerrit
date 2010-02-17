@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAr3//+RM\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapRealm.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1003294
+      },
+      "writtenOn": "2010-02-17T19:25:27Z",
+      "side": 1,
+      "message": "Oh.  I see it now. Duh.  You want me to flip the open() and if block calls.\nlike this...\n\nif (this.username !\u003d null)...\n  if (authType \u003d\u003d LDAP) {\n  ...\n  }\n  ctx \u003d open();\n} else if (authType \u003d\u003d LDAP)...\n\nFunny, didn\u0027t see this until I started making your suggested changes.",
+      "parentUuid": "AAAAr3//+TU\u003d",
+      "revId": "3495671d86e6271ac3d8d88bc3ac946b541233c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAr3//+TM\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapRealm.java",
         "patchSetId": 2

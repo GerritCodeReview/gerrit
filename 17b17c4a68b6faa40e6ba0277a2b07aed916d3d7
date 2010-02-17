@@ -16,6 +16,24 @@
       "revId": "17b17c4a68b6faa40e6ba0277a2b07aed916d3d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3//+SY\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitSshd.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-17T18:15:59Z",
+      "side": 1,
+      "message": "I think its safe to assume that.  The key doesn\u0027t exist on the initial install.  But if the key exists on a later install, we don\u0027t need BouncyCastle to read it, its a Java serialized file, so its fine to not get the library.\n\nIf the user really wanted (or needed) to regenerate their keys, they just need to delete the old key files and run init again.  With no keys present we\u0027ll prompt again for the library, and then fall down into generateSshHostKeys() below which only does its task if there are no key files present.  With no keys present, it\u0027ll make a new key, using whatever is available, which might now be with BouncyCastle.",
+      "parentUuid": "AAAAr3//+TA\u003d",
+      "revId": "17b17c4a68b6faa40e6ba0277a2b07aed916d3d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,4 +1,4 @@
-# Copyright (C) 2009 The Android Open Source Project
+# Copyright (C) 2010 The Android Open Source Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,22 +12,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-DOC_HTML       = $(patsubst %.txt,%.html,$(wildcard *.txt)) \
-                 $(patsubst %.txt,%.html,$(wildcard ReleaseNotes/*.txt))
+DOC_HTML       = $(patsubst %.txt,%.html,$(wildcard ReleaseNotes*.txt))
 ASCIIDOC       = asciidoc
 ASCIIDOC_EXTRA =
 SVN            = svn
-PUB_ROOT       = https://gerrit.googlecode.com/svn/documentation
+PUB_ROOT       = https://gerrit.googlecode.com/svn/ReleaseNotes
 LOCAL_ROOT     = .published
 
-SCRIPTSDIR    := $(shell pwd)/javascript
-DOC_VERS      := $(shell git describe HEAD)
-DOC_VMM       := $(shell sh -c "echo $(DOC_VERS) | perl -pe 's,^v(\d+\.\d+)[\.-].*\$$,\$$1,'")
-PUB_DIR        = $(PUB_ROOT)/$(DOC_VMM)
+SCRIPTSDIR    := $(shell pwd)/../Documentation/javascript
+PUB_DIR        = $(PUB_ROOT)
 
 all: html
 
-html: $(DOC_HTML)
+html: index.html $(DOC_HTML)
 
 update: html
 	-rm -rf $(LOCAL_ROOT)
@@ -42,20 +39,31 @@ update: html
 	    $(SVN) add $$a && \
 	    $(SVN) propset svn:mime-type text/html $$a ; \
 	    fi && \
-	  $(SVN) commit -m "Updated documentation $(DOC_VMM) to $(DOC_VERS)"
+	  $(SVN) commit -m "Updated release notes"
 	-rm -rf $(LOCAL_ROOT)
-
-new-docs:
-	$(SVN) mkdir -m "Create documentation $(DOC_VMM)" $(PUB_DIR)
 
 clean:
 	rm -f *.html
 	rm -rf $(LOCAL_ROOT)
 
-$(DOC_HTML): %.html : %.txt $(SCRIPTSDIR)/toc.js
+index.html: index.txt $(SCRIPTSDIR)/toc.js
 	rm -f $@+ $@
 	$(ASCIIDOC) --unsafe \
-		-a toc -a 'revision=$(DOC_VERS)' \
+		-a toc \
+		-a 'scriptsdir=$(SCRIPTSDIR)' \
+		-b xhtml11 -f asciidoc.conf \
+		$(ASCIIDOC_EXTRA) -o $@+ $<
+	mv $@+ $@
+
+$(DOC_HTML): %.html : %.txt $(SCRIPTSDIR)/toc.js
+	rm -f $@+ $@
+	v=$$(echo $< | sed 's/^ReleaseNotes-//;s/.txt$$//;') && \
+	c=$$(git rev-list -1 HEAD -- $<) && \
+	n=$$(git describe $$c) && \
+	if [ "X$$n" != "Xv$$v" ]; then v="$$v (from $$n)"; fi && \
+	$(ASCIIDOC) --unsafe \
+		-a toc \
+		-a "revision=$$v" \
 		-a 'scriptsdir=$(SCRIPTSDIR)' \
 		-b xhtml11 -f asciidoc.conf \
 		$(ASCIIDOC_EXTRA) -o $@+ $<

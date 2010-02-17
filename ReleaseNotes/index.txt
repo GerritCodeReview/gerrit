@@ -1,0 +1,39 @@
+Gerrit Code Review - Release Notes
+==================================
+
+[[2_1]]
+Version 2.1.x
+-------------
+* link:ReleaseNotes-2.1.1.html[2.1.1]
+* link:ReleaseNotes-2.1.html[2.1]
+
+[[2_0]]
+Version 2.0.x
+-------------
+* link:ReleaseNotes-2.0.24.html[2.0.24]
+* link:ReleaseNotes-2.0.23.html[2.0.23]
+* link:ReleaseNotes-2.0.22.html[2.0.22]
+* link:ReleaseNotes-2.0.21.html[2.0.21]
+* link:ReleaseNotes-2.0.20.html[2.0.20]
+* link:ReleaseNotes-2.0.19.html[2.0.19]
+* link:ReleaseNotes-2.0.18.html[2.0.18]
+* link:ReleaseNotes-2.0.17.html[2.0.17]
+* link:ReleaseNotes-2.0.16.html[2.0.16]
+* link:ReleaseNotes-2.0.15.html[2.0.15]
+* link:ReleaseNotes-2.0.14.html[2.0.14]
+* link:ReleaseNotes-2.0.13.html[2.0.13]
+* link:ReleaseNotes-2.0.12.html[2.0.12]
+* link:ReleaseNotes-2.0.11.html[2.0.11]
+* link:ReleaseNotes-2.0.10.html[2.0.10]
+* link:ReleaseNotes-2.0.9.html[2.0.9]
+* link:ReleaseNotes-2.0.8.html[2.0.8]
+* link:ReleaseNotes-2.0.7.html[2.0.7]
+* link:ReleaseNotes-2.0.6.html[2.0.6]
+* link:ReleaseNotes-2.0.5.html[2.0.5]
+* link:ReleaseNotes-2.0.4.html[2.0.4]
+* link:ReleaseNotes-2.0.3.html[2.0.3]
+* link:ReleaseNotes-2.0.2.html[2.0.2]
+
+GERRIT
+------
+Part of link:http://code.google.com/p/gerrit/[Gerrit Code Review]

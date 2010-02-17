@@ -22,6 +22,7 @@ import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.AccountExternalId.Key;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.jdbc.JdbcSchema;
+import com.google.gwtorm.schema.sql.DialectH2;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -39,15 +40,15 @@ class Schema_22 extends SchemaVersion {
 
   @Override
   protected void migrateData(ReviewDb db) throws OrmException, SQLException {
-    Collection<AccountExternalId> ids = new ArrayList<AccountExternalId>();
-    Statement queryStmt = ((JdbcSchema) db).getConnection().createStatement();
+    Statement s = ((JdbcSchema) db).getConnection().createStatement();
     try {
       ResultSet results =
-          queryStmt.executeQuery(//
+          s.executeQuery(//
               "SELECT account_id, ssh_user_name"
                   + " FROM accounts" //
                   + " WHERE ssh_user_name IS NOT NULL"
                   + " AND ssh_user_name <> ''");
+      Collection<AccountExternalId> ids = new ArrayList<AccountExternalId>();
       while (results.next()) {
         final int accountId = results.getInt(1);
         final String userName = results.getString(2);
@@ -56,10 +57,15 @@ class Schema_22 extends SchemaVersion {
         final AccountExternalId.Key key = toKey(userName);
         ids.add(new AccountExternalId(account, key));
       }
+      db.accountExternalIds().insert(ids);
+
+      if (((JdbcSchema) db).getDialect() instanceof DialectH2) {
+        s.execute("ALTER TABLE accounts DROP CONSTRAINT"
+            + " IF EXISTS CONSTRAINT_AF");
+      }
     } finally {
-      queryStmt.close();
+      s.close();
     }
-    db.accountExternalIds().insert(ids);
   }
 
   private Key toKey(final String userName) {

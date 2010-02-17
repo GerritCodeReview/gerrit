@@ -19,6 +19,7 @@ import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.SystemConfig;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.jdbc.JdbcSchema;
+import com.google.gwtorm.schema.sql.DialectH2;
 import com.google.gwtorm.schema.sql.DialectMySQL;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -55,6 +56,10 @@ class Schema_21 extends SchemaVersion {
 
       if (jdbc.getDialect() instanceof DialectMySQL) {
         s.execute("DROP FUNCTION nextval_project_id");
+
+      } else if (jdbc.getDialect() instanceof DialectH2) {
+        s.execute("ALTER TABLE projects DROP CONSTRAINT"
+            + " IF EXISTS CONSTRAINT_F3");
       }
     } finally {
       s.close();

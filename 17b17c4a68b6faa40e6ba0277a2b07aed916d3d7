@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAr3//+TA\u003d",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/init/InitSshd.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1002957
+      },
+      "writtenOn": "2010-02-17T17:29:23Z",
+      "side": 1,
+      "message": "Is it safe to assume that an ssh key exists means that it is a first installation? What if a user wants to regenerate their key?",
+      "revId": "17b17c4a68b6faa40e6ba0277a2b07aed916d3d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

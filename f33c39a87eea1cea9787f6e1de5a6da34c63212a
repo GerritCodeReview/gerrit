@@ -16,6 +16,24 @@
       "revId": "f33c39a87eea1cea9787f6e1de5a6da34c63212a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3//+Rs\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapRealm.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 1003294
+      },
+      "writtenOn": "2010-02-17T18:47:34Z",
+      "side": 0,
+      "message": "Oops. I actually copied this code from the open method -- where InitialDirContext is not called in a try block.  Should we also change open to put the InitialDirContext call in a try block?",
+      "parentUuid": "AAAAr3//+TQ\u003d",
+      "revId": "f33c39a87eea1cea9787f6e1de5a6da34c63212a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

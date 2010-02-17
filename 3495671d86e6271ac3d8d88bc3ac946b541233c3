@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAr3//+Rw\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapRealm.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1003294
+      },
+      "writtenOn": "2010-02-17T18:47:34Z",
+      "side": 1,
+      "message": "Ok.",
+      "parentUuid": "AAAAr3//+TY\u003d",
+      "revId": "3495671d86e6271ac3d8d88bc3ac946b541233c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAr3//+TU\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapRealm.java",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAr3//+R0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapRealm.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1003294
+      },
+      "writtenOn": "2010-02-17T18:47:34Z",
+      "side": 1,
+      "message": "OK, that makes sense. Although, do we need to call open() again? Isn\u0027t the open call on line 317 still valid?",
+      "parentUuid": "AAAAr3//+TU\u003d",
+      "revId": "3495671d86e6271ac3d8d88bc3ac946b541233c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAr3//+TM\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapRealm.java",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2010-02-17T17:25:14Z",
       "side": 1,
       "message": "How can username be null here?  If it is null, why are we opening an anonymous connection?  Shouldn\u0027t we fail?  A null username here implies the user submitted the login dialog without a username entered.  That\u0027s not a valid username to authenticate with.  So we should reject it outright without even talking to the LDAP directory server.",
+      "revId": "3495671d86e6271ac3d8d88bc3ac946b541233c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3//+Ro\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapRealm.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 1003294
+      },
+      "writtenOn": "2010-02-17T18:47:34Z",
+      "side": 1,
+      "message": "Ok. Should we just throw an AccountException here on a null username?",
+      "parentUuid": "AAAAr3//+TM\u003d",
       "revId": "3495671d86e6271ac3d8d88bc3ac946b541233c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

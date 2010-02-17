@@ -22,10 +22,6 @@ import com.google.gerrit.reviewdb.SystemConfig;
 import com.google.gerrit.server.workflow.NoOpFunction;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.jdbc.JdbcSchema;
-import com.google.gwtorm.schema.sql.DialectH2;
-import com.google.gwtorm.schema.sql.DialectMySQL;
-import com.google.gwtorm.schema.sql.DialectPostgreSQL;
-import com.google.gwtorm.schema.sql.SqlDialect;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 

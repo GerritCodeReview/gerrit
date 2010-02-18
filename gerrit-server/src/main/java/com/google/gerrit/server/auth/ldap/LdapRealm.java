@@ -70,29 +70,21 @@ class LdapRealm implements Realm {
   private static final String USERNAME = "username";
   private static final String GROUPNAME = "groupname";
 
+  private final Config config;
   private final String server;
   private final String username;
   private final String password;
-  private final LdapType type;
   private final boolean sslVerify;
 
   private final AuthConfig authConfig;
   private final SchemaFactory<ReviewDb> schema;
   private final EmailExpander emailExpander;
-  private final ParamertizedString accountFullName;
-  private final ParamertizedString accountEmailAddress;
-  private final ParamertizedString accountSshUserName;
-  private final String accountMemberField;
-  private final List<LdapQuery> accountQueryList;
   private final SelfPopulatingCache<String, Account.Id> usernameCache;
 
   private final GroupCache groupCache;
-  private boolean groupNeedsAccount;
-  private final List<String> groupBases;
-  private final SearchScope groupScope;
-  private final ParamertizedString groupPattern;
-  private final List<LdapQuery> groupMemberQueryList;
   private final SelfPopulatingCache<String, Set<AccountGroup.Id>> membershipCache;
+
+  private volatile LdapSchema ldapSchema;
 
   @Inject
   LdapRealm(
@@ -103,6 +95,7 @@ class LdapRealm implements Realm {
       @Named(LdapModule.GROUP_CACHE) final Cache<String, Set<AccountGroup.Id>> rawGroup,
       @Named(LdapModule.USERNAME_CACHE) final Cache<String, Account.Id> rawUsername,
       @GerritServerConfig final Config config) {
+    this.config = config;
     this.authConfig = authConfig;
     this.groupCache = groupCache;
     this.emailExpander = emailExpander;
@@ -112,42 +105,6 @@ class LdapRealm implements Realm {
     this.username = optional(config, "username");
     this.password = optional(config, "password");
     this.sslVerify = config.getBoolean("ldap", "sslverify", true);
-    this.type = discoverLdapType();
-
-    groupMemberQueryList = new ArrayList<LdapQuery>();
-    accountQueryList = new ArrayList<LdapQuery>();
-
-    final Set<String> accountAtts = new HashSet<String>();
-
-    // Group query
-    //
-
-    groupBases = optionalList(config, "groupBase");
-    groupScope = scope(config, "groupScope");
-    groupPattern = paramString(config, "groupPattern", type.groupPattern());
-    final String groupMemberPattern =
-        optdef(config, "groupMemberPattern", type.groupMemberPattern());
-
-    for (String groupBase : groupBases) {
-      if (groupMemberPattern != null) {
-        final LdapQuery groupMemberQuery =
-            new LdapQuery(groupBase, groupScope, new ParamertizedString(
-                groupMemberPattern), Collections.<String> emptySet());
-        if (groupMemberQuery.getParameters().isEmpty()) {
-          throw new IllegalArgumentException(
-              "No variables in ldap.groupMemberPattern");
-        }
-
-        for (final String name : groupMemberQuery.getParameters()) {
-          if (!USERNAME.equals(name)) {
-            groupNeedsAccount = true;
-            accountAtts.add(name);
-          }
-        }
-
-        groupMemberQueryList.add(groupMemberQuery);
-      }
-    }
 
     membershipCache =
         new SelfPopulatingCache<String, Set<AccountGroup.Id>>(rawGroup) {
@@ -162,44 +119,6 @@ class LdapRealm implements Realm {
             return Collections.emptySet();
           }
         };
-
-    // Account query
-    //
-    accountFullName =
-        paramString(config, "accountFullName", type.accountFullName());
-    if (accountFullName != null) {
-      accountAtts.addAll(accountFullName.getParameterNames());
-    }
-    accountEmailAddress =
-        paramString(config, "accountEmailAddress", type.accountEmailAddress());
-    if (accountEmailAddress != null) {
-      accountAtts.addAll(accountEmailAddress.getParameterNames());
-    }
-    accountSshUserName =
-        paramString(config, "accountSshUserName", type.accountSshUserName());
-    if (accountSshUserName != null) {
-      accountAtts.addAll(accountSshUserName.getParameterNames());
-    }
-    accountMemberField =
-        optdef(config, "accountMemberField", type.accountMemberField());
-    if (accountMemberField != null) {
-      accountAtts.add(accountMemberField);
-    }
-
-    final SearchScope accountScope = scope(config, "accountScope");
-    final String accountPattern =
-        reqdef(config, "accountPattern", type.accountPattern());
-
-    for (String accountBase : requiredList(config, "accountBase")) {
-      final LdapQuery accountQuery =
-          new LdapQuery(accountBase, accountScope, new ParamertizedString(
-              accountPattern), accountAtts);
-      if (accountQuery.getParameters().isEmpty()) {
-        throw new IllegalArgumentException(
-            "No variables in ldap.accountPattern");
-      }
-      accountQueryList.add(accountQuery);
-    }
 
     usernameCache = new SelfPopulatingCache<String, Account.Id>(rawUsername) {
       @Override
@@ -278,10 +197,18 @@ class LdapRealm implements Realm {
   public boolean allowsEdit(final Account.FieldName field) {
     switch (field) {
       case FULL_NAME:
-        return accountFullName == null; // only if not obtained from LDAP
+        if (ldapSchema == null) {
+          return false; // Assume not until we've resolved the server type.
+        }
+        // only if not obtained from LDAP
+        return ldapSchema.accountFullName == null;
 
       case USER_NAME:
-        return accountSshUserName == null; // only if not obtained from LDAP
+        if (ldapSchema == null) {
+          return false; // Assume not until we've resolved the server type.
+        }
+        // only if not obtained from LDAP
+        return ldapSchema.accountSshUserName == null;
 
       default:
         return true;
@@ -314,7 +241,8 @@ class LdapRealm implements Realm {
         ctx = open();
       }
       try {
-        final LdapQuery.Result m = findAccount(ctx, username);
+        final LdapSchema schema = getSchema(ctx);
+        final LdapQuery.Result m = findAccount(schema, ctx, username);
 
         if (authConfig.getAuthType() == AuthType.LDAP) {
           // We found the user account, but we need to verify
@@ -323,11 +251,11 @@ class LdapRealm implements Realm {
           authenticate(m.getDN(), who.getPassword());
         }
 
-        who.setDisplayName(apply(accountFullName, m));
-        who.setUserName(apply(accountSshUserName, m));
+        who.setDisplayName(apply(schema.accountFullName, m));
+        who.setUserName(apply(schema.accountSshUserName, m));
 
-        if (accountEmailAddress != null) {
-          who.setEmailAddress(apply(accountEmailAddress, m));
+        if (schema.accountEmailAddress != null) {
+          who.setEmailAddress(apply(schema.accountEmailAddress, m));
 
         } else if (emailExpander.canExpand(username)) {
           // If LDAP cannot give us a valid email address for this user
@@ -388,39 +316,41 @@ class LdapRealm implements Realm {
   private Set<AccountGroup.Id> queryForGroups(final DirContext ctx,
       final String username, LdapQuery.Result account) throws NamingException,
       AccountException {
+    final LdapSchema schema = getSchema(ctx);
     final Set<String> groupDNs = new HashSet<String>();
 
-    if (!groupMemberQueryList.isEmpty()) {
+    if (!schema.groupMemberQueryList.isEmpty()) {
       final HashMap<String, String> params = new HashMap<String, String>();
 
-      if (groupNeedsAccount) {
+      if (schema.groupNeedsAccount) {
         if (account == null) {
-          account = findAccount(ctx, username);
+          account = findAccount(schema, ctx, username);
         }
-        for (final String name : groupMemberQueryList.get(0).getParameters()) {
+        for (String name : schema.groupMemberQueryList.get(0).getParameters()) {
           params.put(name, account.get(name));
         }
       }
 
       params.put(USERNAME, username);
 
-      for (LdapQuery groupMemberQuery : groupMemberQueryList) {
+      for (LdapQuery groupMemberQuery : schema.groupMemberQueryList) {
         for (LdapQuery.Result r : groupMemberQuery.query(ctx, params)) {
           groupDNs.add(r.getDN());
         }
       }
     }
 
-    if (accountMemberField != null) {
+    if (schema.accountMemberField != null) {
       if (account == null) {
-        account = findAccount(ctx, username);
+        account = findAccount(schema, ctx, username);
       }
 
-      final Attribute groupAtt = account.getAll(accountMemberField);
+      final Attribute groupAtt = account.getAll(schema.accountMemberField);
       if (groupAtt != null) {
         final NamingEnumeration<?> groups = groupAtt.getAll();
         while (groups.hasMore()) {
-          recursivelyExpandGroups(groupDNs, ctx, (String) groups.next());
+          final String nextDN = (String) groups.next();
+          recursivelyExpandGroups(groupDNs, schema, ctx, nextDN);
         }
       }
     }
@@ -443,16 +373,18 @@ class LdapRealm implements Realm {
   }
 
   private void recursivelyExpandGroups(final Set<String> groupDNs,
-      final DirContext ctx, final String groupDN) {
+      final LdapSchema schema, final DirContext ctx, final String groupDN) {
     if (groupDNs.add(groupDN)) {
       // Recursively identify the groups it is a member of.
       //
       try {
-        final Attribute in = ctx.getAttributes(groupDN).get(accountMemberField);
+        final Attribute in =
+            ctx.getAttributes(groupDN).get(schema.accountMemberField);
         if (in != null) {
           final NamingEnumeration<?> groups = in.getAll();
           while (groups.hasMore()) {
-            recursivelyExpandGroups(groupDNs, ctx, (String) groups.next());
+            final String nextDN = (String) groups.next();
+            recursivelyExpandGroups(groupDNs, schema, ctx, nextDN);
           }
         }
       } catch (NamingException e) {
@@ -478,18 +410,19 @@ class LdapRealm implements Realm {
   @Override
   public Set<AccountGroup.ExternalNameKey> lookupGroups(String name) {
     final Set<AccountGroup.ExternalNameKey> out;
-    final ParamertizedString filter =
-        ParamertizedString.asis(groupPattern.replace(GROUPNAME, name)
-            .toString());
     final Map<String, String> params = Collections.<String, String> emptyMap();
 
     out = new HashSet<AccountGroup.ExternalNameKey>();
     try {
       final DirContext ctx = open();
       try {
-        for (String groupBase : groupBases) {
+        final LdapSchema schema = getSchema(ctx);
+        final ParamertizedString filter =
+            ParamertizedString.asis(schema.groupPattern
+                .replace(GROUPNAME, name).toString());
+        for (String groupBase : schema.groupBases) {
           final LdapQuery query =
-              new LdapQuery(groupBase, groupScope, filter, Collections
+              new LdapQuery(groupBase, schema.groupScope, filter, Collections
                   .<String> emptySet());
           for (LdapQuery.Result res : query.query(ctx, params)) {
             out.add(new AccountGroup.ExternalNameKey(res.getDN()));
@@ -559,28 +492,14 @@ class LdapRealm implements Realm {
     }
   }
 
-  private LdapType discoverLdapType() {
-    try {
-      final DirContext ctx = open();
-      try {
-        return LdapType.guessType(ctx);
-      } finally {
-        ctx.close();
-      }
-    } catch (NamingException e) {
-      log.warn("Cannot discover type of LDAP server at " + server
-          + ", assuming the server is RFC 2307 compliant.", e);
-      return LdapType.RFC_2307;
-    }
-  }
-
-  private LdapQuery.Result findAccount(final DirContext ctx,
-      final String username) throws NamingException, AccountException {
+  private LdapQuery.Result findAccount(final LdapSchema schema,
+      final DirContext ctx, final String username) throws NamingException,
+      AccountException {
     final HashMap<String, String> params = new HashMap<String, String>();
     params.put(USERNAME, username);
 
     final List<LdapQuery.Result> res = new ArrayList<LdapQuery.Result>();
-    for (LdapQuery accountQuery : accountQueryList) {
+    for (LdapQuery accountQuery : schema.accountQueryList) {
       res.addAll(accountQuery.query(ctx, params));
     }
 
@@ -593,6 +512,119 @@ class LdapRealm implements Realm {
 
       default:
         throw new AccountException("Duplicate users: " + username);
+    }
+  }
+
+  private LdapSchema getSchema(DirContext ctx) {
+    if (ldapSchema == null) {
+      synchronized (this) {
+        if (ldapSchema == null) {
+          ldapSchema = new LdapSchema(ctx);
+        }
+      }
+    }
+    return ldapSchema;
+  }
+
+  private class LdapSchema {
+    final LdapType type;
+
+    final ParamertizedString accountFullName;
+    final ParamertizedString accountEmailAddress;
+    final ParamertizedString accountSshUserName;
+    final String accountMemberField;
+    final List<LdapQuery> accountQueryList;
+
+    boolean groupNeedsAccount;
+    final List<String> groupBases;
+    final SearchScope groupScope;
+    final ParamertizedString groupPattern;
+    final List<LdapQuery> groupMemberQueryList;
+
+    LdapSchema(final DirContext ctx) {
+      type = discoverLdapType(ctx);
+      groupMemberQueryList = new ArrayList<LdapQuery>();
+      accountQueryList = new ArrayList<LdapQuery>();
+
+      final Set<String> accountAtts = new HashSet<String>();
+
+      // Group query
+      //
+
+      groupBases = optionalList(config, "groupBase");
+      groupScope = scope(config, "groupScope");
+      groupPattern = paramString(config, "groupPattern", type.groupPattern());
+      final String groupMemberPattern =
+          optdef(config, "groupMemberPattern", type.groupMemberPattern());
+
+      for (String groupBase : groupBases) {
+        if (groupMemberPattern != null) {
+          final LdapQuery groupMemberQuery =
+              new LdapQuery(groupBase, groupScope, new ParamertizedString(
+                  groupMemberPattern), Collections.<String> emptySet());
+          if (groupMemberQuery.getParameters().isEmpty()) {
+            throw new IllegalArgumentException(
+                "No variables in ldap.groupMemberPattern");
+          }
+
+          for (final String name : groupMemberQuery.getParameters()) {
+            if (!USERNAME.equals(name)) {
+              groupNeedsAccount = true;
+              accountAtts.add(name);
+            }
+          }
+
+          groupMemberQueryList.add(groupMemberQuery);
+        }
+      }
+
+      // Account query
+      //
+      accountFullName =
+          paramString(config, "accountFullName", type.accountFullName());
+      if (accountFullName != null) {
+        accountAtts.addAll(accountFullName.getParameterNames());
+      }
+      accountEmailAddress =
+          paramString(config, "accountEmailAddress", type.accountEmailAddress());
+      if (accountEmailAddress != null) {
+        accountAtts.addAll(accountEmailAddress.getParameterNames());
+      }
+      accountSshUserName =
+          paramString(config, "accountSshUserName", type.accountSshUserName());
+      if (accountSshUserName != null) {
+        accountAtts.addAll(accountSshUserName.getParameterNames());
+      }
+      accountMemberField =
+          optdef(config, "accountMemberField", type.accountMemberField());
+      if (accountMemberField != null) {
+        accountAtts.add(accountMemberField);
+      }
+
+      final SearchScope accountScope = scope(config, "accountScope");
+      final String accountPattern =
+          reqdef(config, "accountPattern", type.accountPattern());
+
+      for (String accountBase : requiredList(config, "accountBase")) {
+        final LdapQuery accountQuery =
+            new LdapQuery(accountBase, accountScope, new ParamertizedString(
+                accountPattern), accountAtts);
+        if (accountQuery.getParameters().isEmpty()) {
+          throw new IllegalArgumentException(
+              "No variables in ldap.accountPattern");
+        }
+        accountQueryList.add(accountQuery);
+      }
+    }
+
+    LdapType discoverLdapType(DirContext ctx) {
+      try {
+        return LdapType.guessType(ctx);
+      } catch (NamingException e) {
+        log.warn("Cannot discover type of LDAP server at " + server
+            + ", assuming the server is RFC 2307 compliant.", e);
+        return LdapType.RFC_2307;
+      }
     }
   }
 }

@@ -57,6 +57,7 @@ class InitAuth implements InitStep {
 
     switch (auth_type) {
       case LDAP:
+      case LDAP_BIND:
       case HTTP_LDAP: {
         String server =
             ldap.string("LDAP server", "server", "ldap://localhost");

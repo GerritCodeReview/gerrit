@@ -307,7 +307,12 @@ class LdapRealm implements Realm {
       throws AccountException {
     final String username = who.getLocalUser();
     try {
-      final DirContext ctx = open();
+      final DirContext ctx;
+      if (authConfig.getAuthType() == AuthType.LDAP_BIND) {
+        ctx = authenticate(username, who.getPassword());
+      } else {
+        ctx = open();
+      }
       try {
         final LdapQuery.Result m = findAccount(ctx, username);
 
@@ -541,13 +546,14 @@ class LdapRealm implements Realm {
     return new InitialDirContext(env);
   }
 
-  private void authenticate(String dn, String password) throws AccountException {
+  private DirContext authenticate(String dn, String password)
+      throws AccountException {
     final Properties env = createContextProperties();
     env.put(Context.SECURITY_AUTHENTICATION, "simple");
     env.put(Context.SECURITY_PRINCIPAL, dn);
     env.put(Context.SECURITY_CREDENTIALS, password != null ? password : "");
     try {
-      new InitialDirContext(env).close();
+      return new InitialDirContext(env);
     } catch (NamingException e) {
       throw new AccountException("Incorrect username or password", e);
     }

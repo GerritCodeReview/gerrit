@@ -101,6 +101,7 @@ public class WebModule extends FactoryModule {
         break;
 
       case LDAP:
+      case LDAP_BIND:
         install(new LdapAuthModule());
         break;
 

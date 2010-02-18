@@ -22,6 +22,7 @@ import com.google.gerrit.reviewdb.AuthType;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.FileTypeRegistry;
+import com.google.gerrit.server.GenericCurrentUserProvider;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.IdentifiedUser;
@@ -34,6 +35,7 @@ import com.google.gerrit.server.account.DefaultRealm;
 import com.google.gerrit.server.account.EmailExpander;
 import com.google.gerrit.server.account.GroupCacheImpl;
 import com.google.gerrit.server.account.Realm;
+import com.google.gerrit.server.auth.ldap.LdapBindModule;
 import com.google.gerrit.server.auth.ldap.LdapModule;
 import com.google.gerrit.server.cache.CachePool;
 import com.google.gerrit.server.git.ChangeMergeQueue;
@@ -82,8 +84,11 @@ public class GerritGlobalModule extends FactoryModule {
     switch (loginType) {
       case HTTP_LDAP:
       case LDAP:
-      case LDAP_BIND:
         install(new LdapModule());
+        break;
+
+      case LDAP_BIND:
+        install(new LdapBindModule());
         break;
 
       default:
@@ -113,6 +118,7 @@ public class GerritGlobalModule extends FactoryModule {
     factory(AccountInfoCacheFactory.Factory.class);
     factory(ProjectState.Factory.class);
 
+    bind(GenericCurrentUserProvider.class);
     bind(GitRepositoryManager.class).to(LocalDiskRepositoryManager.class);
     bind(FileTypeRegistry.class).to(MimeUtilFileTypeRegistry.class);
     bind(WorkQueue.class);

@@ -27,6 +27,10 @@ public interface Realm {
 
   public void onCreateAccount(AuthRequest who, Account account);
 
+  public void onLogin(AuthRequest who, Account.Id accountId);
+
+  public void onLogout(Account.Id accountId);
+
   public Set<AccountGroup.Id> groups(AccountState who);
 
   /**

@@ -51,6 +51,14 @@ public final class DefaultRealm implements Realm {
   }
 
   @Override
+  public void onLogin(AuthRequest who, Account.Id accountId) {
+  }
+
+  @Override
+  public void onLogout(Account.Id accountId) {
+  }
+
+  @Override
   public Set<AccountGroup.Id> groups(final AccountState who) {
     return who.getInternalGroups();
   }

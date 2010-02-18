@@ -25,6 +25,7 @@ import com.google.gerrit.httpd.gitweb.GitWebModule;
 import com.google.gerrit.httpd.rpc.UiRpcModule;
 import com.google.gerrit.reviewdb.AuthType;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.GenericCurrentUserProvider;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.account.AccountManager;
@@ -56,17 +57,20 @@ public class WebModule extends FactoryModule {
   private final AuthType authType;
   private final boolean wantSSL;
   private final GitWebConfig gitWebConfig;
+  private final GenericCurrentUserProvider genericUserProvider;
 
   @Inject
   WebModule(final Provider<SshInfo> sshInfoProvider,
       final Provider<SshKeyCache> sshKeyCacheProvider,
       final AuthConfig authConfig,
       @CanonicalWebUrl @Nullable final String canonicalUrl,
+      final GenericCurrentUserProvider genericUserProvider,
       final Injector creatingInjector) {
     this.sshInfoProvider = sshInfoProvider;
     this.sshKeyCacheProvider = sshKeyCacheProvider;
     this.authType = authConfig.getAuthType();
     this.wantSSL = canonicalUrl != null && canonicalUrl.startsWith("https:");
+    this.genericUserProvider = genericUserProvider;
 
     this.gitWebConfig =
         creatingInjector.createChildInjector(new AbstractModule() {
@@ -146,9 +150,20 @@ public class WebModule extends FactoryModule {
 
     install(WebSession.module());
 
+    bind(HttpCurrentUserProvider.class);
     bind(CurrentUser.class).toProvider(HttpCurrentUserProvider.class).in(
         RequestScoped.class);
     bind(IdentifiedUser.class).toProvider(HttpIdentifiedUserProvider.class).in(
         RequestScoped.class);
+
+    genericUserProvider.addProvider(new Provider<CurrentUser>() {
+      private final Provider<HttpCurrentUserProvider> p =
+          getProvider(HttpCurrentUserProvider.class);
+
+      @Override
+      public CurrentUser get() {
+        return p.get().get();
+      }
+    });
   }
 }

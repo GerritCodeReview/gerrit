@@ -118,6 +118,7 @@ public class AccountManager {
           // Account exists, return the identity to the caller.
           //
           update(db, who, id);
+          realm.onLogin(who, id.getAccountId());
           return new AuthResult(id.getAccountId(), key, false);
         }
 
@@ -297,6 +298,7 @@ public class AccountManager {
 
     byEmailCache.evict(account.getPreferredEmail());
     realm.onCreateAccount(who, account);
+    realm.onLogin(who, account.getId());
     return new AuthResult(newId, extId.getKey(), true);
   }
 

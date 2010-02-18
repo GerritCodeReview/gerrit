@@ -25,6 +25,7 @@ import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AuthResult;
+import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.EvictionPolicy;
@@ -64,6 +65,7 @@ public final class WebSession {
   private final WebSessionManager manager;
   private final AnonymousUser anonymous;
   private final IdentifiedUser.RequestFactory identified;
+  private final Realm realm;
   private AccessPath accessPath = AccessPath.WEB_UI;
   private Cookie outCookie;
 
@@ -74,12 +76,13 @@ public final class WebSession {
   WebSession(final HttpServletRequest request,
       final HttpServletResponse response, final WebSessionManager manager,
       final AnonymousUser anonymous,
-      final IdentifiedUser.RequestFactory identified) {
+      final IdentifiedUser.RequestFactory identified, final Realm realm) {
     this.request = request;
     this.response = response;
     this.manager = manager;
     this.anonymous = anonymous;
     this.identified = identified;
+    this.realm = realm;
 
     final String cookie = readCookie();
     if (cookie != null) {
@@ -162,6 +165,7 @@ public final class WebSession {
 
   public void logout() {
     if (val != null) {
+      realm.onLogout(val.getAccountId());
       manager.destroy(key);
       key = null;
       val = null;

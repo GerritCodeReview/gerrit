@@ -292,6 +292,14 @@ class LdapRealm implements Realm {
   }
 
   @Override
+  public void onLogin(AuthRequest who, Account.Id accountId) {
+  }
+
+  @Override
+  public void onLogout(Account.Id accountId) {
+  }
+
+  @Override
   public Set<AccountGroup.Id> groups(final AccountState who) {
     final HashSet<AccountGroup.Id> r = new HashSet<AccountGroup.Id>();
     r.addAll(membershipCache.get(findId(who.getExternalIds())));
@@ -469,7 +477,7 @@ class LdapRealm implements Realm {
     return env;
   }
 
-  private DirContext open() throws NamingException {
+  protected DirContext open() throws NamingException {
     final Properties env = createContextProperties();
     if (username != null) {
       env.put(Context.SECURITY_AUTHENTICATION, "simple");
@@ -479,7 +487,7 @@ class LdapRealm implements Realm {
     return new InitialDirContext(env);
   }
 
-  private DirContext authenticate(String dn, String password)
+  protected DirContext authenticate(String dn, String password)
       throws AccountException {
     final Properties env = createContextProperties();
     env.put(Context.SECURITY_AUTHENTICATION, "simple");

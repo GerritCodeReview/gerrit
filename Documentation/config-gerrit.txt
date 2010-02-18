@@ -309,6 +309,12 @@ Caches a mapping of LDAP username to Gerrit account identity.  The
 cache automatically updates when a user first creates their account
 within Gerrit, so the cache expire time is largely irrelevant.
 
+cache `"ldap_passwords"`::
++
+Caches the LDAP username and password for each authenticated user,
+so subsequent LDAP queries for group information or other users
+can be performed on demand.  Only enabled if auth.type is LDAP_BIND.
+
 cache `"openid"`::
 +
 If OpenID authentication is enabled, caches the OpenID discovery

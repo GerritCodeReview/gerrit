@@ -21,6 +21,7 @@ import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.GenericCurrentUserProvider;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PeerDaemonUser;
 import com.google.gerrit.server.RemotePeer;
@@ -40,6 +41,7 @@ import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.gerrit.util.cli.OptionHandlerFactory;
 import com.google.gerrit.util.cli.OptionHandlerUtil;
 import com.google.inject.Key;
+import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
 import com.google.inject.assistedinject.FactoryProvider;
 import com.google.inject.servlet.RequestScoped;
@@ -99,12 +101,24 @@ public class SshModule extends FactoryModule {
     bind(SocketAddress.class).annotatedWith(RemotePeer.class).toProvider(
         SshRemotePeerProvider.class).in(SshScope.REQUEST);
 
+    bind(SshCurrentUserProvider.class);
     bind(CurrentUser.class).toProvider(SshCurrentUserProvider.class).in(
         SshScope.REQUEST);
     bind(IdentifiedUser.class).toProvider(SshIdentifiedUserProvider.class).in(
         SshScope.REQUEST);
 
     install(new GerritRequestModule());
+
+    getProvider(GenericCurrentUserProvider.class).get().addProvider(
+        new Provider<CurrentUser>() {
+          private final Provider<SshCurrentUserProvider> p =
+              getProvider(SshCurrentUserProvider.class);
+
+          @Override
+          public CurrentUser get() {
+            return p.get().get();
+          }
+        });
   }
 
   private void configureCmdLineParser() {

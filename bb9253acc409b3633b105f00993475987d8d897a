@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAr3//+O0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapRealm.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 562,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-18T00:51:11Z",
+      "side": 1,
+      "message": "The local variable is unnecessary here.  Just return the result of the new call within the try/catch block.",
+      "revId": "bb9253acc409b3633b105f00993475987d8d897a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

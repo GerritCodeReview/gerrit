@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAr3//+O4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapRealm.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-18T00:51:11Z",
+      "side": 0,
+      "message": "I now remember why we do this.  Some installations of Gerrit were using just the local username portion in the password dialog against ActiveDirectory, so \"shawn.pearce\" rather than \"shawn.pearce@ad.example.com\".  But ActiveDirectory requires the userPrincipalName or the DN in order to do a simple bind for authentication, so we queried for it by calling findAccount() first.\n\nDeleting this line is going to break those existing configurations.  Ugh.  This should have been better documented here in LdapRealm about why we did it in this order.  And I can\u0027t think of an easy fix right now that would get both what you are trying to accomplish and keep this feature.\n\nWe might have to add a new AuthType that does what you want, to authenticate first, and leave the behavior of AuthType.LDAP alone.\n\nSorry this has been such a difficult change.  Generic LDAP support is a major pain in the neck.  I\u0027ve never worked on a product where it was simple to support arbitrary LDAP servers or their endless number of configurations.  :-(\n\nGive me 15 minutes to work up a counter patch and post it for consideration.",
+      "revId": "c20e283a46a2096e08313c8db20c70578a62cd97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

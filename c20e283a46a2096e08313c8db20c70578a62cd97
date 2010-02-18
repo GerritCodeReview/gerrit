@@ -16,6 +16,24 @@
       "revId": "c20e283a46a2096e08313c8db20c70578a62cd97",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAr3//+Oo\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapRealm.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1003294
+      },
+      "writtenOn": "2010-02-18T01:06:49Z",
+      "side": 0,
+      "message": "That\u0027s quite ok :). I am enjoying working on this. This has turned out to be an excellent way to learn how to use these tools and this type of workflow. I love working like this, and I am trying to move my company in this direction.  I really appreciate you taking the time to walk me through this.",
+      "parentUuid": "AAAAr3//+O4\u003d",
+      "revId": "c20e283a46a2096e08313c8db20c70578a62cd97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

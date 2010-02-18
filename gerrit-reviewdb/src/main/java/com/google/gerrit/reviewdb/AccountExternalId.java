@@ -20,8 +20,8 @@ import com.google.gwtorm.client.StringKey;
 /** Association of an external account identifier to a local {@link Account}. */
 public final class AccountExternalId {
   /**
-   * Scheme used for {@link AuthType#LDAP}, {@link AuthType#HTTP}, and
-   * {@link AuthType#HTTP_LDAP} usernames.
+   * Scheme used for {@link AuthType#LDAP}, {@link AuthType#HTTP},
+   * {@link AuthType#HTTP_LDAP}, and {@link AuthType#LDAP_BIND} usernames.
    * <p>
    * The name {@code gerrit:} was a very poor choice.
    */

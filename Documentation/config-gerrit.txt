@@ -63,6 +63,23 @@ it then verifies by performing a simple bind against the configured
 <<ldap.server,ldap.server>>.  In this configuration the web server
 is not involved in the user authentication process.
 +
+The actual username used in the LDAP simple bind request is the
+account's full DN, which is discovered by first querying the
+directory using either an anonymous request, or the configured
+<<ldap.username>> identity.
+
+* `LDAP_BIND`
++
+Gerrit prompts the user to enter a username and a password, which
+it then verifies by performing a simple bind against the configured
+<<ldap.server,ldap.server>>.  In this configuration the web server
+is not involved in the user authentication process.
++
+Unlike LDAP above, the username used to perform the LDAP simple bind
+request is the exact string supplied by in the dialog by the user.
+The configured <<ldap.username>> identity is not used to obtain
+account information.
++
 * `DEVELOPMENT_BECOME_ANY_ACCOUNT`
 +
 *DO NOT USE*.  Only for use in a development environment.

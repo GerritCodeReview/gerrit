@@ -222,6 +222,7 @@ public class AccountGroupScreen extends AccountScreen {
     switch (Gerrit.getConfig().getAuthType()) {
       case HTTP_LDAP:
       case LDAP:
+      case LDAP_BIND:
         break;
       default:
         return;

@@ -189,6 +189,7 @@ public class Gerrit implements EntryPoint {
         break;
 
       case LDAP:
+      case LDAP_BIND:
         new UserPassSignInDialog(token, null).center();
         break;
     }
@@ -442,6 +443,7 @@ public class Gerrit implements EntryPoint {
           break;
 
         case LDAP:
+        case LDAP_BIND:
           if (cfg.getRegisterUrl() != null) {
             menuRight.add(anchor(C.menuRegister(), cfg.getRegisterUrl()));
           }

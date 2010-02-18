@@ -304,6 +304,7 @@ public class Dispatcher {
               new OpenIdSignInDialog(mode, to, msg).center();
               break;
             case LDAP:
+            case LDAP_BIND:
               new UserPassSignInDialog(to, msg).center();
               break;
             default:

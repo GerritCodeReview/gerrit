@@ -358,7 +358,7 @@ how the replacement is displayed to the user.
   link = "#q,$1,n,z"
 
 [commentlink "bugzilla"]
-  match = (bug\\s+)(\\d+)
+  match = "(bug\\s+#?)(\\d+)"
   link = http://bugs.example.com/show_bug.cgi?id=$2
 
 [commentlink "tracker"]
@@ -373,8 +373,10 @@ with a hyperlink.  Subexpressions of the matched string can be
 stored using groups and accessed with `$'n'` syntax, where 'n'
 is the group number, starting from 1.
 +
-The configuration file parser eats one level of backslashes, so
-the character class `\s` requires `\\s` in the configuration file.
+The configuration file parser eats one level of backslashes, so the
+character class `\s` requires `\\s` in the configuration file.  The
+parser also terminates the line at the first `#`, so a match
+expression containing # must be wrapped in double quotes.
 +
 A common pattern to match is `bug\\s+(\\d+)`.
 

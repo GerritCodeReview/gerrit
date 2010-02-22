@@ -12,8 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-DOC_HTML       = $(patsubst %.txt,%.html,$(wildcard *.txt)) \
-                 $(patsubst %.txt,%.html,$(wildcard ReleaseNotes/*.txt))
+DOC_HTML       = $(patsubst %.txt,%.html,$(wildcard *.txt))
 ASCIIDOC       = asciidoc
 ASCIIDOC_EXTRA =
 SVN            = svn

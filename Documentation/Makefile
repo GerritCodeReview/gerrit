@@ -11,29 +11,55 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
-DOC_HTML       = $(patsubst %.txt,%.html,$(wildcard *.txt))
-ASCIIDOC       = asciidoc
-ASCIIDOC_EXTRA =
-SVN            = svn
-PUB_ROOT       = https://gerrit.googlecode.com/svn/documentation
-LOCAL_ROOT     = .published
 
-SCRIPTSDIR    := $(shell pwd)/javascript
-DOC_VERS      := $(shell git describe HEAD)
-DOC_VMM       := $(shell sh -c "echo $(DOC_VERS) | perl -pe 's,^v(\d+\.\d+)[\.-].*\$$,\$$1,'")
-PUB_DIR        = $(PUB_ROOT)/$(DOC_VMM)
+ASCIIDOC       ?= asciidoc
+ASCIIDOC_EXTRA ?=
+SVN            ?= svn
+PUB_ROOT       ?= https://gerrit.googlecode.com/svn/documentation
 
 all: html
+
+clean:
+	rm -f *.html
+	rm -rf $(LOCAL_ROOT)
+
+ifeq ($(origin VERSION), undefined)
+  VERSION := $(shell ./GEN-DOC-VERSION 2>/dev/null)
+endif
+
+DOC_HTML      := $(patsubst %.txt,%.html,$(wildcard *.txt))
+LOCAL_ROOT    := .published
+SCRIPTSDIR    := $(shell pwd)/javascript
+COMMIT        := $(shell git describe HEAD | sed s/^v//)
+PUB_DIR       := $(PUB_ROOT)/$(VERSION)
+
+ifeq ($(VERSION),)
+  REVISION = $(COMMIT)
+else
+  ifeq ($(VERSION),$(COMMIT))
+    REVISION := $(VERSION)
+  else
+    REVISION := $(VERSION) (from v$(COMMIT))
+  endif
+endif
 
 html: $(DOC_HTML)
 
 update: html
-	-rm -rf $(LOCAL_ROOT)
-	$(SVN) checkout $(PUB_DIR) $(LOCAL_ROOT)
-	rm -f $(LOCAL_ROOT)/*.html
-	cp *.html $(LOCAL_ROOT)
-	cd $(LOCAL_ROOT) && \
+ifeq ($(VERSION),)
+	./GEN-DOC-VERSION
+endif
+	@-rm -rf $(LOCAL_ROOT)
+	@echo "Checking out current $(VERSION)"
+	@if ! $(SVN) checkout $(PUB_DIR) $(LOCAL_ROOT) 2>/dev/null ; then \
+		p=$$(git describe HEAD^ | perl -lne 'print $$1 if /^v(\d+\.\d+\.\d+)/') && \
+		echo "Copying $$p to $(VERSION) ..." && \
+		$(SVN) cp -m "Create $(VERSION) documentation" $(PUB_ROOT)/$$p $(PUB_DIR) && \
+		$(SVN) checkout $(PUB_DIR) $(LOCAL_ROOT) ; \
+	fi
+	@rm -f $(LOCAL_ROOT)/*.html
+	@cp *.html $(LOCAL_ROOT)
+	@cd $(LOCAL_ROOT) && \
 	  r=`$(SVN) status | perl -ne 'print if s/^!  *//' ` && \
 	  if [ -n "$$r" ]; then $(SVN) rm $$r; fi && \
 	  a=`$(SVN) status | perl -ne 'print if s/^\?  *//' ` && \
@@ -41,21 +67,17 @@ update: html
 	    $(SVN) add $$a && \
 	    $(SVN) propset svn:mime-type text/html $$a ; \
 	    fi && \
-	  $(SVN) commit -m "Updated documentation $(DOC_VMM) to $(DOC_VERS)"
-	-rm -rf $(LOCAL_ROOT)
-
-new-docs:
-	$(SVN) mkdir -m "Create documentation $(DOC_VMM)" $(PUB_DIR)
-
-clean:
-	rm -f *.html
-	rm -rf $(LOCAL_ROOT)
+	  echo "Committing $(VERSION) at v$(COMMIT)" && \
+	  $(SVN) commit -m "Updated $(VERSION) documentation to v$(COMMIT)"
+	@-rm -rf $(LOCAL_ROOT)
 
 $(DOC_HTML): %.html : %.txt $(SCRIPTSDIR)/toc.js
-	rm -f $@+ $@
-	$(ASCIIDOC) --unsafe \
-		-a toc -a 'revision=$(DOC_VERS)' \
+	@echo "FORMAT $@"
+	@rm -f $@+ $@
+	@$(ASCIIDOC) --unsafe \
+		-a toc \
+		-a 'revision=$(REVISION)' \
 		-a 'scriptsdir=$(SCRIPTSDIR)' \
 		-b xhtml11 -f asciidoc.conf \
 		$(ASCIIDOC_EXTRA) -o $@+ $<
-	mv $@+ $@
+	@mv $@+ $@

@@ -479,6 +479,7 @@ region.  This category is a `MaxWithBlock` type, which means that
 the lowest negative value if present blocks a submit, while the
 highest positive value is required to enable submit.
 
+[[function_MaxNoBlock]]
 There is also a `MaxNoBlock` category which still requires the
 highest positive value to submit, but the lowest negative value will
 not block the change, and does not carry over between patch sets.

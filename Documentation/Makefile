@@ -52,7 +52,7 @@ endif
 	@-rm -rf $(LOCAL_ROOT)
 	@echo "Checking out current $(VERSION)"
 	@if ! $(SVN) checkout $(PUB_DIR) $(LOCAL_ROOT) 2>/dev/null ; then \
-		p=$$(git describe HEAD^ | perl -lne 'print $$1 if /^v(\d+\.\d+\.\d+)/') && \
+		p=$$(git describe HEAD^ | perl -lne 'print $$1 if /^v(\d+\.\d+(?:\.\d+)?)/') && \
 		echo "Copying $$p to $(VERSION) ..." && \
 		$(SVN) cp -m "Create $(VERSION) documentation" $(PUB_ROOT)/$$p $(PUB_DIR) && \
 		$(SVN) checkout $(PUB_DIR) $(LOCAL_ROOT) ; \

@@ -47,4 +47,6 @@ public interface ChangeMessages extends Messages {
 
   String accountNotFound(String who);
   String changeNotVisibleTo(String who);
+
+  String anonymousDownload(String protocol);
 }

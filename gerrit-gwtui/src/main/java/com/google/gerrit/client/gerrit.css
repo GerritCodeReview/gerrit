@@ -647,6 +647,7 @@
   padding-left: 20px;
   font-size: 8pt;
 }
+
 .patchSetLink {
   padding-left: 0.5em;
   font-size: 8pt;
@@ -685,7 +686,6 @@
 
 .infoTable td.header {
   background-color: trim-color;
-  border-left: 1px solid white;
   font-weight: normal;
   padding: 2px 4px 0 6px;
   font-style: italic;
@@ -748,7 +748,6 @@
 }
 
 .infoBlock td.header {
-  border-bottom: 1px solid white;
   background-color: trim-color;
   font-style: italic;
   text-align: right;
@@ -773,12 +772,6 @@
 }
 .infoBlock td.permalink div div {
   display: inline;
-}
-
-.infoBlock td.command {
-  white-space: pre;
-  font-family: mono-font;
-  font-size: 12px;
 }
 
 .infoBlock td.useridentity {
@@ -827,6 +820,46 @@
   white-space: nowrap;
 }
 
+td.downloadLinkListCell {
+  padding: 0px;
+}
+.downloadLinkHeader {
+  background: trim-color;
+  white-space: nowrap;
+  border-bottom: 1px solid black;
+}
+.downloadLinkHeaderGap {
+  margin-left: 5em;
+}
+.downloadLinkList {
+  display: inline;
+  white-space: nowrap;
+}
+.downloadLink {
+  color: black;
+  text-decoration: none;
+  white-space: nowrap;
+  background: trim-color;
+  border-right: 1px solid black;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+}
+a:hover.downloadLink {
+  color: black;
+}
+.downloadLink_Active {
+  background: #ffffcc;
+}
+.downloadLinkCopyLabel {
+  white-space: pre;
+  font-family: mono-font;
+  font-size: 12px;
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+}
+.downloadLinkCopyLabel .gwt-TextBox {
+  width: 30em;
+}
 
 /** SideBySideScreen **/
 .sideBySideScreenSideBySideTable {

@@ -21,6 +21,7 @@ import com.google.gerrit.client.ui.AccountDashboardLink;
 import com.google.gerrit.common.data.ChangeDetail;
 import com.google.gerrit.common.data.PatchSetDetail;
 import com.google.gerrit.reviewdb.Account;
+import com.google.gerrit.reviewdb.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Change;
@@ -29,6 +30,8 @@ import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.PatchSetInfo;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.UserIdentity;
+import com.google.gerrit.reviewdb.AccountGeneralPreferences.DownloadCommand;
+import com.google.gerrit.reviewdb.AccountGeneralPreferences.DownloadUrl;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -39,6 +42,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DisclosurePanel;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.InlineLabel;
@@ -92,7 +96,8 @@ class PatchSetPanel extends Composite implements OpenHandler<DisclosurePanel> {
     itfmt.addStyleName(R_CNT - 1, 0, Gerrit.RESOURCES.css().bottomheader());
     itfmt.addStyleName(R_AUTHOR, 1, Gerrit.RESOURCES.css().useridentity());
     itfmt.addStyleName(R_COMMITTER, 1, Gerrit.RESOURCES.css().useridentity());
-    itfmt.addStyleName(R_DOWNLOAD, 1, Gerrit.RESOURCES.css().command());
+    itfmt.addStyleName(R_DOWNLOAD, 1, Gerrit.RESOURCES.css()
+        .downloadLinkListCell());
 
     final PatchSetInfo info = detail.getInfo();
     displayUserIdentity(R_AUTHOR, info.getAuthor());
@@ -122,67 +127,58 @@ class PatchSetPanel extends Composite implements OpenHandler<DisclosurePanel> {
     final Branch.NameKey branchKey = changeDetail.getChange().getDest();
     final Project.NameKey projectKey = changeDetail.getChange().getProject();
     final String projectName = projectKey.get();
-    final FlowPanel downloads = new FlowPanel();
+    final CopyableLabel copyLabel = new CopyableLabel("");
+    final DownloadCommandPanel commands = new DownloadCommandPanel();
+    final DownloadUrlPanel urls = new DownloadUrlPanel(commands);
 
-    if (Gerrit.getConfig().isUseRepoDownload()) {
-      // This site prefers usage of the 'repo' tool, so suggest
-      // that for easy fetch.
-      //
-      final StringBuilder r = new StringBuilder();
-      r.append("repo download ");
+    copyLabel.setStyleName(Gerrit.RESOURCES.css().downloadLinkCopyLabel());
+
+    if (changeDetail.isAllowsAnonymous()
+        && Gerrit.getConfig().getGitDaemonUrl() != null) {
+      StringBuilder r = new StringBuilder();
+      r.append(Gerrit.getConfig().getGitDaemonUrl());
       r.append(projectName);
       r.append(" ");
-      r.append(changeDetail.getChange().getChangeId());
-      r.append("/");
-      r.append(patchSet.getPatchSetId());
-      downloads.add(new CopyableLabel(r.toString()));
+      r.append(patchSet.getRefName());
+      urls.add(new DownloadUrlLink(DownloadUrl.ANON_GIT, Util.M
+          .anonymousDownload("Git"), r.toString()));
     }
 
     if (changeDetail.isAllowsAnonymous()) {
-      if (Gerrit.getConfig().getGitDaemonUrl() != null) {
-        StringBuilder r = new StringBuilder();
-        r.append("git pull ");
-        r.append(Gerrit.getConfig().getGitDaemonUrl());
-        r.append(projectName);
-        r.append(" ");
-        r.append(patchSet.getRefName());
-        downloads.add(new CopyableLabel(r.toString()));
-      }
-
       StringBuilder r = new StringBuilder();
-      r.append("git pull ");
       r.append(GWT.getHostPageBaseURL());
       r.append("p/");
       r.append(projectName);
       r.append(" ");
       r.append(patchSet.getRefName());
-      downloads.add(new CopyableLabel(r.toString()));
+      urls.add(new DownloadUrlLink(DownloadUrl.ANON_HTTP, Util.M
+          .anonymousDownload("HTTP"), r.toString()));
+    }
 
-    } else if (Gerrit.isSignedIn()
+    if (Gerrit.getConfig().getSshdAddress() != null && Gerrit.isSignedIn()
         && Gerrit.getUserAccount().getUserName() != null
         && Gerrit.getUserAccount().getUserName().length() > 0) {
-      // The user is signed in and anonymous access isn't allowed.
-      //
-      if (Gerrit.getConfig().getSshdAddress() != null) {
-        String sshAddr = Gerrit.getConfig().getSshdAddress();
-        final StringBuilder r = new StringBuilder();
-        r.append("git pull ssh://");
-        r.append(Gerrit.getUserAccount().getUserName());
-        r.append("@");
-        if (sshAddr.startsWith("*:") || "".equals(sshAddr)) {
-          r.append(Window.Location.getHostName());
-        }
-        if (sshAddr.startsWith("*")) {
-          sshAddr = sshAddr.substring(1);
-        }
-        r.append(sshAddr);
-        r.append("/");
-        r.append(projectName);
-        r.append(" ");
-        r.append(patchSet.getRefName());
-        downloads.add(new CopyableLabel(r.toString()));
+      String sshAddr = Gerrit.getConfig().getSshdAddress();
+      final StringBuilder r = new StringBuilder();
+      r.append("ssh://");
+      r.append(Gerrit.getUserAccount().getUserName());
+      r.append("@");
+      if (sshAddr.startsWith("*:") || "".equals(sshAddr)) {
+        r.append(Window.Location.getHostName());
       }
+      if (sshAddr.startsWith("*")) {
+        sshAddr = sshAddr.substring(1);
+      }
+      r.append(sshAddr);
+      r.append("/");
+      r.append(projectName);
+      r.append(" ");
+      r.append(patchSet.getRefName());
+      urls.add(new DownloadUrlLink(DownloadUrl.SSH, "SSH", r.toString()));
+    }
 
+    if (Gerrit.isSignedIn() && Gerrit.getUserAccount().getUserName() != null
+        && Gerrit.getUserAccount().getUserName().length() > 0) {
       String base = GWT.getHostPageBaseURL();
       int p = base.indexOf("://");
       int s = base.indexOf('/', p + 3);
@@ -195,7 +191,6 @@ class PatchSetPanel extends Composite implements OpenHandler<DisclosurePanel> {
       }
 
       final StringBuilder r = new StringBuilder();
-      r.append("git pull ");
       r.append(base.substring(0, p + 3));
       r.append(Gerrit.getUserAccount().getUserName());
       r.append('@');
@@ -205,10 +200,74 @@ class PatchSetPanel extends Composite implements OpenHandler<DisclosurePanel> {
       r.append(projectName);
       r.append(" ");
       r.append(patchSet.getRefName());
-      downloads.add(new CopyableLabel(r.toString()));
+      urls.add(new DownloadUrlLink(DownloadUrl.HTTP, "HTTP", r.toString()));
     }
 
-    infoTable.setWidget(R_DOWNLOAD, 1, downloads);
+    if (Gerrit.getConfig().isUseRepoDownload()) {
+      // This site prefers usage of the 'repo' tool, so suggest
+      // that for easy fetch.
+      //
+      final StringBuilder r = new StringBuilder();
+      r.append("repo download ");
+      r.append(projectName);
+      r.append(" ");
+      r.append(changeDetail.getChange().getChangeId());
+      r.append("/");
+      r.append(patchSet.getPatchSetId());
+      final String cmd = r.toString();
+      commands.add(new DownloadCommandLink(DownloadCommand.REPO_DOWNLOAD,
+          "repo download") {
+        @Override
+        void setCurrentUrl(DownloadUrlLink link) {
+          urls.setVisible(false);
+          copyLabel.setText(cmd);
+        }
+      });
+    }
+
+    if (!urls.isEmpty()) {
+      commands.add(new DownloadCommandLink(DownloadCommand.PULL, "pull") {
+        @Override
+        void setCurrentUrl(DownloadUrlLink link) {
+          urls.setVisible(true);
+          copyLabel.setText("git pull " + link.urlData);
+        }
+      });
+      commands.add(new DownloadCommandLink(DownloadCommand.CHERRY_PICK,
+          "cherry-pick") {
+        @Override
+        void setCurrentUrl(DownloadUrlLink link) {
+          urls.setVisible(true);
+          copyLabel.setText("git fetch " + link.urlData
+              + " && git cherry-pick FETCH_HEAD");
+        }
+      });
+    }
+
+    final FlowPanel fp = new FlowPanel();
+    if (!commands.isEmpty()) {
+      final AccountGeneralPreferences pref;
+      if (Gerrit.isSignedIn()) {
+        pref = Gerrit.getUserAccount().getGeneralPreferences();
+      } else {
+        pref = new AccountGeneralPreferences();
+        pref.resetToDefaults();
+      }
+      commands.select(pref.getDownloadCommand());
+      urls.select(pref.getDownloadUrl());
+
+      FlowPanel p = new FlowPanel();
+      p.setStyleName(Gerrit.RESOURCES.css().downloadLinkHeader());
+      p.add(commands);
+      final InlineLabel glue = new InlineLabel();
+      glue.setStyleName(Gerrit.RESOURCES.css().downloadLinkHeaderGap());
+      p.add(glue);
+      p.add(urls);
+
+      fp.add(p);
+      fp.add(copyLabel);
+    }
+    infoTable.setWidget(R_DOWNLOAD, 1, fp);
   }
 
   private void displayUserIdentity(final int row, final UserIdentity who) {

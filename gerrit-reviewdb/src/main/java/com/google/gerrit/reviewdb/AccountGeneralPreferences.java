@@ -34,6 +34,16 @@ public final class AccountGeneralPreferences {
   /** Valid choices for the page size. */
   public static final short[] PAGESIZE_CHOICES = {10, 25, 50, 100};
 
+  /** Preferred URL type to download a change. */
+  public static enum DownloadUrl {
+    ANON_GIT, ANON_HTTP, ANON_SSH, HTTP, SSH;
+  }
+
+  /** Preferred method to download a change. */
+  public static enum DownloadCommand {
+    REPO_DOWNLOAD, PULL, CHERRY_PICK;
+  }
+
   /** Default number of lines of context when viewing a patch. */
   @Column(id = 1)
   protected short defaultContext;
@@ -49,6 +59,14 @@ public final class AccountGeneralPreferences {
   /** Should the Flash helper movie be used to copy text to the clipboard? */
   @Column(id = 4)
   protected boolean useFlashClipboard;
+
+  /** Type of download URL the user prefers to use. */
+  @Column(id = 5, length = 20, notNull = false)
+  protected String downloadUrl;
+
+  /** Type of download command the user prefers to use. */
+  @Column(id = 6, length = 20, notNull = false)
+  protected String downloadCommand;
 
   public AccountGeneralPreferences() {
   }
@@ -87,10 +105,42 @@ public final class AccountGeneralPreferences {
     useFlashClipboard = b;
   }
 
+  public DownloadUrl getDownloadUrl() {
+    if (downloadUrl == null) {
+      return null;
+    }
+    return DownloadUrl.valueOf(downloadUrl);
+  }
+
+  public void setDownloadUrl(DownloadUrl url) {
+    if (url != null) {
+      downloadUrl = url.name();
+    } else {
+      downloadUrl = null;
+    }
+  }
+
+  public DownloadCommand getDownloadCommand() {
+    if (downloadCommand == null) {
+      return null;
+    }
+    return DownloadCommand.valueOf(downloadCommand);
+  }
+
+  public void setDownloadCommand(DownloadCommand cmd) {
+    if (cmd != null) {
+      downloadCommand = cmd.name();
+    } else {
+      downloadCommand = null;
+    }
+  }
+
   public void resetToDefaults() {
     defaultContext = DEFAULT_CONTEXT;
     maximumPageSize = DEFAULT_PAGESIZE;
     showSiteHeader = true;
     useFlashClipboard = true;
+    downloadUrl = null;
+    downloadCommand = null;
   }
 }

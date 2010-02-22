@@ -1,0 +1,77 @@
+// Copyright (C) 2010 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package com.google.gerrit.client.changes;
+
+import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.reviewdb.AccountGeneralPreferences;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Accessibility;
+import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.Widget;
+import com.google.gwtjsonrpc.client.VoidResult;
+
+class DownloadUrlLink extends Anchor implements ClickHandler {
+  final AccountGeneralPreferences.DownloadUrl urlType;
+  final String urlData;
+
+  DownloadUrlLink(AccountGeneralPreferences.DownloadUrl urlType, String text,
+      String urlData) {
+    super(text);
+    this.urlType = urlType;
+    this.urlData = urlData;
+    setStyleName(Gerrit.RESOURCES.css().downloadLink());
+    Accessibility.setRole(getElement(), Accessibility.ROLE_TAB);
+    addClickHandler(this);
+  }
+
+  @Override
+  public void onClick(ClickEvent event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    select();
+
+    if (Gerrit.isSignedIn()) {
+      // If the user is signed-in, remember this choice for future panels.
+      //
+      AccountGeneralPreferences pref =
+          Gerrit.getUserAccount().getGeneralPreferences();
+      pref.setDownloadUrl(urlType);
+      com.google.gerrit.client.account.Util.ACCOUNT_SVC.changePreferences(pref,
+          new AsyncCallback<VoidResult>() {
+            @Override
+            public void onFailure(Throwable caught) {
+            }
+
+            @Override
+            public void onSuccess(VoidResult result) {
+            }
+          });
+    }
+  }
+
+  void select() {
+    DownloadUrlPanel parent = (DownloadUrlPanel) getParent();
+    for (Widget w : parent) {
+      if (w != this && w instanceof DownloadUrlLink) {
+        w.removeStyleName(Gerrit.RESOURCES.css().downloadLink_Active());
+      }
+    }
+    parent.setCurrentUrl(this);
+    addStyleName(Gerrit.RESOURCES.css().downloadLink_Active());
+  }
+}

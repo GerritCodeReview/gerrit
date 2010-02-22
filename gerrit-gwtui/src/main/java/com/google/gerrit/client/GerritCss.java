@@ -50,7 +50,6 @@ public interface GerritCss extends CssResource {
   String changeTypeCell();
   String changeid();
   String closedstate();
-  String command();
   String commentCell();
   String commentEditorPanel();
   String commentHolder();
@@ -81,6 +80,13 @@ public interface GerritCss extends CssResource {
   String diffTextHunkHeader();
   String diffTextINSERT();
   String diffTextNoLF();
+  String downloadLink();
+  String downloadLink_Active();
+  String downloadLinkListCell();
+  String downloadLinkCopyLabel();
+  String downloadLinkHeader();
+  String downloadLinkHeaderGap();
+  String downloadLinkList();
   String drafts();
   String emptySection();
   String errorDialog();

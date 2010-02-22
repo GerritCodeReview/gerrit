@@ -395,6 +395,11 @@ character class `\s` requires `\\s` in the configuration file.  The
 parser also terminates the line at the first `#`, so a match
 expression containing # must be wrapped in double quotes.
 +
+To match case insensitive strings, a character class with both the
+upper and lower case character for each position must be used.  For
+example, to match the string `bug` in a case insensitive way the match
+pattern `[bB][uU][gG]` needs to be used.
++
 A common pattern to match is `bug\\s+(\\d+)`.
 
 [[commentlink.name.link]]commentlink.<name>.link::

@@ -24,7 +24,6 @@ import org.eclipse.jgit.transport.ReceivePack;
 import org.kohsuke.args4j.Option;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -55,7 +54,6 @@ final class Receive extends AbstractGitCommand {
   @Override
   protected void runImpl() throws IOException, Failure {
     final ReceiveCommits receive = factory.create(projectControl, repo);
-    final PrintWriter msg = toPrintWriter(err);
 
     ReceiveCommits.Capable r = receive.canUpload();
     if (r != ReceiveCommits.Capable.OK) {

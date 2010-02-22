@@ -418,6 +418,14 @@ public class Gerrit implements EntryPoint {
       menuLeft.add(m, C.menuAdmin());
     }
 
+    if (getConfig().isDocumentationAvailable()) {
+      m = new LinkMenuBar();
+      addDocLink(m, C.menuDocumentationIndex(), "index.html");
+      addDocLink(m, C.menuDocumentationUpload(), "user-upload.html");
+      addDocLink(m, C.menuDocumentationAccess(), "access-control.html");
+      menuLeft.add(m, C.menuDocumentation());
+    }
+
     if (signedIn) {
       whoAmI();
       addLink(menuRight, C.menuSettings(), PageLinks.SETTINGS);
@@ -489,5 +497,12 @@ public class Gerrit implements EntryPoint {
   private static void addLink(final LinkMenuBar m, final String text,
       final String historyToken) {
     m.addItem(new LinkMenuItem(text, historyToken));
+  }
+
+  private static void addDocLink(final LinkMenuBar m, final String text,
+      final String href) {
+    final Anchor atag = anchor(text, "Documentation/" + href);
+    atag.setTarget("_blank");
+    m.add(atag);
   }
 }

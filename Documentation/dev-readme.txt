@@ -132,6 +132,14 @@ through the download site:
   ./tools/release.sh
 ----
 
+If AsciiDoc isn't installed or is otherwise unavailable, the WAR
+can still be built without the embedded documentation by passing
+an additional flag:
+
+----
+  ./tools/release.sh --without-documentation
+----
+
 
 Client-Server RPC
 -----------------

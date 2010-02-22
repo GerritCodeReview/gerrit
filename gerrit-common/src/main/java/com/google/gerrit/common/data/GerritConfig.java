@@ -36,6 +36,7 @@ public class GerritConfig implements Cloneable {
   protected ApprovalTypes approvalTypes;
   protected Set<Account.FieldName> editableAccountFields;
   protected List<RegexFindReplace> commentLinks;
+  protected boolean documentationAvailable;
 
   public String getRegisterUrl() {
     return registerUrl;
@@ -138,5 +139,13 @@ public class GerritConfig implements Cloneable {
 
   public void setCommentLinks(final List<RegexFindReplace> cl) {
     commentLinks = cl;
+  }
+
+  public boolean isDocumentationAvailable() {
+    return documentationAvailable;
+  }
+
+  public void setDocumentationAvailable(final boolean available) {
+    documentationAvailable = available;
   }
 }

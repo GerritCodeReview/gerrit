@@ -1,5 +1,20 @@
 #!/bin/sh
 
+include_docs=-Dgerrit.include-documentation=1
+
+while [ $# -gt 0 ]
+do
+	case "$1" in
+	--no-documentation|--without-documentation)
+		include_docs=
+		shift
+		;;
+	*)
+		echo >&2 "usage: $0 [--without-documentation]"
+		exit 1
+	esac
+done
+
 git update-index -q --refresh
 
 if test -n "$(git diff-index --name-only HEAD --)" \
@@ -10,7 +25,7 @@ then
 fi
 
 ./tools/version.sh --release &&
-mvn clean package
+mvn clean package $include_docs
 rc=$?
 ./tools/version.sh --reset
 

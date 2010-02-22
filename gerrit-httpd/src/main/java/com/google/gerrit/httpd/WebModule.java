@@ -133,8 +133,8 @@ public class WebModule extends FactoryModule {
 
     bind(ContactStore.class).toProvider(ContactStoreProvider.class).in(
         SINGLETON);
-    bind(GerritConfig.class).toProvider(GerritConfigProvider.class).in(
-        SINGLETON);
+    bind(GerritConfigProvider.class);
+    bind(GerritConfig.class).toProvider(GerritConfigProvider.class);
 
     bind(AccountManager.class);
     bind(ChangeUserName.CurrentUser.class);

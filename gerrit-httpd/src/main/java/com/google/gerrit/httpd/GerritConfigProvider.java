@@ -33,12 +33,15 @@ import com.google.inject.ProvisionException;
 
 import org.eclipse.jgit.lib.Config;
 
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
+
+import javax.servlet.ServletContext;
 
 class GerritConfigProvider implements Provider<GerritConfig> {
   private final Realm realm;
@@ -51,12 +54,13 @@ class GerritConfigProvider implements Provider<GerritConfig> {
 
   private EmailSender emailSender;
   private final ContactStore contactStore;
+  private final ServletContext servletContext;
 
   @Inject
   GerritConfigProvider(final Realm r, @GerritServerConfig final Config gsc,
       final AuthConfig ac, final GitWebConfig gwc,
       @WildProjectName final Project.NameKey wp, final SshInfo si,
-      final ApprovalTypes at, final ContactStore cs) {
+      final ApprovalTypes at, final ContactStore cs, final ServletContext sc) {
     realm = r;
     cfg = gsc;
     authConfig = ac;
@@ -65,6 +69,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
     wildProject = wp;
     approvalTypes = at;
     contactStore = cs;
+    servletContext = sc;
   }
 
   @Inject(optional = true)
@@ -72,7 +77,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
     emailSender = d;
   }
 
-  private GerritConfig create() {
+  private GerritConfig create() throws MalformedURLException {
     final GerritConfig config = new GerritConfig();
     switch (authConfig.getAuthType()) {
       case LDAP:
@@ -89,6 +94,8 @@ class GerritConfigProvider implements Provider<GerritConfig> {
     config.setAuthType(authConfig.getAuthType());
     config.setWildProject(wildProject);
     config.setApprovalTypes(approvalTypes);
+    config.setDocumentationAvailable(servletContext
+        .getResource("/Documentation/index.html") != null);
 
     final Set<Account.FieldName> fields = new HashSet<Account.FieldName>();
     for (final Account.FieldName n : Account.FieldName.values()) {
@@ -140,6 +147,10 @@ class GerritConfigProvider implements Provider<GerritConfig> {
 
   @Override
   public GerritConfig get() {
-    return create();
+    try {
+      return create();
+    } catch (MalformedURLException e) {
+      throw new ProvisionException("Cannot create GerritConfig instance", e);
+    }
   }
 }

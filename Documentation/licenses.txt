@@ -640,7 +640,8 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 Mozilla Public License 1.1
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-* link:http://www.mozilla.org/MPL/MPL-1.1.html
+* link:http://www.mozilla.org/MPL/MPL-1.1.html[Mozilla Public License (Original)]
+* link:http://www.mozilla.org/MPL/MPL-1.1-annotated.html[Mozilla Public License (Annotated)]
 
 ----
                           MOZILLA PUBLIC LICENSE

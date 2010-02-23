@@ -27,6 +27,7 @@ Apache Commons Net          <<apache2,Apache License 2.0>>
 Apache Commons Pool         <<apache2,Apache License 2.0>>
 Apache Log4J                <<apache2,Apache License 2.0>>
 Apache MINA                 <<apache2,Apache License 2.0>>
+Apache Tomact Servlet API   <<apache2,Apache License 2.0>>
 Apache SSHD                 <<apache2,Apache License 2.0>>, see also <<sshd,NOTICE>>
 Apache Xerces               <<apache2,Apache License 2.0>>
 OpenID4Java                 <<apache2,Apache License 2.0>>
@@ -35,7 +36,6 @@ Ehcache                     <<apache2,Apache License 2.0>>
 mime-util                   <<apache2,Apache License 2.0>>
 Jetty                       <<apache2,Apache License 2.0>>, or link:http://www.eclipse.org/legal/epl-v10.html[EPL]
 Google Code Prettify        <<apache2,Apache License 2.0>>
-Java Servlet API            <<cddl,CDDL>>
 JGit                        <<jgit,New-Style BSD>>
 JSch                        <<sshd,New-Style BSD>>
 PostgreSQL JDBC Driver      <<postgresql,New-Style BSD>>
@@ -296,14 +296,6 @@ Apache License 2.0
    See the License for the specific language governing permissions and
    limitations under the License.
 ----
-
-
-[[cddl]]
-Common Development and Distribution License (CDDL)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-* link:https://glassfish.dev.java.net/public/CDDLv1.0.html[Original]
-
 
 [[sshd]]
 Apache SSHD - Notice

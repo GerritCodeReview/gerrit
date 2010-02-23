@@ -35,7 +35,7 @@ limitations under the License.
 
   <dependencies>
     <dependency>
-      <groupId>javax.servlet</groupId>
+      <groupId>org.apache.tomcat</groupId>
       <artifactId>servlet-api</artifactId>
       <!-- compile, not provided. our embedded Jetty needs this -->
       <scope>compile</scope>

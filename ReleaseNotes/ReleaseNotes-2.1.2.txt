@@ -93,6 +93,23 @@ preferred method of grabbing a patch set.
 * issue 405 Add canned per-line comment reply of 'Done'
 * issue 380 Use N/P to jump to next/previous comments
 
+* Improved character set detection
++
+Gerrit now uses the Mozilla character set detection algorithm when
+trying to determine what charset was used to write a text file.
+For UTF-8 or ISO-8859-1/ASCII users, there should be no difference
+over prior releases.  With this change, the server can now also
+automatically recognize source files encoded in:
+
+a. Chinese (ISO-2022-CN, BIG5, EUC-TW, GB18030, HZ-GB-23121)
+b. Cyrillic (ISO-8859-5, KOI8-R, WINDOWS-1251, MACCYRILLIC, IBM866, IBM855)
+c. Greek (ISO-8859-7, WINDOWS-1253)
+d. Hebrew (ISO-8859-8, WINDOWS-1255)
+e. Japanese (ISO-2022-JP, SHIFT_JIS, EUC-JP)
+f. Korean (ISO-2022-KR, EUC-KR)
+g. Unicode (UTF-8, UTF-16BE / UTF-16LE, UTF-32BE / UTF-32LE / X-ISO-10646-UCS-4-34121 / X-ISO-10646-UCS-4-21431)
+h. WINDOWS-1252
+
 Permissions
 ~~~~~~~~~~~
 

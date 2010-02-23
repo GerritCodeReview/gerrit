@@ -85,6 +85,11 @@ limitations under the License.
     </dependency>
 
     <dependency>
+      <groupId>org.apache.tomcat</groupId>
+      <artifactId>servlet-api</artifactId>
+    </dependency>
+
+    <dependency>
       <groupId>org.eclipse.jgit</groupId>
       <artifactId>org.eclipse.jgit.junit</artifactId>
     </dependency>

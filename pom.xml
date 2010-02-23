@@ -463,6 +463,20 @@ limitations under the License.
             <groupId>xml-apis</groupId>
             <artifactId>xml-apis</artifactId>
           </exclusion>
+
+          <!-- optional, we aren't bothering with XRI support -->
+          <exclusion>
+            <groupId>org.openxri</groupId>
+            <artifactId>openxri</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>xml-security</groupId>
+            <artifactId>xmlsec</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>xalan</groupId>
+            <artifactId>xalan</artifactId>
+          </exclusion>
         </exclusions>
       </dependency>
 

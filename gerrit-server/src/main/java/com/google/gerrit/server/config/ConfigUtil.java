@@ -156,6 +156,10 @@ public class ConfigUtil {
       inputUnit = wantUnit;
       inputMul = 1;
 
+    } else if (match(unitName, "ms", "milliseconds")) {
+      inputUnit = TimeUnit.MILLISECONDS;
+      inputMul = 1;
+
     } else if (match(unitName, "s", "sec", "second", "seconds")) {
       inputUnit = TimeUnit.SECONDS;
       inputMul = 1;

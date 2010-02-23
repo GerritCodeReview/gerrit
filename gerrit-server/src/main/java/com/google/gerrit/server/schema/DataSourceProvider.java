@@ -15,8 +15,10 @@
 package com.google.gerrit.server.schema;
 
 import static com.google.gerrit.server.config.ConfigUtil.getEnum;
+import static java.util.concurrent.TimeUnit.*;
 
 import com.google.gerrit.lifecycle.LifecycleListener;
+import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gwtorm.jdbc.SimpleDataSource;
@@ -184,7 +186,8 @@ public final class DataSourceProvider implements Provider<DataSource>,
       ds.setMaxActive(cfg.getInt("database", "poollimit", 8));
       ds.setMinIdle(cfg.getInt("database", "poolminidle", 4));
       ds.setMaxIdle(cfg.getInt("database", "poolmaxidle", 4));
-      ds.setMaxWait(cfg.getInt("database", "poolmaxwait", 30000));
+      ds.setMaxWait(ConfigUtil.getTimeUnit(cfg, "database", null,
+          "poolmaxwait", MILLISECONDS.convert(30, SECONDS), MILLISECONDS));
       ds.setInitialSize(ds.getMinIdle());
       return ds;
 

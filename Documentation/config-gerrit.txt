@@ -624,6 +624,48 @@ database.type or database.url for any supported database.
 isn't necessary as it can be constructed from the all of the
 above properties.
 
+[[database.poolLimit]]database.poolLimit::
++
+Maximum number of open database connections.  If the server needs
+more than this number, request processing threads will wait up
+to <<database.poolMaxWait, poolMaxWait>> seconds for a
+connection to be released before they abort with an exception.
+This limit must be several units higher than the total number of
+httpd and sshd threads as some request processing code paths may
+need multiple connections.
++
+Default is 8.
+
+[[database.poolMinIdle]]databsae.poolMinIdle::
++
+Minimum number of connections to keep idle in the pool.
+Default is 4.
+
+[[database.poolMaxIdle]]databsae.poolMaxIdle::
++
+Maximum number of connections to keep idle in the pool.  If there
+are more idle connections, connections will be closed instead of
+being returned back to the pool.
+Default is 4.
+
+[[database.poolMaxWait]]database.poolMaxWait::
++
+Maximum amount of time a request processing thread will wait to
+acquire a database connection from the pool.  If no connection is
+released within this time period, the processing thread will abort
+its current operations and return an error to the client.
+Values should use common unit suffixes to express their setting:
++
+* ms, milliseconds
+* s, sec, second, seconds
+* m, min, minute, minutes
+* h, hr, hour, hours
+
++
+If a unit suffix is not specified, `milliseconds` is assumed.
++
+Default is `30 seconds`.
+
 
 [[gerrit]]Section gerrit
 ~~~~~~~~~~~~~~~~~~~~~~~~

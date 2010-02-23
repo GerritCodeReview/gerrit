@@ -38,19 +38,21 @@ public class PatchScript {
   protected SparseFileContent a;
   protected SparseFileContent b;
   protected List<Edit> edits;
+  protected List<Edit> deltaB;
   protected DisplayMethod displayMethodA;
   protected DisplayMethod displayMethodB;
 
   public PatchScript(final Change.Key ck, final List<String> h,
       final PatchScriptSettings s, final SparseFileContent ca,
-      final SparseFileContent cb, final List<Edit> e, final DisplayMethod ma,
-      final DisplayMethod mb) {
+      final SparseFileContent cb, final List<Edit> e, final List<Edit> d,
+      final DisplayMethod ma, final DisplayMethod mb) {
     changeId = ck;
     header = h;
     settings = s;
     a = ca;
     b = cb;
     edits = e;
+    deltaB = d;
     displayMethodA = ma;
     displayMethodB = mb;
   }
@@ -113,7 +115,13 @@ public class PatchScript {
     f.setEditList(getEditList());
 
     if (s.isSyntaxHighlighting() && a.isWholeFile() && !b.isWholeFile()) {
-      f.format(b.completeWithContext(a, getEditList()));
+      final EditList e;
+      if(deltaB != null) {
+        e = new EditList(deltaB, getContext(), a.size(), b.size());
+      } else {
+        e = getEditList();
+      }
+      f.format(b.completeWithContext(a, e));
     } else {
       f.format(b);
     }

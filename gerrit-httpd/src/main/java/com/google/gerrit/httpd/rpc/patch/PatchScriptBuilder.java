@@ -109,7 +109,9 @@ class PatchScriptBuilder {
       // a patch script. Instead treat everything as a file header.
       //
       return new PatchScript(change.getKey(), contentAct.getHeaderLines(),
-          settings, a.dst, b.dst, Collections.<Edit> emptyList(),
+          settings, a.dst, b.dst, //
+          Collections.<Edit> emptyList(), // edits
+          Collections.<Edit> emptyList(), // deltaB
           a.displayMethod, b.displayMethod);
     }
 
@@ -167,7 +169,9 @@ class PatchScriptBuilder {
     }
 
     return new PatchScript(change.getKey(), header, settings, a.dst, b.dst,
-        edits, a.displayMethod, b.displayMethod);
+        edits, // edits
+        contentWS != contentAct ? contentAct.getEdits() : null, // deltaB
+        a.displayMethod, b.displayMethod);
   }
 
   private static String oldName(final PatchListEntry entry) {

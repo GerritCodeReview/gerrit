@@ -317,6 +317,7 @@ public class PatchTable extends Composite {
       if (Gerrit.isSignedIn()) {
         m.openTd();
         m.setStyleName(Gerrit.RESOURCES.css().iconHeader());
+        m.addStyleName(Gerrit.RESOURCES.css().dataHeader());
         m.append(Util.C.reviewed());
         m.closeTd();
       }

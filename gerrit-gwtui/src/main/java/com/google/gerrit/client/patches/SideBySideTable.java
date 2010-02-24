@@ -33,6 +33,8 @@ import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 import com.google.gwtorm.client.KeyUtil;
 
+import org.eclipse.jgit.diff.Edit;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -106,15 +108,19 @@ public class SideBySideTable extends AbstractPatchContentTable {
           if (del) {
             appendLineText(nc, hunk.getCurA(), DELETE, a, hunk.getCurA());
             hunk.incA();
+          } else if (hunk.getCurEdit().getType() == Edit.Type.REPLACE) {
+            appendLineNone(nc, DELETE);
           } else {
-            appendLineNone(nc);
+            appendLineNone(nc, CONTEXT);
           }
 
           if (ins) {
             appendLineText(nc, hunk.getCurB(), INSERT, b, hunk.getCurB());
             hunk.incB();
+          } else if (hunk.getCurEdit().getType() == Edit.Type.REPLACE) {
+            appendLineNone(nc, INSERT);
           } else {
-            appendLineNone(nc);
+            appendLineNone(nc, CONTEXT);
           }
 
           closeLine(nc);
@@ -308,14 +314,24 @@ public class SideBySideTable extends AbstractPatchContentTable {
     m.closeTd();
   }
 
-  private void appendLineNone(final SafeHtmlBuilder m) {
+  private void appendLineNone(final SafeHtmlBuilder m, final PatchLine.Type type) {
     m.openTd();
     m.setStyleName(Gerrit.RESOURCES.css().lineNumber());
     m.closeTd();
 
     m.openTd();
     m.addStyleName(Gerrit.RESOURCES.css().fileLine());
-    m.addStyleName(Gerrit.RESOURCES.css().fileLineNone());
+    switch (type != null ? type : PatchLine.Type.CONTEXT) {
+      case DELETE:
+        m.addStyleName(Gerrit.RESOURCES.css().fileLineDELETE());
+        break;
+      case INSERT:
+        m.addStyleName(Gerrit.RESOURCES.css().fileLineINSERT());
+        break;
+      default:
+        m.addStyleName(Gerrit.RESOURCES.css().fileLineNone());
+        break;
+    }
     m.closeTd();
   }
 

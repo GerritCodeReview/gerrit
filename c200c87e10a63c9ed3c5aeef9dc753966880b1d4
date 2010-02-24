@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAtX///9g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-24T21:54:39Z",
+      "side": 1,
+      "message": "I think I would prefer taking the event objects you define in StreamChangeEvents class and moving them into this package, and then modify this interface to have only one method that takes the event.  That should simplify the code here considerably.\n\nAlso, define this interface in its own top-level class.",
+      "revId": "c200c87e10a63c9ed3c5aeef9dc753966880b1d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAtX///9k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-24T21:54:39Z",
+      "side": 1,
+      "message": "Use a CopyOnWriteArrayList so additions, removals and traversals are completely thread-safe.  Also mark this final because we shouldn\u0027t change the list object once we initialize.",
+      "revId": "c200c87e10a63c9ed3c5aeef9dc753966880b1d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAtX///9c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-24T21:54:39Z",
+      "side": 1,
+      "message": "Style-nit: Please put these methods below the constructor.",
+      "revId": "c200c87e10a63c9ed3c5aeef9dc753966880b1d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAtX///9Y\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/StreamChangeEvents.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-24T21:54:39Z",
+      "side": 1,
+      "message": "Wrong copyright date, use 2010.",
+      "revId": "c200c87e10a63c9ed3c5aeef9dc753966880b1d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAtX///9U\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/StreamChangeEvents.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-24T21:54:39Z",
+      "side": 1,
+      "message": "Usually these are in MILLISECONDS.  So please document that the member is in seconds.",
+      "revId": "c200c87e10a63c9ed3c5aeef9dc753966880b1d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAtX///9M\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/StreamChangeEvents.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-24T21:54:39Z",
+      "side": 1,
+      "message": "Instead of this mess, use ChangeControl:\n\n  @Inject\n  private ChangeControl.Factory changeControlFactory;\n\n  return changeControlFactory.controlFor(change).isVisible();\n\nIf you run this on the SSH command thread, you will always be getting the SSH client\u0027s user identity evaluated in that automatically.  If you run this during the ChangeListener, you are toast, you\u0027ll be using the user identity of the guy who is making the modification.  :-)",
+      "revId": "c200c87e10a63c9ed3c5aeef9dc753966880b1d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAtX///9Q\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/StreamChangeEvents.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-24T21:54:39Z",
+      "side": 1,
+      "message": "Do the JSON formatting on the thread that is feeding the client, not the thread that is dispatching the event.\n\nYou need to not block here.  If the queue gets backed up you can\u0027t freeze the calling thread, as a slow stream client would grind the entire site to a halt.\n\nSo if you cant push into the queue right away, you should instead set a \"dropped event\" flag and return to the caller immediately.  When feeding events to the client, if the dropped event flag is set, send them a notice to let them know they were too slow and missed something.",
+      "revId": "c200c87e10a63c9ed3c5aeef9dc753966880b1d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAtX///9A\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/StreamChangeEvents.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-24T21:54:39Z",
+      "side": 1,
+      "message": "You need to do something so you don\u0027t tie up this thread indefinitely.  The threads passed out by startThread are coming from a thread pool.  We have a finite number of them.  A stream command shouldn\u0027t be counted against that resource limit... but it should certainly use a different resource limit.  Probably per-user, with only certain users even allowed to use it.",
+      "revId": "c200c87e10a63c9ed3c5aeef9dc753966880b1d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAtX///9I\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/StreamChangeEvents.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-24T21:54:39Z",
+      "side": 1,
+      "message": "I\u0027m not actually sure polling with a timeout is necessary.\n\nIf the client terminates the command remotely via a SIGINT or SIGTERM we should see our destroy() method (inherited from BaseCommand) invoked.  That will send an interrupt to our thread.  Which we can catch via InterruptedException and know to break out.",
+      "revId": "c200c87e10a63c9ed3c5aeef9dc753966880b1d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -592,15 +592,15 @@
   padding-right: 0.2em;
 }
 
-.patchContentTable .fileLineNone {
+.fileLineNone {
   background: #eeeeee;
 }
-.patchContentTable .fileLineDELETE {
+.fileLineDELETE {
   background: #ffeeee;
 }
-.patchContentTable .fileLineCONTEXT {
+.fileLineCONTEXT {
 }
-.patchContentTable .fileLineINSERT {
+.fileLineINSERT {
   background: #ddffdd;
 }
 

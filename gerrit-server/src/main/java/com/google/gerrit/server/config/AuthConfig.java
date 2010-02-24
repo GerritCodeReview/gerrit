@@ -42,6 +42,7 @@ public class AuthConfig {
   private final AccountGroup.Id administratorGroup;
   private final Set<AccountGroup.Id> anonymousGroups;
   private final Set<AccountGroup.Id> registeredGroups;
+  private final AccountGroup.Id streamingGroup;
 
   private final boolean allowGoogleAccountUpgrade;
 
@@ -60,6 +61,7 @@ public class AuthConfig {
     registeredGroups = Collections.unmodifiableSet(r);
     anonymousGroups = Collections.singleton(s.anonymousGroupId);
     administratorGroup = s.adminGroupId;
+    streamingGroup = s.streamingGroupId;
 
     if (authType == AuthType.OPENID) {
       allowGoogleAccountUpgrade =
@@ -115,6 +117,11 @@ public class AuthConfig {
   /** Groups that all users who have created an account belong to. */
   public Set<AccountGroup.Id> getRegisteredGroups() {
     return registeredGroups;
+  }
+
+  /** Identity of the special group that allows users to use streaming commands. */
+  public AccountGroup.Id getStreamingGroup() {
+    return streamingGroup;
   }
 
   public boolean isIdentityTrustable(final Collection<AccountExternalId> ids) {

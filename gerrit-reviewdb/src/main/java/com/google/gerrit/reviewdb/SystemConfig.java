@@ -78,6 +78,10 @@ public final class SystemConfig {
   @Column(id = 7)
   public Project.NameKey wildProjectName;
 
+  /** Identity of the streaming users group, which permits a user to use streaming commands */
+  @Column(id = 8)
+  public AccountGroup.Id streamingGroupId;
+
   protected SystemConfig() {
   }
 }

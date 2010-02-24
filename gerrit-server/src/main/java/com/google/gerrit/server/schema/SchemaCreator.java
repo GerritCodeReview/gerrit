@@ -140,11 +140,21 @@ public class SchemaCreator {
     c.accountGroupNames().insert(
         Collections.singleton(new AccountGroupName(registered)));
 
+    final AccountGroup streaming =
+        new AccountGroup(new AccountGroup.NameKey("Streaming Users"),
+            new AccountGroup.Id(c.nextAccountGroupId()));
+    streaming.setDescription("Users allowed to use streaming commands");
+    streaming.setType(AccountGroup.Type.INTERNAL);
+    c.accountGroups().insert(Collections.singleton(streaming));
+    c.accountGroupNames().insert(
+        Collections.singleton(new AccountGroupName(streaming)));
+
     final SystemConfig s = SystemConfig.create();
     s.registerEmailPrivateKey = SignedToken.generateRandomKey();
     s.adminGroupId = admin.getId();
     s.anonymousGroupId = anonymous.getId();
     s.registeredGroupId = registered.getId();
+    s.streamingGroupId = streaming.getId();
     s.wildProjectName = DEFAULT_WILD_NAME;
     try {
       s.sitePath = site_path.getCanonicalPath();

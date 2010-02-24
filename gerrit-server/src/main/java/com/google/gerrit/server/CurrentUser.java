@@ -63,4 +63,8 @@ public abstract class CurrentUser {
   public final boolean isAdministrator() {
     return getEffectiveGroups().contains(authConfig.getAdministratorsGroup());
   }
+
+  public final boolean isAllowedToStream() {
+    return getEffectiveGroups().contains(authConfig.getStreamingGroup());
+  }
 }

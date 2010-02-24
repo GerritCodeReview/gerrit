@@ -74,6 +74,9 @@ final class DispatchCommand extends BaseCommand {
       if (isAdminCommand(cmd) && !currentUser.get().isAdministrator()) {
         final String msg = "fatal: Not a Gerrit administrator";
         throw new UnloggedFailure(BaseCommand.STATUS_NOT_ADMIN, msg);
+      } else if (isStreamCommand(cmd) && !currentUser.get().isAllowedToStream()) {
+        final String msg = "fatal: Not allowed to run streaming commands";
+        throw new UnloggedFailure(BaseCommand.STATUS_NO_STREAMING, msg);
       }
 
       if (cmd instanceof BaseCommand) {
@@ -108,6 +111,10 @@ final class DispatchCommand extends BaseCommand {
 
   private boolean isAdminCommand(final Command cmd) {
     return cmd.getClass().getAnnotation(AdminCommand.class) != null;
+  }
+
+  private final boolean isStreamCommand(final Command cmd) {
+    return cmd.getClass().getAnnotation(StreamCommand.class) != null;
   }
 
   @Override

@@ -55,6 +55,7 @@ public abstract class BaseCommand implements Command {
   static final int STATUS_CANCEL = PRIVATE_STATUS | 1;
   static final int STATUS_NOT_FOUND = PRIVATE_STATUS | 2;
   static final int STATUS_NOT_ADMIN = PRIVATE_STATUS | 3;
+  static final int STATUS_NO_STREAMING = PRIVATE_STATUS | 4;
 
   @Option(name = "--help", usage = "display this help text", aliases = {"-h"})
   private boolean help;
@@ -78,6 +79,10 @@ public abstract class BaseCommand implements Command {
   @Inject
   @CommandExecutor
   private WorkQueue.Executor executor;
+
+  @Inject
+  @StreamCommandExecutor
+  private WorkQueue.Executor streamExecutor;
 
   @Inject
   private Provider<CurrentUser> userProvider;
@@ -241,6 +246,8 @@ public abstract class BaseCommand implements Command {
       // for the main work threads.
       //
       new Thread(tt, tt.toString()).start();
+    } else if (isStreamCommand()) {
+      task = streamExecutor.submit(tt);
     } else {
       task = executor.submit(tt);
     }
@@ -248,6 +255,10 @@ public abstract class BaseCommand implements Command {
 
   private final boolean isAdminCommand() {
     return getClass().getAnnotation(AdminCommand.class) != null;
+  }
+
+  private final boolean isStreamCommand() {
+    return getClass().getAnnotation(StreamCommand.class) != null;
   }
 
   /**

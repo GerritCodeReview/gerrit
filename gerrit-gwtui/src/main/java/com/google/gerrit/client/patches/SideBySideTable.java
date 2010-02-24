@@ -26,6 +26,7 @@ import com.google.gerrit.prettify.common.EditList;
 import com.google.gerrit.prettify.common.SparseHtmlFile;
 import com.google.gerrit.reviewdb.Patch;
 import com.google.gerrit.reviewdb.PatchLineComment;
+import com.google.gerrit.reviewdb.Patch.ChangeType;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
@@ -209,7 +210,12 @@ public class SideBySideTable extends AbstractPatchContentTable {
     m.openTd();
     m.setStyleName(Gerrit.RESOURCES.css().fileColumnHeader());
     m.setAttribute("width", "50%");
-    m.append(PatchUtil.C.patchHeaderOld());
+    if (script.getChangeType() == ChangeType.RENAMED
+        || script.getChangeType() == ChangeType.COPIED) {
+      m.append(script.getOldName());
+    } else {
+      m.append(PatchUtil.C.patchHeaderOld());
+    }
     m.br();
     if (0 < script.getA().size()) {
       if (idSideA == null) {

@@ -63,7 +63,6 @@ class PatchScriptBuilder {
     }
   };
 
-  private final List<String> header;
   private Repository db;
   private Change change;
   private PatchScriptSettings settings;
@@ -79,7 +78,6 @@ class PatchScriptBuilder {
 
   @Inject
   PatchScriptBuilder(final FileTypeRegistry ftr) {
-    header = new ArrayList<String>();
     a = new Side();
     b = new Side();
     registry = ftr;
@@ -110,7 +108,8 @@ class PatchScriptBuilder {
       // For a diff --cc format we don't support converting it into
       // a patch script. Instead treat everything as a file header.
       //
-      return new PatchScript(change.getKey(), content.getHeaderLines(),
+      return new PatchScript(change.getKey(), content.getChangeType(), content
+          .getOldName(), content.getNewName(), content.getHeaderLines(),
           settings, a.dst, b.dst, Collections.<Edit> emptyList(),
           a.displayMethod, b.displayMethod, comments, history);
     }
@@ -123,7 +122,6 @@ class PatchScriptBuilder {
 
     edits = new ArrayList<Edit>(content.getEdits());
     ensureCommentsVisible(comments);
-    header.addAll(content.getHeaderLines());
 
     if (a.mode == FileMode.GITLINK || b.mode == FileMode.GITLINK) {
 
@@ -158,8 +156,10 @@ class PatchScriptBuilder {
       packContent(settings.getWhitespace() != Whitespace.IGNORE_NONE);
     }
 
-    return new PatchScript(change.getKey(), header, settings, a.dst, b.dst,
-        edits, a.displayMethod, b.displayMethod, comments, history);
+    return new PatchScript(change.getKey(), content.getChangeType(), content
+        .getOldName(), content.getNewName(), content.getHeaderLines(),
+        settings, a.dst, b.dst, edits, a.displayMethod, b.displayMethod,
+        comments, history);
   }
 
   private static String oldName(final PatchListEntry entry) {

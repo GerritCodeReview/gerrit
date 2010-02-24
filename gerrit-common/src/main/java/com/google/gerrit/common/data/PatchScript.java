@@ -23,6 +23,7 @@ import com.google.gerrit.prettify.common.SparseFileContent;
 import com.google.gerrit.prettify.common.SparseHtmlFile;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.Patch;
+import com.google.gerrit.reviewdb.Patch.ChangeType;
 
 import org.eclipse.jgit.diff.Edit;
 
@@ -34,6 +35,9 @@ public class PatchScript {
   }
 
   protected Change.Key changeId;
+  protected ChangeType changeType;
+  protected String oldName;
+  protected String newName;
   protected List<String> header;
   protected PatchScriptSettings settings;
   protected SparseFileContent a;
@@ -44,11 +48,15 @@ public class PatchScript {
   protected CommentDetail comments;
   protected List<Patch> history;
 
-  public PatchScript(final Change.Key ck, final List<String> h,
-      final PatchScriptSettings s, final SparseFileContent ca,
-      final SparseFileContent cb, final List<Edit> e, final DisplayMethod ma,
-      final DisplayMethod mb, final CommentDetail cd, final List<Patch> hist) {
+  public PatchScript(final Change.Key ck, final ChangeType ct, final String on,
+      final String nn, final List<String> h, final PatchScriptSettings s,
+      final SparseFileContent ca, final SparseFileContent cb,
+      final List<Edit> e, final DisplayMethod ma, final DisplayMethod mb,
+      final CommentDetail cd, final List<Patch> hist) {
     changeId = ck;
+    changeType = ct;
+    oldName = on;
+    newName = nn;
     header = h;
     settings = s;
     a = ca;
@@ -77,6 +85,18 @@ public class PatchScript {
 
   public List<String> getPatchHeader() {
     return header;
+  }
+
+  public ChangeType getChangeType() {
+    return changeType;
+  }
+
+  public String getOldName() {
+    return oldName;
+  }
+
+  public String getNewName() {
+    return newName;
   }
 
   public CommentDetail getCommentDetail() {

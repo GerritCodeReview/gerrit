@@ -104,6 +104,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAtX///8g\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/StreamChangeEvents.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-24T22:24:50Z",
+      "side": 1,
+      "message": "That\u0027s also a great idea.  We have plenty of space for complex data in JSON.  Its not like we have to cram everything into a parseable text string.  :-)",
+      "parentUuid": "AAAAtX///8w\u003d",
+      "revId": "c200c87e10a63c9ed3c5aeef9dc753966880b1d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAtX///9M\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/StreamChangeEvents.java",
         "patchSetId": 1

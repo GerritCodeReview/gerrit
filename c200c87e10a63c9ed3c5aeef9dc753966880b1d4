@@ -87,6 +87,23 @@
     },
     {
       "key": {
+        "uuid": "AAAAtX///8w\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/StreamChangeEvents.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1006166
+      },
+      "writtenOn": "2010-02-24T22:22:24Z",
+      "side": 1,
+      "message": "instead of flattening into an author string that is then parsed again on the remote side, how about separate displayName and preferredEmail fields?  ditto for other instances below",
+      "revId": "c200c87e10a63c9ed3c5aeef9dc753966880b1d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAtX///9M\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/StreamChangeEvents.java",
         "patchSetId": 1

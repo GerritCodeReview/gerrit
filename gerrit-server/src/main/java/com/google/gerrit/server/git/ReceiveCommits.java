@@ -1279,7 +1279,8 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     //
     if (c.getParentCount() > 1
         && author.getName().equals(gerritIdent.getName())
-        && author.getEmailAddress().equals(gerritIdent.getEmailAddress())) {
+        && author.getEmailAddress().equals(gerritIdent.getEmailAddress())
+        && !ctl.canForgeGerritServerIdentity()) {
       reject(cmd, "do not amend merges not made by you");
       return false;
     }

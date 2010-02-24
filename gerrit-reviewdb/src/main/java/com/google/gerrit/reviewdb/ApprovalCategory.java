@@ -49,6 +49,7 @@ public final class ApprovalCategory {
       new ApprovalCategory.Id("FORG");
   public static final short FORGE_AUTHOR = 1;
   public static final short FORGE_COMMITTER = 2;
+  public static final short FORGE_SERVER = 3;
 
   public static class Id extends StringKey<Key<?>> {
     private static final long serialVersionUID = 1L;

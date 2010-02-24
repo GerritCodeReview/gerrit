@@ -320,6 +320,8 @@ public class SchemaCreator {
         "Forge Author Identity"));
     values.add(value(cat, ApprovalCategory.FORGE_COMMITTER,
         "Forge Committer or Tagger Identity"));
+    values.add(value(cat, ApprovalCategory.FORGE_SERVER,
+        "Forge Gerrit Code Review Server Identity"));
     c.approvalCategories().insert(Collections.singleton(cat));
     c.approvalCategoryValues().insert(values);
 

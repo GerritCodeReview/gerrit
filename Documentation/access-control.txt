@@ -352,6 +352,15 @@ unverified committer line in commit objects, or an unverified tagger
 line in annotated tag objects.  Typically this is only required
 when mirroring commits from an upstream project repository.
 
+* +3 Forge Gerrit Code Review Server Identity
++
+Implies 'Forge Committer or Tagger Identity' as well as 'Forge
+Author Identity', but additionally allows the use of the server's
+own name and email on the committer line of a new commit object.
+This should only be necessary when force pushing a commit history
+which has been rewritten by 'git filter-branch' and that contains
+merge commits previously created by this Gerrit Code Review server.
+
 [[category_VRIF]]
 Verified
 ~~~~~~~~

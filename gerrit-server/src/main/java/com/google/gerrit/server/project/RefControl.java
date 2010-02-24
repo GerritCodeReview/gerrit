@@ -17,6 +17,7 @@ package com.google.gerrit.server.project;
 import static com.google.gerrit.reviewdb.ApprovalCategory.FORGE_AUTHOR;
 import static com.google.gerrit.reviewdb.ApprovalCategory.FORGE_COMMITTER;
 import static com.google.gerrit.reviewdb.ApprovalCategory.FORGE_IDENTITY;
+import static com.google.gerrit.reviewdb.ApprovalCategory.FORGE_SERVER;
 import static com.google.gerrit.reviewdb.ApprovalCategory.OWN;
 import static com.google.gerrit.reviewdb.ApprovalCategory.PUSH_HEAD;
 import static com.google.gerrit.reviewdb.ApprovalCategory.PUSH_HEAD_CREATE;
@@ -204,6 +205,11 @@ public class RefControl {
       canForgeCommitter = canPerform(FORGE_IDENTITY, FORGE_COMMITTER);
     }
     return canForgeCommitter;
+  }
+
+  /** @return true if this user can forge the server on the committer line. */
+  public boolean canForgeGerritServerIdentity() {
+    return canPerform(FORGE_IDENTITY, FORGE_SERVER);
   }
 
   private boolean canPerform(ApprovalCategory.Id actionId, short level) {

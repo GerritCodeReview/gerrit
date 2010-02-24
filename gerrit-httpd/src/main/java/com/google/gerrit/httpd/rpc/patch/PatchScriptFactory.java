@@ -27,6 +27,7 @@ import com.google.gerrit.reviewdb.PatchLineComment;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.Patch.ChangeType;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountInfoCacheFactory;
@@ -38,7 +39,6 @@ import com.google.gerrit.server.patch.PatchListKey;
 import com.google.gerrit.server.project.ChangeControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.client.OrmException;
-import com.google.gwtorm.client.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
@@ -72,7 +72,7 @@ class PatchScriptFactory extends Handler<PatchScript> {
   private final GitRepositoryManager repoManager;
   private final Provider<PatchScriptBuilder> builderFactory;
   private final PatchListCache patchListCache;
-  private final SchemaFactory<ReviewDb> schemaFactory;
+  private final ReviewDb db;
   private final ChangeControl.Factory changeControlFactory;
   private final AccountInfoCacheFactory.Factory aicFactory;
 
@@ -97,7 +97,7 @@ class PatchScriptFactory extends Handler<PatchScript> {
   @Inject
   PatchScriptFactory(final GitRepositoryManager grm,
       Provider<PatchScriptBuilder> builderFactory,
-      final PatchListCache patchListCache, final SchemaFactory<ReviewDb> sf,
+      final PatchListCache patchListCache, final ReviewDb db,
       final ChangeControl.Factory changeControlFactory,
       final AccountInfoCacheFactory.Factory aicFactory,
       @Assisted final Patch.Key patchKey,
@@ -107,7 +107,7 @@ class PatchScriptFactory extends Handler<PatchScript> {
     this.repoManager = grm;
     this.builderFactory = builderFactory;
     this.patchListCache = patchListCache;
-    this.schemaFactory = sf;
+    this.db = db;
     this.changeControlFactory = changeControlFactory;
     this.aicFactory = aicFactory;
 
@@ -127,7 +127,14 @@ class PatchScriptFactory extends Handler<PatchScript> {
 
     control = changeControlFactory.validateFor(changeId);
     change = control.getChange();
-    loadMetaData();
+    projectKey = change.getProject();
+    patchSet = db.patchSets().get(patchSetId);
+    if (patchSet == null) {
+      throw new NoSuchChangeException(changeId);
+    }
+
+    aId = psa != null ? toObjectId(db, psa) : null;
+    bId = toObjectId(db, psb);
 
     final Repository git;
     try {
@@ -140,6 +147,11 @@ class PatchScriptFactory extends Handler<PatchScript> {
       final PatchList list = listFor(keyFor(settings.getWhitespace()));
       final PatchScriptBuilder b = newBuilder(list, git);
       final PatchListEntry content = list.get(patchKey.getFileName());
+
+      loadCommentsAndHistory(content.getChangeType(), //
+          content.getOldName(), //
+          content.getNewName());
+
       try {
         return b.toPatchScript(content, comments, history);
       } catch (IOException e) {
@@ -208,60 +220,110 @@ class PatchScriptFactory extends Handler<PatchScript> {
     }
   }
 
-  private void loadMetaData() throws OrmException, NoSuchChangeException {
-    final ReviewDb db = schemaFactory.open();
-    try {
-      patchSet = db.patchSets().get(patchSetId);
-      if (patchSet == null) {
-        throw new NoSuchChangeException(changeId);
-      }
+  private void loadCommentsAndHistory(final ChangeType changeType,
+      final String oldName, final String newName) throws OrmException {
+    history = new ArrayList<Patch>();
+    comments = new CommentDetail(psa, psb);
 
-      projectKey = change.getProject();
-      aId = psa != null ? toObjectId(db, psa) : null;
-      bId = toObjectId(db, psb);
-      history = new ArrayList<Patch>();
-      comments = new CommentDetail(psa, psb);
+    final Map<Patch.Key, Patch> byKey = new HashMap<Patch.Key, Patch>();
+    final AccountInfoCacheFactory aic = aicFactory.create();
 
-      final String file = patchKey.get();
-      final Map<PatchSet.Id, Patch> bySet = new HashMap<PatchSet.Id, Patch>();
-      for (final PatchSet ps : db.patchSets().byChange(changeId)) {
-        final Patch p = new Patch(new Patch.Key(ps.getId(), file));
-        history.add(p);
-        bySet.put(ps.getId(), p);
-      }
-
-      final AccountInfoCacheFactory aic = aicFactory.create();
-      for (PatchLineComment c : db.patchComments().published(changeId, file)) {
-        if (comments.include(c)) {
-          aic.want(c.getAuthor());
-        }
-
-        final PatchSet.Id psId = c.getKey().getParentKey().getParentKey();
-        final Patch p = bySet.get(psId);
-        if (p != null) {
-          p.setCommentCount(p.getCommentCount() + 1);
+    // This seems like a cheap trick. It doesn't properly account for a
+    // file that gets renamed between patch set 1 and patch set 2. We
+    // will wind up packing the wrong Patch object because we didn't do
+    // proper rename detection between the patch sets.
+    //
+    for (final PatchSet ps : db.patchSets().byChange(changeId)) {
+      String name = patchKey.get();
+      if (psa != null) {
+        switch (changeType) {
+          case COPIED:
+          case RENAMED:
+            if (ps.getId().equals(psa)) {
+              name = oldName;
+            }
+            break;
         }
       }
 
-      final CurrentUser user = control.getCurrentUser();
-      if (user instanceof IdentifiedUser) {
-        final Account.Id me = ((IdentifiedUser) user).getAccountId();
-        for (PatchLineComment c : db.patchComments().draft(changeId, file, me)) {
-          if (comments.include(c)) {
-            aic.want(me);
+      final Patch p = new Patch(new Patch.Key(ps.getId(), name));
+      history.add(p);
+      byKey.put(p.getKey(), p);
+    }
+
+    switch (changeType) {
+      case ADDED:
+      case MODIFIED:
+        loadPublished(byKey, aic, newName);
+        break;
+
+      case DELETED:
+        loadPublished(byKey, aic, oldName);
+        break;
+
+      case COPIED:
+      case RENAMED:
+        if (psa != null) {
+          loadPublished(byKey, aic, oldName);
+        }
+        loadPublished(byKey, aic, newName);
+        break;
+    }
+
+    final CurrentUser user = control.getCurrentUser();
+    if (user instanceof IdentifiedUser) {
+      final Account.Id me = ((IdentifiedUser) user).getAccountId();
+      switch (changeType) {
+        case ADDED:
+        case MODIFIED:
+          loadDrafts(byKey, aic, me, newName);
+          break;
+
+        case DELETED:
+          loadDrafts(byKey, aic, me, oldName);
+          break;
+
+        case COPIED:
+        case RENAMED:
+          if (psa != null) {
+            loadDrafts(byKey, aic, me, oldName);
           }
+          loadDrafts(byKey, aic, me, newName);
+          break;
+      }
+    }
 
-          final PatchSet.Id psId = c.getKey().getParentKey().getParentKey();
-          final Patch p = bySet.get(psId);
-          if (p != null) {
-            p.setDraftCount(p.getDraftCount() + 1);
-          }
-        }
+    comments.setAccountInfoCache(aic.create());
+  }
+
+  private void loadPublished(final Map<Patch.Key, Patch> byKey,
+      final AccountInfoCacheFactory aic, final String file) throws OrmException {
+    for (PatchLineComment c : db.patchComments().published(changeId, file)) {
+      if (comments.include(c)) {
+        aic.want(c.getAuthor());
       }
 
-      comments.setAccountInfoCache(aic.create());
-    } finally {
-      db.close();
+      final Patch.Key pKey = c.getKey().getParentKey();
+      final Patch p = byKey.get(pKey);
+      if (p != null) {
+        p.setCommentCount(p.getCommentCount() + 1);
+      }
+    }
+  }
+
+  private void loadDrafts(final Map<Patch.Key, Patch> byKey,
+      final AccountInfoCacheFactory aic, final Account.Id me, final String file)
+      throws OrmException {
+    for (PatchLineComment c : db.patchComments().draft(changeId, file, me)) {
+      if (comments.include(c)) {
+        aic.want(me);
+      }
+
+      final Patch.Key pKey = c.getKey().getParentKey();
+      final Patch p = byKey.get(pKey);
+      if (p != null) {
+        p.setDraftCount(p.getDraftCount() + 1);
+      }
     }
   }
 }

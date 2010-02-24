@@ -87,8 +87,8 @@ public class PatchScript {
     return history;
   }
 
-  public int getContext() {
-    return settings.getContext();
+  public PatchScriptSettings getSettings() {
+    return settings;
   }
 
   public boolean isIgnoreWhitespace() {
@@ -138,6 +138,7 @@ public class PatchScript {
   }
 
   public Iterable<EditList.Hunk> getHunks() {
-    return new EditList(edits, getContext(), a.size(), b.size()).getHunks();
+    final int ctx = settings.getContext();
+    return new EditList(edits, ctx, a.size(), b.size()).getHunks();
   }
 }

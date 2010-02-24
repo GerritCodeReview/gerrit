@@ -273,9 +273,9 @@ public class Gerrit implements EntryPoint {
     };
     gBody.add(body);
 
-    final RpcStatus rpcStatus = new RpcStatus(gTopMenu);
-    JsonUtil.addRpcStartHandler(rpcStatus);
-    JsonUtil.addRpcCompleteHandler(rpcStatus);
+    RpcStatus.INSTANCE = new RpcStatus(gTopMenu);
+    JsonUtil.addRpcStartHandler(RpcStatus.INSTANCE);
+    JsonUtil.addRpcCompleteHandler(RpcStatus.INSTANCE);
     JsonUtil.setDefaultXsrfManager(new XsrfManager() {
       @Override
       public String getToken(JsonDefTarget proxy) {

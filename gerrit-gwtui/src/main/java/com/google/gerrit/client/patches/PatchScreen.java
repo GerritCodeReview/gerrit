@@ -19,6 +19,7 @@ import static com.google.gerrit.reviewdb.AccountGeneralPreferences.WHOLE_FILE_CO
 
 import com.google.gerrit.client.Dispatcher;
 import com.google.gerrit.client.Gerrit;
+import com.google.gerrit.client.RpcStatus;
 import com.google.gerrit.client.changes.ChangeScreen;
 import com.google.gerrit.client.changes.PatchTable;
 import com.google.gerrit.client.changes.Util;
@@ -48,6 +49,8 @@ import com.google.gwt.event.logical.shared.OpenHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.DisclosurePanel;
@@ -138,6 +141,7 @@ public abstract class PatchScreen extends Screen {
   private AbstractPatchContentTable contentTable;
 
   private int rpcSequence;
+  private PatchScript lastScript;
 
   /** The index of the file we are currently looking at among the fileList */
   private int patchIndex;
@@ -229,7 +233,8 @@ public abstract class PatchScreen extends Screen {
 
     add(createNextPrevLinks());
     contentPanel = new FlowPanel();
-    contentPanel.setStyleName(Gerrit.RESOURCES.css().sideBySideScreenSideBySideTable());
+    contentPanel.setStyleName(Gerrit.RESOURCES.css()
+        .sideBySideScreenSideBySideTable());
     contentPanel.add(noDifference);
     contentPanel.add(contentTable);
     add(contentPanel);
@@ -259,7 +264,8 @@ public abstract class PatchScreen extends Screen {
 
   private void initDisplayControls() {
     final Grid displayControls = new Grid(0, 5);
-    displayControls.setStyleName(Gerrit.RESOURCES.css().patchScreenDisplayControls());
+    displayControls.setStyleName(Gerrit.RESOURCES.css()
+        .patchScreenDisplayControls());
     add(displayControls);
 
     createIgnoreWhitespace(displayControls, 0, 0);
@@ -278,14 +284,40 @@ public abstract class PatchScreen extends Screen {
     cb.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
       @Override
       public void onValueChange(ValueChangeEvent<Boolean> event) {
+        final PatchScript last = lastScript;
         if (event.getValue()) {
-          // Show a diff of the full files
           scriptSettings.setContext(WHOLE_FILE_CONTEXT);
+          if (last != null && last.getA().isWholeFile()) {
+            final int max = Math.max(last.getA().size(), last.getB().size());
+            last.getSettings().setContext(max);
+            updateNoRpc(last);
+            return;
+          }
         } else {
           // Restore the context lines to the user's preference
           initContextLines();
+          final int n = scriptSettings.getContext();
+          if (last != null && n <= last.getSettings().getContext()) {
+            last.getSettings().setContext(n);
+            updateNoRpc(last);
+            return;
+          }
         }
         refresh(false /* not the first time */);
+      }
+
+      private void updateNoRpc(final PatchScript last) {
+        RpcStatus.INSTANCE.onRpcStart(null);
+        DeferredCommand.addCommand(new Command() {
+          @Override
+          public void execute() {
+            try {
+              onResult(last, false /* not the first time */);
+            } finally {
+              RpcStatus.INSTANCE.onRpcComplete(null);
+            }
+          }
+        });
       }
     });
     parent.setWidget(row, col + 1, cb);
@@ -403,6 +435,7 @@ public abstract class PatchScreen extends Screen {
 
   protected void refresh(final boolean isFirst) {
     final int rpcseq = ++rpcSequence;
+    lastScript = null;
     PatchUtil.DETAIL_SVC.patchScript(patchKey, idSideA, idSideB,
         scriptSettings, new ScreenLoadCallback<PatchScript>(this) {
           @Override
@@ -462,6 +495,7 @@ public abstract class PatchScreen extends Screen {
       contentTable.finishDisplay();
     }
     showPatch(hasDifferences);
+    lastScript = script;
 
     // Mark this file reviewed as soon we display the diff screen
     if (Gerrit.isSignedIn() && isFirst) {

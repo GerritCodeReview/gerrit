@@ -24,6 +24,8 @@ import com.google.gwtjsonrpc.client.event.RpcStartEvent;
 import com.google.gwtjsonrpc.client.event.RpcStartHandler;
 
 public class RpcStatus implements RpcStartHandler, RpcCompleteHandler {
+  public static RpcStatus INSTANCE;
+
   private static int hideDepth;
 
   /** Execute code, hiding the RPCs they execute from being shown visually. */

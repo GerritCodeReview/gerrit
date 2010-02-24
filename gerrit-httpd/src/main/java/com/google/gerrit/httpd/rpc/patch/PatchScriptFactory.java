@@ -131,21 +131,9 @@ class PatchScriptFactory extends Handler<PatchScript> {
     try {
       final PatchList list = listFor(keyFor(settings.getWhitespace()));
       final PatchScriptBuilder b = newBuilder(list);
-      final PatchListEntry contentWS = list.get(fileName);
-
-      final PatchListEntry contentActual;
-      if (settings.getWhitespace() == Whitespace.IGNORE_NONE) {
-        contentActual = contentWS;
-      } else {
-        // If we are ignoring whitespace in some form, we still need to know
-        // where the post-image differs so we can ensure the post-image lines
-        // are still packed for the client to display.
-        //
-        contentActual = listFor(keyFor(Whitespace.IGNORE_NONE)).get(fileName);
-      }
-
+      final PatchListEntry content = list.get(fileName);
       try {
-        return b.toPatchScript(contentWS, comments, contentActual);
+        return b.toPatchScript(content, comments);
       } catch (IOException e) {
         log.error("File content unavailable", e);
         throw new NoSuchChangeException(changeId, e);

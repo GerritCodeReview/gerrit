@@ -20,38 +20,22 @@ import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.diff.ReplaceEdit;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class PrettyFormatter implements SparseHtmlFile {
   public static abstract class EditFilter {
-    final String get(SparseFileContent src, EditList.Hunk hunk) {
-      return src.get(getCur(hunk));
-    }
-
     abstract String getStyleName();
-
-    abstract int getCur(EditList.Hunk hunk);
 
     abstract int getBegin(Edit edit);
 
     abstract int getEnd(Edit edit);
-
-    abstract boolean isModified(EditList.Hunk hunk);
-
-    abstract void incSelf(EditList.Hunk hunk);
-
-    abstract void incOther(EditList.Hunk hunk);
   }
 
   public static final EditFilter A = new EditFilter() {
     @Override
     String getStyleName() {
       return "wdd";
-    }
-
-    @Override
-    int getCur(EditList.Hunk hunk) {
-      return hunk.getCurA();
     }
 
     @Override
@@ -63,32 +47,12 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
     int getEnd(Edit edit) {
       return edit.getEndA();
     }
-
-    @Override
-    boolean isModified(EditList.Hunk hunk) {
-      return hunk.isDeletedA();
-    }
-
-    @Override
-    void incSelf(EditList.Hunk hunk) {
-      hunk.incA();
-    }
-
-    @Override
-    void incOther(EditList.Hunk hunk) {
-      hunk.incB();
-    }
   };
 
   public static final EditFilter B = new EditFilter() {
     @Override
     String getStyleName() {
       return "wdi";
-    }
-
-    @Override
-    int getCur(EditList.Hunk hunk) {
-      return hunk.getCurB();
     }
 
     @Override
@@ -100,26 +64,11 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
     int getEnd(Edit edit) {
       return edit.getEndB();
     }
-
-    @Override
-    boolean isModified(EditList.Hunk hunk) {
-      return hunk.isInsertedB();
-    }
-
-    @Override
-    void incSelf(EditList.Hunk hunk) {
-      hunk.incB();
-    }
-
-    @Override
-    void incOther(EditList.Hunk hunk) {
-      hunk.incA();
-    }
   };
 
   protected SparseFileContent content;
   protected EditFilter side;
-  protected EditList edits;
+  protected List<Edit> edits;
   protected PrettySettings settings;
 
   private int col;
@@ -144,7 +93,7 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
     side = f;
   }
 
-  public void setEditList(EditList all) {
+  public void setEditList(List<Edit> all) {
     edits = all;
   }
 
@@ -364,86 +313,104 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
   }
 
   private SafeHtml colorLineEdits(SparseFileContent src) {
+    // Make a copy of the edits with a sentinel that is after all lines
+    // in the source. That simplifies our loop below because we'll never
+    // run off the end of the edit list.
+    //
+    List<Edit> edits = new ArrayList<Edit>(this.edits.size() + 1);
+    edits.addAll(this.edits);
+    edits.add(new Edit(src.size(), src.size()));
+
     SafeHtmlBuilder buf = new SafeHtmlBuilder();
+
+    int curIdx = 0;
+    Edit curEdit = edits.get(curIdx);
 
     ReplaceEdit lastReplace = null;
     List<Edit> charEdits = null;
     int lastPos = 0;
     int lastIdx = 0;
 
-    EditList hunkGenerator = edits;
-    if (src.isWholeFile()) {
-      hunkGenerator = hunkGenerator.getFullContext();
-    }
+    for (int index = src.first(); index < src.size(); index = src.next(index)) {
+      int cmp = compare(index, curEdit);
+      while (0 < cmp) {
+        // The index is after the edit. Skip to the next edit.
+        //
+        curEdit = edits.get(curIdx++);
+        cmp = compare(index, curEdit);
+      }
 
-    for (final EditList.Hunk hunk : hunkGenerator.getHunks()) {
-      while (hunk.next()) {
-        if (hunk.isContextLine()) {
-          if (src.contains(side.getCur(hunk))) {
-            // If side is B and src isn't the complete file we can't
-            // add it to the buffer here. This can happen if the file
-            // was really large and we chose not to syntax highlight.
-            //
-            buf.append(side.get(src, hunk));
-            buf.append('\n');
-          }
-          hunk.incBoth();
+      if (cmp < 0) {
+        // index occurs before the edit. This is a line of context.
+        //
+        buf.append(src.get(index));
+        buf.append('\n');
+        continue;
+      }
 
-        } else if (!side.isModified(hunk)) {
-          side.incOther(hunk);
-
-        } else if (hunk.getCurEdit() instanceof ReplaceEdit) {
-          if (lastReplace != hunk.getCurEdit()) {
-            lastReplace = (ReplaceEdit) hunk.getCurEdit();
-            charEdits = lastReplace.getInternalEdits();
-            lastPos = 0;
-            lastIdx = 0;
-          }
-
-          final String line = side.get(src, hunk) + "\n";
-          for (int c = 0; c < line.length();) {
-            if (charEdits.size() <= lastIdx) {
-              buf.append(line.substring(c));
-              break;
-            }
-
-            final Edit edit = charEdits.get(lastIdx);
-            final int b = side.getBegin(edit) - lastPos;
-            final int e = side.getEnd(edit) - lastPos;
-
-            if (c < b) {
-              // There is text at the start of this line that is common
-              // with the other side. Copy it with no style around it.
-              //
-              final int n = Math.min(b, line.length());
-              buf.append(line.substring(c, n));
-              c = n;
-            }
-
-            if (c < e) {
-              final int n = Math.min(e, line.length());
-              buf.openSpan();
-              buf.setStyleName(side.getStyleName());
-              buf.append(line.substring(c, n));
-              buf.closeSpan();
-              c = n;
-            }
-
-            if (e <= c) {
-              lastIdx++;
-            }
-          }
-          lastPos += line.length();
-          side.incSelf(hunk);
-
-        } else {
-          buf.append(side.get(src, hunk));
-          buf.append('\n');
-          side.incSelf(hunk);
+      // index occurs within the edit. The line is a modification.
+      //
+      if (curEdit instanceof ReplaceEdit) {
+        if (lastReplace != curEdit) {
+          lastReplace = (ReplaceEdit) curEdit;
+          charEdits = lastReplace.getInternalEdits();
+          lastPos = 0;
+          lastIdx = 0;
         }
+
+        final String line = src.get(index) + "\n";
+        for (int c = 0; c < line.length();) {
+          if (charEdits.size() <= lastIdx) {
+            buf.append(line.substring(c));
+            break;
+          }
+
+          final Edit edit = charEdits.get(lastIdx);
+          final int b = side.getBegin(edit) - lastPos;
+          final int e = side.getEnd(edit) - lastPos;
+
+          if (c < b) {
+            // There is text at the start of this line that is common
+            // with the other side. Copy it with no style around it.
+            //
+            final int n = Math.min(b, line.length());
+            buf.append(line.substring(c, n));
+            c = n;
+          }
+
+          if (c < e) {
+            final int n = Math.min(e, line.length());
+            buf.openSpan();
+            buf.setStyleName(side.getStyleName());
+            buf.append(line.substring(c, n));
+            buf.closeSpan();
+            c = n;
+          }
+
+          if (e <= c) {
+            lastIdx++;
+          }
+        }
+        lastPos += line.length();
+
+      } else {
+        buf.append(src.get(index));
+        buf.append('\n');
       }
     }
     return buf;
+  }
+
+  private int compare(int index, Edit edit) {
+    if (index < side.getBegin(edit)) {
+      return -1; // index occurs before the edit.
+
+    } else if (index < side.getEnd(edit)) {
+      return 0; // index occurs within the edit.
+
+    } else {
+      return 1; // index occurs after the edit.
+    }
   }
 
   private SafeHtml showTabAfterSpace(SafeHtml src) {

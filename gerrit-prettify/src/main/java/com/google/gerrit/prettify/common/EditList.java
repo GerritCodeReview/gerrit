@@ -37,10 +37,6 @@ public class EditList {
     return edits;
   }
 
-  public EditList getFullContext() {
-    return new EditList(edits, 5000000, aSize, bSize);
-  }
-
   public Iterable<Hunk> getHunks() {
     return new Iterable<Hunk>() {
       public Iterator<Hunk> iterator() {

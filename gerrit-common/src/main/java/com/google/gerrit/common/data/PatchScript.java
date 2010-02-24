@@ -98,7 +98,7 @@ public class PatchScript {
     PrettyFormatter f = ClientSideFormatter.FACTORY.get();
     f.setPrettySettings(s);
     f.setEditFilter(PrettyFormatter.A);
-    f.setEditList(getEditList());
+    f.setEditList(edits);
     f.format(a);
     return f;
   }
@@ -110,10 +110,10 @@ public class PatchScript {
     PrettyFormatter f = ClientSideFormatter.FACTORY.get();
     f.setPrettySettings(s);
     f.setEditFilter(PrettyFormatter.B);
-    f.setEditList(getEditList());
+    f.setEditList(edits);
 
     if (s.isSyntaxHighlighting() && a.isWholeFile() && !b.isWholeFile()) {
-      f.format(b.completeWithContext(a, getEditList()));
+      f.format(b.apply(a, edits));
     } else {
       f.format(b);
     }
@@ -125,10 +125,6 @@ public class PatchScript {
   }
 
   public Iterable<EditList.Hunk> getHunks() {
-    return getEditList().getHunks();
-  }
-
-  private EditList getEditList() {
-    return new EditList(edits, getContext(), a.size(), b.size());
+    return new EditList(edits, getContext(), a.size(), b.size()).getHunks();
   }
 }

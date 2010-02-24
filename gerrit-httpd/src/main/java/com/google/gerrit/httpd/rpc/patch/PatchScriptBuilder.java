@@ -18,6 +18,7 @@ import com.google.gerrit.common.data.CommentDetail;
 import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.data.PatchScriptSettings;
 import com.google.gerrit.common.data.PatchScript.DisplayMethod;
+import com.google.gerrit.common.data.PatchScriptSettings.Whitespace;
 import com.google.gerrit.prettify.common.EditList;
 import com.google.gerrit.prettify.common.SparseFileContent;
 import com.google.gerrit.reviewdb.Change;
@@ -101,33 +102,31 @@ class PatchScriptBuilder {
     bId = b;
   }
 
-  PatchScript toPatchScript(final PatchListEntry contentWS,
-      final CommentDetail comments, final PatchListEntry contentAct)
-      throws IOException {
-    if (contentAct.getPatchType() == PatchType.N_WAY) {
+  PatchScript toPatchScript(final PatchListEntry content,
+      final CommentDetail comments) throws IOException {
+    if (content.getPatchType() == PatchType.N_WAY) {
       // For a diff --cc format we don't support converting it into
       // a patch script. Instead treat everything as a file header.
       //
-      return new PatchScript(change.getKey(), contentAct.getHeaderLines(),
+      return new PatchScript(change.getKey(), content.getHeaderLines(),
           settings, a.dst, b.dst, Collections.<Edit> emptyList(),
           a.displayMethod, b.displayMethod);
     }
 
-    a.path = oldName(contentAct);
-    b.path = newName(contentAct);
-
-    edits = new ArrayList<Edit>(contentAct.getEdits());
+    a.path = oldName(content);
+    b.path = newName(content);
 
     a.resolve(null, aId);
     b.resolve(a, bId);
 
+    edits = new ArrayList<Edit>(content.getEdits());
     ensureCommentsVisible(comments);
-    header.addAll(contentAct.getHeaderLines());
+    header.addAll(content.getHeaderLines());
 
     if (a.mode == FileMode.GITLINK || b.mode == FileMode.GITLINK) {
 
     } else if (a.src == b.src && a.size() <= context
-        && contentAct.getEdits().isEmpty()) {
+        && content.getEdits().isEmpty()) {
       // Odd special case; the files are identical (100% rename or copy)
       // and the user has asked for context that is larger than the file.
       // Send them the entire file, with an empty edit after the last line.
@@ -154,16 +153,7 @@ class PatchScriptBuilder {
         //
         context = MAX_CONTEXT;
       }
-      packContent();
-    }
-
-    if (contentWS != contentAct) {
-      // The edit list we used to pack the file contents doesn't honor the
-      // whitespace settings requested. Instead we must rebuild our edit
-      // list around the whitespace edit list.
-      //
-      edits = new ArrayList<Edit>(contentWS.getEdits());
-      ensureCommentsVisible(comments);
+      packContent(settings.getWhitespace() != Whitespace.IGNORE_NONE);
     }
 
     return new PatchScript(change.getKey(), header, settings, a.dst, b.dst,
@@ -311,19 +301,33 @@ class PatchScriptBuilder {
     return last.getBeginA() + (b - last.getEndB());
   }
 
-  private void packContent() {
+  private void packContent(boolean ignoredWhitespace) {
     EditList list = new EditList(edits, context, a.size(), b.size());
     for (final EditList.Hunk hunk : list.getHunks()) {
       while (hunk.next()) {
         if (hunk.isContextLine()) {
-          a.addLine(hunk.getCurA());
-          hunk.incBoth();
+          final String lineA = a.src.getLine(hunk.getCurA());
+          a.dst.addLine(hunk.getCurA(), lineA);
 
-        } else if (hunk.isDeletedA()) {
+          if (ignoredWhitespace) {
+            // If we ignored whitespace in some form, also get the line
+            // from b when it does not exactly match the line from a.
+            //
+            final String lineB = b.src.getLine(hunk.getCurB());
+            if (!lineA.equals(lineB)) {
+              b.dst.addLine(hunk.getCurB(), lineB);
+            }
+          }
+          hunk.incBoth();
+          continue;
+        }
+
+        if (hunk.isDeletedA()) {
           a.addLine(hunk.getCurA());
           hunk.incA();
+        }
 
-        } else if (hunk.isInsertedB()) {
+        if (hunk.isInsertedB()) {
           b.addLine(hunk.getCurB());
           hunk.incB();
         }

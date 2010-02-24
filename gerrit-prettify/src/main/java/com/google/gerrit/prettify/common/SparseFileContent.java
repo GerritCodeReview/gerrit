@@ -14,6 +14,8 @@
 
 package com.google.gerrit.prettify.common;
 
+import org.eclipse.jgit.diff.Edit;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,6 +78,64 @@ public class SparseFileContent {
 
   public boolean contains(final int idx) {
     return getLine(idx) != null;
+  }
+
+  public int first() {
+    return ranges.isEmpty() ? size() : ranges.get(0).base;
+  }
+
+  public int next(final int idx) {
+    // Most requests are sequential in nature, fetching the next
+    // line from the current range, or the immediate next range.
+    //
+    int high = ranges.size();
+    if (currentRangeIdx < high) {
+      Range cur = ranges.get(currentRangeIdx);
+      if (cur.contains(idx + 1)) {
+        return idx + 1;
+      }
+
+      if (++currentRangeIdx < high) {
+        // Its not plus one, its the base of the next range.
+        //
+        return ranges.get(currentRangeIdx).base;
+      }
+    }
+
+    // Binary search for the current value, since we know its a sorted list.
+    //
+    int low = 0;
+    do {
+      final int mid = (low + high) / 2;
+      final Range cur = ranges.get(mid);
+
+      if (cur.contains(idx)) {
+        if (cur.contains(idx + 1)) {
+          // Trivial plus one case above failed due to wrong currentRangeIdx.
+          // Reset the cache so we don't miss in the future.
+          //
+          currentRangeIdx = mid;
+          return idx + 1;
+        }
+
+        if (mid + 1 < ranges.size()) {
+          // Its the base of the next range.
+          currentRangeIdx = mid + 1;
+          return ranges.get(currentRangeIdx).base;
+        }
+
+        // No more lines in the file.
+        //
+        return size();
+      }
+
+      if (idx < cur.base)
+        high = mid;
+      else
+        low = mid + 1;
+    } while (low < high);
+
+    return size();
   }
 
   public int mapIndexToLine(int arrayIndex) {
@@ -155,19 +215,26 @@ public class SparseFileContent {
     return b.toString();
   }
 
-  public SparseFileContent completeWithContext(SparseFileContent a,
-      EditList editList) {
+  public SparseFileContent apply(SparseFileContent a, List<Edit> edits) {
+    EditList list = new EditList(edits, size, a.size(), size);
     ArrayList<String> lines = new ArrayList<String>(size);
-    for (final EditList.Hunk hunk : editList.getFullContext().getHunks()) {
+    for (final EditList.Hunk hunk : list.getHunks()) {
       while (hunk.next()) {
         if (hunk.isContextLine()) {
-          lines.add(a.get(hunk.getCurA()));
+          if (contains(hunk.getCurB())) {
+            lines.add(get(hunk.getCurB()));
+          } else {
+            lines.add(a.get(hunk.getCurA()));
+          }
           hunk.incBoth();
+          continue;
+        }
 
-        } else if (hunk.isDeletedA()) {
+        if (hunk.isDeletedA()) {
           hunk.incA();
+        }
 
-        } else if (hunk.isInsertedB()) {
+        if (hunk.isInsertedB()) {
           lines.add(get(hunk.getCurB()));
           hunk.incB();
         }

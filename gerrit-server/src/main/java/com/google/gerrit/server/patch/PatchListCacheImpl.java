@@ -188,10 +188,6 @@ public class PatchListCacheImpl implements PatchListCache {
 
   private static PatchListEntry newEntry(Repository repo, RevTree aTree,
       RevTree bTree, FileHeader fileHeader) throws IOException {
-    if (fileHeader.getHunks().isEmpty()) {
-      return new PatchListEntry(fileHeader, Collections.<Edit> emptyList());
-    }
-
     final FileMode oldMode = fileHeader.getOldMode();
     final FileMode newMode = fileHeader.getNewMode();
 
@@ -199,17 +195,17 @@ public class PatchListCacheImpl implements PatchListCache {
       return new PatchListEntry(fileHeader, Collections.<Edit> emptyList());
     }
 
-    List<Edit> edits = fileHeader.toEditList();
+    if (aTree == null // want combined diff
+        || fileHeader.getPatchType() != PatchType.UNIFIED
+        || fileHeader.getHunks().isEmpty()) {
+      return new PatchListEntry(fileHeader, Collections.<Edit> emptyList());
+    }
 
-    // Bypass the longer task of looking for replacement edits if
-    // there cannot be a replacement within plain text.
-    //
-    if (aTree == null /* want combined diff */) {
-      return new PatchListEntry(fileHeader, edits);
+    List<Edit> edits = fileHeader.toEditList();
+    if (edits.isEmpty()) {
+      return new PatchListEntry(fileHeader, Collections.<Edit> emptyList());
     }
-    if (fileHeader.getPatchType() != PatchType.UNIFIED || edits.isEmpty()) {
-      return new PatchListEntry(fileHeader, edits);
-    }
+
     switch (fileHeader.getChangeType()) {
       case ADD:
       case DELETE:

@@ -36,6 +36,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -46,6 +47,31 @@ import java.util.Map;
 public class ChangeHookRunner {
     /** A logger for this class. */
     private static final Logger log = LoggerFactory.getLogger(ChangeHookRunner.class);
+
+    public interface ChangeListener {
+        public void onPatchsetCreated(final Change change, final PatchSet patchSet);
+
+        public void onCommentAdded(final Change change, final PatchSet patchSet,
+            Account account,
+            Map<ApprovalCategory.Id, ApprovalCategoryValue.Id> approvals,
+            final String comment);
+
+        public void onChangeMerged(final Change change, final Account account,
+            final PatchSet patchSet);
+
+        public void onChangeAbandoned(final Change change, final Account account,
+            final String reason);
+    }
+
+    private List<ChangeListener> listeners = new LinkedList<ChangeListener>();
+
+    public void addChangeListener(ChangeListener listener) {
+        listeners.add(listener);
+    }
+
+    public void removeChangeListener(ChangeListener listener) {
+        listeners.remove(listener);
+    }
 
     /** Filename of the new patchset hook. */
     private final File patchsetCreatedHook;
@@ -121,6 +147,10 @@ public class ChangeHookRunner {
      * @param patchSet The Patchset that was created.
      */
     public void doPatchsetCreatedHook(final Change change, final PatchSet patchSet) {
+        for (ChangeListener listener : listeners) {
+            listener.onPatchsetCreated(change, patchSet);
+        }
+
         final List<String> args = new ArrayList<String>();
         args.add(patchsetCreatedHook.getAbsolutePath());
 
@@ -148,6 +178,10 @@ public class ChangeHookRunner {
      * @param approvals Map of Approval Categories and Scores
      */
     public void doCommentAddedHook(final Change change, final Account account, final PatchSet patchSet, final String comment, final Map<ApprovalCategory.Id, ApprovalCategoryValue.Id> approvals) {
+        for (ChangeListener listener : listeners) {
+            listener.onCommentAdded(change, patchSet, account, approvals, comment);
+        }
+
         final List<String> args = new ArrayList<String>();
         args.add(commentAddedHook.getAbsolutePath());
 
@@ -179,6 +213,10 @@ public class ChangeHookRunner {
      * @param patchSet The patchset that was merged.
      */
     public void doChangeMergedHook(final Change change, final Account account, final PatchSet patchSet) {
+        for (ChangeListener listener : listeners) {
+            listener.onChangeMerged(change, account, patchSet);
+        }
+
         final List<String> args = new ArrayList<String>();
         args.add(changeMergedHook.getAbsolutePath());
 
@@ -204,6 +242,10 @@ public class ChangeHookRunner {
      * @param reason Reason for abandoning the change.
      */
     public void doChangeAbandonedHook(final Change change, final Account account, final String reason) {
+        for (ChangeListener listener : listeners) {
+            listener.onChangeAbandoned(change, account, reason);
+        }
+
         final List<String> args = new ArrayList<String>();
         args.add(changeAbandonedHook.getAbsolutePath());
 

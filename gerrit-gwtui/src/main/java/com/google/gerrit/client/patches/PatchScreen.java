@@ -132,6 +132,7 @@ public abstract class PatchScreen extends Screen {
 
   private DisclosurePanel historyPanel;
   private HistoryTable historyTable;
+  private CheckBox reviewedFlag;
   private FlowPanel contentPanel;
   private Label noDifference;
   private AbstractPatchContentTable contentTable;
@@ -293,16 +294,14 @@ public abstract class PatchScreen extends Screen {
 
     // "Reviewed" check box
     if (Gerrit.isSignedIn()) {
-      final CheckBox ku = new CheckBox(PatchUtil.C.reviewed());
-      ku.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+      reviewedFlag = new CheckBox(PatchUtil.C.reviewed());
+      reviewedFlag.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
         @Override
         public void onValueChange(ValueChangeEvent<Boolean> event) {
           setReviewedByCurrentUser(event.getValue());
         }
       });
-      // Checked by default
-      ku.setValue(true);
-      parent.setWidget(row, col + 2, ku);
+      parent.setWidget(row, col + 2, reviewedFlag);
     }
 
   }
@@ -314,7 +313,6 @@ public abstract class PatchScreen extends Screen {
 
     PatchUtil.DETAIL_SVC.setReviewedByCurrentUser(patchKey, reviewed,
         new AsyncCallback<VoidResult>() {
-
           @Override
           public void onFailure(Throwable arg0) {
             // nop
@@ -324,7 +322,6 @@ public abstract class PatchScreen extends Screen {
           public void onSuccess(VoidResult result) {
             // nop
           }
-
         });
   }
 
@@ -411,17 +408,12 @@ public abstract class PatchScreen extends Screen {
     script = null;
     comments = null;
 
-    // Mark this file reviewed as soon we display the diff screen
-    if (Gerrit.isSignedIn() && isFirst) {
-      setReviewedByCurrentUser(true /* reviewed */);
-    }
-
     PatchUtil.DETAIL_SVC.patchScript(patchKey, idSideA, idSideB,
         scriptSettings, new GerritCallback<PatchScript>() {
           public void onSuccess(final PatchScript result) {
             if (rpcSequence == rpcseq) {
               script = result;
-              onResult();
+              onResult(isFirst);
             }
           }
 
@@ -438,7 +430,7 @@ public abstract class PatchScreen extends Screen {
           public void onSuccess(final CommentDetail result) {
             if (rpcSequence == rpcseq) {
               comments = result;
-              onResult();
+              onResult(isFirst);
             }
           }
 
@@ -454,7 +446,7 @@ public abstract class PatchScreen extends Screen {
         });
   }
 
-  private void onResult() {
+  private void onResult(final boolean isFirst) {
     if (script != null && comments != null) {
       final Change.Key cid = script.getChangeId();
       final String path = patchKey.get();
@@ -499,6 +491,12 @@ public abstract class PatchScreen extends Screen {
 
       script = null;
       comments = null;
+
+      // Mark this file reviewed as soon we display the diff screen
+      if (Gerrit.isSignedIn() && isFirst) {
+        reviewedFlag.setValue(true);
+        setReviewedByCurrentUser(true /* reviewed */);
+      }
 
       if (!isCurrentView()) {
         display();

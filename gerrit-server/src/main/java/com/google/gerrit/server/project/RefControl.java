@@ -277,7 +277,8 @@ public class RefControl {
   }
 
   private List<RefRight> getInheritedRights(ApprovalCategory.Id actionId) {
-    return filter(projectControl.getProjectState().getInheritedRights(), actionId);
+    return filter(projectControl.getProjectState().getInheritedRights(),
+        actionId);
   }
 
   public List<RefRight> getAllRights(final ApprovalCategory.Id id) {
@@ -292,8 +293,8 @@ public class RefControl {
       ApprovalCategory.Id actionId) {
     List<RefRight> mine = new ArrayList<RefRight>(all.size());
     for (RefRight right : all) {
-      if (matches(getRefName(), right.getRefPattern()) &&
-          right.getApprovalCategoryId().equals(actionId)) {
+      if (matches(getRefName(), right.getRefPattern())
+          && right.getApprovalCategoryId().equals(actionId)) {
         mine.add(right);
       }
     }

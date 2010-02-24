@@ -14,12 +14,28 @@
 
 package com.google.gerrit.server.schema;
 
+import com.google.gerrit.reviewdb.CurrentSchemaVersion;
+import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.ProvisionException;
 
-public class Schema_47 extends SchemaVersion {
+class Schema_47 extends SchemaVersion {
   @Inject
-  Schema_47(Provider<Schema_46> prior) {
-    super(prior);
+  Schema_47() {
+    super(new Provider<SchemaVersion>() {
+      public SchemaVersion get() {
+        throw new ProvisionException("Cannot upgrade from 46");
+      }
+    });
+  }
+
+  @Override
+  protected void upgradeFrom(UpdateUI ui, CurrentSchemaVersion curr,
+      ReviewDb db, boolean toTargetVersion) throws OrmException {
+    throw new OrmException("Cannot upgrade from schema " + curr.versionNbr
+        + "; manually run init from Gerrit Code Review 2.1.6"
+        + " and restart this version to continue.");
   }
 }

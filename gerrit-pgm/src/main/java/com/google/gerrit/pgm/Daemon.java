@@ -42,6 +42,9 @@ import org.kohsuke.args4j.Option;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,6 +76,9 @@ public class Daemon extends SiteProgram {
   @Option(name = "--console-log", usage = "Log to console (not $site_path/logs)")
   private boolean consoleLog;
 
+  @Option(name = "--run-id", usage = "Cookie to store in $site_path/logs/gerrit.run")
+  private String runId;
+
   private final LifecycleManager manager = new LifecycleManager();
   private Injector dbInjector;
   private Injector cfgInjector;
@@ -80,10 +86,15 @@ public class Daemon extends SiteProgram {
   private Injector sshInjector;
   private Injector webInjector;
   private Injector httpdInjector;
+  private File runFile;
 
   @Override
   public int run() throws Exception {
     mustHaveValidSite();
+
+    if (runId != null) {
+      runFile = new File(new File(getSitePath(), "logs"), "gerrit.run");
+    }
 
     if (httpd == null) {
       httpd = !slave;
@@ -119,13 +130,33 @@ public class Daemon extends SiteProgram {
     }
 
     manager.start();
-    log.info("Gerrit Code Review " + myVersion() + " ready");
     RuntimeShutdown.add(new Runnable() {
       public void run() {
         log.info("caught shutdown, cleaning up");
+        if (runId != null) {
+          runFile.delete();
+        }
         manager.stop();
       }
     });
+
+    log.info("Gerrit Code Review " + myVersion() + " ready");
+    if (runId != null) {
+      try {
+        runFile.createNewFile();
+        runFile.setReadable(true, false);
+
+        FileOutputStream out = new FileOutputStream(runFile);
+        try {
+          out.write((runId + "\n").getBytes("UTF-8"));
+        } finally {
+          out.close();
+        }
+      } catch (IOException err) {
+        log.warn("Cannot write --run-id to " + runFile, err);
+      }
+    }
+
     RuntimeShutdown.waitFor();
     return 0;
   }

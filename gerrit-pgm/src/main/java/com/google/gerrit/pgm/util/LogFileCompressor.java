@@ -99,6 +99,7 @@ public class LogFileCompressor implements Runnable {
     return ErrorLogFile.LOG_NAME.equals(name) //
         || "sshd_log".equals(name) //
         || "httpd_log".equals(name) //
+        || "gerrit.run".equals(name) //
         || name.endsWith(".pid");
   }
 

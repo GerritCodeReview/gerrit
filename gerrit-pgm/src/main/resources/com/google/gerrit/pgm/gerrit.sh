@@ -201,6 +201,7 @@ test -r "$GERRIT_CONFIG" || {
 }
 
 GERRIT_PID="$GERRIT_SITE/logs/gerrit.pid"
+GERRIT_RUN="$GERRIT_SITE/logs/gerrit.run"
 
 ##################################################
 # Check for JAVA_HOME
@@ -360,6 +361,9 @@ case "$ACTION" in
 
     test -z "$UID" && UID=`id -u`
 
+    RUN_ID=$(date +%s).$$
+    RUN_ARGS="$RUN_ARGS --run-id=$RUN_ID"
+
     if test 1 = "$START_STOP_DAEMON" && type start-stop-daemon >/dev/null 2>&1
     then
       test $UID = 0 && CH_USER="-c $GERRIT_USER"
@@ -368,12 +372,14 @@ case "$ACTION" in
          -d "$GERRIT_SITE" \
          -a "$RUN_EXEC" -- $RUN_Arg1 "$RUN_Arg2" $RUN_Arg3 $RUN_ARGS
       then
-          sleep 1
-          if running "$GERRIT_PID" ; then
-            echo OK
-          else
-            echo FAILED
-          fi
+        : OK
+      else
+        rc=$?
+        if test $rc = 127; then
+          echo >&2 "fatal: start-stop-daemon failed"
+          rc=1
+        fi
+        exit $rc 
       fi
     else
       if test -f "$GERRIT_PID" ; then
@@ -381,7 +387,7 @@ case "$ACTION" in
           echo "Already Running!!"
           exit 1
         else
-          rm -f "$GERRIT_PID"
+          rm -f "$GERRIT_PID" "$GERRIT_RUN"
         fi
       fi
 
@@ -399,9 +405,22 @@ case "$ACTION" in
         disown $PID
         echo $PID >"$GERRIT_PID"
       fi
-
-      echo OK
     fi
+
+    TIMEOUT=90  # seconds
+    sleep 1
+    while running "$GERRIT_PID" && test $TIMEOUT -gt 0 ; do
+      if test "x$RUN_ID" = "x$(cat $GERRIT_RUN 2>/dev/null)" ; then
+        echo OK
+        exit 0
+      fi
+
+      sleep 2
+      let TIMEOUT=$TIMEOUT-2
+    done
+
+    echo FAILED
+    exit 1
   ;;
 
   stop)
@@ -420,7 +439,7 @@ case "$ACTION" in
           fi
         fi
       fi
-      rm -f "$GERRIT_PID"
+      rm -f "$GERRIT_PID" "$GERRIT_RUN"
       echo OK
     else
       PID=`cat "$GERRIT_PID" 2>/dev/null`
@@ -431,7 +450,7 @@ case "$ACTION" in
         let TIMEOUT=$TIMEOUT-1
       done
       test $TIMEOUT -gt 0 || kill -9 $PID 2>/dev/null
-      rm -f "$GERRIT_PID"
+      rm -f "$GERRIT_PID" "$GERRIT_RUN"
       echo OK
     fi
   ;;

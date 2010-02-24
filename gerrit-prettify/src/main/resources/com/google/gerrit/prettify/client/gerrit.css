@@ -37,7 +37,8 @@
  * error.  For these we want the whitespace error to take precedence
  * so we have to override the contained style.
  */
-.wse .vt {
+.wse .vt,
+.wdd .vt {
   border-left: 2px dotted black;
 }
 .wse .wdd {

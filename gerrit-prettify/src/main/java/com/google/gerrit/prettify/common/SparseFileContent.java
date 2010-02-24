@@ -170,6 +170,10 @@ public class SparseFileContent {
 
     // Binary search for the range, since we know its a sorted list.
     //
+    if (ranges.isEmpty()) {
+      return null;
+    }
+
     int low = 0;
     do {
       final int mid = (low + high) / 2;

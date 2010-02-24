@@ -55,7 +55,7 @@ public abstract class AbstractGitCommand extends BaseCommand {
 
   @Override
   public void start(final Environment env) {
-    final Context ctx = new Context(newSession(), context.getCommandLine());
+    Context ctx = context.subContext(newSession(), context.getCommandLine());
     final Context old = SshScope.set(ctx);
     try {
       startThread(new CommandRunnable() {

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd;
 
+import com.google.gerrit.server.RequestCleanup;
 import com.google.inject.Key;
 import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
@@ -25,6 +26,10 @@ import java.util.Map;
 /** Guice scopes for state during an SSH connection. */
 class SshScope {
   static class Context {
+    private static final Key<RequestCleanup> RC_KEY =
+        Key.get(RequestCleanup.class);
+
+    private final RequestCleanup cleanup;
     private final SshSession session;
     private final String commandLine;
     private final Map<Key<?>, Object> map;
@@ -34,14 +39,32 @@ class SshScope {
     volatile long finished;
 
     Context(final SshSession s, final String c) {
+      cleanup = new RequestCleanup();
       session = s;
       commandLine = c;
+
       map = new HashMap<Key<?>, Object>();
+      map.put(RC_KEY, cleanup);
 
       final long now = System.currentTimeMillis();
       created = now;
       started = now;
       finished = now;
+    }
+
+    private Context(Context p, SshSession s, String c) {
+      cleanup = new RequestCleanup();
+      session = s;
+      commandLine = c;
+
+      map = new HashMap<Key<?>, Object>();
+      map.put(RC_KEY, cleanup);
+
+      created = p.created;
+      started = p.started;
+      finished = p.finished;
+
+      p.cleanup.add(cleanup);
     }
 
     String getCommandLine() {
@@ -56,6 +79,10 @@ class SshScope {
         map.put(key, t);
       }
       return t;
+    }
+
+    synchronized Context subContext(SshSession newSession, String newCommandLine) {
+      return new Context(this, newSession, newCommandLine);
     }
   }
 

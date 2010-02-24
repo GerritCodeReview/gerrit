@@ -46,6 +46,7 @@ public final class SuExec extends BaseCommand {
   private Provider<CurrentUser> caller;
   private Provider<SshSession> session;
   private IdentifiedUser.GenericFactory userFactory;
+  private SshScope.Context callingContext;
 
   @Option(name = "--as", required = true)
   private Account.Id accountId;
@@ -61,11 +62,13 @@ public final class SuExec extends BaseCommand {
   @Inject
   SuExec(@CommandName(Commands.ROOT) final DispatchCommandProvider dispatcher,
       final Provider<CurrentUser> caller, final Provider<SshSession> session,
-      final IdentifiedUser.GenericFactory userFactory) {
+      final IdentifiedUser.GenericFactory userFactory,
+      final SshScope.Context callingContext) {
     this.dispatcher = dispatcher;
     this.caller = caller;
     this.session = session;
     this.userFactory = userFactory;
+    this.callingContext = callingContext;
   }
 
   @Override
@@ -76,7 +79,7 @@ public final class SuExec extends BaseCommand {
 
         parseCommandLine();
 
-        final Context ctx = new Context(newSession(), join(args));
+        final Context ctx = callingContext.subContext(newSession(), join(args));
         final Context old = SshScope.set(ctx);
         try {
           final BaseCommand cmd = dispatcher.get();

@@ -694,10 +694,7 @@
   white-space: nowrap;
 }
 
-.infoTable td.leftmost  {
-}
-
-.infoTable td.rightmost  {
+.rightmost  {
   border-right: 1px solid trim-color;
 }
 

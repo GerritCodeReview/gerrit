@@ -112,7 +112,6 @@ public class ApprovalTable extends Composite {
 
   private void applyEdgeStyles(final int row) {
     final CellFormatter fmt = table.getCellFormatter();
-    fmt.addStyleName(row, 0, Gerrit.RESOURCES.css().leftmost());
     fmt.addStyleName(row, 1, Gerrit.RESOURCES.css().approvalrole());
     fmt.addStyleName(row, 1 + types.size(), Gerrit.RESOURCES.css().rightmost());
     fmt.addStyleName(row, 2 + types.size(), Gerrit.RESOURCES.css().approvalhint());

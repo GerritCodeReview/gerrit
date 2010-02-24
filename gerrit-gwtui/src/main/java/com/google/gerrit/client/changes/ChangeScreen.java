@@ -171,7 +171,11 @@ public class ChangeScreen extends Screen {
     approvals = new ApprovalTable();
     add(approvals);
 
-    dependencies = new ChangeTable();
+    dependencies = new ChangeTable() {
+      {
+        table.setWidth("98%");
+      }
+    };
     dependsOn = new ChangeTable.Section(Util.C.changeScreenDependsOn());
     neededBy = new ChangeTable.Section(Util.C.changeScreenNeededBy());
     dependencies.addSection(dependsOn);

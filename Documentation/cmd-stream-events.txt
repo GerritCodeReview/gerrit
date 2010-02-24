@@ -1,0 +1,48 @@
+gerrit stream-events
+====================
+
+NAME
+----
+gerrit stream-events - Monitor events occuring in real time
+
+SYNOPSIS
+--------
+[verse]
+'ssh' -p <port> <host> 'gerrit stream-events'
+
+DESCRIPTION
+-----------
+
+Provides a portal into the major events occuring on the server,
+outputing activity data in real-time to the client.  Events are
+filtered by the caller's access permissions, ensuring the caller
+only receives events for changes they can view on the web, or in
+the project repository.
+
+Event output is in JSON, one event per line.
+
+ACCESS
+------
+Any user who has configured an SSH key.
+
+SCRIPTING
+---------
+This command is intended to be used in scripts.
+
+EXAMPLES
+--------
+
+-----
+  $ ssh -p 29418 review.example.com gerrit stream-events
+  {"type":"comment-added","project":"tools/gerrit", ...}
+  {"type":"comment-added","project":"tools/gerrit", ...}
+-----
+
+SEE ALSO
+--------
+
+* link:access-control.html[Access Controls]
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

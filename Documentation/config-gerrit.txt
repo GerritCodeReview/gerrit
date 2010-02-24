@@ -1347,6 +1347,14 @@ are queued and serviced in a first-come-first-serve order.
 +
 By default, 1.5x the number of CPUs available to the JVM.
 
+[[sshd.streamThreads]]sshd.streamThreads::
++
+Number of threads to use when formatting events to asynchronous
+streaming clients.  Event formatting is multiplexed onto this thread
+pool by a simple FIFO scheduling system.
++
+By default, 1 plus the number of CPUs available to the JVM.
+
 [[sshd.cipher]]sshd.cipher::
 +
 Available ciphers.  To permit multiple ciphers, specify multiple

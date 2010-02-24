@@ -75,6 +75,8 @@ public class SshModule extends FactoryModule {
 
     bind(WorkQueue.Executor.class).annotatedWith(CommandExecutor.class)
         .toProvider(CommandExecutorProvider.class).in(SINGLETON);
+    bind(WorkQueue.Executor.class).annotatedWith(StreamCommandExecutor.class)
+        .toProvider(StreamCommandExecutorProvider.class).in(SINGLETON);
 
     bind(PublickeyAuthenticator.class).to(DatabasePubKeyAuth.class);
     bind(PasswordAuthenticator.class).to(DatabasePasswordAuth.class);

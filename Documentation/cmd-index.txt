@@ -66,6 +66,9 @@ link:cmd-approve.html[gerrit approve]::
 link:cmd-ls-projects.html[gerrit ls-projects]::
 	List projects visible to the caller.
 
+link:cmd-stream-events.html[gerrit stream-events]::
+	Monitor events occuring in real time.
+
 gerrit receive-pack::
 	Legacy alias for `git receive-pack`.
 

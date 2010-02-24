@@ -14,7 +14,6 @@
 
 package com.google.gerrit.common.data;
 
-import com.google.gerrit.reviewdb.Patch;
 import com.google.gerrit.reviewdb.PatchLineComment;
 import com.google.gerrit.reviewdb.PatchSet;
 
@@ -25,9 +24,8 @@ import java.util.List;
 import java.util.Map;
 
 public class CommentDetail {
-  protected List<PatchLineComment> commentsA;
-  protected List<PatchLineComment> commentsB;
-  protected List<Patch> history;
+  protected List<PatchLineComment> a;
+  protected List<PatchLineComment> b;
   protected AccountInfoCache accounts;
 
   private transient PatchSet.Id idA;
@@ -35,12 +33,11 @@ public class CommentDetail {
   private transient Map<Integer, List<PatchLineComment>> forA;
   private transient Map<Integer, List<PatchLineComment>> forB;
 
-  public CommentDetail(final PatchSet.Id a, final PatchSet.Id b) {
-    commentsA = new ArrayList<PatchLineComment>();
-    commentsB = new ArrayList<PatchLineComment>();
-
-    idA = a;
-    idB = b;
+  public CommentDetail(final PatchSet.Id idA, final PatchSet.Id idB) {
+    this.a = new ArrayList<PatchLineComment>();
+    this.b = new ArrayList<PatchLineComment>();
+    this.idA = idA;
+    this.idB = idB;
   }
 
   protected CommentDetail() {
@@ -51,19 +48,19 @@ public class CommentDetail {
     switch (p.getSide()) {
       case 0:
         if (idA == null && idB.equals(psId)) {
-          commentsA.add(p);
+          a.add(p);
           return true;
         }
         break;
 
       case 1:
         if (idA != null && idA.equals(psId)) {
-          commentsA.add(p);
+          a.add(p);
           return true;
         }
 
         if (idB.equals(psId)) {
-          commentsB.add(p);
+          b.add(p);
           return true;
         }
         break;
@@ -75,28 +72,20 @@ public class CommentDetail {
     accounts = a;
   }
 
-  public void setHistory(final List<Patch> h) {
-    history = h;
-  }
-
   public AccountInfoCache getAccounts() {
     return accounts;
   }
 
-  public List<Patch> getHistory() {
-    return history;
-  }
-
   public List<PatchLineComment> getCommentsA() {
-    return commentsA;
+    return a;
   }
 
   public List<PatchLineComment> getCommentsB() {
-    return commentsB;
+    return b;
   }
 
   public boolean isEmpty() {
-    return commentsA.isEmpty() && commentsB.isEmpty();
+    return a.isEmpty() && b.isEmpty();
   }
 
   public List<PatchLineComment> getForA(final int lineNbr) {
@@ -104,7 +93,7 @@ public class CommentDetail {
       return Collections.emptyList();
     }
     if (forA == null) {
-      forA = index(commentsA);
+      forA = index(a);
     }
     return get(forA, lineNbr);
   }
@@ -114,7 +103,7 @@ public class CommentDetail {
       return Collections.emptyList();
     }
     if (forB == null) {
-      forB = index(commentsB);
+      forB = index(b);
     }
     return get(forB, lineNbr);
   }

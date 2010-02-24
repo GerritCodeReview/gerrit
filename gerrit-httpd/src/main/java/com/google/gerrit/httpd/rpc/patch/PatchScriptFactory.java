@@ -19,6 +19,7 @@ import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.data.PatchScriptSettings;
 import com.google.gerrit.common.data.PatchScriptSettings.Whitespace;
 import com.google.gerrit.httpd.rpc.Handler;
+import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.Patch;
@@ -26,7 +27,9 @@ import com.google.gerrit.reviewdb.PatchLineComment;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.AccountInfoCacheFactory;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
@@ -47,6 +50,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Nullable;
 
@@ -67,6 +74,7 @@ class PatchScriptFactory extends Handler<PatchScript> {
   private final PatchListCache patchListCache;
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final ChangeControl.Factory changeControlFactory;
+  private final AccountInfoCacheFactory.Factory aicFactory;
 
   private final Patch.Key patchKey;
   @Nullable
@@ -80,19 +88,18 @@ class PatchScriptFactory extends Handler<PatchScript> {
   private Change change;
   private PatchSet patchSet;
   private Project.NameKey projectKey;
-  private Repository git;
-
   private ChangeControl control;
-
   private ObjectId aId;
-
   private ObjectId bId;
+  private List<Patch> history;
+  private CommentDetail comments;
 
   @Inject
   PatchScriptFactory(final GitRepositoryManager grm,
       Provider<PatchScriptBuilder> builderFactory,
       final PatchListCache patchListCache, final SchemaFactory<ReviewDb> sf,
       final ChangeControl.Factory changeControlFactory,
+      final AccountInfoCacheFactory.Factory aicFactory,
       @Assisted final Patch.Key patchKey,
       @Assisted("patchSetA") @Nullable final PatchSet.Id patchSetA,
       @Assisted("patchSetB") final PatchSet.Id patchSetB,
@@ -102,6 +109,7 @@ class PatchScriptFactory extends Handler<PatchScript> {
     this.patchListCache = patchListCache;
     this.schemaFactory = sf;
     this.changeControlFactory = changeControlFactory;
+    this.aicFactory = aicFactory;
 
     this.patchKey = patchKey;
     this.psa = patchSetA;
@@ -119,21 +127,21 @@ class PatchScriptFactory extends Handler<PatchScript> {
 
     control = changeControlFactory.validateFor(changeId);
     change = control.getChange();
-    final CommentDetail comments = allComments();
+    loadMetaData();
+
+    final Repository git;
     try {
       git = repoManager.openRepository(projectKey.get());
     } catch (RepositoryNotFoundException e) {
       log.error("Repository " + projectKey + " not found", e);
       throw new NoSuchChangeException(changeId, e);
     }
-
-    final String fileName = patchKey.getFileName();
     try {
       final PatchList list = listFor(keyFor(settings.getWhitespace()));
-      final PatchScriptBuilder b = newBuilder(list);
-      final PatchListEntry content = list.get(fileName);
+      final PatchScriptBuilder b = newBuilder(list, git);
+      final PatchListEntry content = list.get(patchKey.getFileName());
       try {
-        return b.toPatchScript(content, comments);
+        return b.toPatchScript(content, comments, history);
       } catch (IOException e) {
         log.error("File content unavailable", e);
         throw new NoSuchChangeException(changeId, e);
@@ -151,7 +159,7 @@ class PatchScriptFactory extends Handler<PatchScript> {
     return patchListCache.get(key);
   }
 
-  private PatchScriptBuilder newBuilder(final PatchList list)
+  private PatchScriptBuilder newBuilder(final PatchList list, Repository git)
       throws NoSuchChangeException {
     final PatchScriptSettings s = new PatchScriptSettings(settings);
 
@@ -200,11 +208,9 @@ class PatchScriptFactory extends Handler<PatchScript> {
     }
   }
 
-  private CommentDetail allComments()
-      throws OrmException, NoSuchChangeException {
-    ReviewDb db = schemaFactory.open();
+  private void loadMetaData() throws OrmException, NoSuchChangeException {
+    final ReviewDb db = schemaFactory.open();
     try {
-      final CommentDetail r = new CommentDetail(psa, psb);
       patchSet = db.patchSets().get(patchSetId);
       if (patchSet == null) {
         throw new NoSuchChangeException(changeId);
@@ -213,18 +219,47 @@ class PatchScriptFactory extends Handler<PatchScript> {
       projectKey = change.getProject();
       aId = psa != null ? toObjectId(db, psa) : null;
       bId = toObjectId(db, psb);
-      final String pn = patchKey.get();
-      for (PatchLineComment p : db.patchComments().published(changeId, pn)) {
-        r.include(p);
+      history = new ArrayList<Patch>();
+      comments = new CommentDetail(psa, psb);
+
+      final String file = patchKey.get();
+      final Map<PatchSet.Id, Patch> bySet = new HashMap<PatchSet.Id, Patch>();
+      for (final PatchSet ps : db.patchSets().byChange(changeId)) {
+        final Patch p = new Patch(new Patch.Key(ps.getId(), file));
+        history.add(p);
+        bySet.put(ps.getId(), p);
       }
 
-      if (control.getCurrentUser() instanceof IdentifiedUser) {
-        for (PatchLineComment p : db.patchComments().draft(changeId, pn,
-            ((IdentifiedUser) control.getCurrentUser()).getAccountId())) {
-          r.include(p);
+      final AccountInfoCacheFactory aic = aicFactory.create();
+      for (PatchLineComment c : db.patchComments().published(changeId, file)) {
+        if (comments.include(c)) {
+          aic.want(c.getAuthor());
+        }
+
+        final PatchSet.Id psId = c.getKey().getParentKey().getParentKey();
+        final Patch p = bySet.get(psId);
+        if (p != null) {
+          p.setCommentCount(p.getCommentCount() + 1);
         }
       }
-      return r;
+
+      final CurrentUser user = control.getCurrentUser();
+      if (user instanceof IdentifiedUser) {
+        final Account.Id me = ((IdentifiedUser) user).getAccountId();
+        for (PatchLineComment c : db.patchComments().draft(changeId, file, me)) {
+          if (comments.include(c)) {
+            aic.want(me);
+          }
+
+          final PatchSet.Id psId = c.getKey().getParentKey().getParentKey();
+          final Patch p = bySet.get(psId);
+          if (p != null) {
+            p.setDraftCount(p.getDraftCount() + 1);
+          }
+        }
+      }
+
+      comments.setAccountInfoCache(aic.create());
     } finally {
       db.close();
     }

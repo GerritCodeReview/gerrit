@@ -22,6 +22,7 @@ import com.google.gerrit.prettify.common.PrettySettings;
 import com.google.gerrit.prettify.common.SparseFileContent;
 import com.google.gerrit.prettify.common.SparseHtmlFile;
 import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.reviewdb.Patch;
 
 import org.eclipse.jgit.diff.Edit;
 
@@ -40,11 +41,13 @@ public class PatchScript {
   protected List<Edit> edits;
   protected DisplayMethod displayMethodA;
   protected DisplayMethod displayMethodB;
+  protected CommentDetail comments;
+  protected List<Patch> history;
 
   public PatchScript(final Change.Key ck, final List<String> h,
       final PatchScriptSettings s, final SparseFileContent ca,
       final SparseFileContent cb, final List<Edit> e, final DisplayMethod ma,
-      final DisplayMethod mb) {
+      final DisplayMethod mb, final CommentDetail cd, final List<Patch> hist) {
     changeId = ck;
     header = h;
     settings = s;
@@ -53,6 +56,8 @@ public class PatchScript {
     edits = e;
     displayMethodA = ma;
     displayMethodB = mb;
+    comments = cd;
+    history = hist;
   }
 
   protected PatchScript() {
@@ -72,6 +77,14 @@ public class PatchScript {
 
   public List<String> getPatchHeader() {
     return header;
+  }
+
+  public CommentDetail getCommentDetail() {
+    return comments;
+  }
+
+  public List<Patch> getHistory() {
+    return history;
   }
 
   public int getContext() {

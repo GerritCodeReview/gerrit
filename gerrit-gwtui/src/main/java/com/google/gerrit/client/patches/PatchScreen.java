@@ -23,11 +23,11 @@ import com.google.gerrit.client.changes.ChangeScreen;
 import com.google.gerrit.client.changes.PatchTable;
 import com.google.gerrit.client.changes.Util;
 import com.google.gerrit.client.rpc.GerritCallback;
+import com.google.gerrit.client.rpc.ScreenLoadCallback;
 import com.google.gerrit.client.ui.ChangeLink;
 import com.google.gerrit.client.ui.InlineHyperlink;
 import com.google.gerrit.client.ui.Screen;
 import com.google.gerrit.common.PageLinks;
-import com.google.gerrit.common.data.CommentDetail;
 import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.data.PatchScriptSettings;
 import com.google.gerrit.common.data.PatchSetDetail;
@@ -138,8 +138,6 @@ public abstract class PatchScreen extends Screen {
   private AbstractPatchContentTable contentTable;
 
   private int rpcSequence;
-  private PatchScript script;
-  private CommentDetail comments;
 
   /** The index of the file we are currently looking at among the fileList */
   private int patchIndex;
@@ -405,15 +403,12 @@ public abstract class PatchScreen extends Screen {
 
   protected void refresh(final boolean isFirst) {
     final int rpcseq = ++rpcSequence;
-    script = null;
-    comments = null;
-
     PatchUtil.DETAIL_SVC.patchScript(patchKey, idSideA, idSideB,
-        scriptSettings, new GerritCallback<PatchScript>() {
-          public void onSuccess(final PatchScript result) {
+        scriptSettings, new ScreenLoadCallback<PatchScript>(this) {
+          @Override
+          protected void preDisplay(final PatchScript result) {
             if (rpcSequence == rpcseq) {
-              script = result;
-              onResult(isFirst);
+              onResult(result, isFirst);
             }
           }
 
@@ -424,83 +419,54 @@ public abstract class PatchScreen extends Screen {
             }
           }
         });
-
-    PatchUtil.DETAIL_SVC.patchComments(patchKey, idSideA, idSideB,
-        new GerritCallback<CommentDetail>() {
-          public void onSuccess(final CommentDetail result) {
-            if (rpcSequence == rpcseq) {
-              comments = result;
-              onResult(isFirst);
-            }
-          }
-
-          @Override
-          public void onFailure(Throwable caught) {
-            // Ignore no such entity, the patch script RPC above would
-            // also notice the problem and report it.
-            //
-            if (!isNoSuchEntity(caught) && rpcSequence == rpcseq) {
-              super.onFailure(caught);
-            }
-          }
-        });
   }
 
-  private void onResult(final boolean isFirst) {
-    if (script != null && comments != null) {
-      final Change.Key cid = script.getChangeId();
-      final String path = patchKey.get();
-      String fileName = path;
-      final int last = fileName.lastIndexOf('/');
-      if (last >= 0) {
-        fileName = fileName.substring(last + 1);
-      }
+  private void onResult(final PatchScript script, final boolean isFirst) {
+    final Change.Key cid = script.getChangeId();
+    final String path = patchKey.get();
+    String fileName = path;
+    final int last = fileName.lastIndexOf('/');
+    if (last >= 0) {
+      fileName = fileName.substring(last + 1);
+    }
 
-      setWindowTitle(PatchUtil.M.patchWindowTitle(cid.abbreviate(), fileName));
-      setPageTitle(PatchUtil.M.patchPageTitle(cid.abbreviate(), path));
+    setWindowTitle(PatchUtil.M.patchWindowTitle(cid.abbreviate(), fileName));
+    setPageTitle(PatchUtil.M.patchPageTitle(cid.abbreviate(), path));
 
-      historyTable.display(comments.getHistory());
-      historyPanel.setVisible(true);
+    historyTable.display(script.getHistory());
+    historyPanel.setVisible(true);
 
-      // True if there are differences between the two patch sets
-      boolean hasEdits = !script.getEdits().isEmpty();
-      // True if this change is a mode change or a pure rename/copy
-      boolean hasMeta = !script.getPatchHeader().isEmpty();
+    // True if there are differences between the two patch sets
+    boolean hasEdits = !script.getEdits().isEmpty();
+    // True if this change is a mode change or a pure rename/copy
+    boolean hasMeta = !script.getPatchHeader().isEmpty();
 
-      boolean hasDifferences = hasEdits || hasMeta;
-      boolean pureMetaChange = !hasEdits && hasMeta;
+    boolean hasDifferences = hasEdits || hasMeta;
+    boolean pureMetaChange = !hasEdits && hasMeta;
 
-      if (contentTable instanceof SideBySideTable && pureMetaChange) {
-        // User asked for SideBySide (or a link guessed, wrong) and we can't
-        // show a binary or pure-rename change there accurately. Switch to
-        // the unified view instead.
-        //
-        contentTable.removeFromParent();
-        contentTable = new UnifiedDiffTable();
-        contentTable.fileList = fileList;
-        contentPanel.add(contentTable);
-        setToken(Dispatcher.toPatchUnified(patchKey));
-      }
+    if (contentTable instanceof SideBySideTable && pureMetaChange) {
+      // User asked for SideBySide (or a link guessed, wrong) and we can't
+      // show a binary or pure-rename change there accurately. Switch to
+      // the unified view instead.
+      //
+      contentTable.removeFromParent();
+      contentTable = new UnifiedDiffTable();
+      contentTable.fileList = fileList;
+      contentPanel.add(contentTable);
+      setToken(Dispatcher.toPatchUnified(patchKey));
+    }
 
-      if (hasDifferences) {
-        contentTable.display(patchKey, idSideA, idSideB, script);
-        contentTable.display(comments);
-        contentTable.finishDisplay();
-      }
-      showPatch(hasDifferences);
+    if (hasDifferences) {
+      contentTable.display(patchKey, idSideA, idSideB, script);
+      contentTable.display(script.getCommentDetail());
+      contentTable.finishDisplay();
+    }
+    showPatch(hasDifferences);
 
-      script = null;
-      comments = null;
-
-      // Mark this file reviewed as soon we display the diff screen
-      if (Gerrit.isSignedIn() && isFirst) {
-        reviewedFlag.setValue(true);
-        setReviewedByCurrentUser(true /* reviewed */);
-      }
-
-      if (!isCurrentView()) {
-        display();
-      }
+    // Mark this file reviewed as soon we display the diff screen
+    if (Gerrit.isSignedIn() && isFirst) {
+      reviewedFlag.setValue(true);
+      setReviewedByCurrentUser(true /* reviewed */);
     }
   }
 

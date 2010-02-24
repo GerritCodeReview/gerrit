@@ -22,6 +22,7 @@ import com.google.gerrit.common.data.PatchScriptSettings.Whitespace;
 import com.google.gerrit.prettify.common.EditList;
 import com.google.gerrit.prettify.common.SparseFileContent;
 import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.reviewdb.Patch;
 import com.google.gerrit.reviewdb.PatchLineComment;
 import com.google.gerrit.reviewdb.Patch.PatchType;
 import com.google.gerrit.server.FileTypeRegistry;
@@ -103,14 +104,15 @@ class PatchScriptBuilder {
   }
 
   PatchScript toPatchScript(final PatchListEntry content,
-      final CommentDetail comments) throws IOException {
+      final CommentDetail comments, final List<Patch> history)
+      throws IOException {
     if (content.getPatchType() == PatchType.N_WAY) {
       // For a diff --cc format we don't support converting it into
       // a patch script. Instead treat everything as a file header.
       //
       return new PatchScript(change.getKey(), content.getHeaderLines(),
           settings, a.dst, b.dst, Collections.<Edit> emptyList(),
-          a.displayMethod, b.displayMethod);
+          a.displayMethod, b.displayMethod, comments, history);
     }
 
     a.path = oldName(content);
@@ -157,7 +159,7 @@ class PatchScriptBuilder {
     }
 
     return new PatchScript(change.getKey(), header, settings, a.dst, b.dst,
-        edits, a.displayMethod, b.displayMethod);
+        edits, a.displayMethod, b.displayMethod, comments, history);
   }
 
   private static String oldName(final PatchListEntry entry) {

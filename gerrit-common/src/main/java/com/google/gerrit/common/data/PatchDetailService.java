@@ -36,9 +36,6 @@ public interface PatchDetailService extends RemoteJsonService {
   void patchScript(Patch.Key key, PatchSet.Id a, PatchSet.Id b,
       PatchScriptSettings settings, AsyncCallback<PatchScript> callback);
 
-  void patchComments(Patch.Key key, PatchSet.Id a, PatchSet.Id b,
-      AsyncCallback<CommentDetail> callback);
-
   @SignInRequired
   void saveDraft(PatchLineComment comment,
       AsyncCallback<PatchLineComment> callback);

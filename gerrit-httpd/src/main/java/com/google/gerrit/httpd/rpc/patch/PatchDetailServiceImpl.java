@@ -18,7 +18,6 @@ import com.google.gerrit.common.data.AddReviewerResult;
 import com.google.gerrit.common.data.ApprovalSummary;
 import com.google.gerrit.common.data.ApprovalSummarySet;
 import com.google.gerrit.common.data.ApprovalTypes;
-import com.google.gerrit.common.data.CommentDetail;
 import com.google.gerrit.common.data.PatchDetailService;
 import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.data.PatchScriptSettings;
@@ -61,7 +60,6 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
   private final AccountInfoCacheFactory.Factory accountInfoCacheFactory;
   private final AddReviewer.Factory addReviewerFactory;
   private final ChangeControl.Factory changeControlFactory;
-  private final CommentDetailFactory.Factory commentDetailFactory;
   private final FunctionState.Factory functionStateFactory;
   private final PublishComments.Factory publishCommentsFactory;
   private final PatchScriptFactory.Factory patchScriptFactoryFactory;
@@ -74,7 +72,6 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
       final AccountInfoCacheFactory.Factory accountInfoCacheFactory,
       final AddReviewer.Factory addReviewerFactory,
       final ChangeControl.Factory changeControlFactory,
-      final CommentDetailFactory.Factory commentDetailFactory,
       final FunctionState.Factory functionStateFactory,
       final PatchScriptFactory.Factory patchScriptFactoryFactory,
       final PublishComments.Factory publishCommentsFactory,
@@ -85,7 +82,6 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
     this.accountInfoCacheFactory = accountInfoCacheFactory;
     this.addReviewerFactory = addReviewerFactory;
     this.changeControlFactory = changeControlFactory;
-    this.commentDetailFactory = commentDetailFactory;
     this.functionStateFactory = functionStateFactory;
     this.patchScriptFactoryFactory = patchScriptFactoryFactory;
     this.publishCommentsFactory = publishCommentsFactory;
@@ -100,15 +96,6 @@ class PatchDetailServiceImpl extends BaseServiceImplementation implements
       return;
     }
     patchScriptFactoryFactory.create(patchKey, psa, psb, s).to(callback);
-  }
-
-  public void patchComments(final Patch.Key patchKey, final PatchSet.Id psa,
-      final PatchSet.Id psb, final AsyncCallback<CommentDetail> callback) {
-    if (psb == null) {
-      callback.onFailure(new NoSuchEntityException());
-      return;
-    }
-    commentDetailFactory.create(patchKey, psa, psb).to(callback);
   }
 
   public void saveDraft(final PatchLineComment comment,

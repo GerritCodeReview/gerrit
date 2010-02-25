@@ -1,0 +1,344 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAtn////c\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/SystemConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-25T17:13:07Z",
+      "side": 1,
+      "message": "Because this is a database schema change, you also need to create a Schema_31 class in com.google.gerrit.server.schema:\n\n  class Schema_31 extends SchemaVersion {\n    @Inject\n    Schema_31(Provider\u003cSchema_30\u003e prior) {\n      super(prior);\n    }\n  }\n\nand update the SchemaVersion.C field to reference the Schema_31 class.\n\nSince your field is declared as NOT NULL you\u0027ll need to also override the migrateData method in your Schema_31 class to actually generate and insert a new group during the upgrade.",
+      "revId": "a392ef80bf7424c2ad3c03a14f8d71e04c5f7a4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAtn////Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-25T17:13:07Z",
+      "side": 1,
+      "message": "I would prefer to just call this ChangeEvent.  Abs is a bit too abstract for me.",
+      "revId": "a392ef80bf7424c2ad3c03a14f8d71e04c5f7a4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAtn////U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-25T17:13:07Z",
+      "side": 1,
+      "message": "Drop this declaration.  You are shadowing the name in the subclasses, which is confusing as heck.",
+      "revId": "a392ef80bf7424c2ad3c03a14f8d71e04c5f7a4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAtn////Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-25T17:13:07Z",
+      "side": 1,
+      "message": "This isn\u0027t an event.  Why does it extend the event class?",
+      "revId": "a392ef80bf7424c2ad3c03a14f8d71e04c5f7a4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAtn////M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-25T17:13:07Z",
+      "side": 1,
+      "message": "Remove this annotation.  Guice shouldn\u0027t try to fill this field, our constructor must populate it.",
+      "revId": "a392ef80bf7424c2ad3c03a14f8d71e04c5f7a4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAtn////I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-25T17:13:07Z",
+      "side": 1,
+      "message": "Please insert an @param tag for projectCache.",
+      "revId": "a392ef80bf7424c2ad3c03a14f8d71e04c5f7a4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAtn////E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-25T17:13:07Z",
+      "side": 1,
+      "message": "Style-nit: The code would be shorter if you remove the holder variable:\n\n  listeners.put(listener, new ChangeListenerHolder(listener, user));",
+      "revId": "a392ef80bf7424c2ad3c03a14f8d71e04c5f7a4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAtn////A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-25T17:13:07Z",
+      "side": 1,
+      "message": "This loop can be pulled into a utility method:\n\n  private void fireChangeEvent(ChangeEvent event) {\n    ...\n  }\n\nso we aren\u0027t duplicating its logic for each type of event.",
+      "revId": "a392ef80bf7424c2ad3c03a14f8d71e04c5f7a4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAtn///+8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-25T17:13:07Z",
+      "side": 1,
+      "message": "This can return null if the project suddenly were to disappear.  I think we should guard against that by testing for null and skipping the rest of the method:\n\n  if (pe \u003d\u003d null) {\n    return false;\n  }",
+      "revId": "a392ef80bf7424c2ad3c03a14f8d71e04c5f7a4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAtn///+4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-25T17:13:07Z",
+      "side": 1,
+      "message": "Use instead the change control:\n\n  final ChangeControl cc \u003d pc.controlForChange(change);\n  return cc.isVisible();",
+      "revId": "a392ef80bf7424c2ad3c03a14f8d71e04c5f7a4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAtn///+U\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/BaseCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-25T17:13:07Z",
+      "side": 1,
+      "message": "This is going to be a problem when the number of stream commands has been reached.  The new command will simply block forever with no notice that he is waiting for a thread.\n\nI have a different idea.  Don\u0027t make changes here in BaseCommand.  And go look my comments in StreamChangeEvents.",
+      "revId": "a392ef80bf7424c2ad3c03a14f8d71e04c5f7a4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAtn///+Y\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/DispatchCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-25T17:13:07Z",
+      "side": 1,
+      "message": "Style-nit: Please insert a blank line before this else if.",
+      "revId": "a392ef80bf7424c2ad3c03a14f8d71e04c5f7a4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAtn///+0\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/StreamCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-25T17:13:07Z",
+      "side": 1,
+      "message": "Please add the AOSP copyright header.",
+      "revId": "a392ef80bf7424c2ad3c03a14f8d71e04c5f7a4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAtn///+w\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/StreamCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-25T17:13:07Z",
+      "side": 1,
+      "message": "Style-nit: Space after ( before { is unnecessary.",
+      "revId": "a392ef80bf7424c2ad3c03a14f8d71e04c5f7a4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAtn///+s\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/StreamCommandExecutor.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-25T17:13:07Z",
+      "side": 1,
+      "message": "Copyright date is 2010.",
+      "revId": "a392ef80bf7424c2ad3c03a14f8d71e04c5f7a4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAtn///+o\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/StreamCommandExecutorProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-25T17:13:07Z",
+      "side": 1,
+      "message": "Please add this variable to Documentation/config-gerrit.txt.\n\nI wonder if 3 * cores / 2 is the right number for stream engines.  These are really quite lightweight and only cost us a few KiB of memory, plus a thread stack.  Maybe we just set it to 32 by default and call it a day?  Most systems should be able to afford up to 32 stream engines going at once.",
+      "revId": "a392ef80bf7424c2ad3c03a14f8d71e04c5f7a4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAtn///+k\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/StreamChangeEvents.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-25T17:13:07Z",
+      "side": 1,
+      "message": "I would suggest 128 instead.  We don\u0027t want the buffer to overflow.  No server can currently do 128 qps.  But a server could wind up submitting a whole bunch of changes in rapid succession via a single git push call.  That might take a few seconds to process, but we could easily see all of them arrive in the queue before a context switch can take place and let the queue drain.\n\n128 is still low enough that when multiplied by the number of stream commands we can have going, its not a big memory footprint.  But its high enough that the chances of filling the buffer are greatly reduced.",
+      "revId": "a392ef80bf7424c2ad3c03a14f8d71e04c5f7a4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAtn///+Q\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/StreamChangeEvents.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-25T17:13:07Z",
+      "side": 1,
+      "message": "Lets not start a thread per connection.  Instead do something like this to only borrow a thread when there is data to write.  The effect means we need a lot less threads in the server to manage streaming.  I\u0027m going to upload a replacement patch set in a few minutes with my proposed changes.",
+      "revId": "a392ef80bf7424c2ad3c03a14f8d71e04c5f7a4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAtn///+g\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/StreamChangeEvents.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-25T17:13:07Z",
+      "side": 1,
+      "message": "Instead of println please use:\n\n  stdout.print(gson.toJson(queue.take()) + \"\\n\")\n\nThis way on Win32 we still produce *only* LF at the end of the message and not CRLF.  PrintWriter\u0027s println method is platform dependent, but we should try to be more specific about the format we produce to a network client.",
+      "revId": "a392ef80bf7424c2ad3c03a14f8d71e04c5f7a4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAtn///+c\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/StreamChangeEvents.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-25T17:13:07Z",
+      "side": 1,
+      "message": "Like above, use print(droppedOutputEvent + \"\\n\")",
+      "revId": "a392ef80bf7424c2ad3c03a14f8d71e04c5f7a4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

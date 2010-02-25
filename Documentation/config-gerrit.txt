@@ -636,12 +636,12 @@ need multiple connections.
 +
 Default is 8.
 
-[[database.poolMinIdle]]databsae.poolMinIdle::
+[[database.poolMinIdle]]database.poolMinIdle::
 +
 Minimum number of connections to keep idle in the pool.
 Default is 4.
 
-[[database.poolMaxIdle]]databsae.poolMaxIdle::
+[[database.poolMaxIdle]]database.poolMaxIdle::
 +
 Maximum number of connections to keep idle in the pool.  If there
 are more idle connections, connections will be closed instead of

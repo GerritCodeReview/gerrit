@@ -14,6 +14,7 @@
  */
 
 @external .gwt-Button;
+@external .gwt-DialogBox .dialogMiddleCenter;
 @external .gwt-TabBar;
 @external .gwt-TabBarFirst;
 @external .gwt-TabBarItem;
@@ -22,8 +23,20 @@
 @external .gwt-TabPanel;
 @external .gwt-TabPanelBottom;
 
-@def trim-color #D4E9A9;
+@eval backgroundColor com.google.gerrit.client.Gerrit.getConfig().getBackgroundColor();
+@eval textColor com.google.gerrit.client.Gerrit.getConfig().getTextColor();;
+@eval trimColor com.google.gerrit.client.Gerrit.getConfig().getTrimColor();
+@eval selectionColor com.google.gerrit.client.Gerrit.getConfig().getSelectionColor();
 
+body {
+  background: backgroundColor;
+  color: textColor;
+}
+
+.gwt-DialogBox .dialogMiddleCenter {
+  background: backgroundColor;
+  color: textColor;
+} 
 
 .gwt-Button {
   white-space: nowrap;
@@ -37,7 +50,7 @@
 }
 .gwt-TabBar .gwt-TabBarItem {
   margin: 0px;
-  background: trim-color;
+  background: trimColor;
   padding-top: 0.5em;
   padding-bottom: 1px;
   padding-left: 1em;
@@ -45,15 +58,15 @@
   border-right: 1px solid black;
 }
 .gwt-TabBar .gwt-TabBarItem-selected {
-  background: #ffffcc;
+  background: selectionColor;
 }
 .gwt-TabBar .gwt-TabBarRest {
-  background: trim-color;
+  background: trimColor;
   padding-top: 0.5em;
   padding-bottom: 1px;
 }
 .gwt-TabBar .gwt-TabPanelBottom {
-  background: trim-color;
+  background: trimColor;
   border-top: 1px solid black;
   border-left: none;
   border-right: none;

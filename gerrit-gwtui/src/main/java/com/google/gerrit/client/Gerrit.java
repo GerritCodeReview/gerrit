@@ -219,74 +219,8 @@ public class Gerrit implements EntryPoint {
       /*-{ return path.replace(/%2F/g, "/"); }-*/;
     });
 
-    RESOURCES.gwt_override().ensureInjected();
-    RESOURCES.css().ensureInjected();
-
-    final RootPanel gTopMenu = RootPanel.get("gerrit_topmenu");
-    final RootPanel gStarting = RootPanel.get("gerrit_startinggerrit");
-    final RootPanel gBody = RootPanel.get("gerrit_body");
-    final RootPanel gBottomMenu = RootPanel.get("gerrit_btmmenu");
-
-    gTopMenu.setStyleName(RESOURCES.css().gerritTopMenu());
-    gBody.setStyleName(RESOURCES.css().gerritBody());
-
     initHostname();
     Window.setTitle(M.windowTitle1(myHost));
-    initHistoryHooks();
-    populateBottomMenu(gBottomMenu);
-
-    final Grid menuLine = new Grid(1, 3);
-    menuLeft = new TabPanel();
-    menuRight = new LinkMenuBar();
-    searchPanel = new SearchPanel();
-    menuLeft.setStyleName(RESOURCES.css().topmenuMenuLeft());
-    menuLine.setStyleName(RESOURCES.css().topmenu());
-    gTopMenu.add(menuLine);
-    final FlowPanel menuRightPanel = new FlowPanel();
-    menuRightPanel.setStyleName(RESOURCES.css().topmenuMenuRight());
-    menuRightPanel.add(menuRight);
-    menuRightPanel.add(searchPanel);
-    menuLine.setWidget(0, 0, menuLeft);
-    menuLine.setWidget(0, 1, new FlowPanel());
-    menuLine.setWidget(0, 2, menuRightPanel);
-    final CellFormatter fmt = menuLine.getCellFormatter();
-    fmt.setStyleName(0, 0, RESOURCES.css().topmenuTDmenu());
-    fmt.setStyleName(0, 1, RESOURCES.css().topmenuTDglue());
-    fmt.setStyleName(0, 2, RESOURCES.css().topmenuTDmenu());
-
-    siteHeader = RootPanel.get("gerrit_header");
-    siteFooter = RootPanel.get("gerrit_footer");
-
-    body = new ViewSite<Screen>() {
-      @Override
-      protected void onShowView(Screen view) {
-        final String token = view.getToken();
-        if (!token.equals(History.getToken())) {
-          History.newItem(token, false);
-          if (historyHooks != null) {
-            dispatchHistoryHooks(token);
-          }
-        }
-        super.onShowView(view);
-        view.onShowView();
-      }
-    };
-    gBody.add(body);
-
-    RpcStatus.INSTANCE = new RpcStatus(gTopMenu);
-    JsonUtil.addRpcStartHandler(RpcStatus.INSTANCE);
-    JsonUtil.addRpcCompleteHandler(RpcStatus.INSTANCE);
-    JsonUtil.setDefaultXsrfManager(new XsrfManager() {
-      @Override
-      public String getToken(JsonDefTarget proxy) {
-        return Cookies.getCookie(SESSION_COOKIE);
-      }
-
-      @Override
-      public void setToken(JsonDefTarget proxy, String token) {
-        // Ignore the request, we always rely upon the cookie.
-      }
-    });
 
     final HostPageDataService hpd = GWT.create(HostPageDataService.class);
     hpd.load(new GerritCallback<HostPageData>() {
@@ -296,7 +230,7 @@ public class Gerrit implements EntryPoint {
           myAccount = result.account;
           applyUserPreferences();
         }
-        onModuleLoad2(gStarting);
+        onModuleLoad2();
       }
     });
   }
@@ -362,11 +296,78 @@ public class Gerrit implements EntryPoint {
     btmmenu.add(version);
   }
 
-  private void onModuleLoad2(final RootPanel starting) {
-    refreshMenuBar();
+  private void onModuleLoad2() {
+    RESOURCES.gwt_override().ensureInjected();
+    RESOURCES.css().ensureInjected();
 
-    starting.getElement().getParentElement().removeChild(starting.getElement());
-    RootPanel.detachNow(starting);
+    final RootPanel gTopMenu = RootPanel.get("gerrit_topmenu");
+    final RootPanel gStarting = RootPanel.get("gerrit_startinggerrit");
+    final RootPanel gBody = RootPanel.get("gerrit_body");
+    final RootPanel gBottomMenu = RootPanel.get("gerrit_btmmenu");
+
+    gTopMenu.setStyleName(RESOURCES.css().gerritTopMenu());
+    gBody.setStyleName(RESOURCES.css().gerritBody());
+
+    final Grid menuLine = new Grid(1, 3);
+    menuLeft = new TabPanel();
+    menuRight = new LinkMenuBar();
+    searchPanel = new SearchPanel();
+    menuLeft.setStyleName(RESOURCES.css().topmenuMenuLeft());
+    menuLine.setStyleName(RESOURCES.css().topmenu());
+    gTopMenu.add(menuLine);
+    final FlowPanel menuRightPanel = new FlowPanel();
+    menuRightPanel.setStyleName(RESOURCES.css().topmenuMenuRight());
+    menuRightPanel.add(menuRight);
+    menuRightPanel.add(searchPanel);
+    menuLine.setWidget(0, 0, menuLeft);
+    menuLine.setWidget(0, 1, new FlowPanel());
+    menuLine.setWidget(0, 2, menuRightPanel);
+    final CellFormatter fmt = menuLine.getCellFormatter();
+    fmt.setStyleName(0, 0, RESOURCES.css().topmenuTDmenu());
+    fmt.setStyleName(0, 1, RESOURCES.css().topmenuTDglue());
+    fmt.setStyleName(0, 2, RESOURCES.css().topmenuTDmenu());
+
+    siteHeader = RootPanel.get("gerrit_header");
+    siteFooter = RootPanel.get("gerrit_footer");
+
+    body = new ViewSite<Screen>() {
+      @Override
+      protected void onShowView(Screen view) {
+        final String token = view.getToken();
+        if (!token.equals(History.getToken())) {
+          History.newItem(token, false);
+          if (historyHooks != null) {
+            dispatchHistoryHooks(token);
+          }
+        }
+        super.onShowView(view);
+        view.onShowView();
+      }
+    };
+    gBody.add(body);
+
+    RpcStatus.INSTANCE = new RpcStatus(gTopMenu);
+    JsonUtil.addRpcStartHandler(RpcStatus.INSTANCE);
+    JsonUtil.addRpcCompleteHandler(RpcStatus.INSTANCE);
+    JsonUtil.setDefaultXsrfManager(new XsrfManager() {
+      @Override
+      public String getToken(JsonDefTarget proxy) {
+        return Cookies.getCookie(SESSION_COOKIE);
+      }
+
+      @Override
+      public void setToken(JsonDefTarget proxy, String token) {
+        // Ignore the request, we always rely upon the cookie.
+      }
+    });
+
+    gStarting.getElement().getParentElement().removeChild(
+        gStarting.getElement());
+    RootPanel.detachNow(gStarting);
+
+    initHistoryHooks();
+    populateBottomMenu(gBottomMenu);
+    refreshMenuBar();
 
     History.addValueChangeHandler(new ValueChangeHandler<String>() {
       public void onValueChange(final ValueChangeEvent<String> event) {

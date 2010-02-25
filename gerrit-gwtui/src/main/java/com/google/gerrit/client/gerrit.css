@@ -14,6 +14,7 @@
  */
 
 @external .gwt-Button;
+@external .gwt-TabBar;
 @external .gwt-TabBarFirst;
 @external .gwt-TabBarItem;
 @external .gwt-TabBarItem-selected;
@@ -34,9 +35,14 @@
 
 @def black #000000;
 @def white #ffffff;
-@def trim-color #D4E9A9;
 @def norm-font  Arial Unicode MS, Arial, sans-serif;
 @def mono-font 'Lucida Console', 'Lucida Sans Typewriter', Monaco, monospace;
+
+@eval backgroundColor com.google.gerrit.client.Gerrit.getConfig().getBackgroundColor();
+@eval topMenuColor com.google.gerrit.client.Gerrit.getConfig().getTopMenuColor();
+@eval textColor com.google.gerrit.client.Gerrit.getConfig().getTextColor();;
+@eval trimColor com.google.gerrit.client.Gerrit.getConfig().getTrimColor();
+@eval selectionColor com.google.gerrit.client.Gerrit.getConfig().getSelectionColor();
 
 
 @sprite .greenCheckClass {
@@ -48,8 +54,17 @@
   padding-top: 5px;
   padding-left: 5px;
   padding-right: 5px;
-  background: trim-color;
+  background: topMenuColor;
 }
+.gerritTopMenu .gwt-TabBar .gwt-TabBarItem,
+.gerritTopMenu .gwt-TabBar .gwt-TabBarRest,
+.gerritTopMenu .gwt-TabBar .gwt-TabPanelBottom {
+  background: topMenuColor;
+}
+.gerritTopMenu .gwt-TabBar .gwt-TabBarItem-selected {
+  background: selectionColor;
+}
+
 .gerritBody {
   font-size: 11pt;
   padding-left: 5px;
@@ -93,7 +108,7 @@
 .blockHeader {
   font-size: small;
   font-weight: bold;
-  background: trim-color;
+  background: trimColor;
   padding: 0.2em 0.2em 0.2em 0.5em;
 }
 
@@ -208,16 +223,16 @@
 }
 .topmenuMenuLeft {
   width: 300px;
-  border-left: 1px solid trim-color;
-  border-right: 1px solid trim-color;
-  border-bottom: 1px solid trim-color;
+  border-left: 1px solid topMenuColor;
+  border-right: 1px solid topMenuColor;
+  border-bottom: 1px solid topMenuColor;
 }
 .topmenuMenuLeft .gwt-TabBarFirst {
   display: none;
 }
 .topmenuMenuLeft .gwt-TabBarItem {
   margin: 0px;
-  background: trim-color;
+  background: topMenuColor;
   padding-top: 0px;
   padding-bottom: 1px;
   padding-left: 1em;
@@ -225,14 +240,14 @@
   border-right: 1px solid black;
 }
 .topmenuMenuLeft .gwt-TabBarItem-selected {
-  background: #ffffcc;
+  background: selectionColor;
 }
 .topmenuMenuLeft .gwt-TabBarRest {
-  background: trim-color;
+  background: topMenuColor;
   padding-top: 0px;
 }
 .topmenuMenuLeft .gwt-TabPanelBottom {
-  background: trim-color;
+  background: topMenuColor;
   border-top: none;
   border-left: none;
   border-right: none;
@@ -295,7 +310,7 @@
   border: none;
   padding: 10px;
   width: 600px;
-  color: white;
+  color: backgroundColor;
   font-size: 15px;
   font-family: verdana;
 }
@@ -356,15 +371,15 @@
   width: 1px;
   padding: 0px;
   vertical-align: middle;
-  border-bottom: 1px solid trim-color;
+  border-bottom: 1px solid trimColor;
 }
 
 .changeTable .changeTypeCell {
   width: 1px;
   padding-left: 5px;
   padding-right: 5px;
-  border-right: 1px solid trim-color;
-  border-bottom: 1px solid trim-color;
+  border-right: 1px solid trimColor;
+  border-bottom: 1px solid trimColor;
   vertical-align: top;
 }
 
@@ -391,14 +406,14 @@
 }
 
 .changeTable .leftMostCell {
-  border-left: 1px solid trim-color;
+  border-left: 1px solid trimColor;
 }
 
 .changeTable .dataCell {
   padding-left: 5px;
   padding-right: 5px;
-  border-right: 1px solid trim-color;
-  border-bottom: 1px solid trim-color;
+  border-right: 1px solid trimColor;
+  border-bottom: 1px solid trimColor;
 }
 
 .accountDashboard.changeTable tr {
@@ -409,15 +424,17 @@
   color: #444444;
   text-decoration: none;
 }
-.accountDashboard.changeTable .needsReview {
+.accountDashboard.changeTable .needsReview,
+.accountDashboard.changeTable .needsReview a {
   font-weight: bold;
-  color: black;
-  background: white;
+  color: textColor;
+  background: backgroundColor;
 }
 
 .changeTable .activeRow, 
-.accountDashboard.changeTable .activeRow {
-  background: #ffffcc;
+.accountDashboard.changeTable .activeRow,
+.accountDashboard.changeTable .activeRow a {
+  background: selectionColor;
 }
 
 .changeTable .cID {
@@ -459,33 +476,33 @@
 }
 
 .changeTable .iconHeader {
-  border-top: 1px solid white;
-  border-bottom: 1px solid white;
-  background-color: trim-color;
+  border-top: 1px solid backgroundColor;
+  border-bottom: 1px solid backgroundColor;
+  background-color: trimColor;
 }
 
 .changeTable .dataHeader {
-  border: 1px solid white;
+  border: 1px solid backgroundColor;
   padding: 2px 6px 1px;
-  background-color: trim-color;
+  background-color: trimColor;
   font-style: italic;
   white-space: nowrap;
-  color: black;
+  color: textColor;
 }
 
 .changeTable .sectionHeader {
-  border-top: 8px solid white;
+  border-top: 8px solid backgroundColor;
   padding: 2px 6px 1px;
-  background-color: trim-color;
+  background-color: trimColor;
   white-space: nowrap;
   font-weight: bold;
-  color: black;
+  color: textColor;
 }
 
 .changeTable .emptySection {
-  border-left: 1px solid trim-color;
-  border-right: 1px solid trim-color;
-  border-bottom: 1px solid trim-color;
+  border-left: 1px solid trimColor;
+  border-right: 1px solid trimColor;
+  border-bottom: 1px solid trimColor;
   font-style: italic;
   padding-left: 25px;
 }
@@ -515,6 +532,8 @@
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
+  background: white;
+  color: black;
 }
 .patchContentTable td {
   padding-top: 0;
@@ -598,13 +617,13 @@
   border-bottom: 1px solid white;
 }
 .fileColumnHeader {
-  background: trim-color;
+  background: trimColor;
   font-family: norm-font;
   font-weight: bold;
   text-align: center;
 }
 .lineNumber.fileColumnHeader {
-  border-bottom: 1px solid trim-color;
+  border-bottom: 1px solid trimColor;
 }
 .noLineLineNumber {
   font-family: mono-font;
@@ -658,7 +677,7 @@
 
 .patchContentTable .activeRow .iconCell,
 .patchContentTable .activeRow .lineNumber {
-  background: #ffffcc;
+  background: selectionColor;
 }
 .patchContentTable .activeRow .iconCell,
 .patchContentTable .activeRow .lineNumber,
@@ -725,13 +744,13 @@
 }
 
 .infoTable td {
-  border-left: 1px solid trim-color;
-  border-bottom: 1px solid trim-color;
+  border-left: 1px solid trimColor;
+  border-bottom: 1px solid trimColor;
   padding: 2px 6px 1px;
 }
 
 .infoTable td.header {
-  background-color: trim-color;
+  background-color: trimColor;
   font-weight: normal;
   padding: 2px 4px 0 6px;
   font-style: italic;
@@ -741,7 +760,7 @@
 }
 
 .rightmost  {
-  border-right: 1px solid trim-color;
+  border-right: 1px solid trimColor;
 }
 
 .infoTable td.approvalrole {
@@ -780,18 +799,18 @@
 
 .infoBlock td {
   padding: 2px 4px 2px 6px;
-  border-right: 1px solid trim-color;
-  border-bottom: 1px solid trim-color;
+  border-right: 1px solid trimColor;
+  border-bottom: 1px solid trimColor;
   text-align: left;
   white-space: nowrap;
 }
 
 .infoBlock td.topmost {
-  border-top: 1px solid trim-color;
+  border-top: 1px solid trimColor;
 }
 
 .infoBlock td.header {
-  background-color: trim-color;
+  background-color: trimColor;
   font-style: italic;
   text-align: right;
 }
@@ -801,7 +820,7 @@
 }
 
 .infoBlock td.bottomheader {
-  border-bottom: 1px solid trim-color;
+  border-bottom: 1px solid trimColor;
 }
 
 .infoBlock td.closedstate {
@@ -867,7 +886,7 @@ td.downloadLinkListCell {
   padding: 0px;
 }
 .downloadLinkHeader {
-  background: trim-color;
+  background: trimColor;
   white-space: nowrap;
   border-bottom: 1px solid black;
 }
@@ -882,7 +901,7 @@ td.downloadLinkListCell {
   color: black;
   text-decoration: none;
   white-space: nowrap;
-  background: trim-color;
+  background: trimColor;
   border-right: 1px solid black;
   padding-left: 0.5em;
   padding-right: 0.5em;
@@ -891,7 +910,7 @@ a:hover.downloadLink {
   color: black;
 }
 .downloadLink_Active {
-  background: #ffffcc;
+  background: selectionColor;
 }
 .downloadLinkCopyLabel {
   white-space: pre;
@@ -982,13 +1001,13 @@ a:hover.downloadLink {
 
 .addSshKeyPanel {
   margin-top: 10px;
-  background-color: trim-color;
+  background-color: trimColor;
   padding: 5px 5px 5px 5px;
 }
 
 .sshHostKeyPanel {
   margin-top: 10px;
-  border: 1px solid trim-color;
+  border: 1px solid trimColor;
   padding: 5px 5px 5px 5px;
 }
 .sshHostKeyPanelHeading {
@@ -1084,7 +1103,7 @@ a:hover.downloadLink {
 .publishCommentsScreen .approvalCategoryList {
   margin-bottom: 10px;
   margin-left: 10px;
-  background: trim-color;
+  background: trimColor;
   width: 25em;
   white-space: nowrap;
   padding-top: 2px;
@@ -1139,7 +1158,7 @@ a:hover.downloadLink {
 }
 .abandonChangeDialog .abandonMessage {
   margin-left: 10px;
-  background: trim-color;
+  background: trimColor;
   padding: 5px 5px 5px 5px;
 }
 .abandonChangeDialog .abandonMessage textarea {
@@ -1156,7 +1175,7 @@ a:hover.downloadLink {
   opacity: 0.90;
 }
 .patchBrowserPopupBody {
-  background: white;
+  background: backgroundColor;
   margin: 4px;
   opacity: 0.90;
 }

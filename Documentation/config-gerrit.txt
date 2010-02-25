@@ -1380,6 +1380,50 @@ Supported MACs: hmac-md5, hmac-md5-96, hmac-sha1, hmac-sha1-96.
 +
 By default, all supported MACs are available.
 
+[[theme]] Section theme
+~~~~~~~~~~~~~~~~~~~~~~~
+
+[[theme.backgroundColor]]theme.backgroundColor::
++
+Background color for the page, and major data tables like the all
+open changes table or the account dashboard. The value must be a
+valid HTML hex color code, or standard color name.
++
+By default white, `FFFFFF`.
+
+[[theme.topMenuColor]]theme.topMenuColor::
++
+This is the color of the main menu bar at the top of the page.
+The value must be a valid HTML hex color code, or standard color
+name.  The value defaults to <<theme.trimColor,trimColor>>.
+
+[[theme.textColor]]theme.textColor::
++
+Text color for the page, and major data tables like the all
+open changes table or the account dashboard. The value must be a
+valid HTML hex color code, or standard color name.
++
+By default black, `000000`.
+
+[[theme.trimColor]]theme.trimColor::
++
+Primary color used as a background color behind text.  This is
+the color of the main menu bar at the top, of table headers,
+and of major UI areas that we want to offset from other portions
+of the page.  The value must be a valid HTML hex color code, or
+standard color name.
++
+By default a shade of green, `D4E9A9`.
+
+[[theme.selectionColor]]theme.selectionColor::
++
+Background color used within a trimColor area to denote the currently
+selected tab, or the background color used in a table to denote the
+currently selected row.  The value must be a valid HTML hex color
+code, or standard color name.
++
+By default a shade of yellow, `FFFFCC`.
+
 [[user]] Section user
 ~~~~~~~~~~~~~~~~~~~~~
 

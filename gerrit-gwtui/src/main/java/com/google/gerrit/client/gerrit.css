@@ -616,7 +616,7 @@
   background: white;
   border-bottom: 1px solid white;
 }
-.fileColumnHeader {
+.patchContentTable td.fileColumnHeader {
   background: trimColor;
   font-family: norm-font;
   font-weight: bold;

@@ -377,24 +377,20 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
           final Edit edit = charEdits.get(lastIdx);
           final int b = side.getBegin(edit) - lastPos;
           final int e = side.getEnd(edit) - lastPos;
-          final int modLen = Math.min(e, line.length());
 
           if (c < b) {
             // There is text at the start of this line that is common
             // with the other side. Copy it with no style around it.
             //
             final int cmnLen = Math.min(b, line.length());
-            if (modLen == line.length()) {
-              buf.openSpan();
-              buf.setStyleName("wdc");
-            }
+            buf.openSpan();
+            buf.setStyleName("wdc");
             buf.append(line.substring(c, cmnLen));
-            if (modLen == line.length()) {
-              buf.closeSpan();
-            }
+            buf.closeSpan();
             c = cmnLen;
           }
 
+          final int modLen = Math.min(e, line.length());
           if (c < e && c < modLen) {
             buf.openSpan();
             buf.setStyleName(side.getStyleName());

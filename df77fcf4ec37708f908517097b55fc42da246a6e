@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAtX///7Y\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-25T00:03:31Z",
+      "side": 1,
+      "message": "These should be static so they don\u0027t reference their parent ChangeHookRunner instance.",
+      "revId": "df77fcf4ec37708f908517097b55fc42da246a6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAtX///7U\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-25T00:03:31Z",
+      "side": 1,
+      "message": "Constructor is pointless, don\u0027t bother including it.  The compiler will write the empty default constructor for you.",
+      "revId": "df77fcf4ec37708f908517097b55fc42da246a6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAtX///7Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-25T00:03:31Z",
+      "side": 1,
+      "message": "Again, make static.",
+      "revId": "df77fcf4ec37708f908517097b55fc42da246a6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAtX///7M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-25T00:03:31Z",
+      "side": 1,
+      "message": "I really prefer these fields to be final and take them in the constructor.  So instead write:\n\n  private static class ChangeListenerHolder {\n    final IdentifiedUser user;\n    final ChangeListener listener;\n\n    ChangeListenerHolder(IdentifedUser u, ChangeListener l) {\n      user \u003d u;\n      listener \u003d l;\n    }\n  }",
+      "revId": "df77fcf4ec37708f908517097b55fc42da246a6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAtX///7E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-25T00:03:31Z",
+      "side": 1,
+      "message": "This should be final and taken through our injected constructor.",
+      "revId": "df77fcf4ec37708f908517097b55fc42da246a6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAtX///68\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-25T00:03:31Z",
+      "side": 1,
+      "message": "Style-nit:  We always use braces around a conditional and put the continue on the next line.  Yes, its longer.  Maybe rewrite instead as:\n\n  if (visibleTo(change, holder.user)) {\n    holder.listener.onPatchsetCreated(event);\n  }",
+      "revId": "df77fcf4ec37708f908517097b55fc42da246a6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAtX///60\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/StreamChangeEvents.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-25T00:03:31Z",
+      "side": 1,
+      "message": "Javadoc says \"The capacity, if unspecified, is equal to Integer.MAX_VALUE.\"  Maybe we should set a capacity here, 2 billion buffered events will exceed any memory we have.",
+      "revId": "df77fcf4ec37708f908517097b55fc42da246a6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAtX///64\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/StreamChangeEvents.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-25T00:03:31Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this initialize to false?",
+      "revId": "df77fcf4ec37708f908517097b55fc42da246a6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAtX///6U\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/StreamChangeEvents.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-25T00:03:31Z",
+      "side": 1,
+      "message": "I think it might be cleaner to just have one method in the interface that takes an event, and make all of the event classes extended from a common abstract base class.",
+      "revId": "df77fcf4ec37708f908517097b55fc42da246a6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAtX///6Q\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/StreamChangeEvents.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-25T00:03:31Z",
+      "side": 1,
+      "message": "Style-nit: Should be wrapped in curly braces.",
+      "revId": "df77fcf4ec37708f908517097b55fc42da246a6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

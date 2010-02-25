@@ -565,13 +565,6 @@
   font-family: norm-font;
 }
 
-.patchContentTable .fileColumnHeader {
-  background: trim-color;
-  font-family: norm-font;
-  font-weight: bold;
-  text-align: center;
-}
-
 .lineNumber {
   padding-left: 0.2em;
   white-space: pre;
@@ -581,6 +574,15 @@
   padding-right: 0.2em;
   background: white;
   border-bottom: 1px solid white;
+}
+.fileColumnHeader {
+  background: trim-color;
+  font-family: norm-font;
+  font-weight: bold;
+  text-align: center;
+}
+.lineNumber.fileColumnHeader {
+  border-bottom: 1px solid trim-color;
 }
 .noLineLineNumber {
   font-family: mono-font;

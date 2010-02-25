@@ -517,7 +517,8 @@
   border-spacing: 0;
 }
 .patchContentTable td {
-  padding: 0;
+  padding-top: 0;
+  padding-bottom: 0;
   font-size: 8pt;
   font-family: mono-font;
 }
@@ -594,9 +595,9 @@
 }
 
 .fileLine {
-  padding-left: 0.2em;
+  padding-left: 0;
+  padding-right: 0;
   white-space: pre;
-  padding-right: 0.2em;
 }
 .fileLineNone {
   background: #eeeeee;

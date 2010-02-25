@@ -416,7 +416,7 @@ case "$ACTION" in
       fi
 
       sleep 2
-      let TIMEOUT=$TIMEOUT-2
+      TIMEOUT=$(($TIMEOUT - 2))
     done
 
     echo FAILED
@@ -447,7 +447,7 @@ case "$ACTION" in
       while running "$GERRIT_PID" && test $TIMEOUT -gt 0 ; do
         kill $PID 2>/dev/null
         sleep 1
-        let TIMEOUT=$TIMEOUT-1
+        TIMEOUT=$(($TIMEOUT - 1))
       done
       test $TIMEOUT -gt 0 || kill -9 $PID 2>/dev/null
       rm -f "$GERRIT_PID" "$GERRIT_RUN"

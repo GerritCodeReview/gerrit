@@ -90,11 +90,11 @@ public class SideBySideTable extends AbstractPatchContentTable {
         if (hunk.isContextLine()) {
           openLine(nc);
           final SafeHtml ctx = a.getSafeHtmlLine(hunk.getCurA());
-          appendLineText(nc, hunk.getCurA(), CONTEXT, ctx);
+          appendLineText(nc, hunk.getCurA(), CONTEXT, ctx, false);
           if (ignoreWS && b.contains(hunk.getCurB())) {
             appendLineText(nc, hunk.getCurB(), CONTEXT, b, hunk.getCurB());
           } else {
-            appendLineText(nc, hunk.getCurB(), CONTEXT, ctx);
+            appendLineText(nc, hunk.getCurB(), CONTEXT, ctx, false);
           }
           closeLine(nc);
           hunk.incBoth();
@@ -264,6 +264,7 @@ public class SideBySideTable extends AbstractPatchContentTable {
 
     m.openTd();
     m.setStyleName(Gerrit.RESOURCES.css().iconCell());
+    m.addStyleName(Gerrit.RESOURCES.css().skipLine());
     m.closeTd();
 
     m.openTd();
@@ -286,12 +287,13 @@ public class SideBySideTable extends AbstractPatchContentTable {
   private void appendLineText(final SafeHtmlBuilder m,
       final int lineNumberMinusOne, final PatchLine.Type type,
       final SparseHtmlFile src, final int i) {
-    appendLineText(m, lineNumberMinusOne, type, src.getSafeHtmlLine(i));
+    appendLineText(m, lineNumberMinusOne, type, //
+        src.getSafeHtmlLine(i), src.hasTrailingEdit(i));
   }
 
   private void appendLineText(final SafeHtmlBuilder m,
       final int lineNumberMinusOne, final PatchLine.Type type,
-      final SafeHtml lineHtml) {
+      final SafeHtml lineHtml, final boolean trailingEdit) {
     m.openTd();
     m.setStyleName(Gerrit.RESOURCES.css().lineNumber());
     m.append(lineNumberMinusOne + 1);
@@ -305,9 +307,15 @@ public class SideBySideTable extends AbstractPatchContentTable {
         break;
       case DELETE:
         m.addStyleName(Gerrit.RESOURCES.css().fileLineDELETE());
+        if (trailingEdit) {
+          m.addStyleName("wdd");
+        }
         break;
       case INSERT:
         m.addStyleName(Gerrit.RESOURCES.css().fileLineINSERT());
+        if (trailingEdit) {
+          m.addStyleName("wdi");
+        }
         break;
     }
     m.append(lineHtml);

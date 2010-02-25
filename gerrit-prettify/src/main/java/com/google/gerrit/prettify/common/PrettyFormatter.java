@@ -21,7 +21,9 @@ import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.diff.ReplaceEdit;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public abstract class PrettyFormatter implements SparseHtmlFile {
   public static abstract class EditFilter {
@@ -70,6 +72,7 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
   protected EditFilter side;
   protected List<Edit> edits;
   protected PrettySettings settings;
+  protected Set<Integer> trailingEdits;
 
   private int col;
   private int lineIdx;
@@ -87,6 +90,11 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
   @Override
   public boolean contains(int idx) {
     return content.contains(idx);
+  }
+
+  @Override
+  public boolean hasTrailingEdit(int idx) {
+    return trailingEdits.contains(idx);
   }
 
   public void setEditFilter(EditFilter f) {
@@ -110,6 +118,7 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
   public void format(SparseFileContent src) {
     content = new SparseFileContent();
     content.setSize(src.size());
+    trailingEdits = new HashSet<Integer>();
 
     String html = toHTML(src);
 
@@ -368,23 +377,33 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
           final Edit edit = charEdits.get(lastIdx);
           final int b = side.getBegin(edit) - lastPos;
           final int e = side.getEnd(edit) - lastPos;
+          final int modLen = Math.min(e, line.length());
 
           if (c < b) {
             // There is text at the start of this line that is common
             // with the other side. Copy it with no style around it.
             //
-            final int n = Math.min(b, line.length());
-            buf.append(line.substring(c, n));
-            c = n;
+            final int cmnLen = Math.min(b, line.length());
+            if (modLen == line.length()) {
+              buf.openSpan();
+              buf.setStyleName("wdc");
+            }
+            buf.append(line.substring(c, cmnLen));
+            if (modLen == line.length()) {
+              buf.closeSpan();
+            }
+            c = cmnLen;
           }
 
-          if (c < e) {
-            final int n = Math.min(e, line.length());
+          if (c < e && c < modLen) {
             buf.openSpan();
             buf.setStyleName(side.getStyleName());
-            buf.append(line.substring(c, n));
+            buf.append(line.substring(c, modLen));
             buf.closeSpan();
-            c = n;
+            if (modLen == line.length()) {
+              trailingEdits.add(index);
+            }
+            c = modLen;
           }
 
           if (e <= c) {

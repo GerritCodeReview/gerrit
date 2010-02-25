@@ -24,5 +24,8 @@ public interface SparseHtmlFile {
   public int size();
 
   /** @return true if the line is valid in this sparse list. */
-  public boolean contains(final int idx);
+  public boolean contains(int idx);
+
+  /** @return true if this line ends in the middle of a character edit span. */
+  public boolean hasTrailingEdit(int idx);
 }

@@ -28,6 +28,9 @@
 @external .gwt-RadioButton;
 
 @external .smallHeading;
+@external .wdi;
+@external .wdd;
+@external .wdc;
 
 @def black #000000;
 @def white #ffffff;
@@ -514,10 +517,9 @@
   border-spacing: 0;
 }
 .patchContentTable td {
+  padding: 0;
   font-size: 8pt;
   font-family: mono-font;
-  border-top: 1px solid transparent;
-  border-bottom: 1px solid transparent;
 }
 
 .patchContentTable .iconCell {
@@ -570,40 +572,56 @@
   text-align: center;
 }
 
-.patchContentTable .lineNumber {
+.lineNumber {
   padding-left: 0.2em;
   white-space: pre;
   width: 3.5em;
   text-align: right;
   border-right: thin solid #b0bdcc;
   padding-right: 0.2em;
+  background: white;
+  border-bottom: 1px solid white;
 }
-
-.patchContentTable .noLineLineNumber {
+.noLineLineNumber {
   font-family: mono-font;
   width: 3.5em;
   padding-left: 0.2em;
   padding-right: 0.2em;
+  background: white;
+  border-bottom: 1px solid white;
 }
 
-.patchContentTable .fileLine {
+.fileLine {
   padding-left: 0.2em;
   white-space: pre;
   padding-right: 0.2em;
 }
-
 .fileLineNone {
   background: #eeeeee;
+  border-bottom: 1px solid #eeeeee;
 }
-.fileLineDELETE {
+.fileLineDELETE,
+.fileLineDELETE .wdc {
   background: #ffeeee;
+  border-bottom: 1px solid #ffeeee;
 }
 .fileLineCONTEXT {
+  background: white;
+  border-bottom: 1px solid white;
 }
-.fileLineINSERT {
+.fileLineINSERT,
+.fileLineINSERT .wdc {
   background: #ddffdd;
+  border-bottom: 1px solid #ddffdd;
+}
+.patchContentTable .wdd {
+  border-bottom: 1px solid #FAA;
+}
+.patchContentTable .wdi {
+  border-bottom: 1px solid #9F9;
 }
 
+.patchContentTable .skipLine .iconCell,
 .patchContentTable .skipLine {
   font-family: norm-font;
   text-align: center;
@@ -614,14 +632,17 @@
   display: inline;
 }
 
-.patchContentTable .activeRow {
+.patchContentTable .activeRow .iconCell,
+.patchContentTable .activeRow .lineNumber {
   background: #ffffcc;
 }
-.patchContentTable .activeRow td.iconCell,
-.patchContentTable .activeRow td.lineNumber,
-.patchContentTable .activeRow td.fileLine,
-.patchContentTable .activeRow td.diffText {
-  border-top: 1px solid blue;
+.patchContentTable .activeRow .iconCell,
+.patchContentTable .activeRow .lineNumber,
+.patchContentTable .activeRow .fileLine,
+.patchContentTable .activeRow .diffText,
+.patchContentTable .activeRow .wdc,
+.patchContentTable .activeRow .wdd,
+.patchContentTable .activeRow .wdi  {
   border-bottom: 1px solid blue;
 }
 

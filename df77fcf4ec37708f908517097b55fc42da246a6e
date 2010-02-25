@@ -169,6 +169,23 @@
       "revId": "df77fcf4ec37708f908517097b55fc42da246a6e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAtX///5w\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/StreamChangeEvents.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-25T00:09:21Z",
+      "side": 1,
+      "message": "Cannot be null, unless one of your offer calls above added null.",
+      "revId": "df77fcf4ec37708f908517097b55fc42da246a6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

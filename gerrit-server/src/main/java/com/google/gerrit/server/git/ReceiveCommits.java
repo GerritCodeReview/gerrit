@@ -775,6 +775,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
   private void createChange(final RevWalk walk, final RevCommit c)
       throws OrmException, IOException {
     walk.parseBody(c);
+    warnMalformedMessage(c);
 
     final Account.Id me = currentUser.getAccountId();
     Change.Key changeKey = new Change.Key("I" + c.name());
@@ -900,6 +901,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
       throws IOException, OrmException {
     final RevCommit c = request.newCommit;
     rp.getRevWalk().parseBody(c);
+    warnMalformedMessage(c);
 
     final Account.Id me = currentUser.getAccountId();
     final Set<Account.Id> reviewers = new HashSet<Account.Id>(reviewerId);
@@ -992,7 +994,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
             reject(request.cmd, "no changes made");
             return null;
           } else {
-            rp.sendMessage("warning: " + change.getKey().abbreviate() + ": " //
+            rp.sendMessage("(W) " + c.abbreviate(repo, 6).name() + ":" //
                 + " no files changed, but" //
                 + (!messageEq ? " message updated" : "") //
                 + (!messageEq && !parentsEq ? " and" : "") //
@@ -1323,6 +1325,28 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     }
 
     return true;
+  }
+
+  private void warnMalformedMessage(RevCommit c) {
+    if (65 < c.getShortMessage().length()) {
+      rp.sendMessage("(W) " + c.abbreviate(repo, 6).name()
+          + ": commit subject >65 characters; use shorter first paragraph");
+    }
+
+    int longLineCnt = 0, nonEmptyCnt = 0;
+    for (String line : c.getFullMessage().split("\n")) {
+      if (!line.trim().isEmpty()) {
+        nonEmptyCnt++;
+      }
+      if (70 < line.length()) {
+        longLineCnt++;
+      }
+    }
+
+    if (0 < longLineCnt && 33 < longLineCnt * 100 / nonEmptyCnt) {
+      rp.sendMessage("(W) " + c.abbreviate(repo, 6).name()
+          + ": commit message lines >70 characters; manually wrap lines");
+    }
   }
 
   private void autoCloseChanges(final ReceiveCommand cmd) {

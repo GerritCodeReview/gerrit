@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAtX///6E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1002975
+      },
+      "writtenOn": "2010-02-25T00:04:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAAtX///9g\u003d",
+      "revId": "c200c87e10a63c9ed3c5aeef9dc753966880b1d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAtX///9k\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2010-02-24T21:54:39Z",
       "side": 1,
       "message": "Use a CopyOnWriteArrayList so additions, removals and traversals are completely thread-safe.  Also mark this final because we shouldn\u0027t change the list object once we initialize.",
+      "revId": "c200c87e10a63c9ed3c5aeef9dc753966880b1d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAtX///58\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1002975
+      },
+      "writtenOn": "2010-02-25T00:04:20Z",
+      "side": 1,
+      "message": "I changed to a ConcurrentHashMap so I can hold the IdentifiedUser for that listener. Done.",
+      "parentUuid": "AAAAtX///9k\u003d",
       "revId": "c200c87e10a63c9ed3c5aeef9dc753966880b1d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAtX///54\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/common/ChangeHookRunner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1002975
+      },
+      "writtenOn": "2010-02-25T00:04:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAAtX///9c\u003d",
+      "revId": "c200c87e10a63c9ed3c5aeef9dc753966880b1d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAtX///9Y\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/StreamChangeEvents.java",
         "patchSetId": 1
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAtX///6s\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/StreamChangeEvents.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1002975
+      },
+      "writtenOn": "2010-02-25T00:04:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAAtX///9Y\u003d",
+      "revId": "c200c87e10a63c9ed3c5aeef9dc753966880b1d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAtX///9U\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/StreamChangeEvents.java",
         "patchSetId": 1
@@ -81,6 +153,24 @@
       "writtenOn": "2010-02-24T21:54:39Z",
       "side": 1,
       "message": "Usually these are in MILLISECONDS.  So please document that the member is in seconds.",
+      "revId": "c200c87e10a63c9ed3c5aeef9dc753966880b1d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAtX///6k\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/StreamChangeEvents.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1002975
+      },
+      "writtenOn": "2010-02-25T00:04:20Z",
+      "side": 1,
+      "message": "I removed this in favor of just catching InterruptedException and exiting.",
+      "parentUuid": "AAAAtX///9U\u003d",
       "revId": "c200c87e10a63c9ed3c5aeef9dc753966880b1d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -122,6 +212,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAtX///6g\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/StreamChangeEvents.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1002975
+      },
+      "writtenOn": "2010-02-25T00:04:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAAtX///8g\u003d",
+      "revId": "c200c87e10a63c9ed3c5aeef9dc753966880b1d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAtX///9M\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/StreamChangeEvents.java",
         "patchSetId": 1
@@ -133,6 +241,24 @@
       "writtenOn": "2010-02-24T21:54:39Z",
       "side": 1,
       "message": "Instead of this mess, use ChangeControl:\n\n  @Inject\n  private ChangeControl.Factory changeControlFactory;\n\n  return changeControlFactory.controlFor(change).isVisible();\n\nIf you run this on the SSH command thread, you will always be getting the SSH client\u0027s user identity evaluated in that automatically.  If you run this during the ChangeListener, you are toast, you\u0027ll be using the user identity of the guy who is making the modification.  :-)",
+      "revId": "c200c87e10a63c9ed3c5aeef9dc753966880b1d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAtX///6c\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/StreamChangeEvents.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1002975
+      },
+      "writtenOn": "2010-02-25T00:04:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAAtX///9M\u003d",
       "revId": "c200c87e10a63c9ed3c5aeef9dc753966880b1d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -156,6 +282,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAtX///6Y\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/StreamChangeEvents.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1002975
+      },
+      "writtenOn": "2010-02-25T00:04:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAAtX///9Q\u003d",
+      "revId": "c200c87e10a63c9ed3c5aeef9dc753966880b1d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAtX///9A\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/StreamChangeEvents.java",
         "patchSetId": 1
@@ -173,6 +317,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAtX///6M\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/StreamChangeEvents.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1002975
+      },
+      "writtenOn": "2010-02-25T00:04:20Z",
+      "side": 1,
+      "message": "Okay, I\u0027ll have to look at how the thread factory is working and create a separate pool.",
+      "parentUuid": "AAAAtX///9A\u003d",
+      "revId": "c200c87e10a63c9ed3c5aeef9dc753966880b1d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAtX///9I\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/StreamChangeEvents.java",
         "patchSetId": 1
@@ -184,6 +346,24 @@
       "writtenOn": "2010-02-24T21:54:39Z",
       "side": 1,
       "message": "I\u0027m not actually sure polling with a timeout is necessary.\n\nIf the client terminates the command remotely via a SIGINT or SIGTERM we should see our destroy() method (inherited from BaseCommand) invoked.  That will send an interrupt to our thread.  Which we can catch via InterruptedException and know to break out.",
+      "revId": "c200c87e10a63c9ed3c5aeef9dc753966880b1d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAtX///6I\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/StreamChangeEvents.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1002975
+      },
+      "writtenOn": "2010-02-25T00:04:20Z",
+      "side": 1,
+      "message": "Okay, I removed this.",
+      "parentUuid": "AAAAtX///9I\u003d",
       "revId": "c200c87e10a63c9ed3c5aeef9dc753966880b1d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

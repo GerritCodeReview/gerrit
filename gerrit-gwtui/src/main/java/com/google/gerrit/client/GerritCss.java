@@ -54,6 +54,7 @@ public interface GerritCss extends CssResource {
   String commentEditorPanel();
   String commentHolder();
   String commentPanel();
+  String commentPanelBorder();
   String commentPanelAuthorCell();
   String commentPanelButtons();
   String commentPanelContent();

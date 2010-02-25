@@ -321,6 +321,7 @@ public class ChangeScreen extends Screen {
       final CommentPanel cp =
           new CommentPanel(author, msg.getWrittenOn(), msg.getMessage());
       cp.setRecent(isRecent);
+      cp.addStyleName(Gerrit.RESOURCES.css().commentPanelBorder());
       if (i == msgList.size() - 1) {
         cp.addStyleName(Gerrit.RESOURCES.css().commentPanelLast());
         cp.setOpen(true);

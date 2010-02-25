@@ -99,36 +99,36 @@
 
 
 /** CommentPanel **/
-.commentPanel {
+.commentPanelBorder {
   border-top: 1px solid lightgray;
   border-left: 1px solid lightgray;
   border-right: 1px solid lightgray;
 }
-.commentPanelLast {
+.commentPanelBorder.commentPanelLast {
   border-bottom: 1px solid lightgray;
 }
 
 @if user.agent safari {
-  .commentPanel {
+  .commentPanelBorder {
     \-webkit-border-top-left-radius: 8px;
     \-webkit-border-top-right-radius: 8px;
     \-webkit-border-bottom-left-radius: 0px;
     \-webkit-border-bottom-right-radius: 0px;
   }
-  .commentPanelLast {
+  .commentPanelBorder.commentPanelLast {
     \-webkit-border-bottom-left-radius: 8px;
     \-webkit-border-bottom-right-radius: 8px;
   }
 }
 
 @if user.agent gecko1_8 {
-  .commentPanel {
+  .commentPanelBorder {
     \-moz-border-radius-topleft: 8px;
     \-moz-border-radius-topright: 8px;
     \-moz-border-radius-bottomleft: 0;
     \-moz-border-radius-bottomright: 0;
   }
-  .commentPanelLast {
+  .commentPanelBorder.commentPanelLast {
     \-moz-border-radius-bottomleft: 8px;
     \-moz-border-radius-bottomright: 8px;
   }
@@ -555,15 +555,36 @@
   color: #006000;
 }
 
-.patchContentTable tr.commentHolder .diffText {
-  background: #F2F4F7;
-  white-space: normal;
+.patchContentTable tr.commentHolder {
+  background: #E5ECF9;
+}
+.patchContentTable tr.commentHolder .iconCell {
+  background: white;
+}
+.patchContentTable td.commentHolder {
+  padding-left: 0;
+  padding-right: 0;
+  border-top: 1px solid black;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+}
+.patchContentTable td.commentHolder.commentPanelLast {
+  border-bottom: 1px solid black;
 }
 .patchContentTable .commentPanel {
   font-family: norm-font;
 }
 .patchContentTable .commentPanel td {
   font-family: norm-font;
+}
+.patchContentTable .commentPanelMessage {
+  padding-left: 1px;
+  padding-right: 1px;
+  white-space: normal;
+}
+.patchContentTable .commentPanelButtons,
+.patchContentTable .commentPanel textarea {
+  margin-left: 1px;
 }
 
 .lineNumber {
@@ -645,7 +666,8 @@
 .patchContentTable .activeRow .diffText,
 .patchContentTable .activeRow .wdc,
 .patchContentTable .activeRow .wdd,
-.patchContentTable .activeRow .wdi  {
+.patchContentTable .activeRow .wdi,
+.patchContentTable .activeRow td.commentHolder.commentPanelLast  {
   border-bottom: 1px solid blue;
 }
 

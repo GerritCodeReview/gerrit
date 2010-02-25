@@ -119,6 +119,12 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
             }
             p = p.getParent();
           }
+
+          if (Gerrit.RESOURCES.css().commentHolder().equals(
+              table.getCellFormatter().getStyleName(row - 1, cell))) {
+            table.getCellFormatter().addStyleName(row - 1, cell,
+                Gerrit.RESOURCES.css().commentPanelLast());
+          }
           return;
         }
       }
@@ -411,6 +417,7 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
       styleCommentRow(row);
     }
     table.setWidget(row, column, ed);
+    styleLastCommentCell(row, column);
 
     int span = 1;
     for (int r = row + 1; r < table.getRowCount(); r++) {
@@ -449,7 +456,8 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
 
   protected void insertRow(final int row) {
     table.insertRow(row);
-    table.getCellFormatter().setStyleName(row, 0, Gerrit.RESOURCES.css().iconCell());
+    table.getCellFormatter().setStyleName(row, 0,
+        Gerrit.RESOURCES.css().iconCell());
   }
 
   @Override
@@ -506,12 +514,14 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
     if (line.getStatus() == PatchLineComment.Status.DRAFT) {
       final CommentEditorPanel plc = new CommentEditorPanel(line);
       table.setWidget(row, col, plc);
+      styleLastCommentCell(row, col);
 
     } else {
       final AccountInfo author = accountCache.get(line.getAuthor());
       final PublishedCommentPanel panel =
           new PublishedCommentPanel(author, line);
       table.setWidget(row, col, panel);
+      styleLastCommentCell(row, col);
 
       CommentList l = (CommentList) getRowItem(row);
       if (l == null) {
@@ -528,7 +538,16 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
   private void styleCommentRow(final int row) {
     final CellFormatter fmt = table.getCellFormatter();
     final Element iconCell = fmt.getElement(row, 0);
-    UIObject.setStyleName(DOM.getParent(iconCell), Gerrit.RESOURCES.css().commentHolder(), true);
+    UIObject.setStyleName(DOM.getParent(iconCell), Gerrit.RESOURCES.css()
+        .commentHolder(), true);
+  }
+
+  private void styleLastCommentCell(final int row, final int col) {
+    final CellFormatter fmt = table.getCellFormatter();
+    fmt.removeStyleName(row - 1, col, //
+        Gerrit.RESOURCES.css().commentPanelLast());
+    fmt.setStyleName(row, col, Gerrit.RESOURCES.css().commentHolder());
+    fmt.addStyleName(row, col, Gerrit.RESOURCES.css().commentPanelLast());
   }
 
   protected static class CommentList {

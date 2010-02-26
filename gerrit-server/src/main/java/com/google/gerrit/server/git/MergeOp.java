@@ -1189,9 +1189,11 @@ public class MergeOp {
     }
 
     try {
-        hooks.doChangeMergedHook(c, accountCache.get(submitter.getAccountId()).getAccount(), schema.patchSets().get(c.currentPatchSetId()));
+      hooks.doChangeMergedHook(c, //
+          accountCache.get(submitter.getAccountId()).getAccount(), //
+          schema.patchSets().get(c.currentPatchSetId()));
     } catch (OrmException ex) {
-        log.error("Cannot run hook for submitted patch set " + c.getId(), ex);
+      log.error("Cannot run hook for submitted patch set " + c.getId(), ex);
     }
   }
 

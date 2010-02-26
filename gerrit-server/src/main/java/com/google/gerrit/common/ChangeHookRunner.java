@@ -14,12 +14,17 @@
 
 package com.google.gerrit.common;
 
+import com.google.gerrit.common.data.ApprovalType;
+import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.ApprovalCategoryValue;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSet;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -28,7 +33,9 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import com.google.inject.internal.Nullable;
 
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
@@ -42,6 +49,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -57,6 +65,7 @@ public class ChangeHookRunner {
 
     public static class ApprovalAttribute {
         public String type;
+        public String description;
         public String value;
     }
 
@@ -65,12 +74,25 @@ public class ChangeHookRunner {
         public String email;
     }
 
-    public static class CommentAddedEvent extends ChangeEvent {
-        public final String type = "comment-added";
+    public static class ChangeAttribute {
         public String project;
         public String branch;
-        public String change;
+        public String id;
+        public String number;
+        public String subject;
+        public AuthorAttribute owner;
+        public String url;
+    }
+
+    public static class PatchSetAttribute {
+        public String number;
         public String revision;
+    }
+
+    public static class CommentAddedEvent extends ChangeEvent {
+        public final String type = "comment-added";
+        public ChangeAttribute change;
+        public PatchSetAttribute patchSet;
         public AuthorAttribute author;
         public ApprovalAttribute[] approvals;
         public String comment;
@@ -78,30 +100,23 @@ public class ChangeHookRunner {
 
     public static class ChangeMergedEvent extends ChangeEvent {
         public final String type = "change-merged";
-        public String project;
-        public String branch;
-        public String change;
-        public String patchSet;
+        public ChangeAttribute change;
+        public PatchSetAttribute patchSet;
         public AuthorAttribute submitter;
-        public String description;
     }
 
     public static class ChangeAbandonedEvent extends ChangeEvent {
         public final String type = "change-abandoned";
-        public String project;
-        public String branch;
-        public String change;
-        public AuthorAttribute author;
+        public ChangeAttribute change;
+        public PatchSetAttribute patchSet;
+        public AuthorAttribute abandoner;
         public String reason;
     }
 
     public static class PatchSetCreatedEvent extends ChangeEvent {
         public final String type = "patchset-created";
-        public String project;
-        public String branch;
-        public String change;
-        public String commit;
-        public String patchSet;
+        public ChangeAttribute change;
+        public PatchSetAttribute patchSet;
     }
 
     private static class ChangeListenerHolder {
@@ -138,6 +153,13 @@ public class ChangeHookRunner {
 
     private final ProjectCache projectCache;
 
+    private final AccountCache accountCache;
+
+    private final ApprovalTypes approvalTypes;
+
+    private final Provider<String> urlProvider;
+
+
     /**
      * Create a new ChangeHookRunner.
      *
@@ -151,10 +173,16 @@ public class ChangeHookRunner {
     public ChangeHookRunner(final WorkQueue queue,
       final GitRepositoryManager repoManager,
       @GerritServerConfig final Config config, final SitePaths sitePath,
-      final ProjectCache projectCache) {
+      final ProjectCache projectCache,
+      final AccountCache accountCache,
+      final ApprovalTypes approvalTypes,
+      @CanonicalWebUrl @Nullable final Provider<String> cwu) {
         this.repoManager = repoManager;
         this.hookQueue = queue.createQueue(1, "hook");
         this.projectCache = projectCache;
+        this.accountCache = accountCache;
+        this.approvalTypes = approvalTypes;
+        this.urlProvider = cwu;
 
         final File hooksPath = sitePath.resolve(getValue(config, "hooks", "path", sitePath.hooks_dir.getAbsolutePath()));
 
@@ -209,26 +237,23 @@ public class ChangeHookRunner {
     public void doPatchsetCreatedHook(final Change change, final PatchSet patchSet) {
         final PatchSetCreatedEvent event = new PatchSetCreatedEvent();
 
-        event.project = change.getProject().get();
-        event.branch = change.getDest().getShortName();
-        event.change = change.getKey().get();
-        event.commit = patchSet.getRevision().get();
-        event.patchSet = Integer.toString(patchSet.getPatchSetId());
+        event.change = getChangeAttribute(change);
+        event.patchSet = getPatchSetAttribute(patchSet);
         fireEvent(change, event);
 
         final List<String> args = new ArrayList<String>();
         args.add(patchsetCreatedHook.getAbsolutePath());
 
         args.add("--change");
-        args.add(event.change);
+        args.add(event.change.id);
         args.add("--project");
-        args.add(event.project);
+        args.add(event.change.project);
         args.add("--branch");
-        args.add(event.branch);
+        args.add(event.change.branch);
         args.add("--commit");
-        args.add(event.commit);
+        args.add(event.patchSet.revision);
         args.add("--patchset");
-        args.add(event.patchSet);
+        args.add(event.patchSet.number);
 
         runHook(getRepo(change), args);
     }
@@ -245,21 +270,16 @@ public class ChangeHookRunner {
     public void doCommentAddedHook(final Change change, final Account account, final PatchSet patchSet, final String comment, final Map<ApprovalCategory.Id, ApprovalCategoryValue.Id> approvals) {
         final CommentAddedEvent event = new CommentAddedEvent();
 
-        event.project = change.getProject().get();
-        event.branch = change.getDest().getShortName();
-        event.change = change.getKey().get();
-        event.author =  getAuthorAttribute(account);
-        event.revision = patchSet.getRevision().get();
+        event.change = getChangeAttribute(change);
+        event.author =  getAccountAttribute(account);
+        event.patchSet = getPatchSetAttribute(patchSet);
         event.comment = comment;
 
         if (approvals.size() > 0) {
             event.approvals = new ApprovalAttribute[approvals.size()];
             int i = 0;
             for (Map.Entry<ApprovalCategory.Id, ApprovalCategoryValue.Id> approval : approvals.entrySet()) {
-                ApprovalAttribute a = new ApprovalAttribute();
-                a.type = approval.getKey().get();
-                a.value = Short.toString(approval.getValue().get());
-                event.approvals[i++] = a;
+                event.approvals[i++] = getApprovalAttribute(approval);
             }
         }
 
@@ -269,15 +289,15 @@ public class ChangeHookRunner {
         args.add(commentAddedHook.getAbsolutePath());
 
         args.add("--change");
-        args.add(event.change);
+        args.add(event.change.id);
         args.add("--project");
-        args.add(event.project);
+        args.add(event.change.project);
         args.add("--branch");
-        args.add(event.branch);
+        args.add(event.change.branch);
         args.add("--author");
         args.add(getDisplayName(account));
         args.add("--commit");
-        args.add(event.revision);
+        args.add(event.patchSet.revision);
         args.add("--comment");
         args.add(comment == null ? "" : comment);
         for (Map.Entry<ApprovalCategory.Id, ApprovalCategoryValue.Id> approval : approvals.entrySet()) {
@@ -298,27 +318,24 @@ public class ChangeHookRunner {
     public void doChangeMergedHook(final Change change, final Account account, final PatchSet patchSet) {
         final ChangeMergedEvent event = new ChangeMergedEvent();
 
-        event.project = change.getProject().get();
-        event.branch = change.getDest().getShortName();
-        event.change = change.getKey().get();
-        event.submitter =  getAuthorAttribute(account);
-        event.patchSet = patchSet.getRevision().get();
-        event.description = change.getSubject();
+        event.change = getChangeAttribute(change);
+        event.submitter =  getAccountAttribute(account);
+        event.patchSet = getPatchSetAttribute(patchSet);
         fireEvent(change, event);
 
         final List<String> args = new ArrayList<String>();
         args.add(changeMergedHook.getAbsolutePath());
 
         args.add("--change");
-        args.add(event.change);
+        args.add(event.change.id);
         args.add("--project");
-        args.add(event.project);
+        args.add(event.change.project);
         args.add("--branch");
-        args.add(event.branch);
+        args.add(event.change.branch);
         args.add("--submitter");
         args.add(getDisplayName(account));
         args.add("--commit");
-        args.add(event.patchSet);
+        args.add(event.patchSet.revision);
 
         runHook(getRepo(change), args);
     }
@@ -333,10 +350,8 @@ public class ChangeHookRunner {
     public void doChangeAbandonedHook(final Change change, final Account account, final String reason) {
         final ChangeAbandonedEvent event = new ChangeAbandonedEvent();
 
-        event.project = change.getProject().get();
-        event.branch = change.getDest().getShortName();
-        event.change = change.getKey().get();
-        event.author = getAuthorAttribute(account);
+        event.change = getChangeAttribute(change);
+        event.abandoner = getAccountAttribute(account);
         event.reason = reason;
         fireEvent(change, event);
 
@@ -344,11 +359,11 @@ public class ChangeHookRunner {
         args.add(changeAbandonedHook.getAbsolutePath());
 
         args.add("--change");
-        args.add(event.change);
+        args.add(event.change.id);
         args.add("--project");
-        args.add(event.project);
+        args.add(event.change.project);
         args.add("--branch");
-        args.add(event.branch);
+        args.add(event.change.branch);
         args.add("--abandoner");
         args.add(getDisplayName(account));
         args.add("--reason");
@@ -374,17 +389,80 @@ public class ChangeHookRunner {
         return pc.controlFor(change).isVisible();
     }
 
+    /** Get a link to the change; null if the server doesn't know its own address. */
+    protected String getChangeUrl(final Change change) {
+      if (change != null && getGerritUrl() != null) {
+        final StringBuilder r = new StringBuilder();
+        r.append(getGerritUrl());
+        r.append(change.getChangeId());
+        return r.toString();
+      }
+      return null;
+    }
+
+    protected String getGerritUrl() {
+      return urlProvider.get();
+    }
+
+
+    /**
+     * Create an ApprovalAttribute for the given approval suitable for serialization to JSON.
+     * @param approval
+     * @return object suitable for serialization to JSON
+     */
+    private ApprovalAttribute getApprovalAttribute(
+            Entry<ApprovalCategory.Id, ApprovalCategoryValue.Id> approval) {
+        ApprovalAttribute a = new ApprovalAttribute();
+        a.type = approval.getKey().get();
+        final ApprovalType at = approvalTypes.getApprovalType(approval.getKey());
+        a.description = at.getCategory().getName()  ;
+        a.value = Short.toString(approval.getValue().get());
+        return a;
+    }
+
     /**
      * Create an AuthorAttribute for the given account suitable for serialization to JSON.
      *
      * @param account
      * @return object suitable for serialization to JSON
      */
-    private AuthorAttribute getAuthorAttribute(final Account account) {
+    private AuthorAttribute getAccountAttribute(final Account account) {
         AuthorAttribute author = new AuthorAttribute();
         author.name = account.getFullName();
         author.email = account.getPreferredEmail();
         return author;
+    }
+
+    /**
+     * Create a ChangeAttribute for the given change suitable for serialization to JSON.
+     *
+     * @param change
+     * @return object suitable for serialization to JSON
+     */
+    private ChangeAttribute getChangeAttribute(final Change change) {
+        ChangeAttribute a = new ChangeAttribute();
+        a.project = change.getProject().get();
+        a.branch = change.getDest().getShortName();
+        a.id = change.getKey().get();
+        a.number = change.getId().toString();
+        a.subject = change.getSubject();
+        final AccountState owner = accountCache.get(change.getOwner());
+        a.owner = getAccountAttribute(owner.getAccount());
+        a.url = getChangeUrl(change);
+        return a;
+    }
+
+    /**
+     * Create an PatchSetAttribute for the given patchset suitable for serialization to JSON.
+     *
+     * @param patchSet
+     * @return object suitable for serialization to JSON
+     */
+    private PatchSetAttribute getPatchSetAttribute(final PatchSet patchSet) {
+        PatchSetAttribute p = new PatchSetAttribute();
+        p.revision = patchSet.getRevision().get();
+        p.number = Integer.toString(patchSet.getPatchSetId());
+        return p;
     }
 
     /**

@@ -76,6 +76,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -86,6 +87,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TimeZone;
 
 import javax.annotation.Nullable;
 
@@ -518,10 +520,37 @@ public class MergeOp {
       }
     }
 
+    // Try to use the submitter's identity for the merge commit author.
+    // If all of the commits being merged are created by the submitter,
+    // prefer the identity line they used in the commits rather than the
+    // preferred identity stored in the user account. This way the Git
+    // commit records are more consistent internally.
+    //
+    PersonIdent authorIdent;
+    if (submitter != null) {
+      IdentifiedUser who =
+          identifiedUserFactory.create(submitter.getAccountId());
+      Set<String> emails = new HashSet<String>();
+      for (RevCommit c : merged) {
+        emails.add(c.getAuthorIdent().getEmailAddress());
+      }
+
+      final Timestamp dt = submitter.getGranted();
+      final TimeZone tz = myIdent.getTimeZone();
+      if (emails.size() == 1
+          && who.getEmailAddresses().contains(emails.iterator().next())) {
+        authorIdent = new PersonIdent(merged.get(0).getAuthorIdent(), dt, tz);
+      } else {
+        authorIdent = who.newCommitterIdent(dt, tz);
+      }
+    } else {
+      authorIdent = myIdent;
+    }
+
     final Commit mergeCommit = new Commit(db);
     mergeCommit.setTreeId(m.getResultTreeId());
     mergeCommit.setParentIds(new ObjectId[] {mergeTip, n});
-    mergeCommit.setAuthor(toCommitterIdent(submitter));
+    mergeCommit.setAuthor(authorIdent);
     mergeCommit.setCommitter(myIdent);
     mergeCommit.setMessage(msgbuf.toString());
 

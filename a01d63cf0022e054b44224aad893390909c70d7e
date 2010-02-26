@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAt3///9U\u003d",
+        "filename": "Documentation/cmd-stream-events.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-26T20:37:25Z",
+      "side": 1,
+      "message": "Why are you tagging change bold here?  Are you trying to tag the structures as bold and the scalars not?  Its not clear that is what you are doing.\n\nI think I would rather drop the bold on the left side, it looks funny to put it that way.",
+      "revId": "a01d63cf0022e054b44224aad893390909c70d7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

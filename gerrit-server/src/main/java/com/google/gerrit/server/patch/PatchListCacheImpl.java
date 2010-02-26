@@ -229,28 +229,160 @@ public class PatchListCacheImpl implements PatchListCache {
         CharText b = new CharText(bContent, e.getBeginB(), e.getEndB());
 
         List<Edit> wordEdits = new MyersDiff(a, b).getEdits();
+
+        // Combine edits that are really close together. If they are
+        // just a few characters apart we tend to get better results
+        // by joining them together and taking the whole span.
+        //
         for (int j = 0; j < wordEdits.size() - 1;) {
           Edit c = wordEdits.get(j);
           Edit n = wordEdits.get(j + 1);
 
-          if (n.getBeginA() - c.getEndA() <= 2
-              || n.getBeginB() - c.getEndB() <= 2) {
-            // This edit is incredibly close to the start of the next.
-            // Combine them together.
-            //
-            wordEdits.set(j, new Edit(c.getBeginA(), n.getEndA(),
-                c.getBeginB(), n.getEndB()));
+          if (n.getBeginA() - c.getEndA() <= 5
+              || n.getBeginB() - c.getEndB() <= 5) {
+            int ab = c.getBeginA();
+            int ae = n.getEndA();
+
+            int bb = c.getBeginB();
+            int be = n.getEndB();
+
+            wordEdits.set(j, new Edit(ab, ae, bb, be));
             wordEdits.remove(j + 1);
             continue;
           }
 
           j++;
         }
+
+        // Apply some simple rules to fix up some of the edits. Our
+        // logic above, along with our per-character difference tends
+        // to produce some crazy stuff.
+        //
+        for (int j = 0; j < wordEdits.size(); j++) {
+          Edit c = wordEdits.get(j);
+          int ab = c.getBeginA();
+          int ae = c.getEndA();
+
+          int bb = c.getBeginB();
+          int be = c.getEndB();
+
+          // We sometimes collapsed an edit together in a strange way,
+          // such that the edges of each text is identical. Fix by
+          // by dropping out that incorrectly replaced region.
+          //
+          while (ab < ae && bb < be && a.equals(ab, b, bb)) {
+            ab++;
+            bb++;
+          }
+          while (ab < ae && bb < be && a.equals(ae - 1, b, be - 1)) {
+            ae--;
+            be--;
+          }
+
+          // The leading part of an edit and its trailing part in the same
+          // text might be identical. Slide down that edit and use the tail
+          // rather than the leading bit. If however the edit is only on a
+          // whitespace block try to shift it to the left margin, assuming
+          // that it is an indentation change.
+          //
+          boolean aShiftRight = true;
+          if (ab < ae && isOnlyWhitespace(a, ab, ae)) {
+            int lf = findLF(wordEdits, j, a, ab);
+            if (a.charAt(lf) == '\n') {
+              int nb = lf + 1;
+              int p = 0;
+              while (p < ae - ab) {
+                if (a.equals(ab + p, a, ab + p))
+                  p++;
+                else
+                  break;
+              }
+              if (p == ae - ab) {
+                ab = nb;
+                ae = nb + p;
+                aShiftRight = false;
+              }
+            }
+          }
+          if (aShiftRight) {
+            while (ab < ae && ae < a.size() && a.equals(ab, a, ae)) {
+              ab++;
+              ae++;
+              if (a.charAt(ae - 1) == '\n') {
+                break;
+              }
+            }
+          }
+
+          boolean bShiftRight = true;
+          if (bb < be && isOnlyWhitespace(b, bb, be)) {
+            int lf = findLF(wordEdits, j, b, bb);
+            if (b.charAt(lf) == '\n') {
+              int nb = lf + 1;
+              int p = 0;
+              while (p < be - bb) {
+                if (b.equals(bb + p, b, bb + p))
+                  p++;
+                else
+                  break;
+              }
+              if (p == be - bb) {
+                bb = nb;
+                be = nb + p;
+                bShiftRight = false;
+              }
+            }
+          }
+          if (bShiftRight) {
+            while (bb < be && be < b.size() && b.equals(bb, b, be)) {
+              bb++;
+              be++;
+              if (b.charAt(be - 1) == '\n') {
+                break;
+              }
+            }
+          }
+
+          // If most of a line was modified except the LF was common, make
+          // the LF part of the modification region. This is easier to read.
+          //
+          if (ab < ae //
+              && (ab == 0 || a.charAt(ab - 1) == '\n') //
+              && ae < a.size() && a.charAt(ae) == '\n') {
+            ae++;
+          }
+          if (bb < be //
+              && (bb == 0 || b.charAt(bb - 1) == '\n') //
+              && be < b.size() && b.charAt(be) == '\n') {
+            be++;
+          }
+
+          wordEdits.set(j, new Edit(ab, ae, bb, be));
+        }
+
         edits.set(i, new ReplaceEdit(e, wordEdits));
       }
     }
 
     return new PatchListEntry(fileHeader, edits);
+  }
+
+  private static int findLF(List<Edit> edits, int j, CharText t, int b) {
+    int lf = b;
+    int limit = 0 < j ? edits.get(j - 1).getEndB() : 0;
+    while (limit < lf && t.charAt(lf) != '\n') {
+      lf--;
+    }
+    return lf;
+  }
+
+  private static boolean isOnlyWhitespace(CharText t, final int b, final int e) {
+    for (int c = b; c < e; c++) {
+      if (!Character.isWhitespace(t.charAt(c))) {
+        return false;
+      }
+    }
+    return b < e;
   }
 
   private static Text read(Repository repo, String path, RevTree tree)

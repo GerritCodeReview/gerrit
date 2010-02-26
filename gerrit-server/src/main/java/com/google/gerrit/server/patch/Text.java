@@ -52,17 +52,17 @@ public class Text extends RawText {
   }
 
   public String getLine(final int i) {
-    return getLines(i, i + 1);
+    return getLines(i, i + 1, true);
   }
 
-  public String getLines(final int begin, final int end) {
+  public String getLines(final int begin, final int end, boolean dropLF) {
     if (begin == end) {
       return "";
     }
 
     final int s = getLineStart(begin);
     int e = getLineEnd(end - 1);
-    if (content[e - 1] == '\n') {
+    if (dropLF && content[e - 1] == '\n') {
       e--;
     }
     return decode(s, e);

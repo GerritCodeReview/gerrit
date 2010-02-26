@@ -34,9 +34,96 @@ EXAMPLES
 
 -----
   $ ssh -p 29418 review.example.com gerrit stream-events
-  {"type":"comment-added","project":"tools/gerrit", ...}
-  {"type":"comment-added","project":"tools/gerrit", ...}
+  {"type":"comment-added",change:{"project":"tools/gerrit", ...}, ...}
+  {"type":"comment-added",change:{"project":"tools/gerrit", ...}, ...}
 -----
+
+SCHEMA
+------
+The JSON messages consist of nested objects referencing the *change*,
+*patchset*, *account* involved, and other attributes as appropriate.
+The currently supported message types are *patchset-added*,
+*comment-added*, *change-merged*, and *change-abandoned*.
+
+Note that any field may be missing in the JSON messages, so consumers of
+this JSON stream should deal with that appropriately.
+
+Events
+~~~~~~
+Patchset Added
+^^^^^^^^^^^^^^
+type:: "patchset-added"
+
+change:: <<change,change attribute>>
+
+patchset:: <<patchset,patchset attribute>>
+
+Change Abandoned
+^^^^^^^^^^^^^^^^
+type:: "change-abandoned"
+
+change:: <<change,change attribute>>
+
+patchset:: <<patchset,patchset attribute>>
+
+abandoner:: <<account,account attribute>>
+
+Change Merged
+^^^^^^^^^^^^^
+type:: "change-merged"
+
+change:: <<change,change attribute>>
+
+patchset:: <<patchset,patchset attribute>>
+
+submitter:: <<account,account attribute>>
+
+Comment Added
+^^^^^^^^^^^^^
+type:: "comment-added"
+
+change:: <<change,change attribute>>
+
+patchset:: <<patchset,patchset attribute>>
+
+author:: <<account,account attribute>>
+
+comment:: Comment text author had written
+
+Attributes
+~~~~~~~~~~
+Attributes are part events to give context related to the event.
+
+[[change]]
+change:: The Gerrit change the event is related to
+
+  project;; Project path in Gerrit
+
+  branch;; Branch name within project
+
+  id;; Change identifier
+
+  number;; Change number (deprecated)
+
+  subject;; Description of change
+
+  owner;; Owner in account attribute
+
+  url;; Canonical URL to reach this change
+
+[[account]]
+account:: An account that is related to an event or attribute
+
+  name;; Account user's full name
+
+  email;; Account user's preferred email
+
+[[patchset]]
+patchset:: Refers to a specific patchset within a change
+
+  number;; The patchset number
+
+  revision;; Git commit-ish for this patchset
 
 SEE ALSO
 --------

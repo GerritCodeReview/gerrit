@@ -68,7 +68,7 @@ class UrlModule extends ServletModule {
 
     serveRegex( //
         "^/([1-9][0-9]*)/?$", //
-        "^/r/([0-9a-fA-F]{4," + RevId.LEN + "})/?$" //
+        "^/r/(I?[0-9a-fA-F]{4," + RevId.LEN + "})/?$" //
     ).with(changeQuery());
   }
 

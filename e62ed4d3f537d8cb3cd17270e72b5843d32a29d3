@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAt3///9s\u003d",
+        "filename": "Documentation/cmd-stream-events.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-02-26T19:55:00Z",
+      "side": 1,
+      "message": "I prefer the AsciiDoc style of:\n\n  Title\n  ~~~~~\n\nTo denote section headers.  Its a bit more verbose in the file since it requires two lines, but its what we use elsewhere.",
+      "revId": "e62ed4d3f537d8cb3cd17270e72b5843d32a29d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

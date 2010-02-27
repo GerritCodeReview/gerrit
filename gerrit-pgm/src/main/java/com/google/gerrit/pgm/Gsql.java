@@ -24,12 +24,20 @@ import com.google.gerrit.sshd.commands.QueryShell;
 import com.google.gerrit.sshd.commands.QueryShell.Factory;
 import com.google.inject.Injector;
 
+import org.kohsuke.args4j.Option;
+
 import java.io.IOException;
 
 /** Run Gerrit's SQL query tool */
 public class Gsql extends SiteProgram {
   private final LifecycleManager manager = new LifecycleManager();
   private Injector dbInjector;
+
+  @Option(name = "--format", usage = "Set output format")
+  private QueryShell.OutputFormat format = QueryShell.OutputFormat.PRETTY;
+
+  @Option(name = "-c", metaVar = "SQL QUERY", usage = "Query to execute")
+  private String query;
 
   @Override
   public int run() throws Exception {
@@ -47,7 +55,13 @@ public class Gsql extends SiteProgram {
         manager.stop();
       }
     });
-    shellFactory().create(System.in, System.out).run();
+    final QueryShell shell = shellFactory().create(System.in, System.out);
+    shell.setOutputFormat(format);
+    if (query != null) {
+      shell.execute(query);
+    } else {
+      shell.run();
+    }
     return 0;
   }
 

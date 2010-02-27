@@ -19,6 +19,7 @@ import com.google.gerrit.sshd.BaseCommand;
 import com.google.inject.Inject;
 
 import org.apache.sshd.server.Environment;
+import org.kohsuke.args4j.Option;
 
 /** Opens a query processor. */
 @AdminCommand
@@ -26,13 +27,25 @@ final class AdminQueryShell extends BaseCommand {
   @Inject
   private QueryShell.Factory factory;
 
+  @Option(name = "--format", usage = "Set output format")
+  private QueryShell.OutputFormat format = QueryShell.OutputFormat.PRETTY;
+
+  @Option(name = "-c", metaVar = "SQL QUERY", usage = "Query to execute")
+  private String query;
+
   @Override
   public void start(final Environment env) {
     startThread(new CommandRunnable() {
       @Override
       public void run() throws Exception {
         parseCommandLine();
-        factory.create(in, out).run();
+        final QueryShell shell = factory.create(in, out);
+        shell.setOutputFormat(format);
+        if (query != null) {
+          shell.execute(query);
+        } else {
+          shell.run();
+        }
       }
     });
   }

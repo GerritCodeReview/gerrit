@@ -16,6 +16,7 @@ package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.common.Version;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gson.JsonObject;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
 import com.google.gwtorm.jdbc.JdbcSchema;
@@ -47,9 +48,14 @@ public class QueryShell {
     QueryShell create(@Assisted InputStream in, @Assisted OutputStream out);
   }
 
+  public static enum OutputFormat {
+    PRETTY, JSON;
+  }
+
   private final BufferedReader in;
   private final PrintWriter out;
   private final SchemaFactory<ReviewDb> dbFactory;
+  private OutputFormat outputFormat = OutputFormat.PRETTY;
 
   private ReviewDb db;
   private Connection connection;
@@ -63,6 +69,10 @@ public class QueryShell {
     this.dbFactory = dbFactory;
     this.in = new BufferedReader(new InputStreamReader(in, "UTF-8"));
     this.out = new PrintWriter(new OutputStreamWriter(out, "UTF-8"));
+  }
+
+  public void setOutputFormat(OutputFormat fmt) {
+    outputFormat = fmt;
   }
 
   public void run() {
@@ -94,11 +104,41 @@ public class QueryShell {
     }
   }
 
+  public void execute(String query) {
+    try {
+      db = dbFactory.open();
+      try {
+        connection = ((JdbcSchema) db).getConnection();
+        connection.setAutoCommit(true);
+
+        statement = connection.createStatement();
+        try {
+          executeStatement(query);
+        } finally {
+          statement.close();
+          statement = null;
+        }
+      } finally {
+        db.close();
+        db = null;
+      }
+    } catch (OrmException err) {
+      out.println("fatal: Cannot open connection: " + err.getMessage());
+
+    } catch (SQLException err) {
+      out.println("fatal: Cannot open connection: " + err.getMessage());
+    } finally {
+      out.flush();
+    }
+  }
+
   private void readEvalPrintLoop() {
     final StringBuilder buffer = new StringBuilder();
     boolean executed = false;
     for (;;) {
-      print(buffer.length() == 0 || executed ? "gerrit> " : "     -> ");
+      if (outputFormat == OutputFormat.PRETTY) {
+        print(buffer.length() == 0 || executed ? "gerrit> " : "     -> ");
+      }
       String line = readLine();
       if (line == null) {
         return;
@@ -112,7 +152,9 @@ public class QueryShell {
           showHelp();
 
         } else if (line.equals("q")) {
-          println("Bye");
+          if (outputFormat == OutputFormat.PRETTY) {
+            println("Bye");
+          }
           return;
 
         } else if (line.equals("r")) {
@@ -135,9 +177,22 @@ public class QueryShell {
           showTable(line.substring(2).trim());
 
         } else {
-          println("ERROR: '\\" + line + "' not supported");
-          println("");
-          showHelp();
+          final String msg = "'\\" + line + "' not supported";
+          switch (outputFormat) {
+            case JSON: {
+              final JsonObject err = new JsonObject();
+              err.addProperty("type", "error");
+              err.addProperty("message", msg);
+              println(err.toString());
+              break;
+            }
+            case PRETTY:
+            default:
+              println("ERROR: " + msg);
+              println("");
+              showHelp();
+              break;
+          }
         }
         continue;
       }
@@ -171,7 +226,9 @@ public class QueryShell {
       final String[] types = {"TABLE", "VIEW"};
       ResultSet rs = meta.getTables(null, null, null, types);
       try {
-        println("                     List of relations");
+        if (outputFormat == OutputFormat.PRETTY) {
+          println("                     List of relations");
+        }
         showResultSet(rs, false, //
             Identity.create(rs, "TABLE_SCHEM"), //
             Identity.create(rs, "TABLE_NAME"), //
@@ -208,7 +265,9 @@ public class QueryShell {
           throw new SQLException("Table " + tableName + " not found");
         }
 
-        println("                     Table " + tableName);
+        if (outputFormat == OutputFormat.PRETTY) {
+          println("                     Table " + tableName);
+        }
         showResultSet(rs, true, //
             Identity.create(rs, "COLUMN_NAME"), //
             new Function("TYPE") {
@@ -275,10 +334,12 @@ public class QueryShell {
           }
         }
 
-        println("");
-        println("Indexes on " + tableName + ":");
-        for (IndexInfo def : indexes.values()) {
-          println("  " + def);
+        if (outputFormat == OutputFormat.PRETTY) {
+          println("");
+          println("Indexes on " + tableName + ":");
+          for (IndexInfo def : indexes.values()) {
+            println("  " + def);
+          }
         }
       } finally {
         rs.close();
@@ -307,9 +368,22 @@ public class QueryShell {
         try {
           final int rowCount = showResultSet(rs, false);
           final long ms = System.currentTimeMillis() - start;
-          println("(" + rowCount + (rowCount == 1 ? " row" : " rows") //
-              + "; " + ms + " ms)");
-          println("");
+          switch (outputFormat) {
+            case JSON: {
+              final JsonObject tail = new JsonObject();
+              tail.addProperty("type", "query-stats");
+              tail.addProperty("rowCount", rowCount);
+              tail.addProperty("runTimeMilliseconds", ms);
+              println(tail.toString());
+              break;
+            }
+
+            case PRETTY:
+            default:
+              println("(" + rowCount + (rowCount == 1 ? " row" : " rows") //
+                  + "; " + ms + " ms)");
+              break;
+          }
         } finally {
           rs.close();
         }
@@ -317,7 +391,21 @@ public class QueryShell {
       } else {
         final int updateCount = statement.getUpdateCount();
         final long ms = System.currentTimeMillis() - start;
-        println("UPDATE " + updateCount + "; " + ms + " ms");
+        switch (outputFormat) {
+          case JSON: {
+            final JsonObject tail = new JsonObject();
+            tail.addProperty("type", "update-stats");
+            tail.addProperty("rowCount", updateCount);
+            tail.addProperty("runTimeMilliseconds", ms);
+            println(tail.toString());
+            break;
+          }
+
+          case PRETTY:
+          default:
+            println("UPDATE " + updateCount + "; " + ms + " ms");
+            break;
+        }
       }
     } catch (SQLException e) {
       error(e);
@@ -325,6 +413,55 @@ public class QueryShell {
   }
 
   private int showResultSet(final ResultSet rs, boolean alreadyOnRow,
+      Function... show) throws SQLException {
+    switch (outputFormat) {
+      case JSON:
+        return showResultSetJson(rs, alreadyOnRow, show);
+      case PRETTY:
+      default:
+        return showResultSetPretty(rs, alreadyOnRow, show);
+    }
+  }
+
+  private int showResultSetJson(final ResultSet rs, boolean alreadyOnRow,
+      Function... show) throws SQLException {
+    final ResultSetMetaData meta = rs.getMetaData();
+    final Function[] columnMap;
+    if (show != null && 0 < show.length) {
+      columnMap = show;
+
+    } else {
+      final int colCnt = meta.getColumnCount();
+      columnMap = new Function[colCnt];
+      for (int colId = 0; colId < colCnt; colId++) {
+        final int p = colId + 1;
+        final String name = meta.getColumnLabel(p);
+        columnMap[colId] = new Identity(p, name);
+      }
+    }
+
+    int rowCnt = 0;
+    final int colCnt = columnMap.length;
+    while (alreadyOnRow || rs.next()) {
+      final JsonObject row = new JsonObject();
+      final JsonObject cols = new JsonObject();
+      for (int c = 0; c < colCnt; c++) {
+        String v = columnMap[c].apply(rs);
+        if (v == null) {
+          continue;
+        }
+        cols.addProperty(columnMap[c].name.toLowerCase(), v);
+      }
+      row.addProperty("type", "row");
+      row.add("columns", cols);
+      println(row.toString());
+      alreadyOnRow = false;
+      rowCnt++;
+    }
+    return rowCnt;
+  }
+
+  private int showResultSetPretty(final ResultSet rs, boolean alreadyOnRow,
       Function... show) throws SQLException {
     final ResultSetMetaData meta = rs.getMetaData();
 
@@ -427,11 +564,37 @@ public class QueryShell {
   }
 
   private void warning(final String msg) {
-    println("WARNING: " + msg);
+    switch (outputFormat) {
+      case JSON: {
+        final JsonObject obj = new JsonObject();
+        obj.addProperty("type", "warning");
+        obj.addProperty("message", msg);
+        println(obj.toString());
+        break;
+      }
+
+      case PRETTY:
+      default:
+        println("WARNING: " + msg);
+        break;
+    }
   }
 
   private void error(final SQLException err) {
-    println("ERROR: " + err.getMessage());
+    switch (outputFormat) {
+      case JSON: {
+        final JsonObject obj = new JsonObject();
+        obj.addProperty("type", "error");
+        obj.addProperty("message", err.getMessage());
+        println(obj.toString());
+        break;
+      }
+
+      case PRETTY:
+      default:
+        println("ERROR: " + err.getMessage());
+        break;
+    }
   }
 
   private void print(String s) {
@@ -454,19 +617,21 @@ public class QueryShell {
   }
 
   private void showBanner() {
-    println("Welcome to Gerrit Code Review " + Version.getVersion());
-    try {
-      print("(");
-      print(connection.getMetaData().getDatabaseProductName());
-      print(" ");
-      print(connection.getMetaData().getDatabaseProductVersion());
-      println(")");
-    } catch (SQLException err) {
-      error(err);
+    if (outputFormat == OutputFormat.PRETTY) {
+      println("Welcome to Gerrit Code Review " + Version.getVersion());
+      try {
+        print("(");
+        print(connection.getMetaData().getDatabaseProductName());
+        print(" ");
+        print(connection.getMetaData().getDatabaseProductVersion());
+        println(")");
+      } catch (SQLException err) {
+        error(err);
+      }
+      println("");
+      println("Type '\\h' for help.  Type '\\r' to clear the buffer.");
+      println("");
     }
-    println("");
-    println("Type '\\h' for help.  Type '\\r' to clear the buffer.");
-    println("");
   }
 
   private void showHelp() {

@@ -248,7 +248,9 @@ public class ProjectBranchesPanel extends Composite {
       fmt.addStyleName(0, 1, Gerrit.RESOURCES.css().iconHeader());
       fmt.addStyleName(0, 2, Gerrit.RESOURCES.css().dataHeader());
       fmt.addStyleName(0, 3, Gerrit.RESOURCES.css().dataHeader());
-      fmt.addStyleName(0, 4, Gerrit.RESOURCES.css().dataHeader());
+      if (Gerrit.getConfig().getGitwebLink() != null) {
+        fmt.addStyleName(0, 4, Gerrit.RESOURCES.css().dataHeader());
+      }
     }
 
     void deleteChecked() {
@@ -299,6 +301,8 @@ public class ProjectBranchesPanel extends Composite {
 
       if (k.getRevision() != null) {
         table.setText(row, 3, k.getRevision().get());
+      } else {
+        table.setText(row, 3, "");
       }
 
       if (c != null) {
@@ -310,7 +314,9 @@ public class ProjectBranchesPanel extends Composite {
       fmt.addStyleName(row, 1, Gerrit.RESOURCES.css().iconCell());
       fmt.addStyleName(row, 2, Gerrit.RESOURCES.css().dataCell());
       fmt.addStyleName(row, 3, Gerrit.RESOURCES.css().dataCell());
-      fmt.addStyleName(row, 4, Gerrit.RESOURCES.css().dataCell());
+      if (c != null) {
+        fmt.addStyleName(row, 4, Gerrit.RESOURCES.css().dataCell());
+      }
 
       setRowItem(row, k);
     }

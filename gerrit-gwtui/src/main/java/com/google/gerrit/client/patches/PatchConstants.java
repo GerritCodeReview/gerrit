@@ -30,8 +30,6 @@ public interface PatchConstants extends Constants {
   String patchHeaderOld();
   String patchHeaderNew();
 
-  String showFullFiles();
-  String ignoreWhitespace();
   String patchHistoryTitle();
 
   String upToChange();
@@ -50,7 +48,6 @@ public interface PatchConstants extends Constants {
   String commentDiscard();
   String commentCancelEdit();
 
-  String whitespaceIgnoreLabel();
   String whitespaceIGNORE_NONE();
   String whitespaceIGNORE_SPACE_AT_EOL();
   String whitespaceIGNORE_SPACE_CHANGE();

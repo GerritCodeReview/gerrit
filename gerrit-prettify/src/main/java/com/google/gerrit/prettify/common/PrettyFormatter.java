@@ -303,7 +303,18 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
   }
 
   private String toHTML(SparseFileContent src) {
-    SafeHtml html = colorLineEdits(src);
+    SafeHtml html;
+
+    if (settings.isIntralineDifference()) {
+      html = colorLineEdits(src);
+    } else {
+      SafeHtmlBuilder b = new SafeHtmlBuilder();
+      for (int index = src.first(); index < src.size(); index = src.next(index)) {
+        b.append(src.get(index));
+        b.append('\n');
+      }
+      html = b;
+    }
 
     if (settings.isShowWhiteSpaceErrors()) {
       // We need to do whitespace errors before showing tabs, because

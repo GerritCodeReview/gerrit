@@ -20,7 +20,6 @@ import com.google.gerrit.common.data.PatchScriptSettings;
 import com.google.gerrit.common.data.PatchScriptSettings.Whitespace;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.Account;
-import com.google.gerrit.reviewdb.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.Patch;
 import com.google.gerrit.reviewdb.PatchLineComment;
@@ -171,18 +170,8 @@ class PatchScriptFactory extends Handler<PatchScript> {
     return patchListCache.get(key);
   }
 
-  private PatchScriptBuilder newBuilder(final PatchList list, Repository git)
-      throws NoSuchChangeException {
+  private PatchScriptBuilder newBuilder(final PatchList list, Repository git) {
     final PatchScriptSettings s = new PatchScriptSettings(settings);
-
-    final int ctx = settings.getContext();
-    if (ctx == AccountGeneralPreferences.WHOLE_FILE_CONTEXT)
-      s.setContext(PatchScriptBuilder.MAX_CONTEXT);
-    else if (0 <= ctx && ctx <= PatchScriptBuilder.MAX_CONTEXT)
-      s.setContext(ctx);
-    else
-      throw new NoSuchChangeException(changeId);
-
     final PatchScriptBuilder b = builderFactory.get();
     b.setRepository(git);
     b.setChange(change);

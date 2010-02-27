@@ -14,7 +14,6 @@
 
 package com.google.gerrit.client.patches;
 
-import static com.google.gerrit.reviewdb.AccountGeneralPreferences.DEFAULT_CONTEXT;
 import static com.google.gerrit.reviewdb.AccountGeneralPreferences.WHOLE_FILE_CONTEXT;
 
 import com.google.gerrit.client.Dispatcher;
@@ -32,15 +31,11 @@ import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.data.PatchScriptSettings;
 import com.google.gerrit.common.data.PatchSetDetail;
-import com.google.gerrit.common.data.PatchScriptSettings.Whitespace;
 import com.google.gerrit.prettify.client.ClientSideFormatter;
 import com.google.gerrit.prettify.common.PrettyFactory;
-import com.google.gerrit.reviewdb.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.Patch;
 import com.google.gerrit.reviewdb.PatchSet;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
@@ -52,13 +47,11 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwtexpui.globalkey.client.GlobalKey;
@@ -91,7 +84,9 @@ public abstract class PatchScreen extends Screen {
     public Unified(final Patch.Key id, final int patchIndex,
         final PatchTable patchTable) {
       super(id, patchIndex, patchTable);
-      scriptSettings.getPrettySettings().setSyntaxHighlighting(false);
+      final PatchScriptSettings s = settingsPanel.getValue();
+      s.getPrettySettings().setSyntaxHighlighting(false);
+      settingsPanel.setValue(s);
     }
 
     @Override
@@ -131,11 +126,10 @@ public abstract class PatchScreen extends Screen {
   protected PatchTable fileList;
   protected PatchSet.Id idSideA;
   protected PatchSet.Id idSideB;
-  protected final PatchScriptSettings scriptSettings;
+  protected PatchScriptSettingsPanel settingsPanel;
 
   private DisclosurePanel historyPanel;
   private HistoryTable historyTable;
-  private CheckBox reviewedFlag;
   private FlowPanel contentPanel;
   private Label noDifference;
   private AbstractPatchContentTable contentTable;
@@ -184,23 +178,61 @@ public abstract class PatchScreen extends Screen {
     idSideA = diffSideA; // null here means we're diff'ing from the Base
     idSideB = diffSideB != null ? diffSideB : id.getParentKey();
     this.patchIndex = patchIndex;
-    scriptSettings = new PatchScriptSettings();
 
-    initContextLines();
+    settingsPanel = new PatchScriptSettingsPanel();
+    settingsPanel
+        .addValueChangeHandler(new ValueChangeHandler<PatchScriptSettings>() {
+          @Override
+          public void onValueChange(ValueChangeEvent<PatchScriptSettings> event) {
+            update(event.getValue());
+          }
+        });
+    settingsPanel.getReviewedCheckBox().addValueChangeHandler(
+        new ValueChangeHandler<Boolean>() {
+          @Override
+          public void onValueChange(ValueChangeEvent<Boolean> event) {
+            setReviewedByCurrentUser(event.getValue());
+          }
+        });
   }
 
-  /**
-   * Initialize the context lines to the user's preference, or to the default
-   * number if the user is not logged in.
-   */
-  private void initContextLines() {
-    if (Gerrit.isSignedIn()) {
-      final AccountGeneralPreferences p =
-          Gerrit.getUserAccount().getGeneralPreferences();
-      scriptSettings.setContext(p.getDefaultContext());
+  private void update(PatchScriptSettings s) {
+    if (lastScript != null && canReuse(s, lastScript)) {
+      lastScript.setSettings(s);
+      RpcStatus.INSTANCE.onRpcStart(null);
+      settingsPanel.setEnabled(false);
+      DeferredCommand.addCommand(new Command() {
+        @Override
+        public void execute() {
+          try {
+            onResult(lastScript, false /* not the first time */);
+          } finally {
+            RpcStatus.INSTANCE.onRpcComplete(null);
+          }
+        }
+      });
     } else {
-      scriptSettings.setContext(DEFAULT_CONTEXT);
+      refresh(false);
     }
+  }
+
+  private boolean canReuse(PatchScriptSettings s, PatchScript last) {
+    if (last.getSettings().getWhitespace() != s.getWhitespace()) {
+      // Whitespace ignore setting requires server computation.
+      return false;
+    }
+
+    final int ctx = s.getContext();
+    if (ctx == WHOLE_FILE_CONTEXT && !last.getA().isWholeFile()) {
+      // We don't have the entire file here, so we can't render it.
+      return false;
+    }
+
+    if (last.getSettings().getContext() < ctx && !last.getA().isWholeFile()) {
+      // We don't have sufficient context.
+      return false;
+    }
+    return true;
   }
 
   @Override
@@ -222,7 +254,7 @@ public abstract class PatchScreen extends Screen {
     historyPanel.addOpenHandler(cacheOpenState);
     historyPanel.addCloseHandler(cacheCloseState);
     add(historyPanel);
-    initDisplayControls();
+    add(settingsPanel);
 
     noDifference = new Label(PatchUtil.C.noDifference());
     noDifference.setStyleName(Gerrit.RESOURCES.css().patchNoDifference());
@@ -262,81 +294,7 @@ public abstract class PatchScreen extends Screen {
     });
   }
 
-  private void initDisplayControls() {
-    final Grid displayControls = new Grid(0, 5);
-    displayControls.setStyleName(Gerrit.RESOURCES.css()
-        .patchScreenDisplayControls());
-    add(displayControls);
-
-    createIgnoreWhitespace(displayControls, 0, 0);
-    createContext(displayControls, 0, 2);
-  }
-
-  /**
-   * Add the contextual widgets for this patch: "Show full files" and
-   * "Keep unreviewed"
-   */
-  private void createContext(final Grid parent, final int row, final int col) {
-    parent.resizeRows(row + 1);
-
-    // Show full files
-    final CheckBox cb = new CheckBox(PatchUtil.C.showFullFiles());
-    cb.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
-      @Override
-      public void onValueChange(ValueChangeEvent<Boolean> event) {
-        final PatchScript last = lastScript;
-        if (event.getValue()) {
-          scriptSettings.setContext(WHOLE_FILE_CONTEXT);
-          if (last != null && last.getA().isWholeFile()) {
-            final int max = Math.max(last.getA().size(), last.getB().size());
-            last.getSettings().setContext(max);
-            updateNoRpc(last);
-            return;
-          }
-        } else {
-          // Restore the context lines to the user's preference
-          initContextLines();
-          final int n = scriptSettings.getContext();
-          if (last != null && n <= last.getSettings().getContext()) {
-            last.getSettings().setContext(n);
-            updateNoRpc(last);
-            return;
-          }
-        }
-        refresh(false /* not the first time */);
-      }
-
-      private void updateNoRpc(final PatchScript last) {
-        RpcStatus.INSTANCE.onRpcStart(null);
-        DeferredCommand.addCommand(new Command() {
-          @Override
-          public void execute() {
-            try {
-              onResult(last, false /* not the first time */);
-            } finally {
-              RpcStatus.INSTANCE.onRpcComplete(null);
-            }
-          }
-        });
-      }
-    });
-    parent.setWidget(row, col + 1, cb);
-
-    // "Reviewed" check box
-    if (Gerrit.isSignedIn()) {
-      reviewedFlag = new CheckBox(PatchUtil.C.reviewed());
-      reviewedFlag.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
-        @Override
-        public void onValueChange(ValueChangeEvent<Boolean> event) {
-          setReviewedByCurrentUser(event.getValue());
-        }
-      });
-      parent.setWidget(row, col + 2, reviewedFlag);
-    }
-
-  }
-
-  private void setReviewedByCurrentUser(boolean reviewed) {
+  void setReviewedByCurrentUser(boolean reviewed) {
     if (fileList != null) {
       fileList.updateReviewedStatus(patchKey, reviewed);
     }
@@ -353,32 +311,6 @@ public abstract class PatchScreen extends Screen {
             // nop
           }
         });
-  }
-
-  private void createIgnoreWhitespace(final Grid parent, final int row,
-      final int col) {
-    parent.resizeRows(row + 1);
-    final ListBox ws = new ListBox();
-    ws.addItem(PatchUtil.C.whitespaceIGNORE_NONE(), Whitespace.IGNORE_NONE
-        .name());
-    ws.addItem(PatchUtil.C.whitespaceIGNORE_SPACE_AT_EOL(),
-        Whitespace.IGNORE_SPACE_AT_EOL.name());
-    ws.addItem(PatchUtil.C.whitespaceIGNORE_SPACE_CHANGE(),
-        Whitespace.IGNORE_SPACE_CHANGE.name());
-    ws.addItem(PatchUtil.C.whitespaceIGNORE_ALL_SPACE(),
-        Whitespace.IGNORE_ALL_SPACE.name());
-    ws.addChangeHandler(new ChangeHandler() {
-      @Override
-      public void onChange(ChangeEvent event) {
-        final int sel = ws.getSelectedIndex();
-        if (0 <= sel) {
-          scriptSettings.setWhitespace(Whitespace.valueOf(ws.getValue(sel)));
-          refresh(false /* not the first time */);
-        }
-      }
-    });
-    parent.setText(row, col, PatchUtil.C.whitespaceIgnoreLabel());
-    parent.setWidget(row, col + 1, ws);
   }
 
   private Widget createNextPrevLinks() {
@@ -436,8 +368,9 @@ public abstract class PatchScreen extends Screen {
   protected void refresh(final boolean isFirst) {
     final int rpcseq = ++rpcSequence;
     lastScript = null;
-    PatchUtil.DETAIL_SVC.patchScript(patchKey, idSideA, idSideB,
-        scriptSettings, new ScreenLoadCallback<PatchScript>(this) {
+    settingsPanel.setEnabled(false);
+    PatchUtil.DETAIL_SVC.patchScript(patchKey, idSideA, idSideB, //
+        settingsPanel.getValue(), new ScreenLoadCallback<PatchScript>(this) {
           @Override
           protected void preDisplay(final PatchScript result) {
             if (rpcSequence == rpcseq) {
@@ -448,6 +381,7 @@ public abstract class PatchScreen extends Screen {
           @Override
           public void onFailure(final Throwable caught) {
             if (rpcSequence == rpcseq) {
+              settingsPanel.setEnabled(true);
               super.onFailure(caught);
             }
           }
@@ -495,11 +429,12 @@ public abstract class PatchScreen extends Screen {
       contentTable.finishDisplay();
     }
     showPatch(hasDifferences);
+    settingsPanel.setEnabled(true);
     lastScript = script;
 
     // Mark this file reviewed as soon we display the diff screen
     if (Gerrit.isSignedIn() && isFirst) {
-      reviewedFlag.setValue(true);
+      settingsPanel.getReviewedCheckBox().setValue(true);
       setReviewedByCurrentUser(true /* reviewed */);
     }
   }

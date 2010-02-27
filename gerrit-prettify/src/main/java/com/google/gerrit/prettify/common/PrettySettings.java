@@ -22,6 +22,7 @@ public class PrettySettings {
   protected int tabSize;
   protected boolean showTabs;
   protected boolean syntaxHighlighting;
+  protected boolean intralineDifference;
 
   public PrettySettings() {
     showWhiteSpaceErrors = true;
@@ -29,6 +30,7 @@ public class PrettySettings {
     tabSize = 2;
     showTabs = true;
     syntaxHighlighting = true;
+    intralineDifference = true;
   }
 
   public PrettySettings(PrettySettings pretty) {
@@ -38,6 +40,7 @@ public class PrettySettings {
     tabSize = pretty.tabSize;
     showTabs = pretty.showTabs;
     syntaxHighlighting = pretty.syntaxHighlighting;
+    intralineDifference = pretty.intralineDifference;
   }
 
   public String getFilename() {
@@ -91,5 +94,13 @@ public class PrettySettings {
 
   public void setSyntaxHighlighting(final boolean on) {
     syntaxHighlighting = on;
+  }
+
+  public boolean isIntralineDifference() {
+    return intralineDifference;
+  }
+
+  public void setIntralineDifference(final boolean on) {
+    intralineDifference = on;
   }
 }

@@ -28,6 +28,7 @@ import com.google.gerrit.reviewdb.Patch.ChangeType;
 import org.eclipse.jgit.diff.Edit;
 
 import java.util.List;
+import static com.google.gerrit.reviewdb.AccountGeneralPreferences.*;
 
 public class PatchScript {
   public static enum DisplayMethod {
@@ -111,6 +112,10 @@ public class PatchScript {
     return settings;
   }
 
+  public void setSettings(PatchScriptSettings s) {
+    settings = s;
+  }
+
   public boolean isIgnoreWhitespace() {
     return settings.getWhitespace() != Whitespace.IGNORE_NONE;
   }
@@ -158,7 +163,10 @@ public class PatchScript {
   }
 
   public Iterable<EditList.Hunk> getHunks() {
-    final int ctx = settings.getContext();
+    int ctx = settings.getContext();
+    if (ctx == WHOLE_FILE_CONTEXT) {
+      ctx = Math.max(a.size(), b.size());
+    }
     return new EditList(edits, ctx, a.size(), b.size()).getHunks();
   }
 }

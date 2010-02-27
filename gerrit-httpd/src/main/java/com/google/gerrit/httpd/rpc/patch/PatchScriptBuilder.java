@@ -21,6 +21,7 @@ import com.google.gerrit.common.data.PatchScript.DisplayMethod;
 import com.google.gerrit.common.data.PatchScriptSettings.Whitespace;
 import com.google.gerrit.prettify.common.EditList;
 import com.google.gerrit.prettify.common.SparseFileContent;
+import com.google.gerrit.reviewdb.AccountGeneralPreferences;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.Patch;
 import com.google.gerrit.reviewdb.PatchLineComment;
@@ -93,7 +94,13 @@ class PatchScriptBuilder {
 
   void setSettings(final PatchScriptSettings s) {
     settings = s;
+
     context = settings.getContext();
+    if (context == AccountGeneralPreferences.WHOLE_FILE_CONTEXT) {
+      context = MAX_CONTEXT;
+    } else if (context > MAX_CONTEXT) {
+      context = MAX_CONTEXT;
+    }
   }
 
   void setTrees(final ObjectId a, final ObjectId b) {

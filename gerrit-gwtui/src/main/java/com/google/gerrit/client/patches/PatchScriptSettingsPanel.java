@@ -181,7 +181,7 @@ public class PatchScriptSettingsPanel extends Composite implements
     p.setSyntaxHighlighting(syntaxHighlighting.getValue());
     p.setIntralineDifference(intralineDifference.getValue());
     p.setShowWhiteSpaceErrors(whitespaceErrors.getValue());
-    p.setShowTabs(p.isShowTabs());
+    p.setShowTabs(showTabs.getValue());
 
     value = s;
     fireEvent(new ValueChangeEvent<PatchScriptSettings>(s) {});

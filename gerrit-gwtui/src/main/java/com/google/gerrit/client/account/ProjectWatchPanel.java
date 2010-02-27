@@ -28,6 +28,9 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -74,6 +77,14 @@ class ProjectWatchPanel extends Composite {
           if ("".equals(box.getText())) {
             box.setText(Util.C.defaultProjectName());
             box.addStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
+          }
+        }
+      });
+      box.addKeyPressHandler(new KeyPressHandler() {
+        @Override
+        public void onKeyPress(KeyPressEvent event) {
+          if (event.getCharCode() == KeyCodes.KEY_ENTER) {
+            doAddNew();
           }
         }
       });

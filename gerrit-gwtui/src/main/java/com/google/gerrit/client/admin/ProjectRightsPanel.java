@@ -35,6 +35,9 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
@@ -163,12 +166,28 @@ public class ProjectRightsPanel extends Composite {
         }
       }
     });
+    nameTxtBox.addKeyPressHandler(new KeyPressHandler() {
+      @Override
+      public void onKeyPress(KeyPressEvent event) {
+        if (event.getCharCode() == KeyCodes.KEY_ENTER) {
+          doAddNewRight();
+        }
+      }
+    });
     addGrid.setText(1, 0, Util.C.columnGroupName() + ":");
     addGrid.setWidget(1, 1, nameTxt);
 
     referenceTxt = new NpTextBox();
     referenceTxt.setVisibleLength(50);
     referenceTxt.setText("");
+    referenceTxt.addKeyPressHandler(new KeyPressHandler() {
+      @Override
+      public void onKeyPress(KeyPressEvent event) {
+        if (event.getCharCode() == KeyCodes.KEY_ENTER) {
+          doAddNewRight();
+        }
+      }
+    });
 
     addGrid.setText(2, 0, Util.C.columnRefName() + ":");
     addGrid.setWidget(2, 1, referenceTxt);

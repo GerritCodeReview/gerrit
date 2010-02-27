@@ -18,9 +18,13 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.admin.Util;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -57,6 +61,14 @@ public class AddMemberBox extends Composite {
         if ("".equals(nameTxtBox.getText())) {
           nameTxtBox.setText(Util.C.defaultAccountName());
           nameTxtBox.addStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
+        }
+      }
+    });
+    nameTxtBox.addKeyPressHandler(new KeyPressHandler() {
+      @Override
+      public void onKeyPress(KeyPressEvent event) {
+        if (event.getCharCode() == KeyCodes.KEY_ENTER) {
+          addMember.fireEvent(new ClickEvent() {});
         }
       }
     });

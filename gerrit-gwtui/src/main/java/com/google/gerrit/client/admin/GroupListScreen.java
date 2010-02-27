@@ -24,6 +24,9 @@ import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -64,6 +67,14 @@ public class GroupListScreen extends AccountScreen {
 
     addTxt = new NpTextBox();
     addTxt.setVisibleLength(60);
+    addTxt.addKeyPressHandler(new KeyPressHandler() {
+      @Override
+      public void onKeyPress(KeyPressEvent event) {
+        if (event.getCharCode() == KeyCodes.KEY_ENTER) {
+          doCreateGroup();
+        }
+      }
+    });
     fp.add(addTxt);
 
     addNew = new Button(Util.C.buttonCreateGroup());

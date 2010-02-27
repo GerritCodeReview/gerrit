@@ -28,6 +28,11 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -109,6 +114,14 @@ public class ProjectBranchesPanel extends Composite {
         }
       }
     });
+    nameTxtBox.addKeyPressHandler(new KeyPressHandler() {
+      @Override
+      public void onKeyPress(KeyPressEvent event) {
+        if (event.getCharCode() == KeyCodes.KEY_ENTER) {
+          doAddNewBranch();
+        }
+      }
+    });
     addGrid.setText(0, 0, Util.C.columnBranchName() + ":");
     addGrid.setWidget(0, 1, nameTxtBox);
 
@@ -131,6 +144,14 @@ public class ProjectBranchesPanel extends Composite {
         if ("".equals(irevTxtBox.getText())) {
           irevTxtBox.setText(Util.C.defaultRevisionSpec());
           irevTxtBox.addStyleName(Gerrit.RESOURCES.css().inputFieldTypeHint());
+        }
+      }
+    });
+    irevTxtBox.addKeyPressHandler(new KeyPressHandler() {
+      @Override
+      public void onKeyPress(KeyPressEvent event) {
+        if (event.getCharCode() == KeyCodes.KEY_ENTER) {
+          doAddNewBranch();
         }
       }
     });
@@ -165,11 +186,20 @@ public class ProjectBranchesPanel extends Composite {
   private void doAddNewBranch() {
     String branchName = nameTxtBox.getText();
     if ("".equals(branchName) || Util.C.defaultBranchName().equals(branchName)) {
+      nameTxtBox.setFocus(true);
       return;
     }
 
     String rev = irevTxtBox.getText();
     if ("".equals(rev) || Util.C.defaultRevisionSpec().equals(rev)) {
+      irevTxtBox.setText("HEAD");
+      DeferredCommand.addCommand(new Command() {
+        @Override
+        public void execute() {
+          irevTxtBox.selectAll();
+          irevTxtBox.setFocus(true);
+        }
+      });
       return;
     }
 

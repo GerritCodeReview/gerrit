@@ -60,6 +60,14 @@ public class UsernamePanel extends Composite {
     userNameTxt.addStyleName(Gerrit.RESOURCES.css().sshPanelUsername());
     userNameTxt.setVisibleLength(16);
     userNameTxt.setReadOnly(!canEditUserName());
+    userNameTxt.addKeyPressHandler(new KeyPressHandler() {
+      @Override
+      public void onKeyPress(KeyPressEvent event) {
+        if (event.getCharCode() == KeyCodes.KEY_ENTER) {
+          doChangeUserName();
+        }
+      }
+    });
 
     changeUserName = new Button(Util.C.buttonChangeUserName());
     changeUserName.setVisible(canEditUserName());

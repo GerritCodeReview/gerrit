@@ -46,6 +46,19 @@ red or green background color.  The highlighting algorithm is still
 crude and could benefit from more fine-tuning, as its largely driven
 by a simple Myers O(ND) character difference over the replaced lines.
 
+* Improve side-by-side viewer look-and-feel
++
+The look-and-feel of the side-by-side viewer (and also of the unified
+viewer) has been significantly improved in this release.  Coloring of
+regions is more consistently applied, reducing reader distraction.
+Comment boxes use a cleaner display, and take up less space per line.
+
+* Adjustable patch display settings
++
+Users can now set the tab size or number of columns when displaying a
+patch.  Toggles are also available to enable or disable syntax
+coloring, intraline differences, whitespace errors, and visible tabs.
+
 * issue 408 Show summary of code review, verified on all open changes
 +
 The open changes views now show the status summary columns, just like
@@ -110,6 +123,19 @@ f. Korean (ISO-2022-KR, EUC-KR)
 g. Unicode (UTF-8, UTF-16BE / UTF-16LE, UTF-32BE / UTF-32LE / X-ISO-10646-UCS-4-34121 / X-ISO-10646-UCS-4-21431)
 h. WINDOWS-1252
 
+* Improve performance of 'Show Full Files'
++
+The 'Show Full File' checkbox in the file viewers no longer requires
+an RPC if the file is sufficiently small enough and syntax coloring
+was enabled.  The browser can update the UI using the cached data it
+already has on hand.
+
+* Show old file paths on renamed/copied files
++
+If a file was renamed or copied, the side-by-side viewer now shows the
+old file path in the column header instead of the generic header text
+'Old Version'.
+
 Permissions
 ~~~~~~~~~~~
 
@@ -157,6 +183,12 @@ The scp filesystem holding client side tools and hooks is now
 avaliable over `http://review.example.com/tools/'$name'`.  User
 documentation was updated with example URLs.
 
+* issue 470 Allow /r/I... URLs
++
+Change-Ids can now be searched for by accessing the URL
+`http://example.com/r/'Ichangeid'`, similar to how commits
+can be searched by `http://example.com/r/'commitsha1'`.
+
 Server Administration
 ~~~~~~~~~~~~~~~~~~~~~
 
@@ -166,6 +198,13 @@ Site administrator managed hook scripts can now be invoked at various
 points in processing.  Currently these scripts are informational only
 and cannot influence the outcome of an event.  For more details see
 link:http://gerrit.googlecode.com/svn/documentation/2.1.2/config-hooks.html[hooks].
+
+* Add stream-events command
++
+The new 'gerrit stream-events' command can be used over SSH by an
+end-user to watch a live stream of any visible patch set creation,
+comments and change submissions.  For more details see
+link:http://gerrit.googlecode.com/svn/documentation/2.1.2/cmd-stream-events.html[gerrit stream-events].
 
 * Log HTTP activity to $site_path/logs/httpd_log
 +
@@ -205,6 +244,34 @@ client forward to the current master.
 +
 The transparent proxy support is not yet implemented in the slave.
 
+* Support automation of gsql by JSON, -c option
++
+The gsql command now supports JSON as an output format, making
+software driven queries over SSH easier.  The -c option accepts
+one query, executes it, and returns.
+
+Other
+~~~~~
+
+* Warn when a commit message isn't wrapped
++
+During receive Gerrit warns the user if their commit messages appears
+to be incorrectly formatted, by having lines that aren't hard-wrapped
+or that has an extremely long subject line.
+
+* During merge use existing author identity values
++
+When Gerrit creates a merge commit in order to submit a change, the
+author information of the merge commit is taken from the submitter.
+If all of the commits being submitted were written by the submitter,
+the authorship of the merge commit is copied from one of those commits
+rather than from the user's preferred account information.
+
+* Theme the web UI with different skin colors
++
+Site administrators can now theme the UI with local site colors
+by setting theme variables in gerrit.config.
+
 
 Bug Fixes
 ---------
@@ -237,6 +304,13 @@ in the email notification headers.  Fixed.
 If httpd.listenUrl ended with / the configuration got botched during
 init and the site didn't work as expected.  Fixed by correctly
 handling an optional trailing / in this variable.
+
+* issue 451 gerrit.sh: Wait until the daemon is serving requests
++
+The gerrit.sh script now waits until the deamon is actually running
+and able to serve requests before returning to the caller with a
+successful exit status code.  This makes it easier to then start up
+dependent tasks that need the server to be ready before they can run.
 
 * Fix NoShell to flush the error before exiting
 +
@@ -311,6 +385,12 @@ C/Java's "/\* ... \*/" style comment.  Fixed by performing
 highlighting on the entire file contents, even if only some lines are
 displayed to met the user's context setting.
 
+* Ensure vertical tabs are visible
++
+Vertical tab markers are red, which means they can be hidden against a
+whitespace error, or deleted region marker.  Tabs are now shown as
+black against these cases.
+
 * init: Only suggest downloading BouncyCastle on new installs
 +
 Upgrades of an existing installation which has not installed the
@@ -332,6 +412,29 @@ Microsoft Active Directory wasn't being detected, because the
 anonymous bind during server startup failed.  Instead the server
 type is detected during the first user authentication, where we
 have a valid directory context to query over.
+
+* issue 347 Improve handling of files renamed between patch sets
++
+Comment counts in the "history" section of a file viewer were not
+displayed when the file was renamed between two different patch sets
+of the same change.  Fixed.
+
+* Fix the style of the Reviewed column header
++
+The reviewed column header wasn't displaying with the same style as
+its siblings.  Fixed.
+
+* issue 456 Support enter to submit on most forms
++
+Enter key on a lot of forms did not activate the reasonable default
+action, e.g. add a reviewer to an existing review.  Fixed.
+
+* Misc. license issues
++
+The CDDL javax.servlet package was replaced by an Apache License 2.0
+implementation from the Apache Foundation.  The unnecessary OpenXRI
+package, which was never even included in the distribution, was
+removed from the license file.
 
 * issue 314 Hide group type choice if LDAP is not enabled
 * Expand group names to be 255 characters
@@ -437,5 +540,41 @@ Other Changes
 * Update to GWT 2.0.2
 * documentation: Remove stupid ReleaseNotes build rules
 * documentation: Use a per-version directory
-
-6df5ea1a3db71d300142099bbe5182507437ab55
+* Draft 2.1.2 release notes
+* documentation: Fix version number to only consider x.y.z format
+* Drop XRI related support from our notices list
+* documentation: Correct sorting error in notices
+* documentation: Add JSR 305 and AOP Alliance to licenses
+* documentation: Correct links to the MPL 1.1 license
+* Replace CDDL javax.servlet with APLv2 implementation
+* documentation: Document database.pool* variables
+* Update 2.1.2 release notes to mention juniversalchardet
+* Fix whitespace ignore feature
+* Fix database connection leak in git-receive-pack
+* Delay marking a file reviewed until its displaying
+* Simplify patch display to a single RPC
+* Fix missing right side border of history, dependency tables
+* Cleanup useless leftmost/rightmost CSS classes
+* Don't RPC to load the full file if we already have it
+* Add Forge Identity +3 to permit pushing filtered history
+* Fix source code formatting in RefControl
+* Fix combined diffs on merge commits
+* Fix SparseFileContent for delete-only patches
+* Simplify some CSS rules for side-by-side viewer
+* Color entire replace block same background shade
+* Cleanup CSS for side-by-side view when there are character differen...
+* gerrit.sh: Don't use let, dash doesn't support it
+* documentation: Fix typo on the word database
+* Always use class wdc on replace line common sections
+* Fix side-by-side table header CSS glitch
+* Fix file line padding in side-by-side viewer
+* Improve the way inline comments are shown
+* Fix side by side view column headers to use normal font
+* Tweak the intraline difference heuristics
+* Refactor and add to streaming events schema
+* Documentation schema for stream-events command
+* Merge "Documentation schema for stream-events command"
+* Fix source code formatting errors in MergeOp
+* Cleanup display of branches panel when gitweb isn't configured
+* Fix "Show Tabs" checkbox
+71934c63512a40d4c04b54e29e002b0f7efdf53d

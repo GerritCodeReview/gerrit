@@ -246,9 +246,12 @@ public class PatchListCacheImpl implements PatchListCache {
             int bb = c.getBeginB();
             int be = n.getEndB();
 
-            wordEdits.set(j, new Edit(ab, ae, bb, be));
-            wordEdits.remove(j + 1);
-            continue;
+            if (canCoalesce(a, c.getEndA(), n.getBeginA())
+                && canCoalesce(b, c.getEndB(), n.getBeginB())) {
+              wordEdits.set(j, new Edit(ab, ae, bb, be));
+              wordEdits.remove(j + 1);
+              continue;
+            }
           }
 
           j++;
@@ -365,6 +368,15 @@ public class PatchListCacheImpl implements PatchListCache {
     }
 
     return new PatchListEntry(fileHeader, edits);
+  }
+
+  private static boolean canCoalesce(CharText a, int b, int e) {
+    while (b < e) {
+      if (a.charAt(b++) == '\n') {
+        return false;
+      }
+    }
+    return true;
   }
 
   private static int findLF(List<Edit> edits, int j, CharText t, int b) {

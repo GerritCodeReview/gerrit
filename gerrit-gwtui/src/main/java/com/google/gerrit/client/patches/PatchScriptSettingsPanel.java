@@ -128,6 +128,10 @@ public class PatchScriptSettingsPanel extends Composite implements
     }
   }
 
+  public CheckBox getSyntaxHighlightingCheckBox() {
+    return syntaxHighlighting;
+  }
+
   public CheckBox getReviewedCheckBox() {
     return reviewed;
   }

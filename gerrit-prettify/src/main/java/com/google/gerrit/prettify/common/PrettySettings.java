@@ -27,7 +27,7 @@ public class PrettySettings {
   public PrettySettings() {
     showWhiteSpaceErrors = true;
     lineLength = 100;
-    tabSize = 2;
+    tabSize = 8;
     showTabs = true;
     syntaxHighlighting = true;
     intralineDifference = true;

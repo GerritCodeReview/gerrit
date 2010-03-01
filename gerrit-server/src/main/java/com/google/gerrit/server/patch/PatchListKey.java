@@ -35,7 +35,7 @@ import java.io.Serializable;
 import javax.annotation.Nullable;
 
 public class PatchListKey implements Serializable {
-  static final long serialVersionUID = 10L;
+  static final long serialVersionUID = 11L;
 
   private transient ObjectId oldId;
   private transient ObjectId newId;

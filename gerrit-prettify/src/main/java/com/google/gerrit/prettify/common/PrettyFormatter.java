@@ -326,7 +326,7 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
 
     if (settings.isShowTabs()) {
       String t = 1 < settings.getTabSize() ? "\t" : "";
-      html = html.replaceAll("\t", "<span class=\"vt\">&#187;</span>" + t);
+      html = html.replaceAll("\t", "<span class=\"vt\">\u00BB</span>" + t);
     }
 
     return html.asString();

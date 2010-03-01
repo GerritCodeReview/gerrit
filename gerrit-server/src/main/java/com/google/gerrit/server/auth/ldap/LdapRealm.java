@@ -80,6 +80,7 @@ class LdapRealm implements Realm {
   private final SchemaFactory<ReviewDb> schema;
   private final EmailExpander emailExpander;
   private final SelfPopulatingCache<String, Account.Id> usernameCache;
+  private final Set<Account.FieldName> readOnlyAccountFields;
 
   private final GroupCache groupCache;
   private final SelfPopulatingCache<String, Set<AccountGroup.Id>> membershipCache;
@@ -105,6 +106,14 @@ class LdapRealm implements Realm {
     this.username = optional(config, "username");
     this.password = optional(config, "password");
     this.sslVerify = config.getBoolean("ldap", "sslverify", true);
+    this.readOnlyAccountFields = new HashSet<Account.FieldName>();
+
+    if (optdef(config, "accountFullName", "DEFAULT") != null) {
+      readOnlyAccountFields.add(Account.FieldName.FULL_NAME);
+    }
+    if (optdef(config, "accountSshUserName", "DEFAULT") != null) {
+      readOnlyAccountFields.add(Account.FieldName.USER_NAME);
+    }
 
     membershipCache =
         new SelfPopulatingCache<String, Set<AccountGroup.Id>>(rawGroup) {
@@ -195,24 +204,7 @@ class LdapRealm implements Realm {
 
   @Override
   public boolean allowsEdit(final Account.FieldName field) {
-    switch (field) {
-      case FULL_NAME:
-        if (ldapSchema == null) {
-          return false; // Assume not until we've resolved the server type.
-        }
-        // only if not obtained from LDAP
-        return ldapSchema.accountFullName == null;
-
-      case USER_NAME:
-        if (ldapSchema == null) {
-          return false; // Assume not until we've resolved the server type.
-        }
-        // only if not obtained from LDAP
-        return ldapSchema.accountSshUserName == null;
-
-      default:
-        return true;
-    }
+    return !readOnlyAccountFields.contains(field);
   }
 
   private static String apply(ParamertizedString p, LdapQuery.Result m)

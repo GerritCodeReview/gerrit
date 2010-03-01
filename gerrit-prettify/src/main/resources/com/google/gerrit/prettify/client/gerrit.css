@@ -23,7 +23,7 @@
 }
 
 .vt {
-  border-left: 1px dotted red;
+  color: red;
 }
 
 .wdd {
@@ -39,7 +39,7 @@
  */
 .wse .vt,
 .wdd .vt {
-  border-left: 2px dotted black;
+  color: black;
 }
 .wse .wdd {
   background: red;

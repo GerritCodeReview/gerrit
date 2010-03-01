@@ -17,6 +17,7 @@
 @external .vt;
 @external .wdd;
 @external .wdi;
+@external .pun;
 
 .wse {
   background: red;
@@ -38,7 +39,9 @@
  * so we have to override the contained style.
  */
 .wse .vt,
-.wdd .vt {
+.wdd .vt,
+.wse .vt .pun,
+.wdd .vt .pun {
   color: black;
 }
 .wse .wdd {

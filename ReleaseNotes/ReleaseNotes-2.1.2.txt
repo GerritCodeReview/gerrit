@@ -36,8 +36,8 @@ exists, and Forge Identity +2 where Push Branch >= +1 exists.
 New Features
 ------------
 
-UI
-~~
+UI - Diff Viewer
+~~~~~~~~~~~~~~~~
 
 * issue 169 Highlight line-level (aka word) differences in files
 +
@@ -59,23 +59,6 @@ Users can now set the tab size or number of columns when displaying a
 patch.  Toggles are also available to enable or disable syntax
 coloring, intraline differences, whitespace errors, and visible tabs.
 
-* issue 408 Show summary of code review, verified on all open changes
-+
-The open changes views now show the status summary columns, just like
-a user dashboard shows.  This requires an extra RPC per page display,
-but can save user time when trying to identify which reviews should be
-examined.
-
-* Only enable 'Delete' button when there are selections
-+
-In Settings panels the delete button is enabled only if at least one
-row has been selected to be removed.
-
-* SSH commands stop option parsing on \--
-+
-Like most POSIX commands, `\--` now signifies the end of options for
-any command accessible over SSH.
-
 * issue 416 Add download links to side-by-side viewer
 +
 The side-by-side viewer now offers links to download the complete file
@@ -86,25 +69,18 @@ Server administrators may use the mimetype.safe configuration setting
 to avoid this wrapping if they trust users to only upload safe file
 content.
 
-* Include formatted HTML documentation in WAR
+* Improve performance of 'Show Full Files'
 +
-Official release WARs now contain the formatted HTML documentation,
-and a 'Documentation' menu will display in the main UI (alongside
-'All', 'My', 'Admin') to help users access the local copy rather
-than jumping to the remote Google Code project site.
+The 'Show Full File' checkbox in the file viewers no longer requires
+an RPC if the file is sufficiently small enough and syntax coloring
+was enabled.  The browser can update the UI using the cached data it
+already has on hand.
 
-* Enhanced patch set download commands
+* Show old file paths on renamed/copied files
 +
-Download commands for patch sets are now offered as a tabbed panel,
-allowing the user to select between 'repo download', 'git pull',
-or 'git fetch ... && git cherry-pick' styles, as well as to select
-the transport protocol used, including anonymous Git or HTTP, or
-authenticated SSH or HTTP.  The current selections are remembered
-for signed-in users, permitting end-users to quickly reuse their
-preferred method of grabbing a patch set.
-
-* issue 405 Add canned per-line comment reply of 'Done'
-* issue 380 Use N/P to jump to next/previous comments
+If a file was renamed or copied, the side-by-side viewer now shows the
+old file path in the column header instead of the generic header text
+'Old Version'.
 
 * Improved character set detection
 +
@@ -123,18 +99,50 @@ f. Korean (ISO-2022-KR, EUC-KR)
 g. Unicode (UTF-8, UTF-16BE / UTF-16LE, UTF-32BE / UTF-32LE / X-ISO-10646-UCS-4-34121 / X-ISO-10646-UCS-4-21431)
 h. WINDOWS-1252
 
-* Improve performance of 'Show Full Files'
-+
-The 'Show Full File' checkbox in the file viewers no longer requires
-an RPC if the file is sufficiently small enough and syntax coloring
-was enabled.  The browser can update the UI using the cached data it
-already has on hand.
+* issue 405 Add canned per-line comment reply of 'Done'
+* issue 380 Use N/P to jump to next/previous comments
 
-* Show old file paths on renamed/copied files
+UI - Other
+~~~~~~~~~~
+
+* issue 408 Show summary of code review, verified on all open changes
 +
-If a file was renamed or copied, the side-by-side viewer now shows the
-old file path in the column header instead of the generic header text
-'Old Version'.
+The open changes views now show the status summary columns, just like
+a user dashboard shows.  This requires an extra RPC per page display,
+but can save user time when trying to identify which reviews should be
+examined.
+
+* Only enable 'Delete' button when there are selections
++
+In Settings panels the delete button is enabled only if at least one
+row has been selected to be removed.
+
+* SSH commands stop option parsing on \--
++
+Like most POSIX commands, `\--` now signifies the end of options for
+any command accessible over SSH.
+
+* Include formatted HTML documentation in WAR
++
+Official release WARs now contain the formatted HTML documentation,
+and a 'Documentation' menu will display in the main UI (alongside
+'All', 'My', 'Admin') to help users access the local copy rather
+than jumping to the remote Google Code project site.
+
+* Enhanced patch set download commands
++
+Download commands for patch sets are now offered as a tabbed panel,
+allowing the user to select between 'repo download', 'git pull',
+or 'git fetch ... && git cherry-pick' styles, as well as to select
+the transport protocol used, including anonymous Git or HTTP, or
+authenticated SSH or HTTP.  The current selections are remembered
+for signed-in users, permitting end-users to quickly reuse their
+preferred method of grabbing a patch set.
+
+* Theme the web UI with different skin colors
++
+Site administrators can now theme the UI with local site colors
+by setting theme variables in gerrit.config.
 
 Permissions
 ~~~~~~~~~~~
@@ -165,12 +173,10 @@ fetch/clone and push, by relying upon Git specific server side logic.
 Gerrit Code Review now includes the necessary server side support when
 accessing repositories using URLs of the form
 `http://review.example.com/p/'$projectname'.git`.
-+
 Authentication over smart HTTP URLs is performed using standard HTTP
 digest authentication, with the username matching the SSH username,
 but the password coming from a field that is generated by Gerrit and
 accessible to the user on their Settings > SSH Keys tab.
-+
 Smart HTTP requests enter the same resource queue as SSH requests,
 using the embedded Jetty server to suspend the request and later
 resume it when processing resources are available.  This ensures HTTP
@@ -181,7 +187,7 @@ with SSH requests.
 +
 The scp filesystem holding client side tools and hooks is now
 avaliable over `http://review.example.com/tools/'$name'`.  User
-documentation was updated with example URLs.
+documentation is updated with example URLs.
 
 * issue 470 Allow /r/I... URLs
 +
@@ -208,19 +214,20 @@ link:http://gerrit.googlecode.com/svn/documentation/2.1.2/cmd-stream-events.html
 
 * Log HTTP activity to $site_path/logs/httpd_log
 +
-When httpd.listenUrl is http:// or https://, requests are logged into
-`'$site_path'/logs/httpd_log`.  This mirrors the behavior of the SSH
-daemon, which also logs requests into the same directory.  For proxy
-URLs HTTP requests aren't logged, since the front-end server should be
-handling the logging.  Logging can be forced on, or forced off by
-setting link:http://gerrit.googlecode.com/svn/documentation/2.1.2/config-gerrit.html#httpd.requestLog[httpd.requestLog].
+When httpd.listenUrl is http:// or https://, requests are
+logged into `'$site_path'/logs/httpd_log`.  This mirrors the
+behavior of the SSH daemon, which also logs requests into the
+same directory.  For proxy URLs HTTP requests aren't logged,
+since the front-end server is expected to be performing the
+logging.  Logging can be forced on, or forced off by setting
+link:http://gerrit.googlecode.com/svn/documentation/2.1.2/config-gerrit.html#httpd.requestLog[httpd.requestLog].
 
 * Allow the daemon's host key to authenticate to itself
 +
-The SSH daemon's host key can now be used to authenticate as the magic
-user `Gerrit Code Review`.  This user identity is blessed as even more
-powerful than a site administrator, as using it requires access to the
-private half of the host key.  For example:
+The SSH daemon's host key can now be used to authenticate as the
+magic user `Gerrit Code Review`.  This user identity is blessed as
+even more powerful than a user in the Administrators group, as using
+it requires access to the private half of the host key.  For example:
 +
 ----
   ssh -p 29418 -i site_path/etc/ssh_host_rsa_key 'Gerrit Code Review'@localhost gerrit flush-caches --all
@@ -267,14 +274,23 @@ If all of the commits being submitted were written by the submitter,
 the authorship of the merge commit is copied from one of those commits
 rather than from the user's preferred account information.
 
-* Theme the web UI with different skin colors
-+
-Site administrators can now theme the UI with local site colors
-by setting theme variables in gerrit.config.
-
 
 Bug Fixes
 ---------
+
+UI
+~~
+
+* Change "Publish Comments" to "Review"
++
+The term "Publish Comments" was used on two different buttons that
+performed two different actions.  The first usage was to open the
+screen which shows the scoring buttons, provides the cover letter
+editor, and shows the in-line comments for final review before
+publication.  The button that opens that review screen has been
+renamed "Review".  The second usage of the button was to actually send
+out the notification emails, and expose the comments to others.  This
+button is still called "Publish Comments".
 
 * issue 448 Disable syntax highlighting on unified views
 +
@@ -282,11 +298,67 @@ Syntax highlighting in the unified patch view isn't useful if it hides
 the added and removed lines red/green text color.  Disable it entirely
 so the add/remove coloring shows up instead.
 
+* Don't try to syntax highlight plain text
++
+Plain text files can't benefit from syntax highlighting, its actually
+more confusing than it is useful.  Skip highlighting on them.
+
+* issue 251 Fix bad syntax highlighting
++
+Prior versions performed syntax highlighting on a per-line basis,
+resulting in confusing or bogus results in multi-line contexts like
+C/Java's "/\* ... \*/" style comment.  Fixed by performing
+highlighting on the entire file contents, even if only some lines are
+displayed to meet the user's context setting.
+
+* Ensure vertical tabs are visible
++
+Vertical tab markers are red, which means they can be hidden against a
+whitespace error, or deleted region marker.  Tabs are now shown as
+black against these cases.
+
+* issue 438 Skip gitlink modes as we can't get a content difference
++
+The special gitlink mode inside of a tree points to a commit in the
+submodule project.  We can't show the content of it inside of the
+supermodule.
+
+* issue 456 Support enter to submit on most forms
++
+Enter key on a lot of forms did not activate the reasonable default
+action, e.g. add a reviewer to an existing review.  Fixed.
+
+* issue 347 Improve handling of files renamed between patch sets
++
+Comment counts in the "history" section of a file viewer were not
+displayed when the file was renamed between two different patch sets
+of the same change.  Fixed.
+
+* Fix the style of the Reviewed column header
++
+The reviewed column header wasn't displaying with the same style as
+its siblings.  Fixed.
+
+* Expand group names to be 255 characters
+* Update URL for GitHub's SSH key guide
+* issue 314 Hide group type choice if LDAP is not enabled
+
+Email
+~~~~~
+
 * Send missing dependencies to owners if they are the only reviewer
 +
 If the owner of the change is the only reviewer and the change can't
 be submitted due to a missing dependency, Gerrit failed to send out an
 email notification.  Fixed.
+
+* issue 387 Use quoted printable strings in outgoing email
++
+Names or subjects with non-ASCII characters were not quoted properly
+in the email notification headers.  Fixed.
+
+Remote Access
+~~~~~~~~~~~~~
 
 * issue 385 Delete session cookie when session is expired
 +
@@ -294,10 +366,22 @@ If the session expires and the user clicks "Close" in the session
 expired popup dialog box, delete the cookie so the user can continue
 to use the website as an anonymous user.
 
-* issue 387 Use quoted printable strings in outgoing email
+* Dequote saved OpenID URLs
 +
-Names or subjects with non-ASCII characters were not quoted properly
-in the email notification headers.  Fixed.
+Certain OpenID URLs were getting double quotes thrown around them
+after being saved in the last identity cookie on the client.  The
+quotes were loading back into the dialog on a subsequent sign-in
+attempt, resulting in an error as double quotes aren't valid in an
+HTTP URL.  Fixed by dropping the quotes if present.
+
+* Fix NoShell to flush the error before exiting
++
+Sometimes users missed the standard error message that indicated no
+shell was available, due to a thread race condition not always
+flushing the outgoing buffer.  Fixed.
+
+Server Administration
+~~~~~~~~~~~~~~~~~~~~~
 
 * daemon: Really allow httpd.listenUrl to end with /
 +
@@ -312,19 +396,17 @@ and able to serve requests before returning to the caller with a
 successful exit status code.  This makes it easier to then start up
 dependent tasks that need the server to be ready before they can run.
 
-* Fix NoShell to flush the error before exiting
+* gerrit.sh: Don't use let, dash doesn't support it
 +
-Sometimes users missed the standard error message that indicated no
-shell was available, due to a thread race condition not always
-flushing the outgoing buffer.  Fixed.
+/bin/sh on Debian/Ubuntu systems is dash, not bash.  The dash
+shell does not support the let command.
 
-* Dequote saved OpenID URLs
+* init: Only suggest downloading BouncyCastle on new installs
 +
-Certain OpenID URLs were getting double quotes thrown around them
-after being saved in the last identity cookie on the client.  The
-quotes were loading back into the dialog on a subsequent sign-in
-attempt, resulting in an error as double quotes aren't valid in an
-HTTP URL.  Fixed by dropping the quotes if present.
+Upgrades of an existing installation which has not installed the
+BouncyCastle library shouldn't be encouraged to download and install
+the library again.  The administrator has already chosen not to use
+it, we shouldn't nag them about it.
 
 * issue 389 Catch bad commentlink patterns and report them
 +
@@ -341,62 +423,11 @@ MySQL has a "feature" which prevented the removed_on column from being
 NULL when we meant for it to be NULL.  Fixed by using the MySQL
 suggested work around, which is non-standard SQL.
 
-* Change "Publish Comments" to "Review"
-+
-The term "Publish Comments" was used on two different buttons that
-performed two different actions.  The first usage was to open the
-screen which shows the scoring buttons, provides the cover letter
-editor, and shows the in-line comments for final review before
-publication.  The button that opens that review screen has been
-renamed "Review".  The second usage of the button was to actually send
-out the notification emails, and expose the comments to others.  This
-button is still called "Publish Comments".
-
-* issue 427 Adjust SocketUtilTest to be more likely to pass
-+
-Some DNS environments, especially those based on OpenDNS, were failing
-this test case during a build because the upstream resolver was
-returning back a bogus record for an invalid domain name.  The test
-was adjusted to use a name that is less likely to be resolved by a
-broken upstream resolver.
-
-* 424 Use JGit's LockFile to copy files during init
+* issue 424 WAR truncated during init
 +
 init sometimes truncated the WAR file to 0 bytes if it was running
 from the destination WAR.  Fixed by using JGit's LockFile class which
 writes to a temporary file and does an atomic rename to finish.
-
-* issue 438 Skip gitlink modes as we can't get a content difference
-+
-The special gitlink mode inside of a tree points to a commit in the
-submodule project.  We can't show the content of it inside of the
-supermodule.
-
-* Don't try to syntax highlight plain text
-+
-Plain text files can't benefit from syntax highlighting, its actually
-more confusing than it is useful.  Skip highlighting on them.
-
-* issue 251 Fix bad syntax highlighting
-+
-Prior versions performed syntax highlighting on a per-line basis,
-resulting in confusing or bogus results in multi-line contexts like
-C/Java's "/\* ... \*/" style comment.  Fixed by performing
-highlighting on the entire file contents, even if only some lines are
-displayed to met the user's context setting.
-
-* Ensure vertical tabs are visible
-+
-Vertical tab markers are red, which means they can be hidden against a
-whitespace error, or deleted region marker.  Tabs are now shown as
-black against these cases.
-
-* init: Only suggest downloading BouncyCastle on new installs
-+
-Upgrades of an existing installation which has not installed the
-BouncyCastle library shouldn't be encouraged to download and install
-the library again.  The administrator has already chosen not to use
-it, we shouldn't nag them about it.
 
 * issue 423 Bind to LDAP using only the end-user identity
 +
@@ -413,21 +444,16 @@ anonymous bind during server startup failed.  Instead the server
 type is detected during the first user authentication, where we
 have a valid directory context to query over.
 
-* issue 347 Improve handling of files renamed between patch sets
-+
-Comment counts in the "history" section of a file viewer were not
-displayed when the file was renamed between two different patch sets
-of the same change.  Fixed.
+Development
+~~~~~~~~~~~
 
-* Fix the style of the Reviewed column header
+* issue 427 Adjust SocketUtilTest to be more likely to pass
 +
-The reviewed column header wasn't displaying with the same style as
-its siblings.  Fixed.
-
-* issue 456 Support enter to submit on most forms
-+
-Enter key on a lot of forms did not activate the reasonable default
-action, e.g. add a reviewer to an existing review.  Fixed.
+Some DNS environments, especially those based on OpenDNS, were failing
+this test case during a build because the upstream resolver was
+returning back a bogus record for an invalid domain name.  The test
+was adjusted to use a name that is less likely to be resolved by a
+broken upstream resolver.
 
 * Misc. license issues
 +
@@ -435,10 +461,6 @@ The CDDL javax.servlet package was replaced by an Apache License 2.0
 implementation from the Apache Foundation.  The unnecessary OpenXRI
 package, which was never even included in the distribution, was
 removed from the license file.
-
-* issue 314 Hide group type choice if LDAP is not enabled
-* Expand group names to be 255 characters
-* Update URL for GitHub's SSH key guide
 
 
 Schema Changes in Detail
@@ -563,7 +585,6 @@ Other Changes
 * Simplify some CSS rules for side-by-side viewer
 * Color entire replace block same background shade
 * Cleanup CSS for side-by-side view when there are character differen...
-* gerrit.sh: Don't use let, dash doesn't support it
 * documentation: Fix typo on the word database
 * Always use class wdc on replace line common sections
 * Fix side-by-side table header CSS glitch

@@ -291,7 +291,7 @@ public class PatchListCacheImpl implements PatchListCache {
           boolean aShiftRight = true;
           if (ab < ae && isOnlyWhitespace(a, ab, ae)) {
             int lf = findLF(wordEdits, j, a, ab);
-            if (a.charAt(lf) == '\n') {
+            if (lf < ab && a.charAt(lf) == '\n') {
               int nb = lf + 1;
               int p = 0;
               while (p < ae - ab) {
@@ -320,7 +320,7 @@ public class PatchListCacheImpl implements PatchListCache {
           boolean bShiftRight = true;
           if (bb < be && isOnlyWhitespace(b, bb, be)) {
             int lf = findLF(wordEdits, j, b, bb);
-            if (b.charAt(lf) == '\n') {
+            if (lf < bb && b.charAt(lf) == '\n') {
               int nb = lf + 1;
               int p = 0;
               while (p < be - bb) {

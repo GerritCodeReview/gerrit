@@ -90,11 +90,12 @@ public class SideBySideTable extends AbstractPatchContentTable {
         if (hunk.isContextLine()) {
           openLine(nc);
           final SafeHtml ctx = a.getSafeHtmlLine(hunk.getCurA());
-          appendLineText(nc, hunk.getCurA(), CONTEXT, ctx, false);
+          appendLineText(nc, hunk.getCurA(), CONTEXT, ctx, false, false);
           if (ignoreWS && b.contains(hunk.getCurB())) {
-            appendLineText(nc, hunk.getCurB(), CONTEXT, b, hunk.getCurB());
+            appendLineText(nc, hunk.getCurB(), CONTEXT, b, hunk.getCurB(),
+                false);
           } else {
-            appendLineText(nc, hunk.getCurB(), CONTEXT, ctx, false);
+            appendLineText(nc, hunk.getCurB(), CONTEXT, ctx, false, false);
           }
           closeLine(nc);
           hunk.incBoth();
@@ -103,10 +104,13 @@ public class SideBySideTable extends AbstractPatchContentTable {
         } else if (hunk.isModifiedLine()) {
           final boolean del = hunk.isDeletedA();
           final boolean ins = hunk.isInsertedB();
+          final boolean full =
+              script.getSettings().getPrettySettings().isIntralineDifference()
+                  && hunk.getCurEdit().getType() != Edit.Type.REPLACE;
           openLine(nc);
 
           if (del) {
-            appendLineText(nc, hunk.getCurA(), DELETE, a, hunk.getCurA());
+            appendLineText(nc, hunk.getCurA(), DELETE, a, hunk.getCurA(), full);
             hunk.incA();
           } else if (hunk.getCurEdit().getType() == Edit.Type.REPLACE) {
             appendLineNone(nc, DELETE);
@@ -115,7 +119,7 @@ public class SideBySideTable extends AbstractPatchContentTable {
           }
 
           if (ins) {
-            appendLineText(nc, hunk.getCurB(), INSERT, b, hunk.getCurB());
+            appendLineText(nc, hunk.getCurB(), INSERT, b, hunk.getCurB(), full);
             hunk.incB();
           } else if (hunk.getCurEdit().getType() == Edit.Type.REPLACE) {
             appendLineNone(nc, INSERT);
@@ -286,14 +290,15 @@ public class SideBySideTable extends AbstractPatchContentTable {
 
   private void appendLineText(final SafeHtmlBuilder m,
       final int lineNumberMinusOne, final PatchLine.Type type,
-      final SparseHtmlFile src, final int i) {
+      final SparseHtmlFile src, final int i, final boolean fullBlock) {
     appendLineText(m, lineNumberMinusOne, type, //
-        src.getSafeHtmlLine(i), src.hasTrailingEdit(i));
+        src.getSafeHtmlLine(i), src.hasTrailingEdit(i), fullBlock);
   }
 
   private void appendLineText(final SafeHtmlBuilder m,
       final int lineNumberMinusOne, final PatchLine.Type type,
-      final SafeHtml lineHtml, final boolean trailingEdit) {
+      final SafeHtml lineHtml, final boolean trailingEdit,
+      final boolean fullBlock) {
     m.openTd();
     m.setStyleName(Gerrit.RESOURCES.css().lineNumber());
     m.append(lineNumberMinusOne + 1);
@@ -307,13 +312,13 @@ public class SideBySideTable extends AbstractPatchContentTable {
         break;
       case DELETE:
         m.addStyleName(Gerrit.RESOURCES.css().fileLineDELETE());
-        if (trailingEdit) {
+        if (trailingEdit || fullBlock) {
           m.addStyleName("wdd");
         }
         break;
       case INSERT:
         m.addStyleName(Gerrit.RESOURCES.css().fileLineINSERT());
-        if (trailingEdit) {
+        if (trailingEdit || fullBlock) {
           m.addStyleName("wdi");
         }
         break;

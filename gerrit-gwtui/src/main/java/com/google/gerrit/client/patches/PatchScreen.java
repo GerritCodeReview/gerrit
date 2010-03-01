@@ -61,7 +61,8 @@ import com.google.gwtexpui.globalkey.client.KeyCommandSet;
 import com.google.gwtexpui.safehtml.client.SafeHtml;
 import com.google.gwtjsonrpc.client.VoidResult;
 
-public abstract class PatchScreen extends Screen {
+public abstract class PatchScreen extends Screen implements
+    CommentEditorContainer {
   static final PrettyFactory PRETTY = ClientSideFormatter.FACTORY;
 
   public static class SideBySide extends PatchScreen {
@@ -198,6 +199,16 @@ public abstract class PatchScreen extends Screen {
             setReviewedByCurrentUser(event.getValue());
           }
         });
+  }
+
+  @Override
+  public void notifyDraftDelta(int delta) {
+    lastScript = null;
+  }
+
+  @Override
+  public void remove(CommentEditorPanel panel) {
+    lastScript = null;
   }
 
   private void update(PatchScriptSettings s) {

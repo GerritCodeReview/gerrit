@@ -101,6 +101,15 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
     if (fileList != null) {
       fileList.notifyDraftDelta(patchKey, delta);
     }
+
+    Widget p = getParent();
+    while (p != null) {
+      if (p instanceof CommentEditorContainer) {
+        ((CommentEditorContainer) p).notifyDraftDelta(delta);
+        break;
+      }
+      p = p.getParent();
+    }
   }
 
   @Override

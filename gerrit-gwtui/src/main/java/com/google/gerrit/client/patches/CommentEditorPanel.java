@@ -249,9 +249,7 @@ public class CommentEditorPanel extends CommentPanel implements ClickHandler,
     PatchUtil.DETAIL_SVC.saveDraft(comment,
         new GerritCallback<PatchLineComment>() {
           public void onSuccess(final PatchLineComment result) {
-            if (isNew()) {
-              notifyDraftDelta(1);
-            }
+            notifyDraftDelta(isNew() ? 1 : 0);
             comment = result;
             text.setReadOnly(false);
             save.setEnabled(true);

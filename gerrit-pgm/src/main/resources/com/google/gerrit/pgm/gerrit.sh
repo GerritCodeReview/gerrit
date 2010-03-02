@@ -206,8 +206,10 @@ GERRIT_RUN="$GERRIT_SITE/logs/gerrit.run"
 ##################################################
 # Check for JAVA_HOME
 ##################################################
+JAVA_HOME_OLD="$JAVA_HOME"
+JAVA_HOME=`get_config --get container.javaHome`
 if test -z "$JAVA_HOME" ; then
-  JAVA_HOME=`get_config --get container.javaHome`
+  JAVA_HOME="$JAVA_HOME_OLD"
 fi
 if test -z "$JAVA_HOME" ; then
     # If a java runtime is not defined, search the following

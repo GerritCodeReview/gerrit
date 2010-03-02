@@ -42,7 +42,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DisclosurePanel;
-import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.InlineLabel;
@@ -240,6 +239,15 @@ class PatchSetPanel extends Composite implements OpenHandler<DisclosurePanel> {
           urls.setVisible(true);
           copyLabel.setText("git fetch " + link.urlData
               + " && git cherry-pick FETCH_HEAD");
+        }
+      });
+      commands.add(new DownloadCommandLink(DownloadCommand.FORMAT_PATCH,
+          "patch") {
+        @Override
+        void setCurrentUrl(DownloadUrlLink link) {
+          urls.setVisible(true);
+          copyLabel.setText("git fetch " + link.urlData
+              + " && git format-patch -1 --stdout FETCH_HEAD");
         }
       });
     }

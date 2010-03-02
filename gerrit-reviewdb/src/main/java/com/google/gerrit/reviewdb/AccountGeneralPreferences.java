@@ -41,7 +41,7 @@ public final class AccountGeneralPreferences {
 
   /** Preferred method to download a change. */
   public static enum DownloadCommand {
-    REPO_DOWNLOAD, PULL, CHERRY_PICK;
+    REPO_DOWNLOAD, PULL, CHERRY_PICK, FORMAT_PATCH;
   }
 
   /** Default number of lines of context when viewing a patch. */

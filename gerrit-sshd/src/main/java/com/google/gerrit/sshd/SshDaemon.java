@@ -236,24 +236,32 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
       buf.putRawPublicKey(pub);
       final byte[] keyBin = buf.getCompactData();
 
-      for (final SocketAddress addr : listen) {
-        if (!(addr instanceof InetSocketAddress)) {
-          continue;
-        }
-
-        final InetSocketAddress inetAddr = (InetSocketAddress) addr;
-        if (inetAddr.getAddress().isLoopbackAddress()) {
-          continue;
-        }
-
+      for (final InetSocketAddress addr : myAddresses()) {
         try {
-          r.add(new HostKey(SocketUtil.format(inetAddr, IANA_SSH_PORT), keyBin));
+          r.add(new HostKey(SocketUtil.format(addr, IANA_SSH_PORT), keyBin));
         } catch (JSchException e) {
           log.warn("Cannot format SSHD host key", e);
         }
       }
     }
     return Collections.unmodifiableList(r);
+  }
+
+  private List<InetSocketAddress> myAddresses() {
+    ArrayList<InetSocketAddress> pub = new ArrayList<InetSocketAddress>();
+    ArrayList<InetSocketAddress> local = new ArrayList<InetSocketAddress>();
+
+    for (final SocketAddress addr : listen) {
+      if (addr instanceof InetSocketAddress) {
+        final InetSocketAddress inetAddr = (InetSocketAddress) addr;
+        if (inetAddr.getAddress().isLoopbackAddress()) {
+          local.add(inetAddr);
+        } else {
+          pub.add(inetAddr);
+        }
+      }
+    }
+    return pub.isEmpty() ? local : pub;
   }
 
   private List<PublicKey> myHostKeys() {

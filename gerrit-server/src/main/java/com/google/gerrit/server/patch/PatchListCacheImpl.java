@@ -60,6 +60,7 @@ import java.util.List;
 @Singleton
 public class PatchListCacheImpl implements PatchListCache {
   private static final String CACHE_NAME = "diff";
+  private static final boolean dynamic = false;
 
   public static Module module() {
     return new CacheModule() {
@@ -93,6 +94,13 @@ public class PatchListCacheImpl implements PatchListCache {
   }
 
   public PatchList get(final PatchListKey key) {
+    if (dynamic) {
+      try {
+        return compute(key);
+      } catch (Exception e) {
+        throw new RuntimeException("Cannot lookup " + key, e);
+      }
+    }
     return self.get(key);
   }
 

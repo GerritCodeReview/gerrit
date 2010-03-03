@@ -55,12 +55,18 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /** Provides a cached list of {@link PatchListEntry}. */
 @Singleton
 public class PatchListCacheImpl implements PatchListCache {
   private static final String CACHE_NAME = "diff";
   private static final boolean dynamic = false;
+
+  private static final Pattern BLANK_LINE_RE =
+      Pattern.compile("^[ \\t]*(|[{}]|/\\*\\*?|\\*)[ \\t]*$");
+  private static final Pattern CONTROL_BLOCK_START_RE =
+      Pattern.compile("[{:][ \\t]*$");
 
   public static Module module() {
     return new CacheModule() {
@@ -231,6 +237,9 @@ public class PatchListCacheImpl implements PatchListCache {
           edits = new ArrayList<Edit>(edits);
           aContent = read(repo, fileHeader.getOldName(), aTree);
           bContent = read(repo, fileHeader.getNewName(), bTree);
+          combineLineEdits(edits, aContent, bContent);
+          i = -1; // restart the entire scan after combining lines.
+          continue;
         }
 
         CharText a = new CharText(aContent, e.getBeginA(), e.getEndA());
@@ -376,6 +385,51 @@ public class PatchListCacheImpl implements PatchListCache {
     }
 
     return new PatchListEntry(fileHeader, edits);
+  }
+
+  private static void combineLineEdits(List<Edit> edits, Text a, Text b) {
+    for (int j = 0; j < edits.size() - 1;) {
+      Edit c = edits.get(j);
+      Edit n = edits.get(j + 1);
+
+      // Combine edits that are really close together. Right now our rule
+      // is, coalesce two line edits which are only one line apart if that
+      // common context line is either a "pointless line", or is identical
+      // on both sides and starts a new block of code. These are mostly
+      // block reindents to add or remove control flow operators.
+      //
+      final int ad = n.getBeginA() - c.getEndA();
+      final int bd = n.getBeginB() - c.getEndB();
+      if ((1 <= ad && isBlankLineGap(a, c.getEndA(), n.getBeginA()))
+          || (1 <= bd && isBlankLineGap(b, c.getEndB(), n.getBeginB()))
+          || (ad == 1 && bd == 1 && isControlBlockStart(a, c.getEndA()))) {
+        int ab = c.getBeginA();
+        int ae = n.getEndA();
+
+        int bb = c.getBeginB();
+        int be = n.getEndB();
+
+        edits.set(j, new Edit(ab, ae, bb, be));
+        edits.remove(j + 1);
+        continue;
+      }
+
+      j++;
+    }
+  }
+
+  private static boolean isBlankLineGap(Text a, int b, int e) {
+    for (; b < e; b++) {
+      if (!BLANK_LINE_RE.matcher(a.getLine(b)).matches()) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  private static boolean isControlBlockStart(Text a, int idx) {
+    final String l = a.getLine(idx);
+    return CONTROL_BLOCK_START_RE.matcher(l).find();
   }
 
   private static boolean canCoalesce(CharText a, int b, int e) {

@@ -286,6 +286,26 @@ public class PatchListCacheImpl implements PatchListCache {
           int bb = c.getBeginB();
           int be = c.getEndB();
 
+          // Sometimes the diff generator produces an INSERT or DELETE
+          // right up against a REPLACE, but we only find this after
+          // we've also played some shifting games on the prior edit.
+          // If that happened to us, coalesce them together so we can
+          // correct this mess for the user. If we don't we wind up
+          // with silly stuff like "es" -> "es = Addresses".
+          //
+          if (1 < j) {
+            Edit p = wordEdits.get(j - 1);
+            if (p.getEndA() == ab || p.getEndB() == bb) {
+              if (p.getEndA() == ab && p.getBeginA() < p.getEndA()) {
+                ab = p.getBeginA();
+              }
+              if (p.getEndB() == bb && p.getBeginB() < p.getEndB()) {
+                bb = p.getBeginB();
+              }
+              wordEdits.remove(--j);
+            }
+          }
+
           // We sometimes collapsed an edit together in a strange way,
           // such that the edges of each text is identical. Fix by
           // by dropping out that incorrectly replaced region.

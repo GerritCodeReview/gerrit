@@ -325,7 +325,7 @@ public class PatchListCacheImpl implements PatchListCache {
           // whitespace block try to shift it to the left margin, assuming
           // that it is an indentation change.
           //
-          boolean aShiftRight = true;
+          boolean aShift = true;
           if (ab < ae && isOnlyWhitespace(a, ab, ae)) {
             int lf = findLF(wordEdits, j, a, ab);
             if (lf < ab && a.charAt(lf) == '\n') {
@@ -340,21 +340,28 @@ public class PatchListCacheImpl implements PatchListCache {
               if (p == ae - ab) {
                 ab = nb;
                 ae = nb + p;
-                aShiftRight = false;
+                aShift = false;
               }
             }
           }
-          if (aShiftRight) {
-            while (ab < ae && ae < a.size() && a.equals(ab, a, ae)) {
-              ab++;
-              ae++;
-              if (a.charAt(ae - 1) == '\n') {
-                break;
+          if (aShift) {
+            while (0 < ab && ab < ae && a.charAt(ab - 1) != '\n'
+                && a.equals(ab - 1, a, ae - 1)) {
+              ab--;
+              ae--;
+            }
+            if (!a.isLineStart(ab) || !a.contains(ab, ae, '\n')) {
+              while (ab < ae && ae < a.size() && a.equals(ab, a, ae)) {
+                ab++;
+                ae++;
+                if (a.charAt(ae - 1) == '\n') {
+                  break;
+                }
               }
             }
           }
 
-          boolean bShiftRight = true;
+          boolean bShift = true;
           if (bb < be && isOnlyWhitespace(b, bb, be)) {
             int lf = findLF(wordEdits, j, b, bb);
             if (lf < bb && b.charAt(lf) == '\n') {
@@ -369,16 +376,23 @@ public class PatchListCacheImpl implements PatchListCache {
               if (p == be - bb) {
                 bb = nb;
                 be = nb + p;
-                bShiftRight = false;
+                bShift = false;
               }
             }
           }
-          if (bShiftRight) {
-            while (bb < be && be < b.size() && b.equals(bb, b, be)) {
-              bb++;
-              be++;
-              if (b.charAt(be - 1) == '\n') {
-                break;
+          if (bShift) {
+            while (0 < bb && bb < be && b.charAt(bb - 1) != '\n'
+                && b.equals(bb - 1, b, be - 1)) {
+              bb--;
+              be--;
+            }
+            if (!b.isLineStart(bb) || !b.contains(bb, be, '\n')) {
+              while (bb < be && be < b.size() && b.equals(bb, b, be)) {
+                bb++;
+                be++;
+                if (b.charAt(be - 1) == '\n') {
+                  break;
+                }
               }
             }
           }

@@ -25,10 +25,13 @@ import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
+import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.google.gwtexpui.globalkey.client.NpTextBox;
 
 public class AddMemberBox extends Composite {
@@ -36,6 +39,7 @@ public class AddMemberBox extends Composite {
   private final Button addMember;
   private final NpTextBox nameTxtBox;
   private final SuggestBox nameTxt;
+  private boolean submitOnSelection;
 
   public AddMemberBox() {
     addPanel = new FlowPanel();
@@ -67,8 +71,23 @@ public class AddMemberBox extends Composite {
     nameTxtBox.addKeyPressHandler(new KeyPressHandler() {
       @Override
       public void onKeyPress(KeyPressEvent event) {
+        submitOnSelection = false;
+
         if (event.getCharCode() == KeyCodes.KEY_ENTER) {
-          addMember.fireEvent(new ClickEvent() {});
+          if (nameTxt.isSuggestionListShowing()) {
+            submitOnSelection = true;
+          } else {
+            doAdd();
+          }
+        }
+      }
+    });
+    nameTxt.addSelectionHandler(new SelectionHandler<Suggestion>() {
+      @Override
+      public void onSelection(SelectionEvent<Suggestion> event) {
+        if (submitOnSelection) {
+          submitOnSelection = false;
+          doAdd();
         }
       }
     });
@@ -104,4 +123,7 @@ public class AddMemberBox extends Composite {
     nameTxtBox.setText(text);
   }
 
+  private void doAdd() {
+    addMember.fireEvent(new ClickEvent() {});
+  }
 }

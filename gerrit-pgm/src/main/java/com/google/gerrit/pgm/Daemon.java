@@ -116,49 +116,54 @@ public class Daemon extends SiteProgram {
       manager.add(ErrorLogFile.start(getSitePath()));
     }
 
-    dbInjector = createDbInjector(MULTI_USER);
-    cfgInjector = createCfgInjector();
-    sysInjector = createSysInjector();
-    manager.add(dbInjector, cfgInjector, sysInjector);
+    try {
+      dbInjector = createDbInjector(MULTI_USER);
+      cfgInjector = createCfgInjector();
+      sysInjector = createSysInjector();
+      manager.add(dbInjector, cfgInjector, sysInjector);
 
-    if (sshd) {
-      initSshd();
-    }
-
-    if (httpd) {
-      initHttpd();
-    }
-
-    manager.start();
-    RuntimeShutdown.add(new Runnable() {
-      public void run() {
-        log.info("caught shutdown, cleaning up");
-        if (runId != null) {
-          runFile.delete();
-        }
-        manager.stop();
+      if (sshd) {
+        initSshd();
       }
-    });
 
-    log.info("Gerrit Code Review " + myVersion() + " ready");
-    if (runId != null) {
-      try {
-        runFile.createNewFile();
-        runFile.setReadable(true, false);
+      if (httpd) {
+        initHttpd();
+      }
 
-        FileOutputStream out = new FileOutputStream(runFile);
+      manager.start();
+      RuntimeShutdown.add(new Runnable() {
+        public void run() {
+          log.info("caught shutdown, cleaning up");
+          if (runId != null) {
+            runFile.delete();
+          }
+          manager.stop();
+        }
+      });
+
+      log.info("Gerrit Code Review " + myVersion() + " ready");
+      if (runId != null) {
         try {
-          out.write((runId + "\n").getBytes("UTF-8"));
-        } finally {
-          out.close();
-        }
-      } catch (IOException err) {
-        log.warn("Cannot write --run-id to " + runFile, err);
-      }
-    }
+          runFile.createNewFile();
+          runFile.setReadable(true, false);
 
-    RuntimeShutdown.waitFor();
-    return 0;
+          FileOutputStream out = new FileOutputStream(runFile);
+          try {
+            out.write((runId + "\n").getBytes("UTF-8"));
+          } finally {
+            out.close();
+          }
+        } catch (IOException err) {
+          log.warn("Cannot write --run-id to " + runFile, err);
+        }
+      }
+
+      RuntimeShutdown.waitFor();
+      return 0;
+    } catch (Throwable err) {
+      log.error("Unable to start daemon", err);
+      return 1;
+    }
   }
 
   private String myVersion() {

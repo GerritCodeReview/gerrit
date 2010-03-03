@@ -27,6 +27,19 @@ class CharText implements Sequence {
     return content.charAt(idx);
   }
 
+  boolean isLineStart(int b) {
+    return b == 0 || charAt(b - 1) == '\n';
+  }
+
+  boolean contains(int b, int e, char c) {
+    for (; b < e; b++) {
+      if (charAt(b) == c) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   @Override
   public boolean equals(int a, Sequence other, int b) {
     return content.charAt(a) == ((CharText) other).content.charAt(b);

@@ -168,24 +168,32 @@ class CommandFactoryProvider implements Provider<CommandFactory> {
   static String[] split(String commandLine) {
     final List<String> list = new ArrayList<String>();
     boolean inquote = false;
+    boolean indblquote = false;
     StringBuilder r = new StringBuilder();
     for (int ip = 0; ip < commandLine.length();) {
       final char b = commandLine.charAt(ip++);
       switch (b) {
         case '\t':
         case ' ':
-          if (inquote)
+          if (inquote || indblquote)
             r.append(b);
           else if (r.length() > 0) {
             list.add(r.toString());
             r = new StringBuilder();
           }
           continue;
+        case '\"':
+          if (inquote)
+            r.append(b);
+          indblquote = !indblquote;
+          continue;
         case '\'':
+          if (indblquote)
+            r.append(b);
           inquote = !inquote;
           continue;
         case '\\':
-          if (inquote || ip == commandLine.length())
+          if (inquote || indblquote || ip == commandLine.length())
             r.append(b); // literal within a quote
           else
             r.append(commandLine.charAt(ip++));

@@ -59,12 +59,14 @@ public class PatchList implements Serializable {
   @Nullable
   private transient ObjectId oldId;
   private transient ObjectId newId;
+  private transient boolean intralineDifference;
   private transient PatchListEntry[] patches;
 
   PatchList(@Nullable final AnyObjectId oldId, final AnyObjectId newId,
-      final PatchListEntry[] patches) {
+      final boolean intralineDifference, final PatchListEntry[] patches) {
     this.oldId = oldId != null ? oldId.copy() : null;
     this.newId = newId.copy();
+    this.intralineDifference = intralineDifference;
 
     Arrays.sort(patches, PATCH_CMP);
     this.patches = patches;
@@ -84,6 +86,11 @@ public class PatchList implements Serializable {
   /** Get a sorted, unmodifiable list of all files in this list. */
   public List<PatchListEntry> getPatches() {
     return Collections.unmodifiableList(Arrays.asList(patches));
+  }
+
+  /** @return true if this list was computed with intraline difference enabled. */
+  public boolean hasIntralineDifference() {
+    return intralineDifference;
   }
 
   /**
@@ -136,6 +143,7 @@ public class PatchList implements Serializable {
     try {
       writeCanBeNull(out, oldId);
       writeNotNull(out, newId);
+      writeVarInt32(out, intralineDifference ? 1 : 0);
       writeVarInt32(out, patches.length);
       for (PatchListEntry p : patches) {
         p.writeTo(out);
@@ -152,6 +160,7 @@ public class PatchList implements Serializable {
     try {
       oldId = readCanBeNull(in);
       newId = readNotNull(in);
+      intralineDifference = readVarInt32(in) != 0;
       final int cnt = readVarInt32(in);
       final PatchListEntry[] all = new PatchListEntry[cnt];
       for (int i = 0; i < all.length; i++) {

@@ -354,6 +354,20 @@ this cache is approximately 248 bytes, depending on the JVM.
 
 See also link:cmd-flush-caches.html[gerrit flush-caches].
 
+[[cache_options]]Cache Options
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+cache.diff.intraline::
++
+Boolean to enable or disable the computation of intraline differences
+when populating a diff cache entry.  Changing this setting in the
+server configuration requires flushing the "diff" cache after a
+restart, otherwise older cache entries stored on disk may not reflect
+the current server setting.  This flag is provided primarily as a
+backdoor to disable the intraline difference feature if necessary.
++
+Default is true, enabled.
+
 
 [[commentlink]]Section commentlink
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

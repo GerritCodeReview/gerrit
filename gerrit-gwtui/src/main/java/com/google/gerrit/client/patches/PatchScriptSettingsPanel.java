@@ -54,6 +54,7 @@ public class PatchScriptSettingsPanel extends Composite implements
   }
 
   private PatchScriptSettings value;
+  private boolean enableIntralineDifference = true;
   private boolean enableSmallFileFeatures = true;
 
   @UiField
@@ -144,11 +145,21 @@ public class PatchScriptSettingsPanel extends Composite implements
     toggleEnabledStatus(update.isEnabled());
   }
 
-  private void toggleEnabledStatus(boolean on) {
-    on &= enableSmallFileFeatures;
+  public void setEnableIntralineDifference(final boolean on) {
+    enableIntralineDifference = on;
+    if (enableIntralineDifference) {
+      final PrettySettings p = getValue().getPrettySettings();
+      intralineDifference.setValue(p.isIntralineDifference());
+    } else {
+      intralineDifference.setValue(false);
+    }
+    toggleEnabledStatus(update.isEnabled());
+  }
 
-    syntaxHighlighting.setEnabled(on);
-    showFullFile.setEnabled(on);
+  private void toggleEnabledStatus(final boolean on) {
+    intralineDifference.setEnabled(on & enableIntralineDifference);
+    syntaxHighlighting.setEnabled(on & enableSmallFileFeatures);
+    showFullFile.setEnabled(on & enableSmallFileFeatures);
 
     final String title =
         enableSmallFileFeatures ? null : PatchUtil.C.disabledOnLargeFiles();

@@ -229,7 +229,7 @@ public class PatchListCacheImpl implements PatchListCache {
     Text aContent = null;
     Text bContent = null;
 
-    for (int i = 0; i < edits.size(); i++) {
+    for (int i = 0; false && i < edits.size(); i++) {
       Edit e = edits.get(i);
 
       if (e.getType() == Edit.Type.REPLACE) {

@@ -404,6 +404,12 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
         continue;
       }
 
+      if (!Repository.isValidRefName(cmd.getRefName())
+          || cmd.getRefName().contains("//")) {
+        reject(cmd, "not valid ref");
+        continue;
+      }
+
       if (cmd.getRefName().startsWith(NEW_CHANGE)) {
         parseNewChangeCommand(cmd);
         continue;

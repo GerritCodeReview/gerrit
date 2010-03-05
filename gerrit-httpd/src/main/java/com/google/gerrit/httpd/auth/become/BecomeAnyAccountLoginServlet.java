@@ -128,6 +128,14 @@ public class BecomeAnyAccountLoginServlet extends HttpServlet {
       webSession.get().login(res, false);
       final StringBuilder rdr = new StringBuilder();
       rdr.append(urlProvider.get());
+      if (IS_DEV && req.getParameter("gwt.codesvr") != null) {
+        if (rdr.indexOf("?") < 0) {
+          rdr.append("?");
+        } else {
+          rdr.append("&");
+        }
+        rdr.append("gwt.codesvr=").append(req.getParameter("gwt.codesvr"));
+      }
       rdr.append('#');
       if (res.isNew()) {
         rdr.append(PageLinks.REGISTER);

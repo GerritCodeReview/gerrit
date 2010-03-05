@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAvH///+8\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/CommandFactoryProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-03-05T00:18:00Z",
+      "side": 1,
+      "message": "I would suggest renaming this to insqquote or something.  Or maybe use inSqQuote, inDblQuote?",
+      "revId": "a7951485836e0e0445dbb0365da3208ae859d739",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAvH///+4\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/CommandFactoryProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-03-05T00:18:00Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be in an else block?  Within a double quoted string the single quote meaning is removed and it doesn\u0027t need to be balanced.  The same is true of the double quote character within a single quoted string.",
+      "revId": "a7951485836e0e0445dbb0365da3208ae859d739",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAvH///+0\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/CommandFactoryProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-03-05T00:18:00Z",
+      "side": 1,
+      "message": "Nak.  I think that within a double quoted string we should behave like Bourne shell does and actually consume \\\" as \", or \\\\ as \\.",
+      "revId": "a7951485836e0e0445dbb0365da3208ae859d739",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

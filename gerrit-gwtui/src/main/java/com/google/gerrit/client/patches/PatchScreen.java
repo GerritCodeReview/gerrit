@@ -45,7 +45,6 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DisclosurePanel;
@@ -86,9 +85,6 @@ public abstract class PatchScreen extends Screen implements
     public Unified(final Patch.Key id, final int patchIndex,
         final PatchTable patchTable) {
       super(id, patchIndex, patchTable);
-      DOM.setStyleAttribute(settingsPanel.getSyntaxHighlightingCheckBox()
-          .getElement(), "visibility", "hidden");
-
       final PatchScriptSettings s = settingsPanel.getValue();
       s.getPrettySettings().setSyntaxHighlighting(false);
       settingsPanel.setValue(s);

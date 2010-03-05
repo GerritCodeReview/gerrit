@@ -17,14 +17,36 @@
 @external .vt;
 @external .wdd;
 @external .wdi;
+
+@external .str;
+@external .kwd;
+@external .com;
+@external .typ;
+@external .lit;
 @external .pun;
+@external .pln;
+@external .tag;
+@external .atn;
+@external .atv;
+@external .dec;
 
 .wse {
   background: red;
   cursor: pointer;
 }
 
-.vt {
+.vt,
+.vt .str,
+.vt .kwd,
+.vt .com,
+.vt .typ,
+.vt .lit,
+.vt .pun,
+.vt .pln,
+.vt .tag,
+.vt .atn,
+.vt .atv,
+.vt .dec {
   color: red;
 }
 
@@ -39,10 +61,19 @@
  * error.  For these we want the whitespace error to take precedence
  * so we have to override the contained style.
  */
-.wse .vt,
-.wdd .vt,
-.wse .vt .pun,
-.wdd .vt .pun {
+.wse .vt, .wdd .vt,
+.wse .vt .pun, .wdd .vt .pun,
+.wse .vt .str, .wdd .vt .str,
+.wse .vt .kwd, .wdd .vt .kwd,
+.wse .vt .com, .wdd .vt .com,
+.wse .vt .typ, .wdd .vt .typ,
+.wse .vt .lit, .wdd .vt .lit,
+.wse .vt .pun, .wdd .vt .pun,
+.wse .vt .pln, .wdd .vt .pln,
+.wse .vt .tag, .wdd .vt .tag,
+.wse .vt .atn, .wdd .vt .atn,
+.wse .vt .atv, .wdd .vt .atv,
+.wse .vt .dec, .wdd .vt .dec {
   color: black;
 }
 .wse .wdd {

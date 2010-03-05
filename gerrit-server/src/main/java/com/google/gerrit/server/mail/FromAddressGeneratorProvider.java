@@ -41,9 +41,8 @@ public class FromAddressGeneratorProvider implements
     final Address srvAddr = toAddress(myIdent);
 
     if (from == null || "MIXED".equalsIgnoreCase(from)) {
-      final String name = "${user} (Code Review)";
-      final String email = srvAddr.email;
-      generator = new PatternGen(srvAddr, accountCache, name, email);
+      ParamertizedString name = new ParamertizedString("${user} (Code Review)");
+      generator = new PatternGen(srvAddr, accountCache, name, srvAddr.email);
 
     } else if ("USER".equalsIgnoreCase(from)) {
       generator = new UserGen(accountCache, srvAddr);
@@ -53,7 +52,12 @@ public class FromAddressGeneratorProvider implements
 
     } else {
       final Address a = Address.parse(from);
-      generator = new PatternGen(srvAddr, accountCache, a.name, a.email);
+      final ParamertizedString name = new ParamertizedString(a.name);
+      if (name.getParameterNames().isEmpty()) {
+        generator = new ServerGen(a);
+      } else {
+        generator = new PatternGen(srvAddr, accountCache, name, a.email);
+      }
     }
   }
 
@@ -76,6 +80,11 @@ public class FromAddressGeneratorProvider implements
     }
 
     @Override
+    public boolean isGenericAddress(Account.Id fromId) {
+      return from(fromId) != srvAddr;
+    }
+
+    @Override
     public Address from(final Account.Id fromId) {
       if (fromId != null) {
         final Account a = accountCache.get(fromId).getAccount();
@@ -95,6 +104,11 @@ public class FromAddressGeneratorProvider implements
     }
 
     @Override
+    public boolean isGenericAddress(Account.Id fromId) {
+      return true;
+    }
+
+    @Override
     public Address from(final Account.Id fromId) {
       return srvAddr;
     }
@@ -107,11 +121,22 @@ public class FromAddressGeneratorProvider implements
     private final ParamertizedString namePattern;
 
     PatternGen(final Address serverAddress, final AccountCache accountCache,
-        final String namePattern, final String senderEmail) {
+        final ParamertizedString namePattern, final String senderEmail) {
       this.senderEmail = senderEmail;
       this.serverAddress = serverAddress;
       this.accountCache = accountCache;
-      this.namePattern = new ParamertizedString(namePattern);
+      this.namePattern = namePattern;
+    }
+
+    @Override
+    public boolean isGenericAddress(Account.Id fromId) {
+      if (fromId != null) {
+        final Account account = accountCache.get(fromId).getAccount();
+        final String name = account.getFullName();
+        return name == null || "".equals(name);
+      } else {
+        return true;
+      }
     }
 
     @Override

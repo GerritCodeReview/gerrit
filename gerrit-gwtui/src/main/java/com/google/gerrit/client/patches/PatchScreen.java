@@ -447,6 +447,7 @@ public abstract class PatchScreen extends Screen implements
       contentTable.finishDisplay();
     }
     showPatch(hasDifferences);
+    settingsPanel.setEnableSmallFileFeatures(!script.isHugeFile());
     settingsPanel.setEnabled(true);
     lastScript = script;
 

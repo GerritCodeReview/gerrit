@@ -118,7 +118,7 @@ class PatchScriptBuilder {
       return new PatchScript(change.getKey(), content.getChangeType(), content
           .getOldName(), content.getNewName(), content.getHeaderLines(),
           settings, a.dst, b.dst, Collections.<Edit> emptyList(),
-          a.displayMethod, b.displayMethod, comments, history);
+          a.displayMethod, b.displayMethod, comments, history, false);
     }
 
     a.path = oldName(content);
@@ -130,6 +130,7 @@ class PatchScriptBuilder {
     edits = new ArrayList<Edit>(content.getEdits());
     ensureCommentsVisible(comments);
 
+    boolean hugeFile = false;
     if (a.mode == FileMode.GITLINK || b.mode == FileMode.GITLINK) {
 
     } else if (a.src == b.src && a.size() <= context
@@ -152,6 +153,7 @@ class PatchScriptBuilder {
         settings.setContext(Math.min(25, context));
         settings.getPrettySettings().setSyntaxHighlighting(false);
         context = settings.getContext();
+        hugeFile = true;
 
       } else if (settings.getPrettySettings().isSyntaxHighlighting()) {
         // In order to syntax highlight the file properly we need to
@@ -166,7 +168,7 @@ class PatchScriptBuilder {
     return new PatchScript(change.getKey(), content.getChangeType(), content
         .getOldName(), content.getNewName(), content.getHeaderLines(),
         settings, a.dst, b.dst, edits, a.displayMethod, b.displayMethod,
-        comments, history);
+        comments, history, hugeFile);
   }
 
   private static String oldName(final PatchListEntry entry) {

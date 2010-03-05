@@ -54,6 +54,7 @@ public class PatchScriptSettingsPanel extends Composite implements
   }
 
   private PatchScriptSettings value;
+  private boolean enableSmallFileFeatures = true;
 
   @UiField
   ListBox ignoreWhitespace;
@@ -126,10 +127,33 @@ public class PatchScriptSettingsPanel extends Composite implements
         ((FocusWidget) w).setEnabled(on);
       }
     }
+    toggleEnabledStatus(on);
   }
 
-  public CheckBox getSyntaxHighlightingCheckBox() {
-    return syntaxHighlighting;
+  public void setEnableSmallFileFeatures(final boolean on) {
+    enableSmallFileFeatures = on;
+    if (enableSmallFileFeatures) {
+      final PrettySettings p = getValue().getPrettySettings();
+
+      syntaxHighlighting.setValue(p.isSyntaxHighlighting());
+      showFullFile.setValue(getValue().getContext() == WHOLE_FILE_CONTEXT);
+    } else {
+      syntaxHighlighting.setValue(false);
+      showFullFile.setValue(false);
+    }
+    toggleEnabledStatus(update.isEnabled());
+  }
+
+  private void toggleEnabledStatus(boolean on) {
+    on &= enableSmallFileFeatures;
+
+    syntaxHighlighting.setEnabled(on);
+    showFullFile.setEnabled(on);
+
+    final String title =
+        enableSmallFileFeatures ? null : PatchUtil.C.disabledOnLargeFiles();
+    syntaxHighlighting.setTitle(title);
+    showFullFile.setTitle(title);
   }
 
   public CheckBox getReviewedCheckBox() {
@@ -144,11 +168,16 @@ public class PatchScriptSettingsPanel extends Composite implements
     final PrettySettings p = s.getPrettySettings();
 
     setIgnoreWhitespace(s.getWhitespace());
-    showFullFile.setValue(s.getContext() == WHOLE_FILE_CONTEXT);
+    if (enableSmallFileFeatures) {
+      showFullFile.setValue(s.getContext() == WHOLE_FILE_CONTEXT);
+      syntaxHighlighting.setValue(p.isSyntaxHighlighting());
+    } else {
+      showFullFile.setValue(false);
+      syntaxHighlighting.setValue(false);
+    }
 
     tabWidth.setIntValue(p.getTabSize());
     colWidth.setIntValue(p.getLineLength());
-    syntaxHighlighting.setValue(p.isSyntaxHighlighting());
     intralineDifference.setValue(p.isIntralineDifference());
     whitespaceErrors.setValue(p.isShowWhiteSpaceErrors());
     showTabs.setValue(p.isShowTabs());

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.common.data;
 
+import static com.google.gerrit.reviewdb.AccountGeneralPreferences.WHOLE_FILE_CONTEXT;
+
 import com.google.gerrit.common.data.PatchScriptSettings.Whitespace;
 import com.google.gerrit.prettify.client.ClientSideFormatter;
 import com.google.gerrit.prettify.common.EditList;
@@ -28,7 +30,6 @@ import com.google.gerrit.reviewdb.Patch.ChangeType;
 import org.eclipse.jgit.diff.Edit;
 
 import java.util.List;
-import static com.google.gerrit.reviewdb.AccountGeneralPreferences.*;
 
 public class PatchScript {
   public static enum DisplayMethod {
@@ -48,12 +49,13 @@ public class PatchScript {
   protected DisplayMethod displayMethodB;
   protected CommentDetail comments;
   protected List<Patch> history;
+  protected boolean hugeFile;
 
   public PatchScript(final Change.Key ck, final ChangeType ct, final String on,
       final String nn, final List<String> h, final PatchScriptSettings s,
       final SparseFileContent ca, final SparseFileContent cb,
       final List<Edit> e, final DisplayMethod ma, final DisplayMethod mb,
-      final CommentDetail cd, final List<Patch> hist) {
+      final CommentDetail cd, final List<Patch> hist, final boolean hf) {
     changeId = ck;
     changeType = ct;
     oldName = on;
@@ -67,6 +69,7 @@ public class PatchScript {
     displayMethodB = mb;
     comments = cd;
     history = hist;
+    hugeFile = hf;
   }
 
   protected PatchScript() {
@@ -114,6 +117,10 @@ public class PatchScript {
 
   public void setSettings(PatchScriptSettings s) {
     settings = s;
+  }
+
+  public boolean isHugeFile() {
+    return hugeFile;
   }
 
   public boolean isIgnoreWhitespace() {

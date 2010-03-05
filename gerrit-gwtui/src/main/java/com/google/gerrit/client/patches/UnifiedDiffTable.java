@@ -132,6 +132,8 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
       nc.closeTr();
     }
 
+    final boolean syntaxHighlighting =
+        script.getSettings().getPrettySettings().isSyntaxHighlighting();
     final ArrayList<PatchLine> lines = new ArrayList<PatchLine>();
     for (final EditList.Hunk hunk : script.getHunks()) {
       appendHunkHeader(nc, hunk);
@@ -140,7 +142,7 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
           openLine(nc);
           appendLineNumber(nc, hunk.getCurA());
           appendLineNumber(nc, hunk.getCurB());
-          appendLineText(nc, CONTEXT, a, hunk.getCurA());
+          appendLineText(nc, false, CONTEXT, a, hunk.getCurA());
           closeLine(nc);
           hunk.incBoth();
           lines.add(new PatchLine(CONTEXT, hunk.getCurA(), hunk.getCurB()));
@@ -149,7 +151,7 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
           openLine(nc);
           appendLineNumber(nc, hunk.getCurA());
           padLineNumber(nc);
-          appendLineText(nc, DELETE, a, hunk.getCurA());
+          appendLineText(nc, syntaxHighlighting, DELETE, a, hunk.getCurA());
           closeLine(nc);
           hunk.incA();
           lines.add(new PatchLine(DELETE, hunk.getCurA(), 0));
@@ -162,7 +164,7 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
           openLine(nc);
           padLineNumber(nc);
           appendLineNumber(nc, hunk.getCurB());
-          appendLineText(nc, INSERT, b, hunk.getCurB());
+          appendLineText(nc, syntaxHighlighting, INSERT, b, hunk.getCurB());
           closeLine(nc);
           hunk.incB();
           lines.add(new PatchLine(INSERT, 0, hunk.getCurB()));
@@ -308,7 +310,8 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
   }
 
   private void appendLineText(final SafeHtmlBuilder m,
-      final PatchLine.Type type, final SparseHtmlFile src, final int i) {
+      boolean syntaxHighlighting, final PatchLine.Type type,
+      final SparseHtmlFile src, final int i) {
     final SafeHtml text = src.getSafeHtmlLine(i);
     m.openTd();
     m.addStyleName(Gerrit.RESOURCES.css().diffText());
@@ -320,11 +323,17 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
         break;
       case DELETE:
         m.addStyleName(Gerrit.RESOURCES.css().diffTextDELETE());
+        if (syntaxHighlighting) {
+          m.addStyleName(Gerrit.RESOURCES.css().fileLineDELETE());
+        }
         m.append("-");
         m.append(text);
         break;
       case INSERT:
         m.addStyleName(Gerrit.RESOURCES.css().diffTextINSERT());
+        if (syntaxHighlighting) {
+          m.addStyleName(Gerrit.RESOURCES.css().fileLineINSERT());
+        }
         m.append("+");
         m.append(text);
         break;

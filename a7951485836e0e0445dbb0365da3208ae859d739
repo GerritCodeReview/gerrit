@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAvH///+s\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/CommandFactoryProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2010-03-05T00:47:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAAvH///+8\u003d",
+      "revId": "a7951485836e0e0445dbb0365da3208ae859d739",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAvH///+4\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/CommandFactoryProvider.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAvH///+o\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/CommandFactoryProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2010-03-05T00:47:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAAvH///+4\u003d",
+      "revId": "a7951485836e0e0445dbb0365da3208ae859d739",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAvH///+0\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/CommandFactoryProvider.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2010-03-05T00:18:00Z",
       "side": 1,
       "message": "Nak.  I think that within a double quoted string we should behave like Bourne shell does and actually consume \\\" as \", or \\\\ as \\.",
+      "revId": "a7951485836e0e0445dbb0365da3208ae859d739",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAvH///+k\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/CommandFactoryProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2010-03-05T00:47:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAAvH///+0\u003d",
       "revId": "a7951485836e0e0445dbb0365da3208ae859d739",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

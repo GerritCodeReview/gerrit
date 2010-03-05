@@ -40,13 +40,13 @@ limitations under the License.
     white-space: nowrap;
   }
 
-  .gwt-TextBox {
+  .controls .gwt-TextBox {
     font-size: fontSize;
     padding: 0;
     text-align: right;
   }
 
-  .gwt-ListBox {
+  .controls .gwt-ListBox {
     font-size: fontSize;
     padding: 0;
   }

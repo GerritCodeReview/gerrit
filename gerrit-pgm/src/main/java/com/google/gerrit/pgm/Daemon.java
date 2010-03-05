@@ -45,6 +45,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -91,6 +92,12 @@ public class Daemon extends SiteProgram {
   @Override
   public int run() throws Exception {
     mustHaveValidSite();
+    Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler() {
+      @Override
+      public void uncaughtException(Thread t, Throwable e) {
+        log.error("Thread " + t.getName() + " threw exception", e);
+      }
+    });
 
     if (runId != null) {
       runFile = new File(new File(getSitePath(), "logs"), "gerrit.run");

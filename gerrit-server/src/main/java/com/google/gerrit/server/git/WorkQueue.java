@@ -19,6 +19,10 @@ import com.google.gerrit.server.util.IdGenerator;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -55,6 +59,15 @@ public class WorkQueue {
       workQueue.stop();
     }
   }
+
+  private static final Logger log = LoggerFactory.getLogger(WorkQueue.class);
+  private static final UncaughtExceptionHandler LOG_UNCAUGHT_EXCEPTION =
+      new UncaughtExceptionHandler() {
+        @Override
+        public void uncaughtException(Thread t, Throwable e) {
+          log.error("WorkQueue thread " + t.getName() + " threw exception", e);
+        }
+      };
 
   private Executor defaultQueue;
   private final IdGenerator idGenerator;
@@ -137,6 +150,7 @@ public class WorkQueue {
         public Thread newThread(final Runnable task) {
           final Thread t = parent.newThread(task);
           t.setName(prefix + "-" + tid.getAndIncrement());
+          t.setUncaughtExceptionHandler(LOG_UNCAUGHT_EXCEPTION);
           return t;
         }
       });

@@ -151,9 +151,6 @@ public class ApproveCommand extends BaseCommand {
     final ChangeControl changeControl =
         changeControlFactory.validateFor(changeId);
     final Change change = changeControl.getChange();
-    if (change.getStatus().isClosed()) {
-      throw error("change " + changeId + " is closed");
-    }
 
     final StringBuffer msgBuf = new StringBuffer();
     msgBuf.append("Patch Set ");
@@ -163,32 +160,34 @@ public class ApproveCommand extends BaseCommand {
     final Map<ApprovalCategory.Id, ApprovalCategoryValue.Id> approvalsMap =
         new HashMap<ApprovalCategory.Id, ApprovalCategoryValue.Id>();
 
-    for (ApproveOption co : optionList) {
-      final ApprovalCategory.Id category = co.getCategoryId();
-      PatchSetApproval.Key psaKey =
-          new PatchSetApproval.Key(patchSetId, currentUser.getAccountId(),
-              category);
-      PatchSetApproval psa = db.patchSetApprovals().get(psaKey);
+    if (change.getStatus().isOpen()) {
+      for (ApproveOption co : optionList) {
+        final ApprovalCategory.Id category = co.getCategoryId();
+        PatchSetApproval.Key psaKey =
+            new PatchSetApproval.Key(patchSetId, currentUser.getAccountId(),
+                category);
+        PatchSetApproval psa = db.patchSetApprovals().get(psaKey);
 
-      Short score = co.value();
+        Short score = co.value();
 
-      if (score != null) {
-        addApproval(psaKey, score, change, co);
-      } else {
-        if (psa == null) {
-          score = 0;
+        if (score != null) {
           addApproval(psaKey, score, change, co);
         } else {
-          score = psa.getValue();
+          if (psa == null) {
+            score = 0;
+            addApproval(psaKey, score, change, co);
+          } else {
+            score = psa.getValue();
+          }
         }
+
+        final ApprovalCategoryValue.Id val =
+            new ApprovalCategoryValue.Id(category, score);
+
+        String message = db.approvalCategoryValues().get(val).getName();
+        msgBuf.append(" " + message + ";");
+        approvalsMap.put(category, val);
       }
-
-      final ApprovalCategoryValue.Id val =
-          new ApprovalCategoryValue.Id(category, score);
-
-      String message = db.approvalCategoryValues().get(val).getName();
-      msgBuf.append(" " + message + ";");
-      approvalsMap.put(category, val);
     }
 
     msgBuf.deleteCharAt(msgBuf.length() - 1);

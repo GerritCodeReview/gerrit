@@ -37,7 +37,7 @@ class UserPassAuthServiceImpl implements UserPassAuthService {
   }
 
   @Override
-  public void authenticate(final String username, final String password,
+  public void authenticate(String username, final String password,
       final AsyncCallback<LoginResult> callback) {
     LoginResult result = new LoginResult();
     if (username == null || "".equals(username) //
@@ -46,6 +46,8 @@ class UserPassAuthServiceImpl implements UserPassAuthService {
       callback.onSuccess(result);
       return;
     }
+
+    username = username.trim().toLowerCase();
 
     final AuthRequest req = AuthRequest.forUser(username);
     req.setPassword(password);

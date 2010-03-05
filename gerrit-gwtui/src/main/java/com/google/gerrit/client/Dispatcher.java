@@ -83,10 +83,21 @@ public class Dispatcher {
     return "admin,project," + n.toString() + "," + tab;
   }
 
-  void display(final String token) {
+  static final String RELOAD_UI = "reload-ui,";
+  private static boolean wasStartedByReloadUI;
+
+  void display(String token) {
     assert token != null;
     try {
-      select(token);
+      try {
+        if (token.startsWith(RELOAD_UI)) {
+          wasStartedByReloadUI = true;
+          token = skip(RELOAD_UI, token);
+        }
+        select(token);
+      } finally {
+        wasStartedByReloadUI = false;
+      }
     } catch (RuntimeException err) {
       GWT.log("Error parsing history token: " + token, err);
       Gerrit.display(token, new NotFoundScreen());
@@ -217,8 +228,8 @@ public class Dispatcher {
     return new NotFoundScreen();
   }
 
-  private static void publish(final String token) {
-    new RunAsyncCallback() {
+  private static void publish(String token) {
+    new AsyncSplit(token) {
       public void onSuccess() {
         Gerrit.display(token, select());
       }
@@ -229,16 +240,12 @@ public class Dispatcher {
           return new PublishCommentScreen(PatchSet.Id.parse(skip(p, token)));
         return new NotFoundScreen();
       }
-
-      public void onFailure(Throwable reason) {
-        new ErrorDialog(reason).center();
-      }
     }.onSuccess();
   }
 
-  public static void patch(final String token, final Patch.Key id,
+  public static void patch(String token, final Patch.Key id,
       final int patchIndex, final PatchTable patchTable) {
-    GWT.runAsync(new RunAsyncCallback() {
+    GWT.runAsync(new AsyncSplit(token) {
       public void onSuccess() {
         Gerrit.display(token, select());
       }
@@ -266,15 +273,11 @@ public class Dispatcher {
 
         return new NotFoundScreen();
       }
-
-      public void onFailure(Throwable reason) {
-        new ErrorDialog(reason).center();
-      }
     });
   }
 
-  private static void settings(final String token) {
-    GWT.runAsync(new RunAsyncCallback() {
+  private static void settings(String token) {
+    GWT.runAsync(new AsyncSplit(token) {
       public void onSuccess() {
         Gerrit.display(token, select());
       }
@@ -328,15 +331,11 @@ public class Dispatcher {
 
         return new AccountSettings(token);
       }
-
-      public void onFailure(Throwable reason) {
-        new ErrorDialog(reason).center();
-      }
     });
   }
 
-  private static void admin(final String token) {
-    GWT.runAsync(new RunAsyncCallback() {
+  private static void admin(String token) {
+    GWT.runAsync(new AsyncSplit(token) {
       public void onSuccess() {
         Gerrit.display(token, select());
       }
@@ -366,14 +365,33 @@ public class Dispatcher {
 
         return new NotFoundScreen();
       }
-
-      public void onFailure(Throwable reason) {
-        new ErrorDialog(reason).center();
-      }
     });
   }
 
   private static String skip(final String prefix, final String in) {
     return in.substring(prefix.length());
+  }
+
+  private static abstract class AsyncSplit implements RunAsyncCallback {
+    private final boolean isReloadUi;
+    protected final String token;
+
+    protected AsyncSplit(String token) {
+      this.isReloadUi = wasStartedByReloadUI;
+      this.token = token;
+    }
+
+    public final void onFailure(Throwable reason) {
+      if (!isReloadUi
+          && "HTTP download failed with status 404".equals(reason.getMessage())) {
+        // The server was upgraded since we last download the main script,
+        // so the pointers to the splits aren't valid anymore.  Force the
+        // page to reload itself and pick up the new code.
+        //
+        Gerrit.upgradeUI(token);
+      } else {
+        new ErrorDialog(reason).center();
+      }
+    }
   }
 }

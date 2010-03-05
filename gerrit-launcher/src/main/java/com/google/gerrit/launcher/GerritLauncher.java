@@ -118,12 +118,14 @@ public final class GerritLauncher {
     Class<?> clazz;
     try {
       try {
-        clazz = Class.forName(pkg + "." + name, true, loader);
+        String cn = name;
+        if (cn.equals(cn.toLowerCase())) {
+          cn = cn.substring(0, 1).toUpperCase() + cn.substring(1);
+        }
+        clazz = Class.forName(pkg + "." + cn, true, loader);
       } catch (ClassNotFoundException cnfe) {
         if (name.equals(name.toLowerCase())) {
-          String first = name.substring(0, 1).toUpperCase();
-          String cn = first + name.substring(1);
-          clazz = Class.forName(pkg + "." + cn, true, loader);
+          clazz = Class.forName(pkg + "." + name, true, loader);
         } else {
           throw cnfe;
         }

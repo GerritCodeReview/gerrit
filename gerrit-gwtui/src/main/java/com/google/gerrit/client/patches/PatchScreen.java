@@ -247,6 +247,13 @@ public abstract class PatchScreen extends Screen implements
       // We don't have sufficient context.
       return false;
     }
+
+    if (s.getPrettySettings().isSyntaxHighlighting()
+        && !last.getA().isWholeFile()) {
+      // We need the whole file to syntax highlight accurately.
+      return false;
+    }
+
     return true;
   }
 

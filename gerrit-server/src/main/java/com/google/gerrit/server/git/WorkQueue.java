@@ -181,20 +181,6 @@ public class WorkQueue {
       throw new UnsupportedOperationException("Callable not implemented");
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    protected void afterExecute(Runnable r, Throwable t) {
-      if (r instanceof Task) {
-        final Task<?> task = (Task<?>) r;
-        if (!task.isPeriodic()) {
-          remove(task);
-        }
-      } else {
-        log.error("Non task object in queue: " + r.getClass() + ": " + r);
-      }
-      super.afterExecute(r, t);
-    }
-
     void remove(final Task<?> task) {
       all.remove(task.getTaskId(), task);
     }
@@ -330,6 +316,8 @@ public class WorkQueue {
         } finally {
           if (isPeriodic()) {
             running.set(false);
+          } else {
+            executor.remove(this);
           }
         }
       }

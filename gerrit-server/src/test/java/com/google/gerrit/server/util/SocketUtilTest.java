@@ -116,13 +116,5 @@ public class SocketUtilTest extends TestCase {
         resolve("[localhost]:1234", 80));
     assertEquals(new InetSocketAddress(getByName("localhost"), 80), //
         resolve("[localhost]", 80));
-
-    String badname = "this-name-is-not-supposed-to-resolve-on-your-network";
-    try {
-      resolve(badname + ":12", 80);
-      fail("did not throw exception");
-    } catch (IllegalArgumentException e) {
-      assertEquals("unknown host: " + badname + ":12", e.getMessage());
-    }
   }
 }

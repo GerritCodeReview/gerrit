@@ -24,6 +24,7 @@ import com.google.gerrit.server.cache.Cache;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.EvictionPolicy;
 import com.google.gerrit.server.cache.SelfPopulatingCache;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.Module;
@@ -37,6 +38,7 @@ import org.eclipse.jgit.diff.ReplaceEdit;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
@@ -86,11 +88,14 @@ public class PatchListCacheImpl implements PatchListCache {
 
   private final GitRepositoryManager repoManager;
   private final SelfPopulatingCache<PatchListKey, PatchList> self;
+  private final boolean computeIntraline;
 
   @Inject
   PatchListCacheImpl(final GitRepositoryManager grm,
+      @GerritServerConfig final Config config,
       @Named(CACHE_NAME) final Cache<PatchListKey, PatchList> raw) {
     repoManager = grm;
+    computeIntraline = config.getBoolean("cache", "diff", "intraline", true);
     self = new SelfPopulatingCache<PatchListKey, PatchList>(raw) {
       @Override
       protected PatchList createEntry(final PatchListKey key) throws Exception {
@@ -197,10 +202,10 @@ public class PatchListCacheImpl implements PatchListCache {
     for (int i = 0; i < cnt; i++) {
       entries[i] = newEntry(repo, aTree, bTree, p.getFiles().get(i));
     }
-    return new PatchList(a, b, entries);
+    return new PatchList(a, b, computeIntraline, entries);
   }
 
-  private static PatchListEntry newEntry(Repository repo, RevTree aTree,
+  private PatchListEntry newEntry(Repository repo, RevTree aTree,
       RevTree bTree, FileHeader fileHeader) throws IOException {
     final FileMode oldMode = fileHeader.getOldMode();
     final FileMode newMode = fileHeader.getNewMode();
@@ -219,6 +224,9 @@ public class PatchListCacheImpl implements PatchListCache {
     if (edits.isEmpty()) {
       return new PatchListEntry(fileHeader, Collections.<Edit> emptyList());
     }
+    if (!computeIntraline) {
+      return new PatchListEntry(fileHeader, edits);
+    }
 
     switch (fileHeader.getChangeType()) {
       case ADD:
@@ -229,7 +237,7 @@ public class PatchListCacheImpl implements PatchListCache {
     Text aContent = null;
     Text bContent = null;
 
-    for (int i = 0; false && i < edits.size(); i++) {
+    for (int i = 0; i < edits.size(); i++) {
       Edit e = edits.get(i);
 
       if (e.getType() == Edit.Type.REPLACE) {

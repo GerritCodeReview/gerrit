@@ -144,6 +144,7 @@ class PatchScriptFactory extends Handler<PatchScript> {
     }
     try {
       final PatchList list = listFor(keyFor(settings.getWhitespace()));
+      final boolean intraline = list.hasIntralineDifference();
       final PatchScriptBuilder b = newBuilder(list, git);
       final PatchListEntry content = list.get(patchKey.getFileName());
 
@@ -152,7 +153,7 @@ class PatchScriptFactory extends Handler<PatchScript> {
           content.getNewName());
 
       try {
-        return b.toPatchScript(content, comments, history);
+        return b.toPatchScript(content, intraline, comments, history);
       } catch (IOException e) {
         log.error("File content unavailable", e);
         throw new NoSuchChangeException(changeId, e);

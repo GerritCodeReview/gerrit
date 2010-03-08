@@ -109,8 +109,8 @@ class PatchScriptBuilder {
   }
 
   PatchScript toPatchScript(final PatchListEntry content,
-      final CommentDetail comments, final List<Patch> history)
-      throws IOException {
+      final boolean intralineDifference, final CommentDetail comments,
+      final List<Patch> history) throws IOException {
     if (content.getPatchType() == PatchType.N_WAY) {
       // For a diff --cc format we don't support converting it into
       // a patch script. Instead treat everything as a file header.
@@ -118,7 +118,7 @@ class PatchScriptBuilder {
       return new PatchScript(change.getKey(), content.getChangeType(), content
           .getOldName(), content.getNewName(), content.getHeaderLines(),
           settings, a.dst, b.dst, Collections.<Edit> emptyList(),
-          a.displayMethod, b.displayMethod, comments, history, false);
+          a.displayMethod, b.displayMethod, comments, history, false, false);
     }
 
     a.path = oldName(content);
@@ -168,7 +168,7 @@ class PatchScriptBuilder {
     return new PatchScript(change.getKey(), content.getChangeType(), content
         .getOldName(), content.getNewName(), content.getHeaderLines(),
         settings, a.dst, b.dst, edits, a.displayMethod, b.displayMethod,
-        comments, history, hugeFile);
+        comments, history, hugeFile, intralineDifference);
   }
 
   private static String oldName(final PatchListEntry entry) {

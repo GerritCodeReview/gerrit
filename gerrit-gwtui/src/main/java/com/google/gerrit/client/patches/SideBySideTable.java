@@ -74,6 +74,9 @@ public class SideBySideTable extends AbstractPatchContentTable {
     final SparseHtmlFile b = script.getSparseHtmlFileB();
     final ArrayList<PatchLine> lines = new ArrayList<PatchLine>();
     final SafeHtmlBuilder nc = new SafeHtmlBuilder();
+    final boolean intraline =
+        script.getSettings().getPrettySettings().isIntralineDifference()
+            && script.hasIntralineDifference();
 
     appendHeader(script, nc);
     lines.add(null);
@@ -105,8 +108,7 @@ public class SideBySideTable extends AbstractPatchContentTable {
           final boolean del = hunk.isDeletedA();
           final boolean ins = hunk.isInsertedB();
           final boolean full =
-              script.getSettings().getPrettySettings().isIntralineDifference()
-                  && hunk.getCurEdit().getType() != Edit.Type.REPLACE;
+              intraline && hunk.getCurEdit().getType() != Edit.Type.REPLACE;
           openLine(nc);
 
           if (del) {

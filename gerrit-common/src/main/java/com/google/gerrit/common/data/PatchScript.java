@@ -50,12 +50,14 @@ public class PatchScript {
   protected CommentDetail comments;
   protected List<Patch> history;
   protected boolean hugeFile;
+  protected boolean intralineDifference;
 
   public PatchScript(final Change.Key ck, final ChangeType ct, final String on,
       final String nn, final List<String> h, final PatchScriptSettings s,
       final SparseFileContent ca, final SparseFileContent cb,
       final List<Edit> e, final DisplayMethod ma, final DisplayMethod mb,
-      final CommentDetail cd, final List<Patch> hist, final boolean hf) {
+      final CommentDetail cd, final List<Patch> hist, final boolean hf,
+      final boolean id) {
     changeId = ck;
     changeType = ct;
     oldName = on;
@@ -70,6 +72,7 @@ public class PatchScript {
     comments = cd;
     history = hist;
     hugeFile = hf;
+    intralineDifference = id;
   }
 
   protected PatchScript() {
@@ -125,6 +128,10 @@ public class PatchScript {
 
   public boolean isIgnoreWhitespace() {
     return settings.getWhitespace() != Whitespace.IGNORE_NONE;
+  }
+
+  public boolean hasIntralineDifference() {
+    return intralineDifference;
   }
 
   public SparseFileContent getA() {

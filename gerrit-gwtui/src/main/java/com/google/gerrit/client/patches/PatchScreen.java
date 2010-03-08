@@ -448,6 +448,7 @@ public abstract class PatchScreen extends Screen implements
     }
     showPatch(hasDifferences);
     settingsPanel.setEnableSmallFileFeatures(!script.isHugeFile());
+    settingsPanel.setEnableIntralineDifference(script.hasIntralineDifference());
     settingsPanel.setEnabled(true);
     lastScript = script;
 

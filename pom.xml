@@ -50,7 +50,7 @@ limitations under the License.
     <gwtormVersion>1.1.4</gwtormVersion>
     <gwtjsonrpcVersion>1.2.2</gwtjsonrpcVersion>
     <gwtexpuiVersion>1.2.1</gwtexpuiVersion>
-    <gwtVersion>2.0.2</gwtVersion>
+    <gwtVersion>2.0.3</gwtVersion>
     <slf4jVersion>1.5.8</slf4jVersion>
     <guiceVersion>2.0</guiceVersion>
     <jettyVersion>7.0.1.v20091125</jettyVersion>

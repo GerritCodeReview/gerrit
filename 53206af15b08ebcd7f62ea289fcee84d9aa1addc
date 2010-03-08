@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAvX///7M\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/ldap/UserPassAuthServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-03-08T20:16:47Z",
+      "side": 1,
+      "message": "We probably should do this before the test for empty string, just in case the input username was foolishly \"  \".\n\nAlso, do we really want to lowercase everything?  Some existing databases won\u0027t be lowercased and lowercasing now might cause their users to create new duplicate accounts.  Either we need a schema upgrade to force records lowercase, or we need a configuration flag that enables the lowercasing behavior.",
+      "revId": "53206af15b08ebcd7f62ea289fcee84d9aa1addc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

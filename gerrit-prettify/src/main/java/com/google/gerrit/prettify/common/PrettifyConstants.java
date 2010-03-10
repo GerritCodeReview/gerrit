@@ -22,4 +22,5 @@ public interface PrettifyConstants extends Constants {
 
   String wseTabAfterSpace();
   String wseTrailingSpace();
+  String wseBareCR();
 }

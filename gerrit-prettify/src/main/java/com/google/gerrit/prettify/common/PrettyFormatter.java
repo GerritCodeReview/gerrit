@@ -314,6 +314,11 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
         b.append('\n');
       }
       html = b;
+
+      final String r = "<span class=\"wse\"" //
+          + " title=\"" + PrettifyConstants.C.wseBareCR() + "\"" //
+          + ">&nbsp;</span>$1";
+      html = html.replaceAll("\r([^\n])", r);
     }
 
     if (settings.isShowWhiteSpaceErrors()) {
@@ -363,7 +368,7 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
       if (cmp < 0) {
         // index occurs before the edit. This is a line of context.
         //
-        buf.append(src.get(index));
+        appendShowBareCR(buf, src.get(index), true);
         buf.append('\n');
         continue;
       }
@@ -378,10 +383,10 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
           lastIdx = 0;
         }
 
-        final String line = src.get(index) + "\n";
+        String line = src.get(index) + "\n";
         for (int c = 0; c < line.length();) {
           if (charEdits.size() <= lastIdx) {
-            buf.append(line.substring(c));
+            appendShowBareCR(buf, line.substring(c), false);
             break;
           }
 
@@ -396,7 +401,8 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
             final int cmnLen = Math.min(b, line.length());
             buf.openSpan();
             buf.setStyleName("wdc");
-            buf.append(line.substring(c, cmnLen));
+            appendShowBareCR(buf, line.substring(c, cmnLen), //
+                cmnLen == line.length() - 1);
             buf.closeSpan();
             c = cmnLen;
           }
@@ -405,7 +411,8 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
           if (c < e && c < modLen) {
             buf.openSpan();
             buf.setStyleName(side.getStyleName());
-            buf.append(line.substring(c, modLen));
+            appendShowBareCR(buf, line.substring(c, modLen), //
+                modLen == line.length() - 1);
             buf.closeSpan();
             if (modLen == line.length()) {
               trailingEdits.add(index);
@@ -420,11 +427,39 @@ public abstract class PrettyFormatter implements SparseHtmlFile {
         lastPos += line.length();
 
       } else {
-        buf.append(src.get(index));
+        appendShowBareCR(buf, src.get(index), true);
         buf.append('\n');
       }
     }
     return buf;
+  }
+
+  private void appendShowBareCR(SafeHtmlBuilder buf, String src, boolean end) {
+    while (!src.isEmpty()) {
+      int cr = src.indexOf('\r');
+      if (cr < 0) {
+        buf.append(src);
+        return;
+
+      } else if (end) {
+        if (cr == src.length() - 1) {
+          buf.append(src.substring(0, cr));
+          return;
+        }
+      } else if (cr == src.length() - 2 && src.charAt(cr + 1) == '\n') {
+        buf.append(src.substring(0, cr));
+        buf.append('\n');
+        return;
+      }
+
+      buf.append(src.substring(0, cr));
+      buf.openSpan();
+      buf.setStyleName("wse");
+      buf.setAttribute("title", PrettifyConstants.C.wseBareCR());
+      buf.nbsp();
+      buf.closeSpan();
+      src = src.substring(cr + 1);
+    }
   }
 
   private int compare(int index, Edit edit) {

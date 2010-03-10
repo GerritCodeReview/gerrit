@@ -41,10 +41,16 @@ UI - Diff Viewer
 
 * issue 169 Highlight line-level (aka word) differences in files
 +
-Differences within a replaced line are now highlighted with a brighter
-red or green background color.  The highlighting algorithm is still
-crude and could benefit from more fine-tuning, as its largely driven
-by a simple Myers O(ND) character difference over the replaced lines.
+Differences within a replaced line are now highlighted with a
+brighter red or green background color.  Some heuristics are
+applied to identify and highlight reindented blocks in popular
+C/C++/Java/C#-like and Python-like languages.  The highlighting
+algorithm is still simple and could benefit from more fine-tuning,
+as its largely driven by a simple Myers O(ND) character difference
+over the replaced lines.
++
+The configuration variable cache.diff.intraline can be used to
+disable this feature site-wide, if it causes problems.
 
 * Improve side-by-side viewer look-and-feel
 +
@@ -101,6 +107,8 @@ h. WINDOWS-1252
 
 * issue 405 Add canned per-line comment reply of 'Done'
 * issue 380 Use N/P to jump to next/previous comments
+* Use RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK for tabs
+* Use a tooltip to explain whitespace errors
 
 UI - Other
 ~~~~~~~~~~
@@ -133,11 +141,12 @@ than jumping to the remote Google Code project site.
 +
 Download commands for patch sets are now offered as a tabbed panel,
 allowing the user to select between 'repo download', 'git pull',
-or 'git fetch ... && git cherry-pick' styles, as well as to select
-the transport protocol used, including anonymous Git or HTTP, or
-authenticated SSH or HTTP.  The current selections are remembered
-for signed-in users, permitting end-users to quickly reuse their
-preferred method of grabbing a patch set.
+or 'git fetch ... && git cherry-pick' or 'git fetch ... && git
+format-patch' styles, as well as to select the transport protocol
+used, including anonymous Git or HTTP, or authenticated SSH or HTTP.
+The current selections are remembered for signed-in users, permitting
+end-users to quickly reuse their preferred method of grabbing a
+patch set.
 
 * Theme the web UI with different skin colors
 +
@@ -194,6 +203,12 @@ documentation is updated with example URLs.
 Change-Ids can now be searched for by accessing the URL
 `http://example.com/r/'Ichangeid'`, similar to how commits
 can be searched by `http://example.com/r/'commitsha1'`.
+
+* gerrit-sshd: Allow double quoted strings
++
+SSH command arguments may now be quoted with double quotes, in
+addition to single quotes.  This can make it easier to intermix
+quoting styles with the shell that is calling the SSH client .
 
 Server Administration
 ~~~~~~~~~~~~~~~~~~~~~
@@ -298,6 +313,14 @@ Syntax highlighting in the unified patch view isn't useful if it hides
 the added and removed lines red/green text color.  Disable it entirely
 so the add/remove coloring shows up instead.
 
+* Disable 'Syntax Highlighting' and 'Show Full File' on big files
++
+If the file is really big (over 9000 lines), 'Show Full File' is
+actually disabled on the server side, to prevent the client from
+being overrun with data.  The UI now reflects this by disabling
+the checkbox for the user, and adds a tooltip to indicate why its
+greyed out.
+
 * Don't try to syntax highlight plain text
 +
 Plain text files can't benefit from syntax highlighting, its actually
@@ -316,6 +339,14 @@ displayed to meet the user's context setting.
 Vertical tab markers are red, which means they can be hidden against a
 whitespace error, or deleted region marker.  Tabs are now shown as
 black against these cases.
+
+* Handle bare CR in the middle of a line
++
+If a CR ("\r") appears in the middle of a line rather than nestled
+against an LF as a CRLF pair, its now displayed as a whitespace
+error, and the line isn't broken at the CR.  This fixes an issue
+where a mostly CRLF file with a single malformed line ending caused
+the side-by-side display to render incorrectly (or not at all).
 
 * issue 438 Skip gitlink modes as we can't get a content difference
 +
@@ -339,6 +370,12 @@ of the same change.  Fixed.
 The reviewed column header wasn't displaying with the same style as
 its siblings.  Fixed.
 
+* Fix duplicate "Needed By" pointers between changes
++
+If a change's current patch set was used as the parent for multiple
+patch sets of another change, that dependent change showed up more
+than once in the "Needed By" list.  Fixed.
+
 * Expand group names to be 255 characters
 * Update URL for GitHub's SSH key guide
 * issue 314 Hide group type choice if LDAP is not enabled
@@ -356,6 +393,13 @@ email notification.  Fixed.
 +
 Names or subjects with non-ASCII characters were not quoted properly
 in the email notification headers.  Fixed.
+
+* issue 475 Include the name/email in email body if not in envelope
++
+When the email address from line is a generic server identity,
+there is no way to know who wrote a comment or voted on a change.
+An additional from line is now injected at the start of the email
+body to indicate the actual user.
 
 Remote Access
 ~~~~~~~~~~~~~
@@ -380,6 +424,25 @@ Sometimes users missed the standard error message that indicated no
 shell was available, due to a thread race condition not always
 flushing the outgoing buffer.  Fixed.
 
+* issue 488 Allow gerrit approve to post comments on closed changes
++
+The 'gerrit approve' command previously refused to work on a closed
+change, but the web UI permitted comments to be added anyway.
+Fixed by allowing the command line tool to also post comments to
+closed changes.
+
+* issue 466 Reject pushing to invalid reference names
++
+Gerrit allowed the invalid `HEAD:/refs/for/master` push refspec
+to actaully create the branch `refs/heads/refs/for/master`, which
+confused any other client trying to push.  Fixed.
+
+* issue 485 Trim the username before requesting authentication
++
+LDAP usernames no longer are permitted to start with or end with
+whitespace, removing a common source of typos that lead to users
+being automatically assigned more than one Gerrit user account.
+
 Server Administration
 ~~~~~~~~~~~~~~~~~~~~~
 
@@ -388,6 +451,19 @@ Server Administration
 If httpd.listenUrl ended with / the configuration got botched during
 init and the site didn't work as expected.  Fixed by correctly
 handling an optional trailing / in this variable.
+
+* issue 478 Catch daemon startup failures in error_log
++
+Startup errors often went to /dev/null, leaving the admin wondering
+why the server didn't launch as expected.  Fixed.
+
+* issue 483 Ensure uncaught exceptions are logged
++
+Some exceptions were reaching the top of the stack frame without
+being caught and logged, causing the JRE to print the exception to
+stderr and then terminate the thread.  Since stderr was redirected
+to /dev/null by gerrit.sh, we usually lost these messages.  Exception
+handlers are now installed to trap and log any uncaught errors.
 
 * issue 451 gerrit.sh: Wait until the daemon is serving requests
 +
@@ -400,6 +476,11 @@ dependent tasks that need the server to be ready before they can run.
 +
 /bin/sh on Debian/Ubuntu systems is dash, not bash.  The dash
 shell does not support the let command.
+
+* gerrit.sh: Correct JAVA_HOME behavior
++
+JAVA_HOME now can be overridden by container.javaHome, as the
+documentation states.
 
 * init: Only suggest downloading BouncyCastle on new installs
 +
@@ -444,6 +525,13 @@ anonymous bind during server startup failed.  Instead the server
 type is detected during the first user authentication, where we
 have a valid directory context to query over.
 
+* issue 486 Reload UI if code split fails to download
++
+If the server gets upgraded and the user hasn't reloaded their
+browser tab since the upgrade, opening a new section of the UI
+sometimes failed.  Fixed by executing an implicit reload in these
+cases, reducing the number of times a user sees a failure.
+
 Development
 ~~~~~~~~~~~
 
@@ -454,6 +542,24 @@ this test case during a build because the upstream resolver was
 returning back a bogus record for an invalid domain name.  The test
 was adjusted to use a name that is less likely to be resolved by a
 broken upstream resolver.
+
+* Fix /become?user_name=... under GWT debugger
++
+The /become URL now accepts ?user_name=who to authenticate, making
+it easier to setup a launch configuration to debug a particular
+user account in development.
+
+* Show localhost based SSH URLs
++
+SSH URLs using localhost as the hostname are now visible in the
+web UI, making it easier to copy and paste SSH URLs when debugging
+fetching of changes.
+
+* issue 490 Try Titlecase class name first when launching programs
++
+Launching daemon or init from the classes directory on a case
+insensitive filesystem like Mac OS X HFS+ or Windows NTFS failed.
+Fixed.
 
 * Misc. license issues
 +
@@ -509,32 +615,24 @@ Other Changes
 * Advertise the smart HTTP URLs to references
 * Refactor the SSH session state
 * Fixing Eclipse settings file
-* Merge "Fixing Eclipse settings file"
 * Add --commit to comment-added as there was previously no way to kno...
 * Fix imports inside of PatchScreen.java
 * Fix crash while loading project Access tab
 * Replace our own @Nullable with javax.annotation.Nullable.
-* Merge "Replace our own @Nullable with javax.annotation.Nullable."
 * Correctly hide delete button on inherited permissions
 * Allow per-branch OWN +1 to delegate branch ownership
 * Block inheritance by default on per-branch permissions.
-* Merge "Block inheritance by default on per-branch permissions."
 * Simplify FunctionState as discussed previously
 * Restore delete right checkboxes in wild card project
 * issue 393 Require branch deletion permission for pushes over HTTP
 * issue 399 Update JGit to 0.5.1.140-g660fd39
-* Merge "Add MaxNoBlock category for advisory review levels"
 * Add standard eclipse generated files to .gitignore
-* Merge "Add standard eclipse generated files to .gitignore"
 * Don't reformat the source if the files are identical
 * Fix schema 27 upgrade for H2
 * Update JGit to 0.5.1.141-g3eee606
-* Merge "Update JGit to 0.5.1.141-g3eee606"
 * Manage database connections directly in PatchScriptFactory
 * issue 425 Update user documentation to explain branch access control
-* Merge "Update user documentation to explain branch access control"
 * Update to gwtjsonrpc 1.2.2-SNAPSHOT
-* Merge "Update to gwtjsonrpc 1.2.2-SNAPSHOT"
 * Allow refs/* pattern on new reference rights
 * Trim reference name from user when adding access right
 * Execute Git commands with AccessPath.GIT
@@ -594,8 +692,35 @@ Other Changes
 * Tweak the intraline difference heuristics
 * Refactor and add to streaming events schema
 * Documentation schema for stream-events command
-* Merge "Documentation schema for stream-events command"
 * Fix source code formatting errors in MergeOp
 * Cleanup display of branches panel when gitweb isn't configured
 * Fix "Show Tabs" checkbox
-71934c63512a40d4c04b54e29e002b0f7efdf53d
+* Update 2.1.2 release notes
+* Reorganize 2.1.2 release notes into categories
+* Hide syntax highlighting checkbox in unified view
+* Change default tab width to 8
+* Ensure drafts redisplay when refreshing the page
+* Fix tab marker RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK
+* issue 473 Don't aggressively coalesce across lines
+* Fix intraline difference off-by-one when LF is added
+* Mark add or delete regions with darker colors
+* Invalidate the diff cache
+* Fix build breakage due to missing constants
+* Fix editable username when authType is LDAP or HTTP_LDAP
+* issue 481 Fix enter with completion in add reviewer box
+* Make intraline differences easier to debug
+* Avoid "es" replaced by "es = Address"
+* Cleanup line insertions joined against indentation change
+* Change become to use user_name field
+* Stop leaking patch controls CSS to other widgets
+* Fix coloring of tab markers in syntax highlighting
+* Fix toggling syntax highlighting on partial file
+* Permit use of syntax highlighting in unified view
+* Use hunk background colors on unified views with syntax highlighting
+* Fix source code formatting in ApproveCommand.java
+* issue 483 Log the type of a non-task after it executes
+* Update to GWT 2.0.3
+* issue 489 Drop host name resolution failure test
+* issue 483 Remove reliance on afterExecute from WorkQueue
+
+71b04c00b174b056ed2579683e2c1546d156b75a

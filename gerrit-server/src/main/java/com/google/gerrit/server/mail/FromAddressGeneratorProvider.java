@@ -81,7 +81,7 @@ public class FromAddressGeneratorProvider implements
 
     @Override
     public boolean isGenericAddress(Account.Id fromId) {
-      return from(fromId) != srvAddr;
+      return false;
     }
 
     @Override
@@ -130,13 +130,7 @@ public class FromAddressGeneratorProvider implements
 
     @Override
     public boolean isGenericAddress(Account.Id fromId) {
-      if (fromId != null) {
-        final Account account = accountCache.get(fromId).getAccount();
-        final String name = account.getFullName();
-        return name == null || "".equals(name);
-      } else {
-        return true;
-      }
+      return false;
     }
 
     @Override

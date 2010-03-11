@@ -27,6 +27,7 @@ import static com.google.gerrit.reviewdb.ApprovalCategory.PUSH_TAG;
 import static com.google.gerrit.reviewdb.ApprovalCategory.PUSH_TAG_ANNOTATED;
 import static com.google.gerrit.reviewdb.ApprovalCategory.PUSH_TAG_SIGNED;
 import static com.google.gerrit.reviewdb.ApprovalCategory.READ;
+import static com.google.gerrit.reviewdb.ApprovalCategory.SUBMIT;
 
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.ApprovalCategory;
@@ -112,6 +113,11 @@ public class RefControl {
    */
   public boolean canUpload() {
     return canPerform(READ, (short) 2);
+  }
+
+  /** @return true if the user can submit a change to this project. */
+  public boolean canSubmit() {
+    return canPerform(SUBMIT, (short) 1);
   }
 
   /** @return true if the user can update the reference as a fast-forward. */

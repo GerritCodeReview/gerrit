@@ -102,6 +102,10 @@ ON changes (open, sort_key);
 CREATE INDEX changes_byProjectOpen
 ON changes (open, dest_project_name, sort_key);
 
+--    covers:             byProject
+CREATE INDEX changes_byProject
+ON changes (dest_project_name);
+
 --    covers:             allClosedPrev, allClosedNext
 CREATE INDEX changes_allClosed
 ON changes (open, status, sort_key);

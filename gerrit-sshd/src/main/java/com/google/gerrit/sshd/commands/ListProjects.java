@@ -14,9 +14,7 @@
 
 package com.google.gerrit.sshd.commands;
 
-import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.reviewdb.RevId;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.WildProjectName;
@@ -29,20 +27,12 @@ import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 
 import org.apache.sshd.server.Environment;
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.kohsuke.args4j.Option;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
 
 final class ListProjects extends BaseCommand {
   @Inject
@@ -61,8 +51,7 @@ final class ListProjects extends BaseCommand {
   @WildProjectName
   private Project.NameKey wildProject;
 
-  @Option(name = "--show-branch", aliases = {"-b"},
-      usage = "displays the sha of each project in the specified branch")
+  @Option(name = "--show-branch", aliases = {"-b"}, usage = "displays the sha of each project in the specified branch")
   private String showBranch;
 
   @Override
@@ -76,21 +65,6 @@ final class ListProjects extends BaseCommand {
     });
   }
 
-  private final ObjectId getObjectIdForBranch(Project.NameKey projectName,
-      String branch) {
-    try {
-      final Repository r = repoManager.openRepository(projectName.get());
-      try {
-        Ref ref = r.getRef(branch);
-        return ref == null ? null : ref.getObjectId();
-      } finally {
-        r.close();
-      }
-    } catch (IOException ioe) {
-      return null;
-    }
-  }
-
   private void display() throws Failure {
     final PrintWriter stdout = toPrintWriter(out);
     try {
@@ -102,24 +76,52 @@ final class ListProjects extends BaseCommand {
         }
 
         final ProjectState e = projectCache.get(p.getNameKey());
-        if (e != null && e.controlFor(currentUser).isVisible()) {
-          if (showBranch != null) {
-            ObjectId id = getObjectIdForBranch(p.getNameKey(), showBranch);
-            if (id != null) {
-              stdout.print(id.name() + " ");
-              stdout.print(p.getName());
-              stdout.println();
-            }
-          } else {
-            stdout.print(p.getName());
-            stdout.println();
-          }
+        if (e == null) {
+          // If we can't get it from the cache, pretend its not present.
+          //
+          continue;
         }
+
+        final ProjectControl pctl = e.controlFor(currentUser);
+        if (!pctl.isVisible()) {
+          // Require the project itself to be visible to the user.
+          //
+          continue;
+        }
+
+        if (showBranch != null) {
+          final Ref ref = getBranchRef(p.getNameKey());
+          if (ref == null || ref.getObjectId() == null
+              || !pctl.controlForRef(ref.getLeaf().getName()).isVisible()) {
+            // No branch, or the user can't see this branch, so skip it.
+            //
+            continue;
+          }
+
+          stdout.print(ref.getObjectId().name());
+          stdout.print(' ');
+        }
+
+        stdout.print(p.getName());
+        stdout.println();
       }
     } catch (OrmException e) {
       throw new Failure(1, "fatal: database error", e);
     } finally {
       stdout.flush();
+    }
+  }
+
+  private Ref getBranchRef(Project.NameKey projectName) {
+    try {
+      final Repository r = repoManager.openRepository(projectName.get());
+      try {
+        return r.getRef(showBranch);
+      } finally {
+        r.close();
+      }
+    } catch (IOException ioe) {
+      return null;
     }
   }
 }

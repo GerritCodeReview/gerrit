@@ -192,6 +192,12 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     rp.setAllowDeletes(true);
     rp.setAllowNonFastForwards(true);
     rp.setCheckReceivedObjects(true);
+
+    if (!projectControl.allRefsAreVisible()) {
+      rp.setCheckReferencedObjectsAreReachable(true);
+      rp.setRefFilter(new VisibleRefFilter(repo, projectControl, db));
+    }
+
     rp.setPreReceiveHook(this);
     rp.setPostReceiveHook(this);
   }
@@ -230,6 +236,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     }
   }
 
+  @Override
   public void onPreReceive(final ReceivePack arg0,
       final Collection<ReceiveCommand> commands) {
     parseCommands(commands);
@@ -240,6 +247,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     doReplaces();
   }
 
+  @Override
   public void onPostReceive(final ReceivePack arg0,
       final Collection<ReceiveCommand> commands) {
     for (final ReceiveCommand c : commands) {

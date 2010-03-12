@@ -119,6 +119,11 @@ public class ProjectControl {
     return canPerformOnAnyRef(ApprovalCategory.READ, (short) 1);
   }
 
+  /** Can this user see all the refs in this projects? */
+  public boolean allRefsAreVisible() {
+    return canPerformOnAllRefs(ApprovalCategory.READ, (short) 1);
+  }
+
   /** Is this user a project owner? Ownership does not imply {@link #isVisible()} */
   public boolean isOwner() {
     return controlForRef(RefRight.ALL).isOwner()

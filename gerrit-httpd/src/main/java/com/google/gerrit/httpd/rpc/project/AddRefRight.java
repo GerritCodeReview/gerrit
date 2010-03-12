@@ -156,13 +156,6 @@ class AddRefRight extends Handler<ProjectDetail> {
       throw new NoSuchRefException(refPattern);
     }
 
-    // TODO Support per-branch READ access.
-    if (ApprovalCategory.READ.equals(categoryId)
-        && !refPattern.equals("refs/*")) {
-      throw new UnsupportedOperationException("READ on " + refPattern
-          + " not yet supported.");
-    }
-
     final AccountGroup group = groupCache.get(groupName);
     if (group == null) {
       throw new NoSuchGroupException(groupName);

@@ -63,6 +63,7 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.FooterKey;
 import org.eclipse.jgit.revwalk.FooterLine;
+import org.eclipse.jgit.revwalk.ObjectWalk;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevFlagSet;
@@ -192,6 +193,9 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     rp.setAllowDeletes(true);
     rp.setAllowNonFastForwards(true);
     rp.setCheckReceivedObjects(true);
+    rp.setNeedBaseObjectIds(true);
+    rp.setRefFilter(new VisibleRefFilter(projectControl, db));
+    rp.setEnsureProvidedObjectsVisible(true);
     rp.setPreReceiveHook(this);
     rp.setPostReceiveHook(this);
   }
@@ -230,6 +234,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     }
   }
 
+  @Override
   public void onPreReceive(final ReceivePack arg0,
       final Collection<ReceiveCommand> commands) {
     parseCommands(commands);
@@ -240,6 +245,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     doReplaces();
   }
 
+  @Override
   public void onPostReceive(final ReceivePack arg0,
       final Collection<ReceiveCommand> commands) {
     for (final ReceiveCommand c : commands) {

@@ -63,6 +63,7 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.FooterKey;
 import org.eclipse.jgit.revwalk.FooterLine;
+import org.eclipse.jgit.revwalk.ObjectWalk;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevFlagSet;
@@ -73,6 +74,7 @@ import org.eclipse.jgit.transport.PostReceiveHook;
 import org.eclipse.jgit.transport.PreReceiveHook;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.transport.ReceivePack;
+import org.eclipse.jgit.transport.RefFilter;
 import org.eclipse.jgit.transport.ReceiveCommand.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -93,7 +95,8 @@ import java.util.regex.Pattern;
 import javax.annotation.Nullable;
 
 /** Receives change upload using the Git receive-pack protocol. */
-public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
+public class ReceiveCommits implements PreReceiveHook, PostReceiveHook,
+    RefFilter {
   private static final Logger log =
       LoggerFactory.getLogger(ReceiveCommits.class);
 
@@ -192,6 +195,9 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     rp.setAllowDeletes(true);
     rp.setAllowNonFastForwards(true);
     rp.setCheckReceivedObjects(true);
+    rp.setNeedBaseObjectIds(true);
+    rp.setNeedNewObjectIds(true);
+    rp.setRefFilter(this);
     rp.setPreReceiveHook(this);
     rp.setPostReceiveHook(this);
   }
@@ -230,6 +236,46 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     }
   }
 
+  @Override
+  public Map<String, Ref> filter(Map<String,Ref> refs) {
+    Map<String, Ref> result = new HashMap<String, Ref>();
+    for (String k : refs.keySet()) {
+      Ref ref = refs.get(k);
+      RefControl ctl = projectControl.controlForRef(ref.getName());
+      if (ctl.isVisible()) {
+        result.put(k, ref);
+      }
+    }
+    return result;
+  }
+
+  private void checkVisibility(final ReceiveCommand cmd) {
+    final ObjectWalk ow = new ObjectWalk(repo);
+    try {
+      RevObject oId = ow.parseAny(cmd.getNewId());
+      ow.markStart(oId);
+
+      for (final ObjectId newId : rp.getNewObjectIds()) {
+        oId = ow.parseAny(newId);
+        ow.markUninteresting(oId);
+      }
+      for (final ObjectId uploadedId : rp.getBaseObjectIds()) {
+        oId = ow.parseAny(uploadedId);
+        ow.markUninteresting(oId);
+      }
+      if (ow.nextObject() != null) {
+        log.error("Invalid object " + cmd.getNewId().name() + " for "
+            + cmd.getRefName() + " creation");
+        reject(cmd, "invalid object");
+      }
+    } catch (IOException err) {
+      log.error("Invalid object " + cmd.getNewId().name() + " for "
+          + cmd.getRefName() + " creation", err);
+      reject(cmd, "invalid object");
+    }
+  }
+
+  @Override
   public void onPreReceive(final ReceivePack arg0,
       final Collection<ReceiveCommand> commands) {
     parseCommands(commands);
@@ -240,6 +286,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
     doReplaces();
   }
 
+  @Override
   public void onPostReceive(final ReceivePack arg0,
       final Collection<ReceiveCommand> commands) {
     for (final ReceiveCommand c : commands) {
@@ -398,6 +445,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
 
   private void parseCommands(final Collection<ReceiveCommand> commands) {
     for (final ReceiveCommand cmd : commands) {
+      checkVisibility(cmd);
       if (cmd.getResult() != ReceiveCommand.Result.NOT_ATTEMPTED) {
         // Already rejected by the core receive process.
         //

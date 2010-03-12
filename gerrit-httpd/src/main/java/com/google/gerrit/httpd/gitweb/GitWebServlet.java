@@ -327,6 +327,7 @@ class GitWebServlet extends HttpServlet {
     try {
       final Project.NameKey nameKey = new Project.NameKey(name);
       project = projectControl.validateFor(nameKey);
+      project.ensureAllRefsVisible();
     } catch (NoSuchProjectException e) {
       rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
       return;

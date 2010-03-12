@@ -1,4 +1,4 @@
-// Copyright (C) 2008 The Android Open Source Project
+// Copyright (C) 2010 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,27 +12,30 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.sshd.commands;
+package com.google.gerrit.server.schema;
 
 import com.google.gerrit.reviewdb.ReviewDb;
-import com.google.gerrit.server.git.VisibleRefFilter;
-import com.google.gerrit.sshd.AbstractGitCommand;
+import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
-import org.eclipse.jgit.transport.UploadPack;
+import java.sql.SQLException;
+import java.sql.Statement;
 
-import java.io.IOException;
-
-/** Publishes Git repositories over SSH using the Git upload-pack protocol. */
-final class Upload extends AbstractGitCommand {
-
+class Schema_31 extends SchemaVersion {
   @Inject
-  private ReviewDb db;
+  Schema_31(Provider<Schema_30> prior) {
+    super(prior);
+  }
 
   @Override
-  protected void runImpl() throws IOException {
-    final UploadPack up = new UploadPack(repo);
-    up.setRefFilter(new VisibleRefFilter(projectControl, db));
-    up.upload(in, out, err);
+  protected void migrateData(ReviewDb db, UpdateUI ui) throws SQLException {
+    Statement stmt = ((JdbcSchema) db).getConnection().createStatement();
+    try {
+      stmt.execute("CREATE INDEX changes_byProject"
+          + " ON changes (dest_project_name)");
+    } finally {
+      stmt.close();
+    }
   }
 }

@@ -321,14 +321,6 @@ public class ProjectRightsPanel extends Composite {
       return;
     }
 
-    // TODO Support per-branch READ access.
-    if (ApprovalCategory.READ.equals(at.getCategory().getId())) {
-      referenceTxt.setText("");
-      referenceTxt.setEnabled(false);
-    } else {
-      referenceTxt.setEnabled(true);
-    }
-
     int curIndex = 0, minIndex = -1, maxIndex = -1;
     rangeMinBox.clear();
     rangeMaxBox.clear();

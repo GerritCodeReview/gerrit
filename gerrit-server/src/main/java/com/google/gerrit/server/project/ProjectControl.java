@@ -118,6 +118,16 @@ public class ProjectControl {
     return canPerformOnAnyRef(ApprovalCategory.READ, (short) 1);
   }
 
+  /** Can this user see all the refs in this projects? */
+  public void ensureAllRefsVisible() throws NoSuchProjectException {
+    if (canPerformOnAllRefs(ApprovalCategory.READ, (short) 1)
+      || getCurrentUser().isAdministrator()) {
+      // Let the caller perform
+    } else {
+      throw new NoSuchProjectException(getProject().getNameKey());
+    }
+  }
+
   /** Is this user a project owner? Ownership does not imply {@link #isVisible()} */
   public boolean isOwner() {
     return canPerformOnAllRefs(ApprovalCategory.OWN, (short) 1)

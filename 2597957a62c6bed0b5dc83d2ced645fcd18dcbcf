@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAv3///7E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1002957
+      },
+      "writtenOn": "2010-03-12T22:13:21Z",
+      "side": 1,
+      "message": "So move everything into JGit. I prefer that solution, seems cleaner and useful for other JGit users. Other CL coming...",
+      "parentUuid": "AAAAv3///8A\u003d",
+      "revId": "2597957a62c6bed0b5dc83d2ced645fcd18dcbcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAv3///8I\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
         "patchSetId": 1
@@ -104,6 +122,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAv3///7U\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Upload.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1002957
+      },
+      "writtenOn": "2010-03-12T22:13:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAAv3///8c\u003d",
+      "revId": "2597957a62c6bed0b5dc83d2ced645fcd18dcbcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAv3///8U\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Upload.java",
         "patchSetId": 1
@@ -121,6 +157,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAv3///7I\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Upload.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1002957
+      },
+      "writtenOn": "2010-03-12T22:13:21Z",
+      "side": 1,
+      "message": "I did a quick check, and doing a \"repo sync\" on my test machine brings out all the changes in the gerrit server into this method. Since we\u0027re going to have to load all the changes, why limit this to the changes for that given project?\n\nFor example, we could load all the changes for all the ids we can parse out of the refs we\u0027re getting in this method, and run each change through ChangeControl.isVisible(),\n\nWe would only do one db call, but probably fetching a lot of data. What do you think?",
+      "parentUuid": "AAAAv3///8U\u003d",
+      "revId": "2597957a62c6bed0b5dc83d2ced645fcd18dcbcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAv3///8Y\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Upload.java",
         "patchSetId": 1
@@ -132,6 +186,24 @@
       "writtenOn": "2010-03-12T19:17:34Z",
       "side": 1,
       "message": "The map key is the ref.getName().",
+      "revId": "2597957a62c6bed0b5dc83d2ced645fcd18dcbcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAv3///7Q\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Upload.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1002957
+      },
+      "writtenOn": "2010-03-12T22:13:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAAv3///8Y\u003d",
       "revId": "2597957a62c6bed0b5dc83d2ced645fcd18dcbcf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

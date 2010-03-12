@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAv3///8M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-03-12T19:17:34Z",
+      "side": 1,
+      "message": "Don\u0027t reuse this variable.  Since its used only the once right here, just inline the whole call:\n\n  ow.markStart(ow.parseAny(cmd.getNewId()));",
+      "revId": "2597957a62c6bed0b5dc83d2ced645fcd18dcbcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAv3///8E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-03-12T19:17:34Z",
+      "side": 1,
+      "message": "Given that you can feed multiple start objects, you might just want to feed ever ReceiveCommand into this method as part of onPreReceive, rather than doing it one at a time through parseCommands inner loop.  Then we only have to execute this whole thing in one pass, which would be more efficient.",
+      "revId": "2597957a62c6bed0b5dc83d2ced645fcd18dcbcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAv3///8A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-03-12T19:17:34Z",
+      "side": 1,
+      "message": "This actually could be a problem.  If the object is a commit or a tree, we are going to recursively mark its reachable things as uninteresting, even though the user might not have access to them.  That\u0027s bad.\n\nThe better algorithm is this:\n\n  // Start from the roots the user wants us to use.\n  //\n  for (ReceiveCommand cmd : commands) {\n    if (cmd.getResult() \u003d\u003d Result.NOT_ATTEMPTED) {\n    } else if (cmd.getType() \u003d\u003d ReceiveCommand.Type.DELETE) {\n    } else {\n      ow.markStart(ow.parseAny(cmd.getNewId()));\n    }\n  }\n\n  // Assume good anything that is reachable and that\n  // the user was advertised, as we\u0027ve already asserted\n  // they can see these objects.\n  //\n  for (Ref r : rp.getAdvertisedRefs().values()) {\n    try {\n      ow.markUninteresting(ow.parseAny(r.getObjectId()));\n    } catch (IOException e) {\n      continue;\n    }\n  }\n\n  // Copy the set because HashSet\u003cObjectId\u003e can\u0027t perform a contains\n  // test with a RevObject.  No, its not pretty.  Maybe you should change\n  // IndexPack in JGit to use this type of collection instead, but its not\n  // a proper Set\u003cObjectId\u003e so the API needs to change for that to work.\n  //\n  ObjectIdSubclassMap\u003cObjectId\u003e provided \u003d new ObjectIdSubclassMap\u003cObjectId\u003e();\n  for (ObjectId id : rp.getNewObjectIds()) {\n    provided.put(id);\n  }\n\n  // Now walk through the links they are trying to create.  We better\n  // have been provided all of the objects which weren\u0027t tagged above\n  // as uninteresting (aka already reachable by the user).\n  //\n  RevObject o;\n  while ((o \u003d ow.next()) !\u003d null) {\n    if (!provided.contains(o)) {\n      reject(commands, \"missing \"+o.name());\n      return;\n    }\n  }\n\n  while ((o \u003d ow.nextObject()) !\u003d null) {\n    if (!provided.contains(o)) {\n      reject(commands, \"missing \"+o.name());\n      return;\n    }\n  }\n\n  // Yay, its clean.  Any referenced objects were either\n  // given to us by the user, or are reachable from branches\n  // the user is permitted to see the contents of.\n\nIt gets better.  If you read this code closely, and compare it to ReceivePack\u0027s own checkConnectivity() you will see that there is a lot in common.  The only difference is, during checkConnectivity() we don\u0027t try to prove that the object is in the newObjectIds collection from the IndexPack.  It seems to me that should be simple to enable as an optional flag in ReceivePack, and push the lower half of this method into ReceivePack\u0027s checkConnectivity method.  Then we don\u0027t need this code at all in Gerrit Code Review... you just have to enable the ultra paranoid must be proivded check on top of the existing check.",
+      "revId": "2597957a62c6bed0b5dc83d2ced645fcd18dcbcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAv3///8I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-03-12T19:17:34Z",
+      "side": 1,
+      "message": "Also need to check ow.next() !\u003d null before this.  That would be a commit object the user used as a parent which they don\u0027t have access to see.",
+      "revId": "2597957a62c6bed0b5dc83d2ced645fcd18dcbcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAv3///8Q\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-03-12T19:17:34Z",
+      "side": 1,
+      "message": "Move this down below line 453.  We shouldn\u0027t bother if something else has already rejected this command.",
+      "revId": "2597957a62c6bed0b5dc83d2ced645fcd18dcbcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAv3///8c\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Upload.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-03-12T19:17:34Z",
+      "side": 1,
+      "message": "Use for (Ref ref : refs.values()) instead.",
+      "revId": "2597957a62c6bed0b5dc83d2ced645fcd18dcbcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAv3///8U\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Upload.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-03-12T19:17:34Z",
+      "side": 1,
+      "message": "This isn\u0027t sufficient for change refs.  If ref.getName().startsWith(\"refs/changes/\") then the reference is to a change which is for a particular branch.  I think you would want to instead ask the change via its ChangeControl if the user can see the change (which is implied by the RefControl for that destination branch).\n\nYou can parse the Ref name to get the Change.Id and then look up that ChangeControl to get its branch.  But that will be a database round-trip.  With 2 changes, no big deal.  With 6000 changes, its a big deal to be doing that query.\n\nI\u0027ve been trying to come up with an efficient way to do this.  Here\u0027s one idea, but it might not be the best one.  Loop through the map once to find all branches (refs/heads/) the user can see.  Go to the database and query all changes in the project.  Loop through those, checking their ChangeControl for visibility.  Then go through all of the refs/changes/ refs and see if they match one of the acceptable Change records from that.  Its not pretty.\n\nSince this logic is basically the same as for ReceiveCommits, please pull it out into a utility class that you can share between them.",
+      "revId": "2597957a62c6bed0b5dc83d2ced645fcd18dcbcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAv3///8Y\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Upload.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-03-12T19:17:34Z",
+      "side": 1,
+      "message": "The map key is the ref.getName().",
+      "revId": "2597957a62c6bed0b5dc83d2ced645fcd18dcbcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

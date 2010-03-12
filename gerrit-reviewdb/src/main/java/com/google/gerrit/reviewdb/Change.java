@@ -98,6 +98,9 @@ import java.sql.Timestamp;
  * or when notice of the change submission occurs.
  */
 public final class Change {
+
+  private static final String REFS_CHANGES = "refs/changes/";
+
   public static class Id extends IntKey<com.google.gwtorm.client.Key<?>> {
     private static final long serialVersionUID = 1L;
 
@@ -126,6 +129,19 @@ public final class Change {
       final Id r = new Id();
       r.fromString(str);
       return r;
+    }
+
+    public static Id fromRef(final String name) {
+      if (!name.startsWith(REFS_CHANGES)) {
+        throw new IllegalArgumentException("Not a Change.Id: " + name);
+      }
+      final String[] parts = name.substring(REFS_CHANGES.length()).split("/");
+      final int n = parts.length;
+      if (n < 2) {
+        throw new IllegalArgumentException("Not a PatchSet.Id: " + name);
+      }
+      final int changeId = Integer.parseInt(parts[n - 2]);
+      return new Change.Id(changeId);
     }
   }
 

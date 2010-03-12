@@ -175,6 +175,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAv3///68\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Upload.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-03-12T22:23:52Z",
+      "side": 1,
+      "message": "Don\u0027t load everything.  Just load all of the changes in this project.  There\u0027s no caching, so loading every change would load 41,000+ changes every time a user uploads one new commit to an existing project.  Yikes.\n\nI think you and are talking about the same thing, I\u0027m just saying, limit what you load to only the changes in this project.  But use a query to do it, because using the db.changes().get(Collection\u003cChange.Id\u003e) method to load multiple changes by key isn\u0027t efficient.  (It does one query for each record.  I meant to optimize it, but never got around to it, since its hardly ever used in Gerrit.)",
+      "parentUuid": "AAAAv3///7I\u003d",
+      "revId": "2597957a62c6bed0b5dc83d2ced645fcd18dcbcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAv3///8Y\u003d",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Upload.java",
         "patchSetId": 1

@@ -14,9 +14,7 @@
 
 package com.google.gerrit.sshd.commands;
 
-import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.reviewdb.RevId;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.WildProjectName;
@@ -29,8 +27,6 @@ import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 
 import org.apache.sshd.server.Environment;
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -38,11 +34,6 @@ import org.kohsuke.args4j.Option;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
 
 final class ListProjects extends BaseCommand {
   @Inject
@@ -103,12 +94,15 @@ final class ListProjects extends BaseCommand {
 
         final ProjectState e = projectCache.get(p.getNameKey());
         if (e != null && e.controlFor(currentUser).isVisible()) {
+          final ProjectControl pctl = e.controlFor(currentUser);
           if (showBranch != null) {
-            ObjectId id = getObjectIdForBranch(p.getNameKey(), showBranch);
-            if (id != null) {
-              stdout.print(id.name() + " ");
-              stdout.print(p.getName());
-              stdout.println();
+            if (pctl.controlForRef(showBranch).isVisible()) {
+              ObjectId id = getObjectIdForBranch(p.getNameKey(), showBranch);
+              if (id != null) {
+                stdout.print(id.name() + " ");
+                stdout.print(p.getName());
+                stdout.println();
+              }
             }
           } else {
             stdout.print(p.getName());

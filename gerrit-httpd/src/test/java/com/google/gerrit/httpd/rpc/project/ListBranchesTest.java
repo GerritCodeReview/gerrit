@@ -29,6 +29,7 @@ import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
+import com.google.gerrit.server.project.RefControl;
 import com.google.gwtorm.client.KeyUtil;
 import com.google.gwtorm.server.StandardKeyEncoder;
 
@@ -42,6 +43,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.SymbolicRef;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,6 +60,7 @@ public class ListBranchesTest extends LocalDiskRepositoryTestCase {
   private ProjectControl.Factory pcf;
   private ProjectControl pc;
   private GitRepositoryManager grm;
+  private List<RefControl> refMocks;
 
   @Override
   protected void setUp() throws Exception {
@@ -71,6 +74,7 @@ public class ListBranchesTest extends LocalDiskRepositoryTestCase {
     pc = createStrictMock(ProjectControl.class);
     pcf = createStrictMock(ProjectControl.Factory.class);
     grm = createStrictMock(GitRepositoryManager.class);
+    refMocks = new ArrayList<RefControl>();
   }
 
   private IExpectationSetters<ProjectControl> validate()
@@ -81,10 +85,12 @@ public class ListBranchesTest extends LocalDiskRepositoryTestCase {
 
   private void doReplay() {
     replay(mockDb, pc, pcf, grm);
+    replay(refMocks.toArray());
   }
 
   private void doVerify() {
     verify(mockDb, pc, pcf, grm);
+    verify(refMocks.toArray());
   }
 
   private void set(String branch, ObjectId id) throws IOException {
@@ -117,12 +123,22 @@ public class ListBranchesTest extends LocalDiskRepositoryTestCase {
 
   private List<Branch> permitted(boolean getHead)
       throws NoSuchProjectException, IOException {
+    Map<String, Ref> refs = realDb.getAllRefs();
+
     validate().andReturn(pc);
     expect(grm.openRepository(eq(name.get()))).andReturn(mockDb);
     expect(mockDb.getAllRefs()).andDelegateTo(realDb);
     if (getHead) {
       expect(mockDb.getRef(HEAD)).andDelegateTo(realDb);
+      if (!refs.containsKey(HEAD) && realDb.getRef(HEAD) != null) {
+        refs.put(HEAD, realDb.getRef(HEAD));
+      }
     }
+
+    for (Ref ref : refs.values()) {
+      assumeVisible(ref, true);
+    }
+
     mockDb.close();
     expectLastCall();
 
@@ -131,6 +147,18 @@ public class ListBranchesTest extends LocalDiskRepositoryTestCase {
     doVerify();
     assertNotNull(r);
     return r;
+  }
+
+  private void assumeVisible(Ref ref, boolean visible) {
+    RefControl rc = createStrictMock(RefControl.class);
+    refMocks.add(rc);
+    expect(rc.isVisible()).andReturn(visible);
+
+    if (ref.isSymbolic()) {
+      expect(pc.controlForRef(ref.getTarget().getName())).andReturn(rc);
+    } else {
+      expect(pc.controlForRef(ref.getName())).andReturn(rc);
+    }
   }
 
   public void testEmptyProject() throws Exception {
@@ -227,6 +255,9 @@ public class ListBranchesTest extends LocalDiskRepositoryTestCase {
     validate().andReturn(pc);
     expect(grm.openRepository(eq(name.get()))).andReturn(mockDb);
     expect(mockDb.getAllRefs()).andReturn(u);
+    for (Ref ref : u.values()) {
+      assumeVisible(ref, true);
+    }
     mockDb.close();
     expectLastCall();
 

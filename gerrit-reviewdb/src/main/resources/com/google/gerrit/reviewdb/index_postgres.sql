@@ -154,6 +154,10 @@ CREATE INDEX changes_allClosed
 ON changes (status, sort_key)
 WHERE open = 'N';
 
+--    covers:             byProject
+CREATE INDEX changes_byProject
+ON changes (dest_project_name);
+
 CREATE INDEX changes_key
 ON changes (change_key);
 

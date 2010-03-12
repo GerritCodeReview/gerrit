@@ -60,8 +60,9 @@ class ListBranches extends Handler<List<Branch>> {
   @Override
   public List<Branch> call() throws NoSuchProjectException,
       RepositoryNotFoundException {
-    projectControlFactory.validateFor(projectName, ProjectControl.OWNER
-        | ProjectControl.VISIBLE);
+    final ProjectControl pctl = projectControlFactory.validateFor( //
+        projectName, //
+        ProjectControl.OWNER | ProjectControl.VISIBLE);
 
     final List<Branch> branches = new ArrayList<Branch>();
     Branch headBranch = null;
@@ -85,16 +86,29 @@ class ListBranches extends Handler<List<Branch>> {
       }
 
       for (final Ref ref : all.values()) {
-        if (Constants.HEAD.equals(ref.getName()) && ref.isSymbolic()) {
-          // HEAD is a symbolic reference to another branch, instead of
+        if (ref.isSymbolic()) {
+          // A symbolic reference to another branch, instead of
           // showing the resolved value, show the name it references.
           //
-          headBranch = createBranch(Constants.HEAD);
           String target = ref.getTarget().getName();
+          if (!pctl.controlForRef(target).isVisible()) {
+            continue;
+          }
           if (target.startsWith(Constants.R_HEADS)) {
             target = target.substring(Constants.R_HEADS.length());
           }
-          headBranch.setRevision(new RevId(target));
+
+          Branch b = createBranch(Constants.HEAD);
+          b.setRevision(new RevId(target));
+          if (Constants.HEAD.equals(ref.getName())) {
+            headBranch = b;
+          } else {
+            branches.add(b);
+          }
+          continue;
+        }
+
+        if (!pctl.controlForRef(ref.getName()).isVisible()) {
           continue;
         }
 

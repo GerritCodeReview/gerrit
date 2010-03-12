@@ -127,6 +127,10 @@ public final class Change {
       r.fromString(str);
       return r;
     }
+
+    public static Id fromRef(final String ref) {
+      return PatchSet.Id.fromRef(ref).getParentKey();
+    }
   }
 
   /** Globally unique identification of this change. */

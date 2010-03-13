@@ -1,12 +1,47 @@
 Gerrit Code Review - Gitweb Integration
 =======================================
 
-Gerrit Code Review can generate hyperlinks to gitweb, allowing users
-to jump from Gerrit content to the same information, but shown by
-gitweb.
+Gerrit Code Review can manage and generate hyperlinks to gitweb,
+allowing users to jump from Gerrit content to the same information,
+but shown by gitweb.
 
-To enable the gitweb integration, set gitweb.url with the URL of
-your gitweb CGI.
+
+Internal/Managed gitweb
+-----------------------
+
+In the internal configuration, Gerrit inspects the request, enforces
+its project level access controls, and directly executes `gitweb.cgi`
+if the user is authorized to view the page.
+
+To enable the internal configuration, set
+link:config-gerrit.html#gitweb.cgi[gitweb.cgi] with the path of the
+installed CGI.  This defaults to `/usr/lib/cgi-bin/gitweb.cgi`,
+which is a common installation path for the 'gitweb' package on
+Linux distributions.
+
+====
+  git config --file $site_path/etc/gerrit.config gitweb.cgi /usr/lib/cgi-bin/gitweb.cgi
+====
+
+After updating `'$site_path'/etc/gerrit.config`, the Gerrit server must
+be restarted and clients must reload the host page to see the change.
+
+Access Control
+~~~~~~~~~~~~~~
+
+Access controls for internally managed gitweb page views are enforced
+using the standard project READ +1 permission.
+
+
+External/Unmanaged gitweb
+-------------------------
+
+In the external configuration, gitweb runs under the control of an
+external web server, and Gerrit access controls are not enforced.
+
+To enable the external gitweb integration, set
+link:config-gerrit.html#gitweb.url[gitweb.url] with the URL of your
+gitweb CGI.
 
 The CGI's `$projectroot` should be the same directory as
 gerrit.basePath, or a fairly current replica.  If a replica is
@@ -21,7 +56,7 @@ After updating `'$site_path'/etc/gerrit.config`, the Gerrit server must
 be restarted and clients must reload the host page to see the change.
 
 Access Control
---------------
+~~~~~~~~~~~~~~
 
 Gitweb access controls can be implemented using standard web server
 access controls.  This isn't typically integrated with Gerrit's own
@@ -29,14 +64,14 @@ access controls.  Caution must be taken to ensure the controls are
 consistent if access needs to be restricted.
 
 Caching Gitweb
---------------
+~~~~~~~~~~~~~~
 
 If your repository set is large and you are expecting a lot
 of users, you may want to look at the caching forks used by
 high-traffic sites like kernel.org or repo.or.cz.
 
 Alternatives to gitweb
-----------------------
+~~~~~~~~~~~~~~~~~~~~~~
 There are other alternatives to gitweb that can also be used with
 Gerrit, such as cgit.
 

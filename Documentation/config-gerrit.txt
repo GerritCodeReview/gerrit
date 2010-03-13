@@ -719,7 +719,18 @@ same host as Gerrit.
 [[gitweb]]Section gitweb
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
+Gerrit can forward requests to either an internally managed gitweb
+(which allows Gerrit to enforce some access controls), or to an
+externally managed gitweb (where the web server manages access).
 See also link:config-gitweb.html[Gitweb Integration].
+
+[[gitweb.cgi]]gitweb.cgi::
++
+Path to the locally installed `gitweb.cgi` executable.  This CGI will
+be called by Gerrit Code Review when the URL `/gitweb` is accessed.
+Project level access controls are enforced prior to calling the CGI.
++
+Defaults to `/usr/lib/cgi-bin/gitweb.cgi` if gitweb.url is not set.
 
 [[gitweb.url]]gitweb.url::
 +

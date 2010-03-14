@@ -175,8 +175,23 @@ class GitWebServlet extends HttpServlet {
       //
       p.print("$prevent_xss = 1;\n");
 
-      // Generate URLs using the anonymous git:// and secured ssh:// scheme,
-      // this matches the pull URLs we publish on each change screen.
+      // Generate URLs using smart http://
+      //
+      p.print("{\n");
+      p.print("  my $secure = $ENV{'HTTPS'} =~ /^ON$/i;\n");
+      p.print("  my $http_url = $secure ? 'https://' : 'http://';\n");
+      p.print("  $http_url .= qq{$ENV{'GERRIT_USER_NAME'}@}\n");
+      p.print("    unless $ENV{'GERRIT_ANONYMOUS_READ'};\n");
+      p.print("  $http_url .= $ENV{'SERVER_NAME'};\n");
+      p.print("  $http_url .= qq{:$ENV{'SERVER_PORT'}}\n");
+      p.print("    if (( $secure && $ENV{'SERVER_PORT'} != 443)\n");
+      p.print("     || (!$secure && $ENV{'SERVER_PORT'} != 80)\n");
+      p.print("    );\n");
+      p.print("  $http_url .= qq{$ENV{'GERRIT_CONTEXT_PATH'}p};\n");
+      p.print("  push @git_base_url_list, $http_url;\n");
+      p.print("}\n");
+
+      // Generate URLs using anonymous git://
       //
       if (gerritConfig.getGitDaemonUrl() != null) {
         String url = gerritConfig.getGitDaemonUrl();
@@ -189,6 +204,9 @@ class GitWebServlet extends HttpServlet {
         p.print(";\n");
         p.print("}\n");
       }
+
+      // Generate URLs using authenticated ssh://
+      //
       if (gerritConfig.getSshdAddress() != null) {
         String sshAddr = gerritConfig.getSshdAddress();
         p.print("if ($ENV{'GERRIT_USER_NAME'}) {\n");

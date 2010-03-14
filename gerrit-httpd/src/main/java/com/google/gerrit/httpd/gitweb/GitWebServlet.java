@@ -428,7 +428,7 @@ class GitWebServlet extends HttpServlet {
     // "REMOTE_IDENT" => "NYI"
     //
     env.set("REQUEST_METHOD", req.getMethod());
-    env.set("SCRIPT_NAME", req.getServletPath());
+    env.set("SCRIPT_NAME", req.getContextPath() + req.getServletPath());
     env.set("SCRIPT_FILENAME", gitwebCgi.getAbsolutePath());
     env.set("SERVER_NAME", req.getServerName());
     env.set("SERVER_PORT", Integer.toString(req.getServerPort()));

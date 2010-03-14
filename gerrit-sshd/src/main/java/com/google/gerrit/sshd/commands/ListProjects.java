@@ -93,14 +93,14 @@ final class ListProjects extends BaseCommand {
     }
 
     try {
-      for (final Project p : db.projects().all()) {
-        if (p.getNameKey().equals(wildProject)) {
+      for (final Project.NameKey projectName : repoManager.all()) {
+        if (projectName.equals(wildProject)) {
           // This project "doesn't exist". At least not as a repository.
           //
           continue;
         }
 
-        final ProjectState e = projectCache.get(p.getNameKey());
+        final ProjectState e = projectCache.get(projectName);
         if (e == null) {
           // If we can't get it from the cache, pretend its not present.
           //
@@ -108,6 +108,7 @@ final class ListProjects extends BaseCommand {
         }
 
         final ProjectControl pctl = e.controlFor(currentUser);
+        final Project p = pctl.getProject();
 
         if (!showTree) {
 
@@ -118,7 +119,7 @@ final class ListProjects extends BaseCommand {
           }
 
           if (showBranch != null) {
-            final Ref ref = getBranchRef(p.getNameKey());
+            final Ref ref = getBranchRef(projectName);
             if (ref == null || ref.getObjectId() == null
                 || !pctl.controlForRef(ref.getLeaf().getName()).isVisible()) {
               // No branch, or the user can't see this branch, so skip it.
@@ -161,8 +162,6 @@ final class ListProjects extends BaseCommand {
         printElement(stdout, fakeRoot, -1, false, sortedNodes.get(sortedNodes.size() - 1));
         stdout.flush();
       }
-    } catch (OrmException e) {
-      throw new Failure(1, "fatal: database error", e);
     } finally {
       stdout.flush();
     }

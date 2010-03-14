@@ -26,6 +26,14 @@ Linux distributions.
 After updating `'$site_path'/etc/gerrit.config`, the Gerrit server must
 be restarted and clients must reload the host page to see the change.
 
+Configuration
+~~~~~~~~~~~~~
+
+Most of the gitweb configuration file is handled automatically
+by Gerrit Code Review.  Site specific overrides can be placed in
+`'$site_path'/etc/gitweb_config.perl`, as this file is loaded as
+part of the generated configuration file.
+
 Access Control
 ~~~~~~~~~~~~~~
 

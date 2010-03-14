@@ -361,7 +361,7 @@ public final class GerritLauncher {
    *         directory if a directory was preferred.
    * @throws IOException the file could not be created.
    */
-  public static File createTempFile(String prefix, String suffix)
+  public static synchronized File createTempFile(String prefix, String suffix)
       throws IOException {
     if (!temporaryDirectoryFound) {
       final File d = File.createTempFile("gerrit_", "_app", tmproot());

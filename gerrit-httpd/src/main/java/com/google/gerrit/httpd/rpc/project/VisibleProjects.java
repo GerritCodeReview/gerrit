@@ -19,6 +19,7 @@ import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gwtorm.client.OrmException;
@@ -37,27 +38,28 @@ class VisibleProjects extends Handler<List<Project>> {
   private final ProjectControl.Factory projectControlFactory;
   private final CurrentUser user;
   private final ReviewDb db;
+  private final GitRepositoryManager mgr;
 
   @Inject
   VisibleProjects(final ProjectControl.Factory projectControlFactory,
-      final CurrentUser user, final ReviewDb db) {
+      final CurrentUser user, final ReviewDb db, final GitRepositoryManager mgr) {
     this.projectControlFactory = projectControlFactory;
     this.user = user;
     this.db = db;
+    this.mgr = mgr;
   }
 
   @Override
   public List<Project> call() throws OrmException {
-    final List<Project> result;
+    List<Project> result = new ArrayList<Project>();
     if (user.isAdministrator()) {
-      result = db.projects().all().toList();
+      result = db.projects().get(mgr.all()).toList();
     } else {
-      result = new ArrayList<Project>();
-      for (Project p : db.projects().all().toList()) {
+      for (Project.NameKey p : mgr.all()) {
         try {
-          ProjectControl c = projectControlFactory.controlFor(p.getNameKey());
+          ProjectControl c = projectControlFactory.controlFor(p);
           if (c.isVisible() || c.isOwner()) {
-            result.add(p);
+            result.add(c.getProject());
           }
         } catch (NoSuchProjectException e) {
           continue;

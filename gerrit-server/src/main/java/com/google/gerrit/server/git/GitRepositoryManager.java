@@ -22,7 +22,6 @@ import org.eclipse.jgit.lib.Repository;
 
 import java.io.IOException;
 
-
 /**
  * Manages Git repositories for the Gerrit server process.
  * <p>
@@ -57,6 +56,17 @@ public interface GitRepositoryManager {
    */
   public abstract Repository createRepository(Project.NameKey name)
       throws RepositoryNotFoundException;
+
+  /** @return sorted iteration of projects. */
+  public abstract Iterable<Project.NameKey> all();
+
+  /**
+   * Filter the set of registered project names by common prefix.
+   *
+   * @param prefix common prefix.
+   * @return sorted iteration of projects sharing the same prefix.
+   */
+  public abstract Iterable<Project.NameKey> byName(String prefix);
 
   /**
    * Read the {@code GIT_DIR/description} file for gitweb.

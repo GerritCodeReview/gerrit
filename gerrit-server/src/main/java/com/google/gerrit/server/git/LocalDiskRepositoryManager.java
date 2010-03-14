@@ -39,6 +39,11 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 /** Manages Git repositories stored on the local filesystem. */
 @Singleton
@@ -70,6 +75,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
   }
 
   private final File basePath;
+  private volatile SortedSet<Project.NameKey> projects;
 
   @Inject
   LocalDiskRepositoryManager(final SitePaths site,
@@ -129,6 +135,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
         }
         loc = FileKey.exact(new File(basePath, n), FS.DETECTED);
       }
+      projects = null;
       return RepositoryCache.open(loc, false);
     } catch (IOException e1) {
       final RepositoryNotFoundException e2;
@@ -215,5 +222,103 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     if (name.contains("//")) return true; // windows UNC path can be "//..."
 
     return false; // is a reasonable name
+  }
+
+  @Override
+  public Iterable<Project.NameKey> all() {
+    return getAllNameKeys();
+  }
+
+  @Override
+  public Iterable<Project.NameKey> byName(final String pfx) {
+    Project.NameKey n = new Project.NameKey(pfx);
+    final Iterable<Project.NameKey> src = getAllNameKeys().tailSet(n);
+    return new Iterable<Project.NameKey>() {
+      @Override
+      public Iterator<Project.NameKey> iterator() {
+        return new Iterator<Project.NameKey>() {
+          private Iterator<Project.NameKey> itr = src.iterator();
+          private Project.NameKey next;
+
+          @Override
+          public boolean hasNext() {
+            if (next != null) {
+              return true;
+            } else if (itr != null && itr.hasNext()) {
+              final Project.NameKey n = itr.next();
+              if (n.get().startsWith(pfx)) {
+                next = n;
+                return true;
+              } else {
+                itr = null;
+              }
+            }
+            return false;
+          }
+
+          @Override
+          public Project.NameKey next() {
+            if (hasNext()) {
+              Project.NameKey n = next;
+              next = null;
+              return n;
+            } else {
+              throw new NoSuchElementException();
+            }
+          }
+
+          @Override
+          public void remove() {
+            throw new UnsupportedOperationException();
+          }
+        };
+      }
+    };
+  }
+
+  private SortedSet<Project.NameKey> getAllNameKeys() {
+    SortedSet<Project.NameKey> r = projects;
+    if (r == null) {
+      r = scanProjects();
+      projects = r;
+    }
+    return r;
+  }
+
+  private SortedSet<Project.NameKey> scanProjects() {
+    SortedSet<Project.NameKey> names = new TreeSet<Project.NameKey>();
+    scanProjects(basePath, "", names);
+    return Collections.unmodifiableSortedSet(names);
+  }
+
+  private void scanProjects(final File dir, final String prefix,
+      final SortedSet<Project.NameKey> names) {
+    final File[] ls = dir.listFiles();
+    if (ls == null) {
+      return;
+    }
+
+    for (File f : ls) {
+      String name = f.getName();
+      if (FileKey.isGitRepository(f, FS.DETECTED)) {
+        if (name.equals(Constants.DOT_GIT)) {
+          name = prefix.substring(0, prefix.length() - 1);
+
+        } else if (name.endsWith(Constants.DOT_GIT_EXT)) {
+          name = prefix + name.substring(0, name.length() - 4);
+
+        } else {
+          name = prefix + name;
+        }
+
+        Project.NameKey nameKey = new Project.NameKey(name);
+        if (!isUnreasonableName(nameKey)) {
+          names.add(nameKey);
+        }
+
+      } else if (f.isDirectory()) {
+        scanProjects(f, prefix + f.getName() + "/", names);
+      }
+    }
   }
 }

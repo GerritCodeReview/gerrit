@@ -78,7 +78,10 @@ public class GitWebConfig {
       return;
     }
 
-    File cgi, css, logo;
+    final File pkgCgi = new File("/usr/lib/cgi-bin/gitweb.cgi");
+    String[] resourcePaths = {"/usr/share/gitweb", "/var/www"};
+    File cgi;
+
     if (cfgCgi != null) {
       // Use the CGI script configured by the administrator, failing if it
       // cannot be used as specified.
@@ -91,27 +94,32 @@ public class GitWebConfig {
         throw new IllegalStateException("Cannot execute gitweb.cgi: " + cgi);
       }
 
-      // Assume the administrator pointed us the distribution, which
-      // also has the corresponding CSS and logo file.
+      if (!cgi.equals(pkgCgi)) {
+        // Assume the administrator pointed us to the distribution,
+        // which also has the corresponding CSS and logo file.
+        //
+        resourcePaths = new String[] {cgi.getParentFile().getAbsolutePath()};
+      }
+
+    } else if (pkgCgi.isFile() && pkgCgi.canExecute()) {
+      // Use the OS packaged CGI.
       //
-      css = new File(cgi.getParentFile(), "gitweb.css");
-      logo = new File(cgi.getParentFile(), "git-logo.png");
+      log.debug("Assuming gitweb at " + pkgCgi);
+      cgi = pkgCgi;
 
     } else {
-      // Try to use the OS packaged CGI.
-      //
-      final File s = new File("/usr/lib/cgi-bin/gitweb.cgi");
-      if (s.isFile()) {
-        log.debug("Assuming gitweb at " + s);
-        cgi = s;
-        css = new File("/var/www/gitweb.css");
-        logo = new File("/var/www/git-logo.png");
+      log.warn("gitweb not installed (no " + pkgCgi + " found)");
+      cgi = null;
+      resourcePaths = new String[] {};
+    }
 
-      } else {
-        log.warn("gitweb not installed (no " + s + " found)");
-        cgi = null;
-        css = null;
-        logo = null;
+    File css = null, logo = null;
+    for (String path : resourcePaths) {
+      File dir = new File(path);
+      css = new File(dir, "gitweb.css");
+      logo = new File(dir, "git-logo.png");
+      if (css.isFile() && logo.isFile()) {
+        break;
       }
     }
 

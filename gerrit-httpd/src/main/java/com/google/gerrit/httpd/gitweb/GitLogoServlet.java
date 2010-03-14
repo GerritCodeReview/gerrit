@@ -51,9 +51,13 @@ class GitLogoServlet extends HttpServlet {
   @Inject
   GitLogoServlet(final GitWebConfig gitWebConfig) throws IOException {
     byte[] png;
-    try {
-      png = IO.readFully(gitWebConfig.getGitLogoPNG());
-    } catch (FileNotFoundException e) {
+    if (gitWebConfig.getGitLogoPNG() != null) {
+      try {
+        png = IO.readFully(gitWebConfig.getGitLogoPNG());
+      } catch (FileNotFoundException e) {
+        png = null;
+      }
+    } else {
       png = null;
     }
     raw = png;

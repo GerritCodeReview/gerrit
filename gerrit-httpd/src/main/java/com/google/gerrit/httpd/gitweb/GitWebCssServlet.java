@@ -70,12 +70,17 @@ abstract class GitWebCssServlet extends HttpServlet {
 
   GitWebCssServlet(final File src, final GitWebConfig gitWebConfig)
       throws IOException {
-    final File dir = src.getParentFile();
-    final String name = src.getName();
-    final String raw = HtmlDomUtil.readFile(dir, name);
-    if (raw != null) {
-      raw_css = raw.getBytes(ENC);
-      gz_css = HtmlDomUtil.compress(raw_css);
+    if (src != null) {
+      final File dir = src.getParentFile();
+      final String name = src.getName();
+      final String raw = HtmlDomUtil.readFile(dir, name);
+      if (raw != null) {
+        raw_css = raw.getBytes(ENC);
+        gz_css = HtmlDomUtil.compress(raw_css);
+      } else {
+        raw_css = null;
+        gz_css = null;
+      }
     } else {
       raw_css = null;
       gz_css = null;

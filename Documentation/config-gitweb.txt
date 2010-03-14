@@ -34,6 +34,17 @@ by Gerrit Code Review.  Site specific overrides can be placed in
 `'$site_path'/etc/gitweb_config.perl`, as this file is loaded as
 part of the generated configuration file.
 
+Logo and CSS
+~~~~~~~~~~~~
+
+If the package-manager installed CGI (`/usr/lib/cgi-bin/gitweb.cgi`)
+is being used, the stock CSS and logo files will be served from
+either `/usr/share/gitweb` or `/var/www`.
+
+Otherwise, Gerrit expects `gitweb.css` and `git-logo.png` to be found
+in the same directory as the CGI script itself.  This matches with
+the default source code distribution, and most custom installations.
+
 Access Control
 ~~~~~~~~~~~~~~
 

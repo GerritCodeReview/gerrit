@@ -8,7 +8,7 @@ gerrit ls-projects - List projects visible to caller
 SYNOPSIS
 --------
 [verse]
-'ssh' -p <port> <host> 'gerrit ls-projects'
+'ssh' -p <port> <host> 'gerrit ls-projects' [\--show-branch <BRANCH>]
 
 DESCRIPTION
 -----------
@@ -25,6 +25,11 @@ Any user who has configured an SSH key.
 SCRIPTING
 ---------
 This command is intended to be used in scripts.
+
+OPTIONS
+-------
+\--show-branch::
+  Name of the branch for which the command will display the sha of each project.
 
 EXAMPLES
 --------

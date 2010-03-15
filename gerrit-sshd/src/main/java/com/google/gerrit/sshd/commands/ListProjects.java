@@ -14,19 +14,34 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.RevId;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.WildProjectName;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 
 import org.apache.sshd.server.Environment;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
+import org.kohsuke.args4j.Option;
 
+import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
 
 final class ListProjects extends BaseCommand {
   @Inject
@@ -39,8 +54,15 @@ final class ListProjects extends BaseCommand {
   private ProjectCache projectCache;
 
   @Inject
+  private GitRepositoryManager repoManager;
+
+  @Inject
   @WildProjectName
   private Project.NameKey wildProject;
+
+  @Option(name = "--show-branch", aliases = {"-b"},
+      usage = "displays the sha of each project's in the specified branch")
+  private String showBranch;
 
   @Override
   public void start(final Environment env) {
@@ -51,6 +73,25 @@ final class ListProjects extends BaseCommand {
         ListProjects.this.display();
       }
     });
+  }
+
+  private final RevId getRevIdForBranch(Project.NameKey projectName,
+      String branch) {
+    RevId result = null;
+    try {
+      final Repository db = repoManager.openRepository(projectName.get());
+      Ref ref = db.getRef(branch);
+      if (ref != null) {
+        result = new RevId(ref.getObjectId().name());
+      }
+    } catch (RepositoryNotFoundException rnfe) {
+      return null;
+    } catch (IOException ioe) {
+      return null;
+    } finally {
+      db.close();
+    }
+    return result;
   }
 
   private void display() throws Failure {
@@ -66,6 +107,12 @@ final class ListProjects extends BaseCommand {
         final ProjectState e = projectCache.get(p.getNameKey());
         if (e != null && e.controlFor(currentUser).isVisible()) {
           stdout.print(p.getName());
+          if (showBranch != null) {
+            RevId revId = getRevIdForBranch(p.getNameKey(), showBranch);
+            if (revId != null) {
+              stdout.print("\t" + revId.get());
+            }
+          }
           stdout.println();
         }
       }

@@ -37,7 +37,7 @@ class Schema_28 extends SchemaVersion {
   }
 
   @Override
-  protected void migrateData(ReviewDb db) throws OrmException, SQLException {
+  protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException, SQLException {
     final SystemConfig cfg = db.systemConfig().get(new SystemConfig.Key());
     ApprovalCategory cat;
 

@@ -36,7 +36,7 @@ class Schema_21 extends SchemaVersion {
   }
 
   @Override
-  protected void migrateData(ReviewDb db) throws OrmException, SQLException {
+  protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException, SQLException {
     JdbcSchema jdbc = (JdbcSchema) db;
     SystemConfig sc = db.systemConfig().get(new SystemConfig.Key());
 
@@ -55,7 +55,11 @@ class Schema_21 extends SchemaVersion {
       }
 
       if (jdbc.getDialect() instanceof DialectMySQL) {
-        s.execute("DROP FUNCTION nextval_project_id");
+        try {
+          s.execute("DROP FUNCTION nextval_project_id");
+        } catch (SQLException se) {
+          ui.message("Warning: could not delete function nextval_project_id");
+        }
 
       } else if (jdbc.getDialect() instanceof DialectH2) {
         s.execute("ALTER TABLE projects DROP CONSTRAINT"

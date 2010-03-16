@@ -39,7 +39,7 @@ class Schema_22 extends SchemaVersion {
   }
 
   @Override
-  protected void migrateData(ReviewDb db) throws OrmException, SQLException {
+  protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException, SQLException {
     Statement s = ((JdbcSchema) db).getConnection().createStatement();
     try {
       ResultSet results =

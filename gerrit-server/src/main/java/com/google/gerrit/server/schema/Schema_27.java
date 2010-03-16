@@ -39,7 +39,7 @@ class Schema_27 extends SchemaVersion {
   }
 
   @Override
-  protected void migrateData(ReviewDb db) throws SQLException, OrmException {
+  protected void migrateData(ReviewDb db, UpdateUI ui) throws SQLException, OrmException {
     Statement stmt = ((JdbcSchema) db).getConnection().createStatement();
     try {
       final SqlDialect dialect = ((JdbcSchema) db).getDialect();

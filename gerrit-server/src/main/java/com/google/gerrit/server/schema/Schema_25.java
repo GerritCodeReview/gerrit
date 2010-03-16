@@ -41,7 +41,7 @@ class Schema_25 extends SchemaVersion {
   }
 
   @Override
-  protected void migrateData(ReviewDb db) throws OrmException, SQLException {
+  protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException, SQLException {
     nonActions = new HashSet<ApprovalCategory.Id>();
     for (ApprovalCategory c : db.approvalCategories().all()) {
       if (!c.isAction()) {

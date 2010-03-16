@@ -35,7 +35,7 @@ class Schema_23 extends SchemaVersion {
   }
 
   @Override
-  protected void migrateData(ReviewDb db) throws OrmException, SQLException {
+  protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException, SQLException {
     Collection<AccountGroupName> names = new ArrayList<AccountGroupName>();
     Statement queryStmt = ((JdbcSchema) db).getConnection().createStatement();
     try {

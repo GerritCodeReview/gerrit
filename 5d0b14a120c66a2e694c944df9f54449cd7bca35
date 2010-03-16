@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAv3///4I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_21.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-03-16T23:59:38Z",
+      "side": 1,
+      "message": "Style-nit:  I would prefer \"warning: ...\".  Its more consistent with how we report \"error: ...\" or \"fatal: ...\" elsewhere in the command line based code.",
+      "revId": "5d0b14a120c66a2e694c944df9f54449cd7bca35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

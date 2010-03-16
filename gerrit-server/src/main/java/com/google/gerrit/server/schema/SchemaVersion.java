@@ -92,7 +92,7 @@ public abstract class SchemaVersion {
     final JdbcExecutor e = new JdbcExecutor(s);
     try {
       s.updateSchema(e);
-      migrateData(db);
+      migrateData(db, ui);
 
       final List<String> pruneList = new ArrayList<String>();
       s.pruneSchema(new StatementExecutor() {
@@ -119,7 +119,7 @@ public abstract class SchemaVersion {
    * (removes deleted columns/tables).
    */
   @SuppressWarnings("unused")
-  protected void migrateData(ReviewDb db) throws OrmException, SQLException {
+  protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException, SQLException {
   }
 
   /** Mark the current schema version. */

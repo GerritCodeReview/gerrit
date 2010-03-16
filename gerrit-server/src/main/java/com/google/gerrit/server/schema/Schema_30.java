@@ -30,7 +30,7 @@ class Schema_30 extends SchemaVersion {
   }
 
   @Override
-  protected void migrateData(ReviewDb db) throws OrmException {
+  protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException {
     db.approvalCategoryValues().insert(
         Collections.singleton(new ApprovalCategoryValue(
             new ApprovalCategoryValue.Id(ApprovalCategory.FORGE_IDENTITY,

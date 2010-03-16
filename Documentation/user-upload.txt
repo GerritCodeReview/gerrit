@@ -254,7 +254,7 @@ Gerrit restricts direct pushes that bypass review to:
 * `refs/heads/*`: any branch can be updated, created, deleted,
 or rewritten by the pusher.
 * `refs/tags/*`: annotated tag objects pointing to any other type
-of Git object can be created.  Tags cannot be updated or deleted.
+of Git object can be created.
 
 To push branches, the `Push Branch` project right must be granted
 to one (or more) of the user's groups.  The allowed levels within

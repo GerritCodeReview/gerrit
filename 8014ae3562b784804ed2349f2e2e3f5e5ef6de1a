@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAv3///0o\u003d",
+        "filename": "Documentation/cmd-ls-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-03-17T16:16:31Z",
+      "side": 1,
+      "message": "Include the alias -b too.",
+      "revId": "8014ae3562b784804ed2349f2e2e3f5e5ef6de1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

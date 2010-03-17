@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAv3///wQ\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListProjects.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-03-17T23:58:19Z",
+      "side": 1,
+      "message": "So if -b isn\u0027t use, we don\u0027t display anything now?  That\u0027s a breakage.",
+      "revId": "feac24e72fca4e3d6361fbc31c47c19ba51e06e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

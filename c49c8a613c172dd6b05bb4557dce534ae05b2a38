@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAv3///28\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/ChangeAccess.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-03-17T00:47:04Z",
+      "side": 1,
+      "message": "Oddly enough, this isn\u0027t efficient on PostgreSQL... or any other database.  PostgreSQL is using the following:\n\n  CREATE INDEX changes_byProjectOpen\n  ON changes (dest_project_name, sort_key)\n  WHERE open \u003d \u0027Y\u0027;\n\nand MySQL/H2 use:\n\n  CREATE INDEX changes_byProjectOpen\n  ON changes (open, dest_project_name, sort_key);\n\nSo, not an index scan.  You\u0027ll need to redefine an index or something here to make sure this query doesn\u0027t have to do a complete table scan on changes.  Its obviously strictly an optimization, but one we should consider making sure we do before we merge the final version of the code.",
+      "revId": "c49c8a613c172dd6b05bb4557dce534ae05b2a38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAv3///2o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-03-17T00:47:04Z",
+      "side": 1,
+      "message": "This isn\u0027t needed anymore given the algorithm we are using, correct?",
+      "revId": "c49c8a613c172dd6b05bb4557dce534ae05b2a38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAv3///2k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-03-17T00:47:04Z",
+      "side": 1,
+      "message": "Style-nit:  Put this after setCheckReceivedObjects(true).  The two go hand-in-hand for our purposes, its nice to see them both enabled at \"the same time\".",
+      "revId": "c49c8a613c172dd6b05bb4557dce534ae05b2a38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAv3///24\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-03-17T00:47:04Z",
+      "side": 1,
+      "message": "Please add the project copyright header to new files.",
+      "revId": "c49c8a613c172dd6b05bb4557dce534ae05b2a38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAv3///2g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-03-17T00:47:04Z",
+      "side": 1,
+      "message": "Instead of a matcher, maybe consider improving the PatchSet.Id.fromRef() method (line 72 of PatchSet.java) so its suitable for use here?",
+      "revId": "c49c8a613c172dd6b05bb4557dce534ae05b2a38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAv3///2s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-03-17T00:47:04Z",
+      "side": 1,
+      "message": "If you pull this up before you loop over the refs, then you can do the set membership test when you find a change ref and immediately put it into result, without needing the final loop at the bottom of the method.  This you can be O(2N) rather than O(3N).  Its just cleaner to read that way I think, shorter code.",
+      "revId": "c49c8a613c172dd6b05bb4557dce534ae05b2a38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAv3///2w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-03-17T00:47:04Z",
+      "side": 1,
+      "message": "I think projectControl.getProject().getName() would suffice here, no need to go through the mess of the key.",
+      "revId": "c49c8a613c172dd6b05bb4557dce534ae05b2a38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -30,7 +30,7 @@ class Schema_26 extends SchemaVersion {
   }
 
   @Override
-  protected void migrateData(ReviewDb db) throws SQLException {
+  protected void migrateData(ReviewDb db, UpdateUI ui) throws SQLException {
     if (((JdbcSchema) db).getDialect() instanceof DialectMySQL) {
       Statement stmt = ((JdbcSchema) db).getConnection().createStatement();
       try {

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAv3///0M\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListProjects.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-03-17T17:04:56Z",
+      "side": 1,
+      "message": "If id is null, the resolution failed.  Should we still show the project?  If we do, should we show it unambiguous that the branch doesn\u0027t exist?  E.g. display 40 \"0\" instead of the ObjectId?",
+      "revId": "276b421027b2fa946f1b0cccd68226cf89225285",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAv3///0Q\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListProjects.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-03-17T17:04:56Z",
+      "side": 1,
+      "message": "id.name() is better here I think.",
+      "revId": "276b421027b2fa946f1b0cccd68226cf89225285",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

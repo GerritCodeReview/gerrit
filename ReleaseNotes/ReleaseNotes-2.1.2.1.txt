@@ -1,0 +1,47 @@
+Release notes for Gerrit 2.1.2.1
+================================
+
+Gerrit 2.1.2.1 is now available in the usual location:
+
+link:http://code.google.com/p/gerrit/downloads/list[http://code.google.com/p/gerrit/downloads/list]
+
+Bug Fixes
+---------
+
+* Include smart http:// URLs in gitweb
++
+The managed gitweb configuration file didn't know about our smart
+http URLs, so it didn't advertise them for projects to clone by.
+Fixed.
+
+* issue 493 documentation: Document the internal gitweb
+* issue 496 documentation: Explain etc/gitweb_config.perl
++
+The documentation on configuring gitweb didn't talk about our own
+managed support, where we can write the gitweb configuration file
+based on our own settings, and run the CGI directly from within
+our servlet container.  Its an older feature that we have had for
+a while now.  Fixed.
+
+* issue 494 Look for gitweb in /usr/share/gitweb
+* issue 495 Fix gitweb CGI when in subdirectory
++
+The CGI didn't always load its supporting assets like CSS and icon
+from the right URLs.  Fixed.
+
+* Move generated gitweb_config.perl to hidden tmp directory
++
+The generated gitweb configuration file was written to /tmp,
+which might cause it to be deleted every 7 days on some Linux
+distributions.  Moved to our private application temporary directory,
+which is usually under $HOME/.gerritcodereview/tmp.
+
+* Update documentation regarding tag deletion
++
+The documentation incorrectly described tag deletion.  Fixed.
+
+* Allow schema upgrades to display messages
++
+On MySQL servers, schema upgrades from older versions failed if the
+administrator didn't create the nextval functions for administrative
+purposes.  Fixed by making this a warning and not a hard-stop.

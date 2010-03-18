@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAv3///so\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-03-18T21:29:28Z",
+      "side": 1,
+      "message": "Hmm, you failed to consider this case:\n\n* READ +1 refs/* Anonymous Users\n* READ -1 refs/heads/secret Anonymous Users\n\nIn this case, we will bypass everything below because refs/heads/secret won\u0027t have been considered.  That\u0027s what I meant by \"it may not be possible\".  You need to actually sort of look at the reverse situation than what is normally done in RefControl when filtering the access rights.  We need to instead ask, \"Are the READ permissions for this user only applied to refs/*?\"  That\u0027s not something we have a query for right now in the RefControl logic.",
+      "revId": "635c377f2d6efc0ff0ffb9ff3b57500c477ef1ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

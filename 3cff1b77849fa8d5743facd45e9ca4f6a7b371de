@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAv3///tU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-03-18T18:56:29Z",
+      "side": 1,
+      "message": "I wonder if we can determine if the user has READ on refs/* and fast-return out for those cases.  Just a thought, it might proof hard to do easily given how we store the access control rules and how they get applied to branches.",
+      "revId": "3cff1b77849fa8d5743facd45e9ca4f6a7b371de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAv3///tY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-03-18T18:56:29Z",
+      "side": 1,
+      "message": "Why add new code to Change.Id that matches code already in PatchSet.Id?  Why not use instead:\n\n  Change.Id changeId \u003d PatchSet.Id.fromRef(ref.getName()).getParentKey();",
+      "revId": "3cff1b77849fa8d5743facd45e9ca4f6a7b371de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

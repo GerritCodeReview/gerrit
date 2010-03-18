@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAv3///s8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1002957
+      },
+      "writtenOn": "2010-03-18T19:22:49Z",
+      "side": 1,
+      "message": "I\u0027ll give that a try. How about just:\n\nRefControl ctl \u003d projectControl.controlForRef(\"refs/*\");\nif (refControl.isVisible()) {\n  return refs;\n}\n\nI know that it\u0027s a bit of a weird use of the wildcard, but I\u0027m wondering if that would work...",
+      "parentUuid": "AAAAv3///tU\u003d",
+      "revId": "3cff1b77849fa8d5743facd45e9ca4f6a7b371de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAv3///tY\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2010-03-18T18:56:29Z",
       "side": 1,
       "message": "Why add new code to Change.Id that matches code already in PatchSet.Id?  Why not use instead:\n\n  Change.Id changeId \u003d PatchSet.Id.fromRef(ref.getName()).getParentKey();",
+      "revId": "3cff1b77849fa8d5743facd45e9ca4f6a7b371de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAv3///tA\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1002957
+      },
+      "writtenOn": "2010-03-18T19:22:49Z",
+      "side": 1,
+      "message": "I thought it would be easier reading getting a Change.Id from the Change.Id class.\n\nBut it\u0027s probably the same. Trading off readability in one place for maintainability in the other. I\u0027ll stick with what you prefer.",
+      "parentUuid": "AAAAv3///tY\u003d",
       "revId": "3cff1b77849fa8d5743facd45e9ca4f6a7b371de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

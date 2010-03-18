@@ -69,6 +69,24 @@
       "revId": "3cff1b77849fa8d5743facd45e9ca4f6a7b371de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAv3///sw\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-03-18T20:34:57Z",
+      "side": 1,
+      "message": "Its easier to get a Change.Id from a Change.Id class, sure.  But don\u0027t duplicate the code.  If you want to do that, make Change.Id fromRef be:\n\n  public static Id fromRef(String name) {\n    return PatchSet.Id.fromRef(name).getParentKey();\n  }\n\nSo that we aren\u0027t duplicating the parsing logic of a ref in both places.",
+      "parentUuid": "AAAAv3///tA\u003d",
+      "revId": "3cff1b77849fa8d5743facd45e9ca4f6a7b371de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

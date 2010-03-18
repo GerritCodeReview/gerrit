@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAwH////A\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListProjects.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-03-18T23:41:59Z",
+      "side": 1,
+      "message": "We never verify that the user can see this branch in this project.  We only verified that they can see the project itself.  But with read level branch access, that\u0027s no longer true, is it?",
+      "revId": "0d6312d08a83689f17026d95246b6493feac450c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

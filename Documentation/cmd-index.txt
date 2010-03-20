@@ -75,6 +75,9 @@ gerrit receive-pack::
 [[admin_commands]]Adminstrator Commands
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+link:cmd-create-account.html[gerrit create-account]::
+	Create a new batch/role account.
+
 link:cmd-create-project.html[gerrit create-project]::
 	Create a new project and associated Git repository.
 

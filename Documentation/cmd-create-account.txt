@@ -1,0 +1,70 @@
+gerrit create-account
+=====================
+
+NAME
+----
+gerrit create-account - Create a new batch/role account.
+
+SYNOPSIS
+--------
+[verse]
+'ssh' -p <port> <host> 'gerrit create-account' \
+[\--group <GROUP>] \
+[\--full-name <FULLNAME>] \
+[\--email <EMAIL>] \
+[\--ssh-key -|<KEY>] \
+<USERNAME>
+
+DESCRIPTION
+-----------
+Creates a new internal only user account for batch/role access, such
+as from an automated build system or event monitoring over
+link:cmd-stream-events.html[gerrit stream-events].
+
+If LDAP authentication is being used, the user account is created
+without checking the LDAP directory.  Consequently users can be
+created in Gerrit that do not exist in the underlying LDAP directory.
+
+ACCESS
+------
+Caller must be a member of the privileged 'Administrators' group.
+
+SCRIPTING
+---------
+This command is intended to be used in scripts.
+
+OPTIONS
+-------
+<USERNAME>::
+	Required; SSH username of the user account.
+
+\--ssh-key::
+	Content of the public SSH key to load into the account's
+	keyring.  If `-` the key is read from stdin, rather than
+	from the command line.
+
+\--group::
+	Name of the group to put the user into.  Multiple \--group
+	options may be specified to add the user to multiple groups.
+
+\--full-name::
+	Display name of the user account.
++
+Names containing spaces should be quoted in single quotes (\').
+This most likely requires double quoting the value, for example
+`\--full-name "\'A description string\'"`.
+
+\--email::
+	Preferred email address for the user account.
+
+EXAMPLES
+--------
+Create a new user account called `watcher`:
+
+====
+	$ cat ~/.ssh/id_watcher.pub | ssh -p 29418 review.example.com gerrit create-user --ssh-key - watcher
+====
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]

@@ -125,6 +125,8 @@ patchset:: Refers to a specific patchset within a change
 
   revision;; Git commit-ish for this patchset
 
+  ref;; Git reference pointing at revision
+
 SEE ALSO
 --------
 

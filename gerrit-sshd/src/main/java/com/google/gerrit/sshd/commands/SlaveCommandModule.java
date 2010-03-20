@@ -26,6 +26,7 @@ public class SlaveCommandModule extends CommandModule {
     final CommandName gerrit = Commands.named("gerrit");
 
     command(gerrit, "approve").to(ErrorSlaveMode.class);
+    command(gerrit, "create-account").to(ErrorSlaveMode.class);
     command(gerrit, "create-project").to(ErrorSlaveMode.class);
     command(gerrit, "gsql").to(ErrorSlaveMode.class);
     command(gerrit, "receive-pack").to(ErrorSlaveMode.class);

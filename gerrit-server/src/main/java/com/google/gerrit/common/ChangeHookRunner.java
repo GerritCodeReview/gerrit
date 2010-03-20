@@ -87,6 +87,7 @@ public class ChangeHookRunner {
     public static class PatchSetAttribute {
         public String number;
         public String revision;
+        public String ref;
     }
 
     public static class CommentAddedEvent extends ChangeEvent {
@@ -462,6 +463,7 @@ public class ChangeHookRunner {
         PatchSetAttribute p = new PatchSetAttribute();
         p.revision = patchSet.getRevision().get();
         p.number = Integer.toString(patchSet.getPatchSetId());
+        p.ref = patchSet.getRefName();
         return p;
     }
 

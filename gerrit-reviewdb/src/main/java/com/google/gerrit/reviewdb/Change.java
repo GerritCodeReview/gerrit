@@ -347,6 +347,10 @@ public final class Change {
   @Column(id = 13)
   protected String subject;
 
+  /** Id of the atomic commit which the change is part of. */
+  @Column(id = 14, notNull = false)
+  protected Id atomicId;
+
   protected Change() {
   }
 
@@ -452,4 +456,17 @@ public final class Change {
     open = newStatus.isOpen();
     status = newStatus.getCode();
   }
+
+  public void setAtomicId(final Id id) {
+    atomicId = id;
+  }
+
+  public Id getAtomicId() {
+    return atomicId;
+  }
+
+  public boolean isSuperModule() {
+    return atomicId != null && changeId.equals(atomicId);
+  }
+
 }

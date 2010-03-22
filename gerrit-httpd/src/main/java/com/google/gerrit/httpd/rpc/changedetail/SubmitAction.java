@@ -23,7 +23,9 @@ import com.google.gerrit.common.errors.NoSuchEntityException;
 import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.PatchSet;
+import com.google.gerrit.reviewdb.PatchSetAncestor;
 import com.google.gerrit.reviewdb.PatchSetApproval;
+import com.google.gerrit.reviewdb.RevId;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
@@ -36,6 +38,9 @@ import com.google.gwtorm.client.AtomicUpdate;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+
+import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.Tree;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -144,10 +149,55 @@ class SubmitAction extends Handler<ChangeDetail> {
       }
     });
 
-    if (change.getStatus() == Change.Status.SUBMITTED) {
-      merger.merge(change.getDest());
+
+    if ((this.getDependsOn(change).isEmpty()) && (change.getStatus() == Change.Status.SUBMITTED)) {
+      mergeCascade(change);
     }
 
     return changeDetailFactory.create(changeId).call();
+  }
+
+  private void mergeCascade(Change change) throws OrmException{
+    List <Change> neededBy = getNeededBy(change);
+    merger.merge(change.getDest());
+    for (Change c : neededBy){
+      if ((this.getDependsOn(c).isEmpty()) && (c.getStatus() == Change.Status.SUBMITTED))
+        this.mergeCascade(c);
+    }
+
+  }
+
+  private List<Change> getDependsOn(Change change) throws OrmException{
+    List<Change> dependsOn = new ArrayList<Change>();
+
+    PatchSet pset = db.patchSets().get(change.currPatchSetId());
+    List <PatchSetAncestor> psetAncList = db.patchSetAncestors().ancestorsOf(pset.getId()).toList();
+
+    for (PatchSetAncestor psetAnc : psetAncList){
+      String revId = psetAnc.getAncestorRevision().get();
+      List<Change> changesPerRevIdList = db.changes().byKey(new Change.Key("I"+revId)).toList();
+
+      for (Change c : changesPerRevIdList){
+        if ((c.getStatus() != Change.Status.MERGED) && (c.getStatus() != Change.Status.SUBMITTED))
+          dependsOn.add(c);
+      }
+    }
+    return dependsOn;
+  }
+
+  private List<Change> getNeededBy(Change change) throws OrmException{
+    List<Change> neededBy = new ArrayList<Change>();
+
+    String revId = change.getKey().get().substring(1);
+
+    List <PatchSetAncestor> psetAncList = db.patchSetAncestors().descendantsOf(new RevId(revId)).toList();
+
+    for (PatchSetAncestor psetAnc : psetAncList){
+      Change.Id chId = psetAnc.getPatchSet().getParentKey();
+      Change c = db.changes().get(chId);
+      neededBy.add(c);
+    }
+
+    return neededBy;
   }
 }

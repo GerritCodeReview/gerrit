@@ -88,6 +88,9 @@ public interface ReviewDb extends Schema {
   ProjectAccess projects();
 
   @Relation
+  SubscriptionAccess subscriptions();
+
+  @Relation
   ChangeAccess changes();
 
   @Relation
@@ -131,4 +134,8 @@ public interface ReviewDb extends Schema {
    */
   @Sequence
   int nextChangeMessageId() throws OrmException;
+
+  /** Next unique id for a {@link Subscription}. */
+  @Sequence
+  int nextSubscriptionId() throws OrmException;
 }

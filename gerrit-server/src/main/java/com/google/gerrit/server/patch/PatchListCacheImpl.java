@@ -26,6 +26,7 @@ import com.google.gerrit.server.cache.EvictionPolicy;
 import com.google.gerrit.server.cache.SelfPopulatingCache;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
@@ -70,6 +71,7 @@ public class PatchListCacheImpl implements PatchListCache {
   private static final Pattern CONTROL_BLOCK_START_RE =
       Pattern.compile("[{:][ \\t]*$");
 
+
   public static Module module() {
     return new CacheModule() {
       @Override
@@ -104,6 +106,8 @@ public class PatchListCacheImpl implements PatchListCache {
     };
   }
 
+
+
   public PatchList get(final PatchListKey key) {
     if (dynamic) {
       try {
@@ -128,7 +132,7 @@ public class PatchListCacheImpl implements PatchListCache {
   }
 
   private PatchList compute(final PatchListKey key)
-      throws MissingObjectException, IncorrectObjectTypeException, IOException {
+      throws MissingObjectException, IncorrectObjectTypeException, IOException, OrmException {
     final Repository repo = repoManager.openRepository(key.projectKey.get());
     try {
       return readPatchList(key, repo);
@@ -138,7 +142,7 @@ public class PatchListCacheImpl implements PatchListCache {
   }
 
   private PatchList readPatchList(final PatchListKey key, final Repository repo)
-      throws IOException {
+      throws IOException, OrmException {
     final RevWalk rw = new RevWalk(repo);
     final RevCommit b = rw.parseCommit(key.getNewId());
     final AnyObjectId a = aFor(key, repo, b);
@@ -198,6 +202,20 @@ public class PatchListCacheImpl implements PatchListCache {
     RevTree bTree = b.getTree();
 
     final int cnt = p.getFiles().size();
+    DepsBypasser depsBypasser = DepsBypasser.getInstance();
+
+
+    for (FileHeader fHeader: p.getFiles()){
+      if (fHeader.getNewMode()==FileMode.GITLINK){
+        if (depsBypasser.getSuperSha1()==null)
+          depsBypasser.setSuperSha1(b.getName());
+        String scriptText = fHeader.getScriptText();
+        String subSha1 = scriptText.substring(scriptText.length()-41, scriptText.length()-1);
+        depsBypasser.addSubSha1(subSha1);
+
+      }
+    }
+
     final PatchListEntry[] entries = new PatchListEntry[cnt];
     for (int i = 0; i < cnt; i++) {
       entries[i] = newEntry(repo, aTree, bTree, p.getFiles().get(i));

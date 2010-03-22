@@ -15,9 +15,14 @@
 package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.reviewdb.Account;
+import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.ReceiveCommits;
+import com.google.gerrit.server.patch.DepsBypasser;
 import com.google.gerrit.sshd.AbstractGitCommand;
+import com.google.gwtorm.client.AtomicUpdate;
+import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.transport.ReceivePack;
@@ -27,6 +32,7 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
+
 /** Receives change upload over SSH using the Git receive-pack protocol. */
 final class Receive extends AbstractGitCommand {
   @Inject
@@ -34,6 +40,9 @@ final class Receive extends AbstractGitCommand {
 
   @Inject
   private IdentifiedUser currentUser;
+
+  @Inject
+  private ReviewDb db;
 
   @Inject
   private IdentifiedUser.GenericFactory identifiedUserFactory;
@@ -52,7 +61,7 @@ final class Receive extends AbstractGitCommand {
   }
 
   @Override
-  protected void runImpl() throws IOException, Failure {
+  protected void runImpl() throws IOException, Failure, OrmException {
     final ReceiveCommits receive = factory.create(projectControl, repo);
 
     ReceiveCommits.Capable r = receive.canUpload();
@@ -66,9 +75,36 @@ final class Receive extends AbstractGitCommand {
     receive.addReviewers(reviewerId);
     receive.addExtraCC(ccId);
 
+
     final ReceivePack rp = receive.getReceivePack();
     rp.setRefLogIdent(currentUser.newRefLogIdent());
     rp.receive(in, out, err);
+
+    DepsBypasser depsBypasser = DepsBypasser.getInstance();
+    depsBypasser.validate(db);
+
+    // Add inter git dependencies between changes
+    if (depsBypasser.isAtomicCommit()) {
+      final Change superCh = db.changes().get(depsBypasser.getSuperChange());
+
+      // You will not be able to change the members of an
+      // atomic commit by patching the superproject.
+      // TODO A new patch on the superproject should be created by Gerrit whenever
+      // a submodule is patched.
+      if (superCh.currentPatchSetId().get() == 1) {
+        for (final Change.Id chId : depsBypasser.getAtomicMembers()) {
+          db.changes().atomicUpdate(chId,
+              new AtomicUpdate<Change>() {
+                @Override
+                public Change update(Change change) {
+                  change.setAtomicId(superCh.getId());
+                  return change;
+                }
+              });
+        }
+      }
+    }
+    depsBypasser.reset();
   }
 
   private void verifyProjectVisible(final String type, final Set<Account.Id> who)

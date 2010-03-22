@@ -26,10 +26,12 @@ import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.ChangeMessage;
 import com.google.gerrit.reviewdb.PatchSet;
+import com.google.gerrit.reviewdb.PatchSetAncestor;
 import com.google.gerrit.reviewdb.PatchSetApproval;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.RevId;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.Subscription;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
@@ -48,21 +50,26 @@ import com.google.gwtorm.client.AtomicUpdate;
 import com.google.gwtorm.client.OrmConcurrencyException;
 import com.google.gwtorm.client.OrmException;
 import com.google.gwtorm.client.SchemaFactory;
+import com.google.gwtorm.client.Transaction;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Commit;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.FileBasedConfig;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectWriter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.Tree;
 import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.merge.Merger;
 import org.eclipse.jgit.merge.ThreeWayMerger;
@@ -72,11 +79,14 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.treewalk.TreeWalk;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -88,6 +98,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TimeZone;
+import java.util.zip.DataFormatException;
 
 import javax.annotation.Nullable;
 
@@ -213,7 +224,7 @@ public class MergeOp {
   private void mergeImpl() throws MergeException {
     openRepository();
     openBranch();
-    listPendingSubmits();
+    retrieveSubmitsReadyToMerge();
     validateChangeList();
     mergeTip = branchTip;
     switch (destProject.getSubmitType()) {
@@ -232,6 +243,8 @@ public class MergeOp {
     }
     updateBranch();
     updateChangeStatus();
+    updateSubscriptions();
+    updateSubscribers(destBranch, mergeTip.getId().toObjectId(), null);
   }
 
   private void openRepository() throws MergeException {
@@ -282,11 +295,47 @@ public class MergeOp {
     }
   }
 
-  private void listPendingSubmits() throws MergeException {
+  private void retrieveSubmitsReadyToMerge() throws MergeException {
     try {
       submitted = schema.changes().submitted(destBranch).toList();
     } catch (OrmException e) {
       throw new MergeException("Cannot query the database", e);
+    }
+    // Remove changes with remaining unsolved dependencies.
+    List<Change> submCopy = new ArrayList<Change>();
+    submCopy.addAll(submitted);
+    for (final Change cOuter : submCopy) {
+      if (cOuter.getAtomicId() != null) {
+        try {
+          for (final Change cInner : schema.changes().atomicMembers(
+              cOuter.getAtomicId())) {
+            if ((cInner.getChangeId() != cOuter.getChangeId())
+                && (cInner.getStatus() != Change.Status.MERGED)
+                && (cInner.getStatus() != Change.Status.SUBMITTED)) {
+              submitted.remove(cOuter);
+              break;
+            }
+            PatchSet pset = schema.patchSets().get(cInner.currPatchSetId());
+            List<PatchSetAncestor> psetAncList =
+                schema.patchSetAncestors().ancestorsOf(pset.getId()).toList();
+
+            for (PatchSetAncestor psetAnc : psetAncList) {
+              String revId = psetAnc.getAncestorRevision().get();
+              List<Change> changesPerRevIdList =
+                  schema.changes().byKey(new Change.Key("I" + revId)).toList();
+
+              for (Change c : changesPerRevIdList) {
+                if (c.getStatus() != Change.Status.MERGED) {
+                  submitted.remove(cOuter);
+                  break;
+                }
+              }
+            }
+          }
+        } catch (OrmException e) {
+          throw new MergeException("Cannot query the database", e);
+        }
+      }
     }
   }
 
@@ -931,6 +980,311 @@ public class MergeOp {
           setNew(c, message(c, "Unspecified merge failure: " + s.name()));
           break;
       }
+    }
+  }
+
+  private String getSrvName(String srvUrl) {
+    String srvName = null;
+    final int begin = srvUrl.indexOf("//") + 2;
+    if (begin >= 2) {
+      int end = srvUrl.length();
+      int e = srvUrl.indexOf("/", begin);
+      if (e > 0) end = e;
+      e = srvUrl.indexOf(".", begin);
+      if (e > 0 && e < end) end = e;
+      e = srvUrl.indexOf(":", begin);
+      if (e > 0 && e < end) end = e;
+      if (end >= begin) srvName = srvUrl.substring(begin, end);
+    }
+    return srvName;
+  }
+
+  private void updateSubscriptions() {
+    // Note: The merge is already performed so we shall not throw an exception
+    // on failure.
+    Transaction txn = null;
+    final String gitmodulesFile = ".gitmodules";
+    File tmpGitmodulesFile = null;
+    try {
+      final TreeWalk tw =
+          TreeWalk.forPath(db, gitmodulesFile, mergeTip.getTree());
+      if ((tw != null)
+          && (tw.getFileMode(0).getObjectType() == Constants.OBJ_BLOB)) {
+        tmpGitmodulesFile = File.createTempFile(gitmodulesFile, ".tmp");
+        final byte[] blobData = db.openBlob(tw.getObjectId(0)).getCachedBytes();
+        FileOutputStream fos =
+            new FileOutputStream(tmpGitmodulesFile.getCanonicalPath());
+        fos.write(blobData);
+        fos.close();
+
+        final FileBasedConfig cfg = new FileBasedConfig(tmpGitmodulesFile);
+        final String thisServer = getSrvName(urlProvider.get());
+        if (thisServer == null) {
+          throw new DataFormatException("At parse of " + gitmodulesFile
+              + ": problem retrieving name of this server.");
+        }
+        txn = schema.beginTransaction();
+        schema.subscriptions().delete(
+            schema.subscriptions().getSubscription(destBranch), txn);
+
+        cfg.load();
+        for (String id : cfg.getSubsections("submodule")) {
+          final String url = cfg.getString("submodule", id, "url");
+          final String path = cfg.getString("submodule", id, "path");
+          String revision = cfg.getString("submodule", id, "revision");
+          if (url != null && url.length() > 0 && path != null
+              && path.length() > 0 && revision != null && revision.length() > 0) {
+            boolean pathIsRelative = url.startsWith("/");
+            String server = null;
+            if (!pathIsRelative) server = getSrvName(url);
+            if ((pathIsRelative)
+                || (server != null && server.equalsIgnoreCase(thisServer))) {
+              if (revision.equals(".")) {
+                revision = destBranch.get();
+              }
+              schema.subscriptions().insert(
+                  Collections.singleton(new Subscription(new Subscription.Id(
+                      schema.nextSubscriptionId()), new Branch.NameKey(
+                      new Project.NameKey(destProject.getName()), destBranch
+                          .get()), new Branch.NameKey(
+                      new Project.NameKey(path), revision))), txn);
+            }
+          }
+        }
+        txn.commit();
+      }
+    }
+
+    catch (OrmException e) {
+      log.error("Database problem at update of subscriptions table from "
+          + gitmodulesFile + " file.", e);
+    } catch (ConfigInvalidException e) {
+      log.error("Problem at update of subscriptions table: " + gitmodulesFile
+          + " config file is invalid.", e);
+    } catch (IOException e) {
+      log.error("Problem at update of subscriptions table from "
+          + gitmodulesFile + ".", e);
+    } catch (DataFormatException e) {
+      log.error(e.getMessage(), e);
+    }
+
+    finally {
+      if (txn != null) {
+        try {
+          txn.rollback();
+        } catch (OrmException e) {
+        }
+      }
+      if (tmpGitmodulesFile != null) {
+        tmpGitmodulesFile.delete();
+      }
+    }
+  }
+
+  private void updateSubscribersOfAtomicCommit(
+      final List<Change> mergedAtomicCommits) {
+    for (final Change mergedChange : mergedAtomicCommits) {
+      Map<Branch.NameKey, List<Change>> subscribers =
+          new HashMap<Branch.NameKey, List<Change>>();
+
+      try {
+        // connect submodule changes included in the atomic commit
+        // with subscribing projects
+        for (final Change c : schema.changes().atomicMembers(
+            mergedChange.getId()).toList()) {
+          // the supermodule is also part of the atomic commit
+          if (c.isSuperModule()) continue;
+          final List<Subscription> submoduleSubscribers =
+              schema.subscriptions().getSubscribers(c.getDest()).toList();
+
+          // Trigger merge of the other submodule changes included in the
+          // atomic commit.
+          // Note: we never check if the submodule changes has any unresolved
+          // git internal dependency which will prevent them from being
+          // merged, which will break the atomic commit.
+          if (!c.getDest().equals(mergedChange.getDest())
+              && c.getStatus() == Change.Status.SUBMITTED) {
+            mergeQueue.merge(c.getDest());
+          }
+
+          for (final Subscription s : submoduleSubscribers) {
+            // the supermodule is also a subscriber but it has already been
+            // updated
+            if (mergedChange.getDest().equals(s.getSubscriber())) continue;
+            if (!subscribers.containsKey(s.getSubscriber())) {
+              subscribers.put(s.getSubscriber(), new ArrayList<Change>());
+            }
+            subscribers.get(s.getSubscriber()).add(c);
+          }
+        }
+
+        // atomic update of subscribing projects
+        for (final Map.Entry<Branch.NameKey, List<Change>> se : subscribers
+            .entrySet()) {
+          Map<Branch.NameKey, ObjectId> modules =
+              new HashMap<Branch.NameKey, ObjectId>(se.getValue().size());
+
+          for (final Change c : se.getValue()) {
+            modules.put(c.getDest(), ObjectId.fromString(c.getKey().get()
+                .substring(1)));
+          }
+          updateGitlinks(se.getKey(), modules, null);
+        }
+      } catch (OrmException e) {
+        log.error("Unable to update subscribers of " + mergedChange.getId(), e);
+      }
+      // TODO other exceptions
+    }
+  }
+
+  private void updateSubscribers(final Branch.NameKey updatedBranch,
+      final ObjectId mergedCommit, final String msg) {
+    // Note: The merge is already performed so we shouldn't throw an Exception
+    // on failure
+    try {
+      final List<Subscription> subscribers =
+          schema.subscriptions().getSubscribers(updatedBranch).toList();
+      List<Change> mergedAtomicSuperCommits = new ArrayList<Change>();
+
+      final StringBuilder msgbuf = new StringBuilder();
+      if (msg == null) {
+        for (final Change chg : submitted) {
+          final CodeReviewCommit c = commits.get(chg.getId());
+
+          if (c != null
+              && (c.statusCode == CommitMergeStatus.CLEAN_MERGE || c.statusCode == CommitMergeStatus.CLEAN_PICK)) {
+
+            if (chg.isSuperModule()) {
+              // Subscribers will only be updated when the supermodule
+              // of the atomic commit is merged.
+              // There might however be a combination of atomic submodule
+              // and other, none atomic, changes merged in this batch which
+              // would result in a none atomic update of the subscribers.
+              // How should this use case be handled?
+              mergedAtomicSuperCommits.add(chg);
+            } else if (chg.getAtomicId() == null) {
+              msgbuf.append("\n");
+              msgbuf.append(c.getFullMessage());
+            }
+          }
+        }
+      } else {
+        msgbuf.append(msg);
+      }
+
+      // Note: if the merged batch is a combination of atomic and none atomic
+      // changes the subscribers will be updated regardless. It will be a
+      // none atomic update of the subscribers.
+      if (msgbuf.length() > 0 || !mergedAtomicSuperCommits.isEmpty()) {
+        // update subscribers of this module
+        for (final Subscription s : subscribers) {
+          Map<Branch.NameKey, ObjectId> modules =
+              new HashMap<Branch.NameKey, ObjectId>(1);
+          modules.put(updatedBranch, mergedCommit);
+          updateGitlinks(s.getSubscriber(), modules, msgbuf.toString());
+        }
+      }
+      updateSubscribersOfAtomicCommit(mergedAtomicSuperCommits);
+    } catch (OrmException e) {
+      log.error("Cannot read subscription records", e);
+    }
+  }
+
+  private void updateGitlinks(final Branch.NameKey subscriber,
+      final Map<Branch.NameKey, ObjectId> modules, final String msg) {
+    // Note: should we support default values for author/committer,
+    // configured in gerrit.config maybe?
+    PersonIdent author = null;
+    PersonIdent committer = null;
+    final StringBuilder msgbuf = new StringBuilder();
+    msgbuf.append("Subprojects has been updated\n");
+
+    for (final Map.Entry<Branch.NameKey, ObjectId> me : modules.entrySet()) {
+      try {
+        final Repository pdb =
+            repoManager.openRepository(me.getKey().getParentKey().get());
+        final Commit commit = pdb.mapCommit(me.getValue());
+        msgbuf.append("\nProject: ");
+        msgbuf.append(me.getKey().getParentKey().get());
+        msgbuf.append("  " + me.getValue().getName());
+        msgbuf.append("\n");
+        if (modules.size() == 1 && msg != null) {
+          msgbuf.append(msg);
+        } else {
+          msgbuf.append(commit.getMessage());
+        }
+        msgbuf.append("\n");
+
+        if (committer == null) {
+          committer = commit.getCommitter();
+        }
+        if (author == null) {
+          author = commit.getAuthor();
+        }
+      } catch (RepositoryNotFoundException e) {
+        // TODO: we should NOT halt here ?
+      } catch (IOException e) {
+        // TODO: we should NOT halt here ?
+      }
+    }
+
+    // TODO: what if the above fails and committer and author are both null
+
+    try {
+      final Repository pdb =
+          repoManager.openRepository(subscriber.getParentKey().get());
+      final ObjectId currentCommitId =
+          pdb.getRef(subscriber.get()).getObjectId();
+      final Tree rootTree = pdb.mapTree(currentCommitId);
+      final ObjectWriter ow = new ObjectWriter(pdb);
+
+      for (final Map.Entry<Branch.NameKey, ObjectId> me : modules.entrySet()) {
+        rootTree.findBlobMember(me.getKey().getParentKey().get()).setId(
+            me.getValue().toObjectId());
+        Tree subTree =
+            rootTree.findBlobMember(me.getKey().getParentKey().get())
+                .getParent();
+
+        // Note: some of the toplevel tree objects might be left dangling if
+        // they are written multiple times during the same update
+        while (!subTree.isRoot()) {
+          rootTree.findTreeMember(subTree.getFullName()).setId(
+              ow.writeTree(subTree));
+          subTree = subTree.getParent();
+        }
+      }
+
+      final Commit commit = new Commit(pdb);
+      commit.setTreeId(ow.writeTree(rootTree));
+      commit.setParentIds(new ObjectId[] {currentCommitId});
+      commit.setAuthor(author);
+      commit.setCommitter(committer);
+      commit.setMessage(msgbuf.toString());
+      commit.commit();
+
+      final RefUpdate rfu = pdb.updateRef(subscriber.get());
+      rfu.setForceUpdate(false);
+      rfu.setNewObjectId(commit.getCommitId());
+      rfu.setRefLogMessage("merged", true);
+
+      switch (rfu.update()) {
+        case NEW:
+        case FAST_FORWARD:
+          replication.scheduleUpdate(subscriber.getParentKey(), rfu.getName());
+          // TODO since this is performed "in the background" no mail will be sent
+          // to inform users about the updated branch
+          break;
+
+        default:
+          throw new IOException(rfu.getResult().name());
+      }
+
+      // TODO safeguard against circular subscriptions
+      updateSubscribers(subscriber, commit.getCommitId(), msgbuf.toString());
+    } catch (RepositoryNotFoundException e) {
+      log.error("Cannot update gitlinks for " + subscriber.get(), e);
+    } catch (IOException e) {
+      log.error("Cannot update gitlinks for " + subscriber.get(), e);
     }
   }
 

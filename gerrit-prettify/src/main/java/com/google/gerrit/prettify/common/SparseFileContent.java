@@ -12,14 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.common.data;
-
-import com.google.gwtexpui.safehtml.client.SafeHtml;
+package com.google.gerrit.prettify.common;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SparseFileContent {
+  protected String path;
   protected List<Range> ranges;
   protected int size;
   protected boolean missingNewlineAtEnd;
@@ -46,16 +45,48 @@ public class SparseFileContent {
     missingNewlineAtEnd = missing;
   }
 
-  public SafeHtml get(final int idx) {
+  public String getPath() {
+    return path;
+  }
+
+  public void setPath(String filePath) {
+    path = filePath;
+  }
+
+  public boolean isWholeFile() {
+    if (size == 0) {
+      return true;
+
+    } else if (1 == ranges.size()) {
+      Range r = ranges.get(0);
+      return r.base == 0 && r.end() == size;
+
+    } else {
+      return false;
+    }
+  }
+
+  public String get(final int idx) {
     final String line = getLine(idx);
     if (line == null) {
       throw new ArrayIndexOutOfBoundsException(idx);
     }
-    return SafeHtml.asis(line);
+    return line;
   }
 
   public boolean contains(final int idx) {
     return getLine(idx) != null;
+  }
+
+  public int mapIndexToLine(int arrayIndex) {
+    final int origIndex = arrayIndex;
+    for (Range r : ranges) {
+      if (arrayIndex < r.lines.size()) {
+        return r.base + arrayIndex;
+      }
+      arrayIndex -= r.lines.size();
+    }
+    throw new ArrayIndexOutOfBoundsException(origIndex);
   }
 
   private String getLine(final int idx) {
@@ -95,10 +126,6 @@ public class SparseFileContent {
     return null;
   }
 
-  public void addLine(final int i, final SafeHtml content) {
-    addLine(i, content.asString());
-  }
-
   public void addLine(final int i, final String content) {
     final Range r;
     if (!ranges.isEmpty() && i == last().end()) {
@@ -112,6 +139,51 @@ public class SparseFileContent {
 
   private Range last() {
     return ranges.get(ranges.size() - 1);
+  }
+
+  public String asString() {
+    final StringBuilder b = new StringBuilder();
+    for (Range r : ranges) {
+      for (String l : r.lines) {
+        b.append(l);
+        b.append('\n');
+      }
+    }
+    if (0 < b.length() && isMissingNewlineAtEnd()) {
+      b.setLength(b.length() - 1);
+    }
+    return b.toString();
+  }
+
+  public SparseFileContent completeWithContext(SparseFileContent a,
+      EditList editList) {
+    ArrayList<String> lines = new ArrayList<String>(size);
+    for (final EditList.Hunk hunk : editList.getFullContext().getHunks()) {
+      while (hunk.next()) {
+        if (hunk.isContextLine()) {
+          lines.add(a.get(hunk.getCurA()));
+          hunk.incBoth();
+
+        } else if (hunk.isDeletedA()) {
+          hunk.incA();
+
+        } else if (hunk.isInsertedB()) {
+          lines.add(get(hunk.getCurB()));
+          hunk.incB();
+        }
+      }
+    }
+
+    Range range = new Range();
+    range.lines = lines;
+
+    SparseFileContent r = new SparseFileContent();
+    r.setSize(size());
+    r.setMissingNewlineAtEnd(isMissingNewlineAtEnd());
+    r.setPath(getPath());
+    r.ranges.add(range);
+
+    return r;
   }
 
   @Override

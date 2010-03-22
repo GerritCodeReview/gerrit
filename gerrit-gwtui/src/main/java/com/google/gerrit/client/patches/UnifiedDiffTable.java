@@ -20,11 +20,11 @@ import static com.google.gerrit.client.patches.PatchLine.Type.INSERT;
 
 import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.common.data.CommentDetail;
-import com.google.gerrit.common.data.EditList;
 import com.google.gerrit.common.data.PatchScript;
-import com.google.gerrit.common.data.SparseFileContent;
-import com.google.gerrit.common.data.EditList.Hunk;
 import com.google.gerrit.common.data.PatchScript.DisplayMethod;
+import com.google.gerrit.prettify.common.EditList;
+import com.google.gerrit.prettify.common.SparseHtmlFile;
+import com.google.gerrit.prettify.common.EditList.Hunk;
 import com.google.gerrit.reviewdb.Patch;
 import com.google.gerrit.reviewdb.PatchLineComment;
 import com.google.gwt.core.client.GWT;
@@ -86,8 +86,8 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
 
   @Override
   protected void render(final PatchScript script) {
-    final SparseFileContent a = script.getA();
-    final SparseFileContent b = script.getB();
+    final SparseHtmlFile a = script.getSparseHtmlFileA();
+    final SparseHtmlFile b = script.getSparseHtmlFileB();
     final SafeHtmlBuilder nc = new SafeHtmlBuilder();
 
     // Display the patch header
@@ -153,8 +153,10 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
           closeLine(nc);
           hunk.incA();
           lines.add(new PatchLine(DELETE, hunk.getCurA(), 0));
-          if (a.size() == hunk.getCurA() && a.isMissingNewlineAtEnd())
+          if (a.size() == hunk.getCurA()
+              && script.getA().isMissingNewlineAtEnd()) {
             appendNoLF(nc);
+          }
 
         } else if (hunk.isInsertedB()) {
           openLine(nc);
@@ -164,8 +166,10 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
           closeLine(nc);
           hunk.incB();
           lines.add(new PatchLine(INSERT, 0, hunk.getCurB()));
-          if (b.size() == hunk.getCurB() && b.isMissingNewlineAtEnd())
+          if (b.size() == hunk.getCurB()
+              && script.getB().isMissingNewlineAtEnd()) {
             appendNoLF(nc);
+          }
         }
       }
     }
@@ -304,8 +308,8 @@ public class UnifiedDiffTable extends AbstractPatchContentTable {
   }
 
   private void appendLineText(final SafeHtmlBuilder m,
-      final PatchLine.Type type, final SparseFileContent src, final int i) {
-    final SafeHtml text = src.get(i);
+      final PatchLine.Type type, final SparseHtmlFile src, final int i) {
+    final SafeHtml text = src.getSafeHtmlLine(i);
     m.openTd();
     m.addStyleName(Gerrit.RESOURCES.css().diffText());
     switch (type) {

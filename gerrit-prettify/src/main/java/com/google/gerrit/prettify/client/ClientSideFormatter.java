@@ -51,8 +51,8 @@ public class ClientSideFormatter extends PrettyFormatter {
   /*-{ eval(js); }-*/;
 
   @Override
-  protected String prettify(String html) {
-    return go(html, settings.getFilename(), settings.getTabSize());
+  protected String prettify(String html, String type) {
+    return go(html, type, settings.getTabSize());
   }
 
   private static native String go(String srcText, String srcType, int tabSize)

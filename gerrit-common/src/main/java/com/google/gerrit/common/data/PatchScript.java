@@ -14,9 +14,13 @@
 
 package com.google.gerrit.common.data;
 
-
-
 import com.google.gerrit.common.data.PatchScriptSettings.Whitespace;
+import com.google.gerrit.prettify.client.ClientSideFormatter;
+import com.google.gerrit.prettify.common.EditList;
+import com.google.gerrit.prettify.common.PrettyFormatter;
+import com.google.gerrit.prettify.common.PrettySettings;
+import com.google.gerrit.prettify.common.SparseFileContent;
+import com.google.gerrit.prettify.common.SparseHtmlFile;
 import com.google.gerrit.reviewdb.Change;
 
 import org.eclipse.jgit.diff.Edit;
@@ -86,11 +90,45 @@ public class PatchScript {
     return b;
   }
 
+  public SparseHtmlFile getSparseHtmlFileA() {
+    PrettySettings s = new PrettySettings(settings.getPrettySettings());
+    s.setFileName(a.getPath());
+    s.setShowWhiteSpaceErrors(false);
+
+    PrettyFormatter f = ClientSideFormatter.FACTORY.get();
+    f.setPrettySettings(s);
+    f.setEditFilter(PrettyFormatter.A);
+    f.setEditList(getEditList());
+    f.format(a);
+    return f;
+  }
+
+  public SparseHtmlFile getSparseHtmlFileB() {
+    PrettySettings s = new PrettySettings(settings.getPrettySettings());
+    s.setFileName(b.getPath());
+
+    PrettyFormatter f = ClientSideFormatter.FACTORY.get();
+    f.setPrettySettings(s);
+    f.setEditFilter(PrettyFormatter.B);
+    f.setEditList(getEditList());
+
+    if (s.isSyntaxHighlighting() && a.isWholeFile() && !b.isWholeFile()) {
+      f.format(b.completeWithContext(a, getEditList()));
+    } else {
+      f.format(b);
+    }
+    return f;
+  }
+
   public List<Edit> getEdits() {
     return edits;
   }
 
   public Iterable<EditList.Hunk> getHunks() {
-    return new EditList(edits, getContext(), a.size(), b.size()).getHunks();
+    return getEditList().getHunks();
+  }
+
+  private EditList getEditList() {
+    return new EditList(edits, getContext(), a.size(), b.size());
   }
 }

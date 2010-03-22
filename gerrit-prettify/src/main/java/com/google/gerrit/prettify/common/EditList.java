@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.common.data;
+package com.google.gerrit.prettify.common;
 
 import org.eclipse.jgit.diff.Edit;
 
@@ -35,6 +35,10 @@ public class EditList {
 
   public List<Edit> getEdits() {
     return edits;
+  }
+
+  public EditList getFullContext() {
+    return new EditList(edits, 5000000, aSize, bSize);
   }
 
   public Iterable<Hunk> getHunks() {
@@ -110,6 +114,10 @@ public class EditList {
 
     public int getCurB() {
       return bCur;
+    }
+
+    public Edit getCurEdit() {
+      return curEdit;
     }
 
     public int getEndA() {

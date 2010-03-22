@@ -12,17 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.prettify.server;
+package com.google.gerrit.prettify.common;
 
-import com.google.gerrit.prettify.common.PrettyFactory;
-import com.google.gerrit.prettify.common.PrettyFormatter;
-import com.google.inject.AbstractModule;
+import com.google.gwtexpui.safehtml.client.SafeHtml;
 
-public class PrettifyModule extends AbstractModule {
-  @Override
-  protected void configure() {
-    bind(ServerPrettyFactory.class);
-    bind(PrettyFactory.class).to(ServerPrettyFactory.class);
-    bind(PrettyFormatter.class).toProvider(ServerPrettyFactory.class);
-  }
+public interface SparseHtmlFile {
+  /** @return the line of formatted HTML. */
+  public SafeHtml getSafeHtmlLine(int lineNo);
+
+  /** @return the number of lines in this sparse list. */
+  public int size();
+
+  /** @return true if the line is valid in this sparse list. */
+  public boolean contains(final int idx);
 }

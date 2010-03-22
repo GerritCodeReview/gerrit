@@ -49,7 +49,6 @@ ANTLR                       <<antlr,New-Style BSD>>
 args4j                      <<args4j,MIT License>>
 SLF4J                       <<slf4j,MIT License>>
 Clippy                      <<clippy,MIT License>>
-Mozilla Rhino               <<mpl1_1,MPL 1.1>>
 juniversalchardet           <<mpl1_1,MPL 1.1>>
 -----------------------------------------------------------
 

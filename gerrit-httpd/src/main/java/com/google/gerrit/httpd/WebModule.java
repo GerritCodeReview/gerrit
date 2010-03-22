@@ -23,7 +23,6 @@ import com.google.gerrit.httpd.auth.ldap.LdapAuthModule;
 import com.google.gerrit.httpd.auth.openid.OpenIdModule;
 import com.google.gerrit.httpd.gitweb.GitWebModule;
 import com.google.gerrit.httpd.rpc.UiRpcModule;
-import com.google.gerrit.prettify.server.PrettifyModule;
 import com.google.gerrit.reviewdb.AuthType;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
@@ -122,7 +121,6 @@ public class WebModule extends FactoryModule {
     install(new UiRpcModule());
     install(new GerritRequestModule());
     install(new ProjectServlet.Module());
-    install(new PrettifyModule());
 
     bind(SshInfo.class).toProvider(sshInfoProvider);
     bind(SshKeyCache.class).toProvider(sshKeyCacheProvider);

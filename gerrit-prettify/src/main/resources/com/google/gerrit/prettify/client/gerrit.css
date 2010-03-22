@@ -26,13 +26,23 @@
   border-left: 1px dotted red;
 }
 
-.wse .vt {
-  border-left: 2px dotted black;
-}
-
 .wdd {
   background: #FAA;
 }
 .wdi {
   background: #9F9;
+}
+
+/* Use special rules for special styles contained within a whitespace
+ * error.  For these we want the whitespace error to take precedence
+ * so we have to override the contained style.
+ */
+.wse .vt {
+  border-left: 2px dotted black;
+}
+.wse .wdd {
+  background: red;
+}
+.wse .wdi {
+  background: red;
 }

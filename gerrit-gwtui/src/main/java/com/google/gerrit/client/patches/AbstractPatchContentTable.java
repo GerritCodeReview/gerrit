@@ -26,7 +26,7 @@ import com.google.gerrit.common.data.AccountInfo;
 import com.google.gerrit.common.data.AccountInfoCache;
 import com.google.gerrit.common.data.CommentDetail;
 import com.google.gerrit.common.data.PatchScript;
-import com.google.gerrit.common.data.SparseFileContent;
+import com.google.gerrit.prettify.common.SparseFileContent;
 import com.google.gerrit.reviewdb.Patch;
 import com.google.gerrit.reviewdb.PatchLineComment;
 import com.google.gerrit.reviewdb.PatchSet;
@@ -59,7 +59,6 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
   protected PatchSet.Id idSideA;
   protected PatchSet.Id idSideB;
   protected boolean onlyOneHunk;
-  protected String formatLanguage;
 
   private final KeyCommandSet keysComment;
   private HandlerRegistration regComment;
@@ -145,7 +144,6 @@ public abstract class AbstractPatchContentTable extends NavigationTable<Object>
 
     final String pathName = patchKey.get();
     int ext = pathName.lastIndexOf('.');
-    formatLanguage = ext > 0 ? pathName.substring(ext + 1).toLowerCase() : null;
 
     render(s);
   }

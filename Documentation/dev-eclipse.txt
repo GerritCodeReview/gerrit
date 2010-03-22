@@ -71,6 +71,10 @@ Duplicate the existing `pgm_daemon` launch configuration:
 Running Hosted Mode
 ~~~~~~~~~~~~~~~~~~~
 
+Import the gerrit-gwtdebug project:
+
+* Import gerrit-gwtdebug/pom.xml using General -> Maven Projects
+
 Duplicate the existing `gwtui_dbg` launch configuration:
 
 * Run -> Debug Configurations ...

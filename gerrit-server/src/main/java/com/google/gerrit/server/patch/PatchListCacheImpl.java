@@ -25,6 +25,7 @@ import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.EvictionPolicy;
 import com.google.gerrit.server.cache.SelfPopulatingCache;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
@@ -38,6 +39,7 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectWriter;
@@ -59,6 +61,7 @@ import java.util.List;
 @Singleton
 public class PatchListCacheImpl implements PatchListCache {
   private static final String CACHE_NAME = "diff";
+
 
   public static Module module() {
     return new CacheModule() {
@@ -91,6 +94,8 @@ public class PatchListCacheImpl implements PatchListCache {
     };
   }
 
+
+
   public PatchList get(final PatchListKey key) {
     return self.get(key);
   }
@@ -108,7 +113,7 @@ public class PatchListCacheImpl implements PatchListCache {
   }
 
   private PatchList compute(final PatchListKey key)
-      throws MissingObjectException, IncorrectObjectTypeException, IOException {
+      throws MissingObjectException, IncorrectObjectTypeException, IOException, OrmException {
     final Repository repo = repoManager.openRepository(key.projectKey.get());
     try {
       return readPatchList(key, repo);
@@ -118,7 +123,7 @@ public class PatchListCacheImpl implements PatchListCache {
   }
 
   private PatchList readPatchList(final PatchListKey key, final Repository repo)
-      throws IOException {
+      throws IOException, OrmException {
     final RevWalk rw = new RevWalk(repo);
     final RevCommit b = rw.parseCommit(key.getNewId());
     final AnyObjectId a = aFor(key, repo, b);
@@ -178,6 +183,20 @@ public class PatchListCacheImpl implements PatchListCache {
     RevTree bTree = b.getTree();
 
     final int cnt = p.getFiles().size();
+    DepsBypasser depsBypasser = DepsBypasser.getInstance();
+
+
+    for (FileHeader fHeader: p.getFiles()){
+      if (fHeader.getNewMode()==FileMode.GITLINK){
+        if (depsBypasser.getSuperSha1()==null)
+          depsBypasser.setSuperSha1(b.getName());
+        String scriptText = fHeader.getScriptText();
+        String subSha1 = scriptText.substring(scriptText.length()-41, scriptText.length()-1);
+        depsBypasser.addSubSha1(subSha1);
+
+      }
+    }
+
     final PatchListEntry[] entries = new PatchListEntry[cnt];
     for (int i = 0; i < cnt; i++) {
       entries[i] = newEntry(repo, aTree, bTree, p.getFiles().get(i));
@@ -188,6 +207,13 @@ public class PatchListCacheImpl implements PatchListCache {
   private static PatchListEntry newEntry(Repository repo, RevTree aTree,
       RevTree bTree, FileHeader fileHeader) throws IOException {
     if (fileHeader.getHunks().isEmpty()) {
+      return new PatchListEntry(fileHeader, Collections.<Edit> emptyList());
+    }
+
+    final FileMode oldMode = fileHeader.getOldMode();
+    final FileMode newMode = fileHeader.getNewMode();
+
+    if (oldMode == FileMode.GITLINK || newMode == FileMode.GITLINK) {
       return new PatchListEntry(fileHeader, Collections.<Edit> emptyList());
     }
 

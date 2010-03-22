@@ -20,107 +20,170 @@ import com.google.gwtexpui.safehtml.client.SafeHtmlBuilder;
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.diff.ReplaceEdit;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-public abstract class PrettyFormatter {
+public abstract class PrettyFormatter implements SparseHtmlFile {
   public static abstract class EditFilter {
-    protected abstract int getBegin(Edit e);
-
-    protected abstract int getEnd(Edit e);
-
-    protected abstract String getStyleName();
-
-    protected final boolean in(int line, Edit e) {
-      return getBegin(e) <= line && line < getEnd(e);
+    final String get(SparseFileContent src, EditList.Hunk hunk) {
+      return src.get(getCur(hunk));
     }
 
-    protected final boolean after(int line, Edit e) {
-      return getEnd(e) < line;
-    }
+    abstract String getStyleName();
+
+    abstract int getCur(EditList.Hunk hunk);
+
+    abstract int getBegin(Edit edit);
+
+    abstract int getEnd(Edit edit);
+
+    abstract boolean isModified(EditList.Hunk hunk);
+
+    abstract void incSelf(EditList.Hunk hunk);
+
+    abstract void incOther(EditList.Hunk hunk);
   }
 
   public static final EditFilter A = new EditFilter() {
     @Override
-    protected String getStyleName() {
+    String getStyleName() {
       return "wdd";
     }
 
     @Override
-    protected int getBegin(Edit e) {
-      return e.getBeginA();
+    int getCur(EditList.Hunk hunk) {
+      return hunk.getCurA();
     }
 
     @Override
-    protected int getEnd(Edit e) {
-      return e.getEndA();
+    int getBegin(Edit edit) {
+      return edit.getBeginA();
+    }
+
+    @Override
+    int getEnd(Edit edit) {
+      return edit.getEndA();
+    }
+
+    @Override
+    boolean isModified(EditList.Hunk hunk) {
+      return hunk.isDeletedA();
+    }
+
+    @Override
+    void incSelf(EditList.Hunk hunk) {
+      hunk.incA();
+    }
+
+    @Override
+    void incOther(EditList.Hunk hunk) {
+      hunk.incB();
     }
   };
 
   public static final EditFilter B = new EditFilter() {
     @Override
-    protected String getStyleName() {
+    String getStyleName() {
       return "wdi";
     }
 
     @Override
-    protected int getBegin(Edit e) {
-      return e.getBeginB();
+    int getCur(EditList.Hunk hunk) {
+      return hunk.getCurB();
     }
 
     @Override
-    protected int getEnd(Edit e) {
-      return e.getEndB();
+    int getBegin(Edit edit) {
+      return edit.getBeginB();
+    }
+
+    @Override
+    int getEnd(Edit edit) {
+      return edit.getEndB();
+    }
+
+    @Override
+    boolean isModified(EditList.Hunk hunk) {
+      return hunk.isInsertedB();
+    }
+
+    @Override
+    void incSelf(EditList.Hunk hunk) {
+      hunk.incB();
+    }
+
+    @Override
+    void incOther(EditList.Hunk hunk) {
+      hunk.incA();
     }
   };
 
-  protected List<String> lines = Collections.emptyList();
-  protected EditFilter side = A;
-  protected List<Edit> lineEdits = Collections.emptyList();
+  protected SparseFileContent content;
+  protected EditFilter side;
+  protected EditList edits;
   protected PrettySettings settings;
 
   private int col;
-  private int line;
+  private int lineIdx;
   private Tag lastTag;
   private StringBuilder buf;
 
-  /** @return the line of formatted HTML. */
-  public SafeHtml getLine(int lineNo) {
-    return SafeHtml.asis(lines.get(lineNo));
+  public SafeHtml getSafeHtmlLine(int lineNo) {
+    return SafeHtml.asis(content.get(lineNo));
   }
 
-  /** @return the number of lines in this formatter. */
   public int size() {
-    return lines.size();
+    return content.size();
+  }
+
+  @Override
+  public boolean contains(int idx) {
+    return content.contains(idx);
   }
 
   public void setEditFilter(EditFilter f) {
     side = f;
   }
 
-  public void setEditList(List<Edit> all) {
-    lineEdits = all;
+  public void setEditList(EditList all) {
+    edits = all;
+  }
+
+  public void setPrettySettings(PrettySettings how) {
+    settings = how;
   }
 
   /**
    * Parse and format a complete source code file.
    *
-   * @param how the settings to apply to the formatter.
-   * @param srcText raw content of the file to format. The string will be HTML
+   * @param src raw content of the file to format. The line strings will be HTML
    *        escaped before processing, so it must be the raw text.
    */
-  public void format(PrettySettings how, String srcText) {
-    settings = how;
-    lines = new ArrayList<String>();
+  public void format(SparseFileContent src) {
+    content = new SparseFileContent();
+    content.setSize(src.size());
 
-    String html = prettify(toHTML(srcText));
+    String html = toHTML(src);
+
+    if (settings.isSyntaxHighlighting() && getFileType() != null
+        && src.isWholeFile()) {
+      // The prettify parsers don't like &#39; as an entity for the
+      // single quote character. Replace them all out so we don't
+      // confuse the parser.
+      //
+      html = html.replaceAll("&#39;", "'");
+      html = prettify(html, getFileType());
+
+    } else {
+      html = expandTabs(html);
+      html = html.replaceAll("\n", "<br />");
+    }
+
     int pos = 0;
     int textChunkStart = 0;
 
     lastTag = Tag.NULL;
     col = 0;
-    line = 0;
+    lineIdx = 0;
 
     buf = new StringBuilder();
     while (pos <= html.length()) {
@@ -135,7 +198,7 @@ public abstract class PrettyFormatter {
           htmlText(html.substring(textChunkStart, pos));
         }
         if (0 < buf.length()) {
-          lines.add(buf.toString());
+          content.addLine(src.mapIndexToLine(lineIdx), buf.toString());
         }
         break;
       }
@@ -158,10 +221,10 @@ public abstract class PrettyFormatter {
 
       if (isBR(html, tagStart, tagEnd)) {
         lastTag.close(buf, html);
-        lines.add(buf.toString());
+        content.addLine(src.mapIndexToLine(lineIdx), buf.toString());
         buf = new StringBuilder();
         col = 0;
-        line++;
+        lineIdx++;
 
       } else if (html.charAt(tagStart + 1) == '/') {
         lastTag = lastTag.pop(buf, html);
@@ -216,7 +279,7 @@ public abstract class PrettyFormatter {
   }
 
   /** Run the prettify engine over the text and return the result. */
-  protected abstract String prettify(String html);
+  protected abstract String prettify(String html, String type);
 
   private static boolean isBR(String html, int tagStart, int tagEnd) {
     return tagEnd - tagStart == 5 //
@@ -281,14 +344,8 @@ public abstract class PrettyFormatter {
     }
   }
 
-  private String toHTML(String src) {
+  private String toHTML(SparseFileContent src) {
     SafeHtml html = colorLineEdits(src);
-
-    // The prettify parsers don't like &#39; as an entity for the
-    // single quote character. Replace them all out so we don't
-    // confuse the parser.
-    //
-    html = html.replaceAll("&#39;", "'");
 
     if (settings.isShowWhiteSpaceErrors()) {
       // We need to do whitespace errors before showing tabs, because
@@ -306,84 +363,135 @@ public abstract class PrettyFormatter {
     return html.asString();
   }
 
-  private SafeHtml colorLineEdits(String src) {
+  private SafeHtml colorLineEdits(SparseFileContent src) {
     SafeHtmlBuilder buf = new SafeHtmlBuilder();
 
-    int lIdx = 0;
-    Edit lCur = lIdx < lineEdits.size() ? lineEdits.get(lIdx) : null;
+    ReplaceEdit lastReplace = null;
+    List<Edit> charEdits = null;
+    int lastPos = 0;
+    int lastIdx = 0;
 
-    int pos = 0;
-    int line = 0;
-    while (pos < src.length()) {
-      if (lCur instanceof ReplaceEdit && side.in(line, lCur)) {
-        List<Edit> wordEdits = ((ReplaceEdit) lCur).getInternalEdits();
-        if (!wordEdits.isEmpty()) {
-          // Copy the result using the word edits to guide us.
-          //
+    EditList hunkGenerator = edits;
+    if (src.isWholeFile()) {
+      hunkGenerator = hunkGenerator.getFullContext();
+    }
 
-          int last = 0;
-          for (Edit w : wordEdits) {
-            int b = side.getBegin(w);
-            int e = side.getEnd(w);
-
-            // If there is text between edits, copy it as-is.
+    for (final EditList.Hunk hunk : hunkGenerator.getHunks()) {
+      while (hunk.next()) {
+        if (hunk.isContextLine()) {
+          if (src.contains(side.getCur(hunk))) {
+            // If side is B and src isn't the complete file we can't
+            // add it to the buffer here. This can happen if the file
+            // was really large and we chose not to syntax highlight.
             //
-            int cnt = b - last;
-            if (0 < cnt) {
-              buf.append(src.substring(pos, pos + cnt));
-              pos += cnt;
-              last = b;
-            }
+            buf.append(side.get(src, hunk));
+            buf.append('\n');
+          }
+          hunk.incBoth();
 
-            // If this is an edit, wrap it in a span.
-            //
-            cnt = e - b;
-            if (0 < cnt) {
-              buf.openSpan();
-              buf.setStyleName(side.getStyleName());
-              buf.append(src.substring(pos, pos + cnt));
-              buf.closeSpan();
-              pos += cnt;
-              last = e;
-            }
+        } else if (!side.isModified(hunk)) {
+          side.incOther(hunk);
+
+        } else if (hunk.getCurEdit() instanceof ReplaceEdit) {
+          if (lastReplace != hunk.getCurEdit()) {
+            lastReplace = (ReplaceEdit) hunk.getCurEdit();
+            charEdits = lastReplace.getInternalEdits();
+            lastPos = 0;
+            lastIdx = 0;
           }
 
-          // We've consumed the entire region, so we are on the end.
-          // Fall through, what's left of this edit is only the tail
-          // of the final line.
-          //
-          line = side.getEnd(lCur) - 1;
+          final String line = side.get(src, hunk) + "\n";
+          for (int c = 0; c < line.length();) {
+            if (charEdits.size() <= lastIdx) {
+              buf.append(line.substring(c));
+              break;
+            }
+
+            final Edit edit = charEdits.get(lastIdx);
+            final int b = side.getBegin(edit) - lastPos;
+            final int e = side.getEnd(edit) - lastPos;
+
+            if (c < b) {
+              // There is text at the start of this line that is common
+              // with the other side. Copy it with no style around it.
+              //
+              final int n = Math.min(b, line.length());
+              buf.append(line.substring(c, n));
+              c = n;
+            }
+
+            if (c < e) {
+              final int n = Math.min(e, line.length());
+              buf.openSpan();
+              buf.setStyleName(side.getStyleName());
+              buf.append(line.substring(c, n));
+              buf.closeSpan();
+              c = n;
+            }
+
+            if (e <= c) {
+              lastIdx++;
+            }
+          }
+          lastPos += line.length();
+          side.incSelf(hunk);
+
+        } else {
+          buf.append(side.get(src, hunk));
+          buf.append('\n');
+          side.incSelf(hunk);
         }
-      }
-
-      int lf = src.indexOf('\n', pos);
-      if (lf < 0)
-        lf = src.length();
-      else
-        lf++;
-
-      buf.append(src.substring(pos, lf));
-      pos = lf;
-      line++;
-
-      if (lCur != null && side.after(line, lCur)) {
-        lIdx++;
-        lCur = lIdx < lineEdits.size() ? lineEdits.get(lIdx) : null;
       }
     }
     return buf;
   }
 
   private SafeHtml showTabAfterSpace(SafeHtml src) {
-    src = src.replaceFirst("^(  *\t)", "<span class=\"wse\">$1</span>");
-    src = src.replaceAll("\n(  *\t)", "\n<span class=\"wse\">$1</span>");
+    final String m = "( ( |<span[^>]*>|</span>)*\t)";
+    final String r = "<span class=\"wse\">$1</span>";
+    src = src.replaceFirst("^" + m, r);
+    src = src.replaceAll("\n" + m, "\n" + r);
     return src;
   }
 
   private SafeHtml showTrailingWhitespace(SafeHtml src) {
     final String r = "<span class=\"wse\">$1</span>$2";
-    src = src.replaceAll("([ \t][ \t]*)(\r?\n)", r);
-    src = src.replaceFirst("([ \t][ \t]*)(\r?\n?)$", r);
+    src = src.replaceAll("([ \t][ \t]*)(\r?(</span>)?\n)", r);
+    src = src.replaceFirst("([ \t][ \t]*)(\r?(</span>)?\n?)$", r);
     return src;
+  }
+
+  private String expandTabs(String html) {
+    StringBuilder tmp = new StringBuilder();
+    int i = 0;
+    if (settings.isShowTabs()) {
+      i = 1;
+    }
+    for (; i < settings.getTabSize(); i++) {
+      tmp.append("&nbsp;");
+    }
+    return html.replaceAll("\t", tmp.toString());
+  }
+
+  private String getFileType() {
+    String srcType = settings.getFilename();
+    if (srcType == null) {
+      return null;
+    }
+
+    int dot = srcType.lastIndexOf('.');
+    if (dot < 0) {
+      return null;
+    }
+
+    if (0 < dot) {
+      srcType = srcType.substring(dot + 1);
+    }
+
+    if ("txt".equalsIgnoreCase(srcType)) {
+      return null;
+    }
+
+    return srcType;
   }
 }

@@ -16,11 +16,13 @@ package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.Change;
+import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.git.ReceiveCommits;
-import com.google.gerrit.server.git.ReceiveCommits.MessageListener;
+import com.google.gerrit.server.patch.DepsBypasser;
 import com.google.gerrit.sshd.AbstractGitCommand;
+import com.google.gwtorm.client.AtomicUpdate;
+import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 
 import org.eclipse.jgit.transport.ReceivePack;
@@ -31,7 +33,6 @@ import java.io.PrintWriter;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.annotation.Nullable;
 
 /** Receives change upload over SSH using the Git receive-pack protocol. */
 final class Receive extends AbstractGitCommand {
@@ -42,12 +43,10 @@ final class Receive extends AbstractGitCommand {
   private IdentifiedUser currentUser;
 
   @Inject
-  private IdentifiedUser.GenericFactory identifiedUserFactory;
+  private ReviewDb db;
 
   @Inject
-  @CanonicalWebUrl
-  @Nullable
-  private String canonicalWebUrl;
+  private IdentifiedUser.GenericFactory identifiedUserFactory;
 
   private final Set<Account.Id> reviewerId = new HashSet<Account.Id>();
   private final Set<Account.Id> ccId = new HashSet<Account.Id>();
@@ -63,7 +62,7 @@ final class Receive extends AbstractGitCommand {
   }
 
   @Override
-  protected void runImpl() throws IOException, Failure {
+  protected void runImpl() throws IOException, Failure, OrmException {
     final ReceiveCommits receive = factory.create(projectControl, repo);
     final PrintWriter msg = toPrintWriter(err);
 
@@ -75,35 +74,39 @@ final class Receive extends AbstractGitCommand {
     verifyProjectVisible("reviewer", reviewerId);
     verifyProjectVisible("CC", ccId);
 
-    receive.setMessageListener(new MessageListener() {
-      @Override
-      public void warn(String warning) {
-        msg.print("warning: " + warning + "\n");
-        msg.flush();
-      }
-    });
     receive.addReviewers(reviewerId);
     receive.addExtraCC(ccId);
+
 
     final ReceivePack rp = receive.getReceivePack();
     rp.setRefLogIdent(currentUser.newRefLogIdent());
     rp.receive(in, out, err);
 
-    if (!receive.getNewChanges().isEmpty() && canonicalWebUrl != null) {
-      // Make sure there isn't anything buffered; we want to give the
-      // push client a chance to display its status report before we
-      // show our own messages on standard error.
-      //
-      out.flush();
+    DepsBypasser depsBypasser = DepsBypasser.getInstance();
+    depsBypasser.validate(db);
 
-      final String url = canonicalWebUrl;
-      msg.write("\nNew Changes:\n");
-      for (final Change.Id c : receive.getNewChanges()) {
-        msg.write("  " + url + c.get() + "\n");
+    // Add inter git dependencies between changes
+    if (depsBypasser.isAtomicCommit()) {
+      final Change superCh = db.changes().get(depsBypasser.getSuperChange());
+
+      // You will not be able to change the members of an
+      // atomic commit by patching the superproject.
+      // TODO A new patch on the superproject should be created by Gerrit whenever
+      // a submodule is patched.
+      if (superCh.currentPatchSetId().get() == 1) {
+        for (final Change.Id chId : depsBypasser.getAtomicMembers()) {
+          db.changes().atomicUpdate(chId,
+              new AtomicUpdate<Change>() {
+                @Override
+                public Change update(Change change) {
+                  change.setAtomicId(superCh.getId());
+                  return change;
+                }
+              });
+        }
       }
-      msg.write('\n');
-      msg.flush();
     }
+    depsBypasser.reset();
   }
 
   private void verifyProjectVisible(final String type, final Set<Account.Id> who)

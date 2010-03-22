@@ -226,6 +226,21 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
       }
     }
 
+    if (detail.getChange().getAtomicId() != null) {
+      // Indicate circular dependencies between all other members of the
+      // atomic commit.
+      // Note: It might be nicer to display the inter git dependency in
+      // a separate table under "Dependencies". It might be confusing to the
+      // user with the same ID both under "Depends On" and "Needed By"
+      for (final Change ch : db.changes().atomicMembers(detail.getChange().getAtomicId()).toList()) {
+        if (!ch.getId().equals(detail.getChange().getId())) {
+          aic.want(ch.getOwner());
+          neededBy.add(new ChangeInfo(ch));
+          dependsOn.add(new ChangeInfo(ch));
+        }
+      }
+    }
+
     Collections.sort(neededBy, new Comparator<ChangeInfo>() {
       public int compare(final ChangeInfo o1, final ChangeInfo o2) {
         return o1.getId().get() - o2.getId().get();

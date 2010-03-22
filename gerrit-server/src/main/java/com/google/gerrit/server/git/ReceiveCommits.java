@@ -103,7 +103,7 @@ public class ReceiveCommits implements PreReceiveHook, PostReceiveHook {
 
   private static final FooterKey REVIEWED_BY = new FooterKey("Reviewed-by");
   private static final FooterKey TESTED_BY = new FooterKey("Tested-by");
-  private static final FooterKey CHANGE_ID = new FooterKey("Change-Id");
+  public static final FooterKey CHANGE_ID = new FooterKey("Change-Id");
 
   public interface Factory {
     ReceiveCommits create(ProjectControl projectControl, Repository repository);

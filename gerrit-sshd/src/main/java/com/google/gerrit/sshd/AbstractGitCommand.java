@@ -20,6 +20,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.sshd.SshScope.Context;
+import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
@@ -80,7 +81,7 @@ public abstract class AbstractGitCommand extends BaseCommand {
         }, user.getAccountId()));
   }
 
-  private void service() throws IOException, Failure {
+  private void service() throws IOException, Failure, OrmException {
     project = projectControl.getProjectState().getProject();
 
     final String name = project.getName();
@@ -97,5 +98,5 @@ public abstract class AbstractGitCommand extends BaseCommand {
     }
   }
 
-  protected abstract void runImpl() throws IOException, Failure;
+  protected abstract void runImpl() throws IOException, Failure, OrmException;
 }

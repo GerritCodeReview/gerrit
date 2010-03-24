@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAwH///2I\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-03-24T18:57:23Z",
+      "side": 1,
+      "message": "Please don\u0027t commit conflict markers.  :-)",
+      "revId": "abfe42bdf829d75a77167f5697714aa81204d33b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwH///2E\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-03-24T18:57:23Z",
+      "side": 1,
+      "message": "Conflict again.",
+      "revId": "abfe42bdf829d75a77167f5697714aa81204d33b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwH///2A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/VisibleRefFilter.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-03-24T18:57:23Z",
+      "side": 1,
+      "message": "Ugh, more conflict markers.",
+      "revId": "abfe42bdf829d75a77167f5697714aa81204d33b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwH///18\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-03-24T18:57:23Z",
+      "side": 1,
+      "message": "I think I would prefer this to be a boolean method, with the caller reacting to the result.  Similar to isVisible().",
+      "revId": "abfe42bdf829d75a77167f5697714aa81204d33b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

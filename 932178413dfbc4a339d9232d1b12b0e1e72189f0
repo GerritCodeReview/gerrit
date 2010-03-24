@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAwH///1o\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/gitweb/GitWebServlet.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-03-24T20:38:04Z",
+      "side": 1,
+      "message": "Isn\u0027t this backwards?  :-)",
+      "revId": "932178413dfbc4a339d9232d1b12b0e1e72189f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwH///1k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-03-24T20:38:04Z",
+      "side": 1,
+      "message": "I wonder if isAllRefsVisible isn\u0027t the better name given we use is for all of the other methods here.",
+      "revId": "932178413dfbc4a339d9232d1b12b0e1e72189f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

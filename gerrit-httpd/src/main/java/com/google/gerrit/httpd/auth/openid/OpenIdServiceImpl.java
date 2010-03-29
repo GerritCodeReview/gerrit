@@ -143,6 +143,7 @@ class OpenIdServiceImpl implements OpenIdService {
           final List<?> list = manager.discover(url);
           return list != null && !list.isEmpty() ? list : null;
         } catch (DiscoveryException e) {
+          log.error("Cannot discover OpenID " + url, e);
           return null;
         }
       }

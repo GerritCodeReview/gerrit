@@ -1,0 +1,21 @@
+Release notes for Gerrit 2.1.2.2
+================================
+
+Gerrit 2.1.2.2 is now available in the usual location:
+
+link:http://code.google.com/p/gerrit/downloads/list[http://code.google.com/p/gerrit/downloads/list]
+
+Bug Fixes
+---------
+
+* Add ',' to be encoded in email headers.
++
+Email headers which used UTF-8 character set encoding did not
+properly escape a comma.  Fixed.
+
+* issue 513 Log OpenID SSL failures
++
+If OpenID authentication fails, such as due to the JRE not having
+access to any of the root certificates and therefore being unable
+to open an https connection, the problem is now logged to the
+server's error_log.

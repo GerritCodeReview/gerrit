@@ -46,7 +46,7 @@ limitations under the License.
   </issueManagement>
 
   <properties>
-    <jgitVersion>0.5.1.197-g0f95d2d</jgitVersion>
+    <jgitVersion>0.7.1</jgitVersion>
     <gwtormVersion>1.1.4</gwtormVersion>
     <gwtjsonrpcVersion>1.2.2</gwtjsonrpcVersion>
     <gwtexpuiVersion>1.2.1</gwtexpuiVersion>
@@ -736,7 +736,7 @@ limitations under the License.
   <repositories>
     <repository>
       <id>jgit-repository</id>
-      <url>http://egit.googlecode.com/svn/maven/</url>
+      <url>http://download.eclipse.org/jgit/maven</url>
     </repository>
 
     <repository>

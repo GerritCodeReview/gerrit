@@ -149,6 +149,25 @@ public final class RefRight {
     maxValue = m;
   }
 
+  @Override
+  public String toString() {
+    StringBuilder b = new StringBuilder("{");
+    b.append("acc:");
+    b.append(getAccountGroupId());
+    b.append(", ref:");
+    b.append(getRefPattern());
+    b.append(", cat:");
+    b.append(getApprovalCategoryId());
+    b.append(", proj:");
+    b.append(getProjectNameKey());
+    b.append(", max:");
+    b.append(getMaxValue());
+    b.append(", min:");
+    b.append(getMinValue());
+    b.append("}");
+    return b.toString();
+  }
+
   private static class RefPatternOrder implements Comparator<RefRight> {
 
     @Override

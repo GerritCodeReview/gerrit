@@ -162,6 +162,7 @@ public class ProjectControl {
    */
   private boolean canPerform(final ApprovalCategory.Id actionId,
       final short requireValue, final String refPattern) {
+
     final Set<AccountGroup.Id> groups = user.getEffectiveGroups();
     int val = Integer.MIN_VALUE;
 
@@ -184,7 +185,7 @@ public class ProjectControl {
       }
     }
 
-    if (val == Integer.MIN_VALUE && actionId.canInheritFromWildProject()) {
+    if (actionId.canInheritFromWildProject()) {
       for (final RefRight pr : state.getInheritedRights()) {
         if (actionId.equals(pr.getApprovalCategoryId())
             && (refPattern == null || refPattern.equals(pr.getRefPattern()))

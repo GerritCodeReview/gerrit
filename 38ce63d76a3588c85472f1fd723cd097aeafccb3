@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAwX///b8\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ApprovalTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-08T22:28:04Z",
+      "side": 1,
+      "message": "Only create this button if\n\n  if (Gerrit.isSignedIn()) {\n\nOtherwise you are letting anonymous users to try and remove reviewers, which is bad.  Sure we could be more specific about this and only enable it *if* the backend would allow you.  But lets start simple here.",
+      "revId": "38ce63d76a3588c85472f1fd723cd097aeafccb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwX///ck\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/changes/ApprovalTable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-08T22:28:04Z",
+      "side": 1,
+      "message": "Unnecessary blank lines here through the end of the addClickHandler invocation.  Our style doesn\u0027t insert these blanks here, Android might.",
+      "revId": "38ce63d76a3588c85472f1fd723cd097aeafccb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwX///co\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/gerrit.css",
+        "patchSetId": 1
+      },
+      "lineNbr": 885,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-08T22:28:04Z",
+      "side": 1,
+      "message": "Trailing whitespace.",
+      "revId": "38ce63d76a3588c85472f1fd723cd097aeafccb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwX///cg\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/patch/RemoveReviewer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-08T22:28:04Z",
+      "side": 1,
+      "message": "Missing 2010 AOSP copyright header.",
+      "revId": "38ce63d76a3588c85472f1fd723cd097aeafccb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwX///cU\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/patch/RemoveReviewer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-08T22:28:04Z",
+      "side": 1,
+      "message": "Please don\u0027t use the internal common library from Guice.  You need to use new ArrayList here.",
+      "revId": "38ce63d76a3588c85472f1fd723cd097aeafccb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwX///cI\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/patch/RemoveReviewer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-08T22:28:04Z",
+      "side": 1,
+      "message": "You need to verify the user can see this change, and can drop this reviewer.  I would do:\n\n  private final ChangeControl.Factory controlFactory;\n  ... take this by injection ...\n\n  ChangeControl ctl \u003d controlFactory.validateFor(changeId);\n\n  if (ctl.canRemoveReviewer(reviewerId)) {\n    ... do the remove ...\n  } else {\n    ... error ...\n  }\n\nWhere you implement canRemoveReviewer as:\n\n    if (getCurrentUser() instanceof IdentifiedUser) {\n      final IdentifiedUser i \u003d (IdentifiedUser) getCurrentUser();\n      if (i.getAccountId().equals(reviewerId)) {\n        return true;  // can remove self\n      }\n    }\n\n    if ( isOwner() // owner (aka creator) of the change can reassign\n        || getRefControl().isOwner() // branch owner can reassign\n        || getProjectControl().isOwner() // project owner can reassign\n        || getCurrentUser().isAdministrator() // site administers are god\n    ) {\n      return true;\n    }\n\n    ... check to see if getCurrentUser() is already a reviewer\n    ... only permit removal if they are already a reviewer",
+      "revId": "38ce63d76a3588c85472f1fd723cd097aeafccb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

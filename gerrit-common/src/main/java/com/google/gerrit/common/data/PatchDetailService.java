@@ -50,7 +50,11 @@ public interface PatchDetailService extends RemoteJsonService {
 
   @SignInRequired
   void addReviewers(Change.Id id, List<String> reviewers,
-      AsyncCallback<AddReviewerResult> callback);
+      AsyncCallback<ReviewerResult> callback);
+
+  @SignInRequired
+  void removeReviewer(Change.Id id, Account.Id reviewerId,
+      AsyncCallback<ReviewerResult> callback);
 
   void userApprovals(Set<Change.Id> cids, Account.Id aid,
       AsyncCallback<ApprovalSummarySet> callback);

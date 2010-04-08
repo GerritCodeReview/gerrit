@@ -881,7 +881,9 @@
   margin-top: 5px;
   white-space: nowrap;
 }
-
+.removeReviewer {
+  width: 30px; 
+}
 td.downloadLinkListCell {
   padding: 0px;
 }

@@ -27,6 +27,7 @@ public interface GerritCss extends CssResource {
   String accountName();
   String activeRow();
   String addReviewer();
+  String removeReviewer();
   String addSshKeyPanel();
   String approvalCategoryList();
   String approvalTable();

@@ -80,7 +80,7 @@ class AbandonChange extends Handler<ChangeDetail> {
       EmailException, NoSuchEntityException, PatchSetInfoNotAvailableException {
     final Change.Id changeId = patchSetId.getParentKey();
     final ChangeControl control = changeControlFactory.validateFor(changeId);
-    if (!control.canAbandon()) {
+    if (!control.isOwnerOrAdministrator()) {
       throw new NoSuchChangeException(changeId);
     }
     Change change = control.getChange();

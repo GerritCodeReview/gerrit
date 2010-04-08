@@ -17,6 +17,7 @@ package com.google.gerrit.server.project;
 import com.google.gerrit.reviewdb.Change;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gerrit.reviewdb.ReviewDb;
+import com.google.gerrit.reviewdb.Account.Id;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gwtorm.client.OrmException;
@@ -119,8 +120,8 @@ public class ChangeControl {
     return getRefControl().isVisible();
   }
 
-  /** Can this user abandon this change? */
-  public boolean canAbandon() {
+  /** Is this user the owner of the change or an administrator? */
+  public boolean isOwnerOrAdministrator() {
     return isOwner() // owner (aka creator) of the change can abandon
         || getRefControl().isOwner() // branch owner can abandon
         || getProjectControl().isOwner() // project owner can abandon
@@ -139,6 +140,26 @@ public class ChangeControl {
       final IdentifiedUser i = (IdentifiedUser) getCurrentUser();
       return i.getAccountId().equals(change.getOwner());
     }
+    return false;
+  }
+
+  /**
+   * @return true if the user is allowed to remove this reviewer
+   */
+  public boolean canRemoveReviewer(Id reviewerId) {
+    // Administrator or owner of the change?
+    if (isOwnerOrAdministrator()) {
+      return true;
+    }
+
+    // Trying to remove themselves?
+    if (getCurrentUser() instanceof IdentifiedUser) {
+      final IdentifiedUser i = (IdentifiedUser) getCurrentUser();
+      if (i.getAccountId().equals(reviewerId)) {
+        return true; // can remove self
+      }
+    }
+
     return false;
   }
 }

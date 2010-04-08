@@ -99,7 +99,7 @@ public class ChangeDetailFactory extends Handler<ChangeDetail> {
     detail = new ChangeDetail();
     detail.setChange(change);
     detail.setAllowsAnonymous(control.forAnonymousUser().isVisible());
-    detail.setCanAbandon(change.getStatus().isOpen() && control.canAbandon());
+    detail.setCanAbandon(change.getStatus().isOpen() && control.isOwnerOrAdministrator());
     detail.setStarred(control.getCurrentUser().getStarredChanges().contains(
         changeId));
     loadPatchSets();

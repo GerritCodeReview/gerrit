@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "AAAAwX///ac\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/SubmitAction.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-08T22:59:23Z",
+      "side": 1,
+      "message": "This is ugly to do here in SubmitAction.  I think we should put this logic into MergeOp, and have it reschedule the other merges after the current merge succeeds and if its part of this atomic group.  That way when/if we implement other methods of submitting a change (such as over SSH) we don\u0027t have to somehow refactor this logic out.",
+      "revId": "8565c3c37a5b64d040df6e19ea7cc840fd43fcab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwX///aY\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/changedetail/SubmitAction.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-08T22:59:23Z",
+      "side": 1,
+      "message": "This won\u0027t work most of the time.  Most of the time when the commit-msg hook is installed the Change.Key values never match with the revision id, because its computed on the client during the first commit before its uploaded to the server.  So odds are this list will be empty coming back from the database.",
+      "revId": "8565c3c37a5b64d040df6e19ea7cc840fd43fcab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAwX///a0\u003d",
         "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/Change.java",
         "patchSetId": 2

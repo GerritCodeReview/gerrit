@@ -14,7 +14,7 @@
 
 package com.google.gerrit.httpd.rpc.patch;
 
-import com.google.gerrit.common.data.AddReviewerResult;
+import com.google.gerrit.common.data.ReviewerResult;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ApprovalTypes;
 import com.google.gerrit.httpd.rpc.Handler;
@@ -39,7 +39,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-class AddReviewer extends Handler<AddReviewerResult> {
+class AddReviewer extends Handler<ReviewerResult> {
   interface Factory {
     AddReviewer create(Change.Id changeId, Collection<String> nameOrEmails);
   }
@@ -82,23 +82,23 @@ class AddReviewer extends Handler<AddReviewerResult> {
   }
 
   @Override
-  public AddReviewerResult call() throws Exception {
+  public ReviewerResult call() throws Exception {
     final Set<Account.Id> reviewerIds = new HashSet<Account.Id>();
     final ChangeControl control = changeControlFactory.validateFor(changeId);
 
-    final AddReviewerResult result = new AddReviewerResult();
+    final ReviewerResult result = new ReviewerResult();
     for (final String nameOrEmail : reviewers) {
       final Account account = accountResolver.find(nameOrEmail);
       if (account == null) {
-        result.addError(new AddReviewerResult.Error(
-            AddReviewerResult.Error.Type.ACCOUNT_NOT_FOUND, nameOrEmail));
+        result.addError(new ReviewerResult.Error(
+            ReviewerResult.Error.Type.ACCOUNT_NOT_FOUND, nameOrEmail));
         continue;
       }
 
       final IdentifiedUser user = identifiedUserFactory.create(account.getId());
       if (!control.forUser(user).isVisible()) {
-        result.addError(new AddReviewerResult.Error(
-            AddReviewerResult.Error.Type.CHANGE_NOT_VISIBLE, nameOrEmail));
+        result.addError(new ReviewerResult.Error(
+            ReviewerResult.Error.Type.CHANGE_NOT_VISIBLE, nameOrEmail));
         continue;
       }
 

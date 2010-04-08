@@ -18,12 +18,14 @@ package com.google.gerrit.common.data;
 import java.util.ArrayList;
 import java.util.List;
 
-/** Result from adding a reviewer to a change. */
-public class AddReviewerResult {
+/**
+ * Result from adding or removing a reviewer from a change.
+ */
+public class ReviewerResult {
   protected List<Error> errors;
   protected ChangeDetail change;
 
-  public AddReviewerResult() {
+  public ReviewerResult() {
     errors = new ArrayList<Error>();
   }
 
@@ -49,7 +51,10 @@ public class AddReviewerResult {
       ACCOUNT_NOT_FOUND,
 
       /** The account is not permitted to see the change. */
-      CHANGE_NOT_VISIBLE
+      CHANGE_NOT_VISIBLE,
+
+      /** Could not remove this reviewer from the change. */
+      COULD_NOT_REMOVE
     }
 
     protected Type type;

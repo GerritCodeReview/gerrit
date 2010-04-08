@@ -21,10 +21,10 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.AccountDashboardLink;
 import com.google.gerrit.client.ui.AddMemberBox;
 import com.google.gerrit.common.data.AccountInfoCache;
-import com.google.gerrit.common.data.AddReviewerResult;
 import com.google.gerrit.common.data.ApprovalDetail;
 import com.google.gerrit.common.data.ApprovalType;
 import com.google.gerrit.common.data.ChangeDetail;
+import com.google.gerrit.common.data.ReviewerResult;
 import com.google.gerrit.reviewdb.Account;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.ApprovalCategoryValue;
@@ -34,6 +34,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
@@ -61,7 +62,7 @@ public class ApprovalTable extends Composite {
 
   public ApprovalTable() {
     types = Gerrit.getConfig().getApprovalTypes().getApprovalTypes();
-    table = new Grid(1, 3 + types.size());
+    table = new Grid(1, 4 + types.size());
     table.addStyleName(Gerrit.RESOURCES.css().infoTable());
     displayHeader();
 
@@ -102,6 +103,7 @@ public class ApprovalTable extends Composite {
     for (final ApprovalType t : types) {
       header(col++, t.getCategory().getName());
     }
+    header(col++, Util.C.removeReviewer());
     applyEdgeStyles(0);
   }
 
@@ -114,7 +116,8 @@ public class ApprovalTable extends Composite {
     final CellFormatter fmt = table.getCellFormatter();
     fmt.addStyleName(row, 1, Gerrit.RESOURCES.css().approvalrole());
     fmt.addStyleName(row, 1 + types.size(), Gerrit.RESOURCES.css().rightmost());
-    fmt.addStyleName(row, 2 + types.size(), Gerrit.RESOURCES.css().approvalhint());
+    fmt.addStyleName(row, 2 + types.size(), Gerrit.RESOURCES.css().rightmost());
+    fmt.addStyleName(row, 3 + types.size(), Gerrit.RESOURCES.css().approvalhint());
   }
 
   private void applyScoreStyles(final int row) {
@@ -189,14 +192,14 @@ public class ApprovalTable extends Composite {
     reviewers.add(nameEmail);
 
     PatchUtil.DETAIL_SVC.addReviewers(changeId, reviewers,
-        new GerritCallback<AddReviewerResult>() {
-          public void onSuccess(final AddReviewerResult result) {
+        new GerritCallback<ReviewerResult>() {
+          public void onSuccess(final ReviewerResult result) {
             addMemberBox.setEnabled(true);
             addMemberBox.setText("");
 
             if (!result.getErrors().isEmpty()) {
               final SafeHtmlBuilder r = new SafeHtmlBuilder();
-              for (final AddReviewerResult.Error e : result.getErrors()) {
+              for (final ReviewerResult.Error e : result.getErrors()) {
                 switch (e.getType()) {
                   case ACCOUNT_NOT_FOUND:
                     r.append(Util.M.accountNotFound(e.getName()));
@@ -278,6 +281,29 @@ public class ApprovalTable extends Composite {
       col++;
     }
 
+    //
+    // Remove button
+    //
+    Button removeButton = new Button("X");
+    removeButton.setStyleName(Gerrit.RESOURCES.css().removeReviewer());
+    removeButton.addClickHandler(new ClickHandler() {
+
+      @Override
+      public void onClick(ClickEvent event) {
+        PatchUtil.DETAIL_SVC.removeReviewer(changeId, ad.getAccount(),
+            new GerritCallback<ReviewerResult>() {
+
+              @Override
+              public void onSuccess(ReviewerResult result) {
+                final ChangeDetail r = result.getChange();
+                display(r.getChange(), r.getMissingApprovals(), r.getApprovals());
+              }
+
+        });
+      }
+
+    });
+    table.setWidget(row, col++, removeButton);
     table.setText(row, col++, hint.toString());
   }
 }

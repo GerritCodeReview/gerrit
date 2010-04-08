@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAwX///a0\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/Change.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-08T22:48:58Z",
+      "side": 1,
+      "message": "Cool, that\u0027s a good way to link these records together.",
+      "revId": "8565c3c37a5b64d040df6e19ea7cc840fd43fcab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwX///bU\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/Subscription.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-08T22:48:58Z",
+      "side": 1,
+      "message": "All new files need an ASOP copyright header.",
+      "revId": "8565c3c37a5b64d040df6e19ea7cc840fd43fcab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwX///bM\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/Subscription.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-08T22:48:58Z",
+      "side": 1,
+      "message": "Why can\u0027t the id be the pair target/source?  For any given target/source pair it doesn\u0027t make sense to have multiple subscriptions, does it?",
+      "revId": "8565c3c37a5b64d040df6e19ea7cc840fd43fcab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwX///bQ\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/SubscriptionAccess.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-08T22:48:58Z",
+      "side": 1,
+      "message": "All new files need an ASOP copyright header.",
+      "revId": "8565c3c37a5b64d040df6e19ea7cc840fd43fcab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwX///bI\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/DepsBypasser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-08T22:48:58Z",
+      "side": 1,
+      "message": "All new files need an ASOP copyright header.",
+      "revId": "8565c3c37a5b64d040df6e19ea7cc840fd43fcab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwX///bE\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/DepsBypasser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-08T22:48:58Z",
+      "side": 1,
+      "message": "Please use Guice to manage singletons.  But this object isn\u0027t a singleton because its members superModule and subModules probably mutate with each execution, don\u0027t they?",
+      "revId": "8565c3c37a5b64d040df6e19ea7cc840fd43fcab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwX///a8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/DepsBypasser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-08T22:48:58Z",
+      "side": 1,
+      "message": "The right pattern to use is:\n\n  try {\n    final Repository repo \u003d repoManager.openRepository(m.name);\n    try {\n    } catch (...) {\n    } finally {\n      repo.close();\n    }\n  } catch (RepositoryNotFoundException e) {\n    ....\n  }",
+      "revId": "8565c3c37a5b64d040df6e19ea7cc840fd43fcab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwX///as\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Receive.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-08T22:48:58Z",
+      "side": 1,
+      "message": "This all must be in ReceiveCommits because the code has to run in either http or ssh, and this class, Receive, is only used during ssh.  So http pushes would skip this step.",
+      "revId": "8565c3c37a5b64d040df6e19ea7cc840fd43fcab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

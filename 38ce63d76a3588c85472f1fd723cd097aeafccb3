@@ -101,6 +101,23 @@
       "revId": "38ce63d76a3588c85472f1fd723cd097aeafccb3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwX///cE\u003d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/rpc/patch/RemoveReviewer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1002235
+      },
+      "writtenOn": "2010-04-08T22:29:03Z",
+      "side": 1,
+      "message": "There is no check if the given reviewer has given a positive or negative review. I don\u0027t think we should remove the reviewer in those cases.",
+      "revId": "38ce63d76a3588c85472f1fd723cd097aeafccb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

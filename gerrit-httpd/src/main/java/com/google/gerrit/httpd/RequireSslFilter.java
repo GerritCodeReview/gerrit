@@ -79,7 +79,7 @@ class RequireSslFilter implements Filter {
         url = b.toString();
 
       } else {
-        url = urlProvider.get();
+        url = urlProvider.get() + req.getServletPath();
       }
       rsp.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
       rsp.setHeader("Location", url);

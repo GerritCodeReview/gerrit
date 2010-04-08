@@ -69,7 +69,7 @@ abstract class EmailHeader {
       if (b == ' ') {
         r.append('_');
 
-      } else if (b == '=' || b == '"' || b == '_' || b < ' ' || '~' <= b) {
+      } else if (b == ',' || b == '=' || b == '"' || b == '_' || b < ' ' || '~' <= b) {
         r.append('=');
         r.append(Integer.toHexString((b >>> 4) & 0x0f).toUpperCase());
         r.append(Integer.toHexString(b & 0x0f).toUpperCase());

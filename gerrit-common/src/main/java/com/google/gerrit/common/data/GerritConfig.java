@@ -15,6 +15,7 @@
 package com.google.gerrit.common.data;
 
 import com.google.gerrit.reviewdb.Account;
+import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.AuthType;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gwtexpui.safehtml.client.RegexFindReplace;
@@ -34,6 +35,7 @@ public class GerritConfig implements Cloneable {
   protected String sshdAddress;
   protected Project.NameKey wildProject;
   protected ApprovalTypes approvalTypes;
+  protected AccountGroup.Id administratorsGroupId;
   protected Set<Account.FieldName> editableAccountFields;
   protected List<RegexFindReplace> commentLinks;
   protected boolean documentationAvailable;
@@ -58,6 +60,14 @@ public class GerritConfig implements Cloneable {
 
   public void setAuthType(final AuthType t) {
     authType = t;
+  }
+
+  public AccountGroup.Id getAdministratorsGroup() {
+    return administratorsGroupId;
+  }
+
+  public void setAdministratorsGroupId(final AccountGroup.Id a) {
+    administratorsGroupId = a;
   }
 
   public GitwebLink getGitwebLink() {

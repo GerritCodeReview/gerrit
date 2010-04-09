@@ -28,4 +28,7 @@ public interface ProjectCache {
 
   /** Invalidate the cached information about the given project. */
   public void evict(Project p);
+
+  /** Invalidate the cached information about all projects. */
+  public void evict();
 }

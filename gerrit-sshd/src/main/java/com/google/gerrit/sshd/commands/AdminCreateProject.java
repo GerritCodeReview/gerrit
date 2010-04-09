@@ -21,6 +21,7 @@ import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.reviewdb.Project.SubmitType;
 import com.google.gerrit.server.config.AuthConfig;
+import com.google.gerrit.server.config.WildProjectName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ReplicationQueue;
 import com.google.gerrit.sshd.AdminCommand;
@@ -76,6 +77,10 @@ final class AdminCreateProject extends BaseCommand {
   @Inject
   private ReplicationQueue rq;
 
+  @Inject
+  @WildProjectName
+  private Project.NameKey wildProject;
+
   @Override
   public void start(final Environment env) {
     startThread(new CommandRunnable() {
@@ -127,6 +132,7 @@ final class AdminCreateProject extends BaseCommand {
     newProject.setSubmitType(submitType);
     newProject.setUseContributorAgreements(contributorAgreements);
     newProject.setUseSignedOffBy(signedOffBy);
+    newProject.setParent(wildProject);
 
     db.projects().insert(Collections.singleton(newProject));
   }

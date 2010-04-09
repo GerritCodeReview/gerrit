@@ -29,6 +29,7 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -52,7 +53,6 @@ public class ProjectCacheImpl implements ProjectCache {
 
   private final ProjectState.Factory projectStateFactory;
   private final Project.NameKey wildProject;
-  private final ProjectState.InheritedRights inheritedRights;
   private final SchemaFactory<ReviewDb> schema;
   private final SelfPopulatingCache<Project.NameKey, ProjectState> byName;
 
@@ -73,28 +73,96 @@ public class ProjectCacheImpl implements ProjectCache {
             return lookup(key);
           }
         };
-
-    this.inheritedRights = new ProjectState.InheritedRights() {
-      @Override
-      public Collection<RefRight> get() {
-        return ProjectCacheImpl.this.get(wildProject).getLocalRights();
-      }
-    };
   }
 
-  private ProjectState lookup(final Project.NameKey key) throws OrmException {
+  /**
+   * Retrieves the "wildcard" project state ("wildcard" project is the root node
+   * on projects hierarchy)
+   *
+   * @return the "wildcard" project state
+   * @throws OrmException
+   */
+  private ProjectState getWildProjectState() throws OrmException {
+    // "wildcard project" should be retrieved from database
     final ReviewDb db = schema.open();
     try {
-      final Project p = db.projects().get(key);
-      if (p == null) {
+      final Project project = db.projects().get(wildProject);
+      if (project == null) {
         return null;
       }
 
-      final Collection<RefRight> rights =
+      final Collection<RefRight> wildProjectRights =
           Collections.unmodifiableCollection(db.refRights().byProject(
-              p.getNameKey()).toList());
+              wildProject).toList());
 
-      return projectStateFactory.create(p, rights, inheritedRights);
+      final ProjectState.InheritedRights wildProjectInheritedRights =
+          new ProjectState.InheritedRights() {
+            @Override
+            public Collection<RefRight> get() {
+              // the "wildcard project" has no inherited rights
+              // since its has no parent
+              return Collections.emptyList();
+            }
+          };
+
+      return projectStateFactory.create(project, wildProjectRights,
+          wildProjectInheritedRights);
+    } finally {
+      db.close();
+    }
+  }
+
+  /**
+   * Lookup for a state of a specified project on database
+   * @param key the project name key
+   * @return the project state
+   * @throws OrmException
+   */
+  private ProjectState lookup(final Project.NameKey key) throws OrmException {
+    if (key == null) {
+      return null;
+    }
+
+    // handles the "wildcard" project state (recursion break)
+    if (key.equals(wildProject) || key.get() == null || key.get().isEmpty()) {
+      return getWildProjectState();
+    }
+
+    final ReviewDb db = schema.open();
+    try {
+
+      final Project project = db.projects().get(key);
+      if (project == null) {
+        return null;
+      }
+
+      // retrieves the parent project state (recursively)
+      ProjectState parentProjectState = null;
+
+      Project.NameKey parentNameKey = project.getParent();
+      if (parentNameKey == null || parentNameKey.get() == null || parentNameKey.get().isEmpty()){
+        // if the parent project name is not defined, uses the wildcard project
+        parentProjectState = getWildProjectState();
+      } else {
+        // gets parent project state recursively (unless its available on cache)
+        parentProjectState = ProjectCacheImpl.this.get(parentNameKey);
+        if (parentProjectState == null){
+          parentProjectState = lookup(parentNameKey);
+        }
+      }
+
+      // retrieves the project rights
+      final Collection<RefRight> projectRights =
+          Collections.unmodifiableCollection(db.refRights().byProject(
+              project.getNameKey()).toList());
+
+      // evaluates the project inherited rights from parent project state
+      final ProjectState.InheritedRights inheritedRights =
+          new InheritedRightsComposer(parentProjectState);
+
+      return projectStateFactory
+          .create(project, projectRights, inheritedRights);
+
     } finally {
       db.close();
     }
@@ -114,6 +182,39 @@ public class ProjectCacheImpl implements ProjectCache {
   public void evict(final Project p) {
     if (p != null) {
       byName.remove(p.getNameKey());
+    }
+  }
+
+  /** Invalidate the cached information about all projects. */
+  public void evict() {
+    // evict all projects
+    byName.removeAll();
+  }
+
+  /**
+   * inner class to compose project inherited rights from parent project state
+   */
+  class InheritedRightsComposer implements ProjectState.InheritedRights {
+    Collection<RefRight> rights = new ArrayList<RefRight>();
+
+    /**
+     * Composes a project state inherited rights from parent project state
+     * @param parentProjectState the parent project state
+     */
+    public InheritedRightsComposer(ProjectState parentProjectState) {
+      // project inherited rights is defined by union of parent project rights
+      // and parent project inherited rights
+      for (RefRight right : parentProjectState.getLocalRights()) {
+        rights.add(right);
+      }
+      for (RefRight right : parentProjectState.getInheritedRights()) {
+        rights.add(right);
+      }
+    }
+
+    @Override
+    public Collection<RefRight> get() {
+      return Collections.unmodifiableCollection(rights);
     }
   }
 }

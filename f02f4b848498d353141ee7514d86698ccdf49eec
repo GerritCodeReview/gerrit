@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAwX///Vg\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/RefRight.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-11T02:57:07Z",
+      "side": 1,
+      "message": "Would \"group:\" be a better tag here?",
+      "revId": "f02f4b848498d353141ee7514d86698ccdf49eec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwX///Vk\u003d",
+        "filename": "gerrit-reviewdb/src/main/java/com/google/gerrit/reviewdb/RefRight.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-11T02:57:07Z",
+      "side": 1,
+      "message": "Given that we always write these as \"+1..+3\" I would prefer min to come before max in the toString representation.",
+      "revId": "f02f4b848498d353141ee7514d86698ccdf49eec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwX///Vc\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-11T02:57:07Z",
+      "side": 1,
+      "message": "Unnecessary blank line.",
+      "revId": "f02f4b848498d353141ee7514d86698ccdf49eec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

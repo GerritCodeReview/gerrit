@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAwX///VY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-11T02:57:07Z",
+      "side": 0,
+      "message": "No.  This breaks the case where you can grant READ -1 to Anonymous Users at the project level in order to prevent them from seeing a hidden project.\n\nI don\u0027t think 511 is a bug.  I think its \"works as designed\" and the user is just horribly confused about what that design is.  I\u0027ll comment a bit more on the bug.",
+      "revId": "fe7220e44154a3fcd6fcf030c82f591fcd9723a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

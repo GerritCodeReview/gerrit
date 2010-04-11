@@ -324,12 +324,6 @@ class LdapRealm implements Realm {
       }
 
       params.put(USERNAME, username);
-
-      for (LdapQuery groupMemberQuery : schema.groupMemberQueryList) {
-        for (LdapQuery.Result r : groupMemberQuery.query(ctx, params)) {
-          groupDNs.add(r.getDN());
-        }
-      }
     }
 
     if (schema.accountMemberField != null) {

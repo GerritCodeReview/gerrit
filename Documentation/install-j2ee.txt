@@ -77,8 +77,8 @@ Install the required additional libraries by copying them into the
 ----
   cp ../review_db/lib/* lib/ext/
   java -jar webapps/gerrit.war cat lib/commons-dbcp-1.2.2.jar >lib/ext/commons-dbcp-1.2.2.jar
-  java -jar webapps/gerrit.war cat lib/commons-pool-1.5.3.jar >lib/ext/commons-pool-1.5.3.jar
-  java -jar webapps/gerrit.war cat lib/h2-1.2.122.jar >lib/ext/h2-1.2.122.jar
+  java -jar webapps/gerrit.war cat lib/commons-pool-1.5.4.jar >lib/ext/commons-pool-1.5.4.jar
+  java -jar webapps/gerrit.war cat lib/h2-1.2.128.jar >lib/ext/h2-1.2.128.jar
   java -jar webapps/gerrit.war cat lib/postgresql-8.4-701.jdbc4.jar >lib/ext/postgresql-8.4-701.jdbc4.jar
 ----
 

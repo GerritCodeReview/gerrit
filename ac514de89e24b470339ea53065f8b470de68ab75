@@ -1,0 +1,412 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAwn///7c\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/InheritedRefRight.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-13T23:22:53Z",
+      "side": 1,
+      "message": "Just mark both of these final, it shouldn\u0027t be able to change, right?",
+      "revId": "ac514de89e24b470339ea53065f8b470de68ab75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwn///7Y\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/InheritedRefRight.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-13T23:22:53Z",
+      "side": 1,
+      "message": "Make this protected, it exists only for the JSON serialization library.",
+      "revId": "ac514de89e24b470339ea53065f8b470de68ab75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwn///7U\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/InheritedRefRight.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-13T23:22:53Z",
+      "side": 1,
+      "message": "Drop these setters, they aren\u0027t necessary.",
+      "revId": "ac514de89e24b470339ea53065f8b470de68ab75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwn///7Q\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/InheritedRefRight.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-13T23:22:53Z",
+      "side": 1,
+      "message": "If you implement equals() please also implement a stable hashCode().",
+      "revId": "ac514de89e24b470339ea53065f8b470de68ab75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwn///7I\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/InheritedRefRight.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-13T23:22:53Z",
+      "side": 1,
+      "message": "Must equals should return false if given an object that isn\u0027t an instanceof InheritedRefRight.  So wrap this up inside of a\n\n  if (o instanceof InheritedRefRight) {",
+      "revId": "ac514de89e24b470339ea53065f8b470de68ab75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwn///7M\u003d",
+        "filename": "gerrit-common/src/main/java/com/google/gerrit/common/data/InheritedRefRight.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-13T23:22:53Z",
+      "side": 1,
+      "message": "Might be easier to read if you did:\n\n  RefRight myRight \u003d getRight();\n  RefRight otherRight \u003d ((InheritedRefRight)o).getRight();\n\nThat way its easier to see which right is being tested.",
+      "revId": "ac514de89e24b470339ea53065f8b470de68ab75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwn///9A\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-13T23:22:53Z",
+      "side": 1,
+      "message": "Perhaps evictAll() is a better name?",
+      "revId": "ac514de89e24b470339ea53065f8b470de68ab75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwn///7o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-13T23:22:53Z",
+      "side": 1,
+      "message": "*sigh*  This has a lot of code duplicated with lookup() below.  Since you still need to terminate an infinite loop in lookup you might as well just collapse this back into lookup and use get(wildProject) when you need the wild project state object.",
+      "revId": "ac514de89e24b470339ea53065f8b470de68ab75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwn///7k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-13T23:22:53Z",
+      "side": 1,
+      "message": "As I mentioned in AdminSetParent, you should check for and avoid infinite recursion caused by a cycle in the parent pointers.  That means keeping a set of the projects you are already loading and probably setting a project\u0027s inherited rights to the empty collection if you are already trying to load it when you attempt to load it again.\n\nThat gets ugly, because the cache doesn\u0027t let you thread through the set during recursive get calls.  Ugh.\n\nHmm.  Instead of resolving the inherited rights when creating a ProjectState, do it lazily when we need them.  That way you can hopefully code something more like:\n\n  Set\u003cProject.NameKey\u003e seen \u003d new HashSet\u003cProject.NameKey\u003e();\n  Project.NameKey parent \u003d project.getParent();\n  while (parent !\u003d null \u0026\u0026 seen.add(parent)) {\n    ProjectState s \u003d cache.get(parent);\n    if (s !\u003d null) {\n      inheritedRits.addAll(s.getLocalRights());\n      parent \u003d s.getProject().getParent();\n    } else {\n      break;\n    }\n  }",
+      "revId": "ac514de89e24b470339ea53065f8b470de68ab75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwn///70\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-13T23:22:53Z",
+      "side": 1,
+      "message": "Can we do this outside of the try/finally that has the database ReviewDb open?  That way the connection can be returned to the pool and reused for the recursive lookup of the parent.\n\nIf the parent chain depth exceeds the number of connections available in the pool right now this code would freeze until the timeout, and then throw an exception.  By moving the recursive get to be after the db.close() the connection can be returned to the pool and we aren\u0027t confined by the size of the pool as the maximum project recursion.",
+      "revId": "ac514de89e24b470339ea53065f8b470de68ab75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwn///7w\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-13T23:22:53Z",
+      "side": 1,
+      "message": "get() should have returned null only if the project doesn\u0027t exist.  Calling lookup recursively should produce the same results, and therefore is just a waste of CPU time.",
+      "revId": "ac514de89e24b470339ea53065f8b470de68ab75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwn///7s\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-13T23:22:53Z",
+      "side": 1,
+      "message": "If the class\u0027 constructor is just flattening out the list anyway at construction time, and you are evicting the entire cache anytime any RefRight changes, you might just be better off dropping this InheritedRights interface altogether and passing through a Collection\u003cRefRight\u003e of the inherited rights.  Its unnecessary complexity that I did to permit evicting only the project that was modified when rights change, and let the other projects stay in memory.",
+      "revId": "ac514de89e24b470339ea53065f8b470de68ab75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwn///88\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_31.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-13T23:22:53Z",
+      "side": 1,
+      "message": "Style-nit:  We don\u0027t include these comments on overrides.",
+      "revId": "ac514de89e24b470339ea53065f8b470de68ab75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwn///8k\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_31.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-13T23:22:53Z",
+      "side": 1,
+      "message": "These additions shouldn\u0027t be necessary.  As I pointed out below the ORM should have added the column for you before calling your method.",
+      "revId": "ac514de89e24b470339ea53065f8b470de68ab75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwn///8g\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_31.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-13T23:22:53Z",
+      "side": 1,
+      "message": "I think I would prefer to leave the default as NULL, and have the software translate NULL to wildProjectName on the fly during evaluation.\n\nMy primary reason for that is new databases won\u0027t have this default set in place on the SQL table, because this class won\u0027t fire for them.",
+      "revId": "ac514de89e24b470339ea53065f8b470de68ab75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwn///8c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_31.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-13T23:22:53Z",
+      "side": 1,
+      "message": "If the ORM adds the column for you, the column permits NULL, and NULL means \"use the wild card project as the parent\" then there is no need to update the existing project records.  They are  all fine as-is.  So I think this class can be just a no-op.",
+      "revId": "ac514de89e24b470339ea53065f8b470de68ab75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwn///8o\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_31.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-13T23:22:53Z",
+      "side": 1,
+      "message": "This should never happen.  The ORM should have added the column for you before your class was invoked.",
+      "revId": "ac514de89e24b470339ea53065f8b470de68ab75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwn///8U\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AdminCreateProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-13T23:22:53Z",
+      "side": 1,
+      "message": "Given my suggestion to leave this NULL to mean wild project, we can then avoid changing this class altogether.",
+      "revId": "ac514de89e24b470339ea53065f8b470de68ab75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwn///74\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AdminSetParent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-13T23:22:53Z",
+      "side": 1,
+      "message": "Should we permit a project owner to change their own parent project?  Or should we require this to be a site administrator function?  I\u0027m on the fence here.  I guess either is OK.  And just declaring @AdminCommand is easier than checking project ownership (but only by about 1 line of code).",
+      "revId": "ac514de89e24b470339ea53065f8b470de68ab75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwn///8I\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AdminSetParent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-13T23:22:53Z",
+      "side": 1,
+      "message": "If you use ProjectControl instead of String you can get validation that this project exists and is visible to the caller for free.",
+      "revId": "ac514de89e24b470339ea53065f8b470de68ab75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwn///8Q\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AdminSetParent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-13T23:22:53Z",
+      "side": 1,
+      "message": "Maybe just @Argument instead of requiring a flag?  Its probably a bug that create-project uses -n to name the project its creating.  I think its more UNIXy to take the projects we are affecting as arguments, and the new parent as an option.",
+      "revId": "ac514de89e24b470339ea53065f8b470de68ab75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwn///8M\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AdminSetParent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-13T23:22:53Z",
+      "side": 1,
+      "message": "If you instead use List\u003cProjectControl\u003e you will get validation that each project exists, and is visible to the caller, for free.",
+      "revId": "ac514de89e24b470339ea53065f8b470de68ab75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwn///8E\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AdminSetParent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-13T23:22:53Z",
+      "side": 1,
+      "message": "Given that p is used only for status/error reporting this maybe should be err instead of out.",
+      "revId": "ac514de89e24b470339ea53065f8b470de68ab75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwn///8A\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/AdminSetParent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-13T23:22:53Z",
+      "side": 1,
+      "message": "You aren\u0027t trying to avoid deadlocks, you are trying to avoid an infinite loop, right?  Its bad if project A uses B as a parent, and B uses A as a parent, because you would resolve that chain forever and never succeed.\n\nIts a good idea to check/enforce that here.  But we should also be doing that at resolution time to prevent an administrator from changing the database and suddenly causing his Gerrit server to  become completely unresponsive.\n\nI think your comment shouldn\u0027t talk about deadlock (that\u0027s two threads blocking on each other) but instead about avoiding a cycle, which could lead to an infinite loop if traversed naively.",
+      "revId": "ac514de89e24b470339ea53065f8b470de68ab75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

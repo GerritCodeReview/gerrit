@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAwn///9M\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapRealm.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-13T21:15:39Z",
+      "side": 0,
+      "message": "Oh.  I get it.\n\nThe problem is this loop is used for OpenLDAP based directory structures.  So killing it isn\u0027t going to work.\n\nI think I understand what a fix might look like.  Let me try uploading a different patch set...",
+      "parentUuid": "AAAAwn///+8\u003d",
+      "revId": "b2ff7c8949b69fd67138d18780a2517537f61780",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAwn///+4\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapRealm.java",
         "patchSetId": 1

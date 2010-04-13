@@ -1,0 +1,20 @@
+Release notes for Gerrit 2.1.2.3
+================================
+
+Gerrit 2.1.2.3 is now available in the usual location:
+
+link:http://code.google.com/p/gerrit/downloads/list[http://code.google.com/p/gerrit/downloads/list]
+
+Bug Fixes
+---------
+
+* issue 528 gsql: Fix escaping of quotes in JSON
++
+JSON output was not properly escaped, due to a bug in the underlying
+Gson library.  Fixed by upgrading.
+
+* issue 531 commit-msg: Fix jumbling of URL at end of message
++
+URLs at the end of a commit message sometimes caused the Change-Id
+to be inserted above the URL, rather than below it.  Fixed, but
+users will need to recopy the hook to their local repositories.

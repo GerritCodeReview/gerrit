@@ -16,6 +16,40 @@
       "revId": "b2ff7c8949b69fd67138d18780a2517537f61780",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwn///+8\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapRealm.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1003378
+      },
+      "writtenOn": "2010-04-13T17:24:12Z",
+      "side": 0,
+      "message": "when a group is added to groupDNs, there is a problem later on in recusivelyExpandGroups.",
+      "revId": "b2ff7c8949b69fd67138d18780a2517537f61780",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwn///+4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapRealm.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1003378
+      },
+      "writtenOn": "2010-04-13T17:24:12Z",
+      "side": 0,
+      "message": "The problem occurs when a user is a member of a group that in turn is a member fo a group. Gerrit misses the fact that the user is a member of the grandparent group. The reason for this is that the groups that the user is a direct member of has been added to groupsDN earlier which makes the if-statement on line 369 fail, which in turn stops the recursive lookup.\r\nIts worth mentioning that while this takes care of the bug, it (obviously) makes the login take longer time. I am thinking of supplying a patch that caches the ldap-data a bit more aggressively than what is currently done to fix that.",
+      "revId": "b2ff7c8949b69fd67138d18780a2517537f61780",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

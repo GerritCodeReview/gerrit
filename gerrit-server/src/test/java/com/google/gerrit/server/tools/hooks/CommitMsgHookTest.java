@@ -335,6 +335,41 @@ public class CommitMsgHookTest extends HookTestCase {
             "index 0000000..c78b7f0\n"));
   }
 
+  public void testWithEndingURL() throws Exception {
+    assertEquals("a\n" + //
+        "\n" + //
+        "http://example.com/ fixes this\n" + //
+        "\n" + //
+        "Change-Id: I3b7e4e16b503ce00f07ba6ad01d97a356dad7701\n", //
+        call("a\n" + //
+            "\n" + //
+            "http://example.com/ fixes this\n"));
+    assertEquals("a\n" + //
+        "\n" + //
+        "https://example.com/ fixes this\n" + //
+        "\n" + //
+        "Change-Id: I62b9039e2fc0dce274af55e8f99312a8a80a805d\n", //
+        call("a\n" + //
+            "\n" + //
+            "https://example.com/ fixes this\n"));
+    assertEquals("a\n" + //
+        "\n" + //
+        "ftp://example.com/ fixes this\n" + //
+        "\n" + //
+        "Change-Id: I71b05dc1f6b9a5540a53a693e64d58b65a8910e8\n", //
+        call("a\n" + //
+            "\n" + //
+            "ftp://example.com/ fixes this\n"));
+    assertEquals("a\n" + //
+        "\n" + //
+        "git://example.com/ fixes this\n" + //
+        "\n" + //
+        "Change-Id: Id34e942baa68d790633737d815ddf11bac9183e5\n", //
+        call("a\n" + //
+            "\n" + //
+            "git://example.com/ fixes this\n"));
+  }
+
   private void hookDoesNotModify(final String in) throws Exception {
     assertEquals(in, call(in));
   }

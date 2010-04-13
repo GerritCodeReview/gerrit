@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAwn////c\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/auth/ldap/LdapRealm.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-13T16:47:35Z",
+      "side": 0,
+      "message": "I don\u0027t understand.  Why does deleting this for loop do something we want?  Could you please clarify the bug you are fixing and how removing this loop resolves it?",
+      "revId": "b2ff7c8949b69fd67138d18780a2517537f61780",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

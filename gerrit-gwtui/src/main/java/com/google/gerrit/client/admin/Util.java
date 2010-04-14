@@ -14,11 +14,17 @@
 
 package com.google.gerrit.client.admin;
 
+import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.common.data.GroupAdminService;
 import com.google.gerrit.common.data.ProjectAdminService;
+import com.google.gerrit.common.data.ProjectDetail;
+import com.google.gerrit.reviewdb.AccountGroup;
+import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.RefRight;
 import com.google.gwt.core.client.GWT;
 import com.google.gwtjsonrpc.client.JsonUtil;
+import java.util.List;
 
 public class Util {
   public static final AdminConstants C = GWT.create(AdminConstants.class);
@@ -50,5 +56,53 @@ public class Util {
       default:
         return type.name();
     }
+  }
+
+  /**
+   * It verifies to a current user (through its indicated groups)
+   * if (s)he has the right know as 'own' to indicated project.
+   *
+   * @param projectDetail The project detail.
+   * @param lookUpGroups The groups of current user to look up the own right.
+   * @return True if Own is granted. False, otherwise.
+   */
+  public static boolean hasOwnRight(final ProjectDetail projectDetail, final List<AccountGroup> lookUpGroups) {
+    boolean hasOwnRight = false;
+
+    /*
+     * It is assumed an administrator always has the Own granted.
+     */
+    for (final AccountGroup ag : lookUpGroups) {
+      if (Gerrit.getConfig().getAdministratorsGroup().get() == ag.getId().get()) {
+        hasOwnRight = true;
+        break;
+      }
+    }
+
+    if (!hasOwnRight) {
+      for (final RefRight r : projectDetail.rights) {
+        if (r.getApprovalCategoryId().get().equals(ApprovalCategory.OWN.toString())) {
+          /*
+           * An Own right was found to the project.
+           * It should search now if it is granted to one of the lookUpGroups.
+           */
+          for (AccountGroup ag : lookUpGroups) {
+            if (ag.getId().get() == r.getAccountGroupId().get()) {
+              /*
+               * Own right found to the project and granted to one of the Account Groups specified.
+               */
+              hasOwnRight = true;
+              break;
+            }
+          }
+        }
+
+        if (hasOwnRight) {
+          break;
+        }
+      }
+    }
+
+    return hasOwnRight;
   }
 }

@@ -14,27 +14,23 @@
 
 package com.google.gerrit.httpd.rpc.project;
 
+
 import com.google.gerrit.httpd.rpc.Handler;
-import com.google.gerrit.reviewdb.AccountGroup;
-import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Project;
-import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.reviewdb.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectControl;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
 
-class OwnedProjects extends Handler<List<Project>> {
+class VisibleProjects extends Handler<List<Project>> {
   interface Factory {
-    OwnedProjects create();
+    VisibleProjects create();
   }
 
   private final ProjectControl.Factory projectControlFactory;
@@ -42,7 +38,7 @@ class OwnedProjects extends Handler<List<Project>> {
   private final ReviewDb db;
 
   @Inject
-  OwnedProjects(final ProjectControl.Factory projectControlFactory,
+  VisibleProjects(final ProjectControl.Factory projectControlFactory,
       final IdentifiedUser user, final ReviewDb db) {
     this.projectControlFactory = projectControlFactory;
     this.user = user;
@@ -54,25 +50,16 @@ class OwnedProjects extends Handler<List<Project>> {
     final List<Project> result;
     if (user.isAdministrator()) {
       result = db.projects().all().toList();
-
     } else {
-      final HashSet<Project.NameKey> seen = new HashSet<Project.NameKey>();
       result = new ArrayList<Project>();
-      for (final AccountGroup.Id groupId : user.getEffectiveGroups()) {
-        for (final RefRight r : db.refRights().byCategoryGroup(
-            ApprovalCategory.OWN, groupId)) {
-          final Project.NameKey name = r.getProjectNameKey();
-          if (!seen.add(name)) {
-            continue;
+      for (Project p : db.projects().all().toList()) {
+        try {
+          ProjectControl c = projectControlFactory.controlFor(p.getNameKey());
+          if (c.isVisible() || c.isOwner()) {
+            result.add(p);
           }
-          try {
-            ProjectControl c = projectControlFactory.controlFor(name);
-            if (c.isOwnerAnyRef()) {
-              result.add(c.getProject());
-            }
-          } catch (NoSuchProjectException e) {
-            continue;
-          }
+        } catch (NoSuchProjectException e) {
+          continue;
         }
       }
     }

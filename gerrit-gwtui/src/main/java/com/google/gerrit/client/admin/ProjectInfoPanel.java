@@ -19,6 +19,7 @@ import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.SmallHeading;
 import com.google.gerrit.client.ui.TextSaveButtonListener;
 import com.google.gerrit.common.data.ProjectDetail;
+import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -34,6 +35,7 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwtexpui.globalkey.client.NpTextArea;
+import java.util.List;
 
 public class ProjectInfoPanel extends Composite {
   private Project.NameKey projectName;
@@ -80,9 +82,16 @@ public class ProjectInfoPanel extends Composite {
     Util.PROJECT_SVC.projectDetail(projectName,
         new GerritCallback<ProjectDetail>() {
           public void onSuccess(final ProjectDetail result) {
-            enableForm(true);
-            saveProject.setEnabled(false);
-            display(result);
+            com.google.gerrit.client.account.Util.ACCOUNT_SEC.myGroups(new GerritCallback<List<AccountGroup>>() {
+              public void onSuccess(List<AccountGroup> myGroups) {
+                boolean userHasOwnRight = Util.hasOwnRight(result, myGroups);
+
+                enableForm(userHasOwnRight);
+                saveProject.setVisible(userHasOwnRight);
+                saveProject.setEnabled(false);
+                display(result);
+              }
+            });
           }
         });
   }
@@ -92,6 +101,7 @@ public class ProjectInfoPanel extends Composite {
     descTxt.setEnabled(on);
     useContributorAgreements.setEnabled(on);
     useSignedOffBy.setEnabled(on);
+    saveProject.setEnabled(on);
   }
 
   private void initDescription(final Panel body) {

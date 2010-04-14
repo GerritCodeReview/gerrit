@@ -32,7 +32,7 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
   private final ChangeProjectSettings.Factory changeProjectSettingsFactory;
   private final DeleteBranches.Factory deleteBranchesFactory;
   private final ListBranches.Factory listBranchesFactory;
-  private final OwnedProjects.Factory ownedProjectsFactory;
+  private final VisibleProjects.Factory visibleProjectsFactory;
   private final ProjectDetailFactory.Factory projectDetailFactory;
   private final AddRefRight.Factory addRefRightFactory;
   private final DeleteRefRights.Factory deleteRefRightsFactory;
@@ -42,7 +42,7 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
       final ChangeProjectSettings.Factory changeProjectSettingsFactory,
       final DeleteBranches.Factory deleteBranchesFactory,
       final ListBranches.Factory listBranchesFactory,
-      final OwnedProjects.Factory ownedProjectsFactory,
+      final VisibleProjects.Factory visibleProjectsFactory,
       final ProjectDetailFactory.Factory projectDetailFactory,
       final AddRefRight.Factory addRefRightFactory,
       final DeleteRefRights.Factory deleteRefRightsFactory) {
@@ -50,15 +50,15 @@ class ProjectAdminServiceImpl implements ProjectAdminService {
     this.changeProjectSettingsFactory = changeProjectSettingsFactory;
     this.deleteBranchesFactory = deleteBranchesFactory;
     this.listBranchesFactory = listBranchesFactory;
-    this.ownedProjectsFactory = ownedProjectsFactory;
+    this.visibleProjectsFactory = visibleProjectsFactory;
     this.projectDetailFactory = projectDetailFactory;
     this.addRefRightFactory = addRefRightFactory;
     this.deleteRefRightsFactory = deleteRefRightsFactory;
   }
 
   @Override
-  public void ownedProjects(final AsyncCallback<List<Project>> callback) {
-    ownedProjectsFactory.create().to(callback);
+  public void visibleProjects(final AsyncCallback<List<Project>> callback) {
+    visibleProjectsFactory.create().to(callback);
   }
 
   @Override

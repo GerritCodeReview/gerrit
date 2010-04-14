@@ -69,10 +69,13 @@ public class ProjectRightsPanel extends Composite {
   private SuggestBox nameTxt;
   private NpTextBox referenceTxt;
 
+  private final FlowPanel addPanel = new FlowPanel();
+
   public ProjectRightsPanel(final Project.NameKey toShow) {
+    final FlowPanel body = new FlowPanel();
+
     projectName = toShow;
 
-    final FlowPanel body = new FlowPanel();
     initRights(body);
     initWidget(body);
   }
@@ -84,10 +87,25 @@ public class ProjectRightsPanel extends Composite {
 
     Util.PROJECT_SVC.projectDetail(projectName,
         new GerritCallback<ProjectDetail>() {
+
           public void onSuccess(final ProjectDetail result) {
-            enableForm(true);
-            display(result);
+
+            com.google.gerrit.client.account.Util.ACCOUNT_SEC.myGroups(new GerritCallback<List<AccountGroup>>() {
+
+              public void onSuccess(List<AccountGroup> myGroups) {
+
+                boolean hasOwnRights = Util.hasOwnRight(result, myGroups);
+
+                enableForm(true);
+                display(result, !hasOwnRights);
+
+                addPanel.setVisible(hasOwnRights);
+                delRight.setVisible(hasOwnRights);
+              }
+
+            });
           }
+
         });
   }
 
@@ -104,7 +122,6 @@ public class ProjectRightsPanel extends Composite {
   }
 
   private void initRights(final Panel body) {
-    final FlowPanel addPanel = new FlowPanel();
     addPanel.setStyleName(Gerrit.RESOURCES.css().addSshKeyPanel());
 
     final Grid addGrid = new Grid(5, 2);
@@ -229,8 +246,8 @@ public class ProjectRightsPanel extends Composite {
     }
   }
 
-  void display(final ProjectDetail result) {
-    rights.display(result.groups, result.rights);
+  void display(final ProjectDetail result, final boolean readOnly) {
+    rights.display(result.groups, result.rights, readOnly);
   }
 
   private void doAddNewRight() {
@@ -291,7 +308,7 @@ public class ProjectRightsPanel extends Composite {
             addRight.setEnabled(true);
             nameTxt.setText("");
             referenceTxt.setText("");
-            display(result);
+            display(result, false);
           }
 
           @Override
@@ -408,7 +425,7 @@ public class ProjectRightsPanel extends Composite {
     }
 
     void display(final Map<AccountGroup.Id, AccountGroup> groups,
-        final List<RefRight> refRights) {
+        final List<RefRight> refRights, final boolean readOnly) {
       while (1 < table.getRowCount())
         table.removeRow(table.getRowCount() - 1);
 
@@ -416,19 +433,20 @@ public class ProjectRightsPanel extends Composite {
         final int row = table.getRowCount();
         table.insertRow(row);
         applyDataRowStyle(row);
-        populate(row, groups, r);
+        populate(row, groups, r, readOnly);
       }
     }
 
-    void populate(final int row,
-        final Map<AccountGroup.Id, AccountGroup> groups, final RefRight r) {
+    void populate(final int row, final Map<AccountGroup.Id, AccountGroup> groups,
+        final RefRight r, final boolean readOnly) {
       final GerritConfig config = Gerrit.getConfig();
       final ApprovalType ar =
           config.getApprovalTypes().getApprovalType(r.getApprovalCategoryId());
       final AccountGroup group = groups.get(r.getAccountGroupId());
 
-      if (!projectName.equals(Gerrit.getConfig().getWildProject())
-          && Gerrit.getConfig().getWildProject().equals(r.getProjectNameKey())) {
+      if (readOnly ||
+          (!projectName.equals(Gerrit.getConfig().getWildProject())
+          && Gerrit.getConfig().getWildProject().equals(r.getProjectNameKey()))) {
         table.setText(row, 1, "");
       } else {
         table.setWidget(row, 1, new CheckBox());

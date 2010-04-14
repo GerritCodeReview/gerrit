@@ -18,8 +18,10 @@ import com.google.gerrit.client.Gerrit;
 import com.google.gerrit.client.rpc.GerritCallback;
 import com.google.gerrit.client.ui.FancyFlexTable;
 import com.google.gerrit.common.data.GitwebLink;
+import com.google.gerrit.common.data.ProjectDetail;
 import com.google.gerrit.common.errors.InvalidNameException;
 import com.google.gerrit.common.errors.InvalidRevisionException;
+import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.Branch;
 import com.google.gerrit.reviewdb.Project;
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -57,6 +59,8 @@ public class ProjectBranchesPanel extends Composite {
   private NpTextBox nameTxtBox;
   private NpTextBox irevTxtBox;
 
+  private final FlowPanel addPanel = new FlowPanel();
+
   public ProjectBranchesPanel(final Project.NameKey toShow) {
     final FlowPanel body = new FlowPanel();
     initBranches(body);
@@ -72,10 +76,30 @@ public class ProjectBranchesPanel extends Composite {
 
     Util.PROJECT_SVC.listBranches(projectName,
         new GerritCallback<List<Branch>>() {
+
           public void onSuccess(final List<Branch> result) {
-            enableForm(true);
-            branches.display(result);
+            Util.PROJECT_SVC.projectDetail(projectName,
+                new GerritCallback<ProjectDetail>() {
+
+                  public void onSuccess(final ProjectDetail projectDetail) {
+                    com.google.gerrit.client.account.Util.ACCOUNT_SEC.myGroups(new GerritCallback<List<AccountGroup>>() {
+
+                      public void onSuccess(List<AccountGroup> myGroups) {
+                        boolean userHasOwnRight = Util.hasOwnRight(projectDetail, myGroups);
+
+                        enableForm(true);
+                        branches.display(result, userHasOwnRight);
+
+                        addPanel.setVisible(userHasOwnRight);
+                        delBranch.setVisible(userHasOwnRight);
+                      }
+
+                    });
+                  }
+
+            });
           }
+
         });
   }
 
@@ -87,7 +111,6 @@ public class ProjectBranchesPanel extends Composite {
   }
 
   private void initBranches(final Panel body) {
-    final FlowPanel addPanel = new FlowPanel();
     addPanel.setStyleName(Gerrit.RESOURCES.css().addSshKeyPanel());
 
     final Grid addGrid = new Grid(2, 2);
@@ -214,7 +237,7 @@ public class ProjectBranchesPanel extends Composite {
             addBranch.setEnabled(true);
             nameTxtBox.setText("");
             irevTxtBox.setText("");
-            branches.display(result);
+            branches.display(result, true);
           }
 
           @Override
@@ -281,7 +304,7 @@ public class ProjectBranchesPanel extends Composite {
           });
     }
 
-    void display(final List<Branch> result) {
+    void display(final List<Branch> result, final boolean canEdit) {
       while (1 < table.getRowCount())
         table.removeRow(table.getRowCount() - 1);
 
@@ -289,14 +312,19 @@ public class ProjectBranchesPanel extends Composite {
         final int row = table.getRowCount();
         table.insertRow(row);
         applyDataRowStyle(row);
-        populate(row, k);
+        populate(row, k, canEdit);
       }
     }
 
-    void populate(final int row, final Branch k) {
+    void populate(final int row, final Branch k, final boolean canEdit) {
       final GitwebLink c = Gerrit.getConfig().getGitwebLink();
 
-      table.setWidget(row, 1, new CheckBox());
+      if (canEdit) {
+        table.setWidget(row, 1, new CheckBox());
+      } else {
+        table.setText(row, 1, "");
+      }
+
       table.setText(row, 2, k.getShortName());
 
       if (k.getRevision() != null) {

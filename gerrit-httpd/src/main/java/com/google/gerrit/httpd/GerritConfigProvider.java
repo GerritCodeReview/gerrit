@@ -92,6 +92,7 @@ class GerritConfigProvider implements Provider<GerritConfig> {
         "showdownloadcommand", false));
     config.setUseContactInfo(contactStore != null && contactStore.isEnabled());
     config.setAuthType(authConfig.getAuthType());
+    config.setAdministratorsGroupId(authConfig.getAdministratorsGroup());
     config.setWildProject(wildProject);
     config.setApprovalTypes(approvalTypes);
     config.setDocumentationAvailable(servletContext

@@ -77,18 +77,18 @@ def GsqlQuery(sql_query, server, port):
   new_out = gsql_out.replace('}}\n', '}}\nsplit here\n')
   return new_out.split('split here\n')
 
-def FindPrevRev(changeId, patchset, server):
+def FindPrevRev(changeId, patchset, server, port):
   """Finds the revision of the previous patch set on the change"""
   sql_query = ("\"SELECT revision FROM patch_sets,changes WHERE "
                "patch_sets.change_id = changes.change_id AND "
                "patch_sets.patch_set_id = %s AND "
                "changes.change_key = \'%s\'\"" % ((patchset - 1), changeId))
-  revisions = GsqlQuery(sql_query, server)
+  revisions = GsqlQuery(sql_query, server, port)
 
   json_dict = json.loads(revisions[0], strict=False)
   return json_dict["columns"]["revision"]
 
-def GetApprovals(changeId, patchset, server):
+def GetApprovals(changeId, patchset, server, port):
   """Get all the approvals on a specific patch set
 
   Returns a list of approval dicts"""
@@ -96,7 +96,7 @@ def GetApprovals(changeId, patchset, server):
                "WHERE change_id = (SELECT change_id FROM changes WHERE "
                "patch_set_id = %s AND change_key = \'%s\') AND value <> 0\""
                % ((patchset - 1), changeId))
-  gsql_out = GsqlQuery(sql_query, server)
+  gsql_out = GsqlQuery(sql_query, server, port)
   approvals = []
   for json_str in gsql_out:
     dict = json.loads(json_str, strict=False)
@@ -104,11 +104,11 @@ def GetApprovals(changeId, patchset, server):
       approvals.append(dict["columns"])
   return approvals
 
-def GetEmailFromAcctId(account_id, server):
+def GetEmailFromAcctId(account_id, server, port):
   """Returns the preferred email address associated with the account_id"""
   sql_query = ("\"SELECT preferred_email FROM accounts WHERE account_id = %s\""
                % account_id)
-  email_addr = GsqlQuery(sql_query, server)
+  email_addr = GsqlQuery(sql_query, server, port)
 
   json_dict = json.loads(email_addr[0], strict=False)
   return json_dict["columns"]["preferred_email"]
@@ -161,7 +161,8 @@ def Main():
     # Nothing to detect on first patchset
     exit(0)
   prev_revision = None
-  prev_revision = FindPrevRev(options.changeId, options.patchset, server)
+  prev_revision = FindPrevRev(options.changeId, options.patchset, server,
+                              options.port)
   if not prev_revision:
     # Couldn't find a previous revision
     exit(0)
@@ -186,7 +187,8 @@ def Main():
 
   # Need to get all approvals on prior patch set, then suexec them onto
   # this patchset.
-  approvals = GetApprovals(options.changeId, options.patchset, server)
+  approvals = GetApprovals(options.changeId, options.patchset, server,
+                           options.port)
   gerrit_approve_msg = ("\'Automatically re-added by Gerrit trivial rebase "
                         "detection script.\'")
   for approval in approvals:
@@ -210,7 +212,8 @@ def Main():
     gerrit_approve_cmd = ['gerrit', 'approve', '--project', options.project,
                           '--message', gerrit_approve_msg, approve_category,
                           score, options.commit]
-    email_addr = GetEmailFromAcctId(approval["account_id"], server)
+    email_addr = GetEmailFromAcctId(approval["account_id"], server,
+                                    options.port)
     SuExec(server, options.port, options.private_key_path, email_addr,
            ' '.join(gerrit_approve_cmd))
   exit(0)

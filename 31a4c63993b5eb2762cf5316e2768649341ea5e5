@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAwn///54\u003d",
+        "filename": "contrib/trivial_rebase.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-14T21:16:04Z",
+      "side": 1,
+      "message": "Not options.port from the command line?",
+      "revId": "31a4c63993b5eb2762cf5316e2768649341ea5e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwn///58\u003d",
+        "filename": "contrib/trivial_rebase.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-14T21:16:04Z",
+      "side": 1,
+      "message": "Shouldn\u0027t \u002729418\u0027 be server port somehow, like options.port ?",
+      "revId": "31a4c63993b5eb2762cf5316e2768649341ea5e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

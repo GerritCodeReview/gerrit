@@ -105,6 +105,9 @@ link:cmd-kill.html[kill]::
 link:cmd-show-queue.html[ps]::
 	Alias for 'gerrit show-queue'.
 
+link:cmd-suexec.html[suexec]::
+	Execute a command as any registered user account.
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

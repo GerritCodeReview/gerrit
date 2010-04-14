@@ -96,6 +96,9 @@ link:cmd-show-connections.html[gerrit show-connections]::
 link:cmd-show-queue.html[gerrit show-queue]::
 	Display the background work queues, including replication.
 
+link:cmd-suexec.html[suexec]::
+	Execute a command as any registered user account.
+
 link:cmd-replicate.html[gerrit replicate]::
 	Manually trigger replication, to recover a node.
 

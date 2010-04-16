@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAwn///08\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ListProjects.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-16T01:33:46Z",
+      "side": 1,
+      "message": "The e !\u003d null test is pointless now, because you hoisted the e.controlFor call before the test.  So if projectCache.get returns null we now crash with NPE.\n\nPlease fix this so we still correctly handle a null return from projectCache.get().",
+      "revId": "662b4849d09a4e6dea536da958f9a872c0cb69fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

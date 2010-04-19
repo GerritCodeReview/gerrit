@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAwn///r0\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesPanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-19T15:18:37Z",
+      "side": 1,
+      "message": "Please don\u0027t generate 3 RPCs sequentially like this.  It really slows down the UI when presenting information.\n\nInstead what we should do is create a ListBranchResult data type to return the branch data from listBranches.  Within it we should add a \"canCreate\" boolean that indicates if the user is permitted to create a branch, and if so, then set addPanel visible.\n\nBranch deletion is a per-branch right, so we might need to add a \"canDelete\" flag to Branch, and use that to decide if the delete checkbox should be made available.\n\nThen the server can perform all of this checking through RefControl, and we don\u0027t need something like Util.hasOwnRight on the client UI side.",
+      "revId": "803609da4631cf037ba8b667ec927d1f9e3f8620",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwn///rw\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectBranchesPanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-19T15:18:37Z",
+      "side": 1,
+      "message": "Probably should be called canDelete.",
+      "revId": "803609da4631cf037ba8b667ec927d1f9e3f8620",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwn///ro\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectInfoPanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-19T15:18:37Z",
+      "side": 1,
+      "message": "Again, please don\u0027t make a recursive RPC here, but instead add the necessary data to the ProjectDetail object.",
+      "revId": "803609da4631cf037ba8b667ec927d1f9e3f8620",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwn///rk\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/ProjectRightsPanel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-19T15:18:37Z",
+      "side": 1,
+      "message": "Again, please don\u0027t make recursive RPCs, use data from the ProjectDetail object.",
+      "revId": "803609da4631cf037ba8b667ec927d1f9e3f8620",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwn///rg\u003d",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/admin/Util.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-19T15:18:37Z",
+      "side": 1,
+      "message": "This logic duplicates too much of RefControl and ProjectControl.  We should be doing these computations on the server and returning their results in the data structures that are sent over the RPC, not duplicating it in the client.",
+      "revId": "803609da4631cf037ba8b667ec927d1f9e3f8620",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

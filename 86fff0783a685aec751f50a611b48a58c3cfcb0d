@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAwn///q4\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/ProjectRunnable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-19T15:29:42Z",
+      "side": 1,
+      "message": "Should we implement Upload and Receive tasks to also use this interface so users can see that there are other upload or receive tasks running against a project?\n\nOne of the more common things that blocks the user from doing a `repo sync` is 25 other active syncs from an automated build system.  Its nice to be able to see that in the queue, if you can see the project.",
+      "revId": "86fff0783a685aec751f50a611b48a58c3cfcb0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwn///rU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-19T15:29:42Z",
+      "side": 1,
+      "message": "Style-nit: Please don\u0027t assign null to a variable that must have a non-null value within the method.  Leave it unassigned, so the compiler will warn us if we don\u0027t assign a value before use.",
+      "revId": "86fff0783a685aec751f50a611b48a58c3cfcb0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwn///rQ\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ShowQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-19T15:29:42Z",
+      "side": 1,
+      "message": "Actually it should be safe to just say private CurrentUser user and let Guice provide the current value.  The command objects are created per-request for exactly this reason, so the user can be injected.",
+      "revId": "86fff0783a685aec751f50a611b48a58c3cfcb0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwn///rI\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ShowQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-19T15:29:42Z",
+      "side": 1,
+      "message": "Style-nit: Should be final, and probably doesn\u0027t need a blank line before it.",
+      "revId": "86fff0783a685aec751f50a611b48a58c3cfcb0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwn///rM\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ShowQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-19T15:29:42Z",
+      "side": 1,
+      "message": "Style-nit: Parens are not necessary here.",
+      "revId": "86fff0783a685aec751f50a611b48a58c3cfcb0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwn///rE\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ShowQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-19T15:29:42Z",
+      "side": 1,
+      "message": "Style-nit: Space after else before {",
+      "revId": "86fff0783a685aec751f50a611b48a58c3cfcb0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwn///rA\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ShowQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-19T15:29:42Z",
+      "side": 1,
+      "message": "Style-nit: Could be cuddled up into the line before it:\n\n  } else if (regularUserCanSee) {",
+      "revId": "86fff0783a685aec751f50a611b48a58c3cfcb0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwn///q8\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/ShowQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-19T15:29:42Z",
+      "side": 1,
+      "message": "What if remoteName was null?  Formatting \"null/project\" is quite ugly.",
+      "revId": "86fff0783a685aec751f50a611b48a58c3cfcb0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

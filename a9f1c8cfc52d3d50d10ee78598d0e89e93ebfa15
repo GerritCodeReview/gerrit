@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAwn///sU\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CreateProjectGroupProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-19T14:52:56Z",
+      "side": 1,
+      "message": "Please update the Documentation/config-gerrit.txt file describing this variable.\n\nI\u0027m also not sure about the name.  I\u0027m not completely happy with the group \u0027gerrit\u0027 for a lot of our keys.  The gerrit.config file is only processed by us and never by git, so we don\u0027t have to worry to much about name collisions with the core git software.\n\nI can see other keys in the future coming along that are similar to this, granting slightly elevated permissions to particular groups.  Maybe what we should do instead is:\n\n  [repository \"*\"]\n    createGroup \u003d Administrators\n\n  [repository \"kernel/*\"]\n    createGroup \u003d kernel admins\n\nIts a bit more complex of a change.  But it would allow delegation of repository creation by the repository name prefix.  At least initially we could say repository.*.createGroup is what controls who can create a new project.  Then we can later try to extend this to a larger range.",
+      "revId": "a9f1c8cfc52d3d50d10ee78598d0e89e93ebfa15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwn///sY\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CreateProjectGroupProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-19T14:52:56Z",
+      "side": 1,
+      "message": "I\u0027d prefer this to be a group name, like how we handle remote.authGroup within the replication.config file.\n\nAlso, we probably should support multiple values, like we do with remote.authGroup.  Which means this is really more of a set than it is a single AccountGroup.Id.",
+      "revId": "a9f1c8cfc52d3d50d10ee78598d0e89e93ebfa15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -17,17 +17,16 @@ package com.google.gerrit.sshd.commands;
 import com.google.gerrit.reviewdb.AccountGroup;
 import com.google.gerrit.reviewdb.ApprovalCategory;
 import com.google.gerrit.reviewdb.Project;
+import com.google.gerrit.reviewdb.Project.SubmitType;
 import com.google.gerrit.reviewdb.RefRight;
 import com.google.gerrit.reviewdb.ReviewDb;
-import com.google.gerrit.reviewdb.Project.SubmitType;
-import com.google.gerrit.server.config.AuthConfig;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.config.CreateProjectGroup;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ReplicationQueue;
-import com.google.gerrit.sshd.AdminCommand;
 import com.google.gerrit.sshd.BaseCommand;
 import com.google.gwtorm.client.OrmException;
 import com.google.inject.Inject;
-
 import org.apache.sshd.server.Environment;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -38,13 +37,12 @@ import java.io.PrintWriter;
 import java.util.Collections;
 
 /** Create a new project. **/
-@AdminCommand
-final class AdminCreateProject extends BaseCommand {
+final class CreateProject extends BaseCommand {
   @Option(name = "--name", required = true, aliases = {"-n"}, metaVar = "NAME", usage = "name of project to be created")
   private String projectName;
 
   @Option(name = "--owner", aliases = {"-o"}, usage = "owner of project\n"
-      + "(default: Administrators)")
+      + "(default: as configured by gerrit.createProjectGroup, or else Administrators)")
   private AccountGroup.Id ownerId;
 
   @Option(name = "--description", aliases = {"-d"}, metaVar = "DESC", usage = "description of project")
@@ -71,7 +69,11 @@ final class AdminCreateProject extends BaseCommand {
   private GitRepositoryManager repoManager;
 
   @Inject
-  private AuthConfig authConfig;
+  @CreateProjectGroup
+  private AccountGroup.Id createProjectGroup;
+
+  @Inject
+  private IdentifiedUser currentUser;
 
   @Inject
   private ReplicationQueue rq;
@@ -83,10 +85,13 @@ final class AdminCreateProject extends BaseCommand {
       public void run() throws Exception {
         PrintWriter p = toPrintWriter(out);
 
-        ownerId = authConfig.getAdministratorsGroup();
+        ownerId = createProjectGroup;
         parseCommandLine();
 
         try {
+          if (!currentUser.getEffectiveGroups().contains(createProjectGroup)){
+            throw new Failure(1, "You are not a member of the required group for creating projects.");
+          }
           validateParameters();
 
           Repository repo = repoManager.createRepository(projectName);

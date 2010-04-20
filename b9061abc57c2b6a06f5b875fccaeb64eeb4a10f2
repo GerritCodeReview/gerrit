@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAwn///kM\u003d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/Upload.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1001240
+      },
+      "writtenOn": "2010-04-20T18:05:58Z",
+      "side": 1,
+      "message": "This doesn\u0027t work as expected.\n\nI granted a single user refs/heads/master READ +1, and had for myself inherited refs/* READ +1 from All Projects.  I could still see refs/heads/master, even though I wasn\u0027t that one user blessed to see it.  What\u0027s happening is the ProjectControl isn\u0027t able to find a match for refs/* locally, so it goes to the inherited refs.  It never realizes we are asking about a wildcard and that the wildcard shouldn\u0027t be honored if there\u0027s a more specific branch level rule available.",
+      "revId": "b9061abc57c2b6a06f5b875fccaeb64eeb4a10f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

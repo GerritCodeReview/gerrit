@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "AAAAwn///l0\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CreateProjectGroupProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1002282
+      },
+      "writtenOn": "2010-04-20T16:44:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAAwn///sU\u003d",
+      "revId": "a9f1c8cfc52d3d50d10ee78598d0e89e93ebfa15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "AAAAwn///sY\u003d",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CreateProjectGroupProvider.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2010-04-19T14:52:56Z",
       "side": 1,
       "message": "I\u0027d prefer this to be a group name, like how we handle remote.authGroup within the replication.config file.\n\nAlso, we probably should support multiple values, like we do with remote.authGroup.  Which means this is really more of a set than it is a single AccountGroup.Id.",
+      "revId": "a9f1c8cfc52d3d50d10ee78598d0e89e93ebfa15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAwn///lw\u003d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/config/CreateProjectGroupProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1002282
+      },
+      "writtenOn": "2010-04-20T16:44:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAAwn///sY\u003d",
       "revId": "a9f1c8cfc52d3d50d10ee78598d0e89e93ebfa15",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

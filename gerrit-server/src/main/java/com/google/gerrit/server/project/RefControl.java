@@ -277,8 +277,12 @@ public class RefControl {
   }
 
   private List<RefRight> getInheritedRights(ApprovalCategory.Id actionId) {
-    return filter(projectControl.getProjectState().getInheritedRights(),
-        actionId);
+    if (actionId.canInheritFromWildProject()) {
+      return filter(projectControl.getProjectState().getInheritedRights(),
+          actionId);
+    } else {
+      return Collections.emptyList();
+    }
   }
 
   public List<RefRight> getAllRights(final ApprovalCategory.Id id) {

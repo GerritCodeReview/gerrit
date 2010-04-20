@@ -27,7 +27,7 @@ public class MasterCommandModule extends CommandModule {
 
     command(gerrit, "approve").to(ApproveCommand.class);
     command(gerrit, "create-account").to(AdminCreateAccount.class);
-    command(gerrit, "create-project").to(AdminCreateProject.class);
+    command(gerrit, "create-project").to(CreateProject.class);
     command(gerrit, "gsql").to(AdminQueryShell.class);
     command(gerrit, "receive-pack").to(Receive.class);
     command(gerrit, "replicate").to(AdminReplicate.class);

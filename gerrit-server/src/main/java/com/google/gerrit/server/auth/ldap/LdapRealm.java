@@ -327,7 +327,7 @@ class LdapRealm implements Realm {
 
       for (LdapQuery groupMemberQuery : schema.groupMemberQueryList) {
         for (LdapQuery.Result r : groupMemberQuery.query(ctx, params)) {
-          groupDNs.add(r.getDN());
+          recursivelyExpandGroups(groupDNs, schema, ctx, r.getDN());
         }
       }
     }

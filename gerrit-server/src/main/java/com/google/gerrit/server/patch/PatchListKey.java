@@ -91,6 +91,23 @@ public class PatchListKey implements Serializable {
     return false;
   }
 
+  @Override
+  public String toString() {
+    StringBuilder n = new StringBuilder();
+    n.append("PatchListKey[");
+    if (projectKey != null) {
+      n.append(projectKey.get());
+      n.append(" ");
+    }
+    n.append(oldId != null ? oldId.name() : "BASE");
+    n.append("..");
+    n.append(newId.name());
+    n.append(" ");
+    n.append(whitespace.name());
+    n.append("]");
+    return n.toString();
+  }
+
   private static boolean eq(final ObjectId a, final ObjectId b) {
     if (a == null && b == null) {
       return true;
